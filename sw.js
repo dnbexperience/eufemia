@@ -26,24 +26,24 @@ workbox.clientsClaim();
  */
 self.__precacheManifest = [
   {
-    "url": "webpack-runtime-040528e3a146ee1092f1.js"
+    "url": "webpack-runtime-d379b71b95ca98456293.js"
   },
   {
-    "url": "app-5006b900e92540aa8527.js"
+    "url": "app-a9b29a862cdcc3542044.js"
   },
   {
     "url": "component---node-modules-gatsby-plugin-offline-app-shell-js-89e03c52941d309bccf9.js"
   },
   {
     "url": "index.html",
-    "revision": "a5807db0b9bc0a1dcd5ee170d10839b9"
+    "revision": "da3a3bee3963616af1d5bea028d33542"
   },
   {
     "url": "offline-plugin-app-shell-fallback/index.html",
-    "revision": "5e1db9f6ed3f8113859a2437631f1879"
+    "revision": "f18fa4963b6b4f755d3c8a129121e51c"
   },
   {
-    "url": "6.ed64fa92c4985438b4b7.css"
+    "url": "6.63ecdb4679dfd32ef657.css"
   },
   {
     "url": "6-3f493befef82db43f8dc.js"
@@ -70,7 +70,7 @@ self.__precacheManifest = [
 workbox.precaching.suppressWarnings();
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 
-workbox.routing.registerNavigationRoute("/dnb-design-system/offline-plugin-app-shell-fallback/index.html", {
+workbox.routing.registerNavigationRoute("/eufemia/offline-plugin-app-shell-fallback/index.html", {
   whitelist: [/^[^?]*([^.?]{5}|\.html)(\?.*)?$/],
   blacklist: [/\?(.+&)?no-cache=1$/],
 });
