@@ -92,7 +92,7 @@
     "jest": "^23.6.0",
     "jest-emotion": "^9.2.11",
     "jest-raw-loader": "^1.0.1",
-    "lint-staged": "^8.0.0",
+    "lint-staged": "^7.3.0",
     "live-server": "^1.2.0",
     "mime": "^2.3.1",
     "nodemon": "^1.18.5",

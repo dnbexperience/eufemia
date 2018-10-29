@@ -1,6 +1,6 @@
 {
   "skipCI": false,
   "hooks": {
-    "pre-commit": "lint-staged"
+    "pre-commit": "yarn precommit"
   }
 }
