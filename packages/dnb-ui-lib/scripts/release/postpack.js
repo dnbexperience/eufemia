@@ -20,8 +20,6 @@ export default function() {
 
   // Remove unnecessary entries and reformat.
   delete packageJson.scripts
-  // delete packageJson.husky
-  delete packageJson['lint-staged']
   delete packageJson.devDependencies
   const simplifiedPackageJson = JSON.stringify(packageJson, null, 2)
 

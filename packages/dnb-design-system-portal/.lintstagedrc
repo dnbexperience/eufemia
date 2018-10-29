@@ -1,0 +1,18 @@
+{
+  "linters": {
+    "*.js": [
+      "yarn lint:fix",
+      "git add",
+      "yarn test:staged"
+    ],
+    "*.{js,css}": [
+      "yarn prettier:all",
+      "yarn lint:style",
+      "git add"
+    ],
+    "*.{json,md}": [
+      "yarn prettier:all",
+      "git add"
+    ]
+  }
+}

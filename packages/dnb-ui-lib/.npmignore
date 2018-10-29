@@ -22,6 +22,8 @@ README.md
 .prettierrc
 .prettierrc.json
 .gitignore
+.lintstagedrc
+.huskyrc
 .importjs.json
 .importjs.js
 .babelrc

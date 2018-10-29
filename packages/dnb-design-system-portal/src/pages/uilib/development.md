@@ -9,7 +9,7 @@ The `dnb-ui-lib` uses a [Node](https://nodejs.org) based setup with a lot of aut
 
 #### Why Yarn and not Lerna?
 
-The mono repo `dnb-design-system` uses [Yarn](https://yarnpkg.com/) to maintain the [workspace functionality](https://yarnpkg.com/en/docs/workspaces). Instead of using `npm link` or `yarn link`, we use packages. This simplifies the linking and shared modules between [packages](https://docs.npmjs.com/getting-started/packages).
+The mono repo `dnb-design-system` uses [Yarn](https://yarnpkg.com/) (>= v1.10.1) to maintain the [workspace functionality](https://yarnpkg.com/en/docs/workspaces). Instead of using `npm link` or `yarn link`, we use packages. This simplifies the linking and shared modules between [packages](https://docs.npmjs.com/getting-started/packages).
 
 #### Install the repo locally on Your machine
 
