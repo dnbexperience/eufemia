@@ -2,7 +2,7 @@
 header: 'UI Library'
 title: 'Notification'
 draft: false
-order: 11
+order: 10
 ---
 
 import Notification from 'Src/uilib/components/demos/Notification'

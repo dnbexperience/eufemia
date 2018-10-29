@@ -2,7 +2,7 @@
 header: 'UI Library'
 title: 'Dropdown'
 draft: false
-order: 3
+order: 2
 ---
 
 import Dropdown from 'Src/uilib/components/demos/Dropdown'

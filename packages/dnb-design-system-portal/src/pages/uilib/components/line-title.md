@@ -2,7 +2,7 @@
 header: 'UI Library'
 title: 'LineTitle'
 draft: false
-order: 8
+order: 7
 ---
 
 import LineTitle from 'Src/uilib/components/demos/LineTitle'

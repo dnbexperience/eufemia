@@ -2,7 +2,7 @@
 header: 'UI Library'
 title: 'Switch'
 draft: false
-order: 13
+order: 12
 ---
 
 import Switch from 'Src/uilib/components/demos/Switch'

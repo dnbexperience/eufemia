@@ -2,7 +2,7 @@
 header: 'UI Library'
 title: 'Modal'
 draft: false
-order: 10
+order: 9
 ---
 
 import Modal from 'Src/uilib/components/demos/Modal'

@@ -2,7 +2,7 @@
 header: 'UI Library'
 title: 'FormLabel'
 draft: false
-order: 4
+order: 3
 ---
 
 import FormLabel from 'Src/uilib/components/demos/FormLabel'

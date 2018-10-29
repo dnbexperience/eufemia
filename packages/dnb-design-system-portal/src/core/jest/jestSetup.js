@@ -3,12 +3,12 @@
  *
  */
 
-import fakeProps from 'react-fake-props'
-import * as enzyme from './enzyme'
-import enzymeToJson from 'enzyme-to-json'
+export fakeProps from 'react-fake-props'
+export * from './enzyme'
+export toJson from 'enzyme-to-json'
 import * as emotion from 'emotion'
 import { createSerializer } from 'jest-emotion'
-import providerProps from './providerProps'
+export providerProps from './providerProps'
 import '../startup/required'
 
 expect.addSnapshotSerializer(
@@ -18,11 +18,3 @@ expect.addSnapshotSerializer(
     }
   })
 )
-
-module.exports = {
-  ...enzyme,
-  fakeProps,
-  enzymeToJson,
-  providerProps,
-  toJson: enzymeToJson
-}

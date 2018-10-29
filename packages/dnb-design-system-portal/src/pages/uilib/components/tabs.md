@@ -2,7 +2,7 @@
 header: 'UI Library'
 title: 'Tabs'
 draft: false
-order: 14
+order: 13
 ---
 
 import Tabs from 'Src/uilib/components/demos/Tabs'

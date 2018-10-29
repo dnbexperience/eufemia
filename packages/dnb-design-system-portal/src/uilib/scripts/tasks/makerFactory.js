@@ -45,7 +45,7 @@ export default async function runFactory({
     processToNamesList = await fs.readdir(processToNamesList)
     processToNamesList = processToNamesList
       .filter(file => {
-        if (/not_in_use/g.test(file)) {
+        if (/not_in_use|__tests__/g.test(file)) {
           return false
         }
         return !processToNamesIgnoreList.includes(file)

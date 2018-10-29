@@ -2,7 +2,7 @@
 header: 'UI Library'
 title: 'InputMasked'
 draft: true
-order: 6
+order: 5
 ---
 
 import InputMasked from 'Src/uilib/components/demos/InputMasked'

@@ -2,7 +2,7 @@
 header: 'UI Library'
 title: 'Logo'
 draft: false
-order: 9
+order: 8
 ---
 
 import Logo from 'Src/uilib/components/demos/Logo'

@@ -2,7 +2,7 @@
 header: 'UI Library'
 title: 'Input'
 draft: false
-order: 7
+order: 6
 ---
 
 import Input from 'Src/uilib/components/demos/Input'

@@ -22,12 +22,7 @@ const extractJSX = (type = 'components', files) =>
 
     // also, extract jsx content from example files
     files
-      .filter(({ source, ...rest }) => {
-        if (/not_in_use|__tests__/g.test(source)) {
-          return false
-        }
-        return { source, ...rest }
-      })
+      .filter(({ source }) => !/not_in_use|__tests__/g.test(source))
       .map(({ source, file }) => {
         let content
         try {

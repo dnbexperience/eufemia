@@ -17,7 +17,6 @@ import Notification from './Notification'
 import Slider from './Slider'
 import Switch from './Switch'
 import Tabs from './Tabs'
-import Tests from './Tests'
 
 export default [
   Body,
@@ -33,6 +32,5 @@ export default [
   Notification,
   Slider,
   Switch,
-  Tabs,
-  Tests
+  Tabs
 ]

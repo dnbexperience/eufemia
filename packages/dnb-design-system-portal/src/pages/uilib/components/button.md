@@ -2,7 +2,7 @@
 header: 'UI Library'
 title: 'Button'
 draft: false
-order: 2
+order: 1
 ---
 
 import Button from 'Src/uilib/components/demos/Button'

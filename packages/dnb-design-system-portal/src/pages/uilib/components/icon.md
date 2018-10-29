@@ -2,7 +2,7 @@
 header: 'UI Library'
 title: 'Icon'
 draft: false
-order: 5
+order: 4
 ---
 
 import Icon from 'Src/uilib/components/demos/Icon'

@@ -2,7 +2,7 @@
 header: 'UI Library'
 title: 'Slider'
 draft: false
-order: 12
+order: 11
 ---
 
 import Slider from 'Src/uilib/components/demos/Slider'
