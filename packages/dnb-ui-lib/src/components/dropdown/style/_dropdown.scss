@@ -1,0 +1,309 @@
+/*
+* Dropdown component
+*
+*/
+
+$dropdown-trigger-color: #58595b;
+$dropdown-text-padding: 0.3rem;
+$dropdown-trigger-color-active: #000;
+$dropdown-options-offset: 1.3rem;
+$option-selected-color: $input-background-color;
+
+.dnb-dropdown {
+  --dropdown-width: 20rem;
+  width: 20rem; //fallback
+  width: var(--dropdown-width);
+
+  position: relative;
+  display: inline-block;
+
+  &__value-holder-input {
+    position: absolute;
+    z-index: 6;
+    top: 0;
+    left: 0;
+
+    cursor: pointer;
+
+    display: block;
+
+    width: 100%;
+    height: $input-height;
+
+    opacity: 0;
+
+    @include hover(true) {
+      & ~ .dnb-dropdown__trigger .dnb-dropdown__text {
+        opacity: 0.8;
+      }
+
+      & ~ .dnb-dropdown__trigger .dnb-dropdown__icon .dnb-icon {
+        color: $color-sea-green;
+      }
+    }
+
+    &:focus {
+      & ~ .dnb-dropdown__trigger {
+        z-index: 9; // make the trigger to the foreground, so we can watch the click to reset
+        cursor: pointer;
+        @include fakeBorder();
+        // @include tabFocus();
+        @include fakeFocus();
+      }
+      & ~ .dnb-dropdown__options {
+        z-index: 8;
+        visibility: visible;
+        opacity: 1;
+        transform: translate(0, $dropdown-options-offset);
+      }
+      // & ~ .dnb-dropdown__icon {
+      //   z-index: 5;
+      // }
+      // & ~ .dnb-dropdown__trigger .dnb-dropdown__icon.icon-chevron-left {
+      //   transform: rotate(-90deg);
+      // }
+      &
+        ~ .dnb-dropdown__trigger
+        .dnb-dropdown__icon
+        .dnb-dropdown__icon__triangle {
+        visibility: visible;
+        transform: translate(50%, 0.25rem) rotate(45deg);
+        opacity: 1;
+      }
+    }
+  }
+
+  &--hidden {
+    .dnb-dropdown__options {
+      visibility: hidden;
+      opacity: 0;
+      transform: translate(0, 0);
+    }
+  }
+
+  &__trigger {
+    position: relative;
+    z-index: 1;
+
+    user-select: none;
+
+    display: inline-flex;
+    outline: none;
+
+    width: inherit;
+    height: $input-height;
+    padding: 0 $input-padding-horizontal;
+
+    font-size: inherit;
+    line-height: $input-height;
+    background-color: white;
+
+    border: $input-border-width solid $input-border-color;
+    border-radius: $input-border-radius;
+  }
+
+  &__value-holder-input[disabled] ~ &__icon,
+  &__value-holder-input[disabled] ~ &__trigger {
+    opacity: 0.4;
+  }
+
+  &__value-holder-input:not([disabled]):hover ~ &__trigger {
+    color: $dropdown-trigger-color-active;
+  }
+
+  &__outside-value {
+    display: block;
+    padding: 0.5rem 0 1rem $input-padding-horizontal;
+  }
+
+  &__text {
+    order: 1;
+    position: relative;
+    z-index: 4;
+
+    display: inline-block;
+    width: inherit;
+    height: inherit;
+    padding-right: $dropdown-text-padding;
+
+    overflow: hidden;
+
+    text-align: left;
+    text-overflow: ellipsis;
+
+    &__inner {
+      display: inline-block;
+
+      max-width: 20rem;
+      width: inherit; // IE fix
+      width: calc(
+        var(--dropdown-width) - calc(#{$input-padding-horizontal} * 4)
+      );
+      overflow: hidden;
+      white-space: nowrap;
+
+      color: $dropdown-trigger-color;
+      text-decoration: none;
+      text-overflow: inherit;
+      text-align: inherit;
+    }
+  }
+
+  &__icon {
+    order: 2;
+
+    display: inline-block;
+    height: inherit;
+
+    pointer-events: none;
+
+    .dnb-icon {
+      display: flex;
+      align-items: center;
+
+      height: inherit;
+      color: $color-sea-green;
+    }
+
+    &__triangle {
+      position: absolute;
+      z-index: 2;
+      top: 80%;
+      right: 8.5%;
+
+      visibility: hidden;
+
+      width: $input-height / 2;
+      height: $input-height / 2;
+
+      background-color: white;
+      border: 1px solid $color-outline-grey;
+      opacity: 0;
+
+      transform: translate(50%, 50%) rotate(45deg);
+      transition: transform 200ms, opacity 50ms ease-out;
+
+      &::before {
+        content: '';
+        width: 110%; // IE fix
+        height: 110%; // IE fix
+
+        position: relative;
+        background-color: white;
+        display: block;
+      }
+      &::before {
+        width: calc(100% + 2px);
+        height: calc(100% + 2px);
+      }
+    }
+  }
+
+  .icon-chevron-left .dnb-icon {
+    svg {
+      transform: rotate(-90deg);
+    }
+  }
+
+  &__options {
+    position: absolute;
+    z-index: 3;
+    top: calc(#{$input-height} - 15px);
+    left: 0;
+
+    width: 100%;
+    margin: 0;
+
+    padding: 1rem 0 0 0;
+
+    list-style: none;
+    overflow: hidden;
+    opacity: 0;
+
+    border: 1px solid $color-outline-grey;
+    border-radius: 0.5rem;
+    background-color: white;
+
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+
+    transform: translate(0, 0);
+    transition: transform 200ms, opacity 160ms ease-out;
+  }
+
+  &__option {
+    padding: 2px; // to make space for the fakeFocus
+    background-color: white;
+
+    // &:focus,
+    // &:active,
+    &--active {
+      background-color: $option-selected-color;
+      .dnb-dropdown__option__inner {
+        @include fakeBorder();
+        @include fakeFocus();
+      }
+    }
+
+    @include hover(true) {
+      background-color: $option-selected-color;
+      .dnb-dropdown__option__inner {
+        background-color: $option-selected-color;
+      }
+    }
+
+    &.dnb-dropdown__option--selected {
+      background-color: $option-selected-color;
+      .dnb-dropdown__option__inner {
+        background-color: $option-selected-color;
+      }
+    }
+  }
+
+  &__option__inner {
+    display: block;
+    white-space: nowrap;
+
+    user-select: none;
+    outline: none;
+
+    width: 100%;
+    padding: 1rem;
+
+    cursor: pointer;
+    background-color: white;
+    border-bottom: 1px solid $color-outline-grey;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    @include hover(true) {
+      background-color: $option-selected-color;
+    }
+  }
+
+  &__option__item {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+  }
+}
+
+.dnb-dropdown--icon-position-left {
+  .dnb-dropdown__icon {
+    order: 1;
+    margin-top: -1px;
+
+    &__triangle {
+      right: auto;
+      left: 4%;
+    }
+  }
+  .dnb-dropdown__text {
+    order: 2;
+    padding-left: $dropdown-text-padding;
+    // &__inner {
+    // }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "name": "html-example",
+  "license": "SEE LICENSE IN LICENSE FILE",
+  "description": "Vanilla HTML example",
+  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/eggsdesign/dnb-design-system.git"
+  },
+  "scripts": {
+    "start": "live-server static --watch --no-browser --cors --port=8080",
+    "umd": "live-server static/umd --watch --no-browser --cors --port=8080"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "live-server": "^1.2.0"
+  }
+}

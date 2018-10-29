@@ -1,0 +1,31 @@
+{
+  "name": "parcel-vue-example",
+  "license": "SEE LICENSE IN LICENSE FILE",
+  "description": "Vue example",
+  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/eggsdesign/dnb-design-system.git"
+  },
+  "scripts": {
+    "start": "rm -rf .cache && parcel start ./src/index.html --no-autoinstall -p 2345",
+    "start:fresh": "parcel start src/index.html --no-autoinstall --no-cache -p 2345",
+    "build:dev": "rm -rf dist && nodemon -x 'parcel build src/index.html' -e js,jsx,html,json,css -w '/src/*'",
+    "build": "parcel build src/index.html",
+    "serve": "live-server dist --watch --no-browser --port=23456"
+  },
+  "dependencies": {
+    "dnb-ui-lib": "*",
+    "react": "^16.6.0",
+    "react-dom": "^16.6.0",
+    "vue": "^2.5.17"
+  },
+  "devDependencies": {
+    "@vue/component-compiler-utils": "^2.2.0",
+    "eslint-plugin-vue": "^4.7.1",
+    "live-server": "^1.2.0",
+    "parcel-bundler": "^1.10.1",
+    "vue-hot-reload-api": "^2.3.1",
+    "vue-template-compiler": "^2.5.17"
+  }
+}

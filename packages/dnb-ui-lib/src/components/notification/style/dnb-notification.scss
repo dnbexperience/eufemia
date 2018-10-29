@@ -1,0 +1,13 @@
+/*
+* DNB Notification
+*
+* ======================================================================== */
+
+@import '../../../style/component/core-imports.scss';
+@import '../../../components/icon/style/dnb-icon.scss';
+
+.dnb-notification {
+  @include componentReset();
+}
+
+@import './_notification.scss';

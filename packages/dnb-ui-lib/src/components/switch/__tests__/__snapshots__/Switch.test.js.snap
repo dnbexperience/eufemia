@@ -1,0 +1,351 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Switch component have to match snapshot 1`] = `
+<Switch
+  attributes="attributes"
+  checked="checked"
+  class="class"
+  className="className"
+  custom_element={Object {}}
+  custom_method={[Function]}
+  default_state="default_state"
+  disabled="disabled"
+  id="id"
+  labelledby="labelledby"
+  onClick={[Function]}
+  on_change={[Function]}
+  on_state_update={[Function]}
+  text_negative="text_negative"
+  text_positive="text_positive"
+  title="title"
+  value="value"
+>
+  <span
+    className="dnb-switch class className"
+  >
+    <label
+      className="dnb-switch__inner"
+      htmlFor="id"
+      id="id-internal"
+      title="title"
+    >
+      <input
+        aria-checked={false}
+        aria-hidden="true"
+        aria-labelledby="labelledby"
+        checked={false}
+        className="dnb-switch__input"
+        id="id"
+        name="id"
+        onChange={[Function]}
+        onKeyDown={[Function]}
+        role="switch"
+        type="checkbox"
+        value=""
+      />
+      <span
+        aria-hidden="true"
+        className="dnb-switch__background"
+        draggable="true"
+        onDragStart={[Function]}
+        onMouseDown={[Function]}
+      />
+      <span
+        className="dnb-switch__button"
+      >
+        <span
+          className="dnb-switch__text-item dnb-switch__text-item--negative"
+        >
+          text_negative
+        </span>
+        <span
+          aria-hidden="true"
+          className="dnb-switch__focus"
+        >
+          <span
+            className="dnb-switch__focus__inner"
+          />
+        </span>
+      </span>
+    </label>
+  </span>
+</Switch>
+`;
+
+exports[`Switch scss have to match snapshot 1`] = `
+"/*
+* DNB Switch
+*
+* ======================================================================== */
+/*
+* Colors
+* ======================================================================== */
+/*
+ * Typography Family
+ * ======================================================================== */
+/*
+* Typography Size
+* ======================================================================== */
+/*
+* Grid and units
+* ======================================================================== */
+/*
+* Breakpoints
+* ======================================================================== */
+/*
+ * Utilities
+ * ========================================================================== */
+.dnb-sr-only {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px; }
+
+.dnb-not-sr-only {
+  position: static; }
+
+.dnb-unstyled-list {
+  margin: 0;
+  list-style-type: none;
+  padding-left: 0; }
+  .dnb-unstyled-list > li {
+    margin-bottom: 0; }
+
+.dnb-no-focus {
+  outline: none; }
+
+.dnb-fake-focus {
+  outline: none; }
+  .dnb-fake-focus:focus {
+    outline: none;
+    border-color: transparent; }
+    html[data-whatinput='mouse'] .dnb-fake-focus:focus:not(.dnb-no-mouse-focus) {
+      transition: box-shadow 0.1s ease-out 0s;
+      box-shadow: 0 0 0 2px #14555a; }
+    html[data-whatinput='keyboard'] .dnb-fake-focus:focus {
+      box-shadow: 0 0 0 2px #ff5400; }
+
+@media screen and (max-width: 700px) {
+  .dnb-hide-on-mobile {
+    display: none; } }
+
+@media screen and (min-width: 700px) {
+  .dnb-mobile-exclusive {
+    display: none; } }
+
+.dnb-width-limit {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1024px;
+  padding: 0 0.5rem; }
+  @media screen and (min-width: 700px) {
+    .dnb-width-limit {
+      padding-left: 1rem;
+      padding-right: 1rem; } }
+
+.dnb-belt {
+  padding: 1rem 0;
+  width: 100%;
+  background: #fafafa; }
+
+.dnb-nudge {
+  display: inline-flex;
+  flex: 0 0 100%; }
+  .dnb-nudge--vertical[data-nudges='1'] {
+    height: 1rem; }
+  .dnb-nudge--horizontal[data-nudges='1'] {
+    width: 1rem; }
+  .dnb-nudge--vertical[data-nudges='2'] {
+    height: 2rem; }
+  .dnb-nudge--horizontal[data-nudges='2'] {
+    width: 2rem; }
+  .dnb-nudge--vertical[data-nudges='3'] {
+    height: 3rem; }
+  .dnb-nudge--horizontal[data-nudges='3'] {
+    width: 3rem; }
+  .dnb-nudge--vertical[data-nudges='4'] {
+    height: 4rem; }
+  .dnb-nudge--horizontal[data-nudges='4'] {
+    width: 4rem; }
+  .dnb-nudge--vertical[data-nudges='5'] {
+    height: 5rem; }
+  .dnb-nudge--horizontal[data-nudges='5'] {
+    width: 5rem; }
+  .dnb-nudge--vertical[data-nudges='6'] {
+    height: 6rem; }
+  .dnb-nudge--horizontal[data-nudges='6'] {
+    width: 6rem; }
+  .dnb-nudge--vertical[data-nudges='7'] {
+    height: 7rem; }
+  .dnb-nudge--horizontal[data-nudges='7'] {
+    width: 7rem; }
+  .dnb-nudge--vertical[data-nudges='8'] {
+    height: 8rem; }
+  .dnb-nudge--horizontal[data-nudges='8'] {
+    width: 8rem; }
+  .dnb-nudge--vertical[data-nudges='9'] {
+    height: 9rem; }
+  .dnb-nudge--horizontal[data-nudges='9'] {
+    width: 9rem; }
+  .dnb-nudge--vertical[data-nudges='10'] {
+    height: 10rem; }
+  .dnb-nudge--horizontal[data-nudges='10'] {
+    width: 10rem; }
+
+/*
+* Scopes
+* ======================================================================== */
+.dnb-switch {
+  font-size: 1rem;
+  font-family: \\"Fedra Sans Std\\", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+  line-height: 1.5em; }
+  .dnb-switch * {
+    margin: 0;
+    padding: 0; }
+  .dnb-switch *,
+  .dnb-switch ::before,
+  .dnb-switch ::after {
+    background-repeat: no-repeat;
+    box-sizing: border-box; }
+  .dnb-switch ::before,
+  .dnb-switch ::after {
+    text-decoration: inherit;
+    vertical-align: inherit; }
+
+/*
+* Switch component
+*
+* ======================================================================== */
+.dnb-switch {
+  user-select: none;
+  display: inline-block;
+  vertical-align: middle; }
+  .dnb-switch__inner {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle; }
+  .dnb-switch__inner:not([disabled]) .dnb-switch__background,
+  .dnb-switch__inner:not([disabled]) .dnb-switch__button {
+    cursor: pointer; }
+  .dnb-switch__input {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px; }
+  .dnb-switch__focus, .dnb-switch__button {
+    position: absolute;
+    z-index: 4;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%; }
+  .dnb-switch__button {
+    pointer-events: none;
+    top: 50%;
+    display: inline-flex;
+    vertical-align: middle;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    transition: transform 160ms ease-out 125ms;
+    transform: translate(-0.2rem, -50%);
+    background-color: white;
+    border: 1px solid #008484;
+    font-size: 0.5rem;
+    text-transform: uppercase;
+    color: #007272;
+    box-shadow: 0 2px 2px rgba(0, 135, 137, 0.24); }
+  .dnb-switch__text-item {
+    z-index: 3;
+    text-align: center;
+    line-height: 0;
+    color: inherit;
+    background-color: inherit; }
+  .dnb-switch__background {
+    display: block;
+    width: 2.3rem;
+    height: 1rem;
+    background-color: #008484;
+    border-radius: 0.8125rem; }
+  .dnb-switch__focus {
+    display: none;
+    position: absolute;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    transition: transform 150ms ease-out;
+    transform: rotate(0deg);
+    clip-path: polygon(50% 15%, 110% 15%, 110% -10%, -10% -10%, -10% 110%, 110% 110%, 110% 85%, 50% 85%);
+    outline: none;
+    border-color: transparent; }
+    html[data-whatinput='mouse'] .dnb-switch__focus:not(.dnb-no-mouse-focus) {
+      transition: box-shadow 0.1s ease-out 0s;
+      box-shadow: 0 0 0 2px #14555a; }
+    html[data-whatinput='keyboard'] .dnb-switch__focus {
+      box-shadow: 0 0 0 2px #ff5400; }
+
+.dnb-switch__input {
+  /*
+    * When switched ON
+    * aka when the checkbox is :checked
+    */
+  /*
+  * On focus
+  *
+  */
+  /*
+  * On disabled
+  *
+  */ }
+  .dnb-switch__input:checked ~ .dnb-switch__button .dnb-switch__text-item--positive {
+    display: block; }
+  .dnb-switch__input:checked ~ .dnb-switch__button .dnb-switch__text-item--negative {
+    display: none; }
+  .dnb-switch__input:checked ~ .dnb-switch__button {
+    border-color: #007272;
+    background-color: #007272;
+    color: white;
+    transform: translate(1rem, -50%);
+    transform: translate(calc(1rem + 1px), -50%); }
+  .dnb-switch__input:checked:focus ~ .dnb-switch__button .dnb-switch__focus,
+  .dnb-switch__input:checked:active ~ .dnb-switch__button .dnb-switch__focus {
+    transform: rotate(180deg); }
+  .dnb-switch__input:active ~ .dnb-switch__button {
+    color: rgba(0, 114, 114, 0.75); }
+  .dnb-switch__input:checked:active ~ .dnb-switch__button {
+    color: rgba(255, 255, 255, 0.85); }
+  .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__background,
+  .dnb-switch__input:not([disabled]):active ~ .dnb-switch__background {
+    outline: none;
+    border-color: transparent; }
+    html[data-whatinput='mouse'] .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__background:not(.dnb-no-mouse-focus), html[data-whatinput='mouse']
+    .dnb-switch__input:not([disabled]):active ~ .dnb-switch__background:not(.dnb-no-mouse-focus) {
+      transition: box-shadow 0.1s ease-out 0s;
+      box-shadow: 0 0 0 2px #14555a; }
+    html[data-whatinput='keyboard'] .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__background, html[data-whatinput='keyboard']
+    .dnb-switch__input:not([disabled]):active ~ .dnb-switch__background {
+      box-shadow: 0 0 0 2px #ff5400; }
+  .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__button .dnb-switch__focus,
+  .dnb-switch__input:not([disabled]):active ~ .dnb-switch__button .dnb-switch__focus {
+    display: block; }
+  .dnb-switch__input[disabled] ~ .dnb-switch__button,
+  .dnb-switch__input[disabled] ~ .dnb-switch__background {
+    opacity: 0.8; }
+  .dnb-switch__input[disabled] ~ .dnb-switch__background {
+    background-color: rgba(117, 117, 117, 0.5); }
+  .dnb-switch__input[disabled] ~ .dnb-switch__button {
+    color: rgba(255, 255, 255, 0.6);
+    border-color: rgba(117, 117, 117, 0.5);
+    background-color: #757575;
+    box-shadow: none; }
+"
+`;

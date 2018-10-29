@@ -1,0 +1,159 @@
+/*
+* Button component
+*
+* ======================================================================== */
+
+// Figma styling is currently not used
+// @import './_button_custom_vars.scss';
+
+@import './_button-mixins.scss';
+
+.dnb-button {
+  display: inline-flex;
+  vertical-align: middle;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+
+  cursor: pointer;
+
+  width: var(--button-width);
+  height: var(--button-height);
+  padding: 0;
+
+  border: var(--button-border-width) solid transparent;
+  border-radius: var(--button-border-radius);
+
+  font-family: var(--button-font-family);
+  font-size: var(--button-font-size);
+  font-weight: var(--button-font-weight);
+  font-style: var(--button-font-style);
+  text-decoration: none;
+
+  &--size-big {
+    width: var(--button-width--big);
+    height: var(--button-height--big);
+    border-radius: var(--button-border-radius--big);
+  }
+  &--has-text {
+    padding-left: 1.5em;
+    padding-right: 1.5em;
+    width: auto;
+  }
+  &--has-text#{&}--size-big {
+    padding-left: 2em;
+    padding-right: 2em;
+  }
+  &--has-text &__icon {
+    margin: 0 calc(var(--button-icon-size) / 2);
+  }
+  // &--has-text#{&}--size-big &__icon {
+  //   margin: 0 var(--button-icon-size);
+  // }
+  &--has-text#{&}--icon-position-left {
+    padding-left: 0.5em;
+  }
+  &--has-text#{&}--icon-position-left#{&}--size-big {
+    padding-left: 1em;
+  }
+  &--has-text#{&}--icon-position-right {
+    padding-right: 0.5em;
+  }
+  &--has-text#{&}--icon-position-right#{&}--size-big {
+    padding-right: 1em;
+  }
+
+  // Default -- icon set to right side
+  &--has-text#{&}--has-icon {
+    .dnb-button__icon {
+      order: 2;
+    }
+    .dnb-button__text {
+      order: 1;
+    }
+  }
+
+  // Button with icon and text - icon on LEFT side
+  &--has-text#{&}--has-icon#{&}--icon-position-left {
+    .dnb-button__icon {
+      order: 1;
+    }
+    .dnb-button__text {
+      order: 2;
+    }
+  }
+
+  &__icon {
+    line-height: 0;
+    svg:not([width]):not([height]) {
+      width: var(--button-icon-size);
+      height: var(--button-icon-size);
+    }
+    // a & {
+    //   transform: translateY(-1px);
+    // }
+  }
+  &__text {
+    color: inherit;
+    background-color: inherit;
+
+    // +1px because of the border width
+    transform: translateY(var(--button-border-width));
+
+    // a & {
+    //   transform: translateY(0);
+    // }
+  }
+
+  &--reset {
+    margin: 0;
+    padding: 0;
+    width: auto;
+    height: auto;
+    overflow: visible;
+
+    border: none;
+    background-color: transparent;
+    appearance: none;
+    box-shadow: none;
+
+    color: inherit;
+    font: inherit;
+    text-align: inherit;
+    line-height: 0;
+
+    @include hover(true) {
+      opacity: 0.6;
+      box-shadow: none;
+      border: none;
+    }
+
+    html[data-whatinput='mouse']
+      &:not([disabled]):focus:not(.dnb-no-mouse-focus),
+    html[data-whatinput='mouse']
+      &:not([disabled]):active:not(.dnb-no-mouse-focus) {
+      box-shadow: none;
+      color: inherit;
+      border: none;
+    }
+  }
+
+  // reset
+  &[type='button'] {
+    appearance: none;
+  }
+
+  // make sure we style a nodes like a button
+  @at-root a & {
+    border-bottom: none;
+  }
+
+  /* Firefox includes a hidden border which messes up button dimensions */
+  @at-root button#{&}::-moz-focus-inner & {
+    border: none;
+  }
+}
+
+// Figma styling is currently not used
+// @import './_button_custom.scss';

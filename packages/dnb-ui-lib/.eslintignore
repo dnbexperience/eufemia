@@ -1,0 +1,9 @@
+!/*.js
+!/**/.eslintrc.js
+**/tests/**/*.js
+**/dist/**
+/build/**
+/umd/**
+**/node_modules/**
+*not_in_use*
+custom-element-polyfill.js

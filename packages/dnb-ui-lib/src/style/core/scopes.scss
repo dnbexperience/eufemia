@@ -1,0 +1,37 @@
+/*
+* Scopes
+* ======================================================================== */
+
+@mixin bodyDefault() {
+  font-size: $font-size-regular;
+  font-family: $font-family-std;
+  font-weight: 300;
+  font-style: normal;
+  line-height: 1.5em;
+
+  @content;
+}
+
+@mixin componentReset() {
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  *,
+  ::before,
+  ::after {
+    background-repeat: no-repeat;
+    box-sizing: border-box;
+  }
+
+  ::before,
+  ::after {
+    text-decoration: inherit;
+    vertical-align: inherit;
+  }
+
+  @include bodyDefault();
+
+  @content;
+}

@@ -1,0 +1,8 @@
+<Reset>
+  <h4>Without DNB Style</h4>
+  <ExampleContent />
+  <Body>
+    <h4>With DNB Style</h4>
+    <ExampleContent />
+  </Body>
+</Reset>

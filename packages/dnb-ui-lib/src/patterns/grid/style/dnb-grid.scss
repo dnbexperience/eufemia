@@ -1,0 +1,13 @@
+/*
+* DNB Grid
+*
+* ======================================================================== */
+
+@import '../../../style/component/core-imports.scss';
+// @import '../../../style/component/font-import.scss';
+
+.dnb-grid {
+  @include componentReset();
+}
+
+@import './_grid.scss';

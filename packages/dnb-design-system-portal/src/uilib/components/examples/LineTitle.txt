@@ -1,0 +1,6 @@
+<LineTitle>This is the default line title component</LineTitle>
+<LineTitle
+  content="This is the small version"
+  modifier="small"
+  tag="h3"
+/>

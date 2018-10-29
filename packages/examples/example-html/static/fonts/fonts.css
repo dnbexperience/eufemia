@@ -1,0 +1,110 @@
+/*
+* DNB font-import from core
+*
+* ======================================================================== */
+
+@font-face {
+	font-family: 'Fedra Sans Std Book';
+	src: url('http://localhost:8081/assets/fonts/FedraSansStd-Book.eot');
+	src: url('http://localhost:8081/assets/fonts/FedraSansStd-Book.eot?#iefix') format('embedded-opentype'),
+	  url('http://localhost:8081/assets/fonts/FedraSansStd-Book.woff') format('woff'),
+	  url('http://localhost:8081/assets/fonts/FedraSansStd-Book.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+  }
+  
+  @font-face {
+	font-family: 'Fedra Sans Std Book';
+	src: url('http://localhost:8081/assets/fonts/FedraSansStd-BookItalic.eot');
+	src: url('http://localhost:8081/assets/fonts/FedraSansStd-BookItalic.eot?#iefix')
+		format('embedded-opentype'),
+	  url('http://localhost:8081/assets/fonts/FedraSansStd-BookItalic.woff') format('woff'),
+	  url('http://localhost:8081/assets/fonts/FedraSansStd-BookItalic.ttf') format('truetype');
+	font-weight: normal;
+	font-style: italic;
+  }
+  
+  @font-face {
+	font-family: 'Fedra Sans Std';
+	src: url('http://localhost:8081/assets/fonts/FedraSansStd-MediumItalic.eot');
+	src: url('http://localhost:8081/assets/fonts/FedraSansStd-MediumItalic.eot?#iefix')
+		format('embedded-opentype'),
+	  url('http://localhost:8081/assets/fonts/FedraSansStd-MediumItalic.woff') format('woff'),
+	  url('http://localhost:8081/assets/fonts/FedraSansStd-MediumItalic.ttf') format('truetype');
+	font-weight: 500;
+	font-style: italic;
+  }
+  
+  @font-face {
+	font-family: 'Fedra Sans Std';
+	src: url('http://localhost:8081/assets/fonts/FedraSansStd-LightItalic.eot');
+	src: url('http://localhost:8081/assets/fonts/FedraSansStd-LightItalic.eot?#iefix')
+		format('embedded-opentype'),
+	  url('http://localhost:8081/assets/fonts/FedraSansStd-LightItalic.woff') format('woff'),
+	  url('http://localhost:8081/assets/fonts/FedraSansStd-LightItalic.ttf') format('truetype');
+	font-weight: 300;
+	font-style: italic;
+  }
+  
+  @font-face {
+	font-family: 'Fedra Sans Std';
+	src: url('http://localhost:8081/assets/fonts/FedraSansStd-Light.eot');
+	src: url('http://localhost:8081/assets/fonts/FedraSansStd-Light.eot?#iefix') format('embedded-opentype'),
+	  url('http://localhost:8081/assets/fonts/FedraSansStd-Light.woff') format('woff'),
+	  url('http://localhost:8081/assets/fonts/FedraSansStd-Light.ttf') format('truetype');
+	font-weight: 300;
+	font-style: normal;
+  }
+  
+  @font-face {
+	font-family: 'Fedra Sans Std';
+	src: url('http://localhost:8081/assets/fonts/FedraSansStd-BoldItalic.eot');
+	src: url('http://localhost:8081/assets/fonts/FedraSansStd-BoldItalic.eot?#iefix')
+		format('embedded-opentype'),
+	  url('http://localhost:8081/assets/fonts/FedraSansStd-BoldItalic.woff') format('woff'),
+	  url('http://localhost:8081/assets/fonts/FedraSansStd-BoldItalic.ttf') format('truetype');
+	font-weight: bold;
+	font-style: italic;
+  }
+  
+  @font-face {
+	font-family: 'Fedra Sans Std';
+	src: url('http://localhost:8081/assets/fonts/FedraSansStd-Medium.eot');
+	src: url('http://localhost:8081/assets/fonts/FedraSansStd-Medium.eot?#iefix') format('embedded-opentype'),
+	  url('http://localhost:8081/assets/fonts/FedraSansStd-Medium.woff') format('woff'),
+	  url('http://localhost:8081/assets/fonts/FedraSansStd-Medium.ttf') format('truetype');
+	font-weight: 500;
+	font-style: normal;
+  }
+  
+  @font-face {
+	font-family: 'Fedra Sans Std';
+	src: url('http://localhost:8081/assets/fonts/FedraSansStd-Bold.eot');
+	src: url('http://localhost:8081/assets/fonts/FedraSansStd-Bold.eot?#iefix') format('embedded-opentype'),
+	  url('http://localhost:8081/assets/fonts/FedraSansStd-Bold.woff') format('woff'),
+	  url('http://localhost:8081/assets/fonts/FedraSansStd-Bold.ttf') format('truetype');
+	font-weight: bold;
+	font-style: normal;
+  }
+  
+  @font-face {
+	font-family: 'FedraSansAltPro-Demi';
+	src: url('http://localhost:8081/assets/fonts/FedraSansAltPro-Demi.eot?#iefix') format('embedded-opentype'),
+	  url('http://localhost:8081/assets/fonts/FedraSansAltPro-Demi.otf') format('opentype'),
+	  url('http://localhost:8081/assets/fonts/FedraSansAltPro-Demi.woff') format('woff'),
+	  url('http://localhost:8081/assets/fonts/FedraSansAltPro-Demi.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+  }
+  
+  @font-face {
+	font-family: 'FedraSansAltPro-DemiItalic';
+	src: url('http://localhost:8081/assets/fonts/FedraSansAltPro-DemiItalic.eot?#iefix')
+		format('embedded-opentype'),
+	  url('http://localhost:8081/assets/fonts/FedraSansAltPro-DemiItalic.otf') format('opentype'),
+	  url('http://localhost:8081/assets/fonts/FedraSansAltPro-DemiItalic.woff') format('woff'),
+	  url('http://localhost:8081/assets/fonts/FedraSansAltPro-DemiItalic.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+  }
+  

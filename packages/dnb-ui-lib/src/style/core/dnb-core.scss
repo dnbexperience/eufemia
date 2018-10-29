@@ -1,0 +1,82 @@
+/*
+* Core style loader
+*
+* ======================================================================== */
+
+@charset 'utf-8';
+
+// core
+@import './reset.scss';
+@import './variables.scss';
+@import './utilities.scss';
+@import './font-import.scss';
+@import './typography.scss';
+@import './scopes.scss';
+@import './form.scss';
+// @import './_grid.scss';
+
+.dnb-style {
+  // line-height: 1.5em; // gets set in bodyDefault
+
+  @import './dnb-style.scss';
+}
+
+html[data-whatinput='keyboard'] *:not(a):not(div):focus {
+  @include fakeFocus('mouse');
+}
+
+[data-whatinput='mouse'] .dnb-body *:focus {
+  outline: none;
+}
+
+body {
+  @include bodyDefault();
+
+  @media print {
+    background-color: white;
+  }
+}
+
+a {
+  position: relative;
+  z-index: 1;
+  outline: none;
+  padding: 0.0625em;
+  margin: -0.0625em;
+
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: var(--color-sea-green);
+  color: var(--color-sea-green);
+  text-decoration: none;
+
+  &:active,
+  &:hover {
+    border-bottom-style: solid;
+    color: var(--color-ocean-green);
+    border-bottom-color: var(--color-ocean-green);
+  }
+  &:active {
+    opacity: 0.7;
+  }
+
+  &:focus {
+    @include fakeFocus(false);
+    border-bottom-color: transparent;
+  }
+}
+a.no-unerline {
+  border-bottom-style: none;
+  border-bottom-width: 0;
+}
+
+a:not([href]) {
+  border: none;
+  cursor: pointer;
+  user-select: none;
+
+  &:active,
+  &:hover {
+    color: var(--color-signal-orange);
+  }
+}

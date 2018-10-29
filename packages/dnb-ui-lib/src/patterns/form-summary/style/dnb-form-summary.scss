@@ -1,0 +1,14 @@
+/*
+* DNB FormSummary
+*
+* ======================================================================== */
+
+@import '../../../style/component/core-imports.scss';
+@import '../../../style/component/font-import.scss';
+@import '../../../patterns/description-list/style/dnb-description-list.scss';
+
+.dnb-form-summary {
+  @include componentReset();
+}
+
+@import './_form-summary.scss';

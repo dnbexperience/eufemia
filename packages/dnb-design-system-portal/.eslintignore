@@ -1,0 +1,6 @@
+!/*.js
+/tests/**/*.js
+!/**/.eslintrc.js
+/dist/
+/build/
+**/node_modules/**

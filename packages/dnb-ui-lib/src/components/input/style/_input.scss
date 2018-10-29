@@ -1,0 +1,311 @@
+/*
+* Input component
+*
+* ======================================================================== */
+
+.dnb-input {
+  display: flex;
+  align-items: center;
+  flex-flow: row wrap;
+  width: 100%;
+
+  &--label-hidden label {
+    @include sr-only();
+  }
+
+  &__shell {
+    position: relative;
+
+    flex: 1;
+    display: flex;
+
+    width: 100%;
+    height: 100%;
+    margin: 0;
+
+    align-items: center;
+
+    background-color: $input-background-color;
+    border-radius: $input-border-radius;
+    border: $input-border-width solid $input-border-color;
+
+    transition: background-color 0.5s ease-out 0s;
+
+    :not([disabled]) {
+      @include hover(true) {
+        background-color: rgba(255, 255, 255, 0.7);
+      }
+    }
+  }
+
+  &__description,
+  &__placeholder,
+  &__input {
+    font-size: $font-size-regular;
+    line-height: 1.25;
+  }
+
+  &__placeholder,
+  &__input {
+    width: 100%;
+    height: $input-height;
+    padding: $input-padding-vertical + 0.2 0 $input-padding-vertical
+      $input-padding-horizontal;
+
+    font-family: inherit;
+    font-weight: inherit;
+    outline: none;
+
+    background-color: transparent;
+    color: inherit;
+
+    border: none;
+    border-radius: $input-border-radius;
+  }
+
+  &__input[disabled] {
+    opacity: 0.5;
+    user-select: none;
+  }
+
+  &__placeholder {
+    pointer-events: none;
+
+    position: absolute;
+    left: 0;
+    top: 2px;
+    padding: 0 $input-padding-horizontal;
+
+    // max-width: calc(100% - %{$input-padding-horizontal});
+    height: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+
+    opacity: 1;
+
+    color: rgba($color-charcoal-grey, 0.8);
+    line-height: $input-height;
+    text-overflow: ellipsis;
+    border-radius: 0;
+
+    transition: opacity 0.1s linear 0s;
+  }
+
+  &__description {
+    margin: 0 0 0 0.5rem;
+  }
+
+  &__extra-information {
+    flex: 1 100%;
+
+    margin: 0.5rem 0 0 $input-padding-horizontal;
+
+    font-size: $font-size-small;
+    line-height: 1rem;
+  }
+
+  &--large {
+    .dnb-input__description,
+    .dnb-input__input,
+    .dnb-input__placeholder {
+      font-size: $font-size-xxx-large;
+    }
+
+    .dnb-input__placeholder {
+      // left: $input-padding-horizontal-l;
+      line-height: $input-height-l;
+    }
+
+    .dnb-input__input {
+      height: $input-height-l;
+      padding: $input-padding-vertical-l 0 $input-padding-vertical-l
+        $input-padding-horizontal-l;
+      border-radius: $input-border-radius-l;
+    }
+  }
+
+  &__align--right {
+    padding-left: 0 !important;
+    padding-right: $input-padding-horizontal !important;
+    text-align: right;
+  }
+
+  &__input--search {
+    border-radius: $input-border-radius 0 0 $input-border-radius;
+    margin: 0 1px 0 0;
+  }
+
+  &__search-submit {
+    position: relative;
+    top: -1px;
+    right: -1px;
+
+    flex: 0 0 $input-height; // IE fix
+    flex: 0 0 calc(4px + #{$input-height});
+
+    height: $input-height; // IE fix
+    height: calc(4px + #{$input-height});
+    margin: 0 0 -2px;
+    overflow: hidden;
+
+    border-radius: $input-border-radius;
+    border: 1px solid $input-border-color;
+  }
+
+  &__search-submit__button {
+    position: relative;
+
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+
+    width: 100%;
+    height: 100%;
+    padding: 0;
+
+    outline: none;
+    border: none;
+
+    background-color: white;
+    color: #007272;
+  }
+}
+
+//Input focus state
+.dnb-input__shell {
+  &[data-input-state='focus'] {
+    border-color: rgb(160, 214, 201);
+    background-color: white;
+
+    .dnb-input__search-submit {
+      border-color: rgba(210, 239, 232, 0.5);
+    }
+  }
+
+  //Hide placeholder when:
+  //1: input has content
+  //2: input is in focus
+  &[data-has-content='true'] .dnb-input__placeholder,
+  &[data-input-state='focus'][data-has-content='true']
+    .dnb-input__placeholder {
+    display: none;
+  }
+
+  //Adjusting opacity of placeholder when:
+  //1: input is in focus
+  //and
+  //2. input has content
+  &[data-input-state='focus'][data-has-content='false']
+    .dnb-input__placeholder {
+    opacity: 0.35;
+  }
+}
+
+//Search button focus state
+.dnb-input__search-submit[data-input-state='focus'] {
+  border-color: $input-border-color;
+}
+
+//Background color of input when it has content
+.dnb-input__shell[data-has-content='true'] {
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+//Focus box shadow
+.dnb-input__shell[data-input-state='focus'],
+.dnb-input__search-submit[data-input-state='focus'] {
+  @include fakeBorder();
+  @include fakeFocus();
+}
+
+/*
+* Range input
+* ======================================================================== */
+$range-track-background: rgba($color-sea-green, 0.5);
+$range-track-background-2: $color-summer-green;
+$range-track-height: 0.25rem;
+$range-track-border-radius: 0.25rem;
+$range-thumb-background: white;
+$range-thumb-border-color: $color-sea-green;
+$range-thumb-dimension: 1.5rem;
+
+.dnb-range-slider {
+  &__css-vars__bg-color-1 {
+    background-color: $range-track-background;
+  }
+
+  &__css-vars__bg-color-2 {
+    background-color: $range-track-background-2;
+  }
+}
+
+input[type='range'] {
+  -webkit-appearance: none;
+  width: 100%;
+  border-radius: $range-track-border-radius;
+}
+
+input[type='range']:focus {
+  outline: none;
+}
+
+input[type='range']::-webkit-slider-runnable-track {
+  position: relative;
+  z-index: 1;
+
+  cursor: pointer;
+
+  width: 100%;
+  height: $range-track-height;
+
+  box-shadow: none;
+}
+
+input[type='range']::-webkit-slider-thumb {
+  position: relative;
+  top: $range-track-height/2;
+  cursor: pointer;
+
+  height: $range-thumb-dimension;
+  width: $range-thumb-dimension;
+
+  border-radius: $range-thumb-dimension;
+  background: white;
+  border: 1px solid #98c6c6;
+
+  transform: translate(0, -50%);
+  -webkit-appearance: none;
+
+  box-shadow: 1px 1px 2px rgba(0, 135, 137, 0.25),
+    0 0 1px rgba(0, 160, 163, 0.25);
+}
+
+// input[type='range']:focus::-webkit-slider-runnable-track {
+// }
+//TODO: Browser test and add correct styling to shadow dom elements
+//to make sure the range slider has same look and feel all over
+//the following empty brackets are ready to be filled in
+
+// input[type='range']::-moz-range-track {
+// }
+//
+// input[type='range']::-moz-range-thumb {
+// }
+//
+// input[type='range']::-ms-track {
+// }
+//
+// input[type='range']::-ms-fill-lower {
+// }
+//
+// input[type='range']::-ms-fill-upper {
+// }
+//
+// input[type='range']::-ms-thumb {
+// }
+//
+// input[type='range']:focus::-ms-fill-lower {
+// }
+//
+// input[type='range']:focus::-ms-fill-upper {
+// }

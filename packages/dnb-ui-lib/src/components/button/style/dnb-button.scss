@@ -1,0 +1,14 @@
+/*
+* DNB Button
+*
+* ======================================================================== */
+
+@import '../../../style/component/core-imports.scss';
+@import '../../../style/component/font-import.scss';
+@import '../../icon/style/dnb-icon.scss';
+
+.dnb-button {
+  @include componentReset();
+}
+
+@import './_button.scss';

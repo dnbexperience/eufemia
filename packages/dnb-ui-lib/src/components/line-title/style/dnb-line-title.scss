@@ -1,0 +1,13 @@
+/*
+* DNB LineTitle
+*
+* ======================================================================== */
+
+@import '../../../style/component/core-imports.scss';
+@import '../../../style/component/font-import.scss';
+
+.dnb-line-title {
+  @include componentReset();
+}
+
+@import './_line-title.scss';

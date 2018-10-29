@@ -1,0 +1,7 @@
+<Tabs selected_key="first" data={data} on_change={this.openTab}>
+  {{
+    first: <h1>First</h1>,
+    second: <h1>Second</h1>,
+    third: <h1>Third</h1>
+  }}
+</Tabs>

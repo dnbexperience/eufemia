@@ -1,0 +1,7 @@
+# DNB UI Library
+
+The DNB UI Library has three main functions:
+
+- It's a place to showcase DNB's latest UI components and how they are built
+- With displaying the code behind each component the UI Library will be the go-to place for any developer in DNB to grab the code for the component.
+- If the component doesn't exist in the UI Library it should be easy to add a new component to it.

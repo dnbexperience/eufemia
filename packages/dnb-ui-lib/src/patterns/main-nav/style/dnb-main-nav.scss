@@ -1,0 +1,17 @@
+/*
+* DNB MainNav
+*
+* ======================================================================== */
+
+@import '../../../style/component/core-imports.scss';
+@import '../../grid/style/dnb-grid.scss';
+@import '../../../components/icon/style/dnb-icon.scss';
+@import '../../../components/button/style/dnb-button.scss';
+@import '../../../components/input/style/dnb-input.scss';
+@import '../../../components/notification/style/dnb-notification.scss';
+
+.dnb-main-nav {
+  @include componentReset();
+}
+
+@import './_main-nav.scss';

@@ -1,0 +1,179 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Icon component have to match snapshot 1`] = `
+<Icon
+  alt="alt"
+  area_hidden={true}
+  attributes="attributes"
+  class="class"
+  className="className"
+  color="color"
+  height="height"
+  icon={[Function]}
+  modifier="modifier"
+  size="size"
+  width="width"
+>
+  <span
+    alt="alt"
+    aria-hidden={true}
+    className="dnb-icon dnb-icon--modifier class className"
+    role="img"
+  >
+    <SvgComponent
+      color="color"
+    >
+      <svg
+        color="color"
+        viewBox="0 0 16 16"
+      >
+        <path
+          clipRule="evenodd"
+          d="M4.352 5.1c0-2.05 1.55-3.6 3.6-3.6 2.052 0 3.601 1.55 3.601 3.6 0 2.051-1.55 3.6-3.6 3.6a.75.75 0 0 0-.75.75v2.666a.75.75 0 0 0 1.5 0V10.15c2.506-.348 4.35-2.425 4.35-5.049 0-2.879-2.221-5.1-5.1-5.1-2.88 0-5.1 2.221-5.1 5.1a.75.75 0 1 0 1.5 0zm3.6 10.898c.659 0 1.098-.439 1.098-1.097 0-.658-.44-1.097-1.097-1.097-.658 0-1.097.44-1.097 1.097 0 .658.439 1.097 1.097 1.097z"
+          fillRule="evenodd"
+        />
+      </svg>
+    </SvgComponent>
+  </span>
+</Icon>
+`;
+
+exports[`Icon scss have to match snapshot 1`] = `
+"/*
+* DNB icon
+*
+* ======================================================================== */
+/*
+* Colors
+* ======================================================================== */
+/*
+ * Typography Family
+ * ======================================================================== */
+/*
+* Typography Size
+* ======================================================================== */
+/*
+* Grid and units
+* ======================================================================== */
+/*
+* Breakpoints
+* ======================================================================== */
+/*
+ * Utilities
+ * ========================================================================== */
+.dnb-sr-only {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px; }
+
+.dnb-not-sr-only {
+  position: static; }
+
+.dnb-unstyled-list {
+  margin: 0;
+  list-style-type: none;
+  padding-left: 0; }
+  .dnb-unstyled-list > li {
+    margin-bottom: 0; }
+
+.dnb-no-focus {
+  outline: none; }
+
+.dnb-fake-focus {
+  outline: none; }
+  .dnb-fake-focus:focus {
+    outline: none;
+    border-color: transparent; }
+    html[data-whatinput='mouse'] .dnb-fake-focus:focus:not(.dnb-no-mouse-focus) {
+      transition: box-shadow 0.1s ease-out 0s;
+      box-shadow: 0 0 0 2px #14555a; }
+    html[data-whatinput='keyboard'] .dnb-fake-focus:focus {
+      box-shadow: 0 0 0 2px #ff5400; }
+
+@media screen and (max-width: 700px) {
+  .dnb-hide-on-mobile {
+    display: none; } }
+
+@media screen and (min-width: 700px) {
+  .dnb-mobile-exclusive {
+    display: none; } }
+
+.dnb-width-limit {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1024px;
+  padding: 0 0.5rem; }
+  @media screen and (min-width: 700px) {
+    .dnb-width-limit {
+      padding-left: 1rem;
+      padding-right: 1rem; } }
+
+.dnb-belt {
+  padding: 1rem 0;
+  width: 100%;
+  background: #fafafa; }
+
+.dnb-nudge {
+  display: inline-flex;
+  flex: 0 0 100%; }
+  .dnb-nudge--vertical[data-nudges='1'] {
+    height: 1rem; }
+  .dnb-nudge--horizontal[data-nudges='1'] {
+    width: 1rem; }
+  .dnb-nudge--vertical[data-nudges='2'] {
+    height: 2rem; }
+  .dnb-nudge--horizontal[data-nudges='2'] {
+    width: 2rem; }
+  .dnb-nudge--vertical[data-nudges='3'] {
+    height: 3rem; }
+  .dnb-nudge--horizontal[data-nudges='3'] {
+    width: 3rem; }
+  .dnb-nudge--vertical[data-nudges='4'] {
+    height: 4rem; }
+  .dnb-nudge--horizontal[data-nudges='4'] {
+    width: 4rem; }
+  .dnb-nudge--vertical[data-nudges='5'] {
+    height: 5rem; }
+  .dnb-nudge--horizontal[data-nudges='5'] {
+    width: 5rem; }
+  .dnb-nudge--vertical[data-nudges='6'] {
+    height: 6rem; }
+  .dnb-nudge--horizontal[data-nudges='6'] {
+    width: 6rem; }
+  .dnb-nudge--vertical[data-nudges='7'] {
+    height: 7rem; }
+  .dnb-nudge--horizontal[data-nudges='7'] {
+    width: 7rem; }
+  .dnb-nudge--vertical[data-nudges='8'] {
+    height: 8rem; }
+  .dnb-nudge--horizontal[data-nudges='8'] {
+    width: 8rem; }
+  .dnb-nudge--vertical[data-nudges='9'] {
+    height: 9rem; }
+  .dnb-nudge--horizontal[data-nudges='9'] {
+    width: 9rem; }
+  .dnb-nudge--vertical[data-nudges='10'] {
+    height: 10rem; }
+  .dnb-nudge--horizontal[data-nudges='10'] {
+    width: 10rem; }
+
+/*
+* Scopes
+* ======================================================================== */
+/*
+* Icon component
+*
+* ======================================================================== */
+.dnb-icon {
+  display: inline-block;
+  font-size: 0;
+  width: 100%; }
+  .dnb-icon svg {
+    fill: currentColor; }
+"
+`;

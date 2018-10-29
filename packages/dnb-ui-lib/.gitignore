@@ -1,0 +1,47 @@
+# dependencies
+/node_modules
+
+# testing
+/coverage
+/jest-screenshot-report
+
+# production
+/lib
+/package
+/components
+/elements
+/patterns
+/shared
+/umd
+/style
+/assets
+/icons
+/scripts/figma/files/**
+**/test-files/dist
+/docs
+/dist
+/index.js
+/web-components
+dnb-ui-lib-*.tgz
+
+# misc
+completions.json
+*snapshot.json
+*.emotion.css
+.DS_Store
+.history
+.cache
+bundle.css
+*not_in_use*
+
+# enviroment
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# pkm
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

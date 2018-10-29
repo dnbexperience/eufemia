@@ -1,0 +1,116 @@
+/*
+* Button theme
+*
+* ======================================================================== */
+
+@import '../_button-mixins.scss';
+
+:root {
+  --button-font-family: var(--font-family-book);
+  --button-font-size: var(--font-size-regular);
+  --button-font-weight: normal;
+  --button-font-style: normal;
+  --button-width: 2.5rem;
+  --button-height: 2.5rem;
+  --button-width--big: 3rem;
+  --button-height--big: 3rem;
+  --button-icon-size: 1rem;
+  --button-border-width: 1px;
+  --button-border-width--hover: 3px;
+  --button-border-radius: calc(var(--button-height) / 2);
+  --button-border-radius--big: calc(var(--button-height--big) / 2);
+}
+
+.dnb-button--primary {
+  color: #fff;
+  background-color: var(--color-sea-green-alt);
+  border-color: transparent;
+
+  @include buttonHover(
+    var(--color-sea-green),
+    var(--color-sea-green-light)
+  );
+
+  @include buttonFocus(
+    var(--color-sea-green),
+    var(--color-sea-green-light)
+  );
+
+  &[disabled] {
+    color: #fff;
+    background-color: var(--color-sea-green-alt-30);
+  }
+}
+
+.dnb-button--secondary {
+  color: var(--color-sea-green);
+  background-color: #fff;
+  border-color: var(--color-sea-green-alt);
+
+  @include buttonHover(
+    var(--color-sea-green),
+    var(--color-sea-green-light)
+  );
+
+  @include buttonFocus(
+    var(--color-sea-green),
+    var(--color-sea-green-light)
+  );
+
+  &[disabled] {
+    color: var(--color-sea-green-alt-30);
+    background-color: v#fff;
+    border-color: var(--color-sea-green-alt-30);
+  }
+}
+
+.dnb-button--teritary {
+  color: var(--color-sea-green);
+  background-color: transparent;
+  border-color: transparent;
+
+  @include buttonHover(
+    var(--color-sea-green),
+    var(--color-sea-green-light)
+  );
+
+  @include buttonFocus(
+    var(--color-sea-green),
+    var(--color-sea-green-light)
+  );
+
+  &[disabled] {
+    color: var(--color-sea-green-alt-30);
+  }
+}
+
+@mixin buttonHover--signal() {
+  box-shadow: 0 0 0 var(--button-border-width--hover)
+      var(--color-signal-yellow),
+    0 0 0 calc(var(--button-border-width--hover) + 1px) #000;
+  @content;
+}
+
+.dnb-button--signal {
+  color: #000;
+  background-color: var(--color-signal-yellow);
+
+  @include hover(true) {
+    @include buttonHover--signal();
+
+    &:not([disabled]):active {
+      @include fakeBorder(transparent);
+    }
+  }
+
+  &:not([disabled]):focus {
+    html[data-whatinput='keyboard'] & {
+      @include tabFocus();
+    }
+  }
+
+  &[disabled] {
+    color: #b0b0b0;
+    background-color: var(--color-signal-yellow-30);
+  }
+}

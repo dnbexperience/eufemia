@@ -1,0 +1,26 @@
+{
+  "name": "dnb-design-system",
+  "version": "1.0.0",
+  "description": "DNB Design System",
+  "license": "SEE LICENSE IN LICENSE FILE",
+  "author": "Tobias Høegh",
+  "main": "index.js",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/eggsdesign/dnb-design-system.git"
+  },
+  "workspaces": [
+    "packages/*",
+    "packages/examples/*"
+  ],
+  "scripts": {
+    "precommit": "cd ./packages/dnb-ui-lib && yarn precommit && cd -",
+    "reset": "rm -rf ./node_modules && rm yarn.lock && rm -rf ./packages/dnb-ui-lib/node_modules && rm -rf ./packages/dnb-design-system-portal/node_modules && yarn",
+    "postinstall": "cd ./packages/dnb-design-system-portal && yarn startup && cd -"
+  },
+  "devDependencies": {
+    "pre-commit": "^1.2.2"
+  },
+  "pre-commit": "precommit"
+}

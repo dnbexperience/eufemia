@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+  <g fill="none" fill-rule="evenodd">
+    <g fill="#000000" fill-rule="nonzero" opacity=".696">
+      <polygon points="0 0 7.159 0 32 0 32 1 0 1" opacity=".25"/>
+      <polygon points="0 0 .224 0 1 0 1 32 0 32" opacity=".25"/>
+      <polygon points="8 0 8.224 0 9 0 9 32 8 32" opacity=".06"/>
+      <polygon points="16 0 16.224 0 17 0 17 32 16 32" opacity=".06"/>
+      <polygon points="24 0 24.224 0 25 0 25 32 24 32" opacity=".06"/>
+      <polygon points="0 8 7.159 8 32 8 32 9 0 9" opacity=".06"/>
+      <polygon points="0 16 7.159 16 32 16 32 17 0 17" opacity=".06"/>
+      <polygon points="0 24 7.159 24 32 24 32 25 0 25" opacity=".06"/>
+    </g>
+    <g fill="#B2B2B2">
+      <rect width="1" height="1"/>
+      <rect width="1" height="1" y="8"/>
+      <rect width="1" height="1" y="16"/>
+      <rect width="1" height="1" y="24"/>
+      <rect width="1" height="1" x="8"/>
+      <rect width="1" height="1" x="8" y="8"/>
+      <rect width="1" height="1" x="8" y="16"/>
+      <rect width="1" height="1" x="8" y="24"/>
+      <rect width="1" height="1" x="16"/>
+      <rect width="1" height="1" x="16" y="8"/>
+      <rect width="1" height="1" x="16" y="16"/>
+      <rect width="1" height="1" x="16" y="24"/>
+      <rect width="1" height="1" x="24"/>
+      <rect width="1" height="1" x="24" y="8"/>
+      <rect width="1" height="1" x="24" y="16"/>
+      <rect width="1" height="1" x="24" y="24"/>
+    </g>
+  </g>
+</svg>

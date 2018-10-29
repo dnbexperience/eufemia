@@ -1,0 +1,13 @@
+/*
+* DNB Input
+*
+* ======================================================================== */
+
+@import '../../../style/component/core-imports.scss';
+@import '../../input/style/dnb-input.scss';
+
+.dnb-input-masked {
+  @include componentReset();
+}
+
+@import './_input-masked.scss';

@@ -1,0 +1,13 @@
+/*
+* DNB ActionNav
+*
+* ======================================================================== */
+
+@import '../../../style/component/core-imports.scss';
+@import '../../../components/button/style/dnb-button.scss';
+
+.dnb-action-nav {
+  @include componentReset();
+}
+
+@import './_action-nav.scss';

@@ -1,0 +1,111 @@
+/*
+ * Modal component
+ *
+ * ========================================================================== */
+
+body[data-modal-active='true'] {
+  overflow: hidden;
+}
+
+#dnb-modal-root {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.dnb-modal {
+  display: inline-flex;
+
+  &__content {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    height: 100%;
+    user-select: none;
+
+    // [data-active='false'] & {
+    //   @include sr-only();
+    // }
+    // [data-active='true'] & {
+    //   z-index: 3001;
+    // }
+    z-index: 3001;
+
+    &__inner {
+      position: relative;
+      user-select: text;
+      padding: 2rem 1rem;
+      max-width: calc(100vw - 1rem);
+
+      border: none;
+      box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.15);
+
+      @include allAbove(medium) {
+        max-width: 500px;
+        padding: 2rem 3rem;
+      }
+
+      // [data-active='true'] & {
+      //   background: white;
+      // }
+      background: white;
+    }
+  }
+
+  &__trigger {
+    cursor: pointer;
+    user-select: none;
+  }
+
+  &__trigger--text:not([class*='teritary']) {
+    border: none;
+    padding: none;
+    background: transparent;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  // &__trigger--button {
+  // }
+
+  &__close-button {
+    position: absolute;
+    top: 0.25rem;
+    right: 0.25rem;
+
+    // padding: 0.25rem;
+    cursor: pointer;
+
+    color: $color-sea-green;
+    // border: none;
+    // background: transparent;
+  }
+
+  &__overlay {
+    position: fixed;
+    z-index: 3000;
+    left: 0;
+    top: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background: rgba(255, 255, 255, 0.85);
+
+    // opacity: 0;
+    // transition: opacity 0.1s ease-out 0s;
+    // transform: translate(0, -100%);
+    // [data-active='true'] & {
+    //   transform: translate(0, 0);
+    //   opacity: 1;
+    // }
+  }
+}

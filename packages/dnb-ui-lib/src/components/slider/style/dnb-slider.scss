@@ -1,0 +1,13 @@
+/*
+* DNB Slider
+*
+* ======================================================================== */
+
+@import '../../../style/component/core-imports.scss';
+// @import '../../../style/component/font-import.scss';
+
+.dnb-slider {
+  @include componentReset();
+}
+
+@import './_slider.scss';

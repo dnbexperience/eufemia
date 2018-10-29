@@ -1,0 +1,75 @@
+/*
+* Colors
+* ======================================================================== */
+
+$color-sea-green: #007272;
+$color-sea-green-alt: #008484;
+$color-sea-green-alt-30: #b3dada;
+$color-sea-green-light: #d3f0e9; // new color definition, used in dnb-button
+$color-sea-green-light-alt: #b3dada; // new color definition, used in dnb-button
+$color-ocean-green: #00343e; // new color definition
+$color-emerald-green: #14555a;
+$color-summer-green: #28b482;
+$color-mint-green: #a5e1d2;
+$color-mint-green-alt: #ebfffa;
+
+$color-signal-orange: #ff5400;
+$color-signal-yellow: #ffff7a;
+$color-signal-yellow-30: #ffffd7;
+
+$color-light-grey: #fafafa;
+$color-outline-grey: #ebebeb;
+
+// new grey definitions
+$color-subtle-grey: #f8f8f8;
+$color-soft-grey: #cccccc;
+$color-charcoal-grey: #333333;
+$color-shadow-grey: #757575;
+
+// new color definitions
+$color-indigo: #23195a;
+$color-indigo-medium: #6e6491;
+$color-indigo-light: #b9afc8;
+$color-violet: #6e2382;
+$color-violet-medium: #a06eaf;
+$color-violet-light: #cfb9d7;
+$color-sky-blue: #4bbed2;
+$color-sky-blue-medium: #87d2e1;
+$color-sky-blue-light: #c3ebf0;
+
+/*
+ * Typography Family
+ * ======================================================================== */
+$font-family-book: 'Fedra Sans Std Book', sans-serif;
+$font-family-std: 'Fedra Sans Std', sans-serif;
+// $font-family-demi: 'FedraSansAltPro-Demi', sans-serif;
+// $font-family-demi-italic: 'FedraSansAltPro-DemiItalic', sans-serif;
+
+/*
+* Typography Size
+* ======================================================================== */
+$font-size-mini: 0.5rem;
+$font-size-small: 0.75rem;
+$font-size-medium: 0.875rem;
+$font-size-regular: 1rem;
+$font-size-large: 1.125rem;
+$font-size-x-large: 1.25rem;
+$font-size-xx-large: 1.5rem;
+$font-size-xxx-large: 2rem;
+
+/*
+* Grid and units
+* ======================================================================== */
+$grid-gutter: 1rem;
+$grid-gutter-l: 1.5rem;
+$grid-gutter-xl: 2rem;
+
+/*
+* Breakpoints
+* ======================================================================== */
+$breakpoints: (
+  'small': 320px,
+  'medium': 700px,
+  'large': 1024px,
+  'xLarge': 1400px
+);

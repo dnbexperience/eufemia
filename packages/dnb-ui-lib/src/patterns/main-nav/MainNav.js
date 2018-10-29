@@ -1,0 +1,255 @@
+/**
+ * Web MainNav Component
+ *
+ */
+
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import classnames from 'classnames'
+import {
+  registerElement,
+  validateDOMAttributes,
+  processChildren
+} from '../../shared/component-helper'
+// import './style/dnb-main-nav.scss' // no good solution to import the style here
+import Input from '../../components/input/Input'
+import Icon from '../../components/icon/IconWithAllIcons'
+import Button from '../../components/button/Button'
+import Logo from '../../components/logo/Logo'
+import Notification from '../../components/notification/Notification'
+
+const renderProps = {
+  // render_data: null,
+}
+
+export const propTypes = {
+  data: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+  baseurl: PropTypes.string,
+  notification_amount: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]),
+  class: PropTypes.string,
+  /** React props */
+  className: PropTypes.string,
+  children: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.node,
+    PropTypes.func
+  ])
+  // Web Component props
+  // render_data: PropTypes.func,
+}
+
+export const defaultProps = {
+  data: [],
+  baseurl: '/uilib/demos/example-app-1/',
+  // baseurl: null,
+  notification_amount: 0,
+  class: null,
+  /** React props */
+  className: null,
+  children: null,
+  // Web Component props
+  ...renderProps
+}
+
+export default class MainNav extends Component {
+  static tagName = 'dnb-main-nav'
+  static propTypes = propTypes
+  static defaultProps = defaultProps
+
+  state = {
+    isSubNavActive: false
+  }
+
+  static enableWebComponent() {
+    registerElement(MainNav.tagName, MainNav, defaultProps)
+  }
+
+  static getData(props) {
+    // if (typeof props.render_data === 'function') {
+    //   return props.render_data(props)
+    // }
+    let res = []
+    if (props.data) res = props.data
+    else res = processChildren(props)
+    if (typeof res === 'string')
+      return res[0] === '[' ? JSON.parse(res) : []
+    return res || []
+  }
+
+  constructor(props) {
+    super(props)
+    this._innerRef = React.createRef()
+  }
+
+  // componentDidMount() {
+  //   setTimeout(() => {
+  //     this.setState({
+  //       isSubNavActive: true
+  //     })
+  //   }, 1e3)
+  // }
+
+  componentWillUnmount() {
+    this.setState({
+      isSubNavActive: false
+    })
+  }
+
+  toggleNavHandler = () => {
+    const isSubNavActive = !this.state.isSubNavActive
+    this.setState({
+      isSubNavActive
+    })
+
+    if (this._innerRef) {
+      this._innerRef.current.setAttribute(
+        'tabindex',
+        isSubNavActive ? '0' : '-1'
+      )
+      if (isSubNavActive) {
+        this._innerRef.current.focus()
+      }
+    }
+  }
+
+  render() {
+    const {
+      baseurl,
+      notification_amount,
+      className,
+      class: _className
+    } = this.props
+
+    const data = MainNav.getData(this.props)
+
+    const params = {
+      className: classnames('dnb-main-nav', className, _className)
+    }
+
+    // also used for code markup simulation
+    validateDOMAttributes(this.props, params)
+
+    return (
+      <nav {...params} data-nav-active={this.state.isSubNavActive}>
+        <div className="dnb-main-nav__inner">
+          <div className="dnb-main-nav__inner__inner">
+            <div className="dnb-main-nav__left">
+              <div className="dnb-main-nav__item">
+                <MainNavTrigger
+                  text="Meny"
+                  onTrigger={this.toggleNavHandler}
+                />
+              </div>
+              <div className="dnb-main-nav__item dnb-hide-on-mobile">
+                <Search />
+              </div>
+            </div>
+
+            <div className="dnb-main-nav__item dnb-main-nav__logo">
+              {(baseurl && (
+                <a href={baseurl} title="Links back to front page">
+                  <Logo height={80} />
+                </a>
+              )) || <Logo height={80} />}
+            </div>
+
+            <div className="dnb-main-nav__right">
+              <div className="dnb-main-nav__item">
+                {notification_amount && (
+                  <Notification
+                    notification_amount={notification_amount}
+                    title_text={`Du har ${notification_amount} notifications`}
+                  />
+                )}
+              </div>
+              <div className="dnb-main-nav__item">
+                <Button type="button" variant="secondary" text="Logg ut" />
+              </div>
+            </div>
+          </div>
+          <div className="dnb-main-nav__nav">
+            <div className="dnb-main-nav__nav__inner">
+              <div className="dnb-mobile-exclusive">
+                <Search id="nav_search_mobile" />
+              </div>
+              <div
+                className="dnb-main-nav__links dnb-width-limit dnb-fake-focus"
+                tabIndex="-1"
+                ref={this._innerRef}
+              >
+                {data.length > 0 && (
+                  <ul className="dnb-grid dnb-grid--gutters dnb-grid--center">
+                    {data.map(({ title, url }, i) => (
+                      <li key={`mn${i}`} className="dnb-grid__cell">
+                        <a
+                          href={url}
+                          className="dnb-main-nav__link"
+                          tabIndex="-1"
+                        >
+                          <span>{title}</span>
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+    )
+  }
+}
+
+const MainNavTrigger = props => {
+  const { text, className, modifier } = props
+
+  const params = {
+    className: classnames(
+      'dnb-main-nav-trigger',
+      className,
+      modifier ? `dnb-main-nav-trigger--${modifier}` : null
+    )
+  }
+
+  const onTriggerHandle = () => {
+    if (typeof props.onTrigger === 'function') {
+      props.onTrigger()
+    }
+  }
+
+  return (
+    <button onClick={onTriggerHandle} {...params}>
+      <span className="dnb-main-nav-trigger__icon">
+        <Icon icon="hamburger" />
+      </span>
+      <span className="dnb-main-nav-trigger__text">{text}</span>
+    </button>
+  )
+}
+
+// const Logo = props => {
+//   const { icon, className } = props
+//
+//   const params = {
+//     icon: icon || 'dnb-logo',
+//     className
+//   }
+//
+//   return <Icon width="100" height="50" color="#007272" {...params} />
+// }
+
+const Search = props => {
+  return (
+    <Input
+      type="search"
+      id="nav_search"
+      label="Label text"
+      placeholder="Søk"
+      {...props}
+    />
+  )
+}

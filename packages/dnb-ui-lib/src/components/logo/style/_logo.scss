@@ -1,0 +1,23 @@
+/*
+ * Logo element
+ *
+ * ========================================================================== */
+
+.dnb-logo {
+  display: inline-block;
+  height: 100%;
+  width: auto;
+
+  font-size: 0;
+  color: $color-sea-green;
+  fill: currentColor;
+
+  margin: 0.5rem 0;
+
+  svg {
+    width: inherit;
+    // to center the svg vertically
+    margin-top: -20px;
+    margin-bottom: -4px;
+  }
+}

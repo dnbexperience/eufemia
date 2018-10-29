@@ -1,0 +1,290 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Slider component have to match snapshot 1`] = `
+<div
+  className="dnb-slider className class slider__vertical"
+>
+  <div
+    aria-orientation="vertical"
+    aria-valuemax="max"
+    aria-valuemin="min"
+    aria-valuenow="value"
+    className="slider__root slider__state--disabled"
+    id="id"
+    onClick={[Function]}
+    onMouseDown={[Function]}
+    onTouchMove={[Function]}
+    onTouchStartCapture={[Function]}
+    role="slider"
+  >
+    <div
+      className="slider__line slider__line__before"
+      style={
+        Object {
+          "height": "calc(NaN% - 6px)",
+        }
+      }
+    />
+    <button
+      className="slider__thumb"
+      onBlur={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      style={
+        Object {
+          "top": "NaN%",
+        }
+      }
+      tabIndex="0"
+      type="button"
+    />
+    <div
+      className="slider__line slider__line__after"
+      style={
+        Object {
+          "height": "calc(NaN% - 6px)",
+        }
+      }
+    />
+  </div>
+</div>
+`;
+
+exports[`Slider scss have to match snapshot 1`] = `
+"/*
+* DNB Slider
+*
+* ======================================================================== */
+/*
+* Colors
+* ======================================================================== */
+/*
+ * Typography Family
+ * ======================================================================== */
+/*
+* Typography Size
+* ======================================================================== */
+/*
+* Grid and units
+* ======================================================================== */
+/*
+* Breakpoints
+* ======================================================================== */
+/*
+ * Utilities
+ * ========================================================================== */
+.dnb-sr-only {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px; }
+
+.dnb-not-sr-only {
+  position: static; }
+
+.dnb-unstyled-list {
+  margin: 0;
+  list-style-type: none;
+  padding-left: 0; }
+  .dnb-unstyled-list > li {
+    margin-bottom: 0; }
+
+.dnb-no-focus {
+  outline: none; }
+
+.dnb-fake-focus {
+  outline: none; }
+  .dnb-fake-focus:focus {
+    outline: none;
+    border-color: transparent; }
+    html[data-whatinput='mouse'] .dnb-fake-focus:focus:not(.dnb-no-mouse-focus) {
+      transition: box-shadow 0.1s ease-out 0s;
+      box-shadow: 0 0 0 2px #14555a; }
+    html[data-whatinput='keyboard'] .dnb-fake-focus:focus {
+      box-shadow: 0 0 0 2px #ff5400; }
+
+@media screen and (max-width: 700px) {
+  .dnb-hide-on-mobile {
+    display: none; } }
+
+@media screen and (min-width: 700px) {
+  .dnb-mobile-exclusive {
+    display: none; } }
+
+.dnb-width-limit {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1024px;
+  padding: 0 0.5rem; }
+  @media screen and (min-width: 700px) {
+    .dnb-width-limit {
+      padding-left: 1rem;
+      padding-right: 1rem; } }
+
+.dnb-belt {
+  padding: 1rem 0;
+  width: 100%;
+  background: #fafafa; }
+
+.dnb-nudge {
+  display: inline-flex;
+  flex: 0 0 100%; }
+  .dnb-nudge--vertical[data-nudges='1'] {
+    height: 1rem; }
+  .dnb-nudge--horizontal[data-nudges='1'] {
+    width: 1rem; }
+  .dnb-nudge--vertical[data-nudges='2'] {
+    height: 2rem; }
+  .dnb-nudge--horizontal[data-nudges='2'] {
+    width: 2rem; }
+  .dnb-nudge--vertical[data-nudges='3'] {
+    height: 3rem; }
+  .dnb-nudge--horizontal[data-nudges='3'] {
+    width: 3rem; }
+  .dnb-nudge--vertical[data-nudges='4'] {
+    height: 4rem; }
+  .dnb-nudge--horizontal[data-nudges='4'] {
+    width: 4rem; }
+  .dnb-nudge--vertical[data-nudges='5'] {
+    height: 5rem; }
+  .dnb-nudge--horizontal[data-nudges='5'] {
+    width: 5rem; }
+  .dnb-nudge--vertical[data-nudges='6'] {
+    height: 6rem; }
+  .dnb-nudge--horizontal[data-nudges='6'] {
+    width: 6rem; }
+  .dnb-nudge--vertical[data-nudges='7'] {
+    height: 7rem; }
+  .dnb-nudge--horizontal[data-nudges='7'] {
+    width: 7rem; }
+  .dnb-nudge--vertical[data-nudges='8'] {
+    height: 8rem; }
+  .dnb-nudge--horizontal[data-nudges='8'] {
+    width: 8rem; }
+  .dnb-nudge--vertical[data-nudges='9'] {
+    height: 9rem; }
+  .dnb-nudge--horizontal[data-nudges='9'] {
+    width: 9rem; }
+  .dnb-nudge--vertical[data-nudges='10'] {
+    height: 10rem; }
+  .dnb-nudge--horizontal[data-nudges='10'] {
+    width: 10rem; }
+
+/*
+* Scopes
+* ======================================================================== */
+.dnb-slider {
+  font-size: 1rem;
+  font-family: \\"Fedra Sans Std\\", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+  line-height: 1.5em; }
+  .dnb-slider * {
+    margin: 0;
+    padding: 0; }
+  .dnb-slider *,
+  .dnb-slider ::before,
+  .dnb-slider ::after {
+    background-repeat: no-repeat;
+    box-sizing: border-box; }
+  .dnb-slider ::before,
+  .dnb-slider ::after {
+    text-decoration: inherit;
+    vertical-align: inherit; }
+
+/*
+* Slider component
+*
+* ======================================================================== */
+.dnb-slider {
+  display: flex; }
+  .dnb-slider .slider__root {
+    width: 100%;
+    cursor: pointer;
+    padding: 1rem 0.5rem;
+    position: relative; }
+  .dnb-slider .slider__state--disabled.slider__root,
+  .dnb-slider .slider__state--disabled .slider__thumb {
+    cursor: not-allowed; }
+  .dnb-slider.slider__reverse .slider__root {
+    transform: scaleX(-1); }
+  .dnb-slider.slider__reverse.slider__vertical .slider__root {
+    transform: scaleY(-1); }
+  .dnb-slider.slider__vertical {
+    height: 100%;
+    padding: 0.5rem 1rem; }
+    .dnb-slider.slider__vertical .slider__root {
+      width: inherit;
+      height: inherit; }
+  .dnb-slider .slider__line {
+    position: absolute;
+    top: 50%;
+    height: 2px;
+    transform: translate(0, -50%);
+    background-color: rgba(0, 114, 114, 0.5); }
+  .dnb-slider .slider__state--disabled .slider__line {
+    background-color: #757575; }
+  .dnb-slider.slider__vertical .slider__line {
+    transform: translate(-50%, 0);
+    left: 50%;
+    top: initial;
+    width: 2px; }
+  .dnb-slider .slider__line__before {
+    left: 0;
+    z-index: 1; }
+  .dnb-slider .slider__line__after {
+    right: 0;
+    opacity: 0.24; }
+  .dnb-slider.slider__vertical .slider__line__before {
+    top: 0; }
+  .dnb-slider.slider__vertical .slider__line__after {
+    bottom: 0; }
+  .dnb-slider .slider__thumb {
+    position: absolute;
+    z-index: 2;
+    height: 1.5rem;
+    width: 1.5rem;
+    transform: translate(-50%, -50%);
+    margin: 0;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    vertical-align: middle;
+    justify-content: center;
+    cursor: pointer;
+    user-select: none;
+    outline: none;
+    color: inherit;
+    border: 1px solid #ebfffa;
+    border-radius: 50%;
+    text-decoration: none;
+    appearance: none;
+    background-color: white;
+    box-shadow: 1px 1px 2px rgba(0, 135, 137, 0.25), 0px 0px 1px rgba(0, 160, 163, 0.25); }
+    .dnb-slider .slider__thumb:focus {
+      outline: none;
+      border-color: transparent; }
+      html[data-whatinput='mouse'] .dnb-slider .slider__thumb:focus:not(.dnb-no-mouse-focus) {
+        transition: box-shadow 0.1s ease-out 0s;
+        box-shadow: 0 0 0 2px #14555a; }
+      html[data-whatinput='keyboard'] .dnb-slider .slider__thumb:focus {
+        box-shadow: 0 0 0 2px #ff5400; }
+  .dnb-slider .slider__state--disabled .slider__thumb {
+    border: none;
+    box-shadow: none;
+    background-color: #757575;
+    height: 0.5rem;
+    width: 0.5rem; }
+  .dnb-slider .slider__state--jumped .slider__thumb,
+  .dnb-slider .slider__state--jumped .slider__line {
+    transition: width 250ms ease 0ms, height 250ms ease 0ms, left 250ms ease 0ms, top 250ms ease 0ms, box-shadow 250ms ease 0ms; }
+  .dnb-slider .slider__state--activated .slider__thumb {
+    border-width: 2px; }
+"
+`;

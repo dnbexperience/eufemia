@@ -1,0 +1,34 @@
+{
+  "parser": "babel-eslint",
+  "env": {
+    "es6": true,
+    "jest": true,
+    "browser": true,
+    "node": true
+  },
+  "parserOptions": {
+    "sourceType": "module"
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:jsx-a11y/recommended"
+  ],
+  "plugins": ["react", "import", "jsx-a11y"],
+  "rules": {
+    "no-console": "off",
+    "import/no-unresolved": 0,
+    "react/prop-types": 1,
+    "react/require-default-props": 1,
+    "react/no-unused-prop-types": 1,
+    "react/no-unescaped-entities": ["error", { "forbid": [">", "}"] }],
+    "react/display-name": ["off", { "ignoreTranspilerName": false }],
+    "jsx-a11y/href-no-hash": "off",
+    "jsx-a11y/anchor-is-valid": ["warn", { "aspects": ["invalidHref"] }]
+  },
+  "settings": {
+    "react": {
+      "version": "^16.4"
+    }
+  }
+}

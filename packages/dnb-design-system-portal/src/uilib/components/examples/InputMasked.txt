@@ -1,0 +1,39 @@
+<InputMasked
+  mask={[
+    "(",
+    /[1-9]/,
+    /\d/,
+    /\d/,
+    ")",
+    " ",
+    /\d/,
+    /\d/,
+    /\d/,
+    "-",
+    /\d/,
+    /\d/,
+    /\d/,
+    /\d/
+  ]}
+  show_mask="true"
+  ref={this._ref}
+/>
+ <InputMasked
+  id="text-input-masked-large"
+  autocomplete="off"
+  size="large"
+  mask={numberMask}
+  align="right"
+  placeholder="Enter an amount"
+  on_change={this.handleInputMaskedChange}
+/>
+ <InputMasked
+  id="text-input-masked-large"
+  autocomplete="off"
+  size="large"
+  value="1000000"
+  mask={numberMask}
+  show_mask="true"
+  align="right"
+  on_change={this.handleInputMaskedChange}
+/>

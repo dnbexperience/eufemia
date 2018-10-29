@@ -1,0 +1,65 @@
+/*
+ * Typography
+ * ========================================================================== */
+
+.typo-book {
+  font-family: $font-family-book;
+  font-weight: normal;
+  font-style: normal;
+}
+.typo-book-italic {
+  font-family: $font-family-std;
+  font-weight: normal;
+  font-style: italic;
+}
+// .typo-demi {
+//   font-family: $font-family-demi;
+//   font-weight: normal;
+//   font-style: normal;
+// }
+// .typo-demi-italic {
+//   font-family: $font-family-demi-italic;
+//   font-weight: normal;
+//   font-style: normal;
+// }
+.typo-medium {
+  font-weight: 500;
+  font-style: normal;
+}
+.typo-medium-italic {
+  font-weight: 500;
+  font-style: italic;
+}
+.typo-light-italic {
+  font-weight: 300;
+  font-style: italic;
+}
+.typo-light {
+  font-weight: 300;
+  font-style: normal;
+}
+.typo-bold {
+  font-weight: bold;
+  font-style: normal;
+}
+.typo-bold-italic {
+  font-weight: bold;
+  font-style: italic;
+}
+
+//Numbers
+
+.typo-number {
+  &--old-style {
+    @include numberFeature(oldstyle-nums, onum);
+  }
+  &--lining {
+    @include numberFeature(lining-nums, lnum);
+  }
+  &--tabular {
+    @include numberFeature(tabular-nums, tnum);
+  }
+  &--proportional {
+    @include numberFeature(proportional-nums, pnum);
+  }
+}

@@ -1,0 +1,37 @@
+/*
+ * ActionNav element
+ *
+ * ========================================================================== */
+
+.dnb-action-nav {
+  &__inner {
+    display: flex;
+    flex-direction: column;
+  }
+  &__left,
+  &__right {
+    display: flex;
+    justify-content: center;
+  }
+  &__left {
+    margin-bottom: 1rem;
+  }
+  &__item {
+    margin-left: 1rem;
+
+    &:first-child,
+    &:only-child {
+      margin-left: 0;
+    }
+  }
+  @include allAbove(medium) {
+    &__left {
+      padding-right: 1rem;
+      margin: 0;
+    }
+    &__inner {
+      justify-content: space-between;
+      flex-direction: row;
+    }
+  }
+}

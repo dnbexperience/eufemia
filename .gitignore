@@ -1,0 +1,17 @@
+# dependencies
+/node_modules
+
+# testing
+/coverage
+
+# misc
+completions.json
+.DS_Store
+.history
+*not_in_use*
+
+# pkm
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+packages/dnb-ui-lib/src/components/tabs/style/_tabs.scss

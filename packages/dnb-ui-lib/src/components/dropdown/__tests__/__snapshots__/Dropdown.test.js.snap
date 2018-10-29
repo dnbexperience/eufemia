@@ -1,0 +1,823 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Dropdown component have to match snapshot 1`] = `
+<span
+  className="dnb-dropdown typo-light dnb-dropdown--icon-position-icon_position dnb-dropdown--hidden class className"
+>
+  <input
+    aria-label="title"
+    className="dnb-dropdown__value-holder-input"
+    hidden={true}
+    id="input_id"
+    onBlur={[Function]}
+    onFocus={[Function]}
+    onKeyDown={[Function]}
+    onKeyUp={[Function]}
+    readOnly={true}
+    title="title"
+    value=""
+  />
+  <button
+    className="dnb-dropdown__trigger typo-book"
+    hidden={true}
+    id="input_id"
+    onMouseDown={[Function]}
+    tabIndex="-1"
+  >
+    <span
+      className="dnb-dropdown__text"
+    >
+      <span
+        className="dnb-dropdown__text__inner"
+      >
+        Sparekonto - Ole Nordmann
+      </span>
+    </span>
+    <span
+      className="dnb-dropdown__icon icon-icon"
+    >
+      <IconWithAllIcons
+        alt={null}
+        area_hidden={false}
+        attributes={null}
+        class={null}
+        className={null}
+        color={null}
+        height={null}
+        icon="icon"
+        icon_size="24"
+        modifier={null}
+        size={16}
+        width={null}
+      />
+      <span
+        className="dnb-dropdown__icon__triangle"
+      />
+    </span>
+  </button>
+  <ul
+    className="dnb-dropdown__options"
+  >
+    <li
+      className="dnb-dropdown__option   "
+      key="dw_li0"
+    >
+      <span
+        className="dnb-dropdown__option__inner"
+        onMouseDown={[Function]}
+        role="button"
+        tabIndex="-1"
+        title="Brukskonto - Kari Nordmann"
+      >
+        <span
+          className="dnb-dropdown__option__item"
+          key="dw_item0"
+        >
+          1234.56.78901
+        </span>
+        <span
+          className="dnb-dropdown__option__item"
+          key="dw_item1"
+        >
+          Brukskonto - Kari Nordmann
+        </span>
+      </span>
+    </li>
+    <li
+      className="dnb-dropdown__option dnb-dropdown__option--selected  "
+      key="dw_li1"
+    >
+      <span
+        className="dnb-dropdown__option__inner"
+        onMouseDown={[Function]}
+        role="button"
+        tabIndex="-1"
+        title="Sparekonto - Ole Nordmann"
+      >
+        <span
+          className="dnb-dropdown__option__item"
+          key="dw_item0"
+        >
+          1234.56.78902
+        </span>
+        <span
+          className="dnb-dropdown__option__item"
+          key="dw_item1"
+        >
+          Sparekonto - Ole Nordmann
+        </span>
+      </span>
+    </li>
+    <li
+      className="dnb-dropdown__option   "
+      key="dw_li2"
+    >
+      <span
+        className="dnb-dropdown__option__inner"
+        onMouseDown={[Function]}
+        role="button"
+        tabIndex="-1"
+        title="Feriekonto - Kari Nordmann med et kjempelangt etternavnsen"
+      >
+        <span
+          className="dnb-dropdown__option__item"
+          key="dw_item0"
+        >
+          1134.56.78962
+        </span>
+        <span
+          className="dnb-dropdown__option__item"
+          key="dw_item1"
+        >
+          Feriekonto - Kari Nordmann med et kjempelangt etternavnsen
+        </span>
+      </span>
+    </li>
+    <li
+      className="dnb-dropdown__option   "
+      key="dw_li3"
+    >
+      <span
+        className="dnb-dropdown__option__inner"
+        onMouseDown={[Function]}
+        role="button"
+        tabIndex="-1"
+        title="Oppussing - Ole Nordmann"
+      >
+        <span
+          className="dnb-dropdown__option__item"
+          key="dw_item0"
+        >
+          1534.96.48901
+        </span>
+        <span
+          className="dnb-dropdown__option__item"
+          key="dw_item1"
+        >
+          Oppussing - Ole Nordmann
+        </span>
+      </span>
+    </li>
+  </ul>
+  <span
+    className="dnb-dropdown__outside-value typo-book"
+  >
+    1234.56.78902
+  </span>
+</span>
+`;
+
+exports[`Dropdown scss have to match snapshot 1`] = `
+"/*
+* DNB Dropdown
+*
+* ======================================================================== */
+/*
+* Colors
+* ======================================================================== */
+/*
+ * Typography Family
+ * ======================================================================== */
+/*
+* Typography Size
+* ======================================================================== */
+/*
+* Grid and units
+* ======================================================================== */
+/*
+* Breakpoints
+* ======================================================================== */
+/*
+ * Utilities
+ * ========================================================================== */
+.dnb-sr-only {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px; }
+
+.dnb-not-sr-only {
+  position: static; }
+
+.dnb-unstyled-list {
+  margin: 0;
+  list-style-type: none;
+  padding-left: 0; }
+  .dnb-unstyled-list > li {
+    margin-bottom: 0; }
+
+.dnb-no-focus {
+  outline: none; }
+
+.dnb-fake-focus {
+  outline: none; }
+  .dnb-fake-focus:focus {
+    outline: none;
+    border-color: transparent; }
+    html[data-whatinput='mouse'] .dnb-fake-focus:focus:not(.dnb-no-mouse-focus) {
+      transition: box-shadow 0.1s ease-out 0s;
+      box-shadow: 0 0 0 2px #14555a; }
+    html[data-whatinput='keyboard'] .dnb-fake-focus:focus {
+      box-shadow: 0 0 0 2px #ff5400; }
+
+@media screen and (max-width: 700px) {
+  .dnb-hide-on-mobile {
+    display: none; } }
+
+@media screen and (min-width: 700px) {
+  .dnb-mobile-exclusive {
+    display: none; } }
+
+.dnb-width-limit {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1024px;
+  padding: 0 0.5rem; }
+  @media screen and (min-width: 700px) {
+    .dnb-width-limit {
+      padding-left: 1rem;
+      padding-right: 1rem; } }
+
+.dnb-belt {
+  padding: 1rem 0;
+  width: 100%;
+  background: #fafafa; }
+
+.dnb-nudge {
+  display: inline-flex;
+  flex: 0 0 100%; }
+  .dnb-nudge--vertical[data-nudges='1'] {
+    height: 1rem; }
+  .dnb-nudge--horizontal[data-nudges='1'] {
+    width: 1rem; }
+  .dnb-nudge--vertical[data-nudges='2'] {
+    height: 2rem; }
+  .dnb-nudge--horizontal[data-nudges='2'] {
+    width: 2rem; }
+  .dnb-nudge--vertical[data-nudges='3'] {
+    height: 3rem; }
+  .dnb-nudge--horizontal[data-nudges='3'] {
+    width: 3rem; }
+  .dnb-nudge--vertical[data-nudges='4'] {
+    height: 4rem; }
+  .dnb-nudge--horizontal[data-nudges='4'] {
+    width: 4rem; }
+  .dnb-nudge--vertical[data-nudges='5'] {
+    height: 5rem; }
+  .dnb-nudge--horizontal[data-nudges='5'] {
+    width: 5rem; }
+  .dnb-nudge--vertical[data-nudges='6'] {
+    height: 6rem; }
+  .dnb-nudge--horizontal[data-nudges='6'] {
+    width: 6rem; }
+  .dnb-nudge--vertical[data-nudges='7'] {
+    height: 7rem; }
+  .dnb-nudge--horizontal[data-nudges='7'] {
+    width: 7rem; }
+  .dnb-nudge--vertical[data-nudges='8'] {
+    height: 8rem; }
+  .dnb-nudge--horizontal[data-nudges='8'] {
+    width: 8rem; }
+  .dnb-nudge--vertical[data-nudges='9'] {
+    height: 9rem; }
+  .dnb-nudge--horizontal[data-nudges='9'] {
+    width: 9rem; }
+  .dnb-nudge--vertical[data-nudges='10'] {
+    height: 10rem; }
+  .dnb-nudge--horizontal[data-nudges='10'] {
+    width: 10rem; }
+
+/*
+* Scopes
+* ======================================================================== */
+/*
+* DNB Input
+*
+* ======================================================================== */
+/*
+* DNB font-import from components
+* This file is totaly the same as \\"core/_font-import.scss\\"
+* but has a difference back path
+*
+* ======================================================================== */
+@font-face {
+  font-family: 'Fedra Sans Std Book';
+  src: url(\\"../../../../assets/fonts/FedraSansStd-Book.eot\\");
+  src: url(\\"../../../../assets/fonts/FedraSansStd-Book.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts/FedraSansStd-Book.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts/FedraSansStd-Book.ttf\\") format(\\"truetype\\");
+  font-weight: normal;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'Fedra Sans Std Book';
+  src: url(\\"../../../../assets/fonts/FedraSansStd-BookItalic.eot\\");
+  src: url(\\"../../../../assets/fonts/FedraSansStd-BookItalic.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts/FedraSansStd-BookItalic.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts/FedraSansStd-BookItalic.ttf\\") format(\\"truetype\\");
+  font-weight: normal;
+  font-style: italic; }
+
+@font-face {
+  font-family: 'Fedra Sans Std';
+  src: url(\\"../../../../assets/fonts/FedraSansStd-Light.eot\\");
+  src: url(\\"../../../../assets/fonts/FedraSansStd-Light.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts/FedraSansStd-Light.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts/FedraSansStd-Light.ttf\\") format(\\"truetype\\");
+  font-weight: 300;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'Fedra Sans Std';
+  src: url(\\"../../../../assets/fonts/FedraSansStd-LightItalic.eot\\");
+  src: url(\\"../../../../assets/fonts/FedraSansStd-LightItalic.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts/FedraSansStd-LightItalic.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts/FedraSansStd-LightItalic.ttf\\") format(\\"truetype\\");
+  font-weight: 300;
+  font-style: italic; }
+
+@font-face {
+  font-family: 'Fedra Sans Std';
+  src: url(\\"../../../../assets/fonts/FedraSansStd-Medium.eot\\");
+  src: url(\\"../../../../assets/fonts/FedraSansStd-Medium.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts/FedraSansStd-Medium.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts/FedraSansStd-Medium.ttf\\") format(\\"truetype\\");
+  font-weight: 500;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'Fedra Sans Std';
+  src: url(\\"../../../../assets/fonts/FedraSansStd-MediumItalic.eot\\");
+  src: url(\\"../../../../assets/fonts/FedraSansStd-MediumItalic.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts/FedraSansStd-MediumItalic.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts/FedraSansStd-MediumItalic.ttf\\") format(\\"truetype\\");
+  font-weight: 500;
+  font-style: italic; }
+
+@font-face {
+  font-family: 'Fedra Sans Std';
+  src: url(\\"../../../../assets/fonts/FedraSansStd-Bold.eot\\");
+  src: url(\\"../../../../assets/fonts/FedraSansStd-Bold.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts/FedraSansStd-Bold.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts/FedraSansStd-Bold.ttf\\") format(\\"truetype\\");
+  font-weight: bold;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'Fedra Sans Std';
+  src: url(\\"../../../../assets/fonts/FedraSansStd-BoldItalic.eot\\");
+  src: url(\\"../../../../assets/fonts/FedraSansStd-BoldItalic.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts/FedraSansStd-BoldItalic.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts/FedraSansStd-BoldItalic.ttf\\") format(\\"truetype\\");
+  font-weight: bold;
+  font-style: italic; }
+
+/*
+* Forms and inputs
+* ======================================================================== */
+legend {
+  padding: 0;
+  display: table;
+  width: 100%; }
+
+fieldset {
+  border: 0;
+  padding: 0.01em 0 0 0;
+  margin: 0;
+  min-width: 0; }
+
+body:not(:-moz-handler-blocked) fieldset {
+  display: table-cell; }
+
+/*
+* DNB icon
+*
+* ======================================================================== */
+/*
+* Icon component
+*
+* ======================================================================== */
+.dnb-icon {
+  display: inline-block;
+  font-size: 0;
+  width: 100%; }
+  .dnb-icon svg {
+    fill: currentColor; }
+
+.dnb-input {
+  font-size: 1rem;
+  font-family: \\"Fedra Sans Std\\", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+  line-height: 1.5em; }
+  .dnb-input * {
+    margin: 0;
+    padding: 0; }
+  .dnb-input *,
+  .dnb-input ::before,
+  .dnb-input ::after {
+    background-repeat: no-repeat;
+    box-sizing: border-box; }
+  .dnb-input ::before,
+  .dnb-input ::after {
+    text-decoration: inherit;
+    vertical-align: inherit; }
+
+/*
+* Input component
+*
+* ======================================================================== */
+.dnb-input {
+  display: flex;
+  align-items: center;
+  flex-flow: row wrap;
+  width: 100%; }
+  .dnb-input--label-hidden label {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px; }
+  .dnb-input__shell {
+    position: relative;
+    flex: 1;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    align-items: center;
+    background-color: #f5fafa;
+    border-radius: 2rem;
+    border: 1px solid #bedbdb;
+    transition: background-color 0.5s ease-out 0s; }
+    .no-touch .dnb-input__shell :not([disabled]):hover[disabled] {
+      cursor: not-allowed; }
+    .no-touch .dnb-input__shell :not([disabled]):hover:not([disabled]) {
+      background-color: rgba(255, 255, 255, 0.7); }
+  .dnb-input__description, .dnb-input__placeholder, .dnb-input__input {
+    font-size: 1rem;
+    line-height: 1.25; }
+  .dnb-input__placeholder, .dnb-input__input {
+    width: 100%;
+    height: 2.2rem;
+    padding: 1.2rem 0 1rem 1rem;
+    font-family: inherit;
+    font-weight: inherit;
+    outline: none;
+    background-color: transparent;
+    color: inherit;
+    border: none;
+    border-radius: 2rem; }
+  .dnb-input__input[disabled] {
+    opacity: 0.5;
+    user-select: none; }
+  .dnb-input__placeholder {
+    pointer-events: none;
+    position: absolute;
+    left: 0;
+    top: 2px;
+    padding: 0 1rem;
+    height: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    opacity: 1;
+    color: rgba(51, 51, 51, 0.8);
+    line-height: 2.2rem;
+    text-overflow: ellipsis;
+    border-radius: 0;
+    transition: opacity 0.1s linear 0s; }
+  .dnb-input__description {
+    margin: 0 0 0 0.5rem; }
+  .dnb-input__extra-information {
+    flex: 1 100%;
+    margin: 0.5rem 0 0 1rem;
+    font-size: 0.75rem;
+    line-height: 1rem; }
+  .dnb-input--large .dnb-input__description,
+  .dnb-input--large .dnb-input__input,
+  .dnb-input--large .dnb-input__placeholder {
+    font-size: 2rem; }
+  .dnb-input--large .dnb-input__placeholder {
+    line-height: 3rem; }
+  .dnb-input--large .dnb-input__input {
+    height: 3rem;
+    padding: 1.5rem 0 1.5rem 1.5rem;
+    border-radius: 3rem; }
+  .dnb-input__align--right {
+    padding-left: 0 !important;
+    padding-right: 1rem !important;
+    text-align: right; }
+  .dnb-input__input--search {
+    border-radius: 2rem 0 0 2rem;
+    margin: 0 1px 0 0; }
+  .dnb-input__search-submit {
+    position: relative;
+    top: -1px;
+    right: -1px;
+    flex: 0 0 2.2rem;
+    flex: 0 0 calc(4px + 2.2rem);
+    height: 2.2rem;
+    height: calc(4px + 2.2rem);
+    margin: 0 0 -2px;
+    overflow: hidden;
+    border-radius: 2rem;
+    border: 1px solid #bedbdb; }
+  .dnb-input__search-submit__button {
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    outline: none;
+    border: none;
+    background-color: white;
+    color: #007272; }
+
+.dnb-input__shell[data-input-state='focus'] {
+  border-color: #a0d6c9;
+  background-color: white; }
+  .dnb-input__shell[data-input-state='focus'] .dnb-input__search-submit {
+    border-color: rgba(210, 239, 232, 0.5); }
+
+.dnb-input__shell[data-has-content='true'] .dnb-input__placeholder,
+.dnb-input__shell[data-input-state='focus'][data-has-content='true'] .dnb-input__placeholder {
+  display: none; }
+
+.dnb-input__shell[data-input-state='focus'][data-has-content='false'] .dnb-input__placeholder {
+  opacity: 0.35; }
+
+.dnb-input__search-submit[data-input-state='focus'] {
+  border-color: #bedbdb; }
+
+.dnb-input__shell[data-has-content='true'] {
+  background-color: rgba(255, 255, 255, 0.7); }
+
+.dnb-input__shell[data-input-state='focus'],
+.dnb-input__search-submit[data-input-state='focus'] {
+  box-shadow: 0 0 0 2px #007272;
+  outline: none;
+  border-color: transparent; }
+  html[data-whatinput='mouse'] .dnb-input__shell[data-input-state='focus']:not(.dnb-no-mouse-focus), html[data-whatinput='mouse']
+  .dnb-input__search-submit[data-input-state='focus']:not(.dnb-no-mouse-focus) {
+    transition: box-shadow 0.1s ease-out 0s;
+    box-shadow: 0 0 0 2px #14555a; }
+  html[data-whatinput='keyboard'] .dnb-input__shell[data-input-state='focus'], html[data-whatinput='keyboard']
+  .dnb-input__search-submit[data-input-state='focus'] {
+    box-shadow: 0 0 0 2px #ff5400; }
+
+/*
+* Range input
+* ======================================================================== */
+.dnb-range-slider__css-vars__bg-color-1 {
+  background-color: rgba(0, 114, 114, 0.5); }
+
+.dnb-range-slider__css-vars__bg-color-2 {
+  background-color: #28b482; }
+
+input[type='range'] {
+  -webkit-appearance: none;
+  width: 100%;
+  border-radius: 0.25rem; }
+
+input[type='range']:focus {
+  outline: none; }
+
+input[type='range']::-webkit-slider-runnable-track {
+  position: relative;
+  z-index: 1;
+  cursor: pointer;
+  width: 100%;
+  height: 0.25rem;
+  box-shadow: none; }
+
+input[type='range']::-webkit-slider-thumb {
+  position: relative;
+  top: 0.125rem;
+  cursor: pointer;
+  height: 1.5rem;
+  width: 1.5rem;
+  border-radius: 1.5rem;
+  background: white;
+  border: 1px solid #98c6c6;
+  transform: translate(0, -50%);
+  -webkit-appearance: none;
+  box-shadow: 1px 1px 2px rgba(0, 135, 137, 0.25), 0 0 1px rgba(0, 160, 163, 0.25); }
+
+.dnb-dropdown {
+  font-size: 1rem;
+  font-family: \\"Fedra Sans Std\\", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+  line-height: 1.5em; }
+  .dnb-dropdown * {
+    margin: 0;
+    padding: 0; }
+  .dnb-dropdown *,
+  .dnb-dropdown ::before,
+  .dnb-dropdown ::after {
+    background-repeat: no-repeat;
+    box-sizing: border-box; }
+  .dnb-dropdown ::before,
+  .dnb-dropdown ::after {
+    text-decoration: inherit;
+    vertical-align: inherit; }
+
+/*
+* Dropdown component
+*
+*/
+.dnb-dropdown {
+  --dropdown-width: 20rem;
+  width: 20rem;
+  width: var(--dropdown-width);
+  position: relative;
+  display: inline-block; }
+  .dnb-dropdown__value-holder-input {
+    position: absolute;
+    z-index: 6;
+    top: 0;
+    left: 0;
+    cursor: pointer;
+    display: block;
+    width: 100%;
+    height: 2.2rem;
+    opacity: 0; }
+    .no-touch .dnb-dropdown__value-holder-input:hover[disabled] {
+      cursor: not-allowed; }
+    .no-touch .dnb-dropdown__value-holder-input:hover:not([disabled]) ~ .dnb-dropdown__trigger .dnb-dropdown__text {
+      opacity: 0.8; }
+    .no-touch .dnb-dropdown__value-holder-input:hover:not([disabled]) ~ .dnb-dropdown__trigger .dnb-dropdown__icon .dnb-icon {
+      color: #007272; }
+    .dnb-dropdown__value-holder-input:focus ~ .dnb-dropdown__trigger {
+      z-index: 9;
+      cursor: pointer;
+      box-shadow: 0 0 0 2px #007272;
+      outline: none;
+      border-color: transparent; }
+      html[data-whatinput='mouse'] .dnb-dropdown__value-holder-input:focus ~ .dnb-dropdown__trigger:not(.dnb-no-mouse-focus) {
+        transition: box-shadow 0.1s ease-out 0s;
+        box-shadow: 0 0 0 2px #14555a; }
+      html[data-whatinput='keyboard'] .dnb-dropdown__value-holder-input:focus ~ .dnb-dropdown__trigger {
+        box-shadow: 0 0 0 2px #ff5400; }
+    .dnb-dropdown__value-holder-input:focus ~ .dnb-dropdown__options {
+      z-index: 8;
+      visibility: visible;
+      opacity: 1;
+      transform: translate(0, 1.3rem); }
+    .dnb-dropdown__value-holder-input:focus ~ .dnb-dropdown__trigger
+.dnb-dropdown__icon
+.dnb-dropdown__icon__triangle {
+      visibility: visible;
+      transform: translate(50%, 0.25rem) rotate(45deg);
+      opacity: 1; }
+  .dnb-dropdown--hidden .dnb-dropdown__options {
+    visibility: hidden;
+    opacity: 0;
+    transform: translate(0, 0); }
+  .dnb-dropdown__trigger {
+    position: relative;
+    z-index: 1;
+    user-select: none;
+    display: inline-flex;
+    outline: none;
+    width: inherit;
+    height: 2.2rem;
+    padding: 0 1rem;
+    font-size: inherit;
+    line-height: 2.2rem;
+    background-color: white;
+    border: 1px solid #bedbdb;
+    border-radius: 2rem; }
+  .dnb-dropdown__value-holder-input[disabled] ~ .dnb-dropdown__icon,
+  .dnb-dropdown__value-holder-input[disabled] ~ .dnb-dropdown__trigger {
+    opacity: 0.4; }
+  .dnb-dropdown__value-holder-input:not([disabled]):hover ~ .dnb-dropdown__trigger {
+    color: #000; }
+  .dnb-dropdown__outside-value {
+    display: block;
+    padding: 0.5rem 0 1rem 1rem; }
+  .dnb-dropdown__text {
+    order: 1;
+    position: relative;
+    z-index: 4;
+    display: inline-block;
+    width: inherit;
+    height: inherit;
+    padding-right: 0.3rem;
+    overflow: hidden;
+    text-align: left;
+    text-overflow: ellipsis; }
+    .dnb-dropdown__text__inner {
+      display: inline-block;
+      max-width: 20rem;
+      width: inherit;
+      width: calc( var(--dropdown-width) - calc(1rem * 4));
+      overflow: hidden;
+      white-space: nowrap;
+      color: #58595b;
+      text-decoration: none;
+      text-overflow: inherit;
+      text-align: inherit; }
+  .dnb-dropdown__icon {
+    order: 2;
+    display: inline-block;
+    height: inherit;
+    pointer-events: none; }
+    .dnb-dropdown__icon .dnb-icon {
+      display: flex;
+      align-items: center;
+      height: inherit;
+      color: #007272; }
+    .dnb-dropdown__icon__triangle {
+      position: absolute;
+      z-index: 2;
+      top: 80%;
+      right: 8.5%;
+      visibility: hidden;
+      width: 1.1rem;
+      height: 1.1rem;
+      background-color: white;
+      border: 1px solid #ebebeb;
+      opacity: 0;
+      transform: translate(50%, 50%) rotate(45deg);
+      transition: transform 200ms, opacity 50ms ease-out; }
+      .dnb-dropdown__icon__triangle::before {
+        content: '';
+        width: 110%;
+        height: 110%;
+        position: relative;
+        background-color: white;
+        display: block; }
+      .dnb-dropdown__icon__triangle::before {
+        width: calc(100% + 2px);
+        height: calc(100% + 2px); }
+  .dnb-dropdown .icon-chevron-left .dnb-icon svg {
+    transform: rotate(-90deg); }
+  .dnb-dropdown__options {
+    position: absolute;
+    z-index: 3;
+    top: calc(2.2rem - 15px);
+    left: 0;
+    width: 100%;
+    margin: 0;
+    padding: 1rem 0 0 0;
+    list-style: none;
+    overflow: hidden;
+    opacity: 0;
+    border: 1px solid #ebebeb;
+    border-radius: 0.5rem;
+    background-color: white;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+    transform: translate(0, 0);
+    transition: transform 200ms, opacity 160ms ease-out; }
+  .dnb-dropdown__option {
+    padding: 2px;
+    background-color: white; }
+    .dnb-dropdown__option--active {
+      background-color: #f5fafa; }
+      .dnb-dropdown__option--active .dnb-dropdown__option__inner {
+        box-shadow: 0 0 0 2px #007272;
+        outline: none;
+        border-color: transparent; }
+        html[data-whatinput='mouse'] .dnb-dropdown__option--active .dnb-dropdown__option__inner:not(.dnb-no-mouse-focus) {
+          transition: box-shadow 0.1s ease-out 0s;
+          box-shadow: 0 0 0 2px #14555a; }
+        html[data-whatinput='keyboard'] .dnb-dropdown__option--active .dnb-dropdown__option__inner {
+          box-shadow: 0 0 0 2px #ff5400; }
+    .no-touch .dnb-dropdown__option:hover[disabled] {
+      cursor: not-allowed; }
+    .no-touch .dnb-dropdown__option:hover:not([disabled]) {
+      background-color: #f5fafa; }
+      .no-touch .dnb-dropdown__option:hover:not([disabled]) .dnb-dropdown__option__inner {
+        background-color: #f5fafa; }
+    .dnb-dropdown__option.dnb-dropdown__option--selected {
+      background-color: #f5fafa; }
+      .dnb-dropdown__option.dnb-dropdown__option--selected .dnb-dropdown__option__inner {
+        background-color: #f5fafa; }
+  .dnb-dropdown__option__inner {
+    display: block;
+    white-space: nowrap;
+    user-select: none;
+    outline: none;
+    width: 100%;
+    padding: 1rem;
+    cursor: pointer;
+    background-color: white;
+    border-bottom: 1px solid #ebebeb; }
+    .dnb-dropdown__option__inner:last-child {
+      border-bottom: none; }
+    .no-touch .dnb-dropdown__option__inner:hover[disabled] {
+      cursor: not-allowed; }
+    .no-touch .dnb-dropdown__option__inner:hover:not([disabled]) {
+      background-color: #f5fafa; }
+  .dnb-dropdown__option__item {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%; }
+
+.dnb-dropdown--icon-position-left .dnb-dropdown__icon {
+  order: 1;
+  margin-top: -1px; }
+  .dnb-dropdown--icon-position-left .dnb-dropdown__icon__triangle {
+    right: auto;
+    left: 4%; }
+
+.dnb-dropdown--icon-position-left .dnb-dropdown__text {
+  order: 2;
+  padding-left: 0.3rem; }
+"
+`;

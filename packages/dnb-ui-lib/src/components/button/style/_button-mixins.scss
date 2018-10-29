@@ -1,0 +1,45 @@
+/*
+* Button mixins
+*
+* ======================================================================== */
+
+@mixin buttonHover($color, $background-color) {
+  @include hover(true) {
+    color: $color;
+    background-color: $background-color;
+    border-color: $background-color;
+
+    // @if $border-color {
+    //   border-color: $border-color;
+    // } @else {
+    //   border-color: $background-color;
+    // }
+
+    @include fakeBorder(
+      null,
+      0 0 0 var(--button-border-width--hover) $background-color
+    );
+
+    &:not([disabled]):active {
+      @include fakeBorder(transparent);
+    }
+
+    @content;
+  }
+}
+
+@mixin buttonFocus($color, $background-color) {
+  &:not([disabled]):focus {
+    color: $color;
+    background-color: $background-color;
+    border-color: $background-color;
+
+    @include fakeFocus(
+      'mouse',
+      null,
+      0 0 0 var(--button-border-width--hover) $background-color
+    );
+
+    @content;
+  }
+}

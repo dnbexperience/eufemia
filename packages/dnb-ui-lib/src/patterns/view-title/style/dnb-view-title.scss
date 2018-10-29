@@ -1,0 +1,13 @@
+/*
+* DNB ViewTitle
+*
+* ======================================================================== */
+
+@import '../../../style/component/core-imports.scss';
+@import '../../../style/component/font-import.scss';
+
+.dnb-view-title {
+  @include componentReset();
+}
+
+@import './_view-title.scss';

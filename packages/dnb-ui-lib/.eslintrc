@@ -1,0 +1,63 @@
+{
+  "env": {
+    "es6": true,
+    "jest": true,
+    "browser": true,
+    "node": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:jsx-a11y/recommended",
+    "plugin:security/recommended"
+  ],
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "sourceType": "module"
+  },
+  "plugins": ["import", "jsx-a11y", "react", "security"],
+  "rules": {
+    "no-console": "off",
+    "import/no-unresolved": 0,
+    "react/prop-types": 1,
+    "react/require-default-props": 1,
+    "react/no-unused-prop-types": [1],
+    "react/no-unescaped-entities": [
+      "error",
+      {
+        "forbid": [">", "}"]
+      }
+    ],
+    "react/display-name": [
+      "off",
+      {
+        "ignoreTranspilerName": false
+      }
+    ],
+    "jsx-a11y/href-no-hash": "off",
+    "jsx-a11y/anchor-is-valid": [
+      "warn",
+      {
+        "aspects": ["invalidHref"]
+      }
+    ],
+    "jsx-a11y/label-has-for": [
+      2,
+      {
+        "components": ["Label"],
+        "required": {
+          "every": ["nesting", "id"]
+        },
+        "allowChildren": true
+      }
+    ],
+    "security/detect-non-literal-fs-filename": "off",
+    "security/detect-object-injection": "off",
+    "security/detect-non-literal-regexp": "off"
+  },
+  "settings": {
+    "react": {
+      "version": "^16.4"
+    }
+  }
+}

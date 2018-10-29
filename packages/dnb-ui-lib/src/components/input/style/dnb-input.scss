@@ -1,0 +1,15 @@
+/*
+* DNB Input
+*
+* ======================================================================== */
+
+@import '../../../style/component/core-imports.scss';
+@import '../../../style/component/font-import.scss';
+@import '../../../style/core/form.scss';
+@import '../../icon/style/dnb-icon.scss';
+
+.dnb-input {
+  @include componentReset();
+}
+
+@import './_input.scss';

@@ -1,0 +1,526 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Button component have to match default button snapshot 1`] = `
+<Button
+  attributes="attributes"
+  class="class"
+  className="className"
+  custom_element={Object {}}
+  custom_method={[Function]}
+  disabled="disabled"
+  href={null}
+  icon="question"
+  icon_position="right"
+  icon_size="icon_size"
+  id="id"
+  innerRef={Object {}}
+  on_click="on_click"
+  size={null}
+  text="text"
+  title="This is a button title"
+  type="type"
+  variant="primary"
+>
+  <button
+    className="dnb-button dnb-button--primary dnb-button--icon-position-right dnb-button--has-text dnb-button--has-icon id class className"
+    id="id"
+    onClick={[Function]}
+    onMouseOut={[Function]}
+    title="This is a button title"
+    type="type"
+  >
+    <Content
+      attributes="attributes"
+      class="class"
+      className="className"
+      content="children"
+      custom_element={Object {}}
+      custom_method={[Function]}
+      disabled="disabled"
+      href={null}
+      icon="question"
+      icon_position="right"
+      icon_size="icon_size"
+      id="id"
+      innerRef={Object {}}
+      on_click="on_click"
+      size={null}
+      text="text"
+      title="This is a button title"
+      type="type"
+      variant="primary"
+    >
+      children
+      <span
+        className="dnb-button__text"
+        key="button-text"
+      >
+        text
+      </span>
+      <span
+        className="dnb-button__icon"
+        key="button-icon"
+        role="presentation"
+      >
+        <IconWithAllIcons
+          alt="This is a button title"
+          area_hidden={true}
+          attributes={null}
+          class={null}
+          className={null}
+          color={null}
+          height="icon_size"
+          icon="question"
+          modifier={null}
+          size={null}
+          width="icon_size"
+        >
+          <span
+            alt="This is a button title"
+            aria-hidden={true}
+            className="dnb-icon"
+            role="img"
+          >
+            <SvgComponent>
+              <svg
+                viewBox="0 0 16 16"
+              >
+                <path
+                  clipRule="evenodd"
+                  d="M4.352 5.1c0-2.05 1.55-3.6 3.6-3.6 2.052 0 3.601 1.55 3.601 3.6 0 2.051-1.55 3.6-3.6 3.6a.75.75 0 0 0-.75.75v2.666a.75.75 0 0 0 1.5 0V10.15c2.506-.348 4.35-2.425 4.35-5.049 0-2.879-2.221-5.1-5.1-5.1-2.88 0-5.1 2.221-5.1 5.1a.75.75 0 1 0 1.5 0zm3.6 10.898c.659 0 1.098-.439 1.098-1.097 0-.658-.44-1.097-1.097-1.097-.658 0-1.097.44-1.097 1.097 0 .658.439 1.097 1.097 1.097z"
+                  fillRule="evenodd"
+                />
+              </svg>
+            </SvgComponent>
+          </span>
+        </IconWithAllIcons>
+      </span>
+    </Content>
+  </button>
+</Button>
+`;
+
+exports[`Button component have to match href="..." snapshot 1`] = `
+<Button
+  attributes="attributes"
+  class="class"
+  className="className"
+  custom_element={Object {}}
+  custom_method={[Function]}
+  disabled="disabled"
+  href="https://url"
+  icon="question"
+  icon_position="right"
+  icon_size="icon_size"
+  id="id"
+  innerRef={Object {}}
+  on_click="on_click"
+  size={null}
+  text="text"
+  title="This is a button title"
+  type="type"
+  variant="primary"
+>
+  <a
+    className="dnb-button dnb-button--primary dnb-button--icon-position-right dnb-button--has-text dnb-button--has-icon id class className"
+    href="https://url"
+    id="id"
+    onClick={[Function]}
+    onMouseOut={[Function]}
+    title="This is a button title"
+    type="type"
+  >
+    <Content
+      attributes="attributes"
+      class="class"
+      className="className"
+      content="children"
+      custom_element={Object {}}
+      custom_method={[Function]}
+      disabled="disabled"
+      href="https://url"
+      icon="question"
+      icon_position="right"
+      icon_size="icon_size"
+      id="id"
+      innerRef={Object {}}
+      on_click="on_click"
+      size={null}
+      text="text"
+      title="This is a button title"
+      type="type"
+      variant="primary"
+    >
+      children
+      <span
+        className="dnb-button__text"
+        key="button-text"
+      >
+        text
+      </span>
+      <span
+        className="dnb-button__icon"
+        key="button-icon"
+        role="presentation"
+      >
+        <IconWithAllIcons
+          alt="This is a button title"
+          area_hidden={true}
+          attributes={null}
+          class={null}
+          className={null}
+          color={null}
+          height="icon_size"
+          icon="question"
+          modifier={null}
+          size={null}
+          width="icon_size"
+        >
+          <span
+            alt="This is a button title"
+            aria-hidden={true}
+            className="dnb-icon"
+            role="img"
+          >
+            <SvgComponent>
+              <svg
+                viewBox="0 0 16 16"
+              >
+                <path
+                  clipRule="evenodd"
+                  d="M4.352 5.1c0-2.05 1.55-3.6 3.6-3.6 2.052 0 3.601 1.55 3.601 3.6 0 2.051-1.55 3.6-3.6 3.6a.75.75 0 0 0-.75.75v2.666a.75.75 0 0 0 1.5 0V10.15c2.506-.348 4.35-2.425 4.35-5.049 0-2.879-2.221-5.1-5.1-5.1-2.88 0-5.1 2.221-5.1 5.1a.75.75 0 1 0 1.5 0zm3.6 10.898c.659 0 1.098-.439 1.098-1.097 0-.658-.44-1.097-1.097-1.097-.658 0-1.097.44-1.097 1.097 0 .658.439 1.097 1.097 1.097z"
+                  fillRule="evenodd"
+                />
+              </svg>
+            </SvgComponent>
+          </span>
+        </IconWithAllIcons>
+      </span>
+    </Content>
+  </a>
+</Button>
+`;
+
+exports[`Button scss have to match snapshot 1`] = `
+"/*
+* DNB Button
+*
+* ======================================================================== */
+/*
+* Colors
+* ======================================================================== */
+/*
+ * Typography Family
+ * ======================================================================== */
+/*
+* Typography Size
+* ======================================================================== */
+/*
+* Grid and units
+* ======================================================================== */
+/*
+* Breakpoints
+* ======================================================================== */
+/*
+ * Utilities
+ * ========================================================================== */
+.dnb-sr-only {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px; }
+
+.dnb-not-sr-only {
+  position: static; }
+
+.dnb-unstyled-list {
+  margin: 0;
+  list-style-type: none;
+  padding-left: 0; }
+  .dnb-unstyled-list > li {
+    margin-bottom: 0; }
+
+.dnb-no-focus {
+  outline: none; }
+
+.dnb-fake-focus {
+  outline: none; }
+  .dnb-fake-focus:focus {
+    outline: none;
+    border-color: transparent; }
+    html[data-whatinput='mouse'] .dnb-fake-focus:focus:not(.dnb-no-mouse-focus) {
+      transition: box-shadow 0.1s ease-out 0s;
+      box-shadow: 0 0 0 2px #14555a; }
+    html[data-whatinput='keyboard'] .dnb-fake-focus:focus {
+      box-shadow: 0 0 0 2px #ff5400; }
+
+@media screen and (max-width: 700px) {
+  .dnb-hide-on-mobile {
+    display: none; } }
+
+@media screen and (min-width: 700px) {
+  .dnb-mobile-exclusive {
+    display: none; } }
+
+.dnb-width-limit {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1024px;
+  padding: 0 0.5rem; }
+  @media screen and (min-width: 700px) {
+    .dnb-width-limit {
+      padding-left: 1rem;
+      padding-right: 1rem; } }
+
+.dnb-belt {
+  padding: 1rem 0;
+  width: 100%;
+  background: #fafafa; }
+
+.dnb-nudge {
+  display: inline-flex;
+  flex: 0 0 100%; }
+  .dnb-nudge--vertical[data-nudges='1'] {
+    height: 1rem; }
+  .dnb-nudge--horizontal[data-nudges='1'] {
+    width: 1rem; }
+  .dnb-nudge--vertical[data-nudges='2'] {
+    height: 2rem; }
+  .dnb-nudge--horizontal[data-nudges='2'] {
+    width: 2rem; }
+  .dnb-nudge--vertical[data-nudges='3'] {
+    height: 3rem; }
+  .dnb-nudge--horizontal[data-nudges='3'] {
+    width: 3rem; }
+  .dnb-nudge--vertical[data-nudges='4'] {
+    height: 4rem; }
+  .dnb-nudge--horizontal[data-nudges='4'] {
+    width: 4rem; }
+  .dnb-nudge--vertical[data-nudges='5'] {
+    height: 5rem; }
+  .dnb-nudge--horizontal[data-nudges='5'] {
+    width: 5rem; }
+  .dnb-nudge--vertical[data-nudges='6'] {
+    height: 6rem; }
+  .dnb-nudge--horizontal[data-nudges='6'] {
+    width: 6rem; }
+  .dnb-nudge--vertical[data-nudges='7'] {
+    height: 7rem; }
+  .dnb-nudge--horizontal[data-nudges='7'] {
+    width: 7rem; }
+  .dnb-nudge--vertical[data-nudges='8'] {
+    height: 8rem; }
+  .dnb-nudge--horizontal[data-nudges='8'] {
+    width: 8rem; }
+  .dnb-nudge--vertical[data-nudges='9'] {
+    height: 9rem; }
+  .dnb-nudge--horizontal[data-nudges='9'] {
+    width: 9rem; }
+  .dnb-nudge--vertical[data-nudges='10'] {
+    height: 10rem; }
+  .dnb-nudge--horizontal[data-nudges='10'] {
+    width: 10rem; }
+
+/*
+* Scopes
+* ======================================================================== */
+/*
+* DNB font-import from components
+* This file is totaly the same as \\"core/_font-import.scss\\"
+* but has a difference back path
+*
+* ======================================================================== */
+@font-face {
+  font-family: 'Fedra Sans Std Book';
+  src: url(\\"../../../../assets/fonts/FedraSansStd-Book.eot\\");
+  src: url(\\"../../../../assets/fonts/FedraSansStd-Book.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts/FedraSansStd-Book.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts/FedraSansStd-Book.ttf\\") format(\\"truetype\\");
+  font-weight: normal;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'Fedra Sans Std Book';
+  src: url(\\"../../../../assets/fonts/FedraSansStd-BookItalic.eot\\");
+  src: url(\\"../../../../assets/fonts/FedraSansStd-BookItalic.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts/FedraSansStd-BookItalic.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts/FedraSansStd-BookItalic.ttf\\") format(\\"truetype\\");
+  font-weight: normal;
+  font-style: italic; }
+
+@font-face {
+  font-family: 'Fedra Sans Std';
+  src: url(\\"../../../../assets/fonts/FedraSansStd-Light.eot\\");
+  src: url(\\"../../../../assets/fonts/FedraSansStd-Light.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts/FedraSansStd-Light.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts/FedraSansStd-Light.ttf\\") format(\\"truetype\\");
+  font-weight: 300;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'Fedra Sans Std';
+  src: url(\\"../../../../assets/fonts/FedraSansStd-LightItalic.eot\\");
+  src: url(\\"../../../../assets/fonts/FedraSansStd-LightItalic.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts/FedraSansStd-LightItalic.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts/FedraSansStd-LightItalic.ttf\\") format(\\"truetype\\");
+  font-weight: 300;
+  font-style: italic; }
+
+@font-face {
+  font-family: 'Fedra Sans Std';
+  src: url(\\"../../../../assets/fonts/FedraSansStd-Medium.eot\\");
+  src: url(\\"../../../../assets/fonts/FedraSansStd-Medium.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts/FedraSansStd-Medium.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts/FedraSansStd-Medium.ttf\\") format(\\"truetype\\");
+  font-weight: 500;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'Fedra Sans Std';
+  src: url(\\"../../../../assets/fonts/FedraSansStd-MediumItalic.eot\\");
+  src: url(\\"../../../../assets/fonts/FedraSansStd-MediumItalic.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts/FedraSansStd-MediumItalic.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts/FedraSansStd-MediumItalic.ttf\\") format(\\"truetype\\");
+  font-weight: 500;
+  font-style: italic; }
+
+@font-face {
+  font-family: 'Fedra Sans Std';
+  src: url(\\"../../../../assets/fonts/FedraSansStd-Bold.eot\\");
+  src: url(\\"../../../../assets/fonts/FedraSansStd-Bold.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts/FedraSansStd-Bold.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts/FedraSansStd-Bold.ttf\\") format(\\"truetype\\");
+  font-weight: bold;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'Fedra Sans Std';
+  src: url(\\"../../../../assets/fonts/FedraSansStd-BoldItalic.eot\\");
+  src: url(\\"../../../../assets/fonts/FedraSansStd-BoldItalic.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts/FedraSansStd-BoldItalic.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts/FedraSansStd-BoldItalic.ttf\\") format(\\"truetype\\");
+  font-weight: bold;
+  font-style: italic; }
+
+/*
+* DNB icon
+*
+* ======================================================================== */
+/*
+* Icon component
+*
+* ======================================================================== */
+.dnb-icon {
+  display: inline-block;
+  font-size: 0;
+  width: 100%; }
+  .dnb-icon svg {
+    fill: currentColor; }
+
+.dnb-button {
+  font-size: 1rem;
+  font-family: \\"Fedra Sans Std\\", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+  line-height: 1.5em; }
+  .dnb-button * {
+    margin: 0;
+    padding: 0; }
+  .dnb-button *,
+  .dnb-button ::before,
+  .dnb-button ::after {
+    background-repeat: no-repeat;
+    box-sizing: border-box; }
+  .dnb-button ::before,
+  .dnb-button ::after {
+    text-decoration: inherit;
+    vertical-align: inherit; }
+
+/*
+* Button component
+*
+* ======================================================================== */
+/*
+* Button mixins
+*
+* ======================================================================== */
+.dnb-button {
+  display: inline-flex;
+  vertical-align: middle;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  cursor: pointer;
+  width: var(--button-width);
+  height: var(--button-height);
+  padding: 0;
+  border: var(--button-border-width) solid transparent;
+  border-radius: var(--button-border-radius);
+  font-family: var(--button-font-family);
+  font-size: var(--button-font-size);
+  font-weight: var(--button-font-weight);
+  font-style: var(--button-font-style);
+  text-decoration: none;
+  /* Firefox includes a hidden border which messes up button dimensions */ }
+  .dnb-button--size-big {
+    width: var(--button-width--big);
+    height: var(--button-height--big);
+    border-radius: var(--button-border-radius--big); }
+  .dnb-button--has-text {
+    padding-left: 1.5em;
+    padding-right: 1.5em;
+    width: auto; }
+  .dnb-button--has-text.dnb-button--size-big {
+    padding-left: 2em;
+    padding-right: 2em; }
+  .dnb-button--has-text .dnb-button__icon {
+    margin: 0 calc(var(--button-icon-size) / 2); }
+  .dnb-button--has-text.dnb-button--icon-position-left {
+    padding-left: 0.5em; }
+  .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-big {
+    padding-left: 1em; }
+  .dnb-button--has-text.dnb-button--icon-position-right {
+    padding-right: 0.5em; }
+  .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-big {
+    padding-right: 1em; }
+  .dnb-button--has-text.dnb-button--has-icon .dnb-button__icon {
+    order: 2; }
+  .dnb-button--has-text.dnb-button--has-icon .dnb-button__text {
+    order: 1; }
+  .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__icon {
+    order: 1; }
+  .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__text {
+    order: 2; }
+  .dnb-button__icon {
+    line-height: 0; }
+    .dnb-button__icon svg:not([width]):not([height]) {
+      width: var(--button-icon-size);
+      height: var(--button-icon-size); }
+  .dnb-button__text {
+    color: inherit;
+    background-color: inherit;
+    transform: translateY(var(--button-border-width)); }
+  .dnb-button--reset {
+    margin: 0;
+    padding: 0;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    border: none;
+    background-color: transparent;
+    appearance: none;
+    box-shadow: none;
+    color: inherit;
+    font: inherit;
+    text-align: inherit;
+    line-height: 0; }
+    .no-touch .dnb-button--reset:hover[disabled] {
+      cursor: not-allowed; }
+    .no-touch .dnb-button--reset:hover:not([disabled]) {
+      opacity: 0.6;
+      box-shadow: none;
+      border: none; }
+    html[data-whatinput='mouse']
+.dnb-button--reset:not([disabled]):focus:not(.dnb-no-mouse-focus),
+    html[data-whatinput='mouse']
+.dnb-button--reset:not([disabled]):active:not(.dnb-no-mouse-focus) {
+      box-shadow: none;
+      color: inherit;
+      border: none; }
+  .dnb-button[type='button'] {
+    appearance: none; }
+  a .dnb-button {
+    border-bottom: none; }
+  button.dnb-button::-moz-focus-inner .dnb-button {
+    border: none; }
+"
+`;
