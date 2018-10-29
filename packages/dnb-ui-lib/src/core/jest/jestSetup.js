@@ -3,20 +3,27 @@
  *
  */
 
+import '../startup/required'
+
+import { axe, toHaveNoViolations } from 'jest-axe'
+import fakeProps, { fakeDataForProps } from 'react-fake-props'
+import { mount, render, shallow } from './enzyme'
+
 import ReactDOMServer from 'react-dom/server'
 import fs from 'fs-extra'
-import path from 'path'
-import sass from 'node-sass'
 import onceImporter from 'node-sass-once-importer'
-import fakeProps, { fakeDataForProps } from 'react-fake-props'
-import * as enzyme from './enzyme'
-import enzymeToJson from 'enzyme-to-json'
-import { toMatchImageSnapshot } from 'jest-image-snapshot'
-import { axe, toHaveNoViolations } from 'jest-axe'
-import { toBeType } from 'jest-tobetype'
-import { setupJestScreenshot } from 'jest-screenshot'
+import path from 'path'
 import puppeteer from 'puppeteer'
-import '../startup/required'
+import sass from 'node-sass'
+import { setupJestScreenshot } from 'jest-screenshot'
+import { toBeType } from 'jest-tobetype'
+import toJson from 'enzyme-to-json'
+import { toMatchImageSnapshot } from 'jest-image-snapshot'
+
+export { fakeProps, fakeDataForProps }
+export { shallow, mount, render }
+export { toJson }
+export { axe, toHaveNoViolations }
 
 expect.extend({ toMatchImageSnapshot, toBeType })
 expect.extend(toHaveNoViolations)
@@ -39,7 +46,7 @@ expect.extend(toHaveNoViolations)
 //   })
 // )
 
-const loadScss = file => {
+export const loadScss = file => {
   try {
     const sassResult = sass.renderSync({
       file: file,
@@ -52,7 +59,7 @@ const loadScss = file => {
   }
 }
 
-const setupPageScreenshot = (options = {}) =>
+export const setupPageScreenshot = (options = {}) =>
   new Promise((resolve, reject) => {
     // just setup this one time
     if (global.browser) return
@@ -119,26 +126,12 @@ const setupPageScreenshot = (options = {}) =>
     resolve()
   })
 
-const loadImage = async imagePath =>
+export const loadImage = async imagePath =>
   await fs.readFile(path.resolve(imagePath))
 
-const axeComponent = async Component => {
+export const axeComponent = async Component => {
   const html = ReactDOMServer.renderToStaticMarkup(Component)
   return await axe(html)
-}
-
-module.exports = {
-  ...enzyme,
-  fakeProps,
-  fakeDataForProps,
-  enzymeToJson,
-  loadScss,
-  loadImage,
-  setupPageScreenshot,
-  axe,
-  axeComponent,
-  // snapshotDiff,
-  toJson: enzymeToJson
 }
 
 // global.shallow = enzyme.shallow

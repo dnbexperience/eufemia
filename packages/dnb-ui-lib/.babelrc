@@ -5,6 +5,7 @@
       "ignore": ["node_modules/**"],
       "plugins": [
         "transform-dynamic-import",
+        "@babel/plugin-proposal-export-default-from",
         "@babel/plugin-proposal-object-rest-spread",
         "@babel/plugin-proposal-class-properties"
       ]
