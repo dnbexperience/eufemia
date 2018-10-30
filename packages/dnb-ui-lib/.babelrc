@@ -1,56 +1,56 @@
 {
-  "env": {
-    "test": {
-      "presets": ["@babel/preset-env", "@babel/preset-react"],
-      "ignore": ["node_modules/**"],
-      "plugins": [
+  env: {
+    test: {
+      presets: ["@babel/preset-env", "@babel/preset-react"],
+      ignore: ["node_modules/**"],
+      plugins: [
         "transform-dynamic-import",
         "@babel/plugin-proposal-export-default-from",
         "@babel/plugin-proposal-object-rest-spread",
         "@babel/plugin-proposal-class-properties"
       ]
     },
-    "development": {
-      "presets": ["@babel/preset-env", "@babel/preset-react"],
-      "ignore": ["node_modules/**", "**/*.test.js"],
-      "plugins": [
+    development: {
+      presets: ["@babel/preset-env", "@babel/preset-react"],
+      ignore: ["node_modules/**", "**/*.test.js"],
+      plugins: [
         "@babel/plugin-proposal-export-default-from",
         "@babel/plugin-proposal-object-rest-spread",
         "@babel/plugin-proposal-class-properties"
       ]
     },
-    "production": {
-      "presets": [
+    production: {
+      presets: [
         [
           "@babel/preset-env",
           {
-            "targets": {
-              "ie": 11,
-              "edge": 14,
-              "firefox": 45,
-              "chrome": 49,
-              "safari": 10,
-              "node": "6.11"
+            targets: {
+              ie: 11,
+              edge: 14,
+              firefox: 45,
+              chrome: 49,
+              safari: 10,
+              node: "6.11"
             },
-            "useBuiltIns": false
+            useBuiltIns: false
           }
         ],
         "@babel/preset-react"
       ],
-      "ignore": ["node_modules/**", "**/*.test.js"],
-      "plugins": [
+      ignore: ["node_modules/**", "**/*.test.js"],
+      plugins: [
         "transform-react-constant-elements",
         "transform-dev-warning",
         [
           "react-remove-properties",
           {
-            "properties": ["data-dnb-test"]
+            properties: ["data-dnb-test"]
           }
         ],
         [
           "transform-react-remove-prop-types",
           {
-            "mode": "wrap"
+            mode: "wrap"
           }
         ],
         "@babel/plugin-proposal-object-rest-spread",
@@ -58,38 +58,38 @@
       ]
     },
     "production-umd": {
-      "presets": [
+      presets: [
         [
           "@babel/preset-env",
           {
-            "targets": {
-              "ie": 11,
-              "edge": 14,
-              "firefox": 45,
-              "chrome": 49,
-              "safari": 10,
-              "node": "6.11"
+            targets: {
+              ie: 11,
+              edge: 14,
+              firefox: 45,
+              chrome: 49,
+              safari: 10,
+              node: "6.11"
             },
-            "modules": false
+            modules: false
           }
         ],
         "@babel/preset-react"
       ],
-      "ignore": ["node_modules/**", "**/*.test.js"],
-      "plugins": [
+      ignore: ["node_modules/**", "**/*.test.js"],
+      plugins: [
         "@babel/plugin-transform-runtime",
         "transform-react-constant-elements",
         "transform-dev-warning",
         [
           "react-remove-properties",
           {
-            "properties": ["data-dnb-test"]
+            properties: ["data-dnb-test"]
           }
         ],
         [
           "transform-react-remove-prop-types",
           {
-            "mode": "wrap"
+            mode: "wrap"
           }
         ],
         "@babel/plugin-proposal-object-rest-spread",
