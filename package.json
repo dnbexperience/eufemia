@@ -17,7 +17,8 @@
   "scripts": {
     "precommit": "yarn workspace dnb-design-system-portal run lint-staged && yarn workspace dnb-ui-lib run lint-staged",
     "reset": "rm -rf ./node_modules && rm yarn.lock && rm -rf ./packages/dnb-ui-lib/node_modules && rm -rf ./packages/dnb-design-system-portal/node_modules && yarn",
-    "postinstall": "cd ./packages/dnb-design-system-portal && yarn startup && cd -"
+    "postinstall": "cd ./packages/dnb-design-system-portal && yarn startup && cd -",
+    "publish-ci": "cd ./packages/dnb-ui-lib && yarn semantic-release && cd -"
   },
   "devDependencies": {
     "husky": "^1.1.2"

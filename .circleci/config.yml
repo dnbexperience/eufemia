@@ -1,0 +1,64 @@
+# Javascript Node CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-javascript/ for more details
+#
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:10
+    working_directory: ~/repo
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "yarn.lock" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
+      - run: yarn install
+
+      - save_cache:
+          name: Save Yarn Package Cache
+          key: yarn-packages-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+
+      - run: yarn test
+      - run: yarn lint:all
+    publish:
+      docker:
+        - image: circleci/node:10
+      working_directory: ~/repo
+      steps:
+        - checkout
+
+        - restore_cache:
+            keys:
+              - v1-dependencies-{{ checksum "yarn.lock" }}
+              # fallback to using the latest cache if no exact match is found
+              - v1-dependencies-
+
+        - run: yarn install
+
+        - run:
+            name: Authenticate with registry
+            command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
+
+        - run:
+            name: release
+            command: npm run semantic-release || true
+
+        - run: npm run publish-ci
+workflows:
+  version: 2
+  build-test-and-deploy:
+    jobs:
+      - build
+      - publish:
+          requires:
+            - build
+          filters:
+            branches:
+              only: /^develop$/
