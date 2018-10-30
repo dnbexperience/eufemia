@@ -6,12 +6,12 @@ For now this mono repo is using yarn workspaces.
 
 ## DNB Design Guide Site
 
-You can have a look at the Design Guide [here](https://eggsdesign.github.io/dnb-design-system/).
+You can have a look at the Design Guide [here](https://dnbexperience.github.io/eufemia/).
 
 ## Example views
 
-1.  [Classic step-by-step form view](https://eggsdesign.github.io/dnb-design-system/example-views/form)
-1.  [Loan calculation view](https://eggsdesign.github.io/dnb-design-system/example-views/form-2)
+1.  [Classic step-by-step form view](https://dnbexperience.github.io/eufemia/example-views/form)
+1.  [Loan calculation view](https://dnbexperience.github.io/eufemia/example-views/form-2)
 
 ## Requirements
 

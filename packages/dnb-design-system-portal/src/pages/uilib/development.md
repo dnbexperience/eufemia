@@ -15,7 +15,7 @@ The mono repo `dnb-design-system` uses [Yarn](https://yarnpkg.com/) (>= v1.10.1)
 
 ```bash
 # Somewhere, call:
-git clone https://github.com/eggsdesign/dnb-design-system.git
+git clone https://github.com/dnbexperience/eufemia.git
 
 # change to the directory:
 cd dnb-design-system

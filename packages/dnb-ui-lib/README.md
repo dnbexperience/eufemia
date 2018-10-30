@@ -10,9 +10,9 @@ The DNB UI Library has three main functions:
 
 To start using the UI components in your project do the following steps:
 
-1.  Add the [dnb.ui.library.js](https://raw.githubusercontent.com/eggsdesign/dnb-design-system/master/docs/scripts/dnb.ui.library.js) right before the closing `</body>` tag
-2.  Add the [dnb.ui.library.css](https://raw.githubusercontent.com/eggsdesign/dnb-design-system/master/docs/css/dnb.ui.library.css) file to your `<head>` tag
-3.  Add the [/assets](https://minhaskamal.github.io/DownGit/#/home?url=https://github.com/eggsdesign/dnb-design-system/tree/master/docs/assets) directory to your project to get the fonts and images
+1.  Add the [dnb.ui.library.js](https://raw.githubusercontent.com/dnbexperience/eufemia/master/docs/scripts/dnb.ui.library.js) right before the closing `</body>` tag
+2.  Add the [dnb.ui.library.css](https://raw.githubusercontent.com/dnbexperience/eufemia/master/docs/css/dnb.ui.library.css) file to your `<head>` tag
+3.  Add the [/assets](https://minhaskamal.github.io/DownGit/#/home?url=https://github.com/dnbexperience/eufemia/tree/master/docs/assets) directory to your project to get the fonts and images
 4.  Copy the `HTML`for the component you want to use and paste it into your project
 
 Example of implementation:

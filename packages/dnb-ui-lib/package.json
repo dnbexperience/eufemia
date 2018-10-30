@@ -3,15 +3,15 @@
   "description": "DNB UI Library",
   "license": "SEE LICENSE IN LICENSE FILE",
   "author": "DNB Team & Tobias Høegh",
-  "homepage": "https://eggsdesign.github.io/dnb-design-system/uilib",
+  "homepage": "https://dnbexperience.github.io/eufemia/uilib",
   "repository": {
     "type": "git",
-    "url": "https://github.com/eggsdesign/dnb-design-system.git"
+    "url": "https://github.com/dnbexperience/eufemia.git"
   },
   "bugs": {
-    "url": "https://github.com/eggsdesign/dnb-design-system/issues"
+    "url": "https://github.com/dnbexperience/eufemia/issues"
   },
-  "version": "1.0.8",
+  "version": "0.0.0-development",
   "main": "index.js",
   "bin": {
     "dnb-ui-lib": "./bin/dnb-ui-lib"
@@ -40,6 +40,7 @@
     "publish:prerelease": "yarn pack && babel-node ./scripts/release",
     "prepublish:update": "babel-node ./scripts/prepub/updateAndPrepub.js && yarn lint:all && yarn prettier:all",
     "prepublishOnly": "yarn prepublish:update && jest --ci",
+    "semantic-release": "semantic-release",
     "startup": "yarn prepublish:local",
     "story": "start-storybook -s / -p 3002",
     "story:build": "build-storybook",
@@ -163,6 +164,7 @@
     "sanitize.css": "^8.0.0",
     "sass-loader": "^7.1.0",
     "scss-to-json": "^2.0.0",
+    "semantic-release": "^15.10.6",
     "style-loader": "^0.23.1",
     "stylelint": "^9.7.0",
     "stylelint-config-prettier": "^4.0.0",

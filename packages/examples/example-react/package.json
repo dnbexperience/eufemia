@@ -5,7 +5,7 @@
   "version": "1.0.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/eggsdesign/dnb-design-system.git"
+    "url": "https://github.com/dnbexperience/eufemia.git"
   },
   "scripts": {
     "start": "rm -rf .cache && parcel start src/index.html --no-autoinstall -p 1234",
