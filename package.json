@@ -21,6 +21,7 @@
     "publish-ci": "cd ./packages/dnb-ui-lib && yarn semantic-release && cd -"
   },
   "devDependencies": {
-    "husky": "^1.1.2"
+    "husky": "^1.1.2",
+    "camelcase": "^5.0.0"
   }
 }
