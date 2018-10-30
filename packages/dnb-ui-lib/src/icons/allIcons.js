@@ -3,33 +3,41 @@
 import add from './add.js'
 import bell from './bell.js'
 import calender from './calender.js'
+import check from './check.js'
 import chevron_down from './chevron_down.js'
 import chevron_left from './chevron_left.js'
 import chevron_right from './chevron_right.js'
 import close from './close.js'
 import dnb_logo from './dnb-logo.js'
 import download from './download.js'
+import exclamation from './exclamation.js'
 import fullscreen from './fullscreen.js'
 import hamburger from './hamburger.js'
+import more from './more.js'
 import question from './question.js'
 import save from './save.js'
 import search from './search.js'
+import subtract from './subtract.js'
 import url_target_blank from './url-target-blank.js'
 
 export default {
   add,
   bell,
   calender,
+  check,
   chevron_down,
   chevron_left,
   chevron_right,
   close,
   dnb_logo,
   download,
+  exclamation,
   fullscreen,
   hamburger,
+  more,
   question,
   save,
   search,
+  subtract,
   url_target_blank
 }

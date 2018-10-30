@@ -4,18 +4,11 @@ import React from 'react'
 
 const SvgComponent = props => (
   <svg viewBox="0 0 16 16" {...props}>
-    <g clipPath="url(#clip0)">
-      <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M8.75 1.75a.75.75 0 1 0-1.5 0v5.5h-5.5a.75.75 0 1 0 0 1.5h5.5v5.5a.75.75 0 1 0 1.5 0v-5.5h5.5a.75.75 0 1 0 0-1.5h-5.5v-5.5z"
-      />
-    </g>
-    <defs>
-      <clipPath id="clip0">
-        <path d="M0 0h16v16H0z" />
-      </clipPath>
-    </defs>
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M8.75 2.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5z"
+    />
   </svg>
 )
 

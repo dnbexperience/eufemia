@@ -3,8 +3,19 @@
 import React from 'react'
 
 const SvgComponent = props => (
-  <svg viewBox="0 0 16 15.2" {...props}>
-    <path d="M.6 14h14.8c.3 0 .6.3.6.6s-.3.6-.6.6H.6c-.3 0-.6-.3-.6-.6s.3-.6.6-.6zM.6 7h14.8c.3 0 .6.3.6.6s-.3.6-.6.6H.6c-.3 0-.6-.3-.6-.6S.3 7 .6 7zM.6 0h14.8c.3 0 .6.3.6.6s-.3.6-.6.6H.6C.3 1.2 0 .9 0 .6S.3 0 .6 0z" />
+  <svg viewBox="0 0 16 16" {...props}>
+    <g clipPath="url(#clip0)">
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M0 1.875a.75.75 0 0 1 .75-.75h14.5a.75.75 0 0 1 0 1.5H.75a.75.75 0 0 1-.75-.75zM0 8a.75.75 0 0 1 .75-.75h14.5a.75.75 0 0 1 0 1.5H.75A.75.75 0 0 1 0 8zm.75 5.375a.75.75 0 0 0 0 1.5h14.5a.75.75 0 0 0 0-1.5H.75z"
+      />
+    </g>
+    <defs>
+      <clipPath id="clip0">
+        <path d="M0 0h16v16H0z" />
+      </clipPath>
+    </defs>
   </svg>
 )
 
