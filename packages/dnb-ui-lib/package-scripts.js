@@ -24,7 +24,7 @@ module.exports = {
       release: 'yarn prepublishOnly'
     },
     generate: {
-      default: 'yarn prepublish:local',
+      default: 'yarn startup',
       dev: 'yarn prepublish:dev'
     },
     figma: {
