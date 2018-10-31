@@ -1,18 +1,22 @@
 {
   "name": "parcel-vue-example",
-  "license": "SEE LICENSE IN LICENSE FILE",
   "description": "Vue example",
-  "version": "1.0.0",
+  "license": "SEE LICENSE IN LICENSE FILE",
   "repository": {
     "type": "git",
     "url": "https://github.com/dnbexperience/eufemia.git"
   },
+  "version": "1.0.0",
   "scripts": {
+    "build": "parcel build src/index.html",
+    "build:dev": "rm -rf dist && nodemon -x 'parcel build src/index.html' -e js,jsx,html,json,css -w '/src/*'",
+    "precommit": ":",
+    "lint-ci": ":",
+    "serve": "live-server dist --watch --no-browser --port=23456",
     "start": "rm -rf .cache && parcel start ./src/index.html --no-autoinstall -p 2345",
     "start:fresh": "parcel start src/index.html --no-autoinstall --no-cache -p 2345",
-    "build:dev": "rm -rf dist && nodemon -x 'parcel build src/index.html' -e js,jsx,html,json,css -w '/src/*'",
-    "build": "parcel build src/index.html",
-    "serve": "live-server dist --watch --no-browser --port=23456"
+    "startup": ":",
+    "test-ci": ":"
   },
   "dependencies": {
     "dnb-ui-lib": "*",

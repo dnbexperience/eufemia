@@ -1,18 +1,22 @@
 {
   "name": "parcel-react-example",
-  "license": "SEE LICENSE IN LICENSE FILE",
   "description": "React example",
-  "version": "1.0.0",
+  "license": "SEE LICENSE IN LICENSE FILE",
   "repository": {
     "type": "git",
     "url": "https://github.com/dnbexperience/eufemia.git"
   },
+  "version": "1.0.0",
   "scripts": {
+    "build": "parcel build src/index.html",
+    "build:dev": "nodemon -x 'parcel build src/index.html' -e js,jsx,html,json,css -w 'src/*'",
+    "precommit": ":",
+    "lint-ci": ":",
+    "serve": "live-server dist --watch --no-browser --port=12345",
     "start": "rm -rf .cache && parcel start src/index.html --no-autoinstall -p 1234",
     "start:fresh": "parcel start src/index.html --no-autoinstall --no-cache -p 1234",
-    "build:dev": "nodemon -x 'parcel build src/index.html' -e js,jsx,html,json,css -w 'src/*'",
-    "build": "parcel build src/index.html",
-    "serve": "live-server dist --watch --no-browser --port=12345"
+    "startup": ":",
+    "test-ci": ":"
   },
   "dependencies": {
     "dnb-ui-lib": "*",
@@ -21,9 +25,9 @@
   },
   "devDependencies": {
     "@babel/core": "^7.1.2",
+    "@babel/plugin-proposal-class-properties": "^7.1.0",
     "@babel/preset-env": "^7.1.0",
     "@babel/preset-react": "^7.0.0",
-    "@babel/plugin-proposal-class-properties": "^7.1.0",
     "live-server": "^1.2.0",
     "parcel-bundler": "^1.10.1"
   }

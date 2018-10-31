@@ -20,7 +20,7 @@ README.md
 .eslintrc.json
 .flowconfig
 .prettierrc
-.prettierrc.json
+.releaserc
 .gitignore
 .lintstagedrc
 .huskyrc

@@ -1,0 +1,6 @@
+{
+  "ci": false,
+  "debug": false,
+  "dryRun": true,
+  "branch": "develop"
+}

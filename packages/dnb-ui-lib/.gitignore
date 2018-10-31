@@ -25,6 +25,7 @@
 dnb-ui-lib-*.tgz
 
 # misc
+package.lock.json
 completions.json
 *snapshot.json
 *.emotion.css

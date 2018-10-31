@@ -12,6 +12,7 @@
 /dist
 
 # misc
+package.lock.json
 completions.json
 *.emotion.css
 .DS_Store

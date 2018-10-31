@@ -32,8 +32,7 @@ import Vue from 'vue'
 /* import 'dnb-ui-lib/style' // Import the global DNB stylesheet */
 /* import 'dnb-ui-lib/components/style' // Import all components */
 
-import 'dnb-ui-lib/components/button/style'
-import 'dnb-ui-lib/components/input/style'
+import 'dnb-ui-lib/components/style'
 import 'dnb-ui-lib/style/theme'
 import dnb, { Button, Input } from 'dnb-ui-lib/components/vue'
 
