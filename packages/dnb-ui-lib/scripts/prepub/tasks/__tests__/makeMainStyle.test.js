@@ -3,13 +3,11 @@
  *
  */
 
-import jestSetup from '../../../../src/core/jest/jestSetup'
 import { factory } from '../makeMainStyle'
 // just to make sure we re-run the test in watch mode due to changes in this file
-import './src/style/dnb-ui-components.scss'
+import '../../../../src/style/dnb-ui-components.scss'
 
 beforeAll(async () => {
-  jestSetup()
   global.css = await factory('./src/style/dnb-ui-components.scss', {
     returnResult: true
   })
