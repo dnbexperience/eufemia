@@ -1,0 +1,55 @@
+/*
+ * Tabs component
+ *
+ * ========================================================================== */
+
+.dnb-tabs {
+  &__tabs {
+    position: relative;
+    z-index: 100; /* some components have set a position, like MainMenu */
+    overflow: hidden;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    align-content: flex-start;
+
+    border: 1px solid #ccc;
+    background-color: Plum;
+    padding: 2px 0;
+
+    // &__inner {
+    // }
+
+    .dnb-tablink {
+      padding: 1rem 2rem;
+      margin: 0 2px;
+
+      background-color: inherit;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.2s ease-out;
+
+      outline: none;
+
+      &:focus {
+        @include fakeFocus();
+      }
+      @include hover(true) {
+        background-color: #ddd;
+      }
+      &:active {
+        opacity: 0.8;
+      }
+      &.active {
+        background-color: #ccc;
+      }
+    }
+  }
+
+  &__content {
+    padding: 1rem 0.2rem 0.2rem 0.1rem;
+  }
+}
