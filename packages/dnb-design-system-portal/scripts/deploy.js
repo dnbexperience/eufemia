@@ -18,8 +18,10 @@ const run = () => {
         repo: `https://${
           process.env.GH_TOKEN
         }@github.com/dnbexperience/eufemia.git`,
-        name: process.env.GH_USERNAME,
-        email: process.env.GH_EMAIL || ''
+        user: {
+          name: process.env.GH_USERNAME,
+          email: process.env.GH_EMAIL
+        }
       }
     : {}
 
