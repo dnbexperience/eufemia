@@ -4,9 +4,13 @@
  *
  */
 
+import dotenv from 'dotenv'
 import ghpages from 'gh-pages'
 import pkg from '../package.json'
 import ora from 'ora'
+
+// import .env variables
+dotenv.config()
 
 const run = () => {
   const log = ora()
