@@ -130,7 +130,8 @@ const runFactory = async ({
   try {
     await fs.writeFile(
       scssOutputFile,
-      `${autoAdvice}${customContent}${content}`
+      `${autoAdvice}${customContent}${content}
+` // make sure we have newline at the end - because of StyleLint "no-missing-end-of-source-newline"
     )
   } catch (e) {
     log.fail(`There was an error on creating ${scssOutputFile}!`)

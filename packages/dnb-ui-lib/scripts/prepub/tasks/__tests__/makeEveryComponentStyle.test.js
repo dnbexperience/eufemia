@@ -3,12 +3,13 @@
  *
  */
 
-import '../../../../src/core/jest/jestSetup'
+import jestSetup from '../../../../src/core/jest/jestSetup'
 import { factory } from '../makeEveryComponentStyle'
 // just to make sure we re-run the test in watch mode due to changes in this file
 import './src/components/button/style/dnb-button.scss'
 
 beforeAll(async () => {
+  jestSetup()
   global.css = await factory(
     './src/components/button/style/dnb-button.scss',
     {
