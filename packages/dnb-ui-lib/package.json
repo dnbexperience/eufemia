@@ -164,7 +164,6 @@
     "rollup-plugin-node-globals": "^1.4.0",
     "rollup-plugin-node-resolve": "^3.4.0",
     "rollup-plugin-scss": "^0.4.0",
-    "sanitize.css": "^8.0.0",
     "sass-loader": "^7.1.0",
     "scss-to-json": "^2.0.0",
     "semantic-release": "^15.10.6",
