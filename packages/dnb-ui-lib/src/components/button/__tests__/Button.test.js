@@ -13,8 +13,7 @@ import {
   loadScss
 } from '../../../core/jest/jestSetup'
 import Component from '../Button'
-// just to make sure we re-run the test in watch mode due to changes in this file
-import '../style/dnb-button.scss'
+import '../style/dnb-button.scss' // just to make sure we re-run the test in watch mode due to changes in this file
 
 const props = fakeProps(require.resolve('../Button'), {
   optional: true
@@ -87,7 +86,7 @@ describe.skip('Button screenshot', () => {
   it.skip('have to match the screenshot snapshot', async () => {
     // to use this test, put this first in the Button Example
     /*
-    
+
     -> Syntax
     <div className="button-wrapper">
       <Button text="Next" variant="secondary" icon="chevron-right" />

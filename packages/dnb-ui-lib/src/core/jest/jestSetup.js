@@ -126,8 +126,9 @@ export const setupPageScreenshot = (options = {}) =>
     resolve()
   })
 
-export const loadImage = async imagePath =>
-  await fs.readFile(path.resolve(imagePath))
+export const loadImage = async imagePath => {
+  return await fs.readFile(path.resolve(imagePath))
+}
 
 export const axeComponent = async Component => {
   const html = ReactDOMServer.renderToStaticMarkup(Component)
@@ -137,3 +138,7 @@ export const axeComponent = async Component => {
 // global.shallow = enzyme.shallow
 // global.render = enzyme.render
 // global.mount = enzyme.mount
+
+function jestSetup() {}
+
+export default jestSetup
