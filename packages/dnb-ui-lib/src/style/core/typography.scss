@@ -63,3 +63,23 @@
     @include numberFeature(proportional-nums, pnum);
   }
 }
+
+// TODO: Core typography classes
+
+.text-lead {
+  font-size: 1em !important; // 16px
+  line-height: 1.75rem !important; // 28
+  border-bottom: solid 1rem green;
+}
+
+.text-label {
+  font-size: 0.8125em; // 14px
+  line-height: 1.25rem !important; // 20px
+  border-bottom: solid 1rem hotpink;
+}
+
+.text-small {
+  font-size: 0.8125em; // 14px
+  line-height: 1rem !important; // 16px
+  border-bottom: solid 1rem hotpink;
+}

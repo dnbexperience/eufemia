@@ -8,7 +8,7 @@ draft: false
 
 #### Principles
 
-Accessibility affects all users, not just those with stereotypical disabilities.
+Accessibility affects all users, not just those with stereotypical disabilities. The extra work that may be required to ensure good accessibility in DNB applications and services will be
 
 ## WCAG (Web Content and Accessibility Guide)
 
@@ -50,4 +50,41 @@ Users should be able to interact with what they need to:
 - buttons
 - all other navigating and information retrieval
 
-Keyboard navigation
+##### Keyboard navigation
+
+Keyboard navigation covers many use cases and contexts. Users who cannot see the position of the cursor on the screen, or who do not possess fine motor skills in their hands, often rely on the keyboard.
+
+Keyboard shortcuts can increase task efficiency.
+
+##### Progressive enhancement
+
+Forms, navigation and other essential components and actions should work on older browsers and devices. Styling comes second to content and accessibilty.
+
+#### Understandable
+
+Contents' intended meaning is easily understandable.
+
+Use simple, honest, direct language.
+
+#### Avoid assumptions
+
+This especially applies to use of icons and symbols. What may be obvious to a designer or a user in one culture may not be so to another.
+
+Back up icons and symbols with clear labels, captions or subtitles.
+
+#### Robustness
+
+Make content accessible from a wide variety of devices.
+
+##### Semantic Markup
+
+Semantic markup makes robust content that's accessible. Pay attention to the following:
+
+- Semantic HTML tags
+- Proper use of aria tags
+- Logically ordering DOM elements
+- Server-side rendering to ensure it's delivered properly
+
+##### Responsive Design
+
+Responsive Design ensures that content can be viewed on a wide spectrum of display sizes.
