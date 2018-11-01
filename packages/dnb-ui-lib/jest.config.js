@@ -6,6 +6,7 @@ const config = {
   moduleFileExtensions: ['js', 'json', 'scss', 'css'],
   testRegex: '(/__tests__/\\.js|(\\.|/)(test|spec))\\.js?$',
   modulePathIgnorePatterns: ['not_in_use'],
+  transformIgnorePatterns: ['node_modules'],
   transform: {
     '^.+\\.(js|jsx)$': 'babel-jest',
     '^.+\\.(md|txt)$': 'jest-raw-loader'
@@ -13,7 +14,7 @@ const config = {
   moduleNameMapper: {
     '^.+\\.(jpg|jpeg|png)$': '<rootDir>/src/core/jest/fileMock.js',
     '^.+\\.(svg)$': '<rootDir>/src/core/jest/jsxMock.js',
-    '^.+\\.(css|scss)$': 'identity-obj-proxy'
+    '^.+\\.(css|scss)$': 'jest-css-modules'
   }
 }
 // Screenshot testing is not working properly yet under heavy test conditions

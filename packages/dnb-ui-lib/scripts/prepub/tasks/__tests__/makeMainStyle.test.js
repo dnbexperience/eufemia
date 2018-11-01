@@ -3,10 +3,8 @@
  *
  */
 
-import '../../../../src/core/jest/jestSetup'
 import { factory } from '../makeMainStyle'
-// just to make sure we re-run the test in watch mode due to changes in this file
-import './src/style/dnb-ui-components.scss'
+import '../../../../src/style/dnb-ui-components.scss' // just to make sure we re-run the test in watch mode due to changes in this file
 
 beforeAll(async () => {
   global.css = await factory('./src/style/dnb-ui-components.scss', {
