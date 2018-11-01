@@ -29,6 +29,12 @@ const run = () => {
       }
     : {}
 
+  console.debug('gh-pages config', {
+    message: `Auto-generated deploy commit v${pkg.version}`,
+    branch: 'gh-pages',
+    ...config
+  })
+
   /**
    * This adds commits with a custom message.
    */
@@ -36,14 +42,12 @@ const run = () => {
     'public',
     {
       message: `Auto-generated deploy commit v${pkg.version}`,
-      branch: 'develop',
+      branch: 'gh-pages',
       ...config
     },
     error => {
       if (error) {
-        const msg = `Failed to deploy! \n${error.message}`
-        log.fail(msg)
-        throw msg
+        log.fail(`Failed to deploy! \n${error.message}`)
       }
       log.succeed(`Deployed successfully v${pkg.version}!`)
     }

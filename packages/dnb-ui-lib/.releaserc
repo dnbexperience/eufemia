@@ -2,5 +2,5 @@
   "ci": true,
   "debug": false,
   "dryRun": false,
-  "branch": "develop"
+  "branch": "master"
 }
