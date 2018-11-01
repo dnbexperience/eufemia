@@ -14,7 +14,7 @@ const config = {
   moduleNameMapper: {
     '^.+\\.(jpg|jpeg|png)$': '<rootDir>/src/core/jest/fileMock.js',
     '^.+\\.(svg)$': '<rootDir>/src/core/jest/jsxMock.js',
-    '^.+\\.(css|scss)$': 'identity-obj-proxy'
+    '^.+\\.(css|scss)$': 'jest-css-modules'
   }
 }
 // Screenshot testing is not working properly yet under heavy test conditions
