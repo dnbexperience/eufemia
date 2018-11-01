@@ -5,7 +5,7 @@ const config = {
   testURL: 'http://localhost',
   moduleFileExtensions: ['js', 'json', 'scss', 'css'],
   testRegex: '(/__tests__/\\.js|(\\.|/)(test|spec))\\.js?$',
-  modulePathIgnorePatterns: ['not_in_use'],
+  modulePathIgnorePatterns: ['not_in_use', '/dist/'],
   transformIgnorePatterns: ['node_modules'],
   transform: {
     '^.+\\.(js|jsx)$': 'babel-jest',
