@@ -230,18 +230,6 @@ exports[`Switch scss have to match snapshot 1`] = `
     position: relative;
     display: inline-block;
     vertical-align: middle; }
-  .dnb-switch__inner:not([disabled]) .dnb-switch__background,
-  .dnb-switch__inner:not([disabled]) .dnb-switch__button {
-    cursor: pointer; }
-  .dnb-switch__input {
-    border: 0;
-    clip: rect(0 0 0 0);
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
-    padding: 0;
-    position: absolute;
-    width: 1px; }
   .dnb-switch__focus, .dnb-switch__button {
     position: absolute;
     z-index: 4;
@@ -292,60 +280,72 @@ exports[`Switch scss have to match snapshot 1`] = `
       box-shadow: 0 0 0 2px #14555a; }
     html[data-whatinput='keyboard'] .dnb-switch__focus {
       box-shadow: 0 0 0 2px #ff5400; }
-
-.dnb-switch__input {
-  /*
+  .dnb-switch__inner:not([disabled]) .dnb-switch__background,
+  .dnb-switch__inner:not([disabled]) .dnb-switch__button {
+    cursor: pointer; }
+  .dnb-switch__input {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+    /*
     * When switched ON
     * aka when the checkbox is :checked
     */
-  /*
-  * On focus
-  *
-  */
-  /*
-  * On disabled
-  *
-  */ }
-  .dnb-switch__input:checked ~ .dnb-switch__button .dnb-switch__text-item--positive {
-    display: block; }
-  .dnb-switch__input:checked ~ .dnb-switch__button .dnb-switch__text-item--negative {
-    display: none; }
-  .dnb-switch__input:checked ~ .dnb-switch__button {
-    border-color: #007272;
-    background-color: #007272;
-    color: white;
-    transform: translate(1rem, -50%);
-    transform: translate(calc(1rem + 1px), -50%); }
-  .dnb-switch__input:checked:focus ~ .dnb-switch__button .dnb-switch__focus,
-  .dnb-switch__input:checked:active ~ .dnb-switch__button .dnb-switch__focus {
-    transform: rotate(180deg); }
-  .dnb-switch__input:active ~ .dnb-switch__button {
-    color: rgba(0, 114, 114, 0.75); }
-  .dnb-switch__input:checked:active ~ .dnb-switch__button {
-    color: rgba(255, 255, 255, 0.85); }
-  .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__background,
-  .dnb-switch__input:not([disabled]):active ~ .dnb-switch__background {
-    outline: none;
-    border-color: transparent; }
-    html[data-whatinput='mouse'] .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__background:not(.dnb-no-mouse-focus), html[data-whatinput='mouse']
-    .dnb-switch__input:not([disabled]):active ~ .dnb-switch__background:not(.dnb-no-mouse-focus) {
-      transition: box-shadow 0.1s ease-out 0s;
-      box-shadow: 0 0 0 2px #14555a; }
-    html[data-whatinput='keyboard'] .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__background, html[data-whatinput='keyboard']
+    /*
+    * On disabled
+    *
+    */
+    /*
+    * On focus
+    *
+    */ }
+    .dnb-switch__input:checked ~ .dnb-switch__button {
+      border-color: #007272;
+      background-color: #007272;
+      color: white;
+      /* stylelint-disable */
+      transform: translate(1rem, -50%);
+      transform: translate(calc(1rem + 1px), -50%);
+      /* stylelint-enable */ }
+      .dnb-switch__input:checked ~ .dnb-switch__button .dnb-switch__text-item--positive {
+        display: block; }
+      .dnb-switch__input:checked ~ .dnb-switch__button .dnb-switch__text-item--negative {
+        display: none; }
+    .dnb-switch__input[disabled] ~ .dnb-switch__button,
+    .dnb-switch__input[disabled] ~ .dnb-switch__background {
+      opacity: 0.8; }
+    .dnb-switch__input[disabled] ~ .dnb-switch__background {
+      background-color: rgba(117, 117, 117, 0.5); }
+    .dnb-switch__input[disabled] ~ .dnb-switch__button {
+      color: rgba(255, 255, 255, 0.6);
+      border-color: rgba(117, 117, 117, 0.5);
+      background-color: #757575;
+      box-shadow: none; }
+    .dnb-switch__input:checked:focus ~ .dnb-switch__button .dnb-switch__focus,
+    .dnb-switch__input:checked:active ~ .dnb-switch__button .dnb-switch__focus {
+      transform: rotate(180deg); }
+    .dnb-switch__input:active ~ .dnb-switch__button {
+      color: rgba(0, 114, 114, 0.75); }
+    .dnb-switch__input:checked:active ~ .dnb-switch__button {
+      color: rgba(255, 255, 255, 0.85); }
+    .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__background,
     .dnb-switch__input:not([disabled]):active ~ .dnb-switch__background {
-      box-shadow: 0 0 0 2px #ff5400; }
-  .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__button .dnb-switch__focus,
-  .dnb-switch__input:not([disabled]):active ~ .dnb-switch__button .dnb-switch__focus {
-    display: block; }
-  .dnb-switch__input[disabled] ~ .dnb-switch__button,
-  .dnb-switch__input[disabled] ~ .dnb-switch__background {
-    opacity: 0.8; }
-  .dnb-switch__input[disabled] ~ .dnb-switch__background {
-    background-color: rgba(117, 117, 117, 0.5); }
-  .dnb-switch__input[disabled] ~ .dnb-switch__button {
-    color: rgba(255, 255, 255, 0.6);
-    border-color: rgba(117, 117, 117, 0.5);
-    background-color: #757575;
-    box-shadow: none; }
+      outline: none;
+      border-color: transparent; }
+      html[data-whatinput='mouse'] .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__background:not(.dnb-no-mouse-focus), html[data-whatinput='mouse']
+      .dnb-switch__input:not([disabled]):active ~ .dnb-switch__background:not(.dnb-no-mouse-focus) {
+        transition: box-shadow 0.1s ease-out 0s;
+        box-shadow: 0 0 0 2px #14555a; }
+      html[data-whatinput='keyboard'] .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__background, html[data-whatinput='keyboard']
+      .dnb-switch__input:not([disabled]):active ~ .dnb-switch__background {
+        box-shadow: 0 0 0 2px #ff5400; }
+    .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__button .dnb-switch__focus,
+    .dnb-switch__input:not([disabled]):active ~ .dnb-switch__button .dnb-switch__focus {
+      display: block; }
 "
 `;

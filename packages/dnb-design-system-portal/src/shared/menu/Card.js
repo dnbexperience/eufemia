@@ -85,7 +85,7 @@ const iconStyle = css`
   justify-content: center;
   flex-direction: column;
 `
-const svgStyle = css``
+// const svgStyle = css``
 
 export default class Card extends Component {
   static propTypes = {
@@ -109,7 +109,7 @@ export default class Card extends Component {
         onClick={onClick}
       >
         <div css={iconStyle}>
-          <Svg css={svgStyle} />
+          <Svg />
         </div>
         <span css={headerStyle}>{title}</span>
       </Link>

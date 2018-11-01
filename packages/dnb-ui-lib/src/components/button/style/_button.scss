@@ -31,6 +31,28 @@
   font-style: var(--button-font-style);
   text-decoration: none;
 
+  &__icon {
+    line-height: 0;
+    svg:not([width]):not([height]) {
+      width: var(--button-icon-size);
+      height: var(--button-icon-size);
+    }
+    // a & {
+    //   transform: translateY(-1px);
+    // }
+  }
+  &__text {
+    color: inherit;
+    background-color: inherit;
+
+    // +1px because of the border width
+    transform: translateY(var(--button-border-width));
+
+    // a & {
+    //   transform: translateY(0);
+    // }
+  }
+
   &--size-big {
     width: var(--button-width--big);
     height: var(--button-height--big);
@@ -82,28 +104,6 @@
     .dnb-button__text {
       order: 2;
     }
-  }
-
-  &__icon {
-    line-height: 0;
-    svg:not([width]):not([height]) {
-      width: var(--button-icon-size);
-      height: var(--button-icon-size);
-    }
-    // a & {
-    //   transform: translateY(-1px);
-    // }
-  }
-  &__text {
-    color: inherit;
-    background-color: inherit;
-
-    // +1px because of the border width
-    transform: translateY(var(--button-border-width));
-
-    // a & {
-    //   transform: translateY(0);
-    // }
   }
 
   &--reset {

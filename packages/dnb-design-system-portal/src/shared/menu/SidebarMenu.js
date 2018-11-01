@@ -157,6 +157,7 @@ const listItemStyle = css`
     display: block;
 
     text-decoration: none;
+
     /* border-bottom-color: transparent; */
     border-bottom: none;
     font-weight: 300;
@@ -208,12 +209,13 @@ const listItemStyle = css`
     flex-direction: column;
     justify-content: center;
 
-    &:before {
+    &::before {
       content: '';
       position: absolute;
-      /* left: 1em; */
 
+      /* left: 1em; */
       display: flex;
+
       /* padding: .2em; */
       height: 60%;
       width: 4px;
@@ -238,6 +240,7 @@ const Sidebar = styled.aside`
     overflow-y: auto;
     min-height: 20vh;
     max-height: calc(100vmin - 4em - 10px);
+
     /* height of header and footer */
     margin: 0;
     padding: 0;

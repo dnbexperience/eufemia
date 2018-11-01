@@ -25,6 +25,22 @@ injectGlobal`
     }
   }
 `
+
+const sectionsStyle = css`
+  display: flex;
+  flex-flow: row wrap;
+  flex-direction: row;
+  justify-content: stretch;
+  height: 100%;
+
+  a,
+  a:hover {
+    color: black;
+    padding: 0;
+    border: none;
+  }
+`
+
 const mainMenuStyle = css`
   width: 100vw;
   height: calc(100vh - 4em); /* minus StickyMenuBar */
@@ -35,6 +51,7 @@ const mainMenuStyle = css`
       z-index: 3; /* one more than Wrapper */
       top: 0;
       left: 0;
+
       /* we dont use z-index for now, as its not required */
       ${'' /* z-index: 100; */};
     }
@@ -63,21 +80,6 @@ const mainMenuStyle = css`
       opacity: 0;
       transform: scale3d(0.9, 0.9, 1) translate3d(0, -8%, 0);
     }
-  }
-`
-
-const sectionsStyle = css`
-  display: flex;
-  flex-flow: row wrap;
-  flex-direction: row;
-  justify-content: stretch;
-  height: 100%;
-
-  a,
-  a:hover {
-    color: black;
-    padding: 0;
-    border: none;
   }
 `
 

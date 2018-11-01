@@ -18,8 +18,8 @@ const style = css`
     padding: 2rem 0;
     background: var(--color-light-grey);
 
-    .dnb-loan-sausage__inner {
-    }
+    ${'' /* .dnb-loan-sausage__inner {
+    } */};
 
     .dnb-loan-sausage__header {
       display: flex;
@@ -37,10 +37,12 @@ const style = css`
     .dnb-loan-sausage__title__currency {
       font-size: 2rem;
     }
-    .dnb-loan-sausage__title__value {
+
+    ${'' /* .dnb-loan-sausage__title__value {
     }
     .dnb-loan-sausage__title__currency {
-    }
+    } */};
+
     .dnb-loan-sausage__title__modal-container {
       margin-left: 0.5rem;
     }
@@ -50,17 +52,6 @@ const style = css`
       border-radius: 2rem;
       background-color: var(--color-mint-green-alt);
       position: relative;
-    }
-    .dnb-loan-sausage__sausage__item {
-      text-align: center;
-      border-radius: 0 2rem 2rem 0;
-      position: relative;
-      background-color: transparent;
-    }
-    .dnb-loan-sausage__sausage__item:first-child {
-      background-color: var(--color-mint-green);
-      border-radius: 2rem;
-      z-index: 1;
     }
     .dnb-loan-sausage__sausage__bar {
       width: 100%;
@@ -85,7 +76,16 @@ const style = css`
       margin: 0 0.5rem;
     }
   }
+  .dnb-loan-sausage__sausage__item {
+    text-align: center;
+    border-radius: 0 2rem 2rem 0;
+    position: relative;
+    background-color: transparent;
+  }
   .dnb-loan-sausage__sausage__item:first-child {
+    background-color: var(--color-mint-green);
+    border-radius: 2rem;
+    z-index: 1;
     .dnb-loan-sausage__sausage__item__description {
       padding-right: calc(2rem / 2);
     }

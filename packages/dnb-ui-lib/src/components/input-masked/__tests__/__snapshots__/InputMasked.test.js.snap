@@ -369,10 +369,12 @@ body:not(:-moz-handler-blocked) fieldset {
     position: relative;
     top: -1px;
     right: -1px;
+    /* stylelint-disable */
     flex: 0 0 2.2rem;
     flex: 0 0 calc(4px + 2.2rem);
     height: 2.2rem;
     height: calc(4px + 2.2rem);
+    /* stylelint-enable */
     margin: 0 0 -2px;
     overflow: hidden;
     border-radius: 2rem;
@@ -389,19 +391,16 @@ body:not(:-moz-handler-blocked) fieldset {
     border: none;
     background-color: white;
     color: #007272; }
-
-.dnb-input__shell[data-input-state='focus'] {
-  border-color: #a0d6c9;
-  background-color: white; }
-  .dnb-input__shell[data-input-state='focus'] .dnb-input__search-submit {
-    border-color: rgba(210, 239, 232, 0.5); }
-
-.dnb-input__shell[data-has-content='true'] .dnb-input__placeholder,
-.dnb-input__shell[data-input-state='focus'][data-has-content='true'] .dnb-input__placeholder {
-  display: none; }
-
-.dnb-input__shell[data-input-state='focus'][data-has-content='false'] .dnb-input__placeholder {
-  opacity: 0.35; }
+  .dnb-input__shell[data-input-state='focus'] {
+    border-color: #a0d6c9;
+    background-color: white; }
+    .dnb-input__shell[data-input-state='focus'] .dnb-input__search-submit {
+      border-color: rgba(210, 239, 232, 0.5); }
+  .dnb-input__shell[data-has-content='true'] .dnb-input__placeholder,
+  .dnb-input__shell[data-input-state='focus'][data-has-content='true'] .dnb-input__placeholder {
+    display: none; }
+  .dnb-input__shell[data-input-state='focus'][data-has-content='false'] .dnb-input__placeholder {
+    opacity: 0.35; }
 
 .dnb-input__search-submit[data-input-state='focus'] {
   border-color: #bedbdb; }
@@ -436,9 +435,6 @@ input[type='range'] {
   width: 100%;
   border-radius: 0.25rem; }
 
-input[type='range']:focus {
-  outline: none; }
-
 input[type='range']::-webkit-slider-runnable-track {
   position: relative;
   z-index: 1;
@@ -459,6 +455,9 @@ input[type='range']::-webkit-slider-thumb {
   transform: translate(0, -50%);
   -webkit-appearance: none;
   box-shadow: 1px 1px 2px rgba(0, 135, 137, 0.25), 0 0 1px rgba(0, 160, 163, 0.25); }
+
+input[type='range']:focus {
+  outline: none; }
 
 .dnb-input-masked {
   font-size: 1rem;

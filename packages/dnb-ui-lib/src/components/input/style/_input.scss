@@ -140,11 +140,14 @@
     top: -1px;
     right: -1px;
 
+    /* stylelint-disable */
     flex: 0 0 $input-height; // IE fix
     flex: 0 0 calc(4px + #{$input-height});
 
     height: $input-height; // IE fix
     height: calc(4px + #{$input-height});
+    /* stylelint-enable */
+
     margin: 0 0 -2px;
     overflow: hidden;
 
@@ -169,11 +172,9 @@
     background-color: white;
     color: #007272;
   }
-}
 
-//Input focus state
-.dnb-input__shell {
-  &[data-input-state='focus'] {
+  //Input focus state
+  &__shell[data-input-state='focus'] {
     border-color: rgb(160, 214, 201);
     background-color: white;
 
@@ -185,8 +186,8 @@
   //Hide placeholder when:
   //1: input has content
   //2: input is in focus
-  &[data-has-content='true'] .dnb-input__placeholder,
-  &[data-input-state='focus'][data-has-content='true']
+  &__shell[data-has-content='true'] .dnb-input__placeholder,
+  &__shell[data-input-state='focus'][data-has-content='true']
     .dnb-input__placeholder {
     display: none;
   }
@@ -195,7 +196,7 @@
   //1: input is in focus
   //and
   //2. input has content
-  &[data-input-state='focus'][data-has-content='false']
+  &__shell[data-input-state='focus'][data-has-content='false']
     .dnb-input__placeholder {
     opacity: 0.35;
   }
@@ -245,10 +246,6 @@ input[type='range'] {
   border-radius: $range-track-border-radius;
 }
 
-input[type='range']:focus {
-  outline: none;
-}
-
 input[type='range']::-webkit-slider-runnable-track {
   position: relative;
   z-index: 1;
@@ -278,6 +275,10 @@ input[type='range']::-webkit-slider-thumb {
 
   box-shadow: 1px 1px 2px rgba(0, 135, 137, 0.25),
     0 0 1px rgba(0, 160, 163, 0.25);
+}
+
+input[type='range']:focus {
+  outline: none;
 }
 
 // input[type='range']:focus::-webkit-slider-runnable-track {

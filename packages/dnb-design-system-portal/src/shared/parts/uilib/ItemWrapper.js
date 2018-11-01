@@ -29,16 +29,16 @@ const tabsWrapperStyle = css`
   z-index: 2;
   */};
 
+  .dnb-tabs__tabs {
+    justify-content: space-between;
+    align-items: center;
+  }
+
   .fullscreen-page & {
     top: 0;
     .is-sticky .dnb-tabs__tabs {
       margin: 0 -2rem;
     }
-  }
-
-  .dnb-tabs__tabs {
-    justify-content: space-between;
-    align-items: center;
   }
   .toggle-fullscreen {
     margin-right: 1rem;

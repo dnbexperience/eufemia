@@ -117,7 +117,7 @@ const Main = styled.main`
   width: 100%;
   margin-top: calc(
     4rem - 0.0625rem
-  ); /* height of StickyMenuBar - 1px border*/
+  ); /* height of StickyMenuBar - 1px border */
   margin-left: 30vw; /* 20rem, width of Sidebar aside */
   margin-left: 24rem; /* try rems instead of viewport? */
   padding-bottom: 2rem;

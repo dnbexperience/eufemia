@@ -17,6 +17,221 @@ $option-selected-color: $input-background-color;
   position: relative;
   display: inline-block;
 
+  &__options {
+    position: absolute;
+    z-index: 3;
+    top: calc(#{$input-height} - 15px);
+    left: 0;
+
+    width: 100%;
+    margin: 0;
+
+    padding: 1rem 0 0 0;
+
+    list-style: none;
+    overflow: hidden;
+    opacity: 0;
+
+    border: 1px solid $color-outline-grey;
+    border-radius: 0.5rem;
+    background-color: white;
+
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+
+    transform: translate(0, 0);
+    transition: transform 200ms, opacity 160ms ease-out;
+  }
+
+  &__option__inner {
+    display: block;
+    white-space: nowrap;
+
+    user-select: none;
+    outline: none;
+
+    width: 100%;
+    padding: 1rem;
+
+    cursor: pointer;
+    background-color: white;
+    border-bottom: 1px solid $color-outline-grey;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    @include hover(true) {
+      background-color: $option-selected-color;
+    }
+  }
+
+  &__option {
+    padding: 2px; // to make space for the fakeFocus
+    background-color: white;
+
+    // &:focus,
+    // &:active,
+    &--active {
+      background-color: $option-selected-color;
+      .dnb-dropdown__option__inner {
+        @include fakeBorder();
+        @include fakeFocus();
+      }
+    }
+
+    @include hover(true) {
+      background-color: $option-selected-color;
+      .dnb-dropdown__option__inner {
+        background-color: $option-selected-color;
+      }
+    }
+
+    &.dnb-dropdown__option--selected {
+      background-color: $option-selected-color;
+      .dnb-dropdown__option__inner {
+        background-color: $option-selected-color;
+      }
+    }
+  }
+
+  &--hidden .dnb-dropdown__options {
+    visibility: hidden;
+    opacity: 0;
+    transform: translate(0, 0);
+  }
+
+  &__trigger {
+    position: relative;
+    z-index: 1;
+
+    user-select: none;
+
+    display: inline-flex;
+    outline: none;
+
+    width: inherit;
+    height: $input-height;
+    padding: 0 $input-padding-horizontal;
+
+    font-size: inherit;
+    line-height: $input-height;
+    background-color: white;
+
+    border: $input-border-width solid $input-border-color;
+    border-radius: $input-border-radius;
+  }
+
+  &__icon {
+    order: 2;
+
+    display: inline-block;
+    height: inherit;
+
+    pointer-events: none;
+
+    .dnb-icon {
+      display: flex;
+      align-items: center;
+
+      height: inherit;
+      color: $color-sea-green;
+    }
+
+    &__triangle {
+      position: absolute;
+      z-index: 2;
+      top: 80%;
+      right: 8.5%;
+
+      visibility: hidden;
+
+      width: $input-height / 2;
+      height: $input-height / 2;
+
+      background-color: white;
+      border: 1px solid $color-outline-grey;
+      opacity: 0;
+
+      transform: translate(50%, 50%) rotate(45deg);
+      transition: transform 200ms, opacity 50ms ease-out;
+
+      &::before {
+        content: '';
+
+        /* stylelint-disable */
+        width: 110%; // IE fix
+        height: 110%; // IE fix
+        width: calc(100% + 2px);
+        height: calc(100% + 2px);
+        /* stylelint-enable */
+
+        position: relative;
+        background-color: white;
+        display: block;
+      }
+    }
+  }
+
+  &__text {
+    order: 1;
+    position: relative;
+    z-index: 4;
+
+    display: inline-block;
+    width: inherit;
+    height: inherit;
+    padding-right: $dropdown-text-padding;
+
+    overflow: hidden;
+
+    text-align: left;
+    text-overflow: ellipsis;
+
+    &__inner {
+      display: inline-block;
+
+      max-width: 20rem;
+      /* stylelint-disable */
+      width: inherit; // IE fix
+      width: calc(
+        var(--dropdown-width) - calc(#{$input-padding-horizontal} * 4)
+      );
+      /* stylelint-enable */
+      overflow: hidden;
+      white-space: nowrap;
+
+      color: $dropdown-trigger-color;
+      text-decoration: none;
+      text-overflow: inherit;
+      text-align: inherit;
+    }
+  }
+
+  &__option__item {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+  }
+
+  &--icon-position-left {
+    .dnb-dropdown__icon {
+      order: 1;
+      margin-top: -1px;
+
+      &__triangle {
+        right: auto;
+        left: 4%;
+      }
+    }
+    .dnb-dropdown__text {
+      order: 2;
+      padding-left: $dropdown-text-padding;
+      // &__inner {
+      // }
+    }
+  }
+
   &__value-holder-input {
     position: absolute;
     z-index: 6;
@@ -73,35 +288,6 @@ $option-selected-color: $input-background-color;
     }
   }
 
-  &--hidden {
-    .dnb-dropdown__options {
-      visibility: hidden;
-      opacity: 0;
-      transform: translate(0, 0);
-    }
-  }
-
-  &__trigger {
-    position: relative;
-    z-index: 1;
-
-    user-select: none;
-
-    display: inline-flex;
-    outline: none;
-
-    width: inherit;
-    height: $input-height;
-    padding: 0 $input-padding-horizontal;
-
-    font-size: inherit;
-    line-height: $input-height;
-    background-color: white;
-
-    border: $input-border-width solid $input-border-color;
-    border-radius: $input-border-radius;
-  }
-
   &__value-holder-input[disabled] ~ &__icon,
   &__value-holder-input[disabled] ~ &__trigger {
     opacity: 0.4;
@@ -116,194 +302,9 @@ $option-selected-color: $input-background-color;
     padding: 0.5rem 0 1rem $input-padding-horizontal;
   }
 
-  &__text {
-    order: 1;
-    position: relative;
-    z-index: 4;
-
-    display: inline-block;
-    width: inherit;
-    height: inherit;
-    padding-right: $dropdown-text-padding;
-
-    overflow: hidden;
-
-    text-align: left;
-    text-overflow: ellipsis;
-
-    &__inner {
-      display: inline-block;
-
-      max-width: 20rem;
-      width: inherit; // IE fix
-      width: calc(
-        var(--dropdown-width) - calc(#{$input-padding-horizontal} * 4)
-      );
-      overflow: hidden;
-      white-space: nowrap;
-
-      color: $dropdown-trigger-color;
-      text-decoration: none;
-      text-overflow: inherit;
-      text-align: inherit;
-    }
-  }
-
-  &__icon {
-    order: 2;
-
-    display: inline-block;
-    height: inherit;
-
-    pointer-events: none;
-
-    .dnb-icon {
-      display: flex;
-      align-items: center;
-
-      height: inherit;
-      color: $color-sea-green;
-    }
-
-    &__triangle {
-      position: absolute;
-      z-index: 2;
-      top: 80%;
-      right: 8.5%;
-
-      visibility: hidden;
-
-      width: $input-height / 2;
-      height: $input-height / 2;
-
-      background-color: white;
-      border: 1px solid $color-outline-grey;
-      opacity: 0;
-
-      transform: translate(50%, 50%) rotate(45deg);
-      transition: transform 200ms, opacity 50ms ease-out;
-
-      &::before {
-        content: '';
-        width: 110%; // IE fix
-        height: 110%; // IE fix
-
-        position: relative;
-        background-color: white;
-        display: block;
-      }
-      &::before {
-        width: calc(100% + 2px);
-        height: calc(100% + 2px);
-      }
-    }
-  }
-
   .icon-chevron-left .dnb-icon {
     svg {
       transform: rotate(-90deg);
     }
-  }
-
-  &__options {
-    position: absolute;
-    z-index: 3;
-    top: calc(#{$input-height} - 15px);
-    left: 0;
-
-    width: 100%;
-    margin: 0;
-
-    padding: 1rem 0 0 0;
-
-    list-style: none;
-    overflow: hidden;
-    opacity: 0;
-
-    border: 1px solid $color-outline-grey;
-    border-radius: 0.5rem;
-    background-color: white;
-
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
-
-    transform: translate(0, 0);
-    transition: transform 200ms, opacity 160ms ease-out;
-  }
-
-  &__option {
-    padding: 2px; // to make space for the fakeFocus
-    background-color: white;
-
-    // &:focus,
-    // &:active,
-    &--active {
-      background-color: $option-selected-color;
-      .dnb-dropdown__option__inner {
-        @include fakeBorder();
-        @include fakeFocus();
-      }
-    }
-
-    @include hover(true) {
-      background-color: $option-selected-color;
-      .dnb-dropdown__option__inner {
-        background-color: $option-selected-color;
-      }
-    }
-
-    &.dnb-dropdown__option--selected {
-      background-color: $option-selected-color;
-      .dnb-dropdown__option__inner {
-        background-color: $option-selected-color;
-      }
-    }
-  }
-
-  &__option__inner {
-    display: block;
-    white-space: nowrap;
-
-    user-select: none;
-    outline: none;
-
-    width: 100%;
-    padding: 1rem;
-
-    cursor: pointer;
-    background-color: white;
-    border-bottom: 1px solid $color-outline-grey;
-
-    &:last-child {
-      border-bottom: none;
-    }
-
-    @include hover(true) {
-      background-color: $option-selected-color;
-    }
-  }
-
-  &__option__item {
-    display: block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    width: 100%;
-  }
-}
-
-.dnb-dropdown--icon-position-left {
-  .dnb-dropdown__icon {
-    order: 1;
-    margin-top: -1px;
-
-    &__triangle {
-      right: auto;
-      left: 4%;
-    }
-  }
-  .dnb-dropdown__text {
-    order: 2;
-    padding-left: $dropdown-text-padding;
-    // &__inner {
-    // }
   }
 }

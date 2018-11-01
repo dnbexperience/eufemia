@@ -477,6 +477,15 @@ exports[`Button scss have to match snapshot 1`] = `
   font-style: var(--button-font-style);
   text-decoration: none;
   /* Firefox includes a hidden border which messes up button dimensions */ }
+  .dnb-button__icon {
+    line-height: 0; }
+    .dnb-button__icon svg:not([width]):not([height]) {
+      width: var(--button-icon-size);
+      height: var(--button-icon-size); }
+  .dnb-button__text {
+    color: inherit;
+    background-color: inherit;
+    transform: translateY(var(--button-border-width)); }
   .dnb-button--size-big {
     width: var(--button-width--big);
     height: var(--button-height--big);
@@ -506,15 +515,6 @@ exports[`Button scss have to match snapshot 1`] = `
     order: 1; }
   .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__text {
     order: 2; }
-  .dnb-button__icon {
-    line-height: 0; }
-    .dnb-button__icon svg:not([width]):not([height]) {
-      width: var(--button-icon-size);
-      height: var(--button-icon-size); }
-  .dnb-button__text {
-    color: inherit;
-    background-color: inherit;
-    transform: translateY(var(--button-border-width)); }
   .dnb-button--reset {
     margin: 0;
     padding: 0;

@@ -16,15 +16,6 @@ $switch-border-width: 1px;
     vertical-align: middle;
   }
 
-  &__inner:not([disabled]) &__background,
-  &__inner:not([disabled]) &__button {
-    cursor: pointer;
-  }
-
-  &__input {
-    @include sr-only;
-  }
-
   &__focus,
   &__button {
     position: absolute;
@@ -119,70 +110,79 @@ $switch-border-width: 1px;
     // &__inner {
     // }
   }
-}
 
-.dnb-switch__input {
-  /*
+  &__inner:not([disabled]) &__background,
+  &__inner:not([disabled]) &__button {
+    cursor: pointer;
+  }
+
+  &__input {
+    @include sr-only;
+
+    /*
     * When switched ON
     * aka when the checkbox is :checked
     */
-  &:checked ~ .dnb-switch__button {
-    .dnb-switch__text-item--positive {
+    &:checked ~ .dnb-switch__button {
+      border-color: $color-sea-green;
+      background-color: $color-sea-green;
+      color: white;
+      /* stylelint-disable */
+      transform: translate(1rem, -50%); // IE fix
+      transform: translate(calc(1rem + #{$switch-border-width}), -50%);
+      /* stylelint-enable */
+
+      .dnb-switch__text-item--positive {
+        display: block;
+      }
+
+      .dnb-switch__text-item--negative {
+        display: none;
+      }
+    }
+
+    /*
+    * On disabled
+    *
+    */
+    &[disabled] ~ .dnb-switch__button,
+    &[disabled] ~ .dnb-switch__background {
+      opacity: 0.8;
+    }
+    &[disabled] ~ .dnb-switch__background {
+      background-color: rgba($color-shadow-grey, 0.5);
+    }
+    &[disabled] ~ .dnb-switch__button {
+      color: rgba(white, 0.6);
+      border-color: rgba($color-shadow-grey, 0.5);
+      background-color: $color-shadow-grey;
+      box-shadow: none;
+    }
+
+    &:checked:focus ~ .dnb-switch__button .dnb-switch__focus,
+    &:checked:active ~ .dnb-switch__button .dnb-switch__focus {
+      transform: rotate(180deg);
+    }
+
+    &:active ~ .dnb-switch__button {
+      color: rgba($color-sea-green, 0.75);
+    }
+    &:checked:active ~ .dnb-switch__button {
+      color: rgba(white, 0.85);
+    }
+
+    /*
+    * On focus
+    *
+    */
+    &:not([disabled]):focus ~ .dnb-switch__background,
+    &:not([disabled]):active ~ .dnb-switch__background {
+      @include fakeFocus();
+    }
+
+    &:not([disabled]):focus ~ .dnb-switch__button .dnb-switch__focus,
+    &:not([disabled]):active ~ .dnb-switch__button .dnb-switch__focus {
       display: block;
     }
-
-    .dnb-switch__text-item--negative {
-      display: none;
-    }
-  }
-  &:checked ~ .dnb-switch__button {
-    border-color: $color-sea-green;
-    background-color: $color-sea-green;
-    color: white;
-    transform: translate(1rem, -50%); // IE fix
-    transform: translate(calc(1rem + #{$switch-border-width}), -50%);
-  }
-  &:checked:focus ~ .dnb-switch__button .dnb-switch__focus,
-  &:checked:active ~ .dnb-switch__button .dnb-switch__focus {
-    transform: rotate(180deg);
-  }
-
-  &:active ~ .dnb-switch__button {
-    color: rgba($color-sea-green, 0.75);
-  }
-  &:checked:active ~ .dnb-switch__button {
-    color: rgba(white, 0.85);
-  }
-
-  /*
-  * On focus
-  *
-  */
-  &:not([disabled]):focus ~ .dnb-switch__background,
-  &:not([disabled]):active ~ .dnb-switch__background {
-    @include fakeFocus();
-  }
-
-  &:not([disabled]):focus ~ .dnb-switch__button .dnb-switch__focus,
-  &:not([disabled]):active ~ .dnb-switch__button .dnb-switch__focus {
-    display: block;
-  }
-
-  /*
-  * On disabled
-  *
-  */
-  &[disabled] ~ .dnb-switch__button,
-  &[disabled] ~ .dnb-switch__background {
-    opacity: 0.8;
-  }
-  &[disabled] ~ .dnb-switch__background {
-    background-color: rgba($color-shadow-grey, 0.5);
-  }
-  &[disabled] ~ .dnb-switch__button {
-    color: rgba(white, 0.6);
-    border-color: rgba($color-shadow-grey, 0.5);
-    background-color: $color-shadow-grey;
-    box-shadow: none;
   }
 }

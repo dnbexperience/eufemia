@@ -35,7 +35,7 @@ module.exports = {
       dev: 'yarn make-ui-lib-pages:dev'
     },
     test: {
-      default: 'yarn test'
+      default: 'yarn lint:style && yarn test'
     }
   }
 }

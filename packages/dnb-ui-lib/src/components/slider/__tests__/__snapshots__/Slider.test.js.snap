@@ -209,19 +209,16 @@ exports[`Slider scss have to match snapshot 1`] = `
     cursor: pointer;
     padding: 1rem 0.5rem;
     position: relative; }
-  .dnb-slider .slider__state--disabled.slider__root,
-  .dnb-slider .slider__state--disabled .slider__thumb {
-    cursor: not-allowed; }
-  .dnb-slider.slider__reverse .slider__root {
-    transform: scaleX(-1); }
-  .dnb-slider.slider__reverse.slider__vertical .slider__root {
-    transform: scaleY(-1); }
   .dnb-slider.slider__vertical {
     height: 100%;
     padding: 0.5rem 1rem; }
     .dnb-slider.slider__vertical .slider__root {
       width: inherit;
       height: inherit; }
+  .dnb-slider.slider__reverse .slider__root {
+    transform: scaleX(-1); }
+  .dnb-slider.slider__reverse.slider__vertical .slider__root {
+    transform: scaleY(-1); }
   .dnb-slider .slider__line {
     position: absolute;
     top: 50%;
@@ -266,7 +263,7 @@ exports[`Slider scss have to match snapshot 1`] = `
     text-decoration: none;
     appearance: none;
     background-color: white;
-    box-shadow: 1px 1px 2px rgba(0, 135, 137, 0.25), 0px 0px 1px rgba(0, 160, 163, 0.25); }
+    box-shadow: 1px 1px 2px rgba(0, 135, 137, 0.25), 0 0 1px rgba(0, 160, 163, 0.25); }
     .dnb-slider .slider__thumb:focus {
       outline: none;
       border-color: transparent; }
@@ -286,5 +283,8 @@ exports[`Slider scss have to match snapshot 1`] = `
     transition: width 250ms ease 0ms, height 250ms ease 0ms, left 250ms ease 0ms, top 250ms ease 0ms, box-shadow 250ms ease 0ms; }
   .dnb-slider .slider__state--activated .slider__thumb {
     border-width: 2px; }
+  .dnb-slider .slider__state--disabled.slider__root,
+  .dnb-slider .slider__state--disabled .slider__thumb {
+    cursor: not-allowed; }
 "
 `;
