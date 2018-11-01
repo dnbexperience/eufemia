@@ -18,8 +18,8 @@ const run = () => {
         repo: `https://${
           process.env.GH_TOKEN
         }@github.com/dnbexperience/eufemia.git`,
-        user: process.env.GH_USERNAME,
-        email: process.env.GH_EMAIL
+        name: process.env.GH_USERNAME,
+        email: process.env.GH_EMAIL || ''
       }
     : {}
 
@@ -35,8 +35,9 @@ const run = () => {
     },
     error => {
       if (error) {
-        log.fail(`Failed to deploy! \n${error.message}`)
-        return
+        const msg = `Failed to deploy! \n${error.message}`
+        log.fail(msg)
+        throw msg
       }
       log.succeed(`Deployed successfully v${pkg.version}!`)
     }
