@@ -4,43 +4,13 @@
 #
 version: 2
 jobs:
-  # test:
-  #   docker:
-  #     - image: circleci/node:10.6
-  #   working_directory: ~/repo
-  #   branches:
-  #     only:
-  #       - develop
-  #   steps:
-  #     - checkout
-  #
-  #     - restore_cache:
-  #         name: Restore Yarn Package Cache
-  #         keys:
-  #           - yarn-packages-{{ checksum "yarn.lock" }}
-  #         paths:
-  #           - ~/.cache/yarn
-  #
-  #     - run: yarn install
-  #
-  #     - save_cache:
-  #         name: Save Yarn Package Cache
-  #         key: yarn-packages-{{ checksum "yarn.lock" }}
-  #         paths:
-  #           - ~/.cache/yarn
-  #
-  #     - run: yarn build-ci
-  #     - run: yarn lint-ci
-  #     - run: yarn test-ci
-
   build:
+    branches:
+      ignore:
+        - gh-pages
     docker:
       - image: circleci/node:10.6
     working_directory: ~/repo
-    branches:
-      only:
-        - master
-        - /rc-.*/
     steps:
       - checkout
 
@@ -60,21 +30,71 @@ jobs:
             - ~/.cache/yarn
 
       - run: yarn build-ci
-      # - run: yarn lint-ci
-      # - run: yarn test-ci
+      - run: yarn lint-ci
+      - run: yarn test-ci
+
+      - run:
+          name: Authenticate with registry
+          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
+
+      - run:
+          name: release
+          command: yarn publish-ci
 
       # - run:
-      #     name: Authenticate with registry
-      #     command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
-      #
-      # - run:
-      #     name: release
-      #     command: yarn publish-ci
+      #     name: config
+      #     command: |
+      #       git config --global user.email $GH_EMAIL
+      #       git config --global user.name $GH_NAME
 
       - run:
           name: deploy
-          command: |
-            git config --global user.email $GH_EMAIL
-            git config --global user.name $GH_NAME
+          command: yarn deploy-ci
+  test:
+    branches:
+      ignore:
+        - gh-pages
+    docker:
+      - image: circleci/node:10.6
+    working_directory: ~/repo
+    steps:
+      - checkout
 
-            yarn deploy-ci
+      - restore_cache:
+          name: Restore Yarn Package Cache
+          keys:
+            - yarn-packages-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+
+      - run: yarn install
+
+      - save_cache:
+          name: Save Yarn Package Cache
+          key: yarn-packages-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+
+      - run: yarn build-ci
+      - run: yarn lint-ci
+      - run: yarn test-ci
+
+workflows:
+  version: 2
+  workflow:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only:
+                - master
+                - /rc-.*/
+              ignore:
+                - gh-pages
+      - test:
+          filters:
+            branches:
+              only:
+                - develop
+              ignore:
+                - gh-pages
