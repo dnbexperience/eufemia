@@ -28,4 +28,4 @@ Icons should have a minimum area of 8px between them and their nearest neighbour
 
 #### Custom Icons
 
-Streamline caters for pretty much all of Eufemia's icon needs. However, sometimes there is a need for a custom icon. in these cases please contact one of Eufemia's design leads.
+Streamline caters for pretty much all of Eufemia's icon needs. However, sometimes there is a need for a custom icon. In these cases please contact one of Eufemia's design leads.
