@@ -4,32 +4,34 @@
 #
 version: 2
 jobs:
-  test:
-    docker:
-      - image: circleci/node:10.6
-    working_directory: ~/repo
-    branches:
-      only:
-        - develop
-    steps:
-      - checkout
-
-      - restore_cache:
-          name: Restore Yarn Package Cache
-          keys:
-            - yarn-packages-{{ checksum "yarn.lock" }}
-
-      - run: yarn install
-
-      - save_cache:
-          name: Save Yarn Package Cache
-          key: yarn-packages-{{ checksum "yarn.lock" }}
-          paths:
-            - ~/.cache/yarn
-
-      - run: yarn build-ci
-      - run: yarn lint-ci
-      - run: yarn test-ci
+  # test:
+  #   docker:
+  #     - image: circleci/node:10.6
+  #   working_directory: ~/repo
+  #   branches:
+  #     only:
+  #       - develop
+  #   steps:
+  #     - checkout
+  #
+  #     - restore_cache:
+  #         name: Restore Yarn Package Cache
+  #         keys:
+  #           - yarn-packages-{{ checksum "yarn.lock" }}
+  #         paths:
+  #           - ~/.cache/yarn
+  #
+  #     - run: yarn install
+  #
+  #     - save_cache:
+  #         name: Save Yarn Package Cache
+  #         key: yarn-packages-{{ checksum "yarn.lock" }}
+  #         paths:
+  #           - ~/.cache/yarn
+  #
+  #     - run: yarn build-ci
+  #     - run: yarn lint-ci
+  #     - run: yarn test-ci
 
   build:
     docker:
@@ -46,6 +48,8 @@ jobs:
           name: Restore Yarn Package Cache
           keys:
             - yarn-packages-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
 
       - run: yarn install
 
@@ -56,16 +60,16 @@ jobs:
             - ~/.cache/yarn
 
       - run: yarn build-ci
-      - run: yarn lint-ci
-      - run: yarn test-ci
+      # - run: yarn lint-ci
+      # - run: yarn test-ci
 
-      - run:
-          name: Authenticate with registry
-          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
-
-      - run:
-          name: release
-          command: yarn publish-ci
+      # - run:
+      #     name: Authenticate with registry
+      #     command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
+      #
+      # - run:
+      #     name: release
+      #     command: yarn publish-ci
 
       - run:
           name: deploy
