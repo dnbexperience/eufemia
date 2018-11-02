@@ -5,6 +5,9 @@
 
 // UI Style
 import 'dnb-ui-lib/src/style'
+import 'dnb-ui-lib/src/patterns/style'
+// import 'dnb-ui-lib/src/components/style'
+// import 'dnb-ui-lib/src/style/themes/dnb-theme-open-banking.scss'
 
 import Body, { pageFocus } from 'dnb-ui-lib/src/components/body'
 import React, { Component } from 'react'

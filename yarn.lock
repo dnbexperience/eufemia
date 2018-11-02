@@ -14418,6 +14418,11 @@ package-json@^4.0.0:
     registry-url "^3.0.3"
     semver "^5.1.0"
 
+packpath@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/packpath/-/packpath-0.1.0.tgz#a521534222dfeaa9c612ef0c640ec399149ecdd8"
+  integrity sha1-pSFTQiLf6qnGEu8MZA7DmRSezdg=
+
 pacote@^8.1.6:
   version "8.1.6"
   resolved "https://registry.yarnpkg.com/pacote/-/pacote-8.1.6.tgz#8e647564d38156367e7a9dc47a79ca1ab278d46e"

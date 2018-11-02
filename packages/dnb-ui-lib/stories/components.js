@@ -6,7 +6,8 @@
 import React from 'react'
 
 // UI Style
-import '../src/style'
+import '../src/components/style'
+import '../src/patterns/style'
 
 // UI Components
 // import dnb, {

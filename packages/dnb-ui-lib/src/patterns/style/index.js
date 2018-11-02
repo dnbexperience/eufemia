@@ -3,4 +3,4 @@
  *
  */
 
-export * from '../../style/dnb-ui-lib.scss'
+export * from '../../style/dnb-ui-patterns.scss'

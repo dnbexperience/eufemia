@@ -6,13 +6,15 @@
  *
  */
 
-process.env.ROOT_DIR = `${__dirname}/../../`
+// process.env.ROOT_DIR = `${__dirname}/../../`
+process.env.ROOT_DIR = require('packpath').self()
 
 import { ErrorHandler, log } from '../lib'
 import del from 'del'
 
 import { prepareTemplates } from './tasks/prepareTemplates'
 import { runStyleFactory } from './tasks/styleFactory'
+import { runThemeFactory } from './tasks/themeFactory'
 import convertSvgToJsx from './tasks/convertSvgToJsx'
 // import convertSvgToCjs from './tasks/convertSvgToCjs'
 import copyAssets from './tasks/copyAssets'
@@ -28,6 +30,7 @@ export {
   log,
   prepareTemplates,
   runStyleFactory,
+  runThemeFactory,
   convertSvgToJsx,
   copyAssets,
   makeEveryComponentStyle,
@@ -54,6 +57,7 @@ export const runPrepublishTasks = async ({
     await makeIconsUMDBundle({ doRefetch })
 
     await runStyleFactory()
+    await runThemeFactory()
     await makeEveryComponentStyle() // have to run after "makeJSLibs"
     await makeMainStyle()
     await makeLibStyles()
