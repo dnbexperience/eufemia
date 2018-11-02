@@ -16,14 +16,14 @@ const run = () => {
   const log = ora()
   log.start('Starting the deploy process...')
 
-  const config = process.env.GH_USERNAME
+  const config = process.env.GH_NAME
     ? {
         silent: true,
         repo: `https://${
           process.env.GH_TOKEN
         }@github.com/dnbexperience/eufemia.git`,
         user: {
-          name: process.env.GH_USERNAME,
+          name: process.env.GH_NAME,
           email: process.env.GH_EMAIL
         }
       }
