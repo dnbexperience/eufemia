@@ -23,6 +23,7 @@ import dnb, {
 } from 'dnb-ui-lib/src'
 
 // UI Style
+import 'dnb-ui-lib/src/style/patterns'
 import 'dnb-ui-lib/src/style'
 
 const style = css`
