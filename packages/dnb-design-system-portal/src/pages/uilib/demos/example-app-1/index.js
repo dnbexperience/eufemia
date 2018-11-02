@@ -24,6 +24,7 @@ import dnb, {
 
 // UI Style
 import 'dnb-ui-lib/src/style'
+import 'dnb-ui-lib/src/patterns/style'
 
 const style = css`
   background: white;

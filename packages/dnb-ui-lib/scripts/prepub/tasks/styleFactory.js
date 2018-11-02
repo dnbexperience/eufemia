@@ -62,31 +62,6 @@ const runStyleFactory = async () => {
       log.text = '> Created the style file with all the patterns'
     }
   })
-
-  // make default theme
-  await runFactory({
-    scssOutputFile: path.resolve(
-      __dirname,
-      '../../../src/style/themes/dnb-ui-theme.scss'
-    ),
-    customContent: `
-@import '../core/dnb-theme.scss';
-`,
-    scssTemplateToFill: `@import '../../components/{name}/style/themes/dnb-{name}-theme-default.scss';`,
-    processToNamesList: [
-      path.resolve(__dirname, '../../../src/components/*')
-    ].concat(processToNamesIgnoreList),
-    processOnlyList: [
-      path.resolve(
-        __dirname,
-        '../../../src/components/**/style/themes/*.scss'
-      )
-    ]
-  }).then(() => {
-    if (require.main === module) {
-      log.text = '> Created the style file with all the components'
-    }
-  })
 }
 
 const autoAdvice =

@@ -4,7 +4,7 @@
  */
 
 import './dnb-ui-components.scss'
-import './themes/dnb-ui-theme.scss'
+import './themes/dnb-theme-ui.scss'
 
 /**
  * Only for testing porposes
@@ -12,4 +12,4 @@ import './themes/dnb-ui-theme.scss'
  *
  */
 // import '../components/button/style/dnb-button.scss'
-// import './themes/dnb-ui-theme.scss'
+// import './themes/dnb-theme-ui.scss'
