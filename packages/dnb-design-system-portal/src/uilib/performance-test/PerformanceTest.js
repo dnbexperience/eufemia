@@ -9,6 +9,7 @@ import PropTypes from 'prop-types'
 
 // UI Style
 import 'dnb-ui-lib/src/style'
+import 'dnb-ui-lib/src/patterns/style'
 
 // UI Components
 import dnb, {

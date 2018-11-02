@@ -23,7 +23,7 @@ import { log } from '../../lib'
 
 export default async () => {
   await transformStyleModules()
-  await factory('./src/style/**/themes/*.scss')
+  await factory('./src/style/**/themes/*.scss', { importOnce: false })
   await factory('./src/style/**/dnb-ui-components.scss')
   await factory('./src/style/**/dnb-ui-patterns.scss')
   await factory('./src/style/**/dnb-ui-lib.scss')
@@ -58,13 +58,13 @@ const transformStyleModules = () =>
 
 export const factory = (
   src,
-  { IE11 = false, returnResult = false } = {}
+  { IE11 = false, returnResult = false, importOnce = true } = {}
 ) =>
   new Promise((resolve, reject) => {
     log.text = '> PrePublish: transforming main style'
     try {
       const stream = sass({
-        importer: [onceImporter()]
+        importer: importOnce ? [onceImporter()] : []
       }).on('error', sass.logError)
 
       const postcssConfig = IE11

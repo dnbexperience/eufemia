@@ -23,6 +23,7 @@ import LoanSausage from './LoanSausage'
 // UI Style
 import 'dnb-ui-lib/src/style/patterns'
 import 'dnb-ui-lib/src/style'
+import 'dnb-ui-lib/src/patterns/style'
 
 const style = css`
   background: white;
