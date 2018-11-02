@@ -27,13 +27,13 @@ jobs:
 
       - run: yarn build-ci
 
-      # - run:
-      #     name: Authenticate with registry
-      #     command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
-      #
-      # - run:
-      #     name: release
-      #     command: yarn publish-ci
+      - run:
+          name: Authenticate with registry
+          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
+
+      - run:
+          name: release
+          command: yarn publish-ci
 
       - run:
           name: deploy
@@ -70,15 +70,11 @@ workflows:
       - build:
           filters:
             branches:
-              ignore:
-                - gh-pages
               only:
                 - master
                 - /rc-.*/
       - test:
           filters:
             branches:
-              ignore:
-                - gh-pages
               only:
                 - develop
