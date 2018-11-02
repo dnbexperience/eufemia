@@ -14,14 +14,16 @@ jobs:
       - restore_cache:
           name: Restore Yarn Package Cache
           key: yarn-packages-{{ checksum "yarn.lock" }}
-          path: ~/.cache/yarn
+          paths:
+            - ~/.cache/yarn
 
       - run: yarn install
 
       - save_cache:
           name: Save Yarn Package Cache
           key: yarn-packages-{{ checksum "yarn.lock" }}
-          path: ~/.cache/yarn
+          paths:
+            - ~/.cache/yarn
 
       - run: yarn build-ci
 
@@ -46,14 +48,16 @@ jobs:
       - restore_cache:
           name: Restore Yarn Package Cache
           key: yarn-packages-{{ checksum "yarn.lock" }}
-          path: ~/.cache/yarn
+          paths:
+            - ~/.cache/yarn
 
       - run: yarn install
 
       - save_cache:
           name: Save Yarn Package Cache
           key: yarn-packages-{{ checksum "yarn.lock" }}
-          path: ~/.cache/yarn
+          paths:
+            - ~/.cache/yarn
 
       - run: yarn build-ci
       - run: yarn lint-ci
