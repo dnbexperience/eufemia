@@ -38,6 +38,12 @@ jobs:
           name: release
           command: yarn publish-ci
 
+      # - run:
+      #     name: config
+      #     command: |
+      #       git config --global user.email $GH_EMAIL
+      #       git config --global user.name $GH_NAME
+
       - run:
           name: deploy
           command: yarn deploy-ci
@@ -77,8 +83,12 @@ workflows:
               only:
                 - master
                 - /rc-.*/
+              ignore:
+                - gh-pages
       - test:
           filters:
             branches:
+              only:
+                - develop
               ignore:
                 - gh-pages
