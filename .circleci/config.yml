@@ -4,32 +4,6 @@
 #
 version: 2
 jobs:
-  # test:
-  #   docker:
-  #     - image: circleci/node:10.6
-  #   working_directory: ~/repo
-  #   steps:
-  #     - checkout
-  #
-  #     - restore_cache:
-  #         name: Restore Yarn Package Cache
-  #         keys:
-  #           - yarn-packages-{{ checksum "yarn.lock" }}
-  #         paths:
-  #           - ~/.cache/yarn
-  #
-  #     - run: yarn install
-  #
-  #     - save_cache:
-  #         name: Save Yarn Package Cache
-  #         key: yarn-packages-{{ checksum "yarn.lock" }}
-  #         paths:
-  #           - ~/.cache/yarn
-  #
-  #     - run: yarn build-ci
-  #     - run: yarn lint-ci
-  #     - run: yarn test-ci
-
   build:
     docker:
       - image: circleci/node:10.6
@@ -39,8 +13,7 @@ jobs:
 
       - restore_cache:
           name: Restore Yarn Package Cache
-          keys:
-            - yarn-packages-{{ checksum "yarn.lock" }}
+          keys: yarn-packages-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache/yarn
 
@@ -53,8 +26,6 @@ jobs:
             - ~/.cache/yarn
 
       - run: yarn build-ci
-      # - run: yarn lint-ci
-      # - run: yarn test-ci
 
       # - run:
       #     name: Authenticate with registry
@@ -64,15 +35,33 @@ jobs:
       #     name: release
       #     command: yarn publish-ci
 
-      # - run:
-      #     name: config
-      #     command: |
-      #       git config --global user.email $GH_EMAIL
-      #       git config --global user.name $GH_NAME
-
       - run:
           name: deploy
           command: yarn deploy-ci
+  test:
+    docker:
+      - image: circleci/node:10.6
+    working_directory: ~/repo
+    steps:
+      - checkout
+
+      - restore_cache:
+          name: Restore Yarn Package Cache
+          keys: yarn-packages-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+
+      - run: yarn install
+
+      - save_cache:
+          name: Save Yarn Package Cache
+          key: yarn-packages-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+
+      - run: yarn build-ci
+      - run: yarn lint-ci
+      - run: yarn test-ci
 
 workflows:
   version: 2
