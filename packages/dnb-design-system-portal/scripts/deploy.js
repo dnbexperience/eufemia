@@ -29,12 +29,6 @@ const run = () => {
       }
     : {}
 
-  console.debug('gh-pages config', {
-    message: `Auto-generated deploy commit v${pkg.version}`,
-    branch: 'gh-pages',
-    ...config
-  })
-
   /**
    * This adds commits with a custom message.
    */

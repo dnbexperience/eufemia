@@ -13,17 +13,15 @@ jobs:
 
       - restore_cache:
           name: Restore Yarn Package Cache
-          keys: yarn-packages-{{ checksum "yarn.lock" }}
-          paths:
-            - ~/.cache/yarn
+          key: yarn-packages-{{ checksum "yarn.lock" }}
+          path: ~/.cache/yarn
 
       - run: yarn install
 
       - save_cache:
           name: Save Yarn Package Cache
           key: yarn-packages-{{ checksum "yarn.lock" }}
-          paths:
-            - ~/.cache/yarn
+          path: ~/.cache/yarn
 
       - run: yarn build-ci
 
@@ -47,17 +45,15 @@ jobs:
 
       - restore_cache:
           name: Restore Yarn Package Cache
-          keys: yarn-packages-{{ checksum "yarn.lock" }}
-          paths:
-            - ~/.cache/yarn
+          key: yarn-packages-{{ checksum "yarn.lock" }}
+          path: ~/.cache/yarn
 
       - run: yarn install
 
       - save_cache:
           name: Save Yarn Package Cache
           key: yarn-packages-{{ checksum "yarn.lock" }}
-          paths:
-            - ~/.cache/yarn
+          path: ~/.cache/yarn
 
       - run: yarn build-ci
       - run: yarn lint-ci
@@ -70,11 +66,15 @@ workflows:
       - build:
           filters:
             branches:
+              ignore:
+                - gh-pages
               only:
                 - master
                 - /rc-.*/
       - test:
           filters:
             branches:
+              ignore:
+                - gh-pages
               only:
                 - develop
