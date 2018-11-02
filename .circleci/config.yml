@@ -5,9 +5,6 @@
 version: 2
 jobs:
   build:
-    branches:
-      ignore:
-        - gh-pages
     docker:
       - image: circleci/node:10.6
     working_directory: ~/repo
@@ -51,9 +48,6 @@ jobs:
           name: deploy
           command: yarn deploy-ci
   test:
-    branches:
-      ignore:
-        - gh-pages
     docker:
       - image: circleci/node:10.6
     working_directory: ~/repo
