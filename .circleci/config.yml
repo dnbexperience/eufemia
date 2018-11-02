@@ -27,8 +27,10 @@ jobs:
             - ~/.cache/yarn
 
       - run: yarn build-ci
-      - run: yarn lint-ci
-      - run: yarn test-ci
+
+      - run:
+          name: deploy
+          command: yarn deploy-ci
 
       - run:
           name: Authenticate with registry
@@ -37,10 +39,6 @@ jobs:
       - run:
           name: release
           command: yarn publish-ci
-
-      - run:
-          name: deploy
-          command: yarn deploy-ci
   test:
     docker:
       - image: circleci/node:10.6
@@ -81,4 +79,5 @@ workflows:
           filters:
             branches:
               ignore:
+                - master
                 - gh-pages
