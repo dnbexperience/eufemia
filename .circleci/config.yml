@@ -13,7 +13,8 @@ jobs:
 
       - restore_cache:
           name: Restore Yarn Package Cache
-          key: yarn-packages-{{ checksum "yarn.lock" }}
+          keys:
+            - yarn-packages-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache/yarn
 
@@ -26,6 +27,8 @@ jobs:
             - ~/.cache/yarn
 
       - run: yarn build-ci
+      - run: yarn lint-ci
+      - run: yarn test-ci
 
       - run:
           name: Authenticate with registry
@@ -47,7 +50,8 @@ jobs:
 
       - restore_cache:
           name: Restore Yarn Package Cache
-          key: yarn-packages-{{ checksum "yarn.lock" }}
+          keys:
+            - yarn-packages-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache/yarn
 
@@ -76,5 +80,5 @@ workflows:
       - test:
           filters:
             branches:
-              only:
-                - develop
+              ignore:
+                - gh-pages
