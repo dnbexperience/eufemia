@@ -35,7 +35,7 @@ const run = () => {
   ghpages.publish(
     'public',
     {
-      message: `Auto-generated deploy commit v${pkg.version}`,
+      message: `Auto-generated deploy commit v${pkg.version} [ci skip]`,
       branch: 'gh-pages',
       ...config
     },
