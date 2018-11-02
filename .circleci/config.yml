@@ -8,9 +8,6 @@ jobs:
   #   docker:
   #     - image: circleci/node:10.6
   #   working_directory: ~/repo
-  #   branches:
-  #     only:
-  #       - develop
   #   steps:
   #     - checkout
   #
@@ -37,10 +34,6 @@ jobs:
     docker:
       - image: circleci/node:10.6
     working_directory: ~/repo
-    branches:
-      only:
-        - master
-        - /rc-.*/
     steps:
       - checkout
 
@@ -71,10 +64,28 @@ jobs:
       #     name: release
       #     command: yarn publish-ci
 
+      # - run:
+      #     name: config
+      #     command: |
+      #       git config --global user.email $GH_EMAIL
+      #       git config --global user.name $GH_NAME
+
       - run:
           name: deploy
-          command: |
-            git config --global user.email $GH_EMAIL
-            git config --global user.name $GH_NAME
+          command: yarn deploy-ci
 
-            yarn deploy-ci
+workflows:
+  version: 2
+  workflow:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only:
+                - master
+                - /rc-.*/
+      - test:
+          filters:
+            branches:
+              only:
+                - develop
