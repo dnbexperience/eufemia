@@ -66,7 +66,7 @@ export const propTypes = {
 }
 
 export const defaultProps = {
-  id: null,
+  id: `dropdown${Math.random() * 999}`,
   input_id: null,
   title: 'Option Menu',
   icon: 'chevron-left',
@@ -327,16 +327,17 @@ export default class Dropdown extends Component {
       this.props.className
     )
 
-    const { id, disabled } = this.props
+    const { input_id, id, disabled } = this.props
 
     const params = {
-      id,
       disabled:
         typeof disabled === 'string'
           ? disabled === 'true'
           : Boolean(disabled)
     }
-    if (this.props.input_id) params.id = this.props.input_id // `input_id-${Math.rand() * 100}`
+    if (this.state.opened) {
+      params['aria-expanded'] = true
+    }
 
     // also used for code markup simulation
     validateDOMAttributes(this.props, params)
@@ -346,11 +347,12 @@ export default class Dropdown extends Component {
     return (
       <span className={classes}>
         <input
-          hidden
+          id={input_id || id}
           readOnly={true}
           title={
             this.props.title // type="checkbox"// dont works well on firefox
           }
+          aria-haspopup="listbox"
           aria-label={this.props.title}
           className="dnb-dropdown__value-holder-input"
           value={currentOptionData.value || ''}
@@ -362,8 +364,9 @@ export default class Dropdown extends Component {
           {...params}
         />
         <button
-          hidden
           tabIndex="-1"
+          aria-hidden={true}
+          aria-labelledby={`${params.id}`}
           className="dnb-dropdown__trigger typo-book"
           onMouseDown={this.onMouseDownHandler}
           ref={this._refButton}
@@ -381,10 +384,15 @@ export default class Dropdown extends Component {
             <span className="dnb-dropdown__icon__triangle" />
           </span>
         </button>
-        <ul className="dnb-dropdown__options">
+        <ul
+          className="dnb-dropdown__options"
+          aria-labelledby={`${params.id}`}
+        >
           {this.state.data.map((dataItem, i) => (
             <li
               key={`dw_li${i}`}
+              role="option"
+              aria-selected={i === this.state.active}
               className={`dnb-dropdown__option ${
                 i === parseFloat(this.state.selected_item)
                   ? 'dnb-dropdown__option--selected'

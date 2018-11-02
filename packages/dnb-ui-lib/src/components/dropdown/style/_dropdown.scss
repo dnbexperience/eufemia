@@ -262,7 +262,6 @@ $option-selected-color: $input-background-color;
         z-index: 9; // make the trigger to the foreground, so we can watch the click to reset
         cursor: pointer;
         @include fakeBorder();
-        // @include tabFocus();
         @include fakeFocus();
       }
       & ~ .dnb-dropdown__options {
