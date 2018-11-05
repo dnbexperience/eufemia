@@ -8,7 +8,9 @@ The default font for all web applications is Fedra Sans Standard. Fallback fonts
 
 The DNB typographic scale is as follows:
 
-14, 16, 20, 24, 48
+14px, 16px, 20px, 24px, 48px
+
+NB! we use **ems** for setting the size in code **not** pixels.
 
 Line-heights vary depending on context but adhere to the DNB space units (multiples of 8 including halves (4px)).
 
@@ -27,7 +29,7 @@ Make sure to stick to the Eufemia spacing system when adding or removing bottom 
 Padding is also NOT something applied to blocks of text by default.
 
 <div class="gridbox">
-This is a gridbox
+![Varied margins](typography/assets/varied-margins.png)
 </div>
 
 ### Typographic rules

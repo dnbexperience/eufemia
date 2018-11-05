@@ -8,11 +8,13 @@ draft: false
 
 #### Principles
 
-Accessibility affects all users, not just those with stereotypical disabilities. The extra work that may be required to ensure good accessibility in DNB applications and services will be
+Accessibility affects all users, not just those with stereotypical disabilities. The extra work that may be required to ensure good accessibility in DNB applications and services will be woth it.
+
+Remember - test for accessibility early in the design process.
 
 ## WCAG (Web Content and Accessibility Guide)
 
-The four main tenets of the WCAG 2.0 are:
+The four main tenets of the WCAG 2.1 are:
 
 - Perceivable
 - Operable
@@ -88,3 +90,4 @@ Semantic markup makes robust content that's accessible. Pay attention to the fol
 ##### Responsive Design
 
 Responsive Design ensures that content can be viewed on a wide spectrum of display sizes.
+Responsive component and layout design should be planned from the beginning and not applied as an afterthought. Build prototypes early in code or design and begin testing their breakpoints sooner rather than later.

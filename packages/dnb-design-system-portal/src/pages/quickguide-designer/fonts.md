@@ -4,7 +4,7 @@ title: 'Fonts & Typography'
 draft: false
 ---
 
-import TypographicRules from 'Pages/quickguide-designer/typographic-rules.md'
+import TypographicRules from 'Pages/quickguide-designer/typography/typographic-rules.md'
 
 # Fonts
 

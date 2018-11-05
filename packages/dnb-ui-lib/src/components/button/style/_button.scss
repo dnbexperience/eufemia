@@ -33,6 +33,8 @@
 
   &__icon {
     line-height: 0;
+    // +1px because of the border width
+    margin-top: var(--button-border-width);
     svg:not([width]):not([height]) {
       width: var(--button-icon-size);
       height: var(--button-icon-size);
