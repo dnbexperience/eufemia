@@ -20,8 +20,9 @@ jobs:
 
       - save_cache:
           name: Save Yarn Package Cache
-          keys:
-            - yarn-packages-{{ checksum "yarn.lock" }}
+          key: yarn-packages-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
 
       - run: yarn build-ci
 
