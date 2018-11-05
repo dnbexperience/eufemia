@@ -90,3 +90,4 @@ Semantic markup makes robust content that's accessible. Pay attention to the fol
 ##### Responsive Design
 
 Responsive Design ensures that content can be viewed on a wide spectrum of display sizes.
+Responsive component and layout design should be planned from the beginning and not applied as an afterthought. Build prototypes early in code or design and begin testing their breakpoints sooner rather than later.
