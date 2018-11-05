@@ -14,7 +14,7 @@ import {
 import Component from '../Icon'
 // just to make sure we re-run the test in watch mode due to changes in this file
 import '../style/dnb-icon.scss'
-import { question } from '../../../../icons'
+import { question } from './test-files'
 
 const props = fakeProps(require.resolve('../Icon'), {
   optional: true
