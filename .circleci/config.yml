@@ -56,7 +56,6 @@ jobs:
           paths:
             - ~/.cache/yarn
 
-      - run: yarn build-ci
       - run: yarn lint-ci
       - run: yarn test-ci
 
@@ -79,6 +78,8 @@ jobs:
           key: yarn-packages-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache/yarn
+
+      - run: yarn build-ci
 
       - run:
           name: deploy
