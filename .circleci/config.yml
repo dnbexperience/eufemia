@@ -80,4 +80,5 @@ workflows:
             branches:
               ignore:
                 - master
+                - ftr/portal-v1
                 - gh-pages
