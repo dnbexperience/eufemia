@@ -15,16 +15,13 @@ jobs:
           name: Restore Yarn Package Cache
           keys:
             - yarn-packages-{{ checksum "yarn.lock" }}
-          paths:
-            - ~/.cache/yarn
 
       - run: yarn install
 
       - save_cache:
           name: Save Yarn Package Cache
-          key: yarn-packages-{{ checksum "yarn.lock" }}
-          paths:
-            - ~/.cache/yarn
+          keys:
+            - yarn-packages-{{ checksum "yarn.lock" }}
 
       - run: yarn build-ci
 
@@ -50,8 +47,6 @@ jobs:
           name: Restore Yarn Package Cache
           keys:
             - yarn-packages-{{ checksum "yarn.lock" }}
-          paths:
-            - ~/.cache/yarn
 
       - run: yarn install
 
@@ -65,16 +60,34 @@ jobs:
       - run: yarn lint-ci
       - run: yarn test-ci
 
+  test-deploy:
+    docker:
+      - image: circleci/node:10.6
+    working_directory: ~/repo
+    steps:
+      - checkout
+
+      - restore_cache:
+          name: Restore Yarn Package Cache
+          keys:
+            - yarn-packages-{{ checksum "yarn.lock" }}
+
+      - run: yarn install
+
+      - save_cache:
+          name: Save Yarn Package Cache
+          key: yarn-packages-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+
+      - run:
+          name: deploy
+          command: yarn deploy-ci
+
 workflows:
   version: 2
   workflow:
     jobs:
-      - build:
-          filters:
-            branches:
-              only:
-                - master
-                - /rc-.*/
       - test:
           filters:
             branches:
@@ -82,3 +95,15 @@ workflows:
                 - master
                 - ftr/portal-v1
                 - gh-pages
+      - test-deploy:
+          filters:
+            branches:
+              only:
+                - develop
+                - /rc-.*/
+      - build:
+          filters:
+            branches:
+              only:
+                - master
+                - /rc-.*/
