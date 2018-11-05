@@ -186,17 +186,17 @@ export default class MainMenu extends Component {
             onClick={this.closeMenuHandler}
           />
           <Card
-            url="/brand/"
-            title="Brand"
-            icon={BrandSvg}
-            customStyle={emeraldGreen}
-            onClick={this.closeMenuHandler}
-          />
-          <Card
             url="/icons/"
             title="Icon Library"
             icon={IconsSvg}
             customStyle={oceanGreen}
+            onClick={this.closeMenuHandler}
+          />
+          <Card
+            url="/brand/"
+            title="Brand"
+            icon={BrandSvg}
+            customStyle={emeraldGreen}
             onClick={this.closeMenuHandler}
           />
           <Card
