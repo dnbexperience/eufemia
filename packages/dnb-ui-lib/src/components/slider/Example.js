@@ -4,7 +4,7 @@
  */
 
 import React, { Component, Fragment } from 'react'
-import { css } from 'react-emotion'
+import styled from 'react-emotion'
 import Slider from './Slider'
 import Input from '../input/Input'
 import FormLabel from '../../components/form-label/FormLabel'
@@ -41,36 +41,7 @@ class AditionalExample extends Component {
 
   render() {
     return (
-      <div
-        css={css`
-          .dnb-form {
-            padding-top: 2em;
-          }
-
-          .dnb-slider__slider-row {
-            display: flex;
-            align-items: flex-start;
-            justify-content: center;
-            align-content: center;
-
-            .dnb-slider {
-              width: 100%;
-            }
-
-            .dnb-slider__input-container {
-              margin: 0.2rem 0 0 0;
-              flex: 3;
-            }
-            .dnb-slider__output-container {
-              margin: 0 0 0 0.5rem;
-              flex: 2;
-            }
-            .dnb-slider__input {
-              margin: 0 0.25rem;
-            }
-          }
-        `}
-      >
+      <Wrapper>
         <Example />
         <form className="dnb-form">
           <div className="dnb-form__item">
@@ -109,12 +80,7 @@ class AditionalExample extends Component {
                 />
               </div>
             </div>
-            <div
-              className="dnb-form__cell"
-              css={css`
-                height: 10rem;
-              `}
-            >
+            <Cell className="dnb-form__cell">
               <Slider
                 id="slider-3"
                 min={1000000}
@@ -130,13 +96,45 @@ class AditionalExample extends Component {
                   console.log('on_state_update', value)
                 }}
               />
-            </div>
+            </Cell>
           </div>
         </form>
-      </div>
+      </Wrapper>
     )
   }
 }
+
+const Wrapper = styled.div`
+  .dnb-form {
+    padding-top: 2em;
+  }
+
+  .dnb-slider__slider-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    align-content: center;
+
+    .dnb-slider {
+      width: 100%;
+    }
+
+    .dnb-slider__input-container {
+      margin: 0.2rem 0 0 0;
+      flex: 3;
+    }
+    .dnb-slider__output-container {
+      margin: 0 0 0 0.5rem;
+      flex: 2;
+    }
+    .dnb-slider__input {
+      margin: 0 0.25rem;
+    }
+  }
+`
+const Cell = styled.div`
+  height: 10rem;
+`
 
 export { Example }
 export default AditionalExample

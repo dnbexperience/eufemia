@@ -555,11 +555,11 @@ body[data-modal-active='true'] {
   .dnb-modal__trigger {
     cursor: pointer;
     user-select: none; }
-  .dnb-modal__trigger--text:not([class*='teritary']) {
+  .dnb-modal__trigger--text:not([class*='tertiary']) {
     border: none;
     padding: none;
     background: transparent; }
-    .dnb-modal__trigger--text:not([class*='teritary']):hover {
+    .dnb-modal__trigger--text:not([class*='tertiary']):hover {
       text-decoration: underline; }
   .dnb-modal__close-button {
     position: absolute;

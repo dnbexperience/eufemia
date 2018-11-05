@@ -179,7 +179,7 @@ export default class Modal extends Component {
         {type === 'text' && (
           <Button
             className="dnb-modal__trigger dnb-modal__trigger--text"
-            variant="teritary"
+            variant="tertiary"
             title={modal_trigger_title}
             text={modal_trigger_text}
             on_click={this.toggleOpenClose}

@@ -1,6 +1,6 @@
 /**
  * Web Slider Component
- *
+ * stylelint-disable
  */
 
 import React, { Component } from 'react'

@@ -5,7 +5,7 @@
 
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { cx, css } from 'react-emotion'
+import { cx } from 'react-emotion'
 
 class Example extends Component {
   render() {
@@ -77,11 +77,7 @@ Demo.defaultProps = {
 
 export { Example }
 export default () => (
-  <div
-    css={css`
-      /* typography-demo */
-    `}
-  >
+  <div>
     <Example />
   </div>
 )

@@ -35,7 +35,7 @@
     "lint-staged": "lint-staged -d",
     "lint:all": "yarn lint:fix && yarn lint:style",
     "lint:fix": "yarn lint --fix",
-    "lint:style": "stylelint './src/{components,patterns,style}/**/*.scss'",
+    "lint:style": "stylelint './src/{components,patterns,style}/**/*.{js,scss}'",
     "publish": "yarn publish-ci --dry-run",
     "publish-ci": "babel-node ./scripts/release --ci",
     "prepublish:dev": "nodemon --exec 'babel-node ./scripts/prepub/dev.js' -w 'rollup.config.js' -e js,html,json,css,scss -w './src/style/**/*' -w './scripts/**/*' --ignore '*.json'",

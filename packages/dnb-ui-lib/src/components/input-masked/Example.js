@@ -5,7 +5,7 @@
 
 import React, { Component, Fragment } from 'react'
 import InputMasked from './InputMasked'
-import { css } from 'react-emotion'
+import styled from 'react-emotion'
 
 import createNumberMask from 'text-mask-addons/dist/createNumberMask' // https://github.com/text-mask/text-mask
 const numberMask = createNumberMask({
@@ -97,18 +97,18 @@ class Example extends Component {
   }
 }
 
+const Wrapper = styled.div`
+  display: block;
+  width: 100%;
+
+  .dnb-input {
+    margin: 1rem 0;
+  }
+`
+
 export { Example }
 export default () => (
-  <div
-    css={css`
-      display: block;
-      width: 100%;
-
-      .dnb-input {
-        margin: 1rem 0;
-      }
-    `}
-  >
+  <Wrapper>
     <Example />
-  </div>
+  </Wrapper>
 )

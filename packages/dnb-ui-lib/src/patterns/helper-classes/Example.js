@@ -4,7 +4,7 @@
  */
 
 import React, { Component, Fragment } from 'react'
-import { css, cx } from 'react-emotion'
+import styled from 'react-emotion'
 
 class Example extends Component {
   render() {
@@ -62,17 +62,13 @@ class Example extends Component {
   }
 }
 
+const Wrapper = styled.div`
+  padding: 1rem;
+`
+
 export { Example }
 export default () => (
-  <div
-    className={cx(
-      'dnb-body',
-      // 'styleguide--padding',
-      css`
-        padding: 1rem;
-      `
-    )}
-  >
+  <Wrapper className="dnb-body">
     <Example />
-  </div>
+  </Wrapper>
 )

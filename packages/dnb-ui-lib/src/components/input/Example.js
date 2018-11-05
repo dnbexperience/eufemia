@@ -5,7 +5,7 @@
 
 import React, { Component, Fragment } from 'react'
 import Input from './Input'
-import { css } from 'react-emotion'
+import styled from 'react-emotion'
 
 class Example extends Component {
   constructor(props) {
@@ -86,18 +86,18 @@ class Example extends Component {
   }
 }
 
+const Wrapper = styled.div`
+  display: block;
+  width: 100%;
+
+  .dnb-input {
+    margin: 1rem 0;
+  }
+`
+
 export { Example }
 export default () => (
-  <div
-    css={css`
-      display: block;
-      width: 100%;
-
-      .dnb-input {
-        margin: 1rem 0;
-      }
-    `}
-  >
+  <Wrapper>
     <Example />
-  </div>
+  </Wrapper>
 )
