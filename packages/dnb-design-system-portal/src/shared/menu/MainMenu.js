@@ -172,6 +172,20 @@ export default class MainMenu extends Component {
             onClick={this.closeMenuHandler}
           />
           <Card
+            url="/quickguide-designer/"
+            title="Quick Guide - Designers"
+            icon={QuickguideDesignerSvg}
+            customStyle={mintGreen}
+            onClick={this.closeMenuHandler}
+          />
+          <Card
+            url="/quickguide-developer/"
+            title="Quick Guide - Developers"
+            icon={QuickguideDeveloperSvg}
+            customStyle={summerGreen}
+            onClick={this.closeMenuHandler}
+          />
+          <Card
             url="/brand/"
             title="Brand"
             icon={BrandSvg}
@@ -190,20 +204,6 @@ export default class MainMenu extends Component {
             title="Design Principles"
             icon={PrinciplesSvg}
             customStyle={seaGreen}
-            onClick={this.closeMenuHandler}
-          />
-          <Card
-            url="/quickguide-designer/"
-            title="Quick Guide - Designers"
-            icon={QuickguideDesignerSvg}
-            customStyle={mintGreen}
-            onClick={this.closeMenuHandler}
-          />
-          <Card
-            url="/quickguide-developer/"
-            title="Quick Guide - Developers"
-            icon={QuickguideDeveloperSvg}
-            customStyle={summerGreen}
             onClick={this.closeMenuHandler}
           />
         </div>
