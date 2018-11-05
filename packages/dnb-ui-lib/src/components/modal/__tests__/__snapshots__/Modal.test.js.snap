@@ -424,7 +424,8 @@ exports[`Modal scss have to match snapshot 1`] = `
   text-decoration: none;
   /* Firefox includes a hidden border which messes up button dimensions */ }
   .dnb-button__icon {
-    line-height: 0; }
+    line-height: 0;
+    margin-top: var(--button-border-width); }
     .dnb-button__icon svg:not([width]):not([height]) {
       width: var(--button-icon-size);
       height: var(--button-icon-size); }
