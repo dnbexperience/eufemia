@@ -10,8 +10,8 @@ You can have a look at the Design Guide [here](https://dnbexperience.github.io/e
 
 ## Example views
 
-1.  [Classic step-by-step form view](https://dnbexperience.github.io/eufemia/example-views/form)
-1.  [Loan calculation view](https://dnbexperience.github.io/eufemia/example-views/form-2)
+1.  [Classic step-by-step form view](https://dnbexperience.github.io/eufemia/uilib/demos/example-app-1)
+1.  [Loan calculation view](https://dnbexperience.github.io/eufemia/uilib/demos/example-app-2)
 
 ## Requirements
 

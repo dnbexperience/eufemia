@@ -13,7 +13,7 @@ import {
   LivePreview
 } from 'react-live'
 
-import Pre from './pre'
+import Pre from './Pre'
 
 /* eslint-disable react/jsx-key */
 const CodeBlock = ({

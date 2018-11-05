@@ -15,6 +15,43 @@ jobs:
           name: Restore Yarn Package Cache
           keys:
             - yarn-packages-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+
+      - run: yarn install
+
+      - save_cache:
+          name: Save Yarn Package Cache
+          key: yarn-packages-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+
+      - run: yarn build-ci
+
+      - run:
+          name: deploy
+          command: yarn deploy-ci
+
+      - run:
+          name: Authenticate with registry
+          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
+
+      - run:
+          name: release
+          command: yarn publish-ci
+  test:
+    docker:
+      - image: circleci/node:10.6
+    working_directory: ~/repo
+    steps:
+      - checkout
+
+      - restore_cache:
+          name: Restore Yarn Package Cache
+          keys:
+            - yarn-packages-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
 
       - run: yarn install
 
@@ -28,41 +65,19 @@ jobs:
       - run: yarn lint-ci
       - run: yarn test-ci
 
-    publish:
-      docker:
-        - image: circleci/node:10
-      working_directory: ~/repo
-      steps:
-        - checkout
-
-        - restore_cache:
-            keys:
-              - v1-dependencies-{{ checksum "yarn.lock" }}
-              # fallback to using the latest cache if no exact match is found
-              - v1-dependencies-
-
-        - run: yarn install
-
-        - run:
-            name: Authenticate with registry
-            command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
-
-        # - run:
-        #     name: release
-        #     command: yarn semantic-release || true
-
-        - run:
-            name: release
-            command: yarn publish-ci
-
 workflows:
   version: 2
-  build-test-and-deploy:
+  workflow:
     jobs:
-      - build
-      - publish:
-          requires:
-            - build
+      - build:
           filters:
             branches:
-              only: /^develop$/
+              only:
+                - master
+                - /rc-.*/
+      - test:
+          filters:
+            branches:
+              ignore:
+                - master
+                - gh-pages

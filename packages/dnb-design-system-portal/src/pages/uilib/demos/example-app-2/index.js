@@ -8,7 +8,6 @@ import { css } from 'react-emotion'
 import Head from 'react-helmet'
 import dnb, {
   Button,
-  // Slider,
   Body,
   MainNav,
   ViewTitle,
@@ -20,11 +19,11 @@ import dnb, {
   ActionNav
 } from 'dnb-ui-lib/src'
 import LoanSausage from './LoanSausage'
-// import 'dnb-ui-lib/src/components/style'
-// import 'dnb-ui-lib/src/patterns/style'
 
 // UI Style
+import 'dnb-ui-lib/src/style/patterns'
 import 'dnb-ui-lib/src/style'
+import 'dnb-ui-lib/src/patterns/style'
 
 const style = css`
   background: white;

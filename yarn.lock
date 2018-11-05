@@ -7630,6 +7630,11 @@ file-type@5.2.0, file-type@^5.2.0:
   resolved "https://registry.yarnpkg.com/file-type/-/file-type-5.2.0.tgz#2ddbea7c73ffe36368dfae49dc338c058c2b8ad6"
   integrity sha1-LdvqfHP/42No365J3DOMBYwritY=
 
+file-type@^10.2.0:
+  version "10.3.0"
+  resolved "https://registry.yarnpkg.com/file-type/-/file-type-10.3.0.tgz#448fa7fc19c629412c6d95cc3cddbf50d6ac3223"
+  integrity sha512-wk3yZ4wav7qrpJJuDfW3zSYCoxA/ZWZ8YtvrFYcbAE8jSXGFEej7jWVqFKWeeNqFIlG3B3o+fzoSKC6HJvdWUg==
+
 file-type@^3.1.0, file-type@^3.8.0:
   version "3.9.0"
   resolved "http://registry.npmjs.org/file-type/-/file-type-3.9.0.tgz#257a078384d1db8087bc449d107d52a52672b9e9"
@@ -8245,10 +8250,10 @@ gatsby-plugin-emotion@^2.0.6:
   dependencies:
     "@babel/runtime" "^7.0.0"
 
-gatsby-plugin-offline@^2.0.10:
-  version "2.0.10"
-  resolved "https://registry.yarnpkg.com/gatsby-plugin-offline/-/gatsby-plugin-offline-2.0.10.tgz#23882293df3890f1237f8485b6816f6ca0a591a8"
-  integrity sha512-nrYJ+f6PJgLA7R4inLUWxW9lYFwKmmscrrZwY7V++pNLhOc8NwP3sjV/LdbHWLdLfspQjl53QG8kD2232be1Fg==
+gatsby-plugin-offline@^2.0.11:
+  version "2.0.11"
+  resolved "https://registry.yarnpkg.com/gatsby-plugin-offline/-/gatsby-plugin-offline-2.0.11.tgz#d14a2c9301dc32ab48f51fb92ed01cd4bcf0527c"
+  integrity sha512-A2CWtVvH9A+wNIrX8shnYYyskbiX+wdWGbYXytqTRPAFDnbow21qfBWYzXG2phpgwKYb3d2ooXI2pu00ooD/ow==
   dependencies:
     "@babel/runtime" "^7.0.0"
     cheerio "^1.0.0-rc.2"
@@ -8284,18 +8289,18 @@ gatsby-plugin-react-helmet@^3.0.1:
   dependencies:
     "@babel/runtime" "^7.0.0"
 
-gatsby-plugin-sass@^2.0.2:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/gatsby-plugin-sass/-/gatsby-plugin-sass-2.0.2.tgz#263d364967b42875e865dca645eb7bbdcc88d0e4"
-  integrity sha512-FcYajvwbz3+PRzwnTD2onEbR9hLsgZJplYO8kSjZI7I9fkdcJRR8oj+7yn/6Ico7/ZuyIMbhYlAUv5pEXK701w==
+gatsby-plugin-sass@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/gatsby-plugin-sass/-/gatsby-plugin-sass-2.0.3.tgz#a965998abcfaa40d8b97e2b82fc27d6e6cd762c0"
+  integrity sha512-N2mZf9BUEYTxAlG6tfb/iFL4mnNlLo5Rx11AKFDN0FrAMah/zYh8nJl7AsYC3ALcKrYCjE1rmopuMFbjmjQaDA==
   dependencies:
     "@babel/runtime" "^7.0.0"
     sass-loader "^7.0.1"
 
-gatsby-plugin-sharp@^2.0.10:
-  version "2.0.10"
-  resolved "https://registry.yarnpkg.com/gatsby-plugin-sharp/-/gatsby-plugin-sharp-2.0.10.tgz#5ce703a1d9bc8f70a84a940914404566e747d6f2"
-  integrity sha512-pUzV/unNX2IFSNlz9u3a/uDevcJMCcril9So7bY+kZrQIb5RbDd2vnZiMebzv7RxfKVa/tpIbPbrZcEaVWVvvQ==
+gatsby-plugin-sharp@^2.0.11:
+  version "2.0.11"
+  resolved "https://registry.yarnpkg.com/gatsby-plugin-sharp/-/gatsby-plugin-sharp-2.0.11.tgz#64087b46642f9e4f925072ac82c1ff19610f1313"
+  integrity sha512-XEmAfaiJ4x0uvDdsGxt5i1Kgf7qgvxKgPQIItLBW7Z+5oTnlMf7PpBu5DzcjPIEn9DmBW7EMguc4WtRBbGy8vg==
   dependencies:
     "@babel/runtime" "^7.0.0"
     async "^2.1.2"
@@ -8336,28 +8341,30 @@ gatsby-remark-images@^2.0.5:
     unist-util-select "^1.5.0"
     unist-util-visit-parents "^2.0.1"
 
-gatsby-source-filesystem@^2.0.6:
-  version "2.0.6"
-  resolved "https://registry.yarnpkg.com/gatsby-source-filesystem/-/gatsby-source-filesystem-2.0.6.tgz#6ed2ed8cc0f04e20cfac038a3c262f9358fe604b"
-  integrity sha512-suaCHZgu2wW/5dpIhu/feOqGQyLPgAG7VsEBedawmbXJKP64DObQfMxpSKikxRm2bZ7prUg3Hl9Y2EvMCi194w==
+gatsby-source-filesystem@^2.0.7:
+  version "2.0.7"
+  resolved "https://registry.yarnpkg.com/gatsby-source-filesystem/-/gatsby-source-filesystem-2.0.7.tgz#ccccbcfb4e5ca8d51a025445b74bec16f8819d62"
+  integrity sha512-dzX3whJK/0m/1JgPncZIcvc9Sn/76l/Q0Qg3+UeG64AQOSLdDaxUT0OwidYA61PdxlnJer14VTk6+2/i2ce7PA==
   dependencies:
     "@babel/runtime" "^7.0.0"
     better-queue "^3.8.7"
     bluebird "^3.5.0"
     chokidar "^1.7.0"
+    file-type "^10.2.0"
     fs-extra "^5.0.0"
     got "^7.1.0"
     md5-file "^3.1.1"
     mime "^2.2.0"
     pretty-bytes "^4.0.2"
+    read-chunk "^3.0.0"
     slash "^1.0.0"
     valid-url "^1.0.9"
     xstate "^3.1.0"
 
-gatsby@^2.0.35:
-  version "2.0.35"
-  resolved "https://registry.yarnpkg.com/gatsby/-/gatsby-2.0.35.tgz#31351e2e85ab7fd1c322402aac6b6a8d0c2dff41"
-  integrity sha512-h8QyUA491ml5h9kbue/+yg7cMlZ06qWQvBpPrgVIubfCbiVJdpuqqRVzUxf20fkiqGE6LRDrRxrivq5T0zCrNQ==
+gatsby@^2.0.36:
+  version "2.0.36"
+  resolved "https://registry.yarnpkg.com/gatsby/-/gatsby-2.0.36.tgz#8b709d7f7e5c27bef807265b650a0f161c1b6934"
+  integrity sha512-LaC4wnre3kh6cQ1jIpeKiLTMMaIwiwqCp5kn+IXav14Zg44uyonlD9WpCNyBYKGBjtf4DL/AHiZm8tnhiNFifA==
   dependencies:
     "@babel/code-frame" "^7.0.0"
     "@babel/core" "^7.0.0"
@@ -11802,7 +11809,7 @@ liftoff@^2.1.0:
     rechoir "^0.6.2"
     resolve "^1.1.7"
 
-lint-staged@^8.0.3:
+lint-staged@^8.0.3, lint-staged@^8.0.4:
   version "8.0.4"
   resolved "https://registry.yarnpkg.com/lint-staged/-/lint-staged-8.0.4.tgz#d3c909fcf7897152cdce2d6e42500cd9b5b41a0d"
   integrity sha512-Rs0VxXoyFqHMrPQgKAMy+O907+m5Po71UVPhBi7BUBwU7ZZ2aoc+mZmpOX3DVPCoTcy6+hqJa9yIZfacNpJHdg==
@@ -14411,6 +14418,11 @@ package-json@^4.0.0:
     registry-url "^3.0.3"
     semver "^5.1.0"
 
+packpath@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/packpath/-/packpath-0.1.0.tgz#a521534222dfeaa9c612ef0c640ec399149ecdd8"
+  integrity sha1-pSFTQiLf6qnGEu8MZA7DmRSezdg=
+
 pacote@^8.1.6:
   version "8.1.6"
   resolved "https://registry.yarnpkg.com/pacote/-/pacote-8.1.6.tgz#8e647564d38156367e7a9dc47a79ca1ab278d46e"
@@ -16784,6 +16796,14 @@ read-chunk@^1.0.1:
   resolved "https://registry.yarnpkg.com/read-chunk/-/read-chunk-1.0.1.tgz#5f68cab307e663f19993527d9b589cace4661194"
   integrity sha1-X2jKswfmY/GZk1J9m1icrORmEZQ=
 
+read-chunk@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/read-chunk/-/read-chunk-3.0.0.tgz#086cd198406104355626afacd2d21084afc367ec"
+  integrity sha512-8lBUVPjj9TC5bKLBacB+rpexM03+LWiYbv6ma3BeWmUYXGxqA1WNNgIZHq/iIsCrbFMzPhFbkOqdsyOFRnuoXg==
+  dependencies:
+    pify "^4.0.0"
+    with-open-file "^0.1.3"
+
 read-cmd-shim@^1.0.1, read-cmd-shim@~1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/read-cmd-shim/-/read-cmd-shim-1.0.1.tgz#2d5d157786a37c055d22077c32c53f8329e91c7b"
@@ -17703,11 +17723,6 @@ sane@^2.0.0:
     watch "~0.18.0"
   optionalDependencies:
     fsevents "^1.2.3"
-
-sanitize.css@^8.0.0:
-  version "8.0.0"
-  resolved "https://registry.yarnpkg.com/sanitize.css/-/sanitize.css-8.0.0.tgz#b025845b772a2c0c996e62e3b2d1bbf10ca78e37"
-  integrity sha512-Ru+piIyTyioaaOj/pbJEo57lMXV70FV07AslpZ8K2Me8B2021v2Nx0Wq5hf29/fNwdjsXLdTbf4Ypmk24PnPtQ==
 
 sass-graph@^2.2.4:
   version "2.2.4"
@@ -20898,6 +20913,15 @@ window-size@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/window-size/-/window-size-0.2.0.tgz#b4315bb4214a3d7058ebeee892e13fa24d98b075"
   integrity sha1-tDFbtCFKPXBY6+7okuE/ok2YsHU=
+
+with-open-file@^0.1.3:
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/with-open-file/-/with-open-file-0.1.4.tgz#797e32055cbe55c58727ad026482fb0776474b2c"
+  integrity sha512-BswUwq/x/BYtNFMr4Uw9V+P2uroc9/tcDpZ2RdDHehzwCKJFF1PSIjJmBNfpUE3UQyJmVINRLOW49WTXQMEnvg==
+  dependencies:
+    p-finally "^1.0.0"
+    p-try "^2.0.0"
+    pify "^3.0.0"
 
 wordwrap@~0.0.2:
   version "0.0.3"

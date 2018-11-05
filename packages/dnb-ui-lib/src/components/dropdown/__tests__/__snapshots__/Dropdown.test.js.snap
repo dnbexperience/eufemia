@@ -5,9 +5,9 @@ exports[`Dropdown component have to match snapshot 1`] = `
   className="dnb-dropdown typo-light dnb-dropdown--icon-position-icon_position dnb-dropdown--hidden class className"
 >
   <input
+    aria-haspopup="listbox"
     aria-label="title"
     className="dnb-dropdown__value-holder-input"
-    hidden={true}
     id="input_id"
     onBlur={[Function]}
     onFocus={[Function]}
@@ -18,9 +18,9 @@ exports[`Dropdown component have to match snapshot 1`] = `
     value=""
   />
   <button
+    aria-hidden={true}
+    aria-labelledby="undefined"
     className="dnb-dropdown__trigger typo-book"
-    hidden={true}
-    id="input_id"
     onMouseDown={[Function]}
     tabIndex="-1"
   >
@@ -56,11 +56,14 @@ exports[`Dropdown component have to match snapshot 1`] = `
     </span>
   </button>
   <ul
+    aria-labelledby="undefined"
     className="dnb-dropdown__options"
   >
     <li
+      aria-selected={false}
       className="dnb-dropdown__option   "
       key="dw_li0"
+      role="option"
     >
       <span
         className="dnb-dropdown__option__inner"
@@ -84,8 +87,10 @@ exports[`Dropdown component have to match snapshot 1`] = `
       </span>
     </li>
     <li
+      aria-selected={false}
       className="dnb-dropdown__option dnb-dropdown__option--selected  "
       key="dw_li1"
+      role="option"
     >
       <span
         className="dnb-dropdown__option__inner"
@@ -109,8 +114,10 @@ exports[`Dropdown component have to match snapshot 1`] = `
       </span>
     </li>
     <li
+      aria-selected={false}
       className="dnb-dropdown__option   "
       key="dw_li2"
+      role="option"
     >
       <span
         className="dnb-dropdown__option__inner"
@@ -134,8 +141,10 @@ exports[`Dropdown component have to match snapshot 1`] = `
       </span>
     </li>
     <li
+      aria-selected={false}
       className="dnb-dropdown__option   "
       key="dw_li3"
+      role="option"
     >
       <span
         className="dnb-dropdown__option__inner"

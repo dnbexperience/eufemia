@@ -1,6 +1,6 @@
 {
-  "ci": false,
+  "ci": true,
   "debug": false,
-  "dryRun": true,
-  "branch": "develop"
+  "dryRun": false,
+  "branch": "master"
 }

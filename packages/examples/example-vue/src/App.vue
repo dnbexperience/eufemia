@@ -33,7 +33,8 @@ import Vue from 'vue'
 /* import 'dnb-ui-lib/components/style' // Import all components */
 
 import 'dnb-ui-lib/components/style'
-import 'dnb-ui-lib/style/theme'
+/* import 'dnb-ui-lib/style/theme' */
+import 'dnb-ui-lib/style/themes/dnb-theme-open-banking.css'
 import dnb, { Button, Input } from 'dnb-ui-lib/components/vue'
 
 const components = dnb.getComponents(Vue)
