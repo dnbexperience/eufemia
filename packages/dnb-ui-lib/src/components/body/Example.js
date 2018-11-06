@@ -6,7 +6,7 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import Body from './Body'
-import { css } from 'react-emotion'
+import styled from 'react-emotion'
 
 const ExampleContent = () => (
   <Fragment>
@@ -38,19 +38,14 @@ class Example extends Component {
   }
 }
 
-const Reset = props => (
-  <div
-    css={css`
-      line-height: 1;
-      letter-spacing: 0;
-      padding: 0.2rem 1rem 1rem;
-      background: Cornsilk;
-    `}
-    {...props}
-  >
-    {props.children}
-  </div>
-)
+const Wrapper = styled.div`
+  line-height: 1;
+  letter-spacing: 0;
+  padding: 0.2rem 1rem 1rem;
+  background: Cornsilk;
+`
+
+const Reset = props => <Wrapper {...props}>{props.children}</Wrapper>
 Reset.propTypes = {
   style: PropTypes.object,
   children: PropTypes.node.isRequired

@@ -5,7 +5,7 @@
 
 import React, { Component, Fragment } from 'react'
 import Dropdown from './Dropdown'
-import { css } from 'react-emotion'
+import styled from 'react-emotion'
 
 class Example extends Component {
   static AdditionalCallback = {
@@ -48,18 +48,18 @@ class Example extends Component {
   }
 }
 
+const Wrapper = styled.div`
+  .dnb-dropdown {
+    display: block;
+    margin: 0.5rem 0;
+  }
+`
+
 export { Example }
 export default () => (
-  <div
-    css={css`
-      .dnb-dropdown {
-        display: block;
-        margin: 0.5rem 0;
-      }
-    `}
-  >
+  <Wrapper>
     <Example />
-  </div>
+  </Wrapper>
 )
 
 const data = [

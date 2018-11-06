@@ -28,6 +28,7 @@ const run = () => {
         }
       }
     : {}
+  const date = new Date().toLocaleString()
 
   /**
    * This adds commits with a custom message.
@@ -35,7 +36,7 @@ const run = () => {
   ghpages.publish(
     'public',
     {
-      message: `Auto-generated deploy commit v${pkg.version} [ci skip]`,
+      message: `Auto-generated deploy commit ${date} [ci skip]`,
       branch: 'gh-pages',
       ...config
     },

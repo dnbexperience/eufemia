@@ -5,7 +5,7 @@
 
 import React, { Component, Fragment } from 'react'
 import MainNav from './MainNav'
-import { css } from 'react-emotion'
+import styled from 'react-emotion'
 import Button from '../../components/button/Button'
 
 class Example extends Component {
@@ -47,14 +47,14 @@ class Example extends Component {
   }
 }
 
+const Wrapper = styled.div`
+  position: relative;
+  z-index: 2;
+`
+
 export { Example }
 export default () => (
-  <div
-    css={css`
-      position: relative;
-      z-index: 2;
-    `}
-  >
+  <Wrapper>
     <Example />
-  </div>
+  </Wrapper>
 )

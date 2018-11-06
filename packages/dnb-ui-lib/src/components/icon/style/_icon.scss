@@ -4,11 +4,16 @@
 * ======================================================================== */
 
 .dnb-icon {
-  display: inline-block;
-  font-size: 0;
-  width: 100%;
+  width: 1em; // only to feed the svg
+  height: 1em; // only to feed the svg
+
+  display: inline;
+  vertical-align: baseline;
+  font-size: inherit; // only to feed width and height em's
 
   svg {
+    width: inherit;
+    height: inherit;
     fill: currentColor;
   }
 }

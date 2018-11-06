@@ -64,20 +64,41 @@
   }
 }
 
-.dnb-button--teritary {
+.dnb-button--tertiary {
+  position: relative;
   color: var(--color-sea-green);
   background-color: transparent;
   border-color: transparent;
 
-  @include buttonHover(
-    var(--color-sea-green),
-    var(--color-sea-green-light)
-  );
+  &.dnb-button--has-text {
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    .dnb-button__icon {
+      margin: 0 0.5em;
+    }
+    &.dnb-button--icon-position-left .dnb-button__icon {
+      margin-left: 0;
+    }
+    &.dnb-button--icon-position-right .dnb-button__icon {
+      margin-right: 0;
+    }
+  }
 
-  @include buttonFocus(
-    var(--color-sea-green),
-    var(--color-sea-green-light)
-  );
+  @include hover(true) {
+    @include fakeBorder(transparent);
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0.5em;
+      left: 0.4em;
+      right: 0.4em;
+      width: auto;
+      height: 1px; // can also be 0, but for older browsers, we set 1px
+      border-bottom: 1px solid var(--color-emerald-green);
+    }
+  }
+
+  @include buttonFocus(var(--color-sea-green), transparent);
 
   &[disabled] {
     color: var(--color-sea-green-alt-30);

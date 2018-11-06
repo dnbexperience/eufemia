@@ -332,10 +332,14 @@ body:not(:-moz-handler-blocked) fieldset {
 *
 * ======================================================================== */
 .dnb-icon {
-  display: inline-block;
-  font-size: 0;
-  width: 100%; }
+  width: 1em;
+  height: 1em;
+  display: inline;
+  vertical-align: baseline;
+  font-size: inherit; }
   .dnb-icon svg {
+    width: inherit;
+    height: inherit;
     fill: currentColor; }
 
 .dnb-input {

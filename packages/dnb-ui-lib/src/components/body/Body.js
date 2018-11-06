@@ -6,21 +6,21 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import {
-  // registerElement,
-  defineIsTouch
-} from '../../shared/component-helper'
+// import {
+//   registerElement,
+//   defineIsTouch
+// } from '../../shared/component-helper'
 // import './style/dnb-body.scss' // no good solution to import the style here
 // import 'focus-visible' // Polyfill for ":focus-visible" - but with a class like ".focus-visible"
-import whatInput from 'what-input' // More flexible solution
-
-// IE 11: as we don't need to change CSS Custom Properties in runtime, we don't use this for now
-// import cssVars from 'css-vars-ponyfill'
-// cssVars()
-
-whatInput.specificKeys([9])
-
-defineIsTouch(true)
+// import whatInput from 'what-input' // More flexible solution
+//
+// // IE 11: as we don't need to change CSS Custom Properties in runtime, we don't use this for now
+// // import cssVars from 'css-vars-ponyfill'
+// // cssVars()
+//
+// whatInput.specificKeys([9])
+//
+// defineIsTouch(true)
 
 const propTypes = {
   children: PropTypes.oneOfType([

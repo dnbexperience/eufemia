@@ -5,7 +5,7 @@
 
 import React, { Component, Fragment } from 'react'
 import Button from './Button'
-import { css } from 'react-emotion'
+import styled from 'react-emotion'
 import { bell as Bell, question } from '../../../icons'
 
 class Example extends Component {
@@ -51,15 +51,15 @@ class Example extends Component {
           icon="chevron-left"
         />
         <Button
-          variant="teritary"
-          text="Teritary button with icon on left"
+          variant="tertiary"
+          text="Tertiary button with icon on left"
           title="This is a button title"
           icon_position="left"
           icon="chevron-left"
         />
         <Button
-          variant="teritary"
-          text="Teritary button with icon on left"
+          variant="tertiary"
+          text="Tertiary button with icon on left"
           title="This is a button title"
           icon_position="left"
           icon="chevron-left"
@@ -100,18 +100,18 @@ class Example extends Component {
   }
 }
 
+const Wrapper = styled.div`
+  display: block;
+  width: 100%;
+
+  .dnb-button {
+    margin: 1rem 0.2rem;
+  }
+`
+
 export { Example }
 export default () => (
-  <div
-    css={css`
-      display: block;
-      width: 100%;
-
-      .dnb-button {
-        margin: 1rem 0.2rem;
-      }
-    `}
-  >
+  <Wrapper>
     <Example />
-  </div>
+  </Wrapper>
 )

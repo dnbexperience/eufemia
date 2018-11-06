@@ -31,15 +31,15 @@
   icon="chevron-left"
 />
 <Button
-  variant="teritary"
-  text="Teritary button with icon on left"
+  variant="tertiary"
+  text="Tertiary button with icon on left"
   title="This is a button title"
   icon_position="left"
   icon="chevron-left"
 />
 <Button
-  variant="teritary"
-  text="Teritary button with icon on left"
+  variant="tertiary"
+  text="Tertiary button with icon on left"
   title="This is a button title"
   icon_position="left"
   icon="chevron-left"

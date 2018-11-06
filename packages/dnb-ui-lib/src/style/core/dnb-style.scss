@@ -3,6 +3,12 @@
 *
 * ======================================================================== */
 
+small {
+  font-size: 0.8125em; /* 1 */
+  line-height: 1.25rem; /* 2 */
+  margin-bottom: 1rem; /* 3 */
+}
+
 h1,
 h2,
 h3,
@@ -19,6 +25,11 @@ h1 {
   font-size: 2em;
   line-height: 3rem;
   margin-bottom: 1rem;
+
+  // TODO: Check with Sindre, we also have then to define a larger H1 size
+  small {
+    font-size: 0.5em;
+  }
 }
 h2 {
   font-size: 3em;
@@ -48,12 +59,6 @@ p {
   line-height: 1.5em;
 }
 
-small {
-  font-size: 0.8125em; /* 1 */
-  line-height: 1.25rem; /* 2 */
-  margin-bottom: 1rem; /* 3 */
-}
-
 /*
 * 1. Equal to 13px
 * 2. Equal to 18px
@@ -69,27 +74,4 @@ form,
 fieldset {
   font-size: 1rem;
   // line-height: 1.5rem;
-}
-
-// Test highlighting
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p,
-small {
-  background-color: rgba(255, 255, 122, 0.35);
-}
-
-code {
-  background-color: rgba(0, 200, 200, 0.25);
-  margin: 0 0 1rem 0;
-  display: block;
-}
-
-.gridbox {
-  background-color: rgba(75, 190, 210, 0.25);
-  padding: 2rem;
 }

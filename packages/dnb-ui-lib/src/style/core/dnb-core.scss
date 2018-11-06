@@ -38,11 +38,11 @@ body {
 }
 
 a {
-  position: relative;
-  z-index: 1;
-  outline: none;
-  padding: 0.0625em;
-  margin: -0.0625em;
+  position: relative; // because of z-index
+  z-index: 1; // because of focus handling
+  outline: none; // because of focus handling
+  padding: 0.0625em; // 16/1 - give a padding round, because of focus ring
+  margin: -0.0625em; // 16/1 - give a padding round, because of focus ring
 
   border-bottom-style: solid;
   border-bottom-width: 1px;
