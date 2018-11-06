@@ -29,7 +29,9 @@ Make sure to stick to the Eufemia spacing system when adding or removing bottom 
 Padding is also NOT something applied to blocks of text by default.
 
 <div class="gridbox">
+
 ![Varied margins](typography/assets/varied-margins.png)
+
 </div>
 
 ### Typographic rules
@@ -55,6 +57,10 @@ ne primis intellegat. Dico purto nullam sea an.
 NB @Kevin - See if we need to make the defaults more varied so design/dev can start using without having to override.
 
 # H1
+
+<h1>
+<small>My Small H1</small>
+</h1>
 
           1. font-size: 2em (32px)
           2. line-height: 3rem (48px)

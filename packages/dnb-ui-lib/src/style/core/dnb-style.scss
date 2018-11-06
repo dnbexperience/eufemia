@@ -3,6 +3,12 @@
 *
 * ======================================================================== */
 
+small {
+  font-size: 0.8125em; /* 1 */
+  line-height: 1.25rem; /* 2 */
+  margin-bottom: 1rem; /* 3 */
+}
+
 h1,
 h2,
 h3,
@@ -19,6 +25,11 @@ h1 {
   font-size: 2em;
   line-height: 3rem;
   margin-bottom: 1rem;
+
+  // TODO: Check with Sindre, we also have then to define a larger H1 size
+  small {
+    font-size: 0.5em;
+  }
 }
 h2 {
   font-size: 3em;
@@ -46,12 +57,6 @@ h6 {
 p {
   font-weight: 300;
   line-height: 1.5em;
-}
-
-small {
-  font-size: 0.8125em; /* 1 */
-  line-height: 1.25rem; /* 2 */
-  margin-bottom: 1rem; /* 3 */
 }
 
 /*

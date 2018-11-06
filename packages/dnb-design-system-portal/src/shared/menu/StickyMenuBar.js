@@ -166,11 +166,6 @@ injectGlobal`
       display: block;
     }
 
-    .gridbox {
-      background-color: rgba(75, 190, 210, 0.25);
-      padding: 2rem;
-    }
-
   }
   .grid-not-fixed {
     background-attachment: local;
