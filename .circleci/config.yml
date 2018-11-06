@@ -4,12 +4,27 @@
 #
 version: 2
 jobs:
-  publish:
+  checkout_code:
     docker:
       - image: circleci/node:10.6
     working_directory: ~/repo
     steps:
       - checkout
+      - save_cache:
+          name: Save Repo Cache
+          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+            - ~/repo
+
+  install_dependencies:
+    docker:
+      - image: circleci/node:10.6
+    working_directory: ~/repo
+    steps:
+      - restore_cache:
+          name: Restore Repo Cache
+          keys:
+            - v1-repo-{{ .Environment.CIRCLE_SHA1 }}
 
       - restore_cache:
           name: Restore Yarn Package Cache
@@ -23,6 +38,21 @@ jobs:
           key: yarn-packages-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache/yarn
+
+  publish:
+    docker:
+      - image: circleci/node:10.6
+    working_directory: ~/repo
+    steps:
+      - restore_cache:
+          name: Restore Repo Cache
+          keys:
+            - v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+
+      - restore_cache:
+          name: Restore Yarn Package Cache
+          keys:
+            - yarn-packages-{{ checksum "yarn.lock" }}
 
       - run:
           name: prepublish
@@ -41,20 +71,15 @@ jobs:
       - image: circleci/node:10.6
     working_directory: ~/repo
     steps:
-      - checkout
+      - restore_cache:
+          name: Restore Repo Cache
+          keys:
+            - v1-repo-{{ .Environment.CIRCLE_SHA1 }}
 
       - restore_cache:
           name: Restore Yarn Package Cache
           keys:
             - yarn-packages-{{ checksum "yarn.lock" }}
-
-      - run: yarn install
-
-      - save_cache:
-          name: Save Yarn Package Cache
-          key: yarn-packages-{{ checksum "yarn.lock" }}
-          paths:
-            - ~/.cache/yarn
 
       - run:
           name: prepublish
@@ -73,20 +98,15 @@ jobs:
       - image: circleci/node:10.6
     working_directory: ~/repo
     steps:
-      - checkout
+      - restore_cache:
+          name: Restore Repo Cache
+          keys:
+            - v1-repo-{{ .Environment.CIRCLE_SHA1 }}
 
       - restore_cache:
           name: Restore Yarn Package Cache
           keys:
             - yarn-packages-{{ checksum "yarn.lock" }}
-
-      - run: yarn install
-
-      - save_cache:
-          name: Save Yarn Package Cache
-          key: yarn-packages-{{ checksum "yarn.lock" }}
-          paths:
-            - ~/.cache/yarn
 
       - run: yarn lint-ci
       - run: yarn test-ci
@@ -97,19 +117,29 @@ workflows:
   version: 2
   workflow:
     jobs:
+      - checkout_code
+      - install_dependencies:
+          requires:
+            - checkout_code
       - test:
+          requires:
+            - install_dependencies
           filters:
             branches:
               ignore:
                 - master
                 - gh-pages
       - publish:
+          requires:
+            - install_dependencies
           filters:
             branches:
               only:
                 - master
                 - /rc-.*/
       - deploy:
+          requires:
+            - install_dependencies
           filters:
             branches:
               only:
