@@ -14,14 +14,16 @@ import ItemWrapper from '../../../shared/parts/uilib/ItemWrapper'
 import DemoComponent, {
   Example as CodeComponent
 } from 'dnb-ui-lib/src/patterns/summary-table/Example'
-import InfoComponent from 'dnb-ui-lib/src/patterns/summary-table/info.md'
+import Description from 'dnb-ui-lib/src/patterns/summary-table/description.md'
+import Details from 'dnb-ui-lib/src/patterns/summary-table/details.md'
 import ExampleCode from 'raw-loader!../examples/SummaryTable.txt'
 
 export default class SummaryTableDemo extends Component {
   static propTypes = {
     title: PropTypes.string,
     id: PropTypes.string,
-    InfoComponent: PropTypes.func,
+    Description: PropTypes.func,
+    Details: PropTypes.func,
     DemoComponent: PropTypes.func,
     CodeComponent: PropTypes.func,
     hideTabs: PropTypes.bool
@@ -30,7 +32,8 @@ export default class SummaryTableDemo extends Component {
     title: 'SummaryTable',
     id: 'summary-table',
     ExampleCode,
-    InfoComponent,
+    Description,
+    Details,
     DemoComponent,
     CodeComponent,
     callback: CodeComponent.AdditionalCallback || null,

@@ -53,7 +53,8 @@ const tabsWrapperStyle = css`
 class ComponentItemWrapper extends Component {
   static propTypes = {
     ExampleCode: PropTypes.string,
-    InfoComponent: PropTypes.func.isRequired,
+    Description: PropTypes.func.isRequired,
+    Details: PropTypes.func.isRequired,
     DemoComponent: PropTypes.func.isRequired,
     CodeComponent: PropTypes.func.isRequired,
     callback: PropTypes.shape({
@@ -119,7 +120,8 @@ class ComponentItemWrapper extends Component {
       tabs,
       hideTabs,
       ExampleCode,
-      InfoComponent,
+      Description,
+      Details,
       DemoComponent,
       CodeComponent,
       callback: Additional
@@ -176,6 +178,7 @@ class ComponentItemWrapper extends Component {
 
         {this.isActive('demo') && (
           <div className="dnb-tabs__content">
+            <Description />
             <DemoComponent />
             {Additional /* here we use AdditionalCallback */ &&
               Additional.demo && (
@@ -186,7 +189,7 @@ class ComponentItemWrapper extends Component {
 
         {this.isActive('info') && (
           <div className="dnb-tabs__content">
-            <InfoComponent />
+            <Details />
             {Additional /* here we use AdditionalCallback */ &&
               Additional.info && (
                 <Additional.info CodeRenderer={CodeRenderer} />

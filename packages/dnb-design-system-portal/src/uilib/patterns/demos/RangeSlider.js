@@ -14,14 +14,16 @@ import ItemWrapper from '../../../shared/parts/uilib/ItemWrapper'
 import DemoComponent, {
   Example as CodeComponent
 } from 'dnb-ui-lib/src/patterns/range-slider/Example'
-import InfoComponent from 'dnb-ui-lib/src/patterns/range-slider/info.md'
+import Description from 'dnb-ui-lib/src/patterns/range-slider/description.md'
+import Details from 'dnb-ui-lib/src/patterns/range-slider/details.md'
 import ExampleCode from 'raw-loader!../examples/RangeSlider.txt'
 
 export default class RangeSliderDemo extends Component {
   static propTypes = {
     title: PropTypes.string,
     id: PropTypes.string,
-    InfoComponent: PropTypes.func,
+    Description: PropTypes.func,
+    Details: PropTypes.func,
     DemoComponent: PropTypes.func,
     CodeComponent: PropTypes.func,
     hideTabs: PropTypes.bool
@@ -30,7 +32,8 @@ export default class RangeSliderDemo extends Component {
     title: 'RangeSlider',
     id: 'range-slider',
     ExampleCode,
-    InfoComponent,
+    Description,
+    Details,
     DemoComponent,
     CodeComponent,
     callback: CodeComponent.AdditionalCallback || null,

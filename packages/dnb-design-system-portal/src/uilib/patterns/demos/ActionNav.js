@@ -14,14 +14,16 @@ import ItemWrapper from '../../../shared/parts/uilib/ItemWrapper'
 import DemoComponent, {
   Example as CodeComponent
 } from 'dnb-ui-lib/src/patterns/action-nav/Example'
-import InfoComponent from 'dnb-ui-lib/src/patterns/action-nav/info.md'
+import Description from 'dnb-ui-lib/src/patterns/action-nav/description.md'
+import Details from 'dnb-ui-lib/src/patterns/action-nav/details.md'
 import ExampleCode from 'raw-loader!../examples/ActionNav.txt'
 
 export default class ActionNavDemo extends Component {
   static propTypes = {
     title: PropTypes.string,
     id: PropTypes.string,
-    InfoComponent: PropTypes.func,
+    Description: PropTypes.func,
+    Details: PropTypes.func,
     DemoComponent: PropTypes.func,
     CodeComponent: PropTypes.func,
     hideTabs: PropTypes.bool
@@ -30,7 +32,8 @@ export default class ActionNavDemo extends Component {
     title: 'ActionNav',
     id: 'action-nav',
     ExampleCode,
-    InfoComponent,
+    Description,
+    Details,
     DemoComponent,
     CodeComponent,
     callback: CodeComponent.AdditionalCallback || null,
