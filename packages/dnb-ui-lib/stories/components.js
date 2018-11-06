@@ -4,22 +4,13 @@
  */
 
 import React from 'react'
+import styled from 'react-emotion'
 
 // UI Style
-import '../src/components/style'
-import '../src/patterns/style'
+import '../src/style'
 
 // UI Components
-// import dnb, {
-// // Theme,
-// // Button,
-//   Icon,
-//   // IconButton,
-//   Input,
-//   Switch,
-//   FormLabel,
-//   Dropdown
-// } from '../src/lib'
+import { Button, IconWithAllIcons as Icon } from '../src/components'
 
 // import Body from '../src/components/body/Body'
 // import ActionNavExample from '../src/patterns/action-nav/Example'
@@ -30,11 +21,11 @@ import '../src/patterns/style'
 // import DescriptionListExamples from '../src/components/description-list/Example'
 // import GridExamples from '../src/components/grid/Example'
 // import BodyExample from '../src/components/body/Example'
-import ButtonExample from '../src/components/button/Example'
-import IconExample from '../src/components/icon/Example'
+// import ButtonExample from '../src/components/button/Example'
+// import IconExample from '../src/components/icon/Example'
 // import SwitchExample from '../src/components/switch/Example'
-import InputExample from '../src/components/input/Example'
-import InputMaskedExamples from '../src/components/input-masked/Example'
+// import InputExample from '../src/components/input/Example'
+// import InputMaskedExamples from '../src/components/input-masked/Example'
 // import Slider from '../src/components/slider/Example'
 // import DropdownExample from '../src/components/dropdown/Example'
 
@@ -55,10 +46,48 @@ export const components = []
 // components.push(['Modal', () => <ModalExamples />])
 // components.push(['Grid', () => <GridExamples />])
 // components.push(['Body', () => <BodyExample />])
-components.push(['Button', () => <ButtonExample />])
-components.push(['Icon', () => <IconExample />])
-components.push(['Input', () => <InputExample />])
-components.push(['InputMasked', () => <InputMaskedExamples />])
+// components.push(['Button', () => <ButtonExample />])
+components.push(['Button with Text only', () => <Button>My Text</Button>])
+components.push([
+  'Button with Icon only',
+  () => (
+    <Button>
+      <Icon icon="add" />
+    </Button>
+  )
+])
+components.push(['Icon', () => <Icon icon="add" />])
+
+const Wrapper = styled.div`
+  a {
+    position: relative;
+    top: 1px;
+  }
+`
+components.push([
+  'Button',
+  () => (
+    <Wrapper className="dnb-style">
+      <Button
+        text="My Text"
+        variant="tertiary"
+        icon_position="left"
+        icon="add"
+      />{' '}
+      <a href="http://dnb.no">My Text</a>
+      {/* <p>
+        <Icon icon="add" className="dnb-icon-inline" />
+        <a href="www.tujo.no">My Anker</a>
+      </p>
+      <h1>
+        <Icon icon="add" className="dnb-icon-inline" /> Text
+      </h1> */}
+    </Wrapper>
+  )
+])
+// components.push(['Icon', () => <IconExample />])
+// components.push(['Input', () => <InputExample />])
+// components.push(['InputMasked', () => <InputMaskedExamples />])
 // components.push(['Slider', () => <Slider />])
 // components.push(['Switch', () => <SwitchExample />])
 // components.push(['FormLabel', () => <SwitchExample />])
