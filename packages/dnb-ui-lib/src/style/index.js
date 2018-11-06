@@ -5,6 +5,7 @@
 
 import './dnb-ui-components.scss'
 import './themes/dnb-theme-ui.scss'
+// import './themes/dnb-theme-open-banking.scss' // just for testing porposes
 
 /**
  * Only for testing porposes

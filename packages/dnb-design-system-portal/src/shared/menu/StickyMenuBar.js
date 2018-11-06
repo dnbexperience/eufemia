@@ -148,6 +148,29 @@ injectGlobal`
     background-color: transparent;
     ${'' /* background-image: url('/assets/images/grid-32x32.svg'); */}
     background-image: url(${gridSvg});
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p,
+    small {
+      background-color: rgba(255, 255, 122, 0.35);
+    }
+
+    code {
+      background-color: rgba(0, 200, 200, 0.25);
+      margin: 0 0 1rem 0;
+      display: block;
+    }
+
+    .gridbox {
+      background-color: rgba(75, 190, 210, 0.25);
+      padding: 2rem;
+    }
+
   }
   .grid-not-fixed {
     background-attachment: local;
