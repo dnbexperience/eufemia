@@ -178,7 +178,7 @@ class ComponentItemWrapper extends Component {
 
         {this.isActive('demo') && (
           <div className="dnb-tabs__content">
-            <Description />
+            {!hideTabs && <Description />}
             <DemoComponent />
             {Additional /* here we use AdditionalCallback */ &&
               Additional.demo && (
