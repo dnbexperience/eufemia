@@ -4,6 +4,13 @@
  */
 
 import { registerElement } from './custom-element'
+import whatInput from 'what-input' // More flexible solution
+
+// IE 11: as we don't need to change CSS Custom Properties in runtime, we don't use this for now
+// import cssVars from 'css-vars-ponyfill'
+// cssVars()
+
+whatInput.specificKeys([9])
 
 export { registerElement }
 
@@ -43,6 +50,8 @@ export const defineIsTouch = (runInstantly = true) => {
 
   return handleDefineTouch
 }
+
+defineIsTouch(true)
 
 export const validateDOMAttributes = (props, params) => {
   // if there is an "attributes" prop, prepare these
