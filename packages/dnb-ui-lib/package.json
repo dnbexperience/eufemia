@@ -170,6 +170,7 @@
     "sass-loader": "^7.1.0",
     "scss-to-json": "^2.0.0",
     "semantic-release": "^15.10.6",
+    "simple-commit-message": "^4.0.3",
     "stream-buffers": "^3.0.2",
     "style-loader": "^0.23.1",
     "stylelint": "^9.7.1",
