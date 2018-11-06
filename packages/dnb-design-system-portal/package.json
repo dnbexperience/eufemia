@@ -8,7 +8,7 @@
   "main": "index.js",
   "scripts": {
     "build": "gatsby build",
-    "build-ci": "yarn make-ui-lib-pages && yarn build --prefix-paths && ",
+    "build-ci": "yarn make-ui-lib-pages && yarn build --prefix-paths",
     "build:fresh": "rm -rf .cache && rm -rf ./public/** && gatsby build",
     "build:stage": "yarn build --prefix-paths",
     "precommit": "yarn lint-staged",
