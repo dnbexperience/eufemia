@@ -2,5 +2,6 @@
   "ci": true,
   "debug": false,
   "dryRun": false,
-  "branch": "master"
+  "branch": "master",
+  "verifyConditions": "condition-circle"
 }
