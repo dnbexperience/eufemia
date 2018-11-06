@@ -24,15 +24,13 @@ jobs:
           paths:
             - ~/.cache/yarn
 
-      - run: yarn build-ci
+      - run:
+          name: prepublish
+          command: yarn prepublish-ci
 
       - run:
           name: Authenticate with registry
           command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
-
-      - run:
-          name: prepublish
-          command: yarn prepublish-ci
 
       - run:
           name: release
@@ -58,7 +56,13 @@ jobs:
           paths:
             - ~/.cache/yarn
 
-      - run: yarn build-ci
+      - run:
+          name: prepublish
+          command: yarn prepublish-ci
+
+      - run:
+          name: build
+          command: yarn build-ci
 
       - run:
           name: deploy
