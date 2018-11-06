@@ -17,8 +17,8 @@
     "dnb-ui-lib": "./bin/dnb-ui-lib"
   },
   "scripts": {
-    "post-build": "yarn lint-ci",
-    "build-ci": "yarn prepublish:local",
+    "post-build": "yarn prettier:all",
+    "build-ci": "yarn prepublish:local && yarn post-build",
     "cdn": "live-server --no-browser --cors --port=8081",
     "precommit": "yarn lint-staged",
     "dev:convertIcons": "nodemon --exec 'babel-node ./scripts/tools/convertIcons' --ignore '/dist/**' --ignore '*.json'",
@@ -31,7 +31,7 @@
     "figma:tests": "nodemon --exec 'babel-node ./scripts/tools/figmaTests' --ignore '/dist/**' --ignore '*.json'",
     "figma:update": "babel-node ./scripts/figma/updateData -- -u",
     "lint": "eslint --quiet ./src ./scripts ./stories",
-    "lint-ci": "yarn lint:all && yarn prettier:all",
+    "lint-ci": "yarn lint:all",
     "lint-staged": "lint-staged -d",
     "lint:all": "yarn lint:fix && yarn lint:style",
     "lint:fix": "yarn lint --fix",
