@@ -18,7 +18,6 @@
   },
   "scripts": {
     "post-build": "yarn prettier:all",
-    "build-ci": "yarn prepublish:local && yarn post-build",
     "cdn": "live-server --no-browser --cors --port=8081",
     "precommit": "yarn lint-staged",
     "dev:convertIcons": "nodemon --exec 'babel-node ./scripts/tools/convertIcons' --ignore '/dist/**' --ignore '*.json'",
@@ -37,6 +36,7 @@
     "lint:fix": "yarn lint --fix",
     "lint:style": "stylelint './src/{components,patterns,style}/**/*.{js,scss}'",
     "publish": "yarn publish-ci --dry-run",
+    "prepublish-ci": "yarn prepublish:local && yarn post-build",
     "publish-ci": "babel-node ./scripts/release --ci",
     "prepublish:dev": "nodemon --exec 'babel-node ./scripts/prepub/dev.js' -w 'rollup.config.js' -e js,html,json,css,scss -w './src/style/**/*' -w './scripts/**/*' --ignore '*.json'",
     "publish:disabled": "yarn publish:prerelease && npm publish ./dnb-ui-lib-v*.tgz --preid=ci --npm-tag=ci",

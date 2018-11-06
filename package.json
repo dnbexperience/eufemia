@@ -15,8 +15,9 @@
   ],
   "main": "index.js",
   "scripts": {
-    "build-ci": "cd ./packages/dnb-ui-lib && yarn build-ci && cd -",
+    "prepublish-ci": "cd ./packages/dnb-ui-lib && yarn prepublish-ci && cd -",
     "precommit": "yarn workspaces run precommit",
+    "build-ci": "cd ./packages/dnb-design-system-portal && yarn build-ci && cd -",
     "deploy-ci": "cd ./packages/dnb-design-system-portal && yarn deploy-ci && cd -",
     "start": "cd ./packages/dnb-design-system-portal && yarn start && cd -",
     "lint-ci": "yarn workspaces run lint-ci",
