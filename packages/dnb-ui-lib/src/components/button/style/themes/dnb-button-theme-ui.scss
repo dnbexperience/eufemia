@@ -84,8 +84,7 @@
     }
   }
 
-  @include hover(true) {
-    @include fakeBorder(transparent);
+  &:not([disabled]):hover {
     &::after {
       content: '';
       position: absolute;
@@ -96,6 +95,10 @@
       height: 1px; // can also be 0, but for older browsers, we set 1px
       border-bottom: 1px solid var(--color-emerald-green);
     }
+  }
+  &:not([disabled]):active::after,
+  html[data-whatinput='keyboard'] &:not([disabled]):focus::after {
+    border-bottom: none;
   }
 
   @include buttonFocus(var(--color-sea-green), transparent);
