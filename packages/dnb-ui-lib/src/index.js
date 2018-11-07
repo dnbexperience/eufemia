@@ -14,7 +14,6 @@ import * as componentsIndex from './components'
 import * as patternsIndex from './patterns'
 
 // import all the aviable components and patterns
-import Body from './components/body/Body'
 import Button from './components/button/Button'
 import Dropdown from './components/dropdown/Dropdown'
 import FormLabel from './components/form-label/FormLabel'
@@ -45,7 +44,6 @@ import ViewTitle from './patterns/view-title/ViewTitle'
 
 // define / export all the aviable components
 export {
-  Body,
   Button,
   Dropdown,
   FormLabel,
