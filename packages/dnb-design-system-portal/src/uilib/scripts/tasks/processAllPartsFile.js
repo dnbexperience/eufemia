@@ -5,7 +5,14 @@
 
 import path from 'path'
 import fs from 'fs-extra'
-// import del from 'del'
+import prettier from 'prettier'
+
+const prettierrc = JSON.parse(
+  fs.readFileSync(
+    path.resolve(__dirname, '../../../../.prettierrc'),
+    'utf-8'
+  )
+)
 
 const processAllPartsFile = (type, files, { autoAdvice = '' }) => {
   // add missing file, since we filter it out for tempalting reson
@@ -18,8 +25,11 @@ const processAllPartsFile = (type, files, { autoAdvice = '' }) => {
     acc.push(f.replace(/\.js|\.md/, ''))
     return acc
   }, [])
-  fs.writeFile(
-    path.resolve(__dirname, `../../${type}/demos/allParts.js`),
+  const filepath = path.resolve(
+    __dirname,
+    `../../${type}/demos/allParts.js`
+  )
+  const content = prettier.format(
     `
 ${autoAdvice}
 
@@ -27,8 +37,13 @@ ${importFiles.join('\n')}
 
 export default [${exportFiles.join(', ')}]
 
-`.trim()
-  ).then(() => {})
+`.trim(),
+    {
+      ...prettierrc,
+      filepath
+    }
+  )
+  fs.writeFile(filepath, content).then(() => {})
   console.log('Created also "allParts.js"')
 }
 

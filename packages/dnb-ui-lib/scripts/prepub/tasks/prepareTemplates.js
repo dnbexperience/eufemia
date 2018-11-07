@@ -7,7 +7,12 @@
 import fs from 'fs-extra'
 import path, { join as joinPath } from 'path'
 import camelCase from 'camelcase'
+import prettier from 'prettier'
 import { ErrorHandler, log } from '../../lib'
+
+const prettierrc = JSON.parse(
+  fs.readFileSync(path.resolve(__dirname, '../../../.prettierrc'), 'utf-8')
+)
 
 const prepareTemplates = async () => {
   log.text = 'Starting the index template lib factory ...'
@@ -152,7 +157,13 @@ const runFactory = async ({
     )
 
   try {
-    await fs.writeFile(destFile, `${autoAdvice}${content}`)
+    await fs.writeFile(
+      destFile,
+      prettier.format(`${autoAdvice}${content}`, {
+        ...prettierrc,
+        parser: 'babylon'
+      })
+    )
   } catch (e) {
     log.fail(`There was an error on creating ${destFile}!`)
     new ErrorHandler(e)

@@ -4,9 +4,18 @@
  */
 
 import fs from 'fs-extra'
+import path from 'path'
 import del from 'del'
 import { join as joinPath } from 'path'
 import camelCase from 'camelcase'
+import prettier from 'prettier'
+
+const prettierrc = JSON.parse(
+  fs.readFileSync(
+    path.resolve(__dirname, '../../../../.prettierrc'),
+    'utf-8'
+  )
+)
 
 const autoAdvice = '/* ATTENTION: This file is auto generated! */'
 
@@ -107,19 +116,25 @@ export default async function runFactory({
     .sort(({ file: a }, { file: b }) => (a > b ? 1 : -1))
     .reduce(async (success, { source, file, content }, i) => {
       success = await success
-      const filePath = `${processDestFilePath}/${file}`
+      const filepath = `${processDestFilePath}/${file}`
       try {
         if (typeof preprocessContent === 'function')
-          content = preprocessContent({ source, file, content })
+          content = prettier.format(
+            preprocessContent({ source, file, content }),
+            {
+              ...prettierrc,
+              filepath
+            }
+          )
         await fs.writeFile(
-          filePath,
+          filepath,
           typeof processDestFileContent === 'function'
             ? processDestFileContent(content, i)
             : `${String(autoAdvice).trim()}\n${content}`
         )
-        success.push({ source, file, filePath, content })
+        success.push({ source, file, filepath, content })
       } catch (e) {
-        console.log(`There was an error on creating ${filePath}!`, e)
+        console.log(`There was an error on creating ${filepath}!`, e)
       }
       return success
     }, [])

@@ -7,7 +7,12 @@ import fs from 'fs-extra'
 import globby from 'globby'
 import packpath from 'packpath'
 import path, { basename } from 'path'
+import prettier from 'prettier'
 import { ErrorHandler, log } from '../../lib'
+
+const prettierrc = JSON.parse(
+  fs.readFileSync(path.resolve(__dirname, '../../../.prettierrc'), 'utf-8')
+)
 
 const runThemeFactory = async () => {
   log.text = 'Starting the themes factory ...'
@@ -108,7 +113,13 @@ const runFactory = async ({
       } else {
         fileContent = `${autoAdvice}\n${customContent}\n${theme}\n`
       }
-      await fs.writeFile(file, fileContent)
+      await fs.writeFile(
+        file,
+        prettier.format(fileContent, {
+          ...prettierrc,
+          filepath: file
+        })
+      )
     })
   } catch (e) {
     log.fail(`There was an error on creating ${scssOutputFile}!`)

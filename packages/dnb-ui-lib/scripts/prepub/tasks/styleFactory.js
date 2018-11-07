@@ -6,7 +6,12 @@
 import fs from 'fs-extra'
 import globby from 'globby'
 import path, { basename } from 'path'
+import prettier from 'prettier'
 import { ErrorHandler, log } from '../../lib'
+
+const prettierrc = JSON.parse(
+  fs.readFileSync(path.resolve(__dirname, '../../../.prettierrc'), 'utf-8')
+)
 
 const runStyleFactory = async () => {
   log.text = 'Starting the style factory ...'
@@ -103,10 +108,13 @@ const runFactory = async ({
     .join('\n')
 
   try {
+    // make sure we have newline at the end - because of StyleLint "no-missing-end-of-source-newline"
     await fs.writeFile(
       scssOutputFile,
-      `${autoAdvice}${customContent}${content}
-` // make sure we have newline at the end - because of StyleLint "no-missing-end-of-source-newline"
+      prettier.format(`${autoAdvice}${customContent}${content}\n`, {
+        ...prettierrc,
+        filepath: scssOutputFile
+      })
     )
   } catch (e) {
     log.fail(`There was an error on creating ${scssOutputFile}!`)
