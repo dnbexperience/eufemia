@@ -66,14 +66,13 @@ export class Html extends Component {
   render() {
     return (
       <Fragment>
-        {this.state.visible &&
-          this.props.value && (
-            <div
-              dangerouslySetInnerHTML={{
-                __html: this.props.value
-              }}
-            />
-          )}
+        {this.state.visible && this.props.value && (
+          <div
+            dangerouslySetInnerHTML={{
+              __html: this.props.value
+            }}
+          />
+        )}
         {this.state.visible && this.props.children}
       </Fragment>
     )

@@ -368,8 +368,8 @@ const prepareNav = ({ location, allMdx, showAll, pathPrefix }) => {
 
   list
     // reorder regarding to potensial manua defined order
-    .sort(
-      ({ _order: oA }, { _order: oB }) => (oA < oB ? -1 : oA > oB ? 1 : 0)
+    .sort(({ _order: oA }, { _order: oB }) =>
+      oA < oB ? -1 : oA > oB ? 1 : 0
     )
   return list
 }

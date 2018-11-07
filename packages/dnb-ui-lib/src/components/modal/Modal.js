@@ -187,15 +187,14 @@ export default class Modal extends Component {
           />
         )}
 
-        {this.state.modalActive &&
-          modal_content && (
-            <ModalRoot
-              {...this.props}
-              toggleOpenClose={this.toggleOpenClose}
-              hide={this.hide}
-              modal_content={modal_content}
-            />
-          )}
+        {this.state.modalActive && modal_content && (
+          <ModalRoot
+            {...this.props}
+            toggleOpenClose={this.toggleOpenClose}
+            hide={this.hide}
+            modal_content={modal_content}
+          />
+        )}
       </div>
     )
   }

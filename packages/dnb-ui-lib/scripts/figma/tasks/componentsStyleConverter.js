@@ -97,9 +97,8 @@ export const ComponentsStyleConverter = async (
         entries.length > 0
           ? prependString +
             entries
-              .map(
-                ([key, value]) =>
-                  key === 'prependString' ? value : `$${key}: ${value};`
+              .map(([key, value]) =>
+                key === 'prependString' ? value : `$${key}: ${value};`
               )
               .join('\n')
           : null
