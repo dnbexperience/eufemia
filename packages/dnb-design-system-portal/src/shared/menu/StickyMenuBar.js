@@ -149,7 +149,7 @@ injectGlobal`
     h6,
     p,
     small {
-      background-color: rgba(255, 255, 122, 0.35);
+      background-color: rgba(255, 255, 122, 0.95);
     }
 
     code {

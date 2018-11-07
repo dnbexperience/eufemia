@@ -6,11 +6,6 @@
 import { css } from 'react-emotion'
 
 export default css`
-  .gridbox {
-    background-color: rgba(75, 190, 210, 0.25);
-    padding: 2rem;
-  }
-
   table {
     border-spacing: 0;
     border-collapse: collapse;
