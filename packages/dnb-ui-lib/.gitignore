@@ -6,6 +6,7 @@
 /jest-screenshot-report
 
 # production
+/es
 /lib
 /package
 /components
@@ -21,6 +22,7 @@
 /docs
 /dist
 /index.js
+/web-components.js
 /web-components
 dnb-ui-lib-*.tgz
 

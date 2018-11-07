@@ -42,7 +42,16 @@ const transformStyleModules = () =>
     log.text = '> PrePublish: transforming style modules'
     try {
       gulp
-        .src('./src/style/**/*.js', { cwd: process.env.ROOT_DIR })
+        .src(
+          [
+            './src/style/**/*.js',
+            '!**/__tests__/**',
+            '!**/*_not_in_use*/**/*'
+          ],
+          {
+            cwd: process.env.ROOT_DIR
+          }
+        )
         .pipe(sourcemaps.init())
         .pipe(babel())
         .pipe(transform('utf8', transformModulesContent))

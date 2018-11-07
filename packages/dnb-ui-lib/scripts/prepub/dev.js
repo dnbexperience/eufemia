@@ -10,37 +10,30 @@ import {
   log,
   // cleanupLib,
   // convertSvgToCjs,
-  // makeEveryComponentStyle
-  makeIconLib,
-  makeIconsUMDBundle
+  // makeIconLib,
+  // makeIconsUMDBundle
   // runStyleFactory,
   // convertSvgToJsx,
   // copyAssets,
-  // makeEveryComponentStyle,
-  // makeJSLibs,
-  // makeMainStyle,
-  // makeLibStyles,
+  makeLibStyles
+  // makeLibModules
   // makeMainUMDBundle
 } from './index'
 
 const dev = async () => {
   process.env.NODE_ENV = 'development'
   log.start('Starting dev prepublish...')
-  const preventDelete = false
+  // const preventDelete = false
 
   // await cleanupLib({ preventDelete })
   // // await convertSvgToCjs({ preventDelete })
-  // await makeEveryComponentStyle({ preventDelete })
-  await makeIconLib({ preventDelete })
-  await makeIconsUMDBundle({ doRefetch: false })
+  // await makeIconLib({ preventDelete })
+  // await makeIconsUMDBundle({ doRefetch: false })
   // await runStyleFactory()
   // await convertSvgToJsx({ preventDelete })
   // await copyAssets({ preventDelete })
-  // await makeEveryComponentStyle()
-  // await makeMainStyle()
-  // await makeLibStyles()
-  //
-  // await makeJSLibs()
+  await makeLibStyles()
+  // await makeLibModules()
   // await makeMainUMDBundle()
 
   log.succeed('Nice')
