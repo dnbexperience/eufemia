@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import isReact from './is-react'
+import isReact from './utils/is-react'
 import { render, unmountComponentAtNode } from 'react-dom'
 import { ErrorHandler } from './error-helper'
 
