@@ -3,11 +3,11 @@
  *
  */
 
-import { factory } from '../makeLibStyles'
+import { runFactory } from '../makeLibStyles'
 import '../../../../src/components/button/style/dnb-button.scss' // just to make sure we re-run the test in watch mode due to changes in this file
 
 beforeAll(async () => {
-  global.css = await factory(
+  global.css = await runFactory(
     './src/components/button/style/dnb-button.scss',
     {
       returnResult: true

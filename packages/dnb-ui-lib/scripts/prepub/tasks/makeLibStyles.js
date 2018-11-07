@@ -22,15 +22,15 @@ export default async () => {
 const compileSass = () =>
   new Promise(async (resolve, reject) => {
     try {
-      await factory('components')
-      await factory('patterns')
+      await runFactory('components')
+      await runFactory('patterns')
       resolve()
     } catch (e) {
       reject(e)
     }
   })
 
-export const factory = (src, { returnResult = false } = {}) =>
+export const runFactory = (src, { returnResult = false } = {}) =>
   new Promise((resolve, reject) => {
     log.text = `> PrePublish: converting sass to css | ${src} styles`
 

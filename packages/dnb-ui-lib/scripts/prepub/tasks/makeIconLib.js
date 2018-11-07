@@ -11,7 +11,17 @@ import filesExist from 'files-exist'
 import transform from 'gulp-transform'
 import { log } from '../../lib'
 
-const factory = ({ preventDelete = false } = {}) =>
+export default opts =>
+  new Promise(async (resolve, reject) => {
+    try {
+      await runFactory(opts)
+      resolve()
+    } catch (e) {
+      reject(e)
+    }
+  })
+
+const runFactory = ({ preventDelete = false } = {}) =>
   new Promise(async (resolve, reject) => {
     if (!preventDelete) {
       await del([`./icons/**`])
@@ -28,16 +38,6 @@ const factory = ({ preventDelete = false } = {}) =>
         .pipe(gulp.dest(`./icons`, { cwd: process.env.ROOT_DIR }))
         .on('end', resolve)
         .on('error', reject)
-    } catch (e) {
-      reject(e)
-    }
-  })
-
-export default opts =>
-  new Promise(async (resolve, reject) => {
-    try {
-      await factory(opts)
-      resolve()
     } catch (e) {
       reject(e)
     }

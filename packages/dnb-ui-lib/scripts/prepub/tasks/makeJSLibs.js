@@ -12,7 +12,21 @@ import transform from 'gulp-transform'
 import filesExist from 'files-exist'
 import { log } from '../../lib'
 
-const factory = (type, { preventDelete = false } = {}) =>
+export default opts =>
+  new Promise(async (resolve, reject) => {
+    try {
+      // process the following directories
+      await runFactory('components', opts)
+      await runFactory('patterns', opts)
+      await runFactory('shared', opts)
+      await transformIndex()
+      resolve()
+    } catch (e) {
+      reject(e)
+    }
+  })
+
+const runFactory = (type, { preventDelete = false } = {}) =>
   new Promise(async (resolve, reject) => {
     if (!preventDelete) {
       await del([`./${type}/**/*.js`, `!./${type}/**/style`])
@@ -44,20 +58,6 @@ const factory = (type, { preventDelete = false } = {}) =>
     }
   })
 
-export default opts =>
-  new Promise(async (resolve, reject) => {
-    try {
-      // await factory('icons', opts)
-      await factory('components', opts)
-      await factory('patterns', opts)
-      await factory('shared', opts)
-      await transformIndex()
-      resolve()
-    } catch (e) {
-      reject(e)
-    }
-  })
-
 const transformContent = (content, file) => {
   log.text = `> PrePublish: transforming js | ${file.path}`
   if (/\/style/.test(file.path)) {
@@ -68,8 +68,6 @@ const transformContent = (content, file) => {
   } else if (/\.scss/.test(content)) {
     content = content.replace(new RegExp('/(.*).scss', 'g'), '/$1.min.css')
   }
-  // make sure the compiled version of the "Icon Component" uses the compiled icons
-  // content = content.replace(new RegExp('icons/es', 'g'), 'icons/cjs')
   return content
 }
 
