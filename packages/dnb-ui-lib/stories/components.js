@@ -36,16 +36,15 @@ export const components = []
 // components.push([
 //   'MainNav',
 //   () => (
-//     <Body>
+//     <>
 //       <MainNavExample />
-//     </Body>
+//     </>
 //   )
 // ])
 // components.push(['Breadcrumbs', () => <BreadcrumbsExample />])
 // components.push(['DescriptionList', () => <DescriptionListExamples />])
 // components.push(['Modal', () => <ModalExamples />])
 // components.push(['Grid', () => <GridExamples />])
-// components.push(['Body', () => <BodyExample />])
 // components.push(['Button', () => <ButtonExample />])
 components.push(['Button with Text only', () => <Button>My Text</Button>])
 components.push([

@@ -10,7 +10,6 @@ import dnb, {
   Input,
   Dropdown,
   Switch,
-  Body,
   MainNav,
   ViewTitle,
   StepIndicator,
@@ -37,7 +36,7 @@ export default class ExampleAppPage extends Component {
   }
   render() {
     return (
-      <Body className="main">
+      <div className="main">
         <Head>
           <title>Example App 1</title>
           <link
@@ -298,7 +297,7 @@ export default class ExampleAppPage extends Component {
             />
           </Form>
         </div>
-      </Body>
+      </div>
     )
   }
 }

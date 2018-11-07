@@ -68,7 +68,7 @@ const Wrapper = styled.div`
 
 export { Example }
 export default () => (
-  <Wrapper className="dnb-body">
+  <Wrapper className="dnb-style">
     <Example />
   </Wrapper>
 )

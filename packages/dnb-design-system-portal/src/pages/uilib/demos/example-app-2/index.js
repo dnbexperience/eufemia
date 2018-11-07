@@ -8,7 +8,6 @@ import { css } from 'react-emotion'
 import Head from 'react-helmet'
 import dnb, {
   Button,
-  Body,
   MainNav,
   ViewTitle,
   StepIndicator,
@@ -35,7 +34,7 @@ export default class ExampleAppPage extends Component {
   }
   render() {
     return (
-      <Body className="main">
+      <div className="main">
         <Head>
           <title>Example App</title>
           <link
@@ -137,7 +136,7 @@ export default class ExampleAppPage extends Component {
             </div>
           </ActionNav>
         </div>
-      </Body>
+      </div>
     )
   }
 }

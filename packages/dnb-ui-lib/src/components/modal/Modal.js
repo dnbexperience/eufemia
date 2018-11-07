@@ -330,7 +330,7 @@ class ModalContent extends Component {
             aria-hidden="true"
             aria-modal="true"
             tabIndex="-1"
-            className="dnb-modal__content__inner dnb-no-focus dnb-body"
+            className="dnb-modal__content__inner dnb-no-focus dnb-style"
             onClick={this.preventClick}
             onKeyDown={this.onKeyDownHandler}
             {...params}

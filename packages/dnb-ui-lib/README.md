@@ -26,7 +26,7 @@ Example of implementation:
   <title>Your Example Project</title>
   <link rel="stylesheet" href="css/dnb.ui.library.css">
 </head>
-<body class="dnb-body">
+<body class="dnb-style">
 
   <button class="dnb-button dnb-button--primary dnb-button--has-text">
     <span class="dnb-button__text">

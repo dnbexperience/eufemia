@@ -54,14 +54,6 @@ export default class StickyMenuBar extends Component {
   }
   showGrid = showGrid => {
     if (typeof document !== 'undefined') {
-      const elem = document.querySelector('.dnb-body')
-      if (elem) {
-        if (showGrid) {
-          elem.classList.add('dev-grid')
-        } else {
-          elem.classList.remove('dev-grid')
-        }
-      }
       const page = document.querySelector('.page-content')
       if (page) {
         if (showGrid) {
