@@ -18,6 +18,7 @@
   },
   "scripts": {
     "post-build": "yarn prettier:all",
+    "build": "yarn prepublish:local && yarn post-build",
     "cdn": "live-server --no-browser --cors --port=8081",
     "precommit": "yarn lint-staged",
     "dev:convertIcons": "nodemon --exec 'babel-node ./scripts/tools/convertIcons' --ignore '/dist/**' --ignore '*.json'",
@@ -44,7 +45,6 @@
     "publish:postpack": "yarn pack && nodemon --exec 'babel-node ./scripts/release/postpack.js' ",
     "prepublish:update": "babel-node ./scripts/prepub/updateAndPrepub.js",
     "prepublishOnly:disabled": "yarn prepublish:update && jest --ci",
-    "startup": "yarn prepublish:local && yarn post-build",
     "story": "start-storybook -s / -p 3002 --ci",
     "story:build": "build-storybook",
     "t": "jest --watch --testPathPattern ",
