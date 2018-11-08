@@ -66,20 +66,21 @@
 
 // TODO: Core typography classes
 
-.text-lead {
-  font-size: 1em !important; // 16px
-  line-height: 1.75rem !important; // 28
-  border-bottom: solid 1rem green;
+.dnb-style .text-lead {
+  font-size: 1em; // 16px
+  line-height: 1.75rem; // 28
+  border-bottom: solid 1rem green; // TODO: change to margin
+  font-weight: 500;
 }
 
-.text-label {
+.dnb-style .text-label {
   font-size: 0.8125em; // 14px
-  line-height: 1.25rem !important; // 20px
+  line-height: 1.25rem; // 20px
   border-bottom: solid 1rem hotpink;
 }
 
-.text-small {
+.dnb-style .text-small {
   font-size: 0.8125em; // 14px
-  line-height: 1rem !important; // 16px
+  line-height: 1rem; // 16px
   border-bottom: solid 1rem hotpink;
 }

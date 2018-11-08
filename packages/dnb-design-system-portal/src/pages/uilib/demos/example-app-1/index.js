@@ -22,9 +22,8 @@ import dnb, {
 } from 'dnb-ui-lib/src'
 
 // UI Style
-import 'dnb-ui-lib/src/style/patterns'
-import 'dnb-ui-lib/src/style'
-import 'dnb-ui-lib/src/patterns/style'
+import 'dnb-ui-lib/src/style/patterns' // import ony patterns
+import 'dnb-ui-lib/src/style' // import both all components and the defualt theme
 
 const style = css`
   background: white;

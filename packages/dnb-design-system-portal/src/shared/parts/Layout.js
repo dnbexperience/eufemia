@@ -4,9 +4,8 @@
  */
 
 // UI Style
-import 'dnb-ui-lib/src/style'
-import 'dnb-ui-lib/src/patterns/style'
-// import 'dnb-ui-lib/src/components/style'
+import 'dnb-ui-lib/src/style/patterns' // import ony patterns
+import 'dnb-ui-lib/src/style' // import both all components and the defualt theme
 // import 'dnb-ui-lib/src/style/themes/dnb-theme-open-banking.scss'
 
 import { pageFocus } from 'dnb-ui-lib/src/shared/tools'
