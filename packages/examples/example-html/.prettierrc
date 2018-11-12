@@ -5,6 +5,6 @@
   "bracketSpacing": true,
   "useTabs": false,
   "semi": true,
-  "jsxBracketSameLine": false,
-  "trailingComma": "none"
+  "trailingComma": "es5",
+  "parser": "html"
 }
