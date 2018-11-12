@@ -30,7 +30,11 @@ const props = componentInfo.props
 
 describe('Modal component', () => {
   const ComponentWrap = mount(
-    <Component {...props} modal_content="modal_content" />
+    <Component
+      {...props}
+      modal_content="modal_content"
+      preventSetTriggerRef={true} // we set preventSetTriggerRef to true, cause jest gives us an error
+    />
   )
   ComponentWrap.setState({
     modalActive: true
