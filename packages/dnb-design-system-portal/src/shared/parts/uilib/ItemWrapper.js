@@ -13,6 +13,8 @@ import PropTypes from 'prop-types'
 import createHistory from 'history/createBrowserHistory'
 import { css } from 'react-emotion'
 import { navigate } from '@reach/router'
+import { fullscreen as fullscreenIcon } from 'dnb-ui-lib/src/icons/secondary_icons'
+// import fullscreenIcon from 'dnb-ui-lib/src/icons/fullscreen'
 
 const getLocation = () => {
   if (typeof window === 'undefined') {
@@ -159,7 +161,7 @@ class ComponentItemWrapper extends Component {
                         className="toggle-fullscreen"
                         variant="secondary"
                         title="Fullscreen"
-                        icon="fullscreen"
+                        icon={fullscreenIcon}
                         // target="_blank"
                         // rel="noopener noreferrer"
                         // href={`?fullscreen#${this.state.activeTabKey}`}

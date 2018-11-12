@@ -12,7 +12,7 @@ import {
   validateDOMAttributes,
   processChildren
 } from '../../shared/component-helper'
-// import icons from '../../icons/primary_icons'
+// import * as icons from '../../icons/primary_icons'
 // import './style/dnb-icon.scss' // no good solution to import the style here
 
 export const propTypes = {

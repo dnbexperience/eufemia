@@ -5,7 +5,7 @@
 
 // do not use polyfill for now
 // import 'babel-polyfill'
-import dnbIcons from '../icons/primary_icons'
+import * as dnbIcons from '../icons/primary_icons'
 
 // in case we also want to hae the big varians shipped
 // import dnbIconsBig from '../icons/primary_icons_big'
