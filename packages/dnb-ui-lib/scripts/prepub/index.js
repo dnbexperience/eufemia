@@ -16,7 +16,6 @@ import { prepareTemplates } from './tasks/prepareTemplates'
 import { runStyleFactory } from './tasks/styleFactory'
 import { runThemeFactory } from './tasks/themeFactory'
 import convertSvgToJsx from './tasks/convertSvgToJsx'
-import copyAssets from './tasks/copyAssets'
 import makeLibStyles from './tasks/makeLibStyles'
 import makeLibModules from './tasks/makeLibModules'
 import makeIconLib from './tasks/makeIconLib'
@@ -30,7 +29,6 @@ export {
   runStyleFactory,
   runThemeFactory,
   convertSvgToJsx,
-  copyAssets,
   makeLibStyles,
   makeLibModules,
   makeIconLib,
@@ -48,7 +46,6 @@ export const runPrepublishTasks = async ({
   try {
     await cleanupLib({ preventDelete })
     await convertSvgToJsx({ preventDelete })
-    await copyAssets({ preventDelete })
 
     await makeIconLib()
     await makeIconsUMDBundle({ doRefetch })

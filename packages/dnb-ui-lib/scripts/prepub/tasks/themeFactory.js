@@ -15,7 +15,7 @@ const prettierrc = JSON.parse(
 )
 
 const runThemeFactory = async () => {
-  log.text = 'Starting the themes factory ...'
+  log.start('> PrePublish: Starting the themes factory ...')
 
   const processToNamesIgnoreList = [
     '!**/__tests__/',
@@ -43,7 +43,9 @@ const runThemeFactory = async () => {
     ].concat(processToNamesIgnoreList)
   }).then(() => {
     if (require.main === module) {
-      log.text = '> Created the themes files with all the components'
+      log.succeed(
+        '> PrePublish: "themeFactory" Created the themes files with all the components'
+      )
     }
   })
 }

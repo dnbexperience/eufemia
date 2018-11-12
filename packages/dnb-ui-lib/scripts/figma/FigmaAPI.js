@@ -3,32 +3,18 @@
  *
  */
 
-import dotenv from 'dotenv'
-import { getFigmaDoc } from './helpers/docHelpers'
 import { ConvertAndSaveComponentsStyle } from './tasks/componentsStyleConverter'
 // import { FetchImages } from './tasks/imageStore'
 import { IconsConverter } from './tasks/iconsConverter'
-import { log } from '../lib'
-
-// import .env variables
-dotenv.config()
-
-const figmaToken = process.env.FIGMA_TOKEN
-const figmaFile = process.env.FIGMA_MAIN_FILE
+import { log, ErrorHandler } from '../lib'
+import { getFigmaDoc } from './helpers/docHelpers'
 
 log.start('> Figma: Preparing for connecting to the Figma API ...')
 
-export const fetchFigmaStyles = async ({ doRefetch, figmaDoc } = {}) => {
+export const fetchFigmaStyles = async (args = {}) => {
   try {
-    if (process.argv.indexOf('-u') !== -1) {
-      doRefetch = true
-    }
-    if (!figmaDoc && doRefetch) {
-      log.text = '> Figma: Fetching the figma doc.'
-      figmaDoc = await getFigmaDoc({ figmaFile, figmaToken, doRefetch })
-    }
     log.start('> Figma: Starting the style conversion.')
-    const styles = await ConvertAndSaveComponentsStyle(figmaDoc, {
+    const styles = await ConvertAndSaveComponentsStyle(args, {
       doReplaceVars: true
     })
     log.succeed(
@@ -36,49 +22,38 @@ export const fetchFigmaStyles = async ({ doRefetch, figmaDoc } = {}) => {
     )
   } catch (e) {
     log.fail(e)
+    new ErrorHandler(e)
   }
 }
 
-export const fetchFigmaIcons = async ({ doRefetch, figmaDoc } = {}) => {
+export const fetchFigmaIcons = async (args = {}) => {
   try {
-    if (process.argv.indexOf('-u') !== -1) {
-      doRefetch = true
-    }
-    if (!figmaDoc && doRefetch) {
-      log.text = '> Figma: Fetching the figma doc'
-      figmaDoc = await getFigmaDoc({ figmaFile, figmaToken, doRefetch })
-    }
     log.start('> Figma: Starting the icons conversion')
-    const icons = await IconsConverter({
-      figmaFile,
-      figmaToken,
-      figmaDoc,
-      doRefetch
-    })
-    log.succeed(`> Figma: Icons conversion done. (${icons.length} icons)`)
+    const icons = await IconsConverter(args)
+    log.succeed(`> Figma: Icons conversion done (${icons.length} icons)`)
   } catch (e) {
     log.fail(e)
+    new ErrorHandler(e)
   }
 }
 
-export const fetchFigmaData = async (options = {}) => {
+export const fetchFigmaData = async (args = {}) => {
   try {
-    let { doRefetch, figmaDoc } = options
-    if (process.argv.indexOf('-u') !== -1) {
-      doRefetch = true
+    let { figmaDoc, doRefetch } = args
+
+    if (!figmaDoc || doRefetch) {
+      figmaDoc = await getFigmaDoc({ doRefetch })
+      if (figmaDoc.isNew) {
+        doRefetch = true
+      }
+      args = { ...args, figmaDoc, doRefetch }
     }
-    if (!figmaDoc && doRefetch) {
-      log.text = '> Figma: Fetching the figma doc'
-      options.figmaDoc = await getFigmaDoc({
-        figmaFile,
-        figmaToken,
-        doRefetch
-      })
-    }
-    await fetchFigmaStyles(options)
-    await fetchFigmaIcons(options)
+
+    await fetchFigmaStyles(args)
+    await fetchFigmaIcons(args)
     log.succeed('> Figma: All done')
   } catch (e) {
     log.fail(e)
+    new ErrorHandler(e)
   }
 }

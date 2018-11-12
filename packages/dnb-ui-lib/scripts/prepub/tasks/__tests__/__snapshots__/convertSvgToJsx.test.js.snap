@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`convertSvgToJsx to CJ Modules has to convert correctly and match snapshot 1`] = `
+exports[`run convertSvgToJsx to convert ES6 to ES5 has to convert correctly and match snapshot 1`] = `
 <svg
   viewBox="0 0 24 24"
 >

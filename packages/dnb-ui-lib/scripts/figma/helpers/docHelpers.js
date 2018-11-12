@@ -6,18 +6,31 @@
 import fs from 'fs-extra'
 import https from 'https'
 import path from 'path'
-import * as Figma from 'figma-js'
+// import { Client } from 'figma-js'
+import { Client } from './figmaAPI.js' // as "figma-js" not was flexible enough, we have our own.
 import traverse from 'traverse'
 import isEqual from 'lodash.isequal'
 import isEqualWith from 'lodash.isequalwith'
-import fileOlderThan from 'file-older-than'
+// import fileOlderThan from 'file-older-than'
 import Color from 'color'
 import { ErrorHandler, ERROR_HARMLESS, ERROR_FATAL } from '../../lib/error'
 import { log } from '../../lib'
+import crypto from 'crypto'
+import dotenv from 'dotenv'
+import packpath from 'packpath'
 
-const defaultFigmaToken = process.env.FIGMA_TOKEN
-const defaultFigmaFile = process.env.FIGMA_MAIN_FILE
-const defaultCacheTime = process.env.FIGMA_CACHE_TIME || '1d'
+// import .env variables
+dotenv.config()
+
+// process.env.ROOT_DIR = `${__dirname}/../../`
+process.env.ROOT_DIR = packpath.self()
+
+export const defaultFigmaToken = process.env.FIGMA_TOKEN
+export const defaultFigmaFile = process.env.FIGMA_MAIN_FILE
+
+const Figma = Client({
+  personalAccessToken: defaultFigmaToken
+})
 
 export const fetchTextColor = node => {
   const vector = findNode(node, {
@@ -129,47 +142,107 @@ export const findNode = (doc, find, ignore = null) =>
 export const findAllNodes = (doc, find, ignore = null) =>
   findAll(doc, 'children', find, ignore)
 
-export const getFigmaDoc = async ({
-  figmaFile = defaultFigmaFile,
-  figmaToken = defaultFigmaToken,
-  localFile = null,
-  doRefetch = null
+export const getLiveVersionOfFigmaDoc = async ({
+  figmaFile = defaultFigmaFile
 }) => {
-  if (!localFile && !figmaFile) {
+  try {
+    const {
+      data: { versions }
+    } = await Figma.client.get(`files/${figmaFile}/versions`)
+    // const versions = await Figma.versions() // not implemented yet
+
+    const version = versions[0].id
+    const lockFile = path.resolve(__dirname, `../version.lock`)
+    await fs.writeFile(
+      lockFile,
+      JSON.stringify({
+        [md5(figmaFile)]: version
+      })
+    )
+    return version
+  } catch (e) {
+    console.log('Could not get version!', e)
+  }
+}
+
+export const getLocalVersionFromLockFile = async ({
+  figmaFile = defaultFigmaFile
+}) => {
+  const lockFile = path.resolve(__dirname, `../version.lock`)
+  try {
+    if (fs.existsSync(lockFile)) {
+      const fileContent = JSON.parse(await fs.readFile(lockFile, 'utf-8'))
+      return fileContent[md5(figmaFile)]
+    }
+  } catch (e) {
+    console.log('Could not get version from lock file!', e)
+  }
+  return null
+}
+
+export const getFigmaDoc = async ({
+  figmaFile = null,
+  localFile = null,
+  doRefetch = null,
+  preventUpdate = null
+} = {}) => {
+  if (!figmaFile) figmaFile = defaultFigmaFile
+
+  if (!figmaFile) {
     new ErrorHandler(
       'No Figma Main File defined. Make sure there is a .env file with a valid FIGMA_MAIN_FILE defined!'
     )
   }
 
-  const localDir = path.resolve(__dirname, `../files`)
+  let isNew = false
+  const localDir = path.resolve(__dirname, `../.cache`)
   if (!localFile) {
     localFile = path.resolve(localDir, `${figmaFile}.json`)
   }
 
   log.start('> Figma: Fetching the figma doc')
 
+  if (doRefetch !== false && process.argv.indexOf('-u') !== -1) {
+    doRefetch = true
+  }
+
+  if (doRefetch !== true && preventUpdate !== true) {
+    const localVersion = await getLocalVersionFromLockFile({ figmaFile })
+
+    if (localVersion) {
+      log.text = `> Figma: Comparing old vs new version. (local version is ${localVersion})`
+
+      const liveVersion = await getLiveVersionOfFigmaDoc({
+        figmaFile
+      })
+
+      if (localVersion === liveVersion) {
+        log.succeed(
+          `> Figma: No newer version aviable. The online version is ${liveVersion}`
+        )
+      } else {
+        log.succeed(
+          `> Figma: There was a new version aviable: ${liveVersion}`
+        )
+        doRefetch = true
+      }
+    }
+  }
+
   // update if requested
   if (
     doRefetch ||
-    (doRefetch !== false &&
-      (!fs.existsSync(localFile) ||
-        fileOlderThan(localFile, defaultCacheTime)))
+    !fs.existsSync(localFile)
+    // (!fs.existsSync(localFile) || (fileOlderThan(localFile, '1d') && doRefetch !== false))
   ) {
-    if (!figmaToken) {
-      new ErrorHandler(
-        'No Figma Token found. Make sure there is a .env file with the FIGMA_TOKEN inside!'
-      )
-    }
     log.text = `> Figma: Fetching new doc from Figma ...`
-    const client = Figma.Client({
-      personalAccessToken: figmaToken
-    })
     try {
-      const { data } = await client.file(figmaFile)
+      const { data } = await Figma.file(figmaFile)
       if (!fs.existsSync(localDir)) {
         await fs.mkdir(localDir)
       }
       await fs.writeFile(localFile, JSON.stringify(data, null, 2))
+      isNew = true
       log.succeed(`> Figma: Fetched new doc ${data.lastModified}`)
     } catch (e) {
       new ErrorHandler(
@@ -183,7 +256,9 @@ export const getFigmaDoc = async ({
   }
 
   try {
-    return JSON.parse(await fs.readFile(localFile))
+    const figmaDoc = JSON.parse(await fs.readFile(localFile))
+    figmaDoc.isNew = isNew
+    return figmaDoc
   } catch (e) {
     new ErrorHandler('Failed to readFile and parse the result', e)
   }
@@ -191,9 +266,9 @@ export const getFigmaDoc = async ({
   return null
 }
 
-export const getFigmaImages = async ({
+export const getFigmaUrlByImageIds = async ({
   figmaFile,
-  figmaToken,
+  frameId = 'frame',
   ids,
   params,
   doRefetch = null
@@ -204,23 +279,18 @@ export const getFigmaImages = async ({
     }
     const localFile = path.resolve(
       __dirname,
-      `../files/${figmaFile}-images.json`
+      `../.cache/${figmaFile}-${md5(frameId)}-images.json`
     )
 
     // get the files from the cache
     if (
       doRefetch ||
-      (doRefetch !== false &&
-        (!fs.existsSync(localFile) ||
-          fileOlderThan(localFile, defaultCacheTime))) // e.g., '5m', '20w', '300d30h10m5s'
+      !fs.existsSync(localFile)
+      // || fileOlderThan(localFile, '1d') /* e.g., '5m', '20w', '300d30h10m5s' */ && doRefetch !== false)
     ) {
-      const client = Figma.Client({
-        personalAccessToken: figmaToken
-      })
-
       const {
         data: { images }
-      } = await client.fileImages(figmaFile, {
+      } = await Figma.fileImages(figmaFile, {
         ids,
         format: 'svg',
         ...params
@@ -245,7 +315,7 @@ export const safeFileToDisk = (
   new Promise(resolve => {
     const localFile = /\//.test(file)
       ? file
-      : path.resolve(__dirname, `../files/${file}`)
+      : path.resolve(__dirname, `../.cache/${file}`)
     const stream = fs.createWriteStream(localFile)
     stream.on('error', err => {
       stream.end()
@@ -280,7 +350,7 @@ export const safeFileToDisk = (
 export const saveToFile = async (file, data) => {
   const localFile = /\//.test(file)
     ? file
-    : path.resolve(__dirname, `../files/${file}`)
+    : path.resolve(__dirname, `../.cache/${file}`)
   await fs.writeFile(
     localFile,
     typeof data === 'string' ? data : JSON.stringify(data, null, 2)
@@ -294,3 +364,9 @@ export const getNodes = (doc, type = 'TEXT') => {
     .nodes(doc)
     .filter(node => hasKey(node, 'type') && node.type === type)
 }
+
+export const md5 = d =>
+  crypto
+    .createHash('md5')
+    .update(d)
+    .digest('hex')

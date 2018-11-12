@@ -18,14 +18,13 @@ import sass from 'node-sass'
 import { setupJestScreenshot } from 'jest-screenshot'
 import { toBeType } from 'jest-tobetype'
 import toJson from 'enzyme-to-json'
-import { toMatchImageSnapshot } from 'jest-image-snapshot'
 
 export { fakeProps, fakeDataForProps }
 export { shallow, mount, render }
 export { toJson }
 export { axe, toHaveNoViolations }
 
-expect.extend({ toMatchImageSnapshot, toBeType })
+expect.extend({ toBeType })
 expect.extend(toHaveNoViolations)
 
 // > Screenshot testing is not working properly yet under heavy test conditions

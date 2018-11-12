@@ -70,8 +70,8 @@ In more technical terms, there are three main methods make this possible.
 FIGMA_TOKEN="your token"
 FIGMA_MAIN_FILE="your file"
 FIGMA_STYLES_FRAME="dnb-ui-components"
-FIGMA_ICONS_FRAME="dnb-ui-icons"
-FIGMA_ICONS_SELECTOR="icon--"
+FIGMA_ICONS_PAGE_SELECTOR="Icons"
+FIGMA_ICONS_FRAME_SIZE_SEPERATOR="-"
 ```
 
 # Requirements

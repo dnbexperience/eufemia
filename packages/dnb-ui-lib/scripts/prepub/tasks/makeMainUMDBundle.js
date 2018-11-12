@@ -15,6 +15,7 @@ import rename from 'gulp-rename'
 import { log } from '../../lib'
 
 export default async () => {
+  log.start('> PrePublish: transforming main bundle')
   // make sure we use the 'rollup' as our enviroment variable
   // this way we use a diffrent babelrc config
   const NODE_ENV = process.env.NODE_ENV
@@ -22,13 +23,14 @@ export default async () => {
   process.env.NODE_ENV = 'production-umd' // uses babel 7
   await transformStyleModule()
   process.env.NODE_ENV = NODE_ENV
+  log.succeed(
+    '> PrePublish: "makeMainUMDBundle" transforming main bundle done'
+  )
 }
 
 const transformStyleModule = () =>
   new Promise((resolve, reject) => {
-    log.text = '> PrePublish: transforming main bundle'
-
-    const iconsPath = path.resolve('./src/icons/allIcons.js')
+    const iconsPath = path.resolve('./src/icons/primary_icons.js')
     const globals = {
       [iconsPath]: 'dnbIcons',
       react: 'React',

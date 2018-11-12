@@ -21,6 +21,9 @@ export default () =>
     try {
       await runFactory('./src/components/**/style/dnb-*.scss')
       await runFactory('./src/patterns/**/style/dnb-*.scss')
+      log.succeed(
+        `> PrePublish: "makeLibStyles" converting sass to css done`
+      )
       resolve()
     } catch (e) {
       reject(e)
@@ -29,7 +32,7 @@ export default () =>
 
 export const runFactory = (src, { returnResult = false } = {}) =>
   new Promise(async (resolve, reject) => {
-    log.text = `> PrePublish: converting sass to css | ${src}`
+    log.start(`> PrePublish: converting sass to css | ${src}`)
 
     try {
       // do not use 'node-sass-json-importer' here! Every file needs the same core imports over and over again.

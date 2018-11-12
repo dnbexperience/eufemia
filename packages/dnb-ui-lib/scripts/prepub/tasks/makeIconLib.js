@@ -14,7 +14,9 @@ import { log } from '../../lib'
 export default opts =>
   new Promise(async (resolve, reject) => {
     try {
+      log.start('> PrePublish: start transforming icons')
       await runFactory(opts)
+      log.succeed('> PrePublish: "makeIconLib" transforming icons is done')
       resolve()
     } catch (e) {
       reject(e)
@@ -26,7 +28,6 @@ const runFactory = ({ preventDelete = false } = {}) =>
     if (!preventDelete) {
       await del([`./icons/**`])
     }
-    log.text = '> PrePublish: transforming icons'
     try {
       gulp
         .src(filesExist([`./src/icons/**/*.js`, '!**/*_not_in_use*']), {

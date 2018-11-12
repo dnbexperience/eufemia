@@ -14,7 +14,6 @@ import {
   // makeIconsUMDBundle
   // runStyleFactory,
   // convertSvgToJsx,
-  // copyAssets,
   makeLibStyles
   // makeLibModules
   // makeMainUMDBundle
@@ -31,7 +30,6 @@ const dev = async () => {
   // await makeIconsUMDBundle({ doRefetch: false })
   // await runStyleFactory()
   // await convertSvgToJsx({ preventDelete })
-  // await copyAssets({ preventDelete })
   await makeLibStyles()
   // await makeLibModules()
   // await makeMainUMDBundle()

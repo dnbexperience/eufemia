@@ -15,7 +15,7 @@ const prettierrc = JSON.parse(
 )
 
 const prepareTemplates = async () => {
-  log.text = 'Starting the index template lib factory ...'
+  log.start('> PrePublish: Starting the index template lib factory ...')
 
   // process components
   const components = await runFactory({
@@ -35,7 +35,9 @@ const prepareTemplates = async () => {
     processToNamesListByUsingFolders: true
   }).then(res => {
     if (require.main === module) {
-      log.text = '> Created the index template with all the components'
+      log.succeed(
+        '> PrePublish: Created the index template with all the components'
+      )
     }
     return res
   })

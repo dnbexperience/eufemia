@@ -46,9 +46,6 @@ const run = () => {
     return require('./prepublish')
   }
 
-  if (cmd === 'generate-react-icons') {
-    return require('./generate-react-icons')
-  }
   if (cmd === 'generate-icons') {
     return require('./generate-icons')
   }

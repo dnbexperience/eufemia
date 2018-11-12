@@ -15,9 +15,7 @@
 /shared
 /umd
 /style
-/assets
 /icons
-/scripts/figma/files/**
 **/test-files/dist
 /docs
 /dist

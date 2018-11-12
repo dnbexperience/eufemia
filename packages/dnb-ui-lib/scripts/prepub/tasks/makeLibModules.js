@@ -22,6 +22,7 @@ export default opts =>
       await runFactory('./src/shared/**/*.js', opts)
       await runFactory('./src/web-components.js', opts)
       await runFactory('./src/index.js', opts)
+      log.succeed(`> PrePublish: "makeLibModules" done`)
       resolve()
     } catch (e) {
       reject(e)
@@ -30,8 +31,7 @@ export default opts =>
 
 const runFactory = (src, { preventDelete = false } = {}) =>
   new Promise(async (resolve, reject) => {
-    log.text = `> PrePublish: transforming js | ${src}`
-
+    log.start(`> PrePublish: transforming js | ${src}`)
     try {
       const files = filesExist([
         src,

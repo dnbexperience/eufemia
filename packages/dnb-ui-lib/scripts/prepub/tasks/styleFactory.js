@@ -14,7 +14,7 @@ const prettierrc = JSON.parse(
 )
 
 const runStyleFactory = async () => {
-  log.text = 'Starting the style factory ...'
+  log.start('> PrePublish: Starting the style factory ...')
 
   const processToNamesIgnoreList = [
     '!**/__tests__/',
@@ -42,7 +42,9 @@ const runStyleFactory = async () => {
     ]
   }).then(() => {
     if (require.main === module) {
-      log.text = '> Created the style file with all the components'
+      log.succeed(
+        '> PrePublish: "styleFactory" Created the style file with all the components'
+      )
     }
   })
 

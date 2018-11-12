@@ -17,7 +17,7 @@ beforeAll(async () => {
   })
 })
 
-describe('convertSvgToJsx to CJ Modules', () => {
+describe('run convertSvgToJsx to convert ES6 to ES5', () => {
   it('has to convert correctly and match snapshot', async () => {
     const { default: Svg } = await import('./test-files/dist/bell')
     const ComponentWrap = shallow(<Svg />)

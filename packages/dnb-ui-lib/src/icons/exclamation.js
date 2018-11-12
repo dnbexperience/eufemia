@@ -4,7 +4,6 @@ import React from 'react'
 
 const SvgComponent = props => (
   <svg viewBox="0 0 16 16" {...props}>
-    <path d="M0 0h16v16H0z" />
     <path
       fillRule="evenodd"
       clipRule="evenodd"

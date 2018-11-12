@@ -30,6 +30,9 @@ export default async () => {
   await runFactory('./src/style/**/dnb-ui-lib-IE11.scss', {
     IE11: true
   })
+  log.succeed(
+    '> PrePublish: "makeMainStyle" transforming style modules done'
+  )
 }
 
 const transformModulesContent = content =>
@@ -39,7 +42,7 @@ const transformMainStyleContent = content =>
 
 const transformStyleModules = () =>
   new Promise((resolve, reject) => {
-    log.text = '> PrePublish: transforming style modules'
+    log.start('> PrePublish: transforming style modules')
     try {
       gulp
         .src(
@@ -70,7 +73,7 @@ export const runFactory = (
   { IE11 = false, returnResult = false, importOnce = true } = {}
 ) =>
   new Promise((resolve, reject) => {
-    log.text = '> PrePublish: transforming main style'
+    log.start('> PrePublish: transforming main style')
     try {
       const stream = sass({
         importer: importOnce ? [onceImporter()] : []
