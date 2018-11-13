@@ -18,14 +18,20 @@ import sass from 'node-sass'
 import { setupJestScreenshot } from 'jest-screenshot'
 import { toBeType } from 'jest-tobetype'
 import toJson from 'enzyme-to-json'
-import { toMatchImageSnapshot } from 'jest-image-snapshot'
 
-export { fakeProps, fakeDataForProps }
-export { shallow, mount, render }
-export { toJson }
-export { axe, toHaveNoViolations }
+export {
+  fakeProps,
+  fakeDataForProps,
+  shallow,
+  mount,
+  render,
+  toJson,
+  axe,
+  toHaveNoViolations,
+  setupJestScreenshot
+}
 
-expect.extend({ toMatchImageSnapshot, toBeType })
+expect.extend({ toBeType })
 expect.extend(toHaveNoViolations)
 
 // > Screenshot testing is not working properly yet under heavy test conditions
@@ -77,7 +83,7 @@ export const setupPageScreenshot = (options = {}) =>
       // }
     )
 
-    beforeAll(async () => {
+    beforeAll(async done => {
       try {
         const browser = await puppeteer.launch({
           args: ['--no-sandbox', '--disable-setuid-sandbox']
@@ -88,13 +94,20 @@ export const setupPageScreenshot = (options = {}) =>
         console.error('Unable to start puppeteer.', err)
         reject(err)
       }
+      done()
     })
 
-    afterAll(async () => {
+    afterAll(async done => {
+      if (!global.browser) {
+        done()
+      }
       await global.browser.close()
     })
 
-    beforeEach(async () => {
+    beforeEach(async done => {
+      if (!global.browser || !global.browser.newPage) {
+        done()
+      }
       const page = await global.browser.newPage()
 
       // await page.setViewport({ width: 1920, height: 1080 })

@@ -14,14 +14,16 @@ import ItemWrapper from '../../../shared/parts/uilib/ItemWrapper'
 import DemoComponent, {
   Example as CodeComponent
 } from 'dnb-ui-lib/src/components/line-title/Example'
-import InfoComponent from 'dnb-ui-lib/src/components/line-title/info.md'
+import Description from 'dnb-ui-lib/src/components/line-title/description.md'
+import Details from 'dnb-ui-lib/src/components/line-title/details.md'
 import ExampleCode from 'raw-loader!../examples/LineTitle.txt'
 
 export default class LineTitleDemo extends Component {
   static propTypes = {
     title: PropTypes.string,
     id: PropTypes.string,
-    InfoComponent: PropTypes.func,
+    Description: PropTypes.func,
+    Details: PropTypes.func,
     DemoComponent: PropTypes.func,
     CodeComponent: PropTypes.func,
     hideTabs: PropTypes.bool
@@ -30,7 +32,8 @@ export default class LineTitleDemo extends Component {
     title: 'LineTitle',
     id: 'line-title',
     ExampleCode,
-    InfoComponent,
+    Description,
+    Details,
     DemoComponent,
     CodeComponent,
     callback: CodeComponent.AdditionalCallback || null,

@@ -15,20 +15,21 @@
   ],
   "main": "index.js",
   "scripts": {
-    "build-ci": "cd ./packages/dnb-ui-lib && yarn build-ci && cd -",
+    "prepublish-ci": "cd ./packages/dnb-ui-lib && yarn prepublish-ci && cd -",
     "precommit": "yarn workspaces run precommit",
+    "build-ci": "cd ./packages/dnb-design-system-portal && yarn build-ci && cd -",
     "deploy-ci": "cd ./packages/dnb-design-system-portal && yarn deploy-ci && cd -",
     "start": "cd ./packages/dnb-design-system-portal && yarn start && cd -",
     "lint-ci": "yarn workspaces run lint-ci",
     "publish-ci": "cd ./packages/dnb-ui-lib && yarn publish-ci && cd -",
     "reset": "rm -rf ./node_modules && rm yarn.lock && rm -rf ./packages/dnb-ui-lib/node_modules && rm -rf ./packages/dnb-design-system-portal/node_modules && yarn install",
-    "startup": "yarn workspaces run startup",
+    "build": "cd ./packages/dnb-ui-lib && yarn build && cd - && cd ./packages/dnb-design-system-portal && yarn build && cd -",
     "test-ci": "yarn workspaces run test-ci",
     "test-ci:update": "yarn workspaces run test-ci --updateSnapshot"
   },
   "devDependencies": {
-    "husky": "^1.1.2",
-    "yarn": "^1.12.1"
+    "husky": "^1.1.3",
+    "yarn": "^1.12.3"
   },
   "release": {
     "analyzeCommits": "simple-commit-message"

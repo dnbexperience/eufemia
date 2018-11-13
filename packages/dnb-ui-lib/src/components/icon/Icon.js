@@ -12,7 +12,7 @@ import {
   validateDOMAttributes,
   processChildren
 } from '../../shared/component-helper'
-// import icons from '../../icons/allIcons'
+// import * as icons from '../../icons/primary_icons'
 // import './style/dnb-icon.scss' // no good solution to import the style here
 
 export const propTypes = {
@@ -184,4 +184,5 @@ export const iconCase = name =>
   name
     .replace(/((?!^)[A-Z])/g, '_$1')
     .toLowerCase()
-    .replace(/[^a-z_]/gi, '_')
+    .replace(/^[0-9]/g, '$1')
+    .replace(/[^a-z0-9_]/gi, '_')

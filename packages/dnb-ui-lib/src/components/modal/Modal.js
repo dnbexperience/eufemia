@@ -21,7 +21,7 @@ const renderProps = {
 }
 
 export const propTypes = {
-  type: PropTypes.string,
+  type: PropTypes.oneOf(['button', 'text']),
   title: PropTypes.string,
   modal_trigger_text: PropTypes.string,
   modal_trigger_title: PropTypes.string,
@@ -45,7 +45,7 @@ export const propTypes = {
 }
 
 export const defaultProps = {
-  type: null,
+  type: 'button',
   title: null,
   modal_trigger_text: null,
   modal_trigger_title: 'Open Modal',
@@ -86,7 +86,9 @@ export default class Modal extends Component {
 
   constructor(props) {
     super(props)
-    this._triggerRef = React.createRef()
+    if (!props.preventSetTriggerRef) {
+      this._triggerRef = React.createRef()
+    }
   }
 
   toggleOpenClose = (event, showModal = null) => {
@@ -187,15 +189,14 @@ export default class Modal extends Component {
           />
         )}
 
-        {this.state.modalActive &&
-          modal_content && (
-            <ModalRoot
-              {...this.props}
-              toggleOpenClose={this.toggleOpenClose}
-              hide={this.hide}
-              modal_content={modal_content}
-            />
-          )}
+        {this.state.modalActive && modal_content && (
+          <ModalRoot
+            {...this.props}
+            toggleOpenClose={this.toggleOpenClose}
+            hide={this.hide}
+            modal_content={modal_content}
+          />
+        )}
       </div>
     )
   }
@@ -330,7 +331,7 @@ class ModalContent extends Component {
             aria-hidden="true"
             aria-modal="true"
             tabIndex="-1"
-            className="dnb-modal__content__inner dnb-no-focus dnb-body"
+            className="dnb-modal__content__inner dnb-no-focus dnb-style"
             onClick={this.preventClick}
             onKeyDown={this.onKeyDownHandler}
             {...params}

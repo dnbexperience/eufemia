@@ -3,9 +3,6 @@
  *
  */
 
-// process.env.ROOT_DIR = `${__dirname}/../../`
-process.env.ROOT_DIR = require('packpath').self()
-
 import {
   fetchFigmaData,
   fetchFigmaStyles,

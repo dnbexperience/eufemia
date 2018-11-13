@@ -370,32 +370,32 @@ function installCustomElements(window, polyfill) {
             return o
           }
         : gOPN && gOPD
-          ? (function() {
-              function setProperties(o, p) {
-                for (
-                  var key, names = gOPN(p), i = 0, length = names.length;
-                  i < length;
-                  i++
-                ) {
-                  key = names[i]
-                  if (!hOP.call(o, key)) {
-                    defineProperty(o, key, gOPD(p, key))
-                  }
+        ? (function() {
+            function setProperties(o, p) {
+              for (
+                var key, names = gOPN(p), i = 0, length = names.length;
+                i < length;
+                i++
+              ) {
+                key = names[i]
+                if (!hOP.call(o, key)) {
+                  defineProperty(o, key, gOPD(p, key))
                 }
               }
-              return function(o, p) {
-                do {
-                  setProperties(o, p)
-                } while ((p = gPO(p)) && !iPO.call(p, o))
-                return o
-              }
-            })()
-          : function(o, p) {
-              for (var key in p) {
-                o[key] = p[key]
-              }
+            }
+            return function(o, p) {
+              do {
+                setProperties(o, p)
+              } while ((p = gPO(p)) && !iPO.call(p, o))
               return o
-            }),
+            }
+          })()
+        : function(o, p) {
+            for (var key in p) {
+              o[key] = p[key]
+            }
+            return o
+          }),
     // DOM shortcuts and helpers, if any
 
     MutationObserver =

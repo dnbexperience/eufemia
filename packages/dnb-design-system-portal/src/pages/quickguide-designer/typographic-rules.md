@@ -28,12 +28,6 @@ Make sure to stick to the Eufemia spacing system when adding or removing bottom 
 
 Padding is also NOT something applied to blocks of text by default.
 
-<div class="gridbox">
-
-![Varied margins](typography/assets/varied-margins.png)
-
-</div>
-
 ### Typographic rules
 
 The following are the default typographic rules for basic typographic elements such as headings and body text.

@@ -8,7 +8,6 @@ import { css } from 'react-emotion'
 import Head from 'react-helmet'
 import dnb, {
   Button,
-  Body,
   MainNav,
   ViewTitle,
   StepIndicator,
@@ -21,9 +20,8 @@ import dnb, {
 import LoanSausage from './LoanSausage'
 
 // UI Style
-import 'dnb-ui-lib/src/style/patterns'
-import 'dnb-ui-lib/src/style'
-import 'dnb-ui-lib/src/patterns/style'
+import 'dnb-ui-lib/src/style/patterns' // import ony patterns
+import 'dnb-ui-lib/src/style' // import both all components and the defualt theme
 
 const style = css`
   background: white;
@@ -35,7 +33,7 @@ export default class ExampleAppPage extends Component {
   }
   render() {
     return (
-      <Body className="main">
+      <div className="main">
         <Head>
           <title>Example App</title>
           <link
@@ -137,7 +135,7 @@ export default class ExampleAppPage extends Component {
             </div>
           </ActionNav>
         </div>
-      </Body>
+      </div>
     )
   }
 }

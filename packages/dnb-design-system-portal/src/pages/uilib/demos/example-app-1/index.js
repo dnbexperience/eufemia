@@ -10,7 +10,6 @@ import dnb, {
   Input,
   Dropdown,
   Switch,
-  Body,
   MainNav,
   ViewTitle,
   StepIndicator,
@@ -23,9 +22,8 @@ import dnb, {
 } from 'dnb-ui-lib/src'
 
 // UI Style
-import 'dnb-ui-lib/src/style/patterns'
-import 'dnb-ui-lib/src/style'
-import 'dnb-ui-lib/src/patterns/style'
+import 'dnb-ui-lib/src/style/patterns' // import ony patterns
+import 'dnb-ui-lib/src/style' // import both all components and the defualt theme
 
 const style = css`
   background: white;
@@ -37,7 +35,7 @@ export default class ExampleAppPage extends Component {
   }
   render() {
     return (
-      <Body className="main">
+      <div className="main">
         <Head>
           <title>Example App 1</title>
           <link
@@ -298,7 +296,7 @@ export default class ExampleAppPage extends Component {
             />
           </Form>
         </div>
-      </Body>
+      </div>
     )
   }
 }

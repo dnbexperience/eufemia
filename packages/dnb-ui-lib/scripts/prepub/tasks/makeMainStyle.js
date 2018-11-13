@@ -23,13 +23,16 @@ import { log } from '../../lib'
 
 export default async () => {
   await transformStyleModules()
-  await factory('./src/style/**/themes/*.scss', { importOnce: false })
-  await factory('./src/style/**/dnb-ui-components.scss')
-  await factory('./src/style/**/dnb-ui-patterns.scss')
-  await factory('./src/style/**/dnb-ui-lib.scss')
-  await factory('./src/style/**/dnb-ui-lib-IE11.scss', {
+  await runFactory('./src/style/**/themes/*.scss', { importOnce: false })
+  await runFactory('./src/style/**/dnb-ui-components.scss')
+  await runFactory('./src/style/**/dnb-ui-patterns.scss')
+  await runFactory('./src/style/**/dnb-ui-lib.scss')
+  await runFactory('./src/style/**/dnb-ui-lib-IE11.scss', {
     IE11: true
   })
+  log.succeed(
+    '> PrePublish: "makeMainStyle" transforming style modules done'
+  )
 }
 
 const transformModulesContent = content =>
@@ -39,10 +42,19 @@ const transformMainStyleContent = content =>
 
 const transformStyleModules = () =>
   new Promise((resolve, reject) => {
-    log.text = '> PrePublish: transforming style modules'
+    log.start('> PrePublish: transforming style modules')
     try {
       gulp
-        .src('./src/style/**/*.js', { cwd: process.env.ROOT_DIR })
+        .src(
+          [
+            './src/style/**/*.js',
+            '!**/__tests__/**',
+            '!**/*_not_in_use*/**/*'
+          ],
+          {
+            cwd: process.env.ROOT_DIR
+          }
+        )
         .pipe(sourcemaps.init())
         .pipe(babel())
         .pipe(transform('utf8', transformModulesContent))
@@ -56,12 +68,12 @@ const transformStyleModules = () =>
     }
   })
 
-export const factory = (
+export const runFactory = (
   src,
   { IE11 = false, returnResult = false, importOnce = true } = {}
 ) =>
   new Promise((resolve, reject) => {
-    log.text = '> PrePublish: transforming main style'
+    log.start('> PrePublish: transforming main style')
     try {
       const stream = sass({
         importer: importOnce ? [onceImporter()] : []

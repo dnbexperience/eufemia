@@ -14,14 +14,16 @@ import ItemWrapper from '../../../shared/parts/uilib/ItemWrapper'
 import DemoComponent, {
   Example as CodeComponent
 } from 'dnb-ui-lib/src/components/logo/Example'
-import InfoComponent from 'dnb-ui-lib/src/components/logo/info.md'
+import Description from 'dnb-ui-lib/src/components/logo/description.md'
+import Details from 'dnb-ui-lib/src/components/logo/details.md'
 import ExampleCode from 'raw-loader!../examples/Logo.txt'
 
 export default class LogoDemo extends Component {
   static propTypes = {
     title: PropTypes.string,
     id: PropTypes.string,
-    InfoComponent: PropTypes.func,
+    Description: PropTypes.func,
+    Details: PropTypes.func,
     DemoComponent: PropTypes.func,
     CodeComponent: PropTypes.func,
     hideTabs: PropTypes.bool
@@ -30,7 +32,8 @@ export default class LogoDemo extends Component {
     title: 'Logo',
     id: 'logo',
     ExampleCode,
-    InfoComponent,
+    Description,
+    Details,
     DemoComponent,
     CodeComponent,
     callback: CodeComponent.AdditionalCallback || null,

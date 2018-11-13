@@ -4,4 +4,4 @@
  */
 
 import { fetchFigmaIcons } from './index'
-fetchFigmaIcons({})
+fetchFigmaIcons({ doRefetch: null, forceReconvert: null })

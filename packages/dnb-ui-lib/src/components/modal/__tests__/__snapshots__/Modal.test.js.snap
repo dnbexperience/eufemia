@@ -10,12 +10,107 @@ exports[`Modal component have to match snapshot 1`] = `
   modal_trigger_icon="question"
   modal_trigger_text={null}
   modal_trigger_title="Open Modal"
+  preventSetTriggerRef={true}
   title={null}
-  type={null}
+  type="button"
 >
   <div
     className="dnb-modal"
   >
+    <span
+      className="dnb-modal__trigger dnb-modal__trigger--button"
+    >
+      <Button
+        attributes={null}
+        class={null}
+        className={null}
+        custom_element={null}
+        custom_method={null}
+        disabled={false}
+        href={null}
+        icon="question"
+        icon_position="right"
+        icon_size={null}
+        id={null}
+        innerRef={null}
+        on_click={[Function]}
+        size={null}
+        text={null}
+        title="Open Modal"
+        type="button"
+        variant="secondary"
+      >
+        <button
+          className="dnb-button dnb-button--secondary dnb-button--icon-position-right dnb-button--has-icon"
+          id={null}
+          onClick={[Function]}
+          onMouseOut={[Function]}
+          title="Open Modal"
+          type="button"
+        >
+          <Content
+            attributes={null}
+            class={null}
+            className={null}
+            content={null}
+            custom_element={null}
+            custom_method={null}
+            disabled={false}
+            href={null}
+            icon="question"
+            icon_position="right"
+            icon_size={null}
+            id={null}
+            innerRef={null}
+            on_click={[Function]}
+            size={null}
+            text={null}
+            title="Open Modal"
+            type="button"
+            variant="secondary"
+          >
+            <span
+              className="dnb-button__icon"
+              key="button-icon"
+              role="presentation"
+            >
+              <IconWithAllIcons
+                alt="Open Modal"
+                area_hidden={true}
+                attributes={null}
+                class={null}
+                className={null}
+                color={null}
+                height={null}
+                icon="question"
+                modifier={null}
+                size={null}
+                width={null}
+              >
+                <span
+                  alt="Open Modal"
+                  aria-hidden={true}
+                  className="dnb-icon"
+                  role="img"
+                >
+                  <SvgComponent>
+                    <svg
+                      viewBox="0 0 16 16"
+                    >
+                      <path
+                        clipRule="evenodd"
+                        d="M4.352 5.1c0-2.05 1.55-3.6 3.6-3.6 2.052 0 3.601 1.55 3.601 3.6 0 2.051-1.55 3.6-3.6 3.6a.75.75 0 0 0-.75.75v2.666a.75.75 0 0 0 1.5 0V10.15c2.506-.348 4.35-2.425 4.35-5.049 0-2.879-2.22-5.1-5.1-5.1-2.88 0-5.1 2.221-5.1 5.1a.75.75 0 0 0 1.5 0zm3.6 10.898c.659 0 1.097-.439 1.097-1.097 0-.658-.438-1.096-1.096-1.096-.658 0-1.097.438-1.097 1.096 0 .658.439 1.097 1.097 1.097z"
+                        fillRule="evenodd"
+                      />
+                    </svg>
+                  </SvgComponent>
+                </span>
+              </IconWithAllIcons>
+            </span>
+          </Content>
+        </button>
+      </Button>
+    </span>
     <ModalRoot
       class={null}
       className={null}
@@ -26,9 +121,10 @@ exports[`Modal component have to match snapshot 1`] = `
       modal_trigger_icon="question"
       modal_trigger_text={null}
       modal_trigger_title="Open Modal"
+      preventSetTriggerRef={true}
       title={null}
       toggleOpenClose={[Function]}
-      type={null}
+      type="button"
     >
       <ModalContent
         class={null}
@@ -40,9 +136,10 @@ exports[`Modal component have to match snapshot 1`] = `
         modal_trigger_icon="question"
         modal_trigger_text={null}
         modal_trigger_title="Open Modal"
+        preventSetTriggerRef={true}
         title={null}
         toggleOpenClose={[Function]}
-        type={null}
+        type="button"
       >
         <div
           aria-hidden="true"
@@ -53,7 +150,7 @@ exports[`Modal component have to match snapshot 1`] = `
             aria-hidden="true"
             aria-labelledby={null}
             aria-modal="true"
-            className="dnb-modal__content__inner dnb-no-focus dnb-body"
+            className="dnb-modal__content__inner dnb-no-focus dnb-style"
             id={null}
             onClick={[Function]}
             onKeyDown={[Function]}

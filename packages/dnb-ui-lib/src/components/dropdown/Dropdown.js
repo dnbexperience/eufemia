@@ -321,8 +321,8 @@ export default class Dropdown extends Component {
       this.state.visible
         ? 'dnb-dropdown--visible'
         : !this.state.opened && !this.state.visible
-          ? 'dnb-dropdown--hidden'
-          : '',
+        ? 'dnb-dropdown--hidden'
+        : '',
       this.props.class,
       this.props.className
     )

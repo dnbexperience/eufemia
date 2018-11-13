@@ -26,7 +26,7 @@ Example of implementation:
   <title>Your Example Project</title>
   <link rel="stylesheet" href="css/dnb.ui.library.css">
 </head>
-<body class="dnb-body">
+<body class="dnb-style">
 
   <button class="dnb-button dnb-button--primary dnb-button--has-text">
     <span class="dnb-button__text">
@@ -70,8 +70,8 @@ In more technical terms, there are three main methods make this possible.
 FIGMA_TOKEN="your token"
 FIGMA_MAIN_FILE="your file"
 FIGMA_STYLES_FRAME="dnb-ui-components"
-FIGMA_ICONS_FRAME="dnb-ui-icons"
-FIGMA_ICONS_SELECTOR="icon--"
+FIGMA_ICONS_PAGE_SELECTOR="Icons"
+FIGMA_ICONS_FRAME_SIZE_SEPERATOR="-"
 ```
 
 # Requirements

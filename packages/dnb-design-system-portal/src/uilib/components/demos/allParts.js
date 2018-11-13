@@ -3,7 +3,6 @@
   Do not change the content!
      */
 
-import Body from './Body'
 import Button from './Button'
 import Dropdown from './Dropdown'
 import FormLabel from './FormLabel'
@@ -19,7 +18,6 @@ import Switch from './Switch'
 import Tabs from './Tabs'
 
 export default [
-  Body,
   Button,
   Dropdown,
   FormLabel,

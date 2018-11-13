@@ -6,90 +6,90 @@
 import { css } from 'react-emotion'
 
 export default css`
-  .gridbox {
-    background-color: rgba(75, 190, 210, 0.25);
-    padding: 2rem;
+  table {
+    border-spacing: 0;
+    border-collapse: collapse;
+  }
+
+  table {
+    display: block;
+    width: 100%;
+    overflow: auto;
+  }
+
+  table {
+    margin-top: 0;
+    margin-bottom: 1rem;
+  }
+
+  table th {
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  table th,
+  table td {
+    padding: 0.5rem 0.5rem 0.4375rem 0.5rem;
+    border-bottom: 1px solid #dfe2e5;
+    border-left: 1px solid #dfe2e5;
+    border-right: 1px solid #dfe2e5;
+  }
+
+  table tr {
+    background-color: #fff;
+    border-top: 1px solid #c6cbd1;
+  }
+
+  table td {
+    white-space: nowrap;
+  }
+  table td.selectable {
+    position: relative;
+    z-index: 1;
+    user-select: all;
+    cursor: pointer;
+    transform: scale(1);
+    transition: transform 0.2s ease;
+  }
+  table td.selectable:hover,
+  table td.selectable:active {
+    z-index: 2;
+    transform: scale(1.1);
+    user-select: all;
+  }
+
+  table tr:nth-child(2n) {
+    background-color: #f6f8fa;
+  }
+
+  td,
+  th {
+    padding: 0;
+  }
+
+  hr {
+    box-sizing: content-box;
+    overflow: visible;
+    height: 0;
+    margin: 1rem 0;
+    overflow: hidden;
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid #dfe2e5;
+  }
+
+  hr::before {
+    display: table;
+    content: '';
+  }
+
+  hr::after {
+    display: table;
+    clear: both;
+    content: '';
   }
 
   *:not([class^='dnb-']) + {
-    hr {
-      box-sizing: content-box;
-      overflow: visible;
-      height: 0;
-      margin: 1rem 0;
-      overflow: hidden;
-      background: transparent;
-      border: 0;
-      border-bottom: 1px solid #dfe2e5;
-    }
-
-    hr::before {
-      display: table;
-      content: '';
-    }
-
-    hr::after {
-      display: table;
-      clear: both;
-      content: '';
-    }
-
-    table {
-      border-spacing: 0;
-      border-collapse: collapse;
-    }
-
-    table {
-      display: block;
-      width: 100%;
-      overflow: auto;
-    }
-
-    table th {
-      font-weight: 600;
-      white-space: nowrap;
-    }
-
-    table th,
-    table td {
-      padding: 0.5rem 0.5rem 0.4375rem 0.5rem;
-      border-bottom: 1px solid #dfe2e5;
-      border-left: 1px solid #dfe2e5;
-      border-right: 1px solid #dfe2e5;
-    }
-
-    table tr {
-      background-color: #fff;
-      border-top: 1px solid #c6cbd1;
-    }
-
-    table td {
-      white-space: nowrap;
-    }
-    table td.selectable {
-      position: relative;
-      z-index: 1;
-      user-select: all;
-      cursor: pointer;
-      transform: scale(1);
-      transition: transform 0.2s ease;
-    }
-    table td.selectable:hover,
-    table td.selectable:active {
-      z-index: 2;
-      transform: scale(1.1);
-      user-select: all;
-    }
-
-    table tr:nth-child(2n) {
-      background-color: #f6f8fa;
-    }
-
-    td,
-    th {
-      padding: 0;
-    }
-
     blockquote {
       margin: 0;
     }
@@ -136,7 +136,6 @@ export default css`
     ul,
     ol,
     dl,
-    table,
     pre {
       margin-top: 0;
       margin-bottom: 1rem;

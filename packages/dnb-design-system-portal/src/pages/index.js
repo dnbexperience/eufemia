@@ -3,23 +3,22 @@
  *
  */
 
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import StickyMenuBar from '../shared/menu/StickyMenuBar'
 import MainMenu from '../shared/menu/MainMenu'
-import Body from 'dnb-ui-lib/src/components/body'
 
 // UI Style
-import 'dnb-ui-lib/src/style'
-import 'dnb-ui-lib/src/patterns/style'
+import 'dnb-ui-lib/src/style/patterns' // import ony patterns
+import 'dnb-ui-lib/src/style' // import both all components and the defualt theme
 
 // react component
 export default class App extends Component {
   render() {
     return (
-      <Body>
+      <Fragment>
         <StickyMenuBar />
         <MainMenu />
-      </Body>
+      </Fragment>
     )
   }
 }

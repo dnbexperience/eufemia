@@ -6,6 +6,7 @@
 /jest-screenshot-report
 
 # production
+/es
 /lib
 /package
 /components
@@ -14,13 +15,12 @@
 /shared
 /umd
 /style
-/assets
 /icons
-/scripts/figma/files/**
 **/test-files/dist
 /docs
 /dist
 /index.js
+/web-components.js
 /web-components
 dnb-ui-lib-*.tgz
 

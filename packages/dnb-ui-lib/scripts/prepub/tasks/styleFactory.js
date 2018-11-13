@@ -6,10 +6,15 @@
 import fs from 'fs-extra'
 import globby from 'globby'
 import path, { basename } from 'path'
+import prettier from 'prettier'
 import { ErrorHandler, log } from '../../lib'
 
+const prettierrc = JSON.parse(
+  fs.readFileSync(path.resolve(__dirname, '../../../.prettierrc'), 'utf-8')
+)
+
 const runStyleFactory = async () => {
-  log.text = 'Starting the style factory ...'
+  log.start('> PrePublish: Starting the style factory ...')
 
   const processToNamesIgnoreList = [
     '!**/__tests__/',
@@ -37,7 +42,9 @@ const runStyleFactory = async () => {
     ]
   }).then(() => {
     if (require.main === module) {
-      log.text = '> Created the style file with all the components'
+      log.succeed(
+        '> PrePublish: "styleFactory" Created the style file with all the components'
+      )
     }
   })
 
@@ -103,10 +110,13 @@ const runFactory = async ({
     .join('\n')
 
   try {
+    // make sure we have newline at the end - because of StyleLint "no-missing-end-of-source-newline"
     await fs.writeFile(
       scssOutputFile,
-      `${autoAdvice}${customContent}${content}
-` // make sure we have newline at the end - because of StyleLint "no-missing-end-of-source-newline"
+      prettier.format(`${autoAdvice}${customContent}${content}\n`, {
+        ...prettierrc,
+        filepath: scssOutputFile
+      })
     )
   } catch (e) {
     log.fail(`There was an error on creating ${scssOutputFile}!`)

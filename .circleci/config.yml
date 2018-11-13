@@ -4,7 +4,7 @@
 #
 version: 2
 jobs:
-  build:
+  publish:
     docker:
       - image: circleci/node:10.6
     working_directory: ~/repo
@@ -24,11 +24,9 @@ jobs:
           paths:
             - ~/.cache/yarn
 
-      - run: yarn build-ci
-
       - run:
-          name: deploy
-          command: yarn deploy-ci
+          name: prepublish
+          command: yarn prepublish-ci
 
       - run:
           name: Authenticate with registry
@@ -37,6 +35,39 @@ jobs:
       - run:
           name: release
           command: yarn publish-ci
+
+  deploy:
+    docker:
+      - image: circleci/node:10.6
+    working_directory: ~/repo
+    steps:
+      - checkout
+
+      - restore_cache:
+          name: Restore Yarn Package Cache
+          keys:
+            - yarn-packages-{{ checksum "yarn.lock" }}
+
+      - run: yarn install
+
+      - save_cache:
+          name: Save Yarn Package Cache
+          key: yarn-packages-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+
+      - run:
+          name: prepublish
+          command: yarn prepublish-ci
+
+      - run:
+          name: build
+          command: yarn build-ci
+
+      - run:
+          name: deploy
+          command: yarn deploy-ci
+
   test:
     docker:
       - image: circleci/node:10.6
@@ -59,32 +90,8 @@ jobs:
 
       - run: yarn lint-ci
       - run: yarn test-ci
-
-  test-deploy:
-    docker:
-      - image: circleci/node:10.6
-    working_directory: ~/repo
-    steps:
-      - checkout
-
-      - restore_cache:
-          name: Restore Yarn Package Cache
-          keys:
-            - yarn-packages-{{ checksum "yarn.lock" }}
-
-      - run: yarn install
-
-      - save_cache:
-          name: Save Yarn Package Cache
-          key: yarn-packages-{{ checksum "yarn.lock" }}
-          paths:
-            - ~/.cache/yarn
-
+      - run: yarn prepublish-ci
       - run: yarn build-ci
-
-      - run:
-          name: deploy
-          command: yarn deploy-ci
 
 workflows:
   version: 2
@@ -95,15 +102,14 @@ workflows:
             branches:
               ignore:
                 - master
-                - ftr/portal-v1
                 - gh-pages
-      - test-deploy:
+      - publish:
           filters:
             branches:
               only:
-                - develop
+                - master
                 - /rc-.*/
-      - build:
+      - deploy:
           filters:
             branches:
               only:

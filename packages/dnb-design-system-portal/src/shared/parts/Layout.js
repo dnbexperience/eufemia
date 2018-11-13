@@ -4,12 +4,11 @@
  */
 
 // UI Style
-import 'dnb-ui-lib/src/style'
-import 'dnb-ui-lib/src/patterns/style'
-// import 'dnb-ui-lib/src/components/style'
+import 'dnb-ui-lib/src/style/patterns' // import ony patterns
+import 'dnb-ui-lib/src/style' // import both all components and the defualt theme
 // import 'dnb-ui-lib/src/style/themes/dnb-theme-open-banking.scss'
 
-import Body, { pageFocus } from 'dnb-ui-lib/src/components/body'
+import { pageFocus } from 'dnb-ui-lib/src/shared/tools'
 import React, { Component } from 'react'
 import { Link } from 'gatsby'
 
@@ -43,7 +42,7 @@ class Layout extends Component {
 
     if (/fullscreen/.test(location.search)) {
       return (
-        <Body className="is-fullscreen">
+        <div className="is-fullscreen">
           {/* Load the StickyMenuBar to make use of the grid demo */}
           <StickyMenuBar preventBarVisibility={true} />
           <Content
@@ -54,12 +53,12 @@ class Layout extends Component {
             <MaxWidth>{children}</MaxWidth>
           </Content>
           <Footer />
-        </Body>
+        </div>
       )
     }
 
     return (
-      <Body>
+      <div>
         <StickyMenuBar header={header} />
         <Wrapper>
           <Sidebar location={location} showAll={false} />
@@ -70,7 +69,7 @@ class Layout extends Component {
             </MaxWidth>
           </Content>
         </Wrapper>
-      </Body>
+      </div>
     )
   }
 }

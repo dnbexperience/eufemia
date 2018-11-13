@@ -23,7 +23,6 @@ README.md
 .releaserc
 .gitignore
 .lintstagedrc
-.huskyrc
 .importjs.json
 .importjs.js
 .babelrc

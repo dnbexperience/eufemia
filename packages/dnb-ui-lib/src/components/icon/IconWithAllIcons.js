@@ -7,7 +7,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 // import { ErrorHandler } from '../../shared/error-helper'
 import DefaultIcon, { loadSVG } from './Icon'
-import icons from '../../icons/allIcons'
+import * as icons from '../../icons/primary_icons'
 // import { bell } from '../../assets/dist/icons/es'
 // const icons = { bell }
 // const icons = {}

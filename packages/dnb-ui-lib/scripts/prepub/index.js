@@ -16,13 +16,10 @@ import { prepareTemplates } from './tasks/prepareTemplates'
 import { runStyleFactory } from './tasks/styleFactory'
 import { runThemeFactory } from './tasks/themeFactory'
 import convertSvgToJsx from './tasks/convertSvgToJsx'
-// import convertSvgToCjs from './tasks/convertSvgToCjs'
-import copyAssets from './tasks/copyAssets'
-import makeEveryComponentStyle from './tasks/makeEveryComponentStyle'
-import makeJSLibs from './tasks/makeJSLibs'
+import makeLibStyles from './tasks/makeLibStyles'
+import makeLibModules from './tasks/makeLibModules'
 import makeIconLib from './tasks/makeIconLib'
 import makeMainStyle from './tasks/makeMainStyle'
-import makeLibStyles from './tasks/makeLibStyles'
 import makeIconsUMDBundle from './tasks/makeIconsUMDBundle'
 import makeMainUMDBundle from './tasks/makeMainUMDBundle'
 
@@ -32,12 +29,10 @@ export {
   runStyleFactory,
   runThemeFactory,
   convertSvgToJsx,
-  copyAssets,
-  makeEveryComponentStyle,
-  makeJSLibs,
+  makeLibStyles,
+  makeLibModules,
   makeIconLib,
   makeMainStyle,
-  makeLibStyles,
   makeIconsUMDBundle,
   makeMainUMDBundle
 }
@@ -51,19 +46,17 @@ export const runPrepublishTasks = async ({
   try {
     await cleanupLib({ preventDelete })
     await convertSvgToJsx({ preventDelete })
-    await copyAssets({ preventDelete })
 
     await makeIconLib()
     await makeIconsUMDBundle({ doRefetch })
 
     await runStyleFactory()
     await runThemeFactory()
-    await makeEveryComponentStyle() // have to run after "makeJSLibs"
+    await makeLibStyles() // have to run after "makeLibModules"
     await makeMainStyle()
-    await makeLibStyles()
 
     await prepareTemplates()
-    await makeJSLibs()
+    await makeLibModules()
     await makeMainUMDBundle()
     log.succeed('Prepublishing has Succeeded!')
   } catch (e) {

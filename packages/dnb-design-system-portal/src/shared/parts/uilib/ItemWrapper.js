@@ -13,6 +13,8 @@ import PropTypes from 'prop-types'
 import createHistory from 'history/createBrowserHistory'
 import { css } from 'react-emotion'
 import { navigate } from '@reach/router'
+import { fullscreen as fullscreenIcon } from 'dnb-ui-lib/src/icons/secondary_icons'
+// import fullscreenIcon from 'dnb-ui-lib/src/icons/fullscreen'
 
 const getLocation = () => {
   if (typeof window === 'undefined') {
@@ -53,7 +55,8 @@ const tabsWrapperStyle = css`
 class ComponentItemWrapper extends Component {
   static propTypes = {
     ExampleCode: PropTypes.string,
-    InfoComponent: PropTypes.func.isRequired,
+    Description: PropTypes.func.isRequired,
+    Details: PropTypes.func.isRequired,
     DemoComponent: PropTypes.func.isRequired,
     CodeComponent: PropTypes.func.isRequired,
     callback: PropTypes.shape({
@@ -119,7 +122,8 @@ class ComponentItemWrapper extends Component {
       tabs,
       hideTabs,
       ExampleCode,
-      InfoComponent,
+      Description,
+      Details,
       DemoComponent,
       CodeComponent,
       callback: Additional
@@ -157,7 +161,7 @@ class ComponentItemWrapper extends Component {
                         className="toggle-fullscreen"
                         variant="secondary"
                         title="Fullscreen"
-                        icon="fullscreen"
+                        icon={fullscreenIcon}
                         // target="_blank"
                         // rel="noopener noreferrer"
                         // href={`?fullscreen#${this.state.activeTabKey}`}
@@ -176,6 +180,7 @@ class ComponentItemWrapper extends Component {
 
         {this.isActive('demo') && (
           <div className="dnb-tabs__content">
+            {!hideTabs && <Description />}
             <DemoComponent />
             {Additional /* here we use AdditionalCallback */ &&
               Additional.demo && (
@@ -186,7 +191,7 @@ class ComponentItemWrapper extends Component {
 
         {this.isActive('info') && (
           <div className="dnb-tabs__content">
-            <InfoComponent />
+            <Details />
             {Additional /* here we use AdditionalCallback */ &&
               Additional.info && (
                 <Additional.info CodeRenderer={CodeRenderer} />

@@ -26,7 +26,7 @@ cd dnb-design-system
 yarn install
 ```
 
-Once the installation is done, `yarn startup` will be called to make all ready for a local server start.
+Once the installation is done, `yarn build` will be called to make all ready for a local server start.
 
 ---
 
@@ -66,19 +66,19 @@ To do so and to integrate the new parts into the lib, simply do one of these ste
 
 ```bash
 # Method 1: in the `dnb-ui-lib` directory, call:
-yarn startup
+yarn build
 
 # Method 2: in the `dnb-design-system-portal` directory, call:
-yarn startup
+yarn build
 ```
 
 _Method 2_ will also create the needed pages in the `dnb-design-system-portal` at the same time.
 
 **How to move or rename a Component or a Pattern?**
 
-Simply run `yarn startup` for every build you have to generate.
+Simply run `yarn build` for every build you have to generate.
 
-**What happens on calling `yarn startup`?**
+**What happens on calling `yarn build`?**
 
 There are a lot of different things going on, like:
 

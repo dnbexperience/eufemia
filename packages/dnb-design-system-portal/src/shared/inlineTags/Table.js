@@ -29,9 +29,8 @@ export default class Table extends Component {
   render() {
     // make sure we get the table children
     let children =
-      recursiveFind(
-        this.props.children,
-        child => (child.type === 'table' ? child.props.children : false)
+      recursiveFind(this.props.children, child =>
+        child.type === 'table' ? child.props.children : false
       ) || this.props.children
 
     // manipulate the colors, if providet

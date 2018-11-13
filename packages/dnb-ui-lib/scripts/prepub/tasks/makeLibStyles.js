@@ -7,54 +7,45 @@ import gulp from 'gulp'
 import sass from 'gulp-sass'
 import autoprefixer from 'autoprefixer'
 import postcss from 'gulp-postcss'
-// import babel from 'gulp-babel'
-// import sourcemaps from 'gulp-sourcemaps'
+// import jsonImporter from 'node-sass-json-importer'
 import cssnano from 'gulp-cssnano'
 import clone from 'gulp-clone'
 import rename from 'gulp-rename'
 import transform from 'gulp-transform'
 import { log } from '../../lib'
 
-export default async () => {
-  await compileSass()
-}
-
-const compileSass = () =>
+export default () =>
   new Promise(async (resolve, reject) => {
+    log.text = '> PrePublish: converting sass to css'
+
     try {
-      await factory('components')
-      await factory('patterns')
+      await runFactory('./src/components/**/style/dnb-*.scss')
+      await runFactory('./src/patterns/**/style/dnb-*.scss')
+      log.succeed(
+        `> PrePublish: "makeLibStyles" converting sass to css done`
+      )
       resolve()
     } catch (e) {
       reject(e)
     }
   })
 
-export const factory = (src, { returnResult = false } = {}) =>
-  new Promise((resolve, reject) => {
-    log.text = `> PrePublish: converting sass to css | ${src} styles`
+export const runFactory = (src, { returnResult = false } = {}) =>
+  new Promise(async (resolve, reject) => {
+    log.start(`> PrePublish: converting sass to css | ${src}`)
 
     try {
       // do not use 'node-sass-json-importer' here! Every file needs the same core imports over and over again.
-      const stream = sass().on('error', sass.logError)
+      const sassStream = sass().on('error', sass.logError)
       const cloneSink = clone.sink()
-      gulp
-        .src(
-          /^\.\//.test(src) ? src : `./src/${src}/**/style/dnb-*.scss`,
-          {
-            cwd: process.env.ROOT_DIR
-          }
-        )
-        .pipe(stream)
-        .pipe(
-          rename(path => {
-            // make sure we eliminate the whole path, so we can safe the files all together in the same directory
-            if (!/^\.\//.test(src)) {
-              path.dirname = src
-            }
-            return path
-          })
-        )
+      const dest = src.replace('./src/', '').split('/**/')[0]
+      const files = [src, '!**/__tests__/**', '!**/*_not_in_use*/**/*']
+
+      const stream = gulp
+        .src(files, {
+          cwd: process.env.ROOT_DIR
+        })
+        .pipe(sassStream)
         .pipe(transform('utf8', transformContent))
         .pipe(
           postcss([
@@ -67,21 +58,29 @@ export const factory = (src, { returnResult = false } = {}) =>
         .pipe(cssnano())
         .pipe(rename({ suffix: '.min' }))
         .pipe(cloneSink.tap())
+
         .pipe(
           returnResult
             ? transform('utf8', result => resolve(result))
-            : gulp.dest('./style', {
-                cwd: process.env.ROOT_DIR
-              })
+            : gulp.dest(`./${dest}/`, { cwd: process.env.ROOT_DIR })
         )
         .on('end', resolve)
         .on('error', reject)
+
+      if (!returnResult)
+        stream.pipe(
+          gulp.dest(`./es/${dest}/`, { cwd: process.env.ROOT_DIR })
+        )
     } catch (e) {
+      console.debug('reject', e)
       reject(e)
     }
   })
 
 const transformContent = (content, file) => {
   log.text = `> PrePublish: converting sass to css | ${file.path}`
-  return content.replace(new RegExp('../../../assets/', 'g'), '../assets/')
+  return content.replace(
+    new RegExp('../../../../assets/', 'g'),
+    '../../../assets/'
+  )
 }

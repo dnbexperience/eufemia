@@ -27,6 +27,7 @@ describe('ComponentsStyleConverter', () => {
   it('has to convert correctly from a figma doc', async () => {
     const figmaDoc = await getFigmaDoc({
       doRefetch: false,
+      preventUpdate: true,
       localFile
     })
     const result = await ComponentsStyleConverter(figmaDoc, {

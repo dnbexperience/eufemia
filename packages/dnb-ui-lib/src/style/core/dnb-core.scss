@@ -21,12 +21,12 @@
   @import './dnb-style.scss';
 }
 
-html[data-whatinput='keyboard'] *:not(a):not(div):focus {
-  @include fakeFocus('mouse');
+html[data-whatinput='mouse'] .dnb-style *:focus {
+  outline: none;
 }
 
-[data-whatinput='mouse'] .dnb-body *:focus {
-  outline: none;
+html[data-whatinput='keyboard'] .dnb-style *:not(a):not(div):focus {
+  @include fakeFocus('mouse');
 }
 
 body {

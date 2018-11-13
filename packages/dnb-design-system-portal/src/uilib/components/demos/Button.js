@@ -14,14 +14,16 @@ import ItemWrapper from '../../../shared/parts/uilib/ItemWrapper'
 import DemoComponent, {
   Example as CodeComponent
 } from 'dnb-ui-lib/src/components/button/Example'
-import InfoComponent from 'dnb-ui-lib/src/components/button/info.md'
+import Description from 'dnb-ui-lib/src/components/button/description.md'
+import Details from 'dnb-ui-lib/src/components/button/details.md'
 import ExampleCode from 'raw-loader!../examples/Button.txt'
 
 export default class ButtonDemo extends Component {
   static propTypes = {
     title: PropTypes.string,
     id: PropTypes.string,
-    InfoComponent: PropTypes.func,
+    Description: PropTypes.func,
+    Details: PropTypes.func,
     DemoComponent: PropTypes.func,
     CodeComponent: PropTypes.func,
     hideTabs: PropTypes.bool
@@ -30,7 +32,8 @@ export default class ButtonDemo extends Component {
     title: 'Button',
     id: 'button',
     ExampleCode,
-    InfoComponent,
+    Description,
+    Details,
     DemoComponent,
     CodeComponent,
     callback: CodeComponent.AdditionalCallback || null,

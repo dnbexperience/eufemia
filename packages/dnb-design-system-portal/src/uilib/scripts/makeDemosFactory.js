@@ -70,7 +70,7 @@ ${content}
   ${String(autoAdvice).trim()}
 -->
     `,
-    processToNamesIgnoreList: ignoreUiLibList.concat(['body']),
+    processToNamesIgnoreList: ignoreUiLibList, // in case we want to remove an additional component form the menu list: .concat(['body'])
     processToNamesList: path.resolve(
       __dirname,
       '../../../../dnb-ui-lib/src/components/'
