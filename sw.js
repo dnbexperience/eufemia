@@ -26,20 +26,20 @@ workbox.clientsClaim();
  */
 self.__precacheManifest = [
   {
-    "url": "webpack-runtime-46f2c7004194cac0edb5.js"
+    "url": "webpack-runtime-b59a08f1f02dcd4b497d.js"
   },
   {
-    "url": "app-ca24d86cc5666c62480a.js"
+    "url": "app-7c524dba542abd011008.js"
   },
   {
-    "url": "component---node-modules-gatsby-plugin-offline-app-shell-js-2612806b3204efbf4005.js"
+    "url": "component---node-modules-gatsby-plugin-offline-app-shell-js-5dfde27407058d05bb1a.js"
   },
   {
     "url": "offline-plugin-app-shell-fallback/index.html",
-    "revision": "5d9153d2f9130ed49ce9485ad3181a36"
+    "revision": "11f94cee1ba96ab5e2aff3d89071ae8d"
   },
   {
-    "url": "component---src-pages-404-js-bc5069b46a2a138e3414.js"
+    "url": "component---src-pages-404-js-7adf10d650c1dc8768df.js"
   },
   {
     "url": "static/d/164/path---404-html-516-62a-NZuapzHg3X9TaN1iIixfv1W23E.json",
@@ -54,12 +54,12 @@ workbox.precaching.suppressWarnings();
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 
 workbox.routing.registerNavigationRoute("/eufemia/offline-plugin-app-shell-fallback/index.html", {
-  whitelist: [/^[^?]*([^.?]{5}|\.html)(\?.*)?$/],
+  whitelist: [/^([^.?]*|[^?]*\.([^.?]{5,}|html))(\?.*)?$/],
   blacklist: [/\?(.+&)?no-cache=1$/],
 });
 
 workbox.routing.registerRoute(/\.(?:png|jpg|jpeg|webp|svg|gif|tiff|js|woff|woff2|json|css)$/, workbox.strategies.staleWhileRevalidate(), 'GET');
-workbox.routing.registerRoute(/^https:/, workbox.strategies.networkFirst(), 'GET');
+workbox.routing.registerRoute(/^https?:/, workbox.strategies.networkFirst(), 'GET');
 "use strict";
 
 /* global workbox */
@@ -71,10 +71,19 @@ self.addEventListener("message", function (event) {
     var cacheName = workbox.core.cacheNames.runtime;
     event.waitUntil(caches.open(cacheName).then(function (cache) {
       return Promise.all(resources.map(function (resource) {
-        return cache.add(resource).catch(function (e) {
-          // ignore TypeErrors - these are usually due to
-          // external resources which don't allow CORS
-          if (!(e instanceof TypeError)) throw e;
+        var request; // Some external resources don't allow
+        // CORS so get an opaque response
+
+        if (resource.match(/^https?:/)) {
+          request = fetch(resource, {
+            mode: "no-cors"
+          });
+        } else {
+          request = fetch(resource);
+        }
+
+        return request.then(function (response) {
+          return cache.put(resource, response);
         });
       }));
     }));
