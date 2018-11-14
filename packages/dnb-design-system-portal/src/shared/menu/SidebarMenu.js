@@ -8,7 +8,7 @@ import { StaticQuery, graphql } from 'gatsby'
 import Link from '../parts/Link'
 import PropTypes from 'prop-types'
 import React from 'react'
-import styled, { cx, css } from 'react-emotion'
+import styled, { injectGlobal, cx, css } from 'react-emotion'
 
 const showAlwaysMenuItems = [] // like "uilib" som someting like that
 
@@ -228,14 +228,22 @@ const listItemStyle = css`
   }
 `
 
+injectGlobal`
+  :root {
+    --aside-width: calc(25vw + 5rem);
+  }
+`
+
 const Sidebar = styled.aside`
   position: fixed;
   z-index: 1; /* lower than styled.main */
   top: 73px; /* height of StickyMenuBar */
 
   ul {
-    ${'' /* width: 20em; */};
     width: 30vw;
+    width: var(
+      --aside-width
+    ); /* has to be the same value as margin-left */
     overflow-x: hidden;
     overflow-y: auto;
     min-height: 20vh;

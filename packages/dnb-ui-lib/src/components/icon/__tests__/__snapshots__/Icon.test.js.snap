@@ -15,10 +15,10 @@ exports[`Icon component have to match snapshot 1`] = `
   width="width"
 >
   <span
-    alt="alt"
     aria-hidden={true}
+    aria-label="alt"
     className="dnb-icon dnb-icon--modifier class className"
-    role="img"
+    role="presentation"
   >
     <SvgComponent
       color="color"

@@ -3,10 +3,24 @@
 *
 * ======================================================================== */
 
-// TODO: Figma styling is currently not used
-// @import './_button_custom_vars.scss';
-
-@import './_button-mixins.scss';
+:root {
+  --button-font-family: var(--font-family-book);
+  --button-font-size: var(--font-size-regular);
+  --button-font-weight: normal;
+  --button-font-style: normal;
+  --button-width: 2.5rem;
+  --button-height: 2.5rem;
+  --button-width--medium: 2rem;
+  --button-height--medium: 2rem;
+  --button-width--large: 3rem;
+  --button-height--large: 3rem;
+  --button-icon-size: 1rem;
+  --button-border-width: 1px;
+  --button-border-width--hover: 3px;
+  --button-border-radius: calc(var(--button-height) / 2);
+  --button-border-radius--medium: calc(var(--button-height--medium) / 2);
+  --button-border-radius--large: calc(var(--button-height--large) / 2);
+}
 
 .dnb-button {
   display: inline-flex;
@@ -33,15 +47,10 @@
 
   &__icon {
     line-height: 0;
-    // +1px because of the border width
-    margin-top: var(--button-border-width);
     svg:not([width]):not([height]) {
       width: var(--button-icon-size);
       height: var(--button-icon-size);
     }
-    // a & {
-    //   transform: translateY(-1px);
-    // }
   }
   &__text {
     color: inherit;
@@ -49,43 +58,59 @@
 
     // +1px because of the border width
     transform: translateY(var(--button-border-width));
-
-    // a & {
-    //   transform: translateY(0);
-    // }
   }
 
-  &--size-big {
-    width: var(--button-width--big);
-    height: var(--button-height--big);
-    border-radius: var(--button-border-radius--big);
+  // size medium
+  &--size-medium {
+    width: var(--button-width--medium);
+    height: var(--button-height--medium);
+    border-radius: var(--button-border-radius--medium);
   }
+  &--has-text#{&}--size-medium {
+    padding-left: 1em;
+    padding-right: 1em;
+  }
+  &--has-text#{&}--icon-position-left#{&}--size-medium {
+    padding-left: 0.5em;
+  }
+  &--has-text#{&}--icon-position-right#{&}--size-medium {
+    padding-right: 0.5em;
+  }
+
+  // size large
+  &--size-large {
+    width: var(--button-width--large);
+    height: var(--button-height--large);
+    border-radius: var(--button-border-radius--large);
+  }
+  &--has-text#{&}--size-large {
+    padding-left: 2em;
+    padding-right: 2em;
+  }
+  &--has-text#{&}--icon-position-left#{&}--size-large {
+    padding-left: 1em;
+  }
+  &--has-text#{&}--icon-position-right#{&}--size-large {
+    padding-right: 1em;
+  }
+
+  // size defualt
   &--has-text {
     padding-left: 1.5em;
     padding-right: 1.5em;
     width: auto;
   }
-  &--has-text#{&}--size-big {
-    padding-left: 2em;
-    padding-right: 2em;
-  }
   &--has-text &__icon {
     margin: 0 calc(var(--button-icon-size) / 2);
   }
-  // &--has-text#{&}--size-big &__icon {
+  // &--has-text#{&}--size-large &__icon {
   //   margin: 0 var(--button-icon-size);
   // }
   &--has-text#{&}--icon-position-left {
     padding-left: 0.5em;
   }
-  &--has-text#{&}--icon-position-left#{&}--size-big {
-    padding-left: 1em;
-  }
   &--has-text#{&}--icon-position-right {
     padding-right: 0.5em;
-  }
-  &--has-text#{&}--icon-position-right#{&}--size-big {
-    padding-right: 1em;
   }
 
   // Default -- icon set to right side
@@ -156,6 +181,3 @@
     border: none;
   }
 }
-
-// Figma styling is currently not used
-// @import './_button_custom.scss';

@@ -3,15 +3,12 @@
  *
  */
 
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-// import { ErrorHandler } from '../../shared/error-helper'
-import DefaultIcon, { loadSVG } from './Icon'
+import DefaultIcon, { DefaultIconSize, loadSVG } from './Icon'
 import * as icons from '../../icons/primary_icons'
-// import { bell } from '../../assets/dist/icons/es'
-// const icons = { bell }
-// const icons = {}
 
+export { DefaultIconSize }
 export const propTypes = {
   ...DefaultIcon.propTypes,
   ...{
@@ -25,7 +22,7 @@ export const propTypes = {
 
 export const defaultProps = { ...DefaultIcon.defaultProps }
 
-export default class IconWithAllIcons extends Component {
+export default class IconWithAllIcons extends PureComponent {
   static tagName = 'dnb-icon-with-all-icons'
   static propTypes = propTypes
   static defaultProps = defaultProps
@@ -48,12 +45,8 @@ export default class IconWithAllIcons extends Component {
 
     const Svg = loadSVG(icon, icons)
 
-    if (!Svg) return <span />
+    if (!Svg) return <></>
 
-    return (
-      <span {...wrapperParams}>
-        <Svg {...svgParams} />
-      </span>
-    )
+    return <DefaultIcon {...wrapperParams} icon={<Svg {...svgParams} />} />
   }
 }

@@ -3,7 +3,7 @@
  *
  */
 
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { ErrorHandler } from '../../shared/error-helper'
@@ -12,8 +12,8 @@ import {
   validateDOMAttributes,
   processChildren
 } from '../../shared/component-helper'
-// import * as icons from '../../icons/primary_icons'
-// import './style/dnb-icon.scss' // no good solution to import the style here
+
+export const DefaultIconSize = 16
 
 export const propTypes = {
   icon: PropTypes.oneOfType([
@@ -43,7 +43,7 @@ export const propTypes = {
 export const defaultProps = {
   icon: null,
   modifier: null,
-  size: 16,
+  size: DefaultIconSize,
   width: null,
   height: null,
   color: null,
@@ -59,7 +59,7 @@ export const defaultProps = {
 /**
  * The icon component is a span wrapping an inline svg. When using this component in your preferred framework. To load an svg file dynamically, you may need a "svg-loader". Feel free to use whatever tool you want (regarding the setup/tooling), as long as the output is the same markup as shown below.
  */
-export default class Icon extends Component {
+export default class Icon extends PureComponent {
   static tagName = 'dnb-icon'
   static propTypes = propTypes
   static defaultProps = defaultProps
@@ -93,8 +93,9 @@ export default class Icon extends Component {
     } = props
 
     let { alt } = props
-    if (!alt && typeof icon === 'string') {
-      alt = icon
+    if (!alt) {
+      if (typeof icon === 'string') alt = icon
+      else if (typeof icon === 'object' && icon.displayName) alt = icon
     }
     const classes = classnames(
       'dnb-icon',
@@ -108,16 +109,14 @@ export default class Icon extends Component {
     // also used for code markup simulation
     const wrapperParams = validateDOMAttributes(props, {
       className: classes,
-      role: 'img',
-      alt
+      role: 'presentation'
     })
+    if (alt) {
+      wrapperParams['aria-label'] = alt
+    }
     if (area_hidden) {
       wrapperParams['aria-hidden'] = area_hidden
     }
-    // if (props.alt === null) {
-    //   wrapperParams['aria-labelledby'] = wrapperParams.alt = icon
-    // } else if (props.alt.length > 0)
-    //   wrapperParams['aria-labelledby'] = wrapperParams.alt = props.alt
 
     const svgParams = {}
     if (parseFloat(size) > -1) {

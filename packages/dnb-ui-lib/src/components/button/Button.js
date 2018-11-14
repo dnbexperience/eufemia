@@ -3,10 +3,10 @@
  *
  */
 
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import Icon from '../icon/IconWithAllIcons'
+import Icon, { DefaultIconSize } from '../icon/IconWithAllIcons'
 import {
   registerElement,
   validateDOMAttributes,
@@ -14,7 +14,6 @@ import {
   pickRenderProps,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
-// import './style/dnb-button.scss' // no good solution to import the style here
 
 const renderProps = {
   on_click: null
@@ -26,7 +25,7 @@ export const propTypes = {
   type: PropTypes.string,
   title: PropTypes.string,
   variant: PropTypes.oneOf(['primary', 'secondary', 'tertiary', 'signal']),
-  size: PropTypes.oneOf(['big']),
+  size: PropTypes.oneOf(['medium', 'default', 'large']),
   icon: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.node,
@@ -60,11 +59,11 @@ export const defaultProps = {
   type: 'button',
   text: null,
   variant: 'primary',
-  size: null,
+  size: 'default',
   title: null,
   icon: null,
   icon_position: 'right',
-  icon_size: null, // we set the size with css, if we set the size explicit, then the css can't reize the icon
+  icon_size: DefaultIconSize,
   href: null,
   id: null,
   class: null,
@@ -85,7 +84,7 @@ export const defaultProps = {
 /**
  * The button component should be used as the call-to-action in a form, or as a user interaction mechanism. Generally speaking, a button should not be used when a link would do the trick. Exceptions are made at times when it is used as a navigation element in the action-nav element.
  */
-export default class Button extends Component {
+export default class Button extends PureComponent {
   static tagName = 'dnb-button'
   static propTypes = propTypes
   static defaultProps = defaultProps
@@ -117,16 +116,6 @@ export default class Button extends Component {
     }
   }
 
-  // handleRef = ref => {
-  //   if (
-  //     this.props.innerRef &&
-  //     typeof this.props.innerRef.current !== 'undefined'
-  //   ) {
-  //     this.props.innerRef.current = ref
-  //   }
-  //   return (this._ref = ref)
-  // }
-
   onMouseOutHandler = () => {
     if (this._ref.current) {
       this._ref.current.blur()
@@ -147,19 +136,25 @@ export default class Button extends Component {
       title,
       id,
       disabled,
-      variant,
-      size,
       text,
       icon,
       icon_position
     } = this.props
+
+    let { variant, size } = this.props
+
+    // if only has Icon, then resize it and define it as secondary
+    if (!text && icon) {
+      variant = 'secondary'
+      size = 'medium'
+    }
 
     const content = Button.getContent(this.props)
 
     const classes = classnames(
       'dnb-button',
       `dnb-button--${variant}`,
-      size ? `dnb-button--size-${size}` : null,
+      size && size !== 'default' ? `dnb-button--size-${size}` : null,
       icon && icon_position
         ? `dnb-button--icon-position-${icon_position}`
         : null,
@@ -199,48 +194,70 @@ export default class Button extends Component {
   }
 }
 
-const Content = props => {
-  const ret = []
-
-  // if (props.children) {
-  //   if (typeof props.children === 'function') {
-  //     ret.push(props.children())
-  //   } else if (props.children === PropTypes.node) {
-  //     ret.push(props.children)
-  //   }
-  // }
-
-  if (props.content) {
-    ret.push(props.content)
+class Content extends PureComponent {
+  static propTypes = {
+    text: PropTypes.string,
+    title: PropTypes.string,
+    content: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+    icon: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.node,
+      PropTypes.func
+    ]),
+    icon_size: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
   }
-
-  if (props.text) {
-    ret.push(
-      <span key="button-text" className="dnb-button__text">
-        {props.text}
-      </span>
-    )
+  static defaultProps = {
+    text: null,
+    title: null,
+    content: null,
+    icon: null,
+    icon_size: DefaultIconSize
   }
+  render() {
+    const { text, title, content, icon, icon_size } = this.props
 
-  if (props.icon) {
-    const alt = props.title || props.text
-    ret.push(
-      <span
-        key="button-icon"
-        className="dnb-button__icon"
-        role="presentation"
-      >
-        <Icon
-          icon={props.icon}
-          width={props.icon_size}
-          height={props.icon_size}
-          size={null}
-          alt={alt}
-          area_hidden={Boolean(alt)}
-        />
-      </span>
-    )
+    const ret = []
+
+    // if (children) {
+    //   if (typeof children === 'function') {
+    //     ret.push(children())
+    //   } else if (children === PropTypes.node) {
+    //     ret.push(children)
+    //   }
+    // }
+
+    if (content) {
+      ret.push(content)
+    }
+
+    if (text) {
+      ret.push(
+        <span key="button-text" className="dnb-button__text">
+          {text}
+        </span>
+      )
+    }
+
+    if (icon) {
+      const alt = title || text
+      ret.push(
+        <span
+          key="button-icon"
+          className="dnb-button__icon"
+          role="presentation"
+        >
+          <Icon
+            icon={icon}
+            width={icon_size}
+            height={icon_size}
+            size={null}
+            alt={alt}
+            area_hidden={Boolean(alt)}
+          />
+        </span>
+      )
+    }
+
+    return ret
   }
-
-  return ret
 }

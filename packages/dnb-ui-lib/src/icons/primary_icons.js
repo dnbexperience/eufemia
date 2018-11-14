@@ -2,7 +2,7 @@
 
 import add from './add.js'
 import bell from './bell.js'
-import calender from './calender.js'
+import calendar from './calendar.js'
 import check from './check.js'
 import chevron_down from './chevron_down.js'
 import chevron_left from './chevron_left.js'
@@ -18,7 +18,7 @@ import subtract from './subtract.js'
 export {
   add,
   bell,
-  calender,
+  calendar,
   check,
   chevron_down,
   chevron_left,

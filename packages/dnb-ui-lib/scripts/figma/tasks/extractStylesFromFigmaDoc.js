@@ -3,11 +3,7 @@
  *
  */
 
-// import path from 'path'
-// import fs from 'fs-extra'
 import {
-  // saveToFile,
-  // findNode
   findAllNodes,
   fetchTextColor,
   fetchFillColor,
@@ -20,7 +16,7 @@ import {
   makeScssVarsFromFigmaDoc
 } from './makeStyleFromFigmaDoc'
 import { extractSassVars } from './extractSassVarsToJson'
-// import { makeStylePrettier } from './makeStylePrettier'
+import { asyncForEach } from '../../tools'
 
 export const getComponentsDocs = async (
   componentsDoc,
@@ -92,12 +88,6 @@ export const extractFigmaStylesFromComponents = async componentsDocs => {
   return res
 }
 
-const asyncForEach = async (array, callback) => {
-  for (let i = 0, l = array.length; i < l; ++i) {
-    await callback(array[i], i, array)
-  }
-}
-
 export const composeFigmaStyleFromComponent = async (
   { componentName, styleName, name: styleNameSub, ...componentDoc },
   { doForceScssOutput }
@@ -164,7 +154,6 @@ export const composeFigmaStyleFromComponent = async (
         }
       }
     `).trim()
-    // console.log('\n> doForceScssOutput:\n',  makeStylePrettier(scssStyle))
   } else {
     scssVars = makeScssVarsFromFigmaDoc({
       existingSassVars,
@@ -172,8 +161,6 @@ export const composeFigmaStyleFromComponent = async (
       prependKey: componentName,
       prependSubKey: componentNameSub
     })
-    // console.log('vars', vars)
-    // console.log(`\n> makeVars ${componentNameSub}:\n`,  makeStylePrettier(scssStyle))
   }
   return { scssVars, scssStyle }
 }

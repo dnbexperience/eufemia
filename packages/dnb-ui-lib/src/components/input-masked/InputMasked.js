@@ -3,7 +3,7 @@
  *
  */
 
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import Input from '../input/Input'
 import MaskedInput from 'react-text-mask' // https://github.com/text-mask/text-mask
@@ -30,7 +30,7 @@ export const defaultProps = {
   ...renderProps
 }
 
-export default class InputMasked extends Component {
+export default class InputMasked extends PureComponent {
   // static tagName = 'dnb-input-masked'
   static propTypes = propTypes
   static defaultProps = defaultProps

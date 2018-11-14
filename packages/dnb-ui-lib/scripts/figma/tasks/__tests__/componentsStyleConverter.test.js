@@ -26,7 +26,7 @@ describe('FigmaTestDoc', () => {
 describe('ComponentsStyleConverter', () => {
   it('has to convert correctly from a figma doc', async () => {
     const figmaDoc = await getFigmaDoc({
-      doRefetch: false,
+      forceRefetch: false,
       preventUpdate: true,
       localFile
     })

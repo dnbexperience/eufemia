@@ -1,29 +1,19 @@
 {
   "linters": {
-    "*.{js,scss}": [
-      "yarn test:staged"
-    ],
     "*.js": [
-      "yarn prettier:fix",
-      "yarn lint:fix",
+      "yarn test:staged",
+      "yarn prettier:js",
+      "yarn lint:js",
       "git add"
     ],
-    "*.{js,css}": [
-      "yarn prettier:all",
-      "yarn lint:style",
+    "src/*.scss": [
+      "yarn prettier:styles",
+      "yarn lint:styles",
       "git add"
     ],
     "*.{json,md}": [
-      "yarn prettier:all",
+      "yarn prettier:other",
       "git add"
     ]
-  },
-  "ignore": [
-    [
-      "lib/**",
-      "style/**",
-      "umd/**",
-      "assets/**"
-    ]
-  ]
+  }
 }

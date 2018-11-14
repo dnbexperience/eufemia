@@ -387,6 +387,10 @@ body:not(:-moz-handler-blocked) fieldset {
   display: table-cell; }
 
 /*
+* DNB Button
+*
+* ======================================================================== */
+/*
 * DNB icon
 *
 * ======================================================================== */
@@ -404,6 +408,149 @@ body:not(:-moz-handler-blocked) fieldset {
     width: inherit;
     height: inherit;
     fill: currentColor; }
+
+.dnb-button {
+  font-size: 1rem;
+  font-family: \\"Fedra Sans Std\\", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+  line-height: 1.5em; }
+  .dnb-button * {
+    margin: 0;
+    padding: 0; }
+  .dnb-button *,
+  .dnb-button ::before,
+  .dnb-button ::after {
+    background-repeat: no-repeat;
+    box-sizing: border-box; }
+  .dnb-button ::before,
+  .dnb-button ::after {
+    text-decoration: inherit;
+    vertical-align: inherit; }
+
+/*
+* Button component
+*
+* ======================================================================== */
+:root {
+  --button-font-family: var(--font-family-book);
+  --button-font-size: var(--font-size-regular);
+  --button-font-weight: normal;
+  --button-font-style: normal;
+  --button-width: 2.5rem;
+  --button-height: 2.5rem;
+  --button-width--medium: 2rem;
+  --button-height--medium: 2rem;
+  --button-width--large: 3rem;
+  --button-height--large: 3rem;
+  --button-icon-size: 1rem;
+  --button-border-width: 1px;
+  --button-border-width--hover: 3px;
+  --button-border-radius: calc(var(--button-height) / 2);
+  --button-border-radius--medium: calc(var(--button-height--medium) / 2);
+  --button-border-radius--large: calc(var(--button-height--large) / 2); }
+
+.dnb-button {
+  display: inline-flex;
+  vertical-align: middle;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  cursor: pointer;
+  width: var(--button-width);
+  height: var(--button-height);
+  padding: 0;
+  border: var(--button-border-width) solid transparent;
+  border-radius: var(--button-border-radius);
+  font-family: var(--button-font-family);
+  font-size: var(--button-font-size);
+  font-weight: var(--button-font-weight);
+  font-style: var(--button-font-style);
+  text-decoration: none;
+  /* Firefox includes a hidden border which messes up button dimensions */ }
+  .dnb-button__icon {
+    line-height: 0; }
+    .dnb-button__icon svg:not([width]):not([height]) {
+      width: var(--button-icon-size);
+      height: var(--button-icon-size); }
+  .dnb-button__text {
+    color: inherit;
+    background-color: inherit;
+    transform: translateY(var(--button-border-width)); }
+  .dnb-button--size-medium {
+    width: var(--button-width--medium);
+    height: var(--button-height--medium);
+    border-radius: var(--button-border-radius--medium); }
+  .dnb-button--has-text.dnb-button--size-medium {
+    padding-left: 1em;
+    padding-right: 1em; }
+  .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-medium {
+    padding-left: 0.5em; }
+  .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-medium {
+    padding-right: 0.5em; }
+  .dnb-button--size-large {
+    width: var(--button-width--large);
+    height: var(--button-height--large);
+    border-radius: var(--button-border-radius--large); }
+  .dnb-button--has-text.dnb-button--size-large {
+    padding-left: 2em;
+    padding-right: 2em; }
+  .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-large {
+    padding-left: 1em; }
+  .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-large {
+    padding-right: 1em; }
+  .dnb-button--has-text {
+    padding-left: 1.5em;
+    padding-right: 1.5em;
+    width: auto; }
+  .dnb-button--has-text .dnb-button__icon {
+    margin: 0 calc(var(--button-icon-size) / 2); }
+  .dnb-button--has-text.dnb-button--icon-position-left {
+    padding-left: 0.5em; }
+  .dnb-button--has-text.dnb-button--icon-position-right {
+    padding-right: 0.5em; }
+  .dnb-button--has-text.dnb-button--has-icon .dnb-button__icon {
+    order: 2; }
+  .dnb-button--has-text.dnb-button--has-icon .dnb-button__text {
+    order: 1; }
+  .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__icon {
+    order: 1; }
+  .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__text {
+    order: 2; }
+  .dnb-button--reset {
+    margin: 0;
+    padding: 0;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    border: none;
+    background-color: transparent;
+    appearance: none;
+    box-shadow: none;
+    color: inherit;
+    font: inherit;
+    text-align: inherit;
+    line-height: 0; }
+    .no-touch .dnb-button--reset:hover[disabled] {
+      cursor: not-allowed; }
+    .no-touch .dnb-button--reset:hover:not([disabled]) {
+      opacity: 0.6;
+      box-shadow: none;
+      border: none; }
+    html[data-whatinput='mouse']
+.dnb-button--reset:not([disabled]):focus:not(.dnb-no-mouse-focus),
+    html[data-whatinput='mouse']
+.dnb-button--reset:not([disabled]):active:not(.dnb-no-mouse-focus) {
+      box-shadow: none;
+      color: inherit;
+      border: none; }
+  .dnb-button[type='button'] {
+    appearance: none; }
+  a .dnb-button {
+    border-bottom: none; }
+  button.dnb-button::-moz-focus-inner .dnb-button {
+    border: none; }
 
 .dnb-input {
   font-size: 1rem;
@@ -454,9 +601,9 @@ body:not(:-moz-handler-blocked) fieldset {
     border-radius: 2rem;
     border: 1px solid #bedbdb;
     transition: background-color 0.5s ease-out 0s; }
-    .no-touch .dnb-input__shell :not([disabled]):hover[disabled] {
+    .no-touch .dnb-input__shell input:not([disabled]):hover[disabled] {
       cursor: not-allowed; }
-    .no-touch .dnb-input__shell :not([disabled]):hover:not([disabled]) {
+    .no-touch .dnb-input__shell input:not([disabled]):hover:not([disabled]) {
       background-color: rgba(255, 255, 255, 0.7); }
   .dnb-input__description, .dnb-input__placeholder, .dnb-input__input {
     font-size: 1rem;
@@ -524,51 +671,29 @@ body:not(:-moz-handler-blocked) fieldset {
     height: 2.2rem;
     height: calc(4px + 2.2rem);
     /* stylelint-enable */
-    margin: 0 0 -2px;
-    overflow: hidden;
-    border-radius: 2rem;
-    border: 1px solid #bedbdb; }
-  .dnb-input__search-submit__button {
-    position: relative;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-    padding: 0;
-    outline: none;
-    border: none;
-    background-color: white;
-    color: #007272; }
+    margin: 0 0 -2px; }
+    .dnb-input__search-submit__button {
+      width: 100%;
+      height: 100%; }
   .dnb-input__shell[data-input-state='focus'] {
     border-color: #a0d6c9;
-    background-color: white; }
-    .dnb-input__shell[data-input-state='focus'] .dnb-input__search-submit {
-      border-color: rgba(210, 239, 232, 0.5); }
+    background-color: white;
+    box-shadow: 0 0 0 2px #007272;
+    outline: none;
+    border-color: transparent; }
+    html[data-whatinput='mouse'] .dnb-input__shell[data-input-state='focus']:not(.dnb-no-mouse-focus) {
+      transition: box-shadow 0.1s ease-out 0s;
+      box-shadow: 0 0 0 2px #14555a; }
+    html[data-whatinput='keyboard'] .dnb-input__shell[data-input-state='focus'] {
+      box-shadow: 0 0 0 2px #ff5400; }
   .dnb-input__shell[data-has-content='true'] .dnb-input__placeholder,
   .dnb-input__shell[data-input-state='focus'][data-has-content='true'] .dnb-input__placeholder {
     display: none; }
   .dnb-input__shell[data-input-state='focus'][data-has-content='false'] .dnb-input__placeholder {
     opacity: 0.35; }
 
-.dnb-input__search-submit[data-input-state='focus'] {
-  border-color: #bedbdb; }
-
 .dnb-input__shell[data-has-content='true'] {
   background-color: rgba(255, 255, 255, 0.7); }
-
-.dnb-input__shell[data-input-state='focus'],
-.dnb-input__search-submit[data-input-state='focus'] {
-  box-shadow: 0 0 0 2px #007272;
-  outline: none;
-  border-color: transparent; }
-  html[data-whatinput='mouse'] .dnb-input__shell[data-input-state='focus']:not(.dnb-no-mouse-focus), html[data-whatinput='mouse']
-  .dnb-input__search-submit[data-input-state='focus']:not(.dnb-no-mouse-focus) {
-    transition: box-shadow 0.1s ease-out 0s;
-    box-shadow: 0 0 0 2px #14555a; }
-  html[data-whatinput='keyboard'] .dnb-input__shell[data-input-state='focus'], html[data-whatinput='keyboard']
-  .dnb-input__search-submit[data-input-state='focus'] {
-    box-shadow: 0 0 0 2px #ff5400; }
 
 /*
 * Range input

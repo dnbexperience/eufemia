@@ -6,9 +6,9 @@
 import fs from 'fs-extra'
 import gulp from 'gulp'
 import path from 'path'
-// import rename from 'gulp-rename'
 import transform from 'gulp-transform'
 import SVGOptim from 'svgo'
+import { asyncForEach } from '../../tools'
 import { ERROR_HARMLESS } from '../../lib/error'
 import { log, ErrorHandler } from '../../lib'
 import {
@@ -29,44 +29,53 @@ const iconsDest = path.resolve(__dirname, `../../../assets/icons`)
 
 export const IconsConverter = async ({
   figmaDoc,
-  figmaFile = defaultFigmaFile,
-  doRefetch = null,
+  figmaFile = null,
+  // doRefetch = null,
   ...rest
 }) => {
-  if (!figmaDoc || doRefetch) {
-    figmaDoc = await getFigmaDoc({ figmaFile, doRefetch })
-    if (figmaDoc.isNew) {
-      doRefetch = true
-    }
+  if (!figmaFile) {
+    figmaFile = defaultFigmaFile
+  }
+
+  if (!figmaDoc) {
+    figmaDoc = await getFigmaDoc({ figmaFile })
+    // if (figmaDoc.doRefetch) {
+    //   doRefetch = true
+    // }
+    // console.log('\ndoRefetch', doRefetch)
   }
 
   const canvasDoc = getIconCanvasDoc({ figmaDoc })
-  let listOfImagesToLoad = []
 
   const framesInTheCanvas = findAllNodes(canvasDoc, {
     type: 'FRAME'
   })
 
-  await asyncForEach(framesInTheCanvas, async frameDoc => {
-    listOfImagesToLoad = listOfImagesToLoad.concat(
-      await runCanvasIconsFactory({
-        // canvasDoc,
+  const listOfProcessedIcons = await asyncForEach(
+    framesInTheCanvas,
+    async frameDoc =>
+      await runFrameIconsFactory({
         frameDoc,
         figmaFile,
-        doRefetch,
+        // doRefetch,
         ...rest
       })
-    )
-  })
+  )
 
-  return listOfImagesToLoad
+  // prepare the lockFile content
+  await saveLockFile(
+    listOfProcessedIcons.reduce((acc, { iconName, ...cur }) => {
+      acc[iconName] = cur
+      return acc
+    }, {})
+  )
+
+  return listOfProcessedIcons
 }
 
-const runCanvasIconsFactory = async ({
-  // canvasDoc,
+const runFrameIconsFactory = async ({
   frameDoc,
   figmaFile,
-  doRefetch = null,
   forceReconvert = null
 }) => {
   const frameId = frameDoc.id
@@ -78,24 +87,58 @@ const runCanvasIconsFactory = async ({
     ? findAllNodes(frameDoc, { name: new RegExp(iconSelector) })
     : frameDoc.children
 
-  // fill the empty containers
-  const ids = frameDocChildren.reduce((acc, { id, name }) => {
+  // get a list of icons we want to refetch
+  const iconIdsFromDoc = frameDocChildren.reduce((acc, { id, name }) => {
     if (!/#skip/.test(name)) {
       acc.push(id)
     }
     return acc
   }, [])
 
-  log.text = `> Figma: Starting to fetch ${
-    ids.length
-  } images from the ${originalFrameName} Canvas`
+  // check if lock file exists
+  const oldLockFileContent = await readLockFile()
 
-  const listWithIconsUrls = await getFigmaUrlByImageIds({
-    figmaFile,
-    frameId,
-    ids,
-    doRefetch
-  })
+  // this may be controversielt, but it's kind of a short way to use the lock file
+  // to fetch icons by using the url in the lock file
+  // this way we do not lay on that we have a cached version
+  // This is done to optimize the CI process
+  const listOfIconUrls = Object.entries(oldLockFileContent)
+    .filter(
+      ([file, { id, url, slug }]) =>
+        file && id && url && slug === md5(figmaFile + frameId)
+    )
+    // deifine the same format as we get from "getFigmaUrlByImageIds"
+    .map(([file, { id, url }]) => [id, url, file])
+
+  // remove the IDs if they are in the lock file so we dont need to refetch the urls
+  const iconIdsToFetchFrom = iconIdsFromDoc.filter(
+    refId => !listOfIconUrls.some(([id]) => id === refId)
+  )
+  // console.log('\n listOfIconUrls', listOfIconUrls)
+  // console.log('\niconIdsFromDoc', iconIdsFromDoc)
+  // console.log('\niconIdsToFetchFrom', iconIdsToFetchFrom)
+
+  log.start(
+    `> Figma: Starting to fetch ${
+      iconIdsToFetchFrom.length
+    } icons from the "${originalFrameName}" Canvas`
+  )
+
+  // console.log('\n\niconIdsToFetchFrom', iconIdsToFetchFrom, iconIdsFromDoc)
+
+  // go and load additional images
+  const listOfAdditionalIconUrls = Object.entries(
+    await getFigmaUrlByImageIds({
+      figmaFile,
+      ids: iconIdsToFetchFrom
+    })
+  )
+
+  const listOfIconsToProcess = listOfIconUrls
+    .concat(listOfAdditionalIconUrls)
+    // clean the list of icons we will process
+    // my making shure it is in the current figma frame document
+    .filter(([id]) => frameDocChildren.find(({ id: i }) => i === id))
 
   // split frameName, and use all after the selector/s as iconName additions
   const iconNameAdditions = String(originalFrameName)
@@ -108,15 +151,14 @@ const runCanvasIconsFactory = async ({
     ) // remove space arround the names
     .filter(n => n !== 'default') // we don't use default size once we save it to size
 
-  // check if lock file exists
-  const oldLockFileContent = await readLockFile()
-
-  const listOfImagesToLoad = Object.entries(listWithIconsUrls).filter(
-    ([id]) => frameDocChildren.find(({ id: i }) => i === id)
+  log.start(
+    `> Figma: Starting to fetch process ${
+      listOfIconsToProcess.length
+    } icons`
   )
 
-  const listOfLoadedImages = await asyncForEach(
-    listOfImagesToLoad,
+  const listOfProcessedIcons = await asyncForEach(
+    listOfIconsToProcess,
     async ([id, url]) => {
       try {
         const { name } = frameDocChildren.find(({ id: i }) => i === id)
@@ -129,6 +171,16 @@ const runCanvasIconsFactory = async ({
         const lockFileFrameContent =
           (oldLockFileContent && oldLockFileContent[iconName]) || null
 
+        const ret = {
+          iconName,
+          id,
+          name, // layer name
+          url,
+          // timestamp: Date.now(),
+          slug: md5(figmaFile + frameId),
+          frame: frameName
+        }
+
         if (
           forceReconvert !== true &&
           // compare the current id with the one in the lock file
@@ -136,12 +188,10 @@ const runCanvasIconsFactory = async ({
           (lockFileFrameContent && lockFileFrameContent.id === id) &&
           // and also compare for the frameId, as they may have been upadted
           (lockFileFrameContent &&
-            lockFileFrameContent.slug === md5(frameId)) &&
+            lockFileFrameContent.slug === md5(figmaFile + frameId)) &&
           fs.existsSync(filePath)
         ) {
           log.text = `> Figma: File already exists: ${iconName}`
-          // log.info(`${iconName} ${url}`)
-          return null
         } else {
           log.text = `> Figma: Saving file to disk: ${iconName}`
 
@@ -158,18 +208,12 @@ const runCanvasIconsFactory = async ({
 
           await optimizeSVG({ file })
 
-          log.info(`> Figma: Icon was converted: ${iconName}`)
+          ret.timestamp = Date.now()
 
-          return {
-            iconName,
-            id,
-            name, // layer name
-            // url, // dont save url in lock file for now!
-            timestamp: Date.now(),
-            slug: md5(frameId),
-            frame: frameName
-          }
+          log.info(`> Figma: Icon was prepared and saved: ${iconName}`)
         }
+
+        return ret
       } catch (e) {
         log.fail(e)
         new ErrorHandler('Failed to process new icons', e)
@@ -177,33 +221,7 @@ const runCanvasIconsFactory = async ({
     }
   )
 
-  const newLockFileContent = listOfLoadedImages
-
-  // marge and make a new lockFile content
-  if (newLockFileContent.length > 0) {
-    const lockFileContent = newLockFileContent.reduce(
-      (acc, { iconName, ...cur }) => {
-        acc[iconName] = cur
-        return acc
-      },
-      {}
-    )
-
-    await saveLockFile({
-      ...oldLockFileContent,
-      ...lockFileContent
-    })
-  }
-
-  return newLockFileContent
-}
-
-const asyncForEach = async (array, callback) => {
-  const res = []
-  for (let i = 0, l = array.length; i < l; ++i) {
-    res.push(await callback(array[i], i, array))
-  }
-  return res.filter(i => i)
+  return listOfProcessedIcons
 }
 
 const prepareIconName = (name, iconNameAdditions = []) => {
@@ -284,7 +302,7 @@ const formatIconName = n =>
   String(n)
     .trim()
     .toLowerCase()
-    .replace(/[^a-z_]/g, '_')
+    .replace(/[^a-z0-9_]/g, '_')
     .replace(/\s|_{2,}/g, '_')
 
 const lockFileDest = path.resolve(
@@ -294,7 +312,7 @@ const lockFileDest = path.resolve(
 export const readLockFile = async () => {
   if (fs.existsSync(lockFileDest)) {
     try {
-      return JSON.parse(await fs.readFile(lockFileDest, 'utf-8'))
+      return JSON.parse((await fs.readFile(lockFileDest, 'utf-8')) || '{}')
     } catch (e) {
       console.log('Failed to read the lock file and parse the result', e)
     }

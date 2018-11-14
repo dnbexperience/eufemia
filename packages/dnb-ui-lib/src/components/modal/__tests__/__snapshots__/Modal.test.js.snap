@@ -30,18 +30,18 @@ exports[`Modal component have to match snapshot 1`] = `
         href={null}
         icon="question"
         icon_position="right"
-        icon_size={null}
+        icon_size={16}
         id={null}
         innerRef={null}
         on_click={[Function]}
-        size={null}
+        size="default"
         text={null}
         title="Open Modal"
         type="button"
         variant="secondary"
       >
         <button
-          className="dnb-button dnb-button--secondary dnb-button--icon-position-right dnb-button--has-icon"
+          className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon"
           id={null}
           onClick={[Function]}
           onMouseOut={[Function]}
@@ -59,11 +59,11 @@ exports[`Modal component have to match snapshot 1`] = `
             href={null}
             icon="question"
             icon_position="right"
-            icon_size={null}
+            icon_size={16}
             id={null}
             innerRef={null}
             on_click={[Function]}
-            size={null}
+            size="default"
             text={null}
             title="Open Modal"
             type="button"
@@ -81,30 +81,60 @@ exports[`Modal component have to match snapshot 1`] = `
                 class={null}
                 className={null}
                 color={null}
-                height={null}
+                height={16}
                 icon="question"
                 modifier={null}
                 size={null}
-                width={null}
+                width={16}
               >
-                <span
-                  alt="Open Modal"
+                <Icon
+                  alt={null}
+                  area_hidden={false}
                   aria-hidden={true}
+                  aria-label="Open Modal"
+                  attributes={null}
+                  class={null}
                   className="dnb-icon"
-                  role="img"
+                  color={null}
+                  height={null}
+                  icon={
+                    <SvgComponent
+                      height={16}
+                      width={16}
+                    />
+                  }
+                  modifier={null}
+                  role="presentation"
+                  size={16}
+                  width={null}
                 >
-                  <SvgComponent>
-                    <svg
-                      viewBox="0 0 16 16"
+                  <span
+                    className="dnb-icon dnb-icon"
+                    role="presentation"
+                  >
+                    <Component
+                      height={16}
+                      width={16}
                     >
-                      <path
-                        clipRule="evenodd"
-                        d="M4.352 5.1c0-2.05 1.55-3.6 3.6-3.6 2.052 0 3.601 1.55 3.601 3.6 0 2.051-1.55 3.6-3.6 3.6a.75.75 0 0 0-.75.75v2.666a.75.75 0 0 0 1.5 0V10.15c2.506-.348 4.35-2.425 4.35-5.049 0-2.879-2.22-5.1-5.1-5.1-2.88 0-5.1 2.221-5.1 5.1a.75.75 0 0 0 1.5 0zm3.6 10.898c.659 0 1.097-.439 1.097-1.097 0-.658-.438-1.096-1.096-1.096-.658 0-1.097.438-1.097 1.096 0 .658.439 1.097 1.097 1.097z"
-                        fillRule="evenodd"
-                      />
-                    </svg>
-                  </SvgComponent>
-                </span>
+                      <SvgComponent
+                        height={16}
+                        width={16}
+                      >
+                        <svg
+                          height={16}
+                          viewBox="0 0 16 16"
+                          width={16}
+                        >
+                          <path
+                            clipRule="evenodd"
+                            d="M4.352 5.1c0-2.05 1.55-3.6 3.6-3.6 2.052 0 3.601 1.55 3.601 3.6 0 2.051-1.55 3.6-3.6 3.6a.75.75 0 0 0-.75.75v2.666a.75.75 0 0 0 1.5 0V10.15c2.506-.348 4.35-2.425 4.35-5.049 0-2.879-2.22-5.1-5.1-5.1-2.88 0-5.1 2.221-5.1 5.1a.75.75 0 0 0 1.5 0zm3.6 10.898c.659 0 1.097-.439 1.097-1.097 0-.658-.438-1.096-1.096-1.096-.658 0-1.097.438-1.097 1.096 0 .658.439 1.097 1.097 1.097z"
+                            fillRule="evenodd"
+                          />
+                        </svg>
+                      </SvgComponent>
+                    </Component>
+                  </span>
+                </Icon>
               </IconWithAllIcons>
             </span>
           </Content>
@@ -173,18 +203,18 @@ exports[`Modal component have to match snapshot 1`] = `
                 href={null}
                 icon="close"
                 icon_position="right"
-                icon_size={null}
+                icon_size={16}
                 id={null}
                 innerRef={null}
                 on_click={[Function]}
-                size={null}
+                size="default"
                 text={null}
                 title="Close"
                 type="button"
                 variant="secondary"
               >
                 <button
-                  className="dnb-button dnb-button--secondary dnb-button--icon-position-right dnb-button--has-icon dnb-modal__close-button"
+                  className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon dnb-modal__close-button"
                   id={null}
                   onClick={[Function]}
                   onMouseOut={[Function]}
@@ -202,11 +232,11 @@ exports[`Modal component have to match snapshot 1`] = `
                     href={null}
                     icon="close"
                     icon_position="right"
-                    icon_size={null}
+                    icon_size={16}
                     id={null}
                     innerRef={null}
                     on_click={[Function]}
-                    size={null}
+                    size="default"
                     text={null}
                     title="Close"
                     type="button"
@@ -224,30 +254,60 @@ exports[`Modal component have to match snapshot 1`] = `
                         class={null}
                         className={null}
                         color={null}
-                        height={null}
+                        height={16}
                         icon="close"
                         modifier={null}
                         size={null}
-                        width={null}
+                        width={16}
                       >
-                        <span
-                          alt="Close"
+                        <Icon
+                          alt={null}
+                          area_hidden={false}
                           aria-hidden={true}
+                          aria-label="Close"
+                          attributes={null}
+                          class={null}
                           className="dnb-icon"
-                          role="img"
+                          color={null}
+                          height={null}
+                          icon={
+                            <SvgComponent
+                              height={16}
+                              width={16}
+                            />
+                          }
+                          modifier={null}
+                          role="presentation"
+                          size={16}
+                          width={null}
                         >
-                          <SvgComponent>
-                            <svg
-                              viewBox="0 0 16 16"
+                          <span
+                            className="dnb-icon dnb-icon"
+                            role="presentation"
+                          >
+                            <Component
+                              height={16}
+                              width={16}
                             >
-                              <path
-                                clipRule="evenodd"
-                                d="M4.03 3.1a.75.75 0 0 0-1.06 1.06l3.97 3.97-3.97 3.97a.75.75 0 1 0 1.06 1.06L8 9.19l3.97 3.97a.75.75 0 1 0 1.06-1.06L9.06 8.13l3.97-3.97a.75.75 0 0 0-1.06-1.06L8 7.07 4.03 3.1z"
-                                fillRule="evenodd"
-                              />
-                            </svg>
-                          </SvgComponent>
-                        </span>
+                              <SvgComponent
+                                height={16}
+                                width={16}
+                              >
+                                <svg
+                                  height={16}
+                                  viewBox="0 0 16 16"
+                                  width={16}
+                                >
+                                  <path
+                                    clipRule="evenodd"
+                                    d="M4.03 3.1a.75.75 0 0 0-1.06 1.06l3.97 3.97-3.97 3.97a.75.75 0 1 0 1.06 1.06L8 9.19l3.97 3.97a.75.75 0 1 0 1.06-1.06L9.06 8.13l3.97-3.97a.75.75 0 0 0-1.06-1.06L8 7.07 4.03 3.1z"
+                                    fillRule="evenodd"
+                                  />
+                                </svg>
+                              </SvgComponent>
+                            </Component>
+                          </span>
+                        </Icon>
                       </IconWithAllIcons>
                     </span>
                   </Content>
@@ -501,10 +561,24 @@ exports[`Modal scss have to match snapshot 1`] = `
 * Button component
 *
 * ======================================================================== */
-/*
-* Button mixins
-*
-* ======================================================================== */
+:root {
+  --button-font-family: var(--font-family-book);
+  --button-font-size: var(--font-size-regular);
+  --button-font-weight: normal;
+  --button-font-style: normal;
+  --button-width: 2.5rem;
+  --button-height: 2.5rem;
+  --button-width--medium: 2rem;
+  --button-height--medium: 2rem;
+  --button-width--large: 3rem;
+  --button-height--large: 3rem;
+  --button-icon-size: 1rem;
+  --button-border-width: 1px;
+  --button-border-width--hover: 3px;
+  --button-border-radius: calc(var(--button-height) / 2);
+  --button-border-radius--medium: calc(var(--button-height--medium) / 2);
+  --button-border-radius--large: calc(var(--button-height--large) / 2); }
+
 .dnb-button {
   display: inline-flex;
   vertical-align: middle;
@@ -525,8 +599,7 @@ exports[`Modal scss have to match snapshot 1`] = `
   text-decoration: none;
   /* Firefox includes a hidden border which messes up button dimensions */ }
   .dnb-button__icon {
-    line-height: 0;
-    margin-top: var(--button-border-width); }
+    line-height: 0; }
     .dnb-button__icon svg:not([width]):not([height]) {
       width: var(--button-icon-size);
       height: var(--button-icon-size); }
@@ -534,27 +607,38 @@ exports[`Modal scss have to match snapshot 1`] = `
     color: inherit;
     background-color: inherit;
     transform: translateY(var(--button-border-width)); }
-  .dnb-button--size-big {
-    width: var(--button-width--big);
-    height: var(--button-height--big);
-    border-radius: var(--button-border-radius--big); }
+  .dnb-button--size-medium {
+    width: var(--button-width--medium);
+    height: var(--button-height--medium);
+    border-radius: var(--button-border-radius--medium); }
+  .dnb-button--has-text.dnb-button--size-medium {
+    padding-left: 1em;
+    padding-right: 1em; }
+  .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-medium {
+    padding-left: 0.5em; }
+  .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-medium {
+    padding-right: 0.5em; }
+  .dnb-button--size-large {
+    width: var(--button-width--large);
+    height: var(--button-height--large);
+    border-radius: var(--button-border-radius--large); }
+  .dnb-button--has-text.dnb-button--size-large {
+    padding-left: 2em;
+    padding-right: 2em; }
+  .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-large {
+    padding-left: 1em; }
+  .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-large {
+    padding-right: 1em; }
   .dnb-button--has-text {
     padding-left: 1.5em;
     padding-right: 1.5em;
     width: auto; }
-  .dnb-button--has-text.dnb-button--size-big {
-    padding-left: 2em;
-    padding-right: 2em; }
   .dnb-button--has-text .dnb-button__icon {
     margin: 0 calc(var(--button-icon-size) / 2); }
   .dnb-button--has-text.dnb-button--icon-position-left {
     padding-left: 0.5em; }
-  .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-big {
-    padding-left: 1em; }
   .dnb-button--has-text.dnb-button--icon-position-right {
     padding-right: 0.5em; }
-  .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-big {
-    padding-right: 1em; }
   .dnb-button--has-text.dnb-button--has-icon .dnb-button__icon {
     order: 2; }
   .dnb-button--has-text.dnb-button--has-icon .dnb-button__text {
