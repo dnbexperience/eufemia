@@ -32,7 +32,7 @@ export default ({
 
     try {
       if (!preventDelete) {
-        await del([`${destPath}/**/*`, `!${destPath}`], {
+        await del([`${destPath}/**/*.js`, `!${destPath}`], {
           force: true
         })
       }
