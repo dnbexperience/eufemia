@@ -26,20 +26,20 @@ workbox.clientsClaim();
  */
 self.__precacheManifest = [
   {
-    "url": "webpack-runtime-b59a08f1f02dcd4b497d.js"
+    "url": "webpack-runtime-e81af4b6d992c4da89e0.js"
   },
   {
-    "url": "app-7c524dba542abd011008.js"
+    "url": "app-ba4981130fd482d648a0.js"
   },
   {
     "url": "component---node-modules-gatsby-plugin-offline-app-shell-js-5dfde27407058d05bb1a.js"
   },
   {
     "url": "offline-plugin-app-shell-fallback/index.html",
-    "revision": "11f94cee1ba96ab5e2aff3d89071ae8d"
+    "revision": "904f14509985ad51dfc320931db06d3b"
   },
   {
-    "url": "component---src-pages-404-js-7adf10d650c1dc8768df.js"
+    "url": "component---src-pages-404-js-321456f28cfe860a2504.js"
   },
   {
     "url": "static/d/164/path---404-html-516-62a-NZuapzHg3X9TaN1iIixfv1W23E.json",
@@ -58,34 +58,8 @@ workbox.routing.registerNavigationRoute("/eufemia/offline-plugin-app-shell-fallb
   blacklist: [/\?(.+&)?no-cache=1$/],
 });
 
-workbox.routing.registerRoute(/\.(?:png|jpg|jpeg|webp|svg|gif|tiff|js|woff|woff2|json|css)$/, workbox.strategies.staleWhileRevalidate(), 'GET');
-workbox.routing.registerRoute(/^https?:/, workbox.strategies.networkFirst(), 'GET');
+workbox.routing.registerRoute(/(\.js$|\.css$|\/static\/)/, workbox.strategies.cacheFirst(), 'GET');
+workbox.routing.registerRoute(/^https?:.*\.(png|jpg|jpeg|webp|svg|gif|tiff|js|woff|woff2|json|css)$/, workbox.strategies.staleWhileRevalidate(), 'GET');
+workbox.routing.registerRoute(/^https?:\/\/fonts\.googleapis\.com\/css/, workbox.strategies.staleWhileRevalidate(), 'GET');
+// noop
 "use strict";
-
-/* global workbox */
-self.addEventListener("message", function (event) {
-  var api = event.data.api;
-
-  if (api === "gatsby-runtime-cache") {
-    var resources = event.data.resources;
-    var cacheName = workbox.core.cacheNames.runtime;
-    event.waitUntil(caches.open(cacheName).then(function (cache) {
-      return Promise.all(resources.map(function (resource) {
-        var request; // Some external resources don't allow
-        // CORS so get an opaque response
-
-        if (resource.match(/^https?:/)) {
-          request = fetch(resource, {
-            mode: "no-cors"
-          });
-        } else {
-          request = fetch(resource);
-        }
-
-        return request.then(function (response) {
-          return cache.put(resource, response);
-        });
-      }));
-    }));
-  }
-});
