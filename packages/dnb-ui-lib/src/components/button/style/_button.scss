@@ -141,6 +141,7 @@
     overflow: visible;
 
     border: none;
+    border-radius: 0;
     background-color: transparent;
     appearance: none;
     box-shadow: none;
@@ -151,9 +152,14 @@
     line-height: 0;
 
     @include hover(true) {
-      opacity: 0.6;
+      opacity: 0.6; // TODO: we may considder to remove this
       box-shadow: none;
       border: none;
+    }
+
+    &:not([disabled]):focus,
+    &:not([disabled]):active {
+      @include fakeFocus();
     }
 
     html[data-whatinput='mouse']

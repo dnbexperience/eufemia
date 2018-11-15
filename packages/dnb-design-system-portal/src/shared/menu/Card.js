@@ -6,7 +6,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Link from 'gatsby-link'
-import { css, cx } from 'react-emotion'
+import styled, { css, cx } from 'react-emotion'
 
 const random = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1) + min)
@@ -27,10 +27,14 @@ const boxStyle = css`
   text-decoration: none;
   font-weight: 100;
 
+  &:focus,
   &:hover {
     filter: grayscale(90%);
     transition: filter 0.5s ease;
     border: none;
+  }
+  [data-whatinput='keyboard'] &:focus {
+    box-shadow: none;
   }
 
   @media (max-width: 640px) {
@@ -60,7 +64,7 @@ const boxStyle = css`
     forwards;
 `
 
-const headerStyle = css`
+const Header = styled.span`
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -79,13 +83,13 @@ const headerStyle = css`
     }
   }
 `
-const iconStyle = css`
+
+const Box = styled.div`
   display: flex;
   height: 100%;
   justify-content: center;
   flex-direction: column;
 `
-// const svgStyle = css``
 
 export default class Card extends Component {
   static propTypes = {
@@ -108,10 +112,10 @@ export default class Card extends Component {
         to={url}
         onClick={onClick}
       >
-        <div css={iconStyle}>
+        <Box className="section-box">
           <Svg />
-        </div>
-        <span css={headerStyle}>{title}</span>
+        </Box>
+        <Header>{title}</Header>
       </Link>
     )
   }

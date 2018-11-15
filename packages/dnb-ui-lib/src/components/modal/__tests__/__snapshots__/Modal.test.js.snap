@@ -373,15 +373,16 @@ exports[`Modal scss have to match snapshot 1`] = `
   outline: none; }
 
 .dnb-fake-focus {
-  outline: none; }
-  .dnb-fake-focus:focus {
-    outline: none;
-    border-color: transparent; }
-    html[data-whatinput='mouse'] .dnb-fake-focus:focus:not(.dnb-no-mouse-focus) {
-      transition: box-shadow 0.1s ease-out 0s;
-      box-shadow: 0 0 0 2px #14555a; }
-    html[data-whatinput='keyboard'] .dnb-fake-focus:focus {
-      box-shadow: 0 0 0 2px #ff5400; }
+  outline: none;
+  border-color: transparent; }
+  html[data-whatinput='mouse'] .dnb-fake-focus:not(.dnb-no-mouse-focus) {
+    transition: box-shadow 0.1s ease-out 0s;
+    box-shadow: 0 0 0 2px #14555a; }
+  html[data-whatinput='keyboard'] .dnb-fake-focus {
+    box-shadow: 0 0 0 2px #ff5400; }
+
+.dnb-tab-focus:focus {
+  box-shadow: 0 0 0 2px #ff5400 !important; }
 
 @media screen and (max-width: 700px) {
   .dnb-hide-on-mobile {
@@ -654,6 +655,7 @@ exports[`Modal scss have to match snapshot 1`] = `
     height: auto;
     overflow: visible;
     border: none;
+    border-radius: 0;
     background-color: transparent;
     appearance: none;
     box-shadow: none;
@@ -667,6 +669,14 @@ exports[`Modal scss have to match snapshot 1`] = `
       opacity: 0.6;
       box-shadow: none;
       border: none; }
+    .dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
+      outline: none;
+      border-color: transparent; }
+      html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):focus:not(.dnb-no-mouse-focus), html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):active:not(.dnb-no-mouse-focus) {
+        transition: box-shadow 0.1s ease-out 0s;
+        box-shadow: 0 0 0 2px #14555a; }
+      html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
+        box-shadow: 0 0 0 2px #ff5400; }
     html[data-whatinput='mouse']
 .dnb-button--reset:not([disabled]):focus:not(.dnb-no-mouse-focus),
     html[data-whatinput='mouse']

@@ -137,15 +137,22 @@
   }
 }
 
-@mixin tabFocus() {
-  @include fakeBorder($color-signal-orange);
+@mixin tabFocus($important: null) {
+  @include fakeBorder($color-signal-orange, null, $important);
 }
 
-@mixin fakeBorder($color: $color-sea-green, $shadow: null) {
+@mixin fakeBorder(
+  $color: $color-sea-green,
+  $shadow: null,
+  $important: null
+) {
+  // we use !important, cause we have no changes to select the selctor right
+  // in some cases we have another state where we use box-shadow
+  // but with important, we take care of that we actually can use use it
   @if $shadow {
-    box-shadow: $shadow;
+    box-shadow: $shadow $important;
   } @else {
-    box-shadow: 0 0 0 2px $color;
+    box-shadow: 0 0 0 2px $color $important;
   }
 }
 
@@ -154,9 +161,12 @@
 }
 
 .dnb-fake-focus {
-  outline: none;
+  @include fakeFocus();
+}
+
+.dnb-tab-focus {
   &:focus {
-    @include fakeFocus();
+    @include tabFocus(!important);
   }
 }
 

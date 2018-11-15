@@ -111,7 +111,7 @@ export default class StickyMenuBar extends Component {
               className="dnb-button dnb-button--reset menu-bar"
               onClick={this.toggleMenuHandler}
             >
-              <Logo height={80} />
+              <Logo height={48} />
               {/* <DNBLogo className="logo" width="47" height="32" /> */}
               {slogan}
             </button>
@@ -173,7 +173,7 @@ const barStyle = css`
     justify-content: space-between;
     vertical-align: middle;
     width: 100%;
-    padding: 0 0 0 2em;
+    padding: 0.5rem 2rem;
 
     align-items: center;
 
@@ -189,9 +189,8 @@ const barStyle = css`
     }
   }
 
-  .logo {
-    color: #007272;
-    fill: currentColor;
+  .dnb-logo {
+    margin-right: 0.5rem;
   }
   &.active .logo-slogan {
     color: #007272;
@@ -208,7 +207,6 @@ const barStyle = css`
   .toggle-grid {
     display: flex;
     align-items: flex-end;
-    margin-right: 3rem;
   }
   .toggle-grid label {
     padding-right: 1rem;
