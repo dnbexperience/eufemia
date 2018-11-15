@@ -8,10 +8,11 @@
   "main": "index.js",
   "scripts": {
     "build": "yarn make-ui-lib-pages",
-    "build-ci": "yarn make-ui-lib-pages && yarn build-portal --prefix-paths",
+    "build-ci": "yarn build:version && yarn make-ui-lib-pages && yarn build-portal --prefix-paths",
     "build-portal": "gatsby build",
     "build:fresh": "rm -rf .cache && rm -rf ./public/** && yarn build-portal",
     "build:stage": "yarn build-portal --prefix-paths",
+    "build:version": "babel-node ./scripts/version.js --new-version",
     "precommit": "yarn lint-staged",
     "deploy": "yarn deploy-ci && say Finished Deploying",
     "deploy-ci": "babel-node ./scripts/deploy.js",
@@ -116,5 +117,6 @@
     "stylelint-config-styled-components": "^0.1.1",
     "stylelint-processor-styled-components": "^1.5.0",
     "system-components": "^3.0.2"
-  }
+  },
+  "buildVersion": "[LOCAL BUILD]"
 }

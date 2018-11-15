@@ -3,8 +3,8 @@
  *
  */
 
-import React, { Component, Fragment } from 'react'
-import './App.css'
+import React, { Component, Fragment } from 'react';
+import './App.css';
 
 // different mothodes of importing the dnb-ui-lib
 // import Icon from 'dnb-ui-lib/components/icon' // alternative method to import dnb-ui-lib
@@ -14,42 +14,42 @@ import './App.css'
 // import 'dnb-ui-lib/components/Icon/style' // Import only the icon styles
 // import 'dnb-ui-lib/components' // in case we only use web component version
 
-import dnb, { Button, Input, Icon } from 'dnb-ui-lib/components' // optional, import "dnb-ui-lib/components/web-components" to enable Web Components
-import { bell } from 'dnb-ui-lib/components/icon/lib'
-import 'dnb-ui-lib/style' // Import the global DNB stylesheet
+import dnb, { Button, Input, Icon } from 'dnb-ui-lib/components'; // optional, import "dnb-ui-lib/components/web-components" to enable Web Components
+import { bell } from 'dnb-ui-lib/components/icon/lib';
+import 'dnb-ui-lib/style'; // Import the global DNB stylesheet
 
 // to enable Web Components, cause we use both react and Web Components in here
 
 export default class App extends Component {
-  state = { showWebComponents: false }
+  state = { showWebComponents: false };
   constructor(props) {
-    super(props)
-    this._buttonRef = React.createRef()
-    this._inputRef = React.createRef()
+    super(props);
+    this._buttonRef = React.createRef();
+    this._inputRef = React.createRef();
   }
   handleClick = e => {
-    console.log('handleClick', e)
-  }
+    console.log('handleClick', e);
+  };
   handleValueChange = e => {
     console.log(
       'handleValueChange',
       e.value || (e.detail && e.detail.value) || ''
-    )
-  }
+    );
+  };
   handleWebComponentsVisibility() {
-    this.setState({ showWebComponents: true })
-    dnb.enableWebComponents()
+    this.setState({ showWebComponents: true });
+    dnb.enableWebComponents();
 
     // there are different ways to enable usage of WebComponents
     // Button.enableWebComponents()
     // Icon.enableWebComponents()
     //
     // bind the imperative (not declarative) event handlers
-    this._inputRef.current.addEvent('on_change', this.handleValueChange)
-    this._buttonRef.current.addEvent('on_click', this.handleClick)
+    this._inputRef.current.addEvent('on_change', this.handleValueChange);
+    this._buttonRef.current.addEvent('on_click', this.handleClick);
   }
   componentDidMount() {
-    setTimeout(this.handleWebComponentsVisibility.bind(this), 100)
+    setTimeout(this.handleWebComponentsVisibility.bind(this), 100);
   }
   render() {
     return (
@@ -76,7 +76,7 @@ export default class App extends Component {
               ref={this._inputRef}
               placeholder="Type someting ..."
               on_change={e => {
-                console.log('e', e)
+                console.log('e', e);
               }}
             />
             <dnb-button
@@ -89,6 +89,6 @@ export default class App extends Component {
           </Fragment>
         )}
       </div>
-    )
+    );
   }
 }

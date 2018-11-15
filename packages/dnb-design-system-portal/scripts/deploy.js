@@ -6,8 +6,8 @@
 
 import dotenv from 'dotenv'
 import ghpages from 'gh-pages'
-import pkg from '../package.json'
 import ora from 'ora'
+import { currentVersion } from './version.js'
 
 // import .env variables
 dotenv.config()
@@ -28,7 +28,6 @@ const run = () => {
         }
       }
     : {}
-  const date = new Date().toLocaleString()
 
   /**
    * This adds commits with a custom message.
@@ -36,7 +35,7 @@ const run = () => {
   ghpages.publish(
     'public',
     {
-      message: `Auto-generated deploy commit ${date} [ci skip]`,
+      message: `Auto-generated deploy commit ${currentVersion} [ci skip]`,
       branch: 'gh-pages',
       ...config
     },
@@ -44,7 +43,7 @@ const run = () => {
       if (error) {
         log.fail(`Failed to deploy! \n${error.message}`)
       }
-      log.succeed(`Deployed successfully v${pkg.version}!`)
+      log.succeed(`Deployed successfully ${currentVersion}!`)
     }
   )
 }

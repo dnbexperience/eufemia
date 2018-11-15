@@ -24,6 +24,8 @@
     "publish-ci": "cd ./packages/dnb-ui-lib && yarn publish-ci && cd -",
     "reset": "rm -rf ./node_modules && rm yarn.lock && rm -rf ./packages/dnb-ui-lib/node_modules && rm -rf ./packages/dnb-design-system-portal/node_modules && yarn install",
     "build": "cd ./packages/dnb-ui-lib && yarn build && cd - && cd ./packages/dnb-design-system-portal && yarn build && cd -",
+    "test": "cd ./packages/dnb-ui-lib && yarn test && cd -",
+    "test:update": "cd ./packages/dnb-ui-lib && yarn test:update && cd -",
     "test-ci": "yarn workspaces run test-ci",
     "test-ci:update": "yarn workspaces run test-ci --updateSnapshot"
   },

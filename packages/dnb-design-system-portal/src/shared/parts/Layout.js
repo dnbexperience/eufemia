@@ -17,6 +17,7 @@ import Sidebar from '../menu/SidebarMenu'
 import StickyMenuBar from '../menu/StickyMenuBar'
 import { markdownStyle } from './Markdown'
 import styled, { cx } from 'react-emotion'
+import { buildVersion } from '../../../package.json'
 
 class Layout extends Component {
   static propTypes = {
@@ -178,7 +179,7 @@ const Footer = () => (
       Copyright (c) 2018-present DNB.no
     </Link>
     <Link to="/log" className="no-unerline">
-      Version
+      {buildVersion}
     </Link>
   </FooterWrapper>
 )
