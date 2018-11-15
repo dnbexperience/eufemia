@@ -55,15 +55,15 @@ Using our 8px base we can establish a limited number of standard blocks with whi
 Keep the names of the spacing blocks simple and generic. Small, Medium, Large, X-Large etc.
 ![Space blocks](spatial-system/assets/space-blocks.png)
 
-|                                                   | Name      | Pixels | Ems  |
-| ------------------------------------------------- | --------- | ------ | ---- |
-| ![XXX-Large](spatial-system/assets/XXX-Large.png) | xxx-large | 64     | 4    |
-| ![XX-Large](spatial-system/assets/XX-Large.png)   | xx-large  | 48     | 3    |
-| ![X-Large](spatial-system/assets/X-Large.png)     | x-large   | 32     | 2    |
-| ![Large](spatial-system/assets/Large.png)         | large     | 24     | 1.5  |
-| ![Medium](spatial-system/assets/Medium.png)       | medium    | 16     | 1    |
-| ![Small](spatial-system/assets/Small.png)         | small     | 8      | 0.5  |
-| ![X-Small](spatial-system/assets/X-Small.png)     | x-Small   | 4      | 0.25 |
+|                                                   | Name     | Pixels | Ems  |
+| ------------------------------------------------- | -------- | ------ | ---- |
+| ![XXX-Large](spatial-system/assets/XXX-Large.png) | xx-large | 64     | 4    |
+| ![XX-Large](spatial-system/assets/XX-Large.png)   | x-large  | 48     | 3    |
+| ![X-Large](spatial-system/assets/X-Large.png)     | large    | 32     | 2    |
+| ![Large](spatial-system/assets/Large.png)         | medium   | 24     | 1.5  |
+| ![Medium](spatial-system/assets/Medium.png)       | default  | 16     | 1    |
+| ![Small](spatial-system/assets/Small.png)         | small    | 8      | 0.5  |
+| ![X-Small](spatial-system/assets/X-Small.png)     | x-Small  | 4      | 0.25 |
 
 ### Design Software View Vs. Browser View
 

@@ -7,7 +7,6 @@
       "git add"
     ],
     "*.{js,css}": [
-      "yarn prettier:style",
       "yarn lint:styles",
       "git add"
     ],

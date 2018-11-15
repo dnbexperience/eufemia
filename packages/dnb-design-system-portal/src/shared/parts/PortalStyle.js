@@ -9,6 +9,7 @@ export default css`
   table {
     border-spacing: 0;
     border-collapse: collapse;
+    border-top: 8px solid #c6cbd1;
   }
 
   table {
@@ -37,7 +38,7 @@ export default css`
 
   table tr {
     background-color: #fff;
-    border-top: 1px solid #c6cbd1;
+    border-top: 0px;
   }
 
   table td {
@@ -65,6 +66,8 @@ export default css`
   td,
   th {
     padding: 0;
+    font-size: 1em;
+    line-height: 1rem;
   }
 
   hr {

@@ -22,34 +22,41 @@ h6 {
 }
 
 h1 {
-  font-size: 2em;
-  line-height: 3rem;
-  margin-bottom: 1rem;
-
-  // TODO: Check with Sindre, we also have then to define a larger H1 size
-  small {
-    font-size: 0.5em;
-  }
-}
-h2 {
   font-size: 3em;
   line-height: 3.5rem;
   margin-bottom: 1rem;
   font-weight: 400;
+
+  small {
+    font-size: 2rem !important; // 32px
+    line-height: 3rem !important; // 48px
+    margin-bottom: 1rem !important;
+    display: block !important;
+  }
 }
-h3 {
-  font-size: 1.5em;
-  line-height: 2rem;
+
+h2 {
+  font-size: 1.5em; //24px
+  line-height: 2rem; //32px
   margin-bottom: 1rem;
 }
+
+h3 {
+  font-size: 1.5em; // 20px
+  line-height: 2rem; // 32px
+  margin-bottom: 1rem;
+}
+
 h4 {
   font-size: 1.25em;
   line-height: 2rem;
   margin-bottom: 1rem;
 }
+
 h5 {
   font-size: 1em;
 }
+
 h6 {
   font-size: 0.875em;
 }

@@ -34,16 +34,6 @@ The following are the default typographic rules for basic typographic elements s
 
 The examples below are shown with a paragraph below each example to illustrate the default margin below the typographic element.
 
-# H1 heading with a default 1rem (16px) margin bottom (2 grid boxes)
-
-Quem facilisi moderatius id eam, id tamquam albucius per. Vel quem congue appareat cu, mei te eros convenire. Sea bonorum epicuri ea, ei exerci tacimates pro, aliquam pertinacia eu vim. Vix ei stet ornatus. Est mediocrem reprimique contentiones ei, mea
-ne primis intellegat. Dico purto nullam sea an.
-
-## H2 heading with a default 1rem (16px) margin bottom (2 grid boxes)
-
-Quem facilisi moderatius id eam, id tamquam albucius per. Vel quem congue appareat cu, mei te eros convenire. Sea bonorum epicuri ea, ei exerci tacimates pro, aliquam pertinacia eu vim. Vix ei stet ornatus. Est mediocrem reprimique contentiones ei, mea
-ne primis intellegat. Dico purto nullam sea an.
-
 ### Typographic components
 
 (Note, the following have a 16px (1 rem) default bottom margin)
@@ -52,11 +42,18 @@ NB @Kevin - See if we need to make the defaults more varied so design/dev can st
 
 # H1
 
+          1. font-size: 3em (48px)
+          2. line-height: 3.5rem (56px)
+          3. margin-bottom: 1rem (16px)
+
+Quem facilisi moderatius id eam, id tamquam albucius per. Vel quem congue appareat cu, mei te eros convenire. Sea bonorum epicuri ea, ei exerci tacimates pro, aliquam pertinacia eu vim. Vix ei stet ornatus. Est mediocrem reprimique contentiones ei, mea
+ne primis intellegat. Dico purto nullam sea an.
+
 <h1>
-<small>My Small H1</small>
+<small>H1 small</small>
 </h1>
 
-          1. font-size: 2em (32px)
+          1. font-size: 2rem (32px)
           2. line-height: 3rem (48px)
           3. margin-bottom: 1rem (16px)
 
@@ -65,15 +62,6 @@ ne primis intellegat. Dico purto nullam sea an.
 
 ## H2
 
-          1. font-size: 3em (48px)
-          2. line-height: 3.5rem (56px)
-          3. margin-bottom: 1rem (16px)
-
-Quem facilisi moderatius id eam, id tamquam albucius per. Vel quem congue appareat cu, mei te eros convenire. Sea bonorum epicuri ea, ei exerci tacimates pro, aliquam pertinacia eu vim. Vix ei stet ornatus. Est mediocrem reprimique contentiones ei, mea
-ne primis intellegat. Dico purto nullam sea an.
-
-### H3
-
           1. font-size: 1.5em (24px)
           2. line-height: 2rem (32px)
           3. margin-bottom: 1rem (16px)
@@ -81,7 +69,18 @@ ne primis intellegat. Dico purto nullam sea an.
 Quem facilisi moderatius id eam, id tamquam albucius per. Vel quem congue appareat cu, mei te eros convenire. Sea bonorum epicuri ea, ei exerci tacimates pro, aliquam pertinacia eu vim. Vix ei stet ornatus. Est mediocrem reprimique contentiones ei, mea
 ne primis intellegat. Dico purto nullam sea an.
 
-#### H4
+### H3
+
+          1. font-size: 1.25em (20px)
+          2. line-height: 2rem (32px)
+          3. margin-bottom: 1rem (16px)
+
+Quem facilisi moderatius id eam, id tamquam albucius per. Vel quem congue appareat cu, mei te eros convenire. Sea bonorum epicuri ea, ei exerci tacimates pro, aliquam pertinacia eu vim. Vix ei stet ornatus. Est mediocrem reprimique contentiones ei, mea
+ne primis intellegat. Dico purto nullam sea an.
+
+<!-- #### H4
+
+(NO H4 SPECIFIED)
 
           1. font-size: 1.25em (20px)
           2. line-height: 2rem (32px)
@@ -92,7 +91,7 @@ ne primis intellegat. Dico purto nullam sea an.
 
 ##### H5
 
-No H5 default styles have been defined.
+No H5 default styles have been defined. -->
 
 ##### P - paragraph
 
@@ -105,17 +104,40 @@ Quem facilisi moderatius id eam, id tamquam albucius per. Vel quem congue appare
 ne primis intellegat. Dico purto nullam sea an.
 </p>
 
-##### Lead Text
+##### Lead Text - 16
 
           1. font-size: 1em (16px)
           2. line-height: 1.75rem (28px)
           3. margin-bottom: 1rem (16px)
 
-<p class="text-lead">
+<p class="text-lead-16">
 Quem facilisi moderatius id eam, id tamquam albucius per. Vel quem congue appareat cu, mei te eros convenire. Sea bonorum epicuri ea, ei exerci tacimates pro, aliquam pertinacia eu vim. Vix ei stet ornatus. Est mediocrem reprimique contentiones ei, mea
 ne primis intellegat. Dico purto nullam sea an.
 </p>
 
+##### Lead Text - 18
+
+          1. font-size: 1.125em (18px)
+          2. line-height: 1.875rem (30px)
+          3. margin-bottom: 1rem (16px)
+
+<p class="text-lead-18">
+Quem facilisi moderatius id eam, id tamquam albucius per. Vel quem congue appareat cu, mei te eros convenire. Sea bonorum epicuri ea, ei exerci tacimates pro, aliquam pertinacia eu vim. Vix ei stet ornatus. Est mediocrem reprimique contentiones ei, mea
+ne primis intellegat. Dico purto nullam sea an.
+</p>
+
+##### Lead Text - 20
+
+          1. font-size: 1.25em (20px)
+          2. line-height: 2rem (32px)
+          3. margin-bottom: 1rem (16px)
+
+<p class="text-lead-20">
+Quem facilisi moderatius id eam, id tamquam albucius per. Vel quem congue appareat cu, mei te eros convenire. Sea bonorum epicuri ea, ei exerci tacimates pro, aliquam pertinacia eu vim. Vix ei stet ornatus. Est mediocrem reprimique contentiones ei, mea
+ne primis intellegat. Dico purto nullam sea an.
+</p>
+
+<!--
 ##### Label Text
 
           1. font-size: 0.8125em (14px)
@@ -126,6 +148,7 @@ ne primis intellegat. Dico purto nullam sea an.
 Quem facilisi moderatius id eam, id tamquam albucius per. Vel quem congue appareat cu, mei te eros convenire. Sea bonorum epicuri ea, ei exerci tacimates pro, aliquam pertinacia eu vim. Vix ei stet ornatus. Est mediocrem reprimique contentiones ei, mea
 ne primis intellegat. Dico purto nullam sea an.
 </p>
+-->
 
 ##### Small Text
 
@@ -199,3 +222,7 @@ Quem facilisi moderatius id eam, id tamquam albucius per. Vel quem congue appare
 ne primis intellegat. Dico purto nullam sea an.
 
 </p>
+
+## Heading Patterns
+
+<heading><h1><small>Welcome to the aliquam pertinacia ey vim</small> Åst mediocrem reprimique contentiones</h1></heading>
