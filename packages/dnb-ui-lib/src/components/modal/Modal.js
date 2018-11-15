@@ -3,7 +3,7 @@
  *
  */
 
-import React, { Component, Fragment } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
@@ -62,7 +62,7 @@ export const defaultProps = {
 
 let modalRoot // gets later '.dnb-modal-root'
 
-export default class Modal extends Component {
+export default class Modal extends PureComponent {
   static tagName = 'dnb-modal'
   static propTypes = propTypes
   static defaultProps = defaultProps
@@ -202,7 +202,7 @@ export default class Modal extends Component {
   }
 }
 
-class ModalRoot extends Component {
+class ModalRoot extends PureComponent {
   constructor(props) {
     super(props)
     if (modalRoot) {
@@ -232,7 +232,7 @@ class ModalRoot extends Component {
   }
 }
 
-class ModalContent extends Component {
+class ModalContent extends PureComponent {
   constructor(props) {
     super(props)
     this._contentRef = React.createRef()

@@ -237,10 +237,24 @@ exports[`Tabs scss have to match snapshot 1`] = `
 * Button component
 *
 * ======================================================================== */
-/*
-* Button mixins
-*
-* ======================================================================== */
+:root {
+  --button-font-family: var(--font-family-book);
+  --button-font-size: var(--font-size-regular);
+  --button-font-weight: normal;
+  --button-font-style: normal;
+  --button-width: 2.5rem;
+  --button-height: 2.5rem;
+  --button-width--medium: 2rem;
+  --button-height--medium: 2rem;
+  --button-width--large: 3rem;
+  --button-height--large: 3rem;
+  --button-icon-size: 1rem;
+  --button-border-width: 1px;
+  --button-border-width--hover: 3px;
+  --button-border-radius: calc(var(--button-height) / 2);
+  --button-border-radius--medium: calc(var(--button-height--medium) / 2);
+  --button-border-radius--large: calc(var(--button-height--large) / 2); }
+
 .dnb-button {
   display: inline-flex;
   vertical-align: middle;
@@ -261,8 +275,7 @@ exports[`Tabs scss have to match snapshot 1`] = `
   text-decoration: none;
   /* Firefox includes a hidden border which messes up button dimensions */ }
   .dnb-button__icon {
-    line-height: 0;
-    margin-top: var(--button-border-width); }
+    line-height: 0; }
     .dnb-button__icon svg:not([width]):not([height]) {
       width: var(--button-icon-size);
       height: var(--button-icon-size); }
@@ -270,27 +283,38 @@ exports[`Tabs scss have to match snapshot 1`] = `
     color: inherit;
     background-color: inherit;
     transform: translateY(var(--button-border-width)); }
-  .dnb-button--size-big {
-    width: var(--button-width--big);
-    height: var(--button-height--big);
-    border-radius: var(--button-border-radius--big); }
+  .dnb-button--size-medium {
+    width: var(--button-width--medium);
+    height: var(--button-height--medium);
+    border-radius: var(--button-border-radius--medium); }
+  .dnb-button--has-text.dnb-button--size-medium {
+    padding-left: 1em;
+    padding-right: 1em; }
+  .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-medium {
+    padding-left: 0.5em; }
+  .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-medium {
+    padding-right: 0.5em; }
+  .dnb-button--size-large {
+    width: var(--button-width--large);
+    height: var(--button-height--large);
+    border-radius: var(--button-border-radius--large); }
+  .dnb-button--has-text.dnb-button--size-large {
+    padding-left: 2em;
+    padding-right: 2em; }
+  .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-large {
+    padding-left: 1em; }
+  .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-large {
+    padding-right: 1em; }
   .dnb-button--has-text {
     padding-left: 1.5em;
     padding-right: 1.5em;
     width: auto; }
-  .dnb-button--has-text.dnb-button--size-big {
-    padding-left: 2em;
-    padding-right: 2em; }
   .dnb-button--has-text .dnb-button__icon {
     margin: 0 calc(var(--button-icon-size) / 2); }
   .dnb-button--has-text.dnb-button--icon-position-left {
     padding-left: 0.5em; }
-  .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-big {
-    padding-left: 1em; }
   .dnb-button--has-text.dnb-button--icon-position-right {
     padding-right: 0.5em; }
-  .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-big {
-    padding-right: 1em; }
   .dnb-button--has-text.dnb-button--has-icon .dnb-button__icon {
     order: 2; }
   .dnb-button--has-text.dnb-button--has-icon .dnb-button__text {

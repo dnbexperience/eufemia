@@ -19,8 +19,8 @@
 import Vue from 'vue'
 
 // import styles
-import 'dnb-ui-lib/style/components'
-import 'dnb-ui-lib/style/themes/open-banking'
+import 'dnb-ui-lib/src/style/components'
+import 'dnb-ui-lib/src/style/themes/open-banking'
 
 import dnb, { Button, Input } from 'dnb-ui-lib/components/vue'
 

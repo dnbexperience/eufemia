@@ -3,19 +3,18 @@
  *
  */
 
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import Icon from '../icon/IconWithAllIcons'
+import { DefaultIconSize } from '../icon'
+import Button from '../button/Button'
 import {
   registerElement,
   validateDOMAttributes,
   processChildren,
   pickRenderProps,
   dispatchCustomElementEvent
-  // setCustomElementMethod
 } from '../../shared/component-helper'
-// import './style/dnb-input.scss' // no good solution to import the style here
 
 const renderProps = {
   on_change: null,
@@ -88,7 +87,7 @@ export const defaultProps = {
 /**
  * The input component is an umbrella component for all inputs which share the same style as the classic `text` input field. Radio buttons and other form elements are not included here.
  */
-export default class Input extends Component {
+export default class Input extends PureComponent {
   static tagName = 'dnb-input'
   static propTypes = propTypes
   static defaultProps = defaultProps
@@ -282,7 +281,7 @@ export default class Input extends Component {
   }
 }
 
-class Submit extends Component {
+class Submit extends PureComponent {
   static propTypes = {
     title: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired,
@@ -301,7 +300,7 @@ class Submit extends Component {
 
   static defaultProps = {
     title: null,
-    icon_size: 20,
+    icon_size: DefaultIconSize,
 
     // React props
     onSubmit: null,
@@ -349,15 +348,15 @@ class Submit extends Component {
         className="dnb-input__search-submit"
         data-input-state={this.state.focusState}
       >
-        <button
+        <Button
           className="dnb-input__search-submit__button"
+          variant="secondary"
           onClick={this.onSubmitHandler}
           onFocus={this.onFocusHandler}
           onBlur={this.onBlurHandler}
+          icon="search"
           {...params}
-        >
-          <Icon icon="search" icon_size={this.props.icon_size} />
-        </button>
+        />
       </span>
     )
   }

@@ -72,21 +72,13 @@ class Example extends Component {
           icon_position="right"
           icon="chevron-right"
         />
-        <Button
-          variant="primary"
-          title="Button with Icon only"
-          icon={question}
-        />
-        <Button
-          variant="secondary"
-          title="Button with Icon only"
-          icon={Bell}
-        />
+        <Button title="Button with Icon only" icon={question} />
+        <Button title="Button with Icon only" icon="calendar" />
         <Button
           variant="signal"
-          text="Signal Button (big size)"
-          size="big"
-          icon="bell"
+          text="Signal Button (large size)"
+          size="large"
+          icon={Bell}
           icon_size="24"
         />
         <Button

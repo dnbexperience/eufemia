@@ -4,8 +4,8 @@ import add from './add.js'
 import add_medium from './add_medium.js'
 import bell from './bell.js'
 import bell_medium from './bell_medium.js'
-import calender from './calender.js'
-import calender_medium from './calender_medium.js'
+import calendar from './calendar.js'
+import calendar_medium from './calendar_medium.js'
 import check from './check.js'
 import check_medium from './check_medium.js'
 import chevron_down from './chevron_down.js'
@@ -38,8 +38,8 @@ export {
   add_medium,
   bell,
   bell_medium,
-  calender,
-  calender_medium,
+  calendar,
+  calendar_medium,
   check,
   check_medium,
   chevron_down,

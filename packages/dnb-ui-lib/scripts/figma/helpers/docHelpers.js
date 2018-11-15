@@ -151,17 +151,38 @@ export const getLiveVersionOfFigmaDoc = async ({
     } = await Figma.client.get(`files/${figmaFile}/versions`)
     // const versions = await Figma.versions() // not implemented yet
 
-    const version = versions[0].id
+    return versions[0].id
+  } catch (e) {
+    console.log('Could not get version!', e)
+  }
+}
+
+const saveLiveVersionOfFigmaDoc = async ({
+  figmaFile = defaultFigmaFile,
+  version
+}) => {
+  if (!version) {
+    return null
+  }
+  try {
     const lockFile = path.resolve(__dirname, `../version.lock`)
+
+    const existingLockFileContent = fs.existsSync(lockFile)
+      ? JSON.parse((await fs.readFile(lockFile, 'utf-8')) || '{}')
+      : {}
+    const newLockFileContent = {
+      [md5(figmaFile)]: version
+    }
+
     await fs.writeFile(
       lockFile,
       JSON.stringify({
-        [md5(figmaFile)]: version
+        ...existingLockFileContent,
+        ...newLockFileContent
       })
     )
-    return version
   } catch (e) {
-    console.log('Could not get version!', e)
+    log.fail('Could not create a new "version.lock" file', e)
   }
 }
 
@@ -183,10 +204,12 @@ export const getLocalVersionFromLockFile = async ({
 export const getFigmaDoc = async ({
   figmaFile = null,
   localFile = null,
-  doRefetch = null,
+  forceRefetch = null,
   preventUpdate = null
 } = {}) => {
-  if (!figmaFile) figmaFile = defaultFigmaFile
+  if (!figmaFile) {
+    figmaFile = defaultFigmaFile
+  }
 
   if (!figmaFile) {
     new ErrorHandler(
@@ -194,7 +217,6 @@ export const getFigmaDoc = async ({
     )
   }
 
-  let isNew = false
   const localDir = path.resolve(__dirname, `../.cache`)
   if (!localFile) {
     localFile = path.resolve(localDir, `${figmaFile}.json`)
@@ -202,48 +224,57 @@ export const getFigmaDoc = async ({
 
   log.start('> Figma: Fetching the figma doc')
 
-  if (doRefetch !== false && process.argv.indexOf('-u') !== -1) {
-    doRefetch = true
+  if (forceRefetch !== false && process.argv.indexOf('-u') !== -1) {
+    forceRefetch = true
   }
 
-  if (doRefetch !== true && preventUpdate !== true) {
-    const localVersion = await getLocalVersionFromLockFile({ figmaFile })
+  if (forceRefetch !== true && preventUpdate !== true) {
+    log.start('> Figma: Trying to get the newest online version')
 
-    if (localVersion) {
+    const liveVersion = await getLiveVersionOfFigmaDoc({
+      figmaFile
+    })
+
+    if (liveVersion) {
+      const localVersion = await getLocalVersionFromLockFile({ figmaFile })
+
       log.text = `> Figma: Comparing old vs new version. (local version is ${localVersion})`
-
-      const liveVersion = await getLiveVersionOfFigmaDoc({
-        figmaFile
-      })
 
       if (localVersion === liveVersion) {
         log.succeed(
-          `> Figma: No newer version aviable. The online version is ${liveVersion}`
+          `> Figma: No newer version aviable. Both the local and online versions are ${liveVersion}`
         )
       } else {
         log.succeed(
-          `> Figma: There was a new version aviable: ${liveVersion}`
+          `> Figma: There is a new version aviable: ${liveVersion}`
         )
-        doRefetch = true
+        await saveLiveVersionOfFigmaDoc({
+          figmaFile,
+          version: liveVersion
+        })
+        forceRefetch = true
       }
+    } else {
+      log.fail('> Figma: Could not check for new version')
     }
   }
 
   // update if requested
-  if (
-    doRefetch ||
-    !fs.existsSync(localFile)
-    // (!fs.existsSync(localFile) || (fileOlderThan(localFile, '1d') && doRefetch !== false))
-  ) {
+  if (forceRefetch || !fs.existsSync(localFile)) {
     log.text = `> Figma: Fetching new doc from Figma ...`
     try {
       const { data } = await Figma.file(figmaFile)
+      const doRefetch = fs.existsSync(localFile)
       if (!fs.existsSync(localDir)) {
         await fs.mkdir(localDir)
       }
       await fs.writeFile(localFile, JSON.stringify(data, null, 2))
-      isNew = true
+
       log.succeed(`> Figma: Fetched new doc ${data.lastModified}`)
+
+      data.doRefetch = doRefetch
+      data.isNew = true
+      return data
     } catch (e) {
       new ErrorHandler(
         'Failed to client.file(figmaFile) and write the result with writeFile',
@@ -252,13 +283,11 @@ export const getFigmaDoc = async ({
       )
     }
   } else {
-    log.succeed('> Figma: Using old doc')
+    log.succeed('> Figma: Using old Figma document')
   }
 
   try {
-    const figmaDoc = JSON.parse(await fs.readFile(localFile))
-    figmaDoc.isNew = isNew
-    return figmaDoc
+    return JSON.parse(await fs.readFile(localFile))
   } catch (e) {
     new ErrorHandler('Failed to readFile and parse the result', e)
   }
@@ -268,41 +297,27 @@ export const getFigmaDoc = async ({
 
 export const getFigmaUrlByImageIds = async ({
   figmaFile,
-  frameId = 'frame',
+  // frameId = 'frame',
   ids,
-  params,
-  doRefetch = null
+  params = {}
+  // doRefetch = null
 }) => {
   try {
     if (ids.length === 0) {
       return []
     }
-    const localFile = path.resolve(
-      __dirname,
-      `../.cache/${figmaFile}-${md5(frameId)}-images.json`
-    )
 
-    // get the files from the cache
-    if (
-      doRefetch ||
-      !fs.existsSync(localFile)
-      // || fileOlderThan(localFile, '1d') /* e.g., '5m', '20w', '300d30h10m5s' */ && doRefetch !== false)
-    ) {
-      const {
-        data: { images }
-      } = await Figma.fileImages(figmaFile, {
-        ids,
-        format: 'svg',
-        ...params
-      })
+    const {
+      data: { images }
+    } = await Figma.fileImages(figmaFile, {
+      ids,
+      format: 'svg',
+      ...params
+    })
 
-      // cahce the files data
-      await saveToFile(localFile, JSON.stringify(images))
+    return images
 
-      return images
-    }
-
-    return JSON.parse(await fs.readFile(localFile))
+    // return JSON.parse(await fs.readFile(localFile))
   } catch (e) {
     new ErrorHandler('Failed on client.fileImages(figmaFile)', e)
   }
@@ -325,14 +340,17 @@ export const safeFileToDisk = (
         errorExceptionType
       )
     })
+    stream.on('end', (err, content) => {
+      stream.end()
+      console.log('\n\nerr', err, content)
+      new ErrorHandler('Failed on createWriteStream', err)
+    })
     stream.on('finish', () => {
       stream.close()
       resolve({ file: localFile })
     })
     https
-      .get(url, response => {
-        response.pipe(stream)
-      })
+      .get(url, response => response.pipe(stream))
       .on('error', async err => {
         try {
           await fs.unlink(localFile)

@@ -17,9 +17,7 @@ export const fetchFigmaStyles = async (args = {}) => {
     const styles = await ConvertAndSaveComponentsStyle(args, {
       doReplaceVars: true
     })
-    log.succeed(
-      `> Figma: Style conversion done. (${styles.length} styles)`
-    )
+    log.succeed(`> Figma: Style conversion done (${styles.length} styles)`)
   } catch (e) {
     log.fail(e)
     new ErrorHandler(e)
@@ -37,20 +35,19 @@ export const fetchFigmaIcons = async (args = {}) => {
   }
 }
 
-export const fetchFigmaData = async (args = {}) => {
+export const fetchFigmaData = async ({
+  figmaDoc = null,
+  figmaFile = null,
+  ...rest
+} = {}) => {
   try {
-    let { figmaDoc, doRefetch } = args
-
-    if (!figmaDoc || doRefetch) {
-      figmaDoc = await getFigmaDoc({ doRefetch })
-      if (figmaDoc.isNew) {
-        doRefetch = true
-      }
-      args = { ...args, figmaDoc, doRefetch }
+    if (!figmaDoc) {
+      figmaDoc = await getFigmaDoc({ figmaFile })
     }
 
-    await fetchFigmaStyles(args)
-    await fetchFigmaIcons(args)
+    await fetchFigmaStyles({ ...rest, figmaDoc })
+    await fetchFigmaIcons({ ...rest, figmaDoc })
+
     log.succeed('> Figma: All done')
   } catch (e) {
     log.fail(e)

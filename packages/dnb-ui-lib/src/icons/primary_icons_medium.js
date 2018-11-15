@@ -2,7 +2,7 @@
 
 import add_medium from './add_medium.js'
 import bell_medium from './bell_medium.js'
-import calender_medium from './calender_medium.js'
+import calendar_medium from './calendar_medium.js'
 import check_medium from './check_medium.js'
 import chevron_down_medium from './chevron_down_medium.js'
 import chevron_left_medium from './chevron_left_medium.js'
@@ -18,7 +18,7 @@ import subtract_medium from './subtract_medium.js'
 export {
   add_medium,
   bell_medium,
-  calender_medium,
+  calendar_medium,
   check_medium,
   chevron_down_medium,
   chevron_left_medium,

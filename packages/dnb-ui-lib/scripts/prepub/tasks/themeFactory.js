@@ -39,8 +39,9 @@ const runThemeFactory = async () => {
       path.resolve(
         __dirname,
         '../../../src/{components,patterns}/**/style/themes/*.scss'
-      )
-    ].concat(processToNamesIgnoreList)
+      ),
+      ...processToNamesIgnoreList
+    ]
   }).then(() => {
     if (require.main === module) {
       log.succeed(
