@@ -244,6 +244,7 @@ export const getFigmaDoc = async ({
         log.succeed(
           `> Figma: No newer version aviable. Both the local and online versions are ${liveVersion}`
         )
+        return false
       } else {
         log.succeed(
           `> Figma: There is a new version aviable: ${liveVersion}`

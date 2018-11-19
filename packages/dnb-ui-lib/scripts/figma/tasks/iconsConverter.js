@@ -28,22 +28,20 @@ const iconSelector = process.env.FIGMA_ICONS_SELECTOR || null
 const iconsDest = path.resolve(__dirname, `../../../assets/icons`)
 
 export const IconsConverter = async ({
-  figmaDoc,
+  figmaDoc = null,
   figmaFile = null,
-  // doRefetch = null,
   ...rest
 }) => {
   if (!figmaFile) {
     figmaFile = defaultFigmaFile
   }
 
-  if (!figmaDoc) {
+  if (figmaDoc === null) {
     figmaDoc = await getFigmaDoc({ figmaFile })
-    // if (figmaDoc.doRefetch) {
-    //   doRefetch = true
-    // }
-    // console.log('\ndoRefetch', doRefetch)
   }
+
+  // juce out, if no changes
+  if (!figmaDoc) return []
 
   const canvasDoc = getIconCanvasDoc({ figmaDoc })
 
@@ -57,7 +55,6 @@ export const IconsConverter = async ({
       await runFrameIconsFactory({
         frameDoc,
         figmaFile,
-        // doRefetch,
         ...rest
       })
   )
