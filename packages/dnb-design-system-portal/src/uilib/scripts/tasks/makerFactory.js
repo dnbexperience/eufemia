@@ -17,8 +17,6 @@ const prettierrc = JSON.parse(
   )
 )
 
-const autoAdvice = '/* ATTENTION: This file is auto generated! */'
-
 export default async function runFactory({
   templateNameToRename,
   tempalteFilePath = null,
@@ -130,7 +128,7 @@ export default async function runFactory({
           filepath,
           typeof processDestFileContent === 'function'
             ? processDestFileContent(content, i)
-            : `${String(autoAdvice).trim()}\n${content}`
+            : content
         )
         success.push({ source, file, filepath, content })
       } catch (e) {

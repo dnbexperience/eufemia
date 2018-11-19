@@ -6,6 +6,7 @@
 import ActionNav from './ActionNav'
 import DescriptionList from './DescriptionList'
 import FieldsetDescription from './FieldsetDescription'
+import Footer from './Footer'
 import Form from './Form'
 import FormSummary from './FormSummary'
 import Grid from './Grid'
@@ -21,6 +22,7 @@ export default [
   ActionNav,
   DescriptionList,
   FieldsetDescription,
+  Footer,
   Form,
   FormSummary,
   Grid,

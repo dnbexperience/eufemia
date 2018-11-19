@@ -1,5 +1,5 @@
 /**
- * Web Grid Component
+ * Web Footer Component
  *
  */
 
@@ -11,7 +11,7 @@ import {
   validateDOMAttributes,
   processChildren
 } from '../../shared/component-helper'
-// import './style/dnb-grid.scss' // no good solution to import the style here
+// import './style/dnb-footer.scss' // no good solution to import the style here
 
 const renderProps = {
   render_content: null
@@ -39,13 +39,13 @@ export const defaultProps = {
   ...renderProps
 }
 
-export default class Grid extends Component {
-  static tagName = 'dnb-grid'
+export default class Footer extends Component {
+  static tagName = 'dnb-footer'
   static propTypes = propTypes
   static defaultProps = defaultProps
 
   static enableWebComponent() {
-    registerElement(Grid.tagName, Grid, defaultProps)
+    registerElement(Footer.tagName, Footer, defaultProps)
   }
 
   static getContent(props) {
@@ -58,10 +58,10 @@ export default class Grid extends Component {
   render() {
     const { className, class: _className } = this.props
 
-    const content = Grid.getContent(this.props)
+    const content = Footer.getContent(this.props)
 
     const params = {
-      className: classnames('dnb-grid', className, _className)
+      className: classnames('dnb-footer', className, _className)
     }
 
     // also used for code markup simulation

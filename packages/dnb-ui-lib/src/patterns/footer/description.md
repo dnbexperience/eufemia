@@ -1,5 +1,3 @@
-## Footer
-
 ### User story
 
 I wish to quickly find specific sections of a site or application bypassing the navigational structure also basic information such as contact details, address, opening times, support, terms and privacy policies in a consistent place throughout my interaction with the application.
@@ -11,12 +9,12 @@ Traditionally placed the the end of a document but can also be placed at the end
 
 ### Good practices
 
-Keep it as simple as possible. There can be a tendancy to over-fill footers with extra information, logos of partners etc.
+Keep it as simple as possible. There can be a tendency to over-fill footers with extra information, logos of partners etc.
 Consider users on mobile/touch devices - make sure the footer navigation has sufficient touch space between elements.
-Ask what **my** users expect to see here?
-What is the next logical step in the user journey?
+
+> Ask what **my** users expect to see here?
+> What is the next logical step in the user journey?
 
 ### Accessibility concerns
 
-"The VoiceOver screen reader has an issue where the footer landmark role is not announced in the landmark rotor. To address this, add role="contentinfo" to the footer element."
--src: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer
+The VoiceOver screen reader has an issue where the footer landmark role is not announced in the landmark rotor. To address this, add role="contentinfo" to the footer element. [Read more about this](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer).

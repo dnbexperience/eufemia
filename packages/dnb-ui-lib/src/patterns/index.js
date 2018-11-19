@@ -15,6 +15,7 @@ import { registerElement } from '../shared/component-helper'
 import ActionNav from './action-nav/ActionNav'
 import DescriptionList from './description-list/DescriptionList'
 import FieldsetDescription from './fieldset-description/FieldsetDescription'
+import Footer from './footer/Footer'
 import Form from './form/Form'
 import FormSummary from './form-summary/FormSummary'
 import Grid from './grid/Grid'
@@ -31,6 +32,7 @@ export {
   ActionNav,
   DescriptionList,
   FieldsetDescription,
+  Footer,
   Form,
   FormSummary,
   Grid,
@@ -48,6 +50,7 @@ export const getComponents = () => {
     ActionNav,
     DescriptionList,
     FieldsetDescription,
+    Footer,
     Form,
     FormSummary,
     Grid,
