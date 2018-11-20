@@ -18,7 +18,6 @@ const run = () => {
 
   const config = process.env.GH_NAME
     ? {
-        // silent: true,
         repo: `https://${
           process.env.GH_TOKEN
         }@github.com/dnbexperience/eufemia.git`,
