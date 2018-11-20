@@ -138,7 +138,6 @@ injectGlobal`
     background-repeat: repeat;
     background-attachment: fixed;
     background-color: transparent;
-    ${'' /* background-image: url('/assets/images/grid-32x32.svg'); */}
     background-image: url(${gridSvg});
 
     h1,
@@ -158,7 +157,19 @@ injectGlobal`
       display: block;
     }
 
+    .dnb-style {
+      .text-lead-16 {
+        border-bottom: solid 1rem green;
+      }
+      .text-lead-20 {
+        border-bottom: solid 1rem green;
+      }
+      .text-small {
+        border-bottom: solid 1rem hotpink;
+      }
+    }
   }
+
   .grid-not-fixed {
     background-attachment: local;
   }

@@ -9,54 +9,12 @@
   }
 }
 
-// Screen reader only helper
-@mixin sr-only() {
-  border: 0;
-  clip: rect(0 0 0 0);
-  height: 1px;
-  margin: -1px;
-  overflow: hidden;
-  padding: 0;
-  position: absolute;
-  width: 1px;
-}
-.dnb-sr-only {
-  @include sr-only();
-}
-
-// This "negates" the sr-only() helper; useful if
-// we want the default state of something to be
-// for screen readers only, but we want to force
-// it to show for sighted users under more specific
-// conditions.
-@mixin notSrOnly() {
-  position: static;
-}
-.dnb-not-sr-only {
-  @include notSrOnly();
-}
-
-// Unstyled list helper
-@mixin unstyledList() {
-  margin: 0;
-  list-style-type: none;
-  padding-left: 0;
-
-  > li {
-    margin-bottom: 0;
-  }
-}
-
-.dnb-unstyled-list {
-  @include unstyledList();
-}
-
 // Font smoothing mixin
 // Only use for light text on dark background
-@mixin fontSmoothing {
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-}
+// @mixin fontSmoothing {
+//   -moz-osx-font-smoothing: grayscale;
+//   -webkit-font-smoothing: antialiased;
+// }
 
 @mixin numberFeature($variant, $setting) {
   font-variant-numeric: $variant;
@@ -100,23 +58,6 @@
   }
 }
 
-//Mixins for media queries
-//Refers to the $breakpoints object in "variables.scss"
-
-//Example usage:
-//@include allAbove(phone){ styles go here.. }
-@mixin allAbove($size) {
-  @media screen and (min-width: map-get($breakpoints, $size)) {
-    @content;
-  }
-}
-
-@mixin allBelow($size) {
-  @media screen and (max-width: map-get($breakpoints, $size)) {
-    @content;
-  }
-}
-
 @mixin fakeFocus(
   $onInput: 'mouse',
   $color: $color-emerald-green,
@@ -156,50 +97,71 @@
   }
 }
 
-.dnb-no-focus {
-  outline: none;
+@mixin _drawUnderline() {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  left: 0.1em;
+  right: 0.1em;
+
+  width: auto;
+  height: 100%;
+
+  @content;
 }
 
-.dnb-fake-focus {
-  @include fakeFocus();
-}
+@mixin drawUnderlineBackground() {
+  // bg
+  &::before {
+    @include _drawUnderline() {
+      left: 0.2em;
+      right: 0.2em;
+      bottom: 0;
 
-.dnb-tab-focus {
-  &:focus {
-    @include tabFocus(!important);
+      max-height: 0%;
+      transition: max-height 0.1s ease-out;
+
+      // to make the transition show reverse, we have to define the color here
+      background-color: var(--color-mint-green);
+
+      @content;
+    }
   }
 }
 
-.dnb-hide-on-mobile {
-  @include allBelow(medium) {
-    display: none;
+@mixin drawUnderlineLine() {
+  // underline
+  &::after {
+    @include _drawUnderline() {
+      left: 0.35em;
+      right: 0.35em;
+      bottom: 0;
+      height: 1px;
+    }
+
+    // transition: left 0.1s linear 0.1s, right 0.1s linear 0.1s;
+
+    border-radius: 0.5px;
+    border-bottom: 1px solid var(--color-emerald-green);
+
+    @content;
   }
 }
 
-.dnb-mobile-exclusive {
-  @include allAbove(medium) {
-    display: none;
+// TODO: considder to take this out
+
+//Example usage:
+//@include allAbove(phone){ styles go here.. }
+@mixin allAbove($size) {
+  @media screen and (min-width: map-get($breakpoints, $size)) {
+    @content;
   }
 }
-
-.dnb-width-limit {
-  margin: 0 auto;
-  width: 100%;
-  max-width: map-get($map: $breakpoints, $key: large);
-  padding: 0 0.5rem;
-
-  @include allAbove(medium) {
-    padding-left: 1rem;
-    padding-right: 1rem;
+@mixin allBelow($size) {
+  @media screen and (max-width: map-get($breakpoints, $size)) {
+    @content;
   }
 }
-
-.dnb-belt {
-  padding: 1rem 0;
-  width: 100%;
-  background: $color-light-grey;
-}
-
 @mixin nudger($direction, $nudge) {
   @if $direction == 'horizontal' {
     width: #{$nudge}rem;
@@ -208,21 +170,34 @@
     height: #{$nudge}rem;
   }
 }
+// Unstyled list helper
+@mixin unstyledList() {
+  margin: 0;
+  list-style-type: none;
+  padding-left: 0;
 
-.dnb-nudge {
-  display: inline-flex;
-  flex: 0 0 100%;
-
-  @for $i from 1 through 10 {
-    &--vertical {
-      &[data-nudges='#{$i}'] {
-        @include nudger(vertical, #{$i});
-      }
-    }
-    &--horizontal {
-      &[data-nudges='#{$i}'] {
-        @include nudger(horizontal, #{$i});
-      }
-    }
+  > li {
+    margin-bottom: 0;
   }
+}
+
+// Screen reader only helper
+@mixin sr-only() {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+// This "negates" the sr-only() helper; useful if
+// we want the default state of something to be
+// for screen readers only, but we want to force
+// it to show for sighted users under more specific
+// conditions.
+@mixin notSrOnly() {
+  position: static;
 }

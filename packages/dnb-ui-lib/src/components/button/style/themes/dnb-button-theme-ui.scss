@@ -50,6 +50,7 @@
 
 .dnb-button--tertiary {
   position: relative;
+  z-index: 1;
   color: var(--color-sea-green);
   background-color: transparent;
   border-color: transparent;
@@ -69,15 +70,10 @@
   }
 
   &:not([disabled]):hover {
-    &::after {
-      content: '';
-      position: absolute;
-      bottom: 0.5em;
+    @include drawUnderlineLine() {
       left: 0.45em;
       right: 0.45em;
-      width: auto;
-      height: 1px; // can also be 0, but for older browsers, we set 1px
-      border-bottom: 1px solid var(--color-emerald-green);
+      bottom: 0.5em;
     }
     &.dnb-button--icon-position-left::after {
       left: 0.7em;

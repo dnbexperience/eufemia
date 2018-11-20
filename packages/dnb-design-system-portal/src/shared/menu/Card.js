@@ -107,7 +107,13 @@ export default class Card extends Component {
     const { url, customStyle, title, icon: Svg, onClick } = this.props
     return (
       <Link
-        css={cx(boxStyle, customStyle)}
+        className={cx(
+          // 'remove-anker-style',
+          'no-underline',
+          'no-underline-hover',
+          boxStyle,
+          customStyle
+        )}
         style={{ '--delay': `${random(1, 160)}ms` }}
         to={url}
         onClick={onClick}

@@ -8,7 +8,7 @@ import { StaticQuery, graphql } from 'gatsby'
 import Link from '../parts/Link'
 import PropTypes from 'prop-types'
 import React from 'react'
-import styled, { injectGlobal, cx, css } from 'react-emotion'
+import styled, { injectGlobal, cx } from 'react-emotion'
 
 const showAlwaysMenuItems = [] // like "uilib" som someting like that
 
@@ -141,30 +141,41 @@ class ListItem extends React.Component {
   render() {
     const { className, to, children } = this.props
     return (
-      <li className={cx(className, listItemStyle)} ref={this.ref}>
-        <Link to={to}>{children}</Link>
-      </li>
+      <StyledListItem className={className} innerRef={this.ref}>
+        <Link to={to} className="no-underline no-underline-hover">
+          {children}
+        </Link>
+      </StyledListItem>
     )
   }
 }
 
-const listItemStyle = css`
+const StyledListItem = styled.li`
   list-style: none;
 
   a {
     position: relative;
     padding: 0.45em 0 0.45em;
-    display: block;
 
     text-decoration: none;
 
-    /* border-bottom-color: transparent; */
-    border-bottom: none;
-    font-weight: 300;
+    color: var(--color-sea-green);
 
+    &:active,
     &:hover {
       color: var(--color-ocean-green);
-      border-bottom: none;
+    }
+    &:active {
+      opacity: 0.7;
+    }
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    &::before {
+      /* Change Anker Style */
+      bottom: auto;
     }
 
     /* external link icon */
@@ -205,25 +216,24 @@ const listItemStyle = css`
   &.active a {
     color: var(--color-ocean-green);
 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-
-    &::before {
+    &::after {
       content: '';
       position: absolute;
 
-      /* left: 1em; */
       display: flex;
 
-      /* padding: .2em; */
       height: 60%;
       width: 4px;
-      margin-top: -2px;
+      max-height: auto;
 
       /* border-radius: 50%; */
       background: var(--color-ocean-green);
-      transform: translateX(-0.6em);
+      transform: translate(-0.6em, -2px);
+
+      /* Reset Anker Style */
+      left: auto;
+      right: auto;
+      bottom: auto;
     }
   }
 `

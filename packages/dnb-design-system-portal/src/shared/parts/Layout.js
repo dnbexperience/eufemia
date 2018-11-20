@@ -175,10 +175,10 @@ const FooterWrapper = styled.footer`
 `
 const Footer = () => (
   <FooterWrapper>
-    <Link to="/license" className="no-unerline">
+    <Link to="/license" className="no-underline">
       Copyright (c) 2018-present DNB.no
     </Link>
-    <Link to="/log" className="no-unerline">
+    <Link to="/log" className="no-underline">
       {buildVersion}
     </Link>
   </FooterWrapper>
