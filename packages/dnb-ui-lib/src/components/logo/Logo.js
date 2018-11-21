@@ -13,6 +13,7 @@ const renderProps = {}
 
 export const propTypes = {
   size: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  ratio: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   color: PropTypes.string,
@@ -24,6 +25,7 @@ export const propTypes = {
 
 export const defaultProps = {
   size: null,
+  ratio: 1.453690625,
   width: null,
   height: null,
   color: null,
@@ -44,29 +46,46 @@ export default class Logo extends PureComponent {
   }
 
   render() {
-    const { className, class: _className, ...rest } = this.props
+    let {
+      ratio,
+      size,
+      width,
+      height,
+      color,
+      className,
+      class: _className,
+      ...rest
+    } = this.props
 
     const rootParams = {
       className: classnames('dnb-logo', className, _className)
     }
 
     const svgParams = {
-      viewBox: '0 0 24 20',
+      viewBox: '0 0 93.0362 64', // theese size are set to me assiosated with the svg path point values
       alt: 'DNB Logo',
       ...rest
     }
-    if (parseFloat(this.props.size) > -1)
-      svgParams['width'] = this.props.size
-    if (parseFloat(this.props.width) > -1)
-      svgParams['width'] = this.props.width
-    if (parseFloat(this.props.height) > -1)
-      svgParams['height'] = this.props.height
-    if (this.props.color) svgParams['color'] = this.props.color
+
+    if (parseFloat(size) > -1 && width === null && height === null) {
+      width = size * ratio
+      height = width / ratio
+    } else if (parseFloat(width) > -1 && height === null) {
+      height = width / ratio
+    } else if (parseFloat(height) > -1 && width === null) {
+      width = height * ratio
+    }
+
+    if (parseFloat(width) > -1) svgParams['width'] = width
+    if (parseFloat(height) > -1) svgParams['height'] = height
+    if (color) svgParams['color'] = color
 
     return (
       <span {...rootParams}>
         <svg {...svgParams}>
-          <path d="M9.1,18.9V8.4c0-0.1,0-0.2,0.1-0.2c0,0,0,0,0.1,0c0.1,0,0.1,0,0.2,0.1l4.7,6V5.1h0.7v10.5c0,0.1,0,0.2-0.1,0.2c0,0,0,0-0.1,0c-0.1,0-0.1,0-0.2-0.1L9.8,9.8v9.1H9.1z M16.8,15.8c-0.1,0-0.2-0.1-0.2-0.2l0,0V8.4c0-0.1,0.1-0.2,0.2-0.2l0,0H19c0.8,0,1.3,0.1,1.7,0.4c0.5,0.3,0.7,0.9,0.7,1.6c0,0.6-0.2,1.1-0.6,1.5l0,0l0,0c0.1,0.1,0.3,0.1,0.4,0.2c0.5,0.4,0.7,0.9,0.7,1.5c0,0.4-0.1,0.7-0.2,1.1c-0.1,0.3-0.3,0.5-0.6,0.7c-0.6,0.4-1.2,0.5-1.9,0.5H16.8z M17.3,15.1h2c2,0,2-1.2,2-1.6c0-0.8-0.7-1.4-1.7-1.4h-2.3L17.3,15.1L17.3,15.1z M17.3,11.5h2.3c0.3,0,1.2-0.1,1.2-1.2c0-0.6-0.2-0.9-0.4-1C19.9,9,19.5,8.9,19,8.9h-1.7L17.3,11.5L17.3,11.5z M2.2,15.8c-0.1,0-0.2-0.1-0.2-0.2l0,0V8.4c0-0.1,0.1-0.2,0.2-0.2l0,0h2.1c0.5,0,0.9,0.1,1.3,0.2c0.5,0.2,0.9,0.5,1.2,0.9c0.8,0.9,0.8,2.2,0.8,2.7c0,0.6-0.1,1.7-0.8,2.6c-0.3,0.4-0.7,0.7-1.2,0.9c-0.4,0.2-0.9,0.2-1.3,0.2H2.2z M2.7,15.1h1.6c0.8,0,1.5-0.3,2-0.9C6.9,13.5,7,12.5,7,12c0-0.3,0-1.5-0.7-2.3c-0.5-0.6-1.2-0.9-2-0.9H2.7V15.1z" />
+          <path d="M89.668 31.9442a10.6487 10.6487 0 0 0-1.8465-1.2184l-.178-.0887.1554-.1337a8.7063 8.7063 0 0 0 2.7652-6.848c-.006-3.3331-1.1437-5.82-3.413-7.3936-1.9135-1.3528-4.5588-2.0142-8.092-2.0079l-10.1326.0182a1.081 1.081 0 0 0-1.0645 1.0685l.0597 33.2203a1.0667 1.0667 0 0 0 1.0685 1.0646l11.577-.0208c3.644-.0065 6.5758-.7897 8.684-2.3266a8.6558 8.6558 0 0 0 2.7937-3.4054 11.2675 11.2675 0 0 0 .9913-4.868 8.967 8.967 0 0 0-3.3681-7.0605zM71.1547 17.5795l7.9106-.0142q4.1997-.0076 6.202 1.3885c.8454.5985 2.003 1.752 2.0083 4.7074.0095 5.2883-4.1672 5.7179-5.4338 5.7201l-10.6659.0192zm9.4066 28.7366l-9.355.0168-.0244-13.6438 10.6659-.0191c4.6219-.0083 7.8707 2.6072 7.8774 6.3407.0033 1.8.0131 7.289-9.1639 7.3054z" />
+          <path d="M22.4948 19.6221a14.0642 14.0642 0 0 0-5.5848-4.101 16.8443 16.8443 0 0 0-6.2238-1.1443l-9.6215.0173A1.086 1.086 0 0 0 0 15.4853L.0597 48.683a1.0668 1.0668 0 0 0 1.0686 1.0646l9.6214-.0173a16.3939 16.3939 0 0 0 6.2197-1.1667 13.8015 13.8015 0 0 0 5.57-4.0994c3.3924-4.1833 3.894-9.4508 3.889-12.2284-.0043-2.3544-.3927-8.2876-3.9336-12.6136zm-2.5144 22.758a11.615 11.615 0 0 1-9.2366 4.0615l-7.3773.0133-.0516-28.7535 7.3772-.0132a11.5412 11.5412 0 0 1 9.2512 4.0271c2.9396 3.5948 3.1714 8.9716 3.1742 10.5264.0042 2.3338-.3878 6.7559-3.137 10.1384z" />
+          <path d="M59.9016 0l.0877 48.7976a.9801.9801 0 0 1-.6872.956.7852.7852 0 0 1-.311.0678 1.011 1.011 0 0 1-.8229-.4217L36.3643 21.7303l.076 42.2638L33.1294 64l-.0879-48.9083a.9989.9989 0 0 1 .7094-.956.706.706 0 0 1 .311-.045 1.0218 1.0218 0 0 1 .8229.3978l21.8038 27.6922L56.6128.0059z" />
         </svg>
       </span>
     )

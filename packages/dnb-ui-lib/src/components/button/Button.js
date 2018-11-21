@@ -162,7 +162,8 @@ export default class Button extends PureComponent {
       icon ? 'dnb-button--has-icon' : null,
       id,
       class_name,
-      className
+      className,
+      this.props.href ? 'no-underline no-underline-hover' : null
     )
 
     const params = {

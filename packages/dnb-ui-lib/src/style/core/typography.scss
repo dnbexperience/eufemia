@@ -2,6 +2,7 @@
  * Typography
  * ========================================================================== */
 
+// Font usage
 .typo-book {
   font-family: $font-family-book;
   font-weight: normal;
@@ -12,16 +13,6 @@
   font-weight: normal;
   font-style: italic;
 }
-// .typo-demi {
-//   font-family: $font-family-demi;
-//   font-weight: normal;
-//   font-style: normal;
-// }
-// .typo-demi-italic {
-//   font-family: $font-family-demi-italic;
-//   font-weight: normal;
-//   font-style: normal;
-// }
 .typo-medium {
   font-weight: 500;
   font-style: normal;
@@ -47,8 +38,7 @@
   font-style: italic;
 }
 
-//Numbers
-
+// Number usage
 .typo-number {
   &--old-style {
     @include numberFeature(oldstyle-nums, onum);
@@ -62,25 +52,4 @@
   &--proportional {
     @include numberFeature(proportional-nums, pnum);
   }
-}
-
-// TODO: Core typography classes
-
-.dnb-style .text-lead {
-  font-size: 1em; // 16px
-  line-height: 1.75rem; // 28
-  border-bottom: solid 1rem green; // TODO: change to margin
-  font-weight: 500;
-}
-
-.dnb-style .text-label {
-  font-size: 0.8125em; // 14px
-  line-height: 1.25rem; // 20px
-  border-bottom: solid 1rem hotpink;
-}
-
-.dnb-style .text-small {
-  font-size: 0.8125em; // 14px
-  line-height: 1rem; // 16px
-  border-bottom: solid 1rem hotpink;
 }

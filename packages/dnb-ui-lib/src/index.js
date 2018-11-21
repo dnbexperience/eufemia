@@ -31,6 +31,7 @@ import Tabs from './components/tabs/Tabs'
 import ActionNav from './patterns/action-nav/ActionNav'
 import DescriptionList from './patterns/description-list/DescriptionList'
 import FieldsetDescription from './patterns/fieldset-description/FieldsetDescription'
+import Footer from './patterns/footer/Footer'
 import Form from './patterns/form/Form'
 import FormSummary from './patterns/form-summary/FormSummary'
 import Grid from './patterns/grid/Grid'
@@ -61,6 +62,7 @@ export {
   ActionNav,
   DescriptionList,
   FieldsetDescription,
+  Footer,
   Form,
   FormSummary,
   Grid,

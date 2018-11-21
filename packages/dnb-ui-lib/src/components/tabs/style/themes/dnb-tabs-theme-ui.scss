@@ -1,0 +1,68 @@
+/*
+* Tabs theme
+*
+* ======================================================================== */
+
+/*
+ * Tabs component
+ *
+ * ========================================================================== */
+
+.dnb-tabs {
+  &__tabs {
+    &::after {
+      border-bottom: 1px solid var(--color-mint-green);
+    }
+
+    .dnb-tablink {
+      // should be same as .lead small
+      &-title {
+        font-family: $font-family-book;
+        font-size: 1em;
+        line-height: 1.5em;
+        text-align: center;
+
+        color: var(--color-emerald-green);
+      }
+
+      // make sure we alway have a height of 3
+      &::after {
+        height: 2px;
+        border-bottom: 2px solid transparent;
+      }
+
+      &:not([disabled]):hover {
+        &::after {
+          border-bottom-color: var(--color-emerald-green);
+        }
+      }
+
+      &[disabled] {
+        cursor: not-allowed;
+        .dnb-tablink-title {
+          color: var(--color-sea-green-alt-30);
+        }
+      }
+
+      &:not([disabled]).selected {
+        .dnb-tablink-title {
+          font-family: $font-family-demi;
+        }
+      }
+
+      &:not([disabled]):active,
+      &:not([disabled]).selected {
+        &::after {
+          border-bottom-color: var(--color-signal-orange);
+        }
+      }
+
+      &:not([disabled]):not(:active):focus {
+        @include fakeFocus();
+        &::after {
+          border-bottom: 2px solid transparent;
+        }
+      }
+    }
+  }
+}

@@ -17,6 +17,7 @@ import Sidebar from '../menu/SidebarMenu'
 import StickyMenuBar from '../menu/StickyMenuBar'
 import { markdownStyle } from './Markdown'
 import styled, { cx } from 'react-emotion'
+import { buildVersion } from '../../../package.json'
 
 class Layout extends Component {
   static propTypes = {
@@ -50,7 +51,9 @@ class Layout extends Component {
             className="fullscreen-page"
             innerRef={this._ref}
           >
-            <MaxWidth>{children}</MaxWidth>
+            <MaxWidth className="dnb-page-content-inner">
+              {children}
+            </MaxWidth>
           </Content>
           <Footer />
         </div>
@@ -63,7 +66,7 @@ class Layout extends Component {
         <Wrapper>
           <Sidebar location={location} showAll={false} />
           <Content tabIndex="-1" innerRef={this._ref}>
-            <MaxWidth>
+            <MaxWidth className="dnb-page-content-inner">
               {children}
               <Footer />
             </MaxWidth>
@@ -93,7 +96,7 @@ const Content = ({ className, children }) => (
       className,
       'dnb-style',
       markdownStyle,
-      'page-content',
+      'dnb-page-content',
       'dnb-no-focus'
     )}
   >
@@ -111,20 +114,23 @@ Content.defaultProps = {
 const Main = styled.main`
   position: relative;
   z-index: 2; /* heigher than styled.aside */
-  background-color: #fff;
+
   display: flex;
   flex-grow: 1;
   justify-content: center;
-  min-height: calc(100vh - 4rem); /* height of StickyMenuBar */
+
   width: 100%;
+  min-height: calc(100vh - 4rem); /* height of StickyMenuBar */
+  overflow: visible;
+
   margin-top: calc(
     4rem - 0.0625rem
   ); /* height of StickyMenuBar - 1px border */
   margin-left: 30vw; /* 30vw, width of Sidebar aside */
   margin-left: var(--aside-width);
-  padding-bottom: 2rem;
-  overflow: visible;
+  padding: 4rem 0 2rem 0;
 
+  background-color: #fff;
   border-top: 1px solid var(--color-outline-grey);
   border-left: 1px solid var(--color-outline-grey);
 
@@ -174,11 +180,11 @@ const FooterWrapper = styled.footer`
 `
 const Footer = () => (
   <FooterWrapper>
-    <Link to="/license" className="no-unerline">
+    <Link to="/license" className="no-underline">
       Copyright (c) 2018-present DNB.no
     </Link>
-    <Link to="/log" className="no-unerline">
-      Version
+    <Link to="/log" className="no-underline">
+      {buildVersion}
     </Link>
   </FooterWrapper>
 )

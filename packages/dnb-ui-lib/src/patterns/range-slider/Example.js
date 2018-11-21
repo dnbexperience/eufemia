@@ -7,7 +7,7 @@ import React, { Component, Fragment } from 'react'
 
 class Example extends Component {
   render() {
-    return <Fragment>Example</Fragment>
+    return <Fragment>TODO: Example</Fragment>
   }
 }
 

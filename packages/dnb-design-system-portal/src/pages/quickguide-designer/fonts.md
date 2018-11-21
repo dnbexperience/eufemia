@@ -5,19 +5,24 @@ draft: false
 ---
 
 import TypographicRules from 'Pages/quickguide-designer/typographic-rules.md'
+import TypographicElements from 'Pages/quickguide-designer/typographic-elements.md'
+import FontFamilies from 'Pages/quickguide-designer/font-families.md'
+import LineHeight from 'Pages/quickguide-designer/line-height.md'
 
-# Fonts
+# Fonts & Typography
 
-<!--
+In this section:
 
-**NB!**
-The DNB Brandbook states that the main DNB font is **Fedra Sans Alt Pro**.
-
-Web and mobile applications use **Fedra Sans Standard**. You can [download](/assets/fonts/DNBFedraSans.zip) and use the web fonts as long as the font are shown under the DNB main domain (`dnb.no`) or sub domains.
-
-The Source of Truth for the Downloadable fonts are located in the [repository](https://github.com/dnbexperience/eufemia/tree/develop/packages/dnb-ui-lib/assets/fonts): `dnb-design-system/packages/dnb-ui-lib/assets/fonts/`. Changes to the content of this folder will be included during a portal build process like `yarn build`.
-
-
--->
+- Typographic scale
+- Typographic styling
+- Margins & Padding
+- Typographic elements (H1-H3, body etc.)
+- Heading combinations
+- Simulations
+- Line heights
+- Font Families (The Fedra Sans Standard family)
 
 <TypographicRules />
+<TypographicElements />
+<FontFamilies />
+<LineHeight />

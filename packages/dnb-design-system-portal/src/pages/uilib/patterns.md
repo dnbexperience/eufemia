@@ -2,7 +2,20 @@
 header: 'UI Library'
 title: 'Patterns'
 draft: false
-order: 6
+order: 7
 ---
 
-# Patterns
+import parts from 'Src/uilib/patterns/demos/allParts'
+import AllParts from 'Src/uilib/AllParts'
+
+<!-- prettier-ignore-start -->
+
+export default ({ children }) => {
+  return (
+    <AllParts parts={parts}>{children}</AllParts>
+  )
+}
+
+<!-- prettier-ignore-end -->
+
+### All Patterns

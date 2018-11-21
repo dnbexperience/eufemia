@@ -240,9 +240,6 @@ export default class Dropdown extends Component {
         selected_item++
         e.preventDefault()
         break
-      case 'shift':
-        this.hasShift = true
-        break
       case 'enter':
       case 'space':
         if (this._refInput.current) {
@@ -273,14 +270,6 @@ export default class Dropdown extends Component {
         active: selected_item
       })
       this.selectItem(selected_item)
-    }
-  }
-
-  onKeyUpHandler = e => {
-    switch (keycode(e)) {
-      case 'shift':
-        this.hasShift = false
-        break
     }
   }
 

@@ -30,8 +30,7 @@ module.exports = {
     figma: {
       default: 'yarn figma',
       dev: 'yarn figma:dev',
-      update: 'yarn figma:update',
-      server: 'yarn figma:server'
+      update: 'yarn figma:force'
     },
     sb: 'yarn story',
     test: {

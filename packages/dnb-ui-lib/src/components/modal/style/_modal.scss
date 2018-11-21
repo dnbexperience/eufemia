@@ -78,10 +78,9 @@ body[data-modal-active='true'] {
 
   &__close-button {
     position: absolute;
-    top: 0.25rem;
-    right: 0.25rem;
+    top: 1rem;
+    right: 1rem;
 
-    // padding: 0.25rem;
     cursor: pointer;
 
     color: $color-sea-green;

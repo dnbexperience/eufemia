@@ -3,14 +3,16 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React, { Fragment, PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
+import keycode from 'keycode'
 import {
   registerElement,
   validateDOMAttributes,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
+import { pageFocus } from '../../shared/tools'
 // import './style/dnb-tabs.scss' // no good solution to import the style here
 
 const renderProps = {
@@ -23,11 +25,14 @@ export const propTypes = {
     PropTypes.arrayOf(
       PropTypes.exact({
         title: PropTypes.string.isRequired,
-        key: PropTypes.string.isRequired
+        key: PropTypes.string.isRequired,
+        disabled: PropTypes.bool
       })
     )
   ]).isRequired,
   selected_key: PropTypes.string,
+  direction: PropTypes.oneOf(['left', 'center', 'right']),
+  do_set_hash: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   class: PropTypes.string,
   /** React props */
   className: PropTypes.string,
@@ -39,6 +44,8 @@ export const propTypes = {
 export const defaultProps = {
   data: [],
   selected_key: null,
+  direction: 'left',
+  do_set_hash: false,
   class: null,
   /** React props */
   className: null,
@@ -75,13 +82,6 @@ export default class Tabs extends PureComponent {
     return state
   }
 
-  // static getRightContent(props) {
-  //   if (typeof props.render === 'function') {
-  //     return props.render(props)
-  //   }
-  //   return processChildren(props)
-  // }
-
   static getData(props) {
     let res = []
     if (props.data) res = props.data
@@ -104,34 +104,101 @@ export default class Tabs extends PureComponent {
       _data: props.data,
       data
     }
+
+    // setTimeout(() => {
+    //   this.nextTab()
+    // }, 1e3)
   }
 
-  openTab = e => {
-    const selected_key = String(e.target.className).match(
-      /tab--([a-z]+)/
-    )[1]
+  onKeyDownHandler = e => {
+    // let selected_item = this.state.selected_item
+    // const total = this.state.data.length - 1
 
-    if (!this.props.selected_key && typeof window !== 'undefined') {
-      try {
-        window.location.hash = selected_key
-      } catch (e) {
-        console.log('Tabs Error:', e)
-      }
+    console.log('keycode(e)', keycode(e))
+
+    switch (keycode(e)) {
+      case 'left':
+        this.prevTab()
+        e.preventDefault()
+        break
+      case 'right':
+        this.nextTab()
+        e.preventDefault()
+        break
+      case 'shift':
+        this.hasShift = true
     }
+  }
 
-    dispatchCustomElementEvent(this, 'on_change', {
-      key: selected_key
-    })
+  onKeyUpHandler = e => {
+    switch (keycode(e)) {
+      case 'shift':
+        this.hasShift = false
+        break
+    }
+  }
 
-    this.setState({
-      selected_key
-    })
+  prevTab = () => {
+    this.openTab(-1)
+  }
+  nextTab = () => {
+    this.openTab(+1)
+  }
+
+  openTabByDOM = e => {
+    const target =
+      e.target.nodeName === 'SPAN' ? e.target.parentElement : e.target
+    const selected_key = String(target.className).match(/tab--([a-z]+)/)[1]
+
+    return this.openTab(selected_key)
+  }
+
+  openTab = selected_key => {
+    if (parseFloat(selected_key)) {
+      // console.log('selected_key', selected_key)
+      // console.log('this.state', this.state.data)
+      const currentIndex = this.state.data.reduce(
+        (acc, { key }, i) => (key === this.state.selected_key ? i : acc),
+        -1
+      )
+      let nextIndex = currentIndex + selected_key
+      if (nextIndex < 0) {
+        nextIndex = 0
+      }
+      if (nextIndex > this.state.data.length) {
+        nextIndex = 0
+      }
+      selected_key = this.state.data.reduce(
+        (acc, { key }, i) => (i === nextIndex ? key : acc),
+        null
+      )
+    }
+    if (selected_key) {
+      if (this.props.do_set_hash && typeof window !== 'undefined') {
+        try {
+          window.location.hash = selected_key
+        } catch (e) {
+          console.log('Tabs Error:', e)
+        }
+      }
+
+      dispatchCustomElementEvent(this, 'on_change', {
+        key: selected_key
+      })
+
+      this.setState({
+        selected_key
+      })
+    }
+  }
+
+  isSelected(tabKey) {
+    return this.state.selected_key === tabKey
   }
 
   renderActiveTab(tabKey) {
-    const { selected_key } = this.state
     return `dnb-tablink dnb-no-mouse-focus tab--${tabKey} ${
-      selected_key === tabKey ? 'active' : ''
+      this.isSelected(tabKey) ? 'selected' : ''
     }`
   }
 
@@ -140,7 +207,8 @@ export default class Tabs extends PureComponent {
   }
 
   componentDidMount() {
-    if (!this.props.selected_key && typeof window !== 'undefined') {
+    // check if one tab should be "opened"
+    if (this.props.do_set_hash && typeof window !== 'undefined') {
       const selected_key = String(window.location.hash).replace('#', '')
       if (selected_key) {
         this.setState({
@@ -167,10 +235,12 @@ export default class Tabs extends PureComponent {
   }
 
   render() {
-    const { className, class: _className } = this.props
-
-    // const leftContent = Tabs.getLeftContent(this.props)
-    // const rightContent = Tabs.getRightContent(this.props)
+    const {
+      render: customRenderer,
+      direction,
+      className,
+      class: _className
+    } = this.props
 
     const params = {
       className: classnames('dnb-tabs', className, _className)
@@ -181,30 +251,59 @@ export default class Tabs extends PureComponent {
 
     const content = this.getContent()
 
-    const Tabs = ({ data = this.state.data }) =>
-      data.map(({ title, key }) => (
-        <button
-          key={`tab--${key}`}
-          className={this.renderActiveTab(key)}
-          onClick={this.openTab}
+    const Tabs = () => {
+      const tabs = this.state.data.map(
+        ({ title, key, disabled = false }) => (
+          <Fragment key={`tab--${key}`}>
+            <button
+              role="tab"
+              aria-selected={this.isSelected(key)}
+              className={this.renderActiveTab(key)}
+              onClick={this.openTabByDOM}
+              disabled={disabled}
+            >
+              <span className="dnb-tablink-title">{title}</span>
+              {/* we use "aria-hidden" SPAN to simulate a wider width for each tab */}
+              <span aria-hidden={true} hidden>
+                {title}
+              </span>
+            </button>
+          </Fragment>
+        )
+      )
+      return (
+        <div
+          role="tablist"
+          className="dnb-tabs__tabs__tablist dnb-tab-focus"
+          tabIndex={0}
+          onKeyUp={this.onKeyUpHandler}
+          onKeyDown={this.onKeyDownHandler}
         >
-          {title}
-        </button>
-      ))
+          {tabs}
+        </div>
+      )
+    }
 
     const TabsList = ({ children }) => (
-      <div className="dnb-tabs__tabs">{children}</div>
+      <div
+        className={classnames(
+          'dnb-tabs__tabs',
+          direction ? `dnb-tabs__tabs--${direction}` : null
+        )}
+      >
+        {children}
+      </div>
     )
 
     const Wrapper = ({ children, ...rest }) => (
       <div {...params} {...rest}>
         {children}
-        {content && <div className="dnb-tabs__content">{content}</div>}
+        {content && <Content>{content}</Content>}
       </div>
     )
 
-    if (typeof this.props.render === 'function') {
-      return this.props.render({ Wrapper, TabsList, Tabs })
+    if (typeof customRenderer === 'function') {
+      return customRenderer({ Wrapper, TabsList, Tabs })
     }
 
     return (
@@ -213,6 +312,29 @@ export default class Tabs extends PureComponent {
           <Tabs />
         </TabsList>
       </Wrapper>
+    )
+  }
+}
+
+class Content extends PureComponent {
+  static propTypes = {
+    children: PropTypes.node.isRequired
+  }
+  constructor(props) {
+    super(props)
+    this._contentRef = React.createRef()
+  }
+  componentDidMount() {
+    if (this._contentRef.current) {
+      pageFocus(this._contentRef.current)
+    }
+  }
+  render() {
+    const { children } = this.props
+    return (
+      <div className="dnb-tabs__content" ref={this._contentRef}>
+        {children}
+      </div>
     )
   }
 }

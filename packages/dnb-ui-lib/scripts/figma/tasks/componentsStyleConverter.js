@@ -20,18 +20,21 @@ import {
 const frameName = process.env.FIGMA_STYLES_FRAME || 'Components' // before we used "dnb-ui-components"
 
 export const ConvertAndSaveComponentsStyle = async ({
-  figmaDoc,
+  figmaDoc = null,
   figmaFile = null,
-  convertOptions
+  convertOptions = {}
 }) => {
   if (!figmaFile) {
     figmaFile = defaultFigmaFile
   }
 
-  if (!figmaDoc) {
+  if (figmaDoc === null) {
     log.text = '> Figma: Fetching the figma doc.'
     figmaDoc = await getFigmaDoc({ figmaFile })
   }
+
+  // juce out, if no changes
+  if (!figmaDoc) return []
 
   const componentsObj = await ComponentsStyleConverter(
     figmaDoc,

@@ -7,10 +7,9 @@ import styled from 'react-emotion'
 
 const Code = styled.code`
   ${'' /* background: blue; */};
-  border: 1px solid #ede7f3;
   border-radius: 4px;
-  padding: 2px 6px;
-  font-size: 0.9375em;
+  padding: 4px 6px;
+  font-size: 1em;
 `
 
 export default Code

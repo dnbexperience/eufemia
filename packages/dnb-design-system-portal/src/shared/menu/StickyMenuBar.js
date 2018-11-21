@@ -8,7 +8,7 @@ import PropTypes from 'prop-types'
 import { css, injectGlobal } from 'react-emotion'
 // import Head from 'react-helmet'
 import MainMenu from './MainMenu'
-import gridSvg from '../../assets/images/grid-32x32.svg'
+import gridSvg from '../../../static/assets/images/grid-32x32.svg'
 import { FormLabel, Switch, Logo } from 'dnb-ui-lib/src'
 
 export default class StickyMenuBar extends Component {
@@ -54,7 +54,7 @@ export default class StickyMenuBar extends Component {
   }
   showGrid = showGrid => {
     if (typeof document !== 'undefined') {
-      const page = document.querySelector('.page-content')
+      const page = document.querySelector('.dnb-page-content')
       if (page) {
         if (showGrid) {
           page.classList.add('dev-grid')
@@ -111,7 +111,7 @@ export default class StickyMenuBar extends Component {
               className="dnb-button dnb-button--reset menu-bar"
               onClick={this.toggleMenuHandler}
             >
-              <Logo height={80} />
+              <Logo height={48} />
               {/* <DNBLogo className="logo" width="47" height="32" /> */}
               {slogan}
             </button>
@@ -138,7 +138,6 @@ injectGlobal`
     background-repeat: repeat;
     background-attachment: fixed;
     background-color: transparent;
-    ${'' /* background-image: url('/assets/images/grid-32x32.svg'); */}
     background-image: url(${gridSvg});
 
     h1,
@@ -149,7 +148,7 @@ injectGlobal`
     h6,
     p,
     small {
-      background-color: rgba(255, 255, 122, 0.95);
+      background-color: rgba(255, 255, 122, 0.35);
     }
 
     code {
@@ -158,7 +157,11 @@ injectGlobal`
       display: block;
     }
 
+    small {
+      ${'' /* border-bottom: solid 1rem hotpink; */}
+    }
   }
+
   .grid-not-fixed {
     background-attachment: local;
   }
@@ -173,14 +176,13 @@ const barStyle = css`
     justify-content: space-between;
     vertical-align: middle;
     width: 100%;
-    padding: 0 0 0 2em;
+    padding: 0.5rem 2rem;
 
     align-items: center;
 
     background-color: var(--color-light-grey);
     border-bottom: 1px solid var(--color-outline-grey);
 
-    max-height: 100px;
     overflow: hidden;
     white-space: nowrap;
 
@@ -189,9 +191,8 @@ const barStyle = css`
     }
   }
 
-  .logo {
-    color: #007272;
-    fill: currentColor;
+  .dnb-logo {
+    margin-right: 1rem;
   }
   &.active .logo-slogan {
     color: #007272;
@@ -208,7 +209,6 @@ const barStyle = css`
   .toggle-grid {
     display: flex;
     align-items: flex-end;
-    margin-right: 3rem;
   }
   .toggle-grid label {
     padding-right: 1rem;
@@ -218,8 +218,6 @@ const barStyle = css`
     display: flex;
     align-items: center;
     cursor: pointer;
-
-    margin-left: -0.5rem;
   }
 
   .heading {

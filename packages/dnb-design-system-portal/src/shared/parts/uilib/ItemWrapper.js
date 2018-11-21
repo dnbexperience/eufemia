@@ -25,16 +25,9 @@ const getLocation = () => {
 }
 
 const tabsWrapperStyle = css`
-  ${'' /*
-  position: sticky;
+  ${'' /* position: sticky;
   top: 5rem;
-  z-index: 2;
-  */};
-
-  .dnb-tabs__tabs {
-    justify-content: space-between;
-    align-items: center;
-  }
+  z-index: 2; */}
 
   .fullscreen-page & {
     top: 0;
@@ -140,15 +133,14 @@ class ComponentItemWrapper extends Component {
         )}
         {!hideTabs && (
           <Tabs
+            do_set_hash
             data={tabs}
             on_change={this.openTab}
             render={({ Wrapper, TabsList, Tabs }) => {
               return (
                 <Wrapper className={tabsWrapperStyle}>
                   <TabsList>
-                    <div className="dnb-tabs__tabs__inner">
-                      <Tabs />
-                    </div>
+                    <Tabs />
                     {this.state.wasFullscreen ? (
                       <CloseButton
                         on_click={this.quitFullscreen}

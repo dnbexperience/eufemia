@@ -4,11 +4,13 @@
  */
 
 import { css } from 'react-emotion'
+import gridSvg from '../../../static/assets/images/grid-32x32.svg'
 
 export default css`
   table {
     border-spacing: 0;
     border-collapse: collapse;
+    border-top: 8px solid #c6cbd1;
   }
 
   table {
@@ -37,7 +39,7 @@ export default css`
 
   table tr {
     background-color: #fff;
-    border-top: 1px solid #c6cbd1;
+    border-top: 0px;
   }
 
   table td {
@@ -65,6 +67,8 @@ export default css`
   td,
   th {
     padding: 0;
+    font-size: 1em;
+    line-height: 1rem;
   }
 
   hr {
@@ -289,5 +293,63 @@ export default css`
   .task-list-item input {
     margin: 0 0.2rem 0.25em -1.6em;
     vertical-align: middle;
+  }
+
+  .typography-box {
+    padding: 2rem;
+    background-color: rgba(0, 0, 0, 0.0425);
+    margin-bottom: 4rem;
+    border-radius: 0.5rem;
+
+    background-repeat: repeat;
+    background-image: url(${gridSvg});
+    ${'' /* background-image: url('/assets/images/grid-32x32.svg'); */}
+
+    h1 {
+      margin-top: 0rem;
+    }
+
+    ul {
+      font-size: 1em;
+      line-height: 1rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      margin-bottom: calc(1rem - 2px);
+    }
+
+    li {
+      font-size: 1em;
+      font-family: monospace;
+      line-height: 1rem;
+      margin: 0;
+      padding: 0;
+    }
+  }
+
+  .lh-12 {
+    line-height: 0.75rem;
+  }
+
+  .lh-16 {
+    line-height: 1rem;
+  }
+
+  .lh-20 {
+    line-height: 1.25rem;
+  }
+
+  .lh-24 {
+    line-height: 1.5rem;
+  }
+
+  .lh-28 {
+    line-height: 1.75rem;
+  }
+
+  .lh-32 {
+    line-height: 2rem;
   }
 `

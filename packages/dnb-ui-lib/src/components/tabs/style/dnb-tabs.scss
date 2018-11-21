@@ -4,7 +4,9 @@
 * ======================================================================== */
 
 @import '../../../style/component/core-imports.scss';
-// @import '../../../style/component/font-import.scss';
-@import '../../icon/style/dnb-icon.scss';
-@import '../../button/style/dnb-button.scss';
+
+.dnb-tabs {
+  @include componentReset();
+}
+
 @import './_tabs.scss';

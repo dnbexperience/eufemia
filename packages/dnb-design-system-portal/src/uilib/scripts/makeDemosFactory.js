@@ -29,10 +29,6 @@ if (require.main === module && process.env.NODE_ENV !== 'test') {
       __dirname,
       '../components/demos/Template.js'
     ),
-    processDestFileContent: content => `
-/** ${autoAdvice} */
-${content}
-    `,
     processToNamesList: path.resolve(
       __dirname,
       '../../../../dnb-ui-lib/src/components/'
@@ -65,10 +61,6 @@ ${content}
       /(order: )([0-9])/g,
       `$1${i + 1}`
     )}
-
-<!--
-  ${String(autoAdvice).trim()}
--->
     `,
     processToNamesIgnoreList: ignoreUiLibList, // in case we want to remove an additional component form the menu list: .concat(['body'])
     processToNamesList: path.resolve(
@@ -102,10 +94,6 @@ ${content}
       __dirname,
       '../patterns/demos/Template.js'
     ),
-    processDestFileContent: content => `
-/** ${autoAdvice} */
-${content}
-    `,
     processToNamesList: path.resolve(
       __dirname,
       '../../../../dnb-ui-lib/src/patterns/'
@@ -133,12 +121,6 @@ ${content}
       '../patterns/page-template.md'
     ),
     processDestFileExt: '.md',
-    processDestFileContent: content => `${content}
-
-<!--
-  ${String(autoAdvice).trim()}
--->
-    `,
     processToNamesIgnoreList: ignoreUiLibList,
     processToNamesList: path.resolve(
       __dirname,
@@ -147,7 +129,7 @@ ${content}
     processToNamesListByUsingFolders: true,
     processDestFilePath: path.resolve(
       __dirname,
-      '../../pages/uilib/elements'
+      '../../pages/uilib/patterns'
     ),
     // processDestFileFilter: ({ file }) => {
     //   return !['input-masked.md'].includes(

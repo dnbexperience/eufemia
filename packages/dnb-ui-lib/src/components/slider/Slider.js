@@ -3,7 +3,7 @@
  * stylelint-disable
  */
 
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import keycode from 'keycode'
@@ -81,7 +81,7 @@ export const defaultProps = {
 /**
  * The slider component is our enhancement of the classic radio button. It acts like a slider. Example: On/off, yes/no.
  */
-export default class Slider extends PureComponent {
+export default class Slider extends Component {
   static tagName = 'dnb-slider'
   static propTypes = propTypes
   static defaultProps = defaultProps

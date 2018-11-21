@@ -6,8 +6,7 @@
       "yarn lint:js",
       "git add"
     ],
-    "*.{js,css}": [
-      "yarn prettier:style",
+    "src/*.{js,css}": [
       "yarn lint:styles",
       "git add"
     ],

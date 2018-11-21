@@ -2,20 +2,22 @@
 
 exports[`Modal component have to match snapshot 1`] = `
 <Modal
-  class={null}
-  className={null}
-  close_title="Close"
-  content_id={null}
+  class="class"
+  className="className"
+  close_title="close_title"
+  content_id="content_id"
   modal_content="modal_content"
-  modal_trigger_icon="question"
-  modal_trigger_text={null}
-  modal_trigger_title="Open Modal"
+  modal_trigger_icon="modal_trigger_icon"
+  modal_trigger_text="modal_trigger_text"
+  modal_trigger_title="modal_trigger_title"
+  on_click={[Function]}
   preventSetTriggerRef={true}
-  title={null}
+  title="title"
   type="button"
 >
   <div
-    className="dnb-modal"
+    className="dnb-modal className class"
+    onClick={[Function]}
   >
     <span
       className="dnb-modal__trigger dnb-modal__trigger--button"
@@ -28,24 +30,24 @@ exports[`Modal component have to match snapshot 1`] = `
         custom_method={null}
         disabled={false}
         href={null}
-        icon="question"
+        icon="modal_trigger_icon"
         icon_position="right"
         icon_size={16}
         id={null}
         innerRef={null}
         on_click={[Function]}
         size="default"
-        text={null}
-        title="Open Modal"
+        text="modal_trigger_text"
+        title="modal_trigger_title"
         type="button"
         variant="secondary"
       >
         <button
-          className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon"
+          className="dnb-button dnb-button--secondary dnb-button--icon-position-right dnb-button--has-text dnb-button--has-icon"
           id={null}
           onClick={[Function]}
           onMouseOut={[Function]}
-          title="Open Modal"
+          title="modal_trigger_title"
           type="button"
         >
           <Content
@@ -57,117 +59,76 @@ exports[`Modal component have to match snapshot 1`] = `
             custom_method={null}
             disabled={false}
             href={null}
-            icon="question"
+            icon="modal_trigger_icon"
             icon_position="right"
             icon_size={16}
             id={null}
             innerRef={null}
             on_click={[Function]}
             size="default"
-            text={null}
-            title="Open Modal"
+            text="modal_trigger_text"
+            title="modal_trigger_title"
             type="button"
             variant="secondary"
           >
+            <span
+              className="dnb-button__text"
+              key="button-text"
+            >
+              modal_trigger_text
+            </span>
             <span
               className="dnb-button__icon"
               key="button-icon"
               role="presentation"
             >
               <IconWithAllIcons
-                alt="Open Modal"
+                alt="modal_trigger_title"
                 area_hidden={true}
                 attributes={null}
                 class={null}
                 className={null}
                 color={null}
                 height={16}
-                icon="question"
+                icon="modal_trigger_icon"
                 modifier={null}
                 size={null}
                 width={16}
-              >
-                <Icon
-                  alt={null}
-                  area_hidden={false}
-                  aria-hidden={true}
-                  aria-label="Open Modal"
-                  attributes={null}
-                  class={null}
-                  className="dnb-icon"
-                  color={null}
-                  height={null}
-                  icon={
-                    <SvgComponent
-                      height={16}
-                      width={16}
-                    />
-                  }
-                  modifier={null}
-                  role="presentation"
-                  size={16}
-                  width={null}
-                >
-                  <span
-                    className="dnb-icon dnb-icon"
-                    role="presentation"
-                  >
-                    <Component
-                      height={16}
-                      width={16}
-                    >
-                      <SvgComponent
-                        height={16}
-                        width={16}
-                      >
-                        <svg
-                          height={16}
-                          viewBox="0 0 16 16"
-                          width={16}
-                        >
-                          <path
-                            clipRule="evenodd"
-                            d="M4.352 5.1c0-2.05 1.55-3.6 3.6-3.6 2.052 0 3.601 1.55 3.601 3.6 0 2.051-1.55 3.6-3.6 3.6a.75.75 0 0 0-.75.75v2.666a.75.75 0 0 0 1.5 0V10.15c2.506-.348 4.35-2.425 4.35-5.049 0-2.879-2.22-5.1-5.1-5.1-2.88 0-5.1 2.221-5.1 5.1a.75.75 0 0 0 1.5 0zm3.6 10.898c.659 0 1.097-.439 1.097-1.097 0-.658-.438-1.096-1.096-1.096-.658 0-1.097.438-1.097 1.096 0 .658.439 1.097 1.097 1.097z"
-                            fillRule="evenodd"
-                          />
-                        </svg>
-                      </SvgComponent>
-                    </Component>
-                  </span>
-                </Icon>
-              </IconWithAllIcons>
+              />
             </span>
           </Content>
         </button>
       </Button>
     </span>
     <ModalRoot
-      class={null}
-      className={null}
-      close_title="Close"
-      content_id={null}
+      class="class"
+      className="className"
+      close_title="close_title"
+      content_id="content_id"
       hide={[Function]}
       modal_content="modal_content"
-      modal_trigger_icon="question"
-      modal_trigger_text={null}
-      modal_trigger_title="Open Modal"
+      modal_trigger_icon="modal_trigger_icon"
+      modal_trigger_text="modal_trigger_text"
+      modal_trigger_title="modal_trigger_title"
+      on_click={[Function]}
       preventSetTriggerRef={true}
-      title={null}
+      title="title"
       toggleOpenClose={[Function]}
       type="button"
     >
       <ModalContent
-        class={null}
-        className={null}
-        close_title="Close"
-        content_id={null}
+        class="class"
+        className="className"
+        close_title="close_title"
+        content_id="content_id"
         hide={[Function]}
         modal_content="modal_content"
-        modal_trigger_icon="question"
-        modal_trigger_text={null}
-        modal_trigger_title="Open Modal"
+        modal_trigger_icon="modal_trigger_icon"
+        modal_trigger_text="modal_trigger_text"
+        modal_trigger_title="modal_trigger_title"
+        on_click={[Function]}
         preventSetTriggerRef={true}
-        title={null}
+        title="title"
         toggleOpenClose={[Function]}
         type="button"
       >
@@ -178,10 +139,10 @@ exports[`Modal component have to match snapshot 1`] = `
         >
           <div
             aria-hidden="true"
-            aria-labelledby={null}
+            aria-labelledby="title"
             aria-modal="true"
             className="dnb-modal__content__inner dnb-no-focus dnb-style"
-            id={null}
+            id="content_id"
             onClick={[Function]}
             onKeyDown={[Function]}
             role="dialog"
@@ -190,7 +151,7 @@ exports[`Modal component have to match snapshot 1`] = `
             modal_content
             <CloseButton
               className={null}
-              close_title="Close"
+              close_title="close_title"
               on_click={[Function]}
             >
               <Button
@@ -209,7 +170,7 @@ exports[`Modal component have to match snapshot 1`] = `
                 on_click={[Function]}
                 size="default"
                 text={null}
-                title="Close"
+                title="close_title"
                 type="button"
                 variant="secondary"
               >
@@ -218,7 +179,7 @@ exports[`Modal component have to match snapshot 1`] = `
                   id={null}
                   onClick={[Function]}
                   onMouseOut={[Function]}
-                  title="Close"
+                  title="close_title"
                   type="button"
                 >
                   <Content
@@ -238,7 +199,7 @@ exports[`Modal component have to match snapshot 1`] = `
                     on_click={[Function]}
                     size="default"
                     text={null}
-                    title="Close"
+                    title="close_title"
                     type="button"
                     variant="secondary"
                   >
@@ -248,7 +209,7 @@ exports[`Modal component have to match snapshot 1`] = `
                       role="presentation"
                     >
                       <IconWithAllIcons
-                        alt="Close"
+                        alt="close_title"
                         area_hidden={true}
                         attributes={null}
                         class={null}
@@ -264,7 +225,7 @@ exports[`Modal component have to match snapshot 1`] = `
                           alt={null}
                           area_hidden={false}
                           aria-hidden={true}
-                          aria-label="Close"
+                          aria-label="close_title"
                           attributes={null}
                           class={null}
                           className="dnb-icon"
@@ -349,107 +310,6 @@ exports[`Modal scss have to match snapshot 1`] = `
 /*
  * Utilities
  * ========================================================================== */
-.dnb-sr-only {
-  border: 0;
-  clip: rect(0 0 0 0);
-  height: 1px;
-  margin: -1px;
-  overflow: hidden;
-  padding: 0;
-  position: absolute;
-  width: 1px; }
-
-.dnb-not-sr-only {
-  position: static; }
-
-.dnb-unstyled-list {
-  margin: 0;
-  list-style-type: none;
-  padding-left: 0; }
-  .dnb-unstyled-list > li {
-    margin-bottom: 0; }
-
-.dnb-no-focus {
-  outline: none; }
-
-.dnb-fake-focus {
-  outline: none; }
-  .dnb-fake-focus:focus {
-    outline: none;
-    border-color: transparent; }
-    html[data-whatinput='mouse'] .dnb-fake-focus:focus:not(.dnb-no-mouse-focus) {
-      transition: box-shadow 0.1s ease-out 0s;
-      box-shadow: 0 0 0 2px #14555a; }
-    html[data-whatinput='keyboard'] .dnb-fake-focus:focus {
-      box-shadow: 0 0 0 2px #ff5400; }
-
-@media screen and (max-width: 700px) {
-  .dnb-hide-on-mobile {
-    display: none; } }
-
-@media screen and (min-width: 700px) {
-  .dnb-mobile-exclusive {
-    display: none; } }
-
-.dnb-width-limit {
-  margin: 0 auto;
-  width: 100%;
-  max-width: 1024px;
-  padding: 0 0.5rem; }
-  @media screen and (min-width: 700px) {
-    .dnb-width-limit {
-      padding-left: 1rem;
-      padding-right: 1rem; } }
-
-.dnb-belt {
-  padding: 1rem 0;
-  width: 100%;
-  background: #fafafa; }
-
-.dnb-nudge {
-  display: inline-flex;
-  flex: 0 0 100%; }
-  .dnb-nudge--vertical[data-nudges='1'] {
-    height: 1rem; }
-  .dnb-nudge--horizontal[data-nudges='1'] {
-    width: 1rem; }
-  .dnb-nudge--vertical[data-nudges='2'] {
-    height: 2rem; }
-  .dnb-nudge--horizontal[data-nudges='2'] {
-    width: 2rem; }
-  .dnb-nudge--vertical[data-nudges='3'] {
-    height: 3rem; }
-  .dnb-nudge--horizontal[data-nudges='3'] {
-    width: 3rem; }
-  .dnb-nudge--vertical[data-nudges='4'] {
-    height: 4rem; }
-  .dnb-nudge--horizontal[data-nudges='4'] {
-    width: 4rem; }
-  .dnb-nudge--vertical[data-nudges='5'] {
-    height: 5rem; }
-  .dnb-nudge--horizontal[data-nudges='5'] {
-    width: 5rem; }
-  .dnb-nudge--vertical[data-nudges='6'] {
-    height: 6rem; }
-  .dnb-nudge--horizontal[data-nudges='6'] {
-    width: 6rem; }
-  .dnb-nudge--vertical[data-nudges='7'] {
-    height: 7rem; }
-  .dnb-nudge--horizontal[data-nudges='7'] {
-    width: 7rem; }
-  .dnb-nudge--vertical[data-nudges='8'] {
-    height: 8rem; }
-  .dnb-nudge--horizontal[data-nudges='8'] {
-    width: 8rem; }
-  .dnb-nudge--vertical[data-nudges='9'] {
-    height: 9rem; }
-  .dnb-nudge--horizontal[data-nudges='9'] {
-    width: 9rem; }
-  .dnb-nudge--vertical[data-nudges='10'] {
-    height: 10rem; }
-  .dnb-nudge--horizontal[data-nudges='10'] {
-    width: 10rem; }
-
 /*
 * Scopes
 * ======================================================================== */
@@ -518,6 +378,12 @@ exports[`Modal scss have to match snapshot 1`] = `
   src: url(\\"../../../../assets/fonts/FedraSansStd-BoldItalic.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts/FedraSansStd-BoldItalic.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts/FedraSansStd-BoldItalic.ttf\\") format(\\"truetype\\");
   font-weight: bold;
   font-style: italic; }
+
+@font-face {
+  font-family: 'Fedra Sans Std Demi';
+  src: url(\\"../../../../assets/fonts/FedraSansStd-Demi.otf\\") format(\\"opentype\\"), url(\\"../../../../assets/fonts/FedraSansStd-Demi.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts/FedraSansStd-Demi.ttf\\") format(\\"truetype\\");
+  font-weight: normal;
+  font-style: normal; }
 
 /*
 * DNB icon
@@ -654,6 +520,7 @@ exports[`Modal scss have to match snapshot 1`] = `
     height: auto;
     overflow: visible;
     border: none;
+    border-radius: 0;
     background-color: transparent;
     appearance: none;
     box-shadow: none;
@@ -667,6 +534,14 @@ exports[`Modal scss have to match snapshot 1`] = `
       opacity: 0.6;
       box-shadow: none;
       border: none; }
+    .dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
+      outline: none;
+      border-color: transparent; }
+      html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):focus:not(.dnb-no-mouse-focus), html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):active:not(.dnb-no-mouse-focus) {
+        transition: box-shadow 0.1s ease-out 0s;
+        box-shadow: 0 0 0 2px #14555a; }
+      html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
+        box-shadow: 0 0 0 2px #ff5400; }
     html[data-whatinput='mouse']
 .dnb-button--reset:not([disabled]):focus:not(.dnb-no-mouse-focus),
     html[data-whatinput='mouse']
@@ -748,8 +623,8 @@ body[data-modal-active='true'] {
       text-decoration: underline; }
   .dnb-modal__close-button {
     position: absolute;
-    top: 0.25rem;
-    right: 0.25rem;
+    top: 1rem;
+    right: 1rem;
     cursor: pointer;
     color: #007272; }
   .dnb-modal__overlay {

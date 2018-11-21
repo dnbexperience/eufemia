@@ -18,12 +18,6 @@ const renderProps = {
 }
 
 export const propTypes = {
-  prev_href: PropTypes.string,
-  next_href: PropTypes.string,
-  prev_text: PropTypes.string,
-  next_text: PropTypes.string,
-  prev_title: PropTypes.string,
-  next_title: PropTypes.string,
   class: PropTypes.string,
   /** React props */
   className: PropTypes.string,
@@ -37,12 +31,6 @@ export const propTypes = {
 }
 
 export const defaultProps = {
-  prev_href: null,
-  next_href: null,
-  prev_text: 'Back',
-  next_text: 'Next',
-  prev_title: 'Go back',
-  next_title: 'Go next',
   class: null,
   /** React props */
   className: null,

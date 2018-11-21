@@ -8,6 +8,7 @@ import PropTypes from 'prop-types'
 import { injectGlobal, css } from 'react-emotion'
 import classnames from 'classnames'
 import Card from './Card'
+import keycode from 'keycode'
 import {
   UilibSvg,
   BrandSvg,
@@ -133,12 +134,25 @@ export default class MainMenu extends Component {
     if (this.timeoutId) {
       clearTimeout(this.timeoutId)
     }
+    if (typeof document !== 'undefined') {
+      document.removeEventListener('keydown', this.onKeyDownHandler)
+    }
   }
-  // componentDidMount() {
-  //   if (this._ref.current) {
-  //     this._ref.current.focus()
-  //   }
-  // }
+  componentDidMount() {
+    if (this._ref.current) {
+      this._ref.current.focus()
+    }
+    if (typeof document !== 'undefined') {
+      document.addEventListener('keydown', this.onKeyDownHandler)
+    }
+  }
+  onKeyDownHandler = e => {
+    switch (keycode(e)) {
+      case 'esc':
+        this.closeMenuHandler()
+        break
+    }
+  }
   render() {
     if (!this.state.hide) this.changeBodyDataState(true)
     return (
@@ -153,7 +167,7 @@ export default class MainMenu extends Component {
         <div css={toolbarStyle}>
           {this.props.enableOverlay && (
             <Button
-              className="main-menu__back"
+              className="main-menu__back dnb-tab-focus"
               on_click={this.closeMenuHandler}
               icon="chevron-left"
               icon_position="left"
