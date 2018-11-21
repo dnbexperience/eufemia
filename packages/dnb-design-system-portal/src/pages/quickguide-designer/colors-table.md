@@ -198,5 +198,55 @@ export default ({ children }) => {
   <td>$color-black-30</td>
   <td></td>
   </tr>
+  <tr>
+  <td>UX</td>
+  <td>Cherry Red</td>
+  <td>#E10076</td>
+  <td>225 0 118</td>
+  <td>Cherry Red</td>
+  <td>--color-cherry-red</td>
+  <td>$color-cherry-red</td>
+  <td></td>
+  </tr>
+  <tr>
+  <td>UX</td>
+  <td>Cherry Red 8</td>
+  <td>#FDEBF4</td>
+  <td>253 235 244</td>
+  <td>Cherry Red 8</td>
+  <td>--color-cherry-red-8</td>
+  <td>$color-cherry-red-8</td>
+  <td></td>
+  </tr>
+  <tr>
+  <td>UX</td>
+  <td>000</td>
+  <td>#000000</td>
+  <td>0 0 0</td>
+  <td>000</td>
+  <td>--color-000</td>
+  <td>$color-000</td>
+  <td></td>
+  </tr>
+  <tr>
+  <td>UX</td>
+  <td>FFF</td>
+  <td>#ffffff</td>
+  <td>255 255 255</td>
+  <td>FFF</td>
+  <td>--color-fff</td>
+  <td>$color-fff</td>
+  <td></td>
+  </tr>
+  <tr>
+  <td>UX</td>
+  <td>333</td>
+  <td>#333333</td>
+  <td>51 51 51</td>
+  <td>333</td>
+  <td>--color-333</td>
+  <td>$color-333</td>
+  <td>NB! Find correct name for this grey</td>
+  </tr>
 </tbody>
 </table>

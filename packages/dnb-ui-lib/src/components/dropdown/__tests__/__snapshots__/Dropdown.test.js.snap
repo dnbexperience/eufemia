@@ -12,7 +12,6 @@ exports[`Dropdown component have to match snapshot 1`] = `
     onBlur={[Function]}
     onFocus={[Function]}
     onKeyDown={[Function]}
-    onKeyUp={[Function]}
     readOnly={true}
     title="title"
     value=""
@@ -267,6 +266,12 @@ exports[`Dropdown scss have to match snapshot 1`] = `
   src: url(\\"../../../../assets/fonts/FedraSansStd-BoldItalic.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts/FedraSansStd-BoldItalic.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts/FedraSansStd-BoldItalic.ttf\\") format(\\"truetype\\");
   font-weight: bold;
   font-style: italic; }
+
+@font-face {
+  font-family: 'Fedra Sans Std Demi';
+  src: url(\\"../../../../assets/fonts/FedraSansStd-Demi.otf\\") format(\\"opentype\\"), url(\\"../../../../assets/fonts/FedraSansStd-Demi.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts/FedraSansStd-Demi.ttf\\") format(\\"truetype\\");
+  font-weight: normal;
+  font-style: normal; }
 
 /*
 * Forms and inputs

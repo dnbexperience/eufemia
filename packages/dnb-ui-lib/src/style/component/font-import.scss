@@ -113,27 +113,14 @@
   font-style: italic;
 }
 
-// @font-face {
-//   font-family: 'FedraSansAltPro-Demi';
-//   src: url('../../../../assets/fonts/FedraSansAltPro-Demi.eot?#iefix')
-//       format('embedded-opentype'),
-//     url('../../../../assets/fonts/FedraSansAltPro-Demi.otf') format('opentype'),
-//     url('../../../../assets/fonts/FedraSansAltPro-Demi.woff') format('woff'),
-//     url('../../../../assets/fonts/FedraSansAltPro-Demi.ttf') format('truetype');
-//   font-weight: normal;
-//   font-style: normal;
-// }
-//
-// @font-face {
-//   font-family: 'FedraSansAltPro-DemiItalic';
-//   src: url('../../../../assets/fonts/FedraSansAltPro-DemiItalic.eot?#iefix')
-//       format('embedded-opentype'),
-//     url('../../../../assets/fonts/FedraSansAltPro-DemiItalic.otf')
-//       format('opentype'),
-//     url('../../../../assets/fonts/FedraSansAltPro-DemiItalic.woff')
-//       format('woff'),
-//     url('../../../../assets/fonts/FedraSansAltPro-DemiItalic.ttf')
-//       format('truetype');
-//   font-weight: normal;
-//   font-style: normal;
-// }
+// Demi
+@font-face {
+  font-family: 'Fedra Sans Std Demi';
+  src: url('../../../../assets/fonts/FedraSansStd-Demi.otf')
+      format('opentype'),
+    url('../../../../assets/fonts/FedraSansStd-Demi.woff') format('woff'),
+    url('../../../../assets/fonts/FedraSansStd-Demi.ttf')
+      format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}

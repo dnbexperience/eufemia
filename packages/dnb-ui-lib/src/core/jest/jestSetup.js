@@ -6,9 +6,15 @@
 import '../startup/required'
 
 import { axe, toHaveNoViolations } from 'jest-axe'
-import fakeProps, { fakeDataForProps } from 'react-fake-props'
+// TODO: fakeDataForProps gets not exported properly
+// import fakeProps, { fakeDataForProps } from 'react-fake-props'
+// This is the reason, why we use our own "copy"
+import fakeProps, {
+  fakeDataForProps as _fakeDataForProps
+} from './react-fake-props'
 import { mount, render, shallow } from './enzyme'
 
+import * as reactDocs from 'react-docgen'
 import ReactDOMServer from 'react-dom/server'
 import fs from 'fs-extra'
 import onceImporter from 'node-sass-once-importer'
@@ -20,8 +26,8 @@ import { toBeType } from 'jest-tobetype'
 import toJson from 'enzyme-to-json'
 
 export {
-  fakeProps,
-  fakeDataForProps,
+  fakeProps, // we have also our own replacement function called "fakeAllProps"
+  // fakeDataForProps,
   shallow,
   mount,
   render,
@@ -34,23 +40,42 @@ export {
 expect.extend({ toBeType })
 expect.extend(toHaveNoViolations)
 
-// > Screenshot testing is not working properly yet under heavy test conditions
+const fakeDataForProps = (props, options) => {
+  // there is a bug in "react-docgen"
+  // to make sure we don't return enum strings with an \'...\' inside, we remove it here
+  for (let i in props) {
+    if (props[i].type.name === 'enum' && props[i].type.value) {
+      if (Array.isArray(props[i].type.value))
+        props[i].type.value = props[i].type.value.map(({ value }) => ({
+          // no, we dont want this in a string
+          value: value.replace(new RegExp("'", 'g'), '')
+        }))
+    }
+  }
+  return _fakeDataForProps(props, options)
+}
 
-// > this may be interesting later
-// import snapshotDiff, { toMatchDiffSnapshot } from 'snapshot-diff'
-// expect.extend({ toMatchDiffSnapshot })
-// expect.addSnapshotSerializer(snapshotDiff.getSnapshotDiffSerializer())
-
-// > we do not use emotion in here yet
-// import * as emotion from 'emotion'
-// import { createSerializer } from 'jest-emotion'
-// expect.addSnapshotSerializer(
-//   createSerializer(emotion, {
-//     classNameReplacer(className, index) {
-//       return `jest-class-name-${index}`
-//     }
-//   })
-// )
+// Note: replace this code later, once "react-fake-props" is exporting fakeDataForProps properly
+export const fakeAllProps = (file, options) => {
+  const source = fs.readFileSync(file, 'utf-8')
+  const componentInfo = reactDocs.parse(
+    source,
+    reactDocs.resolver.findAllComponentDefinitions
+  )
+  return componentInfo.props
+    ? fakeDataForProps(componentInfo.props, options)
+    : // in case we use findAllComponentDefinitions
+    // we have to walk thouh all the results
+    Array.isArray(componentInfo)
+    ? componentInfo.reduce(
+        (acc, cur) => ({
+          ...acc,
+          ...fakeDataForProps(cur.props, options)
+        }),
+        {}
+      )
+    : {}
+}
 
 export const loadScss = file => {
   try {

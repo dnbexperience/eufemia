@@ -53,23 +53,3 @@
     @include numberFeature(proportional-nums, pnum);
   }
 }
-
-// Typography Classes
-.dnb-style {
-  .text-lead-16 {
-    font-size: 1em; // 16px
-    line-height: 1.5rem; // 24px
-    font-weight: 400;
-  }
-
-  .text-lead-20 {
-    font-size: 1.25em; // 20px
-    line-height: 2rem; // 32px
-    font-weight: 400;
-  }
-
-  .text-small {
-    font-size: 0.8125em; // 14px
-    line-height: 1.375rem; // 22px
-  }
-}

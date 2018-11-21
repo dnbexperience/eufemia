@@ -116,9 +116,20 @@ html[data-whatinput='keyboard'] .dnb-style *:not(a):not(div):focus {
   @include fakeFocus();
 }
 .dnb-tab-focus {
+  outline: none;
   &:focus {
     @include tabFocus(!important);
   }
+}
+
+// Layout management
+// Use this class where components are trying to add background boxes/borders/lines
+// to the very outer sides of the page
+// e.g. Tabs are using this technique
+// In some cases we dont want to have that effect.
+// E.g. if we have a menu to the left or right side
+.dnb-page-content-inner {
+  overflow: hidden;
 }
 
 // TODO: considder to take this out

@@ -8,7 +8,7 @@ import PropTypes from 'prop-types'
 import { css, injectGlobal } from 'react-emotion'
 // import Head from 'react-helmet'
 import MainMenu from './MainMenu'
-import gridSvg from '../../assets/images/grid-32x32.svg'
+import gridSvg from '../../../static/assets/images/grid-32x32.svg'
 import { FormLabel, Switch, Logo } from 'dnb-ui-lib/src'
 
 export default class StickyMenuBar extends Component {
@@ -54,7 +54,7 @@ export default class StickyMenuBar extends Component {
   }
   showGrid = showGrid => {
     if (typeof document !== 'undefined') {
-      const page = document.querySelector('.page-content')
+      const page = document.querySelector('.dnb-page-content')
       if (page) {
         if (showGrid) {
           page.classList.add('dev-grid')
@@ -157,16 +157,8 @@ injectGlobal`
       display: block;
     }
 
-    .dnb-style {
-      .text-lead-16 {
-        border-bottom: solid 1rem green;
-      }
-      .text-lead-20 {
-        border-bottom: solid 1rem green;
-      }
-      .text-small {
-        border-bottom: solid 1rem hotpink;
-      }
+    small {
+      ${'' /* border-bottom: solid 1rem hotpink; */}
     }
   }
 
@@ -191,7 +183,6 @@ const barStyle = css`
     background-color: var(--color-light-grey);
     border-bottom: 1px solid var(--color-outline-grey);
 
-    max-height: 100px;
     overflow: hidden;
     white-space: nowrap;
 
@@ -201,7 +192,7 @@ const barStyle = css`
   }
 
   .dnb-logo {
-    margin-right: 0.5rem;
+    margin-right: 1rem;
   }
   &.active .logo-slogan {
     color: #007272;
@@ -227,8 +218,6 @@ const barStyle = css`
     display: flex;
     align-items: center;
     cursor: pointer;
-
-    margin-left: -0.5rem;
   }
 
   .heading {

@@ -6,27 +6,18 @@
 import React from 'react'
 import {
   mount,
-  fakeDataForProps,
+  fakeAllProps,
   toJson,
   loadScss
 } from '../../../core/jest/jestSetup'
-import fs from 'fs'
-import * as reactDocs from 'react-docgen'
+
 import Component from '../Modal'
 // just to make sure we re-run the test in watch mode due to changes in this file
 import '../style/dnb-modal.scss'
 
-// TODO: replace this code later, once "react-fake-props" is exporting fakeDataForProps properly
-const source = fs.readFileSync(require.resolve('../Modal'), 'utf-8')
-const componentInfo = reactDocs.parse(
-  source,
-  reactDocs.resolver.findAllComponentDefinitions
-)
-const props = componentInfo.props
-  ? fakeDataForProps(componentInfo.props, {
-      optional: true
-    })
-  : {}
+const props = fakeAllProps(require.resolve('../Modal'), {
+  optional: true
+})
 
 describe('Modal component', () => {
   const ComponentWrap = mount(

@@ -96,6 +96,12 @@ exports[`ViewTitle scss have to match snapshot 1`] = `
   font-weight: bold;
   font-style: italic; }
 
+@font-face {
+  font-family: 'Fedra Sans Std Demi';
+  src: url(\\"../../../../assets/fonts/FedraSansStd-Demi.otf\\") format(\\"opentype\\"), url(\\"../../../../assets/fonts/FedraSansStd-Demi.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts/FedraSansStd-Demi.ttf\\") format(\\"truetype\\");
+  font-weight: normal;
+  font-style: normal; }
+
 .dnb-view-title {
   font-size: 1rem;
   font-family: \\"Fedra Sans Std\\", sans-serif;
