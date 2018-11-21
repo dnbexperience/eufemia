@@ -24,8 +24,42 @@ const config = {
   }
 }
 
+const makeRepo = async () => {
+  const pathToRepo = path.resolve('../../')
+  const repo = simpleGit(pathToRepo)
+
+  // update the origin to use a token
+  // cause CI has normally no write access to the repo
+  if (isCI && config.remote) {
+    await repo.removeRemote('origin')
+    await repo.addRemote('origin', config.remote)
+    log.text = '> Commit: Added new remote to origin'
+  }
+
+  return repo
+}
+
+export const getBranchName = async ({
+  repo = null,
+  requiredBranch = null
+}) => {
+  repo = repo || (await makeRepo())
+
+  const branchName = (await repo.branch()).current
+
+  if (requiredBranch && branchName !== requiredBranch) {
+    log.fail(
+      `The current branch (${branchName}) was not the required one: ${requiredBranch}`
+    )
+    return false
+  }
+
+  return branchName
+}
+
 const commitChanges = async ({
-  what = 'icons',
+  requiredBranch = 'develop',
+  what = 'files',
   filePathsWhitelist = [
     '/src/icons/',
     '/assets/icons/',
@@ -33,21 +67,17 @@ const commitChanges = async ({
     'icons.lock'
   ]
 } = {}) => {
-  const pathToRepo = path.resolve('../../')
-
   try {
-    const repo = simpleGit(pathToRepo)
+    const repo = await makeRepo()
 
-    // update the origin to use a token
-    // cause CI has normally no write access to the repo
-    if (isCI && config.remote) {
-      await repo.removeRemote('origin')
-      await repo.addRemote('origin', config.remote)
-      log.text = '> Commit: Added new remote to origin'
+    const branchName = await getBranchName({ repo, requiredBranch })
+
+    // if the branch is not as required
+    if (!branchName) {
+      return []
     }
 
-    const branchName = (await repo.branch()).current
-    log.start(`> Commit: Commit new files to the repo: ${branchName}`)
+    log.start(`> Commit: Commit new ${what} to the repo: ${branchName}`)
 
     const status = await repo.status()
 
