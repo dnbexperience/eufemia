@@ -16,69 +16,81 @@ Yarn offers a simpler approach to workspaces, but is way more powerful in managi
 #### Install the repo locally on Your machine
 
 ```bash
-# Somewhere, call:
+# Clone the repo into your project working directory
 git clone https://github.com/dnbexperience/eufemia.git
 
-# change to the directory:
-cd dnb-design-system
+# Change to the directory
+cd eufemia
 
-# and install the node modules by simply calling:
+# And install the dependencies
 yarn install
-```
 
-Once the installation is done, `yarn build` will be called to make all ready for a local server start.
+# Once the installation is done, create a local build
+yarn build
 
----
-
-## Portal
-
-#### Start the Portal locally
-
-```bash
-# In the `dnb-design-system-portal` directory, call:
+# Optionally, run the portal locally in watch mode (http://localhost:8000)
 yarn start
 ```
 
-#### Make a production build of the Portal, ready for deploy
-
-```bash
-# In the `dnb-design-system-portal` directory, call:
-yarn build
-```
-
 ---
+
+## Deploy
+
+The steps, from code changes to production builds are:
+
+1. Make Your changes
+1. Write tests and test the codebase
+1. Update eventually snapshots
+1. Commit Your changes with the correct **message decoration**
+1. Push to the [`develop`](https://github.com/dnbexperience/eufemia/commits/develop) branch
+1. Wait until the CI Server has validated the commits
+1. Make a [Pull Request](https://github.com/dnbexperience/eufemia/compare/master...develop?expand=1)
+1. Once the Pull Request will be approved by one of the authored [repo contributors](https://github.com/dnbexperience/eufemia/graphs/contributors),
+1. the CI Server will deploy the Portal and NPM builds
+
+#### CI Deploy Structure
+
+Both the Portal (`dnb-design-system-portal`) and the NPM Package (`dnb-ui-lib`) gets build by the Deploy Server.
+The development branch is called `origin/develop`. All commits will be automatically tested before You can create a new pull request to the `origin/master` branch.
 
 ## UI Library
 
-#### Make a npm package build of the `dnb-ui-lib` ready to publish
+#### How to make changes
+
+To make changes to the code base, You can either do it directly on GitHub with a fork of the Repository, or You can clone the Repository locally on Your computer.
+
+To test and build Your changes locally, run
 
 ```bash
 # In the `dnb-ui-lib` directory, call:
 yarn build
+
+# To check if You have to update some test snappshots
+# or to simply validate your changes, run:
+yarn test
 ```
 
-#### Get started on making new Components and Patterns
+##### Committing changes
 
-In the repo `dnb-ui-lib` find the directory `/src/components` or `/src/patterns`. There we can place a new directory with all the sub needed folders. To get a reference, take a look how the other _components_ and _patterns_ are set up.
+Before You commit and push changes, Your code will be tested with both Static and Integration tests. You may make sure to run `yarn test` before You try to commit. You may also write new tests for Your code before committing.
 
-Next, we have to pre-build the library so it gets ready for a publish.
-To do so and to integrate the new parts into the lib, simply do one of these steps:
+The Code Base is based on several Static Tests to help the code to be uniform:
 
-```bash
-# Method 1: in the `dnb-ui-lib` directory, call:
-yarn build
+- Prettier
+- ESLint
+- StyleLint
 
-# Method 2: in the `dnb-design-system-portal` directory, call:
-yarn build
-```
+You may consider to install Plugins for You Editor of choice to visualize and run the code formatters and linters based on the defined config files. This way to immediately see how the code have to consist.
 
-_Method 2_ will also create the needed pages in the `dnb-design-system-portal` at the same time.
+##### Get started on making new Components and Patterns
 
-**How to move or rename a Component or a Pattern?**
+In the repo `dnb-ui-lib` find the directory `/src/components` or `/src/patterns`. There You can place a new directory with all the needed sub folders. To get a reference, take a look how the other _components_ and _patterns_ are set up.
 
-Simply run `yarn build` for every build you have to generate.
+Next, we have to **pre-publish** the library locally, so we can check the building process and testing our changes by using again `yarn build`.
 
-**What happens on calling `yarn build`?**
+To use the local build, You can either run the Portal, or use `yarn link` to link the package with a totally different project.
+
+##### What happens on calling `yarn build`?
 
 There are a lot of different things going on, like:
 
@@ -87,38 +99,45 @@ There are a lot of different things going on, like:
 - UMD bundle gets created
 - All SASS styles are validated and compiled
 - Code gets minified
+- Icons are getting converted
 
 A couple of folders and files are generated in the `dnb-ui-lib` root. They are ignored in the .gitignore file, so they not get a part of the git repo.
-But these folders/files like:
+
+### NPM Package
+
+These folders/files will be a part of the npm [package](https://unpkg.com/dnb-ui-lib@latest/):
 
 - /assets
 - /components
 - /patterns
-- /styles
-- /web-components
+- /icons
+- /style
+- /es
 - /umd
 - /shared
+- /web-components
 - index.js
 
-Will be a part of the npm [package](https://www.npmjs.com/package/dnb-ui-lib).
+#### How to publish a new version to NPM?
 
----
-
-# NPM
-
-#### How to publish a new version of the [package](https://www.npmjs.com/package/dnb-ui-lib)?
-
-Make sure You are logged in to _npm_ locally. You also have to make sure the terminal is directed to `dnb-ui-lib`.
+You have to commit you changes to the `origin/develop` branch. Once the build gets approved by the CI Server, You can make a pull request to the the `origin/master` branch. All commits (_pull requests_) to master, will be deployed to both the Portal and the NPM Package.
 
 **Make sure You follow [Semantic Versioning](https://semver.org)**
 
-For a patch version e.g., run `npm version patch`
-Once the new version is set, go ahead:
+Version numbers are handled automatically by using [semantic-release](https://github.com/semantic-release/semantic-release#readme).
+Make sure to decorate Your **commit messages** with either [commit message format](https://github.com/semantic-release/semantic-release#commit-message-format) or simply use the following three methods:
 
-```bash
-# To pack and publish the new version, run:
-npm publish ./
+- `major: breaking change in API`
+- `minor: this is a new feature`
+- `fix: an example fix message`
 
-# If you don't want something to be installed by default
-npm publish ./ --tag beta
-```
+## Portal
+
+##### UI-LIB Changes
+
+The integration of the `dnb-ui-lib` into the `dnb-design-system-portal` will happen on the Deploy Server automatically.
+But You can easily run the build process for that, locally as well. Run `yarn build` in `dnb-design-system-portal` directory. This will update/create all the needed [pages](/uilib).
+
+##### Update Content only
+
+In case You make changes to **not** `ui-lib` related pages, You don't have to run the build process for sure. Simply commit Your changes. But make sure the Markdown is formatted correctly by using Prettier.
