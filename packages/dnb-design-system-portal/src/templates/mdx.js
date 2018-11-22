@@ -6,7 +6,7 @@ import React, { Component } from 'react'
 
 import Head from 'react-helmet'
 import Layout from '../shared/parts/Layout'
-// import { MDXProvider } from '@mdx-js/tag'
+import { MDXProvider } from '@mdx-js/tag'
 import MDXRenderer from 'gatsby-mdx/mdx-renderer'
 import { graphql, withPrefix } from 'gatsby'
 import inlineTags from '../shared/inlineTags'
@@ -29,16 +29,16 @@ export default class MdxTemplate extends Component {
     } = this.props
 
     return (
-      // <MDXProvider components={inlineTags}>
-      // </MDXProvider>
-      <Layout {...this.props} header={header}>
-        <Head>
-          <title>{title}</title>
-          <meta name="description" content={description} />
-          <link rel="shortcut icon" href={withPrefix('/favicon.ico')} />
-        </Head>
-        <MDXRenderer components={inlineTags}>{code.body}</MDXRenderer>
-      </Layout>
+      <MDXProvider components={inlineTags}>
+        <Layout {...this.props} header={header}>
+          <Head>
+            <title>{title}</title>
+            <meta name="description" content={description} />
+            <link rel="shortcut icon" href={withPrefix('/favicon.ico')} />
+          </Head>
+          <MDXRenderer>{code.body}</MDXRenderer>
+        </Layout>
+      </MDXProvider>
     )
   }
 }
@@ -46,28 +46,19 @@ export default class MdxTemplate extends Component {
 export const pageQuery = graphql`
   query($id: String!) {
     site {
-      # pathPrefix
       siteMetadata {
-        # repoUrl
         description
+        # repoUrl
       }
     }
     mdx(fields: { id: { eq: $id } }) {
       fields {
-        # id
         title
         header
       }
       code {
         body
       }
-      # tableOfContents(pathToSlugField: "frontmatter.path")
-      # tableOfContents
-      # parent {
-      #   ... on File {
-      #     relativePath
-      #   }
-      # }
     }
   }
 `

@@ -6,7 +6,6 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import styled, { css } from 'react-emotion'
-// import { renderStylesToString } from 'emotion-server'
 import classnames from 'classnames'
 
 const typographyStylesRaw = /* @css */ `
@@ -58,11 +57,7 @@ const typographyStylesRaw = /* @css */ `
   font-style: italic;
 }
 `
-const typographyStyles = css`
-  ${typographyStylesRaw}
-`
-
-// console.log('typographyStyles', renderStylesToString(typographyStyles))
+const typographyStyles = css(typographyStylesRaw)
 
 const Section = styled.div`
   padding: 2rem 0;
