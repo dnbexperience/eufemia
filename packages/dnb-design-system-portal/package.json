@@ -8,7 +8,7 @@
   "main": "index.js",
   "scripts": {
     "build": "yarn make-ui-lib-pages",
-    "build-ci": "yarn build:version && yarn make-ui-lib-pages && yarn commit-new-pages && yarn build-portal --prefix-paths",
+    "build-ci": "yarn build:version && yarn make-ui-lib-pages && yarn build-portal --prefix-paths && yarn commit-new-pages",
     "build-portal": "gatsby build",
     "build:fresh": "rm -rf .cache && rm -rf ./public/** && yarn build-portal",
     "build:stage": "yarn build-portal --prefix-paths",
