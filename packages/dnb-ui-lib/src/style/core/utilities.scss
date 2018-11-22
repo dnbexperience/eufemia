@@ -66,7 +66,7 @@
   outline: none;
   border-color: transparent;
 
-  @if $onInput {
+  @if $onInput != 'keyboard' {
     html[data-whatinput='#{$onInput}'] &:not(.dnb-no-mouse-focus) {
       transition: box-shadow 0.1s ease-out 0s;
       @include fakeBorder($color, $shadow);
@@ -74,12 +74,12 @@
   }
 
   html[data-whatinput='keyboard'] & {
-    @include tabFocus();
+    @include fakeBorder($color-signal-orange);
   }
 }
 
-@mixin tabFocus($important: null) {
-  @include fakeBorder($color-signal-orange, null, $important);
+@mixin tabFocus() {
+  @include fakeFocus('keyboard');
 }
 
 @mixin fakeBorder(

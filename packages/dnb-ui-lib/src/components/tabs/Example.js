@@ -34,6 +34,7 @@ class Example extends Component {
         <Tabs
           selected_key="second"
           direction="right"
+          label="Some Tabs label"
           data={data}
           on_change={this.openTab}
           render={({ Wrapper, TabsList, Tabs }) => {
@@ -57,24 +58,22 @@ class Example extends Component {
 }
 
 const exampleContent = {
-  first: (
-    <h2>
-      First <small>I'm small</small> more text
-    </h2>
-  ),
+  first: <h2>First</h2>,
   second: <Input>Focus me with next Tab key</Input>,
   third: (
     <p>
       Eros semper blandit tellus mollis primis quisque platea sollicitudin
       ipsum
     </p>
-  )
+  ),
+  fourth: <h2>Fourth</h2>
 }
 
 const data = [
   { title: 'First', key: 'first' },
   { title: 'Second', key: 'second' },
-  { title: 'Third', key: 'third', disabled: true }
+  { title: 'Third', key: 'third', disabled: true },
+  { title: 'Fourth', key: 'fourth' }
 ]
 const dataBlob = JSON.stringify(data, null, 2)
 

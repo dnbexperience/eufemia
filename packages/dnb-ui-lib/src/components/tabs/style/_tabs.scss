@@ -13,9 +13,9 @@
     display: flex;
     flex-direction: row;
     align-content: flex-start;
-    // flex-wrap: nowrap;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: nowrap;
 
     &__tablist {
       display: flex;
@@ -32,6 +32,8 @@
       justify-content: center;
     }
 
+    // we may wrap this &::after in allAbove to now show for mobile
+    // @include allAbove(medium) {}
     &::after {
       content: '';
       position: absolute;
@@ -61,10 +63,7 @@
       &-title {
         font-size: 1em;
         line-height: 1.5em;
-        font-weight: 300;
-        text-align: center;
-
-        color: var(--color-emerald-green);
+        white-space: nowrap;
       }
 
       // we use "aria-hidden" SPAN to simulate a wider width for each tab
@@ -92,6 +91,16 @@
     }
     .dnb-tablink:first-child {
       margin-left: 0;
+    }
+
+    @include allBelow(medium) {
+      &__tablist {
+        display: block;
+      }
+      .dnb-tablink {
+        margin-top: 0.5em;
+        margin-left: 0;
+      }
     }
   }
 

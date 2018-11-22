@@ -7,6 +7,7 @@ import React from 'react'
 import {
   mount,
   fakeAllProps,
+  axeComponent,
   toJson,
   loadScss
 } from '../../../core/jest/jestSetup'
@@ -17,8 +18,8 @@ import '../style/dnb-tabs.scss'
 const props = fakeAllProps(require.resolve('../Tabs'), {
   optional: true
 })
-delete props.children
-// console.debug('props', props)
+delete props.render
+
 const data = [
   { title: 'First', key: 'first' },
   { title: 'Second', key: 'second' },
@@ -31,11 +32,18 @@ const exampleContent = {
 }
 
 describe('Tabs component', () => {
-  const ComponentWrap = mount(
-    <Component data={data}>{exampleContent}</Component>
+  const Comp = mount(
+    <Component {...props} data={data} selected_key="second">
+      {exampleContent}
+    </Component>
   )
+
   it('have to match snapshot', () => {
-    expect(toJson(ComponentWrap)).toMatchSnapshot()
+    expect(toJson(Comp)).toMatchSnapshot()
+  })
+
+  it('should validate with ARIA rules as a tabs', async () => {
+    expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })
 
