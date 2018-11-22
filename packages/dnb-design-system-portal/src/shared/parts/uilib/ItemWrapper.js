@@ -78,6 +78,7 @@ class ComponentItemWrapper extends Component {
   }
   constructor(props) {
     super(props)
+    this._id = 'item-wrapper'
     const location = getLocation()
     if (location)
       this.state.wasFullscreen = /fullscreen/.test(location.search)
@@ -133,6 +134,7 @@ class ComponentItemWrapper extends Component {
         )}
         {!hideTabs && (
           <Tabs
+            id={this._id}
             do_set_hash
             data={tabs}
             on_change={this.openTab}
@@ -171,18 +173,18 @@ class ComponentItemWrapper extends Component {
         )}
 
         {this.isActive('demo') && (
-          <div className="dnb-tabs__content">
+          <Tabs.TabContent id={this._id} selection_key="demo">
             {!hideTabs && <Description />}
             <DemoComponent />
             {Additional /* here we use AdditionalCallback */ &&
               Additional.demo && (
                 <Additional.demo CodeRenderer={CodeRenderer} />
               )}
-          </div>
+          </Tabs.TabContent>
         )}
 
         {this.isActive('info') && (
-          <div className="dnb-tabs__content">
+          <Tabs.TabContent id={this._id} selection_key="info">
             <Details />
             {Additional /* here we use AdditionalCallback */ &&
               Additional.info && (
@@ -194,17 +196,17 @@ class ComponentItemWrapper extends Component {
                 <CodeRenderer language="jsx">{ExampleCode}</CodeRenderer>
               </Fragment>
             )}
-          </div>
+          </Tabs.TabContent>
         )}
 
         {this.isActive('code') && (
-          <div className="dnb-tabs__content">
+          <Tabs.TabContent id={this._id} selection_key="code">
             <Code source={CodeComponent} />
             {Additional /* here we use AdditionalCallback */ &&
               Additional.code && (
                 <Additional.code CodeRenderer={CodeRenderer} />
               )}
-          </div>
+          </Tabs.TabContent>
         )}
       </div>
     )

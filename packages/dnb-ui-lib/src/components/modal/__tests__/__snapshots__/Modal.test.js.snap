@@ -89,11 +89,11 @@ exports[`Modal component have to match snapshot 1`] = `
                 class={null}
                 className={null}
                 color={null}
-                height={16}
+                height={null}
                 icon="modal_trigger_icon"
                 modifier={null}
-                size={null}
-                width={16}
+                size={16}
+                width={null}
               />
             </span>
           </Content>
@@ -215,60 +215,35 @@ exports[`Modal component have to match snapshot 1`] = `
                         class={null}
                         className={null}
                         color={null}
-                        height={16}
+                        height={null}
                         icon="close"
                         modifier={null}
-                        size={null}
-                        width={16}
+                        size={16}
+                        width={null}
                       >
-                        <Icon
-                          alt={null}
-                          area_hidden={false}
+                        <span
                           aria-hidden={true}
-                          aria-label="close_title"
-                          attributes={null}
-                          class={null}
-                          className="dnb-icon"
-                          color={null}
-                          height={null}
-                          icon={
-                            <SvgComponent
-                              height={16}
-                              width={16}
-                            />
-                          }
-                          modifier={null}
+                          aria-label="close title"
+                          className="dnb-icon dnb-icon--default"
                           role="presentation"
-                          size={16}
-                          width={null}
                         >
-                          <span
-                            className="dnb-icon dnb-icon"
-                            role="presentation"
+                          <close
+                            height={null}
+                            width={null}
                           >
-                            <Component
-                              height={16}
-                              width={16}
+                            <svg
+                              height={null}
+                              viewBox="0 0 16 16"
+                              width={null}
                             >
-                              <SvgComponent
-                                height={16}
-                                width={16}
-                              >
-                                <svg
-                                  height={16}
-                                  viewBox="0 0 16 16"
-                                  width={16}
-                                >
-                                  <path
-                                    clipRule="evenodd"
-                                    d="M4.03 3.1a.75.75 0 0 0-1.06 1.06l3.97 3.97-3.97 3.97a.75.75 0 1 0 1.06 1.06L8 9.19l3.97 3.97a.75.75 0 1 0 1.06-1.06L9.06 8.13l3.97-3.97a.75.75 0 0 0-1.06-1.06L8 7.07 4.03 3.1z"
-                                    fillRule="evenodd"
-                                  />
-                                </svg>
-                              </SvgComponent>
-                            </Component>
-                          </span>
-                        </Icon>
+                              <path
+                                clipRule="evenodd"
+                                d="M4.03 3.1a.75.75 0 0 0-1.06 1.06l3.97 3.97-3.97 3.97a.75.75 0 1 0 1.06 1.06L8 9.19l3.97 3.97a.75.75 0 1 0 1.06-1.06L9.06 8.13l3.97-3.97a.75.75 0 0 0-1.06-1.06L8 7.07 4.03 3.1z"
+                                fillRule="evenodd"
+                              />
+                            </svg>
+                          </close>
+                        </span>
                       </IconWithAllIcons>
                     </span>
                   </Content>
@@ -394,19 +369,32 @@ exports[`Modal scss have to match snapshot 1`] = `
 *
 * ======================================================================== */
 .dnb-icon {
-  width: 1em;
-  height: 1em;
   display: inline;
   vertical-align: baseline;
-  font-size: inherit; }
+  font-size: inherit;
+  width: 1em;
+  height: 1em; }
   .dnb-icon svg {
-    width: inherit;
-    height: inherit;
     fill: currentColor; }
+  .dnb-icon:not(.has-custom-size) svg {
+    width: inherit;
+    height: inherit; }
+  .dnb-icon--small {
+    width: 0.5em;
+    height: 0.5em; }
+  .dnb-icon--default {
+    width: 1em;
+    height: 1em; }
+  .dnb-icon--medium {
+    width: 1.5em;
+    height: 1.5em; }
+  .dnb-icon--large {
+    width: 2em;
+    height: 2em; }
 
 .dnb-button {
-  font-size: 1rem;
   font-family: \\"Fedra Sans Std\\", sans-serif;
+  font-size: 1rem;
   font-weight: 300;
   font-style: normal;
   line-height: 1.5em; }
@@ -557,8 +545,8 @@ exports[`Modal scss have to match snapshot 1`] = `
     border: none; }
 
 .dnb-modal {
-  font-size: 1rem;
   font-family: \\"Fedra Sans Std\\", sans-serif;
+  font-size: 1rem;
   font-weight: 300;
   font-style: normal;
   line-height: 1.5em; }

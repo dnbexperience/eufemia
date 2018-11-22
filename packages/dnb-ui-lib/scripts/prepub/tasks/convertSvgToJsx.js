@@ -12,7 +12,6 @@ import rename from 'gulp-rename'
 import transform from 'gulp-transform'
 import svgr from '@svgr/core'
 import prettier from 'prettier'
-import camelCase from 'camelcase'
 import globby from 'globby'
 import { iconCase } from '../../../src/components/icon'
 import { asyncForEach } from '../../tools'
@@ -86,17 +85,17 @@ const transformToJsx = (content, file) => {
   }
   const basename = path.basename(file.path)
   const filename = basename.replace(path.extname(file.path), '')
-  // const name = iconCase(filename)
-  const componentName = camelCase(filename, {
-    pascalCase: false
-  })
+  const componentName = iconCase(filename)
   try {
     return new Promise((resolve, reject) =>
-      svgr(content, {
-        ids: true, //do not remove IDs from the syntax
-        prettier: false,
-        componentName
-      })
+      svgr(
+        content,
+        {
+          ids: true, //do not remove IDs from the syntax
+          prettier: false // we use our own prettier version here
+        },
+        { componentName }
+      )
         .then(res => {
           log.text = `> PrePublish: Icon was converted: ${basename}`
           resolve(

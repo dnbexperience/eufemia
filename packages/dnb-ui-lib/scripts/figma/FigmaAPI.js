@@ -6,6 +6,7 @@
 import { ConvertAndSaveComponentsStyle } from './tasks/componentsStyleConverter'
 // import { FetchImages } from './tasks/imageStore'
 import { IconsConverter } from './tasks/iconsConverter'
+import { getBranchName } from './../tools/commitToBranch'
 import { log, ErrorHandler } from '../lib'
 import { getFigmaDoc } from './helpers/docHelpers'
 
@@ -41,6 +42,14 @@ export const fetchFigmaData = async ({
   ...rest
 } = {}) => {
   try {
+    // make sure we are on the develop branch
+    const branchName = await getBranchName({ requiredBranch: 'develop' })
+
+    if (!branchName) {
+      log.fail('> Figma: Could not continue, as we require another branch')
+      return
+    }
+
     if (!figmaDoc) {
       figmaDoc = await getFigmaDoc({ figmaFile })
     }

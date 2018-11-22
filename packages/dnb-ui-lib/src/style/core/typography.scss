@@ -3,39 +3,20 @@
  * ========================================================================== */
 
 // Font usage
+.typo-std {
+  font-family: $font-family-std;
+  font-weight: normal;
+  font-style: normal;
+}
 .typo-book {
   font-family: $font-family-book;
   font-weight: normal;
   font-style: normal;
 }
-.typo-book-italic {
-  font-family: $font-family-std;
+.typo-demi {
+  font-family: $font-family-demi;
   font-weight: normal;
-  font-style: italic;
-}
-.typo-medium {
-  font-weight: 500;
   font-style: normal;
-}
-.typo-medium-italic {
-  font-weight: 500;
-  font-style: italic;
-}
-.typo-light-italic {
-  font-weight: 300;
-  font-style: italic;
-}
-.typo-light {
-  font-weight: 300;
-  font-style: normal;
-}
-.typo-bold {
-  font-weight: bold;
-  font-style: normal;
-}
-.typo-bold-italic {
-  font-weight: bold;
-  font-style: italic;
 }
 
 // Number usage

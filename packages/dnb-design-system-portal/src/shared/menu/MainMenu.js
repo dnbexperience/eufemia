@@ -167,7 +167,7 @@ export default class MainMenu extends Component {
         <div css={toolbarStyle}>
           {this.props.enableOverlay && (
             <Button
-              className="main-menu__back dnb-tab-focus"
+              className="main-menu__back dnb-always-focus"
               on_click={this.closeMenuHandler}
               icon="chevron-left"
               icon_position="left"

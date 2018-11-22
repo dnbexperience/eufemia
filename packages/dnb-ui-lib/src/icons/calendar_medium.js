@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-const SvgComponent = props => (
+const calendar_medium = props => (
   <svg viewBox="0 0 24 24" {...props}>
     <g clipPath="url(#clip0)">
       <path
@@ -19,4 +19,4 @@ const SvgComponent = props => (
   </svg>
 )
 
-export default SvgComponent
+export default calendar_medium

@@ -118,7 +118,12 @@ html[data-whatinput='keyboard'] .dnb-style *:not(a):not(div):focus {
 .dnb-tab-focus {
   outline: none;
   &:focus {
-    @include tabFocus(!important);
+    @include tabFocus();
+  }
+}
+.dnb-always-focus {
+  &:focus {
+    @include fakeBorder($color-signal-orange, null, !important);
   }
 }
 

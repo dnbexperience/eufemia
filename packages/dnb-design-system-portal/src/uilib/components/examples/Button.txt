@@ -59,7 +59,8 @@
   text="Signal Button (large size)"
   size="large"
   icon={Bell}
-  icon_size="24"
+  icon_size="medium"
+  // icon_size="24"
 />
 <Button
   variant="signal"

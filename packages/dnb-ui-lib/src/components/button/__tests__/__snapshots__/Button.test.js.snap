@@ -69,50 +69,30 @@ exports[`Button component have to match default button snapshot 1`] = `
           class={null}
           className={null}
           color={null}
-          height="icon_size"
+          height={null}
           icon="question"
           modifier={null}
-          size={null}
-          width="icon_size"
+          size="icon_size"
+          width={null}
         >
-          <Icon
-            alt={null}
-            area_hidden={false}
+          <span
             aria-hidden={true}
             aria-label="This is a button title"
-            attributes={null}
-            class={null}
-            className="dnb-icon"
-            color={null}
-            height={null}
-            icon={<SvgComponent />}
-            modifier={null}
+            className="dnb-icon has-custom-size"
             role="presentation"
-            size={16}
-            width={null}
           >
-            <span
-              className="dnb-icon dnb-icon"
-              role="presentation"
-            >
-              <Component
-                height={16}
-                width={16}
+            <question>
+              <svg
+                viewBox="0 0 16 16"
               >
-                <SvgComponent>
-                  <svg
-                    viewBox="0 0 16 16"
-                  >
-                    <path
-                      clipRule="evenodd"
-                      d="M4.352 5.1c0-2.05 1.55-3.6 3.6-3.6 2.052 0 3.601 1.55 3.601 3.6 0 2.051-1.55 3.6-3.6 3.6a.75.75 0 0 0-.75.75v2.666a.75.75 0 0 0 1.5 0V10.15c2.506-.348 4.35-2.425 4.35-5.049 0-2.879-2.22-5.1-5.1-5.1-2.88 0-5.1 2.221-5.1 5.1a.75.75 0 0 0 1.5 0zm3.6 10.898c.659 0 1.097-.439 1.097-1.097 0-.658-.438-1.096-1.096-1.096-.658 0-1.097.438-1.097 1.096 0 .658.439 1.097 1.097 1.097z"
-                      fillRule="evenodd"
-                    />
-                  </svg>
-                </SvgComponent>
-              </Component>
-            </span>
-          </Icon>
+                <path
+                  clipRule="evenodd"
+                  d="M4.352 5.1c0-2.05 1.55-3.6 3.6-3.6 2.052 0 3.601 1.55 3.601 3.6 0 2.051-1.55 3.6-3.6 3.6a.75.75 0 0 0-.75.75v2.666a.75.75 0 0 0 1.5 0V10.15c2.506-.348 4.35-2.425 4.35-5.049 0-2.879-2.22-5.1-5.1-5.1-2.88 0-5.1 2.221-5.1 5.1a.75.75 0 0 0 1.5 0zm3.6 10.898c.659 0 1.097-.439 1.097-1.097 0-.658-.438-1.096-1.096-1.096-.658 0-1.097.438-1.097 1.096 0 .658.439 1.097 1.097 1.097z"
+                  fillRule="evenodd"
+                />
+              </svg>
+            </question>
+          </span>
         </IconWithAllIcons>
       </span>
     </Content>
@@ -190,50 +170,30 @@ exports[`Button component have to match href="..." snapshot 1`] = `
           class={null}
           className={null}
           color={null}
-          height="icon_size"
+          height={null}
           icon="question"
           modifier={null}
-          size={null}
-          width="icon_size"
+          size="icon_size"
+          width={null}
         >
-          <Icon
-            alt={null}
-            area_hidden={false}
+          <span
             aria-hidden={true}
             aria-label="This is a button title"
-            attributes={null}
-            class={null}
-            className="dnb-icon"
-            color={null}
-            height={null}
-            icon={<SvgComponent />}
-            modifier={null}
+            className="dnb-icon has-custom-size"
             role="presentation"
-            size={16}
-            width={null}
           >
-            <span
-              className="dnb-icon dnb-icon"
-              role="presentation"
-            >
-              <Component
-                height={16}
-                width={16}
+            <question>
+              <svg
+                viewBox="0 0 16 16"
               >
-                <SvgComponent>
-                  <svg
-                    viewBox="0 0 16 16"
-                  >
-                    <path
-                      clipRule="evenodd"
-                      d="M4.352 5.1c0-2.05 1.55-3.6 3.6-3.6 2.052 0 3.601 1.55 3.601 3.6 0 2.051-1.55 3.6-3.6 3.6a.75.75 0 0 0-.75.75v2.666a.75.75 0 0 0 1.5 0V10.15c2.506-.348 4.35-2.425 4.35-5.049 0-2.879-2.22-5.1-5.1-5.1-2.88 0-5.1 2.221-5.1 5.1a.75.75 0 0 0 1.5 0zm3.6 10.898c.659 0 1.097-.439 1.097-1.097 0-.658-.438-1.096-1.096-1.096-.658 0-1.097.438-1.097 1.096 0 .658.439 1.097 1.097 1.097z"
-                      fillRule="evenodd"
-                    />
-                  </svg>
-                </SvgComponent>
-              </Component>
-            </span>
-          </Icon>
+                <path
+                  clipRule="evenodd"
+                  d="M4.352 5.1c0-2.05 1.55-3.6 3.6-3.6 2.052 0 3.601 1.55 3.601 3.6 0 2.051-1.55 3.6-3.6 3.6a.75.75 0 0 0-.75.75v2.666a.75.75 0 0 0 1.5 0V10.15c2.506-.348 4.35-2.425 4.35-5.049 0-2.879-2.22-5.1-5.1-5.1-2.88 0-5.1 2.221-5.1 5.1a.75.75 0 0 0 1.5 0zm3.6 10.898c.659 0 1.097-.439 1.097-1.097 0-.658-.438-1.096-1.096-1.096-.658 0-1.097.438-1.097 1.096 0 .658.439 1.097 1.097 1.097z"
+                  fillRule="evenodd"
+                />
+              </svg>
+            </question>
+          </span>
         </IconWithAllIcons>
       </span>
     </Content>
@@ -344,19 +304,32 @@ exports[`Button scss have to match snapshot 1`] = `
 *
 * ======================================================================== */
 .dnb-icon {
-  width: 1em;
-  height: 1em;
   display: inline;
   vertical-align: baseline;
-  font-size: inherit; }
+  font-size: inherit;
+  width: 1em;
+  height: 1em; }
   .dnb-icon svg {
-    width: inherit;
-    height: inherit;
     fill: currentColor; }
+  .dnb-icon:not(.has-custom-size) svg {
+    width: inherit;
+    height: inherit; }
+  .dnb-icon--small {
+    width: 0.5em;
+    height: 0.5em; }
+  .dnb-icon--default {
+    width: 1em;
+    height: 1em; }
+  .dnb-icon--medium {
+    width: 1.5em;
+    height: 1.5em; }
+  .dnb-icon--large {
+    width: 2em;
+    height: 2em; }
 
 .dnb-button {
-  font-size: 1rem;
   font-family: \\"Fedra Sans Std\\", sans-serif;
+  font-size: 1rem;
   font-weight: 300;
   font-style: normal;
   line-height: 1.5em; }

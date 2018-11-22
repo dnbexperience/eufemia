@@ -14,6 +14,12 @@ import {
 } from '../../shared/component-helper'
 
 export const DefaultIconSize = 16
+export const DefaultIconSizes = {
+  default: 16,
+  medium: 24,
+  large: 32
+}
+export const ListDefaultIconSizes = Object.entries(DefaultIconSizes)
 
 export const propTypes = {
   icon: PropTypes.oneOfType([
@@ -25,7 +31,6 @@ export const propTypes = {
   size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  // center_self: PropTypes.string,// we may have usage of center_self later
   color: PropTypes.string,
   alt: PropTypes.string,
   area_hidden: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
@@ -84,40 +89,48 @@ export default class Icon extends PureComponent {
 
     const {
       color,
-      size,
       height,
       width,
-      modifier,
+      class: _className,
       className,
       area_hidden
     } = props
 
-    let { alt } = props
-    if (!alt) {
-      if (typeof icon === 'string') alt = icon
-      else if (typeof icon === 'object' && icon.displayName) alt = icon
-    }
-    const classes = classnames(
-      'dnb-icon',
-      modifier ? `dnb-icon--${modifier}` : '',
-      // we may have usage of center_self later
-      // props.center_self ? 'dnb-icon--center-self' : '',
-      props.class,
-      className
-    )
+    let { size, alt, modifier } = props
 
-    // also used for code markup simulation
-    const wrapperParams = validateDOMAttributes(props, {
-      className: classes,
-      role: 'presentation'
-    })
-    if (alt) {
-      wrapperParams['aria-label'] = alt
-    }
-    if (area_hidden) {
-      wrapperParams['aria-hidden'] = area_hidden
+    // get the icon name - we use is for several things
+    const name =
+      typeof props.icon === 'string'
+        ? props.icon
+        : props.icon.displayName || props.icon.name
+
+    // if there is no size, check if we can find the actuall size in the name
+    if (!size || size === DefaultIconSize) {
+      const nameParts = (name || '').split('_')
+      if (nameParts.length > 1) {
+        const lastPartOfIconName = nameParts.reverse()[0]
+        const potentialSize = ListDefaultIconSizes.filter(
+          ([key]) => key === lastPartOfIconName
+        ).reduce((acc, [key, value]) => {
+          return key && value
+        }, null)
+        if (potentialSize) {
+          size = potentialSize
+        }
+      }
     }
 
+    // if size is defined as a string, find the size number
+    if (typeof size === 'string' && !(parseFloat(size) > 0)) {
+      size = ListDefaultIconSizes.filter(([key]) => key === size).reduce(
+        (acc, [key, value]) => {
+          return key && value
+        },
+        null
+      )
+    }
+
+    // define all the svg parameters
     const svgParams = {}
     if (parseFloat(size) > -1) {
       svgParams['width'] = svgParams['height'] = size
@@ -125,6 +138,54 @@ export default class Icon extends PureComponent {
     if (parseFloat(width) > -1) svgParams['width'] = width
     if (parseFloat(height) > -1) svgParams['height'] = height
     if (color) svgParams['color'] = color
+
+    // if the sizes are identical and they are defualt sizes
+    // decorate the css class with that info
+    if (
+      !modifier &&
+      parseFloat(svgParams['width']) === parseFloat(svgParams['height'])
+    ) {
+      const wantedSize = parseFloat(svgParams['height'])
+      modifier = ListDefaultIconSizes.filter(
+        ([key, value]) => key && value === wantedSize
+      ).reduce((acc, [key]) => key, null)
+    }
+
+    const widthExistsInDefaultSizes = ListDefaultIconSizes.some(
+      ([key, value]) => key && value === parseFloat(svgParams['width'])
+    )
+    const heightExistsInDefaultSizes = ListDefaultIconSizes.some(
+      ([key, value]) => key && value === parseFloat(svgParams['height'])
+    )
+
+    // if the size is default, remove the widht/height
+    // but if the browser is IE11 - do not remove theese attributes
+    if (!isIE11 && widthExistsInDefaultSizes) {
+      svgParams['width'] = null
+    }
+    if (!isIE11 && heightExistsInDefaultSizes) {
+      svgParams['height'] = null
+    }
+
+    // some wrapper params
+    // also used for code markup simulation
+    const wrapperParams = validateDOMAttributes(props, {
+      role: 'presentation'
+    })
+    // get the alt
+    wrapperParams['aria-label'] = (alt || name).replace(/_/g, ' ')
+    if (area_hidden) {
+      wrapperParams['aria-hidden'] = area_hidden
+    }
+    wrapperParams.className = classnames(
+      'dnb-icon',
+      modifier ? `dnb-icon--${modifier}` : null,
+      !widthExistsInDefaultSizes && !heightExistsInDefaultSizes
+        ? 'has-custom-size'
+        : null,
+      _className,
+      className
+    )
 
     return {
       icon,
@@ -167,10 +228,7 @@ export const loadSVG = (icon, listOfIcons) => {
     icon = iconCase(icon)
     const mod = (listOfIcons.dnbIcons
       ? listOfIcons.dnbIcons
-      : listOfIcons)[
-      icon
-      // `icon_${iconCase(icon)}`
-    ]
+      : listOfIcons)[icon]
     return mod && mod.default ? mod.default : mod
   } catch (e) {
     new ErrorHandler(`Icon '${icon}' did not exist!`)
@@ -185,3 +243,8 @@ export const iconCase = name =>
     .toLowerCase()
     .replace(/^[0-9]/g, '$1')
     .replace(/[^a-z0-9_]/gi, '_')
+
+const isIE11 =
+  typeof window !== 'undefined'
+    ? !!window.MSInputMethodContext && !!document.documentMode
+    : false

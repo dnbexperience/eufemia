@@ -119,7 +119,7 @@ export default class Slider extends Component {
 
   constructor(props) {
     super(props)
-    this._id = props.id || `dnb-slider-${Math.random()}` // cause we need an id anyway
+    this._id = props.id || `dnb-slider-${Math.round(Math.random() * 999)}` // cause we need an id anyway
     this._containerRef = React.createRef()
     const value = Slider.getValue(props)
     this.state = {

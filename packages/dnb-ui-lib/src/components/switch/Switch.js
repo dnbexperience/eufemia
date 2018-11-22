@@ -107,7 +107,7 @@ export default class Switch extends Component {
     super(props)
     this._refLabel = React.createRef()
     this._refInput = React.createRef()
-    this._id = props.id || `dnb-switch-${Math.random()}` // cause we need an id anyway
+    this._id = props.id || `dnb-switch-${Math.round(Math.random() * 999)}` // cause we need an id anyway
     this.state = {
       _listenForPropChanges: true,
       hasDefaultState: props.default_state !== null,

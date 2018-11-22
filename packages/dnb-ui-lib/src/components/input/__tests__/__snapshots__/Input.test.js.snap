@@ -241,19 +241,32 @@ body:not(:-moz-handler-blocked) fieldset {
 *
 * ======================================================================== */
 .dnb-icon {
-  width: 1em;
-  height: 1em;
   display: inline;
   vertical-align: baseline;
-  font-size: inherit; }
+  font-size: inherit;
+  width: 1em;
+  height: 1em; }
   .dnb-icon svg {
-    width: inherit;
-    height: inherit;
     fill: currentColor; }
+  .dnb-icon:not(.has-custom-size) svg {
+    width: inherit;
+    height: inherit; }
+  .dnb-icon--small {
+    width: 0.5em;
+    height: 0.5em; }
+  .dnb-icon--default {
+    width: 1em;
+    height: 1em; }
+  .dnb-icon--medium {
+    width: 1.5em;
+    height: 1.5em; }
+  .dnb-icon--large {
+    width: 2em;
+    height: 2em; }
 
 .dnb-button {
-  font-size: 1rem;
   font-family: \\"Fedra Sans Std\\", sans-serif;
+  font-size: 1rem;
   font-weight: 300;
   font-style: normal;
   line-height: 1.5em; }
@@ -404,8 +417,8 @@ body:not(:-moz-handler-blocked) fieldset {
     border: none; }
 
 .dnb-input {
-  font-size: 1rem;
   font-family: \\"Fedra Sans Std\\", sans-serif;
+  font-size: 1rem;
   font-weight: 300;
   font-style: normal;
   line-height: 1.5em; }

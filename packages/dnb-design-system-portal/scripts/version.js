@@ -3,12 +3,19 @@
  *
  */
 
-import fs from 'fs'
+import fs from 'fs-extra'
 import path from 'path'
+import { isCI } from 'ci-info'
 import packageJson, { buildVersion } from '../package.json'
 
 export const currentVersion = buildVersion
 export const createNewVersion = async () => {
+  if (!isCI) {
+    console.log(
+      'You may only set a new deploy version on a CI environment!'
+    )
+    return false
+  }
   try {
     const date = new Date().toLocaleString()
     packageJson.buildVersion = date

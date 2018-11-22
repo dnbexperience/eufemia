@@ -31,12 +31,14 @@
         border-bottom: 2px solid transparent;
       }
 
+      // hover
       &:not([disabled]):hover {
         &::after {
           border-bottom-color: var(--color-emerald-green);
         }
       }
 
+      // disabled
       &[disabled] {
         cursor: not-allowed;
         .dnb-tablink-title {
@@ -44,20 +46,23 @@
         }
       }
 
+      // active + selected
+      &:not([disabled]):active,
       &:not([disabled]).selected {
         .dnb-tablink-title {
           font-family: $font-family-demi;
         }
       }
 
-      &:not([disabled]):active,
+      // selected only
       &:not([disabled]).selected {
         &::after {
           border-bottom-color: var(--color-signal-orange);
         }
       }
 
-      &:not([disabled]):not(:active):focus {
+      // focus
+      &:not([disabled]):not(:active):not(.selected):focus {
         @include fakeFocus();
         &::after {
           border-bottom: 2px solid transparent;

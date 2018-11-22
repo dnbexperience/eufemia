@@ -2,8 +2,8 @@
 
 exports[`Tabs component have to match snapshot 1`] = `
 <Tabs
-  class={null}
-  className={null}
+  class="class"
+  className="className"
   data={
     Array [
       Object {
@@ -21,13 +21,16 @@ exports[`Tabs component have to match snapshot 1`] = `
     ]
   }
   direction="left"
-  do_set_hash={false}
+  do_set_hash="do_set_hash"
+  id="id"
+  label="label"
   render={null}
-  selected_key={null}
+  selected_key="second"
+  selection_key="selection_key"
 >
   <Wrapper>
     <div
-      className="dnb-tabs"
+      className="dnb-tabs className class"
     >
       <TabsList>
         <div
@@ -35,18 +38,21 @@ exports[`Tabs component have to match snapshot 1`] = `
         >
           <Tabs>
             <div
+              aria-label="label"
               className="dnb-tabs__tabs__tablist dnb-tab-focus"
               onKeyDown={[Function]}
               onKeyUp={[Function]}
               role="tablist"
-              tabIndex={0}
+              tabIndex="0"
             >
               <button
-                aria-selected={true}
-                className="dnb-tablink dnb-no-mouse-focus tab--first selected"
+                aria-selected={false}
+                className="dnb-tablink dnb-no-mouse-focus tab--first "
                 disabled={false}
+                id="id-tab-first"
                 onClick={[Function]}
                 role="tab"
+                tabIndex="-1"
               >
                 <span
                   className="dnb-tablink-title"
@@ -61,11 +67,14 @@ exports[`Tabs component have to match snapshot 1`] = `
                 </span>
               </button>
               <button
-                aria-selected={false}
-                className="dnb-tablink dnb-no-mouse-focus tab--second "
+                aria-controls="id-content-second"
+                aria-selected={true}
+                className="dnb-tablink dnb-no-mouse-focus tab--second selected"
                 disabled={false}
+                id="id-tab-second"
                 onClick={[Function]}
                 role="tab"
+                tabIndex="-1"
               >
                 <span
                   className="dnb-tablink-title"
@@ -83,8 +92,10 @@ exports[`Tabs component have to match snapshot 1`] = `
                 aria-selected={false}
                 className="dnb-tablink dnb-no-mouse-focus tab--third "
                 disabled={false}
+                id="id-tab-third"
                 onClick={[Function]}
                 role="tab"
+                tabIndex="-1"
               >
                 <span
                   className="dnb-tablink-title"
@@ -102,15 +113,21 @@ exports[`Tabs component have to match snapshot 1`] = `
           </Tabs>
         </div>
       </TabsList>
-      <Content>
+      <TabContent
+        id="id"
+        selection_key="second"
+      >
         <div
+          aria-labelledby="id-tab-second"
           className="dnb-tabs__content"
+          id="id-content-second"
+          role="tabpanel"
         >
           <h2>
-            First
+            Second
           </h2>
         </div>
-      </Content>
+      </TabContent>
     </div>
   </Wrapper>
 </Tabs>
@@ -143,8 +160,8 @@ exports[`Tabs scss have to match snapshot 1`] = `
 * Scopes
 * ======================================================================== */
 .dnb-tabs {
-  font-size: 1rem;
   font-family: \\"Fedra Sans Std\\", sans-serif;
+  font-size: 1rem;
   font-weight: 300;
   font-style: normal;
   line-height: 1.5em; }
@@ -172,7 +189,8 @@ exports[`Tabs scss have to match snapshot 1`] = `
   flex-direction: row;
   align-content: flex-start;
   justify-content: space-between;
-  align-items: center; }
+  align-items: center;
+  flex-wrap: nowrap; }
   .dnb-tabs__tabs__tablist {
     display: flex;
     flex-direction: row; }
@@ -204,9 +222,7 @@ exports[`Tabs scss have to match snapshot 1`] = `
     .dnb-tabs__tabs .dnb-tablink-title {
       font-size: 1em;
       line-height: 1.5em;
-      font-weight: 300;
-      text-align: center;
-      color: var(--color-emerald-green); }
+      white-space: nowrap; }
     .dnb-tabs__tabs .dnb-tablink > span[hidden] {
       display: flex;
       flex-direction: column;
@@ -225,6 +241,12 @@ exports[`Tabs scss have to match snapshot 1`] = `
       height: 1px; }
   .dnb-tabs__tabs .dnb-tablink:first-child {
     margin-left: 0; }
+  @media screen and (max-width: 700px) {
+    .dnb-tabs__tabs__tablist {
+      display: block; }
+    .dnb-tabs__tabs .dnb-tablink {
+      margin-top: 0.5em;
+      margin-left: 0; } }
 
 .dnb-tabs__content {
   padding: 1rem 0.5rem; }
