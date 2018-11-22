@@ -247,12 +247,16 @@ body:not(:-moz-handler-blocked) fieldset {
   width: 1em;
   height: 1em; }
   .dnb-icon svg {
-    width: inherit;
-    height: inherit;
     fill: currentColor; }
+  .dnb-icon:not(.has-custom-size) svg {
+    width: inherit;
+    height: inherit; }
   .dnb-icon--small {
     width: 0.5em;
     height: 0.5em; }
+  .dnb-icon--default {
+    width: 1em;
+    height: 1em; }
   .dnb-icon--medium {
     width: 1.5em;
     height: 1.5em; }

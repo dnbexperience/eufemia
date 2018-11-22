@@ -6,7 +6,10 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import DefaultIcon, { DefaultIconSize, loadSVG } from './Icon'
-import * as icons from '../../icons/primary_icons'
+import * as icons_default from '../../icons/primary_icons'
+import * as icons_medium from '../../icons/primary_icons_medium'
+
+const icons = { ...icons_default, ...icons_medium }
 
 export { DefaultIconSize }
 export const propTypes = {
@@ -47,6 +50,10 @@ export default class IconWithAllIcons extends PureComponent {
 
     if (!Svg) return <></>
 
-    return <DefaultIcon {...wrapperParams} icon={<Svg {...svgParams} />} />
+    return (
+      <span {...wrapperParams}>
+        <Svg {...svgParams} />
+      </span>
+    )
   }
 }

@@ -9,9 +9,11 @@
   font-size: inherit; // only to feed width and height em's
 
   svg {
+    fill: currentColor;
+  }
+  &:not(.has-custom-size) svg {
     width: inherit;
     height: inherit;
-    fill: currentColor;
   }
 
   // defualt size
@@ -21,6 +23,10 @@
   &--small {
     width: 0.5em;
     height: 0.5em;
+  }
+  &--default {
+    width: 1em;
+    height: 1em;
   }
   &--medium {
     width: 1.5em;

@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-const SvgComponent = props => (
+const chevron_down = props => (
   <svg viewBox="0 0 16 16" {...props}>
     <path
       fillRule="evenodd"
@@ -12,4 +12,4 @@ const SvgComponent = props => (
   </svg>
 )
 
-export default SvgComponent
+export default chevron_down
