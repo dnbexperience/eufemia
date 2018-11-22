@@ -160,8 +160,8 @@ exports[`Tabs scss have to match snapshot 1`] = `
 * Scopes
 * ======================================================================== */
 .dnb-tabs {
-  font-size: 1rem;
   font-family: \\"Fedra Sans Std\\", sans-serif;
+  font-size: 1rem;
   font-weight: 300;
   font-style: normal;
   line-height: 1.5em; }

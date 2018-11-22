@@ -327,8 +327,8 @@ body:not(:-moz-handler-blocked) fieldset {
     height: 2em; }
 
 .dnb-button {
-  font-size: 1rem;
   font-family: \\"Fedra Sans Std\\", sans-serif;
+  font-size: 1rem;
   font-weight: 300;
   font-style: normal;
   line-height: 1.5em; }
@@ -479,8 +479,8 @@ body:not(:-moz-handler-blocked) fieldset {
     border: none; }
 
 .dnb-input {
-  font-size: 1rem;
   font-family: \\"Fedra Sans Std\\", sans-serif;
+  font-size: 1rem;
   font-weight: 300;
   font-style: normal;
   line-height: 1.5em; }
@@ -660,8 +660,8 @@ input[type='range']:focus {
   outline: none; }
 
 .dnb-dropdown {
-  font-size: 1rem;
   font-family: \\"Fedra Sans Std\\", sans-serif;
+  font-size: 1rem;
   font-weight: 300;
   font-style: normal;
   line-height: 1.5em; }
