@@ -32,8 +32,10 @@ const config = {
 }
 
 const makeRepo = async () => {
-  const pathToRepo = path.resolve('../')
+  const pathToRepo = path.resolve(__dirname, '../../../../')
   const repo = simpleGit(pathToRepo)
+
+  await repo.silent(true)
 
   // update the origin to use a token
   // cause CI has normally no write access to the repo
