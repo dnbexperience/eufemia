@@ -4,38 +4,6 @@
 #
 version: 2
 jobs:
-  publish:
-    docker:
-      - image: circleci/node:10.6
-    working_directory: ~/repo
-    steps:
-      - checkout
-
-      - restore_cache:
-          name: Restore Yarn Package Cache
-          keys:
-            - yarn-packages-{{ checksum "yarn.lock" }}
-
-      - run: yarn install
-
-      - save_cache:
-          name: Save Yarn Package Cache
-          key: yarn-packages-{{ checksum "yarn.lock" }}
-          paths:
-            - ~/.cache/yarn
-
-      - run:
-          name: prepublish
-          command: yarn prepublish-ci
-
-      - run:
-          name: Authenticate with registry
-          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
-
-      - run:
-          name: release
-          command: yarn publish-ci
-
   deploy:
     docker:
       - image: circleci/node:10.6
@@ -67,6 +35,10 @@ jobs:
       - run:
           name: deploy
           command: yarn deploy-ci
+
+      - run:
+          name: release on NPM
+          command: yarn publish-ci
 
   test:
     docker:
@@ -103,12 +75,6 @@ workflows:
               ignore:
                 - master
                 - gh-pages
-      - publish:
-          filters:
-            branches:
-              only:
-                - master
-                - /rc-.*/
       - deploy:
           filters:
             branches:
