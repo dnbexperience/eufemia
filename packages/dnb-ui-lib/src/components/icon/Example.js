@@ -32,7 +32,7 @@ import bell from './icons/bell'
     return (
       <Fragment>
         <IconWithAllIcons icon="question" />
-        <IconWithAllIcons icon="chevron_right" width="40" height="40" />
+        <IconWithAllIcons icon="chevron_right" width="140" height="140" />
         <Icon icon={bell} modifier="active" size="40" />
       </Fragment>
     )

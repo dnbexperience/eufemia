@@ -14,6 +14,12 @@ import {
 } from '../../shared/component-helper'
 
 export const DefaultIconSize = 16
+export const DefaultIconSizes = {
+  default: 16,
+  medium: 24,
+  large: 32
+}
+export const ListDefaultIconSizes = Object.entries(DefaultIconSizes)
 
 export const propTypes = {
   icon: PropTypes.oneOfType([
@@ -82,33 +88,16 @@ export default class Icon extends PureComponent {
   static prerender(props) {
     const icon = Icon.getIcon(props)
 
-    const {
-      color,
-      size,
-      height,
-      width,
-      modifier,
-      className,
-      area_hidden
-    } = props
+    const { color, height, width, className, area_hidden } = props
 
-    let { alt } = props
+    let { size, alt, modifier } = props
     if (!alt) {
       if (typeof icon === 'string') alt = icon
       else if (typeof icon === 'object' && icon.displayName) alt = icon
     }
-    const classes = classnames(
-      'dnb-icon',
-      modifier ? `dnb-icon--${modifier}` : '',
-      // we may have usage of center_self later
-      // props.center_self ? 'dnb-icon--center-self' : '',
-      props.class,
-      className
-    )
 
     // also used for code markup simulation
     const wrapperParams = validateDOMAttributes(props, {
-      className: classes,
       role: 'presentation'
     })
     if (alt) {
@@ -118,6 +107,15 @@ export default class Icon extends PureComponent {
       wrapperParams['aria-hidden'] = area_hidden
     }
 
+    if (typeof size === 'string' && size) {
+      size = ListDefaultIconSizes.filter(([key]) => key === size).reduce(
+        (acc, [key, value]) => {
+          return key && value
+        },
+        null
+      )
+    }
+
     const svgParams = {}
     if (parseFloat(size) > -1) {
       svgParams['width'] = svgParams['height'] = size
@@ -125,6 +123,42 @@ export default class Icon extends PureComponent {
     if (parseFloat(width) > -1) svgParams['width'] = width
     if (parseFloat(height) > -1) svgParams['height'] = height
     if (color) svgParams['color'] = color
+
+    // if the sizes are identical and they are defualt sizes
+    // decorate the css class with that info
+    if (
+      !modifier &&
+      parseFloat(svgParams['width']) === parseFloat(svgParams['height'])
+    ) {
+      const wantedSize = parseFloat(svgParams['height'])
+      modifier = ListDefaultIconSizes.filter(
+        ([key, value]) => key !== 'default' && value === wantedSize
+      ).reduce((acc, [key]) => key, null)
+    }
+
+    wrapperParams.className = classnames(
+      'dnb-icon',
+      modifier ? `dnb-icon--${modifier}` : '',
+      // we may have usage of center_self later
+      // props.center_self ? 'dnb-icon--center-self' : '',
+      props.class,
+      className
+    )
+
+    // if the size is default, remove the widht/height
+    // but if the browser is IE11 - do not remove theese attributes
+    if (
+      !isIE11 &&
+      ListDefaultIconSizes.includes(parseFloat(svgParams['width']))
+    ) {
+      svgParams['width'] = null
+    }
+    if (
+      !isIE11 &&
+      ListDefaultIconSizes.includes(parseFloat(svgParams['height']))
+    ) {
+      svgParams['height'] = null
+    }
 
     return {
       icon,
@@ -185,3 +219,5 @@ export const iconCase = name =>
     .toLowerCase()
     .replace(/^[0-9]/g, '$1')
     .replace(/[^a-z0-9_]/gi, '_')
+
+const isIE11 = !!window.MSInputMethodContext && !!document.documentMode

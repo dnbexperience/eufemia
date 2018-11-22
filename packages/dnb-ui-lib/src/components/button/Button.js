@@ -249,9 +249,7 @@ class Content extends PureComponent {
         >
           <Icon
             icon={icon}
-            width={icon_size}
-            height={icon_size}
-            size={null}
+            size={icon_size}
             alt={alt}
             area_hidden={Boolean(alt)}
           />

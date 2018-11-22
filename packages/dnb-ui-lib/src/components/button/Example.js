@@ -6,7 +6,7 @@
 import React, { Component, Fragment } from 'react'
 import Button from './Button'
 import styled from 'react-emotion'
-import { bell as Bell, question } from '../../../icons'
+import { bell_medium as Bell, question } from '../../../icons'
 
 class Example extends Component {
   clickHandler = () => {
@@ -79,7 +79,8 @@ class Example extends Component {
           text="Signal Button (large size)"
           size="large"
           icon={Bell}
-          icon_size="24"
+          icon_size="medium"
+          // icon_size="24"
         />
         <Button
           variant="signal"
