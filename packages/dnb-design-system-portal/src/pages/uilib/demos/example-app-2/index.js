@@ -3,7 +3,7 @@
  *
  */
 
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { css } from 'react-emotion'
 import Head from 'react-helmet'
 import dnb, {
@@ -27,7 +27,7 @@ const style = css`
   background: white;
 `
 
-export default class ExampleAppPage extends Component {
+export default class ExampleAppPage extends PureComponent {
   componentDidMount() {
     dnb.enableWebComponents()
   }

@@ -2,7 +2,8 @@
  * Mdx Template
  */
 
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
 
 import Head from 'react-helmet'
 import Layout from '../shared/parts/Layout'
@@ -11,7 +12,7 @@ import MDXRenderer from 'gatsby-mdx/mdx-renderer'
 import { graphql, withPrefix } from 'gatsby'
 import inlineTags from '../shared/inlineTags'
 
-export default class MdxTemplate extends Component {
+export default class MdxTemplate extends PureComponent {
   render() {
     const {
       data: {
@@ -30,17 +31,26 @@ export default class MdxTemplate extends Component {
 
     return (
       <MDXProvider components={inlineTags}>
+        <Head>
+          <title>{title}</title>
+          <meta name="description" content={description} />
+          <link rel="shortcut icon" href={withPrefix('/favicon.ico')} />
+        </Head>
         <Layout {...this.props} header={header}>
-          <Head>
-            <title>{title}</title>
-            <meta name="description" content={description} />
-            <link rel="shortcut icon" href={withPrefix('/favicon.ico')} />
-          </Head>
           <MDXRenderer>{code.body}</MDXRenderer>
         </Layout>
       </MDXProvider>
     )
   }
+}
+MdxTemplate.propTypes = {
+  data: PropTypes.shape({
+    mdx: PropTypes.shape({
+      code: PropTypes.shape({
+        body: PropTypes.string.isRequired
+      }).isRequired
+    }).isRequired
+  }).isRequired
 }
 
 export const pageQuery = graphql`

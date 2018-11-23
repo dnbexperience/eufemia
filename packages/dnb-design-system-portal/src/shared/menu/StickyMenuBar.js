@@ -3,7 +3,7 @@
  *
  */
 
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { css, injectGlobal } from 'react-emotion'
 // import Head from 'react-helmet'
@@ -11,7 +11,7 @@ import MainMenu from './MainMenu'
 import gridSvg from '../../../static/assets/images/grid-32x32.svg'
 import { FormLabel, Switch, Logo } from 'dnb-ui-lib/src'
 
-export default class StickyMenuBar extends Component {
+export default class StickyMenuBar extends PureComponent {
   state = {
     showOverlayMenu: false,
     showGrid: null

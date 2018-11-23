@@ -7,7 +7,7 @@
  *
  */
 
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import ItemWrapper from '../../../shared/parts/uilib/ItemWrapper'
 import DemoComponent, {
@@ -17,7 +17,7 @@ import Description from 'dnb-ui-lib/src/patterns/summary-table/description.md'
 import Details from 'dnb-ui-lib/src/patterns/summary-table/details.md'
 import ExampleCode from 'raw-loader!../examples/SummaryTable.txt'
 
-export default class SummaryTableDemo extends Component {
+export default class SummaryTableDemo extends PureComponent {
   static propTypes = {
     title: PropTypes.string,
     id: PropTypes.string,

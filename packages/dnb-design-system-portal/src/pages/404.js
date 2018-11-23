@@ -3,11 +3,11 @@
  *
  */
 
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'react-emotion'
 
-export default class PageNotFound extends Component {
+export default class PageNotFound extends PureComponent {
   static propTypes = {
     location: PropTypes.object.isRequired
   }

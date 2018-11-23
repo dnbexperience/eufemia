@@ -95,7 +95,7 @@ components.push([
 components.sort(([a], [b]) => (a > b ? 1 : -1))
 
 // dnb.enableWebComponents()
-// class SwitchWrapper extends Component {
+// class SwitchWrapper extends PureComponent {
 //   state = {
 //     checked: false
 //   }
@@ -140,7 +140,7 @@ components.sort(([a], [b]) => (a > b ? 1 : -1))
 //   }
 // }
 //
-// class InputWrapper extends Component {
+// class InputWrapper extends PureComponent {
 //   state = {
 //     value: 'X',
 //     placeholder: 'Write someting',
@@ -198,7 +198,7 @@ components.sort(([a], [b]) => (a > b ? 1 : -1))
 //   }
 // }
 //
-// class DropdownWrapper extends Component {
+// class DropdownWrapper extends PureComponent {
 //   state = {
 //     selected_item: 1
 //   }

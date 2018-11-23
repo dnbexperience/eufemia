@@ -3,9 +3,9 @@
  *
  */
 
-import React, { Component, Fragment } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 
-class Example extends Component {
+class Example extends PureComponent {
   render() {
     return <Fragment>TODO: Example</Fragment>
   }

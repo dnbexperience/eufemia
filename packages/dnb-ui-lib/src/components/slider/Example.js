@@ -3,13 +3,13 @@
  *
  */
 
-import React, { Component, Fragment } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import styled from 'react-emotion'
 import Slider from './Slider'
 import Input from '../input/Input'
 import FormLabel from '../../components/form-label/FormLabel'
 
-class Example extends Component {
+class Example extends PureComponent {
   onChangeHandler = ({ value }) => {
     console.log('on_change', value)
   }
@@ -34,7 +34,7 @@ class Example extends Component {
   }
 }
 
-class AditionalExample extends Component {
+class AditionalExample extends PureComponent {
   state = {
     value: 5908000
   }

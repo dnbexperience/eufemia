@@ -25,19 +25,19 @@ jobs:
             - ~/.cache/yarn
 
       - run:
-          name: prepublish
+          name: Prepublish the ui-lib
           command: yarn prepublish-ci
 
       - run:
-          name: build
+          name: Build the portal
           command: yarn build-ci
 
       - run:
-          name: deploy
+          name: Deploy the portal
           command: yarn deploy-ci
 
       - run:
-          name: release on NPM
+          name: Release on NPM
           command: yarn publish-ci
 
   test:
@@ -74,10 +74,12 @@ workflows:
             branches:
               ignore:
                 - master
+                - /.*rc-.*|^rc\//
+                - /.*wip-.*|^wip\//
                 - gh-pages
       - deploy:
           filters:
             branches:
               only:
                 - master
-                - /rc-.*/
+                - /.*rc-.*|^rc\//

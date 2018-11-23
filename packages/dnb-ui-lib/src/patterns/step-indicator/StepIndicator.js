@@ -3,7 +3,7 @@
  *
  */
 
-import React, { Component, Fragment } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
@@ -58,7 +58,7 @@ export const defaultProps = {
   ...renderProps
 }
 
-export default class StepIndicator extends Component {
+export default class StepIndicator extends PureComponent {
   static tagName = 'dnb-step-indicator'
   static propTypes = propTypes
   static defaultProps = defaultProps
@@ -178,7 +178,7 @@ export default class StepIndicator extends Component {
   }
 }
 
-class ItemContent extends Component {
+class ItemContent extends PureComponent {
   static propTypes = {
     activeItem: PropTypes.number.isRequired,
     number: PropTypes.number.isRequired,

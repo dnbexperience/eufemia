@@ -3,7 +3,7 @@
  *
  */
 
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import Link from 'gatsby-link'
 import styled, { css, cx } from 'react-emotion'
@@ -91,7 +91,7 @@ const Box = styled.div`
   flex-direction: column;
 `
 
-export default class Card extends Component {
+export default class Card extends PureComponent {
   static propTypes = {
     url: PropTypes.string.isRequired,
     customStyle: PropTypes.string,

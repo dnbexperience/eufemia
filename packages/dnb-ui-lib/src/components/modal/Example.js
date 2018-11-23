@@ -3,11 +3,11 @@
  *
  */
 
-import React, { Component, Fragment } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import Input from '../input/Input'
 import Modal from './Modal'
 
-class Example extends Component {
+class Example extends PureComponent {
   static AdditionalCallback = {
     info: ({ CodeRenderer }) => (
       <Fragment>

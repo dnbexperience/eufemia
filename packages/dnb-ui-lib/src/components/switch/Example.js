@@ -3,7 +3,7 @@
  *
  */
 
-import React, { Component, Fragment } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import Switch from './Switch'
 import FormLabel from '../../components/form-label/FormLabel'
@@ -11,7 +11,7 @@ import FormLabel from '../../components/form-label/FormLabel'
 // we call this later on componentDidMount()
 // Switch.enableWebComponent()
 
-class SwitchDemo extends Component {
+class SwitchDemo extends PureComponent {
   static propTypes = {
     onStateUpdate: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired
@@ -52,7 +52,7 @@ class SwitchDemo extends Component {
   }
 }
 
-class Example extends Component {
+class Example extends PureComponent {
   state = {
     active_first: false,
     active_second: false

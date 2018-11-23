@@ -3,11 +3,11 @@
  *
  */
 
-import React, { Component, Fragment } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import Input from './Input'
 import styled from 'react-emotion'
 
-class Example extends Component {
+class Example extends PureComponent {
   constructor(props) {
     super(props)
     this._ref = React.createRef()

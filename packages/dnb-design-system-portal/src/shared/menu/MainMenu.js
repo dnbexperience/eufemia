@@ -3,7 +3,7 @@
  *
  */
 
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { injectGlobal, css } from 'react-emotion'
 import classnames from 'classnames'
@@ -94,7 +94,7 @@ const toolbarStyle = css`
   background-color: #fff;
 `
 
-export default class MainMenu extends Component {
+export default class MainMenu extends PureComponent {
   static propTypes = {
     setAsOverlay: PropTypes.bool,
     enableOverlay: PropTypes.bool,

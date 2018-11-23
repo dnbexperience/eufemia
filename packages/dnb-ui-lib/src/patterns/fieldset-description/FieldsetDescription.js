@@ -3,7 +3,7 @@
  *
  */
 
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 // import classnames from 'classnames'
 import {
@@ -40,7 +40,7 @@ export const defaultProps = {
   ...renderProps
 }
 
-export default class FieldsetDescription extends Component {
+export default class FieldsetDescription extends PureComponent {
   static tagName = 'dnb-fieldset-description'
   static propTypes = propTypes
   static defaultProps = defaultProps

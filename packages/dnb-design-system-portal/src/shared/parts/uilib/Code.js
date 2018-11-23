@@ -3,7 +3,7 @@
  *
  */
 
-import React, { Component, Fragment } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 
 import Beautifier from './code_beautifier'
 import PropTypes from 'prop-types'
@@ -15,7 +15,7 @@ import pretty from 'pretty' // https://www.npmjs.com/package/pretty
 // import plugins from 'prettier/parser-parse5'
 import CodeBlock from '../../inlineTags/CodeBlock'
 
-export default class Code extends Component {
+export default class Code extends PureComponent {
   static propTypes = {
     language: PropTypes.string,
     raw: PropTypes.string,
@@ -94,7 +94,7 @@ export default class Code extends Component {
   }
 }
 
-export class CodeRenderer extends Component {
+export class CodeRenderer extends PureComponent {
   static propTypes = {
     language: PropTypes.string,
     children: PropTypes.oneOfType([

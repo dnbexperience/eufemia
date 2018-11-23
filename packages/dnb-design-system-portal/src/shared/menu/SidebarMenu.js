@@ -7,12 +7,12 @@ import { StaticQuery, graphql } from 'gatsby'
 
 import Link from '../parts/Link'
 import PropTypes from 'prop-types'
-import React from 'react'
+import React, { PureComponent } from 'react'
 import styled, { injectGlobal, cx } from 'react-emotion'
 
 const showAlwaysMenuItems = [] // like "uilib" som someting like that
 
-export default class SidebarLayout extends React.Component {
+export default class SidebarLayout extends PureComponent {
   static propTypes = {
     location: PropTypes.object.isRequired,
     showAll: PropTypes.bool

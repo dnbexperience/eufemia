@@ -9,7 +9,7 @@ import 'dnb-ui-lib/src/style' // import both all components and the defualt them
 // import 'dnb-ui-lib/src/style/themes/dnb-theme-open-banking.scss'
 
 import { pageFocus } from 'dnb-ui-lib/src/shared/tools'
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { Link } from 'gatsby'
 
 import PropTypes from 'prop-types'
@@ -19,7 +19,7 @@ import { markdownStyle } from './Markdown'
 import styled, { cx } from 'react-emotion'
 import { buildVersion } from '../../../package.json'
 
-class Layout extends Component {
+class Layout extends PureComponent {
   static propTypes = {
     children: PropTypes.node.isRequired,
     location: PropTypes.object.isRequired,

@@ -15,24 +15,9 @@ module.exports = {
   },
   plugins: [
     'gatsby-plugin-sharp',
-    'gatsby-plugin-offline',
+    // 'gatsby-plugin-offline',
     'gatsby-plugin-catch-links',
     'gatsby-plugin-react-helmet',
-    'gatsby-plugin-emotion',
-    'gatsby-plugin-sass',
-    {
-      resolve: 'gatsby-plugin-postcss',
-      options: {
-        postCssPlugins: [
-          require('postcss-calc'),
-          require('postcss-custom-properties'),
-          require('postcss-preset-env')({ stage: 0 }),
-          require('autoprefixer')({
-            browsers: ['last 1 versions', 'explorer >= 11']
-          })
-        ]
-      }
-    },
     {
       resolve: 'gatsby-mdx',
       options: {
@@ -57,6 +42,21 @@ module.exports = {
         path: `${__dirname}/src/pages`,
         name: 'pages'
       }
-    }
+    },
+    'gatsby-plugin-sass',
+    {
+      resolve: 'gatsby-plugin-postcss',
+      options: {
+        postCssPlugins: [
+          require('postcss-calc'),
+          require('postcss-custom-properties'),
+          require('postcss-preset-env')({ stage: 0 }),
+          require('autoprefixer')({
+            browsers: ['last 1 versions', 'explorer >= 11']
+          })
+        ]
+      }
+    },
+    'gatsby-plugin-emotion'
   ]
 }
