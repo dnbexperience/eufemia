@@ -15,7 +15,7 @@ module.exports = {
   },
   plugins: [
     'gatsby-plugin-sharp',
-    // 'gatsby-plugin-offline',
+    'gatsby-plugin-offline',
     'gatsby-plugin-catch-links',
     'gatsby-plugin-react-helmet',
     {

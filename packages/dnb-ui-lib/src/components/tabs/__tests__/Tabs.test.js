@@ -75,9 +75,11 @@ describe('TabList component', () => {
   it('has to have the right content on a "click event"', () => {
     Comp.find('button.tab--third').simulate('click')
     expect(Comp.state().selected_key).toBe(tablistData[2].key) // get the third key
-    expect(Comp.find('div[role="tabpanel"]').text()).toBe(
-      mount(tabContentData.third).text()
-    )
+    expect(
+      Comp.find('div[role="tabpanel"]')
+        .children()
+        .html()
+    ).toBe(mount(tabContentData.third).html())
   })
 })
 
@@ -98,7 +100,7 @@ describe('A single Tab component', () => {
         .instance()
         .getAttribute('aria-controls')
     ).toBe('id-content-second')
-    expect(Comp.find('button.tab--second').is('.selected')).toBe(true)
+    expect(Comp.find('button.tab--second').hasClass('selected')).toBe(true)
   })
 
   it('has to have the right content on a keydown "ArrowRight"', () => {
@@ -108,9 +110,11 @@ describe('A single Tab component', () => {
       key: 'ArrowRight',
       keyCode: 39
     })
-    expect(Comp.find('div[role="tabpanel"]').text()).toBe(
-      mount(tabContentData.third).text()
-    )
+    expect(
+      Comp.find('div[role="tabpanel"]')
+        .children()
+        .html()
+    ).toBe(mount(tabContentData.third).html())
   })
 })
 

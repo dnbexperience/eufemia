@@ -12583,10 +12583,10 @@ ltcdr@^2.2.1:
   resolved "https://registry.yarnpkg.com/ltcdr/-/ltcdr-2.2.1.tgz#5ab87ad1d4c1dab8e8c08bbf037ee0c1902287cf"
   integrity sha1-Wrh60dTB2rjowIu/A37gwZAih88=
 
-luxon@^1.7.1:
-  version "1.7.1"
-  resolved "https://registry.yarnpkg.com/luxon/-/luxon-1.7.1.tgz#721e86f12c47526014a53c9f92f74f2da6dc9a4c"
-  integrity sha512-0fTd5a3UUVATblRdhD9ZXdhCdXp+ktqGERRu8q9seeMFfED0otQFeqrZwDw/2AoMH/cHjmswVJC8IUPeNBIPTA==
+luxon@^1.8.0:
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/luxon/-/luxon-1.8.0.tgz#cfc807c5a26e55049383c9c512d57a5dda31e469"
+  integrity sha512-F742cYUYB7X+LXY3cIn6THZUBqRBjeAvF+CWE2i3+eKcv2bzsCsnRsBYL8Qrqzp1dfs6HsVcSjfKt2RcrtUElw==
 
 macos-release@^2.0.0:
   version "2.0.0"
@@ -18055,7 +18055,7 @@ sass-loader@^7.0.1, sass-loader@^7.1.0:
     pify "^3.0.0"
     semver "^5.5.0"
 
-sass-variable-parser@^1.2.1:
+sass-variable-parser@^1.2.2:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/sass-variable-parser/-/sass-variable-parser-1.2.2.tgz#8bd2cc7fcfb3f7ad0acba26dbc1422717924b774"
   integrity sha512-Yj2GzMGmojdxdYdAaz+AMxb77Sb/0Y0SHCxFkaP6tL4zKn5JsYdV3hA+J+MWzsZfbsyypR0G0VU3OHNj52Ye0w==
