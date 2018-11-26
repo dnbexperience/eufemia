@@ -9,6 +9,10 @@ import Link from '../parts/Link'
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import styled, { injectGlobal, cx } from 'react-emotion'
+import {
+  SidebarMenuConsumer,
+  SidebarMenuContext
+} from './SidebarMenuContext'
 
 const showAlwaysMenuItems = [] // like "uilib" som someting like that
 
@@ -19,6 +23,10 @@ export default class SidebarLayout extends PureComponent {
   }
   static defaultProps = {
     showAll: false
+  }
+  static contextType = SidebarMenuContext
+  state = {
+    isOpen: false
   }
 
   constructor(props) {
@@ -105,9 +113,13 @@ export default class SidebarLayout extends PureComponent {
           })
 
           return (
-            <Sidebar className="dnb-style">
-              <ul ref={this.ulRef}>{nav}</ul>
-            </Sidebar>
+            <SidebarMenuConsumer>
+              {({ isOpen }) => (
+                <Sidebar className={isOpen && `show-mobile-menu`}>
+                  <ul ref={this.ulRef}>{nav}</ul>
+                </Sidebar>
+              )}
+            </SidebarMenuConsumer>
           )
         }}
       />
@@ -246,8 +258,12 @@ injectGlobal`
 
 const Sidebar = styled.aside`
   position: fixed;
-  z-index: 1; /* lower than styled.main */
-  top: 73px; /* height of StickyMenuBar */
+
+  /* lower than styled.main */
+  z-index: 1;
+
+  /* height of StickyMenuBar */
+  margin-top: 4rem;
 
   ul {
     width: 30vw;
@@ -256,17 +272,24 @@ const Sidebar = styled.aside`
     ); /* has to be the same value as margin-left */
     overflow-x: hidden;
     overflow-y: auto;
+
+    /* height of header and footer */
     min-height: 20vh;
     max-height: calc(100vmin - 4em - 10px);
 
-    /* height of header and footer */
     margin: 0;
     padding: 0;
     padding-top: 2em;
     padding-bottom: 1em;
   }
-
+  /* God for a mobile menu insted */
   /* make sure that Content main "styled.main" gets the same max-width */
+  @media only screen and (max-width: 50em) {
+    &:not(.show-mobile-menu) {
+      display: none;
+    }
+  }
+
   @media only screen and (max-width: 50em) {
     position: relative;
     ul {
@@ -275,11 +298,11 @@ const Sidebar = styled.aside`
       overflow-y: visible;
     }
   }
-  @media only screen and (max-height: 30em) {
+  ${'' /* @media only screen and (max-height: 30em) {
     ul {
       max-height: 100vmin;
     }
-  }
+  } */}
 `
 
 const prepareNav = ({ location, allMdx, showAll, pathPrefix }) => {

@@ -8,11 +8,15 @@ import PropTypes from 'prop-types'
 import { css, injectGlobal } from 'react-emotion'
 // import Head from 'react-helmet'
 import MainMenu from './MainMenu'
+import { hamburger as hamburgerIcon } from 'dnb-ui-lib/src/icons/secondary_icons'
+import { close as closeIcon } from 'dnb-ui-lib/src/icons/primary_icons'
 import gridSvg from '../../../static/assets/images/grid-32x32.svg'
-import { FormLabel, Switch, Logo } from 'dnb-ui-lib/src'
+import { FormLabel, Switch, Logo, Button } from 'dnb-ui-lib/src'
+import { SidebarMenuConsumer } from './SidebarMenuContext'
 
 export default class StickyMenuBar extends PureComponent {
   state = {
+    mobileMenuVisible: false,
     showOverlayMenu: false,
     showGrid: null
   }
@@ -28,6 +32,15 @@ export default class StickyMenuBar extends PureComponent {
     onToggleMenu: null,
     preventBarVisibility: false
   }
+  // static contextType = Context
+  // openMobileMenu = () => {
+  //   const mobileMenuVisible = !this.state.mobileMenuVisible
+  //   console.log('openMobileMenu', mobileMenuVisible)
+  //   this.setState({ mobileMenuVisible })
+  //   // console.log('Context.Consumer', Context.Consumer)
+  //   // Context.Consumer.isMobileMenuActive = true
+  //   // <Context.Provider value={{ isMobileMenuActive: false }}>
+  // }
   toggleMenuHandler = (state = null) => {
     const showOverlayMenu =
       state !== null ? state : !this.state.showOverlayMenu
@@ -104,28 +117,40 @@ export default class StickyMenuBar extends PureComponent {
           <div
             className={`sticky ${this.state.showGrid ? 'dev-grid' : ''}`}
           >
-            {/* <Link to="/">
-            <DNBLogo className="logo" width="47" height="32" /> {slogan}
-          </Link> */}
-            <button
-              className="dnb-button dnb-button--reset menu-bar"
-              onClick={this.toggleMenuHandler}
-            >
-              <Logo height={48} />
-              {/* <DNBLogo className="logo" width="47" height="32" /> */}
-              {slogan}
-            </button>
+            <span>
+              <Button
+                className="dnb-button--reset"
+                on_click={this.toggleMenuHandler}
+              >
+                <Logo height={48} />
+                {slogan}
+              </Button>
+            </span>
             {header && <span className="heading">{header}</span>}
-            {(process.env.NODE_ENV === 'development' && (
-              <div className="toggle-grid">
-                <FormLabel for_id="switch-grid" text="Grid" />
-                <Switch
-                  id="switch-grid"
-                  checked={this.state.showGrid}
-                  on_change={({ checked }) => this.toggleGrid(checked)}
-                />
-              </div>
-            )) || <span />}
+
+            <span>
+              {process.env.NODE_ENV === 'development' && (
+                <span className="toggle-grid">
+                  <FormLabel for_id="switch-grid" text="Grid" />
+                  <Switch
+                    id="switch-grid"
+                    checked={this.state.showGrid}
+                    on_change={({ checked }) => this.toggleGrid(checked)}
+                  />
+                </span>
+              )}
+              <SidebarMenuConsumer>
+                {({ toggleMenu, isOpen }) => (
+                  <Button
+                    icon={isOpen ? closeIcon : hamburgerIcon}
+                    on_click={toggleMenu}
+                    className="toggle-sidebar-menu"
+                    variant="tertiary"
+                    title={isOpen ? 'Hide Menu' : 'Show Menu'}
+                  />
+                )}
+              </SidebarMenuConsumer>
+            </span>
           </div>
         )}
       </div>
@@ -176,6 +201,8 @@ const barStyle = css`
     justify-content: space-between;
     vertical-align: middle;
     width: 100%;
+    /* make sure we are on 64px insted of 65px */
+    height: 4rem;
     padding: 0.5rem 2rem;
 
     align-items: center;
@@ -185,14 +212,21 @@ const barStyle = css`
 
     overflow: hidden;
     white-space: nowrap;
-
-    svg {
-      margin-right: 2em;
-    }
   }
 
   .dnb-logo {
     margin-right: 1rem;
+  }
+  .toggle-sidebar-menu {
+    display: none;
+  }
+
+  /* God for a mobile menu insted */
+  /* make sure that Content main "styled.main" gets the same max-width */
+  @media only screen and (max-width: 50em) {
+    .toggle-sidebar-menu {
+      display: inline;
+    }
   }
   &.active .logo-slogan {
     color: #007272;
@@ -206,19 +240,15 @@ const barStyle = css`
     opacity: 0.6;
   }
 
-  .toggle-grid {
-    display: flex;
-    align-items: flex-end;
-  }
   .toggle-grid label {
     padding-right: 1rem;
   }
 
-  .dnb-button.menu-bar {
+  ${'' /* .dnb-button.menu-bar {
     display: flex;
     align-items: center;
     cursor: pointer;
-  }
+  } */}
 
   .heading {
     font-size: 1.5em;

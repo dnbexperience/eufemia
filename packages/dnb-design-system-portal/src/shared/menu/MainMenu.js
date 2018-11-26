@@ -43,20 +43,21 @@ const sectionsStyle = css`
 `
 
 const mainMenuStyle = css`
+  position: relative;
+  z-index: 3; /* one more than Wrapper */
+
   width: 100vw;
   height: calc(100vh - 4em); /* minus StickyMenuBar */
-  @media (min-width: 640px) {
+
+  ${'' /* @media (min-width: 640px) {
     &.is-overlay {
       display: none;
       position: fixed;
-      z-index: 3; /* one more than Wrapper */
       top: 0;
       left: 0;
-
-      /* we dont use z-index for now, as its not required */
-      ${'' /* z-index: 100; */};
     }
-  }
+  } */}
+
   &.show-as-overlay {
     display: block;
   }

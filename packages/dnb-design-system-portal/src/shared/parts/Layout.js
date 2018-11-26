@@ -18,6 +18,7 @@ import StickyMenuBar from '../menu/StickyMenuBar'
 import { markdownStyle } from './Markdown'
 import styled, { cx } from 'react-emotion'
 import { buildVersion } from '../../../package.json'
+import { SidebarMenuProvider } from '../menu/SidebarMenuContext'
 
 class Layout extends PureComponent {
   static propTypes = {
@@ -61,7 +62,7 @@ class Layout extends PureComponent {
     }
 
     return (
-      <div>
+      <SidebarMenuProvider>
         <StickyMenuBar header={header} />
         <Wrapper>
           <Sidebar location={location} showAll={false} />
@@ -72,7 +73,7 @@ class Layout extends PureComponent {
             </MaxWidth>
           </Content>
         </Wrapper>
-      </div>
+      </SidebarMenuProvider>
     )
   }
 }
@@ -163,9 +164,11 @@ const MaxWidth = styled.div`
 const FooterWrapper = styled.footer`
   position: relative;
   z-index: 2; /* 1 heigher than aside */
-  border-top: 1px solid var(--color-outline-grey);
-  padding: 1rem 0;
+
   margin-top: 3rem;
+  padding: 1rem 0;
+
+  border-top: 1px solid var(--color-outline-grey);
   text-align: left;
 
   .is-fullscreen & {

@@ -42,7 +42,7 @@ The steps, from code changes to production builds are:
 1. Write tests and test the codebase
 1. Update eventually snapshots
 1. Commit Your changes with the correct **message decoration**
-1. Push to the [`develop`](https://github.com/dnbexperience/eufemia/commits/develop) branch
+1. Push or make a Pull Request to the [`develop`](https://github.com/dnbexperience/eufemia/commits/develop) branch
 1. Wait until the CI Server has validated the commits
 1. Make a [Pull Request](https://github.com/dnbexperience/eufemia/compare/master...develop?expand=1)
 1. Once the Pull Request will be approved by one of the authored [repo contributors](https://github.com/dnbexperience/eufemia/graphs/contributors),
