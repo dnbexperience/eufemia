@@ -90,79 +90,76 @@ export const loadScss = file => {
   }
 }
 
-export const setupPageScreenshot = (options = {}) =>
-  new Promise((resolve, reject) => {
-    // just setup this one time
-    if (global.browser) return
+export const setupPageScreenshot = (options = { timeout: 10e3 }) => {
+  // just setup this one time
+  if (global.browser) return
 
-    setupJestScreenshot(
-      options
-      // {
-      // // ...{
-      // //   // detectAntialiasing: true, // Whether to attempt to detect antialiasing and ignore related changes when comparing both images.
-      // //   // pixelThresholdRelative: 0, // If specified, jest-screenshot will fail if more than the specified relative amount of pixels are different from the snapshot. When setting this to 0.5 for example, more than 50% of the pixels need to be different for the test to fail.
-      // //   // colorThreshold: 1 // A number in the range from 0 to 1 describing how sensitive the comparison of two pixels should be.
-      // //   // colorThreshold: 0
-      // // },
-      // // ...options
-      // }
-    )
+  setupJestScreenshot(
+    options
+    // {
+    // // ...{
+    // //   // detectAntialiasing: true, // Whether to attempt to detect antialiasing and ignore related changes when comparing both images.
+    // //   // pixelThresholdRelative: 0, // If specified, jest-screenshot will fail if more than the specified relative amount of pixels are different from the snapshot. When setting this to 0.5 for example, more than 50% of the pixels need to be different for the test to fail.
+    // //   // colorThreshold: 1 // A number in the range from 0 to 1 describing how sensitive the comparison of two pixels should be.
+    // //   // colorThreshold: 0
+    // // },
+    // // ...options
+    // }
+  )
 
-    beforeAll(async done => {
-      try {
-        const browser = await puppeteer.launch({
-          args: ['--no-sandbox', '--disable-setuid-sandbox']
-        })
+  beforeAll(async done => {
+    try {
+      const browser = await puppeteer.launch({
+        args: ['--no-sandbox', '--disable-setuid-sandbox']
+      })
 
-        global.browser = browser
-      } catch (err) {
-        console.error('Unable to start puppeteer.', err)
-        reject(err)
-      }
-      done()
-    })
-
-    afterAll(async done => {
-      if (!global.browser) {
-        done()
-      }
-      await global.browser.close()
-    })
-
-    beforeEach(async done => {
-      if (!global.browser || !global.browser.newPage) {
-        done()
-      }
-      const page = await global.browser.newPage()
-
-      // await page.setViewport({ width: 1920, height: 1080 })
-
-      // some optimisations?
-      // await page.setRequestInterception(true)
-      // page.on('request', req => {
-      //   switch (req.resourceType()) {
-      //     case 'image':
-      //       // case 'stylesheet':
-      //       // case 'script':
-      //       // case 'font':
-      //       // case 'xhr':
-      //       // case 'eventsource':
-      //       // case 'document':
-      //       req.abort()
-      //       break
-      //     default:
-      //       req.continue()
-      //   }
-      // })
-
-      global.page = page
-    })
-
-    // make sure jest is waiting for 10 sec
-    jest.setTimeout(10e3)
-
-    resolve()
+      global.browser = browser
+    } catch (err) {
+      console.error('Unable to start puppeteer.', err)
+    }
+    done()
   })
+
+  afterAll(async done => {
+    if (!global.browser) {
+      done()
+    }
+    await global.browser.close()
+    done()
+  })
+
+  beforeEach(async done => {
+    if (!global.browser || !global.browser.newPage) {
+      done()
+    }
+    global.page = await global.browser.newPage()
+
+    // await global.page.setViewport({ width: 1920, height: 1080 })
+
+    // some optimisations?
+    // await global.page.setRequestInterception(true)
+    // global.page.on('request', req => {
+    //   switch (req.resourceType()) {
+    //     case 'image':
+    //       // case 'stylesheet':
+    //       // case 'script':
+    //       // case 'font':
+    //       // case 'xhr':
+    //       // case 'eventsource':
+    //       // case 'document':
+    //       req.abort()
+    //       break
+    //     default:
+    //       req.continue()
+    //   }
+    // })
+
+    done()
+  })
+
+  // make sure jest is waiting for 10 sec
+  jest.setTimeout(options.timeout)
+}
 
 export const loadImage = async imagePath => {
   return await fs.readFile(path.resolve(imagePath))
