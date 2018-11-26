@@ -69,7 +69,7 @@
     }
   }
 
-  &:not([disabled]):hover {
+  &.dnb-button--has-text:not([disabled]):hover {
     @include drawUnderlineLine() {
       left: 0.45em;
       right: 0.45em;
@@ -82,6 +82,14 @@
       right: 0.7em;
     }
   }
+
+  // icon only tertiary
+  &.dnb-button--has-icon:not(.dnb-button--has-text):hover {
+    .dnb-button__icon {
+      color: var(--color-sea-green-alt-30);
+    }
+  }
+
   &:not([disabled]):active::after,
   html[data-whatinput='keyboard'] &:not([disabled]):focus::after {
     border-bottom: none;

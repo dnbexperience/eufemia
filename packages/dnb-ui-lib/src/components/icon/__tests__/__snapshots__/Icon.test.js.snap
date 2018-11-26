@@ -18,7 +18,7 @@ exports[`Icon component have to match snapshot 1`] = `
     aria-hidden={true}
     aria-label="alt"
     className="dnb-icon dnb-icon--modifier has-custom-size class className"
-    role="presentation"
+    role="img"
   >
     <SvgComponent
       color="color"

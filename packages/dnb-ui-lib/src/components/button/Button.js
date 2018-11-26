@@ -58,8 +58,8 @@ export const propTypes = {
 export const defaultProps = {
   type: 'button',
   text: null,
-  variant: 'primary',
-  size: 'default',
+  variant: null,
+  size: null,
   title: null,
   icon: null,
   icon_position: 'right',
@@ -145,8 +145,19 @@ export default class Button extends PureComponent {
 
     // if only has Icon, then resize it and define it as secondary
     if (!text && icon) {
-      variant = 'secondary'
-      size = 'medium'
+      if (!variant) {
+        variant = 'secondary'
+      }
+      if (!size) {
+        size = 'medium'
+      }
+    } else if (text) {
+      if (!variant) {
+        variant = 'primary'
+      }
+      if (!size) {
+        size = 'default'
+      }
     }
 
     const content = Button.getContent(this.props)
@@ -242,18 +253,14 @@ class Content extends PureComponent {
     if (icon) {
       const alt = title || text
       ret.push(
-        <span
+        <Icon
           key="button-icon"
           className="dnb-button__icon"
-          role="presentation"
-        >
-          <Icon
-            icon={icon}
-            size={icon_size}
-            alt={alt}
-            area_hidden={Boolean(alt)}
-          />
-        </span>
+          icon={icon}
+          size={icon_size}
+          alt={alt}
+          area_hidden={Boolean(alt)}
+        />
       )
     }
 
