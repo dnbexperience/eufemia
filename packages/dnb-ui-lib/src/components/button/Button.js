@@ -223,7 +223,7 @@ class Content extends PureComponent {
     title: null,
     content: null,
     icon: null,
-    icon_size: DefaultIconSize
+    icon_size: null
   }
   render() {
     const { text, title, content, icon, icon_size } = this.props

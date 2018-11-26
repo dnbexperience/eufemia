@@ -47,7 +47,7 @@
 
   &__icon {
     line-height: 0;
-    svg:not([width]):not([height]) {
+    &:not(.dnb-icon) svg:not([width]):not([height]) {
       width: var(--button-icon-size);
       height: var(--button-icon-size);
     }

@@ -379,7 +379,7 @@ exports[`Button scss have to match snapshot 1`] = `
   /* Firefox includes a hidden border which messes up button dimensions */ }
   .dnb-button__icon {
     line-height: 0; }
-    .dnb-button__icon svg:not([width]):not([height]) {
+    .dnb-button__icon:not(.dnb-icon) svg:not([width]):not([height]) {
       width: var(--button-icon-size);
       height: var(--button-icon-size); }
   .dnb-button__text {
