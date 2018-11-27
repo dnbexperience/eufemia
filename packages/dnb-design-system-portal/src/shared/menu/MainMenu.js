@@ -49,15 +49,6 @@ const mainMenuStyle = css`
   width: 100vw;
   height: calc(100vh - 4em); /* minus StickyMenuBar */
 
-  ${'' /* @media (min-width: 640px) {
-    &.is-overlay {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-    }
-  } */}
-
   &.show-as-overlay {
     display: block;
   }

@@ -3,12 +3,12 @@
  *
  */
 
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 
 const SidebarMenuContext = React.createContext()
 
-export class SidebarMenuProvider extends Component {
+export class SidebarMenuProvider extends PureComponent {
   static propTypes = {
     children: PropTypes.node.isRequired
   }
@@ -16,15 +16,34 @@ export class SidebarMenuProvider extends Component {
     super(props)
 
     this.state = {
-      isOpen: false
+      isOpen: false,
+      isClosing: false
     }
   }
 
   toggleMenu = () => {
-    const isOpen = !this.state.isOpen
-    this.setState({
-      isOpen
-    })
+    clearTimeout(this.timeout)
+    this.timeout = setTimeout(
+      () => {
+        const isOpen = !this.state.isOpen
+        this.setState({
+          isOpen,
+          isClosing: false
+        })
+      },
+      this.state.isOpen ? 240 : 0
+    )
+    if (this.state.isOpen)
+      this.setState({
+        isClosing: true
+      })
+    if (!this.state.isOpen && typeof window !== 'undefined') {
+      try {
+        window.scrollTo(0, 0)
+      } catch (e) {
+        console.log('Could not run scrollTo', e)
+      }
+    }
   }
 
   openMenu = () => {
@@ -39,6 +58,10 @@ export class SidebarMenuProvider extends Component {
     })
   }
 
+  componentWillUnmount() {
+    clearTimeout(this.timeout)
+  }
+
   render() {
     const { children } = this.props
 
@@ -48,7 +71,8 @@ export class SidebarMenuProvider extends Component {
           toggleMenu: this.toggleMenu,
           openMenu: this.openMenu,
           closeMenu: this.closeMenu,
-          isOpen: this.state.isOpen
+          isOpen: this.state.isOpen,
+          isClosing: this.state.isClosing
         }}
       >
         {children}

@@ -129,16 +129,6 @@ export default class StickyMenuBar extends PureComponent {
             {header && <span className="heading">{header}</span>}
 
             <span>
-              {process.env.NODE_ENV === 'development' && (
-                <span className="toggle-grid">
-                  <FormLabel for_id="switch-grid" text="Grid" />
-                  <Switch
-                    id="switch-grid"
-                    checked={this.state.showGrid}
-                    on_change={({ checked }) => this.toggleGrid(checked)}
-                  />
-                </span>
-              )}
               <SidebarMenuConsumer>
                 {({ toggleMenu, isOpen }) => (
                   <Button
@@ -150,6 +140,16 @@ export default class StickyMenuBar extends PureComponent {
                   />
                 )}
               </SidebarMenuConsumer>
+              {process.env.NODE_ENV === 'development' && (
+                <span className="toggle-grid">
+                  <FormLabel for_id="switch-grid" text="Grid" />
+                  <Switch
+                    id="switch-grid"
+                    checked={this.state.showGrid}
+                    on_change={({ checked }) => this.toggleGrid(checked)}
+                  />
+                </span>
+              )}
             </span>
           </div>
         )}
@@ -201,6 +201,7 @@ const barStyle = css`
     justify-content: space-between;
     vertical-align: middle;
     width: 100%;
+
     /* make sure we are on 64px insted of 65px */
     height: 4rem;
     padding: 0.5rem 2rem;
@@ -221,8 +222,10 @@ const barStyle = css`
     display: none;
   }
 
-  /* God for a mobile menu insted */
-  /* make sure that Content main "styled.main" gets the same max-width */
+  /*
+    God for a mobile menu insted
+    make sure that Content main "styled.main" gets the same max-width
+   */
   @media only screen and (max-width: 50em) {
     .toggle-sidebar-menu {
       display: inline;
@@ -240,15 +243,9 @@ const barStyle = css`
     opacity: 0.6;
   }
 
-  .toggle-grid label {
-    padding-right: 1rem;
+  .toggle-grid label.dnb-form-label {
+    padding: 0 1rem;
   }
-
-  ${'' /* .dnb-button.menu-bar {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-  } */}
 
   .heading {
     font-size: 1.5em;
