@@ -2,7 +2,7 @@
 header: 'UI Library'
 title: 'Usage'
 draft: false
-order: 2
+order: 3
 ---
 
 # Usage
@@ -24,7 +24,7 @@ Please note that [react](https://www.npmjs.com/package/react) and [react-dom](ht
 $ yarn add dnb-ui-lib react react-dom
 ```
 
-Read more in the developer [Getting Started](/quickguide-developer/uilib/about-the-lib/) section.
+Read more in the [First Steps](/uilib/usage/first-steps/) section.
 
 ## Supported Platforms
 

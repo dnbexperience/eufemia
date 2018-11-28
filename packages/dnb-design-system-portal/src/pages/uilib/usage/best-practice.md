@@ -1,11 +1,10 @@
 ---
-header: 'Quickguide Developers'
-title: 'Getting Started'
+header: 'UI Library'
+title: 'Best Practice'
 draft: false
-order: 1
 ---
 
-### WEB Development at DNB
+# Best Practice
 
 ### TODO
 

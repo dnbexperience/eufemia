@@ -17,19 +17,19 @@ Yarn offers a simpler approach to workspaces, but is way more powerful in managi
 
 ```bash
 # Clone the repo into your project working directory
-git clone https://github.com/dnbexperience/eufemia.git
+$ git clone https://github.com/dnbexperience/eufemia.git
 
 # Change to the directory
-cd eufemia
+$ cd eufemia
 
 # And install the dependencies
-yarn install
+$ yarn install
 
 # Once the installation is done, create a local build
-yarn build
+$ yarn build
 
 # Optionally, run the portal locally in watch mode (http://localhost:8000)
-yarn start
+$ yarn start
 ```
 
 ---
@@ -63,11 +63,11 @@ To test and build Your changes locally, run
 
 ```bash
 # In the `dnb-ui-lib` directory, call:
-yarn build
+$ yarn build
 
 # To check if You have to update some test snappshots
 # or to simply validate your changes, run:
-yarn test
+$ yarn test
 ```
 
 ##### Committing changes

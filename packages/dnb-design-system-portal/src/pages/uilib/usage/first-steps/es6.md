@@ -1,0 +1,17 @@
+---
+header: 'UI Library'
+title: 'ES6'
+draft: false
+---
+
+# ES6
+
+In some cases You may want to import a ES6 version. Make sure Your environment has a build process with Three Shaking, Compiling down to ES5 and minification in place.
+
+```js
+// ES6 version of all Components
+import 'dnb-ui-lib/es/components'
+
+// ES6 version of a single component
+import 'dnb-ui-lib/es/components/button'
+```
