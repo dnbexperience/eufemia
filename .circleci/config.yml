@@ -100,6 +100,7 @@ workflows:
             branches:
               ignore:
                 - master
+                - develop
                 - /.*rc-.*|^rc\//
                 - /.*wip-.*|^wip\//
                 - gh-pages
