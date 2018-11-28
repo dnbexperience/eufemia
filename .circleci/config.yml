@@ -4,7 +4,58 @@
 #
 version: 2
 jobs:
+  test:
+    docker:
+      - image: circleci/node:10.6
+    working_directory: ~/repo
+    steps:
+      - checkout
+
+      - restore_cache:
+          name: Restore Yarn Package Cache
+          keys:
+            - yarn-packages-{{ checksum "yarn.lock" }}
+
+      - run: yarn install
+
+      - save_cache:
+          name: Save Yarn Package Cache
+          key: yarn-packages-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+
+      - run: yarn lint-ci
+      - run: yarn test-ci
+
   deploy:
+    docker:
+      - image: circleci/node:10.6
+    working_directory: ~/repo
+    steps:
+      - checkout
+
+      - restore_cache:
+          name: Restore Yarn Package Cache
+          keys:
+            - yarn-packages-{{ checksum "yarn.lock" }}
+
+      - run: yarn install
+
+      - save_cache:
+          name: Save Yarn Package Cache
+          key: yarn-packages-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+
+      - run:
+          name: Prepublish the ui-lib and commit changes
+          command: yarn prepublish-ci
+
+      - run:
+          name: Build the portal
+          command: yarn build-ci
+
+  release:
     docker:
       - image: circleci/node:10.6
     working_directory: ~/repo
@@ -40,31 +91,6 @@ jobs:
           name: Release on NPM
           command: yarn publish-ci
 
-  test:
-    docker:
-      - image: circleci/node:10.6
-    working_directory: ~/repo
-    steps:
-      - checkout
-
-      - restore_cache:
-          name: Restore Yarn Package Cache
-          keys:
-            - yarn-packages-{{ checksum "yarn.lock" }}
-
-      - run: yarn install
-
-      - save_cache:
-          name: Save Yarn Package Cache
-          key: yarn-packages-{{ checksum "yarn.lock" }}
-          paths:
-            - ~/.cache/yarn
-
-      - run: yarn lint-ci
-      - run: yarn test-ci
-      - run: yarn prepublish-ci
-      - run: yarn build-ci
-
 workflows:
   version: 2
   workflow:
@@ -78,6 +104,11 @@ workflows:
                 - /.*wip-.*|^wip\//
                 - gh-pages
       - deploy:
+          filters:
+            branches:
+              only:
+                - develop
+      - release:
           filters:
             branches:
               only:
