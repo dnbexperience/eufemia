@@ -32,14 +32,13 @@ a {
   position: relative; // because of z-index and underline/hover sudo classes
   z-index: 1; // because of focus handling
   outline: none; // because of focus handling
-  // padding: 0.0625em; // 16/1 - give a padding round, because of focus ring
-  // margin: -0.0625em; // 16/1 - give a padding round, because of focus ring
-  // padding: 2px 5px; // 16/1 - give a padding round, because of focus ring
-  // margin: -2px -5px; // 16/1 - give a padding round, because of focus ring
   padding: 0.125em 0.3125em; // 16/1 - give a padding round, because of focus ring
   margin: -0.125em -0.3125em; // 16/1 - give a padding round, because of focus ring
 
-  // color: var(--color-sea-green);
+  // This way we make sure we never have a line break in an Anker
+  // Cause this messes up the "drawUnderlineLine" mechanism
+  white-space: pre;
+
   color: inherit;
   text-decoration: none;
 
