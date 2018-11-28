@@ -22,6 +22,8 @@ import SpaceWithin from 'Pages/quickguide-designer/assets/space-within.svg'
 import TypeOnGrid from 'Pages/quickguide-designer/assets/type-on-grid.svg'
 import SpaceBlocks from 'Pages/quickguide-designer/assets/space-blocks.svg'
 import Discrepencies from 'Pages/quickguide-designer/assets/discrepencies.svg'
+import ExampleAarsoppgave from 'Pages/quickguide-designer/assets/example-aarsoppgave.svg'
+import ExampleAarsoppgaveGuides from 'Pages/quickguide-designer/assets/example-aarsoppgave-guides.svg'
 
 import Img from 'Tags/Img'
 
@@ -94,7 +96,7 @@ In the example below, a viewer informed of the spatial system could easily assum
 2.  Keep it simple - avoid adding more block sizes or 'in-between' sizes
 3.  Abstract the spacing - set spacing rules at an abstract level to allow for scaleability and future changes across whole systems
 
-## Types of spacing:
+## Where the spacing system is applied:
 
 1.  margins
 2.  padding
@@ -102,8 +104,6 @@ In the example below, a viewer informed of the spatial system could easily assum
 4.  extents (wide display empty space)
 5.  space within elements
 6.  typography - margins and line-height (problems of cap-height and baseline )
-7.  dealing with borders
-8.  how we space things - positioning in CSS - relative, absolute, t,r,b,l
 
 ### 1. Margins
 
@@ -234,3 +234,9 @@ In order to see how type is rendered in the browser and view the space it uses, 
 In the image above the heading with the blue background is how Figma shows the space the the heading uses. The heading with the yellow background is how the browser (Chrome) renders and shows the space taken up. Note the space above the first letter 'T'. In Figma this is 2 pixels whereas in Chrome it is 6 pixels.
 
 ### Examples
+
+The example below shows the 8px system in practice.
+
+<Img src={ExampleAarsoppgave} caption="A simple example of the 8px system in use" alt="Aarsoppgave example" height="840" />
+
+<Img src={ExampleAarsoppgaveGuides} caption="The 8px system highlighted" alt="Aarsoppgave example" height="840" />
