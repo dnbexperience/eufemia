@@ -8,7 +8,7 @@ draft: false
 
 #### Principles
 
-Accessibility affects all users, not just those with stereotypical disabilities. The extra work that may be required to ensure good accessibility in DNB applications and services will be woth it.
+Accessibility affects all users, not just those with stereotypical disabilities. The extra work that may be required to ensure good accessibility in DNB applications and services will be worth it.
 
 Remember - test for accessibility early in the design process.
 

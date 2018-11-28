@@ -21,7 +21,6 @@
 // Global body style
 body {
   @include bodyDefault();
-
   @media print {
     background-color: white;
   }

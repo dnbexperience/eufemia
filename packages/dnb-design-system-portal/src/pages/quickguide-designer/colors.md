@@ -5,12 +5,10 @@ draft: false
 ---
 
 import ColorsTable from 'Pages/quickguide-designer/colors-table.md'
+import bluegridSvg from 'Root/static/assets/images/grid-32x32-blue.svg'
+import Img from 'Tags/Img'
 
 # Colors
-
-**Nice to have:**
-
-1. click on color swatch to select hex value
 
 <!--
    Color library files:
@@ -36,7 +34,9 @@ https://webaim.org/resources/contrastchecker/
 
 to test your text color and size against background for contrast values.
 
-#### Gradients
+<h4>
+Gradients
+</h4>
 
 The DNB brand consists mainly of solid fill colors. Gradients should be avoided despite there being an illustration in Brandbook on page 39 (pdf) showing a graph with a purple gradient.
 
