@@ -2,7 +2,7 @@
 header: 'UI Library'
 title: 'Components'
 draft: false
-order: 5
+order: 6
 ---
 
 import parts from 'Src/uilib/components/demos/allParts'

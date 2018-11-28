@@ -3,7 +3,7 @@
  *
  */
 
-import React, { Component, Fragment } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import styled, { css } from 'react-emotion'
 import classnames from 'classnames'
@@ -67,7 +67,7 @@ const Wrapper = styled.div`
   padding: 3rem 0 0;
 `
 
-class Example extends Component {
+class Example extends PureComponent {
   static AdditionalCallback = {
     info: ({ CodeRenderer }) => (
       <Fragment>

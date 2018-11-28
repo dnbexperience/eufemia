@@ -99,21 +99,22 @@ export const processChildren = props => {
     typeof props.children === 'function'
       ? props.children(props)
       : props.children
+
+  // if we get several react children witch representates only a text
   if (Array.isArray(res)) {
-    return res.reduce((pV, cV) => {
+    const onlyTexts = res.reduce((pV, cV) => {
       if (typeof cV === 'string') {
-        pV += cV
-      }
-      if (typeof cV === 'object') {
-        if (typeof pV === 'string') {
-          pV = []
-        }
         pV.push(cV)
-        return pV
       }
       return pV
-    }, '')
+    }, [])
+
+    // if there was more than one text elements
+    if (onlyTexts.length > 1) {
+      return onlyTexts.join('')
+    }
   }
+
   return res
 }
 

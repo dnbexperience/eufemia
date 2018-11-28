@@ -3,7 +3,7 @@
  *
  */
 
-import React, { Component, Fragment } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import './App.css';
 
 // different mothodes of importing the dnb-ui-lib
@@ -20,7 +20,7 @@ import 'dnb-ui-lib/style'; // Import the global DNB stylesheet
 
 // to enable Web Components, cause we use both react and Web Components in here
 
-export default class App extends Component {
+export default class App extends PureComponent {
   state = { showWebComponents: false };
   constructor(props) {
     super(props);

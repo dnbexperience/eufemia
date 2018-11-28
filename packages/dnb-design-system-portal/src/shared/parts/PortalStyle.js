@@ -4,7 +4,8 @@
  */
 
 import { css } from 'react-emotion'
-import gridSvg from '../../../static/assets/images/grid-32x32.svg'
+import bluegridSvg from '../../../static/assets/images/grid-32x32-blue.svg'
+import greygridSvg from '../../../static/assets/images/grid-32x32.svg'
 
 export default css`
   table {
@@ -295,14 +296,41 @@ export default css`
     vertical-align: middle;
   }
 
+  .image-box {
+    text-align: center;
+    padding: 2rem 2rem 0.9375rem 2rem;
+    margin: 0 0 4rem 0;
+
+    border-bottom: solid 1px #e7e8e7;
+    border-right: solid 1px #e7e8e7;
+
+    background-color: #f9ffff;
+    background-repeat: repeat;
+    background-image: url(${greygridSvg});
+    ${'' /* background-image: url('/assets/images/grid-32x32.svg'); */}
+
+    figcaption {
+      font-size: 1em;
+      line-height: 1.5rem;
+      font-style: italic;
+      padding-top: 0.9375rem;
+      border-top: solid 1px #c4c4c4;
+    }
+
+    img {
+      margin-bottom: 2rem;
+    }
+  }
+
   .typography-box {
-    padding: 2rem;
-    background-color: rgba(0, 0, 0, 0.0425);
+    padding: 2rem 2rem 1.9375rem 2rem;
+    background-color: #f9ffff;
     margin-bottom: 4rem;
-    border-radius: 0.5rem;
+    border-bottom: solid 1px #a4ffff;
+    border-right: solid 1px #a4ffff;
 
     background-repeat: repeat;
-    background-image: url(${gridSvg});
+    background-image: url(${bluegridSvg});
     ${'' /* background-image: url('/assets/images/grid-32x32.svg'); */}
 
     h1 {
@@ -315,8 +343,8 @@ export default css`
       margin: 0;
       padding: 0;
       list-style: none;
-      border-top: 1px solid rgba(0, 0, 0, 0.1);
-      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      border-top: 1px solid rgba(219, 0, 255, 0.25);
+      border-bottom: 1px solid rgba(219, 0, 255, 0.25);
       margin-bottom: calc(1rem - 2px);
     }
 

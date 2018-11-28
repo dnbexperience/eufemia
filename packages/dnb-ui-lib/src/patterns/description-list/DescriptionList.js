@@ -3,7 +3,7 @@
  *
  */
 
-import React, { Component, Fragment } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
@@ -48,7 +48,7 @@ export const defaultProps = {
   ...renderProps
 }
 
-export default class DescriptionList extends Component {
+export default class DescriptionList extends PureComponent {
   static tagName = 'dnb-description-list'
   static propTypes = propTypes
   static defaultProps = defaultProps

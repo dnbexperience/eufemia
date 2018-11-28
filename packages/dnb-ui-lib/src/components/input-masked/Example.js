@@ -3,7 +3,7 @@
  *
  */
 
-import React, { Component, Fragment } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import InputMasked from './InputMasked'
 import styled from 'react-emotion'
 
@@ -14,7 +14,7 @@ const numberMask = createNumberMask({
   suffix: ' kr.'
 })
 
-class Example extends Component {
+class Example extends PureComponent {
   constructor(props) {
     super(props)
     this._ref = React.createRef()

@@ -3,14 +3,10 @@
  *
  */
 
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import Link from 'gatsby-link'
 import styled, { css, cx } from 'react-emotion'
-
-const random = (min, max) => {
-  return Math.floor(Math.random() * (max - min + 1) + min)
-}
 
 const boxStyle = css`
   flex: 1 1 0;
@@ -18,9 +14,11 @@ const boxStyle = css`
   flex-direction: column;
   align-items: center;
   justify-content: stretch;
+
   min-width: 33.333333%;
   padding: 0;
   margin: 0;
+
   border: none;
 
   color: rgba(255, 255, 255, 0.75);
@@ -91,7 +89,7 @@ const Box = styled.div`
   flex-direction: column;
 `
 
-export default class Card extends Component {
+export default class Card extends PureComponent {
   static propTypes = {
     url: PropTypes.string.isRequired,
     customStyle: PropTypes.string,
@@ -126,3 +124,6 @@ export default class Card extends Component {
     )
   }
 }
+
+const random = (min, max) =>
+  Math.floor(Math.random() * (max - min + 1) + min)

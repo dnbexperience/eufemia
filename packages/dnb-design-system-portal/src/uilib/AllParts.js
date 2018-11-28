@@ -2,11 +2,11 @@
  * List all component parts
  */
 
-import React from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'react-emotion'
 
-export default class AllParts extends React.Component {
+export default class AllParts extends PureComponent {
   static propTypes = {
     parts: PropTypes.array.isRequired,
     children: PropTypes.node.isRequired

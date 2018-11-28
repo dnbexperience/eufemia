@@ -7,7 +7,7 @@
  *
  */
 
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import ItemWrapper from '../../../shared/parts/uilib/ItemWrapper'
 import DemoComponent, {
@@ -17,7 +17,7 @@ import Description from 'dnb-ui-lib/src/patterns/typography/description.md'
 import Details from 'dnb-ui-lib/src/patterns/typography/details.md'
 import ExampleCode from 'raw-loader!../examples/Typography.txt'
 
-export default class TypographyDemo extends Component {
+export default class TypographyDemo extends PureComponent {
   static propTypes = {
     title: PropTypes.string,
     id: PropTypes.string,

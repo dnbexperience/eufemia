@@ -3,11 +3,11 @@
  *
  */
 
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import Color from 'color'
 
-export default class Table extends Component {
+export default class Table extends PureComponent {
   static propTypes = {
     children: PropTypes.node.isRequired
   }

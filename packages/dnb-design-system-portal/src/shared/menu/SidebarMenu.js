@@ -7,18 +7,27 @@ import { StaticQuery, graphql } from 'gatsby'
 
 import Link from '../parts/Link'
 import PropTypes from 'prop-types'
-import React from 'react'
+import classnames from 'classnames'
+import React, { PureComponent } from 'react'
 import styled, { injectGlobal, cx } from 'react-emotion'
+import {
+  SidebarMenuConsumer,
+  SidebarMenuContext
+} from './SidebarMenuContext'
 
 const showAlwaysMenuItems = [] // like "uilib" som someting like that
 
-export default class SidebarLayout extends React.Component {
+export default class SidebarLayout extends PureComponent {
   static propTypes = {
     location: PropTypes.object.isRequired,
     showAll: PropTypes.bool
   }
   static defaultProps = {
     showAll: false
+  }
+  static contextType = SidebarMenuContext
+  state = {
+    isOpen: false
   }
 
   constructor(props) {
@@ -87,13 +96,14 @@ export default class SidebarLayout extends React.Component {
             allMdx,
             showAll,
             pathPrefix
-          }).map(({ title, path, level }) => {
+          }).map(({ title, path, level }, nr) => {
             const active =
               pathnameWithoutPrefix === path ||
               pathnameWithoutPrefix === path.replace(/(\/)$/, '')
             return (
               <ListItem
                 key={path}
+                nr={nr}
                 to={`/${path}`}
                 active={active}
                 onOffsetTop={offsetTop => (this.offsetTop = offsetTop)}
@@ -105,9 +115,18 @@ export default class SidebarLayout extends React.Component {
           })
 
           return (
-            <Sidebar className="dnb-style">
-              <ul ref={this.ulRef}>{nav}</ul>
-            </Sidebar>
+            <SidebarMenuConsumer>
+              {({ isOpen, isClosing }) => (
+                <Sidebar
+                  className={classnames(
+                    isOpen && 'show-mobile-menu',
+                    isClosing && 'hide-mobile-menu'
+                  )}
+                >
+                  <ul ref={this.ulRef}>{nav}</ul>
+                </Sidebar>
+              )}
+            </SidebarMenuConsumer>
           )
         }}
       />
@@ -115,16 +134,18 @@ export default class SidebarLayout extends React.Component {
   }
 }
 
-class ListItem extends React.Component {
+class ListItem extends PureComponent {
   static propTypes = {
     onOffsetTop: PropTypes.func,
     children: PropTypes.node.isRequired,
     className: PropTypes.string.isRequired,
     to: PropTypes.string.isRequired,
+    nr: PropTypes.number,
     active: PropTypes.bool
   }
   static defaultProps = {
     active: false,
+    nr: null,
     onOffsetTop: null
   }
 
@@ -139,9 +160,15 @@ class ListItem extends React.Component {
   }
 
   render() {
-    const { className, to, children } = this.props
+    const { className, to, nr, children } = this.props
     return (
-      <StyledListItem className={className} innerRef={this.ref}>
+      <StyledListItem
+        className={className}
+        innerRef={this.ref}
+        style={{
+          '--delay': `${nr !== null ? nr * 12 : random(1, 160)}ms`
+        }}
+      >
         <Link to={to} className="no-underline no-underline-hover">
           {children}
         </Link>
@@ -236,6 +263,40 @@ const StyledListItem = styled.li`
       bottom: auto;
     }
   }
+
+  @keyframes show-mobile-menu {
+    0% {
+      opacity: 0;
+      transform: translate3d(0, -20%, 0);
+    }
+    40% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  @keyframes hide-mobile-menu {
+    from {
+      transform: translate3d(0, 0, 0);
+    }
+    to {
+      transform: translate3d(0, -80vh, 0);
+    }
+  }
+
+  .show-mobile-menu & {
+    opacity: 0;
+    animation: show-mobile-menu 600ms cubic-bezier(0.19, 1, 0.22, 1) 1
+      var(--delay) forwards;
+  }
+  .hide-mobile-menu & {
+    opacity: 1;
+    animation: hide-mobile-menu 280ms cubic-bezier(0.19, 1, 0.22, 1) 1
+      calc(var(--delay) / 2) forwards;
+  }
 `
 
 injectGlobal`
@@ -246,8 +307,12 @@ injectGlobal`
 
 const Sidebar = styled.aside`
   position: fixed;
-  z-index: 1; /* lower than styled.main */
-  top: 73px; /* height of StickyMenuBar */
+
+  /* lower than styled.main */
+  z-index: 1;
+
+  /* height of StickyMenuBar */
+  margin-top: 4rem;
 
   ul {
     width: 30vw;
@@ -256,28 +321,42 @@ const Sidebar = styled.aside`
     ); /* has to be the same value as margin-left */
     overflow-x: hidden;
     overflow-y: auto;
+
+    /* height of header and footer */
     min-height: 20vh;
     max-height: calc(100vmin - 4em - 10px);
 
-    /* height of header and footer */
     margin: 0;
     padding: 0;
     padding-top: 2em;
     padding-bottom: 1em;
   }
 
-  /* make sure that Content main "styled.main" gets the same max-width */
+  /*
+    God for a mobile menu insted
+    make sure that Content main "styled.main" gets the same max-width
+  */
+  @media only screen and (max-width: 50em) {
+    &:not(.show-mobile-menu) {
+      display: none;
+    }
+  }
+
+  ${'' /* We may make a overlay menu later, and use this approach */}
+  ${'' /* &.show-mobile-menu {
+    position: absolute;
+    z-index: 3;
+    top: 40rem;
+    height: 100vh;
+    background-color: white;
+  } */}
+
   @media only screen and (max-width: 50em) {
     position: relative;
     ul {
       width: 100vw;
       max-height: none;
       overflow-y: visible;
-    }
-  }
-  @media only screen and (max-height: 30em) {
-    ul {
-      max-height: 100vmin;
     }
   }
 `
@@ -391,3 +470,6 @@ const prepareNav = ({ location, allMdx, showAll, pathPrefix }) => {
     )
   return list
 }
+
+const random = (min, max) =>
+  Math.floor(Math.random() * (max - min + 1) + min)

@@ -36,7 +36,7 @@ exports[`Modal component have to match snapshot 1`] = `
         id={null}
         innerRef={null}
         on_click={[Function]}
-        size="default"
+        size={null}
         text="modal_trigger_text"
         title="modal_trigger_title"
         type="button"
@@ -65,7 +65,7 @@ exports[`Modal component have to match snapshot 1`] = `
             id={null}
             innerRef={null}
             on_click={[Function]}
-            size="default"
+            size={null}
             text="modal_trigger_text"
             title="modal_trigger_title"
             type="button"
@@ -77,25 +77,20 @@ exports[`Modal component have to match snapshot 1`] = `
             >
               modal_trigger_text
             </span>
-            <span
+            <IconWithAllIcons
+              alt="modal_trigger_title"
+              area_hidden={true}
+              attributes={null}
+              class={null}
               className="dnb-button__icon"
+              color={null}
+              height={null}
+              icon="modal_trigger_icon"
               key="button-icon"
-              role="presentation"
-            >
-              <IconWithAllIcons
-                alt="modal_trigger_title"
-                area_hidden={true}
-                attributes={null}
-                class={null}
-                className={null}
-                color={null}
-                height={null}
-                icon="modal_trigger_icon"
-                modifier={null}
-                size={16}
-                width={null}
-              />
-            </span>
+              modifier={null}
+              size={16}
+              width={null}
+            />
           </Content>
         </button>
       </Button>
@@ -168,7 +163,7 @@ exports[`Modal component have to match snapshot 1`] = `
                 id={null}
                 innerRef={null}
                 on_click={[Function]}
-                size="default"
+                size={null}
                 text={null}
                 title="close_title"
                 type="button"
@@ -197,55 +192,50 @@ exports[`Modal component have to match snapshot 1`] = `
                     id={null}
                     innerRef={null}
                     on_click={[Function]}
-                    size="default"
+                    size={null}
                     text={null}
                     title="close_title"
                     type="button"
                     variant="secondary"
                   >
-                    <span
+                    <IconWithAllIcons
+                      alt="close_title"
+                      area_hidden={true}
+                      attributes={null}
+                      class={null}
                       className="dnb-button__icon"
+                      color={null}
+                      height={null}
+                      icon="close"
                       key="button-icon"
-                      role="presentation"
+                      modifier={null}
+                      size={16}
+                      width={null}
                     >
-                      <IconWithAllIcons
-                        alt="close_title"
-                        area_hidden={true}
-                        attributes={null}
-                        class={null}
-                        className={null}
-                        color={null}
-                        height={null}
-                        icon="close"
-                        modifier={null}
-                        size={16}
-                        width={null}
+                      <span
+                        aria-hidden={true}
+                        aria-label="close title"
+                        className="dnb-icon dnb-icon--default dnb-button__icon"
+                        role="img"
                       >
-                        <span
-                          aria-hidden={true}
-                          aria-label="close title"
-                          className="dnb-icon dnb-icon--default"
-                          role="presentation"
+                        <close
+                          height={null}
+                          width={null}
                         >
-                          <close
+                          <svg
                             height={null}
+                            viewBox="0 0 16 16"
                             width={null}
                           >
-                            <svg
-                              height={null}
-                              viewBox="0 0 16 16"
-                              width={null}
-                            >
-                              <path
-                                clipRule="evenodd"
-                                d="M4.03 3.1a.75.75 0 0 0-1.06 1.06l3.97 3.97-3.97 3.97a.75.75 0 1 0 1.06 1.06L8 9.19l3.97 3.97a.75.75 0 1 0 1.06-1.06L9.06 8.13l3.97-3.97a.75.75 0 0 0-1.06-1.06L8 7.07 4.03 3.1z"
-                                fillRule="evenodd"
-                              />
-                            </svg>
-                          </close>
-                        </span>
-                      </IconWithAllIcons>
-                    </span>
+                            <path
+                              clipRule="evenodd"
+                              d="M4.03 3.1a.75.75 0 0 0-1.06 1.06l3.97 3.97-3.97 3.97a.75.75 0 1 0 1.06 1.06L8 9.19l3.97 3.97a.75.75 0 1 0 1.06-1.06L9.06 8.13l3.97-3.97a.75.75 0 0 0-1.06-1.06L8 7.07 4.03 3.1z"
+                              fillRule="evenodd"
+                            />
+                          </svg>
+                        </close>
+                      </span>
+                    </IconWithAllIcons>
                   </Content>
                 </button>
               </Button>
@@ -454,7 +444,7 @@ exports[`Modal scss have to match snapshot 1`] = `
   /* Firefox includes a hidden border which messes up button dimensions */ }
   .dnb-button__icon {
     line-height: 0; }
-    .dnb-button__icon svg:not([width]):not([height]) {
+    .dnb-button__icon:not(.dnb-icon) svg:not([width]):not([height]) {
       width: var(--button-icon-size);
       height: var(--button-icon-size); }
   .dnb-button__text {

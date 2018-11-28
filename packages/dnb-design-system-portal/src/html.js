@@ -3,10 +3,10 @@
  *
  */
 
-import React from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 
-export default class HTML extends React.Component {
+export default class HTML extends PureComponent {
   render() {
     return (
       <html lang="en" {...this.props.htmlAttributes}>

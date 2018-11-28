@@ -3,7 +3,7 @@
  *
  */
 
-import React, { Component, Fragment } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 
 import PropTypes from 'prop-types'
 import dnb from 'dnb-ui-lib/src'
@@ -11,7 +11,7 @@ import portalStyle from './PortalStyle'
 
 // import { CodeRenderer } from './Code'
 // import ReactMarkdown from 'react-markdown'
-// export default class Markdown extends Component {
+// export default class Markdown extends PureComponent {
 //   static propTypes = {
 //     children: PropTypes.string.isRequired
 //   }
@@ -35,7 +35,7 @@ import portalStyle from './PortalStyle'
 //   }
 // }
 
-export class Html extends Component {
+export class Html extends PureComponent {
   static propTypes = {
     children: PropTypes.node,
     value: PropTypes.string
@@ -79,7 +79,7 @@ export class Html extends Component {
   }
 }
 
-// export class Script extends Component {
+// export class Script extends PureComponent {
 //   static propTypes = {
 //     children: PropTypes.node,
 //     value: PropTypes.string

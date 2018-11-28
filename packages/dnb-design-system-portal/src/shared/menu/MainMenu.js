@@ -3,7 +3,7 @@
  *
  */
 
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { injectGlobal, css } from 'react-emotion'
 import classnames from 'classnames'
@@ -43,20 +43,12 @@ const sectionsStyle = css`
 `
 
 const mainMenuStyle = css`
+  position: relative;
+  z-index: 3; /* one more than Wrapper */
+
   width: 100vw;
   height: calc(100vh - 4em); /* minus StickyMenuBar */
-  @media (min-width: 640px) {
-    &.is-overlay {
-      display: none;
-      position: fixed;
-      z-index: 3; /* one more than Wrapper */
-      top: 0;
-      left: 0;
 
-      /* we dont use z-index for now, as its not required */
-      ${'' /* z-index: 100; */};
-    }
-  }
   &.show-as-overlay {
     display: block;
   }
@@ -94,7 +86,7 @@ const toolbarStyle = css`
   background-color: #fff;
 `
 
-export default class MainMenu extends Component {
+export default class MainMenu extends PureComponent {
   static propTypes = {
     setAsOverlay: PropTypes.bool,
     enableOverlay: PropTypes.bool,

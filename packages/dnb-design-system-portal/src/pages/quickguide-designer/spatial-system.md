@@ -4,88 +4,99 @@ title: 'Spatial system'
 draft: false
 ---
 
+import SpacingButton from 'Pages/quickguide-designer/assets/spacing-button.svg'
+import Toggle from 'Pages/quickguide-designer/assets/toggle.svg'
+import ButtonPrimaryIconLeft from 'Pages/quickguide-designer/assets/button-primary-icon-left.svg'
+import ButtonPrimaryIconRight from 'Pages/quickguide-designer/assets/button-primary-icon-right.svg'
+import TypeAndLayout from 'Pages/quickguide-designer/assets/type-and-layout.svg'
+import PaddingExample from 'Pages/quickguide-designer/assets/padding-example.svg'
+import MarginExample from 'Pages/quickguide-designer/assets/margin-example.svg'
+import BordersAndLines from 'Pages/quickguide-designer/assets/borders-lines.svg'
+import LineHeight from 'Pages/quickguide-designer/assets/line-height.svg'
+import DesignersIntentions from 'Pages/quickguide-designer/assets/designers-intentions.svg'
+import MultipleMargins from 'Pages/quickguide-designer/assets/multiple-margins.svg'
+import PaddingButtons from 'Pages/quickguide-designer/assets/padding-buttons.svg'
+import Zindex from 'Pages/quickguide-designer/assets/zindex.svg'
+import Extents from 'Pages/quickguide-designer/assets/extents.svg'
+import SpaceWithin from 'Pages/quickguide-designer/assets/space-within.svg'
+import TypeOnGrid from 'Pages/quickguide-designer/assets/type-on-grid.svg'
+import SpaceBlocks from 'Pages/quickguide-designer/assets/space-blocks.svg'
+import Discrepencies from 'Pages/quickguide-designer/assets/discrepencies.svg'
+
+import Img from 'Tags/Img'
+
 # Spatial system
 
 ### Contents
 
-1. First a little about S P A C E
+1. Eufemias Spatial System
 2. Principles
 3. Types of Spacing
 
-#### A system for layout and typography
+The Eufemia Design System uses a simple 8 pixel spatial system for both layout and typography.
+The reason for this is because many device and digital metrics are divisible by 8. For example, many popular browsers set their default body font-size to 16px and many screen sizes are also divisibly by 8.
+The 8 pixel base grid unit has been adopted by many well known design systems such as Google's Material Design.
 
-The Spatial System consists of various spacing devices for positioning and layout of interface elements. These include: margins, paddings, grids, spacing blocks.
+Ultimately the best reason for adopting 8 as a base number is because we can apply it perfectly to both type and layout.
+It is simple and consistent whilst allowing for some design freedom.
 
-The DNB SS (for web) sits on a base 8 x 8 pixel grid.
-8px units are ideal when dealing with pixel based interfaces as many common metrics consist of multiples of 8 allowing for consistency between typographic rules and interface layout.
+NB! All unitless measurements in the following illustrations are multiples of 8px (for example: x2 means two 8px units)
+<Img src={TypeAndLayout} caption="Label with line height 16 aligning with dropdown of 32px high, padding left and right 16px and an icon sized 16x16" alt="My alt" height="48" />
 
-![Grid](assets/grid.png)
+#### Line-height % Grid base unit = 0
 
-### First a little about S P A C E
+A general rule for getting type to sit precisely on the 8px grid is to make sure that line heights are divisible by 8
 
-Everything rendered on a display takes up space. Whats left is space. The position of an element takes up space. The size and margins of an element takes up space. Line thickness, fills, block elements (such as icons, images etc.), take up space. An element can be said to have internal space and external space. Together these dictate the positions of their neighboring elements. Lets look at a simple example. An icon with a label.
+#### Don't make me think - Make everything out of 8's
 
-![Space General](spatial-system/assets/space-general.png)
+Applying the 8px base system to as much as possible within UI design means that design decisions can be made easier. margins, paddings, empty space, widths and heights can all be made with multiples of 8.
 
-1.  external space - around the icon
-2.  internal space - within the icon
+##### Exceptions
 
-The external space is usually controlled by CSS, whereas the internal space needs to be carefully crafted in graphics applications.
+Sometimes 8 is not small enough or too big. Line thicknesses and borders are usually 1-2px in thickness. When we encounter situations where lines may 'throw' the layout off the grid, we can compensate by removing these line thicknesses from the padding or margin of the neighbouring element.
 
-### Why have a spatial system?
+<Img src={BordersAndLines} caption="Removing border thickness from padding" alt="Removing border thickness from padding" height="328" />
 
-<!-- Everything in an interface affects the position of everything else. Without a system to dictate how things should be positioned in relation to other things chaos and poor user experience will ensue. -->
+##### Calculating line thickness v. the 8px grid
+
+A single pixel equates to about 0.0625em ( 1/16 ), therefore if an element has padding of 1em (~16px) and a border of thickness 1px, we remove the border thickness from the padding:
+
+Border = 0.0625em
+Padding = 1em - 0.0625em = 0.9375em
+
+For a 2px thick border we set the padding to be:
+
+Padding = 1em - 0.125em = 0.875em
+
+The bordered element will now sit nicely on the baseline grid.
+
+In typography, a similar effect is seen when the line height of a text style is not evenly divisible by 8. For example, body text (paragraph), is set at 16px and it's line height is set at 24px.
+
+In this case **line-height / 8** is equal to 3 (24 / 8 = 3)
+
+##### Horizontal lines and divider Lines
+
+The same process should be applied in dealing with divider lines.
+Horizontal rules and other dividing mechanisms usually have some margin or padding around them. Remove the lines thickness from the padding or margin (above or below), to maintain the baseline grid.
+
+<Img src={LineHeight} caption="Line heights divisible by 8 sit on the grid (left side)" alt="Line heights and the grid" height="304" />
+
+#### Why do we need a spatial system?
 
 Space affects consistency, usability, readability and ultimately user experience.
 
-A good spatial system takes some of the guesswork out of layout decisions for designers and developers.
+A good spatial system takes some of the guesswork out of layout decisions for designers and developers. It also makes it's easier for others to understand the intentions of the designer when viewing design files.
+
+In the example below, a viewer informed of the spatial system could easily assume that the colored line thicknesses are 8px, 16px and 24px respectively and not 'odd' numbers like 7, 13 and 25.
+<Img src={DesignersIntentions} caption="Three padding thicknesses easily assumed to be 8, 16 and 24px" alt="" height="104" />
+
+<Img src={MultipleMargins} caption="Vertical and horizontal margins based on the 8px grid" alt="" height="320" />
 
 ## Principles
 
 1.  Be consistent - use the spatial system for both layout and typography
 2.  Keep it simple - avoid adding more block sizes or 'in-between' sizes
 3.  Abstract the spacing - set spacing rules at an abstract level to allow for scaleability and future changes across whole systems
-
-### Spacing Blocks
-
-Interfaces are laid out and affected by blocks of space. Margins, paddings, insets, lines etc., set rules for how they relate to neighboring elements.
-
-Using our 8px base we can establish a limited number of standard blocks with which to build with. Thus, design decisions become easier and less arbitrary.
-
-Keep the names of the spacing blocks simple and generic. Small, Medium, Large, X-Large etc.
-![Space blocks](spatial-system/assets/space-blocks.png)
-
-|                                                   | Name     | Pixels | Ems  |
-| ------------------------------------------------- | -------- | ------ | ---- |
-| ![XXX-Large](spatial-system/assets/XXX-Large.png) | xx-large | 64     | 4    |
-| ![XX-Large](spatial-system/assets/XX-Large.png)   | x-large  | 48     | 3    |
-| ![X-Large](spatial-system/assets/X-Large.png)     | large    | 32     | 2    |
-| ![Large](spatial-system/assets/Large.png)         | medium   | 24     | 1.5  |
-| ![Medium](spatial-system/assets/Medium.png)       | default  | 16     | 1    |
-| ![Small](spatial-system/assets/Small.png)         | small    | 8      | 0.5  |
-| ![X-Small](spatial-system/assets/X-Small.png)     | x-Small  | 4      | 0.25 |
-
-### Design Software View Vs. Browser View
-
-When laying out text content in a design app such as Sketch or Figma, it is easy to position the text on any pixel so that the design view looks perfect. However when building a UI in HTML and CSS, there are a number of properties which make this less straight forward. CSS's box model and font's baseline and cap heights have troublesome properties which make it difficult at times to stick to the baseline grids which the design is based on.
-
-Therefore, there may sometimes be small discrepancies between the design file view and the coded in-browser view. These should be rectified in the browser - if every element and component has applied the typographic rules, they should align perfectly.
-
-![Browser vs Sketch](spatial-system/assets/browser-vs-sketch.png)
-
-In the image above the heading with the yellow background is how the H1 is rendered in the browser, the right side shows the H1 bounding box in Sketch. Both are set with font size 32px and line height 40px.
-
-See section - LINK: Typographic and Spatial System which addresses the relationship between type and component layout in UI's. It also explains how to normalize the properties that can often cause problems.
-
-So, you don't need to be pixel perfect regarding vertical layout in your design application as the coded spacing will take care of accurate layout. However, to ensure that the finished design viewed in the browser matches your design layout, use the 8px base grid.
-
----
-
-### Spatial System pointers
-
-Use an non-linear scale to reduce the number of steps or options. For example, our scale doesn't simply start at 4 and double each step (4, 8, 16, 32, 64 ...). It doubles sometimes, other times it just increases by our base unit - 8 (4, 8, 16...then add 8...then add 8, then add 16...). So the steps are limited but give us enough to build our interfaces with.
-
-If an element has an awkward size then try to make up for this by removing or adding space (See 'Borders & Lines').
 
 ## Types of spacing:
 
@@ -95,10 +106,8 @@ If an element has an awkward size then try to make up for this by removing or ad
 4.  extents (wide display empty space)
 5.  space within elements
 6.  typography - margins and line-height (problems of cap-height and baseline )
-7.  stacking or blocking
-8.  inline
-9.  dealing with borders
-10. how we space things - positioning in CSS - relative, absolute, t,r,b,l
+7.  dealing with borders
+8.  how we space things - positioning in CSS - relative, absolute, t,r,b,l
 
 ### 1. Margins
 
@@ -108,44 +117,49 @@ Use margins to create space between elements. Objects which allow interaction by
 Set margins based on one or more spatial blocks.
 margins do not have to be equal on all sides of and object. Margins between related objects can be reduced to position closer together.
 
-![Margins](spatial-system/assets/margins-01.png)
-
-The toggle switch and the ? button above have their own margin properties, but when placed next to each other we reduce their margins by half.
+<Img src={MarginExample} caption="Margin - highlighted in yellow" alt="Margin example" height="48" />
 
 ### 2. Padding
 
 Padding refers to the space **within** an object.
-Padding can be used to 'inflate' an objects bounding or 'hit' area\* or make it larger without scaling it's internal parts.
 
-![Paddings](spatial-system/assets/paddings-01.png)
+<Img src={PaddingExample} caption="Padding - highlighted in magenta" alt="Padding example" height="48" />
 
-\*_Margins can also be used for this purpose, or a combination of both_
+Padding can be used to 'inflate' an objects bounding or 'hit area' or make it larger without scaling it's internal parts.
+
+<Img src={PaddingButtons} caption="Padding used to increase the appearance of a button" alt="Padding in buttons" height="256" />
 
 ### 3. Z-index
 
-Z-index spacing refers to space along the z-axis of an interface. It is not used much, except when styling shadows perhaps indicating that an object moves closer/further from/to the user. Another use is to indicate when objects are disabled by adding opacity and making them look like the are less prominent.
+Z-index spacing refers to space along the z-axis of an interface. It is not used much, except when styling shadows perhaps indicating that an object moves closer/further from/to the user. The shadow's blur, color and offset combine to give the illusion of the object being 'above' the rest of the elements on the UI.
+
+In the example below the shadow on the left is used for modal windows whereas the shadow on the right is used for open elements and components such as date pickers and dropdowns.
+
+<Img src={Zindex} caption="Shadows used to illustrate space below an object" alt="Shadows" height="272" />
 
 ### 4. Extents
 
-Extents refers to the amount of space available on displays and how much of it the content should take up. Ideal line length at default text-size (16px) is about 11-12 words. On large displays this can create vast areas of white space on the sides while still requiring the user to scroll. Use breakpoints to decide if multiple columns of content is a better way to present the content. Or simply increase font sizes. See example (**LINK**) pages where the body font-size is set in increments of 12px, 14px, 16px, 18px, 24px.
+Extents refers to the amount of space available on displays and how much of it the content should take up. Ideal line length at default text-size (16px) is about 11-12 words. On large displays this can create vast areas of white space on the sides while still requiring the user to scroll. Use breakpoints to decide if multiple columns of content is a better way to present the content.
+
+<Img src={Extents} caption="Making use of the horizontal space" alt="Extents" height="608" />
 
 ### 5. Space within elements
 
 This relates to the amount of inner space an objects has. It has similarities to padding but also deals with small intricate cavities especially in graphic elements such as icons. When icons are resized down they sometimes loose some of their details and legibility.
 
-IMG > detail showing | loss of detail
+<Img src={SpaceWithin} caption="Space within objects - highlighted here by the checkerboard" alt="Space within objects" height="136" />
 
 ### 6. Typography
 
 Typographic rules are intrinsically linked to the spatial system.
 
-They are built on the same units of measurement (multiples of 8), however, aligning type to the baseline grid is not as straightforward as setting font sizes to multiples of 8.
+Typographic elements have a kind of internal space and an external one. Their line heights create space above and below (between the lines). Adding margins to blocks of text creates further space them.
 
-The DNB type scale should be limited to **12px, 14px, 16px, 18px, 24px, 32px**. Larger sizes can be used but must follow the sizing and spacing rules.
+Eufemia typographic rules are built on the same units of measurement (multiples of 8), however, aligning type to the baseline grid is not as straightforward as setting font sizes to multiples of 8.
 
-For design applications, align elements to the 8px grid (see example below):
+The Eufemia type scale should be limited to **12px, 14px, 16px, 18px, 24px, 32px**. Larger sizes can be used but must follow the sizing and spacing rules.
 
-IMG add image of aligning things to the grid
+<Img src={TypeOnGrid} caption="Type elements aligning to the grid" alt="Type elements aligning to the grid" height="200" />
 
 For those familiar with CSS, we establish typographic rules in the following way:
 
@@ -165,52 +179,11 @@ For those familiar with CSS, we establish typographic rules in the following way
     Alternatively, refer to these test pages which show various font sizes embedded in various body font sizes.
     Here is a good one: http://pxtoem.com/
 
-### 7. Stacking / blocking
+<!--
 
-Stacking refers to the layout method whereby objects, elements, components are positioned on top of one another. It is a very basic but stable way to build.
-Paragraphs are naturally stacked on top of one another. Space below each paragraph is used to indicate the beginning of a new paragraph.
+### How we space things
 
-We can also apply Gestalt proximity principals to vertical positioning. Refer to the illustrations below:
-
-![Stacking](spatial-system/assets/stacking-01.png)
-
-### 8. Inline
-
-Inline spacing is similar to Stacking/Blocking but on the horizontal axis.
-
-![Inline](spatial-system/assets/inline-01.png)
-
-### 9. Dealing with Borders and lines
-
-In order to maintain the baseline grid, elements which have borders should have their border thickness removed from the internal padding.
-
-#### No internal padding?
-
-For example a border on an image? Then remove the border thickness from the height of the image.
-
-![Dealing with borders padding](spatial-system/assets/dealing-with-borders-padding.png)
-
-A single pixel equates to about 0.0625em ( 1/16 ), therefore if an element has padding of 1em (~16px) and a border of thickness 1px, we remove the border thickness from the padding:
-
-Border = 0.0625em
-Padding = 1em - 0.0625em = 0.9375em
-
-For a 2px thick border we set the padding to be:
-
-Padding = 1em - 0.125em = 0.875em
-
-The bordered element will now sit nicely on the baseline grid.
-
-### Horizontal lines and divider Lines
-
-The same process should be applied in dealing with divider lines.
-Horizontal rules and other dividing mechanisms usually have some margin or padding around them. Remove the lines thickness from the padding or margin (above or below), to maintain the baseline grid.
-
-See example pages: **ADD LINK TO PAGES**
-
-### 10. How we space things
-
-<!-- Padding and vertical margins : .......
+Padding and vertical margins : .......
 
 So, how do we establish a system for ALL probable combinations of elements in a GUI?
 
@@ -218,37 +191,50 @@ Answer: We provide a set of spacing units and a **guide** for how the spacing sh
 
 The spatial system doesn’t care what elements are in the design guide. It doesn’t care how they look or feel.
 
-The SS is a rigid set of ’space-blocks’ akin to the leading slugs in a typesetters frame.
-Rules dictate which slugs are placed adjacent to which blocks. -->
+Rules dictate which slugs are placed adjacent to which blocks.
+-->
 
-<!-- ### Grids
+### Eufemia Spatial System ≠ A Grid System
 
-Space and grid are two different things. A grid is a component which _uses_ space.
+A spatial system and grid system are two different things. A grid is a component which _uses_ space.
+The Eufemia Spatial System is a very simple set of ’space-blocks’ than _create_ space - akin to the leading slugs in a typesetters frame.
 
-### KISS
+<Img src={SpaceBlocks} caption="Space blocks seperating objects" alt="Space blocks" height="120" />
 
-In order for a spatial system to be adopted it needs to be very simple. Deviations from the strict rules should be allowed for edge cases but their consequences must be discussed and agreed upon because we never know... -->
+A _grid system_ is typically a more elaborate set of containers which divide the UI into sections with margins and gutters between them. Eufemia's spatial system is a simple guide for space and type set around the 8px base unit.
+
+### Keep it simple
+
+In order for a spatial system to be adopted it needs to be very simple.
+Deviations from the simple but strict rules should be allowed for edge cases but avoided if the aim to to maintain consistency.
 
 ### Process
 
-<!--By relating our base grid for elements and components to the typographic sizing system, we can maintain visual consistency between type and layout.-->
+By relating our base grid for elements and components to the typographic sizing system, we can maintain visual consistency between type and layout.
 
-_Designers:_
-Set up an 8px x 8px underlay for all interface design work. When positioning elements, have them 'snap' to this grid:
+**Designers:**
 
-![Snap](spatial-system/assets/snap.png)
+Set up an 8px x 8px underlay for all interface design work.
+When positioning elements, have them 'snap' to this underlay.
 
-When a designer designs a component they must add the spatial rules to it before handing to developer. One way to do this is to include the 8px base grid as a background so that spacing can be counted easily.
+Use _'space blocks'_ to add margins and paddings to elements, components and the UI white space.
 
-![Space Guides](spatial-system/assets/space-guides.png)
+**Developers:**
 
-Developer should cross check it with the design before releasing. If any browser compliant problems cannot be resolved\* so that the component looks right in the browser then the designer should be informed and a common solution should be found. Only then can the component be committed to the design guide 'stage'.
+If the designer has laid out the UI correctly in Figma, there should be no _'off sizes'_ - strange uneven numbers that are almost a multiple of 8 but not quite.
 
-By 'resolved' we mean that a serious attempt has been made to make it look and feel according to the design. frontend developers usually have a good grasp of the shortcomings and workarounds involved in making browsers display UI's correctly.
+It is always good practice to cross check it with the design before releasing.
 
-<!--
-# A detailed example of Spatial system with typographic rules.
+If there are issues maintaining the spatial system when components are coded, then inform the designer so that a suitable solution is found.
 
-Here is a common view of a web form designed for viewing on a wide display (large tablet/desktop).
+### Design Software View Vs. Browser View
 
--->
+When designing with type, there may sometimes be small discrepancies between the design file view and the coded in-browser view.
+
+In order to see how type is rendered in the browser and view the space it uses, toggle the grid view in the top right of this document.
+
+<Img src={Discrepencies} caption="Slight discrepencies between design tool and browser rendering" alt="Discrepencies between design tool and browser" height="160" />
+
+In the image above the heading with the blue background is how Figma shows the space the the heading uses. The heading with the yellow background is how the browser (Chrome) renders and shows the space taken up. Note the space above the first letter 'T'. In Figma this is 2 pixels whereas in Chrome it is 6 pixels.
+
+### Examples

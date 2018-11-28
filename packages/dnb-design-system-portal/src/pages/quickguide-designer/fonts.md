@@ -13,6 +13,7 @@ import LineHeight from 'Pages/quickguide-designer/line-height.md'
 
 In this section:
 
+- In general
 - Typographic scale
 - Typographic styling
 - Margins & Padding

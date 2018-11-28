@@ -5,7 +5,7 @@
 
 import { Button, Tabs } from 'dnb-ui-lib/src'
 import Code, { CodeRenderer } from './Code'
-import React, { Component, Fragment } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 
 import { CloseButton } from 'dnb-ui-lib/src/components/modal'
 import Link from 'gatsby-link'
@@ -45,7 +45,7 @@ const tabsWrapperStyle = css`
   }
 `
 
-class ComponentItemWrapper extends Component {
+class ComponentItemWrapper extends PureComponent {
   static propTypes = {
     ExampleCode: PropTypes.string,
     Description: PropTypes.func.isRequired,

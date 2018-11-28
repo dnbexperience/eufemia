@@ -3,7 +3,7 @@
  *
  */
 
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
@@ -52,7 +52,7 @@ export const defaultProps = {
   ...renderProps
 }
 
-export default class RangeSlider extends Component {
+export default class RangeSlider extends PureComponent {
   static tagName = 'dnb-range-slider'
   static propTypes = propTypes
   static defaultProps = defaultProps

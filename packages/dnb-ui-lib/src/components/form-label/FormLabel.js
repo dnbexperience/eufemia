@@ -26,7 +26,11 @@ export const propTypes = {
   class: PropTypes.string,
   /** React props */
   className: PropTypes.string,
-  children: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+  children: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node
+  ]),
   // Web Component props
   render_content: PropTypes.func
 }

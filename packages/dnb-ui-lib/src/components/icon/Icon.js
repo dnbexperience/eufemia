@@ -170,11 +170,12 @@ export default class Icon extends PureComponent {
     // some wrapper params
     // also used for code markup simulation
     const wrapperParams = validateDOMAttributes(props, {
-      role: 'presentation'
+      role: 'img'
     })
     // get the alt
     wrapperParams['aria-label'] = (alt || name).replace(/_/g, ' ')
     if (area_hidden) {
+      // wrapperParams['role'] = 'presentation' // almost the same as aria-hidden
       wrapperParams['aria-hidden'] = area_hidden
     }
     wrapperParams.className = classnames(

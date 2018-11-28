@@ -3,37 +3,25 @@ header: 'UI Library'
 title: 'UI Library'
 ---
 
-import Advice from "Pages/welcome-advice.md";
-import { Logo } from 'dnb-ui-lib/src'
-import CodeBlock from 'Tags/CodeBlock'
-
-<!-- import Notification from "Parts/Notification"; -->
-<!-- import WelcomeInfo from "Parts/WelcomeInfo"; -->
+import WelcomeAdvice from 'Pages/welcome-advice.md'
 
 # UI Library
 
-<!-- <WelcomeInfo /> -->
-<Advice />
+The DNB UI Library contains ready to use Components and Patterns to use in both existing and new web Applications.
+
+Read more [About the Library](/uilib/about-the-lib)
+
+<WelcomeAdvice />
 
 <!-- prettier-ignore-start -->
 
-<Logo size="200" />
-
-<CodeBlock language="jsx">{`
-  <Logo size="200" />
-`}</CodeBlock>
-
-<!-- prettier-ignore-end -->
-
-<!-- <Notification type="info">
-<p>Some info</p>
-</Notification> -->
-
-<!-- prettier-ignore-start -->
-
-<!-- export default ({children}) => (<div>
-  {children}
-  <Info />
-</div>) -->
+<!-- export default ({children}) => {
+  console.log('Hello')
+  return (
+    <React.Fragment>
+      {children}
+    </React.Fragment>
+  )
+} -->
 
 <!-- prettier-ignore-end -->

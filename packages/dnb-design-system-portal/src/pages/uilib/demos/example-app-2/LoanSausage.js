@@ -3,7 +3,7 @@
  *
  */
 
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { css } from 'react-emotion'
 import { Modal } from 'dnb-ui-lib/src'
@@ -92,7 +92,7 @@ const style = css`
   }
 `
 
-export default class LoanSausage extends Component {
+export default class LoanSausage extends PureComponent {
   static propTypes = {
     equity: PropTypes.string.isRequired,
     currency: PropTypes.string.isRequired,
@@ -167,7 +167,7 @@ export default class LoanSausage extends Component {
   }
 }
 
-class SausageItem extends Component {
+class SausageItem extends PureComponent {
   static propTypes = {
     title: PropTypes.string.isRequired,
     percentage: PropTypes.string.isRequired

@@ -3,12 +3,12 @@
  *
  */
 
-import React, { Component, Fragment } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import Button from './Button'
 import styled from 'react-emotion'
 import { bell_medium as Bell, question } from '../../../icons'
 
-class Example extends Component {
+class Example extends PureComponent {
   clickHandler = () => {
     alert('You clicked a button with a click function attached to it')
   }

@@ -17,19 +17,19 @@ Yarn offers a simpler approach to workspaces, but is way more powerful in managi
 
 ```bash
 # Clone the repo into your project working directory
-git clone https://github.com/dnbexperience/eufemia.git
+$ git clone https://github.com/dnbexperience/eufemia.git
 
 # Change to the directory
-cd eufemia
+$ cd eufemia
 
 # And install the dependencies
-yarn install
+$ yarn install
 
 # Once the installation is done, create a local build
-yarn build
+$ yarn build
 
 # Optionally, run the portal locally in watch mode (http://localhost:8000)
-yarn start
+$ yarn start
 ```
 
 ---
@@ -42,7 +42,7 @@ The steps, from code changes to production builds are:
 1. Write tests and test the codebase
 1. Update eventually snapshots
 1. Commit Your changes with the correct **message decoration**
-1. Push to the [`develop`](https://github.com/dnbexperience/eufemia/commits/develop) branch
+1. Push or make a Pull Request to the [`develop`](https://github.com/dnbexperience/eufemia/commits/develop) branch
 1. Wait until the CI Server has validated the commits
 1. Make a [Pull Request](https://github.com/dnbexperience/eufemia/compare/master...develop?expand=1)
 1. Once the Pull Request will be approved by one of the authored [repo contributors](https://github.com/dnbexperience/eufemia/graphs/contributors),
@@ -63,11 +63,11 @@ To test and build Your changes locally, run
 
 ```bash
 # In the `dnb-ui-lib` directory, call:
-yarn build
+$ yarn build
 
 # To check if You have to update some test snappshots
 # or to simply validate your changes, run:
-yarn test
+$ yarn test
 ```
 
 ##### Committing changes

@@ -3,12 +3,12 @@
  *
  */
 
-import React, { Component, Fragment } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import Icon from './Icon'
 import IconWithAllIcons from './IconWithAllIcons'
 import { bell_medium as Bell } from './lib'
 
-class Example extends Component {
+class Example extends PureComponent {
   static AdditionalCallback = {
     info: ({ CodeRenderer }) => (
       <Fragment>
