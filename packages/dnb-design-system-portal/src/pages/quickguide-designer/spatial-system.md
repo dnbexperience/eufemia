@@ -27,11 +27,7 @@ import Img from 'Tags/Img'
 
 # Spatial system
 
-### Contents
-
-1. Eufemias Spatial System
-2. Principles
-3. Types of Spacing
+## About
 
 The Eufemia Design System uses a simple 8 pixel spatial system for both layout and typography.
 The reason for this is because many device and digital metrics are divisible by 8. For example, many popular browsers set their default body font-size to 16px and many screen sizes are also divisibly by 8.
