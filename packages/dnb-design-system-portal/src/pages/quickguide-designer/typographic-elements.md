@@ -106,7 +106,7 @@ This is a regular paragraph following the text above. Quem facilisi moderatius i
 <li>line-height: 2rem (32px)</li>
 <li>margin-bottom: 1rem (16px)</li>
 </ul>
-<p class="lead">
+<p class="dnb-lead">
 Quem facilisi moderatius id eam, id tamquam albucius per. Vel quem congue appareat cu, mei te eros convenire. Sea bonorum epicuri ea, ei exerci tacimates pro, aliquam pertinacia eu vim. Vix ei stet ornatus. Est mediocrem reprimique contentiones ei, mea
 ne primis intellegat. Dico purto nullam sea an.
 </p>
@@ -123,7 +123,7 @@ This is a regular paragraph following the text above. Quem facilisi moderatius i
 <li>line-height: 1.5rem (24px)</li>
 <li>margin-bottom: 1rem (16px)</li>
 </ul>
-<p class="lead">
+<p class="dnb-lead">
 First some ordinary p.lead text
 <small>
 Quem facilisi moderatius id eam, id tamquam albucius per. Vel quem congue appareat cu, mei te eros convenire. Sea bonorum epicuri ea, ei exerci tacimates pro, aliquam pertinacia eu vim. Vix ei stet ornatus. Est mediocrem reprimique contentiones ei, mea
@@ -206,7 +206,7 @@ This is a H3 on it's own
 ## Simulations
 
 <div class="typography-box">
-<p class="lead">
+<p class="dnb-lead">
 This is a p with class 'lead'.It looks the same as an H3 and can be used for ingress and introductive texts.
 </p>
 <b>Use when:</b> You need a type element to look like another and remain semantically correct.

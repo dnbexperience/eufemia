@@ -1,6 +1,6 @@
 ---
 header: 'Accessibility'
-title: 'Screen reader'
+title: 'Screen readers'
 draft: false
 ---
 

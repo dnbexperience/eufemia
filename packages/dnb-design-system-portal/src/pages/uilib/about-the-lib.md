@@ -5,6 +5,8 @@ draft: false
 order: 1
 ---
 
+import WelcomeAdvice from 'Pages/welcome-advice.md'
+
 # About the Library
 
 **Why does this UI Library exist?**
@@ -36,7 +38,7 @@ Designers are thinking in grids and absolute sizes. Developers not. But by makin
 
 Through NPM and GitHub, with a Deploy server in place, a platform on which collaboration between design and development will be more transparent. Also, Figma API integration will allow for more collaboration possibilities.
 
-## In detail
+## Technical aspects
 
 The HTML Elements are build based on [React](https://reactjs.org/).
 The reason for this is that React offers a robust library of tools to build deeply and well tested and reusable elements.

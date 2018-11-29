@@ -1,0 +1,10 @@
+<Article>
+  <h1>
+    <small>My small H1 </small>
+  </h1>
+  <h2>My H2</h2>
+  <p>
+    Vivamus litora imperdiet placerat aenean venenatis congue nec
+    porttitor risus
+  </p>
+</Article>

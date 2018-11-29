@@ -6,12 +6,9 @@ draft: false
 
 # Naming conventions (Designers)
 
-<blockquote>
-"Persist the same component name throughout design, code and conversation"
-</blockquote>
-<cite>
-- Nathan Curtis
-</cite>
+> Persist the same component name throughout design, code and conversation
+>
+> Nathan Curtis
 
 ### Naming space
 

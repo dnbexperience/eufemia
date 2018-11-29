@@ -2,6 +2,7 @@
 header: 'UI Library'
 title: 'Vue'
 draft: false
+order: 6
 ---
 
 # Vue JS

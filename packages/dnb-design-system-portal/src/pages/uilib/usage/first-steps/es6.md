@@ -2,6 +2,7 @@
 header: 'UI Library'
 title: 'ES6'
 draft: false
+order: 8
 ---
 
 # ES6
