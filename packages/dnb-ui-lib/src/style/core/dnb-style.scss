@@ -4,9 +4,26 @@
 * ======================================================================== */
 
 .dnb-style {
+  p {
+    margin: 0; // if we not reset margin, the browser is using: margin-block-end: 1em;
+    padding: 0;
+    font-family: $font-family-book;
+    line-height: 1.5em; // 24px
+    font-weight: 300;
+  }
+
+  label,
+  input {
+    font-size: 1em; // 16px
+  }
+
+  form,
+  fieldset {
+    font-size: 1rem; // 16px
+  }
   small {
-    font-size: 0.875em;
-    line-height: 1.375rem;
+    font-size: 0.875em; // 14px
+    line-height: 1em; // 16px
   }
 
   h1,
@@ -15,28 +32,28 @@
   h4,
   h5,
   h6 {
-    margin-top: 0;
-    margin-bottom: 1rem;
+    margin: 0;
+    padding: 0;
+
+    font-family: $font-family-demi;
+    line-height: 1em; // 16px
     font-weight: 400;
-    line-height: 1em;
   }
 
   h1 {
-    font-size: 3em;
+    font-size: 3em; // 48px
     line-height: 3.5rem; // 56px
-    margin-bottom: 1rem;
     font-weight: 400;
 
     small {
       font-size: 2rem; // 32px
-      line-height: 3rem;
+      line-height: 3rem; // 48px
     }
   }
 
   h2 {
     font-size: 1.5em; // 24px
     line-height: 2rem; // 32px
-    margin-bottom: 1rem;
   }
 
   /*
@@ -44,43 +61,29 @@
   *
   */
   h3,
-  p.dnb-lead {
+  .dnb-lead {
+    font-family: $font-family-demi;
     font-size: 1.25em; // 20px
     line-height: 2rem; // 32px
-    margin-bottom: 1rem;
     font-weight: 400;
-  }
-  h3 small {
-    font-size: 1rem;
-    line-height: 1.5rem;
+
+    small {
+      font-size: 1rem; // 16px
+      line-height: 1.5rem; // 24px
+    }
   }
 
+  // The rest of the Headings are nod defned by the Eufemia Typography
   h4 {
-    font-size: 1.25em;
-    line-height: 2rem;
-    margin-bottom: 1rem;
+    font-size: 1.25em; // 20px
+    line-height: 1.5rem; // 24px
   }
-
   h5 {
-    font-size: 1em;
+    font-size: 1em; // 16px
+    line-height: 1.5rem; // 24px
   }
-
   h6 {
-    font-size: 0.875em;
-  }
-
-  p {
-    font-weight: 300;
-    line-height: 1.5em;
-  }
-
-  label,
-  input {
-    font-size: 1em;
-  }
-
-  form,
-  fieldset {
-    font-size: 1rem;
+    font-size: 0.875em; // 14px
+    line-height: 1rem; // 16px
   }
 }

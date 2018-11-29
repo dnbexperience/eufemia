@@ -3,23 +3,10 @@
  *
  */
 
-import system from 'system-components/emotion'
+import styled from 'react-emotion'
 
-const Pre = system(
-  {
-    is: 'pre',
-    // by commenting this out, we use the reset.scss styling of fonts
-    // fontSize: 16,
-    // fontFamily: 'monospace',
-    m: 0
-  }
-  // {
-  //   overflow: 'auto'
-  // },
-  // 'fontFamily',
-  // 'space',
-  // 'color'
-)
-Pre.displayName = 'Pre'
+const Pre = styled.pre`
+  padding: 1rem;
+`
 
 export default Pre

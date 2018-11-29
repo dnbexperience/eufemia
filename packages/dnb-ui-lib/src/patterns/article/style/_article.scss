@@ -1,0 +1,162 @@
+/*
+ * Article patterns
+ *
+ * ========================================================================== */
+
+.dnb-article {
+  --border-color: #dfe2e5;
+  --table-color: #f6f8fa;
+
+  p {
+    margin-bottom: 1em;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin: 1em 0;
+  }
+
+  h1 {
+    margin-top: 1.5em;
+    margin-bottom: 1em;
+  }
+
+  h2 {
+    margin-top: 1.5em;
+    margin-bottom: 1em;
+  }
+
+  *:not([class^='dnb-']) + {
+    blockquote {
+      margin: 0;
+      padding: 0 1rem;
+      color: #666;
+      border-left: 0.25em solid var(--border-color);
+    }
+
+    blockquote > :first-child {
+      margin-top: 0;
+    }
+
+    blockquote > :last-child {
+      margin-bottom: 0;
+    }
+
+    p,
+    blockquote,
+    ul,
+    ol,
+    dl,
+    pre {
+      margin-top: 0;
+      margin-bottom: 1rem;
+    }
+
+    code,
+    p code {
+      margin: 0;
+      padding: 0.2em 0.4em;
+
+      font-size: 0.875em;
+      background-color: rgba(27, 31, 35, 0.05);
+      border-radius: 3px;
+    }
+    pre,
+    p pre {
+      word-wrap: normal;
+    }
+
+    ul,
+    ol {
+      padding-left: 2rem;
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+
+    li {
+      word-wrap: break-all;
+    }
+
+    ul li,
+    ol li {
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    li > p {
+      margin-top: 1rem;
+    }
+
+    li + li {
+      margin-top: 0.25em;
+    }
+
+    ol ol,
+    ul ol {
+      list-style-type: lower-roman;
+    }
+
+    ul ul,
+    ul ol,
+    ol ol,
+    ol ul {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+
+    ul ul ol,
+    ul ol ol,
+    ol ul ol,
+    ol ol ol {
+      list-style-type: lower-alpha;
+    }
+
+    dd {
+      margin-left: 0;
+    }
+
+    > *:first-child {
+      margin-top: 0 !important;
+    }
+
+    > *:last-child {
+      margin-bottom: 0 !important;
+    }
+
+    dl {
+      padding: 0;
+    }
+
+    dl dt {
+      padding: 0;
+      margin-top: 1rem;
+      font-size: 1rem;
+      font-style: italic;
+      font-weight: 600;
+    }
+
+    dl dd {
+      padding: 0 1rem;
+      margin-bottom: 1rem;
+    }
+
+    img {
+      box-sizing: content-box;
+      max-width: 100%;
+      border-style: none;
+      background-color: #fff;
+    }
+
+    img[align='right'] {
+      padding-left: 1.2rem;
+    }
+
+    img[align='left'] {
+      padding-right: 1.2rem;
+    }
+  }
+}

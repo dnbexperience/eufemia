@@ -26,7 +26,6 @@ const CodeBlock = ({
     language = ((className || '').split(/-/) || [null, 'jsx'])[1]
 
   if (isReactLive && language === 'jsx') {
-    console.log('exampleCode', language, typeof exampleCode)
     return (
       <LiveProvider
         code={
@@ -52,7 +51,7 @@ const CodeBlock = ({
         theme={prismTheme}
       >
         {({ className, style, tokens, getLineProps, getTokenProps }) => (
-          <Pre className={className} style={style} p={3}>
+          <Pre className={className} css={style}>
             {cleanTokens(tokens).map((line, i) => (
               <div {...getLineProps({ line, key: i })}>
                 {line.map((token, key) => (
