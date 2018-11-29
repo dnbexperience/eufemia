@@ -2,7 +2,7 @@
 header: 'UI Library'
 title: 'Footer'
 draft: false
-order: 0
+order: 5
 ---
 
 <!--

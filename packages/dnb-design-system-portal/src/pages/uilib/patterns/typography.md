@@ -2,7 +2,7 @@
 header: 'UI Library'
 title: 'Typography'
 draft: false
-order: 0
+order: 14
 ---
 
 <!--

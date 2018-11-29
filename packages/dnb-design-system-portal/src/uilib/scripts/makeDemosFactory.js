@@ -121,6 +121,11 @@ if (require.main === module && process.env.NODE_ENV !== 'test') {
       '../patterns/page-template.md'
     ),
     processDestFileExt: '.md',
+    processDestFileContent: (content, i) => `${content.replace(
+      /(order: )([0-9])/g,
+      `$1${i + 1}`
+    )}
+    `,
     processToNamesIgnoreList: ignoreUiLibList,
     processToNamesList: path.resolve(
       __dirname,

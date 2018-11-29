@@ -2,7 +2,7 @@
 header: 'UI Library'
 title: 'SummaryTable'
 draft: false
-order: 0
+order: 13
 ---
 
 <!--
