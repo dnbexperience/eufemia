@@ -27,7 +27,7 @@ jobs:
       - run: yarn lint-ci
       - run: yarn test-ci
 
-  deploy:
+  deploy-preview:
     docker:
       - image: circleci/node:10.6
     working_directory: ~/repo
@@ -52,7 +52,7 @@ jobs:
           command: yarn prepublish-ci
 
       - run:
-          name: Build the portal
+          name: Build the portal, just to test if the build is successful
           command: yarn build-ci
 
   release:
@@ -76,7 +76,7 @@ jobs:
             - ~/.cache/yarn
 
       - run:
-          name: Prepublish the ui-lib
+          name: Prepublish the ui-lib to use it in "build-ci"
           command: yarn prepublish-ci
 
       - run:
@@ -104,7 +104,7 @@ workflows:
                 - /.*rc-.*|^rc\//
                 - /.*wip-.*|^wip\//
                 - gh-pages
-      - deploy:
+      - deploy-preview:
           filters:
             branches:
               only:
