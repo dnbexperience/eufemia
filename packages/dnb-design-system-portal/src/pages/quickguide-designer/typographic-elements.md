@@ -36,10 +36,8 @@ H1 small heading
 <li>line-height: 3rem (48px)</li>
 <li>margin-bottom: 1rem (16px)</li>
 </ul>
-<h1>
-<small>
-Quem facilisi moderatius id eam, id tamquam albucius per. Vel quem congue appareat cu, mei te eros convenire. Sea bonorum epicuri ea, ei exerci tacimates pro.
-</small>
+<h1 class="small">
+Testing Quem facilisi moderatius id eam, id tamquam albucius per. Vel quem congue appareat cu, mei te eros convenire. Sea bonorum epicuri ea, ei exerci tacimates pro.
 </h1>
 <p>
 This is a regular paragraph following the text above. Quem facilisi moderatius id eam, id tamquam albucius per. Vel quem congue appareat cu, mei te eros convenire. Sea bonorum epicuri ea, ei exerci tacimates pro, aliquam pertinacia eu vim.
