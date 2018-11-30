@@ -111,10 +111,10 @@ class ItemWrapper extends PureComponent {
     if (location) navigate([location.pathname, location.hash].join(''))
   }
   render() {
-    let { tabs } = this.props
     const {
       title,
       id,
+      tabs,
       hideTabs,
       ExampleCode,
       Description,
@@ -130,16 +130,69 @@ class ItemWrapper extends PureComponent {
         ReactDOMServer.renderToStaticMarkup(<Details />)
       ) || [])[1] || ''
     ).trim()
-    if (prerenderedDetailsContent.length === 0) {
-      tabs = tabs.filter(({ key }) => key !== 'info')
-    }
+    // if (prerenderedDetailsContent.length === 0) {
+    //   tabs = tabs.filter(({ key }) => key !== 'info')
+    // }
 
     // Prerender the Code component
     const prerenderedCodeContent = String(
       ReactDOMServer.renderToStaticMarkup(<CodeComponent />)
     ).trim()
-    if (prerenderedCodeContent.length === 0) {
-      tabs = tabs.filter(({ key }) => key !== 'code')
+    // if (prerenderedCodeContent.length === 0) {
+    //   tabs = tabs.filter(({ key }) => key !== 'code')
+    // }
+
+    const tabsUsed = [tabs[0]]
+    const tabsContent = []
+
+    if (this.isActive('demo')) {
+      tabsContent.push(
+        <Tabs.TabContent key="demo" id={this._id} selection_key="demo">
+          {!hideTabs && <Description />}
+          <DemoComponent />
+          {Additional && Additional.demo && (
+            <Additional.demo CodeRenderer={CodeRenderer} />
+          )}
+        </Tabs.TabContent>
+      )
+    }
+
+    if (
+      prerenderedDetailsContent ||
+      (Additional && Additional.info) ||
+      ExampleCode
+    ) {
+      tabsUsed.push(tabs.find(({ key }) => key === 'info'))
+      if (this.isActive('info')) {
+        tabsContent.push(
+          <Tabs.TabContent key="info" id={this._id} selection_key="info">
+            <Details />
+            {Additional && Additional.info && (
+              <Additional.info CodeRenderer={CodeRenderer} />
+            )}
+            {ExampleCode && (
+              <Fragment>
+                <h3>JSX Example</h3>
+                <CodeRenderer language="jsx">{ExampleCode}</CodeRenderer>
+              </Fragment>
+            )}
+          </Tabs.TabContent>
+        )
+      }
+    }
+
+    if (prerenderedCodeContent || (Additional && Additional.code)) {
+      tabsUsed.push(tabs.find(({ key }) => key === 'code'))
+      if (this.isActive('code')) {
+        tabsContent.push(
+          <Tabs.TabContent key="code" id={this._id} selection_key="code">
+            <Code source={CodeComponent} />
+            {Additional && Additional.code && (
+              <Additional.code CodeRenderer={CodeRenderer} />
+            )}
+          </Tabs.TabContent>
+        )
+      }
     }
 
     return (
@@ -155,7 +208,7 @@ class ItemWrapper extends PureComponent {
           <Tabs
             id={this._id}
             do_set_hash
-            data={tabs}
+            data={tabsUsed}
             on_change={this.openTab}
             render={({ Wrapper, TabsList, Tabs }) => {
               return (
@@ -190,43 +243,7 @@ class ItemWrapper extends PureComponent {
             }}
           />
         )}
-
-        {this.isActive('demo') && (
-          <Tabs.TabContent id={this._id} selection_key="demo">
-            {!hideTabs && <Description />}
-            <DemoComponent />
-            {Additional /* here we use AdditionalCallback */ &&
-              Additional.demo && (
-                <Additional.demo CodeRenderer={CodeRenderer} />
-              )}
-          </Tabs.TabContent>
-        )}
-
-        {this.isActive('info') && prerenderedDetailsContent && (
-          <Tabs.TabContent id={this._id} selection_key="info">
-            <Details />
-            {Additional /* here we use AdditionalCallback */ &&
-              Additional.info && (
-                <Additional.info CodeRenderer={CodeRenderer} />
-              )}
-            {ExampleCode && (
-              <Fragment>
-                <h3>JSX Example</h3>
-                <CodeRenderer language="jsx">{ExampleCode}</CodeRenderer>
-              </Fragment>
-            )}
-          </Tabs.TabContent>
-        )}
-
-        {this.isActive('code') && prerenderedCodeContent && (
-          <Tabs.TabContent id={this._id} selection_key="code">
-            <Code source={CodeComponent} />
-            {Additional /* here we use AdditionalCallback */ &&
-              Additional.code && (
-                <Additional.code CodeRenderer={CodeRenderer} />
-              )}
-          </Tabs.TabContent>
-        )}
+        {tabsContent}
       </div>
     )
   }
