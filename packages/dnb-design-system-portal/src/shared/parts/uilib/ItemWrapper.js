@@ -136,9 +136,7 @@ class ItemWrapper extends PureComponent {
 
     // Prerender the Code component
     const prerenderedCodeContent = String(
-      (/<.*>(.*?)<\/.*>/g.exec(
-        ReactDOMServer.renderToStaticMarkup(<CodeComponent />)
-      ) || [])[1] || ''
+      ReactDOMServer.renderToStaticMarkup(<CodeComponent />)
     ).trim()
     if (prerenderedCodeContent.length === 0) {
       tabs = tabs.filter(({ key }) => key !== 'code')
