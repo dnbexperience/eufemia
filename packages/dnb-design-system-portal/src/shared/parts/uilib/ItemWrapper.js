@@ -6,6 +6,7 @@
 import { Button, Tabs } from 'dnb-ui-lib/src'
 import Code, { CodeRenderer } from './Code'
 import React, { PureComponent, Fragment } from 'react'
+import ReactDOMServer from 'react-dom/server'
 
 import { CloseButton } from 'dnb-ui-lib/src/components/modal'
 import Link from 'gatsby-link'
@@ -45,7 +46,7 @@ const tabsWrapperStyle = css`
   }
 `
 
-class ComponentItemWrapper extends PureComponent {
+class ItemWrapper extends PureComponent {
   static propTypes = {
     ExampleCode: PropTypes.string,
     Description: PropTypes.func.isRequired,
@@ -110,10 +111,10 @@ class ComponentItemWrapper extends PureComponent {
     if (location) navigate([location.pathname, location.hash].join(''))
   }
   render() {
+    let { tabs } = this.props
     const {
       title,
       id,
-      tabs,
       hideTabs,
       ExampleCode,
       Description,
@@ -122,6 +123,26 @@ class ComponentItemWrapper extends PureComponent {
       CodeComponent,
       callback: Additional
     } = this.props
+
+    // Prerender the Details component
+    const prerenderedDetailsContent = String(
+      (/<div>(.*?)<\/div>/g.exec(
+        ReactDOMServer.renderToStaticMarkup(<Details />)
+      ) || [])[1] || ''
+    ).trim()
+    if (prerenderedDetailsContent.length === 0) {
+      tabs = tabs.filter(({ key }) => key !== 'info')
+    }
+
+    // Prerender the Code component
+    const prerenderedCodeContent = String(
+      (/<.*>(.*?)<\/.*>/g.exec(
+        ReactDOMServer.renderToStaticMarkup(<CodeComponent />)
+      ) || [])[1] || ''
+    ).trim()
+    if (prerenderedCodeContent.length === 0) {
+      tabs = tabs.filter(({ key }) => key !== 'code')
+    }
 
     return (
       <div className="wrapped-item">
@@ -183,7 +204,7 @@ class ComponentItemWrapper extends PureComponent {
           </Tabs.TabContent>
         )}
 
-        {this.isActive('info') && (
+        {this.isActive('info') && prerenderedDetailsContent && (
           <Tabs.TabContent id={this._id} selection_key="info">
             <Details />
             {Additional /* here we use AdditionalCallback */ &&
@@ -199,7 +220,7 @@ class ComponentItemWrapper extends PureComponent {
           </Tabs.TabContent>
         )}
 
-        {this.isActive('code') && (
+        {this.isActive('code') && prerenderedCodeContent && (
           <Tabs.TabContent id={this._id} selection_key="code">
             <Code source={CodeComponent} />
             {Additional /* here we use AdditionalCallback */ &&
@@ -213,4 +234,4 @@ class ComponentItemWrapper extends PureComponent {
   }
 }
 
-export default ComponentItemWrapper
+export default ItemWrapper
