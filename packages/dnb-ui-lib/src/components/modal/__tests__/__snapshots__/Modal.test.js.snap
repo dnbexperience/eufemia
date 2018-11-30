@@ -32,7 +32,7 @@ exports[`Modal component have to match snapshot 1`] = `
         href={null}
         icon="modal_trigger_icon"
         icon_position="right"
-        icon_size={16}
+        icon_size={null}
         id={null}
         innerRef={null}
         on_click={[Function]}
@@ -61,7 +61,7 @@ exports[`Modal component have to match snapshot 1`] = `
             href={null}
             icon="modal_trigger_icon"
             icon_position="right"
-            icon_size={16}
+            icon_size={null}
             id={null}
             innerRef={null}
             on_click={[Function]}
@@ -88,7 +88,7 @@ exports[`Modal component have to match snapshot 1`] = `
               icon="modal_trigger_icon"
               key="button-icon"
               modifier={null}
-              size={16}
+              size={null}
               width={null}
             />
           </Content>
@@ -159,7 +159,7 @@ exports[`Modal component have to match snapshot 1`] = `
                 href={null}
                 icon="close"
                 icon_position="right"
-                icon_size={16}
+                icon_size={null}
                 id={null}
                 innerRef={null}
                 on_click={[Function]}
@@ -188,7 +188,7 @@ exports[`Modal component have to match snapshot 1`] = `
                     href={null}
                     icon="close"
                     icon_position="right"
-                    icon_size={16}
+                    icon_size={null}
                     id={null}
                     innerRef={null}
                     on_click={[Function]}
@@ -209,23 +209,18 @@ exports[`Modal component have to match snapshot 1`] = `
                       icon="close"
                       key="button-icon"
                       modifier={null}
-                      size={16}
+                      size={null}
                       width={null}
                     >
                       <span
                         aria-hidden={true}
                         aria-label="close title"
-                        className="dnb-icon dnb-icon--default dnb-button__icon"
+                        className="dnb-icon has-custom-size dnb-button__icon"
                         role="img"
                       >
-                        <close
-                          height={null}
-                          width={null}
-                        >
+                        <close>
                           <svg
-                            height={null}
                             viewBox="0 0 16 16"
-                            width={null}
                           >
                             <path
                               clipRule="evenodd"
@@ -593,7 +588,7 @@ body[data-modal-active='true'] {
     background: transparent; }
     .dnb-modal__trigger--text:not([class*='tertiary']):hover {
       text-decoration: underline; }
-  .dnb-modal__close-button {
+  .dnb-modal__close-button, .dnb-modal__close-button.dnb-button--tertiary {
     position: absolute;
     top: 1rem;
     right: 1rem;

@@ -6,7 +6,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import Icon, { DefaultIconSize } from '../icon/IconWithAllIcons'
+import Icon from '../icon/IconWithAllIcons'
 import {
   registerElement,
   validateDOMAttributes,
@@ -63,7 +63,7 @@ export const defaultProps = {
   title: null,
   icon: null,
   icon_position: 'right',
-  icon_size: DefaultIconSize,
+  icon_size: null,
   href: null,
   id: null,
   class: null,
@@ -229,14 +229,6 @@ class Content extends PureComponent {
     const { text, title, content, icon, icon_size } = this.props
 
     const ret = []
-
-    // if (children) {
-    //   if (typeof children === 'function') {
-    //     ret.push(children())
-    //   } else if (children === PropTypes.node) {
-    //     ret.push(children)
-    //   }
-    // }
 
     if (content) {
       ret.push(content)

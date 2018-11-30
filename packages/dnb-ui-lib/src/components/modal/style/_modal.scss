@@ -76,7 +76,8 @@ body[data-modal-active='true'] {
   // &__trigger--button {
   // }
 
-  &__close-button {
+  &__close-button,
+  &__close-button.dnb-button--tertiary {
     position: absolute;
     top: 1rem;
     right: 1rem;
