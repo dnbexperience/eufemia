@@ -7,5 +7,4 @@ import * as lib from './index'
 
 lib.enableWebComponents()
 
-// use commonJS export to use object spread
-module.exports = { ...lib }
+export default lib

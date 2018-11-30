@@ -104,9 +104,6 @@ exports[`Switch scss have to match snapshot 1`] = `
   font-weight: 300;
   font-style: normal;
   line-height: 1.5em; }
-  .dnb-switch * {
-    margin: 0;
-    padding: 0; }
   .dnb-switch *,
   .dnb-switch ::before,
   .dnb-switch ::after {

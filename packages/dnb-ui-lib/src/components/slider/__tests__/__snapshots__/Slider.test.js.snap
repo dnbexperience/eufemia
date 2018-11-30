@@ -84,9 +84,6 @@ exports[`Slider scss have to match snapshot 1`] = `
   font-weight: 300;
   font-style: normal;
   line-height: 1.5em; }
-  .dnb-slider * {
-    margin: 0;
-    padding: 0; }
   .dnb-slider *,
   .dnb-slider ::before,
   .dnb-slider ::after {

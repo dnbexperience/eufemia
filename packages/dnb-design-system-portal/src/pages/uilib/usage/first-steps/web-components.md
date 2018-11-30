@@ -5,7 +5,7 @@ draft: false
 order: 7
 ---
 
-import dnb from 'dnb-ui-lib/web-components'
+import dnb from 'dnb-ui-lib/src/web-components'
 
 # Web Components
 

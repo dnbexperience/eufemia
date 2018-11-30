@@ -6,10 +6,10 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import DefaultIcon, { DefaultIconSize, loadSVG } from './Icon'
-import * as icons_default from '../../icons/primary_icons'
-import * as icons_medium from '../../icons/primary_icons_medium'
+import * as primary_icons from '../../icons/primary_icons'
+import * as primary_icons_medium from '../../icons/primary_icons_medium'
 
-const icons = { ...icons_default, ...icons_medium }
+const icons = { ...primary_icons, ...primary_icons_medium }
 
 export { DefaultIconSize }
 export const propTypes = {

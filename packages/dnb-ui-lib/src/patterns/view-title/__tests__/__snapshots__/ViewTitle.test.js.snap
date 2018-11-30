@@ -108,9 +108,6 @@ exports[`ViewTitle scss have to match snapshot 1`] = `
   font-weight: 300;
   font-style: normal;
   line-height: 1.5em; }
-  .dnb-view-title * {
-    margin: 0;
-    padding: 0; }
   .dnb-view-title *,
   .dnb-view-title ::before,
   .dnb-view-title ::after {

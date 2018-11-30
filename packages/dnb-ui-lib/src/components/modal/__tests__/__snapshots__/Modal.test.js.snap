@@ -388,9 +388,6 @@ exports[`Modal scss have to match snapshot 1`] = `
   font-weight: 300;
   font-style: normal;
   line-height: 1.5em; }
-  .dnb-button * {
-    margin: 0;
-    padding: 0; }
   .dnb-button *,
   .dnb-button ::before,
   .dnb-button ::after {
@@ -540,9 +537,6 @@ exports[`Modal scss have to match snapshot 1`] = `
   font-weight: 300;
   font-style: normal;
   line-height: 1.5em; }
-  .dnb-modal * {
-    margin: 0;
-    padding: 0; }
   .dnb-modal *,
   .dnb-modal ::before,
   .dnb-modal ::after {

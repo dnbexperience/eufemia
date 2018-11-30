@@ -4,7 +4,7 @@
  */
 
 import '../../core/jest/jestSetup'
-import * as webComponent from '../web-components'
+import webComponent from '../web-components'
 import { registeredElements } from '../../shared/custom-element'
 
 describe('Web Components', () => {

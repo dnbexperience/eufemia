@@ -270,9 +270,6 @@ body:not(:-moz-handler-blocked) fieldset {
   font-weight: 300;
   font-style: normal;
   line-height: 1.5em; }
-  .dnb-button * {
-    margin: 0;
-    padding: 0; }
   .dnb-button *,
   .dnb-button ::before,
   .dnb-button ::after {
@@ -422,9 +419,6 @@ body:not(:-moz-handler-blocked) fieldset {
   font-weight: 300;
   font-style: normal;
   line-height: 1.5em; }
-  .dnb-input * {
-    margin: 0;
-    padding: 0; }
   .dnb-input *,
   .dnb-input ::before,
   .dnb-input ::after {

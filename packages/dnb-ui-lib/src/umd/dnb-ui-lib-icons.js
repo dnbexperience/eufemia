@@ -5,11 +5,10 @@
 
 // do not use polyfill for now
 // import 'babel-polyfill'
-import * as dnbIcons from '../icons/primary_icons'
+import * as primary_icons from '../icons/primary_icons'
+import * as primary_icons_medium from '../icons/primary_icons_medium'
 
-// in case we also want to hae the big varians shipped
-// import dnbIconsBig from '../icons/primary_icons_big'
-// const dnbIcons = { ...dnbIconsDefault, ...dnbIconsBig }
+const dnbIcons = { ...primary_icons, ...primary_icons_medium }
 
 // we have to export
 export { dnbIcons }

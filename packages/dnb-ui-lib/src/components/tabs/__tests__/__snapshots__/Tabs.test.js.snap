@@ -165,9 +165,6 @@ exports[`Tabs scss have to match snapshot 1`] = `
   font-weight: 300;
   font-style: normal;
   line-height: 1.5em; }
-  .dnb-tabs * {
-    margin: 0;
-    padding: 0; }
   .dnb-tabs *,
   .dnb-tabs ::before,
   .dnb-tabs ::after {
