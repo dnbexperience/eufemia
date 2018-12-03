@@ -13,13 +13,13 @@ The [dnb-ui-lib](/uilib/) offers a couple of different ways to handling events:
 
 Have a look at the following basic examples.
 
-Keep in mind, the general rule is to use _Snake Case_ to define the event name property.
+The `dnb-ui-lib` uses _snake case_ (**snake_case**) to define the event name property (e.g. `on_click` or `on_change`).
 
-### React
+## React
 
-Here some of the most basic event handling in React.
+Some of the most basic event handling in React.
 
-###### Stateless Component
+### Stateless Component
 
 ```jsx
 import { Button } from 'dnb-ui-lib'
@@ -29,24 +29,30 @@ const MyComponent = () => (
 )
 ```
 
-###### Lifecycle Component (ES6 Class)
+### Lifecycle Component
+
+This example requires also support for class properties.
+
+#### Declarative
 
 ```jsx
 import { Button } from 'dnb-ui-lib'
 
-// Declarative
 export default class MyComponent extends React.Component {
   myHandler = event => {}
   render() {
     return <Button text="Declarative" on_click={this.myHandler} />
   }
 }
+```
 
-// Imperative
+#### Imperative
+
+```jsx
 export default class MyComponent extends React.Component {
   constructor(props) {
-      super(props)
-      this._ref = React.createRef()
+    super(props)
+    this._ref = React.createRef()
   }
   componentDidMount() {
     const eventId = this._ref.current.addEvent('on_change', event => {})
@@ -58,51 +64,71 @@ export default class MyComponent extends React.Component {
 }
 ```
 
-### Vue
+## Vue
 
 Use either the `@click` or `v-on:click` event binding property.
 Else You could also use the imperative **ref** method.
 
+#### Declarative
+
 ```jsx
-import dnb from 'dnb-ui-lib/components/web-components'
-dnb.additional.vue.setIgnoredPatterns(Vue) // enable all the possible custom elements
+// Template
+<dnb-button @click="handleClick">Declarative</dnb-button>
 
-<!-- Declarative -->
-<dnb-button
-  ref="button"
-  @click="handleClick"
-  v-on:click="handleClick"
->Declarative</dnb-button>
-
-<!-- Imperative -->
+// JS
+import dnb from 'dnb-ui-lib/components/vue'
+const components = dnb.getComponents(Vue)
 ...
-mounted() {
-  this.$refs.button.addEvent('on_click', this.handleClick)
-}
+methods: {
+  handleClick: e => {}
+},
+components
 ...
 ```
 
-### HTML & ES5
+#### Imperative
+
+```jsx
+// Template
+<dnb-button ref="my_button">Imperative</dnb-button>
+
+// JS
+import dnb from 'dnb-ui-lib/components/vue'
+const components = dnb.getComponents(Vue)
+...
+methods: {
+  handleClick: e => {}
+},
+mounted() {
+  this.$refs.my_button.addEvent('on_click', this.handleClick)
+},
+components
+...
+```
+
+## HTML & ES5
+
+You may also take a look at the example projects in the repo, called `example-html`;
 
 ```html
 <!-- Declarative -->
 <dnb-button text="Declarative" on_click="myScope.on_click" />
 <script>
   function MyClass() {}
-  MyClass.prototype.on_click = function (event) {};
-  window.myScope = new MyClass();
+  MyClass.prototype.on_click = function(event) {}
+  window.myScope = new MyClass()
 </script>
 
 <!-- Imperative -->
 <dnb-button text="Imperative" />
 <script>
   var elem = document.querySelector('dnb-button[text=Imperative]')
-  var eventId = elem.addEvent('on_click', function (event) {});
-  elem.removeEvent(eventId);
+  var eventId = elem.addEvent('on_click', function(event) {})
+  elem.removeEvent(eventId)
 </script>
 ```
 
-### Dispatch Event
+## Dispatch Imperative Event
 
 Beside the event handler methods, `addEvent` and `removeEvent`, there is also a method to dispatch an event:
 

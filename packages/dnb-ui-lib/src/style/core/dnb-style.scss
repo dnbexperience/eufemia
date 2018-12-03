@@ -7,9 +7,18 @@
   p {
     margin: 0; // if we not reset margin, the browser is using: margin-block-end: 1em;
     padding: 0;
-    font-family: $font-family-book;
+
+    // font-family: $font-family-book;
     line-height: 1.5em; // 24px
     font-weight: 300;
+
+    // once we use $font-family-book - "font-weight: bolder;" don't works
+    // so we have to force it to be "bold"
+    b,
+    strong {
+      font-family: $font-family-std; // or we could fall back to std again
+      // font-weight: bold;
+    }
   }
 
   label,

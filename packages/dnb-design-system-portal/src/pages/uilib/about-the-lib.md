@@ -49,6 +49,10 @@ To make the HTML Elements work in other environments like Vue or Angular, You ca
 
 The Library is hosted on [NPM](npmjs.com), so versioning and openness is secured.
 
+### Production ready
+
+All code examples are shows as ES6 ([ECMAScript 2015](https://en.wikipedia.org/wiki/ECMAScript)). But the production `dnb-ui-lib` is actually compiled down to ES5 (5th Edition). So Your product is consuming production ready code on all stages.
+
 ### Components
 
 The HTML Elements UI Library comes with two different parts. The first and most common is the [Components Library](/uilib/components/).

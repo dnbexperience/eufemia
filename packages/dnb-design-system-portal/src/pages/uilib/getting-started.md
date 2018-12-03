@@ -6,7 +6,6 @@ order: 2
 ---
 
 import WelcomeAdvice from 'Pages/welcome-advice.md'
-import { Logo } from 'dnb-ui-lib/src'
 
 # Getting Started
 
@@ -20,19 +19,13 @@ There are several ways to get started. First we have to address out Your goal. S
 
 Find the right section to read on.
 
-<!-- prettier-ignore-start -->
-
-<Logo size="200" />
-
-```jsx
-<Logo size="200" />
-```
-
 ## Is there more?
 
 Check out all the articles in [the usage section](/uilib/usage/)
 
 <WelcomeAdvice />
+
+<!-- prettier-ignore-start -->
 
 <!-- export default ({ children }) => (
   <div>
@@ -40,6 +33,8 @@ Check out all the articles in [the usage section](/uilib/usage/)
     <div>{children}</div>
   </div>
 ) -->
+
+<!-- prettier-ignore-end -->
 
 <!-- ```json
 [

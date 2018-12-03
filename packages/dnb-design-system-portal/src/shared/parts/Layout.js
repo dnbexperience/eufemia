@@ -5,7 +5,7 @@
 
 // UI Style
 import 'dnb-ui-lib/src/style/patterns' // import ony patterns
-import 'dnb-ui-lib/src/style' // import both all components and the defualt theme
+import 'dnb-ui-lib/src/style' // import both all components and the default theme
 import 'dnb-ui-lib/src/patterns/article/style'
 // import 'dnb-ui-lib/src/style/themes/dnb-theme-open-banking.scss'
 
@@ -130,7 +130,7 @@ const Main = styled.main`
   ); /* height of StickyMenuBar - 1px border */
   margin-left: 30vw; /* 30vw, width of Sidebar aside */
   margin-left: var(--aside-width);
-  padding: 4rem 0 2rem 0;
+  padding: 1rem 0 2rem 0;
 
   background-color: #fff;
   border-top: 1px solid var(--color-outline-grey);

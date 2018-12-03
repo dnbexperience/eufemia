@@ -11,10 +11,10 @@ order: 2
 
 Go an check out the `dnb-ui-lib` **[Installation documentation](/uilib/usage/#Installation)**.
 
-## Setup Examples
+## Working Examples
 
-There are several ways to use this lib. Below there are some basic usage examples. But there are more detailed and running examples under `dnb-design-system/packages/examples`.
+You can find some more detailed and running examples under `REPOSITORY/packages/examples/...`.
 
-## Production ready
+## Be continued
 
-All code examples are shows as ES6 ([ECMAScript 2015](https://en.wikipedia.org/wiki/ECMAScript)). But the production `dnb-ui-lib` is actually compiled down to ES5 (5th Edition). So Your product is consuming production ready code on all stages.
+Go ahead with [the basics](/uilib/usage/first-steps/the-basics)

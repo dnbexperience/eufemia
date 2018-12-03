@@ -7,15 +7,15 @@ order: 3
 
 # Usage
 
-#### Get started with DNB User Interface Library
+**Get started on using the DNB User Interface Library**
 
-The UI Lib components are isolated, ready to use components. They are self-supporting, and will use the styles they need to display. They don't rely on any global style-sheets such as normalize.css beside the main DNB Stylesheet.
+The UI Lib HTML Elements are isolated, ready to use elements. They are self-supporting, and will use the styles they need to display.
 
-You can use any of the components as demonstrated in the documentation. Please refer to each component's demo page to see how they should be imported and what parameters/props they support.
+You can use any of the HTML Elements as demonstrated in the documentation. Please refer to the demo pages to see [how they should be used](/uilib/components).
 
 ## Installation
 
-To install and save the `dnb-ui-lib` in your package.json dependencies, run:
+To install and save the `dnb-ui-lib` in your **package.json** dependencies, run:
 Please note that [react](https://www.npmjs.com/package/react) and [react-dom](https://www.npmjs.com/package/react-dom) are needed as well.
 
 ```bash

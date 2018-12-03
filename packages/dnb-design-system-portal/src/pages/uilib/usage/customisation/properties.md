@@ -4,11 +4,11 @@ title: 'Properties'
 draft: false
 ---
 
-import PropertiesExample from 'Pages/uilib/usage/PropertiesExample'
+import PropertiesExample from 'Pages/uilib/usage/customisation/examples/properties-example'
 
 # Properties
 
-> What if a property has to change at runtime?
+## What if a property has to change at runtime?
 
 Changing a property (`props`) at runtime is a common thing in React. But also `dnb-ui-lib` Web Components are supporting `prop` changes.
 Keep in mind that not all components are barely tested to their last detail.

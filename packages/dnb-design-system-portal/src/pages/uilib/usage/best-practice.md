@@ -8,7 +8,6 @@ draft: false
 
 ### TODO
 
-- [ ] Find out more
 - [ ] Info about testing
   - [ ] Static testing
   - [ ] Axe testing
