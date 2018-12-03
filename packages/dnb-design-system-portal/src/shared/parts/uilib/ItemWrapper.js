@@ -6,6 +6,7 @@
 import { Button, Tabs } from 'dnb-ui-lib/src'
 import Code, { CodeRenderer } from './Code'
 import React, { PureComponent, Fragment } from 'react'
+import ReactDOMServer from 'react-dom/server'
 
 import { CloseButton } from 'dnb-ui-lib/src/components/modal'
 import Link from 'gatsby-link'
@@ -14,7 +15,6 @@ import createHistory from 'history/createBrowserHistory'
 import { css } from 'react-emotion'
 import { navigate } from '@reach/router'
 import { fullscreen as fullscreenIcon } from 'dnb-ui-lib/src/icons/secondary_icons'
-// import fullscreenIcon from 'dnb-ui-lib/src/icons/fullscreen'
 
 const getLocation = () => {
   if (typeof window === 'undefined') {
@@ -25,10 +25,6 @@ const getLocation = () => {
 }
 
 const tabsWrapperStyle = css`
-  ${'' /* position: sticky;
-  top: 5rem;
-  z-index: 2; */}
-
   .fullscreen-page & {
     top: 0;
     .is-sticky .dnb-tabs__tabs {
@@ -45,7 +41,7 @@ const tabsWrapperStyle = css`
   }
 `
 
-class ComponentItemWrapper extends PureComponent {
+class ItemWrapper extends PureComponent {
   static propTypes = {
     ExampleCode: PropTypes.string,
     Description: PropTypes.func.isRequired,
@@ -123,6 +119,71 @@ class ComponentItemWrapper extends PureComponent {
       callback: Additional
     } = this.props
 
+    // Prerender the Details component
+    const prerenderedDetailsContent = String(
+      (/<div>(.*?)<\/div>/g.exec(
+        ReactDOMServer.renderToStaticMarkup(<Details />)
+      ) || [])[1] || ''
+    ).trim()
+
+    // Prerender the Code component
+    const prerenderedCodeContent = String(
+      ReactDOMServer.renderToStaticMarkup(<CodeComponent />)
+    ).trim()
+
+    const tabsUsed = [tabs[0]]
+    const tabsContent = []
+
+    if (this.isActive('demo')) {
+      tabsContent.push(
+        <Tabs.TabContent key="demo" id={this._id} selection_key="demo">
+          {!hideTabs && <Description />}
+          <DemoComponent />
+          {Additional && Additional.demo && (
+            <Additional.demo CodeRenderer={CodeRenderer} />
+          )}
+        </Tabs.TabContent>
+      )
+    }
+
+    if (
+      prerenderedDetailsContent ||
+      (Additional && Additional.info) ||
+      ExampleCode
+    ) {
+      tabsUsed.push(tabs.find(({ key }) => key === 'info'))
+      if (this.isActive('info')) {
+        tabsContent.push(
+          <Tabs.TabContent key="info" id={this._id} selection_key="info">
+            <Details />
+            {Additional && Additional.info && (
+              <Additional.info CodeRenderer={CodeRenderer} />
+            )}
+            {ExampleCode && (
+              <Fragment>
+                <h3>JSX Example</h3>
+                <CodeRenderer language="jsx">{ExampleCode}</CodeRenderer>
+              </Fragment>
+            )}
+          </Tabs.TabContent>
+        )
+      }
+    }
+
+    if (prerenderedCodeContent || (Additional && Additional.code)) {
+      tabsUsed.push(tabs.find(({ key }) => key === 'code'))
+      if (this.isActive('code')) {
+        tabsContent.push(
+          <Tabs.TabContent key="code" id={this._id} selection_key="code">
+            <Code source={CodeComponent} />
+            {Additional && Additional.code && (
+              <Additional.code CodeRenderer={CodeRenderer} />
+            )}
+          </Tabs.TabContent>
+        )
+      }
+    }
+
     return (
       <div className="wrapped-item">
         {!hideTabs ? (
@@ -136,7 +197,7 @@ class ComponentItemWrapper extends PureComponent {
           <Tabs
             id={this._id}
             do_set_hash
-            data={tabs}
+            data={tabsUsed}
             on_change={this.openTab}
             render={({ Wrapper, TabsList, Tabs }) => {
               return (
@@ -156,14 +217,7 @@ class ComponentItemWrapper extends PureComponent {
                         variant="secondary"
                         title="Fullscreen"
                         icon={fullscreenIcon}
-                        // target="_blank"
-                        // rel="noopener noreferrer"
-                        // href={`?fullscreen#${this.state.activeTabKey}`}
                       />
-                      // <svg viewBox="0 0 32 32" height="16" width="16">
-                      // <path d="M31,18c-0.509,0-1,0.438-1,1v11H2V2h11c0.531,0,1-0.469,1-1c0-0.531-0.5-1-1-1H2C0.895,0,0,0.895,0,2v28   c0,1.105,0.895,2,2,2h28c1.105,0,2-0.895,2-2V18.985C32,18.431,31.594,18,31,18z" />
-                      // <path d="M31,0H21c-0.552,0-1,0.448-1,1c0,0.552,0.448,1,1,1h7.596L8.282,22.313c-0.388,0.388-0.388,1.017,0,1.405   c0.388,0.388,1.017,0.388,1.404,0L30,3.404V11c0,0.552,0.448,1,1,1s1-0.448,1-1V1v0C32,0.462,31.538,0,31,0z" />
-                      // </svg>
                     )}
                   </TabsList>
                 </Wrapper>
@@ -171,46 +225,10 @@ class ComponentItemWrapper extends PureComponent {
             }}
           />
         )}
-
-        {this.isActive('demo') && (
-          <Tabs.TabContent id={this._id} selection_key="demo">
-            {!hideTabs && <Description />}
-            <DemoComponent />
-            {Additional /* here we use AdditionalCallback */ &&
-              Additional.demo && (
-                <Additional.demo CodeRenderer={CodeRenderer} />
-              )}
-          </Tabs.TabContent>
-        )}
-
-        {this.isActive('info') && (
-          <Tabs.TabContent id={this._id} selection_key="info">
-            <Details />
-            {Additional /* here we use AdditionalCallback */ &&
-              Additional.info && (
-                <Additional.info CodeRenderer={CodeRenderer} />
-              )}
-            {ExampleCode && (
-              <Fragment>
-                <h3>JSX Example</h3>
-                <CodeRenderer language="jsx">{ExampleCode}</CodeRenderer>
-              </Fragment>
-            )}
-          </Tabs.TabContent>
-        )}
-
-        {this.isActive('code') && (
-          <Tabs.TabContent id={this._id} selection_key="code">
-            <Code source={CodeComponent} />
-            {Additional /* here we use AdditionalCallback */ &&
-              Additional.code && (
-                <Additional.code CodeRenderer={CodeRenderer} />
-              )}
-          </Tabs.TabContent>
-        )}
+        {tabsContent}
       </div>
     )
   }
 }
 
-export default ComponentItemWrapper
+export default ItemWrapper
