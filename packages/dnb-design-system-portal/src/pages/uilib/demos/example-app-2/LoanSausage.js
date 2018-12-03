@@ -16,7 +16,7 @@ const style = css`
   &.dnb-loan-sausage {
     margin: 2rem 0;
     padding: 2rem 0;
-    background: var(--color-light-grey);
+    background: var(--color-sea-green-4);
 
     ${'' /* .dnb-loan-sausage__inner {
     } */};
@@ -50,7 +50,7 @@ const style = css`
       margin: 1rem 0 1rem 0;
       display: flex;
       border-radius: 2rem;
-      background-color: var(--color-mint-green-alt);
+      background-color: var(--color-mint-green-50);
       position: relative;
     }
     .dnb-loan-sausage__sausage__bar {

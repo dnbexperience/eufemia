@@ -42,11 +42,11 @@ $switch-border-width: 1px;
     transform: translate(-0.2rem, -50%);
 
     background-color: white;
-    border: $switch-border-width solid $color-sea-green-alt;
+    border: $switch-border-width solid var(--color-sea-green-alt);
 
-    font-size: $font-size-mini;
+    font-size: 0.5rem;
     text-transform: uppercase;
-    color: $color-sea-green;
+    color: var(--color-sea-green);
 
     box-shadow: 0 2px 2px rgba(0, 135, 137, 0.24);
 
@@ -78,7 +78,7 @@ $switch-border-width: 1px;
     display: block;
     width: 2.3rem;
     height: 1rem;
-    background-color: $color-sea-green-alt;
+    background-color: var(--color-sea-green-alt);
     border-radius: 0.8125rem;
   }
 
@@ -124,8 +124,8 @@ $switch-border-width: 1px;
     * aka when the checkbox is :checked
     */
     &:checked ~ .dnb-switch__button {
-      border-color: $color-sea-green;
-      background-color: $color-sea-green;
+      border-color: var(--color-sea-green);
+      background-color: var(--color-sea-green);
       color: white;
       /* stylelint-disable */
       transform: translate(1rem, -50%); // IE fix
@@ -150,12 +150,12 @@ $switch-border-width: 1px;
       opacity: 0.8;
     }
     &[disabled] ~ .dnb-switch__background {
-      background-color: rgba($color-shadow-grey, 0.5);
+      background-color: rgba(var(--color-black-30), 0.5);
     }
     &[disabled] ~ .dnb-switch__button {
       color: rgba(white, 0.6);
-      border-color: rgba($color-shadow-grey, 0.5);
-      background-color: $color-shadow-grey;
+      border-color: rgba(var(--color-black-30), 0.5);
+      background-color: var(--color-black-30);
       box-shadow: none;
     }
 
@@ -165,7 +165,7 @@ $switch-border-width: 1px;
     }
 
     &:active ~ .dnb-switch__button {
-      color: rgba($color-sea-green, 0.75);
+      color: rgba(var(--color-sea-green), 0.75);
     }
     &:checked:active ~ .dnb-switch__button {
       color: rgba(white, 0.85);

@@ -197,31 +197,10 @@ exports[`Button scss have to match snapshot 1`] = `
 *
 * ======================================================================== */
 /*
-* Colors
-* ======================================================================== */
-/*
- * Typography Family
- * ======================================================================== */
-/*
-* Typography Size
-* ======================================================================== */
-/*
-* Grid and units
-* ======================================================================== */
-/*
-* Breakpoints
-* ======================================================================== */
-/*
  * Utilities
  * ========================================================================== */
 /*
 * Scopes
-* ======================================================================== */
-/*
-* DNB font-import from components
-* This file is totaly the same as \\"core/_font-import.scss\\"
-* but has a difference back path
-*
 * ======================================================================== */
 @font-face {
   font-family: 'Fedra Sans Std Book';
@@ -231,58 +210,16 @@ exports[`Button scss have to match snapshot 1`] = `
   font-style: normal; }
 
 @font-face {
-  font-family: 'Fedra Sans Std Book';
-  src: url(\\"../../../../assets/fonts/FedraSansStd-BookItalic.eot\\");
-  src: url(\\"../../../../assets/fonts/FedraSansStd-BookItalic.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts/FedraSansStd-BookItalic.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts/FedraSansStd-BookItalic.ttf\\") format(\\"truetype\\");
-  font-weight: normal;
-  font-style: italic; }
-
-@font-face {
-  font-family: 'Fedra Sans Std';
-  src: url(\\"../../../../assets/fonts/FedraSansStd-Light.eot\\");
-  src: url(\\"../../../../assets/fonts/FedraSansStd-Light.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts/FedraSansStd-Light.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts/FedraSansStd-Light.ttf\\") format(\\"truetype\\");
-  font-weight: 300;
-  font-style: normal; }
-
-@font-face {
-  font-family: 'Fedra Sans Std';
-  src: url(\\"../../../../assets/fonts/FedraSansStd-LightItalic.eot\\");
-  src: url(\\"../../../../assets/fonts/FedraSansStd-LightItalic.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts/FedraSansStd-LightItalic.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts/FedraSansStd-LightItalic.ttf\\") format(\\"truetype\\");
-  font-weight: 300;
-  font-style: italic; }
-
-@font-face {
-  font-family: 'Fedra Sans Std';
-  src: url(\\"../../../../assets/fonts/FedraSansStd-Medium.eot\\");
-  src: url(\\"../../../../assets/fonts/FedraSansStd-Medium.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts/FedraSansStd-Medium.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts/FedraSansStd-Medium.ttf\\") format(\\"truetype\\");
-  font-weight: 500;
-  font-style: normal; }
-
-@font-face {
-  font-family: 'Fedra Sans Std';
-  src: url(\\"../../../../assets/fonts/FedraSansStd-MediumItalic.eot\\");
-  src: url(\\"../../../../assets/fonts/FedraSansStd-MediumItalic.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts/FedraSansStd-MediumItalic.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts/FedraSansStd-MediumItalic.ttf\\") format(\\"truetype\\");
-  font-weight: 500;
-  font-style: italic; }
-
-@font-face {
-  font-family: 'Fedra Sans Std';
-  src: url(\\"../../../../assets/fonts/FedraSansStd-Bold.eot\\");
-  src: url(\\"../../../../assets/fonts/FedraSansStd-Bold.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts/FedraSansStd-Bold.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts/FedraSansStd-Bold.ttf\\") format(\\"truetype\\");
-  font-weight: bold;
-  font-style: normal; }
-
-@font-face {
-  font-family: 'Fedra Sans Std';
-  src: url(\\"../../../../assets/fonts/FedraSansStd-BoldItalic.eot\\");
-  src: url(\\"../../../../assets/fonts/FedraSansStd-BoldItalic.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts/FedraSansStd-BoldItalic.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts/FedraSansStd-BoldItalic.ttf\\") format(\\"truetype\\");
-  font-weight: bold;
-  font-style: italic; }
-
-@font-face {
   font-family: 'Fedra Sans Std Demi';
   src: url(\\"../../../../assets/fonts/FedraSansStd-Demi.otf\\") format(\\"opentype\\"), url(\\"../../../../assets/fonts/FedraSansStd-Demi.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts/FedraSansStd-Demi.ttf\\") format(\\"truetype\\");
   font-weight: normal;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'Fedra Sans Std Medium';
+  src: url(\\"../../../../assets/fonts/FedraSansStd-Medium.eot\\");
+  src: url(\\"../../../../assets/fonts/FedraSansStd-Medium.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts/FedraSansStd-Medium.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts/FedraSansStd-Medium.ttf\\") format(\\"truetype\\");
+  font-weight: 400;
   font-style: normal; }
 
 /*
@@ -318,7 +255,7 @@ exports[`Button scss have to match snapshot 1`] = `
     height: 2em; }
 
 .dnb-button {
-  font-family: \\"Fedra Sans Std\\", sans-serif;
+  font-family: var(--font-family-book);
   font-size: 1rem;
   font-weight: 300;
   font-style: normal;
@@ -449,9 +386,9 @@ exports[`Button scss have to match snapshot 1`] = `
       border-color: transparent; }
       html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):focus:not(.dnb-no-mouse-focus), html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):active:not(.dnb-no-mouse-focus) {
         transition: box-shadow 0.1s ease-out 0s;
-        box-shadow: 0 0 0 2px #14555a; }
+        box-shadow: 0 0 0 2px var(--color-emerald-green); }
       html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
-        box-shadow: 0 0 0 2px #ff5400; }
+        box-shadow: 0 0 0 2px var(--color-signal-orange); }
     html[data-whatinput='mouse']
 .dnb-button--reset:not([disabled]):focus:not(.dnb-no-mouse-focus),
     html[data-whatinput='mouse']

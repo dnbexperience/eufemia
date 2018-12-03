@@ -78,28 +78,33 @@ exports[`Switch scss have to match snapshot 1`] = `
 *
 * ======================================================================== */
 /*
-* Colors
-* ======================================================================== */
-/*
- * Typography Family
- * ======================================================================== */
-/*
-* Typography Size
-* ======================================================================== */
-/*
-* Grid and units
-* ======================================================================== */
-/*
-* Breakpoints
-* ======================================================================== */
-/*
  * Utilities
  * ========================================================================== */
 /*
 * Scopes
 * ======================================================================== */
+@font-face {
+  font-family: 'Fedra Sans Std Book';
+  src: url(\\"../../../../assets/fonts/FedraSansStd-Book.eot\\");
+  src: url(\\"../../../../assets/fonts/FedraSansStd-Book.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts/FedraSansStd-Book.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts/FedraSansStd-Book.ttf\\") format(\\"truetype\\");
+  font-weight: normal;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'Fedra Sans Std Demi';
+  src: url(\\"../../../../assets/fonts/FedraSansStd-Demi.otf\\") format(\\"opentype\\"), url(\\"../../../../assets/fonts/FedraSansStd-Demi.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts/FedraSansStd-Demi.ttf\\") format(\\"truetype\\");
+  font-weight: normal;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'Fedra Sans Std Medium';
+  src: url(\\"../../../../assets/fonts/FedraSansStd-Medium.eot\\");
+  src: url(\\"../../../../assets/fonts/FedraSansStd-Medium.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts/FedraSansStd-Medium.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts/FedraSansStd-Medium.ttf\\") format(\\"truetype\\");
+  font-weight: 400;
+  font-style: normal; }
+
 .dnb-switch {
-  font-family: \\"Fedra Sans Std\\", sans-serif;
+  font-family: var(--font-family-book);
   font-size: 1rem;
   font-weight: 300;
   font-style: normal;
@@ -143,10 +148,10 @@ exports[`Switch scss have to match snapshot 1`] = `
     transition: transform 160ms ease-out 125ms;
     transform: translate(-0.2rem, -50%);
     background-color: white;
-    border: 1px solid #008484;
+    border: 1px solid var(--color-sea-green-alt);
     font-size: 0.5rem;
     text-transform: uppercase;
-    color: #007272;
+    color: var(--color-sea-green);
     box-shadow: 0 2px 2px rgba(0, 135, 137, 0.24); }
   .dnb-switch__text-item {
     z-index: 3;
@@ -158,7 +163,7 @@ exports[`Switch scss have to match snapshot 1`] = `
     display: block;
     width: 2.3rem;
     height: 1rem;
-    background-color: #008484;
+    background-color: var(--color-sea-green-alt);
     border-radius: 0.8125rem; }
   .dnb-switch__focus {
     display: none;
@@ -173,9 +178,9 @@ exports[`Switch scss have to match snapshot 1`] = `
     border-color: transparent; }
     html[data-whatinput='mouse'] .dnb-switch__focus:not(.dnb-no-mouse-focus) {
       transition: box-shadow 0.1s ease-out 0s;
-      box-shadow: 0 0 0 2px #14555a; }
+      box-shadow: 0 0 0 2px var(--color-emerald-green); }
     html[data-whatinput='keyboard'] .dnb-switch__focus {
-      box-shadow: 0 0 0 2px #ff5400; }
+      box-shadow: 0 0 0 2px var(--color-signal-orange); }
   .dnb-switch__inner:not([disabled]) .dnb-switch__background,
   .dnb-switch__inner:not([disabled]) .dnb-switch__button {
     cursor: pointer; }
@@ -201,8 +206,8 @@ exports[`Switch scss have to match snapshot 1`] = `
     *
     */ }
     .dnb-switch__input:checked ~ .dnb-switch__button {
-      border-color: #007272;
-      background-color: #007272;
+      border-color: var(--color-sea-green);
+      background-color: var(--color-sea-green);
       color: white;
       /* stylelint-disable */
       transform: translate(1rem, -50%);
@@ -216,17 +221,17 @@ exports[`Switch scss have to match snapshot 1`] = `
     .dnb-switch__input[disabled] ~ .dnb-switch__background {
       opacity: 0.8; }
     .dnb-switch__input[disabled] ~ .dnb-switch__background {
-      background-color: rgba(117, 117, 117, 0.5); }
+      background-color: rgba(var(--color-black-30), 0.5); }
     .dnb-switch__input[disabled] ~ .dnb-switch__button {
       color: rgba(255, 255, 255, 0.6);
-      border-color: rgba(117, 117, 117, 0.5);
-      background-color: #757575;
+      border-color: rgba(var(--color-black-30), 0.5);
+      background-color: var(--color-black-30);
       box-shadow: none; }
     .dnb-switch__input:checked:focus ~ .dnb-switch__button .dnb-switch__focus,
     .dnb-switch__input:checked:active ~ .dnb-switch__button .dnb-switch__focus {
       transform: rotate(180deg); }
     .dnb-switch__input:active ~ .dnb-switch__button {
-      color: rgba(0, 114, 114, 0.75); }
+      color: rgba(var(--color-sea-green), 0.75); }
     .dnb-switch__input:checked:active ~ .dnb-switch__button {
       color: rgba(255, 255, 255, 0.85); }
     .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__background,
@@ -236,10 +241,10 @@ exports[`Switch scss have to match snapshot 1`] = `
       html[data-whatinput='mouse'] .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__background:not(.dnb-no-mouse-focus), html[data-whatinput='mouse']
       .dnb-switch__input:not([disabled]):active ~ .dnb-switch__background:not(.dnb-no-mouse-focus) {
         transition: box-shadow 0.1s ease-out 0s;
-        box-shadow: 0 0 0 2px #14555a; }
+        box-shadow: 0 0 0 2px var(--color-emerald-green); }
       html[data-whatinput='keyboard'] .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__background, html[data-whatinput='keyboard']
       .dnb-switch__input:not([disabled]):active ~ .dnb-switch__background {
-        box-shadow: 0 0 0 2px #ff5400; }
+        box-shadow: 0 0 0 2px var(--color-signal-orange); }
     .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__button .dnb-switch__focus,
     .dnb-switch__input:not([disabled]):active ~ .dnb-switch__button .dnb-switch__focus {
       display: block; }

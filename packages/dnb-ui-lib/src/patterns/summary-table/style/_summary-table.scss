@@ -5,7 +5,7 @@
 
 .dnb-summary-table {
   padding: 2.5rem 0;
-  background: $color-light-grey;
+  background: var(--color-sea-green-4);
 
   &__title,
   &__body {
@@ -15,13 +15,13 @@
   }
 
   &__title__text {
-    font-size: $font-size-xx-large;
-    color: $color-sea-green;
+    font-size: 1.5rem;
+    color: var(--color-sea-green);
     padding-left: 0.5rem;
   }
 
   &__body {
-    border: 1px solid $color-summer-green;
+    border: 1px solid var(--color-summer-green);
     border-width: 1px 0;
   }
 
@@ -35,8 +35,8 @@
 
     align-items: flex-end;
 
-    border-color: $color-summer-green;
-    border-top: 1px solid $color-summer-green;
+    border-color: var(--color-summer-green);
+    border-top: 1px solid var(--color-summer-green);
 
     &:first-child {
       border-width: 0;
@@ -54,11 +54,11 @@
   }
 
   &__key {
-    font-size: $font-size-large;
+    font-size: 1.125rem;
   }
   &__operation,
   &__value {
-    font-size: $font-size-xxx-large;
+    font-size: 2rem;
   }
   &__operation {
     flex: 0 0 2rem;
@@ -73,7 +73,7 @@
     padding: 0 1rem 0 0;
 
     text-align: right;
-    color: $color-sea-green;
+    color: var(--color-sea-green);
   }
   &__help {
     flex: 0 0 2.5rem;

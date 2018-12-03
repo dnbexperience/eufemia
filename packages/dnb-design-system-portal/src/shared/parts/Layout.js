@@ -174,7 +174,7 @@ const FooterWrapper = styled.footer`
 
   .is-fullscreen & {
     padding: 1rem;
-    background: var(--color-light-grey);
+    background: var(--color-sea-green-4);
   }
 
   a {
