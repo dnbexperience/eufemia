@@ -2,7 +2,6 @@
 * Theme loader
 * ======================================================================== */
 
-// @import './variables.scss'; // TODO: can be removed
 @import './utilities.scss';
 
 :root {
@@ -51,34 +50,8 @@
   // --color-shadow-grey: #757575;
 }
 
+// hey have to be used by a parent css class: .dnb-style
 .dnb-style {
-  p {
-    margin: 0; // if we not reset margin, the browser is using: margin-block-end: 1rem;
-    padding: 0;
-    font-family: var(--font-family-book);
-    font-size: 1rem; // 16px
-    line-height: 1.5rem; // 24px
-    // font-weight: 300;
-
-    // once we use var(--font-family-book) - "font-weight: bolder;" don't works
-    // so we have to force it to be "bold"
-    b,
-    strong {
-      font-family: var(
-        --font-family-book
-      ); // or we could fall back to std again
-      // font-weight: bold;
-    }
-  }
-
-  label,
-  input {
-    font-size: 1rem; // 16px
-  }
-  form,
-  fieldset {
-    font-size: 1rem; // 16px
-  }
   small {
     font-size: 0.875rem; // 14px
     line-height: 1rem; // 16px
@@ -90,7 +63,7 @@
   h4,
   h5,
   h6 {
-    margin: 0;
+    margin: 1em 0;
     padding: 0;
 
     font-family: var(--font-family-demi);
@@ -101,6 +74,8 @@
   }
 
   h1 {
+    margin: 1.5em 0 1em;
+
     font-size: 3rem; // 48px
     line-height: 3.5rem; // 56px
     font-weight: 400;
@@ -111,6 +86,8 @@
   }
 
   h2 {
+    margin: 1.5em 0 1em;
+
     font-size: 1.5rem; // 24px
     line-height: 2rem; // 32px
   }
@@ -143,5 +120,164 @@
   }
   h6 {
     font-size: 0.875rem;
+  }
+
+  p {
+    // if we not reset margin, the browser is using: margin-block-end: 1rem;
+    margin: 0;
+    padding: 0;
+
+    font-size: 1rem; // 16px
+    line-height: 1.5rem; // 24px
+
+    b,
+    strong {
+      font-weight: 600;
+    }
+  }
+
+  label,
+  input {
+    font-size: 1rem; // 16px
+  }
+  form,
+  fieldset {
+    font-size: 1rem; // 16px
+  }
+
+  // General Layout and Spacing + some Styling
+  *:not([class^='dnb-']) + {
+    p {
+      // if we not reset margin, the browser is using: margin-block-end: 1rem;
+      margin: 0 0 1em;
+    }
+
+    p,
+    blockquote,
+    ul,
+    ol,
+    dl,
+    pre {
+      margin-top: 0;
+      margin-bottom: 1rem;
+    }
+
+    ul,
+    ol {
+      padding-left: 2rem;
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+
+    li {
+      word-wrap: break-all;
+    }
+
+    ul li,
+    ol li {
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    li > p {
+      margin-top: 1rem;
+    }
+
+    li + li {
+      margin-top: 0.25em;
+    }
+
+    ol ol,
+    ul ol {
+      list-style-type: lower-roman;
+    }
+
+    ul ul,
+    ul ol,
+    ol ol,
+    ol ul {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+
+    ul ul ol,
+    ul ol ol,
+    ol ul ol,
+    ol ol ol {
+      list-style-type: lower-alpha;
+    }
+
+    dd {
+      margin-left: 0;
+    }
+
+    > *:first-child {
+      margin-top: 0 !important;
+    }
+
+    > *:last-child {
+      margin-bottom: 0 !important;
+    }
+
+    dl {
+      padding: 0;
+    }
+
+    dl dt {
+      padding: 0;
+      margin-top: 1rem;
+      font-size: 1rem;
+      font-style: italic;
+      font-weight: 600;
+    }
+
+    dl dd {
+      padding: 0 1rem;
+      margin-bottom: 1rem;
+    }
+
+    blockquote {
+      margin: 0;
+      padding: 0 1rem;
+      color: #666;
+      border-left: 0.25em solid #dfe2e5;
+    }
+
+    blockquote > :first-child {
+      margin-top: 0;
+    }
+
+    blockquote > :last-child {
+      margin-bottom: 0;
+    }
+
+    img {
+      box-sizing: content-box;
+      max-width: 100%;
+      border-style: none;
+      background-color: #fff;
+    }
+
+    img[align='right'] {
+      padding-left: 1.2rem;
+    }
+
+    img[align='left'] {
+      padding-right: 1.2rem;
+    }
+
+    code,
+    * code {
+      margin: 0;
+      padding: 0.2em 0.4em;
+
+      font-size: 0.875em;
+      background-color: rgba(27, 31, 35, 0.05);
+      border-radius: 3px;
+    }
+    pre,
+    * pre {
+      word-wrap: normal;
+    }
   }
 }

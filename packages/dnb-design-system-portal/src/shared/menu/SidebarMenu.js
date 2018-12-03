@@ -224,16 +224,19 @@ const StyledListItem = styled.li`
     padding-left: calc(var(--level-offset) + var(--level) * 1);
   }
   &.l-2 a {
-    font-weight: 400;
+    font-weight: 600;
     padding-left: calc(var(--level-offset) + var(--level) * 2);
   }
   &.l-3 a {
+    font-weight: 500;
     padding-left: calc(var(--level-offset) + var(--level) * 3);
   }
   &.l-4 a {
+    font-weight: 400;
     padding-left: calc(var(--level-offset) + var(--level) * 4);
   }
   &.l-5 a {
+    font-weight: 300;
     padding-left: calc(var(--level-offset) + var(--level) * 5);
   }
   &.l-6 a {

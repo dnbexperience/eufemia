@@ -2,66 +2,26 @@
  * Typography
  * ========================================================================== */
 
-/*
- * DNB font-import from core
- *
- * ======================================================================== */
-
-// Book
-@font-face {
-  font-family: 'Fedra Sans Std Book';
-  src: url('../../assets/fonts/FedraSansStd-Book.eot');
-  src: url('../../assets/fonts/FedraSansStd-Book.eot?#iefix')
-      format('embedded-opentype'),
-    url('../../assets/fonts/FedraSansStd-Book.woff') format('woff'),
-    url('../../assets/fonts/FedraSansStd-Book.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
-
-// Demi
-@font-face {
-  font-family: 'Fedra Sans Std Demi';
-  src: url('../../assets/fonts/FedraSansStd-Demi.otf') format('opentype'),
-    url('../../assets/fonts/FedraSansStd-Demi.woff') format('woff'),
-    url('../../assets/fonts/FedraSansStd-Demi.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
-
-// Medium
-@font-face {
-  font-family: 'Fedra Sans Std Medium';
-  src: url('../../assets/fonts/FedraSansStd-Medium.eot');
-  src: url('../../assets/fonts/FedraSansStd-Medium.eot?#iefix')
-      format('embedded-opentype'),
-    url('../../assets/fonts/FedraSansStd-Medium.woff') format('woff'),
-    url('../../assets/fonts/FedraSansStd-Medium.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-}
-
 :root {
   // typography family
-  // --font-family-std: 'Fedra Sans', sans-serif;
-  --font-family-book: 'Fedra Sans Std Book', sans-serif;
+  --font-family-std: 'Fedra Sans Std', sans-serif;
   --font-family-demi: 'Fedra Sans Std Demi', sans-serif;
-  --font-family-medium: 'Fedra Sans Std Medium', sans-serif;
 }
 
 // Font usage
+.typo-std,
 .typo-book {
-  font-family: var(--font-family-book);
-  font-weight: normal;
-  font-style: normal;
-}
-.typo-demi {
-  font-family: var(--font-family-demi);
+  font-family: var(--font-family-std);
   font-weight: normal;
   font-style: normal;
 }
 .typo-medium {
-  font-family: var(--font-family-medium);
+  font-family: var(--font-family-std);
+  font-weight: 600;
+  font-style: normal;
+}
+.typo-demi {
+  font-family: var(--font-family-demi);
   font-weight: normal;
   font-style: normal;
 }
@@ -80,4 +40,38 @@
   &--proportional {
     @include numberFeature(proportional-nums, pnum);
   }
+}
+
+// Font #1. Std Book (our main fallback font)
+@font-face {
+  font-family: 'Fedra Sans Std';
+  src: url('../../assets/fonts/FedraSansStd-Book.eot');
+  src: url('../../assets/fonts/FedraSansStd-Book.eot?#iefix')
+      format('embedded-opentype'),
+    url('../../assets/fonts/FedraSansStd-Book.woff') format('woff'),
+    url('../../assets/fonts/FedraSansStd-Book.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+// Font #1. Std Medium (our main fallback font with font weight 600 or more)
+@font-face {
+  font-family: 'Fedra Sans Std';
+  src: url('../../assets/fonts/FedraSansStd-Medium.eot');
+  src: url('../../assets/fonts/FedraSansStd-Medium.eot?#iefix')
+      format('embedded-opentype'),
+    url('../../assets/fonts/FedraSansStd-Medium.woff') format('woff'),
+    url('../../assets/fonts/FedraSansStd-Medium.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+
+// Font #3. Demi
+@font-face {
+  font-family: 'Fedra Sans Std Demi';
+  src: url('../../assets/fonts/FedraSansStd-Demi.otf') format('opentype'),
+    url('../../assets/fonts/FedraSansStd-Demi.woff') format('woff'),
+    url('../../assets/fonts/FedraSansStd-Demi.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }

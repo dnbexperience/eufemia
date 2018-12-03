@@ -3,11 +3,11 @@
 * ======================================================================== */
 
 @mixin bodyDefault() {
-  font-family: var(--font-family-book);
+  font-family: var(--font-family-std);
   font-size: 1rem;
-  font-weight: 300;
+  font-weight: normal;
   font-style: normal;
-  line-height: 1.5em;
+  line-height: 1.5rem;
 
   @content;
 }

@@ -81,34 +81,81 @@ exports[`Switch scss have to match snapshot 1`] = `
  * Utilities
  * ========================================================================== */
 /*
-* Scopes
-* ======================================================================== */
-@font-face {
-  font-family: 'Fedra Sans Std Book';
-  src: url(\\"../../../../assets/fonts/FedraSansStd-Book.eot\\");
-  src: url(\\"../../../../assets/fonts/FedraSansStd-Book.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts/FedraSansStd-Book.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts/FedraSansStd-Book.ttf\\") format(\\"truetype\\");
+ * Typography
+ * ========================================================================== */
+:root {
+  --font-family-std: 'Fedra Sans Std', sans-serif;
+  --font-family-demi: 'Fedra Sans Std Demi', sans-serif; }
+
+.typo-std,
+.typo-book {
+  font-family: var(--font-family-std);
   font-weight: normal;
+  font-style: normal; }
+
+.typo-medium {
+  font-family: var(--font-family-std);
+  font-weight: 600;
+  font-style: normal; }
+
+.typo-demi {
+  font-family: var(--font-family-demi);
+  font-weight: normal;
+  font-style: normal; }
+
+.typo-number--old-style {
+  font-variant-numeric: oldstyle-nums;
+  -moz-font-feature-settings: \\"onum\\";
+  -webkit-font-feature-settings: \\"onum\\";
+  font-feature-settings: \\"onum\\"; }
+
+.typo-number--lining {
+  font-variant-numeric: lining-nums;
+  -moz-font-feature-settings: \\"lnum\\";
+  -webkit-font-feature-settings: \\"lnum\\";
+  font-feature-settings: \\"lnum\\"; }
+
+.typo-number--tabular {
+  font-variant-numeric: tabular-nums;
+  -moz-font-feature-settings: \\"tnum\\";
+  -webkit-font-feature-settings: \\"tnum\\";
+  font-feature-settings: \\"tnum\\"; }
+
+.typo-number--proportional {
+  font-variant-numeric: proportional-nums;
+  -moz-font-feature-settings: \\"pnum\\";
+  -webkit-font-feature-settings: \\"pnum\\";
+  font-feature-settings: \\"pnum\\"; }
+
+@font-face {
+  font-family: 'Fedra Sans Std';
+  src: url(\\"../../assets/fonts/FedraSansStd-Book.eot\\");
+  src: url(\\"../../assets/fonts/FedraSansStd-Book.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../assets/fonts/FedraSansStd-Book.woff\\") format(\\"woff\\"), url(\\"../../assets/fonts/FedraSansStd-Book.ttf\\") format(\\"truetype\\");
+  font-weight: normal;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'Fedra Sans Std';
+  src: url(\\"../../assets/fonts/FedraSansStd-Medium.eot\\");
+  src: url(\\"../../assets/fonts/FedraSansStd-Medium.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../assets/fonts/FedraSansStd-Medium.woff\\") format(\\"woff\\"), url(\\"../../assets/fonts/FedraSansStd-Medium.ttf\\") format(\\"truetype\\");
+  font-weight: 600;
   font-style: normal; }
 
 @font-face {
   font-family: 'Fedra Sans Std Demi';
-  src: url(\\"../../../../assets/fonts/FedraSansStd-Demi.otf\\") format(\\"opentype\\"), url(\\"../../../../assets/fonts/FedraSansStd-Demi.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts/FedraSansStd-Demi.ttf\\") format(\\"truetype\\");
+  src: url(\\"../../assets/fonts/FedraSansStd-Demi.otf\\") format(\\"opentype\\"), url(\\"../../assets/fonts/FedraSansStd-Demi.woff\\") format(\\"woff\\"), url(\\"../../assets/fonts/FedraSansStd-Demi.ttf\\") format(\\"truetype\\");
   font-weight: normal;
   font-style: normal; }
 
-@font-face {
-  font-family: 'Fedra Sans Std Medium';
-  src: url(\\"../../../../assets/fonts/FedraSansStd-Medium.eot\\");
-  src: url(\\"../../../../assets/fonts/FedraSansStd-Medium.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts/FedraSansStd-Medium.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts/FedraSansStd-Medium.ttf\\") format(\\"truetype\\");
-  font-weight: 400;
-  font-style: normal; }
-
+/*
+* Scopes
+* ======================================================================== */
 .dnb-switch {
-  font-family: var(--font-family-book);
+  font-family: var(--font-family-std);
   font-size: 1rem;
-  font-weight: 300;
+  font-weight: normal;
   font-style: normal;
-  line-height: 1.5em; }
+  line-height: 1.5rem; }
   .dnb-switch *,
   .dnb-switch ::before,
   .dnb-switch ::after {

@@ -8,15 +8,9 @@
 // core
 @import './reset.scss';
 @import './utilities.scss';
-@import './font-import.scss';
+// @import './font-import.scss';
 @import './typography.scss';
 @import './scopes.scss';
-
-// @import './form.scss'; // TODO: considder to remove this, and use it only as a pattern
-// @import './_grid.scss';
-
-// dnb core styles - they have to be used by a parent css class: .dnb-style
-// @import './dnb-style.scss';
 
 // Global body style
 body {

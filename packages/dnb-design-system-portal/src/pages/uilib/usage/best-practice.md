@@ -8,6 +8,8 @@ draft: false
 
 ### TODO
 
+- [ ] Font
+  - [ ] Disable Local fonts
 - [ ] Info about testing
   - [ ] Static testing
   - [ ] Axe testing

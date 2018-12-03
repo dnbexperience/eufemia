@@ -80,7 +80,7 @@ export const runFactory = (src, { returnResult = false } = {}) =>
 const transformContent = (content, file) => {
   log.text = `> PrePublish: converting sass to css | ${file.path}`
   return content.replace(
-    new RegExp('../../../../assets/', 'g'),
+    new RegExp('../../assets/', 'g'),
     '../../../assets/'
   )
 }

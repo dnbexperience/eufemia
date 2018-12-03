@@ -4,42 +4,43 @@
 
 // core
 @import '../core/utilities.scss';
+@import '../core/typography.scss';
 @import '../core/scopes.scss';
 
 // Book
-@font-face {
-  font-family: 'Fedra Sans Std Book';
-  src: url('../../../../assets/fonts/FedraSansStd-Book.eot');
-  src: url('../../../../assets/fonts/FedraSansStd-Book.eot?#iefix')
-      format('embedded-opentype'),
-    url('../../../../assets/fonts/FedraSansStd-Book.woff') format('woff'),
-    url('../../../../assets/fonts/FedraSansStd-Book.ttf')
-      format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
-
-// Demi
-@font-face {
-  font-family: 'Fedra Sans Std Demi';
-  src: url('../../../../assets/fonts/FedraSansStd-Demi.otf')
-      format('opentype'),
-    url('../../../../assets/fonts/FedraSansStd-Demi.woff') format('woff'),
-    url('../../../../assets/fonts/FedraSansStd-Demi.ttf')
-      format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
-
-// Medium
-@font-face {
-  font-family: 'Fedra Sans Std Medium';
-  src: url('../../../../assets/fonts/FedraSansStd-Medium.eot');
-  src: url('../../../../assets/fonts/FedraSansStd-Medium.eot?#iefix')
-      format('embedded-opentype'),
-    url('../../../../assets/fonts/FedraSansStd-Medium.woff') format('woff'),
-    url('../../../../assets/fonts/FedraSansStd-Medium.ttf')
-      format('truetype');
-  font-weight: 400;
-  font-style: normal;
-}
+// @font-face {
+//   font-family: 'Fedra Sans Std Book';
+//   src: url('../../../../assets/fonts/FedraSansStd-Book.eot');
+//   src: url('../../../../assets/fonts/FedraSansStd-Book.eot?#iefix')
+//       format('embedded-opentype'),
+//     url('../../../../assets/fonts/FedraSansStd-Book.woff') format('woff'),
+//     url('../../../../assets/fonts/FedraSansStd-Book.ttf')
+//       format('truetype');
+//   font-weight: normal;
+//   font-style: normal;
+// }
+//
+// // Demi
+// @font-face {
+//   font-family: 'Fedra Sans Std Demi';
+//   src: url('../../../../assets/fonts/FedraSansStd-Demi.otf')
+//       format('opentype'),
+//     url('../../../../assets/fonts/FedraSansStd-Demi.woff') format('woff'),
+//     url('../../../../assets/fonts/FedraSansStd-Demi.ttf')
+//       format('truetype');
+//   font-weight: normal;
+//   font-style: normal;
+// }
+//
+// // Medium
+// @font-face {
+//   font-family: 'Fedra Sans Std Medium';
+//   src: url('../../../../assets/fonts/FedraSansStd-Medium.eot');
+//   src: url('../../../../assets/fonts/FedraSansStd-Medium.eot?#iefix')
+//       format('embedded-opentype'),
+//     url('../../../../assets/fonts/FedraSansStd-Medium.woff') format('woff'),
+//     url('../../../../assets/fonts/FedraSansStd-Medium.ttf')
+//       format('truetype');
+//   font-weight: 400;
+//   font-style: normal;
+// }
