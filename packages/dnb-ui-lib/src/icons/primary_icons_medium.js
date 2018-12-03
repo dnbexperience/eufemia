@@ -7,6 +7,7 @@ import check_medium from './check_medium.js'
 import chevron_down_medium from './chevron_down_medium.js'
 import chevron_left_medium from './chevron_left_medium.js'
 import chevron_right_medium from './chevron_right_medium.js'
+import chevron_up_medium from './chevron_up_medium.js'
 import close_medium from './close_medium.js'
 import exclamation_medium from './exclamation_medium.js'
 import more_medium from './more_medium.js'
@@ -23,6 +24,7 @@ export {
   chevron_down_medium,
   chevron_left_medium,
   chevron_right_medium,
+  chevron_up_medium,
   close_medium,
   exclamation_medium,
   more_medium,
