@@ -279,11 +279,17 @@ const StyledListItem = styled.li`
   }
 
   @keyframes hide-mobile-menu {
-    from {
+    0% {
+      opacity: 100;
       transform: translate3d(0, 0, 0);
     }
-    to {
-      transform: translate3d(0, -80vh, 0);
+    60% {
+      opacity: 0.4;
+      transform: translate3d(0, 0, 0);
+    }
+    100% {
+      opacity: 0;
+      transform: translate3d(0, -20%, 0);
     }
   }
 
@@ -294,8 +300,8 @@ const StyledListItem = styled.li`
   }
   .hide-mobile-menu & {
     opacity: 1;
-    animation: hide-mobile-menu 280ms cubic-bezier(0.19, 1, 0.22, 1) 1
-      calc(var(--delay) / 2) forwards;
+    animation: hide-mobile-menu 300ms cubic-bezier(0.19, 1, 0.22, 1) 1
+      calc(10ms - var(--delay)) forwards;
   }
 `
 
