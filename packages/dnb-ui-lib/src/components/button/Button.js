@@ -6,7 +6,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import Icon from '../icon/IconWithAllIcons'
+import Icon from '../icon/IconPrimary'
 import {
   registerElement,
   validateDOMAttributes,

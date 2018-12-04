@@ -57,7 +57,7 @@ exports[`Button component have to match default button snapshot 1`] = `
       >
         text
       </span>
-      <IconWithAllIcons
+      <IconPrimary
         alt="This is a button title"
         area_hidden={true}
         attributes={null}
@@ -89,7 +89,7 @@ exports[`Button component have to match default button snapshot 1`] = `
             </svg>
           </question>
         </span>
-      </IconWithAllIcons>
+      </IconPrimary>
     </Content>
   </button>
 </Button>
@@ -153,7 +153,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
       >
         text
       </span>
-      <IconWithAllIcons
+      <IconPrimary
         alt="This is a button title"
         area_hidden={true}
         attributes={null}
@@ -185,7 +185,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
             </svg>
           </question>
         </span>
-      </IconWithAllIcons>
+      </IconPrimary>
     </Content>
   </a>
 </Button>
