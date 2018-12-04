@@ -6,6 +6,9 @@ const onClickHandler = event => {
   console.log('onClickHandler', event)
 }
 
+// only to satisfy the build process
+export default () => <></>
+
 export const ButtonEventExample = () => {
   return (
     <Button on_click={onClickHandler}>
