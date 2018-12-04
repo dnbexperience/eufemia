@@ -5,7 +5,7 @@ draft: false
 order: 5
 ---
 
-import { Button, IconWithAllIcons } from 'dnb-ui-lib/src'
+import { Button, IconPrimary } from 'dnb-ui-lib/src'
 import { ButtonEventExample } from 'Pages/uilib/usage/first-steps/examples/react-examples'
 
 # React JS for the web
@@ -27,7 +27,7 @@ The most basic way to use the `dnb-ui-lib` is like this:
 ```jsx
 <Button variant="secondary" text="Secondary Button" size="large" icon="chevron-right_medium" />
 <Button variant="secondary" size="large">
-  <IconWithAllIcons icon="chevron-right_medium" size="large" />
+  <IconPrimary icon="chevron-right_medium" size="large" />
 </Button>
 <Button icon="chevron-right_medium" icon_size="large" size="large" />
 ```
@@ -35,7 +35,7 @@ The most basic way to use the `dnb-ui-lib` is like this:
 <div className="demo-box">
   <Button variant="secondary" text="Secondary Button" size="large" icon="chevron-right_medium" />
   <Button variant="secondary" size="large">
-    <IconWithAllIcons icon="chevron-right_medium" size="large" />
+    <IconPrimary icon="chevron-right_medium" size="large" />
   </Button>
   <Button icon="chevron-right_medium" icon_size="large" size="large" />
 </div>

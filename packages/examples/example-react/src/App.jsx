@@ -85,7 +85,7 @@ export default class App extends PureComponent {
               icon="chevron-right"
               on_click={this.handleClick}
             />
-            <dnb-icon-with-all-icons icon="bell" size="80" />
+            <dnb-icon-primary icon="bell" size="80" />
           </Fragment>
         )}
       </div>

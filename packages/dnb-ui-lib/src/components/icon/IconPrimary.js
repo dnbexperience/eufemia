@@ -25,16 +25,13 @@ export const propTypes = {
 
 export const defaultProps = { ...DefaultIcon.defaultProps }
 
-export default class IconWithAllIcons extends PureComponent {
-  static tagName = 'dnb-icon-with-all-icons'
+export default class IconPrimary extends PureComponent {
+  static tagName = 'dnb-icon-primary'
   static propTypes = propTypes
   static defaultProps = defaultProps
 
   static enableWebComponent() {
-    DefaultIcon.enableWebComponent(
-      IconWithAllIcons.tagName,
-      IconWithAllIcons
-    )
+    DefaultIcon.enableWebComponent(IconPrimary.tagName, IconPrimary)
   }
 
   static getIcon(props) {

@@ -15,7 +15,7 @@ import 'dnb-ui-lib/src/style' // import both all components and the default them
 import dnb, {
   Button,
   Input,
-  IconWithAllIcons as Icon,
+  IconPrimary as Icon,
   Switch,
   FormLabel
 } from 'dnb-ui-lib/src'
@@ -338,7 +338,7 @@ class InputTest extends Component {
 
 const IconWrap = ({ webComponentsEnabled, ...props }) =>
   webComponentsEnabled ? (
-    <dnb-icon-with-all-icons {...props} />
+    <dnb-icon-primary {...props} />
   ) : (
     <Icon {...props} />
   )

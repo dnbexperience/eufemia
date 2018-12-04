@@ -3,7 +3,7 @@
  *
  */
 
-import web from '../icon/IconWithAllIcons'
+import web from '../icon/IconPrimary'
 
 export { web }
 export default web

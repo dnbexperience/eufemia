@@ -35,7 +35,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
     <span
       className="dnb-dropdown__icon icon-icon"
     >
-      <IconWithAllIcons
+      <IconPrimary
         alt={null}
         area_hidden={false}
         attributes={null}

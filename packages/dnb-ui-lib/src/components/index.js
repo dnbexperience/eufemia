@@ -16,7 +16,7 @@ import Button from './button/Button'
 import Dropdown from './dropdown/Dropdown'
 import FormLabel from './form-label/FormLabel'
 import Icon from './icon/Icon'
-import IconWithAllIcons from './icon-with-all-icons/IconWithAllIcons'
+import IconPrimary from './icon-primary/IconPrimary'
 import Input from './input/Input'
 import InputMasked from './input-masked/InputMasked'
 import LineTitle from './line-title/LineTitle'
@@ -33,7 +33,7 @@ export {
   Dropdown,
   FormLabel,
   Icon,
-  IconWithAllIcons,
+  IconPrimary,
   Input,
   InputMasked,
   LineTitle,
@@ -51,7 +51,7 @@ export const getComponents = () => {
     Dropdown,
     FormLabel,
     Icon,
-    IconWithAllIcons,
+    IconPrimary,
     Input,
     InputMasked,
     LineTitle,

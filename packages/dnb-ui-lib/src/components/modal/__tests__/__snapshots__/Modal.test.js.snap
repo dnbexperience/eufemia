@@ -77,7 +77,7 @@ exports[`Modal component have to match snapshot 1`] = `
             >
               modal_trigger_text
             </span>
-            <IconWithAllIcons
+            <IconPrimary
               alt="modal_trigger_title"
               area_hidden={true}
               attributes={null}
@@ -198,7 +198,7 @@ exports[`Modal component have to match snapshot 1`] = `
                     type="button"
                     variant="secondary"
                   >
-                    <IconWithAllIcons
+                    <IconPrimary
                       alt="close_title"
                       area_hidden={true}
                       attributes={null}
@@ -230,7 +230,7 @@ exports[`Modal component have to match snapshot 1`] = `
                           </svg>
                         </close>
                       </span>
-                    </IconWithAllIcons>
+                    </IconPrimary>
                   </Content>
                 </button>
               </Button>

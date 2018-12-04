@@ -10,7 +10,7 @@ import styled from 'react-emotion'
 import '../src/style'
 
 // UI Components
-import { Button, IconWithAllIcons as Icon } from '../src/components'
+import { Button, IconPrimary as Icon } from '../src/components'
 
 // import Body from '../src/components/body/Body'
 // import ActionNavExample from '../src/patterns/action-nav/Example'
