@@ -42,14 +42,16 @@
   }
 }
 
+$fonts-path: '../../assets/fonts/' !default;
+
 // Font #1. Std Book (our main fallback font)
 @font-face {
   font-family: 'Fedra Sans Std';
-  src: url('../../assets/fonts/FedraSansStd-Book.eot');
-  src: url('../../assets/fonts/FedraSansStd-Book.eot?#iefix')
+  src: url('#{$fonts-path}/FedraSansStd-Book.eot');
+  src: url('#{$fonts-path}/FedraSansStd-Book.eot?#iefix')
       format('embedded-opentype'),
-    url('../../assets/fonts/FedraSansStd-Book.woff') format('woff'),
-    url('../../assets/fonts/FedraSansStd-Book.ttf') format('truetype');
+    url('#{$fonts-path}/FedraSansStd-Book.woff') format('woff'),
+    url('#{$fonts-path}/FedraSansStd-Book.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
@@ -57,11 +59,11 @@
 // Font #1. Std Medium (our main fallback font with font weight 600 or more)
 @font-face {
   font-family: 'Fedra Sans Std';
-  src: url('../../assets/fonts/FedraSansStd-Medium.eot');
-  src: url('../../assets/fonts/FedraSansStd-Medium.eot?#iefix')
+  src: url('#{$fonts-path}/FedraSansStd-Medium.eot');
+  src: url('#{$fonts-path}/FedraSansStd-Medium.eot?#iefix')
       format('embedded-opentype'),
-    url('../../assets/fonts/FedraSansStd-Medium.woff') format('woff'),
-    url('../../assets/fonts/FedraSansStd-Medium.ttf') format('truetype');
+    url('#{$fonts-path}/FedraSansStd-Medium.woff') format('woff'),
+    url('#{$fonts-path}/FedraSansStd-Medium.ttf') format('truetype');
   font-weight: 600;
   font-style: normal;
 }
@@ -69,9 +71,9 @@
 // Font #3. Demi
 @font-face {
   font-family: 'Fedra Sans Std Demi';
-  src: url('../../assets/fonts/FedraSansStd-Demi.otf') format('opentype'),
-    url('../../assets/fonts/FedraSansStd-Demi.woff') format('woff'),
-    url('../../assets/fonts/FedraSansStd-Demi.ttf') format('truetype');
+  src: url('#{$fonts-path}/FedraSansStd-Demi.otf') format('opentype'),
+    url('#{$fonts-path}/FedraSansStd-Demi.woff') format('woff'),
+    url('#{$fonts-path}/FedraSansStd-Demi.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
