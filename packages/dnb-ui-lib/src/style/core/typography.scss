@@ -71,7 +71,9 @@ $fonts-path: '../../assets/fonts/' !default;
 // Font #3. Demi
 @font-face {
   font-family: 'Fedra Sans Std Demi';
-  src: url('#{$fonts-path}/FedraSansStd-Demi.otf') format('opentype'),
+  src: url('#{$fonts-path}/FedraSansStd-Demi.eot');
+  src: url('#{$fonts-path}/FedraSansStd-Demi.eot?#iefix')
+      format('embedded-opentype'),
     url('#{$fonts-path}/FedraSansStd-Demi.woff') format('woff'),
     url('#{$fonts-path}/FedraSansStd-Demi.ttf') format('truetype');
   font-weight: normal;
