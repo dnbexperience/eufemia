@@ -50,6 +50,7 @@ $fonts-path: '../../assets/fonts/' !default;
   src: url('#{$fonts-path}/FedraSansStd-Book.eot');
   src: url('#{$fonts-path}/FedraSansStd-Book.eot?#iefix')
       format('embedded-opentype'),
+    url('#{$fonts-path}/FedraSansStd-Book.woff2') format('woff2'),
     url('#{$fonts-path}/FedraSansStd-Book.woff') format('woff'),
     url('#{$fonts-path}/FedraSansStd-Book.ttf') format('truetype');
   font-weight: normal;
@@ -63,6 +64,7 @@ $fonts-path: '../../assets/fonts/' !default;
 //   src: url('#{$fonts-path}/FedraSansStd-Medium.eot');
 //   src: url('#{$fonts-path}/FedraSansStd-Medium.eot?#iefix')
 //       format('embedded-opentype'),
+//     url('#{$fonts-path}/FedraSansStd-Medium.woff2') format('woff2'),
 //     url('#{$fonts-path}/FedraSansStd-Medium.woff') format('woff'),
 //     url('#{$fonts-path}/FedraSansStd-Medium.ttf') format('truetype');
 //   font-weight: 600;
@@ -75,6 +77,7 @@ $fonts-path: '../../assets/fonts/' !default;
   src: url('#{$fonts-path}/FedraSansStd-Demi.eot');
   src: url('#{$fonts-path}/FedraSansStd-Demi.eot?#iefix')
       format('embedded-opentype'),
+    url('#{$fonts-path}/FedraSansStd-Demi.woff2') format('woff2'),
     url('#{$fonts-path}/FedraSansStd-Demi.woff') format('woff'),
     url('#{$fonts-path}/FedraSansStd-Demi.ttf') format('truetype');
   font-weight: normal;
