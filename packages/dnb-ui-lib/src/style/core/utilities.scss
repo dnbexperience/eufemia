@@ -129,8 +129,8 @@
   }
 }
 
-@mixin drawUnderlineLine() {
-  // underline
+@mixin drawUnderlineBorder() {
+  // border
   &::after {
     @include _drawUnderline() {
       left: 0.25em;

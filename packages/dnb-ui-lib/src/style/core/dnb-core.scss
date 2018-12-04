@@ -8,7 +8,6 @@
 // core
 @import './reset.scss';
 @import './utilities.scss';
-// @import './font-import.scss';
 @import './typography.scss';
 @import './scopes.scss';
 
@@ -27,17 +26,16 @@ a {
   outline: none; // because of focus handling
   padding: 0.3125em 0.3125em 0.125em;
   margin: -0.3125em -0.3125em -0.125em;
-  padding-top: 0.3125em;
   // This way we make sure we never have a line break in an Anker
-  // Cause this messes up the "drawUnderlineLine" mechanism
+  // Cause this messes up the "drawUnderlineBorder" mechanism
   white-space: pre;
 
   color: inherit;
   color: var(--color-sea-green, inherit);
   text-decoration: none;
 
-  // underline
-  @include drawUnderlineLine();
+  // border
+  @include drawUnderlineBorder();
 
   // bg
   @include drawUnderlineBackground();
@@ -49,7 +47,7 @@ a {
       max-height: 100%;
     }
 
-    // underline
+    // border
     &::after {
       left: 0.1em;
       right: 0.1em;
@@ -61,7 +59,7 @@ a {
     &::before {
       background-color: var(--color-sea-green);
     }
-    // underline
+    // border
     &::after {
       border-bottom-color: var(--color-sea-green);
     }
