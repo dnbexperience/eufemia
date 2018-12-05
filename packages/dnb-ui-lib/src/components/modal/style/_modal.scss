@@ -84,7 +84,7 @@ body[data-modal-active='true'] {
 
     cursor: pointer;
 
-    color: $color-sea-green;
+    color: var(--color-sea-green);
     // border: none;
     // background: transparent;
   }

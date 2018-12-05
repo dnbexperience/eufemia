@@ -29,6 +29,6 @@ const Wrapper = styled.div`
     padding: 1rem;
 
     border-top: 1px solid var(--color-outline-grey);
-    background: var(--color-light-grey);
+    background: var(--color-sea-green-4);
   }
 `

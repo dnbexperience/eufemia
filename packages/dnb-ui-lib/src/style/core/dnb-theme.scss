@@ -2,58 +2,282 @@
 * Theme loader
 * ======================================================================== */
 
-@import './variables.scss';
 @import './utilities.scss';
 
 :root {
-  // green colors
-  --color-sea-green: #{$color-sea-green};
-  --color-sea-green-alt: #{$color-sea-green-alt};
-  --color-sea-green-alt-30: #{$color-sea-green-alt-30};
-  --color-sea-green-light: #{$color-sea-green-light};
-  --color-sea-green-light-alt: #{$color-sea-green-light-alt};
-  --color-ocean-green: #{$color-ocean-green};
-  --color-emerald-green: #{$color-emerald-green};
-  --color-summer-green: #{$color-summer-green};
-  --color-mint-green: #{$color-mint-green};
-  --color-mint-green-alt: #{$color-mint-green-alt};
+  // UX colors
+  --color-sea-green-alt: #008484;
+  --color-mint-green-50: #d2f0e9;
+  --color-mint-green-25: #e9f8f4;
+  --color-sea-green-4: #f5fafa;
+  --color-sea-green-alt-30: #b3dada;
+  --color-signal-yellow-30: #ffffd7;
+  --color-cherry-red: #e10076;
+  --color-cherry-red-80: #fdebf4;
+  --color-black: #000;
+  --color-black-80: #333;
+  --color-black-30: #b3b3b3;
+  --color-white: #fff;
 
-  // signal colors
-  --color-signal-orange: #{$color-signal-orange};
-  --color-signal-yellow: #{$color-signal-yellow};
-  --color-signal-yellow-30: #{$color-signal-yellow-30};
+  // Profile colors
+  --color-sea-green: #007272;
+  --color-mint-green: #a5e1d2;
+  --color-summer-green: #28b482;
+  --color-emerald-green: #14555a;
+  --color-ocean-green: #00343e;
+  --color-signal-orange: #ff5400;
+  --color-signal-yellow: #ffff7a;
+  --color-indigo: #23195a;
+  --color-violet: #6e2382;
+  --color-sky-blue: #4bbed2;
 
-  // grey colors
-  --color-light-grey: #{$color-light-grey};
-  --color-outline-grey: #{$color-outline-grey};
-  --color-subtle-grey: #{$color-subtle-grey};
-  --color-soft-grey: #{$color-soft-grey};
-  --color-charcoal-grey: #{$color-charcoal-grey};
-  --color-shadow-grey: #{$color-shadow-grey};
+  // Unused Profile colors
+  // --color-mint-green-alt: #ebfffa;
+  // --color-indigo-medium: #6e6491;
+  // --color-indigo-light: #b9afc8;
+  // --color-violet-medium: #a06eaf;
+  // --color-violet-light: #cfb9d7;
+  // --color-sky-blue-medium: #87d2e1;
+  // --color-sky-blue-light: #c3ebf0;
 
-  // indigo colors
-  --color-indigo: #{$color-indigo};
-  --color-indigo-medium: #{$color-indigo-medium};
-  --color-indigo-light: #{$color-indigo-light};
-  --color-violet: #{$color-violet};
-  --color-violet-medium: #{$color-violet-medium};
-  --color-violet-light: #{$color-violet-light};
-  --color-sky-blue: #{$color-sky-blue};
-  --color-sky-blue-medium: #{$color-sky-blue-medium};
-  --color-sky-blue-light: #{$color-sky-blue-light};
+  // Colors used in mobile
+  // --color-light-grey: #fafafa;
+  // --color-outline-grey: #ebebeb;
+  // + new grey definitions
+  // --color-subtle-grey: #f8f8f8;
+  // --color-soft-grey: #ccc;
+  // --color-charcoal-grey: #333;
+  // --color-shadow-grey: #757575;
+}
 
-  // typography family
-  --font-family-std: #{$font-family-std};
-  --font-family-book: #{$font-family-book};
-  --font-family-demi: #{$font-family-demi};
+// hey have to be used by a parent css class: .dnb-style
+.dnb-style {
+  small {
+    font-size: 0.875rem; // 14px
+    line-height: 1rem; // 16px
+  }
 
-  // typography sizes
-  --font-size-mini: #{$font-size-mini};
-  --font-size-small: #{$font-size-small};
-  --font-size-medium: #{$font-size-medium};
-  --font-size-regular: #{$font-size-regular};
-  --font-size-large: #{$font-size-large};
-  --font-size-x-large: #{$font-size-x-large};
-  --font-size-xx-large: #{$font-size-xx-large};
-  --font-size-xxx-large: #{$font-size-xxx-large};
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin: 1em 0;
+    padding: 0;
+
+    font-family: var(--font-family-demi);
+    line-height: 1rem; // 16px
+    font-weight: 400;
+
+    color: var(--color-emerald-green);
+  }
+
+  h1 {
+    margin: 1.5em 0 1em;
+
+    font-size: 3rem; // 48px
+    line-height: 3.5rem; // 56px
+    font-weight: 400;
+    small {
+      font-size: 2rem; // 32px
+      line-height: 3rem; // 48px
+    }
+  }
+
+  h2 {
+    margin: 1.5em 0 1em;
+
+    font-size: 1.5rem; // 24px
+    line-height: 2rem; // 32px
+  }
+
+  /*
+  * H3 looks the same as .dnb-lead
+  *
+  */
+  h3,
+  .dnb-lead {
+    font-family: var(--font-family-demi);
+    font-size: 1.25rem; // 20px
+    line-height: 2rem; // 32px
+    font-weight: 400;
+
+    small {
+      font-size: 1em; // 16px
+      line-height: 1.5rem; // 24px
+    }
+  }
+
+  // The rest of the Headings are nod defned by the Eufemia Typography
+  h4 {
+    font-size: 1.25rem; // 20px
+    line-height: 1.5rem; // 24px
+  }
+  h5 {
+    font-size: 1rem; // 16px
+    line-height: 1.5rem; // 24px
+  }
+  h6 {
+    font-size: 0.875rem;
+  }
+
+  p {
+    // if we not reset margin, the browser is using: margin-block-end: 1rem;
+    margin: 0;
+    padding: 0;
+
+    font-size: 1rem; // 16px
+    line-height: 1.5rem; // 24px
+
+    b,
+    strong {
+      font-weight: 600;
+    }
+  }
+
+  label,
+  input {
+    font-size: 1rem; // 16px
+  }
+  form,
+  fieldset {
+    font-size: 1rem; // 16px
+  }
+
+  // General Layout and Spacing + some Styling
+  *:not([class^='dnb-']) + {
+    p {
+      // if we not reset margin, the browser is using: margin-block-end: 1rem;
+      margin: 0 0 1em;
+    }
+
+    p,
+    blockquote,
+    ul,
+    ol,
+    dl,
+    pre {
+      margin-top: 0;
+      margin-bottom: 1rem;
+    }
+
+    ul,
+    ol {
+      padding-left: 2rem;
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+
+    li {
+      word-wrap: break-all;
+    }
+
+    ul li,
+    ol li {
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    li > p {
+      margin-top: 1rem;
+    }
+
+    li + li {
+      margin-top: 0.25em;
+    }
+
+    ol ol,
+    ul ol {
+      list-style-type: lower-roman;
+    }
+
+    ul ul,
+    ul ol,
+    ol ol,
+    ol ul {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+
+    ul ul ol,
+    ul ol ol,
+    ol ul ol,
+    ol ol ol {
+      list-style-type: lower-alpha;
+    }
+
+    dd {
+      margin-left: 0;
+    }
+
+    > *:first-child {
+      margin-top: 0 !important;
+    }
+
+    > *:last-child {
+      margin-bottom: 0 !important;
+    }
+
+    dl {
+      padding: 0;
+    }
+
+    dl dt {
+      padding: 0;
+      margin-top: 1rem;
+      font-size: 1rem;
+      font-style: italic;
+      font-weight: 600;
+    }
+
+    dl dd {
+      padding: 0 1rem;
+      margin-bottom: 1rem;
+    }
+
+    blockquote {
+      margin: 0;
+      padding: 0 1rem;
+      color: #666;
+      border-left: 0.25em solid #dfe2e5;
+    }
+
+    blockquote > :first-child {
+      margin-top: 0;
+    }
+
+    blockquote > :last-child {
+      margin-bottom: 0;
+    }
+
+    img {
+      box-sizing: content-box;
+      max-width: 100%;
+      border-style: none;
+      background-color: #fff;
+    }
+
+    img[align='right'] {
+      padding-left: 1.2rem;
+    }
+
+    img[align='left'] {
+      padding-right: 1.2rem;
+    }
+
+    code,
+    * code {
+      margin: 0;
+      padding: 0.2em 0.4em;
+
+      font-size: 0.875em;
+      background-color: rgba(27, 31, 35, 0.05);
+      border-radius: 3px;
+    }
+    pre,
+    * pre {
+      word-wrap: normal;
+    }
+  }
 }

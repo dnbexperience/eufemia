@@ -3,13 +3,13 @@
 *
 * ======================================================================== */
 
-$range-line-background: rgba($color-sea-green, 0.5);
-// $range-line-background-1: $color-summer-green;
+$range-line-background: rgba(var(--color-sea-green), 0.5);
+// $range-line-background-1: var(--color-summer-green);
 $range-line-height: 0.25rem;
 $range-line-border-radius: 0.25rem;
 
 $range-thumb-background: white;
-$range-thumb-border-color: $color-mint-green-alt;
+$range-thumb-border-color: var(--color-mint-green-50);
 $range-thumb-dimension: 1.5rem;
 
 .dnb-slider {
@@ -46,7 +46,7 @@ $range-thumb-dimension: 1.5rem;
     background-color: $range-line-background;
   }
   .slider__state--disabled .slider__line {
-    background-color: $color-shadow-grey;
+    background-color: var(--color-black-30);
   }
   &.slider__vertical .slider__line {
     transform: translate(-50%, 0);
@@ -112,7 +112,7 @@ $range-thumb-dimension: 1.5rem;
   .slider__state--disabled .slider__thumb {
     border: none;
     box-shadow: none;
-    background-color: $color-shadow-grey;
+    background-color: var(--color-black-30);
     height: $range-thumb-dimension/3;
     width: $range-thumb-dimension/3;
   }

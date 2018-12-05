@@ -2,7 +2,11 @@
 // anything related to the styleguide to avoid bundling unnecessary styles to
 // production.
 
+$fonts-path: '../../../../assets/fonts/' !default;
+
 // core
-@import '../core/variables.scss';
 @import '../core/utilities.scss';
+// the assets path in typography gets transformed to the right amount back dirs
+// but as this is not prsent under dev enviroment, we cant use the components directly
+@import '../core/typography.scss';
 @import '../core/scopes.scss';

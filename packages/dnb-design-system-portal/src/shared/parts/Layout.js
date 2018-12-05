@@ -6,7 +6,7 @@
 // UI Style
 import 'dnb-ui-lib/src/style/patterns' // import ony patterns
 import 'dnb-ui-lib/src/style' // import both all components and the default theme
-import 'dnb-ui-lib/src/patterns/article/style'
+// import 'dnb-ui-lib/src/patterns/article/style'
 // import 'dnb-ui-lib/src/style/themes/dnb-theme-open-banking.scss'
 
 import { pageFocus } from 'dnb-ui-lib/src/shared/tools'
@@ -53,7 +53,7 @@ class Layout extends PureComponent {
             className="fullscreen-page"
             innerRef={this._ref}
           >
-            <MaxWidth className="dnb-page-content-inner dnb-article">
+            <MaxWidth className="dnb-page-content-inner">
               {children}
             </MaxWidth>
           </Content>
@@ -68,7 +68,7 @@ class Layout extends PureComponent {
         <Wrapper>
           <Sidebar location={location} showAll={false} />
           <Content tabIndex="-1" innerRef={this._ref}>
-            <MaxWidth className="dnb-page-content-inner dnb-article">
+            <MaxWidth className="dnb-page-content-inner">
               {children}
               <Footer />
             </MaxWidth>
@@ -95,11 +95,11 @@ const Wrapper = styled.div`
 const Content = ({ className, children }) => (
   <Main
     className={cx(
-      className,
       'dnb-style',
-      markdownStyle,
       'dnb-page-content',
-      'dnb-no-focus'
+      'dnb-no-focus',
+      className,
+      markdownStyle
     )}
   >
     {children}
@@ -174,7 +174,7 @@ const FooterWrapper = styled.footer`
 
   .is-fullscreen & {
     padding: 1rem;
-    background: var(--color-light-grey);
+    background: var(--color-sea-green-4);
   }
 
   a {

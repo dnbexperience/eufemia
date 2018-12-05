@@ -58,32 +58,79 @@ exports[`Slider scss have to match snapshot 1`] = `
 *
 * ======================================================================== */
 /*
-* Colors
-* ======================================================================== */
-/*
- * Typography Family
- * ======================================================================== */
-/*
-* Typography Size
-* ======================================================================== */
-/*
-* Grid and units
-* ======================================================================== */
-/*
-* Breakpoints
-* ======================================================================== */
-/*
  * Utilities
  * ========================================================================== */
+/*
+ * Typography
+ * ========================================================================== */
+:root {
+  --font-family-std: 'Fedra Sans Std', sans-serif;
+  --font-family-demi: 'Fedra Sans Std Demi', sans-serif; }
+
+.typo-std,
+.typo-book {
+  font-family: var(--font-family-std);
+  font-weight: normal;
+  font-style: normal; }
+
+.typo-medium {
+  font-family: var(--font-family-std);
+  font-weight: 600;
+  font-style: normal; }
+
+.typo-demi {
+  font-family: var(--font-family-demi);
+  font-weight: normal;
+  font-style: normal; }
+
+.typo-number--old-style {
+  font-variant-numeric: oldstyle-nums;
+  -moz-font-feature-settings: \\"onum\\";
+  -webkit-font-feature-settings: \\"onum\\";
+  font-feature-settings: \\"onum\\"; }
+
+.typo-number--lining {
+  font-variant-numeric: lining-nums;
+  -moz-font-feature-settings: \\"lnum\\";
+  -webkit-font-feature-settings: \\"lnum\\";
+  font-feature-settings: \\"lnum\\"; }
+
+.typo-number--tabular {
+  font-variant-numeric: tabular-nums;
+  -moz-font-feature-settings: \\"tnum\\";
+  -webkit-font-feature-settings: \\"tnum\\";
+  font-feature-settings: \\"tnum\\"; }
+
+.typo-number--proportional {
+  font-variant-numeric: proportional-nums;
+  -moz-font-feature-settings: \\"pnum\\";
+  -webkit-font-feature-settings: \\"pnum\\";
+  font-feature-settings: \\"pnum\\"; }
+
+@font-face {
+  font-family: 'Fedra Sans Std';
+  src: url(\\"../../../../assets/fonts//FedraSansStd-Book.eot\\");
+  src: url(\\"../../../../assets/fonts//FedraSansStd-Book.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts//FedraSansStd-Book.woff2\\") format(\\"woff2\\"), url(\\"../../../../assets/fonts//FedraSansStd-Book.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts//FedraSansStd-Book.ttf\\") format(\\"truetype\\");
+  font-weight: normal;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'Fedra Sans Std Demi';
+  src: url(\\"../../../../assets/fonts//FedraSansStd-Demi.eot\\");
+  src: url(\\"../../../../assets/fonts//FedraSansStd-Demi.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts//FedraSansStd-Demi.woff2\\") format(\\"woff2\\"), url(\\"../../../../assets/fonts//FedraSansStd-Demi.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts//FedraSansStd-Demi.ttf\\") format(\\"truetype\\");
+  font-weight: normal;
+  font-style: normal; }
+
 /*
 * Scopes
 * ======================================================================== */
 .dnb-slider {
-  font-family: \\"Fedra Sans Std\\", sans-serif;
+  font-family: var(--font-family-std, sans-serif);
   font-size: 1rem;
-  font-weight: 300;
+  font-weight: normal;
   font-style: normal;
-  line-height: 1.5em; }
+  line-height: 1.5rem;
+  color: var(--color-black-80, #333); }
   .dnb-slider *,
   .dnb-slider ::before,
   .dnb-slider ::after {
@@ -120,9 +167,9 @@ exports[`Slider scss have to match snapshot 1`] = `
     top: 50%;
     height: 2px;
     transform: translate(0, -50%);
-    background-color: rgba(0, 114, 114, 0.5); }
+    background-color: rgba(var(--color-sea-green), 0.5); }
   .dnb-slider .slider__state--disabled .slider__line {
-    background-color: #757575; }
+    background-color: var(--color-black-30); }
   .dnb-slider.slider__vertical .slider__line {
     transform: translate(-50%, 0);
     left: 50%;
@@ -154,7 +201,7 @@ exports[`Slider scss have to match snapshot 1`] = `
     user-select: none;
     outline: none;
     color: inherit;
-    border: 1px solid #ebfffa;
+    border: 1px solid var(--color-mint-green-50);
     border-radius: 50%;
     text-decoration: none;
     appearance: none;
@@ -165,13 +212,13 @@ exports[`Slider scss have to match snapshot 1`] = `
       border-color: transparent; }
       html[data-whatinput='mouse'] .dnb-slider .slider__thumb:focus:not(.dnb-no-mouse-focus) {
         transition: box-shadow 0.1s ease-out 0s;
-        box-shadow: 0 0 0 2px #14555a; }
+        box-shadow: 0 0 0 2px var(--color-emerald-green); }
       html[data-whatinput='keyboard'] .dnb-slider .slider__thumb:focus {
-        box-shadow: 0 0 0 2px #ff5400; }
+        box-shadow: 0 0 0 2px var(--color-signal-orange); }
   .dnb-slider .slider__state--disabled .slider__thumb {
     border: none;
     box-shadow: none;
-    background-color: #757575;
+    background-color: var(--color-black-30);
     height: 0.5rem;
     width: 0.5rem; }
   .dnb-slider .slider__state--jumped .slider__thumb,

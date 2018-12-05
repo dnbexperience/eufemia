@@ -159,6 +159,10 @@ export default class StickyMenuBar extends PureComponent {
 }
 
 injectGlobal`
+  :root {
+    --color-outline-grey: #ebebeb;
+  }
+
   .dev-grid {
     background-repeat: repeat;
     background-attachment: fixed;
@@ -208,7 +212,7 @@ const barStyle = css`
 
     align-items: center;
 
-    background-color: var(--color-light-grey);
+    background-color: var(--color-sea-green-4);
     border-bottom: 1px solid var(--color-outline-grey);
 
     overflow: hidden;

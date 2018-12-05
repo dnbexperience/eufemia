@@ -14,100 +14,79 @@ exports[`ViewTitle scss have to match snapshot 1`] = `
 *
 * ======================================================================== */
 /*
-* Colors
-* ======================================================================== */
-/*
- * Typography Family
- * ======================================================================== */
-/*
-* Typography Size
-* ======================================================================== */
-/*
-* Grid and units
-* ======================================================================== */
-/*
-* Breakpoints
-* ======================================================================== */
-/*
  * Utilities
  * ========================================================================== */
 /*
-* Scopes
-* ======================================================================== */
-/*
-* DNB font-import from components
-* This file is totaly the same as \\"core/_font-import.scss\\"
-* but has a difference back path
-*
-* ======================================================================== */
-@font-face {
-  font-family: 'Fedra Sans Std Book';
-  src: url(\\"../../../../assets/fonts/FedraSansStd-Book.eot\\");
-  src: url(\\"../../../../assets/fonts/FedraSansStd-Book.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts/FedraSansStd-Book.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts/FedraSansStd-Book.ttf\\") format(\\"truetype\\");
+ * Typography
+ * ========================================================================== */
+:root {
+  --font-family-std: 'Fedra Sans Std', sans-serif;
+  --font-family-demi: 'Fedra Sans Std Demi', sans-serif; }
+
+.typo-std,
+.typo-book {
+  font-family: var(--font-family-std);
   font-weight: normal;
   font-style: normal; }
 
-@font-face {
-  font-family: 'Fedra Sans Std Book';
-  src: url(\\"../../../../assets/fonts/FedraSansStd-BookItalic.eot\\");
-  src: url(\\"../../../../assets/fonts/FedraSansStd-BookItalic.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts/FedraSansStd-BookItalic.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts/FedraSansStd-BookItalic.ttf\\") format(\\"truetype\\");
+.typo-medium {
+  font-family: var(--font-family-std);
+  font-weight: 600;
+  font-style: normal; }
+
+.typo-demi {
+  font-family: var(--font-family-demi);
   font-weight: normal;
-  font-style: italic; }
-
-@font-face {
-  font-family: 'Fedra Sans Std';
-  src: url(\\"../../../../assets/fonts/FedraSansStd-Light.eot\\");
-  src: url(\\"../../../../assets/fonts/FedraSansStd-Light.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts/FedraSansStd-Light.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts/FedraSansStd-Light.ttf\\") format(\\"truetype\\");
-  font-weight: 300;
   font-style: normal; }
 
-@font-face {
-  font-family: 'Fedra Sans Std';
-  src: url(\\"../../../../assets/fonts/FedraSansStd-LightItalic.eot\\");
-  src: url(\\"../../../../assets/fonts/FedraSansStd-LightItalic.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts/FedraSansStd-LightItalic.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts/FedraSansStd-LightItalic.ttf\\") format(\\"truetype\\");
-  font-weight: 300;
-  font-style: italic; }
+.typo-number--old-style {
+  font-variant-numeric: oldstyle-nums;
+  -moz-font-feature-settings: \\"onum\\";
+  -webkit-font-feature-settings: \\"onum\\";
+  font-feature-settings: \\"onum\\"; }
+
+.typo-number--lining {
+  font-variant-numeric: lining-nums;
+  -moz-font-feature-settings: \\"lnum\\";
+  -webkit-font-feature-settings: \\"lnum\\";
+  font-feature-settings: \\"lnum\\"; }
+
+.typo-number--tabular {
+  font-variant-numeric: tabular-nums;
+  -moz-font-feature-settings: \\"tnum\\";
+  -webkit-font-feature-settings: \\"tnum\\";
+  font-feature-settings: \\"tnum\\"; }
+
+.typo-number--proportional {
+  font-variant-numeric: proportional-nums;
+  -moz-font-feature-settings: \\"pnum\\";
+  -webkit-font-feature-settings: \\"pnum\\";
+  font-feature-settings: \\"pnum\\"; }
 
 @font-face {
   font-family: 'Fedra Sans Std';
-  src: url(\\"../../../../assets/fonts/FedraSansStd-Medium.eot\\");
-  src: url(\\"../../../../assets/fonts/FedraSansStd-Medium.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts/FedraSansStd-Medium.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts/FedraSansStd-Medium.ttf\\") format(\\"truetype\\");
-  font-weight: 500;
+  src: url(\\"../../../../assets/fonts//FedraSansStd-Book.eot\\");
+  src: url(\\"../../../../assets/fonts//FedraSansStd-Book.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts//FedraSansStd-Book.woff2\\") format(\\"woff2\\"), url(\\"../../../../assets/fonts//FedraSansStd-Book.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts//FedraSansStd-Book.ttf\\") format(\\"truetype\\");
+  font-weight: normal;
   font-style: normal; }
-
-@font-face {
-  font-family: 'Fedra Sans Std';
-  src: url(\\"../../../../assets/fonts/FedraSansStd-MediumItalic.eot\\");
-  src: url(\\"../../../../assets/fonts/FedraSansStd-MediumItalic.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts/FedraSansStd-MediumItalic.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts/FedraSansStd-MediumItalic.ttf\\") format(\\"truetype\\");
-  font-weight: 500;
-  font-style: italic; }
-
-@font-face {
-  font-family: 'Fedra Sans Std';
-  src: url(\\"../../../../assets/fonts/FedraSansStd-Bold.eot\\");
-  src: url(\\"../../../../assets/fonts/FedraSansStd-Bold.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts/FedraSansStd-Bold.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts/FedraSansStd-Bold.ttf\\") format(\\"truetype\\");
-  font-weight: bold;
-  font-style: normal; }
-
-@font-face {
-  font-family: 'Fedra Sans Std';
-  src: url(\\"../../../../assets/fonts/FedraSansStd-BoldItalic.eot\\");
-  src: url(\\"../../../../assets/fonts/FedraSansStd-BoldItalic.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts/FedraSansStd-BoldItalic.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts/FedraSansStd-BoldItalic.ttf\\") format(\\"truetype\\");
-  font-weight: bold;
-  font-style: italic; }
 
 @font-face {
   font-family: 'Fedra Sans Std Demi';
-  src: url(\\"../../../../assets/fonts/FedraSansStd-Demi.otf\\") format(\\"opentype\\"), url(\\"../../../../assets/fonts/FedraSansStd-Demi.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts/FedraSansStd-Demi.ttf\\") format(\\"truetype\\");
+  src: url(\\"../../../../assets/fonts//FedraSansStd-Demi.eot\\");
+  src: url(\\"../../../../assets/fonts//FedraSansStd-Demi.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts//FedraSansStd-Demi.woff2\\") format(\\"woff2\\"), url(\\"../../../../assets/fonts//FedraSansStd-Demi.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts//FedraSansStd-Demi.ttf\\") format(\\"truetype\\");
   font-weight: normal;
   font-style: normal; }
 
+/*
+* Scopes
+* ======================================================================== */
 .dnb-view-title {
-  font-family: \\"Fedra Sans Std\\", sans-serif;
+  font-family: var(--font-family-std, sans-serif);
   font-size: 1rem;
-  font-weight: 300;
+  font-weight: normal;
   font-style: normal;
-  line-height: 1.5em; }
+  line-height: 1.5rem;
+  color: var(--color-black-80, #333); }
   .dnb-view-title *,
   .dnb-view-title ::before,
   .dnb-view-title ::after {
@@ -125,7 +104,7 @@ exports[`ViewTitle scss have to match snapshot 1`] = `
 .dnb-view-title {
   margin: 1.5rem 0 1rem 0;
   font-size: 2rem;
-  color: #007272; }
+  color: var(--color-sea-green); }
   @media screen and (min-width: 700px) {
     .dnb-view-title {
       margin: 3.5rem 0 3rem 0; } }

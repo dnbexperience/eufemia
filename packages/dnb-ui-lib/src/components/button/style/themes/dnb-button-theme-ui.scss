@@ -10,15 +10,9 @@
   background-color: var(--color-sea-green-alt);
   border-color: transparent;
 
-  @include buttonHover(
-    var(--color-sea-green),
-    var(--color-sea-green-light)
-  );
+  @include buttonHover(var(--color-sea-green), var(--color-mint-green-50));
 
-  @include buttonFocus(
-    var(--color-sea-green),
-    var(--color-sea-green-light)
-  );
+  @include buttonFocus(var(--color-sea-green), var(--color-mint-green-50));
 
   &[disabled] {
     color: #fff;
@@ -31,15 +25,9 @@
   background-color: #fff;
   border-color: var(--color-sea-green-alt);
 
-  @include buttonHover(
-    var(--color-sea-green),
-    var(--color-sea-green-light)
-  );
+  @include buttonHover(var(--color-sea-green), var(--color-mint-green-50));
 
-  @include buttonFocus(
-    var(--color-sea-green),
-    var(--color-sea-green-light)
-  );
+  @include buttonFocus(var(--color-sea-green), var(--color-mint-green-50));
 
   &[disabled] {
     color: var(--color-sea-green-alt-30);
@@ -70,7 +58,7 @@
   }
 
   &.dnb-button--has-text:not([disabled]):hover {
-    @include drawUnderlineLine() {
+    @include drawUnderlineBorder() {
       left: 0.45em;
       right: 0.45em;
       bottom: 0.5em;
