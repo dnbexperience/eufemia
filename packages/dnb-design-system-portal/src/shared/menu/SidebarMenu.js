@@ -151,6 +151,7 @@ const StyledListItem = styled.li`
     color: var(--color-black);
 
     font-size: 0.5rem;
+    font-weight: 300;
     text-align: center;
     text-transform: uppercase;
   }
