@@ -1,6 +1,7 @@
 ---
 header: 'UI Library'
-title: 'Typography [Deprecated]'
+title: 'Typography'
+status: 'wip'
 draft: false
 order: 4
 ---

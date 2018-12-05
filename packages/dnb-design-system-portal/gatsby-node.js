@@ -138,6 +138,12 @@ exports.onCreateNode = ({ node, getNode, actions }) => {
       value: node.frontmatter.draft
     })
 
+    createNodeField({
+      name: 'status',
+      node,
+      value: node.frontmatter.status
+    })
+
     // File
   } else if (node.internal.type === 'File') {
     const parsedFilePath = path.parse(node.absolutePath)
