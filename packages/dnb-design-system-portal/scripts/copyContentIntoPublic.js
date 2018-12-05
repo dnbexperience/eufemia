@@ -11,7 +11,7 @@ const copyContentIntoPublic = () =>
       const filter = file => {
         return !/\/\./.test(file)
       }
-      await fs.copy('../dnb-ui-lib/assets', './public/assets/', {
+      await fs.copy('../dnb-ui-lib/assets', './public/static/', {
         filter
       })
       // use only the gatsby "/static" folder for now

@@ -21,10 +21,18 @@ exports.createPages = ({ graphql, actions }) => {
         allMdx {
           edges {
             node {
+              id
               tableOfContents
               fields {
                 id
                 slug
+              }
+              parent {
+                ... on File {
+                  absolutePath
+                  name
+                  sourceInstanceName
+                }
               }
               code {
                 scope
@@ -40,16 +48,18 @@ exports.createPages = ({ graphql, actions }) => {
       reject(mdxResult.errors)
     }
 
-    // Create blog posts pages.
     mdxResult.data.allMdx.edges.forEach(({ node }) => {
       createPage({
         path: node.fields.slug || '/',
         component: componentWithMDXScope(
           path.resolve('./src/templates/mdx.js'),
-          node.code.scope
+          node.code.scope,
+          __dirname
         ),
         context: {
-          id: node.fields.id
+          id: node.fields.id,
+          absPath: node.parent.absolutePath,
+          tableOfContents: node.tableOfContents
         }
       })
     })
