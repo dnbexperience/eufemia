@@ -17,7 +17,8 @@ import PropTypes from 'prop-types'
 import Sidebar from '../menu/SidebarMenu'
 import StickyMenuBar from '../menu/StickyMenuBar'
 import { markdownStyle } from './Markdown'
-import styled, { cx } from 'react-emotion'
+import styled from 'react-emotion'
+import classnames from 'classnames'
 import { buildVersion } from '../../../package.json'
 import { SidebarMenuProvider } from '../menu/SidebarMenuContext'
 
@@ -94,7 +95,7 @@ const Wrapper = styled.div`
 
 const Content = ({ className, children }) => (
   <Main
-    className={cx(
+    className={classnames(
       'dnb-style',
       'dnb-page-content',
       'dnb-no-focus',

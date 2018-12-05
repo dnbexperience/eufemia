@@ -43,9 +43,7 @@ const Sidebar = styled.aside`
     max-height: calc(100vmin - 4em - 10px);
 
     margin: 0;
-    padding: 0;
-    padding-top: 2em;
-    padding-bottom: 1em;
+    padding: 2rem 0 1rem;
   }
 
   /*
@@ -88,6 +86,8 @@ const StyledListItem = styled.li`
     display: flex;
     flex-direction: column;
     justify-content: center;
+
+    line-height: 1.5rem;
 
     /* external link icon */
     svg {
@@ -132,32 +132,6 @@ const StyledListItem = styled.li`
   &.l-6 a {
     font-size: 0.875em;
   }
-
-  .status-badge {
-    position: absolute;
-    right: 1.5rem;
-
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-
-    padding: 2px 0 0;
-
-    height: 1.25rem;
-    width: 1.25rem;
-    border-radius: 50%;
-
-    background-color: var(--color-sea-green-alt-30);
-    color: var(--color-black);
-
-    font-size: 0.5rem;
-    font-weight: 300;
-    text-align: center;
-    text-transform: uppercase;
-  }
-  ${'' /* &.status-wip .status-badge {
-    color: red;
-  } */}
 
   &.active a {
     color: var(--color-ocean-green);
@@ -222,6 +196,38 @@ const StyledListItem = styled.li`
     animation: hide-mobile-menu 300ms cubic-bezier(0.19, 1, 0.22, 1) 1
       calc(10ms - var(--delay)) forwards;
   }
+
+  .status-badge {
+    position: absolute;
+    z-index: 2;
+    right: 1.5rem;
+
+    display: flex;
+    justify-content: center;
+    align-items: baseline; /* then we can set line-height */
+
+    font-size: 0.4375rem;
+    line-height: 1.3125rem; /* same as height + 1px */
+    font-weight: 100;
+    text-align: center;
+    text-transform: uppercase;
+    color: var(--color-black);
+
+    /* bg */
+    height: 1.25rem;
+    width: 1.25rem;
+    border-radius: 50%;
+
+    background-color: var(--color-sea-green-alt-30);
+    &::after {
+      content: '';
+      position: absolute;
+      z-index: 1;
+    }
+  }
+  ${'' /* &.status-wip .status-badge {
+    color: red;
+  } */}
 `
 
 const showAlwaysMenuItems = [] // like "uilib" som someting like that

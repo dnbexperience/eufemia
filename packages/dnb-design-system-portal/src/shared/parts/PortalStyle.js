@@ -8,45 +8,6 @@ import bluegridSvg from '../../../static/assets/images/grid-32x32-blue.svg'
 import greygridSvg from '../../../static/assets/images/grid-32x32.svg'
 
 export default css`
-  /* TODO: Have to be moved into a seperate Table style sheet */
-  table {
-    display: block;
-    width: 100%;
-
-    overflow: auto;
-    margin-top: 0;
-    margin-bottom: 1rem;
-
-    border-spacing: 0;
-    border-collapse: collapse;
-    border-top: 8px solid var(--border-color);
-  }
-  table th {
-    font-weight: 600;
-    white-space: nowrap;
-  }
-  table th,
-  table td {
-    padding: 0.5rem 0.5rem 0.4375rem 0.5rem;
-
-    font-size: 1em;
-    line-height: 1rem;
-
-    border-bottom: 1px solid var(--border-color);
-    border-left: 1px solid var(--border-color);
-    border-right: 1px solid var(--border-color);
-  }
-  table tr {
-    background-color: #fff;
-    border-top: 0;
-  }
-  table tr:nth-child(2n) {
-    background-color: var(--table-color);
-  }
-  table td {
-    white-space: nowrap;
-  }
-
   table td.selectable {
     position: relative;
     z-index: 1;
@@ -61,6 +22,9 @@ export default css`
     transform: scale(1.1);
     user-select: all;
   }
+  table td em {
+    padding-right: 0.5em;
+  }
 
   hr {
     box-sizing: content-box;
@@ -70,7 +34,7 @@ export default css`
 
     background: transparent;
     border: 0;
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--color-black-border);
   }
 
   hr::before {

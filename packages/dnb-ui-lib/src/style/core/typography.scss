@@ -59,17 +59,17 @@ $fonts-path: '../../assets/fonts/' !default;
 
 // Font #1. Std Medium (our main fallback font with font weight 600 or more)
 // As we save over 70kB by just faking the medium font, we skip this
-// @font-face {
-//   font-family: 'Fedra Sans Std';
-//   src: url('#{$fonts-path}/FedraSansStd-Medium.eot');
-//   src: url('#{$fonts-path}/FedraSansStd-Medium.eot?#iefix')
-//       format('embedded-opentype'),
-//     url('#{$fonts-path}/FedraSansStd-Medium.woff2') format('woff2'),
-//     url('#{$fonts-path}/FedraSansStd-Medium.woff') format('woff'),
-//     url('#{$fonts-path}/FedraSansStd-Medium.ttf') format('truetype');
-//   font-weight: 600;
-//   font-style: normal;
-// }
+@font-face {
+  font-family: 'Fedra Sans Std';
+  src: url('#{$fonts-path}/FedraSansStd-Medium.eot');
+  src: url('#{$fonts-path}/FedraSansStd-Medium.eot?#iefix')
+      format('embedded-opentype'),
+    url('#{$fonts-path}/FedraSansStd-Medium.woff2') format('woff2'),
+    url('#{$fonts-path}/FedraSansStd-Medium.woff') format('woff'),
+    url('#{$fonts-path}/FedraSansStd-Medium.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
 
 // Font #3. Demi
 @font-face {
