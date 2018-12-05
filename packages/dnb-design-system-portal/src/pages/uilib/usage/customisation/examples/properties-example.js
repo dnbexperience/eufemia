@@ -24,6 +24,7 @@ export default class MyClass extends PureComponent {
     this.setState({ time: this.getTime() })
   }
   componentDidMount() {
+    this.setTime()
     this.myInterval = setInterval(() => this.setTime(), 1e3)
   }
   componentWillUnmount() {

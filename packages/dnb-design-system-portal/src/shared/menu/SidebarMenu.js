@@ -9,173 +9,64 @@ import Link from '../parts/Link'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import React, { PureComponent } from 'react'
-import styled, { injectGlobal, cx } from 'react-emotion'
+import styled, { injectGlobal } from 'react-emotion'
 import {
   SidebarMenuConsumer,
   SidebarMenuContext
 } from './SidebarMenuContext'
 
-const showAlwaysMenuItems = [] // like "uilib" som someting like that
+injectGlobal`
+  :root {
+    --aside-width: calc(25vw + 5rem);
+  }
+`
 
-export default class SidebarLayout extends PureComponent {
-  static propTypes = {
-    location: PropTypes.object.isRequired,
-    showAll: PropTypes.bool
-  }
-  static defaultProps = {
-    showAll: false
-  }
-  static contextType = SidebarMenuContext
-  state = {
-    isOpen: false
+const Sidebar = styled.aside`
+  position: fixed;
+
+  /* lower than styled.main */
+  z-index: 1;
+
+  /* height of StickyMenuBar */
+  margin-top: 4rem;
+
+  ul {
+    width: 30vw;
+    width: var(
+      --aside-width
+    ); /* has to be the same value as margin-left */
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    /* height of header and footer */
+    min-height: 20vh;
+    max-height: calc(100vmin - 4em - 10px);
+
+    margin: 0;
+    padding: 0;
+    padding-top: 2em;
+    padding-bottom: 1em;
   }
 
-  constructor(props) {
-    super(props)
-    this.ulRef = React.createRef()
-  }
-
-  componentDidMount() {
-    if (this.ulRef.current && this.offsetTop > 0) {
-      if (typeof window !== 'undefined') {
-        const sidebarPos = window.localStorage.getItem('sidebarPos')
-          ? parseFloat(window.localStorage.getItem('sidebarPos'))
-          : this.offsetTop
-        this.ulRef.current.scrollTop = sidebarPos
-        let delayBuff
-        this.ulRef.current.onscroll = () => {
-          clearTimeout(delayBuff)
-          delayBuff = setTimeout(() => {
-            try {
-              window.localStorage.setItem(
-                'sidebarPos',
-                this.ulRef.current.scrollTop
-              )
-            } catch (e) {
-              // ignore throwing error here
-            }
-          }, 300)
-        }
-      }
+  /*
+    God for a mobile menu insted
+    make sure that Content main "styled.main" gets the same max-width
+  */
+  @media only screen and (max-width: 50em) {
+    &:not(.show-mobile-menu) {
+      display: none;
     }
   }
 
-  render() {
-    const { location, showAll = false } = this.props
-    return (
-      <StaticQuery
-        query={graphql`
-          query {
-            site {
-              pathPrefix
-            }
-            allMdx(
-              # limit: 2
-              # sort: { fields: [frontmatter___order], order: ASC }
-              filter: { frontmatter: { draft: { ne: true } } }
-            ) {
-              edges {
-                node {
-                  fields {
-                    slug
-                    title
-                    order
-                  }
-                }
-              }
-            }
-          }
-        `}
-        render={({ allMdx, site: { pathPrefix } }) => {
-          const pathnameWithoutPrefix = location.pathname
-            .replace(/(\/)$/, '')
-            .replace(pathPrefix, '')
-
-          const nav = prepareNav({
-            location,
-            allMdx,
-            showAll,
-            pathPrefix
-          }).map(({ title, path, level }, nr) => {
-            const active =
-              pathnameWithoutPrefix === path ||
-              pathnameWithoutPrefix === path.replace(/(\/)$/, '')
-            return (
-              <ListItem
-                key={path}
-                nr={nr}
-                to={`/${path}`}
-                active={active}
-                onOffsetTop={offsetTop => (this.offsetTop = offsetTop)}
-                className={cx(`l-${level}`, active && 'active')}
-              >
-                {title}
-              </ListItem>
-            )
-          })
-
-          return (
-            <SidebarMenuConsumer>
-              {({ isOpen, isClosing }) => (
-                <Sidebar
-                  className={classnames(
-                    isOpen && 'show-mobile-menu',
-                    isClosing && 'hide-mobile-menu'
-                  )}
-                >
-                  <ul ref={this.ulRef}>{nav}</ul>
-                </Sidebar>
-              )}
-            </SidebarMenuConsumer>
-          )
-        }}
-      />
-    )
-  }
-}
-
-class ListItem extends PureComponent {
-  static propTypes = {
-    onOffsetTop: PropTypes.func,
-    children: PropTypes.node.isRequired,
-    className: PropTypes.string.isRequired,
-    to: PropTypes.string.isRequired,
-    nr: PropTypes.number,
-    active: PropTypes.bool
-  }
-  static defaultProps = {
-    active: false,
-    nr: null,
-    onOffsetTop: null
-  }
-
-  constructor(props) {
-    super(props)
-    this.ref = React.createRef()
-  }
-  componentDidMount() {
-    if (this.props.active && this.ref.current) {
-      this.props.onOffsetTop(this.ref.current.offsetTop)
+  @media only screen and (max-width: 50em) {
+    position: relative;
+    ul {
+      width: 100vw;
+      max-height: none;
+      overflow-y: visible;
     }
   }
-
-  render() {
-    const { className, to, nr, children } = this.props
-    return (
-      <StyledListItem
-        className={className}
-        innerRef={this.ref}
-        style={{
-          '--delay': `${nr !== null ? nr * 12 : random(1, 160)}ms`
-        }}
-      >
-        <Link to={to} className="no-underline no-underline-hover">
-          {children}
-        </Link>
-      </StyledListItem>
-    )
-  }
-}
+`
 
 const StyledListItem = styled.li`
   list-style: none;
@@ -183,8 +74,6 @@ const StyledListItem = styled.li`
   a {
     position: relative;
     padding: 0.45em 0 0.45em;
-
-    text-decoration: none;
 
     color: var(--color-sea-green);
 
@@ -199,11 +88,6 @@ const StyledListItem = styled.li`
     display: flex;
     flex-direction: column;
     justify-content: center;
-
-    &::before {
-      /* Change Anker Style */
-      bottom: auto;
-    }
 
     /* external link icon */
     svg {
@@ -220,28 +104,59 @@ const StyledListItem = styled.li`
   }
 
   &.l-1 a {
-    font-weight: 700;
     padding-left: calc(var(--level-offset) + var(--level) * 1);
+    font-weight: 700;
+    font-size: 1.125em; /* 18 px */
   }
   &.l-2 a {
-    font-weight: 600;
     padding-left: calc(var(--level-offset) + var(--level) * 2);
+    font-weight: 600;
   }
   &.l-3 a {
-    font-weight: 500;
     padding-left: calc(var(--level-offset) + var(--level) * 3);
+    font-weight: 500;
   }
   &.l-4 a {
-    font-weight: 400;
     padding-left: calc(var(--level-offset) + var(--level) * 4);
+    font-weight: 400;
   }
   &.l-5 a {
-    font-weight: 300;
     padding-left: calc(var(--level-offset) + var(--level) * 5);
+    font-weight: 300;
   }
   &.l-6 a {
     padding-left: calc(var(--level-offset) + var(--level) * 6);
   }
+  &.l-4 a,
+  &.l-5 a,
+  &.l-6 a {
+    font-size: 0.875em;
+  }
+
+  .status-badge {
+    position: absolute;
+    right: 1.5rem;
+
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 2px 0 0;
+
+    height: 1.25rem;
+    width: 1.25rem;
+    border-radius: 50%;
+
+    background-color: var(--color-sea-green-alt-30);
+    color: var(--color-black);
+
+    font-size: 0.5rem;
+    text-align: center;
+    text-transform: uppercase;
+  }
+  ${'' /* &.status-wip .status-badge {
+    color: red;
+  } */}
 
   &.active a {
     color: var(--color-ocean-green);
@@ -308,67 +223,188 @@ const StyledListItem = styled.li`
   }
 `
 
-injectGlobal`
-  :root {
-    --aside-width: calc(25vw + 5rem);
+const showAlwaysMenuItems = [] // like "uilib" som someting like that
+
+export default class SidebarLayout extends PureComponent {
+  static propTypes = {
+    location: PropTypes.object.isRequired,
+    showAll: PropTypes.bool
   }
-`
-
-const Sidebar = styled.aside`
-  position: fixed;
-
-  /* lower than styled.main */
-  z-index: 1;
-
-  /* height of StickyMenuBar */
-  margin-top: 4rem;
-
-  ul {
-    width: 30vw;
-    width: var(
-      --aside-width
-    ); /* has to be the same value as margin-left */
-    overflow-x: hidden;
-    overflow-y: auto;
-
-    /* height of header and footer */
-    min-height: 20vh;
-    max-height: calc(100vmin - 4em - 10px);
-
-    margin: 0;
-    padding: 0;
-    padding-top: 2em;
-    padding-bottom: 1em;
+  static defaultProps = {
+    showAll: false
+  }
+  static contextType = SidebarMenuContext
+  state = {
+    isOpen: false
   }
 
-  /*
-    God for a mobile menu insted
-    make sure that Content main "styled.main" gets the same max-width
-  */
-  @media only screen and (max-width: 50em) {
-    &:not(.show-mobile-menu) {
-      display: none;
+  constructor(props) {
+    super(props)
+    this.ulRef = React.createRef()
+  }
+
+  componentDidMount() {
+    if (this.ulRef.current && this.offsetTop > 0) {
+      if (typeof window !== 'undefined') {
+        const sidebarPos = window.localStorage.getItem('sidebarPos')
+          ? parseFloat(window.localStorage.getItem('sidebarPos'))
+          : this.offsetTop
+        this.ulRef.current.scrollTop = sidebarPos
+        let delayBuff
+        this.ulRef.current.onscroll = () => {
+          clearTimeout(delayBuff)
+          delayBuff = setTimeout(() => {
+            try {
+              window.localStorage.setItem(
+                'sidebarPos',
+                this.ulRef.current.scrollTop
+              )
+            } catch (e) {
+              console.log('SidebarLayout error:', e)
+            }
+          }, 300)
+        }
+      }
     }
   }
 
-  ${'' /* We may make a overlay menu later, and use this approach */}
-  ${'' /* &.show-mobile-menu {
-    position: absolute;
-    z-index: 3;
-    top: 40rem;
-    height: 100vh;
-    background-color: white;
-  } */}
+  render() {
+    const { location, showAll = false } = this.props
+    return (
+      <StaticQuery
+        query={graphql`
+          query {
+            site {
+              pathPrefix
+            }
+            allMdx(
+              # limit: 2
+              # sort: { fields: [frontmatter___order], order: ASC }
+              filter: { frontmatter: { draft: { ne: true } } }
+            ) {
+              edges {
+                node {
+                  fields {
+                    slug
+                    title
+                    status
+                    order
+                  }
+                }
+              }
+            }
+          }
+        `}
+        render={({ allMdx, site: { pathPrefix } }) => {
+          const pathnameWithoutPrefix = location.pathname
+            .replace(/(\/)$/, '')
+            .replace(pathPrefix, '')
 
-  @media only screen and (max-width: 50em) {
-    position: relative;
-    ul {
-      width: 100vw;
-      max-height: none;
-      overflow-y: visible;
+          const nav = prepareNav({
+            location,
+            allMdx,
+            showAll,
+            pathPrefix
+          }).map(({ title, status, path, level }, nr) => {
+            const active =
+              pathnameWithoutPrefix === path ||
+              pathnameWithoutPrefix === path.replace(/(\/)$/, '')
+            return (
+              <ListItem
+                key={path}
+                level={level}
+                nr={nr}
+                status={status}
+                to={`/${path}`}
+                active={active}
+                onOffsetTop={offsetTop => (this.offsetTop = offsetTop)}
+              >
+                {title}
+              </ListItem>
+            )
+          })
+
+          return (
+            <SidebarMenuConsumer>
+              {({ isOpen, isClosing }) => (
+                <Sidebar
+                  className={classnames(
+                    isOpen && 'show-mobile-menu',
+                    isClosing && 'hide-mobile-menu'
+                  )}
+                >
+                  <ul ref={this.ulRef}>{nav}</ul>
+                </Sidebar>
+              )}
+            </SidebarMenuConsumer>
+          )
+        }}
+      />
+    )
+  }
+}
+
+class ListItem extends PureComponent {
+  static propTypes = {
+    onOffsetTop: PropTypes.func,
+    children: PropTypes.node.isRequired,
+    className: PropTypes.string,
+    to: PropTypes.string.isRequired,
+    level: PropTypes.number,
+    nr: PropTypes.number,
+    status: PropTypes.string,
+    active: PropTypes.bool
+  }
+  static defaultProps = {
+    className: null,
+    active: false,
+    level: 0,
+    nr: null,
+    status: null,
+    onOffsetTop: null
+  }
+
+  constructor(props) {
+    super(props)
+    this.ref = React.createRef()
+  }
+  componentDidMount() {
+    if (this.props.active && this.ref.current) {
+      this.props.onOffsetTop(this.ref.current.offsetTop)
     }
   }
-`
+
+  render() {
+    const {
+      className,
+      active,
+      to,
+      level,
+      nr,
+      status,
+      children
+    } = this.props
+    return (
+      <StyledListItem
+        className={classnames(
+          `l-${level}`,
+          active && 'active',
+          status ? `status-${status}` : null,
+          className
+        )}
+        innerRef={this.ref}
+        style={{
+          '--delay': `${nr !== null ? nr * 12 : random(1, 160)}ms`
+        }}
+      >
+        <Link to={to} className="no-underline no-underline-hover">
+          {children}
+          {status && <span className="status-badge">{status}</span>}
+        </Link>
+      </StyledListItem>
+    )
+  }
+}
 
 const prepareNav = ({ location, allMdx, showAll, pathPrefix }) => {
   const pathname = location.pathname.replace(/(\/)$/, '')
@@ -431,7 +467,7 @@ const prepareNav = ({ location, allMdx, showAll, pathPrefix }) => {
     .map(slugPath => {
       const {
         node: {
-          fields: { slug, title, order }
+          fields: { slug, title, order, ...rest }
         }
       } = allMdx.edges.find(
         ({
@@ -444,7 +480,7 @@ const prepareNav = ({ location, allMdx, showAll, pathPrefix }) => {
       const level = slug.split('/').filter(p => p).length
       level > countLevels ? (countLevels = level) : countLevels
 
-      return { title, path: slug, level, order, _order: slug }
+      return { title, path: slug, level, order, _order: slug, ...rest }
     })
 
     // prepare items, make sure we forward order for sub paths, if needed
