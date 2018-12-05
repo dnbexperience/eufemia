@@ -1,8 +1,9 @@
 ---
 header: 'UI Library'
-title: 'Helper Classes [Deprecated]'
+title: 'Helper Classes'
+status: 'wip'
 draft: false
-order: 4
+order: 5
 ---
 
 import HelperClasses from 'Src/uilib/patterns/demos/HelperClasses'
