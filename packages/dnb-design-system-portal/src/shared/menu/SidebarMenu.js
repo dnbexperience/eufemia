@@ -406,7 +406,18 @@ class ListItem extends PureComponent {
       >
         <Link to={to} className="no-underline no-underline-hover">
           {children}
-          {status && <span className="status-badge">{status}</span>}
+          {status && (
+            <span
+              className="status-badge"
+              title={
+                {
+                  wip: 'Working in Progress'
+                }[status]
+              }
+            >
+              {status}
+            </span>
+          )}
         </Link>
       </StyledListItem>
     )
