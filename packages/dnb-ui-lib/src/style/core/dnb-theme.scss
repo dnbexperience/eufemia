@@ -82,10 +82,11 @@
     font-size: 3rem; // 48px
     line-height: 3.5rem; // 56px
     font-weight: 400;
-    small {
-      font-size: 2rem; // 32px
-      line-height: 3rem; // 48px
-    }
+  }
+  h1.small,
+  h1 small {
+    font-size: 2rem; // 32px
+    line-height: 3rem; // 48px
   }
 
   h2 {
@@ -100,16 +101,18 @@
   *
   */
   h3,
-  .dnb-lead {
+  p.dnb-lead {
     font-family: var(--font-family-demi);
     font-size: 1.25rem; // 20px
     line-height: 2rem; // 32px
     font-weight: 400;
-
-    small {
-      font-size: 1em; // 16px
-      line-height: 1.5rem; // 24px
-    }
+  }
+  h3 > small,
+  h3.small,
+  p.dnb-lead > small,
+  p.dnb-lead > .small {
+    font-size: 1em; // 16px
+    line-height: 1.5rem; // 24px
   }
 
   // The rest of the Headings are nod defned by the Eufemia Typography
