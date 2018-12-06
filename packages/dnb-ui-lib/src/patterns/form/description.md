@@ -1,6 +1,8 @@
 import FormSpacing from './assets/form-spacing.svg'
 import LabelStack from './assets/label-stack.svg'
 import FormDivision from './assets/form-division.svg'
+import ProgressSteps from './assets/progress-steps.svg'
+import FormSummary from './assets/form-summary.svg'
 
 import Img from 'Tags/Img'
 
@@ -40,17 +42,24 @@ Example illustrations
 
 ##### Spacing Guidelines
 
-Horizontal and vertical spacing
+#### Horizontal and vertical spacing
 
-Good practices
+<Img src={FormSpacing} caption="Horizontal and vertical spacing" alt="Form spacing" height="296" />
 
-Steps
+### Steps
 
-Focus states/ Tabbing
+Avoid long single-page forms with multiple sections. Break the form up into steps. this reduces the cognative load on the user and allows them to focus on each task.
+Another reason to break up the form is that it can be easier to deal with errors. A long single page form may look daunting to fix if there are multiple errors. Whereas a single section with a few errors may seem less.
 
-Hints
+Use a progress (steps) indicator. Progress indicators help the user create a mental model of the tasks ahead. They also add a sense of progression.
 
-Responsiveness
+<Img src={ProgressSteps} caption="Progress through a form" alt="Form progress" height="216" />
+
+### Focus states/ Tabbing
+
+### Hints
+
+### Responsiveness
 
 #### Errors
 
@@ -66,3 +75,7 @@ Error text should be by default (browser 100%) a minimum size 14px (0.875em).
 The HTML < fieldset > element is used to group several controls as well as labels within a web form.
 
 The fieldset is pattern for grouping parts of HTML forms. It can be replicated using other container types and headers such as divs and h3's (in lieu of a legend) etc.
+
+### Form summary
+
+<Img src={FormSummary} caption="Form summary is...." alt="Form summary" height="224" />
