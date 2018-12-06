@@ -3,6 +3,7 @@ import LabelStack from './assets/label-stack.svg'
 import FormDivision from './assets/form-division.svg'
 import ProgressSteps from './assets/progress-steps.svg'
 import FormSummary from './assets/form-summary.svg'
+import FormError from './assets/form-error.svg'
 
 import Img from 'Tags/Img'
 
@@ -64,11 +65,8 @@ Use a progress (steps) indicator. Progress indicators help the user create a men
 #### Errors
 
 Errors should always be explained in simple language and inline or below the source of the error.
-Error text should be xxx and min size xxx
 
-##### guidelines
-
-Error text should be by default (browser 100%) a minimum size 14px (0.875em).
+<Img src={FormError} caption="Form error" alt="Form error" height="128" />
 
 ### Fieldset
 
@@ -78,4 +76,7 @@ The fieldset is pattern for grouping parts of HTML forms. It can be replicated u
 
 ### Form summary
 
-<Img src={FormSummary} caption="Form summary is...." alt="Form summary" height="224" />
+A form summary is a list of outcomes from a completed form. In the example below, the list appears on the right...
+TO DO: complete
+
+<Img src={FormSummary} caption="Form summary is...." alt="Form summary" height="272" />
