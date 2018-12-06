@@ -4,6 +4,11 @@ title: 'Quickguide Designers'
 draft: false
 ---
 
+import FigmaTeam from 'Pages/quickguide-designer/assets/figma-team.svg'
+import FigmaLibraries from 'Pages/quickguide-designer/assets/figma-libraries.svg'
+
+import Img from 'Tags/Img'
+
 # QuickStart - Designers
 
 **Latest update contains:**
@@ -24,3 +29,15 @@ draft: false
 ### Brand guidelines
 
 What you should read from brand guidelines before starting to design for DNB
+
+### Getting started
+
+1. Open Figma
+2. Make sure you are a member of the DNB UX team
+
+<Img src={FigmaTeam} caption="Join the DNB UX team" alt="Join the DNB UX team" height="224" />
+
+3. Create a new file
+4. Add Eufemia library to your file
+
+<Img src={FigmaLibraries} caption="Add the Eufemia library" alt="Add Eufemia team" height="320" />
