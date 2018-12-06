@@ -111,7 +111,7 @@ const commitToBranch = async ({
 
       await repo.add(filesToCommit) // use "'./*'" for adding all files
       await repo.commit(
-        `feat: some ${what} related files where updated/added [ci skip] | ${files.join(
+        `feat: some ${what} related files where updated/added | ${files.join(
           ', '
         )}`
       )
