@@ -3,21 +3,17 @@
 * ======================================================================== */
 
 @mixin bodyDefault() {
-  font-family: $font-family-std;
-  font-size: $font-size-regular;
-  font-weight: 300;
+  font-family: var(--font-family-std, sans-serif);
+  font-size: 1rem;
+  font-weight: normal;
   font-style: normal;
-  line-height: 1.5em;
+  line-height: 1rem;
+  color: var(--color-black-80, #333);
 
   @content;
 }
 
 @mixin componentReset() {
-  * {
-    margin: 0;
-    padding: 0;
-  }
-
   *,
   ::before,
   ::after {

@@ -15,7 +15,7 @@ import './App.css';
 // import 'dnb-ui-lib/components' // in case we only use web component version
 
 import dnb, { Button, Input, Icon } from 'dnb-ui-lib/components'; // optional, import "dnb-ui-lib/components/web-components" to enable Web Components
-import { bell } from 'dnb-ui-lib/components/icon/lib';
+import { bell } from 'dnb-ui-lib/icons';
 import 'dnb-ui-lib/style'; // Import the global DNB stylesheet
 
 // to enable Web Components, cause we use both react and Web Components in here
@@ -85,7 +85,7 @@ export default class App extends PureComponent {
               icon="chevron-right"
               on_click={this.handleClick}
             />
-            <dnb-icon icon="bell" size="80" />
+            <dnb-icon-primary icon="bell" size="80" />
           </Fragment>
         )}
       </div>

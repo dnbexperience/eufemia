@@ -32,7 +32,7 @@ exports[`Modal component have to match snapshot 1`] = `
         href={null}
         icon="modal_trigger_icon"
         icon_position="right"
-        icon_size={16}
+        icon_size={null}
         id={null}
         innerRef={null}
         on_click={[Function]}
@@ -61,7 +61,7 @@ exports[`Modal component have to match snapshot 1`] = `
             href={null}
             icon="modal_trigger_icon"
             icon_position="right"
-            icon_size={16}
+            icon_size={null}
             id={null}
             innerRef={null}
             on_click={[Function]}
@@ -77,7 +77,7 @@ exports[`Modal component have to match snapshot 1`] = `
             >
               modal_trigger_text
             </span>
-            <IconWithAllIcons
+            <IconPrimary
               alt="modal_trigger_title"
               area_hidden={true}
               attributes={null}
@@ -88,7 +88,7 @@ exports[`Modal component have to match snapshot 1`] = `
               icon="modal_trigger_icon"
               key="button-icon"
               modifier={null}
-              size={16}
+              size={null}
               width={null}
             />
           </Content>
@@ -159,7 +159,7 @@ exports[`Modal component have to match snapshot 1`] = `
                 href={null}
                 icon="close"
                 icon_position="right"
-                icon_size={16}
+                icon_size={null}
                 id={null}
                 innerRef={null}
                 on_click={[Function]}
@@ -188,7 +188,7 @@ exports[`Modal component have to match snapshot 1`] = `
                     href={null}
                     icon="close"
                     icon_position="right"
-                    icon_size={16}
+                    icon_size={null}
                     id={null}
                     innerRef={null}
                     on_click={[Function]}
@@ -198,7 +198,7 @@ exports[`Modal component have to match snapshot 1`] = `
                     type="button"
                     variant="secondary"
                   >
-                    <IconWithAllIcons
+                    <IconPrimary
                       alt="close_title"
                       area_hidden={true}
                       attributes={null}
@@ -209,23 +209,18 @@ exports[`Modal component have to match snapshot 1`] = `
                       icon="close"
                       key="button-icon"
                       modifier={null}
-                      size={16}
+                      size={null}
                       width={null}
                     >
                       <span
                         aria-hidden={true}
                         aria-label="close title"
-                        className="dnb-icon dnb-icon--default dnb-button__icon"
+                        className="dnb-icon has-custom-size dnb-button__icon"
                         role="img"
                       >
-                        <close
-                          height={null}
-                          width={null}
-                        >
+                        <close>
                           <svg
-                            height={null}
                             viewBox="0 0 16 16"
-                            width={null}
                           >
                             <path
                               clipRule="evenodd"
@@ -235,7 +230,7 @@ exports[`Modal component have to match snapshot 1`] = `
                           </svg>
                         </close>
                       </span>
-                    </IconWithAllIcons>
+                    </IconPrimary>
                   </Content>
                 </button>
               </Button>
@@ -258,23 +253,76 @@ exports[`Modal scss have to match snapshot 1`] = `
 *
 * ======================================================================== */
 /*
-* Colors
-* ======================================================================== */
-/*
- * Typography Family
- * ======================================================================== */
-/*
-* Typography Size
-* ======================================================================== */
-/*
-* Grid and units
-* ======================================================================== */
-/*
-* Breakpoints
-* ======================================================================== */
-/*
  * Utilities
  * ========================================================================== */
+/*
+ * Typography
+ * ========================================================================== */
+:root {
+  --font-family-std: 'Fedra Sans Std', sans-serif;
+  --font-family-demi: 'Fedra Sans Std Demi', sans-serif; }
+
+.typo-std,
+.typo-book {
+  font-family: var(--font-family-std);
+  font-weight: normal;
+  font-style: normal; }
+
+.typo-medium {
+  font-family: var(--font-family-std);
+  font-weight: 600;
+  font-style: normal; }
+
+.typo-demi {
+  font-family: var(--font-family-demi);
+  font-weight: normal;
+  font-style: normal; }
+
+.typo-number--old-style {
+  font-variant-numeric: oldstyle-nums;
+  -moz-font-feature-settings: \\"onum\\";
+  -webkit-font-feature-settings: \\"onum\\";
+  font-feature-settings: \\"onum\\"; }
+
+.typo-number--lining {
+  font-variant-numeric: lining-nums;
+  -moz-font-feature-settings: \\"lnum\\";
+  -webkit-font-feature-settings: \\"lnum\\";
+  font-feature-settings: \\"lnum\\"; }
+
+.typo-number--tabular {
+  font-variant-numeric: tabular-nums;
+  -moz-font-feature-settings: \\"tnum\\";
+  -webkit-font-feature-settings: \\"tnum\\";
+  font-feature-settings: \\"tnum\\"; }
+
+.typo-number--proportional {
+  font-variant-numeric: proportional-nums;
+  -moz-font-feature-settings: \\"pnum\\";
+  -webkit-font-feature-settings: \\"pnum\\";
+  font-feature-settings: \\"pnum\\"; }
+
+@font-face {
+  font-family: 'Fedra Sans Std';
+  src: url(\\"../../../../assets/fonts//FedraSansStd-Book.eot\\");
+  src: url(\\"../../../../assets/fonts//FedraSansStd-Book.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts//FedraSansStd-Book.woff2\\") format(\\"woff2\\"), url(\\"../../../../assets/fonts//FedraSansStd-Book.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts//FedraSansStd-Book.ttf\\") format(\\"truetype\\");
+  font-weight: normal;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'Fedra Sans Std';
+  src: url(\\"../../../../assets/fonts//FedraSansStd-Medium.eot\\");
+  src: url(\\"../../../../assets/fonts//FedraSansStd-Medium.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts//FedraSansStd-Medium.woff2\\") format(\\"woff2\\"), url(\\"../../../../assets/fonts//FedraSansStd-Medium.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts//FedraSansStd-Medium.ttf\\") format(\\"truetype\\");
+  font-weight: 600;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'Fedra Sans Std Demi';
+  src: url(\\"../../../../assets/fonts//FedraSansStd-Demi.eot\\");
+  src: url(\\"../../../../assets/fonts//FedraSansStd-Demi.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts//FedraSansStd-Demi.woff2\\") format(\\"woff2\\"), url(\\"../../../../assets/fonts//FedraSansStd-Demi.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts//FedraSansStd-Demi.ttf\\") format(\\"truetype\\");
+  font-weight: normal;
+  font-style: normal; }
+
 /*
 * Scopes
 * ======================================================================== */
@@ -282,74 +330,6 @@ exports[`Modal scss have to match snapshot 1`] = `
 * DNB Button
 *
 * ======================================================================== */
-/*
-* DNB font-import from components
-* This file is totaly the same as \\"core/_font-import.scss\\"
-* but has a difference back path
-*
-* ======================================================================== */
-@font-face {
-  font-family: 'Fedra Sans Std Book';
-  src: url(\\"../../../../assets/fonts/FedraSansStd-Book.eot\\");
-  src: url(\\"../../../../assets/fonts/FedraSansStd-Book.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts/FedraSansStd-Book.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts/FedraSansStd-Book.ttf\\") format(\\"truetype\\");
-  font-weight: normal;
-  font-style: normal; }
-
-@font-face {
-  font-family: 'Fedra Sans Std Book';
-  src: url(\\"../../../../assets/fonts/FedraSansStd-BookItalic.eot\\");
-  src: url(\\"../../../../assets/fonts/FedraSansStd-BookItalic.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts/FedraSansStd-BookItalic.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts/FedraSansStd-BookItalic.ttf\\") format(\\"truetype\\");
-  font-weight: normal;
-  font-style: italic; }
-
-@font-face {
-  font-family: 'Fedra Sans Std';
-  src: url(\\"../../../../assets/fonts/FedraSansStd-Light.eot\\");
-  src: url(\\"../../../../assets/fonts/FedraSansStd-Light.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts/FedraSansStd-Light.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts/FedraSansStd-Light.ttf\\") format(\\"truetype\\");
-  font-weight: 300;
-  font-style: normal; }
-
-@font-face {
-  font-family: 'Fedra Sans Std';
-  src: url(\\"../../../../assets/fonts/FedraSansStd-LightItalic.eot\\");
-  src: url(\\"../../../../assets/fonts/FedraSansStd-LightItalic.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts/FedraSansStd-LightItalic.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts/FedraSansStd-LightItalic.ttf\\") format(\\"truetype\\");
-  font-weight: 300;
-  font-style: italic; }
-
-@font-face {
-  font-family: 'Fedra Sans Std';
-  src: url(\\"../../../../assets/fonts/FedraSansStd-Medium.eot\\");
-  src: url(\\"../../../../assets/fonts/FedraSansStd-Medium.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts/FedraSansStd-Medium.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts/FedraSansStd-Medium.ttf\\") format(\\"truetype\\");
-  font-weight: 500;
-  font-style: normal; }
-
-@font-face {
-  font-family: 'Fedra Sans Std';
-  src: url(\\"../../../../assets/fonts/FedraSansStd-MediumItalic.eot\\");
-  src: url(\\"../../../../assets/fonts/FedraSansStd-MediumItalic.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts/FedraSansStd-MediumItalic.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts/FedraSansStd-MediumItalic.ttf\\") format(\\"truetype\\");
-  font-weight: 500;
-  font-style: italic; }
-
-@font-face {
-  font-family: 'Fedra Sans Std';
-  src: url(\\"../../../../assets/fonts/FedraSansStd-Bold.eot\\");
-  src: url(\\"../../../../assets/fonts/FedraSansStd-Bold.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts/FedraSansStd-Bold.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts/FedraSansStd-Bold.ttf\\") format(\\"truetype\\");
-  font-weight: bold;
-  font-style: normal; }
-
-@font-face {
-  font-family: 'Fedra Sans Std';
-  src: url(\\"../../../../assets/fonts/FedraSansStd-BoldItalic.eot\\");
-  src: url(\\"../../../../assets/fonts/FedraSansStd-BoldItalic.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts/FedraSansStd-BoldItalic.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts/FedraSansStd-BoldItalic.ttf\\") format(\\"truetype\\");
-  font-weight: bold;
-  font-style: italic; }
-
-@font-face {
-  font-family: 'Fedra Sans Std Demi';
-  src: url(\\"../../../../assets/fonts/FedraSansStd-Demi.otf\\") format(\\"opentype\\"), url(\\"../../../../assets/fonts/FedraSansStd-Demi.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts/FedraSansStd-Demi.ttf\\") format(\\"truetype\\");
-  font-weight: normal;
-  font-style: normal; }
-
 /*
 * DNB icon
 *
@@ -383,14 +363,12 @@ exports[`Modal scss have to match snapshot 1`] = `
     height: 2em; }
 
 .dnb-button {
-  font-family: \\"Fedra Sans Std\\", sans-serif;
+  font-family: var(--font-family-std, sans-serif);
   font-size: 1rem;
-  font-weight: 300;
+  font-weight: normal;
   font-style: normal;
-  line-height: 1.5em; }
-  .dnb-button * {
-    margin: 0;
-    padding: 0; }
+  line-height: 1rem;
+  color: var(--color-black-80, #333); }
   .dnb-button *,
   .dnb-button ::before,
   .dnb-button ::after {
@@ -406,8 +384,8 @@ exports[`Modal scss have to match snapshot 1`] = `
 *
 * ======================================================================== */
 :root {
-  --button-font-family: var(--font-family-book);
-  --button-font-size: var(--font-size-regular);
+  --button-font-family: var(--font-family-std);
+  --button-font-size: 1rem;
   --button-font-weight: normal;
   --button-font-style: normal;
   --button-width: 2.5rem;
@@ -517,9 +495,9 @@ exports[`Modal scss have to match snapshot 1`] = `
       border-color: transparent; }
       html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):focus:not(.dnb-no-mouse-focus), html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):active:not(.dnb-no-mouse-focus) {
         transition: box-shadow 0.1s ease-out 0s;
-        box-shadow: 0 0 0 2px #14555a; }
+        box-shadow: 0 0 0 2px var(--color-emerald-green); }
       html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
-        box-shadow: 0 0 0 2px #ff5400; }
+        box-shadow: 0 0 0 2px var(--color-signal-orange); }
     html[data-whatinput='mouse']
 .dnb-button--reset:not([disabled]):focus:not(.dnb-no-mouse-focus),
     html[data-whatinput='mouse']
@@ -535,14 +513,12 @@ exports[`Modal scss have to match snapshot 1`] = `
     border: none; }
 
 .dnb-modal {
-  font-family: \\"Fedra Sans Std\\", sans-serif;
+  font-family: var(--font-family-std, sans-serif);
   font-size: 1rem;
-  font-weight: 300;
+  font-weight: normal;
   font-style: normal;
-  line-height: 1.5em; }
-  .dnb-modal * {
-    margin: 0;
-    padding: 0; }
+  line-height: 1rem;
+  color: var(--color-black-80, #333); }
   .dnb-modal *,
   .dnb-modal ::before,
   .dnb-modal ::after {
@@ -599,12 +575,12 @@ body[data-modal-active='true'] {
     background: transparent; }
     .dnb-modal__trigger--text:not([class*='tertiary']):hover {
       text-decoration: underline; }
-  .dnb-modal__close-button {
+  .dnb-modal__close-button, .dnb-modal__close-button.dnb-button--tertiary {
     position: absolute;
     top: 1rem;
     right: 1rem;
     cursor: pointer;
-    color: #007272; }
+    color: var(--color-sea-green); }
   .dnb-modal__overlay {
     position: fixed;
     z-index: 3000;

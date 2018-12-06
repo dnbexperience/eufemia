@@ -356,7 +356,6 @@ export const CloseButton = ({
     variant="secondary"
     className={classnames('dnb-modal__close-button', className)}
     icon="close"
-    // icon_size="36"
     title={close_title}
     on_click={on_click}
   />

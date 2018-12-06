@@ -4,8 +4,8 @@
 * ======================================================================== */
 
 :root {
-  --button-font-family: var(--font-family-book);
-  --button-font-size: var(--font-size-regular);
+  --button-font-family: var(--font-family-std);
+  --button-font-size: 1rem;
   --button-font-weight: normal;
   --button-font-style: normal;
   --button-width: 2.5rem;
@@ -94,7 +94,7 @@
     padding-right: 1em;
   }
 
-  // size defualt
+  // size default
   &--has-text {
     padding-left: 1.5em;
     padding-right: 1.5em;

@@ -13,7 +13,7 @@
   border: none;
   background: white;
   border-radius: 0;
-  color: $color-sea-green;
+  color: var(--color-sea-green);
 
   &:focus {
     @include fakeFocus();
@@ -30,7 +30,7 @@
   }
 
   &__text {
-    font-size: $font-size-small;
+    font-size: 0.75rem;
     display: none;
 
     @include allAbove(medium) {
@@ -39,7 +39,7 @@
   }
 
   &__icon {
-    color: $color-sea-green;
+    color: var(--color-sea-green);
     margin: 0;
     @include allAbove(medium) {
       margin: 0 0.5rem 0 0;

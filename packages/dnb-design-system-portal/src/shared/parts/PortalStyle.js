@@ -8,44 +8,6 @@ import bluegridSvg from '../../../static/assets/images/grid-32x32-blue.svg'
 import greygridSvg from '../../../static/assets/images/grid-32x32.svg'
 
 export default css`
-  table {
-    border-spacing: 0;
-    border-collapse: collapse;
-    border-top: 8px solid #c6cbd1;
-  }
-
-  table {
-    display: block;
-    width: 100%;
-    overflow: auto;
-  }
-
-  table {
-    margin-top: 0;
-    margin-bottom: 1rem;
-  }
-
-  table th {
-    font-weight: 600;
-    white-space: nowrap;
-  }
-
-  table th,
-  table td {
-    padding: 0.5rem 0.5rem 0.4375rem 0.5rem;
-    border-bottom: 1px solid #dfe2e5;
-    border-left: 1px solid #dfe2e5;
-    border-right: 1px solid #dfe2e5;
-  }
-
-  table tr {
-    background-color: #fff;
-    border-top: 0px;
-  }
-
-  table td {
-    white-space: nowrap;
-  }
   table td.selectable {
     position: relative;
     z-index: 1;
@@ -60,27 +22,19 @@ export default css`
     transform: scale(1.1);
     user-select: all;
   }
-
-  table tr:nth-child(2n) {
-    background-color: #f6f8fa;
-  }
-
-  td,
-  th {
-    padding: 0;
-    font-size: 1em;
-    line-height: 1rem;
+  table td em {
+    padding-right: 0.5em;
   }
 
   hr {
     box-sizing: content-box;
-    overflow: visible;
     height: 0;
     margin: 1rem 0;
     overflow: hidden;
+
     background: transparent;
     border: 0;
-    border-bottom: 1px solid #dfe2e5;
+    border-bottom: 1px solid var(--color-black-border);
   }
 
   hr::before {
@@ -92,130 +46,6 @@ export default css`
     display: table;
     clear: both;
     content: '';
-  }
-
-  *:not([class^='dnb-']) + {
-    blockquote {
-      margin: 0;
-    }
-
-    ul,
-    ol {
-      padding-left: 0;
-      margin-top: 0;
-      margin-bottom: 0;
-    }
-
-    ul li,
-    ol li {
-      margin-top: 1rem;
-      margin-bottom: 1rem;
-    }
-
-    ol ol,
-    ul ol {
-      list-style-type: lower-roman;
-    }
-
-    ul ul ol,
-    ul ol ol,
-    ol ul ol,
-    ol ol ol {
-      list-style-type: lower-alpha;
-    }
-
-    dd {
-      margin-left: 0;
-    }
-
-    > *:first-child {
-      margin-top: 0 !important;
-    }
-
-    > *:last-child {
-      margin-bottom: 0 !important;
-    }
-
-    p,
-    blockquote,
-    ul,
-    ol,
-    dl,
-    pre {
-      margin-top: 0;
-      margin-bottom: 1rem;
-    }
-
-    blockquote {
-      padding: 0 1rem;
-      color: #6a737d;
-      border-left: 0.25em solid #dfe2e5;
-    }
-
-    blockquote > :first-child {
-      margin-top: 0;
-    }
-
-    blockquote > :last-child {
-      margin-bottom: 0;
-    }
-
-    ul,
-    ol {
-      padding-left: 2rem;
-    }
-
-    ul ul,
-    ul ol,
-    ol ol,
-    ol ul {
-      margin-top: 0;
-      margin-bottom: 0;
-    }
-
-    li {
-      word-wrap: break-all;
-    }
-
-    li > p {
-      margin-top: 1rem;
-    }
-
-    li + li {
-      margin-top: 0.25em;
-    }
-
-    dl {
-      padding: 0;
-    }
-
-    dl dt {
-      padding: 0;
-      margin-top: 1rem;
-      font-size: 1rem;
-      font-style: italic;
-      font-weight: 600;
-    }
-
-    dl dd {
-      padding: 0 1rem;
-      margin-bottom: 1rem;
-    }
-
-    img {
-      box-sizing: content-box;
-      max-width: 100%;
-      border-style: none;
-      background-color: #fff;
-    }
-
-    img[align='right'] {
-      padding-left: 1.2rem;
-    }
-
-    img[align='left'] {
-      padding-right: 1.2rem;
-    }
   }
 
   .anchor {
@@ -296,10 +126,18 @@ export default css`
     vertical-align: middle;
   }
 
+  .demo-box {
+    margin: 1rem 0;
+    padding: 1.5rem 0.5rem;
+    background-color: #f9ffff;
+    border-left: solid 1px #a4ffff;
+  }
+
   .image-box {
-    text-align: center;
-    padding: 2rem 2rem 0.9375rem 2rem;
     margin: 0 0 4rem 0;
+    padding: 2rem 2rem 0.9375rem 2rem;
+
+    text-align: center;
 
     border-bottom: solid 1px #e7e8e7;
     border-right: solid 1px #e7e8e7;
@@ -310,10 +148,12 @@ export default css`
     ${'' /* background-image: url('/assets/images/grid-32x32.svg'); */}
 
     figcaption {
+      padding-top: 0.9375rem;
+
       font-size: 1em;
       line-height: 1.5rem;
       font-style: italic;
-      padding-top: 0.9375rem;
+
       border-top: solid 1px #c4c4c4;
     }
 
@@ -323,9 +163,10 @@ export default css`
   }
 
   .typography-box {
-    padding: 2rem 2rem 1.9375rem 2rem;
-    background-color: #f9ffff;
     margin-bottom: 4rem;
+    padding: 2rem 2rem 1.9375rem 2rem;
+
+    background-color: #f9ffff;
     border-bottom: solid 1px #a4ffff;
     border-right: solid 1px #a4ffff;
 
@@ -338,22 +179,25 @@ export default css`
     }
 
     ul {
+      margin: 0;
+      margin-bottom: calc(1rem - 2px);
+      padding: 0;
+
       font-size: 1em;
       line-height: 1rem;
-      margin: 0;
-      padding: 0;
       list-style: none;
+
       border-top: 1px solid rgba(219, 0, 255, 0.25);
       border-bottom: 1px solid rgba(219, 0, 255, 0.25);
-      margin-bottom: calc(1rem - 2px);
     }
 
     li {
+      margin: 0;
+      padding: 0;
+
       font-size: 1em;
       font-family: monospace;
       line-height: 1rem;
-      margin: 0;
-      padding: 0;
     }
   }
 

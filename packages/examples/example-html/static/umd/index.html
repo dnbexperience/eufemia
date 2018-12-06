@@ -12,71 +12,28 @@
 
   <dnb-button text="Declarative" icon="chevron-right" on_click="myClass.on_click"></dnb-button>
   <dnb-button text="Imperative" icon="chevron-right" class="button"></dnb-button>
-  <dnb-icon icon="bell" size="80"></dnb-icon>
-  <dnb-form-label for_id="switch-1">Radio Switch</dnb-form-label>
-  <dnb-switch id="switch-1" title="radio switch title"></dnb-switch>
-  <dnb-input placeholder="Imperative Input placeholder"></dnb-input>
-  <dnb-input placeholder="declarative Input placeholder" on_change="myClass.value_change"></dnb-input>
+
+  <dnb-icon-primary icon="bell" size="80"></dnb-icon-primary>
+
+  <dnb-form-label for_id="switch-1">Switch</dnb-form-label>
+  <dnb-switch id="switch-1" title="Switch title"></dnb-switch>
+
+  <br />
+
+  <dnb-form-label for_id="input-1">Input Imperative</dnb-form-label>
+  <dnb-input id="input-1" placeholder="Imperative Input placeholder"></dnb-input>
+  <dnb-form-label for_id="input-2">Input Declarative</dnb-form-label>
+  <dnb-input id="input-2" placeholder="Declarative Input placeholder" on_change="myClass.value_change"></dnb-input>
+
+  <br />
+
   <dnb-dropdown class="dropdown" data='[{"selected_value": "Visible value", "content": "Brukskonto - Kari Nordmann"},{"selected_value": "Second value", "content": "Konto - Ola Nordmann"}]'></dnb-dropdown>
 
   <script crossorigin src="https://unpkg.com/react@latest/umd/react.production.min.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@latest/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/dnb-ui-lib@latest/umd/dnb-ui-lib-icons.min.js"></script>
   <script src="https://unpkg.com/dnb-ui-lib@latest/umd/dnb-ui-lib.min.js"></script>
-  <script type="application/javascript">
-
-    // 1. The declarative way to set and handle events (only the way we SET the event is declarative)
-    //
-
-
-    function MyClass() { }
-    MyClass.prototype.on_click = function (e) {
-      console.log('on_click', e);
-    };
-    MyClass.prototype.radio_change = function (e) {
-      console.log('radio_change', e);
-    };
-    MyClass.prototype.dropdown_change = function (e) {
-      console.log('dropdown_change', e);
-    };
-    MyClass.prototype.value_change = function (e) {
-      console.log('value_change', e.value);
-
-    };
-    window.myClass = new MyClass(); // same as var myClass = new MyClass()
-
-
-    // 2. The imperative way of to set and handle events
-    //
-
-    // New Web Components Event API
-    var inptuEl = document.querySelector('dnb-input:not([on_change])');
-    inptuEl.addEvent('on_change', function (e) {
-      console.log('value_change', e.value);
-    });
-    inptuEl.addEvent('on_submit', function (e) {
-      console.log('value_submit', e.value);
-    });
-
-    // New Web Components Event API
-    document.querySelector('dnb-switch').addEvent('on_change', function (e) {
-      console.log('radio_change', e.checked);
-    });
-    document.querySelector('.dropdown').addEvent('on_change', function (e) {
-      console.log('radio_change', e.data);
-    });
-    document.querySelector('.dropdown').addEvent('on_select', function (e) {
-      console.log('radio_select', e.data);
-    });
-    document.querySelector('.button').addEvent('on_click', function (e) {
-      console.log('on_click', e);
-    });
-
-    // setTimeout(function () {
-    //   document.querySelector('.button').removeEvent(eventId);
-    // }, 3e3)
-
-  </script>
+  <script src="../events.js"></script>
 </body>
 
 </html>

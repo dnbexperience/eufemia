@@ -1,6 +1,7 @@
 ---
 header: 'UI Library'
 title: 'Best Practice'
+status: 'wip'
 draft: false
 ---
 
@@ -8,7 +9,8 @@ draft: false
 
 ### TODO
 
-- [ ] Find out more
+- [ ] Font
+  - [ ] Disable Local fonts
 - [ ] Info about testing
   - [ ] Static testing
   - [ ] Axe testing

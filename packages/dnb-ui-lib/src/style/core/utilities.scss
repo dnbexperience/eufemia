@@ -60,7 +60,7 @@
 
 @mixin fakeFocus(
   $onInput: 'mouse',
-  $color: $color-emerald-green,
+  $color: var(--color-emerald-green),
   $shadow: null
 ) {
   outline: none;
@@ -74,7 +74,7 @@
   }
 
   html[data-whatinput='keyboard'] & {
-    @include fakeBorder($color-signal-orange);
+    @include fakeBorder(var(--color-signal-orange));
   }
 }
 
@@ -83,7 +83,7 @@
 }
 
 @mixin fakeBorder(
-  $color: $color-sea-green,
+  $color: var(--color-sea-green),
   $shadow: null,
   $important: null
 ) {
@@ -114,27 +114,27 @@
   // bg
   &::before {
     @include _drawUnderline() {
-      left: 0.2em;
-      right: 0.2em;
+      left: 0.1em;
+      right: 0.1em;
       bottom: 0;
 
       max-height: 0%;
       transition: max-height 0.1s ease-out;
 
       // to make the transition show reverse, we have to define the color here
-      background-color: var(--color-mint-green);
+      background-color: var(--color-mint-green-50);
 
       @content;
     }
   }
 }
 
-@mixin drawUnderlineLine() {
-  // underline
+@mixin drawUnderlineBorder() {
+  // border
   &::after {
     @include _drawUnderline() {
-      left: 0.35em;
-      right: 0.35em;
+      left: 0.25em;
+      right: 0.25em;
       bottom: 0;
       height: 1px;
     }
@@ -142,13 +142,20 @@
     // transition: left 0.1s linear 0.1s, right 0.1s linear 0.1s;
 
     border-radius: 0.5px;
-    border-bottom: 1px solid var(--color-emerald-green);
+    border-bottom: 1px solid var(--color-sea-green);
 
     @content;
   }
 }
 
-// TODO: considder to take this out
+// TODO: considder to take all below out
+
+$breakpoints: (
+  'small': 320px,
+  'medium': 700px,
+  'large': 1024px,
+  'xLarge': 1400px
+);
 
 //Example usage:
 //@include allAbove(phone){ styles go here.. }
@@ -200,4 +207,19 @@
 // conditions.
 @mixin notSrOnly() {
   position: static;
+}
+
+@function str-replace($string, $search, $replace: '') {
+  $index: str-index($string, $search);
+
+  @if $index {
+    @return str-slice($string, 1, $index - 1) + $replace +
+      str-replace(
+        str-slice($string, $index + str-length($search)),
+        $search,
+        $replace
+      );
+  }
+
+  @return $string;
 }

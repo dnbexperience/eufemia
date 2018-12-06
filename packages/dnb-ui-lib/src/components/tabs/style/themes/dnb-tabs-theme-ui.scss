@@ -17,7 +17,7 @@
     .dnb-tablink {
       // should be same as .lead small
       &-title {
-        font-family: $font-family-book;
+        font-family: var(--font-family-std); // book
         font-size: 1em;
         line-height: 1.5em;
         text-align: center;
@@ -50,7 +50,7 @@
       &:not([disabled]):active,
       &:not([disabled]).selected {
         .dnb-tablink-title {
-          font-family: $font-family-demi;
+          font-family: var(--font-family-demi);
         }
       }
 

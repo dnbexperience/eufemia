@@ -2,9 +2,10 @@
 header: 'UI Library'
 title: 'Web Components'
 draft: false
+order: 7
 ---
 
-import dnb from 'dnb-ui-lib/web-components'
+import dnb from 'dnb-ui-lib/src/web-components'
 
 # Web Components
 
@@ -26,16 +27,30 @@ import 'dnb-ui-lib/web-components'
 import 'dnb-ui-lib/components/button/web-component'
 ```
 
-```html
-<!-- Button -->
-<dnb-button icon="chevron-right" text="Custom Element" />
+Now we can use our Web Components right away in our markup.
 
-<!-- Input -->
-<dnb-form-label for_id="form-input" >Label for this Input</dnb-form-label>
-<dnb-input id="form-input" value="My Value" placeholder="My Placeholder" />
+### Button
+
+<!-- prettier-ignore-start -->
+
+```html
+<dnb-button icon="chevron-right" text="Custom Element" />
 ```
 
-<dnb-button icon="chevron-right" text="Custom Element" />
+<div class="demo-box">
+  <dnb-button icon="chevron-right" text="Custom Element" />
+</div>
 
-<dnb-form-label for_id="form-input" >Label for this Input</dnb-form-label>
-<dnb-input id="form-input" value="My Value" placeholder="My Placeholder" />
+### Input
+
+```html
+<dnb-form-label for_id="form-input">Label for this Input</dnb-form-label>
+<dnb-input id="form-input" placeholder="My Placeholder">My Value</dnb-input>
+```
+
+<div class="demo-box">
+  <dnb-form-label for_id="form-input" >Label for this Input</dnb-form-label>
+  <dnb-input id="form-input" placeholder="My Placeholder">My Value</dnb-input>
+</div>
+
+<!-- prettier-ignore-end -->

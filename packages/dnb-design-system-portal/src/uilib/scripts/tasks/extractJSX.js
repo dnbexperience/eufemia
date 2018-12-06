@@ -23,13 +23,15 @@ const extractJSX = (type = 'components', files) =>
     // also, extract jsx content from example files
     files
       .filter(({ source }) => !/not_in_use|__tests__/g.test(source))
+      // prepare the JSX
       .map(({ source, file }) => {
         let content
+        const exampleFile = path.resolve(`${source}/Example.js`)
+        if (!fs.existsSync(exampleFile)) {
+          return { file, jsxCode: null } // return empty JSX example
+        }
         try {
-          content = fs.readFileSync(
-            require.resolve(`${source}/Example.js`),
-            'utf-8'
-          )
+          content = fs.readFileSync(exampleFile, 'utf-8')
         } catch (e) {
           console.log(`There was an error on creating ${content}!`, e)
           erros.push(e)
@@ -43,14 +45,16 @@ const extractJSX = (type = 'components', files) =>
           erros.push(e)
         }
 
+        return { file, jsxCode }
+      })
+      // save the example code
+      .forEach(({ file, jsxCode }) => {
         const filePath = `${root}/${file.replace(/\.js/, '')}.txt`
         try {
           fs.writeFile(filePath, jsxCode || '')
         } catch (e) {
           console.log(`There was an error on creating ${filePath}!`, e)
         }
-
-        return jsxCode
       })
 
     if (erros.length > 0) {

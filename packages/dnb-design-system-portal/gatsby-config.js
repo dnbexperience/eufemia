@@ -29,8 +29,11 @@ module.exports = {
           {
             resolve: 'gatsby-remark-images',
             options: {
-              maxWidth: 1035,
+              maxWidth: 1024,
+              showCaptions: true,
               sizeByPixelDensity: true
+              // linkImagesToOriginal: true
+              // wrapperStyle: {}
             }
           }
         ]
@@ -44,6 +47,7 @@ module.exports = {
       }
     },
     'gatsby-plugin-sass',
+    'gatsby-plugin-emotion',
     {
       resolve: 'gatsby-plugin-postcss',
       options: {
@@ -56,7 +60,6 @@ module.exports = {
           })
         ]
       }
-    },
-    'gatsby-plugin-emotion'
+    }
   ]
 }

@@ -139,7 +139,7 @@ export default class Icon extends PureComponent {
     if (parseFloat(height) > -1) svgParams['height'] = height
     if (color) svgParams['color'] = color
 
-    // if the sizes are identical and they are defualt sizes
+    // if the sizes are identical and they are default sizes
     // decorate the css class with that info
     if (
       !modifier &&

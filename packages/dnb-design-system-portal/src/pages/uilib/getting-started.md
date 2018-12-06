@@ -6,36 +6,26 @@ order: 2
 ---
 
 import WelcomeAdvice from 'Pages/welcome-advice.md'
-import { Logo } from 'dnb-ui-lib/src'
-import CodeBlock from 'Tags/CodeBlock'
 
 # Getting Started
 
-<!-- import Notification from "Parts/Notification"; -->
-<!-- import WelcomeInfo from "Parts/WelcomeInfo"; -->
+There are several ways to get started. First we have to address out Your goal. So, do You want to:
 
-<!-- <WelcomeInfo /> -->
-<WelcomeAdvice />
-
-So, that said. There are several ways to get started. First we have to address out Your goal.
+- simply use the HTML Elements right away?
+- customize the core DNB brand style and behavior?
+- create a new global theme?
+- make changes to the overall `ui-lib`?
+- change texts and content of the Eufemia Design System Portal (website)?
 
 Find the right section to read on.
-
-**I simply want to use the Components**
-
--
-
-uilib/development
-
-<!-- prettier-ignore-start -->
-
-<Logo size="200" />
-
-<CodeBlock language="jsx">{`<Logo size="200" />`}</CodeBlock>
 
 ## Is there more?
 
 Check out all the articles in [the usage section](/uilib/usage/)
+
+<WelcomeAdvice />
+
+<!-- prettier-ignore-start -->
 
 <!-- export default ({ children }) => (
   <div>
@@ -43,6 +33,8 @@ Check out all the articles in [the usage section](/uilib/usage/)
     <div>{children}</div>
   </div>
 ) -->
+
+<!-- prettier-ignore-end -->
 
 <!-- ```json
 [

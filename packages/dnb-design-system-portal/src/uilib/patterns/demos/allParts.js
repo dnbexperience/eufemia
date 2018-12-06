@@ -4,6 +4,7 @@
      */
 
 import ActionNav from './ActionNav'
+import Article from './Article'
 import DescriptionList from './DescriptionList'
 import FieldsetDescription from './FieldsetDescription'
 import Footer from './Footer'
@@ -20,6 +21,7 @@ import ViewTitle from './ViewTitle'
 
 export default [
   ActionNav,
+  Article,
   DescriptionList,
   FieldsetDescription,
   Footer,

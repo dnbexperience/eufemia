@@ -85,7 +85,6 @@ export default async function runFactory({
 
   const listComponents = processToNamesList.map(({ source, file }) => {
     const fileName = file.replace(/(\.js|\.md)$/, '')
-    // const name = camelCase(fileName, { pascalCase: true })
     const content = template
       .trim()
       .replace(
@@ -104,7 +103,6 @@ export default async function runFactory({
       source,
       file,
       fileName,
-      // name,
       content
     }
   })

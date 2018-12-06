@@ -1,3 +1,7 @@
+#### Root Element
+
+To make sure the HTML structure is decoupled from all the page content, You can define a kind of wrapper div like `<div class="dnb-modal-root" />`. Just place this as a sibling of Your App root HTML element.
+
 | Properties           | Description                                                                                                                                                |
 | -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `type`               | _(mandatory)_ the modal triggering element. Choose between `button` or `text`                                                                              |

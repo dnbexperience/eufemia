@@ -123,111 +123,79 @@ exports[`Input scss have to match snapshot 1`] = `
 *
 * ======================================================================== */
 /*
-* Colors
-* ======================================================================== */
-/*
- * Typography Family
- * ======================================================================== */
-/*
-* Typography Size
-* ======================================================================== */
-/*
-* Grid and units
-* ======================================================================== */
-/*
-* Breakpoints
-* ======================================================================== */
-/*
  * Utilities
  * ========================================================================== */
 /*
-* Scopes
-* ======================================================================== */
-/*
-* DNB font-import from components
-* This file is totaly the same as \\"core/_font-import.scss\\"
-* but has a difference back path
-*
-* ======================================================================== */
+ * Typography
+ * ========================================================================== */
+:root {
+  --font-family-std: 'Fedra Sans Std', sans-serif;
+  --font-family-demi: 'Fedra Sans Std Demi', sans-serif; }
+
+.typo-std,
+.typo-book {
+  font-family: var(--font-family-std);
+  font-weight: normal;
+  font-style: normal; }
+
+.typo-medium {
+  font-family: var(--font-family-std);
+  font-weight: 600;
+  font-style: normal; }
+
+.typo-demi {
+  font-family: var(--font-family-demi);
+  font-weight: normal;
+  font-style: normal; }
+
+.typo-number--old-style {
+  font-variant-numeric: oldstyle-nums;
+  -moz-font-feature-settings: \\"onum\\";
+  -webkit-font-feature-settings: \\"onum\\";
+  font-feature-settings: \\"onum\\"; }
+
+.typo-number--lining {
+  font-variant-numeric: lining-nums;
+  -moz-font-feature-settings: \\"lnum\\";
+  -webkit-font-feature-settings: \\"lnum\\";
+  font-feature-settings: \\"lnum\\"; }
+
+.typo-number--tabular {
+  font-variant-numeric: tabular-nums;
+  -moz-font-feature-settings: \\"tnum\\";
+  -webkit-font-feature-settings: \\"tnum\\";
+  font-feature-settings: \\"tnum\\"; }
+
+.typo-number--proportional {
+  font-variant-numeric: proportional-nums;
+  -moz-font-feature-settings: \\"pnum\\";
+  -webkit-font-feature-settings: \\"pnum\\";
+  font-feature-settings: \\"pnum\\"; }
+
 @font-face {
-  font-family: 'Fedra Sans Std Book';
-  src: url(\\"../../../../assets/fonts/FedraSansStd-Book.eot\\");
-  src: url(\\"../../../../assets/fonts/FedraSansStd-Book.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts/FedraSansStd-Book.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts/FedraSansStd-Book.ttf\\") format(\\"truetype\\");
+  font-family: 'Fedra Sans Std';
+  src: url(\\"../../../../assets/fonts//FedraSansStd-Book.eot\\");
+  src: url(\\"../../../../assets/fonts//FedraSansStd-Book.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts//FedraSansStd-Book.woff2\\") format(\\"woff2\\"), url(\\"../../../../assets/fonts//FedraSansStd-Book.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts//FedraSansStd-Book.ttf\\") format(\\"truetype\\");
   font-weight: normal;
   font-style: normal; }
 
 @font-face {
-  font-family: 'Fedra Sans Std Book';
-  src: url(\\"../../../../assets/fonts/FedraSansStd-BookItalic.eot\\");
-  src: url(\\"../../../../assets/fonts/FedraSansStd-BookItalic.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts/FedraSansStd-BookItalic.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts/FedraSansStd-BookItalic.ttf\\") format(\\"truetype\\");
-  font-weight: normal;
-  font-style: italic; }
-
-@font-face {
   font-family: 'Fedra Sans Std';
-  src: url(\\"../../../../assets/fonts/FedraSansStd-Light.eot\\");
-  src: url(\\"../../../../assets/fonts/FedraSansStd-Light.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts/FedraSansStd-Light.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts/FedraSansStd-Light.ttf\\") format(\\"truetype\\");
-  font-weight: 300;
+  src: url(\\"../../../../assets/fonts//FedraSansStd-Medium.eot\\");
+  src: url(\\"../../../../assets/fonts//FedraSansStd-Medium.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts//FedraSansStd-Medium.woff2\\") format(\\"woff2\\"), url(\\"../../../../assets/fonts//FedraSansStd-Medium.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts//FedraSansStd-Medium.ttf\\") format(\\"truetype\\");
+  font-weight: 600;
   font-style: normal; }
-
-@font-face {
-  font-family: 'Fedra Sans Std';
-  src: url(\\"../../../../assets/fonts/FedraSansStd-LightItalic.eot\\");
-  src: url(\\"../../../../assets/fonts/FedraSansStd-LightItalic.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts/FedraSansStd-LightItalic.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts/FedraSansStd-LightItalic.ttf\\") format(\\"truetype\\");
-  font-weight: 300;
-  font-style: italic; }
-
-@font-face {
-  font-family: 'Fedra Sans Std';
-  src: url(\\"../../../../assets/fonts/FedraSansStd-Medium.eot\\");
-  src: url(\\"../../../../assets/fonts/FedraSansStd-Medium.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts/FedraSansStd-Medium.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts/FedraSansStd-Medium.ttf\\") format(\\"truetype\\");
-  font-weight: 500;
-  font-style: normal; }
-
-@font-face {
-  font-family: 'Fedra Sans Std';
-  src: url(\\"../../../../assets/fonts/FedraSansStd-MediumItalic.eot\\");
-  src: url(\\"../../../../assets/fonts/FedraSansStd-MediumItalic.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts/FedraSansStd-MediumItalic.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts/FedraSansStd-MediumItalic.ttf\\") format(\\"truetype\\");
-  font-weight: 500;
-  font-style: italic; }
-
-@font-face {
-  font-family: 'Fedra Sans Std';
-  src: url(\\"../../../../assets/fonts/FedraSansStd-Bold.eot\\");
-  src: url(\\"../../../../assets/fonts/FedraSansStd-Bold.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts/FedraSansStd-Bold.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts/FedraSansStd-Bold.ttf\\") format(\\"truetype\\");
-  font-weight: bold;
-  font-style: normal; }
-
-@font-face {
-  font-family: 'Fedra Sans Std';
-  src: url(\\"../../../../assets/fonts/FedraSansStd-BoldItalic.eot\\");
-  src: url(\\"../../../../assets/fonts/FedraSansStd-BoldItalic.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts/FedraSansStd-BoldItalic.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts/FedraSansStd-BoldItalic.ttf\\") format(\\"truetype\\");
-  font-weight: bold;
-  font-style: italic; }
 
 @font-face {
   font-family: 'Fedra Sans Std Demi';
-  src: url(\\"../../../../assets/fonts/FedraSansStd-Demi.otf\\") format(\\"opentype\\"), url(\\"../../../../assets/fonts/FedraSansStd-Demi.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts/FedraSansStd-Demi.ttf\\") format(\\"truetype\\");
+  src: url(\\"../../../../assets/fonts//FedraSansStd-Demi.eot\\");
+  src: url(\\"../../../../assets/fonts//FedraSansStd-Demi.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts//FedraSansStd-Demi.woff2\\") format(\\"woff2\\"), url(\\"../../../../assets/fonts//FedraSansStd-Demi.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts//FedraSansStd-Demi.ttf\\") format(\\"truetype\\");
   font-weight: normal;
   font-style: normal; }
 
 /*
-* Forms and inputs
+* Scopes
 * ======================================================================== */
-legend {
-  padding: 0;
-  display: table;
-  width: 100%; }
-
-fieldset {
-  border: 0;
-  padding: 0.01em 0 0 0;
-  margin: 0;
-  min-width: 0; }
-
-body:not(:-moz-handler-blocked) fieldset {
-  display: table-cell; }
-
 /*
 * DNB Button
 *
@@ -265,14 +233,12 @@ body:not(:-moz-handler-blocked) fieldset {
     height: 2em; }
 
 .dnb-button {
-  font-family: \\"Fedra Sans Std\\", sans-serif;
+  font-family: var(--font-family-std, sans-serif);
   font-size: 1rem;
-  font-weight: 300;
+  font-weight: normal;
   font-style: normal;
-  line-height: 1.5em; }
-  .dnb-button * {
-    margin: 0;
-    padding: 0; }
+  line-height: 1rem;
+  color: var(--color-black-80, #333); }
   .dnb-button *,
   .dnb-button ::before,
   .dnb-button ::after {
@@ -288,8 +254,8 @@ body:not(:-moz-handler-blocked) fieldset {
 *
 * ======================================================================== */
 :root {
-  --button-font-family: var(--font-family-book);
-  --button-font-size: var(--font-size-regular);
+  --button-font-family: var(--font-family-std);
+  --button-font-size: 1rem;
   --button-font-weight: normal;
   --button-font-style: normal;
   --button-width: 2.5rem;
@@ -399,9 +365,9 @@ body:not(:-moz-handler-blocked) fieldset {
       border-color: transparent; }
       html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):focus:not(.dnb-no-mouse-focus), html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):active:not(.dnb-no-mouse-focus) {
         transition: box-shadow 0.1s ease-out 0s;
-        box-shadow: 0 0 0 2px #14555a; }
+        box-shadow: 0 0 0 2px var(--color-emerald-green); }
       html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
-        box-shadow: 0 0 0 2px #ff5400; }
+        box-shadow: 0 0 0 2px var(--color-signal-orange); }
     html[data-whatinput='mouse']
 .dnb-button--reset:not([disabled]):focus:not(.dnb-no-mouse-focus),
     html[data-whatinput='mouse']
@@ -417,14 +383,12 @@ body:not(:-moz-handler-blocked) fieldset {
     border: none; }
 
 .dnb-input {
-  font-family: \\"Fedra Sans Std\\", sans-serif;
+  font-family: var(--font-family-std, sans-serif);
   font-size: 1rem;
-  font-weight: 300;
+  font-weight: normal;
   font-style: normal;
-  line-height: 1.5em; }
-  .dnb-input * {
-    margin: 0;
-    padding: 0; }
+  line-height: 1rem;
+  color: var(--color-black-80, #333); }
   .dnb-input *,
   .dnb-input ::before,
   .dnb-input ::after {
@@ -438,6 +402,9 @@ body:not(:-moz-handler-blocked) fieldset {
 /*
 * Input component
 *
+* ======================================================================== */
+/*
+* Forms and inputs
 * ======================================================================== */
 .dnb-input {
   display: flex;
@@ -496,7 +463,7 @@ body:not(:-moz-handler-blocked) fieldset {
     overflow: hidden;
     white-space: nowrap;
     opacity: 1;
-    color: rgba(51, 51, 51, 0.8);
+    color: rgba(var(--color-black-80), 0.8);
     line-height: 2.2rem;
     text-overflow: ellipsis;
     border-radius: 0;
@@ -542,14 +509,14 @@ body:not(:-moz-handler-blocked) fieldset {
   .dnb-input__shell[data-input-state='focus'] {
     border-color: #a0d6c9;
     background-color: white;
-    box-shadow: 0 0 0 2px #007272;
+    box-shadow: 0 0 0 2px var(--color-sea-green);
     outline: none;
     border-color: transparent; }
     html[data-whatinput='mouse'] .dnb-input__shell[data-input-state='focus']:not(.dnb-no-mouse-focus) {
       transition: box-shadow 0.1s ease-out 0s;
-      box-shadow: 0 0 0 2px #14555a; }
+      box-shadow: 0 0 0 2px var(--color-emerald-green); }
     html[data-whatinput='keyboard'] .dnb-input__shell[data-input-state='focus'] {
-      box-shadow: 0 0 0 2px #ff5400; }
+      box-shadow: 0 0 0 2px var(--color-signal-orange); }
   .dnb-input__shell[data-has-content='true'] .dnb-input__placeholder,
   .dnb-input__shell[data-input-state='focus'][data-has-content='true'] .dnb-input__placeholder {
     display: none; }
@@ -563,10 +530,10 @@ body:not(:-moz-handler-blocked) fieldset {
 * Range input
 * ======================================================================== */
 .dnb-range-slider__css-vars__bg-color-1 {
-  background-color: rgba(0, 114, 114, 0.5); }
+  background-color: rgba(var(--color-sea-green), 0.5); }
 
 .dnb-range-slider__css-vars__bg-color-2 {
-  background-color: #28b482; }
+  background-color: var(--color-summer-green); }
 
 input[type='range'] {
   -webkit-appearance: none;

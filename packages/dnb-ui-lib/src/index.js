@@ -18,7 +18,7 @@ import Button from './components/button/Button'
 import Dropdown from './components/dropdown/Dropdown'
 import FormLabel from './components/form-label/FormLabel'
 import Icon from './components/icon/Icon'
-import IconWithAllIcons from './components/icon-with-all-icons/IconWithAllIcons'
+import IconPrimary from './components/icon-primary/IconPrimary'
 import Input from './components/input/Input'
 import InputMasked from './components/input-masked/InputMasked'
 import LineTitle from './components/line-title/LineTitle'
@@ -29,6 +29,7 @@ import Slider from './components/slider/Slider'
 import Switch from './components/switch/Switch'
 import Tabs from './components/tabs/Tabs'
 import ActionNav from './patterns/action-nav/ActionNav'
+import Article from './patterns/article/Article'
 import DescriptionList from './patterns/description-list/DescriptionList'
 import FieldsetDescription from './patterns/fieldset-description/FieldsetDescription'
 import Footer from './patterns/footer/Footer'
@@ -49,7 +50,7 @@ export {
   Dropdown,
   FormLabel,
   Icon,
-  IconWithAllIcons,
+  IconPrimary,
   Input,
   InputMasked,
   LineTitle,
@@ -60,6 +61,7 @@ export {
   Switch,
   Tabs,
   ActionNav,
+  Article,
   DescriptionList,
   FieldsetDescription,
   Footer,

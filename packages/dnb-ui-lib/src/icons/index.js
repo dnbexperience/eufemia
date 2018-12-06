@@ -15,6 +15,7 @@ import chevron_left_medium from './chevron_left_medium.js'
 import chevron_right from './chevron_right.js'
 import chevron_right_medium from './chevron_right_medium.js'
 import chevron_up from './chevron_up.js'
+import chevron_up_medium from './chevron_up_medium.js'
 import close from './close.js'
 import close_medium from './close_medium.js'
 import exclamation from './exclamation.js'
@@ -50,6 +51,7 @@ export {
   chevron_right,
   chevron_right_medium,
   chevron_up,
+  chevron_up_medium,
   close,
   close_medium,
   exclamation,

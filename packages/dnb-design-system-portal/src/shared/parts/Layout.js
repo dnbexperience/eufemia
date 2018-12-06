@@ -5,7 +5,8 @@
 
 // UI Style
 import 'dnb-ui-lib/src/style/patterns' // import ony patterns
-import 'dnb-ui-lib/src/style' // import both all components and the defualt theme
+import 'dnb-ui-lib/src/style' // import both all components and the default theme
+// import 'dnb-ui-lib/src/patterns/article/style'
 // import 'dnb-ui-lib/src/style/themes/dnb-theme-open-banking.scss'
 
 import { pageFocus } from 'dnb-ui-lib/src/shared/tools'
@@ -16,7 +17,8 @@ import PropTypes from 'prop-types'
 import Sidebar from '../menu/SidebarMenu'
 import StickyMenuBar from '../menu/StickyMenuBar'
 import { markdownStyle } from './Markdown'
-import styled, { cx } from 'react-emotion'
+import styled from 'react-emotion'
+import classnames from 'classnames'
 import { buildVersion } from '../../../package.json'
 import { SidebarMenuProvider } from '../menu/SidebarMenuContext'
 
@@ -93,12 +95,12 @@ const Wrapper = styled.div`
 
 const Content = ({ className, children }) => (
   <Main
-    className={cx(
-      className,
+    className={classnames(
       'dnb-style',
-      markdownStyle,
       'dnb-page-content',
-      'dnb-no-focus'
+      'dnb-no-focus',
+      className,
+      markdownStyle
     )}
   >
     {children}
@@ -129,7 +131,7 @@ const Main = styled.main`
   ); /* height of StickyMenuBar - 1px border */
   margin-left: 30vw; /* 30vw, width of Sidebar aside */
   margin-left: var(--aside-width);
-  padding: 4rem 0 2rem 0;
+  padding: 1rem 0 2rem 0;
 
   background-color: #fff;
   border-top: 1px solid var(--color-outline-grey);
@@ -173,7 +175,7 @@ const FooterWrapper = styled.footer`
 
   .is-fullscreen & {
     padding: 1rem;
-    background: var(--color-light-grey);
+    background: var(--color-sea-green-4);
   }
 
   a {

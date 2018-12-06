@@ -1,0 +1,12 @@
+/*
+* DNB Article
+*
+* ======================================================================== */
+
+@import '../../../style/component/core-imports.scss';
+
+.dnb-article {
+  @include componentReset();
+}
+
+@import './_article.scss';

@@ -2,19 +2,26 @@
  * Typography
  * ========================================================================== */
 
+:root {
+  // typography family
+  --font-family-std: 'Fedra Sans Std', sans-serif;
+  --font-family-demi: 'Fedra Sans Std Demi', sans-serif;
+}
+
 // Font usage
-.typo-std {
-  font-family: $font-family-std;
+.typo-std,
+.typo-book {
+  font-family: var(--font-family-std);
   font-weight: normal;
   font-style: normal;
 }
-.typo-book {
-  font-family: $font-family-book;
-  font-weight: normal;
+.typo-medium {
+  font-family: var(--font-family-std);
+  font-weight: 600;
   font-style: normal;
 }
 .typo-demi {
-  font-family: $font-family-demi;
+  font-family: var(--font-family-demi);
   font-weight: normal;
   font-style: normal;
 }
@@ -33,4 +40,46 @@
   &--proportional {
     @include numberFeature(proportional-nums, pnum);
   }
+}
+
+$fonts-path: '../../assets/fonts/' !default;
+
+// Font #1. Std Book (our main fallback font)
+@font-face {
+  font-family: 'Fedra Sans Std';
+  src: url('#{$fonts-path}/FedraSansStd-Book.eot');
+  src: url('#{$fonts-path}/FedraSansStd-Book.eot?#iefix')
+      format('embedded-opentype'),
+    url('#{$fonts-path}/FedraSansStd-Book.woff2') format('woff2'),
+    url('#{$fonts-path}/FedraSansStd-Book.woff') format('woff'),
+    url('#{$fonts-path}/FedraSansStd-Book.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+// Font #1. Std Medium (our main fallback font with font weight 600 or more)
+// As we save over 70kB by just faking the medium font, we skip this
+@font-face {
+  font-family: 'Fedra Sans Std';
+  src: url('#{$fonts-path}/FedraSansStd-Medium.eot');
+  src: url('#{$fonts-path}/FedraSansStd-Medium.eot?#iefix')
+      format('embedded-opentype'),
+    url('#{$fonts-path}/FedraSansStd-Medium.woff2') format('woff2'),
+    url('#{$fonts-path}/FedraSansStd-Medium.woff') format('woff'),
+    url('#{$fonts-path}/FedraSansStd-Medium.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+
+// Font #3. Demi
+@font-face {
+  font-family: 'Fedra Sans Std Demi';
+  src: url('#{$fonts-path}/FedraSansStd-Demi.eot');
+  src: url('#{$fonts-path}/FedraSansStd-Demi.eot?#iefix')
+      format('embedded-opentype'),
+    url('#{$fonts-path}/FedraSansStd-Demi.woff2') format('woff2'),
+    url('#{$fonts-path}/FedraSansStd-Demi.woff') format('woff'),
+    url('#{$fonts-path}/FedraSansStd-Demi.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }

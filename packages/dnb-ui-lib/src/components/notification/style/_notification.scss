@@ -41,7 +41,7 @@
   }
 
   svg {
-    fill: $color-sea-green;
+    fill: var(--color-sea-green);
   }
 
   &__amount {
@@ -56,10 +56,10 @@
     height: 1rem;
 
     background: transparent;
-    border: 1px solid $color-sea-green;
+    border: 1px solid var(--color-sea-green);
     border-radius: 50%;
 
-    color: $color-sea-green;
+    color: var(--color-sea-green);
     text-align: center;
   }
 

@@ -85,7 +85,7 @@ class Example extends PureComponent {
         <Button
           variant="signal"
           text="Disabled Signal Button"
-          icon={<Bell width="24" />}
+          icon={<Bell width="16" />}
           disabled
         />
       </Fragment>

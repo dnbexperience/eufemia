@@ -38,7 +38,7 @@ export class SidebarMenuProvider extends PureComponent {
           isClosing: false
         })
       },
-      this.state.isOpen ? 240 : 0
+      this.state.isOpen ? 260 : 0
     )
     if (this.state.isOpen)
       this.setState({
