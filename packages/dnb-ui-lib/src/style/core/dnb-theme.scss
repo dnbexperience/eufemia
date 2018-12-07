@@ -331,4 +331,8 @@
       word-wrap: normal;
     }
   }
+
+  ::selection {
+    background: var(--color-mint-green);
+  }
 }
