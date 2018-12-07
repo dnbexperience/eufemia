@@ -118,7 +118,7 @@ exports[`Logo scss have to match snapshot 1`] = `
   font-size: 1rem;
   font-weight: normal;
   font-style: normal;
-  line-height: 1rem;
+  line-height: 1.5rem;
   color: var(--color-black-80, #333); }
   .dnb-logo *,
   .dnb-logo ::before,
