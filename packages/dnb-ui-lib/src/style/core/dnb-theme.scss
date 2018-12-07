@@ -53,6 +53,12 @@
   // --color-shadow-grey: #757575;
 }
 
+body {
+  ::selection {
+    background: var(--color-mint-green);
+  }
+}
+
 // hey have to be used by a parent css class: .dnb-style
 .dnb-style {
   small {
@@ -330,9 +336,5 @@
     * pre {
       word-wrap: normal;
     }
-  }
-
-  ::selection {
-    background: var(--color-mint-green);
   }
 }
