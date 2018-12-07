@@ -6,7 +6,7 @@
 module.exports = {
   pathPrefix: '/eufemia',
   siteMetadata: {
-    title: 'DNB Eufemia Design System',
+    title: 'DNB Design System - Eufemia',
     description:
       'The DNB Style Guide is the go to place for all who has to design, develop or create visuals with the DNB design.',
     // homepage: 'https://www.dnb.no',
@@ -15,9 +15,29 @@ module.exports = {
   },
   plugins: [
     'gatsby-plugin-sharp',
-    'gatsby-plugin-offline',
+    // 'gatsby-plugin-offline',
+    'gatsby-plugin-remove-serviceworker',
     'gatsby-plugin-catch-links',
     'gatsby-plugin-react-helmet',
+    {
+      resolve: 'gatsby-plugin-manifest',
+      options: {
+        name: 'DNB Design System - Eufemi',
+        short_name: 'Eufemia',
+        start_url: '/',
+        background_color: '#fff',
+        theme_color: '#007272',
+        display: 'minimal-ui',
+        icon: '/assets/images/dnb-logo.png' // This path is relative to the root of the site.
+        // icons: [
+        //   {
+        //     src: '/assets/....png',
+        //     sizes: '192x192',
+        //     type: 'image/png',
+        //   },
+        // ],
+      }
+    },
     {
       resolve: 'gatsby-mdx',
       options: {

@@ -8379,6 +8379,15 @@ gatsby-plugin-emotion@^2.0.7:
   dependencies:
     "@babel/runtime" "^7.0.0"
 
+gatsby-plugin-manifest@^2.0.11:
+  version "2.0.11"
+  resolved "https://registry.yarnpkg.com/gatsby-plugin-manifest/-/gatsby-plugin-manifest-2.0.11.tgz#5a92e1b57556e4996982253e760d8c43d53428d2"
+  integrity sha512-51pzxhAj9LF+qDWpotO5adqWmMPZMtPZTv1n0ygs7i9bgJrpoi/hkNQ+a2roHZSG8EqPB4NJeDyCxnj3jC4EaQ==
+  dependencies:
+    "@babel/runtime" "^7.0.0"
+    bluebird "^3.5.0"
+    sharp "^0.21.0"
+
 gatsby-plugin-offline@^2.0.18:
   version "2.0.18"
   resolved "https://registry.yarnpkg.com/gatsby-plugin-offline/-/gatsby-plugin-offline-2.0.18.tgz#2849d57d9061ed6405c37b9156783fafb5d0105b"
@@ -8419,6 +8428,11 @@ gatsby-plugin-react-helmet@^3.0.4:
   integrity sha512-v/7PGY3AKNebvnz0CPVqVbpZhyREqQWGmz75Y0Ru+SbgaeZ8jA1s8wa/hPpYa+ZutvWPeZVE5IlkgrK9vqoNwg==
   dependencies:
     "@babel/runtime" "^7.0.0"
+
+gatsby-plugin-remove-serviceworker@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/gatsby-plugin-remove-serviceworker/-/gatsby-plugin-remove-serviceworker-1.0.0.tgz#9fb433bc8bd766e14e1d3711c4ac6f051e1dff7c"
+  integrity sha1-n7QzvIvXZuFOHTcRxKxvBR4d/3w=
 
 gatsby-plugin-sass@^2.0.5:
   version "2.0.5"
