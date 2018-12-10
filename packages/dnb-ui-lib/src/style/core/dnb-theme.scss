@@ -53,10 +53,10 @@
   // --color-shadow-grey: #757575;
 }
 
-body {
-  ::selection {
-    background: var(--color-mint-green);
-  }
+::selection {
+  background: var(--color-mint-green);
+  color: var(--color-black);
+  text-shadow: none;
 }
 
 // hey have to be used by a parent css class: .dnb-style
