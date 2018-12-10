@@ -53,12 +53,6 @@
   // --color-shadow-grey: #757575;
 }
 
-body {
-  ::selection {
-    background: var(--color-mint-green);
-  }
-}
-
 // hey have to be used by a parent css class: .dnb-style
 .dnb-style {
   small {
@@ -72,7 +66,7 @@ body {
   h4,
   h5,
   h6 {
-    margin: 1em 0;
+    margin: 1rem 0;
     padding: 0;
 
     font-family: var(--font-family-demi);
@@ -88,15 +82,16 @@ body {
     font-size: 3rem; // 48px
     line-height: 3.5rem; // 56px
     font-weight: 400;
-  }
-  h1.small,
-  h1 small {
-    font-size: 2rem; // 32px
-    line-height: 3rem; // 48px
+
+    small {
+      font-size: 2rem; // 32px
+      line-height: 3rem; // 48px
+      display: block;
+    }
   }
 
   h2 {
-    margin: 1.5em 0 1em;
+    margin: 1.5rem 0 1rem;
 
     font-size: 1.5rem; // 24px
     line-height: 2rem; // 32px
@@ -107,23 +102,21 @@ body {
   *
   */
   h3,
-  p.dnb-lead {
+  .dnb-lead {
     font-family: var(--font-family-demi);
     font-size: 1.25rem; // 20px
     line-height: 2rem; // 32px
     font-weight: 400;
-  }
-  h3 > small,
-  h3.small,
-  p.dnb-lead > small,
-  p.dnb-lead > .small {
-    font-size: 1em; // 16px
-    line-height: 1.5rem; // 24px
+
+    small {
+      font-size: 1em; // 16px
+      line-height: 1.5rem; // 24px
+    }
   }
 
   // The rest of the Headings are nod defned by the Eufemia Typography
   h4 {
-    font-size: 1.25rem; // 20px
+    font-size: 1.25em; // 20px
     line-height: 1.5rem; // 24px
   }
   h5 {
@@ -223,7 +216,6 @@ body {
       padding-left: 2rem;
       margin-top: 0;
       margin-bottom: 0;
-      line-height: 1.5rem;
     }
 
     li {
