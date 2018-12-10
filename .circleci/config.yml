@@ -101,17 +101,18 @@ workflows:
               ignore:
                 - master
                 - develop
-                - /.*rc-.*|^rc\//
-                - /.*wip-.*|^wip\//
                 - gh-pages
+                - /^(rc-|rc\/).*/
+                - /^(release-|release\/).*/
       - deploy-preview:
           filters:
             branches:
               only:
                 - develop
+                - /^(rc-|rc\/).*/
       - release:
           filters:
             branches:
               only:
                 - master
-                - /.*rc-.*|^rc\//
+                - /^(release-|release\/).*/
