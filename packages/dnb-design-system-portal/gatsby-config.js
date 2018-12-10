@@ -22,13 +22,13 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-manifest',
       options: {
-        name: 'DNB Design System - Eufemi',
+        name: 'DNB Design System - Eufemia',
         short_name: 'Eufemia',
         start_url: '/',
         background_color: '#fff',
         theme_color: '#007272',
         display: 'minimal-ui',
-        icon: '/assets/images/dnb-logo.png' // This path is relative to the root of the site.
+        icon: '../dnb-ui-lib/assets/images/dnb-logo.png' // This path is relative to the root of the site.
         // icons: [
         //   {
         //     src: '/assets/....png',
