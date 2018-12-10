@@ -15,8 +15,8 @@ module.exports = {
   },
   plugins: [
     'gatsby-plugin-sharp',
-    'gatsby-plugin-offline',
-    // 'gatsby-plugin-remove-serviceworker',// we may have useage for this later
+    // 'gatsby-plugin-offline', // we may test the usage without the offline capabilities
+    'gatsby-plugin-remove-serviceworker', // we may have useage for this later
     'gatsby-plugin-catch-links',
     'gatsby-plugin-react-helmet',
     {
