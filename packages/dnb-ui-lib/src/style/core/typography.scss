@@ -55,6 +55,7 @@ $fonts-path: '../../assets/fonts/' !default;
     url('#{$fonts-path}/FedraSansStd-Book.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
 
 // Font #1. Std Medium (our main fallback font with font weight 600 or more)
@@ -69,6 +70,7 @@ $fonts-path: '../../assets/fonts/' !default;
     url('#{$fonts-path}/FedraSansStd-Medium.ttf') format('truetype');
   font-weight: 600;
   font-style: normal;
+  font-display: swap;
 }
 
 // Font #3. Demi
@@ -82,4 +84,5 @@ $fonts-path: '../../assets/fonts/' !default;
     url('#{$fonts-path}/FedraSansStd-Demi.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
