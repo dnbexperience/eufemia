@@ -37,7 +37,6 @@ export const registerElement = (
   registeredElements.push(tagName)
 
   if (typeof document === 'undefined' || typeof window === 'undefined') {
-    console.log('No dom document found to run registerElement on.')
     return null
   }
 
