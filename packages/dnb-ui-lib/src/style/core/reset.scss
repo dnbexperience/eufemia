@@ -159,14 +159,6 @@ samp {
   font-size: 1em; /* 2 */
 }
 
-/**
- * Add the correct font size in all browsers.
- */
-
-small {
-  //font-size: 80%;
-}
-
 /*
  * Remove the text shadow on text selections in Firefox 61- (opinionated).
  * 1. Restore the coloring undone by defining the text shadow
@@ -174,12 +166,6 @@ small {
  */
 
 ::-moz-selection {
-  background-color: #b3d4fc; /* 1 */
-  color: #000; /* 1 */
-  text-shadow: none;
-}
-
-::selection {
   background-color: #b3d4fc; /* 1 */
   color: #000; /* 1 */
   text-shadow: none;
