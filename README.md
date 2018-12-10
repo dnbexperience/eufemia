@@ -16,7 +16,7 @@ Install [Node](https://nodejs.org) and [Yarn](https://yarnpkg.com).
 1.  Clone this repo to your local machine `git clone [repo]`
 1.  cd into the main directory and run `yarn install`
 
-### Use `develop`
+### Use `develop` and the _GitHub Flow_
 
 1.  Make sure You run `git checkout develop` - as **develop** is the working branch
 1.  Make your own branch in case You are making a pull request into **develop**
