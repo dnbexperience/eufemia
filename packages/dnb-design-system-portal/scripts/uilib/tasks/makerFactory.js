@@ -9,12 +9,10 @@ import del from 'del'
 import { join as joinPath } from 'path'
 import camelCase from 'camelcase'
 import prettier from 'prettier'
+import packpath from 'packpath'
 
 const prettierrc = JSON.parse(
-  fs.readFileSync(
-    path.resolve(__dirname, '../../../../.prettierrc'),
-    'utf-8'
-  )
+  fs.readFileSync(path.resolve(packpath.self(), '.prettierrc'), 'utf-8')
 )
 
 export default async function runFactory({
