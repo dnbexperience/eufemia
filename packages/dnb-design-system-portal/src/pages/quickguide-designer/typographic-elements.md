@@ -195,3 +195,11 @@ This is a 'dnb-small' <b>class</b> on a paragraph tag. Lorem ipsum this has no p
 This is a paragraph with a <b>small tag</b> inserted here: <small>this is the small content</small>. This is a regular paragraph following the text above. Quem facilisi moderatius id eam, id tamquam albucius per. Vel quem congue appareat cu, mei te eros convenire. Sea bonorum epicuri ea, ei exerci tacimates pro, aliquam pertinacia eu vim.
 </p>
 </div>
+
+##### Example #3:
+
+<div class="typography-box">
+<small>
+This is just with a <b>small tag</b>. This is a regular paragraph following the text above. Quem facilisi moderatius id eam, id tamquam albucius per. Vel quem congue appareat cu, mei te eros convenire. Sea bonorum epicuri ea, ei exerci tacimates pro, aliquam pertinacia eu vim.
+</small>
+</div>

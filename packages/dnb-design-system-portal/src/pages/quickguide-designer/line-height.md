@@ -11,31 +11,29 @@ When line heights are multiples of 8px (0.5rem), they will cause the content blo
 #### These break _*neatly*_ on the grid (line heights 1rem, 1.5rem and 2rem)
 
 Because their line-height **is** evenly divisible by 8.
+<br />
+
+##### Line height = 1rem (16px)
 
 <div class="typography-box">
-<ul>
-<li>Line height = 1rem (16px)</li>
-</ul>
 <p class="lh-16">
 Quem facilisi moderatius id eam, id tamquam albucius per. Vel quem congue appareat cu, mei te eros convenire. Sea bonorum epicuri ea, ei exerci tacimates pro, aliquam pertinacia eu vim. Vix ei stet ornatus. Est mediocrem reprimique contentiones ei, mea
 ne primis intellegat. Dico purto nullam sea an.
 </p>
 </div>
 
+##### Line height = 1.5rem (24px)
+
 <div class="typography-box">
-<ul>
-<li>Line height = 1.5rem (24px)</li>
-</ul>
 <p class="lh-24">
 Quem facilisi moderatius id eam, id tamquam albucius per. Vel quem congue appareat cu, mei te eros convenire. Sea bonorum epicuri ea, ei exerci tacimates pro, aliquam pertinacia eu vim. Vix ei stet ornatus. Est mediocrem reprimique contentiones ei, mea
 ne primis intellegat. Dico purto nullam sea an.
 </p>
 </div>
 
+##### Line height = 2rem (32px)
+
 <div class="typography-box">
-<ul>
-<li>Line height = 2rem (32px)</li>
-</ul>
 <p class="lh-32">
 Quem facilisi moderatius id eam, id tamquam albucius per. Vel quem congue appareat cu, mei te eros convenire. Sea bonorum epicuri ea, ei exerci tacimates pro, aliquam pertinacia eu vim. Vix ei stet ornatus. Est mediocrem reprimique contentiones ei, mea
 ne primis intellegat. Dico purto nullam sea an.
@@ -45,31 +43,29 @@ ne primis intellegat. Dico purto nullam sea an.
 #### These break alternatively on/off the grid (line heights 0.75rem, 1.25rem and 1.75rem)
 
 Because their line-height **is not** evenly divisible by 8.
+<br />
+
+##### Line height = 0.75rem (12px)
 
 <div class="typography-box">
-<ul>
-<li>Line height = 0.75rem (12px)</li>
-</ul>
 <p class="lh-12">
 Quem facilisi moderatius id eam, id tamquam albucius per. Vel quem congue appareat cu, mei te eros convenire. Sea bonorum epicuri ea, ei exerci tacimates pro, aliquam pertinacia eu vim. Vix ei stet ornatus. Est mediocrem reprimique contentiones ei, mea
 ne primis intellegat. Dico purto nullam sea an.
 </p>
 </div>
 
+##### Line height = 1.25rem (20px)
+
 <div class="typography-box">
-<ul>
-<li>Line height = 1.25rem (20px)</li>
-</ul>
 <p class="lh-20">
 Quem facilisi moderatius id eam, id tamquam albucius per. Vel quem congue appareat cu, mei te eros convenire. Sea bonorum epicuri ea, ei exerci tacimates pro, aliquam pertinacia eu vim. Vix ei stet ornatus. Est mediocrem reprimique contentiones ei, mea
 ne primis intellegat. Dico purto nullam sea an.
 </p>
 </div>
 
+##### Line height = 1.75rem (28px)
+
 <div class="typography-box">
-<ul>
-<li>Line height = 1.75rem (28px)</li>
-</ul>
 <p class="lh-28">
 Quem facilisi moderatius id eam, id tamquam albucius per. Vel quem congue appareat cu, mei te eros convenire. Sea bonorum epicuri ea, ei exerci tacimates pro, aliquam pertinacia eu vim. Vix ei stet ornatus. Est mediocrem reprimique contentiones ei, mea
 ne primis intellegat. Dico purto nullam sea an.

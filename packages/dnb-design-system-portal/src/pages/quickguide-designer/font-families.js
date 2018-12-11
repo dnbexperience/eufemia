@@ -6,9 +6,9 @@ import React from 'react'
 
 const Syntax = () => (
   <>
+    <h5>Fedra Sans Book</h5>
     <div className="typography-box">
       <div className="typo-book">
-        <h2>This is the Fedra Sans Book</h2>
         <p>
           Here is a paragraph with some nonsense lipsum text. Contrary to
           popular belief, Lorem Ipsum passage, and going through the cites
@@ -17,7 +17,7 @@ const Syntax = () => (
           &quot;de Finibus Bonorum et Malorum&quot; (The Extremes of Good
           and Evil) by Cicero, written in 45 BC.
         </p>
-        <h4>Here are some numbers:</h4>
+        <h5>Here are some numbers:</h5>
         <div className="dnb-font-family-demo__numbers">
           <p className="typo-number--lining">
             <b>Lining:</b> 123456789
@@ -28,9 +28,10 @@ const Syntax = () => (
         </div>
       </div>
     </div>
+
+    <h5>Fedra Sans Book Italic</h5>
     <div className="typography-box">
       <div className="typo-book-italic">
-        <h2>This is the Fedra Sans Book Italic</h2>
         <p>
           Here is a paragraph with some nonsense lipsum text. Contrary to
           popular belief, Lorem Ipsum passage, and going through the cites
@@ -39,7 +40,7 @@ const Syntax = () => (
           &quot;de Finibus Bonorum et Malorum&quot; (The Extremes of Good
           and Evil) by Cicero, written in 45 BC.
         </p>
-        <h4>Here are some numbers:</h4>
+        <h5>Here are some numbers:</h5>
         <div className="dnb-font-family-demo__numbers">
           <p className="typo-number--lining">
             <b>Lining:</b> 123456789
@@ -50,9 +51,10 @@ const Syntax = () => (
         </div>
       </div>
     </div>
+
+    <h5 className="typo-medium">Fedra Sans Medium</h5>
     <div className="typography-box">
       <div className="typo-medium">
-        <h2 className="typo-medium">This is the Fedra Sans Medium</h2>
         <p className="typo-medium">
           Here is a paragraph with some nonsense lipsum text. Contrary to
           popular belief, Lorem Ipsum passage, and going through the cites
@@ -61,7 +63,7 @@ const Syntax = () => (
           &quot;de Finibus Bonorum et Malorum&quot; (The Extremes of Good
           and Evil) by Cicero, written in 45 BC.
         </p>
-        <h4>Here are some numbers:</h4>
+        <h5>Here are some numbers:</h5>
         <div className="dnb-font-family-demo__numbers">
           <p className="typo-number--lining">
             <b>Lining:</b> 123456789
@@ -72,9 +74,10 @@ const Syntax = () => (
         </div>
       </div>
     </div>
+
+    <h5>Fedra Sans Medium Italic</h5>
     <div className="typography-box">
       <div className="typo-medium-italic">
-        <h2>This is the Fedra Sans Medium Italic</h2>
         <p>
           Here is a paragraph with some nonsense lipsum text. Contrary to
           popular belief, Lorem Ipsum passage, and going through the cites
@@ -83,7 +86,7 @@ const Syntax = () => (
           &quot;de Finibus Bonorum et Malorum&quot; (The Extremes of Good
           and Evil) by Cicero, written in 45 BC.
         </p>
-        <h4>Here are some numbers:</h4>
+        <h5>Here are some numbers:</h5>
         <div className="dnb-font-family-demo__numbers">
           <p className="typo-number--lining">
             <b>Lining:</b> 123456789
@@ -94,9 +97,10 @@ const Syntax = () => (
         </div>
       </div>
     </div>
+
+    <h5>Fedra Sans Light</h5>
     <div className="typography-box">
       <div className="typo-light">
-        <h2>This is the Fedra Sans Light</h2>
         <p>
           Here is a paragraph with some nonsense lipsum text. Contrary to
           popular belief, Lorem Ipsum passage, and going through the cites
@@ -105,7 +109,7 @@ const Syntax = () => (
           &quot;de Finibus Bonorum et Malorum&quot; (The Extremes of Good
           and Evil) by Cicero, written in 45 BC.
         </p>
-        <h4>Here are some numbers:</h4>
+        <h5>Here are some numbers:</h5>
         <div className="dnb-font-family-demo__numbers">
           <p className="typo-number--lining">
             <b>Lining:</b> 123456789
@@ -116,9 +120,10 @@ const Syntax = () => (
         </div>
       </div>
     </div>
+
+    <h5>Fedra Sans Light Italic</h5>
     <div className="typography-box">
       <div className="typo-light-italic">
-        <h2>This is the Fedra Sans Light Italic</h2>
         <p>
           Here is a paragraph with some nonsense lipsum text. Contrary to
           popular belief, Lorem Ipsum passage, and going through the cites
@@ -127,7 +132,7 @@ const Syntax = () => (
           &quot;de Finibus Bonorum et Malorum&quot; (The Extremes of Good
           and Evil) by Cicero, written in 45 BC.
         </p>
-        <h4>Here are some numbers:</h4>
+        <h5>Here are some numbers:</h5>
         <div className="dnb-font-family-demo__numbers">
           <p className="typo-number--lining">
             <b>Lining:</b> 123456789
@@ -138,9 +143,10 @@ const Syntax = () => (
         </div>
       </div>
     </div>
+
+    <h5>This is the Fedra Sans Bold</h5>
     <div className="typography-box">
       <div className="typo-bold">
-        <h2>This is the Fedra Sans Bold</h2>
         <p className="typo-bold">
           Here is a paragraph with some nonsense lipsum text. Contrary to
           popular belief, Lorem Ipsum passage, and going through the cites
@@ -149,7 +155,7 @@ const Syntax = () => (
           &quot;de Finibus Bonorum et Malorum&quot; (The Extremes of Good
           and Evil) by Cicero, written in 45 BC.
         </p>
-        <h4>Here are some numbers:</h4>
+        <h5>Here are some numbers:</h5>
         <div className="dnb-font-family-demo__numbers">
           <p className="typo-number--lining">
             <b>Lining:</b> 123456789
@@ -160,9 +166,9 @@ const Syntax = () => (
         </div>
       </div>
     </div>
+    <h5>Fedra Sans Bold Italic</h5>
     <div className="typography-box">
       <div className="typo-bold-italic">
-        <h2>This is the Fedra Sans Bold Italic</h2>
         <p className="typo-bold-italic">
           Here is a paragraph with some nonsense lipsum text. Contrary to
           popular belief, Lorem Ipsum passage, and going through the cites
@@ -171,7 +177,7 @@ const Syntax = () => (
           &quot;de Finibus Bonorum et Malorum&quot; (The Extremes of Good
           and Evil) by Cicero, written in 45 BC.
         </p>
-        <h4>Here are some numbers:</h4>
+        <h5>Here are some numbers:</h5>
         <div className="dnb-font-family-demo__numbers">
           <p className="typo-number--lining">
             <b>Lining:</b> 123456789
