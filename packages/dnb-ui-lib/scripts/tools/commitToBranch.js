@@ -119,9 +119,7 @@ const commitToBranch = async ({
       const commitMessage = String(
         `${
           isFeature ? 'feat:' : ''
-        } some ${what} related files where updated/added | ${files.join(
-          ', '
-        )}`
+        } some ${what} where updated/added | ${files.join(', ')}`
       ).trim()
       await repo.commit(commitMessage)
       await repo.push('origin', branchName)
