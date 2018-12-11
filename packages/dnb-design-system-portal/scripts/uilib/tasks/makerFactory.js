@@ -9,12 +9,11 @@ import del from 'del'
 import { join as joinPath } from 'path'
 import camelCase from 'camelcase'
 import prettier from 'prettier'
+import packpath from 'packpath'
+import fm from 'front-matter'
 
 const prettierrc = JSON.parse(
-  fs.readFileSync(
-    path.resolve(__dirname, '../../../../.prettierrc'),
-    'utf-8'
-  )
+  fs.readFileSync(path.resolve(packpath.self(), '.prettierrc'), 'utf-8')
 )
 
 export default async function runFactory({
@@ -79,13 +78,35 @@ export default async function runFactory({
       file
     }))
   }
+
   if (!tempalteFilePath)
     tempalteFilePath = `${processDestFilePath}/${templateNameToRename.toLowerCase()}.js`
   const template = await fs.readFile(tempalteFilePath, 'utf-8')
+  const templateFrontMatters = fm(template)
 
   const listComponents = processToNamesList.map(({ source, file }) => {
     const fileName = file.replace(/(\.js|\.md)$/, '')
-    const content = template
+    let individualTemplate = template
+
+    // if the description of a component/pattern has front-matters
+    // then include this also in the page
+    const descriptionPath = path.resolve(source, './description.md')
+    if (fs.existsSync(descriptionPath)) {
+      const descriptionString = fs.readFileSync(descriptionPath, 'utf-8')
+      const descFrontMatters = fm(descriptionString)
+
+      Object.keys(templateFrontMatters.attributes).forEach(key => {
+        if (descFrontMatters.attributes[key]) {
+          const exp = `(${key}:)\\s{0,}(.*)`
+          individualTemplate = individualTemplate.replace(
+            new RegExp(exp, 'g'),
+            `$1 ${descFrontMatters.attributes[key]}`
+          )
+        }
+      })
+    }
+
+    const content = individualTemplate
       .trim()
       .replace(
         new RegExp(templateNameToRename, 'g'),
@@ -95,6 +116,7 @@ export default async function runFactory({
         new RegExp(templateNameToRename.toLowerCase(), 'g'),
         fileName.toLowerCase()
       )
+
     file.replace(/(\.js|\.md)$/, '')
     if (typeof prepareDestFileCallback === 'function')
       file = prepareDestFileCallback(file)

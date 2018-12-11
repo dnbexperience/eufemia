@@ -7,6 +7,7 @@ import Button from './Button'
 import Dropdown from './Dropdown'
 import FormLabel from './FormLabel'
 import Icon from './Icon'
+import IconPrimary from './IconPrimary'
 import Input from './Input'
 import InputMasked from './InputMasked'
 import LineTitle from './LineTitle'
@@ -22,6 +23,7 @@ export default [
   Dropdown,
   FormLabel,
   Icon,
+  IconPrimary,
   Input,
   InputMasked,
   LineTitle,

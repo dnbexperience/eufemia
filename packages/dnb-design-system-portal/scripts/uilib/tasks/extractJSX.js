@@ -7,13 +7,17 @@ import path from 'path'
 import fs from 'fs-extra'
 import del from 'del'
 import prettier from 'prettier'
+import packpath from 'packpath'
 // import * as reactDocs from 'react-docgen'
 
 const extractJSX = (type = 'components', files) =>
   new Promise(async (resolve, reject) => {
-    const root = path.resolve(__dirname, `../../${type}/examples`)
+    const root = path.resolve(
+      packpath.self(),
+      `./src/uilib/${type}/examples`
+    )
     try {
-      await del([`${root}/**/*`, `!${root}`])
+      await del([`${root}/**/*`, `!${root}`, `!${root}/README.txt`])
     } catch (e) {
       reject(e)
     }

@@ -1,14 +1,14 @@
 {
   "linters": {
     "*.js": [
-      "yarn test:staged",
       "yarn prettier:js",
       "yarn lint:js",
       "git add"
     ],
-    "src/*.{js,css}": [
+    "*.{js,css}": [
       "yarn lint:styles",
-      "git add"
+      "git add",
+      "yarn test:staged"
     ],
     "*.{json,md}": [
       "yarn prettier:other",

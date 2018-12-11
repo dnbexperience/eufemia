@@ -1,9 +1,9 @@
 ---
 header: 'UI Library'
-title: 'SummaryTable'
-draft: false
-status: wip
-order: 13
+title: 'IconPrimary'
+draft: true
+status: null
+order: 4
 ---
 
 <!--
@@ -11,6 +11,6 @@ order: 13
   Do not change the content!
 -->
 
-import SummaryTable from 'Src/uilib/patterns/demos/SummaryTable'
+import IconPrimary from 'Src/uilib/components/demos/IconPrimary'
 
-<SummaryTable />
+<IconPrimary />

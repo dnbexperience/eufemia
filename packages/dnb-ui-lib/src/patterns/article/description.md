@@ -1,3 +1,8 @@
+---
+status: 'wip'
+draft: true
+---
+
 The Article Pattern is a kind of default theme for DNB Articles.
 
 ## Basic setup

@@ -66,7 +66,8 @@ const getBranchName = async ({ repo = null, requiredBranch = null }) => {
 const commitToBranch = async ({
   requiredBranch = 'develop',
   what = 'files',
-  filePathsWhitelist = []
+  filePathsWhitelist = [],
+  isFeature = true
 } = {}) => {
   try {
     const repo = await makeRepo()
@@ -110,11 +111,17 @@ const commitToBranch = async ({
       log.text = `> Commit: Add ${files.length} new ${what}`
 
       await repo.add(filesToCommit) // use "'./*'" for adding all files
-      await repo.commit(
-        `feat: some ${what} related files where updated/added | ${files.join(
-          ', '
-        )}`
-      )
+
+      // as there is too ofter only a "version.lock" update, we filter out this
+      if (files.length === 1 && files[0].includes('version.lock'))
+        isFeature = false
+
+      const commitMessage = String(
+        `${
+          isFeature ? 'feat:' : ''
+        } some ${what} where updated/added | ${files.join(', ')}`
+      ).trim()
+      await repo.commit(commitMessage)
       await repo.push('origin', branchName)
 
       log.succeed(

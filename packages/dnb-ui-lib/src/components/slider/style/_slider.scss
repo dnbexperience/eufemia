@@ -3,8 +3,7 @@
 *
 * ======================================================================== */
 
-$range-line-background: rgba(var(--color-sea-green), 0.5);
-// $range-line-background-1: var(--color-summer-green);
+$range-line-background: var(--color-sea-green);
 $range-line-height: 0.25rem;
 $range-line-border-radius: 0.25rem;
 
@@ -96,9 +95,6 @@ $range-thumb-dimension: 1.5rem;
 
     text-decoration: none;
     appearance: none;
-    // -moz-appearance: none;
-    // -webkit-appearance: none;
-    // -webkit-tap-highlight-color: transparent;
 
     background-color: $range-thumb-background;
 

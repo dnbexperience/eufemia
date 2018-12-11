@@ -31,9 +31,6 @@ const tabsWrapperStyle = css`
       margin: 0 -2rem;
     }
   }
-  .toggle-fullscreen {
-    margin-right: 1rem;
-  }
   .dnb-modal__close-button {
     position: relative;
     top: auto; /* to force the button to center */
@@ -208,12 +205,10 @@ class ItemWrapper extends PureComponent {
                       <CloseButton
                         on_click={this.quitFullscreen}
                         title="Quit Fullscreen"
-                        className="toggle-fullscreen"
                       />
                     ) : (
                       <Button
                         on_click={this.openFullscreen}
-                        className="toggle-fullscreen"
                         variant="secondary"
                         title="Fullscreen"
                         icon={fullscreenIcon}

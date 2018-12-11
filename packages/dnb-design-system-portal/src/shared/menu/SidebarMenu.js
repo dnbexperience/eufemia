@@ -27,23 +27,22 @@ const Sidebar = styled.aside`
   /* lower than styled.main */
   z-index: 1;
 
-  /* height of StickyMenuBar */
-  margin-top: 4rem;
-
   ul {
+    /* has to be the same value as margin-left */
     width: 30vw;
-    width: var(
-      --aside-width
-    ); /* has to be the same value as margin-left */
+    width: var(--aside-width);
+
+    /* height of StickyMenuBar */
+    height: calc(100vh - 4rem);
+    margin: 4rem 0 0;
+
+    /* some air we need */
+    padding: 2rem 0 1rem;
+
+    /* make the sidebar scrollable */
     overflow-x: hidden;
     overflow-y: auto;
-
-    /* height of header and footer */
-    min-height: 20vh;
-    max-height: calc(100vmin - 4em - 10px);
-
-    margin: 0;
-    padding: 2rem 0 1rem;
+    overscroll-behavior: contain;
   }
 
   /*

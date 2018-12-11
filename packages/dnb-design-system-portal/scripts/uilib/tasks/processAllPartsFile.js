@@ -6,12 +6,10 @@
 import path from 'path'
 import fs from 'fs-extra'
 import prettier from 'prettier'
+import packpath from 'packpath'
 
 const prettierrc = JSON.parse(
-  fs.readFileSync(
-    path.resolve(__dirname, '../../../../.prettierrc'),
-    'utf-8'
-  )
+  fs.readFileSync(path.resolve(packpath.self(), '.prettierrc'), 'utf-8')
 )
 
 const processAllPartsFile = (type, files, { autoAdvice = '' }) => {
@@ -26,8 +24,8 @@ const processAllPartsFile = (type, files, { autoAdvice = '' }) => {
     return acc
   }, [])
   const filepath = path.resolve(
-    __dirname,
-    `../../${type}/demos/allParts.js`
+    packpath.self(),
+    `./src/uilib/${type}/demos/allParts.js`
   )
   const content = prettier.format(
     `
