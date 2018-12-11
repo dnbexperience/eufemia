@@ -80,12 +80,13 @@ class Example extends PureComponent {
           size="large"
           icon={Bell}
           icon_size="medium"
-          // icon_size="24"
+          // icon_size="24" // medium is equalent to 24px, but responsive
         />
         <Button
           variant="signal"
           text="Disabled Signal Button"
-          icon={<Bell width="16" />}
+          icon={<Bell width="16" />} // Do not hardcode the size like here!
+          icon_size="default" // Rather use the "icon_size" prop
           disabled
         />
       </Fragment>
