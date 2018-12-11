@@ -29,6 +29,19 @@
     margin-bottom: 1em;
   }
 
+  header {
+    margin-bottom: 5rem;
+  }
+
+  header h1,
+  header p {
+    margin-bottom: 0;
+  }
+
+  header p.dnb-lead {
+    margin-bottom: 0 !important;
+  }
+
   *:not([class^='dnb-']) + {
     blockquote {
       margin: 0;

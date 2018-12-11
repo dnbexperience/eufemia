@@ -1,4 +1,5 @@
 import FormSpacing from './assets/form-spacing.svg'
+import FormSpacingDetails from './assets/form-spacing-details.svg'
 import LabelStack from './assets/label-stack.svg'
 import FormDivision from './assets/form-division.svg'
 import ProgressSteps from './assets/progress-steps.svg'
@@ -19,7 +20,7 @@ Forms in Eufemia are regarded as patterns because of their unpredictable and var
 
 Use Eufemia's spatial system to lay out forms.
 
-<Img src={FormSpacing} caption="Form elements with spacing system implemented" alt="Form spacing" height="296" />
+<Img src={FormSpacingDetails} caption="Form elements with spacing system implemented" alt="Form spacing" height="176" />
 
 Break up sections using a heading, light background color and space.
 <Img src={FormDivision} caption="Partition form parts using color, space and headings" alt="Form division" height="960" />
