@@ -449,6 +449,7 @@ export default class Slider extends Component {
           {...params}
         >
           <div
+            aria-label="hello"
             className="slider__line slider__line__before"
             style={inlineLineBeforeStyles}
           />

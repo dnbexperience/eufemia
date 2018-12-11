@@ -1,5 +1,6 @@
-<!-- The switch component is an enhancement of the classic radio button. It acts like a switch. Example: On/off, yes/no.
-Use mainly the toggle switch where instant user response is required. -->
+---
+status: 'wip'
+---
 
 #### Also known as a toggle switch or a toggle
 

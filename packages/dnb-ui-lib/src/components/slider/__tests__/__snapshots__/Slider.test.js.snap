@@ -177,7 +177,7 @@ exports[`Slider scss have to match snapshot 1`] = `
     top: 50%;
     height: 2px;
     transform: translate(0, -50%);
-    background-color: rgba(var(--color-sea-green), 0.5); }
+    background-color: var(--color-sea-green); }
   .dnb-slider .slider__state--disabled .slider__line {
     background-color: var(--color-black-30); }
   .dnb-slider.slider__vertical .slider__line {

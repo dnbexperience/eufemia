@@ -1,6 +1,6 @@
-<!-- The dropdown component is a 100% custom element.
-The reason to go all custom and not do a hybrid or a native `select` box is so we can display more info in each option.
-Since it looks totally different on smaller screens and touch devices, doing this component 100% custom gives us more flexibility. -->
+---
+status: 'wip'
+---
 
 #### NB!
 
