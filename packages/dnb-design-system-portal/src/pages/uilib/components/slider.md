@@ -2,7 +2,7 @@
 header: 'UI Library'
 title: 'Slider'
 draft: false
-order: 11
+order: 12
 ---
 
 <!--

@@ -1,3 +1,1 @@
-<IconPrimary icon="question" />
-<IconPrimary icon="chevron_right_medium" />
 <Icon icon={Bell} size="32" />

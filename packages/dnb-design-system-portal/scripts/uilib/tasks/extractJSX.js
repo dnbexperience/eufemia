@@ -17,7 +17,7 @@ const extractJSX = (type = 'components', files) =>
       `./src/uilib/${type}/examples`
     )
     try {
-      await del([`${root}/**/*`, `!${root}`])
+      await del([`${root}/**/*`, `!${root}`, `!${root}/README.txt`])
     } catch (e) {
       reject(e)
     }

@@ -1,0 +1,3 @@
+<IconPrimary icon="question" />
+<IconPrimary icon="question_medium" />
+<IconPrimary icon="question" size="medium" />

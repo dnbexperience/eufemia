@@ -1,8 +1,8 @@
 ---
 header: 'UI Library'
-title: 'Modal'
-draft: false
-order: 10
+title: 'IconPrimary'
+draft: true
+order: 4
 ---
 
 <!--
@@ -10,6 +10,6 @@ order: 10
   Do not change the content!
 -->
 
-import Modal from 'Src/uilib/components/demos/Modal'
+import IconPrimary from 'Src/uilib/components/demos/IconPrimary'
 
-<Modal />
+<IconPrimary />

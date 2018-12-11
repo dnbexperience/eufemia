@@ -5,7 +5,6 @@
 
 import React, { PureComponent, Fragment } from 'react'
 import Icon from './Icon'
-import IconPrimary from './IconPrimary'
 import { bell_medium as Bell } from './lib'
 
 class Example extends PureComponent {
@@ -26,8 +25,6 @@ import bell from './icons/bell'
   render() {
     return (
       <Fragment>
-        <IconPrimary icon="question" />
-        <IconPrimary icon="chevron_right_medium" />
         <Icon icon={Bell} size="32" />
       </Fragment>
     )
