@@ -1,5 +1,3 @@
-// const { readConfig } = require('jest-config')
-// console.log('defaults', readConfig)
 const config = {
   // testEnvironment: 'node',
   testURL: 'http://localhost',
@@ -17,12 +15,4 @@ const config = {
     '^.+\\.(css|scss)$': 'jest-css-modules'
   }
 }
-// Screenshot testing is not working properly yet under heavy test conditions
-// if (process.env.TAKE_SCREENSHOTS) {
-//   config.globals = {
-//     __JEST_PUPPE_SHOTS_RENDERER__: 'STYLED_COMPONENTS' //REACT_SERVER
-//   }
-//   config.preset = 'jest-puppe-shots-preset'
-//   config.preset = 'jest-puppeteer-react'
-// }
 module.exports = config

@@ -51,7 +51,7 @@
     "test": "jest --watch",
     "test-ci": "jest --ci",
     "test:screenshots": "cross-env NODE_ENV=test TAKE_SCREENSHOTS=true jest --watch --forceExit",
-    "test:staged": "jest --bail --findRelatedTests",
+    "test:staged": "jest --bail --findRelatedTests :#keep this whitespace",
     "test:update": "jest --updateSnapshot",
     "prettier:diff": "prettier --list-different '{scripts,stories,src}/**/*.{md,js}'",
     "prettier:js": "prettier --loglevel warn --write '{scripts,stories,src}/**/*.js'",

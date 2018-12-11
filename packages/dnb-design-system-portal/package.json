@@ -31,7 +31,7 @@
     "start": "DEBUG=gatsby:query-watcher gatsby develop",
     "test": "jest --watch",
     "test-ci": "jest --ci",
-    "test:staged": "jest --bail --findRelatedTests",
+    "test:staged": "jest --bail --findRelatedTests :#keep this whitespace",
     "test:update": "jest --updateSnapshot",
     "prettier:components": "prettier --loglevel warn --write './src/uilib/{components,patterns}/**/*.{js,md}' './src/pages/uilib/{components,elements,patterns}/*.{js,md}'",
     "prettier:diff": "prettier --list-different '{scripts,stories,src}/**/*.{js,md}'",
