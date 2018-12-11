@@ -24,8 +24,8 @@ const processAllPartsFile = (type, files, { autoAdvice = '' }) => {
     return acc
   }, [])
   const filepath = path.resolve(
-    __dirname,
-    `../../../src/uilib/${type}/demos/allParts.js`
+    packpath.self(),
+    `./src/uilib/${type}/demos/allParts.js`
   )
   const content = prettier.format(
     `
