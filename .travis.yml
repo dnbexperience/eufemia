@@ -27,10 +27,10 @@ jobs:
 
 stages:
   - name: test
-    if: branch != /^master|^develop|^gh-pages|^rc-.*|^rc\/.*|^release-.*|^release\/.*/
+    if: NOT (branch = master)
 
   - name: deploy-preview
-    if: branch = /^develop|^rc-.*|^rc\/.*/
+    if: (branch = develop) OR (branch = /^rc-.*/) OR (branch = /^rc\/.*/)
 
   - name: release
-    if: branch = /^master|^release-.*|^release\/.*/
+    if: (branch = master) OR (branch = /^release-.*/) OR (branch = /^release\/.*/)
