@@ -55,7 +55,7 @@ jobs:
           name: Build the portal, just to test if the build is successful
           command: yarn build-ci
 
-  release:
+  deploy-release:
     docker:
       - image: circleci/node:10.6
     working_directory: ~/repo
@@ -110,7 +110,7 @@ workflows:
               only:
                 - develop
                 - /^(rc-|rc\/).*/
-      - release:
+      - deploy-release:
           filters:
             branches:
               only:

@@ -1,0 +1,36 @@
+# Javascript Node Travis configuration file
+#
+language: node_js
+
+node_js:
+  - '10.6'
+
+cache:
+  yarn: true
+
+notifications:
+  email: false
+
+jobs:
+  include:
+    - stage: test
+      name: Run static and jest tests
+      script: yarn lint-ci && yarn test-ci
+
+    - stage: deploy-preview
+      name: Build a portal preview
+      script: yarn prepublish-ci && yarn build-ci
+
+    - stage: deploy-release
+      name: Deploy portal and make eventually NPM release
+      script: yarn prepublish-ci && yarn build-ci && yarn deploy-ci && yarn publish-ci
+
+stages:
+  - name: test
+    if: NOT (branch = master)
+
+  - name: deploy-preview
+    if: (branch = develop) OR (branch = /^rc-.*/) OR (branch = /^rc\/.*/)
+
+  - name: deploy-release
+    if: (branch = master) OR (branch = /^release-.*/) OR (branch = /^release\/.*/)
