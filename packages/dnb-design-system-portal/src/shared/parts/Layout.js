@@ -16,6 +16,10 @@ import classnames from 'classnames'
 import { buildVersion } from '../../../package.json'
 import { SidebarMenuProvider } from '../menu/SidebarMenuContext'
 
+// UI Style
+import 'dnb-ui-lib/src/style/patterns' // import ony patterns
+import 'dnb-ui-lib/src/style' // import both all components and the default theme
+
 class Layout extends PureComponent {
   static propTypes = {
     children: PropTypes.node.isRequired,
