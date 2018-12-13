@@ -76,7 +76,7 @@ const runFrameIconsFactory = async ({
   forceReconvert = null
 }) => {
   const frameId = frameDoc.id
-  const originalFrameName = frameDoc.name
+  const originalFrameName = String(frameDoc.name).replace(/^[0-9]+_/, '') // because the frame name conains a number first
   const frameName = formatIconName(originalFrameName)
 
   // select all icons in the frame
@@ -296,7 +296,6 @@ const formatIconName = n =>
     .toLowerCase()
     .replace(/[^a-z0-9_]/g, '_')
     .replace(/\s|_{2,}/g, '_')
-    .replace(/^[0-9]+_/, '') // because the frame name conains a number first
 
 const lockFileDest = path.resolve(
   __dirname,
