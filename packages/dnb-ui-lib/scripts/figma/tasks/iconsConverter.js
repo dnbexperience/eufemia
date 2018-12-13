@@ -76,7 +76,10 @@ const runFrameIconsFactory = async ({
   forceReconvert = null
 }) => {
   const frameId = frameDoc.id
-  const originalFrameName = String(frameDoc.name).replace(/^[0-9]+_/g, '') // because the frame name conains a number first
+  const originalFrameName = String(frameDoc.name).replace(
+    /^[0-9]+[_\- ]/g,
+    ''
+  ) // because the frame name conains a number first
   const frameName = formatIconName(originalFrameName)
 
   // select all icons in the frame
