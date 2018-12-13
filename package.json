@@ -30,8 +30,7 @@
     "test-ci:update": "yarn workspaces run test-ci --updateSnapshot"
   },
   "devDependencies": {
-    "husky": "^1.2.0",
-    "yarn": "^1.12.3"
+    "husky": "^1.2.0"
   },
   "release": {
     "analyzeCommits": "simple-commit-message"

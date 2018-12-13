@@ -5,12 +5,22 @@ language: node_js
 node_js:
   - '10.6'
 
-cache:
-  yarn: true
+# os:
+#   - osx
 
 notifications:
   email: false
   slack: eggsdesign:MOctggZdt8nWoWScG08NZ5ap
+
+cache:
+  yarn: true
+
+before_install:
+  - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.7.0
+
+before_script:
+  - export BRANCH=${TRAVIS_PULL_REQUEST_BRANCH:-$TRAVIS_BRANCH}
+  - echo "TRAVIS_BRANCH=$TRAVIS_BRANCH, PR=$PR, BRANCH=$BRANCH"
 
 jobs:
   include:
@@ -28,10 +38,10 @@ jobs:
 
 stages:
   - name: test
-    if: NOT (branch = master)
+    if: NOT (branch =~ /^(master|gh-pages|release\/.*|rc-.*|rc\/.*)/)
 
   - name: deploy-preview
-    if: (branch = develop) OR (branch = /^rc-.*/) OR (branch = /^rc\/.*/)
+    if: (branch =~ /^(develop|rc-.*|rc\/.*)/)
 
   - name: deploy-release
-    if: (branch = master) OR (branch = /^release\/.*/)
+    if: (branch =~ /^(master|release\/.*)/)

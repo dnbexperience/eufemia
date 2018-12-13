@@ -6,6 +6,7 @@
 
 import dotenv from 'dotenv'
 import ghpages from 'gh-pages'
+import { name as CIName } from 'ci-info'
 import ora from 'ora'
 import { currentVersion } from './version.js'
 
@@ -34,7 +35,8 @@ const run = () => {
   ghpages.publish(
     'public',
     {
-      message: `Auto-generated deploy commit ${currentVersion} [ci skip]`,
+      message: `Auto-generated deploy commit by ${CIName ||
+        'localhost'} ${currentVersion} [ci skip]`,
       branch: 'gh-pages',
       ...config
     },
