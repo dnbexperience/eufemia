@@ -10,6 +10,7 @@ cache:
 
 notifications:
   email: false
+  slack: eggsdesign:MOctggZdt8nWoWScG08NZ5ap
 
 jobs:
   include:
