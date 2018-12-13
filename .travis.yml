@@ -34,4 +34,4 @@ stages:
     if: (branch = develop) OR (branch = /^rc-.*/) OR (branch = /^rc\/.*/)
 
   - name: deploy-release
-    if: (branch = master) OR (branch = /^release-.*/) OR (branch = /^release\/.*/)
+    if: (branch = master) OR (branch = /^release\/.*/)

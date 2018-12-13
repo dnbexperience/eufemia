@@ -103,7 +103,7 @@ workflows:
                 - develop
                 - gh-pages
                 - /^(rc-|rc\/).*/
-                - /^(release-|release\/).*/
+                - /^(release\/).*/
       - deploy-preview:
           filters:
             branches:
@@ -115,4 +115,4 @@ workflows:
             branches:
               only:
                 - master
-                - /^(release-|release\/).*/
+                - /^(release\/).*/
