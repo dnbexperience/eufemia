@@ -3,6 +3,6 @@
   "debug": false,
   "dryRun": false,
   "branch": "master",
-  "verifyConditions": "condition-circle",
+  "verifyConditions": "condition-travis",
   "analyzeCommits": "simple-commit-message"
 }
