@@ -278,11 +278,6 @@ const optimizeSVG = ({ file }) => {
     gulp
       .src(file, { cwd: process.env.ROOT_DIR })
       .pipe(transform('utf8', transformSvg))
-      // .pipe(
-      //   rename({
-      //     suffix: '.opt'
-      //   })
-      // )
       .pipe(gulp.dest(path.dirname(file), { cwd: process.env.ROOT_DIR }))
       .on('end', resolve)
       .on('error', reject)
@@ -301,6 +296,7 @@ const formatIconName = n =>
     .toLowerCase()
     .replace(/[^a-z0-9_]/g, '_')
     .replace(/\s|_{2,}/g, '_')
+    .replace(/^[0-9]+_/, '') // because the frame name conains a number first
 
 const lockFileDest = path.resolve(
   __dirname,
