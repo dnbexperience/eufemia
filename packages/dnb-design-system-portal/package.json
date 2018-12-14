@@ -107,7 +107,6 @@
     "pretty": "^2.0.0",
     "prism-react-renderer": "^0.1.5",
     "raw-loader": "^1.0.0",
-    "react-docgen": "^2.21.0",
     "react-emotion": "^9.2.12",
     "react-fake-props": "^0.3.1",
     "react-helmet": "^5.2.0",

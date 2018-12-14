@@ -2,8 +2,34 @@
 
 exports[`Tabs component have to match snapshot 1`] = `
 <Tabs
-  class="class"
-  className="className"
+  0={
+    Object {
+      "displayName": "Tabs",
+      "props": Object {
+        "children": Object {},
+        "class": "class",
+        "className": "className",
+        "data": "data",
+        "direction": "'left'",
+        "do_set_hash": "do_set_hash",
+        "label": "label",
+        "render": [Function],
+        "selected_key": "selected_key",
+      },
+    }
+  }
+  1={
+    Object {
+      "displayName": "TabContent",
+      "props": Object {
+        "children": "children",
+        "id": "id",
+        "selection_key": "selection_key",
+      },
+    }
+  }
+  class={null}
+  className={null}
   data={
     Array [
       Object {
@@ -21,16 +47,15 @@ exports[`Tabs component have to match snapshot 1`] = `
     ]
   }
   direction="left"
-  do_set_hash="do_set_hash"
+  do_set_hash={false}
   id="id"
-  label="label"
+  label={null}
   render={null}
   selected_key="second"
-  selection_key="selection_key"
 >
   <Wrapper>
     <div
-      className="dnb-tabs className class"
+      className="dnb-tabs"
     >
       <TabsList>
         <div
@@ -38,7 +63,6 @@ exports[`Tabs component have to match snapshot 1`] = `
         >
           <Tabs>
             <div
-              aria-label="label"
               className="dnb-tabs__tabs__tablist dnb-tab-focus"
               onKeyDown={[Function]}
               onKeyUp={[Function]}

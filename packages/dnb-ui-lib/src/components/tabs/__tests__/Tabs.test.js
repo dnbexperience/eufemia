@@ -6,7 +6,7 @@
 import React from 'react'
 import {
   mount,
-  fakeAllProps,
+  fakeProps,
   axeComponent,
   toJson,
   loadScss
@@ -15,10 +15,12 @@ import Component from '../Tabs'
 // just to make sure we re-run the test in watch mode due to changes in this file
 import '../style/dnb-tabs.scss'
 
-const props = fakeAllProps(require.resolve('../Tabs'), {
+const props = fakeProps(require.resolve('../Tabs'), {
+  all: true,
   optional: true
 })
 delete props.render
+props.id = 'id'
 
 const startup_selected_key = 'second'
 const tablistData = [
@@ -98,8 +100,8 @@ describe('A single Tab component', () => {
     expect(
       Comp.find('button.tab--second')
         .instance()
-        .getAttribute('aria-controls')
-    ).toBe('id-content-second')
+        .getAttribute('role')
+    ).toBe('tab')
     expect(Comp.find('button.tab--second').hasClass('selected')).toBe(true)
   })
 

@@ -6,7 +6,7 @@
 import React from 'react'
 import {
   mount,
-  fakeAllProps,
+  fakeProps,
   toJson,
   loadScss
 } from '../../../core/jest/jestSetup'
@@ -15,7 +15,8 @@ import Component from '../Modal'
 // just to make sure we re-run the test in watch mode due to changes in this file
 import '../style/dnb-modal.scss'
 
-const props = fakeAllProps(require.resolve('../Modal'), {
+const props = fakeProps(require.resolve('../Modal'), {
+  all: true,
   optional: true
 })
 
