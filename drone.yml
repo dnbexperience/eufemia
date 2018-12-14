@@ -1,0 +1,79 @@
+kind: pipeline
+name: default
+
+steps:
+  - name: test
+    image: node:10.6
+    commands:
+      - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.12.3
+      - export PATH="$HOME/.yarn/bin:$PATH"
+      - yarn install
+      - yarn lint-ci
+      - yarn test-ci
+    when:
+      branch:
+        exclude:
+          - master
+          - gh-pages
+          - rc/*
+          - rc-*
+          - release/*
+
+  - name: deploy-preview
+    image: node:10.6
+    environment:
+      FIGMA_MAIN_FILE:
+        from_secret: FIGMA_MAIN_FILE
+      FIGMA_TOKEN:
+        from_secret: FIGMA_TOKEN
+      GH_EMAIL:
+        from_secret: GH_EMAIL
+      GH_NAME:
+        from_secret: GH_NAME
+      GH_TOKEN:
+        from_secret: GH_TOKEN
+    commands:
+      - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.12.3
+      - export PATH="$HOME/.yarn/bin:$PATH"
+      - yarn install
+      - yarn lint-ci
+      - yarn test-ci
+      - yarn prepublish-ci
+      - yarn build-ci
+    when:
+      branch:
+        include:
+          - develop
+          - rc/*
+          - rc-*
+
+  - name: deploy-release
+    image: node:10.6
+    environment:
+      FIGMA_MAIN_FILE:
+        from_secret: FIGMA_MAIN_FILE
+      FIGMA_TOKEN:
+        from_secret: FIGMA_TOKEN
+      GH_EMAIL:
+        from_secret: GH_EMAIL
+      GH_NAME:
+        from_secret: GH_NAME
+      GH_TOKEN:
+        from_secret: GH_TOKEN
+      NPM_TOKEN:
+        from_secret: NPM_TOKEN
+    commands:
+      - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.12.3
+      - export PATH="$HOME/.yarn/bin:$PATH"
+      - yarn install
+      - yarn lint-ci
+      - yarn test-ci
+      - yarn prepublish-ci
+      - yarn build-ci
+      - yarn deploy-ci
+      - yarn publish-ci
+    when:
+      branch:
+        include:
+          - master
+          - release/*
