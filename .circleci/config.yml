@@ -43,7 +43,7 @@ jobs:
 
       - run:
           name: Install latest yarn
-          command: curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.12.3 && export PATH="$HOME/.yarn/bin:$PATH"
+          command: curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.12.3 && echo 'export PATH="$HOME/.yarn/bin:$PATH"' >> $BASH_ENV
 
       - run:
           name: Install dependencies
