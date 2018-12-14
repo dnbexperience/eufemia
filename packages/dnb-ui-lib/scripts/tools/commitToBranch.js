@@ -69,6 +69,7 @@ const commitToBranch = async ({
   requiredBranch = 'develop',
   what = 'files',
   filePathsWhitelist = [],
+  isFeatureChecklist = null,
   isFeature = true
 } = {}) => {
   try {
@@ -115,7 +116,11 @@ const commitToBranch = async ({
       await repo.add(filesToCommit) // use "'./*'" for adding all files
 
       // as there is too ofter only a "version.lock" update, we filter out this
-      if (files.length === 1 && files[0].includes('version.lock'))
+      if (
+        files.length > 0 &&
+        Array.isArray(isFeatureChecklist) &&
+        files.every(i => isFeatureChecklist.includes(i))
+      )
         isFeature = false
 
       const commitMessage = String(
