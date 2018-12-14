@@ -109,15 +109,13 @@ const commitToBranch = async ({
         log.text = '> Commit: Added user details to the repo'
       }
 
-      const files = filesToCommit.map(f => path.basename(f))
-
-      log.text = `> Commit: Add ${files.length} new ${what}`
-
       await repo.add(filesToCommit) // use "'./*'" for adding all files
+
+      const files = filesToCommit.map(f => path.basename(f))
+      log.text = `> Commit: Add ${files.length} new ${what}`
 
       // as there is too ofter only a "version.lock" update, we filter out this
       if (
-        files.length > 0 &&
         Array.isArray(isFeatureChecklist) &&
         files.every(i => isFeatureChecklist.includes(i))
       )
@@ -128,6 +126,8 @@ const commitToBranch = async ({
           isFeature ? 'feat:' : ''
         } some ${what} where updated/added | ${files.join(', ')}`
       ).trim()
+      log.text = `> Commit: ${commitMessage}`
+
       await repo.commit(commitMessage)
       await repo.push('origin', branchName)
 
