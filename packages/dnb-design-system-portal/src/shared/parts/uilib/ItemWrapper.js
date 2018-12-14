@@ -13,7 +13,7 @@ import Link from 'gatsby-link'
 import PropTypes from 'prop-types'
 import createHistory from 'history/createBrowserHistory'
 import { css } from 'react-emotion'
-import { navigate } from '@reach/router'
+import { navigate } from 'gatsby'
 import { fullscreen as fullscreenIcon } from 'dnb-ui-lib/src/icons/secondary_icons'
 
 const getLocation = () => {

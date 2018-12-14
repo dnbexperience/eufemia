@@ -40,7 +40,6 @@
     "prettier:package": "prettier-package-json --write ./package.json"
   },
   "dependencies": {
-    "@reach/router": "^1.2.1",
     "dnb-ui-lib": "*",
     "prop-types": "^15.6.2",
     "react": "^16.6.3",
