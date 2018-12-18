@@ -119,13 +119,12 @@ workflows:
               ignore:
                 - master
                 - gh-pages
-                - /^(release\/|rc-|rc\/).*/
       - deploy-preview:
           filters:
             branches:
               only:
                 - develop
-                - /^(rc-|rc\/).*/
+                - /^(rc\/.*)/
       - deploy-release:
           filters:
             branches:

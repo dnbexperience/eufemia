@@ -15,9 +15,6 @@ steps:
         exclude:
           - master
           - gh-pages
-          - rc/*
-          - rc-*
-          - release/*
 
   - name: deploy-preview
     image: node:10.6
@@ -45,7 +42,6 @@ steps:
         include:
           - develop
           - rc/*
-          - rc-*
 
   - name: deploy-release
     image: node:10.6
