@@ -21,7 +21,10 @@ steps:
       branch:
         exclude:
           - master
+          - develop
           - gh-pages
+          - rc/*
+          - release/*
 
   - name: deploy-preview
     image: node:10.6
