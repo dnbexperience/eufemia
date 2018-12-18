@@ -10,6 +10,7 @@ import chevron_right from './chevron_right.js'
 import chevron_up from './chevron_up.js'
 import close from './close.js'
 import exclamation from './exclamation.js'
+import interface_essential_delete_bin_1 from './interface_essential_delete_bin_1.js'
 import more from './more.js'
 import question from './question.js'
 import save from './save.js'
@@ -27,6 +28,7 @@ export {
   chevron_up,
   close,
   exclamation,
+  interface_essential_delete_bin_1,
   more,
   question,
   save,

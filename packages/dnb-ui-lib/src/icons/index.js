@@ -22,8 +22,12 @@ import exclamation from './exclamation.js'
 import exclamation_medium from './exclamation_medium.js'
 import fullscreen from './fullscreen.js'
 import fullscreen_medium from './fullscreen_medium.js'
+import group_essential_alert_alarm_bell from './group_essential_alert_alarm_bell.js'
+import group_essential_delete_bin_1 from './group_essential_delete_bin_1.js'
+import group_essential_form_validation_check_1 from './group_essential_form_validation_check_1.js'
 import hamburger from './hamburger.js'
 import hamburger_medium from './hamburger_medium.js'
+import interface_essential_delete_bin_1 from './interface_essential_delete_bin_1.js'
 import more from './more.js'
 import more_medium from './more_medium.js'
 import question from './question.js'
@@ -58,8 +62,12 @@ export {
   exclamation_medium,
   fullscreen,
   fullscreen_medium,
+  group_essential_alert_alarm_bell,
+  group_essential_delete_bin_1,
+  group_essential_form_validation_check_1,
   hamburger,
   hamburger_medium,
+  interface_essential_delete_bin_1,
   more,
   more_medium,
   question,
