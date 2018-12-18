@@ -11,8 +11,6 @@ steps:
       - yarn lint-ci
       - yarn test-ci
     when:
-      event:
-        - push
       branch:
         exclude:
           - master
@@ -40,9 +38,6 @@ steps:
       - yarn prepublish-ci
       - yarn build-ci
     when:
-      event:
-        - push
-        - pull-request
       branch:
         include:
           - develop
@@ -74,8 +69,6 @@ steps:
       - yarn deploy-ci
       - yarn publish-ci
     when:
-      event:
-        - push
       branch:
         include:
           - master
