@@ -173,17 +173,16 @@ const FooterWrapper = styled.footer`
   }
 
   a {
-    font-size: 0.7rem;
-    margin-right: 1rem;
+    margin-left: 1rem;
   }
 `
 const Footer = () => (
   <FooterWrapper>
-    <Link to="/license" className="no-underline">
-      Copyright (c) 2018-present DNB.no
-    </Link>
-    <Link to="/log" className="no-underline">
-      {buildVersion}
-    </Link>
+    <small>
+      Last Portal update: {buildVersion}
+      <Link to="/license" className="no-underline">
+        Copyright (c) 2018-present DNB.no
+      </Link>
+    </small>
   </FooterWrapper>
 )
