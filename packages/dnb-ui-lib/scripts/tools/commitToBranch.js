@@ -49,9 +49,11 @@ const makeRepo = async () => {
 }
 
 const getBranchName = async ({ repo = null, requiredBranch = null }) => {
-  repo = repo || (await makeRepo())
-
-  const branchName = (await repo.branch()).current
+  // in case we set the branch as an enviroment variable (see TravisCI config)
+  const branchName =
+    typeof process.env.BRANCH === 'string'
+      ? process.env.BRANCH
+      : (await (repo || (await makeRepo())).branch()).current
 
   if (requiredBranch && branchName !== requiredBranch) {
     log.fail(
@@ -67,6 +69,7 @@ const commitToBranch = async ({
   requiredBranch = 'develop',
   what = 'files',
   filePathsWhitelist = [],
+  isFeatureChecklist = null,
   isFeature = true
 } = {}) => {
   try {
@@ -106,14 +109,16 @@ const commitToBranch = async ({
         log.text = '> Commit: Added user details to the repo'
       }
 
-      const files = filesToCommit.map(f => path.basename(f))
-
-      log.text = `> Commit: Add ${files.length} new ${what}`
-
       await repo.add(filesToCommit) // use "'./*'" for adding all files
 
+      const files = filesToCommit.map(f => path.basename(f))
+      log.text = `> Commit: Add ${files.length} new ${what}`
+
       // as there is too ofter only a "version.lock" update, we filter out this
-      if (files.length === 1 && files[0].includes('version.lock'))
+      if (
+        Array.isArray(isFeatureChecklist) &&
+        files.every(i => isFeatureChecklist.includes(i))
+      )
         isFeature = false
 
       const commitMessage = String(
@@ -121,6 +126,8 @@ const commitToBranch = async ({
           isFeature ? 'feat:' : ''
         } some ${what} where updated/added | ${files.join(', ')}`
       ).trim()
+      log.text = `> Commit: ${commitMessage}`
+
       await repo.commit(commitMessage)
       await repo.push('origin', branchName)
 

@@ -13,25 +13,24 @@
     "packages/*",
     "packages/examples/*"
   ],
-  "main": "index.js",
+  "main": "./packages/dnb-ui-lib/index.js",
   "scripts": {
     "prepublish-ci": "cd ./packages/dnb-ui-lib && yarn prepublish-ci && cd -",
-    "precommit": "yarn workspaces run precommit",
+    "precommit": "cd ./packages/dnb-ui-lib && yarn precommit && cd - && cd ./packages/dnb-design-system-portal && yarn precommit && cd -",
     "build-ci": "cd ./packages/dnb-design-system-portal && yarn build-ci && cd -",
     "deploy-ci": "cd ./packages/dnb-design-system-portal && yarn deploy-ci && cd -",
     "start": "cd ./packages/dnb-design-system-portal && yarn start && cd -",
-    "lint-ci": "yarn workspaces run lint-ci",
+    "lint-ci": "cd ./packages/dnb-ui-lib && yarn lint-ci && cd - && cd ./packages/dnb-design-system-portal && yarn lint-ci && cd -",
     "publish-ci": "cd ./packages/dnb-ui-lib && yarn publish-ci && cd -",
     "reset": "rm -rf ./node_modules && rm yarn.lock && rm -rf ./packages/dnb-ui-lib/node_modules && rm -rf ./packages/dnb-design-system-portal/node_modules && yarn install",
     "build": "cd ./packages/dnb-ui-lib && yarn build && cd - && cd ./packages/dnb-design-system-portal && yarn build && cd -",
     "test": "cd ./packages/dnb-ui-lib && yarn test && cd -",
     "test:update": "cd ./packages/dnb-ui-lib && yarn test:update && cd -",
-    "test-ci": "yarn workspaces run test-ci",
-    "test-ci:update": "yarn workspaces run test-ci --updateSnapshot"
+    "test-ci": "cd ./packages/dnb-ui-lib && yarn test-ci && cd - && cd ./packages/dnb-design-system-portal && yarn test-ci && cd -",
+    "test-ci:update": "yarn test-ci --updateSnapshot"
   },
   "devDependencies": {
-    "husky": "^1.2.0",
-    "yarn": "^1.12.3"
+    "husky": "^1.2.0"
   },
   "release": {
     "analyzeCommits": "simple-commit-message"

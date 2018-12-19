@@ -16,7 +16,13 @@ jobs:
           keys:
             - yarn-packages-{{ checksum "yarn.lock" }}
 
-      - run: yarn install
+      - run:
+          name: Install latest yarn
+          command: curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.12.3 && echo 'export PATH="$HOME/.yarn/bin:$PATH"' >> $BASH_ENV
+
+      - run:
+          name: Install dependencies
+          command: yarn install --frozen-lockfile
 
       - save_cache:
           name: Save Yarn Package Cache
@@ -39,7 +45,13 @@ jobs:
           keys:
             - yarn-packages-{{ checksum "yarn.lock" }}
 
-      - run: yarn install
+      - run:
+          name: Install latest yarn
+          command: curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.12.3 && echo 'export PATH="$HOME/.yarn/bin:$PATH"' >> $BASH_ENV
+
+      - run:
+          name: Install dependencies
+          command: yarn install --frozen-lockfile
 
       - save_cache:
           name: Save Yarn Package Cache
@@ -67,7 +79,13 @@ jobs:
           keys:
             - yarn-packages-{{ checksum "yarn.lock" }}
 
-      - run: yarn install
+      - run:
+          name: Install latest yarn
+          command: curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.12.3 && echo 'export PATH="$HOME/.yarn/bin:$PATH"' >> $BASH_ENV
+
+      - run:
+          name: Install dependencies
+          command: yarn install --frozen-lockfile
 
       - save_cache:
           name: Save Yarn Package Cache
@@ -100,19 +118,16 @@ workflows:
             branches:
               ignore:
                 - master
-                - develop
                 - gh-pages
-                - /^(rc-|rc\/).*/
-                - /^(release-|release\/).*/
       - deploy-preview:
           filters:
             branches:
               only:
                 - develop
-                - /^(rc-|rc\/).*/
+                - /^(rc\/.*)/
       - deploy-release:
           filters:
             branches:
               only:
                 - master
-                - /^(release-|release\/).*/
+                - /^release\/.*/

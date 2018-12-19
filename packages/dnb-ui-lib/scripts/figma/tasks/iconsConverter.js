@@ -75,9 +75,26 @@ const runFrameIconsFactory = async ({
   figmaFile,
   forceReconvert = null
 }) => {
+  if (/#skip/.test(frameDoc.name)) {
+    return undefined
+  }
   const frameId = frameDoc.id
-  const originalFrameName = frameDoc.name
+  const originalFrameName = String(frameDoc.name).replace(
+    /^[0-9]+[_\- ]/g,
+    ''
+  ) // because the frame name conains a number first
   const frameName = formatIconName(originalFrameName)
+
+  // split frameName, and use all after the selector/s as iconName additions
+  const iconNameAdditions = String(originalFrameName)
+    .split(sizeSeperator)
+    .slice(1)
+    .map(n =>
+      String(n)
+        .trim()
+        .toLowerCase()
+    ) // remove space arround the names
+    .filter(n => n !== 'default') // we don't use default size once we save it to size
 
   // select all icons in the frame
   const frameDocChildren = iconSelector
@@ -86,9 +103,19 @@ const runFrameIconsFactory = async ({
 
   // get a list of icons we want to refetch
   const iconIdsFromDoc = frameDocChildren.reduce((acc, { id, name }) => {
-    if (!/#skip/.test(name)) {
-      acc.push(id)
+    // skip adding the current icon
+    if (/#skip/.test(name)) {
+      return acc
     }
+
+    // also skip if there are too many underlines
+    const iconName = prepareIconName(name, iconNameAdditions)
+    if (iconName.split(/_/g).length > 3) {
+      return acc
+    }
+
+    // then add to the fetch list
+    acc.push(id)
     return acc
   }, [])
 
@@ -111,9 +138,6 @@ const runFrameIconsFactory = async ({
   const iconIdsToFetchFrom = iconIdsFromDoc.filter(
     refId => !listOfIconUrls.some(([id]) => id === refId)
   )
-  // console.log('\n listOfIconUrls', listOfIconUrls)
-  // console.log('\niconIdsFromDoc', iconIdsFromDoc)
-  // console.log('\niconIdsToFetchFrom', iconIdsToFetchFrom)
 
   log.start(
     `> Figma: Starting to fetch ${
@@ -136,17 +160,6 @@ const runFrameIconsFactory = async ({
     // clean the list of icons we will process
     // my making shure it is in the current figma frame document
     .filter(([id]) => frameDocChildren.find(({ id: i }) => i === id))
-
-  // split frameName, and use all after the selector/s as iconName additions
-  const iconNameAdditions = String(originalFrameName)
-    .split(sizeSeperator)
-    .slice(1)
-    .map(n =>
-      String(n)
-        .trim()
-        .toLowerCase()
-    ) // remove space arround the names
-    .filter(n => n !== 'default') // we don't use default size once we save it to size
 
   log.start(
     `> Figma: Starting to fetch process ${
@@ -278,11 +291,6 @@ const optimizeSVG = ({ file }) => {
     gulp
       .src(file, { cwd: process.env.ROOT_DIR })
       .pipe(transform('utf8', transformSvg))
-      // .pipe(
-      //   rename({
-      //     suffix: '.opt'
-      //   })
-      // )
       .pipe(gulp.dest(path.dirname(file), { cwd: process.env.ROOT_DIR }))
       .on('end', resolve)
       .on('error', reject)

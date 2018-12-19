@@ -11,17 +11,15 @@ import ReactDOMServer from 'react-dom/server'
 import { CloseButton } from 'dnb-ui-lib/src/components/modal'
 import Link from 'gatsby-link'
 import PropTypes from 'prop-types'
-import createHistory from 'history/createBrowserHistory'
 import { css } from 'react-emotion'
-import { navigate } from '@reach/router'
+import { navigate, parsePath } from 'gatsby'
 import { fullscreen as fullscreenIcon } from 'dnb-ui-lib/src/icons/secondary_icons'
 
 const getLocation = () => {
   if (typeof window === 'undefined') {
     return null
   }
-  const { location } = createHistory()
-  return location
+  return parsePath(window.location.pathname)
 }
 
 const tabsWrapperStyle = css`

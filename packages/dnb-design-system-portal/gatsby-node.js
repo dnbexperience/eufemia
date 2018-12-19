@@ -22,17 +22,9 @@ exports.createPages = ({ graphql, actions }) => {
           edges {
             node {
               id
-              tableOfContents
               fields {
                 id
                 slug
-              }
-              parent {
-                ... on File {
-                  absolutePath
-                  name
-                  sourceInstanceName
-                }
               }
               code {
                 scope
@@ -57,9 +49,7 @@ exports.createPages = ({ graphql, actions }) => {
           __dirname
         ),
         context: {
-          id: node.fields.id,
-          absPath: node.parent.absolutePath,
-          tableOfContents: node.tableOfContents
+          id: node.fields.id
         }
       })
     })

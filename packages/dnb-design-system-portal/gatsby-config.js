@@ -14,9 +14,8 @@ module.exports = {
     repoUrl: 'https://github.com/dnbexperience/eufemia/tree/master/'
   },
   plugins: [
-    'gatsby-plugin-sharp',
     // 'gatsby-plugin-offline', // we may test the usage without the offline capabilities
-    'gatsby-plugin-remove-serviceworker', // we may have useage for this later
+    'gatsby-plugin-remove-serviceworker', // this removes the preloading of links (because of to the font flickering)
     'gatsby-plugin-catch-links',
     'gatsby-plugin-react-helmet',
     {
@@ -28,7 +27,7 @@ module.exports = {
         background_color: '#fff',
         theme_color: '#007272',
         display: 'minimal-ui',
-        icon: '../dnb-ui-lib/assets/images/dnb-logo.png' // This path is relative to the root of the site.
+        icon: '../dnb-ui-lib/assets/images/dnb-icon.png' // This path is relative to the root of the site.
         // icons: [
         //   {
         //     src: '/assets/....png',
@@ -38,6 +37,7 @@ module.exports = {
         // ],
       }
     },
+    'gatsby-plugin-sharp', // is used by gatsby-remark-images
     {
       resolve: 'gatsby-mdx',
       options: {

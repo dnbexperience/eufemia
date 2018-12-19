@@ -1,6 +1,8 @@
 ## Date
 
-### Release of v1.10.0
+---
+
+### Release of `dnb-ui-lib` v1.10.0
 
 #### Breaking Changes
 
@@ -19,3 +21,11 @@ Description
 #### Fixes & Optimizations
 
 Description
+
+---
+
+### New color added to Figma
+
+Description
+
+---

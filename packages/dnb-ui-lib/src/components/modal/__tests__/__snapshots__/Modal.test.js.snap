@@ -2,22 +2,60 @@
 
 exports[`Modal component have to match snapshot 1`] = `
 <Modal
-  class="class"
-  className="className"
-  close_title="close_title"
-  content_id="content_id"
+  0={
+    Object {
+      "displayName": "Modal",
+      "props": Object {
+        "children": "children",
+        "class": "class",
+        "className": "className",
+        "close_title": "close_title",
+        "content_id": "content_id",
+        "modal_content": "modal_content",
+        "modal_trigger_icon": "modal_trigger_icon",
+        "modal_trigger_text": "modal_trigger_text",
+        "modal_trigger_title": "modal_trigger_title",
+        "title": "title",
+        "type": "'button'",
+      },
+    }
+  }
+  1={
+    Object {
+      "displayName": "ModalRoot",
+      "props": Object {},
+    }
+  }
+  2={
+    Object {
+      "displayName": "ModalContent",
+      "props": Object {},
+    }
+  }
+  3={
+    Object {
+      "displayName": "CloseButton",
+      "props": Object {
+        "className": "className",
+        "close_title": "close_title",
+        "on_click": [Function],
+      },
+    }
+  }
+  class={null}
+  className={null}
+  close_title="Close"
+  content_id={null}
   modal_content="modal_content"
-  modal_trigger_icon="modal_trigger_icon"
-  modal_trigger_text="modal_trigger_text"
-  modal_trigger_title="modal_trigger_title"
-  on_click={[Function]}
+  modal_trigger_icon="question"
+  modal_trigger_text={null}
+  modal_trigger_title="Open Modal"
   preventSetTriggerRef={true}
-  title="title"
+  title={null}
   type="button"
 >
   <div
-    className="dnb-modal className class"
-    onClick={[Function]}
+    className="dnb-modal"
   >
     <span
       className="dnb-modal__trigger dnb-modal__trigger--button"
@@ -30,24 +68,24 @@ exports[`Modal component have to match snapshot 1`] = `
         custom_method={null}
         disabled={false}
         href={null}
-        icon="modal_trigger_icon"
+        icon="question"
         icon_position="right"
         icon_size={null}
         id={null}
         innerRef={null}
         on_click={[Function]}
         size={null}
-        text="modal_trigger_text"
-        title="modal_trigger_title"
+        text={null}
+        title="Open Modal"
         type="button"
         variant="secondary"
       >
         <button
-          className="dnb-button dnb-button--secondary dnb-button--icon-position-right dnb-button--has-text dnb-button--has-icon"
+          className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon"
           id={null}
           onClick={[Function]}
           onMouseOut={[Function]}
-          title="modal_trigger_title"
+          title="Open Modal"
           type="button"
         >
           <Content
@@ -59,71 +97,162 @@ exports[`Modal component have to match snapshot 1`] = `
             custom_method={null}
             disabled={false}
             href={null}
-            icon="modal_trigger_icon"
+            icon="question"
             icon_position="right"
             icon_size={null}
             id={null}
             innerRef={null}
             on_click={[Function]}
             size={null}
-            text="modal_trigger_text"
-            title="modal_trigger_title"
+            text={null}
+            title="Open Modal"
             type="button"
             variant="secondary"
           >
-            <span
-              className="dnb-button__text"
-              key="button-text"
-            >
-              modal_trigger_text
-            </span>
             <IconPrimary
-              alt="modal_trigger_title"
+              alt="Open Modal"
               area_hidden={true}
               attributes={null}
               class={null}
               className="dnb-button__icon"
               color={null}
               height={null}
-              icon="modal_trigger_icon"
+              icon="question"
               key="button-icon"
               modifier={null}
               size={null}
               width={null}
-            />
+            >
+              <span
+                aria-hidden={true}
+                aria-label="Open Modal"
+                className="dnb-icon has-custom-size dnb-button__icon"
+                role="img"
+              >
+                <question>
+                  <svg
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      clipRule="evenodd"
+                      d="M4.352 5.1c0-2.05 1.55-3.6 3.6-3.6 2.052 0 3.601 1.55 3.601 3.6 0 2.051-1.55 3.6-3.6 3.6a.75.75 0 0 0-.75.75v2.666a.75.75 0 0 0 1.5 0V10.15c2.506-.348 4.35-2.425 4.35-5.049 0-2.879-2.22-5.1-5.1-5.1-2.88 0-5.1 2.221-5.1 5.1a.75.75 0 0 0 1.5 0zm3.6 10.898c.659 0 1.097-.439 1.097-1.097 0-.658-.438-1.096-1.096-1.096-.658 0-1.097.438-1.097 1.096 0 .658.439 1.097 1.097 1.097z"
+                      fillRule="evenodd"
+                    />
+                  </svg>
+                </question>
+              </span>
+            </IconPrimary>
           </Content>
         </button>
       </Button>
     </span>
     <ModalRoot
-      class="class"
-      className="className"
-      close_title="close_title"
-      content_id="content_id"
+      0={
+        Object {
+          "displayName": "Modal",
+          "props": Object {
+            "children": "children",
+            "class": "class",
+            "className": "className",
+            "close_title": "close_title",
+            "content_id": "content_id",
+            "modal_content": "modal_content",
+            "modal_trigger_icon": "modal_trigger_icon",
+            "modal_trigger_text": "modal_trigger_text",
+            "modal_trigger_title": "modal_trigger_title",
+            "title": "title",
+            "type": "'button'",
+          },
+        }
+      }
+      1={
+        Object {
+          "displayName": "ModalRoot",
+          "props": Object {},
+        }
+      }
+      2={
+        Object {
+          "displayName": "ModalContent",
+          "props": Object {},
+        }
+      }
+      3={
+        Object {
+          "displayName": "CloseButton",
+          "props": Object {
+            "className": "className",
+            "close_title": "close_title",
+            "on_click": [Function],
+          },
+        }
+      }
+      class={null}
+      className={null}
+      close_title="Close"
+      content_id={null}
       hide={[Function]}
       modal_content="modal_content"
-      modal_trigger_icon="modal_trigger_icon"
-      modal_trigger_text="modal_trigger_text"
-      modal_trigger_title="modal_trigger_title"
-      on_click={[Function]}
+      modal_trigger_icon="question"
+      modal_trigger_text={null}
+      modal_trigger_title="Open Modal"
       preventSetTriggerRef={true}
-      title="title"
+      title={null}
       toggleOpenClose={[Function]}
       type="button"
     >
       <ModalContent
-        class="class"
-        className="className"
-        close_title="close_title"
-        content_id="content_id"
+        0={
+          Object {
+            "displayName": "Modal",
+            "props": Object {
+              "children": "children",
+              "class": "class",
+              "className": "className",
+              "close_title": "close_title",
+              "content_id": "content_id",
+              "modal_content": "modal_content",
+              "modal_trigger_icon": "modal_trigger_icon",
+              "modal_trigger_text": "modal_trigger_text",
+              "modal_trigger_title": "modal_trigger_title",
+              "title": "title",
+              "type": "'button'",
+            },
+          }
+        }
+        1={
+          Object {
+            "displayName": "ModalRoot",
+            "props": Object {},
+          }
+        }
+        2={
+          Object {
+            "displayName": "ModalContent",
+            "props": Object {},
+          }
+        }
+        3={
+          Object {
+            "displayName": "CloseButton",
+            "props": Object {
+              "className": "className",
+              "close_title": "close_title",
+              "on_click": [Function],
+            },
+          }
+        }
+        class={null}
+        className={null}
+        close_title="Close"
+        content_id={null}
         hide={[Function]}
         modal_content="modal_content"
-        modal_trigger_icon="modal_trigger_icon"
-        modal_trigger_text="modal_trigger_text"
-        modal_trigger_title="modal_trigger_title"
-        on_click={[Function]}
+        modal_trigger_icon="question"
+        modal_trigger_text={null}
+        modal_trigger_title="Open Modal"
         preventSetTriggerRef={true}
-        title="title"
+        title={null}
         toggleOpenClose={[Function]}
         type="button"
       >
@@ -134,10 +263,10 @@ exports[`Modal component have to match snapshot 1`] = `
         >
           <div
             aria-hidden="true"
-            aria-labelledby="title"
+            aria-labelledby={null}
             aria-modal="true"
             className="dnb-modal__content__inner dnb-no-focus dnb-style"
-            id="content_id"
+            id={null}
             onClick={[Function]}
             onKeyDown={[Function]}
             role="dialog"
@@ -146,7 +275,7 @@ exports[`Modal component have to match snapshot 1`] = `
             modal_content
             <CloseButton
               className={null}
-              close_title="close_title"
+              close_title="Close"
               on_click={[Function]}
             >
               <Button
@@ -165,7 +294,7 @@ exports[`Modal component have to match snapshot 1`] = `
                 on_click={[Function]}
                 size={null}
                 text={null}
-                title="close_title"
+                title="Close"
                 type="button"
                 variant="secondary"
               >
@@ -174,7 +303,7 @@ exports[`Modal component have to match snapshot 1`] = `
                   id={null}
                   onClick={[Function]}
                   onMouseOut={[Function]}
-                  title="close_title"
+                  title="Close"
                   type="button"
                 >
                   <Content
@@ -194,12 +323,12 @@ exports[`Modal component have to match snapshot 1`] = `
                     on_click={[Function]}
                     size={null}
                     text={null}
-                    title="close_title"
+                    title="Close"
                     type="button"
                     variant="secondary"
                   >
                     <IconPrimary
-                      alt="close_title"
+                      alt="Close"
                       area_hidden={true}
                       attributes={null}
                       class={null}
@@ -214,7 +343,7 @@ exports[`Modal component have to match snapshot 1`] = `
                     >
                       <span
                         aria-hidden={true}
-                        aria-label="close title"
+                        aria-label="Close"
                         className="dnb-icon has-custom-size dnb-button__icon"
                         role="img"
                       >
