@@ -15,11 +15,18 @@ import { css } from 'react-emotion'
 import { navigate, parsePath } from 'gatsby'
 import { fullscreen as fullscreenIcon } from 'dnb-ui-lib/src/icons/secondary_icons'
 
+const pathPrefix = __PATH_PREFIX__ // eslint-disable-line
+
 const getLocation = () => {
   if (typeof window === 'undefined') {
     return null
   }
-  return parsePath(window.location.pathname)
+  const { pathname, search, hash } = window.location
+  return {
+    ...parsePath(pathname.replace(new RegExp(pathPrefix || '', 'g'), '')),
+    search,
+    hash
+  }
 }
 
 const tabsWrapperStyle = css`
