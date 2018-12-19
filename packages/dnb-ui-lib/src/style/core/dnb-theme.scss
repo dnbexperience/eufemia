@@ -53,10 +53,16 @@
   // --color-shadow-grey: #757575;
 }
 
+::selection {
+  background: var(--color-mint-green);
+  color: var(--color-black);
+  text-shadow: none;
+}
+
 // hey have to be used by a parent css class: .dnb-style
 .dnb-style {
   small {
-    font-size: 0.875em;
+    font-size: 0.875rem; // 14px
     line-height: 1.5rem;
   }
 
@@ -77,45 +83,48 @@
   }
 
   h1 {
-    margin: 1rem 0 1rem 0;
+    margin: 1.5rem 0 1rem;
 
-    font-size: 3em; // 48px
+    font-size: 3rem; // 48px
     line-height: 3.5rem; // 56px
     font-weight: 400;
+  }
 
-    small {
-      font-size: 2rem; // 32px
-      line-height: 3rem; // 48px
-      display: block;
-    }
+  h1.small,
+  h1 small {
+    font-size: 2rem; // 32px
+    line-height: 3rem; // 48px
   }
 
   h2 {
     margin: 1.5rem 0 1rem;
+
     font-size: 1.5rem; // 24px
     line-height: 2rem; // 32px
-
-    small {
-      display: block;
-    }
   }
 
   /*
   * H3 looks the same as .dnb-lead
   *
   */
-
   h3,
-  .dnb-lead {
+  p.dnb-lead {
     font-family: var(--font-family-demi);
-    font-size: 1.25em; // 20px
+    font-size: 1.25rem; // 20px
     line-height: 2rem; // 32px
     font-weight: 400;
   }
+  h3 > small,
+  h3.small,
+  p.dnb-lead > small,
+  p.dnb-lead > .small {
+    font-size: 1rem; // 16px
+    line-height: 1.5rem; // 24px
+  }
 
-  // The rest of the Headings are not defned by the Eufemia Typography
+  // The rest of the Headings are nod defned by the Eufemia Typography
   h4 {
-    font-size: 1.25em; // 20px
+    font-size: 1.25rem; // 20px
     line-height: 1.5rem; // 24px
   }
   h5 {
@@ -131,23 +140,13 @@
     margin: 0;
     padding: 0;
 
-    font-size: 1em; // 16px
+    font-size: 1rem; // 16px
     line-height: 1.5rem; // 24px
 
     b,
     strong {
       font-weight: 600;
     }
-
-    small {
-      font-size: 0.875em;
-      line-height: 1.375rem;
-    }
-  }
-
-  p.dnb-small {
-    font-size: 0.875em;
-    line-height: 1.375rem;
   }
 
   label,
@@ -178,10 +177,10 @@
     border-bottom: 1px solid transparent;
 
     font-size: 1em;
-    line-height: 1.5rem;
+    line-height: 1.5em;
   }
   table th {
-    padding: 3rem 1rem 0.5rem;
+    padding: 3em 1em 0.5em;
 
     font-weight: 600;
     text-align: left;
@@ -191,10 +190,10 @@
     border-bottom: 1px solid var(--color-mint-green);
   }
   table td {
-    padding: 1.0625rem 1rem;
+    padding: 1.0625em 1em;
     border-bottom: 1px solid transparent;
 
-    line-height: 1.5rem;
+    line-height: 1.5em;
   }
   table tr {
     background-color: #fff;
@@ -225,22 +224,21 @@
       padding-left: 2rem;
       margin-top: 0;
       margin-bottom: 0;
+      line-height: 1.5rem;
     }
 
     li {
       word-wrap: break-all;
-
-      line-height: 1rem;
     }
 
     ul li,
     ol li {
-      margin-top: 1rem;
-      margin-bottom: 1rem;
+      margin-top: 1em;
+      margin-bottom: 1em;
     }
 
     li > p {
-      margin-top: 1rem;
+      margin-top: 1em;
     }
 
     li + li {
@@ -285,20 +283,20 @@
 
     dl dt {
       padding: 0;
-      margin-top: 1rem;
-      font-size: 1rem;
+      margin-top: 1em;
+      font-size: 1em;
       font-style: italic;
       font-weight: 600;
     }
 
     dl dd {
-      padding: 0 1rem;
-      margin-bottom: 1rem;
+      padding: 0 1em;
+      margin-bottom: 1em;
     }
 
     blockquote {
       margin: 0;
-      padding: 0 1rem;
+      padding: 0 1em;
       color: #666;
       border-left: 0.25em solid #dfe2e5;
     }
@@ -329,7 +327,7 @@
     code,
     * code {
       margin: 0;
-      padding: 0.2em 0.4em;
+      padding: 0.2rem 0.4rem;
 
       font-size: 0.875em;
       background-color: var(--color-mint-green-25);
