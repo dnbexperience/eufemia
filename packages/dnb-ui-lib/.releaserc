@@ -3,6 +3,5 @@
   "debug": false,
   "dryRun": false,
   "branch": "master",
-  "verifyConditions": "condition-circle",
   "analyzeCommits": "simple-commit-message"
 }

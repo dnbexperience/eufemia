@@ -1,5 +1,5 @@
 {
   ...
-  "verifyConditions": "condition-circle", <--- For CircleCI usage, make sure we have this condition in place
+  "verifyConditions": "condition-circle", <--- For CircleCI usage, make sure we have this condition in place (has also to be installed in the package.json)
   ...
 }

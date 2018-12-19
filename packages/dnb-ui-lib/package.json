@@ -99,7 +99,6 @@
     "chalk": "^2.4.1",
     "ci-info": "^2.0.0",
     "color": "^3.1.0",
-    "condition-circle": "^2.0.1",
     "cross-env": "^5.2.0",
     "css-loader": "^2.0.0",
     "css-vars-ponyfill": "^1.15.3",
