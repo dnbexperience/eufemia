@@ -180,22 +180,22 @@ export default css`
 
     ul {
       margin: 0;
-      margin-bottom: calc(1rem - 2px);
       padding: 0;
 
       font-size: 1em;
       line-height: 1rem;
       list-style: none;
-
+      /*
       border-top: 1px solid rgba(219, 0, 255, 0.25);
       border-bottom: 1px solid rgba(219, 0, 255, 0.25);
+      */
     }
 
     li {
       margin: 0;
       padding: 0;
 
-      font-size: 1em;
+      font-size: 1rem;
       font-family: monospace;
       line-height: 1rem;
     }
