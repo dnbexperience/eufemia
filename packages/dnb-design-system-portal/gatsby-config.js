@@ -15,7 +15,6 @@ module.exports = {
   },
   plugins: [
     // 'gatsby-plugin-offline', // we may test the usage without the offline capabilities
-    'gatsby-plugin-remove-serviceworker', // this removes the preloading of links (because of to the font flickering)
     'gatsby-plugin-catch-links',
     'gatsby-plugin-react-helmet',
     {

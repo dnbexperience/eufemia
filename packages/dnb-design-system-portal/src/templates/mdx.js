@@ -12,10 +12,6 @@ import MDXRenderer from 'gatsby-mdx/mdx-renderer'
 import { graphql, withPrefix } from 'gatsby'
 import inlineTags from '../shared/inlineTags'
 
-// UI Style
-import 'dnb-ui-lib/src/style/patterns' // import ony patterns
-import 'dnb-ui-lib/src/style' // import both all components and the default theme
-
 export default class MdxTemplate extends PureComponent {
   render() {
     const {
