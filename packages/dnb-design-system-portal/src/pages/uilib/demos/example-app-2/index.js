@@ -19,10 +19,6 @@ import dnb, {
 } from 'dnb-ui-lib/src'
 import LoanSausage from './LoanSausage'
 
-// UI Style
-import 'dnb-ui-lib/src/style/patterns' // import ony patterns
-import 'dnb-ui-lib/src/style' // import both all components and the default theme
-
 const style = css`
   background: white;
 `
