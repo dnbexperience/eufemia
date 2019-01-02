@@ -14,9 +14,6 @@ module.exports = {
     repoUrl: 'https://github.com/dnbexperience/eufemia/tree/master/'
   },
   plugins: [
-    // 'gatsby-plugin-offline', // we may test the usage without the offline capabilities
-    'gatsby-plugin-catch-links',
-    'gatsby-plugin-react-helmet',
     {
       resolve: 'gatsby-plugin-manifest',
       options: {
@@ -36,7 +33,16 @@ module.exports = {
         // ],
       }
     },
+    'gatsby-plugin-catch-links',
+    'gatsby-plugin-react-helmet',
     'gatsby-plugin-sharp', // is used by gatsby-remark-images
+    {
+      resolve: 'gatsby-source-filesystem',
+      options: {
+        path: `${__dirname}/src/pages`,
+        name: 'pages'
+      }
+    },
     {
       resolve: 'gatsby-mdx',
       options: {
@@ -58,13 +64,6 @@ module.exports = {
         ]
       }
     },
-    {
-      resolve: 'gatsby-source-filesystem',
-      options: {
-        path: `${__dirname}/src/pages`,
-        name: 'pages'
-      }
-    },
     'gatsby-plugin-sass',
     'gatsby-plugin-emotion',
     {
@@ -79,6 +78,9 @@ module.exports = {
           })
         ]
       }
-    }
+    },
+    // this (optional) plugin enables Progressive Web App + Offline functionality
+    // To learn more, visit: https://gatsby.app/offline
+    'gatsby-plugin-offline'
   ]
 }
