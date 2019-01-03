@@ -5,7 +5,7 @@
 
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { css, injectGlobal } from 'react-emotion'
+import { css, Global } from '@emotion/core'
 // import Head from 'react-helmet'
 import MainMenu from './MainMenu'
 import { hamburger_medium as hamburgerIcon } from 'dnb-ui-lib/src/icons/secondary_icons_medium'
@@ -24,12 +24,14 @@ export default class StickyMenuBar extends PureComponent {
     header: PropTypes.string,
     slogan: PropTypes.string,
     onToggleMenu: PropTypes.func,
+    hideSiebarToggleButton: PropTypes.bool,
     preventBarVisibility: PropTypes.bool
   }
   static defaultProps = {
     header: null,
     slogan: 'EUFEMIA', // gatsbyConfig.siteMetadata.title
     onToggleMenu: null,
+    hideSiebarToggleButton: false,
     preventBarVisibility: false
   }
   // static contextType = Context
@@ -95,7 +97,12 @@ export default class StickyMenuBar extends PureComponent {
     }
   }
   render() {
-    const { header, slogan, preventBarVisibility } = this.props
+    const {
+      header,
+      slogan,
+      hideSiebarToggleButton,
+      preventBarVisibility
+    } = this.props
     if (preventBarVisibility) {
       return (
         <span />
@@ -105,42 +112,48 @@ export default class StickyMenuBar extends PureComponent {
       )
     }
     return (
-      <div css={barStyle}>
-        {this.state.showOverlayMenu && (
-          <MainMenu
-            enableOverlay={true}
-            setAsOverlay={true}
-            onToggleOverlay={this.toggleMenuHandler}
-          />
-        )}
-        {!this.state.showOverlayMenu && (
-          <div
-            className={`sticky ${this.state.showGrid ? 'dev-grid' : ''}`}
-          >
-            <span>
-              <Button
-                className="dnb-button--reset"
-                on_click={this.toggleMenuHandler}
-              >
-                <Logo height={48} />
-                {slogan}
-              </Button>
-            </span>
-            {header && <span className="heading">{header}</span>}
+      <>
+        <Global styles={globalStyle} />
+        <div
+          css={[
+            barStyle,
+            hideSiebarToggleButton && hideSiebarToggleButtonStyle
+          ]}
+        >
+          {this.state.showOverlayMenu && (
+            <MainMenu
+              enableOverlay={true}
+              setAsOverlay={true}
+              onToggleOverlay={this.toggleMenuHandler}
+            />
+          )}
+          {!this.state.showOverlayMenu && (
+            <div
+              className={`sticky ${this.state.showGrid ? 'dev-grid' : ''}`}
+            >
+              <span>
+                <Button
+                  className="dnb-button--reset"
+                  on_click={this.toggleMenuHandler}
+                >
+                  <Logo height={48} />
+                  {slogan}
+                </Button>
+              </span>
+              {header && <span className="heading">{header}</span>}
 
-            <span>
-              <SidebarMenuConsumer>
-                {({ toggleMenu, isOpen }) => (
-                  <Button
-                    icon={isOpen ? closeIcon : hamburgerIcon}
-                    on_click={toggleMenu}
-                    className="toggle-sidebar-menu"
-                    variant="tertiary"
-                    title={isOpen ? 'Hide Menu' : 'Show Menu'}
-                  />
-                )}
-              </SidebarMenuConsumer>
-              {process.env.NODE_ENV === 'development' && (
+              <span>
+                <SidebarMenuConsumer>
+                  {({ toggleMenu, isOpen }) => (
+                    <Button
+                      icon={isOpen ? closeIcon : hamburgerIcon}
+                      on_click={toggleMenu}
+                      className="toggle-sidebar-menu"
+                      variant="tertiary"
+                      title={isOpen ? 'Hide Menu' : 'Show Menu'}
+                    />
+                  )}
+                </SidebarMenuConsumer>
                 <span className="toggle-grid">
                   <FormLabel for_id="switch-grid" text="Grid" />
                   <Switch
@@ -149,16 +162,16 @@ export default class StickyMenuBar extends PureComponent {
                     on_change={({ checked }) => this.toggleGrid(checked)}
                   />
                 </span>
-              )}
-            </span>
-          </div>
-        )}
-      </div>
+              </span>
+            </div>
+          )}
+        </div>
+      </>
     )
   }
 }
 
-injectGlobal`
+const globalStyle = css`
   :root {
     --color-outline-grey: #ebebeb;
   }
@@ -255,5 +268,11 @@ const barStyle = css`
     font-size: 1.5em;
     font-weight: 200;
     text-align: center;
+  }
+`
+
+const hideSiebarToggleButtonStyle = css`
+  .toggle-sidebar-menu {
+    display: none;
   }
 `

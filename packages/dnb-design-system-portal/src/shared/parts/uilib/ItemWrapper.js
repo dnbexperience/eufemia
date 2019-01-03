@@ -11,7 +11,7 @@ import ReactDOMServer from 'react-dom/server'
 import { CloseButton } from 'dnb-ui-lib/src/components/modal'
 import Link from 'gatsby-link'
 import PropTypes from 'prop-types'
-import { css } from 'react-emotion'
+import { css } from '@emotion/core'
 import { navigate, parsePath } from 'gatsby'
 import { fullscreen as fullscreenIcon } from 'dnb-ui-lib/src/icons/secondary_icons'
 
@@ -203,7 +203,7 @@ class ItemWrapper extends PureComponent {
             on_change={this.openTab}
             render={({ Wrapper, TabsList, Tabs }) => {
               return (
-                <Wrapper className={tabsWrapperStyle}>
+                <Wrapper css={tabsWrapperStyle}>
                   <TabsList>
                     <Tabs />
                     {this.state.wasFullscreen ? (

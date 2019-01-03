@@ -1,3 +1,6 @@
 <IconPrimary icon="question" />
 <IconPrimary icon="question_medium" />
 <IconPrimary icon="question" size="medium" />
+<Button variant="secondary" size="large">
+  <IconPrimary icon="question_medium" size="large" />
+</Button>

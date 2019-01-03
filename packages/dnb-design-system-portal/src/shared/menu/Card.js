@@ -6,7 +6,8 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import Link from 'gatsby-link'
-import styled, { css, cx } from 'react-emotion'
+import { css } from '@emotion/core'
+import styled from '@emotion/styled'
 
 const boxStyle = css`
   flex: 1 1 0;
@@ -92,7 +93,7 @@ const Box = styled.div`
 export default class Card extends PureComponent {
   static propTypes = {
     url: PropTypes.string.isRequired,
-    customStyle: PropTypes.string,
+    customStyle: PropTypes.object,
     title: PropTypes.string.isRequired,
     icon: PropTypes.func.isRequired,
     onClick: PropTypes.func
@@ -105,13 +106,12 @@ export default class Card extends PureComponent {
     const { url, customStyle, title, icon: Svg, onClick } = this.props
     return (
       <Link
-        className={cx(
+        css={[
           // 'remove-anker-style',
-          'no-underline',
-          'no-underline-hover',
           boxStyle,
           customStyle
-        )}
+        ]}
+        className="no-underline no-underline-hover"
         style={{ '--delay': `${random(1, 160)}ms` }}
         to={url}
         onClick={onClick}

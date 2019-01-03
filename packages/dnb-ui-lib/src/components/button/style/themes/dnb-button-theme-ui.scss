@@ -6,7 +6,7 @@
 @import '../_button-mixins.scss';
 
 .dnb-button--primary {
-  color: #fff;
+  color: var(--color-white);
   background-color: var(--color-sea-green-alt);
   border-color: transparent;
 
@@ -15,14 +15,14 @@
   @include buttonFocus(var(--color-sea-green), var(--color-mint-green-50));
 
   &[disabled] {
-    color: #fff;
+    color: var(--color-white);
     background-color: var(--color-sea-green-alt-30);
   }
 }
 
 .dnb-button--secondary {
   color: var(--color-sea-green);
-  background-color: #fff;
+  background-color: var(--color-white);
   border-color: var(--color-sea-green-alt);
 
   @include buttonHover(var(--color-sea-green), var(--color-mint-green-50));
@@ -31,7 +31,7 @@
 
   &[disabled] {
     color: var(--color-sea-green-alt-30);
-    background-color: v#fff;
+    background-color: var(--color-white);
     border-color: var(--color-sea-green-alt-30);
   }
 }
@@ -94,12 +94,12 @@
 @mixin buttonHover--signal() {
   box-shadow: 0 0 0 var(--button-border-width--hover)
       var(--color-signal-yellow),
-    0 0 0 calc(var(--button-border-width--hover) + 1px) #000;
+    0 0 0 calc(var(--button-border-width--hover) + 1px) var(--color-black);
   @content;
 }
 
 .dnb-button--signal {
-  color: #000;
+  color: var(--color-black);
   background-color: var(--color-signal-yellow);
 
   @include hover(true) {
@@ -110,11 +110,7 @@
     }
   }
 
-  &:not([disabled]):focus {
-    html[data-whatinput='keyboard'] & {
-      @include tabFocus();
-    }
-  }
+  @include buttonFocus(var(--color-black), var(--color-signal-yellow));
 
   &[disabled] {
     color: #b0b0b0;

@@ -4,7 +4,7 @@
  */
 
 import React, { PureComponent } from 'react'
-import { css } from 'react-emotion'
+import { css } from '@emotion/core'
 import Head from 'react-helmet'
 import dnb, {
   Input,
@@ -20,10 +20,6 @@ import dnb, {
   FieldsetDescription,
   ActionNav
 } from 'dnb-ui-lib/src'
-
-// UI Style
-import 'dnb-ui-lib/src/style/patterns' // import ony patterns
-import 'dnb-ui-lib/src/style' // import both all components and the default theme
 
 const style = css`
   background: white;

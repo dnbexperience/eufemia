@@ -21,7 +21,7 @@ class Example extends PureComponent {
               title="Lagre"
               icon_position="left"
               variant="secondary"
-              icon="download"
+              icon="save"
             />
           </div>
           <div className="dnb-summary-table__item">

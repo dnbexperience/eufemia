@@ -5,7 +5,8 @@
 
 import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import styled, { css } from 'react-emotion'
+import { css } from '@emotion/core'
+import styled from '@emotion/styled'
 import classnames from 'classnames'
 
 const typographyStylesRaw = /* @css */ `

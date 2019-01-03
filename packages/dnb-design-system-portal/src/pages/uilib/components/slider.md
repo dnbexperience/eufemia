@@ -11,6 +11,6 @@ order: 12
   Do not change the content!
 -->
 
-import Slider from 'Src/uilib/components/demos/Slider'
+import SliderPage from 'Src/uilib/components/demos/Slider'
 
-<Slider />
+<SliderPage />

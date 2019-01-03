@@ -3,4 +3,5 @@
  *
  */
 
-export * from './style/dnb-slider.scss'
+import './style/dnb-range.scss'
+import './style/dnb-slider.scss'

@@ -12,9 +12,9 @@ if (require.main === module) {
     filePathsWhitelist: [
       '/src/icons/',
       '/assets/icons/',
-      '.version.lock',
+      'version.lock',
       'icons.lock'
     ],
-    isFeatureChecklist: ['.version.lock', 'icons.lock'] // of there are other files than theese, mark it as a feature
+    isFeatureChecklist: ['version.lock', 'icons.lock'] // of there are other files than theese, mark it as a feature
   })
 }

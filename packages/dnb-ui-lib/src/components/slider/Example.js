@@ -4,15 +4,19 @@
  */
 
 import React, { PureComponent, Fragment } from 'react'
-import styled from 'react-emotion'
+import styled from '@emotion/styled'
 import Slider from './Slider'
 import Input from '../input/Input'
 import FormLabel from '../../components/form-label/FormLabel'
+
+// import the native range slider as well
+import './style/dnb-range.scss'
 
 class Example extends PureComponent {
   onChangeHandler = ({ value }) => {
     console.log('on_change', value)
   }
+
   render() {
     return (
       <Fragment>
@@ -38,7 +42,9 @@ class AditionalExample extends PureComponent {
   state = {
     value: 5908000
   }
-
+  handleRangeChange = ({ target: { value } }) => {
+    console.log(value)
+  }
   render() {
     return (
       <Wrapper>
@@ -71,7 +77,8 @@ class AditionalExample extends PureComponent {
                 <Input
                   type="text"
                   value={this.state.value}
-                  font_class="typo-light typo-number--old-style"
+                  input_class="typo-number--old-style"
+                  // input_class="typo-number--lining"
                   description="Kr"
                   extra_information="Maksimumsbeløpet inkluderer eventuell fellesgjeld og omkostninger ved kjøp."
                   on_change={({ value }) => {
@@ -99,6 +106,23 @@ class AditionalExample extends PureComponent {
             </Cell>
           </div>
         </form>
+
+        <div className="dnb-form-row">
+          <FormLabel
+            id="range-slider-label"
+            for_id="range-slider"
+            text="Native Range Slider"
+          />
+          <input
+            id="range-slider"
+            type="range"
+            min="0"
+            max="100"
+            step="5"
+            defaultValue="20"
+            onChange={this.handleRangeChange}
+          />
+        </div>
       </Wrapper>
     )
   }
@@ -120,7 +144,6 @@ const Wrapper = styled.div`
     }
 
     .dnb-slider__input-container {
-      margin: 0.2rem 0 0 0;
       flex: 3;
     }
     .dnb-slider__output-container {

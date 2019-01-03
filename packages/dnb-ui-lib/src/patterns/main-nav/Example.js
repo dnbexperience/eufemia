@@ -5,7 +5,7 @@
 
 import React, { PureComponent, Fragment } from 'react'
 import MainNav from './MainNav'
-import styled from 'react-emotion'
+import styled from '@emotion/styled'
 import Button from '../../components/button/Button'
 
 class Example extends PureComponent {

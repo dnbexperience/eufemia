@@ -3,11 +3,14 @@
  *
  * ========================================================================== */
 
-@import '../../input/style/input.scss';
+// @import '../../input/style/_input.scss';
 
 .dnb-form-label {
+  user-select: none;
+
   display: inline-block;
   cursor: pointer;
+
   width: auto;
-  user-select: none;
+  white-space: nowrap;
 }

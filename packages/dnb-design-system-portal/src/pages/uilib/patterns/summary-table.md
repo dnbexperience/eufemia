@@ -11,6 +11,6 @@ order: 13
   Do not change the content!
 -->
 
-import SummaryTable from 'Src/uilib/patterns/demos/SummaryTable'
+import SummaryTablePage from 'Src/uilib/patterns/demos/SummaryTable'
 
-<SummaryTable />
+<SummaryTablePage />

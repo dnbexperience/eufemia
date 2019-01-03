@@ -30,15 +30,16 @@ export const propTypes = {
   size: PropTypes.string,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   id: PropTypes.string,
-  autocomplete: PropTypes.string,
+  autocomplete: PropTypes.oneOf(['on', 'off']),
   search_button_title: PropTypes.string,
   placeholder: PropTypes.string,
   description: PropTypes.string,
-  font_class: PropTypes.string,
   align: PropTypes.string,
   extra_information: PropTypes.string,
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   class: PropTypes.string,
+  input_class: PropTypes.string,
+  input_typo: PropTypes.string,
   attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
 
   // React props
@@ -70,10 +71,11 @@ export const defaultProps = {
   search_button_title: '',
   placeholder: null,
   description: null,
-  font_class: null,
   align: null,
   extra_information: null,
   disabled: false,
+  input_class: null,
+  input_typo: 'typo-number--lining',
   class: null,
   attributes: null,
 
@@ -109,6 +111,9 @@ export default class Input extends PureComponent {
       value !== state.value
     ) {
       state.value = value
+    }
+    if (props.disabled) {
+      state.inputState = 'disabled'
     }
     state._listenForPropChanges = true
     return state
@@ -179,23 +184,30 @@ export default class Input extends PureComponent {
   }
   render() {
     const {
-      autocomplete,
       type,
       size,
       id,
       disabled,
       placeholder,
       description,
-      font_class,
       align,
+      input_class,
+      input_typo,
       extra_information
     } = this.props
+
+    let { autocomplete } = this.props
+    if (type === 'search') {
+      autocomplete = null
+    }
 
     const classes = classnames(
       'dnb-input',
       `dnb-input--${type}`, //type_modifier
       extra_information ? 'dnb-input--has-extra-information' : null,
       size ? 'dnb-input--' + size : '',
+      type === 'search' ? 'dnb-input__input--search' : null,
+      align ? `dnb-input__align--${align}` : null,
       this.props.class,
       this.props.className
     )
@@ -204,12 +216,7 @@ export default class Input extends PureComponent {
 
     const inputParams = {
       ...renderProps,
-      className: classnames(
-        'dnb-input__input',
-        font_class ? font_class : 'typo-light',
-        type === 'search' ? 'dnb-input__input--search' : null,
-        align ? `dnb-input__align--${align}` : null
-      ),
+      className: classnames('dnb-input__input', input_typo, input_class),
       autoComplete: autocomplete,
       value: this.state.value || '',
       type,
@@ -257,7 +264,6 @@ export default class Input extends PureComponent {
             <span
               className={classnames(
                 'dnb-input__placeholder',
-                font_class ? font_class : 'typo-book',
                 align ? `dnb-input__align--${align}` : null
               )}
             >

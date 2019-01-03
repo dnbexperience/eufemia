@@ -11,6 +11,6 @@ order: 15
   Do not change the content!
 -->
 
-import ViewTitle from 'Src/uilib/patterns/demos/ViewTitle'
+import ViewTitlePage from 'Src/uilib/patterns/demos/ViewTitle'
 
-<ViewTitle />
+<ViewTitlePage />

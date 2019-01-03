@@ -11,6 +11,6 @@ order: 7
   Do not change the content!
 -->
 
-import Form from 'Src/uilib/patterns/demos/Form'
+import FormPage from 'Src/uilib/patterns/demos/Form'
 
-<Form />
+<FormPage />

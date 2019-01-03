@@ -14,10 +14,6 @@ module.exports = {
     repoUrl: 'https://github.com/dnbexperience/eufemia/tree/master/'
   },
   plugins: [
-    // 'gatsby-plugin-offline', // we may test the usage without the offline capabilities
-    'gatsby-plugin-remove-serviceworker', // this removes the preloading of links (because of to the font flickering)
-    'gatsby-plugin-catch-links',
-    'gatsby-plugin-react-helmet',
     {
       resolve: 'gatsby-plugin-manifest',
       options: {
@@ -37,7 +33,16 @@ module.exports = {
         // ],
       }
     },
+    'gatsby-plugin-catch-links',
+    'gatsby-plugin-react-helmet',
     'gatsby-plugin-sharp', // is used by gatsby-remark-images
+    {
+      resolve: 'gatsby-source-filesystem',
+      options: {
+        path: `${__dirname}/src/pages`,
+        name: 'pages'
+      }
+    },
     {
       resolve: 'gatsby-mdx',
       options: {
@@ -57,13 +62,12 @@ module.exports = {
             }
           }
         ]
-      }
-    },
-    {
-      resolve: 'gatsby-source-filesystem',
-      options: {
-        path: `${__dirname}/src/pages`,
-        name: 'pages'
+        // Example of how to use globalScope
+        // globalScope: /* @es6 */ `import { SketchPicker } from 'react-color';
+        // export default { Picker: SketchPicker }`,
+        // defaultLayouts: {
+        //   // default: require.resolve('./src/templates/mdx.js')
+        // }
       }
     },
     'gatsby-plugin-sass',
@@ -80,6 +84,9 @@ module.exports = {
           })
         ]
       }
-    }
+    },
+    // this (optional) plugin enables Progressive Web App + Offline functionality
+    // To learn more, visit: https://gatsby.app/offline
+    'gatsby-plugin-offline'
   ]
 }

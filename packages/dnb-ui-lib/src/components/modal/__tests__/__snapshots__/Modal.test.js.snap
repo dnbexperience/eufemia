@@ -15,6 +15,7 @@ exports[`Modal component have to match snapshot 1`] = `
         "modal_trigger_icon": "modal_trigger_icon",
         "modal_trigger_text": "modal_trigger_text",
         "modal_trigger_title": "modal_trigger_title",
+        "preventSetTriggerRef": true,
         "title": "title",
         "type": "'button'",
       },
@@ -23,13 +24,21 @@ exports[`Modal component have to match snapshot 1`] = `
   1={
     Object {
       "displayName": "ModalRoot",
-      "props": Object {},
+      "props": Object {
+        "children": "children",
+      },
     }
   }
   2={
     Object {
       "displayName": "ModalContent",
-      "props": Object {},
+      "props": Object {
+        "close_title": "close_title",
+        "content_id": "content_id",
+        "hide": [Function],
+        "modal_content": "modal_content",
+        "title": "title",
+      },
     }
   }
   3={
@@ -160,6 +169,7 @@ exports[`Modal component have to match snapshot 1`] = `
             "modal_trigger_icon": "modal_trigger_icon",
             "modal_trigger_text": "modal_trigger_text",
             "modal_trigger_title": "modal_trigger_title",
+            "preventSetTriggerRef": true,
             "title": "title",
             "type": "'button'",
           },
@@ -168,13 +178,21 @@ exports[`Modal component have to match snapshot 1`] = `
       1={
         Object {
           "displayName": "ModalRoot",
-          "props": Object {},
+          "props": Object {
+            "children": "children",
+          },
         }
       }
       2={
         Object {
           "displayName": "ModalContent",
-          "props": Object {},
+          "props": Object {
+            "close_title": "close_title",
+            "content_id": "content_id",
+            "hide": [Function],
+            "modal_content": "modal_content",
+            "title": "title",
+          },
         }
       }
       3={
@@ -215,6 +233,7 @@ exports[`Modal component have to match snapshot 1`] = `
               "modal_trigger_icon": "modal_trigger_icon",
               "modal_trigger_text": "modal_trigger_text",
               "modal_trigger_title": "modal_trigger_title",
+              "preventSetTriggerRef": true,
               "title": "title",
               "type": "'button'",
             },
@@ -223,13 +242,21 @@ exports[`Modal component have to match snapshot 1`] = `
         1={
           Object {
             "displayName": "ModalRoot",
-            "props": Object {},
+            "props": Object {
+              "children": "children",
+            },
           }
         }
         2={
           Object {
             "displayName": "ModalContent",
-            "props": Object {},
+            "props": Object {
+              "close_title": "close_title",
+              "content_id": "content_id",
+              "hide": [Function],
+              "modal_content": "modal_content",
+              "title": "title",
+            },
           }
         }
         3={
@@ -437,7 +464,7 @@ exports[`Modal scss have to match snapshot 1`] = `
   src: url(\\"../../../../assets/fonts//FedraSansStd-Book.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts//FedraSansStd-Book.woff2\\") format(\\"woff2\\"), url(\\"../../../../assets/fonts//FedraSansStd-Book.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts//FedraSansStd-Book.ttf\\") format(\\"truetype\\");
   font-weight: normal;
   font-style: normal;
-  font-display: swap; }
+  font-display: fallback; }
 
 @font-face {
   font-family: 'Fedra Sans Std';
@@ -445,7 +472,7 @@ exports[`Modal scss have to match snapshot 1`] = `
   src: url(\\"../../../../assets/fonts//FedraSansStd-Medium.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts//FedraSansStd-Medium.woff2\\") format(\\"woff2\\"), url(\\"../../../../assets/fonts//FedraSansStd-Medium.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts//FedraSansStd-Medium.ttf\\") format(\\"truetype\\");
   font-weight: 600;
   font-style: normal;
-  font-display: swap; }
+  font-display: fallback; }
 
 @font-face {
   font-family: 'Fedra Sans Std Demi';
@@ -453,7 +480,7 @@ exports[`Modal scss have to match snapshot 1`] = `
   src: url(\\"../../../../assets/fonts//FedraSansStd-Demi.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts//FedraSansStd-Demi.woff2\\") format(\\"woff2\\"), url(\\"../../../../assets/fonts//FedraSansStd-Demi.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts//FedraSansStd-Demi.ttf\\") format(\\"truetype\\");
   font-weight: normal;
   font-style: normal;
-  font-display: swap; }
+  font-display: fallback; }
 
 /*
 * Scopes
@@ -623,13 +650,10 @@ exports[`Modal scss have to match snapshot 1`] = `
       box-shadow: none;
       border: none; }
     .dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
-      outline: none;
-      border-color: transparent; }
-      html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):focus:not(.dnb-no-mouse-focus), html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):active:not(.dnb-no-mouse-focus) {
-        transition: box-shadow 0.1s ease-out 0s;
-        box-shadow: 0 0 0 2px var(--color-emerald-green); }
+      outline: none; }
       html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
-        box-shadow: 0 0 0 2px var(--color-signal-orange); }
+        box-shadow: 0 0 0 2px var(--color-signal-orange);
+        border-color: transparent; }
     html[data-whatinput='mouse']
 .dnb-button--reset:not([disabled]):focus:not(.dnb-no-mouse-focus),
     html[data-whatinput='mouse']

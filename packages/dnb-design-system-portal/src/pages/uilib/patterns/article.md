@@ -11,6 +11,6 @@ order: 2
   Do not change the content!
 -->
 
-import Article from 'Src/uilib/patterns/demos/Article'
+import ArticlePage from 'Src/uilib/patterns/demos/Article'
 
-<Article />
+<ArticlePage />

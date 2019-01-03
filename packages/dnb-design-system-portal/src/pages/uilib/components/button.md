@@ -11,6 +11,6 @@ order: 1
   Do not change the content!
 -->
 
-import Button from 'Src/uilib/components/demos/Button'
+import ButtonPage from 'Src/uilib/components/demos/Button'
 
-<Button />
+<ButtonPage />

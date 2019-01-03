@@ -3,4 +3,4 @@
  *
  */
 
-export * from './style/dnb-button.scss'
+import './style/dnb-button.scss'

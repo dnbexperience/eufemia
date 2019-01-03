@@ -3,4 +3,4 @@
  *
  */
 
-export * from './style/dnb-article.scss'
+import './style/dnb-article.scss'

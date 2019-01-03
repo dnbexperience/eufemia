@@ -5,7 +5,7 @@
 
 import React, { PureComponent, Fragment } from 'react'
 import Button from './Button'
-import styled from 'react-emotion'
+import styled from '@emotion/styled'
 import { bell_medium as Bell, question } from '../../../icons'
 
 class Example extends PureComponent {

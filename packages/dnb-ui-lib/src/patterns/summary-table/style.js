@@ -3,4 +3,4 @@
  *
  */
 
-export * from './style/dnb-summary-table.scss'
+import './style/dnb-summary-table.scss'

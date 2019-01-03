@@ -11,6 +11,6 @@ order: 5
   Do not change the content!
 -->
 
-import Footer from 'Src/uilib/patterns/demos/Footer'
+import FooterPage from 'Src/uilib/patterns/demos/Footer'
 
-<Footer />
+<FooterPage />

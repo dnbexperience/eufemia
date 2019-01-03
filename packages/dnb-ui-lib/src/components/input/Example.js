@@ -5,7 +5,11 @@
 
 import React, { PureComponent, Fragment } from 'react'
 import Input from './Input'
-import styled from 'react-emotion'
+import FormLabel from '../form-label'
+import styled from '@emotion/styled'
+
+// The range slider gets imported by the input directly
+// import '../slider/style'
 
 class Example extends PureComponent {
   constructor(props) {
@@ -41,46 +45,68 @@ class Example extends PureComponent {
   render() {
     return (
       <Fragment>
-        <Input id="text-input-2" placeholder="Placeholder text" />
+        <div className="dnb-form-row">
+          <FormLabel for_id="text-input-2" text="Label" />
+          <Input id="text-input-2" placeholder="Placeholder text" />
+        </div>
 
-        <Input
-          type="search"
-          id="search-input"
-          search_button_title="Search"
-          placeholder="Search"
-          on_change={this.handleInputChange}
-        />
+        <div className="dnb-form-row">
+          <FormLabel for_id="search-input" text="Search" />
+          <Input
+            type="search"
+            id="search-input"
+            search_button_title="Search"
+            placeholder="Search text placeholder"
+            on_change={this.handleInputChange}
+          />
+        </div>
 
-        <Input
-          type="text"
-          id="text-input-large"
-          autocomplete="off"
-          size="large"
-          align="right"
-          font_class="typo-light"
-          placeholder="Large input with .typo-light class"
-          on_change={this.handleInputChange}
-        />
+        <div className="dnb-form-row">
+          <FormLabel for_id="text-input-medium" text="Medium input" />
+          <Input
+            type="text"
+            id="text-input-medium"
+            size="medium"
+            placeholder="Medium input placeholder"
+            on_change={this.handleInputChange}
+          />
+        </div>
 
-        <Input
-          disabled
-          id="text-input-disabled"
-          value="Disabled Input with a value"
-          on_change={this.handleInputChange}
-        />
+        <div className="dnb-form-row">
+          <FormLabel for_id="text-input-large" text="Large input" />
+          <Input
+            type="text"
+            id="text-input-large"
+            size="large"
+            align="right"
+            placeholder="Large input with right align"
+            on_change={this.handleInputChange}
+          />
+        </div>
 
-        <Input
-          type="text"
-          id="text-input-1"
-          autocomplete="on"
-          placeholder="Placeholder text"
-          description="Kr"
-          extra_information="Maksimumsbeløpet inkluderer eventuell fellesgjeld og omkostninger ved kjøp."
-          ref={this._ref}
-          on_change={this.handleInputChange}
-        >
-          This is the value
-        </Input>
+        <div className="dnb-form-row">
+          <FormLabel for_id="text-input-disabled" text="Disabled input" />
+          <Input
+            disabled
+            id="text-input-disabled"
+            value="Disabled Input with a text value"
+          />
+        </div>
+
+        <label htmlFor="text-input-1">
+          <Input
+            type="text"
+            id="text-input-1"
+            autocomplete="on"
+            placeholder="Placeholder text"
+            description="Kr"
+            extra_information="Info: numbers are ligned by using typo-number--lining"
+            ref={this._ref}
+            on_change={this.handleInputChange}
+          >
+            This is the value 1234567890
+          </Input>
+        </label>
       </Fragment>
     )
   }
@@ -90,8 +116,12 @@ const Wrapper = styled.div`
   display: block;
   width: 100%;
 
+  .dnb-form-row,
   .dnb-input {
-    margin: 1rem 0;
+    margin-top: 1rem;
+  }
+  .dnb-form-label + .dnb-input {
+    margin-top: 0;
   }
 `
 

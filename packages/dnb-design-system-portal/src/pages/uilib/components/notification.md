@@ -11,6 +11,6 @@ order: 11
   Do not change the content!
 -->
 
-import Notification from 'Src/uilib/components/demos/Notification'
+import NotificationPage from 'Src/uilib/components/demos/Notification'
 
-<Notification />
+<NotificationPage />

@@ -11,6 +11,6 @@ order: 14
   Do not change the content!
 -->
 
-import Typography from 'Src/uilib/patterns/demos/Typography'
+import TypographyPage from 'Src/uilib/patterns/demos/Typography'
 
-<Typography />
+<TypographyPage />

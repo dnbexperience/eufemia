@@ -3,4 +3,4 @@
  *
  */
 
-export * from './style/dnb-step-indicator.scss'
+import './style/dnb-step-indicator.scss'

@@ -11,6 +11,6 @@ order: 4
   Do not change the content!
 -->
 
-import IconPrimary from 'Src/uilib/components/demos/IconPrimary'
+import IconPrimaryPage from 'Src/uilib/components/demos/IconPrimary'
 
-<IconPrimary />
+<IconPrimaryPage />

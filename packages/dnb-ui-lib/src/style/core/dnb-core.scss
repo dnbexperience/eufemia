@@ -66,7 +66,7 @@ a {
   }
 
   &:focus {
-    @include fakeFocus(false);
+    @include fakeFocus();
   }
 }
 a.no-underline {
@@ -103,7 +103,7 @@ html[data-whatinput='mouse'] .dnb-style *:focus {
   outline: none;
 }
 html[data-whatinput='keyboard'] .dnb-style *:not(a):not(div):focus {
-  @include fakeFocus('mouse');
+  @include fakeFocus();
 }
 .dnb-no-focus {
   outline: none;
@@ -114,7 +114,7 @@ html[data-whatinput='keyboard'] .dnb-style *:not(a):not(div):focus {
 .dnb-tab-focus {
   outline: none;
   &:focus {
-    @include tabFocus();
+    @include fakeFocus('keyboard');
   }
 }
 .dnb-always-focus {

@@ -7,10 +7,6 @@ import React, { Component, Fragment } from 'react'
 import ReactTestUtils from 'react-dom/test-utils' // ES6
 import PropTypes from 'prop-types'
 
-// UI Style
-import 'dnb-ui-lib/src/style/patterns' // import ony patterns
-import 'dnb-ui-lib/src/style' // import both all components and the default theme
-
 // UI Components
 import dnb, {
   Button,

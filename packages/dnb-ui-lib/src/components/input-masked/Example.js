@@ -5,7 +5,7 @@
 
 import React, { PureComponent, Fragment } from 'react'
 import InputMasked from './InputMasked'
-import styled from 'react-emotion'
+import styled from '@emotion/styled'
 
 import createNumberMask from 'text-mask-addons/dist/createNumberMask' // https://github.com/text-mask/text-mask
 const numberMask = createNumberMask({

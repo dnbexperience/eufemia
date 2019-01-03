@@ -6,7 +6,7 @@
 import React, { PureComponent, Fragment } from 'react'
 import Tabs from './Tabs'
 import Input from '../input/Input'
-import styled from 'react-emotion'
+import styled from '@emotion/styled'
 
 class Example extends PureComponent {
   static AdditionalCallback = {

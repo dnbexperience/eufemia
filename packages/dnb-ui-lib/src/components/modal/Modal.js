@@ -37,6 +37,7 @@ export const propTypes = {
     PropTypes.func
   ]),
   // Web Component props
+  preventSetTriggerRef: PropTypes.bool,
   modal_content: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.node,
@@ -57,6 +58,7 @@ export const defaultProps = {
   className: null,
   children: null,
   // Web Component props
+  preventSetTriggerRef: false,
   ...renderProps
 }
 
@@ -203,6 +205,17 @@ export default class Modal extends PureComponent {
 }
 
 class ModalRoot extends PureComponent {
+  static propTypes = {
+    children: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.node,
+      PropTypes.func
+    ])
+  }
+  static defaultProps = {
+    children: null
+  }
+
   constructor(props) {
     super(props)
     if (modalRoot) {
@@ -233,6 +246,21 @@ class ModalRoot extends PureComponent {
 }
 
 class ModalContent extends PureComponent {
+  static propTypes = {
+    modal_content: PropTypes.oneOfType([PropTypes.node]).isRequired,
+    content_id: PropTypes.string,
+    title: PropTypes.string,
+    close_title: PropTypes.string,
+    hide: PropTypes.func
+  }
+
+  static defaultProps = {
+    content_id: null,
+    title: null,
+    close_title: null,
+    hide: null
+  }
+
   constructor(props) {
     super(props)
     this._contentRef = React.createRef()

@@ -3,4 +3,6 @@
  *
  */
 
-export * from './Input'
+import InputMasked from './InputMasked'
+export default InputMasked
+export * from './InputMasked'

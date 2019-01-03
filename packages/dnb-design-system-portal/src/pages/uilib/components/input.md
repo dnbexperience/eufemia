@@ -2,7 +2,7 @@
 header: 'UI Library'
 title: 'Input'
 draft: false
-status: wip
+status: null
 order: 7
 ---
 
@@ -11,6 +11,6 @@ order: 7
   Do not change the content!
 -->
 
-import Input from 'Src/uilib/components/demos/Input'
+import InputPage from 'Src/uilib/components/demos/Input'
 
-<Input />
+<InputPage />

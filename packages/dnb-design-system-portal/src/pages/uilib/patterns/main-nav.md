@@ -11,6 +11,6 @@ order: 10
   Do not change the content!
 -->
 
-import MainNav from 'Src/uilib/patterns/demos/MainNav'
+import MainNavPage from 'Src/uilib/patterns/demos/MainNav'
 
-<MainNav />
+<MainNavPage />

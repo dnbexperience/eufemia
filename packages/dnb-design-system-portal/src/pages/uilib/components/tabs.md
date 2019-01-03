@@ -11,6 +11,6 @@ order: 14
   Do not change the content!
 -->
 
-import Tabs from 'Src/uilib/components/demos/Tabs'
+import TabsPage from 'Src/uilib/components/demos/Tabs'
 
-<Tabs />
+<TabsPage />

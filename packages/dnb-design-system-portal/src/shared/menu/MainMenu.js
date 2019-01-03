@@ -5,7 +5,7 @@
 
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { injectGlobal, css } from 'react-emotion'
+import { css, Global } from '@emotion/core'
 import classnames from 'classnames'
 import Card from './Card'
 import keycode from 'keycode'
@@ -18,14 +18,6 @@ import {
   QuickguideDeveloperSvg
 } from './Graphics'
 import { Button } from 'dnb-ui-lib/src'
-
-injectGlobal`
-  @media (min-width: 640px) {
-    body[data-overlay-active='true'] {
-      overflow: hidden;
-    }
-  }
-`
 
 const sectionsStyle = css`
   display: flex;
@@ -148,72 +140,83 @@ export default class MainMenu extends PureComponent {
   render() {
     if (!this.state.hide) this.changeBodyDataState(true)
     return (
-      <div
-        css={mainMenuStyle}
-        className={classnames(
-          this.props.setAsOverlay ? 'show-as-overlay' : null,
-          this.props.enableOverlay ? 'is-overlay' : null,
-          this.state.hide ? 'fade-out' : null
-        )}
-      >
-        <div css={toolbarStyle}>
-          {this.props.enableOverlay && (
-            <Button
-              className="main-menu__back dnb-always-focus"
-              on_click={this.closeMenuHandler}
-              icon="chevron-left"
-              icon_position="left"
-              text="BACK"
-              title="Back"
-              innerRef={this._ref}
-            />
+      <>
+        <Global
+          styles={css`
+            @media (min-width: 640px) {
+              body[data-overlay-active='true'] {
+                overflow: hidden;
+              }
+            }
+          `}
+        />
+        <div
+          css={mainMenuStyle}
+          className={classnames(
+            this.props.setAsOverlay ? 'show-as-overlay' : null,
+            this.props.enableOverlay ? 'is-overlay' : null,
+            this.state.hide ? 'fade-out' : null
           )}
+        >
+          <div css={toolbarStyle}>
+            {this.props.enableOverlay && (
+              <Button
+                className="main-menu__back dnb-always-focus"
+                on_click={this.closeMenuHandler}
+                icon="chevron-left"
+                icon_position="left"
+                text="BACK"
+                title="Back"
+                innerRef={this._ref}
+              />
+            )}
+          </div>
+          <div css={sectionsStyle}>
+            <Card
+              url="/uilib/"
+              title="UI Library"
+              icon={UilibSvg}
+              customStyle={oceanGreen}
+              onClick={this.closeMenuHandler}
+            />
+            <Card
+              url="/quickguide-designer/"
+              title="Quick Guide - Designers"
+              icon={QuickguideDesignerSvg}
+              customStyle={mintGreen}
+              onClick={this.closeMenuHandler}
+            />
+            <Card
+              url="/quickguide-developer/"
+              title="Quick Guide - Developers"
+              icon={QuickguideDeveloperSvg}
+              customStyle={summerGreen}
+              onClick={this.closeMenuHandler}
+            />
+            <Card
+              url="/icons/"
+              title="Icon Library"
+              icon={IconsSvg}
+              customStyle={oceanGreen}
+              onClick={this.closeMenuHandler}
+            />
+            <Card
+              url="/brand/"
+              title="Brand"
+              icon={BrandSvg}
+              customStyle={emeraldGreen}
+              onClick={this.closeMenuHandler}
+            />
+            <Card
+              url="/principles/"
+              title="Design Principles"
+              icon={PrinciplesSvg}
+              customStyle={seaGreen}
+              onClick={this.closeMenuHandler}
+            />
+          </div>
         </div>
-        <div css={sectionsStyle}>
-          <Card
-            url="/uilib/"
-            title="UI Library"
-            icon={UilibSvg}
-            customStyle={oceanGreen}
-            onClick={this.closeMenuHandler}
-          />
-          <Card
-            url="/quickguide-designer/"
-            title="Quick Guide - Designers"
-            icon={QuickguideDesignerSvg}
-            customStyle={mintGreen}
-            onClick={this.closeMenuHandler}
-          />
-          <Card
-            url="/quickguide-developer/"
-            title="Quick Guide - Developers"
-            icon={QuickguideDeveloperSvg}
-            customStyle={summerGreen}
-            onClick={this.closeMenuHandler}
-          />
-          <Card
-            url="/icons/"
-            title="Icon Library"
-            icon={IconsSvg}
-            customStyle={oceanGreen}
-            onClick={this.closeMenuHandler}
-          />
-          <Card
-            url="/brand/"
-            title="Brand"
-            icon={BrandSvg}
-            customStyle={emeraldGreen}
-            onClick={this.closeMenuHandler}
-          />
-          <Card
-            url="/principles/"
-            title="Design Principles"
-            icon={PrinciplesSvg}
-            customStyle={seaGreen}
-            onClick={this.closeMenuHandler}
-          />
-        </div>
-      </div>
+      </>
     )
   }
 }

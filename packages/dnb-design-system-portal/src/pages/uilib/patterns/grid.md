@@ -11,6 +11,6 @@ order: 8
   Do not change the content!
 -->
 
-import Grid from 'Src/uilib/patterns/demos/Grid'
+import GridPage from 'Src/uilib/patterns/demos/Grid'
 
-<Grid />
+<GridPage />
