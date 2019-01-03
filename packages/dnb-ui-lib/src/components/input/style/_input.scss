@@ -3,16 +3,60 @@
 *
 * ======================================================================== */
 
-@import './_input-vars.scss';
+:root {
+  --input-font-family: var(--font-family-std);
+  --input-font-size: 1rem;
+  --input-font-size--medium: 1.5rem;
+  --input-font-size--large: 2rem;
+  --input-font-weight: normal;
+  --input-font-style: normal;
+  --input-padding-horizontal: 1rem;
+  --input-padding-horizontal--large: 1.5rem;
+  --input-padding-vertical: 0;
+  --input-padding-vertical--large: 0;
+  --input-height: 2rem;
+  --input-height--medium: 2.5rem;
+  --input-height--large: 3rem;
+  --input-border-radius: calc(var(--input-height) / 2);
+  --input-border-radius--medium: calc(var(--input-height--medium) / 2);
+  --input-border-radius--large: calc(var(--input-height--large) / 2);
+  --input-border-width: 1px;
+  --input-border-color: var(--color-sea-green-alt);
+  --input-border-color--disabled: var(--color-sea-green-alt-30);
+}
+
+.dnb-form-row {
+  width: 100%;
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  .dnb-form-label {
+    margin-right: 1rem;
+  }
+}
 
 .dnb-input {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   flex-flow: row wrap;
   width: 100%;
 
-  &--label-hidden label {
-    @include sr-only();
+  font-family: var(--input-font-family);
+  font-size: var(--input-font-size);
+  font-weight: var(--input-font-weight);
+  font-style: var(--input-font-style);
+  line-height: var(--input-height);
+  color: inherit;
+
+  &__input {
+    outline: none;
+    border: none;
+  }
+
+  &__input[disabled] {
+    user-select: none;
   }
 
   &__shell {
@@ -26,280 +70,137 @@
     margin: 0;
 
     align-items: center;
+  }
 
-    background-color: $input-background-color;
-    border-radius: $input-border-radius;
-    border: $input-border-width solid $input-border-color;
-
-    transition: background-color 0.5s ease-out 0s;
-
-    input:not([disabled]) {
-      @include hover(true) {
-        background-color: rgba(255, 255, 255, 0.7);
-      }
-    }
+  &__shell,
+  &__input {
+    height: var(--input-height);
+    border-radius: var(--input-border-radius);
   }
 
   &__description,
   &__placeholder,
   &__input {
-    font-size: 1rem;
-    line-height: 1.25;
+    color: inherit;
+    background-color: transparent;
   }
 
   &__placeholder,
   &__input {
     width: 100%;
-    height: $input-height;
-    padding: $input-padding-vertical + 0.2 0 $input-padding-vertical
-      $input-padding-horizontal;
+    // height: calc(var(--input-height) - var(--button-border-width) * 2);
+    padding: var(--input-padding-vertical) var(--input-padding-horizontal);
 
-    font-family: inherit;
-    font-weight: inherit;
-    outline: none;
-
-    background-color: transparent;
-    color: inherit;
-
-    border: none;
-    border-radius: $input-border-radius;
-  }
-
-  &__input[disabled] {
-    opacity: 0.5;
-    user-select: none;
+    // +1px because of the border width
+    transform: translateY(var(--button-border-width));
   }
 
   &__placeholder {
     pointer-events: none;
 
     position: absolute;
-    left: 0;
-    top: 2px;
-    padding: 0 $input-padding-horizontal;
 
-    // max-width: calc(100% - %{$input-padding-horizontal});
     height: 100%;
-    overflow: hidden;
+    padding: 0 var(--input-padding-horizontal);
+
     white-space: nowrap;
+    overflow: hidden;
 
-    opacity: 1;
-
-    color: rgba(var(--color-black-80), 0.8);
-    line-height: $input-height;
     text-overflow: ellipsis;
-    border-radius: 0;
-
-    transition: opacity 0.1s linear 0s;
   }
 
   &__description {
-    margin: 0 0 0 0.5rem;
+    padding-left: 0.5em;
   }
 
   &__extra-information {
     flex: 1 100%;
 
-    margin: 0.5rem 0 0 $input-padding-horizontal;
+    padding: 0.5em 1.5em;
 
-    font-size: 0.75rem;
-    line-height: 1rem;
+    font-size: 0.75em; // 12px
+    line-height: 1.25rem;
   }
 
-  &--large {
+  &--medium {
+    .dnb-input__shell,
+    .dnb-input__input {
+      height: var(--input-height--medium);
+      border-radius: var(--input-border-radius--medium);
+    }
+
     .dnb-input__description,
-    .dnb-input__input,
-    .dnb-input__placeholder {
-      font-size: 2rem;
+    .dnb-input__placeholder,
+    .dnb-input__input {
+      font-size: var(--input-font-size--medium);
     }
 
     .dnb-input__placeholder {
-      // left: $input-padding-horizontal-l;
-      line-height: $input-height-l;
+      line-height: var(--input-height--medium);
     }
 
     .dnb-input__input {
-      height: $input-height-l;
-      padding: $input-padding-vertical-l 0 $input-padding-vertical-l
-        $input-padding-horizontal-l;
-      border-radius: $input-border-radius-l;
+      padding: var(--input-padding-vertical--medium)
+        var(--input-padding-horizontal--medium);
+    }
+  }
+  &--large {
+    .dnb-input__shell,
+    .dnb-input__input {
+      height: var(--input-height--large);
+      border-radius: var(--input-border-radius--large);
+    }
+
+    .dnb-input__description,
+    .dnb-input__placeholder,
+    .dnb-input__input {
+      font-size: var(--input-font-size--large);
+    }
+
+    .dnb-input__placeholder {
+      line-height: var(--input-height--large);
+    }
+
+    .dnb-input__input {
+      padding: var(--input-padding-vertical--large)
+        var(--input-padding-horizontal--large);
     }
   }
 
-  &__align--right {
-    padding-left: 0 !important;
-    padding-right: $input-padding-horizontal !important;
+  &__align--right &__placeholder,
+  &__align--right &__input {
+    padding-right: var(--input-padding-horizontal);
     text-align: right;
   }
 
-  &__input--search {
-    border-radius: $input-border-radius 0 0 $input-border-radius;
-    margin: 0 1px 0 0;
-  }
-
+  // &__input--search {
+  // }
   &__search-submit {
-    position: relative;
-    top: -1px;
-    right: -1px;
-
-    /* stylelint-disable */
-    flex: 0 0 $input-height; // IE fix
-    flex: 0 0 calc(4px + #{$input-height});
-
-    height: $input-height; // IE fix
-    height: calc(4px + #{$input-height});
-    /* stylelint-enable */
-
-    margin: 0 0 -2px;
-
-    // overflow: hidden;
-    // border-radius: $input-border-radius;
-    // border: 1px solid $input-border-color;
-
-    &__button {
-      width: 100%;
-      height: 100%;
-      // border: none;
-    }
+    transform: translateX(var(--button-border-width));
   }
 
-  //Input focus state
-  &__shell[data-input-state='focus'] {
-    border-color: rgb(160, 214, 201);
-    background-color: white;
-
-    // .dnb-input__search-submit {
-    //   border-color: rgba(210, 239, 232, 0.5);
-    // }
-
-    @include fakeBorder();
-    @include fakeFocus();
-  }
-
-  //Hide placeholder when:
-  //1: input has content
-  //2: input is in focus
+  // Hide placeholder when: 1. input has content or 2: input is in focus
   &__shell[data-has-content='true'] .dnb-input__placeholder,
-  &__shell[data-input-state='focus'][data-has-content='true']
-    .dnb-input__placeholder {
+  &__shell[data-input-state='focus'] .dnb-input__placeholder {
     display: none;
   }
-
-  //Adjusting opacity of placeholder when:
-  //1: input is in focus
-  //and
-  //2. input has content
-  &__shell[data-input-state='focus'][data-has-content='false']
-    .dnb-input__placeholder {
-    opacity: 0.35;
-  }
 }
 
-//Search button focus state
-// .dnb-input__search-submit[data-input-state='focus'] {
-//   border-color: $input-border-color;
+// The input[type='range'] is moved into the slider component style
+// @import '../../slider/style/_range.scss';
+
+// Additional resets
+// legend {
+//   padding: 0;
+//   display: table;
+//   width: 100%;
 // }
-
-//Background color of input when it has content
-.dnb-input__shell[data-has-content='true'] {
-  background-color: rgba(255, 255, 255, 0.7);
-}
-
-//Focus box shadow
-// .dnb-input__search-submit[data-input-state='focus'],
-// .dnb-input__shell[data-input-state='focus'] {
-//   @include fakeBorder();
-//   @include fakeFocus();
+// fieldset {
+//   border: 0;
+//   padding: 0.01em 0 0 0;
+//   margin: 0;
+//   min-width: 0;
 // }
-
-/*
-* Range input
-* ======================================================================== */
-$range-track-background: rgba(var(--color-sea-green), 0.5);
-$range-track-background-2: var(--color-summer-green);
-$range-track-height: 0.25rem;
-$range-track-border-radius: 0.25rem;
-$range-thumb-background: white;
-$range-thumb-border-color: var(--color-sea-green);
-$range-thumb-dimension: 1.5rem;
-
-.dnb-range-slider {
-  &__css-vars__bg-color-1 {
-    background-color: $range-track-background;
-  }
-
-  &__css-vars__bg-color-2 {
-    background-color: $range-track-background-2;
-  }
-}
-
-input[type='range'] {
-  -webkit-appearance: none;
-  width: 100%;
-  border-radius: $range-track-border-radius;
-}
-
-input[type='range']::-webkit-slider-runnable-track {
-  position: relative;
-  z-index: 1;
-
-  cursor: pointer;
-
-  width: 100%;
-  height: $range-track-height;
-
-  box-shadow: none;
-}
-
-input[type='range']::-webkit-slider-thumb {
-  position: relative;
-  top: $range-track-height/2;
-  cursor: pointer;
-
-  height: $range-thumb-dimension;
-  width: $range-thumb-dimension;
-
-  border-radius: $range-thumb-dimension;
-  background: white;
-  border: 1px solid #98c6c6;
-
-  transform: translate(0, -50%);
-  -webkit-appearance: none;
-
-  box-shadow: 1px 1px 2px rgba(0, 135, 137, 0.25),
-    0 0 1px rgba(0, 160, 163, 0.25);
-}
-
-input[type='range']:focus {
-  outline: none;
-}
-
-// input[type='range']:focus::-webkit-slider-runnable-track {
-// }
-//TODO: Browser test and add correct styling to shadow dom elements
-//to make sure the range slider has same look and feel all over
-//the following empty brackets are ready to be filled in
-
-// input[type='range']::-moz-range-track {
-// }
-//
-// input[type='range']::-moz-range-thumb {
-// }
-//
-// input[type='range']::-ms-track {
-// }
-//
-// input[type='range']::-ms-fill-lower {
-// }
-//
-// input[type='range']::-ms-fill-upper {
-// }
-//
-// input[type='range']::-ms-thumb {
-// }
-//
-// input[type='range']:focus::-ms-fill-lower {
-// }
-//
-// input[type='range']:focus::-ms-fill-upper {
+// body:not(:-moz-handler-blocked) fieldset {
+//   display: table-cell;
 // }

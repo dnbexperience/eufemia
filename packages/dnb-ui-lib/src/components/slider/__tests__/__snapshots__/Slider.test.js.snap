@@ -218,13 +218,10 @@ exports[`Slider scss have to match snapshot 1`] = `
     background-color: white;
     box-shadow: 1px 1px 2px rgba(0, 135, 137, 0.25), 0 0 1px rgba(0, 160, 163, 0.25); }
     .dnb-slider .slider__thumb:focus {
-      outline: none;
-      border-color: transparent; }
-      html[data-whatinput='mouse'] .dnb-slider .slider__thumb:focus:not(.dnb-no-mouse-focus) {
-        transition: box-shadow 0.1s ease-out 0s;
-        box-shadow: 0 0 0 2px var(--color-emerald-green); }
+      outline: none; }
       html[data-whatinput='keyboard'] .dnb-slider .slider__thumb:focus {
-        box-shadow: 0 0 0 2px var(--color-signal-orange); }
+        box-shadow: 0 0 0 2px var(--color-signal-orange);
+        border-color: transparent; }
   .dnb-slider .slider__state--disabled .slider__thumb {
     border: none;
     box-shadow: none;

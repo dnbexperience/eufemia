@@ -3,13 +3,13 @@
 *
 */
 
-@import '../../input/style/input.scss';
+@import '../../input/style/_input.scss';
 
 $dropdown-trigger-color: #58595b;
 $dropdown-text-padding: 0.3rem;
 $dropdown-trigger-color-active: #000;
 $dropdown-options-offset: 1.3rem;
-$option-selected-color: $input-background-color;
+$option-selected-color: #{var(--color-sea-green-4)};
 
 .dnb-dropdown {
   --dropdown-width: 20rem;
@@ -22,7 +22,7 @@ $option-selected-color: $input-background-color;
   &__options {
     position: absolute;
     z-index: 3;
-    top: calc(#{$input-height} - 15px);
+    top: calc(#{var(--input-height)} - 15px);
     left: 0;
 
     width: 100%;
@@ -112,15 +112,15 @@ $option-selected-color: $input-background-color;
     outline: none;
 
     width: inherit;
-    height: $input-height;
-    padding: 0 $input-padding-horizontal;
+    height: var(--input-height);
+    padding: 0 var(--input-padding-horizontal);
 
     font-size: inherit;
-    line-height: $input-height;
+    line-height: var(--input-height);
     background-color: white;
 
-    border: $input-border-width solid $input-border-color;
-    border-radius: $input-border-radius;
+    border: var(--input-border-width) solid var(--input-border-color);
+    border-radius: var(--input-border-radius);
   }
 
   &__icon {
@@ -147,8 +147,8 @@ $option-selected-color: $input-background-color;
 
       visibility: hidden;
 
-      width: $input-height / 2;
-      height: $input-height / 2;
+      width: var(--input-height) / 2;
+      height: var(--input-height) / 2;
 
       background-color: white;
       border: 1px solid var(--color-outline-grey);
@@ -196,7 +196,8 @@ $option-selected-color: $input-background-color;
       /* stylelint-disable */
       width: inherit; // IE fix
       width: calc(
-        var(--dropdown-width) - calc(#{$input-padding-horizontal} * 4)
+        var(--dropdown-width) -
+          calc(#{var(--input-padding-horizontal)} * 4)
       );
       /* stylelint-enable */
       overflow: hidden;
@@ -245,7 +246,7 @@ $option-selected-color: $input-background-color;
     display: block;
 
     width: 100%;
-    height: $input-height;
+    height: var(--input-height);
 
     opacity: 0;
 
@@ -300,7 +301,7 @@ $option-selected-color: $input-background-color;
 
   &__outside-value {
     display: block;
-    padding: 0.5rem 0 1rem $input-padding-horizontal;
+    padding: 0.5rem 0 1rem var(--input-padding-horizontal);
   }
 
   .icon-chevron-left .dnb-icon {

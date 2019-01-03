@@ -226,13 +226,10 @@ exports[`Switch scss have to match snapshot 1`] = `
     transition: transform 150ms ease-out;
     transform: rotate(0deg);
     clip-path: polygon(50% 15%, 110% 15%, 110% -10%, -10% -10%, -10% 110%, 110% 110%, 110% 85%, 50% 85%);
-    outline: none;
-    border-color: transparent; }
-    html[data-whatinput='mouse'] .dnb-switch__focus:not(.dnb-no-mouse-focus) {
-      transition: box-shadow 0.1s ease-out 0s;
-      box-shadow: 0 0 0 2px var(--color-emerald-green); }
+    outline: none; }
     html[data-whatinput='keyboard'] .dnb-switch__focus {
-      box-shadow: 0 0 0 2px var(--color-signal-orange); }
+      box-shadow: 0 0 0 2px var(--color-signal-orange);
+      border-color: transparent; }
   .dnb-switch__inner:not([disabled]) .dnb-switch__background,
   .dnb-switch__inner:not([disabled]) .dnb-switch__button {
     cursor: pointer; }
@@ -288,15 +285,11 @@ exports[`Switch scss have to match snapshot 1`] = `
       color: rgba(255, 255, 255, 0.85); }
     .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__background,
     .dnb-switch__input:not([disabled]):active ~ .dnb-switch__background {
-      outline: none;
-      border-color: transparent; }
-      html[data-whatinput='mouse'] .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__background:not(.dnb-no-mouse-focus), html[data-whatinput='mouse']
-      .dnb-switch__input:not([disabled]):active ~ .dnb-switch__background:not(.dnb-no-mouse-focus) {
-        transition: box-shadow 0.1s ease-out 0s;
-        box-shadow: 0 0 0 2px var(--color-emerald-green); }
+      outline: none; }
       html[data-whatinput='keyboard'] .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__background, html[data-whatinput='keyboard']
       .dnb-switch__input:not([disabled]):active ~ .dnb-switch__background {
-        box-shadow: 0 0 0 2px var(--color-signal-orange); }
+        box-shadow: 0 0 0 2px var(--color-signal-orange);
+        border-color: transparent; }
     .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__button .dnb-switch__focus,
     .dnb-switch__input:not([disabled]):active ~ .dnb-switch__button .dnb-switch__focus {
       display: block; }

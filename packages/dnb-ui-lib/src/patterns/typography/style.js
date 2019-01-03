@@ -3,4 +3,4 @@
  *
  */
 
-export * from './style/dnb-typography.scss'
+import './style/dnb-typography.scss'

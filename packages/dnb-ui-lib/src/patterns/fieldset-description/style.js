@@ -3,4 +3,4 @@
  *
  */
 
-export * from './style/dnb-fieldset-description.scss'
+import './style/dnb-fieldset-description.scss'

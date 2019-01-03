@@ -3,4 +3,4 @@
  *
  */
 
-export * from './style/dnb-switch.scss'
+import './style/dnb-switch.scss'
