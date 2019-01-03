@@ -24,7 +24,8 @@ You could also set this class on the document body.
 
 ### The Reason
 
-The benefits of explicitly defining the style class `dnb-style`, is that we could use the components by their own, without effecting all the existing styled core tags. This gives use a kind of backwards compatibility.
+The benefits of explicitly defining the style class `dnb-style`, is that we then can use the components by their own, without effecting all the existing styled browser elements and tags. This gives use a kind of backwards compatibility.
+But it makes it also more flexible, like if we only want to apply our DNB style to a certain area of our web application.
 
 ## For Node based environments
 
