@@ -93,8 +93,7 @@ class Example extends PureComponent {
           />
         </div>
 
-        <div className="dnb-form-row">
-          <FormLabel for_id="text-input-1" text="With extra information" />
+        <label htmlFor="text-input-1">
           <Input
             type="text"
             id="text-input-1"
@@ -107,7 +106,7 @@ class Example extends PureComponent {
           >
             This is the value 1234567890
           </Input>
-        </div>
+        </label>
       </Fragment>
     )
   }
