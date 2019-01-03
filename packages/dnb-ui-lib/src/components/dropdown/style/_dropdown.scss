@@ -11,6 +11,10 @@ $dropdown-trigger-color-active: #000;
 $dropdown-options-offset: 1.3rem;
 $option-selected-color: #{var(--color-sea-green-4)};
 
+:root {
+  --dropdown-padding-horizontal: 1rem;
+}
+
 .dnb-dropdown {
   --dropdown-width: 20rem;
   width: 20rem; //fallback
@@ -113,7 +117,7 @@ $option-selected-color: #{var(--color-sea-green-4)};
 
     width: inherit;
     height: var(--input-height);
-    padding: 0 var(--input-padding-horizontal);
+    padding: 0 var(--dropdown-padding-horizontal);
 
     font-size: inherit;
     line-height: var(--input-height);
@@ -197,7 +201,7 @@ $option-selected-color: #{var(--color-sea-green-4)};
       width: inherit; // IE fix
       width: calc(
         var(--dropdown-width) -
-          calc(#{var(--input-padding-horizontal)} * 4)
+          calc(var(--dropdown-padding-horizontal) * 4)
       );
       /* stylelint-enable */
       overflow: hidden;
@@ -301,7 +305,7 @@ $option-selected-color: #{var(--color-sea-green-4)};
 
   &__outside-value {
     display: block;
-    padding: 0.5rem 0 1rem var(--input-padding-horizontal);
+    padding: 0.5rem 0 1rem var(--dropdown-padding-horizontal);
   }
 
   .icon-chevron-left .dnb-icon {

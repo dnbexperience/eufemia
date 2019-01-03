@@ -10,8 +10,6 @@
     background-color: var(--color-sea-green-4);
     border: var(--input-border-width) solid var(--input-border-color);
 
-    // transition: background-color 0.2s ease-out 0s;
-
     &:not([data-input-state='disabled']) {
       @include hover(true) {
         background-color: var(--color-white);
@@ -35,9 +33,6 @@
     @include fakeFocus();
   }
 
-  // &__input {
-  // }
-
   &__placeholder {
     color: var(--color-sea-green-alt-30);
   }
@@ -47,9 +42,5 @@
   &__shell[data-input-state='focus'][data-has-content='false']
     .dnb-input__placeholder {
     opacity: 0.5;
-  }
-
-  &__description {
-    color: inherit;
   }
 }

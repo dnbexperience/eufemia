@@ -10,10 +10,9 @@
   --input-font-size--large: 2rem;
   --input-font-weight: normal;
   --input-font-style: normal;
-  --input-padding-horizontal: 1rem;
-  --input-padding-horizontal--large: 1.5rem;
-  --input-padding-vertical: 0;
-  --input-padding-vertical--large: 0;
+  --input-padding: 0 1rem;
+  --input-padding--medium: 0 1rem;
+  --input-padding--large: 0 1.5rem;
   --input-height: 2rem;
   --input-height--medium: 2.5rem;
   --input-height--large: 3rem;
@@ -23,18 +22,6 @@
   --input-border-width: 1px;
   --input-border-color: var(--color-sea-green-alt);
   --input-border-color--disabled: var(--color-sea-green-alt-30);
-}
-
-.dnb-form-row {
-  width: 100%;
-  display: inline-flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-
-  .dnb-form-label {
-    margin-right: 1rem;
-  }
 }
 
 .dnb-input {
@@ -48,7 +35,6 @@
   font-weight: var(--input-font-weight);
   font-style: var(--input-font-style);
   line-height: var(--input-height);
-  color: inherit;
 
   &__input {
     outline: none;
@@ -88,11 +74,12 @@
   &__placeholder,
   &__input {
     width: 100%;
-    // height: calc(var(--input-height) - var(--button-border-width) * 2);
-    padding: var(--input-padding-vertical) var(--input-padding-horizontal);
+    padding: var(--input-padding);
 
     // +1px because of the border width
     transform: translateY(var(--button-border-width));
+
+    text-align: left;
   }
 
   &__placeholder {
@@ -101,7 +88,7 @@
     position: absolute;
 
     height: 100%;
-    padding: 0 var(--input-padding-horizontal);
+    padding: var(--input-padding);
 
     white-space: nowrap;
     overflow: hidden;
@@ -113,6 +100,57 @@
     padding-left: 0.5em;
   }
 
+  &--medium {
+    .dnb-input__shell,
+    .dnb-input__input {
+      height: var(--input-height--medium);
+      border-radius: var(--input-border-radius--medium);
+    }
+    .dnb-input__description,
+    .dnb-input__placeholder,
+    .dnb-input__input {
+      font-size: var(--input-font-size--medium);
+    }
+    .dnb-input__placeholder {
+      line-height: var(--input-height--medium);
+    }
+    .dnb-input__placeholder,
+    .dnb-input__input {
+      padding: var(--input-padding--medium);
+    }
+  }
+  &--large {
+    .dnb-input__shell,
+    .dnb-input__input {
+      height: var(--input-height--large);
+      border-radius: var(--input-border-radius--large);
+    }
+    .dnb-input__description,
+    .dnb-input__placeholder,
+    .dnb-input__input {
+      font-size: var(--input-font-size--large);
+    }
+    .dnb-input__placeholder {
+      line-height: var(--input-height--large);
+    }
+    .dnb-input__placeholder,
+    .dnb-input__input {
+      padding: var(--input-padding--large);
+    }
+  }
+
+  &__align--right &__placeholder,
+  &__align--right &__input {
+    text-align: right;
+  }
+
+  // Hide placeholder when: 1. input has content or 2: input is in focus
+  &__shell[data-has-content='true'] .dnb-input__placeholder,
+  &__shell[data-has-content='true'][data-input-state='focus']
+    .dnb-input__placeholder {
+    display: none;
+  }
+
   &__extra-information {
     flex: 1 100%;
 
@@ -122,74 +160,29 @@
     line-height: 1.25rem;
   }
 
-  &--medium {
-    .dnb-input__shell,
-    .dnb-input__input {
-      height: var(--input-height--medium);
-      border-radius: var(--input-border-radius--medium);
-    }
-
-    .dnb-input__description,
-    .dnb-input__placeholder,
-    .dnb-input__input {
-      font-size: var(--input-font-size--medium);
-    }
-
-    .dnb-input__placeholder {
-      line-height: var(--input-height--medium);
-    }
-
-    .dnb-input__input {
-      padding: var(--input-padding-vertical--medium)
-        var(--input-padding-horizontal--medium);
-    }
-  }
-  &--large {
-    .dnb-input__shell,
-    .dnb-input__input {
-      height: var(--input-height--large);
-      border-radius: var(--input-border-radius--large);
-    }
-
-    .dnb-input__description,
-    .dnb-input__placeholder,
-    .dnb-input__input {
-      font-size: var(--input-font-size--large);
-    }
-
-    .dnb-input__placeholder {
-      line-height: var(--input-height--large);
-    }
-
-    .dnb-input__input {
-      padding: var(--input-padding-vertical--large)
-        var(--input-padding-horizontal--large);
-    }
-  }
-
-  &__align--right &__placeholder,
-  &__align--right &__input {
-    padding-right: var(--input-padding-horizontal);
-    text-align: right;
-  }
-
   // &__input--search {
   // }
   &__search-submit {
     transform: translateX(var(--button-border-width));
   }
+}
 
-  // Hide placeholder when: 1. input has content or 2: input is in focus
-  &__shell[data-has-content='true'] .dnb-input__placeholder,
-  &__shell[data-input-state='focus'] .dnb-input__placeholder {
-    display: none;
+.dnb-form-row {
+  width: 100%;
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  .dnb-form-label {
+    margin-right: 1rem;
   }
 }
 
 // The input[type='range'] is moved into the slider component style
 // @import '../../slider/style/_range.scss';
 
-// Additional resets
+// Additional resets - this is moved in here, we may have usage later again
 // legend {
 //   padding: 0;
 //   display: table;
