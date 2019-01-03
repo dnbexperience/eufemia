@@ -119,6 +119,7 @@ export default class StickyMenuBar extends PureComponent {
             barStyle,
             hideSiebarToggleButton && hideSiebarToggleButtonStyle
           ]}
+          className="dnb-style-selection"
         >
           {this.state.showOverlayMenu && (
             <MainMenu

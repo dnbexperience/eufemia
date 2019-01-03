@@ -101,6 +101,7 @@
     width: auto;
   }
   &--has-text &__icon {
+    margin: 0 0.5rem;
     margin: 0 calc(var(--button-icon-size) / 2);
   }
   // &--has-text#{&}--size-large &__icon {

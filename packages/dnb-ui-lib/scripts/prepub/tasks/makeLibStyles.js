@@ -19,7 +19,7 @@ export default () =>
     log.text = '> PrePublish: converting sass to css'
 
     try {
-      await runFactory('./src/components/**/style/dnb-*.scss')
+      await runFactory('./src/components/**/style/**/dnb-*.scss')
       await runFactory('./src/patterns/**/style/dnb-*.scss')
       log.succeed(
         `> PrePublish: "makeLibStyles" converting sass to css done`

@@ -20,7 +20,7 @@ We have the **Main Theming File**, witch is located here: `dnb-ui-lib/src/style/
 From there on, we "can" reuse some default theming mechanism, just to have a fallback:
 
 ```scss
-@import '../core/dnb-theme.scss';
+@import '../core/dnb-style.scss';
 ```
 
 All the additional sub theming files (for every component) are automatically added to the **Main Theming File** by running `$ yarn build`. More on that further down.

@@ -111,7 +111,7 @@ export default class Card extends PureComponent {
           boxStyle,
           customStyle
         ]}
-        className="no-underline no-underline-hover"
+        className="no-dnb-style"
         style={{ '--delay': `${random(1, 160)}ms` }}
         to={url}
         onClick={onClick}
