@@ -154,16 +154,14 @@ export default class StickyMenuBar extends PureComponent {
                     />
                   )}
                 </SidebarMenuConsumer>
-                {process.env.NODE_ENV === 'development' && (
-                  <span className="toggle-grid">
-                    <FormLabel for_id="switch-grid" text="Grid" />
-                    <Switch
-                      id="switch-grid"
-                      checked={this.state.showGrid}
-                      on_change={({ checked }) => this.toggleGrid(checked)}
-                    />
-                  </span>
-                )}
+                <span className="toggle-grid">
+                  <FormLabel for_id="switch-grid" text="Grid" />
+                  <Switch
+                    id="switch-grid"
+                    checked={this.state.showGrid}
+                    on_change={({ checked }) => this.toggleGrid(checked)}
+                  />
+                </span>
               </span>
             </div>
           )}

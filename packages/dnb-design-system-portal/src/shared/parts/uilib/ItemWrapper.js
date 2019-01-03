@@ -203,7 +203,7 @@ class ItemWrapper extends PureComponent {
             on_change={this.openTab}
             render={({ Wrapper, TabsList, Tabs }) => {
               return (
-                <Wrapper className={tabsWrapperStyle}>
+                <Wrapper css={tabsWrapperStyle}>
                   <TabsList>
                     <Tabs />
                     {this.state.wasFullscreen ? (
