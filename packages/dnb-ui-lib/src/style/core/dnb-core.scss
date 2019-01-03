@@ -69,16 +69,34 @@ a {
     @include fakeFocus();
   }
 }
+a.no-dnb-style {
+  padding: 0;
+  margin: 0;
+  white-space: normal;
+
+  &:active,
+  &:hover {
+    color: inherit;
+  }
+
+  &::after {
+    content: none;
+  }
+  &::before {
+    content: none;
+  }
+}
 a.no-underline {
   // underline
   &::after {
     border-bottom-color: transparent;
+    content: none;
   }
 }
 a.no-underline-hover {
   // bg
   &::before {
-    background-color: transparent;
+    content: none;
   }
 }
 a.no-underline-hover-animation {
@@ -90,12 +108,6 @@ a.no-underline-hover-animation {
 a:not([href]) {
   cursor: pointer;
   user-select: none;
-  border: none;
-
-  &:active,
-  &:hover {
-    color: var(--color-signal-orange);
-  }
 }
 
 // Focus management
