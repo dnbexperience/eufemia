@@ -5,7 +5,7 @@
 
 import React, { PureComponent, Fragment } from 'react'
 import Dropdown from './Dropdown'
-import styled from 'react-emotion'
+import styled from '@emotion/styled'
 
 class Example extends PureComponent {
   static AdditionalCallback = {

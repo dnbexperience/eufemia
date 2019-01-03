@@ -11,6 +11,6 @@ order: 12
   Do not change the content!
 -->
 
-import StepIndicator from 'Src/uilib/patterns/demos/StepIndicator'
+import StepIndicatorPage from 'Src/uilib/patterns/demos/StepIndicator'
 
-<StepIndicator />
+<StepIndicatorPage />

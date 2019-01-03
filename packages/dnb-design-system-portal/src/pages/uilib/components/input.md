@@ -11,6 +11,6 @@ order: 7
   Do not change the content!
 -->
 
-import Input from 'Src/uilib/components/demos/Input'
+import InputPage from 'Src/uilib/components/demos/Input'
 
-<Input />
+<InputPage />

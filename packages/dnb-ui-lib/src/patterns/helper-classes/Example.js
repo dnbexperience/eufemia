@@ -4,7 +4,7 @@
  */
 
 import React, { PureComponent, Fragment } from 'react'
-import styled from 'react-emotion'
+import styled from '@emotion/styled'
 
 class Example extends PureComponent {
   render() {

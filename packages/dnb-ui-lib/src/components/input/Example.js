@@ -6,7 +6,7 @@
 import React, { PureComponent, Fragment } from 'react'
 import Input from './Input'
 import FormLabel from '../form-label'
-import styled from 'react-emotion'
+import styled from '@emotion/styled'
 
 // The range slider gets imported by the input directly
 // import '../slider/style'

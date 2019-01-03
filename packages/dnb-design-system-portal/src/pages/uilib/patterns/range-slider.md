@@ -11,6 +11,6 @@ order: 11
   Do not change the content!
 -->
 
-import RangeSlider from 'Src/uilib/patterns/demos/RangeSlider'
+import RangeSliderPage from 'Src/uilib/patterns/demos/RangeSlider'
 
-<RangeSlider />
+<RangeSliderPage />

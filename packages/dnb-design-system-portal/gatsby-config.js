@@ -62,6 +62,12 @@ module.exports = {
             }
           }
         ]
+        // Example of how to use globalScope
+        // globalScope: /* @es6 */ `import { SketchPicker } from 'react-color';
+        // export default { Picker: SketchPicker }`,
+        // defaultLayouts: {
+        //   // default: require.resolve('./src/templates/mdx.js')
+        // }
       }
     },
     'gatsby-plugin-sass',

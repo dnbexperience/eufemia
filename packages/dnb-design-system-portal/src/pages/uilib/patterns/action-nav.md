@@ -11,6 +11,6 @@ order: 1
   Do not change the content!
 -->
 
-import ActionNav from 'Src/uilib/patterns/demos/ActionNav'
+import ActionNavPage from 'Src/uilib/patterns/demos/ActionNav'
 
-<ActionNav />
+<ActionNavPage />

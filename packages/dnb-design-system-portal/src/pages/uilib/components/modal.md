@@ -11,6 +11,6 @@ order: 10
   Do not change the content!
 -->
 
-import Modal from 'Src/uilib/components/demos/Modal'
+import ModalPage from 'Src/uilib/components/demos/Modal'
 
-<Modal />
+<ModalPage />

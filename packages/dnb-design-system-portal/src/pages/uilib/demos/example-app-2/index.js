@@ -4,7 +4,7 @@
  */
 
 import React, { PureComponent } from 'react'
-import { css } from 'react-emotion'
+import { css } from '@emotion/core'
 import Head from 'react-helmet'
 import dnb, {
   Button,

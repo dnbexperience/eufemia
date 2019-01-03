@@ -4,7 +4,6 @@
  */
 
 const path = require('path')
-const componentWithMDXScope = require('gatsby-mdx/component-with-mdx-scope')
 const {
   copyContentIntoPublic
 } = require('./scripts/copyContentIntoPublic')
@@ -43,11 +42,7 @@ exports.createPages = ({ graphql, actions }) => {
     mdxResult.data.allMdx.edges.forEach(({ node }) => {
       createPage({
         path: node.fields.slug || '/',
-        component: componentWithMDXScope(
-          path.resolve('./src/templates/mdx.js'),
-          node.code.scope,
-          __dirname
-        ),
+        component: path.resolve('./src/templates/mdx.js'),
         context: {
           id: node.fields.id
         }
@@ -70,12 +65,6 @@ exports.onCreateWebpackConfig = ({ actions }) => {
         Parts: path.resolve(__dirname, 'src/shared/parts')
       }
     }
-  })
-}
-
-exports.onCreateBabelConfig = ({ actions }) => {
-  actions.setBabelPlugin({
-    name: '@babel/plugin-proposal-export-default-from'
   })
 }
 

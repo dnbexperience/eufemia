@@ -11,6 +11,6 @@ order: 6
   Do not change the content!
 -->
 
-import FormSummary from 'Src/uilib/patterns/demos/FormSummary'
+import FormSummaryPage from 'Src/uilib/patterns/demos/FormSummary'
 
-<FormSummary />
+<FormSummaryPage />

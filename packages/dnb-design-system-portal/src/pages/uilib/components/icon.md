@@ -11,6 +11,6 @@ order: 5
   Do not change the content!
 -->
 
-import Icon from 'Src/uilib/components/demos/Icon'
+import IconPage from 'Src/uilib/components/demos/Icon'
 
-<Icon />
+<IconPage />

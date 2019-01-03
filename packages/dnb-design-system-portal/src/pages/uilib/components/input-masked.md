@@ -11,6 +11,6 @@ order: 6
   Do not change the content!
 -->
 
-import InputMasked from 'Src/uilib/components/demos/InputMasked'
+import InputMaskedPage from 'Src/uilib/components/demos/InputMasked'
 
-<InputMasked />
+<InputMaskedPage />

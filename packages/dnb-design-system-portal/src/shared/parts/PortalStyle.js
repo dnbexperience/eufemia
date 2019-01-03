@@ -3,7 +3,7 @@
  *
  */
 
-import { css } from 'react-emotion'
+import { css } from '@emotion/core'
 import bluegridSvg from '../../../static/assets/images/grid-32x32-blue.svg'
 import greygridSvg from '../../../static/assets/images/grid-32x32.svg'
 

@@ -6,7 +6,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import * as PrimaryIcons from 'dnb-ui-lib/src/icons/primary_icons'
 import * as SecondaryIcons from 'dnb-ui-lib/src/icons/secondary_icons'
-import styled from 'react-emotion'
+import styled from '@emotion/styled'
 
 export default class Icons extends PureComponent {
   state = { iconsToRender: [] }

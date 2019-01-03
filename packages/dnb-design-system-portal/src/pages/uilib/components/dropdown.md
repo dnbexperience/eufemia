@@ -11,6 +11,6 @@ order: 2
   Do not change the content!
 -->
 
-import Dropdown from 'Src/uilib/components/demos/Dropdown'
+import DropdownPage from 'Src/uilib/components/demos/Dropdown'
 
-<Dropdown />
+<DropdownPage />

@@ -11,6 +11,6 @@ order: 0
   Do not change the content!
 -->
 
-import Template from 'Src/uilib/patterns/demos/Template'
+import TemplatePage from 'Src/uilib/patterns/demos/Template'
 
-<Template />
+<TemplatePage />

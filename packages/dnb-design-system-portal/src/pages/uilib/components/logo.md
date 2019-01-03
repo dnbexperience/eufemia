@@ -11,6 +11,6 @@ order: 9
   Do not change the content!
 -->
 
-import Logo from 'Src/uilib/components/demos/Logo'
+import LogoPage from 'Src/uilib/components/demos/Logo'
 
-<Logo />
+<LogoPage />

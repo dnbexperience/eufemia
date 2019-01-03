@@ -11,6 +11,6 @@ order: 3
   Do not change the content!
 -->
 
-import FormLabel from 'Src/uilib/components/demos/FormLabel'
+import FormLabelPage from 'Src/uilib/components/demos/FormLabel'
 
-<FormLabel />
+<FormLabelPage />

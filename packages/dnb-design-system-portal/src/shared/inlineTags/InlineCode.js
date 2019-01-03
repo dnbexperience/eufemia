@@ -3,7 +3,7 @@
  *
  */
 
-import styled from 'react-emotion'
+import styled from '@emotion/styled'
 
 const Code = styled.code`
   ${'' /* background: blue; */};

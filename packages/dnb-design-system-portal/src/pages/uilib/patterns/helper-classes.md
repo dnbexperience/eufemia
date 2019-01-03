@@ -11,6 +11,6 @@ order: 9
   Do not change the content!
 -->
 
-import HelperClasses from 'Src/uilib/patterns/demos/HelperClasses'
+import HelperClassesPage from 'Src/uilib/patterns/demos/HelperClasses'
 
-<HelperClasses />
+<HelperClassesPage />

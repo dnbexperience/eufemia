@@ -12,7 +12,7 @@ export default class App extends PureComponent {
   render() {
     return (
       <Fragment>
-        <StickyMenuBar />
+        <StickyMenuBar hideSiebarToggleButton={true} />
         <MainMenu />
       </Fragment>
     )

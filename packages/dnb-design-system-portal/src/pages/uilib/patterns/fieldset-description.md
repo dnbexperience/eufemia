@@ -11,6 +11,6 @@ order: 4
   Do not change the content!
 -->
 
-import FieldsetDescription from 'Src/uilib/patterns/demos/FieldsetDescription'
+import FieldsetDescriptionPage from 'Src/uilib/patterns/demos/FieldsetDescription'
 
-<FieldsetDescription />
+<FieldsetDescriptionPage />

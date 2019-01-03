@@ -3,7 +3,7 @@
  *
  */
 
-import styled from 'react-emotion'
+import styled from '@emotion/styled'
 
 const Pre = styled.pre`
   padding: 1rem;

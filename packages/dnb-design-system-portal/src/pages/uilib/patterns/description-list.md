@@ -11,6 +11,6 @@ order: 3
   Do not change the content!
 -->
 
-import DescriptionList from 'Src/uilib/patterns/demos/DescriptionList'
+import DescriptionListPage from 'Src/uilib/patterns/demos/DescriptionList'
 
-<DescriptionList />
+<DescriptionListPage />

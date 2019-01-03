@@ -3,7 +3,6 @@
  *
  */
 
-import web from '../icon/IconPrimary'
-
-export { web }
-export default web
+import IconPrimary from '../icon/IconPrimary'
+export default IconPrimary
+export * from '../icon/IconPrimary'

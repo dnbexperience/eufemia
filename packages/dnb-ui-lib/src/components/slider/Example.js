@@ -4,7 +4,7 @@
  */
 
 import React, { PureComponent, Fragment } from 'react'
-import styled from 'react-emotion'
+import styled from '@emotion/styled'
 import Slider from './Slider'
 import Input from '../input/Input'
 import FormLabel from '../../components/form-label/FormLabel'

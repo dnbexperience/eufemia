@@ -9,17 +9,12 @@ import Link from '../parts/Link'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import React, { PureComponent } from 'react'
-import styled, { injectGlobal } from 'react-emotion'
+import { css, Global } from '@emotion/core'
+import styled from '@emotion/styled'
 import {
   SidebarMenuConsumer,
   SidebarMenuContext
 } from './SidebarMenuContext'
-
-injectGlobal`
-  :root {
-    --aside-width: calc(25vw + 5rem);
-  }
-`
 
 const Sidebar = styled.aside`
   position: fixed;
@@ -331,18 +326,27 @@ export default class SidebarLayout extends PureComponent {
           })
 
           return (
-            <SidebarMenuConsumer>
-              {({ isOpen, isClosing }) => (
-                <Sidebar
-                  className={classnames(
-                    isOpen && 'show-mobile-menu',
-                    isClosing && 'hide-mobile-menu'
-                  )}
-                >
-                  <ul ref={this.ulRef}>{nav}</ul>
-                </Sidebar>
-              )}
-            </SidebarMenuConsumer>
+            <>
+              <Global
+                styles={css`
+                  :root {
+                    --aside-width: calc(25vw + 5rem);
+                  }
+                `}
+              />
+              <SidebarMenuConsumer>
+                {({ isOpen, isClosing }) => (
+                  <Sidebar
+                    className={classnames(
+                      isOpen && 'show-mobile-menu',
+                      isClosing && 'hide-mobile-menu'
+                    )}
+                  >
+                    <ul ref={this.ulRef}>{nav}</ul>
+                  </Sidebar>
+                )}
+              </SidebarMenuConsumer>
+            </>
           )
         }}
       />

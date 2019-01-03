@@ -11,6 +11,6 @@ order: 8
   Do not change the content!
 -->
 
-import LineTitle from 'Src/uilib/components/demos/LineTitle'
+import LineTitlePage from 'Src/uilib/components/demos/LineTitle'
 
-<LineTitle />
+<LineTitlePage />

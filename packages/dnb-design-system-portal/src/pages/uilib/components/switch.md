@@ -11,6 +11,6 @@ order: 13
   Do not change the content!
 -->
 
-import Switch from 'Src/uilib/components/demos/Switch'
+import SwitchPage from 'Src/uilib/components/demos/Switch'
 
-<Switch />
+<SwitchPage />
