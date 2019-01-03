@@ -3,4 +3,4 @@
  *
  */
 
-export * from './style/dnb-notification.scss'
+import './style/dnb-notification.scss'

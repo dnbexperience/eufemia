@@ -5,7 +5,11 @@
 
 import React, { PureComponent, Fragment } from 'react'
 import Input from './Input'
+import FormLabel from '../form-label'
 import styled from 'react-emotion'
+
+// The range slider gets imported by the input directly
+// import '../slider/style'
 
 class Example extends PureComponent {
   constructor(props) {
@@ -43,11 +47,26 @@ class Example extends PureComponent {
       <Fragment>
         <Input id="text-input-2" placeholder="Placeholder text" />
 
+        <div className="dnb-form-row">
+          <FormLabel
+            id="search-input-label"
+            for_id="search-input"
+            text="Search"
+          />
+          <Input
+            type="search"
+            id="search-input"
+            search_button_title="Search"
+            on_change={this.handleInputChange}
+          />
+        </div>
+
         <Input
-          type="search"
-          id="search-input"
-          search_button_title="Search"
-          placeholder="Search"
+          type="text"
+          id="text-input-medium"
+          autocomplete="off"
+          size="medium"
+          placeholder="Medium input"
           on_change={this.handleInputChange}
         />
 
@@ -57,8 +76,7 @@ class Example extends PureComponent {
           autocomplete="off"
           size="large"
           align="right"
-          font_class="typo-light"
-          placeholder="Large input with .typo-light class"
+          placeholder="Large input with right align"
           on_change={this.handleInputChange}
         />
 
@@ -66,7 +84,6 @@ class Example extends PureComponent {
           disabled
           id="text-input-disabled"
           value="Disabled Input with a value"
-          on_change={this.handleInputChange}
         />
 
         <Input
@@ -75,11 +92,11 @@ class Example extends PureComponent {
           autocomplete="on"
           placeholder="Placeholder text"
           description="Kr"
-          extra_information="Maksimumsbeløpet inkluderer eventuell fellesgjeld og omkostninger ved kjøp."
+          extra_information="Info: numbers are ligned by using typo-number--lining"
           ref={this._ref}
           on_change={this.handleInputChange}
         >
-          This is the value
+          This is the value 1234567890
         </Input>
       </Fragment>
     )
@@ -90,8 +107,12 @@ const Wrapper = styled.div`
   display: block;
   width: 100%;
 
+  .dnb-form-row,
   .dnb-input {
-    margin: 1rem 0;
+    margin-top: 1rem;
+  }
+  .dnb-form-label + .dnb-input {
+    margin-top: 0;
   }
 `
 

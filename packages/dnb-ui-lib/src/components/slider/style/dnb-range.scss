@@ -1,0 +1,12 @@
+/*
+* DNB Input
+*
+* ======================================================================== */
+
+@import '../../../style/component/core-imports.scss';
+
+.dnb-range {
+  @include componentReset();
+}
+
+@import './_range.scss';

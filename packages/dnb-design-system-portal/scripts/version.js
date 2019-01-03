@@ -17,7 +17,9 @@ export const createNewVersion = async () => {
     return false
   }
   try {
-    const date = new Date().toLocaleString()
+    const date = new Date().toLocaleString('nb-NO', {
+      timeZone: 'Europe/Oslo'
+    })
     packageJson.buildVersion = date
 
     // Update the extracted version of package.json with the build version

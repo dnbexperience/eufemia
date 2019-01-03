@@ -1,0 +1,55 @@
+/*
+* Input theme
+*
+* ======================================================================== */
+
+.dnb-input {
+  color: var(--color-emerald-green);
+
+  &__shell {
+    background-color: var(--color-sea-green-4);
+    border: var(--input-border-width) solid var(--input-border-color);
+
+    // transition: background-color 0.2s ease-out 0s;
+
+    &:not([data-input-state='disabled']) {
+      @include hover(true) {
+        background-color: var(--color-white);
+      }
+    }
+  }
+
+  // Background color of input when it has content
+  &__shell[data-has-content='true'] {
+    background-color: var(--color-white);
+  }
+
+  &__shell[data-input-state='disabled'] {
+    color: var(--color-sea-green-alt-30);
+    border-color: var(--input-border-color--disabled);
+  }
+
+  &__shell[data-input-state='focus'] {
+    background-color: var(--color-white);
+
+    @include fakeFocus();
+  }
+
+  // &__input {
+  // }
+
+  &__placeholder {
+    color: var(--color-sea-green-alt-30);
+  }
+
+  // Adjusting opacity of placeholder when:
+  // 1: input is in focus and 2. input has no content
+  &__shell[data-input-state='focus'][data-has-content='false']
+    .dnb-input__placeholder {
+    opacity: 0.5;
+  }
+
+  &__description {
+    color: inherit;
+  }
+}

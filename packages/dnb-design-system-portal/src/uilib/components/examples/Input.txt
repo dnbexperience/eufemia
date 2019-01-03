@@ -1,9 +1,23 @@
 <Input id="text-input-2" placeholder="Placeholder text" />
+ <div className="dnb-form-row">
+  <FormLabel
+    id="search-input-label"
+    for_id="search-input"
+    text="Search"
+  />
+  <Input
+    type="search"
+    id="search-input"
+    search_button_title="Search"
+    on_change={this.handleInputChange}
+  />
+</div>
  <Input
-  type="search"
-  id="search-input"
-  search_button_title="Search"
-  placeholder="Search"
+  type="text"
+  id="text-input-medium"
+  autocomplete="off"
+  size="medium"
+  placeholder="Medium input"
   on_change={this.handleInputChange}
 />
  <Input
@@ -12,15 +26,13 @@
   autocomplete="off"
   size="large"
   align="right"
-  font_class="typo-light"
-  placeholder="Large input with .typo-light class"
+  placeholder="Large input with right align"
   on_change={this.handleInputChange}
 />
  <Input
   disabled
   id="text-input-disabled"
   value="Disabled Input with a value"
-  on_change={this.handleInputChange}
 />
  <Input
   type="text"
@@ -28,9 +40,9 @@
   autocomplete="on"
   placeholder="Placeholder text"
   description="Kr"
-  extra_information="Maksimumsbeløpet inkluderer eventuell fellesgjeld og omkostninger ved kjøp."
+  extra_information="Info: numbers are ligned by using typo-number--lining"
   ref={this._ref}
   on_change={this.handleInputChange}
 >
-  This is the value
+  This is the value 1234567890
 </Input>

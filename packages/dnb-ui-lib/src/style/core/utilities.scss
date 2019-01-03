@@ -59,34 +59,17 @@
 }
 
 @mixin fakeFocus(
-  $onInput: 'mouse',
-  $color: var(--color-emerald-green),
-  $shadow: null
+  $whatinput: 'keyboard',
+  $color: var(--color-signal-orange)
 ) {
   outline: none;
-  border-color: transparent;
 
-  @if $onInput != 'keyboard' {
-    html[data-whatinput='#{$onInput}'] &:not(.dnb-no-mouse-focus) {
-      transition: box-shadow 0.1s ease-out 0s;
-      @include fakeBorder($color, $shadow);
-    }
-  }
-
-  html[data-whatinput='keyboard'] & {
-    @include fakeBorder(var(--color-signal-orange));
+  html[data-whatinput='#{$whatinput}'] & {
+    @include fakeBorder($color);
   }
 }
 
-@mixin tabFocus() {
-  @include fakeFocus('keyboard');
-}
-
-@mixin fakeBorder(
-  $color: var(--color-sea-green),
-  $shadow: null,
-  $important: null
-) {
+@mixin fakeBorder($color: null, $shadow: null, $important: null) {
   // we use !important, cause we have no changes to select the selctor right
   // in some cases we have another state where we use box-shadow
   // but with important, we take care of that we actually can use use it
@@ -94,6 +77,10 @@
     box-shadow: $shadow $important;
   } @else {
     box-shadow: 0 0 0 2px $color $important;
+  }
+
+  @if $color != null {
+    border-color: transparent;
   }
 }
 

@@ -3,4 +3,4 @@
  *
  */
 
-export * from './style/dnb-line-title.scss'
+import './style/dnb-line-title.scss'

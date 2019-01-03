@@ -2,7 +2,7 @@
 
 exports[`Input component have to match type="search" snapshot 1`] = `
 <span
-  className="dnb-input dnb-input--search dnb-input--has-extra-information dnb-input--size class className"
+  className="dnb-input dnb-input--search dnb-input--has-extra-information dnb-input--size dnb-input__input--search dnb-input__align--align class className"
 >
   <span
     className="dnb-input__shell"
@@ -12,7 +12,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
     <input
       aria-describedby="id-description"
       autoComplete="autocomplete"
-      className="dnb-input__input font_class dnb-input__input--search dnb-input__align--align"
+      className="dnb-input__input input_typo input_class"
       id="id"
       name="id"
       onBlur={[Function]}
@@ -33,10 +33,11 @@ exports[`Input component have to match type="search" snapshot 1`] = `
       description="description"
       disabled={false}
       extra_information="extra_information"
-      font_class="font_class"
       icon_size={16}
       id="id"
       inputElement={null}
+      input_class="input_class"
+      input_typo="input_typo"
       onSubmit={null}
       onSubmitBlur={null}
       onSubmitFocus={null}
@@ -56,7 +57,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
       children
     </Submit>
     <span
-      className="dnb-input__placeholder font_class dnb-input__align--align"
+      className="dnb-input__placeholder dnb-input__align--align"
     >
       placeholder
     </span>
@@ -77,7 +78,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
 
 exports[`Input component have to match type="text" snapshot 1`] = `
 <span
-  className="dnb-input dnb-input--text dnb-input--has-extra-information dnb-input--size class className"
+  className="dnb-input dnb-input--text dnb-input--has-extra-information dnb-input--size dnb-input__align--align class className"
 >
   <span
     className="dnb-input__shell"
@@ -87,7 +88,7 @@ exports[`Input component have to match type="text" snapshot 1`] = `
     <input
       aria-describedby="id-description"
       autoComplete="autocomplete"
-      className="dnb-input__input font_class dnb-input__align--align"
+      className="dnb-input__input input_typo input_class"
       id="id"
       name="id"
       onBlur={[Function]}
@@ -98,7 +99,7 @@ exports[`Input component have to match type="text" snapshot 1`] = `
       value="test"
     />
     <span
-      className="dnb-input__placeholder font_class dnb-input__align--align"
+      className="dnb-input__placeholder dnb-input__align--align"
     >
       placeholder
     </span>
@@ -364,13 +365,10 @@ exports[`Input scss have to match snapshot 1`] = `
       box-shadow: none;
       border: none; }
     .dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
-      outline: none;
-      border-color: transparent; }
-      html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):focus:not(.dnb-no-mouse-focus), html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):active:not(.dnb-no-mouse-focus) {
-        transition: box-shadow 0.1s ease-out 0s;
-        box-shadow: 0 0 0 2px var(--color-emerald-green); }
+      outline: none; }
       html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
-        box-shadow: 0 0 0 2px var(--color-signal-orange); }
+        box-shadow: 0 0 0 2px var(--color-signal-orange);
+        border-color: transparent; }
     html[data-whatinput='mouse']
 .dnb-button--reset:not([disabled]):focus:not(.dnb-no-mouse-focus),
     html[data-whatinput='mouse']
@@ -406,23 +404,52 @@ exports[`Input scss have to match snapshot 1`] = `
 * Input component
 *
 * ======================================================================== */
-/*
-* Forms and inputs
-* ======================================================================== */
+:root {
+  --input-font-family: var(--font-family-std);
+  --input-font-size: 1rem;
+  --input-font-size--medium: 1.5rem;
+  --input-font-size--large: 2rem;
+  --input-font-weight: normal;
+  --input-font-style: normal;
+  --input-padding-horizontal: 1rem;
+  --input-padding-horizontal--large: 1.5rem;
+  --input-padding-vertical: 0;
+  --input-padding-vertical--large: 0;
+  --input-height: 2rem;
+  --input-height--medium: 2.5rem;
+  --input-height--large: 3rem;
+  --input-border-radius: calc(var(--input-height) / 2);
+  --input-border-radius--medium: calc(var(--input-height--medium) / 2);
+  --input-border-radius--large: calc(var(--input-height--large) / 2);
+  --input-border-width: 1px;
+  --input-border-color: var(--color-sea-green-alt);
+  --input-border-color--disabled: var(--color-sea-green-alt-30); }
+
+.dnb-form-row {
+  width: 100%;
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center; }
+  .dnb-form-row .dnb-form-label {
+    margin-right: 1rem; }
+
 .dnb-input {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   flex-flow: row wrap;
-  width: 100%; }
-  .dnb-input--label-hidden label {
-    border: 0;
-    clip: rect(0 0 0 0);
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
-    padding: 0;
-    position: absolute;
-    width: 1px; }
+  width: 100%;
+  font-family: var(--input-font-family);
+  font-size: var(--input-font-size);
+  font-weight: var(--input-font-weight);
+  font-style: var(--input-font-style);
+  line-height: var(--input-height);
+  color: inherit; }
+  .dnb-input__input {
+    outline: none;
+    border: none; }
+  .dnb-input__input[disabled] {
+    user-select: none; }
   .dnb-input__shell {
     position: relative;
     flex: 1;
@@ -430,141 +457,64 @@ exports[`Input scss have to match snapshot 1`] = `
     width: 100%;
     height: 100%;
     margin: 0;
-    align-items: center;
-    background-color: #f5fafa;
-    border-radius: 2rem;
-    border: 1px solid #bedbdb;
-    transition: background-color 0.5s ease-out 0s; }
-    .no-touch .dnb-input__shell input:not([disabled]):hover[disabled] {
-      cursor: not-allowed; }
-    .no-touch .dnb-input__shell input:not([disabled]):hover:not([disabled]) {
-      background-color: rgba(255, 255, 255, 0.7); }
+    align-items: center; }
+  .dnb-input__shell, .dnb-input__input {
+    height: var(--input-height);
+    border-radius: var(--input-border-radius); }
   .dnb-input__description, .dnb-input__placeholder, .dnb-input__input {
-    font-size: 1rem;
-    line-height: 1.25; }
+    color: inherit;
+    background-color: transparent; }
   .dnb-input__placeholder, .dnb-input__input {
     width: 100%;
-    height: 2.2rem;
-    padding: 1.2rem 0 1rem 1rem;
-    font-family: inherit;
-    font-weight: inherit;
-    outline: none;
-    background-color: transparent;
-    color: inherit;
-    border: none;
-    border-radius: 2rem; }
-  .dnb-input__input[disabled] {
-    opacity: 0.5;
-    user-select: none; }
+    padding: var(--input-padding-vertical) var(--input-padding-horizontal);
+    transform: translateY(var(--button-border-width)); }
   .dnb-input__placeholder {
     pointer-events: none;
     position: absolute;
-    left: 0;
-    top: 2px;
-    padding: 0 1rem;
     height: 100%;
-    overflow: hidden;
+    padding: 0 var(--input-padding-horizontal);
     white-space: nowrap;
-    opacity: 1;
-    color: rgba(var(--color-black-80), 0.8);
-    line-height: 2.2rem;
-    text-overflow: ellipsis;
-    border-radius: 0;
-    transition: opacity 0.1s linear 0s; }
+    overflow: hidden;
+    text-overflow: ellipsis; }
   .dnb-input__description {
-    margin: 0 0 0 0.5rem; }
+    padding-left: 0.5em; }
   .dnb-input__extra-information {
     flex: 1 100%;
-    margin: 0.5rem 0 0 1rem;
-    font-size: 0.75rem;
-    line-height: 1rem; }
-  .dnb-input--large .dnb-input__description,
-  .dnb-input--large .dnb-input__input,
-  .dnb-input--large .dnb-input__placeholder {
-    font-size: 2rem; }
-  .dnb-input--large .dnb-input__placeholder {
-    line-height: 3rem; }
+    padding: 0.5em 1.5em;
+    font-size: 0.75em;
+    line-height: 1.25rem; }
+  .dnb-input--medium .dnb-input__shell,
+  .dnb-input--medium .dnb-input__input {
+    height: var(--input-height--medium);
+    border-radius: var(--input-border-radius--medium); }
+  .dnb-input--medium .dnb-input__description,
+  .dnb-input--medium .dnb-input__placeholder,
+  .dnb-input--medium .dnb-input__input {
+    font-size: var(--input-font-size--medium); }
+  .dnb-input--medium .dnb-input__placeholder {
+    line-height: var(--input-height--medium); }
+  .dnb-input--medium .dnb-input__input {
+    padding: var(--input-padding-vertical--medium) var(--input-padding-horizontal--medium); }
+  .dnb-input--large .dnb-input__shell,
   .dnb-input--large .dnb-input__input {
-    height: 3rem;
-    padding: 1.5rem 0 1.5rem 1.5rem;
-    border-radius: 3rem; }
-  .dnb-input__align--right {
-    padding-left: 0 !important;
-    padding-right: 1rem !important;
+    height: var(--input-height--large);
+    border-radius: var(--input-border-radius--large); }
+  .dnb-input--large .dnb-input__description,
+  .dnb-input--large .dnb-input__placeholder,
+  .dnb-input--large .dnb-input__input {
+    font-size: var(--input-font-size--large); }
+  .dnb-input--large .dnb-input__placeholder {
+    line-height: var(--input-height--large); }
+  .dnb-input--large .dnb-input__input {
+    padding: var(--input-padding-vertical--large) var(--input-padding-horizontal--large); }
+  .dnb-input__align--right .dnb-input__placeholder,
+  .dnb-input__align--right .dnb-input__input {
+    padding-right: var(--input-padding-horizontal);
     text-align: right; }
-  .dnb-input__input--search {
-    border-radius: 2rem 0 0 2rem;
-    margin: 0 1px 0 0; }
   .dnb-input__search-submit {
-    position: relative;
-    top: -1px;
-    right: -1px;
-    /* stylelint-disable */
-    flex: 0 0 2.2rem;
-    flex: 0 0 calc(4px + 2.2rem);
-    height: 2.2rem;
-    height: calc(4px + 2.2rem);
-    /* stylelint-enable */
-    margin: 0 0 -2px; }
-    .dnb-input__search-submit__button {
-      width: 100%;
-      height: 100%; }
-  .dnb-input__shell[data-input-state='focus'] {
-    border-color: #a0d6c9;
-    background-color: white;
-    box-shadow: 0 0 0 2px var(--color-sea-green);
-    outline: none;
-    border-color: transparent; }
-    html[data-whatinput='mouse'] .dnb-input__shell[data-input-state='focus']:not(.dnb-no-mouse-focus) {
-      transition: box-shadow 0.1s ease-out 0s;
-      box-shadow: 0 0 0 2px var(--color-emerald-green); }
-    html[data-whatinput='keyboard'] .dnb-input__shell[data-input-state='focus'] {
-      box-shadow: 0 0 0 2px var(--color-signal-orange); }
+    transform: translateX(var(--button-border-width)); }
   .dnb-input__shell[data-has-content='true'] .dnb-input__placeholder,
-  .dnb-input__shell[data-input-state='focus'][data-has-content='true'] .dnb-input__placeholder {
+  .dnb-input__shell[data-input-state='focus'] .dnb-input__placeholder {
     display: none; }
-  .dnb-input__shell[data-input-state='focus'][data-has-content='false'] .dnb-input__placeholder {
-    opacity: 0.35; }
-
-.dnb-input__shell[data-has-content='true'] {
-  background-color: rgba(255, 255, 255, 0.7); }
-
-/*
-* Range input
-* ======================================================================== */
-.dnb-range-slider__css-vars__bg-color-1 {
-  background-color: rgba(var(--color-sea-green), 0.5); }
-
-.dnb-range-slider__css-vars__bg-color-2 {
-  background-color: var(--color-summer-green); }
-
-input[type='range'] {
-  -webkit-appearance: none;
-  width: 100%;
-  border-radius: 0.25rem; }
-
-input[type='range']::-webkit-slider-runnable-track {
-  position: relative;
-  z-index: 1;
-  cursor: pointer;
-  width: 100%;
-  height: 0.25rem;
-  box-shadow: none; }
-
-input[type='range']::-webkit-slider-thumb {
-  position: relative;
-  top: 0.125rem;
-  cursor: pointer;
-  height: 1.5rem;
-  width: 1.5rem;
-  border-radius: 1.5rem;
-  background: white;
-  border: 1px solid #98c6c6;
-  transform: translate(0, -50%);
-  -webkit-appearance: none;
-  box-shadow: 1px 1px 2px rgba(0, 135, 137, 0.25), 0 0 1px rgba(0, 160, 163, 0.25); }
-
-input[type='range']:focus {
-  outline: none; }
 "
 `;
