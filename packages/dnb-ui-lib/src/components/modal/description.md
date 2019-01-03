@@ -4,14 +4,13 @@ status: 'wip'
 
 import ModalExample from './assets/modal-example.svg'
 import ModalExampleButtons from './assets/modal-example-buttons.svg'
-
 import Img from 'Tags/Img'
 
-# Modals (Modal Dialogs)
+# Modal Dialogs
 
 NB! Modal dialogs interrupt users and demand an action. They are appropriate when user’s attention needs to be directed toward important information.
 
-#### Behaviour
+#### Behavior
 
 The modal can be triggered from either a text element or a button. Triggering a modal will activate the opaque overlay and display the contents.
 

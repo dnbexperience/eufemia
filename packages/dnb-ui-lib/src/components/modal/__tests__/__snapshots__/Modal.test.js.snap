@@ -15,6 +15,7 @@ exports[`Modal component have to match snapshot 1`] = `
         "modal_trigger_icon": "modal_trigger_icon",
         "modal_trigger_text": "modal_trigger_text",
         "modal_trigger_title": "modal_trigger_title",
+        "preventSetTriggerRef": true,
         "title": "title",
         "type": "'button'",
       },
@@ -23,13 +24,21 @@ exports[`Modal component have to match snapshot 1`] = `
   1={
     Object {
       "displayName": "ModalRoot",
-      "props": Object {},
+      "props": Object {
+        "children": "children",
+      },
     }
   }
   2={
     Object {
       "displayName": "ModalContent",
-      "props": Object {},
+      "props": Object {
+        "close_title": "close_title",
+        "content_id": "content_id",
+        "hide": [Function],
+        "modal_content": "modal_content",
+        "title": "title",
+      },
     }
   }
   3={
@@ -160,6 +169,7 @@ exports[`Modal component have to match snapshot 1`] = `
             "modal_trigger_icon": "modal_trigger_icon",
             "modal_trigger_text": "modal_trigger_text",
             "modal_trigger_title": "modal_trigger_title",
+            "preventSetTriggerRef": true,
             "title": "title",
             "type": "'button'",
           },
@@ -168,13 +178,21 @@ exports[`Modal component have to match snapshot 1`] = `
       1={
         Object {
           "displayName": "ModalRoot",
-          "props": Object {},
+          "props": Object {
+            "children": "children",
+          },
         }
       }
       2={
         Object {
           "displayName": "ModalContent",
-          "props": Object {},
+          "props": Object {
+            "close_title": "close_title",
+            "content_id": "content_id",
+            "hide": [Function],
+            "modal_content": "modal_content",
+            "title": "title",
+          },
         }
       }
       3={
@@ -215,6 +233,7 @@ exports[`Modal component have to match snapshot 1`] = `
               "modal_trigger_icon": "modal_trigger_icon",
               "modal_trigger_text": "modal_trigger_text",
               "modal_trigger_title": "modal_trigger_title",
+              "preventSetTriggerRef": true,
               "title": "title",
               "type": "'button'",
             },
@@ -223,13 +242,21 @@ exports[`Modal component have to match snapshot 1`] = `
         1={
           Object {
             "displayName": "ModalRoot",
-            "props": Object {},
+            "props": Object {
+              "children": "children",
+            },
           }
         }
         2={
           Object {
             "displayName": "ModalContent",
-            "props": Object {},
+            "props": Object {
+              "close_title": "close_title",
+              "content_id": "content_id",
+              "hide": [Function],
+              "modal_content": "modal_content",
+              "title": "title",
+            },
           }
         }
         3={
