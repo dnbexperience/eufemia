@@ -45,59 +45,69 @@ class Example extends PureComponent {
   render() {
     return (
       <Fragment>
-        <Input id="text-input-2" placeholder="Placeholder text" />
+        <div className="dnb-form-row">
+          <FormLabel for_id="text-input-2" text="Label" />
+          <Input id="text-input-2" placeholder="Placeholder text" />
+        </div>
 
         <div className="dnb-form-row">
-          <FormLabel
-            id="search-input-label"
-            for_id="search-input"
-            text="Search"
-          />
+          <FormLabel for_id="search-input" text="Search" />
           <Input
             type="search"
             id="search-input"
             search_button_title="Search"
+            placeholder="Search text placeholder"
             on_change={this.handleInputChange}
           />
         </div>
 
-        <Input
-          type="text"
-          id="text-input-medium"
-          autocomplete="off"
-          size="medium"
-          placeholder="Medium input"
-          on_change={this.handleInputChange}
-        />
+        <div className="dnb-form-row">
+          <FormLabel for_id="text-input-medium" text="Medium input" />
+          <Input
+            type="text"
+            id="text-input-medium"
+            size="medium"
+            placeholder="Medium input placeholder"
+            on_change={this.handleInputChange}
+          />
+        </div>
 
-        <Input
-          type="text"
-          id="text-input-large"
-          autocomplete="off"
-          size="large"
-          align="right"
-          placeholder="Large input with right align"
-          on_change={this.handleInputChange}
-        />
+        <div className="dnb-form-row">
+          <FormLabel for_id="text-input-large" text="Large input" />
+          <Input
+            type="text"
+            id="text-input-large"
+            size="large"
+            align="right"
+            placeholder="Large input with right align"
+            on_change={this.handleInputChange}
+          />
+        </div>
 
-        <Input
-          disabled
-          id="text-input-disabled"
-          value="Disabled Input with a value"
-        />
+        <div className="dnb-form-row">
+          <FormLabel for_id="text-input-disabled" text="Disabled input" />
+          <Input
+            disabled
+            id="text-input-disabled"
+            value="Disabled Input with a text value"
+          />
+        </div>
 
-        <Input
-          type="text"
-          id="text-input-1"
-          autocomplete="on"
-          placeholder="Placeholder text"
-          description="Kr"
-          extra_information="Info: numbers are ligned by using typo-number--lining"
-          ref={this._ref}
-          on_change={this.handleInputChange}
-        >
-          This is the value 1234567890
-        </Input>
+        <div className="dnb-form-row">
+          <FormLabel for_id="text-input-1" text="With extra information" />
+          <Input
+            type="text"
+            id="text-input-1"
+            autocomplete="on"
+            placeholder="Placeholder text"
+            description="Kr"
+            extra_information="Info: numbers are ligned by using typo-number--lining"
+            ref={this._ref}
+            on_change={this.handleInputChange}
+          >
+            This is the value 1234567890
+          </Input>
+        </div>
       </Fragment>
     )
   }

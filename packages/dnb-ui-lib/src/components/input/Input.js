@@ -30,7 +30,7 @@ export const propTypes = {
   size: PropTypes.string,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   id: PropTypes.string,
-  autocomplete: PropTypes.string,
+  autocomplete: PropTypes.oneOf(['on', 'off']),
   search_button_title: PropTypes.string,
   placeholder: PropTypes.string,
   description: PropTypes.string,
@@ -184,7 +184,6 @@ export default class Input extends PureComponent {
   }
   render() {
     const {
-      autocomplete,
       type,
       size,
       id,
@@ -196,6 +195,11 @@ export default class Input extends PureComponent {
       input_typo,
       extra_information
     } = this.props
+
+    let { autocomplete } = this.props
+    if (type === 'search') {
+      autocomplete = null
+    }
 
     const classes = classnames(
       'dnb-input',

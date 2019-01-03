@@ -36,15 +36,6 @@
   font-style: var(--input-font-style);
   line-height: var(--input-height);
 
-  &__input {
-    outline: none;
-    border: none;
-  }
-
-  &__input[disabled] {
-    user-select: none;
-  }
-
   &__shell {
     position: relative;
 
@@ -58,17 +49,19 @@
     align-items: center;
   }
 
+  &__input {
+    outline: none;
+    border: none;
+  }
+
+  &__input[disabled] {
+    user-select: none;
+  }
+
   &__shell,
   &__input {
     height: var(--input-height);
     border-radius: var(--input-border-radius);
-  }
-
-  &__description,
-  &__placeholder,
-  &__input {
-    color: inherit;
-    background-color: transparent;
   }
 
   &__placeholder,
@@ -80,23 +73,24 @@
     transform: translateY(var(--button-border-width));
 
     text-align: left;
+
+    color: inherit;
+    background-color: transparent;
   }
 
   &__placeholder {
     pointer-events: none;
 
     position: absolute;
-
     height: 100%;
-    padding: var(--input-padding);
 
     white-space: nowrap;
     overflow: hidden;
-
     text-overflow: ellipsis;
   }
 
   &__description {
+    color: inherit;
     padding-left: 0.5em;
   }
 

@@ -11,7 +11,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
   >
     <input
       aria-describedby="id-description"
-      autoComplete="autocomplete"
+      autoComplete={null}
       className="dnb-input__input input_typo input_class"
       id="id"
       name="id"
@@ -25,7 +25,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
     <Submit
       align="align"
       attributes="attributes"
-      autocomplete="autocomplete"
+      autocomplete="off"
       class="class"
       className="className"
       custom_element={Object {}}
@@ -87,7 +87,7 @@ exports[`Input component have to match type="text" snapshot 1`] = `
   >
     <input
       aria-describedby="id-description"
-      autoComplete="autocomplete"
+      autoComplete="off"
       className="dnb-input__input input_typo input_class"
       id="id"
       name="id"
@@ -434,11 +434,6 @@ exports[`Input scss have to match snapshot 1`] = `
   font-weight: var(--input-font-weight);
   font-style: var(--input-font-style);
   line-height: var(--input-height); }
-  .dnb-input__input {
-    outline: none;
-    border: none; }
-  .dnb-input__input[disabled] {
-    user-select: none; }
   .dnb-input__shell {
     position: relative;
     flex: 1;
@@ -447,26 +442,30 @@ exports[`Input scss have to match snapshot 1`] = `
     height: 100%;
     margin: 0;
     align-items: center; }
+  .dnb-input__input {
+    outline: none;
+    border: none; }
+  .dnb-input__input[disabled] {
+    user-select: none; }
   .dnb-input__shell, .dnb-input__input {
     height: var(--input-height);
     border-radius: var(--input-border-radius); }
-  .dnb-input__description, .dnb-input__placeholder, .dnb-input__input {
-    color: inherit;
-    background-color: transparent; }
   .dnb-input__placeholder, .dnb-input__input {
     width: 100%;
     padding: var(--input-padding);
     transform: translateY(var(--button-border-width));
-    text-align: left; }
+    text-align: left;
+    color: inherit;
+    background-color: transparent; }
   .dnb-input__placeholder {
     pointer-events: none;
     position: absolute;
     height: 100%;
-    padding: var(--input-padding);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis; }
   .dnb-input__description {
+    color: inherit;
     padding-left: 0.5em; }
   .dnb-input--medium .dnb-input__shell,
   .dnb-input--medium .dnb-input__input {

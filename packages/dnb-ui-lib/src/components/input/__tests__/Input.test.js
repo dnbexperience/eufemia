@@ -9,6 +9,7 @@ import {
   mount,
   fakeProps,
   toJson,
+  axeComponent,
   loadScss
 } from '../../../core/jest/jestSetup'
 import Component from '../Input'
@@ -22,6 +23,7 @@ const props = {
   inputElement: null,
   disabled: false
 }
+props.autocomplete = 'off'
 
 describe('Input component', () => {
   // shallow compare the snapshot
@@ -103,6 +105,15 @@ describe('Input component', () => {
         .find('.dnb-input__search-submit')
         .prop('data-input-state')
     ).toBe('focus')
+  })
+
+  it('should validate with ARIA rules as a input with a label', async () => {
+    const Comp = mount(
+      <label htmlFor="input">
+        <Component {...props} id="input" type="text" value="some value" />
+      </label>
+    )
+    expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })
 
