@@ -9,7 +9,7 @@ import { parse as parseSass } from 'sass-variable-parser'
 
 export const extractSassVars = async ({
   file,
-  imports = ['./style/component/core-imports'],
+  imports = ['./style/components/imports'],
   replaceCallback = null,
   parserOpts = {}
 }) => {

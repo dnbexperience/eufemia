@@ -1,0 +1,12 @@
+/**
+ * This file is only used to make themes independent
+ * so that they can get imported individually, without the core styles
+ *
+ */
+
+$fonts-path: '../../../../../assets/fonts/' !default;
+
+// core imports
+@import '../core/properties.scss';
+@import '../core/utilities.scss';
+@import '../core/typography.scss';
