@@ -1,5 +1,5 @@
 /**
- * Node
+ * Figma Task
  *
  */
 
@@ -328,30 +328,38 @@ export const safeFileToDisk = (
   { file = '.tmp/file.json', url },
   { errorExceptionType = ERROR_FATAL }
 ) =>
-  new Promise(resolve => {
+  new Promise(async resolve => {
     const localFile = /\//.test(file)
       ? file
       : path.resolve(__dirname, `../.cache/${file}`)
-    const stream = fs.createWriteStream(localFile)
-    stream.on('error', err => {
-      stream.end()
-      new ErrorHandler(
-        'Failed on createWriteStream',
-        err,
-        errorExceptionType
-      )
-    })
-    stream.on('end', (err, content) => {
-      stream.end()
-      console.log('\n\nerr', err, content)
-      new ErrorHandler('Failed on createWriteStream', err)
-    })
-    stream.on('finish', () => {
-      stream.close()
-      resolve({ file: localFile })
-    })
+    const resetContent = fs.existsSync(localFile)
+      ? await fs.readFile(localFile, 'utf-8')
+      : null
+    const writeStream = fs.createWriteStream(localFile)
+    writeStream
+      .on('error', err => {
+        writeStream.end()
+        new ErrorHandler(
+          'Failed on createWriteStream',
+          err,
+          errorExceptionType
+        )
+      })
+      .on('finish', async () => {
+        writeStream.close()
+
+        // reset the file, if its empty
+        if (resetContent) {
+          const newContent = await fs.readFile(localFile, 'utf-8')
+          if (String(newContent).trim().length === 0) {
+            await fs.writeFile(localFile, resetContent)
+          }
+        }
+
+        resolve({ localFile })
+      })
     https
-      .get(url, response => response.pipe(stream))
+      .get(url, response => response.pipe(writeStream))
       .on('error', async err => {
         try {
           await fs.unlink(localFile)

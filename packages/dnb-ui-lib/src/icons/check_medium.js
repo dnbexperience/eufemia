@@ -3,7 +3,7 @@
 import React from 'react'
 
 const check_medium = props => (
-  <svg viewBox="0 0 24 24" {...props}>
+  <svg viewBox="0 0 24 24" fill="none" {...props}>
     <path
       d="M3 13.84l3.675 5.215a1.574 1.574 0 0 0 2.56.076L21 4.247"
       stroke="#000"

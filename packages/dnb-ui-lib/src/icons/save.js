@@ -3,11 +3,12 @@
 import React from 'react'
 
 const save = props => (
-  <svg viewBox="0 0 16 16" {...props}>
+  <svg viewBox="0 0 16 16" fill="none" {...props}>
     <path
       fillRule="evenodd"
       clipRule="evenodd"
       d="M8.75 1.002a.75.75 0 0 0-1.5-.004l-.023 9.168L3.53 6.47a.75.75 0 0 0-1.06 1.06l5 5a.75.75 0 0 0 1.06 0l5-5a.75.75 0 0 0-1.06-1.06l-3.743 3.743.023-9.211zM14 14.75a.75.75 0 0 1-.75.75H2.75a.75.75 0 0 1 0-1.5h10.5a.75.75 0 0 1 .75.75z"
+      fill="#000"
     />
   </svg>
 )

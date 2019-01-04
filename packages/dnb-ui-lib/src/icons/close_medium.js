@@ -3,11 +3,12 @@
 import React from 'react'
 
 const close_medium = props => (
-  <svg viewBox="0 0 24 24" {...props}>
+  <svg viewBox="0 0 24 24" fill="none" {...props}>
     <path
       fillRule="evenodd"
       clipRule="evenodd"
       d="M5.78 4.914a.75.75 0 0 0-1.06 1.061l6.22 6.22-6.22 6.22a.75.75 0 0 0 1.06 1.06l6.22-6.22 6.22 6.22a.75.75 0 0 0 1.06-1.06l-6.22-6.22 6.22-6.22a.75.75 0 0 0-1.06-1.06L12 11.134l-6.22-6.22z"
+      fill="#000"
     />
   </svg>
 )

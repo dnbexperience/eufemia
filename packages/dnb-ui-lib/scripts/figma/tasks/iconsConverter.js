@@ -1,5 +1,5 @@
 /**
- * Node
+ * Figma Task
  *
  */
 
@@ -30,6 +30,7 @@ const iconsDest = path.resolve(__dirname, `../../../assets/icons`)
 export const IconsConverter = async ({
   figmaDoc = null,
   figmaFile = null,
+  forceReconvert = null,
   ...rest
 }) => {
   if (!figmaFile) {
@@ -37,7 +38,10 @@ export const IconsConverter = async ({
   }
 
   if (figmaDoc === null) {
-    figmaDoc = await getFigmaDoc({ figmaFile })
+    figmaDoc = await getFigmaDoc({
+      figmaFile,
+      preventUpdate: forceReconvert
+    })
   }
 
   // juce out, if no changes
@@ -73,7 +77,7 @@ export const IconsConverter = async ({
 const runFrameIconsFactory = async ({
   frameDoc,
   figmaFile,
-  forceReconvert = null
+  forceRedownload = null
 }) => {
   if (/#skip/.test(frameDoc.name)) {
     return undefined
@@ -145,8 +149,6 @@ const runFrameIconsFactory = async ({
     } icons from the "${originalFrameName}" Canvas`
   )
 
-  // console.log('\n\niconIdsToFetchFrom', iconIdsToFetchFrom, iconIdsFromDoc)
-
   // go and load additional images
   const listOfAdditionalIconUrls = Object.entries(
     await getFigmaUrlByImageIds({
@@ -175,7 +177,7 @@ const runFrameIconsFactory = async ({
         const iconName = prepareIconName(name, iconNameAdditions)
 
         // deifine the filePath
-        const filePath = path.resolve(iconsDest, iconName)
+        const file = path.resolve(iconsDest, iconName)
 
         // check if frame content exists in the lock file
         const lockFileFrameContent =
@@ -192,22 +194,24 @@ const runFrameIconsFactory = async ({
         }
 
         if (
-          forceReconvert !== true &&
+          forceRedownload !== true &&
           // compare the current id with the one in the lock file
           // if the id is the same, and the file exists, this version is not changed
-          (lockFileFrameContent && lockFileFrameContent.id === id) &&
+          lockFileFrameContent &&
+          lockFileFrameContent.id === id &&
           // and also compare for the frameId, as they may have been upadted
           (lockFileFrameContent &&
             lockFileFrameContent.slug === md5(figmaFile + frameId)) &&
-          fs.existsSync(filePath)
+          fs.existsSync(file)
         ) {
           log.text = `> Figma: File already exists: ${iconName}`
         } else {
           log.text = `> Figma: Saving file to disk: ${iconName}`
 
-          const { file } = await safeFileToDisk(
+          // console.log('\n\n has url?', file, url)
+          await safeFileToDisk(
             {
-              file: filePath,
+              file,
               url,
               id // id is not used for now
             },
@@ -216,12 +220,16 @@ const runFrameIconsFactory = async ({
             }
           )
 
-          await optimizeSVG({ file })
-
           ret.timestamp = Date.now()
 
-          log.info(`> Figma: Icon was prepared and saved: ${iconName}`)
+          log.info(
+            `> Figma: Icon was saved: ${iconName} (${ret.timestamp})`
+          )
         }
+
+        await optimizeSVG({ file })
+
+        log.text = `> Figma: Icon was prepared: ${iconName}`
 
         return ret
       } catch (e) {
@@ -266,17 +274,21 @@ const prepareIconName = (name, iconNameAdditions = []) => {
 const optimizeSVG = ({ file }) => {
   const transformSvg = async content => {
     const plugins = [
-      {
-        removeAttrs: {
-          attrs: [
-            'fill' //remove all fills - if the instance has a defined background color, then things are not showing good. Then then have to allow this setting to be there
-            // 'svg:fill'
-            // 'svg:xmlns',
-            // 'svg:width',
-            // 'svg:height'
-          ]
-        }
-      },
+      // {
+      //   removeAttrs: {
+      //     attrs: [
+      //       //remove all fills - if the instance has a defined background color,
+      //       // then things are not showing good.
+      //       // Then then have to allow this setting to be there!
+      //       // 'fill'
+      //       // 'svg:fill'
+      //       // 'svg:xmlns',
+      //       // 'svg:width',
+      //       // 'svg:height'
+      //     ]
+      //   }
+      // },
+      // { convertPathData: false }, // if we prefere to not transform any data paths, we have to disable this
       { cleanupIDs: false },
       { removeViewBox: false },
       { removeDimensions: true }

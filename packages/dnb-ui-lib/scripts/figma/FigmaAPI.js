@@ -1,5 +1,5 @@
 /**
- * Node
+ * The main Figma Task runner
  *
  */
 
@@ -36,16 +36,17 @@ export const fetchFigmaIcons = async (args = {}) => {
   }
 }
 
-export const fetchFigmaData = async ({
+export const fetchFigmaAll = async ({
   figmaDoc = null,
   figmaFile = null,
+  ignoreBranchCheck = null,
   ...rest
 } = {}) => {
   try {
     // make sure we are on the develop branch
     const branchName = await getBranchName({ requiredBranch: 'develop' })
 
-    if (!branchName) {
+    if (ignoreBranchCheck !== true && !branchName) {
       log.fail('> Figma: Could not continue, as we require another branch')
       return
     }

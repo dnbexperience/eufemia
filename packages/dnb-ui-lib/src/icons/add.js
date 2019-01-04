@@ -3,11 +3,12 @@
 import React from 'react'
 
 const add = props => (
-  <svg viewBox="0 0 16 16" {...props}>
+  <svg viewBox="0 0 16 16" fill="none" {...props}>
     <path
       fillRule="evenodd"
       clipRule="evenodd"
-      d="M8.75 2.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5z"
+      d="M8.75 1.75a.75.75 0 0 0-1.5 0v5.5h-5.5a.75.75 0 0 0 0 1.5h5.5v5.5a.75.75 0 0 0 1.5 0v-5.5h5.5a.75.75 0 0 0 0-1.5h-5.5v-5.5z"
+      fill="#000"
     />
   </svg>
 )

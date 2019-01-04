@@ -29,8 +29,7 @@ module.exports = {
     },
     figma: {
       default: 'yarn figma',
-      dev: 'yarn figma:dev',
-      update: 'yarn figma:force'
+      dev: 'yarn figma:dev'
     },
     sb: 'yarn story',
     test: {
