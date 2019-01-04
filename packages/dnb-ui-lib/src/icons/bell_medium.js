@@ -3,7 +3,7 @@
 import React from 'react'
 
 const bell_medium = props => (
-  <svg viewBox="0 0 24 24" {...props}>
+  <svg viewBox="0 0 24 24" fill="none" {...props}>
     <path
       d="M10 21.75a2.087 2.087 0 0 0 4.005 0M12 3V.75"
       stroke="#000"

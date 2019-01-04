@@ -3,12 +3,20 @@
 import React from 'react'
 
 const hamburger_medium = props => (
-  <svg viewBox="0 0 24 24" {...props}>
-    <path
-      fillRule="evenodd"
-      clipRule="evenodd"
-      d="M0 3.188a.75.75 0 0 1 .75-.75h22.5a.75.75 0 0 1 0 1.5H.75a.75.75 0 0 1-.75-.75zm0 9.187a.75.75 0 0 1 .75-.75h22.5a.75.75 0 0 1 0 1.5H.75a.75.75 0 0 1-.75-.75zm.75 8.438a.75.75 0 0 0 0 1.5h22.5a.75.75 0 0 0 0-1.5H.75z"
-    />
+  <svg viewBox="0 0 24 24" fill="none" {...props}>
+    <g clipPath="url(#clip0)">
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M0 3.188a.75.75 0 0 1 .75-.75h22.5a.75.75 0 0 1 0 1.5H.75a.75.75 0 0 1-.75-.75zm0 9.187a.75.75 0 0 1 .75-.75h22.5a.75.75 0 0 1 0 1.5H.75a.75.75 0 0 1-.75-.75zm.75 8.438a.75.75 0 0 0 0 1.5h22.5a.75.75 0 0 0 0-1.5H.75z"
+        fill="#000"
+      />
+    </g>
+    <defs>
+      <clipPath id="clip0">
+        <path fill="#fff" d="M0 0h24v24H0z" />
+      </clipPath>
+    </defs>
   </svg>
 )
 

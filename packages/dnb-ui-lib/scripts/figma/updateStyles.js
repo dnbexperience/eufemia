@@ -1,5 +1,5 @@
 /**
- * Node
+ * Run only Figma Styles Task
  *
  */
 

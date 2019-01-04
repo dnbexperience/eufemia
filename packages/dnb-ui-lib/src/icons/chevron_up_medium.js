@@ -3,11 +3,12 @@
 import React from 'react'
 
 const chevron_up_medium = props => (
-  <svg viewBox="0 0 24 24" {...props}>
+  <svg viewBox="0 0 24 24" fill="none" {...props}>
     <path
       fillRule="evenodd"
       clipRule="evenodd"
       d="M5.79 16.021a.75.75 0 0 1-1.08-1.041l6.747-6.998a.748.748 0 0 1 1.086 0l6.747 6.998a.75.75 0 0 1-1.08 1.041L12 9.58l-6.21 6.441z"
+      fill="#000"
     />
   </svg>
 )

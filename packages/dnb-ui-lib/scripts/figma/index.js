@@ -1,11 +1,11 @@
 /**
- * Figma API
+ * The main Figma Task runner
  *
  */
 
 import {
-  fetchFigmaData,
+  fetchFigmaAll,
   fetchFigmaStyles,
   fetchFigmaIcons
 } from './FigmaAPI'
-export { fetchFigmaData, fetchFigmaStyles, fetchFigmaIcons }
+export { fetchFigmaAll, fetchFigmaStyles, fetchFigmaIcons }

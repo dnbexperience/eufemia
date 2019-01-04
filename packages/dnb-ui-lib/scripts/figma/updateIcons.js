@@ -1,7 +1,7 @@
 /**
- * Node
+ * Run only Figma Icons Task
  *
  */
 
 import { fetchFigmaIcons } from './index'
-fetchFigmaIcons({ doRefetch: null, forceReconvert: null })
+fetchFigmaIcons({ doRefetch: null, forceReconvert: true })

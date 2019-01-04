@@ -6,7 +6,7 @@
 import express from 'express'
 // import fetch from 'node-fetch'
 import dotenv from 'dotenv'
-import { fetchFigmaData } from '../scripts/figma'
+import { fetchFigmaAll } from '../scripts/figma'
 import { runPrepublishTasks } from '../scripts/prepub'
 // import { yalcPublish } from '../scripts/prepub/yalc'
 
@@ -26,14 +26,14 @@ app.use((req, res, next) => {
 })
 
 app.get('/figma/update', async (request, response) => {
-  await fetchFigmaData({ doRefetch: true })
+  await fetchFigmaAll({ doRefetch: true })
   await runPrepublishTasks({ preventDelete: true })
   console.log('> PrePublish: done!')
   response.send('{}')
 })
 
 app.get('/figma/update/local', async (request, response) => {
-  await fetchFigmaData({ doRefetch: true })
+  await fetchFigmaAll({ doRefetch: true })
   await runPrepublishTasks({ preventDelete: true })
   console.log('> PrePublish: done!')
   // await yalcPublish()
