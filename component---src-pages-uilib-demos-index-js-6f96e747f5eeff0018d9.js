@@ -1,2 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[44],{1049:function(e,d,u){"use strict";var a;Object.defineProperty(d,"__esModule",{value:!0}),d.default=void 0;var o=((a=u(1043))&&a.__esModule?a:{default:a}).default;d.default=o}}]);
-//# sourceMappingURL=component---src-pages-uilib-demos-index-js-6f96e747f5eeff0018d9.js.map

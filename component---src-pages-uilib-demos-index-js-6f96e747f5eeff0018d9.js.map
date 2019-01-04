@@ -1,1 +1,0 @@
-{"version":3,"sources":["webpack:///./src/pages/uilib/demos/index.js"],"names":["__webpack_require__","def"],"mappings":"4FAKA,kFAAAA,EAAA,oCACeC","file":"component---src-pages-uilib-demos-index-js-6f96e747f5eeff0018d9.js","sourcesContent":["/**\n * Page\n *\n */\n\nimport def from './example-app-1'\nexport default def\n"],"sourceRoot":""}
