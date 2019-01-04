@@ -6,6 +6,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { css, Global } from '@emotion/core'
+import styled from '@emotion/styled'
 import classnames from 'classnames'
 import Card from './Card'
 import keycode from 'keycode'
@@ -19,27 +20,23 @@ import {
 } from './Graphics'
 import { Button } from 'dnb-ui-lib/src'
 
-const sectionsStyle = css`
+const MainWrapper = styled.div`
   display: flex;
-  flex-flow: row wrap;
-  flex-direction: row;
-  justify-content: stretch;
-  height: 100%;
+  align-items: center;
+  justify-content: center;
 
-  a,
-  a:hover {
-    color: black;
-    padding: 0;
-    border: none;
-  }
-`
-
-const mainMenuStyle = css`
   position: relative;
   z-index: 3; /* one more than Wrapper */
 
   width: 100vw;
-  height: calc(100vh - 4em); /* minus StickyMenuBar */
+
+  /* minus StickyMenuBar */
+  height: calc(100vh - 4rem);
+
+  /* plus StickyMenuBar */
+  margin-top: 4rem;
+
+  background-color: var(--color-emerald-green);
 
   &.show-as-overlay {
     display: block;
@@ -68,14 +65,22 @@ const mainMenuStyle = css`
   }
 `
 
+const CardsWrapper = styled.div`
+  display: flex;
+  flex-flow: row wrap;
+  flex-direction: row;
+
+  /* minus StickyMenuBar */
+  max-height: calc(100vh - 4rem);
+`
+
 const toolbarStyle = css`
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  height: 4em;
 
-  background-color: #fff;
+  height: 4em;
 `
 
 export default class MainMenu extends PureComponent {
@@ -150,8 +155,7 @@ export default class MainMenu extends PureComponent {
             }
           `}
         />
-        <div
-          css={mainMenuStyle}
+        <MainWrapper
           className={classnames(
             this.props.setAsOverlay ? 'show-as-overlay' : null,
             this.props.enableOverlay ? 'is-overlay' : null,
@@ -171,72 +175,52 @@ export default class MainMenu extends PureComponent {
               />
             )}
           </div>
-          <div css={sectionsStyle}>
+          <CardsWrapper>
             <Card
               url="/uilib/"
               title="UI Library"
+              about="Buttons, dropdowns, input fields, components etc."
               icon={UilibSvg}
-              customStyle={oceanGreen}
               onClick={this.closeMenuHandler}
             />
             <Card
               url="/quickguide-designer/"
               title="Quick Guide - Designers"
+              about="Eufemia for designers - design guidelines and resources"
               icon={QuickguideDesignerSvg}
-              customStyle={mintGreen}
               onClick={this.closeMenuHandler}
             />
             <Card
               url="/quickguide-developer/"
               title="Quick Guide - Developers"
+              about="Eufemia for developers"
               icon={QuickguideDeveloperSvg}
-              customStyle={summerGreen}
               onClick={this.closeMenuHandler}
             />
             <Card
               url="/icons/"
               title="Icon Library"
+              about="An overview of our most used icons"
               icon={IconsSvg}
-              customStyle={oceanGreen}
               onClick={this.closeMenuHandler}
             />
             <Card
               url="/brand/"
               title="Brand"
+              about="Brand guidelines - typography, colors etc. (most relevant for print media)"
               icon={BrandSvg}
-              customStyle={emeraldGreen}
               onClick={this.closeMenuHandler}
             />
             <Card
               url="/principles/"
               title="Design Principles"
+              about="DNB, Eufemia and UI design principles"
               icon={PrinciplesSvg}
-              customStyle={seaGreen}
               onClick={this.closeMenuHandler}
             />
-          </div>
-        </div>
+          </CardsWrapper>
+        </MainWrapper>
       </>
     )
   }
 }
-
-const oceanGreen = css`
-  background-color: rgb(0, 52, 62);
-`
-
-const emeraldGreen = css`
-  background-color: rgb(20, 85, 90);
-`
-
-const seaGreen = css`
-  background-color: rgb(0, 114, 114);
-`
-
-const mintGreen = css`
-  background-color: rgb(165, 225, 210);
-`
-
-const summerGreen = css`
-  background-color: rgb(40, 180, 130);
-`

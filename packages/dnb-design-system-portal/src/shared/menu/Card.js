@@ -8,40 +8,50 @@ import PropTypes from 'prop-types'
 import Link from 'gatsby-link'
 import { css } from '@emotion/core'
 import styled from '@emotion/styled'
+import { Button } from 'dnb-ui-lib/src'
 
-const boxStyle = css`
-  flex: 1 1 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: stretch;
+const CardWrapper = styled.div`
+  width: calc(33.333333% - 1rem);
 
-  min-width: 33.333333%;
+  margin: 0.5rem;
   padding: 0;
-  margin: 0;
 
-  border: none;
+  box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.1);
 
-  color: rgba(255, 255, 255, 0.75);
-  text-decoration: none;
-  font-weight: 100;
-
-  &:focus,
-  &:hover {
-    filter: grayscale(90%);
-    transition: filter 0.5s ease;
-    border: none;
-  }
-  [data-whatinput='keyboard'] &:focus {
-    box-shadow: none;
+  &,
+  a {
+    border-radius: 0.5rem;
   }
 
   @media (max-width: 640px) {
     & {
-      min-width: 100%;
+      min-width: calc(100% - 1rem);
       transition: 0.5s;
-      height: 240px;
     }
+  }
+`
+
+const linkStyle = css`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  height: 100%;
+
+  color: rgba(0, 0, 0, 0.75);
+  text-decoration: none;
+  text-align: center;
+  font-weight: 100;
+
+  background-color: var(--color-white);
+  transition: background-color 0.5s ease;
+
+  &:focus,
+  &:hover {
+    background-color: var(--color-mint-green-50);
+  }
+  [data-whatinput='keyboard'] &:focus {
+    box-shadow: none;
   }
 
   @keyframes fade-in {
@@ -63,31 +73,35 @@ const boxStyle = css`
     forwards;
 `
 
-const Header = styled.span`
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  width: 100%;
-  height: 6em;
+const Header = styled.h3`
+  margin: 0;
 
   text-align: center;
-
-  color: white;
-  background-color: rgba(0, 0, 0, 0.15);
-
-  @media (max-width: 640px) {
-    & {
-      height: 4em;
-      transition: 0.5s;
-    }
-  }
+  font-size: 1rem;
+  ${'' /* font-weight: 600; */}
+  ${'' /* font-family: Sindre is using either boor nor demi, he uses std normal  */}
+  color: var(--color-black-80);
 `
 
-const Box = styled.div`
+const About = styled.p`
+  margin: 0.5rem 0 0;
+  padding: 0 1rem;
+
+  font-size: 1rem;
+  color: var(--color-black);
+`
+
+const Box = styled.span`
   display: flex;
-  height: 100%;
-  justify-content: center;
   flex-direction: column;
+  align-items: center;
+
+  svg {
+    margin: 3rem 0 2rem;
+  }
+`
+const BottomWrapper = styled.span`
+  margin: 2rem 0;
 `
 
 export default class Card extends PureComponent {
@@ -95,6 +109,7 @@ export default class Card extends PureComponent {
     url: PropTypes.string.isRequired,
     customStyle: PropTypes.object,
     title: PropTypes.string.isRequired,
+    about: PropTypes.string.isRequired,
     icon: PropTypes.func.isRequired,
     onClick: PropTypes.func
   }
@@ -103,24 +118,40 @@ export default class Card extends PureComponent {
     onClick: null
   }
   render() {
-    const { url, customStyle, title, icon: Svg, onClick } = this.props
+    const {
+      url,
+      customStyle,
+      title,
+      about,
+      icon: Svg,
+      onClick
+    } = this.props
     return (
-      <Link
-        css={[
-          // 'remove-anker-style',
-          boxStyle,
-          customStyle
-        ]}
-        className="no-dnb-style"
-        style={{ '--delay': `${random(1, 160)}ms` }}
-        to={url}
-        onClick={onClick}
-      >
-        <Box className="section-box">
-          <Svg />
-        </Box>
-        <Header>{title}</Header>
-      </Link>
+      <CardWrapper>
+        <Link
+          css={[linkStyle, customStyle]}
+          className="no-dnb-style"
+          style={{ '--delay': `${random(1, 160)}ms` }}
+          to={url}
+          onClick={onClick}
+        >
+          <Box>
+            <Svg />
+            <Header>{title}</Header>
+
+            <About>{about}</About>
+          </Box>
+
+          <BottomWrapper>
+            <Button
+              variant="tertiary"
+              icon="add"
+              text="Read more"
+              tabindex="-1"
+            />
+          </BottomWrapper>
+        </Link>
+      </CardWrapper>
     )
   }
 }
