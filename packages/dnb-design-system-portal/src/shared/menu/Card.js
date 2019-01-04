@@ -9,6 +9,7 @@ import Link from 'gatsby-link'
 import { css } from '@emotion/core'
 import styled from '@emotion/styled'
 import { Button } from 'dnb-ui-lib/src'
+import { isIE11 } from 'dnb-ui-lib/src/components/icon'
 
 const CardWrapper = styled.div`
   width: calc(33.333333% - 1rem);
@@ -97,6 +98,8 @@ const Box = styled.span`
   align-items: center;
 
   svg {
+    width: 3rem;
+    height: 3rem;
     margin: 3rem 0 2rem;
   }
 `
@@ -126,6 +129,10 @@ export default class Card extends PureComponent {
       icon: Svg,
       onClick
     } = this.props
+
+    // size is else defined in css
+    const svgParams = isIE11 ? { width: '48', height: '48' } : null
+
     return (
       <CardWrapper>
         <Link
@@ -136,7 +143,7 @@ export default class Card extends PureComponent {
           onClick={onClick}
         >
           <Box>
-            <Svg />
+            <Svg {...svgParams} />
             <Header>{title}</Header>
 
             <About>{about}</About>
