@@ -180,16 +180,52 @@ exports[`Dropdown scss have to match snapshot 1`] = `
 * DNB Dropdown
 *
 * ======================================================================== */
+/**
+ * This file is only used to make components independent
+ * so that they can get imported individually, without the core styles
+ *
+ */
+/*
+* CSS Properties
+*
+* ======================================================================== */
+:root {
+  --font-family-std: 'Fedra Sans Std', sans-serif;
+  --font-family-demi: 'Fedra Sans Std Demi', sans-serif;
+  --color-sea-green-alt: #008484;
+  --color-mint-green-50: #d2f0e9;
+  --color-mint-green-25: #e9f8f4;
+  --color-sea-green-4: #f5fafa;
+  --color-sea-green-alt-30: #b3dada;
+  --color-signal-yellow-30: #ffffd7;
+  --color-cherry-red: #e10076;
+  --color-cherry-red-80: #fdebf4;
+  --color-black: #000;
+  --color-black-80: #333;
+  --color-black-30: #b3b3b3;
+  --color-white: #fff;
+  --color-black-border: #ebebeb;
+  --color-sea-green: #007272;
+  --color-mint-green: #a5e1d2;
+  --color-summer-green: #28b482;
+  --color-emerald-green: #14555a;
+  --color-ocean-green: #00343e;
+  --color-signal-orange: #ff5400;
+  --color-signal-yellow: #ffff7a;
+  --color-indigo: #23195a;
+  --color-violet: #6e2382;
+  --color-sky-blue: #4bbed2; }
+
 /*
  * Utilities
  * ========================================================================== */
 /*
  * Typography
+ *
+ * The font-family properties are defined in the properties.scss file, like:
+ * --font-family-std:
+ *
  * ========================================================================== */
-:root {
-  --font-family-std: 'Fedra Sans Std', sans-serif;
-  --font-family-demi: 'Fedra Sans Std Demi', sans-serif; }
-
 .typo-std,
 .typo-book {
   font-family: var(--font-family-std);
@@ -391,6 +427,7 @@ exports[`Dropdown scss have to match snapshot 1`] = `
     padding-right: 1.5em;
     width: auto; }
   .dnb-button--has-text .dnb-button__icon {
+    margin: 0 0.5rem;
     margin: 0 calc(var(--button-icon-size) / 2); }
   .dnb-button--has-text.dnb-button--icon-position-left {
     padding-left: 0.5em; }

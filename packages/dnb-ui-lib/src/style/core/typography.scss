@@ -1,12 +1,10 @@
 /*
  * Typography
+ *
+ * The font-family properties are defined in the properties.scss file, like:
+ * --font-family-std:
+ *
  * ========================================================================== */
-
-:root {
-  // typography family
-  --font-family-std: 'Fedra Sans Std', sans-serif;
-  --font-family-demi: 'Fedra Sans Std Demi', sans-serif;
-}
 
 // Font usage
 .typo-std,

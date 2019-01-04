@@ -5,9 +5,11 @@ import React from 'react'
 const check_medium = props => (
   <svg viewBox="0 0 24 24" {...props}>
     <path
-      fillRule="evenodd"
-      clipRule="evenodd"
-      d="M20.762 7.673a.75.75 0 1 0-1.024-1.096L9.018 16.582 4.28 11.845a.75.75 0 0 0-1.06 1.06l5.248 5.248a.75.75 0 0 0 1.044.02l.002-.002"
+      d="M3 13.84l3.675 5.215a1.574 1.574 0 0 0 2.56.076L21 4.247"
+      stroke="#000"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
   </svg>
 )

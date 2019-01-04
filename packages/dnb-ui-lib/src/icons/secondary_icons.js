@@ -2,5 +2,7 @@
 
 import fullscreen from './fullscreen.js'
 import hamburger from './hamburger.js'
+import logout from './logout.js'
+import trash from './trash.js'
 
-export { fullscreen, hamburger }
+export { fullscreen, hamburger, logout, trash }

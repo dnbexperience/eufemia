@@ -1,10 +1,13 @@
-// This is the main stylesheet for the site / application. It does not import
-// anything related to the styleguide to avoid bundling unnecessary styles to
-// production.
+/**
+ * This file is only used to make components independent
+ * so that they can get imported individually, without the core styles
+ *
+ */
 
 $fonts-path: '../../../../assets/fonts/' !default;
 
-// core
+// core imports
+@import '../core/properties.scss';
 @import '../core/utilities.scss';
 // the assets path in typography gets transformed to the right amount back dirs
 // but as this is not prsent under dev enviroment, we cant use the components directly

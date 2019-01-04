@@ -338,6 +338,7 @@ export default class SidebarLayout extends PureComponent {
                 {({ isOpen, isClosing }) => (
                   <Sidebar
                     className={classnames(
+                      'dnb-style-selection',
                       isOpen && 'show-mobile-menu',
                       isClosing && 'hide-mobile-menu'
                     )}

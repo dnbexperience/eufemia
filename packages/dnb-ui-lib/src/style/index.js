@@ -5,7 +5,10 @@
 
 import './dnb-ui-components.scss'
 import './themes/dnb-theme-ui.scss'
-// import './themes/dnb-theme-open-banking.scss' // just for testing porposes
+
+// TODO: Remove this as soon as there is no need for it
+// just for testing porposes
+// import './themes/dnb-theme-open-banking.scss'
 
 /**
  * Only for testing porposes

@@ -5,9 +5,11 @@ import React from 'react'
 const check = props => (
   <svg viewBox="0 0 16 16" {...props}>
     <path
-      fillRule="evenodd"
-      clipRule="evenodd"
-      d="M14.012 5.298a.75.75 0 1 0-1.024-1.096l-6.97 6.505L3.03 7.72a.75.75 0 0 0-1.06 1.06l3.498 3.498a.748.748 0 0 0 1.046.018l7.498-6.998z"
+      d="M2 9.226l2.45 3.477a1.05 1.05 0 0 0 1.707.051L14 2.831"
+      stroke="#000"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
   </svg>
 )

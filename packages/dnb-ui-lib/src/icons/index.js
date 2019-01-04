@@ -24,6 +24,8 @@ import fullscreen from './fullscreen.js'
 import fullscreen_medium from './fullscreen_medium.js'
 import hamburger from './hamburger.js'
 import hamburger_medium from './hamburger_medium.js'
+import logout from './logout.js'
+import logout_medium from './logout_medium.js'
 import more from './more.js'
 import more_medium from './more_medium.js'
 import question from './question.js'
@@ -34,6 +36,8 @@ import search from './search.js'
 import search_medium from './search_medium.js'
 import subtract from './subtract.js'
 import subtract_medium from './subtract_medium.js'
+import trash from './trash.js'
+import trash_medium from './trash_medium.js'
 
 export {
   add,
@@ -60,6 +64,8 @@ export {
   fullscreen_medium,
   hamburger,
   hamburger_medium,
+  logout,
+  logout_medium,
   more,
   more_medium,
   question,
@@ -69,5 +75,7 @@ export {
   search,
   search_medium,
   subtract,
-  subtract_medium
+  subtract_medium,
+  trash,
+  trash_medium
 }

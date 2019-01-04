@@ -9,6 +9,24 @@ draft: false
 
 The CSS is a compiled and minified version. You find it here: `dnb-ui-lib/style/dnb-ui-lib.min.css`
 
+## Apply the DNB Style
+
+To use the default DNB style, You have to define a CSS class called: `dnb-style`
+You could also set this class on the document body.
+
+<!-- prettier-ignore-start -->
+```html
+<div class="dnb-style">
+  <!-- The styled Content -->
+</div>
+```
+<!-- prettier-ignore-end -->
+
+### The Reason
+
+The benefits of explicitly defining the style class `dnb-style`, is that we then can use the components by their own, without effecting all the existing styled browser elements and tags. This gives use a kind of backwards compatibility.
+But it makes it also more flexible, like if we only want to apply our DNB style to a certain area of our web application.
+
 ## For Node based environments
 
 To include the `dnb-ui-lib` styles (except patterns), do this:
