@@ -31,27 +31,7 @@ const CardWrapper = styled.div`
       transition: 0.5s;
     }
   }
-`
 
-const linkStyle = css`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-
-  height: 100%;
-
-  color: rgba(0, 0, 0, 0.75);
-  text-decoration: none;
-  text-align: center;
-  font-weight: 100;
-
-  background-color: var(--color-white);
-  transition: background-color 0.5s ease;
-
-  &:focus,
-  &:hover {
-    background-color: var(--color-mint-green-50);
-  }
   [data-whatinput='keyboard'] &:focus {
     box-shadow: none;
   }
@@ -73,6 +53,27 @@ const linkStyle = css`
   opacity: 0;
   animation: fade-in 600ms cubic-bezier(0.19, 1, 0.22, 1) 1 var(--delay)
     forwards;
+`
+
+const linkStyle = css`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  height: 100%;
+
+  color: rgba(0, 0, 0, 0.75);
+  text-decoration: none;
+  text-align: center;
+  font-weight: 100;
+
+  background-color: var(--color-white);
+  transition: background-color 0.5s ease;
+
+  &:focus,
+  &:hover {
+    background-color: var(--color-mint-green-50);
+  }
 `
 
 const Header = styled.h3`
@@ -135,11 +136,13 @@ export default class Card extends PureComponent {
     const svgParams = isIE11 ? { width: '48', height: '48' } : null
 
     return (
-      <CardWrapper>
+      <CardWrapper
+        className="card-wrapper"
+        style={{ '--delay': `${random(1, 160)}ms` }}
+      >
         <Link
           css={[linkStyle, customStyle]}
           className="no-dnb-style"
-          style={{ '--delay': `${random(1, 160)}ms` }}
           to={url}
           onClick={onClick}
         >

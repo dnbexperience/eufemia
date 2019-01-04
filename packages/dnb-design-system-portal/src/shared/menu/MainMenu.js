@@ -35,7 +35,7 @@ const MainWrapper = styled.div`
     height: 100vh;
   }
 
-  &.fade-out a {
+  &.fade-out .card-wrapper {
     animation: fade-out 200ms linear 1 0ms forwards;
   }
   .main-menu__back {
