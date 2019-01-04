@@ -30,16 +30,9 @@ const MainWrapper = styled.div`
 
   width: 100vw;
 
-  /* minus StickyMenuBar */
-  height: calc(100vh - 4rem);
-
-  /* plus StickyMenuBar */
-  margin-top: 4rem;
-
-  background-color: var(--color-emerald-green);
-
-  &.show-as-overlay {
-    display: block;
+  /* center on not mobile view */
+  @media (min-width: 640px) {
+    height: 100vh;
   }
 
   &.fade-out a {
@@ -72,17 +65,46 @@ const CardsWrapper = styled.div`
 
   max-width: 60rem;
 
-  /* minus StickyMenuBar */
-  max-height: calc(100vh - 4rem);
+  /* plus StickyMenuBar */
+  margin-top: 4.5rem;
 `
 
-const toolbarStyle = css`
+const toggleGlobalStyle = css`
+  body {
+    background-color: var(--color-emerald-green);
+  }
+
+  /* hide if shown as  */
+  .content-wrapper {
+    display: none !important;
+  }
+
+  /* disable scrolling on no mobile view */
+  @media (min-width: 640px) and (min-height: 45rem) {
+    body[data-overlay-active='true'] {
+      overflow: hidden;
+    }
+  }
+`
+
+const Toolbar = styled.div`
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  left: 0;
+
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
 
+  width: 100%;
   height: 4em;
+
+  @media (max-height: 45rem) {
+    background-color: var(--color-ocean-green);
+    border-bottom: 1px solid var(--color-summer-green);
+  }
 `
 
 export default class MainMenu extends PureComponent {
@@ -148,15 +170,7 @@ export default class MainMenu extends PureComponent {
     if (!this.state.hide) this.changeBodyDataState(true)
     return (
       <>
-        <Global
-          styles={css`
-            @media (min-width: 640px) {
-              body[data-overlay-active='true'] {
-                overflow: hidden;
-              }
-            }
-          `}
-        />
+        <Global styles={toggleGlobalStyle} />
         <MainWrapper
           className={classnames(
             this.props.setAsOverlay ? 'show-as-overlay' : null,
@@ -164,19 +178,20 @@ export default class MainMenu extends PureComponent {
             this.state.hide ? 'fade-out' : null
           )}
         >
-          <div css={toolbarStyle}>
+          <Toolbar>
             {this.props.enableOverlay && (
               <Button
-                className="main-menu__back dnb-always-focus"
+                variant="secondary"
+                class="main-menu__back dnb-always-focus"
                 on_click={this.closeMenuHandler}
                 icon="chevron-left"
                 icon_position="left"
                 text="BACK"
-                title="Back"
+                title="Hide Main Menu"
                 innerRef={this._ref}
               />
             )}
-          </div>
+          </Toolbar>
           <CardsWrapper>
             <Card
               url="/uilib/"

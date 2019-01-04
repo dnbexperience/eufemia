@@ -24,6 +24,7 @@ const CardWrapper = styled.div`
     border-radius: 0.5rem;
   }
 
+  /* mobile view */
   @media (max-width: 640px) {
     & {
       min-width: calc(100% - 1rem);
