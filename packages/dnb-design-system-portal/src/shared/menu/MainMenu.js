@@ -70,6 +70,8 @@ const CardsWrapper = styled.div`
   flex-flow: row wrap;
   flex-direction: row;
 
+  max-width: 60rem;
+
   /* minus StickyMenuBar */
   max-height: calc(100vh - 4rem);
 `
