@@ -79,6 +79,35 @@ const toggleGlobalStyle = css`
     display: none !important;
   }
 
+  body:not([data-overlay-active='true']) {
+    .sticky-menu {
+      position: relative;
+
+      @media (min-height: 45rem) {
+        height: auto;
+        margin-top: 2rem;
+        ${'' /* @media (min-width: 640px) {
+        } */}
+
+        border-bottom: none !important;
+        background-color: transparent;
+
+        .toggle-grid {
+          display: none;
+        }
+
+        .dnb-logo,
+        .logo-slogan {
+          color: var(--color-white);
+        }
+      }
+    }
+    .sticky-inner {
+      max-width: 60rem;
+      padding: 0 0.5rem;
+    }
+  }
+
   /* disable scrolling on no mobile view */
   @media (min-width: 640px) and (min-height: 45rem) {
     body[data-overlay-active='true'] {
@@ -101,9 +130,11 @@ const Toolbar = styled.div`
   width: 100%;
   height: 4em;
 
-  @media (max-height: 45rem) {
-    background-color: var(--color-ocean-green);
-    border-bottom: 1px solid var(--color-summer-green);
+  body[data-overlay-active='true'] & {
+    @media (max-height: 45rem) {
+      background-color: var(--color-ocean-green);
+      border-bottom: 1px solid var(--color-summer-green);
+    }
   }
 `
 
@@ -123,16 +154,17 @@ export default class MainMenu extends PureComponent {
     this._ref = React.createRef()
   }
   changeBodyDataState = state => {
-    if (typeof document !== 'undefined')
-      document
-        .querySelector('body')
-        .setAttribute('data-overlay-active', state ? 'true' : 'false')
+    if (typeof document !== 'undefined') {
+      if (state)
+        document
+          .querySelector('body')
+          .setAttribute('data-overlay-active', 'true')
+      else
+        document
+          .querySelector('body')
+          .removeAttribute('data-overlay-active')
+    }
   }
-  // toggleMenuHandler = () => {
-  //   if (this.props.onToggleOverlay) {
-  //     this.props.onToggleOverlay()
-  //   }
-  // }
   state = { hide: null }
   closeMenuHandler = () => {
     this.setState({ hide: true })
@@ -167,7 +199,9 @@ export default class MainMenu extends PureComponent {
     }
   }
   render() {
-    if (!this.state.hide) this.changeBodyDataState(true)
+    if (this.props.enableOverlay && !this.state.hide) {
+      this.changeBodyDataState(true)
+    }
     return (
       <>
         <Global styles={toggleGlobalStyle} />

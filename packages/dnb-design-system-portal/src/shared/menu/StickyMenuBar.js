@@ -114,33 +114,33 @@ export default class StickyMenuBar extends PureComponent {
     return (
       <>
         <Global styles={globalStyle} />
-        <div
-          css={[
-            barStyle,
-            hideSiebarToggleButton && hideSiebarToggleButtonStyle
-          ]}
-          className="dnb-style-selection"
-        >
-          {this.state.showOverlayMenu && (
-            <MainMenu
-              enableOverlay={true}
-              setAsOverlay={true}
-              onToggleOverlay={this.toggleMenuHandler}
-            />
-          )}
-          {!this.state.showOverlayMenu && (
+        {this.state.showOverlayMenu && (
+          <MainMenu
+            enableOverlay={true}
+            setAsOverlay={true}
+            onToggleOverlay={this.toggleMenuHandler}
+          />
+        )}
+        {!this.state.showOverlayMenu && (
+          <div
+            css={[
+              barStyle,
+              hideSiebarToggleButton && hideSiebarToggleButtonStyle
+            ]}
+            className="sticky-menu dnb-style-selection"
+          >
             <div
-              className={`sticky ${this.state.showGrid ? 'dev-grid' : ''}`}
+              className={`sticky-inner ${
+                this.state.showGrid ? 'dev-grid' : ''
+              }`}
             >
-              <span>
-                <Button
-                  className="dnb-button--reset"
-                  on_click={this.toggleMenuHandler}
-                >
-                  <Logo height={48} />
-                  {slogan}
-                </Button>
-              </span>
+              <Button
+                className="logo-slogan dnb-button--reset"
+                on_click={this.toggleMenuHandler}
+              >
+                <Logo height={48} />
+                {slogan}
+              </Button>
               {header && <span className="heading">{header}</span>}
 
               <span>
@@ -165,8 +165,8 @@ export default class StickyMenuBar extends PureComponent {
                 </span>
               </span>
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </>
     )
   }
@@ -211,26 +211,32 @@ const globalStyle = css`
 `
 
 const barStyle = css`
-  .sticky {
-    position: fixed;
-    z-index: 200;
-    top: 0;
+  position: fixed;
+  z-index: 200;
+  top: 0;
+  width: 100%;
+  height: 4rem;
+
+  display: flex;
+  justify-content: center;
+
+  background-color: var(--color-sea-green-4);
+  border-bottom: 1px solid var(--color-outline-grey);
+
+  overflow: hidden;
+  white-space: nowrap;
+
+  .sticky-inner {
     display: flex;
     justify-content: space-between;
     vertical-align: middle;
+
     width: 100%;
 
     /* make sure we are on 64px insted of 65px */
-    height: 4rem;
     padding: 0.5rem 2rem;
 
     align-items: center;
-
-    background-color: var(--color-sea-green-4);
-    border-bottom: 1px solid var(--color-outline-grey);
-
-    overflow: hidden;
-    white-space: nowrap;
   }
 
   .dnb-logo {
@@ -249,13 +255,13 @@ const barStyle = css`
       display: inline;
     }
   }
-  &.active .logo-slogan {
+  ${'' /* &.active .logo-slogan {
     color: #007272;
     text-decoration: underline;
   }
   &.active .logo-slogan:hover {
     color: #111;
-  }
+  } */}
 
   .show-menu:hover {
     opacity: 0.6;
