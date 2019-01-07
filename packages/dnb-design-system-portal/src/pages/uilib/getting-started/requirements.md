@@ -7,7 +7,9 @@ status: 'wip'
 
 # Requirements checklist
 
-- [ ] Required Versions
-  - [ ] Node
-  - [ ] Yarn
-- [ ] Framework usage
+## Required Versions
+
+- [**Node**](https://nodejs.org) (=> v10)
+- [**Yarn**](https://yarnpkg.com) (=> v1.12)
+
+* [ ] Framework usage
