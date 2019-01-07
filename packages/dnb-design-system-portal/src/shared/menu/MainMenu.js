@@ -31,12 +31,14 @@ const MainWrapper = styled.div`
   width: 100vw;
 
   /* center on not mobile view */
-  @media (min-width: 640px) {
-    height: 100vh;
+  &:not(.show-as-overlay) {
+    @media (min-width: 640px) {
+      height: calc(100vh - 8rem);
+    }
   }
 
   &.fade-out .card-wrapper {
-    animation: fade-out 200ms linear 1 0ms forwards;
+    animation: fade-out 400ms linear 1 0ms forwards;
   }
   .main-menu__back {
     opacity: 1;
@@ -50,6 +52,9 @@ const MainWrapper = styled.div`
     0% {
       opacity: 1;
       transform: scale3d(1, 1, 1) translate3d(0, 0, 0);
+    }
+    50% {
+      opacity: 0;
     }
     100% {
       opacity: 0;
@@ -79,7 +84,7 @@ const toggleGlobalStyle = css`
     display: none !important;
   }
 
-  body:not([data-overlay-active='true']) {
+  :not(.is-overlay) {
     .sticky-menu {
       position: relative;
 
@@ -97,8 +102,15 @@ const toggleGlobalStyle = css`
         }
 
         .dnb-logo,
-        .logo-slogan {
-          color: var(--color-white);
+        .logo-slogan,
+        .logo-slogan a {
+          color: var(--color-white) !important;
+        }
+
+        .dnb-logo {
+          svg {
+            height: 4rem;
+          }
         }
       }
     }
@@ -110,7 +122,7 @@ const toggleGlobalStyle = css`
 
   /* disable scrolling on no mobile view */
   @media (min-width: 640px) and (min-height: 45rem) {
-    body[data-overlay-active='true'] {
+    :not(.is-overlay) {
       overflow: hidden;
     }
   }
@@ -130,7 +142,7 @@ const Toolbar = styled.div`
   width: 100%;
   height: 4em;
 
-  body[data-overlay-active='true'] & {
+  :not(.is-overlay) & {
     @media (max-height: 45rem) {
       background-color: var(--color-ocean-green);
       border-bottom: 1px solid var(--color-summer-green);
@@ -153,22 +165,9 @@ export default class MainMenu extends PureComponent {
     super(props)
     this._ref = React.createRef()
   }
-  changeBodyDataState = state => {
-    if (typeof document !== 'undefined') {
-      if (state)
-        document
-          .querySelector('body')
-          .setAttribute('data-overlay-active', 'true')
-      else
-        document
-          .querySelector('body')
-          .removeAttribute('data-overlay-active')
-    }
-  }
   state = { hide: null }
   closeMenuHandler = () => {
     this.setState({ hide: true })
-    this.changeBodyDataState(false)
     this.timeoutId = setTimeout(() => {
       if (this.props.onToggleOverlay) {
         this.props.onToggleOverlay(false)
@@ -199,9 +198,6 @@ export default class MainMenu extends PureComponent {
     }
   }
   render() {
-    if (this.props.enableOverlay && !this.state.hide) {
-      this.changeBodyDataState(true)
-    }
     return (
       <>
         <Global styles={toggleGlobalStyle} />
