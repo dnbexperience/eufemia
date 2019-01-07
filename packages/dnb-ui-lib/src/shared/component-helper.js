@@ -73,6 +73,14 @@ export const validateDOMAttributes = (props, params) => {
     delete params.disabled
   }
 
+  if (props && props.tabindex) {
+    let tabIndex = props.tabindex
+    if (tabIndex === 'off') {
+      tabIndex = '-1'
+    }
+    params['tabIndex'] = tabIndex
+  }
+
   // add web component event handler
   if (props && typeof props.on_click === 'function') {
     params['onClick'] = props.on_click

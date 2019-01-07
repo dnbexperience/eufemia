@@ -138,10 +138,12 @@ export default class Button extends PureComponent {
       disabled,
       text,
       icon,
-      icon_position
+      icon_position,
+      href,
+      ...props
     } = this.props
 
-    let { variant, size } = this.props
+    let { variant, size } = props
 
     // if only has Icon, then resize it and define it as secondary
     if (!text && icon) {
@@ -174,7 +176,7 @@ export default class Button extends PureComponent {
       id,
       class_name,
       className,
-      this.props.href ? 'no-underline no-underline-hover' : null
+      href ? 'no-underline no-underline-hover' : null
     )
 
     const params = {
@@ -194,8 +196,8 @@ export default class Button extends PureComponent {
     // also used for code markup simulation
     validateDOMAttributes(this.props, params)
 
-    return this.props.href ? (
-      <a href={this.props.href} ref={this._ref} {...params}>
+    return href ? (
+      <a href={href} ref={this._ref} {...params}>
         <Content {...this.props} content={content} />
       </a>
     ) : (

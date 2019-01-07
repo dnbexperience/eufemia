@@ -3,12 +3,11 @@
 import React from 'react'
 
 const add_medium = props => (
-  <svg viewBox="0 0 24 24" fill="none" {...props}>
+  <svg viewBox="0 0 24 24" {...props}>
     <path
       fillRule="evenodd"
       clipRule="evenodd"
       d="M12.75 3.75a.75.75 0 0 0-1.5 0v7.5h-7.5a.75.75 0 0 0 0 1.5h7.5v7.5a.75.75 0 0 0 1.5 0v-7.5h7.5a.75.75 0 0 0 0-1.5h-7.5v-7.5z"
-      fill="#000"
     />
   </svg>
 )

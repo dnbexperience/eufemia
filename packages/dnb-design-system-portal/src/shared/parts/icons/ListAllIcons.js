@@ -4,8 +4,9 @@
 
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import * as PrimaryIcons from 'dnb-ui-lib/src/icons/primary_icons'
-import * as SecondaryIcons from 'dnb-ui-lib/src/icons/secondary_icons'
+import Icon from '../../../../../dnb-ui-lib/src/components/icon/Icon'
+import * as PrimaryIcons from '../../../../../dnb-ui-lib/src/icons/primary_icons'
+import * as SecondaryIcons from '../../../../../dnb-ui-lib/src/icons/secondary_icons'
 import styled from '@emotion/styled'
 
 export default class Icons extends PureComponent {
@@ -25,11 +26,15 @@ export default class Icons extends PureComponent {
     if (this.state.iconsToRender.length === 0) {
       return <></>
     }
+    // let iconParams = { fill: null }
+    // if (isIE11)
+    //   iconParams = { iconParams, ...{ width: '48', height: '48' } }
+    // () => <Svg {...iconParams} />
     const icons = Object.entries(this.state.iconsToRender).map(
-      ([name, Icon]) => (
+      ([name, Svg]) => (
         <ListItem key={`icon${name}`}>
           <span aria-labelledby={`id${name}`}>
-            <Icon width="48" height="48" />
+            <Icon icon={Svg} />
           </span>
           <h4 id={`id${name}`}>
             {humanFormat(name)}
@@ -57,6 +62,10 @@ const ListItem = styled.li`
       font-weight: 100;
     }
   }
+  .dnb-icon svg {
+    width: 2rem;
+    height: 2rem;
+  }
 `
 
 const humanFormat = title =>
@@ -65,3 +74,8 @@ const humanFormat = title =>
     .split(/\s/g)
     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ')
+
+// const isIE11 =
+//   typeof window !== 'undefined'
+//     ? !!window.MSInputMethodContext && !!document.documentMode
+//     : false

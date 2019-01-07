@@ -3,12 +3,11 @@
 import React from 'react'
 
 const chevron_down = props => (
-  <svg viewBox="0 0 16 16" fill="none" {...props}>
+  <svg viewBox="0 0 16 16" {...props}>
     <path
       fillRule="evenodd"
       clipRule="evenodd"
       d="M4.03 5.22a.75.75 0 0 0-1.06 1.06l4.5 4.5a.75.75 0 0 0 1.06 0l4.5-4.5a.75.75 0 0 0-1.06-1.06L8 9.19 4.03 5.22z"
-      fill="#000"
     />
   </svg>
 )

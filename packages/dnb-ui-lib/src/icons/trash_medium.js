@@ -3,7 +3,7 @@
 import React from 'react'
 
 const trash_medium = props => (
-  <svg viewBox="0 0 24 24" fill="none" {...props}>
+  <svg viewBox="0 0 24 24" {...props}>
     <path
       d="M1.5 4.5h21"
       stroke="#000"

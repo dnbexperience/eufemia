@@ -8,40 +8,32 @@ import PropTypes from 'prop-types'
 import Link from 'gatsby-link'
 import { css } from '@emotion/core'
 import styled from '@emotion/styled'
+import { Button } from 'dnb-ui-lib/src'
+import { isIE11 } from 'dnb-ui-lib/src/components/icon'
 
-const boxStyle = css`
-  flex: 1 1 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: stretch;
+const CardWrapper = styled.div`
+  width: calc(33.333333% - 1rem);
 
-  min-width: 33.333333%;
+  margin: 0.5rem;
   padding: 0;
-  margin: 0;
 
-  border: none;
+  box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.1);
 
-  color: rgba(255, 255, 255, 0.75);
-  text-decoration: none;
-  font-weight: 100;
-
-  &:focus,
-  &:hover {
-    filter: grayscale(90%);
-    transition: filter 0.5s ease;
-    border: none;
-  }
-  [data-whatinput='keyboard'] &:focus {
-    box-shadow: none;
+  &,
+  a {
+    border-radius: 0.5rem;
   }
 
+  /* mobile view */
   @media (max-width: 640px) {
     & {
-      min-width: 100%;
+      min-width: calc(100% - 1rem);
       transition: 0.5s;
-      height: 240px;
     }
+  }
+
+  [data-whatinput='keyboard'] &:focus {
+    box-shadow: none;
   }
 
   @keyframes fade-in {
@@ -63,31 +55,58 @@ const boxStyle = css`
     forwards;
 `
 
-const Header = styled.span`
+const linkStyle = css`
   display: flex;
-  justify-content: center;
   flex-direction: column;
-  width: 100%;
-  height: 6em;
+  justify-content: space-between;
 
+  height: 100%;
+
+  color: rgba(0, 0, 0, 0.75);
+  text-decoration: none;
   text-align: center;
+  font-weight: 100;
 
-  color: white;
-  background-color: rgba(0, 0, 0, 0.15);
+  background-color: var(--color-white);
+  transition: background-color 0.5s ease;
 
-  @media (max-width: 640px) {
-    & {
-      height: 4em;
-      transition: 0.5s;
-    }
+  &:focus,
+  &:hover {
+    background-color: var(--color-mint-green-50);
   }
 `
 
-const Box = styled.div`
+const Header = styled.h3`
+  margin: 0;
+
+  text-align: center;
+  font-size: 1rem;
+  ${'' /* font-weight: 600; */}
+  ${'' /* font-family: Sindre is using either boor nor demi, he uses std normal  */}
+  color: var(--color-black-80);
+`
+
+const About = styled.p`
+  margin: 0.5rem 0 0;
+  padding: 0 1rem;
+
+  font-size: 1rem;
+  color: var(--color-black);
+`
+
+const Box = styled.span`
   display: flex;
-  height: 100%;
-  justify-content: center;
   flex-direction: column;
+  align-items: center;
+
+  svg {
+    width: 3rem;
+    height: 3rem;
+    margin: 3rem 0 2rem;
+  }
+`
+const BottomWrapper = styled.span`
+  margin: 2rem 0;
 `
 
 export default class Card extends PureComponent {
@@ -95,6 +114,7 @@ export default class Card extends PureComponent {
     url: PropTypes.string.isRequired,
     customStyle: PropTypes.object,
     title: PropTypes.string.isRequired,
+    about: PropTypes.string.isRequired,
     icon: PropTypes.func.isRequired,
     onClick: PropTypes.func
   }
@@ -103,24 +123,46 @@ export default class Card extends PureComponent {
     onClick: null
   }
   render() {
-    const { url, customStyle, title, icon: Svg, onClick } = this.props
+    const {
+      url,
+      customStyle,
+      title,
+      about,
+      icon: Svg,
+      onClick
+    } = this.props
+
+    // size is else defined in css
+    const svgParams = isIE11 ? { width: '48', height: '48' } : null
+
     return (
-      <Link
-        css={[
-          // 'remove-anker-style',
-          boxStyle,
-          customStyle
-        ]}
-        className="no-dnb-style"
+      <CardWrapper
+        className="card-wrapper"
         style={{ '--delay': `${random(1, 160)}ms` }}
-        to={url}
-        onClick={onClick}
       >
-        <Box className="section-box">
-          <Svg />
-        </Box>
-        <Header>{title}</Header>
-      </Link>
+        <Link
+          css={[linkStyle, customStyle]}
+          className="no-dnb-style"
+          to={url}
+          onClick={onClick}
+        >
+          <Box>
+            <Svg {...svgParams} />
+            <Header>{title}</Header>
+
+            <About>{about}</About>
+          </Box>
+
+          <BottomWrapper>
+            <Button
+              variant="tertiary"
+              icon="add"
+              text="Read more"
+              tabindex="-1"
+            />
+          </BottomWrapper>
+        </Link>
+      </CardWrapper>
     )
   }
 }
