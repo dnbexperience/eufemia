@@ -93,9 +93,9 @@ const Content = ({ className, children }) => (
       'dnb-style',
       'dnb-page-content',
       'dnb-no-focus',
-      className,
-      markdownStyle
+      className
     )}
+    css={markdownStyle}
   >
     {children}
   </Main>
@@ -139,10 +139,6 @@ const Main = styled.main`
   &.fullscreen-page {
     margin: 0;
     border: none;
-
-    /* markdown / mdx empty div */
-    ${'' /* div:not([class]):first-child {
-    } */};
   }
 `
 
