@@ -1,121 +1,126 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Input component have to match type="search" snapshot 1`] = `
-<span
-  className="dnb-input dnb-input--search dnb-input--has-extra-information dnb-input--size dnb-input__input--search dnb-input__align--align class className"
->
+<Fragment>
   <span
-    className="dnb-input__shell"
-    data-has-content="true"
-    data-input-state="virgin"
+    className="dnb-input dnb-input--search dnb-input--has-extra-information dnb-input--size dnb-input__input--search dnb-input__align--align class className"
   >
-    <input
-      aria-describedby="id-description"
-      autoComplete={null}
-      className="dnb-input__input input_typo input_class"
-      id="id"
-      name="id"
-      onBlur={[Function]}
-      onChange={[Function]}
-      onFocus={[Function]}
-      onKeyDown={[Function]}
-      type="search"
-      value="test"
-    />
-    <Submit
-      align="align"
-      attributes="attributes"
-      autocomplete="off"
-      class="class"
-      className="className"
-      custom_element={Object {}}
-      custom_method={[Function]}
-      description="description"
-      disabled={false}
-      extra_information="extra_information"
-      icon_size={16}
-      id="id"
-      inputElement={null}
-      input_class="input_class"
-      input_typo="input_typo"
-      onSubmit={null}
-      onSubmitBlur={null}
-      onSubmitFocus={null}
-      on_blur={[Function]}
-      on_change={[Function]}
-      on_focus={[Function]}
-      on_submit={[Function]}
-      on_submit_blur={[Function]}
-      on_submit_focus={[Function]}
-      placeholder="placeholder"
-      search_button_title="search_button_title"
-      size="size"
-      title="search_button_title"
-      type="search"
-      value="test"
-    >
-      children
-    </Submit>
     <span
-      className="dnb-input__placeholder dnb-input__align--align"
+      className="dnb-input__shell"
+      data-has-content="true"
+      data-input-state="virgin"
     >
-      placeholder
+      <input
+        aria-describedby="id-description"
+        autoComplete={null}
+        className="dnb-input__input input_typo input_class"
+        id="id"
+        name="id"
+        onBlur={[Function]}
+        onChange={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        type="search"
+        value="test"
+      />
+      <Submit
+        align="align"
+        attributes="attributes"
+        autocomplete="off"
+        class="class"
+        className="className"
+        custom_element={Object {}}
+        custom_method={[Function]}
+        description="description"
+        disabled={false}
+        extra_information="extra_information"
+        icon_size={16}
+        id="id"
+        inputElement={null}
+        input_class="input_class"
+        input_typo="input_typo"
+        label={null}
+        onSubmit={null}
+        onSubmitBlur={null}
+        onSubmitFocus={null}
+        on_blur={[Function]}
+        on_change={[Function]}
+        on_focus={[Function]}
+        on_submit={[Function]}
+        on_submit_blur={[Function]}
+        on_submit_focus={[Function]}
+        placeholder="placeholder"
+        search_button_title="search_button_title"
+        size="size"
+        title="search_button_title"
+        type="search"
+        value="test"
+      >
+        children
+      </Submit>
+      <span
+        className="dnb-input__placeholder dnb-input__align--align"
+      >
+        placeholder
+      </span>
+    </span>
+    <span
+      className="dnb-input__description"
+      id="id-description"
+    >
+      description
+    </span>
+    <span
+      className="dnb-input__extra-information"
+    >
+      extra_information
     </span>
   </span>
-  <span
-    className="dnb-input__description"
-    id="id-description"
-  >
-    description
-  </span>
-  <span
-    className="dnb-input__extra-information"
-  >
-    extra_information
-  </span>
-</span>
+</Fragment>
 `;
 
 exports[`Input component have to match type="text" snapshot 1`] = `
-<span
-  className="dnb-input dnb-input--text dnb-input--has-extra-information dnb-input--size dnb-input__align--align class className"
->
+<Fragment>
   <span
-    className="dnb-input__shell"
-    data-has-content="true"
-    data-input-state="virgin"
+    className="dnb-input dnb-input--text dnb-input--has-extra-information dnb-input--size dnb-input__align--align class className"
   >
-    <input
-      aria-describedby="id-description"
-      autoComplete="off"
-      className="dnb-input__input input_typo input_class"
-      id="id"
-      name="id"
-      onBlur={[Function]}
-      onChange={[Function]}
-      onFocus={[Function]}
-      onKeyDown={[Function]}
-      type="text"
-      value="test"
-    />
     <span
-      className="dnb-input__placeholder dnb-input__align--align"
+      className="dnb-input__shell"
+      data-has-content="true"
+      data-input-state="virgin"
     >
-      placeholder
+      <input
+        aria-describedby="id-description"
+        autoComplete="off"
+        className="dnb-input__input input_typo input_class"
+        id="id"
+        name="id"
+        onBlur={[Function]}
+        onChange={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        type="text"
+        value="test"
+      />
+      <span
+        className="dnb-input__placeholder dnb-input__align--align"
+      >
+        placeholder
+      </span>
+    </span>
+    <span
+      className="dnb-input__description"
+      id="id-description"
+    >
+      description
+    </span>
+    <span
+      className="dnb-input__extra-information"
+    >
+      extra_information
     </span>
   </span>
-  <span
-    className="dnb-input__description"
-    id="id-description"
-  >
-    description
-  </span>
-  <span
-    className="dnb-input__extra-information"
-  >
-    extra_information
-  </span>
-</span>
+</Fragment>
 `;
 
 exports[`Input scss have to match snapshot 1`] = `
@@ -421,6 +426,38 @@ exports[`Input scss have to match snapshot 1`] = `
     border-bottom: none; }
   button.dnb-button::-moz-focus-inner .dnb-button {
     border: none; }
+
+/*
+* DNB FormLabel
+*
+* ======================================================================== */
+.dnb-form-label {
+  font-family: var(--font-family-std, sans-serif);
+  font-size: 1rem;
+  font-weight: normal;
+  font-style: normal;
+  line-height: 1.5rem;
+  color: var(--color-black-80, #333); }
+  .dnb-form-label *,
+  .dnb-form-label ::before,
+  .dnb-form-label ::after {
+    background-repeat: no-repeat;
+    box-sizing: border-box; }
+  .dnb-form-label ::before,
+  .dnb-form-label ::after {
+    text-decoration: inherit;
+    vertical-align: inherit; }
+
+/*
+ * FormLabel element
+ *
+ * ========================================================================== */
+.dnb-form-label {
+  user-select: none;
+  display: inline-block;
+  cursor: pointer;
+  width: auto;
+  white-space: nowrap; }
 
 .dnb-input {
   font-family: var(--font-family-std, sans-serif);

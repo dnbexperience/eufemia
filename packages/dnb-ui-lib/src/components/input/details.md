@@ -2,6 +2,7 @@
 | --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `id`                  | _(mandatory)_ the **id** attribute of the input element                                                                                                          |
 | `value`               | _(optional)_ the content value of the input.                                                                                                                     |
+| `label`               | _(optional)_ prepends the Form Label component. If no ID is provided, a random ID is created. input.                                                             |
 | `placeholder`         | _(optional)_ the placeholder witch shows up once the input value is empty                                                                                        |
 | `input_class`         | _(optional)_ in case we have to set a custom input class.                                                                                                        |
 | `input_typo`          | _(optional)_ by default is the typography set to use `typo-number--lining` so numbers get aligned nicely.                                                        |

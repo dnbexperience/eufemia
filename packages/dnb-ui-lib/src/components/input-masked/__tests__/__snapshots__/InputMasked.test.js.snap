@@ -16,6 +16,7 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
   inputElement={[Function]}
   input_class={null}
   input_typo="typo-number--lining"
+  label={null}
   mask={Array []}
   on_blur={null}
   on_change={null}
@@ -339,6 +340,38 @@ exports[`InputMasked scss have to match snapshot 1`] = `
     border-bottom: none; }
   button.dnb-button::-moz-focus-inner .dnb-button {
     border: none; }
+
+/*
+* DNB FormLabel
+*
+* ======================================================================== */
+.dnb-form-label {
+  font-family: var(--font-family-std, sans-serif);
+  font-size: 1rem;
+  font-weight: normal;
+  font-style: normal;
+  line-height: 1.5rem;
+  color: var(--color-black-80, #333); }
+  .dnb-form-label *,
+  .dnb-form-label ::before,
+  .dnb-form-label ::after {
+    background-repeat: no-repeat;
+    box-sizing: border-box; }
+  .dnb-form-label ::before,
+  .dnb-form-label ::after {
+    text-decoration: inherit;
+    vertical-align: inherit; }
+
+/*
+ * FormLabel element
+ *
+ * ========================================================================== */
+.dnb-form-label {
+  user-select: none;
+  display: inline-block;
+  cursor: pointer;
+  width: auto;
+  white-space: nowrap; }
 
 .dnb-input {
   font-family: var(--font-family-std, sans-serif);

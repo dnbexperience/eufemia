@@ -46,15 +46,13 @@ class Example extends PureComponent {
     return (
       <Fragment>
         <div className="dnb-form-row">
-          <FormLabel for_id="text-input-2" text="Label" />
-          <Input id="text-input-2" placeholder="Placeholder text" />
+          <Input label="Label" placeholder="Placeholder text" />
         </div>
 
         <div className="dnb-form-row">
-          <FormLabel for_id="search-input" text="Search" />
           <Input
             type="search"
-            id="search-input"
+            label="Search"
             search_button_title="Search"
             placeholder="Search text placeholder"
             on_change={this.handleInputChange}
@@ -62,10 +60,9 @@ class Example extends PureComponent {
         </div>
 
         <div className="dnb-form-row">
-          <FormLabel for_id="text-input-medium" text="Medium input" />
           <Input
             type="text"
-            id="text-input-medium"
+            label="Medium input"
             size="medium"
             placeholder="Medium input placeholder"
             on_change={this.handleInputChange}
@@ -73,10 +70,9 @@ class Example extends PureComponent {
         </div>
 
         <div className="dnb-form-row">
-          <FormLabel for_id="text-input-large" text="Large input" />
           <Input
             type="text"
-            id="text-input-large"
+            label="Large input"
             size="large"
             align="right"
             placeholder="Large input with right align"
@@ -89,7 +85,8 @@ class Example extends PureComponent {
           <Input
             disabled
             id="text-input-disabled"
-            value="Disabled Input with a text value"
+            // label="Disabled input"
+            // value="Disabled Input with a text value"
           />
         </div>
 

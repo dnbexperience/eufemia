@@ -8,6 +8,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { DefaultIconSize } from '../icon'
 import Button from '../button/Button'
+import FormLabel from '../form-label/FormLabel'
 import {
   registerElement,
   validateDOMAttributes,
@@ -30,6 +31,7 @@ export const propTypes = {
   size: PropTypes.string,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   id: PropTypes.string,
+  label: PropTypes.string,
   autocomplete: PropTypes.oneOf(['on', 'off']),
   search_button_title: PropTypes.string,
   placeholder: PropTypes.string,
@@ -67,6 +69,7 @@ export const defaultProps = {
   size: null,
   value: null,
   id: null,
+  label: null,
   autocomplete: 'off',
   search_button_title: '',
   placeholder: null,
@@ -130,6 +133,7 @@ export default class Input extends PureComponent {
     super(props)
 
     this._ref = React.createRef()
+    this._id = props.id || `dnb-input-${Math.round(Math.random() * 999)}` // cause we need an id anyway
 
     // pass along all props we wish to have as params
     this.renderProps = pickRenderProps(props, renderProps)
@@ -186,7 +190,7 @@ export default class Input extends PureComponent {
     const {
       type,
       size,
-      id,
+      label,
       disabled,
       placeholder,
       description,
@@ -200,6 +204,7 @@ export default class Input extends PureComponent {
     if (type === 'search') {
       autocomplete = null
     }
+    const id = this._id
 
     const classes = classnames(
       'dnb-input',
@@ -245,48 +250,51 @@ export default class Input extends PureComponent {
     }
 
     return (
-      <span className={classes}>
-        <span className="dnb-input__shell" {...shellParams}>
-          {(type === 'text' || type === 'number' || type === 'search') &&
-            ((typeof Elem === 'function' ? (
-              <Elem innerRef={this._ref} {...inputParams} />
-            ) : null) || <input ref={this._ref} {...inputParams} />)}
+      <>
+        {label && <FormLabel for_id={id} text={label} />}
+        <span className={classes}>
+          <span className="dnb-input__shell" {...shellParams}>
+            {(type === 'text' || type === 'number' || type === 'search') &&
+              ((typeof Elem === 'function' ? (
+                <Elem innerRef={this._ref} {...inputParams} />
+              ) : null) || <input ref={this._ref} {...inputParams} />)}
 
-          {type === 'search' && (
-            <Submit
-              {...this.props}
-              value={inputParams.value}
-              title={this.props.search_button_title}
-            />
+            {type === 'search' && (
+              <Submit
+                {...this.props}
+                value={inputParams.value}
+                title={this.props.search_button_title}
+              />
+            )}
+
+            {placeholder && (
+              <span
+                className={classnames(
+                  'dnb-input__placeholder',
+                  align ? `dnb-input__align--${align}` : null
+                )}
+              >
+                {placeholder}
+              </span>
+            )}
+          </span>
+
+          {this.props.description && (
+            <span
+              className="dnb-input__description"
+              id={id + '-description'}
+            >
+              {this.props.description}
+            </span>
           )}
 
-          {placeholder && (
-            <span
-              className={classnames(
-                'dnb-input__placeholder',
-                align ? `dnb-input__align--${align}` : null
-              )}
-            >
-              {placeholder}
+          {extra_information && (
+            <span className="dnb-input__extra-information">
+              {extra_information}
             </span>
           )}
         </span>
-
-        {this.props.description && (
-          <span
-            className="dnb-input__description"
-            id={id + '-description'}
-          >
-            {this.props.description}
-          </span>
-        )}
-
-        {extra_information && (
-          <span className="dnb-input__extra-information">
-            {extra_information}
-          </span>
-        )}
-      </span>
+      </>
     )
   }
 }

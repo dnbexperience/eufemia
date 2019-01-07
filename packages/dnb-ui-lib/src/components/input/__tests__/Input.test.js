@@ -24,6 +24,7 @@ const props = {
   disabled: false
 }
 props.autocomplete = 'off'
+props.label = null
 
 describe('Input component', () => {
   // shallow compare the snapshot
