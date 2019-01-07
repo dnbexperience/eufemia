@@ -3,8 +3,7 @@
 import React from 'react'
 
 const trash = props => (
-  <svg viewBox="0 0 16 16" fill="none" {...props}>
-    <path fill="#fff" d="M0 0h16v16H0z" />
+  <svg viewBox="0 0 16 16" {...props}>
     <path
       d="M1.002 3.25h14"
       stroke="#000"
@@ -21,7 +20,7 @@ const trash = props => (
       strokeLinejoin="round"
     />
     <path
-      d="M6.502 11.75v-5m3 5v-5"
+      d="M6.502 11.75v-5M9.502 11.75v-5"
       stroke="#000"
       strokeWidth={1.5}
       strokeLinecap="round"

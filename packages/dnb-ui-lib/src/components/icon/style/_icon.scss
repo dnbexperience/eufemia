@@ -11,6 +11,9 @@
   svg {
     fill: currentColor;
   }
+  svg path[stroke] {
+    stroke: currentColor;
+  }
   &:not(.has-custom-size) svg {
     width: inherit;
     height: inherit;
