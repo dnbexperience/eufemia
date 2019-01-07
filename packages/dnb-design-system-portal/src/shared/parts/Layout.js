@@ -60,7 +60,7 @@ class Layout extends PureComponent {
     return (
       <SidebarMenuProvider>
         <StickyMenuBar header={header} />
-        <Wrapper>
+        <Wrapper className="content-wrapper">
           <Sidebar location={location} showAll={false} />
           <Content tabIndex="-1" innerRef={this._ref}>
             <MaxWidth className="dnb-page-content-inner">

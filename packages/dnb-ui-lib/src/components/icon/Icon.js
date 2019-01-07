@@ -245,7 +245,7 @@ export const iconCase = name =>
     .replace(/^[0-9]/g, '$1')
     .replace(/[^a-z0-9_]/gi, '_')
 
-const isIE11 =
+export const isIE11 =
   typeof window !== 'undefined'
     ? !!window.MSInputMethodContext && !!document.documentMode
     : false
