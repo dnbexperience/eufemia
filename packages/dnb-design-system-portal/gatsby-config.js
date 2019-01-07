@@ -7,6 +7,7 @@ module.exports = {
   pathPrefix: '/eufemia',
   siteMetadata: {
     title: 'DNB Design System - Eufemia',
+    name: 'Eufemia',
     description:
       'The DNB Style Guide is the go to place for all who has to design, develop or create visuals with the DNB design.',
     // homepage: 'https://www.dnb.no',

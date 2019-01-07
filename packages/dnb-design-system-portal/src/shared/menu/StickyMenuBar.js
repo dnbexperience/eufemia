@@ -5,6 +5,7 @@
 
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
+import { StaticQuery, graphql } from 'gatsby'
 import { css, Global } from '@emotion/core'
 // import Head from 'react-helmet'
 import MainMenu from './MainMenu'
@@ -22,27 +23,16 @@ export default class StickyMenuBar extends PureComponent {
   }
   static propTypes = {
     header: PropTypes.string,
-    slogan: PropTypes.string,
     onToggleMenu: PropTypes.func,
     hideSiebarToggleButton: PropTypes.bool,
     preventBarVisibility: PropTypes.bool
   }
   static defaultProps = {
     header: null,
-    slogan: 'EUFEMIA', // gatsbyConfig.siteMetadata.title
     onToggleMenu: null,
     hideSiebarToggleButton: false,
     preventBarVisibility: false
   }
-  // static contextType = Context
-  // openMobileMenu = () => {
-  //   const mobileMenuVisible = !this.state.mobileMenuVisible
-  //   console.log('openMobileMenu', mobileMenuVisible)
-  //   this.setState({ mobileMenuVisible })
-  //   // console.log('Context.Consumer', Context.Consumer)
-  //   // Context.Consumer.isMobileMenuActive = true
-  //   // <Context.Provider value={{ isMobileMenuActive: false }}>
-  // }
   toggleMenuHandler = (state = null) => {
     const showOverlayMenu =
       state !== null ? state : !this.state.showOverlayMenu
@@ -99,75 +89,90 @@ export default class StickyMenuBar extends PureComponent {
   render() {
     const {
       header,
-      slogan,
       hideSiebarToggleButton,
       preventBarVisibility
     } = this.props
     if (preventBarVisibility) {
-      return (
-        <span />
-        // <Head>
-        //   <title>{header || slogan}</title>
-        // </Head>
-      )
+      return <span />
     }
     return (
-      <>
-        <Global styles={globalStyle} />
-        {this.state.showOverlayMenu && (
-          <MainMenu
-            enableOverlay={true}
-            setAsOverlay={true}
-            onToggleOverlay={this.toggleMenuHandler}
-          />
-        )}
-        {!this.state.showOverlayMenu && (
-          <div
-            css={[
-              barStyle,
-              hideSiebarToggleButton && hideSiebarToggleButtonStyle
-            ]}
-            className="sticky-menu dnb-style-selection"
-          >
-            <div
-              className={`sticky-inner ${
-                this.state.showGrid ? 'dev-grid' : ''
-              }`}
-            >
-              <Button
-                className="logo-slogan dnb-button--reset"
-                on_click={this.toggleMenuHandler}
-              >
-                <Logo height={48} />
-                {slogan}
-              </Button>
-              {header && <span className="heading">{header}</span>}
-
-              <span>
-                <SidebarMenuConsumer>
-                  {({ toggleMenu, isOpen }) => (
+      <StaticQuery
+        query={graphql`
+          query {
+            site {
+              siteMetadata {
+                name
+              }
+            }
+          }
+        `}
+        render={({
+          site: {
+            siteMetadata: { name: slogan }
+          }
+        }) => {
+          return (
+            <>
+              <Global styles={globalStyle} />
+              {this.state.showOverlayMenu && (
+                <MainMenu
+                  enableOverlay={true}
+                  setAsOverlay={true}
+                  onToggleOverlay={this.toggleMenuHandler}
+                />
+              )}
+              {!this.state.showOverlayMenu && (
+                <div
+                  css={[
+                    barStyle,
+                    hideSiebarToggleButton && hideSiebarToggleButtonStyle
+                  ]}
+                  className="sticky-menu dnb-style-selection"
+                >
+                  <div
+                    className={`sticky-inner ${
+                      this.state.showGrid ? 'dev-grid' : ''
+                    }`}
+                  >
                     <Button
-                      icon={isOpen ? closeIcon : hamburgerIcon}
-                      on_click={toggleMenu}
-                      className="toggle-sidebar-menu"
-                      variant="tertiary"
-                      title={isOpen ? 'Hide Menu' : 'Show Menu'}
-                    />
-                  )}
-                </SidebarMenuConsumer>
-                <span className="toggle-grid">
-                  <FormLabel for_id="switch-grid" text="Grid" />
-                  <Switch
-                    id="switch-grid"
-                    checked={this.state.showGrid}
-                    on_change={({ checked }) => this.toggleGrid(checked)}
-                  />
-                </span>
-              </span>
-            </div>
-          </div>
-        )}
-      </>
+                      className="logo-slogan dnb-button--reset"
+                      on_click={this.toggleMenuHandler}
+                    >
+                      <Logo height={48} />
+                      {slogan}
+                    </Button>
+                    {header && <span className="heading">{header}</span>}
+
+                    <span>
+                      <SidebarMenuConsumer>
+                        {({ toggleMenu, isOpen }) => (
+                          <Button
+                            icon={isOpen ? closeIcon : hamburgerIcon}
+                            on_click={toggleMenu}
+                            className="toggle-sidebar-menu"
+                            variant="tertiary"
+                            title={isOpen ? 'Hide Menu' : 'Show Menu'}
+                          />
+                        )}
+                      </SidebarMenuConsumer>
+                      <span className="toggle-grid">
+                        <FormLabel for_id="switch-grid" text="Grid" />
+                        <Switch
+                          id="switch-grid"
+                          checked={this.state.showGrid}
+                          on_change={({ checked }) =>
+                            this.toggleGrid(checked)
+                          }
+                        />
+                      </span>
+                    </span>
+                  </div>
+                </div>
+              )}
+            </>
+          )
+        }}
+      />
     )
   }
 }
@@ -198,10 +203,6 @@ const globalStyle = css`
       background-color: rgba(0, 200, 200, 0.25);
       margin: 0 0 1rem 0;
       display: block;
-    }
-
-    small {
-      ${'' /* border-bottom: solid 1rem hotpink; */}
     }
   }
 
@@ -255,13 +256,6 @@ const barStyle = css`
       display: inline;
     }
   }
-  ${'' /* &.active .logo-slogan {
-    color: #007272;
-    text-decoration: underline;
-  }
-  &.active .logo-slogan:hover {
-    color: #111;
-  } */}
 
   .show-menu:hover {
     opacity: 0.6;
