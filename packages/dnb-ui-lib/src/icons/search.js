@@ -3,11 +3,12 @@
 import React from 'react'
 
 const search = props => (
-  <svg viewBox="0 0 17 17" {...props}>
+  <svg viewBox="0 0 17 17" fill="none" {...props}>
     <path
       fillRule="evenodd"
       clipRule="evenodd"
       d="M1.593 6.574a4.98 4.98 0 1 1 9.962 0 4.98 4.98 0 0 1-9.962 0zM6.574 0a6.574 6.574 0 1 0 0 13.148A6.574 6.574 0 0 0 6.574 0zm6.34 11.788a.797.797 0 0 0-1.126 1.127l3.852 3.852a.797.797 0 0 0 1.126-1.127l-3.851-3.852z"
+      fill="#000"
     />
   </svg>
 )
