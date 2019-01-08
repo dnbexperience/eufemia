@@ -8,6 +8,8 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { DefaultIconSize } from '../icon'
 import Button from '../button/Button'
+import FormLabel from '../form-label/FormLabel'
+import FormStatus from '../form-status/FormStatus'
 import {
   registerElement,
   validateDOMAttributes,
@@ -30,6 +32,9 @@ export const propTypes = {
   size: PropTypes.string,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   id: PropTypes.string,
+  label: PropTypes.string,
+  status: PropTypes.string,
+  status_state: PropTypes.string,
   autocomplete: PropTypes.oneOf(['on', 'off']),
   search_button_title: PropTypes.string,
   placeholder: PropTypes.string,
@@ -67,6 +72,9 @@ export const defaultProps = {
   size: null,
   value: null,
   id: null,
+  label: null,
+  status: null,
+  status_state: 'error',
   autocomplete: 'off',
   search_button_title: '',
   placeholder: null,
@@ -130,6 +138,7 @@ export default class Input extends PureComponent {
     super(props)
 
     this._ref = React.createRef()
+    this._id = props.id || `dnb-input-${Math.round(Math.random() * 999)}` // cause we need an id anyway
 
     // pass along all props we wish to have as params
     this.renderProps = pickRenderProps(props, renderProps)
@@ -186,7 +195,9 @@ export default class Input extends PureComponent {
     const {
       type,
       size,
-      id,
+      label,
+      status,
+      status_state,
       disabled,
       placeholder,
       description,
@@ -200,6 +211,7 @@ export default class Input extends PureComponent {
     if (type === 'search') {
       autocomplete = null
     }
+    const id = this._id
 
     const classes = classnames(
       'dnb-input',
@@ -208,6 +220,7 @@ export default class Input extends PureComponent {
       size ? 'dnb-input--' + size : '',
       type === 'search' ? 'dnb-input__input--search' : null,
       align ? `dnb-input__align--${align}` : null,
+      status ? `dnb-input__status--${status_state}` : null,
       this.props.class,
       this.props.className
     )
@@ -246,6 +259,10 @@ export default class Input extends PureComponent {
 
     return (
       <span className={classes}>
+        {label && (
+          <FormLabel for_id={id} text={label} disabled={disabled} />
+        )}
+
         <span className="dnb-input__shell" {...shellParams}>
           {(type === 'text' || type === 'number' || type === 'search') &&
             ((typeof Elem === 'function' ? (
@@ -285,6 +302,10 @@ export default class Input extends PureComponent {
           <span className="dnb-input__extra-information">
             {extra_information}
           </span>
+        )}
+
+        {status && status !== 'true' && (
+          <FormStatus for_id={id} text={status} status={status_state} />
         )}
       </span>
     )

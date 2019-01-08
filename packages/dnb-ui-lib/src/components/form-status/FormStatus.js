@@ -1,5 +1,5 @@
 /**
- * Web FormLabel Component
+ * Web FormStatus Component
  *
  */
 
@@ -11,20 +11,24 @@ import {
   validateDOMAttributes,
   processChildren
 } from '../../shared/component-helper'
-// import './style/dnb-form-label.scss' // no good solution to import the style here
+import IconPrimary from '../icon-primary/IconPrimary'
 
 const renderProps = {
   render_content: null
 }
 
 export const propTypes = {
-  for_id: PropTypes.string.isRequired,
   title: PropTypes.string,
   text: PropTypes.string,
-  typo: PropTypes.string,
-  id: PropTypes.string,
+  icon: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node
+  ]),
+  icon_size: PropTypes.string,
+  status: PropTypes.string,
   class: PropTypes.string,
-  disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  fade_in: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   /** React props */
   className: PropTypes.string,
   children: PropTypes.oneOfType([
@@ -37,13 +41,13 @@ export const propTypes = {
 }
 
 export const defaultProps = {
-  for_id: null,
   title: null,
   text: null,
-  typo: 'typo-light',
-  id: null,
+  icon: 'exclamation',
+  icon_size: 'medium',
+  status: 'error',
   class: null,
-  disabled: false,
+  fade_in: true,
   /** React props */
   className: null,
   children: null,
@@ -51,13 +55,13 @@ export const defaultProps = {
   ...renderProps
 }
 
-export default class FormLabel extends PureComponent {
-  static tagName = 'dnb-form-label'
+export default class FormStatus extends PureComponent {
+  static tagName = 'dnb-form-status'
   static propTypes = propTypes
   static defaultProps = defaultProps
 
   static enableWebComponent() {
-    registerElement(FormLabel.tagName, FormLabel, defaultProps)
+    registerElement(FormStatus.tagName, FormStatus, defaultProps)
   }
 
   static getContent(props) {
@@ -69,30 +73,43 @@ export default class FormLabel extends PureComponent {
 
   render() {
     const {
-      for_id,
       title,
-      typo,
+      icon,
+      icon_size,
+      status,
       className,
-      id,
-      disabled,
+      fade_in,
       class: _className
-      // ...otherProps
     } = this.props
 
-    const content = FormLabel.getContent(this.props)
+    const contentToRender = FormStatus.getContent(this.props)
+    const iconToRender =
+      typeof icon === 'string' ? (
+        <IconPrimary icon={icon} size={icon_size} />
+      ) : (
+        // React.isValidElement(icon)
+        icon
+      )
 
     const params = {
-      className: classnames('dnb-form-label', typo, className, _className),
-      htmlFor: for_id,
-      id,
-      title,
-      disabled
-      // ...otherProps
+      className: classnames(
+        'dnb-form-status',
+        fade_in ? 'dnb-form-status--fade-in' : null,
+        `dnb-form-status--${status}`,
+        className,
+        _className
+      ),
+      title
     }
 
     // also used for code markup simulation
     validateDOMAttributes(this.props, params)
 
-    return <label {...params}>{content}</label>
+    return (
+      <span {...params}>
+        {iconToRender}
+        <span className="dnb-form-status--text">{contentToRender}</span>
+      </span>
+    )
   }
 }

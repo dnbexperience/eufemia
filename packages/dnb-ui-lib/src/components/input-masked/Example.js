@@ -48,50 +48,54 @@ class Example extends PureComponent {
   render() {
     return (
       <Fragment>
-        <InputMasked
-          mask={[
-            '(',
-            /[1-9]/,
-            /\d/,
-            /\d/,
-            ')',
-            ' ',
-            /\d/,
-            /\d/,
-            /\d/,
-            '-',
-            /\d/,
-            /\d/,
-            /\d/,
-            /\d/
-          ]}
-          show_mask="true"
-          attributes={{
-            'data-fake:show_mask': 'true'
-          }}
-          ref={this._ref}
-        />
-
-        <InputMasked
-          id="text-input-masked-large"
-          autocomplete="off"
-          size="large"
-          mask={numberMask}
-          align="right"
-          placeholder="Enter an amount"
-          on_change={this.handleInputMaskedChange}
-        />
-
-        <InputMasked
-          id="text-input-masked-large"
-          autocomplete="off"
-          size="large"
-          value="1000000"
-          mask={numberMask}
-          show_mask="true"
-          align="right"
-          on_change={this.handleInputMaskedChange}
-        />
+        <div className="dnb-form-row">
+          <InputMasked
+            label="With Mask"
+            mask={[
+              '(',
+              /[1-9]/,
+              /\d/,
+              /\d/,
+              ')',
+              ' ',
+              /\d/,
+              /\d/,
+              /\d/,
+              '-',
+              /\d/,
+              /\d/,
+              /\d/,
+              /\d/
+            ]}
+            show_mask="true"
+            attributes={{
+              'data-fake:show_mask': 'true'
+            }}
+            ref={this._ref}
+          />
+        </div>
+        <div className="dnb-form-row">
+          <InputMasked
+            label="Amount"
+            autocomplete="off"
+            size="large"
+            mask={numberMask}
+            align="right"
+            placeholder="Enter a number"
+            on_change={this.handleInputMaskedChange}
+          />
+        </div>
+        <div className="dnb-form-row">
+          <InputMasked
+            label="Amount"
+            autocomplete="off"
+            value="1000000"
+            mask={numberMask}
+            show_mask="true"
+            align="right"
+            on_change={this.handleInputMaskedChange}
+          />
+        </div>
       </Fragment>
     )
   }
@@ -101,8 +105,12 @@ const Wrapper = styled.div`
   display: block;
   width: 100%;
 
-  .dnb-input {
+  .dnb-form-row,
+  .dnb-masked-input {
     margin: 1rem 0;
+  }
+  .dnb-form-label + .dnb-masked-input {
+    margin-top: 0;
   }
 `
 

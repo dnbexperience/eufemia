@@ -116,14 +116,14 @@ export const setupPageScreenshot = (options = { timeout: 10e3 }) => {
   jest.setTimeout(options.timeout)
 }
 
-export const loadImage = async imagePath => {
-  return await fs.readFile(path.resolve(imagePath))
-}
+export const loadImage = async imagePath =>
+  await fs.readFile(path.resolve(imagePath))
 
-export const axeComponent = async Component => {
-  const html = ReactDOMServer.renderToStaticMarkup(Component)
-  return await axe(html)
-}
+export const toHtml = Component =>
+  ReactDOMServer.renderToStaticMarkup(Component)
+
+export const axeComponent = async (...components) =>
+  await axe(components.map(Component => toHtml(Component)).join('\n'))
 
 // global.shallow = enzyme.shallow
 // global.render = enzyme.render

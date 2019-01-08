@@ -15,6 +15,7 @@ import { registerElement } from '../shared/component-helper'
 import Button from './button/Button'
 import Dropdown from './dropdown/Dropdown'
 import FormLabel from './form-label/FormLabel'
+import FormStatus from './form-status/FormStatus'
 import Icon from './icon/Icon'
 import IconPrimary from './icon-primary/IconPrimary'
 import Input from './input/Input'
@@ -32,6 +33,7 @@ export {
   Button,
   Dropdown,
   FormLabel,
+  FormStatus,
   Icon,
   IconPrimary,
   Input,
@@ -50,6 +52,7 @@ export const getComponents = () => {
     Button,
     Dropdown,
     FormLabel,
+    FormStatus,
     Icon,
     IconPrimary,
     Input,

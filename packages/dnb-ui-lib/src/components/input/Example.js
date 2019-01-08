@@ -12,6 +12,9 @@ import styled from '@emotion/styled'
 // import '../slider/style'
 
 class Example extends PureComponent {
+  state = {
+    status: null
+  }
   constructor(props) {
     super(props)
     this._ref = React.createRef()
@@ -38,6 +41,12 @@ class Example extends PureComponent {
         }, 2e3)
       }, 2e3)
     }
+
+    setTimeout(() => {
+      this.setState({
+        status: 'You have to fill in this field'
+      })
+    }, 400)
   }
   handleInputChange = ({ value }) => {
     console.log(value)
@@ -46,67 +55,66 @@ class Example extends PureComponent {
     return (
       <Fragment>
         <div className="dnb-form-row">
-          <FormLabel for_id="text-input-2" text="Label" />
-          <Input id="text-input-2" placeholder="Placeholder text" />
+          <FormLabel for_id="text-input-1" text="Label:" />
+          <Input id="text-input-1" placeholder="Placeholder text" />
         </div>
 
-        <div className="dnb-form-row">
-          <FormLabel for_id="search-input" text="Search" />
-          <Input
-            type="search"
-            id="search-input"
-            search_button_title="Search"
-            placeholder="Search text placeholder"
-            on_change={this.handleInputChange}
-          />
-        </div>
+        <Input
+          label="Search:"
+          type="search"
+          search_button_title="Search"
+          placeholder="Search text placeholder"
+          on_change={this.handleInputChange}
+        />
 
-        <div className="dnb-form-row">
-          <FormLabel for_id="text-input-medium" text="Medium input" />
-          <Input
-            type="text"
-            id="text-input-medium"
-            size="medium"
-            placeholder="Medium input placeholder"
-            on_change={this.handleInputChange}
-          />
-        </div>
+        <Input
+          type="text"
+          label="Medium input:"
+          size="medium"
+          placeholder="Medium input placeholder"
+          on_change={this.handleInputChange}
+        />
 
-        <div className="dnb-form-row">
-          <FormLabel for_id="text-input-large" text="Large input" />
-          <Input
-            type="text"
-            id="text-input-large"
-            size="large"
-            align="right"
-            placeholder="Large input with right align"
-            on_change={this.handleInputChange}
-          />
-        </div>
+        <Input
+          type="text"
+          label="Large input:"
+          size="large"
+          align="right"
+          placeholder="Large input with right align"
+          on_change={this.handleInputChange}
+        />
 
-        <div className="dnb-form-row">
-          <FormLabel for_id="text-input-disabled" text="Disabled input" />
-          <Input
-            disabled
-            id="text-input-disabled"
-            value="Disabled Input with a text value"
-          />
-        </div>
+        <Input
+          label="Disabled input:"
+          disabled
+          id="text-input-disabled"
+          placeholder="Disabled Input with a placeholder"
+        />
 
-        <label htmlFor="text-input-1">
-          <Input
-            type="text"
-            id="text-input-1"
-            autocomplete="on"
-            placeholder="Placeholder text"
-            description="Kr"
-            extra_information="Info: numbers are ligned by using typo-number--lining"
-            ref={this._ref}
-            on_change={this.handleInputChange}
-          >
-            This is the value 1234567890
-          </Input>
-        </label>
+        <Input
+          label="My Label:"
+          type="text"
+          autocomplete="on"
+          placeholder="Placeholder text"
+          description="Kr"
+          extra_information="Info: numbers are ligned by using typo-number--lining"
+          ref={this._ref}
+          on_change={this.handleInputChange}
+        >
+          This is the value 1234567890
+        </Input>
+
+        <Input
+          label="Show status:"
+          status="true"
+          value="Shows status on border only"
+        />
+
+        <Input
+          label="With FormStatus:"
+          status={this.state.status}
+          value="Input value with error"
+        />
       </Fragment>
     )
   }
@@ -116,13 +124,20 @@ const Wrapper = styled.div`
   display: block;
   width: 100%;
 
-  .dnb-form-row,
   .dnb-input {
     margin-top: 1rem;
   }
   .dnb-form-label + .dnb-input {
     margin-top: 0;
   }
+
+  ${'' /* .dnb-form-row,
+  .dnb-input {
+    margin-top: 1rem;
+  }
+  .dnb-form-label + .dnb-input {
+    margin-top: 0;
+  } */}
 `
 
 export { Example }

@@ -8,6 +8,7 @@
 // import dependencies
 @import '../../button/style/dnb-button.scss';
 @import '../../icon/style/dnb-icon.scss';
+@import '../../form-label/style/dnb-form-label.scss';
 
 .dnb-input {
   @include componentReset();

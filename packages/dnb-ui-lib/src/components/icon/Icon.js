@@ -89,6 +89,7 @@ export default class Icon extends PureComponent {
 
     const {
       color,
+      size,
       height,
       width,
       class: _className,
@@ -96,7 +97,8 @@ export default class Icon extends PureComponent {
       area_hidden
     } = props
 
-    let { size, alt, modifier } = props
+    let { alt, modifier } = props
+    let size_int = DefaultIconSize
 
     // get the icon name - we use is for several things
     const name =
@@ -115,25 +117,25 @@ export default class Icon extends PureComponent {
           return key && value
         }, null)
         if (potentialSize) {
-          size = potentialSize
+          size_int = potentialSize
         }
       }
     }
 
     // if size is defined as a string, find the size number
     if (typeof size === 'string' && !(parseFloat(size) > 0)) {
-      size = ListDefaultIconSizes.filter(([key]) => key === size).reduce(
-        (acc, [key, value]) => {
-          return key && value
-        },
-        null
-      )
+      size_int = ListDefaultIconSizes.filter(
+        ([key]) => key === size
+      ).reduce((acc, [key, value]) => {
+        return key && value
+      }, null)
     }
+    // console.log('size', size, size_int)
 
     // define all the svg parameters
     const svgParams = {}
-    if (parseFloat(size) > -1) {
-      svgParams['width'] = svgParams['height'] = size
+    if (parseFloat(size_int) > -1) {
+      svgParams['width'] = svgParams['height'] = size_int
     }
     if (parseFloat(width) > -1) svgParams['width'] = width
     if (parseFloat(height) > -1) svgParams['height'] = height
@@ -191,14 +193,17 @@ export default class Icon extends PureComponent {
     return {
       icon,
       svgParams,
-      wrapperParams
+      wrapperParams,
+      ...props
     }
   }
 
   render() {
-    const { icon, wrapperParams, svgParams } = Icon.prerender(this.props)
+    const { icon, size, wrapperParams, svgParams } = Icon.prerender(
+      this.props
+    )
 
-    const Svg = loadSVG(icon)
+    const Svg = loadSVG(icon, size)
 
     // make sure we return an empty span if we dont could get the icon
     if (!Svg) return <span />
@@ -211,7 +216,7 @@ export default class Icon extends PureComponent {
   }
 }
 
-export const loadSVG = (icon, listOfIcons) => {
+export const loadSVG = (icon, size = null, listOfIcons = null) => {
   if (typeof icon === 'function') {
     const elem = icon()
     if (React.isValidElement(elem)) {
@@ -227,6 +232,9 @@ export const loadSVG = (icon, listOfIcons) => {
   // for importing react component
   try {
     icon = iconCase(icon)
+    if (size) {
+      icon = `${icon}_${size}`
+    }
     const mod = (listOfIcons.dnbIcons
       ? listOfIcons.dnbIcons
       : listOfIcons)[icon]

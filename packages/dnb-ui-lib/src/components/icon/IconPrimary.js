@@ -39,11 +39,11 @@ export default class IconPrimary extends PureComponent {
   }
 
   render() {
-    const { icon, wrapperParams, svgParams } = DefaultIcon.prerender(
+    const { icon, wrapperParams, svgParams, size } = DefaultIcon.prerender(
       this.props
     )
 
-    const Svg = loadSVG(icon, icons)
+    const Svg = loadSVG(icon, size, icons)
 
     if (!Svg) return <></>
 

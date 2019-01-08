@@ -12,6 +12,7 @@ import { CloseButton } from 'dnb-ui-lib/src/components/modal'
 import Link from 'gatsby-link'
 import PropTypes from 'prop-types'
 import { css } from '@emotion/core'
+import styled from '@emotion/styled'
 import { navigate, parsePath } from 'gatsby'
 import { fullscreen as fullscreenIcon } from 'dnb-ui-lib/src/icons/secondary_icons'
 
@@ -28,6 +29,10 @@ const getLocation = () => {
     hash
   }
 }
+
+const DemoWrapper = styled.div`
+  padding: 2rem 0 0;
+`
 
 const tabsWrapperStyle = css`
   .fullscreen-page & {
@@ -140,7 +145,9 @@ class ItemWrapper extends PureComponent {
       tabsContent.push(
         <Tabs.TabContent key="demo" id={this._id} selection_key="demo">
           {!hideTabs && <Description />}
-          <DemoComponent />
+          <DemoWrapper>
+            <DemoComponent />
+          </DemoWrapper>
           {Additional && Additional.demo && (
             <Additional.demo CodeRenderer={CodeRenderer} />
           )}

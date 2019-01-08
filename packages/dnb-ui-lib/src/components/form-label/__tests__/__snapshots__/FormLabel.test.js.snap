@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FormLabel component have to match snapshot 1`] = `
+<FormLabel
+  class="class"
+  className="className"
+  disabled="disabled"
+  for_id="for_id"
+  id="id"
+  render_content={[Function]}
+  text="text"
+  title="title"
+  typo="typo"
+>
+  <label
+    className="dnb-form-label typo className class"
+    disabled="disabled"
+    htmlFor="for_id"
+    id="id"
+    title="title"
+  >
+    text
+  </label>
+</FormLabel>
+`;

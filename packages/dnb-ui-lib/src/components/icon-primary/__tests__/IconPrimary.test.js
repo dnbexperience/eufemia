@@ -16,6 +16,7 @@ const props = fakeProps(require.resolve('../../icon/IconPrimary'), {
   optional: true
 })
 props.icon = 'question'
+props.size = null
 
 describe('IconPrimary component', () => {
   it('have to match snapshot', () => {
