@@ -1,4 +1,4 @@
-#### Description
+## Description
 
 The main Icon component is basically only a wrapper for what ever Icon You send into it. This means a `span` wrapping an inline `svg`.
 

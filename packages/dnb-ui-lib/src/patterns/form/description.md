@@ -12,7 +12,7 @@ import FormError from './assets/form-error.svg'
 
 import Img from 'Tags/Img'
 
-#### Description
+## Description
 
 > "The HTML < form > element represents a document section that contains interactive controls for submitting information to a web server."
 >

@@ -2,7 +2,7 @@
 status: 'wip'
 ---
 
-#### Description
+## Description
 
 This is a navigation pattern which appears at the bottom of step-by-step forms.
 It consists of a containing navigation 'bar', a set of navigation buttons plus various other form-related actions such as 'Exit', to quit the process or download to download a copy in XX format.

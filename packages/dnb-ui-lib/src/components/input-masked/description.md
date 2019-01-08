@@ -1,4 +1,4 @@
-#### Description
+## Description
 
 The masked input component uses the DNB original input component, but with some additional masking functionality. Read more about the details [on the open source project](github.com/sanniassin/react-input-mask).
 
