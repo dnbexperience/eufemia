@@ -163,9 +163,6 @@ export default css`
     }
   }
 
-
-
-
   .typography-box {
     margin-bottom: 4rem;
     padding: 2rem 2rem 1.9375rem 2rem;
@@ -206,8 +203,8 @@ export default css`
   }
 
   .example-box {
-    margin-bottom: 4rem;
-    padding: 2rem 2rem 0.9375rem 2rem;
+    margin-bottom: 2rem;
+    padding: 2rem;
 
     background-color: #fff;
     border-bottom: solid 1px #ececec;
@@ -215,7 +212,7 @@ export default css`
 
     background-repeat: repeat;
     background-image: url(${lightgreygridSvg});
-    ${'' /* background-image: url('/assets/images/grid-32x32.svg'); */}
+  }
 
   .lh-12 {
     line-height: 0.75rem;
@@ -250,7 +247,6 @@ export default css`
     font-style: italic;
     text-align: center;
 
-
     border-top: solid 1px #c4c4c4;
   }
 
@@ -261,10 +257,10 @@ export default css`
   */
 
   .dnb-nudge--vertical {
-    background-color: #D2F0E9;
+    background-color: #d2f0e9;
   }
 
   .dnb-nudge--horizontal {
-    background-color: #D2F0E9;
+    background-color: #d2f0e9;
   }
 `
