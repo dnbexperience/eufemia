@@ -105,6 +105,12 @@ class Example extends PureComponent {
         </Input>
 
         <Input
+          label="Show status:"
+          status="true"
+          value="Shows status on border only"
+        />
+
+        <Input
           label="With FormStatus:"
           status={this.state.status}
           value="Input value with error"

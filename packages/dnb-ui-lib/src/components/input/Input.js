@@ -34,6 +34,7 @@ export const propTypes = {
   id: PropTypes.string,
   label: PropTypes.string,
   status: PropTypes.string,
+  status_state: PropTypes.string,
   autocomplete: PropTypes.oneOf(['on', 'off']),
   search_button_title: PropTypes.string,
   placeholder: PropTypes.string,
@@ -73,6 +74,7 @@ export const defaultProps = {
   id: null,
   label: null,
   status: null,
+  status_state: 'error',
   autocomplete: 'off',
   search_button_title: '',
   placeholder: null,
@@ -195,6 +197,7 @@ export default class Input extends PureComponent {
       size,
       label,
       status,
+      status_state,
       disabled,
       placeholder,
       description,
@@ -217,6 +220,7 @@ export default class Input extends PureComponent {
       size ? 'dnb-input--' + size : '',
       type === 'search' ? 'dnb-input__input--search' : null,
       align ? `dnb-input__align--${align}` : null,
+      status ? `dnb-input__status--${status_state}` : null,
       this.props.class,
       this.props.className
     )
@@ -300,7 +304,9 @@ export default class Input extends PureComponent {
           </span>
         )}
 
-        {status && <FormStatus for_id={id} text={status} />}
+        {status && status !== 'true' && (
+          <FormStatus for_id={id} text={status} status={status_state} />
+        )}
       </span>
     )
   }

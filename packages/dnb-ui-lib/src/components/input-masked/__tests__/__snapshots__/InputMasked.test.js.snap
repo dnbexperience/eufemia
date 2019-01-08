@@ -29,6 +29,7 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
   show_mask="show_mask"
   size={null}
   status={null}
+  status_state="error"
   type="text"
   value="test"
 />
@@ -506,6 +507,8 @@ exports[`InputMasked scss have to match snapshot 1`] = `
     margin-right: 1rem; }
   .dnb-input .dnb-form-status {
     margin-top: 0.5rem; }
+  .dnb-input__status--error .dnb-input__shell {
+    border-color: red; }
 
 .dnb-form-row {
   display: inline-flex;

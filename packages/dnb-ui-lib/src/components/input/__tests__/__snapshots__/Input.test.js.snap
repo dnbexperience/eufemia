@@ -52,6 +52,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
       search_button_title="search_button_title"
       size="size"
       status={null}
+      status_state="status_state"
       title="search_button_title"
       type="search"
       value="test"
@@ -588,6 +589,8 @@ exports[`Input scss have to match snapshot 1`] = `
     margin-right: 1rem; }
   .dnb-input .dnb-form-status {
     margin-top: 0.5rem; }
+  .dnb-input__status--error .dnb-input__shell {
+    border-color: red; }
 
 .dnb-form-row {
   display: inline-flex;

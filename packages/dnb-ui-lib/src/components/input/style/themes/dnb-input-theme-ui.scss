@@ -35,6 +35,11 @@
     @include fakeFocus();
   }
 
+  // with status_state = "error"
+  &__status--error &__shell {
+    border-color: var(--color-cherry-red);
+  }
+
   &__placeholder {
     color: var(--color-sea-green-alt-30);
   }

@@ -647,6 +647,8 @@ exports[`Dropdown scss have to match snapshot 1`] = `
     margin-right: 1rem; }
   .dnb-input .dnb-form-status {
     margin-top: 0.5rem; }
+  .dnb-input__status--error .dnb-input__shell {
+    border-color: red; }
 
 .dnb-form-row {
   display: inline-flex;

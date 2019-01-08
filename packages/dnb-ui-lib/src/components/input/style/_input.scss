@@ -170,6 +170,9 @@
   .dnb-form-status {
     margin-top: 0.5rem;
   }
+  &__status--error &__shell {
+    border-color: red;
+  }
 }
 
 .dnb-form-row {
