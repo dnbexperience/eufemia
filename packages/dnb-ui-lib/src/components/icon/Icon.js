@@ -98,7 +98,7 @@ export default class Icon extends PureComponent {
     } = props
 
     let { alt, modifier } = props
-    let size_int = DefaultIconSize
+    let size_int = size
 
     // get the icon name - we use is for several things
     const name =
@@ -130,7 +130,6 @@ export default class Icon extends PureComponent {
         return key && value
       }, null)
     }
-    // console.log('size', size, size_int)
 
     // define all the svg parameters
     const svgParams = {}

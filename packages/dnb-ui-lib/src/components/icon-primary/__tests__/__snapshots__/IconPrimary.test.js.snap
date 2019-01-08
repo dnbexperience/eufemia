@@ -16,17 +16,12 @@ exports[`IconPrimary component have to match snapshot 1`] = `
 >
   <span
     aria-label="question"
-    className="dnb-icon dnb-icon--default"
+    className="dnb-icon has-custom-size"
     role="img"
   >
-    <question
-      height={null}
-      width={null}
-    >
+    <question>
       <svg
-        height={null}
         viewBox="0 0 16 16"
-        width={null}
       >
         <path
           clipRule="evenodd"
