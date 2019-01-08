@@ -1,1 +1,1 @@
-<Icon icon={Bell} size="32" />
+<Icon icon={Bell} size="64" />
