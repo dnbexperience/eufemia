@@ -5,17 +5,13 @@ draft: false
 order: 7
 ---
 
-import parts from 'Src/uilib/patterns/demos/allParts'
+import patternsParts from 'Src/uilib/patterns/demos/allParts'
 import AllParts from 'Src/uilib/AllParts'
+
+### All Patterns
 
 <!-- prettier-ignore-start -->
 
-export default ({ children }) => {
-  return (
-    <AllParts parts={parts}>{children}</AllParts>
-  )
-}
+export default ({ children }) => <AllParts parts={patternsParts}>{children}</AllParts>
 
 <!-- prettier-ignore-end -->
-
-### All Patterns

@@ -2,7 +2,7 @@
 status: 'wip'
 ---
 
-### Description
+## Description
 
 The dropdown component is 100% custom-made.
 The reason for this is so we can display more information in each option. Since it looks totally different on smaller screens and touch devices, doing this component 100% custom gives us more flexibility.
