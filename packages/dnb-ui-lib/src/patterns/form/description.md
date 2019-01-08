@@ -12,6 +12,8 @@ import FormError from './assets/form-error.svg'
 
 import Img from 'Tags/Img'
 
+#### Description
+
 > "The HTML < form > element represents a document section that contains interactive controls for submitting information to a web server."
 >
 > \ - **MDN**
@@ -82,6 +84,6 @@ The fieldset is pattern for grouping parts of HTML forms. It can be replicated u
 ### Form summary
 
 A form summary is a list of outcomes from a completed form. In the example below, the list appears on the right...
-TO DO: complete
+TODO: complete
 
 <Img src={FormSummary} caption="Form summary is...." alt="Form summary" height="272" />

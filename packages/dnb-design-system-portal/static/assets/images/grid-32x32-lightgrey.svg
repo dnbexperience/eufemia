@@ -1,0 +1,20 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path opacity="0.2" fill-rule="evenodd" clip-rule="evenodd" d="M1 0H0V8H1V1H8V0H1Z" fill="#D2D2D2"/>
+<path opacity="0.2" fill-rule="evenodd" clip-rule="evenodd" d="M9 0H8V8H9V1H16V0H9Z" fill="#D2D2D2"/>
+<path opacity="0.2" fill-rule="evenodd" clip-rule="evenodd" d="M17 0H16V8H17V1H24V0H17Z" fill="#D2D2D2"/>
+<path opacity="0.2" fill-rule="evenodd" clip-rule="evenodd" d="M25 0H24V8H25V1H32V0H25Z" fill="#D2D2D2"/>
+<path opacity="0.2" fill-rule="evenodd" clip-rule="evenodd" d="M1 8H0V16H1V9H8V8H1Z" fill="#D2D2D2"/>
+<path opacity="0.2" fill-rule="evenodd" clip-rule="evenodd" d="M9 8H8V16H9V9H16V8H9Z" fill="#D2D2D2"/>
+<path opacity="0.2" fill-rule="evenodd" clip-rule="evenodd" d="M17 8H16V16H17V9H24V8H17Z" fill="#D2D2D2"/>
+<path opacity="0.2" fill-rule="evenodd" clip-rule="evenodd" d="M25 8H24V16H25V9H32V8H25Z" fill="#D2D2D2"/>
+<path opacity="0.2" fill-rule="evenodd" clip-rule="evenodd" d="M1 16H0V24H1V17H8V16H1Z" fill="#D2D2D2"/>
+<path opacity="0.2" fill-rule="evenodd" clip-rule="evenodd" d="M9 16H8V24H9V17H16V16H9Z" fill="#D2D2D2"/>
+<path opacity="0.2" fill-rule="evenodd" clip-rule="evenodd" d="M17 16H16V24H17V17H24V16H17Z" fill="#D2D2D2"/>
+<path opacity="0.2" fill-rule="evenodd" clip-rule="evenodd" d="M25 16H24V24H25V17H32V16H25Z" fill="#D2D2D2"/>
+<path opacity="0.2" fill-rule="evenodd" clip-rule="evenodd" d="M1 24H0V32H1V25H8V24H1Z" fill="#D2D2D2"/>
+<path opacity="0.2" fill-rule="evenodd" clip-rule="evenodd" d="M9 24H8V32H9V25H16V24H9Z" fill="#D2D2D2"/>
+<path opacity="0.2" fill-rule="evenodd" clip-rule="evenodd" d="M17 24H16V32H17V25H24V24H17Z" fill="#D2D2D2"/>
+<path opacity="0.2" fill-rule="evenodd" clip-rule="evenodd" d="M25 24H24V32H25V25H32V24H25Z" fill="#D2D2D2"/>
+<rect width="1" height="32" fill="#ECECEC"/>
+<rect x="1" width="31" height="1" fill="#ECECEC"/>
+</svg>

@@ -23,13 +23,13 @@ import bell from './icons/bell'
     )
   }
   render() {
-    return (
-      <Fragment>
-        <Icon icon={Bell} size="32" />
-      </Fragment>
-    )
+    return <Icon icon={Bell} size="64" />
   }
 }
 
 export { Example }
-export default () => <Example />
+export default () => (
+  <div className="example-box">
+    <Example />
+  </div>
+)

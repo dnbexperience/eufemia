@@ -6,6 +6,7 @@
 import { css } from '@emotion/core'
 import bluegridSvg from '../../../static/assets/images/grid-32x32-blue.svg'
 import greygridSvg from '../../../static/assets/images/grid-32x32.svg'
+import lightgreygridSvg from '../../../static/assets/images/grid-32x32-lightgrey.svg'
 
 export default css`
   table td.selectable {
@@ -162,6 +163,9 @@ export default css`
     }
   }
 
+
+
+
   .typography-box {
     margin-bottom: 4rem;
     padding: 2rem 2rem 1.9375rem 2rem;
@@ -201,6 +205,18 @@ export default css`
     }
   }
 
+  .example-box {
+    margin-bottom: 4rem;
+    padding: 2rem 2rem 0.9375rem 2rem;
+
+    background-color: #fff;
+    border-bottom: solid 1px #ececec;
+    border-right: solid 1px #ececec;
+
+    background-repeat: repeat;
+    background-image: url(${lightgreygridSvg});
+    ${'' /* background-image: url('/assets/images/grid-32x32.svg'); */}
+
   .lh-12 {
     line-height: 0.75rem;
   }
@@ -223,5 +239,32 @@ export default css`
 
   .lh-32 {
     line-height: 2rem;
+  }
+
+  .example-caption {
+    padding-top: 0.9375rem;
+    margin-top: 2rem;
+
+    font-size: 1em;
+    line-height: 1.5rem;
+    font-style: italic;
+    text-align: center;
+
+
+    border-top: solid 1px #c4c4c4;
+  }
+
+  /*
+  *
+  * Helper Classes - some of them need
+  * visualising to see their effect
+  */
+
+  .dnb-nudge--vertical {
+    background-color: #D2F0E9;
+  }
+
+  .dnb-nudge--horizontal {
+    background-color: #D2F0E9;
   }
 `
