@@ -38,7 +38,7 @@
     "lint:js": "yarn lint --fix",
     "lint:styles": "stylelint './src/{components,patterns,style}/**/*.{js,scss}'",
     "publish": "yarn publish-ci --dry-run",
-    "prepublish-ci": "yarn figma-ci-build && yarn prepublish:local && yarn figma-ci-commit",
+    "prepublish-ci": "yarn figma-ci-build && yarn prepublish:local && test:update && yarn figma-ci-commit",
     "publish-ci": "babel-node ./scripts/release --ci",
     "prepublish:dev": "nodemon --exec 'babel-node ./scripts/prepub/dev.js' --watch 'rollup.config.js' --ext js,html,json,css,scss --watch './src/style/**/*' --watch './scripts/**/*' --ignore '*.json'",
     "publish:disabled": "yarn publish:prerelease && npm publish ./dnb-ui-lib-v*.tgz --preid=ci --npm-tag=ci",
