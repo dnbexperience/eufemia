@@ -5,7 +5,7 @@
 
 import React, { PureComponent, Fragment } from 'react'
 import Icon from './Icon'
-import { bell_medium as Bell } from './lib'
+import { bell_medium as BellMedium, bell as Bell } from './lib'
 
 class Example extends PureComponent {
   static AdditionalCallback = {
@@ -23,7 +23,12 @@ import bell from './icons/bell'
     )
   }
   render() {
-    return <Icon icon={Bell} size="64" />
+    return (
+      <>
+        <Icon icon={Bell} />
+        <Icon icon={BellMedium} />
+      </>
+    )
   }
 }
 
@@ -31,5 +36,6 @@ export { Example }
 export default () => (
   <div className="example-box">
     <Example />
+    <p className="example-caption">Example Icons</p>
   </div>
 )

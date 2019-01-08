@@ -274,22 +274,22 @@ const prepareIconName = (name, iconNameAdditions = []) => {
 const optimizeSVG = ({ file }) => {
   const transformSvg = async content => {
     const plugins = [
-      {
-        removeAttrs: {
-          attrs: [
-            // once this pullrequest goes throug https://github.com/svg/svgo/pull/977
-            // we can use this methode
-            // '*:(fill)|((?!^none$).)*'
-            // remove all fills - if the instance has a defined background color, then things are not showing good. Then then have to allow this setting to be there
-            'fill'
-            // 'stroke' // for now, we dont remove stroke
-            // 'svg:fill'
-            // 'svg:xmlns',
-            // 'svg:width',
-            // 'svg:height'
-          ]
-        }
-      },
+      // {
+      //   removeAttrs: {
+      //     attrs: [
+      //       // once this pullrequest goes throug https://github.com/svg/svgo/pull/977
+      //       // we can use this methode
+      //       // '*:(fill)|((?!^none$).)*'
+      //       // remove all fills - if the instance has a defined background color, then things are not showing good. Then then have to allow this setting to be there
+      //       // 'fill'
+      //       // 'stroke' // for now, we dont remove stroke
+      //       // 'path:fill'
+      //       // 'svg:xmlns',
+      //       // 'svg:width',
+      //       // 'svg:height'
+      //     ]
+      //   }
+      // },
       // { convertPathData: false }, // if we prefere to not transform any data paths, we have to disable this
       { cleanupIDs: false },
       { removeViewBox: false },
