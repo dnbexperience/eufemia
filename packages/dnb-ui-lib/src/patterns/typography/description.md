@@ -2,6 +2,8 @@
 status: 'wip'
 ---
 
+## Description
+
 Our default font is `Fedra Sans Book`. This font, together with its siblings is loaded and imported with `@font-face` in `/css/core/typography.scss`. The font is included in the library package.
 To make sure we don't load all of the font faces at once, we apply the font weights and font styles by using its predefined font faces.
 

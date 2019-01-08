@@ -2,6 +2,8 @@
 status: 'wip'
 ---
 
+## Description
+
 ### User story
 
 I wish to quickly find specific sections of a site or application bypassing the navigational structure also basic information such as contact details, address, opening times, support, terms and privacy policies in a consistent place throughout my interaction with the application.
