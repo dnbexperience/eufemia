@@ -25,7 +25,7 @@ import bell from './icons/bell'
   render() {
     return (
       <Fragment>
-        <Icon icon={Bell} size="32" />
+        <Icon icon={Bell} size="64" />
       </Fragment>
     )
   }
