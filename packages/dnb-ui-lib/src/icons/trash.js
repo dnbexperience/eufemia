@@ -3,7 +3,7 @@
 import React from 'react'
 
 const trash = props => (
-  <svg viewBox="0 0 16 16" {...props}>
+  <svg viewBox="0 0 16 16" fill="none" {...props}>
     <path
       d="M1.002 3.25h14"
       stroke="#000"

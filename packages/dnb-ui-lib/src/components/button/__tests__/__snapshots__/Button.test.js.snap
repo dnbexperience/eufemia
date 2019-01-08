@@ -285,9 +285,10 @@ exports[`Button scss have to match snapshot 1`] = `
   font-size: inherit;
   width: 1em;
   height: 1em; }
-  .dnb-icon svg {
+  .dnb-icon svg:not([fill]),
+  .dnb-icon svg [fill] {
     fill: currentColor; }
-  .dnb-icon svg path[stroke] {
+  .dnb-icon svg [stroke] {
     stroke: currentColor; }
   .dnb-icon:not(.has-custom-size) svg {
     width: inherit;
