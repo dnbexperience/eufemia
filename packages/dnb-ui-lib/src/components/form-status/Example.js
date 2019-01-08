@@ -25,7 +25,7 @@ class Example extends PureComponent {
           status={this.state.status}
           value="Input value with status"
         />
-        <p className="example-caption">A form label</p>
+        <p className="example-caption">A form status</p>
       </div>
     )
   }
