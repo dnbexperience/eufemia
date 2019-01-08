@@ -48,7 +48,7 @@ class Example extends PureComponent {
   render() {
     return (
       <Fragment>
-        <div className="dnb-form-row">
+        <div className="dnb-form-row example-box">
           <InputMasked
             label="With Mask"
             mask={[
@@ -74,7 +74,7 @@ class Example extends PureComponent {
             ref={this._ref}
           />
         </div>
-        <div className="dnb-form-row">
+        <div className="dnb-form-row example-box">
           <InputMasked
             label="Amount"
             autocomplete="off"
@@ -85,7 +85,7 @@ class Example extends PureComponent {
             on_change={this.handleInputMaskedChange}
           />
         </div>
-        <div className="dnb-form-row">
+        <div className="dnb-form-row example-box">
           <InputMasked
             label="Amount"
             autocomplete="off"

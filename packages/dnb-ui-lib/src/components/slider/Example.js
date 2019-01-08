@@ -20,19 +20,21 @@ class Example extends PureComponent {
   render() {
     return (
       <Fragment>
-        <Slider
-          min={0}
-          max={100}
-          value={70}
-          step={10}
-          on_change={this.onChangeHandler}
-          attributes={{
-            'data-fake:on_change': 'SliderDemo.onChangeHandler()',
-            'data-fake:on_state_update':
-              'SliderDemo.onStateUpdateHandler()'
-          }}
-        />
-        <Slider value="70" max="100" disabled />
+        <div className="example-box">
+          <Slider
+            min={0}
+            max={100}
+            value={70}
+            step={10}
+            on_change={this.onChangeHandler}
+            attributes={{
+              'data-fake:on_change': 'SliderDemo.onChangeHandler()',
+              'data-fake:on_state_update':
+                'SliderDemo.onStateUpdateHandler()'
+            }}
+          />
+          <Slider value="70" max="100" disabled />
+        </div>
       </Fragment>
     )
   }
@@ -51,13 +53,13 @@ class AditionalExample extends PureComponent {
         <Example />
         <form className="dnb-form">
           <div className="dnb-form__item">
-            <div className="dnb-form__cell">
-              <FormLabel
-                for_id="slider-2"
-                text="Hvor mye ønsker du å kjøpe bolig for?"
-              />
-            </div>
-            <div className="dnb-form__cell dnb-slider__slider-row">
+            <FormLabel
+              for_id="slider-2"
+              text="Hvor mye ønsker du å kjøpe bolig for?"
+            />
+          </div>
+          <div className="dnb-form__item">
+            <div className="dnb-slider__slider-row">
               <div className="dnb-slider__input-container">
                 <Slider
                   id="slider-2"
@@ -87,41 +89,43 @@ class AditionalExample extends PureComponent {
                 />
               </div>
             </div>
-            <Cell className="dnb-form__cell">
-              <Slider
-                id="slider-3"
-                min={1000000}
-                max={8000000}
-                value={this.state.value}
-                step={10}
-                vertical
-                reverse
-                on_change={({ value }) => {
-                  this.setState({ value })
-                }}
-                on_state_update={({ value }) => {
-                  console.log('on_state_update', value)
-                }}
-              />
-            </Cell>
           </div>
+          <Cell className="dnb-form__item">
+            <Slider
+              id="slider-3"
+              min={1000000}
+              max={8000000}
+              value={this.state.value}
+              step={10}
+              vertical
+              reverse
+              on_change={({ value }) => {
+                this.setState({ value })
+              }}
+              on_state_update={({ value }) => {
+                console.log('on_state_update', value)
+              }}
+            />
+          </Cell>
         </form>
 
-        <div className="dnb-form-row">
-          <FormLabel
-            id="range-slider-label"
-            for_id="range-slider"
-            text="Native Range Slider"
-          />
-          <input
-            id="range-slider"
-            type="range"
-            min="0"
-            max="100"
-            step="5"
-            defaultValue="20"
-            onChange={this.handleRangeChange}
-          />
+        <div className="example-box">
+          <div className="dnb-form-row">
+            <FormLabel
+              id="range-slider-label"
+              for_id="range-slider"
+              text="Native Range Slider"
+            />
+            <input
+              id="range-slider"
+              type="range"
+              min="0"
+              max="100"
+              step="5"
+              defaultValue="20"
+              onChange={this.handleRangeChange}
+            />
+          </div>
         </div>
       </Wrapper>
     )

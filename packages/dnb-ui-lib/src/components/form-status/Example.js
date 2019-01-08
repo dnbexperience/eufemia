@@ -19,11 +19,14 @@ class Example extends PureComponent {
   }
   render() {
     return (
-      <Input
-        label="Input with Status:"
-        status={this.state.status}
-        value="Input value with status"
-      />
+      <div className="example-box">
+        <Input
+          label="Input with Status:"
+          status={this.state.status}
+          value="Input value with status"
+        />
+        <p className="example-caption">A form status</p>
+      </div>
     )
   }
 }

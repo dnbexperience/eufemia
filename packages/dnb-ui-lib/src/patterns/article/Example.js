@@ -190,9 +190,7 @@ class Example extends PureComponent {
                     </td>
                   </tr>
                   <tr>
-                    <td>
-                      <a href="www.eggs.com">Person Name</a>
-                    </td>
+                    <td>Person Name</td>
                     <td>1200</td>
                     <td>
                       Vestibulum id ligula porta felis euismod semper.

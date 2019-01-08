@@ -10,18 +10,19 @@ class Example extends PureComponent {
   render() {
     return (
       <Fragment>
-        <Notification
-          notification_amount={2}
-          title_text="Du har {amount} notifications"
-        />
-        <Notification
-          notification_amount={2}
-          title_text="Du har {amount} notifications"
-        />
-        <Notification
-          notification_amount={0}
-          title_text="Du har ingen notifications"
-        />
+        <div className="example-box">
+          <Notification
+            notification_amount={0}
+            title_text="Du har ingen notifications"
+          />
+          <Notification
+            notification_amount={2}
+            title_text="Du har {amount} notifications"
+          />
+          <p className="example-caption">
+            Left: No notifications. Right 2 notifications
+          </p>
+        </div>
       </Fragment>
     )
   }
