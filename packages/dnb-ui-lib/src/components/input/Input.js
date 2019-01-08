@@ -9,6 +9,7 @@ import classnames from 'classnames'
 import { DefaultIconSize } from '../icon'
 import Button from '../button/Button'
 import FormLabel from '../form-label/FormLabel'
+import FormStatus from '../form-status/FormStatus'
 import {
   registerElement,
   validateDOMAttributes,
@@ -32,6 +33,7 @@ export const propTypes = {
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   id: PropTypes.string,
   label: PropTypes.string,
+  status: PropTypes.string,
   autocomplete: PropTypes.oneOf(['on', 'off']),
   search_button_title: PropTypes.string,
   placeholder: PropTypes.string,
@@ -70,6 +72,7 @@ export const defaultProps = {
   value: null,
   id: null,
   label: null,
+  status: null,
   autocomplete: 'off',
   search_button_title: '',
   placeholder: null,
@@ -191,6 +194,7 @@ export default class Input extends PureComponent {
       type,
       size,
       label,
+      status,
       disabled,
       placeholder,
       description,
@@ -250,51 +254,54 @@ export default class Input extends PureComponent {
     }
 
     return (
-      <>
-        {label && <FormLabel for_id={id} text={label} />}
-        <span className={classes}>
-          <span className="dnb-input__shell" {...shellParams}>
-            {(type === 'text' || type === 'number' || type === 'search') &&
-              ((typeof Elem === 'function' ? (
-                <Elem innerRef={this._ref} {...inputParams} />
-              ) : null) || <input ref={this._ref} {...inputParams} />)}
+      <span className={classes}>
+        {label && (
+          <FormLabel for_id={id} text={label} disabled={disabled} />
+        )}
 
-            {type === 'search' && (
-              <Submit
-                {...this.props}
-                value={inputParams.value}
-                title={this.props.search_button_title}
-              />
-            )}
+        <span className="dnb-input__shell" {...shellParams}>
+          {(type === 'text' || type === 'number' || type === 'search') &&
+            ((typeof Elem === 'function' ? (
+              <Elem innerRef={this._ref} {...inputParams} />
+            ) : null) || <input ref={this._ref} {...inputParams} />)}
 
-            {placeholder && (
-              <span
-                className={classnames(
-                  'dnb-input__placeholder',
-                  align ? `dnb-input__align--${align}` : null
-                )}
-              >
-                {placeholder}
-              </span>
-            )}
-          </span>
-
-          {this.props.description && (
-            <span
-              className="dnb-input__description"
-              id={id + '-description'}
-            >
-              {this.props.description}
-            </span>
+          {type === 'search' && (
+            <Submit
+              {...this.props}
+              value={inputParams.value}
+              title={this.props.search_button_title}
+            />
           )}
 
-          {extra_information && (
-            <span className="dnb-input__extra-information">
-              {extra_information}
+          {placeholder && (
+            <span
+              className={classnames(
+                'dnb-input__placeholder',
+                align ? `dnb-input__align--${align}` : null
+              )}
+            >
+              {placeholder}
             </span>
           )}
         </span>
-      </>
+
+        {this.props.description && (
+          <span
+            className="dnb-input__description"
+            id={id + '-description'}
+          >
+            {this.props.description}
+          </span>
+        )}
+
+        {extra_information && (
+          <span className="dnb-input__extra-information">
+            {extra_information}
+          </span>
+        )}
+
+        {status && <FormStatus for_id={id} text={status} />}
+      </span>
     )
   }
 }

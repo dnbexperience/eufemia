@@ -11,7 +11,7 @@ exports[`IconPrimary component have to match snapshot 1`] = `
   height={null}
   icon="question"
   modifier={null}
-  size={16}
+  size={null}
   width={null}
 >
   <span

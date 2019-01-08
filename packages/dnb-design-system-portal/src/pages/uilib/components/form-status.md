@@ -1,9 +1,9 @@
 ---
 header: 'UI Library'
-title: 'InputMasked'
-draft: true
+title: 'FormStatus'
+draft: false
 status: null
-order: 7
+order: 4
 ---
 
 <!--
@@ -11,6 +11,6 @@ order: 7
   Do not change the content!
 -->
 
-import InputMaskedPage from 'Src/uilib/components/demos/InputMasked'
+import FormStatusPage from 'Src/uilib/components/demos/FormStatus'
 
-<InputMaskedPage />
+<FormStatusPage />
