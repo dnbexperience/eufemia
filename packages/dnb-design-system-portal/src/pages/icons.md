@@ -5,6 +5,8 @@ draft: false
 order: 1
 ---
 
+import IconNearestNeighbour from 'Pages/quickguide-designer/assets/icon-nearest-neighbour.svg'
+
 # Icons
 
 At DNB we are currently using Streamline icons as our source for off-the-shelf vector icons.
@@ -13,7 +15,7 @@ Link: https://www.streamlineicons.com/
 
 #### Using Icons
 
-The Icons Library are based on SVG and are optimized for optimal performance and smallest footprint possible in the package build process.
+The icons are in SVG format and are optimized for performance and to have the smallest footprint possible in the package build process.
 
 The sources are located in the [assets folder](https://unpkg.com/dnb-ui-lib@latest/assets/icons/).
 
@@ -28,11 +30,13 @@ Eufemia icons come in **two** sizes:
 
 The reason why there are two sizes, is mainly do to the SVG artifact, that the Icons, alongside with the strokes, will scale up, once we use them with a larger width and height.
 
-**NB!** @Jens & @Sindre - we probably don't need to mention the stroke weight issue. Just leave it as is.
-
 #### Spacing
 
 Icons should have a minimum area of 8px between them and their nearest neighbor.
+
+<div class="image-box">
+<Img src={IconNearestNeighbour} caption="Icons with nearest neighbour 8px distance" alt="Icon's nearest neighbour" height="136" />
+</div>
 
 #### Custom Icons
 
