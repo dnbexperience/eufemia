@@ -92,9 +92,11 @@ class Example extends PureComponent {
         </div>
         <div className="example-box">
           <Button title="Button with Icon only" icon={question} />
+          <p className="example-caption">Button with Icon only</p>
         </div>
         <div className="example-box">
           <Button title="Button with Icon only" icon="calendar" />
+          <p className="example-caption">Button with Icon only</p>
         </div>
         <div className="example-box">
           <Button
@@ -102,16 +104,15 @@ class Example extends PureComponent {
             text="Signal Button (large size)"
             size="large"
             icon={Bell}
-            icon_size="medium"
-            // icon_size="24" // medium is equalent to 24px, but responsive
+            icon_size="medium" // medium is equalent to 24, but responsive
           />
         </div>
         <div className="example-box">
           <Button
             variant="signal"
             text="Disabled Signal Button"
-            icon={<Bell width="16" />} // Do not hardcode the size like here!
-            icon_size="default" // Rather use the "icon_size" prop
+            icon={<Bell width="64" />} // Do not hardcode the size like here!
+            icon_size="default" // This is forcing the icon size to a new size
             disabled
           />
         </div>
