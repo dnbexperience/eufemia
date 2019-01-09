@@ -1,7 +1,7 @@
 ---
 header: 'UI Library'
 title: 'Typography'
-status: 'wip'
+status: 'imp'
 draft: false
 order: 4
 ---

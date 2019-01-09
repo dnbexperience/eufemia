@@ -1,8 +1,8 @@
 ---
 header: 'UI Library'
 title: 'Article'
-draft: true
-status: wip
+draft: false
+status: dep
 order: 2
 ---
 

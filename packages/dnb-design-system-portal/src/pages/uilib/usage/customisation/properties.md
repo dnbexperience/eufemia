@@ -2,6 +2,7 @@
 header: 'UI Library'
 title: 'Properties'
 draft: false
+order: 3
 ---
 
 import PropertiesExample from 'Pages/uilib/usage/customisation/examples/properties-example'

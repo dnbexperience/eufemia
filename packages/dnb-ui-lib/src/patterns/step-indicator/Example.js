@@ -47,12 +47,14 @@ class Example extends PureComponent {
   render() {
     return (
       <Fragment>
-        <StepIndicator
-          active_item="2"
-          active_url={this.state.active_url}
-          data={dataBlob}
-          on_change={this.onChangeHandler}
-        />
+        <div className="example-box">
+          <StepIndicator
+            active_item="2"
+            active_url={this.state.active_url}
+            data={dataBlob}
+            on_change={this.onChangeHandler}
+          />
+        </div>
       </Fragment>
     )
   }

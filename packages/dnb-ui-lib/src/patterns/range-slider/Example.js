@@ -7,7 +7,11 @@ import React, { PureComponent, Fragment } from 'react'
 
 class Example extends PureComponent {
   render() {
-    return <Fragment>TODO: Example</Fragment>
+    return (
+      <Fragment>
+        <div className="example-box">TODO: Example</div>
+      </Fragment>
+    )
   }
 }
 
