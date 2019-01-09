@@ -12,7 +12,10 @@ import packpath from 'packpath'
 
 const extractJSX = (type = 'components', files) =>
   new Promise(async (resolve, reject) => {
-    const root = path.resolve(packpath.self(), `./src/uilib/${type}/jsx`)
+    const root = path.resolve(
+      packpath.self(),
+      `./src/uilib/${type}/examples`
+    )
     try {
       await del([`${root}/**/*`, `!${root}`, `!${root}/README.txt`])
     } catch (e) {
