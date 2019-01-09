@@ -6,7 +6,6 @@ draft: false
 
 import ColorsTable from 'Pages/quickguide-designer/colors-table.md'
 import bluegridSvg from 'Root/static/assets/images/grid-32x32-blue.svg'
-import Img from 'Tags/Img'
 
 # Colors
 

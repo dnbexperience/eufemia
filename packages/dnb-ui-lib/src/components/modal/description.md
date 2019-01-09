@@ -4,7 +4,6 @@ status: 'wip'
 
 import ModalExample from './assets/modal-example.svg'
 import ModalExampleButtons from './assets/modal-example-buttons.svg'
-import Img from 'Tags/Img'
 
 ## Description
 

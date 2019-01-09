@@ -10,8 +10,6 @@ import ProgressSteps from './assets/progress-steps.svg'
 import FormSummary from './assets/form-summary.svg'
 import FormError from './assets/form-error.svg'
 
-import Img from 'Tags/Img'
-
 ## Description
 
 > "The HTML < form > element represents a document section that contains interactive controls for submitting information to a web server."

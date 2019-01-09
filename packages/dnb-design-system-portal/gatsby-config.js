@@ -62,10 +62,11 @@ module.exports = {
               // wrapperStyle: {}
             }
           }
-        ]
-        // Example of how to use globalScope
-        // globalScope: /* @es6 */ `import { SketchPicker } from 'react-color';
-        // export default { Picker: SketchPicker }`,
+        ],
+        // Imports in here are globally aviable in *.md files
+        globalScope: `
+          import Img from 'Tags/Img'
+        `
         // defaultLayouts: {
         //   // default: require.resolve('./src/templates/mdx.js')
         // }

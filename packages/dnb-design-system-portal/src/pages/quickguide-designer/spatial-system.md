@@ -25,8 +25,6 @@ import Discrepencies from 'Pages/quickguide-designer/assets/discrepencies.svg'
 import ExampleAarsoppgave from 'Pages/quickguide-designer/assets/example-aarsoppgave.svg'
 import ExampleAarsoppgaveGuides from 'Pages/quickguide-designer/assets/example-aarsoppgave-guides.svg'
 
-import Img from 'Tags/Img'
-
 # Spatial system
 
 ## About

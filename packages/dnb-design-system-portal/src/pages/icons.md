@@ -35,7 +35,12 @@ The reason why there are two sizes, is mainly do to the SVG artifact, that the I
 Icons should have a minimum area of 8px between them and their nearest neighbor.
 
 <div class="image-box">
-<Img src={IconNearestNeighbour} caption="Icons with nearest neighbour 8px distance" alt="Icon's nearest neighbour" height="136" />
+  <Img
+    src={IconNearestNeighbour}
+    caption="Icons with nearest neighbour 8px distance"
+    alt="Icon's nearest neighbour"
+    height="136"
+  />
 </div>
 
 #### Custom Icons
