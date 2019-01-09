@@ -6,7 +6,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 
-const SidebarMenuContext = React.createContext({
+export const SidebarMenuContext = React.createContext({
   // just to have som default values (to avoid destructuring error later)
   toggleMenu: null,
   openMenu: null,
