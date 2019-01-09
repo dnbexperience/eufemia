@@ -10,7 +10,7 @@ class Example extends PureComponent {
     return (
       <Fragment>
         <div className="example-box">
-          <p className="example-caption">Footer</p>
+          <p>TODO: Make footer Example</p>
         </div>
       </Fragment>
     )
