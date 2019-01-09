@@ -1,28 +1,22 @@
-<div className="example-box">
-  <Tabs data={data}>{exampleContent}</Tabs>
-  <p className="example-caption">Left aligned tabs</p>
-</div>
-<div className="example-box">
-  <Tabs
-    selected_key="second"
-    direction="right"
-    label="Some Tabs label"
-    data={data}
-    on_change={this.openTab}
-    render={({ Wrapper, TabsList, Tabs }) => {
-      return (
-        <Wrapper>
-          <TabsList>
-            <small>
-              <b>Active:</b> {this.state.activeTabKey}
-            </small>
-            <Tabs />
-          </TabsList>
-        </Wrapper>
-      );
-    }}
-  >
-    {exampleContent}
-  </Tabs>
-  <p className="example-caption">Right aligned tabs</p>
-</div>
+<Tabs data={data}>{exampleContent}</Tabs>
+<Tabs
+  selected_key="second"
+  direction="right"
+  label="Some Tabs label"
+  data={data}
+  on_change={this.openTab}
+  render={({ Wrapper, TabsList, Tabs }) => {
+    return (
+      <Wrapper>
+        <TabsList>
+          <small>
+            <b>Active:</b> {this.state.activeTabKey}
+          </small>
+          <Tabs />
+        </TabsList>
+      </Wrapper>
+    );
+  }}
+>
+  {exampleContent}
+</Tabs>

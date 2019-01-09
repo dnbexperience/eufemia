@@ -1,10 +1,8 @@
-<div className="example-box">
-  <Slider
-    min={0}
-    max={100}
-    value={70}
-    step={10}
-    on_change={this.onChangeHandler}
-  />
-  <Slider value="70" max="100" disabled />
-</div>
+<Slider
+  min={0}
+  max={100}
+  value={70}
+  step={10}
+  on_change={this.onChangeHandler}
+/>
+<Slider value="70" max="100" disabled />

@@ -1,3 +1,0 @@
-<div className="example-box">
-  <p className="example-caption">Footer</p>
-</div>
