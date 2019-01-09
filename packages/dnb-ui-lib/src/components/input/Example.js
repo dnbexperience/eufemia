@@ -54,7 +54,7 @@ class Example extends PureComponent {
   render() {
     return (
       <Fragment>
-        <div className="dnb-form-row example-box">
+        <div className="example-box">
           <FormLabel for_id="text-input-1" text="Label:" />
           <Input id="text-input-1" placeholder="Placeholder text" />
         </div>
