@@ -36,10 +36,8 @@ export default class Icons extends PureComponent {
           <span aria-labelledby={`id${name}`}>
             <Icon icon={Svg} />
           </span>
-          <h4 id={`id${name}`}>
-            {humanFormat(name)}
-            <small>({name})</small>
-          </h4>
+          <h4 id={`id${name}`}>{humanFormat(name)}</h4>
+          <h5>({name})</h5>
         </ListItem>
       )
     )
@@ -49,18 +47,45 @@ export default class Icons extends PureComponent {
 
 const List = styled.ul`
   list-style: none;
+
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-items: flex-end;
 `
 
 const ListItem = styled.li`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: 9rem;
+
+  margin: 0 1rem 1rem 0;
+  padding: 1rem 0;
+
+  border-radius: 0.25rem;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+
+  span {
+    padding: 1rem;
+    line-height: 1rem;
+    margin-bottom: 0;
+  }
+
   h4 {
-    display: inline;
-    padding-left: 1.5rem;
-    font-weight: 400;
-    small {
-      padding-left: 0.5rem;
-      font-size: 0.8rem;
-      font-weight: 100;
-    }
+    color: var(--color-333);
+    font-weight: 600;
+    font-size: 1rem;
+    line-height: 1rem;
+    margin-bottom: 0;
+  }
+
+  h5 {
+    color: var(--color-333);
+    font-size: 1rem;
+    line-height: 1rem;
+    margin-bottom: 1rem;
   }
   .dnb-icon svg {
     width: 2rem;
