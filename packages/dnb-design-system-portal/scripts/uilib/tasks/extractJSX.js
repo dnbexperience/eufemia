@@ -12,10 +12,7 @@ import packpath from 'packpath'
 
 const extractJSX = (type = 'components', files) =>
   new Promise(async (resolve, reject) => {
-    const root = path.resolve(
-      packpath.self(),
-      `./src/uilib/${type}/examples`
-    )
+    const root = path.resolve(packpath.self(), `./src/uilib/${type}/jsx`)
     try {
       await del([`${root}/**/*`, `!${root}`, `!${root}/README.txt`])
     } catch (e) {
@@ -43,7 +40,7 @@ const extractJSX = (type = 'components', files) =>
 
         let jsxCode
         try {
-          jsxCode = extractJsxFromRender({ content })
+          jsxCode = extractJSXFromRender({ content })
         } catch (e) {
           console.log(`There was an error on creating ${content}!`, e)
           erros.push(e)
@@ -70,40 +67,38 @@ const extractJSX = (type = 'components', files) =>
   })
 export default extractJSX
 
-const extractJsxFromRender = ({
+const extractJSXFromRender = ({
   content,
   nameOfClass = '[^]*Example[^]*'
 }) => {
   try {
-    // extract jsx
+    // extract jsx - there has to be a Fragment
     const result = new RegExp(
-      // `[^]*class ${nameOfClass} [^]*render[^]*return\\s{0,}\\(([^}]*)\\)`,
-      `${nameOfClass}<Fragment.*[\n]+([^]*)<\\/Fragment>`,
+      `${nameOfClass}<Fragment.*[\n]+([^]*)</Fragment>`,
       'gm'
     ).exec(content)
 
-    // add Fragment to run prettier on it
-    let jsxCode =
-      (result && result[1]
-        ? `<Fragment>${String(result[1]).trim()}</Fragment>`
-        : '') || ''
+    let jsxCode = result && result[1] ? cleanCode(result[1]) : result
 
-    // simply remove attributes
-    if (/data-fake/.test(jsxCode)) {
-      jsxCode = jsxCode.replace(/attributes=[^}]*\}\}/gm, '')
+    // add Fragment to run prettier on it
+    jsxCode = `<Fragment>${String(jsxCode).trim()}</Fragment>`
+
+    try {
+      jsxCode = prettier.format(jsxCode, {
+        filepath: 'file.jsx',
+        printWidth: 75
+        // tabWidth: 2,
+        // singleQuote: true,
+        // bracketSpacing: true,
+        // useTabs: false,
+        // semi: false,
+        // jsxBracketSameLine: false,
+        // parser: 'babylon',
+        // trailingComma: 'none'
+      })
+    } catch (e) {
+      console.log('\nError on formatting code with Prettier:\n', jsxCode)
     }
-    jsxCode = prettier.format(jsxCode, {
-      filepath: 'file.jsx',
-      printWidth: 75
-      // tabWidth: 2,
-      // singleQuote: true,
-      // bracketSpacing: true,
-      // useTabs: false,
-      // semi: false,
-      // jsxBracketSameLine: false,
-      // parser: 'babylon',
-      // trailingComma: 'none'
-    })
 
     // remove Fragment again
     jsxCode = new RegExp(`<Fragment>[\n]+([^]*)<\\/Fragment>`, 'gm').exec(
@@ -124,4 +119,29 @@ const extractJsxFromRender = ({
     )
     return null
   }
+}
+
+export const cleanCode = (
+  jsxCode,
+  { removeTag = '<div className="example-box">' } = {}
+) => {
+  // and remove example box markup
+  if (removeTag && new RegExp(removeTag).test(jsxCode)) {
+    jsxCode = jsxCode
+      .split(new RegExp(removeTag, 'g'))
+      .filter(row => row.trim().length > 0)
+      .map(row =>
+        row
+          .trim()
+          .replace(/<\/div>$/g, '')
+          .replace(/<p className="example-caption">[^]*?<\/p>/g, '')
+          .trim()
+      )
+      .join('\n')
+  }
+  // simply remove attributes
+  if (/data-fake/.test(jsxCode)) {
+    jsxCode = jsxCode.replace(/attributes=[^}]*\}\}/gm, '')
+  }
+  return jsxCode
 }
