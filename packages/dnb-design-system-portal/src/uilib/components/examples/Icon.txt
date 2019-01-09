@@ -1,1 +1,2 @@
-<Icon icon={Bell} size="32" />
+<Icon icon={Bell} />
+<Icon icon={BellMedium} />

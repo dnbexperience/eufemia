@@ -10,7 +10,9 @@ class Example extends PureComponent {
   render() {
     return (
       <Fragment>
-        <FieldsetDescription text="Some Fieldset Description" />
+        <div className="example-box">
+          <FieldsetDescription text="Some Fieldset Description" />
+        </div>
       </Fragment>
     )
   }

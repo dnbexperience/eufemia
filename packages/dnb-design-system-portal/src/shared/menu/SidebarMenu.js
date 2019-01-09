@@ -219,9 +219,14 @@ const StyledListItem = styled.li`
       z-index: 1;
     }
   }
-  ${'' /* &.status-wip .status-badge {
-    color: red;
-  } */}
+  &.status-dep .status-badge {
+    color: var(--color-cherry-red);
+    background-color: var(--color-cherry-red-80);
+  }
+  &.status-imp .status-badge {
+    background-color: var(--color-black);
+    color: var(--color-white);
+  }
 `
 
 const showAlwaysMenuItems = [] // like "uilib" som someting like that
@@ -415,7 +420,9 @@ class ListItem extends PureComponent {
               className="status-badge"
               title={
                 {
-                  wip: 'Working in Progress'
+                  wip: 'Working in Progress',
+                  dep: 'Deprecated',
+                  imp: 'Needs improvement'
                 }[status]
               }
             >

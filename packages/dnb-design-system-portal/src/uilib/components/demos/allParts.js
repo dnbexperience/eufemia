@@ -6,6 +6,7 @@
 import Button from './Button'
 import Dropdown from './Dropdown'
 import FormLabel from './FormLabel'
+import FormStatus from './FormStatus'
 import Icon from './Icon'
 import IconPrimary from './IconPrimary'
 import Input from './Input'
@@ -22,6 +23,7 @@ export default [
   Button,
   Dropdown,
   FormLabel,
+  FormStatus,
   Icon,
   IconPrimary,
   Input,

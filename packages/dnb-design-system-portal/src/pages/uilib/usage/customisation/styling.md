@@ -1,8 +1,8 @@
 ---
 header: 'UI Library'
 title: 'Styling'
-status: 'wip'
 draft: false
+order: 1
 ---
 
 # Styling
@@ -66,7 +66,7 @@ You may have a look at the guides about [colors](/quickguide-designer/colors/) a
 
 ## Fonts to show Code
 
-`<Code>` snippets shows best on a _Monotype_ font. Developers will normally have installed some of these fonts on their devices. Example of CSS `font-family` usage:
+`<code>` snippets shows best on a _Monotype_ font. Developers will normally have installed some of these fonts on their devices. Example of CSS `font-family` usage:
 
 ```css
 font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier,
@@ -74,35 +74,3 @@ font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier,
 ```
 
 Read more about [fonts at DNB](/quickguide-designer/fonts/)
-
-## Best Practice
-
-To write more structured and uniform CSS code, stick with this approach to write the most influential and important properties first. Have simply a newline between the blocks respective groups.
-
-**Example of how to structure the DNB CSS**
-
-```css
-.my-selector {
-  /* 1. Layout */
-  position: relative;
-  z-index: 1;
-  display: block;
-
-  /* 2. Sizes & Spaces */
-  width: 0.5em;
-  height: 0.5em;
-  padding: 1em; /* Will be the same as our local font-size of 1.5rem */
-
-  /* 3. Font & Typography */
-  font-family: 'Fedra Sans Std';
-  font-size: 1.5rem;
-  color: var(--color-sea-green);
-
-  /* 4. Styling */
-  border: 1px solid var(--color-mint-green); /* Use Pixel for borders. They don't need to be dynamic */
-  opacity: 1;
-
-  /* 5. Animations */
-  transition: opacity 0.2s linear;
-}
-```

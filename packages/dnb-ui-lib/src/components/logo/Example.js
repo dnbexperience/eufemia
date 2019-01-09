@@ -10,7 +10,10 @@ class Example extends PureComponent {
   render() {
     return (
       <Fragment>
-        <Logo height="200" />
+        <div className="example-box">
+          <Logo height="200" />
+          <p className="example-caption">SVG logo</p>
+        </div>
       </Fragment>
     )
   }

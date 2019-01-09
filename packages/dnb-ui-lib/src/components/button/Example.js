@@ -15,80 +15,107 @@ class Example extends PureComponent {
   render() {
     return (
       <Fragment>
-        <Button
-          text="Primary button with text only"
-          title="This is a button title"
-          on_click={this.clickHandler}
-          attributes={{
-            'data-fake:on_click': 'clickme()'
-          }}
-        />
-        <Button
-          text="Secondary button with text only"
-          variant="secondary"
-          title="This is a button title"
-        />
-        <Button
-          text="Disabled primary button"
-          title="This is a button title"
-          disabled
-        />
-        <Button
-          text="Disabled secondary button"
-          variant="secondary"
-          title="This is a button title"
-          disabled
-        />
-        <Button
-          text="Primary button with icon"
-          title="This is a button title"
-          icon="chevron-right"
-        />
-        <Button
-          text="Primary button with icon on left"
-          title="This is a button title"
-          icon_position="left"
-          icon="chevron-left"
-        />
-        <Button
-          variant="tertiary"
-          text="Tertiary button with icon on left"
-          title="This is a button title"
-          icon_position="left"
-          icon="chevron-left"
-        />
-        <Button
-          variant="tertiary"
-          text="Tertiary button with icon on left"
-          title="This is a button title"
-          icon_position="left"
-          icon="chevron-left"
-          disabled
-        />
-        <Button
-          text="Primary button with href"
-          href="?no-cache=1"
-          title="This is a link"
-          icon_position="right"
-          icon="chevron-right"
-        />
-        <Button title="Button with Icon only" icon={question} />
-        <Button title="Button with Icon only" icon="calendar" />
-        <Button
-          variant="signal"
-          text="Signal Button (large size)"
-          size="large"
-          icon={Bell}
-          icon_size="medium"
-          // icon_size="24" // medium is equalent to 24px, but responsive
-        />
-        <Button
-          variant="signal"
-          text="Disabled Signal Button"
-          icon={<Bell width="16" />} // Do not hardcode the size like here!
-          icon_size="default" // Rather use the "icon_size" prop
-          disabled
-        />
+        <div className="example-box">
+          <Button
+            text="Primary button with text only"
+            title="This is a button title"
+            on_click={this.clickHandler}
+            attributes={{
+              'data-fake:on_click': 'clickme()'
+            }}
+          />
+        </div>
+        <div className="example-box">
+          <Button
+            text="Secondary button with text only"
+            variant="secondary"
+            title="This is a button title"
+          />
+        </div>
+        <div className="example-box">
+          <Button
+            text="Disabled primary button"
+            title="This is a button title"
+            disabled
+          />
+        </div>
+        <div className="example-box">
+          <Button
+            text="Disabled secondary button"
+            variant="secondary"
+            title="This is a button title"
+            disabled
+          />
+        </div>
+        <div className="example-box">
+          <Button
+            text="Primary button with icon"
+            title="This is a button title"
+            icon="chevron-right"
+          />
+        </div>
+        <div className="example-box">
+          <Button
+            text="Primary button with icon on left"
+            title="This is a button title"
+            icon_position="left"
+            icon="chevron-left"
+          />
+        </div>
+        <div className="example-box">
+          <Button
+            variant="tertiary"
+            text="Tertiary button with icon on left"
+            title="This is a button title"
+            icon_position="left"
+            icon="chevron-left"
+          />
+        </div>
+        <div className="example-box">
+          <Button
+            variant="tertiary"
+            text="Tertiary button with icon on left"
+            title="This is a button title"
+            icon_position="left"
+            icon="chevron-left"
+            disabled
+          />
+        </div>
+        <div className="example-box">
+          <Button
+            text="Primary button with href"
+            href="?no-cache=1"
+            title="This is a link"
+            icon_position="right"
+            icon="chevron-right"
+          />
+        </div>
+        <div className="example-box">
+          <Button title="Button with Icon only" icon={question} />
+          <p className="example-caption">Button with Icon only</p>
+        </div>
+        <div className="example-box">
+          <Button title="Button with Icon only" icon="calendar" />
+          <p className="example-caption">Button with Icon only</p>
+        </div>
+        <div className="example-box">
+          <Button
+            variant="signal"
+            text="Signal Button (large size)"
+            size="large"
+            icon={Bell}
+            icon_size="medium" // medium is equalent to 24, but responsive
+          />
+        </div>
+        <div className="example-box">
+          <Button
+            variant="signal"
+            text="Disabled Signal Button"
+            icon={<Bell width="64" />} // Do not hardcode the size like here!
+            icon_size="default" // This is forcing the icon size to a new size
+            disabled
+          />
+        </div>
       </Fragment>
     )
   }
@@ -97,10 +124,6 @@ class Example extends PureComponent {
 const Wrapper = styled.div`
   display: block;
   width: 100%;
-
-  .dnb-button {
-    margin: 1rem 0.2rem;
-  }
 `
 
 export { Example }

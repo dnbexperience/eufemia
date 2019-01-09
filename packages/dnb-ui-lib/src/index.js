@@ -17,6 +17,7 @@ import * as patternsIndex from './patterns'
 import Button from './components/button/Button'
 import Dropdown from './components/dropdown/Dropdown'
 import FormLabel from './components/form-label/FormLabel'
+import FormStatus from './components/form-status/FormStatus'
 import Icon from './components/icon/Icon'
 import IconPrimary from './components/icon-primary/IconPrimary'
 import Input from './components/input/Input'
@@ -49,6 +50,7 @@ export {
   Button,
   Dropdown,
   FormLabel,
+  FormStatus,
   Icon,
   IconPrimary,
   Input,

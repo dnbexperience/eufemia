@@ -1,0 +1,66 @@
+/*
+ * FormStatus element
+ *
+ * ========================================================================== */
+
+.dnb-form-status {
+  width: auto;
+  white-space: nowrap;
+
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  flex: 1 100%;
+
+  height: var(--input-height);
+  border-radius: var(--input-border-radius);
+
+  line-height: var(--input-height);
+
+  &--text {
+    padding: 0.5em 0;
+
+    cursor: text;
+    color: var(--color-emerald-green);
+
+    // +1px because of the border width
+    transform: translateY(1px);
+  }
+
+  .dnb-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 1.5em;
+    height: 1.5em;
+
+    margin: 0.5em;
+
+    color: inherit;
+
+    border-radius: 50%;
+    border: 1px solid var(--color-emerald-green);
+  }
+
+  // &--error {
+  // }
+
+  &--fade-in {
+    @keyframes fade-in {
+      from {
+        opacity: 0;
+        height: 0;
+      }
+      to {
+        opacity: 1;
+        height: var(--input-height);
+      }
+    }
+
+    height: 0;
+    opacity: 0;
+    animation: fade-in 600ms ease-out 1 200ms forwards;
+  }
+}

@@ -80,41 +80,46 @@ class Example extends PureComponent {
   render() {
     return (
       <Fragment>
-        <div className={typographyStyles}>
-          {/* Standard Light */}
-          <Demo font_family="Fedra Sans Light" typo_class="typo-light" />
-          <Demo
-            font_family="Fedra Sans Light Italic"
-            typo_class="typo-light-italic"
-          />
+        <div className="example-box">
+          <div className={typographyStyles}>
+            {/* Standard Light */}
+            <Demo font_family="Fedra Sans Light" typo_class="typo-light" />
+            <Demo
+              font_family="Fedra Sans Light Italic"
+              typo_class="typo-light-italic"
+            />
 
-          {/* Standard Medium */}
-          <Demo font_family="Fedra Sans Medium" typo_class="typo-medium" />
-          <Demo
-            font_family="Fedra Sans Medium Italic"
-            typo_class="typo-medium-italic"
-          />
+            {/* Standard Medium */}
+            <Demo
+              font_family="Fedra Sans Medium"
+              typo_class="typo-medium"
+            />
+            <Demo
+              font_family="Fedra Sans Medium Italic"
+              typo_class="typo-medium-italic"
+            />
 
-          {/* Standard Bold */}
-          <Demo font_family="Fedra Sans Bold" typo_class="typo-bold" />
-          <Demo
-            font_family="Fedra Sans Bold Italic"
-            typo_class="typo-bold-italic"
-          />
+            {/* Standard Bold */}
+            <Demo font_family="Fedra Sans Bold" typo_class="typo-bold" />
+            <Demo
+              font_family="Fedra Sans Bold Italic"
+              typo_class="typo-bold-italic"
+            />
 
-          {/* Book */}
-          <Demo font_family="Fedra Sans Book" typo_class="typo-book" />
-          <Demo
-            font_family="Fedra Sans Book Italic"
-            typo_class="typo-book-italic"
-          />
+            {/* Book */}
+            <Demo font_family="Fedra Sans Book" typo_class="typo-book" />
+            <Demo
+              font_family="Fedra Sans Book Italic"
+              typo_class="typo-book-italic"
+            />
 
-          {/* Demi */}
-          <Demo font_family="Fedra Sans Demi" typo_class="typo-demi" />
-          <Demo
-            font_family="Fedra Sans Demi Italic"
-            typo_class="typo-demi-italic"
-          />
+            {/* Demi */}
+            <Demo font_family="Fedra Sans Demi" typo_class="typo-demi" />
+            <Demo
+              font_family="Fedra Sans Demi Italic"
+              typo_class="typo-demi-italic"
+            />
+          </div>
         </div>
       </Fragment>
     )

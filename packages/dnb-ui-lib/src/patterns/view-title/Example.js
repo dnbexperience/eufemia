@@ -10,8 +10,10 @@ class Example extends PureComponent {
   render() {
     return (
       <Fragment>
-        <ViewTitle>This is the default view title component</ViewTitle>
-        <ViewTitle text="This is the small version" tag="h3" />
+        <div className="example-box">
+          <ViewTitle>This is the default view title component</ViewTitle>
+          <ViewTitle text="This is the small version" tag="h3" />
+        </div>
       </Fragment>
     )
   }

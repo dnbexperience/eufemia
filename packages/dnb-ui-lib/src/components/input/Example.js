@@ -12,6 +12,9 @@ import styled from '@emotion/styled'
 // import '../slider/style'
 
 class Example extends PureComponent {
+  state = {
+    status: null
+  }
   constructor(props) {
     super(props)
     this._ref = React.createRef()
@@ -38,6 +41,12 @@ class Example extends PureComponent {
         }, 2e3)
       }, 2e3)
     }
+
+    setTimeout(() => {
+      this.setState({
+        status: 'You have to fill in this field'
+      })
+    }, 400)
   }
   handleInputChange = ({ value }) => {
     console.log(value)
@@ -45,58 +54,50 @@ class Example extends PureComponent {
   render() {
     return (
       <Fragment>
-        <div className="dnb-form-row">
-          <FormLabel for_id="text-input-2" text="Label" />
-          <Input id="text-input-2" placeholder="Placeholder text" />
+        <div className="example-box">
+          <FormLabel for_id="text-input-1" text="Label:" />
+          <Input id="text-input-1" placeholder="Placeholder text" />
         </div>
-
-        <div className="dnb-form-row">
-          <FormLabel for_id="search-input" text="Search" />
+        <div className="example-box">
           <Input
+            label="Search:"
             type="search"
-            id="search-input"
             search_button_title="Search"
             placeholder="Search text placeholder"
             on_change={this.handleInputChange}
           />
         </div>
-
-        <div className="dnb-form-row">
-          <FormLabel for_id="text-input-medium" text="Medium input" />
+        <div className="example-box">
           <Input
             type="text"
-            id="text-input-medium"
+            label="Medium input:"
             size="medium"
             placeholder="Medium input placeholder"
             on_change={this.handleInputChange}
           />
         </div>
-
-        <div className="dnb-form-row">
-          <FormLabel for_id="text-input-large" text="Large input" />
+        <div className="example-box">
           <Input
             type="text"
-            id="text-input-large"
+            label="Large input:"
             size="large"
             align="right"
             placeholder="Large input with right align"
             on_change={this.handleInputChange}
           />
         </div>
-
-        <div className="dnb-form-row">
-          <FormLabel for_id="text-input-disabled" text="Disabled input" />
+        <div className="example-box">
           <Input
+            label="Disabled input:"
             disabled
             id="text-input-disabled"
-            value="Disabled Input with a text value"
+            placeholder="Disabled Input with a placeholder"
           />
         </div>
-
-        <label htmlFor="text-input-1">
+        <div className="example-box">
           <Input
+            label="My Label:"
             type="text"
-            id="text-input-1"
             autocomplete="on"
             placeholder="Placeholder text"
             description="Kr"
@@ -106,7 +107,21 @@ class Example extends PureComponent {
           >
             This is the value 1234567890
           </Input>
-        </label>
+        </div>
+        <div className="example-box">
+          <Input
+            label="Show status:"
+            status="true"
+            value="Shows status on border only"
+          />
+        </div>
+        <div className="example-box">
+          <Input
+            label="With FormStatus:"
+            status={this.state.status}
+            value="Input value with error"
+          />
+        </div>
       </Fragment>
     )
   }
@@ -116,13 +131,20 @@ const Wrapper = styled.div`
   display: block;
   width: 100%;
 
-  .dnb-form-row,
   .dnb-input {
     margin-top: 1rem;
   }
   .dnb-form-label + .dnb-input {
     margin-top: 0;
   }
+
+  ${'' /* .dnb-form-row,
+  .dnb-input {
+    margin-top: 1rem;
+  }
+  .dnb-form-label + .dnb-input {
+    margin-top: 0;
+  } */}
 `
 
 export { Example }

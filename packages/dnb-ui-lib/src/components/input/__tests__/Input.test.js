@@ -24,11 +24,14 @@ const props = {
   disabled: false
 }
 props.autocomplete = 'off'
+props.label = null
+props.status = null
+props.type = 'text'
 
 describe('Input component', () => {
   // shallow compare the snapshot
   it('have to match type="text" snapshot', () => {
-    const Comp = shallow(<Component {...props} type="text" value="test" />)
+    const Comp = shallow(<Component {...props} value="test" />)
     expect(toJson(Comp)).toMatchSnapshot()
   })
   it('have to match type="search" snapshot', () => {
@@ -40,7 +43,7 @@ describe('Input component', () => {
 
   // then test the state management
   const Comp = mount(
-    <Component {...props} type="text" value={null}>
+    <Component {...props} value={null}>
       {null}
     </Component>
   )
@@ -81,12 +84,22 @@ describe('Input component', () => {
     // console.log('domNode', Comp.find('input').getDOMNode().value)
   })
 
-  it(`has to to have a prop value like value`, () => {
+  it('has to to have a prop value like value', () => {
     const value = 'new value'
     Comp.setProps({
       value
     })
     expect(Comp.find('input').props().value).toBe(value)
+  })
+
+  it('has to to have a label value as defined in the prop', () => {
+    const Comp = mount(<Component {...props} label="label" />)
+    expect(Comp.find('label').text()).toBe('label')
+  })
+
+  it('has to to have a status value as defined in the prop', () => {
+    const Comp = mount(<Component {...props} status="status" />)
+    expect(Comp.find('.dnb-form-status').text()).toBe('status')
   })
 
   it('has a submit button on prop type="search"', () => {
@@ -108,12 +121,11 @@ describe('Input component', () => {
   })
 
   it('should validate with ARIA rules as a input with a label', async () => {
-    const Comp = mount(
-      <label htmlFor="input">
-        <Component {...props} id="input" type="text" value="some value" />
-      </label>
+    const LabelComp = mount(<label htmlFor="input">text</label>)
+    const InputComp = mount(
+      <Component {...props} id="input" value="some value" />
     )
-    expect(await axeComponent(Comp)).toHaveNoViolations()
+    expect(await axeComponent(LabelComp, InputComp)).toHaveNoViolations()
   })
 })
 

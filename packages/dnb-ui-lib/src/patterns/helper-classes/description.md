@@ -1,6 +1,8 @@
 ---
-status: 'wip'
+status: 'dep'
 ---
+
+## Description
 
 To ensure a consistant class structure and to enure that the class is owned by the DNB UI Library, all classes in the UI Library are prefixed with `dnb-`.
 

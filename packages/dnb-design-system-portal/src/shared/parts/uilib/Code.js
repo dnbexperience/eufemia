@@ -60,20 +60,9 @@ export default class Code extends PureComponent {
           try {
             this.code = await Beautifier(this.code, 'html')
             this.code = pretty(this.code, { ocd: true })
-            // this.code = prettier.format(this.code, {
-            //   parser: 'parse5',
-            //   plugins: [plugins]
-            //   // plugins: [plugins],
-            //   // printWidth: 75,
-            //   // tabWidth: 2,
-            //   // singleQuote: true,
-            //   // bracketSpacing: true,
-            //   // useTabs: false,
-            //   // semi: false,
-            //   // jsxBracketSameLine: false,
-            //   // trailingComma: 'none'
-            // })
-            if (this._isMounted) this.setCode()
+            if (this._isMounted) {
+              this.setCode()
+            }
           } catch (e) {
             console.log('HTML Beautifier Error:', e)
           }

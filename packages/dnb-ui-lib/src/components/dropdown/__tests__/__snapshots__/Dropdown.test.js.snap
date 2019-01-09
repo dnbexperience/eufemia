@@ -315,9 +315,10 @@ exports[`Dropdown scss have to match snapshot 1`] = `
   font-size: inherit;
   width: 1em;
   height: 1em; }
-  .dnb-icon svg {
+  .dnb-icon svg:not([fill]),
+  .dnb-icon svg [fill] {
     fill: currentColor; }
-  .dnb-icon svg path[stroke] {
+  .dnb-icon svg [stroke] {
     stroke: currentColor; }
   .dnb-icon:not(.has-custom-size) svg {
     width: inherit;
@@ -483,6 +484,41 @@ exports[`Dropdown scss have to match snapshot 1`] = `
   button.dnb-button::-moz-focus-inner .dnb-button {
     border: none; }
 
+/*
+* DNB FormLabel
+*
+* ======================================================================== */
+.dnb-form-label {
+  font-family: var(--font-family-std, sans-serif);
+  font-size: 1rem;
+  font-weight: normal;
+  font-style: normal;
+  line-height: 1.5rem;
+  color: var(--color-black-80, #333); }
+  .dnb-form-label *,
+  .dnb-form-label ::before,
+  .dnb-form-label ::after {
+    background-repeat: no-repeat;
+    box-sizing: border-box; }
+  .dnb-form-label ::before,
+  .dnb-form-label ::after {
+    text-decoration: inherit;
+    vertical-align: inherit; }
+
+/*
+ * FormLabel element
+ *
+ * ========================================================================== */
+.dnb-form-label {
+  user-select: none;
+  display: inline-block;
+  cursor: pointer;
+  width: auto;
+  white-space: nowrap; }
+
+.dnb-form-label[disabled] {
+  cursor: not-allowed; }
+
 .dnb-input {
   font-family: var(--font-family-std, sans-serif);
   font-size: 1rem;
@@ -604,15 +640,23 @@ exports[`Dropdown scss have to match snapshot 1`] = `
     padding: 0.5em 1.5em;
     font-size: 0.75em;
     line-height: 1.25rem; }
+  .dnb-form-label ~ .dnb-input__extra-information {
+    padding: 0.5em 0; }
   .dnb-input__search-submit {
     transform: translateX(var(--button-border-width)); }
+  .dnb-input .dnb-form-label {
+    margin-right: 1rem; }
+  .dnb-input .dnb-form-status {
+    margin-top: 0.5rem; }
+  .dnb-input__status--error .dnb-input__shell {
+    border-color: red; }
 
 .dnb-form-row {
-  width: 100%;
   display: inline-flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: center; }
+  align-items: center;
+  width: 100%; }
   .dnb-form-row .dnb-form-label {
     margin-right: 1rem; }
 

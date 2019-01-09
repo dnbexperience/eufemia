@@ -1,9 +1,10 @@
-| Properties | Description                                      |
-| ---------- | ------------------------------------------------ |
-| `for_id`   | _(mandatory)_ the `id` of the input.             |
-| `title`    | _(optional)_ the `title` attribute of the label. |
-| `text`     | _(optional)_ the `text` of the label.            |
-| `typo`     | _(optional)_ additional styles.                  |
+| Properties | Description                                             |
+| ---------- | ------------------------------------------------------- |
+| `for_id`   | _(mandatory)_ the `id` of the input.                    |
+| `title`    | _(optional)_ the `title` attribute of the label.        |
+| `text`     | _(optional)_ the `text` of the label.                   |
+| `typo`     | _(optional)_ additional styles.                         |
+| `disabled` | _(optional)_ on hover, shows the cursor as not-allowed. |
 
 | Events           | Description                                               |
 | ---------------- | --------------------------------------------------------- |

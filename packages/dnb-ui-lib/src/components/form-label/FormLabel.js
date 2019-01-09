@@ -24,6 +24,7 @@ export const propTypes = {
   typo: PropTypes.string,
   id: PropTypes.string,
   class: PropTypes.string,
+  disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   /** React props */
   className: PropTypes.string,
   children: PropTypes.oneOfType([
@@ -42,6 +43,7 @@ export const defaultProps = {
   typo: 'typo-light',
   id: null,
   class: null,
+  disabled: false,
   /** React props */
   className: null,
   children: null,
@@ -72,6 +74,7 @@ export default class FormLabel extends PureComponent {
       typo,
       className,
       id,
+      disabled,
       class: _className
       // ...otherProps
     } = this.props
@@ -82,7 +85,8 @@ export default class FormLabel extends PureComponent {
       className: classnames('dnb-form-label', typo, className, _className),
       htmlFor: for_id,
       id,
-      title
+      title,
+      disabled
       // ...otherProps
     }
 

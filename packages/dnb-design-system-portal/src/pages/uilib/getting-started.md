@@ -17,8 +17,6 @@ There are several ways to get started. First we have to address out Your goal. S
 - make changes to the overall `ui-lib`?
 - change texts and content of the Eufemia Design System Portal (website)?
 
-Find the right section to read on.
-
 ## Is there more?
 
 Check out all the articles in [the usage section](/uilib/usage/)

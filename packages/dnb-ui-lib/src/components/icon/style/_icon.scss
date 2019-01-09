@@ -8,10 +8,11 @@
   vertical-align: baseline;
   font-size: inherit; // only to feed width and height em's
 
-  svg {
+  svg:not([fill]),
+  svg [fill] {
     fill: currentColor;
   }
-  svg path[stroke] {
+  svg [stroke] {
     stroke: currentColor;
   }
   &:not(.has-custom-size) svg {

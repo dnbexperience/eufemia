@@ -1,8 +1,8 @@
 ---
 header: 'UI Library'
 title: 'Grid'
-draft: true
-status: wip
+draft: false
+status: dep
 order: 8
 ---
 

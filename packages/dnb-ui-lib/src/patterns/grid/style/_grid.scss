@@ -6,7 +6,7 @@
 /*
  * Grid and units
  * ======================================================================== */
-$grid-gutter: 1rem;
+$grid-gutter: 0.5rem;
 $grid-gutter-l: 1.5rem;
 $grid-gutter-xl: 2rem;
 
@@ -20,6 +20,10 @@ $grid-gutter-xl: 2rem;
 
 .dnb-grid__cell {
   flex: 1;
+  font-size: 1em;
+  line-height: 1rem;
+  padding: 0;
+  margin: 9;
 }
 
 .dnb-grid--flex-cells > .dnb-grid__cell {

@@ -3,8 +3,6 @@
  *
  * ========================================================================== */
 
-// @import '../../input/style/_input.scss';
-
 .dnb-form-label {
   user-select: none;
 
@@ -13,4 +11,7 @@
 
   width: auto;
   white-space: nowrap;
+}
+.dnb-form-label[disabled] {
+  cursor: not-allowed;
 }

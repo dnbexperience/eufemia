@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FormStatus component have to match snapshot 1`] = `
+<FormStatus
+  class="class"
+  className="className"
+  fade_in="fade_in"
+  icon="exclamation"
+  icon_size="icon_size"
+  render_content={[Function]}
+  status="status"
+  text="text"
+  title="title"
+>
+  <span
+    className="dnb-form-status dnb-form-status--fade-in dnb-form-status--status className class"
+    title="title"
+  >
+    <IconPrimary
+      alt={null}
+      area_hidden={false}
+      attributes={null}
+      class={null}
+      className={null}
+      color={null}
+      height={null}
+      icon="exclamation"
+      modifier={null}
+      size="icon_size"
+      width={null}
+    />
+    <span
+      className="dnb-form-status--text"
+    >
+      text
+    </span>
+  </span>
+</FormStatus>
+`;

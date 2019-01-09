@@ -1,4 +1,5 @@
 <InputMasked
+  label="With Mask"
   mask={[
     "(",
     /[1-9]/,
@@ -18,19 +19,18 @@
   show_mask="true"
   ref={this._ref}
 />
- <InputMasked
-  id="text-input-masked-large"
+<InputMasked
+  label="Amount"
   autocomplete="off"
   size="large"
   mask={numberMask}
   align="right"
-  placeholder="Enter an amount"
+  placeholder="Enter a number"
   on_change={this.handleInputMaskedChange}
 />
- <InputMasked
-  id="text-input-masked-large"
+<InputMasked
+  label="Amount"
   autocomplete="off"
-  size="large"
   value="1000000"
   mask={numberMask}
   show_mask="true"
