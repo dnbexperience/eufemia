@@ -45,4 +45,4 @@ stages:
     if: (branch =~ /^(develop|rc\/.*)/)
 
   - name: deploy-release
-    if: (branch =~ /^(master|release\/.*)/)
+    if: (branch = master)

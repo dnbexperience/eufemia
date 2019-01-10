@@ -24,7 +24,6 @@ steps:
           - develop
           - gh-pages
           - rc/*
-          - release/*
 
   - name: deploy-preview
     image: node:10.6
@@ -87,7 +86,6 @@ steps:
       branch:
         include:
           - master
-          - release/*
 
   - name: slack
     image: plugins/slack

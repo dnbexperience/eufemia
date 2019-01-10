@@ -130,4 +130,3 @@ workflows:
             branches:
               only:
                 - master
-                - /^release\/.*/
