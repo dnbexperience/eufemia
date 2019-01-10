@@ -4,7 +4,7 @@
  *
  */
 
-module.exports = function({ IE11 = false } = {}) {
+module.exports = ({ IE11 = false } = {}) => {
   const config = [
     require('postcss-preset-env')({ stage: 0 }),
     require('autoprefixer')({

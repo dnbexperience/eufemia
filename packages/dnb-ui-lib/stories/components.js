@@ -8,7 +8,7 @@ import styled from '@emotion/styled'
 
 // UI style + theme
 // import '../src/style'
-import '../style' // for testing with IE11, we have to use the build version
+import '../style/lib-IE11' // for testing with IE11, we have to use the build version
 
 // UI Components
 import {
