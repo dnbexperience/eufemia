@@ -5,6 +5,7 @@ draft: false
 order: 1
 ---
 
+import Img from 'Tags/Img'
 import IconNearestNeighbour from 'Pages/quickguide-designer/assets/icon-nearest-neighbour.svg'
 
 # Icons

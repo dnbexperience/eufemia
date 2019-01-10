@@ -2,6 +2,7 @@
 status: 'wip'
 ---
 
+import Img from 'Tags/Img'
 import FormSpacing from './assets/form-spacing.svg'
 import FormSpacingDetails from './assets/form-spacing-details.svg'
 import LabelStack from './assets/label-stack.svg'

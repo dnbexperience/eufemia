@@ -4,6 +4,7 @@ title: 'Spatial system'
 draft: false
 ---
 
+import Img from 'Tags/Img'
 import SpacingButton from 'Pages/quickguide-designer/assets/spacing-button.svg'
 import Toggle from 'Pages/quickguide-designer/assets/toggle.svg'
 import ButtonPrimaryIconLeft from 'Pages/quickguide-designer/assets/button-primary-icon-left.svg'
