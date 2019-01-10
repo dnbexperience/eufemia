@@ -32,8 +32,8 @@ export const propTypes = {
   ]).isRequired,
   label: PropTypes.string,
   selected_key: PropTypes.string,
-  direction: PropTypes.oneOf(['left', 'center', 'right']),
-  do_set_hash: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  align: PropTypes.oneOf(['left', 'center', 'right']),
+  use_hash: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   class: PropTypes.string,
   /** React props */
   className: PropTypes.string,
@@ -46,8 +46,8 @@ export const defaultProps = {
   data: [],
   label: null,
   selected_key: null,
-  direction: 'left',
-  do_set_hash: false,
+  align: 'left',
+  use_hash: false,
   class: null,
   /** React props */
   className: null,
@@ -178,7 +178,7 @@ export default class Tabs extends PureComponent {
       )
     }
     if (selected_key) {
-      if (this.props.do_set_hash && typeof window !== 'undefined') {
+      if (this.props.use_hash && typeof window !== 'undefined') {
         try {
           window.location.hash = selected_key
         } catch (e) {
@@ -212,7 +212,7 @@ export default class Tabs extends PureComponent {
 
   componentDidMount() {
     // check if one tab should be "opened"
-    if (this.props.do_set_hash && typeof window !== 'undefined') {
+    if (this.props.use_hash && typeof window !== 'undefined') {
       const selected_key = String(window.location.hash).replace('#', '')
       if (selected_key) {
         this.setState({
@@ -250,7 +250,7 @@ export default class Tabs extends PureComponent {
   render() {
     const {
       render: customRenderer,
-      direction,
+      align,
       className,
       class: _className
     } = this.props
@@ -315,7 +315,7 @@ export default class Tabs extends PureComponent {
       <div
         className={classnames(
           'dnb-tabs__tabs',
-          direction ? `dnb-tabs__tabs--${direction}` : null
+          align ? `dnb-tabs__tabs--${align}` : null
         )}
       >
         {children}
