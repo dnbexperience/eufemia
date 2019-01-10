@@ -2,6 +2,7 @@
 status: 'wip'
 ---
 
+import Img from 'Tags/Img'
 import FormSpacing from './assets/form-spacing.svg'
 import FormSpacingDetails from './assets/form-spacing-details.svg'
 import LabelStack from './assets/label-stack.svg'
@@ -9,8 +10,6 @@ import FormDivision from './assets/form-division.svg'
 import ProgressSteps from './assets/progress-steps.svg'
 import FormSummary from './assets/form-summary.svg'
 import FormError from './assets/form-error.svg'
-
-import Img from 'Tags/Img'
 
 ## Description
 

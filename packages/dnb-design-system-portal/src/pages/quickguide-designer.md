@@ -4,10 +4,9 @@ title: 'Quickguide Designers'
 draft: false
 ---
 
+import Img from 'Tags/Img'
 import FigmaTeam from 'Pages/quickguide-designer/assets/figma-team.svg'
 import FigmaLibraries from 'Pages/quickguide-designer/assets/figma-libraries.svg'
-
-import Img from 'Tags/Img'
 
 # QuickStart - Designers
 
