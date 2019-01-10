@@ -1,0 +1,5 @@
+<Input
+  label="Input with Status:"
+  status={this.state.status}
+  value="Input value with status"
+/>
