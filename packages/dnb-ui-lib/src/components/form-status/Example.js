@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import Input from '../input/Input'
 
 class Example extends PureComponent {
@@ -19,14 +19,16 @@ class Example extends PureComponent {
   }
   render() {
     return (
-      <div className="example-box">
-        <Input
-          label="Input with Status:"
-          status={this.state.status}
-          value="Input value with status"
-        />
-        <p className="example-caption">A form status</p>
-      </div>
+      <Fragment>
+        <div className="example-box">
+          <Input
+            label="Input with Status:"
+            status={this.state.status}
+            value="Input value with status"
+          />
+          <p className="example-caption">A form status</p>
+        </div>
+      </Fragment>
     )
   }
 }

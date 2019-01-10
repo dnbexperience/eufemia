@@ -206,7 +206,7 @@ class ItemWrapper extends PureComponent {
         {!hideTabs && (
           <Tabs
             id={this._id}
-            do_set_hash
+            use_hash
             data={tabsUsed}
             on_change={this.openTab}
             render={({ Wrapper, TabsList, Tabs }) => {

@@ -6,15 +6,15 @@ exports[`Tabs component have to match snapshot 1`] = `
     Object {
       "displayName": "Tabs",
       "props": Object {
+        "align": "'left'",
         "children": Object {},
         "class": "class",
         "className": "className",
         "data": "data",
-        "direction": "'left'",
-        "do_set_hash": "do_set_hash",
         "label": "label",
         "render": [Function],
         "selected_key": "selected_key",
+        "use_hash": "use_hash",
       },
     }
   }
@@ -28,6 +28,7 @@ exports[`Tabs component have to match snapshot 1`] = `
       },
     }
   }
+  align="left"
   class={null}
   className={null}
   data={
@@ -46,12 +47,11 @@ exports[`Tabs component have to match snapshot 1`] = `
       },
     ]
   }
-  direction="left"
-  do_set_hash={false}
   id="id"
   label={null}
   render={null}
   selected_key="second"
+  use_hash={false}
 >
   <Wrapper>
     <div

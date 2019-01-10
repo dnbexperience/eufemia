@@ -37,7 +37,7 @@ class Example extends PureComponent {
         <div className="example-box">
           <Tabs
             selected_key="second"
-            direction="right"
+            align="right"
             label="Some Tabs label"
             data={data}
             on_change={this.openTab}

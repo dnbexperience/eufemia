@@ -75,17 +75,13 @@ module.exports = {
     },
     'gatsby-plugin-sass',
     'gatsby-plugin-emotion',
+    // 'gatsby-plugin-postcss',
     {
       resolve: 'gatsby-plugin-postcss',
       options: {
-        postCssPlugins: [
-          require('postcss-calc'),
-          require('postcss-custom-properties'),
-          require('postcss-preset-env')({ stage: 0 }),
-          require('autoprefixer')({
-            browsers: ['last 1 versions', 'explorer >= 11']
-          })
-        ]
+        postCssPlugins: require('../dnb-ui-lib/scripts/prepub/config/postcssConfig')(
+          { IE11: true }
+        )
       }
     },
     // this (optional) plugin enables Progressive Web App + Offline functionality

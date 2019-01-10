@@ -5,21 +5,24 @@
 
 import gulp from 'gulp'
 import sass from 'gulp-sass'
-import autoprefixer from 'autoprefixer'
 import postcss from 'gulp-postcss'
-import postcssCustomProperties from 'postcss-custom-properties'
-import postcssCalc from 'postcss-calc'
-import postcssPresetEnv from 'postcss-preset-env'
 import onceImporter from 'node-sass-once-importer'
-// import jsonImporter from 'node-sass-json-importer'
 import babel from 'gulp-babel'
 import sourcemaps from 'gulp-sourcemaps'
-// import uglify from 'gulp-uglify'
 import cssnano from 'gulp-cssnano'
 import clone from 'gulp-clone'
 import rename from 'gulp-rename'
 import transform from 'gulp-transform'
 import { log } from '../../lib'
+
+// import the post css config
+import postcssConfig from '../config/postcssConfig'
+
+// Theese gets loaded by the postcssConfig config
+// import autoprefixer from 'autoprefixer'
+// import postcssCustomProperties from 'postcss-custom-properties'
+// import postcssCalc from 'postcss-calc'
+// import postcssPresetEnv from 'postcss-preset-env'
 
 export default async () => {
   await transformStyleModules()
@@ -79,21 +82,6 @@ export const runFactory = (
         importer: importOnce ? [onceImporter()] : []
       }).on('error', sass.logError)
 
-      const postcssConfig = IE11
-        ? [
-            postcssCalc(),
-            postcssCustomProperties(),
-            postcssPresetEnv({ stage: 0 }),
-            autoprefixer({
-              browsers: ['last 2 versions', 'explorer >= 11']
-            })
-          ]
-        : [
-            autoprefixer({
-              browsers: ['last 1 versions']
-            }),
-            postcssPresetEnv({ stage: 0 })
-          ]
       const cloneSink = clone.sink()
 
       gulp
@@ -102,7 +90,7 @@ export const runFactory = (
         })
         .pipe(stream)
         .pipe(transform('utf8', transformMainStyleContent))
-        .pipe(postcss(postcssConfig))
+        .pipe(postcss(postcssConfig({ IE11 })))
         .pipe(cloneSink)
         .pipe(cssnano())
         .pipe(rename({ suffix: '.min' }))
