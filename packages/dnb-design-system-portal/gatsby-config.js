@@ -66,6 +66,7 @@ module.exports = {
         // Imports in here are globally aviable in *.md files
         globalScope: `
           import Img from 'Tags/Img'
+          export default { Img }
         `
         // defaultLayouts: {
         //   // default: require.resolve('./src/templates/mdx.js')
