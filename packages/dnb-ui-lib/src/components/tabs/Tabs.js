@@ -178,6 +178,14 @@ export default class Tabs extends PureComponent {
       )
     }
     if (selected_key) {
+      this.setState({
+        selected_key
+      })
+
+      dispatchCustomElementEvent(this, 'on_change', {
+        key: selected_key
+      })
+
       if (this.props.use_hash && typeof window !== 'undefined') {
         try {
           window.location.hash = selected_key
@@ -185,14 +193,6 @@ export default class Tabs extends PureComponent {
           console.log('Tabs Error:', e)
         }
       }
-
-      dispatchCustomElementEvent(this, 'on_change', {
-        key: selected_key
-      })
-
-      this.setState({
-        selected_key
-      })
     }
   }
 
@@ -213,14 +213,18 @@ export default class Tabs extends PureComponent {
   componentDidMount() {
     // check if one tab should be "opened"
     if (this.props.use_hash && typeof window !== 'undefined') {
-      const selected_key = String(window.location.hash).replace('#', '')
-      if (selected_key) {
-        this.setState({
-          selected_key
-        })
-        dispatchCustomElementEvent(this, 'on_change', {
-          key: selected_key
-        })
+      try {
+        const selected_key = String(window.location.hash).replace('#', '')
+        if (selected_key) {
+          this.setState({
+            selected_key
+          })
+          dispatchCustomElementEvent(this, 'on_change', {
+            key: selected_key
+          })
+        }
+      } catch (e) {
+        console.log('Tabs Error:', e)
       }
     }
   }

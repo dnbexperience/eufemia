@@ -10,9 +10,7 @@ export default class App extends PureComponent {
   render() {
     return (
       <Fragment>
-        <Tabs use_hash="true" data={data}>
-          {exampleContent}
-        </Tabs>
+        <Tabs data={data}>{exampleContent}</Tabs>
       </Fragment>
     )
   }
