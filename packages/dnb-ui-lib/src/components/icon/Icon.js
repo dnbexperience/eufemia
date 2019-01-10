@@ -190,10 +190,10 @@ export default class Icon extends PureComponent {
     )
 
     return {
+      ...props,
       icon,
       svgParams,
-      wrapperParams,
-      ...props
+      wrapperParams
     }
   }
 
@@ -231,7 +231,7 @@ export const loadSVG = (icon, size = null, listOfIcons = null) => {
   // for importing react component
   try {
     icon = iconCase(icon)
-    if (size) {
+    if (size && !/[0-9]/.test(size)) {
       icon = `${icon}_${size}`
     }
     const mod = (listOfIcons.dnbIcons

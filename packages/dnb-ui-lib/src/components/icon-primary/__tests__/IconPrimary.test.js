@@ -16,7 +16,6 @@ const props = fakeProps(require.resolve('../../icon/IconPrimary'), {
   optional: true
 })
 props.icon = 'question'
-props.size = null
 
 describe('IconPrimary component', () => {
   it('have to match snapshot', () => {
@@ -34,6 +33,15 @@ describe('IconPrimary component', () => {
     expect(elem.exists()).toBe(true)
     expect(elem.props().width).toBe(width)
     expect(elem.props().height).toBe(height)
+  })
+
+  it('has valid medium size', () => {
+    const Comp = mount(<Component {...props} size="medium" />)
+    const svg = Comp.find('svg')
+    const path = svg.find('path')
+    expect(svg.exists()).toBe(true)
+    expect(path.exists()).toBe(true)
+    expect(svg.props().viewBox).toBe('0 0 24 24')
   })
 
   it('should validate with ARIA rules', async () => {
