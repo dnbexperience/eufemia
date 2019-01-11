@@ -4,8 +4,10 @@
  */
 
 import React from 'react'
+import { css, Global } from '@emotion/core'
 import Highlight, { defaultProps } from 'prism-react-renderer'
-import prismTheme from 'prism-react-renderer/themes/nightOwl'
+// import prismTheme from 'prism-react-renderer/themes/nightOwl'
+import prismTheme from './themes/dnb-prism-theme'
 import {
   LiveProvider,
   LiveEditor,
@@ -44,24 +46,34 @@ const CodeBlock = ({
     )
   } else {
     return (
-      <Highlight
-        {...defaultProps}
-        code={String(exampleCode).trim()}
-        language={language}
-        theme={prismTheme}
-      >
-        {({ className, style, tokens, getLineProps, getTokenProps }) => (
-          <Pre className={className} css={style}>
-            {cleanTokens(tokens).map((line, i) => (
-              <div {...getLineProps({ line, key: i })}>
-                {line.map((token, key) => (
-                  <span {...getTokenProps({ token, key })} />
-                ))}
-              </div>
-            ))}
-          </Pre>
-        )}
-      </Highlight>
+      <>
+        <Global
+          styles={css`
+            :root {
+              --color-indigo-medium: #6e6491;
+              --color-violet-medium: #a06eaf;
+            }
+          `}
+        />
+        <Highlight
+          {...defaultProps}
+          code={String(exampleCode).trim()}
+          language={language}
+          theme={prismTheme}
+        >
+          {({ className, style, tokens, getLineProps, getTokenProps }) => (
+            <Pre className={className} css={style}>
+              {cleanTokens(tokens).map((line, i) => (
+                <div {...getLineProps({ line, key: i })}>
+                  {line.map((token, key) => (
+                    <span {...getTokenProps({ token, key })} />
+                  ))}
+                </div>
+              ))}
+            </Pre>
+          )}
+        </Highlight>
+      </>
     )
   }
 }

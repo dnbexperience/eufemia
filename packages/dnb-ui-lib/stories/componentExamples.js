@@ -45,22 +45,22 @@ stories.push([
 ])
 
 stories.push([
-  'Anker',
+  'Anchor',
   () => (
     <Wrapper className="dnb-style">
       <Box>
         <a href="http://dnb.no">
-          <Icon icon="chevron_left" /> Anker
+          <Icon icon="chevron_left" /> Anchor
         </a>
       </Box>
       <Box>
         <a href="http://dnb.no">
-          Anker <Icon icon="chevron_right" />
+          Anchor <Icon icon="chevron_right" />
         </a>
       </Box>
       <Box>
         <a href="http://dnb.no">
-          Default Anker - Adipiscing per egestas duis feugiat dignissim
+          Default Anchor - Adipiscing per egestas duis feugiat dignissim
           quam cras eget non est ante purus taciti volutpat mi phasellus
           rhoncus ridiculus diam at proin fusce bibendum netus dapibus
           natoque varius eros litora
@@ -68,12 +68,12 @@ stories.push([
       </Box>
       <Box>
         <a href="http://dnb.no" className="dnb-with-animation">
-          Anker with Animation <Icon icon="chevron_right" />
+          Anchor with Animation <Icon icon="chevron_right" />
         </a>
       </Box>
       <Box>
         <a href="http://dnb.no" className="dnb-with-animation">
-          Anker with Animation - Adipiscing per egestas duis feugiat
+          Anchor with Animation - Adipiscing per egestas duis feugiat
           dignissim quam cras eget non est ante purus taciti volutpat mi
           phasellus rhoncus ridiculus diam at proin fusce bibendum netus
           dapibus natoque varius eros litora
@@ -85,7 +85,7 @@ stories.push([
           className="dnb-with-animation"
           style={{ 'white-space': 'normal' }}
         >
-          Anker with Animation and no `white-space: pre;` - Adipiscing per
+          Anchor with Animation and no `white-space: pre;` - Adipiscing per
           egestas duis feugiat dignissim quam cras eget non est ante purus
           taciti volutpat mi phasellus rhoncus ridiculus diam at proin
           fusce bibendum netus dapibus natoque varius eros litora

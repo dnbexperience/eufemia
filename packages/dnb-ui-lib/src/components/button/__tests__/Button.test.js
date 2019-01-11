@@ -51,7 +51,7 @@ describe('Button component', () => {
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 
-  it('should validate with ARIA rules as a anker', async () => {
+  it('should validate with ARIA rules as a anchor', async () => {
     const Comp = mount(<Component {...props} href="https://url" />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
