@@ -15,6 +15,8 @@ Primary Icons can easily be included, for instance, in [Buttons](/uilib/componen
 
 #### A list of all Primary Icons
 
+Title in parentheses are the icon's variable name used in coding.
+
 ---
 
 <Icons type="primary" />
