@@ -185,7 +185,7 @@ class SausageItem extends PureComponent {
           className="dnb-loan-sausage__sausage__bar"
           aria-describedby={title.toLowerCase()}
         />
-        <div className="dnb-loan-sausage__sausage__item__description typo-demi">
+        <div className="dnb-loan-sausage__sausage__item__description dnb-typo-demi">
           <span
             className="dnb-loan-sausage__sausage__description-line"
             aria-hidden="true"

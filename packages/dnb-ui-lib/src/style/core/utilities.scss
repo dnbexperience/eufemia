@@ -120,8 +120,8 @@
   // border
   &::after {
     @include _drawUnderline() {
-      left: 0.25em;
-      right: 0.25em;
+      left: 0.05em;
+      right: 0.05em;
       bottom: 0;
       height: 1px;
     }

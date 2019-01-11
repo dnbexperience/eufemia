@@ -116,7 +116,9 @@ export default class DescriptionList extends PureComponent {
         )}
 
         {info && (
-          <p className="dnb-description-list__info typo-book">{info}</p>
+          <p className="dnb-description-list__info dnb-typo-book">
+            {info}
+          </p>
         )}
       </div>
     )

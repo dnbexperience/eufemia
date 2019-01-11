@@ -65,28 +65,15 @@ const StyledListItem = styled.li`
 
   a {
     position: relative;
-    padding: 0.45em 0 0.45em;
-
-    color: var(--color-sea-green);
-
-    &:active,
-    &:hover {
-      color: var(--color-ocean-green);
-    }
-    &:active {
-      opacity: 0.7;
-    }
+    padding: 0.5125em 0 0.45em; /* 0,0625 */
 
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 
-    line-height: 1.5rem;
-
-    /* external link icon */
-    svg {
-      float: right;
-      margin-right: 1em;
+    span {
+      line-height: 1rem;
     }
   }
 
@@ -125,30 +112,6 @@ const StyledListItem = styled.li`
   &.l-5 a,
   &.l-6 a {
     font-size: 0.875em;
-  }
-
-  &.active a {
-    color: var(--color-ocean-green);
-
-    &::after {
-      content: '';
-      position: absolute;
-
-      display: flex;
-
-      height: 60%;
-      width: 4px;
-      max-height: auto;
-
-      /* border-radius: 50%; */
-      background: var(--color-ocean-green);
-      transform: translate(-0.6em, -2px);
-
-      /* Reset Anker Style */
-      left: auto;
-      right: auto;
-      bottom: auto;
-    }
   }
 
   @keyframes show-mobile-menu {
@@ -192,15 +155,13 @@ const StyledListItem = styled.li`
   }
 
   .status-badge {
-    position: absolute;
-    z-index: 2;
-    right: 1.5rem;
+    margin-right: 1rem;
 
     display: flex;
     justify-content: center;
     align-items: baseline; /* then we can set line-height */
 
-    font-size: 0.4375rem;
+    font-size: 7px; /* safari handles rem value incorrectly */
     line-height: 1.3125rem; /* same as height + 1px */
     font-weight: 100;
     text-align: center;
@@ -404,7 +365,7 @@ class ListItem extends PureComponent {
       <StyledListItem
         className={classnames(
           `l-${level}`,
-          active && 'active',
+          active && 'dnb-hover-style', // use anker hover style
           status ? `status-${status}` : null,
           className
         )}
@@ -413,12 +374,16 @@ class ListItem extends PureComponent {
           '--delay': `${nr !== null ? nr * 12 : random(1, 160)}ms`
         }}
       >
-        <Link to={to} className="no-underline no-underline-hover">
-          {children}
+        <Link
+          to={to}
+          className="dnb-no-anker-underline dnb-no-anker-hover"
+        >
+          <span>{children}</span>
           {status && (
             <span
               className="status-badge"
               title={
+                ' ' +
                 {
                   wip: 'Working in Progress',
                   dep: 'Deprecated',

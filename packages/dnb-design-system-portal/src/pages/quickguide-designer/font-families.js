@@ -8,7 +8,7 @@ const Syntax = () => (
   <>
     <h5>Fedra Sans Book</h5>
     <div className="typography-box">
-      <div className="typo-book">
+      <div className="dnb-typo-book">
         <p>
           Here is a paragraph with some nonsense lipsum text. Contrary to
           popular belief, Lorem Ipsum passage, and going through the cites
@@ -19,10 +19,10 @@ const Syntax = () => (
         </p>
         <h5>Here are some numbers:</h5>
         <div className="dnb-font-family-demo__numbers">
-          <p className="typo-number--lining">
+          <p className="dnb-typo-number--lining">
             <b>Lining:</b> 123456789
           </p>
-          <p className="typo-number--old-style">
+          <p className="dnb-typo-number--old-style">
             <b>Old style:</b> 123456789
           </p>
         </div>
@@ -31,7 +31,7 @@ const Syntax = () => (
 
     <h5>Fedra Sans Book Italic</h5>
     <div className="typography-box">
-      <div className="typo-book-italic">
+      <div className="dnb-typo-book-italic">
         <p>
           Here is a paragraph with some nonsense lipsum text. Contrary to
           popular belief, Lorem Ipsum passage, and going through the cites
@@ -42,20 +42,20 @@ const Syntax = () => (
         </p>
         <h5>Here are some numbers:</h5>
         <div className="dnb-font-family-demo__numbers">
-          <p className="typo-number--lining">
+          <p className="dnb-typo-number--lining">
             <b>Lining:</b> 123456789
           </p>
-          <p className="typo-number--old-style">
+          <p className="dnb-typo-number--old-style">
             <b>Old style:</b> 123456789
           </p>
         </div>
       </div>
     </div>
 
-    <h5 className="typo-medium">Fedra Sans Medium</h5>
+    <h5 className="dnb-typo-medium">Fedra Sans Medium</h5>
     <div className="typography-box">
-      <div className="typo-medium">
-        <p className="typo-medium">
+      <div className="dnb-typo-medium">
+        <p className="dnb-typo-medium">
           Here is a paragraph with some nonsense lipsum text. Contrary to
           popular belief, Lorem Ipsum passage, and going through the cites
           of the word in classical literature, discovered the undoubtable
@@ -65,10 +65,10 @@ const Syntax = () => (
         </p>
         <h5>Here are some numbers:</h5>
         <div className="dnb-font-family-demo__numbers">
-          <p className="typo-number--lining">
+          <p className="dnb-typo-number--lining">
             <b>Lining:</b> 123456789
           </p>
-          <p className="typo-number--old-style">
+          <p className="dnb-typo-number--old-style">
             <b>Old style:</b> 123456789
           </p>
         </div>
@@ -77,7 +77,7 @@ const Syntax = () => (
 
     <h5>Fedra Sans Medium Italic</h5>
     <div className="typography-box">
-      <div className="typo-medium-italic">
+      <div className="dnb-typo-medium-italic">
         <p>
           Here is a paragraph with some nonsense lipsum text. Contrary to
           popular belief, Lorem Ipsum passage, and going through the cites
@@ -88,10 +88,10 @@ const Syntax = () => (
         </p>
         <h5>Here are some numbers:</h5>
         <div className="dnb-font-family-demo__numbers">
-          <p className="typo-number--lining">
+          <p className="dnb-typo-number--lining">
             <b>Lining:</b> 123456789
           </p>
-          <p className="typo-number--old-style">
+          <p className="dnb-typo-number--old-style">
             <b>Old style:</b> 123456789
           </p>
         </div>
@@ -111,10 +111,10 @@ const Syntax = () => (
         </p>
         <h5>Here are some numbers:</h5>
         <div className="dnb-font-family-demo__numbers">
-          <p className="typo-number--lining">
+          <p className="dnb-typo-number--lining">
             <b>Lining:</b> 123456789
           </p>
-          <p className="typo-number--old-style">
+          <p className="dnb-typo-number--old-style">
             <b>Old style:</b> 123456789
           </p>
         </div>
@@ -134,10 +134,10 @@ const Syntax = () => (
         </p>
         <h5>Here are some numbers:</h5>
         <div className="dnb-font-family-demo__numbers">
-          <p className="typo-number--lining">
+          <p className="dnb-typo-number--lining">
             <b>Lining:</b> 123456789
           </p>
-          <p className="typo-number--old-style">
+          <p className="dnb-typo-number--old-style">
             <b>Old style:</b> 123456789
           </p>
         </div>
@@ -157,10 +157,10 @@ const Syntax = () => (
         </p>
         <h5>Here are some numbers:</h5>
         <div className="dnb-font-family-demo__numbers">
-          <p className="typo-number--lining">
+          <p className="dnb-typo-number--lining">
             <b>Lining:</b> 123456789
           </p>
-          <p className="typo-number--old-style">
+          <p className="dnb-typo-number--old-style">
             <b>Old style:</b> 123456789
           </p>
         </div>
@@ -179,10 +179,10 @@ const Syntax = () => (
         </p>
         <h5>Here are some numbers:</h5>
         <div className="dnb-font-family-demo__numbers">
-          <p className="typo-number--lining">
+          <p className="dnb-typo-number--lining">
             <b>Lining:</b> 123456789
           </p>
-          <p className="typo-number--old-style">
+          <p className="dnb-typo-number--old-style">
             <b>Old style:</b> 123456789
           </p>
         </div>

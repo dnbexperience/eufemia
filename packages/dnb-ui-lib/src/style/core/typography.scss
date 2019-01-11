@@ -7,25 +7,25 @@
  * ========================================================================== */
 
 // Font usage
-.typo-std,
-.typo-book {
+.dnb-typo-std,
+.dnb-typo-book {
   font-family: var(--font-family-std);
   font-weight: normal;
   font-style: normal;
 }
-.typo-medium {
+.dnb-typo-medium {
   font-family: var(--font-family-std);
   font-weight: 600;
   font-style: normal;
 }
-.typo-demi {
+.dnb-typo-demi {
   font-family: var(--font-family-demi);
   font-weight: normal;
   font-style: normal;
 }
 
 // Number usage
-.typo-number {
+.dnb-typo-number {
   &--old-style {
     @include numberFeature(oldstyle-nums, onum);
   }

@@ -172,41 +172,41 @@ exports[`Input scss have to match snapshot 1`] = `
  * --font-family-std:
  *
  * ========================================================================== */
-.typo-std,
-.typo-book {
+.dnb-typo-std,
+.dnb-typo-book {
   font-family: var(--font-family-std);
   font-weight: normal;
   font-style: normal; }
 
-.typo-medium {
+.dnb-typo-medium {
   font-family: var(--font-family-std);
   font-weight: 600;
   font-style: normal; }
 
-.typo-demi {
+.dnb-typo-demi {
   font-family: var(--font-family-demi);
   font-weight: normal;
   font-style: normal; }
 
-.typo-number--old-style {
+.dnb-typo-number--old-style {
   font-variant-numeric: oldstyle-nums;
   -moz-font-feature-settings: \\"onum\\";
   -webkit-font-feature-settings: \\"onum\\";
   font-feature-settings: \\"onum\\"; }
 
-.typo-number--lining {
+.dnb-typo-number--lining {
   font-variant-numeric: lining-nums;
   -moz-font-feature-settings: \\"lnum\\";
   -webkit-font-feature-settings: \\"lnum\\";
   font-feature-settings: \\"lnum\\"; }
 
-.typo-number--tabular {
+.dnb-typo-number--tabular {
   font-variant-numeric: tabular-nums;
   -moz-font-feature-settings: \\"tnum\\";
   -webkit-font-feature-settings: \\"tnum\\";
   font-feature-settings: \\"tnum\\"; }
 
-.typo-number--proportional {
+.dnb-typo-number--proportional {
   font-variant-numeric: proportional-nums;
   -moz-font-feature-settings: \\"pnum\\";
   -webkit-font-feature-settings: \\"pnum\\";
@@ -421,10 +421,12 @@ exports[`Input scss have to match snapshot 1`] = `
       border: none; }
   .dnb-button[type='button'] {
     appearance: none; }
-  a .dnb-button {
-    border-bottom: none; }
   button.dnb-button::-moz-focus-inner .dnb-button {
     border: none; }
+
+a.dnb-button {
+  border-bottom: none;
+  transition: none; }
 
 /*
 * DNB FormLabel

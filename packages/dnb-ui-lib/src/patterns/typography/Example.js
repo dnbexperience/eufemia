@@ -11,33 +11,33 @@ import classnames from 'classnames'
 
 const typographyStylesRaw = /* @css */ `
 /* Font Faces */
-.typo-book {
+.dnb-typo-book {
   font-family: var(--font-family-book);
   font-weight: normal;
   font-style: normal;
 }
-.typo-book-italic {
+.dnb-typo-book-italic {
   font-family: var(--font-family-book);
   font-weight: normal;
   font-style: italic;
 }
-.typo-demi {
+.dnb-typo-demi {
   font-family: var(--font-family-demi);
   font-weight: normal;
   font-style: normal;
 }
-.typo-demi-italic {
+.dnb-typo-demi-italic {
   font-family: var(--font-family-demi);
   font-weight: normal;
   font-style: italic;
 }
 
 /* Font weight */
-.typo-medium {
+.dnb-typo-medium {
   font-weight: 500;
   font-style: normal;
 }
-.typo-medium-italic {
+.dnb-typo-medium-italic {
   font-weight: 500;
   font-style: italic;
 }
@@ -92,11 +92,11 @@ class Example extends PureComponent {
             {/* Standard Medium */}
             <Demo
               font_family="Fedra Sans Medium"
-              typo_class="typo-medium"
+              typo_class="dnb-typo-medium"
             />
             <Demo
               font_family="Fedra Sans Medium Italic"
-              typo_class="typo-medium-italic"
+              typo_class="dnb-typo-medium-italic"
             />
 
             {/* Standard Bold */}
@@ -107,17 +107,23 @@ class Example extends PureComponent {
             />
 
             {/* Book */}
-            <Demo font_family="Fedra Sans Book" typo_class="typo-book" />
+            <Demo
+              font_family="Fedra Sans Book"
+              typo_class="dnb-typo-book"
+            />
             <Demo
               font_family="Fedra Sans Book Italic"
-              typo_class="typo-book-italic"
+              typo_class="dnb-typo-book-italic"
             />
 
             {/* Demi */}
-            <Demo font_family="Fedra Sans Demi" typo_class="typo-demi" />
+            <Demo
+              font_family="Fedra Sans Demi"
+              typo_class="dnb-typo-demi"
+            />
             <Demo
               font_family="Fedra Sans Demi Italic"
-              typo_class="typo-demi-italic"
+              typo_class="dnb-typo-demi-italic"
             />
           </div>
         </div>
@@ -141,10 +147,10 @@ const Demo = ({ typo_class, font_family }) => (
 
     {/* Numbers */}
     <h4 className={typo_class}>Numbers:</h4>
-    <p className={classnames('typo-number--lining', typo_class)}>
+    <p className={classnames('dnb-typo-number--lining', typo_class)}>
       <strong>Lining:</strong> 0123456789
     </p>
-    <p className={classnames('typo-number--old-style', typo_class)}>
+    <p className={classnames('dnb-typo-number--old-style', typo_class)}>
       <strong>Old style:</strong> 0123456789
     </p>
   </Section>

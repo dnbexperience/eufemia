@@ -79,8 +79,8 @@ class AditionalExample extends PureComponent {
                 <Input
                   type="text"
                   value={this.state.value}
-                  input_class="typo-number--old-style"
-                  // input_class="typo-number--lining"
+                  input_class="dnb-typo-number--old-style"
+                  // input_class="dnb-typo-number--lining"
                   description="Kr"
                   extra_information="Maksimumsbeløpet inkluderer eventuell fellesgjeld og omkostninger ved kjøp."
                   on_change={({ value }) => {

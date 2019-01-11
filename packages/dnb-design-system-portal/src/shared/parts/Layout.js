@@ -176,7 +176,7 @@ const Footer = () => (
   <FooterWrapper>
     <small>
       Last Portal update: {buildVersion}
-      <Link to="/license" className="no-underline">
+      <Link to="/license" className="dnb-no-anker-underline">
         Copyright (c) 2018-present DNB.no
       </Link>
     </small>

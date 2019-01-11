@@ -178,13 +178,14 @@
     appearance: none;
   }
 
-  // make sure we style a nodes like a button
-  @at-root a & {
-    border-bottom: none;
-  }
-
   /* Firefox includes a hidden border which messes up button dimensions */
   @at-root button#{&}::-moz-focus-inner & {
     border: none;
   }
+}
+
+// make sure we style an Anker like a button
+a.dnb-button {
+  border-bottom: none;
+  transition: none;
 }

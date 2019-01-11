@@ -7,6 +7,7 @@
 @import './reset.scss';
 @import './properties.scss';
 @import './utilities.scss';
+@import './anker.scss';
 @import './typography.scss';
 @import './scopes.scss';
 
@@ -16,131 +17,6 @@ body {
   @media print {
     background-color: white;
   }
-}
-
-// Anker
-a {
-  padding: 0.3125em 0.3125em 0.125em;
-  margin: -0.3125em -0.3125em -0.125em;
-
-  color: inherit;
-  color: var(--color-sea-green, inherit);
-  text-decoration: none;
-  border-bottom: 1px solid var(--color-sea-green);
-
-  &:active,
-  &:hover {
-    background-color: var(--color-mint-green-50);
-    border-bottom-width: 2px;
-  }
-  &:active {
-    color: #fff;
-    background-color: var(--color-sea-green);
-    border-bottom: none;
-  }
-
-  &:focus {
-    @include fakeFocus();
-    border-bottom: none;
-  }
-
-  .dnb-icon {
-    display: inline-block;
-    // -1px to center the icons agains large Chars
-    transform: translateY(-1px);
-  }
-
-  transition: background-color 0.2s ease;
-}
-a.with-animation {
-  position: relative; // because of z-index and underline/hover sudo classes
-  z-index: 1; // because of focus handling
-
-  // This way we make sure we never have a line break in an Anker
-  // Cause this messes up the "drawUnderlineBorder" mechanism
-  white-space: pre;
-
-  // border
-  @include drawUnderlineBorder();
-
-  // bg
-  @include drawUnderlineBackground();
-
-  background-color: transparent;
-  border-bottom: none;
-
-  &:active,
-  &:hover {
-    // bg
-    &::before {
-      max-height: 100%;
-    }
-
-    // border
-    &::after {
-      left: 0.1em;
-      right: 0.1em;
-      border-bottom-width: 2px;
-    }
-  }
-  &:active {
-    color: #fff;
-    // bg
-    &::before {
-      background-color: var(--color-sea-green);
-    }
-    // border
-    &::after {
-      border-bottom-color: var(--color-sea-green);
-    }
-  }
-  &:focus {
-    @include fakeFocus();
-    // border
-    &::after {
-      border-bottom: none;
-    }
-  }
-}
-a.no-dnb-style {
-  padding: 0;
-  margin: 0;
-  white-space: normal;
-
-  &:active,
-  &:hover {
-    color: inherit;
-  }
-
-  &::after {
-    content: none;
-  }
-  &::before {
-    content: none;
-  }
-}
-a.no-underline {
-  // underline
-  &::after {
-    border-bottom-color: transparent;
-    content: none;
-  }
-}
-a.no-underline-hover {
-  // bg
-  &::before {
-    content: none;
-  }
-}
-a.no-underline-hover-animation {
-  // bg
-  &::before {
-    transition: max-height 0.01s linear;
-  }
-}
-a:not([href]) {
-  cursor: pointer;
-  user-select: none;
 }
 
 // Focus management
