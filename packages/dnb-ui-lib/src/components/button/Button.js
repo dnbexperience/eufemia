@@ -176,7 +176,7 @@ export default class Button extends PureComponent {
       id,
       class_name,
       className,
-      href ? 'no-underline no-underline-hover' : null
+      href ? 'no-underline no-hover' : null
     )
 
     const params = {

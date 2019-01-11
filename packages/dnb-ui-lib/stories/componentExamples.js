@@ -59,16 +59,16 @@ stories.push([
         </a>
       </Box>
       <Box>
-        <a href="http://dnb.no" className="with-animation">
-          Anker with Animation <Icon icon="chevron_right" />
-        </a>
-      </Box>
-      <Box>
         <a href="http://dnb.no">
           Default Anker - Adipiscing per egestas duis feugiat dignissim
           quam cras eget non est ante purus taciti volutpat mi phasellus
           rhoncus ridiculus diam at proin fusce bibendum netus dapibus
           natoque varius eros litora
+        </a>
+      </Box>
+      <Box>
+        <a href="http://dnb.no" className="with-animation">
+          Anker with Animation <Icon icon="chevron_right" />
         </a>
       </Box>
       <Box>

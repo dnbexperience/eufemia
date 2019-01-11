@@ -69,12 +69,11 @@ const StyledListItem = styled.li`
 
     color: var(--color-sea-green);
 
-    &:active,
     &:hover {
       color: var(--color-ocean-green);
     }
     &:active {
-      opacity: 0.7;
+      color: var(--color-white);
     }
 
     display: flex;
@@ -413,7 +412,7 @@ class ListItem extends PureComponent {
           '--delay': `${nr !== null ? nr * 12 : random(1, 160)}ms`
         }}
       >
-        <Link to={to} className="no-underline no-underline-hover">
+        <Link to={to} className="no-underline no-hover">
           {children}
           {status && (
             <span
