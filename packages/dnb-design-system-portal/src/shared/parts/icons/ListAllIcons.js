@@ -88,8 +88,11 @@ const ListItem = styled.li`
     margin-bottom: 1rem;
   }
   .dnb-icon svg {
-    width: 2rem;
-    height: 2rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    :hover {
+      color: var(--color-cherry-red);
+    }
   }
 `
 
