@@ -2,14 +2,14 @@
 header: 'UI Library'
 title: 'Anchor'
 draft: false
-order: 1
+order: 2
 ---
 
 import { IconPrimary as Icon } from 'dnb-ui-lib/src'
 
 # Anchor
 
-By importing the core styles, the anchor tag gets assigned styles by default. However, there are also some classes which can be applied manually to handle the visual states.
+Beside that the Anchor Tag gets assigned by default - or let's say, by only importing the core styles, there are also some classes to handle the visual states manually.
 
 ## Default Styles
 
@@ -28,12 +28,12 @@ By importing the core styles, the anchor tag gets assigned styles by default. Ho
     ipsum <a href="/">Inside a Paragraph <Icon icon="bell" /></a> auctor cursus mauris porta consectetur natoque vehicula vestibulum feugiat ultrices vitae fermentum eros euismod imperdiet eleifend justo vivamus posuere
   </p>
 - <h2>
-   <a href="/">Inside Headings <Icon icon="bell" /></a> H2
+    <a href="/">Inside Headings <Icon icon="bell" /></a> H2
   </h2>
 
 ## Manipulation
 
-- `.dnb-no-Anchor-animation` <a href="/" class="dnb-no-Anchor-animation">No Animation</a>
-- `.dnb-no-Anchor-style` <a href="/" class="dnb-no-Anchor-style">No Style</a>
-- `.dnb-no-Anchor-hover` <a href="/" class="dnb-no-Anchor-hover">No Hover</a>
-- `.dnb-no-Anchor-underline` <a href="/" class="dnb-no-Anchor-underline">No Underline</a>
+- `.dnb-no-anchor-animation` <a href="/" class="dnb-no-anchor-animation">No Animation</a>
+- `.dnb-no-anchor-style` <a href="/" class="dnb-no-anchor-style">No Style</a>
+- `.dnb-no-anchor-hover` <a href="/" class="dnb-no-anchor-hover">No Hover</a>
+- `.dnb-no-anchor-underline` <a href="/" class="dnb-no-anchor-underline">No Underline</a>

@@ -42,7 +42,6 @@ import MainNav from './patterns/main-nav/MainNav'
 import RangeSlider from './patterns/range-slider/RangeSlider'
 import StepIndicator from './patterns/step-indicator/StepIndicator'
 import SummaryTable from './patterns/summary-table/SummaryTable'
-import Typography from './patterns/typography/Typography'
 import ViewTitle from './patterns/view-title/ViewTitle'
 
 // define / export all the aviable components
@@ -75,7 +74,6 @@ export {
   RangeSlider,
   StepIndicator,
   SummaryTable,
-  Typography,
   ViewTitle
 }
 

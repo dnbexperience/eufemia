@@ -1,5 +1,5 @@
 /*
- * Anker
+ * Anchor
  *
  * ========================================================================== */
 
@@ -58,7 +58,7 @@ a {
 
   transition: background-color 0.2s ease;
 
-  // other stuff, not related to the Anker directly
+  // other stuff, not related to the Anchor directly
   .dnb-icon {
     display: inline-block;
     // -1px to center the icons agains large Chars
@@ -78,7 +78,7 @@ a {
   position: relative; // because of z-index and underline/hover sudo classes
   z-index: 1; // because of focus handling
 
-  // This way we make sure we never have a line break in an Anker
+  // This way we make sure we never have a line break in an Anchor
   // Cause this messes up the "drawUnderlineBorder" mechanism
   white-space: pre;
 
@@ -158,7 +158,7 @@ a {
     transition: max-height 0.01s linear;
   }
 }
-.dnb-no-anker-style {
+.dnb-no-anchor-style {
   padding: 0;
   margin: 0;
   white-space: normal;
@@ -177,13 +177,13 @@ a {
   @include resetUnderlineStyle();
   @include resetHoverStyle();
 }
-.dnb-no-anker-underline {
+.dnb-no-anchor-underline {
   @include resetUnderlineStyle();
 }
-.dnb-no-anker-hover {
+.dnb-no-anchor-hover {
   @include resetHoverStyle();
 }
-.dnb-no-anker-animation {
+.dnb-no-anchor-animation {
   @include resetAnimationStyle();
 }
 a:not([href]) {

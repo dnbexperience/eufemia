@@ -21,7 +21,7 @@ stories.push([
         <h5>H5</h5>
         <h6>H6</h6>
         <p>
-          Paragraph with Link <a href="https://dnb.no">Anker</a> Posuere
+          Paragraph with Link <a href="https://dnb.no">Anchor</a> Posuere
           eget vestibulum nostra odio varius integer ullamcorper curabitur
           mi
         </p>
@@ -42,7 +42,7 @@ stories.push([
         <h5>H5</h5>
         <h6>H6</h6>
         <p>
-          Paragraph with Link <a href="https://dnb.no">Anker</a> Posuere
+          Paragraph with Link <a href="https://dnb.no">Anchor</a> Posuere
           eget vestibulum nostra odio varius integer ullamcorper curabitur
           mi
         </p>

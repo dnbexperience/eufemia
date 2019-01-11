@@ -365,7 +365,7 @@ class ListItem extends PureComponent {
       <StyledListItem
         className={classnames(
           `l-${level}`,
-          active && 'dnb-hover-style', // use anker hover style
+          active && 'dnb-hover-style', // use anchor hover style
           status ? `status-${status}` : null,
           className
         )}
@@ -376,7 +376,7 @@ class ListItem extends PureComponent {
       >
         <Link
           to={to}
-          className="dnb-no-anker-underline dnb-no-anker-hover"
+          className="dnb-no-anchor-underline dnb-no-anchor-hover"
         >
           <span>{children}</span>
           {status && (

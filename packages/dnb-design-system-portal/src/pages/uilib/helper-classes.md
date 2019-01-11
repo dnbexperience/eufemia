@@ -1,7 +1,7 @@
 ---
 header: 'UI Library'
 title: 'Helper Classes'
-status: 'wip'
+status: 'dep'
 draft: false
 order: 5
 ---

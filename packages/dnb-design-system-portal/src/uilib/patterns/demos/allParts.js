@@ -16,7 +16,6 @@ import MainNav from './MainNav'
 import RangeSlider from './RangeSlider'
 import StepIndicator from './StepIndicator'
 import SummaryTable from './SummaryTable'
-import Typography from './Typography'
 import ViewTitle from './ViewTitle'
 
 export default [
@@ -33,6 +32,5 @@ export default [
   RangeSlider,
   StepIndicator,
   SummaryTable,
-  Typography,
   ViewTitle
 ]

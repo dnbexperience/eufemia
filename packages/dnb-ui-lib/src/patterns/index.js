@@ -25,7 +25,6 @@ import MainNav from './main-nav/MainNav'
 import RangeSlider from './range-slider/RangeSlider'
 import StepIndicator from './step-indicator/StepIndicator'
 import SummaryTable from './summary-table/SummaryTable'
-import Typography from './typography/Typography'
 import ViewTitle from './view-title/ViewTitle'
 
 // define / export all the aviable components
@@ -43,7 +42,6 @@ export {
   RangeSlider,
   StepIndicator,
   SummaryTable,
-  Typography,
   ViewTitle
 }
 
@@ -62,7 +60,6 @@ export const getComponents = () => {
     RangeSlider,
     StepIndicator,
     SummaryTable,
-    Typography,
     ViewTitle
   }
 }
