@@ -152,7 +152,7 @@ export default class StepIndicator extends PureComponent {
                   className={classnames(
                     'dnb-breadcrumb',
                     i === activeItem
-                      ? 'dnb-breadcrumb--active typo-book'
+                      ? 'dnb-breadcrumb--active dnb-typo-book'
                       : null,
                     i < activeItem
                       ? 'dnb-breadcrumb--visited typo-light'

@@ -83,7 +83,7 @@ export const defaultProps = {
   extra_information: null,
   disabled: false,
   input_class: null,
-  input_typo: 'typo-number--lining',
+  input_typo: 'dnb-typo-number--lining',
   class: null,
   attributes: null,
 

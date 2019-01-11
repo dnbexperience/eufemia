@@ -7,6 +7,7 @@
 @import './reset.scss';
 @import './properties.scss';
 @import './utilities.scss';
+@import './anker.scss';
 @import './typography.scss';
 @import './scopes.scss';
 
@@ -18,176 +19,6 @@ body {
   }
 }
 
-// Anker
-@mixin hover-style() {
-  background-color: var(--color-mint-green-50);
-  border-bottom-width: 2px;
-}
-@mixin active-style() {
-  color: #fff;
-  background-color: var(--color-sea-green);
-  border-bottom: none;
-}
-@mixin focus-style() {
-  @include fakeFocus();
-  border-bottom: none;
-}
-a {
-  // make sure we have always `display: inline;` as inline-block is breaking the border-bottom
-  display: inline;
-
-  // top has 1px less, cause we now has 2px on border bottom hover
-  // the calculations are based on 24px line-height
-
-  // 1px = 0,0625
-  // 2px = 0,125
-  // 4px = 0,25
-
-  // on padding-top we have 4px
-  // on padding-bottom we have 2px, cause run a border-bottom with 2px
-  // this makes a total of 8px
-  // 24px line-height - 8px = 16px (font-size)
-  padding: 0.25em 0.125em 0.125em;
-
-  // margins are not needed as long as we go for "inline"
-  // margin: -0.25em 0 -0.125em;
-
-  color: inherit;
-  color: var(--color-sea-green, inherit);
-  text-decoration: none;
-  border-bottom: 1px solid var(--color-sea-green);
-
-  &:active,
-  &:hover {
-    @include hover-style();
-
-    // margins are not needed as long as we go for "inline"
-    // margin-bottom: -0.1875em;
-  }
-  &:active {
-    @include active-style();
-  }
-  &:focus {
-    @include focus-style();
-  }
-
-  transition: background-color 0.2s ease;
-
-  // other stuff, not related to the Anker directly
-  .dnb-icon {
-    display: inline-block;
-    // -1px to center the icons agains large Chars
-    transform: translateY(-1px);
-  }
-}
-a.hover-style {
-  @include hover-style();
-}
-a.active-style {
-  @include active-style();
-}
-a.focus-style {
-  @include focus-style();
-}
-a.with-animation {
-  position: relative; // because of z-index and underline/hover sudo classes
-  z-index: 1; // because of focus handling
-
-  // This way we make sure we never have a line break in an Anker
-  // Cause this messes up the "drawUnderlineBorder" mechanism
-  white-space: pre;
-
-  // border
-  @include drawUnderlineBorder();
-
-  // bg
-  @include drawUnderlineBackground();
-
-  background-color: transparent;
-  border-bottom: none;
-
-  &:active,
-  &:hover {
-    // bg
-    &::before {
-      max-height: 100%;
-    }
-
-    // border
-    &::after {
-      left: 0.1em;
-      right: 0.1em;
-      border-bottom-width: 2px;
-    }
-  }
-  &:active {
-    color: #fff;
-    // bg
-    &::before {
-      background-color: var(--color-sea-green);
-    }
-    // border
-    &::after {
-      border-bottom-color: var(--color-sea-green);
-    }
-  }
-  &:focus {
-    @include fakeFocus();
-    // border
-    &::after {
-      border-bottom: none;
-    }
-  }
-}
-a.no-style {
-  padding: 0;
-  margin: 0;
-  white-space: normal;
-  border-bottom: none;
-
-  &:active,
-  &:hover {
-    color: inherit;
-    background-color: none;
-  }
-
-  &::after {
-    content: none;
-  }
-  &::before {
-    content: none;
-  }
-}
-a.no-underline {
-  border-bottom: none;
-  // border
-  &::after {
-    border-bottom-color: transparent;
-    content: none;
-  }
-}
-a.no-hover {
-  &:active,
-  &:hover {
-    color: inherit;
-    background-color: none;
-  }
-  // bg
-  &::before {
-    content: none;
-  }
-}
-a.no-hover-animation {
-  // bg
-  &::before {
-    transition: max-height 0.01s linear;
-  }
-}
-a:not([href]) {
-  cursor: pointer;
-  user-select: none;
-}
-
 // Focus management
 html[data-whatinput='mouse'] .dnb-style *:focus {
   outline: none;
@@ -195,13 +26,13 @@ html[data-whatinput='mouse'] .dnb-style *:focus {
 html[data-whatinput='keyboard'] .dnb-style *:not(a):not(div):focus {
   @include fakeFocus();
 }
-.no-focus {
+.dnb-no-focus {
   outline: none;
 }
-.fake-focus {
+.dnb-fake-focus {
   @include fakeFocus();
 }
-.tab-focus {
+.dnb-tab-focus {
   outline: none;
   &:focus {
     @include fakeFocus('keyboard');

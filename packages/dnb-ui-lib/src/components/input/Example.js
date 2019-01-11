@@ -101,7 +101,7 @@ class Example extends PureComponent {
             autocomplete="on"
             placeholder="Placeholder text"
             description="Kr"
-            extra_information="Info: numbers are ligned by using typo-number--lining"
+            extra_information="Info: numbers are ligned by using dnb-typo-number--lining"
             ref={this._ref}
             on_change={this.handleInputChange}
           >

@@ -67,12 +67,12 @@ stories.push([
         </a>
       </Box>
       <Box>
-        <a href="http://dnb.no" className="with-animation">
+        <a href="http://dnb.no" className="dnb-with-animation">
           Anker with Animation <Icon icon="chevron_right" />
         </a>
       </Box>
       <Box>
-        <a href="http://dnb.no" className="with-animation">
+        <a href="http://dnb.no" className="dnb-with-animation">
           Anker with Animation - Adipiscing per egestas duis feugiat
           dignissim quam cras eget non est ante purus taciti volutpat mi
           phasellus rhoncus ridiculus diam at proin fusce bibendum netus
@@ -82,7 +82,7 @@ stories.push([
       <Box>
         <a
           href="http://dnb.no"
-          className="with-animation"
+          className="dnb-with-animation"
           style={{ 'white-space': 'normal' }}
         >
           Anker with Animation and no `white-space: pre;` - Adipiscing per

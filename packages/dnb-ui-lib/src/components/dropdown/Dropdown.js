@@ -356,7 +356,7 @@ export default class Dropdown extends Component {
           tabIndex="-1"
           aria-hidden={true}
           aria-labelledby={`${params.id}`}
-          className="dnb-dropdown__trigger typo-book"
+          className="dnb-dropdown__trigger dnb-typo-book"
           onMouseDown={this.onMouseDownHandler}
           ref={this._refButton}
           {...params}
@@ -418,7 +418,7 @@ export default class Dropdown extends Component {
             </li>
           ))}
         </ul>
-        <span className="dnb-dropdown__outside-value typo-book">
+        <span className="dnb-dropdown__outside-value dnb-typo-book">
           {currentOptionData.outside_value}
         </span>
       </span>

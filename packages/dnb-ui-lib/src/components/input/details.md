@@ -6,7 +6,7 @@
 | `status`              | _(optional)_ text with a status message. The style defaults to an error message.                                                                                 |
 | `placeholder`         | _(optional)_ the placeholder witch shows up once the input value is empty                                                                                        |
 | `input_class`         | _(optional)_ in case we have to set a custom input class.                                                                                                        |
-| `input_typo`          | _(optional)_ by default is the typography set to use `typo-number--lining` so numbers get aligned nicely.                                                        |
+| `input_typo`          | _(optional)_ by default is the typography set to use `dnb-typo-number--lining` so numbers get aligned nicely.                                                    |
 | `type`                | _(optional)_ choose between `text`, `number`, `email`, `password`, `url`, `tel` and `search`.                                                                    |
 | `autocomplete`        | _(optional)_ defaults to `off`. Set to `on` or any of [allowed `attributes`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-autocomplete). |
 | `search_button_title` | _(optional)_ title attribute for the search icon. Only relevant if search input                                                                                  |

@@ -6,10 +6,10 @@
     typo_class="typo-light-italic"
   />
    {/* Standard Medium */}
-  <Demo font_family="Fedra Sans Medium" typo_class="typo-medium" />
+  <Demo font_family="Fedra Sans Medium" typo_class="dnb-typo-medium" />
   <Demo
     font_family="Fedra Sans Medium Italic"
-    typo_class="typo-medium-italic"
+    typo_class="dnb-typo-medium-italic"
   />
    {/* Standard Bold */}
   <Demo font_family="Fedra Sans Bold" typo_class="typo-bold" />
@@ -18,15 +18,15 @@
     typo_class="typo-bold-italic"
   />
    {/* Book */}
-  <Demo font_family="Fedra Sans Book" typo_class="typo-book" />
+  <Demo font_family="Fedra Sans Book" typo_class="dnb-typo-book" />
   <Demo
     font_family="Fedra Sans Book Italic"
-    typo_class="typo-book-italic"
+    typo_class="dnb-typo-book-italic"
   />
    {/* Demi */}
-  <Demo font_family="Fedra Sans Demi" typo_class="typo-demi" />
+  <Demo font_family="Fedra Sans Demi" typo_class="dnb-typo-demi" />
   <Demo
     font_family="Fedra Sans Demi Italic"
-    typo_class="typo-demi-italic"
+    typo_class="dnb-typo-demi-italic"
   />
 </div>

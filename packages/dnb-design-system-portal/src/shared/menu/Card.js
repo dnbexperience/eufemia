@@ -147,7 +147,7 @@ export default class Card extends PureComponent {
       >
         <Link
           css={[linkStyle, customStyle]}
-          className="no-style"
+          className="dnb-no-anker-style"
           to={url}
           onClick={onClick}
         >
