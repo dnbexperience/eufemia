@@ -70,9 +70,14 @@ const linkStyle = css`
   background-color: var(--color-white);
   transition: background-color 0.5s ease;
 
+  ${'' /* transition: transform ease-out 0.5s;
+  transform: scale3d(1, 1, 1); */}
+
   &:focus,
   &:hover {
     background-color: var(--color-mint-green-50);
+    ${'' /* transform: scale3d(1.02, 1.02, 1);
+    transition: transform ease-out 0.3s; */}
   }
 `
 
@@ -142,7 +147,7 @@ export default class Card extends PureComponent {
       >
         <Link
           css={[linkStyle, customStyle]}
-          className="no-dnb-style"
+          className="no-style"
           to={url}
           onClick={onClick}
         >

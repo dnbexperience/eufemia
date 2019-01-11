@@ -304,7 +304,7 @@ export default class Tabs extends PureComponent {
       return (
         <div
           role="tablist"
-          className="dnb-tabs__tabs__tablist dnb-tab-focus"
+          className="dnb-tabs__tabs__tablist tab-focus"
           tabIndex="0"
           onKeyUp={this.onKeyUpHandler}
           onKeyDown={this.onKeyDownHandler}

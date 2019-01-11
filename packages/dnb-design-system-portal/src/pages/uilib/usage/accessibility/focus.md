@@ -14,7 +14,7 @@ Read more about the term Page Focus in the [Body Component](/uilib/components/bo
 ```html
 <body>
   <aside><!-- focusable navigation --></aside>
-  <main class="dnb-no-focus" tabindex="-1">
+  <main class="no-focus" tabindex="-1">
     <!-- more markup with focusable HTMLElements -->
   </main>
 </body>

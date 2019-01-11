@@ -12,9 +12,9 @@ class Example extends PureComponent {
       <Fragment>
         <div className="example-box">
           <details>
-            <summary className="dnb-fake-focus">Try to focus me</summary>
+            <summary className="fake-focus">Try to focus me</summary>
             My main focus state has been removed and replaced by the
-            helping class .dnb-fake-focus.
+            helping class .fake-focus.
           </details>
           <div className="dnb-sr-only">
             I am only visible to screen readers, so you probably can't see

@@ -294,7 +294,7 @@ exports[`Modal component have to match snapshot 1`] = `
             aria-hidden="true"
             aria-labelledby={null}
             aria-modal="true"
-            className="dnb-modal__content__inner dnb-no-focus dnb-style"
+            className="dnb-modal__content__inner no-focus dnb-style"
             id={null}
             onClick={[Function]}
             onKeyDown={[Function]}
@@ -707,10 +707,12 @@ exports[`Modal scss have to match snapshot 1`] = `
       border: none; }
   .dnb-button[type='button'] {
     appearance: none; }
-  a .dnb-button {
-    border-bottom: none; }
   button.dnb-button::-moz-focus-inner .dnb-button {
     border: none; }
+
+a.dnb-button {
+  border-bottom: none;
+  transition: none; }
 
 .dnb-modal {
   font-family: var(--font-family-std, sans-serif);

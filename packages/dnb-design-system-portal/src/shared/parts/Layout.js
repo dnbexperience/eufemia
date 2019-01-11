@@ -92,7 +92,7 @@ const Content = ({ className, children }) => (
     className={classnames(
       'dnb-style',
       'dnb-page-content',
-      'dnb-no-focus',
+      'no-focus',
       className
     )}
     css={markdownStyle}

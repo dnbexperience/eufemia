@@ -479,10 +479,12 @@ exports[`Dropdown scss have to match snapshot 1`] = `
       border: none; }
   .dnb-button[type='button'] {
     appearance: none; }
-  a .dnb-button {
-    border-bottom: none; }
   button.dnb-button::-moz-focus-inner .dnb-button {
     border: none; }
+
+a.dnb-button {
+  border-bottom: none;
+  transition: none; }
 
 /*
 * DNB FormLabel

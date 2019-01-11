@@ -19,6 +19,19 @@ body {
 }
 
 // Anker
+@mixin hover-style() {
+  background-color: var(--color-mint-green-50);
+  border-bottom-width: 2px;
+}
+@mixin active-style() {
+  color: #fff;
+  background-color: var(--color-sea-green);
+  border-bottom: none;
+}
+@mixin focus-style() {
+  @include fakeFocus();
+  border-bottom: none;
+}
 a {
   // make sure we have always `display: inline;` as inline-block is breaking the border-bottom
   display: inline;
@@ -46,21 +59,16 @@ a {
 
   &:active,
   &:hover {
-    background-color: var(--color-mint-green-50);
-    border-bottom-width: 2px;
+    @include hover-style();
 
     // margins are not needed as long as we go for "inline"
     // margin-bottom: -0.1875em;
   }
   &:active {
-    color: #fff;
-    background-color: var(--color-sea-green);
-    border-bottom: none;
+    @include active-style();
   }
-
   &:focus {
-    @include fakeFocus();
-    border-bottom: none;
+    @include focus-style();
   }
 
   transition: background-color 0.2s ease;
@@ -71,6 +79,15 @@ a {
     // -1px to center the icons agains large Chars
     transform: translateY(-1px);
   }
+}
+a.hover-style {
+  @include hover-style();
+}
+a.active-style {
+  @include active-style();
+}
+a.focus-style {
+  @include focus-style();
 }
 a.with-animation {
   position: relative; // because of z-index and underline/hover sudo classes
@@ -122,7 +139,7 @@ a.with-animation {
     }
   }
 }
-a.no-dnb-style {
+a.no-style {
   padding: 0;
   margin: 0;
   white-space: normal;
@@ -131,6 +148,7 @@ a.no-dnb-style {
   &:active,
   &:hover {
     color: inherit;
+    background-color: none;
   }
 
   &::after {
@@ -149,6 +167,11 @@ a.no-underline {
   }
 }
 a.no-hover {
+  &:active,
+  &:hover {
+    color: inherit;
+    background-color: none;
+  }
   // bg
   &::before {
     content: none;
@@ -172,13 +195,13 @@ html[data-whatinput='mouse'] .dnb-style *:focus {
 html[data-whatinput='keyboard'] .dnb-style *:not(a):not(div):focus {
   @include fakeFocus();
 }
-.dnb-no-focus {
+.no-focus {
   outline: none;
 }
-.dnb-fake-focus {
+.fake-focus {
   @include fakeFocus();
 }
-.dnb-tab-focus {
+.tab-focus {
   outline: none;
   &:focus {
     @include fakeFocus('keyboard');
