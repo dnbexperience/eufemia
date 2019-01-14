@@ -185,10 +185,7 @@ export default class Button extends PureComponent {
       type,
       title: title || text,
       id,
-      disabled:
-        typeof disabled === 'string'
-          ? disabled === 'true'
-          : Boolean(disabled),
+      disabled,
       onMouseOut: this.onMouseOutHandler,
       onClick: this.onClickHandler
     }

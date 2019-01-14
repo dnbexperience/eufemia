@@ -10,6 +10,7 @@ exports[`Slider component have to match snapshot 1`] = `
     aria-valuemin="min"
     aria-valuenow="value"
     className="slider__root slider__state--disabled"
+    disabled="disabled"
     id="id"
     onClick={[Function]}
     onMouseDown={[Function]}
@@ -27,6 +28,7 @@ exports[`Slider component have to match snapshot 1`] = `
     />
     <button
       className="slider__thumb"
+      disabled="disabled"
       onBlur={[Function]}
       onFocus={[Function]}
       onKeyDown={[Function]}
