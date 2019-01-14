@@ -254,8 +254,10 @@ export default class SidebarLayout extends PureComponent {
                   fields {
                     slug
                     title
-                    status
+                    menuTitle
                     order
+                    status
+                    # icon
                   }
                 }
               }
@@ -272,7 +274,7 @@ export default class SidebarLayout extends PureComponent {
             allMdx,
             showAll,
             pathPrefix
-          }).map(({ title, status, path, level }, nr) => {
+          }).map(({ title, menuTitle, status, icon, path, level }, nr) => {
             const active =
               pathnameWithoutPrefix === path ||
               pathnameWithoutPrefix === path.replace(/(\/)$/, '')
@@ -282,11 +284,12 @@ export default class SidebarLayout extends PureComponent {
                 level={level}
                 nr={nr}
                 status={status}
+                icon={icon}
                 to={`/${path}`}
                 active={active}
                 onOffsetTop={offsetTop => (this.offsetTop = offsetTop)}
               >
-                {title}
+                {menuTitle || title}
               </ListItem>
             )
           })
@@ -330,6 +333,7 @@ class ListItem extends PureComponent {
     level: PropTypes.number,
     nr: PropTypes.number,
     status: PropTypes.string,
+    // icon: PropTypes.string,
     active: PropTypes.bool
   }
   static defaultProps = {
@@ -338,6 +342,7 @@ class ListItem extends PureComponent {
     level: 0,
     nr: null,
     status: null,
+    // icon: null,
     onOffsetTop: null
   }
 
@@ -359,6 +364,7 @@ class ListItem extends PureComponent {
       level,
       nr,
       status,
+      // icon,
       children
     } = this.props
     return (
