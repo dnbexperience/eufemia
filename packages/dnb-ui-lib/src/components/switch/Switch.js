@@ -153,24 +153,17 @@ export default class Switch extends Component {
     const { checked } = this.state
 
     const params = {
+      disabled,
       checked
     }
     if (labelledby) {
       params['aria-labelledby'] = labelledby
     }
-    const labelParams = {}
-
-    if (
-      typeof disabled === 'string'
-        ? disabled === 'true'
-        : Boolean(disabled)
-    ) {
-      params.disabled = true
-      labelParams.disabled = true
-    }
+    const labelParams = { disabled }
 
     // also used for code markup simulation
     validateDOMAttributes(this.props, params)
+    validateDOMAttributes(null, labelParams)
 
     return (
       <span className={classes}>

@@ -25,6 +25,7 @@ exports[`Switch component have to match snapshot 1`] = `
   >
     <label
       className="dnb-switch__inner"
+      disabled="disabled"
       htmlFor="id"
       id="id-internal"
       title="title"
@@ -35,6 +36,7 @@ exports[`Switch component have to match snapshot 1`] = `
         aria-labelledby="labelledby"
         checked={false}
         className="dnb-switch__input"
+        disabled="disabled"
         id="id"
         name="id"
         onChange={[Function]}

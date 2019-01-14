@@ -235,10 +235,7 @@ export default class Input extends PureComponent {
       type,
       id,
       // align,
-      disabled:
-        typeof disabled === 'string'
-          ? disabled === 'true'
-          : Boolean(disabled),
+      disabled,
       name: id,
       onChange: this.onChangeHandler,
       onKeyDown: this.onKeyDownHandler,
@@ -249,7 +246,9 @@ export default class Input extends PureComponent {
     // also used for code markup simulation
     validateDOMAttributes(this.props, inputParams)
 
-    if (description) inputParams['aria-describedby'] = id + '-description'
+    if (description) {
+      inputParams['aria-describedby'] = id + '-description'
+    }
 
     const shellParams = {
       'data-input-state': this.state.inputState,

@@ -8,6 +8,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
     aria-haspopup="listbox"
     aria-label="title"
     className="dnb-dropdown__value-holder-input"
+    disabled="disabled"
     id="input_id"
     onBlur={[Function]}
     onFocus={[Function]}
@@ -20,6 +21,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
     aria-hidden={true}
     aria-labelledby="undefined"
     className="dnb-dropdown__trigger dnb-typo-book"
+    disabled="disabled"
     onMouseDown={[Function]}
     tabIndex="-1"
   >
@@ -515,6 +517,7 @@ a.dnb-button {
   user-select: none;
   display: inline-block;
   cursor: pointer;
+  color: var(--color-black-80);
   width: auto;
   white-space: nowrap; }
 
@@ -640,6 +643,7 @@ a.dnb-button {
   .dnb-input__extra-information {
     flex: 1 100%;
     padding: 0.5em 1.5em;
+    color: var(--color-black);
     font-size: 0.75em;
     line-height: 1.25rem; }
   .dnb-form-label ~ .dnb-input__extra-information {

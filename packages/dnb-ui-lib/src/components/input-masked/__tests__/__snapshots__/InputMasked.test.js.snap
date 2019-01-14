@@ -375,6 +375,7 @@ a.dnb-button {
   user-select: none;
   display: inline-block;
   cursor: pointer;
+  color: var(--color-black-80);
   width: auto;
   white-space: nowrap; }
 
@@ -500,6 +501,7 @@ a.dnb-button {
   .dnb-input__extra-information {
     flex: 1 100%;
     padding: 0.5em 1.5em;
+    color: var(--color-black);
     font-size: 0.75em;
     line-height: 1.25rem; }
   .dnb-form-label ~ .dnb-input__extra-information {
