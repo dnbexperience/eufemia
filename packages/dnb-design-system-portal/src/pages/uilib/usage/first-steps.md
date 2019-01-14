@@ -9,7 +9,7 @@ order: 2
 
 ## Installation
 
-Go an check out the `dnb-ui-lib` **[Installation documentation](/uilib/usage/#Installation)**.
+Check out the `dnb-ui-lib` **[Installation documentation](/uilib/usage/#Installation)**.
 
 ## Working Examples
 
@@ -17,4 +17,4 @@ You can find some more detailed and running examples under `REPOSITORY/packages/
 
 ## Be continued
 
-Go ahead with [the basics](/uilib/usage/first-steps/the-basics)
+Continue with [the basics](/uilib/usage/first-steps/the-basics)

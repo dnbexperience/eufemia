@@ -10,7 +10,7 @@ order: 6
 
 ## How to
 
-With Vue, You could use the included [Web Components](/uilib/usage/first-steps/web-components) support to get the HTML Elements in place. But it's much more powerful to simply use the build in feature, powered by [Vuera](https://github.com/akxcv/vuera).
+With Vue, you could use the included [Web Components](/uilib/usage/first-steps/web-components) support to get the HTML elements in place. But it's much more powerful to simply use the build in feature, powered by [Vuera](https://github.com/akxcv/vuera).
 
 ```js
 import Vue from 'vue'
@@ -27,7 +27,7 @@ export default {
 }
 ```
 
-And the Syntax would look like:
+And the syntax would look like:
 
 ```html
 <template lang="html">
@@ -39,7 +39,7 @@ And the Syntax would look like:
 
 ## Setup
 
-Beside `vue`, You may also install, `dnb-ui-lib`, `react` and `react-dom`.
+Besides `vue`, you may also install, `dnb-ui-lib`, `react` and `react-dom`.
 
 ```json
 "dependencies": {

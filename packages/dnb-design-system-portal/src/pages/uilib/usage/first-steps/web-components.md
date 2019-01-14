@@ -9,7 +9,7 @@ import dnb from 'dnb-ui-lib/src/web-components'
 
 # Web Components
 
-So called [Custom Elements](https://www.w3.org/TR/custom-elements/), running as a [Web Component](https://github.com/w3c/webcomponents/) can be used to run the `dnb-ui-lib` Components in all other frameworks like Dojo, Vue and Angular.
+So called [Custom Elements](https://www.w3.org/TR/custom-elements/), running as a [Web Component](https://github.com/w3c/webcomponents/) can be used to run the `dnb-ui-lib` components in all other frameworks like Dojo, Vue and Angular.
 
 ---
 
@@ -27,7 +27,7 @@ import 'dnb-ui-lib/web-components'
 import 'dnb-ui-lib/components/button/web-component'
 ```
 
-Now we can use our Web Components right away in our markup.
+Now we can use our web components right away in our markup.
 
 ### Button
 
