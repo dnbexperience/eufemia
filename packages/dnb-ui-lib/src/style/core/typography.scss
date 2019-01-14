@@ -26,15 +26,20 @@
 
 // Number usage
 .dnb-typo-number {
-  &--old-style {
-    @include numberFeature(oldstyle-nums, onum);
-  }
+  // Proportional Lining (default)
   &--lining {
     @include numberFeature(lining-nums, lnum);
   }
+  // Proportional Tabular
   &--tabular {
-    @include numberFeature(tabular-nums, tnum);
+    @include numberFeature(tabular-nums, lnum);
   }
+
+  // Deprecated
+  &--oldstyle {
+    @include numberFeature(oldstyle-nums, onum);
+  }
+  // Deprecated
   &--proportional {
     @include numberFeature(proportional-nums, pnum);
   }

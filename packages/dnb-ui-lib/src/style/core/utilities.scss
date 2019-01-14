@@ -18,8 +18,6 @@
 
 @mixin numberFeature($variant, $setting) {
   font-variant-numeric: $variant;
-  -moz-font-feature-settings: '#{$setting}';
-  -webkit-font-feature-settings: '#{$setting}';
   font-feature-settings: '#{$setting}';
 }
 

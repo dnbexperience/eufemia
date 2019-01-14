@@ -22,7 +22,7 @@ const Syntax = () => (
           <p className="dnb-typo-number--lining">
             <b>Lining:</b> 123456789
           </p>
-          <p className="dnb-typo-number--old-style">
+          <p className="dnb-typo-number--oldstyle">
             <b>Old style:</b> 123456789
           </p>
         </div>
@@ -45,7 +45,7 @@ const Syntax = () => (
           <p className="dnb-typo-number--lining">
             <b>Lining:</b> 123456789
           </p>
-          <p className="dnb-typo-number--old-style">
+          <p className="dnb-typo-number--oldstyle">
             <b>Old style:</b> 123456789
           </p>
         </div>
@@ -68,7 +68,7 @@ const Syntax = () => (
           <p className="dnb-typo-number--lining">
             <b>Lining:</b> 123456789
           </p>
-          <p className="dnb-typo-number--old-style">
+          <p className="dnb-typo-number--oldstyle">
             <b>Old style:</b> 123456789
           </p>
         </div>
@@ -91,7 +91,7 @@ const Syntax = () => (
           <p className="dnb-typo-number--lining">
             <b>Lining:</b> 123456789
           </p>
-          <p className="dnb-typo-number--old-style">
+          <p className="dnb-typo-number--oldstyle">
             <b>Old style:</b> 123456789
           </p>
         </div>
@@ -114,7 +114,7 @@ const Syntax = () => (
           <p className="dnb-typo-number--lining">
             <b>Lining:</b> 123456789
           </p>
-          <p className="dnb-typo-number--old-style">
+          <p className="dnb-typo-number--oldstyle">
             <b>Old style:</b> 123456789
           </p>
         </div>
@@ -137,7 +137,7 @@ const Syntax = () => (
           <p className="dnb-typo-number--lining">
             <b>Lining:</b> 123456789
           </p>
-          <p className="dnb-typo-number--old-style">
+          <p className="dnb-typo-number--oldstyle">
             <b>Old style:</b> 123456789
           </p>
         </div>
@@ -160,7 +160,7 @@ const Syntax = () => (
           <p className="dnb-typo-number--lining">
             <b>Lining:</b> 123456789
           </p>
-          <p className="dnb-typo-number--old-style">
+          <p className="dnb-typo-number--oldstyle">
             <b>Old style:</b> 123456789
           </p>
         </div>
@@ -182,7 +182,7 @@ const Syntax = () => (
           <p className="dnb-typo-number--lining">
             <b>Lining:</b> 123456789
           </p>
-          <p className="dnb-typo-number--old-style">
+          <p className="dnb-typo-number--oldstyle">
             <b>Old style:</b> 123456789
           </p>
         </div>
