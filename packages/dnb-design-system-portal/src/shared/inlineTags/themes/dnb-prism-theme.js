@@ -5,7 +5,7 @@
 
 const dnb_prism_theme = {
   plain: {
-    color: '#d6deeb',
+    color: 'var(--color-sea-green-4)',
     // backgroundColor: '#011627'
     // backgroundColor: 'var(--color-black-80)'
     backgroundColor: '#222'
@@ -51,10 +51,11 @@ const dnb_prism_theme = {
         color: 'var(--color-sea-green-4)'
       }
     },
+    // In CSS numbers and units are tide together. To show them nicer, use same color as plain
     {
       types: ['number'],
       style: {
-        color: 'var(--color-violet)'
+        color: 'var(--color-sea-green-4)'
       }
     },
     {
