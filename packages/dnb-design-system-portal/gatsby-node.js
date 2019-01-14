@@ -96,19 +96,32 @@ exports.onCreateNode = ({ node, getNode, actions }) => {
       node,
       value:
         node.frontmatter.title ||
-        parent.name.replace(/^[a-z]/, parent.name[0].toUpperCase())
+        parent.name.replace(/^[a-z]/, parent.name[0].toUpperCase()) ||
+        null
     })
 
     createNodeField({
-      name: 'order',
+      name: 'description',
       node,
-      value: node.frontmatter.order || null
+      value: node.frontmatter.description
+    })
+
+    createNodeField({
+      name: 'menuTitle',
+      node,
+      value: node.frontmatter.menuTitle
     })
 
     createNodeField({
       name: 'header',
       node,
       value: node.frontmatter.header
+    })
+
+    createNodeField({
+      name: 'order',
+      node,
+      value: node.frontmatter.order
     })
 
     createNodeField({
@@ -121,6 +134,12 @@ exports.onCreateNode = ({ node, getNode, actions }) => {
       name: 'status',
       node,
       value: node.frontmatter.status
+    })
+
+    createNodeField({
+      name: 'icon',
+      node,
+      value: node.frontmatter.icon
     })
 
     // File

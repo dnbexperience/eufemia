@@ -1,18 +1,29 @@
 ---
 header: 'UI Library'
-title: 'of styling'
+title: 'Best Practices of styling'
+menuTitle: 'of styling'
 draft: false
 order: 1
 ---
 
 # Styling
 
+CSS is easy. Everyone is thinking at least that in the first place. Cause You get not forced to make things right - so it fells like an endless freedom. But actually, this is a kind of trap.
+
+> It is VERY important to do CSS right from the very beginning.
+
+You will else find Yourself making a fix of a fix, and so on. Also, refactoring and enhancements will often effect code deeper down as well.
+
+## Structure
+
 To write more structured and uniform CSS code, stick with the following approach:
 
 1. start the most influential and important properties first then work progressively toward aesthetics and motion effects.
 1. leave one empty line between these groups
 
-**Example of how to structure the DNB CSS**
+This helps coworkers quickly find and understand the sentence and meaning of the CSS code.
+
+### Example structure of CSS
 
 ```css
 .my-selector {
