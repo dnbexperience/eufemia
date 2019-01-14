@@ -9,7 +9,9 @@ import WelcomeAdvice from 'Pages/welcome-advice.md'
 
 # Getting Started
 
-There are several ways to get started. First we have to address out Your goal. So, do You want to:
+There are several ways to get started depending on what you want to do.
+
+Do you want to...
 
 - simply use the HTML Elements right away?
 - customize the core DNB brand style and behavior?
