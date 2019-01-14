@@ -154,25 +154,23 @@
     font-size: 0.75em; // 12px
     line-height: 1.25rem;
   }
-  .dnb-form-label ~ &__extra-information {
+  > .dnb-form-label ~ &__extra-information {
     padding: 0.5em 0;
   }
 
   // &__input--search {
   // }
+
   &__search-submit {
     transform: translateX(var(--button-border-width));
   }
 
-  .dnb-form-label {
+  > .dnb-form-label {
     margin-right: 1rem;
   }
 
-  .dnb-form-status {
+  > .dnb-form-status {
     margin-top: 0.5rem;
-  }
-  &__status--error &__shell {
-    border-color: red;
   }
 }
 
@@ -184,7 +182,7 @@
 
   width: 100%;
 
-  .dnb-form-label {
+  > .dnb-form-label {
     margin-right: 1rem;
   }
 }

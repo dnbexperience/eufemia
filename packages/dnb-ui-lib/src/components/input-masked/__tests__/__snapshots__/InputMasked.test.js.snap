@@ -11,11 +11,9 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
   custom_method={null}
   description={null}
   disabled={false}
-  extra_information={null}
   id={null}
   inputElement={[Function]}
   input_class={null}
-  input_typo="dnb-typo-number--lining"
   label={null}
   mask={Array []}
   on_blur={null}
@@ -29,6 +27,7 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
   show_mask="show_mask"
   size={null}
   status={null}
+  status_animation={null}
   status_state="error"
   type="text"
   value="test"
@@ -502,16 +501,14 @@ a.dnb-button {
     color: var(--color-black);
     font-size: 0.75em;
     line-height: 1.25rem; }
-  .dnb-form-label ~ .dnb-input__extra-information {
+  > .dnb-form-label ~ .dnb-input__extra-information {
     padding: 0.5em 0; }
   .dnb-input__search-submit {
     transform: translateX(var(--button-border-width)); }
-  .dnb-input .dnb-form-label {
+  .dnb-input > .dnb-form-label {
     margin-right: 1rem; }
-  .dnb-input .dnb-form-status {
+  .dnb-input > .dnb-form-status {
     margin-top: 0.5rem; }
-  .dnb-input__status--error .dnb-input__shell {
-    border-color: red; }
 
 .dnb-form-row {
   display: inline-flex;
@@ -519,7 +516,7 @@ a.dnb-button {
   justify-content: space-between;
   align-items: center;
   width: 100%; }
-  .dnb-form-row .dnb-form-label {
+  .dnb-form-row > .dnb-form-label {
     margin-right: 1rem; }
 
 .dnb-input-masked {

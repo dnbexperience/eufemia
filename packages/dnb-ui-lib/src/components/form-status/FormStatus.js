@@ -26,9 +26,9 @@ export const propTypes = {
     PropTypes.node
   ]),
   icon_size: PropTypes.string,
-  status: PropTypes.string,
+  status: PropTypes.oneOf(['error', 'info']),
   class: PropTypes.string,
-  fade_in: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  animation: PropTypes.string,
   /** React props */
   className: PropTypes.string,
   children: PropTypes.oneOfType([
@@ -44,10 +44,10 @@ export const defaultProps = {
   title: null,
   text: null,
   icon: 'exclamation',
-  icon_size: 'medium',
+  icon_size: 'default',
   status: 'error',
   class: null,
-  fade_in: true,
+  animation: null, // could be 'fade-in'
   /** React props */
   className: null,
   children: null,
@@ -71,31 +71,42 @@ export default class FormStatus extends PureComponent {
     return processChildren(props)
   }
 
+  static getIcon({ status, icon, icon_size }) {
+    if (typeof icon === 'string') {
+      let iconToLoad = icon
+
+      switch (status) {
+        case 'info':
+          iconToLoad = 'info'
+          break
+        case 'error':
+        default:
+          iconToLoad = 'exclamation'
+      }
+
+      icon = <IconPrimary icon={iconToLoad} size={icon_size} />
+    }
+
+    return icon
+  }
+
   render() {
     const {
       title,
-      icon,
-      icon_size,
       status,
       className,
-      fade_in,
+      animation,
       class: _className
     } = this.props
 
+    const iconToRender = FormStatus.getIcon(this.props)
     const contentToRender = FormStatus.getContent(this.props)
-    const iconToRender =
-      typeof icon === 'string' ? (
-        <IconPrimary icon={icon} size={icon_size} />
-      ) : (
-        // React.isValidElement(icon)
-        icon
-      )
 
     const params = {
       className: classnames(
         'dnb-form-status',
-        fade_in ? 'dnb-form-status--fade-in' : null,
         `dnb-form-status--${status}`,
+        animation ? `dnb-form-status--${animation}` : null,
         className,
         _className
       ),

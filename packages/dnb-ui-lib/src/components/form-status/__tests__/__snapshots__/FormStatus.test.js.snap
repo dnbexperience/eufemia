@@ -2,18 +2,18 @@
 
 exports[`FormStatus component have to match snapshot 1`] = `
 <FormStatus
+  animation="animation"
   class="class"
   className="className"
-  fade_in="fade_in"
   icon="exclamation"
   icon_size="icon_size"
   render_content={[Function]}
-  status="status"
+  status="error"
   text="text"
   title="title"
 >
   <span
-    className="dnb-form-status dnb-form-status--fade-in dnb-form-status--status className class"
+    className="dnb-form-status dnb-form-status--error dnb-form-status--animation className class"
     title="title"
   >
     <IconPrimary

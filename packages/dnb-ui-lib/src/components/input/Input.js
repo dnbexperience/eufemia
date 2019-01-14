@@ -35,16 +35,15 @@ export const propTypes = {
   label: PropTypes.string,
   status: PropTypes.string,
   status_state: PropTypes.string,
+  status_animation: PropTypes.string,
   autocomplete: PropTypes.oneOf(['on', 'off']),
   search_button_title: PropTypes.string,
   placeholder: PropTypes.string,
   description: PropTypes.string,
   align: PropTypes.string,
-  extra_information: PropTypes.string,
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   class: PropTypes.string,
   input_class: PropTypes.string,
-  input_typo: PropTypes.string,
   attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
 
   // React props
@@ -75,15 +74,14 @@ export const defaultProps = {
   label: null,
   status: null,
   status_state: 'error',
+  status_animation: null,
   autocomplete: 'off',
   search_button_title: '',
   placeholder: null,
   description: null,
   align: null,
-  extra_information: null,
   disabled: false,
   input_class: null,
-  input_typo: 'dnb-typo-number--lining',
   class: null,
   attributes: null,
 
@@ -198,13 +196,12 @@ export default class Input extends PureComponent {
       label,
       status,
       status_state,
+      status_animation,
       disabled,
       placeholder,
       description,
       align,
-      input_class,
-      input_typo,
-      extra_information
+      input_class
     } = this.props
 
     let { autocomplete } = this.props
@@ -216,7 +213,6 @@ export default class Input extends PureComponent {
     const classes = classnames(
       'dnb-input',
       `dnb-input--${type}`, //type_modifier
-      extra_information ? 'dnb-input--has-extra-information' : null,
       size ? 'dnb-input--' + size : '',
       type === 'search' ? 'dnb-input__input--search' : null,
       align ? `dnb-input__align--${align}` : null,
@@ -229,7 +225,7 @@ export default class Input extends PureComponent {
 
     const inputParams = {
       ...renderProps,
-      className: classnames('dnb-input__input', input_typo, input_class),
+      className: classnames('dnb-input__input', input_class),
       autoComplete: autocomplete,
       value: this.state.value || '',
       type,
@@ -291,20 +287,18 @@ export default class Input extends PureComponent {
         {this.props.description && (
           <span
             className="dnb-input__description"
-            id={id + '-description'}
+            id={id + '-description'} // used for "aria-describedby"
           >
             {this.props.description}
           </span>
         )}
 
-        {extra_information && (
-          <span className="dnb-input__extra-information">
-            {extra_information}
-          </span>
-        )}
-
-        {status && status !== 'true' && (
-          <FormStatus for_id={id} text={status} status={status_state} />
+        {status && status !== 'error' && (
+          <FormStatus
+            text={status}
+            status={status_state}
+            animation={status_animation}
+          />
         )}
       </span>
     )

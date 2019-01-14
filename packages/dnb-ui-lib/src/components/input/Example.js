@@ -69,7 +69,6 @@ class Example extends PureComponent {
         </div>
         <div className="example-box">
           <Input
-            type="text"
             label="Medium input:"
             size="medium"
             placeholder="Medium input placeholder"
@@ -78,7 +77,6 @@ class Example extends PureComponent {
         </div>
         <div className="example-box">
           <Input
-            type="text"
             label="Large input:"
             size="large"
             align="right"
@@ -96,23 +94,9 @@ class Example extends PureComponent {
         </div>
         <div className="example-box">
           <Input
-            label="My Label:"
-            type="text"
-            autocomplete="on"
-            placeholder="Placeholder text"
-            description="Kr"
-            extra_information="Info: numbers are ligned by using dnb-typo-number--lining"
-            ref={this._ref}
-            on_change={this.handleInputChange}
-          >
-            This is the value 1234567890
-          </Input>
-        </div>
-        <div className="example-box">
-          <Input
             label="Show status:"
-            status="true"
-            value="Shows status on border only"
+            status="error"
+            value="Shows status with border only"
           />
         </div>
         <div className="example-box">
@@ -121,6 +105,21 @@ class Example extends PureComponent {
             status={this.state.status}
             value="Input value with error"
           />
+        </div>
+        <div className="example-box">
+          <Input
+            label="My Status:"
+            autocomplete="on"
+            placeholder="Placeholder text"
+            description="After info"
+            status="Numbers are ligned by using Proportional Lining"
+            status_state="info"
+            status_animation="fade-in"
+            ref={this._ref}
+            on_change={this.handleInputChange}
+          >
+            This is the value 1234567890
+          </Input>
         </div>
       </Fragment>
     )

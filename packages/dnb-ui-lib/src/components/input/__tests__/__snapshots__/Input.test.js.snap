@@ -2,7 +2,7 @@
 
 exports[`Input component have to match type="search" snapshot 1`] = `
 <span
-  className="dnb-input dnb-input--search dnb-input--has-extra-information dnb-input--size dnb-input__input--search dnb-input__align--align class className"
+  className="dnb-input dnb-input--search dnb-input--size dnb-input__input--search dnb-input__align--align class className"
 >
   <span
     className="dnb-input__shell"
@@ -12,7 +12,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
     <input
       aria-describedby="id-description"
       autoComplete={null}
-      className="dnb-input__input input_typo input_class"
+      className="dnb-input__input input_class"
       id="id"
       name="id"
       onBlur={[Function]}
@@ -32,12 +32,10 @@ exports[`Input component have to match type="search" snapshot 1`] = `
       custom_method={[Function]}
       description="description"
       disabled={false}
-      extra_information="extra_information"
       icon_size={16}
       id="id"
       inputElement={null}
       input_class="input_class"
-      input_typo="input_typo"
       label={null}
       onSubmit={null}
       onSubmitBlur={null}
@@ -52,6 +50,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
       search_button_title="search_button_title"
       size="size"
       status={null}
+      status_animation="status_animation"
       status_state="status_state"
       title="search_button_title"
       type="search"
@@ -71,17 +70,12 @@ exports[`Input component have to match type="search" snapshot 1`] = `
   >
     description
   </span>
-  <span
-    className="dnb-input__extra-information"
-  >
-    extra_information
-  </span>
 </span>
 `;
 
 exports[`Input component have to match type="text" snapshot 1`] = `
 <span
-  className="dnb-input dnb-input--text dnb-input--has-extra-information dnb-input--size dnb-input__align--align class className"
+  className="dnb-input dnb-input--text dnb-input--size dnb-input__align--align class className"
 >
   <span
     className="dnb-input__shell"
@@ -91,7 +85,7 @@ exports[`Input component have to match type="text" snapshot 1`] = `
     <input
       aria-describedby="id-description"
       autoComplete="off"
-      className="dnb-input__input input_typo input_class"
+      className="dnb-input__input input_class"
       id="id"
       name="id"
       onBlur={[Function]}
@@ -112,11 +106,6 @@ exports[`Input component have to match type="text" snapshot 1`] = `
     id="id-description"
   >
     description
-  </span>
-  <span
-    className="dnb-input__extra-information"
-  >
-    extra_information
   </span>
 </span>
 `;
@@ -584,16 +573,14 @@ a.dnb-button {
     color: var(--color-black);
     font-size: 0.75em;
     line-height: 1.25rem; }
-  .dnb-form-label ~ .dnb-input__extra-information {
+  > .dnb-form-label ~ .dnb-input__extra-information {
     padding: 0.5em 0; }
   .dnb-input__search-submit {
     transform: translateX(var(--button-border-width)); }
-  .dnb-input .dnb-form-label {
+  .dnb-input > .dnb-form-label {
     margin-right: 1rem; }
-  .dnb-input .dnb-form-status {
+  .dnb-input > .dnb-form-status {
     margin-top: 0.5rem; }
-  .dnb-input__status--error .dnb-input__shell {
-    border-color: red; }
 
 .dnb-form-row {
   display: inline-flex;
@@ -601,7 +588,7 @@ a.dnb-button {
   justify-content: space-between;
   align-items: center;
   width: 100%; }
-  .dnb-form-row .dnb-form-label {
+  .dnb-form-row > .dnb-form-label {
     margin-right: 1rem; }
 "
 `;
