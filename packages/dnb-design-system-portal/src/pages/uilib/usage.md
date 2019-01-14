@@ -9,7 +9,7 @@ order: 3
 
 **Get started on using the DNB User Interface Library**
 
-The UI Lib HTML Elements are isolated, ready to use elements. They are self-supporting, and will use the styles they need to display.
+The UI Library HTML Elements are isolated, ready-to-use elements. They are self-supporting, and will use the styles they need to display.
 
 You can use any of the HTML Elements as demonstrated in the documentation. Please refer to the demo pages to see [how they should be used](/uilib/components).
 

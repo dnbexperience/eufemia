@@ -11,55 +11,60 @@ import WelcomeAdvice from 'Pages/welcome-advice.md'
 
 **Why does this UI Library exist?**
 
-Simply to unify the most commonly used HTML Elements at DNB and to work together to make every of them better.
+Simply to unify and to maintain consistency of the most commonly used HTML Elements at DNB and to provide a platform for collaborative constant improvement.
 
-So Yes, this section of the Design System is dedicated to **application development**.
+This section of the Design System is dedicated to **application development**.
 
 ## Only HTML Elements? No.
 
-Designers are thinking in grids and absolute sizes. Developers not. But by making the most commonly used syntaxes (h1, h2, p, etc.) unison with the DNB UX Design principles and standardizing them, it will give frontend developers, a new and much faster way to build applications based on DNB UX Design principles - naming conventions, standardized sizing, spacing and single sources of truth for common resources.
+Designers and developers tend to think differently regarding the structure, layout and sizing of web interface elements. It is common for designers to design grids, fixed font sizes, widths etc.
 
-## The Library has on aim to solve:
+Developers tend to think more in terms of re-usability, modularity, flexibility and scaleability of their elements.
+This library aims to bridge and merge these two ways of thinking by applying naming conventions, spatial rules and single sources of truth for the most common resources. Design resources are designed based on how they behave in the browser. This means that coded designs will more likely resemble the handovers from designers.
 
-- Ready to use HTML Elements
-- Build on top of the DNB Eufemia Design System principles
-- Includes DNB brand styles, fonts and icons
-- Takes care of accessibility ([ARIA Techniques](https://www.w3.org/TR/WCAG20-TECHS/aria))
+## The Library ...
 
-### In detail, a frontend developers will get:
+- contains ready to use HTML elements
+- is built on top of the DNB Eufemia Design System principles
+- includes DNB brand styles, fonts and icons
+- incorporates accessibility compliancy ([ARIA Techniques](https://www.w3.org/TR/WCAG20-TECHS/aria))
 
-1.  A theme-able resource of HTML elements to use in existing and new applications.
-1.  An independent layer in applications, where a build in versioning system takes care of future changes.
-1.  HTML elements are made WCAG 2.1 compliant and a checklist of values DNB wish to embrace in future application development.
-1.  The most commonly used Icons as a part of the bundle.
-1.  Tested and widely compatible HTML elements where the code is automatically verified, formatted and tested using the latest tools such as Axe, StyleLint, ESLint and Prettier. All the HTML elements are build upon integration tests for internal states, static tests and snapshot tests to make future changes more obvious to the stakeholders.
+### Developers - what to expect :
+
+1. a theme-able resource of HTML elements to use in existing and new applications
+1. an independent layer in applications, where a build in versioning system takes care of future changes
+1. HTML elements are made WCAG 2.1 compliant and a checklist of values DNB wish to embrace in future application development
+1. the most commonly used Icons as a part of the bundle
+1. tested and widely compatible HTML elements where the code is automatically verified, formatted and tested using the latest tools such as Axe, StyleLint, ESLint and Prettier. All the HTML elements are build upon integration tests for internal states, static tests and snapshot tests to make future changes more obvious to the stakeholders
 
 ### Collaboration
 
-Through NPM and GitHub, with a Deploy server in place, a platform on which collaboration between design and development will be more transparent. Also, Figma API integration will allow for more collaboration possibilities.
+Collaboration between design and development is easy through use of NPM and Github. Figma's API integration opens the possibilities for collaboration between cross disciplinary teams (developer-developer, developer-designer).
 
 ## Technical aspects
 
-The HTML Elements are build based on [React](https://reactjs.org/).
-The reason for this is that React offers a robust library of tools to build deeply and well tested and reusable elements.
+The HTML Elements are built based on [React](https://reactjs.org/).
+The reason for this is that React offers a robust library of tools to build deep, well tested and reusable elements.
 
 ### What about other Frontend Frameworks?
 
-To make the HTML Elements work in other environments like Vue or Angular, You can use the build-in Web Components support. [VueJS](https://vuejs.org/) has also a integrated direct binding by using [vuera](https://github.com/akxcv/vuera).
+To make the HTML Elements work in other environments like Vue or Angular, You can use the built-in Web Components support. [VueJS](https://vuejs.org/) has also integrated direct binding by using [vuera](https://github.com/akxcv/vuera).
 
-The Library is hosted on [NPM](npmjs.com), so versioning and openness is secured.
+The Library is hosted on [NPM](npmjs.com), so versioning and openness is secure.
 
 ### Production ready
 
-All code examples are shows as ES6 ([ECMAScript 2015](https://en.wikipedia.org/wiki/ECMAScript)). But the production `dnb-ui-lib` is actually compiled down to ES5 (5th Edition). So Your product is consuming production ready code on all stages.
+All code examples are shown as ES6 ([ECMAScript 2015](https://en.wikipedia.org/wiki/ECMAScript)). But the production `dnb-ui-lib` is actually compiled down to ES5 (5th Edition). So your product is using production ready code.
 
-### Components
+### Components & Patterns
 
 The HTML Elements UI Library comes with two different parts. The first and most common is the [Components Library](/uilib/components/).
+These are standard, out-of-the box, ready to use components.
 
-### Patterns
+However, there are many cases whereby the standard component needs to be customised or adjusted to suit the needs of the user. This results in a new component. We call these _patterns_. Patterns are helpful guides as to how a component _might_ be or behave. A typical example is a footer on a web page. Eufemia will not describe how every type of footer should be designed. Instead, it describes the function of a footer _in general_ with some aesthetic and content guidelines.
 
-But then there are a lot of use cases where _components_ gets combined and a kind of new component comes to life. This will then be a pattern. The best pattern setup would be more a guidance, so a Developer can the a patterns as a good startd, and go from there.
+Patterns can be used as a start point for both developer and designer.
+
 Check out the [available Patterns Library](/uilib/patterns/).
 
 ## Where do I go next?
