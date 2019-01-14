@@ -161,7 +161,7 @@ export default class Card extends PureComponent {
           <BottomWrapper>
             <Button
               variant="tertiary"
-              icon="add"
+              icon="chevron-right"
               text="Read more"
               tabindex="-1"
             />
