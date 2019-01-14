@@ -16,8 +16,8 @@ import {
 export const DefaultIconSize = 16
 export const DefaultIconSizes = {
   default: 16,
-  medium: 24,
-  large: 32
+  medium: 24
+  // large: 32 // currently not in use
 }
 export const ListDefaultIconSizes = Object.entries(DefaultIconSizes)
 
@@ -231,7 +231,7 @@ export const loadSVG = (icon, size = null, listOfIcons = null) => {
   // for importing react component
   try {
     icon = iconCase(icon)
-    if (size && !/[0-9]/.test(size)) {
+    if (size && size !== 'default' && !/[0-9]/.test(size)) {
       icon = `${icon}_${size}`
     }
     const mod = (listOfIcons.dnbIcons

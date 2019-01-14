@@ -81,7 +81,8 @@ class AditionalExample extends PureComponent {
                   value={this.state.value}
                   input_class="dnb-typo-number--lining"
                   description="Kr"
-                  extra_information="Maksimumsbeløpet inkluderer eventuell fellesgjeld og omkostninger ved kjøp."
+                  status="Maksimumsbeløpet inkluderer eventuell fellesgjeld og omkostninger ved kjøp."
+                  status_state="info"
                   on_change={({ value }) => {
                     this.setState({ value: parseFloat(value) })
                   }}

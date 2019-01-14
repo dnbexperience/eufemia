@@ -4,16 +4,12 @@
 * ======================================================================== */
 
 .dnb-form-status {
-  background-color: var(--color-cherry-red-80);
-
-  .dnb-icon {
-    border-color: var(--color-emerald-green);
-  }
-
   &--error {
     color: var(--color-cherry-red);
-    .dnb-icon {
-      border-color: var(--color-cherry-red);
-    }
+    background-color: var(--color-cherry-red-80);
+  }
+  &--info {
+    color: var(--color-summer-green);
+    background-color: var(--color-sea-green-4);
   }
 }
