@@ -10,6 +10,8 @@
   line-height: 1.5rem;
   color: var(--color-black-80, #333);
 
+  @include numberFeature(lining-nums, lnum);
+
   @content;
 }
 
