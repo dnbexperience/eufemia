@@ -1,19 +1,19 @@
 ---
 header: 'UI Library'
-title: 'Anker'
+title: 'Anchor'
 draft: false
 order: 1
 ---
 
 import { IconPrimary as Icon } from 'dnb-ui-lib/src'
 
-# Anker
+# Anchor
 
-Beside that the Anker Tag gets assigned by default - or let's say, by only importing the core styles, there are also some classes to handle the visual states manually.
+By importing the core styles, the anchor tag get assigned styles by default. However, there are also some classes which can be applied manually to handle the visual states.
 
 ## Default Styles
 
-- `a` <a href="/" >Anker with default style</a>
+- `a` <a href="/" >Anchor with default style</a>
 - `.dnb-hover-style` <a href="/" class="dnb-hover-style">Hover Style</a>
 - `.dnb-active-style` <a href="/" class="dnb-active-style">Active Style</a>
 - `.dnb-focus-style` <a href="/" class="dnb-focus-style">Focus Style</a>
@@ -22,7 +22,7 @@ Beside that the Anker Tag gets assigned by default - or let's say, by only impor
 
 ## With Icon
 
-- <a href="/">Anker with Icon <Icon icon="chevron_right" /></a>
+- <a href="/">Anchor with Icon <Icon icon="chevron_right" /></a>
 - <p>
     Eros semper blandit tellus mollis primis quisque platea sollicitudin
     ipsum <a href="/">Inside a Paragraph <Icon icon="bell" /></a> auctor cursus mauris porta consectetur natoque vehicula vestibulum feugiat ultrices vitae fermentum eros euismod imperdiet eleifend justo vivamus posuere
@@ -33,7 +33,7 @@ Beside that the Anker Tag gets assigned by default - or let's say, by only impor
 
 ## Manipulation
 
-- `.dnb-no-anker-animation` <a href="/" class="dnb-no-anker-animation">No Animation</a>
-- `.dnb-no-anker-style` <a href="/" class="dnb-no-anker-style">No Style</a>
-- `.dnb-no-anker-hover` <a href="/" class="dnb-no-anker-hover">No Hover</a>
-- `.dnb-no-anker-underline` <a href="/" class="dnb-no-anker-underline">No Underline</a>
+- `.dnb-no-Anchor-animation` <a href="/" class="dnb-no-Anchor-animation">No Animation</a>
+- `.dnb-no-Anchor-style` <a href="/" class="dnb-no-Anchor-style">No Style</a>
+- `.dnb-no-Anchor-hover` <a href="/" class="dnb-no-Anchor-hover">No Hover</a>
+- `.dnb-no-Anchor-underline` <a href="/" class="dnb-no-Anchor-underline">No Underline</a>

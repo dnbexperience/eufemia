@@ -7,7 +7,10 @@ order: 1
 
 # Styling
 
-To write more structured and uniform CSS code, stick with this approach to write the most influential and important properties first. Have simply a newline between the blocks respective groups.
+To write more structured and uniform CSS code, stick with the following approach:
+
+1. start the most influential and important properties first then work progressively toward aesthetics and motion effects.
+1. leave one empty line between these groups
 
 **Example of how to structure the DNB CSS**
 
@@ -23,7 +26,7 @@ To write more structured and uniform CSS code, stick with this approach to write
   height: 0.5em;
   padding: 1em; /* Will be the same as our local font-size of 1.5rem */
 
-  /* 3. Font & Typography */
+  /* 3. Fonts & Typography */
   font-family: 'Fedra Sans Std';
   font-size: 1.5rem;
   color: var(--color-sea-green);
