@@ -24,9 +24,6 @@ export default async () => {
   await runFactory('./src/style/**/dnb-ui-components.scss')
   await runFactory('./src/style/**/dnb-ui-patterns.scss')
   await runFactory('./src/style/**/dnb-ui-lib.scss')
-  await runFactory('./src/style/**/dnb-ui-lib-IE11.scss', {
-    IE11: true
-  })
   log.succeed(
     '> PrePublish: "makeMainStyle" transforming style modules done'
   )
@@ -67,7 +64,7 @@ const transformStyleModules = () =>
 
 export const runFactory = (
   src,
-  { IE11 = false, returnResult = false, importOnce = true } = {}
+  { returnResult = false, importOnce = true } = {}
 ) =>
   new Promise((resolve, reject) => {
     log.start('> PrePublish: transforming main style')
@@ -84,7 +81,7 @@ export const runFactory = (
         })
         .pipe(stream)
         .pipe(transform('utf8', transformMainStyleContent))
-        .pipe(postcss(postcssConfig({ IE11 })))
+        .pipe(postcss(postcssConfig({ IE11: true })))
         .pipe(cloneSink)
         .pipe(cssnano())
         .pipe(rename({ suffix: '.min' }))

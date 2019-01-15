@@ -1,5 +1,5 @@
 /**
- * Web Style Import
+ * Imports only the patterns
  *
  */
 

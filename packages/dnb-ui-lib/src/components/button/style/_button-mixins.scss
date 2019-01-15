@@ -12,12 +12,6 @@
     background-color: $background-color;
     border-color: $background-color;
 
-    // @if $border-color {
-    //   border-color: $border-color;
-    // } @else {
-    //   border-color: $background-color;
-    // }
-
     @include fakeBorder(
       null,
       0 0 0 var(--button-border-width--hover) $background-color
