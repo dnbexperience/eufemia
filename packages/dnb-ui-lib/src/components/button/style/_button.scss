@@ -10,15 +10,15 @@
   --button-font-style: normal;
   --button-width: 2.5rem;
   --button-height: 2.5rem;
-  --button-width--medium: 2rem;
-  --button-height--medium: 2rem;
+  --button-width--small: 2rem;
+  --button-height--small: 2rem;
   --button-width--large: 3rem;
   --button-height--large: 3rem;
   --button-icon-size: 1rem;
   --button-border-width: 1px;
   --button-border-width--hover: 3px;
   --button-border-radius: calc(var(--button-height) / 2);
-  --button-border-radius--medium: calc(var(--button-height--medium) / 2);
+  --button-border-radius--small: calc(var(--button-height--small) / 2);
   --button-border-radius--large: calc(var(--button-height--large) / 2);
 }
 
@@ -60,20 +60,20 @@
     transform: translateY(var(--button-border-width));
   }
 
-  // size medium
-  &--size-medium {
-    width: var(--button-width--medium);
-    height: var(--button-height--medium);
-    border-radius: var(--button-border-radius--medium);
+  // size small
+  &--size-small {
+    width: var(--button-width--small);
+    height: var(--button-height--small);
+    border-radius: var(--button-border-radius--small);
   }
-  &--has-text#{&}--size-medium {
+  &--has-text#{&}--size-small {
     padding-left: 1em;
     padding-right: 1em;
   }
-  &--has-text#{&}--icon-position-left#{&}--size-medium {
+  &--has-text#{&}--icon-position-left#{&}--size-small {
     padding-left: 0.5em;
   }
-  &--has-text#{&}--icon-position-right#{&}--size-medium {
+  &--has-text#{&}--icon-position-right#{&}--size-small {
     padding-right: 0.5em;
   }
 

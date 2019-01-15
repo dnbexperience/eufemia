@@ -27,7 +27,7 @@ module.exports = ({ IE11 = false, ...options } = {}) => {
             border-radius: calc(2.5rem / 2);
             border-radius: var(--button-border-radius);
            */
-          preserve: false,
+          preserve: true,
           warnWhenCannotResolve: false
         })
       : null

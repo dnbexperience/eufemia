@@ -1,5 +1,5 @@
 /**
- * Web Style Import
+ * Imports the default themes for all components and patterns
  *
  */
 
