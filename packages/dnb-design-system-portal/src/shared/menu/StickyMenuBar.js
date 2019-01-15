@@ -22,13 +22,13 @@ export default class StickyMenuBar extends PureComponent {
     showGrid: null
   }
   static propTypes = {
-    header: PropTypes.string,
+    // header: PropTypes.string,
     onToggleMenu: PropTypes.func,
     hideSiebarToggleButton: PropTypes.bool,
     preventBarVisibility: PropTypes.bool
   }
   static defaultProps = {
-    header: null,
+    // header: null,
     onToggleMenu: null,
     hideSiebarToggleButton: false,
     preventBarVisibility: false
@@ -88,7 +88,7 @@ export default class StickyMenuBar extends PureComponent {
   }
   render() {
     const {
-      header,
+      // header,
       hideSiebarToggleButton,
       preventBarVisibility
     } = this.props
@@ -134,6 +134,7 @@ export default class StickyMenuBar extends PureComponent {
                       this.state.showGrid ? 'dev-grid' : ''
                     }`}
                   >
+                    <span> </span>
                     <Button
                       className="logo-slogan dnb-button--reset"
                       on_click={this.toggleMenuHandler}
@@ -141,7 +142,7 @@ export default class StickyMenuBar extends PureComponent {
                       <Logo height={48} />
                       {slogan}
                     </Button>
-                    {header && <span className="heading">{header}</span>}
+                    {/* {header && <span className="heading">{header}</span>} */}
 
                     <span>
                       <SidebarMenuConsumer>
@@ -265,11 +266,11 @@ const barStyle = css`
     padding: 0 1rem;
   }
 
-  .heading {
+  ${'' /* .heading {
     font-size: 1.5em;
     font-weight: 200;
     text-align: center;
-  }
+  } */}
 `
 
 const hideSiebarToggleButtonStyle = css`

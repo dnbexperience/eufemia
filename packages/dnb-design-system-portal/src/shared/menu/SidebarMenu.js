@@ -3,18 +3,19 @@
  *
  */
 
-import { StaticQuery, graphql } from 'gatsby'
-
-import Link from '../parts/Link'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import React, { PureComponent } from 'react'
+import { Icon } from 'dnb-ui-lib/src'
+import Link from '../parts/Link'
+import { StaticQuery, graphql } from 'gatsby'
 import { css, Global } from '@emotion/core'
 import styled from '@emotion/styled'
 import {
   SidebarMenuConsumer,
   SidebarMenuContext
 } from './SidebarMenuContext'
+import graphics from './SidebarGraphics'
 
 const Sidebar = styled.aside`
   position: fixed;
@@ -39,6 +40,9 @@ const Sidebar = styled.aside`
     overflow-y: auto;
     overscroll-behavior: contain;
   }
+
+  ${'' /* .heading {
+  } */}
 
   /*
     God for a mobile menu insted
@@ -65,53 +69,93 @@ const StyledListItem = styled.li`
 
   a {
     position: relative;
-    padding: 0.5125em 0 0.45em; /* 0,0625 */
+    padding: 0;
+    height: 2.5rem;
 
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
 
-    span {
-      line-height: 1rem;
+    transform: translateY(1px);
+
+    &:hover {
+      background-color: transparent;
     }
   }
+  &:first-of-type {
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    background-color: transparent;
+  }
 
-  --level: 2vw;
-  --level-offset: 4vw;
+  --level: 3vw;
+  --level-offset: 1vw;
 
   @media only screen and (max-width: 50em) {
     --level: 1.3em;
   }
 
   &.l-1 a {
-    padding-left: calc(var(--level-offset) + var(--level) * 1);
-    font-weight: 700;
-    font-size: 1.125em; /* 18 px */
-  }
-  &.l-2 a {
     padding-left: calc(var(--level-offset) + var(--level) * 2);
-    font-weight: 600;
+    height: 4rem;
   }
-  &.l-3 a {
-    padding-left: calc(var(--level-offset) + var(--level) * 3);
-    font-weight: 500;
+  &.l-2 {
+    a {
+      padding-left: calc(var(--level-offset) + var(--level) * 2);
+      height: 3.5rem;
+
+      .dnb-icon {
+        margin-right: 1rem;
+        margin-left: -2.5rem;
+        color: var(--color-black-80);
+      }
+    }
+    &.is-inside {
+      background-color: var(--color-sea-green-4);
+    }
   }
+
+  &.l-3 {
+    a {
+      padding-left: calc(var(--level-offset) + var(--level) * 3);
+    }
+    &.is-inside {
+      background-color: #b3dada;
+    }
+  }
+
   &.l-4 a {
     padding-left: calc(var(--level-offset) + var(--level) * 4);
-    font-weight: 400;
   }
   &.l-5 a {
     padding-left: calc(var(--level-offset) + var(--level) * 5);
-    font-weight: 300;
   }
   &.l-6 a {
     padding-left: calc(var(--level-offset) + var(--level) * 6);
   }
-  &.l-4 a,
-  &.l-5 a,
-  &.l-6 a {
-    font-size: 0.875em;
+
+  &.l-4,
+  &.l-5,
+  &.l-6 {
+    &.is-inside {
+      background-color: #f5fafa;
+    }
+  }
+
+  &.l-1,
+  &.l-2,
+  &.l-3,
+  &.l-4,
+  &.l-5,
+  &.l-6 {
+    &.is-active {
+      a {
+        font-weight: 700;
+        color: var(--color-black-80);
+      }
+      background-color: #d2f0e9;
+    }
   }
 
   @keyframes show-mobile-menu {
@@ -253,11 +297,12 @@ export default class SidebarLayout extends PureComponent {
                 node {
                   fields {
                     slug
+                    header
                     title
                     menuTitle
                     order
                     status
-                    # icon
+                    icon
                   }
                 }
               }
@@ -265,34 +310,82 @@ export default class SidebarLayout extends PureComponent {
           }
         `}
         render={({ allMdx, site: { pathPrefix } }) => {
+          let headerTitle = null
           const pathnameWithoutPrefix = location.pathname
             .replace(/(\/)$/, '')
             .replace(pathPrefix, '')
+          const pathnameWithoutPrefixList = pathnameWithoutPrefix
+            .split('/')
+            .filter(i => i)
 
           const nav = prepareNav({
             location,
             allMdx,
             showAll,
             pathPrefix
-          }).map(({ title, menuTitle, status, icon, path, level }, nr) => {
-            const active =
-              pathnameWithoutPrefix === path ||
-              pathnameWithoutPrefix === path.replace(/(\/)$/, '')
-            return (
-              <ListItem
-                key={path}
-                level={level}
-                nr={nr}
-                status={status}
-                icon={icon}
-                to={`/${path}`}
-                active={active}
-                onOffsetTop={offsetTop => (this.offsetTop = offsetTop)}
-              >
-                {menuTitle || title}
-              </ListItem>
-            )
           })
+            .map(props => {
+              // get the active item
+              const active =
+                pathnameWithoutPrefix === props.path ||
+                pathnameWithoutPrefix === props.path.replace(/(\/)$/, '')
+
+              // check if a item path is inside another
+              const inside = props.path
+                .split('/')
+                .filter(i => i)
+                .every(i => pathnameWithoutPrefixList.includes(i))
+
+              return { ...props, active, inside }
+            })
+
+            // mark also the rest of the same level as inside
+            .map((curr, i, arr) => {
+              const prev = arr[i - 1] ? arr[i - 1] : null
+              if (prev && curr.level >= 4) {
+                if (prev.inside && curr.level >= prev.level) {
+                  curr.inside = true
+                }
+              }
+              return curr
+            })
+            .map(
+              (
+                {
+                  header,
+                  title,
+                  menuTitle,
+                  status,
+                  icon,
+                  path,
+                  level,
+                  active,
+                  inside
+                },
+                nr
+              ) => {
+                if (active && !headerTitle) {
+                  headerTitle = header
+                }
+
+                const props = {
+                  level,
+                  nr,
+                  status,
+                  icon,
+                  active,
+                  inside,
+                  to: `/${path}`,
+                  onOffsetTop: offsetTop => (this.offsetTop = offsetTop)
+                }
+
+                return (
+                  <ListItem key={path} {...props}>
+                    {menuTitle || title}
+                  </ListItem>
+                )
+              }
+            )
 
           return (
             <>
@@ -305,15 +398,24 @@ export default class SidebarLayout extends PureComponent {
               />
               <SidebarMenuConsumer>
                 {({ isOpen, isClosing }) => (
-                  <Sidebar
-                    className={classnames(
-                      'dnb-style-selection',
-                      isOpen && 'show-mobile-menu',
-                      isClosing && 'hide-mobile-menu'
-                    )}
-                  >
-                    <ul ref={this.ulRef}>{nav}</ul>
-                  </Sidebar>
+                  <>
+                    <Sidebar
+                      className={classnames(
+                        'dnb-style-selection',
+                        isOpen && 'show-mobile-menu',
+                        isClosing && 'hide-mobile-menu'
+                      )}
+                    >
+                      <ul ref={this.ulRef}>
+                        {headerTitle && false && (
+                          <StyledListItem className="heading">
+                            {headerTitle}
+                          </StyledListItem>
+                        )}
+                        {nav}
+                      </ul>
+                    </Sidebar>
+                  </>
                 )}
               </SidebarMenuConsumer>
             </>
@@ -333,16 +435,18 @@ class ListItem extends PureComponent {
     level: PropTypes.number,
     nr: PropTypes.number,
     status: PropTypes.string,
-    // icon: PropTypes.string,
-    active: PropTypes.bool
+    icon: PropTypes.string,
+    active: PropTypes.bool,
+    inside: PropTypes.bool
   }
   static defaultProps = {
     className: null,
     active: false,
+    inside: false,
     level: 0,
     nr: null,
     status: null,
-    // icon: null,
+    icon: null,
     onOffsetTop: null
   }
 
@@ -360,18 +464,21 @@ class ListItem extends PureComponent {
     const {
       className,
       active,
+      inside,
       to,
       level,
       nr,
       status,
-      // icon,
+      icon,
       children
     } = this.props
+
     return (
       <StyledListItem
         className={classnames(
           `l-${level}`,
-          active && 'dnb-hover-style', // use anchor hover style
+          active && 'is-active dnb-hover-style', // use anchor hover style
+          inside && 'is-inside',
           status ? `status-${status}` : null,
           className
         )}
@@ -382,9 +489,18 @@ class ListItem extends PureComponent {
       >
         <Link
           to={to}
-          className="dnb-no-anchor-underline dnb-no-anchor-hover"
+          className={classnames(
+            'dnb-no-anchor-underline',
+            'dnb-no-anchor-hover',
+            icon && graphics[icon] ? 'has-icon' : null
+          )}
         >
-          <span>{children}</span>
+          <span>
+            {icon && graphics[icon] && (
+              <Icon icon={graphics[icon]} size="medium" />
+            )}
+            {children}
+          </span>
           {status && (
             <span
               className="status-badge"
