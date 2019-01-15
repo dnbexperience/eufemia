@@ -1,6 +1,7 @@
 ---
 header: 'UI Library'
 title: 'Patterns'
+icon: 'patterns'
 draft: false
 order: 7
 ---

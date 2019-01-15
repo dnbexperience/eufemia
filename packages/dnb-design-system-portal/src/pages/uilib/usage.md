@@ -1,6 +1,7 @@
 ---
 header: 'UI Library'
 title: 'Usage'
+icon: 'usage'
 draft: false
 order: 3
 ---
