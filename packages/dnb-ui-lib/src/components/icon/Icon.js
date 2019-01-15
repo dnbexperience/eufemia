@@ -233,6 +233,7 @@ export const loadSVG = (icon, size = null, listOfIcons = null) => {
     icon = iconCase(icon)
     if (
       size &&
+      DefaultIconSizes[size] &&
       size !== 'default' &&
       !/[0-9]/.test(size) &&
       !icon.includes(size)
