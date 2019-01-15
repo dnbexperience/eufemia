@@ -128,7 +128,7 @@ const Main = styled.main`
   margin-left: var(--aside-width);
   padding: 1rem 0 2rem 0;
 
-  background-color: #fff;
+  background-color: #fafafa;
   border-top: 1px solid var(--color-outline-grey);
   border-left: 1px solid var(--color-outline-grey);
 
