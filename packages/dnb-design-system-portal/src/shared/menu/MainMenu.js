@@ -17,7 +17,7 @@ import {
   PrinciplesSvg,
   QuickguideDesignerSvg,
   QuickguideDeveloperSvg
-} from './Graphics'
+} from './MainMenuGraphics'
 import { Button } from 'dnb-ui-lib/src'
 
 const MainWrapper = styled.div`
