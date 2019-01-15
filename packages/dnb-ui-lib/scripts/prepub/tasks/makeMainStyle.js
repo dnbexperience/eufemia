@@ -18,12 +18,6 @@ import { log } from '../../lib'
 // import the post css config
 import postcssConfig from '../config/postcssConfig'
 
-// Theese gets loaded by the postcssConfig config
-// import autoprefixer from 'autoprefixer'
-// import postcssCustomProperties from 'postcss-custom-properties'
-// import postcssCalc from 'postcss-calc'
-// import postcssPresetEnv from 'postcss-preset-env'
-
 export default async () => {
   await transformStyleModules()
   await runFactory('./src/style/**/themes/*.scss', { importOnce: false })

@@ -5,14 +5,16 @@
 
 import gulp from 'gulp'
 import sass from 'gulp-sass'
-import autoprefixer from 'autoprefixer'
 import postcss from 'gulp-postcss'
-// import jsonImporter from 'node-sass-json-importer'
+// import jsonImpo rter from 'node-sass-json-importer'
 import cssnano from 'gulp-cssnano'
 import clone from 'gulp-clone'
 import rename from 'gulp-rename'
 import transform from 'gulp-transform'
 import { log } from '../../lib'
+
+// import the post css config
+import postcssConfig from '../config/postcssConfig'
 
 export default () =>
   new Promise(async (resolve, reject) => {
@@ -47,18 +49,11 @@ export const runFactory = (src, { returnResult = false } = {}) =>
         })
         .pipe(sassStream)
         .pipe(transform('utf8', transformContent))
-        .pipe(
-          postcss([
-            autoprefixer({
-              browsers: ['last 2 versions', 'explorer >= 11']
-            })
-          ])
-        )
+        .pipe(postcss(postcssConfig({ IE11: true })))
         .pipe(cloneSink)
         .pipe(cssnano())
         .pipe(rename({ suffix: '.min' }))
         .pipe(cloneSink.tap())
-
         .pipe(
           returnResult
             ? transform('utf8', result => resolve(result))

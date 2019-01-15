@@ -78,16 +78,16 @@ exports[`Switch scss have to match snapshot 1`] = `
 "/*
 * DNB Switch
 *
-* ======================================================================== */
+*/
 /**
  * This file is only used to make components independent
  * so that they can get imported individually, without the core styles
  *
  */
 /*
-* CSS Properties
-*
-* ======================================================================== */
+ * CSS Properties
+ *
+ */
 :root {
   --font-family-std: 'Fedra Sans Std', sans-serif;
   --font-family-demi: 'Fedra Sans Std Demi', sans-serif;
@@ -117,14 +117,14 @@ exports[`Switch scss have to match snapshot 1`] = `
 
 /*
  * Utilities
- * ========================================================================== */
+ */
 /*
  * Typography
  *
  * The font-family properties are defined in the properties.scss file, like:
  * --font-family-std:
  *
- * ========================================================================== */
+ */
 .dnb-typo-std,
 .dnb-typo-book {
   font-family: var(--font-family-std);
@@ -182,8 +182,9 @@ exports[`Switch scss have to match snapshot 1`] = `
   font-display: fallback; }
 
 /*
-* Scopes
-* ======================================================================== */
+ * Scopes
+ * 
+ */
 .dnb-switch {
   font-family: var(--font-family-std, sans-serif);
   font-size: 1rem;
@@ -206,7 +207,7 @@ exports[`Switch scss have to match snapshot 1`] = `
 /*
 * Switch component
 *
-* ======================================================================== */
+*/
 .dnb-switch {
   user-select: none;
   display: inline-block;

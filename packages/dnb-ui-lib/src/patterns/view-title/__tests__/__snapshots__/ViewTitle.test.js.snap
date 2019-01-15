@@ -12,16 +12,16 @@ exports[`ViewTitle scss have to match snapshot 1`] = `
 "/*
 * DNB ViewTitle
 *
-* ======================================================================== */
+*/
 /**
  * This file is only used to make components independent
  * so that they can get imported individually, without the core styles
  *
  */
 /*
-* CSS Properties
-*
-* ======================================================================== */
+ * CSS Properties
+ *
+ */
 :root {
   --font-family-std: 'Fedra Sans Std', sans-serif;
   --font-family-demi: 'Fedra Sans Std Demi', sans-serif;
@@ -51,14 +51,14 @@ exports[`ViewTitle scss have to match snapshot 1`] = `
 
 /*
  * Utilities
- * ========================================================================== */
+ */
 /*
  * Typography
  *
  * The font-family properties are defined in the properties.scss file, like:
  * --font-family-std:
  *
- * ========================================================================== */
+ */
 .dnb-typo-std,
 .dnb-typo-book {
   font-family: var(--font-family-std);
@@ -116,8 +116,9 @@ exports[`ViewTitle scss have to match snapshot 1`] = `
   font-display: fallback; }
 
 /*
-* Scopes
-* ======================================================================== */
+ * Scopes
+ * 
+ */
 .dnb-view-title {
   font-family: var(--font-family-std, sans-serif);
   font-size: 1rem;
@@ -140,7 +141,7 @@ exports[`ViewTitle scss have to match snapshot 1`] = `
 /*
  * ViewTitle element
  *
- * ========================================================================== */
+ */
 .dnb-view-title {
   margin: 1.5rem 0 1rem 0;
   font-size: 2rem;

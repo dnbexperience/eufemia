@@ -4,9 +4,13 @@
  *
  */
 
-$fonts-path: '../../../../../assets/fonts/' !default;
-
 // core imports
-@import '../core/properties.scss';
 @import '../core/utilities.scss';
+
+// if we import properties here, we double the imports
+// @import '../core/properties.scss';
+
+// we have to set a different $fonts-path
+// so typography gets imported twice, but the minifyed version (by using cssnano) is removing duplication
+$fonts-path: '../../../../../assets/fonts/' !default;
 @import '../core/typography.scss';
