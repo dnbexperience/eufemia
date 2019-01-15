@@ -1,17 +1,13 @@
 /*
-* Theme loader
-* ======================================================================== */
+ * Core Styles
+ * within the scope of ".dnb-style"
+ *
+ */
 
 // core imports
-@import './properties.scss';
-@import './utilities.scss';
-
-.dnb-style-selection ::selection,
-.dnb-style ::selection {
-  background: var(--color-mint-green);
-  color: var(--color-black);
-  text-shadow: none;
-}
+// importing properties and utilities is not needed anymore
+// @import './properties.scss';
+// @import './utilities.scss';
 
 // hey have to be used by a parent css class: .dnb-style
 .dnb-style {
@@ -281,4 +277,11 @@
       word-wrap: normal;
     }
   }
+}
+
+.dnb-style-selection ::selection,
+.dnb-style ::selection {
+  background: var(--color-mint-green);
+  color: var(--color-black);
+  text-shadow: none;
 }
