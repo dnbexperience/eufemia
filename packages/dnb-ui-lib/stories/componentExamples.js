@@ -83,7 +83,7 @@ stories.push([
         <a
           href="http://dnb.no"
           className="dnb-with-animation"
-          style={{ 'white-space': 'normal' }}
+          style={{ whiteSpace: 'normal' }}
         >
           Anchor with Animation and no `white-space: pre;` - Adipiscing per
           egestas duis feugiat dignissim quam cras eget non est ante purus
