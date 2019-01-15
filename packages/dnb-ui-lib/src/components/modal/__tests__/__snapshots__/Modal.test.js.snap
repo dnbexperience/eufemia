@@ -411,16 +411,16 @@ exports[`Modal scss have to match snapshot 1`] = `
 "/*
 * DNB Modal
 *
-* ======================================================================== */
+*/
 /**
  * This file is only used to make components independent
  * so that they can get imported individually, without the core styles
  *
  */
 /*
-* CSS Properties
-*
-* ======================================================================== */
+ * CSS Properties
+ *
+ */
 :root {
   --font-family-std: 'Fedra Sans Std', sans-serif;
   --font-family-demi: 'Fedra Sans Std Demi', sans-serif;
@@ -450,14 +450,14 @@ exports[`Modal scss have to match snapshot 1`] = `
 
 /*
  * Utilities
- * ========================================================================== */
+ */
 /*
  * Typography
  *
  * The font-family properties are defined in the properties.scss file, like:
  * --font-family-std:
  *
- * ========================================================================== */
+ */
 .dnb-typo-std,
 .dnb-typo-book {
   font-family: var(--font-family-std);
@@ -515,20 +515,21 @@ exports[`Modal scss have to match snapshot 1`] = `
   font-display: fallback; }
 
 /*
-* Scopes
-* ======================================================================== */
+ * Scopes
+ * 
+ */
 /*
 * DNB Button
 *
-* ======================================================================== */
+*/
 /*
 * DNB icon
 *
-* ======================================================================== */
+*/
 /*
 * Icon component
 *
-* ======================================================================== */
+*/
 .dnb-icon {
   display: inline;
   vertical-align: baseline;
@@ -578,7 +579,7 @@ exports[`Modal scss have to match snapshot 1`] = `
 /*
 * Button component
 *
-* ======================================================================== */
+*/
 :root {
   --button-font-family: var(--font-family-std);
   --button-font-size: 1rem;
@@ -730,7 +731,7 @@ a.dnb-button {
 /*
  * Modal component
  *
- * ========================================================================== */
+ */
 body[data-modal-active='true'] {
   overflow: hidden; }
 
