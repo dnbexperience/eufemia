@@ -91,8 +91,8 @@ const StyledListItem = styled.li`
     background-color: transparent;
   }
 
-  --level: 3vw;
-  --level-offset: 1vw;
+  --level: 2vw;
+  --level-offset: 2.5vw;
 
   @media only screen and (max-width: 50rem) {
     --level: 1.3rem;
