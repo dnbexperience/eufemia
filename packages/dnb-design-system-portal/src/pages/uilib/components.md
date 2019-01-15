@@ -1,6 +1,7 @@
 ---
 header: 'UI Library'
 title: 'Components'
+icon: 'components'
 draft: false
 order: 6
 ---

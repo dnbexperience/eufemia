@@ -91,6 +91,7 @@ const toggleGlobalStyle = css`
       @media (min-height: 45rem) {
         height: auto;
         margin-top: 2rem;
+
         ${'' /* @media (min-width: 640px) {
         } */}
 
@@ -99,12 +100,6 @@ const toggleGlobalStyle = css`
 
         .toggle-grid {
           display: none;
-        }
-
-        .dnb-logo,
-        .logo-slogan,
-        .logo-slogan a {
-          color: var(--color-white) !important;
         }
 
         .dnb-logo {

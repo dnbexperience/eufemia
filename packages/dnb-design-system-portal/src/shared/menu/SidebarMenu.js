@@ -23,6 +23,8 @@ const Sidebar = styled.aside`
   /* lower than styled.main */
   z-index: 1;
 
+  background-color: var(--color-white);
+
   ul {
     /* has to be the same value as margin-left */
     width: 30vw;
@@ -92,8 +94,9 @@ const StyledListItem = styled.li`
   --level: 3vw;
   --level-offset: 1vw;
 
-  @media only screen and (max-width: 50em) {
-    --level: 1.3em;
+  @media only screen and (max-width: 50rem) {
+    --level: 1.3rem;
+    --level-offset: 2rem;
   }
 
   &.l-1 a {
