@@ -36,7 +36,10 @@ describe('IconPrimary component', () => {
   })
 
   it('has valid medium size', () => {
-    const Comp = mount(<Component {...props} size="medium" />)
+    // here we explicit set size="medium" as well, cause we then test that the loadSVG makes a good job
+    const Comp = mount(
+      <Component {...props} icon="question_medium" size="medium" />
+    )
     const svg = Comp.find('svg')
     const path = svg.find('path')
     expect(svg.exists()).toBe(true)
