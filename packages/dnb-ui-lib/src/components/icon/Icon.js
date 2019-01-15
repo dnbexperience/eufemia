@@ -231,7 +231,12 @@ export const loadSVG = (icon, size = null, listOfIcons = null) => {
   // for importing react component
   try {
     icon = iconCase(icon)
-    if (size && size !== 'default' && !/[0-9]/.test(size)) {
+    if (
+      size &&
+      size !== 'default' &&
+      !/[0-9]/.test(size) &&
+      !icon.includes(size)
+    ) {
       icon = `${icon}_${size}`
     }
     const mod = (listOfIcons.dnbIcons
