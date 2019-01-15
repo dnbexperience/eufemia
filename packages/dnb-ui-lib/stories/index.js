@@ -9,7 +9,7 @@ import playground from './componentExamples'
 import typography from './typographyExamples'
 
 // ATTENTION: for testing with IE11, we have to use the build version - make sure to run `yarn build` first
-import '../style/lib-IE11'
+// import '../style'
 
 // UI style + theme
 import '../src/style'
