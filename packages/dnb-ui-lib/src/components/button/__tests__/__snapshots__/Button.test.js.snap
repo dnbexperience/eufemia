@@ -75,7 +75,7 @@ exports[`Button component have to match default button snapshot 1`] = `
         <span
           aria-hidden={true}
           aria-label="This is a button title"
-          className="dnb-icon has-custom-size dnb-button__icon"
+          className="dnb-icon dnb-icon--icon_size has-custom-size dnb-button__icon"
           role="img"
         >
           <question>
@@ -174,7 +174,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
         <span
           aria-hidden={true}
           aria-label="This is a button title"
-          className="dnb-icon has-custom-size dnb-button__icon"
+          className="dnb-icon dnb-icon--icon_size has-custom-size dnb-button__icon"
           role="img"
         >
           <question>
@@ -331,8 +331,8 @@ exports[`Button scss have to match snapshot 1`] = `
     width: inherit;
     height: inherit; }
   .dnb-icon--small {
-    width: 0.5em;
-    height: 0.5em; }
+    width: 0.8em;
+    height: 0.8em; }
   .dnb-icon--default {
     width: 1em;
     height: 1em; }
@@ -471,7 +471,6 @@ exports[`Button scss have to match snapshot 1`] = `
     .no-touch .dnb-button--reset:hover[disabled] {
       cursor: not-allowed; }
     .no-touch .dnb-button--reset:hover:not([disabled]) {
-      opacity: 0.6;
       box-shadow: none;
       border: none; }
     .dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {

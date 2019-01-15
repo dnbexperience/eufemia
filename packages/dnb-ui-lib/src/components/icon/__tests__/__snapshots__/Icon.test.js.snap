@@ -17,7 +17,7 @@ exports[`Icon component have to match snapshot 1`] = `
   <span
     aria-hidden={true}
     aria-label="alt"
-    className="dnb-icon dnb-icon--modifier has-custom-size class className"
+    className="dnb-icon dnb-icon--modifier dnb-icon--size has-custom-size class className"
     role="img"
   >
     <SvgComponent
@@ -181,8 +181,8 @@ exports[`Icon scss have to match snapshot 1`] = `
     width: inherit;
     height: inherit; }
   .dnb-icon--small {
-    width: 0.5em;
-    height: 0.5em; }
+    width: 0.8em;
+    height: 0.8em; }
   .dnb-icon--default {
     width: 1em;
     height: 1em; }
