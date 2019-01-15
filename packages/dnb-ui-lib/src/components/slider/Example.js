@@ -34,6 +34,10 @@ class Example extends PureComponent {
             }}
           />
           <Slider value="70" max="100" disabled />
+          <p className="example-caption">
+            Horizontal slider - two states: active (above) and disabled
+            (below)
+          </p>
         </div>
       </Fragment>
     )
@@ -51,64 +55,68 @@ class AditionalExample extends PureComponent {
     return (
       <Wrapper>
         <Example />
-        <form className="dnb-form">
-          <div className="dnb-form__item">
-            <FormLabel
-              for_id="slider-2"
-              text="Hvor mye ønsker du å kjøpe bolig for?"
-            />
-          </div>
-          <div className="dnb-form__item">
-            <div className="dnb-slider__slider-row">
-              <div className="dnb-slider__input-container">
-                <Slider
-                  id="slider-2"
-                  min={1000000}
-                  max={8000000}
-                  value={this.state.value}
-                  step={100000}
-                  on_init={({ value }) => {
-                    this.setState({ value })
-                  }}
-                  on_change={({ value }) => {
-                    this.setState({ value })
-                  }}
-                />
-              </div>
-              <div className="dnb-slider__output-container">
-                <Input
-                  type="text"
-                  value={this.state.value}
-                  input_class="dnb-typo-number--old-style"
-                  // input_class="dnb-typo-number--lining"
-                  description="Kr"
-                  extra_information="Maksimumsbeløpet inkluderer eventuell fellesgjeld og omkostninger ved kjøp."
-                  on_change={({ value }) => {
-                    this.setState({ value: parseFloat(value) })
-                  }}
-                />
+        <div className="example-box">
+          <form className="dnb-form">
+            <div className="dnb-form__item">
+              <FormLabel
+                for_id="slider-2"
+                text="Hvor mye ønsker du å kjøpe bolig for?"
+              />
+            </div>
+            <div className="dnb-form__item">
+              <div className="dnb-slider__slider-row">
+                <div className="dnb-slider__input-container">
+                  <Slider
+                    id="slider-2"
+                    min={1000000}
+                    max={8000000}
+                    value={this.state.value}
+                    step={100000}
+                    on_init={({ value }) => {
+                      this.setState({ value })
+                    }}
+                    on_change={({ value }) => {
+                      this.setState({ value })
+                    }}
+                  />
+                </div>
+                <div className="dnb-slider__output-container">
+                  <Input
+                    type="text"
+                    value={this.state.value}
+                    input_class="dnb-typo-number--old-style"
+                    // input_class="dnb-typo-number--lining"
+                    description="Kr"
+                    extra_information="Maksimumsbeløpet inkluderer eventuell fellesgjeld og omkostninger ved kjøp."
+                    on_change={({ value }) => {
+                      this.setState({ value: parseFloat(value) })
+                    }}
+                  />
+                </div>
               </div>
             </div>
-          </div>
-          <Cell className="dnb-form__item">
-            <Slider
-              id="slider-3"
-              min={1000000}
-              max={8000000}
-              value={this.state.value}
-              step={10}
-              vertical
-              reverse
-              on_change={({ value }) => {
-                this.setState({ value })
-              }}
-              on_state_update={({ value }) => {
-                console.log('on_state_update', value)
-              }}
-            />
-          </Cell>
-        </form>
-
+            <Cell className="dnb-form__item">
+              <Slider
+                id="slider-3"
+                min={1000000}
+                max={8000000}
+                value={this.state.value}
+                step={10}
+                vertical
+                reverse
+                on_change={({ value }) => {
+                  this.setState({ value })
+                }}
+                on_state_update={({ value }) => {
+                  console.log('on_state_update', value)
+                }}
+              />
+            </Cell>
+          </form>
+          <p className="example-caption">
+            Sliders (horizontal and vertical) with value input field
+          </p>
+        </div>
         <div className="example-box">
           <div className="dnb-form-row">
             <FormLabel

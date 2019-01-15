@@ -4,4 +4,4 @@ status: 'wip'
 
 ## Description
 
-TODO: Write description for Notifications
+Notifications are messages that communicate information to the user.

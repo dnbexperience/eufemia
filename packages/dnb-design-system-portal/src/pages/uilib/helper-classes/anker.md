@@ -9,7 +9,7 @@ import { IconPrimary as Icon } from 'dnb-ui-lib/src'
 
 # Anchor
 
-By importing the core styles, the anchor tag get assigned styles by default. However, there are also some classes which can be applied manually to handle the visual states.
+By importing the core styles, the anchor tag gets assigned styles by default. However, there are also some classes which can be applied manually to handle the visual states.
 
 ## Default Styles
 
