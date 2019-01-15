@@ -11,7 +11,7 @@ import { css, Global } from '@emotion/core'
 import MainMenu from './MainMenu'
 import { hamburger_medium as hamburgerIcon } from 'dnb-ui-lib/src/icons/secondary_icons_medium'
 import { close_medium as closeIcon } from 'dnb-ui-lib/src/icons/primary_icons_medium'
-import { Logo, Button } from 'dnb-ui-lib/src'
+import { Logo, Button, IconPrimary } from 'dnb-ui-lib/src'
 import { SidebarMenuConsumer } from './SidebarMenuContext'
 import ToggleGrid from './ToggleGrid'
 
@@ -97,6 +97,7 @@ export default class StickyMenuBar extends PureComponent {
                     >
                       <Logo height={48} />
                       {slogan}
+                      <IconPrimary icon="chevron-down" size="small" />
                     </Button>
                     {/* {header && <span className="heading">{header}</span>} */}
 
@@ -160,12 +161,23 @@ const barStyle = css`
     align-items: center;
   }
 
-  .dnb-logo {
-    margin-right: 1rem;
-  }
   .menu-bar-logo {
+    margin-left: 5vw;
     color: var(--color-sea-green);
+    .dnb-logo {
+      margin-right: 1rem;
+    }
+    .dnb-icon {
+      margin-left: 3px;
+    }
   }
+  .menu-bar-logo:hover {
+    &,
+    & .dnb-logo {
+      color: var(--color-black-80);
+    }
+  }
+
   .toggle-sidebar-menu {
     display: none;
   }
@@ -178,10 +190,6 @@ const barStyle = css`
     .toggle-sidebar-menu {
       display: inline;
     }
-  }
-
-  .show-menu:hover {
-    opacity: 0.6;
   }
 
   ${'' /* .heading {
