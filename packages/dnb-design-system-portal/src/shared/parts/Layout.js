@@ -121,20 +121,18 @@ const Main = styled.main`
   min-height: calc(100vh - 4rem); /* height of StickyMenuBar */
   overflow: visible;
 
-  margin-top: calc(
-    4rem - 0.0625rem
-  ); /* height of StickyMenuBar - 1px border */
-  margin-left: 30vw; /* 30vw, width of Sidebar aside */
+  margin-top: 4rem; /* height of StickyMenuBar - 1px border */
+  margin-left: 30vw; /* fallback */
   margin-left: var(--aside-width);
-  padding: 1rem 0 2rem 0;
+  padding: 2rem 5vw 2rem;
 
-  background-color: #fafafa;
-  border-top: 1px solid var(--color-outline-grey);
-  border-left: 1px solid var(--color-outline-grey);
+  background-color: var(--color-black-background);
+  border-left: 1px solid var(--color-black-border);
 
   /* make sure that Sidebar aside "styled.aside" gets the same max-width */
   @media only screen and (max-width: 50rem) {
     margin-left: 0;
+    padding-left: 0;
   }
 
   &.fullscreen-page {
@@ -161,7 +159,7 @@ const FooterWrapper = styled.footer`
   margin-top: 3rem;
   padding: 1rem 0;
 
-  border-top: 1px solid var(--color-outline-grey);
+  border-top: 1px solid var(--color-black-border);
   text-align: left;
 
   .is-fullscreen & {
