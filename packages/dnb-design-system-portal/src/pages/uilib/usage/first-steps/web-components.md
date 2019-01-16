@@ -37,7 +37,7 @@ Now we can use our web components right away in our markup.
 <dnb-button icon="chevron-right" text="Custom Element" />
 ```
 
-<div class="demo-box">
+<div class="example-box">
   <dnb-button icon="chevron-right" text="Custom Element" />
 </div>
 
@@ -48,7 +48,7 @@ Now we can use our web components right away in our markup.
 <dnb-input id="form-input" placeholder="My Placeholder">My Value</dnb-input>
 ```
 
-<div class="demo-box">
+<div class="example-box">
   <dnb-form-label for_id="form-input" >Label for this Input</dnb-form-label>
   <dnb-input id="form-input" placeholder="My Placeholder">My Value</dnb-input>
 </div>
