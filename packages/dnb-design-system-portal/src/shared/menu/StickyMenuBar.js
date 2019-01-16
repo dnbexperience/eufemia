@@ -6,7 +6,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { StaticQuery, graphql } from 'gatsby'
-import { css, Global } from '@emotion/core'
+import { css } from '@emotion/core'
 // import Head from 'react-helmet'
 import MainMenu from './MainMenu'
 import { hamburger_medium as hamburgerIcon } from 'dnb-ui-lib/src/icons/secondary_icons_medium'
@@ -69,7 +69,6 @@ export default class StickyMenuBar extends PureComponent {
         }) => {
           return (
             <>
-              <Global styles={globalStyle} />
               {this.state.showOverlayMenu && (
                 <MainMenu
                   enableOverlay={true}
@@ -125,12 +124,6 @@ export default class StickyMenuBar extends PureComponent {
     )
   }
 }
-
-const globalStyle = css`
-  :root {
-    --color-outline-grey: #ebebeb;
-  }
-`
 
 const barStyle = css`
   position: fixed;

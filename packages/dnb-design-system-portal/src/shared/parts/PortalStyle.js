@@ -9,6 +9,10 @@ import greygridSvg from '../../../static/assets/images/grid-32x32.svg'
 import lightgreygridSvg from '../../../static/assets/images/grid-32x32-lightgrey.svg'
 
 export default css`
+  :root {
+    --color-outline-grey: #ebebeb;
+  }
+
   table td.selectable {
     position: relative;
     z-index: 1;
@@ -256,10 +260,10 @@ export default css`
   */
 
   .dnb-nudge--vertical {
-    background-color: #d2f0e9;
+    background-color: var(--color-mint-green-50);
   }
 
   .dnb-nudge--horizontal {
-    background-color: #d2f0e9;
+    background-color: var(--color-mint-green-50);
   }
 `
