@@ -22,6 +22,22 @@ The sources are located in the [assets folder](https://unpkg.com/dnb-ui-lib@late
 
 They also exists as [React Components](/uilib/components/icon) to be easily integrated, without need of an additional SVG file loader.
 
+#### Color
+
+The icons SVG format have to satisfy the requirement to colorize the CSS fill- and stoke colors by simply using the inherited color.
+
+This is taken care of by using the [DNB Icon Component](/uilib/components/icon)
+
+**Example usage of CSS**
+
+```css
+svg {
+  color: inherit;
+  fill: currentColor;
+  stroke: currentColor;
+}
+```
+
 #### Sizing
 
 Eufemia icons come in **two** sizes:
@@ -30,6 +46,20 @@ Eufemia icons come in **two** sizes:
 - **Medium Size** 24px with 1.5px stroke weight
 
 The reason why there are two sizes, is mainly do to the SVG artifact, that the Icons, alongside with the strokes, will scale up, once we use them with a larger width and height.
+
+##### Scalability in web
+
+To ensure that the relative size of the SVG icons are scalable by the inherited CSS font size, do not explicitly specify the SVG, unless for older browsers like Internet Explorer.
+
+**Example usage of CSS**
+
+```css
+svg {
+  font-size: inherit;
+  width: 1em;
+  height: 1em;
+}
+```
 
 #### Spacing
 
@@ -47,3 +77,7 @@ Icons should have a minimum area of 8px between them and their nearest neighbor.
 #### Custom Icons
 
 Streamline caters for pretty much all of Eufemia's icon needs. However, sometimes there is a need for a custom icon. In these cases please contact one of Eufemia's design leads.
+
+```
+
+```
