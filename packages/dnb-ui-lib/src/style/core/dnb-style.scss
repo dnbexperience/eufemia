@@ -234,10 +234,9 @@
     }
 
     blockquote {
-      margin: 0;
       padding: 0 1em;
-      color: #666;
-      border-left: 0.25em solid #dfe2e5;
+      color: var(--color-summer-green);
+      border-left: 4px dotted var(--color-summer-green);
     }
 
     blockquote > :first-child {
