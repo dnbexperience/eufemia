@@ -11,24 +11,23 @@ import { css, Global } from '@emotion/core'
 import MainMenu from './MainMenu'
 import { hamburger_medium as hamburgerIcon } from 'dnb-ui-lib/src/icons/secondary_icons_medium'
 import { close_medium as closeIcon } from 'dnb-ui-lib/src/icons/primary_icons_medium'
-import gridSvg from '../../../static/assets/images/grid-32x32.svg'
-import { FormLabel, Switch, Logo, Button } from 'dnb-ui-lib/src'
+import { Logo, Button } from 'dnb-ui-lib/src'
 import { SidebarMenuConsumer } from './SidebarMenuContext'
+import ToggleGrid from './ToggleGrid'
 
 export default class StickyMenuBar extends PureComponent {
   state = {
     mobileMenuVisible: false,
-    showOverlayMenu: false,
-    showGrid: null
+    showOverlayMenu: false
   }
   static propTypes = {
-    header: PropTypes.string,
+    // header: PropTypes.string,
     onToggleMenu: PropTypes.func,
     hideSiebarToggleButton: PropTypes.bool,
     preventBarVisibility: PropTypes.bool
   }
   static defaultProps = {
-    header: null,
+    // header: null,
     onToggleMenu: null,
     hideSiebarToggleButton: false,
     preventBarVisibility: false
@@ -43,52 +42,9 @@ export default class StickyMenuBar extends PureComponent {
       showOverlayMenu
     })
   }
-  constructor(props) {
-    super(props)
-    if (typeof window !== 'undefined') {
-      this.state.showGrid = parseFloat(
-        window.localStorage.getItem('showGrid')
-      )
-        ? true
-        : false
-    }
-  }
-  toggleGrid = () => {
-    this.showGrid(!this.state.showGrid)
-    this.setState({ showGrid: !this.state.showGrid })
-  }
-  showGrid = showGrid => {
-    if (typeof document !== 'undefined') {
-      const page = document.querySelector('.dnb-page-content')
-      if (page) {
-        if (showGrid) {
-          page.classList.add('dev-grid')
-          page.classList.add('grid-not-fixed')
-        } else {
-          page.classList.remove('dev-grid')
-        }
-      }
-      const body = document.querySelector('body')
-      if (body) {
-        if (showGrid) {
-          body.classList.add('dev-grid')
-        } else {
-          body.classList.remove('dev-grid')
-        }
-      }
-      if (typeof window !== 'undefined') {
-        window.localStorage.setItem('showGrid', showGrid ? 1 : 0)
-      }
-    }
-  }
-  componentDidMount() {
-    if (this.state.showGrid) {
-      this.showGrid(true)
-    }
-  }
   render() {
     const {
-      header,
+      // header,
       hideSiebarToggleButton,
       preventBarVisibility
     } = this.props
@@ -134,14 +90,15 @@ export default class StickyMenuBar extends PureComponent {
                       this.state.showGrid ? 'dev-grid' : ''
                     }`}
                   >
+                    <span>{/* only for flex spacing layout */}</span>
                     <Button
-                      className="logo-slogan dnb-button--reset"
+                      className="menu-bar-logo dnb-button--reset"
                       on_click={this.toggleMenuHandler}
                     >
                       <Logo height={48} />
                       {slogan}
                     </Button>
-                    {header && <span className="heading">{header}</span>}
+                    {/* {header && <span className="heading">{header}</span>} */}
 
                     <span>
                       <SidebarMenuConsumer>
@@ -155,16 +112,7 @@ export default class StickyMenuBar extends PureComponent {
                           />
                         )}
                       </SidebarMenuConsumer>
-                      <span className="toggle-grid">
-                        <FormLabel for_id="switch-grid" text="Grid" />
-                        <Switch
-                          id="switch-grid"
-                          checked={this.state.showGrid}
-                          on_change={({ checked }) =>
-                            this.toggleGrid(checked)
-                          }
-                        />
-                      </span>
+                      <ToggleGrid />
                     </span>
                   </div>
                 </div>
@@ -181,34 +129,6 @@ const globalStyle = css`
   :root {
     --color-outline-grey: #ebebeb;
   }
-
-  .dev-grid {
-    background-repeat: repeat;
-    background-attachment: fixed;
-    background-color: transparent;
-    background-image: url(${gridSvg});
-
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6,
-    p,
-    small {
-      background-color: rgba(255, 255, 122, 0.35);
-    }
-
-    code {
-      background-color: rgba(0, 200, 200, 0.25);
-      margin: 0 0 1rem 0;
-      display: block;
-    }
-  }
-
-  .grid-not-fixed {
-    background-attachment: local;
-  }
 `
 
 const barStyle = css`
@@ -221,7 +141,7 @@ const barStyle = css`
   display: flex;
   justify-content: center;
 
-  background-color: var(--color-sea-green-4);
+  background-color: var(--color-white);
   border-bottom: 1px solid var(--color-outline-grey);
 
   overflow: hidden;
@@ -243,6 +163,9 @@ const barStyle = css`
   .dnb-logo {
     margin-right: 1rem;
   }
+  .menu-bar-logo {
+    color: var(--color-sea-green);
+  }
   .toggle-sidebar-menu {
     display: none;
   }
@@ -261,15 +184,11 @@ const barStyle = css`
     opacity: 0.6;
   }
 
-  .toggle-grid label.dnb-form-label {
-    padding: 0 1rem;
-  }
-
-  .heading {
+  ${'' /* .heading {
     font-size: 1.5em;
     font-weight: 200;
     text-align: center;
-  }
+  } */}
 `
 
 const hideSiebarToggleButtonStyle = css`

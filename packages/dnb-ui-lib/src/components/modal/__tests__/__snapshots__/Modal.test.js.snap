@@ -545,8 +545,8 @@ exports[`Modal scss have to match snapshot 1`] = `
     width: inherit;
     height: inherit; }
   .dnb-icon--small {
-    width: 0.5em;
-    height: 0.5em; }
+    width: 0.8em;
+    height: 0.8em; }
   .dnb-icon--default {
     width: 1em;
     height: 1em; }
@@ -685,7 +685,6 @@ exports[`Modal scss have to match snapshot 1`] = `
     .no-touch .dnb-button--reset:hover[disabled] {
       cursor: not-allowed; }
     .no-touch .dnb-button--reset:hover:not([disabled]) {
-      opacity: 0.6;
       box-shadow: none;
       border: none; }
     .dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {

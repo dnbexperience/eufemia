@@ -15,6 +15,7 @@ import styled from '@emotion/styled'
 import classnames from 'classnames'
 import { buildVersion } from '../../../package.json'
 import { SidebarMenuProvider } from '../menu/SidebarMenuContext'
+// import ToggleGrid from '../menu/ToggleGrid'
 
 class Layout extends PureComponent {
   static propTypes = {
@@ -127,7 +128,7 @@ const Main = styled.main`
   margin-left: var(--aside-width);
   padding: 1rem 0 2rem 0;
 
-  background-color: #fff;
+  background-color: #fafafa;
   border-top: 1px solid var(--color-outline-grey);
   border-left: 1px solid var(--color-outline-grey);
 
@@ -171,6 +172,10 @@ const FooterWrapper = styled.footer`
   a {
     margin-left: 1rem;
   }
+
+  .toggle-grid {
+    margin-left: 1rem;
+  }
 `
 const Footer = () => (
   <FooterWrapper>
@@ -180,5 +185,6 @@ const Footer = () => (
         Copyright (c) 2018-present DNB.no
       </Link>
     </small>
+    {/* <ToggleGrid /> */}
   </FooterWrapper>
 )
