@@ -127,13 +127,6 @@ export default css`
     vertical-align: middle;
   }
 
-  .demo-box {
-    margin: 1rem 0;
-    padding: 1.5rem 0.5rem;
-    background-color: #f9ffff;
-    border-left: solid 1px #a4ffff;
-  }
-
   .image-box {
     margin: 0 0 4rem 0;
     padding: 2rem 2rem 0.9375rem 2rem;
@@ -212,6 +205,12 @@ export default css`
 
     background-repeat: repeat;
     background-image: url(${lightgreygridSvg});
+
+    &.center {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
   }
 
   .lh-12 {
@@ -257,10 +256,10 @@ export default css`
   */
 
   .dnb-nudge--vertical {
-    background-color: #d2f0e9;
+    background-color: var(--color-mint-green-50);
   }
 
   .dnb-nudge--horizontal {
-    background-color: #d2f0e9;
+    background-color: var(--color-mint-green-50);
   }
 `

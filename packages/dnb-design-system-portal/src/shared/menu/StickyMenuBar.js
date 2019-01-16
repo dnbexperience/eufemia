@@ -6,7 +6,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { StaticQuery, graphql } from 'gatsby'
-import { css, Global } from '@emotion/core'
+import { css } from '@emotion/core'
 // import Head from 'react-helmet'
 import MainMenu from './MainMenu'
 import { hamburger_medium as hamburgerIcon } from 'dnb-ui-lib/src/icons/secondary_icons_medium'
@@ -21,13 +21,13 @@ export default class StickyMenuBar extends PureComponent {
     showOverlayMenu: false
   }
   static propTypes = {
-    // header: PropTypes.string,
+    // header: PropTypes.string,/* not used anymore up there */
     onToggleMenu: PropTypes.func,
     hideSiebarToggleButton: PropTypes.bool,
     preventBarVisibility: PropTypes.bool
   }
   static defaultProps = {
-    // header: null,
+    // header: null,/* not used anymore up there */
     onToggleMenu: null,
     hideSiebarToggleButton: false,
     preventBarVisibility: false
@@ -44,7 +44,7 @@ export default class StickyMenuBar extends PureComponent {
   }
   render() {
     const {
-      // header,
+      // header,/* not used anymore up there */
       hideSiebarToggleButton,
       preventBarVisibility
     } = this.props
@@ -69,7 +69,6 @@ export default class StickyMenuBar extends PureComponent {
         }) => {
           return (
             <>
-              <Global styles={globalStyle} />
               {this.state.showOverlayMenu && (
                 <MainMenu
                   enableOverlay={true}
@@ -99,7 +98,7 @@ export default class StickyMenuBar extends PureComponent {
                       {slogan}
                       <IconPrimary icon="chevron-down" size="small" />
                     </Button>
-                    {/* {header && <span className="heading">{header}</span>} */}
+                    {/* {header && <span className="heading">{header}</span>} not used anymore up there */}
 
                     <span>
                       <SidebarMenuConsumer>
@@ -126,12 +125,6 @@ export default class StickyMenuBar extends PureComponent {
   }
 }
 
-const globalStyle = css`
-  :root {
-    --color-outline-grey: #ebebeb;
-  }
-`
-
 const barStyle = css`
   position: fixed;
   z-index: 200;
@@ -143,7 +136,7 @@ const barStyle = css`
   justify-content: center;
 
   background-color: var(--color-white);
-  border-bottom: 1px solid var(--color-outline-grey);
+  border-bottom: 1px solid var(--color-black-border);
 
   overflow: hidden;
   white-space: nowrap;
@@ -192,7 +185,7 @@ const barStyle = css`
     }
   }
 
-  ${'' /* .heading {
+  ${'' /* not used anymore up there .heading {
     font-size: 1.5em;
     font-weight: 200;
     text-align: center;
