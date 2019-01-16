@@ -16,7 +16,7 @@ import {
   IconsSvg,
   PrinciplesSvg,
   QuickguideDesignerSvg,
-  QuickguideDeveloperSvg
+  DesignSystemSvg
 } from './MainMenuGraphics'
 import { Button } from 'dnb-ui-lib/src'
 
@@ -222,6 +222,13 @@ export default class MainMenu extends PureComponent {
           </Toolbar>
           <CardsWrapper>
             <Card
+              url="/design-system/"
+              title="About Eufemia"
+              about="Changelog, contact, etc."
+              icon={DesignSystemSvg}
+              onClick={this.closeMenuHandler}
+            />
+            <Card
               url="/uilib/"
               title="UI Library"
               about="Buttons, dropdowns, input fields, components etc."
@@ -233,13 +240,6 @@ export default class MainMenu extends PureComponent {
               title="Quick Guide - Designers"
               about="Eufemia for designers - design guidelines and resources"
               icon={QuickguideDesignerSvg}
-              onClick={this.closeMenuHandler}
-            />
-            <Card
-              url="/quickguide-developer/"
-              title="Quick Guide - Developers"
-              about="Eufemia for developers"
-              icon={QuickguideDeveloperSvg}
               onClick={this.closeMenuHandler}
             />
             <Card

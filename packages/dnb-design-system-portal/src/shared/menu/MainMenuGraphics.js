@@ -219,7 +219,7 @@ export const QuickguideDesignerSvg = props => (
     />
   </svg>
 )
-export const QuickguideDeveloperSvg = props => (
+export const DesignSystemSvg = props => (
   <svg
     viewBox="0 0 48 48"
     fill="none"
