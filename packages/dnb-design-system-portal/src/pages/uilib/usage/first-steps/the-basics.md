@@ -11,28 +11,29 @@ import { Button } from 'dnb-ui-lib/src'
 
 # The Basics
 
-The `dnb-ui-lib` is hosed on the global NPM registry. Nevertheless, it includes all the needed parts to have a independent layer on top of a Frontend Framework of Your choice.
+The `dnb-ui-lib` is hosted on the global NPM registry. It includes all the necessary parts to build an independent layer on top of a frontend framework of your choice.
 
-The recomandation is to have a application setup with a compiling/build process in place.
+It is recommended to have an application setup with a compiling/build process in place.
 
 ## HTML Elements and styling
 
-In short, we have three things going on once a HTML Element is showing up and running.
+There are three things going on once an HTML element is displayed and up-and-running.
 
-- Syntax as HTML
-- Styling by CSS
-- Internal states by JavaScript
+- syntax as HTML
+- styling by CSS
+- internal states by JavaScript
 
-From there on we can define the properties to customize the HTML Elements as needed. But we may also bind some Event Listeners to work together with Your Application.
+From here we can redefine the properties of the HTML elements in order to customise them.
+We can also bind event listeners to work together with your application.
 
 ## States
 
-All the HTML Elements have individual interaction states. The look and feel is defined in the default [theming file](/uilib/usage/theming) (**theme-ui**).
+All the HTML elements have individual interaction states. The look and feel is defined in the default [theming file](/uilib/usage/theming) (**theme-ui**).
 
-- Hover
-- Active (TouchStart)
-- Focus
-- Disabled
+- hover
+- active (TouchStart)
+- focus
+- disabled
 
 ## Global Scope
 
@@ -40,7 +41,7 @@ Once You import the `dnb-ui-lib` style, You will not only get the HTML Element s
 
 ## Compiler
 
-With [Node.js](https://nodejs.org/) as our JavaScript runtime in place, we may use ES6 (ECMAScript 2015) to write our Application. There are many Framework and Libraries to build user interfaces. If we take [React JSX](https://reactjs.org/docs/add-react-to-a-website.html#optional-try-react-with-jsx) as an starting point, we basically [do this](/uilib/usage/first-steps/react):
+With [Node.js](https://nodejs.org/) as our JavaScript runtime in place, we may use ES6 (ECMAScript 2015) to write our application. There are many frameworks and libraries to build user interfaces. If we take [React JSX](https://reactjs.org/docs/add-react-to-a-website.html#optional-try-react-with-jsx) as an starting point, we basically [do this](/uilib/usage/first-steps/react):
 
 ```jsx
 <Button text="Primary Button" />
@@ -62,7 +63,7 @@ And finally bind an [event listener](/uilib/usage/event-handling):
 
 ## UMD
 
-In case You don't have a compiling/build process, You can use the UMD packed version of the `dnb-ui-lib`. Take a look here how to use it `REPOSITORY/packages/examples/example-html` (src/umd). But this will not optimize Your code for the best user experience. So, to use UMD is **not recommended**.
+In case you don't have a compiling/build process, You can use the UMD packed version of the `dnb-ui-lib`. Take a look here how to use it `REPOSITORY/packages/examples/example-html` (src/umd). But this will not optimize your code for the best user experience. So, to use UMD is **not recommended**.
 
 ```html
 <html>

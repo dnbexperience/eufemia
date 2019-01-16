@@ -1,7 +1,7 @@
 | Properties   | Description                                                               |
 | ------------ | ------------------------------------------------------------------------- |
-| `next_href`  | _(optional)_ define what url will be calle next                           |
-| `prev_href`  | _(optional)_ define what url will be calle as previews                    |
+| `next_href`  | _(optional)_ define what url will be called next                          |
+| `prev_href`  | _(optional)_ define what url will be called as previews                   |
 | `next_text`  | _(optional)_ defines the text showing up in the previews button           |
 | `prev_text`  | _(optional)_ defines the text showing up in the next button               |
 | `next_title` | _(optional)_ defines the title showing up on hover in the previews button |

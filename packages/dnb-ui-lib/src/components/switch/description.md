@@ -2,7 +2,9 @@
 status: 'wip'
 ---
 
-#### Also known as a toggle switch or a toggle
+## Description
+
+##### Also known as a toggle switch or a toggle
 
 A (toggle) switch is a digital on/off switch.
 Toggle switches are best used for changing the state of system functionalities and preferences. "Toggles may replace two radio buttons or a single checkbox to allow users to choose between two opposing states." - nngroup

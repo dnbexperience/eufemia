@@ -28,7 +28,7 @@ Beside that the Anchor Tag gets assigned by default - or let's say, by only impo
     ipsum <a href="/">Inside a Paragraph <Icon icon="bell" /></a> auctor cursus mauris porta consectetur natoque vehicula vestibulum feugiat ultrices vitae fermentum eros euismod imperdiet eleifend justo vivamus posuere
   </p>
 - <h2>
-   <a href="/">Inside Headings <Icon icon="bell" /></a> H2
+    <a href="/">Inside Headings <Icon icon="bell" /></a> H2
   </h2>
 
 ## Manipulation

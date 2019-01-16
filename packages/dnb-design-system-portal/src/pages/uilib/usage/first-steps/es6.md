@@ -7,11 +7,11 @@ order: 8
 
 # ES6
 
-In some cases You may want to import an ES6 version. Make sure Your environment has a build process with
+In some cases you may want to import an ES6 version. Make sure your environment has a build process with:
 
-- Three Shaking
-- Compiling down to ES5
-- And minification
+- tree shaking
+- compiling down to ES5
+- minification
 
 in place.
 
