@@ -118,10 +118,14 @@ const toggleGlobalStyle = css`
           }
         }
       }
-    }
-    .sticky-inner {
-      max-width: 60rem;
-      padding: 0 0.5rem;
+      .sticky-inner {
+        justify-content: flex-start;
+        max-width: 60rem;
+        padding: 0 0.5rem;
+        .menu-bar-logo {
+          margin-left: 0;
+        }
+      }
     }
   }
 `
