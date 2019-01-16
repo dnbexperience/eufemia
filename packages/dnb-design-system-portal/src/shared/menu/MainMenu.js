@@ -79,9 +79,9 @@ const toggleGlobalStyle = css`
     background-color: var(--color-emerald-green);
   }
 
-  /* hide if shown as overlay menu */
+  /* hide content if shown as overlay menu */
   .content-wrapper {
-    ${'' /* display: none !important; */}
+    display: none !important;
   }
 
   /* on main entry */
