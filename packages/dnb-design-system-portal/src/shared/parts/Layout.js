@@ -121,13 +121,25 @@ const Main = styled.main`
   min-height: calc(100vh - 4rem); /* height of StickyMenuBar */
   overflow: visible;
 
-  margin-top: 4rem; /* height of StickyMenuBar - 1px border */
+  margin-top: 5rem; /* height of StickyMenuBar - 1px border */
   margin-left: 30vw; /* fallback */
   margin-left: var(--aside-width);
   padding: 2rem 5vw 2rem;
 
-  background-color: var(--color-black-background);
-  border-left: 1px solid var(--color-black-border);
+  &,
+  &::before,
+  &::after {
+    background-color: var(--color-black-background);
+    border-left: 1px solid var(--color-black-border);
+  }
+  &::before {
+    content: '';
+    position: absolute;
+    top: -5rem;
+    left: -1px;
+    height: 5rem;
+    width: 100%;
+  }
 
   /* make sure that Sidebar aside "styled.aside" gets the same max-width */
   @media only screen and (max-width: 50rem) {
