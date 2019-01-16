@@ -66,14 +66,3 @@ import 'dnb-ui-lib/components/button/style'
 ```
 
 You may have a look at the guides about [colors](/quickguide-designer/colors/) and [fonts](/quickguide-designer/fonts/#fonts-to-show-code).
-
-## Fonts to show Code
-
-`<code>` snippets show best on a _Monotype_ font. Developers will normally have installed some of these fonts on their devices. Here is an example of CSS `font-family` usage:
-
-```css
-font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier,
-  monospace;
-```
-
-Read more about [fonts at DNB](/quickguide-designer/fonts/)
