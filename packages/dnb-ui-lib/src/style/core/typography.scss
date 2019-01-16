@@ -15,12 +15,12 @@
 }
 .dnb-typo-medium {
   font-family: var(--font-family-std);
-  font-weight: 600;
+  font-weight: var(--font-weight-medium);
   font-style: normal;
 }
 .dnb-typo-demi {
-  font-family: var(--font-family-demi);
-  font-weight: normal;
+  font-family: var(--font-family-std);
+  font-weight: var(--font-weight-demi);
   font-style: normal;
 }
 
@@ -47,7 +47,7 @@
 
 $fonts-path: '../../assets/fonts/' !default;
 
-// Font #1. Std Book (our main fallback font)
+// Std and Book
 @font-face {
   font-family: 'Fedra Sans Std';
   src: url('#{$fonts-path}/FedraSansStd-Book.eot');
@@ -61,8 +61,21 @@ $fonts-path: '../../assets/fonts/' !default;
   font-display: fallback;
 }
 
-// Font #1. Std Medium (our main fallback font with font weight 600 or more)
-// As we save over 70kB by just faking the medium font, we skip this
+// Demi
+@font-face {
+  font-family: 'Fedra Sans Std';
+  src: url('#{$fonts-path}/FedraSansStd-Demi.eot');
+  src: url('#{$fonts-path}/FedraSansStd-Demi.eot?#iefix')
+      format('embedded-opentype'),
+    url('#{$fonts-path}/FedraSansStd-Demi.woff2') format('woff2'),
+    url('#{$fonts-path}/FedraSansStd-Demi.woff') format('woff'),
+    url('#{$fonts-path}/FedraSansStd-Demi.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: fallback;
+}
+
+// Medium
 @font-face {
   font-family: 'Fedra Sans Std';
   src: url('#{$fonts-path}/FedraSansStd-Medium.eot');
@@ -72,20 +85,6 @@ $fonts-path: '../../assets/fonts/' !default;
     url('#{$fonts-path}/FedraSansStd-Medium.woff') format('woff'),
     url('#{$fonts-path}/FedraSansStd-Medium.ttf') format('truetype');
   font-weight: 600;
-  font-style: normal;
-  font-display: fallback;
-}
-
-// Font #3. Demi
-@font-face {
-  font-family: 'Fedra Sans Std Demi';
-  src: url('#{$fonts-path}/FedraSansStd-Demi.eot');
-  src: url('#{$fonts-path}/FedraSansStd-Demi.eot?#iefix')
-      format('embedded-opentype'),
-    url('#{$fonts-path}/FedraSansStd-Demi.woff2') format('woff2'),
-    url('#{$fonts-path}/FedraSansStd-Demi.woff') format('woff'),
-    url('#{$fonts-path}/FedraSansStd-Demi.ttf') format('truetype');
-  font-weight: normal;
   font-style: normal;
   font-display: fallback;
 }
