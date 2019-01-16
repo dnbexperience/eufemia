@@ -12,6 +12,8 @@ The CSS is a compiled and minified version. You will find it here: `dnb-ui-lib/s
 
 **TODO:** CSS structure graphics
 
+**TODO:** CSS structure graphics
+
 ## Apply the DNB Style
 
 To use the default DNB style, you have to define a CSS class called: `dnb-style`

@@ -38,7 +38,8 @@ This helps coworkers quickly find and understand the sentence and meaning of the
   padding: 1em; /* Will be the same as our local font-size of 1.5rem */
 
   /* 3. Fonts & Typography */
-  font-family: 'Fedra Sans Std';
+  font-family: var(--font-family-std);
+  font-weight: var(--font-weight-std);
   font-size: 1.5rem;
   color: var(--color-sea-green);
 
