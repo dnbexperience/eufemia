@@ -193,7 +193,16 @@ exports[`Dropdown scss have to match snapshot 1`] = `
  */
 :root {
   --font-family-std: 'Fedra Sans Std', sans-serif;
-  --font-family-demi: 'Fedra Sans Std Demi', sans-serif;
+  --font-family-book: 'Fedra Sans Std', sans-serif;
+  /* Do not use, use --font-weight-... */
+  --font-family-demi: 'Fedra Sans Std', sans-serif;
+  /* Do not use, use --font-weight-... */
+  --font-family-medium: 'Fedra Sans Std', sans-serif;
+  /* Do not use, use --font-weight-... */
+  --font-weight-std: normal;
+  --font-weight-book: normal;
+  --font-weight-demi: 500;
+  --font-weight-medium: 600;
   --color-sea-green-alt: #008484;
   --color-mint-green-50: #d2f0e9;
   --color-mint-green-25: #e9f8f4;
@@ -237,12 +246,12 @@ exports[`Dropdown scss have to match snapshot 1`] = `
 
 .dnb-typo-medium {
   font-family: var(--font-family-std);
-  font-weight: 600;
+  font-weight: var(--font-weight-medium);
   font-style: normal; }
 
 .dnb-typo-demi {
-  font-family: var(--font-family-demi);
-  font-weight: normal;
+  font-family: var(--font-family-std);
+  font-weight: var(--font-weight-demi);
   font-style: normal; }
 
 .dnb-typo-number--lining {
@@ -271,23 +280,23 @@ exports[`Dropdown scss have to match snapshot 1`] = `
 
 @font-face {
   font-family: 'Fedra Sans Std';
+  src: url(\\"../../../../assets/fonts//FedraSansStd-Demi.eot\\");
+  src: url(\\"../../../../assets/fonts//FedraSansStd-Demi.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts//FedraSansStd-Demi.woff2\\") format(\\"woff2\\"), url(\\"../../../../assets/fonts//FedraSansStd-Demi.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts//FedraSansStd-Demi.ttf\\") format(\\"truetype\\");
+  font-weight: 500;
+  font-style: normal;
+  font-display: fallback; }
+
+@font-face {
+  font-family: 'Fedra Sans Std';
   src: url(\\"../../../../assets/fonts//FedraSansStd-Medium.eot\\");
   src: url(\\"../../../../assets/fonts//FedraSansStd-Medium.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts//FedraSansStd-Medium.woff2\\") format(\\"woff2\\"), url(\\"../../../../assets/fonts//FedraSansStd-Medium.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts//FedraSansStd-Medium.ttf\\") format(\\"truetype\\");
   font-weight: 600;
   font-style: normal;
   font-display: fallback; }
 
-@font-face {
-  font-family: 'Fedra Sans Std Demi';
-  src: url(\\"../../../../assets/fonts//FedraSansStd-Demi.eot\\");
-  src: url(\\"../../../../assets/fonts//FedraSansStd-Demi.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts//FedraSansStd-Demi.woff2\\") format(\\"woff2\\"), url(\\"../../../../assets/fonts//FedraSansStd-Demi.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts//FedraSansStd-Demi.ttf\\") format(\\"truetype\\");
-  font-weight: normal;
-  font-style: normal;
-  font-display: fallback; }
-
 /*
  * Scopes
- * 
+ *
  */
 /*
 * DNB Input
@@ -333,9 +342,10 @@ exports[`Dropdown scss have to match snapshot 1`] = `
     height: 2em; }
 
 .dnb-button {
-  font-family: var(--font-family-std, sans-serif);
+  font-family: sans-serif;
+  font-family: var(--font-family-std);
+  font-weight: var(--font-weight-std);
   font-size: 1rem;
-  font-weight: normal;
   font-style: normal;
   line-height: 1.5rem;
   color: var(--color-black-80, #333);
@@ -356,10 +366,7 @@ exports[`Dropdown scss have to match snapshot 1`] = `
 *
 */
 :root {
-  --button-font-family: var(--font-family-std);
   --button-font-size: 1rem;
-  --button-font-weight: normal;
-  --button-font-style: normal;
   --button-width: 2.5rem;
   --button-height: 2.5rem;
   --button-width--small: 2rem;
@@ -386,10 +393,8 @@ exports[`Dropdown scss have to match snapshot 1`] = `
   padding: 0;
   border: var(--button-border-width) solid transparent;
   border-radius: var(--button-border-radius);
-  font-family: var(--button-font-family);
   font-size: var(--button-font-size);
-  font-weight: var(--button-font-weight);
-  font-style: var(--button-font-style);
+  line-height: var(--button-height);
   text-decoration: none;
   /* Firefox includes a hidden border which messes up button dimensions */ }
   .dnb-button__icon {
@@ -399,7 +404,6 @@ exports[`Dropdown scss have to match snapshot 1`] = `
       height: var(--button-icon-size); }
   .dnb-button__text {
     color: inherit;
-    background-color: inherit;
     transform: translateY(var(--button-border-width)); }
   .dnb-button--size-small {
     width: var(--button-width--small);
@@ -488,9 +492,10 @@ a.dnb-button {
 *
 */
 .dnb-form-label {
-  font-family: var(--font-family-std, sans-serif);
+  font-family: sans-serif;
+  font-family: var(--font-family-std);
+  font-weight: var(--font-weight-std);
   font-size: 1rem;
-  font-weight: normal;
   font-style: normal;
   line-height: 1.5rem;
   color: var(--color-black-80, #333);
@@ -522,9 +527,10 @@ a.dnb-button {
   cursor: not-allowed; }
 
 .dnb-input {
-  font-family: var(--font-family-std, sans-serif);
+  font-family: sans-serif;
+  font-family: var(--font-family-std);
+  font-weight: var(--font-weight-std);
   font-size: 1rem;
-  font-weight: normal;
   font-style: normal;
   line-height: 1.5rem;
   color: var(--color-black-80, #333);
@@ -545,12 +551,9 @@ a.dnb-button {
 *
 */
 :root {
-  --input-font-family: var(--font-family-std);
   --input-font-size: 1rem;
   --input-font-size--medium: 1.5rem;
   --input-font-size--large: 2rem;
-  --input-font-weight: normal;
-  --input-font-style: normal;
   --input-padding: 0 1rem;
   --input-padding--medium: 0 1rem;
   --input-padding--large: 0 1.5rem;
@@ -569,10 +572,7 @@ a.dnb-button {
   align-items: center;
   flex-flow: row wrap;
   width: 100%;
-  font-family: var(--input-font-family);
   font-size: var(--input-font-size);
-  font-weight: var(--input-font-weight);
-  font-style: var(--input-font-style);
   line-height: var(--input-height); }
   .dnb-input__shell {
     position: relative;
@@ -664,9 +664,10 @@ a.dnb-button {
     margin-right: 1rem; }
 
 .dnb-dropdown {
-  font-family: var(--font-family-std, sans-serif);
+  font-family: sans-serif;
+  font-family: var(--font-family-std);
+  font-weight: var(--font-weight-std);
   font-size: 1rem;
-  font-weight: normal;
   font-style: normal;
   line-height: 1.5rem;
   color: var(--color-black-80, #333);

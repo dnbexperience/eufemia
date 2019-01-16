@@ -1,12 +1,13 @@
 /*
  * Scopes
- * 
+ *
  */
 
 @mixin bodyDefault() {
-  font-family: var(--font-family-std, sans-serif);
+  font-family: sans-serif;
+  font-family: var(--font-family-std);
+  font-weight: var(--font-weight-std);
   font-size: 1rem;
-  font-weight: normal;
   font-style: normal;
   line-height: 1.5rem;
   color: var(--color-black-80, #333);

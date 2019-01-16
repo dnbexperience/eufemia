@@ -26,8 +26,8 @@
     padding: 0;
 
     font-family: var(--font-family-demi);
+    font-weight: var(--font-weight-demi);
     line-height: 1rem; // 16px
-    font-weight: 400;
 
     color: var(--color-emerald-green);
   }
@@ -37,7 +37,7 @@
 
     font-size: 3rem; // 48px
     line-height: 3.5rem; // 56px
-    font-weight: 400;
+    font-weight: var(--font-weight-demi);
   }
 
   h1.small,
@@ -61,9 +61,9 @@
   h3,
   p.dnb-lead {
     font-family: var(--font-family-demi);
+    font-weight: var(--font-weight-demi);
     font-size: 1.25rem; // 20px
     line-height: 2rem; // 32px
-    font-weight: 400;
   }
   h3 > small,
   h3.small,
@@ -97,7 +97,7 @@
 
     b,
     strong {
-      font-weight: 600;
+      font-weight: bold;
     }
   }
 
@@ -134,7 +134,7 @@
   table th {
     padding: 3em 1em 0.5em;
 
-    font-weight: 600;
+    font-weight: var(--font-weight-medium);
     text-align: left;
     color: var(--color-emerald-green);
 
@@ -225,7 +225,7 @@
       margin-top: 1em;
       font-size: 1em;
       font-style: italic;
-      font-weight: 600;
+      font-weight: var(--font-weight-medium);
     }
 
     dl dd {

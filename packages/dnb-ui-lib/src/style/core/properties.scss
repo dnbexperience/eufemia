@@ -4,9 +4,17 @@
  */
 
 :root {
-  // typography family
+  // Typography Family
   --font-family-std: 'Fedra Sans Std', sans-serif;
-  --font-family-demi: 'Fedra Sans Std Demi', sans-serif;
+  --font-family-book: 'Fedra Sans Std', sans-serif; /* Do not use, use --font-weight-... */
+  --font-family-demi: 'Fedra Sans Std', sans-serif; /* Do not use, use --font-weight-... */
+  --font-family-medium: 'Fedra Sans Std', sans-serif; /* Do not use, use --font-weight-... */
+
+  // Typography Weights
+  --font-weight-std: normal;
+  --font-weight-book: normal;
+  --font-weight-demi: 500;
+  --font-weight-medium: 600;
 
   // UX colors
   --color-sea-green-alt: #008484;

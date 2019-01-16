@@ -70,7 +70,16 @@ exports[`Slider scss have to match snapshot 1`] = `
  */
 :root {
   --font-family-std: 'Fedra Sans Std', sans-serif;
-  --font-family-demi: 'Fedra Sans Std Demi', sans-serif;
+  --font-family-book: 'Fedra Sans Std', sans-serif;
+  /* Do not use, use --font-weight-... */
+  --font-family-demi: 'Fedra Sans Std', sans-serif;
+  /* Do not use, use --font-weight-... */
+  --font-family-medium: 'Fedra Sans Std', sans-serif;
+  /* Do not use, use --font-weight-... */
+  --font-weight-std: normal;
+  --font-weight-book: normal;
+  --font-weight-demi: 500;
+  --font-weight-medium: 600;
   --color-sea-green-alt: #008484;
   --color-mint-green-50: #d2f0e9;
   --color-mint-green-25: #e9f8f4;
@@ -114,12 +123,12 @@ exports[`Slider scss have to match snapshot 1`] = `
 
 .dnb-typo-medium {
   font-family: var(--font-family-std);
-  font-weight: 600;
+  font-weight: var(--font-weight-medium);
   font-style: normal; }
 
 .dnb-typo-demi {
-  font-family: var(--font-family-demi);
-  font-weight: normal;
+  font-family: var(--font-family-std);
+  font-weight: var(--font-weight-demi);
   font-style: normal; }
 
 .dnb-typo-number--lining {
@@ -148,28 +157,29 @@ exports[`Slider scss have to match snapshot 1`] = `
 
 @font-face {
   font-family: 'Fedra Sans Std';
+  src: url(\\"../../../../assets/fonts//FedraSansStd-Demi.eot\\");
+  src: url(\\"../../../../assets/fonts//FedraSansStd-Demi.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts//FedraSansStd-Demi.woff2\\") format(\\"woff2\\"), url(\\"../../../../assets/fonts//FedraSansStd-Demi.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts//FedraSansStd-Demi.ttf\\") format(\\"truetype\\");
+  font-weight: 500;
+  font-style: normal;
+  font-display: fallback; }
+
+@font-face {
+  font-family: 'Fedra Sans Std';
   src: url(\\"../../../../assets/fonts//FedraSansStd-Medium.eot\\");
   src: url(\\"../../../../assets/fonts//FedraSansStd-Medium.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts//FedraSansStd-Medium.woff2\\") format(\\"woff2\\"), url(\\"../../../../assets/fonts//FedraSansStd-Medium.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts//FedraSansStd-Medium.ttf\\") format(\\"truetype\\");
   font-weight: 600;
   font-style: normal;
   font-display: fallback; }
 
-@font-face {
-  font-family: 'Fedra Sans Std Demi';
-  src: url(\\"../../../../assets/fonts//FedraSansStd-Demi.eot\\");
-  src: url(\\"../../../../assets/fonts//FedraSansStd-Demi.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts//FedraSansStd-Demi.woff2\\") format(\\"woff2\\"), url(\\"../../../../assets/fonts//FedraSansStd-Demi.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts//FedraSansStd-Demi.ttf\\") format(\\"truetype\\");
-  font-weight: normal;
-  font-style: normal;
-  font-display: fallback; }
-
 /*
  * Scopes
- * 
+ *
  */
 .dnb-slider {
-  font-family: var(--font-family-std, sans-serif);
+  font-family: sans-serif;
+  font-family: var(--font-family-std);
+  font-weight: var(--font-weight-std);
   font-size: 1rem;
-  font-weight: normal;
   font-style: normal;
   line-height: 1.5rem;
   color: var(--color-black-80, #333);

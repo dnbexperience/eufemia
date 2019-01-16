@@ -14,7 +14,7 @@
     .dnb-tablink {
       // should be same as .lead small
       &-title {
-        font-family: var(--font-family-std); // book
+        font-weight: var(--font-weight-book);
         font-size: 1em;
         line-height: 1.5em;
         text-align: center;
