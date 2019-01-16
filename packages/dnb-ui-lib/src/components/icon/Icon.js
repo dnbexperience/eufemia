@@ -16,8 +16,8 @@ import {
 export const DefaultIconSize = 16
 export const DefaultIconSizes = {
   default: 16,
-  medium: 24,
-  large: 32
+  medium: 24
+  // large: 32 // currently not in use
 }
 export const ListDefaultIconSizes = Object.entries(DefaultIconSizes)
 
@@ -89,7 +89,7 @@ export default class Icon extends PureComponent {
 
     const {
       color,
-      size,
+      modifier,
       height,
       width,
       class: _className,
@@ -97,7 +97,7 @@ export default class Icon extends PureComponent {
       area_hidden
     } = props
 
-    let { alt, modifier } = props
+    let { alt, size } = props
     let size_int = size
 
     // get the icon name - we use is for several things
@@ -143,11 +143,10 @@ export default class Icon extends PureComponent {
     // if the sizes are identical and they are default sizes
     // decorate the css class with that info
     if (
-      !modifier &&
       parseFloat(svgParams['width']) === parseFloat(svgParams['height'])
     ) {
       const wantedSize = parseFloat(svgParams['height'])
-      modifier = ListDefaultIconSizes.filter(
+      size = ListDefaultIconSizes.filter(
         ([key, value]) => key && value === wantedSize
       ).reduce((acc, [key]) => key, null)
     }
@@ -182,6 +181,7 @@ export default class Icon extends PureComponent {
     wrapperParams.className = classnames(
       'dnb-icon',
       modifier ? `dnb-icon--${modifier}` : null,
+      size ? `dnb-icon--${size}` : null,
       !widthExistsInDefaultSizes && !heightExistsInDefaultSizes
         ? 'has-custom-size'
         : null,
@@ -231,7 +231,13 @@ export const loadSVG = (icon, size = null, listOfIcons = null) => {
   // for importing react component
   try {
     icon = iconCase(icon)
-    if (size && !/[0-9]/.test(size)) {
+    if (
+      size &&
+      DefaultIconSizes[size] &&
+      size !== 'default' &&
+      !(parseFloat(size) > 0) &&
+      !icon.includes(size)
+    ) {
       icon = `${icon}_${size}`
     }
     const mod = (listOfIcons.dnbIcons

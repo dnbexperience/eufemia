@@ -98,7 +98,9 @@ describe('Input component', () => {
   })
 
   it('has to to have a status value as defined in the prop', () => {
-    const Comp = mount(<Component {...props} status="status" />)
+    const Comp = mount(
+      <Component {...props} status="status" status_state="error" />
+    )
     expect(Comp.find('.dnb-form-status').text()).toBe('status')
   })
 

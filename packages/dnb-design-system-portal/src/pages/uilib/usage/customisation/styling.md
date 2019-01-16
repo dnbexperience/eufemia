@@ -1,6 +1,7 @@
 ---
 header: 'UI Library'
 title: 'Styling'
+status: 'imp'
 draft: false
 order: 1
 ---
@@ -8,6 +9,8 @@ order: 1
 # Styling
 
 The CSS is a compiled and minified version. You find it here: `dnb-ui-lib/style/dnb-ui-lib.min.css`
+
+**TODO:** CSS structure graphics
 
 ## Apply the DNB Style
 

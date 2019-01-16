@@ -1,6 +1,7 @@
 ---
 header: UI Library - Performance'
 title: 'Performance'
+icon: 'performance'
 draft: false
 ---
 

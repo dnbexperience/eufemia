@@ -38,16 +38,16 @@ exports[`Logo scss have to match snapshot 1`] = `
 "/*
 * DNB Logo
 *
-* ======================================================================== */
+*/
 /**
  * This file is only used to make components independent
  * so that they can get imported individually, without the core styles
  *
  */
 /*
-* CSS Properties
-*
-* ======================================================================== */
+ * CSS Properties
+ *
+ */
 :root {
   --font-family-std: 'Fedra Sans Std', sans-serif;
   --font-family-demi: 'Fedra Sans Std Demi', sans-serif;
@@ -77,14 +77,14 @@ exports[`Logo scss have to match snapshot 1`] = `
 
 /*
  * Utilities
- * ========================================================================== */
+ */
 /*
  * Typography
  *
  * The font-family properties are defined in the properties.scss file, like:
  * --font-family-std:
  *
- * ========================================================================== */
+ */
 .dnb-typo-std,
 .dnb-typo-book {
   font-family: var(--font-family-std);
@@ -101,28 +101,20 @@ exports[`Logo scss have to match snapshot 1`] = `
   font-weight: normal;
   font-style: normal; }
 
-.dnb-typo-number--old-style {
-  font-variant-numeric: oldstyle-nums;
-  -moz-font-feature-settings: \\"onum\\";
-  -webkit-font-feature-settings: \\"onum\\";
-  font-feature-settings: \\"onum\\"; }
-
 .dnb-typo-number--lining {
   font-variant-numeric: lining-nums;
-  -moz-font-feature-settings: \\"lnum\\";
-  -webkit-font-feature-settings: \\"lnum\\";
   font-feature-settings: \\"lnum\\"; }
 
 .dnb-typo-number--tabular {
   font-variant-numeric: tabular-nums;
-  -moz-font-feature-settings: \\"tnum\\";
-  -webkit-font-feature-settings: \\"tnum\\";
-  font-feature-settings: \\"tnum\\"; }
+  font-feature-settings: \\"lnum\\"; }
+
+.dnb-typo-number--oldstyle {
+  font-variant-numeric: oldstyle-nums;
+  font-feature-settings: \\"onum\\"; }
 
 .dnb-typo-number--proportional {
   font-variant-numeric: proportional-nums;
-  -moz-font-feature-settings: \\"pnum\\";
-  -webkit-font-feature-settings: \\"pnum\\";
   font-feature-settings: \\"pnum\\"; }
 
 @font-face {
@@ -150,15 +142,18 @@ exports[`Logo scss have to match snapshot 1`] = `
   font-display: fallback; }
 
 /*
-* Scopes
-* ======================================================================== */
+ * Scopes
+ * 
+ */
 .dnb-logo {
   font-family: var(--font-family-std, sans-serif);
   font-size: 1rem;
   font-weight: normal;
   font-style: normal;
   line-height: 1.5rem;
-  color: var(--color-black-80, #333); }
+  color: var(--color-black-80, #333);
+  font-variant-numeric: lining-nums;
+  font-feature-settings: \\"lnum\\"; }
   .dnb-logo *,
   .dnb-logo ::before,
   .dnb-logo ::after {
@@ -172,7 +167,7 @@ exports[`Logo scss have to match snapshot 1`] = `
 /*
  * Logo element
  *
- * ========================================================================== */
+ */
 .dnb-logo {
   display: inline;
   width: auto;

@@ -1,5 +1,5 @@
 /**
- * Web Style Import
+ * Imports both components and patterns, but no theme
  *
  */
 

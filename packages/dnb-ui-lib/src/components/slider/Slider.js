@@ -410,10 +410,7 @@ export default class Slider extends Component {
         'slider__root',
         currentState && `slider__state--${currentState}`
       ),
-      disabled:
-        typeof disabled === 'string'
-          ? disabled === 'true'
-          : Boolean(disabled),
+      disabled,
       onClick: this.handleClick,
       onMouseDown: this.handleMouseDown,
       onTouchStartCapture: this.handleTouchStart,
@@ -421,10 +418,7 @@ export default class Slider extends Component {
     }
     const buttonParams = {
       className: 'slider__thumb',
-      disabled:
-        typeof disabled === 'string'
-          ? disabled === 'true'
-          : Boolean(disabled),
+      disabled,
       onBlur: this.handleBlur,
       onKeyDown: this.handleKeyDown,
       onTouchStart: this.handleTouchStart,

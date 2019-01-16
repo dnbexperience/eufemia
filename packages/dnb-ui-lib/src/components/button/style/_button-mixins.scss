@@ -1,19 +1,16 @@
 /*
 * Button mixins
 *
-* ======================================================================== */
+*/
+
+// this one is needed, in case dont import "/themes/imports.scss" before
+// @import '../../../style/core/utilities.scss';
 
 @mixin buttonHover($color, $background-color) {
   @include hover(true) {
     color: $color;
     background-color: $background-color;
     border-color: $background-color;
-
-    // @if $border-color {
-    //   border-color: $border-color;
-    // } @else {
-    //   border-color: $background-color;
-    // }
 
     @include fakeBorder(
       null,

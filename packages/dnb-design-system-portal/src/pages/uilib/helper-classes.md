@@ -1,6 +1,7 @@
 ---
 header: 'UI Library'
 title: 'Helper Classes'
+icon: 'helper_classes'
 status: 'dep'
 draft: false
 order: 5

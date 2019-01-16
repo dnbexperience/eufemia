@@ -4,7 +4,7 @@
  */
 
 module.exports = {
-  pathPrefix: '/eufemia',
+  pathPrefix: '/',
   siteMetadata: {
     title: 'DNB Design System - Eufemia',
     name: 'Eufemia',
@@ -75,7 +75,6 @@ module.exports = {
     },
     'gatsby-plugin-sass',
     'gatsby-plugin-emotion',
-    // 'gatsby-plugin-postcss',
     {
       resolve: 'gatsby-plugin-postcss',
       options: {

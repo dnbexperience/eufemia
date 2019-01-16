@@ -318,12 +318,7 @@ export default class Dropdown extends Component {
 
     const { input_id, id, disabled } = this.props
 
-    const params = {
-      disabled:
-        typeof disabled === 'string'
-          ? disabled === 'true'
-          : Boolean(disabled)
-    }
+    const params = { disabled }
     if (this.state.opened) {
       params['aria-expanded'] = true
     }

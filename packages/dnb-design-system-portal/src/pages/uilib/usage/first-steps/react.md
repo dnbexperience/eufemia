@@ -25,13 +25,22 @@ The most basic way to use the `dnb-ui-lib` is like this:
 ### Large Buttons & Icons
 
 ```jsx
-<Button variant="secondary" text="Secondary Button" size="large" icon="chevron-right_medium" />
-<Button icon="chevron-right_medium" icon_size="large" size="large" />
+<Button
+  variant="secondary"
+  text="Secondary Button"
+  icon="chevron-right_medium"
+  size="large"
+/>
+<Button
+  icon="chevron-right"
+  icon_size="medium"
+  size="large"
+/>
 ```
 
 <div className="demo-box">
-  <Button variant="secondary" text="Secondary Button" size="large" icon="chevron-right_medium" />
-  <Button icon="chevron-right_medium" icon_size="large" size="large" />
+  <Button variant="secondary" text="Secondary Button" icon="chevron-right_medium" size="large"  />
+  <Button icon="chevron-right" icon_size="medium" size="large" />
 </div>
 
 ## Extended example

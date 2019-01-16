@@ -1,9 +1,11 @@
 /*
 * Button theme
 *
-* ======================================================================== */
+*/
 
-@import '../../../../style/themes/imports.scss';
+// as long as we import "dnb-button-theme-ui" - we dont need also /themes/imports.scss
+// @import '../../../../style/themes/imports.scss';
+
 @import './dnb-button-theme-ui.scss';
 
 :root {

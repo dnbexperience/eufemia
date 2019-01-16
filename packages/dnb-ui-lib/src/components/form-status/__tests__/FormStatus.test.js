@@ -15,6 +15,7 @@ import Component from '../FormStatus'
 const props = fakeProps(require.resolve('../FormStatus'), {
   optional: true
 })
+props.status = 'error'
 props.icon = 'exclamation'
 
 describe('FormStatus component', () => {

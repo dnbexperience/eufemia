@@ -1,7 +1,7 @@
 /*
  * Anchor
  *
- * ========================================================================== */
+ */
 
 @mixin hoverStyle() {
   background-color: var(--color-mint-green-50);
@@ -53,7 +53,7 @@ a {
     @include activeStyle();
   }
   &:focus {
-    @include focusStyle();
+    @include fakeFocus();
   }
 
   transition: background-color 0.2s ease;

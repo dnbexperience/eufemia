@@ -69,8 +69,13 @@ export const validateDOMAttributes = (props, params) => {
   }
 
   // remove disabled, in case it is false (this is for web components support)
-  if (params.disabled !== null && String(params.disabled) === 'false') {
+  if (params.disabled === null || String(params.disabled) === 'false') {
     delete params.disabled
+  }
+
+  // in case disabled is a string, it its enabled, send it in as a true (this is for web components support)
+  else if (params.disabled === 'true') {
+    params.disabled = true
   }
 
   if (props && props.tabindex) {

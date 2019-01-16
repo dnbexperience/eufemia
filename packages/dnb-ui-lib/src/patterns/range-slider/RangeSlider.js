@@ -118,9 +118,10 @@ export default class RangeSlider extends PureComponent {
               type="text"
               size="large"
               value={this.state.value}
-              font_class="typo-light dnb-typo-number--old-style"
+              font_class="typo-light dnb-typo-number--oldstyle"
               description={range_output_description}
-              extra_information={range_output_extra_information}
+              status={range_output_extra_information}
+              status_state="info"
               on_change={({ value }) => {
                 this.setState({ value: parseFloat(value) })
               }}
