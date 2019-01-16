@@ -78,7 +78,7 @@
     "fs-extra": "^7.0.1",
     "gatsby": "^2.0.91",
     "gatsby-link": "^2.0.8",
-    "gatsby-mdx": "^0.3.3",
+    "gatsby-mdx": "^0.3.4",
     "gatsby-plugin-catch-links": "^2.0.9",
     "gatsby-plugin-emotion": "^4.0.1",
     "gatsby-plugin-manifest": "^2.0.13",
@@ -112,7 +112,7 @@
     "react-live": "^1.12.0",
     "stylelint": "^9.9.0",
     "stylelint-config-styled-components": "^0.1.1",
-    "stylelint-processor-styled-components": "^1.5.1"
+    "stylelint-processor-styled-components": "^1.5.2"
   },
   "buildVersion": "[LOCAL BUILD]"
 }
