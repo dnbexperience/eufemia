@@ -4,7 +4,7 @@
  */
 
 module.exports = {
-  pathPrefix: '',
+  pathPrefix: '/',
   siteMetadata: {
     title: 'DNB Design System - Eufemia',
     name: 'Eufemia',
