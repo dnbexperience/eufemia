@@ -31,11 +31,11 @@ const MainWrapper = styled.div`
   width: 100vw;
 
   /* center on not mobile view */
-  &:not(.show-as-overlay) {
+  ${'' /* &:not(.show-as-overlay) {
     @media (min-width: 640px) {
       height: calc(100vh - 8rem);
     }
-  }
+  } */}
 
   &.fade-out .card-wrapper {
     animation: fade-out 400ms linear 1 0ms forwards;
@@ -79,31 +79,41 @@ const toggleGlobalStyle = css`
     background-color: var(--color-emerald-green);
   }
 
-  /* hide if shown as  */
+  /* hide if shown as overlay menu */
   .content-wrapper {
-    display: none !important;
+    ${'' /* display: none !important; */}
   }
 
+  /* on main entry */
   :not(.is-overlay) {
     .sticky-menu {
-      position: relative;
-
-      @media (min-height: 45rem) {
+      .menu-bar-logo {
+        pointer-events: none;
+        .dnb-icon {
+          display: none;
+        }
+      }
+      .toggle-grid {
+        display: none;
+      }
+      @media (min-height: 55rem) {
+        position: relative;
         height: auto;
         margin-top: 2rem;
 
-        ${'' /* @media (min-width: 640px) {
-        } */}
-
-        border-bottom: none !important;
+        border-bottom: none;
         background-color: transparent;
 
         .toggle-grid {
           display: none;
         }
 
-        .dnb-logo {
-          svg {
+        .menu-bar-logo {
+          &,
+          & .dnb-logo {
+            color: var(--color-white);
+          }
+          .dnb-logo svg {
             height: 4rem;
           }
         }
@@ -112,13 +122,6 @@ const toggleGlobalStyle = css`
     .sticky-inner {
       max-width: 60rem;
       padding: 0 0.5rem;
-    }
-  }
-
-  /* disable scrolling on no mobile view */
-  @media (min-width: 640px) and (min-height: 45rem) {
-    :not(.is-overlay) {
-      overflow: hidden;
     }
   }
 `
