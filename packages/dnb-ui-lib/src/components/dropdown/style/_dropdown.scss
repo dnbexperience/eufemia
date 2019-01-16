@@ -60,7 +60,7 @@ $option-selected-color: #{var(--color-sea-green-4)};
 
     cursor: pointer;
     background-color: white;
-    border-bottom: 1px solid var(--color-outline-grey);
+    border-bottom: 1px solid var(--color-black-border);
 
     &:last-child {
       border-bottom: none;
@@ -155,7 +155,7 @@ $option-selected-color: #{var(--color-sea-green-4)};
       height: var(--input-height) / 2;
 
       background-color: white;
-      border: 1px solid var(--color-outline-grey);
+      border: 1px solid var(--color-black-border);
       opacity: 0;
 
       transform: translate(50%, 50%) rotate(45deg);

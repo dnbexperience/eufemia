@@ -436,7 +436,8 @@ exports[`Modal scss have to match snapshot 1`] = `
   --color-black-80: #333;
   --color-black-30: #b3b3b3;
   --color-white: #fff;
-  --color-black-border: #ebebeb;
+  --color-black-border: #cdcdcd;
+  --color-black-background: #fafafa;
   --color-sea-green: #007272;
   --color-mint-green: #a5e1d2;
   --color-summer-green: #28b482;

@@ -136,7 +136,7 @@ const barStyle = css`
   justify-content: center;
 
   background-color: var(--color-white);
-  border-bottom: 1px solid var(--color-outline-grey);
+  border-bottom: 1px solid var(--color-black-border);
 
   overflow: hidden;
   white-space: nowrap;
