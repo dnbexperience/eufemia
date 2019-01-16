@@ -20,8 +20,7 @@ export default class PageNotFound extends PureComponent {
           <h1>404</h1>
           <h2>We couldn't find that page:</h2>
           <p>
-            {`There's not a page at `}
-            <code>{pathname}</code>
+            There's not a page at <code>{pathname}</code>
           </p>
         </Inner>
       </Center>
