@@ -28,3 +28,9 @@ Consider users on mobile/touch devices - make sure the footer navigation has suf
 #### Accessibility concerns
 
 The VoiceOver screen reader has an issue where the footer landmark role is not announced in the landmark rotor. To address this, add role="contentinfo" to the footer element. [Read more about this](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer).
+
+#### Design
+
+Stack footer content blocks vertically and follow a similar pattern as to the one shown below.
+
+If there is only one block then it should have background color:
