@@ -44,6 +44,11 @@ const ToggleWrapper = styled.span`
   .dnb-form-label {
     margin: 1px 0.5rem 0;
   }
+  @media only screen and (max-width: 50em) {
+    & {
+      display: none;
+    }
+  }
 `
 
 export default class ToggleGrid extends Component {
