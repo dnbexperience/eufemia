@@ -232,7 +232,7 @@ export default class MainMenu extends PureComponent {
               about={
                 <>
                   Change log, contact, etc.
-                  <LastUpadted title="Last Portal update">
+                  <LastUpadted title="Last Change log update">
                     Updated: {buildVersion}
                   </LastUpadted>
                 </>
