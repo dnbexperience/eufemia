@@ -14,6 +14,7 @@ import {
 import Component from '../Tabs'
 // just to make sure we re-run the test in watch mode due to changes in this file
 import '../style/dnb-tabs.scss'
+import '../style/themes/dnb-tabs-theme-ui.scss'
 
 const props = fakeProps(require.resolve('../Tabs'), {
   all: true,
@@ -123,6 +124,12 @@ describe('A single Tab component', () => {
 describe('Tabs scss', () => {
   it('have to match snapshot', () => {
     const scss = loadScss(require.resolve('../style/dnb-tabs.scss'))
+    expect(scss).toMatchSnapshot()
+  })
+  it('have to match default theme snapshot', () => {
+    const scss = loadScss(
+      require.resolve('../style/themes/dnb-tabs-theme-ui.scss')
+    )
     expect(scss).toMatchSnapshot()
   })
 })

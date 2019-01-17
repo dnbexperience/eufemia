@@ -197,6 +197,216 @@ exports[`Button component have to match href="..." snapshot 1`] = `
 </Button>
 `;
 
+exports[`Button scss have to match default theme snapshot 1`] = `
+"/*
+* Button theme
+*
+*/
+/**
+ * This file is only used to make themes independent
+ * so that they can get imported individually, without the core styles
+ *
+ */
+/*
+ * Utilities
+ */
+/*
+ * Typography
+ *
+ * The font-family properties are defined in the properties.scss file, like:
+ * --font-family-default:
+ *
+ */
+.dnb-typo-std,
+.dnb-typo-book {
+  font-family: var(--font-family-default);
+  font-weight: normal;
+  font-style: normal; }
+
+.dnb-typo-medium {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-medium);
+  font-style: normal; }
+
+.dnb-typo-demi {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-demi);
+  font-style: normal; }
+
+.dnb-typo-number--lining {
+  font-variant-numeric: lining-nums;
+  font-feature-settings: \\"lnum\\"; }
+
+.dnb-typo-number--tabular {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: \\"lnum\\"; }
+
+.dnb-typo-number--oldstyle {
+  font-variant-numeric: oldstyle-nums;
+  font-feature-settings: \\"onum\\"; }
+
+.dnb-typo-number--proportional {
+  font-variant-numeric: proportional-nums;
+  font-feature-settings: \\"pnum\\"; }
+
+@font-face {
+  font-family: 'Fedra Sans Std';
+  src: url(\\"../../../../../assets/fonts//FedraSansStd-Book.eot\\");
+  src: url(\\"../../../../../assets/fonts//FedraSansStd-Book.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../../assets/fonts//FedraSansStd-Book.woff2\\") format(\\"woff2\\"), url(\\"../../../../../assets/fonts//FedraSansStd-Book.woff\\") format(\\"woff\\"), url(\\"../../../../../assets/fonts//FedraSansStd-Book.ttf\\") format(\\"truetype\\");
+  font-weight: normal;
+  font-style: normal;
+  font-display: fallback; }
+
+@font-face {
+  font-family: 'Fedra Sans Std';
+  src: url(\\"../../../../../assets/fonts//FedraSansStd-Demi.eot\\");
+  src: url(\\"../../../../../assets/fonts//FedraSansStd-Demi.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../../assets/fonts//FedraSansStd-Demi.woff2\\") format(\\"woff2\\"), url(\\"../../../../../assets/fonts//FedraSansStd-Demi.woff\\") format(\\"woff\\"), url(\\"../../../../../assets/fonts//FedraSansStd-Demi.ttf\\") format(\\"truetype\\");
+  font-weight: 500;
+  font-style: normal;
+  font-display: fallback; }
+
+@font-face {
+  font-family: 'Fedra Sans Std';
+  src: url(\\"../../../../../assets/fonts//FedraSansStd-Medium.eot\\");
+  src: url(\\"../../../../../assets/fonts//FedraSansStd-Medium.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../../assets/fonts//FedraSansStd-Medium.woff2\\") format(\\"woff2\\"), url(\\"../../../../../assets/fonts//FedraSansStd-Medium.woff\\") format(\\"woff\\"), url(\\"../../../../../assets/fonts//FedraSansStd-Medium.ttf\\") format(\\"truetype\\");
+  font-weight: 600;
+  font-style: normal;
+  font-display: fallback; }
+
+/*
+* Button mixins
+*
+*/
+.dnb-button--primary {
+  color: var(--color-white);
+  background-color: var(--color-sea-green-alt);
+  border-color: transparent; }
+  .no-touch .dnb-button--primary:hover[disabled] {
+    cursor: not-allowed; }
+  .no-touch .dnb-button--primary:hover:not([disabled]) {
+    color: var(--color-sea-green);
+    background-color: var(--color-mint-green-50);
+    border-color: var(--color-mint-green-50);
+    box-shadow: 0 0 0 0 0 0 var(--button-border-width--hover) var(--color-mint-green-50); }
+    .no-touch .dnb-button--primary:hover:not([disabled]):not([disabled]):active {
+      box-shadow: 0 0 0 2px transparent;
+      border-color: transparent; }
+  .dnb-button--primary:not([disabled]):focus {
+    color: var(--color-sea-green);
+    background-color: var(--color-mint-green-50);
+    border-color: var(--color-mint-green-50);
+    outline: none; }
+    html[data-whatinput='keyboard'] .dnb-button--primary:not([disabled]):focus {
+      box-shadow: 0 0 0 2px var(--color-signal-orange);
+      border-color: transparent; }
+  .dnb-button--primary[disabled] {
+    color: var(--color-white);
+    background-color: var(--color-sea-green-alt-30); }
+
+.dnb-button--secondary {
+  color: var(--color-sea-green);
+  background-color: var(--color-white);
+  border-color: var(--color-sea-green-alt); }
+  .no-touch .dnb-button--secondary:hover[disabled] {
+    cursor: not-allowed; }
+  .no-touch .dnb-button--secondary:hover:not([disabled]) {
+    color: var(--color-sea-green);
+    background-color: var(--color-mint-green-50);
+    border-color: var(--color-mint-green-50);
+    box-shadow: 0 0 0 0 0 0 var(--button-border-width--hover) var(--color-mint-green-50); }
+    .no-touch .dnb-button--secondary:hover:not([disabled]):not([disabled]):active {
+      box-shadow: 0 0 0 2px transparent;
+      border-color: transparent; }
+  .dnb-button--secondary:not([disabled]):focus {
+    color: var(--color-sea-green);
+    background-color: var(--color-mint-green-50);
+    border-color: var(--color-mint-green-50);
+    outline: none; }
+    html[data-whatinput='keyboard'] .dnb-button--secondary:not([disabled]):focus {
+      box-shadow: 0 0 0 2px var(--color-signal-orange);
+      border-color: transparent; }
+  .dnb-button--secondary[disabled] {
+    color: var(--color-sea-green-alt-30);
+    background-color: var(--color-white);
+    border-color: var(--color-sea-green-alt-30); }
+
+.dnb-button--tertiary {
+  position: relative;
+  z-index: 1;
+  color: var(--color-sea-green);
+  background-color: transparent;
+  border-color: transparent; }
+  .dnb-button--tertiary.dnb-button--has-text {
+    padding-left: 0.5em;
+    padding-right: 0.5em; }
+    .dnb-button--tertiary.dnb-button--has-text .dnb-button__icon {
+      margin: 0 0.5em; }
+    .dnb-button--tertiary.dnb-button--has-text.dnb-button--icon-position-left .dnb-button__icon {
+      margin-left: 0; }
+    .dnb-button--tertiary.dnb-button--has-text.dnb-button--icon-position-right .dnb-button__icon {
+      margin-right: 0; }
+  .dnb-button--tertiary.dnb-button--has-text:not([disabled]):hover::after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    left: 0.1em;
+    right: 0.1em;
+    width: auto;
+    height: 100%;
+    left: 0.05em;
+    right: 0.05em;
+    bottom: 0;
+    height: 1px;
+    border-radius: 0.5px;
+    border-bottom: 1px solid var(--color-sea-green);
+    left: 0.45em;
+    right: 0.45em;
+    bottom: 0.5em; }
+  .dnb-button--tertiary.dnb-button--has-text:not([disabled]):hover.dnb-button--icon-position-left::after {
+    left: 0.7em; }
+  .dnb-button--tertiary.dnb-button--has-text:not([disabled]):hover.dnb-button--icon-position-right::after {
+    right: 0.7em; }
+  .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):hover .dnb-button__icon {
+    color: var(--color-sea-green-alt-30); }
+  .dnb-button--tertiary:not([disabled]):active::after,
+  html[data-whatinput='keyboard'] .dnb-button--tertiary:not([disabled]):focus::after {
+    border-bottom: none; }
+  .dnb-button--tertiary:not([disabled]):focus {
+    color: var(--color-sea-green);
+    background-color: transparent;
+    border-color: transparent;
+    outline: none; }
+    html[data-whatinput='keyboard'] .dnb-button--tertiary:not([disabled]):focus {
+      box-shadow: 0 0 0 2px var(--color-signal-orange);
+      border-color: transparent; }
+  .dnb-button--tertiary[disabled] {
+    cursor: not-allowed;
+    color: var(--color-sea-green-alt-30); }
+
+.dnb-button--signal {
+  color: var(--color-black);
+  background-color: var(--color-signal-yellow); }
+  .no-touch .dnb-button--signal:hover[disabled] {
+    cursor: not-allowed; }
+  .no-touch .dnb-button--signal:hover:not([disabled]) {
+    box-shadow: 0 0 0 var(--button-border-width--hover) var(--color-signal-yellow), 0 0 0 calc(var(--button-border-width--hover) + 1px) var(--color-black); }
+    .no-touch .dnb-button--signal:hover:not([disabled]):not([disabled]):active {
+      box-shadow: 0 0 0 2px transparent;
+      border-color: transparent; }
+  .dnb-button--signal:not([disabled]):focus {
+    color: var(--color-black);
+    background-color: var(--color-signal-yellow);
+    border-color: var(--color-signal-yellow);
+    outline: none; }
+    html[data-whatinput='keyboard'] .dnb-button--signal:not([disabled]):focus {
+      box-shadow: 0 0 0 2px var(--color-signal-orange);
+      border-color: transparent; }
+  .dnb-button--signal[disabled] {
+    color: #b0b0b0;
+    background-color: var(--color-signal-yellow-30); }
+"
+`;
+
 exports[`Button scss have to match snapshot 1`] = `
 "/*
 * DNB Button
@@ -223,17 +433,12 @@ exports[`Button scss have to match snapshot 1`] = `
   --font-weight-book: normal;
   --font-weight-demi: 500;
   --font-weight-medium: 600;
-  --font-size-xxx-small: 0.75rem;
-  --font-size-xx-small: 0.625rem;
-  --font-size-x-small: 0.75rem;
   --font-size-small: 0.875rem;
   --font-size-default: 1rem;
   --font-size-x-default: 1.25rem;
   --font-size-medium: 1.5rem;
   --font-size-large: 2rem;
-  --font-size-x-large: 2.5rem;
   --font-size-xx-large: 3rem;
-  --font-size-decimate: 0.5em;
   --color-sea-green-alt: #008484;
   --color-mint-green-50: #d2f0e9;
   --color-mint-green-25: #e9f8f4;

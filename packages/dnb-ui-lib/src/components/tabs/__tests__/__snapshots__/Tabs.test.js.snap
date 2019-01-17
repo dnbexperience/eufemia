@@ -157,6 +157,120 @@ exports[`Tabs component have to match snapshot 1`] = `
 </Tabs>
 `;
 
+exports[`Tabs scss have to match default theme snapshot 1`] = `
+"/*
+* Tabs theme
+*
+*/
+/**
+ * This file is only used to make themes independent
+ * so that they can get imported individually, without the core styles
+ *
+ */
+/*
+ * Utilities
+ */
+/*
+ * Typography
+ *
+ * The font-family properties are defined in the properties.scss file, like:
+ * --font-family-default:
+ *
+ */
+.dnb-typo-std,
+.dnb-typo-book {
+  font-family: var(--font-family-default);
+  font-weight: normal;
+  font-style: normal; }
+
+.dnb-typo-medium {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-medium);
+  font-style: normal; }
+
+.dnb-typo-demi {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-demi);
+  font-style: normal; }
+
+.dnb-typo-number--lining {
+  font-variant-numeric: lining-nums;
+  font-feature-settings: \\"lnum\\"; }
+
+.dnb-typo-number--tabular {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: \\"lnum\\"; }
+
+.dnb-typo-number--oldstyle {
+  font-variant-numeric: oldstyle-nums;
+  font-feature-settings: \\"onum\\"; }
+
+.dnb-typo-number--proportional {
+  font-variant-numeric: proportional-nums;
+  font-feature-settings: \\"pnum\\"; }
+
+@font-face {
+  font-family: 'Fedra Sans Std';
+  src: url(\\"../../../../../assets/fonts//FedraSansStd-Book.eot\\");
+  src: url(\\"../../../../../assets/fonts//FedraSansStd-Book.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../../assets/fonts//FedraSansStd-Book.woff2\\") format(\\"woff2\\"), url(\\"../../../../../assets/fonts//FedraSansStd-Book.woff\\") format(\\"woff\\"), url(\\"../../../../../assets/fonts//FedraSansStd-Book.ttf\\") format(\\"truetype\\");
+  font-weight: normal;
+  font-style: normal;
+  font-display: fallback; }
+
+@font-face {
+  font-family: 'Fedra Sans Std';
+  src: url(\\"../../../../../assets/fonts//FedraSansStd-Demi.eot\\");
+  src: url(\\"../../../../../assets/fonts//FedraSansStd-Demi.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../../assets/fonts//FedraSansStd-Demi.woff2\\") format(\\"woff2\\"), url(\\"../../../../../assets/fonts//FedraSansStd-Demi.woff\\") format(\\"woff\\"), url(\\"../../../../../assets/fonts//FedraSansStd-Demi.ttf\\") format(\\"truetype\\");
+  font-weight: 500;
+  font-style: normal;
+  font-display: fallback; }
+
+@font-face {
+  font-family: 'Fedra Sans Std';
+  src: url(\\"../../../../../assets/fonts//FedraSansStd-Medium.eot\\");
+  src: url(\\"../../../../../assets/fonts//FedraSansStd-Medium.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../../assets/fonts//FedraSansStd-Medium.woff2\\") format(\\"woff2\\"), url(\\"../../../../../assets/fonts//FedraSansStd-Medium.woff\\") format(\\"woff\\"), url(\\"../../../../../assets/fonts//FedraSansStd-Medium.ttf\\") format(\\"truetype\\");
+  font-weight: 600;
+  font-style: normal;
+  font-display: fallback; }
+
+.dnb-tabs__tabs::after {
+  border-bottom: 1px solid var(--color-mint-green); }
+
+.dnb-tabs__tabs .dnb-tablink-title {
+  font-weight: var(--font-weight-book);
+  font-size: 1em;
+  line-height: 1.5em;
+  text-align: center;
+  color: var(--color-emerald-green); }
+
+.dnb-tabs__tabs .dnb-tablink::after {
+  height: 2px;
+  border-bottom: 2px solid transparent; }
+
+.dnb-tabs__tabs .dnb-tablink:not([disabled]):hover::after {
+  border-bottom-color: var(--color-emerald-green); }
+
+.dnb-tabs__tabs .dnb-tablink[disabled] {
+  cursor: not-allowed; }
+  .dnb-tabs__tabs .dnb-tablink[disabled] .dnb-tablink-title {
+    color: var(--color-sea-green-alt-30); }
+
+.dnb-tabs__tabs .dnb-tablink:not([disabled]):active .dnb-tablink-title, .dnb-tabs__tabs .dnb-tablink:not([disabled]).selected .dnb-tablink-title {
+  font-family: var(--font-family-demi); }
+
+.dnb-tabs__tabs .dnb-tablink:not([disabled]).selected::after {
+  border-bottom-color: var(--color-signal-orange); }
+
+.dnb-tabs__tabs .dnb-tablink:not([disabled]):not(:active):not(.selected):focus {
+  outline: none; }
+  html[data-whatinput='keyboard'] .dnb-tabs__tabs .dnb-tablink:not([disabled]):not(:active):not(.selected):focus {
+    box-shadow: 0 0 0 2px var(--color-signal-orange);
+    border-color: transparent; }
+  .dnb-tabs__tabs .dnb-tablink:not([disabled]):not(:active):not(.selected):focus::after {
+    border-bottom: 2px solid transparent; }
+"
+`;
+
 exports[`Tabs scss have to match snapshot 1`] = `
 "/*
 * DNB Tabs
@@ -183,17 +297,12 @@ exports[`Tabs scss have to match snapshot 1`] = `
   --font-weight-book: normal;
   --font-weight-demi: 500;
   --font-weight-medium: 600;
-  --font-size-xxx-small: 0.75rem;
-  --font-size-xx-small: 0.625rem;
-  --font-size-x-small: 0.75rem;
   --font-size-small: 0.875rem;
   --font-size-default: 1rem;
   --font-size-x-default: 1.25rem;
   --font-size-medium: 1.5rem;
   --font-size-large: 2rem;
-  --font-size-x-large: 2.5rem;
   --font-size-xx-large: 3rem;
-  --font-size-decimate: 0.5em;
   --color-sea-green-alt: #008484;
   --color-mint-green-50: #d2f0e9;
   --color-mint-green-25: #e9f8f4;

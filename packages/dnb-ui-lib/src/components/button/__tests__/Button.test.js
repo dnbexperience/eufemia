@@ -13,6 +13,7 @@ import {
 } from '../../../core/jest/jestSetup'
 import Component from '../Button'
 import '../style/dnb-button.scss' // just to make sure we re-run the test in watch mode due to changes in this file
+import '../style/themes/dnb-button-theme-ui.scss' // just to make sure we re-run the test in watch mode due to changes in this file
 
 const props = fakeProps(require.resolve('../Button'), {
   optional: true
@@ -71,6 +72,12 @@ describe('Button component', () => {
 describe('Button scss', () => {
   it('have to match snapshot', () => {
     const scss = loadScss(require.resolve('../style/dnb-button.scss'))
+    expect(scss).toMatchSnapshot()
+  })
+  it('have to match default theme snapshot', () => {
+    const scss = loadScss(
+      require.resolve('../style/themes/dnb-button-theme-ui.scss')
+    )
     expect(scss).toMatchSnapshot()
   })
 })

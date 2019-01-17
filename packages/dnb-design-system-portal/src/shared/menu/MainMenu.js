@@ -284,5 +284,5 @@ export default class MainMenu extends PureComponent {
 
 const LastUpadted = styled.span`
   display: block;
-  font-size: var(--font-size-x-small);
+  font-size: var(--font-size-small);
 `
