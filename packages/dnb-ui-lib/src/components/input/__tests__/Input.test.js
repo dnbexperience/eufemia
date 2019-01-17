@@ -15,6 +15,7 @@ import {
 import Component from '../Input'
 // just to make sure we re-run the test in watch mode due to changes in this file
 import '../style/dnb-input.scss'
+import '../style/themes/dnb-input-theme-ui.scss'
 
 const props = {
   ...fakeProps(require.resolve('../Input'), {
@@ -134,6 +135,13 @@ describe('Input component', () => {
 describe('Input scss', () => {
   it('have to match snapshot', () => {
     const scss = loadScss(require.resolve('../style/dnb-input.scss'))
+    expect(scss).toMatchSnapshot()
+  })
+
+  it('have to match default theme snapshot', () => {
+    const scss = loadScss(
+      require.resolve('../style/themes/dnb-input-theme-ui.scss')
+    )
     expect(scss).toMatchSnapshot()
   })
 })

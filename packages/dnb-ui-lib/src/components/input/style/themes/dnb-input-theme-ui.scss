@@ -8,7 +8,7 @@
 :root {
   --input-border-color: var(--color-sea-green-alt);
   --input-border-color--disabled: var(--color-sea-green-alt-30);
-  // --input-border-color--active: var(--color-emerald-green);
+  --input-border-color--active: var(--color-emerald-green);
 }
 
 .dnb-input {
@@ -38,10 +38,10 @@
       background-color: var(--color-white);
 
       // In case we want to change the "active" border color
-      // border-color: var(--input-border-color--active);
+      border-color: var(--input-border-color--active);
 
       // In case we want to have a larger border size on the input
-      box-shadow: 0 0 0 1px var(--color-emerald-green);
+      // box-shadow: 0 0 0 1px var(--color-emerald-green);
 
       @include fakeFocus();
     }
@@ -66,6 +66,5 @@
   &__shell[data-input-state='focus'][data-has-content='false']
     .dnb-input__placeholder {
     color: var(--color-sea-green-alt-30);
-    // opacity: 0.5;
   }
 }
