@@ -5,6 +5,12 @@
 
 @import '../../../../style/themes/imports.scss';
 
+:root {
+  --input-border-color: var(--color-sea-green-alt);
+  --input-border-color--disabled: var(--color-sea-green-alt-30);
+  --input-border-color--active: var(--color-emerald-green);
+}
+
 .dnb-input {
   color: var(--color-emerald-green);
 
@@ -17,37 +23,48 @@
         background-color: var(--color-white);
       }
     }
-  }
 
-  // Background color of input when it has content
-  &__shell[data-has-content='true'] {
-    background-color: var(--color-white);
-  }
+    // Background color of input when it has content
+    &[data-has-content='true'] {
+      background-color: var(--color-white);
+    }
 
-  &__shell[data-input-state='disabled'] {
-    color: var(--color-sea-green-alt-30);
-    border-color: var(--input-border-color--disabled);
-  }
+    &[data-input-state='disabled'] {
+      color: var(--color-sea-green-alt-30);
+      border-color: var(--input-border-color--disabled);
+    }
 
-  &__shell[data-input-state='focus'] {
-    background-color: var(--color-white);
+    &[data-input-state='focus'] {
+      background-color: var(--color-white);
 
-    @include fakeFocus();
+      // In case we want to change the "active" border color
+      border-color: var(--input-border-color--active);
+
+      // In case we want to have a larger border size on the input
+      // box-shadow: 0 0 0 1px var(--color-emerald-green);
+
+      @include fakeFocus();
+    }
   }
 
   // with status_state = "error"
   &__status--error &__shell {
     border-color: var(--color-cherry-red);
+
+    &[data-input-state='focus'] {
+      // In case we want to have a larger border size on the input
+      box-shadow: 0 0 0 1px var(--color-cherry-red);
+    }
   }
 
   &__placeholder {
-    color: var(--color-sea-green-alt-30);
+    color: var(--color-sea-green);
   }
 
   // Adjusting opacity of placeholder when:
   // 1: input is in focus and 2. input has no content
   &__shell[data-input-state='focus'][data-has-content='false']
     .dnb-input__placeholder {
-    opacity: 0.5;
+    color: var(--color-sea-green-alt-30);
   }
 }

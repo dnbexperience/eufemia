@@ -12,7 +12,7 @@
 // hey have to be used by a parent css class: .dnb-style
 .dnb-style {
   small {
-    font-size: 0.875rem; // 14px
+    font-size: var(--font-size-small); // 14px
     line-height: 1.5rem;
   }
 
@@ -35,7 +35,7 @@
   h1 {
     margin: 1.5rem 0 1rem;
 
-    font-size: 3rem; // 48px
+    font-size: var(--font-size-xx-large); // 48px
     line-height: 3.5rem; // 56px
     font-weight: var(--font-weight-demi);
   }
@@ -43,14 +43,14 @@
   h1.small,
   h1 small {
     display: block;
-    font-size: 2rem; // 32px
+    font-size: var(--font-size-large); // 32px
     line-height: 3rem; // 48px
   }
 
   h2 {
     margin: 1.5rem 0 1rem;
 
-    font-size: 1.5rem; // 24px
+    font-size: var(--font-size-medium); // 24px
     line-height: 2rem; // 32px
   }
 
@@ -62,28 +62,28 @@
   p.dnb-lead {
     font-family: var(--font-family-demi);
     font-weight: var(--font-weight-demi);
-    font-size: 1.25rem; // 20px
+    font-size: var(--font-size-x-default); // 20px
     line-height: 2rem; // 32px
   }
   h3 > small,
   h3.small,
   p.dnb-lead > small,
   p.dnb-lead > .small {
-    font-size: 1rem; // 16px
+    font-size: var(--font-size-default); // 16px
     line-height: 1.5rem; // 24px
   }
 
   // The rest of the Headings are nod defned by the Eufemia Typography
   h4 {
-    font-size: 1.25rem; // 20px
+    font-size: var(--font-size-x-default); // 20px
     line-height: 1.5rem; // 24px
   }
   h5 {
-    font-size: 1rem; // 16px
+    font-size: var(--font-size-default); // 16px
     line-height: 1.5rem; // 24px
   }
   h6 {
-    font-size: 0.875rem;
+    font-size: var(--font-size-small);
   }
 
   p {

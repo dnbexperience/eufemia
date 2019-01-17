@@ -2,24 +2,24 @@
  * Typography
  *
  * The font-family properties are defined in the properties.scss file, like:
- * --font-family-std:
+ * --font-family-default:
  *
  */
 
 // Font usage
 .dnb-typo-std,
 .dnb-typo-book {
-  font-family: var(--font-family-std);
+  font-family: var(--font-family-default);
   font-weight: normal;
   font-style: normal;
 }
 .dnb-typo-medium {
-  font-family: var(--font-family-std);
+  font-family: var(--font-family-default);
   font-weight: var(--font-weight-medium);
   font-style: normal;
 }
 .dnb-typo-demi {
-  font-family: var(--font-family-std);
+  font-family: var(--font-family-default);
   font-weight: var(--font-weight-demi);
   font-style: normal;
 }

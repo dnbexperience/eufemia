@@ -67,15 +67,11 @@
   }
 }
 
-@mixin fakeBorder($color: null, $shadow: null, $important: null) {
+@mixin fakeBorder($color: null, $width: 2px, $important: null) {
   // we use !important, cause we have no changes to select the selctor right
   // in some cases we have another state where we use box-shadow
   // but with important, we take care of that we actually can use use it
-  @if $shadow {
-    box-shadow: $shadow $important;
-  } @else {
-    box-shadow: 0 0 0 2px $color $important;
-  }
+  box-shadow: 0 0 0 $width $color $important;
 
   @if $color != null {
     border-color: transparent;
