@@ -375,10 +375,11 @@ class Submit extends PureComponent {
         <Button
           className="dnb-input__search-submit__button"
           variant="secondary"
+          icon="search"
+          size="small"
           onClick={this.onSubmitHandler}
           onFocus={this.onFocusHandler}
           onBlur={this.onBlurHandler}
-          icon="search"
           {...params}
         />
       </span>

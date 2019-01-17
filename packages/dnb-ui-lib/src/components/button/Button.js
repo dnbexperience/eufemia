@@ -25,7 +25,7 @@ export const propTypes = {
   type: PropTypes.string,
   title: PropTypes.string,
   variant: PropTypes.oneOf(['primary', 'secondary', 'tertiary', 'signal']),
-  size: PropTypes.oneOf(['medium', 'default', 'large']),
+  size: PropTypes.oneOf(['default', 'small', 'medium', 'large']),
   icon: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.node,
