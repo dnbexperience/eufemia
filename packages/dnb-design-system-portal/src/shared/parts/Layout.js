@@ -124,14 +124,13 @@ const Main = styled.main`
   margin-top: 5rem; /* height of StickyMenuBar - 1px border */
   margin-left: 30vw; /* fallback */
   margin-left: var(--aside-width);
-  padding: 2rem 5vw 2rem;
+  padding: 0;
 
-  &,
-  &::before,
-  &::after {
-    background-color: var(--color-black-background);
-    border-left: 1px solid var(--color-black-border);
+  .dnb-page-content-inner {
+    padding: 2rem 5vw 2rem;
   }
+
+  /* fix overscroll issue on top */
   &::before {
     content: '';
     position: absolute;
@@ -139,6 +138,12 @@ const Main = styled.main`
     left: -1px;
     height: 5rem;
     width: 100%;
+  }
+
+  &,
+  &::before {
+    background-color: var(--color-black-background);
+    border-left: 1px solid var(--color-black-border);
   }
 
   /* make sure that Sidebar aside "styled.aside" gets the same max-width */
