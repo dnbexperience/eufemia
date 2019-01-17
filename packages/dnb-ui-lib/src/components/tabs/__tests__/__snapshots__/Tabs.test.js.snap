@@ -238,8 +238,7 @@ exports[`Tabs scss have to match default theme snapshot 1`] = `
 
 .dnb-tabs__tabs .dnb-tablink-title {
   font-weight: var(--font-weight-book);
-  font-size: 1em;
-  line-height: 1.5em;
+  font-size: var(--font-size-default);
   text-align: center;
   color: var(--color-emerald-green); }
 
@@ -460,8 +459,7 @@ exports[`Tabs scss have to match snapshot 1`] = `
     outline: none;
     border: none; }
     .dnb-tabs__tabs .dnb-tablink-title {
-      font-size: 1em;
-      line-height: 1.5em;
+      font-size: var(--font-size-default);
       white-space: nowrap; }
     .dnb-tabs__tabs .dnb-tablink > span[hidden] {
       display: flex;

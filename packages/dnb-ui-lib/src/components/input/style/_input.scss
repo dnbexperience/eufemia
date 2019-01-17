@@ -143,7 +143,7 @@
     padding: 0.5em 1.5em;
 
     color: var(--color-black);
-    font-size: 0.75em; // 12px
+    font-size: var(--font-size-small); // 14px
     line-height: 1.25rem;
   }
   > .dnb-form-label ~ &__extra-information {

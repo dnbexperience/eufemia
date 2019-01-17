@@ -503,7 +503,7 @@ a.dnb-button {
     flex: 1 100%;
     padding: 0.5em 1.5em;
     color: var(--color-black);
-    font-size: 0.75em;
+    font-size: var(--font-size-small);
     line-height: 1.25rem; }
   > .dnb-form-label ~ .dnb-input__extra-information {
     padding: 0.5em 0; }

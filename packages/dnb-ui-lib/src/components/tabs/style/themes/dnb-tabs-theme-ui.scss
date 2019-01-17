@@ -15,8 +15,7 @@
       // should be same as .lead small
       &-title {
         font-weight: var(--font-weight-book);
-        font-size: 1em;
-        line-height: 1.5em;
+        font-size: var(--font-size-default);
         text-align: center;
 
         color: var(--color-emerald-green);
