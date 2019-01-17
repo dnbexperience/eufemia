@@ -19,6 +19,7 @@ import {
   DesignSystemSvg
 } from './MainMenuGraphics'
 import { Button } from 'dnb-ui-lib/src'
+import { buildVersion } from '../../../package.json'
 
 const MainWrapper = styled.div`
   display: flex;
@@ -228,7 +229,14 @@ export default class MainMenu extends PureComponent {
             <Card
               url="/design-system/"
               title="About Eufemia"
-              about="Changelog, contact, etc."
+              about={
+                <>
+                  Change log, contact, etc.
+                  <LastUpadted title="Last Portal update">
+                    Updated: {buildVersion}
+                  </LastUpadted>
+                </>
+              }
               icon={DesignSystemSvg}
               onClick={this.closeMenuHandler}
             />
@@ -273,3 +281,8 @@ export default class MainMenu extends PureComponent {
     )
   }
 }
+
+const LastUpadted = styled.span`
+  display: block;
+  font-size: var(--font-size-x-small);
+`

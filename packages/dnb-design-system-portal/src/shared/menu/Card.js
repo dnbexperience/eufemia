@@ -119,7 +119,8 @@ export default class Card extends PureComponent {
     url: PropTypes.string.isRequired,
     customStyle: PropTypes.object,
     title: PropTypes.string.isRequired,
-    about: PropTypes.string.isRequired,
+    about: PropTypes.oneOfType([PropTypes.node, PropTypes.string])
+      .isRequired,
     icon: PropTypes.func.isRequired,
     onClick: PropTypes.func
   }
@@ -154,7 +155,6 @@ export default class Card extends PureComponent {
           <Box>
             <Svg {...svgParams} />
             <Header>{title}</Header>
-
             <About>{about}</About>
           </Box>
 
