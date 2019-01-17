@@ -172,17 +172,28 @@ exports[`Tabs scss have to match snapshot 1`] = `
  *
  */
 :root {
-  --font-family-std: 'Fedra Sans Std', sans-serif;
+  --font-family-default: 'Fedra Sans Std', sans-serif;
   --font-family-book: 'Fedra Sans Std', sans-serif;
   /* Do not use, use --font-weight-... */
   --font-family-demi: 'Fedra Sans Std', sans-serif;
   /* Do not use, use --font-weight-... */
   --font-family-medium: 'Fedra Sans Std', sans-serif;
   /* Do not use, use --font-weight-... */
-  --font-weight-std: normal;
+  --font-weight-default: normal;
   --font-weight-book: normal;
   --font-weight-demi: 500;
   --font-weight-medium: 600;
+  --font-size-xxx-small: 0.75rem;
+  --font-size-xx-small: 0.625rem;
+  --font-size-x-small: 0.75rem;
+  --font-size-small: 0.875rem;
+  --font-size-default: 1rem;
+  --font-size-x-default: 1.25rem;
+  --font-size-medium: 1.5rem;
+  --font-size-large: 2rem;
+  --font-size-x-large: 2.5rem;
+  --font-size-xx-large: 3rem;
+  --font-size-decimate: 0.5em;
   --color-sea-green-alt: #008484;
   --color-mint-green-50: #d2f0e9;
   --color-mint-green-25: #e9f8f4;
@@ -215,22 +226,22 @@ exports[`Tabs scss have to match snapshot 1`] = `
  * Typography
  *
  * The font-family properties are defined in the properties.scss file, like:
- * --font-family-std:
+ * --font-family-default:
  *
  */
 .dnb-typo-std,
 .dnb-typo-book {
-  font-family: var(--font-family-std);
+  font-family: var(--font-family-default);
   font-weight: normal;
   font-style: normal; }
 
 .dnb-typo-medium {
-  font-family: var(--font-family-std);
+  font-family: var(--font-family-default);
   font-weight: var(--font-weight-medium);
   font-style: normal; }
 
 .dnb-typo-demi {
-  font-family: var(--font-family-std);
+  font-family: var(--font-family-default);
   font-weight: var(--font-weight-demi);
   font-style: normal; }
 
@@ -280,8 +291,8 @@ exports[`Tabs scss have to match snapshot 1`] = `
  */
 .dnb-tabs {
   font-family: sans-serif;
-  font-family: var(--font-family-std);
-  font-weight: var(--font-weight-std);
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-default);
   font-size: 1rem;
   font-style: normal;
   line-height: 1.5rem;

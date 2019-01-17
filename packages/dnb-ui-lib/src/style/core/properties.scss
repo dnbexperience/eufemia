@@ -5,16 +5,30 @@
 
 :root {
   // Typography Family
-  --font-family-std: 'Fedra Sans Std', sans-serif;
+  --font-family-default: 'Fedra Sans Std', sans-serif;
   --font-family-book: 'Fedra Sans Std', sans-serif; /* Do not use, use --font-weight-... */
   --font-family-demi: 'Fedra Sans Std', sans-serif; /* Do not use, use --font-weight-... */
   --font-family-medium: 'Fedra Sans Std', sans-serif; /* Do not use, use --font-weight-... */
 
   // Typography Weights
-  --font-weight-std: normal;
+  --font-weight-default: normal;
   --font-weight-book: normal;
   --font-weight-demi: 500;
   --font-weight-medium: 600;
+
+  // Typography Sizes
+  // --font-size-x-small: 0.75rem; // 12px
+  --font-size-xxx-small: 0.75rem; // 8px
+  --font-size-xx-small: 0.625rem; // 10px
+  --font-size-x-small: 0.75rem; // 12px
+  --font-size-small: 0.875rem; // 14px
+  --font-size-default: 1rem; // 16px
+  --font-size-x-default: 1.25rem; // 20px
+  --font-size-medium: 1.5rem; // 24px
+  --font-size-large: 2rem; // 32px
+  --font-size-x-large: 2.5rem; // 40px
+  --font-size-xx-large: 3rem; // 48px
+  --font-size-decimate: 0.5em;
 
   // UX colors
   --color-sea-green-alt: #008484;

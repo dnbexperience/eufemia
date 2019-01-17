@@ -11,7 +11,7 @@ order: 1
 /* This will result in loading the Medium Font */
 .my-new-class {
   font-family: 'Fedra Sans Std', sans-serif; /* Fallback */
-  font-family: var(--font-family-std);
+  font-family: var(--font-family-default);
   font-weight: 600;
   font-style: normal;
 }
