@@ -28,6 +28,9 @@ export const propTypes = {
     PropTypes.func
   ]),
   modifier: PropTypes.string,
+  /**
+   * The Icon size can be either a number or a string
+   */
   size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -48,7 +51,7 @@ export const propTypes = {
 export const defaultProps = {
   icon: null,
   modifier: null,
-  size: DefaultIconSize,
+  size: null,
   width: null,
   height: null,
   color: null,
@@ -90,6 +93,7 @@ export default class Icon extends PureComponent {
     const {
       color,
       modifier,
+      size,
       height,
       width,
       class: _className,
@@ -97,8 +101,9 @@ export default class Icon extends PureComponent {
       area_hidden
     } = props
 
-    let { alt, size } = props
-    let size_int = size
+    let { alt } = props
+    let sizeAsInt = -1
+    let sizeAsString = null
 
     // get the icon name - we use is for several things
     const name =
@@ -117,54 +122,76 @@ export default class Icon extends PureComponent {
           return key && value
         }, null)
         if (potentialSize) {
-          size_int = potentialSize
+          sizeAsInt = potentialSize
         }
+      } else {
+        sizeAsInt = DefaultIconSize
       }
     }
 
     // if size is defined as a string, find the size number
-    if (typeof size === 'string' && !(parseFloat(size) > 0)) {
-      size_int = ListDefaultIconSizes.filter(
+    else if (typeof size === 'string' && !(parseFloat(size) > 0)) {
+      sizeAsInt = ListDefaultIconSizes.filter(
         ([key]) => key === size
       ).reduce((acc, [key, value]) => {
         return key && value
       }, null)
+
+      // of if the size is a default size defined as a string
+      if (ListDefaultIconSizes.includes(([key]) => key === size)) {
+        sizeAsString = size
+      }
+    }
+
+    // check if the sizeAsInt is a default size
+    if (sizeAsInt > 0) {
+      const potentialSizeAsString = ListDefaultIconSizes.reduce(
+        (acc, [key, value]) => {
+          if (key && value === sizeAsInt) {
+            return key
+          }
+          return acc
+        },
+        null
+      )
+
+      if (potentialSizeAsString) {
+        sizeAsString = potentialSizeAsString
+      }
     }
 
     // define all the svg parameters
     const svgParams = {}
-    if (parseFloat(size_int) > -1) {
-      svgParams['width'] = svgParams['height'] = size_int
-    }
-    if (parseFloat(width) > -1) svgParams['width'] = width
-    if (parseFloat(height) > -1) svgParams['height'] = height
-    if (color) svgParams['color'] = color
 
-    // if the sizes are identical and they are default sizes
-    // decorate the css class with that info
-    if (
-      parseFloat(svgParams['width']) === parseFloat(svgParams['height'])
-    ) {
-      const wantedSize = parseFloat(svgParams['height'])
-      size = ListDefaultIconSizes.filter(
-        ([key, value]) => key && value === wantedSize
-      ).reduce((acc, [key]) => key, null)
+    if (!sizeAsString && !(sizeAsInt > 0) && parseFloat(size) > -1) {
+      svgParams.width = svgParams.height = parseFloat(size)
+    }
+    if (parseFloat(width) > -1) {
+      svgParams.width = parseFloat(width)
+    }
+    if (parseFloat(height) > -1) {
+      svgParams.height = parseFloat(height)
     }
 
-    const widthExistsInDefaultSizes = ListDefaultIconSizes.some(
-      ([key, value]) => key && value === parseFloat(svgParams['width'])
-    )
-    const heightExistsInDefaultSizes = ListDefaultIconSizes.some(
-      ([key, value]) => key && value === parseFloat(svgParams['height'])
-    )
+    // and the sizeAsInt is not a default size
+    const sizeAsIntIsValidDefault =
+      sizeAsInt > 0 &&
+      ListDefaultIconSizes.includes(
+        ([key, value]) => key && value === sizeAsInt
+      )
 
     // if the size is default, remove the widht/height
     // but if the browser is IE11 - do not remove theese attributes
-    if (!isIE11 && widthExistsInDefaultSizes) {
-      svgParams['width'] = null
+    if (!isIE11 && sizeAsIntIsValidDefault) {
+      svgParams.width = null
+      svgParams.height = null
     }
-    if (!isIE11 && heightExistsInDefaultSizes) {
-      svgParams['height'] = null
+    if (isIE11 && sizeAsInt > 0) {
+      svgParams.width = svgParams.height = sizeAsInt
+    }
+
+    if (color) {
+      svgParams.color = color
     }
 
     // some wrapper params
@@ -181,10 +208,7 @@ export default class Icon extends PureComponent {
     wrapperParams.className = classnames(
       'dnb-icon',
       modifier ? `dnb-icon--${modifier}` : null,
-      size ? `dnb-icon--${size}` : null,
-      !widthExistsInDefaultSizes && !heightExistsInDefaultSizes
-        ? 'has-custom-size'
-        : null,
+      sizeAsString ? `dnb-icon--${sizeAsString}` : null,
       _className,
       className
     )

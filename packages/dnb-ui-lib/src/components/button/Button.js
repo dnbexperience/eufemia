@@ -151,7 +151,7 @@ export default class Button extends PureComponent {
         variant = 'secondary'
       }
       if (!size) {
-        size = 'medium'
+        size = 'small'
       }
     } else if (text) {
       if (!variant) {

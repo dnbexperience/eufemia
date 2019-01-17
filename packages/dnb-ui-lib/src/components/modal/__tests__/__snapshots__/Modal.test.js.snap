@@ -90,7 +90,7 @@ exports[`Modal component have to match snapshot 1`] = `
         variant="secondary"
       >
         <button
-          className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon"
+          className="dnb-button dnb-button--secondary dnb-button--size-small dnb-button--icon-position-right dnb-button--has-icon"
           id={null}
           onClick={[Function]}
           onMouseOut={[Function]}
@@ -135,7 +135,7 @@ exports[`Modal component have to match snapshot 1`] = `
               <span
                 aria-hidden={true}
                 aria-label="Open Modal"
-                className="dnb-icon has-custom-size dnb-button__icon"
+                className="dnb-icon dnb-icon--default dnb-button__icon"
                 role="img"
               >
                 <question>
@@ -328,7 +328,7 @@ exports[`Modal component have to match snapshot 1`] = `
                 variant="secondary"
               >
                 <button
-                  className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon dnb-modal__close-button"
+                  className="dnb-button dnb-button--secondary dnb-button--size-small dnb-button--icon-position-right dnb-button--has-icon dnb-modal__close-button"
                   id={null}
                   onClick={[Function]}
                   onMouseOut={[Function]}
@@ -373,7 +373,7 @@ exports[`Modal component have to match snapshot 1`] = `
                       <span
                         aria-hidden={true}
                         aria-label="Close"
-                        className="dnb-icon has-custom-size dnb-button__icon"
+                        className="dnb-icon dnb-icon--default dnb-button__icon"
                         role="img"
                       >
                         <close>
@@ -551,7 +551,7 @@ exports[`Modal scss have to match snapshot 1`] = `
     fill: currentColor; }
   .dnb-icon svg [stroke] {
     stroke: currentColor; }
-  .dnb-icon:not(.has-custom-size) svg {
+  .dnb-icon svg:not([width]):not([height]) {
     width: inherit;
     height: inherit; }
   .dnb-icon--small {

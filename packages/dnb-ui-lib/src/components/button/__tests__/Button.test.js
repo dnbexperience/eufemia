@@ -41,6 +41,17 @@ describe('Button component', () => {
     expect(Comp.find('button').props().title).toBe(title)
   })
 
+  it('icon only has to have some extra classes', () => {
+    const Comp = mount(<Component icon="question" />)
+
+    // size "small" (32px)
+    expect(Comp.find('.dnb-button--size-small').exists()).toBe(true)
+
+    // has icon class, but not has text
+    expect(Comp.find('.dnb-button--has-icon').exists()).toBe(true)
+    expect(Comp.find('.dnb-button--has-text').exists()).toBe(false)
+  })
+
   it('has a button tag', () => {
     const Comp = mount(<Component {...props} href="https://url" />)
     expect(Comp.find('a').exists()).toBe(true)

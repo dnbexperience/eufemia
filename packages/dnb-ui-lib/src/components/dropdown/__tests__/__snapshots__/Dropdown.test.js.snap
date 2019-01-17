@@ -48,7 +48,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
         icon="icon"
         icon_size="24"
         modifier={null}
-        size={16}
+        size={null}
         width={null}
       />
       <span
@@ -325,7 +325,7 @@ exports[`Dropdown scss have to match snapshot 1`] = `
     fill: currentColor; }
   .dnb-icon svg [stroke] {
     stroke: currentColor; }
-  .dnb-icon:not(.has-custom-size) svg {
+  .dnb-icon svg:not([width]):not([height]) {
     width: inherit;
     height: inherit; }
   .dnb-icon--small {
