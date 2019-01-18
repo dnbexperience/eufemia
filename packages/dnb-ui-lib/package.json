@@ -3,7 +3,7 @@
   "description": "DNB UI Library",
   "license": "SEE LICENSE IN LICENSE FILE",
   "author": "DNB Team & Tobias Høegh",
-  "homepage": "https://dnbexperience.github.io/eufemia/uilib",
+  "homepage": "https://eufemia.dnb.no/uilib",
   "repository": {
     "type": "git",
     "url": "https://github.com/dnbexperience/eufemia.git"
