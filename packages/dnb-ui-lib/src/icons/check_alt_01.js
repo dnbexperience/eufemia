@@ -4,7 +4,7 @@ import React from 'react'
 
 const check_alt_01 = props => (
   <svg viewBox="0 0 16 16" fill="none" {...props}>
-    <g clipPath="url(#clip1515)">
+    <g clipPath="url(#clip-66224fe0514fadb62d40c0aaaf512517)">
       <path
         fillRule="evenodd"
         clipRule="evenodd"
@@ -13,7 +13,7 @@ const check_alt_01 = props => (
       />
     </g>
     <defs>
-      <clipPath id="clip1515">
+      <clipPath id="clip-66224fe0514fadb62d40c0aaaf512517">
         <path fill="#fff" d="M0 0h16v16H0z" />
       </clipPath>
     </defs>

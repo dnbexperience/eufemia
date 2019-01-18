@@ -4,7 +4,7 @@ import React from 'react'
 
 const logout = props => (
   <svg viewBox="0 0 16 16" fill="none" {...props}>
-    <g clipPath="url(#clip1879)">
+    <g clipPath="url(#clip-4236a440a662cc8253d7536e5aa17942)">
       <path
         fillRule="evenodd"
         clipRule="evenodd"
@@ -13,7 +13,7 @@ const logout = props => (
       />
     </g>
     <defs>
-      <clipPath id="clip1879">
+      <clipPath id="clip-4236a440a662cc8253d7536e5aa17942">
         <path fill="#fff" d="M0 0h16v16H0z" />
       </clipPath>
     </defs>

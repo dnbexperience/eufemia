@@ -4,7 +4,7 @@ import React from 'react'
 
 const hamburger_medium = props => (
   <svg viewBox="0 0 24 24" fill="none" {...props}>
-    <g clipPath="url(#clip1546)">
+    <g clipPath="url(#clip-235c487519885c38737ce745dcfc4001)">
       <path
         fillRule="evenodd"
         clipRule="evenodd"
@@ -13,7 +13,7 @@ const hamburger_medium = props => (
       />
     </g>
     <defs>
-      <clipPath id="clip1546">
+      <clipPath id="clip-235c487519885c38737ce745dcfc4001">
         <path fill="#fff" d="M0 0h24v24H0z" />
       </clipPath>
     </defs>
