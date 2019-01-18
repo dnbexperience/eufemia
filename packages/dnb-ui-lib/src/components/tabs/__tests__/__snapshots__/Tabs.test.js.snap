@@ -11,6 +11,7 @@ exports[`Tabs component have to match snapshot 1`] = `
         "class": "class",
         "className": "className",
         "data": "data",
+        "id": "id",
         "label": "label",
         "render": [Function],
         "selected_key": "selected_key",
@@ -20,11 +21,22 @@ exports[`Tabs component have to match snapshot 1`] = `
   }
   1={
     Object {
-      "displayName": "TabContent",
+      "displayName": "ContentWrapper",
       "props": Object {
         "children": "children",
         "id": "id",
-        "selection_key": "selection_key",
+        "selected_key": "selected_key",
+      },
+    }
+  }
+  2={
+    Object {
+      "displayName": "Tab",
+      "props": Object {
+        "children": "children",
+        "disabled": "disabled",
+        "selected": "selected",
+        "title": "title",
       },
     }
   }
@@ -53,7 +65,9 @@ exports[`Tabs component have to match snapshot 1`] = `
   selected_key="second"
   use_hash={false}
 >
-  <Wrapper>
+  <Wrapper
+    isInside={true}
+  >
     <div
       className="dnb-tabs"
     >
@@ -74,6 +88,7 @@ exports[`Tabs component have to match snapshot 1`] = `
                 className="dnb-tablink dnb-no-mouse-focus tab--first "
                 disabled={false}
                 id="id-tab-first"
+                key="tab--first"
                 onClick={[Function]}
                 role="tab"
                 tabIndex="-1"
@@ -96,6 +111,7 @@ exports[`Tabs component have to match snapshot 1`] = `
                 className="dnb-tablink dnb-no-mouse-focus tab--second selected"
                 disabled={false}
                 id="id-tab-second"
+                key="tab--second"
                 onClick={[Function]}
                 role="tab"
                 tabIndex="-1"
@@ -117,6 +133,7 @@ exports[`Tabs component have to match snapshot 1`] = `
                 className="dnb-tablink dnb-no-mouse-focus tab--third "
                 disabled={false}
                 id="id-tab-third"
+                key="tab--third"
                 onClick={[Function]}
                 role="tab"
                 tabIndex="-1"
@@ -137,9 +154,9 @@ exports[`Tabs component have to match snapshot 1`] = `
           </Tabs>
         </div>
       </TabsList>
-      <TabContent
+      <ContentWrapper
         id="id"
-        selection_key="second"
+        selected_key="second"
       >
         <div
           aria-labelledby="id-tab-second"
@@ -147,11 +164,13 @@ exports[`Tabs component have to match snapshot 1`] = `
           id="id-content-second"
           role="tabpanel"
         >
-          <h2>
-            Second
-          </h2>
+          <second>
+            <h2>
+              Second
+            </h2>
+          </second>
         </div>
-      </TabContent>
+      </ContentWrapper>
     </div>
   </Wrapper>
 </Tabs>

@@ -32,7 +32,34 @@ class Example extends PureComponent {
       <Fragment>
         <div className="example-box">
           <Tabs data={data}>{exampleContent}</Tabs>
-          <p className="example-caption">Left aligned tabs</p>
+          <p className="example-caption">
+            Left aligned tabs, using both "data" property and content
+            object
+          </p>
+        </div>
+        <div className="example-box">
+          <Tabs
+            data={{
+              first2: { title: 'First', content: exampleContent.first },
+              second2: { title: 'Second', content: exampleContent.second }
+            }}
+          />
+          <p className="example-caption">
+            Left aligned tabs, using "data" property only
+          </p>
+        </div>
+        <div className="example-box">
+          <Tabs>
+            <Tabs.Tab title="First">
+              <h2>First</h2>
+            </Tabs.Tab>
+            <Tabs.Tab title="Second">
+              <h2>Second</h2>
+            </Tabs.Tab>
+          </Tabs>
+          <p className="example-caption">
+            Left aligned tabs, using React Components only
+          </p>
         </div>
         <div className="example-box">
           <Tabs
@@ -64,15 +91,15 @@ class Example extends PureComponent {
 }
 
 const exampleContent = {
-  first: <h2>First</h2>,
-  second: <Input>Focus me with next Tab key</Input>,
-  third: (
+  first: () => <h2>First</h2>,
+  second: () => <Input>Focus me with next Tab key</Input>,
+  third: () => (
     <p>
       Eros semper blandit tellus mollis primis quisque platea sollicitudin
       ipsum
     </p>
   ),
-  fourth: <h2>Fourth</h2>
+  fourth: () => <h2>Fourth</h2>
 }
 
 const data = [
