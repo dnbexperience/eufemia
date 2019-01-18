@@ -65,7 +65,9 @@ exports[`Tabs component have to match snapshot 1`] = `
   selected_key="second"
   use_hash={false}
 >
-  <Wrapper>
+  <Wrapper
+    isInside={true}
+  >
     <div
       className="dnb-tabs"
     >

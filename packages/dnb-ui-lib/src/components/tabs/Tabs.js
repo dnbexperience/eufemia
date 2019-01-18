@@ -351,15 +351,6 @@ export default class Tabs extends PureComponent {
       class: _className
     } = this.props
 
-    const params = {
-      className: classnames('dnb-tabs', className, _className)
-    }
-
-    // also used for code markup simulation
-    validateDOMAttributes(this.props, params)
-
-    const content = this.renderContent()
-
     // To have a reusable Component laster, do this like that
     const Tabs = () => {
       const tabs = this.state.data.map(
@@ -421,12 +412,26 @@ export default class Tabs extends PureComponent {
     )
 
     // To have a reusable Component laster, do this like that
-    const Wrapper = ({ children, ...rest }) => (
-      <div {...params} {...rest}>
-        {children}
-        {content}
-      </div>
-    )
+    const Wrapper = ({ children, isInside, ...rest }) => {
+      const params = {
+        className: classnames('dnb-tabs', className, _className)
+      }
+
+      // also used for code markup simulation
+      validateDOMAttributes(this.props, params)
+
+      // check if the Wrapper is used from "inside", else there have to be children
+      // from inside, there is the posibility that we got the content privded by the "data" prop
+      const content =
+        isInside || this.props.children ? this.renderContent() : null
+
+      return (
+        <div {...params} {...rest}>
+          {children}
+          {content}
+        </div>
+      )
+    }
 
     // here we reuse the component, if it has a custom renderer
     if (typeof customRenderer === 'function') {
@@ -434,7 +439,7 @@ export default class Tabs extends PureComponent {
     }
 
     return (
-      <Wrapper>
+      <Wrapper isInside>
         <TabsList>
           <Tabs />
         </TabsList>
