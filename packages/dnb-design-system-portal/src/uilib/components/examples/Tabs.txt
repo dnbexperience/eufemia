@@ -1,5 +1,17 @@
 <Tabs data={data}>{exampleContent}</Tabs>
 <Tabs
+  data={{
+    first: { title: "First", content: exampleContent.first },
+    second: { title: "Second", content: exampleContent.second },
+    third: {
+      title: "Third",
+      content: exampleContent.third,
+      disabled: true
+    },
+    fourth: { title: "Fourth", content: exampleContent.fourth }
+  }}
+/>
+<Tabs
   selected_key="second"
   align="right"
   label="Some Tabs label"

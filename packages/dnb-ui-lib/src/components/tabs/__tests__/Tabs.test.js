@@ -29,10 +29,15 @@ const tablistData = [
   { title: 'Second', key: 'second' },
   { title: 'Third', key: 'third' }
 ]
-const tabContentData = {
-  first: <h2>First</h2>,
-  second: <h2>Second</h2>,
-  third: <h2>Third</h2>
+const tablistDataWithContent = [
+  { title: 'First', key: 'first', content: <h2>First</h2> }, // without function
+  { title: 'Second', key: 'second', content: () => <h2>Second</h2> }, // with function
+  { title: 'Third', key: 'third', content: () => <h2>Third</h2> } // with function
+]
+const contentWrapperData = {
+  first: <h2>First</h2>, // without function
+  second: () => <h2>Second</h2>, // with function
+  third: <h2>Third</h2> // without function
 }
 
 describe('Tabs component', () => {
@@ -42,7 +47,7 @@ describe('Tabs component', () => {
       data={tablistData}
       selected_key={startup_selected_key}
     >
-      {tabContentData}
+      {contentWrapperData}
     </Component>
   )
 
@@ -66,7 +71,7 @@ describe('TabList component', () => {
       data={tablistData}
       selected_key={startup_selected_key}
     >
-      {tabContentData}
+      {contentWrapperData}
     </Component>
   )
 
@@ -82,7 +87,7 @@ describe('TabList component', () => {
       Comp.find('div[role="tabpanel"]')
         .children()
         .html()
-    ).toBe(mount(tabContentData.third).html())
+    ).toBe(mount(contentWrapperData.third).html())
   })
 })
 
@@ -93,11 +98,11 @@ describe('A single Tab component', () => {
       data={tablistData}
       selected_key={startup_selected_key}
     >
-      {tabContentData}
+      {contentWrapperData}
     </Component>
   )
 
-  it('has to have the right content on a keydown "ArrowRight"', () => {
+  it('has to have a role="tab" attribute and a class="selcted"', () => {
     expect(
       Comp.find('button.tab--second')
         .instance()
@@ -117,7 +122,26 @@ describe('A single Tab component', () => {
       Comp.find('div[role="tabpanel"]')
         .children()
         .html()
-    ).toBe(mount(tabContentData.third).html())
+    ).toBe(mount(contentWrapperData.third).html())
+  })
+
+  it('has to work with "data only" property containing a "content"', () => {
+    const Comp = mount(<Component data={tablistDataWithContent} />)
+    expect(Comp.find('button.selected').exists()).toBe(true)
+    expect(Comp.find('div.dnb-tabs__content').text()).toBe('First')
+  })
+
+  it('has to work with "Tabs.Tab" as children Components', () => {
+    const Comp = mount(
+      <Component>
+        <Component.Tab title="first">first</Component.Tab>
+        <Component.Tab title="second" selected>
+          second
+        </Component.Tab>
+      </Component>
+    )
+    expect(Comp.find('button.selected').exists()).toBe(true)
+    expect(Comp.find('div.dnb-tabs__content').text()).toBe('second')
   })
 })
 

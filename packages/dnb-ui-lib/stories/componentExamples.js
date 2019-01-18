@@ -95,6 +95,11 @@ stories.push([
   )
 ])
 
+const tablistDataWithContent = [
+  { title: 'First', key: 'first', content: <h2>First</h2> },
+  { title: 'Second', key: 'second', content: () => <h2>Second</h2> }
+]
+
 stories.push([
   'Tabs',
   () => (
@@ -102,6 +107,28 @@ stories.push([
       <Box>
         <Tabs use_hash="true" data={tabsData}>
           {exampleTabsContent}
+        </Tabs>
+      </Box>
+      <Box>
+        <Tabs data={tablistDataWithContent} />
+      </Box>
+      <Box>
+        <Tabs
+          selected_key="second"
+          data={{
+            first: { title: 'First', content: () => <h2>First</h2> },
+            second: { title: 'Second', content: () => <h2>Second</h2> }
+          }}
+        />
+      </Box>
+      <Box>
+        <Tabs>
+          <Tabs.Tab title="First">
+            <h2>First</h2>
+          </Tabs.Tab>
+          <Tabs.Tab title="Second" selected>
+            <h2>Second</h2>
+          </Tabs.Tab>
         </Tabs>
       </Box>
     </Wrapper>
@@ -175,15 +202,15 @@ stories.push([
 ])
 
 const exampleTabsContent = {
-  first: <h2>First</h2>,
-  second: <Input>Focus me with next Tab key</Input>,
-  third: (
+  first: () => <h2>First</h2>,
+  second: () => <Input>Focus me with next Tab key</Input>,
+  third: () => (
     <p>
       Eros semper blandit tellus mollis primis quisque platea sollicitudin
       ipsum
     </p>
   ),
-  fourth: <h2>Fourth</h2>
+  fourth: () => <h2>Fourth</h2>
 }
 const tabsData = [
   { title: 'First', key: 'first' },
