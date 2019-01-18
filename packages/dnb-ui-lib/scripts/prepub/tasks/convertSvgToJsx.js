@@ -16,6 +16,7 @@ import globby from 'globby'
 import { iconCase } from '../../../src/components/icon'
 import { asyncForEach } from '../../tools'
 import { log } from '../../lib'
+import { md5 } from '../../figma/helpers/docHelpers'
 import {
   readLockFile as readSvgLockFile,
   saveLockFile as saveSvgLockFile
@@ -87,10 +88,7 @@ const transformToJsx = (content, file) => {
   const filename = basename.replace(path.extname(file.path), '')
   const componentName = iconCase(filename)
   try {
-    content = content.replace(
-      /clip0/g,
-      `clip${Math.round(Math.random() * 999 + 1000)}`
-    )
+    content = content.replace(/clip[0-9]+/g, `clip-${md5(filename)}`)
     return new Promise((resolve, reject) =>
       svgr(
         content,
