@@ -87,6 +87,10 @@ const transformToJsx = (content, file) => {
   const filename = basename.replace(path.extname(file.path), '')
   const componentName = iconCase(filename)
   try {
+    content = content.replace(
+      /clip0/g,
+      `clip${Math.round(Math.random() * 999 + 1000)}`
+    )
     return new Promise((resolve, reject) =>
       svgr(
         content,

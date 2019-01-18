@@ -20,7 +20,7 @@ const trash_medium = props => (
       strokeLinejoin="round"
     />
     <path
-      d="M9.75 17.25v-7.5m4.5 7.5v-7.5"
+      d="M9.75 17.25v-7.5M14.25 17.25v-7.5"
       stroke="#000"
       strokeWidth={1.5}
       strokeLinecap="round"
