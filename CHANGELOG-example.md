@@ -1,6 +1,6 @@
-## Date
+**January 2019**
 
----
+## Subject title
 
 ### Release of `dnb-ui-lib` v1.10.0
 
@@ -21,8 +21,6 @@ Description
 #### `dnb-ui-lib`: Fixes & Optimizations
 
 Description
-
----
 
 ### Figma: Changes
 

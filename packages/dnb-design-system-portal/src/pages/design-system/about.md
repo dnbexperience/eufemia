@@ -17,14 +17,15 @@ Eufemia is DNB Design System witch consist of resources for designers and develo
 
 The goal is to have a single source of truth for design through color, typography and layout guidelines as well as fully coded components to use in applications.
 
+### More aspects
+
 - Collaboration
 - Master files
 - Versioning
-- Ready to use Components (Pixel Perfect)
 - Patterns
 - Overall documentation
 
-## Thank You
+## Special Thanks
 
 Thank You for all who as contributed to build Eufemia. People who has contributed heavily to Eufemia are:
 
@@ -33,5 +34,7 @@ Thank You for all who as contributed to build Eufemia. People who has contribute
 - Casper Brekke
 - Tobias Høegh
 - Kevin Murphy
+- Hans Kristian Smedsrød
+- Nicolai Rygh
 
 The DNB ASA Design System is build together with [EGGS Design](https://eggsdesign.com/).

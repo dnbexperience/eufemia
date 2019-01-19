@@ -7,13 +7,15 @@ order: 2
 
 # Contact
 
-## Main contact address
-
-[eufemia@dnb.no](mailto:eufemia@dnb.no)
-
 ## Slack Channel on [DNB IT](https://dnb-it.slack.com)
 
-- #eufemia-design-system
+- `# eufemia-design-system`
+
+### Related channels
+
+- `# frontend`
+- `# ux-design`
+- `# experience-design`
 
 ## Designers
 

@@ -1,6 +1,6 @@
-## Changes to the default styles
+**January 2019**
 
-### January 2019
+## Changes to the default styles
 
 - Change from 1px to 2px outline on input for error state
 - Signal Orange is replaced by Emerald Green for focus state
