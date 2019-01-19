@@ -88,7 +88,10 @@ const transformToJsx = (content, file) => {
   const filename = basename.replace(path.extname(file.path), '')
   const componentName = iconCase(filename)
   try {
-    content = content.replace(/clip[0-9]+/g, `clip-${md5(filename)}`)
+    content = content.replace(
+      /clip[0-9]+/g,
+      `clip-${md5(filename).substring(0, 6)}`
+    )
     return new Promise((resolve, reject) =>
       svgr(
         content,
