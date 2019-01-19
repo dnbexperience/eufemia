@@ -5,7 +5,7 @@ import React from 'react'
 const trash = props => (
   <svg viewBox="0 0 16 16" fill="none" {...props}>
     <g
-      clipPath="url(#clip-30639096bfe4ec4b9f17696ef1d02b9f)"
+      clipPath="url(#clip-306390)"
       stroke="#000"
       strokeWidth={1.5}
       strokeLinecap="round"
@@ -23,7 +23,7 @@ const trash = props => (
       />
     </g>
     <defs>
-      <clipPath id="clip-30639096bfe4ec4b9f17696ef1d02b9f">
+      <clipPath id="clip-306390">
         <path fill="#fff" d="M0 0h16v16H0z" />
       </clipPath>
     </defs>
