@@ -459,7 +459,10 @@ class ContentWrapper extends PureComponent {
   }
   render() {
     const { id, children } = this.props
-    const key = this.props.selected_key || this._reactInternalFiber.key
+    const key =
+      this.props.selected_key ||
+      (this._reactInternalFiber && this._reactInternalFiber.key) ||
+      'key'
 
     return (
       <div
