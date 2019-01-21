@@ -16,7 +16,7 @@ export default class HTML extends PureComponent {
           <meta name="robots" content="noindex" />
           <meta
             name="viewport"
-            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=yes, maximum-scale=12"
           />
           {this.props.headComponents}
         </head>

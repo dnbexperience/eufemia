@@ -30,20 +30,6 @@
       justify-content: center;
     }
 
-    // we may wrap this &::after in allAbove to now show for mobile
-    // @include allAbove(medium) {}
-
-    &::after {
-      content: '';
-      position: absolute;
-      z-index: -1;
-      left: -50vw;
-      right: -50vw;
-      bottom: 0;
-      width: 200vw;
-      height: 1px;
-    }
-
     .dnb-tablink {
       position: relative;
       z-index: 1;
@@ -92,6 +78,17 @@
       margin-left: 0;
     }
 
+    &::after {
+      content: '';
+      position: absolute;
+      z-index: -1;
+      left: -50vw;
+      right: -50vw;
+      bottom: 0;
+      width: 200vw;
+      height: 1px;
+    }
+
     @include allBelow(medium) {
       .dnb-tablink {
         margin-left: 2.5rem;
@@ -100,17 +97,17 @@
 
     @include allBelow(small) {
       &__tablist {
-        display: block;
+        flex-direction: column;
+        margin: 0;
       }
       .dnb-tablink {
-        margin-top: 0.5rem; /* because of wrappering */
-        margin-left: 1rem;
+        margin-left: 0;
       }
     }
   }
 
   &__content {
     padding-top: 1rem;
-    margin-bottom: 1rem;
+    margin-top: 1rem;
   }
 }

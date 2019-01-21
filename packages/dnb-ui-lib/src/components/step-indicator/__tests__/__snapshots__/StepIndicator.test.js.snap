@@ -1,201 +1,163 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Tabs component have to match snapshot 1`] = `
-<Tabs
-  0={
-    Object {
-      "displayName": "Tabs",
-      "props": Object {
-        "align": "'left'",
-        "children": Object {},
-        "class": "class",
-        "className": "className",
-        "data": "data",
-        "id": "id",
-        "label": "label",
-        "render": [Function],
-        "selected_key": "selected_key",
-        "use_hash": "use_hash",
-      },
-    }
-  }
-  1={
-    Object {
-      "displayName": "ContentWrapper",
-      "props": Object {
-        "children": "children",
-        "id": "id",
-        "selected_key": "selected_key",
-      },
-    }
-  }
-  2={
-    Object {
-      "displayName": "CustomContent",
-      "props": Object {
-        "children": "children",
-        "disabled": "disabled",
-        "hash": "hash",
-        "selected": "selected",
-        "title": "title",
-      },
-    }
-  }
-  3={
-    Object {
-      "displayName": "Dummy",
-      "props": Object {
-        "children": "children",
-      },
-    }
-  }
-  align="left"
-  class={null}
-  className={null}
+exports[`StepIndicator component have to match snapshot 1`] = `
+<StepIndicator
+  active_item="active_item"
+  active_url="?b"
+  class="class"
+  className="className"
   data={
     Array [
       Object {
-        "key": "first",
-        "title": "First",
+        "title": "Aa",
+        "url": "?a",
       },
       Object {
-        "key": "second",
-        "title": "Second",
+        "title": "Bb",
+        "url": "?b",
       },
       Object {
-        "key": "third",
-        "title": "Third",
+        "title": "Cc",
+        "url": "?c",
+        "url_future": "",
       },
     ]
   }
-  id="id"
-  label={null}
-  render={null}
-  selected_key="second"
-  use_hash={false}
+  on_change={[Function]}
+  show_numbers="show_numbers"
 >
-  <TabsWrapper>
-    <div
-      className="dnb-tabs"
+  <div
+    className="dnb-step-indicator className class"
+  >
+    <ul
+      className="dnb-step-indicator__list"
     >
-      <TabsList>
-        <div
-          className="dnb-tabs__tabs dnb-tabs__tabs--left"
-        >
-          <Tabs>
-            <div
-              className="dnb-tabs__tabs__tablist dnb-tab-focus"
-              onKeyDown={[Function]}
-              onKeyUp={[Function]}
-              role="tablist"
-              tabIndex="0"
-            >
-              <button
-                aria-selected={false}
-                className="dnb-tablink dnb-no-mouse-focus tab--first "
-                disabled={false}
-                id="id-tab-first"
-                key="tab--first"
-                onClick={[Function]}
-                role="tab"
-                tabIndex="-1"
-              >
-                <span
-                  className="dnb-tablink-title"
-                >
-                  First
-                </span>
-                <Dummy>
-                  <span
-                    aria-hidden={true}
-                    hidden={true}
-                  >
-                    First
-                  </span>
-                </Dummy>
-              </button>
-              <button
-                aria-controls="id-content-second"
-                aria-selected={true}
-                className="dnb-tablink dnb-no-mouse-focus tab--second selected"
-                disabled={false}
-                id="id-tab-second"
-                key="tab--second"
-                onClick={[Function]}
-                role="tab"
-                tabIndex="-1"
-              >
-                <span
-                  className="dnb-tablink-title"
-                >
-                  Second
-                </span>
-                <Dummy>
-                  <span
-                    aria-hidden={true}
-                    hidden={true}
-                  >
-                    Second
-                  </span>
-                </Dummy>
-              </button>
-              <button
-                aria-selected={false}
-                className="dnb-tablink dnb-no-mouse-focus tab--third "
-                disabled={false}
-                id="id-tab-third"
-                key="tab--third"
-                onClick={[Function]}
-                role="tab"
-                tabIndex="-1"
-              >
-                <span
-                  className="dnb-tablink-title"
-                >
-                  Third
-                </span>
-                <Dummy>
-                  <span
-                    aria-hidden={true}
-                    hidden={true}
-                  >
-                    Third
-                  </span>
-                </Dummy>
-              </button>
-            </div>
-          </Tabs>
-        </div>
-      </TabsList>
-      <TabContent
-        showEmptyMessage={true}
+      <li
+        className="dnb-step-indicator__item dnb-step-indicator--visited"
+        key="bc0"
       >
-        <ContentWrapper
-          id="id"
-          selected_key="second"
+        <ItemContent
+          activeItem={1}
+          number={0}
+          onChangeHandler={[Function]}
+          show_numbers="show_numbers"
+          title="Aa"
+          url="?a"
+          url_future={null}
+          url_passed={null}
         >
-          <div
-            aria-labelledby="id-tab-second"
-            className="dnb-tabs__content"
-            id="id-content-second"
-            role="tabpanel"
+          <a
+            className="dnb-step-indicator-item-content dnb-step-indicator-item-content--link"
+            href="?a"
+            onClick={[Function]}
           >
-            <second>
-              <h2>
-                Second
-              </h2>
-            </second>
-          </div>
-        </ContentWrapper>
-      </TabContent>
-    </div>
-  </TabsWrapper>
-</Tabs>
+            <ItemContentWrapper
+              number={0}
+              onChangeHandler={[Function]}
+              show_numbers="show_numbers"
+              title="Aa"
+              url="?a"
+            >
+              <span
+                className="dnb-step-indicator-number"
+              >
+                1. 
+              </span>
+              <span
+                className="dnb-step-indicator-text"
+              >
+                Aa
+              </span>
+            </ItemContentWrapper>
+          </a>
+        </ItemContent>
+      </li>
+      <li
+        className="dnb-step-indicator__item dnb-step-indicator--active"
+        key="bc1"
+      >
+        <ItemContent
+          activeItem={1}
+          number={1}
+          onChangeHandler={[Function]}
+          show_numbers="show_numbers"
+          title="Bb"
+          url="?b"
+          url_future={null}
+          url_passed={null}
+        >
+          <a
+            className="dnb-step-indicator-item-content dnb-step-indicator-item-content--link"
+            href="?b"
+            onClick={[Function]}
+          >
+            <ItemContentWrapper
+              number={1}
+              onChangeHandler={[Function]}
+              show_numbers="show_numbers"
+              title="Bb"
+              url="?b"
+            >
+              <span
+                className="dnb-step-indicator-number"
+              >
+                2. 
+              </span>
+              <span
+                className="dnb-step-indicator-text"
+              >
+                Bb
+              </span>
+            </ItemContentWrapper>
+          </a>
+        </ItemContent>
+      </li>
+      <li
+        className="dnb-step-indicator__item"
+        key="bc2"
+      >
+        <ItemContent
+          activeItem={1}
+          number={2}
+          onChangeHandler={[Function]}
+          show_numbers="show_numbers"
+          title="Cc"
+          url="?c"
+          url_future=""
+          url_passed={null}
+        >
+          <span
+            className="dnb-step-indicator-item-content dnb-step-indicator-item-content--static"
+          >
+            <ItemContentWrapper
+              number={2}
+              onChangeHandler={[Function]}
+              show_numbers="show_numbers"
+              title="Cc"
+              url="?c"
+            >
+              <span
+                className="dnb-step-indicator-number"
+              >
+                3. 
+              </span>
+              <span
+                className="dnb-step-indicator-text"
+              >
+                Cc
+              </span>
+            </ItemContentWrapper>
+          </span>
+        </ItemContent>
+      </li>
+    </ul>
+  </div>
+</StepIndicator>
 `;
 
-exports[`Tabs scss have to match default theme snapshot 1`] = `
+exports[`StepIndicator scss have to match default theme snapshot 1`] = `
 "/*
-* Tabs theme
+* StepIndicator theme
 *
 */
 /**
@@ -269,51 +231,34 @@ exports[`Tabs scss have to match default theme snapshot 1`] = `
   font-style: normal;
   font-display: fallback; }
 
-.dnb-tabs__tabs::after {
-  border-bottom: 1px solid var(--color-mint-green); }
-  @media screen and (max-width: 400px) {
-    .dnb-tabs__tabs::after {
-      border-bottom-color: transparent; } }
-
-@media screen and (max-width: 400px) {
-  .dnb-tabs__tabs {
-    box-shadow: 0 0 0 1px var(--color-mint-green);
-    border-color: transparent; } }
-
-.dnb-tabs__tabs .dnb-tablink-title {
-  font-weight: var(--font-weight-book);
-  font-size: var(--font-size-default);
-  text-align: center;
-  color: var(--color-sea-green); }
-
-.dnb-tabs__tabs .dnb-tablink::after {
-  height: 3px;
-  border-radius: 1.5px;
-  background-color: 3px solid transparent; }
-
-.dnb-tabs__tabs .dnb-tablink:not([disabled]):hover {
-  background-color: var(--color-mint-green); }
-
-.dnb-tabs__tabs .dnb-tablink[disabled] {
-  cursor: not-allowed; }
-  .dnb-tabs__tabs .dnb-tablink[disabled] .dnb-tablink-title {
-    color: var(--color-sea-green-alt-30); }
-
-.dnb-tabs__tabs .dnb-tablink:not([disabled]):active .dnb-tablink-title, .dnb-tabs__tabs .dnb-tablink:not([disabled]).selected .dnb-tablink-title {
+.dnb-step-indicator-item-content--static {
   color: var(--color-emerald-green); }
 
-.dnb-tabs__tabs .dnb-tablink:not([disabled]):active::after, .dnb-tabs__tabs .dnb-tablink:not([disabled]).selected::after {
-  background-color: var(--color-sea-green); }
+.dnb-step-indicator-item-content--link {
+  color: var(--color-sea-green-alt); }
 
-.dnb-tabs__tabs .dnb-tablink:not([disabled]).selected .dnb-tablink-title {
+.no-touch .dnb-step-indicator--visited .dnb-step-indicator-item-content--link:hover[disabled] {
+  cursor: not-allowed; }
+
+.no-touch .dnb-step-indicator--visited .dnb-step-indicator-item-content--link:hover:not([disabled]) {
+  border-color: var(--color-sea-green); }
+
+.dnb-step-indicator--active::after {
+  background-color: var(--color-sea-green-alt); }
+
+.dnb-step-indicator--active .dnb-step-indicator-item-content {
   font-family: var(--font-family-demi);
-  font-weight: var(--font-weight-demi); }
+  font-weight: var(--font-weight-demi);
+  color: var(--color-emerald-green); }
+
+.dnb-step-indicator::after {
+  background-color: var(--color-mint-green); }
 "
 `;
 
-exports[`Tabs scss have to match snapshot 1`] = `
+exports[`StepIndicator scss have to match snapshot 1`] = `
 "/*
-* DNB Tabs
+* DNB StepIndicator
 *
 */
 /**
@@ -438,7 +383,7 @@ exports[`Tabs scss have to match snapshot 1`] = `
  * Scopes
  *
  */
-.dnb-tabs {
+.dnb-step-indicator {
   font-family: sans-serif;
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
@@ -448,92 +393,74 @@ exports[`Tabs scss have to match snapshot 1`] = `
   color: var(--color-black-80, #333);
   font-variant-numeric: lining-nums;
   font-feature-settings: \\"lnum\\"; }
-  .dnb-tabs *,
-  .dnb-tabs ::before,
-  .dnb-tabs ::after {
+  .dnb-step-indicator *,
+  .dnb-step-indicator ::before,
+  .dnb-step-indicator ::after {
     background-repeat: no-repeat;
     box-sizing: border-box; }
-  .dnb-tabs ::before,
-  .dnb-tabs ::after {
+  .dnb-step-indicator ::before,
+  .dnb-step-indicator ::after {
     text-decoration: inherit;
     vertical-align: inherit; }
 
 /*
- * Tabs component
+ * StepIndicator element
  *
  */
-.dnb-tabs__tabs {
+.dnb-step-indicator {
   position: relative;
   z-index: 1;
-  display: flex;
-  flex-direction: row;
-  align-content: flex-start;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: nowrap; }
-  .dnb-tabs__tabs__tablist {
+  display: inline-flex;
+  margin: 0;
+  padding: 0; }
+  .dnb-step-indicator__list {
     display: flex;
-    flex-direction: row; }
-  .dnb-tabs__tabs--left .dnb-tabs__tabs__tablist {
-    justify-content: flex-start; }
-  .dnb-tabs__tabs--right .dnb-tabs__tabs__tablist {
-    justify-content: flex-end; }
-  .dnb-tabs__tabs--center .dnb-tabs__tabs__tablist {
-    justify-content: center; }
-  .dnb-tabs__tabs .dnb-tablink {
-    position: relative;
-    z-index: 1;
+    padding: 0;
     margin: 0;
-    margin-left: 4.5rem;
-    padding: 0.25rem 0;
-    /* 1/16*4 */
-    background-color: transparent;
-    border-bottom: 1px solid transparent;
-    cursor: pointer;
-    outline: none;
-    border: none; }
-    .dnb-tabs__tabs .dnb-tablink-title {
-      font-size: var(--font-size-default);
-      white-space: nowrap; }
-    .dnb-tabs__tabs .dnb-tablink > span[hidden] {
-      display: flex;
-      flex-direction: column;
-      visibility: hidden;
-      height: 0;
-      overflow: hidden;
-      letter-spacing: 2px; }
-    .dnb-tabs__tabs .dnb-tablink::after {
+    list-style: none;
+    align-items: flex-start; }
+  .dnb-step-indicator__item {
+    position: relative;
+    z-index: 2;
+    padding: 0;
+    margin-left: 4.5rem; }
+    .dnb-step-indicator__item:first-child {
+      margin-left: 0; }
+    @media screen and (max-width: 700px) {
+      .dnb-step-indicator__item {
+        margin-left: 2rem; } }
+    .dnb-step-indicator__item::after {
       content: '';
       position: absolute;
       z-index: -1;
-      left: 0;
-      right: 0;
       bottom: 0;
+      /* because of the link/anchor border-bottom 2px */
       width: 100%;
-      height: 1px; }
-  .dnb-tabs__tabs .dnb-tablink:first-child {
-    margin-left: 0; }
-  .dnb-tabs__tabs::after {
+      height: 3px;
+      border-radius: 1.5px; }
+  .dnb-step-indicator-item-content {
+    display: flex;
+    padding: 0.25rem 0.25rem 0.125rem;
+    border-bottom: 2px solid transparent;
+    text-decoration: none; }
+    .no-touch .dnb-step-indicator-item-content:hover[disabled] {
+      cursor: not-allowed; }
+    .no-touch .dnb-step-indicator-item-content:hover:not([disabled]) {
+      text-decoration: none; }
+  .dnb-step-indicator-number {
+    padding-right: 0.25rem;
+    white-space: nowrap; }
+  .dnb-step-indicator--active .dnb-step-indicator-item-content {
+    cursor: default;
+    pointer-events: none; }
+  .dnb-step-indicator::after {
     content: '';
     position: absolute;
-    z-index: -1;
+    z-index: 1;
     left: -50vw;
     right: -50vw;
     bottom: 0;
     width: 200vw;
     height: 1px; }
-  @media screen and (max-width: 700px) {
-    .dnb-tabs__tabs .dnb-tablink {
-      margin-left: 2.5rem; } }
-  @media screen and (max-width: 400px) {
-    .dnb-tabs__tabs__tablist {
-      flex-direction: column;
-      margin: 0; }
-    .dnb-tabs__tabs .dnb-tablink {
-      margin-left: 0; } }
-
-.dnb-tabs__content {
-  padding-top: 1rem;
-  margin-top: 1rem; }
 "
 `;

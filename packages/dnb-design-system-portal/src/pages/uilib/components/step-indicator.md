@@ -2,8 +2,8 @@
 header: 'UI Library'
 title: 'StepIndicator'
 draft: false
-status: wip
-order: 12
+status: null
+order: 14
 ---
 
 <!--
@@ -11,6 +11,6 @@ order: 12
   Do not change the content!
 -->
 
-import StepIndicatorPage from 'Src/uilib/patterns/demos/StepIndicator'
+import StepIndicatorPage from 'Src/uilib/components/demos/StepIndicator'
 
 <StepIndicatorPage />

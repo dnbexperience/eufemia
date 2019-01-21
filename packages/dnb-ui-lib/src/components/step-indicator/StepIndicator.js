@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent, Fragment } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
@@ -12,7 +12,7 @@ import {
   processChildren,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
-// import './style/dnb-step-indicator.scss' // no good solution to import the style here
+// import { Dummy } from '../tabs/Tabs'
 
 const renderProps = {
   on_change: null
@@ -128,11 +128,16 @@ export default class StepIndicator extends PureComponent {
     const data = StepIndicator.getData(this.props)
     let activeItem = parseFloat(active_item) - 1
 
-    if (active_url !== null && data.length > 0)
+    if (
+      (active_url || !(parseFloat(active_item) > 0)) &&
+      data.length > 0
+    ) {
       activeItem = data.reduce(
-        (acc, { url }, i) => (url == active_url ? i : acc),
-        activeItem
+        (acc, { url }, i) =>
+          url && (url === active_item || url === active_url) ? i : acc,
+        1
       )
+    }
 
     const params = {
       className: classnames('dnb-step-indicator', className, _className)
@@ -143,36 +148,30 @@ export default class StepIndicator extends PureComponent {
 
     return (
       <div {...params}>
-        <div className="dnb-width-limit">
-          {data.length > 0 && (
-            <ul className="dnb-step-indicator__list">
-              {data.map((props, i) => (
-                <li
-                  key={`bc${i}`}
-                  className={classnames(
-                    'dnb-breadcrumb',
-                    i === activeItem
-                      ? 'dnb-breadcrumb--active dnb-typo-book'
-                      : null,
-                    i < activeItem
-                      ? 'dnb-breadcrumb--visited typo-light'
-                      : null
-                  )}
-                >
-                  <ItemContent
-                    {...{
-                      activeItem,
-                      show_numbers,
-                      number: i,
-                      ...props
-                    }}
-                    onChangeHandler={this.onChangeHandler}
-                  />
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
+        {data.length > 0 && (
+          <ul className="dnb-step-indicator__list">
+            {data.map((props, i) => (
+              <li
+                key={`bc${i}`}
+                className={classnames(
+                  'dnb-step-indicator__item',
+                  i === activeItem ? 'dnb-step-indicator--active' : null,
+                  i < activeItem ? 'dnb-step-indicator--visited' : null
+                )}
+              >
+                <ItemContent
+                  {...{
+                    activeItem,
+                    show_numbers,
+                    number: i,
+                    ...props
+                  }}
+                  onChangeHandler={this.onChangeHandler}
+                />
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
     )
   }
@@ -217,38 +216,39 @@ class ItemContent extends PureComponent {
     return url ? (
       <a
         className={classnames(
-          'dnb-breadcrumb-item-text',
-          'dnb-breadcrumb-item-text--link',
-          number > activeItem ? 'typo-light' : null
+          'dnb-step-indicator-item-content',
+          'dnb-step-indicator-item-content--link'
         )}
         href={url}
         onClick={this._onChangeHandler}
       >
-        <ItemContentNumber {...{ title, number, ...rest }} />
+        <ItemContentWrapper {...{ title, number, ...rest }} />
       </a>
     ) : (
       <span
         className={classnames(
-          'dnb-breadcrumb-item-text',
-          'dnb-breadcrumb-item-text--static',
-          number > activeItem ? ' typo-light' : null
+          'dnb-step-indicator-item-content',
+          'dnb-step-indicator-item-content--static'
         )}
       >
-        <ItemContentNumber {...{ number, title, ...rest }} />
+        <ItemContentWrapper {...{ number, title, ...rest }} />
       </span>
     )
   }
 }
 
-const ItemContentNumber = ({ number, title, show_numbers }) => (
-  <Fragment>
-    <span className="dnb-breadcrumb-number">
+const ItemContentWrapper = ({ number, title, show_numbers }) => (
+  <>
+    <span className="dnb-step-indicator-number">
       {(show_numbers && `${number + 1}. `) || ''}
     </span>
-    {title}
-  </Fragment>
+    <span className="dnb-step-indicator-text">
+      {title}
+      {/* <Dummy>{title}</Dummy> */}
+    </span>
+  </>
 )
-ItemContentNumber.propTypes = {
+ItemContentWrapper.propTypes = {
   number: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
   show_numbers: PropTypes.oneOfType([PropTypes.string, PropTypes.bool])
