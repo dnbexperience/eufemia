@@ -12,10 +12,7 @@
     background-color: $background-color;
     border-color: $background-color;
 
-    @include fakeBorder(
-      null,
-      0 0 0 var(--button-border-width--hover) $background-color
-    );
+    box-shadow: 0 0 0 var(--button-border-width--hover) $background-color;
 
     &:not([disabled]):active {
       @include fakeBorder(transparent);

@@ -287,7 +287,7 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     color: var(--color-sea-green);
     background-color: var(--color-mint-green-50);
     border-color: var(--color-mint-green-50);
-    box-shadow: 0 0 0 0 0 0 var(--button-border-width--hover) var(--color-mint-green-50); }
+    box-shadow: 0 0 0 var(--button-border-width--hover) var(--color-mint-green-50); }
     .no-touch .dnb-button--primary:hover:not([disabled]):not([disabled]):active {
       box-shadow: 0 0 0 2px transparent;
       border-color: transparent; }
@@ -313,7 +313,7 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     color: var(--color-sea-green);
     background-color: var(--color-mint-green-50);
     border-color: var(--color-mint-green-50);
-    box-shadow: 0 0 0 0 0 0 var(--button-border-width--hover) var(--color-mint-green-50); }
+    box-shadow: 0 0 0 var(--button-border-width--hover) var(--color-mint-green-50); }
     .no-touch .dnb-button--secondary:hover:not([disabled]):not([disabled]):active {
       box-shadow: 0 0 0 2px transparent;
       border-color: transparent; }
