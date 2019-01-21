@@ -59,7 +59,7 @@ class Example extends PureComponent {
           </p>
         </div>
         <div className="example-box">
-          {/* <StepIndicator
+          <StepIndicator
             active_item="3"
             data={[
               {
@@ -72,7 +72,7 @@ class Example extends PureComponent {
                 title: 'Oppsummering'
               }
             ]}
-          /> */}
+          />
           <p className="example-caption">StepIndicator with no urls</p>
         </div>
       </Fragment>
