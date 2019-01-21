@@ -4,66 +4,67 @@
  */
 
 import React from 'react'
-import { css, Global } from '@emotion/core'
+import { css } from '@emotion/core'
 import Highlight, { defaultProps } from 'prism-react-renderer'
-// import prismTheme from 'prism-react-renderer/themes/nightOwl'
-import prismTheme from './themes/dnb-prism-theme'
+import dnbTheme from './themes/dnb-prism-theme'
 import {
   LiveProvider,
   LiveEditor,
   LiveError,
   LivePreview
-} from 'react-live'
-
+} from 'react-live-replacement'
 import Pre from './Pre'
 
-/* eslint-disable react/jsx-key */
+const prismStyle = css(dnbTheme)
+
 const CodeBlock = ({
-  language,
+  language = 'jsx',
   children: exampleCode,
   reactLive: isReactLive,
-  className
+  ...props
 }) => {
-  if (!language)
-    language = ((className || '').split(/-/) || [null, 'jsx'])[1]
+  if (!language) {
+    language =
+      (String(props && props.className).match(/language-(.*)$|\s/) ||
+        [])[1] || 'jsx'
+  }
 
-  if (isReactLive && language === 'jsx') {
+  if (((props && props.scope) || isReactLive) && language === 'jsx') {
+    const { caption, hideCode, hideExample, ...restProps } = props
     return (
       <LiveProvider
+        mountStylesheet={false}
+        css={prismStyle}
         code={
           typeof exampleCode === 'string'
             ? String(exampleCode).trim()
             : null
         }
-        // transformCode={
-        //   typeof exampleCode === 'function' ? exampleCode : null
-        // }
+        {...restProps}
       >
-        <LiveEditor />
-        <LiveError />
-        <LivePreview />
+        {!hideExample && (
+          <div className="example-box">
+            <LivePreview />
+          </div>
+        )}
+        {caption && <p className="example-caption">{caption}</p>}
+        {!hideCode && <LiveEditor language="jsx" />}
+        {!hideCode && <LiveError />}
       </LiveProvider>
     )
   } else {
     return (
-      <>
-        <Global
-          styles={css`
-            :root {
-              --color-indigo-medium: #6e6491;
-              --color-violet-medium: #a06eaf;
-            }
-          `}
-        />
-        <Highlight
-          {...defaultProps}
-          code={String(exampleCode).trim()}
-          language={language}
-          theme={prismTheme}
-        >
-          {({ className, style, tokens, getLineProps, getTokenProps }) => (
+      <Highlight
+        {...defaultProps}
+        code={String(exampleCode).trim()}
+        language={language}
+        theme={{ styles: [] }} /* reset styles*/
+      >
+        {({ className, style, tokens, getLineProps, getTokenProps }) => (
+          <div css={prismStyle}>
             <Pre className={className} css={style}>
               {cleanTokens(tokens).map((line, i) => (
+                /* eslint-disable react/jsx-key */
                 <div {...getLineProps({ line, key: i })}>
                   {line.map((token, key) => (
                     <span {...getTokenProps({ token, key })} />
@@ -71,9 +72,9 @@ const CodeBlock = ({
                 </div>
               ))}
             </Pre>
-          )}
-        </Highlight>
-      </>
+          </div>
+        )}
+      </Highlight>
     )
   }
 }

@@ -195,7 +195,7 @@ export default css`
     }
   }
 
-  .example-box {
+  div.example-box {
     margin-bottom: 2rem;
     padding: 2rem;
 
@@ -211,6 +211,20 @@ export default css`
       flex-direction: column;
       align-items: center;
     }
+  }
+  p.example-caption {
+    padding-top: 0.9375rem;
+    margin-top: 2rem;
+
+    font-size: 1em;
+    line-height: 1.5rem;
+    font-style: italic;
+    text-align: center;
+
+    border-top: solid 1px #c4c4c4;
+  }
+  div.example-box + p.example-caption {
+    margin-top: -2rem;
   }
 
   .lh-12 {
@@ -235,18 +249,6 @@ export default css`
 
   .lh-32 {
     line-height: 2rem;
-  }
-
-  .example-caption {
-    padding-top: 0.9375rem;
-    margin-top: 2rem;
-
-    font-size: 1em;
-    line-height: 1.5rem;
-    font-style: italic;
-    text-align: center;
-
-    border-top: solid 1px #c4c4c4;
   }
 
   /*
