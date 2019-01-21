@@ -36,13 +36,8 @@
 
     &[data-input-state='focus'] {
       background-color: var(--color-white);
-
-      // In case we want to change the "active" border color
       border-color: var(--input-border-color--active);
-
-      // In case we want to have a larger border size on the input
-      // box-shadow: 0 0 0 1px var(--color-emerald-green);
-
+      @include extendBorder(var(--input-border-color--active));
       @include fakeFocus();
     }
   }
@@ -51,9 +46,10 @@
   &__status--error &__shell {
     border-color: var(--color-cherry-red);
 
+    &,
     &[data-input-state='focus'] {
       // In case we want to have a larger border size on the input
-      box-shadow: 0 0 0 1px var(--color-cherry-red);
+      // @include extendBorder(var(--color-cherry-red));
     }
   }
 

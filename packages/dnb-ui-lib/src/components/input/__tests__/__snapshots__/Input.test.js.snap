@@ -208,14 +208,13 @@ exports[`Input scss have to match default theme snapshot 1`] = `
     .dnb-input__shell[data-input-state='focus'] {
       background-color: var(--color-white);
       border-color: var(--input-border-color--active);
+      box-shadow: 0 0 0 1px var(--input-border-color--active);
       outline: none; }
       html[data-whatinput='keyboard'] .dnb-input__shell[data-input-state='focus'] {
-        box-shadow: 0 0 0 2px var(--color-signal-orange);
+        box-shadow: 0 0 0 2px var(--color-emerald-green);
         border-color: transparent; }
   .dnb-input__status--error .dnb-input__shell {
     border-color: var(--color-cherry-red); }
-    .dnb-input__status--error .dnb-input__shell[data-input-state='focus'] {
-      box-shadow: 0 0 0 1px var(--color-cherry-red); }
   .dnb-input__placeholder {
     color: var(--color-sea-green); }
   .dnb-input__shell[data-input-state='focus'][data-has-content='false'] .dnb-input__placeholder {
@@ -517,7 +516,7 @@ exports[`Input scss have to match snapshot 1`] = `
     .dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
       outline: none; }
       html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
-        box-shadow: 0 0 0 2px var(--color-signal-orange);
+        box-shadow: 0 0 0 2px var(--color-emerald-green);
         border-color: transparent; }
     html[data-whatinput='mouse']
 .dnb-button--reset:not([disabled]):focus:not(.dnb-no-mouse-focus),

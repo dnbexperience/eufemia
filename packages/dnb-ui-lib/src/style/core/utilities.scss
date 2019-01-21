@@ -58,7 +58,7 @@
 
 @mixin fakeFocus(
   $whatinput: 'keyboard',
-  $color: var(--color-signal-orange)
+  $color: var(--color-emerald-green)
 ) {
   outline: none;
 
@@ -76,6 +76,10 @@
   @if $color != null {
     border-color: transparent;
   }
+}
+
+@mixin extendBorder($color: null, $width: 1px) {
+  box-shadow: 0 0 0 $width $color;
 }
 
 @mixin _drawUnderline() {

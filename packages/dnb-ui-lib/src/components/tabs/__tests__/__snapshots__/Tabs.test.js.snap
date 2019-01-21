@@ -285,7 +285,7 @@ exports[`Tabs scss have to match default theme snapshot 1`] = `
 .dnb-tabs__tabs .dnb-tablink:not([disabled]):not(:active):not(.selected):focus {
   outline: none; }
   html[data-whatinput='keyboard'] .dnb-tabs__tabs .dnb-tablink:not([disabled]):not(:active):not(.selected):focus {
-    box-shadow: 0 0 0 2px var(--color-signal-orange);
+    box-shadow: 0 0 0 2px var(--color-emerald-green);
     border-color: transparent; }
   .dnb-tabs__tabs .dnb-tablink:not([disabled]):not(:active):not(.selected):focus::after {
     border-bottom: 2px solid transparent; }

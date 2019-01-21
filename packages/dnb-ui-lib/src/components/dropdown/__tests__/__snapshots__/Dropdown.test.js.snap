@@ -475,7 +475,7 @@ exports[`Dropdown scss have to match snapshot 1`] = `
     .dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
       outline: none; }
       html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
-        box-shadow: 0 0 0 2px var(--color-signal-orange);
+        box-shadow: 0 0 0 2px var(--color-emerald-green);
         border-color: transparent; }
     html[data-whatinput='mouse']
 .dnb-button--reset:not([disabled]):focus:not(.dnb-no-mouse-focus),
@@ -741,7 +741,7 @@ a.dnb-button {
         box-shadow: 0 0 0 2px;
         outline: none; }
         html[data-whatinput='keyboard'] .dnb-dropdown__option--active .dnb-dropdown__option__inner {
-          box-shadow: 0 0 0 2px var(--color-signal-orange);
+          box-shadow: 0 0 0 2px var(--color-emerald-green);
           border-color: transparent; }
     .no-touch .dnb-dropdown__option:hover[disabled] {
       cursor: not-allowed; }
@@ -865,7 +865,7 @@ a.dnb-button {
       box-shadow: 0 0 0 2px;
       outline: none; }
       html[data-whatinput='keyboard'] .dnb-dropdown__value-holder-input:focus ~ .dnb-dropdown__trigger {
-        box-shadow: 0 0 0 2px var(--color-signal-orange);
+        box-shadow: 0 0 0 2px var(--color-emerald-green);
         border-color: transparent; }
     .dnb-dropdown__value-holder-input:focus ~ .dnb-dropdown__options {
       z-index: 8;
