@@ -56,13 +56,6 @@ html[data-whatinput='keyboard'] .dnb-style *:not(a):not(div):focus {
 
 // TODO: considder to take this out
 
-$breakpoints: (
-  'small': 320px,
-  'medium': 700px,
-  'large': 1024px,
-  'xLarge': 1400px
-);
-
 .dnb-hide-on-mobile {
   @include allBelow(medium) {
     display: none;

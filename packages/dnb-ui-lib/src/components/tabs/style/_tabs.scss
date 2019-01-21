@@ -48,8 +48,9 @@
       position: relative;
       z-index: 1;
 
-      margin: 0 0 0 2.5em;
-      padding: 0.5em 0;
+      margin: 0;
+      margin-left: 4.5rem;
+      padding: 0.25rem 0; /* 1/16*4 */
 
       background-color: transparent;
       border-bottom: 1px solid transparent;
@@ -92,12 +93,18 @@
     }
 
     @include allBelow(medium) {
+      .dnb-tablink {
+        margin-left: 2.5rem;
+      }
+    }
+
+    @include allBelow(small) {
       &__tablist {
         display: block;
       }
       .dnb-tablink {
-        margin-top: 0.5em;
-        margin-left: 0;
+        margin-top: 0.5rem; /* because of wrappering */
+        margin-left: 1rem;
       }
     }
   }

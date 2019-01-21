@@ -262,14 +262,15 @@ exports[`Tabs scss have to match default theme snapshot 1`] = `
   font-weight: var(--font-weight-book);
   font-size: var(--font-size-default);
   text-align: center;
-  color: var(--color-emerald-green); }
+  color: var(--color-sea-green); }
 
 .dnb-tabs__tabs .dnb-tablink::after {
-  height: 2px;
-  border-bottom: 2px solid transparent; }
+  height: 3px;
+  border-radius: 1.5px;
+  border-bottom: 3px solid transparent; }
 
-.dnb-tabs__tabs .dnb-tablink:not([disabled]):hover::after {
-  border-bottom-color: var(--color-emerald-green); }
+.dnb-tabs__tabs .dnb-tablink:not([disabled]):hover {
+  background-color: var(--color-mint-green); }
 
 .dnb-tabs__tabs .dnb-tablink[disabled] {
   cursor: not-allowed; }
@@ -277,10 +278,14 @@ exports[`Tabs scss have to match default theme snapshot 1`] = `
     color: var(--color-sea-green-alt-30); }
 
 .dnb-tabs__tabs .dnb-tablink:not([disabled]):active .dnb-tablink-title, .dnb-tabs__tabs .dnb-tablink:not([disabled]).selected .dnb-tablink-title {
-  font-family: var(--font-family-demi); }
+  color: var(--color-emerald-green); }
 
-.dnb-tabs__tabs .dnb-tablink:not([disabled]).selected::after {
-  border-bottom-color: var(--color-signal-orange); }
+.dnb-tabs__tabs .dnb-tablink:not([disabled]):active::after, .dnb-tabs__tabs .dnb-tablink:not([disabled]).selected::after {
+  border-bottom-color: var(--color-sea-green); }
+
+.dnb-tabs__tabs .dnb-tablink:not([disabled]).selected .dnb-tablink-title {
+  font-family: var(--font-family-demi);
+  font-weight: var(--font-weight-demi); }
 
 .dnb-tabs__tabs .dnb-tablink:not([disabled]):not(:active):not(.selected):focus {
   outline: none; }
@@ -288,7 +293,7 @@ exports[`Tabs scss have to match default theme snapshot 1`] = `
     box-shadow: 0 0 0 2px var(--color-emerald-green);
     border-color: transparent; }
   .dnb-tabs__tabs .dnb-tablink:not([disabled]):not(:active):not(.selected):focus::after {
-    border-bottom: 2px solid transparent; }
+    border-bottom: 3px solid transparent; }
 "
 `;
 
@@ -473,8 +478,10 @@ exports[`Tabs scss have to match snapshot 1`] = `
   .dnb-tabs__tabs .dnb-tablink {
     position: relative;
     z-index: 1;
-    margin: 0 0 0 2.5em;
-    padding: 0.5em 0;
+    margin: 0;
+    margin-left: 4.5rem;
+    padding: 0.25rem 0;
+    /* 1/16*4 */
     background-color: transparent;
     border-bottom: 1px solid transparent;
     cursor: pointer;
@@ -502,11 +509,15 @@ exports[`Tabs scss have to match snapshot 1`] = `
   .dnb-tabs__tabs .dnb-tablink:first-child {
     margin-left: 0; }
   @media screen and (max-width: 700px) {
+    .dnb-tabs__tabs .dnb-tablink {
+      margin-left: 2.5rem; } }
+  @media screen and (max-width: 400px) {
     .dnb-tabs__tabs__tablist {
       display: block; }
     .dnb-tabs__tabs .dnb-tablink {
-      margin-top: 0.5em;
-      margin-left: 0; } }
+      margin-top: 0.5rem;
+      /* because of wrappering */
+      margin-left: 1rem; } }
 
 .dnb-tabs__content {
   padding-top: 1rem;
