@@ -163,7 +163,7 @@ const runFactory = async ({
       destFile,
       prettier.format(`${autoAdvice}${content}`, {
         ...prettierrc,
-        parser: 'babylon'
+        parser: 'babel'
       })
     )
   } catch (e) {
