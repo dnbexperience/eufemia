@@ -6,12 +6,12 @@
   }}
 />
 <Tabs>
-  <Tabs.Tab title="First">
+  <Tabs.Content title="First">
     <h2>First</h2>
-  </Tabs.Tab>
-  <Tabs.Tab title="Second">
+  </Tabs.Content>
+  <Tabs.Content title="Second">
     <h2>Second</h2>
-  </Tabs.Tab>
+  </Tabs.Content>
 </Tabs>
 <Tabs
   selected_key="second"
@@ -19,7 +19,7 @@
   label="Some Tabs label"
   data={data}
   on_change={this.openTab}
-  render={({ Wrapper, TabsList, Tabs }) => {
+  render={({ Wrapper, Content, TabsList, Tabs }) => {
     return (
       <Wrapper>
         <TabsList>
@@ -28,6 +28,7 @@
           </small>
           <Tabs />
         </TabsList>
+        <Content />
       </Wrapper>
     );
   }}

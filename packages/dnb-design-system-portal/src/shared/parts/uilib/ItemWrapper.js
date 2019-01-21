@@ -209,7 +209,7 @@ class ItemWrapper extends PureComponent {
             use_hash
             data={tabsUsed}
             on_change={this.openTab}
-            render={({ Wrapper, TabsList, Tabs }) => {
+            render={({ Wrapper, TabsList, Content, Tabs }) => {
               return (
                 <Wrapper css={tabsWrapperStyle}>
                   <TabsList>
@@ -228,6 +228,7 @@ class ItemWrapper extends PureComponent {
                       />
                     )}
                   </TabsList>
+                  <Content />
                 </Wrapper>
               )
             }}

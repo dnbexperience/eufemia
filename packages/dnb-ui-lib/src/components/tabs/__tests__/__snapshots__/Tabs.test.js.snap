@@ -31,10 +31,11 @@ exports[`Tabs component have to match snapshot 1`] = `
   }
   2={
     Object {
-      "displayName": "Tab",
+      "displayName": "CustomContent",
       "props": Object {
         "children": "children",
         "disabled": "disabled",
+        "hash": "hash",
         "selected": "selected",
         "title": "title",
       },
@@ -65,9 +66,7 @@ exports[`Tabs component have to match snapshot 1`] = `
   selected_key="second"
   use_hash={false}
 >
-  <Wrapper
-    isInside={true}
-  >
+  <TabsWrapper>
     <div
       className="dnb-tabs"
     >
@@ -154,25 +153,29 @@ exports[`Tabs component have to match snapshot 1`] = `
           </Tabs>
         </div>
       </TabsList>
-      <ContentWrapper
-        id="id"
-        selected_key="second"
+      <TabContent
+        showEmptyMessage={true}
       >
-        <div
-          aria-labelledby="id-tab-second"
-          className="dnb-tabs__content"
-          id="id-content-second"
-          role="tabpanel"
+        <ContentWrapper
+          id="id"
+          selected_key="second"
         >
-          <second>
-            <h2>
-              Second
-            </h2>
-          </second>
-        </div>
-      </ContentWrapper>
+          <div
+            aria-labelledby="id-tab-second"
+            className="dnb-tabs__content"
+            id="id-content-second"
+            role="tabpanel"
+          >
+            <second>
+              <h2>
+                Second
+              </h2>
+            </second>
+          </div>
+        </ContentWrapper>
+      </TabContent>
     </div>
-  </Wrapper>
+  </TabsWrapper>
 </Tabs>
 `;
 
@@ -506,6 +509,7 @@ exports[`Tabs scss have to match snapshot 1`] = `
       margin-left: 0; } }
 
 .dnb-tabs__content {
-  padding: 1rem 0.5rem; }
+  padding-top: 1rem;
+  margin-bottom: 1rem; }
 "
 `;

@@ -50,12 +50,12 @@ class Example extends PureComponent {
         </div>
         <div className="example-box">
           <Tabs>
-            <Tabs.Tab title="First">
+            <Tabs.Content title="First">
               <h2>First</h2>
-            </Tabs.Tab>
-            <Tabs.Tab title="Second">
+            </Tabs.Content>
+            <Tabs.Content title="Second">
               <h2>Second</h2>
-            </Tabs.Tab>
+            </Tabs.Content>
           </Tabs>
           <p className="example-caption">
             Left aligned tabs, using React Components only
@@ -68,7 +68,7 @@ class Example extends PureComponent {
             label="Some Tabs label"
             data={data}
             on_change={this.openTab}
-            render={({ Wrapper, TabsList, Tabs }) => {
+            render={({ Wrapper, Content, TabsList, Tabs }) => {
               return (
                 <Wrapper>
                   <TabsList>
@@ -77,6 +77,7 @@ class Example extends PureComponent {
                     </small>
                     <Tabs />
                   </TabsList>
+                  <Content />
                 </Wrapper>
               )
             }}

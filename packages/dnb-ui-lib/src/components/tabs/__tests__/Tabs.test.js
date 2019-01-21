@@ -131,13 +131,13 @@ describe('A single Tab component', () => {
     expect(Comp.find('div.dnb-tabs__content').text()).toBe('First')
   })
 
-  it('has to work with "Tabs.Tab" as children Components', () => {
+  it('has to work with "Tabs.Content" as children Components', () => {
     const Comp = mount(
       <Component>
-        <Component.Tab title="first">first</Component.Tab>
-        <Component.Tab title="second" selected>
+        <Component.Content title="first">first</Component.Content>
+        <Component.Content title="second" selected>
           second
-        </Component.Tab>
+        </Component.Content>
       </Component>
     )
     expect(Comp.find('button.selected').exists()).toBe(true)

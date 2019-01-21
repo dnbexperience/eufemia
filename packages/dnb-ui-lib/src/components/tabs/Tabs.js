@@ -106,18 +106,36 @@ export default class Tabs extends PureComponent {
     const data =
       !props.data && props.children ? props.children : props.data
 
-    // if it is a React Component - collect data from Tabs.Tab component
+    // if it is a React Component - collect data from Tabs.Content component
     if (
       Array.isArray(props.children) &&
       (typeof props.children[0] === 'function' ||
         React.isValidElement(props.children[0]))
     ) {
-      res = props.children.reduce((acc, cur, i) => {
-        if (cur.props.title) {
-          const { key, ...rest } = cur.props
+      res = props.children.reduce((acc, content, i) => {
+        if (
+          content.type &&
+          (content.type.name || content.type.displayName) ===
+            'CustomContent'
+        ) {
+          const { title, key: _key, hash, ...rest } = {
+            // props from the "CustomContent" Component
+            ...content.props,
+
+            // tabs data from main prop
+            ...((props.tabs &&
+              Array.isArray(props.tabs) &&
+              props.tabs[i]) ||
+              {}),
+
+            // remove children, if there is some
+            ...{ children: null }
+          }
+
           acc.push({
-            key: key || `key${i}`,
-            content: cur, // can be a Node or a Function
+            title,
+            key: (!_key && hash ? hash : _key) || generateKey(title),
+            content, // can be a Node or a Function
             ...rest
           })
         }
@@ -125,7 +143,7 @@ export default class Tabs extends PureComponent {
       }, [])
     }
 
-    // continue, while the children dident contain our data
+    // continue, while the children didn't contain our data
     if (!(res && res.length > 0)) {
       // if data is array, it looks good!
       if (props.data && Array.isArray(data)) {
@@ -300,19 +318,17 @@ export default class Tabs extends PureComponent {
     const { selected_key } = this.state
     let content = null
 
-    // if content is provided as an object
-    if (
-      children &&
-      typeof children === 'object' &&
-      children[selected_key]
-    ) {
-      content = children[selected_key]
-
-      // if content is provided as a render prop
-    } else if (children && typeof children === 'function') {
-      content = children.apply(this, [selected_key])
+    if (children) {
+      if (typeof children === 'object' && children[selected_key]) {
+        // if content is provided as an object
+        content = children[selected_key]
+      } else if (typeof children === 'function') {
+        // if content is provided as a render prop
+        content = children.apply(this, [selected_key])
+      }
     }
 
+    // check of the content is provided in the "data" part instead
     if (!content) {
       let items = []
 
@@ -322,7 +338,7 @@ export default class Tabs extends PureComponent {
         items = children
       }
 
-      // if content was provided as a React Component like "Tabs.Tab"
+      // if content was provided as a React Component like "Tabs.Content"
       // - or the content was provided as a content prop i data
       if (items) {
         content = items
@@ -336,11 +352,7 @@ export default class Tabs extends PureComponent {
       content = <Component />
     }
 
-    return (
-      <ContentWrapper id={this._id} selected_key={selected_key}>
-        {content || <span>Tab content not found</span>}
-      </ContentWrapper>
-    )
+    return content
   }
 
   render() {
@@ -398,6 +410,7 @@ export default class Tabs extends PureComponent {
         </div>
       )
     }
+    Tabs.displayName = 'Tabs'
 
     // To have a reusable Component laster, do this like that
     const TabsList = ({ children }) => (
@@ -410,9 +423,10 @@ export default class Tabs extends PureComponent {
         {children}
       </div>
     )
+    TabsList.displayName = 'TabsList'
 
     // To have a reusable Component laster, do this like that
-    const Wrapper = ({ children, isInside, ...rest }) => {
+    const Wrapper = ({ children, ...rest }) => {
       const params = {
         className: classnames('dnb-tabs', className, _className)
       }
@@ -420,29 +434,38 @@ export default class Tabs extends PureComponent {
       // also used for code markup simulation
       validateDOMAttributes(this.props, params)
 
-      // check if the Wrapper is used from "inside", else there have to be children
-      // from inside, there is the posibility that we got the content privded by the "data" prop
-      const content =
-        isInside || this.props.children ? this.renderContent() : null
-
       return (
         <div {...params} {...rest}>
           {children}
-          {content}
+          {/* {content} */}
         </div>
       )
     }
+    Wrapper.displayName = 'TabsWrapper'
+
+    const Content = ({ showEmptyMessage = false } = {}) => {
+      const { selected_key } = this.props
+      const content = this.renderContent()
+      return (
+        <ContentWrapper id={this._id} selected_key={selected_key}>
+          {content ||
+            (showEmptyMessage && <span>Tab content not found</span>)}
+        </ContentWrapper>
+      )
+    }
+    Content.displayName = 'TabContent'
 
     // here we reuse the component, if it has a custom renderer
     if (typeof customRenderer === 'function') {
-      return customRenderer({ Wrapper, TabsList, Tabs })
+      return customRenderer({ Wrapper, Content, TabsList, Tabs })
     }
 
     return (
-      <Wrapper isInside>
+      <Wrapper>
         <TabsList>
           <Tabs />
         </TabsList>
+        <Content showEmptyMessage />
       </Wrapper>
     )
   }
@@ -481,18 +504,21 @@ class ContentWrapper extends PureComponent {
 /*
   Like:
   <Tabs>
-    <Tabs.Tab title="first" selected disabled>first</Tabs.Tab>
-    <Tabs.Tab title="second">second</Tabs.Tab>
+    <Tabs.Content title="first" selected disabled>first</Tabs.Content>
+    <Tabs.Content title="second">second</Tabs.Content>
   </Tabs>
  */
-class Tab extends PureComponent {
+class CustomContent extends PureComponent {
   static propTypes = {
-    title: PropTypes.string.isRequired, // eslint-disable-line
+    title: PropTypes.string, // eslint-disable-line
+    hash: PropTypes.string, // eslint-disable-line
     selected: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]), // eslint-disable-line
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]), // eslint-disable-line
     children: PropTypes.node.isRequired
   }
   static defaultProps = {
+    title: null,
+    hash: null,
     selected: null,
     disabled: null
   }
@@ -502,5 +528,15 @@ class Tab extends PureComponent {
   }
 }
 
-Tabs.Tab = Tab
+const generateKey = title => {
+  const key = String(title)
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]/g, '-')
+    .replace(/-{1,}/g, '-')
+  return key
+}
+
+Tabs.Content = CustomContent
+Tabs.generateKey = generateKey
 Tabs.ContentWrapper = ContentWrapper

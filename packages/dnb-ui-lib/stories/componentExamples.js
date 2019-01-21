@@ -123,12 +123,12 @@ stories.push([
       </Box>
       <Box>
         <Tabs>
-          <Tabs.Tab title="First">
+          <Tabs.Content title="First">
             <h2>First</h2>
-          </Tabs.Tab>
-          <Tabs.Tab title="Second" selected>
+          </Tabs.Content>
+          <Tabs.Content title="Second" selected>
             <h2>Second</h2>
-          </Tabs.Tab>
+          </Tabs.Content>
         </Tabs>
       </Box>
     </Wrapper>
