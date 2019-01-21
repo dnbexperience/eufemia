@@ -49,7 +49,7 @@
     &,
     &[data-input-state='focus'] {
       // In case we want to have a larger border size on the input
-      // @include extendBorder(var(--color-cherry-red));
+      @include extendBorder(var(--color-cherry-red));
     }
   }
 

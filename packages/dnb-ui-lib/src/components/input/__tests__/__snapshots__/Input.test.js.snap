@@ -215,6 +215,8 @@ exports[`Input scss have to match default theme snapshot 1`] = `
         border-color: transparent; }
   .dnb-input__status--error .dnb-input__shell {
     border-color: var(--color-cherry-red); }
+    .dnb-input__status--error .dnb-input__shell, .dnb-input__status--error .dnb-input__shell[data-input-state='focus'] {
+      box-shadow: 0 0 0 1px var(--color-cherry-red); }
   .dnb-input__placeholder {
     color: var(--color-sea-green); }
   .dnb-input__shell[data-input-state='focus'][data-has-content='false'] .dnb-input__placeholder {
