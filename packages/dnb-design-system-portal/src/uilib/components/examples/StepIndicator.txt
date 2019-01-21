@@ -4,17 +4,17 @@
   data={dataBlob}
   on_change={this.onChangeHandler}
 />
-{/* <StepIndicator
-          active_item="3"
-          data={[
-            {
-              title: 'Om din nye bolig'
-            },
-            {
-              title: 'Ditt lån og egenkapital'
-            },
-            {
-              title: 'Oppsummering'
-            }
-          ]}
-        /> */}
+<StepIndicator
+  active_item="3"
+  data={[
+    {
+      title: "Om din nye bolig"
+    },
+    {
+      title: "Ditt lån og egenkapital"
+    },
+    {
+      title: "Oppsummering"
+    }
+  ]}
+/>
