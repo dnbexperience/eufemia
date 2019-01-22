@@ -16,3 +16,13 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 exports.disableCorePrefetching = () => false
+
+// makes Safari scroll to the top on route changes
+exports.onRouteUpdate = () => {
+  if (typeof window !== 'undefined') {
+    window.scrollTo(0, 0)
+  }
+}
+exports.shouldUpdateScroll = () => {
+  return false
+}
