@@ -15,7 +15,7 @@ This library can be used on top of a modern frontend framework.
 
 ## Contribution
 
-**To run the Portal (docs) locally - or to make changes to the `dnb-ui-lib`**
+**To run the portal (docs) locally - or to make changes to the `dnb-ui-lib`**
 
 - [Git](https://git-scm.com)
 - [Node 64-bit](https://nodejs.org) (=> v10)
