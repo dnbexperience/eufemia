@@ -1,5 +1,4 @@
 ---
-header: 'UI Library'
 title: 'HelperClasses'
 draft: false
 status: dep

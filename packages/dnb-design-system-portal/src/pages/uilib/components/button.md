@@ -1,5 +1,4 @@
 ---
-header: 'UI Library'
 title: 'Button'
 draft: false
 status: null

@@ -1,5 +1,4 @@
 ---
-header: 'UI Library'
 title: 'Web Components'
 draft: false
 order: 7

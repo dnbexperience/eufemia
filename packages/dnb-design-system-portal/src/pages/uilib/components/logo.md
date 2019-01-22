@@ -1,5 +1,4 @@
 ---
-header: 'UI Library'
 title: 'Logo'
 draft: false
 status: null

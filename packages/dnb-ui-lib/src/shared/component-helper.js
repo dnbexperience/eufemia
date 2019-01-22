@@ -1,5 +1,6 @@
 /**
  * Component helpers
+ * This is kind of a "global" file. Both every component is imporint this, but also the main index file.
  *
  */
 

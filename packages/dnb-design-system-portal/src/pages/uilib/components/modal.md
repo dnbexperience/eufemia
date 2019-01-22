@@ -1,5 +1,4 @@
 ---
-header: 'UI Library'
 title: 'Modal'
 draft: false
 status: wip

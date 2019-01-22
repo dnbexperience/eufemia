@@ -1,5 +1,4 @@
 ---
-header: 'UI Library'
 title: 'Usage in CSS'
 draft: false
 order: 1

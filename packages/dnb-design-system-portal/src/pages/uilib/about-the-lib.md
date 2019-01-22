@@ -1,5 +1,4 @@
 ---
-header: 'UI Library'
 title: 'About the Library'
 icon: 'about_the_lib'
 draft: false

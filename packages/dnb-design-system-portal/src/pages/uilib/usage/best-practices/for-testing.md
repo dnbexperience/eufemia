@@ -1,5 +1,4 @@
 ---
-header: 'UI Library'
 title: 'Best Practices for testing'
 menuTitle: 'for testing'
 status: 'wip'

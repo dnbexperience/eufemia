@@ -1,5 +1,4 @@
 ---
-header: 'UI Library'
 title: 'Components'
 icon: 'components'
 draft: false

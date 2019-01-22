@@ -1,5 +1,4 @@
 ---
-header: 'UI Library'
 title: 'Best Practices for styling'
 menuTitle: 'for styling'
 draft: false

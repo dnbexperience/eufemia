@@ -1,5 +1,4 @@
 ---
-header: 'Quickguide Designers - WCAG Accessibility'
 title: 'WCAG Accessibility'
 draft: false
 ---

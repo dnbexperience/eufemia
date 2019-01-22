@@ -1,6 +1,6 @@
 ---
-header: 'Design System'
 title: 'Story'
+icon: 'story'
 draft: false
 order: 4
 ---

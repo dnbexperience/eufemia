@@ -1,5 +1,4 @@
 ---
-header: 'UI Library'
 title: 'Commit'
 draft: false
 order: 2

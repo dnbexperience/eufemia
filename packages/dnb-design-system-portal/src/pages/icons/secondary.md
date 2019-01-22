@@ -1,5 +1,4 @@
 ---
-header: 'Icons'
 title: 'Secondary'
 draft: false
 order: 1

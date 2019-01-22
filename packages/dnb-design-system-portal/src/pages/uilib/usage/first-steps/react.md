@@ -1,5 +1,4 @@
 ---
-header: 'UI Library'
 title: 'React'
 draft: false
 order: 5

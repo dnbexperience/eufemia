@@ -1,5 +1,4 @@
 ---
-header: 'UI Library'
 title: 'Naming conventions'
 draft: false
 order: 6

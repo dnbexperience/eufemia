@@ -1,5 +1,4 @@
 ---
-header: 'Accessibility'
 title: 'Focus'
 status: 'wip'
 draft: false

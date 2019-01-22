@@ -1,5 +1,4 @@
 ---
-header: 'Quickguide Designers - Colors'
 title: 'Colors'
 draft: false
 ---

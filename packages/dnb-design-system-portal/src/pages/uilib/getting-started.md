@@ -1,5 +1,4 @@
 ---
-header: 'UI Library'
 title: 'Getting Started'
 icon: 'getting_started'
 draft: false

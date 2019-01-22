@@ -1,5 +1,4 @@
 ---
-header: 'Quickguide Designers - Tools'
 title: 'Design Tools'
 draft: false
 ---

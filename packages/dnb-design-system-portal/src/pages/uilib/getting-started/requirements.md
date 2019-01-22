@@ -1,5 +1,4 @@
 ---
-header: 'UI Library'
 title: 'Requirements'
 draft: false
 ---

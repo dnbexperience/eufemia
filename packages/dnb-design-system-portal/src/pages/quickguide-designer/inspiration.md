@@ -1,5 +1,4 @@
 ---
-header: 'Quickguide Designers - inspiration'
 title: 'Inspiration'
 draft: false
 ---

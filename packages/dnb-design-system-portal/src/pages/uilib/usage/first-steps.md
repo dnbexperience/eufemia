@@ -1,5 +1,4 @@
 ---
-header: 'UI Library'
 title: 'First Steps'
 draft: false
 order: 2

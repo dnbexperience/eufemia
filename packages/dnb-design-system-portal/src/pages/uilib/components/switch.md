@@ -1,5 +1,4 @@
 ---
-header: 'UI Library'
 title: 'Switch'
 draft: false
 status: wip

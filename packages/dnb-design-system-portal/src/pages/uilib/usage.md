@@ -1,5 +1,4 @@
 ---
-header: 'UI Library'
 title: 'Usage'
 icon: 'usage'
 draft: false

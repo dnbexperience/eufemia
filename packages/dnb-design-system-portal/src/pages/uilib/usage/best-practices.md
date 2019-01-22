@@ -1,5 +1,4 @@
 ---
-header: 'UI Library'
 title: 'Best Practices'
 menuTitle: 'Best Practices ...'
 status: 'wip'
