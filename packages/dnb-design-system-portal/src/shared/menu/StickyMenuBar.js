@@ -9,8 +9,8 @@ import { StaticQuery, graphql } from 'gatsby'
 import { css } from '@emotion/core'
 // import Head from 'react-helmet'
 import MainMenu from './MainMenu'
-import { hamburger_medium as hamburgerIcon } from 'dnb-ui-lib/src/icons/secondary_icons_medium'
-import { close_medium as closeIcon } from 'dnb-ui-lib/src/icons/primary_icons_medium'
+import { hamburger as hamburgerIcon } from 'dnb-ui-lib/src/icons/secondary_icons'
+import { close as closeIcon } from 'dnb-ui-lib/src/icons/primary_icons'
 import { Logo, Button, IconPrimary } from 'dnb-ui-lib/src'
 import { SidebarMenuConsumer } from './SidebarMenuContext'
 import ToggleGrid from './ToggleGrid'
@@ -105,9 +105,12 @@ export default class StickyMenuBar extends PureComponent {
                         {({ toggleMenu, isOpen }) => (
                           <Button
                             icon={isOpen ? closeIcon : hamburgerIcon}
+                            // icon_size="medium"
+                            // size="medium"
+                            // variant="tertiary"
+                            // variant="secondary"
                             on_click={toggleMenu}
                             className="toggle-sidebar-menu"
-                            variant="tertiary"
                             title={isOpen ? 'Hide Menu' : 'Show Menu'}
                           />
                         )}
@@ -181,7 +184,7 @@ const barStyle = css`
    */
   @media only screen and (max-width: 50em) {
     .toggle-sidebar-menu {
-      display: inline;
+      display: flex;
     }
   }
 

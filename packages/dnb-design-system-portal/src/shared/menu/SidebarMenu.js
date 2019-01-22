@@ -102,6 +102,12 @@ const StyledListItem = styled.li`
   &.l-1 a {
     padding-left: calc(var(--level-offset) + var(--level) * 2);
     height: 4rem;
+
+    .dnb-icon {
+      margin-right: 1rem;
+      margin-left: -2.5rem;
+      color: var(--color-black-80);
+    }
   }
   &.l-2 {
     a {

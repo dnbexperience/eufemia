@@ -1,6 +1,7 @@
 ---
 header: 'Design System'
 title: 'About'
+icon: 'info'
 draft: false
 order: 3
 ---
