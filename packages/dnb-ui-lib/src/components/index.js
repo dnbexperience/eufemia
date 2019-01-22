@@ -25,6 +25,7 @@ import Logo from './logo/Logo'
 import Modal from './modal/Modal'
 import Notification from './notification/Notification'
 import Slider from './slider/Slider'
+import StepIndicator from './step-indicator/StepIndicator'
 import Switch from './switch/Switch'
 import Tabs from './tabs/Tabs'
 
@@ -43,6 +44,7 @@ export {
   Modal,
   Notification,
   Slider,
+  StepIndicator,
   Switch,
   Tabs
 }
@@ -62,6 +64,7 @@ export const getComponents = () => {
     Modal,
     Notification,
     Slider,
+    StepIndicator,
     Switch,
     Tabs
   }

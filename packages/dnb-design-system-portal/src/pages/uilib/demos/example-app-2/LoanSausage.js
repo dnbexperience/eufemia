@@ -16,7 +16,7 @@ const style = css`
   &.dnb-loan-sausage {
     margin: 2rem 0;
     padding: 2rem 0;
-    background: var(--color-sea-green-4);
+    background: var(--color-mint-green-12);
 
     ${'' /* .dnb-loan-sausage__inner {
     } */};

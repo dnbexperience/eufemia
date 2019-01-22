@@ -58,7 +58,7 @@
 
 @mixin fakeFocus(
   $whatinput: 'keyboard',
-  $color: var(--color-signal-orange)
+  $color: var(--color-emerald-green)
 ) {
   outline: none;
 
@@ -76,6 +76,10 @@
   @if $color != null {
     border-color: transparent;
   }
+}
+
+@mixin extendBorder($color: null, $width: 1px) {
+  box-shadow: 0 0 0 $width $color;
 }
 
 @mixin _drawUnderline() {
@@ -132,10 +136,10 @@
 // TODO: considder to take all below out
 
 $breakpoints: (
-  'small': 320px,
+  'small': 400px,
   'medium': 700px,
   'large': 1024px,
-  'xLarge': 1400px
+  'x-large': 1400px
 );
 
 //Example usage:

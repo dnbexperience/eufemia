@@ -27,6 +27,7 @@ import Logo from './components/logo/Logo'
 import Modal from './components/modal/Modal'
 import Notification from './components/notification/Notification'
 import Slider from './components/slider/Slider'
+import StepIndicator from './components/step-indicator/StepIndicator'
 import Switch from './components/switch/Switch'
 import Tabs from './components/tabs/Tabs'
 import ActionNav from './patterns/action-nav/ActionNav'
@@ -40,7 +41,6 @@ import Grid from './patterns/grid/Grid'
 import HelperClasses from './patterns/helper-classes/HelperClasses'
 import MainNav from './patterns/main-nav/MainNav'
 import RangeSlider from './patterns/range-slider/RangeSlider'
-import StepIndicator from './patterns/step-indicator/StepIndicator'
 import SummaryTable from './patterns/summary-table/SummaryTable'
 import ViewTitle from './patterns/view-title/ViewTitle'
 
@@ -59,6 +59,7 @@ export {
   Modal,
   Notification,
   Slider,
+  StepIndicator,
   Switch,
   Tabs,
   ActionNav,
@@ -72,7 +73,6 @@ export {
   HelperClasses,
   MainNav,
   RangeSlider,
-  StepIndicator,
   SummaryTable,
   ViewTitle
 }

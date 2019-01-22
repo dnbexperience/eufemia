@@ -1,7 +1,3 @@
----
-status: 'wip'
----
-
 ## Description
 
 The breadcrumb component is a pagination component - not a navigation.

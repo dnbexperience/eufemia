@@ -297,7 +297,7 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     border-color: var(--color-mint-green-50);
     outline: none; }
     html[data-whatinput='keyboard'] .dnb-button--primary:not([disabled]):focus {
-      box-shadow: 0 0 0 2px var(--color-signal-orange);
+      box-shadow: 0 0 0 2px var(--color-emerald-green);
       border-color: transparent; }
   .dnb-button--primary[disabled] {
     color: var(--color-white);
@@ -323,7 +323,7 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     border-color: var(--color-mint-green-50);
     outline: none; }
     html[data-whatinput='keyboard'] .dnb-button--secondary:not([disabled]):focus {
-      box-shadow: 0 0 0 2px var(--color-signal-orange);
+      box-shadow: 0 0 0 2px var(--color-emerald-green);
       border-color: transparent; }
   .dnb-button--secondary[disabled] {
     color: var(--color-sea-green-alt-30);
@@ -377,7 +377,7 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     border-color: transparent;
     outline: none; }
     html[data-whatinput='keyboard'] .dnb-button--tertiary:not([disabled]):focus {
-      box-shadow: 0 0 0 2px var(--color-signal-orange);
+      box-shadow: 0 0 0 2px var(--color-emerald-green);
       border-color: transparent; }
   .dnb-button--tertiary[disabled] {
     cursor: not-allowed;
@@ -399,7 +399,7 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     border-color: var(--color-signal-yellow);
     outline: none; }
     html[data-whatinput='keyboard'] .dnb-button--signal:not([disabled]):focus {
-      box-shadow: 0 0 0 2px var(--color-signal-orange);
+      box-shadow: 0 0 0 2px var(--color-emerald-green);
       border-color: transparent; }
   .dnb-button--signal[disabled] {
     color: #b0b0b0;
@@ -442,7 +442,7 @@ exports[`Button scss have to match snapshot 1`] = `
   --color-sea-green-alt: #008484;
   --color-mint-green-50: #d2f0e9;
   --color-mint-green-25: #e9f8f4;
-  --color-sea-green-4: #f5fafa;
+  --color-mint-green-12: #f4fbf9;
   --color-sea-green-alt-30: #b3dada;
   --color-signal-yellow-30: #ffffd7;
   --color-cherry-red: #e10076;
@@ -697,7 +697,7 @@ exports[`Button scss have to match snapshot 1`] = `
     .dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
       outline: none; }
       html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
-        box-shadow: 0 0 0 2px var(--color-signal-orange);
+        box-shadow: 0 0 0 2px var(--color-emerald-green);
         border-color: transparent; }
     html[data-whatinput='mouse']
 .dnb-button--reset:not([disabled]):focus:not(.dnb-no-mouse-focus),

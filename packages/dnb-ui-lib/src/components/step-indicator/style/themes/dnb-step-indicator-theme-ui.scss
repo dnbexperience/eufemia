@@ -1,0 +1,44 @@
+/*
+* StepIndicator theme
+*
+*/
+
+@import '../../../../style/themes/imports.scss';
+
+.dnb-step-indicator {
+  &-item-content {
+    &--static {
+      color: var(--color-emerald-green);
+    }
+
+    &--link {
+      color: var(--color-sea-green-alt);
+    }
+  }
+
+  &--visited &-item-content {
+    &--link {
+      @include hover(true) {
+        border-color: var(--color-sea-green);
+      }
+    }
+  }
+
+  &--active {
+    &::after {
+      background-color: var(--color-sea-green-alt);
+    }
+  }
+
+  span[hidden],/* to make sure we have the wider width on every item */
+  &--active &-item-content {
+    font-family: var(--font-family-demi);
+    font-weight: var(--font-weight-demi);
+
+    color: var(--color-emerald-green);
+  }
+
+  &::after {
+    background-color: var(--color-mint-green);
+  }
+}

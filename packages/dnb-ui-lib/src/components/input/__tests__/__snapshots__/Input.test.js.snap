@@ -194,7 +194,7 @@ exports[`Input scss have to match default theme snapshot 1`] = `
 .dnb-input {
   color: var(--color-emerald-green); }
   .dnb-input__shell {
-    background-color: var(--color-sea-green-4);
+    background-color: var(--color-mint-green-12);
     border: var(--input-border-width) solid var(--input-border-color); }
     .no-touch .dnb-input__shell:not([data-input-state='disabled']):hover[disabled] {
       cursor: not-allowed; }
@@ -208,13 +208,14 @@ exports[`Input scss have to match default theme snapshot 1`] = `
     .dnb-input__shell[data-input-state='focus'] {
       background-color: var(--color-white);
       border-color: var(--input-border-color--active);
+      box-shadow: 0 0 0 1px var(--input-border-color--active);
       outline: none; }
       html[data-whatinput='keyboard'] .dnb-input__shell[data-input-state='focus'] {
-        box-shadow: 0 0 0 2px var(--color-signal-orange);
+        box-shadow: 0 0 0 2px var(--color-emerald-green);
         border-color: transparent; }
   .dnb-input__status--error .dnb-input__shell {
     border-color: var(--color-cherry-red); }
-    .dnb-input__status--error .dnb-input__shell[data-input-state='focus'] {
+    .dnb-input__status--error .dnb-input__shell, .dnb-input__status--error .dnb-input__shell[data-input-state='focus'] {
       box-shadow: 0 0 0 1px var(--color-cherry-red); }
   .dnb-input__placeholder {
     color: var(--color-sea-green); }
@@ -258,7 +259,7 @@ exports[`Input scss have to match snapshot 1`] = `
   --color-sea-green-alt: #008484;
   --color-mint-green-50: #d2f0e9;
   --color-mint-green-25: #e9f8f4;
-  --color-sea-green-4: #f5fafa;
+  --color-mint-green-12: #f4fbf9;
   --color-sea-green-alt-30: #b3dada;
   --color-signal-yellow-30: #ffffd7;
   --color-cherry-red: #e10076;
@@ -517,7 +518,7 @@ exports[`Input scss have to match snapshot 1`] = `
     .dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
       outline: none; }
       html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
-        box-shadow: 0 0 0 2px var(--color-signal-orange);
+        box-shadow: 0 0 0 2px var(--color-emerald-green);
         border-color: transparent; }
     html[data-whatinput='mouse']
 .dnb-button--reset:not([disabled]):focus:not(.dnb-no-mouse-focus),

@@ -23,7 +23,6 @@ import Grid from './grid/Grid'
 import HelperClasses from './helper-classes/HelperClasses'
 import MainNav from './main-nav/MainNav'
 import RangeSlider from './range-slider/RangeSlider'
-import StepIndicator from './step-indicator/StepIndicator'
 import SummaryTable from './summary-table/SummaryTable'
 import ViewTitle from './view-title/ViewTitle'
 
@@ -40,7 +39,6 @@ export {
   HelperClasses,
   MainNav,
   RangeSlider,
-  StepIndicator,
   SummaryTable,
   ViewTitle
 }
@@ -58,7 +56,6 @@ export const getComponents = () => {
     HelperClasses,
     MainNav,
     RangeSlider,
-    StepIndicator,
     SummaryTable,
     ViewTitle
   }

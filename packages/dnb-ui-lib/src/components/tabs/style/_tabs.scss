@@ -30,26 +30,14 @@
       justify-content: center;
     }
 
-    // we may wrap this &::after in allAbove to now show for mobile
-    // @include allAbove(medium) {}
-
-    &::after {
-      content: '';
-      position: absolute;
-      z-index: -1;
-      left: -50vw;
-      right: -50vw;
-      bottom: 0;
-      width: 200vw;
-      height: 1px;
-    }
-
     .dnb-tablink {
       position: relative;
       z-index: 1;
 
-      margin: 0 0 0 2.5em;
-      padding: 0.5em 0;
+      margin: 0;
+      margin-left: 4.5rem;
+      // padding: 0.25rem 0.1875rem; /* 1/16*4 */
+      padding: 0.25rem 0.125rem; /* 1/16*4 */
 
       background-color: transparent;
       border-bottom: 1px solid transparent;
@@ -69,11 +57,9 @@
         display: flex;
         flex-direction: column;
 
-        visibility: hidden;
         height: 0;
+        visibility: hidden;
         overflow: hidden;
-
-        letter-spacing: 2px;
       }
 
       &::after {
@@ -91,12 +77,29 @@
       margin-left: 0;
     }
 
+    &::after {
+      content: '';
+      position: absolute;
+      z-index: -1;
+      left: -50vw;
+      right: -50vw;
+      bottom: 0;
+      width: 200vw;
+      height: 1px;
+    }
+
     @include allBelow(medium) {
+      .dnb-tablink {
+        margin-left: 2.5rem;
+      }
+    }
+
+    @include allBelow(small) {
       &__tablist {
-        display: block;
+        flex-direction: column;
+        margin: 0;
       }
       .dnb-tablink {
-        margin-top: 0.5em;
         margin-left: 0;
       }
     }
@@ -104,6 +107,6 @@
 
   &__content {
     padding-top: 1rem;
-    margin-bottom: 1rem;
+    margin-top: 1rem;
   }
 }

@@ -18,7 +18,6 @@ Beside that the Anchor Tag gets assigned by default - or let's say, by only impo
 - `.dnb-active-style` <a href="/" class="dnb-active-style">Active Style</a>
 - `.dnb-focus-style` <a href="/" class="dnb-focus-style">Focus Style</a>
 - `.dnb-with-animation` <a href="/" class="dnb-with-animation">With a special animation Style</a>
-- <a>No href</a> results in `user-select: none;`
 
 ## With Icon
 

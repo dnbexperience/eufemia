@@ -384,10 +384,7 @@ export default class Tabs extends PureComponent {
               {...params}
             >
               <span className="dnb-tablink-title">{title}</span>
-              {/* we use "aria-hidden" SPAN to simulate a wider width for each tab */}
-              <span aria-hidden={true} hidden>
-                {title}
-              </span>
+              <Dummy>{title}</Dummy>
             </button>
           )
         }
@@ -540,3 +537,19 @@ const generateKey = title => {
 Tabs.Content = CustomContent
 Tabs.generateKey = generateKey
 Tabs.ContentWrapper = ContentWrapper
+
+export const Dummy = ({ children }) => {
+  /**
+   * This is a dummy markup, to define a width of every tab
+   * We use "aria-hidden" SPAN to simulate a wider width for each tab
+   * There is also a CSS to make this work. Have a look in the styles: & > span[hidden] {...}
+   */
+  return (
+    <span aria-hidden={true} hidden>
+      {children}
+    </span>
+  )
+}
+Dummy.propTypes = {
+  children: PropTypes.node.isRequired
+}

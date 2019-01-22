@@ -109,7 +109,7 @@ exports[`Switch scss have to match snapshot 1`] = `
   --color-sea-green-alt: #008484;
   --color-mint-green-50: #d2f0e9;
   --color-mint-green-25: #e9f8f4;
-  --color-sea-green-4: #f5fafa;
+  --color-mint-green-12: #f4fbf9;
   --color-sea-green-alt-30: #b3dada;
   --color-signal-yellow-30: #ffffd7;
   --color-cherry-red: #e10076;
@@ -278,7 +278,7 @@ exports[`Switch scss have to match snapshot 1`] = `
     clip-path: polygon(50% 15%, 110% 15%, 110% -10%, -10% -10%, -10% 110%, 110% 110%, 110% 85%, 50% 85%);
     outline: none; }
     html[data-whatinput='keyboard'] .dnb-switch__focus {
-      box-shadow: 0 0 0 2px var(--color-signal-orange);
+      box-shadow: 0 0 0 2px var(--color-emerald-green);
       border-color: transparent; }
   .dnb-switch__inner:not([disabled]) .dnb-switch__background,
   .dnb-switch__inner:not([disabled]) .dnb-switch__button {
@@ -338,7 +338,7 @@ exports[`Switch scss have to match snapshot 1`] = `
       outline: none; }
       html[data-whatinput='keyboard'] .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__background, html[data-whatinput='keyboard']
       .dnb-switch__input:not([disabled]):active ~ .dnb-switch__background {
-        box-shadow: 0 0 0 2px var(--color-signal-orange);
+        box-shadow: 0 0 0 2px var(--color-emerald-green);
         border-color: transparent; }
     .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__button .dnb-switch__focus,
     .dnb-switch__input:not([disabled]):active ~ .dnb-switch__button .dnb-switch__focus {
