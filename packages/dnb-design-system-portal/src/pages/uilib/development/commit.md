@@ -21,7 +21,7 @@ Make sure to decorate Your **commit messages** with either [commit message forma
 
 ## Committing changes
 
-During a commit (locally), Your commit content (code) will be tested with both Static and Integration tests. You may run `yarn test` or `yarn test:update` before You try to commit. You may also write new tests for Your code before committing.
+During a commit (locally), your commit content (code) will be tested with both Static and Integration tests. You may run `yarn test` or `yarn test:update` before you try to commit. You may also write new tests for your code before committing.
 
 The Code Base is based on several Static Tests to help the code to be uniform:
 
@@ -29,4 +29,4 @@ The Code Base is based on several Static Tests to help the code to be uniform:
 - ESLint
 - StyleLint
 
-You may consider to install Plugins for You Editor of choice - to visualize and run the code formatters and linters based on the given config files. This way You can immediately see how the code will and have to consist.
+You may consider to install plugins for your editor of choice - to visualize and run the code formatters and linters based on the given config files. This way you can immediately see how the code will and have to consist.
