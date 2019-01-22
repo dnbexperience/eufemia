@@ -1,5 +1,4 @@
 ---
-header: 'UI Library'
 title: 'Customisation'
 status: 'wip'
 draft: false

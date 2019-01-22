@@ -1,5 +1,4 @@
 ---
-header: 'UI Library'
 title: 'StepIndicator'
 draft: false
 status: null

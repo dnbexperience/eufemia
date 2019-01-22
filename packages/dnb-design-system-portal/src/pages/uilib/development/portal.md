@@ -1,5 +1,4 @@
 ---
-header: 'UI Library'
 title: 'Portal and docs'
 draft: false
 order: 5

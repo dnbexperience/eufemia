@@ -1,5 +1,4 @@
 ---
-header: 'UI Library'
 title: 'Properties'
 draft: false
 order: 3

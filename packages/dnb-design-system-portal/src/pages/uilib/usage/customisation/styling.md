@@ -1,5 +1,4 @@
 ---
-header: 'UI Library'
 title: 'Styling'
 status: 'imp'
 draft: false

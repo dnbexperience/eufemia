@@ -1,5 +1,4 @@
 ---
-header: 'UI Library'
 title: 'ViewTitle'
 draft: false
 status: wip

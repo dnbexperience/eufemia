@@ -1,5 +1,4 @@
 ---
-header: 'UI Library'
 title: 'InputMasked'
 draft: true
 status: null

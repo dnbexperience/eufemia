@@ -1,5 +1,4 @@
 ---
-header: 'UI Library'
 title: 'MainNav'
 draft: false
 status: wip

@@ -1,5 +1,4 @@
 ---
-header: 'UI Library'
 title: 'FormStatus'
 draft: false
 status: null

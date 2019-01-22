@@ -1,5 +1,4 @@
 ---
-header: 'UI Library'
 title: 'Numbers'
 draft: false
 order: 3

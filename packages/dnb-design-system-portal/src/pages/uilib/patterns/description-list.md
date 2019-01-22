@@ -1,5 +1,4 @@
 ---
-header: 'UI Library'
 title: 'DescriptionList'
 draft: false
 status: wip

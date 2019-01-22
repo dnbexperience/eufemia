@@ -1,5 +1,4 @@
 ---
-header: 'UI Library'
 title: 'Code'
 draft: false
 order: 4

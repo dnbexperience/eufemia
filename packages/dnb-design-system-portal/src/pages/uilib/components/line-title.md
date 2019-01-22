@@ -1,5 +1,4 @@
 ---
-header: 'UI Library'
 title: 'LineTitle'
 draft: false
 status: wip

@@ -1,6 +1,5 @@
 ---
-header: 'Design System'
-title: 'Changelog'
+title: 'Change log'
 icon: 'change_log'
 draft: true
 order: 1

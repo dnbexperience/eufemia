@@ -1,5 +1,4 @@
 ---
-header: 'Quickguide Designers - UI Guides'
 title: 'UI Guides'
 draft: false
 ---

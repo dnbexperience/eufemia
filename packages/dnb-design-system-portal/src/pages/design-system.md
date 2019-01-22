@@ -1,5 +1,4 @@
 ---
-header: 'Design System'
 title: 'Change log'
 draft: false
 ---

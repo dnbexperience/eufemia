@@ -1,5 +1,4 @@
 ---
-header: 'Quickguide Designers'
 title: 'Quickguide Designers'
 draft: false
 ---

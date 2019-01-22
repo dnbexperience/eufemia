@@ -1,5 +1,4 @@
 ---
-header: 'UI Library'
 title: 'Typography'
 icon: 'typography'
 draft: false

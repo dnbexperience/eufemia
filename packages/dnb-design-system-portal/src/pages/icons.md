@@ -1,5 +1,4 @@
 ---
-header: 'Icons Library'
 title: 'Icons Introduction'
 draft: false
 order: 1

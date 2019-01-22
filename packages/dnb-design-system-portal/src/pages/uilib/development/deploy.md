@@ -1,5 +1,4 @@
 ---
-header: 'UI Library'
 title: 'Deploy'
 status: 'imp'
 draft: false

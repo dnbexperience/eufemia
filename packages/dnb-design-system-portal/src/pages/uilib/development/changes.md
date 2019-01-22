@@ -1,5 +1,4 @@
 ---
-header: 'UI Library'
 title: 'Make Changes'
 draft: false
 order: 1

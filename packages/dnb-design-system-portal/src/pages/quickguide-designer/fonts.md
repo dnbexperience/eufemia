@@ -1,5 +1,4 @@
 ---
-header: 'Quickguide Designers - Fonts & Typography'
 title: 'Fonts & Typography'
 draft: false
 ---

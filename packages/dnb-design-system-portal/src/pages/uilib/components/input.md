@@ -1,5 +1,4 @@
 ---
-header: 'UI Library'
 title: 'Input'
 draft: false
 status: null
