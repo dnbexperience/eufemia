@@ -21,13 +21,11 @@ export default class StickyMenuBar extends PureComponent {
     showOverlayMenu: false
   }
   static propTypes = {
-    // header: PropTypes.string,/* not used anymore up there */
     onToggleMenu: PropTypes.func,
     hideSiebarToggleButton: PropTypes.bool,
     preventBarVisibility: PropTypes.bool
   }
   static defaultProps = {
-    // header: null,/* not used anymore up there */
     onToggleMenu: null,
     hideSiebarToggleButton: false,
     preventBarVisibility: false
@@ -43,11 +41,7 @@ export default class StickyMenuBar extends PureComponent {
     })
   }
   render() {
-    const {
-      // header,/* not used anymore up there */
-      hideSiebarToggleButton,
-      preventBarVisibility
-    } = this.props
+    const { hideSiebarToggleButton, preventBarVisibility } = this.props
     if (preventBarVisibility) {
       return <span />
     }
@@ -98,7 +92,6 @@ export default class StickyMenuBar extends PureComponent {
                       {slogan}
                       <IconPrimary icon="chevron-down" size="small" />
                     </Button>
-                    {/* {header && <span className="heading">{header}</span>} not used anymore up there */}
 
                     <span>
                       <SidebarMenuConsumer>

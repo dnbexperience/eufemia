@@ -20,11 +20,7 @@ import { SidebarMenuProvider } from '../menu/SidebarMenuContext'
 class Layout extends PureComponent {
   static propTypes = {
     children: PropTypes.node.isRequired,
-    location: PropTypes.object.isRequired,
-    header: PropTypes.string
-  }
-  static defaultProps = {
-    header: null
+    location: PropTypes.object.isRequired
   }
 
   constructor(props) {
@@ -37,7 +33,7 @@ class Layout extends PureComponent {
   }
 
   render() {
-    const { children, location, header = null } = this.props
+    const { children, location } = this.props
 
     if (/fullscreen/.test(location.search)) {
       return (
@@ -60,7 +56,7 @@ class Layout extends PureComponent {
 
     return (
       <SidebarMenuProvider>
-        <StickyMenuBar header={header} />
+        <StickyMenuBar />
         <Wrapper className="content-wrapper">
           <Sidebar location={location} showAll={false} />
           <Content tabIndex="-1" innerRef={this._ref}>

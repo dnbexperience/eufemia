@@ -306,7 +306,6 @@ export default class SidebarLayout extends PureComponent {
                 node {
                   fields {
                     slug
-                    header
                     title
                     menuTitle
                     order
@@ -319,7 +318,6 @@ export default class SidebarLayout extends PureComponent {
           }
         `}
         render={({ allMdx, site: { pathPrefix } }) => {
-          let headerTitle = null
           const pathnameWithoutPrefix = location.pathname
             .replace(/(\/)$/, '')
             .replace(pathPrefix, '')
@@ -361,7 +359,6 @@ export default class SidebarLayout extends PureComponent {
             .map(
               (
                 {
-                  header,
                   title,
                   menuTitle,
                   status,
@@ -373,10 +370,6 @@ export default class SidebarLayout extends PureComponent {
                 },
                 nr
               ) => {
-                if (active && !headerTitle) {
-                  headerTitle = header
-                }
-
                 const props = {
                   level,
                   nr,
@@ -415,14 +408,7 @@ export default class SidebarLayout extends PureComponent {
                         isClosing && 'hide-mobile-menu'
                       )}
                     >
-                      <ul ref={this.ulRef}>
-                        {headerTitle && false && (
-                          <StyledListItem className="heading">
-                            {headerTitle}
-                          </StyledListItem>
-                        )}
-                        {nav}
-                      </ul>
+                      <ul ref={this.ulRef}>{nav}</ul>
                     </Sidebar>
                   </>
                 )}
