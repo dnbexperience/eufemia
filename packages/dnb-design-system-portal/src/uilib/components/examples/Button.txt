@@ -52,8 +52,18 @@
   icon_position="right"
   icon="chevron-right"
 />
-<Button title="Button with Icon only" icon={question} />
+<Button title="Disabled Icon only Button" icon="calendar" disabled />
 <Button title="Button with Icon only" icon="calendar" />
+<Button
+  title="Medium Button with Icon only"
+  icon="calendar"
+  icon_size="medium"
+  size="medium"
+/>
+<Button
+  title="Button with custom, Secondary Icon only"
+  icon={question}
+/>
 <Button
   variant="signal"
   text="Signal Button (large size)"
