@@ -5,19 +5,19 @@ draft: false
 order: 1
 ---
 
-# Make changes
+# Making changes
 
 ## Get started on making new Components and Patterns
 
-In the repo `dnb-ui-lib` You find the directory `/src/components` or `/src/patterns`. There You can place a new directory with all the needed sub folders. To get a reference, take a look how the other _components_ and _patterns_ are set up.
+In the repo `dnb-ui-lib` you will find the directory `/src/components` or `/src/patterns`. There you can place a new directory with all the necessary sub folders. As a reference, take a look how the other _components_ and _patterns_ are set up.
 
-Next, we have to **pre-publish** the library locally, so we can check the building process and testing our changes locally by using again `yarn build`.
+Next, we need to **pre-publish** the library locally, so we can check the building process and test our changes locally by using `yarn build` again.
 
-To use the local build, You can either run the Portal, or use `yarn link` to link the package with a totally different project.
+To use the local build, you can either run the portal, or use `yarn link` to link the package with a totally different project.
 
-Beside that, You can also use Storybook. Inside `dnb-ui-lib`, run `yarn story` to start the server.
+Besides that, you can also use Storybook. Inside `dnb-ui-lib`, run `yarn story` to start the server.
 
-It is recommended that You make a new branch to isolate Your work before it gets merged into the `origin/develop` branch.
+It is recommended that you make a new branch to isolate your work before it gets merged into the `origin/develop` branch.
 
 ```bash
 # Make a Feature branch
