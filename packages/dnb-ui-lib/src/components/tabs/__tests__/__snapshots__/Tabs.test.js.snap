@@ -286,13 +286,12 @@ exports[`Tabs scss have to match default theme snapshot 1`] = `
   text-align: center;
   color: var(--color-sea-green); }
 
-.dnb-tabs__tabs .dnb-tablink::after {
-  height: 3px;
-  border-radius: 1.5px;
-  background-color: 3px solid transparent; }
-
 .dnb-tabs__tabs .dnb-tablink:not([disabled]):hover {
-  background-color: var(--color-mint-green); }
+  background-color: var(--color-mint-green-50); }
+  .dnb-tabs__tabs .dnb-tablink:not([disabled]):hover::after {
+    height: 2px;
+    border-radius: 1px;
+    background-color: var(--color-sea-green); }
 
 .dnb-tabs__tabs .dnb-tablink[disabled] {
   cursor: not-allowed; }
@@ -303,6 +302,8 @@ exports[`Tabs scss have to match default theme snapshot 1`] = `
   color: var(--color-emerald-green); }
 
 .dnb-tabs__tabs .dnb-tablink:not([disabled]):active::after, .dnb-tabs__tabs .dnb-tablink:not([disabled]).selected::after {
+  height: 3px;
+  border-radius: 1.5px;
   background-color: var(--color-sea-green); }
 
 .dnb-tabs__tabs .dnb-tablink:not([disabled]).selected .dnb-tablink-title {
@@ -489,7 +490,7 @@ exports[`Tabs scss have to match snapshot 1`] = `
     z-index: 1;
     margin: 0;
     margin-left: 4.5rem;
-    padding: 0.25rem 0;
+    padding: 0.25rem 0.125rem;
     /* 1/16*4 */
     background-color: transparent;
     border-bottom: 1px solid transparent;

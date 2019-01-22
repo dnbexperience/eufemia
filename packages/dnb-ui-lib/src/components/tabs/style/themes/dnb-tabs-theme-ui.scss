@@ -27,16 +27,14 @@
         color: var(--color-sea-green);
       }
 
-      // make sure we alway have a height of 3
-      &::after {
-        height: 3px;
-        border-radius: 1.5px;
-        background-color: 3px solid transparent;
-      }
-
       // hover
       &:not([disabled]):hover {
-        background-color: var(--color-mint-green);
+        background-color: var(--color-mint-green-50);
+        &::after {
+          height: 2px;
+          border-radius: 1px;
+          background-color: var(--color-sea-green);
+        }
       }
 
       // disabled
@@ -54,6 +52,8 @@
           color: var(--color-emerald-green);
         }
         &::after {
+          height: 3px;
+          border-radius: 1.5px;
           background-color: var(--color-sea-green);
         }
       }
