@@ -1,7 +1,7 @@
 ---
 header: 'UI Library'
-title: 'Best Practices of styling'
-menuTitle: 'of styling'
+title: 'Best Practices for styling'
+menuTitle: 'for styling'
 draft: false
 order: 1
 ---

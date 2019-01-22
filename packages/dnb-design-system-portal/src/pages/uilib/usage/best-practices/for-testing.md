@@ -1,7 +1,7 @@
 ---
 header: 'UI Library'
-title: 'Best Practices of testing'
-menuTitle: 'of testing'
+title: 'Best Practices for testing'
+menuTitle: 'for testing'
 status: 'wip'
 draft: false
 order: 3
