@@ -4,15 +4,31 @@
  */
 
 :root {
-  // typography family
-  --font-family-std: 'Fedra Sans Std', sans-serif;
-  --font-family-demi: 'Fedra Sans Std Demi', sans-serif;
+  // Typography Family
+  --font-family-default: 'Fedra Sans Std', sans-serif;
+  --font-family-book: 'Fedra Sans Std', sans-serif; /* Do not use, use --font-weight-... */
+  --font-family-demi: 'Fedra Sans Std', sans-serif; /* Do not use, use --font-weight-... */
+  --font-family-medium: 'Fedra Sans Std', sans-serif; /* Do not use, use --font-weight-... */
+
+  // Typography Weights
+  --font-weight-default: normal;
+  --font-weight-book: normal;
+  --font-weight-demi: 500;
+  --font-weight-medium: 600;
+
+  // Typography Sizes
+  --font-size-small: 0.875rem; // 14px
+  --font-size-default: 1rem; // 16px
+  --font-size-x-default: 1.25rem; // 20px
+  --font-size-medium: 1.5rem; // 24px
+  --font-size-large: 2rem; // 32px
+  --font-size-xx-large: 3rem; // 48px
 
   // UX colors
   --color-sea-green-alt: #008484;
   --color-mint-green-50: #d2f0e9;
   --color-mint-green-25: #e9f8f4;
-  --color-sea-green-4: #f5fafa;
+  --color-mint-green-12: #f4fbf9;
   --color-sea-green-alt-30: #b3dada;
   --color-signal-yellow-30: #ffffd7;
   --color-cherry-red: #e10076;
@@ -23,7 +39,8 @@
   --color-white: #fff;
 
   // Undefined
-  --color-black-border: #ebebeb;
+  --color-black-border: #cdcdcd;
+  --color-black-background: #fafafa;
 
   // Profile colors
   --color-sea-green: #007272;
@@ -48,7 +65,7 @@
 
   // Colors used in mobile
   // --color-light-grey: #fafafa;
-  // --color-outline-grey: #ebebeb;
+  // --color-black-border: #ebebeb;
   // + new grey definitions
   // --color-subtle-grey: #f8f8f8;
   // --color-soft-grey: #ccc;

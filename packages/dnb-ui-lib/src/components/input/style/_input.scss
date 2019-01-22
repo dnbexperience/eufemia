@@ -4,12 +4,9 @@
 */
 
 :root {
-  --input-font-family: var(--font-family-std);
   --input-font-size: 1rem;
   --input-font-size--medium: 1.5rem;
   --input-font-size--large: 2rem;
-  --input-font-weight: normal;
-  --input-font-style: normal;
   --input-padding: 0 1rem;
   --input-padding--medium: 0 1rem;
   --input-padding--large: 0 1.5rem;
@@ -20,8 +17,6 @@
   --input-border-radius--medium: calc(var(--input-height--medium) / 2);
   --input-border-radius--large: calc(var(--input-height--large) / 2);
   --input-border-width: 1px;
-  --input-border-color: var(--color-sea-green-alt);
-  --input-border-color--disabled: var(--color-sea-green-alt-30);
 }
 
 .dnb-input {
@@ -30,10 +25,7 @@
   flex-flow: row wrap;
   width: 100%;
 
-  font-family: var(--input-font-family);
   font-size: var(--input-font-size);
-  font-weight: var(--input-font-weight);
-  font-style: var(--input-font-style);
   line-height: var(--input-height);
 
   &__shell {
@@ -151,7 +143,7 @@
     padding: 0.5em 1.5em;
 
     color: var(--color-black);
-    font-size: 0.75em; // 12px
+    font-size: var(--font-size-small); // 14px
     line-height: 1.25rem;
   }
   > .dnb-form-label ~ &__extra-information {

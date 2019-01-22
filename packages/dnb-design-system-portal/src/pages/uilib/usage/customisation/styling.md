@@ -8,14 +8,14 @@ order: 1
 
 # Styling
 
-The CSS is a compiled and minified version. You find it here: `dnb-ui-lib/style/dnb-ui-lib.min.css`
+The CSS is a compiled and minified version. You will find it here: `dnb-ui-lib/style/dnb-ui-lib.min.css`
 
 **TODO:** CSS structure graphics
 
 ## Apply the DNB Style
 
-To use the default DNB style, You have to define a CSS class called: `dnb-style`
-You could also set this class on the document body.
+To use the default DNB style, you have to define a CSS class called: `dnb-style`
+You can set this class on the document body or on any content container.
 
 <!-- prettier-ignore-start -->
 ```html
@@ -27,7 +27,7 @@ You could also set this class on the document body.
 
 ### The Reason
 
-The benefits of explicitly defining the style class `dnb-style`, is that we then can use the components by their own, without effecting all the existing styled browser elements and tags. This gives use a kind of backwards compatibility.
+The benefits of explicitly defining the style class `dnb-style`, is that we then can use the components on their own, without effecting all the existing styled browser elements and tags. This gives use a kind of backwards compatibility.
 But it makes it also more flexible, like if we only want to apply our DNB style to a certain area of our web application.
 
 ## For Node based environments
@@ -46,7 +46,7 @@ If You want to import the styles of all components - **without** the default DNB
 import 'dnb-ui-lib/style/components'
 ```
 
-You may ant to import a theme as well:
+You may want to import a theme as well:
 
 ```js
 // Default DNB UI Theme
@@ -66,14 +66,3 @@ import 'dnb-ui-lib/components/button/style'
 ```
 
 You may have a look at the guides about [colors](/quickguide-designer/colors/) and [fonts](/quickguide-designer/fonts/#fonts-to-show-code).
-
-## Fonts to show Code
-
-`<code>` snippets shows best on a _Monotype_ font. Developers will normally have installed some of these fonts on their devices. Example of CSS `font-family` usage:
-
-```css
-font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier,
-  monospace;
-```
-
-Read more about [fonts at DNB](/quickguide-designer/fonts/)

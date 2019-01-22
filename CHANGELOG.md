@@ -1,31 +1,14 @@
-## Date
+**January 2019**
 
----
+## Changes to the default styles
 
-### Release of `dnb-ui-lib` v1.10.0
+- Change from 1px to 2px outline on input for error state
+- Signal Orange is replaced by Emerald Green for focus state
+- Tab and StepIndicator (Progress bar) have now Sea Green Alt underline
+- The Switch component has now an outline of 2px
+- Hover on Tabs looks more like an anchor
+- Color change: Sea Green 4% -> Mint Green 12%
 
-#### Breaking Changes
-
-- Text
-  - sub text
-  - sub text
-
-#### Features
-
-Description
-
-```js
-// code
-```
-
-#### Fixes & Optimizations
-
-Description
-
----
-
-### New color added to Figma
-
-Description
+More in the [Releases section on GitHub](https://github.com/dnbexperience/eufemia/releases)
 
 ---

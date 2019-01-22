@@ -69,12 +69,27 @@ exports[`Slider scss have to match snapshot 1`] = `
  *
  */
 :root {
-  --font-family-std: 'Fedra Sans Std', sans-serif;
-  --font-family-demi: 'Fedra Sans Std Demi', sans-serif;
+  --font-family-default: 'Fedra Sans Std', sans-serif;
+  --font-family-book: 'Fedra Sans Std', sans-serif;
+  /* Do not use, use --font-weight-... */
+  --font-family-demi: 'Fedra Sans Std', sans-serif;
+  /* Do not use, use --font-weight-... */
+  --font-family-medium: 'Fedra Sans Std', sans-serif;
+  /* Do not use, use --font-weight-... */
+  --font-weight-default: normal;
+  --font-weight-book: normal;
+  --font-weight-demi: 500;
+  --font-weight-medium: 600;
+  --font-size-small: 0.875rem;
+  --font-size-default: 1rem;
+  --font-size-x-default: 1.25rem;
+  --font-size-medium: 1.5rem;
+  --font-size-large: 2rem;
+  --font-size-xx-large: 3rem;
   --color-sea-green-alt: #008484;
   --color-mint-green-50: #d2f0e9;
   --color-mint-green-25: #e9f8f4;
-  --color-sea-green-4: #f5fafa;
+  --color-mint-green-12: #f4fbf9;
   --color-sea-green-alt-30: #b3dada;
   --color-signal-yellow-30: #ffffd7;
   --color-cherry-red: #e10076;
@@ -83,7 +98,8 @@ exports[`Slider scss have to match snapshot 1`] = `
   --color-black-80: #333;
   --color-black-30: #b3b3b3;
   --color-white: #fff;
-  --color-black-border: #ebebeb;
+  --color-black-border: #cdcdcd;
+  --color-black-background: #fafafa;
   --color-sea-green: #007272;
   --color-mint-green: #a5e1d2;
   --color-summer-green: #28b482;
@@ -102,23 +118,23 @@ exports[`Slider scss have to match snapshot 1`] = `
  * Typography
  *
  * The font-family properties are defined in the properties.scss file, like:
- * --font-family-std:
+ * --font-family-default:
  *
  */
 .dnb-typo-std,
 .dnb-typo-book {
-  font-family: var(--font-family-std);
+  font-family: var(--font-family-default);
   font-weight: normal;
   font-style: normal; }
 
 .dnb-typo-medium {
-  font-family: var(--font-family-std);
-  font-weight: 600;
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-medium);
   font-style: normal; }
 
 .dnb-typo-demi {
-  font-family: var(--font-family-demi);
-  font-weight: normal;
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-demi);
   font-style: normal; }
 
 .dnb-typo-number--lining {
@@ -147,28 +163,29 @@ exports[`Slider scss have to match snapshot 1`] = `
 
 @font-face {
   font-family: 'Fedra Sans Std';
+  src: url(\\"../../../../assets/fonts//FedraSansStd-Demi.eot\\");
+  src: url(\\"../../../../assets/fonts//FedraSansStd-Demi.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts//FedraSansStd-Demi.woff2\\") format(\\"woff2\\"), url(\\"../../../../assets/fonts//FedraSansStd-Demi.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts//FedraSansStd-Demi.ttf\\") format(\\"truetype\\");
+  font-weight: 500;
+  font-style: normal;
+  font-display: fallback; }
+
+@font-face {
+  font-family: 'Fedra Sans Std';
   src: url(\\"../../../../assets/fonts//FedraSansStd-Medium.eot\\");
   src: url(\\"../../../../assets/fonts//FedraSansStd-Medium.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts//FedraSansStd-Medium.woff2\\") format(\\"woff2\\"), url(\\"../../../../assets/fonts//FedraSansStd-Medium.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts//FedraSansStd-Medium.ttf\\") format(\\"truetype\\");
   font-weight: 600;
   font-style: normal;
   font-display: fallback; }
 
-@font-face {
-  font-family: 'Fedra Sans Std Demi';
-  src: url(\\"../../../../assets/fonts//FedraSansStd-Demi.eot\\");
-  src: url(\\"../../../../assets/fonts//FedraSansStd-Demi.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts//FedraSansStd-Demi.woff2\\") format(\\"woff2\\"), url(\\"../../../../assets/fonts//FedraSansStd-Demi.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts//FedraSansStd-Demi.ttf\\") format(\\"truetype\\");
-  font-weight: normal;
-  font-style: normal;
-  font-display: fallback; }
-
 /*
  * Scopes
- * 
+ *
  */
 .dnb-slider {
-  font-family: var(--font-family-std, sans-serif);
+  font-family: sans-serif;
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-default);
   font-size: 1rem;
-  font-weight: normal;
   font-style: normal;
   line-height: 1.5rem;
   color: var(--color-black-80, #333);
@@ -253,7 +270,7 @@ exports[`Slider scss have to match snapshot 1`] = `
     .dnb-slider .slider__thumb:focus {
       outline: none; }
       html[data-whatinput='keyboard'] .dnb-slider .slider__thumb:focus {
-        box-shadow: 0 0 0 2px var(--color-signal-orange);
+        box-shadow: 0 0 0 2px var(--color-emerald-green);
         border-color: transparent; }
   .dnb-slider .slider__state--disabled .slider__thumb {
     border: none;

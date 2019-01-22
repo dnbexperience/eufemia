@@ -14,3 +14,5 @@ order: 3
 - [ ] Prettier usage
 - [ ] Linting usage
 - [ ] Framework usage
+
+https://developer.mozilla.org/en-US/docs/Learn/Accessibility/HTML

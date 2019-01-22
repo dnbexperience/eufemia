@@ -1,2 +1,5 @@
 <Icon icon={Bell} />
 <Icon icon={BellMedium} />
+<Icon icon={BellMedium} size="24" />
+<Icon icon={BellMedium} height="24" />
+<Icon icon={BellMedium} width="24" />

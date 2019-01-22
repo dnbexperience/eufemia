@@ -5,7 +5,7 @@ Some of the included packages/workspaces are `dnb-design-guide` and `dnb-ui-lib`
 
 ## DNB Eufemia Portal
 
-Find more information on how to use the Design System on the [Eufemia Portal](https://dnbexperience.github.io/eufemia/).
+Find more information on how to use the Design System on the [Eufemia Portal](https://eufemia.dnb.no/).
 
 ## Requirements
 
@@ -23,4 +23,4 @@ Install [Node](https://nodejs.org) and [Yarn](https://yarnpkg.com).
 
 ## Releases
 
-The CI will handle new releases once new changes gets merged into the `master` branch. Mainly though a Pull Request.
+The CI will handle new releases once new changes gets merged into the `origin/release` branch. Mainly though a Pull Request.

@@ -18,7 +18,7 @@ The most basic way to use the `dnb-ui-lib` is like this:
 <Button text="Basic Button" />
 ```
 
-<div className="demo-box">
+<div className="example-box">
   <Button text="Basic Button" />
 </div>
 
@@ -38,7 +38,7 @@ The most basic way to use the `dnb-ui-lib` is like this:
 />
 ```
 
-<div className="demo-box">
+<div className="example-box">
   <Button variant="secondary" text="Secondary Button" icon="chevron-right_medium" size="large"  />
   <Button icon="chevron-right" icon_size="medium" size="large" />
 </div>
@@ -73,6 +73,6 @@ export const MyComponent = () => {
 }
 ```
 
-<div className="demo-box">
+<div className="example-box">
   <ButtonEventExample />
 </div>

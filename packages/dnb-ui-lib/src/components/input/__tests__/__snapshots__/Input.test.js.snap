@@ -110,6 +110,120 @@ exports[`Input component have to match type="text" snapshot 1`] = `
 </span>
 `;
 
+exports[`Input scss have to match default theme snapshot 1`] = `
+"/*
+* Input theme
+*
+*/
+/**
+ * This file is only used to make themes independent
+ * so that they can get imported individually, without the core styles
+ *
+ */
+/*
+ * Utilities
+ */
+/*
+ * Typography
+ *
+ * The font-family properties are defined in the properties.scss file, like:
+ * --font-family-default:
+ *
+ */
+.dnb-typo-std,
+.dnb-typo-book {
+  font-family: var(--font-family-default);
+  font-weight: normal;
+  font-style: normal; }
+
+.dnb-typo-medium {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-medium);
+  font-style: normal; }
+
+.dnb-typo-demi {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-demi);
+  font-style: normal; }
+
+.dnb-typo-number--lining {
+  font-variant-numeric: lining-nums;
+  font-feature-settings: \\"lnum\\"; }
+
+.dnb-typo-number--tabular {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: \\"lnum\\"; }
+
+.dnb-typo-number--oldstyle {
+  font-variant-numeric: oldstyle-nums;
+  font-feature-settings: \\"onum\\"; }
+
+.dnb-typo-number--proportional {
+  font-variant-numeric: proportional-nums;
+  font-feature-settings: \\"pnum\\"; }
+
+@font-face {
+  font-family: 'Fedra Sans Std';
+  src: url(\\"../../../../../assets/fonts//FedraSansStd-Book.eot\\");
+  src: url(\\"../../../../../assets/fonts//FedraSansStd-Book.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../../assets/fonts//FedraSansStd-Book.woff2\\") format(\\"woff2\\"), url(\\"../../../../../assets/fonts//FedraSansStd-Book.woff\\") format(\\"woff\\"), url(\\"../../../../../assets/fonts//FedraSansStd-Book.ttf\\") format(\\"truetype\\");
+  font-weight: normal;
+  font-style: normal;
+  font-display: fallback; }
+
+@font-face {
+  font-family: 'Fedra Sans Std';
+  src: url(\\"../../../../../assets/fonts//FedraSansStd-Demi.eot\\");
+  src: url(\\"../../../../../assets/fonts//FedraSansStd-Demi.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../../assets/fonts//FedraSansStd-Demi.woff2\\") format(\\"woff2\\"), url(\\"../../../../../assets/fonts//FedraSansStd-Demi.woff\\") format(\\"woff\\"), url(\\"../../../../../assets/fonts//FedraSansStd-Demi.ttf\\") format(\\"truetype\\");
+  font-weight: 500;
+  font-style: normal;
+  font-display: fallback; }
+
+@font-face {
+  font-family: 'Fedra Sans Std';
+  src: url(\\"../../../../../assets/fonts//FedraSansStd-Medium.eot\\");
+  src: url(\\"../../../../../assets/fonts//FedraSansStd-Medium.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../../assets/fonts//FedraSansStd-Medium.woff2\\") format(\\"woff2\\"), url(\\"../../../../../assets/fonts//FedraSansStd-Medium.woff\\") format(\\"woff\\"), url(\\"../../../../../assets/fonts//FedraSansStd-Medium.ttf\\") format(\\"truetype\\");
+  font-weight: 600;
+  font-style: normal;
+  font-display: fallback; }
+
+:root {
+  --input-border-color: var(--color-sea-green-alt);
+  --input-border-color--disabled: var(--color-sea-green-alt-30);
+  --input-border-color--active: var(--color-emerald-green); }
+
+.dnb-input {
+  color: var(--color-emerald-green); }
+  .dnb-input__shell {
+    background-color: var(--color-mint-green-12);
+    border: var(--input-border-width) solid var(--input-border-color); }
+    .no-touch .dnb-input__shell:not([data-input-state='disabled']):hover[disabled] {
+      cursor: not-allowed; }
+    .no-touch .dnb-input__shell:not([data-input-state='disabled']):hover:not([disabled]) {
+      background-color: var(--color-white); }
+    .dnb-input__shell[data-has-content='true'] {
+      background-color: var(--color-white); }
+    .dnb-input__shell[data-input-state='disabled'] {
+      color: var(--color-sea-green-alt-30);
+      border-color: var(--input-border-color--disabled); }
+    .dnb-input__shell[data-input-state='focus'] {
+      background-color: var(--color-white);
+      border-color: var(--input-border-color--active);
+      box-shadow: 0 0 0 1px var(--input-border-color--active);
+      outline: none; }
+      html[data-whatinput='keyboard'] .dnb-input__shell[data-input-state='focus'] {
+        box-shadow: 0 0 0 2px var(--color-emerald-green);
+        border-color: transparent; }
+  .dnb-input__status--error .dnb-input__shell {
+    border-color: var(--color-cherry-red); }
+    .dnb-input__status--error .dnb-input__shell, .dnb-input__status--error .dnb-input__shell[data-input-state='focus'] {
+      box-shadow: 0 0 0 1px var(--color-cherry-red); }
+  .dnb-input__placeholder {
+    color: var(--color-sea-green); }
+  .dnb-input__shell[data-input-state='focus'][data-has-content='false'] .dnb-input__placeholder {
+    color: var(--color-sea-green-alt-30); }
+"
+`;
+
 exports[`Input scss have to match snapshot 1`] = `
 "/*
 * DNB Input
@@ -125,12 +239,27 @@ exports[`Input scss have to match snapshot 1`] = `
  *
  */
 :root {
-  --font-family-std: 'Fedra Sans Std', sans-serif;
-  --font-family-demi: 'Fedra Sans Std Demi', sans-serif;
+  --font-family-default: 'Fedra Sans Std', sans-serif;
+  --font-family-book: 'Fedra Sans Std', sans-serif;
+  /* Do not use, use --font-weight-... */
+  --font-family-demi: 'Fedra Sans Std', sans-serif;
+  /* Do not use, use --font-weight-... */
+  --font-family-medium: 'Fedra Sans Std', sans-serif;
+  /* Do not use, use --font-weight-... */
+  --font-weight-default: normal;
+  --font-weight-book: normal;
+  --font-weight-demi: 500;
+  --font-weight-medium: 600;
+  --font-size-small: 0.875rem;
+  --font-size-default: 1rem;
+  --font-size-x-default: 1.25rem;
+  --font-size-medium: 1.5rem;
+  --font-size-large: 2rem;
+  --font-size-xx-large: 3rem;
   --color-sea-green-alt: #008484;
   --color-mint-green-50: #d2f0e9;
   --color-mint-green-25: #e9f8f4;
-  --color-sea-green-4: #f5fafa;
+  --color-mint-green-12: #f4fbf9;
   --color-sea-green-alt-30: #b3dada;
   --color-signal-yellow-30: #ffffd7;
   --color-cherry-red: #e10076;
@@ -139,7 +268,8 @@ exports[`Input scss have to match snapshot 1`] = `
   --color-black-80: #333;
   --color-black-30: #b3b3b3;
   --color-white: #fff;
-  --color-black-border: #ebebeb;
+  --color-black-border: #cdcdcd;
+  --color-black-background: #fafafa;
   --color-sea-green: #007272;
   --color-mint-green: #a5e1d2;
   --color-summer-green: #28b482;
@@ -158,23 +288,23 @@ exports[`Input scss have to match snapshot 1`] = `
  * Typography
  *
  * The font-family properties are defined in the properties.scss file, like:
- * --font-family-std:
+ * --font-family-default:
  *
  */
 .dnb-typo-std,
 .dnb-typo-book {
-  font-family: var(--font-family-std);
+  font-family: var(--font-family-default);
   font-weight: normal;
   font-style: normal; }
 
 .dnb-typo-medium {
-  font-family: var(--font-family-std);
-  font-weight: 600;
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-medium);
   font-style: normal; }
 
 .dnb-typo-demi {
-  font-family: var(--font-family-demi);
-  font-weight: normal;
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-demi);
   font-style: normal; }
 
 .dnb-typo-number--lining {
@@ -203,23 +333,23 @@ exports[`Input scss have to match snapshot 1`] = `
 
 @font-face {
   font-family: 'Fedra Sans Std';
+  src: url(\\"../../../../assets/fonts//FedraSansStd-Demi.eot\\");
+  src: url(\\"../../../../assets/fonts//FedraSansStd-Demi.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts//FedraSansStd-Demi.woff2\\") format(\\"woff2\\"), url(\\"../../../../assets/fonts//FedraSansStd-Demi.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts//FedraSansStd-Demi.ttf\\") format(\\"truetype\\");
+  font-weight: 500;
+  font-style: normal;
+  font-display: fallback; }
+
+@font-face {
+  font-family: 'Fedra Sans Std';
   src: url(\\"../../../../assets/fonts//FedraSansStd-Medium.eot\\");
   src: url(\\"../../../../assets/fonts//FedraSansStd-Medium.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts//FedraSansStd-Medium.woff2\\") format(\\"woff2\\"), url(\\"../../../../assets/fonts//FedraSansStd-Medium.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts//FedraSansStd-Medium.ttf\\") format(\\"truetype\\");
   font-weight: 600;
   font-style: normal;
   font-display: fallback; }
 
-@font-face {
-  font-family: 'Fedra Sans Std Demi';
-  src: url(\\"../../../../assets/fonts//FedraSansStd-Demi.eot\\");
-  src: url(\\"../../../../assets/fonts//FedraSansStd-Demi.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts//FedraSansStd-Demi.woff2\\") format(\\"woff2\\"), url(\\"../../../../assets/fonts//FedraSansStd-Demi.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts//FedraSansStd-Demi.ttf\\") format(\\"truetype\\");
-  font-weight: normal;
-  font-style: normal;
-  font-display: fallback; }
-
 /*
  * Scopes
- * 
+ *
  */
 /*
 * DNB Button
@@ -244,7 +374,7 @@ exports[`Input scss have to match snapshot 1`] = `
     fill: currentColor; }
   .dnb-icon svg [stroke] {
     stroke: currentColor; }
-  .dnb-icon:not(.has-custom-size) svg {
+  .dnb-icon svg:not([width]):not([height]) {
     width: inherit;
     height: inherit; }
   .dnb-icon--small {
@@ -261,9 +391,10 @@ exports[`Input scss have to match snapshot 1`] = `
     height: 2em; }
 
 .dnb-button {
-  font-family: var(--font-family-std, sans-serif);
+  font-family: sans-serif;
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-default);
   font-size: 1rem;
-  font-weight: normal;
   font-style: normal;
   line-height: 1.5rem;
   color: var(--color-black-80, #333);
@@ -284,10 +415,7 @@ exports[`Input scss have to match snapshot 1`] = `
 *
 */
 :root {
-  --button-font-family: var(--font-family-std);
   --button-font-size: 1rem;
-  --button-font-weight: normal;
-  --button-font-style: normal;
   --button-width: 2.5rem;
   --button-height: 2.5rem;
   --button-width--small: 2rem;
@@ -314,10 +442,8 @@ exports[`Input scss have to match snapshot 1`] = `
   padding: 0;
   border: var(--button-border-width) solid transparent;
   border-radius: var(--button-border-radius);
-  font-family: var(--button-font-family);
   font-size: var(--button-font-size);
-  font-weight: var(--button-font-weight);
-  font-style: var(--button-font-style);
+  line-height: var(--button-height);
   text-decoration: none;
   /* Firefox includes a hidden border which messes up button dimensions */ }
   .dnb-button__icon {
@@ -327,7 +453,6 @@ exports[`Input scss have to match snapshot 1`] = `
       height: var(--button-icon-size); }
   .dnb-button__text {
     color: inherit;
-    background-color: inherit;
     transform: translateY(var(--button-border-width)); }
   .dnb-button--size-small {
     width: var(--button-width--small);
@@ -393,7 +518,7 @@ exports[`Input scss have to match snapshot 1`] = `
     .dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
       outline: none; }
       html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
-        box-shadow: 0 0 0 2px var(--color-signal-orange);
+        box-shadow: 0 0 0 2px var(--color-emerald-green);
         border-color: transparent; }
     html[data-whatinput='mouse']
 .dnb-button--reset:not([disabled]):focus:not(.dnb-no-mouse-focus),
@@ -408,7 +533,6 @@ exports[`Input scss have to match snapshot 1`] = `
     border: none; }
 
 a.dnb-button {
-  border-bottom: none;
   transition: none; }
 
 /*
@@ -416,9 +540,10 @@ a.dnb-button {
 *
 */
 .dnb-form-label {
-  font-family: var(--font-family-std, sans-serif);
+  font-family: sans-serif;
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-default);
   font-size: 1rem;
-  font-weight: normal;
   font-style: normal;
   line-height: 1.5rem;
   color: var(--color-black-80, #333);
@@ -450,9 +575,10 @@ a.dnb-button {
   cursor: not-allowed; }
 
 .dnb-input {
-  font-family: var(--font-family-std, sans-serif);
+  font-family: sans-serif;
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-default);
   font-size: 1rem;
-  font-weight: normal;
   font-style: normal;
   line-height: 1.5rem;
   color: var(--color-black-80, #333);
@@ -473,12 +599,9 @@ a.dnb-button {
 *
 */
 :root {
-  --input-font-family: var(--font-family-std);
   --input-font-size: 1rem;
   --input-font-size--medium: 1.5rem;
   --input-font-size--large: 2rem;
-  --input-font-weight: normal;
-  --input-font-style: normal;
   --input-padding: 0 1rem;
   --input-padding--medium: 0 1rem;
   --input-padding--large: 0 1.5rem;
@@ -488,19 +611,14 @@ a.dnb-button {
   --input-border-radius: calc(var(--input-height) / 2);
   --input-border-radius--medium: calc(var(--input-height--medium) / 2);
   --input-border-radius--large: calc(var(--input-height--large) / 2);
-  --input-border-width: 1px;
-  --input-border-color: var(--color-sea-green-alt);
-  --input-border-color--disabled: var(--color-sea-green-alt-30); }
+  --input-border-width: 1px; }
 
 .dnb-input {
   display: inline-flex;
   align-items: center;
   flex-flow: row wrap;
   width: 100%;
-  font-family: var(--input-font-family);
   font-size: var(--input-font-size);
-  font-weight: var(--input-font-weight);
-  font-style: var(--input-font-style);
   line-height: var(--input-height); }
   .dnb-input__shell {
     position: relative;
@@ -571,7 +689,7 @@ a.dnb-button {
     flex: 1 100%;
     padding: 0.5em 1.5em;
     color: var(--color-black);
-    font-size: 0.75em;
+    font-size: var(--font-size-small);
     line-height: 1.25rem; }
   > .dnb-form-label ~ .dnb-input__extra-information {
     padding: 0.5em 0; }

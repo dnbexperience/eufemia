@@ -19,49 +19,49 @@ export const BrandSvg = props => (
   >
     <path
       d="M17.3302 37.878C16.7512 38.44 15.9665 38.756 15.1489 38.756C14.3303 38.756 13.5466 38.44 12.9676 37.878L1.904 27.122C1.61708 26.843 1.3898 26.513 1.23451 26.148C1.07922 25.784 1 25.394 1 25C1 24.606 1.07922 24.216 1.23451 23.851C1.3898 23.487 1.61708 23.157 1.904 22.878L23.5006 1.87799C23.7876 1.59899 24.128 1.37903 24.5023 1.22803C24.8766 1.07703 25.2777 1 25.6829 1H36.7445C37.5631 1 38.3478 1.31603 38.9258 1.87903C39.5048 2.44103 39.8297 3.204 39.8297 4V14.758C39.8297 15.553 39.5048 16.316 38.9268 16.878"
-      stroke="#14555A"
+      stroke="black"
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
       d="M32.1164 7.75C31.9642 7.75 31.8151 7.79404 31.6876 7.87604C31.5611 7.95904 31.4624 8.07601 31.4037 8.21301C31.3451 8.35001 31.3297 8.501 31.3596 8.646C31.3894 8.792 31.4634 8.92503 31.5714 9.03003C31.6784 9.13503 31.8161 9.20702 31.9663 9.23602C32.1154 9.26502 32.2707 9.24999 32.4116 9.19299C32.5525 9.13599 32.6728 9.03999 32.7582 8.91699C32.8425 8.79299 32.8877 8.648 32.8877 8.5C32.8877 8.301 32.8065 8.11003 32.6615 7.97003C32.5175 7.82903 32.3211 7.75 32.1164 7.75Z"
-      stroke="#14555A"
+      stroke="black"
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
       d="M25.9462 40C28.5018 40 30.5741 37.985 30.5741 35.5C30.5741 33.015 28.5018 31 25.9462 31C23.3906 31 21.3184 33.015 21.3184 35.5C21.3184 37.985 23.3906 40 25.9462 40Z"
-      stroke="#14555A"
+      stroke="black"
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
       d="M41.372 46C43.9276 46 45.9998 43.985 45.9998 41.5C45.9998 39.015 43.9276 37 41.372 37C38.8164 37 36.7441 39.015 36.7441 41.5C36.7441 43.985 38.8164 46 41.372 46Z"
-      stroke="#14555A"
+      stroke="black"
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
       d="M41.372 31C43.9276 31 45.9998 28.985 45.9998 26.5C45.9998 24.015 43.9276 22 41.372 22C38.8164 22 36.7441 24.015 36.7441 26.5C36.7441 28.985 38.8164 31 41.372 31Z"
-      stroke="#14555A"
+      stroke="black"
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
       d="M29.9062 33.1901L37.4136 28.8101"
-      stroke="#14555A"
+      stroke="black"
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
       d="M30.2402 37.1699L37.0791 39.8299"
-      stroke="#14555A"
+      stroke="black"
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -77,77 +77,77 @@ export const PrinciplesSvg = props => (
   >
     <path
       d="M22 46V10"
-      stroke="#14555A"
+      stroke="black"
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
       d="M13 46H31"
-      stroke="#14555A"
+      stroke="black"
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
       d="M24.4502 5.27399L38.5002 1"
-      stroke="#14555A"
+      stroke="black"
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
       d="M4 11.4999L18.98 6.93994"
-      stroke="#14555A"
+      stroke="black"
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
       d="M22 10C23.66 10 25 8.657 25 7C25 5.343 23.66 4 22 4C20.34 4 19 5.343 19 7C19 8.657 20.34 10 22 10Z"
-      stroke="#14555A"
+      stroke="black"
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
       d="M16 31C16 32.989 15.21 34.897 13.8 36.303C12.4 37.71 10.49 38.5 8.5 38.5C6.51 38.5 4.60001 37.71 3.20001 36.303C1.79001 34.897 1 32.989 1 31H16Z"
-      stroke="#14555A"
+      stroke="black"
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
       d="M8.41998 10.1538L1 24.9998"
-      stroke="#14555A"
+      stroke="black"
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
       d="M8.55957 10.1143L15.9996 25.0002"
-      stroke="#14555A"
+      stroke="black"
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
       d="M43 22C43 23.989 42.21 25.897 40.8 27.303C39.4 28.71 37.49 29.5 35.5 29.5C33.51 29.5 31.6 28.71 30.2 27.303C28.79 25.897 28 23.989 28 22H43Z"
-      stroke="#14555A"
+      stroke="black"
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
       d="M34.96 2.07812L28 16.0001"
-      stroke="#14555A"
+      stroke="black"
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
       d="M43.0004 15.9998L35.9004 1.7998"
-      stroke="#14555A"
+      stroke="black"
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -163,63 +163,63 @@ export const QuickguideDesignerSvg = props => (
   >
     <path
       d="M17.7696 14.5C17.7566 12.515 16.9613 10.615 15.5577 9.211C14.1531 7.807 12.2523 7.013 10.2664 7C5.76448 7 4.91011 4.484 4.26384 1C-1.73874 8.5 0.700308 22 10.2664 22"
-      stroke="#14555A"
+      stroke="black"
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
       d="M10.2656 22L17.7688 14.5L41.0548 41.44C41.506 41.97 41.7401 42.65 41.7121 43.346C41.6831 44.041 41.3929 44.7 40.8997 45.19C40.4065 45.681 39.7462 45.968 39.0499 45.994C38.3546 46.019 37.6754 45.781 37.1471 45.328L10.2656 22Z"
-      stroke="#14555A"
+      stroke="black"
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
       d="M18.0927 37.4002L15.4256 40.0642C14.8623 40.6262 14.099 40.9422 13.3037 40.9422C12.5074 40.9422 11.745 40.6262 11.1818 40.0642L6.93794 35.8222C6.3757 35.2592 6.05957 34.4972 6.05957 33.7012C6.05957 32.9062 6.3757 32.1432 6.93794 31.5802L9.46307 29.0542"
-      stroke="#14555A"
+      stroke="black"
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
       d="M24.8916 13.6322L35.6962 2.83221C36.8217 1.70721 38.3493 1.07422 39.941 1.07422C41.5337 1.07422 43.0604 1.70721 44.1859 2.83221C45.3114 3.95721 45.9446 5.48423 45.9446 7.07523C45.9446 8.66623 45.3114 10.1932 44.1859 11.3182L32.889 22.6102"
-      stroke="#14555A"
+      stroke="black"
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
       d="M43.4084 12.1001C44.1217 12.6331 44.7169 13.3091 45.1571 14.0831C45.5973 14.8571 45.8724 15.7141 45.9644 16.6001C46.0575 17.4861 45.9664 18.3811 45.6963 19.2301C45.4262 20.0791 44.984 20.8621 44.3968 21.5321L37.916 28.0001"
-      stroke="#14555A"
+      stroke="black"
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
       d="M28.3994 10.126L36.8891 18.612"
-      stroke="#14555A"
+      stroke="black"
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
       d="M6.93718 35.8198L2.69238 40.0628L6.93718 44.3058L11.182 40.0628L6.93718 35.8198Z"
-      stroke="#14555A"
+      stroke="black"
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
       d="M4.81566 42.186L1 46"
-      stroke="#14555A"
+      stroke="black"
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
   </svg>
 )
-export const QuickguideDeveloperSvg = props => (
+export const DesignSystemSvg = props => (
   <svg
     viewBox="0 0 48 48"
     fill="none"
@@ -275,36 +275,29 @@ export const IconsSvg = props => (
     {...props}
   >
     <path
-      d="M8.10903 46H4.03114C3.22687 46 2.45595 45.684 1.88812 45.121C1.31928 44.559 1 43.796 1 43V14.5C1 13.704 1.31928 12.941 1.88812 12.379C2.45595 11.816 3.22687 11.5 4.03114 11.5H8.10903"
-      stroke="#14555A"
+      d="M16.5 1.494H4.5C2.84315 1.494 1.5 2.83715 1.5 4.494V16.494C1.5 18.1509 2.84315 19.494 4.5 19.494H16.5C18.1569 19.494 19.5 18.1509 19.5 16.494V4.494C19.5 2.83715 18.1569 1.494 16.5 1.494Z"
+      stroke="black"
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
-      d="M30.037 7.74121L27.2039 8.80718C25.6388 9.39618 24.8527 11.1292 25.4478 12.6782L37.3006 43.5222C37.8967 45.0712 39.6467 45.8492 41.2118 45.2602L44.0449 44.1932C45.6099 43.6042 46.396 41.8712 45.8009 40.3232L33.9471 9.47821C33.352 7.93021 31.6011 7.15221 30.037 7.74121Z"
-      stroke="#14555A"
+      d="M16.5 28.494H4.5C2.84315 28.494 1.5 29.8372 1.5 31.494V43.494C1.5 45.1509 2.84315 46.494 4.5 46.494H16.5C18.1569 46.494 19.5 45.1509 19.5 43.494V31.494C19.5 29.8372 18.1569 28.494 16.5 28.494Z"
+      stroke="black"
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
-      d="M22.2184 1H16.1561C14.4819 1 13.125 2.343 13.125 4V43C13.125 44.657 14.4819 46 16.1561 46H22.2184C23.8926 46 25.2495 44.657 25.2495 43V4C25.2495 2.343 23.8926 1 22.2184 1Z"
-      stroke="#14555A"
+      d="M43.5 1.494H31.5C29.8431 1.494 28.5 2.83715 28.5 4.494V16.494C28.5 18.1509 29.8431 19.494 31.5 19.494H43.5C45.1569 19.494 46.5 18.1509 46.5 16.494V4.494C46.5 2.83715 45.1569 1.494 43.5 1.494Z"
+      stroke="black"
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
-      d="M19.1865 7V31"
-      stroke="#14555A"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <path
-      d="M19.1869 37.75C19.0374 37.75 18.8909 37.794 18.7656 37.876C18.6413 37.959 18.5443 38.076 18.4867 38.213C18.4291 38.35 18.414 38.501 18.4433 38.646C18.4726 38.792 18.5453 38.925 18.6514 39.03C18.7565 39.135 18.8919 39.207 19.0394 39.236C19.1859 39.265 19.3385 39.25 19.4769 39.193C19.6153 39.136 19.7335 39.04 19.8174 38.917C19.9002 38.793 19.9447 38.648 19.9447 38.5C19.9447 38.301 19.8649 38.11 19.7224 37.97C19.5809 37.829 19.388 37.75 19.1869 37.75Z"
-      stroke="#14555A"
+      d="M43.5 28.494H31.5C29.8431 28.494 28.5 29.8372 28.5 31.494V43.494C28.5 45.1509 29.8431 46.494 31.5 46.494H43.5C45.1569 46.494 46.5 45.1509 46.5 43.494V31.494C46.5 29.8372 45.1569 28.494 43.5 28.494Z"
+      stroke="black"
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -320,49 +313,49 @@ export const UilibSvg = props => (
   >
     <path
       d="M2.1802 1.04C7.4213 5.698 6.1614 3.8176 8.8808 5.554a4.3331 4.3331 0 0 1 1.5783 1.8564c.247.5395.385 1.122.4042 1.7145a4.4618 4.4618 0 0 1-.2913 1.7364 4.4892 4.4892 0 0 1-.9414 1.4927 4.5082 4.5082 0 0 1-1.4473 1.0201 4.5727 4.5727 0 0 1-1.7316.3906 4.5633 4.5633 0 0 1-1.7497-.2977 4.5352 4.5352 0 0 1-1.5008-.9412 4.4919 4.4919 0 0 1-1.021-1.4407 11.2768 11.2768 0 0 1 0-10.045z"
-      stroke="#14555A"
+      stroke="black"
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
       d="M6.3467 13.7427l1.8767 5.2813"
-      stroke="#14555A"
+      stroke="black"
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
       d="M21.8345 45.9999h-9.071c-2.4059 0-4.713-.9471-6.4143-2.6336-1.7013-1.6865-2.6568-3.9735-2.6568-6.3584v-17.984h27.2132v17.984c0 2.3849-.9555 4.6719-2.6568 6.3584-1.7013 1.6865-4.0084 2.6336-6.4143 2.6336z"
-      stroke="#14555A"
+      stroke="black"
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
       d="M33.929 37.0079h-3.0237v-17.984h3.0237c2.4058 0 4.7129.9472 6.4142 2.6337C42.0446 23.3441 43 25.631 43 28.0159s-.9554 4.6719-2.6568 6.3584c-1.7013 1.6865-4.0084 2.6336-6.4142 2.6336z"
-      stroke="#14555A"
+      stroke="black"
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
       d="M10.4023 11.2065l4.8944 7.8171"
-      stroke="#14555A"
+      stroke="black"
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
       d="M17.2637 19.0239l4.0779-11.4517L28.2095 1l1.1832 9.3876-3.0741 8.6363"
-      stroke="#14555A"
+      stroke="black"
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
       d="M28.9192 11.7106a7.1658 7.1658 0 0 1-4.4992-.078 7.101 7.101 0 0 1-3.5518-2.7395"
-      stroke="#14555A"
+      stroke="black"
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"

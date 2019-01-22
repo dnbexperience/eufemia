@@ -16,9 +16,10 @@ import {
   IconsSvg,
   PrinciplesSvg,
   QuickguideDesignerSvg,
-  QuickguideDeveloperSvg
+  DesignSystemSvg
 } from './MainMenuGraphics'
 import { Button } from 'dnb-ui-lib/src'
+import { buildVersion } from '../../../package.json'
 
 const MainWrapper = styled.div`
   display: flex;
@@ -31,11 +32,11 @@ const MainWrapper = styled.div`
   width: 100vw;
 
   /* center on not mobile view */
-  &:not(.show-as-overlay) {
+  ${'' /* &:not(.show-as-overlay) {
     @media (min-width: 640px) {
       height: calc(100vh - 8rem);
     }
-  }
+  } */}
 
   &.fade-out .card-wrapper {
     animation: fade-out 400ms linear 1 0ms forwards;
@@ -79,46 +80,53 @@ const toggleGlobalStyle = css`
     background-color: var(--color-emerald-green);
   }
 
-  /* hide if shown as  */
+  /* hide content if shown as overlay menu */
   .content-wrapper {
     display: none !important;
   }
 
+  /* on main entry */
   :not(.is-overlay) {
     .sticky-menu {
-      position: relative;
-
-      @media (min-height: 45rem) {
+      .menu-bar-logo {
+        pointer-events: none;
+        .dnb-icon {
+          display: none;
+        }
+      }
+      .toggle-grid {
+        display: none;
+      }
+      @media (min-height: 55rem) {
+        position: relative;
         height: auto;
         margin-top: 2rem;
 
-        ${'' /* @media (min-width: 640px) {
-        } */}
-
-        border-bottom: none !important;
+        border-bottom: none;
         background-color: transparent;
 
         .toggle-grid {
           display: none;
         }
 
-        .dnb-logo {
-          svg {
+        .menu-bar-logo {
+          &,
+          & .dnb-logo {
+            color: var(--color-white);
+          }
+          .dnb-logo svg {
             height: 4rem;
           }
         }
       }
-    }
-    .sticky-inner {
-      max-width: 60rem;
-      padding: 0 0.5rem;
-    }
-  }
-
-  /* disable scrolling on no mobile view */
-  @media (min-width: 640px) and (min-height: 45rem) {
-    :not(.is-overlay) {
-      overflow: hidden;
+      .sticky-inner {
+        justify-content: flex-start;
+        max-width: 60rem;
+        padding: 0 0.5rem;
+        .menu-bar-logo {
+          margin-left: 0;
+        }
+      }
     }
   }
 `
@@ -219,6 +227,20 @@ export default class MainMenu extends PureComponent {
           </Toolbar>
           <CardsWrapper>
             <Card
+              url="/design-system/"
+              title="About Eufemia"
+              about={
+                <>
+                  Change log, contact, etc.
+                  <LastUpadted title="Last Change log update">
+                    Updated: {buildVersion}
+                  </LastUpadted>
+                </>
+              }
+              icon={DesignSystemSvg}
+              onClick={this.closeMenuHandler}
+            />
+            <Card
               url="/uilib/"
               title="UI Library"
               about="Buttons, dropdowns, input fields, components etc."
@@ -230,13 +252,6 @@ export default class MainMenu extends PureComponent {
               title="Quick Guide - Designers"
               about="Eufemia for designers - design guidelines and resources"
               icon={QuickguideDesignerSvg}
-              onClick={this.closeMenuHandler}
-            />
-            <Card
-              url="/quickguide-developer/"
-              title="Quick Guide - Developers"
-              about="Eufemia for developers"
-              icon={QuickguideDeveloperSvg}
               onClick={this.closeMenuHandler}
             />
             <Card
@@ -266,3 +281,8 @@ export default class MainMenu extends PureComponent {
     )
   }
 }
+
+const LastUpadted = styled.span`
+  display: block;
+  font-size: var(--font-size-small);
+`

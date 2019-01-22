@@ -25,17 +25,21 @@ import bell from './icons/bell'
   render() {
     return (
       <Fragment>
-        <Icon icon={Bell} />
-        <Icon icon={BellMedium} />
+        <div className="example-box">
+          <Icon icon={Bell} />
+          <Icon icon={BellMedium} />
+          <p className="example-caption">Default Sizes (Responsive)</p>
+        </div>
+        <div className="example-box">
+          <Icon icon={BellMedium} size="24" />
+          <Icon icon={BellMedium} height="24" />
+          <Icon icon={BellMedium} width="24" />
+          <p className="example-caption">Explicit defined sizes</p>
+        </div>
       </Fragment>
     )
   }
 }
 
 export { Example }
-export default () => (
-  <div className="example-box">
-    <Example />
-    <p className="example-caption">Example Icons</p>
-  </div>
-)
+export default () => <Example />

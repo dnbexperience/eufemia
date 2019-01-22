@@ -16,4 +16,6 @@ From the Brandbook, digital media should use the 3rd level logos (page 9).
 | DNB logo - green | Vector - eps | Location | Anotherguy Inoslo |
 | DNB logo - white | Vector - eps | Location | Anotherguy Inoslo |
 
-<Logo size="200" />
+<div class="example-box center">
+  <Logo size="200" />
+</div>

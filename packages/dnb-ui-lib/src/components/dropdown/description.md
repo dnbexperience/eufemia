@@ -4,16 +4,19 @@ status: 'wip'
 
 ## Description
 
-The dropdown component is 100% custom-made.
-The reason for this is so we can display more information in each option. Since it looks totally different on smaller screens and touch devices, doing this component 100% custom gives us more flexibility.
+The dropdown component is a fully custom-made component. This allows us to change it's form based on context (small screens, touch devices etc.)
 
-### When to use it
+### When to use it:
 
-When you need to provide a considerable amount of option to the user and do not have the space to do so. Other reasons may be because the hidden options may clutter the interface and need only be displayed after the user specifically requests it.
+When you need to provide a considerable amount of options to the user and do not have the space to do so. Other reasons may be because the hidden options may clutter the interface and need only be displayed after the user specifically requests it.
 
-### When not to use it
+1. when space is an issue (not enough)
+1. when you wish to reduce visual clutter
+1. when it is intuitive for the user to request the hidden content
 
-Don't use this if you have only a few 'menu' options which could otherwise be shown such as tabs or buttons.
+### When not to use it:
+
+1. do not use this if you have only a few 'menu' options which could otherwise be shown such as tabs or buttons
 
 #### NB!
 

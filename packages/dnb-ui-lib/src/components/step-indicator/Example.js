@@ -54,6 +54,26 @@ class Example extends PureComponent {
             data={dataBlob}
             on_change={this.onChangeHandler}
           />
+          <p className="example-caption">
+            StepIndicator with urls, for visited steps only
+          </p>
+        </div>
+        <div className="example-box">
+          <StepIndicator
+            active_item="3"
+            data={[
+              {
+                title: 'Om din nye bolig'
+              },
+              {
+                title: 'Ditt lån og egenkapital'
+              },
+              {
+                title: 'Oppsummering'
+              }
+            ]}
+          />
+          <p className="example-caption">StepIndicator with no urls</p>
         </div>
       </Fragment>
     )
@@ -68,7 +88,6 @@ const data = [
   {
     title: 'Ditt lån og egenkapital',
     url: '?b'
-    // url_future: ''
   },
   {
     title: 'Oppsummering',

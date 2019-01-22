@@ -25,7 +25,7 @@ export const propTypes = {
   type: PropTypes.string,
   title: PropTypes.string,
   variant: PropTypes.oneOf(['primary', 'secondary', 'tertiary', 'signal']),
-  size: PropTypes.oneOf(['medium', 'default', 'large']),
+  size: PropTypes.oneOf(['default', 'small', 'medium', 'large']),
   icon: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.node,
@@ -151,7 +151,7 @@ export default class Button extends PureComponent {
         variant = 'secondary'
       }
       if (!size) {
-        size = 'medium'
+        size = 'small'
       }
     } else if (text) {
       if (!variant) {

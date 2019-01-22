@@ -4,10 +4,7 @@
 */
 
 :root {
-  --button-font-family: var(--font-family-std);
   --button-font-size: 1rem;
-  --button-font-weight: normal;
-  --button-font-style: normal;
   --button-width: 2.5rem;
   --button-height: 2.5rem;
   --button-width--small: 2rem;
@@ -39,10 +36,8 @@
   border: var(--button-border-width) solid transparent;
   border-radius: var(--button-border-radius);
 
-  font-family: var(--button-font-family);
   font-size: var(--button-font-size);
-  font-weight: var(--button-font-weight);
-  font-style: var(--button-font-style);
+  line-height: var(--button-height);
   text-decoration: none;
 
   &__icon {
@@ -54,7 +49,6 @@
   }
   &__text {
     color: inherit;
-    background-color: inherit;
 
     // +1px because of the border width
     transform: translateY(var(--button-border-width));
@@ -185,6 +179,5 @@
 
 // make sure we style an Anchor like a button
 a.dnb-button {
-  border-bottom: none;
   transition: none;
 }

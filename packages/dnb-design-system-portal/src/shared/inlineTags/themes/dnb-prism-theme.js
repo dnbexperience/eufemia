@@ -3,112 +3,115 @@
  *
  */
 
-const dnb_prism_theme = {
-  plain: {
-    color: '#d6deeb',
-    // backgroundColor: '#011627'
-    // backgroundColor: 'var(--color-black-80)'
-    backgroundColor: '#222'
-  },
-  styles: [
-    {
-      types: ['changed'],
-      style: {
-        color: 'rgb(162, 191, 252)',
-        fontStyle: 'italic'
-      }
-    },
-    {
-      types: ['deleted'],
-      style: {
-        color: 'rgba(239, 83, 80, 0.56)',
-        fontStyle: 'italic'
-      }
-    },
-    {
-      types: ['inserted', 'attr-name'],
-      style: {
-        color: 'var(--color-summer-green)',
-        fontStyle: 'italic'
-      }
-    },
-    {
-      types: ['comment'],
-      style: {
-        color: 'var(--color-signal-yellow-30)',
-        fontStyle: 'italic'
-      }
-    },
-    {
-      types: ['string', 'url'],
-      style: {
-        color: 'var(--color-summer-green)'
-      }
-    },
-    {
-      types: ['variable', 'function-variable'],
-      style: {
-        color: 'var(--color-sea-green-4)'
-      }
-    },
-    {
-      types: ['number'],
-      style: {
-        color: 'var(--color-violet)'
-      }
-    },
-    {
-      types: ['builtin', 'char', 'constant', 'function'],
-      style: {
-        color: 'var(--color-indigo-medium)'
-      }
-    },
-    {
-      // This was manually added after the auto-generation
-      // so that punctuations are not italicised
-      types: ['punctuation'],
-      style: {
-        color: 'var(--color-violet-medium)'
-      }
-    },
-    {
-      types: ['selector', 'doctype'],
-      style: {
-        color: 'var(--color-violet-medium)',
-        fontStyle: 'italic'
-      }
-    },
-    {
-      types: ['class-name'],
-      style: {
-        color: 'var(--color-signal-yellow)'
-      }
-    },
-    {
-      types: ['tag', 'operator', 'keyword'],
-      style: {
-        color: 'var(--color-mint-green)'
-      }
-    },
-    {
-      types: ['boolean'],
-      style: {
-        color: 'var(--color-cherry-red)'
-      }
-    },
-    {
-      types: ['property'],
-      style: {
-        color: 'rgb(128, 203, 196)'
-      }
-    },
-    {
-      types: ['namespace'],
-      style: {
-        color: 'rgb(178, 204, 214)'
-      }
-    }
-  ]
-}
+const prismStyle = /* @css */ `
+  --color-violet-medium: #a06eaf;
+  --color-indigo-medium: #6e6491;
 
-export default dnb_prism_theme
+  .prism-code {
+    display: block;
+    box-sizing: border-box;
+
+    padding: 1rem;
+    margin: 0;
+
+    background-color: #222;
+    border-radius: 8px;
+    color: var(--color-mint-green-12);
+
+    white-space: pre;
+    vertical-align: baseline;
+    outline: none;
+    text-shadow: none;
+    -webkit-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+    word-wrap: normal;
+    word-break: normal;
+    text-align: left;
+    word-spacing: normal;
+    -moz-tab-size: 2;
+    -o-tab-size: 2;
+    tab-size: 2;
+  }
+  .prism-code[contentEditable='true'] {
+    cursor: text;
+  }
+
+  .token.comment,
+  .token.prolog,
+  .token.doctype,
+  .token.cdata {
+    opacity: 0.8;
+    font-style: italic;
+    color: var(--color-signal-yellow-30);
+  }
+
+  .token.property,
+  .token.tag,
+  .token.boolean,
+  .token.number,
+  .token.constant,
+  .token.symbol {
+    color: var(--color-mint-green-12);
+  }
+  .token.tag {
+    color: var(--color-sea-green-alt);
+  }
+
+  .token.selector,
+  .token.class-name,/* custom */
+  .token.attr-name,
+  .token.string,
+  .token.char,
+  .token.builtin,
+  .token.inserted {
+    color: var(--color-summer-green);
+  }
+
+  .token.operator,
+  .token.entity,
+  .token.url,
+  .language-css .token.string,
+  .style .token.string,
+  .token.variable {
+    color: var(--color-mint-green);
+  }
+
+  .token.atrule,
+  .token.attr-value,
+  .token.keyword {
+    color: var(--color-mint-green);
+  }
+
+  .token.punctuation {
+    color: var(--color-violet-medium);
+  }
+
+  .namespace {
+    ${'' /* opacity: 0.7; */}
+    color: var(--color-indigo-medium);
+  }
+
+  .token.regex,
+  .token.important {
+    color: #e90;
+  }
+
+  .token.important,
+  .token.bold {
+    font-weight: bold;
+  }
+  .token.italic {
+    font-style: italic;
+  }
+
+  .token.entity {
+    cursor: help;
+  }
+
+  .token.deleted {
+    color: red;
+  }
+`
+
+export default prismStyle

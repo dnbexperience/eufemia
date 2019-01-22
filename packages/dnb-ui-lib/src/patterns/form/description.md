@@ -38,11 +38,11 @@ When designing forms, make sure to design for small, as well as desktop-sized di
 ##### General Guidelines
 
 - All input fields have a border-radius equal to half their height.
-- All input fields have a border color of Sea Green Alt (#008484).
-- All input fields have a background color of Sea Green 4 (#f5fafa).
-- All input fields have a ‘hover’ border color of of Sea Green 4 (#f5fafa).
-- All input fields have a 'focus' border color of of Signal Orange (#ff5400).
-- All input fields text is always Emerald Green (#14555A)) color.
+- All input fields have a border color of --color-sea-green-alt.
+- All input fields have a background color of --color-mint-green-12.
+- All input fields have a ‘hover’ border color of of --color-mint-green-12.
+- All input fields have a 'focus' border color of of --color-signal-orange.
+- All input fields text is always --color-emerald-green color.
 - Text on regular inputs (or labels for checkboxes and radio buttons) use the xxx text style.
 - Form labels use the xxx text style.
 - Text input, textarea and select have xxx left/right padding.

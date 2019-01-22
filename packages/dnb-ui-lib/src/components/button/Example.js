@@ -111,8 +111,8 @@ class Example extends PureComponent {
           <Button
             variant="signal"
             text="Disabled Signal Button"
-            icon={<Bell width="64" />} // Do not hardcode the size like here!
-            icon_size="default" // This is forcing the icon size to a new size
+            icon={<Bell />}
+            icon_size="medium"
             disabled
           />
         </div>

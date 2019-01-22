@@ -2,6 +2,6 @@
   "ci": true,
   "debug": false,
   "dryRun": false,
-  "branch": "master",
+  "branch": "release",
   "analyzeCommits": "simple-commit-message"
 }

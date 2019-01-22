@@ -56,13 +56,6 @@ html[data-whatinput='keyboard'] .dnb-style *:not(a):not(div):focus {
 
 // TODO: considder to take this out
 
-$breakpoints: (
-  'small': 320px,
-  'medium': 700px,
-  'large': 1024px,
-  'xLarge': 1400px
-);
-
 .dnb-hide-on-mobile {
   @include allBelow(medium) {
     display: none;
@@ -73,21 +66,10 @@ $breakpoints: (
     display: none;
   }
 }
-.dnb-width-limit {
-  margin: 0 auto;
-  width: 100%;
-  max-width: map-get($map: $breakpoints, $key: large);
-  padding: 0 0.5rem;
-
-  @include allAbove(medium) {
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
-}
 .dnb-belt {
   padding: 1rem 0;
   width: 100%;
-  background: var(--color-sea-green-4);
+  background: var(--color-mint-green-12);
 }
 .dnb-nudge {
   display: inline-flex;

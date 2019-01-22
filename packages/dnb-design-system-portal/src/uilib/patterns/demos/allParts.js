@@ -14,7 +14,6 @@ import Grid from './Grid'
 import HelperClasses from './HelperClasses'
 import MainNav from './MainNav'
 import RangeSlider from './RangeSlider'
-import StepIndicator from './StepIndicator'
 import SummaryTable from './SummaryTable'
 import ViewTitle from './ViewTitle'
 
@@ -30,7 +29,6 @@ export default [
   HelperClasses,
   MainNav,
   RangeSlider,
-  StepIndicator,
   SummaryTable,
   ViewTitle
 ]

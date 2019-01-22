@@ -1,0 +1,497 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`StepIndicator component have to match snapshot 1`] = `
+<StepIndicator
+  active_item="active_item"
+  active_url="?b"
+  class="class"
+  className="className"
+  data={
+    Array [
+      Object {
+        "title": "Aa",
+        "url": "?a",
+      },
+      Object {
+        "title": "Bb",
+        "url": "?b",
+      },
+      Object {
+        "title": "Cc",
+        "url": "?c",
+        "url_future": "",
+      },
+    ]
+  }
+  on_change={[Function]}
+  show_numbers="show_numbers"
+>
+  <div
+    className="dnb-step-indicator className class"
+  >
+    <ul
+      className="dnb-step-indicator__list"
+    >
+      <li
+        className="dnb-step-indicator__item dnb-step-indicator--visited"
+        key="bc0"
+      >
+        <ItemContent
+          activeItem={1}
+          number={0}
+          onChangeHandler={[Function]}
+          show_numbers="show_numbers"
+          title="Aa"
+          url="?a"
+          url_future={null}
+          url_passed={null}
+        >
+          <a
+            className="dnb-step-indicator-item-content dnb-step-indicator-item-content--link"
+            href="?a"
+            onClick={[Function]}
+          >
+            <ItemContentWrapper
+              number={0}
+              onChangeHandler={[Function]}
+              show_numbers="show_numbers"
+              title="Aa"
+              url="?a"
+            >
+              <span
+                className="dnb-step-indicator-number"
+              >
+                1. 
+              </span>
+              <span
+                className="dnb-step-indicator-text"
+              >
+                Aa
+                <Dummy>
+                  <span
+                    aria-hidden={true}
+                    hidden={true}
+                  >
+                    Aa
+                  </span>
+                </Dummy>
+              </span>
+            </ItemContentWrapper>
+          </a>
+        </ItemContent>
+      </li>
+      <li
+        className="dnb-step-indicator__item dnb-step-indicator--active"
+        key="bc1"
+      >
+        <ItemContent
+          activeItem={1}
+          number={1}
+          onChangeHandler={[Function]}
+          show_numbers="show_numbers"
+          title="Bb"
+          url="?b"
+          url_future={null}
+          url_passed={null}
+        >
+          <a
+            className="dnb-step-indicator-item-content dnb-step-indicator-item-content--link"
+            href="?b"
+            onClick={[Function]}
+          >
+            <ItemContentWrapper
+              number={1}
+              onChangeHandler={[Function]}
+              show_numbers="show_numbers"
+              title="Bb"
+              url="?b"
+            >
+              <span
+                className="dnb-step-indicator-number"
+              >
+                2. 
+              </span>
+              <span
+                className="dnb-step-indicator-text"
+              >
+                Bb
+                <Dummy>
+                  <span
+                    aria-hidden={true}
+                    hidden={true}
+                  >
+                    Bb
+                  </span>
+                </Dummy>
+              </span>
+            </ItemContentWrapper>
+          </a>
+        </ItemContent>
+      </li>
+      <li
+        className="dnb-step-indicator__item"
+        key="bc2"
+      >
+        <ItemContent
+          activeItem={1}
+          number={2}
+          onChangeHandler={[Function]}
+          show_numbers="show_numbers"
+          title="Cc"
+          url="?c"
+          url_future=""
+          url_passed={null}
+        >
+          <span
+            className="dnb-step-indicator-item-content dnb-step-indicator-item-content--static"
+          >
+            <ItemContentWrapper
+              number={2}
+              onChangeHandler={[Function]}
+              show_numbers="show_numbers"
+              title="Cc"
+              url="?c"
+            >
+              <span
+                className="dnb-step-indicator-number"
+              >
+                3. 
+              </span>
+              <span
+                className="dnb-step-indicator-text"
+              >
+                Cc
+                <Dummy>
+                  <span
+                    aria-hidden={true}
+                    hidden={true}
+                  >
+                    Cc
+                  </span>
+                </Dummy>
+              </span>
+            </ItemContentWrapper>
+          </span>
+        </ItemContent>
+      </li>
+    </ul>
+  </div>
+</StepIndicator>
+`;
+
+exports[`StepIndicator scss have to match default theme snapshot 1`] = `
+"/*
+* StepIndicator theme
+*
+*/
+/**
+ * This file is only used to make themes independent
+ * so that they can get imported individually, without the core styles
+ *
+ */
+/*
+ * Utilities
+ */
+/*
+ * Typography
+ *
+ * The font-family properties are defined in the properties.scss file, like:
+ * --font-family-default:
+ *
+ */
+.dnb-typo-std,
+.dnb-typo-book {
+  font-family: var(--font-family-default);
+  font-weight: normal;
+  font-style: normal; }
+
+.dnb-typo-medium {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-medium);
+  font-style: normal; }
+
+.dnb-typo-demi {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-demi);
+  font-style: normal; }
+
+.dnb-typo-number--lining {
+  font-variant-numeric: lining-nums;
+  font-feature-settings: \\"lnum\\"; }
+
+.dnb-typo-number--tabular {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: \\"lnum\\"; }
+
+.dnb-typo-number--oldstyle {
+  font-variant-numeric: oldstyle-nums;
+  font-feature-settings: \\"onum\\"; }
+
+.dnb-typo-number--proportional {
+  font-variant-numeric: proportional-nums;
+  font-feature-settings: \\"pnum\\"; }
+
+@font-face {
+  font-family: 'Fedra Sans Std';
+  src: url(\\"../../../../../assets/fonts//FedraSansStd-Book.eot\\");
+  src: url(\\"../../../../../assets/fonts//FedraSansStd-Book.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../../assets/fonts//FedraSansStd-Book.woff2\\") format(\\"woff2\\"), url(\\"../../../../../assets/fonts//FedraSansStd-Book.woff\\") format(\\"woff\\"), url(\\"../../../../../assets/fonts//FedraSansStd-Book.ttf\\") format(\\"truetype\\");
+  font-weight: normal;
+  font-style: normal;
+  font-display: fallback; }
+
+@font-face {
+  font-family: 'Fedra Sans Std';
+  src: url(\\"../../../../../assets/fonts//FedraSansStd-Demi.eot\\");
+  src: url(\\"../../../../../assets/fonts//FedraSansStd-Demi.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../../assets/fonts//FedraSansStd-Demi.woff2\\") format(\\"woff2\\"), url(\\"../../../../../assets/fonts//FedraSansStd-Demi.woff\\") format(\\"woff\\"), url(\\"../../../../../assets/fonts//FedraSansStd-Demi.ttf\\") format(\\"truetype\\");
+  font-weight: 500;
+  font-style: normal;
+  font-display: fallback; }
+
+@font-face {
+  font-family: 'Fedra Sans Std';
+  src: url(\\"../../../../../assets/fonts//FedraSansStd-Medium.eot\\");
+  src: url(\\"../../../../../assets/fonts//FedraSansStd-Medium.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../../assets/fonts//FedraSansStd-Medium.woff2\\") format(\\"woff2\\"), url(\\"../../../../../assets/fonts//FedraSansStd-Medium.woff\\") format(\\"woff\\"), url(\\"../../../../../assets/fonts//FedraSansStd-Medium.ttf\\") format(\\"truetype\\");
+  font-weight: 600;
+  font-style: normal;
+  font-display: fallback; }
+
+.dnb-step-indicator-item-content--static {
+  color: var(--color-emerald-green); }
+
+.dnb-step-indicator-item-content--link {
+  color: var(--color-sea-green-alt); }
+
+.no-touch .dnb-step-indicator--visited .dnb-step-indicator-item-content--link:hover[disabled] {
+  cursor: not-allowed; }
+
+.no-touch .dnb-step-indicator--visited .dnb-step-indicator-item-content--link:hover:not([disabled]) {
+  border-color: var(--color-sea-green); }
+
+.dnb-step-indicator--active::after {
+  background-color: var(--color-sea-green-alt); }
+
+.dnb-step-indicator span[hidden],
+.dnb-step-indicator--active .dnb-step-indicator-item-content {
+  font-family: var(--font-family-demi);
+  font-weight: var(--font-weight-demi);
+  color: var(--color-emerald-green); }
+
+.dnb-step-indicator::after {
+  background-color: var(--color-mint-green); }
+"
+`;
+
+exports[`StepIndicator scss have to match snapshot 1`] = `
+"/*
+* DNB StepIndicator
+*
+*/
+/**
+ * This file is only used to make components independent
+ * so that they can get imported individually, without the core styles
+ *
+ */
+/*
+ * CSS Properties
+ *
+ */
+:root {
+  --font-family-default: 'Fedra Sans Std', sans-serif;
+  --font-family-book: 'Fedra Sans Std', sans-serif;
+  /* Do not use, use --font-weight-... */
+  --font-family-demi: 'Fedra Sans Std', sans-serif;
+  /* Do not use, use --font-weight-... */
+  --font-family-medium: 'Fedra Sans Std', sans-serif;
+  /* Do not use, use --font-weight-... */
+  --font-weight-default: normal;
+  --font-weight-book: normal;
+  --font-weight-demi: 500;
+  --font-weight-medium: 600;
+  --font-size-small: 0.875rem;
+  --font-size-default: 1rem;
+  --font-size-x-default: 1.25rem;
+  --font-size-medium: 1.5rem;
+  --font-size-large: 2rem;
+  --font-size-xx-large: 3rem;
+  --color-sea-green-alt: #008484;
+  --color-mint-green-50: #d2f0e9;
+  --color-mint-green-25: #e9f8f4;
+  --color-mint-green-12: #f4fbf9;
+  --color-sea-green-alt-30: #b3dada;
+  --color-signal-yellow-30: #ffffd7;
+  --color-cherry-red: #e10076;
+  --color-cherry-red-80: #fdebf4;
+  --color-black: #000;
+  --color-black-80: #333;
+  --color-black-30: #b3b3b3;
+  --color-white: #fff;
+  --color-black-border: #cdcdcd;
+  --color-black-background: #fafafa;
+  --color-sea-green: #007272;
+  --color-mint-green: #a5e1d2;
+  --color-summer-green: #28b482;
+  --color-emerald-green: #14555a;
+  --color-ocean-green: #00343e;
+  --color-signal-orange: #ff5400;
+  --color-signal-yellow: #ffff7a;
+  --color-indigo: #23195a;
+  --color-violet: #6e2382;
+  --color-sky-blue: #4bbed2; }
+
+/*
+ * Utilities
+ */
+/*
+ * Typography
+ *
+ * The font-family properties are defined in the properties.scss file, like:
+ * --font-family-default:
+ *
+ */
+.dnb-typo-std,
+.dnb-typo-book {
+  font-family: var(--font-family-default);
+  font-weight: normal;
+  font-style: normal; }
+
+.dnb-typo-medium {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-medium);
+  font-style: normal; }
+
+.dnb-typo-demi {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-demi);
+  font-style: normal; }
+
+.dnb-typo-number--lining {
+  font-variant-numeric: lining-nums;
+  font-feature-settings: \\"lnum\\"; }
+
+.dnb-typo-number--tabular {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: \\"lnum\\"; }
+
+.dnb-typo-number--oldstyle {
+  font-variant-numeric: oldstyle-nums;
+  font-feature-settings: \\"onum\\"; }
+
+.dnb-typo-number--proportional {
+  font-variant-numeric: proportional-nums;
+  font-feature-settings: \\"pnum\\"; }
+
+@font-face {
+  font-family: 'Fedra Sans Std';
+  src: url(\\"../../../../assets/fonts//FedraSansStd-Book.eot\\");
+  src: url(\\"../../../../assets/fonts//FedraSansStd-Book.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts//FedraSansStd-Book.woff2\\") format(\\"woff2\\"), url(\\"../../../../assets/fonts//FedraSansStd-Book.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts//FedraSansStd-Book.ttf\\") format(\\"truetype\\");
+  font-weight: normal;
+  font-style: normal;
+  font-display: fallback; }
+
+@font-face {
+  font-family: 'Fedra Sans Std';
+  src: url(\\"../../../../assets/fonts//FedraSansStd-Demi.eot\\");
+  src: url(\\"../../../../assets/fonts//FedraSansStd-Demi.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts//FedraSansStd-Demi.woff2\\") format(\\"woff2\\"), url(\\"../../../../assets/fonts//FedraSansStd-Demi.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts//FedraSansStd-Demi.ttf\\") format(\\"truetype\\");
+  font-weight: 500;
+  font-style: normal;
+  font-display: fallback; }
+
+@font-face {
+  font-family: 'Fedra Sans Std';
+  src: url(\\"../../../../assets/fonts//FedraSansStd-Medium.eot\\");
+  src: url(\\"../../../../assets/fonts//FedraSansStd-Medium.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts//FedraSansStd-Medium.woff2\\") format(\\"woff2\\"), url(\\"../../../../assets/fonts//FedraSansStd-Medium.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts//FedraSansStd-Medium.ttf\\") format(\\"truetype\\");
+  font-weight: 600;
+  font-style: normal;
+  font-display: fallback; }
+
+/*
+ * Scopes
+ *
+ */
+.dnb-step-indicator {
+  font-family: sans-serif;
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-default);
+  font-size: 1rem;
+  font-style: normal;
+  line-height: 1.5rem;
+  color: var(--color-black-80, #333);
+  font-variant-numeric: lining-nums;
+  font-feature-settings: \\"lnum\\"; }
+  .dnb-step-indicator *,
+  .dnb-step-indicator ::before,
+  .dnb-step-indicator ::after {
+    background-repeat: no-repeat;
+    box-sizing: border-box; }
+  .dnb-step-indicator ::before,
+  .dnb-step-indicator ::after {
+    text-decoration: inherit;
+    vertical-align: inherit; }
+
+/*
+ * StepIndicator element
+ *
+ */
+.dnb-step-indicator {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  margin: 0;
+  padding: 0; }
+  .dnb-step-indicator__list {
+    display: flex;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    align-items: flex-start; }
+  .dnb-step-indicator__item {
+    position: relative;
+    z-index: 2;
+    padding: 0;
+    margin-left: 4.5rem; }
+    .dnb-step-indicator__item:first-child {
+      margin-left: 0; }
+    @media screen and (max-width: 700px) {
+      .dnb-step-indicator__item {
+        margin-left: 2rem; } }
+    .dnb-step-indicator__item::after {
+      content: '';
+      position: absolute;
+      z-index: -1;
+      bottom: 0;
+      /* because of the link/anchor border-bottom 2px */
+      width: 100%;
+      height: 3px;
+      border-radius: 1.5px; }
+  .dnb-step-indicator-item-content {
+    display: flex;
+    padding: 0.25rem 0.25rem 0.125rem;
+    border-bottom: 2px solid transparent;
+    text-decoration: none; }
+    .no-touch .dnb-step-indicator-item-content:hover[disabled] {
+      cursor: not-allowed; }
+    .no-touch .dnb-step-indicator-item-content:hover:not([disabled]) {
+      text-decoration: none; }
+  .dnb-step-indicator-number {
+    padding-right: 0.25rem;
+    white-space: nowrap; }
+  .dnb-step-indicator-text span[hidden] {
+    display: flex;
+    flex-direction: column;
+    height: 0;
+    visibility: hidden;
+    overflow: hidden; }
+  .dnb-step-indicator--active .dnb-step-indicator-item-content {
+    cursor: default;
+    pointer-events: none; }
+  .dnb-step-indicator::after {
+    content: '';
+    position: absolute;
+    z-index: 1;
+    left: -50vw;
+    right: -50vw;
+    bottom: 0;
+    width: 200vw;
+    height: 1px; }
+"
+`;

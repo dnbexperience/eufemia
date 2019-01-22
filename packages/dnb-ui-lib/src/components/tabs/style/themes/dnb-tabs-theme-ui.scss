@@ -9,29 +9,31 @@
   &__tabs {
     &::after {
       border-bottom: 1px solid var(--color-mint-green);
+      @include allBelow(small) {
+        border-bottom-color: transparent;
+      }
+    }
+    @include allBelow(small) {
+      @include fakeBorder(var(--color-mint-green), 1px);
     }
 
     .dnb-tablink {
       // should be same as .lead small
       &-title {
-        font-family: var(--font-family-std); // book
-        font-size: 1em;
-        line-height: 1.5em;
+        font-weight: var(--font-weight-book);
+        font-size: var(--font-size-default);
         text-align: center;
 
-        color: var(--color-emerald-green);
-      }
-
-      // make sure we alway have a height of 3
-      &::after {
-        height: 2px;
-        border-bottom: 2px solid transparent;
+        color: var(--color-sea-green);
       }
 
       // hover
       &:not([disabled]):hover {
+        background-color: var(--color-mint-green-50);
         &::after {
-          border-bottom-color: var(--color-emerald-green);
+          height: 2px;
+          border-radius: 1px;
+          background-color: var(--color-sea-green);
         }
       }
 
@@ -47,24 +49,37 @@
       &:not([disabled]):active,
       &:not([disabled]).selected {
         .dnb-tablink-title {
-          font-family: var(--font-family-demi);
+          color: var(--color-emerald-green);
+        }
+        &::after {
+          height: 3px;
+          border-radius: 1.5px;
+          background-color: var(--color-sea-green);
         }
       }
 
       // selected only
       &:not([disabled]).selected {
-        &::after {
-          border-bottom-color: var(--color-signal-orange);
+        .dnb-tablink-title {
+          font-family: var(--font-family-demi);
+          font-weight: var(--font-weight-demi);
         }
       }
 
-      // focus
-      &:not([disabled]):not(:active):not(.selected):focus {
-        @include fakeFocus();
-        &::after {
-          border-bottom: 2px solid transparent;
-        }
+      // To make sure we have the wider width on every item
+      // Have to be same as &:not([disabled]).selected
+      span[hidden] {
+        font-family: var(--font-family-demi);
+        font-weight: var(--font-weight-demi);
       }
+
+      // focus helper, for positioning
+      // &:not([disabled]):not(:active):not(.selected):focus {
+      //   @include fakeFocus();
+      //   &::after {
+      //     border-bottom: 3px solid transparent;
+      //   }
+      // }
     }
   }
 }

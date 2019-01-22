@@ -11,6 +11,7 @@ exports[`Tabs component have to match snapshot 1`] = `
         "class": "class",
         "className": "className",
         "data": "data",
+        "id": "id",
         "label": "label",
         "render": [Function],
         "selected_key": "selected_key",
@@ -20,11 +21,31 @@ exports[`Tabs component have to match snapshot 1`] = `
   }
   1={
     Object {
-      "displayName": "TabContent",
+      "displayName": "ContentWrapper",
       "props": Object {
         "children": "children",
         "id": "id",
-        "selection_key": "selection_key",
+        "selected_key": "selected_key",
+      },
+    }
+  }
+  2={
+    Object {
+      "displayName": "CustomContent",
+      "props": Object {
+        "children": "children",
+        "disabled": "disabled",
+        "hash": "hash",
+        "selected": "selected",
+        "title": "title",
+      },
+    }
+  }
+  3={
+    Object {
+      "displayName": "Dummy",
+      "props": Object {
+        "children": "children",
       },
     }
   }
@@ -53,7 +74,7 @@ exports[`Tabs component have to match snapshot 1`] = `
   selected_key="second"
   use_hash={false}
 >
-  <Wrapper>
+  <TabsWrapper>
     <div
       className="dnb-tabs"
     >
@@ -74,6 +95,7 @@ exports[`Tabs component have to match snapshot 1`] = `
                 className="dnb-tablink dnb-no-mouse-focus tab--first "
                 disabled={false}
                 id="id-tab-first"
+                key="tab--first"
                 onClick={[Function]}
                 role="tab"
                 tabIndex="-1"
@@ -83,12 +105,14 @@ exports[`Tabs component have to match snapshot 1`] = `
                 >
                   First
                 </span>
-                <span
-                  aria-hidden={true}
-                  hidden={true}
-                >
-                  First
-                </span>
+                <Dummy>
+                  <span
+                    aria-hidden={true}
+                    hidden={true}
+                  >
+                    First
+                  </span>
+                </Dummy>
               </button>
               <button
                 aria-controls="id-content-second"
@@ -96,6 +120,7 @@ exports[`Tabs component have to match snapshot 1`] = `
                 className="dnb-tablink dnb-no-mouse-focus tab--second selected"
                 disabled={false}
                 id="id-tab-second"
+                key="tab--second"
                 onClick={[Function]}
                 role="tab"
                 tabIndex="-1"
@@ -105,18 +130,21 @@ exports[`Tabs component have to match snapshot 1`] = `
                 >
                   Second
                 </span>
-                <span
-                  aria-hidden={true}
-                  hidden={true}
-                >
-                  Second
-                </span>
+                <Dummy>
+                  <span
+                    aria-hidden={true}
+                    hidden={true}
+                  >
+                    Second
+                  </span>
+                </Dummy>
               </button>
               <button
                 aria-selected={false}
                 className="dnb-tablink dnb-no-mouse-focus tab--third "
                 disabled={false}
                 id="id-tab-third"
+                key="tab--third"
                 onClick={[Function]}
                 role="tab"
                 tabIndex="-1"
@@ -126,35 +154,166 @@ exports[`Tabs component have to match snapshot 1`] = `
                 >
                   Third
                 </span>
-                <span
-                  aria-hidden={true}
-                  hidden={true}
-                >
-                  Third
-                </span>
+                <Dummy>
+                  <span
+                    aria-hidden={true}
+                    hidden={true}
+                  >
+                    Third
+                  </span>
+                </Dummy>
               </button>
             </div>
           </Tabs>
         </div>
       </TabsList>
       <TabContent
-        id="id"
-        selection_key="second"
+        showEmptyMessage={true}
       >
-        <div
-          aria-labelledby="id-tab-second"
-          className="dnb-tabs__content"
-          id="id-content-second"
-          role="tabpanel"
+        <ContentWrapper
+          id="id"
+          selected_key="second"
         >
-          <h2>
-            Second
-          </h2>
-        </div>
+          <div
+            aria-labelledby="id-tab-second"
+            className="dnb-tabs__content"
+            id="id-content-second"
+            role="tabpanel"
+          >
+            <second>
+              <h2>
+                Second
+              </h2>
+            </second>
+          </div>
+        </ContentWrapper>
       </TabContent>
     </div>
-  </Wrapper>
+  </TabsWrapper>
 </Tabs>
+`;
+
+exports[`Tabs scss have to match default theme snapshot 1`] = `
+"/*
+* Tabs theme
+*
+*/
+/**
+ * This file is only used to make themes independent
+ * so that they can get imported individually, without the core styles
+ *
+ */
+/*
+ * Utilities
+ */
+/*
+ * Typography
+ *
+ * The font-family properties are defined in the properties.scss file, like:
+ * --font-family-default:
+ *
+ */
+.dnb-typo-std,
+.dnb-typo-book {
+  font-family: var(--font-family-default);
+  font-weight: normal;
+  font-style: normal; }
+
+.dnb-typo-medium {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-medium);
+  font-style: normal; }
+
+.dnb-typo-demi {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-demi);
+  font-style: normal; }
+
+.dnb-typo-number--lining {
+  font-variant-numeric: lining-nums;
+  font-feature-settings: \\"lnum\\"; }
+
+.dnb-typo-number--tabular {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: \\"lnum\\"; }
+
+.dnb-typo-number--oldstyle {
+  font-variant-numeric: oldstyle-nums;
+  font-feature-settings: \\"onum\\"; }
+
+.dnb-typo-number--proportional {
+  font-variant-numeric: proportional-nums;
+  font-feature-settings: \\"pnum\\"; }
+
+@font-face {
+  font-family: 'Fedra Sans Std';
+  src: url(\\"../../../../../assets/fonts//FedraSansStd-Book.eot\\");
+  src: url(\\"../../../../../assets/fonts//FedraSansStd-Book.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../../assets/fonts//FedraSansStd-Book.woff2\\") format(\\"woff2\\"), url(\\"../../../../../assets/fonts//FedraSansStd-Book.woff\\") format(\\"woff\\"), url(\\"../../../../../assets/fonts//FedraSansStd-Book.ttf\\") format(\\"truetype\\");
+  font-weight: normal;
+  font-style: normal;
+  font-display: fallback; }
+
+@font-face {
+  font-family: 'Fedra Sans Std';
+  src: url(\\"../../../../../assets/fonts//FedraSansStd-Demi.eot\\");
+  src: url(\\"../../../../../assets/fonts//FedraSansStd-Demi.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../../assets/fonts//FedraSansStd-Demi.woff2\\") format(\\"woff2\\"), url(\\"../../../../../assets/fonts//FedraSansStd-Demi.woff\\") format(\\"woff\\"), url(\\"../../../../../assets/fonts//FedraSansStd-Demi.ttf\\") format(\\"truetype\\");
+  font-weight: 500;
+  font-style: normal;
+  font-display: fallback; }
+
+@font-face {
+  font-family: 'Fedra Sans Std';
+  src: url(\\"../../../../../assets/fonts//FedraSansStd-Medium.eot\\");
+  src: url(\\"../../../../../assets/fonts//FedraSansStd-Medium.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../../assets/fonts//FedraSansStd-Medium.woff2\\") format(\\"woff2\\"), url(\\"../../../../../assets/fonts//FedraSansStd-Medium.woff\\") format(\\"woff\\"), url(\\"../../../../../assets/fonts//FedraSansStd-Medium.ttf\\") format(\\"truetype\\");
+  font-weight: 600;
+  font-style: normal;
+  font-display: fallback; }
+
+.dnb-tabs__tabs::after {
+  border-bottom: 1px solid var(--color-mint-green); }
+  @media screen and (max-width: 400px) {
+    .dnb-tabs__tabs::after {
+      border-bottom-color: transparent; } }
+
+@media screen and (max-width: 400px) {
+  .dnb-tabs__tabs {
+    box-shadow: 0 0 0 1px var(--color-mint-green);
+    border-color: transparent; } }
+
+.dnb-tabs__tabs .dnb-tablink-title {
+  font-weight: var(--font-weight-book);
+  font-size: var(--font-size-default);
+  text-align: center;
+  color: var(--color-sea-green); }
+
+.dnb-tabs__tabs .dnb-tablink:not([disabled]):hover {
+  background-color: var(--color-mint-green-50); }
+  .dnb-tabs__tabs .dnb-tablink:not([disabled]):hover::after {
+    height: 2px;
+    border-radius: 1px;
+    background-color: var(--color-sea-green); }
+
+.dnb-tabs__tabs .dnb-tablink[disabled] {
+  cursor: not-allowed; }
+  .dnb-tabs__tabs .dnb-tablink[disabled] .dnb-tablink-title {
+    color: var(--color-sea-green-alt-30); }
+
+.dnb-tabs__tabs .dnb-tablink:not([disabled]):active .dnb-tablink-title, .dnb-tabs__tabs .dnb-tablink:not([disabled]).selected .dnb-tablink-title {
+  color: var(--color-emerald-green); }
+
+.dnb-tabs__tabs .dnb-tablink:not([disabled]):active::after, .dnb-tabs__tabs .dnb-tablink:not([disabled]).selected::after {
+  height: 3px;
+  border-radius: 1.5px;
+  background-color: var(--color-sea-green); }
+
+.dnb-tabs__tabs .dnb-tablink:not([disabled]).selected .dnb-tablink-title {
+  font-family: var(--font-family-demi);
+  font-weight: var(--font-weight-demi); }
+
+.dnb-tabs__tabs .dnb-tablink span[hidden] {
+  font-family: var(--font-family-demi);
+  font-weight: var(--font-weight-demi); }
+"
 `;
 
 exports[`Tabs scss have to match snapshot 1`] = `
@@ -172,12 +331,27 @@ exports[`Tabs scss have to match snapshot 1`] = `
  *
  */
 :root {
-  --font-family-std: 'Fedra Sans Std', sans-serif;
-  --font-family-demi: 'Fedra Sans Std Demi', sans-serif;
+  --font-family-default: 'Fedra Sans Std', sans-serif;
+  --font-family-book: 'Fedra Sans Std', sans-serif;
+  /* Do not use, use --font-weight-... */
+  --font-family-demi: 'Fedra Sans Std', sans-serif;
+  /* Do not use, use --font-weight-... */
+  --font-family-medium: 'Fedra Sans Std', sans-serif;
+  /* Do not use, use --font-weight-... */
+  --font-weight-default: normal;
+  --font-weight-book: normal;
+  --font-weight-demi: 500;
+  --font-weight-medium: 600;
+  --font-size-small: 0.875rem;
+  --font-size-default: 1rem;
+  --font-size-x-default: 1.25rem;
+  --font-size-medium: 1.5rem;
+  --font-size-large: 2rem;
+  --font-size-xx-large: 3rem;
   --color-sea-green-alt: #008484;
   --color-mint-green-50: #d2f0e9;
   --color-mint-green-25: #e9f8f4;
-  --color-sea-green-4: #f5fafa;
+  --color-mint-green-12: #f4fbf9;
   --color-sea-green-alt-30: #b3dada;
   --color-signal-yellow-30: #ffffd7;
   --color-cherry-red: #e10076;
@@ -186,7 +360,8 @@ exports[`Tabs scss have to match snapshot 1`] = `
   --color-black-80: #333;
   --color-black-30: #b3b3b3;
   --color-white: #fff;
-  --color-black-border: #ebebeb;
+  --color-black-border: #cdcdcd;
+  --color-black-background: #fafafa;
   --color-sea-green: #007272;
   --color-mint-green: #a5e1d2;
   --color-summer-green: #28b482;
@@ -205,23 +380,23 @@ exports[`Tabs scss have to match snapshot 1`] = `
  * Typography
  *
  * The font-family properties are defined in the properties.scss file, like:
- * --font-family-std:
+ * --font-family-default:
  *
  */
 .dnb-typo-std,
 .dnb-typo-book {
-  font-family: var(--font-family-std);
+  font-family: var(--font-family-default);
   font-weight: normal;
   font-style: normal; }
 
 .dnb-typo-medium {
-  font-family: var(--font-family-std);
-  font-weight: 600;
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-medium);
   font-style: normal; }
 
 .dnb-typo-demi {
-  font-family: var(--font-family-demi);
-  font-weight: normal;
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-demi);
   font-style: normal; }
 
 .dnb-typo-number--lining {
@@ -250,28 +425,29 @@ exports[`Tabs scss have to match snapshot 1`] = `
 
 @font-face {
   font-family: 'Fedra Sans Std';
+  src: url(\\"../../../../assets/fonts//FedraSansStd-Demi.eot\\");
+  src: url(\\"../../../../assets/fonts//FedraSansStd-Demi.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts//FedraSansStd-Demi.woff2\\") format(\\"woff2\\"), url(\\"../../../../assets/fonts//FedraSansStd-Demi.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts//FedraSansStd-Demi.ttf\\") format(\\"truetype\\");
+  font-weight: 500;
+  font-style: normal;
+  font-display: fallback; }
+
+@font-face {
+  font-family: 'Fedra Sans Std';
   src: url(\\"../../../../assets/fonts//FedraSansStd-Medium.eot\\");
   src: url(\\"../../../../assets/fonts//FedraSansStd-Medium.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts//FedraSansStd-Medium.woff2\\") format(\\"woff2\\"), url(\\"../../../../assets/fonts//FedraSansStd-Medium.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts//FedraSansStd-Medium.ttf\\") format(\\"truetype\\");
   font-weight: 600;
   font-style: normal;
   font-display: fallback; }
 
-@font-face {
-  font-family: 'Fedra Sans Std Demi';
-  src: url(\\"../../../../assets/fonts//FedraSansStd-Demi.eot\\");
-  src: url(\\"../../../../assets/fonts//FedraSansStd-Demi.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts//FedraSansStd-Demi.woff2\\") format(\\"woff2\\"), url(\\"../../../../assets/fonts//FedraSansStd-Demi.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts//FedraSansStd-Demi.ttf\\") format(\\"truetype\\");
-  font-weight: normal;
-  font-style: normal;
-  font-display: fallback; }
-
 /*
  * Scopes
- * 
+ *
  */
 .dnb-tabs {
-  font-family: var(--font-family-std, sans-serif);
+  font-family: sans-serif;
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-default);
   font-size: 1rem;
-  font-weight: normal;
   font-style: normal;
   line-height: 1.5rem;
   color: var(--color-black-80, #333);
@@ -309,36 +485,27 @@ exports[`Tabs scss have to match snapshot 1`] = `
     justify-content: flex-end; }
   .dnb-tabs__tabs--center .dnb-tabs__tabs__tablist {
     justify-content: center; }
-  .dnb-tabs__tabs::after {
-    content: '';
-    position: absolute;
-    z-index: -1;
-    left: -50vw;
-    right: -50vw;
-    bottom: 0;
-    width: 200vw;
-    height: 1px; }
   .dnb-tabs__tabs .dnb-tablink {
     position: relative;
     z-index: 1;
-    margin: 0 0 0 2.5em;
-    padding: 0.5em 0;
+    margin: 0;
+    margin-left: 4.5rem;
+    padding: 0.25rem 0.125rem;
+    /* 1/16*4 */
     background-color: transparent;
     border-bottom: 1px solid transparent;
     cursor: pointer;
     outline: none;
     border: none; }
     .dnb-tabs__tabs .dnb-tablink-title {
-      font-size: 1em;
-      line-height: 1.5em;
+      font-size: var(--font-size-default);
       white-space: nowrap; }
     .dnb-tabs__tabs .dnb-tablink > span[hidden] {
       display: flex;
       flex-direction: column;
-      visibility: hidden;
       height: 0;
-      overflow: hidden;
-      letter-spacing: 2px; }
+      visibility: hidden;
+      overflow: hidden; }
     .dnb-tabs__tabs .dnb-tablink::after {
       content: '';
       position: absolute;
@@ -350,14 +517,27 @@ exports[`Tabs scss have to match snapshot 1`] = `
       height: 1px; }
   .dnb-tabs__tabs .dnb-tablink:first-child {
     margin-left: 0; }
+  .dnb-tabs__tabs::after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    left: -50vw;
+    right: -50vw;
+    bottom: 0;
+    width: 200vw;
+    height: 1px; }
   @media screen and (max-width: 700px) {
-    .dnb-tabs__tabs__tablist {
-      display: block; }
     .dnb-tabs__tabs .dnb-tablink {
-      margin-top: 0.5em;
+      margin-left: 2.5rem; } }
+  @media screen and (max-width: 400px) {
+    .dnb-tabs__tabs__tablist {
+      flex-direction: column;
+      margin: 0; }
+    .dnb-tabs__tabs .dnb-tablink {
       margin-left: 0; } }
 
 .dnb-tabs__content {
-  padding: 1rem 0.5rem; }
+  padding-top: 1rem;
+  margin-top: 1rem; }
 "
 `;

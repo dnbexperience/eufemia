@@ -115,16 +115,19 @@ const StyledListItem = styled.li`
       }
     }
     &.is-inside {
-      background-color: var(--color-sea-green-4);
+      background-color: var(--color-mint-green-12);
+      font-weight: 500;
     }
   }
 
   &.l-3 {
+    font-size: 0.875rem; /* small size */
     a {
       padding-left: calc(var(--level-offset) + var(--level) * 3);
     }
     &.is-inside {
-      background-color: #b3dada;
+      background-color: var(--color-sea-green-alt-30);
+      font-weight: 500;
     }
   }
 
@@ -141,8 +144,9 @@ const StyledListItem = styled.li`
   &.l-4,
   &.l-5,
   &.l-6 {
+    font-size: 0.875rem; /* small size */
     &.is-inside {
-      background-color: #f5fafa;
+      background-color: var(--color-mint-green-12);
     }
   }
 
@@ -153,11 +157,7 @@ const StyledListItem = styled.li`
   &.l-5,
   &.l-6 {
     &.is-active {
-      a {
-        font-weight: 700;
-        color: var(--color-black-80);
-      }
-      background-color: #d2f0e9;
+      background-color: var(--color-mint-green-50);
     }
   }
 

@@ -14,6 +14,7 @@ import {
 import Component from '../Tabs'
 // just to make sure we re-run the test in watch mode due to changes in this file
 import '../style/dnb-tabs.scss'
+import '../style/themes/dnb-tabs-theme-ui.scss'
 
 const props = fakeProps(require.resolve('../Tabs'), {
   all: true,
@@ -28,10 +29,15 @@ const tablistData = [
   { title: 'Second', key: 'second' },
   { title: 'Third', key: 'third' }
 ]
-const tabContentData = {
-  first: <h2>First</h2>,
-  second: <h2>Second</h2>,
-  third: <h2>Third</h2>
+const tablistDataWithContent = [
+  { title: 'First', key: 'first', content: <h2>First</h2> }, // without function
+  { title: 'Second', key: 'second', content: () => <h2>Second</h2> }, // with function
+  { title: 'Third', key: 'third', content: () => <h2>Third</h2> } // with function
+]
+const contentWrapperData = {
+  first: <h2>First</h2>, // without function
+  second: () => <h2>Second</h2>, // with function
+  third: <h2>Third</h2> // without function
 }
 
 describe('Tabs component', () => {
@@ -41,7 +47,7 @@ describe('Tabs component', () => {
       data={tablistData}
       selected_key={startup_selected_key}
     >
-      {tabContentData}
+      {contentWrapperData}
     </Component>
   )
 
@@ -65,7 +71,7 @@ describe('TabList component', () => {
       data={tablistData}
       selected_key={startup_selected_key}
     >
-      {tabContentData}
+      {contentWrapperData}
     </Component>
   )
 
@@ -81,7 +87,7 @@ describe('TabList component', () => {
       Comp.find('div[role="tabpanel"]')
         .children()
         .html()
-    ).toBe(mount(tabContentData.third).html())
+    ).toBe(mount(contentWrapperData.third).html())
   })
 })
 
@@ -92,11 +98,11 @@ describe('A single Tab component', () => {
       data={tablistData}
       selected_key={startup_selected_key}
     >
-      {tabContentData}
+      {contentWrapperData}
     </Component>
   )
 
-  it('has to have the right content on a keydown "ArrowRight"', () => {
+  it('has to have a role="tab" attribute and a class="selcted"', () => {
     expect(
       Comp.find('button.tab--second')
         .instance()
@@ -116,13 +122,38 @@ describe('A single Tab component', () => {
       Comp.find('div[role="tabpanel"]')
         .children()
         .html()
-    ).toBe(mount(tabContentData.third).html())
+    ).toBe(mount(contentWrapperData.third).html())
+  })
+
+  it('has to work with "data only" property containing a "content"', () => {
+    const Comp = mount(<Component data={tablistDataWithContent} />)
+    expect(Comp.find('button.selected').exists()).toBe(true)
+    expect(Comp.find('div.dnb-tabs__content').text()).toBe('First')
+  })
+
+  it('has to work with "Tabs.Content" as children Components', () => {
+    const Comp = mount(
+      <Component>
+        <Component.Content title="first">first</Component.Content>
+        <Component.Content title="second" selected>
+          second
+        </Component.Content>
+      </Component>
+    )
+    expect(Comp.find('button.selected').exists()).toBe(true)
+    expect(Comp.find('div.dnb-tabs__content').text()).toBe('second')
   })
 })
 
 describe('Tabs scss', () => {
   it('have to match snapshot', () => {
     const scss = loadScss(require.resolve('../style/dnb-tabs.scss'))
+    expect(scss).toMatchSnapshot()
+  })
+  it('have to match default theme snapshot', () => {
+    const scss = loadScss(
+      require.resolve('../style/themes/dnb-tabs-theme-ui.scss')
+    )
     expect(scss).toMatchSnapshot()
   })
 })

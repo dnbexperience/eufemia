@@ -18,7 +18,6 @@ Beside that the Anchor Tag gets assigned by default - or let's say, by only impo
 - `.dnb-active-style` <a href="/" class="dnb-active-style">Active Style</a>
 - `.dnb-focus-style` <a href="/" class="dnb-focus-style">Focus Style</a>
 - `.dnb-with-animation` <a href="/" class="dnb-with-animation">With a special animation Style</a>
-- <a>No href</a> results in `user-select: none;`
 
 ## With Icon
 
@@ -28,7 +27,7 @@ Beside that the Anchor Tag gets assigned by default - or let's say, by only impo
     ipsum <a href="/">Inside a Paragraph <Icon icon="bell" /></a> auctor cursus mauris porta consectetur natoque vehicula vestibulum feugiat ultrices vitae fermentum eros euismod imperdiet eleifend justo vivamus posuere
   </p>
 - <h2>
-   <a href="/">Inside Headings <Icon icon="bell" /></a> H2
+    <a href="/">Inside Headings <Icon icon="bell" /></a> H2
   </h2>
 
 ## Manipulation

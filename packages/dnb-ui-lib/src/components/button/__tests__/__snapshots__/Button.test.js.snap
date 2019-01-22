@@ -75,7 +75,7 @@ exports[`Button component have to match default button snapshot 1`] = `
         <span
           aria-hidden={true}
           aria-label="This is a button title"
-          className="dnb-icon dnb-icon--icon_size has-custom-size dnb-button__icon"
+          className="dnb-icon dnb-button__icon"
           role="img"
         >
           <question>
@@ -174,7 +174,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
         <span
           aria-hidden={true}
           aria-label="This is a button title"
-          className="dnb-icon dnb-icon--icon_size has-custom-size dnb-button__icon"
+          className="dnb-icon dnb-button__icon"
           role="img"
         >
           <question>
@@ -197,6 +197,216 @@ exports[`Button component have to match href="..." snapshot 1`] = `
 </Button>
 `;
 
+exports[`Button scss have to match default theme snapshot 1`] = `
+"/*
+* Button theme
+*
+*/
+/**
+ * This file is only used to make themes independent
+ * so that they can get imported individually, without the core styles
+ *
+ */
+/*
+ * Utilities
+ */
+/*
+ * Typography
+ *
+ * The font-family properties are defined in the properties.scss file, like:
+ * --font-family-default:
+ *
+ */
+.dnb-typo-std,
+.dnb-typo-book {
+  font-family: var(--font-family-default);
+  font-weight: normal;
+  font-style: normal; }
+
+.dnb-typo-medium {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-medium);
+  font-style: normal; }
+
+.dnb-typo-demi {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-demi);
+  font-style: normal; }
+
+.dnb-typo-number--lining {
+  font-variant-numeric: lining-nums;
+  font-feature-settings: \\"lnum\\"; }
+
+.dnb-typo-number--tabular {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: \\"lnum\\"; }
+
+.dnb-typo-number--oldstyle {
+  font-variant-numeric: oldstyle-nums;
+  font-feature-settings: \\"onum\\"; }
+
+.dnb-typo-number--proportional {
+  font-variant-numeric: proportional-nums;
+  font-feature-settings: \\"pnum\\"; }
+
+@font-face {
+  font-family: 'Fedra Sans Std';
+  src: url(\\"../../../../../assets/fonts//FedraSansStd-Book.eot\\");
+  src: url(\\"../../../../../assets/fonts//FedraSansStd-Book.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../../assets/fonts//FedraSansStd-Book.woff2\\") format(\\"woff2\\"), url(\\"../../../../../assets/fonts//FedraSansStd-Book.woff\\") format(\\"woff\\"), url(\\"../../../../../assets/fonts//FedraSansStd-Book.ttf\\") format(\\"truetype\\");
+  font-weight: normal;
+  font-style: normal;
+  font-display: fallback; }
+
+@font-face {
+  font-family: 'Fedra Sans Std';
+  src: url(\\"../../../../../assets/fonts//FedraSansStd-Demi.eot\\");
+  src: url(\\"../../../../../assets/fonts//FedraSansStd-Demi.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../../assets/fonts//FedraSansStd-Demi.woff2\\") format(\\"woff2\\"), url(\\"../../../../../assets/fonts//FedraSansStd-Demi.woff\\") format(\\"woff\\"), url(\\"../../../../../assets/fonts//FedraSansStd-Demi.ttf\\") format(\\"truetype\\");
+  font-weight: 500;
+  font-style: normal;
+  font-display: fallback; }
+
+@font-face {
+  font-family: 'Fedra Sans Std';
+  src: url(\\"../../../../../assets/fonts//FedraSansStd-Medium.eot\\");
+  src: url(\\"../../../../../assets/fonts//FedraSansStd-Medium.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../../assets/fonts//FedraSansStd-Medium.woff2\\") format(\\"woff2\\"), url(\\"../../../../../assets/fonts//FedraSansStd-Medium.woff\\") format(\\"woff\\"), url(\\"../../../../../assets/fonts//FedraSansStd-Medium.ttf\\") format(\\"truetype\\");
+  font-weight: 600;
+  font-style: normal;
+  font-display: fallback; }
+
+/*
+* Button mixins
+*
+*/
+.dnb-button--primary {
+  color: var(--color-white);
+  background-color: var(--color-sea-green-alt);
+  border-color: transparent; }
+  .no-touch .dnb-button--primary:hover[disabled] {
+    cursor: not-allowed; }
+  .no-touch .dnb-button--primary:hover:not([disabled]) {
+    color: var(--color-sea-green);
+    background-color: var(--color-mint-green-50);
+    border-color: var(--color-mint-green-50);
+    box-shadow: 0 0 0 var(--button-border-width--hover) var(--color-mint-green-50); }
+    .no-touch .dnb-button--primary:hover:not([disabled]):not([disabled]):active {
+      box-shadow: 0 0 0 2px transparent;
+      border-color: transparent; }
+  .dnb-button--primary:not([disabled]):focus {
+    color: var(--color-sea-green);
+    background-color: var(--color-mint-green-50);
+    border-color: var(--color-mint-green-50);
+    outline: none; }
+    html[data-whatinput='keyboard'] .dnb-button--primary:not([disabled]):focus {
+      box-shadow: 0 0 0 2px var(--color-emerald-green);
+      border-color: transparent; }
+  .dnb-button--primary[disabled] {
+    color: var(--color-white);
+    background-color: var(--color-sea-green-alt-30); }
+
+.dnb-button--secondary {
+  color: var(--color-sea-green);
+  background-color: var(--color-white);
+  border-color: var(--color-sea-green-alt); }
+  .no-touch .dnb-button--secondary:hover[disabled] {
+    cursor: not-allowed; }
+  .no-touch .dnb-button--secondary:hover:not([disabled]) {
+    color: var(--color-sea-green);
+    background-color: var(--color-mint-green-50);
+    border-color: var(--color-mint-green-50);
+    box-shadow: 0 0 0 var(--button-border-width--hover) var(--color-mint-green-50); }
+    .no-touch .dnb-button--secondary:hover:not([disabled]):not([disabled]):active {
+      box-shadow: 0 0 0 2px transparent;
+      border-color: transparent; }
+  .dnb-button--secondary:not([disabled]):focus {
+    color: var(--color-sea-green);
+    background-color: var(--color-mint-green-50);
+    border-color: var(--color-mint-green-50);
+    outline: none; }
+    html[data-whatinput='keyboard'] .dnb-button--secondary:not([disabled]):focus {
+      box-shadow: 0 0 0 2px var(--color-emerald-green);
+      border-color: transparent; }
+  .dnb-button--secondary[disabled] {
+    color: var(--color-sea-green-alt-30);
+    background-color: var(--color-white);
+    border-color: var(--color-sea-green-alt-30); }
+
+.dnb-button--tertiary {
+  position: relative;
+  z-index: 1;
+  color: var(--color-sea-green);
+  background-color: transparent;
+  border-color: transparent; }
+  .dnb-button--tertiary.dnb-button--has-text {
+    padding-left: 0.5em;
+    padding-right: 0.5em; }
+    .dnb-button--tertiary.dnb-button--has-text .dnb-button__icon {
+      margin: 0 0.5em; }
+    .dnb-button--tertiary.dnb-button--has-text.dnb-button--icon-position-left .dnb-button__icon {
+      margin-left: 0; }
+    .dnb-button--tertiary.dnb-button--has-text.dnb-button--icon-position-right .dnb-button__icon {
+      margin-right: 0; }
+  .dnb-button--tertiary.dnb-button--has-text:not([disabled]):hover::after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    left: 0.1em;
+    right: 0.1em;
+    width: auto;
+    height: 100%;
+    left: 0.05em;
+    right: 0.05em;
+    bottom: 0;
+    height: 1px;
+    border-radius: 0.5px;
+    border-bottom: 1px solid var(--color-sea-green);
+    left: 0.45em;
+    right: 0.45em;
+    bottom: 0.5em; }
+  .dnb-button--tertiary.dnb-button--has-text:not([disabled]):hover.dnb-button--icon-position-left::after {
+    left: 0.7em; }
+  .dnb-button--tertiary.dnb-button--has-text:not([disabled]):hover.dnb-button--icon-position-right::after {
+    right: 0.7em; }
+  .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):hover .dnb-button__icon {
+    color: var(--color-sea-green-alt-30); }
+  .dnb-button--tertiary:not([disabled]):active::after,
+  html[data-whatinput='keyboard'] .dnb-button--tertiary:not([disabled]):focus::after {
+    border-bottom: none; }
+  .dnb-button--tertiary:not([disabled]):focus {
+    color: var(--color-sea-green);
+    background-color: transparent;
+    border-color: transparent;
+    outline: none; }
+    html[data-whatinput='keyboard'] .dnb-button--tertiary:not([disabled]):focus {
+      box-shadow: 0 0 0 2px var(--color-emerald-green);
+      border-color: transparent; }
+  .dnb-button--tertiary[disabled] {
+    cursor: not-allowed;
+    color: var(--color-sea-green-alt-30); }
+
+.dnb-button--signal {
+  color: var(--color-black);
+  background-color: var(--color-signal-yellow); }
+  .no-touch .dnb-button--signal:hover[disabled] {
+    cursor: not-allowed; }
+  .no-touch .dnb-button--signal:hover:not([disabled]) {
+    box-shadow: 0 0 0 var(--button-border-width--hover) var(--color-signal-yellow), 0 0 0 calc(var(--button-border-width--hover) + 1px) var(--color-black); }
+    .no-touch .dnb-button--signal:hover:not([disabled]):not([disabled]):active {
+      box-shadow: 0 0 0 2px transparent;
+      border-color: transparent; }
+  .dnb-button--signal:not([disabled]):focus {
+    color: var(--color-black);
+    background-color: var(--color-signal-yellow);
+    border-color: var(--color-signal-yellow);
+    outline: none; }
+    html[data-whatinput='keyboard'] .dnb-button--signal:not([disabled]):focus {
+      box-shadow: 0 0 0 2px var(--color-emerald-green);
+      border-color: transparent; }
+  .dnb-button--signal[disabled] {
+    color: #b0b0b0;
+    background-color: var(--color-signal-yellow-30); }
+"
+`;
+
 exports[`Button scss have to match snapshot 1`] = `
 "/*
 * DNB Button
@@ -212,12 +422,27 @@ exports[`Button scss have to match snapshot 1`] = `
  *
  */
 :root {
-  --font-family-std: 'Fedra Sans Std', sans-serif;
-  --font-family-demi: 'Fedra Sans Std Demi', sans-serif;
+  --font-family-default: 'Fedra Sans Std', sans-serif;
+  --font-family-book: 'Fedra Sans Std', sans-serif;
+  /* Do not use, use --font-weight-... */
+  --font-family-demi: 'Fedra Sans Std', sans-serif;
+  /* Do not use, use --font-weight-... */
+  --font-family-medium: 'Fedra Sans Std', sans-serif;
+  /* Do not use, use --font-weight-... */
+  --font-weight-default: normal;
+  --font-weight-book: normal;
+  --font-weight-demi: 500;
+  --font-weight-medium: 600;
+  --font-size-small: 0.875rem;
+  --font-size-default: 1rem;
+  --font-size-x-default: 1.25rem;
+  --font-size-medium: 1.5rem;
+  --font-size-large: 2rem;
+  --font-size-xx-large: 3rem;
   --color-sea-green-alt: #008484;
   --color-mint-green-50: #d2f0e9;
   --color-mint-green-25: #e9f8f4;
-  --color-sea-green-4: #f5fafa;
+  --color-mint-green-12: #f4fbf9;
   --color-sea-green-alt-30: #b3dada;
   --color-signal-yellow-30: #ffffd7;
   --color-cherry-red: #e10076;
@@ -226,7 +451,8 @@ exports[`Button scss have to match snapshot 1`] = `
   --color-black-80: #333;
   --color-black-30: #b3b3b3;
   --color-white: #fff;
-  --color-black-border: #ebebeb;
+  --color-black-border: #cdcdcd;
+  --color-black-background: #fafafa;
   --color-sea-green: #007272;
   --color-mint-green: #a5e1d2;
   --color-summer-green: #28b482;
@@ -245,23 +471,23 @@ exports[`Button scss have to match snapshot 1`] = `
  * Typography
  *
  * The font-family properties are defined in the properties.scss file, like:
- * --font-family-std:
+ * --font-family-default:
  *
  */
 .dnb-typo-std,
 .dnb-typo-book {
-  font-family: var(--font-family-std);
+  font-family: var(--font-family-default);
   font-weight: normal;
   font-style: normal; }
 
 .dnb-typo-medium {
-  font-family: var(--font-family-std);
-  font-weight: 600;
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-medium);
   font-style: normal; }
 
 .dnb-typo-demi {
-  font-family: var(--font-family-demi);
-  font-weight: normal;
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-demi);
   font-style: normal; }
 
 .dnb-typo-number--lining {
@@ -290,23 +516,23 @@ exports[`Button scss have to match snapshot 1`] = `
 
 @font-face {
   font-family: 'Fedra Sans Std';
+  src: url(\\"../../../../assets/fonts//FedraSansStd-Demi.eot\\");
+  src: url(\\"../../../../assets/fonts//FedraSansStd-Demi.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts//FedraSansStd-Demi.woff2\\") format(\\"woff2\\"), url(\\"../../../../assets/fonts//FedraSansStd-Demi.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts//FedraSansStd-Demi.ttf\\") format(\\"truetype\\");
+  font-weight: 500;
+  font-style: normal;
+  font-display: fallback; }
+
+@font-face {
+  font-family: 'Fedra Sans Std';
   src: url(\\"../../../../assets/fonts//FedraSansStd-Medium.eot\\");
   src: url(\\"../../../../assets/fonts//FedraSansStd-Medium.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts//FedraSansStd-Medium.woff2\\") format(\\"woff2\\"), url(\\"../../../../assets/fonts//FedraSansStd-Medium.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts//FedraSansStd-Medium.ttf\\") format(\\"truetype\\");
   font-weight: 600;
   font-style: normal;
   font-display: fallback; }
 
-@font-face {
-  font-family: 'Fedra Sans Std Demi';
-  src: url(\\"../../../../assets/fonts//FedraSansStd-Demi.eot\\");
-  src: url(\\"../../../../assets/fonts//FedraSansStd-Demi.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts//FedraSansStd-Demi.woff2\\") format(\\"woff2\\"), url(\\"../../../../assets/fonts//FedraSansStd-Demi.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts//FedraSansStd-Demi.ttf\\") format(\\"truetype\\");
-  font-weight: normal;
-  font-style: normal;
-  font-display: fallback; }
-
 /*
  * Scopes
- * 
+ *
  */
 /*
 * DNB icon
@@ -327,7 +553,7 @@ exports[`Button scss have to match snapshot 1`] = `
     fill: currentColor; }
   .dnb-icon svg [stroke] {
     stroke: currentColor; }
-  .dnb-icon:not(.has-custom-size) svg {
+  .dnb-icon svg:not([width]):not([height]) {
     width: inherit;
     height: inherit; }
   .dnb-icon--small {
@@ -344,9 +570,10 @@ exports[`Button scss have to match snapshot 1`] = `
     height: 2em; }
 
 .dnb-button {
-  font-family: var(--font-family-std, sans-serif);
+  font-family: sans-serif;
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-default);
   font-size: 1rem;
-  font-weight: normal;
   font-style: normal;
   line-height: 1.5rem;
   color: var(--color-black-80, #333);
@@ -367,10 +594,7 @@ exports[`Button scss have to match snapshot 1`] = `
 *
 */
 :root {
-  --button-font-family: var(--font-family-std);
   --button-font-size: 1rem;
-  --button-font-weight: normal;
-  --button-font-style: normal;
   --button-width: 2.5rem;
   --button-height: 2.5rem;
   --button-width--small: 2rem;
@@ -397,10 +621,8 @@ exports[`Button scss have to match snapshot 1`] = `
   padding: 0;
   border: var(--button-border-width) solid transparent;
   border-radius: var(--button-border-radius);
-  font-family: var(--button-font-family);
   font-size: var(--button-font-size);
-  font-weight: var(--button-font-weight);
-  font-style: var(--button-font-style);
+  line-height: var(--button-height);
   text-decoration: none;
   /* Firefox includes a hidden border which messes up button dimensions */ }
   .dnb-button__icon {
@@ -410,7 +632,6 @@ exports[`Button scss have to match snapshot 1`] = `
       height: var(--button-icon-size); }
   .dnb-button__text {
     color: inherit;
-    background-color: inherit;
     transform: translateY(var(--button-border-width)); }
   .dnb-button--size-small {
     width: var(--button-width--small);
@@ -476,7 +697,7 @@ exports[`Button scss have to match snapshot 1`] = `
     .dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
       outline: none; }
       html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
-        box-shadow: 0 0 0 2px var(--color-signal-orange);
+        box-shadow: 0 0 0 2px var(--color-emerald-green);
         border-color: transparent; }
     html[data-whatinput='mouse']
 .dnb-button--reset:not([disabled]):focus:not(.dnb-no-mouse-focus),
@@ -491,7 +712,6 @@ exports[`Button scss have to match snapshot 1`] = `
     border: none; }
 
 a.dnb-button {
-  border-bottom: none;
   transition: none; }
 "
 `;

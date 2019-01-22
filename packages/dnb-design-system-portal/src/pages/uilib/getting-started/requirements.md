@@ -10,9 +10,9 @@ draft: false
 
 **To use the HTML Elements (Components)**
 
-There is no specific technical requirements beside that it is highly recommended to use a compiling process with a proper tree shaking in place.
+There are no specific technical requirements only that it is highly recommended to use a compiling process with proper tree shaking in place.
 
-For sure, use this library on top of a modern frontend framework.
+This library can be used on top of a modern frontend framework.
 
 ## Contribution
 

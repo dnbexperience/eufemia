@@ -121,20 +121,35 @@ const Main = styled.main`
   min-height: calc(100vh - 4rem); /* height of StickyMenuBar */
   overflow: visible;
 
-  margin-top: calc(
-    4rem - 0.0625rem
-  ); /* height of StickyMenuBar - 1px border */
-  margin-left: 30vw; /* 30vw, width of Sidebar aside */
+  margin-top: 5rem; /* height of StickyMenuBar - 1px border */
+  margin-left: 30vw; /* fallback */
   margin-left: var(--aside-width);
-  padding: 1rem 0 2rem 0;
+  padding: 0;
 
-  background-color: #fafafa;
-  border-top: 1px solid var(--color-outline-grey);
-  border-left: 1px solid var(--color-outline-grey);
+  .dnb-page-content-inner {
+    padding: 2rem 5vw 2rem;
+  }
+
+  /* fix overscroll issue on top */
+  &::before {
+    content: '';
+    position: absolute;
+    top: -5rem;
+    left: -1px;
+    height: 5rem;
+    width: 100%;
+  }
+
+  &,
+  &::before {
+    background-color: var(--color-black-background);
+    border-left: 1px solid var(--color-black-border);
+  }
 
   /* make sure that Sidebar aside "styled.aside" gets the same max-width */
   @media only screen and (max-width: 50rem) {
     margin-left: 0;
+    padding-left: 0;
   }
 
   &.fullscreen-page {
@@ -161,12 +176,12 @@ const FooterWrapper = styled.footer`
   margin-top: 3rem;
   padding: 1rem 0;
 
-  border-top: 1px solid var(--color-outline-grey);
+  border-top: 1px solid var(--color-black-border);
   text-align: left;
 
   .is-fullscreen & {
     padding: 1rem;
-    background: var(--color-sea-green-4);
+    background: var(--color-mint-green-12);
   }
 
   a {

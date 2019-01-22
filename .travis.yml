@@ -39,10 +39,10 @@ jobs:
 
 stages:
   - name: test
-    if: NOT (branch =~ /^(master|gh-pages)/)
+    if: NOT (branch =~ /^(release|gh-pages)/)
 
   - name: deploy-preview
     if: (branch =~ /^(develop|rc\/.*)/)
 
   - name: deploy-release
-    if: (branch = master)
+    if: (branch = release)

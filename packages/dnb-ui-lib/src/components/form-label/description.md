@@ -1,3 +1,3 @@
 ## Description
 
-The form-label is a basic label meant for input forms.
+The form-label element represents a caption for an item in a user interface.

@@ -10,4 +10,4 @@ about: If you have questions, please check our Discord or StackOverflow
 
 For questions or help please see:
 
-- [Eufemia Portal](https://dnbexperience.github.io/eufemia/uilib)
+- [Eufemia Portal](https://eufemia.dnb.no/uilib)

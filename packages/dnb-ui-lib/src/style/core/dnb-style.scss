@@ -12,7 +12,7 @@
 // hey have to be used by a parent css class: .dnb-style
 .dnb-style {
   small {
-    font-size: 0.875rem; // 14px
+    font-size: var(--font-size-small); // 14px
     line-height: 1.5rem;
   }
 
@@ -26,8 +26,8 @@
     padding: 0;
 
     font-family: var(--font-family-demi);
+    font-weight: var(--font-weight-demi);
     line-height: 1rem; // 16px
-    font-weight: 400;
 
     color: var(--color-emerald-green);
   }
@@ -35,22 +35,22 @@
   h1 {
     margin: 1.5rem 0 1rem;
 
-    font-size: 3rem; // 48px
+    font-size: var(--font-size-xx-large); // 48px
     line-height: 3.5rem; // 56px
-    font-weight: 400;
+    font-weight: var(--font-weight-demi);
   }
 
   h1.small,
   h1 small {
     display: block;
-    font-size: 2rem; // 32px
+    font-size: var(--font-size-large); // 32px
     line-height: 3rem; // 48px
   }
 
   h2 {
     margin: 1.5rem 0 1rem;
 
-    font-size: 1.5rem; // 24px
+    font-size: var(--font-size-medium); // 24px
     line-height: 2rem; // 32px
   }
 
@@ -61,29 +61,29 @@
   h3,
   p.dnb-lead {
     font-family: var(--font-family-demi);
-    font-size: 1.25rem; // 20px
+    font-weight: var(--font-weight-demi);
+    font-size: var(--font-size-x-default); // 20px
     line-height: 2rem; // 32px
-    font-weight: 400;
   }
   h3 > small,
   h3.small,
   p.dnb-lead > small,
   p.dnb-lead > .small {
-    font-size: 1rem; // 16px
+    font-size: var(--font-size-default); // 16px
     line-height: 1.5rem; // 24px
   }
 
   // The rest of the Headings are nod defned by the Eufemia Typography
   h4 {
-    font-size: 1.25rem; // 20px
+    font-size: var(--font-size-x-default); // 20px
     line-height: 1.5rem; // 24px
   }
   h5 {
-    font-size: 1rem; // 16px
+    font-size: var(--font-size-default); // 16px
     line-height: 1.5rem; // 24px
   }
   h6 {
-    font-size: 0.875rem;
+    font-size: var(--font-size-small);
   }
 
   p {
@@ -97,7 +97,7 @@
 
     b,
     strong {
-      font-weight: 600;
+      font-weight: bold;
     }
   }
 
@@ -134,11 +134,11 @@
   table th {
     padding: 3em 1em 0.5em;
 
-    font-weight: 600;
+    font-weight: var(--font-weight-medium);
     text-align: left;
     color: var(--color-emerald-green);
 
-    background-color: var(--color-sea-green-4);
+    background-color: var(--color-mint-green-12);
     border-bottom: 1px solid var(--color-mint-green);
   }
   table td {
@@ -151,7 +151,7 @@
     background-color: #fff;
   }
   table tr:nth-child(2n) {
-    background-color: var(--color-sea-green-4);
+    background-color: var(--color-mint-green-12);
   }
 
   // General Layout and Spacing + some Styling
@@ -225,7 +225,7 @@
       margin-top: 1em;
       font-size: 1em;
       font-style: italic;
-      font-weight: 600;
+      font-weight: var(--font-weight-medium);
     }
 
     dl dd {
@@ -234,10 +234,9 @@
     }
 
     blockquote {
-      margin: 0;
       padding: 0 1em;
-      color: #666;
-      border-left: 0.25em solid #dfe2e5;
+      color: var(--color-summer-green);
+      border-left: 4px dotted var(--color-summer-green);
     }
 
     blockquote > :first-child {

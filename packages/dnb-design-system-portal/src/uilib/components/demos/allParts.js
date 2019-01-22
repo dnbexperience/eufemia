@@ -16,6 +16,7 @@ import Logo from './Logo'
 import Modal from './Modal'
 import Notification from './Notification'
 import Slider from './Slider'
+import StepIndicator from './StepIndicator'
 import Switch from './Switch'
 import Tabs from './Tabs'
 
@@ -33,6 +34,7 @@ export default [
   Modal,
   Notification,
   Slider,
+  StepIndicator,
   Switch,
   Tabs
 ]

@@ -9,10 +9,10 @@ order: 4
 
 The [dnb-ui-lib](/uilib/) offers a couple of different ways to handling events:
 
-1. The declarative way to set and handle events (The way we SET the event is declarative)
-1. The imperative way to set and handle events.
+1. the declarative way to set and handle events (the way we SET the event is declarative)
+1. the imperative way to set and handle events
 
-Have a look at the following basic examples.
+Have a look at the following basic examples:
 
 The `dnb-ui-lib` uses _snake case_ (**snake_case**) to define the event name property (e.g. `on_click` or `on_change`).
 
@@ -68,7 +68,7 @@ export default class MyComponent extends React.Component {
 ## Vue
 
 Use either the `@click` or `v-on:click` event binding property.
-Else You could also use the imperative **ref** method.
+Or else you could also use the imperative **ref** method.
 
 #### Declarative
 
@@ -131,7 +131,7 @@ You may also take a look at the example projects in the repo, called `example-ht
 
 ## Dispatch Imperative Event
 
-Beside the event handler methods, `addEvent` and `removeEvent`, there is also a method to dispatch an event:
+Besides the event handler methods, `addEvent` and `removeEvent`, there is also a method to dispatch an event:
 
 ```js
 element.fireEvent('on_click', { value: 'Custom Value' })
