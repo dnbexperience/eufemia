@@ -277,6 +277,9 @@ exports[`Button scss have to match default theme snapshot 1`] = `
 * Button mixins
 *
 */
+.dnb-button--secondary:not(.dnb-button--has-text) .dnb-button__icon {
+  color: var(--color-emerald-green); }
+
 .dnb-button--primary {
   color: var(--color-white);
   background-color: var(--color-sea-green-alt);
