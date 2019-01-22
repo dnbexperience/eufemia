@@ -12,7 +12,7 @@ describe.skip('Button screenshot', () => {
   it('have to match the primary button screenshot snapshot', async () => {
     // more info: github.com/GoogleChrome/puppeteer/blob/master/docs/api.md
     await global.page.goto(
-      'https://dnbexperience.github.io/eufemia/uilib/components/button/?fullscreen#demo'
+      'https://eufemia.dnb.no/uilib/components/button/?fullscreen#demo'
       // 'http://localhost:8000/uilib/components/button/?fullscreen#demo'
     )
     const selector =
@@ -57,7 +57,7 @@ describe.skip('Button screenshot', () => {
 
     // more info: github.com/GoogleChrome/puppeteer/blob/master/docs/api.md
     await global.page.goto(
-      'https://dnbexperience.github.io/eufemia/uilib/components/button/?fullscreen#demo'
+      'https://eufemia.dnb.no/uilib/components/button/?fullscreen#demo'
       // 'http://localhost:8000/uilib/components/button/?fullscreen#demo'
     )
     await global.page.waitForSelector('.button-wrapper')
