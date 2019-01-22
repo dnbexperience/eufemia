@@ -308,6 +308,10 @@ exports[`Tabs scss have to match default theme snapshot 1`] = `
 .dnb-tabs__tabs .dnb-tablink:not([disabled]).selected .dnb-tablink-title {
   font-family: var(--font-family-demi);
   font-weight: var(--font-weight-demi); }
+
+.dnb-tabs__tabs .dnb-tablink span[hidden] {
+  font-family: var(--font-family-demi);
+  font-weight: var(--font-weight-demi); }
 "
 `;
 
@@ -498,10 +502,9 @@ exports[`Tabs scss have to match snapshot 1`] = `
     .dnb-tabs__tabs .dnb-tablink > span[hidden] {
       display: flex;
       flex-direction: column;
-      visibility: hidden;
       height: 0;
-      overflow: hidden;
-      letter-spacing: 2px; }
+      visibility: hidden;
+      overflow: hidden; }
     .dnb-tabs__tabs .dnb-tablink::after {
       content: '';
       position: absolute;

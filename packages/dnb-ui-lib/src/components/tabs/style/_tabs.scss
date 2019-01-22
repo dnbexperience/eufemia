@@ -56,11 +56,9 @@
         display: flex;
         flex-direction: column;
 
-        visibility: hidden;
         height: 0;
+        visibility: hidden;
         overflow: hidden;
-
-        letter-spacing: 2px;
       }
 
       &::after {

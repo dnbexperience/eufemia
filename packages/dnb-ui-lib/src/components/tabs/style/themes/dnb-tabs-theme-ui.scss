@@ -66,6 +66,13 @@
         }
       }
 
+      // To make sure we have the wider width on every item
+      // Have to be same as &:not([disabled]).selected
+      span[hidden] {
+        font-family: var(--font-family-demi);
+        font-weight: var(--font-weight-demi);
+      }
+
       // focus helper, for positioning
       // &:not([disabled]):not(:active):not(.selected):focus {
       //   @include fakeFocus();

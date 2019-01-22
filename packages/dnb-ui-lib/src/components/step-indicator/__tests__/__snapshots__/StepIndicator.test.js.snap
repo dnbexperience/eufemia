@@ -67,6 +67,14 @@ exports[`StepIndicator component have to match snapshot 1`] = `
                 className="dnb-step-indicator-text"
               >
                 Aa
+                <Dummy>
+                  <span
+                    aria-hidden={true}
+                    hidden={true}
+                  >
+                    Aa
+                  </span>
+                </Dummy>
               </span>
             </ItemContentWrapper>
           </a>
@@ -107,6 +115,14 @@ exports[`StepIndicator component have to match snapshot 1`] = `
                 className="dnb-step-indicator-text"
               >
                 Bb
+                <Dummy>
+                  <span
+                    aria-hidden={true}
+                    hidden={true}
+                  >
+                    Bb
+                  </span>
+                </Dummy>
               </span>
             </ItemContentWrapper>
           </a>
@@ -145,6 +161,14 @@ exports[`StepIndicator component have to match snapshot 1`] = `
                 className="dnb-step-indicator-text"
               >
                 Cc
+                <Dummy>
+                  <span
+                    aria-hidden={true}
+                    hidden={true}
+                  >
+                    Cc
+                  </span>
+                </Dummy>
               </span>
             </ItemContentWrapper>
           </span>
@@ -246,6 +270,7 @@ exports[`StepIndicator scss have to match default theme snapshot 1`] = `
 .dnb-step-indicator--active::after {
   background-color: var(--color-sea-green-alt); }
 
+.dnb-step-indicator span[hidden],
 .dnb-step-indicator--active .dnb-step-indicator-item-content {
   font-family: var(--font-family-demi);
   font-weight: var(--font-weight-demi);
@@ -450,6 +475,12 @@ exports[`StepIndicator scss have to match snapshot 1`] = `
   .dnb-step-indicator-number {
     padding-right: 0.25rem;
     white-space: nowrap; }
+  .dnb-step-indicator-text span[hidden] {
+    display: flex;
+    flex-direction: column;
+    height: 0;
+    visibility: hidden;
+    overflow: hidden; }
   .dnb-step-indicator--active .dnb-step-indicator-item-content {
     cursor: default;
     pointer-events: none; }

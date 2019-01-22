@@ -12,7 +12,7 @@ import {
   processChildren,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
-// import { Dummy } from '../tabs/Tabs'
+import { Dummy } from '../tabs/Tabs'
 
 const renderProps = {
   on_change: null
@@ -244,7 +244,7 @@ const ItemContentWrapper = ({ number, title, show_numbers }) => (
     </span>
     <span className="dnb-step-indicator-text">
       {title}
-      {/* <Dummy>{title}</Dummy> */}
+      <Dummy>{title}</Dummy>
     </span>
   </>
 )

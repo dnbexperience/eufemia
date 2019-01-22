@@ -70,8 +70,17 @@
     padding-right: 0.25rem;
     white-space: nowrap;
   }
-  // &-text {
-  // }
+  &-text {
+    // we use "aria-hidden" SPAN to simulate a wider width for each tab
+    span[hidden] {
+      display: flex;
+      flex-direction: column;
+
+      height: 0;
+      visibility: hidden;
+      overflow: hidden;
+    }
+  }
 
   &--visited &-item-content {
     &--link {
