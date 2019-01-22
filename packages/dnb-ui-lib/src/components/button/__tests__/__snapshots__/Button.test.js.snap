@@ -277,7 +277,7 @@ exports[`Button scss have to match default theme snapshot 1`] = `
 * Button mixins
 *
 */
-.dnb-button--secondary:not(.dnb-button--has-text) .dnb-button__icon {
+.dnb-button--secondary:not([disabled]):not(.dnb-button--has-text) .dnb-button__icon {
   color: var(--color-emerald-green); }
 
 .dnb-button--primary {
@@ -342,7 +342,7 @@ exports[`Button scss have to match default theme snapshot 1`] = `
   .dnb-button--tertiary.dnb-button--has-text {
     padding-left: 0.5em;
     padding-right: 0.5em; }
-    .dnb-button--tertiary.dnb-button--has-text .dnb-button__icon {
+    .dnb-button--tertiary.dnb-button--has-text:not([disabled]) .dnb-button__icon {
       margin: 0 0.5em; }
     .dnb-button--tertiary.dnb-button--has-text.dnb-button--icon-position-left .dnb-button__icon {
       margin-left: 0; }

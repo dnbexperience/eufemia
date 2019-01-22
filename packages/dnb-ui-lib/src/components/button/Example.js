@@ -91,11 +91,22 @@ class Example extends PureComponent {
           />
         </div>
         <div className="example-box">
-          <Button title="Button with Icon only" icon={question} />
-          <p className="example-caption">Button with Icon only</p>
-        </div>
-        <div className="example-box">
+          <Button
+            title="Disabled Icon only Button"
+            icon="calendar"
+            disabled
+          />
           <Button title="Button with Icon only" icon="calendar" />
+          <Button
+            title="Medium Button with Icon only"
+            icon="calendar"
+            icon_size="medium"
+            size="medium"
+          />
+          <Button
+            title="Button with custom, Secondary Icon only"
+            icon={question}
+          />
           <p className="example-caption">Button with Icon only</p>
         </div>
         <div className="example-box">
