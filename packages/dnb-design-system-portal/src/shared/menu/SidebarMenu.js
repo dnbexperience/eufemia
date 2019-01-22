@@ -115,7 +115,7 @@ const StyledListItem = styled.li`
       }
     }
     &.is-inside {
-      background-color: var(--color-sea-green-4);
+      background-color: var(--color-mint-green-12);
       font-weight: 500;
     }
   }
@@ -146,7 +146,7 @@ const StyledListItem = styled.li`
   &.l-6 {
     font-size: 0.875rem; /* small size */
     &.is-inside {
-      background-color: var(--color-sea-green-4);
+      background-color: var(--color-mint-green-12);
     }
   }
 

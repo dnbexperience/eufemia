@@ -194,7 +194,7 @@ exports[`Input scss have to match default theme snapshot 1`] = `
 .dnb-input {
   color: var(--color-emerald-green); }
   .dnb-input__shell {
-    background-color: var(--color-sea-green-4);
+    background-color: var(--color-mint-green-12);
     border: var(--input-border-width) solid var(--input-border-color); }
     .no-touch .dnb-input__shell:not([data-input-state='disabled']):hover[disabled] {
       cursor: not-allowed; }
@@ -259,7 +259,7 @@ exports[`Input scss have to match snapshot 1`] = `
   --color-sea-green-alt: #008484;
   --color-mint-green-50: #d2f0e9;
   --color-mint-green-25: #e9f8f4;
-  --color-sea-green-4: #f5fafa;
+  --color-mint-green-12: #f4fbf9;
   --color-sea-green-alt-30: #b3dada;
   --color-signal-yellow-30: #ffffd7;
   --color-cherry-red: #e10076;

@@ -155,12 +155,12 @@ export default ({ children }) => {
   </tr>
   <tr>
   <td>UX</td>
-  <td>Sea Green 4</td>
-  <td>#F5FAFA</td>
-  <td>245 250 250</td>
-  <td>Sea Green 4</td>
-  <td>--color-sea-green-4</td>
-  <td>$color-sea-green-4</td>
+  <td>Mint Green 12</td>
+  <td>#F4FBF9</td>
+  <td>244 251 249</td>
+  <td>Mint Green 12</td>
+  <td>--color-mint-green-12</td>
+  <td>$color-mint-green-12</td>
   </tr>
   <tr>
   <td>UX</td>
@@ -187,7 +187,7 @@ export default ({ children }) => {
   <td>253 235 244</td>
   <td>Cherry Red 8</td>
   <td>--color-cherry-red-8</td>
-  <td>$color-cherry-red-8</td>  
+  <td>$color-cherry-red-8</td>
   </tr>
   <tr>
   <td>UX</td>

@@ -16,7 +16,7 @@ const prismStyle = /* @css */ `
 
     background-color: #222;
     border-radius: 8px;
-    color: var(--color-sea-green-4);
+    color: var(--color-mint-green-12);
 
     white-space: pre;
     vertical-align: baseline;
@@ -52,7 +52,7 @@ const prismStyle = /* @css */ `
   .token.number,
   .token.constant,
   .token.symbol {
-    color: var(--color-sea-green-4);
+    color: var(--color-mint-green-12);
   }
   .token.tag {
     color: var(--color-sea-green-alt);
