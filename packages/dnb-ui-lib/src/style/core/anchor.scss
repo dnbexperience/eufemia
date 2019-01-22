@@ -13,8 +13,16 @@
   border-bottom: none;
 }
 @mixin focusStyle($whatinput: null) {
-  @include fakeFocus($whatinput);
-  border-bottom: none;
+  &:not(:active) {
+    @include hoverStyle();
+    transition: none;
+    border-bottom: none;
+  }
+  @if $whatinput {
+    @include fakeFocus($whatinput);
+  } @else {
+    @include fakeFocus();
+  }
 }
 
 a {
@@ -42,8 +50,8 @@ a {
   text-decoration: none;
   border-bottom: 1px solid var(--color-sea-green);
 
-  &:active,
-  &:hover {
+  &:hover,
+  &:active {
     @include hoverStyle();
 
     // margins are not needed as long as we go for "inline"
@@ -53,7 +61,7 @@ a {
     @include activeStyle();
   }
   &:focus {
-    @include fakeFocus();
+    @include focusStyle();
   }
 
   transition: background-color 0.2s ease;
@@ -121,7 +129,7 @@ a {
     }
   }
   &:focus {
-    @include fakeFocus();
+    @include focusStyle();
     // border
     &::after {
       border-bottom: none;
@@ -141,6 +149,8 @@ a {
 @mixin resetHoverStyle() {
   &:hover {
     color: inherit;
+    // in case we dont want to change the color to the body color
+    // color: var(--color-sea-green);
     background-color: inherit;
     border-bottom-width: 1px;
   }
@@ -159,8 +169,6 @@ a {
   }
 }
 .dnb-no-anchor-style {
-  padding: 0;
-  margin: 0;
   white-space: normal;
   border-bottom: none;
   color: inherit;
@@ -186,7 +194,8 @@ a {
 .dnb-no-anchor-animation {
   @include resetAnimationStyle();
 }
-a:not([href]) {
+// If a link don't contains a / or http(s)
+a:not([href^='/']):not([href^='http']) {
   cursor: pointer;
   user-select: none;
 }
