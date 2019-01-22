@@ -117,7 +117,7 @@ workflows:
           filters:
             branches:
               ignore:
-                - master
+                - release
                 - gh-pages
       - deploy-preview:
           filters:
@@ -129,4 +129,4 @@ workflows:
           filters:
             branches:
               only:
-                - master
+                - release

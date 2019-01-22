@@ -20,7 +20,7 @@ steps:
         - push
       branch:
         exclude:
-          - master
+          - release
           - develop
           - gh-pages
           - rc/*
@@ -85,7 +85,7 @@ steps:
         - push
       branch:
         include:
-          - master
+          - release
 
   - name: slack
     image: plugins/slack

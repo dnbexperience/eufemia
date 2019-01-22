@@ -12,7 +12,7 @@ module.exports = {
       'The DNB Style Guide is the go to place for all who has to design, develop or create visuals with the DNB design.',
     // homepage: 'https://www.dnb.no',
     // siteUrl: 'https://www.dnb.no',
-    repoUrl: 'https://github.com/dnbexperience/eufemia/tree/master/'
+    repoUrl: 'https://github.com/dnbexperience/eufemia/tree/release/'
   },
   plugins: [
     {
