@@ -89,21 +89,26 @@ export default class Icon extends PureComponent {
     return processChildren(props)
   }
 
+  static getIconNameFromComponent(props) {
+    return typeof props.icon === 'string'
+      ? props.icon
+      : props.icon &&
+          typeof props.icon === 'object' &&
+          (props.icon.displayName || props.icon.name)
+  }
+
   static calcSize(props) {
     const { size, height, width } = props
 
     let sizeAsInt = -1
     let sizeAsString = null
 
-    // get the icon name - we use is for several things
-    const name =
-      typeof props.icon === 'string'
-        ? props.icon
-        : props.icon.displayName || props.icon.name
-
     // if there is no size, check if we can find the actuall size in the name
     if (!size || size === DefaultIconSize) {
-      const nameParts = (name || '').split('_')
+      // get the icon name - we use is for several things
+      const name = Icon.getIconNameFromComponent(props)
+
+      const nameParts = String(name || '').split('_')
       if (nameParts.length > 1) {
         const lastPartOfIconName = nameParts.reverse()[0]
         const potentialSize = ListDefaultIconSizes.filter(
@@ -243,8 +248,12 @@ export default class Icon extends PureComponent {
       role: 'img',
       title
     })
+
     // get the alt
-    wrapperParams['aria-label'] = (alt || title || name).replace(/_/g, ' ')
+    wrapperParams['aria-label'] = String(
+      alt || title || Icon.getIconNameFromComponent(props)
+    ).replace(/_/g, ' ')
+
     if (area_hidden) {
       // wrapperParams['role'] = 'presentation' // almost the same as aria-hidden
       wrapperParams['aria-hidden'] = area_hidden
