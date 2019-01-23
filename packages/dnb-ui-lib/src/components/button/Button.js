@@ -146,7 +146,8 @@ export default class Button extends PureComponent {
     let { variant, size } = props
 
     // if only has Icon, then resize it and define it as secondary
-    if (!text && icon) {
+    const isIconOnly = Boolean(!text && icon)
+    if (isIconOnly) {
       if (!variant) {
         variant = 'secondary'
       }
@@ -195,11 +196,19 @@ export default class Button extends PureComponent {
 
     return href ? (
       <a href={href} ref={this._ref} {...params}>
-        <Content {...this.props} content={content} />
+        <Content
+          {...this.props}
+          content={content}
+          isIconOnly={isIconOnly}
+        />
       </a>
     ) : (
       <button ref={this._ref} {...params}>
-        <Content {...this.props} content={content} />
+        <Content
+          {...this.props}
+          content={content}
+          isIconOnly={isIconOnly}
+        />
       </button>
     )
   }
@@ -215,17 +224,26 @@ class Content extends PureComponent {
       PropTypes.node,
       PropTypes.func
     ]),
-    icon_size: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+    icon_size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    isIconOnly: PropTypes.bool
   }
   static defaultProps = {
     text: null,
     title: null,
     content: null,
     icon: null,
-    icon_size: null
+    icon_size: null,
+    isIconOnly: null
   }
   render() {
-    const { text, title, content, icon, icon_size } = this.props
+    const {
+      text,
+      title,
+      content,
+      icon,
+      icon_size,
+      isIconOnly
+    } = this.props
 
     const ret = []
 
@@ -250,7 +268,7 @@ class Content extends PureComponent {
           icon={icon}
           size={icon_size}
           alt={alt}
-          area_hidden={Boolean(alt)}
+          area_hidden={isIconOnly ? false : Boolean(alt)}
         />
       )
     }
