@@ -1,5 +1,7 @@
 <Icon icon={Bell} />
 <Icon icon={BellMedium} />
-<Icon icon={BellMedium} size="24" />
-<Icon icon={BellMedium} height="24" />
-<Icon icon={BellMedium} width="24" />
+<Icon icon={BellMedium} title="auto size" />
+<Icon icon={BellMedium} size="medium" title="size=medium" />
+<Icon icon={BellMedium} size="24" title="custom size: size=24" />
+<Icon icon={BellMedium} height="24" title="custom size: height=24" />
+<Icon icon={BellMedium} width="24" title="custom size: width=24" />

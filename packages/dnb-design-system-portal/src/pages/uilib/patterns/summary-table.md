@@ -1,7 +1,7 @@
 ---
 title: 'SummaryTable'
 draft: false
-status: wip
+status: dep
 order: 12
 ---
 

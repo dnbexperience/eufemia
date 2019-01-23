@@ -1,7 +1,7 @@
 ---
 title: 'RangeSlider'
 draft: false
-status: wip
+status: dep
 order: 11
 ---
 
