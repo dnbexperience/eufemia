@@ -16,6 +16,7 @@ const props = fakeProps(require.resolve('../FormStatus'), {
   optional: true
 })
 props.status = 'error'
+props.hidden = false
 props.icon = 'exclamation'
 
 describe('FormStatus component', () => {
@@ -26,6 +27,17 @@ describe('FormStatus component', () => {
   })
 
   it('should validate with ARIA rules', async () => {
+    expect(await axeComponent(Comp)).toHaveNoViolations()
+  })
+
+  it('should have correact attributes once the "hidden" prop changes', async () => {
+    const Comp = mount(<Component {...props} hidden />)
+    expect(Comp.exists('[aria-hidden]')).toBe(true)
+    expect(Comp.exists('[aria-live="assertive"]')).toBe(false)
+    Comp.setProps({
+      hidden: false
+    })
+    expect(Comp.exists('[aria-live="assertive"]')).toBe(true)
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 

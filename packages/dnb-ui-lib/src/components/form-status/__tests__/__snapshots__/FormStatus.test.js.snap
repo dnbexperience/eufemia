@@ -5,6 +5,7 @@ exports[`FormStatus component have to match snapshot 1`] = `
   animation="animation"
   class="class"
   className="className"
+  hidden={false}
   icon="exclamation"
   icon_size="icon_size"
   render_content={[Function]}
@@ -13,7 +14,9 @@ exports[`FormStatus component have to match snapshot 1`] = `
   title="title"
 >
   <span
-    className="dnb-form-status dnb-form-status--error dnb-form-status--animation className class"
+    aria-live="assertive"
+    className="dnb-form-status dnb-form-status--error dnb-form-status--animation dnb-form-status--has-content className class"
+    hidden={false}
     title="title"
   >
     <IconPrimary
