@@ -45,8 +45,8 @@ describe('Button component', () => {
   it('icon only has to have some extra classes', () => {
     const Comp = mount(<Component icon="question" />)
 
-    // size "small" (32px)
-    expect(Comp.find('.dnb-button--size-small').exists()).toBe(true)
+    // size "medium" (32px)
+    expect(Comp.find('.dnb-button--size-medium').exists()).toBe(true)
 
     // has icon class, but not has text
     expect(Comp.find('.dnb-button--has-icon').exists()).toBe(true)

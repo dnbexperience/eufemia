@@ -98,10 +98,6 @@ export default class StickyMenuBar extends PureComponent {
                         {({ toggleMenu, isOpen }) => (
                           <Button
                             icon={isOpen ? closeIcon : hamburgerIcon}
-                            // icon_size="medium"
-                            // size="medium"
-                            // variant="tertiary"
-                            // variant="secondary"
                             on_click={toggleMenu}
                             className="toggle-sidebar-menu"
                             title={isOpen ? 'Hide Menu' : 'Show Menu'}
@@ -180,12 +176,6 @@ const barStyle = css`
       display: flex;
     }
   }
-
-  ${'' /* not used anymore up there .heading {
-    font-size: 1.5em;
-    font-weight: 200;
-    text-align: center;
-  } */}
 `
 
 const hideSiebarToggleButtonStyle = css`
