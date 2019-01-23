@@ -4,9 +4,69 @@
  */
 
 import { css } from '@emotion/core'
-import bluegridSvg from '../../../static/assets/images/grid-32x32-blue.svg'
-import greygridSvg from '../../../static/assets/images/grid-32x32.svg'
-import lightgreygridSvg from '../../../static/assets/images/grid-32x32-lightgrey.svg'
+
+export const gridStyle = ({
+  rgb = null,
+  hsl = '204, 80%, 72%',
+  a = 0.8
+} = {}) => {
+  const color = c =>
+    rgb ? `rgba(${rgb}, ${a - c})` : `hsla(${hsl}, ${a - c})`
+  return css`
+    --grid-gutter: 0.5rem;
+    --grid-gutter-bold: 2rem;
+    --grid-color: ${color(0.5)};
+    --grid-color-bold: ${color(0.15)};
+    --grid-line-thickness: 1px;
+
+    --grid-columns: repeating-linear-gradient(
+      to right,
+      var(--grid-color),
+      var(--grid-color) var(--grid-line-thickness),
+      transparent var(--grid-line-thickness),
+      transparent var(--grid-gutter)
+    );
+    --grid-columns-bold: repeating-linear-gradient(
+      to right,
+      var(--grid-color-bold),
+      var(--grid-color-bold) var(--grid-line-thickness),
+      transparent var(--grid-line-thickness),
+      transparent var(--grid-gutter-bold)
+    );
+    --grid-rows: repeating-linear-gradient(
+      to bottom,
+      var(--grid-color),
+      var(--grid-color) var(--grid-line-thickness),
+      transparent var(--grid-line-thickness),
+      transparent var(--grid-gutter)
+    );
+    --grid-rows-bold: repeating-linear-gradient(
+      to bottom,
+      var(--grid-color-bold),
+      var(--grid-color-bold) var(--grid-line-thickness),
+      transparent var(--grid-line-thickness),
+      transparent var(--grid-gutter-bold)
+    );
+
+    border-bottom: solid var(--grid-line-thickness) var(--grid-color-bold);
+    border-right: solid var(--grid-line-thickness) var(--grid-color-bold);
+
+    &::after {
+      content: '';
+
+      position: absolute;
+      z-index: -1;
+      top: 0;
+      left: 0;
+
+      width: 100%;
+      height: 100%;
+
+      background-image: var(--grid-columns), var(--grid-columns-bold),
+        var(--grid-rows), var(--grid-rows-bold);
+    }
+  `
+}
 
 export default css`
   table td.selectable {
@@ -133,13 +193,7 @@ export default css`
 
     text-align: center;
 
-    border-bottom: solid 1px #e7e8e7;
-    border-right: solid 1px #e7e8e7;
-
-    background-color: #f9ffff;
-    background-repeat: repeat;
-    background-image: url(${greygridSvg});
-    ${'' /* background-image: url('/assets/images/grid-32x32.svg'); */}
+    ${gridStyle({ rgb: '231, 232, 231', a: 0.8 })}
 
     figcaption {
       padding-top: 0.9375rem;
@@ -160,13 +214,7 @@ export default css`
     margin-bottom: 4rem;
     padding: 2rem 2rem 1.9375rem 2rem;
 
-    background-color: #f9ffff;
-    border-bottom: solid 1px #a4ffff;
-    border-right: solid 1px #a4ffff;
-
-    background-repeat: repeat;
-    background-image: url(${bluegridSvg});
-    ${'' /* background-image: url('/assets/images/grid-32x32.svg'); */}
+    ${gridStyle({ rgb: '164, 255, 255', a: 0.8 })}
 
     h1 {
       margin-top: 0rem;
@@ -196,15 +244,13 @@ export default css`
   }
 
   div.example-box {
+    position: relative;
+    overflow: hidden;
+
     margin-bottom: 2rem;
     padding: 2rem;
 
-    background-color: #fff;
-    border-bottom: solid 1px #ececec;
-    border-right: solid 1px #ececec;
-
-    background-repeat: repeat;
-    background-image: url(${lightgreygridSvg});
+    ${gridStyle({ rgb: '236, 236, 236', a: 1 })}
 
     &.center {
       display: flex;
@@ -213,8 +259,8 @@ export default css`
     }
   }
   p.example-caption {
-    padding-top: 0.9375rem;
     margin-top: 2rem;
+    padding-top: 0.9375rem;
 
     font-size: 1em;
     line-height: 1.5rem;
