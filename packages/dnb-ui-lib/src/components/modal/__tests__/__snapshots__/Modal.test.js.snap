@@ -131,12 +131,14 @@ exports[`Modal component have to match snapshot 1`] = `
               key="button-icon"
               modifier={null}
               size={null}
+              title={null}
               width={null}
             >
               <span
                 aria-label="Open Modal"
                 className="dnb-icon dnb-icon--default dnb-button__icon"
                 role="img"
+                title={null}
               >
                 <question>
                   <svg
@@ -369,12 +371,14 @@ exports[`Modal component have to match snapshot 1`] = `
                       key="button-icon"
                       modifier={null}
                       size={null}
+                      title={null}
                       width={null}
                     >
                       <span
                         aria-label="Close"
                         className="dnb-icon dnb-icon--default dnb-button__icon"
                         role="img"
+                        title={null}
                       >
                         <close>
                           <svg
@@ -549,17 +553,12 @@ exports[`Modal scss have to match snapshot 1`] = `
 .dnb-icon {
   display: inline;
   vertical-align: baseline;
-  font-size: inherit;
-  width: 1em;
-  height: 1em; }
+  font-size: inherit; }
   .dnb-icon svg:not([fill]),
   .dnb-icon svg [fill] {
     fill: currentColor; }
   .dnb-icon svg [stroke] {
     stroke: currentColor; }
-  .dnb-icon svg:not([width]):not([height]) {
-    width: inherit;
-    height: inherit; }
   .dnb-icon--small {
     width: 0.8em;
     height: 0.8em; }
@@ -572,6 +571,12 @@ exports[`Modal scss have to match snapshot 1`] = `
   .dnb-icon--large {
     width: 2em;
     height: 2em; }
+  .dnb-icon--custom-size {
+    width: auto;
+    height: auto; }
+  .dnb-icon svg:not([width]):not([height]) {
+    width: inherit;
+    height: inherit; }
 
 .dnb-button {
   font-family: sans-serif;

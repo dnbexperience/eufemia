@@ -8,10 +8,6 @@
   vertical-align: baseline;
   font-size: inherit; // only to feed width and height em's
 
-  // default size
-  width: 1em; // only to feed the svg
-  height: 1em; // only to feed the svg
-
   svg:not([fill]),
   svg [fill] {
     fill: currentColor;
@@ -19,20 +15,6 @@
   svg [stroke] {
     stroke: currentColor;
   }
-  // &:not(.has-custom-size) svg {
-  //   width: inherit;
-  //   height: inherit;
-  // }
-  svg:not([width]):not([height]) {
-    width: inherit;
-    height: inherit;
-  }
-  // svg:not([width]) {
-  //   width: inherit;
-  // }
-  // svg:not([height]) {
-  //   height: inherit;
-  // }
 
   &--small {
     width: 0.8em;
@@ -49,5 +31,14 @@
   &--large {
     width: 2em;
     height: 2em;
+  }
+  &--custom-size {
+    width: auto; // only to feed the svg
+    height: auto; // only to feed the svg
+  }
+
+  svg:not([width]):not([height]) {
+    width: inherit;
+    height: inherit;
   }
 }

@@ -31,10 +31,20 @@ import bell from './icons/bell'
           <p className="example-caption">Default Sizes (Responsive)</p>
         </div>
         <div className="example-box">
-          <Icon icon={BellMedium} size="24" />
-          <Icon icon={BellMedium} height="24" />
-          <Icon icon={BellMedium} width="24" />
-          <p className="example-caption">Explicit defined sizes</p>
+          <Icon icon={BellMedium} title="auto size" />
+          <Icon icon={BellMedium} size="medium" title="size=medium" />
+          <Icon icon={BellMedium} size="24" title="custom size: size=24" />
+          <Icon
+            icon={BellMedium}
+            height="24"
+            title="custom size: height=24"
+          />
+          <Icon
+            icon={BellMedium}
+            width="24"
+            title="custom size: width=24"
+          />
+          <p className="example-caption">Explicit defined size: medium</p>
         </div>
       </Fragment>
     )

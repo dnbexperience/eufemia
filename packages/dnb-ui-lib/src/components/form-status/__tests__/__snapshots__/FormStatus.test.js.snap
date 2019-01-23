@@ -30,12 +30,14 @@ exports[`FormStatus component have to match snapshot 1`] = `
       icon="exclamation"
       modifier={null}
       size="icon_size"
+      title={null}
       width={null}
     >
       <span
-        aria-label="exclamation"
+        aria-label="nodejs"
         className="dnb-icon"
         role="img"
+        title={null}
       >
         <exclamation>
           <svg

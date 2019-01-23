@@ -36,6 +36,7 @@ export const propTypes = {
   height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   color: PropTypes.string,
   alt: PropTypes.string,
+  title: PropTypes.string,
   area_hidden: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   class: PropTypes.string,
@@ -56,6 +57,7 @@ export const defaultProps = {
   height: null,
   color: null,
   alt: null,
+  title: null,
   area_hidden: false,
   attributes: null,
   class: null,
@@ -87,21 +89,9 @@ export default class Icon extends PureComponent {
     return processChildren(props)
   }
 
-  static prerender(props) {
-    const icon = Icon.getIcon(props)
+  static calcSize(props) {
+    const { size, height, width } = props
 
-    const {
-      color,
-      modifier,
-      size,
-      height,
-      width,
-      class: _className,
-      className,
-      area_hidden
-    } = props
-
-    let { alt } = props
     let sizeAsInt = -1
     let sizeAsString = null
 
@@ -135,11 +125,28 @@ export default class Icon extends PureComponent {
         ([key]) => key === size
       ).reduce((acc, [key, value]) => {
         return key && value
-      }, null)
+      }, -1)
 
       // of if the size is a default size defined as a string
       if (ListDefaultIconSizes.includes(([key]) => key === size)) {
         sizeAsString = size
+      }
+    }
+
+    // check if the size is given as a number, and if is a default size
+    else if (parseFloat(size) > 0) {
+      sizeAsInt = ListDefaultIconSizes.filter(
+        ([key, value]) => key && value === parseFloat(size)
+      ).reduce((acc, [key, value]) => {
+        if (key && value) return value
+        return acc
+      }, -1)
+
+      // has custom size
+      if (sizeAsInt === -1) {
+        sizeAsInt = parseFloat(size)
+        // size = parseFloat(size)
+        sizeAsString = 'custom-size'
       }
     }
 
@@ -160,35 +167,71 @@ export default class Icon extends PureComponent {
       }
     }
 
+    const prepareSvgParams = () => {
+      const svgParams = {}
+
+      if (!sizeAsString && !(sizeAsInt > 0) && parseFloat(size) > -1) {
+        svgParams.width = svgParams.height = parseFloat(size)
+      } else if (sizeAsString === 'custom-size') {
+        svgParams.width = svgParams.height = parseFloat(sizeAsInt)
+      }
+      if (parseFloat(width) > -1) {
+        svgParams.width = parseFloat(width)
+      }
+      if (parseFloat(height) > -1) {
+        svgParams.height = parseFloat(height)
+      }
+
+      // and the sizeAsInt is not a default size
+      const sizeAsIntIsValidDefault =
+        sizeAsInt > 0 &&
+        ListDefaultIconSizes.includes(
+          ([key, value]) => key && value === sizeAsInt
+        )
+
+      // if the size is default, remove the widht/height
+      // but if the browser is IE11 - do not remove theese attributes
+      if (
+        !isIE11 &&
+        sizeAsIntIsValidDefault
+        // && sizeAsString !== 'custom-size'
+      ) {
+        svgParams.width = null
+        svgParams.height = null
+      }
+      if (isIE11 && sizeAsInt > 0) {
+        svgParams.width = svgParams.height = sizeAsInt
+      }
+
+      validateDOMAttributes({}, svgParams)
+
+      return svgParams
+    }
+
     // define all the svg parameters
-    const svgParams = {}
+    const svgParams = prepareSvgParams()
 
-    if (!sizeAsString && !(sizeAsInt > 0) && parseFloat(size) > -1) {
-      svgParams.width = svgParams.height = parseFloat(size)
+    return {
+      svgParams,
+      sizeAsInt,
+      sizeAsString
     }
-    if (parseFloat(width) > -1) {
-      svgParams.width = parseFloat(width)
-    }
-    if (parseFloat(height) > -1) {
-      svgParams.height = parseFloat(height)
-    }
+  }
 
-    // and the sizeAsInt is not a default size
-    const sizeAsIntIsValidDefault =
-      sizeAsInt > 0 &&
-      ListDefaultIconSizes.includes(
-        ([key, value]) => key && value === sizeAsInt
-      )
+  static prerender(props) {
+    const icon = Icon.getIcon(props)
 
-    // if the size is default, remove the widht/height
-    // but if the browser is IE11 - do not remove theese attributes
-    if (!isIE11 && sizeAsIntIsValidDefault) {
-      svgParams.width = null
-      svgParams.height = null
-    }
-    if (isIE11 && sizeAsInt > 0) {
-      svgParams.width = svgParams.height = sizeAsInt
-    }
+    const {
+      color,
+      modifier,
+      alt,
+      title,
+      class: _className,
+      className,
+      area_hidden
+    } = props
+
+    const { sizeAsString, svgParams } = Icon.calcSize(props)
 
     if (color) {
       svgParams.color = color
@@ -197,10 +240,11 @@ export default class Icon extends PureComponent {
     // some wrapper params
     // also used for code markup simulation
     const wrapperParams = validateDOMAttributes(props, {
-      role: 'img'
+      role: 'img',
+      title
     })
     // get the alt
-    wrapperParams['aria-label'] = (alt || name).replace(/_/g, ' ')
+    wrapperParams['aria-label'] = (alt || title || name).replace(/_/g, ' ')
     if (area_hidden) {
       // wrapperParams['role'] = 'presentation' // almost the same as aria-hidden
       wrapperParams['aria-hidden'] = area_hidden
