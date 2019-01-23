@@ -7,7 +7,6 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 
 import { css } from '@emotion/core'
-// import styled from '@emotion/styled'
 import { navigate, parsePath } from 'gatsby'
 import { CloseButton } from 'dnb-ui-lib/src/components/modal'
 import { fullscreen as fullscreenIcon } from 'dnb-ui-lib/src/icons/secondary_icons'
@@ -26,10 +25,6 @@ const getLocation = () => {
     hash
   }
 }
-
-// const DemoWrapper = styled.div`
-//   padding: 2rem 0 0;
-// `
 
 const tabsWrapperStyle = css`
   .fullscreen-page & {
@@ -101,7 +96,6 @@ class CustomTabs extends PureComponent {
 
     return (
       <Tabs
-        // id={this._id}
         use_hash
         data={data}
         on_change={this.openTab}

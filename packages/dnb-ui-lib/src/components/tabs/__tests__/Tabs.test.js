@@ -133,15 +133,18 @@ describe('A single Tab component', () => {
 
   it('has to work with "Tabs.Content" as children Components', () => {
     const Comp = mount(
-      <Component>
-        <Component.Content title="first">first</Component.Content>
-        <Component.Content title="second" selected>
+      <Component data={tablistData}>
+        <Component.Content title="first title">first</Component.Content>
+        <Component.Content title="second title" selected>
           second
         </Component.Content>
       </Component>
     )
     expect(Comp.find('button.selected').exists()).toBe(true)
     expect(Comp.find('div.dnb-tabs__content').text()).toBe('second')
+    expect(
+      Comp.find('button[aria-selected=true] span.dnb-tablink-title').text()
+    ).toBe('second title')
   })
 })
 

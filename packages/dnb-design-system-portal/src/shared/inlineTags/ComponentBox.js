@@ -10,7 +10,7 @@ import { getComponents } from 'dnb-ui-lib/src/components'
 
 const ComponentBox = ({ children, ...rest }) => {
   return (
-    <CodeBlock scope={getComponents()} {...rest}>
+    <CodeBlock scope={getComponents()} hidePreview {...rest}>
       {children}
     </CodeBlock>
   )
