@@ -39,6 +39,17 @@ describe('Icon component', () => {
     expect(elem.props().height).toBe(height)
   })
 
+  it('should work with custom size', () => {
+    const Comp = mount(<Component {...props} size="100" />)
+    expect(
+      Comp.find('span.dnb-icon').hasClass('dnb-icon--custom-size')
+    ).toBe(true)
+    Comp.setProps({ size: 16 })
+    expect(
+      Comp.find('span.dnb-icon').hasClass('dnb-icon--custom-size')
+    ).toBe(false)
+  })
+
   it('should validate with ARIA rules', async () => {
     const Comp = mount(<Component {...props} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
