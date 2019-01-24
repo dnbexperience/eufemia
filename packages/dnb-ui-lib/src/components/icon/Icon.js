@@ -92,11 +92,16 @@ export default class Icon extends PureComponent {
   }
 
   static getIconNameFromComponent(props) {
-    return typeof props.icon === 'string'
-      ? props.icon
-      : props.icon &&
+    const name =
+      typeof props.icon === 'string'
+        ? props.icon
+        : props.icon &&
           typeof props.icon === 'object' &&
           (props.icon.displayName || props.icon.name)
+    if (/^data:image\//.test(name)) {
+      return null
+    }
+    return name
   }
 
   static calcSize(props) {
@@ -224,7 +229,7 @@ export default class Icon extends PureComponent {
     const {
       color,
       modifier,
-      alt,
+      alt: _alt,
       title,
       class: _className,
       className,
@@ -237,17 +242,22 @@ export default class Icon extends PureComponent {
       svgParams.color = color
     }
 
+    // get the alt
+    let alt = _alt || title
+
+    if (!(alt && alt.length > 0)) {
+      alt = String(Icon.getIconNameFromComponent(props)).replace(/_/g, ' ')
+    }
+
     // some wrapper params
     // also used for code markup simulation
     const wrapperParams = validateDOMAttributes(props, {
       role: 'img',
+      // as we use aria-label, we do not provide an alt as well
+      // alt,
+      ['aria-label']: alt,
       title
     })
-
-    // get the alt
-    wrapperParams['aria-label'] = String(
-      alt || title || Icon.getIconNameFromComponent(props)
-    ).replace(/_/g, ' ')
 
     if (area_hidden) {
       // wrapperParams['role'] = 'presentation' // almost the same as aria-hidden
@@ -264,30 +274,40 @@ export default class Icon extends PureComponent {
     return {
       ...props,
       icon,
+      alt,
       svgParams,
       wrapperParams
     }
   }
 
   render() {
-    const { icon, size, wrapperParams, svgParams } = Icon.prerender(
+    const { icon, size, wrapperParams, svgParams, alt } = Icon.prerender(
       this.props
     )
 
-    const Svg = loadSVG(icon, size)
+    const IconContainer = prepareIcon({ icon, size, alt })
 
     // make sure we return an empty span if we dont could get the icon
-    if (!Svg) return <span />
+    if (!IconContainer) return <></>
 
     return (
       <span {...wrapperParams}>
-        <Svg {...svgParams} />
+        <IconContainer {...svgParams} />
       </span>
     )
   }
 }
 
-export const loadSVG = (icon, size = null, listOfIcons = null) => {
+export const prepareIcon = ({
+  icon,
+  size = null,
+  listOfIcons = null,
+  alt = null
+} = {}) => {
+  if (typeof icon === 'string' && /^data:image\//.test(icon)) {
+    return () => <img src={icon} alt={alt || 'no-alt'} />
+  }
+
   if (typeof icon === 'function') {
     const elem = icon()
     if (React.isValidElement(elem)) {

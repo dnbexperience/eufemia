@@ -37,7 +37,8 @@
     height: auto; // only to feed the svg
   }
 
-  svg:not([width]):not([height]) {
+  svg:not([width]):not([height]),
+  img:not([width]):not([height]) {
     width: inherit;
     height: inherit;
   }
