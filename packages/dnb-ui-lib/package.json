@@ -13,9 +13,6 @@
   },
   "version": "1.0.0",
   "main": "index.js",
-  "bin": {
-    "dnb-ui-lib": "./bin/dnb-ui-lib"
-  },
   "scripts": {
     "post-build": "yarn prettier:other",
     "build": "yarn prepublish:local && yarn post-build",

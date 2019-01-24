@@ -4,6 +4,7 @@ draft: false
 order: 5
 ---
 
+import ComponentBox from 'Tags/ComponentBox'
 import { Button, IconPrimary } from 'dnb-ui-lib/src'
 import { ButtonEventExample } from 'Pages/uilib/usage/first-steps/examples/react-examples'
 
@@ -13,33 +14,35 @@ The most basic way to use the `dnb-ui-lib` is like this:
 
 ### Basic Buttons
 
-```jsx
+<ComponentBox>
+{`
 <Button text="Basic Button" />
-```
-
-<div className="example-box">
-  <Button text="Basic Button" />
-</div>
+`}
+</ComponentBox>
 
 ### Large Buttons & Icons
 
-```jsx
-<Button
-  variant="secondary"
-  text="Secondary Button"
-  icon="chevron-right_medium"
-  size="large"
-/>
-<Button
-  icon="chevron-right"
-  icon_size="medium"
-  size="large"
-/>
-```
+<ComponentBox>
+{`
+<>
+  <Button
+    variant="secondary"
+    text="Secondary Button"
+    icon="chevron_right_medium"
+    size="large"
+  />
+  <Button
+    icon="chevron_right"
+    icon_size="medium"
+    size="large"
+  />
+</>
+`}
+</ComponentBox>
 
 <div className="example-box">
-  <Button variant="secondary" text="Secondary Button" icon="chevron-right_medium" size="large"  />
-  <Button icon="chevron-right" icon_size="medium" size="large" />
+  <Button variant="secondary" text="Secondary Button" icon="chevron_right_medium" size="large"  />
+  <Button icon="chevron_right" icon_size="medium" size="large" />
 </div>
 
 ## Extended example
@@ -56,8 +59,8 @@ const MyComponent = props => (
 
 ```js
 import React from 'react'
-import { Button, Icon } from 'dnb-ui-lib/src'
-import { hamburger_medium as hamburgerIcon } from 'dnb-ui-lib/src/icons/secondary_icons_medium'
+import { Button, Icon } from 'dnb-ui-lib'
+import { hamburger_medium as hamburgerIcon } from 'dnb-ui-lib/icons/secondary_icons_medium'
 
 const onClickHandler = event => {
   console.log('onClickHandler', event)

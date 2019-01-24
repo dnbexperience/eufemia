@@ -41,6 +41,12 @@ The DNB Design System Eufemia uses the following naming conventions.
 - Event names use **snake case**.
 - They have to describe what they are aiming to do. Like: `on_click`
 
+## Icons
+
+- Icon names use **snake case**.
+- They have to describe what they are aiming to meant for. Like: `chevron_right`
+- Sizes are added as a postfix. Like: `chevron_right_medium`
+
 ## Documentation
 
 - `Pages` and directories use **lisp case**.

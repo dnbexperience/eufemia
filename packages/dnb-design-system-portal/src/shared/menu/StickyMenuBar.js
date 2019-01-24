@@ -11,7 +11,13 @@ import { css } from '@emotion/core'
 import MainMenu from './MainMenu'
 import { hamburger as hamburgerIcon } from 'dnb-ui-lib/src/icons/secondary_icons'
 import { close as closeIcon } from 'dnb-ui-lib/src/icons/primary_icons'
-import { Logo, Button, IconPrimary } from 'dnb-ui-lib/src'
+import PortalLogo from './graphics/logo'
+import {
+  // Logo,
+  Icon,
+  Button,
+  IconPrimary
+} from 'dnb-ui-lib/src'
 import { SidebarMenuConsumer } from './SidebarMenuContext'
 import ToggleGrid from './ToggleGrid'
 
@@ -88,9 +94,10 @@ export default class StickyMenuBar extends PureComponent {
                       className="menu-bar-logo dnb-button--reset"
                       on_click={this.toggleMenuHandler}
                     >
-                      <Logo height={48} />
+                      {/* <Logo height={48} /> */}
+                      <Icon icon={PortalLogo} size={48} />
                       {slogan}
-                      <IconPrimary icon="chevron-down" size="small" />
+                      <IconPrimary icon="chevron_down" size="small" />
                     </Button>
 
                     <span>
@@ -148,11 +155,11 @@ const barStyle = css`
 
   .menu-bar-logo {
     margin-left: 5vw;
-    color: var(--color-sea-green);
-    .dnb-logo {
-      margin-right: 1rem;
+    .dnb-icon:nth-of-type(1) {
+      color: var(--color-sea-green);
+      margin-right: 0.5rem;
     }
-    .dnb-icon {
+    .dnb-icon:nth-of-type(2) {
       margin-left: 3px;
     }
   }
