@@ -8,20 +8,26 @@ import PropTypes from 'prop-types'
 import { css } from '@emotion/core'
 import styled from '@emotion/styled'
 import Highlight, { defaultProps } from 'prism-react-renderer'
-import dnbTheme from './themes/dnb-prism-theme'
+import Pre from './Pre'
 import { Button } from 'dnb-ui-lib/src'
+
 import {
   LiveProvider,
   LiveEditor,
   LiveError,
   LivePreview
 } from 'react-live-replacement'
-import Pre from './Pre'
+// we use this replacement, because;
+// to simply have newer prism version for the LiveEditor
+
+// this theme is replaced my a css one
+// import prismTheme from 'prism-react-renderer/themes/nightOwl'
+import dnbTheme from './themes/dnb-prism-theme'
 
 const prismStyle = css(dnbTheme)
 
 const CodeBlock = ({
-  language = 'jsx',
+  language,
   children: exampleCode,
   reactLive: isReactLive,
   ...props
@@ -40,7 +46,9 @@ const CodeBlock = ({
         {...defaultProps}
         code={String(exampleCode).trim()}
         language={language}
-        theme={{ styles: [] }} /* reset styles*/
+        theme={{
+          styles: []
+        }} // reset styles, instead of using "prismTheme"
       >
         {({ className, style, tokens, getLineProps, getTokenProps }) => (
           <div css={prismStyle}>
@@ -101,9 +109,6 @@ class LiveCode extends PureComponent {
           css={prismStyle}
           code={typeof code === 'string' ? String(code).trim() : null}
           scope={scope}
-          // onError={e => {
-          //   console.log('error', e)
-          // }}
         >
           {!hidePreview && (
             <>
@@ -153,10 +158,29 @@ const LiveCodeEditor = styled.div`
   p.example-caption {
     margin-bottom: -1rem;
   }
+  div.example-box {
+    margin-bottom: 0.5rem;
+  }
+  pre.prism-code {
+    position: relative;
+    &::after {
+      content: '';
+      position: absolute;
+      top: -8px;
+      left: 5vw;
+
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 0 7px 8px 7px;
+      border-color: transparent transparent #222 transparent;
+    }
+  }
 `
 
 const Toolbar = styled.div`
   position: absolute;
+  z-index: 2;
   bottom: 0;
   left: 0;
   width: 100%;
@@ -167,6 +191,19 @@ const Toolbar = styled.div`
   justify-content: flex-end;
 
   padding: 0 1rem 1rem;
+
+  pointer-events: none;
+  button,
+  .dnb-form-status {
+    pointer-events: all;
+  }
+
+  .dnb-form-status {
+    max-width: 40rem;
+    height: auto;
+    white-space: normal;
+    line-height: var(--input-height);
+  }
 `
 
 /** Removes the last token from a code example if it's empty. */
