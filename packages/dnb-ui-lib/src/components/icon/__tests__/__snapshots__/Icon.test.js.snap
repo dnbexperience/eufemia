@@ -187,7 +187,8 @@ exports[`Icon scss have to match snapshot 1`] = `
 .dnb-icon {
   display: inline;
   vertical-align: baseline;
-  font-size: inherit; }
+  font-size: inherit;
+  line-height: 0; }
   .dnb-icon svg:not([fill]),
   .dnb-icon svg [fill] {
     fill: currentColor; }

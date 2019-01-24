@@ -4,12 +4,17 @@
  *
  */
 
-@import '../core/dnb-style.scss';
+// import the default theme, and go from there
+// will also have all the component themes included
+@import './dnb-theme-ui.scss';
 
 :root {
   // open-bankin colors
   --color-open-banking-green: #a5e1d2;
   --color-open-banking-emerald: #00343e;
+
+  // Overwriting UX colors, defined in properties.scss
+  --color-sea-green: fuchsia;
 }
 
 /**

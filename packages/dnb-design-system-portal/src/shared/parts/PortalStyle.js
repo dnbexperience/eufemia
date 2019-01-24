@@ -13,6 +13,8 @@ export const gridStyle = ({
   const color = c =>
     rgb ? `rgba(${rgb}, ${a - c})` : `hsla(${hsl}, ${a - c})`
   return css`
+    position: relative;
+
     --grid-gutter: 0.5rem;
     --grid-gutter-bold: 2rem;
     --grid-color: ${color(0.5)};
@@ -244,8 +246,8 @@ export default css`
   }
 
   div.example-box {
-    position: relative;
-    overflow: hidden;
+    ${'' /* position: relative;
+    overflow: hidden; */}
 
     margin-bottom: 2rem;
     padding: 2rem;

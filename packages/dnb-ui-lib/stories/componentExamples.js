@@ -22,7 +22,7 @@ export default stories
 stories.push([
   'Buttons',
   () => (
-    <Wrapper className="dnb-style">
+    <Wrapper>
       <Box>
         <Button text="Primary" icon="add" />
       </Box>
@@ -47,7 +47,7 @@ stories.push([
 stories.push([
   'Anchor',
   () => (
-    <Wrapper className="dnb-style">
+    <Wrapper>
       <Box>
         <a href="http://dnb.no">
           <Icon icon="chevron_left" /> Anchor
@@ -103,7 +103,7 @@ const tablistDataWithContent = [
 stories.push([
   'Tabs',
   () => (
-    <Wrapper className="dnb-style">
+    <Wrapper>
       <Box>
         <Tabs use_hash="true" data={tabsData}>
           {exampleTabsContent}
@@ -138,7 +138,7 @@ stories.push([
 stories.push([
   'Inputs',
   () => (
-    <Wrapper className="dnb-style">
+    <Wrapper>
       <Box>
         <Input label="Label:">Input ...</Input>
       </Box>
@@ -159,7 +159,7 @@ stories.push([
 stories.push([
   'Icons',
   () => (
-    <Wrapper className="dnb-style">
+    <Wrapper>
       <Box>
         <Icon icon="add" size="medium" />
       </Box>
@@ -178,7 +178,7 @@ stories.push([
 stories.push([
   'Modal',
   () => (
-    <Wrapper className="dnb-style">
+    <Wrapper>
       <Modal
         modal_trigger_text="Open Modal"
         title="Title for accessibility"
@@ -193,7 +193,7 @@ stories.push([
 stories.push([
   'Dropdown',
   () => (
-    <Wrapper className="dnb-style">
+    <Wrapper>
       <Box>
         <Dropdown data={data} selected_item={2} />
       </Box>

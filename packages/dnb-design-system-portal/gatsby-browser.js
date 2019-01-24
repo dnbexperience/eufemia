@@ -7,6 +7,7 @@
 if (process.env.NODE_ENV === 'development') {
   require('dnb-ui-lib/src/style/patterns') // import ony patterns
   require('dnb-ui-lib/src/style/components') // import ony components
+  // require('dnb-ui-lib/src/style/themes/open-banking') // import the "open-banking" theme
   require('dnb-ui-lib/src/style/themes/ui') // import the default theme
 } else {
   // As the gatsby-plugin-postcss plugin dont processes the scss file in the package "dnb-ui-lib" - we have to use the preprocessed version

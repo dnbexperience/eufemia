@@ -26,6 +26,10 @@ import dnbTheme from './themes/dnb-prism-theme'
 
 const prismStyle = css(dnbTheme)
 
+const Wrapper = styled.div`
+  margin-bottom: 3rem;
+`
+
 const CodeBlock = ({
   language,
   children: exampleCode,
@@ -39,7 +43,11 @@ const CodeBlock = ({
   }
 
   if (((props && props.scope) || isReactLive) && language === 'jsx') {
-    return <LiveCode code={exampleCode} {...props} />
+    return (
+      <Wrapper>
+        <LiveCode code={exampleCode} {...props} />
+      </Wrapper>
+    )
   } else {
     return (
       <Highlight
@@ -51,7 +59,7 @@ const CodeBlock = ({
         }} // reset styles, instead of using "prismTheme"
       >
         {({ className, style, tokens, getLineProps, getTokenProps }) => (
-          <div css={prismStyle}>
+          <Wrapper css={prismStyle}>
             <Pre className={className} css={style}>
               {cleanTokens(tokens).map((line, i) => (
                 /* eslint-disable react/jsx-key */
@@ -62,7 +70,7 @@ const CodeBlock = ({
                 </div>
               ))}
             </Pre>
-          </div>
+          </Wrapper>
         )}
       </Highlight>
     )
@@ -99,8 +107,15 @@ class LiveCode extends PureComponent {
   }
 
   render() {
-    const { code, caption, scope } = this.props
+    const { code, caption, scope, ...rest } = this.props
     const { hideCode, hidePreview } = this.state
+
+    const props = Object.entries(rest).reduce((acc, [key, value]) => {
+      if (!['hideCode', 'hidePreview'].includes(key)) {
+        acc[key] = value
+      }
+      return acc
+    }, {})
 
     return (
       <LiveCodeEditor>
@@ -109,6 +124,7 @@ class LiveCode extends PureComponent {
           css={prismStyle}
           code={typeof code === 'string' ? String(code).trim() : null}
           scope={scope}
+          {...props}
         >
           {!hidePreview && (
             <>
