@@ -1,6 +1,6 @@
 ---
 title: 'IconPrimary'
-draft: true
+draft: false
 status: null
 order: 5
 ---

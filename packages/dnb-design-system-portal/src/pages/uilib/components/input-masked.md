@@ -1,6 +1,6 @@
 ---
 title: 'InputMasked'
-draft: true
+draft: false
 status: null
 order: 7
 ---

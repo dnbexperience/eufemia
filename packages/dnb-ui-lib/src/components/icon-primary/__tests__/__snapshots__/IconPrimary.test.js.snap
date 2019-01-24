@@ -21,10 +21,15 @@ exports[`IconPrimary component have to match snapshot 1`] = `
     role="img"
     title={null}
   >
-    <question>
+    <question
+      height={null}
+      width={null}
+    >
       <svg
         fill="none"
+        height={null}
         viewBox="0 0 16 16"
+        width={null}
       >
         <path
           clipRule="evenodd"

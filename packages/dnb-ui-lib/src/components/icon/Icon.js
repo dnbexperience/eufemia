@@ -15,11 +15,13 @@ import {
 
 export const DefaultIconSize = 16
 export const DefaultIconSizes = {
+  // small: 8,
   default: 16,
   medium: 24
   // large: 32 // currently not in use
 }
 export const ListDefaultIconSizes = Object.entries(DefaultIconSizes)
+export const ValidIconSizes = ['small', 'default', 'medium', 'large']
 
 export const propTypes = {
   icon: PropTypes.oneOfType([
@@ -133,7 +135,7 @@ export default class Icon extends PureComponent {
       }, -1)
 
       // of if the size is a default size defined as a string
-      if (ListDefaultIconSizes.includes(([key]) => key === size)) {
+      if (ValidIconSizes.includes(size)) {
         sizeAsString = size
       }
     }
@@ -150,7 +152,6 @@ export default class Icon extends PureComponent {
       // has custom size
       if (sizeAsInt === -1) {
         sizeAsInt = parseFloat(size)
-        // size = parseFloat(size)
         sizeAsString = 'custom-size'
       }
     }
@@ -181,26 +182,20 @@ export default class Icon extends PureComponent {
         svgParams.width = svgParams.height = parseFloat(sizeAsInt)
       }
       if (parseFloat(width) > -1) {
+        sizeAsString = 'custom-size'
         svgParams.width = parseFloat(width)
       }
       if (parseFloat(height) > -1) {
+        sizeAsString = 'custom-size'
         svgParams.height = parseFloat(height)
       }
 
-      // and the sizeAsInt is not a default size
-      const sizeAsIntIsValidDefault =
-        sizeAsInt > 0 &&
-        ListDefaultIconSizes.includes(
-          ([key, value]) => key && value === sizeAsInt
-        )
+      // and the sizeAsString is not a default size
+      const sizeIsValid = ValidIconSizes.includes(sizeAsString)
 
       // if the size is default, remove the widht/height
       // but if the browser is IE11 - do not remove theese attributes
-      if (
-        !isIE11 &&
-        sizeAsIntIsValidDefault
-        // && sizeAsString !== 'custom-size'
-      ) {
+      if (!isIE11 && sizeIsValid) {
         svgParams.width = null
         svgParams.height = null
       }

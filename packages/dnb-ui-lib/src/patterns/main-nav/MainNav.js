@@ -13,7 +13,7 @@ import {
 } from '../../shared/component-helper'
 // import './style/dnb-main-nav.scss' // no good solution to import the style here
 import Input from '../../components/input/Input'
-import Icon from '../../components/icon/IconPrimary'
+import Icon from '../../components/icon-primary/IconPrimary'
 import Button from '../../components/button/Button'
 import Logo from '../../components/logo/Logo'
 import Notification from '../../components/notification/Notification'

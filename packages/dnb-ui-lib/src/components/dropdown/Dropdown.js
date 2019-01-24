@@ -14,7 +14,7 @@ import {
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
 // import './style/dnb-dropdown.scss' // no good solution to import the style here
-import Icon from '../icon/IconPrimary'
+import Icon from '../icon-primary/IconPrimary'
 
 const renderProps = {
   on_show: null,

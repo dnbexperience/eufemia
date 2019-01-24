@@ -12,7 +12,7 @@ import {
   // processChildren
 } from '../../shared/component-helper'
 // import './style/dnb-notification.scss' // no good solution to import the style here
-import Icon from '../../components/icon/IconPrimary'
+import Icon from '../../components/icon-primary/IconPrimary'
 
 const renderProps = {
   // render_content: null
