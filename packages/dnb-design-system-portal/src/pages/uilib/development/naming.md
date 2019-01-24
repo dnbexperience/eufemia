@@ -29,6 +29,7 @@ The DNB Design System Eufemia uses the following naming conventions.
 
 - CSS classes and the files containing the styles use **lisp case**.
 - CSS classes are prefixed with: `dnb-`
+- CSS `Custom Properties` (CSS Variables) use **lisp case**.
 
 ## Javascript
 
