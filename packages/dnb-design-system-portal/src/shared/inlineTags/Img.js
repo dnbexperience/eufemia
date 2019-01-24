@@ -1,11 +1,11 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 
-const Img = ({ alt, src, height, caption }) => {
+const Img = ({ alt, src, children, height, caption }) => {
   return (
     <Fragment>
       <figure className="image-box">
-        <img alt={alt} src={src} height={height} />
+        <img alt={alt || caption} src={src || children} height={height} />
         {caption && <figcaption>{caption}</figcaption>}
       </figure>
     </Fragment>
@@ -13,14 +13,18 @@ const Img = ({ alt, src, height, caption }) => {
 }
 
 Img.propTypes = {
-  alt: PropTypes.string.isRequired,
-  src: PropTypes.string.isRequired,
+  alt: PropTypes.string,
+  children: PropTypes.node,
+  src: PropTypes.string,
   height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   caption: PropTypes.string
 }
 Img.defaultProps = {
   caption: null,
-  height: null
+  alt: null,
+  src: null,
+  height: null,
+  children: null
 }
 
 export default Img

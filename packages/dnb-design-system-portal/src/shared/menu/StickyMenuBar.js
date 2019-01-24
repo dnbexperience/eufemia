@@ -82,7 +82,7 @@ export default class StickyMenuBar extends PureComponent {
                     barStyle,
                     hideSiebarToggleButton && hideSiebarToggleButtonStyle
                   ]}
-                  className="sticky-menu dnb-style-selection"
+                  className="sticky-menu"
                 >
                   <div
                     className={`sticky-inner ${

@@ -4,6 +4,8 @@ draft: false
 order: 4
 ---
 
+import ComponentBox from 'Tags/ComponentBox'
+
 # Event Handling
 
 The [dnb-ui-lib](/uilib/) offers a couple of different ways to handling events:
@@ -13,7 +15,7 @@ The [dnb-ui-lib](/uilib/) offers a couple of different ways to handling events:
 
 Have a look at the following basic examples:
 
-The `dnb-ui-lib` uses _snake case_ (**snake_case**) to define the event name property (e.g. `on_click` or `on_change`).
+The `dnb-ui-lib` uses _snake case_ (**snake_case**) to define the event name property (e.g. `on_click` or `on_change`). Read more about the [naming conventions](uilib/development/naming).
 
 ## React
 
@@ -21,13 +23,12 @@ Some of the most basic event handling in React.
 
 ### Stateless Component
 
-```jsx
-import { Button } from 'dnb-ui-lib'
-const myHandler = event => {}
-const MyComponent = () => (
-  <Button text="Declarative" on_click={myHandler} />
-)
-```
+<ComponentBox noInline={true}>
+{`
+const myHandler = () => alert('Hello')
+render(<Button text="Declarative" on_click={myHandler} />)
+`}
+</ComponentBox>
 
 ### Lifecycle Component
 

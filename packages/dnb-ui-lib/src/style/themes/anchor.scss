@@ -3,6 +3,8 @@
  *
  */
 
+@import '../core/utilities.scss';
+
 @mixin hoverStyle() {
   background-color: var(--color-mint-green-50);
   border-bottom-width: 2px;
@@ -46,7 +48,7 @@ a {
   // margin: -0.25em 0 -0.125em;
 
   color: inherit;
-  color: var(--color-sea-green, inherit);
+  color: var(--color-sea-green);
   text-decoration: none;
   border-bottom: 1px solid var(--color-sea-green);
 

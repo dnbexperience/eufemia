@@ -43,9 +43,6 @@ const Sidebar = styled.aside`
     overscroll-behavior: contain;
   }
 
-  ${'' /* .heading {
-  } */}
-
   /*
     God for a mobile menu insted
     make sure that Content main "styled.main" gets the same max-width
@@ -68,6 +65,7 @@ const Sidebar = styled.aside`
 
 const StyledListItem = styled.li`
   list-style: none;
+  margin: 0;
 
   a {
     position: relative;
@@ -377,7 +375,7 @@ export default class SidebarLayout extends PureComponent {
                   icon,
                   active,
                   inside,
-                  to: `/${path}`,
+                  to: path,
                   onOffsetTop: offsetTop => (this.offsetTop = offsetTop)
                 }
 
@@ -403,7 +401,6 @@ export default class SidebarLayout extends PureComponent {
                   <>
                     <Sidebar
                       className={classnames(
-                        'dnb-style-selection',
                         isOpen && 'show-mobile-menu',
                         isClosing && 'hide-mobile-menu'
                       )}
