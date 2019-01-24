@@ -217,7 +217,7 @@ export default class MainMenu extends PureComponent {
                 variant="secondary"
                 class="main-menu__back dnb-always-focus"
                 on_click={this.closeMenuHandler}
-                icon="chevron-left"
+                icon="chevron_left"
                 icon_position="left"
                 text="BACK"
                 title="Hide Main Menu"

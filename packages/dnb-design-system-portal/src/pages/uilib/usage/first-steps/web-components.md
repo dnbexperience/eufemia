@@ -33,11 +33,11 @@ Now we can use our web components right away in our markup.
 <!-- prettier-ignore-start -->
 
 ```html
-<dnb-button icon="chevron-right" text="Custom Element" />
+<dnb-button icon="chevron_right" text="Custom Element" />
 ```
 
 <div class="example-box">
-  <dnb-button icon="chevron-right" text="Custom Element" />
+  <dnb-button icon="chevron_right" text="Custom Element" />
 </div>
 
 ### Input

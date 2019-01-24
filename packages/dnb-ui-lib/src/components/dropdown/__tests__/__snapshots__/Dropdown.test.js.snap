@@ -345,7 +345,8 @@ exports[`Dropdown scss have to match snapshot 1`] = `
   .dnb-icon--custom-size {
     width: auto;
     height: auto; }
-  .dnb-icon svg:not([width]):not([height]) {
+  .dnb-icon svg:not([width]):not([height]),
+  .dnb-icon img:not([width]):not([height]) {
     width: inherit;
     height: inherit; }
 

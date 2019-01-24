@@ -51,7 +51,7 @@ class Example extends PureComponent {
           <Button
             text="Primary button with icon"
             title="This is a button title"
-            icon="chevron-right"
+            icon="chevron_right"
           />
         </div>
         <div className="example-box">
@@ -59,7 +59,7 @@ class Example extends PureComponent {
             text="Primary button with icon on left"
             title="This is a button title"
             icon_position="left"
-            icon="chevron-left"
+            icon="chevron_left"
           />
         </div>
         <div className="example-box">
@@ -68,7 +68,7 @@ class Example extends PureComponent {
             text="Tertiary button with icon on left"
             title="This is a button title"
             icon_position="left"
-            icon="chevron-left"
+            icon="chevron_left"
           />
         </div>
         <div className="example-box">
@@ -77,7 +77,7 @@ class Example extends PureComponent {
             text="Tertiary button with icon on left"
             title="This is a button title"
             icon_position="left"
-            icon="chevron-left"
+            icon="chevron_left"
             disabled
           />
         </div>
@@ -87,7 +87,7 @@ class Example extends PureComponent {
             href="?no-cache=1"
             title="This is a link"
             icon_position="right"
-            icon="chevron-right"
+            icon="chevron_right"
           />
         </div>
         <div className="example-box">

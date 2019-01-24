@@ -61,7 +61,7 @@ export default class App extends PureComponent {
         />
         <Button
           text="Custom Element with icon"
-          icon="chevron-right"
+          icon="chevron_right"
           on_click={this.handleClick}
         />
         <Icon icon={bell} width={80} />
@@ -82,7 +82,7 @@ export default class App extends PureComponent {
             <dnb-button
               ref={this._buttonRef}
               text="Custom Element with icon"
-              icon="chevron-right"
+              icon="chevron_right"
               on_click={this.handleClick}
             />
             <dnb-icon-primary icon="bell" size="80" />
