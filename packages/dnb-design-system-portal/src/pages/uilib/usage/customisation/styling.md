@@ -5,11 +5,14 @@ draft: false
 order: 1
 ---
 
+import Img from 'Tags/Img'
+import CSSDiagram from 'Pages/uilib/usage/customisation/assets/css_structure_diagram.svg'
+
 # Styling
 
 The CSS is a compiled and minified version. You will find it here: `dnb-ui-lib/style/dnb-ui-lib.min.css`
 
-**TODO:** CSS structure graphics
+<Img caption="CSS Structure Diagram">{CSSDiagram}</Img>
 
 ## Apply the DNB Style
 
