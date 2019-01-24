@@ -29,7 +29,7 @@
     "make-ui-lib-pages:dev": "nodemon --exec 'yarn make-ui-lib-pages' --ext js --watch '../dnb-ui-lib/src/**/*' --watch '**/makeDemosFactory.js' --watch '**/tasks/*' --watch '**/Template.js'  --watch '**/template.md'",
     "reset": "cd ../../ && yarn reset && cd - && yarn build",
     "serve": "live-server public --watch --no-browser --port=8001",
-    "start": "cross-env DEBUG=gatsby:query-watcher gatsby develop",
+    "start": "rm -rf .cache | cross-env DEBUG=gatsby:query-watcher gatsby develop",
     "test": "jest --watch",
     "test-ci": "jest --ci",
     "test:staged": "jest --bail --findRelatedTests :#keep this whitespace",
