@@ -1,5 +1,4 @@
 ---
-header: 'UI Library'
 title: 'Typography'
 icon: 'typography'
 draft: false
@@ -10,10 +9,10 @@ order: 4
 
 ## Font Face
 
-Our default font is `Fedra Sans Book`. This font, together with its siblings is loaded and imported with `@font-face` in `/css/core/typography.scss`. The font is included in the library package.
-To make sure we don't load all of the font faces at once, we apply the font weights and font styles by using its predefined font faces.
+The DNB default Font Family is `Fedra Sans Std`. This font, together with its weights is loaded and imported with `@font-face` in `/css/core/fonts.scss`. The font is included in the library package.
+To make sure You don't load all of the font faces at once, You apply a font `weights` to load the predefined font faces.
 
-Read more about [fonts at DNB](/quickguide-designer/fonts/)
+Read more how to use the [different weights](/uilib/typography/font-weights/).
 
 ### Headings
 
@@ -38,3 +37,5 @@ Read more about [fonts at DNB](/quickguide-designer/fonts/)
     written in 45 BC.
   </p>
 </div>
+
+Or read more [about fonts in the Designer Guides](/quickguide-designer/fonts/).

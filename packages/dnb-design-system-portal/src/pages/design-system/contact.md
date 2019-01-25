@@ -1,6 +1,6 @@
 ---
-header: 'Design System'
 title: 'Contact'
+icon: 'contact'
 draft: false
 order: 2
 ---

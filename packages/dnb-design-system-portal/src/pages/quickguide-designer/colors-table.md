@@ -23,7 +23,6 @@ export default ({ children }) => {
       <th>RGB</th>
       <th>Library name</th>
       <th>CSS Custom Properties name</th>
-      <th>SASS variable name</th>
   </tr>
 </thead>
 <tbody>
@@ -34,7 +33,6 @@ export default ({ children }) => {
   <td>0 52 62</td>
   <td>Ocean Green</td>
   <td>--color-ocean-green</td>
-  <td>$color-ocean-green</td>
   </tr>
 <tr>
   <td>Profile</td>
@@ -43,7 +41,6 @@ export default ({ children }) => {
   <td>20 85 90</td>
   <td>Emerald Green</td>
   <td>--color-emerald-green</td>
-  <td>$color-emerald-green</td>
   </tr>
   <tr>
     <td>Profile</td>
@@ -52,7 +49,6 @@ export default ({ children }) => {
     <td>0 114 114</td>
     <td>Sea Green</td>
     <td>--color-sea-green</td>
-    <td>$color-sea-green</td>
   </tr>
   <tr>
     <td>Profile</td>
@@ -61,7 +57,6 @@ export default ({ children }) => {
     <td>165 225 210</td>
     <td>Mint Green</td>
     <td>--color-mint-green</td>
-    <td>$color-mint-green</td>
   </tr>
   <tr>
     <td>Profile</td>
@@ -70,7 +65,6 @@ export default ({ children }) => {
     <td>40 180 130</td>
     <td>Summer Green</td>
     <td>--color-summer-green</td>
-    <td>$color-summer-green</td>
   </tr>
   <tr>
     <td>Profile</td>
@@ -79,7 +73,6 @@ export default ({ children }) => {
     <td>255 84 0</td>
     <td>Signal Orange</td>
     <td>--color-signal-orange</td>
-    <td>$color-signal-orange</td>
   </tr>
   <tr>
     <td>Profile</td>
@@ -88,7 +81,6 @@ export default ({ children }) => {
     <td>255 255 122</td>
     <td>Signal Yellow</td>
     <td>--color-signal-yellow</td>
-    <td>$color-signal-yellow</td>
   </tr>
   <tr>
     <td>Profile</td>
@@ -97,7 +89,6 @@ export default ({ children }) => {
     <td>35 25 90</td>
     <td>Indigo</td>
     <td>--color-indigo</td>
-    <td>$color-indigo</td>
   </tr>
   <tr>
     <td>Profile</td>
@@ -106,7 +97,6 @@ export default ({ children }) => {
     <td>110 35 130</td>
     <td>Violet</td>
     <td>--color-violet</td>
-    <td>$color-violet</td>
   </tr>
   <tr>
     <td>Profile</td>
@@ -115,7 +105,6 @@ export default ({ children }) => {
     <td>75 190 210</td>
     <td>Sky Blue</td>
     <td>--color-sky-blue</td>
-    <td>$color-sky-blue</td>
   </tr>
   <tr>
     <td>UX</td>
@@ -124,7 +113,6 @@ export default ({ children }) => {
     <td>0 132 132</td>
     <td>Sea Green Alt</td>
     <td>--color-sea-green-alt</td>
-    <td>$color-sea-green-alt</td>
   </tr>
   <tr>
   <td>UX</td>
@@ -133,7 +121,6 @@ export default ({ children }) => {
   <td>179 218 218</td>
   <td>Sea Green Alt 30</td>
   <td>--color-sea-green-alt-30</td>
-  <td>$color-sea-green-alt-30</td>
   </tr>
   <tr>
     <td>UX</td>
@@ -142,7 +129,6 @@ export default ({ children }) => {
     <td>210 240 233</td>
     <td>Mint Green 50</td>
     <td>--color-mint-green-50</td>
-    <td>$color-mint-green-50</td>
   </tr>
   <tr>
     <td>UX</td>
@@ -151,7 +137,6 @@ export default ({ children }) => {
     <td>233 248 244</td>
     <td>Mint Green 25</td>
     <td>--color-mint-green-25</td>
-    <td>$color-mint-green-25</td>
   </tr>
   <tr>
   <td>UX</td>
@@ -160,7 +145,6 @@ export default ({ children }) => {
   <td>244 251 249</td>
   <td>Mint Green 12</td>
   <td>--color-mint-green-12</td>
-  <td>$color-mint-green-12</td>
   </tr>
   <tr>
   <td>UX</td>
@@ -169,7 +153,6 @@ export default ({ children }) => {
   <td>255 255 215</td>
   <td>Signal Yellow 30</td>
   <td>--color-signal-yellow-30</td>
-  <td>$color-signal-yellow-30</td>
   </tr>
   <tr>
   <td>UX</td>
@@ -178,7 +161,6 @@ export default ({ children }) => {
   <td>225 0 118</td>
   <td>Cherry Red</td>
   <td>--color-cherry-red</td>
-  <td>$color-cherry-red</td>
   </tr>
   <tr>
   <td>UX</td>
@@ -187,7 +169,6 @@ export default ({ children }) => {
   <td>253 235 244</td>
   <td>Cherry Red 8</td>
   <td>--color-cherry-red-8</td>
-  <td>$color-cherry-red-8</td>
   </tr>
   <tr>
   <td>UX</td>
@@ -196,7 +177,6 @@ export default ({ children }) => {
   <td>0 0 0</td>
   <td>Black</td>
   <td>--color-black</td>
-  <td>$color-black</td>
   </tr>
   <tr>
   <td>UX</td>
@@ -204,8 +184,7 @@ export default ({ children }) => {
   <td>#333333</td>
   <td>51 51 51</td>
   <td>333</td>
-  <td>--color-333</td>
-  <td>$color-333</td>
+  <td>--color-black-80</td>
   </tr>
   <tr>
   <td>UX</td>
@@ -214,7 +193,6 @@ export default ({ children }) => {
   <td>179 179 179</td>
   <td>Black 30</td>
   <td>--color-black-30</td>
-  <td>$color-black-30</td>
   </tr>
   <tr>
   <td>UX</td>
@@ -223,7 +201,6 @@ export default ({ children }) => {
   <td>255 255 255</td>
   <td>White</td>
   <td>--color-white</td>
-  <td>$color-white</td>
   </tr>
 </tbody>
 </table>

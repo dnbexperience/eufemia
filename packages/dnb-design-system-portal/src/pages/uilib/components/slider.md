@@ -1,5 +1,4 @@
 ---
-header: 'UI Library'
 title: 'Slider'
 draft: false
 status: wip

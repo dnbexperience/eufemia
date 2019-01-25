@@ -7,10 +7,7 @@
   display: inline;
   vertical-align: baseline;
   font-size: inherit; // only to feed width and height em's
-
-  // default size
-  width: 1em; // only to feed the svg
-  height: 1em; // only to feed the svg
+  line-height: 0; // for vertical centring, we have to have no line-height
 
   svg:not([fill]),
   svg [fill] {
@@ -19,35 +16,34 @@
   svg [stroke] {
     stroke: currentColor;
   }
-  // &:not(.has-custom-size) svg {
-  //   width: inherit;
-  //   height: inherit;
-  // }
-  svg:not([width]):not([height]) {
-    width: inherit;
-    height: inherit;
-  }
-  // svg:not([width]) {
-  //   width: inherit;
-  // }
-  // svg:not([height]) {
-  //   height: inherit;
-  // }
+
+  width: 1em;
+  height: 1em;
 
   &--small {
-    width: 0.8em;
-    height: 0.8em;
+    width: 0.75rem;
+    height: 0.75rem;
   }
   &--default {
-    width: 1em;
-    height: 1em;
+    width: 1rem;
+    height: 1rem;
   }
   &--medium {
-    width: 1.5em;
-    height: 1.5em;
+    width: 1.5rem;
+    height: 1.5rem;
   }
   &--large {
-    width: 2em;
-    height: 2em;
+    width: 2rem;
+    height: 2rem;
+  }
+  &--custom-size {
+    width: auto; // only to feed the svg
+    height: auto; // only to feed the svg
+  }
+
+  svg:not([width]):not([height]),
+  img:not([width]):not([height]) {
+    width: inherit;
+    height: inherit;
   }
 }

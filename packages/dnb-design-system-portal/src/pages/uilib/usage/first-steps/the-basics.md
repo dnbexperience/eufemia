@@ -1,11 +1,10 @@
 ---
-header: 'UI Library'
 title: 'The Basics'
 draft: false
 order: 2
 ---
 
-import { Button } from 'dnb-ui-lib/src'
+import ComponentBox from 'Tags/ComponentBox'
 
 <!-- They don't rely on any global style-sheets such as **normalize.css** beside the main DNB Stylesheet. -->
 
@@ -43,19 +42,19 @@ Once You import the `dnb-ui-lib` style, You will not only get the HTML Element s
 
 With [Node.js](https://nodejs.org/) as our JavaScript runtime in place, we may use ES6 (ECMAScript 2015) to write our application. There are many frameworks and libraries to build user interfaces. If we take [React JSX](https://reactjs.org/docs/add-react-to-a-website.html#optional-try-react-with-jsx) as an starting point, we basically [do this](/uilib/usage/first-steps/react):
 
-```jsx
+<ComponentBox>
+{`
 <Button text="Primary Button" />
-```
+`}
+</ComponentBox>
 
-and get this: <Button text="Primary Button" />
-
-You also may [import the styles](/uilib/usage/styling) on a higher lever in Your application:
+You also may [import the styles](/uilib/usage/customisation/styling) on a higher lever in Your application:
 
 ```js
 import 'dnb-ui-lib/style'
 ```
 
-And finally bind an [event listener](/uilib/usage/event-handling):
+And finally bind an [event listener](/uilib/usage/customisation/event-handling):
 
 ```jsx
 <Button text="Button" on_click={myClickHandler} />

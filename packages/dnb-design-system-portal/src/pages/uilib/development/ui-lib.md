@@ -1,5 +1,4 @@
 ---
-header: 'UI Library'
 title: 'NPM Library'
 draft: false
 order: 4

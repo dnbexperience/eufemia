@@ -1,5 +1,4 @@
 ---
-header: 'UI Library'
 title: 'Anchor'
 draft: false
 order: 2

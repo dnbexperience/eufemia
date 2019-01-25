@@ -4,18 +4,14 @@
  */
 
 import React, { Component } from 'react'
-// import PropTypes from 'prop-types'
 import { css, Global } from '@emotion/core'
 import styled from '@emotion/styled'
 import { FormLabel, Switch } from 'dnb-ui-lib/src'
-import gridSvg from '../../../static/assets/images/grid-32x32.svg'
+import { gridStyle } from '../parts/PortalStyle'
 
 const globalStyle = css`
   .dev-grid {
-    background-repeat: repeat;
-    background-attachment: fixed;
-    background-color: transparent;
-    background-image: url(${gridSvg});
+    ${gridStyle({ rgb: '220, 220, 220', a: 0.8 })}
 
     h1,
     h2,
@@ -33,10 +29,6 @@ const globalStyle = css`
       margin: 0 0 1rem 0;
       display: block;
     }
-  }
-
-  .grid-not-fixed {
-    background-attachment: local;
   }
 `
 

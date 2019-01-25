@@ -5,6 +5,8 @@ draft: true
 
 ## Please Contribute
 
-At a first glance the Library my look complete, finished and polished. But it's not. It's a living life library of font-end code and design principles we have to continuously work on, follow and make better.
+Eufemia is a living design system. It doesn't have a 'finished' state. Continuous improvement, removal and addition of content is important if it is to remain relevant as a resource for current and future DNB products and services.
+
+Your input, comments and discussions are all valuable.
 
 **So - please contribute.**

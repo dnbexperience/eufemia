@@ -273,12 +273,10 @@ exports[`Tabs scss have to match default theme snapshot 1`] = `
   border-bottom: 1px solid var(--color-mint-green); }
   @media screen and (max-width: 400px) {
     .dnb-tabs__tabs::after {
-      border-bottom-color: transparent; } }
-
-@media screen and (max-width: 400px) {
-  .dnb-tabs__tabs {
-    box-shadow: 0 0 0 1px var(--color-mint-green);
-    border-color: transparent; } }
+      top: 0;
+      bottom: auto;
+      height: 100%;
+      border-top: 1px solid var(--color-mint-green); } }
 
 .dnb-tabs__tabs .dnb-tablink-title {
   font-weight: var(--font-weight-book);

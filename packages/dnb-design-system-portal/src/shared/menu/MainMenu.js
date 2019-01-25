@@ -139,8 +139,10 @@ const Toolbar = styled.div`
 
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
+
+  padding-left: 2rem;
 
   width: 100%;
   height: 4em;
@@ -217,10 +219,10 @@ export default class MainMenu extends PureComponent {
                 variant="secondary"
                 class="main-menu__back dnb-always-focus"
                 on_click={this.closeMenuHandler}
-                icon="chevron-left"
+                icon="close"
                 icon_position="left"
-                text="BACK"
-                title="Hide Main Menu"
+                text="Close"
+                title="Close Main Menu"
                 innerRef={this._ref}
               />
             )}

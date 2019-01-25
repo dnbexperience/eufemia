@@ -1,5 +1,4 @@
 ---
-header: 'UI Library'
 title: 'Notification'
 draft: false
 status: wip

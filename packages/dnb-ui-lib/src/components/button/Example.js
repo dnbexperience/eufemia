@@ -51,7 +51,7 @@ class Example extends PureComponent {
           <Button
             text="Primary button with icon"
             title="This is a button title"
-            icon="chevron-right"
+            icon="chevron_right"
           />
         </div>
         <div className="example-box">
@@ -59,7 +59,7 @@ class Example extends PureComponent {
             text="Primary button with icon on left"
             title="This is a button title"
             icon_position="left"
-            icon="chevron-left"
+            icon="chevron_left"
           />
         </div>
         <div className="example-box">
@@ -68,7 +68,7 @@ class Example extends PureComponent {
             text="Tertiary button with icon on left"
             title="This is a button title"
             icon_position="left"
-            icon="chevron-left"
+            icon="chevron_left"
           />
         </div>
         <div className="example-box">
@@ -77,7 +77,7 @@ class Example extends PureComponent {
             text="Tertiary button with icon on left"
             title="This is a button title"
             icon_position="left"
-            icon="chevron-left"
+            icon="chevron_left"
             disabled
           />
         </div>
@@ -87,15 +87,26 @@ class Example extends PureComponent {
             href="?no-cache=1"
             title="This is a link"
             icon_position="right"
-            icon="chevron-right"
+            icon="chevron_right"
           />
         </div>
         <div className="example-box">
-          <Button title="Button with Icon only" icon={question} />
-          <p className="example-caption">Button with Icon only</p>
-        </div>
-        <div className="example-box">
+          <Button
+            title="Disabled Icon only Button"
+            icon="calendar"
+            disabled
+          />
           <Button title="Button with Icon only" icon="calendar" />
+          <Button
+            title="Default sized Button with medium Icon"
+            icon="calendar"
+            icon_size="medium"
+            size="default"
+          />
+          <Button
+            title="Button with custom, Secondary Icon only"
+            icon={question}
+          />
           <p className="example-caption">Button with Icon only</p>
         </div>
         <div className="example-box">

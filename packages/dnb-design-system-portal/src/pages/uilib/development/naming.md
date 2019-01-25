@@ -1,5 +1,4 @@
 ---
-header: 'UI Library'
 title: 'Naming conventions'
 draft: false
 order: 6
@@ -30,6 +29,7 @@ The DNB Design System Eufemia uses the following naming conventions.
 
 - CSS classes and the files containing the styles use **lisp case**.
 - CSS classes are prefixed with: `dnb-`
+- CSS `Custom Properties` (CSS Variables) use **lisp case**.
 
 ## Javascript
 
@@ -41,6 +41,12 @@ The DNB Design System Eufemia uses the following naming conventions.
 
 - Event names use **snake case**.
 - They have to describe what they are aiming to do. Like: `on_click`
+
+## Icons
+
+- Icon names use **snake case**.
+- They have to describe what they are aiming to meant for. Like: `chevron_right`
+- Sizes are added as a postfix. Like: `chevron_right_medium`
 
 ## Documentation
 

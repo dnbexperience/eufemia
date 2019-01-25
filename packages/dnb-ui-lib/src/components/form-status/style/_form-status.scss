@@ -54,6 +54,10 @@
   // &--error {
   // }
 
+  &[hidden] {
+    display: none;
+  }
+
   &--fade-in {
     @keyframes fade-in {
       from {

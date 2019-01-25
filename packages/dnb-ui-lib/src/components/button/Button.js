@@ -6,7 +6,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import Icon from '../icon/IconPrimary'
+import IconPrimary from '../icon-primary/IconPrimary'
 import {
   registerElement,
   validateDOMAttributes,
@@ -63,7 +63,7 @@ export const defaultProps = {
   title: null,
   icon: null,
   icon_position: 'right',
-  icon_size: null,
+  icon_size: 'default',
   href: null,
   id: null,
   class: null,
@@ -146,12 +146,13 @@ export default class Button extends PureComponent {
     let { variant, size } = props
 
     // if only has Icon, then resize it and define it as secondary
-    if (!text && icon) {
+    const isIconOnly = Boolean(!text && icon)
+    if (isIconOnly) {
       if (!variant) {
         variant = 'secondary'
       }
       if (!size) {
-        size = 'small'
+        size = 'medium'
       }
     } else if (text) {
       if (!variant) {
@@ -195,11 +196,19 @@ export default class Button extends PureComponent {
 
     return href ? (
       <a href={href} ref={this._ref} {...params}>
-        <Content {...this.props} content={content} />
+        <Content
+          {...this.props}
+          content={content}
+          isIconOnly={isIconOnly}
+        />
       </a>
     ) : (
       <button ref={this._ref} {...params}>
-        <Content {...this.props} content={content} />
+        <Content
+          {...this.props}
+          content={content}
+          isIconOnly={isIconOnly}
+        />
       </button>
     )
   }
@@ -215,17 +224,26 @@ class Content extends PureComponent {
       PropTypes.node,
       PropTypes.func
     ]),
-    icon_size: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+    icon_size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    isIconOnly: PropTypes.bool
   }
   static defaultProps = {
     text: null,
     title: null,
     content: null,
     icon: null,
-    icon_size: null
+    icon_size: 'default',
+    isIconOnly: null
   }
   render() {
-    const { text, title, content, icon, icon_size } = this.props
+    const {
+      text,
+      title,
+      content,
+      icon,
+      icon_size,
+      isIconOnly
+    } = this.props
 
     const ret = []
 
@@ -244,13 +262,13 @@ class Content extends PureComponent {
     if (icon) {
       const alt = title || text
       ret.push(
-        <Icon
+        <IconPrimary
           key="button-icon"
           className="dnb-button__icon"
           icon={icon}
           size={icon_size}
           alt={alt}
-          area_hidden={Boolean(alt)}
+          aria_hidden={isIconOnly ? false : Boolean(alt)}
         />
       )
     }

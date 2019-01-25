@@ -1,5 +1,6 @@
 /**
  * Component helpers
+ * This is kind of a "global" file. Both every component is imporint this, but also the main index file.
  *
  */
 
@@ -92,12 +93,23 @@ export const validateDOMAttributes = (props, params) => {
   }
 
   // make sure we don't return a render prop as a DOM attribute
-  if (props && params) {
-    for (let i in params) {
+  if (params && typeof params === 'object') {
+    for (const i in params) {
       if (
+        // is React
         typeof params[i] === 'function' &&
-        // only React Style props, like onClick
+        // only React Style props, like onClick are allowed
         !/(^[a-z]{1,}[A-Z]{1})/.test(i)
+      ) {
+        delete params[i]
+
+        // filter out invalid attrinutes
+      } else if (
+        // we dont want NULL values
+        params[i] === null ||
+        // we dont want
+        /[^a-z-]/i.test(i)
+        // (typeof params[i] !== 'string' && /[^a-z-]/i.test(i))
       ) {
         delete params[i]
       }

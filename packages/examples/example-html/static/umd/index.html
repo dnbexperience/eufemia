@@ -1,39 +1,64 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <title>HTML Example</title>
+    <link rel="stylesheet" href="./main.css" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/dnb-ui-lib@latest/style/dnb-ui-lib.min.css"
+    />
+  </head>
 
-<head>
-  <title>HTML Example</title>
-  <link rel="stylesheet" href="./main.css">
-  <link rel="stylesheet" href="https://unpkg.com/dnb-ui-lib@latest/style/dnb-ui-lib-IE11.min.css">
-</head>
+  <body class="dnb-style">
+    <h1>Web Component in HTML</h1>
 
-<body class="dnb-style">
-  <h1>Web Component in HTML</h1>
+    <dnb-button
+      text="Declarative"
+      icon="chevron_right"
+      on_click="myClass.on_click"
+    ></dnb-button>
+    <dnb-button
+      text="Imperative"
+      icon="chevron_right"
+      class="button"
+    ></dnb-button>
 
-  <dnb-button text="Declarative" icon="chevron-right" on_click="myClass.on_click"></dnb-button>
-  <dnb-button text="Imperative" icon="chevron-right" class="button"></dnb-button>
+    <dnb-icon-primary icon="bell" size="80"></dnb-icon-primary>
 
-  <dnb-icon-primary icon="bell" size="80"></dnb-icon-primary>
+    <dnb-form-label for_id="switch-1">Switch</dnb-form-label>
+    <dnb-switch id="switch-1" title="Switch title"></dnb-switch>
 
-  <dnb-form-label for_id="switch-1">Switch</dnb-form-label>
-  <dnb-switch id="switch-1" title="Switch title"></dnb-switch>
+    <br />
 
-  <br />
+    <dnb-form-label for_id="input-1">Input Imperative</dnb-form-label>
+    <dnb-input
+      id="input-1"
+      placeholder="Imperative Input placeholder"
+    ></dnb-input>
+    <dnb-form-label for_id="input-2">Input Declarative</dnb-form-label>
+    <dnb-input
+      id="input-2"
+      placeholder="Declarative Input placeholder"
+      on_change="myClass.value_change"
+    ></dnb-input>
 
-  <dnb-form-label for_id="input-1">Input Imperative</dnb-form-label>
-  <dnb-input id="input-1" placeholder="Imperative Input placeholder"></dnb-input>
-  <dnb-form-label for_id="input-2">Input Declarative</dnb-form-label>
-  <dnb-input id="input-2" placeholder="Declarative Input placeholder" on_change="myClass.value_change"></dnb-input>
+    <br />
 
-  <br />
+    <dnb-dropdown
+      class="dropdown"
+      data='[{"selected_value": "Visible value", "content": "Brukskonto - Kari Nordmann"},{"selected_value": "Second value", "content": "Konto - Ola Nordmann"}]'
+    ></dnb-dropdown>
 
-  <dnb-dropdown class="dropdown" data='[{"selected_value": "Visible value", "content": "Brukskonto - Kari Nordmann"},{"selected_value": "Second value", "content": "Konto - Ola Nordmann"}]'></dnb-dropdown>
-
-  <script crossorigin src="https://unpkg.com/react@latest/umd/react.production.min.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@latest/umd/react-dom.production.min.js"></script>
-  <script src="https://unpkg.com/dnb-ui-lib@latest/umd/dnb-ui-lib-icons.min.js"></script>
-  <script src="https://unpkg.com/dnb-ui-lib@latest/umd/dnb-ui-lib.min.js"></script>
-  <script src="../events.js"></script>
-</body>
-
+    <script
+      crossorigin
+      src="https://unpkg.com/react@latest/umd/react.production.min.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@latest/umd/react-dom.production.min.js"
+    ></script>
+    <script src="https://unpkg.com/dnb-ui-lib@latest/umd/dnb-ui-lib-icons.min.js"></script>
+    <script src="https://unpkg.com/dnb-ui-lib@latest/umd/dnb-ui-lib.min.js"></script>
+    <script src="../events.js"></script>
+  </body>
 </html>

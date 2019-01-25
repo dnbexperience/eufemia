@@ -1,18 +1,19 @@
 ---
-header: 'UI Library'
 title: 'Development'
 icon: 'development'
 draft: false
 ---
 
+import Github from 'Pages/uilib/development/assets/github.js'
+import { Icon } from 'dnb-ui-lib/src'
+
 # Development
 
 The `dnb-ui-lib` uses a [Node](https://nodejs.org) based setup with a lot of auto generated code to make the [React](https://reactjs.org) based components and patterns.
 
-## Why Yarn and not Lerna?
+## Repository
 
-The mono repo `dnb-design-system` uses [Yarn](https://yarnpkg.com/) (>= v1.10.1) to maintain the [workspace functionality](https://yarnpkg.com/en/docs/workspaces). Instead of using `npm link` or `yarn link`, we use packages. This simplifies the linking. and shared modules between [packages](https://docs.npmjs.com/getting-started/packages).
-Yarn offers a simpler approach to workspaces, but is way more powerful in managing dependencies.
+[<Icon icon={Github} size="16" /> Eufemia at GitHub](https://github.com/dnbexperience/eufemia)
 
 ## Install the repo locally on Your machine
 
@@ -35,3 +36,8 @@ $ yarn build
 # Optionally, run the portal locally in watch mode (http://localhost:8000)
 $ yarn start
 ```
+
+## Why Yarn and not Lerna?
+
+The mono repo `dnb-design-system` uses [Yarn](https://yarnpkg.com/) (>= v1.10.1) to maintain the [workspace functionality](https://yarnpkg.com/en/docs/workspaces). Instead of using `npm link` or `yarn link`, we use packages. This simplifies the linking. and shared modules between [packages](https://docs.npmjs.com/getting-started/packages).
+Yarn offers a simpler approach to workspaces, but is way more powerful in managing dependencies.

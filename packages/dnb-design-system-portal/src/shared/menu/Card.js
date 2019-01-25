@@ -65,7 +65,7 @@ const linkStyle = css`
   color: rgba(0, 0, 0, 0.75);
   text-decoration: none;
   text-align: center;
-  font-weight: 100;
+  font-weight: var(--font-weight-default);
 
   background-color: var(--color-white);
   transition: background-color 0.5s ease;
@@ -86,8 +86,6 @@ const Header = styled.h3`
 
   text-align: center;
   font-size: 1rem;
-  ${'' /* font-weight: 600; */}
-  ${'' /* font-family: Sindre is using either boor nor demi, he uses std normal  */}
   color: var(--color-black-80);
 `
 
@@ -161,7 +159,7 @@ export default class Card extends PureComponent {
           <BottomWrapper>
             <Button
               variant="tertiary"
-              icon="chevron-right"
+              icon="chevron_right"
               text="Read more"
               tabindex="-1"
             />

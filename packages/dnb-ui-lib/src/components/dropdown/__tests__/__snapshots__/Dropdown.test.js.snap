@@ -39,7 +39,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
     >
       <IconPrimary
         alt={null}
-        area_hidden={false}
+        aria_hidden={false}
         attributes={null}
         class={null}
         className={null}
@@ -49,6 +49,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
         icon_size="24"
         modifier={null}
         size={null}
+        title={null}
         width={null}
       />
       <span
@@ -324,6 +325,7 @@ exports[`Dropdown scss have to match snapshot 1`] = `
   display: inline;
   vertical-align: baseline;
   font-size: inherit;
+  line-height: 0;
   width: 1em;
   height: 1em; }
   .dnb-icon svg:not([fill]),
@@ -331,21 +333,25 @@ exports[`Dropdown scss have to match snapshot 1`] = `
     fill: currentColor; }
   .dnb-icon svg [stroke] {
     stroke: currentColor; }
-  .dnb-icon svg:not([width]):not([height]) {
+  .dnb-icon--small {
+    width: 0.75rem;
+    height: 0.75rem; }
+  .dnb-icon--default {
+    width: 1rem;
+    height: 1rem; }
+  .dnb-icon--medium {
+    width: 1.5rem;
+    height: 1.5rem; }
+  .dnb-icon--large {
+    width: 2rem;
+    height: 2rem; }
+  .dnb-icon--custom-size {
+    width: auto;
+    height: auto; }
+  .dnb-icon svg:not([width]):not([height]),
+  .dnb-icon img:not([width]):not([height]) {
     width: inherit;
     height: inherit; }
-  .dnb-icon--small {
-    width: 0.8em;
-    height: 0.8em; }
-  .dnb-icon--default {
-    width: 1em;
-    height: 1em; }
-  .dnb-icon--medium {
-    width: 1.5em;
-    height: 1.5em; }
-  .dnb-icon--large {
-    width: 2em;
-    height: 2em; }
 
 .dnb-button {
   font-family: sans-serif;
@@ -372,11 +378,14 @@ exports[`Dropdown scss have to match snapshot 1`] = `
 *
 */
 :root {
-  --button-font-size: 1rem;
+  --button-font-size: var(--font-size-default);
+  --button-font-size-small: var(--font-size-small);
   --button-width: 2.5rem;
   --button-height: 2.5rem;
-  --button-width--small: 2rem;
-  --button-height--small: 2rem;
+  --button-width--small: 1.5rem;
+  --button-height--small: 1.5rem;
+  --button-width--medium: 2rem;
+  --button-height--medium: 2rem;
   --button-width--large: 3rem;
   --button-height--large: 3rem;
   --button-icon-size: 1rem;
@@ -384,6 +393,7 @@ exports[`Dropdown scss have to match snapshot 1`] = `
   --button-border-width--hover: 3px;
   --button-border-radius: calc(var(--button-height) / 2);
   --button-border-radius--small: calc(var(--button-height--small) / 2);
+  --button-border-radius--medium: calc(var(--button-height--medium) / 2);
   --button-border-radius--large: calc(var(--button-height--large) / 2); }
 
 .dnb-button {
@@ -414,6 +424,8 @@ exports[`Dropdown scss have to match snapshot 1`] = `
   .dnb-button--size-small {
     width: var(--button-width--small);
     height: var(--button-height--small);
+    font-size: var(--button-font-size-small);
+    line-height: var(--button-font-size-small);
     border-radius: var(--button-border-radius--small); }
   .dnb-button--has-text.dnb-button--size-small {
     padding-left: 1em;
@@ -422,9 +434,22 @@ exports[`Dropdown scss have to match snapshot 1`] = `
     padding-left: 0.5em; }
   .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-small {
     padding-right: 0.5em; }
+  .dnb-button--size-medium {
+    width: var(--button-width--medium);
+    height: var(--button-height--medium);
+    line-height: var(--button-height--medium);
+    border-radius: var(--button-border-radius--medium); }
+  .dnb-button--has-text.dnb-button--size-medium {
+    padding-left: 1em;
+    padding-right: 1em; }
+  .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-medium {
+    padding-left: 0.5em; }
+  .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-medium {
+    padding-right: 0.5em; }
   .dnb-button--size-large {
     width: var(--button-width--large);
     height: var(--button-height--large);
+    line-height: var(--button-height--large);
     border-radius: var(--button-border-radius--large); }
   .dnb-button--has-text.dnb-button--size-large {
     padding-left: 2em;
@@ -466,7 +491,7 @@ exports[`Dropdown scss have to match snapshot 1`] = `
     color: inherit;
     font: inherit;
     text-align: inherit;
-    line-height: 0; }
+    line-height: inherit; }
     .no-touch .dnb-button--reset:hover[disabled] {
       cursor: not-allowed; }
     .no-touch .dnb-button--reset:hover:not([disabled]) {

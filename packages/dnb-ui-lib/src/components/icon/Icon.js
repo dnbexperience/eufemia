@@ -15,11 +15,13 @@ import {
 
 export const DefaultIconSize = 16
 export const DefaultIconSizes = {
+  // small: 8,
   default: 16,
   medium: 24
   // large: 32 // currently not in use
 }
 export const ListDefaultIconSizes = Object.entries(DefaultIconSizes)
+export const ValidIconSizes = ['small', 'default', 'medium', 'large']
 
 export const propTypes = {
   icon: PropTypes.oneOfType([
@@ -36,7 +38,8 @@ export const propTypes = {
   height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   color: PropTypes.string,
   alt: PropTypes.string,
-  area_hidden: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+  title: PropTypes.string,
+  aria_hidden: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   class: PropTypes.string,
   // React props
@@ -56,7 +59,8 @@ export const defaultProps = {
   height: null,
   color: null,
   alt: null,
-  area_hidden: false,
+  title: null,
+  aria_hidden: false,
   attributes: null,
   class: null,
   // React props
@@ -87,33 +91,31 @@ export default class Icon extends PureComponent {
     return processChildren(props)
   }
 
-  static prerender(props) {
-    const icon = Icon.getIcon(props)
-
-    const {
-      color,
-      modifier,
-      size,
-      height,
-      width,
-      class: _className,
-      className,
-      area_hidden
-    } = props
-
-    let { alt } = props
-    let sizeAsInt = -1
-    let sizeAsString = null
-
-    // get the icon name - we use is for several things
+  static getIconNameFromComponent(props) {
     const name =
       typeof props.icon === 'string'
         ? props.icon
-        : props.icon.displayName || props.icon.name
+        : props.icon &&
+          typeof props.icon === 'object' &&
+          (props.icon.displayName || props.icon.name)
+    if (/^data:image\//.test(name)) {
+      return null
+    }
+    return name
+  }
+
+  static calcSize(props) {
+    const { size, height, width } = props
+
+    let sizeAsInt = -1
+    let sizeAsString = null
 
     // if there is no size, check if we can find the actuall size in the name
     if (!size || size === DefaultIconSize) {
-      const nameParts = (name || '').split('_')
+      // get the icon name - we use is for several things
+      const name = Icon.getIconNameFromComponent(props)
+
+      const nameParts = String(name || '').split('_')
       if (nameParts.length > 1) {
         const lastPartOfIconName = nameParts.reverse()[0]
         const potentialSize = ListDefaultIconSizes.filter(
@@ -135,11 +137,27 @@ export default class Icon extends PureComponent {
         ([key]) => key === size
       ).reduce((acc, [key, value]) => {
         return key && value
-      }, null)
+      }, -1)
 
       // of if the size is a default size defined as a string
-      if (ListDefaultIconSizes.includes(([key]) => key === size)) {
+      if (ValidIconSizes.includes(size)) {
         sizeAsString = size
+      }
+    }
+
+    // check if the size is given as a number, and if is a default size
+    else if (parseFloat(size) > 0) {
+      sizeAsInt = ListDefaultIconSizes.filter(
+        ([key, value]) => key && value === parseFloat(size)
+      ).reduce((acc, [key, value]) => {
+        if (key && value) return value
+        return acc
+      }, -1)
+
+      // has custom size
+      if (sizeAsInt === -1) {
+        sizeAsInt = parseFloat(size)
+        sizeAsString = 'custom-size'
       }
     }
 
@@ -160,51 +178,99 @@ export default class Icon extends PureComponent {
       }
     }
 
+    const prepareSvgParams = () => {
+      const svgParams = {}
+
+      if (!sizeAsString && !(sizeAsInt > 0) && parseFloat(size) > -1) {
+        svgParams.width = svgParams.height = parseFloat(size)
+      } else if (sizeAsString === 'custom-size') {
+        svgParams.width = svgParams.height = parseFloat(sizeAsInt)
+      }
+      if (parseFloat(width) > -1) {
+        sizeAsString = 'custom-size'
+        svgParams.width = parseFloat(width)
+      }
+      if (parseFloat(height) > -1) {
+        sizeAsString = 'custom-size'
+        svgParams.height = parseFloat(height)
+      }
+
+      // and the sizeAsString is not a default size
+      const sizeIsValid = ValidIconSizes.includes(sizeAsString)
+
+      // if the size is default, remove the widht/height
+      // but if the browser is IE11 - do not remove theese attributes
+      if (!isIE11 && sizeIsValid) {
+        svgParams.width = null
+        svgParams.height = null
+      }
+      if (isIE11 && sizeAsInt > 0) {
+        svgParams.width = svgParams.height = sizeAsInt
+      }
+
+      validateDOMAttributes({}, svgParams)
+
+      return svgParams
+    }
+
     // define all the svg parameters
-    const svgParams = {}
+    const svgParams = prepareSvgParams()
 
-    if (!sizeAsString && !(sizeAsInt > 0) && parseFloat(size) > -1) {
-      svgParams.width = svgParams.height = parseFloat(size)
-    }
-    if (parseFloat(width) > -1) {
-      svgParams.width = parseFloat(width)
-    }
-    if (parseFloat(height) > -1) {
-      svgParams.height = parseFloat(height)
+    if (!sizeAsString) {
+      sizeAsString = 'default'
     }
 
-    // and the sizeAsInt is not a default size
-    const sizeAsIntIsValidDefault =
-      sizeAsInt > 0 &&
-      ListDefaultIconSizes.includes(
-        ([key, value]) => key && value === sizeAsInt
-      )
+    return {
+      svgParams,
+      sizeAsInt,
+      sizeAsString
+    }
+  }
 
-    // if the size is default, remove the widht/height
-    // but if the browser is IE11 - do not remove theese attributes
-    if (!isIE11 && sizeAsIntIsValidDefault) {
-      svgParams.width = null
-      svgParams.height = null
-    }
-    if (isIE11 && sizeAsInt > 0) {
-      svgParams.width = svgParams.height = sizeAsInt
-    }
+  static prerender(props) {
+    const {
+      icon,
+      size,
+      color,
+      modifier,
+      alt: _alt,
+      title,
+      class: _className,
+      className,
+      aria_hidden,
+      ...attributes
+    } = props
+
+    const { sizeAsString, svgParams } = Icon.calcSize({
+      icon, // because to have a clean "attributes"
+      size, // because to have a clean "attributes"
+      ...props
+    })
 
     if (color) {
       svgParams.color = color
     }
 
+    // get the alt
+    let alt = _alt || title
+
+    if (!(alt && alt.length > 0)) {
+      alt = Icon.getIconNameFromComponent(props)
+      alt = alt ? String(alt).replace(/_/g, ' ') : null
+    }
+
     // some wrapper params
     // also used for code markup simulation
     const wrapperParams = validateDOMAttributes(props, {
-      role: 'img'
+      role: 'img',
+      // because we use aria-label, we do not provide an alt as well
+      // alt,
+      ['aria-label']: alt,
+      ['aria-hidden']: aria_hidden ? 'true' : null,
+      title,
+      ...attributes
     })
-    // get the alt
-    wrapperParams['aria-label'] = (alt || name).replace(/_/g, ' ')
-    if (area_hidden) {
-      // wrapperParams['role'] = 'presentation' // almost the same as aria-hidden
-      wrapperParams['aria-hidden'] = area_hidden
-    }
+
     wrapperParams.className = classnames(
       'dnb-icon',
       modifier ? `dnb-icon--${modifier}` : null,
@@ -215,31 +281,41 @@ export default class Icon extends PureComponent {
 
     return {
       ...props,
-      icon,
+      icon: Icon.getIcon(props),
+      alt,
       svgParams,
       wrapperParams
     }
   }
 
   render() {
-    const { icon, size, wrapperParams, svgParams } = Icon.prerender(
+    const { icon, size, wrapperParams, svgParams, alt } = Icon.prerender(
       this.props
     )
 
-    const Svg = loadSVG(icon, size)
+    const IconContainer = prepareIcon({ icon, size, alt })
 
     // make sure we return an empty span if we dont could get the icon
-    if (!Svg) return <span />
+    if (!IconContainer) return <></>
 
     return (
       <span {...wrapperParams}>
-        <Svg {...svgParams} />
+        <IconContainer {...svgParams} />
       </span>
     )
   }
 }
 
-export const loadSVG = (icon, size = null, listOfIcons = null) => {
+export const prepareIcon = ({
+  icon,
+  size = null,
+  listOfIcons = null,
+  alt = null
+} = {}) => {
+  if (typeof icon === 'string' && /^data:image\//.test(icon)) {
+    return () => <img src={icon} alt={alt || 'no-alt'} />
+  }
+
   if (typeof icon === 'function') {
     const elem = icon()
     if (React.isValidElement(elem)) {

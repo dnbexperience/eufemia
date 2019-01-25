@@ -1,5 +1,4 @@
 ---
-header: 'Brand'
 title: 'third'
 # order: 3
 draft: true

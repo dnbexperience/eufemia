@@ -27,8 +27,10 @@ export const propTypes = {
   ]),
   icon_size: PropTypes.string,
   status: PropTypes.oneOf(['error', 'info']),
+  hidden: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   class: PropTypes.string,
   animation: PropTypes.string,
+
   /** React props */
   className: PropTypes.string,
   children: PropTypes.oneOfType([
@@ -36,6 +38,7 @@ export const propTypes = {
     PropTypes.func,
     PropTypes.node
   ]),
+
   // Web Component props
   render_content: PropTypes.func
 }
@@ -46,11 +49,14 @@ export const defaultProps = {
   icon: 'exclamation',
   icon_size: 'default',
   status: 'error',
+  hidden: false,
   class: null,
   animation: null, // could be 'fade-in'
+
   /** React props */
   className: null,
   children: null,
+
   // Web Component props
   ...renderProps
 }
@@ -94,6 +100,7 @@ export default class FormStatus extends PureComponent {
     const {
       title,
       status,
+      hidden,
       className,
       animation,
       class: _className
@@ -101,16 +108,27 @@ export default class FormStatus extends PureComponent {
 
     const iconToRender = FormStatus.getIcon(this.props)
     const contentToRender = FormStatus.getContent(this.props)
+    const hasStringContent =
+      typeof contentToRender === 'string' && contentToRender.length > 0
 
     const params = {
+      hidden,
       className: classnames(
         'dnb-form-status',
         `dnb-form-status--${status}`,
         animation ? `dnb-form-status--${animation}` : null,
+        hasStringContent ? 'dnb-form-status--has-content' : null,
         className,
         _className
       ),
       title
+    }
+
+    if (hidden) {
+      params['aria-hidden'] = hidden
+    } else if (hasStringContent) {
+      // in case we send in a React component, witchs has its own state, then we dont want to have aria-live all the time active
+      params['aria-live'] = 'assertive'
     }
 
     // also used for code markup simulation

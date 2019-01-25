@@ -43,9 +43,6 @@ const Sidebar = styled.aside`
     overscroll-behavior: contain;
   }
 
-  ${'' /* .heading {
-  } */}
-
   /*
     God for a mobile menu insted
     make sure that Content main "styled.main" gets the same max-width
@@ -68,6 +65,7 @@ const Sidebar = styled.aside`
 
 const StyledListItem = styled.li`
   list-style: none;
+  margin: 0;
 
   a {
     position: relative;
@@ -92,7 +90,8 @@ const StyledListItem = styled.li`
   }
 
   --level: 2vw;
-  --level-offset: 2.5vw;
+  --level-offset: 3vw;
+  --level-icon-adjust: -2.5rem;
 
   @media only screen and (max-width: 50rem) {
     --level: 1.3rem;
@@ -100,8 +99,19 @@ const StyledListItem = styled.li`
   }
 
   &.l-1 a {
-    padding-left: calc(var(--level-offset) + var(--level) * 2);
+    padding-left: calc(
+      var(--level-offset) + var(--level) * 2 + var(--level-icon-adjust)
+    ); /* minus */
     height: 4rem;
+    color: var(--color-ocean-green);
+    font-weight: var(--font-weight-demi);
+    font-size: var(--font-size-medium);
+
+    ${'Icons are not used in here for now' /* .dnb-icon {
+      margin-right: 1rem;
+      margin-left: -2.5rem;
+      color: var(--color-black-80);
+    } */}
   }
   &.l-2 {
     a {
@@ -110,13 +120,13 @@ const StyledListItem = styled.li`
 
       .dnb-icon {
         margin-right: 1rem;
-        margin-left: -2.5rem;
+        margin-left: var(--level-icon-adjust);
         color: var(--color-black-80);
       }
     }
     &.is-inside {
       background-color: var(--color-mint-green-12);
-      font-weight: 500;
+      font-weight: var(--font-weight-demi);
     }
   }
 
@@ -127,7 +137,7 @@ const StyledListItem = styled.li`
     }
     &.is-inside {
       background-color: var(--color-sea-green-alt-30);
-      font-weight: 500;
+      font-weight: var(--font-weight-demi);
     }
   }
 
@@ -210,7 +220,7 @@ const StyledListItem = styled.li`
 
     font-size: 7px; /* safari handles rem value incorrectly */
     line-height: 1.3125rem; /* same as height + 1px */
-    font-weight: 100;
+    font-weight: var(--font-weight-default);
     text-align: center;
     text-transform: uppercase;
     color: var(--color-black);
@@ -300,7 +310,6 @@ export default class SidebarLayout extends PureComponent {
                 node {
                   fields {
                     slug
-                    header
                     title
                     menuTitle
                     order
@@ -313,7 +322,6 @@ export default class SidebarLayout extends PureComponent {
           }
         `}
         render={({ allMdx, site: { pathPrefix } }) => {
-          let headerTitle = null
           const pathnameWithoutPrefix = location.pathname
             .replace(/(\/)$/, '')
             .replace(pathPrefix, '')
@@ -355,7 +363,6 @@ export default class SidebarLayout extends PureComponent {
             .map(
               (
                 {
-                  header,
                   title,
                   menuTitle,
                   status,
@@ -367,10 +374,6 @@ export default class SidebarLayout extends PureComponent {
                 },
                 nr
               ) => {
-                if (active && !headerTitle) {
-                  headerTitle = header
-                }
-
                 const props = {
                   level,
                   nr,
@@ -378,7 +381,7 @@ export default class SidebarLayout extends PureComponent {
                   icon,
                   active,
                   inside,
-                  to: `/${path}`,
+                  to: path,
                   onOffsetTop: offsetTop => (this.offsetTop = offsetTop)
                 }
 
@@ -404,19 +407,11 @@ export default class SidebarLayout extends PureComponent {
                   <>
                     <Sidebar
                       className={classnames(
-                        'dnb-style-selection',
                         isOpen && 'show-mobile-menu',
                         isClosing && 'hide-mobile-menu'
                       )}
                     >
-                      <ul ref={this.ulRef}>
-                        {headerTitle && false && (
-                          <StyledListItem className="heading">
-                            {headerTitle}
-                          </StyledListItem>
-                        )}
-                        {nav}
-                      </ul>
+                      <ul ref={this.ulRef}>{nav}</ul>
                     </Sidebar>
                   </>
                 )}
@@ -500,7 +495,7 @@ class ListItem extends PureComponent {
         >
           <span>
             {icon && graphics[icon] && (
-              <Icon icon={graphics[icon]} size="medium" />
+              <Icon icon={graphics[icon]} size="medium" aria_hidden />
             )}
             {children}
           </span>

@@ -10,11 +10,11 @@
     &::after {
       border-bottom: 1px solid var(--color-mint-green);
       @include allBelow(small) {
-        border-bottom-color: transparent;
+        top: 0;
+        bottom: auto;
+        height: 100%;
+        border-top: 1px solid var(--color-mint-green);
       }
-    }
-    @include allBelow(small) {
-      @include fakeBorder(var(--color-mint-green), 1px);
     }
 
     .dnb-tablink {

@@ -1,5 +1,4 @@
 ---
-header: 'UI Library'
 title: 'Form'
 draft: false
 status: wip

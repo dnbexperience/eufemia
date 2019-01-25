@@ -1,5 +1,4 @@
 ---
-header: 'Principles'
 title: 'Principles & Values'
 draft: false
 ---

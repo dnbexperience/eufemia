@@ -1,5 +1,4 @@
 ---
-header: 'UI Library'
 title: 'Dropdown'
 draft: false
 status: wip

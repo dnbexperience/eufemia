@@ -112,11 +112,11 @@ exports.onCreateNode = ({ node, getNode, actions }) => {
       value: node.frontmatter.menuTitle
     })
 
-    createNodeField({
-      name: 'header',
-      node,
-      value: node.frontmatter.header
-    })
+    // createNodeField({
+    //   name: 'header',
+    //   node,
+    //   value: node.frontmatter.header
+    // })
 
     createNodeField({
       name: 'order',

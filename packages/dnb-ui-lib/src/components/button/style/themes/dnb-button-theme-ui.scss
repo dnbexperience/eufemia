@@ -6,6 +6,12 @@
 @import '../../../../style/themes/imports.scss';
 @import '../_button-mixins.scss';
 
+.dnb-button {
+  &--secondary:not([disabled]):not(.dnb-button--has-text) &__icon {
+    color: var(--color-emerald-green);
+  }
+}
+
 .dnb-button--primary {
   color: var(--color-white);
   background-color: var(--color-sea-green-alt);
@@ -47,7 +53,7 @@
   &.dnb-button--has-text {
     padding-left: 0.5em;
     padding-right: 0.5em;
-    .dnb-button__icon {
+    &:not([disabled]) .dnb-button__icon {
       margin: 0 0.5em;
     }
     &.dnb-button--icon-position-left .dnb-button__icon {

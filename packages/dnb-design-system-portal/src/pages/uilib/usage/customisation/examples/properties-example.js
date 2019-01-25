@@ -36,7 +36,7 @@ export default class MyClass extends PureComponent {
       <Fragment>
         {children}
         <dnb-form-label for_id="form-input">
-          Web Component Property updating
+          Web Component property updates
         </dnb-form-label>
         <dnb-input id="form-input" value={this.state.time} disabled />
       </Fragment>

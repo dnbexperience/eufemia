@@ -1,5 +1,4 @@
 ---
-header: 'UI Library'
 title: 'Grid'
 draft: false
 status: dep

@@ -8,7 +8,7 @@ import PropTypes from 'prop-types'
 import styled from '@emotion/styled'
 
 const Wrapper = styled.div`
-  padding: 3rem 0 0;
+  margin-bottom: 3rem;
 `
 
 const FontUsageExample = ({ typo_class, font_family }) => (

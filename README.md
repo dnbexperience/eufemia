@@ -23,4 +23,4 @@ Install [Node](https://nodejs.org) and [Yarn](https://yarnpkg.com).
 
 ## Releases
 
-The CI will handle new releases once new changes gets merged into the `origin/release` branch. Mainly though a Pull Request.
+The CI will handle new releases once the changes (by a Pull Request) gets merged from `origin/develop` into the `origin/release` branch.

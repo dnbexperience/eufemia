@@ -3,7 +3,7 @@
 exports[`IconPrimary component have to match snapshot 1`] = `
 <IconPrimary
   alt={null}
-  area_hidden={false}
+  aria_hidden={false}
   attributes={null}
   class={null}
   className={null}
@@ -12,6 +12,7 @@ exports[`IconPrimary component have to match snapshot 1`] = `
   icon="question"
   modifier={null}
   size={null}
+  title={null}
   width={null}
 >
   <span

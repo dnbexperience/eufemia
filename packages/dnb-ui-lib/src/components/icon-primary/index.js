@@ -3,6 +3,6 @@
  *
  */
 
-import IconPrimary from '../icon/IconPrimary'
+import IconPrimary from './IconPrimary'
 export default IconPrimary
-export * from '../icon/IconPrimary'
+export * from './IconPrimary'

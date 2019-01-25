@@ -1,5 +1,4 @@
 ---
-header: 'UI Library'
 title: 'Helper Classes'
 icon: 'helper_classes'
 status: 'dep'

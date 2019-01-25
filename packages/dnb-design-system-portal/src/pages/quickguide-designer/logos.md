@@ -1,5 +1,4 @@
 ---
-header: 'Quickguide Designers - Logos'
 title: 'Logos'
 draft: false
 ---

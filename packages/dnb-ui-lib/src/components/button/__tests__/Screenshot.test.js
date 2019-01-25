@@ -38,7 +38,7 @@ describe.skip('Button screenshot', () => {
 
     -> Syntax
     <div className="button-wrapper">
-      <Button text="Next" variant="secondary" icon="chevron-right" />
+      <Button text="Next" variant="secondary" icon="chevron_right" />
     </div>
 
     -> Styling

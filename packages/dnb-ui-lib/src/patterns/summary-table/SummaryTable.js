@@ -115,7 +115,7 @@ export default class SummaryTable extends PureComponent {
                       title={prev_title}
                       variant="secondary"
                       icon_position="left"
-                      icon="chevron-left"
+                      icon="chevron_left"
                       href={prev_href}
                     />
                   </div>
@@ -127,7 +127,7 @@ export default class SummaryTable extends PureComponent {
                       text={next_text}
                       title={next_title}
                       variant="primary"
-                      icon="chevron-right"
+                      icon="chevron_right"
                       href={next_href}
                     />
                   </div>

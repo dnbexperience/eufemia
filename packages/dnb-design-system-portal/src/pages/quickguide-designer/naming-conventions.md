@@ -1,5 +1,4 @@
 ---
-header: 'Quickguide Designers - Naming conventions'
 title: 'Naming Conventions'
 draft: false
 ---

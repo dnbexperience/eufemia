@@ -1,5 +1,4 @@
 ---
-header: 'Brand'
 title: 'Brand'
 ---
 

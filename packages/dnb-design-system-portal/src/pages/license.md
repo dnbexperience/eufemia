@@ -1,5 +1,4 @@
 ---
-# header: 'License'
 title: 'License'
 ---
 

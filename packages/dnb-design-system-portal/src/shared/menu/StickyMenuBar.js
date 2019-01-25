@@ -9,9 +9,16 @@ import { StaticQuery, graphql } from 'gatsby'
 import { css } from '@emotion/core'
 // import Head from 'react-helmet'
 import MainMenu from './MainMenu'
-import { hamburger_medium as hamburgerIcon } from 'dnb-ui-lib/src/icons/secondary_icons_medium'
-import { close_medium as closeIcon } from 'dnb-ui-lib/src/icons/primary_icons_medium'
-import { Logo, Button, IconPrimary } from 'dnb-ui-lib/src'
+import { ToggleMenu } from './MainMenuGraphics'
+import { hamburger as hamburgerIcon } from 'dnb-ui-lib/src/icons/secondary_icons'
+import { close as closeIcon } from 'dnb-ui-lib/src/icons/primary_icons'
+import PortalLogo from './graphics/logo'
+import {
+  // Logo,
+  Icon,
+  Button,
+  IconPrimary
+} from 'dnb-ui-lib/src'
 import { SidebarMenuConsumer } from './SidebarMenuContext'
 import ToggleGrid from './ToggleGrid'
 
@@ -21,13 +28,11 @@ export default class StickyMenuBar extends PureComponent {
     showOverlayMenu: false
   }
   static propTypes = {
-    // header: PropTypes.string,/* not used anymore up there */
     onToggleMenu: PropTypes.func,
     hideSiebarToggleButton: PropTypes.bool,
     preventBarVisibility: PropTypes.bool
   }
   static defaultProps = {
-    // header: null,/* not used anymore up there */
     onToggleMenu: null,
     hideSiebarToggleButton: false,
     preventBarVisibility: false
@@ -43,11 +48,7 @@ export default class StickyMenuBar extends PureComponent {
     })
   }
   render() {
-    const {
-      // header,/* not used anymore up there */
-      hideSiebarToggleButton,
-      preventBarVisibility
-    } = this.props
+    const { hideSiebarToggleButton, preventBarVisibility } = this.props
     if (preventBarVisibility) {
       return <span />
     }
@@ -82,24 +83,30 @@ export default class StickyMenuBar extends PureComponent {
                     barStyle,
                     hideSiebarToggleButton && hideSiebarToggleButtonStyle
                   ]}
-                  className="sticky-menu dnb-style-selection"
+                  className="sticky-menu"
                 >
                   <div
                     className={`sticky-inner ${
                       this.state.showGrid ? 'dev-grid' : ''
                     }`}
                   >
-                    <span>{/* only for flex spacing layout */}</span>
                     <Button
-                      className="menu-bar-logo dnb-button--reset"
+                      title="Show main sections"
+                      className="menu-bar-wrapper dnb-button--reset"
                       on_click={this.toggleMenuHandler}
                     >
-                      <Logo height={48} />
-                      {slogan}
-                      <IconPrimary icon="chevron-down" size="small" />
+                      <Icon icon={ToggleMenu} size={24} aria_hidden />
+                      <span className="dnb-button__text">Menu</span>
+                      <IconPrimary
+                        icon="chevron_down"
+                        size="small"
+                        aria_hidden
+                      />
                     </Button>
-                    {/* {header && <span className="heading">{header}</span>} not used anymore up there */}
-
+                    <span className="menu-bar-wrapper">
+                      <Icon icon={PortalLogo} size={48} aria_hidden />
+                      {slogan}
+                    </span>
                     <span>
                       <SidebarMenuConsumer>
                         {({ toggleMenu, isOpen }) => (
@@ -107,7 +114,6 @@ export default class StickyMenuBar extends PureComponent {
                             icon={isOpen ? closeIcon : hamburgerIcon}
                             on_click={toggleMenu}
                             className="toggle-sidebar-menu"
-                            variant="tertiary"
                             title={isOpen ? 'Hide Menu' : 'Show Menu'}
                           />
                         )}
@@ -154,20 +160,23 @@ const barStyle = css`
     align-items: center;
   }
 
-  .menu-bar-logo {
-    margin-left: 5vw;
-    color: var(--color-sea-green);
-    .dnb-logo {
-      margin-right: 1rem;
+  .menu-bar-wrapper {
+    .dnb-icon:nth-of-type(1) {
+      color: var(--color-sea-green);
+      margin-right: 0.5rem;
     }
-    .dnb-icon {
-      margin-left: 3px;
+    .dnb-icon.dnb-icon--small {
+      margin-left: 0.5rem;
+    }
+    .dnb-button__text {
+      color: var(--color-sea-green);
     }
   }
-  .menu-bar-logo:hover {
-    &,
-    & .dnb-logo {
-      color: var(--color-black-80);
+  .menu-bar-wrapper.dnb-button:hover {
+    color: var(--color-black);
+    .dnb-button__text,
+    .dnb-icon {
+      color: inherit;
     }
   }
 
@@ -181,15 +190,9 @@ const barStyle = css`
    */
   @media only screen and (max-width: 50em) {
     .toggle-sidebar-menu {
-      display: inline;
+      display: flex;
     }
   }
-
-  ${'' /* not used anymore up there .heading {
-    font-size: 1.5em;
-    font-weight: 200;
-    text-align: center;
-  } */}
 `
 
 const hideSiebarToggleButtonStyle = css`

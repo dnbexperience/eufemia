@@ -44,6 +44,7 @@ exports[`Button component have to match default button snapshot 1`] = `
       icon_size="icon_size"
       id="id"
       innerRef={Object {}}
+      isIconOnly={false}
       on_click="on_click"
       size={null}
       text="text"
@@ -60,7 +61,7 @@ exports[`Button component have to match default button snapshot 1`] = `
       </span>
       <IconPrimary
         alt="This is a button title"
-        area_hidden={true}
+        aria_hidden={true}
         attributes={null}
         class={null}
         className="dnb-button__icon"
@@ -70,12 +71,13 @@ exports[`Button component have to match default button snapshot 1`] = `
         key="button-icon"
         modifier={null}
         size="icon_size"
+        title={null}
         width={null}
       >
         <span
-          aria-hidden={true}
+          aria-hidden="true"
           aria-label="This is a button title"
-          className="dnb-icon dnb-button__icon"
+          className="dnb-icon dnb-icon--default dnb-button__icon"
           role="img"
         >
           <question>
@@ -143,6 +145,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
       icon_size="icon_size"
       id="id"
       innerRef={Object {}}
+      isIconOnly={false}
       on_click="on_click"
       size={null}
       text="text"
@@ -159,7 +162,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
       </span>
       <IconPrimary
         alt="This is a button title"
-        area_hidden={true}
+        aria_hidden={true}
         attributes={null}
         class={null}
         className="dnb-button__icon"
@@ -169,12 +172,13 @@ exports[`Button component have to match href="..." snapshot 1`] = `
         key="button-icon"
         modifier={null}
         size="icon_size"
+        title={null}
         width={null}
       >
         <span
-          aria-hidden={true}
+          aria-hidden="true"
           aria-label="This is a button title"
-          className="dnb-icon dnb-button__icon"
+          className="dnb-icon dnb-icon--default dnb-button__icon"
           role="img"
         >
           <question>
@@ -277,6 +281,9 @@ exports[`Button scss have to match default theme snapshot 1`] = `
 * Button mixins
 *
 */
+.dnb-button--secondary:not([disabled]):not(.dnb-button--has-text) .dnb-button__icon {
+  color: var(--color-emerald-green); }
+
 .dnb-button--primary {
   color: var(--color-white);
   background-color: var(--color-sea-green-alt);
@@ -339,7 +346,7 @@ exports[`Button scss have to match default theme snapshot 1`] = `
   .dnb-button--tertiary.dnb-button--has-text {
     padding-left: 0.5em;
     padding-right: 0.5em; }
-    .dnb-button--tertiary.dnb-button--has-text .dnb-button__icon {
+    .dnb-button--tertiary.dnb-button--has-text:not([disabled]) .dnb-button__icon {
       margin: 0 0.5em; }
     .dnb-button--tertiary.dnb-button--has-text.dnb-button--icon-position-left .dnb-button__icon {
       margin-left: 0; }
@@ -546,6 +553,7 @@ exports[`Button scss have to match snapshot 1`] = `
   display: inline;
   vertical-align: baseline;
   font-size: inherit;
+  line-height: 0;
   width: 1em;
   height: 1em; }
   .dnb-icon svg:not([fill]),
@@ -553,21 +561,25 @@ exports[`Button scss have to match snapshot 1`] = `
     fill: currentColor; }
   .dnb-icon svg [stroke] {
     stroke: currentColor; }
-  .dnb-icon svg:not([width]):not([height]) {
+  .dnb-icon--small {
+    width: 0.75rem;
+    height: 0.75rem; }
+  .dnb-icon--default {
+    width: 1rem;
+    height: 1rem; }
+  .dnb-icon--medium {
+    width: 1.5rem;
+    height: 1.5rem; }
+  .dnb-icon--large {
+    width: 2rem;
+    height: 2rem; }
+  .dnb-icon--custom-size {
+    width: auto;
+    height: auto; }
+  .dnb-icon svg:not([width]):not([height]),
+  .dnb-icon img:not([width]):not([height]) {
     width: inherit;
     height: inherit; }
-  .dnb-icon--small {
-    width: 0.8em;
-    height: 0.8em; }
-  .dnb-icon--default {
-    width: 1em;
-    height: 1em; }
-  .dnb-icon--medium {
-    width: 1.5em;
-    height: 1.5em; }
-  .dnb-icon--large {
-    width: 2em;
-    height: 2em; }
 
 .dnb-button {
   font-family: sans-serif;
@@ -594,11 +606,14 @@ exports[`Button scss have to match snapshot 1`] = `
 *
 */
 :root {
-  --button-font-size: 1rem;
+  --button-font-size: var(--font-size-default);
+  --button-font-size-small: var(--font-size-small);
   --button-width: 2.5rem;
   --button-height: 2.5rem;
-  --button-width--small: 2rem;
-  --button-height--small: 2rem;
+  --button-width--small: 1.5rem;
+  --button-height--small: 1.5rem;
+  --button-width--medium: 2rem;
+  --button-height--medium: 2rem;
   --button-width--large: 3rem;
   --button-height--large: 3rem;
   --button-icon-size: 1rem;
@@ -606,6 +621,7 @@ exports[`Button scss have to match snapshot 1`] = `
   --button-border-width--hover: 3px;
   --button-border-radius: calc(var(--button-height) / 2);
   --button-border-radius--small: calc(var(--button-height--small) / 2);
+  --button-border-radius--medium: calc(var(--button-height--medium) / 2);
   --button-border-radius--large: calc(var(--button-height--large) / 2); }
 
 .dnb-button {
@@ -636,6 +652,8 @@ exports[`Button scss have to match snapshot 1`] = `
   .dnb-button--size-small {
     width: var(--button-width--small);
     height: var(--button-height--small);
+    font-size: var(--button-font-size-small);
+    line-height: var(--button-font-size-small);
     border-radius: var(--button-border-radius--small); }
   .dnb-button--has-text.dnb-button--size-small {
     padding-left: 1em;
@@ -644,9 +662,22 @@ exports[`Button scss have to match snapshot 1`] = `
     padding-left: 0.5em; }
   .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-small {
     padding-right: 0.5em; }
+  .dnb-button--size-medium {
+    width: var(--button-width--medium);
+    height: var(--button-height--medium);
+    line-height: var(--button-height--medium);
+    border-radius: var(--button-border-radius--medium); }
+  .dnb-button--has-text.dnb-button--size-medium {
+    padding-left: 1em;
+    padding-right: 1em; }
+  .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-medium {
+    padding-left: 0.5em; }
+  .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-medium {
+    padding-right: 0.5em; }
   .dnb-button--size-large {
     width: var(--button-width--large);
     height: var(--button-height--large);
+    line-height: var(--button-height--large);
     border-radius: var(--button-border-radius--large); }
   .dnb-button--has-text.dnb-button--size-large {
     padding-left: 2em;
@@ -688,7 +719,7 @@ exports[`Button scss have to match snapshot 1`] = `
     color: inherit;
     font: inherit;
     text-align: inherit;
-    line-height: 0; }
+    line-height: inherit; }
     .no-touch .dnb-button--reset:hover[disabled] {
       cursor: not-allowed; }
     .no-touch .dnb-button--reset:hover:not([disabled]) {

@@ -1,5 +1,4 @@
 ---
-header: 'UI Library'
 title: 'Demos'
 status: 'wip'
 draft: true

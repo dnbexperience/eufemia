@@ -64,6 +64,6 @@ div.center {
   align-items: center;
 }
 h1 {
-  font-weight: 300;
+  font-weight: var(--font-weight-medium);
 }
 </style>

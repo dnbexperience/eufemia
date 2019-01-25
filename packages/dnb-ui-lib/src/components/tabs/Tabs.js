@@ -118,18 +118,21 @@ export default class Tabs extends PureComponent {
           (content.type.name || content.type.displayName) ===
             'CustomContent'
         ) {
+          // tabs data from main prop
+          const dataProps =
+            (props.tabs && Array.isArray(props.tabs) && props.tabs[i]) ||
+            {}
+
+          // props from the "CustomContent" Component
+          const componentProps = { ...content.props }
+          if (componentProps.title === null) {
+            delete componentProps.title
+          }
+
           const { title, key: _key, hash, ...rest } = {
-            // props from the "CustomContent" Component
-            ...content.props,
-
-            // tabs data from main prop
-            ...((props.tabs &&
-              Array.isArray(props.tabs) &&
-              props.tabs[i]) ||
-              {}),
-
-            // remove children, if there is some
-            ...{ children: null }
+            ...dataProps,
+            ...componentProps,
+            ...{ children: null } // remove children, if there is some
           }
 
           acc.push({

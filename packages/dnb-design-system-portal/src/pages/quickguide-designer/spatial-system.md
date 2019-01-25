@@ -1,5 +1,4 @@
 ---
-header: 'Quickguide Designers - Spatial system'
 title: 'Spatial system'
 draft: false
 ---

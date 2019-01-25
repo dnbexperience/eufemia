@@ -22,27 +22,27 @@
 <Button
   text="Primary button with icon"
   title="This is a button title"
-  icon="chevron-right"
+  icon="chevron_right"
 />
 <Button
   text="Primary button with icon on left"
   title="This is a button title"
   icon_position="left"
-  icon="chevron-left"
+  icon="chevron_left"
 />
 <Button
   variant="tertiary"
   text="Tertiary button with icon on left"
   title="This is a button title"
   icon_position="left"
-  icon="chevron-left"
+  icon="chevron_left"
 />
 <Button
   variant="tertiary"
   text="Tertiary button with icon on left"
   title="This is a button title"
   icon_position="left"
-  icon="chevron-left"
+  icon="chevron_left"
   disabled
 />
 <Button
@@ -50,10 +50,20 @@
   href="?no-cache=1"
   title="This is a link"
   icon_position="right"
-  icon="chevron-right"
+  icon="chevron_right"
 />
-<Button title="Button with Icon only" icon={question} />
+<Button title="Disabled Icon only Button" icon="calendar" disabled />
 <Button title="Button with Icon only" icon="calendar" />
+<Button
+  title="Default sized Button with medium Icon"
+  icon="calendar"
+  icon_size="medium"
+  size="default"
+/>
+<Button
+  title="Button with custom, Secondary Icon only"
+  icon={question}
+/>
 <Button
   variant="signal"
   text="Signal Button (large size)"

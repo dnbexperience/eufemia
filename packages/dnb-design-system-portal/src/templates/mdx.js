@@ -18,7 +18,7 @@ export default class MdxTemplate extends PureComponent {
       data: {
         mdx: {
           code,
-          fields: { header, title }
+          fields: { title }
         },
         site: {
           siteMetadata: {
@@ -36,7 +36,7 @@ export default class MdxTemplate extends PureComponent {
           <meta name="description" content={description} />
           <link rel="shortcut icon" href={withPrefix('/favicon.ico')} />
         </Head>
-        <Layout {...this.props} header={header}>
+        <Layout {...this.props}>
           <MDXRenderer>{code.body}</MDXRenderer>
         </Layout>
       </MDXProvider>
@@ -64,7 +64,6 @@ export const pageQuery = graphql`
     mdx(fields: { id: { eq: $id } }) {
       fields {
         title
-        header
       }
       code {
         body

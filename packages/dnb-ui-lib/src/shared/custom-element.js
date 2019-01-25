@@ -187,23 +187,23 @@ export const registerElement = (
       return eventWrapper
     }
     removeEvent(eventId, removeCallback = null) {
-      this._customEvents = this._customEvents.reduce((
-        accumulator,
-        current
-      ) => {
-        if (removeCallback) {
-          const { eventCallback: eventWrapper } = current
-          if (eventWrapper !== removeCallback) {
-            accumulator.push(current)
+      this._customEvents = this._customEvents.reduce(
+        (accumulator, current) => {
+          if (removeCallback) {
+            const { eventCallback: eventWrapper } = current
+            if (eventWrapper !== removeCallback) {
+              accumulator.push(current)
+            }
+          } else {
+            const { eventWrapper } = current
+            if (eventWrapper !== eventId) {
+              accumulator.push(current)
+            }
           }
-        } else {
-          const { eventWrapper } = current
-          if (eventWrapper !== eventId) {
-            accumulator.push(current)
-          }
-        }
-        return accumulator
-      }, [])
+          return accumulator
+        },
+        []
+      )
     }
     fireEvent(eventName, ...args) {
       this._customEvents.forEach(({ eventName: name, eventCallback }) => {
