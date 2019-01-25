@@ -9,6 +9,7 @@ import { StaticQuery, graphql } from 'gatsby'
 import { css } from '@emotion/core'
 // import Head from 'react-helmet'
 import MainMenu from './MainMenu'
+import { ToggleMenu } from './MainMenuGraphics'
 import { hamburger as hamburgerIcon } from 'dnb-ui-lib/src/icons/secondary_icons'
 import { close as closeIcon } from 'dnb-ui-lib/src/icons/primary_icons'
 import PortalLogo from './graphics/logo'
@@ -89,21 +90,23 @@ export default class StickyMenuBar extends PureComponent {
                       this.state.showGrid ? 'dev-grid' : ''
                     }`}
                   >
-                    <span>{/* only for flex spacing layout */}</span>
                     <Button
-                      className="menu-bar-logo dnb-button--reset"
+                      title="Show main sections"
+                      className="menu-bar-wrapper dnb-button--reset"
                       on_click={this.toggleMenuHandler}
                     >
-                      {/* <Logo height={48} /> */}
-                      <Icon icon={PortalLogo} size={48} aria_hidden />
-                      {slogan}
+                      <Icon icon={ToggleMenu} size={24} aria_hidden />
+                      <span className="dnb-button__text">Menu</span>
                       <IconPrimary
                         icon="chevron_down"
                         size="small"
                         aria_hidden
                       />
                     </Button>
-
+                    <span className="menu-bar-wrapper">
+                      <Icon icon={PortalLogo} size={48} aria_hidden />
+                      {slogan}
+                    </span>
                     <span>
                       <SidebarMenuConsumer>
                         {({ toggleMenu, isOpen }) => (
@@ -157,20 +160,23 @@ const barStyle = css`
     align-items: center;
   }
 
-  .menu-bar-logo {
-    margin-left: 5vw;
+  .menu-bar-wrapper {
     .dnb-icon:nth-of-type(1) {
       color: var(--color-sea-green);
       margin-right: 0.5rem;
     }
-    .dnb-icon:nth-of-type(2) {
-      margin-left: 3px;
+    .dnb-icon.dnb-icon--small {
+      margin-left: 0.5rem;
+    }
+    .dnb-button__text {
+      color: var(--color-sea-green);
     }
   }
-  .menu-bar-logo:hover {
-    &,
-    & .dnb-logo {
-      color: var(--color-black-80);
+  .menu-bar-wrapper.dnb-button:hover {
+    color: var(--color-black);
+    .dnb-button__text,
+    .dnb-icon {
+      color: inherit;
     }
   }
 
