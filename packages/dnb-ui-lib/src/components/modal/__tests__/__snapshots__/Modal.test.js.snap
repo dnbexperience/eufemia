@@ -91,7 +91,6 @@ exports[`Modal component have to match snapshot 1`] = `
       >
         <button
           className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon"
-          id={null}
           onClick={[Function]}
           onMouseOut={[Function]}
           title="Open Modal"
@@ -121,7 +120,7 @@ exports[`Modal component have to match snapshot 1`] = `
           >
             <IconPrimary
               alt="Open Modal"
-              area_hidden={false}
+              aria_hidden={false}
               attributes={null}
               class={null}
               className="dnb-button__icon"
@@ -138,17 +137,11 @@ exports[`Modal component have to match snapshot 1`] = `
                 aria-label="Open Modal"
                 className="dnb-icon dnb-icon--default dnb-button__icon"
                 role="img"
-                title={null}
               >
-                <question
-                  height={null}
-                  width={null}
-                >
+                <question>
                   <svg
                     fill="none"
-                    height={null}
                     viewBox="0 0 16 16"
-                    width={null}
                   >
                     <path
                       clipRule="evenodd"
@@ -336,7 +329,6 @@ exports[`Modal component have to match snapshot 1`] = `
               >
                 <button
                   className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon dnb-modal__close-button"
-                  id={null}
                   onClick={[Function]}
                   onMouseOut={[Function]}
                   title="Close"
@@ -366,7 +358,7 @@ exports[`Modal component have to match snapshot 1`] = `
                   >
                     <IconPrimary
                       alt="Close"
-                      area_hidden={false}
+                      aria_hidden={false}
                       attributes={null}
                       class={null}
                       className="dnb-button__icon"
@@ -383,17 +375,11 @@ exports[`Modal component have to match snapshot 1`] = `
                         aria-label="Close"
                         className="dnb-icon dnb-icon--default dnb-button__icon"
                         role="img"
-                        title={null}
                       >
-                        <close
-                          height={null}
-                          width={null}
-                        >
+                        <close>
                           <svg
                             fill="none"
-                            height={null}
                             viewBox="0 0 16 16"
-                            width={null}
                           >
                             <path
                               clipRule="evenodd"

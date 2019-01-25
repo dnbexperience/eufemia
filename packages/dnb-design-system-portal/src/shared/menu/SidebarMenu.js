@@ -489,7 +489,7 @@ class ListItem extends PureComponent {
         >
           <span>
             {icon && graphics[icon] && (
-              <Icon icon={graphics[icon]} size="medium" />
+              <Icon icon={graphics[icon]} size="medium" aria_hidden />
             )}
             {children}
           </span>

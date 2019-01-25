@@ -21,7 +21,7 @@ exports[`FormStatus component have to match snapshot 1`] = `
   >
     <IconPrimary
       alt={null}
-      area_hidden={false}
+      aria_hidden={false}
       attributes={null}
       class={null}
       className={null}
@@ -37,7 +37,6 @@ exports[`FormStatus component have to match snapshot 1`] = `
         aria-label="exclamation"
         className="dnb-icon"
         role="img"
-        title={null}
       >
         <exclamation>
           <svg

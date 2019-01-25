@@ -3,7 +3,7 @@
 exports[`IconPrimary component have to match snapshot 1`] = `
 <IconPrimary
   alt={null}
-  area_hidden={false}
+  aria_hidden={false}
   attributes={null}
   class={null}
   className={null}
@@ -19,17 +19,11 @@ exports[`IconPrimary component have to match snapshot 1`] = `
     aria-label="question"
     className="dnb-icon dnb-icon--default"
     role="img"
-    title={null}
   >
-    <question
-      height={null}
-      width={null}
-    >
+    <question>
       <svg
         fill="none"
-        height={null}
         viewBox="0 0 16 16"
-        width={null}
       >
         <path
           clipRule="evenodd"

@@ -59,7 +59,7 @@ Keyboard shortcuts can increase task efficiency.
 
 ##### Progressive enhancement
 
-Forms, navigation and other essential components and actions should work on older browsers and devices. Styling comes second to content and accessibilty.
+Forms, navigation and other essential components and actions should work on older browsers and devices. Styling comes second to content and accessibility.
 
 #### Understandable
 

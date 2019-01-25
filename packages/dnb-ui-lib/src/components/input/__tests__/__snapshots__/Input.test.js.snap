@@ -11,7 +11,6 @@ exports[`Input component have to match type="search" snapshot 1`] = `
   >
     <input
       aria-describedby="id-description"
-      autoComplete={null}
       className="dnb-input__input input_class"
       id="id"
       name="id"

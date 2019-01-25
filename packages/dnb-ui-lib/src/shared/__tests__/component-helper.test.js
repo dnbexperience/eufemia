@@ -12,7 +12,7 @@ import {
 } from '../component-helper'
 
 describe('"validateDOMAttributes" should', () => {
-  it('work as expected', () => {
+  it('work fine', () => {
     const props = {}
     const params = {}
     const res = validateDOMAttributes(props, params)
@@ -48,6 +48,27 @@ describe('"validateDOMAttributes" should', () => {
     const params = {}
     const res = validateDOMAttributes(props, params)
     expect(res).toHaveProperty('onClick')
+  })
+
+  it('pass thru rest attrinutes', () => {
+    const props = {}
+    const params = { 'aria-hidden': true }
+    const res = validateDOMAttributes(props, params)
+    expect(res).toHaveProperty('aria-hidden')
+  })
+
+  it('remove values with null', () => {
+    const props = {}
+    const params = { 'aria-hidden': null }
+    const res = validateDOMAttributes(props, params)
+    expect(res).not.toHaveProperty('aria-hidden')
+  })
+
+  it('remove attributes with invalid names', () => {
+    const props = {}
+    const params = { aria_hidden: 'true' }
+    const res = validateDOMAttributes(props, params)
+    expect(res).not.toHaveProperty('aria_hidden')
   })
 
   it('function props should not be returned as long as they don\'t are "onClick"', () => {
@@ -125,7 +146,7 @@ describe('"setCustomElementMethod" should', () => {
 })
 
 describe('"pickRenderProps" should', () => {
-  it('shall only pass function props witch dont exists in renderProps', () => {
+  it('only pass function props witch dont exists in renderProps', () => {
     const renderProp = jest.fn()
     const customRenderer = jest.fn()
     const children = jest.fn()

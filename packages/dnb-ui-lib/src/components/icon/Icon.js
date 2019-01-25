@@ -39,7 +39,7 @@ export const propTypes = {
   color: PropTypes.string,
   alt: PropTypes.string,
   title: PropTypes.string,
-  area_hidden: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+  aria_hidden: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   class: PropTypes.string,
   // React props
@@ -60,7 +60,7 @@ export const defaultProps = {
   color: null,
   alt: null,
   title: null,
-  area_hidden: false,
+  aria_hidden: false,
   attributes: null,
   class: null,
   // React props
@@ -224,19 +224,24 @@ export default class Icon extends PureComponent {
   }
 
   static prerender(props) {
-    const icon = Icon.getIcon(props)
-
     const {
+      icon,
+      size,
       color,
       modifier,
       alt: _alt,
       title,
       class: _className,
       className,
-      area_hidden
+      aria_hidden,
+      ...attributes
     } = props
 
-    const { sizeAsString, svgParams } = Icon.calcSize(props)
+    const { sizeAsString, svgParams } = Icon.calcSize({
+      icon, // because to have a clean "attributes"
+      size, // because to have a clean "attributes"
+      ...props
+    })
 
     if (color) {
       svgParams.color = color
@@ -254,16 +259,14 @@ export default class Icon extends PureComponent {
     // also used for code markup simulation
     const wrapperParams = validateDOMAttributes(props, {
       role: 'img',
-      // as we use aria-label, we do not provide an alt as well
+      // because we use aria-label, we do not provide an alt as well
       // alt,
       ['aria-label']: alt,
-      title
+      ['aria-hidden']: aria_hidden ? 'true' : null,
+      title,
+      ...attributes
     })
 
-    if (area_hidden) {
-      // wrapperParams['role'] = 'presentation' // almost the same as aria-hidden
-      wrapperParams['aria-hidden'] = area_hidden
-    }
     wrapperParams.className = classnames(
       'dnb-icon',
       modifier ? `dnb-icon--${modifier}` : null,
@@ -274,7 +277,7 @@ export default class Icon extends PureComponent {
 
     return {
       ...props,
-      icon,
+      icon: Icon.getIcon(props),
       alt,
       svgParams,
       wrapperParams

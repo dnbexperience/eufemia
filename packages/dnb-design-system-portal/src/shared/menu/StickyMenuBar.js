@@ -95,9 +95,13 @@ export default class StickyMenuBar extends PureComponent {
                       on_click={this.toggleMenuHandler}
                     >
                       {/* <Logo height={48} /> */}
-                      <Icon icon={PortalLogo} size={48} />
+                      <Icon icon={PortalLogo} size={48} aria_hidden />
                       {slogan}
-                      <IconPrimary icon="chevron_down" size="small" />
+                      <IconPrimary
+                        icon="chevron_down"
+                        size="small"
+                        aria_hidden
+                      />
                     </Button>
 
                     <span>

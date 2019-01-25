@@ -146,9 +146,6 @@ class LiveCode extends PureComponent {
             </>
           )}
           <Toolbar>
-            {!hideCode && (
-              <LiveError className="dnb-form-status dnb-form-status--text dnb-form-status--error" />
-            )}
             {hidePreview && (
               <Button
                 className="toggle-button"
@@ -162,6 +159,9 @@ class LiveCode extends PureComponent {
             )}
           </Toolbar>
           {!hideCode && <LiveEditor language="jsx" />}
+          {!hideCode && (
+            <LiveError className="dnb-form-status dnb-form-status--text dnb-form-status--error" />
+          )}
         </LiveProvider>
       </LiveCodeEditor>
     )
@@ -192,6 +192,13 @@ const LiveCodeEditor = styled.div`
       border-color: transparent transparent #222 transparent;
     }
   }
+
+  .dnb-form-status:last-child {
+    max-width: 40rem;
+    height: auto;
+    white-space: normal;
+    line-height: var(--input-height);
+  }
 `
 
 const Toolbar = styled.div`
@@ -208,18 +215,11 @@ const Toolbar = styled.div`
 
   padding: 0 1rem 1rem;
 
-  pointer-events: none;
+  ${'' /* pointer-events: none;
   button,
   .dnb-form-status {
     pointer-events: all;
-  }
-
-  .dnb-form-status {
-    max-width: 40rem;
-    height: auto;
-    white-space: normal;
-    line-height: var(--input-height);
-  }
+  } */}
 `
 
 /** Removes the last token from a code example if it's empty. */
