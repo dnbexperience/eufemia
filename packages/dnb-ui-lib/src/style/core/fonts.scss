@@ -56,7 +56,7 @@ $fonts-path: '../../assets/fonts/' !default;
     url('#{$fonts-path}/FedraSansStd-Book.woff2') format('woff2'),
     url('#{$fonts-path}/FedraSansStd-Book.woff') format('woff'),
     url('#{$fonts-path}/FedraSansStd-Book.ttf') format('truetype');
-  font-weight: normal;
+  font-weight: normal; // have to be the same as: --font-weight-book
   font-style: normal;
   font-display: fallback;
 }
@@ -70,7 +70,7 @@ $fonts-path: '../../assets/fonts/' !default;
     url('#{$fonts-path}/FedraSansStd-Demi.woff2') format('woff2'),
     url('#{$fonts-path}/FedraSansStd-Demi.woff') format('woff'),
     url('#{$fonts-path}/FedraSansStd-Demi.ttf') format('truetype');
-  font-weight: 500;
+  font-weight: 500; // have to be the same as: --font-weight-demi
   font-style: normal;
   font-display: fallback;
 }
@@ -84,7 +84,7 @@ $fonts-path: '../../assets/fonts/' !default;
     url('#{$fonts-path}/FedraSansStd-Medium.woff2') format('woff2'),
     url('#{$fonts-path}/FedraSansStd-Medium.woff') format('woff'),
     url('#{$fonts-path}/FedraSansStd-Medium.ttf') format('truetype');
-  font-weight: 600;
+  font-weight: 600; // have to be the same as: --font-weight-medium
   font-style: normal;
   font-display: fallback;
 }

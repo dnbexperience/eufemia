@@ -1,5 +1,5 @@
 ---
-title: 'Usage in CSS'
+title: 'CSS font-weight'
 draft: false
 order: 1
 ---
@@ -9,9 +9,6 @@ order: 1
 ```css
 /* This will result in loading the Medium Font */
 .my-new-class {
-  font-family: 'Fedra Sans Std', sans-serif; /* Fallback */
-  font-family: var(--font-family-default);
-  font-weight: 600;
-  font-style: normal;
+  font-weight: var(--font-weight-demi);
 }
 ```

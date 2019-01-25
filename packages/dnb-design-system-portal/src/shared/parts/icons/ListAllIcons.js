@@ -74,15 +74,15 @@ const ListItem = styled.li`
   }
 
   h4 {
-    color: var(--color-333);
-    font-weight: 600;
+    color: var(--color-black-80);
+    font-weight: var(--font-weight-medium);
     font-size: 1rem;
     line-height: 1rem;
     margin-bottom: 0;
   }
 
   h5 {
-    color: var(--color-333);
+    color: var(--color-black-80);
     font-size: 1rem;
     line-height: 1rem;
     margin-bottom: 1rem;
