@@ -246,7 +246,8 @@ export default class Icon extends PureComponent {
     let alt = _alt || title
 
     if (!(alt && alt.length > 0)) {
-      alt = String(Icon.getIconNameFromComponent(props)).replace(/_/g, ' ')
+      alt = Icon.getIconNameFromComponent(props)
+      alt = alt ? String(alt).replace(/_/g, ' ') : null
     }
 
     // some wrapper params
