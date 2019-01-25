@@ -35,7 +35,7 @@ exports[`FormStatus component have to match snapshot 1`] = `
     >
       <span
         aria-label="exclamation"
-        className="dnb-icon"
+        className="dnb-icon dnb-icon--default"
         role="img"
       >
         <exclamation>

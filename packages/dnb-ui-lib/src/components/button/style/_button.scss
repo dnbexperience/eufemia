@@ -169,7 +169,7 @@
     color: inherit;
     font: inherit;
     text-align: inherit;
-    line-height: 0;
+    line-height: inherit;
 
     @include hover(true) {
       box-shadow: none;

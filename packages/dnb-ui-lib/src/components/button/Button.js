@@ -6,7 +6,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import Icon from '../icon-primary/IconPrimary'
+import IconPrimary from '../icon-primary/IconPrimary'
 import {
   registerElement,
   validateDOMAttributes,
@@ -63,7 +63,7 @@ export const defaultProps = {
   title: null,
   icon: null,
   icon_position: 'right',
-  icon_size: null,
+  icon_size: 'default',
   href: null,
   id: null,
   class: null,
@@ -232,7 +232,7 @@ class Content extends PureComponent {
     title: null,
     content: null,
     icon: null,
-    icon_size: null,
+    icon_size: 'default',
     isIconOnly: null
   }
   render() {
@@ -262,7 +262,7 @@ class Content extends PureComponent {
     if (icon) {
       const alt = title || text
       ret.push(
-        <Icon
+        <IconPrimary
           key="button-icon"
           className="dnb-button__icon"
           icon={icon}

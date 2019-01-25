@@ -216,6 +216,10 @@ export default class Icon extends PureComponent {
     // define all the svg parameters
     const svgParams = prepareSvgParams()
 
+    if (!sizeAsString) {
+      sizeAsString = 'default'
+    }
+
     return {
       svgParams,
       sizeAsInt,

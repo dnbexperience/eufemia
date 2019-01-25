@@ -79,7 +79,7 @@ exports[`Modal component have to match snapshot 1`] = `
         href={null}
         icon="question"
         icon_position="right"
-        icon_size={null}
+        icon_size="default"
         id={null}
         innerRef={null}
         on_click={[Function]}
@@ -107,7 +107,7 @@ exports[`Modal component have to match snapshot 1`] = `
             href={null}
             icon="question"
             icon_position="right"
-            icon_size={null}
+            icon_size="default"
             id={null}
             innerRef={null}
             isIconOnly={true}
@@ -129,7 +129,7 @@ exports[`Modal component have to match snapshot 1`] = `
               icon="question"
               key="button-icon"
               modifier={null}
-              size={null}
+              size="default"
               title={null}
               width={null}
             >
@@ -317,7 +317,7 @@ exports[`Modal component have to match snapshot 1`] = `
                 href={null}
                 icon="close"
                 icon_position="right"
-                icon_size={null}
+                icon_size="default"
                 id={null}
                 innerRef={null}
                 on_click={[Function]}
@@ -345,7 +345,7 @@ exports[`Modal component have to match snapshot 1`] = `
                     href={null}
                     icon="close"
                     icon_position="right"
-                    icon_size={null}
+                    icon_size="default"
                     id={null}
                     innerRef={null}
                     isIconOnly={true}
@@ -367,7 +367,7 @@ exports[`Modal component have to match snapshot 1`] = `
                       icon="close"
                       key="button-icon"
                       modifier={null}
-                      size={null}
+                      size="default"
                       title={null}
                       width={null}
                     >
@@ -550,24 +550,26 @@ exports[`Modal scss have to match snapshot 1`] = `
   display: inline;
   vertical-align: baseline;
   font-size: inherit;
-  line-height: 0; }
+  line-height: 0;
+  width: 1em;
+  height: 1em; }
   .dnb-icon svg:not([fill]),
   .dnb-icon svg [fill] {
     fill: currentColor; }
   .dnb-icon svg [stroke] {
     stroke: currentColor; }
   .dnb-icon--small {
-    width: 0.8em;
-    height: 0.8em; }
+    width: 0.75rem;
+    height: 0.75rem; }
   .dnb-icon--default {
-    width: 1em;
-    height: 1em; }
+    width: 1rem;
+    height: 1rem; }
   .dnb-icon--medium {
-    width: 1.5em;
-    height: 1.5em; }
+    width: 1.5rem;
+    height: 1.5rem; }
   .dnb-icon--large {
-    width: 2em;
-    height: 2em; }
+    width: 2rem;
+    height: 2rem; }
   .dnb-icon--custom-size {
     width: auto;
     height: auto; }
@@ -714,7 +716,7 @@ exports[`Modal scss have to match snapshot 1`] = `
     color: inherit;
     font: inherit;
     text-align: inherit;
-    line-height: 0; }
+    line-height: inherit; }
     .no-touch .dnb-button--reset:hover[disabled] {
       cursor: not-allowed; }
     .no-touch .dnb-button--reset:hover:not([disabled]) {

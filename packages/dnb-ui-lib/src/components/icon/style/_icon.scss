@@ -17,21 +17,24 @@
     stroke: currentColor;
   }
 
+  width: 1em;
+  height: 1em;
+
   &--small {
-    width: 0.8em;
-    height: 0.8em;
+    width: 0.75rem;
+    height: 0.75rem;
   }
   &--default {
-    width: 1em;
-    height: 1em;
+    width: 1rem;
+    height: 1rem;
   }
   &--medium {
-    width: 1.5em;
-    height: 1.5em;
+    width: 1.5rem;
+    height: 1.5rem;
   }
   &--large {
-    width: 2em;
-    height: 2em;
+    width: 2rem;
+    height: 2rem;
   }
   &--custom-size {
     width: auto; // only to feed the svg
