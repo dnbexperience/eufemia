@@ -113,59 +113,60 @@ fieldset {
   font-size: 1rem; // 16px
 }
 
-*:not([class^='dnb-']) > {
-  ul,
-  ol {
-    padding-left: 2em;
-    margin-top: 0;
-    margin-bottom: 0;
+// *:not([class^='dnb-']) > {
+// }
 
-    line-height: 1.5rem;
-  }
+ul,
+ol {
+  padding-left: 2em;
+  margin-top: 0;
+  margin-bottom: 0;
 
-  li {
-    word-wrap: break-all;
-  }
+  line-height: 1.5rem;
+}
 
-  ul li,
-  ol li {
-    margin-top: 1em;
-    margin-bottom: 1em;
-  }
+li {
+  word-wrap: break-all;
+}
 
-  li > p {
-    margin-top: 1em;
-  }
+ul li,
+ol li {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
 
-  li + li {
-    margin-top: 0.25em;
-  }
+li > p {
+  margin-top: 1em;
+}
 
-  ul ul,
-  ul ol,
-  ol ol,
-  ol ul {
-    margin-top: 0;
-    margin-bottom: 0;
-  }
+li + li {
+  margin-top: 0.25em;
+}
 
-  dd {
-    margin-left: 0;
-  }
+ul ul,
+ul ol,
+ol ol,
+ol ul {
+  margin-top: 0;
+  margin-bottom: 0;
+}
 
-  dl {
-    padding: 0;
-  }
+dd {
+  margin-left: 0;
+}
 
-  dl dt {
-    padding: 0;
-    margin-top: 1em;
-  }
+dl {
+  padding: 0;
+}
 
-  dl dd {
-    padding: 0 1em;
-    margin-bottom: 1em;
-  }
+dl dt {
+  padding: 0;
+  margin-top: 1em;
+}
+
+dl dd {
+  padding: 0 1em;
+  margin-bottom: 1em;
 }
 
 table {

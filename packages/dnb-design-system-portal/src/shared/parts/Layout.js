@@ -8,12 +8,17 @@ import React, { PureComponent } from 'react'
 import { Link } from 'gatsby'
 
 import PropTypes from 'prop-types'
+import MainMenu from '../menu/MainMenu'
 import Sidebar from '../menu/SidebarMenu'
 import StickyMenuBar from '../menu/StickyMenuBar'
 import { markdownStyle } from './Markdown'
 import styled from '@emotion/styled'
 import classnames from 'classnames'
 import { buildVersion } from '../../../package.json'
+import {
+  MainMenuProvider,
+  MainMenuConsumer
+} from '../menu/MainMenuContext'
 import { SidebarMenuProvider } from '../menu/SidebarMenuContext'
 // import ToggleGrid from '../menu/ToggleGrid'
 
@@ -29,6 +34,7 @@ class Layout extends PureComponent {
   }
 
   componentDidMount() {
+    // gets aplyed on "onRouteUpdate"
     setPageFocusElement(this._ref.current, 'content')
   }
 
@@ -55,18 +61,29 @@ class Layout extends PureComponent {
     }
 
     return (
-      <SidebarMenuProvider>
-        <StickyMenuBar />
-        <Wrapper className="content-wrapper">
-          <Sidebar location={location} showAll={false} />
-          <Content tabIndex="-1" innerRef={this._ref}>
-            <MaxWidth className="dnb-page-content-inner">
-              {children}
-              <Footer />
-            </MaxWidth>
-          </Content>
-        </Wrapper>
-      </SidebarMenuProvider>
+      <MainMenuProvider>
+        <SidebarMenuProvider>
+          <MainMenu enableOverlay />
+          <MainMenuConsumer>
+            {({ isOpen, isClosing }) =>
+              (!isOpen || isClosing) && (
+                <>
+                  <StickyMenuBar />
+                  <Wrapper className="content-wrapper">
+                    <Sidebar location={location} showAll={false} />
+                    <Content tabIndex="-1" innerRef={this._ref}>
+                      <MaxWidth className="dnb-page-content-inner">
+                        {children}
+                        <Footer />
+                      </MaxWidth>
+                    </Content>
+                  </Wrapper>
+                </>
+              )
+            }
+          </MainMenuConsumer>
+        </SidebarMenuProvider>
+      </MainMenuProvider>
     )
   }
 }
@@ -75,7 +92,7 @@ export default Layout
 
 const Wrapper = styled.div`
   position: relative;
-  z-index: 2; /* one less than "is-overlay" */
+  z-index: 2;
 
   display: flex;
   justify-content: space-between; /* pos Footer at the bottom */
@@ -131,21 +148,8 @@ const Main = styled.main`
     padding: 2rem 5vw 2rem;
   }
 
-  /* fix overscroll issue on top */
-  &::before {
-    content: '';
-    position: absolute;
-    top: -5rem;
-    left: -1px;
-    height: 5rem;
-    width: 100%;
-  }
-
-  &,
-  &::before {
-    background-color: var(--color-black-background);
-    border-left: 1px solid var(--color-black-border);
-  }
+  background-color: var(--color-black-background);
+  border-left: 1px solid var(--color-black-border);
 
   /* make sure that Sidebar aside "styled.aside" gets the same max-width */
   @media (max-width: 50em) {

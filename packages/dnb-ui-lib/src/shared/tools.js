@@ -24,7 +24,7 @@ export const applyPageFocus = (key = 'default') => {
       ) {
         element.classList.add('dnb-no-focus')
       }
-      element.focus()
+      element.focus({ preventScroll: true })
     }
   } catch (e) {
     // console.log('DNB pageFocus', e)

@@ -1,21 +1,22 @@
 /**
- * SidebarMenu Provider
+ * MainMenu Provider
  *
  */
 
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 
-export const SidebarMenuContext = React.createContext({
+export const MainMenuContext = React.createContext({
   // just to have som default values (to avoid destructuring error later)
   toggleMenu: null,
   openMenu: null,
   closeMenu: null,
   isOpen: null,
-  isClosing: null
+  isClosing: null,
+  isActive: false
 })
 
-export class SidebarMenuProvider extends PureComponent {
+export class MainMenuProvider extends PureComponent {
   static propTypes = {
     children: PropTypes.node.isRequired
   }
@@ -23,28 +24,37 @@ export class SidebarMenuProvider extends PureComponent {
     super(props)
 
     this.state = {
-      isOpen: false,
-      isClosing: false
+      ...{
+        isOpen: false,
+        isClosing: false,
+        isActive: false
+      },
+      ...props
     }
+    // console.log('MainMenuProvider', this.state)
   }
 
-  toggleMenu = () => {
+  toggleMenu = (state = null) => {
+    if (state === null) {
+      state = this.state.isOpen
+    }
     clearTimeout(this.timeout)
     this.timeout = setTimeout(
       () => {
-        const isOpen = !this.state.isOpen
+        const isOpen = !state
         this.setState({
           isOpen,
-          isClosing: false
+          isClosing: false,
+          isActive: isOpen
         })
       },
-      this.state.isOpen ? 260 : 0
+      state ? 860 : 260
     )
-    if (this.state.isOpen)
-      this.setState({
-        isClosing: true
-      })
-    if (!this.state.isOpen && typeof window !== 'undefined') {
+    this.setState({
+      isClosing: state,
+      isActive: true
+    })
+    if (!state && typeof window !== 'undefined') {
       try {
         window.scrollTo(0, 0)
       } catch (e) {
@@ -54,15 +64,11 @@ export class SidebarMenuProvider extends PureComponent {
   }
 
   openMenu = () => {
-    this.setState({
-      isOpen: true
-    })
+    this.toggleMenu(false)
   }
 
   closeMenu = () => {
-    this.setState({
-      isOpen: false
-    })
+    this.toggleMenu(true)
   }
 
   componentWillUnmount() {
@@ -73,18 +79,21 @@ export class SidebarMenuProvider extends PureComponent {
     const { children } = this.props
 
     return (
-      <SidebarMenuContext.Provider
+      <MainMenuContext.Provider
         value={{
           toggleMenu: this.toggleMenu,
           openMenu: this.openMenu,
           closeMenu: this.closeMenu,
           ...this.state
+          // isOpen: this.state.isOpen,
+          // isClosing: this.state.isClosing,
+          // isActive: this.state.isActive
         }}
       >
         {children}
-      </SidebarMenuContext.Provider>
+      </MainMenuContext.Provider>
     )
   }
 }
 
-export const SidebarMenuConsumer = SidebarMenuContext.Consumer
+export const MainMenuConsumer = MainMenuContext.Consumer

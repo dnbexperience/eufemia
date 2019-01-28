@@ -1,5 +1,5 @@
 /**
- * Card
+ * StickyMenuBar
  *
  */
 
@@ -8,13 +8,10 @@ import PropTypes from 'prop-types'
 import { StaticQuery, graphql } from 'gatsby'
 import { css } from '@emotion/core'
 import styled from '@emotion/styled'
-// import Head from 'react-helmet'
-import MainMenu from './MainMenu'
-import { ToggleMenu } from './MainMenuGraphics'
 import { hamburger as hamburgerIcon } from 'dnb-ui-lib/src/icons/secondary_icons'
 import { close as closeIcon } from 'dnb-ui-lib/src/icons/primary_icons'
 import PortalLogo from './graphics/logo'
-import { Icon, Button, IconPrimary } from 'dnb-ui-lib/src'
+import { Icon, Button } from 'dnb-ui-lib/src'
 import { SidebarMenuConsumer } from './SidebarMenuContext'
 import ToggleGrid from './ToggleGrid'
 
@@ -34,24 +31,10 @@ const Bar = styled.div`
   overflow: hidden;
   white-space: nowrap;
 
-  .menu-bar-wrapper {
+  .center-wrapper {
     .dnb-icon:nth-of-type(1) {
       color: var(--color-sea-green);
       margin-right: 0.5rem;
-    }
-    .dnb-icon.dnb-icon--small {
-      margin-left: 0.5rem;
-    }
-    .dnb-button__text {
-      color: var(--color-sea-green);
-    }
-  }
-
-  .menu-bar-wrapper.dnb-button:hover {
-    color: var(--color-black);
-    .dnb-button__text,
-    .dnb-icon {
-      color: inherit;
     }
   }
 
@@ -91,29 +74,29 @@ const hideSiebarToggleButtonStyle = css`
 
 export default class StickyMenuBar extends PureComponent {
   state = {
-    mobileMenuVisible: false,
-    showOverlayMenu: false
+    mobileMenuVisible: false
+    // showOverlayMenu: false
   }
   static propTypes = {
-    onToggleMenu: PropTypes.func,
+    // onToggleMenu: PropTypes.func,
     hideSiebarToggleButton: PropTypes.bool,
     preventBarVisibility: PropTypes.bool
   }
   static defaultProps = {
-    onToggleMenu: null,
+    // onToggleMenu: null,
     hideSiebarToggleButton: false,
     preventBarVisibility: false
   }
-  toggleMenuHandler = (state = null) => {
-    const showOverlayMenu =
-      state !== null ? state : !this.state.showOverlayMenu
-    if (this.props.onToggleMenu) {
-      this.props.onToggleMenu(showOverlayMenu)
-    }
-    this.setState({
-      showOverlayMenu
-    })
-  }
+  // toggleMenuHandler = (state = null) => {
+  //   const showOverlayMenu =
+  //     state !== null ? state : !this.state.showOverlayMenu
+  //   if (this.props.onToggleMenu) {
+  //     this.props.onToggleMenu(showOverlayMenu)
+  //   }
+  //   this.setState({
+  //     showOverlayMenu
+  //   })
+  // }
   render() {
     const { hideSiebarToggleButton, preventBarVisibility } = this.props
     if (preventBarVisibility) {
@@ -134,64 +117,42 @@ export default class StickyMenuBar extends PureComponent {
           site: {
             siteMetadata: { name: slogan }
           }
-        }) => {
-          return (
-            <SidebarMenuConsumer>
-              {({ toggleMenu, isOpen }) => (
-                <>
-                  {this.state.showOverlayMenu && (
-                    <MainMenu
-                      enableOverlay={true}
-                      onToggleOverlay={this.toggleMenuHandler}
-                    />
-                  )}
-                  {!this.state.showOverlayMenu && !hideSiebarToggleButton && (
-                    <Bar
-                      css={[
-                        hideSiebarToggleButton &&
-                          hideSiebarToggleButtonStyle
-                      ]}
-                      className="sticky-menu"
-                    >
-                      <BarInner
-                        className={`sticky-inner ${
-                          this.state.showGrid ? 'dev-grid' : ''
-                        }`}
-                      >
-                        <Button
-                          title="Show main sections"
-                          className="menu-bar-wrapper dnb-button--reset"
-                          on_click={this.toggleMenuHandler}
-                        >
-                          <Icon icon={ToggleMenu} size={24} aria_hidden />
-                          <span className="dnb-button__text">Menu</span>
-                          <IconPrimary
-                            icon="chevron_down"
-                            size="small"
-                            aria_hidden
-                          />
-                        </Button>
-                        <span className="menu-bar-wrapper">
-                          <Icon icon={PortalLogo} size={48} aria_hidden />
-                          {slogan}
-                        </span>
-                        <span>
-                          <Button
-                            icon={isOpen ? closeIcon : hamburgerIcon}
-                            on_click={toggleMenu}
-                            className="toggle-sidebar-menu"
-                            title={isOpen ? 'Hide Menu' : 'Show Menu'}
-                          />
-                          <ToggleGrid />
-                        </span>
-                      </BarInner>
-                    </Bar>
-                  )}
-                </>
-              )}
-            </SidebarMenuConsumer>
-          )
-        }}
+        }) => (
+          <SidebarMenuConsumer>
+            {({ toggleMenu, isOpen }) =>
+              !hideSiebarToggleButton && (
+                <Bar
+                  css={[
+                    hideSiebarToggleButton && hideSiebarToggleButtonStyle
+                  ]}
+                  className="sticky-menu"
+                >
+                  <BarInner
+                    className={`sticky-inner ${
+                      this.state.showGrid ? 'dev-grid' : ''
+                    }`}
+                  >
+                    <span>
+                      <Button
+                        icon={isOpen ? closeIcon : hamburgerIcon}
+                        on_click={toggleMenu}
+                        className="toggle-sidebar-menu"
+                        title={isOpen ? 'Hide Menu' : 'Show Menu'}
+                      />
+                    </span>
+                    <span className="center-wrapper">
+                      <Icon icon={PortalLogo} size={48} aria_hidden />
+                      {slogan}
+                    </span>
+                    <span>
+                      <ToggleGrid />
+                    </span>
+                  </BarInner>
+                </Bar>
+              )
+            }
+          </SidebarMenuConsumer>
+        )}
       />
     )
   }

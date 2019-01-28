@@ -7,7 +7,10 @@
 // styles styles are effected within the scope of ".dnb-style"
 // we also check if there is a class starting with "dnb-*"
 // this is to make sure we don't effect these styles inside of components
-.dnb-style *:not([class^='dnb-']) > {
+.dnb-style {
+  // *:not([class^='dnb-']) > {
+  // }
+
   h1,
   h2,
   h3,

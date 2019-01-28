@@ -6,62 +6,19 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import { Icon } from 'dnb-ui-lib/src'
 import Link from '../parts/Link'
 import { StaticQuery, graphql } from 'gatsby'
 import { css, Global } from '@emotion/core'
 import styled from '@emotion/styled'
 import {
-  SidebarMenuConsumer,
-  SidebarMenuContext
+  SidebarMenuConsumer
+  // SidebarMenuContext
 } from './SidebarMenuContext'
+import { MainMenuConsumer } from './MainMenuContext'
+import { Icon, Button, IconPrimary } from 'dnb-ui-lib/src'
 import graphics from './SidebarGraphics'
-
-const Sidebar = styled.aside`
-  position: fixed;
-
-  /* lower than styled.main */
-  z-index: 1;
-
-  background-color: var(--color-white);
-
-  ul {
-    /* has to be the same value as margin-left */
-    width: 30vw;
-    width: var(--aside-width);
-
-    /* height of StickyMenuBar */
-    height: calc(100vh - 4rem);
-    margin: 4rem 0 0;
-
-    /* some air we need */
-    padding: 2rem 0 1rem;
-
-    /* make the sidebar scrollable */
-    overflow-x: hidden;
-    overflow-y: auto;
-    overscroll-behavior: contain;
-  }
-
-  /*
-    God for a mobile menu insted
-    make sure that Content main "styled.main" gets the same max-width
-  */
-  @media (max-width: 50em) {
-    &:not(.show-mobile-menu) {
-      display: none;
-    }
-  }
-
-  @media (max-width: 50em) {
-    position: relative;
-    ul {
-      width: 100vw;
-      max-height: none;
-      overflow-y: visible;
-    }
-  }
-`
+import { ToggleMenu } from './MainMenuGraphics'
+import { setPageFocusElement } from 'dnb-ui-lib/src/shared/tools'
 
 const StyledListItem = styled.li`
   list-style: none;
@@ -90,28 +47,19 @@ const StyledListItem = styled.li`
   }
 
   --level: 2vw;
-  --level-offset: 3vw;
   --level-icon-adjust: -2.5rem;
 
   @media (max-width: 50em) {
     --level: 1.3rem;
-    --level-offset: 2rem;
   }
 
   &.l-1 a {
-    padding-left: calc(
-      var(--level-offset) + var(--level) * 2 + var(--level-icon-adjust)
-    ); /* minus */
+    margin-left: var(--level-icon-adjust);
+    padding-left: calc(var(--level-offset) + var(--level) * 2);
     height: 4rem;
     color: var(--color-ocean-green);
     font-weight: var(--font-weight-demi);
     font-size: var(--font-size-medium);
-
-    ${'Icons are not used in here for now' /* .dnb-icon {
-      margin-right: 1rem;
-      margin-left: -2.5rem;
-      color: var(--color-black-80);
-    } */}
   }
   &.l-2 {
     a {
@@ -247,7 +195,106 @@ const StyledListItem = styled.li`
   }
 `
 
+const Sidebar = styled.aside`
+  position: fixed;
+
+  /* lower than styled.main */
+  z-index: 1;
+
+  background-color: var(--color-white);
+
+  --level-offset: 3vw;
+  @media (max-width: 50em) {
+    --level-offset: 2rem;
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+
+    /* has to be the same value as margin-left */
+    width: 30vw;
+    width: var(--aside-width);
+  }
+
+  /* height of StickyMenuBar */
+  height: calc(100vh - 4rem);
+  margin: 4rem 0 0;
+
+  /* some air we need */
+  padding: 2rem 0 1rem;
+
+  /* make the sidebar scrollable */
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+
+  /*
+    God for a mobile menu insted
+    make sure that Content main "styled.main" gets the same max-width
+  */
+  @media (max-width: 50em) {
+    &:not(.show-mobile-menu) {
+      display: none;
+    }
+  }
+
+  @media (max-width: 50em) {
+    position: relative;
+    ul {
+      width: 100vw;
+      max-height: none;
+      overflow-y: visible;
+    }
+  }
+
+  .main-menu-toggle {
+    margin-left: var(--level-offset);
+
+    .dnb-icon:nth-of-type(1) {
+      color: var(--color-sea-green);
+      margin-right: 0.5rem;
+
+      &.dnb-icon--small {
+        margin-left: 0.5rem;
+      }
+    }
+
+    &.dnb-button__text {
+      color: var(--color-sea-green);
+    }
+    &.dnb-button:hover {
+      color: var(--color-black);
+      .dnb-button__text,
+      .dnb-icon {
+        color: inherit;
+      }
+    }
+
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+  }
+`
+
 const showAlwaysMenuItems = [] // like "uilib" som someting like that
+
+const MainMenuToggleButton = () => {
+  return (
+    <MainMenuConsumer>
+      {({ openMenu }) => (
+        <Button
+          title="Show main sections"
+          className="main-menu-toggle dnb-button--reset"
+          on_click={openMenu}
+        >
+          <Icon icon={ToggleMenu} size={24} aria_hidden />
+          <span className="dnb-button__text">Startsite</span>
+          <IconPrimary icon="chevron_down" size="small" aria_hidden />
+        </Button>
+      )}
+    </MainMenuConsumer>
+  )
+}
 
 export default class SidebarLayout extends PureComponent {
   static propTypes = {
@@ -257,31 +304,27 @@ export default class SidebarLayout extends PureComponent {
   static defaultProps = {
     showAll: false
   }
-  static contextType = SidebarMenuContext
-  state = {
-    isOpen: false
-  }
 
   constructor(props) {
     super(props)
-    this.ulRef = React.createRef()
+    this._scrollRef = React.createRef()
   }
 
   componentDidMount() {
-    if (this.ulRef.current && this.offsetTop > 0) {
+    if (this._scrollRef.current && this.offsetTop > 0) {
       if (typeof window !== 'undefined') {
         const sidebarPos = window.localStorage.getItem('sidebarPos')
           ? parseFloat(window.localStorage.getItem('sidebarPos'))
           : this.offsetTop
-        this.ulRef.current.scrollTop = sidebarPos
+        this._scrollRef.current.scrollTop = sidebarPos
         let delayBuff
-        this.ulRef.current.onscroll = () => {
+        this._scrollRef.current.onscroll = () => {
           clearTimeout(delayBuff)
           delayBuff = setTimeout(() => {
             try {
               window.localStorage.setItem(
                 'sidebarPos',
-                this.ulRef.current.scrollTop
+                this._scrollRef.current.scrollTop
               )
             } catch (e) {
               console.log('SidebarLayout error:', e)
@@ -289,6 +332,9 @@ export default class SidebarLayout extends PureComponent {
           }, 300)
         }
       }
+
+      // gets aplyed on "onRouteUpdate"
+      setPageFocusElement(this._scrollRef.current, 'sidebar')
     }
   }
 
@@ -404,16 +450,16 @@ export default class SidebarLayout extends PureComponent {
               />
               <SidebarMenuConsumer>
                 {({ isOpen, isClosing }) => (
-                  <>
-                    <Sidebar
-                      className={classnames(
-                        isOpen && 'show-mobile-menu',
-                        isClosing && 'hide-mobile-menu'
-                      )}
-                    >
-                      <ul ref={this.ulRef}>{nav}</ul>
-                    </Sidebar>
-                  </>
+                  <Sidebar
+                    className={classnames(
+                      isOpen && 'show-mobile-menu',
+                      isClosing && 'hide-mobile-menu'
+                    )}
+                    ref={this._scrollRef}
+                  >
+                    <MainMenuToggleButton />
+                    <ul>{nav}</ul>
+                  </Sidebar>
                 )}
               </SidebarMenuConsumer>
             </>

@@ -10,6 +10,8 @@ import { css } from '@emotion/core'
 import styled from '@emotion/styled'
 import { Button } from 'dnb-ui-lib/src'
 import { isIE11 } from 'dnb-ui-lib/src/components/icon'
+import { MainMenuConsumer } from './MainMenuContext'
+import classnames from 'classnames'
 
 const CardWrapper = styled.div`
   width: calc(33.333333% - 1rem);
@@ -35,6 +37,16 @@ const CardWrapper = styled.div`
   [data-whatinput='keyboard'] &:focus {
     box-shadow: none;
   }
+  &.show-cards {
+    opacity: 0;
+    animation: fade-in 600ms cubic-bezier(0.19, 1, 0.22, 1) 1 var(--delay)
+      forwards;
+  }
+  &.hide-cards {
+    opacity: 1;
+    animation: fade-out 800ms cubic-bezier(0.19, 1, 0.22, 1) 1 var(--delay)
+      forwards;
+  }
 
   @keyframes fade-in {
     0% {
@@ -50,9 +62,16 @@ const CardWrapper = styled.div`
     }
   }
 
-  opacity: 0;
-  animation: fade-in 600ms cubic-bezier(0.19, 1, 0.22, 1) 1 var(--delay)
-    forwards;
+  @keyframes fade-out {
+    0% {
+      opacity: 1;
+      transform: scale3d(1, 1, 1) translate3d(0, 0, 0);
+    }
+    100% {
+      opacity: 0;
+      transform: scale3d(0.9, 0.9, 1) translate3d(0, -8%, 0);
+    }
+  }
 `
 
 const linkStyle = css`
@@ -70,14 +89,9 @@ const linkStyle = css`
   background-color: var(--color-white);
   transition: background-color 0.5s ease;
 
-  ${'' /* transition: transform ease-out 0.5s;
-  transform: scale3d(1, 1, 1); */}
-
   &:focus,
   &:hover {
     background-color: var(--color-mint-green-50);
-    ${'' /* transform: scale3d(1.02, 1.02, 1);
-    transition: transform ease-out 0.3s; */}
   }
 `
 
@@ -119,53 +133,53 @@ export default class Card extends PureComponent {
     title: PropTypes.string.isRequired,
     about: PropTypes.oneOfType([PropTypes.node, PropTypes.string])
       .isRequired,
-    icon: PropTypes.func.isRequired,
-    onClick: PropTypes.func
+    icon: PropTypes.func.isRequired
   }
   static defaultProps = {
-    customStyle: null,
-    onClick: null
+    customStyle: null
   }
   render() {
-    const {
-      url,
-      customStyle,
-      title,
-      about,
-      icon: Svg,
-      onClick
-    } = this.props
+    const { url, customStyle, title, about, icon: Svg } = this.props
 
     // size is else defined in css
     const svgParams = isIE11 ? { width: '48', height: '48' } : null
 
     return (
-      <CardWrapper
-        className="card-wrapper"
-        style={{ '--delay': `${random(1, 160)}ms` }}
-      >
-        <Link
-          css={[linkStyle, customStyle]}
-          className="dnb-no-anchor-style"
-          to={url}
-          onClick={onClick}
-        >
-          <Box>
-            <Svg {...svgParams} />
-            <Header>{title}</Header>
-            <About>{about}</About>
-          </Box>
+      <MainMenuConsumer>
+        {({ isActive, isClosing, closeMenu }) => (
+          <CardWrapper
+            className={classnames(
+              isActive && !isClosing && 'show-cards',
+              isClosing && 'hide-cards'
+            )}
+            style={{
+              '--delay': `${isClosing ? random(1, 400) : random(1, 200)}ms`
+            }}
+          >
+            <Link
+              css={[linkStyle, customStyle]}
+              className="dnb-no-anchor-style"
+              to={url}
+              onClick={closeMenu}
+            >
+              <Box>
+                <Svg {...svgParams} />
+                <Header>{title}</Header>
+                <About>{about}</About>
+              </Box>
 
-          <BottomWrapper>
-            <Button
-              variant="tertiary"
-              icon="chevron_right"
-              text="Read more"
-              tabindex="-1"
-            />
-          </BottomWrapper>
-        </Link>
-      </CardWrapper>
+              <BottomWrapper>
+                <Button
+                  variant="tertiary"
+                  icon="chevron_right"
+                  text="Read more"
+                  tabindex="-1"
+                />
+              </BottomWrapper>
+            </Link>
+          </CardWrapper>
+        )}
+      </MainMenuConsumer>
     )
   }
 }

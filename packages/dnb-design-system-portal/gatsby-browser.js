@@ -22,17 +22,20 @@ const { applyPageFocus } = require('dnb-ui-lib/src/shared/tools')
 exports.disableCorePrefetching = () => false
 
 exports.onRouteUpdate = ({ prevLocation }) => {
-  if (typeof window !== 'undefined') {
-    // -1 makes Safari scroll to the top on route changes
-    window.scrollTo(0, -1)
-  }
+  // if (typeof window !== 'undefined') {
+  //   // -1 makes Safari scroll to the top on route changes
+  //   window.scrollTo(0, -1)
+  // }
   // if previous location is not null
   // witch means that this was an page change/switch
   //  then we apply the page content focus for accissibility
   if (prevLocation) {
+    console.log('prevLocation')
     applyPageFocus('content')
+  } else {
+    applyPageFocus('sidebar')
   }
 }
-exports.shouldUpdateScroll = () => {
-  return false
-}
+// exports.shouldUpdateScroll = () => {
+//   return false
+// }
