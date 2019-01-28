@@ -89,6 +89,14 @@ export default css`
     padding-right: 0.5em;
   }
 
+  img[align='right'] {
+    padding-left: 1.2rem;
+  }
+
+  img[align='left'] {
+    padding-right: 1.2rem;
+  }
+
   hr {
     box-sizing: content-box;
     height: 0;
