@@ -45,6 +45,9 @@ exports[`Logo scss have to match snapshot 1`] = `
  *
  */
 /*
+ * Utilities
+ */
+/*
  * CSS Properties
  *
  */
@@ -91,9 +94,6 @@ exports[`Logo scss have to match snapshot 1`] = `
   --color-violet: #6e2382;
   --color-sky-blue: #4bbed2; }
 
-/*
- * Utilities
- */
 /*
  * Typography
  *

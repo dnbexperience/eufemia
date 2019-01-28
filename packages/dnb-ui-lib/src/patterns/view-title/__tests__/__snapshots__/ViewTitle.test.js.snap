@@ -19,6 +19,9 @@ exports[`ViewTitle scss have to match snapshot 1`] = `
  *
  */
 /*
+ * Utilities
+ */
+/*
  * CSS Properties
  *
  */
@@ -65,9 +68,6 @@ exports[`ViewTitle scss have to match snapshot 1`] = `
   --color-violet: #6e2382;
   --color-sky-blue: #4bbed2; }
 
-/*
- * Utilities
- */
 /*
  * Typography
  *
@@ -163,7 +163,7 @@ exports[`ViewTitle scss have to match snapshot 1`] = `
   margin: 1.5rem 0 1rem 0;
   font-size: 2rem;
   color: var(--color-sea-green); }
-  @media screen and (min-width: 700px) {
+  @media screen and (min-width: 50em) {
     .dnb-view-title {
       margin: 3.5rem 0 3rem 0; } }
 "

@@ -3,7 +3,7 @@
  *
  */
 
-import { pageFocus } from 'dnb-ui-lib/src/shared/tools'
+import { setPageFocusElement } from 'dnb-ui-lib/src/shared/tools'
 import React, { PureComponent } from 'react'
 import { Link } from 'gatsby'
 
@@ -29,7 +29,7 @@ class Layout extends PureComponent {
   }
 
   componentDidMount() {
-    pageFocus(this._ref.current)
+    setPageFocusElement(this._ref.current, 'content')
   }
 
   render() {
@@ -76,10 +76,11 @@ export default Layout
 const Wrapper = styled.div`
   position: relative;
   z-index: 2; /* one less than "is-overlay" */
-  display: flex;
-  justify-content: space-between;
 
-  @media only screen and (max-width: 50rem) {
+  display: flex;
+  justify-content: space-between; /* pos Footer at the bottom */
+
+  @media (max-width: 50em) {
     display: block;
   }
 `
@@ -114,15 +115,19 @@ const Main = styled.main`
   justify-content: center;
 
   width: 100%;
-  min-height: calc(100vh - 4rem); /* height of StickyMenuBar */
   overflow: visible;
 
-  margin-top: 5rem; /* height of StickyMenuBar - 1px border */
+  margin-top: 4rem; /* height of StickyMenuBar - 1px border */
   margin-left: 30vw; /* fallback */
   margin-left: var(--aside-width);
   padding: 0;
 
   .dnb-page-content-inner {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    min-height: calc(100vh - 4rem); /* height of StickyMenuBar */
     padding: 2rem 5vw 2rem;
   }
 
@@ -143,7 +148,7 @@ const Main = styled.main`
   }
 
   /* make sure that Sidebar aside "styled.aside" gets the same max-width */
-  @media only screen and (max-width: 50rem) {
+  @media (max-width: 50em) {
     margin-left: 0;
     padding-left: 0;
   }
@@ -159,7 +164,7 @@ const MaxWidth = styled.div`
   width: 50vw;
   padding: 0 2rem;
 
-  @media only screen and (max-width: 120rem) {
+  @media (max-width: 120rem) {
     width: 100%;
     position: relative;
   }

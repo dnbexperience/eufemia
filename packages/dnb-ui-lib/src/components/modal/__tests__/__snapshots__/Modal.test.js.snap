@@ -418,6 +418,9 @@ exports[`Modal scss have to match snapshot 1`] = `
  *
  */
 /*
+ * Utilities
+ */
+/*
  * CSS Properties
  *
  */
@@ -464,9 +467,6 @@ exports[`Modal scss have to match snapshot 1`] = `
   --color-violet: #6e2382;
   --color-sky-blue: #4bbed2; }
 
-/*
- * Utilities
- */
 /*
  * Typography
  *
@@ -795,7 +795,7 @@ body[data-modal-active='true'] {
       border: none;
       box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.15);
       background: white; }
-      @media screen and (min-width: 700px) {
+      @media screen and (min-width: 50em) {
         .dnb-modal__content__inner {
           max-width: 500px;
           padding: 2rem 3rem; } }

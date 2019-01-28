@@ -1,5 +1,5 @@
 /**
- * Mdx Template
+ * MDX Template
  */
 
 import React, { PureComponent } from 'react'

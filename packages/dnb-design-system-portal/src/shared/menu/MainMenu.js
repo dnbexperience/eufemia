@@ -18,7 +18,7 @@ import {
   QuickguideDesignerSvg,
   DesignSystemSvg
 } from './MainMenuGraphics'
-import { Button } from 'dnb-ui-lib/src'
+import { Logo, Button } from 'dnb-ui-lib/src'
 import { buildVersion } from '../../../package.json'
 
 const MainWrapper = styled.div`
@@ -26,17 +26,12 @@ const MainWrapper = styled.div`
   align-items: center;
   justify-content: center;
 
-  position: relative;
-  z-index: 3; /* one more than Wrapper */
-
   width: 100vw;
+  height: 100vh;
 
-  /* center on not mobile view */
-  ${'' /* &:not(.show-as-overlay) {
-    @media (min-width: 640px) {
-      height: calc(100vh - 8rem);
-    }
-  } */}
+  @media (max-width: 40em), (max-height: 55em) {
+    height: auto;
+  }
 
   &.fade-out .card-wrapper {
     animation: fade-out 400ms linear 1 0ms forwards;
@@ -64,6 +59,25 @@ const MainWrapper = styled.div`
   }
 `
 
+const LogoWrapper = styled.div`
+  position: absolute;
+  z-index: 4;
+  top: 5vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+
+  color: var(--color-white);
+
+  .dnb-logo {
+    margin-right: 1rem;
+    color: inherit;
+  }
+`
+
 const CardsWrapper = styled.div`
   display: flex;
   flex-flow: row wrap;
@@ -71,63 +85,8 @@ const CardsWrapper = styled.div`
 
   max-width: 60rem;
 
-  /* plus StickyMenuBar */
-  margin-top: 4.5rem;
-`
-
-const toggleGlobalStyle = css`
-  body {
-    background-color: var(--color-emerald-green);
-  }
-
-  /* hide content if shown as overlay menu */
-  .content-wrapper {
-    display: none !important;
-  }
-
-  /* on main entry */
-  :not(.is-overlay) {
-    .sticky-menu {
-      .menu-bar-logo {
-        pointer-events: none;
-        .dnb-icon {
-          display: none;
-        }
-      }
-      .toggle-grid {
-        display: none;
-      }
-      @media (min-height: 55rem) {
-        position: relative;
-        height: auto;
-        margin-top: 2rem;
-
-        border-bottom: none;
-        background-color: transparent;
-
-        .toggle-grid {
-          display: none;
-        }
-
-        .menu-bar-logo {
-          &,
-          & .dnb-logo {
-            color: var(--color-white);
-          }
-          .dnb-logo svg {
-            height: 4rem;
-          }
-        }
-      }
-      .sticky-inner {
-        justify-content: flex-start;
-        max-width: 60rem;
-        padding: 0 0.5rem;
-        .menu-bar-logo {
-          margin-left: 0;
-        }
-      }
-    }
+  @media (max-width: 40em), (max-height: 55em) {
+    margin-top: 14vh;
   }
 `
 
@@ -139,30 +98,35 @@ const Toolbar = styled.div`
 
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
 
-  padding-left: 2rem;
-
   width: 100%;
-  height: 4em;
+  height: 16vh;
+`
 
-  :not(.is-overlay) & {
-    @media (max-height: 45rem) {
-      background-color: var(--color-ocean-green);
-      border-bottom: 1px solid var(--color-summer-green);
-    }
+const LastUpadted = styled.span`
+  display: block;
+  font-size: var(--font-size-small);
+`
+
+const toggleGlobalStyle = css`
+  body {
+    background-color: var(--color-emerald-green);
+  }
+
+  /* hide content if shown as overlay menu */
+  .content-wrapper {
+    display: none !important;
   }
 `
 
 export default class MainMenu extends PureComponent {
   static propTypes = {
-    setAsOverlay: PropTypes.bool,
     enableOverlay: PropTypes.bool,
     onToggleOverlay: PropTypes.func
   }
   static defaultProps = {
-    setAsOverlay: false,
     enableOverlay: false,
     onToggleOverlay: null
   }
@@ -208,13 +172,12 @@ export default class MainMenu extends PureComponent {
         <Global styles={toggleGlobalStyle} />
         <MainWrapper
           className={classnames(
-            this.props.setAsOverlay ? 'show-as-overlay' : null,
             this.props.enableOverlay ? 'is-overlay' : null,
             this.state.hide ? 'fade-out' : null
           )}
         >
-          <Toolbar>
-            {this.props.enableOverlay && (
+          {(this.props.enableOverlay && (
+            <Toolbar>
               <Button
                 variant="secondary"
                 class="main-menu__back dnb-always-focus"
@@ -225,8 +188,13 @@ export default class MainMenu extends PureComponent {
                 title="Close Main Menu"
                 innerRef={this._ref}
               />
-            )}
-          </Toolbar>
+            </Toolbar>
+          )) || (
+            <LogoWrapper>
+              <Logo size="48" />
+              Eufemia
+            </LogoWrapper>
+          )}
           <CardsWrapper>
             <Card
               url="/design-system/"
@@ -266,7 +234,7 @@ export default class MainMenu extends PureComponent {
             <Card
               url="/brand/"
               title="Brand"
-              about="Brand guidelines - typography, colors etc. (most relevant for print media)"
+              about="Brand guidelines - typography, colors etc."
               icon={BrandSvg}
               onClick={this.closeMenuHandler}
             />
@@ -283,8 +251,3 @@ export default class MainMenu extends PureComponent {
     )
   }
 }
-
-const LastUpadted = styled.span`
-  display: block;
-  font-size: var(--font-size-small);
-`

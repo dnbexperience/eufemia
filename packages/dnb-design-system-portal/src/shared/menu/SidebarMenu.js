@@ -47,13 +47,13 @@ const Sidebar = styled.aside`
     God for a mobile menu insted
     make sure that Content main "styled.main" gets the same max-width
   */
-  @media only screen and (max-width: 50em) {
+  @media (max-width: 50em) {
     &:not(.show-mobile-menu) {
       display: none;
     }
   }
 
-  @media only screen and (max-width: 50em) {
+  @media (max-width: 50em) {
     position: relative;
     ul {
       width: 100vw;
@@ -93,7 +93,7 @@ const StyledListItem = styled.li`
   --level-offset: 3vw;
   --level-icon-adjust: -2.5rem;
 
-  @media only screen and (max-width: 50rem) {
+  @media (max-width: 50em) {
     --level: 1.3rem;
     --level-offset: 2rem;
   }

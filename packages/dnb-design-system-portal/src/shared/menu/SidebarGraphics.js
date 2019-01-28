@@ -17,6 +17,13 @@ import contact from './graphics/contact'
 import email from './graphics/email'
 import change_log from './graphics/change_log'
 import story from './graphics/story'
+import accessibility from './graphics/accessibility'
+import colors from './graphics/colors'
+import naming from './graphics/naming'
+import special from './graphics/special'
+import tools from './graphics/tools'
+import fonts from './graphics/fonts'
+import inspiration from './graphics/inspiration'
 
 export default {
   about_the_lib,
@@ -32,5 +39,12 @@ export default {
   contact,
   email,
   change_log,
-  story
+  story,
+  accessibility,
+  colors,
+  naming,
+  special,
+  tools,
+  fonts,
+  inspiration
 }

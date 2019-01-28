@@ -61,6 +61,7 @@ class ItemWrapper extends PureComponent {
       code: PropTypes.oneOfType([PropTypes.func, PropTypes.node])
     }),
     hideTabs: PropTypes.bool,
+    defaultTab: PropTypes.string,
     title: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
     tabs: PropTypes.array
@@ -68,6 +69,7 @@ class ItemWrapper extends PureComponent {
   static defaultProps = {
     ExampleCode: null,
     hideTabs: false,
+    defaultTab: 'demo',
     callback: null,
     tabs: [
       { title: 'Demo', key: 'demo' },
@@ -76,19 +78,24 @@ class ItemWrapper extends PureComponent {
     ]
   }
   state = {
-    activeTabKey: 'demo',
     wasFullscreen: null
   }
   constructor(props) {
     super(props)
     this._id = 'item-wrapper'
     const location = getLocation()
-    if (location)
+    if (location) {
       this.state.wasFullscreen = /fullscreen/.test(location.search)
+    }
+    if (this.props.defaultTab)
+      this.state.activeTabKey = this.props.defaultTab
   }
-  openTab = ({ key }) => {
+  openTab = ({ key: activeTabKey }) => {
+    const isValid = Object.values(this.props.tabs).some(
+      ({ key }) => key === activeTabKey
+    )
     this.setState({
-      activeTabKey: key
+      activeTabKey: isValid ? activeTabKey : this.props.defaultTab
     })
   }
   isActive(tabKey) {
@@ -110,7 +117,9 @@ class ItemWrapper extends PureComponent {
   }
   quitFullscreen = () => {
     const location = getLocation()
-    if (location) navigate([location.pathname, location.hash].join(''))
+    if (location) {
+      navigate([location.pathname, location.hash].join(''))
+    }
   }
   render() {
     const {
