@@ -1,5 +1,6 @@
 ---
 title: 'Spatial system'
+icon: 'special'
 draft: false
 ---
 

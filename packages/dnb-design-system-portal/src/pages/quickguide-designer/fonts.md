@@ -1,5 +1,6 @@
 ---
 title: 'Fonts & Typography'
+icon: 'fonts'
 draft: false
 ---
 

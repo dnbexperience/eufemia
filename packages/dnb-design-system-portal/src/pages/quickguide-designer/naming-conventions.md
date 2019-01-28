@@ -1,5 +1,6 @@
 ---
 title: 'Naming Conventions'
+icon: 'naming'
 draft: false
 ---
 

@@ -1,6 +1,7 @@
 ---
 title: 'Colors'
 draft: false
+icon: 'colors'
 ---
 
 import ColorsTable from 'Pages/quickguide-designer/colors-table.md'
