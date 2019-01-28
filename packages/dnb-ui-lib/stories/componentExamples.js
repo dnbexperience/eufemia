@@ -105,9 +105,7 @@ stories.push([
   () => (
     <Wrapper>
       <Box>
-        <Tabs use_hash="true" data={tabsData}>
-          {exampleTabsContent}
-        </Tabs>
+        <Tabs data={tabsData}>{exampleTabsContent}</Tabs>
       </Box>
       <Box>
         <Tabs data={tablistDataWithContent} />

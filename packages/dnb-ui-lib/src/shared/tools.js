@@ -3,8 +3,14 @@
  *
  */
 
-export const pageFocus = (element = null) => {
+const pageFocusElements = {}
+export const setPageFocusElement = (element = null, key = 'default') => {
+  pageFocusElements[key] = element
+}
+
+export const applyPageFocus = (key = 'default') => {
   try {
+    let element = pageFocusElements[key]
     if (!element) {
       element = document.querySelector('.dnb-no-focus')
     }
