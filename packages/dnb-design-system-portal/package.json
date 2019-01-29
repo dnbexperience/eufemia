@@ -24,7 +24,9 @@
     "lint-ci": "yarn lint:js && yarn lint:styles",
     "lint-staged": "lint-staged",
     "lint:js": "yarn lint --fix",
+    "lint:js:staged": "yarn lint:js",
     "lint:styles": "stylelint './src/**/*.{js,css}'",
+    "lint:styles:staged": "stylelint",
     "make-ui-lib-pages": "babel-node ./scripts/uilib/makeDemosFactory.js && yarn prettier:components",
     "make-ui-lib-pages:dev": "nodemon --exec 'yarn make-ui-lib-pages' --ext js --watch '../dnb-ui-lib/src/**/*' --watch '**/makeDemosFactory.js' --watch '**/tasks/*' --watch '**/Template.js'  --watch '**/template.md'",
     "reset": "cd ../../ && yarn reset && cd - && yarn build",
@@ -37,6 +39,7 @@
     "prettier:components": "prettier --loglevel warn --write './src/uilib/{components,patterns}/**/*.{js,md}' './src/pages/uilib/{components,elements,patterns}/*.{js,md}'",
     "prettier:diff": "prettier --list-different '{scripts,stories,src}/**/*.{js,md}'",
     "prettier:js": "prettier --loglevel warn --write '{scripts,stories,src}/**/*.js'",
+    "prettier:js:staged": "prettier --loglevel warn --write",
     "prettier:other": "prettier --loglevel warn --write 'src/**/*.{json,md}' --write '.babelrc' && yarn prettier:package",
     "prettier:package": "prettier-package-json --write ./package.json"
   },

@@ -33,7 +33,9 @@
     "lint-ci": "yarn lint:js && yarn lint:styles",
     "lint-staged": "lint-staged -d",
     "lint:js": "yarn lint --fix",
+    "lint:js:staged": "yarn lint:js",
     "lint:styles": "stylelint './src/{components,patterns,style}/**/*.{js,scss}'",
+    "lint:styles:staged": "stylelint",
     "publish": "yarn publish-ci --dry-run",
     "prepublish-ci": "yarn figma-ci-build && yarn prepublish:local && yarn test:update && yarn figma-ci-commit",
     "publish-ci": "babel-node ./scripts/release --ci",
@@ -54,9 +56,11 @@
     "test:update": "jest --updateSnapshot",
     "prettier:diff": "prettier --list-different '{scripts,stories,src}/**/*.{md,js}'",
     "prettier:js": "prettier --loglevel warn --write '{scripts,stories,src}/**/*.js'",
+    "prettier:js:staged": "prettier --loglevel warn --write",
     "prettier:other": "prettier --loglevel warn --write '{scripts,src}/**/*.{json,md}' --write '.babelrc' && yarn prettier:package",
     "prettier:package": "prettier-package-json --write ./package.json",
     "prettier:styles": "prettier --loglevel warn --parser scss --write 'src/**/*.scss'",
+    "prettier:styles:staged": "prettier --loglevel warn --parser scss --write",
     "umd:dev": "nodemon -x 'yarn umd' --ext js,html,json,css,scss --watch './src/components/**/*' --watch './src/patterns/**/*' --watch './src/style/**/*' --watch './scripts/**/*' --ignore '*.json'"
   },
   "dependencies": {
