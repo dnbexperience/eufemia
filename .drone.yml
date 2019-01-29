@@ -48,6 +48,7 @@ steps:
       - yarn build-ci
     when:
       event:
+        - push
         - pull-request
       branch:
         include:
