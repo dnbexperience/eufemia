@@ -90,7 +90,7 @@
     "gatsby-remark-images": "^3.0.1",
     "gatsby-source-filesystem": "^2.0.18",
     "gh-pages": "^2.0.1",
-    "jest": "^24.0.0",
+    "jest": "^23.6.0",
     "jest-css-modules": "^1.1.0",
     "jest-emotion": "^10.0.6",
     "jest-raw-loader": "^1.0.1",
