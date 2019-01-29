@@ -24,6 +24,10 @@ import special from './graphics/special'
 import tools from './graphics/tools'
 import fonts from './graphics/fonts'
 import inspiration from './graphics/inspiration'
+import ui_guides from './graphics/ui_guides'
+import logos from './graphics/logos'
+import secondary from './graphics/secondary'
+import primary from './graphics/primary'
 
 export default {
   about_the_lib,
@@ -46,5 +50,9 @@ export default {
   special,
   tools,
   fonts,
-  inspiration
+  inspiration,
+  ui_guides,
+  logos,
+  secondary,
+  primary
 }
