@@ -113,8 +113,12 @@ const runFrameIconsFactory = async ({
     }
 
     // also skip if there are too many underlines
+    // because too many underlines will probably indicate that it is not menat to have it inside
     const iconName = prepareIconName(name, iconNameAdditions)
-    if (iconName.split(/_/g).length > 3) {
+    if (iconName.split(/_/g).length > 4) {
+      log.fail(
+        `${iconName} was skipped, cause it had more than 4 parts on name split by _`
+      )
       return acc
     }
 
