@@ -25,6 +25,13 @@ const CardWrapper = styled.div`
   a {
     border-radius: 0.5rem;
   }
+  &.is-selected a {
+    background-color: var(--color-mint-green);
+  }
+  a:focus,
+  a:hover {
+    background-color: var(--color-mint-green-50);
+  }
 
   /* mobile view */
   @media (max-width: 40em) {
@@ -88,11 +95,6 @@ const linkStyle = css`
 
   background-color: var(--color-white);
   transition: background-color 0.5s ease;
-
-  &:focus,
-  &:hover {
-    background-color: var(--color-mint-green-50);
-  }
 `
 
 const Header = styled.h3`
@@ -138,6 +140,14 @@ export default class Card extends PureComponent {
   static defaultProps = {
     customStyle: null
   }
+  isSelected() {
+    if (typeof window !== 'undefined') {
+      const { url } = this.props
+      const { pathname } = window.location
+      return pathname.length > 1 && url.includes(pathname)
+    }
+    return false
+  }
   render() {
     const { url, customStyle, title, about, icon: Svg } = this.props
 
@@ -149,6 +159,7 @@ export default class Card extends PureComponent {
         {({ isActive, isClosing, closeMenu }) => (
           <CardWrapper
             className={classnames(
+              this.isSelected() && 'is-selected',
               isActive && !isClosing && 'show-cards',
               isClosing && 'hide-cards'
             )}

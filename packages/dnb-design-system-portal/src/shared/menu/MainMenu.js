@@ -57,6 +57,9 @@ const MainWrapperStyled = styled.div`
   width: 100vw;
   height: 100vh;
 
+  background-color: transparent;
+  transition: background-color ease-out 0.4s;
+
   @media (max-width: 40em), (max-height: 55em) {
     height: auto;
   }
@@ -68,9 +71,6 @@ const MainWrapperStyled = styled.div`
     left: 0;
     height: 100%;
   }
-
-  background-color: transparent;
-  transition: background-color ease-out 0.4s;
 
   &.is-open&:not(.is-closing),
   &:not(.is-overlay) {
@@ -135,10 +135,12 @@ const toggleGlobalStyle = css`
     background-color: var(--color-emerald-green);
   }
 
-  /* hide content if shown as overlay menu */
-  .content-wrapper {
-    ${'' /* display: none !important; */}
-  }
+  /* hide content if shown as overlay menu
+    NEW: we hide the "content-wrapper" by removing it from the DOM
+    .content-wrapper {
+      display: none !important;
+    }
+  */
 `
 
 export default class MainMenu extends PureComponent {
@@ -186,9 +188,7 @@ export default class MainMenu extends PureComponent {
               >
                 {
                   <>
-                    {enableOverlay && (
-                      <Global styles={toggleGlobalStyle} />
-                    )}
+                    <Global styles={toggleGlobalStyle} />
                     {(enableOverlay && (
                       <Toolbar>
                         {isOpen && !isClosing && (

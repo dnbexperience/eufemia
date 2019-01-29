@@ -10,12 +10,9 @@ import Link from '../parts/Link'
 import { StaticQuery, graphql } from 'gatsby'
 import { css, Global } from '@emotion/core'
 import styled from '@emotion/styled'
-import {
-  SidebarMenuConsumer
-  // SidebarMenuContext
-} from './SidebarMenuContext'
+import { SidebarMenuConsumer } from './SidebarMenuContext'
 import { MainMenuConsumer } from './MainMenuContext'
-import { Icon, Button, IconPrimary } from 'dnb-ui-lib/src'
+import { Icon, Button } from 'dnb-ui-lib/src'
 import graphics from './SidebarGraphics'
 import { ToggleMenu } from './MainMenuGraphics'
 import { setPageFocusElement } from 'dnb-ui-lib/src/shared/tools'
@@ -289,7 +286,6 @@ const MainMenuToggleButton = () => {
         >
           <Icon icon={ToggleMenu} size={24} aria_hidden />
           <span className="dnb-button__text">Startsite</span>
-          <IconPrimary icon="chevron_down" size="small" aria_hidden />
         </Button>
       )}
     </MainMenuConsumer>
