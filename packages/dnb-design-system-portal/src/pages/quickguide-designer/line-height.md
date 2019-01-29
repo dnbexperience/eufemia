@@ -42,8 +42,11 @@ ne primis intellegat. Dico purto nullam sea an.
 
 #### These break alternatively on/off the grid (line heights 0.75rem, 1.25rem and 1.75rem)
 
+<p>
 Because their line-height **is not** evenly divisible by 8.
 <br />
+Try resizing the browser - you will see the 'off-grid' result.
+</p>
 
 ##### Line height = 0.75rem (12px)
 
