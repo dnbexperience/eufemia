@@ -10,7 +10,7 @@ const stories = []
 export default stories
 
 stories.push([
-  'Heaadings',
+  'Headings',
   () => (
     <Wrapper className="dnb-style">
       <Box>
@@ -31,7 +31,7 @@ stories.push([
 ])
 
 stories.push([
-  'Heaadings outside of `dnb-style`',
+  'Headings outside of `dnb-style`',
   () => (
     <Wrapper>
       <Box>
