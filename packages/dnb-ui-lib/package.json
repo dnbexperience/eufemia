@@ -56,11 +56,12 @@
     "test:update": "jest --updateSnapshot",
     "prettier:diff": "prettier --list-different '{scripts,stories,src}/**/*.{md,js}'",
     "prettier:js": "prettier --loglevel warn --write '{scripts,stories,src}/**/*.js'",
-    "prettier:js:staged": "prettier --loglevel warn --write",
+    "prettier:js:staged": "prettier --loglevel warn",
     "prettier:other": "prettier --loglevel warn --write '{scripts,src}/**/*.{json,md}' --write '.babelrc' && yarn prettier:package",
+    "prettier:other:staged": "prettier --loglevel warn",
     "prettier:package": "prettier-package-json --write ./package.json",
     "prettier:styles": "prettier --loglevel warn --parser scss --write 'src/**/*.scss'",
-    "prettier:styles:staged": "prettier --loglevel warn --parser scss --write",
+    "prettier:styles:staged": "prettier --loglevel warn --parser scss",
     "umd:dev": "nodemon -x 'yarn umd' --ext js,html,json,css,scss --watch './src/components/**/*' --watch './src/patterns/**/*' --watch './src/style/**/*' --watch './scripts/**/*' --ignore '*.json'"
   },
   "dependencies": {

@@ -39,8 +39,9 @@
     "prettier:components": "prettier --loglevel warn --write './src/uilib/{components,patterns}/**/*.{js,md}' './src/pages/uilib/{components,elements,patterns}/*.{js,md}'",
     "prettier:diff": "prettier --list-different '{scripts,stories,src}/**/*.{js,md}'",
     "prettier:js": "prettier --loglevel warn --write '{scripts,stories,src}/**/*.js'",
-    "prettier:js:staged": "prettier --loglevel warn --write",
+    "prettier:js:staged": "prettier --loglevel warn",
     "prettier:other": "prettier --loglevel warn --write 'src/**/*.{json,md}' --write '.babelrc' && yarn prettier:package",
+    "prettier:other:staged": "prettier --loglevel warn",
     "prettier:package": "prettier-package-json --write ./package.json"
   },
   "dependencies": {
