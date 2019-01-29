@@ -1,5 +1,6 @@
 ---
 title: 'Primary'
+icon: 'primary'
 draft: false
 order: 1
 ---

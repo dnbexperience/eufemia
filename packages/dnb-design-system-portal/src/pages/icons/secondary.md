@@ -1,5 +1,6 @@
 ---
 title: 'Secondary'
+icon: 'secondary'
 draft: false
 order: 1
 ---

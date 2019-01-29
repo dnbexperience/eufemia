@@ -12,6 +12,7 @@ export default (props = {}) => (
     xmlns="http://www.w3.org/2000/svg"
     {...props}
   >
-    {/* empty */}
+    <circle cx="12" cy="12" r="11.25" stroke="black" strokeWidth="1.5" />
+    <circle cx="12" cy="12" r="7.25" stroke="black" strokeWidth="1.5" />
   </svg>
 )

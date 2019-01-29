@@ -30,7 +30,6 @@ exports.onRouteUpdate = ({ prevLocation }) => {
   // witch means that this was an page change/switch
   //  then we apply the page content focus for accissibility
   if (prevLocation) {
-    console.log('prevLocation')
     applyPageFocus('content')
   } else {
     applyPageFocus('sidebar')
