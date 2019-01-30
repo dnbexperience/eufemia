@@ -5,7 +5,7 @@
 
 @import '../core/utilities.scss';
 
-@mixin defaultAnchorStyle() {
+@mixin defaultAnchorStyle($theme: null) {
   // make sure we have always `display: inline;` as inline-block is breaking the border-bottom
   display: inline;
 
@@ -30,6 +30,11 @@
 
   text-decoration: none;
   border-bottom: 1px solid var(--color-sea-green);
+
+  @if $theme == 'highlighted' {
+    color: var(--color-emerald-green);
+    border-bottom-color: var(--color-emerald-green);
+  }
 }
 @mixin hoverStyle() {
   background-color: var(--color-mint-green-50);
