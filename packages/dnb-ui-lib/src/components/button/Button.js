@@ -133,6 +133,8 @@ export default class Button extends PureComponent {
       class: class_name,
       className,
       type,
+      variant,
+      size,
       title,
       id,
       disabled,
@@ -140,26 +142,31 @@ export default class Button extends PureComponent {
       icon,
       icon_position,
       href,
+      attributes, // eslint-disable-line
+      innerRef, // eslint-disable-line
       ...props
     } = this.props
 
-    let { variant, size } = props
+    let usedVariant = variant
+    let usedSize = size
+
+    // let {  size } = props
 
     // if only has Icon, then resize it and define it as secondary
     const isIconOnly = Boolean(!text && icon)
     if (isIconOnly) {
-      if (!variant) {
-        variant = 'secondary'
+      if (!usedVariant) {
+        usedVariant = 'secondary'
       }
-      if (!size) {
-        size = 'medium'
+      if (!usedSize) {
+        usedSize = 'medium'
       }
     } else if (text) {
-      if (!variant) {
-        variant = 'primary'
+      if (!usedVariant) {
+        usedVariant = 'primary'
       }
-      if (!size) {
-        size = 'default'
+      if (!usedSize) {
+        usedSize = 'default'
       }
     }
 
@@ -167,8 +174,10 @@ export default class Button extends PureComponent {
 
     const classes = classnames(
       'dnb-button',
-      `dnb-button--${variant}`,
-      size && size !== 'default' ? `dnb-button--size-${size}` : null,
+      `dnb-button--${usedVariant}`,
+      usedSize && usedSize !== 'default'
+        ? `dnb-button--size-${usedSize}`
+        : null,
       icon && icon_position
         ? `dnb-button--icon-position-${icon_position}`
         : null,
@@ -185,10 +194,12 @@ export default class Button extends PureComponent {
       className: classes,
       type,
       title: title || text,
+      ['aria-label']: title || text,
       id,
       disabled,
-      onMouseOut: this.onMouseOutHandler,
-      onClick: this.onClickHandler
+      onMouseOut: this.onMouseOutHandler, // for resetting the button to the default state
+      onClick: this.onClickHandler,
+      ...props
     }
 
     // also used for code markup simulation

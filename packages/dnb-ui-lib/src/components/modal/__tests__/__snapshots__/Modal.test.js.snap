@@ -90,6 +90,7 @@ exports[`Modal component have to match snapshot 1`] = `
         variant="secondary"
       >
         <button
+          aria-label="Open Modal"
           className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon"
           onClick={[Function]}
           onMouseOut={[Function]}
@@ -328,6 +329,7 @@ exports[`Modal component have to match snapshot 1`] = `
                 variant="secondary"
               >
                 <button
+                  aria-label="Close"
                   className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon dnb-modal__close-button"
                   onClick={[Function]}
                   onMouseOut={[Function]}
