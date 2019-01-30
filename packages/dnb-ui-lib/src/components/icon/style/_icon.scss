@@ -7,7 +7,7 @@
   display: inline;
   vertical-align: baseline;
   font-size: inherit; // only to feed width and height em's
-  line-height: 0; // for vertical centring, we have to have no line-height
+  line-height: 0; // for vertical alignment, we have to have no line-height
 
   svg:not([fill]),
   svg [fill] {

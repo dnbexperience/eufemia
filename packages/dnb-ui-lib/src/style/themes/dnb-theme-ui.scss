@@ -13,13 +13,13 @@ $fonts-path: '../../../assets/fonts/' !default;
 small {
   font-size: var(--font-size-small); // 14px
 }
-p > small {
-  line-height: 1.375rem; // 22px
-}
+p > small,
+h2 > small,
+h3 > small,
 h4 > small,
 h5 > small,
 h6 > small {
-  line-height: 1.25rem; // 20px
+  line-height: 0; // for vertical alignment, we have to have no line-height
 }
 
 h1,
@@ -54,9 +54,6 @@ h2 {
   font-size: 2rem; // 24px
   line-height: 2rem; // 32px
 }
-h2 > small {
-  line-height: 1.625rem; // 26px (24px - 20px = 4px / 32px - 6px? = 26px)
-}
 h2.dnb-small,
 h2 > small {
   font-size: var(--font-size-x-default); // 20px
@@ -69,9 +66,6 @@ h3,
   font-weight: var(--font-weight-demi);
   font-size: var(--font-size-x-default); // 20px
   line-height: 2rem; // 32px
-}
-h3 > small {
-  line-height: 1.75rem; // 28px (20px - 16px = 4px / 32px - 4px = 28px)
 }
 h3 > small,
 h3.dnb-small,

@@ -85,12 +85,18 @@ stories.push([
           <h2>
             Normal H2 <small>Small H2</small>
           </h2>
+          <h2>
+            <small>Small only H2</small>
+          </h2>
           <h2 className="dnb-small">Small class H2</h2>
         </Box>
         <Box>
           {/* h3 */}
           <h3>
             Normal H3 <small>Small H3</small>
+          </h3>
+          <h3>
+            <small>Small only H3</small>
           </h3>
           <h3 className="dnb-small">Small class H3</h3>
         </Box>
