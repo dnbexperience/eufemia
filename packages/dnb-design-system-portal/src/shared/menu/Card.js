@@ -96,6 +96,11 @@ const linkStyle = css`
   background-color: var(--color-white);
   transition: background-color 0.5s ease;
 `
+const LinkInner = styled.span`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`
 
 const Header = styled.span`
   margin: 0;
@@ -173,20 +178,22 @@ export default class Card extends PureComponent {
               to={url}
               onClick={closeMenu}
             >
-              <Box>
-                <Svg {...svgParams} />
-                <Header className="dnb-lead">{title}</Header>
-                <About>{about}</About>
-              </Box>
+              <LinkInner {...textRole}>
+                <Box>
+                  <Svg {...svgParams} />
+                  <Header className="dnb-lead">{title}</Header>
+                  <About>{about}</About>
+                </Box>
 
-              <BottomWrapper aria-hidden>
-                <Button
-                  variant="tertiary"
-                  icon="chevron_right"
-                  text="Read more"
-                  tabIndex="-1"
-                />
-              </BottomWrapper>
+                <BottomWrapper aria-hidden>
+                  <Button
+                    variant="tertiary"
+                    icon="chevron_right"
+                    text="Read more"
+                    tabIndex="-1"
+                  />
+                </BottomWrapper>
+              </LinkInner>
             </Link>
           </CardWrapper>
         )}
@@ -197,3 +204,5 @@ export default class Card extends PureComponent {
 
 const random = (min, max) =>
   Math.floor(Math.random() * (max - min + 1) + min)
+
+const textRole = { role: 'text' }
