@@ -97,7 +97,7 @@ const linkStyle = css`
   transition: background-color 0.5s ease;
 `
 
-const Header = styled.h3`
+const Header = styled.span`
   margin: 0;
 
   text-align: center;
@@ -175,11 +175,11 @@ export default class Card extends PureComponent {
             >
               <Box>
                 <Svg {...svgParams} />
-                <Header>{title}</Header>
+                <Header className="dnb-lead">{title}</Header>
                 <About>{about}</About>
               </Box>
 
-              <BottomWrapper>
+              <BottomWrapper aria-hidden>
                 <Button
                   variant="tertiary"
                   icon="chevron_right"
