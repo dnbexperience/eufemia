@@ -69,7 +69,9 @@ const MainWrapperStyled = styled.div`
     z-index: 201; /* one more than sticky Bar = styled.div */
     top: 0;
     left: 0;
-    height: 100%;
+    @media (min-width: 40em) and (min-height: 55em) {
+      height: 100%;
+    }
   }
 
   &.is-open&:not(.is-closing),

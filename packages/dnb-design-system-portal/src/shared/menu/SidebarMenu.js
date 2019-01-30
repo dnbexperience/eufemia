@@ -11,10 +11,9 @@ import { StaticQuery, graphql } from 'gatsby'
 import { css, Global } from '@emotion/core'
 import styled from '@emotion/styled'
 import { SidebarMenuConsumer } from './SidebarMenuContext'
-import { MainMenuConsumer } from './MainMenuContext'
-import { Icon, Button } from 'dnb-ui-lib/src'
+// import { MainMenuToggleButton } from './ToggleMainMenu'
+import { Icon } from 'dnb-ui-lib/src'
 import graphics from './SidebarGraphics'
-import { ToggleMenu } from './MainMenuGraphics'
 import { setPageFocusElement } from 'dnb-ui-lib/src/shared/tools'
 
 const StyledListItem = styled.li`
@@ -43,8 +42,9 @@ const StyledListItem = styled.li`
     background-color: transparent;
   }
 
+  /* 2.5rem - but we dont want it to be responsive */
+  --level-icon-adjust: -40px;
   --level: 2vw;
-  --level-icon-adjust: -2.5rem;
 
   @media (max-width: 50em) {
     --level: 1.3rem;
@@ -275,23 +275,6 @@ const Sidebar = styled.aside`
 
 const showAlwaysMenuItems = [] // like "uilib" som someting like that
 
-const MainMenuToggleButton = () => {
-  return (
-    <MainMenuConsumer>
-      {({ openMenu }) => (
-        <Button
-          title="Show main sections"
-          className="main-menu-toggle dnb-button--reset"
-          on_click={openMenu}
-        >
-          <Icon icon={ToggleMenu} size={24} aria_hidden />
-          <span className="dnb-button__text">Startsite</span>
-        </Button>
-      )}
-    </MainMenuConsumer>
-  )
-}
-
 export default class SidebarLayout extends PureComponent {
   static propTypes = {
     location: PropTypes.object.isRequired,
@@ -453,7 +436,7 @@ export default class SidebarLayout extends PureComponent {
                     )}
                     ref={this._scrollRef}
                   >
-                    <MainMenuToggleButton />
+                    {/* <MainMenuToggleButton /> */}
                     <ul>{nav}</ul>
                   </Sidebar>
                 )}

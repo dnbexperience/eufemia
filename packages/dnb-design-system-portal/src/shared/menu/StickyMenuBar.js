@@ -14,6 +14,7 @@ import PortalLogo from './graphics/logo'
 import { Icon, Button } from 'dnb-ui-lib/src'
 import { SidebarMenuConsumer } from './SidebarMenuContext'
 import ToggleGrid from './ToggleGrid'
+import { MainMenuToggleButton } from './ToggleMainMenu'
 
 const Bar = styled.div`
   position: fixed;
@@ -62,6 +63,10 @@ const BarInner = styled.div`
 
   /* make sure we are on 64px insted of 65px */
   padding: 0.5rem 2rem;
+
+  @media (max-width: 40em) {
+    padding: 0.5rem 5vw;
+  }
 
   align-items: center;
 `
@@ -127,24 +132,25 @@ export default class StickyMenuBar extends PureComponent {
                   ]}
                   className="sticky-menu"
                 >
-                  <BarInner
-                    className={`sticky-inner ${
-                      this.state.showGrid ? 'dev-grid' : ''
-                    }`}
-                  >
+                  <BarInner>
+                    <span>
+                      <MainMenuToggleButton />
+                    </span>
+                    <span className="center-wrapper" aria-hidden>
+                      <Icon icon={PortalLogo} size={48} />
+                      {slogan}
+                    </span>
                     <span>
                       <Button
                         icon={isOpen ? closeIcon : hamburgerIcon}
                         on_click={toggleMenu}
                         className="toggle-sidebar-menu"
-                        title={isOpen ? 'Hide Menu' : 'Show Menu'}
+                        title={
+                          isOpen
+                            ? 'Hide section content menu'
+                            : 'Show section content menu'
+                        }
                       />
-                    </span>
-                    <span className="center-wrapper">
-                      <Icon icon={PortalLogo} size={48} aria_hidden />
-                      {slogan}
-                    </span>
-                    <span>
                       <ToggleGrid />
                     </span>
                   </BarInner>
