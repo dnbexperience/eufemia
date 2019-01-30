@@ -20,15 +20,20 @@ const globalStyle = css`
     h5,
     h6,
     p,
-    small {
+    p > a,
+    p > code,
+    p > small {
       background-color: rgba(255, 255, 122, 0.35);
+      :only-child {
+        background-color: rgba(0, 200, 200, 0.25);
+      }
     }
 
-    code {
-      background-color: rgba(0, 200, 200, 0.25);
-      margin: 0 0 1rem 0;
+    ${'' /* code {
       display: block;
-    }
+      margin: 0 0 1rem 0;
+      background-color: rgba(0, 200, 200, 0.25);
+    } */}
   }
 `
 
@@ -95,13 +100,14 @@ export default class ToggleGrid extends Component {
   }
 
   render() {
+    const { showGrid } = this.state
     return (
       <ToggleWrapper className="toggle-grid">
-        <Global styles={globalStyle} />
+        {showGrid && <Global styles={globalStyle} />}
         <FormLabel for_id="switch-grid" text="Grid" />
         <Switch
           id="switch-grid"
-          checked={this.state.showGrid}
+          checked={showGrid}
           on_change={({ checked }) => this.toggleGrid(checked)}
         />
       </ToggleWrapper>

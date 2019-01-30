@@ -198,33 +198,30 @@ const Sidebar = styled.aside`
   /* lower than styled.main */
   z-index: 1;
 
+  /* height of StickyMenuBar */
+  height: calc(100vh - 4rem);
+  margin: 4rem 0 0;
+
+  /* make the sidebar scrollable */
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+
   background-color: var(--color-white);
 
-  --level-offset: 3vw;
-  @media (max-width: 50em) {
-    --level-offset: 2rem;
-  }
-
   ul {
-    margin: 0;
-    padding: 0;
+    /* some air we need */
+    padding: 2rem 0 1rem;
 
     /* has to be the same value as margin-left */
     width: 30vw;
     width: var(--aside-width);
   }
 
-  /* height of StickyMenuBar */
-  height: calc(100vh - 4rem);
-  margin: 4rem 0 0;
-
-  /* some air we need */
-  padding: 2rem 0 1rem;
-
-  /* make the sidebar scrollable */
-  overflow-x: hidden;
-  overflow-y: auto;
-  overscroll-behavior: contain;
+  --level-offset: 3vw;
+  @media (max-width: 50em) {
+    --level-offset: 2rem;
+  }
 
   /*
     God for a mobile menu insted
@@ -437,7 +434,7 @@ export default class SidebarLayout extends PureComponent {
                     ref={this._scrollRef}
                   >
                     {/* <MainMenuToggleButton /> */}
-                    <ul>{nav}</ul>
+                    <ul className="dev-grid">{nav}</ul>
                   </Sidebar>
                 )}
               </SidebarMenuConsumer>

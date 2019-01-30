@@ -20,6 +20,7 @@ const Bar = styled.div`
   position: fixed;
   z-index: 200;
   top: 0;
+  left: 0;
   width: 100%;
   height: 4rem;
 
@@ -130,7 +131,7 @@ export default class StickyMenuBar extends PureComponent {
                   css={[
                     hideSiebarToggleButton && hideSiebarToggleButtonStyle
                   ]}
-                  className="sticky-menu"
+                  className="sticky-menu dev-grid"
                 >
                   <BarInner>
                     <span>

@@ -50,9 +50,6 @@ export const gridStyle = ({
       transparent var(--grid-gutter-bold)
     );
 
-    border-bottom: solid var(--grid-line-thickness) var(--grid-color-bold);
-    border-right: solid var(--grid-line-thickness) var(--grid-color-bold);
-
     &::after {
       content: '';
 
@@ -66,6 +63,10 @@ export const gridStyle = ({
 
       background-image: var(--grid-columns), var(--grid-columns-bold),
         var(--grid-rows), var(--grid-rows-bold);
+
+      border-bottom: solid var(--grid-line-thickness)
+        var(--grid-color-bold);
+      border-right: solid var(--grid-line-thickness) var(--grid-color-bold);
     }
   `
 }
