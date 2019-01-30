@@ -12,7 +12,14 @@ $fonts-path: '../../../assets/fonts/' !default;
 
 small {
   font-size: var(--font-size-small); // 14px
-  line-height: 1.5rem;
+}
+p > small {
+  line-height: 1.375rem; // 22px
+}
+h4 > small,
+h5 > small,
+h6 > small {
+  line-height: 1.25rem; // 20px
 }
 
 h1,
@@ -26,7 +33,6 @@ h6 {
 
   font-family: var(--font-family-demi);
   font-weight: var(--font-weight-demi);
-  line-height: 1rem; // 16px
 
   color: var(--color-emerald-green);
 }
@@ -36,9 +42,8 @@ h1 {
   line-height: 3.5rem; // 56px
   font-weight: var(--font-weight-demi);
 }
-
-h1.small,
-h1 small {
+h1.dnb-small,
+h1 > small {
   display: block;
   font-size: var(--font-size-large); // 32px
   line-height: 3rem; // 48px
@@ -46,13 +51,18 @@ h1 small {
 
 h2 {
   font-size: var(--font-size-medium); // 24px
+  font-size: 2rem; // 24px
   line-height: 2rem; // 32px
 }
+h2 > small {
+  line-height: 1.625rem; // 26px (24px - 20px = 4px / 32px - 6px? = 26px)
+}
+h2.dnb-small,
+h2 > small {
+  font-size: var(--font-size-x-default); // 20px
+}
 
-/*
-  * H3 looks the same as .dnb-lead
-  *
-  */
+/* H3 looks the same as .dnb-lead */
 h3,
 .dnb-lead {
   font-family: var(--font-family-demi);
@@ -60,22 +70,22 @@ h3,
   font-size: var(--font-size-x-default); // 20px
   line-height: 2rem; // 32px
 }
+h3 > small {
+  line-height: 1.75rem; // 28px (20px - 16px = 4px / 32px - 4px = 28px)
+}
 h3 > small,
-h3.small,
+h3.dnb-small,
 .dnb-lead > small,
-.dnb-lead > .small {
+.dnb-lead > .dnb-small {
   font-size: var(--font-size-default); // 16px
-  line-height: 1.5rem; // 24px
 }
 
 // The rest of the Headings are nod defned by the Eufemia Typography
 h4 {
   font-size: var(--font-size-x-default); // 20px
-  line-height: 1.5rem; // 24px
 }
 h5 {
   font-size: var(--font-size-default); // 16px
-  line-height: 1.5rem; // 24px
 }
 h6 {
   font-size: var(--font-size-small);
