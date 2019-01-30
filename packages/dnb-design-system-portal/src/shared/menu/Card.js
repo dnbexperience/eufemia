@@ -184,7 +184,7 @@ export default class Card extends PureComponent {
                   variant="tertiary"
                   icon="chevron_right"
                   text="Read more"
-                  tabindex="-1"
+                  tabIndex="-1"
                 />
               </BottomWrapper>
             </Link>
