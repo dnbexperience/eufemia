@@ -3,13 +3,6 @@
  *
  */
 
-// const babelrc = {
-//   babelrc: false,
-//   presets: ['env', 'react'],
-//   ignore: ['node_modules/**'],
-//   plugins: ['transform-object-rest-spread', 'transform-class-properties']
-// }
-
 module.exports = (storybookBaseConfig, configType) => {
   storybookBaseConfig.module.rules.push({
     test: /\.(css|scss)$/,
@@ -23,6 +16,18 @@ module.exports = (storybookBaseConfig, configType) => {
     test: /\.(txt|md)$/,
     use: 'raw-loader'
   })
+
+  // We used to define the loaders for *.js here
+  // const babelrc = {
+  //   babelrc: false,
+  //   presets: ['@babel/preset-env', '@babel/preset-react'],
+  //   ignore: ['node_modules/**'],
+  //   plugins: [
+  //     'emotion',
+  //     '@babel/plugin-proposal-object-rest-spread',
+  //     '@babel/plugin-proposal-class-properties'
+  //   ]
+  // }
   // storybookBaseConfig.module.rules.push({
   //   test: /\.(js)$/,
   //   exclude: /node_modules/,
