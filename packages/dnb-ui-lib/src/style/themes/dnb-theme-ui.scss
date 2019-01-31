@@ -81,13 +81,14 @@ h3.dnb-small,
 
 // The rest of the Headings are nod defned by the Eufemia Typography
 h4 {
-  font-size: var(--font-size-x-default); // 20px
-}
-h5 {
   font-size: var(--font-size-default); // 16px
 }
+h5 {
+  font-size: var(--font-size-small); // 14px
+}
 h6 {
-  font-size: var(--font-size-small);
+  font-size: var(--font-size-small); // 14px
+  font-weight: var(--font-weight-book);
 }
 
 p {
