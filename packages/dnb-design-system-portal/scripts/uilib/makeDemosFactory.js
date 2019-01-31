@@ -10,7 +10,8 @@ import runFactory from './tasks/makerFactory'
 import processAllPartsFile from './tasks/processAllPartsFile'
 import packpath from 'packpath'
 
-if (require.main === module && process.env.NODE_ENV !== 'test') {
+// Disabled=0 due to that this will be a manual ting in future
+if (0 && require.main === module && process.env.NODE_ENV !== 'test') {
   const ignoreUiLibList = ['web-components', 'style']
   const filterOut = [] // before we had in here: 'input-masked', 'icon-primary'
   const keepFiles = [] //'!**/footer/*'
