@@ -113,7 +113,7 @@ class LiveCode extends PureComponent {
     const { hideToolbar, hideCode, hidePreview } = this.state
 
     const props = Object.entries(rest).reduce((acc, [key, value]) => {
-      if (!['hideCode', 'hidePreview'].includes(key)) {
+      if (!['hideCode', 'hidePreview', 'hideToolbar'].includes(key)) {
         acc[key] = value
       }
       return acc
@@ -162,7 +162,7 @@ class LiveCode extends PureComponent {
               )}
             </Toolbar>
           )}
-          {!hideCode && <LiveEditor language="jsx" />}
+          {!hideCode && <LiveEditor language="jsx" ignoreTabKey />}
           {!hideCode && (
             <LiveError className="dnb-form-status dnb-form-status--text dnb-form-status--error" />
           )}
