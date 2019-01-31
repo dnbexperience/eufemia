@@ -33,13 +33,6 @@ const Bar = styled.div`
   overflow: hidden;
   white-space: nowrap;
 
-  .center-wrapper {
-    .dnb-icon:nth-of-type(1) {
-      color: var(--color-sea-green);
-      margin-right: 0.5rem;
-    }
-  }
-
   .toggle-sidebar-menu {
     display: none;
   }
@@ -51,6 +44,15 @@ const Bar = styled.div`
   @media (max-width: 50em) {
     .toggle-sidebar-menu {
       display: flex;
+    }
+  }
+  @media (max-width: 40em) {
+    /* make the button round */
+    button:nth-of-type(1) {
+      padding: 0 0.2rem;
+      .dnb-button__text {
+        display: none;
+      }
     }
   }
 `
@@ -70,6 +72,17 @@ const BarInner = styled.div`
   }
 
   align-items: center;
+`
+const Slogan = styled.span`
+  @media (max-width: 40em) {
+    display: none;
+  }
+`
+const CenterWrapper = styled.span`
+  .dnb-icon:nth-of-type(1) {
+    color: var(--color-sea-green);
+    margin-right: 0.5rem;
+  }
 `
 
 const hideSiebarToggleButtonStyle = css`
@@ -137,10 +150,10 @@ export default class StickyMenuBar extends PureComponent {
                     <span>
                       <MainMenuToggleButton />
                     </span>
-                    <span className="center-wrapper" aria-hidden>
+                    <CenterWrapper aria-hidden>
                       <Icon icon={PortalLogo} size={48} />
-                      {slogan}
-                    </span>
+                      <Slogan>{slogan}</Slogan>
+                    </CenterWrapper>
                     <span>
                       <Button
                         icon={isOpen ? closeIcon : hamburgerIcon}

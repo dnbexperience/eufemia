@@ -31,7 +31,6 @@ export class MainMenuProvider extends PureComponent {
       },
       ...props
     }
-    // console.log('MainMenuProvider', this.state)
   }
 
   toggleMenu = (state = null) => {
@@ -48,7 +47,7 @@ export class MainMenuProvider extends PureComponent {
           isActive: isOpen
         })
       },
-      state ? 860 : 260
+      state ? 800 : 400
     )
     this.setState({
       isClosing: state,
@@ -85,9 +84,6 @@ export class MainMenuProvider extends PureComponent {
           openMenu: this.openMenu,
           closeMenu: this.closeMenu,
           ...this.state
-          // isOpen: this.state.isOpen,
-          // isClosing: this.state.isClosing,
-          // isActive: this.state.isActive
         }}
       >
         {children}

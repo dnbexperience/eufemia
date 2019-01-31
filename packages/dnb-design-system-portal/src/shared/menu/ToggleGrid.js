@@ -42,9 +42,7 @@ const ToggleWrapper = styled.span`
     margin: 1px 0.5rem 0;
   }
   @media (max-width: 50em) {
-    & {
-      display: none;
-    }
+    display: none;
   }
 `
 

@@ -37,7 +37,14 @@ class MainWrapper extends PureComponent {
 
   componentDidMount() {
     setPageFocusElement(this._focusRef.current, 'mainmenu')
-    applyPageFocus('mainmenu')
+    this.aniTimeout = setTimeout(() => {
+      applyPageFocus('mainmenu')
+    }, 600) // because of the animation
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.aniTimeout)
+    applyPageFocus('content')
   }
 
   render() {
@@ -57,9 +64,6 @@ const MainWrapperStyled = styled.div`
   width: 100vw;
   height: 100vh;
 
-  background-color: transparent;
-  transition: background-color ease-out 0.4s;
-
   @media (max-width: 40em), (max-height: 55em) {
     height: auto;
   }
@@ -73,6 +77,9 @@ const MainWrapperStyled = styled.div`
       height: 100%;
     }
   }
+
+  background-color: transparent;
+  transition: background-color ease-out 0.8s;
 
   &.is-open&:not(.is-closing),
   &:not(.is-overlay) {
@@ -124,6 +131,18 @@ const Toolbar = styled.div`
 
   width: 100%;
   height: 16vh;
+
+  opacity: 0;
+  animation: toolbar-fade-in 800ms ease-out 1 0.6s forwards;
+
+  @keyframes toolbar-fade-in {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
 `
 
 const LastUpadted = styled.span`
@@ -187,12 +206,19 @@ export default class MainMenu extends PureComponent {
                   isOpen && 'is-open',
                   isClosing && 'is-closing'
                 )}
+                aria-hidden={isClosing}
               >
                 {
                   <>
                     <Global styles={toggleGlobalStyle} />
                     {(enableOverlay && (
-                      <Toolbar>
+                      <Toolbar
+                        className={classnames(
+                          // enableOverlay && 'is-overlay',
+                          // isOpen && 'is-open',
+                          isClosing && 'is-closing'
+                        )}
+                      >
                         {isOpen && !isClosing && (
                           <Button
                             variant="secondary"

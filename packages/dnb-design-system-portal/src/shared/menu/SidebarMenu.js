@@ -207,6 +207,13 @@ const Sidebar = styled.aside`
   overflow-y: auto;
   overscroll-behavior: contain;
 
+  /* make the sidemenu accsible for screenreaders on mobile devices  */
+  @media (max-width: 50em) {
+    position: relative;
+    height: auto;
+    overflow: auto;
+  }
+
   background-color: var(--color-white);
 
   ul {
@@ -435,6 +442,15 @@ export default class SidebarLayout extends PureComponent {
                   >
                     {/* <MainMenuToggleButton /> */}
                     <ul className="dev-grid">{nav}</ul>
+                    {isOpen && (
+                      <Global
+                        styles={css`
+                          .dnb-page-content {
+                            display: none !important;
+                          }
+                        `}
+                      />
+                    )}
                   </Sidebar>
                 )}
               </SidebarMenuConsumer>
@@ -493,6 +509,14 @@ class ListItem extends PureComponent {
       children
     } = this.props
 
+    const statusTitle =
+      status &&
+      {
+        wip: 'Working in Progress',
+        dep: 'Deprecated',
+        imp: 'Needs improvement'
+      }[status]
+
     return (
       <StyledListItem
         className={classnames(
@@ -524,14 +548,8 @@ class ListItem extends PureComponent {
           {status && (
             <span
               className="status-badge"
-              title={
-                ' ' +
-                {
-                  wip: 'Working in Progress',
-                  dep: 'Deprecated',
-                  imp: 'Needs improvement'
-                }[status]
-              }
+              title={statusTitle}
+              aria-label={statusTitle}
             >
               {status}
             </span>
