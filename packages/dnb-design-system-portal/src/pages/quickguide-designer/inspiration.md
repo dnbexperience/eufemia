@@ -1,5 +1,6 @@
 ---
 title: 'Inspiration'
+icon: 'inspiration'
 draft: false
 ---
 

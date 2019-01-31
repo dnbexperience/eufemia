@@ -2,13 +2,13 @@
 draft: true
 ---
 
-## In General...
+## In General
 
-The default font for all web applications is Fedra Sans Standard. Fallback fonts are:
+The default font for all web applications is Fedra Sans Standard.
 
-##### Downloads:
+You will need to request use and download of the font due to licensing.
 
-@kevin Add information or downloads here...
+Make sure it is installed on your system so you can use the design resources.
 
 ## Typographic scale
 
@@ -32,4 +32,4 @@ The reason for this is to provide an out-of-the-box style which looks good befor
 
 Make sure to stick to the Eufemia spacing system when adding or removing bottom margins.
 
-Padding is also NOT something applied to blocks of text by default.
+Padding is also not something applied to blocks of text by default.

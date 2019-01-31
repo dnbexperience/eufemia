@@ -8,6 +8,7 @@ import calendar from './calendar.js'
 import calendar_medium from './calendar_medium.js'
 import check from './check.js'
 import check_alt_01 from './check_alt_01.js'
+import check_alt_01_medium from './check_alt_01_medium.js'
 import check_medium from './check_medium.js'
 import chevron_down from './chevron_down.js'
 import chevron_down_medium from './chevron_down_medium.js'
@@ -49,6 +50,7 @@ export {
   calendar_medium,
   check,
   check_alt_01,
+  check_alt_01_medium,
   check_medium,
   chevron_down,
   chevron_down_medium,

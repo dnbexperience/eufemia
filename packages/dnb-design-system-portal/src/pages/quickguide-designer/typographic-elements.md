@@ -59,7 +59,7 @@ This is a regular paragraph following the text above. Quem facilisi moderatius i
 </p>
 </div>
 
-#### Heading
+#### H2 Heading
 
 ##### Use when:
 
@@ -180,15 +180,18 @@ You wish to......
 
 There are two methods to create 'small' text. One, is to use the 'dnb-small' class which can be used on paragraphs etc. and allows you to use a bottom margin. The other method is to just use a 'small' tag which is inline and cannot have a margin.
 
-##### Example #1:
+<!--
+
+##### Example #1 dnb-small class on the p tag:
 
 <div class="typography-box">
 <p class="dnb-small">
 This is a 'dnb-small' <b>class</b> on a paragraph tag. Lorem ipsum this has no p tag. Quem facilisi moderatius id eam, id tamquam albucius per. Vel quem congue appareat cu, mei te eros convenire. Sea bonorum epicuri ea, ei exerci tacimates pro, aliquam pertinacia eu vim. Vix ei stet ornatus.
 </p>
 </div>
+-->
 
-##### Example #2:
+##### Example #1 - small tag embedded in a p tag:
 
 <div class="typography-box">
 <p>
@@ -196,7 +199,7 @@ This is a paragraph with a <b>small tag</b> inserted here: <small>this is the sm
 </p>
 </div>
 
-##### Example #3:
+##### Example #2 text wrapped in a small tag:
 
 <div class="typography-box">
 <small>

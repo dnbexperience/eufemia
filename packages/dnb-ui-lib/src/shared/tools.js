@@ -3,8 +3,15 @@
  *
  */
 
-export const pageFocus = (element = null) => {
+const pageFocusElements = {}
+export const setPageFocusElement = (element = null, key = 'default') => {
+  pageFocusElements[key] = element
+}
+
+export const applyPageFocus = (key = 'default') => {
+  console.log('applyPageFocus', key)
   try {
+    let element = pageFocusElements[key]
     if (!element) {
       element = document.querySelector('.dnb-no-focus')
     }
@@ -18,7 +25,7 @@ export const pageFocus = (element = null) => {
       ) {
         element.classList.add('dnb-no-focus')
       }
-      element.focus()
+      element.focus({ preventScroll: true })
     }
   } catch (e) {
     // console.log('DNB pageFocus', e)

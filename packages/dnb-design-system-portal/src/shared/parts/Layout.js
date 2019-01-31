@@ -3,17 +3,22 @@
  *
  */
 
-import { pageFocus } from 'dnb-ui-lib/src/shared/tools'
+import { setPageFocusElement } from 'dnb-ui-lib/src/shared/tools'
 import React, { PureComponent } from 'react'
 import { Link } from 'gatsby'
 
 import PropTypes from 'prop-types'
+import MainMenu from '../menu/MainMenu'
 import Sidebar from '../menu/SidebarMenu'
 import StickyMenuBar from '../menu/StickyMenuBar'
 import { markdownStyle } from './Markdown'
 import styled from '@emotion/styled'
 import classnames from 'classnames'
 import { buildVersion } from '../../../package.json'
+import {
+  MainMenuProvider,
+  MainMenuConsumer
+} from '../menu/MainMenuContext'
 import { SidebarMenuProvider } from '../menu/SidebarMenuContext'
 // import ToggleGrid from '../menu/ToggleGrid'
 
@@ -29,7 +34,8 @@ class Layout extends PureComponent {
   }
 
   componentDidMount() {
-    pageFocus(this._ref.current)
+    // gets aplyed on "onRouteUpdate"
+    setPageFocusElement(this._ref.current, 'content')
   }
 
   render() {
@@ -55,18 +61,29 @@ class Layout extends PureComponent {
     }
 
     return (
-      <SidebarMenuProvider>
-        <StickyMenuBar />
-        <Wrapper className="content-wrapper">
-          <Sidebar location={location} showAll={false} />
-          <Content tabIndex="-1" innerRef={this._ref}>
-            <MaxWidth className="dnb-page-content-inner">
-              {children}
-              <Footer />
-            </MaxWidth>
-          </Content>
-        </Wrapper>
-      </SidebarMenuProvider>
+      <MainMenuProvider>
+        <SidebarMenuProvider>
+          <MainMenu enableOverlay />
+          <MainMenuConsumer>
+            {({ isOpen, isClosing }) =>
+              (!isOpen || isClosing) && (
+                <>
+                  <StickyMenuBar />
+                  <Wrapper className="content-wrapper">
+                    <Sidebar location={location} showAll={false} />
+                    <Content tabIndex="-1" innerRef={this._ref}>
+                      <MaxWidth className="dnb-page-content-inner">
+                        {children}
+                        <Footer />
+                      </MaxWidth>
+                    </Content>
+                  </Wrapper>
+                </>
+              )
+            }
+          </MainMenuConsumer>
+        </SidebarMenuProvider>
+      </MainMenuProvider>
     )
   }
 }
@@ -75,11 +92,12 @@ export default Layout
 
 const Wrapper = styled.div`
   position: relative;
-  z-index: 2; /* one less than "is-overlay" */
-  display: flex;
-  justify-content: space-between;
+  z-index: 2;
 
-  @media only screen and (max-width: 50rem) {
+  display: flex;
+  justify-content: space-between; /* pos Footer at the bottom */
+
+  @media (max-width: 50em) {
     display: block;
   }
 `
@@ -114,36 +132,27 @@ const Main = styled.main`
   justify-content: center;
 
   width: 100%;
-  min-height: calc(100vh - 4rem); /* height of StickyMenuBar */
   overflow: visible;
 
-  margin-top: 5rem; /* height of StickyMenuBar - 1px border */
+  margin-top: 4rem; /* height of StickyMenuBar - 1px border */
   margin-left: 30vw; /* fallback */
   margin-left: var(--aside-width);
   padding: 0;
 
   .dnb-page-content-inner {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    min-height: calc(100vh - 4rem); /* height of StickyMenuBar */
     padding: 2rem 5vw 2rem;
   }
 
-  /* fix overscroll issue on top */
-  &::before {
-    content: '';
-    position: absolute;
-    top: -5rem;
-    left: -1px;
-    height: 5rem;
-    width: 100%;
-  }
-
-  &,
-  &::before {
-    background-color: var(--color-black-background);
-    border-left: 1px solid var(--color-black-border);
-  }
+  background-color: var(--color-black-background);
+  border-left: 1px solid var(--color-black-border);
 
   /* make sure that Sidebar aside "styled.aside" gets the same max-width */
-  @media only screen and (max-width: 50rem) {
+  @media (max-width: 50em) {
     margin-left: 0;
     padding-left: 0;
   }
@@ -159,7 +168,7 @@ const MaxWidth = styled.div`
   width: 50vw;
   padding: 0 2rem;
 
-  @media only screen and (max-width: 120rem) {
+  @media (max-width: 120rem) {
     width: 100%;
     position: relative;
   }

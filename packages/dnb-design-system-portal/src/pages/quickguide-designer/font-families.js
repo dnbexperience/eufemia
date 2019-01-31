@@ -77,14 +77,16 @@ const Syntax = () => (
 
     <h5>Fedra Sans Medium Italic</h5>
     <div className="typography-box">
-      <div className="dnb-typo-medium-italic">
+      <div className="dnb-typo-medium">
         <p>
-          Here is a paragraph with some nonsense lipsum text. Contrary to
-          popular belief, Lorem Ipsum passage, and going through the cites
-          of the word in classical literature, discovered the undoubtable
-          source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of
-          &quot;de Finibus Bonorum et Malorum&quot; (The Extremes of Good
-          and Evil) by Cicero, written in 45 BC.
+          <i>
+            Here is a paragraph with some nonsense lipsum text. Contrary to
+            popular belief, Lorem Ipsum passage, and going through the
+            cites of the word in classical literature, discovered the
+            undoubtable source. Lorem Ipsum comes from sections 1.10.32 and
+            1.10.33 of &quot;de Finibus Bonorum et Malorum&quot; (The
+            Extremes of Good and Evil) by Cicero, written in 45 BC.
+          </i>
         </p>
         <h5>Here are some numbers:</h5>
         <div className="dnb-font-family-demo__numbers">

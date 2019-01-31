@@ -1,12 +1,12 @@
 ---
-title: 'Properties'
+title: 'Component Properties'
 draft: false
 order: 3
 ---
 
 import PropertiesExample from 'Pages/uilib/usage/customisation/examples/properties-example'
 
-# Properties
+# Component Properties
 
 ## What if a property has to change at runtime?
 

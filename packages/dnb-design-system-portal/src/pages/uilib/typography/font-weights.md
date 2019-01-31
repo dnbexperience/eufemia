@@ -14,7 +14,7 @@ import TypographyExamples from 'Pages/uilib/typography/TypographyExamples'
 - <span class="dnb-typo-demi">Demi</span> (500)
 - <span class="dnb-typo-medium">Medium</span> (600)
 
-### How to use the Weights
+### How to use the Weights (CSS)
 
 ```css
 /* I am Book */
@@ -31,6 +31,20 @@ p {
 p {
   font-weight: var(--font-weight-medium); /* 600 */
 }
+
+/* This will result in loading the Medium Font */
+.my-new-class {
+  font-weight: var(--font-weight-demi);
+}
+```
+
+### Usage in HTML (Helper Classes)
+
+```html
+<!-- Example usage of Weights in Markup -->
+<h3 class="dnb-typo-book">Heading</h3>
+<p class="dnb-typo-demi">Paragraph</p>
+<span class="dnb-typo-medium">Third Tag</span>
 ```
 
 ## Examples

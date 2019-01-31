@@ -7,7 +7,10 @@
 // styles styles are effected within the scope of ".dnb-style"
 // we also check if there is a class starting with "dnb-*"
 // this is to make sure we don't effect these styles inside of components
-.dnb-style *:not([class^='dnb-']) > {
+.dnb-style {
+  // *:not([class^='dnb-']) > {
+  // }
+
   h1,
   h2,
   h3,
@@ -26,165 +29,12 @@
   }
 
   p,
-  blockquote,
   ul,
   ol,
   dl,
+  blockquote,
   pre {
     margin-top: 0;
     margin-bottom: 1rem;
-  }
-
-  ul,
-  ol {
-    padding-left: 2em;
-    margin-top: 0;
-    margin-bottom: 0;
-    line-height: 1.5rem;
-  }
-
-  li {
-    word-wrap: break-all;
-  }
-
-  ul li,
-  ol li {
-    margin-top: 1em;
-    margin-bottom: 1em;
-  }
-
-  li > p {
-    margin-top: 1em;
-  }
-
-  li + li {
-    margin-top: 0.25em;
-  }
-
-  ol ol,
-  ul ol {
-    list-style-type: lower-roman;
-  }
-
-  ul ul,
-  ul ol,
-  ol ol,
-  ol ul {
-    margin-top: 0;
-    margin-bottom: 0;
-  }
-
-  ul ul ol,
-  ul ol ol,
-  ol ul ol,
-  ol ol ol {
-    list-style-type: lower-alpha;
-  }
-
-  dd {
-    margin-left: 0;
-  }
-
-  dl {
-    padding: 0;
-  }
-
-  dl dt {
-    padding: 0;
-    margin-top: 1em;
-    font-size: 1em;
-    font-style: italic;
-    font-weight: var(--font-weight-medium);
-  }
-
-  dl dd {
-    padding: 0 1em;
-    margin-bottom: 1em;
-  }
-
-  blockquote {
-    padding: 0 1em;
-    color: var(--color-summer-green);
-    border-left: 4px dotted var(--color-summer-green);
-  }
-
-  blockquote > :first-child {
-    margin-top: 0;
-  }
-
-  blockquote > :last-child {
-    margin-bottom: 0;
-  }
-
-  img {
-    box-sizing: content-box;
-    max-width: 100%;
-    border-style: none;
-    background-color: #fff;
-  }
-
-  img[align='right'] {
-    padding-left: 1.2rem;
-  }
-
-  img[align='left'] {
-    padding-right: 1.2rem;
-  }
-
-  table {
-    display: block;
-    width: 100%;
-
-    overflow: auto;
-    margin-top: 0;
-    margin-bottom: 1rem;
-
-    border-spacing: 0;
-    border-collapse: collapse;
-  }
-  table th,
-  table td {
-    white-space: nowrap;
-
-    // to make sure we have the ability to have a border where ever we want
-    border-bottom: 1px solid transparent;
-
-    font-size: 1em;
-    line-height: 1.5em;
-  }
-  table th {
-    padding: 3em 1em 0.5em;
-
-    font-weight: var(--font-weight-medium);
-    text-align: left;
-    color: var(--color-emerald-green);
-
-    background-color: var(--color-mint-green-12);
-    border-bottom: 1px solid var(--color-mint-green);
-  }
-  table td {
-    padding: 1.0625em 1em;
-    border-bottom: 1px solid transparent;
-
-    line-height: 1.5em;
-  }
-  table tr {
-    background-color: #fff;
-  }
-  table tr:nth-child(2n) {
-    background-color: var(--color-mint-green-12);
-  }
-
-  code,
-  * code {
-    margin: 0;
-
-    font-size: 0.875em;
-    background-color: var(--color-mint-green-25);
-    border-radius: 0.1875em;
-  }
-  pre,
-  * pre {
-    word-wrap: normal;
   }
 }

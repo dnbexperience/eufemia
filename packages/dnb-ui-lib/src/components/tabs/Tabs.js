@@ -263,21 +263,26 @@ export default class Tabs extends PureComponent {
         null
       )
     }
+
     if (selected_key) {
       this.setState({
         selected_key
       })
+    }
 
-      dispatchCustomElementEvent(this, 'on_change', {
-        key: selected_key
-      })
+    dispatchCustomElementEvent(this, 'on_change', {
+      key: selected_key
+    })
 
-      if (this.props.use_hash && typeof window !== 'undefined') {
-        try {
-          window.location.hash = selected_key
-        } catch (e) {
-          console.log('Tabs Error:', e)
-        }
+    if (this.props.use_hash && typeof window !== 'undefined') {
+      try {
+        window.history.replaceState(
+          undefined,
+          undefined,
+          `#${selected_key}`
+        )
+      } catch (e) {
+        console.log('Tabs Error:', e)
       }
     }
   }
@@ -315,19 +320,22 @@ export default class Tabs extends PureComponent {
     }
   }
 
-  renderContent() {
+  renderContent(useKey = null) {
     const { children } = this.props
 
-    const { selected_key } = this.state
+    if (!useKey) {
+      const { selected_key } = this.state
+      useKey = selected_key
+    }
     let content = null
 
     if (children) {
-      if (typeof children === 'object' && children[selected_key]) {
+      if (typeof children === 'object' && children[useKey]) {
         // if content is provided as an object
-        content = children[selected_key]
+        content = children[useKey]
       } else if (typeof children === 'function') {
         // if content is provided as a render prop
-        content = children.apply(this, [selected_key])
+        content = children.apply(this, [useKey])
       }
     }
 
@@ -345,7 +353,7 @@ export default class Tabs extends PureComponent {
       // - or the content was provided as a content prop i data
       if (items) {
         content = items
-          .filter(({ key }) => key && selected_key && key === selected_key)
+          .filter(({ key }) => key && useKey && key === useKey)
           .reduce((acc, { content }) => content || acc, null)
       }
     }
@@ -437,7 +445,6 @@ export default class Tabs extends PureComponent {
       return (
         <div {...params} {...rest}>
           {children}
-          {/* {content} */}
         </div>
       )
     }

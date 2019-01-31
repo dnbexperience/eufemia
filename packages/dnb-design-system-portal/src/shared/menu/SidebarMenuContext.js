@@ -1,5 +1,5 @@
 /**
- * Sidebar menu Provider
+ * SidebarMenu Provider
  *
  */
 
@@ -78,8 +78,7 @@ export class SidebarMenuProvider extends PureComponent {
           toggleMenu: this.toggleMenu,
           openMenu: this.openMenu,
           closeMenu: this.closeMenu,
-          isOpen: this.state.isOpen,
-          isClosing: this.state.isClosing
+          ...this.state
         }}
       >
         {children}

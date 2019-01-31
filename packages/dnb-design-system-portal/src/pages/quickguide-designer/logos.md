@@ -1,5 +1,6 @@
 ---
 title: 'Logos'
+icon: 'logos'
 draft: false
 ---
 
