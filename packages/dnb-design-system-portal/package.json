@@ -24,7 +24,7 @@
     "lint-ci": "yarn lint:js && yarn lint:styles",
     "lint-staged": "lint-staged",
     "lint:js": "yarn lint --fix",
-    "lint:js:staged": "yarn lint:js",
+    "lint:js:staged": "eslint --quiet --fix",
     "lint:styles": "stylelint './src/**/*.{js,css}'",
     "lint:styles:staged": "stylelint",
     "make-ui-lib-pages": "babel-node ./scripts/uilib/makeDemosFactory.js && yarn prettier:components",
