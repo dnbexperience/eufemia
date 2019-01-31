@@ -83,20 +83,22 @@ class LiveCode extends PureComponent {
   static propTypes = {
     code: PropTypes.string.isRequired,
     scope: PropTypes.object.isRequired,
+    hideToolbar: PropTypes.bool,
     hideCode: PropTypes.bool,
     hidePreview: PropTypes.bool,
     caption: PropTypes.string
   }
   static defaultProps = {
     caption: null,
+    hideToolbar: false,
     hideCode: false,
     hidePreview: false
   }
 
   constructor(props) {
     super(props)
-    const { hideCode, hidePreview } = props
-    this.state = { hideCode, hidePreview }
+    const { hideToolbar, hideCode, hidePreview } = props
+    this.state = { hideToolbar, hideCode, hidePreview }
   }
 
   toggleCode = () => {
@@ -108,7 +110,7 @@ class LiveCode extends PureComponent {
 
   render() {
     const { code, caption, scope, ...rest } = this.props
-    const { hideCode, hidePreview } = this.state
+    const { hideToolbar, hideCode, hidePreview } = this.state
 
     const props = Object.entries(rest).reduce((acc, [key, value]) => {
       if (!['hideCode', 'hidePreview'].includes(key)) {
@@ -129,7 +131,7 @@ class LiveCode extends PureComponent {
           {!hidePreview && (
             <>
               <div className="example-box">
-                {this.props.hideCode && (
+                {!hideToolbar && hideCode && (
                   <Button
                     className="toggle-button"
                     on_click={this.toggleCode}
@@ -145,19 +147,21 @@ class LiveCode extends PureComponent {
               </div>
             </>
           )}
-          <Toolbar>
-            {hidePreview && (
-              <Button
-                className="toggle-button"
-                on_click={this.togglePreview}
-                variant="secondary"
-                text="Preview"
-                title="Toggle Preview"
-                icon={`chevron-${!hidePreview ? 'down' : 'up'}`}
-                size="medium"
-              />
-            )}
-          </Toolbar>
+          {!hideToolbar && (
+            <Toolbar>
+              {hidePreview && (
+                <Button
+                  className="toggle-button"
+                  on_click={this.togglePreview}
+                  variant="secondary"
+                  text="Preview"
+                  title="Toggle Preview"
+                  icon={`chevron-${!hidePreview ? 'down' : 'up'}`}
+                  size="medium"
+                />
+              )}
+            </Toolbar>
+          )}
           {!hideCode && <LiveEditor language="jsx" />}
           {!hideCode && (
             <LiveError className="dnb-form-status dnb-form-status--text dnb-form-status--error" />

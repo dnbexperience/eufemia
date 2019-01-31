@@ -42,15 +42,24 @@ Once You import the `dnb-ui-lib` style, You will not only get the HTML Element s
 
 With [Node.js](https://nodejs.org/) as our JavaScript runtime in place, we may use ES6 (ECMAScript 2015) to write our application. There are many frameworks and libraries to build user interfaces. If we take [React JSX](https://reactjs.org/docs/add-react-to-a-website.html#optional-try-react-with-jsx) as an starting point, we basically [do this](/uilib/usage/first-steps/react):
 
-<ComponentBox>
+<ComponentBox hideCode hideToolbar>
 {`
 <Button text="Primary Button" />
 `}
 </ComponentBox>
 
+```jsx
+// Define the imports
+import { Button } from 'dnb-ui-lib'
+
+// In Your JSX
+render(<Button text="Primary Button" />)
+```
+
 You also may [import the styles](/uilib/usage/customisation/styling) on a higher lever in Your application:
 
 ```js
+// e.g. in the App root
 import 'dnb-ui-lib/style'
 ```
 
