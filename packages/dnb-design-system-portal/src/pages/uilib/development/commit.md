@@ -14,9 +14,17 @@ Version numbers are handled automatically by using [semantic-release](https://gi
 
 Make sure to decorate Your **commit messages** with either [commit message format](https://github.com/semantic-release/semantic-release#commit-message-format) or simply use the following three methods:
 
-- `major: breaking change in API`
-- `minor: this is a new feature`
 - `fix: an example fix message`
+- `feat: this is a new feature`
+- `break: breaking change in API`
+
+You can use these synonyms as well:
+
+- `patch: an example fix message`
+- `minor: this is a new feature`
+- `major: breaking change in API`
+
+Read more about [simple-commit-message](https://github.com/bahmutov/simple-commit-message).
 
 ## Committing changes
 

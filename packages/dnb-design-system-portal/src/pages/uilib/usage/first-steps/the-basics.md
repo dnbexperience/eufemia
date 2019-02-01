@@ -79,7 +79,15 @@ In case you don't have a compiling/build process, You can use the UMD packed ver
     ...
     <link
       rel="stylesheet"
-      href="https://unpkg.com/dnb-ui-lib@latest/style/dnb-ui-lib.min.css"
+      href="https://unpkg.com/dnb-ui-lib@latest/style/dnb-ui-core.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/dnb-ui-lib@latest/style/dnb-ui-components.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/dnb-ui-lib@latest/style/themes/dnb-theme-ui.min.css"
     />
   </head>
   <body>

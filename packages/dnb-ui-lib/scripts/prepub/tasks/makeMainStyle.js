@@ -23,7 +23,7 @@ export default async () => {
   await runFactory('./src/style/**/themes/*.scss', { importOnce: false })
   await runFactory('./src/style/**/dnb-ui-components.scss')
   await runFactory('./src/style/**/dnb-ui-patterns.scss')
-  await runFactory('./src/style/**/dnb-ui-lib.scss')
+  await runFactory('./src/style/**/dnb-ui-core.scss')
   log.succeed(
     '> PrePublish: "makeMainStyle" transforming style modules done'
   )

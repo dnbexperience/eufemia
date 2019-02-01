@@ -10,71 +10,79 @@ import CSSDiagram from 'Pages/uilib/usage/customisation/assets/css_structure_dia
 
 # Styling
 
-The CSS is a compiled and minified version. You will find it here: `dnb-ui-lib/style/dnb-ui-lib.min.css`
+To ensure flexibility and the possibility of [theming](/uilib/usage/customisation/theming), the DNB CSS Styles area build in a bottom up manner.
 
-The following Diagram gives an overall overview how the styles are structured.
+The styles are decoupled from the functional [components](/uilib/components).
+There are several Packages You can use and consume.
+
+- **dnb-ui-core** - Includes the `core styles`.
+- **dnb-ui-components** - Includes all the styles for the `components`.
+- **dnb-theme-ui** - Includes both the `core theme` (_inkl. HTML elements_) and themes for every `component`.
+
+All the CSS packages are ready to use, minified CSS files. You will find the main style here, like: `dnb-ui-lib/style/dnb-ui-core.min.css`
+
+Additionally, it is also possible to import a style and theme for every single component separately. You find theme here, like: `dnb-ui-lib/components/[button]/style/dnb-button.min.css`
+
+The following Diagram gives an overall overview how the packages are structured.
 
 <CSSDiagram />
 
-## Apply the DNB Style
+## Spacing
 
-To use the default DNB style, you have to define a CSS class called: `dnb-style`
-You can set this class on the document body or on any content container.
+To ensure more flexibility, all the margins / spacings are reset to zero. But more often we have to have a by default defined `margin-bottom` for HTML Elements like a heading or a paragraph.
+
+To use the default DNB spacings, You can define a CSS class called: `.dnb-style`
+Everything inside this container will then have a default spacing. This will be specially helpful for article alike pages.
 
 ```html
 <div class="dnb-style">
   <!-- DNB spacings and sizing -->
-  <h1>e.g. I have now a margin and a size</h1>
+  <h1>e.g. I have now a margin</h1>
   <p>☝🏻 Me as well</p>
 </div>
 ```
 
-The styles for the `dnb-style` are included in the default UI Theme.
+The styles for the `.dnb-style` are included in the package: **dnb-theme-ui**
 
-`dnb-ui-lib/style/themes/dnb-ui-theme.min.css`
+## Importing the CSS
 
-### What does `.dnb-style` apply?
-
-Once You have to style HTML Elements like:
-
-- Headings
-- Paragraphs
-- Basic Tables
-- Lists (ordered and unordered)
-
-### The Reason
-
-The benefits of explicitly defining the style class `.dnb-style`, is that we then can use our [components](/uilib/components) on their own, without effecting all the existing styled HTML Elements and tags. This gives use a kind of backwards compatibility.
-But it makes it also more flexible, like if we only want to apply our DNB HTML Elements Styles to a certain area of our web application.
-
-## For Node based environments
-
-To include the `dnb-ui-lib` styles (except patterns), do this:
+To include the packages `dnb-ui-core` and `dnb-ui-components` in a Node based environment (given You have a CSS loader in place), do this:
 
 ```js
-// This also includes the default DNB UI Theme
+// This includes the "dnb-ui-core", "dnb-ui-components" and "dnb-theme-ui"
 import 'dnb-ui-lib/style'
 ```
 
-If You want to import the styles of all components - **without** the default DNB UI Theme:
+### No Theme
+
+If You want to import the styles of all components only - without **dnb-theme-ui**:
 
 ```js
 // No Theme is included
 import 'dnb-ui-lib/style/components'
 ```
 
+### Custom Theme
+
 You may want to import a theme as well:
 
 ```js
+// No Theme is included
+import 'dnb-ui-lib/style/components'
+
 // Default DNB UI Theme
 import 'dnb-ui-lib/style/theme'
+```
 
+```js
 // ... is equivalent to the default theme
 import 'dnb-ui-lib/style/themes/ui'
 
 // ... or some other theme
 import 'dnb-ui-lib/style/themes/[NAME].css'
 ```
+
+### Single Component only
 
 You also can import a single style of a single component:
 
