@@ -17,14 +17,34 @@ export const applyPageFocus = (key = 'default') => {
       element = document.querySelector('.dnb-no-focus')
     }
     if (element instanceof HTMLElement) {
-      if (!element.hasAttribute('tabindex')) {
-        element.setAttribute('tabindex', '-1')
-      }
       if (
-        element.classList &&
-        !element.classList.contains('dnb-no-focus')
+        [
+          'h1',
+          'h2',
+          'h3',
+          'h4',
+          'h5',
+          'h6',
+          'p',
+          'div',
+          'main',
+          'nav',
+          'header',
+          'footer',
+          'aside',
+          'section',
+          'article'
+        ].includes(element.type)
       ) {
-        element.classList.add('dnb-no-focus')
+        if (!element.hasAttribute('tabindex')) {
+          element.setAttribute('tabindex', '-1')
+        }
+        if (
+          element.classList &&
+          !element.classList.contains('dnb-no-focus')
+        ) {
+          element.classList.add('dnb-no-focus')
+        }
       }
       element.focus({ preventScroll: true })
     }

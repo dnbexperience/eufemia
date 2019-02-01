@@ -156,6 +156,7 @@ const customBodyStyle = css`
 `
 const toggleContent = css`
   /* hide content if shown as overlay menu */
+  .dnb-skip-link,
   .sticky-menu,
   .content-wrapper {
     display: none !important;
