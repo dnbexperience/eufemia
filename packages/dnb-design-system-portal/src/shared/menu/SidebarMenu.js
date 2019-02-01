@@ -443,7 +443,7 @@ export default class SidebarLayout extends PureComponent {
                     {isOpen && (
                       <Global
                         styles={css`
-                          .dnb-page-content {
+                          .dnb-app-content {
                             display: none !important;
                           }
                         `}

@@ -28,6 +28,8 @@ From the technical side, we have to assign an _invisible_ focus, so the user can
 The `dnb-ui-lib` has an build in helper, to manage basic focus handling.
 This helper also handles both the `tabindex="-1"` and the `class="dnb-no-focus"` situation.
 
+### Focus helper
+
 ```js
 import {
   setPageFocusElement,
@@ -48,3 +50,34 @@ applyPageFocus('MyCustomName')
 - also set the focus back to the content, once the menu or navigation area gets closed.
 
 A more complex focus management is build in already to the [Modal Component](/uilib/components/modal). There we actually also disable focus possibility on the content behind, so the user only can navigate inside the modal.
+
+### Skip Link
+
+The `dnb-ui-lib` also has a small setup for a [skip link](https://www.w3.org/TR/WCAG20-TECHS/G1.html)
+
+Our solution is CSS only and should work for all kinds of App setups.
+Place an Anchor like this one blow, on the very top of Your App content:
+
+<!-- prettier-ignore-start -->
+```html
+<a class="dnb-skip-link dnb-button" href="#dnb-app-content">Skip to content</a>
+```
+<!-- prettier-ignore-end -->
+
+Also, place a `id="dnb-app-content"` on Your content wrapper:
+
+<!-- prettier-ignore-start -->
+```html
+<body>
+    <a class="dnb-skip-link dnb-button" href="#dnb-app-content">Skip to content</a>
+    <header>
+        <nav>
+            <!-- Nav links to skip -->
+        </nav>
+    </header>
+    <main id="dnb-app-content">
+        <!-- Content goes here -->
+    </main>
+</body>
+```
+<!-- prettier-ignore-end -->

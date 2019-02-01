@@ -13,6 +13,7 @@ import Sidebar from '../menu/SidebarMenu'
 import StickyMenuBar from '../menu/StickyMenuBar'
 import { markdownStyle } from './Markdown'
 import styled from '@emotion/styled'
+import { css, Global } from '@emotion/core'
 import classnames from 'classnames'
 import { buildVersion } from '../../../package.json'
 import { MainMenuProvider } from '../menu/MainMenuContext'
@@ -25,7 +26,7 @@ class Layout extends PureComponent {
   }
   componentDidMount() {
     // gets aplyed on "onRouteUpdate"
-    setPageFocusElement('.dnb-page-content h1:nth-of-type(1)', 'content')
+    setPageFocusElement('.dnb-app-content h1:nth-of-type(1)', 'content')
   }
   render() {
     const { children, location } = this.props
@@ -36,7 +37,7 @@ class Layout extends PureComponent {
           {/* Load the StickyMenuBar to make use of the grid demo */}
           <StickyMenuBar preventBarVisibility={true} />
           <Content className="fullscreen-page">
-            <MaxWidth className="dnb-page-content-inner">
+            <MaxWidth className="dnb-app-content-inner">
               {children}
             </MaxWidth>
           </Content>
@@ -48,12 +49,16 @@ class Layout extends PureComponent {
     return (
       <MainMenuProvider>
         <SidebarMenuProvider>
+          <Global styles={globalStyles} />
+          <a className="dnb-skip-link dnb-button" href="#dnb-app-content">
+            Skip to content
+          </a>
           <MainMenu enableOverlay />
           <StickyMenuBar />
           <Wrapper className="content-wrapper">
             <Sidebar location={location} showAll={false} />
             <Content>
-              <MaxWidth className="dnb-page-content-inner">
+              <MaxWidth className="dnb-app-content-inner">
                 {children}
                 <Footer />
               </MaxWidth>
@@ -66,6 +71,14 @@ class Layout extends PureComponent {
 }
 
 export default Layout
+
+const globalStyles = css`
+  @media (max-width: 40em) {
+    a.dnb-skip-link {
+      display: none;
+    }
+  }
+`
 
 const Wrapper = styled.div`
   position: relative;
@@ -82,9 +95,10 @@ const Wrapper = styled.div`
 const Content = ({ className, children }) => (
   <Main
     tabIndex="-1"
+    id="dnb-app-content"
     className={classnames(
       'dnb-style',
-      'dnb-page-content',
+      'dnb-app-content',
       'dnb-no-focus',
       className
     )}
@@ -121,7 +135,7 @@ const Main = styled.main`
     height of StickyMenuBar - 1px border */
   padding-top: 4rem;
 
-  .dnb-page-content-inner {
+  .dnb-app-content-inner {
     display: flex;
     flex-direction: column;
     justify-content: space-between;

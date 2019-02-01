@@ -69,7 +69,7 @@ export default class ToggleGrid extends Component {
   }
   showGrid = showGrid => {
     if (typeof document !== 'undefined') {
-      const page = document.querySelector('.dnb-page-content')
+      const page = document.querySelector('.dnb-app-content')
       if (page) {
         if (showGrid) {
           page.classList.add('dev-grid')
