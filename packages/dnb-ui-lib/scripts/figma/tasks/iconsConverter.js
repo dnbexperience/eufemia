@@ -103,7 +103,11 @@ const runFrameIconsFactory = async ({
   // select all icons in the frame
   const frameDocChildren = iconSelector
     ? findAllNodes(frameDoc, { name: new RegExp(iconSelector) })
-    : frameDoc.children
+    : // using frameDoc.children only is possible,
+      // but once an icon has a frame inside, we have to make sure that this not happens
+      findAllNodes(frameDoc, { type: 'COMPONENT' }) || frameDoc.children
+
+  console.log('frameDocChildren', frameDocChildren)
 
   // get a list of icons we want to refetch
   const iconIdsFromDoc = frameDocChildren.reduce((acc, { id, name }) => {

@@ -40,7 +40,6 @@ import subtract from './subtract.js'
 import subtract_medium from './subtract_medium.js'
 import trash from './trash.js'
 import trash_medium from './trash_medium.js'
-import vector from './vector.js'
 
 export {
   add,
@@ -82,6 +81,5 @@ export {
   subtract,
   subtract_medium,
   trash,
-  trash_medium,
-  vector
+  trash_medium
 }
