@@ -296,10 +296,8 @@ exports[`Tabs scss have to match default theme snapshot 1`] = `
     border-radius: 1px;
     background-color: var(--color-sea-green); }
 
-.dnb-tabs__tabs .dnb-tablink[disabled] {
-  cursor: not-allowed; }
-  .dnb-tabs__tabs .dnb-tablink[disabled] .dnb-tablink-title {
-    color: var(--color-sea-green-alt-30); }
+.dnb-tabs__tabs .dnb-tablink[disabled] .dnb-tablink-title {
+  color: var(--color-sea-green-alt-30); }
 
 .dnb-tabs__tabs .dnb-tablink:not([disabled]):active .dnb-tablink-title, .dnb-tabs__tabs .dnb-tablink:not([disabled]).selected .dnb-tablink-title {
   color: var(--color-emerald-green); }

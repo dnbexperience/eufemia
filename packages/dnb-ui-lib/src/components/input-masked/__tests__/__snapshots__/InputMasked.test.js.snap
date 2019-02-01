@@ -208,6 +208,10 @@ exports[`InputMasked scss have to match snapshot 1`] = `
   .dnb-icon img:not([width]):not([height]) {
     width: inherit;
     height: inherit; }
+  .dnb-icon svg[width='100%'] {
+    width: inherit; }
+  .dnb-icon svg[height='100%'] {
+    height: inherit; }
 
 .dnb-button {
   font-family: sans-serif;
@@ -408,9 +412,6 @@ a.dnb-button {
   color: var(--color-black-80);
   width: auto;
   white-space: nowrap; }
-
-.dnb-form-label[disabled] {
-  cursor: not-allowed; }
 
 .dnb-input {
   font-family: sans-serif;
