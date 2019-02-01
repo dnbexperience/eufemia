@@ -26,6 +26,10 @@
 
         color: var(--color-sea-green);
       }
+      @include allBelow(small) {
+        text-align: left;
+        padding: 0.5rem 1rem;
+      }
 
       // hover
       &:not([disabled]):hover {

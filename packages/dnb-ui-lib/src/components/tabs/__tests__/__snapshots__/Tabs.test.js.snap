@@ -284,6 +284,11 @@ exports[`Tabs scss have to match default theme snapshot 1`] = `
   text-align: center;
   color: var(--color-sea-green); }
 
+@media screen and (max-width: 40em) {
+  .dnb-tabs__tabs .dnb-tablink {
+    text-align: left;
+    padding: 0.5rem 1rem; } }
+
 .dnb-tabs__tabs .dnb-tablink:not([disabled]):hover {
   background-color: var(--color-mint-green-50); }
   .dnb-tabs__tabs .dnb-tablink:not([disabled]):hover::after {
