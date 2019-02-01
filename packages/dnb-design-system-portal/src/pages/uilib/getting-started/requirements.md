@@ -18,5 +18,5 @@ This library can be used on top of a modern frontend framework.
 **To run the portal (docs) locally - or to make changes to the `dnb-ui-lib`**
 
 - [Git](https://git-scm.com)
-- [Node 64-bit](https://nodejs.org) (=> v10)
+- [Node.js 64-bit](https://nodejs.org) (=> v10)
 - [Yarn](https://yarnpkg.com) (=> v1.12)

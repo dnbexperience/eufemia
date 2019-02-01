@@ -31,22 +31,22 @@ The following Diagram gives an overall overview how the packages are structured.
 
 To ensure more flexibility, all the margins / spacings are reset to zero. But more often we have to have a by default defined `margin-bottom` for HTML Elements like a heading or a paragraph.
 
-To use the default DNB spacings, You can define a CSS class called: `.dnb-style`
+To use the default DNB spacings, You can define a CSS class called: `.dnb-spacing`
 Everything inside this container will then have a default spacing. This will be specially helpful for article alike pages.
 
 ```html
-<div class="dnb-style">
-  <!-- DNB spacings and sizing -->
+<div class="dnb-spacing">
+  <!-- DNB spacings -->
   <h1>e.g. I have now a margin</h1>
   <p>☝🏻 Me as well</p>
 </div>
 ```
 
-The styles for the `.dnb-style` are included in the package: **dnb-theme-ui**
+The styles for the `.dnb-spacing` are included in the package: **dnb-theme-ui**
 
 ## Importing the CSS
 
-To include the packages `dnb-ui-core` and `dnb-ui-components` in a Node based environment (given You have a CSS loader in place), do this:
+To include the packages `dnb-ui-core`, `dnb-ui-components` and `dnb-theme-ui` in a [Node.js](https://nodejs.org) based environment (given You have a CSS loader in place), do this:
 
 ```js
 // This includes the "dnb-ui-core", "dnb-ui-components" and "dnb-theme-ui"

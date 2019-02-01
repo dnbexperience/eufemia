@@ -13,7 +13,7 @@ export default stories
 stories.push([
   'Headings',
   () => (
-    <Wrapper className="dnb-style">
+    <Wrapper className="dnb-spacing">
       <Box>
         <h1>H1</h1>
         <h2>H2</h2>
@@ -57,7 +57,7 @@ const Small = styled.div`
 stories.push([
   'Small',
   () => (
-    <Wrapper className="dnb-style">
+    <Wrapper className="dnb-spacing">
       <Small>
         <Box>
           {/* p */}
@@ -127,7 +127,7 @@ stories.push([
 ])
 
 stories.push([
-  'Headings outside of `dnb-style`',
+  'Headings outside of `dnb-spacing`',
   () => (
     <Wrapper>
       <Box>

@@ -9,7 +9,7 @@ Find more information on how to use the Design System on the [Eufemia Portal](ht
 
 ## Requirements
 
-Install [Node](https://nodejs.org) and [Yarn](https://yarnpkg.com).
+Install [Node.js](https://nodejs.org) and [yarn](https://yarnpkg.com).
 
 ## Setup Instructions
 

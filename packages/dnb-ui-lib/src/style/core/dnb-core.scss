@@ -19,10 +19,10 @@ body {
 }
 
 // Focus management
-html[data-whatinput='mouse'] .dnb-style *:focus {
+html[data-whatinput='mouse'] .dnb-spacing *:focus {
   outline: none;
 }
-html[data-whatinput='keyboard'] .dnb-style *:not(a):not(div):focus {
+html[data-whatinput='keyboard'] .dnb-spacing *:not(a):not(div):focus {
   @include fakeFocus();
 }
 .dnb-no-focus {

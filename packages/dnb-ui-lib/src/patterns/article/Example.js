@@ -11,7 +11,7 @@ class Example extends PureComponent {
     return (
       <Fragment>
         <Article>
-          <main className="dnb-style">
+          <main className="dnb-spacing">
             <h2>Article header patterns</h2>
             <p>
               The following header pattern consists of an H1 with the first

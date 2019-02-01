@@ -4,10 +4,10 @@
  *
  */
 
-// styles styles are effected within the scope of ".dnb-style"
+// styles styles are effected within the scope of ".dnb-spacing"
 // we also check if there is a class starting with "dnb-*"
 // this is to make sure we don't effect these styles inside of components
-.dnb-style {
+.dnb-spacing {
   // *:not([class^='dnb-']) > {
   // }
 

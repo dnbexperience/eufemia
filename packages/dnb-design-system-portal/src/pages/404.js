@@ -15,7 +15,7 @@ export default class PageNotFound extends PureComponent {
     const { pathname } = this.props.location
 
     return (
-      <Center className="dnb-style">
+      <Center className="dnb-spacing">
         <Inner>
           <h1>404</h1>
           <h2>We couldn't find that page:</h2>

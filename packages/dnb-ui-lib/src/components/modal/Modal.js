@@ -359,7 +359,7 @@ class ModalContent extends PureComponent {
             aria-hidden="true"
             aria-modal="true"
             tabIndex="-1"
-            className="dnb-modal__content__inner dnb-no-focus dnb-style"
+            className="dnb-modal__content__inner dnb-no-focus dnb-spacing"
             onClick={this.preventClick}
             onKeyDown={this.onKeyDownHandler}
             {...params}

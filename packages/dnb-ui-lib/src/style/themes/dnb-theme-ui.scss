@@ -8,7 +8,7 @@ $fonts-path: '../../../assets/fonts/' !default;
 
 // define the default ui theme
 @import './anchor.scss';
-@import './dnb-style.scss';
+@import './dnb-spacing.scss';
 
 small {
   font-size: var(--font-size-small); // 14px

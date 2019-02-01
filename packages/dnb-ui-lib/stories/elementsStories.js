@@ -24,7 +24,7 @@ const CustomStyles = styled.div`
 stories.push([
   'Table',
   () => (
-    <Wrapper className="dnb-style">
+    <Wrapper className="dnb-spacing">
       <Box>
         <CustomStyles>
           <table>
@@ -75,7 +75,7 @@ stories.push([
 stories.push([
   'UL Lists',
   () => (
-    <Wrapper className="dnb-style">
+    <Wrapper className="dnb-spacing">
       <CustomStyles>
         <Box>
           <ul>
@@ -118,7 +118,7 @@ stories.push([
 stories.push([
   'OL Lists',
   () => (
-    <Wrapper className="dnb-style">
+    <Wrapper className="dnb-spacing">
       <CustomStyles>
         <Box>
           <ol>
@@ -144,7 +144,7 @@ stories.push([
 stories.push([
   'DL Lists',
   () => (
-    <Wrapper className="dnb-style">
+    <Wrapper className="dnb-spacing">
       <CustomStyles>
         <Box>
           <dl>
@@ -166,7 +166,7 @@ const Textarea = styled.textarea`
 stories.push([
   'Textarea',
   () => (
-    <Wrapper className="dnb-style">
+    <Wrapper className="dnb-spacing">
       <CustomStyles>
         <Box>
           <Textarea

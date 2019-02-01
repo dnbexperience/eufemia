@@ -97,7 +97,7 @@ const Content = ({ className, children }) => (
     tabIndex="-1"
     id="dnb-app-content"
     className={classnames(
-      'dnb-style',
+      'dnb-spacing',
       'dnb-app-content',
       'dnb-no-focus',
       className

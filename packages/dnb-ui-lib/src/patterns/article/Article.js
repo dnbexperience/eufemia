@@ -62,7 +62,7 @@ export default class Article extends PureComponent {
 
     const params = {
       className: classnames(
-        'dnb-style',
+        'dnb-spacing',
         'dnb-article',
         className,
         _className

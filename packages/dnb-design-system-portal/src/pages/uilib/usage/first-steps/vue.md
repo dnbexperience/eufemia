@@ -30,7 +30,7 @@ And the syntax would look like:
 
 ```html
 <template lang="html">
-  <div id="app" class="dnb-style">
+  <div id="app" class="dnb-spacing">
     <dnb-button text="Button" @on_click="myClickHandler"></dnb-button>
   </div>
 </template>
