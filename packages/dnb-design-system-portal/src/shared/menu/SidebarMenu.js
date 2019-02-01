@@ -291,6 +291,7 @@ export default class SidebarLayout extends PureComponent {
   constructor(props) {
     super(props)
     this._scrollRef = React.createRef()
+    setPageFocusElement('aside', 'sidebar')
   }
 
   componentDidMount() {
@@ -315,9 +316,6 @@ export default class SidebarLayout extends PureComponent {
           }, 300)
         }
       }
-
-      // gets aplyed on "onRouteUpdate"
-      setPageFocusElement(this._scrollRef.current, 'sidebar')
     }
   }
 

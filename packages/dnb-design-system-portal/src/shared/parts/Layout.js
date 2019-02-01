@@ -15,29 +15,18 @@ import { markdownStyle } from './Markdown'
 import styled from '@emotion/styled'
 import classnames from 'classnames'
 import { buildVersion } from '../../../package.json'
-import {
-  MainMenuProvider,
-  MainMenuConsumer
-} from '../menu/MainMenuContext'
+import { MainMenuProvider } from '../menu/MainMenuContext'
 import { SidebarMenuProvider } from '../menu/SidebarMenuContext'
-// import ToggleGrid from '../menu/ToggleGrid'
 
 class Layout extends PureComponent {
   static propTypes = {
     children: PropTypes.node.isRequired,
     location: PropTypes.object.isRequired
   }
-
-  constructor(props) {
-    super(props)
-    this._ref = React.createRef()
-  }
-
   componentDidMount() {
     // gets aplyed on "onRouteUpdate"
-    setPageFocusElement(this._ref.current, 'content')
+    setPageFocusElement('.dnb-page-content h1:nth-of-type(1)', 'content')
   }
-
   render() {
     const { children, location } = this.props
 
@@ -46,11 +35,7 @@ class Layout extends PureComponent {
         <div className="is-fullscreen">
           {/* Load the StickyMenuBar to make use of the grid demo */}
           <StickyMenuBar preventBarVisibility={true} />
-          <Content
-            tabIndex="-1"
-            className="fullscreen-page"
-            innerRef={this._ref}
-          >
+          <Content className="fullscreen-page">
             <MaxWidth className="dnb-page-content-inner">
               {children}
             </MaxWidth>
@@ -64,24 +49,16 @@ class Layout extends PureComponent {
       <MainMenuProvider>
         <SidebarMenuProvider>
           <MainMenu enableOverlay />
-          <MainMenuConsumer>
-            {({ isOpen, isClosing }) =>
-              (!isOpen || isClosing) && (
-                <>
-                  <StickyMenuBar />
-                  <Wrapper className="content-wrapper">
-                    <Sidebar location={location} showAll={false} />
-                    <Content tabIndex="-1" innerRef={this._ref}>
-                      <MaxWidth className="dnb-page-content-inner">
-                        {children}
-                        <Footer />
-                      </MaxWidth>
-                    </Content>
-                  </Wrapper>
-                </>
-              )
-            }
-          </MainMenuConsumer>
+          <StickyMenuBar />
+          <Wrapper className="content-wrapper">
+            <Sidebar location={location} showAll={false} />
+            <Content>
+              <MaxWidth className="dnb-page-content-inner">
+                {children}
+                <Footer />
+              </MaxWidth>
+            </Content>
+          </Wrapper>
         </SidebarMenuProvider>
       </MainMenuProvider>
     )
@@ -104,6 +81,7 @@ const Wrapper = styled.div`
 
 const Content = ({ className, children }) => (
   <Main
+    tabIndex="-1"
     className={classnames(
       'dnb-style',
       'dnb-page-content',
@@ -134,10 +112,14 @@ const Main = styled.main`
   width: 100%;
   overflow: visible;
 
-  margin-top: 4rem; /* height of StickyMenuBar - 1px border */
   margin-left: 30vw; /* fallback */
   margin-left: var(--aside-width);
   padding: 0;
+
+  /* we use padding here, insted of margin,
+    because applyPageFocus is else scrolling the page unwanted
+    height of StickyMenuBar - 1px border */
+  padding-top: 4rem;
 
   .dnb-page-content-inner {
     display: flex;
@@ -205,6 +187,5 @@ const Footer = () => (
         Copyright (c) 2018-present DNB.no
       </Link>
     </small>
-    {/* <ToggleGrid /> */}
   </FooterWrapper>
 )
