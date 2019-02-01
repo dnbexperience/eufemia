@@ -77,7 +77,7 @@ exports[`Button component have to match default button snapshot 1`] = `
         <span
           aria-hidden="true"
           aria-label="This is a button title"
-          className="dnb-icon dnb-icon--default dnb-button__icon"
+          className="dnb-icon dnb-button__icon"
           role="img"
         >
           <question>
@@ -178,7 +178,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
         <span
           aria-hidden="true"
           aria-label="This is a button title"
-          className="dnb-icon dnb-icon--default dnb-button__icon"
+          className="dnb-icon dnb-button__icon"
           role="img"
         >
           <question>
@@ -387,7 +387,6 @@ exports[`Button scss have to match default theme snapshot 1`] = `
       box-shadow: 0 0 0 2px var(--color-emerald-green);
       border-color: transparent; }
   .dnb-button--tertiary[disabled] {
-    cursor: not-allowed;
     color: var(--color-sea-green-alt-30); }
 
 .dnb-button--signal {
@@ -579,6 +578,10 @@ exports[`Button scss have to match snapshot 1`] = `
   .dnb-icon svg:not([width]):not([height]),
   .dnb-icon img:not([width]):not([height]) {
     width: inherit;
+    height: inherit; }
+  .dnb-icon svg[width='100%'] {
+    width: inherit; }
+  .dnb-icon svg[height='100%'] {
     height: inherit; }
 
 .dnb-button {

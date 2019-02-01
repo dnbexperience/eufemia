@@ -91,222 +91,251 @@ export default class Icon extends PureComponent {
     return processChildren(props)
   }
 
-  static getIconNameFromComponent(props) {
-    const name =
-      typeof props.icon === 'string'
-        ? props.icon
-        : props.icon &&
-          typeof props.icon === 'object' &&
-          (props.icon.displayName || props.icon.name)
-    if (/^data:image\//.test(name)) {
-      return null
-    }
-    return name
-  }
-
-  static calcSize(props) {
-    const { size, height, width } = props
-
-    let sizeAsInt = -1
-    let sizeAsString = null
-
-    // if there is no size, check if we can find the actuall size in the name
-    if (!size || size === DefaultIconSize) {
-      // get the icon name - we use is for several things
-      const name = Icon.getIconNameFromComponent(props)
-
-      const nameParts = String(name || '').split('_')
-      if (nameParts.length > 1) {
-        const lastPartOfIconName = nameParts.reverse()[0]
-        const potentialSize = ListDefaultIconSizes.filter(
-          ([key]) => key === lastPartOfIconName
-        ).reduce((acc, [key, value]) => {
-          return key && value
-        }, null)
-        if (potentialSize) {
-          sizeAsInt = potentialSize
-        }
-      } else {
-        sizeAsInt = DefaultIconSize
-      }
-    }
-
-    // if size is defined as a string, find the size number
-    else if (typeof size === 'string' && !(parseFloat(size) > 0)) {
-      sizeAsInt = ListDefaultIconSizes.filter(
-        ([key]) => key === size
-      ).reduce((acc, [key, value]) => {
-        return key && value
-      }, -1)
-
-      // of if the size is a default size defined as a string
-      if (ValidIconSizes.includes(size)) {
-        sizeAsString = size
-      }
-    }
-
-    // check if the size is given as a number, and if is a default size
-    else if (parseFloat(size) > 0) {
-      sizeAsInt = ListDefaultIconSizes.filter(
-        ([key, value]) => key && value === parseFloat(size)
-      ).reduce((acc, [key, value]) => {
-        if (key && value) return value
-        return acc
-      }, -1)
-
-      // has custom size
-      if (sizeAsInt === -1) {
-        sizeAsInt = parseFloat(size)
-        sizeAsString = 'custom-size'
-      }
-    }
-
-    // check if the sizeAsInt is a default size
-    if (sizeAsInt > 0) {
-      const potentialSizeAsString = ListDefaultIconSizes.reduce(
-        (acc, [key, value]) => {
-          if (key && value === sizeAsInt) {
-            return key
-          }
-          return acc
-        },
-        null
-      )
-
-      if (potentialSizeAsString) {
-        sizeAsString = potentialSizeAsString
-      }
-    }
-
-    const prepareSvgParams = () => {
-      const svgParams = {}
-
-      if (!sizeAsString && !(sizeAsInt > 0) && parseFloat(size) > -1) {
-        svgParams.width = svgParams.height = parseFloat(size)
-      } else if (sizeAsString === 'custom-size') {
-        svgParams.width = svgParams.height = parseFloat(sizeAsInt)
-      }
-      if (parseFloat(width) > -1) {
-        sizeAsString = 'custom-size'
-        svgParams.width = parseFloat(width)
-      }
-      if (parseFloat(height) > -1) {
-        sizeAsString = 'custom-size'
-        svgParams.height = parseFloat(height)
-      }
-
-      // and the sizeAsString is not a default size
-      const sizeIsValid = ValidIconSizes.includes(sizeAsString)
-
-      // if the size is default, remove the widht/height
-      // but if the browser is IE11 - do not remove theese attributes
-      if (!isIE11 && sizeIsValid) {
-        svgParams.width = null
-        svgParams.height = null
-      }
-      if (isIE11 && sizeAsInt > 0) {
-        svgParams.width = svgParams.height = sizeAsInt
-      }
-
-      validateDOMAttributes({}, svgParams)
-
-      return svgParams
-    }
-
-    // define all the svg parameters
-    const svgParams = prepareSvgParams()
-
-    if (!sizeAsString) {
-      sizeAsString = 'default'
-    }
-
-    return {
-      svgParams,
-      sizeAsInt,
-      sizeAsString
-    }
-  }
-
-  static prerender(props) {
-    const {
-      icon,
-      size,
-      color,
-      modifier,
-      alt: _alt,
-      title,
-      class: _className,
-      className,
-      aria_hidden,
-      ...attributes
-    } = props
-
-    const { sizeAsString, svgParams } = Icon.calcSize({
-      icon, // because to have a clean "attributes"
-      size, // because to have a clean "attributes"
-      ...props
-    })
-
-    if (color) {
-      svgParams.color = color
-    }
-
-    // get the alt
-    let alt = _alt || title
-
-    if (!(alt && alt.length > 0)) {
-      alt = Icon.getIconNameFromComponent(props)
-      alt = alt ? String(alt).replace(/_/g, ' ') : null
-    }
-
-    // some wrapper params
-    // also used for code markup simulation
-    const wrapperParams = validateDOMAttributes(props, {
-      role: 'img',
-      // because we use aria-label, we do not provide an alt as well
-      // alt,
-      ['aria-label']: alt,
-      ['aria-hidden']: aria_hidden ? 'true' : null,
-      title,
-      ...attributes
-    })
-
-    wrapperParams.className = classnames(
-      'dnb-icon',
-      modifier ? `dnb-icon--${modifier}` : null,
-      sizeAsString ? `dnb-icon--${sizeAsString}` : null,
-      _className,
-      className
-    )
-
-    return {
-      ...props,
-      icon: Icon.getIcon(props),
-      alt,
-      svgParams,
-      wrapperParams
-    }
-  }
-
   render() {
-    const { icon, size, wrapperParams, svgParams, alt } = Icon.prerender(
+    const { icon, size, wrapperParams, iconParams, alt } = prepareIcon(
       this.props
     )
 
-    const IconContainer = prepareIcon({ icon, size, alt })
+    const IconContainer = prerenderIcon({ icon, size, alt })
 
     // make sure we return an empty span if we dont could get the icon
     if (!IconContainer) return <></>
 
-    return (
-      <span {...wrapperParams}>
-        <IconContainer {...svgParams} />
-      </span>
-    )
+    const iconContainer = <IconContainer {...iconParams} />
+
+    return <span {...wrapperParams}>{iconContainer}</span>
   }
 }
 
-export const prepareIcon = ({
+export const getIconNameFromComponent = icon => {
+  const name =
+    typeof icon === 'string'
+      ? icon
+      : icon && typeof icon === 'object' && (icon.displayName || icon.name)
+  if (/^data:image\//.test(name)) {
+    return null
+  }
+  return name
+}
+
+export const calcSize = props => {
+  const { icon, size, height, width } = props
+
+  let sizeAsInt = -1
+  let sizeAsString = null
+
+  // if there is no size, check if we can find the actuall size in the name
+  if (!size || size === DefaultIconSize) {
+    // get the icon name - we use is for several things
+    const name = getIconNameFromComponent(icon)
+
+    const nameParts = String(name || '').split('_')
+    if (nameParts.length > 1) {
+      const lastPartOfIconName = nameParts.reverse()[0]
+      const potentialSize = ListDefaultIconSizes.filter(
+        ([key]) => key === lastPartOfIconName
+      ).reduce((acc, [key, value]) => {
+        return key && value
+      }, null)
+      if (potentialSize) {
+        sizeAsInt = potentialSize
+      }
+      // } else {
+      //   sizeAsInt = DefaultIconSize
+    }
+  }
+
+  // if size is defined as a string, find the size number
+  else if (typeof size === 'string' && !(parseFloat(size) > 0)) {
+    sizeAsInt = ListDefaultIconSizes.filter(
+      ([key]) => key === size
+    ).reduce((acc, [key, value]) => {
+      return key && value
+    }, -1)
+
+    // of if the size is a default size defined as a string
+    if (ValidIconSizes.includes(size)) {
+      sizeAsString = size
+    }
+  }
+
+  // check if the size is given as a number, and if is a default size
+  else if (parseFloat(size) > 0) {
+    sizeAsInt = ListDefaultIconSizes.filter(
+      ([key, value]) => key && value === parseFloat(size)
+    ).reduce((acc, [key, value]) => {
+      if (key && value) return value
+      return acc
+    }, -1)
+
+    // has custom size
+    if (sizeAsInt === -1) {
+      sizeAsInt = parseFloat(size)
+      sizeAsString = 'custom-size'
+    }
+  }
+
+  // check if the sizeAsInt is a default size
+  if (sizeAsInt > 0) {
+    const potentialSizeAsString = ListDefaultIconSizes.reduce(
+      (acc, [key, value]) => {
+        if (key && value === sizeAsInt) {
+          return key
+        }
+        return acc
+      },
+      null
+    )
+
+    if (potentialSizeAsString) {
+      sizeAsString = potentialSizeAsString
+    }
+  }
+
+  // define all the svg parameters
+  const iconParams = prepareIconParams({
+    sizeAsString,
+    sizeAsInt,
+    size,
+    width,
+    height
+  })
+
+  if (!(sizeAsInt > 0)) {
+    sizeAsInt = DefaultIconSize
+  }
+
+  if (size === 'auto') {
+    iconParams.width = '100%'
+    iconParams.height = '100%'
+    sizeAsString = null
+    // } else if (!sizeAsString) {
+    //   sizeAsString = 'default'
+  }
+
+  return {
+    iconParams,
+    sizeAsInt,
+    sizeAsString
+  }
+}
+
+const prepareIconParams = ({ sizeAsString, ...rest }) => {
+  const { size, width, height, sizeAsInt } = rest
+  const params = {}
+
+  if (!sizeAsString && !(sizeAsInt > 0) && parseFloat(size) > -1) {
+    params.width = params.height = parseFloat(size)
+  } else if (sizeAsString === 'custom-size') {
+    params.width = params.height = parseFloat(sizeAsInt)
+  }
+  if (parseFloat(width) > -1) {
+    sizeAsString = 'custom-size'
+    params.width = parseFloat(width)
+  }
+  if (parseFloat(height) > -1) {
+    sizeAsString = 'custom-size'
+    params.height = parseFloat(height)
+  }
+
+  // Not in use right now, but this way we could make more magic
+  // if (size === 'auto' && typeof icon === 'function') {
+  //   try {
+  //     const attributes = icon().props
+  //     if (parseFloat(attributes.width) > 0) {
+  //       params.width = attributes.width
+  //     }
+  //     if (parseFloat(attributes.height) > 0) {
+  //       params.height = attributes.height
+  //     }
+  //     console.log('attributes', sizeAsString, sizeAsInt, width, height)
+  //   } catch (e) {} //eslint-disable-line
+  // }
+
+  // and the sizeAsString is not a default size
+  const sizeIsValid = ValidIconSizes.includes(sizeAsString)
+
+  // if the size is default, remove the widht/height
+  // but if the browser is IE11 - do not remove theese attributes
+  if (!isIE11 && sizeIsValid) {
+    params.width = null
+    params.height = null
+  }
+
+  if (isIE11 && sizeAsInt > 0) {
+    params.width = params.height = sizeAsInt
+  }
+
+  validateDOMAttributes({}, params)
+
+  return params
+}
+
+export const prepareIcon = props => {
+  const {
+    icon,
+    size, // eslint-disable-line
+    height,
+    width,
+    color,
+    modifier,
+    alt: _alt,
+    title,
+    class: _className,
+    className,
+    aria_hidden,
+    ...attributes
+  } = props
+
+  const { sizeAsString, iconParams } = calcSize({
+    icon,
+    size,
+    height,
+    width
+  })
+
+  if (color) {
+    iconParams.color = color
+  }
+
+  // get the alt
+  let alt = _alt || title
+
+  if (!(alt && alt.length > 0)) {
+    alt = getIconNameFromComponent(icon)
+    alt = alt ? String(alt).replace(/_/g, ' ') : null
+  }
+
+  // some wrapper params
+  // also used for code markup simulation
+  const wrapperParams = validateDOMAttributes(props, {
+    role: 'img',
+    // because we use aria-label, we do not provide an alt as well
+    // alt,
+    ['aria-label']: alt,
+    ['aria-hidden']: aria_hidden ? 'true' : null,
+    title,
+    ...attributes
+  })
+
+  wrapperParams.className = classnames(
+    'dnb-icon',
+    modifier ? `dnb-icon--${modifier}` : null,
+    sizeAsString ? `dnb-icon--${sizeAsString}` : null,
+    _className,
+    className
+  )
+
+  return {
+    ...props,
+    icon: Icon.getIcon(props),
+    alt,
+    iconParams,
+    wrapperParams
+  }
+}
+
+export const prerenderIcon = ({
   icon,
   size = null,
   listOfIcons = null,

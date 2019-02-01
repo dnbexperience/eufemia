@@ -46,4 +46,11 @@
     width: inherit;
     height: inherit;
   }
+
+  svg[width='100%'] {
+    width: inherit;
+  }
+  svg[height='100%'] {
+    height: inherit;
+  }
 }

@@ -58,7 +58,7 @@ export const propTypes = {
 export const defaultProps = {
   type: 'button',
   text: null,
-  variant: null,
+  variant: 'primary',
   size: null,
   title: null,
   icon: null,
@@ -174,7 +174,7 @@ export default class Button extends PureComponent {
 
     const classes = classnames(
       'dnb-button',
-      `dnb-button--${usedVariant}`,
+      usedVariant && `dnb-button--${usedVariant}`,
       usedSize && usedSize !== 'default'
         ? `dnb-button--size-${usedSize}`
         : null,

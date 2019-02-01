@@ -118,7 +118,7 @@ const runFrameIconsFactory = async ({
 
     // also skip if there are too many underlines
     // because too many underlines will probably indicate that it is not menat to have it inside
-    const iconName = prepareIconName(name, iconNameAdditions)
+    const iconName = prerenderIconName(name, iconNameAdditions)
     if (iconName.split(/_/g).length > 4) {
       log.fail(
         `${iconName} was skipped, cause it had more than 4 parts on name split by _`
@@ -182,7 +182,7 @@ const runFrameIconsFactory = async ({
     async ([id, url]) => {
       try {
         const { name } = frameDocChildren.find(({ id: i }) => i === id)
-        const iconName = prepareIconName(name, iconNameAdditions)
+        const iconName = prerenderIconName(name, iconNameAdditions)
 
         // deifine the filePath
         const file = path.resolve(iconsDest, iconName)
@@ -250,7 +250,7 @@ const runFrameIconsFactory = async ({
   return listOfProcessedIcons
 }
 
-const prepareIconName = (name, iconNameAdditions = []) => {
+const prerenderIconName = (name, iconNameAdditions = []) => {
   let iconName = name
 
   // in case Icons have "[NAME] ..." somewhere

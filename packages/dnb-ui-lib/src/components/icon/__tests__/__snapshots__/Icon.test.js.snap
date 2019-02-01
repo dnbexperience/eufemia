@@ -19,11 +19,9 @@ exports[`Icon component have to match snapshot 1`] = `
     aria-hidden="true"
     aria-label="alt"
     attributes="attributes"
-    className="dnb-icon dnb-icon--modifier dnb-icon--default class className"
-    height="height"
+    className="dnb-icon dnb-icon--modifier class className"
     role="img"
     title="title"
-    width="width"
   >
     <SvgComponent
       color="color"
@@ -217,6 +215,10 @@ exports[`Icon scss have to match snapshot 1`] = `
   .dnb-icon svg:not([width]):not([height]),
   .dnb-icon img:not([width]):not([height]) {
     width: inherit;
+    height: inherit; }
+  .dnb-icon svg[width='100%'] {
+    width: inherit; }
+  .dnb-icon svg[height='100%'] {
     height: inherit; }
 "
 `;
