@@ -59,6 +59,10 @@ jobs:
           paths:
             - ~/.cache/yarn
 
+      - run: yarn audit-ci
+      - run: yarn lint-ci
+      - run: yarn test-ci
+
       - run:
           name: Prepublish the ui-lib and commit changes
           command: yarn prepublish-ci
@@ -92,6 +96,10 @@ jobs:
           key: yarn-packages-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache/yarn
+
+      - run: yarn audit-ci
+      - run: yarn lint-ci
+      - run: yarn test-ci
 
       - run:
           name: Prepublish the ui-lib to use it in "build-ci"
