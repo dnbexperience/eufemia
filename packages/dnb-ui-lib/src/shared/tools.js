@@ -34,7 +34,7 @@ export const applyPageFocus = (key = 'default') => {
           'aside',
           'section',
           'article'
-        ].includes(element.type)
+        ].includes(String(element.nodeName).toLowerCase())
       ) {
         if (!element.hasAttribute('tabindex')) {
           element.setAttribute('tabindex', '-1')
