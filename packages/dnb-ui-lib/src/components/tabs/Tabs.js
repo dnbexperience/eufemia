@@ -114,9 +114,8 @@ export default class Tabs extends PureComponent {
     ) {
       res = props.children.reduce((acc, content, i) => {
         if (
-          content.type &&
-          (content.type.name || content.type.displayName) ===
-            'CustomContent'
+          content.props &&
+          content.props.displayName === 'CustomContent' // we use this sollution, as Component.displayName
         ) {
           // tabs data from main prop
           const dataProps =
@@ -292,7 +291,7 @@ export default class Tabs extends PureComponent {
   }
 
   renderActiveTab(tabKey) {
-    return `dnb-tablink dnb-no-mouse-focus tab--${tabKey} ${
+    return `dnb-tablink tab--${tabKey} ${
       this.isSelected(tabKey) ? 'selected' : ''
     }`
   }
@@ -489,10 +488,7 @@ class ContentWrapper extends PureComponent {
   }
   render() {
     const { id, children } = this.props
-    const key =
-      this.props.selected_key ||
-      (this._reactInternalFiber && this._reactInternalFiber.key) ||
-      'key'
+    const key = this.props.selected_key || 'key'
 
     return (
       <div
@@ -516,7 +512,9 @@ class ContentWrapper extends PureComponent {
   </Tabs>
  */
 class CustomContent extends PureComponent {
+  static name2 = 'CustomContent'
   static propTypes = {
+    displayName: PropTypes.string, // eslint-disable-line
     title: PropTypes.string, // eslint-disable-line
     hash: PropTypes.string, // eslint-disable-line
     selected: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]), // eslint-disable-line
@@ -524,6 +522,7 @@ class CustomContent extends PureComponent {
     children: PropTypes.node.isRequired
   }
   static defaultProps = {
+    displayName: 'CustomContent',
     title: null,
     hash: null,
     selected: null,

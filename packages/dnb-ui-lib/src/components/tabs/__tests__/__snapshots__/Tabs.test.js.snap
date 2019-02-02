@@ -35,6 +35,7 @@ exports[`Tabs component have to match snapshot 1`] = `
       "props": Object {
         "children": "children",
         "disabled": "disabled",
+        "displayName": "displayName",
         "hash": "hash",
         "selected": "selected",
         "title": "title",
@@ -92,7 +93,7 @@ exports[`Tabs component have to match snapshot 1`] = `
             >
               <button
                 aria-selected={false}
-                className="dnb-tablink dnb-no-mouse-focus tab--first "
+                className="dnb-tablink tab--first "
                 disabled={false}
                 id="id-tab-first"
                 key="tab--first"
@@ -117,7 +118,7 @@ exports[`Tabs component have to match snapshot 1`] = `
               <button
                 aria-controls="id-content-second"
                 aria-selected={true}
-                className="dnb-tablink dnb-no-mouse-focus tab--second selected"
+                className="dnb-tablink tab--second selected"
                 disabled={false}
                 id="id-tab-second"
                 key="tab--second"
@@ -141,7 +142,7 @@ exports[`Tabs component have to match snapshot 1`] = `
               </button>
               <button
                 aria-selected={false}
-                className="dnb-tablink dnb-no-mouse-focus tab--third "
+                className="dnb-tablink tab--third "
                 disabled={false}
                 id="id-tab-third"
                 key="tab--third"
