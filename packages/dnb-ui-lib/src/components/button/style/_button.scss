@@ -181,10 +181,8 @@
       @include fakeFocus();
     }
 
-    html[data-whatinput='mouse']
-      &:not([disabled]):focus:not(.dnb-no-mouse-focus),
-    html[data-whatinput='mouse']
-      &:not([disabled]):active:not(.dnb-no-mouse-focus) {
+    html[data-whatinput='mouse'] &:not([disabled]):focus,
+    html[data-whatinput='mouse'] &:not([disabled]):active {
       box-shadow: none;
       color: inherit;
       border: none;

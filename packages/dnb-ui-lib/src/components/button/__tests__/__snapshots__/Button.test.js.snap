@@ -733,10 +733,8 @@ exports[`Button scss have to match snapshot 1`] = `
       html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
         box-shadow: 0 0 0 2px var(--color-emerald-green);
         border-color: transparent; }
-    html[data-whatinput='mouse']
-.dnb-button--reset:not([disabled]):focus:not(.dnb-no-mouse-focus),
-    html[data-whatinput='mouse']
-.dnb-button--reset:not([disabled]):active:not(.dnb-no-mouse-focus) {
+    html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):focus,
+    html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):active {
       box-shadow: none;
       color: inherit;
       border: none; }
