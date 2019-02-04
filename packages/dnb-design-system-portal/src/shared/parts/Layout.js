@@ -155,6 +155,7 @@ const Main = styled.main`
 
   &.fullscreen-page {
     margin: 0;
+    padding-top: 0;
     border: none;
   }
 `
