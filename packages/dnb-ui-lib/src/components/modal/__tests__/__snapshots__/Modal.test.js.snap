@@ -597,7 +597,9 @@ exports[`Modal scss have to match snapshot 1`] = `
   line-height: 1.5rem;
   color: var(--color-black-80, #333);
   font-variant-numeric: lining-nums;
-  font-feature-settings: \\"lnum\\"; }
+  font-feature-settings: \\"lnum\\";
+  font-size: 1em;
+  line-height: 1.5em; }
   .dnb-button *,
   .dnb-button ::before,
   .dnb-button ::after {
@@ -663,47 +665,47 @@ exports[`Modal scss have to match snapshot 1`] = `
     line-height: var(--button-font-size-small);
     border-radius: var(--button-border-radius--small); }
   .dnb-button--has-text.dnb-button--size-small {
-    padding-left: 1em;
-    padding-right: 1em; }
+    padding-left: 1rem;
+    padding-right: 1rem; }
   .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-small {
-    padding-left: 0.5em; }
+    padding-left: 0.5rem; }
   .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-small {
-    padding-right: 0.5em; }
+    padding-right: 0.5rem; }
   .dnb-button--size-medium {
     width: var(--button-width--medium);
     height: var(--button-height--medium);
     line-height: var(--button-height--medium);
     border-radius: var(--button-border-radius--medium); }
   .dnb-button--has-text.dnb-button--size-medium {
-    padding-left: 1em;
-    padding-right: 1em; }
+    padding-left: 1rem;
+    padding-right: 1rem; }
   .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-medium {
-    padding-left: 0.5em; }
+    padding-left: 0.5rem; }
   .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-medium {
-    padding-right: 0.5em; }
+    padding-right: 0.5rem; }
   .dnb-button--size-large {
     width: var(--button-width--large);
     height: var(--button-height--large);
     line-height: var(--button-height--large);
     border-radius: var(--button-border-radius--large); }
   .dnb-button--has-text.dnb-button--size-large {
-    padding-left: 2em;
-    padding-right: 2em; }
+    padding-left: 2rem;
+    padding-right: 2rem; }
   .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-large {
-    padding-left: 1em; }
+    padding-left: 1rem; }
   .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-large {
-    padding-right: 1em; }
+    padding-right: 1rem; }
   .dnb-button--has-text {
-    padding-left: 1.5em;
-    padding-right: 1.5em;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
     width: auto; }
   .dnb-button--has-text .dnb-button__icon {
     margin: 0 0.5rem;
     margin: 0 calc(var(--button-icon-size) / 2); }
   .dnb-button--has-text.dnb-button--icon-position-left {
-    padding-left: 0.5em; }
+    padding-left: 0.5rem; }
   .dnb-button--has-text.dnb-button--icon-position-right {
-    padding-right: 0.5em; }
+    padding-right: 0.5rem; }
   .dnb-button--has-text.dnb-button--has-icon .dnb-button__icon {
     order: 2; }
   .dnb-button--has-text.dnb-button--has-icon .dnb-button__text {
@@ -759,7 +761,9 @@ a.dnb-button {
   line-height: 1.5rem;
   color: var(--color-black-80, #333);
   font-variant-numeric: lining-nums;
-  font-feature-settings: \\"lnum\\"; }
+  font-feature-settings: \\"lnum\\";
+  font-size: 1em;
+  line-height: 1.5em; }
   .dnb-modal *,
   .dnb-modal ::before,
   .dnb-modal ::after {

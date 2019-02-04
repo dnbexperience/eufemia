@@ -27,7 +27,7 @@ import dnbTheme from './themes/dnb-prism-theme'
 const prismStyle = css(dnbTheme)
 
 const Wrapper = styled.div`
-  margin-bottom: 3rem;
+  /* empty */
 `
 
 const CodeBlock = ({

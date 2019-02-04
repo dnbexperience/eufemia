@@ -454,7 +454,9 @@ exports[`Tabs scss have to match snapshot 1`] = `
   line-height: 1.5rem;
   color: var(--color-black-80, #333);
   font-variant-numeric: lining-nums;
-  font-feature-settings: \\"lnum\\"; }
+  font-feature-settings: \\"lnum\\";
+  font-size: 1em;
+  line-height: 1.5em; }
   .dnb-tabs *,
   .dnb-tabs ::before,
   .dnb-tabs ::after {

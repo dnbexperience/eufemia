@@ -21,7 +21,7 @@ There are several Packages You can use and consume.
 
 All the CSS packages are ready to use, minified CSS files. You will find the main style here, like: `dnb-ui-lib/style/dnb-ui-core.min.css`
 
-Additionally, it is also possible to import a style and theme for every single component separately. You find theme here, like: `dnb-ui-lib/components/[button]/style/dnb-button.min.css`
+Additionally, it is also possible to import a style and theme for every single component separately. You find the styles here, like: `dnb-ui-lib/components/[button]/style/dnb-button.min.css`
 
 The following Diagram gives an overall overview how the packages are structured.
 

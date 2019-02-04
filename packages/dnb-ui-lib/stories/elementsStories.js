@@ -19,6 +19,33 @@ const CustomStyles = styled.div`
       color: red;
     }
   }
+
+  ul,
+  ol,
+  dl {
+    background-color: rgba(200, 0, 200, 0.15);
+  }
+
+  li,
+  dt {
+    background-color: rgba(0, 0, 0, 0.15);
+  }
+
+  dd {
+    background-color: rgba(0, 0, 0, 0.075);
+  }
+
+  li ul li {
+    background-color: rgba(0, 0, 0, 0.15);
+  }
+
+  li ul li ul li {
+    background-color: rgba(0, 0, 0, 0.15);
+  }
+
+  p {
+    background-color: rgba(0, 0, 0, 0.15);
+  }
 `
 
 stories.push([
@@ -43,9 +70,17 @@ stories.push([
             </thead>
             <tbody>
               <tr>
-                <td>Column 1</td>
-                <td>Column 2</td>
-                <td>Column 3</td>
+                <td>
+                  <p>
+                    Column 1 <b>width p</b>
+                  </p>
+                </td>
+                <td>
+                  <code>Column 2 with code</code>
+                </td>
+                <td>
+                  <span>Column 3 with span</span>
+                </td>
                 <td>Column 4</td>
               </tr>
               <tr>
@@ -78,6 +113,7 @@ stories.push([
     <Wrapper className="dnb-spacing">
       <CustomStyles>
         <Box>
+          <p>Paragraph</p>
           <ul>
             <li>Item 1</li>
             <li>Item 2</li>
@@ -94,7 +130,9 @@ stories.push([
                   <ul>
                     <li>Item 1</li>
                     <li>Item 2</li>
-                    <li>Item 3</li>
+                    <li>
+                      Item 3 with <p>Paragraph</p>
+                    </li>
                     <li>Item 4</li>
                   </ul>
                 </li>

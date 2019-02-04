@@ -10,21 +10,52 @@ import styled from '@emotion/styled'
 const stories = []
 export default stories
 
+const Typography = () => (
+  <>
+    <h1>H1</h1>
+    <h2>H2</h2>
+    <h3>H3</h3>
+    <h4>H4</h4>
+    <h5>H5</h5>
+    <h6>H6</h6>
+    <p>
+      Paragraph with Link <a href="#anchor">Anchor</a> Posuere eget
+      <code>vestibulum</code> nostra odio varius <span>integer</span>
+      ullamcorper curabitur mi
+    </p>
+    <p>Another Paragraph</p>
+  </>
+)
+
+stories.push([
+  'Paragraphs',
+  () => (
+    <Wrapper className="dnb-spacing">
+      <Box>
+        <article>
+          <h1>H1</h1>
+          <p>Paragraph A</p>
+          <p>Paragraph B</p>
+          <p>Paragraph C</p>
+        </article>
+        <article>
+          <h2>H2</h2>
+          <p>Paragraph A</p>
+          <p>Paragraph B</p>
+          <p>Paragraph C</p>
+        </article>
+        <h2>H3</h2>
+      </Box>
+    </Wrapper>
+  )
+])
+
 stories.push([
   'Headings',
   () => (
     <Wrapper className="dnb-spacing">
       <Box>
-        <h1>H1</h1>
-        <h2>H2</h2>
-        <h3>H3</h3>
-        <h4>H4</h4>
-        <h5>H5</h5>
-        <h6>H6</h6>
-        <p>
-          Paragraph with Link <a href="#anchor">Anchor</a> Posuere eget
-          vestibulum nostra odio varius integer ullamcorper curabitur mi
-        </p>
+        <Typography />
       </Box>
     </Wrapper>
   )
@@ -131,16 +162,7 @@ stories.push([
   () => (
     <Wrapper>
       <Box>
-        <h1>H1</h1>
-        <h2>H2</h2>
-        <h3>H3</h3>
-        <h4>H4</h4>
-        <h5>H5</h5>
-        <h6>H6</h6>
-        <p>
-          Paragraph with Link <a href="#anchor">Anchor</a> Posuere eget
-          vestibulum nostra odio varius integer ullamcorper curabitur mi
-        </p>
+        <Typography />
       </Box>
     </Wrapper>
   )
