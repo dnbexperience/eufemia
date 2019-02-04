@@ -23,7 +23,7 @@
     "start": "yarn workspace dnb-design-system-portal start",
     "lint-ci": "yarn workspace dnb-ui-lib lint-ci && yarn workspace dnb-design-system-portal lint-ci",
     "publish-ci": "yarn workspace dnb-ui-lib publish-ci",
-    "reset": "rm -rf ./node_modules && rm yarn.lock && rm -rf ./packages/dnb-ui-lib/node_modules && rm -rf ./packages/dnb-design-system-portal/node_modules && yarn install",
+    "reset": "rm -rf ./node_modules && rm -rf ./packages/dnb-ui-lib/node_modules && rm -rf ./packages/dnb-design-system-portal/node_modules && yarn install",
     "build": "yarn workspace dnb-ui-lib build && yarn workspace dnb-design-system-portal build",
     "test": "yarn workspace dnb-ui-lib test",
     "test:update": "yarn workspace dnb-ui-lib test:update",

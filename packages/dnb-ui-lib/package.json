@@ -15,7 +15,7 @@
   "main": "index.js",
   "scripts": {
     "post-build": "yarn prettier:other",
-    "audit-ci": "audit-ci --high --package-manager=yarn",
+    "audit-ci": "babel-node ./scripts/prepub/audit/toOpt && audit-ci --moderate --package-manager=yarn; babel-node ./scripts/prepub/audit/toDev",
     "build": "yarn prepublish:local && yarn post-build",
     "cdn": "live-server --no-browser --cors --port=8081",
     "precommit": "yarn lint-staged",
