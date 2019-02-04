@@ -121,7 +121,7 @@ exports[`Modal component have to match snapshot 1`] = `
           >
             <IconPrimary
               alt="Open Modal"
-              aria_hidden={false}
+              aria-hidden={false}
               attributes={null}
               class={null}
               className="dnb-button__icon"
@@ -135,6 +135,8 @@ exports[`Modal component have to match snapshot 1`] = `
               width={null}
             >
               <span
+                alt="Open Modal"
+                aria-hidden={false}
                 aria-label="Open Modal"
                 className="dnb-icon dnb-icon--default dnb-button__icon"
                 role="img"
@@ -360,7 +362,7 @@ exports[`Modal component have to match snapshot 1`] = `
                   >
                     <IconPrimary
                       alt="Close"
-                      aria_hidden={false}
+                      aria-hidden={false}
                       attributes={null}
                       class={null}
                       className="dnb-button__icon"
@@ -374,6 +376,8 @@ exports[`Modal component have to match snapshot 1`] = `
                       width={null}
                     >
                       <span
+                        alt="Close"
+                        aria-hidden={false}
                         aria-label="Close"
                         className="dnb-icon dnb-icon--default dnb-button__icon"
                         role="img"

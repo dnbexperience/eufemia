@@ -512,7 +512,6 @@ class ContentWrapper extends PureComponent {
   </Tabs>
  */
 class CustomContent extends PureComponent {
-  static name2 = 'CustomContent'
   static propTypes = {
     displayName: PropTypes.string, // eslint-disable-line
     title: PropTypes.string, // eslint-disable-line

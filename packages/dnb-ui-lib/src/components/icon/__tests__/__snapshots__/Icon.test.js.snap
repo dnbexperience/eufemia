@@ -2,8 +2,7 @@
 
 exports[`Icon component have to match snapshot 1`] = `
 <Icon
-  alt="alt"
-  aria_hidden={true}
+  alt="question mark"
   attributes="attributes"
   class="class"
   className="className"
@@ -16,8 +15,8 @@ exports[`Icon component have to match snapshot 1`] = `
   width="width"
 >
   <span
-    aria-hidden="true"
-    aria-label="alt"
+    alt="question mark"
+    aria-label="question mark"
     attributes="attributes"
     className="dnb-icon dnb-icon--modifier class className"
     role="img"

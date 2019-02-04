@@ -43,11 +43,16 @@ export default class IconPrimary extends PureComponent {
   }
 
   render() {
-    const { icon, wrapperParams, iconParams, size } = prepareIcon(
+    const { icon, size, wrapperParams, iconParams, alt } = prepareIcon(
       this.props
     )
 
-    const IconContainer = prerenderIcon({ icon, size, listOfIcons: icons })
+    const IconContainer = prerenderIcon({
+      icon,
+      size,
+      alt,
+      listOfIcons: icons
+    })
 
     if (!IconContainer) return <></>
 

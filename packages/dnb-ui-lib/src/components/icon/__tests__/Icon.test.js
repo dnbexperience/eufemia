@@ -20,6 +20,7 @@ const props = fakeProps(require.resolve('../Icon'), {
   optional: true
 })
 props.icon = question
+props.alt = 'question mark'
 
 describe('Icon component', () => {
   it('have to match snapshot', () => {

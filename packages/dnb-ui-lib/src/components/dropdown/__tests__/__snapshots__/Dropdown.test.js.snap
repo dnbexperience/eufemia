@@ -39,7 +39,6 @@ exports[`Dropdown component have to match snapshot 1`] = `
     >
       <IconPrimary
         alt={null}
-        aria_hidden={false}
         attributes={null}
         class={null}
         className={null}

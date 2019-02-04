@@ -147,11 +147,13 @@ export default class StickyMenuBar extends PureComponent {
                   className="sticky-menu dev-grid"
                 >
                   <BarInner>
-                    <span>
-                      <MainMenuToggleButton />
-                    </span>
+                    <MainMenuToggleButton />
                     <CenterWrapper aria-hidden>
-                      <Icon icon={PortalLogo} size={48} />
+                      <Icon
+                        icon={PortalLogo}
+                        size={48}
+                        alt={`${slogan} logo`}
+                      />
                       <Slogan>{slogan}</Slogan>
                     </CenterWrapper>
                     <span>

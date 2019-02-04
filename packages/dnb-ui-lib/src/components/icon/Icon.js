@@ -39,7 +39,6 @@ export const propTypes = {
   color: PropTypes.string,
   alt: PropTypes.string,
   title: PropTypes.string,
-  aria_hidden: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   class: PropTypes.string,
   // React props
@@ -60,7 +59,6 @@ export const defaultProps = {
   color: null,
   alt: null,
   title: null,
-  aria_hidden: false,
   attributes: null,
   class: null,
   // React props
@@ -101,9 +99,11 @@ export default class Icon extends PureComponent {
     // make sure we return an empty span if we dont could get the icon
     if (!IconContainer) return <></>
 
-    const iconContainer = <IconContainer {...iconParams} />
-
-    return <span {...wrapperParams}>{iconContainer}</span>
+    return (
+      <span {...wrapperParams}>
+        <IconContainer {...iconParams} />
+      </span>
+    )
   }
 }
 
@@ -283,7 +283,6 @@ export const prepareIcon = props => {
     title,
     class: _className,
     className,
-    aria_hidden,
     ...attributes
   } = props
 
@@ -310,10 +309,8 @@ export const prepareIcon = props => {
   // also used for code markup simulation
   const wrapperParams = validateDOMAttributes(props, {
     role: 'img',
-    // because we use aria-label, we do not provide an alt as well
-    // alt,
+    alt,
     ['aria-label']: alt,
-    ['aria-hidden']: aria_hidden ? 'true' : null,
     title,
     ...attributes
   })

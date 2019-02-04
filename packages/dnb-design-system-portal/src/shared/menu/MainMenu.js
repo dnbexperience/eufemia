@@ -232,7 +232,7 @@ export default class MainMenu extends PureComponent {
                             icon="close"
                             icon_position="left"
                             text="Close"
-                            title="Close Main Menu"
+                            aria-label="Close Main Menu"
                             // ref={this._ref}
                           />
                         )}

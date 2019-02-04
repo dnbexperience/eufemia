@@ -281,7 +281,7 @@ class Content extends PureComponent {
           icon={icon}
           size={icon_size}
           alt={alt}
-          aria_hidden={isIconOnly ? false : Boolean(alt)}
+          aria-hidden={isIconOnly ? false : Boolean(alt)}
         />
       )
     }
