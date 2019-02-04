@@ -22,6 +22,8 @@ import close from './close.js'
 import close_medium from './close_medium.js'
 import exclamation from './exclamation.js'
 import exclamation_medium from './exclamation_medium.js'
+import file from './file.js'
+import file_medium from './file_medium.js'
 import fullscreen from './fullscreen.js'
 import fullscreen_medium from './fullscreen_medium.js'
 import hamburger from './hamburger.js'
@@ -64,6 +66,8 @@ export {
   close_medium,
   exclamation,
   exclamation_medium,
+  file,
+  file_medium,
   fullscreen,
   fullscreen_medium,
   hamburger,
