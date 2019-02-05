@@ -6,6 +6,7 @@ order: 6
 
 import 'dnb-ui-lib/src/web-components'
 import ComponentBox from 'Tags/ComponentBox'
+import { hamburger as hamburgerIcon } from 'dnb-ui-lib/src/icons/secondary_icons'
 
 # Component Properties
 
