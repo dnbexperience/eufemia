@@ -14,7 +14,8 @@ import {
   Icon,
   IconPrimary,
   Modal,
-  Dropdown
+  Dropdown,
+  StepIndicator
 } from '../src/components'
 
 const stories = []
@@ -46,57 +47,6 @@ stories.push([
           icon_position="left"
           icon="add"
         />
-      </Box>
-    </Wrapper>
-  )
-])
-
-stories.push([
-  'Anchor',
-  () => (
-    <Wrapper>
-      <Box>
-        <a href="http://dnb.no">
-          <IconPrimary icon="chevron_left" /> Anchor
-        </a>
-      </Box>
-      <Box>
-        <a href="http://dnb.no">
-          Anchor <IconPrimary icon="chevron_right" />
-        </a>
-      </Box>
-      <Box>
-        <a href="http://dnb.no">
-          Default Anchor - Adipiscing per egestas duis feugiat dignissim
-          quam cras eget non est ante purus taciti volutpat mi phasellus
-          rhoncus ridiculus diam at proin fusce bibendum netus dapibus
-          natoque varius eros litora
-        </a>
-      </Box>
-      <Box>
-        <a href="http://dnb.no" className="dnb-with-animation">
-          Anchor with Animation <IconPrimary icon="chevron_right" />
-        </a>
-      </Box>
-      <Box>
-        <a href="http://dnb.no" className="dnb-with-animation">
-          Anchor with Animation - Adipiscing per egestas duis feugiat
-          dignissim quam cras eget non est ante purus taciti volutpat mi
-          phasellus rhoncus ridiculus diam at proin fusce bibendum netus
-          dapibus natoque varius eros litora
-        </a>
-      </Box>
-      <Box>
-        <a
-          href="http://dnb.no"
-          className="dnb-with-animation"
-          style={{ whiteSpace: 'normal' }}
-        >
-          Anchor with Animation and no `white-space: pre;` - Adipiscing per
-          egestas duis feugiat dignissim quam cras eget non est ante purus
-          taciti volutpat mi phasellus rhoncus ridiculus diam at proin
-          fusce bibendum netus dapibus natoque varius eros litora
-        </a>
       </Box>
     </Wrapper>
   )
@@ -250,6 +200,50 @@ stories.push([
         <h2>Some content</h2>
         <Input>Focus me with Tab key</Input>
       </Modal>
+    </Wrapper>
+  )
+])
+
+stories.push([
+  'StepIndicator',
+  () => (
+    <Wrapper>
+      <Box>
+        <StepIndicator
+          active_url="?d"
+          data={[
+            {
+              title: 'Om din nye bolig',
+              url: '?a'
+            },
+            {
+              title: 'Ditt lån og egenkapital',
+              url: '?b'
+            },
+            {
+              title: 'Oppsummering',
+              url: '?c',
+              url_future: ''
+            }
+          ]}
+        />
+      </Box>
+      <Box>
+        <StepIndicator
+          active_item="3"
+          data={[
+            {
+              title: 'Om din nye bolig'
+            },
+            {
+              title: 'Ditt lån og egenkapital'
+            },
+            {
+              title: 'Oppsummering'
+            }
+          ]}
+        />
+      </Box>
     </Wrapper>
   )
 ])

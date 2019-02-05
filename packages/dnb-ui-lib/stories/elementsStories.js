@@ -217,3 +217,74 @@ stories.push([
     </Wrapper>
   )
 ])
+
+stories.push([
+  'Anchor',
+  () => (
+    <Wrapper>
+      <Box>
+        <a href="http://dnb.no">
+          <IconPrimary icon="chevron_left" /> Anchor
+        </a>
+      </Box>
+      <Box>
+        <a href="http://dnb.no">
+          Anchor <IconPrimary icon="chevron_right" />
+        </a>
+      </Box>
+      <Box>
+        <a href="/" className="dnb-hover-style">
+          Hover Style
+        </a>
+      </Box>
+      <Box>
+        <a href="/" className="dnb-active-style">
+          Active Style
+        </a>
+      </Box>
+      <Box>
+        <a href="/" className="dnb-focus-style">
+          Focus Style
+        </a>
+      </Box>
+      <Box>
+        <a href="/" className="dnb-with-animation">
+          With a special
+        </a>
+      </Box>
+      <Box>
+        <a href="http://dnb.no">
+          Default Anchor - Adipiscing per egestas duis feugiat dignissim
+          quam cras eget non est ante purus taciti volutpat mi phasellus
+          rhoncus ridiculus diam at proin fusce bibendum netus dapibus
+          natoque varius eros litora
+        </a>
+      </Box>
+      <Box>
+        <a href="http://dnb.no" className="dnb-with-animation">
+          Anchor with Animation <IconPrimary icon="chevron_right" />
+        </a>
+      </Box>
+      <Box>
+        <a href="http://dnb.no" className="dnb-with-animation">
+          Anchor with Animation - Adipiscing per egestas duis feugiat
+          dignissim quam cras eget non est ante purus taciti volutpat mi
+          phasellus rhoncus ridiculus diam at proin fusce bibendum netus
+          dapibus natoque varius eros litora
+        </a>
+      </Box>
+      <Box>
+        <a
+          href="http://dnb.no"
+          className="dnb-with-animation"
+          style={{ whiteSpace: 'normal' }}
+        >
+          Anchor with Animation and no `white-space: pre;` - Adipiscing per
+          egestas duis feugiat dignissim quam cras eget non est ante purus
+          taciti volutpat mi phasellus rhoncus ridiculus diam at proin
+          fusce bibendum netus dapibus natoque varius eros litora
+        </a>
+      </Box>
+    </Wrapper>
+  )
+])
