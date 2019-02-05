@@ -10,6 +10,8 @@ import styled from '@emotion/styled'
 import Highlight, { defaultProps } from 'prism-react-renderer'
 import Pre from './Pre'
 import { Button } from 'dnb-ui-lib/src'
+import Code from '../parts/uilib/Code'
+import { generateElement } from './transpile/index'
 
 import {
   LiveProvider,
@@ -86,13 +88,15 @@ class LiveCode extends PureComponent {
     hideToolbar: PropTypes.bool,
     hideCode: PropTypes.bool,
     hidePreview: PropTypes.bool,
+    showSyntax: PropTypes.bool,
     caption: PropTypes.string
   }
   static defaultProps = {
     caption: null,
     hideToolbar: false,
     hideCode: false,
-    hidePreview: false
+    hidePreview: false,
+    showSyntax: true
   }
 
   constructor(props) {
@@ -107,13 +111,22 @@ class LiveCode extends PureComponent {
   togglePreview = () => {
     this.setState(() => ({ hidePreview: !this.state.hidePreview }))
   }
+  toggleSyntax = () => {
+    this.setState(() => ({ showSyntax: !this.state.showSyntax }))
+  }
 
   render() {
     const { code, caption, scope, ...rest } = this.props
-    const { hideToolbar, hideCode, hidePreview } = this.state
+    const { hideToolbar, hideCode, hidePreview, showSyntax } = this.state
+
+    const codeToUse = typeof code === 'string' ? String(code).trim() : null
 
     const props = Object.entries(rest).reduce((acc, [key, value]) => {
-      if (!['hideCode', 'hidePreview', 'hideToolbar'].includes(key)) {
+      if (
+        !['hideCode', 'hidePreview', 'hideToolbar', 'showSyntax'].includes(
+          key
+        )
+      ) {
         acc[key] = value
       }
       return acc
@@ -124,28 +137,26 @@ class LiveCode extends PureComponent {
         <LiveProvider
           mountStylesheet={false}
           css={prismStyle}
-          code={typeof code === 'string' ? String(code).trim() : null}
+          code={codeToUse}
           scope={scope}
           {...props}
         >
           {!hidePreview && (
-            <>
-              <div className="example-box">
-                {!hideToolbar && hideCode && (
-                  <Button
-                    className="toggle-button"
-                    on_click={this.toggleCode}
-                    variant="secondary"
-                    text="Code"
-                    title="Toggle Code Snippet"
-                    icon={`chevron-${hideCode ? 'down' : 'up'}`}
-                    size="medium"
-                  />
-                )}
-                <LivePreview />
-                {caption && <p className="example-caption">{caption}</p>}
-              </div>
-            </>
+            <div className="example-box">
+              {!hideToolbar && hideCode && (
+                <Button
+                  className="toggle-button"
+                  on_click={this.toggleCode}
+                  variant="secondary"
+                  text="Code"
+                  title="Toggle Code Snippet"
+                  icon={`chevron-${hideCode ? 'down' : 'up'}`}
+                  size="medium"
+                />
+              )}
+              <LivePreview />
+              {caption && <p className="example-caption">{caption}</p>}
+            </div>
           )}
           {!hideToolbar && (
             <Toolbar>
@@ -160,11 +171,25 @@ class LiveCode extends PureComponent {
                   size="medium"
                 />
               )}
+              <Button
+                className="toggle-button"
+                on_click={this.toggleSyntax}
+                variant="secondary"
+                text="Syntax"
+                title="Toggle Syntax"
+                icon={`chevron-${!showSyntax ? 'down' : 'up'}`}
+                size="medium"
+              />
             </Toolbar>
           )}
           {!hideCode && <LiveEditor language="jsx" ignoreTabKey />}
           {!hideCode && (
             <LiveError className="dnb-form-status dnb-form-status--text dnb-form-status--error" />
+          )}
+          {showSyntax && (
+            <Syntax>
+              <Code source={generateElement({ code: codeToUse, scope })} />
+            </Syntax>
           )}
         </LiveProvider>
       </LiveCodeEditor>
@@ -224,6 +249,10 @@ const Toolbar = styled.div`
   .dnb-form-status {
     pointer-events: all;
   } */}
+`
+
+const Syntax = styled.div`
+  margin-top: 1rem;
 `
 
 /** Removes the last token from a code example if it's empty. */

@@ -130,12 +130,13 @@ class Example extends PureComponent {
         </ComponentBox>
         <ComponentBox scope={{ Bell }}>
           {/* @jsx */ `
+// Medium is equalent to 24, but responsive
 <Button
   variant="signal"
   text="Signal Button (large size)"
   size="large"
   icon={Bell}
-  icon_size="medium" // medium is equalent to 24, but responsive
+  icon_size="medium"
 />
           `}
         </ComponentBox>
