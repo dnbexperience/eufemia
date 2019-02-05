@@ -13,7 +13,7 @@ const file_medium = props => (
       strokeLinejoin="round"
     />
     <path
-      d="M6.045 8.25h12M6.045 12.75h12M6.045 17.25h6"
+      d="M6.045 8.25h12m-12 4.5h12m-12 4.5h6"
       stroke="#000"
       strokeWidth={1.5}
       strokeLinecap="round"
