@@ -123,7 +123,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
   variant="primary"
 >
   <a
-    className="dnb-button dnb-button--primary dnb-button--icon-position-right dnb-button--has-text dnb-button--has-icon id class className dnb-no-anchor-underline dnb-no-anchor-hover"
+    className="dnb-button dnb-button--primary dnb-button--icon-position-right dnb-button--has-text dnb-button--has-icon id class className"
     disabled="disabled"
     href="https://url"
     id="id"
@@ -215,6 +215,10 @@ exports[`Button scss have to match default theme snapshot 1`] = `
  */
 /*
  * Utilities
+ */
+/*
+ * Anchor
+ *
  */
 /*
  * Typography
@@ -412,6 +416,17 @@ exports[`Button scss have to match default theme snapshot 1`] = `
   .dnb-button--signal[disabled] {
     color: #b0b0b0;
     background-color: var(--color-signal-yellow-30); }
+
+a.dnb-button {
+  transition: none; }
+  a.dnb-button:hover {
+    color: inherit;
+    background-color: inherit;
+    border-bottom-width: 1px; }
+  a.dnb-button::before {
+    content: none; }
+  a.dnb-button::before {
+    transition: max-height 0.01s linear; }
 "
 `;
 
@@ -655,14 +670,13 @@ exports[`Button scss have to match snapshot 1`] = `
   text-decoration: none;
   /* Firefox includes a hidden border which messes up button dimensions */ }
   .dnb-button__icon {
-    line-height: 0;
-    /* -1px because of the border width */ }
+    line-height: 0; }
     .dnb-button__icon:not(.dnb-icon) svg:not([width]):not([height]) {
       width: var(--button-icon-size);
       height: var(--button-icon-size); }
     @supports not (-ms-ime-align: auto) {
       .dnb-button__icon {
-        transform: translateY(calc(1px - 1px - var(--button-border-width))); } }
+        transform: translateY(-1px); } }
   .dnb-button__text {
     color: inherit; }
   .dnb-button--size-small {
@@ -757,6 +771,10 @@ exports[`Button scss have to match snapshot 1`] = `
     border: none; }
 
 a.dnb-button {
-  transition: none; }
+  -webkit-appearance: none; }
+  a.dnb-button .dnb-button__icon {
+    transform: translateY(0); }
+  a.dnb-button .dnb-button__text {
+    transform: translateY(1px); }
 "
 `;

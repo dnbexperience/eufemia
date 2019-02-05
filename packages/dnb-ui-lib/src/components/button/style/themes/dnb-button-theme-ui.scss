@@ -123,3 +123,10 @@
     background-color: var(--color-signal-yellow-30);
   }
 }
+
+// make sure we style an Anchor like a button
+a.dnb-button {
+  // reset the anchor style
+  @include resetHoverStyle();
+  @include resetAnimationStyle();
+}

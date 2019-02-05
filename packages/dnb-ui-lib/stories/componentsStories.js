@@ -29,6 +29,12 @@ stories.push([
       </Box>
       <Box>
         <Button text="Secondary" variant="secondary" icon="add" />
+        <Button
+          variant="secondary"
+          text="Secondary button with href"
+          href="?no-cache=1"
+          icon="add"
+        />
       </Box>
       <Box>
         <Button text="Signal" variant="signal" icon="add" />

@@ -1,5 +1,5 @@
 /**
- * Main THeme
+ * Main Theme
  * You CAN change the content on the very top!
  *
  */
@@ -235,10 +235,12 @@ pre {
   }
 }
 
-::selection {
-  background: var(--color-mint-green);
-  color: var(--color-black);
-  text-shadow: none;
+@supports not (-ms-ime-align: auto) {
+  ::selection {
+    background-color: var(--color-mint-green);
+    color: var(--color-black);
+    text-shadow: none;
+  }
 }
 
 // make sure we load the spacings after we have defined the defaults of the elements

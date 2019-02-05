@@ -18,9 +18,3 @@ draft: true
 | `class`         | _(optional)_ any extra modifying class.                                                                                                |
 | `attributes`    | _(optional)_ insert any other attributes. For example `disabled` or any other custom attributes.                                       |
 | `href`          | _(optional)_ if you want the button to behave as a link. Use with caution! A link should normally visually be a link and not a button. |
-
-## Events
-
-| Events     | Description                                   |
-| ---------- | --------------------------------------------- |
-| `on_click` | _(optional)_ will be called on a click event. |

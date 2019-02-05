@@ -50,9 +50,8 @@
       height: var(--button-icon-size);
     }
 
-    /* -1px because of the border width */
     @supports not (-ms-ime-align: auto) {
-      transform: translateY(calc(1px - 1px - var(--button-border-width)));
+      transform: translateY(-1px);
     }
   }
   &__text {
@@ -203,5 +202,13 @@
 
 // make sure we style an Anchor like a button
 a.dnb-button {
-  transition: none;
+  -webkit-appearance: none; // because we have "appearance: button" in reset.scss
+
+  // some correction
+  .dnb-button__icon {
+    transform: translateY(0);
+  }
+  .dnb-button__text {
+    transform: translateY(1px);
+  }
 }

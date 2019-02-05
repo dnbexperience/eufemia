@@ -208,6 +208,10 @@ exports[`Tabs scss have to match default theme snapshot 1`] = `
  * Utilities
  */
 /*
+ * Anchor
+ *
+ */
+/*
  * Typography
  *
  * The font-family properties are defined in the properties.scss file, like:

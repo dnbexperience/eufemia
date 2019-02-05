@@ -123,6 +123,10 @@ exports[`Input scss have to match default theme snapshot 1`] = `
  * Utilities
  */
 /*
+ * Anchor
+ *
+ */
+/*
  * Typography
  *
  * The font-family properties are defined in the properties.scss file, like:
@@ -467,14 +471,13 @@ exports[`Input scss have to match snapshot 1`] = `
   text-decoration: none;
   /* Firefox includes a hidden border which messes up button dimensions */ }
   .dnb-button__icon {
-    line-height: 0;
-    /* -1px because of the border width */ }
+    line-height: 0; }
     .dnb-button__icon:not(.dnb-icon) svg:not([width]):not([height]) {
       width: var(--button-icon-size);
       height: var(--button-icon-size); }
     @supports not (-ms-ime-align: auto) {
       .dnb-button__icon {
-        transform: translateY(calc(1px - 1px - var(--button-border-width))); } }
+        transform: translateY(-1px); } }
   .dnb-button__text {
     color: inherit; }
   .dnb-button--size-small {
@@ -569,7 +572,11 @@ exports[`Input scss have to match snapshot 1`] = `
     border: none; }
 
 a.dnb-button {
-  transition: none; }
+  -webkit-appearance: none; }
+  a.dnb-button .dnb-button__icon {
+    transform: translateY(0); }
+  a.dnb-button .dnb-button__text {
+    transform: translateY(1px); }
 
 /*
 * DNB FormLabel

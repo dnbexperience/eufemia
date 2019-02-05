@@ -6,9 +6,9 @@ order: 2
 
 import Tabs from 'Tags/Tabs'
 
-import FirstTabContent from 'Pages/uilib/components/button/first-tab-content'
-import SecondTabContent from 'Pages/uilib/components/button/second-tab-content'
-import ThirdTabContent from 'Pages/uilib/components/button/third-tab-content'
+import FirstTabContent from 'Pages/uilib/components/button/button-info'
+import SecondTabContent from 'Pages/uilib/components/button/button-properties'
+import ThirdTabContent from 'Pages/uilib/components/button/button-events'
 
 # Button
 
