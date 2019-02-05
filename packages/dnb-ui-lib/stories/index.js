@@ -16,9 +16,9 @@ import elements from './elementsStories'
 import '../src/style'
 
 /* only import a component scope style, like Button */
-// import '../src/components/button/style/dnb-button.scss'
-// import '../src/components/button/style/themes/dnb-button-theme-ui.scss'
-// import '../src/style/themes/dnb-theme-ui.scss'
+// import '../src/components/button/style'
+// import '../src/components/button/style/themes/ui'
+// import '../src/style/themes/ui'
 /* or use the compiled version */
 // import '../components/button/style/dnb-button.css'
 // import '../components/button/style/themes/dnb-button-theme-ui.css'

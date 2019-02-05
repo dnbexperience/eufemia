@@ -1,12 +1,12 @@
 ---
 title: 'Theming'
 draft: false
-order: 2
+order: 5
 ---
 
 # Theming
 
-Read the [Styling examples](/uilib/usage/styling) on how to include styles and a theme.
+Read the [Styling examples](/uilib/usage/customisation/styling) on how to include styles and a theme.
 This section is about how theming works and how to actually create a custom theme.
 
 ## How Themes are built

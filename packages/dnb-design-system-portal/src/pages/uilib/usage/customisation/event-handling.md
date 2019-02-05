@@ -1,7 +1,7 @@
 ---
 title: 'Event Handling'
 draft: false
-order: 4
+order: 7
 ---
 
 import ComponentBox from 'Tags/ComponentBox'

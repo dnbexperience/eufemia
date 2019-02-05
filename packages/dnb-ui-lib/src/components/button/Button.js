@@ -24,6 +24,7 @@ export const propTypes = {
   text: PropTypes.string,
   type: PropTypes.string,
   title: PropTypes.string,
+  /* _(optional)_ defines the kind of button. Possible values are `primary`, `secondary`, `tertiary` and `signal`.  */
   variant: PropTypes.oneOf(['primary', 'secondary', 'tertiary', 'signal']),
   size: PropTypes.oneOf(['default', 'small', 'medium', 'large']),
   icon: PropTypes.oneOfType([

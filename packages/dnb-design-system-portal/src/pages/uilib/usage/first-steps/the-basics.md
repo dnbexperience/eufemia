@@ -34,9 +34,9 @@ All the HTML elements have individual interaction states. The look and feel is d
 - focus
 - disabled
 
-## Global Scope
+## CSS Styles
 
-Once You import the `dnb-ui-lib` style, You will not only get the HTML Element styles, but also for lower lever tags like [Headings and Paragraphs](/uilib/typography) and support for [Focus Management](/uilib/usage/accessibility/focus).
+Have a read on [how the styles are setup](/uilib/usage/customisation/styling) and [how to import the CSS](/uilib/usage/customisation/consume-styles).
 
 ## Compiler
 
@@ -52,7 +52,7 @@ With [Node.js](https://nodejs.org/) as our JavaScript runtime in place, we may u
 // Define the imports
 import { Button } from 'dnb-ui-lib'
 
-// In Your JSX
+// And consume the Component in Your markup render method
 render(<Button text="Primary Button" />)
 ```
 
@@ -61,6 +61,14 @@ You also may [import the styles](/uilib/usage/customisation/styling) on a higher
 ```js
 // e.g. in the App root
 import 'dnb-ui-lib/style'
+```
+
+You can also import a single style of one component at a time:
+
+```js
+// Imports only the Button CSS and Main DNB Theme
+import 'dnb-ui-lib/components/button/style'
+import 'dnb-ui-lib/components/button/style/themes/ui'
 ```
 
 And finally bind an [event listener](/uilib/usage/customisation/event-handling):
