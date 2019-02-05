@@ -607,6 +607,14 @@ exports[`Button scss have to match snapshot 1`] = `
   .dnb-button ::after {
     text-decoration: inherit;
     vertical-align: inherit; }
+  .dnb-button button {
+    overflow: visible;
+    text-transform: none; }
+  .dnb-button button,
+  .dnb-button [type='button'],
+  .dnb-button [type='reset'],
+  .dnb-button [type='submit'] {
+    -webkit-appearance: button; }
 
 /*
 * Button component
@@ -632,13 +640,11 @@ exports[`Button scss have to match snapshot 1`] = `
   --button-border-radius--large: calc(var(--button-height--large) / 2); }
 
 .dnb-button {
+  cursor: pointer;
+  white-space: nowrap;
   display: inline-flex;
-  vertical-align: middle;
-  align-content: center;
   align-items: center;
   justify-content: center;
-  white-space: nowrap;
-  cursor: pointer;
   width: var(--button-width);
   height: var(--button-height);
   padding: 0;
@@ -649,13 +655,16 @@ exports[`Button scss have to match snapshot 1`] = `
   text-decoration: none;
   /* Firefox includes a hidden border which messes up button dimensions */ }
   .dnb-button__icon {
-    line-height: 0; }
+    line-height: 0;
+    /* -1px because of the border width */ }
     .dnb-button__icon:not(.dnb-icon) svg:not([width]):not([height]) {
       width: var(--button-icon-size);
       height: var(--button-icon-size); }
+    @supports not (-ms-ime-align: auto) {
+      .dnb-button__icon {
+        transform: translateY(calc(1px - 1px - var(--button-border-width))); } }
   .dnb-button__text {
-    color: inherit;
-    transform: translateY(var(--button-border-width)); }
+    color: inherit; }
   .dnb-button--size-small {
     width: var(--button-width--small);
     height: var(--button-height--small);

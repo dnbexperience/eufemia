@@ -194,7 +194,7 @@ export default class Button extends PureComponent {
       ...this.renderProps,
       className: classes,
       type,
-      title: title || text,
+      title,
       id,
       disabled,
       onMouseOut: this.onMouseOutHandler, // for resetting the button to the default state

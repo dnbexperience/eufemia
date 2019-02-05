@@ -6,7 +6,6 @@ order: 6
 
 import 'dnb-ui-lib/src/web-components'
 import ComponentBox from 'Tags/ComponentBox'
-import PropertiesExample from 'Pages/uilib/usage/customisation/examples/properties-example'
 
 # Component Properties
 

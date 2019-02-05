@@ -24,14 +24,13 @@
 }
 
 .dnb-button {
-  display: inline-flex;
-  vertical-align: middle;
-  align-content: center;
-  align-items: center;
-  justify-content: center;
+  cursor: pointer;
   white-space: nowrap;
 
-  cursor: pointer;
+  // we use flex, even if they dont has effect in safari and webkit
+  display: inline-flex;
+  align-items: center; //centering icons
+  justify-content: center; //centering icons
 
   width: var(--button-width);
   height: var(--button-height);
@@ -50,12 +49,14 @@
       width: var(--button-icon-size);
       height: var(--button-icon-size);
     }
+
+    /* -1px because of the border width */
+    @supports not (-ms-ime-align: auto) {
+      transform: translateY(calc(1px - 1px - var(--button-border-width)));
+    }
   }
   &__text {
     color: inherit;
-
-    // +1px because of the border width
-    transform: translateY(var(--button-border-width));
   }
 
   // size small

@@ -4,7 +4,7 @@
  */
 
 import React, { PureComponent, Fragment } from 'react'
-import styled from '@emotion/styled'
+import ComponentBox from '../../../../shared/inlineTags/ComponentBox'
 import Button from 'dnb-ui-lib/src/components/button'
 import { bell_medium as Bell, question } from 'dnb-ui-lib/src/icons'
 
@@ -13,25 +13,26 @@ class Example extends PureComponent {
     alert('You clicked a button with a click function attached to it')
   }
   render() {
+    console.log('Example')
     return (
       <Fragment>
-        <div className="example-box">
-          <Button
-            text="Primary button with text only"
-            title="This is a button title"
-            on_click={this.clickHandler}
-            attributes={{
-              'data-fake:on_click': 'clickme()'
-            }}
-          />
-        </div>
-        <div className="example-box">
-          <Button
-            text="Secondary button with text only"
-            variant="secondary"
-            title="This is a button title"
-          />
-        </div>
+        <ComponentBox>
+          {`
+<Button
+  text="Primary button with text only"
+  title="This is a button title"
+/>
+          `}
+        </ComponentBox>
+        <ComponentBox>
+          {`
+<Button
+  text="Secondary button with text only"
+  variant="secondary"
+  title="This is a button title"
+/>
+          `}
+        </ComponentBox>
         <div className="example-box">
           <Button
             text="Disabled primary button"
@@ -132,14 +133,4 @@ class Example extends PureComponent {
   }
 }
 
-const Wrapper = styled.div`
-  display: block;
-  width: 100%;
-`
-
-// export { Example }
-export default () => (
-  <Wrapper>
-    <Example />
-  </Wrapper>
-)
+export default Example
