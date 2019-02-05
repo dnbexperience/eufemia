@@ -187,8 +187,10 @@ export default class Tabs extends PureComponent {
     // check if we have to open a diffrent tab
     if (props.use_hash && typeof window !== 'undefined') {
       try {
-        selected_key = String(window.location.hash).replace('#', '')
-        console.log('selected_key', selected_key)
+        const key = String(window.location.hash).replace('#', '')
+        if (key && String(key).length > 0) {
+          selected_key = key
+        }
       } catch (e) {
         console.log('Tabs Error:', e)
       }
