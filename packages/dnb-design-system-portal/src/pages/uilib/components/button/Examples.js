@@ -15,77 +15,69 @@ class Example extends PureComponent {
     return (
       <Fragment>
         <ComponentBox>
-          {`
+          {/* @jsx */ `
 <Button
   text="Primary button with text only"
-  title="This is a button title"
 />
           `}
         </ComponentBox>
         <ComponentBox>
-          {`
+          {/* @jsx */ `
 <Button
   text="Secondary button with text only"
   variant="secondary"
-  title="This is a button title"
 />
           `}
         </ComponentBox>
         <ComponentBox>
-          {`
+          {/* @jsx */ `
 <Button
   text="Disabled primary button"
-  title="This is a button title"
   disabled
 />
           `}
         </ComponentBox>
         <ComponentBox>
-          {`
+          {/* @jsx */ `
 <Button
   text="Disabled secondary button"
   variant="secondary"
-  title="This is a button title"
   disabled
 />
           `}
         </ComponentBox>
         <ComponentBox>
-          {`
+          {/* @jsx */ `
 <Button
   text="Primary button with icon"
-  title="This is a button title"
   icon="chevron_right"
 />
           `}
         </ComponentBox>
         <ComponentBox>
-          {`
+          {/* @jsx */ `
 <Button
   text="Primary button with icon on left"
-  title="This is a button title"
   icon_position="left"
   icon="chevron_left"
 />
           `}
         </ComponentBox>
         <ComponentBox>
-          {`
+          {/* @jsx */ `
 <Button
   variant="tertiary"
   text="Tertiary button with icon on left"
-  title="This is a button title"
   icon_position="left"
   icon="chevron_left"
 />
           `}
         </ComponentBox>
         <ComponentBox>
-          {`
+          {/* @jsx */ `
 <Button
   variant="tertiary"
   text="Tertiary button with icon on left"
-  title="This is a button title"
   icon_position="left"
   icon="chevron_left"
   disabled
@@ -93,7 +85,7 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox>
-          {`
+          {/* @jsx */ `
 <>
 <Button
   text="Primary button with href"
@@ -114,7 +106,7 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox scope={{ question }}>
-          {`
+          {/* @jsx */ `
 <>
   <Button
     title="Disabled Icon only Button"
@@ -137,7 +129,7 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox scope={{ Bell }}>
-          {`
+          {/* @jsx */ `
 <Button
   variant="signal"
   text="Signal Button (large size)"
@@ -148,7 +140,7 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox scope={{ Bell }}>
-          {`
+          {/* @jsx */ `
 <Button
   variant="signal"
   text="Disabled Signal Button"
