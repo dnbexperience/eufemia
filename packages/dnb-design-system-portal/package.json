@@ -112,7 +112,7 @@
     "react-fake-props": "^0.3.1",
     "react-helmet": "^5.2.0",
     "react-live": "^1.12.0",
-    "react-live-replacement": "https://github.com/tujoworker/react-live/",
+    "react-live-replacement": "https://github.com/tujoworker/react-live/tarball/d9a44a8b8093a3cb57734d901200f7b66cd30515",
     "stylelint": "^9.10.1",
     "stylelint-config-styled-components": "^0.1.1",
     "stylelint-processor-styled-components": "^1.5.2"
