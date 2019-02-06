@@ -132,7 +132,7 @@ export default class Modal extends PureComponent {
     this.toggleOpenClose(e, false)
   }
   componentDidMount() {
-    if (!modalRoot) {
+    if (!modalRoot && typeof document !== 'undefined') {
       modalRoot = document.getElementById('dnb-modal-root') // document.querySelector('.dnb-modal-root')
     }
   }

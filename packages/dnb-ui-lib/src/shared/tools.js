@@ -11,9 +11,9 @@ export const setPageFocusElement = (element = null, key = 'default') => {
 export const applyPageFocus = (key = 'default') => {
   try {
     let element = pageFocusElements[key]
-    if (typeof element === 'string') {
+    if (typeof element === 'string' && typeof document !== 'undefined') {
       element = document.querySelector(element)
-    } else if (!element) {
+    } else if (!element && typeof document !== 'undefined') {
       element = document.querySelector('.dnb-no-focus')
     }
     if (element instanceof HTMLElement) {
