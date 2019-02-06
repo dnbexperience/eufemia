@@ -46,6 +46,30 @@ export const loadScss = file => {
   }
 }
 
+// export const startScreenshotServer = () =>
+//   new Promise((resolve, reject) => {
+//     resolve()
+//     // setTimeout(() => {
+//     // }, 1e3)
+//   })
+
+export const testPageScreenshot = ({ selector, url }) =>
+  new Promise(async (resolve, reject) => {
+    try {
+      // await startScreenshotServer()
+      await global.page.goto(
+        `http://localhost:8000/${url}`.replace(/\/\//g, '/')
+      )
+      await global.page.waitForSelector(selector)
+      const element = await global.page.$(selector)
+      const screenshot = await element.screenshot()
+
+      resolve(screenshot)
+    } catch (e) {
+      reject(e)
+    }
+  })
+
 export const setupPageScreenshot = (options = { timeout: 10e3 }) => {
   // just setup this one time
   if (global.browser) return

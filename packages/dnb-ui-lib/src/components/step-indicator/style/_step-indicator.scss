@@ -19,6 +19,11 @@
     list-style: none;
     align-items: flex-start;
   }
+  .dnb-spacing &__list,
+  .dnb-spacing &__list li {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
 
   &__item {
     position: relative;
