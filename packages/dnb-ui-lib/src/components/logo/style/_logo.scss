@@ -5,14 +5,19 @@
 
 .dnb-logo {
   display: inline;
-  width: auto;
-  height: 100%;
+  vertical-align: baseline;
+  font-size: inherit;
+  line-height: 0;
 
-  font-size: 0;
+  width: calc(1em * attr(data-ratio));
+  height: 1em;
+
   color: var(--color-sea-green);
-  fill: currentColor;
 
   svg {
+    fill: currentColor;
+  }
+  svg:not([width]):not([height]) {
     width: inherit;
     height: inherit;
   }

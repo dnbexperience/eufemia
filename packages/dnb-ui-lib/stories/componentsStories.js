@@ -15,6 +15,7 @@ import {
   IconPrimary,
   Modal,
   Dropdown,
+  Logo,
   StepIndicator
 } from '../src/components'
 
@@ -47,6 +48,25 @@ stories.push([
           icon_position="left"
           icon="add"
         />
+      </Box>
+    </Wrapper>
+  )
+])
+
+stories.push([
+  'Logo',
+  () => (
+    <Wrapper>
+      <Box>
+        <Logo size="80" style={{ color: 'var(--color-cherry-red)' }} />
+      </Box>
+      <Box>
+        <h1>
+          H1 with the DNB Logo <Logo size="auto" />
+        </h1>
+        <p>
+          Text with the DNB Logo <Logo />
+        </p>
       </Box>
     </Wrapper>
   )

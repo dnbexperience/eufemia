@@ -3,12 +3,9 @@
  *
  */
 
-// import '@babel/polyfill' // jest v24 may have usage of this
 import { axe, toHaveNoViolations } from 'jest-axe'
 import fakeProps from 'react-fake-props'
 import { mount, render, shallow } from './enzyme'
-
-// import * as reactDocs from 'react-docgen'
 import ReactDOMServer from 'react-dom/server'
 import fs from 'fs-extra'
 import onceImporter from 'node-sass-once-importer'
@@ -59,7 +56,11 @@ export const startScreenshotServer = () =>
     // }, 1e3)
   })
 
-export const testPageScreenshot = ({ selector, url }) =>
+export const testPageScreenshot = ({
+  selector,
+  url,
+  transformElement = null
+} = {}) =>
   new Promise(async (resolve, reject) => {
     try {
       await startScreenshotServer()
@@ -68,6 +69,9 @@ export const testPageScreenshot = ({ selector, url }) =>
       )
       await global.page.waitForSelector(selector)
       const element = await global.page.$(selector)
+      if (transformElement) {
+        await transformElement(element)
+      }
       const screenshot = await element.screenshot()
 
       resolve(screenshot)

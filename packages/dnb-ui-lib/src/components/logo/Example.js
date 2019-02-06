@@ -4,16 +4,27 @@
  */
 
 import React, { PureComponent, Fragment } from 'react'
-import Logo from './Logo'
+import ComponentBox from '../../../../dnb-design-system-portal/src/shared/inlineTags/ComponentBox'
 
 class Example extends PureComponent {
   render() {
     return (
       <Fragment>
-        <div className="example-box">
-          <Logo height="200" />
-          <p className="example-caption">SVG logo</p>
-        </div>
+        <ComponentBox caption="SVG logo">
+          {/* @jsx */ `
+<Logo height="200" />
+          `}
+        </ComponentBox>
+        <ComponentBox>
+          {/* @jsx */ `
+<h1>
+  H1 with the DNB Logo <Logo size="auto" />
+</h1>
+<p>
+  Text with the DNB Logo <Logo />
+</p>
+          `}
+        </ComponentBox>
       </Fragment>
     )
   }

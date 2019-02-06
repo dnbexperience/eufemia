@@ -11,15 +11,21 @@ exports[`Logo component have to match default logo snapshot 1`] = `
   width={1}
 >
   <span
+    alt="DNB Logo"
+    aria-hidden={true}
     className="dnb-logo className class"
+    data-ratio={1}
+    role="img"
   >
     <svg
-      alt="DNB Logo"
       color="color"
       height={80}
       viewBox="0 0 93.0362 64"
       width={1}
     >
+      <title>
+        DNB Logo
+      </title>
       <path
         d="M89.668 31.9442a10.6487 10.6487 0 0 0-1.8465-1.2184l-.178-.0887.1554-.1337a8.7063 8.7063 0 0 0 2.7652-6.848c-.006-3.3331-1.1437-5.82-3.413-7.3936-1.9135-1.3528-4.5588-2.0142-8.092-2.0079l-10.1326.0182a1.081 1.081 0 0 0-1.0645 1.0685l.0597 33.2203a1.0667 1.0667 0 0 0 1.0685 1.0646l11.577-.0208c3.644-.0065 6.5758-.7897 8.684-2.3266a8.6558 8.6558 0 0 0 2.7937-3.4054 11.2675 11.2675 0 0 0 .9913-4.868 8.967 8.967 0 0 0-3.3681-7.0605zM71.1547 17.5795l7.9106-.0142q4.1997-.0076 6.202 1.3885c.8454.5985 2.003 1.752 2.0083 4.7074.0095 5.2883-4.1672 5.7179-5.4338 5.7201l-10.6659.0192zm9.4066 28.7366l-9.355.0168-.0244-13.6438 10.6659-.0191c4.6219-.0083 7.8707 2.6072 7.8774 6.3407.0033 1.8.0131 7.289-9.1639 7.3054z"
       />
@@ -189,12 +195,15 @@ exports[`Logo scss have to match snapshot 1`] = `
  */
 .dnb-logo {
   display: inline;
-  width: auto;
-  height: 100%;
-  font-size: 0;
-  color: var(--color-sea-green);
-  fill: currentColor; }
+  vertical-align: baseline;
+  font-size: inherit;
+  line-height: 0;
+  width: calc(1em * attr(data-ratio));
+  height: 1em;
+  color: var(--color-sea-green); }
   .dnb-logo svg {
+    fill: currentColor; }
+  .dnb-logo svg:not([width]):not([height]) {
     width: inherit;
     height: inherit; }
 "
