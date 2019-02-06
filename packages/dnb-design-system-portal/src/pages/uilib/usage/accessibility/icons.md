@@ -26,9 +26,7 @@ Use `size="auto"` to force the icon to inherit the size of its parent element.
 
 <ComponentBox scope={{Beach}}>
 {`
-<>
-  <h1>My H1 with an Icon <Icon icon={Beach} title="Beach" size="auto" /></h1>
-  <h4>My H4 with the same Icon <Icon icon={Beach} title="Beach" size="auto" /></h4>
-</>
+<h1>My H1 with an Icon <Icon icon={Beach} title="Beach" size="auto" /></h1>
+<h4>My H4 with the same Icon <Icon icon={Beach} title="Beach" size="auto" /></h4>
 `}
 </ComponentBox>

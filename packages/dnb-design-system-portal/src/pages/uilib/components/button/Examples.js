@@ -86,7 +86,6 @@ class Example extends PureComponent {
         </ComponentBox>
         <ComponentBox>
           {/* @jsx */ `
-<>
 <Button
   text="Primary button with href"
   href="?no-cache=1"
@@ -102,12 +101,10 @@ class Example extends PureComponent {
   icon_position="left"
   icon="chevron_left"
 />
-</>
           `}
         </ComponentBox>
         <ComponentBox scope={{ question }}>
           {/* @jsx */ `
-<>
   <Button
     title="Disabled Icon only Button"
     icon="calendar"
@@ -125,7 +122,6 @@ class Example extends PureComponent {
     icon={question}
   />
   <p className="example-caption">Button with Icon only</p>
-</>
           `}
         </ComponentBox>
         <ComponentBox scope={{ Bell }}>
