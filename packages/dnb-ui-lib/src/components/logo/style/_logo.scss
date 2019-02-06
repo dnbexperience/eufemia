@@ -9,13 +9,14 @@
   font-size: inherit;
   line-height: 0;
 
-  width: calc(1em * attr(data-ratio));
-  height: 1em;
-
   color: var(--color-sea-green);
-
   svg {
     fill: currentColor;
+  }
+
+  &:not(&--has-size) {
+    width: calc(1em * attr(data-ratio));
+    height: 1em;
   }
   svg:not([width]):not([height]) {
     width: inherit;

@@ -57,8 +57,22 @@ export default class Logo extends PureComponent {
       ...rest
     } = this.props
 
+    if (parseFloat(size) > -1 && width === null && height === null) {
+      width = size * ratio
+      height = width / ratio
+    } else if (parseFloat(width) > -1 && height === null) {
+      height = width / ratio
+    } else if (parseFloat(height) > -1 && width === null) {
+      width = height * ratio
+    }
+
     const rootParams = {
-      className: classnames('dnb-logo', className, _className),
+      className: classnames(
+        'dnb-logo',
+        className,
+        _className,
+        (width > 0 || height > 0) && `dnb-logo--has-size`
+      ),
       role: 'img',
       alt: 'DNB Logo',
       ['data-ratio']: ratio,
@@ -68,15 +82,6 @@ export default class Logo extends PureComponent {
 
     const svgParams = {
       viewBox: '0 0 93.0362 64' // theese size are set to me assiosated with the svg path point values
-    }
-
-    if (parseFloat(size) > -1 && width === null && height === null) {
-      width = size * ratio
-      height = width / ratio
-    } else if (parseFloat(width) > -1 && height === null) {
-      height = width / ratio
-    } else if (parseFloat(height) > -1 && width === null) {
-      width = height * ratio
     }
 
     if (parseFloat(width) > -1) svgParams['width'] = width
