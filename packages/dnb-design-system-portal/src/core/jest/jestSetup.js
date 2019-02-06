@@ -3,7 +3,6 @@
  *
  */
 
-// import '@babel/polyfill' // jest v24 may have usage of this
 import { createSerializer } from 'jest-emotion'
 import fakeProps from 'react-fake-props'
 import { mount, render, shallow } from './enzyme'

@@ -47,6 +47,7 @@ steps:
       - yarn test-ci
       - yarn prepublish-ci
       - yarn build-ci
+      - yarn test-ci-screenshots
     when:
       event:
         - push
@@ -80,6 +81,7 @@ steps:
       - yarn test-ci
       - yarn prepublish-ci
       - yarn build-ci
+      - yarn test-ci-screenshots
       - yarn deploy-ci
       - yarn publish-ci
     when:

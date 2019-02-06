@@ -188,7 +188,12 @@ class LiveCode extends PureComponent {
           )}
           {showSyntax && (
             <Syntax>
-              <Code source={generateElement({ code: codeToUse, scope })} />
+              <Code
+                source={generateElement({
+                  code: `<>${codeToUse}</>`,
+                  scope
+                })}
+              />
             </Syntax>
           )}
         </LiveProvider>

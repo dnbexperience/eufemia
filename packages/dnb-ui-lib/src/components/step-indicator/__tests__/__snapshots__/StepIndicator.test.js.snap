@@ -450,6 +450,10 @@ exports[`StepIndicator scss have to match snapshot 1`] = `
     margin: 0;
     list-style: none;
     align-items: flex-start; }
+  .dnb-spacing .dnb-step-indicator__list,
+  .dnb-spacing .dnb-step-indicator__list li {
+    margin-top: 0;
+    margin-bottom: 0; }
   .dnb-step-indicator__item {
     position: relative;
     z-index: 2;

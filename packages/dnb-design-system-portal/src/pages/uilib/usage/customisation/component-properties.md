@@ -18,19 +18,17 @@ But here You have some examples. You can even modify them right away in the Brow
 
 <ComponentBox>
 {`
-<>
-  <Button
-    variant="secondary"
-    text="Secondary Button"
-    icon="chevron_right_medium"
-    size="large"
-  />
-  <Button
-    icon="chevron_right"
-    icon_size="medium"
-    size="large"
-  />
-</>
+<Button
+  variant="secondary"
+  text="Secondary Button"
+  icon="chevron_right_medium"
+  size="large"
+/>
+<Button
+  icon="chevron_right"
+  icon_size="medium"
+  size="large"
+/>
 `}
 </ComponentBox>
 

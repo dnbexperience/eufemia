@@ -3,8 +3,9 @@ const config = {
   testURL: 'http://localhost',
   moduleFileExtensions: ['js', 'json', 'scss', 'css'],
   testRegex: '(/__tests__/\\.js|(\\.|/)(test|spec))\\.js?$',
-  modulePathIgnorePatterns: ['not_in_use', '/dist/'],
+  modulePathIgnorePatterns: ['not_in_use', '/dist/', 'screenshot'],
   transformIgnorePatterns: ['node_modules'],
+  // globalTeardown: './src/core/jest/jestGlobalTeardown.js',
   transform: {
     '^.+\\.(js|jsx)$': 'babel-jest',
     '^.+\\.(md|txt)$': 'jest-raw-loader'
