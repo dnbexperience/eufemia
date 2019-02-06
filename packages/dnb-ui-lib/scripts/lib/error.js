@@ -6,11 +6,11 @@
 export const ERROR_HARMLESS = 100
 export const ERROR_FATAL = 500
 
-export const ErrorHandler = (
+function ErrorHandler(
   error,
   { message } = { message: null },
   code = ERROR_HARMLESS
-) => {
+) {
   if (typeof error === 'object') {
     message = error.message
   }
@@ -21,3 +21,6 @@ export const ErrorHandler = (
     console.log(err)
   }
 }
+ErrorHandler.prototype.constructor = function() {}
+
+export { ErrorHandler }
