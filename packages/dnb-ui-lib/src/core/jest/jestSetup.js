@@ -18,6 +18,7 @@ import sass from 'node-sass'
 import { setupJestScreenshot } from 'jest-screenshot'
 import { toBeType } from 'jest-tobetype'
 import toJson from 'enzyme-to-json'
+import detectPort from 'detect-port'
 
 export {
   fakeProps, // we have also our own replacement function called "fakeAllProps"
@@ -46,17 +47,22 @@ export const loadScss = file => {
   }
 }
 
-// export const startScreenshotServer = () =>
-//   new Promise((resolve, reject) => {
-//     resolve()
-//     // setTimeout(() => {
-//     // }, 1e3)
-//   })
+export const startScreenshotServer = () =>
+  new Promise(async resolve => {
+    const port = 8000
+    // port is avialable, so start the server
+    if (port === (await detectPort(port))) {
+      console.log('Start app at:', port)
+    }
+    resolve()
+    // setTimeout(() => {
+    // }, 1e3)
+  })
 
 export const testPageScreenshot = ({ selector, url }) =>
   new Promise(async (resolve, reject) => {
     try {
-      // await startScreenshotServer()
+      await startScreenshotServer()
       await global.page.goto(
         `http://localhost:8000/${url}`.replace(/\/\//g, '/')
       )
