@@ -13,7 +13,7 @@ exports[`Logo component have to match default logo snapshot 1`] = `
   <span
     alt="DNB Logo"
     aria-hidden={true}
-    className="dnb-logo className class"
+    className="dnb-logo className class dnb-logo--has-size"
     data-ratio={1}
     role="img"
   >
@@ -198,11 +198,12 @@ exports[`Logo scss have to match snapshot 1`] = `
   vertical-align: baseline;
   font-size: inherit;
   line-height: 0;
-  width: calc(1em * attr(data-ratio));
-  height: 1em;
   color: var(--color-sea-green); }
   .dnb-logo svg {
     fill: currentColor; }
+  .dnb-logo:not(.dnb-logo--has-size) {
+    width: calc(1em * attr(data-ratio));
+    height: 1em; }
   .dnb-logo svg:not([width]):not([height]) {
     width: inherit;
     height: inherit; }
