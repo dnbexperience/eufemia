@@ -3,21 +3,22 @@
  *
  */
 
-import { setPageFocusElement } from 'dnb-ui-lib/src/shared/tools'
 import React, { PureComponent } from 'react'
-import { Link } from 'gatsby'
-
 import PropTypes from 'prop-types'
+import { Link } from 'gatsby'
+import classnames from 'classnames'
+import styled from '@emotion/styled'
+import { css, Global } from '@emotion/core'
+
 import MainMenu from '../menu/MainMenu'
 import Sidebar from '../menu/SidebarMenu'
 import StickyMenuBar from '../menu/StickyMenuBar'
 import { markdownStyle } from './Markdown'
-import styled from '@emotion/styled'
-import { css, Global } from '@emotion/core'
-import classnames from 'classnames'
 import { buildVersion } from '../../../package.json'
 import { MainMenuProvider } from '../menu/MainMenuContext'
 import { SidebarMenuProvider } from '../menu/SidebarMenuContext'
+import { setPageFocusElement } from 'dnb-ui-lib/src/shared/tools'
+import { Logo } from 'dnb-ui-lib/src'
 
 class Layout extends PureComponent {
   static propTypes = {
@@ -37,9 +38,7 @@ class Layout extends PureComponent {
           {/* Load the StickyMenuBar to make use of the grid demo */}
           <StickyMenuBar preventBarVisibility={true} />
           <Content className="fullscreen-page">
-            <MaxWidth className="dnb-app-content-inner">
-              {children}
-            </MaxWidth>
+            <Main className="dnb-app-content-inner">{children}</Main>
           </Content>
           <Footer />
         </div>
@@ -58,8 +57,8 @@ class Layout extends PureComponent {
           <Wrapper className="content-wrapper">
             <Sidebar location={location} showAll={false} />
             <Content>
-              <MaxWidth className="dnb-app-content-inner">
-                {children}
+              <MaxWidth>
+                <Main className="dnb-app-content-inner">{children}</Main>
                 <Footer />
               </MaxWidth>
             </Content>
@@ -93,7 +92,7 @@ const Wrapper = styled.div`
 `
 
 const Content = ({ className, children }) => (
-  <Main
+  <ContentWrapper
     tabIndex="-1"
     id="dnb-app-content"
     className={classnames(
@@ -105,7 +104,7 @@ const Content = ({ className, children }) => (
     css={markdownStyle}
   >
     {children}
-  </Main>
+  </ContentWrapper>
 )
 Content.propTypes = {
   children: PropTypes.node.isRequired,
@@ -115,7 +114,7 @@ Content.defaultProps = {
   className: null
 }
 
-const Main = styled.main`
+const ContentWrapper = styled.div`
   position: relative;
   z-index: 2; /* heigher than styled.aside */
 
@@ -131,8 +130,8 @@ const Main = styled.main`
   padding: 0;
 
   /* we use padding here, insted of margin,
-    because applyPageFocus is else scrolling the page unwanted
-    height of StickyMenuBar - 1px border */
+  because applyPageFocus is else scrolling the page unwanted
+  height of StickyMenuBar - 1px border */
   padding-top: 4rem;
 
   .dnb-app-content-inner {
@@ -160,14 +159,17 @@ const Main = styled.main`
   }
 `
 
-const MaxWidth = styled.div`
-  max-width: 100%;
-  width: 50vw;
+const Main = styled.main`
+  width: 100%;
   padding: 0 2rem;
+`
 
-  @media (max-width: 120rem) {
-    width: 100%;
-    position: relative;
+const MaxWidth = styled.div`
+  width: 100%;
+
+  /* for whider screens */
+  @media (min-width: 70em) {
+    max-width: 70vw;
   }
 `
 
@@ -175,19 +177,24 @@ const FooterWrapper = styled.footer`
   position: relative;
   z-index: 2; /* 1 heigher than aside */
 
-  margin-top: 3rem;
-  padding: 1rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 1rem;
 
   border-top: 1px solid var(--color-black-border);
-  text-align: left;
+  background-color: var(--color-emerald-green);
 
-  .is-fullscreen & {
-    padding: 1rem;
-    background: var(--color-mint-green-12);
+  &,
+  a {
+    color: var(--color-white);
   }
-
   a {
     margin-left: 1rem;
+  }
+  small {
+    padding: 0 2rem;
   }
 
   .toggle-grid {
@@ -196,11 +203,13 @@ const FooterWrapper = styled.footer`
 `
 const Footer = () => (
   <FooterWrapper>
+    <Logo height="40" color="white" />
     <small>
       Last Portal update: {buildVersion}
       <Link to="/license" className="dnb-no-anchor-underline">
         Copyright (c) 2018-present DNB.no
       </Link>
     </small>
+    <span />
   </FooterWrapper>
 )
