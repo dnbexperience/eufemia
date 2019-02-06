@@ -49,10 +49,6 @@
       width: var(--button-icon-size);
       height: var(--button-icon-size);
     }
-
-    @supports not (-ms-ime-align: auto) {
-      transform: translateY(-1px);
-    }
   }
   &__text {
     color: inherit;
@@ -120,8 +116,10 @@
     width: auto;
   }
   &--has-text &__icon {
-    margin: 0 0.5rem;
     margin: 0 calc(var(--button-icon-size) / 2);
+    @supports not (-ms-ime-align: auto) {
+      transform: translateY(-1px);
+    }
   }
   // &--has-text#{&}--size-large &__icon {
   //   margin: 0 var(--button-icon-size);

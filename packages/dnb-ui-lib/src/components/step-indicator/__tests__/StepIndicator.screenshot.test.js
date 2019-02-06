@@ -11,10 +11,10 @@ import {
 describe('StepIndicator screenshot', () => {
   setupPageScreenshot()
   it('have to match the screenshot snapshot', async () => {
-    const element = await testPageScreenshot({
+    const screenshot = await testPageScreenshot({
       url: '/uilib/components/step-indicator?fullscreen',
       selector: '.dnb-step-indicator:nth-child(1)'
     })
-    expect(element).toMatchImageSnapshot()
+    expect(screenshot).toMatchImageSnapshot()
   })
 })

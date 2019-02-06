@@ -286,9 +286,6 @@ exports[`InputMasked scss have to match snapshot 1`] = `
     .dnb-button__icon:not(.dnb-icon) svg:not([width]):not([height]) {
       width: var(--button-icon-size);
       height: var(--button-icon-size); }
-    @supports not (-ms-ime-align: auto) {
-      .dnb-button__icon {
-        transform: translateY(-1px); } }
   .dnb-button__text {
     color: inherit; }
   .dnb-button--size-small {
@@ -333,8 +330,10 @@ exports[`InputMasked scss have to match snapshot 1`] = `
     padding-right: 1.5rem;
     width: auto; }
   .dnb-button--has-text .dnb-button__icon {
-    margin: 0 0.5rem;
     margin: 0 calc(var(--button-icon-size) / 2); }
+    @supports not (-ms-ime-align: auto) {
+      .dnb-button--has-text .dnb-button__icon {
+        transform: translateY(-1px); } }
   .dnb-button--has-text.dnb-button--icon-position-left {
     padding-left: 0.5rem; }
   .dnb-button--has-text.dnb-button--icon-position-right {
