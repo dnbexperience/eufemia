@@ -190,20 +190,23 @@ exports[`Logo scss have to match snapshot 1`] = `
     vertical-align: inherit; }
 
 /*
- * Logo element
+ * Logo Component
  *
  */
 .dnb-logo {
-  display: inline;
+  display: inline-block;
   vertical-align: baseline;
   font-size: inherit;
   line-height: 0;
-  color: var(--color-sea-green); }
+  color: var(--color-sea-green);
+  --ratio: attr(data-ratio);
+  width: calc(1em * var(--ratio, 2));
+  height: 1em; }
   .dnb-logo svg {
     fill: currentColor; }
-  .dnb-logo:not(.dnb-logo--has-size) {
-    width: calc(1em * attr(data-ratio));
-    height: 1em; }
+  .dnb-logo--has-size {
+    width: auto;
+    height: auto; }
   .dnb-logo svg:not([width]):not([height]) {
     width: inherit;
     height: inherit; }

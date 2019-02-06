@@ -1,10 +1,10 @@
 /*
- * Logo element
+ * Logo Component
  *
  */
 
 .dnb-logo {
-  display: inline;
+  display: inline-block;
   vertical-align: baseline;
   font-size: inherit;
   line-height: 0;
@@ -14,9 +14,12 @@
     fill: currentColor;
   }
 
-  &:not(&--has-size) {
-    width: calc(1em * attr(data-ratio));
-    height: 1em;
+  --ratio: attr(data-ratio);
+  width: calc(1em * var(--ratio, 2));
+  height: 1em;
+  &--has-size {
+    width: auto;
+    height: auto;
   }
   svg:not([width]):not([height]) {
     width: inherit;

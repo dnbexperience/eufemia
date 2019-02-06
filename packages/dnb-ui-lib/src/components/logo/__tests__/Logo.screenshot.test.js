@@ -6,10 +6,11 @@
 import {
   setupPageScreenshot,
   testPageScreenshot
-} from '../../../core/jest/jestSetup'
+} from '../../../core/jest/jestSetupScreenshots'
+
+setupPageScreenshot()
 
 describe('Logo screenshot', () => {
-  setupPageScreenshot()
   it('have to match the screenshot snapshot', async () => {
     const screenshot = await testPageScreenshot({
       url: '/uilib/components/logo?fullscreen',

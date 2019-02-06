@@ -28,7 +28,7 @@
     "test": "yarn workspace dnb-ui-lib test",
     "test:update": "yarn workspace dnb-ui-lib test:update",
     "test-ci": "yarn workspace dnb-ui-lib test-ci && yarn workspace dnb-design-system-portal test-ci",
-    "test-ci:update": "yarn test-ci --updateSnapshot"
+    "test-ci-screenshots": "yarn workspace dnb-ui-lib test-ci-screenshots"
   },
   "devDependencies": {
     "husky": "^1.3.1"

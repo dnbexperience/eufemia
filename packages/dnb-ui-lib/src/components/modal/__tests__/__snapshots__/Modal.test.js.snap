@@ -553,7 +553,7 @@ exports[`Modal scss have to match snapshot 1`] = `
 *
 */
 .dnb-icon {
-  display: inline;
+  display: inline-block;
   vertical-align: baseline;
   font-size: inherit;
   line-height: 0;

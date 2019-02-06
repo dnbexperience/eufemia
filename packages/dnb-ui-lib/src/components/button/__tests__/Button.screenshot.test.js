@@ -6,10 +6,11 @@
 import {
   setupPageScreenshot,
   testPageScreenshot
-} from '../../../core/jest/jestSetup'
+} from '../../../core/jest/jestSetupScreenshots'
+
+setupPageScreenshot()
 
 describe('Button screenshot', () => {
-  setupPageScreenshot()
   it('have to match the "dnb-button--primary" screenshot snapshot', async () => {
     const screenshot = await testPageScreenshot({
       url: '/uilib/components/button?fullscreen',
