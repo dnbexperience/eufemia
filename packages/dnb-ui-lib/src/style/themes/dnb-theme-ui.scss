@@ -18,7 +18,7 @@ h3 > small,
 h4 > small,
 h5 > small,
 h6 > small {
-  line-height: 0; // for vertical alignment, we have to have no line-height
+  line-height: 1; // for vertical alignment, we have to have no line-height
 }
 
 .dnb-h1,
@@ -222,7 +222,7 @@ code {
   padding: 0.1875rem 0.375rem; /* 3px 6px */
 
   font-size: 1em;
-  line-height: 0; // for vertical alignment, we have to have no line-height
+  line-height: 1; // for vertical alignment, we have to have no line-height
 
   background-color: var(--color-mint-green-25);
   border-radius: 0.1875em;

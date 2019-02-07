@@ -10,8 +10,17 @@ export const Wrapper = styled.div`
 `
 
 export const Box = styled.div`
+  position: relative;
+
   padding: 2rem;
   margin-bottom: 2rem;
 
-  border-bottom: solid 1px #ececec;
+  &::after {
+    content: '';
+    position: absolute;
+    left: -50vw;
+    bottom: 0;
+    width: 200vw;
+    border-bottom: dashed 1px rgb(0, 200, 200);
+  }
 `

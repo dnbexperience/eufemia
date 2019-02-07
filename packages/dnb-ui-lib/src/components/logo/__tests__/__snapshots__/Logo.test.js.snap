@@ -197,7 +197,7 @@ exports[`Logo scss have to match snapshot 1`] = `
   display: inline-block;
   vertical-align: baseline;
   font-size: inherit;
-  line-height: 0;
+  line-height: 1;
   color: var(--color-sea-green);
   --ratio: attr(data-ratio);
   width: calc(1em * var(--ratio, 2));

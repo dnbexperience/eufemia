@@ -64,20 +64,18 @@ export default css`
   h5,
   h6 {
     .anchor {
-      float: left;
-      line-height: 1;
       display: inline-block;
-
-      margin-left: -1em;
-      width: 1em;
-
       visibility: hidden;
+
+      width: 1em;
+      margin-left: -1em;
+
+      line-height: 1; /* for vertical centering*/
       text-align: center;
+      border-bottom: none;
 
       transition: opacity 0.4s ease-out;
       opacity: 0;
-
-      border-bottom: none;
     }
 
     &:hover .anchor {
