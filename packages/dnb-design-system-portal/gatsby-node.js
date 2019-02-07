@@ -61,7 +61,7 @@ exports.onCreateWebpackConfig = ({ actions }) => {
         Root: path.resolve(__dirname),
         Src: path.resolve(__dirname, 'src'),
         Pages: path.resolve(__dirname, 'src/pages'),
-        Tags: path.resolve(__dirname, 'src/shared/inlineTags'),
+        Tags: path.resolve(__dirname, 'src/shared/tags'),
         Parts: path.resolve(__dirname, 'src/shared/parts')
       }
     }

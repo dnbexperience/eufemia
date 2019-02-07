@@ -57,20 +57,33 @@ export default css`
     content: '';
   }
 
-  .anchor {
-    float: left;
-    position: relative;
-    left: -0.3rem;
-    line-height: 65%;
-    border: none;
-  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    .anchor {
+      float: left;
+      line-height: 1;
+      display: inline-block;
 
-  .anchor:hover svg {
-    fill: currentColor;
-  }
+      margin-left: -1em;
+      width: 1em;
 
-  .anchor:focus {
-    outline: none;
+      visibility: hidden;
+      text-align: center;
+
+      transition: opacity 0.4s ease-out;
+      opacity: 0;
+
+      border-bottom: none;
+    }
+
+    &:hover .anchor {
+      visibility: visible;
+      opacity: 1;
+    }
   }
 
   :checked + .radio-label {

@@ -213,6 +213,7 @@ const LiveCodeEditor = styled.div`
   }
   pre.prism-code {
     position: relative;
+
     &::after {
       content: '';
       position: absolute;
@@ -221,6 +222,7 @@ const LiveCodeEditor = styled.div`
 
       width: 0;
       height: 0;
+
       border-style: solid;
       border-width: 0 7px 8px 7px;
       border-color: transparent transparent #222 transparent;
@@ -228,6 +230,9 @@ const LiveCodeEditor = styled.div`
   }
 
   .dnb-form-status:last-child {
+    position: absolute;
+    z-index: 1;
+
     max-width: 40rem;
     height: auto;
     white-space: normal;
@@ -249,11 +254,10 @@ const Toolbar = styled.div`
 
   padding: 0 1rem 1rem;
 
-  ${'' /* pointer-events: none;
-  button,
-  .dnb-form-status {
+  pointer-events: none;
+  button {
     pointer-events: all;
-  } */}
+  }
 `
 
 const Syntax = styled.div`

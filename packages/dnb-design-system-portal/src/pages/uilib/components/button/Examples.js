@@ -4,7 +4,7 @@
  */
 
 import React, { PureComponent, Fragment } from 'react'
-import ComponentBox from '../../../../shared/inlineTags/ComponentBox'
+import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { bell_medium as Bell, question } from 'dnb-ui-lib/src/icons'
 
 class Example extends PureComponent {
