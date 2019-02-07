@@ -18,7 +18,6 @@ module.exports.testPageScreenshot = ({
   transformElement = null
 } = {}) =>
   new Promise(async (resolve, reject) => {
-    // await startScreenshotServer()
     try {
       await global.page.goto(
         `http://${testScreenshotOnHost}:${testScreenshotOnPort}/${url}`.replace(
