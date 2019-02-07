@@ -40,13 +40,25 @@ export class SidebarMenuProvider extends PureComponent {
       },
       this.state.isOpen ? 260 : 0
     )
-    if (this.state.isOpen)
+    if (this.state.isOpen) {
       this.setState({
         isClosing: true
       })
-    if (!this.state.isOpen && typeof window !== 'undefined') {
+    }
+    // scroll to top on opening the menu, and back again
+    if (typeof window !== 'undefined') {
       try {
-        window.scrollTo(0, 0)
+        if (!this.state.isOpen) {
+          this.lastScrollPosition = window.scrollY
+          window.scrollTo({
+            top: 0
+          })
+        } else {
+          window.scrollTo({
+            top: this.lastScrollPosition,
+            behavior: 'smooth'
+          })
+        }
       } catch (e) {
         console.log('Could not run scrollTo', e)
       }

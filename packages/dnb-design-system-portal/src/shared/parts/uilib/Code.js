@@ -13,7 +13,7 @@ import pretty from 'pretty' // https://www.npmjs.com/package/pretty
 
 // import prettier from 'prettier/standalone'
 // import plugins from 'prettier/parser-parse5'
-import CodeBlock from '../../inlineTags/CodeBlock'
+import CodeBlock from '../../tags/CodeBlock'
 
 export default class Code extends PureComponent {
   static propTypes = {

@@ -17,7 +17,10 @@ import { markdownStyle } from './Markdown'
 import { buildVersion } from '../../../package.json'
 import { MainMenuProvider } from '../menu/MainMenuContext'
 import { SidebarMenuProvider } from '../menu/SidebarMenuContext'
-import { setPageFocusElement } from 'dnb-ui-lib/src/shared/tools'
+import {
+  setPageFocusElement,
+  scrollToLocationHashId
+} from 'dnb-ui-lib/src/shared/tools'
 import { Logo } from 'dnb-ui-lib/src'
 
 class Layout extends PureComponent {
@@ -28,6 +31,9 @@ class Layout extends PureComponent {
   componentDidMount() {
     // gets aplyed on "onRouteUpdate"
     setPageFocusElement('.dnb-app-content h1:nth-of-type(1)', 'content')
+
+    // if url hash is defined, scroll to the id
+    scrollToLocationHashId({ offset: 100 })
   }
   render() {
     const { children, location } = this.props
@@ -72,6 +78,9 @@ class Layout extends PureComponent {
 export default Layout
 
 const globalStyles = css`
+  ${'' /* html {
+    scroll-behavior: smooth;
+  } */}
   @media (max-width: 40em) {
     a.dnb-skip-link {
       display: none;

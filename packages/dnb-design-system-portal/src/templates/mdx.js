@@ -10,7 +10,7 @@ import Layout from '../shared/parts/Layout'
 import { MDXProvider } from '@mdx-js/tag'
 import MDXRenderer from 'gatsby-mdx/mdx-renderer'
 import { graphql, withPrefix } from 'gatsby'
-import inlineTags from '../shared/inlineTags'
+import tags from '../shared/tags'
 
 export default class MdxTemplate extends PureComponent {
   render() {
@@ -30,7 +30,7 @@ export default class MdxTemplate extends PureComponent {
     } = this.props
 
     return (
-      <MDXProvider components={inlineTags}>
+      <MDXProvider components={tags}>
         <Head>
           <title>{title}</title>
           <meta name="description" content={description} />
