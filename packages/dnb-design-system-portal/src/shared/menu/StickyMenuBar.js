@@ -53,6 +53,9 @@ const Bar = styled.div`
       .dnb-button__text {
         display: none;
       }
+      .dnb-button__icon {
+        transform: translateY(0);
+      }
     }
   }
 `
