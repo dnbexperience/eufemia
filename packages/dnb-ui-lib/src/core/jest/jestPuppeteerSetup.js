@@ -35,7 +35,10 @@ module.exports = async function() {
     // })
   }
 
-  const browser = await puppeteer.launch()
+  const browser = await puppeteer.launch({
+    // to get rid of the "libX11-xcb.so" missing problem, we set these flags
+    args: ['--no-sandbox', '--disable-setuid-sandbox']
+  })
   // store the browser instance so we can teardown it later
   // this global is only available in the teardown but not in TestEnvironments
   global.__BROWSER_GLOBAL__ = browser

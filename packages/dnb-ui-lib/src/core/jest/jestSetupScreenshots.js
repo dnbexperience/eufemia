@@ -5,14 +5,6 @@
 
 const path = require('path')
 const os = require('os')
-const { setupJestScreenshot } = require('jest-screenshot')
-
-const screenshotConfig = {
-  // detectAntialiasing: true, // Whether to attempt to detect antialiasing and ignore related changes when comparing both images.
-  // pixelThresholdRelative: 0, // If specified, jest-screenshot will fail if more than the specified relative amount of pixels are different from the snapshot. When setting this to 0.5 for example, more than 50% of the pixels need to be different for the test to fail.
-  // colorThreshold: 1 // A number in the range from 0 to 1 describing how sensitive the comparison of two pixels should be.
-  // colorThreshold: 0
-}
 
 const testScreenshotOnHost = '127.0.0.1'
 const testScreenshotOnPort = 8000
@@ -62,6 +54,4 @@ module.exports.setupPageScreenshot = (options = { timeout: 10e3 }) => {
     }
     done()
   })
-
-  setupJestScreenshot({ ...screenshotConfig, ...options })
 }

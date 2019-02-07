@@ -26,7 +26,7 @@ steps:
           - rc/*
 
   - name: deploy-preview
-    image: node:10.6
+    image: buildkite/puppeteer
     environment:
       FIGMA_MAIN_FILE:
         from_secret: FIGMA_MAIN_FILE
@@ -81,7 +81,6 @@ steps:
       - yarn test-ci
       - yarn prepublish-ci
       - yarn build-ci
-      - yarn test-ci-screenshots
       - yarn deploy-ci
       - yarn publish-ci
     when:
