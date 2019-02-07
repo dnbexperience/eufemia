@@ -6,6 +6,7 @@
 
 // core imports
 @import '../core/utilities.scss';
+@import './theme-ui/anchor-mixins.scss';
 
 // we have to set a different $fonts-path
 // so typography gets imported twice, but the minifyed version (by using cssnano) is removing duplication

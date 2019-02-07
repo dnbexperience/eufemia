@@ -12,9 +12,9 @@ import { hamburger as hamburgerIcon } from 'dnb-ui-lib/src/icons/secondary_icons
 import { close as closeIcon } from 'dnb-ui-lib/src/icons/primary_icons'
 import PortalLogo from './graphics/logo'
 import { Icon, Button } from 'dnb-ui-lib/src'
+import { MainMenuToggleButton } from './ToggleMainMenu'
 import { SidebarMenuConsumer } from './SidebarMenuContext'
 import ToggleGrid from './ToggleGrid'
-import { MainMenuToggleButton } from './ToggleMainMenu'
 
 const Bar = styled.div`
   position: fixed;
@@ -147,11 +147,13 @@ export default class StickyMenuBar extends PureComponent {
                   className="sticky-menu dev-grid"
                 >
                   <BarInner>
-                    <span>
-                      <MainMenuToggleButton />
-                    </span>
+                    <MainMenuToggleButton />
                     <CenterWrapper aria-hidden>
-                      <Icon icon={PortalLogo} size={48} />
+                      <Icon
+                        icon={PortalLogo}
+                        size={48}
+                        alt={`${slogan} logo`}
+                      />
                       <Slogan>{slogan}</Slogan>
                     </CenterWrapper>
                     <span>

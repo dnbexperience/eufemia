@@ -26,6 +26,10 @@
 
         color: var(--color-sea-green);
       }
+      @include allBelow(small) {
+        text-align: left;
+        padding: 0.5rem 1rem;
+      }
 
       // hover
       &:not([disabled]):hover {
@@ -39,7 +43,6 @@
 
       // disabled
       &[disabled] {
-        cursor: not-allowed;
         .dnb-tablink-title {
           color: var(--color-sea-green-alt-30);
         }

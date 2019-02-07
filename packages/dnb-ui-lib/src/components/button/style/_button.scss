@@ -24,14 +24,13 @@
 }
 
 .dnb-button {
-  display: inline-flex;
-  vertical-align: middle;
-  align-content: center;
-  align-items: center;
-  justify-content: center;
+  cursor: pointer;
   white-space: nowrap;
 
-  cursor: pointer;
+  // we use flex, even if they dont has effect in safari and webkit
+  display: inline-flex;
+  align-items: center; //centering icons
+  justify-content: center; //centering icons
 
   width: var(--button-width);
   height: var(--button-height);
@@ -53,9 +52,6 @@
   }
   &__text {
     color: inherit;
-
-    // +1px because of the border width
-    transform: translateY(var(--button-border-width));
   }
 
   // size small
@@ -67,14 +63,14 @@
     border-radius: var(--button-border-radius--small);
   }
   &--has-text#{&}--size-small {
-    padding-left: 1em;
-    padding-right: 1em;
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
   &--has-text#{&}--icon-position-left#{&}--size-small {
-    padding-left: 0.5em;
+    padding-left: 0.5rem;
   }
   &--has-text#{&}--icon-position-right#{&}--size-small {
-    padding-right: 0.5em;
+    padding-right: 0.5rem;
   }
 
   // size medium
@@ -85,14 +81,14 @@
     border-radius: var(--button-border-radius--medium);
   }
   &--has-text#{&}--size-medium {
-    padding-left: 1em;
-    padding-right: 1em;
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
   &--has-text#{&}--icon-position-left#{&}--size-medium {
-    padding-left: 0.5em;
+    padding-left: 0.5rem;
   }
   &--has-text#{&}--icon-position-right#{&}--size-medium {
-    padding-right: 0.5em;
+    padding-right: 0.5rem;
   }
 
   // size large
@@ -103,34 +99,36 @@
     border-radius: var(--button-border-radius--large);
   }
   &--has-text#{&}--size-large {
-    padding-left: 2em;
-    padding-right: 2em;
+    padding-left: 2rem;
+    padding-right: 2rem;
   }
   &--has-text#{&}--icon-position-left#{&}--size-large {
-    padding-left: 1em;
+    padding-left: 1rem;
   }
   &--has-text#{&}--icon-position-right#{&}--size-large {
-    padding-right: 1em;
+    padding-right: 1rem;
   }
 
   // size default
   &--has-text {
-    padding-left: 1.5em;
-    padding-right: 1.5em;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
     width: auto;
   }
   &--has-text &__icon {
-    margin: 0 0.5rem;
     margin: 0 calc(var(--button-icon-size) / 2);
+    @supports not (-ms-ime-align: auto) {
+      transform: translateY(-1px);
+    }
   }
   // &--has-text#{&}--size-large &__icon {
   //   margin: 0 var(--button-icon-size);
   // }
   &--has-text#{&}--icon-position-left {
-    padding-left: 0.5em;
+    padding-left: 0.5rem;
   }
   &--has-text#{&}--icon-position-right {
-    padding-right: 0.5em;
+    padding-right: 0.5rem;
   }
 
   // Default -- icon set to right side
@@ -181,10 +179,8 @@
       @include fakeFocus();
     }
 
-    html[data-whatinput='mouse']
-      &:not([disabled]):focus:not(.dnb-no-mouse-focus),
-    html[data-whatinput='mouse']
-      &:not([disabled]):active:not(.dnb-no-mouse-focus) {
+    html[data-whatinput='mouse'] &:not([disabled]):focus,
+    html[data-whatinput='mouse'] &:not([disabled]):active {
       box-shadow: none;
       color: inherit;
       border: none;
@@ -204,5 +200,13 @@
 
 // make sure we style an Anchor like a button
 a.dnb-button {
-  transition: none;
+  -webkit-appearance: none; // because we have "appearance: button" in reset.scss
+
+  // some correction
+  .dnb-button__icon {
+    transform: translateY(0);
+  }
+  .dnb-button__text {
+    transform: translateY(1px);
+  }
 }

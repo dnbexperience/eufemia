@@ -47,13 +47,13 @@ class CustomTabs extends PureComponent {
   }
   static defaultProps = {
     tabs: [
-      { title: 'Demo', key: 'demo' },
-      { title: 'Details', key: 'info' },
-      { title: 'Markup', key: 'code' }
+      { title: 'Demos', key: 'demos' },
+      { title: 'Properties', key: 'properties' },
+      { title: 'Events', key: 'events' }
     ]
   }
   state = {
-    activeTabKey: 'demo',
+    activeTabKey: 'demos',
     wasFullscreen: null
   }
   constructor(props) {

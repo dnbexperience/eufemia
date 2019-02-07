@@ -31,7 +31,7 @@ const runStyleFactory = async () => {
       '../../../src/style/dnb-ui-components.scss'
     ),
     customContent: `
-@import './core/dnb-core.scss';
+@import './core/utilities.scss';
 `,
     scssTemplateToFill: `@import '../components/{name}/style/_{name}.scss';`,
     processToNamesList: [
@@ -55,7 +55,7 @@ const runStyleFactory = async () => {
       '../../../src/style/dnb-ui-patterns.scss'
     ),
     customContent: `
-@import './core/dnb-core.scss';
+@import './core/utilities.scss';
 `,
     scssTemplateToFill: `@import '../patterns/{name}/style/_{name}.scss';`,
     processToNamesList: [

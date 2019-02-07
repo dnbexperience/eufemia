@@ -3,9 +3,6 @@
 *
 */
 
-// this one is needed, in case dont import "/themes/imports.scss" before
-// @import '../../../style/core/utilities.scss';
-
 @mixin buttonHover($color, $background-color) {
   @include hover(true) {
     color: $color;

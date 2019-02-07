@@ -17,11 +17,9 @@ import '../style/dnb-step-indicator.scss'
 import '../style/themes/dnb-step-indicator-theme-ui.scss'
 
 const props = fakeProps(require.resolve('../StepIndicator'), {
-  // all: true,
   optional: true
 })
 delete props.render
-// props.active_url = '?b'
 
 const active_url = '?b'
 const stepIndicatorListData = [

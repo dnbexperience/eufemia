@@ -9,7 +9,7 @@ import { Icon } from 'dnb-ui-lib/src'
 
 # Development
 
-The `dnb-ui-lib` uses a [Node](https://nodejs.org) based setup with a lot of auto generated code to make the [React](https://reactjs.org) based components and patterns.
+The `dnb-ui-lib` uses a [Node.js](https://nodejs.org) based setup with a lot of auto generated code to make the [React](https://reactjs.org) based components and patterns.
 
 ## Repository
 

@@ -4,12 +4,20 @@ import React from 'react'
 
 const search = props => (
   <svg viewBox="0 0 17 17" fill="none" {...props}>
-    <path
-      fillRule="evenodd"
-      clipRule="evenodd"
-      d="M1.593 6.574a4.98 4.98 0 1 1 9.962 0 4.98 4.98 0 0 1-9.962 0zM6.574 0a6.574 6.574 0 1 0 0 13.148A6.574 6.574 0 0 0 6.574 0zm6.34 11.788a.797.797 0 0 0-1.126 1.127l3.852 3.852a.797.797 0 0 0 1.126-1.127l-3.851-3.852z"
-      fill="#000"
-    />
+    <g
+      clipPath="url(#clip-06a943)"
+      stroke="#000"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M9.055 11.937a5.445 5.445 0 1 0-4.26-10.023 5.445 5.445 0 0 0 4.26 10.023zm1.72-1.162L15 14.999" />
+    </g>
+    <defs>
+      <clipPath id="clip-06a943">
+        <path fill="#fff" transform="scale(1.02995)" d="M0 0h16v16H0z" />
+      </clipPath>
+    </defs>
   </svg>
 )
 

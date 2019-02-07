@@ -114,9 +114,8 @@ export default class Tabs extends PureComponent {
     ) {
       res = props.children.reduce((acc, content, i) => {
         if (
-          content.type &&
-          (content.type.name || content.type.displayName) ===
-            'CustomContent'
+          content.props &&
+          content.props.displayName === 'CustomContent' // we use this sollution, as Component.displayName
         ) {
           // tabs data from main prop
           const dataProps =
@@ -177,13 +176,25 @@ export default class Tabs extends PureComponent {
     this._id = props.id || `dnb-tabs-${Math.round(Math.random() * 999)}` // cause we need an id anyway
     const data = Tabs.getData(props)
 
-    const selected_key =
+    let selected_key =
       props.selected_key ||
       data.reduce(
         (acc, { selected, key }) => (selected ? key : acc),
         null
       ) ||
       (data[0] && data[0].key)
+
+    // check if we have to open a diffrent tab
+    if (props.use_hash && typeof window !== 'undefined') {
+      try {
+        const key = String(window.location.hash).replace('#', '')
+        if (key && String(key).length > 0) {
+          selected_key = key
+        }
+      } catch (e) {
+        console.log('Tabs Error:', e)
+      }
+    }
 
     this.state = {
       _listenForPropChanges: true,
@@ -292,7 +303,7 @@ export default class Tabs extends PureComponent {
   }
 
   renderActiveTab(tabKey) {
-    return `dnb-tablink dnb-no-mouse-focus tab--${tabKey} ${
+    return `dnb-tablink tab--${tabKey} ${
       this.isSelected(tabKey) ? 'selected' : ''
     }`
   }
@@ -301,31 +312,18 @@ export default class Tabs extends PureComponent {
     return this.state.selected_key === tabKey
   }
 
-  componentDidMount() {
-    // check if one tab should be "opened"
-    if (this.props.use_hash && typeof window !== 'undefined') {
-      try {
-        const selected_key = String(window.location.hash).replace('#', '')
-        if (selected_key) {
-          this.setState({
-            selected_key
-          })
-          dispatchCustomElementEvent(this, 'on_change', {
-            key: selected_key
-          })
-        }
-      } catch (e) {
-        console.log('Tabs Error:', e)
-      }
-    }
-  }
-
   renderContent(useKey = null) {
     const { children } = this.props
 
     if (!useKey) {
-      const { selected_key } = this.state
-      useKey = selected_key
+      const { selected_key, data } = this.state
+      const keyExists = data.some(({ key }) => key === selected_key)
+      if (keyExists) {
+        useKey = selected_key
+      } else {
+        // key did not exists, so we get the first one
+        useKey = data[0].key
+      }
     }
     let content = null
 
@@ -489,10 +487,7 @@ class ContentWrapper extends PureComponent {
   }
   render() {
     const { id, children } = this.props
-    const key =
-      this.props.selected_key ||
-      (this._reactInternalFiber && this._reactInternalFiber.key) ||
-      'key'
+    const key = this.props.selected_key || 'key'
 
     return (
       <div
@@ -517,6 +512,7 @@ class ContentWrapper extends PureComponent {
  */
 class CustomContent extends PureComponent {
   static propTypes = {
+    displayName: PropTypes.string, // eslint-disable-line
     title: PropTypes.string, // eslint-disable-line
     hash: PropTypes.string, // eslint-disable-line
     selected: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]), // eslint-disable-line
@@ -524,6 +520,7 @@ class CustomContent extends PureComponent {
     children: PropTypes.node.isRequired
   }
   static defaultProps = {
+    displayName: 'CustomContent',
     title: null,
     hash: null,
     selected: null,

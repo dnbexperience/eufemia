@@ -31,7 +31,6 @@ import StepIndicator from './components/step-indicator/StepIndicator'
 import Switch from './components/switch/Switch'
 import Tabs from './components/tabs/Tabs'
 import ActionNav from './patterns/action-nav/ActionNav'
-import Article from './patterns/article/Article'
 import DescriptionList from './patterns/description-list/DescriptionList'
 import FieldsetDescription from './patterns/fieldset-description/FieldsetDescription'
 import Footer from './patterns/footer/Footer'
@@ -63,7 +62,6 @@ export {
   Switch,
   Tabs,
   ActionNav,
-  Article,
   DescriptionList,
   FieldsetDescription,
   Footer,

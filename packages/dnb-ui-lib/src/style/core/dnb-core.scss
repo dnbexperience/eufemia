@@ -8,7 +8,6 @@
 @import './utilities.scss';
 @import './properties.scss';
 @import './fonts.scss';
-// @import './anchor.scss';
 @import './scopes.scss';
 
 // Global body style
@@ -20,12 +19,6 @@ body {
 }
 
 // Focus management
-html[data-whatinput='mouse'] .dnb-style *:focus {
-  outline: none;
-}
-html[data-whatinput='keyboard'] .dnb-style *:not(a):not(div):focus {
-  @include fakeFocus();
-}
 .dnb-no-focus {
   outline: none;
 }
@@ -44,13 +37,37 @@ html[data-whatinput='keyboard'] .dnb-style *:not(a):not(div):focus {
   }
 }
 
+// How to use the "skip-link"
+// 1. Have this on the top of Your App: <a class="dnb-skip-link dnb-button" href="#dnb-app-content">Skip to content</a>
+// 2. Place this id="dnb-app-content" on Your main content container
+a.dnb-skip-link {
+  position: fixed;
+  z-index: -9999;
+  top: -100vh;
+  overflow: hidden;
+}
+a.dnb-skip-link:focus,
+a.dnb-skip-link:active {
+  z-index: 9999;
+  top: auto;
+  width: auto;
+
+  margin: 1rem 45vw;
+  padding-left: 1rem;
+  padding-right: 1rem;
+
+  @include allBelow(small) {
+    margin: 1rem 35%;
+  }
+}
+
 // Layout management
 // Use this class where components are trying to add background boxes/borders/lines
 // to the very outer sides of the page
 // e.g. Tabs are using this technique
 // In some cases we dont want to have that effect.
 // E.g. if we have a menu to the left or right side
-.dnb-page-content-inner {
+.dnb-app-content-inner {
   overflow: hidden;
 }
 

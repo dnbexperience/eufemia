@@ -9,21 +9,42 @@ export const setPageFocusElement = (element = null, key = 'default') => {
 }
 
 export const applyPageFocus = (key = 'default') => {
-  console.log('applyPageFocus', key)
   try {
     let element = pageFocusElements[key]
-    if (!element) {
+    if (typeof element === 'string' && typeof document !== 'undefined') {
+      element = document.querySelector(element)
+    } else if (!element && typeof document !== 'undefined') {
       element = document.querySelector('.dnb-no-focus')
     }
     if (element instanceof HTMLElement) {
-      if (!element.hasAttribute('tabindex')) {
-        element.setAttribute('tabindex', '-1')
-      }
       if (
-        element.classList &&
-        !element.classList.contains('dnb-no-focus')
+        [
+          'h1',
+          'h2',
+          'h3',
+          'h4',
+          'h5',
+          'h6',
+          'p',
+          'div',
+          'main',
+          'nav',
+          'header',
+          'footer',
+          'aside',
+          'section',
+          'article'
+        ].includes(String(element.nodeName).toLowerCase())
       ) {
-        element.classList.add('dnb-no-focus')
+        if (!element.hasAttribute('tabindex')) {
+          element.setAttribute('tabindex', '-1')
+        }
+        if (
+          element.classList &&
+          !element.classList.contains('dnb-no-focus')
+        ) {
+          element.classList.add('dnb-no-focus')
+        }
       }
       element.focus({ preventScroll: true })
     }

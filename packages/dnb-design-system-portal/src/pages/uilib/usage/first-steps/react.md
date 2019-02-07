@@ -12,7 +12,7 @@ import { hamburger as hamburgerIcon } from 'dnb-ui-lib/src/icons/secondary_icons
 
 The most basic way to use the `dnb-ui-lib` is like this:
 
-### Basic Buttons
+## Basic Buttons
 
 <ComponentBox>
 {`
@@ -20,59 +20,19 @@ The most basic way to use the `dnb-ui-lib` is like this:
 `}
 </ComponentBox>
 
-### Large Buttons & Icons
+### Importing the Components
 
-<ComponentBox>
-{`
-<>
-  <Button
-    variant="secondary"
-    text="Secondary Button"
-    icon="chevron_right_medium"
-    size="large"
-  />
-  <Button
-    icon="chevron_right"
-    icon_size="medium"
-    size="large"
-  />
-</>
-`}
-</ComponentBox>
+To make the [Button](/uilib/components/button) Component work, we have to import it as well:
 
-## Extended example
+```js
+import { Button } from 'dnb-ui-lib'
+```
 
-<ComponentBox scope={{hamburgerIcon}} noInline={true}>
-{`
-// import { Button, Icon } from 'dnb-ui-lib'
-// import { hamburger as hamburgerIcon } from 'dnb-ui-lib/icons/secondary_icons'
-const Wrapper = styled.div\`
-  .dnb-button {
-    --button-width: 4rem;
-    --button-height: 4rem;
-    --button-border-radius: 2rem;
-    svg {
-      color: fuchsia;
-    }
-  }
-\`
-const myHandler = () => alert('Hello')
-render(
-  <Wrapper>
-    <Button
-      variant="secondary"
-      icon={hamburgerIcon}
-      size="default"
-      on_click={myHandler}
-    />
-    <Button
-      variant="secondary"
-      size="default"
-      on_click={myHandler}
-    >
-      <Icon icon={hamburgerIcon} />
-    </Button>
-  </Wrapper>
-)
-`}
-</ComponentBox>
+And here an example with several imports:
+
+```js
+import { Button, Icon } from 'dnb-ui-lib'
+import { hamburger as hamburgerIcon } from 'dnb-ui-lib/icons/secondary_icons'
+```
+
+You may have a look at a [Example for React on GitHub](https://github.com/dnbexperience/eufemia/tree/develop/packages/examples/example-react).

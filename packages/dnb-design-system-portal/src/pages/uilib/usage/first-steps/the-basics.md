@@ -34,24 +34,41 @@ All the HTML elements have individual interaction states. The look and feel is d
 - focus
 - disabled
 
-## Global Scope
+## CSS Styles
 
-Once You import the `dnb-ui-lib` style, You will not only get the HTML Element styles, but also for lower lever tags like [Headings and Paragraphs](/uilib/typography) and support for [Focus Management](/uilib/usage/accessibility/focus).
+Have a read on [how the styles are setup](/uilib/usage/customisation/styling) and [how to import the CSS](/uilib/usage/customisation/consume-styles).
 
 ## Compiler
 
 With [Node.js](https://nodejs.org/) as our JavaScript runtime in place, we may use ES6 (ECMAScript 2015) to write our application. There are many frameworks and libraries to build user interfaces. If we take [React JSX](https://reactjs.org/docs/add-react-to-a-website.html#optional-try-react-with-jsx) as an starting point, we basically [do this](/uilib/usage/first-steps/react):
 
-<ComponentBox>
+<ComponentBox hideCode hideToolbar>
 {`
 <Button text="Primary Button" />
 `}
 </ComponentBox>
 
+```jsx
+// Define the imports
+import { Button } from 'dnb-ui-lib'
+
+// And consume the Component in Your markup render method
+render(<Button text="Primary Button" />)
+```
+
 You also may [import the styles](/uilib/usage/customisation/styling) on a higher lever in Your application:
 
 ```js
+// e.g. in the App root
 import 'dnb-ui-lib/style'
+```
+
+You can also import a single style of one component at a time:
+
+```js
+// Imports only the Button CSS and Main DNB Theme
+import 'dnb-ui-lib/components/button/style'
+import 'dnb-ui-lib/components/button/style/themes/ui'
 ```
 
 And finally bind an [event listener](/uilib/usage/customisation/event-handling):
@@ -70,7 +87,15 @@ In case you don't have a compiling/build process, You can use the UMD packed ver
     ...
     <link
       rel="stylesheet"
-      href="https://unpkg.com/dnb-ui-lib@latest/style/dnb-ui-lib.min.css"
+      href="https://unpkg.com/dnb-ui-lib@latest/style/dnb-ui-core.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/dnb-ui-lib@latest/style/dnb-ui-components.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/dnb-ui-lib@latest/style/themes/dnb-theme-ui.min.css"
     />
   </head>
   <body>

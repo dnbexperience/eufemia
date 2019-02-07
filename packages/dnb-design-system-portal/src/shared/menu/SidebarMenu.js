@@ -14,7 +14,10 @@ import { SidebarMenuConsumer } from './SidebarMenuContext'
 // import { MainMenuToggleButton } from './ToggleMainMenu'
 import { Icon } from 'dnb-ui-lib/src'
 import graphics from './SidebarGraphics'
-import { setPageFocusElement } from 'dnb-ui-lib/src/shared/tools'
+import {
+  setPageFocusElement,
+  applyPageFocus
+} from 'dnb-ui-lib/src/shared/tools'
 
 const StyledListItem = styled.li`
   list-style: none;
@@ -291,6 +294,10 @@ export default class SidebarLayout extends PureComponent {
   constructor(props) {
     super(props)
     this._scrollRef = React.createRef()
+    setPageFocusElement(
+      'aside ul li.is-active a:nth-of-type(1)',
+      'sidebar'
+    )
   }
 
   componentDidMount() {
@@ -315,9 +322,6 @@ export default class SidebarLayout extends PureComponent {
           }, 300)
         }
       }
-
-      // gets aplyed on "onRouteUpdate"
-      setPageFocusElement(this._scrollRef.current, 'sidebar')
     }
   }
 
@@ -432,27 +436,34 @@ export default class SidebarLayout extends PureComponent {
                 `}
               />
               <SidebarMenuConsumer>
-                {({ isOpen, isClosing }) => (
-                  <Sidebar
-                    className={classnames(
-                      isOpen && 'show-mobile-menu',
-                      isClosing && 'hide-mobile-menu'
-                    )}
-                    ref={this._scrollRef}
-                  >
-                    {/* <MainMenuToggleButton /> */}
-                    <ul className="dev-grid">{nav}</ul>
-                    {isOpen && (
-                      <Global
-                        styles={css`
-                          .dnb-page-content {
-                            display: none !important;
-                          }
-                        `}
-                      />
-                    )}
-                  </Sidebar>
-                )}
+                {({ isOpen, isClosing }) => {
+                  isOpen &&
+                    !isClosing &&
+                    setTimeout(() => {
+                      applyPageFocus('sidebar')
+                    }, 100)
+                  return (
+                    <Sidebar
+                      className={classnames(
+                        isOpen && 'show-mobile-menu',
+                        isClosing && 'hide-mobile-menu'
+                      )}
+                      ref={this._scrollRef}
+                    >
+                      {/* <MainMenuToggleButton /> */}
+                      <ul className="dev-grid">{nav}</ul>
+                      {isOpen && (
+                        <Global
+                          styles={css`
+                            .dnb-app-content {
+                              display: none !important;
+                            }
+                          `}
+                        />
+                      )}
+                    </Sidebar>
+                  )
+                }}
               </SidebarMenuConsumer>
             </>
           )
@@ -541,7 +552,12 @@ class ListItem extends PureComponent {
         >
           <span>
             {icon && graphics[icon] && (
-              <Icon icon={graphics[icon]} size="medium" aria_hidden />
+              <Icon
+                icon={graphics[icon]}
+                size="medium"
+                alt={`${icon} graphic`}
+                aria-hidden
+              />
             )}
             {children}
           </span>

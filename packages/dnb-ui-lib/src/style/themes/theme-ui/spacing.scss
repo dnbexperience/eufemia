@@ -1,0 +1,68 @@
+/*
+ * Core Styles
+ * Mainly only the margins are defined in here
+ *
+ */
+
+// styles styles are effected within the scope of ".dnb-spacing"
+// we also check if there is a class starting with "dnb-*"
+// this is to make sure we don't effect these styles inside of components
+.dnb-spacing {
+  // *:not([class^='dnb-']) > {
+  // }
+
+  .dnb-h1,
+  .dnb-h2,
+  .dnb-lead,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin: 2rem 0 1rem;
+  }
+
+  h1 {
+    margin: 3rem 0 2.5rem;
+  }
+  h2 {
+    margin: 3rem 0 1rem;
+  }
+
+  p,
+  ul,
+  ol,
+  dl,
+  blockquote,
+  pre {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+  }
+
+  ul li,
+  ol li {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+  li > p {
+    margin-top: 1rem;
+  }
+  dl dt {
+    margin-top: 1rem;
+  }
+  dl dd {
+    margin-bottom: 1rem;
+  }
+
+  table {
+    p,
+    ul,
+    ol,
+    dl,
+    pre {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+  }
+}

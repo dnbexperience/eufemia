@@ -22,7 +22,6 @@ exports[`Button component have to match default button snapshot 1`] = `
   variant="primary"
 >
   <button
-    aria-label="This is a button title"
     className="dnb-button dnb-button--primary dnb-button--icon-position-right dnb-button--has-text dnb-button--has-icon id class className"
     disabled="disabled"
     id="id"
@@ -62,7 +61,7 @@ exports[`Button component have to match default button snapshot 1`] = `
       </span>
       <IconPrimary
         alt="This is a button title"
-        aria_hidden={true}
+        aria-hidden={true}
         attributes={null}
         class={null}
         className="dnb-button__icon"
@@ -76,9 +75,10 @@ exports[`Button component have to match default button snapshot 1`] = `
         width={null}
       >
         <span
-          aria-hidden="true"
+          alt="This is a button title"
+          aria-hidden={true}
           aria-label="This is a button title"
-          className="dnb-icon dnb-icon--default dnb-button__icon"
+          className="dnb-icon dnb-button__icon"
           role="img"
         >
           <question>
@@ -123,8 +123,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
   variant="primary"
 >
   <a
-    aria-label="This is a button title"
-    className="dnb-button dnb-button--primary dnb-button--icon-position-right dnb-button--has-text dnb-button--has-icon id class className dnb-no-anchor-underline dnb-no-anchor-hover"
+    className="dnb-button dnb-button--primary dnb-button--icon-position-right dnb-button--has-text dnb-button--has-icon id class className"
     disabled="disabled"
     href="https://url"
     id="id"
@@ -164,7 +163,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
       </span>
       <IconPrimary
         alt="This is a button title"
-        aria_hidden={true}
+        aria-hidden={true}
         attributes={null}
         class={null}
         className="dnb-button__icon"
@@ -178,9 +177,10 @@ exports[`Button component have to match href="..." snapshot 1`] = `
         width={null}
       >
         <span
-          aria-hidden="true"
+          alt="This is a button title"
+          aria-hidden={true}
           aria-label="This is a button title"
-          className="dnb-icon dnb-icon--default dnb-button__icon"
+          className="dnb-icon dnb-button__icon"
           role="img"
         >
           <question>
@@ -215,6 +215,10 @@ exports[`Button scss have to match default theme snapshot 1`] = `
  */
 /*
  * Utilities
+ */
+/*
+ * Anchor
+ *
  */
 /*
  * Typography
@@ -346,10 +350,10 @@ exports[`Button scss have to match default theme snapshot 1`] = `
   background-color: transparent;
   border-color: transparent; }
   .dnb-button--tertiary.dnb-button--has-text {
-    padding-left: 0.5em;
-    padding-right: 0.5em; }
+    padding-left: 0.5rem;
+    padding-right: 0.5rem; }
     .dnb-button--tertiary.dnb-button--has-text:not([disabled]) .dnb-button__icon {
-      margin: 0 0.5em; }
+      margin: 0 0.5rem; }
     .dnb-button--tertiary.dnb-button--has-text.dnb-button--icon-position-left .dnb-button__icon {
       margin-left: 0; }
     .dnb-button--tertiary.dnb-button--has-text.dnb-button--icon-position-right .dnb-button__icon {
@@ -358,23 +362,23 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     content: '';
     position: absolute;
     z-index: -1;
-    left: 0.1em;
-    right: 0.1em;
+    left: 0.1rem;
+    right: 0.1rem;
     width: auto;
     height: 100%;
-    left: 0.05em;
-    right: 0.05em;
+    left: 0.05rem;
+    right: 0.05rem;
     bottom: 0;
     height: 1px;
     border-radius: 0.5px;
     border-bottom: 1px solid var(--color-sea-green);
-    left: 0.45em;
-    right: 0.45em;
-    bottom: 0.5em; }
+    left: 0.45rem;
+    right: 0.45rem;
+    bottom: 0.5rem; }
   .dnb-button--tertiary.dnb-button--has-text:not([disabled]):hover.dnb-button--icon-position-left::after {
-    left: 0.7em; }
+    left: 0.7rem; }
   .dnb-button--tertiary.dnb-button--has-text:not([disabled]):hover.dnb-button--icon-position-right::after {
-    right: 0.7em; }
+    right: 0.7rem; }
   .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):hover .dnb-button__icon {
     color: var(--color-sea-green-alt-30); }
   .dnb-button--tertiary:not([disabled]):active::after,
@@ -389,7 +393,6 @@ exports[`Button scss have to match default theme snapshot 1`] = `
       box-shadow: 0 0 0 2px var(--color-emerald-green);
       border-color: transparent; }
   .dnb-button--tertiary[disabled] {
-    cursor: not-allowed;
     color: var(--color-sea-green-alt-30); }
 
 .dnb-button--signal {
@@ -413,6 +416,17 @@ exports[`Button scss have to match default theme snapshot 1`] = `
   .dnb-button--signal[disabled] {
     color: #b0b0b0;
     background-color: var(--color-signal-yellow-30); }
+
+a.dnb-button {
+  transition: none; }
+  a.dnb-button:hover {
+    color: inherit;
+    background-color: inherit;
+    border-bottom-width: 1px; }
+  a.dnb-button::before {
+    content: none; }
+  a.dnb-button::before {
+    transition: max-height 0.01s linear; }
 "
 `;
 
@@ -552,7 +566,7 @@ exports[`Button scss have to match snapshot 1`] = `
 *
 */
 .dnb-icon {
-  display: inline;
+  display: inline-block;
   vertical-align: baseline;
   font-size: inherit;
   line-height: 0;
@@ -582,6 +596,10 @@ exports[`Button scss have to match snapshot 1`] = `
   .dnb-icon img:not([width]):not([height]) {
     width: inherit;
     height: inherit; }
+  .dnb-icon svg[width='100%'] {
+    width: inherit; }
+  .dnb-icon svg[height='100%'] {
+    height: inherit; }
 
 .dnb-button {
   font-family: sans-serif;
@@ -592,7 +610,9 @@ exports[`Button scss have to match snapshot 1`] = `
   line-height: 1.5rem;
   color: var(--color-black-80, #333);
   font-variant-numeric: lining-nums;
-  font-feature-settings: \\"lnum\\"; }
+  font-feature-settings: \\"lnum\\";
+  font-size: 1em;
+  line-height: 1.5em; }
   .dnb-button *,
   .dnb-button ::before,
   .dnb-button ::after {
@@ -602,6 +622,14 @@ exports[`Button scss have to match snapshot 1`] = `
   .dnb-button ::after {
     text-decoration: inherit;
     vertical-align: inherit; }
+  .dnb-button button {
+    overflow: visible;
+    text-transform: none; }
+  .dnb-button button,
+  .dnb-button [type='button'],
+  .dnb-button [type='reset'],
+  .dnb-button [type='submit'] {
+    -webkit-appearance: button; }
 
 /*
 * Button component
@@ -627,13 +655,11 @@ exports[`Button scss have to match snapshot 1`] = `
   --button-border-radius--large: calc(var(--button-height--large) / 2); }
 
 .dnb-button {
+  cursor: pointer;
+  white-space: nowrap;
   display: inline-flex;
-  vertical-align: middle;
-  align-content: center;
   align-items: center;
   justify-content: center;
-  white-space: nowrap;
-  cursor: pointer;
   width: var(--button-width);
   height: var(--button-height);
   padding: 0;
@@ -649,8 +675,7 @@ exports[`Button scss have to match snapshot 1`] = `
       width: var(--button-icon-size);
       height: var(--button-icon-size); }
   .dnb-button__text {
-    color: inherit;
-    transform: translateY(var(--button-border-width)); }
+    color: inherit; }
   .dnb-button--size-small {
     width: var(--button-width--small);
     height: var(--button-height--small);
@@ -658,47 +683,49 @@ exports[`Button scss have to match snapshot 1`] = `
     line-height: var(--button-font-size-small);
     border-radius: var(--button-border-radius--small); }
   .dnb-button--has-text.dnb-button--size-small {
-    padding-left: 1em;
-    padding-right: 1em; }
+    padding-left: 1rem;
+    padding-right: 1rem; }
   .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-small {
-    padding-left: 0.5em; }
+    padding-left: 0.5rem; }
   .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-small {
-    padding-right: 0.5em; }
+    padding-right: 0.5rem; }
   .dnb-button--size-medium {
     width: var(--button-width--medium);
     height: var(--button-height--medium);
     line-height: var(--button-height--medium);
     border-radius: var(--button-border-radius--medium); }
   .dnb-button--has-text.dnb-button--size-medium {
-    padding-left: 1em;
-    padding-right: 1em; }
+    padding-left: 1rem;
+    padding-right: 1rem; }
   .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-medium {
-    padding-left: 0.5em; }
+    padding-left: 0.5rem; }
   .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-medium {
-    padding-right: 0.5em; }
+    padding-right: 0.5rem; }
   .dnb-button--size-large {
     width: var(--button-width--large);
     height: var(--button-height--large);
     line-height: var(--button-height--large);
     border-radius: var(--button-border-radius--large); }
   .dnb-button--has-text.dnb-button--size-large {
-    padding-left: 2em;
-    padding-right: 2em; }
+    padding-left: 2rem;
+    padding-right: 2rem; }
   .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-large {
-    padding-left: 1em; }
+    padding-left: 1rem; }
   .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-large {
-    padding-right: 1em; }
+    padding-right: 1rem; }
   .dnb-button--has-text {
-    padding-left: 1.5em;
-    padding-right: 1.5em;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
     width: auto; }
   .dnb-button--has-text .dnb-button__icon {
-    margin: 0 0.5rem;
     margin: 0 calc(var(--button-icon-size) / 2); }
+    @supports not (-ms-ime-align: auto) {
+      .dnb-button--has-text .dnb-button__icon {
+        transform: translateY(-1px); } }
   .dnb-button--has-text.dnb-button--icon-position-left {
-    padding-left: 0.5em; }
+    padding-left: 0.5rem; }
   .dnb-button--has-text.dnb-button--icon-position-right {
-    padding-right: 0.5em; }
+    padding-right: 0.5rem; }
   .dnb-button--has-text.dnb-button--has-icon .dnb-button__icon {
     order: 2; }
   .dnb-button--has-text.dnb-button--has-icon .dnb-button__text {
@@ -732,10 +759,8 @@ exports[`Button scss have to match snapshot 1`] = `
       html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
         box-shadow: 0 0 0 2px var(--color-emerald-green);
         border-color: transparent; }
-    html[data-whatinput='mouse']
-.dnb-button--reset:not([disabled]):focus:not(.dnb-no-mouse-focus),
-    html[data-whatinput='mouse']
-.dnb-button--reset:not([disabled]):active:not(.dnb-no-mouse-focus) {
+    html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):focus,
+    html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):active {
       box-shadow: none;
       color: inherit;
       border: none; }
@@ -745,6 +770,10 @@ exports[`Button scss have to match snapshot 1`] = `
     border: none; }
 
 a.dnb-button {
-  transition: none; }
+  -webkit-appearance: none; }
+  a.dnb-button .dnb-button__icon {
+    transform: translateY(0); }
+  a.dnb-button .dnb-button__text {
+    transform: translateY(1px); }
 "
 `;

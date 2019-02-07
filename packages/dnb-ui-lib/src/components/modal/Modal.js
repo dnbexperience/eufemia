@@ -132,7 +132,7 @@ export default class Modal extends PureComponent {
     this.toggleOpenClose(e, false)
   }
   componentDidMount() {
-    if (!modalRoot) {
+    if (!modalRoot && typeof document !== 'undefined') {
       modalRoot = document.getElementById('dnb-modal-root') // document.querySelector('.dnb-modal-root')
     }
   }
@@ -359,7 +359,7 @@ class ModalContent extends PureComponent {
             aria-hidden="true"
             aria-modal="true"
             tabIndex="-1"
-            className="dnb-modal__content__inner dnb-no-focus dnb-style"
+            className="dnb-modal__content__inner dnb-no-focus dnb-spacing"
             onClick={this.preventClick}
             onKeyDown={this.onKeyDownHandler}
             {...params}

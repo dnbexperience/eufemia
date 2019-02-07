@@ -16,6 +16,18 @@ Read more how to use the [different weights](/uilib/typography/font-weights/).
 
 ### Headings
 
+DNB UX Team has currently only defined tree levels of heading styles (h1, h2 and h3). But level 4, 5 and 6 is also supported by the `dnb-ui-lib`.
+
+In case You want to have a header look like a heading, You can use these classes:
+
+- `.dnb-h1`
+- `.dnb-h2`
+- `.dnb-lead`
+
+Read more about [best practices for typography](/uilib/usage/best-practices/for-typography).
+
+#### Heading examples
+
 <div class="example-box">
   <h1>H1</h1>
   <h2>H2</h2>

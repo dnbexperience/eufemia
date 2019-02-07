@@ -207,7 +207,7 @@ export const getFigmaDoc = async ({
   forceRefetch = null,
   preventUpdate = null
 } = {}) => {
-  if (!figmaFile) {
+  if (!(figmaFile && String(figmaFile).length > 0)) {
     figmaFile = defaultFigmaFile
   }
 

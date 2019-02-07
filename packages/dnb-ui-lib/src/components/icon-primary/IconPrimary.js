@@ -5,7 +5,11 @@
 
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import DefaultIcon, { DefaultIconSize, prepareIcon } from '../icon/Icon'
+import DefaultIcon, {
+  DefaultIconSize,
+  prerenderIcon,
+  prepareIcon
+} from '../icon/Icon'
 import * as primary_icons from '../../icons/primary_icons'
 import * as primary_icons_medium from '../../icons/primary_icons_medium'
 
@@ -39,17 +43,22 @@ export default class IconPrimary extends PureComponent {
   }
 
   render() {
-    const { icon, wrapperParams, svgParams, size } = DefaultIcon.prerender(
+    const { icon, size, wrapperParams, iconParams, alt } = prepareIcon(
       this.props
     )
 
-    const IconContainer = prepareIcon({ icon, size, listOfIcons: icons })
+    const IconContainer = prerenderIcon({
+      icon,
+      size,
+      alt,
+      listOfIcons: icons
+    })
 
     if (!IconContainer) return <></>
 
     return (
       <span {...wrapperParams}>
-        <IconContainer {...svgParams} />
+        <IconContainer {...iconParams} />
       </span>
     )
   }

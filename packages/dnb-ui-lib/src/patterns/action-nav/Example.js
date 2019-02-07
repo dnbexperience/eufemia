@@ -12,27 +12,28 @@ class Example extends PureComponent {
     return (
       <Fragment>
         <div className="example-box">
-          <ActionNav prev_href="?prev" next_href="?next" />
-          <ActionNav
-            render_left_content={() => <h3>Custom left nav content</h3>}
-          >
-            <div className="dnb-action-nav__item">
-              <Button
-                text="Lagre"
-                title="Lagre"
-                icon_position="left"
-                variant="secondary"
-                icon="save"
-              />
+          {/* <ActionNav prev_href="?prev" next_href="?next" /> */}
+          <ActionNav prev_href="?prev" next_href="?next">
+            <p>Custom right nav content</p>
+          </ActionNav>
+        </div>
+        <div className="example-box">
+          <ActionNav>
+            <div className="dnb-action-nav__left">
+              Custom left nav content
             </div>
-            <div className="dnb-action-nav__item">
-              <Button
-                text="Avbryt"
-                title="Avbryt"
-                icon_position="left"
-                variant="secondary"
-                icon="close"
-              />
+            <div className="dnb-action-nav__right">
+              <div className="dnb-action-nav__item">
+                <Button
+                  text="Cancel"
+                  icon_position="left"
+                  variant="tertiary"
+                  icon="close"
+                />
+              </div>
+              <div className="dnb-action-nav__item">
+                <Button text="Save" icon_position="left" icon="save" />
+              </div>
             </div>
           </ActionNav>
         </div>

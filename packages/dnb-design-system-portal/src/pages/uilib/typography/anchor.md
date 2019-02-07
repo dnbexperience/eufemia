@@ -4,7 +4,7 @@ draft: false
 order: 2
 ---
 
-import { IconPrimary as Icon } from 'dnb-ui-lib/src'
+import { IconPrimary } from 'dnb-ui-lib/src'
 
 # Anchor
 
@@ -20,13 +20,13 @@ Beside that the Anchor Tag gets assigned by default - or let's say, by only impo
 
 ## With Icon
 
-- <a href="/">Anchor with Icon <Icon icon="chevron_right" /></a>
+- <a href="/">Anchor with Icon <IconPrimary icon="chevron_right" /></a>
 - <p>
     Eros semper blandit tellus mollis primis quisque platea sollicitudin
-    ipsum <a href="/">Inside a Paragraph <Icon icon="bell" /></a> auctor cursus mauris porta consectetur natoque vehicula vestibulum feugiat ultrices vitae fermentum eros euismod imperdiet eleifend justo vivamus posuere
+    ipsum <a href="/">Inside a Paragraph <IconPrimary icon="bell" /></a> auctor cursus mauris porta consectetur natoque vehicula vestibulum feugiat ultrices vitae fermentum eros euismod imperdiet eleifend justo vivamus posuere
   </p>
 - <h2>
-    <a href="/">Inside Headings <Icon icon="bell" /></a> H2
+    <a href="/">Inside Headings <IconPrimary icon="bell" /></a> H2
   </h2>
 
 ## Manipulation

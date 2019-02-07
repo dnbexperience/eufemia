@@ -15,19 +15,20 @@
   ],
   "main": "./packages/dnb-ui-lib/index.js",
   "scripts": {
-    "prepublish-ci": "cd ./packages/dnb-ui-lib && yarn prepublish-ci && cd -",
-    "precommit": "cd ./packages/dnb-ui-lib && yarn precommit && cd - && cd ./packages/dnb-design-system-portal && yarn precommit && cd -",
-    "build-ci": "cd ./packages/dnb-design-system-portal && yarn build-ci && cd -",
-    "deploy-ci": "cd ./packages/dnb-design-system-portal && yarn deploy-ci && cd -",
-    "start": "cd ./packages/dnb-design-system-portal && yarn start && cd -",
-    "lint-ci": "cd ./packages/dnb-ui-lib && yarn lint-ci && cd - && cd ./packages/dnb-design-system-portal && yarn lint-ci && cd -",
-    "publish-ci": "cd ./packages/dnb-ui-lib && yarn publish-ci && cd -",
-    "reset": "rm -rf ./node_modules && rm yarn.lock && rm -rf ./packages/dnb-ui-lib/node_modules && rm -rf ./packages/dnb-design-system-portal/node_modules && yarn install",
-    "build": "cd ./packages/dnb-ui-lib && yarn build && cd - && cd ./packages/dnb-design-system-portal && yarn build && cd -",
-    "test": "cd ./packages/dnb-ui-lib && yarn test && cd -",
-    "test:update": "cd ./packages/dnb-ui-lib && yarn test:update && cd -",
-    "test-ci": "cd ./packages/dnb-ui-lib && yarn test-ci && cd - && cd ./packages/dnb-design-system-portal && yarn test-ci && cd -",
-    "test-ci:update": "yarn test-ci --updateSnapshot"
+    "audit-ci": "yarn workspace dnb-ui-lib audit-ci",
+    "prepublish-ci": "yarn workspace dnb-ui-lib prepublish-ci",
+    "precommit": "yarn workspace dnb-ui-lib precommit && yarn workspace dnb-design-system-portal precommit",
+    "build-ci": "yarn workspace dnb-design-system-portal build-ci",
+    "deploy-ci": "yarn workspace dnb-design-system-portal deploy-ci",
+    "start": "yarn workspace dnb-design-system-portal start",
+    "lint-ci": "yarn workspace dnb-ui-lib lint-ci && yarn workspace dnb-design-system-portal lint-ci",
+    "publish-ci": "yarn workspace dnb-ui-lib publish-ci",
+    "reset": "rm -rf ./node_modules && rm -rf ./packages/dnb-ui-lib/node_modules && rm -rf ./packages/dnb-design-system-portal/node_modules && yarn install",
+    "build": "yarn workspace dnb-ui-lib build && yarn workspace dnb-design-system-portal build",
+    "test": "yarn workspace dnb-ui-lib test",
+    "test:update": "yarn workspace dnb-ui-lib test:update",
+    "test-ci": "yarn workspace dnb-ui-lib test-ci && yarn workspace dnb-design-system-portal test-ci",
+    "test-ci-screenshots": "yarn workspace dnb-ui-lib test-ci-screenshots"
   },
   "devDependencies": {
     "husky": "^1.3.1"

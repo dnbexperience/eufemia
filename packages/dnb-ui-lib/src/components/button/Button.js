@@ -24,6 +24,7 @@ export const propTypes = {
   text: PropTypes.string,
   type: PropTypes.string,
   title: PropTypes.string,
+  /* _(optional)_ defines the kind of button. Possible values are `primary`, `secondary`, `tertiary` and `signal`.  */
   variant: PropTypes.oneOf(['primary', 'secondary', 'tertiary', 'signal']),
   size: PropTypes.oneOf(['default', 'small', 'medium', 'large']),
   icon: PropTypes.oneOfType([
@@ -174,7 +175,7 @@ export default class Button extends PureComponent {
 
     const classes = classnames(
       'dnb-button',
-      `dnb-button--${usedVariant}`,
+      `dnb-button--${usedVariant || 'primary'}`,
       usedSize && usedSize !== 'default'
         ? `dnb-button--size-${usedSize}`
         : null,
@@ -186,20 +187,22 @@ export default class Button extends PureComponent {
       id,
       class_name,
       className,
-      href ? 'dnb-no-anchor-underline dnb-no-anchor-hover' : null
+      href ? '' : null // dnb-no-anchor-underline dnb-no-anchor-hover
     )
 
     const params = {
       ...this.renderProps,
       className: classes,
       type,
-      title: title || text,
-      ['aria-label']: title || text,
+      title,
       id,
       disabled,
       onMouseOut: this.onMouseOutHandler, // for resetting the button to the default state
       onClick: this.onClickHandler,
       ...props
+    }
+    if (!params['aria-label'] && !text && title) {
+      params['aria-label'] = title
     }
 
     // also used for code markup simulation
@@ -279,7 +282,7 @@ class Content extends PureComponent {
           icon={icon}
           size={icon_size}
           alt={alt}
-          aria_hidden={isIconOnly ? false : Boolean(alt)}
+          aria-hidden={isIconOnly ? false : Boolean(alt)}
         />
       )
     }

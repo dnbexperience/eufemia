@@ -13,7 +13,6 @@ import { registerElement } from '../shared/component-helper'
 
 // import all the aviable components
 import ActionNav from './action-nav/ActionNav'
-import Article from './article/Article'
 import DescriptionList from './description-list/DescriptionList'
 import FieldsetDescription from './fieldset-description/FieldsetDescription'
 import Footer from './footer/Footer'
@@ -29,7 +28,6 @@ import ViewTitle from './view-title/ViewTitle'
 // define / export all the aviable components
 export {
   ActionNav,
-  Article,
   DescriptionList,
   FieldsetDescription,
   Footer,
@@ -46,7 +44,6 @@ export {
 export const getComponents = () => {
   return {
     ActionNav,
-    Article,
     DescriptionList,
     FieldsetDescription,
     Footer,

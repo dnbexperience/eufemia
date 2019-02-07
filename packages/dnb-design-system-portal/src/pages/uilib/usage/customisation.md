@@ -2,6 +2,7 @@
 title: 'Customisation'
 status: 'wip'
 draft: false
+order: 3
 ---
 
 # Customisation

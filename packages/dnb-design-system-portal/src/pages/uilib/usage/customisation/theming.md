@@ -1,12 +1,12 @@
 ---
 title: 'Theming'
 draft: false
-order: 2
+order: 5
 ---
 
 # Theming
 
-Read the [Styling examples](/uilib/usage/styling) on how to include styles and a theme.
+Read the [Styling examples](/uilib/usage/customisation/styling) on how to include styles and a theme.
 This section is about how theming works and how to actually create a custom theme.
 
 ## How Themes are built
@@ -22,7 +22,7 @@ We have the **Main Theming File**, which is located here: `dnb-ui-lib/src/style/
 From here, we "can" reuse some default theming mechanism, just to have a fallback:
 
 ```scss
-@import '../themes/dnb-style.scss';
+@import '../themes/dnb-spacing.scss';
 ```
 
 All the additional sub theming files (for every component) are automatically added to the **Main Theming File** by running `$ yarn build`. More on that further down.

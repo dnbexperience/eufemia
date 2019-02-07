@@ -8,16 +8,12 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
   registerElement,
-  validateDOMAttributes,
-  processChildren
+  validateDOMAttributes
 } from '../../shared/component-helper'
 // import './style/dnb-action-nav.scss' // no good solution to import the style here
 import Button from '../../components/button/Button'
 
-const renderProps = {
-  render_left_content: null,
-  render_right_content: null
-}
+const renderProps = {}
 
 export const propTypes = {
   prev_href: PropTypes.string,
@@ -33,10 +29,10 @@ export const propTypes = {
     PropTypes.string,
     PropTypes.node,
     PropTypes.func
-  ]),
+  ])
   // Web Component props
-  render_left_content: PropTypes.func,
-  render_right_content: PropTypes.func
+  // render_left_content: PropTypes.func,
+  // render_right_content: PropTypes.func
 }
 
 export const defaultProps = {
@@ -63,22 +59,9 @@ export default class ActionNav extends PureComponent {
     registerElement(ActionNav.tagName, ActionNav, defaultProps)
   }
 
-  static getLeftContent(props) {
-    if (typeof props.render_left_content === 'function') {
-      return props.render_left_content(props)
-    }
-    return null
-  }
-
-  static getRightContent(props) {
-    if (typeof props.render_right_content === 'function') {
-      return props.render_right_content(props)
-    }
-    return processChildren(props)
-  }
-
   render() {
     const {
+      children,
       prev_href,
       next_href,
       prev_text,
@@ -89,8 +72,8 @@ export default class ActionNav extends PureComponent {
       class: _className
     } = this.props
 
-    const leftContent = ActionNav.getLeftContent(this.props)
-    const rightContent = ActionNav.getRightContent(this.props)
+    // const leftContent = ActionNav.getLeftContent(this.props)
+    // const rightContent = ActionNav.getRightContent(this.props)
 
     const params = {
       className: classnames(
@@ -101,6 +84,8 @@ export default class ActionNav extends PureComponent {
       )
     }
 
+    const hasNavAttributes = prev_href && next_href
+
     // also used for code markup simulation
     validateDOMAttributes(this.props, params)
 
@@ -108,40 +93,38 @@ export default class ActionNav extends PureComponent {
       <div {...params}>
         <div className="dnb-width-limit">
           <div className="dnb-action-nav__inner">
-            {(leftContent && (
-              <div className="dnb-action-nav__left">{leftContent}</div>
-            )) || (
-              <div className="dnb-action-nav__left">
-                {prev_href && (
-                  <div className="dnb-action-nav__item">
-                    <Button
-                      type="button"
-                      text={prev_text}
-                      title={prev_title}
-                      variant="secondary"
-                      icon_position="left"
-                      icon="chevron_left"
-                      href={prev_href}
-                    />
-                  </div>
-                )}
-
-                {next_href && (
-                  <div className="dnb-action-nav__item">
-                    <Button
-                      text={next_text}
-                      title={next_title}
-                      variant="primary"
-                      icon="chevron_right"
-                      href={next_href}
-                    />
-                  </div>
-                )}
-              </div>
-            )}
-            {rightContent && (
-              <div className="dnb-action-nav__right">{rightContent}</div>
-            )}
+            {(hasNavAttributes && (
+              <>
+                <div className="dnb-action-nav__left">
+                  {prev_href && (
+                    <div className="dnb-action-nav__item">
+                      <Button
+                        type="button"
+                        text={prev_text}
+                        title={prev_title}
+                        variant="secondary"
+                        icon_position="left"
+                        icon="chevron_left"
+                        href={prev_href}
+                      />
+                    </div>
+                  )}
+                  {next_href && (
+                    <div className="dnb-action-nav__item">
+                      <Button
+                        text={next_text}
+                        title={next_title}
+                        variant="primary"
+                        icon="chevron_right"
+                        href={next_href}
+                      />
+                    </div>
+                  )}
+                </div>
+                <div className="dnb-action-nav__right">{children}</div>
+              </>
+            )) ||
+              children}
           </div>
         </div>
       </div>

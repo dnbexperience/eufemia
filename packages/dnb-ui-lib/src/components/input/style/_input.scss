@@ -83,7 +83,7 @@
 
   &__description {
     color: inherit;
-    padding-left: 0.5em;
+    padding-left: 0.5rem;
   }
 
   &--medium {
@@ -140,14 +140,14 @@
   &__extra-information {
     flex: 1 100%;
 
-    padding: 0.5em 1.5em;
+    padding: 0.5rem 1.5rem;
 
     color: var(--color-black);
     font-size: var(--font-size-small); // 14px
     line-height: 1.25rem;
   }
   > .dnb-form-label ~ &__extra-information {
-    padding: 0.5em 0;
+    padding: 0.5rem 0;
   }
 
   // &__input--search {
@@ -190,7 +190,7 @@
 // }
 // fieldset {
 //   border: 0;
-//   padding: 0.01em 0 0 0;
+//   padding: 0.01rem 0 0 0;
 //   margin: 0;
 //   min-width: 0;
 // }

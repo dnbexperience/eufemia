@@ -35,7 +35,7 @@ jobs:
 
   deploy-preview:
     docker:
-      - image: circleci/node:10.6
+      - image: circleci/node:latest-browsers
     working_directory: ~/repo
     steps:
       - checkout
@@ -58,6 +58,10 @@ jobs:
           key: yarn-packages-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache/yarn
+
+      - run: yarn audit-ci
+      - run: yarn lint-ci
+      - run: yarn test-ci
 
       - run:
           name: Prepublish the ui-lib and commit changes
@@ -67,9 +71,13 @@ jobs:
           name: Build the portal, just to test if the build is successful
           command: yarn build-ci
 
+      - run:
+          name: Run screenshot tests
+          command: test-ci-screenshots
+
   deploy-release:
     docker:
-      - image: circleci/node:10.6
+      - image: circleci/node:latest-browsers
     working_directory: ~/repo
     steps:
       - checkout
@@ -93,6 +101,10 @@ jobs:
           paths:
             - ~/.cache/yarn
 
+      - run: yarn audit-ci
+      - run: yarn lint-ci
+      - run: yarn test-ci
+
       - run:
           name: Prepublish the ui-lib to use it in "build-ci"
           command: yarn prepublish-ci
@@ -100,6 +112,10 @@ jobs:
       - run:
           name: Build the portal
           command: yarn build-ci
+
+      - run:
+          name: Run screenshot tests
+          command: test-ci-screenshots
 
       - run:
           name: Deploy the portal

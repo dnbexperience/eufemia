@@ -6,15 +6,17 @@
 .dnb-action-nav {
   &__inner {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
   }
   &__left,
   &__right {
     display: flex;
-    justify-content: center;
   }
   &__left {
-    margin-bottom: 1rem;
+    margin: 0;
+    padding-right: 1rem;
   }
   &__item {
     margin-left: 1rem;
@@ -24,14 +26,13 @@
       margin-left: 0;
     }
   }
-  @include allAbove(medium) {
-    &__left {
-      padding-right: 1rem;
-      margin: 0;
-    }
+  @include allBelow(medium) {
     &__inner {
       justify-content: space-between;
-      flex-direction: row;
+      flex-direction: column;
+    }
+    &__left {
+      margin-bottom: 1rem;
     }
   }
 }

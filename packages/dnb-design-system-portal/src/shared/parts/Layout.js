@@ -3,41 +3,32 @@
  *
  */
 
-import { setPageFocusElement } from 'dnb-ui-lib/src/shared/tools'
 import React, { PureComponent } from 'react'
-import { Link } from 'gatsby'
-
 import PropTypes from 'prop-types'
+import { Link } from 'gatsby'
+import classnames from 'classnames'
+import styled from '@emotion/styled'
+import { css, Global } from '@emotion/core'
+
 import MainMenu from '../menu/MainMenu'
 import Sidebar from '../menu/SidebarMenu'
 import StickyMenuBar from '../menu/StickyMenuBar'
 import { markdownStyle } from './Markdown'
-import styled from '@emotion/styled'
-import classnames from 'classnames'
 import { buildVersion } from '../../../package.json'
-import {
-  MainMenuProvider,
-  MainMenuConsumer
-} from '../menu/MainMenuContext'
+import { MainMenuProvider } from '../menu/MainMenuContext'
 import { SidebarMenuProvider } from '../menu/SidebarMenuContext'
-// import ToggleGrid from '../menu/ToggleGrid'
+import { setPageFocusElement } from 'dnb-ui-lib/src/shared/tools'
+import { Logo } from 'dnb-ui-lib/src'
 
 class Layout extends PureComponent {
   static propTypes = {
     children: PropTypes.node.isRequired,
     location: PropTypes.object.isRequired
   }
-
-  constructor(props) {
-    super(props)
-    this._ref = React.createRef()
-  }
-
   componentDidMount() {
     // gets aplyed on "onRouteUpdate"
-    setPageFocusElement(this._ref.current, 'content')
+    setPageFocusElement('.dnb-app-content h1:nth-of-type(1)', 'content')
   }
-
   render() {
     const { children, location } = this.props
 
@@ -46,14 +37,8 @@ class Layout extends PureComponent {
         <div className="is-fullscreen">
           {/* Load the StickyMenuBar to make use of the grid demo */}
           <StickyMenuBar preventBarVisibility={true} />
-          <Content
-            tabIndex="-1"
-            className="fullscreen-page"
-            innerRef={this._ref}
-          >
-            <MaxWidth className="dnb-page-content-inner">
-              {children}
-            </MaxWidth>
+          <Content className="fullscreen-page">
+            <Main className="dnb-app-content-inner">{children}</Main>
           </Content>
           <Footer />
         </div>
@@ -63,25 +48,21 @@ class Layout extends PureComponent {
     return (
       <MainMenuProvider>
         <SidebarMenuProvider>
+          <Global styles={globalStyles} />
+          <a className="dnb-skip-link dnb-button" href="#dnb-app-content">
+            Skip to content
+          </a>
           <MainMenu enableOverlay />
-          <MainMenuConsumer>
-            {({ isOpen, isClosing }) =>
-              (!isOpen || isClosing) && (
-                <>
-                  <StickyMenuBar />
-                  <Wrapper className="content-wrapper">
-                    <Sidebar location={location} showAll={false} />
-                    <Content tabIndex="-1" innerRef={this._ref}>
-                      <MaxWidth className="dnb-page-content-inner">
-                        {children}
-                        <Footer />
-                      </MaxWidth>
-                    </Content>
-                  </Wrapper>
-                </>
-              )
-            }
-          </MainMenuConsumer>
+          <StickyMenuBar />
+          <Wrapper className="content-wrapper">
+            <Sidebar location={location} showAll={false} />
+            <Content>
+              <MaxWidth>
+                <Main className="dnb-app-content-inner">{children}</Main>
+                <Footer />
+              </MaxWidth>
+            </Content>
+          </Wrapper>
         </SidebarMenuProvider>
       </MainMenuProvider>
     )
@@ -89,6 +70,14 @@ class Layout extends PureComponent {
 }
 
 export default Layout
+
+const globalStyles = css`
+  @media (max-width: 40em) {
+    a.dnb-skip-link {
+      display: none;
+    }
+  }
+`
 
 const Wrapper = styled.div`
   position: relative;
@@ -103,17 +92,19 @@ const Wrapper = styled.div`
 `
 
 const Content = ({ className, children }) => (
-  <Main
+  <ContentWrapper
+    tabIndex="-1"
+    id="dnb-app-content"
     className={classnames(
-      'dnb-style',
-      'dnb-page-content',
+      'dnb-spacing',
+      'dnb-app-content',
       'dnb-no-focus',
       className
     )}
     css={markdownStyle}
   >
     {children}
-  </Main>
+  </ContentWrapper>
 )
 Content.propTypes = {
   children: PropTypes.node.isRequired,
@@ -123,7 +114,7 @@ Content.defaultProps = {
   className: null
 }
 
-const Main = styled.main`
+const ContentWrapper = styled.div`
   position: relative;
   z-index: 2; /* heigher than styled.aside */
 
@@ -134,12 +125,16 @@ const Main = styled.main`
   width: 100%;
   overflow: visible;
 
-  margin-top: 4rem; /* height of StickyMenuBar - 1px border */
   margin-left: 30vw; /* fallback */
   margin-left: var(--aside-width);
   padding: 0;
 
-  .dnb-page-content-inner {
+  /* we use padding here, insted of margin,
+  because applyPageFocus is else scrolling the page unwanted
+  height of StickyMenuBar - 1px border */
+  padding-top: 4rem;
+
+  .dnb-app-content-inner {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -159,18 +154,22 @@ const Main = styled.main`
 
   &.fullscreen-page {
     margin: 0;
+    padding-top: 0;
     border: none;
   }
 `
 
-const MaxWidth = styled.div`
-  max-width: 100%;
-  width: 50vw;
+const Main = styled.main`
+  width: 100%;
   padding: 0 2rem;
+`
 
-  @media (max-width: 120rem) {
-    width: 100%;
-    position: relative;
+const MaxWidth = styled.div`
+  width: 100%;
+
+  /* for whider screens */
+  @media (min-width: 70em) {
+    max-width: 70vw;
   }
 `
 
@@ -178,19 +177,24 @@ const FooterWrapper = styled.footer`
   position: relative;
   z-index: 2; /* 1 heigher than aside */
 
-  margin-top: 3rem;
-  padding: 1rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 1rem;
 
   border-top: 1px solid var(--color-black-border);
-  text-align: left;
+  background-color: var(--color-emerald-green);
 
-  .is-fullscreen & {
-    padding: 1rem;
-    background: var(--color-mint-green-12);
+  &,
+  a {
+    color: var(--color-white);
   }
-
   a {
     margin-left: 1rem;
+  }
+  small {
+    padding: 0 2rem;
   }
 
   .toggle-grid {
@@ -199,12 +203,13 @@ const FooterWrapper = styled.footer`
 `
 const Footer = () => (
   <FooterWrapper>
+    <Logo height="40" color="white" />
     <small>
       Last Portal update: {buildVersion}
       <Link to="/license" className="dnb-no-anchor-underline">
         Copyright (c) 2018-present DNB.no
       </Link>
     </small>
-    {/* <ToggleGrid /> */}
+    <span />
   </FooterWrapper>
 )

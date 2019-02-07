@@ -55,6 +55,7 @@ This helps coworkers quickly find and understand the sentence and meaning of the
 
 Here is a list of what we should use as layout and styling units to embrace the best possible accessibility experience and visual correctness.
 
-- `rem` Use _rem_ as a default sizing unit - when ever other units don't are favorited.
-- `em` Use _em_ only on complex layouts, when ever You need the sizes to respond to constrains. But use _em_ for CSS `@media` queries for the best browser compatibility.
-- `px` Use _pixels_ on visual helper lines and borders. Borders don't need necessarily to be responsive.
+- **`rem`**: Use _rem_ as a default sizing unit - when ever other units don't are favorited.
+- **`em`**: Use _em_ only on complex layouts, when ever You need the sizes to respond to constrains. But use _em_ for CSS `@media` queries for the best browser compatibility.
+- **`px`**: Use _pixels_ on visual helper lines and borders. Borders don't need necessarily to be responsive.
+- **`viewport units and percentage`**: Use these units to make layout and component withs responsive. Also placing and positioning layout wrappers, with these units, may give the user a good experience.

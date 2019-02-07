@@ -3,7 +3,6 @@
  *
  */
 
-import * as emotion from 'emotion'
 import { createSerializer } from 'jest-emotion'
 import fakeProps from 'react-fake-props'
 import { mount, render, shallow } from './enzyme'
@@ -16,7 +15,7 @@ export { toJson }
 export { providerProps }
 
 expect.addSnapshotSerializer(
-  createSerializer(emotion, {
+  createSerializer({
     classNameReplacer(className, index) {
       return `jest-class-name-${index}`
     }

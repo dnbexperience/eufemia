@@ -14,10 +14,10 @@ class Example extends PureComponent {
         <h3>Importing Icons</h3>
         <CodeRenderer language="jsx">{`
 // Named import example
-import { bell } from './icons'
+import { bell as Bell } from 'dnb-ui-lib/icons'
 
 // In case your environment doesn't support tree-shaking, import the icons this way
-import bell from './icons/bell'
+import Bell from 'dnb-ui-lib/icons/bell'
         `}</CodeRenderer>
       </Fragment>
     )

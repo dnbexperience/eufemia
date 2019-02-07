@@ -20,7 +20,7 @@ import {
 } from './MainMenuGraphics'
 import { Logo, Button } from 'dnb-ui-lib/src'
 import { buildVersion } from '../../../package.json'
-import { MainMenuConsumer, MainMenuContext } from './MainMenuContext'
+import { MainMenuConsumer } from './MainMenuContext'
 import {
   setPageFocusElement,
   applyPageFocus
@@ -28,28 +28,26 @@ import {
 
 class MainWrapper extends PureComponent {
   static propTypes = {
+    isOpen: PropTypes.bool.isRequired,
+    className: PropTypes.string.isRequired,
     children: PropTypes.node.isRequired
   }
-  constructor(props) {
-    super(props)
-    this._focusRef = React.createRef()
-  }
-
-  componentDidMount() {
-    setPageFocusElement(this._focusRef.current, 'mainmenu')
-    this.aniTimeout = setTimeout(() => {
+  componentDidUpdate(prevProps) {
+    if (this.props.isOpen && !prevProps.isOpen) {
       applyPageFocus('mainmenu')
-    }, 600) // because of the animation
+    }
   }
-
   componentWillUnmount() {
-    clearTimeout(this.aniTimeout)
     applyPageFocus('content')
   }
-
   render() {
+    const { className, ...rest } = this.props
     return (
-      <MainWrapperStyled {...this.props} ref={this._focusRef}>
+      <MainWrapperStyled
+        tabIndex="-1"
+        className={classnames('main-menu', 'dnb-no-focus', className)}
+        {...rest}
+      >
         {this.props.children}
       </MainWrapperStyled>
     )
@@ -150,18 +148,19 @@ const LastUpadted = styled.span`
   font-size: var(--font-size-small);
 `
 
-const toggleGlobalStyle = css`
+const customBodyStyle = css`
   body {
     transition: background-color ease-out 1.2s;
     background-color: var(--color-emerald-green);
   }
-
-  /* hide content if shown as overlay menu
-    NEW: we hide the "content-wrapper" by removing it from the DOM
-    .content-wrapper {
-      display: none !important;
-    }
-  */
+`
+const toggleContent = css`
+  /* hide content if shown as overlay menu */
+  .dnb-skip-link,
+  .sticky-menu,
+  .content-wrapper {
+    display: none !important;
+  }
 `
 
 export default class MainMenu extends PureComponent {
@@ -171,7 +170,10 @@ export default class MainMenu extends PureComponent {
   static defaultProps = {
     enableOverlay: false
   }
-  static contextType = MainMenuContext
+  constructor(props) {
+    super(props)
+    setPageFocusElement('.close-button', 'mainmenu')
+  }
   componentDidMount() {
     if (typeof document !== 'undefined') {
       document.addEventListener('keydown', this.onKeyDownHandler)
@@ -197,7 +199,7 @@ export default class MainMenu extends PureComponent {
     return (
       <MainMenuConsumer>
         {({ closeMenu, isOpen, isClosing, isActive }) => {
-          this.closeMenuHandler = closeMenu
+          this.closeMenuHandler = isOpen ? closeMenu : null
           return (
             (isActive || !enableOverlay) && (
               <MainWrapper
@@ -206,11 +208,14 @@ export default class MainMenu extends PureComponent {
                   isOpen && 'is-open',
                   isClosing && 'is-closing'
                 )}
-                aria-hidden={isClosing}
+                {...{ isOpen }}
               >
                 {
                   <>
-                    <Global styles={toggleGlobalStyle} />
+                    <Global styles={customBodyStyle} />
+                    {isOpen && !isClosing && (
+                      <Global styles={toggleContent} />
+                    )}
                     {(enableOverlay && (
                       <Toolbar
                         className={classnames(
@@ -222,13 +227,13 @@ export default class MainMenu extends PureComponent {
                         {isOpen && !isClosing && (
                           <Button
                             variant="secondary"
-                            class="dnb-always-focus"
+                            className="close-button dnb-always-focus"
                             on_click={closeMenu}
                             icon="close"
                             icon_position="left"
                             text="Close"
-                            title="Close Main Menu"
-                            // innerRef={this._focusRef}
+                            aria-label="Close Main Menu"
+                            // ref={this._ref}
                           />
                         )}
                       </Toolbar>

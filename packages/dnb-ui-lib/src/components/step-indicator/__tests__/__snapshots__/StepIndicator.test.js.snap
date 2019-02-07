@@ -193,6 +193,10 @@ exports[`StepIndicator scss have to match default theme snapshot 1`] = `
  * Utilities
  */
 /*
+ * Anchor
+ *
+ */
+/*
  * Typography
  *
  * The font-family properties are defined in the properties.scss file, like:
@@ -417,7 +421,9 @@ exports[`StepIndicator scss have to match snapshot 1`] = `
   line-height: 1.5rem;
   color: var(--color-black-80, #333);
   font-variant-numeric: lining-nums;
-  font-feature-settings: \\"lnum\\"; }
+  font-feature-settings: \\"lnum\\";
+  font-size: 1em;
+  line-height: 1.5em; }
   .dnb-step-indicator *,
   .dnb-step-indicator ::before,
   .dnb-step-indicator ::after {
@@ -444,6 +450,10 @@ exports[`StepIndicator scss have to match snapshot 1`] = `
     margin: 0;
     list-style: none;
     align-items: flex-start; }
+  .dnb-spacing .dnb-step-indicator__list,
+  .dnb-spacing .dnb-step-indicator__list li {
+    margin-top: 0;
+    margin-bottom: 0; }
   .dnb-step-indicator__item {
     position: relative;
     z-index: 2;

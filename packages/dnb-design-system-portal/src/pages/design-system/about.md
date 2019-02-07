@@ -29,12 +29,16 @@ The goal is to have a single source of truth for design through color, typograph
 
 Thank You for all who as contributed to build Eufemia. People who has contributed heavily to Eufemia are:
 
-- Jens Thuland
-- Sindre Marken
-- Casper Brekke
-- Tobias Høegh
-- Kevin Murphy
+- [Jens Thuland](https://dnb.enterprise.slack.com/user/@WE4QCR6PQ)
+- [Sindre Marken](https://dnb.enterprise.slack.com/user/@WDUUEJNVC)
+- [Casper Brekke](https://dnb.enterprise.slack.com/user/@WDU4VCEP5)
+- [Tobias Høegh](https://dnb.enterprise.slack.com/user/@WE2M4E65N)
+- [Kevin Murphy](https://dnb.enterprise.slack.com/user/@WE38HLQQ4)
 - Hans Kristian Smedsrød
-- Nicolai Rygh
 
-The DNB ASA Design System is build together with [EGGS Design](https://eggsdesign.com/).
+The DNB ASA Design System (Eufemia) is build together with [EGGS Design](https://eggsdesign.com/).
+
+## More People to thank
+
+- [Nicolai Rygh](https://dnb.enterprise.slack.com/user/@WDY36GXKM)
+-

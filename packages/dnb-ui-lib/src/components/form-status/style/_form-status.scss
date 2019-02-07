@@ -20,7 +20,7 @@
   line-height: var(--input-height);
 
   &--text {
-    padding: 0.5em 1em;
+    padding: 0.5rem 1rem;
 
     cursor: text;
     color: var(--color-emerald-green);
@@ -30,7 +30,7 @@
   }
 
   .dnb-icon + &--text {
-    padding: 0.5em;
+    padding: 0.5rem;
   }
 
   > .dnb-icon {
@@ -41,7 +41,7 @@
     width: 1.5em;
     height: 1.5em;
 
-    margin: 0.5em;
+    margin: 0.5rem;
     margin-right: 0;
 
     color: inherit;

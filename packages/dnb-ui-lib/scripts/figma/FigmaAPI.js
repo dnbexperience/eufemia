@@ -6,7 +6,7 @@
 import { ConvertAndSaveComponentsStyle } from './tasks/componentsStyleConverter'
 // import { FetchImages } from './tasks/imageStore'
 import { IconsConverter } from './tasks/iconsConverter'
-import { getBranchName } from './../tools/commitToBranch'
+import { getBranchName } from './../prepub/commitToBranch'
 import { log, ErrorHandler } from '../lib'
 import { getFigmaDoc } from './helpers/docHelpers'
 

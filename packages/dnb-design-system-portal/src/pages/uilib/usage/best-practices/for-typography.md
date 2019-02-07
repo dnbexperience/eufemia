@@ -9,7 +9,9 @@ order: 2
 
 ### Headings and styling
 
-Never use Headings (like `<h4>`) for only styling purposes. Headings exist in first place to practice correct semantics, witch again will gain all kind of users.
+Never use Headings (like `<h3>`) for only styling purposes. Headings exist in first place to practice correct semantics, witch again will gain all kind of users.
+
+For styling purposes only, use `.dnb-h1` , `.dnb-h2` or `.dnb-lead`. Or style Your Typography regarding to the Prototypes.
 
 Use headings where You think that someone with a Screen Reader would have benefits of finding and reading a title.
 

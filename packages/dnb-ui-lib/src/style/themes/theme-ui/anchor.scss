@@ -1,0 +1,131 @@
+/*
+ * Anchor
+ *
+ */
+
+@import './anchor-mixins.scss';
+
+a {
+  @include defaultAnchorStyle();
+
+  &:hover,
+  &:active {
+    @include hoverStyle();
+
+    // margins are not needed as long as we go for "inline"
+    // margin-bottom: -0.1875rem;
+  }
+  &:active {
+    @include activeStyle();
+  }
+  &:focus {
+    @include focusStyle();
+  }
+
+  transition: background-color 0.2s ease;
+
+  // other stuff, not related to the Anchor directly
+  .dnb-icon {
+    display: inline-block;
+    // -1px to center the icons agains large Chars
+    transform: translateY(-1px);
+  }
+}
+.dnb-hover-style {
+  @include hoverStyle();
+}
+.dnb-active-style {
+  @include activeStyle();
+}
+.dnb-focus-style {
+  @include focusStyle('mouse');
+}
+.dnb-with-animation {
+  position: relative; // because of z-index and underline/hover sudo classes
+  z-index: 1; // because of focus handling
+
+  // This way we make sure we never have a line break in an Anchor
+  // Cause this messes up the "drawUnderlineBorder" mechanism
+  white-space: pre;
+
+  // border
+  @include drawUnderlineBorder();
+
+  // bg
+  @include drawUnderlineBackground();
+
+  background-color: transparent;
+  border-bottom: none;
+
+  &:active,
+  &:hover {
+    background-color: transparent;
+    border-bottom: none;
+
+    // bg
+    &::before {
+      max-height: 100%;
+    }
+
+    // border
+    &::after {
+      left: 0.1rem;
+      right: 0.1rem;
+      border-bottom-width: 2px;
+    }
+  }
+  &:active {
+    border-bottom: none;
+
+    // bg
+    &::before {
+      background-color: var(--color-sea-green);
+    }
+    // border
+    &::after {
+      border-bottom-color: var(--color-sea-green);
+    }
+  }
+  &:focus {
+    @include focusStyle();
+    // border
+    &::after {
+      border-bottom: none;
+    }
+  }
+}
+
+.dnb-anchor-style {
+  @include defaultAnchorStyle();
+}
+.dnb-no-anchor-style {
+  white-space: normal;
+  border-bottom: none;
+  color: inherit;
+
+  // border
+  &::after {
+    content: none;
+  }
+  // bg
+  &::before {
+    content: none;
+  }
+
+  @include resetUnderlineStyle();
+  @include resetHoverStyle();
+}
+.dnb-no-anchor-underline {
+  @include resetUnderlineStyle();
+}
+.dnb-no-anchor-hover {
+  @include resetHoverStyle();
+}
+.dnb-no-anchor-animation {
+  @include resetAnimationStyle();
+}
+// If a link don't contains a / or http(s)
+a:not([href^='/']):not([href^='http']) {
+  cursor: pointer;
+  user-select: none;
+}
