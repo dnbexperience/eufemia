@@ -97,6 +97,6 @@ steps:
         from_secret: SLACK_WEBHOOK
       channel: dnb-design-system
       username: DroneCI
-      icon_url: https://picsum.photos/256/256/?random
+      icon_emoji: 🐨
     when:
       status: [success, failure]
