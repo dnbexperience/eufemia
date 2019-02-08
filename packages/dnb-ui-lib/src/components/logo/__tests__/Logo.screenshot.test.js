@@ -3,18 +3,13 @@
  * This file will not run on "test:staged" because we dont require any related files
  */
 
-import {
-  setupPageScreenshot,
-  testPageScreenshot
-} from '../../../core/jest/jestSetupScreenshots'
-
-setupPageScreenshot()
+import { testPageScreenshot } from '../../../core/jest/jestSetupScreenshots'
 
 describe('Logo screenshot', () => {
-  it('have to match the screenshot snapshot', async () => {
+  it('have to match the default "Logo"', async () => {
     const screenshot = await testPageScreenshot({
       url: '/uilib/components/logo?fullscreen',
-      selector: '.example-box .dnb-logo:nth-child(1)'
+      selector: '.example-box:nth-child(1) .dnb-logo:first-child'
     })
     expect(screenshot).toMatchImageSnapshot()
   })

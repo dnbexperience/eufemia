@@ -3,5 +3,9 @@
  *
  */
 
+const isCI = require('is-ci')
 const { setupJestScreenshot } = require('jest-screenshot')
-setupJestScreenshot()
+
+setupJestScreenshot({
+  pixelThresholdRelative: isCI ? 0.15 : 0
+})

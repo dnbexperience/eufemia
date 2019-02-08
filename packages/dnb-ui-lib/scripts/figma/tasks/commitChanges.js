@@ -15,6 +15,6 @@ if (require.main === module) {
       'version.lock',
       'icons.lock'
     ],
-    isFeatureChecklist: ['version.lock', 'icons.lock'] // of there are other files than theese, mark it as a feature
+    isNotAFeature: ['version.lock', 'icons.lock'] // of there are other files than theese, mark it as a feature
   })
 }

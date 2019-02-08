@@ -124,9 +124,11 @@ class Example extends PureComponent {
   <p className="example-caption">Button with Icon only</p>
           `}
         </ComponentBox>
-        <ComponentBox scope={{ Bell }}>
+        <ComponentBox
+          scope={{ Bell }}
+          caption="Medium is equalent to 24, but responsive"
+        >
           {/* @jsx */ `
-// Medium is equalent to 24, but responsive
 <Button
   variant="signal"
   text="Signal Button (large size)"

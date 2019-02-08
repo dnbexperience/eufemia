@@ -3,15 +3,10 @@
  * This file will not run on "test:staged" because we dont require any related files
  */
 
-import {
-  setupPageScreenshot,
-  testPageScreenshot
-} from '../../../core/jest/jestSetupScreenshots'
-
-setupPageScreenshot()
+import { testPageScreenshot } from '../../../core/jest/jestSetupScreenshots'
 
 describe('StepIndicator screenshot', () => {
-  it('have to match the screenshot snapshot', async () => {
+  it('have to match', async () => {
     const screenshot = await testPageScreenshot({
       url: '/uilib/components/step-indicator?fullscreen',
       selector: '.dnb-step-indicator:nth-child(1)'

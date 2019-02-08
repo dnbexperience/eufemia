@@ -69,7 +69,7 @@ const commitToBranch = async ({
   requiredBranch = 'develop',
   what = 'files',
   filePathsWhitelist = [],
-  isFeatureChecklist = null,
+  isNotAFeature = null,
   isFeature = true
 } = {}) => {
   try {
@@ -116,8 +116,8 @@ const commitToBranch = async ({
 
       // as there is too ofter only a "version.lock" update, we filter out this
       if (
-        Array.isArray(isFeatureChecklist) &&
-        files.every(i => isFeatureChecklist.includes(i))
+        Array.isArray(isNotAFeature) &&
+        files.every(i => isNotAFeature.includes(i))
       )
         isFeature = false
 
