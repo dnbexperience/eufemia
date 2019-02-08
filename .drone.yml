@@ -26,7 +26,7 @@ steps:
           - rc/*
 
   - name: deploy-preview
-    image: buildkite/puppeteer
+    image: davet1985/docker-node-puppeteer
     environment:
       FIGMA_MAIN_FILE:
         from_secret: FIGMA_MAIN_FILE
