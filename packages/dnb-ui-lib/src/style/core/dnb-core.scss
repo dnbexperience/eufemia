@@ -9,6 +9,7 @@
 @import './properties.scss';
 @import './fonts.scss';
 @import './scopes.scss';
+@import './helper-classes.scss';
 
 // Global body style
 body {
@@ -16,101 +17,4 @@ body {
   @media print {
     background-color: white;
   }
-}
-
-// Focus management
-.dnb-no-focus {
-  outline: none;
-}
-.dnb-fake-focus {
-  @include fakeFocus();
-}
-.dnb-tab-focus {
-  outline: none;
-  &:focus {
-    @include fakeFocus('keyboard');
-  }
-}
-.dnb-always-focus {
-  &:focus {
-    @include fakeBorder(var(--color-signal-orange), null, !important);
-  }
-}
-
-// How to use the "skip-link"
-// 1. Have this on the top of Your App: <a class="dnb-skip-link dnb-button" href="#dnb-app-content">Skip to content</a>
-// 2. Place this id="dnb-app-content" on Your main content container
-a.dnb-skip-link {
-  position: fixed;
-  z-index: -9999;
-  top: -100vh;
-  overflow: hidden;
-}
-a.dnb-skip-link:focus,
-a.dnb-skip-link:active {
-  z-index: 9999;
-  top: auto;
-  width: auto;
-
-  margin: 1rem 45vw;
-  padding-left: 1rem;
-  padding-right: 1rem;
-
-  @include allBelow(small) {
-    margin: 1rem 35%;
-  }
-}
-
-// Layout management
-// Use this class where components are trying to add background boxes/borders/lines
-// to the very outer sides of the page
-// e.g. Tabs are using this technique
-// In some cases we dont want to have that effect.
-// E.g. if we have a menu to the left or right side
-.dnb-app-content-inner {
-  overflow: hidden;
-}
-
-// TODO: considder to take this out
-
-.dnb-hide-on-mobile {
-  @include allBelow(medium) {
-    display: none;
-  }
-}
-.dnb-mobile-exclusive {
-  @include allAbove(medium) {
-    display: none;
-  }
-}
-.dnb-belt {
-  padding: 1rem 0;
-  width: 100%;
-  background: var(--color-mint-green-12);
-}
-.dnb-nudge {
-  display: inline-flex;
-  flex: 0 0 100%;
-
-  @for $i from 1 through 10 {
-    &--vertical {
-      &[data-nudges='#{$i}'] {
-        @include nudger(vertical, #{$i});
-      }
-    }
-    &--horizontal {
-      &[data-nudges='#{$i}'] {
-        @include nudger(horizontal, #{$i});
-      }
-    }
-  }
-}
-.dnb-sr-only {
-  @include sr-only();
-}
-.dnb-not-sr-only {
-  @include notSrOnly();
-}
-.dnb-unstyled-list {
-  @include unstyledList();
 }

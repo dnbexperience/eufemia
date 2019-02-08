@@ -1,12 +1,17 @@
 ---
-status: 'dep'
+status: 'wip'
 ---
 
 ## Description
 
-To ensure a consistent class structure and to ensure that the class is owned by the DNB UI Library, all classes in the UI Library are prefixed with `dnb-`.
+To ensure a consistent class structure and to ensure that the class is owned by the DNB UI Library, all classes in the UI Library are prefixed with `dnb-`. Read more about that in the [Naming conventions](/uilib/development/naming)
 
-Most helper classes are SCSS mixins which are then applied to the class when envoked.
-Reusing classes in the markup instead of using SCSS extends or mixins will prevent duplicate values in our CSS.
+### CSS Classes
 
-All helper classes are to be found in `src/style/core/utilities.scss`
+Reusing classes in the markup instead of using SCSS extends or _mixins_ will prevent duplicate values in our CSS.
+
+All CSS helper classes are to be found in `src/style/core/helper-classes.scss`
+
+### Mixins
+
+Most helper classes are SCSS _mixins_ which are then applied to the class when invoked. The helper _mixins_ can be found in `src/style/core/utilities.scss`.
