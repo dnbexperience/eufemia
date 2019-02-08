@@ -26,7 +26,7 @@ steps:
           - rc/*
 
   - name: deploy-preview
-    image: davet1985/docker-node-puppeteer
+    image: tujoworker/docker-node-puppeteer
     environment:
       FIGMA_MAIN_FILE:
         from_secret: FIGMA_MAIN_FILE
@@ -58,7 +58,7 @@ steps:
           - rc/*
 
   - name: deploy-release
-    image: node:10.6
+    image: tujoworker/docker-node-puppeteer
     environment:
       FIGMA_MAIN_FILE:
         from_secret: FIGMA_MAIN_FILE
@@ -81,6 +81,7 @@ steps:
       - yarn test-ci
       - yarn prepublish-ci
       - yarn build-ci
+      - yarn test-ci-screenshots
       - yarn deploy-ci
       - yarn publish-ci
     when:
