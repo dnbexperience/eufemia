@@ -697,15 +697,6 @@ a.dnb-button {
   .dnb-input > .dnb-form-status {
     margin-top: 0.5rem; }
 
-.dnb-form-row {
-  display: inline-flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%; }
-  .dnb-form-row > .dnb-form-label {
-    margin-right: 1rem; }
-
 .dnb-dropdown {
   font-family: sans-serif;
   font-family: var(--font-family-default);

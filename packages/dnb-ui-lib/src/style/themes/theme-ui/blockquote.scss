@@ -1,0 +1,16 @@
+/*
+ * Blockquote
+ *
+ */
+
+blockquote {
+  padding: 0 1rem;
+  color: var(--color-summer-green);
+  border-left: 4px dotted var(--color-summer-green);
+}
+blockquote > :first-child {
+  margin-top: 0;
+}
+blockquote > :last-child {
+  margin-bottom: 0;
+}

@@ -105,7 +105,7 @@ const Wrapper = styled.div`
   display: block;
   width: 100%;
 
-  .dnb-form-row,
+  .dnb-form-group,
   .dnb-masked-input {
     margin: 1rem 0;
   }

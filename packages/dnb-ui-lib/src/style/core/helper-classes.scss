@@ -22,6 +22,44 @@
   }
 }
 
+// Form
+.dnb-form-group {
+  display: inline-flex;
+  flex-direction: row;
+  // justify-content: space-between;
+  // align-items: center;
+
+  width: 100%;
+
+  > textarea {
+    margin-right: 1rem;
+  }
+
+  > .dnb-form-status {
+    margin: 0.5rem 0;
+  }
+
+  > label,
+  > .dnb-form-label {
+    margin: 0;
+    margin-top: 0.5rem;
+    margin-right: 1rem;
+  }
+
+  &__position--vertical {
+    flex-direction: column;
+
+    width: auto;
+
+    > label,
+    > .dnb-form-label {
+      margin: 0;
+      margin-left: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+  }
+}
+
 // How to use the "skip-link"
 // 1. Have this on the top of Your App: <a class="dnb-skip-link dnb-button" href="#dnb-app-content">Skip to content</a>
 // 2. Place this id="dnb-app-content" on Your main content container
