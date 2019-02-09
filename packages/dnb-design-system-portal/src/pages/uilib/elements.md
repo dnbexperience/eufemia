@@ -6,6 +6,7 @@ order: 5
 ---
 
 import Anchor from 'Pages/uilib/elements/anchor'
+import Blockquote from 'Pages/uilib/elements/blockquote'
 import Textarea from 'Pages/uilib/elements/textarea'
 import Tables from 'Pages/uilib/elements/tables'
 import Lists from 'Pages/uilib/elements/lists'
@@ -19,14 +20,15 @@ The `dnb-ui-lib` contains a DNB styling for the most common used [HTML Elements]
 ## Overview
 
 - [Anchor (Link)](#anchor)
-- [Textarea](#textarea)
+- [Blockquote](#blockquote)
 - [Lists](#lists)
 - [Table](#table)
-- [Blockquote](#blockquote)
+- [Textarea](#textarea)
 
 ---
 
 <Anchor />
-<Textarea />
+<Blockquote />
 <Lists />
 <Tables />
+<Textarea />

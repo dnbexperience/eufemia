@@ -21,6 +21,10 @@ const CustomStyles = styled.div`
     }
   }
 
+  blockquote {
+    max-width: 220px;
+  }
+
   ul,
   ol,
   dl {
@@ -148,6 +152,38 @@ stories.push([
           <p>
             Lorem in morbi euismod id lectus varius imperdiet proin dui
           </p>
+        </Box>
+      </CustomStyles>
+    </Wrapper>
+  )
+])
+
+stories.push([
+  'Blockquote',
+  () => (
+    <Wrapper className="dnb-spacing">
+      <CustomStyles>
+        <Box>
+          <blockquote>
+            Scaevola dissentias ne nec, praesent pertinacia te vim, velit
+            laboramus assentior ne ius. Choro vivendum tractatos ei quo. Te
+            vim enim meis conclusionemque, per ut dolorem copiosae, ea veri
+            sanctus deterruisset per
+            <footer>Footer Referance</footer>
+          </blockquote>
+          <p>
+            Next line <cite>with a Cite</cite>
+          </p>
+        </Box>
+        <Box>
+          <blockquote>
+            Scaevola dissentias ne nec, praesent pertinacia te vim, velit
+            laboramus assentior ne ius. Choro vivendum tractatos ei quo. Te
+            vim enim meis conclusionemque, per ut dolorem copiosae, ea veri
+            sanctus deterruisset per
+            <cite>Cite Referance</cite>
+            <figcaption>Figcaption Referance</figcaption>
+          </blockquote>
         </Box>
       </CustomStyles>
     </Wrapper>

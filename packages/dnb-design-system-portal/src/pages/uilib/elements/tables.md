@@ -3,6 +3,7 @@ draft: true
 ---
 
 import CodeBlock from 'Tags/CodeBlock'
+import { IconPrimary } from 'dnb-ui-lib/src'
 
 ## Tables
 

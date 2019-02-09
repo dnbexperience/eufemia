@@ -3,16 +3,6 @@
  *
  */
 
-p {
-  // if we not reset margin, the browser is using: margin-block-end: 1rem;
-  margin-top: 0;
-  margin-bottom: 0;
-  padding: 0;
-
-  font-size: 1em; // 16px
-  line-height: 1.5em; // 24px
-}
-
 .dnb-h1,
 .dnb-h2,
 .dnb-lead,
@@ -93,6 +83,20 @@ h6 {
   font-weight: var(--font-weight-book);
 }
 
+p {
+  // if we not reset margin, the browser is using: margin-block-end: 1rem;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 0;
+
+  font-size: 1em; // 16px
+  line-height: 1.5em; // 24px
+
+  cite {
+    font-weight: var(--font-weight-demi);
+    font-style: normal; // to avoid cursive
+  }
+}
 b,
 strong {
   font-weight: var(--font-weight-medium);
