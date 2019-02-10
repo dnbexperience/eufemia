@@ -8,6 +8,10 @@
 a {
   @include defaultAnchorStyle();
 
+  // have focus before :active, because of border-radius
+  &:focus {
+    @include focusStyle();
+  }
   &:hover,
   &:active {
     @include hoverStyle();
@@ -17,9 +21,6 @@ a {
   }
   &:active {
     @include activeStyle();
-  }
-  &:focus {
-    @include focusStyle();
   }
 
   transition: background-color 0.2s ease;
