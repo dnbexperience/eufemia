@@ -17,7 +17,7 @@ import CodeBlock from 'Tags/CodeBlock'
 
 <CodeBlock reactLive hideCode caption="Blockquote with graphics on left side">
 {`
-<blockquote class="dnb-blockquote--left">
+<blockquote className="dnb-blockquote--left">
   Dis leo aliquam neque aptent nascetur metus ad ut eu Choro vivendum tractatos ei quo.
   <cite>Cite Referance</cite>
 </blockquote>
