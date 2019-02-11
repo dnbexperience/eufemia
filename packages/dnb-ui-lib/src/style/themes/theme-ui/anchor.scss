@@ -15,9 +15,6 @@ a {
   &:hover,
   &:active {
     @include hoverStyle();
-
-    // margins are not needed as long as we go for "inline"
-    // margin-bottom: -0.1875rem;
   }
   &:active {
     @include activeStyle();
