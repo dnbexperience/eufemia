@@ -9,4 +9,4 @@ Eufemia is a living design system. It doesn't have a 'finished' state. Continuou
 
 Your input, comments and discussions are all valuable.
 
-**So - please contribute.**
+**So - [please contribute](/uilib/development)**

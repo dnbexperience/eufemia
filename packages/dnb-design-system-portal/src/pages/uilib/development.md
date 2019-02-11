@@ -4,7 +4,7 @@ icon: 'development'
 draft: false
 ---
 
-import Github from 'Pages/uilib/development/assets/github.js'
+import GithubLogo from 'Pages/uilib/development/assets/github-logo.js'
 import { Icon } from 'dnb-ui-lib/src'
 
 # Development
@@ -13,7 +13,7 @@ The `dnb-ui-lib` uses a [Node.js](https://nodejs.org) based setup with a lot of 
 
 ## Repository
 
-[<Icon icon={Github} size="16" /> Eufemia at GitHub](https://github.com/dnbexperience/eufemia)
+[<Icon icon={GithubLogo} size="default" /> Eufemia at GitHub](https://github.com/dnbexperience/eufemia)
 
 ## Install the repo locally on Your machine
 
