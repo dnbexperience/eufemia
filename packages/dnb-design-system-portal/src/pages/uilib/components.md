@@ -2,7 +2,7 @@
 title: 'Components'
 icon: 'components'
 draft: false
-order: 6
+order: 7
 ---
 
 import componentsParts from 'Src/uilib/components/demos/allParts'
