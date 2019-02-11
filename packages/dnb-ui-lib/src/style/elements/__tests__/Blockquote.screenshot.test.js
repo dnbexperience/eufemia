@@ -10,14 +10,14 @@ describe('Blockquote screenshot', () => {
   it('have to match defualt "blockquote"', async () => {
     const screenshot = await testPageScreenshot({
       url,
-      selector: 'blockquote:not([class])'
+      selector: '[data-dnb-test="blockquote-default"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
-  it('have to match "blockquote" with left aligned graphic', async () => {
+  it('have to match "blockquote" with top aligned graphic', async () => {
     const screenshot = await testPageScreenshot({
       url,
-      selector: 'blockquote.dnb-blockquote--left'
+      selector: '[data-dnb-test="blockquote-top"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
