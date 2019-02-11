@@ -25,6 +25,10 @@ const CustomStyles = styled.div`
     max-width: 220px;
   }
 
+  .dnb-form-group {
+    background-color: rgba(200, 0, 200, 0.15);
+  }
+
   ul,
   ol,
   dl {
