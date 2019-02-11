@@ -21,7 +21,14 @@ export const DefaultIconSizes = {
   // large: 32 // currently not in use
 }
 export const ListDefaultIconSizes = Object.entries(DefaultIconSizes)
-export const ValidIconSizes = ['small', 'default', 'medium', 'large']
+export const ValidIconSizes = [
+  'small', // 12px 0.75rem
+  'default', // 16px 1rem
+  'medium', // 24px 1.5rem
+  'large', // 32px 2rem
+  'x-large', // 40px 2.5rem
+  'xx-large' // 48px 3rem
+]
 
 export const propTypes = {
   icon: PropTypes.oneOfType([

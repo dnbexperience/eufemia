@@ -7,6 +7,7 @@ import React from 'react'
 import { Wrapper, Box } from './helpers'
 import styled from '@emotion/styled'
 import { IconPrimary } from 'dnb-ui-lib/src'
+import { FormStatus } from '../src/components'
 
 const stories = []
 export default stories
@@ -18,6 +19,10 @@ const CustomStyles = styled.div`
       border-bottom: none;
       color: red;
     }
+  }
+
+  blockquote {
+    max-width: 220px;
   }
 
   ul,
@@ -154,6 +159,38 @@ stories.push([
 ])
 
 stories.push([
+  'Blockquote',
+  () => (
+    <Wrapper className="dnb-spacing">
+      <CustomStyles>
+        <Box>
+          <blockquote>
+            Scaevola dissentias ne nec, praesent pertinacia te vim, velit
+            laboramus assentior ne ius. Choro vivendum tractatos ei quo. Te
+            vim enim meis conclusionemque, per ut dolorem copiosae, ea veri
+            sanctus deterruisset per
+            <footer>Footer Referance</footer>
+          </blockquote>
+          <p>
+            Next line <cite>with a Cite</cite>
+          </p>
+        </Box>
+        <Box>
+          <blockquote>
+            Scaevola dissentias ne nec, praesent pertinacia te vim, velit
+            laboramus assentior ne ius. Choro vivendum tractatos ei quo. Te
+            vim enim meis conclusionemque, per ut dolorem copiosae, ea veri
+            sanctus deterruisset per
+            <cite>Cite Referance</cite>
+            <figcaption>Figcaption Referance</figcaption>
+          </blockquote>
+        </Box>
+      </CustomStyles>
+    </Wrapper>
+  )
+])
+
+stories.push([
   'OL Lists',
   () => (
     <Wrapper className="dnb-spacing">
@@ -197,21 +234,75 @@ stories.push([
   )
 ])
 
-const Textarea = styled.textarea`
-  ${'' /* border-radius: 1rem; */}
-`
-
 stories.push([
   'Textarea',
   () => (
     <Wrapper className="dnb-spacing">
       <CustomStyles>
         <Box>
-          <Textarea
+          <div className="dnb-form-group dnb-form-group__position--vertical">
+            <label htmlFor="hendrerit">Label for the textarea:</label>
+            <textarea id="hendrerit" rows="5" cols="33">
+              Nec litora inceptos vestibulum id interdum donec gravida
+              nostra lacinia bibendum hendrerit porttitor volutpat nam duis
+              nisl scelerisque sapien erat
+            </textarea>
+          </div>
+          <p>I have to be on the grid!</p>
+        </Box>
+        <Box>
+          <div className="dnb-form-group">
+            <label htmlFor="litora">Label for the textarea:</label>
+            <textarea
+              id="litora"
+              placeholder="Nec litora inceptos vestibulum id interdum donec gravida nostra
+            lacinia bibendum hendrerit porttitor volutpat nam duis nisl
+            scelerisque sapien erat"
+            />
+          </div>
+          <p>I have to be on the grid!</p>
+        </Box>
+        <Box>
+          <textarea
+            rows="5"
+            cols="33"
+            minLength="10"
+            maxLength="20"
+            required
             defaultValue="Nec litora inceptos vestibulum id interdum donec gravida nostra
             lacinia bibendum hendrerit porttitor volutpat nam duis nisl
             scelerisque sapien erat"
           />
+          <p>I have to be on the grid!</p>
+        </Box>
+        <Box>
+          <div className="dnb-form-group dnb-form-group__position--vertical">
+            <label htmlFor="vestibulum">Label:</label>
+            <textarea
+              id="vestibulum"
+              className="status--error"
+              cols="33"
+              defaultValue="Nec litora inceptos vestibulum id interdum donec gravida nostra
+            lacinia bibendum hendrerit porttitor volutpat nam duis nisl
+            scelerisque sapien erat"
+            />
+            <FormStatus text="Message to the user" />
+            <p>dI have to be on the grid!</p>
+          </div>
+        </Box>
+        <Box>
+          <div className="dnb-form-group">
+            <label htmlFor="volutpat">Label:</label>
+            <textarea
+              id="volutpat"
+              disabled
+              cols="33"
+              defaultValue="Nec litora inceptos vestibulum id interdum donec gravida nostra
+            lacinia bibendum hendrerit porttitor volutpat nam duis nisl
+            scelerisque sapien erat"
+            />
+            <p>I have to be on the grid!</p>
+          </div>
         </Box>
       </CustomStyles>
     </Wrapper>

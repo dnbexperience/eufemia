@@ -84,7 +84,7 @@ export default CodeBlock
 class LiveCode extends PureComponent {
   static propTypes = {
     code: PropTypes.string.isRequired,
-    scope: PropTypes.object.isRequired,
+    scope: PropTypes.object,
     hideToolbar: PropTypes.bool,
     hideCode: PropTypes.bool,
     hidePreview: PropTypes.bool,
@@ -92,6 +92,7 @@ class LiveCode extends PureComponent {
     caption: PropTypes.string
   }
   static defaultProps = {
+    scope: {},
     caption: null,
     hideToolbar: false,
     hideCode: false,
@@ -143,7 +144,24 @@ class LiveCode extends PureComponent {
         >
           {!hidePreview && (
             <div className="example-box">
-              {!hideToolbar && hideCode && (
+              <LivePreview />
+              {caption && <p className="example-caption">{caption}</p>}
+            </div>
+          )}
+          {!hideToolbar && (
+            <Toolbar>
+              {!hideCode && (
+                <Button
+                  className="toggle-button"
+                  on_click={this.toggleSyntax}
+                  variant="secondary"
+                  text="Syntax"
+                  title="Toggle Syntax"
+                  icon={`chevron-${!showSyntax ? 'down' : 'up'}`}
+                  size="medium"
+                />
+              )}
+              {this.props.hideCode && (
                 <Button
                   className="toggle-button"
                   on_click={this.toggleCode}
@@ -154,13 +172,7 @@ class LiveCode extends PureComponent {
                   size="medium"
                 />
               )}
-              <LivePreview />
-              {caption && <p className="example-caption">{caption}</p>}
-            </div>
-          )}
-          {!hideToolbar && (
-            <Toolbar>
-              {hidePreview && (
+              {this.props.hidePreview && (
                 <Button
                   className="toggle-button"
                   on_click={this.togglePreview}
@@ -171,15 +183,6 @@ class LiveCode extends PureComponent {
                   size="medium"
                 />
               )}
-              <Button
-                className="toggle-button"
-                on_click={this.toggleSyntax}
-                variant="secondary"
-                text="Syntax"
-                title="Toggle Syntax"
-                icon={`chevron-${!showSyntax ? 'down' : 'up'}`}
-                size="medium"
-              />
             </Toolbar>
           )}
           {!hideCode && <LiveEditor language="jsx" ignoreTabKey />}
@@ -229,7 +232,7 @@ const LiveCodeEditor = styled.div`
     }
   }
 
-  .dnb-form-status:last-child {
+  .react-live-error:last-child {
     position: absolute;
     z-index: 1;
 

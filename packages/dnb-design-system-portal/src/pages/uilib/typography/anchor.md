@@ -12,7 +12,7 @@ Beside that the Anchor Tag gets assigned by default - or let's say, by only impo
 
 ## Default Styles
 
-- `a` <a href="/" >Anchor with default style</a>
+- `<a>` <a href="/" >Anchor with default style</a>
 - `.dnb-hover-style` <a href="/" class="dnb-hover-style">Hover Style</a>
 - `.dnb-active-style` <a href="/" class="dnb-active-style">Active Style</a>
 - `.dnb-focus-style` <a href="/" class="dnb-focus-style">Focus Style</a>

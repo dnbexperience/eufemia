@@ -1,0 +1,16 @@
+/*
+ * Label
+ *
+ */
+
+label {
+  color: var(--color-black-80);
+  overflow-wrap: break-word;
+
+  &:not([disabled]) {
+    cursor: pointer;
+  }
+  &[disabled] {
+    color: red;
+  }
+}

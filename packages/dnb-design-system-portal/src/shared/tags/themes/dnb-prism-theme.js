@@ -62,6 +62,7 @@ const prismStyle = /* @css */ `
   .token.class-name,/* custom */
   .token.attr-name,
   .token.string,
+  .token.function,
   .token.char,
   .token.builtin,
   .token.inserted {

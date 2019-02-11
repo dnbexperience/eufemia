@@ -1,0 +1,52 @@
+/*
+ * Textarea
+ *
+ */
+
+:root {
+  --textarea-border-width: 0.5rem;
+  --textarea-border-inner: 0 0 0 var(--textarea-border-width)
+    var(--color-white);
+}
+textarea {
+  padding: var(--textarea-border-width);
+  margin: var(--textarea-border-width);
+  border: none;
+  border-radius: 1px;
+
+  line-height: 1.5rem;
+
+  box-shadow: var(--textarea-border-inner),
+    0 0 0 calc(var(--textarea-border-width) + 1px)
+      var(--color-sea-green-alt);
+
+  // @include hover(true) {
+  // }
+}
+textarea:focus {
+  outline: none;
+
+  box-shadow: var(--textarea-border-inner),
+    0 0 0 calc(var(--textarea-border-width) + 2px)
+      var(--color-emerald-green);
+
+  // html[data-whatinput='keyboard'] & {
+  // }
+}
+textarea.status--error,
+.dnb-textarea__status--error {
+  box-shadow: var(--textarea-border-inner),
+    0 0 0 calc(var(--textarea-border-width) + 2px) var(--color-cherry-red);
+}
+textarea[disabled] {
+  // pointer-events: none; // for disabling scrolling behavior
+
+  color: var(--color-sea-green-alt-30);
+  box-shadow: var(--textarea-border-inner),
+    0 0 0 calc(var(--textarea-border-width) + 1px)
+      var(--color-sea-green-alt-30);
+
+  &::-webkit-scrollbar {
+    width: 0;
+  }
+}

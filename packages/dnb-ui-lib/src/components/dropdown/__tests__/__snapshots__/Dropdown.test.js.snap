@@ -344,6 +344,12 @@ exports[`Dropdown scss have to match snapshot 1`] = `
   .dnb-icon--large {
     width: 2rem;
     height: 2rem; }
+  .dnb-icon--x-large {
+    width: 2.5rem;
+    height: 2.5rem; }
+  .dnb-icon--xx-large {
+    width: 3rem;
+    height: 3rem; }
   .dnb-icon--custom-size {
     width: auto;
     height: auto; }
@@ -696,15 +702,6 @@ a.dnb-button {
     margin-right: 1rem; }
   .dnb-input > .dnb-form-status {
     margin-top: 0.5rem; }
-
-.dnb-form-row {
-  display: inline-flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%; }
-  .dnb-form-row > .dnb-form-label {
-    margin-right: 1rem; }
 
 .dnb-dropdown {
   font-family: sans-serif;
