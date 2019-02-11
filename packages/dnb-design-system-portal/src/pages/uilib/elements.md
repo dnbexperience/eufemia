@@ -1,6 +1,6 @@
 ---
 title: 'HTML Elements'
-# icon: 'patterns'
+icon: 'elements'
 draft: false
 order: 6
 ---
@@ -22,7 +22,7 @@ The `dnb-ui-lib` contains a DNB styling for the most common used [HTML Elements]
 - [Anchor (Link)](#anchor)
 - [Blockquote](#blockquote)
 - [Lists](#lists)
-- [Table](#table)
+- [Tables](#tables)
 - [Textarea](#textarea)
 
 ---

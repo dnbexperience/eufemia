@@ -28,6 +28,7 @@ import ui_guides from './graphics/ui_guides'
 import logos from './graphics/logos'
 import secondary from './graphics/secondary'
 import primary from './graphics/primary'
+import elements from './graphics/elements'
 
 export default {
   about_the_lib,
@@ -54,5 +55,6 @@ export default {
   ui_guides,
   logos,
   secondary,
-  primary
+  primary,
+  elements
 }
