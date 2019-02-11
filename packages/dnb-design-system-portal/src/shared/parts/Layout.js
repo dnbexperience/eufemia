@@ -44,7 +44,9 @@ class Layout extends PureComponent {
           {/* Load the StickyMenuBar to make use of the grid demo */}
           <StickyMenuBar preventBarVisibility={true} />
           <Content className="fullscreen-page">
-            <Main className="dnb-app-content-inner">{children}</Main>
+            <ContentInner className="dnb-app-content-inner">
+              {children}
+            </ContentInner>
           </Content>
           <Footer />
         </div>
@@ -64,7 +66,9 @@ class Layout extends PureComponent {
             <Sidebar location={location} showAll={false} />
             <Content>
               <MaxWidth>
-                <Main className="dnb-app-content-inner">{children}</Main>
+                <ContentInner className="dnb-app-content-inner">
+                  {children}
+                </ContentInner>
                 <Footer />
               </MaxWidth>
             </Content>
@@ -102,14 +106,8 @@ const Wrapper = styled.div`
 
 const Content = ({ className, children }) => (
   <ContentWrapper
-    tabIndex="-1"
     id="dnb-app-content"
-    className={classnames(
-      'dnb-spacing',
-      'dnb-app-content',
-      'dnb-no-focus',
-      className
-    )}
+    className={classnames('dnb-spacing', 'dnb-app-content', className)}
     css={markdownStyle}
   >
     {children}
@@ -123,7 +121,7 @@ Content.defaultProps = {
   className: null
 }
 
-const ContentWrapper = styled.div`
+const ContentWrapper = styled.main`
   position: relative;
   z-index: 2; /* heigher than styled.aside */
 
@@ -168,7 +166,7 @@ const ContentWrapper = styled.div`
   }
 `
 
-const Main = styled.main`
+const ContentInner = styled.div`
   width: 100%;
   padding: 0 2rem;
 `
