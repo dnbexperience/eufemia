@@ -36,6 +36,14 @@
     width: 2rem;
     height: 2rem;
   }
+  &--x-large {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+  &--xx-large {
+    width: 3rem;
+    height: 3rem;
+  }
   &--custom-size {
     width: auto; // only to feed the svg
     height: auto; // only to feed the svg

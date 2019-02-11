@@ -589,6 +589,12 @@ exports[`Button scss have to match snapshot 1`] = `
   .dnb-icon--large {
     width: 2rem;
     height: 2rem; }
+  .dnb-icon--x-large {
+    width: 2.5rem;
+    height: 2.5rem; }
+  .dnb-icon--xx-large {
+    width: 3rem;
+    height: 3rem; }
   .dnb-icon--custom-size {
     width: auto;
     height: auto; }
