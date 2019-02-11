@@ -9,6 +9,11 @@ import GridStyle from 'dnb-ui-lib/stories/GridStyle'
 export const gridStyle = GridStyle
 
 export default css`
+  /* to give screenshot testing a padding */
+  [data-dnb-test].test-bounding-box {
+    padding: 1rem;
+  }
+
   table td.selectable {
     position: relative;
     z-index: 1;

@@ -51,6 +51,7 @@ module.exports.testPageScreenshot = ({
   cachePages = !isCI,
   page = null,
   selector,
+  padding = false,
   simulate = null,
   transformElement = null
 } = {}) =>
@@ -65,6 +66,12 @@ module.exports.testPageScreenshot = ({
 
       if (transformElement) {
         await transformElement(element)
+      }
+
+      if (padding) {
+        await page.$eval(selector, node =>
+          node.classList.add('test-bounding-box')
+        )
       }
 
       let delay = 0
