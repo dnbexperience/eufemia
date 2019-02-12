@@ -11,7 +11,7 @@ import { gridStyle } from '../parts/PortalStyle'
 
 const globalStyle = css`
   .dev-grid {
-    ${gridStyle({ rgb: '220, 220, 220', a: 0.8 })}
+    ${gridStyle({ rgb: '220, 220, 220', a: 0.8 })};
 
     h1,
     h2,

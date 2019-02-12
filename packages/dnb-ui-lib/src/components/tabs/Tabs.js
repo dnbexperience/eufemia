@@ -368,9 +368,17 @@ export default class Tabs extends PureComponent {
   render() {
     const {
       render: customRenderer,
+      label,
       align,
+      selected_key,
       className,
-      class: _className
+      class: _className,
+      id, //eslint-disable-line
+      data, //eslint-disable-line
+      use_hash, //eslint-disable-line
+      children, //eslint-disable-line
+      on_change, //eslint-disable-line
+      ...props
     } = this.props
 
     // To have a reusable Component laster, do this like that
@@ -400,8 +408,8 @@ export default class Tabs extends PureComponent {
         }
       )
       const params = {}
-      if (this.props.label) {
-        params['aria-label'] = this.props.label
+      if (label) {
+        params['aria-label'] = label
       }
       return (
         <div
@@ -435,6 +443,7 @@ export default class Tabs extends PureComponent {
     // To have a reusable Component laster, do this like that
     const Wrapper = ({ children, ...rest }) => {
       const params = {
+        ...props,
         className: classnames('dnb-tabs', className, _className)
       }
 
@@ -450,7 +459,6 @@ export default class Tabs extends PureComponent {
     Wrapper.displayName = 'TabsWrapper'
 
     const Content = ({ showEmptyMessage = false } = {}) => {
-      const { selected_key } = this.props
       const content = this.renderContent()
       return (
         <ContentWrapper id={this._id} selected_key={selected_key}>

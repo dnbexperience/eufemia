@@ -6,7 +6,7 @@ export const Wrapper = styled.div`
   min-height: 100vh;
   padding: 1rem;
 
-  ${gridStyle({ rgb: '220, 220, 220', a: 0.8 })}
+  ${gridStyle({ rgb: '220, 220, 220', a: 0.8 })};
 `
 
 export const Box = styled.div`

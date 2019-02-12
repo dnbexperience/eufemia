@@ -116,11 +116,27 @@ class LiveCode extends PureComponent {
     this.setState(() => ({ showSyntax: !this.state.showSyntax }))
   }
 
+  prepareCode(code) {
+    code = String(code).trim()
+    if (
+      /data-dnb-test/.test(code) &&
+      !(
+        typeof window !== 'undefined' &&
+        window.location &&
+        window.location.search.split(/\?|&/).includes('test')
+      )
+    ) {
+      code = code.replace(/\s+data-dnb-test="[^"]*"/g, '')
+    }
+    return code
+  }
+
   render() {
     const { code, caption, scope, ...rest } = this.props
     const { hideToolbar, hideCode, hidePreview, showSyntax } = this.state
 
-    const codeToUse = typeof code === 'string' ? String(code).trim() : null
+    const codeToUse =
+      typeof code === 'string' ? this.prepareCode(code) : null
 
     const props = Object.entries(rest).reduce((acc, [key, value]) => {
       if (
