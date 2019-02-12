@@ -25,6 +25,10 @@ const CustomStyles = styled.div`
     max-width: 220px;
   }
 
+  .dnb-form-group {
+    background-color: rgba(200, 0, 200, 0.15);
+  }
+
   ul,
   ol,
   dl {
@@ -176,7 +180,7 @@ stories.push([
           </p>
         </Box>
         <Box>
-          <blockquote>
+          <blockquote className="dnb-blockquote--top">
             Scaevola dissentias ne nec, praesent pertinacia te vim, velit
             laboramus assentior ne ius. Choro vivendum tractatos ei quo. Te
             vim enim meis conclusionemque, per ut dolorem copiosae, ea veri

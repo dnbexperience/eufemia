@@ -8,17 +8,18 @@ import {
   setupPageScreenshot
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('Tabs screenshot', () => {
-  setupPageScreenshot({ url: '/uilib/components/tabs' })
-  it('have to match the "Tablist"', async () => {
+describe('Textarea screenshot', () => {
+  setupPageScreenshot({ url: '/uilib/elements/textarea' })
+  it('have to match the "default" textarea style', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="tabs-tablist"]'
+      selector: '[data-dnb-test="textarea-default"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
-  it('have to match the "Tabs", right aligned', async () => {
+  it('have to match the "active" textarea style', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="tabs-tabs"]'
+      selector: '[data-dnb-test="textarea-default"]',
+      simulate: 'active'
     })
     expect(screenshot).toMatchImageSnapshot()
   })

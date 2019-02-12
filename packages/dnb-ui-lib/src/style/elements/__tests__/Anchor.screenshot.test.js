@@ -8,11 +8,11 @@ import {
   setupPageScreenshot
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('Logo screenshot', () => {
-  setupPageScreenshot({ url: '/uilib/components/logo' })
-  it('have to match the default "Logo"', async () => {
+describe('Anchor screenshot', () => {
+  setupPageScreenshot({ url: '/uilib/elements/anchor' })
+  it('have to match the default choice of anchor styles', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="logo-default"]'
+      selector: '[data-dnb-test="anchor"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })

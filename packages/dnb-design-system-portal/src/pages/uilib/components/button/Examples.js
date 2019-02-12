@@ -18,6 +18,7 @@ class Example extends PureComponent {
           {/* @jsx */ `
 <Button
   text="Primary button with text only"
+  data-dnb-test="button-primary"
 />
           `}
         </ComponentBox>
@@ -26,6 +27,7 @@ class Example extends PureComponent {
 <Button
   text="Secondary button with text only"
   variant="secondary"
+  data-dnb-test="button-secondary"
 />
           `}
         </ComponentBox>

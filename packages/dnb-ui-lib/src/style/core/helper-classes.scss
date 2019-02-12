@@ -26,26 +26,30 @@
 .dnb-form-group {
   display: inline-flex;
   flex-direction: row;
-  // justify-content: space-between;
-  // align-items: center;
 
   width: 100%;
-
-  > textarea {
-    margin-right: 1rem;
-  }
 
   > .dnb-form-status {
     margin: 0.5rem 0;
   }
 
-  > label,
-  > .dnb-form-label {
-    margin: 0;
-    margin-top: 0.5rem;
-    margin-right: 1rem;
+  // for hoizontal labeling
+  &,
+  &__position--hoizontal {
+    > label,
+    > .dnb-form-label {
+      margin: 0;
+      margin-top: 1rem;
+      margin-right: 1rem;
+    }
+
+    // To fake, that the first line is aligned with the label
+    > textarea {
+      transform: translateY(4px);
+    }
   }
 
+  // for vertical labeling
   &__position--vertical {
     flex-direction: column;
 
@@ -54,8 +58,12 @@
     > label,
     > .dnb-form-label {
       margin: 0;
-      margin-left: 0.5rem;
       margin-bottom: 0.5rem;
+    }
+
+    // To fake, that we actuallyhave 8px between
+    > textarea {
+      transform: translateY(2px);
     }
   }
 }
