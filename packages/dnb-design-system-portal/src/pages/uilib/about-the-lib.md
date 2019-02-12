@@ -6,6 +6,7 @@ order: 1
 ---
 
 import WelcomeAdvice from 'Pages/welcome-advice.md'
+import WatchingReleases from 'Pages/uilib/info/about-watching-releases.md'
 
 # About the Library
 
@@ -14,6 +15,12 @@ import WelcomeAdvice from 'Pages/welcome-advice.md'
 Simply to unify and to maintain consistency of the most commonly used HTML Elements at DNB and to provide a platform for collaborative constant improvement.
 
 This section of the Design System is dedicated to **application development**.
+
+---
+
+<WatchingReleases />
+
+---
 
 ## Only HTML Elements? No.
 

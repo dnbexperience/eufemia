@@ -2,7 +2,7 @@
 title: 'Patterns'
 icon: 'patterns'
 draft: false
-order: 7
+order: 8
 ---
 
 import patternsParts from 'Src/uilib/patterns/demos/allParts'
