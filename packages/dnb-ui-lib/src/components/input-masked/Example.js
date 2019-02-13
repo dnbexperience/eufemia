@@ -10,8 +10,8 @@ import styled from '@emotion/styled'
 import createNumberMask from 'text-mask-addons/dist/createNumberMask' // https://github.com/text-mask/text-mask
 const numberMask = createNumberMask({
   allowDecimal: false,
-  prefix: '',
-  suffix: ' kr.'
+  prefix: ''
+  // suffix: ' kr.' // Advice from UX team: do not use currenct inside of input
 })
 
 class Example extends PureComponent {
@@ -52,17 +52,19 @@ class Example extends PureComponent {
           <InputMasked
             label="With Mask"
             mask={[
-              '(',
-              /[1-9]/,
+              '+',
+              /[4]/, // have to start with 4
+              /[5-7]/, // can be 5,6 or 7
+              ' ',
+              '/',
+              ' ',
+              /[49]/, // have to start with 4 or 9
               /\d/,
               /\d/,
-              ')',
               ' ',
               /\d/,
               /\d/,
-              /\d/,
-              '-',
-              /\d/,
+              ' ',
               /\d/,
               /\d/,
               /\d/
@@ -105,7 +107,7 @@ const Wrapper = styled.div`
   display: block;
   width: 100%;
 
-  .dnb-form-row,
+  .dnb-form-group,
   .dnb-masked-input {
     margin: 1rem 0;
   }

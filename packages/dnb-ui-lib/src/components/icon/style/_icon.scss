@@ -7,7 +7,7 @@
   display: inline-block;
   vertical-align: baseline;
   font-size: inherit; // only to feed width and height em's
-  line-height: 0; // for vertical alignment, we have to have no line-height
+  line-height: 1; // for vertical alignment, we have to have no line-height
 
   svg:not([fill]),
   svg [fill] {
@@ -35,6 +35,14 @@
   &--large {
     width: 2rem;
     height: 2rem;
+  }
+  &--x-large {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+  &--xx-large {
+    width: 3rem;
+    height: 3rem;
   }
   &--custom-size {
     width: auto; // only to feed the svg

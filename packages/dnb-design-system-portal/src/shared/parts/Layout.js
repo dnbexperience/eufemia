@@ -9,7 +9,6 @@ import { Link } from 'gatsby'
 import classnames from 'classnames'
 import styled from '@emotion/styled'
 import { css, Global } from '@emotion/core'
-
 import MainMenu from '../menu/MainMenu'
 import Sidebar from '../menu/SidebarMenu'
 import StickyMenuBar from '../menu/StickyMenuBar'
@@ -17,7 +16,11 @@ import { markdownStyle } from './Markdown'
 import { buildVersion } from '../../../package.json'
 import { MainMenuProvider } from '../menu/MainMenuContext'
 import { SidebarMenuProvider } from '../menu/SidebarMenuContext'
-import { setPageFocusElement } from 'dnb-ui-lib/src/shared/tools'
+import ToggleGrid from '../menu/ToggleGrid'
+import {
+  setPageFocusElement,
+  scrollToLocationHashId
+} from 'dnb-ui-lib/src/shared/tools'
 import { Logo } from 'dnb-ui-lib/src'
 
 class Layout extends PureComponent {
@@ -28,20 +31,24 @@ class Layout extends PureComponent {
   componentDidMount() {
     // gets aplyed on "onRouteUpdate"
     setPageFocusElement('.dnb-app-content h1:nth-of-type(1)', 'content')
+
+    // if url hash is defined, scroll to the id
+    scrollToLocationHashId({ offset: 100 })
   }
   render() {
     const { children, location } = this.props
 
     if (/fullscreen/.test(location.search)) {
       return (
-        <div className="is-fullscreen">
-          {/* Load the StickyMenuBar to make use of the grid demo */}
-          <StickyMenuBar preventBarVisibility={true} />
+        <>
           <Content className="fullscreen-page">
-            <Main className="dnb-app-content-inner">{children}</Main>
+            <ContentInner className="dnb-app-content-inner dev-grid-first">
+              {children}
+            </ContentInner>
           </Content>
+          <ToggleGrid />
           <Footer />
-        </div>
+        </>
       )
     }
 
@@ -57,10 +64,10 @@ class Layout extends PureComponent {
           <Wrapper className="content-wrapper">
             <Sidebar location={location} showAll={false} />
             <Content>
-              <MaxWidth>
-                <Main className="dnb-app-content-inner">{children}</Main>
-                <Footer />
-              </MaxWidth>
+              <ContentInner className="dnb-app-content-inner dev-grid-first">
+                {children}
+              </ContentInner>
+              <Footer />
             </Content>
           </Wrapper>
         </SidebarMenuProvider>
@@ -72,6 +79,9 @@ class Layout extends PureComponent {
 export default Layout
 
 const globalStyles = css`
+  ${'' /* html {
+    scroll-behavior: smooth;
+  } */}
   @media (max-width: 40em) {
     a.dnb-skip-link {
       display: none;
@@ -93,15 +103,9 @@ const Wrapper = styled.div`
 
 const Content = ({ className, children }) => (
   <ContentWrapper
-    tabIndex="-1"
     id="dnb-app-content"
-    className={classnames(
-      'dnb-spacing',
-      'dnb-app-content',
-      'dnb-no-focus',
-      className
-    )}
     css={markdownStyle}
+    className={classnames('dnb-spacing', 'dnb-app-content', className)}
   >
     {children}
   </ContentWrapper>
@@ -114,13 +118,9 @@ Content.defaultProps = {
   className: null
 }
 
-const ContentWrapper = styled.div`
+const ContentWrapper = styled.main`
   position: relative;
   z-index: 2; /* heigher than styled.aside */
-
-  display: flex;
-  flex-grow: 1;
-  justify-content: center;
 
   width: 100%;
   overflow: visible;
@@ -157,20 +157,20 @@ const ContentWrapper = styled.div`
     padding-top: 0;
     border: none;
   }
-`
-
-const Main = styled.main`
-  width: 100%;
-  padding: 0 2rem;
-`
-
-const MaxWidth = styled.div`
-  width: 100%;
 
   /* for whider screens */
-  @media (min-width: 70em) {
-    max-width: 70vw;
+  &:not(.fullscreen-page) {
+    .dnb-app-content-inner {
+      @media (min-width: 70em) {
+        max-width: 70rem;
+      }
+    }
   }
+`
+
+const ContentInner = styled.div`
+  width: 100%;
+  padding: 0 2rem;
 `
 
 const FooterWrapper = styled.footer`

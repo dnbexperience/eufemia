@@ -49,6 +49,24 @@ export const applyPageFocus = (key = 'default') => {
       element.focus({ preventScroll: true })
     }
   } catch (e) {
-    // console.log('DNB pageFocus', e)
+    console.log('Error on applyPageFocus:', e)
+  }
+}
+
+export const scrollToLocationHashId = ({ offset = 0 } = {}) => {
+  if (typeof document !== 'undefined' && typeof window !== 'undefined') {
+    const id = String(window.location.hash).replace('#', '')
+    const elem = document.getElementById(id)
+    if (elem instanceof HTMLElement) {
+      const top = parseFloat(elem.offsetTop) - offset
+      try {
+        window.scrollTo({
+          top,
+          behavior: 'smooth'
+        })
+      } catch (e) {
+        console.log('Error on scrollToLocationHashId:', e)
+      }
+    }
   }
 }

@@ -6,6 +6,8 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 
+let lastScrollPosition = 0
+
 export const MainMenuContext = React.createContext({
   // just to have som default values (to avoid destructuring error later)
   toggleMenu: null,
@@ -46,20 +48,32 @@ export class MainMenuProvider extends PureComponent {
           isClosing: false,
           isActive: isOpen
         })
+
+        // scroll to top on opening the menu, and back again
+        if (typeof window !== 'undefined') {
+          try {
+            window.scrollTo({
+              top:
+                !isOpen && lastScrollPosition > 0 ? lastScrollPosition : 0,
+              behavior: 'smooth'
+            })
+          } catch (e) {
+            console.log('Could not run scrollTo', e)
+          }
+        }
       },
       state ? 800 : 400
     )
+
+    // scroll to top on opening the menu, and back again
+    if (!state && typeof window !== 'undefined') {
+      lastScrollPosition = window.scrollY
+    }
+
     this.setState({
       isClosing: state,
       isActive: true
     })
-    if (!state && typeof window !== 'undefined') {
-      try {
-        window.scrollTo(0, 0)
-      } catch (e) {
-        console.log('Could not run scrollTo', e)
-      }
-    }
   }
 
   openMenu = () => {

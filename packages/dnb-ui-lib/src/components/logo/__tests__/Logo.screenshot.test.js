@@ -4,17 +4,15 @@
  */
 
 import {
-  setupPageScreenshot,
-  testPageScreenshot
+  testPageScreenshot,
+  setupPageScreenshot
 } from '../../../core/jest/jestSetupScreenshots'
 
-setupPageScreenshot()
-
 describe('Logo screenshot', () => {
-  it('have to match the screenshot snapshot', async () => {
+  setupPageScreenshot({ url: '/uilib/components/logo' })
+  it('have to match the default "Logo"', async () => {
     const screenshot = await testPageScreenshot({
-      url: '/uilib/components/logo?fullscreen',
-      selector: '.example-box .dnb-logo:nth-child(1)'
+      selector: '[data-dnb-test="logo-default"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })

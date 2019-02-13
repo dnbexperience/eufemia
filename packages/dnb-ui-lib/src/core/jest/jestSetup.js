@@ -11,7 +11,6 @@ import fs from 'fs-extra'
 import onceImporter from 'node-sass-once-importer'
 import path from 'path'
 import sass from 'node-sass'
-import { setupJestScreenshot } from 'jest-screenshot'
 import { toBeType } from 'jest-tobetype'
 import toJson from 'enzyme-to-json'
 
@@ -22,8 +21,7 @@ export {
   render,
   toJson,
   axe,
-  toHaveNoViolations,
-  setupJestScreenshot
+  toHaveNoViolations
 }
 
 expect.extend({ toBeType })

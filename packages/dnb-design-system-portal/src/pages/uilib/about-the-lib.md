@@ -6,14 +6,21 @@ order: 1
 ---
 
 import WelcomeAdvice from 'Pages/welcome-advice.md'
+import WatchingReleases from 'Pages/uilib/info/about-watching-releases.md'
 
 # About the Library
 
 **Why does this UI Library exist?**
 
-Simply to unify and to maintain consistency of the most commonly used HTML Elements at DNB and to provide a platform for collaborative constant improvement.
+Simply to unify and to maintain consistency of the most commonly used HTML Elements at DNB and to provide a platform for collaborative constant improvement. It's a part of the whole Design System.
 
-This section of the Design System is dedicated to **application development**.
+This part of the Design System is dedicated to **application development**.
+
+---
+
+<WatchingReleases />
+
+---
 
 ## Only HTML Elements? No.
 

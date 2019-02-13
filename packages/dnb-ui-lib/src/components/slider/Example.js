@@ -118,7 +118,7 @@ class AditionalExample extends PureComponent {
           </p>
         </div>
         <div className="example-box">
-          <div className="dnb-form-row">
+          <div className="dnb-form-group">
             <FormLabel
               id="range-slider-label"
               for_id="range-slider"

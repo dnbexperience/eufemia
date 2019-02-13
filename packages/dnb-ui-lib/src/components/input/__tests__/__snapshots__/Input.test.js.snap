@@ -370,7 +370,7 @@ exports[`Input scss have to match snapshot 1`] = `
   display: inline-block;
   vertical-align: baseline;
   font-size: inherit;
-  line-height: 0;
+  line-height: 1;
   width: 1em;
   height: 1em; }
   .dnb-icon svg:not([fill]),
@@ -390,6 +390,12 @@ exports[`Input scss have to match snapshot 1`] = `
   .dnb-icon--large {
     width: 2rem;
     height: 2rem; }
+  .dnb-icon--x-large {
+    width: 2.5rem;
+    height: 2.5rem; }
+  .dnb-icon--xx-large {
+    width: 3rem;
+    height: 3rem; }
   .dnb-icon--custom-size {
     width: auto;
     height: auto; }
@@ -471,7 +477,7 @@ exports[`Input scss have to match snapshot 1`] = `
   text-decoration: none;
   /* Firefox includes a hidden border which messes up button dimensions */ }
   .dnb-button__icon {
-    line-height: 0; }
+    line-height: 1; }
     .dnb-button__icon:not(.dnb-icon) svg:not([width]):not([height]) {
       width: var(--button-icon-size);
       height: var(--button-icon-size); }
@@ -742,14 +748,5 @@ a.dnb-button {
     margin-right: 1rem; }
   .dnb-input > .dnb-form-status {
     margin-top: 0.5rem; }
-
-.dnb-form-row {
-  display: inline-flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%; }
-  .dnb-form-row > .dnb-form-label {
-    margin-right: 1rem; }
 "
 `;

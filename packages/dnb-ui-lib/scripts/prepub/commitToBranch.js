@@ -55,9 +55,17 @@ const getBranchName = async ({ repo = null, requiredBranch = null }) => {
       ? process.env.BRANCH
       : (await (repo || (await makeRepo())).branch()).current
 
-  if (requiredBranch && branchName !== requiredBranch) {
+  if (typeof requiredBranch === 'string') {
+    requiredBranch = [requiredBranch]
+  }
+  if (
+    requiredBranch &&
+    !requiredBranch.some(name => new RegExp(name).test(branchName))
+  ) {
     log.fail(
-      `The current branch (${branchName}) was not the required one: ${requiredBranch}`
+      `The current branch (${branchName}) was not the required one: ${requiredBranch.join(
+        ' or '
+      )}`
     )
     return false
   }
@@ -69,7 +77,8 @@ const commitToBranch = async ({
   requiredBranch = 'develop',
   what = 'files',
   filePathsWhitelist = [],
-  isFeatureChecklist = null,
+  isNotAFeature = null,
+  skipCI = false,
   isFeature = true
 } = {}) => {
   try {
@@ -116,15 +125,24 @@ const commitToBranch = async ({
 
       // as there is too ofter only a "version.lock" update, we filter out this
       if (
-        Array.isArray(isFeatureChecklist) &&
-        files.every(i => isFeatureChecklist.includes(i))
+        Array.isArray(isNotAFeature) &&
+        files.every(i => isNotAFeature.includes(i))
       )
         isFeature = false
+
+      if (typeof skipCI === 'function') {
+        const skipCIResult = skipCI(files)
+        if (typeof skipCIResult === 'boolean') {
+          skipCI = skipCIResult
+        }
+      }
 
       const commitMessage = String(
         `${
           isFeature ? 'feat:' : ''
-        } some ${what} where updated/added | ${files.join(', ')}`
+        } some ${what} where updated/added | ${files.join(', ')}${
+          skipCI ? ' [CI SKIP]' : ''
+        }`
       ).trim()
       log.text = `> Commit: ${commitMessage}`
 

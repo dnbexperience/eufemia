@@ -6,12 +6,21 @@ export const Wrapper = styled.div`
   min-height: 100vh;
   padding: 1rem;
 
-  ${gridStyle({ rgb: '220, 220, 220', a: 0.8 })}
+  ${gridStyle({ rgb: '220, 220, 220', a: 0.8 })};
 `
 
 export const Box = styled.div`
+  position: relative;
+
   padding: 2rem;
   margin-bottom: 2rem;
 
-  border-bottom: solid 1px #ececec;
+  &::after {
+    content: '';
+    position: absolute;
+    left: -50vw;
+    bottom: 0;
+    width: 200vw;
+    border-bottom: dashed 1px rgb(0, 200, 200);
+  }
 `

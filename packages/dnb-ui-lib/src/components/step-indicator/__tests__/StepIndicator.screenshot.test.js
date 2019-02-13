@@ -4,16 +4,14 @@
  */
 
 import {
-  setupPageScreenshot,
-  testPageScreenshot
+  testPageScreenshot,
+  setupPageScreenshot
 } from '../../../core/jest/jestSetupScreenshots'
 
-setupPageScreenshot()
-
 describe('StepIndicator screenshot', () => {
-  it('have to match the screenshot snapshot', async () => {
+  setupPageScreenshot({ url: '/uilib/components/step-indicator' })
+  it('have to match', async () => {
     const screenshot = await testPageScreenshot({
-      url: '/uilib/components/step-indicator?fullscreen',
       selector: '.dnb-step-indicator:nth-child(1)'
     })
     expect(screenshot).toMatchImageSnapshot()

@@ -16,7 +16,7 @@ import { MainMenuToggleButton } from './ToggleMainMenu'
 import { SidebarMenuConsumer } from './SidebarMenuContext'
 import ToggleGrid from './ToggleGrid'
 
-const Bar = styled.div`
+const BarWrapper = styled.div`
   position: fixed;
   z-index: 200;
   top: 0;
@@ -52,6 +52,9 @@ const Bar = styled.div`
       padding: 0 0.2rem;
       .dnb-button__text {
         display: none;
+      }
+      .dnb-button__icon {
+        transform: translateY(0);
       }
     }
   }
@@ -119,28 +122,32 @@ export default class StickyMenuBar extends PureComponent {
   render() {
     const { hideSiebarToggleButton, preventBarVisibility } = this.props
     if (preventBarVisibility) {
-      return <span />
+      return <></>
     }
     return (
-      <StaticQuery
-        query={graphql`
-          query {
-            site {
-              siteMetadata {
-                name
-              }
-            }
-          }
-        `}
-        render={({
-          site: {
-            siteMetadata: { name: slogan }
-          }
-        }) => (
-          <SidebarMenuConsumer>
-            {({ toggleMenu, isOpen }) =>
-              !hideSiebarToggleButton && (
-                <Bar
+      <SidebarMenuConsumer>
+        {({ toggleMenu, isOpen }) =>
+          !hideSiebarToggleButton &&
+          !(
+            typeof window !== 'undefined' &&
+            /fullscreen/.test(window.location.search)
+          ) && (
+            <StaticQuery
+              query={graphql`
+                query {
+                  site {
+                    siteMetadata {
+                      name
+                    }
+                  }
+                }
+              `}
+              render={({
+                site: {
+                  siteMetadata: { name: slogan }
+                }
+              }) => (
+                <BarWrapper
                   css={[
                     hideSiebarToggleButton && hideSiebarToggleButtonStyle
                   ]}
@@ -170,12 +177,12 @@ export default class StickyMenuBar extends PureComponent {
                       <ToggleGrid />
                     </span>
                   </BarInner>
-                </Bar>
-              )
-            }
-          </SidebarMenuConsumer>
-        )}
-      />
+                </BarWrapper>
+              )}
+            />
+          )
+        }
+      </SidebarMenuConsumer>
     )
   }
 }

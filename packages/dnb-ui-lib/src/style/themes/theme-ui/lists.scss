@@ -1,0 +1,36 @@
+/*
+ * Lists
+ *
+ */
+
+ul,
+ol {
+  margin: 0;
+  padding-left: 2rem;
+
+  font-size: 1em;
+  line-height: 1.5em;
+}
+li {
+  word-wrap: break-all;
+}
+ul ul,
+ul ol,
+ol ol,
+ol ul {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+dd {
+  margin-left: 0;
+}
+dl {
+  padding: 0;
+}
+dl dt {
+  padding: 0;
+  font-weight: var(--font-weight-demi);
+}
+dl dd {
+  padding: 0 1rem;
+}

@@ -540,6 +540,7 @@ exports[`Tabs scss have to match snapshot 1`] = `
   @media screen and (max-width: 40em) {
     .dnb-tabs__tabs__tablist {
       flex-direction: column;
+      flex-grow: 1;
       margin: 0; }
     .dnb-tabs__tabs .dnb-tablink {
       margin-left: 0; } }

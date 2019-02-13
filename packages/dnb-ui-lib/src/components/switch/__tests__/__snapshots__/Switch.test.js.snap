@@ -260,7 +260,7 @@ exports[`Switch scss have to match snapshot 1`] = `
   .dnb-switch__text-item {
     z-index: 3;
     text-align: center;
-    line-height: 0;
+    line-height: 1;
     color: inherit;
     background-color: inherit; }
   .dnb-switch__background {

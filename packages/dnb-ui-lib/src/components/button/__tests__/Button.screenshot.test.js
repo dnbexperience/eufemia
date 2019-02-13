@@ -4,25 +4,42 @@
  */
 
 import {
-  setupPageScreenshot,
-  testPageScreenshot
+  testPageScreenshot,
+  setupPageScreenshot
 } from '../../../core/jest/jestSetupScreenshots'
 
-setupPageScreenshot()
-
 describe('Button screenshot', () => {
-  it('have to match the "dnb-button--primary" screenshot snapshot', async () => {
+  setupPageScreenshot({ url: '/uilib/components/button' })
+  it('have to match "dnb-button--secondary"', async () => {
     const screenshot = await testPageScreenshot({
-      url: '/uilib/components/button?fullscreen',
-      selector: '.example-box .dnb-button.dnb-button--primary:nth-child(1)'
+      selector: '[data-dnb-test="button-secondary"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
-  it('have to match the "dnb-button--secondary" screenshot snapshot', async () => {
+  it('have to match "dnb-button--primary"', async () => {
     const screenshot = await testPageScreenshot({
-      url: '/uilib/components/button?fullscreen',
-      selector:
-        '.example-box .dnb-button.dnb-button--secondary:nth-child(1)'
+      selector: '[data-dnb-test="button-primary"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+  it('have to match "dnb-button--primary" with hover state', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-dnb-test="button-primary"]',
+      simulate: 'hover'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+  it('have to match "dnb-button--primary" with active state', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-dnb-test="button-primary"]',
+      simulate: 'active'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+  it('have to match "dnb-button--primary" with focus state', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-dnb-test="button-primary"]',
+      simulate: 'focus'
     })
     expect(screenshot).toMatchImageSnapshot()
   })

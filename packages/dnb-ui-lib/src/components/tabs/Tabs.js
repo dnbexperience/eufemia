@@ -187,9 +187,12 @@ export default class Tabs extends PureComponent {
     // check if we have to open a diffrent tab
     if (props.use_hash && typeof window !== 'undefined') {
       try {
-        const key = String(window.location.hash).replace('#', '')
-        if (key && String(key).length > 0) {
-          selected_key = key
+        const use_this_key = String(window.location.hash).replace('#', '')
+        if (use_this_key && String(use_this_key).length > 0) {
+          const keyExists = data.some(({ key }) => key === use_this_key)
+          if (keyExists) {
+            selected_key = use_this_key
+          }
         }
       } catch (e) {
         console.log('Tabs Error:', e)
@@ -302,14 +305,10 @@ export default class Tabs extends PureComponent {
     return this.state.selected_key === tabKey
   }
 
-  renderActiveTab(tabKey) {
+  renderSelectedTab(tabKey) {
     return `dnb-tablink tab--${tabKey} ${
       this.isSelected(tabKey) ? 'selected' : ''
     }`
-  }
-
-  isActive(tabKey) {
-    return this.state.selected_key === tabKey
   }
 
   renderContent(useKey = null) {
@@ -317,6 +316,8 @@ export default class Tabs extends PureComponent {
 
     if (!useKey) {
       const { selected_key, data } = this.state
+
+      // just to make sure we never get an empty content
       const keyExists = data.some(({ key }) => key === selected_key)
       if (keyExists) {
         useKey = selected_key
@@ -367,9 +368,17 @@ export default class Tabs extends PureComponent {
   render() {
     const {
       render: customRenderer,
+      label,
       align,
+      selected_key,
       className,
-      class: _className
+      class: _className,
+      id, //eslint-disable-line
+      data, //eslint-disable-line
+      use_hash, //eslint-disable-line
+      children, //eslint-disable-line
+      on_change, //eslint-disable-line
+      ...props
     } = this.props
 
     // To have a reusable Component laster, do this like that
@@ -387,7 +396,7 @@ export default class Tabs extends PureComponent {
               tabIndex="-1"
               id={`${this._id}-tab-${key}`}
               aria-selected={this.isSelected(key)}
-              className={this.renderActiveTab(key)}
+              className={this.renderSelectedTab(key)}
               onClick={this.openTabByDOM}
               disabled={disabled}
               {...params}
@@ -399,8 +408,8 @@ export default class Tabs extends PureComponent {
         }
       )
       const params = {}
-      if (this.props.label) {
-        params['aria-label'] = this.props.label
+      if (label) {
+        params['aria-label'] = label
       }
       return (
         <div
@@ -434,6 +443,7 @@ export default class Tabs extends PureComponent {
     // To have a reusable Component laster, do this like that
     const Wrapper = ({ children, ...rest }) => {
       const params = {
+        ...props,
         className: classnames('dnb-tabs', className, _className)
       }
 
@@ -449,7 +459,6 @@ export default class Tabs extends PureComponent {
     Wrapper.displayName = 'TabsWrapper'
 
     const Content = ({ showEmptyMessage = false } = {}) => {
-      const { selected_key } = this.props
       const content = this.renderContent()
       return (
         <ContentWrapper id={this._id} selected_key={selected_key}>

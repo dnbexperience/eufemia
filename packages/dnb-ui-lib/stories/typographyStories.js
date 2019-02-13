@@ -10,58 +10,7 @@ import styled from '@emotion/styled'
 const stories = []
 export default stories
 
-const Typography = () => (
-  <>
-    <h1>H1</h1>
-    <h2>H2</h2>
-    <h3>H3</h3>
-    <h4>H4</h4>
-    <h5>H5</h5>
-    <h6>H6</h6>
-    <p>
-      Paragraph with Link <a href="#anchor">Anchor</a> Posuere eget
-      <code>vestibulum</code> nostra odio varius <span>integer</span>
-      ullamcorper curabitur mi
-    </p>
-    <p>Another Paragraph</p>
-  </>
-)
-
-stories.push([
-  'Paragraphs',
-  () => (
-    <Wrapper className="dnb-spacing">
-      <Box>
-        <article>
-          <h1>H1</h1>
-          <p>Paragraph A</p>
-          <p>Paragraph B</p>
-          <p>Paragraph C</p>
-        </article>
-        <article>
-          <h2>H2</h2>
-          <p>Paragraph A</p>
-          <p>Paragraph B</p>
-          <p>Paragraph C</p>
-        </article>
-        <h2>H3</h2>
-      </Box>
-    </Wrapper>
-  )
-])
-
-stories.push([
-  'Headings',
-  () => (
-    <Wrapper className="dnb-spacing">
-      <Box>
-        <Typography />
-      </Box>
-    </Wrapper>
-  )
-])
-
-const Small = styled.div`
+const CustomStyle = styled.div`
   h1,
   h2,
   h3,
@@ -84,12 +33,69 @@ const Small = styled.div`
       background-color: rgba(0, 200, 200, 1);
     }
   }
+  p {
+    background-color: rgba(213, 30, 149, 0.25);
+  }
 `
+
+const Typography = () => (
+  <CustomStyle>
+    <h1>H1</h1>
+    <h2>H2</h2>
+    <h3>H3</h3>
+    <h4>H4</h4>
+    <h5>H5</h5>
+    <h6>H6</h6>
+    <p>
+      Paragraph with Link <a href="#anchor">Anchor</a> Posuere eget
+      <code>vestibulum</code> nostra odio varius <span>integer</span>
+      ullamcorper curabitur mi
+    </p>
+    <p>Another Paragraph</p>
+  </CustomStyle>
+)
+
+stories.push([
+  'Paragraphs',
+  () => (
+    <Wrapper className="dnb-spacing">
+      <CustomStyle>
+        <Box>
+          <article>
+            <h1>H1</h1>
+            <p>Paragraph A</p>
+            <p>Paragraph B</p>
+            <p>Paragraph C</p>
+          </article>
+          <article>
+            <h2>H2</h2>
+            <p>Paragraph A</p>
+            <p>Paragraph B</p>
+            <p>Paragraph C</p>
+          </article>
+          <h2>H3</h2>
+        </Box>
+      </CustomStyle>
+    </Wrapper>
+  )
+])
+
+stories.push([
+  'Headings',
+  () => (
+    <Wrapper className="dnb-spacing">
+      <Box>
+        <Typography />
+      </Box>
+    </Wrapper>
+  )
+])
+
 stories.push([
   'Small',
   () => (
     <Wrapper className="dnb-spacing">
-      <Small>
+      <CustomStyle>
         <Box>
           {/* p */}
           <p>
@@ -152,7 +158,7 @@ stories.push([
           </h6>
           <h6>Normal H6</h6>
         </Box>
-      </Small>
+      </CustomStyle>
     </Wrapper>
   )
 ])

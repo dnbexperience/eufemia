@@ -8,18 +8,16 @@
 a {
   @include defaultAnchorStyle();
 
+  // have focus before :active, because of border-radius
+  &:focus {
+    @include focusStyle();
+  }
   &:hover,
   &:active {
     @include hoverStyle();
-
-    // margins are not needed as long as we go for "inline"
-    // margin-bottom: -0.1875rem;
   }
   &:active {
     @include activeStyle();
-  }
-  &:focus {
-    @include focusStyle();
   }
 
   transition: background-color 0.2s ease;

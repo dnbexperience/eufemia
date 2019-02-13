@@ -9,10 +9,6 @@ import FigmaLibraries from 'Pages/quickguide-designer/assets/figma-libraries.svg
 
 # QuickStart - Designers
 
-**Latest update contains:**
-
-- No updates, _okt. 2018_
-
 ### Contents
 
 1.  Design tools - recommended applications

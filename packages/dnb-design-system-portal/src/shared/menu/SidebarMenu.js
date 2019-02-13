@@ -14,6 +14,7 @@ import { SidebarMenuConsumer } from './SidebarMenuContext'
 // import { MainMenuToggleButton } from './ToggleMainMenu'
 import { Icon } from 'dnb-ui-lib/src'
 import graphics from './SidebarGraphics'
+import keycode from 'keycode'
 import {
   setPageFocusElement,
   applyPageFocus
@@ -295,19 +296,25 @@ export default class SidebarLayout extends PureComponent {
     super(props)
     this._scrollRef = React.createRef()
     setPageFocusElement(
-      'aside ul li.is-active a:nth-of-type(1)',
+      // '.toggle-sidebar-menu',
+      'html[data-whatintent=mouse] aside ul li.is-active a:nth-of-type(1), html[data-whatintent=keyboard] .toggle-sidebar-menu',
       'sidebar'
+    )
+    setPageFocusElement(
+      'aside ul li.is-active a:nth-of-type(1)',
+      'sidebar-tab'
     )
   }
 
   componentDidMount() {
-    if (this._scrollRef.current && this.offsetTop > 0) {
+    // remember last scroll position
+    if (this._scrollRef.current) {
       if (typeof window !== 'undefined') {
         const sidebarPos = window.localStorage.getItem('sidebarPos')
           ? parseFloat(window.localStorage.getItem('sidebarPos'))
           : this.offsetTop
-        this._scrollRef.current.scrollTop = sidebarPos
         let delayBuff
+        this._scrollRef.current.scrollTop = sidebarPos
         this._scrollRef.current.onscroll = () => {
           clearTimeout(delayBuff)
           delayBuff = setTimeout(() => {
@@ -322,6 +329,33 @@ export default class SidebarLayout extends PureComponent {
           }, 300)
         }
       }
+    }
+
+    if (typeof document !== 'undefined') {
+      document.addEventListener('keydown', this.handleKeyDown)
+    }
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.handleKeyDown)
+  }
+
+  handleKeyDown = e => {
+    if (!this.isOpen) {
+      this.hadFirstTab = false
+      return
+    }
+    switch (keycode(e)) {
+      case 'tab':
+        // on first tab
+        if (!this.hadFirstTab) {
+          this.hadFirstTab = true
+          applyPageFocus('sidebar-tab')
+        }
+        break
+      case 'esc':
+        this.toggleMenu()
+        break
     }
   }
 
@@ -355,10 +389,8 @@ export default class SidebarLayout extends PureComponent {
           }
         `}
         render={({ allMdx, site: { pathPrefix } }) => {
-          const pathnameWithoutPrefix = location.pathname
-            .replace(/(\/)$/, '')
-            .replace(pathPrefix, '')
-          const pathnameWithoutPrefixList = pathnameWithoutPrefix
+          const currentPathname = location.pathname.replace(/(\/)$/, '')
+          const currentPathnameList = currentPathname
             .split('/')
             .filter(i => i)
 
@@ -371,14 +403,14 @@ export default class SidebarLayout extends PureComponent {
             .map(props => {
               // get the active item
               const active =
-                pathnameWithoutPrefix === props.path ||
-                pathnameWithoutPrefix === props.path.replace(/(\/)$/, '')
+                currentPathname === props.path ||
+                currentPathname === props.path.replace(/(\/)$/, '')
 
               // check if a item path is inside another
               const inside = props.path
                 .split('/')
                 .filter(i => i)
-                .every(i => pathnameWithoutPrefixList.includes(i))
+                .every(i => currentPathnameList.includes(i))
 
               return { ...props, active, inside }
             })
@@ -436,7 +468,9 @@ export default class SidebarLayout extends PureComponent {
                 `}
               />
               <SidebarMenuConsumer>
-                {({ isOpen, isClosing }) => {
+                {({ isOpen, isClosing, toggleMenu }) => {
+                  this.isOpen = isOpen
+                  this.toggleMenu = toggleMenu
                   isOpen &&
                     !isClosing &&
                     setTimeout(() => {

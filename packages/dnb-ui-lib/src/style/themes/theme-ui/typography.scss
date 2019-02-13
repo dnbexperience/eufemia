@@ -1,0 +1,106 @@
+/*
+ * Typography
+ *
+ */
+
+.dnb-h1,
+.dnb-h2,
+.dnb-lead,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  padding: 0;
+
+  font-family: var(--font-family-demi);
+  font-weight: var(--font-weight-demi);
+
+  color: var(--color-emerald-green);
+}
+
+small {
+  font-size: var(--font-size-small); // 14px
+}
+p > small,
+h2 > small,
+h3 > small,
+h4 > small,
+h5 > small,
+h6 > small {
+  line-height: 1; // for vertical alignment, we have to have no line-height
+}
+
+.dnb-h1,
+h1 {
+  font-size: var(--font-size-xx-large); // 48px
+  line-height: 3.5rem; // 56px
+  font-weight: var(--font-weight-demi);
+}
+h1.dnb-small,
+h1 > small {
+  display: block;
+  font-size: var(--font-size-large); // 32px
+  line-height: 3rem; // 48px
+}
+
+.dnb-h2,
+h2 {
+  font-size: var(--font-size-medium); // 24px
+  line-height: 2rem; // 32px
+}
+h2.dnb-small,
+h2 > small {
+  font-size: var(--font-size-x-default); // 20px
+}
+
+/* H3 looks the same as .dnb-lead */
+h3,
+.dnb-lead {
+  font-family: var(--font-family-demi);
+  font-weight: var(--font-weight-demi);
+  font-size: var(--font-size-x-default); // 20px
+  line-height: 2rem; // 32px
+}
+h3 > small,
+h3.dnb-small,
+.dnb-lead > small,
+.dnb-lead > .dnb-small {
+  font-size: var(--font-size-default); // 16px
+}
+
+// The rest of the Headings are nod defned by the Eufemia Typography
+h4 {
+  font-size: var(--font-size-default); // 16px
+}
+h5 {
+  font-size: var(--font-size-small); // 14px
+}
+h6 {
+  font-size: var(--font-size-small); // 14px
+  font-weight: var(--font-weight-book);
+}
+
+p {
+  // if we not reset margin, the browser is using: margin-block-end: 1rem;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 0;
+
+  font-size: 1em; // 16px
+  line-height: 1.5em; // 24px
+
+  cite {
+    font-weight: var(--font-weight-demi);
+    font-style: normal; // to avoid cursive
+  }
+}
+b,
+strong {
+  font-weight: var(--font-weight-medium);
+}
+// Eufemia has currently no italic
+// i {
+// }

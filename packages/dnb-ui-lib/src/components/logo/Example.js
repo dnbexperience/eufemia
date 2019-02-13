@@ -4,7 +4,7 @@
  */
 
 import React, { PureComponent, Fragment } from 'react'
-import ComponentBox from '../../../../dnb-design-system-portal/src/shared/inlineTags/ComponentBox'
+import ComponentBox from '../../../../dnb-design-system-portal/src/shared/tags/ComponentBox'
 
 class Example extends PureComponent {
   render() {
@@ -12,7 +12,7 @@ class Example extends PureComponent {
       <Fragment>
         <ComponentBox caption="SVG logo">
           {/* @jsx */ `
-<Logo height="200" />
+<Logo height="200" data-dnb-test="logo-default" />
           `}
         </ComponentBox>
         <ComponentBox>

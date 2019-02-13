@@ -41,9 +41,10 @@
   border-bottom-width: 2px;
 }
 @mixin activeStyle() {
-  color: #fff;
+  color: var(--color-mint-green);
   background-color: var(--color-sea-green);
   border-bottom: none;
+  border-radius: 0;
 }
 @mixin focusStyle($whatinput: null) {
   &:not(:active) {

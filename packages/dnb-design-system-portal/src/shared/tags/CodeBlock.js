@@ -84,7 +84,7 @@ export default CodeBlock
 class LiveCode extends PureComponent {
   static propTypes = {
     code: PropTypes.string.isRequired,
-    scope: PropTypes.object.isRequired,
+    scope: PropTypes.object,
     hideToolbar: PropTypes.bool,
     hideCode: PropTypes.bool,
     hidePreview: PropTypes.bool,
@@ -92,6 +92,7 @@ class LiveCode extends PureComponent {
     caption: PropTypes.string
   }
   static defaultProps = {
+    scope: {},
     caption: null,
     hideToolbar: false,
     hideCode: false,
@@ -115,11 +116,28 @@ class LiveCode extends PureComponent {
     this.setState(() => ({ showSyntax: !this.state.showSyntax }))
   }
 
+  prepareCode(code) {
+    code = String(code).trim()
+    if (
+      /data-dnb-test/.test(code) &&
+      // remove test attribute only if: we run live, and are not not test
+      (typeof window !== 'undefined' &&
+        !(
+          window.location &&
+          window.location.search.split(/\?|&/).includes('test')
+        ))
+    ) {
+      code = code.replace(/\s+data-dnb-test="[^"]*"/g, '')
+    }
+    return code
+  }
+
   render() {
     const { code, caption, scope, ...rest } = this.props
     const { hideToolbar, hideCode, hidePreview, showSyntax } = this.state
 
-    const codeToUse = typeof code === 'string' ? String(code).trim() : null
+    const codeToUse =
+      typeof code === 'string' ? this.prepareCode(code) : null
 
     const props = Object.entries(rest).reduce((acc, [key, value]) => {
       if (
@@ -143,7 +161,24 @@ class LiveCode extends PureComponent {
         >
           {!hidePreview && (
             <div className="example-box">
-              {!hideToolbar && hideCode && (
+              <LivePreview />
+              {caption && <p className="example-caption">{caption}</p>}
+            </div>
+          )}
+          {!hideToolbar && (
+            <Toolbar>
+              {!hideCode && (
+                <Button
+                  className="toggle-button"
+                  on_click={this.toggleSyntax}
+                  variant="secondary"
+                  text="Syntax"
+                  title="Toggle Syntax"
+                  icon={`chevron-${!showSyntax ? 'down' : 'up'}`}
+                  size="medium"
+                />
+              )}
+              {this.props.hideCode && (
                 <Button
                   className="toggle-button"
                   on_click={this.toggleCode}
@@ -154,13 +189,7 @@ class LiveCode extends PureComponent {
                   size="medium"
                 />
               )}
-              <LivePreview />
-              {caption && <p className="example-caption">{caption}</p>}
-            </div>
-          )}
-          {!hideToolbar && (
-            <Toolbar>
-              {hidePreview && (
+              {this.props.hidePreview && (
                 <Button
                   className="toggle-button"
                   on_click={this.togglePreview}
@@ -171,15 +200,6 @@ class LiveCode extends PureComponent {
                   size="medium"
                 />
               )}
-              <Button
-                className="toggle-button"
-                on_click={this.toggleSyntax}
-                variant="secondary"
-                text="Syntax"
-                title="Toggle Syntax"
-                icon={`chevron-${!showSyntax ? 'down' : 'up'}`}
-                size="medium"
-              />
             </Toolbar>
           )}
           {!hideCode && <LiveEditor language="jsx" ignoreTabKey />}
@@ -213,6 +233,7 @@ const LiveCodeEditor = styled.div`
   }
   pre.prism-code {
     position: relative;
+
     &::after {
       content: '';
       position: absolute;
@@ -221,13 +242,17 @@ const LiveCodeEditor = styled.div`
 
       width: 0;
       height: 0;
+
       border-style: solid;
       border-width: 0 7px 8px 7px;
       border-color: transparent transparent #222 transparent;
     }
   }
 
-  .dnb-form-status:last-child {
+  .react-live-error:last-child {
+    position: absolute;
+    z-index: 1;
+
     max-width: 40rem;
     height: auto;
     white-space: normal;
@@ -249,11 +274,10 @@ const Toolbar = styled.div`
 
   padding: 0 1rem 1rem;
 
-  ${'' /* pointer-events: none;
-  button,
-  .dnb-form-status {
+  pointer-events: none;
+  button {
     pointer-events: all;
-  } */}
+  }
 `
 
 const Syntax = styled.div`

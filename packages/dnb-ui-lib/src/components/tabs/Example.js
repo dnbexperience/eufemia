@@ -31,7 +31,9 @@ class Example extends PureComponent {
     return (
       <Fragment>
         <div className="example-box">
-          <Tabs data={data}>{exampleContent}</Tabs>
+          <Tabs data-dnb-test="tabs-tablist" data={data}>
+            {exampleContent}
+          </Tabs>
           <p className="example-caption">
             Left aligned tabs, using both "data" property and content
             object
@@ -63,6 +65,7 @@ class Example extends PureComponent {
         </div>
         <div className="example-box">
           <Tabs
+            data-dnb-test="tabs-tabs"
             selected_key="second"
             align="right"
             label="Some Tabs label"
