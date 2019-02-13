@@ -9,7 +9,6 @@ import { Link } from 'gatsby'
 import classnames from 'classnames'
 import styled from '@emotion/styled'
 import { css, Global } from '@emotion/core'
-
 import MainMenu from '../menu/MainMenu'
 import Sidebar from '../menu/SidebarMenu'
 import StickyMenuBar from '../menu/StickyMenuBar'
@@ -17,6 +16,7 @@ import { markdownStyle } from './Markdown'
 import { buildVersion } from '../../../package.json'
 import { MainMenuProvider } from '../menu/MainMenuContext'
 import { SidebarMenuProvider } from '../menu/SidebarMenuContext'
+import ToggleGrid from '../menu/ToggleGrid'
 import {
   setPageFocusElement,
   scrollToLocationHashId
@@ -40,16 +40,15 @@ class Layout extends PureComponent {
 
     if (/fullscreen/.test(location.search)) {
       return (
-        <div className="is-fullscreen">
-          {/* Load the StickyMenuBar to make use of the grid demo */}
-          <StickyMenuBar preventBarVisibility={true} />
+        <>
           <Content className="fullscreen-page">
-            <ContentInner className="dnb-app-content-inner">
+            <ContentInner className="dnb-app-content-inner dev-grid-first">
               {children}
             </ContentInner>
           </Content>
+          <ToggleGrid />
           <Footer />
-        </div>
+        </>
       )
     }
 
@@ -65,12 +64,10 @@ class Layout extends PureComponent {
           <Wrapper className="content-wrapper">
             <Sidebar location={location} showAll={false} />
             <Content>
-              <MaxWidth>
-                <ContentInner className="dnb-app-content-inner">
-                  {children}
-                </ContentInner>
-                <Footer />
-              </MaxWidth>
+              <ContentInner className="dnb-app-content-inner dev-grid-first">
+                {children}
+              </ContentInner>
+              <Footer />
             </Content>
           </Wrapper>
         </SidebarMenuProvider>
@@ -107,8 +104,8 @@ const Wrapper = styled.div`
 const Content = ({ className, children }) => (
   <ContentWrapper
     id="dnb-app-content"
-    className={classnames('dnb-spacing', 'dnb-app-content', className)}
     css={markdownStyle}
+    className={classnames('dnb-spacing', 'dnb-app-content', className)}
   >
     {children}
   </ContentWrapper>
@@ -124,10 +121,6 @@ Content.defaultProps = {
 const ContentWrapper = styled.main`
   position: relative;
   z-index: 2; /* heigher than styled.aside */
-
-  display: flex;
-  flex-grow: 1;
-  justify-content: center;
 
   width: 100%;
   overflow: visible;
@@ -164,20 +157,20 @@ const ContentWrapper = styled.main`
     padding-top: 0;
     border: none;
   }
+
+  /* for whider screens */
+  &:not(.fullscreen-page) {
+    .dnb-app-content-inner {
+      @media (min-width: 70em) {
+        max-width: 70rem;
+      }
+    }
+  }
 `
 
 const ContentInner = styled.div`
   width: 100%;
   padding: 0 2rem;
-`
-
-const MaxWidth = styled.div`
-  width: 100%;
-
-  /* for whider screens */
-  @media (min-width: 70em) {
-    max-width: 70vw;
-  }
 `
 
 const FooterWrapper = styled.footer`

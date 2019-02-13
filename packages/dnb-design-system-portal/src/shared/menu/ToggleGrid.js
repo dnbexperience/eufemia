@@ -10,9 +10,11 @@ import { FormLabel, Switch } from 'dnb-ui-lib/src'
 import { gridStyle } from '../parts/PortalStyle'
 
 const globalStyle = css`
-  .dev-grid {
+  .dev-grid,
+  .dev-grid-first > div:first-child {
     ${gridStyle({ rgb: '220, 220, 220', a: 0.8 })};
 
+    /* stylelint-disable no-descending-specificity */
     h1,
     h2,
     h3,
@@ -28,6 +30,7 @@ const globalStyle = css`
         background-color: rgba(0, 200, 200, 0.25);
       }
     }
+    /* stylelint-enable */
 
     ${'' /* code {
       display: block;
@@ -50,8 +53,6 @@ export default class ToggleGrid extends Component {
   state = {
     showGrid: null
   }
-  // static propTypes = {}
-  // static defaultProps = {}
 
   constructor(props) {
     super(props)
@@ -69,23 +70,6 @@ export default class ToggleGrid extends Component {
   }
   showGrid = showGrid => {
     if (typeof document !== 'undefined') {
-      const page = document.querySelector('.dnb-app-content')
-      if (page) {
-        if (showGrid) {
-          page.classList.add('dev-grid')
-          page.classList.add('grid-not-fixed')
-        } else {
-          page.classList.remove('dev-grid')
-        }
-      }
-      const body = document.querySelector('body')
-      if (body) {
-        if (showGrid) {
-          body.classList.add('dev-grid')
-        } else {
-          body.classList.remove('dev-grid')
-        }
-      }
       if (typeof window !== 'undefined') {
         window.localStorage.setItem('showGrid', showGrid ? 1 : 0)
       }

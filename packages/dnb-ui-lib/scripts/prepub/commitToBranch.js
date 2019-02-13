@@ -55,9 +55,17 @@ const getBranchName = async ({ repo = null, requiredBranch = null }) => {
       ? process.env.BRANCH
       : (await (repo || (await makeRepo())).branch()).current
 
-  if (requiredBranch && branchName !== requiredBranch) {
+  if (typeof requiredBranch === 'string') {
+    requiredBranch = [requiredBranch]
+  }
+  if (
+    requiredBranch &&
+    !requiredBranch.some(name => new RegExp(name).test(branchName))
+  ) {
     log.fail(
-      `The current branch (${branchName}) was not the required one: ${requiredBranch}`
+      `The current branch (${branchName}) was not the required one: ${requiredBranch.join(
+        ' or '
+      )}`
     )
     return false
   }
@@ -70,6 +78,7 @@ const commitToBranch = async ({
   what = 'files',
   filePathsWhitelist = [],
   isNotAFeature = null,
+  skipCI = false,
   isFeature = true
 } = {}) => {
   try {
@@ -124,7 +133,9 @@ const commitToBranch = async ({
       const commitMessage = String(
         `${
           isFeature ? 'feat:' : ''
-        } some ${what} where updated/added | ${files.join(', ')}`
+        } some ${what} where updated/added | ${files.join(', ')}${
+          skipCI ? ' [CI SKIP]' : ''
+        }`
       ).trim()
       log.text = `> Commit: ${commitMessage}`
 

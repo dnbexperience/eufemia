@@ -51,10 +51,42 @@ steps:
     when:
       event:
         - push
-        - pull-request
       branch:
         include:
           - develop
+          - rc/*
+
+  - name: deploy-pull-preview
+    image: tujoworker/docker-node-puppeteer
+    environment:
+      FIGMA_MAIN_FILE:
+        from_secret: FIGMA_MAIN_FILE
+      FIGMA_TOKEN:
+        from_secret: FIGMA_TOKEN
+      GH_EMAIL:
+        from_secret: GH_EMAIL
+      GH_NAME:
+        from_secret: GH_NAME
+      GH_TOKEN:
+        from_secret: GH_TOKEN
+    commands:
+      - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.13.0
+      - export PATH="$HOME/.yarn/bin:$PATH"
+      - yarn install
+      - yarn audit-ci
+      - yarn lint-ci
+      - yarn test-ci
+      - yarn prepublish-ci
+      - yarn build-ci
+      - yarn test-ci-screenshots
+    when:
+      event:
+        - pull-request
+      branch:
+        exclude:
+          - release
+          - develop
+          - gh-pages
           - rc/*
 
   - name: deploy-release

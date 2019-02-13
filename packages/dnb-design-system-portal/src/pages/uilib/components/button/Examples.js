@@ -107,23 +107,23 @@ class Example extends PureComponent {
         </ComponentBox>
         <ComponentBox scope={{ question }}>
           {/* @jsx */ `
-  <Button
-    title="Disabled Icon only Button"
-    icon="calendar"
-    disabled
-  />
-  <Button title="Button with Icon only" icon="calendar" />
-  <Button
-    title="Default sized Button with medium Icon"
-    icon="calendar"
-    icon_size="medium"
-    size="default"
-  />
-  <Button
-    title="Button with custom, Secondary Icon only"
-    icon={question}
-  />
-  <p className="example-caption">Button with Icon only</p>
+<Button
+  title="Disabled Icon only Button"
+  icon="calendar"
+  disabled
+/>
+<Button title="Button with Icon only" icon="calendar" />
+<Button
+  title="Default sized Button with medium Icon"
+  icon="calendar"
+  icon_size="medium"
+  size="default"
+/>
+<Button
+  title="Button with custom, Secondary Icon only"
+  icon={question}
+/>
+<p className="example-caption">Button with Icon only</p>
           `}
         </ComponentBox>
         <ComponentBox

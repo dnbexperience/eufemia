@@ -246,11 +246,14 @@ stories.push([
         <Box>
           <div className="dnb-form-group dnb-form-group__position--vertical">
             <label htmlFor="hendrerit">Label for the textarea:</label>
-            <textarea id="hendrerit" rows="5" cols="33">
-              Nec litora inceptos vestibulum id interdum donec gravida
-              nostra lacinia bibendum hendrerit porttitor volutpat nam duis
-              nisl scelerisque sapien erat
-            </textarea>
+            <textarea
+              id="hendrerit"
+              rows="5"
+              cols="33"
+              defaultValue="Nec litora inceptos vestibulum id interdum donec gravida
+            nostra lacinia bibendum hendrerit porttitor volutpat nam duis
+            nisl scelerisque sapien erat"
+            />
           </div>
           <p>I have to be on the grid!</p>
         </Box>
@@ -291,8 +294,8 @@ stories.push([
             scelerisque sapien erat"
             />
             <FormStatus text="Message to the user" />
-            <p>dI have to be on the grid!</p>
           </div>
+          <p>dI have to be on the grid!</p>
         </Box>
         <Box>
           <div className="dnb-form-group">
@@ -305,8 +308,8 @@ stories.push([
             lacinia bibendum hendrerit porttitor volutpat nam duis nisl
             scelerisque sapien erat"
             />
-            <p>I have to be on the grid!</p>
           </div>
+          <p>I have to be on the grid!</p>
         </Box>
       </CustomStyles>
     </Wrapper>

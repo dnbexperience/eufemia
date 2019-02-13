@@ -7,7 +7,7 @@ import path from 'path'
 import {
   loadImage,
   setupJestScreenshot
-} from '../../../core/jest/jestSetup'
+} from '../../../core/jest/jestSetupScreenshots'
 
 describe('Logo image', () => {
   setupJestScreenshot()

@@ -308,7 +308,7 @@ export default class SidebarLayout extends PureComponent {
 
   componentDidMount() {
     // remember last scroll position
-    if (this._scrollRef.current && this.offsetTop > 0) {
+    if (this._scrollRef.current) {
       if (typeof window !== 'undefined') {
         const sidebarPos = window.localStorage.getItem('sidebarPos')
           ? parseFloat(window.localStorage.getItem('sidebarPos'))
@@ -389,10 +389,8 @@ export default class SidebarLayout extends PureComponent {
           }
         `}
         render={({ allMdx, site: { pathPrefix } }) => {
-          const pathnameWithoutPrefix = location.pathname
-            .replace(/(\/)$/, '')
-            .replace(pathPrefix, '')
-          const pathnameWithoutPrefixList = pathnameWithoutPrefix
+          const currentPathname = location.pathname.replace(/(\/)$/, '')
+          const currentPathnameList = currentPathname
             .split('/')
             .filter(i => i)
 
@@ -405,14 +403,14 @@ export default class SidebarLayout extends PureComponent {
             .map(props => {
               // get the active item
               const active =
-                pathnameWithoutPrefix === props.path ||
-                pathnameWithoutPrefix === props.path.replace(/(\/)$/, '')
+                currentPathname === props.path ||
+                currentPathname === props.path.replace(/(\/)$/, '')
 
               // check if a item path is inside another
               const inside = props.path
                 .split('/')
                 .filter(i => i)
-                .every(i => pathnameWithoutPrefixList.includes(i))
+                .every(i => currentPathnameList.includes(i))
 
               return { ...props, active, inside }
             })

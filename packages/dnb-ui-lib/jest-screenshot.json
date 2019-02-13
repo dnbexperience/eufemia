@@ -1,4 +1,4 @@
 {
-  "detectAntialiasing": false,
-  "pixelThresholdRelative": 0.01
+  "detectAntialiasing": true,
+  "pixelThresholdRelative": 0.1
 }
