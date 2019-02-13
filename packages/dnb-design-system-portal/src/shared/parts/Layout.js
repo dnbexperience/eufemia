@@ -9,7 +9,6 @@ import { Link } from 'gatsby'
 import classnames from 'classnames'
 import styled from '@emotion/styled'
 import { css, Global } from '@emotion/core'
-
 import MainMenu from '../menu/MainMenu'
 import Sidebar from '../menu/SidebarMenu'
 import StickyMenuBar from '../menu/StickyMenuBar'
@@ -17,6 +16,7 @@ import { markdownStyle } from './Markdown'
 import { buildVersion } from '../../../package.json'
 import { MainMenuProvider } from '../menu/MainMenuContext'
 import { SidebarMenuProvider } from '../menu/SidebarMenuContext'
+import ToggleGrid from '../menu/ToggleGrid'
 import {
   setPageFocusElement,
   scrollToLocationHashId
@@ -42,10 +42,11 @@ class Layout extends PureComponent {
       return (
         <>
           <Content className="fullscreen-page">
-            <ContentInner className="dnb-app-content-inner">
+            <ContentInner className="dnb-app-content-inner dev-grid-first">
               {children}
             </ContentInner>
           </Content>
+          <ToggleGrid />
           <Footer />
         </>
       )
@@ -63,7 +64,7 @@ class Layout extends PureComponent {
           <Wrapper className="content-wrapper">
             <Sidebar location={location} showAll={false} />
             <Content>
-              <ContentInner className="dnb-app-content-inner">
+              <ContentInner className="dnb-app-content-inner dev-grid-first">
                 {children}
               </ContentInner>
               <Footer />
@@ -161,7 +162,7 @@ const ContentWrapper = styled.main`
   &:not(.fullscreen-page) {
     .dnb-app-content-inner {
       @media (min-width: 70em) {
-        max-width: 70vw;
+        max-width: 70rem;
       }
     }
   }
