@@ -38,7 +38,7 @@
 }
 @mixin hoverStyle() {
   background-color: var(--color-mint-green-50);
-  border-bottom: none;
+  border-bottom-color: transparent;
 }
 @mixin activeStyle() {
   color: var(--color-mint-green);
