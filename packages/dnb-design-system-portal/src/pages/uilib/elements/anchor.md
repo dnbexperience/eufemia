@@ -8,18 +8,18 @@ import CodeBlock from 'Tags/CodeBlock'
 
 <CodeBlock reactLive hideCode>
 {`
-<ul data-dnb-test="anchor" className="dnb-unstyled-list">
+<ul className="dnb-unstyled-list">
   <li>
-    <a href="/" >Default Style</a>
+    <a data-dnb-test="anchor-default" href="/" >Default Style</a>
   </li>
   <li>
-    <a href="/" className="dnb-hover-style">Hover Style</a>
+    <a data-dnb-test="anchor-hover" href="/" className="dnb-hover-style">Hover Style</a>
   </li>
   <li>
-    <a href="/" className="dnb-active-style">Active Style</a>
+    <a data-dnb-test="anchor-active" href="/" className="dnb-active-style">Active Style</a>
   </li>
   <li>
-    <a href="/" className="dnb-focus-style">Focus Style</a>
+    <a data-dnb-test="anchor-focus" href="/" className="dnb-focus-style">Focus Style</a>
   </li>
 </ul>
 `}

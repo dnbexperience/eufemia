@@ -52,18 +52,39 @@ module.exports.testPageScreenshot = ({
       let screenshotElement = null
       const element = await page.$(selector)
 
+      // to archieve a padding, we wrap the element and apply a padding to it
       if (padding) {
+        const { height } = await element.boundingBox()
         const id = `id-${Math.round(Math.random() * 9999)}`
         await page.$eval(
           selector,
-          (node, { id }) => {
+          (node, { id, style }) => {
             const elem = document.createElement('div')
             elem.setAttribute('id', id)
             elem.classList.add('data-dnb-test-padding')
+            elem.setAttribute('style', style)
             node.parentNode.appendChild(elem)
             return elem.appendChild(node)
           },
-          { id }
+          {
+            id,
+            style: makeStyles({
+              position: 'relative',
+              'z-index': 9999,
+
+              display: 'inline-block', // to get smaller width to the right (no white space)
+
+              overflow: 'hidden',
+
+              padding: '1rem',
+              margin: '-1rem',
+
+              background: 'white',
+
+              // width: `${width}px`,// only go for the "inline-block"
+              height: `${height + 32}px` // because we use "inline-block" - we have to make the height absolute
+            })
+          }
         )
         screenshotElement = await page.$(`#${id}`)
       } else {
@@ -81,14 +102,8 @@ module.exports.testPageScreenshot = ({
       if (style) {
         await page.$eval(
           selector,
-          (node, { style }) =>
-            node.setAttribute(
-              'style',
-              Object.entries(style)
-                .map(([k, v]) => `${k}: ${v}`)
-                .join(';')
-            ),
-          { style }
+          (node, style) => node.setAttribute('style', style),
+          makeStyles(style)
         )
       }
 
@@ -183,3 +198,19 @@ const createUrl = url =>
     /\/\//g,
     '/'
   )
+
+const makeStyles = style =>
+  Object.entries(style)
+    // .map(([k, v]) => {
+    //   console.log('k', k)
+    //   if (k === 'x' || k === 'y') {
+    //     return null
+    //   }
+    //   if (v > 0) {
+    //     v = `${v}px`
+    //   }
+    //   return [k, v]
+    // })
+    // .filter(i => i)
+    .map(([k, v]) => `${k}: ${v}`)
+    .join(';')

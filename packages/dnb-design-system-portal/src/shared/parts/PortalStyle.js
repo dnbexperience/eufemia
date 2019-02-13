@@ -9,20 +9,6 @@ import GridStyle from 'dnb-ui-lib/stories/GridStyle'
 export const gridStyle = GridStyle
 
 export default css`
-  /* to give screenshot testing a padding */
-  .data-dnb-test-padding {
-    position: relative;
-    z-index: 9999;
-
-    overflow: hidden;
-
-    padding: 1rem !important;
-    margin: -1rem !important;
-
-    background: white;
-    ${'' /* ${gridStyle({ rgb: '220, 220, 220', a: 0.8 })}; */}
-  }
-
   table td.selectable {
     position: relative;
     z-index: 1;
