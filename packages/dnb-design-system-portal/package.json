@@ -10,6 +10,7 @@
     "build": "yarn make-ui-lib-pages",
     "build-ci": "yarn build-portal:version && yarn make-ui-lib-pages && yarn build-portal --prefix-paths && yarn commit-new-pages",
     "build-portal": "rm -rf .cache && rm -rf ./public/** && yarn gatsby build",
+    "build-portal:version": "babel-node ./scripts/version.js --new-version",
     "serve-portal": "gatsby serve -p 8000",
     "build:dev": "yarn make-ui-lib-pages:dev",
     "precommit": "yarn lint-staged",
