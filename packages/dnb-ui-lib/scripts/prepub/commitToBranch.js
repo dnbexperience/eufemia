@@ -130,6 +130,13 @@ const commitToBranch = async ({
       )
         isFeature = false
 
+      if (typeof skipCI === 'function') {
+        const skipCIResult = skipCI(files)
+        if (typeof skipCIResult === 'boolean') {
+          skipCI = skipCIResult
+        }
+      }
+
       const commitMessage = String(
         `${
           isFeature ? 'feat:' : ''

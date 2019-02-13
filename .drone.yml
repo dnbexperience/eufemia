@@ -84,7 +84,6 @@ steps:
         - pull-request
       branch:
         exclude:
-          - release
           - develop
           - gh-pages
           - rc/*
