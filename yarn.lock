@@ -17265,9 +17265,9 @@ react-lifecycles-compat@^3.0.0, react-lifecycles-compat@^3.0.4:
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
-"react-live-replacement@https://github.com/tujoworker/react-live/tarball/d9a44a8b8093a3cb57734d901200f7b66cd30515":
+"react-live-replacement@https://github.com/tujoworker/react-live/tarball/fcf128dd05719fcad5e99e9c2ab462ee01c91520":
   version "1.13.0"
-  resolved "https://github.com/tujoworker/react-live/tarball/d9a44a8b8093a3cb57734d901200f7b66cd30515#695e9ac618e3c9786a748ca466d3c51aaeb3d090"
+  resolved "https://github.com/tujoworker/react-live/tarball/fcf128dd05719fcad5e99e9c2ab462ee01c91520#e33ef66aead22be24ab4e3b9f0fe2d46e1c5d398"
   dependencies:
     buble "^0.19.3"
     core-js "^2.4.1"
