@@ -40,7 +40,7 @@ module.exports = async function() {
         ['./jest-screenshot-report']
       )
       await commitToBranch({
-        requiredBranch: 'develop',
+        requiredBranch: ['develop', 'rc/*'],
         what: 'reports',
         filePathsWhitelist: ['jest-screenshot-report.tgz'],
         isNotAFeature: ['jest-screenshot-report.tgz']

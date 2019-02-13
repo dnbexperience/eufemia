@@ -55,9 +55,17 @@ const getBranchName = async ({ repo = null, requiredBranch = null }) => {
       ? process.env.BRANCH
       : (await (repo || (await makeRepo())).branch()).current
 
-  if (requiredBranch && branchName !== requiredBranch) {
+  if (typeof requiredBranch === 'string') {
+    requiredBranch = [requiredBranch]
+  }
+  if (
+    requiredBranch &&
+    !requiredBranch.some(name => new RegExp(name).test(branchName))
+  ) {
     log.fail(
-      `The current branch (${branchName}) was not the required one: ${requiredBranch}`
+      `The current branch (${branchName}) was not the required one: ${requiredBranch.join(
+        ' or '
+      )}`
     )
     return false
   }
