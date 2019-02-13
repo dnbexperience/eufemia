@@ -11,7 +11,7 @@ import { gridStyle } from '../parts/PortalStyle'
 
 const globalStyle = css`
   .dev-grid,
-  .dev-grid-first > div:first-child {
+  .dev-grid-first > div:first-of-type {
     ${gridStyle({ rgb: '220, 220, 220', a: 0.8 })};
 
     /* stylelint-disable no-descending-specificity */
