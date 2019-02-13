@@ -96,6 +96,7 @@
     @include allBelow(small) {
       &__tablist {
         flex-direction: column;
+        flex-grow: 1;
         margin: 0;
       }
       .dnb-tablink {
