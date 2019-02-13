@@ -148,6 +148,7 @@
     "jest-css-modules": "^1.1.0",
     "jest-raw-loader": "^1.0.1",
     "jest-screenshot": "^0.2.1",
+    "jest-screenshot-replacement": "https://github.com/tujoworker/jest-screenshot/tarball/fcf8414704f02716931889fa0a2047e58cad8adb",
     "jest-tobetype": "^1.2.2",
     "lint-staged": "^8.1.3",
     "live-server": "^1.2.1",
