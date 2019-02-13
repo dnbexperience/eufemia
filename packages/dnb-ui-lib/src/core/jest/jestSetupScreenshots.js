@@ -16,8 +16,8 @@ module.exports.testScreenshotOnPort = testScreenshotOnPort
 module.exports.DIR = path.join(os.tmpdir(), 'jest_puppeteer_global_setup')
 
 const pageSettings = {
-  width: 800,
-  height: 600,
+  width: 1280,
+  height: 1024,
   isMobile: false,
   hasTouch: false,
   isLandscape: false,
