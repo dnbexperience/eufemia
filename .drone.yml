@@ -84,9 +84,7 @@ steps:
         - pull-request
       branch:
         exclude:
-          - develop
-          - gh-pages
-          - rc/*
+          - wip/*
 
   - name: deploy-release
     image: tujoworker/docker-node-puppeteer
