@@ -69,6 +69,8 @@ module.exports.testPageScreenshot = ({
           {
             id,
             style: makeStyles({
+              'font-family': 'Arial',
+
               position: 'relative',
               'z-index': 9999,
 
