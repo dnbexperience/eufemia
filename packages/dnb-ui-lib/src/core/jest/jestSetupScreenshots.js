@@ -3,14 +3,26 @@
  * github.com/GoogleChrome/puppeteer/blob/master/docs/api.md
  */
 
+const fs = require('fs-extra')
+const path = require('path')
+const os = require('os')
 const { setupJestScreenshot } = require('jest-screenshot')
-const puppeteer = require('puppeteer')
 
 const testScreenshotOnHost = '127.0.0.1'
 // use same port as the local dev setup, this way we can test from the dev setup as well
 const testScreenshotOnPort = 8000
 module.exports.testScreenshotOnHost = testScreenshotOnHost
 module.exports.testScreenshotOnPort = testScreenshotOnPort
+module.exports.DIR = path.join(os.tmpdir(), 'jest_puppeteer_global_setup')
+
+const pageSettings = {
+  width: 800,
+  height: 600,
+  isMobile: false,
+  hasTouch: false,
+  isLandscape: false,
+  deviceScaleFactor: 1
+}
 
 module.exports.testPageScreenshot = ({
   url = null,
@@ -31,7 +43,7 @@ module.exports.testPageScreenshot = ({
       }
 
       if (url) {
-        await global.__PAGE__.goto(createUrl(url))
+        await page.goto(createUrl(url))
       }
 
       await page.waitForSelector(selector)
@@ -106,6 +118,8 @@ module.exports.testPageScreenshot = ({
         await page.waitFor(delay)
       }
 
+      // await page.waitFor(6e3)
+
       resolve(screenshot)
     } catch (e) {
       reject(e)
@@ -123,39 +137,34 @@ module.exports.setupPageScreenshot = ({ timeout, url, ...rest } = {}) => {
   const useUrl = createUrl(url)
 
   beforeAll(async () => {
-    if (!global.__BROWSER__) {
-      global.__BROWSER__ = await puppeteer.launch({
-        // headless: true,
-        args: ['--no-sandbox', '--disable-setuid-sandbox']
-      })
-    }
-    if (!global.__PAGE__) {
-      const pages = await global.__BROWSER__.pages()
-      global.__PAGE__ = pages[0]
-        ? pages[0]
-        : await global.__BROWSER__.newPage()
-      await global.__PAGE__.setViewport({
-        width: 800,
-        height: 600,
-        isMobile: false,
-        hasTouch: false,
-        isLandscape: false,
-        deviceScaleFactor: 1
-      })
-    }
-    await global.__PAGE__.goto(useUrl)
+    const context = await global.__BROWSER__.createIncognitoBrowserContext()
+    const page = await context.newPage()
+
+    // await page._client.send('ServiceWorker.enable')
+    // await page._client.send('ServiceWorker.stopAllWorkers')
+    // await page._client.send('ServiceWorker.unregister', {
+    //   scopeURL: `http://${testScreenshotOnHost}:${testScreenshotOnPort}`
+    // })
+
+    await page.setViewport(pageSettings)
+    await page.goto(useUrl)
+
+    global.__PAGE__ = page
   }, timeout)
 
   afterAll(async () => {
     await global.__PAGE__.close()
-    await global.__BROWSER__.close()
-    global.__BROWSER__ = null
     global.__PAGE__ = null
   })
 }
 
+module.exports.setupJestScreenshot = setupJestScreenshot
+module.exports.loadImage = async imagePath =>
+  await fs.readFile(path.resolve(imagePath))
+
+// make sure "${url}/" has actually a slash on the end
 const createUrl = url =>
-  `http://${testScreenshotOnHost}:${testScreenshotOnPort}/${url}?fullscreen&test`.replace(
+  `http://${testScreenshotOnHost}:${testScreenshotOnPort}/${url}/?fullscreen&test`.replace(
     /\/\//g,
     '/'
   )

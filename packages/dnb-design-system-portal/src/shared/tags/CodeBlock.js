@@ -120,11 +120,12 @@ class LiveCode extends PureComponent {
     code = String(code).trim()
     if (
       /data-dnb-test/.test(code) &&
-      !(
-        typeof window !== 'undefined' &&
-        window.location &&
-        window.location.search.split(/\?|&/).includes('test')
-      )
+      // remove test attribute only if: we run live, and are not not test
+      (typeof window !== 'undefined' &&
+        !(
+          window.location &&
+          window.location.search.split(/\?|&/).includes('test')
+        ))
     ) {
       code = code.replace(/\s+data-dnb-test="[^"]*"/g, '')
     }
