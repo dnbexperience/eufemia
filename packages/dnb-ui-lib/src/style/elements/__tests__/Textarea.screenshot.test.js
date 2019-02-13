@@ -12,15 +12,11 @@ describe('Textarea screenshot', () => {
   setupPageScreenshot({ url: '/uilib/elements/textarea' })
   it('have to match the "default" textarea style', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="textarea-default"]'
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-  it('have to match the "active" textarea style', async () => {
-    const screenshot = await testPageScreenshot({
       selector: '[data-dnb-test="textarea-default"]',
-      simulate: 'active'
+      // Only for screenshot testing - make textarea having same width on linux chromium
+      style: { width: '14rem' }
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+  // we do not make a active state, due to the differences of font rendering
 })

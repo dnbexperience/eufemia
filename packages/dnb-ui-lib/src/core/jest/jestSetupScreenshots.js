@@ -28,6 +28,7 @@ module.exports.testPageScreenshot = ({
   url = null,
   page = global.__PAGE__,
   selector,
+  style = true,
   padding = true,
   text = null,
   simulate = null,
@@ -74,6 +75,20 @@ module.exports.testPageScreenshot = ({
           selector,
           (node, { text }) => (node.innerText = text),
           { text }
+        )
+      }
+
+      if (style) {
+        await page.$eval(
+          selector,
+          (node, { style }) =>
+            node.setAttribute(
+              'style',
+              Object.entries(style)
+                .map(([k, v]) => `${k}: ${v}`)
+                .join(';')
+            ),
+          { style }
         )
       }
 

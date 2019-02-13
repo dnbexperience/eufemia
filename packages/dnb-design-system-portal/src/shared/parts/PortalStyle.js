@@ -19,15 +19,8 @@ export default css`
     padding: 1rem !important;
     margin: -1rem !important;
 
-    ${'' /* background: transparent; */}
     background: white;
-
     ${'' /* ${gridStyle({ rgb: '220, 220, 220', a: 0.8 })}; */}
-
-    /* Only for screenshot testing - make textarea having same width on linux chromium  */
-    #textarea-default {
-      width: 12rem;
-    }
   }
 
   table td.selectable {
