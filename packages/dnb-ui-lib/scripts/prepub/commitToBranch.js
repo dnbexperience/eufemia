@@ -78,6 +78,7 @@ const commitToBranch = async ({
   what = 'files',
   filePathsWhitelist = [],
   isNotAFeature = null,
+  skipCI = false,
   isFeature = true
 } = {}) => {
   try {
@@ -132,7 +133,9 @@ const commitToBranch = async ({
       const commitMessage = String(
         `${
           isFeature ? 'feat:' : ''
-        } some ${what} where updated/added | ${files.join(', ')}`
+        } some ${what} where updated/added | ${files.join(', ')}${
+          skipCI ? ' [CI SKIP]' : ''
+        }`
       ).trim()
       log.text = `> Commit: ${commitMessage}`
 
