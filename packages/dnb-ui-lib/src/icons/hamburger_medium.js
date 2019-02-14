@@ -3,7 +3,7 @@
 import React from 'react'
 
 const hamburger_medium = props => (
-  <svg viewBox="0 0 24 24" fill="none" {...props}>
+  <svg width={24} height={24} viewBox="0 0 24 24" fill="none" {...props}>
     <g clipPath="url(#clip-235c48)">
       <path
         fillRule="evenodd"

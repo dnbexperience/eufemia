@@ -245,34 +245,6 @@ const prepareIconParams = ({ sizeAsString, ...rest }) => {
     params.height = parseFloat(height)
   }
 
-  // Not in use right now, but this way we could make more magic
-  // if (size === 'auto' && typeof icon === 'function') {
-  //   try {
-  //     const attributes = icon().props
-  //     if (parseFloat(attributes.width) > 0) {
-  //       params.width = attributes.width
-  //     }
-  //     if (parseFloat(attributes.height) > 0) {
-  //       params.height = attributes.height
-  //     }
-  //     console.log('attributes', sizeAsString, sizeAsInt, width, height)
-  //   } catch (e) {} //eslint-disable-line
-  // }
-
-  // and the sizeAsString is not a default size
-  const sizeIsValid = ValidIconSizes.includes(sizeAsString)
-
-  // if the size is default, remove the widht/height
-  // but if the browser is IE11 - do not remove theese attributes
-  if (!isIE11 && sizeIsValid) {
-    params.width = null
-    params.height = null
-  }
-
-  if (isIE11 && sizeAsInt > 0) {
-    params.width = params.height = sizeAsInt
-  }
-
   validateDOMAttributes({}, params)
 
   return params
@@ -390,8 +362,3 @@ export const iconCase = name =>
     .toLowerCase()
     .replace(/^[0-9]/g, '$1')
     .replace(/[^a-z0-9_]/gi, '_')
-
-export const isIE11 =
-  typeof window !== 'undefined' && typeof document !== 'undefined'
-    ? !!window.MSInputMethodContext && !!document.documentMode
-    : false

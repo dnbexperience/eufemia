@@ -107,8 +107,6 @@ const runFrameIconsFactory = async ({
       // but once an icon has a frame inside, we have to make sure that this not happens
       findAllNodes(frameDoc, { type: 'COMPONENT' }) || frameDoc.children
 
-  console.log('frameDocChildren', frameDocChildren)
-
   // get a list of icons we want to refetch
   const iconIdsFromDoc = frameDocChildren.reduce((acc, { id, name }) => {
     // skip adding the current icon
@@ -301,7 +299,7 @@ const optimizeSVG = ({ file }) => {
       // { convertPathData: false }, // if we prefere to not transform any data paths, we have to disable this
       { cleanupIDs: false },
       { removeViewBox: false },
-      { removeDimensions: true }
+      { removeDimensions: false }
     ]
     const svgo = new SVGOptim({
       plugins

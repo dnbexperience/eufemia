@@ -70,3 +70,8 @@ export const scrollToLocationHashId = ({ offset = 0 } = {}) => {
     }
   }
 }
+
+export const isIE11 =
+  typeof window !== 'undefined' && typeof document !== 'undefined'
+    ? !!window.MSInputMethodContext && !!document.documentMode
+    : false

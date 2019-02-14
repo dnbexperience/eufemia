@@ -3,7 +3,7 @@
 import React from 'react'
 
 const search_medium = props => (
-  <svg viewBox="0 0 24 24" fill="none" {...props}>
+  <svg width={24} height={24} viewBox="0 0 24 24" fill="none" {...props}>
     <g
       clipPath="url(#clip-3b29c8)"
       stroke="#000"
@@ -11,7 +11,7 @@ const search_medium = props => (
       strokeLinecap="round"
       strokeLinejoin="round"
     >
-      <path d="M13.357 18.152a9.063 9.063 0 1 0-7.089-16.68 9.063 9.063 0 0 0 7.09 16.68zm2.863-1.932l7.029 7.029" />
+      <path d="M13.357 18.152a9.063 9.063 0 1 0-7.089-16.68 9.063 9.063 0 0 0 7.09 16.68zM16.22 16.22l7.029 7.029" />
     </g>
     <defs>
       <clipPath id="clip-3b29c8">

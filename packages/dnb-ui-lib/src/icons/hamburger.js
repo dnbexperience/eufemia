@@ -3,7 +3,7 @@
 import React from 'react'
 
 const hamburger = props => (
-  <svg viewBox="0 0 16 16" fill="none" {...props}>
+  <svg width={16} height={16} viewBox="0 0 16 16" fill="none" {...props}>
     <g clipPath="url(#clip-140d3e)">
       <path
         fillRule="evenodd"
