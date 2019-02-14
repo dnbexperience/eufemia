@@ -82,13 +82,6 @@ steps:
     when:
       event:
         - pull-request
-      branch:
-        include:
-          - develop
-          - release
-          - rc/*
-        exclude:
-          - wip/*
 
   - name: deploy-release
     image: tujoworker/docker-node-puppeteer
