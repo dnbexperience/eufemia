@@ -124,7 +124,7 @@ class LiveCode extends PureComponent {
       (typeof window !== 'undefined' &&
         !(
           window.location &&
-          window.location.search.split(/\?|&/).includes('test')
+          window.location.search.split(/\?|&/).includes('data-dnb-test')
         ))
     ) {
       code = code.replace(/\s+data-dnb-test="[^"]*"/g, '')
