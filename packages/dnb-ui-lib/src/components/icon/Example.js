@@ -42,18 +42,15 @@ import Bell from 'dnb-ui-lib/icons/bell'
           caption="Explicit defined size: medium"
         >
           {/* @jsx */ `
+<Icon icon={BellMedium} size="16" title="force default size" />
+<Icon icon={BellMedium} title="is medium anyway" />
 <Icon icon={Bell} size="medium" title="force medium size" />
-<Icon icon={BellMedium} size="medium" title="is medium anyway" />
-<Icon icon={BellMedium} size="24" title="custom size: size=24" />
+<Icon icon={Bell} size="24" title="custom size: size=24" />
 <Icon
-  icon={BellMedium}
-  height="24"
-  title="custom size: height=24"
-/>
-<Icon
-  icon={BellMedium}
+  icon={Bell}
   width="24"
-  title="custom size: width=24"
+  height="24"
+  title="custom size: width=24 and height=24"
 />
           `}
         </ComponentBox>

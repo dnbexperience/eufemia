@@ -150,7 +150,6 @@ export const calcSize = props => {
       if (ValidIconSizes.includes(lastPartOfIconName)) {
         sizeAsString = lastPartOfIconName
       }
-      console.log('nameParts', name, sizeAsInt, sizeAsString)
     }
   }
 
@@ -202,13 +201,19 @@ export const calcSize = props => {
   }
 
   // define all the svg parameters
-  const iconParams = prepareIconParams({
+  const {
+    sizeAsString: isCustomSize,
+    params: iconParams
+  } = prepareIconParams({
     sizeAsString,
     sizeAsInt,
     size,
     width,
     height
   })
+  if (isCustomSize) {
+    sizeAsString = isCustomSize
+  }
 
   if (!(sizeAsInt > 0)) {
     sizeAsInt = DefaultIconSize
@@ -247,7 +252,7 @@ const prepareIconParams = ({ sizeAsString, ...rest }) => {
 
   validateDOMAttributes({}, params)
 
-  return params
+  return { params, sizeAsString }
 }
 
 export const prepareIcon = props => {
