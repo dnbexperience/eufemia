@@ -83,6 +83,10 @@ steps:
       event:
         - pull-request
       branch:
+        include:
+          - develop
+          - release
+          - rc/*
         exclude:
           - wip/*
 
