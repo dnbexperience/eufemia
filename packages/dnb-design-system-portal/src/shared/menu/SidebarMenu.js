@@ -400,6 +400,8 @@ export default class SidebarLayout extends PureComponent {
             showAll,
             pathPrefix
           })
+            .filter(({ title, menuTitle }) => title || menuTitle)
+
             .map(props => {
               // get the active item
               const active =

@@ -16,6 +16,10 @@ Simply to unify and to maintain consistency of the most commonly used HTML Eleme
 
 This part of the Design System is dedicated to **application development**.
 
+## License
+
+The `dnb-ui-lib` is for internal DNB development only. Also, make sure You act within the [license](/license).
+
 ---
 
 <WatchingReleases />

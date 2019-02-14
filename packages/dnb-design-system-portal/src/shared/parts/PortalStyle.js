@@ -203,9 +203,6 @@ export default css`
   }
 
   div.example-box {
-    ${'' /* position: relative;
-    overflow: hidden; */}
-
     margin-bottom: 2rem;
     padding: 2rem;
 
@@ -230,6 +227,10 @@ export default css`
   }
   div.example-box + p.example-caption {
     margin-top: -2rem;
+  }
+
+  .margin-bottom {
+    margin-bottom: 2rem;
   }
 
   .lh-12 {
