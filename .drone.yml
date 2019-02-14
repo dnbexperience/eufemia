@@ -8,8 +8,10 @@ trigger:
 
 steps:
   - name: test
-    image: tujoworker/docker-node-puppeteer
+    image: node:10.6
     commands:
+      - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.13.0
+      - export PATH="$HOME/.yarn/bin:$PATH"
       - yarn install
       - yarn lint-ci
       - yarn test-ci
@@ -37,6 +39,8 @@ steps:
       GH_TOKEN:
         from_secret: GH_TOKEN
     commands:
+      - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.13.0
+      - export PATH="$HOME/.yarn/bin:$PATH"
       - yarn install
       - yarn audit-ci
       - yarn lint-ci
@@ -66,6 +70,8 @@ steps:
       GH_TOKEN:
         from_secret: GH_TOKEN
     commands:
+      - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.13.0
+      - export PATH="$HOME/.yarn/bin:$PATH"
       - yarn install
       - yarn audit-ci
       - yarn lint-ci
@@ -93,6 +99,8 @@ steps:
       NPM_TOKEN:
         from_secret: NPM_TOKEN
     commands:
+      - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.13.0
+      - export PATH="$HOME/.yarn/bin:$PATH"
       - yarn install
       - yarn audit-ci
       - yarn lint-ci
