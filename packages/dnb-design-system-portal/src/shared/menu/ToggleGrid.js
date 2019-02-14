@@ -84,7 +84,7 @@ export default class ToggleGrid extends Component {
   render() {
     const { showGrid } = this.state
     return (
-      <ToggleWrapper className="toggle-grid">
+      <ToggleWrapper className="toggle-grid" {...this.props}>
         {showGrid && <Global styles={globalStyle} />}
         <FormLabel for_id="switch-grid" text="Grid" />
         <Switch

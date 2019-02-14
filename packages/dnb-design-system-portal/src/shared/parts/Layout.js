@@ -46,7 +46,7 @@ class Layout extends PureComponent {
               {children}
             </ContentInner>
           </Content>
-          <ToggleGrid />
+          <ToggleGrid hidden />
           <Footer />
         </>
       )
