@@ -14,8 +14,9 @@
     fill: currentColor;
   }
 
+  // experimental, but we have a fallback in place
   --ratio: attr(data-ratio);
-  width: calc(1em * var(--ratio, 2));
+  width: calc(1em * var(--ratio, 1.453690625));
   height: 1em;
   &--has-size {
     width: auto;

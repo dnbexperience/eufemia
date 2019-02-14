@@ -1,5 +1,5 @@
 ---
-title: 'Icon'
+title: 'Icon / SVG'
 draft: false
 ---
 
@@ -28,5 +28,49 @@ Use `size="auto"` to force the icon to inherit the size of its parent element.
 {`
 <h1>My H1 with an Icon <Icon icon={Beach} title="Beach" size="auto" /></h1>
 <h4>My H4 with the same Icon <Icon icon={Beach} title="Beach" size="auto" /></h4>
+`}
+</ComponentBox>
+
+## SVG
+
+_Scalable Vector Graphics_ can be set up to be scaleable and actually respond to the `font-size`.
+
+<ComponentBox scope={{Beach}} noInline>
+{`
+const Responsive = styled.span\`
+  svg {
+    font-size: inherit;
+    width: 1.5em;
+    height: 1.5em;
+  }
+\`
+\nconst Svg = (props) => (<svg
+  width="16"
+  height="16"
+  viewBox="0 0 16 16"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+  {...props}
+>
+  <path
+    fillRule="evenodd"
+    clipRule="evenodd"
+    d="M4.03 5.22a.75.75 0 0 0-1.06 1.06l4.5 4.5a.75.75 0 0 0 1.06 0l4.5-4.5a.75.75 0 0 0-1.06-1.06L8 9.19 4.03 5.22z"
+    fill="#000"
+  />
+</svg>)
+\nrender(<>
+  <p>
+    <Svg width="24" height="24" /> - has a fix size
+  </p>
+  <p>
+    <Responsive><Svg /></Responsive> - is responsive
+  </p>
+  <p>
+    <span className="dnb-icon dnb-icon--medium">
+      <Svg />
+    </span> - use of <code>.dnb-icon</code>
+  </p>
+</>)
 `}
 </ComponentBox>

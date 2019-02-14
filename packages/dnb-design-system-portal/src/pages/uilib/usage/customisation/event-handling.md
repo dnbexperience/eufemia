@@ -23,7 +23,7 @@ Some of the most basic event handling in React.
 
 ### Stateless Component
 
-<ComponentBox noInline={true}>
+<ComponentBox noInline>
 {`
 const myHandler = () => alert('Hello')
 render(<Button text="Declarative" on_click={myHandler} />)
