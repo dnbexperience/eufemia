@@ -118,7 +118,7 @@ export const getIconNameFromComponent = icon => {
   const name =
     typeof icon === 'string'
       ? icon
-      : icon && typeof icon === 'object' && (icon.displayName || icon.name)
+      : icon && (icon.displayName || icon.name)
   if (/^data:image\//.test(name)) {
     return null
   }
@@ -147,8 +147,10 @@ export const calcSize = props => {
       if (potentialSize) {
         sizeAsInt = potentialSize
       }
-      // } else {
-      //   sizeAsInt = DefaultIconSize
+      if (ValidIconSizes.includes(lastPartOfIconName)) {
+        sizeAsString = lastPartOfIconName
+      }
+      console.log('nameParts', name, sizeAsInt, sizeAsString)
     }
   }
 
@@ -182,8 +184,8 @@ export const calcSize = props => {
     }
   }
 
-  // check if the sizeAsInt is a default size
-  if (sizeAsInt > 0) {
+  // check if the sizeAsInt is a default size - and no sizeAsString exists yet
+  if (!sizeAsString && sizeAsInt > 0) {
     const potentialSizeAsString = ListDefaultIconSizes.reduce(
       (acc, [key, value]) => {
         if (key && value === sizeAsInt) {
@@ -216,8 +218,6 @@ export const calcSize = props => {
     iconParams.width = '100%'
     iconParams.height = '100%'
     sizeAsString = null
-    // } else if (!sizeAsString) {
-    //   sizeAsString = 'default'
   }
 
   return {

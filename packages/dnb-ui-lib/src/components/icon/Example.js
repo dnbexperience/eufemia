@@ -4,7 +4,7 @@
  */
 
 import React, { PureComponent, Fragment } from 'react'
-import Icon from './Icon'
+import ComponentBox from '../../../../dnb-design-system-portal/src/shared/tags/ComponentBox'
 import { bell_medium as BellMedium, bell as Bell } from './lib'
 
 class Example extends PureComponent {
@@ -25,27 +25,38 @@ import Bell from 'dnb-ui-lib/icons/bell'
   render() {
     return (
       <Fragment>
-        <div className="example-box">
-          <Icon icon={Bell} />
-          <Icon icon={BellMedium} />
-          <p className="example-caption">Default Sizes (Responsive)</p>
-        </div>
-        <div className="example-box">
-          <Icon icon={BellMedium} title="auto size" />
-          <Icon icon={BellMedium} size="medium" title="size=medium" />
-          <Icon icon={BellMedium} size="24" title="custom size: size=24" />
-          <Icon
-            icon={BellMedium}
-            height="24"
-            title="custom size: height=24"
-          />
-          <Icon
-            icon={BellMedium}
-            width="24"
-            title="custom size: width=24"
-          />
-          <p className="example-caption">Explicit defined size: medium</p>
-        </div>
+        <ComponentBox
+          data-dnb-test="icon-sizes"
+          scope={{ Bell, BellMedium }}
+          caption="Default Sizes (Responsive)"
+        >
+          {/* @jsx */ `
+<Icon icon={Bell} title="auto size" />
+<Icon icon={BellMedium} title="auto size" />
+          `}
+        </ComponentBox>
+
+        <ComponentBox
+          data-dnb-test="icon-medium"
+          scope={{ Bell, BellMedium }}
+          caption="Explicit defined size: medium"
+        >
+          {/* @jsx */ `
+<Icon icon={Bell} size="medium" title="force medium size" />
+<Icon icon={BellMedium} size="medium" title="is medium anyway" />
+<Icon icon={BellMedium} size="24" title="custom size: size=24" />
+<Icon
+  icon={BellMedium}
+  height="24"
+  title="custom size: height=24"
+/>
+<Icon
+  icon={BellMedium}
+  width="24"
+  title="custom size: width=24"
+/>
+          `}
+        </ComponentBox>
       </Fragment>
     )
   }
