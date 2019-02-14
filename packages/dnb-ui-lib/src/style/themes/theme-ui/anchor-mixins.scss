@@ -92,3 +92,16 @@
     transition: max-height 0.01s linear;
   }
 }
+@mixin useAnchorContrastStyle() {
+  color: var(--color-white);
+  border-bottom-color: var(--color-white);
+  &:hover {
+    color: var(--color-emerald-green);
+  }
+  &:active {
+    color: var(--color-mint-green);
+  }
+  &:focus {
+    color: var(--color-emerald-green);
+  }
+}

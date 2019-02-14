@@ -5,7 +5,8 @@
 
 @import './anchor-mixins.scss';
 
-a {
+a,
+.dnb-anchor {
   @include defaultAnchorStyle();
 
   // have focus before :active, because of border-radius
@@ -29,16 +30,16 @@ a {
     transform: translateY(-1px);
   }
 }
-.dnb-hover-style {
+.dnb-anchor--hover {
   @include hoverStyle();
 }
-.dnb-active-style {
+.dnb-anchor--active {
   @include activeStyle();
 }
-.dnb-focus-style {
+.dnb-anchor--focus {
   @include focusStyle('mouse');
 }
-.dnb-with-animation {
+.dnb-anchor--animation {
   position: relative; // because of z-index and underline/hover sudo classes
   z-index: 1; // because of focus handling
 
@@ -91,12 +92,17 @@ a {
       border-bottom: none;
     }
   }
+  // If a link don't contains a / or http(s)
+  &:not([href^='/']):not([href^='http']) {
+    cursor: pointer;
+    user-select: none;
+  }
 }
 
 .dnb-anchor-style {
   @include defaultAnchorStyle();
 }
-.dnb-no-anchor-style {
+.dnb-anchor-no-style {
   white-space: normal;
   border-bottom: none;
   color: inherit;
@@ -113,17 +119,15 @@ a {
   @include resetUnderlineStyle();
   @include resetHoverStyle();
 }
-.dnb-no-anchor-underline {
+.dnb-anchor-no-underline {
   @include resetUnderlineStyle();
 }
-.dnb-no-anchor-hover {
+.dnb-anchor-no-hover {
   @include resetHoverStyle();
 }
-.dnb-no-anchor-animation {
+.dnb-anchor-no-animation {
   @include resetAnimationStyle();
 }
-// If a link don't contains a / or http(s)
-a:not([href^='/']):not([href^='http']) {
-  cursor: pointer;
-  user-select: none;
+.dnb-anchor-contrast {
+  @include useAnchorContrastStyle();
 }
