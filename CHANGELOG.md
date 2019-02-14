@@ -1,3 +1,12 @@
+**February, 14. 2019**
+
+## Changes to the default styles
+
+- Anchor (Text Link): Removed underline on hover and active states
+- Tables (the default once) has now always a border line on the bottom
+
+---
+
 **January 2019**
 
 ## Changes to the default styles

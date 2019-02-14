@@ -17,7 +17,7 @@ import { IconPrimary } from 'dnb-ui-lib/src'
         <a href="#sort">Column 3</a>
       </th>
       <th className="dnb-no-wrap">
-        <a href="#sort" className="dnb-no-anchor-underline">
+        <a href="#sort" className="dnb-anchor-no-underline">
           Column 4 <IconPrimary icon="chevron-down" />
         </a>
       </th>
@@ -63,7 +63,7 @@ import { IconPrimary } from 'dnb-ui-lib/src'
         <a href="#sort">Column 3</a>
       </th>
       <th className="dnb-no-wrap">
-        <a href="#sort" className="dnb-no-anchor-underline">
+        <a href="#sort" className="dnb-anchor-no-underline">
           Column 4 <IconPrimary icon="chevron-down" />
         </a>
       </th>
