@@ -11645,6 +11645,16 @@ jest-runtime@^24.1.0:
     write-file-atomic "2.4.1"
     yargs "^12.0.2"
 
+"jest-screenshot-replacement@https://github.com/tujoworker/jest-screenshot/tarball/fcf8414704f02716931889fa0a2047e58cad8adb":
+  version "0.2.0"
+  resolved "https://github.com/tujoworker/jest-screenshot/tarball/fcf8414704f02716931889fa0a2047e58cad8adb#512c6c4a8544f0b24c15bccc651466f20fec5341"
+  dependencies:
+    chalk "^2.3.2"
+    lodash.kebabcase "^4.1.1"
+    mkdirp "^0.5.1"
+    native-image-diff "^0.1.1"
+    node-libpng "^0.2.0"
+
 jest-screenshot@^0.2.1:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/jest-screenshot/-/jest-screenshot-0.2.1.tgz#d3141805a61c7967d890135a3e5247aebc1f6d15"
@@ -13698,7 +13708,7 @@ napi-build-utils@^1.0.1:
   resolved "https://registry.yarnpkg.com/napi-build-utils/-/napi-build-utils-1.0.1.tgz#1381a0f92c39d66bf19852e7873432fc2123e508"
   integrity sha512-boQj1WFgQH3v4clhu3mTNfP+vOBxorDlE8EKiMjUlLG3C4qAESnn9AxIOkFgTR2c9LtzNjPrjS60cT27ZKBhaA==
 
-native-image-diff@^0.1.7:
+native-image-diff@^0.1.1, native-image-diff@^0.1.7:
   version "0.1.8"
   resolved "https://registry.yarnpkg.com/native-image-diff/-/native-image-diff-0.1.8.tgz#69ffd363603c106347643504556a766b2928625b"
   integrity sha512-Hbdj4VIOGw2+UwBG8E9juaOQM8e/P3wqhJISsX2CK18j5LqlyKTC01oZgQKtbAooBr05wtag7jfQlYF8QV3Edg==
@@ -13858,7 +13868,7 @@ node-int64@^0.4.0:
   resolved "https://registry.yarnpkg.com/node-int64/-/node-int64-0.4.0.tgz#87a9065cdb355d3182d8f94ce11188b825c68a3b"
   integrity sha1-h6kGXNs1XTGC2PlM4RGIuCXGijs=
 
-node-libpng@^0.2.6:
+node-libpng@^0.2.0, node-libpng@^0.2.6:
   version "0.2.7"
   resolved "https://registry.yarnpkg.com/node-libpng/-/node-libpng-0.2.7.tgz#f69cf1eb6fb7d8c5005dc12e072b35447a194bff"
   integrity sha512-A8ct3JfKQUFMI338l6N/58VYCRapM4/HR6tVjXyk/hKATC3Y1kQ9g3k2SxBg7nSJeJRNw+yXnUHwRSQeWbuCjA==

@@ -69,6 +69,8 @@ module.exports.testPageScreenshot = ({
           {
             id,
             style: makeStyles({
+              'font-family': 'Arial',
+
               position: 'relative',
               'z-index': 9999,
 
@@ -170,13 +172,21 @@ module.exports.setupPageScreenshot = ({ timeout, url, ...rest } = {}) => {
     const context = await global.__BROWSER__.createIncognitoBrowserContext()
     const page = await context.newPage()
 
-    // await page._client.send('ServiceWorker.enable')
-    // await page._client.send('ServiceWorker.stopAllWorkers')
-    // await page._client.send('ServiceWorker.unregister', {
-    //   scopeURL: `http://${testScreenshotOnHost}:${testScreenshotOnPort}`
-    // })
-
     await page.setViewport(pageSettings)
+
+    await page.setRequestInterception(true) // is needed in order to use on "request"
+    page.on('request', req => {
+      const type = req.resourceType()
+      switch (type) {
+        case 'font':
+          req.abort()
+          break
+
+        default:
+          req.continue()
+      }
+    })
+
     await page.goto(useUrl)
 
     global.__PAGE__ = page
@@ -194,7 +204,7 @@ module.exports.loadImage = async imagePath =>
 
 // make sure "${url}/" has actually a slash on the end
 const createUrl = url =>
-  `http://${testScreenshotOnHost}:${testScreenshotOnPort}/${url}/?fullscreen&test`.replace(
+  `http://${testScreenshotOnHost}:${testScreenshotOnPort}/${url}/?data-dnb-test&fullscreen`.replace(
     /\/\//g,
     '/'
   )
