@@ -31,7 +31,7 @@ const config = {
   }
 }
 
-export const getCurrentBranchName = async () => {
+const getCurrentBranchName = async () => {
   const pathToRepo = path.resolve(__dirname, '../../../../')
   const repo = simpleGit(pathToRepo)
   return (await repo.branch()).current
@@ -172,6 +172,7 @@ const commitToBranch = async ({
 
 exports.commitToBranch = commitToBranch
 exports.getBranchName = getBranchName
+exports.getCurrentBranchName = getCurrentBranchName
 
 // we use common js to run this, as this is also used by other packages in the repo
 // export { getBranchName, commitToBranch }
