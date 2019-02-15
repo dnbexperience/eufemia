@@ -11,7 +11,10 @@ const chalk = require('chalk')
 const rimraf = require('rimraf')
 const isCi = require('is-ci')
 const liveServer = require('live-server')
-import { commitToBranch } from '../../../scripts/prepub/commitToBranch'
+import {
+  commitToBranch,
+  getCurrentBranchName
+} from '../../../scripts/prepub/commitToBranch'
 const { DIR } = require('./jestSetupScreenshots').config
 
 module.exports = async function() {
@@ -32,10 +35,11 @@ module.exports = async function() {
       './jest-screenshot-report'
     )
     if (fs.existsSync(reportPath)) {
+      const branchName = await getCurrentBranchName()
       await tar.create(
         {
           gzip: true,
-          file: './reports/jest-screenshot-report.tgz'
+          file: `./reports/${branchName}-jest-screenshot-report.tgz`
         },
         ['./jest-screenshot-report']
       )

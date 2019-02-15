@@ -31,6 +31,12 @@ const config = {
   }
 }
 
+export const getCurrentBranchName = async () => {
+  const pathToRepo = path.resolve(__dirname, '../../../../')
+  const repo = simpleGit(pathToRepo)
+  return (await repo.branch()).current
+}
+
 const makeRepo = async () => {
   const pathToRepo = path.resolve(__dirname, '../../../../')
   const repo = simpleGit(pathToRepo)
