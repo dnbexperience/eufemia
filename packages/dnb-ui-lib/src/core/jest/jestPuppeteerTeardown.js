@@ -12,7 +12,7 @@ const rimraf = require('rimraf')
 const isCi = require('is-ci')
 const liveServer = require('live-server')
 import { commitToBranch } from '../../../scripts/prepub/commitToBranch'
-const { DIR } = require('./jestSetupScreenshots')
+const { DIR } = require('./jestSetupScreenshots').config
 
 module.exports = async function() {
   if (isCi) {

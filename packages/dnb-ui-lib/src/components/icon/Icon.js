@@ -137,6 +137,7 @@ export const calcSize = props => {
     const name = getIconNameFromComponent(icon)
 
     const nameParts = String(name || '').split('_')
+
     if (nameParts.length > 1) {
       const lastPartOfIconName = nameParts.reverse()[0]
       const potentialSize = ListDefaultIconSizes.filter(
@@ -149,6 +150,24 @@ export const calcSize = props => {
       }
       if (ValidIconSizes.includes(lastPartOfIconName)) {
         sizeAsString = lastPartOfIconName
+      }
+    } else {
+      if (typeof icon === 'function') {
+        const elem = icon()
+        if (elem.props) {
+          let potentialSize = -1
+          if (elem.props.width) {
+            potentialSize = elem.props.width
+          }
+          if (!potentialSize && elem.props.viewBox) {
+            potentialSize = /[0-9]+ [0-9]+ ([0-9]+)/.exec(
+              elem.props.viewBox
+            )[1] // get the width
+          }
+          if (potentialSize) {
+            sizeAsInt = potentialSize
+          }
+        }
       }
     }
   }
@@ -293,9 +312,9 @@ export const prepareIcon = props => {
   // also used for code markup simulation
   const wrapperParams = validateDOMAttributes(props, {
     role: 'img',
-    alt,
-    ['aria-label']: alt,
-    title,
+    alt, // in case the image don't shows up (because we define the role to be img)
+    ['aria-label']: !attributes['aria-hidden'] ? alt : null, // for screen readers only
+    title, // to show on hover, if defined
     ...attributes
   })
 

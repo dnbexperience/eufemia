@@ -19,7 +19,7 @@ Do you want to...
 - make changes to the overall `ui-lib`?
 - change texts and content of the Eufemia Design System Portal (website)?
 
-## Is there more?
+## So, how do I getting started?
 
 Check out all the articles in [the usage section](/uilib/usage/)
 

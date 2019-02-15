@@ -15,9 +15,10 @@ const detectPort = require('detect-port')
 const packpath = require('packpath')
 const {
   DIR,
+  headless,
   testScreenshotOnHost,
   testScreenshotOnPort
-} = require('./jestSetupScreenshots')
+} = require('./jestSetupScreenshots').config
 
 const startStaticServer = () =>
   new Promise(async resolve => {
@@ -32,8 +33,8 @@ const startStaticServer = () =>
         // serve({
         //   directory: root,
         //   open: false,
-        //   host: testScreenshotOnHost,
-        //   port: testScreenshotOnPort
+        //   host: config.testScreenshotOnHost,
+        //   port: config.testScreenshotOnPort
         // })
         const params = {
           host: testScreenshotOnHost,
@@ -60,7 +61,6 @@ module.exports = async function() {
   console.log(chalk.green('Setup Puppeteer'))
   await startStaticServer()
 
-  const headless = true
   const browser = await puppeteer.launch({
     headless,
     devtools: !headless,

@@ -50,7 +50,7 @@ import Bell from 'dnb-ui-lib/icons/bell'
   icon={Bell}
   width="24"
   height="24"
-  title="custom size: width=24 and height=24"
+  title="not responsive"
 />
           `}
         </ComponentBox>
