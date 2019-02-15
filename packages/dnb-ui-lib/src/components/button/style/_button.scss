@@ -209,4 +209,9 @@ a.dnb-button {
   .dnb-button__text {
     transform: translateY(1px);
   }
+
+  &:active,
+  &:focus {
+    border-radius: var(--button-border-radius);
+  }
 }

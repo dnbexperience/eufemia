@@ -43,4 +43,10 @@ describe('Button screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+  it('have to match primary button with href', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-dnb-test="button-anchor"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })
