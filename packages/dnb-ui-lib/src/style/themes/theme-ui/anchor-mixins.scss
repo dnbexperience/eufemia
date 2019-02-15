@@ -38,7 +38,7 @@
 }
 @mixin hoverStyle() {
   background-color: var(--color-mint-green-50);
-  border-bottom-width: 2px;
+  border-bottom-color: transparent;
 }
 @mixin activeStyle() {
   color: var(--color-mint-green);
@@ -90,5 +90,18 @@
   // bg
   &::before {
     transition: max-height 0.01s linear;
+  }
+}
+@mixin useAnchorContrastStyle() {
+  color: var(--color-white);
+  border-bottom-color: var(--color-white);
+  &:hover {
+    color: var(--color-emerald-green);
+  }
+  &:active {
+    color: var(--color-mint-green);
+  }
+  &:focus {
+    color: var(--color-emerald-green);
   }
 }

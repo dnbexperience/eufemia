@@ -40,6 +40,17 @@ describe('Icon component', () => {
     expect(elem.props().height).toBe(height)
   })
 
+  it('should work with medium size', () => {
+    const Comp = mount(<Component {...props} size="24" />)
+    expect(Comp.find('span.dnb-icon').hasClass('dnb-icon--medium')).toBe(
+      true
+    )
+    Comp.setProps({ size: 16 })
+    expect(Comp.find('span.dnb-icon').hasClass('dnb-icon--default')).toBe(
+      false
+    )
+  })
+
   it('should work with custom size', () => {
     const Comp = mount(<Component {...props} size="100" />)
     expect(

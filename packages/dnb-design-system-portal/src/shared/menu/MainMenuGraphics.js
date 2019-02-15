@@ -7,6 +7,8 @@ import React from 'react'
 
 export const ToggleMenu = props => (
   <svg
+    width="24"
+    height="24"
     viewBox="0 0 24 24"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
@@ -36,6 +38,8 @@ export const ToggleMenu = props => (
 )
 export const BrandSvg = props => (
   <svg
+    width="48"
+    height="48"
     viewBox="0 0 48 48"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
@@ -180,6 +184,8 @@ export const PrinciplesSvg = props => (
 )
 export const QuickguideDesignerSvg = props => (
   <svg
+    width="48"
+    height="48"
     viewBox="0 0 48 48"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
@@ -245,6 +251,8 @@ export const QuickguideDesignerSvg = props => (
 )
 export const DesignSystemSvg = props => (
   <svg
+    width="48"
+    height="48"
     viewBox="0 0 48 48"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
@@ -296,6 +304,8 @@ export const DesignSystemSvg = props => (
 )
 export const IconsSvg = props => (
   <svg
+    width="48"
+    height="48"
     viewBox="0 0 48 48"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
@@ -333,6 +343,8 @@ export const IconsSvg = props => (
 )
 export const UilibSvg = props => (
   <svg
+    width="48"
+    height="48"
     viewBox="0 0 48 48"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"

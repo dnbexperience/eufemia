@@ -44,6 +44,10 @@ blockquote,
     padding-bottom: 3rem;
   }
 
+  a {
+    @include useAnchorContrastStyle();
+  }
+
   cite,
   footer,
   figcaption {

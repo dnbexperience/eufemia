@@ -8,21 +8,22 @@ const path = require('path')
 const os = require('os')
 const { setupJestScreenshot } = require('jest-screenshot')
 
-const testScreenshotOnHost = '127.0.0.1'
-// use same port as the local dev setup, this way we can test from the dev setup as well
-const testScreenshotOnPort = 8000
-module.exports.testScreenshotOnHost = testScreenshotOnHost
-module.exports.testScreenshotOnPort = testScreenshotOnPort
-module.exports.DIR = path.join(os.tmpdir(), 'jest_puppeteer_global_setup')
-
-const pageSettings = {
-  width: 800,
-  height: 600,
-  isMobile: false,
-  hasTouch: false,
-  isLandscape: false,
-  deviceScaleFactor: 1
+const config = {
+  DIR: path.join(os.tmpdir(), 'jest_puppeteer_global_setup'),
+  // use same port as the local dev setup, this way we can test from the dev setup as well
+  testScreenshotOnHost: '127.0.0.1',
+  testScreenshotOnPort: 8000,
+  headless: true,
+  pageSettings: {
+    width: 1280,
+    height: 1024,
+    isMobile: false,
+    hasTouch: false,
+    isLandscape: false,
+    deviceScaleFactor: 1
+  }
 }
+module.exports.config = config
 
 module.exports.testPageScreenshot = ({
   url = null,
@@ -52,18 +53,40 @@ module.exports.testPageScreenshot = ({
       let screenshotElement = null
       const element = await page.$(selector)
 
+      // to archieve a padding, we wrap the element and apply a padding to it
       if (padding) {
+        const { height } = await element.boundingBox()
         const id = `id-${Math.round(Math.random() * 9999)}`
         await page.$eval(
           selector,
-          (node, { id }) => {
+          (node, { id, style }) => {
             const elem = document.createElement('div')
             elem.setAttribute('id', id)
             elem.classList.add('data-dnb-test-padding')
+            elem.setAttribute('style', style)
             node.parentNode.appendChild(elem)
             return elem.appendChild(node)
           },
-          { id }
+          {
+            id,
+            style: makeStyles({
+              'font-family': 'Arial',
+
+              position: 'relative',
+              'z-index': 9999,
+
+              display: 'inline-block', // to get smaller width to the right (no white space)
+
+              overflow: 'hidden',
+
+              padding: '1rem',
+              margin: '-1rem',
+
+              background: 'white',
+
+              height: `${height + 32}px` // because we use "inline-block" - we have to make the height absolute
+            })
+          }
         )
         screenshotElement = await page.$(`#${id}`)
       } else {
@@ -81,14 +104,8 @@ module.exports.testPageScreenshot = ({
       if (style) {
         await page.$eval(
           selector,
-          (node, { style }) =>
-            node.setAttribute(
-              'style',
-              Object.entries(style)
-                .map(([k, v]) => `${k}: ${v}`)
-                .join(';')
-            ),
-          { style }
+          (node, style) => node.setAttribute('style', style),
+          makeStyles(style)
         )
       }
 
@@ -133,7 +150,9 @@ module.exports.testPageScreenshot = ({
         await page.waitFor(delay)
       }
 
-      // await page.waitFor(6e3)
+      if (!config.headless) {
+        await page.waitFor(1e3)
+      }
 
       resolve(screenshot)
     } catch (e) {
@@ -155,13 +174,21 @@ module.exports.setupPageScreenshot = ({ timeout, url, ...rest } = {}) => {
     const context = await global.__BROWSER__.createIncognitoBrowserContext()
     const page = await context.newPage()
 
-    // await page._client.send('ServiceWorker.enable')
-    // await page._client.send('ServiceWorker.stopAllWorkers')
-    // await page._client.send('ServiceWorker.unregister', {
-    //   scopeURL: `http://${testScreenshotOnHost}:${testScreenshotOnPort}`
-    // })
+    await page.setViewport(config.pageSettings)
 
-    await page.setViewport(pageSettings)
+    await page.setRequestInterception(true) // is needed in order to use on "request"
+    page.on('request', req => {
+      const type = req.resourceType()
+      switch (type) {
+        case 'font':
+          req.abort()
+          break
+
+        default:
+          req.continue()
+      }
+    })
+
     await page.goto(useUrl)
 
     global.__PAGE__ = page
@@ -179,7 +206,22 @@ module.exports.loadImage = async imagePath =>
 
 // make sure "${url}/" has actually a slash on the end
 const createUrl = url =>
-  `http://${testScreenshotOnHost}:${testScreenshotOnPort}/${url}/?fullscreen&test`.replace(
-    /\/\//g,
-    '/'
-  )
+  `http://${config.testScreenshotOnHost}:${
+    config.testScreenshotOnPort
+  }/${url}/?data-dnb-test&fullscreen`.replace(/\/\//g, '/')
+
+const makeStyles = style =>
+  Object.entries(style)
+    // .map(([k, v]) => {
+    //   console.log('k', k)
+    //   if (k === 'x' || k === 'y') {
+    //     return null
+    //   }
+    //   if (v > 0) {
+    //     v = `${v}px`
+    //   }
+    //   return [k, v]
+    // })
+    // .filter(i => i)
+    .map(([k, v]) => `${k}: ${v}`)
+    .join(';')

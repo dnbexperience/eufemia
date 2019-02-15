@@ -3,7 +3,7 @@
 import React from 'react'
 
 const check_alt_01_medium = props => (
-  <svg viewBox="0 0 24 24" fill="none" {...props}>
+  <svg width={24} height={24} viewBox="0 0 24 24" fill="none" {...props}>
     <g clipPath="url(#clip-a0b25c)">
       <path
         fillRule="evenodd"

@@ -12,11 +12,11 @@ Beside that the Anchor Tag gets assigned by default - or let's say, by only impo
 
 ## Default Styles
 
-- `<a>` <a href="/" >Anchor with default style</a>
-- `.dnb-hover-style` <a href="/" class="dnb-hover-style">Hover Style</a>
-- `.dnb-active-style` <a href="/" class="dnb-active-style">Active Style</a>
-- `.dnb-focus-style` <a href="/" class="dnb-focus-style">Focus Style</a>
-- `.dnb-with-animation` <a href="/" class="dnb-with-animation">With a special animation Style</a>
+- `.dnb-anchor or a` <a href="/" >Anchor with default style</a>
+- `.dnb-anchor--hover` <a href="/" class="dnb-anchor--hover">Hover Style</a>
+- `.dnb-anchor--active` <a href="/" class="dnb-anchor--active">Active Style</a>
+- `.dnb-anchor--focus` <a href="/" class="dnb-anchor--focus">Focus Style</a>
+- `.dnb-anchor--animation` <a href="/" class="dnb-anchor--animation">With a special animation Style</a>
 
 ## With Icon
 
@@ -31,7 +31,7 @@ Beside that the Anchor Tag gets assigned by default - or let's say, by only impo
 
 ## Manipulation
 
-- `.dnb-no-anchor-animation` <a href="/" class="dnb-no-anchor-animation">No Animation</a>
-- `.dnb-no-anchor-style` <a href="/" class="dnb-no-anchor-style">No Style</a>
-- `.dnb-no-anchor-hover` <a href="/" class="dnb-no-anchor-hover">No Hover</a>
-- `.dnb-no-anchor-underline` <a href="/" class="dnb-no-anchor-underline">No Underline</a>
+- `.dnb-anchor-no-animation` <a href="/" class="dnb-anchor-no-animation">No Animation</a>
+- `.dnb-anchor-no-style` <a href="/" class="dnb-anchor-no-style">No Style</a>
+- `.dnb-anchor-no-hover` <a href="/" class="dnb-anchor-no-hover">No Hover</a>
+- `.dnb-anchor-no-underline` <a href="/" class="dnb-anchor-no-underline">No Underline</a>

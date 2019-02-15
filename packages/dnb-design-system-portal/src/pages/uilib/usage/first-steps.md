@@ -8,7 +8,7 @@ order: 2
 
 ## Installation
 
-Check out the `dnb-ui-lib` **[Installation documentation](/uilib/usage/#Installation)**.
+Check out the `dnb-ui-lib` **[Installation documentation](/uilib/usage/#installation)**.
 
 ## Working Examples
 

@@ -96,7 +96,7 @@ exports.onCreateNode = ({ node, getNode, actions }) => {
       node,
       value:
         node.frontmatter.title ||
-        parent.name.replace(/^[a-z]/, parent.name[0].toUpperCase()) ||
+        // parent.name.replace(/^[a-z]/, parent.name[0].toUpperCase()) ||
         null
     })
 

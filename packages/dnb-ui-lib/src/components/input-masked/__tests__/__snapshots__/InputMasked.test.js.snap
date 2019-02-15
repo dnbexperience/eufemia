@@ -184,6 +184,14 @@ exports[`InputMasked scss have to match snapshot 1`] = `
   line-height: 1;
   width: 1em;
   height: 1em; }
+  .dnb-icon img,
+  .dnb-icon svg {
+    width: inherit;
+    height: inherit; }
+  .dnb-icon svg[width='100%'] {
+    width: inherit; }
+  .dnb-icon svg[height='100%'] {
+    height: inherit; }
   .dnb-icon svg:not([fill]),
   .dnb-icon svg [fill] {
     fill: currentColor; }
@@ -210,14 +218,6 @@ exports[`InputMasked scss have to match snapshot 1`] = `
   .dnb-icon--custom-size {
     width: auto;
     height: auto; }
-  .dnb-icon svg:not([width]):not([height]),
-  .dnb-icon img:not([width]):not([height]) {
-    width: inherit;
-    height: inherit; }
-  .dnb-icon svg[width='100%'] {
-    width: inherit; }
-  .dnb-icon svg[height='100%'] {
-    height: inherit; }
 
 .dnb-button {
   font-family: sans-serif;

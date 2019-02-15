@@ -26,16 +26,18 @@ Additionally, it is also possible to import a style and theme for every single c
 
 The following Diagram gives an overall overview how the packages are structured.
 
-<CSSDiagram />
+<div class="margin-bottom">
+  <CSSDiagram />
+</div>
 
 You may have a look at the guides about [Typography](/uilib/typography).
 
 ## Spacing
 
-To ensure more flexibility, all the margins / spacings are reset to zero. But more often we have to have a by default defined e.g. `margins` on HTML Elements like headings or paragraphs.
+To ensure more flexibility in styling, all the margins / spacings are reset to zero. But more often we have to have a by default defined spacing, e.g. `margin` on HTML Elements like headings or paragraphs.
 
-To use the default DNB spacings, You can define a CSS class called: `.dnb-spacing`
-Everything inside this container will then have a default spacing. This will be specially helpful for article alike pages.
+To use the default DNB spacings, define a CSS class called: `.dnb-spacing`
+Effected HTML Elements inside this container will then have a default spacing. This will be specially helpful for article alike pages.
 
 ```html
 <div class="dnb-spacing">
@@ -46,3 +48,4 @@ Everything inside this container will then have a default spacing. This will be 
 ```
 
 The styles for the `.dnb-spacing` are included in the package: **dnb-theme-ui**
+For more details, check out the source file: `spacing.scss`

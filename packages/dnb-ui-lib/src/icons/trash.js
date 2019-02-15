@@ -3,7 +3,7 @@
 import React from 'react'
 
 const trash = props => (
-  <svg viewBox="0 0 16 16" fill="none" {...props}>
+  <svg width={16} height={16} viewBox="0 0 16 16" fill="none" {...props}>
     <g
       clipPath="url(#clip-306390)"
       stroke="#000"

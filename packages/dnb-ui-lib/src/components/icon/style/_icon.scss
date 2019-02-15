@@ -9,6 +9,25 @@
   font-size: inherit; // only to feed width and height em's
   line-height: 1; // for vertical alignment, we have to have no line-height
 
+  width: 1em;
+  height: 1em;
+
+  // responsive
+  img,
+  svg {
+    width: inherit;
+    height: inherit;
+  }
+
+  // auto size
+  svg[width='100%'] {
+    width: inherit;
+  }
+  svg[height='100%'] {
+    height: inherit;
+  }
+
+  // color
   svg:not([fill]),
   svg [fill] {
     fill: currentColor;
@@ -17,9 +36,7 @@
     stroke: currentColor;
   }
 
-  width: 1em;
-  height: 1em;
-
+  // sizes
   &--small {
     width: 0.75rem;
     height: 0.75rem;
@@ -47,18 +64,5 @@
   &--custom-size {
     width: auto; // only to feed the svg
     height: auto; // only to feed the svg
-  }
-
-  svg:not([width]):not([height]),
-  img:not([width]):not([height]) {
-    width: inherit;
-    height: inherit;
-  }
-
-  svg[width='100%'] {
-    width: inherit;
-  }
-  svg[height='100%'] {
-    height: inherit;
   }
 }

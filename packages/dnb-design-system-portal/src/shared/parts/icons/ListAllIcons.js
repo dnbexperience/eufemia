@@ -26,18 +26,16 @@ export default class Icons extends PureComponent {
     if (this.state.iconsToRender.length === 0) {
       return <></>
     }
-    // let iconParams = { fill: null }
-    // if (isIE11)
-    //   iconParams = { iconParams, ...{ width: '48', height: '48' } }
-    // () => <Svg {...iconParams} />
     const icons = Object.entries(this.state.iconsToRender).map(
       ([name, Svg]) => (
         <ListItem key={`icon${name}`}>
-          <span aria-labelledby={`id${name}`}>
-            <Icon icon={Svg} />
-          </span>
-          <h4 id={`id${name}`}>{humanFormat(name)}</h4>
-          <h5>({name})</h5>
+          <ListItemInner>
+            <span aria-labelledby={`id${name}`}>
+              <Icon icon={Svg} />
+            </span>
+            <h3 id={`id${name}`}>{humanFormat(name)}</h3>
+            <p>({name})</p>
+          </ListItemInner>
         </ListItem>
       )
     )
@@ -52,48 +50,42 @@ const List = styled.ul`
   flex-wrap: wrap;
   flex-direction: row;
   align-items: flex-end;
+  justify-content: center;
+
+  padding: 0;
+  margin: 0;
 `
 
-const ListItem = styled.li`
+const ListItemInner = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
 
-  width: 9rem;
+  padding: 0.5rem 0;
 
-  margin: 0 1rem 1rem 0;
-  padding: 1rem 0;
-
-  border-radius: 0.25rem;
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
-
-  span {
-    padding: 1rem;
-    line-height: 1rem;
-    margin-bottom: 0;
+  span[aria-labelledby] {
+    padding: 2rem 0;
   }
 
-  h4 {
-    color: var(--color-black-80);
-    font-weight: var(--font-weight-medium);
-    font-size: 1rem;
-    line-height: 1rem;
-    margin-bottom: 0;
+  h3 {
+    margin: 0;
   }
 
-  h5 {
-    color: var(--color-black-80);
-    font-size: 1rem;
-    line-height: 1rem;
-    margin-bottom: 1rem;
-  }
-  .dnb-icon svg {
-    width: 1.5rem;
-    height: 1.5rem;
+  .dnb-icon {
+    font-size: 1.5rem;
     :hover {
       color: var(--color-cherry-red);
     }
   }
+`
+
+const ListItem = styled.li`
+  flex: 1 1 auto;
+  min-width: 9rem;
+  margin: 0.5rem !important; /* sice we can't define the CSS specificity to .dnb-soacing */
+
+  border-radius: 0.25rem;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
 `
 
 const humanFormat = title =>
@@ -102,8 +94,3 @@ const humanFormat = title =>
     .split(/\s/g)
     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ')
-
-// const isIE11 =
-//   typeof window !== 'undefined'
-//     ? !!window.MSInputMethodContext && !!document.documentMode
-//     : false

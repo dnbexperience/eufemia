@@ -400,6 +400,8 @@ export default class SidebarLayout extends PureComponent {
             showAll,
             pathPrefix
           })
+            .filter(({ title, menuTitle }) => title || menuTitle)
+
             .map(props => {
               // get the active item
               const active =
@@ -566,7 +568,7 @@ class ListItem extends PureComponent {
       <StyledListItem
         className={classnames(
           `l-${level}`,
-          active && 'is-active dnb-hover-style', // use anchor hover style
+          active && 'is-active dnb-anchor--hover', // use anchor hover style
           inside && 'is-inside',
           status ? `status-${status}` : null,
           className
@@ -579,8 +581,8 @@ class ListItem extends PureComponent {
         <Link
           to={to}
           className={classnames(
-            'dnb-no-anchor-underline',
-            'dnb-no-anchor-hover',
+            'dnb-anchor-no-underline',
+            'dnb-anchor-no-hover',
             icon && graphics[icon] ? 'has-icon' : null
           )}
         >

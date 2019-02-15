@@ -7,15 +7,17 @@ import { IconPrimary } from 'dnb-ui-lib/src'
 
 ## Tables
 
-<table>
+<CodeBlock scope={{IconPrimary}} reactLive hideCode>
+{`
+<table data-dnb-test="table">
   <thead>
     <tr>
       <th colSpan="2">Column 1 + 2</th>
       <th>
         <a href="#sort">Column 3</a>
       </th>
-      <th class="dnb-no-wrap">
-        <a href="#sort" className="dnb-no-anchor-underline">
+      <th className="dnb-no-wrap">
+        <a href="#sort" className="dnb-anchor-no-underline">
           Column 4 <IconPrimary icon="chevron-down" />
         </a>
       </th>
@@ -50,3 +52,5 @@ import { IconPrimary } from 'dnb-ui-lib/src'
     </tr>
   </tbody>
 </table>
+`}
+</CodeBlock>

@@ -27,7 +27,9 @@ exports[`Icon component have to match snapshot 1`] = `
     >
       <svg
         color="color"
+        height="16"
         viewBox="0 0 16 16"
+        width="16"
       >
         <g
           clipPath="url(#clip0)"
@@ -191,6 +193,14 @@ exports[`Icon scss have to match snapshot 1`] = `
   line-height: 1;
   width: 1em;
   height: 1em; }
+  .dnb-icon img,
+  .dnb-icon svg {
+    width: inherit;
+    height: inherit; }
+  .dnb-icon svg[width='100%'] {
+    width: inherit; }
+  .dnb-icon svg[height='100%'] {
+    height: inherit; }
   .dnb-icon svg:not([fill]),
   .dnb-icon svg [fill] {
     fill: currentColor; }
@@ -217,13 +227,5 @@ exports[`Icon scss have to match snapshot 1`] = `
   .dnb-icon--custom-size {
     width: auto;
     height: auto; }
-  .dnb-icon svg:not([width]):not([height]),
-  .dnb-icon img:not([width]):not([height]) {
-    width: inherit;
-    height: inherit; }
-  .dnb-icon svg[width='100%'] {
-    width: inherit; }
-  .dnb-icon svg[height='100%'] {
-    height: inherit; }
 "
 `;

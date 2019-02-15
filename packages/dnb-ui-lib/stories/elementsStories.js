@@ -71,7 +71,7 @@ stories.push([
                   <a href="#sort">Column 3</a>
                 </th>
                 <th>
-                  <a href="#sort" className="dnb-no-anchor-underline">
+                  <a href="#sort" className="dnb-anchor-no-underline">
                     Column 4 <IconPrimary icon="chevron-down" />
                   </a>
                 </th>
@@ -331,22 +331,22 @@ stories.push([
         </a>
       </Box>
       <Box>
-        <a href="/" className="dnb-hover-style">
+        <a href="/" className="dnb-anchor--hover">
           Hover Style
         </a>
       </Box>
       <Box>
-        <a href="/" className="dnb-active-style">
+        <a href="/" className="dnb-anchor--active">
           Active Style
         </a>
       </Box>
       <Box>
-        <a href="/" className="dnb-focus-style">
+        <a href="/" className="dnb-anchor--focus">
           Focus Style
         </a>
       </Box>
       <Box>
-        <a href="/" className="dnb-with-animation">
+        <a href="/" className="dnb-anchor--animation">
           With a special
         </a>
       </Box>
@@ -359,12 +359,12 @@ stories.push([
         </a>
       </Box>
       <Box>
-        <a href="http://dnb.no" className="dnb-with-animation">
+        <a href="http://dnb.no" className="dnb-anchor--animation">
           Anchor with Animation <IconPrimary icon="chevron_right" />
         </a>
       </Box>
       <Box>
-        <a href="http://dnb.no" className="dnb-with-animation">
+        <a href="http://dnb.no" className="dnb-anchor--animation">
           Anchor with Animation - Adipiscing per egestas duis feugiat
           dignissim quam cras eget non est ante purus taciti volutpat mi
           phasellus rhoncus ridiculus diam at proin fusce bibendum netus
@@ -374,7 +374,7 @@ stories.push([
       <Box>
         <a
           href="http://dnb.no"
-          className="dnb-with-animation"
+          className="dnb-anchor--animation"
           style={{ whiteSpace: 'normal' }}
         >
           Anchor with Animation and no `white-space: pre;` - Adipiscing per

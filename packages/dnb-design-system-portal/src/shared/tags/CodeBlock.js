@@ -20,7 +20,7 @@ import {
   LivePreview
 } from 'react-live-replacement'
 // we use this replacement, because;
-// to simply have newer prism version for the LiveEditor
+// to simply have newer prism version for the LiveEditor - I made a pull request.
 
 // this theme is replaced my a css one
 // import prismTheme from 'prism-react-renderer/themes/nightOwl'
@@ -124,7 +124,7 @@ class LiveCode extends PureComponent {
       (typeof window !== 'undefined' &&
         !(
           window.location &&
-          window.location.search.split(/\?|&/).includes('test')
+          window.location.search.split(/\?|&/).includes('data-dnb-test')
         ))
     ) {
       code = code.replace(/\s+data-dnb-test="[^"]*"/g, '')

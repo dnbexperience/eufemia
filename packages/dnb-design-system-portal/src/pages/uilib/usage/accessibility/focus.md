@@ -1,6 +1,5 @@
 ---
 title: 'Focus'
-status: 'wip'
 draft: false
 ---
 
@@ -15,13 +14,23 @@ From the technical side, we have to assign an _invisible_ focus, so the user can
 ```html
 <body>
   <aside><!-- focusable navigation --></aside>
-  <main class="dnb-no-focus" tabindex="-1">
+  <main>
     <!-- more markup with focusable HTMLElements -->
-    <h1>Main Title</h1>
+    <h1 class="dnb-no-focus" tabindex="-1">Main Title</h1>
     <a href="/path">I'm now focusable on next tab</a>
   </main>
 </body>
 ```
+
+## Managing the Focus state
+
+Make sure You ...
+
+- set the focus on the content (e.g. `<h1>`) after a navigation action, initiated by the user.
+- set the focus into a _menu or navigation_ area, if it has an opening mechanism.
+- also set the focus back to the content, once the menu or navigation area gets closed.
+
+A more complex focus management is build in already to the [Modal Component](/uilib/components/modal). There we actually also disable focus possibility on the content behind, so the user only can navigate inside the modal.
 
 ## Helper tool
 
@@ -42,14 +51,6 @@ setPageFocusElement('.css-selector', 'MyCustomName')
 // 2. Later You can call this action, once it's time to activate the new focus state
 applyPageFocus('MyCustomName')
 ```
-
-**So, make sure You:**
-
-- set the focus on the content (e.g. `<h1>`) after a navigation action, initiated by the user.
-- set the focus into a _menu or navigation_ area, if it has an opening mechanism.
-- also set the focus back to the content, once the menu or navigation area gets closed.
-
-A more complex focus management is build in already to the [Modal Component](/uilib/components/modal). There we actually also disable focus possibility on the content behind, so the user only can navigate inside the modal.
 
 ### Skip Link
 

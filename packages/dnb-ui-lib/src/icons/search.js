@@ -3,7 +3,7 @@
 import React from 'react'
 
 const search = props => (
-  <svg viewBox="0 0 17 17" fill="none" {...props}>
+  <svg width={17} height={17} viewBox="0 0 17 17" fill="none" {...props}>
     <g
       clipPath="url(#clip-06a943)"
       stroke="#000"

@@ -46,7 +46,7 @@ class Layout extends PureComponent {
               {children}
             </ContentInner>
           </Content>
-          <ToggleGrid />
+          <ToggleGrid hidden />
           <Footer />
         </>
       )
@@ -206,7 +206,7 @@ const Footer = () => (
     <Logo height="40" color="white" />
     <small>
       Last Portal update: {buildVersion}
-      <Link to="/license" className="dnb-no-anchor-underline">
+      <Link to="/license" className="dnb-anchor-no-underline">
         Copyright (c) 2018-present DNB.no
       </Link>
     </small>

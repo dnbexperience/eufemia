@@ -15,7 +15,7 @@ The Secondary Icons can be extended infinitely.
 
 **Technically:** The consequence is that they have to be [imported](/uilib/components/icon) where ever they have to be used.
 
-#### A list of all Secondary Icons
+## A list of all Secondary Icons
 
 ---
 
