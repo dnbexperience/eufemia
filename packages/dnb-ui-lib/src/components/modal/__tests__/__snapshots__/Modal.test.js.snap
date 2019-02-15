@@ -144,7 +144,9 @@ exports[`Modal component have to match snapshot 1`] = `
                 <question>
                   <svg
                     fill="none"
+                    height={16}
                     viewBox="0 0 16 16"
+                    width={16}
                   >
                     <path
                       clipRule="evenodd"
@@ -385,7 +387,9 @@ exports[`Modal component have to match snapshot 1`] = `
                         <close>
                           <svg
                             fill="none"
+                            height={16}
                             viewBox="0 0 16 16"
+                            width={16}
                           >
                             <path
                               clipRule="evenodd"

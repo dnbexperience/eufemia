@@ -3,7 +3,7 @@
 import React from 'react'
 
 const file_medium = props => (
-  <svg viewBox="0 0 24 24" fill="none" {...props}>
+  <svg width={24} height={24} viewBox="0 0 24 24" fill="none" {...props}>
     <path
       clipRule="evenodd"
       d="M22.5 21.75a1.5 1.5 0 0 1-1.5 1.5H3a1.5 1.5 0 0 1-1.5-1.5V2.25A1.5 1.5 0 0 1 3 .75h15.045a1.5 1.5 0 0 1 1.048.426l2.954 2.883c.29.282.453.67.453 1.074V21.75z"
@@ -13,7 +13,7 @@ const file_medium = props => (
       strokeLinejoin="round"
     />
     <path
-      d="M6.045 8.25h12m-12 4.5h12m-12 4.5h6"
+      d="M6.045 8.25h12M6.045 12.75h12M6.045 17.25h6"
       stroke="#000"
       strokeWidth={1.5}
       strokeLinecap="round"

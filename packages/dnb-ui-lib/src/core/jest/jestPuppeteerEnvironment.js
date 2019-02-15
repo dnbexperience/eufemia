@@ -9,7 +9,7 @@ const fs = require('fs')
 const isCi = require('is-ci')
 const path = require('path')
 const puppeteer = require('puppeteer')
-const { DIR } = require('./jestSetupScreenshots')
+const { DIR } = require('./jestSetupScreenshots').config
 
 class PuppeteerEnvironment extends NodeEnvironment {
   constructor(config) {

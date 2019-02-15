@@ -27,7 +27,9 @@ exports[`Icon component have to match snapshot 1`] = `
     >
       <svg
         color="color"
+        height="16"
         viewBox="0 0 16 16"
+        width="16"
       >
         <g
           clipPath="url(#clip0)"

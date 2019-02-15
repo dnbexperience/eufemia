@@ -26,10 +26,6 @@ export default class Icons extends PureComponent {
     if (this.state.iconsToRender.length === 0) {
       return <></>
     }
-    // let iconParams = { fill: null }
-    // if (isIE11)
-    //   iconParams = { iconParams, ...{ width: '48', height: '48' } }
-    // () => <Svg {...iconParams} />
     const icons = Object.entries(this.state.iconsToRender).map(
       ([name, Svg]) => (
         <ListItem key={`icon${name}`}>

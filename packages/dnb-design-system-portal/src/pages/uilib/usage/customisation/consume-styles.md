@@ -4,10 +4,6 @@ draft: false
 order: 2
 ---
 
-import Img from 'Tags/Img'
-import { Icon } from 'dnb-ui-lib/src'
-import CSSDiagram from 'Pages/uilib/usage/customisation/assets/css_structure_diagram.js'
-
 # Importing the CSS
 
 To include the packages `dnb-ui-core`, `dnb-ui-components` and `dnb-theme-ui` in a [Node.js](https://nodejs.org) based environment (given You have a CSS loader in place), do this:

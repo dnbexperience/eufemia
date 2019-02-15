@@ -8,21 +8,22 @@ const path = require('path')
 const os = require('os')
 const { setupJestScreenshot } = require('jest-screenshot')
 
-const testScreenshotOnHost = '127.0.0.1'
-// use same port as the local dev setup, this way we can test from the dev setup as well
-const testScreenshotOnPort = 8000
-module.exports.testScreenshotOnHost = testScreenshotOnHost
-module.exports.testScreenshotOnPort = testScreenshotOnPort
-module.exports.DIR = path.join(os.tmpdir(), 'jest_puppeteer_global_setup')
-
-const pageSettings = {
-  width: 1280,
-  height: 1024,
-  isMobile: false,
-  hasTouch: false,
-  isLandscape: false,
-  deviceScaleFactor: 1
+const config = {
+  DIR: path.join(os.tmpdir(), 'jest_puppeteer_global_setup'),
+  // use same port as the local dev setup, this way we can test from the dev setup as well
+  testScreenshotOnHost: '127.0.0.1',
+  testScreenshotOnPort: 8000,
+  headless: true,
+  pageSettings: {
+    width: 1280,
+    height: 1024,
+    isMobile: false,
+    hasTouch: false,
+    isLandscape: false,
+    deviceScaleFactor: 1
+  }
 }
+module.exports.config = config
 
 module.exports.testPageScreenshot = ({
   url = null,
@@ -83,7 +84,6 @@ module.exports.testPageScreenshot = ({
 
               background: 'white',
 
-              // width: `${width}px`,// only go for the "inline-block"
               height: `${height + 32}px` // because we use "inline-block" - we have to make the height absolute
             })
           }
@@ -150,7 +150,9 @@ module.exports.testPageScreenshot = ({
         await page.waitFor(delay)
       }
 
-      // await page.waitFor(6e3)
+      if (!config.headless) {
+        await page.waitFor(1e3)
+      }
 
       resolve(screenshot)
     } catch (e) {
@@ -172,7 +174,7 @@ module.exports.setupPageScreenshot = ({ timeout, url, ...rest } = {}) => {
     const context = await global.__BROWSER__.createIncognitoBrowserContext()
     const page = await context.newPage()
 
-    await page.setViewport(pageSettings)
+    await page.setViewport(config.pageSettings)
 
     await page.setRequestInterception(true) // is needed in order to use on "request"
     page.on('request', req => {
@@ -204,10 +206,9 @@ module.exports.loadImage = async imagePath =>
 
 // make sure "${url}/" has actually a slash on the end
 const createUrl = url =>
-  `http://${testScreenshotOnHost}:${testScreenshotOnPort}/${url}/?data-dnb-test&fullscreen`.replace(
-    /\/\//g,
-    '/'
-  )
+  `http://${config.testScreenshotOnHost}:${
+    config.testScreenshotOnPort
+  }/${url}/?data-dnb-test&fullscreen`.replace(/\/\//g, '/')
 
 const makeStyles = style =>
   Object.entries(style)

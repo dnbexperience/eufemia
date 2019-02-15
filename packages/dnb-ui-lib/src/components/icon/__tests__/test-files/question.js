@@ -3,7 +3,7 @@
 import React from 'react'
 
 const SvgComponent = props => (
-  <svg viewBox="0 0 16 16" {...props}>
+  <svg width="16" height="16" viewBox="0 0 16 16" {...props}>
     <g clipPath="url(#clip0)">
       <path
         fillRule="evenodd"

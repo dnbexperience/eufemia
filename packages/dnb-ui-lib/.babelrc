@@ -58,7 +58,7 @@
       ],
       "ignore": ["node_modules/**", "**/*.test.js"],
       "plugins": [
-        "transform-react-constant-elements",
+        "@babel/plugin-transform-react-constant-elements",
         "transform-dev-warning",
         [
           "react-remove-properties",
@@ -72,6 +72,7 @@
             "mode": "wrap"
           }
         ],
+        "@babel/plugin-proposal-export-default-from",
         "@babel/plugin-proposal-object-rest-spread",
         "@babel/plugin-proposal-class-properties"
       ]
@@ -96,7 +97,7 @@
       "ignore": ["node_modules/**", "**/*.test.js"],
       "plugins": [
         "@babel/plugin-transform-runtime",
-        "transform-react-constant-elements",
+        "@babel/plugin-transform-react-constant-elements",
         "transform-dev-warning",
         [
           "react-remove-properties",
@@ -110,6 +111,7 @@
             "mode": "wrap"
           }
         ],
+        "@babel/plugin-proposal-export-default-from",
         "@babel/plugin-proposal-object-rest-spread",
         "@babel/plugin-proposal-class-properties"
       ]

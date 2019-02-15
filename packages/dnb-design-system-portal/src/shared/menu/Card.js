@@ -9,7 +9,7 @@ import Link from 'gatsby-link'
 import { css } from '@emotion/core'
 import styled from '@emotion/styled'
 import { Button } from 'dnb-ui-lib/src'
-import { isIE11 } from 'dnb-ui-lib/src/components/icon'
+import { isIE11 } from 'dnb-ui-lib/src/shared/tools'
 import { MainMenuConsumer } from './MainMenuContext'
 import classnames from 'classnames'
 
