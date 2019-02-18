@@ -3,7 +3,7 @@
  *
  */
 
-:root {
+@mixin getDefaultProperties() {
   // Typography Family
   --font-family-default: 'Fedra Sans Std', sans-serif;
   --font-family-book: 'Fedra Sans Std', sans-serif; /* Do not use, use --font-weight-... */
@@ -71,4 +71,21 @@
   // --color-soft-grey: #ccc;
   // --color-charcoal-grey: #333;
   // --color-shadow-grey: #757575;
+}
+
+$hasCustomProperties: false !default;
+@if $hasCustomProperties == false {
+  :root {
+    @include getDefaultProperties();
+  }
+}
+
+@mixin setProperties() {
+  :root {
+    @content;
+  }
+
+  // before we again import "properties.scss" by "dnb-theme-ui.scss"
+  // we set this var to true
+  $hasCustomProperties: true;
 }

@@ -31,7 +31,7 @@ const runThemeFactory = async () => {
     processToNamesList: [
       path.resolve(
         __dirname,
-        '../../../src/{components,patterns}/**/style/themes/dnb-*.scss'
+        '../../../src/{components,patterns}/**/style/themes/**/dnb-*.scss'
       ),
       ...processToNamesIgnoreList
     ],
@@ -66,9 +66,7 @@ export const runFactory = async ({
   returnResult = false
 }) => {
   try {
-    processToNamesList = await globby(processToNamesList, {
-      // onlyDirectories
-    })
+    processToNamesList = await globby(processToNamesList)
     processToNamesList.sort()
   } catch (e) {
     console.log('Error', e)
@@ -88,6 +86,7 @@ export const runFactory = async ({
     groups[name].push(object)
   })
 
+  // make a group of all gathered themes we later will interact through
   const themes = []
   Object.entries(groups).forEach(group => {
     const name = group[0]
@@ -98,7 +97,7 @@ export const runFactory = async ({
         acc.push(
           `\n@import '${source.replace(
             new RegExp(`${path}/src/`, 'g'),
-            '../../'
+            '../../../'
           )}';`
         )
         return acc
@@ -112,7 +111,7 @@ export const runFactory = async ({
 
   try {
     themes.forEach(async ({ name, theme }) => {
-      const file = `${scssOutputPath}/dnb-theme-${name}.scss`
+      const file = `${scssOutputPath}/theme-${name}/dnb-theme-${name}.scss`
       let fileContent = ''
       if (fs.existsSync(file)) {
         fileContent = await fs.readFile(file, 'utf-8')

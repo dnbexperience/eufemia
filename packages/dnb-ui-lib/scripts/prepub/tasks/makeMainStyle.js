@@ -14,18 +14,33 @@ import clone from 'gulp-clone'
 import rename from 'gulp-rename'
 import transform from 'gulp-transform'
 import { log } from '../../lib'
+import globby from 'globby'
+import { asyncForEach } from '../../tools/index'
 
 // import the post css config
 import postcssConfig from '../config/postcssConfig'
 
 export default async () => {
   await transformStyleModules()
-  await runFactory('./src/style/**/themes/dnb-theme-*.scss', {
-    importOnce: false
+
+  // info: use this aproach to process files because:
+  // this way we avoid cross "includePaths" and the result is:
+  // Now a custom theme can overwrite existing CSS Custom Properties
+  const listWithThemestoProcess = await globby(
+    './src/style/themes/theme-*/dnb-theme-*.scss'
+  )
+  await asyncForEach(listWithThemestoProcess, async themeFile => {
+    // in order to keep the foder structure, we have to add these asteix
+    themeFile = themeFile.replace('/style/themes/', '/style/**/themes/')
+    await runFactory(themeFile, {
+      importOnce: false
+    })
   })
+
   await runFactory('./src/style/**/dnb-ui-components.scss')
   await runFactory('./src/style/**/dnb-ui-patterns.scss')
   await runFactory('./src/style/**/dnb-ui-core.scss')
+
   log.succeed(
     '> PrePublish: "makeMainStyle" transforming style modules done'
   )
