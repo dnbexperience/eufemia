@@ -3,8 +3,6 @@
  *
  */
 
-@import '../../core/utilities.scss';
-
 @mixin anchorDefaultStyle($theme: null) {
   // make sure we have always `display: inline;` as inline-block is breaking the border-bottom
   display: inline;

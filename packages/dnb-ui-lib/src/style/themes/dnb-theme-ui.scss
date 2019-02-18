@@ -5,6 +5,8 @@
 
 $fonts-path: '../../../assets/fonts/' !default;
 
+@import '../core/utilities.scss';
+
 // define the default ui theme
 @import './theme-ui/anchor.scss';
 @import './theme-ui/typography.scss';
