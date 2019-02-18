@@ -9,7 +9,8 @@
   --textarea-border-inner: 0 0 0 var(--textarea-border-width)
     var(--color-white);
 }
-textarea {
+
+@mixin textareaStyle() {
   display: block;
   padding: var(--textarea-border-width);
   padding-top: calc(
@@ -32,31 +33,37 @@ textarea {
 
   // @include hover(true) {
   // }
-}
-textarea:focus {
-  outline: none;
 
-  box-shadow: var(--textarea-border-inner),
-    0 0 0 calc(var(--textarea-border-width) + 2px)
-      var(--color-emerald-green);
+  &:focus {
+    outline: none;
 
-  // html[data-whatinput='keyboard'] & {
-  // }
-}
-textarea.status--error,
-.dnb-textarea__status--error {
-  box-shadow: var(--textarea-border-inner),
-    0 0 0 calc(var(--textarea-border-width) + 2px) var(--color-cherry-red);
-}
-textarea[disabled] {
-  // pointer-events: none; // for disabling scrolling behavior
+    box-shadow: var(--textarea-border-inner),
+      0 0 0 calc(var(--textarea-border-width) + 2px)
+        var(--color-emerald-green);
 
-  color: var(--color-sea-green-alt-30);
-  box-shadow: var(--textarea-border-inner),
-    0 0 0 calc(var(--textarea-border-width) + 1px)
-      var(--color-sea-green-alt-30);
-
-  &::-webkit-scrollbar {
-    width: 0;
+    // html[data-whatinput='keyboard'] & {
+    // }
   }
+  &.status--error,
+  .dnb-textarea__status--error {
+    box-shadow: var(--textarea-border-inner),
+      0 0 0 calc(var(--textarea-border-width) + 2px)
+        var(--color-cherry-red);
+  }
+  &[disabled] {
+    // pointer-events: none; // for disabling scrolling behavior
+
+    color: var(--color-sea-green-alt-30);
+    box-shadow: var(--textarea-border-inner),
+      0 0 0 calc(var(--textarea-border-width) + 1px)
+        var(--color-sea-green-alt-30);
+
+    &::-webkit-scrollbar {
+      width: 0;
+    }
+  }
+}
+
+.dnb-textarea {
+  @include textareaStyle();
 }

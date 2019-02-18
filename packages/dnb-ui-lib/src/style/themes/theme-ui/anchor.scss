@@ -3,22 +3,120 @@
  *
  */
 
-@import './anchor-mixins.scss';
+@import '../../core/utilities.scss';
 
-a,
-.dnb-anchor {
-  @include defaultAnchorStyle();
+@mixin anchorDefaultStyle($theme: null) {
+  // make sure we have always `display: inline;` as inline-block is breaking the border-bottom
+  display: inline;
+
+  // top has 1px less, cause we now has 2px on border bottom hover
+  // the calculations are based on 24px line-height
+
+  // 1px = 0,0625
+  // 2px = 0,125
+  // 4px = 0,25
+
+  // on padding-top we have 4px
+  // on padding-bottom we have 2px, cause run a border-bottom with 2px
+  // this makes a total of 8px
+  // 24px line-height - 8px = 16px (font-size)
+  padding: 0.25rem 0.125rem 0.125rem;
+
+  // margins are not needed as long as we go for "inline"
+  // margin: -0.25rem 0 -0.125rem;
+
+  color: inherit;
+  color: var(--color-sea-green);
+
+  text-decoration: none;
+  border-bottom: 1px solid var(--color-sea-green);
+
+  @if $theme == 'highlighted' {
+    color: var(--color-emerald-green);
+    border-bottom-color: var(--color-emerald-green);
+  }
+}
+@mixin anchorHoverStyle() {
+  background-color: var(--color-mint-green-50);
+  border-bottom-color: transparent;
+}
+@mixin anchorActiveStyle() {
+  color: var(--color-mint-green);
+  background-color: var(--color-sea-green);
+  border-bottom: none;
+  border-radius: 0;
+}
+@mixin anchorFocusStyle($whatinput: null) {
+  &:not(:active) {
+    @include anchorHoverStyle();
+    transition: none;
+    border-bottom: none;
+  }
+  @if $whatinput {
+    @include fakeFocus($whatinput);
+  } @else {
+    @include fakeFocus();
+  }
+  border-radius: 4px;
+}
+
+// resettings
+@mixin resetUnderlineStyle() {
+  border-bottom: none;
+
+  // border
+  &::after {
+    border-bottom: none;
+    content: none;
+  }
+}
+@mixin resetanchorHoverStyle() {
+  &:hover {
+    color: var(--color-emerald-green);
+    // in case we dont want to change the color to the body color
+    background-color: var(--color-white);
+    border-bottom-width: 1px;
+  }
+
+  // bg
+  &::before {
+    content: none;
+  }
+}
+@mixin resetAnimationStyle() {
+  transition: none;
+
+  // bg
+  &::before {
+    transition: max-height 0.01s linear;
+  }
+}
+@mixin useAnchorContrastStyle() {
+  color: var(--color-white);
+  border-bottom-color: var(--color-white);
+  &:hover {
+    color: var(--color-emerald-green);
+  }
+  &:active {
+    color: var(--color-mint-green);
+  }
+  &:focus {
+    color: var(--color-emerald-green);
+  }
+}
+@mixin anchorStyle() {
+  @include anchorDefaultStyle();
 
   // have focus before :active, because of border-radius
   &:focus {
-    @include focusStyle();
+    @include anchorFocusStyle();
   }
   &:hover,
   &:active {
-    @include hoverStyle();
+    @include anchorHoverStyle();
   }
   &:active {
-    @include activeStyle();
+    @include anchorActiveStyle();
   }
 
   transition: background-color 0.2s ease;
@@ -30,28 +128,32 @@ a,
     transform: translateY(-1px);
   }
 }
+
+.dnb-anchor {
+  @include anchorStyle();
+}
 .dnb-anchor--hover {
-  @include hoverStyle();
+  @include anchorHoverStyle();
 }
 .dnb-anchor--active {
-  @include activeStyle();
+  @include anchorActiveStyle();
 }
 .dnb-anchor--focus {
-  @include focusStyle('mouse');
+  @include anchorFocusStyle('mouse');
 }
 .dnb-anchor--animation {
   position: relative; // because of z-index and underline/hover sudo classes
   z-index: 1; // because of focus handling
 
   // This way we make sure we never have a line break in an Anchor
-  // Cause this messes up the "drawUnderlineBorder" mechanism
+  // Cause this messes up the "anchor-draw-underline-border" mechanism
   white-space: pre;
 
   // border
-  @include drawUnderlineBorder();
+  @include anchor-draw-underline-border();
 
   // bg
-  @include drawUnderlineBackground();
+  @include anchorDrawUnderlineBackground();
 
   background-color: transparent;
   border-bottom: none;
@@ -86,7 +188,7 @@ a,
     }
   }
   &:focus {
-    @include focusStyle();
+    @include anchorFocusStyle();
     // border
     &::after {
       border-bottom: none;
@@ -99,8 +201,8 @@ a,
   }
 }
 
-.dnb-anchor-style {
-  @include defaultAnchorStyle();
+.dnb-anchorStyle {
+  @include anchorDefaultStyle();
 }
 .dnb-anchor-no-style {
   white-space: normal;
@@ -117,13 +219,13 @@ a,
   }
 
   @include resetUnderlineStyle();
-  @include resetHoverStyle();
+  @include resetanchorHoverStyle();
 }
 .dnb-anchor-no-underline {
   @include resetUnderlineStyle();
 }
 .dnb-anchor-no-hover {
-  @include resetHoverStyle();
+  @include resetanchorHoverStyle();
 }
 .dnb-anchor-no-animation {
   @include resetAnimationStyle();

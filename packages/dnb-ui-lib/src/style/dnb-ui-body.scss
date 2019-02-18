@@ -1,0 +1,17 @@
+/**
+ * Import reset and body scope
+ *
+ */
+
+@import './core/reset.scss';
+// @import './core/utilities.scss';
+@import './core/properties.scss';
+@import './core/scopes.scss';
+
+// Global body style
+body {
+  @include bodyDefault();
+  @media print {
+    background-color: white;
+  }
+}

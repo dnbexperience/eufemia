@@ -3,34 +3,49 @@
  *
  */
 
-ul,
-ol {
+@mixin ulStyle() {
   margin: 0;
+  padding: 0;
   padding-left: 2rem;
 
   font-size: 1em;
   line-height: 1.5em;
+
+  &ul ul,
+  &ul ol,
+  &ol ol,
+  &ol ul {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  & li {
+    word-wrap: break-all;
+  }
 }
-li {
-  word-wrap: break-all;
-}
-ul ul,
-ul ol,
-ol ol,
-ol ul {
-  margin-top: 0;
-  margin-bottom: 0;
-}
-dd {
-  margin-left: 0;
-}
-dl {
+@mixin dlStyle() {
+  margin: 0;
   padding: 0;
+
+  font-size: 1em;
+  line-height: 1.5em;
+
+  & > dt {
+    padding: 0;
+    font-weight: var(--font-weight-demi);
+  }
+  & > dd {
+    margin: 0;
+    padding: 0 1rem;
+    padding-left: 2rem;
+  }
 }
-dl dt {
-  padding: 0;
-  font-weight: var(--font-weight-demi);
+.dnb-ul {
+  @include ulStyle();
 }
-dl dd {
-  padding: 0 1rem;
+.dnb-ol {
+  @include ulStyle();
+}
+.dnb-dl {
+  @include dlStyle();
 }

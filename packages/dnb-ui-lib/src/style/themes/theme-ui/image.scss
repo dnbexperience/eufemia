@@ -1,0 +1,14 @@
+/*
+ * Table
+ *
+ */
+
+@mixin imageStyle() {
+  box-sizing: content-box;
+  max-width: 100%;
+  border-style: none;
+}
+
+.dnb-image {
+  @include imageStyle();
+}

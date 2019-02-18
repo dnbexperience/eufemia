@@ -1,9 +1,9 @@
 /*
- * Code
+ * Code / Pre
  *
  */
 
-code {
+@mixin codeStyle() {
   margin: 0;
   padding: 0.125rem 0.25rem; /* 2px 4px */
 
@@ -13,10 +13,40 @@ code {
   background-color: var(--color-mint-green-25);
   border-radius: 0.1875em;
 }
-pre {
+@mixin preStyle() {
+  display: block;
+  box-sizing: border-box;
+
+  padding: 1rem;
+  margin: 0;
+
+  background-color: #222;
+  border-radius: 8px;
+  color: var(--color-mint-green-12);
+
+  white-space: pre;
+  vertical-align: baseline;
+  outline: none;
+  text-shadow: none;
+  -webkit-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
   word-wrap: normal;
-  border-radius: 0.5em;
+  word-break: normal;
+  text-align: left;
+  word-spacing: normal;
+  -moz-tab-size: 2;
+  -o-tab-size: 2;
+  tab-size: 2;
+
   pre {
     padding: 1rem;
   }
+}
+
+.dnb-code {
+  @include codeStyle();
+}
+.dnb-pre {
+  @include preStyle();
 }

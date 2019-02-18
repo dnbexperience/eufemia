@@ -3,7 +3,7 @@
  *
  */
 
-label {
+@mixin labelStyle() {
   color: var(--color-black-80);
   overflow-wrap: break-word;
 
@@ -11,6 +11,11 @@ label {
     cursor: pointer;
   }
   &[disabled] {
-    color: red;
+    cursor: not-allowed;
+    color: var(--color-sea-green-alt-30); // TODO: Not defined
   }
+}
+
+.dnb-label {
+  @include labelStyle();
 }

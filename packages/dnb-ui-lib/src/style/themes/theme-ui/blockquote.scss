@@ -3,8 +3,7 @@
  *
  */
 
-blockquote,
-.dnb-blockquote {
+@mixin blockquoteStyle() {
   display: inline-block;
   width: auto;
 
@@ -44,10 +43,14 @@ blockquote,
     padding-bottom: 3rem;
   }
 
+  .dnb-anchor,
   a {
     @include useAnchorContrastStyle();
   }
 
+  .dnb-cite,
+  .dnb-footer,
+  .dnb-figcaption,
   cite,
   footer,
   figcaption {
@@ -63,4 +66,8 @@ blockquote,
       padding-right: 0.5rem;
     }
   }
+}
+
+.dnb-blockquote {
+  @include blockquoteStyle();
 }

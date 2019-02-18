@@ -3,10 +3,14 @@
  *
  */
 
-label,
-input,
-form,
-fieldset {
+@mixin formStyle() {
   font-size: 1em; // 16px
   line-height: 1.5em;
+}
+
+.dnb-label,
+.dnb-input,
+.dnb-form,
+.dnb-fieldset {
+  @include formStyle();
 }

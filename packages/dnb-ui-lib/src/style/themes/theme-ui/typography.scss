@@ -3,15 +3,7 @@
  *
  */
 
-.dnb-h1,
-.dnb-h2,
-.dnb-lead,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+@mixin headingsStyle() {
   margin: 0;
   padding: 0;
 
@@ -20,70 +12,49 @@ h6 {
 
   color: var(--color-emerald-green);
 }
-
-small {
-  font-size: var(--font-size-small); // 14px
-}
-p > small,
-h2 > small,
-h3 > small,
-h4 > small,
-h5 > small,
-h6 > small {
-  line-height: 1; // for vertical alignment, we have to have no line-height
-}
-
-.dnb-h1,
-h1 {
+@mixin h1Style() {
   font-size: var(--font-size-xx-large); // 48px
   line-height: 3.5rem; // 56px
   font-weight: var(--font-weight-demi);
-}
-h1.dnb-small,
-h1 > small {
-  display: block;
-  font-size: var(--font-size-large); // 32px
-  line-height: 3rem; // 48px
-}
 
-.dnb-h2,
-h2 {
+  &.dnb-small,
+  & > small {
+    display: block;
+    font-size: var(--font-size-large); // 32px
+    line-height: 3rem; // 48px
+  }
+}
+@mixin h2Style() {
   font-size: var(--font-size-medium); // 24px
   line-height: 2rem; // 32px
-}
-h2.dnb-small,
-h2 > small {
-  font-size: var(--font-size-x-default); // 20px
-}
 
-/* H3 looks the same as .dnb-lead */
-h3,
-.dnb-lead {
+  &.dnb-small,
+  & > small {
+    font-size: var(--font-size-x-default); // 20px
+  }
+}
+@mixin h3Style() {
   font-family: var(--font-family-demi);
   font-weight: var(--font-weight-demi);
   font-size: var(--font-size-x-default); // 20px
   line-height: 2rem; // 32px
-}
-h3 > small,
-h3.dnb-small,
-.dnb-lead > small,
-.dnb-lead > .dnb-small {
-  font-size: var(--font-size-default); // 16px
-}
 
-// The rest of the Headings are nod defned by the Eufemia Typography
-h4 {
+  &.dnb-small,
+  & > small {
+    font-size: var(--font-size-default); // 16px
+  }
+}
+@mixin h4Style() {
   font-size: var(--font-size-default); // 16px
 }
-h5 {
+@mixin h5Style() {
   font-size: var(--font-size-small); // 14px
 }
-h6 {
+@mixin h6Style() {
   font-size: var(--font-size-small); // 14px
   font-weight: var(--font-weight-book);
 }
-
-p {
+@mixin paragraphStyle() {
   // if we not reset margin, the browser is using: margin-block-end: 1rem;
   margin-top: 0;
   margin-bottom: 0;
@@ -97,10 +68,58 @@ p {
     font-style: normal; // to avoid cursive
   }
 }
-b,
-strong {
-  font-weight: var(--font-weight-medium);
+
+.dnb-h1,
+.dnb-h2,
+.dnb-h3,
+.dnb-lead,
+.dnb-h4,
+.dnb-h5,
+.dnb-h6 {
+  @include headingsStyle();
 }
-// Eufemia has currently no italic
-// i {
-// }
+
+.dnb-small {
+  font-size: var(--font-size-small); // 14px
+}
+.dnb-p > .dnb-small,
+.dnb-h2 > .dnb-small,
+.dnb-h3 > .dnb-small,
+.dnb-h4 > .dnb-small,
+.dnb-h5 > .dnb-small,
+.dnb-h6 > .dnb-small {
+  line-height: 1; // for vertical alignment, we have to have no line-height
+}
+
+.dnb-h1 {
+  @include h1Style();
+}
+
+.dnb-h2 {
+  @include h2Style();
+}
+
+/* H3 looks the same as .dnb-lead */
+.dnb-h3,
+.dnb-lead {
+  @include h3Style();
+}
+
+// The rest of the Headings are nod defned by the Eufemia Typography
+.dnb-h4 {
+  @include h4Style();
+}
+.dnb-h5 {
+  @include h5Style();
+}
+.dnb-h6 {
+  @include h6Style();
+}
+
+.dnb-p {
+  @include paragraphStyle();
+  b,
+  strong {
+    font-weight: var(--font-weight-medium);
+  }
+}

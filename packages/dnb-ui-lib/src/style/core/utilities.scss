@@ -95,7 +95,7 @@
   @content;
 }
 
-@mixin drawUnderlineBackground() {
+@mixin anchorDrawUnderlineBackground() {
   // bg
   &::before {
     @include _drawUnderline() {
@@ -114,7 +114,7 @@
   }
 }
 
-@mixin drawUnderlineBorder() {
+@mixin anchor-draw-underline-border() {
   // border
   &::after {
     @include _drawUnderline() {
