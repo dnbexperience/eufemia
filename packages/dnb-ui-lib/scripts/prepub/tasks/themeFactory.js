@@ -31,7 +31,7 @@ const runThemeFactory = async () => {
     processToNamesList: [
       path.resolve(
         __dirname,
-        '../../../src/{components,patterns}/**/style/themes/dnb-theme-*.scss'
+        '../../../src/{components,patterns}/**/style/themes/dnb-*.scss'
       ),
       ...processToNamesIgnoreList
     ],
