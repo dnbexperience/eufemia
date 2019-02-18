@@ -20,7 +20,9 @@ import postcssConfig from '../config/postcssConfig'
 
 export default async () => {
   await transformStyleModules()
-  await runFactory('./src/style/**/themes/*.scss', { importOnce: false })
+  await runFactory('./src/style/**/themes/dnb-theme-*.scss', {
+    importOnce: false
+  })
   await runFactory('./src/style/**/dnb-ui-components.scss')
   await runFactory('./src/style/**/dnb-ui-patterns.scss')
   await runFactory('./src/style/**/dnb-ui-core.scss')
