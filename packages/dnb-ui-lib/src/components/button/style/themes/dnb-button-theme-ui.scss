@@ -65,7 +65,7 @@
   }
 
   &.dnb-button--has-text:not([disabled]):hover {
-    @include drawUnderlineBorder() {
+    @include anchorDrawUnderlineBorder() {
       left: 0.45rem;
       right: 0.45rem;
       bottom: 0.5rem;

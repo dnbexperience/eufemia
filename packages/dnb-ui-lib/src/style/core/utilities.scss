@@ -114,7 +114,7 @@
   }
 }
 
-@mixin anchor-draw-underline-border() {
+@mixin anchorDrawUnderlineBorder() {
   // border
   &::after {
     @include _drawUnderline() {

@@ -146,11 +146,11 @@
   z-index: 1; // because of focus handling
 
   // This way we make sure we never have a line break in an Anchor
-  // Cause this messes up the "anchor-draw-underline-border" mechanism
+  // Cause this messes up the "anchorDrawUnderlineBorder" mechanism
   white-space: pre;
 
   // border
-  @include anchor-draw-underline-border();
+  @include anchorDrawUnderlineBorder();
 
   // bg
   @include anchorDrawUnderlineBackground();
