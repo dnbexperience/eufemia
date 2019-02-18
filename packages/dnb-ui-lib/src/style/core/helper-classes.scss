@@ -86,22 +86,36 @@ a.dnb-skip-link {
   width: auto;
   height: auto;
 
-  font-size: var(--font-size-medium);
+  margin: 0;
+  padding: 0.75rem 1rem 0.625rem 1rem;
+  border-radius: 0.5rem;
 
-  padding-left: 1rem;
-  padding-right: 1rem;
+  white-space: nowrap;
+
+  font-size: var(--font-size-medium);
+  color: var(--color-sea-green);
+  text-decoration: none;
+  background-color: var(--color-white);
+}
+a.dnb-skip-link:hover {
+  color: var(--color-sea-green);
+  background-color: var(--color-mint-green-50);
+}
+a.dnb-skip-link:active {
+  color: var(--color-white);
+  background-color: var(--color-emerald-green);
 }
 a.dnb-skip-link:focus,
 a.dnb-skip-link:active {
   z-index: 9999;
   top: auto;
-  width: auto;
-  background-color: var(--color-white);
 
   margin: 1rem 45vw;
   @include allBelow(small) {
     margin: 1rem 35%;
   }
+
+  @include fakeFocus();
 }
 
 // Layout management
