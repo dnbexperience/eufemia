@@ -6,7 +6,6 @@
 $fonts-path: '../../../assets/fonts/' !default;
 
 @import './dnb-theme-ui-basis.scss';
-@import './dnb-theme-ui-components.scss';
 @import './dnb-theme-ui-elements.scss';
 
 // make sure we load the spacings after we have defined the defaults of the elements
