@@ -160,7 +160,7 @@ const ContentWrapper = styled.main`
 
   /* for whider screens */
   &:not(.fullscreen-page) {
-    .dnb-app-content-inner {
+    .dnb-app-content-inner > div:first-of-type {
       @media (min-width: 70em) {
         max-width: 70rem;
       }
