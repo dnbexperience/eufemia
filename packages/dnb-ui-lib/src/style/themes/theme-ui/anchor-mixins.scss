@@ -72,10 +72,9 @@
 }
 @mixin resetHoverStyle() {
   &:hover {
-    color: inherit;
+    color: var(--color-emerald-green);
     // in case we dont want to change the color to the body color
-    // color: var(--color-sea-green);
-    background-color: inherit;
+    background-color: var(--color-white);
     border-bottom-width: 1px;
   }
 
