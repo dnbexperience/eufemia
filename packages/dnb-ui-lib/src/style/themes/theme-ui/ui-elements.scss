@@ -3,96 +3,98 @@
  *
  */
 
-a {
-  @include anchorStyle();
-}
-label {
-  @include labelStyle();
-}
-img {
-  @include imageStyle();
-}
-blockquote {
-  @include blockquoteStyle();
-}
-textarea {
-  @include textareaStyle();
-}
+@mixin includeElements() {
+  a {
+    @include anchorStyle();
+  }
+  label {
+    @include labelStyle();
+  }
+  img {
+    @include imageStyle();
+  }
+  blockquote {
+    @include blockquoteStyle();
+  }
+  textarea {
+    @include textareaStyle();
+  }
 
-// typography
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  @include headingsStyle();
-}
-h1 {
-  @include h1Style();
-}
-h2 {
-  @include h2Style();
-}
-h3 {
-  @include h3Style();
-}
-h4 {
-  @include h4Style();
-}
-h5 {
-  @include h5Style();
-}
-h6 {
-  @include h6Style();
-}
-p {
-  @include paragraphStyle();
-}
-b,
-strong {
-  font-weight: var(--font-weight-medium);
-}
-small {
-  font-size: var(--font-size-small); // 14px
-}
-p > small,
-h2 > small,
-h3 > small,
-h4 > small,
-h5 > small,
-h6 > small {
-  line-height: 1; // for vertical alignment, we have to have no line-height
-}
+  // typography
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @include headingsStyle();
+  }
+  h1 {
+    @include h1Style();
+  }
+  h2 {
+    @include h2Style();
+  }
+  h3 {
+    @include h3Style();
+  }
+  h4 {
+    @include h4Style();
+  }
+  h5 {
+    @include h5Style();
+  }
+  h6 {
+    @include h6Style();
+  }
+  p {
+    @include paragraphStyle();
+  }
+  b,
+  strong {
+    font-weight: var(--font-weight-medium);
+  }
+  small {
+    font-size: var(--font-size-small); // 14px
+  }
+  p > small,
+  h2 > small,
+  h3 > small,
+  h4 > small,
+  h5 > small,
+  h6 > small {
+    line-height: 1; // for vertical alignment, we have to have no line-height
+  }
 
-// lists
-ul {
-  @include ulStyle();
-}
-ol {
-  @include ulStyle();
-}
-dl {
-  @include dlStyle();
-}
+  // lists
+  ul {
+    @include ulStyle();
+  }
+  ol {
+    @include ulStyle();
+  }
+  dl {
+    @include dlStyle();
+  }
 
-// tables
-table {
-  @include tableStyle();
-}
+  // tables
+  table {
+    @include tableStyle();
+  }
 
-// form
-label,
-input,
-form,
-fieldset {
-  @include formStyle();
-}
+  // form
+  label,
+  input,
+  form,
+  fieldset {
+    @include formStyle();
+  }
 
-// additional
-code {
-  @include codeStyle();
-}
-pre {
-  @include preStyle();
+  // additional
+  code {
+    @include codeStyle();
+  }
+  pre {
+    @include preStyle();
+  }
 }
