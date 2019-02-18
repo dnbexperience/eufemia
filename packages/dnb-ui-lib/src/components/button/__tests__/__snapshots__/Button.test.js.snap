@@ -421,12 +421,6 @@ exports[`Button scss have to match default theme snapshot 1`] = `
 
 a.dnb-button {
   transition: none; }
-  a.dnb-button:hover {
-    color: inherit;
-    background-color: inherit;
-    border-bottom-width: 1px; }
-  a.dnb-button::before {
-    content: none; }
   a.dnb-button::before {
     transition: max-height 0.01s linear; }
 "

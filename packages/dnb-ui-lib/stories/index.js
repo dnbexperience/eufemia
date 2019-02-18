@@ -8,6 +8,7 @@ import { storiesOf } from '@storybook/react'
 import components from './componentsStories'
 import typography from './typographyStories'
 import elements from './elementsStories'
+import helpers from './helperStories'
 
 /* ATTENTION: for testing with IE11, we have to use the build version - make sure to run `yarn build` first */
 // import '../style'
@@ -35,3 +36,7 @@ typography
 elements
   .sort(([a], [b]) => (a > b ? 1 : -1))
   .forEach(component => storiesOf('Elements', module).add(...component))
+
+helpers
+  .sort(([a], [b]) => (a > b ? 1 : -1))
+  .forEach(component => storiesOf('Helpers', module).add(...component))

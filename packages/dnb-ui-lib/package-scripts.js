@@ -32,9 +32,14 @@ module.exports = {
       dev: 'yarn figma:dev'
     },
     sb: 'yarn story',
+    t: 'yarn t',
+    ts: 'yarn ts',
     test: {
       default: 'yarn test',
-      staged: 'yarn test:staged',
+      screenshots: {
+        default: 'yarn test:screenshots',
+        update: 'yarn test:screenshots:update'
+      },
       update: 'yarn test:update',
       oneFile: 'yarn test --testPathPattern Icon'
     }
