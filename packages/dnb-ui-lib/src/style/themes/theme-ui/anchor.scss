@@ -201,9 +201,11 @@
   }
 }
 
-.dnb-anchorStyle {
-  @include anchorDefaultStyle();
-}
+// no use case for that yet
+// .dnb-anchor-style {
+//   @include anchorDefaultStyle();
+// }
+
 .dnb-anchor-no-style {
   white-space: normal;
   border-bottom: none;
