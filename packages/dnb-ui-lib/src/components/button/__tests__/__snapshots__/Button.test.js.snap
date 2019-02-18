@@ -219,10 +219,6 @@ exports[`Button scss have to match default theme snapshot 1`] = `
  * Utilities
  */
 /*
- * Anchor
- *
- */
-/*
  * Typography
  *
  * The font-family properties are defined in the properties.scss file, like:
@@ -418,11 +414,6 @@ exports[`Button scss have to match default theme snapshot 1`] = `
   .dnb-button--signal[disabled] {
     color: #b0b0b0;
     background-color: var(--color-signal-yellow-30); }
-
-a.dnb-button {
-  transition: none; }
-  a.dnb-button::before {
-    transition: max-height 0.01s linear; }
 "
 `;
 
