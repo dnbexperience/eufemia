@@ -581,6 +581,7 @@ class ListItem extends PureComponent {
         <Link
           to={to}
           className={classnames(
+            'dnb-anchor',
             'dnb-anchor-no-underline',
             'dnb-anchor-no-hover',
             icon && graphics[icon] ? 'has-icon' : null

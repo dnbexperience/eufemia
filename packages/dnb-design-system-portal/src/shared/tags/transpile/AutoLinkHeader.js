@@ -17,10 +17,10 @@ const AutoLinkHeader = ({ is: Component, children, ...props }) => {
     }
   }
   return (
-    <Component {...props}>
+    <Component className={`dnb-${Component}`} {...props}>
       <AnchorLink
         offset="100"
-        className="anchor"
+        className="dnb-anchor anchor"
         title="Click to set a Anchor URL"
         id={id}
         href={`#${id}`}

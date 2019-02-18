@@ -56,7 +56,7 @@ class Layout extends PureComponent {
       <MainMenuProvider>
         <SidebarMenuProvider>
           <Global styles={globalStyles} />
-          <a className="dnb-skip-link dnb-button" href="#dnb-app-content">
+          <a className="dnb-skip-link" href="#dnb-app-content">
             Skip to content
           </a>
           <MainMenu enableOverlay />
