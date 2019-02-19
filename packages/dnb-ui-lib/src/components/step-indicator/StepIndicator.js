@@ -122,7 +122,11 @@ export default class StepIndicator extends PureComponent {
       active_url,
       show_numbers,
       className,
-      class: _className
+      class: _className,
+      data: _data, //eslint-disable-line
+      children, //eslint-disable-line
+      on_change, //eslint-disable-line
+      ...attributes
     } = this.props
 
     const data = StepIndicator.getData(this.props)
@@ -140,7 +144,8 @@ export default class StepIndicator extends PureComponent {
     }
 
     const params = {
-      className: classnames('dnb-step-indicator', className, _className)
+      className: classnames('dnb-step-indicator', className, _className),
+      ...attributes
     }
 
     // also used for code markup simulation
