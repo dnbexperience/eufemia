@@ -11,7 +11,12 @@ import AnchorLink from 'react-anchor-link-smooth-scroll'
 const Anchor = ({ children, className, href, ...rest }) => {
   if (/^#/.test(href)) {
     return (
-      <AnchorLink offset="100" href={href} {...rest}>
+      <AnchorLink
+        offset="100"
+        href={href}
+        className={classnames('dnb-anchor', className)}
+        {...rest}
+      >
         {children}
       </AnchorLink>
     )
