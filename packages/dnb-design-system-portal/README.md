@@ -1,6 +1,6 @@
 # DNB Style Guide
 
-The DNB Style Guide is the go to place for all who has to design, develop or create visuals with the DNB brand.
+The DNB Style Guide is the go to place for all who has to design, develop or create digitan WEB applications with the DNB brand.
 
 ## Run the Style Guide locally
 

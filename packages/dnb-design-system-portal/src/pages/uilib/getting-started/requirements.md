@@ -13,7 +13,7 @@ There are no specific technical requirements only that it is highly recommended 
 
 This library can be used on top of a modern JavaScript frontend libraries like React or or framework like Vue.js.
 
-### To use the **Styles**
+### To use the Styles
 
 This library works perfectly together with any styling techniques, like **Styled Components** ([Emotion](https://emotion.sh)), CSS Modules or SASS/LESS. You simply consume **ready to use CSS files**.
 
