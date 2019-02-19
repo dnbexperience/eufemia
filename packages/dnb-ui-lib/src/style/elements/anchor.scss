@@ -3,6 +3,9 @@
  *
  */
 
+$anchorBorderBottomWidth: 1.5px; // we can use 1.5px incase we use box-shadow instead of border-bottom
+$anchorBorderRadius: 0.25rem;
+
 @mixin anchorDefaultStyle($theme: null) {
   // make sure we have always `display: inline;` as inline-block is breaking the border-bottom
   display: inline;
@@ -27,45 +30,26 @@
   color: var(--color-sea-green);
 
   text-decoration: none;
-  border-bottom: 1px solid var(--color-sea-green);
+  // border-bottom: $anchorBorderBottomWidth solid var(--color-sea-green);
+  box-shadow: 0 $anchorBorderBottomWidth 0 0 var(--color-sea-green);
+  border-radius: 0;
 
   @if $theme == 'highlighted' {
     color: var(--color-emerald-green);
-    border-bottom-color: var(--color-emerald-green);
+    // border-bottom-color: var(--color-emerald-green);
+    box-shadow: 0 $anchorBorderBottomWidth 0 0 var(--color-emerald-green);
   }
-}
-@mixin anchorHoverStyle() {
-  background-color: var(--color-mint-green-50);
-  border-bottom-color: transparent;
-}
-@mixin anchorActiveStyle() {
-  color: var(--color-mint-green);
-  background-color: var(--color-sea-green);
-  border-bottom: none;
-  border-radius: 0;
-}
-@mixin anchorFocusStyle($whatinput: null) {
-  &:not(:active) {
-    @include anchorHoverStyle();
-    transition: none;
-    border-bottom: none;
-  }
-  @if $whatinput {
-    @include fakeFocus($whatinput);
-  } @else {
-    @include fakeFocus();
-  }
-  border-radius: 4px;
 }
 
 // resettings
 @mixin resetUnderlineStyle() {
-  border-bottom: none;
-
-  // border
-  &::after {
-    border-bottom: none;
-    content: none;
+  // border-bottom-color: transparent;
+  box-shadow: none;
+}
+@mixin resetBorderRadius() {
+  border-radius: 0;
+  &:focus {
+    border-radius: 0;
   }
 }
 @mixin resetanchorHoverStyle() {
@@ -73,25 +57,46 @@
     color: var(--color-emerald-green);
     // in case we dont want to change the color to the body color
     background-color: var(--color-white);
-    border-bottom-width: 1px;
-  }
-
-  // bg
-  &::before {
-    content: none;
+    border-bottom-width: $anchorBorderBottomWidth;
   }
 }
 @mixin resetAnimationStyle() {
   transition: none;
-
-  // bg
-  &::before {
-    transition: max-height 0.01s linear;
-  }
 }
+
+// states
+@mixin anchorHoverStyle() {
+  color: var(--color-sea-green);
+  background-color: var(--color-mint-green-50);
+  border-radius: $anchorBorderRadius;
+  @include resetUnderlineStyle();
+}
+@mixin anchorActiveStyle() {
+  color: var(--color-mint-green);
+  background-color: var(--color-sea-green);
+  border-radius: $anchorBorderRadius;
+  @include resetUnderlineStyle();
+}
+@mixin anchorFocusStyle($whatinput: null) {
+  &:not(:active) {
+    color: var(--color-sea-green);
+    background-color: var(--color-white);
+    @include resetAnimationStyle();
+    @include resetUnderlineStyle();
+  }
+  @if $whatinput {
+    @include fakeFocus($whatinput);
+  } @else {
+    @include fakeFocus();
+  }
+  border-radius: $anchorBorderRadius;
+}
+
+// oterh styles
 @mixin useAnchorContrastStyle() {
   color: var(--color-white);
-  border-bottom-color: var(--color-white);
+  // border-bottom-color: var(--color-white);
+  box-shadow: 0 $anchorBorderBottomWidth 0 0 var(--color-white);
   &:hover {
     color: var(--color-emerald-green);
   }
@@ -122,7 +127,7 @@
   // other stuff, not related to the Anchor directly
   .dnb-icon {
     display: inline-block;
-    // -1px to center the icons agains large Chars
+    // -1px to center the icons agains large chars
     transform: translateY(-1px);
   }
 }
@@ -139,65 +144,6 @@
 .dnb-anchor--focus {
   @include anchorFocusStyle('mouse');
 }
-.dnb-anchor--animation {
-  position: relative; // because of z-index and underline/hover sudo classes
-  z-index: 1; // because of focus handling
-
-  // This way we make sure we never have a line break in an Anchor
-  // Cause this messes up the "anchorDrawUnderlineBorder" mechanism
-  white-space: pre;
-
-  // border
-  @include anchorDrawUnderlineBorder();
-
-  // bg
-  @include anchorDrawUnderlineBackground();
-
-  background-color: transparent;
-  border-bottom: none;
-
-  &:active,
-  &:hover {
-    background-color: transparent;
-    border-bottom: none;
-
-    // bg
-    &::before {
-      max-height: 100%;
-    }
-
-    // border
-    &::after {
-      left: 0.1rem;
-      right: 0.1rem;
-      border-bottom-width: 2px;
-    }
-  }
-  &:active {
-    border-bottom: none;
-
-    // bg
-    &::before {
-      background-color: var(--color-sea-green);
-    }
-    // border
-    &::after {
-      border-bottom-color: var(--color-sea-green);
-    }
-  }
-  &:focus {
-    @include anchorFocusStyle();
-    // border
-    &::after {
-      border-bottom: none;
-    }
-  }
-  // If a link don't contains a / or http(s)
-  &:not([href^='/']):not([href^='http']) {
-    cursor: pointer;
-    user-select: none;
-  }
-}
 
 // no use case for that yet
 // .dnb-anchor-style {
@@ -206,26 +152,21 @@
 
 .dnb-anchor-no-style {
   white-space: normal;
-  border-bottom: none;
   color: inherit;
 
-  // border
-  &::after {
-    content: none;
-  }
-  // bg
-  &::before {
-    content: none;
-  }
-
+  @include resetBorderRadius();
   @include resetUnderlineStyle();
   @include resetanchorHoverStyle();
+  @include resetAnimationStyle();
 }
 .dnb-anchor-no-underline {
   @include resetUnderlineStyle();
 }
 .dnb-anchor-no-hover {
   @include resetanchorHoverStyle();
+}
+.dnb-anchor-no-radius {
+  @include resetBorderRadius();
 }
 .dnb-anchor-no-animation {
   @include resetAnimationStyle();

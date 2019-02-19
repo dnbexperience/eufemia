@@ -347,7 +347,7 @@ stories.push([
       </Box>
       <Box>
         <a href="/" className="dnb-anchor--animation">
-          With a special
+          With a special Animation (is removed from the styles)
         </a>
       </Box>
       <Box>
