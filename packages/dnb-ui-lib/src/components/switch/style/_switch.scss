@@ -117,7 +117,7 @@ $switch-border-width: 1px;
   }
 
   &__input {
-    @include sr-only;
+    @include srOnly;
 
     /*
     * When switched ON
