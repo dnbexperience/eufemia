@@ -13,7 +13,7 @@ import CSSDiagram from 'Pages/uilib/usage/customisation/assets/css_structure_dia
 To ensure flexibility and the possibility of [theming](/uilib/usage/customisation/theming), the DNB CSS Styles area build in a bottom up manner.
 
 The styles are decoupled from the functional [components](/uilib/components).
-There are several Packages You can use.
+There are several Packages You can use and combine.
 
 ## Main Packages
 
@@ -28,9 +28,9 @@ There are several Packages You can use.
 - **dnb-ui-basis** - Includes everything from `dnb-ui-core`, except `dnb-ui-body`.
 - **dnb-ui-elements** - This package will force styles for all the HTML Elements/Tags. Use it carefully - cause this will effect existing styles as well.
 
-All the CSS packages are ready to use, minified CSS files. You will find the main style here: `dnb-ui-lib/style/dnb-ui-core.min.css`
+All the CSS packages are ready to use, **minified CSS files**. You will find the main style here: `dnb-ui-lib/style/dnb-ui-core.min.css`
 
-Additionally, it is also possible to import a style and theme for every single component separately. You find the styles here, like: `dnb-ui-lib/components/[button]/style/dnb-button.min.css`
+Additionally, it is also possible to import a style and theme for every single component separately. You find the styles here, like: `dnb-ui-lib/components/[button]/style/dnb-button.min.css` - read more about [how to import a single-component style](/uilib/usage/customisation/consume-styles#single-component-only)
 
 The following Diagram gives an overall overview how the packages are structured.
 
