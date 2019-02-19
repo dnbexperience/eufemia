@@ -39,6 +39,16 @@
     padding: 1rem;
   }
 }
+@mixin codeTag() {
+  code {
+    @include codeStyle();
+  }
+}
+@mixin preTag() {
+  pre {
+    @include preStyle();
+  }
+}
 
 .dnb-code {
   @include codeStyle();

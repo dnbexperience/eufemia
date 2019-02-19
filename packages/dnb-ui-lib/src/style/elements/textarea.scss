@@ -63,6 +63,11 @@
     }
   }
 }
+@mixin textareaTag() {
+  textarea {
+    @include textareaStyle();
+  }
+}
 
 .dnb-textarea {
   @include textareaStyle();

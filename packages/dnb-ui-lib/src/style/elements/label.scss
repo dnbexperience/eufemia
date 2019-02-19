@@ -15,6 +15,11 @@
     color: var(--color-sea-green-alt-30); // TODO: Not defined
   }
 }
+@mixin labelTag() {
+  label {
+    @include labelStyle();
+  }
+}
 
 .dnb-label {
   @include labelStyle();

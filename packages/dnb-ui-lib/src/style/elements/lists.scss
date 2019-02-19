@@ -23,6 +23,9 @@
     word-wrap: break-all;
   }
 }
+@mixin olStyle() {
+  @include ulStyle();
+}
 @mixin dlStyle() {
   margin: 0;
   padding: 0;
@@ -40,11 +43,27 @@
     padding-left: 2rem;
   }
 }
+@mixin ulTag() {
+  ul {
+    @include ulStyle();
+  }
+}
+@mixin olTag() {
+  ol {
+    @include olStyle();
+  }
+}
+@mixin dlTag() {
+  dl {
+    @include dlStyle();
+  }
+}
+
 .dnb-ul {
   @include ulStyle();
 }
 .dnb-ol {
-  @include ulStyle();
+  @include olStyle();
 }
 .dnb-dl {
   @include dlStyle();

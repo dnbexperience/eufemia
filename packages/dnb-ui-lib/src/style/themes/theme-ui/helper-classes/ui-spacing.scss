@@ -13,7 +13,11 @@
 
   .dnb-h1,
   .dnb-h2,
+  .dnb-h3,
   .dnb-lead,
+  .dnb-h4,
+  .dnb-h5,
+  .dnb-h6,
   h1,
   h2,
   h3,
@@ -23,13 +27,21 @@
     margin: 2rem 0 1rem;
   }
 
+  .dnb-h1,
   h1 {
     margin: 3rem 0 2.5rem;
   }
+  .dnb-h2,
   h2 {
     margin: 3rem 0 1rem;
   }
 
+  .dnb-p,
+  .dnb-ul,
+  .dnb-ol,
+  .dnb-dl,
+  .dnb-blockquote,
+  .dnb-pre,
   p,
   ul,
   ol,
@@ -41,21 +53,27 @@
   }
 
   ul li,
-  ol li {
+  ol li,
+  .dnb-ul li,
+  .dnb-ol li {
     margin-top: 1rem;
     margin-bottom: 1rem;
+    & > p {
+      margin-top: 1rem;
+    }
   }
-  li > p {
+  dl dt,
+  .dnb-dl dt {
     margin-top: 1rem;
   }
-  dl dt {
-    margin-top: 1rem;
-  }
-  dl dd {
+  dl dd,
+  .dnb-dl dd {
     margin-bottom: 1rem;
   }
 
-  table {
+  table,
+  .dnb-table {
+    /* stylelint-disable-next-line */
     p,
     ul,
     ol,
@@ -66,7 +84,18 @@
     }
   }
 
-  blockquote p:last-child {
+  blockquote p:last-child,
+  .dnb-blockquote p:last-child {
     margin-bottom: 0;
+  }
+
+  .dnb-hr,
+  hr {
+    margin-bottom: 1rem;
+  }
+
+  .dnb-section.dnb-section--content {
+    margin-top: 1rem;
+    margin-bottom: 2rem;
   }
 }

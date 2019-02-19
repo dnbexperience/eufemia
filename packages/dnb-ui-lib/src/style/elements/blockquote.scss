@@ -67,6 +67,11 @@
     }
   }
 }
+@mixin blockquoteTag() {
+  blockquote {
+    @include blockquoteStyle();
+  }
+}
 
 .dnb-blockquote {
   @include blockquoteStyle();
