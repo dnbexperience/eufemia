@@ -16,10 +16,4 @@ describe('Tabs screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
-  it('have to match the "Tabs", right aligned', async () => {
-    const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="tabs-tabs"]'
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 })

@@ -10,7 +10,7 @@ import CodeBlock from 'Tags/CodeBlock'
 
 <CodeBlock reactLive hideCode>
 {`
-<ul>
+<ul className="dnb-ul">
   <li>Item 1</li>
   <li>Item 2</li>
   <li>
@@ -32,7 +32,7 @@ import CodeBlock from 'Tags/CodeBlock'
 
 <CodeBlock reactLive hideCode>
 {`
-<ol>
+<ol className="dnb-ol">
   <li>Item</li>
   <li>
     Item
@@ -56,7 +56,7 @@ import CodeBlock from 'Tags/CodeBlock'
 
 <CodeBlock reactLive hideCode>
 {`
-<dl>
+<dl className="dnb-dl">
   <dt>Item Title 1</dt>
   <dd>Item Description 1</dd>
   <dt>Item Title 1</dt>

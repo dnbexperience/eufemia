@@ -49,6 +49,7 @@ class Example extends PureComponent {
       <Fragment>
         <div className="example-box">
           <StepIndicator
+            data-dnb-test="step-indicator"
             active_item="2"
             active_url={this.state.active_url}
             data={dataBlob}
