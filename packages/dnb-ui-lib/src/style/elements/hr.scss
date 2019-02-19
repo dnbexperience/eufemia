@@ -1,0 +1,43 @@
+/*
+ * Hr tag / line
+ *
+ */
+
+@mixin hrStyle() {
+  // box-sizing: content-box;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  height: 0;
+
+  background: transparent;
+  border: 0;
+
+  &::after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    left: 0;
+    right: 0;
+    top: 0;
+    width: 100%;
+    height: 1px;
+    border-bottom: 1px solid var(--color-black-border);
+  }
+}
+@mixin hrTag() {
+  hr {
+    @include hrStyle();
+  }
+}
+
+.dnb-hr {
+  @include hrStyle();
+}
+.dnb-hr--fullscreen {
+  &::after {
+    left: -50vw;
+    right: -50vw;
+    width: 200vw;
+  }
+}
