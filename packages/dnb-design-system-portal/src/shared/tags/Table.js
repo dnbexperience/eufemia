@@ -70,7 +70,7 @@ export default class Table extends PureComponent {
       }
       return child
     })
-    return <table>{children}</table>
+    return <table className="dnb-table">{children}</table>
   }
 }
 
