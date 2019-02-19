@@ -3,32 +3,14 @@
  *
  */
 
-$fonts-path: '../../../../assets/fonts/' !default;
-
 @import '../../core/utilities.scss';
 @import '../../core/properties.scss';
 
-// define the default ui theme
-@import './anchor.scss';
-@import './typography.scss';
-@import './blockquote.scss';
-@import './lists.scss';
-@import './table.scss';
-@import './label.scss';
-@import './textarea.scss';
-@import './form.scss';
-@import './code.scss';
-@import './image.scss';
-
-// @import './dnb-theme-ui-basis.scss';
-@import './ui-elements.scss';
-$preventIncludeElements: false !default;
-@if $preventIncludeElements != true {
-  @include includeElements();
-}
+// import all the "class styles" of the elements
+@import '../../elements/all-elements.scss';
 
 // make sure we load the spacings after we have defined the defaults of the elements
-@import './ui-spacing.scss';
+@import './helper-classes/ui-spacing.scss';
 
 @supports not (-ms-ime-align: auto) {
   ::selection {
