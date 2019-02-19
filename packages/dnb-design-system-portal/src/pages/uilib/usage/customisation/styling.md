@@ -40,6 +40,21 @@ The following Diagram gives an overall overview how the packages are structured.
   <CSSDiagram />
 </div>
 
+## How to deal with existing styles
+
+The **dnb-ui-core** package includes some styles witch effects the global scope (body and CSS reset). To avoid interference with existing styles, let's say a header or a menu, You could only use the **dnb-ui-basis** package in combination with other packages like **dnb-theme-ui** and **dnb-ui-components**.
+
+### Example imports
+
+```js
+import 'dnb-ui-lib/style/basis'
+import 'dnb-ui-lib/style/components'
+import 'dnb-ui-lib/style/themes/ui'
+
+// instead of all together
+/* import 'dnb-ui-lib/style' */
+```
+
 ## Spacing for Articles {#spacing}
 
 To ensure more flexibility in styling, all the margins / spacings are reset to zero. But more often we have to have a by default defined spacing, e.g. `margin` on HTML Elements like headings or paragraphs.
