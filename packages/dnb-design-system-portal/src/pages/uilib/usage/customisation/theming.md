@@ -22,7 +22,7 @@ We have the **Main Theming File**, which is located here: `dnb-ui-lib/src/style/
 From here, we "can" reuse some default theming mechanism, just to have a fallback:
 
 ```scss
-@import '../themes/dnb-spacing.scss';
+@import '../theme-ui/dnb-theme-ui.scss';
 ```
 
 All the additional sub theming files (for every component) are automatically added to the **Main Theming File** by running `$ yarn build`. More on that further down.

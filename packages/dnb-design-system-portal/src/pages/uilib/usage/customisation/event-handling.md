@@ -8,7 +8,7 @@ import ComponentBox from 'Tags/ComponentBox'
 
 # Event Handling
 
-The [dnb-ui-lib](/uilib/) offers a couple of different ways to handling events:
+The `dnb-ui-lib` offers a couple of different ways to handling events:
 
 1. the declarative way to set and handle events (the way we SET the event is declarative)
 1. the imperative way to set and handle events

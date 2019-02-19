@@ -3,7 +3,7 @@
  *
  */
 
-:root {
+@mixin getDefaultProperties() {
   // Typography Family
   --font-family-default: 'Fedra Sans Std', sans-serif;
   --font-family-book: 'Fedra Sans Std', sans-serif; /* Do not use, use --font-weight-... */
@@ -71,4 +71,17 @@
   // --color-soft-grey: #ccc;
   // --color-charcoal-grey: #333;
   // --color-shadow-grey: #757575;
+}
+
+@mixin setProperties() {
+  :root {
+    @content;
+  }
+}
+
+$hasCustomProperties: false !default;
+@if $hasCustomProperties == false {
+  :root {
+    @include getDefaultProperties();
+  }
 }

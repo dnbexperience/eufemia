@@ -3,4 +3,4 @@
  *
  */
 
-import './dnb-theme-ui.scss'
+import './theme-ui/dnb-theme-ui.scss'

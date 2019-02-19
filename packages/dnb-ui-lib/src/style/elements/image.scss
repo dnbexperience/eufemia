@@ -1,0 +1,19 @@
+/*
+ * Table
+ *
+ */
+
+@mixin imageStyle() {
+  box-sizing: content-box;
+  max-width: 100%;
+  border-style: none;
+}
+@mixin imageTag() {
+  img {
+    @include imageStyle();
+  }
+}
+
+.dnb-image {
+  @include imageStyle();
+}

@@ -4,9 +4,7 @@
  */
 
 const isCI = require('is-ci')
-
-// we use a replace for now to get this feature of sending the config in here. I made a pull request.
-const { setupJestScreenshot } = require('jest-screenshot-replacement')
+const { setupJestScreenshot } = require('jest-screenshot')
 
 jest.setTimeout(30e3)
 

@@ -1,0 +1,186 @@
+/*
+ * Anchor
+ *
+ */
+
+$anchorBorderBottomWidth: 1.5px; // we can use 1.5px incase we use box-shadow instead of border-bottom
+$anchorBorderRadius: 0.25rem;
+
+@mixin anchorDefaultStyle($theme: null) {
+  // make sure we have always `display: inline;` as inline-block is breaking the border-bottom
+  display: inline;
+
+  // top has 1px less, cause we now has 2px on border bottom hover
+  // the calculations are based on 24px line-height
+
+  // 1px = 0,0625
+  // 2px = 0,125
+  // 4px = 0,25
+
+  // on padding-top we have 4px
+  // on padding-bottom we have 2px, cause run a border-bottom with 2px
+  // this makes a total of 8px
+  // 24px line-height - 8px = 16px (font-size)
+  padding: 0.25rem 0.125rem 0.125rem;
+
+  // margins are not needed as long as we go for "inline"
+  // margin: -0.25rem 0 -0.125rem;
+
+  color: inherit;
+  color: var(--color-sea-green);
+
+  text-decoration: none;
+  // border-bottom: $anchorBorderBottomWidth solid var(--color-sea-green);
+  box-shadow: 0 $anchorBorderBottomWidth 0 0 var(--color-sea-green);
+  border-radius: 0;
+
+  @if $theme == 'highlighted' {
+    color: var(--color-emerald-green);
+    // border-bottom-color: var(--color-emerald-green);
+    box-shadow: 0 $anchorBorderBottomWidth 0 0 var(--color-emerald-green);
+  }
+}
+
+// resettings
+@mixin resetUnderlineStyle() {
+  // border-bottom-color: transparent;
+  box-shadow: none;
+}
+@mixin resetBorderRadius() {
+  border-radius: 0;
+  &:focus {
+    border-radius: 0;
+  }
+}
+@mixin resetanchorHoverStyle() {
+  &:hover {
+    color: var(--color-emerald-green);
+    // in case we dont want to change the color to the body color
+    background-color: var(--color-white);
+    border-bottom-width: $anchorBorderBottomWidth;
+  }
+}
+@mixin resetAnimationStyle() {
+  transition: none;
+}
+
+// states
+@mixin anchorHoverStyle() {
+  color: var(--color-sea-green);
+  background-color: var(--color-mint-green-50);
+  border-radius: $anchorBorderRadius;
+  @include resetUnderlineStyle();
+}
+@mixin anchorActiveStyle() {
+  color: var(--color-mint-green);
+  background-color: var(--color-sea-green);
+  border-radius: $anchorBorderRadius;
+  @include resetUnderlineStyle();
+}
+@mixin anchorFocusStyle($whatinput: null) {
+  &:not(:active) {
+    color: var(--color-sea-green);
+    background-color: var(--color-white);
+    @include resetAnimationStyle();
+    @include resetUnderlineStyle();
+  }
+  @if $whatinput {
+    @include fakeFocus($whatinput);
+  } @else {
+    @include fakeFocus();
+  }
+  border-radius: $anchorBorderRadius;
+}
+
+// oterh styles
+@mixin useAnchorContrastStyle() {
+  color: var(--color-white);
+  // border-bottom-color: var(--color-white);
+  box-shadow: 0 $anchorBorderBottomWidth 0 0 var(--color-white);
+  &:hover {
+    color: var(--color-emerald-green);
+  }
+  &:active {
+    color: var(--color-mint-green);
+  }
+  &:focus {
+    color: var(--color-emerald-green);
+  }
+}
+@mixin anchorStyle() {
+  @include anchorDefaultStyle();
+
+  // have focus before :active, because of border-radius
+  &:focus {
+    @include anchorFocusStyle();
+  }
+  &:hover,
+  &:active {
+    @include anchorHoverStyle();
+  }
+  &:active {
+    @include anchorActiveStyle();
+  }
+
+  transition: background-color 0.2s ease;
+
+  // other stuff, not related to the Anchor directly
+  .dnb-icon {
+    display: inline-block;
+    // -1px to center the icons agains large chars
+    transform: translateY(-1px);
+  }
+}
+
+.dnb-anchor {
+  @include anchorStyle();
+}
+.dnb-anchor--hover {
+  @include anchorHoverStyle();
+}
+.dnb-anchor--active {
+  @include anchorActiveStyle();
+}
+.dnb-anchor--focus {
+  @include anchorFocusStyle('mouse');
+}
+
+// no use case for that yet
+// .dnb-anchor-style {
+//   @include anchorDefaultStyle();
+// }
+
+.dnb-anchor-no-style {
+  color: inherit;
+
+  @include resetUnderlineStyle();
+  @include resetanchorHoverStyle();
+  @include resetAnimationStyle();
+}
+.dnb-anchor-no-underline {
+  @include resetUnderlineStyle();
+}
+.dnb-anchor-no-hover {
+  @include resetanchorHoverStyle();
+}
+.dnb-anchor-no-radius {
+  @include resetBorderRadius();
+}
+.dnb-anchor-no-animation {
+  @include resetAnimationStyle();
+}
+.dnb-anchor-contrast {
+  @include useAnchorContrastStyle();
+}
+
+// make sure we style an Anchor like a button
+a.dnb-button {
+  // reset the anchor style
+  @include resetAnimationStyle();
+}
+
+@mixin anchorTag() {
+  a {
+    @include anchorStyle();
+  }
+}

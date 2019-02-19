@@ -56,10 +56,9 @@
   }
 }
 
-@mixin fakeFocus(
-  $whatinput: 'keyboard',
-  $color: var(--color-emerald-green)
-) {
+$focusRingWidth: 2px;
+$focusRingColor: var(--color-emerald-green);
+@mixin fakeFocus($whatinput: 'keyboard', $color: $focusRingColor) {
   outline: none;
 
   html[data-whatinput='#{$whatinput}'] & {
@@ -67,7 +66,11 @@
   }
 }
 
-@mixin fakeBorder($color: null, $width: 2px, $important: null) {
+@mixin fakeBorder(
+  $color: null,
+  $width: $focusRingWidth,
+  $important: null
+) {
   // we use !important, cause we have no changes to select the selctor right
   // in some cases we have another state where we use box-shadow
   // but with important, we take care of that we actually can use use it
@@ -95,7 +98,7 @@
   @content;
 }
 
-@mixin drawUnderlineBackground() {
+@mixin anchorDrawUnderlineBackground() {
   // bg
   &::before {
     @include _drawUnderline() {
@@ -114,7 +117,7 @@
   }
 }
 
-@mixin drawUnderlineBorder() {
+@mixin anchorDrawUnderlineBorder() {
   // border
   &::after {
     @include _drawUnderline() {
@@ -132,8 +135,6 @@
     @content;
   }
 }
-
-// TODO: considder to take all below out
 
 $breakpoints: (
   'small': 40em,
@@ -174,7 +175,7 @@ $breakpoints: (
 }
 
 // Screen reader only helper
-@mixin sr-only() {
+@mixin srOnly() {
   border: 0;
   clip: rect(0 0 0 0);
   height: 1px;
@@ -185,7 +186,7 @@ $breakpoints: (
   width: 1px;
 }
 
-// This "negates" the sr-only() helper; useful if
+// This "negates" the srOnly() helper; useful if
 // we want the default state of something to be
 // for screen readers only, but we want to force
 // it to show for sighted users under more specific

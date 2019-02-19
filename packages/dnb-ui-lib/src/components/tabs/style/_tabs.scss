@@ -18,6 +18,10 @@
     &__tablist {
       display: flex;
       flex-direction: row;
+
+      &:focus {
+        @include fakeFocus();
+      }
     }
 
     &--left &__tablist {

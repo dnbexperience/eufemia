@@ -3,8 +3,7 @@
  *
  */
 
-blockquote,
-.dnb-blockquote {
+@mixin blockquoteStyle() {
   display: inline-block;
   width: auto;
 
@@ -44,10 +43,29 @@ blockquote,
     padding-bottom: 3rem;
   }
 
+  .dnb-anchor,
   a {
     @include useAnchorContrastStyle();
   }
 
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  .dnb-h1,
+  .dnb-h2,
+  .dnb-h3,
+  .dnb-h4,
+  .dnb-h5,
+  .dnb-h6 {
+    color: var(--color-mint-green);
+  }
+
+  .dnb-cite,
+  .dnb-footer,
+  .dnb-figcaption,
   cite,
   footer,
   figcaption {
@@ -63,4 +81,13 @@ blockquote,
       padding-right: 0.5rem;
     }
   }
+}
+@mixin blockquoteTag() {
+  blockquote {
+    @include blockquoteStyle();
+  }
+}
+
+.dnb-blockquote {
+  @include blockquoteStyle();
 }

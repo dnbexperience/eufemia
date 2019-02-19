@@ -30,7 +30,7 @@ body[data-modal-active='true'] {
     user-select: none;
 
     // [data-active='false'] & {
-    //   @include sr-only();
+    //   @include srOnly();
     // }
     // [data-active='true'] & {
     //   z-index: 3001;

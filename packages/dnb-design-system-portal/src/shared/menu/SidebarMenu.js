@@ -37,6 +37,7 @@ const StyledListItem = styled.li`
     transform: translateY(1px);
 
     &:hover {
+      color: var(--color-black);
       background-color: transparent;
     }
   }
@@ -568,7 +569,7 @@ class ListItem extends PureComponent {
       <StyledListItem
         className={classnames(
           `l-${level}`,
-          active && 'is-active dnb-anchor--hover', // use anchor hover style
+          active && 'is-active', // use anchor hover style
           inside && 'is-inside',
           status ? `status-${status}` : null,
           className
@@ -581,7 +582,9 @@ class ListItem extends PureComponent {
         <Link
           to={to}
           className={classnames(
+            'dnb-anchor',
             'dnb-anchor-no-underline',
+            'dnb-anchor-no-radius',
             'dnb-anchor-no-hover',
             icon && graphics[icon] ? 'has-icon' : null
           )}

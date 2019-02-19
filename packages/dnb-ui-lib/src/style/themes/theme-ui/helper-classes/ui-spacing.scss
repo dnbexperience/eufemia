@@ -8,29 +8,41 @@
 // we also check if there is a class starting with "dnb-*"
 // this is to make sure we don't effect these styles inside of components
 .dnb-spacing {
-  // *:not([class^='dnb-']) > {
-  // }
-
-  .dnb-h1,
-  .dnb-h2,
-  .dnb-lead,
-  h1,
-  h2,
   h3,
   h4,
   h5,
-  h6 {
+  h6,
+  h3:not([class]),
+  h4:not([class]),
+  h5:not([class]),
+  h6:not([class]),
+  .dnb-h3,
+  .dnb-lead,
+  .dnb-h4,
+  .dnb-h5,
+  .dnb-h6 {
     margin: 2rem 0 1rem;
   }
 
-  h1 {
+  h1,
+  h1:not([class]),
+  .dnb-h1 {
     margin: 3rem 0 2.5rem;
   }
-  h2 {
+  h2,
+  h2:not([class]),
+  .dnb-h2 {
     margin: 3rem 0 1rem;
   }
 
+  .dnb-p,
+  .dnb-ul,
+  .dnb-ol,
+  .dnb-dl,
+  .dnb-blockquote,
+  .dnb-pre,
   p,
+  p:not([class]),
   ul,
   ol,
   dl,
@@ -41,21 +53,28 @@
   }
 
   ul li,
-  ol li {
+  ol li,
+  .dnb-ul li,
+  .dnb-ol li {
     margin-top: 1rem;
     margin-bottom: 1rem;
+    /* stylelint-disable-next-line */
+    & > p {
+      margin-top: 1rem;
+    }
   }
-  li > p {
+  dl dt,
+  .dnb-dl dt {
     margin-top: 1rem;
   }
-  dl dt {
-    margin-top: 1rem;
-  }
-  dl dd {
+  dl dd,
+  .dnb-dl dd {
     margin-bottom: 1rem;
   }
 
-  table {
+  table,
+  .dnb-table {
+    /* stylelint-disable-next-line */
     p,
     ul,
     ol,
@@ -66,7 +85,18 @@
     }
   }
 
-  blockquote p:last-child {
+  blockquote p:last-child,
+  .dnb-blockquote p:last-child {
     margin-bottom: 0;
+  }
+
+  .dnb-hr,
+  hr {
+    margin-bottom: 1rem;
+  }
+
+  .dnb-section.dnb-section--content {
+    margin-top: 1rem;
+    margin-bottom: 2rem;
   }
 }

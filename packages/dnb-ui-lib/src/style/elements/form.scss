@@ -1,0 +1,21 @@
+/*
+ * Forms
+ *
+ */
+
+@mixin formStyle() {
+  font-size: 1rem; // 16px
+  line-height: 1.5rem;
+}
+@mixin formTag() {
+  // label,
+  // input,
+  // fieldset,
+  form {
+    @include formStyle();
+  }
+}
+
+.dnb-form {
+  @include formStyle();
+}
