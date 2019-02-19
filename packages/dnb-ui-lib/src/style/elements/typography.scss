@@ -3,7 +3,7 @@
  *
  */
 
-@mixin typographyStyles() {
+@mixin headingsStyle() {
   margin: 0;
   padding: 0;
 
@@ -75,7 +75,7 @@
   h4,
   h5,
   h6 {
-    @include typographyStyles();
+    @include headingsStyle();
   }
   h1 {
     @include h1Style();
@@ -121,8 +121,15 @@
 .dnb-lead,
 .dnb-h4,
 .dnb-h5,
-.dnb-h6 {
-  @include typographyStyles();
+.dnb-h6,
+// make exception on headings wtich has no class attribute
+h1:not([class]),
+h2:not([class]),
+h3:not([class]),
+h4:not([class]),
+h5:not([class]),
+h6:not([class]) {
+  @include headingsStyle();
 }
 
 .dnb-small {
@@ -165,7 +172,9 @@
   @include h6Style();
 }
 
-.dnb-p {
+.dnb-p,
+// make exception on the p tag by checking if there is a class attribute
+p:not([class]) {
   @include paragraphStyle();
   b,
   strong {
