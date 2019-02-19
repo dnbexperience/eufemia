@@ -7,19 +7,155 @@
 .dnb-no-focus {
   outline: none;
 }
-.dnb-fake-focus {
-  @include fakeFocus();
-}
 .dnb-tab-focus {
   outline: none;
   &:focus {
     @include fakeFocus('keyboard');
   }
 }
-.dnb-always-focus {
+.dnb-mouse-focus {
+  outline: none;
   &:focus {
-    @include fakeBorder(var(--color-signal-orange), null, !important);
+    @include fakeFocus('mouse');
   }
+}
+.dnb-focus-ring {
+  @include fakeBorder($focusRingColor, $focusRingWidth, !important);
+}
+
+// Wraps content inside a visual section banner.
+.dnb-section {
+  position: relative;
+  z-index: 1;
+
+  &::after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    left: -50vw;
+    right: -50vw;
+    top: 0;
+    width: 200vw;
+    height: 100%;
+    background-color: var(--color-mint-green-12);
+  }
+}
+.dnb-section--content {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+.dnb-section--white {
+  &::after {
+    background-color: var(--color-white);
+  }
+}
+
+// How to use the "skip-link"
+// 1. Have this on the top of Your App: <a class="dnb-skip-link dnb-button" href="#dnb-app-content">Skip to content</a>
+// 2. Place this id="dnb-app-content" on Your main content container
+a.dnb-skip-link {
+  user-select: none;
+
+  position: fixed;
+  z-index: -9999;
+  top: -100vh;
+  overflow: hidden;
+
+  width: auto;
+  height: auto;
+
+  margin: 0;
+  padding: 0.75rem 1rem 0.625rem 1rem;
+  border-radius: 0.5rem;
+
+  white-space: nowrap;
+
+  font-size: var(--font-size-medium);
+  color: var(--color-sea-green);
+  text-decoration: none;
+  background-color: var(--color-white);
+
+  @include fakeFocus();
+}
+a.dnb-skip-link:hover {
+  color: var(--color-sea-green);
+  background-color: var(--color-mint-green-50);
+}
+a.dnb-skip-link:active {
+  color: var(--color-white);
+  background-color: var(--color-emerald-green);
+}
+a.dnb-skip-link:focus,
+a.dnb-skip-link:active {
+  z-index: 9999;
+  top: auto;
+
+  margin: 1rem 45vw;
+  @include allBelow(small) {
+    margin: 1rem 35%;
+  }
+}
+
+// Layout management
+// Use this class where components are trying to add background boxes/borders/lines
+// to the very outer sides of the page
+// e.g. Tabs are using this technique
+// In some cases we dont want to have that effect.
+// E.g. if we have a menu to the left or right side
+.dnb-app-content-inner {
+  overflow: hidden;
+}
+.dnb-hide-on-mobile {
+  @include allBelow(medium) {
+    display: none;
+  }
+}
+.dnb-mobile-exclusive {
+  @include allAbove(medium) {
+    display: none;
+  }
+}
+.dnb-width-limit {
+  margin: 0 auto;
+  width: 100%;
+  max-width: map-get($map: $breakpoints, $key: large);
+  padding: 0 0.5rem;
+
+  @include allAbove(medium) {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+.dnb-belt {
+  padding: 1rem 0;
+  width: 100%;
+  background: var(--color-mint-green-12);
+}
+.dnb-nudge {
+  display: inline-flex;
+  flex: 0 0 100%;
+
+  @for $i from 1 through 10 {
+    &--vertical {
+      &[data-nudges='#{$i}'] {
+        @include nudger(vertical, #{$i});
+      }
+    }
+    &--horizontal {
+      &[data-nudges='#{$i}'] {
+        @include nudger(horizontal, #{$i});
+      }
+    }
+  }
+}
+.dnb-sr-only {
+  @include srOnly();
+}
+.dnb-not-sr-only {
+  @include notSrOnly();
+}
+.dnb-unstyled-list {
+  @include unstyledList();
 }
 
 // Form
@@ -70,104 +206,4 @@
       }
     }
   }
-}
-
-// How to use the "skip-link"
-// 1. Have this on the top of Your App: <a class="dnb-skip-link dnb-button" href="#dnb-app-content">Skip to content</a>
-// 2. Place this id="dnb-app-content" on Your main content container
-a.dnb-skip-link {
-  user-select: none;
-
-  position: fixed;
-  z-index: -9999;
-  top: -100vh;
-  overflow: hidden;
-
-  width: auto;
-  height: auto;
-
-  margin: 0;
-  padding: 0.75rem 1rem 0.625rem 1rem;
-  border-radius: 0.5rem;
-
-  white-space: nowrap;
-
-  font-size: var(--font-size-medium);
-  color: var(--color-sea-green);
-  text-decoration: none;
-  background-color: var(--color-white);
-}
-a.dnb-skip-link:hover {
-  color: var(--color-sea-green);
-  background-color: var(--color-mint-green-50);
-}
-a.dnb-skip-link:active {
-  color: var(--color-white);
-  background-color: var(--color-emerald-green);
-}
-a.dnb-skip-link:focus,
-a.dnb-skip-link:active {
-  z-index: 9999;
-  top: auto;
-
-  margin: 1rem 45vw;
-  @include allBelow(small) {
-    margin: 1rem 35%;
-  }
-
-  @include fakeFocus();
-}
-
-// Layout management
-// Use this class where components are trying to add background boxes/borders/lines
-// to the very outer sides of the page
-// e.g. Tabs are using this technique
-// In some cases we dont want to have that effect.
-// E.g. if we have a menu to the left or right side
-.dnb-app-content-inner {
-  overflow: hidden;
-}
-
-// TODO: considder to take this out
-
-.dnb-hide-on-mobile {
-  @include allBelow(medium) {
-    display: none;
-  }
-}
-.dnb-mobile-exclusive {
-  @include allAbove(medium) {
-    display: none;
-  }
-}
-.dnb-belt {
-  padding: 1rem 0;
-  width: 100%;
-  background: var(--color-mint-green-12);
-}
-.dnb-nudge {
-  display: inline-flex;
-  flex: 0 0 100%;
-
-  @for $i from 1 through 10 {
-    &--vertical {
-      &[data-nudges='#{$i}'] {
-        @include nudger(vertical, #{$i});
-      }
-    }
-    &--horizontal {
-      &[data-nudges='#{$i}'] {
-        @include nudger(horizontal, #{$i});
-      }
-    }
-  }
-}
-.dnb-sr-only {
-  @include sr-only();
-}
-.dnb-not-sr-only {
-  @include notSrOnly();
-}
-.dnb-unstyled-list {
-  @include unstyledList();
 }
