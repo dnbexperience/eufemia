@@ -151,10 +151,8 @@ $anchorBorderRadius: 0.25rem;
 // }
 
 .dnb-anchor-no-style {
-  white-space: normal;
   color: inherit;
 
-  @include resetBorderRadius();
   @include resetUnderlineStyle();
   @include resetanchorHoverStyle();
   @include resetAnimationStyle();
