@@ -122,73 +122,6 @@ exports[`Input scss have to match default theme snapshot 1`] = `
 /*
  * Utilities
  */
-/*
- * Anchor
- *
- */
-/*
- * Typography
- *
- * The font-family properties are defined in the properties.scss file, like:
- * --font-family-default:
- *
- */
-.dnb-typo-std,
-.dnb-typo-book {
-  font-family: var(--font-family-default);
-  font-weight: normal;
-  font-style: normal; }
-
-.dnb-typo-medium {
-  font-family: var(--font-family-default);
-  font-weight: var(--font-weight-medium);
-  font-style: normal; }
-
-.dnb-typo-demi {
-  font-family: var(--font-family-default);
-  font-weight: var(--font-weight-demi);
-  font-style: normal; }
-
-.dnb-typo-number--lining {
-  font-variant-numeric: lining-nums;
-  font-feature-settings: \\"lnum\\"; }
-
-.dnb-typo-number--tabular {
-  font-variant-numeric: tabular-nums;
-  font-feature-settings: \\"lnum\\"; }
-
-.dnb-typo-number--oldstyle {
-  font-variant-numeric: oldstyle-nums;
-  font-feature-settings: \\"onum\\"; }
-
-.dnb-typo-number--proportional {
-  font-variant-numeric: proportional-nums;
-  font-feature-settings: \\"pnum\\"; }
-
-@font-face {
-  font-family: 'Fedra Sans Std';
-  src: url(\\"../../../../../assets/fonts//FedraSansStd-Book.eot\\");
-  src: url(\\"../../../../../assets/fonts//FedraSansStd-Book.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../../assets/fonts//FedraSansStd-Book.woff2\\") format(\\"woff2\\"), url(\\"../../../../../assets/fonts//FedraSansStd-Book.woff\\") format(\\"woff\\"), url(\\"../../../../../assets/fonts//FedraSansStd-Book.ttf\\") format(\\"truetype\\");
-  font-weight: normal;
-  font-style: normal;
-  font-display: fallback; }
-
-@font-face {
-  font-family: 'Fedra Sans Std';
-  src: url(\\"../../../../../assets/fonts//FedraSansStd-Demi.eot\\");
-  src: url(\\"../../../../../assets/fonts//FedraSansStd-Demi.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../../assets/fonts//FedraSansStd-Demi.woff2\\") format(\\"woff2\\"), url(\\"../../../../../assets/fonts//FedraSansStd-Demi.woff\\") format(\\"woff\\"), url(\\"../../../../../assets/fonts//FedraSansStd-Demi.ttf\\") format(\\"truetype\\");
-  font-weight: 500;
-  font-style: normal;
-  font-display: fallback; }
-
-@font-face {
-  font-family: 'Fedra Sans Std';
-  src: url(\\"../../../../../assets/fonts//FedraSansStd-Medium.eot\\");
-  src: url(\\"../../../../../assets/fonts//FedraSansStd-Medium.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../../assets/fonts//FedraSansStd-Medium.woff2\\") format(\\"woff2\\"), url(\\"../../../../../assets/fonts//FedraSansStd-Medium.woff\\") format(\\"woff\\"), url(\\"../../../../../assets/fonts//FedraSansStd-Medium.ttf\\") format(\\"truetype\\");
-  font-weight: 600;
-  font-style: normal;
-  font-display: fallback; }
-
 :root {
   --input-border-color: var(--color-sea-green-alt);
   --input-border-color--disabled: var(--color-sea-green-alt-30);
@@ -582,6 +515,8 @@ a.dnb-button {
     transform: translateY(0); }
   a.dnb-button .dnb-button__text {
     transform: translateY(1px); }
+  a.dnb-button:active, a.dnb-button:focus {
+    border-radius: var(--button-border-radius); }
 
 /*
 * DNB FormLabel

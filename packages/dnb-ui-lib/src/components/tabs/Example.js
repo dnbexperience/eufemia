@@ -17,7 +17,7 @@ class Example extends PureComponent {
       </Fragment>
     )
   }
-  state = { activeTabKey: 'third' }
+  state = { activeTabKey: 'second' }
   openTab = ({ key }) => {
     this.setState({
       activeTabKey: key
@@ -53,10 +53,10 @@ class Example extends PureComponent {
         <div className="example-box">
           <Tabs>
             <Tabs.Content title="First">
-              <h2>First</h2>
+              <h2 className="dnb-h2">First</h2>
             </Tabs.Content>
             <Tabs.Content title="Second">
-              <h2>Second</h2>
+              <h2 className="dnb-h2">Second</h2>
             </Tabs.Content>
           </Tabs>
           <p className="example-caption">
@@ -65,8 +65,7 @@ class Example extends PureComponent {
         </div>
         <div className="example-box">
           <Tabs
-            data-dnb-test="tabs-tabs"
-            selected_key="second"
+            selected_key={this.state.activeTabKey}
             align="right"
             label="Some Tabs label"
             data={data}
@@ -95,7 +94,7 @@ class Example extends PureComponent {
 }
 
 const exampleContent = {
-  first: () => <h2>First</h2>,
+  first: () => <h2 className="dnb-h2">First</h2>,
   second: () => <Input>Focus me with next Tab key</Input>,
   third: () => (
     <p>
@@ -103,7 +102,7 @@ const exampleContent = {
       ipsum
     </p>
   ),
-  fourth: () => <h2>Fourth</h2>
+  fourth: () => <h2 className="dnb-h2">Fourth</h2>
 }
 
 const data = [

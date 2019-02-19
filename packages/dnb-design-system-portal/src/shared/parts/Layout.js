@@ -56,7 +56,7 @@ class Layout extends PureComponent {
       <MainMenuProvider>
         <SidebarMenuProvider>
           <Global styles={globalStyles} />
-          <a className="dnb-skip-link dnb-button" href="#dnb-app-content">
+          <a className="dnb-skip-link" href="#dnb-app-content">
             Skip to content
           </a>
           <MainMenu enableOverlay />
@@ -160,7 +160,7 @@ const ContentWrapper = styled.main`
 
   /* for whider screens */
   &:not(.fullscreen-page) {
-    .dnb-app-content-inner {
+    .dnb-app-content-inner > div:first-of-type {
       @media (min-width: 70em) {
         max-width: 70rem;
       }

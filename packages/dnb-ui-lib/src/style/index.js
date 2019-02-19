@@ -5,4 +5,4 @@
 
 import './dnb-ui-core.scss'
 import './dnb-ui-components.scss'
-import './themes/dnb-theme-ui.scss'
+import './themes/theme-ui/dnb-theme-ui.scss'

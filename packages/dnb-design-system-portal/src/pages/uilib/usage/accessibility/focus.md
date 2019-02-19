@@ -3,6 +3,8 @@ title: 'Focus'
 draft: false
 ---
 
+import SkipLinkExample from 'Pages/uilib/usage/accessibility/examples/skip-link-example.js'
+
 # Focus Management
 
 Page Focus is an important part of keyboard-only navigation.
@@ -59,9 +61,11 @@ The `dnb-ui-lib` also has a small setup for a [skip link](https://www.w3.org/TR/
 Our solution is CSS only and should work for all kinds of App setups.
 Place an Anchor like this one blow, on the very top of Your App content:
 
+<div class="margin-bottom"><SkipLinkExample /></div>
+
 <!-- prettier-ignore-start -->
 ```html
-<a class="dnb-skip-link dnb-button" href="#dnb-app-content">Skip to content</a>
+<a class="dnb-skip-link" href="#dnb-app-content">Skip to content</a>
 ```
 <!-- prettier-ignore-end -->
 
@@ -70,7 +74,7 @@ Also, place a `id="dnb-app-content"` on Your content wrapper:
 <!-- prettier-ignore-start -->
 ```html
 <body>
-    <a class="dnb-skip-link dnb-button" href="#dnb-app-content">Skip to content</a>
+    <a class="dnb-skip-link" href="#dnb-app-content">Skip to content</a>
     <header>
         <nav>
             <!-- Nav links to skip -->

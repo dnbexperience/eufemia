@@ -94,6 +94,7 @@ class Example extends PureComponent {
   title="This is a link"
   icon_position="right"
   icon="chevron_right"
+  data-dnb-test="button-anchor"
 />
 <Button
   variant="secondary"
@@ -105,7 +106,7 @@ class Example extends PureComponent {
 />
           `}
         </ComponentBox>
-        <ComponentBox scope={{ question }}>
+        <ComponentBox scope={{ question }} caption="Button with Icon only">
           {/* @jsx */ `
 <Button
   title="Disabled Icon only Button"
@@ -123,7 +124,6 @@ class Example extends PureComponent {
   title="Button with custom, Secondary Icon only"
   icon={question}
 />
-<p className="example-caption">Button with Icon only</p>
           `}
         </ComponentBox>
         <ComponentBox

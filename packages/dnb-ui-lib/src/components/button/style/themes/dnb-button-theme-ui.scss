@@ -65,7 +65,7 @@
   }
 
   &.dnb-button--has-text:not([disabled]):hover {
-    @include drawUnderlineBorder() {
+    @include anchorDrawUnderlineBorder() {
       left: 0.45rem;
       right: 0.45rem;
       bottom: 0.5rem;
@@ -122,11 +122,4 @@
     color: #b0b0b0;
     background-color: var(--color-signal-yellow-30);
   }
-}
-
-// make sure we style an Anchor like a button
-a.dnb-button {
-  // reset the anchor style
-  @include resetHoverStyle();
-  @include resetAnimationStyle();
 }

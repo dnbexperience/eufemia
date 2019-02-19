@@ -28,33 +28,11 @@ export default css`
   }
 
   img[align='right'] {
-    padding-left: 1.2rem;
+    padding-left: 1rem;
   }
 
   img[align='left'] {
-    padding-right: 1.2rem;
-  }
-
-  hr {
-    box-sizing: content-box;
-    height: 0;
-    margin: 1rem 0;
-    overflow: hidden;
-
-    background: transparent;
-    border: 0;
-    border-bottom: 1px solid var(--color-black-border);
-  }
-
-  hr::before {
-    display: table;
-    content: '';
-  }
-
-  hr::after {
-    display: table;
-    clear: both;
-    content: '';
+    padding-right: 1rem;
   }
 
   h1,
@@ -94,55 +72,43 @@ export default css`
     display: table;
     content: '';
   }
-
   .markdown-body::after {
     display: table;
     clear: both;
     content: '';
   }
 
-  .octicon {
-    vertical-align: text-bottom;
-  }
-
-  .pl-0 {
+  ${'' /* .pl-0 {
     padding-left: 0 !important;
   }
-
   .pl-1 {
     padding-left: 4px !important;
   }
-
   .pl-2 {
     padding-left: 8px !important;
   }
-
   .pl-3 {
     padding-left: 1rem !important;
   }
-
   .pl-4 {
     padding-left: 24px !important;
   }
-
   .pl-5 {
     padding-left: 32px !important;
   }
-
   .pl-6 {
     padding-left: 40px !important;
-  }
+  } */}
 
   .task-list-item {
     list-style-type: none;
   }
-
   .task-list-item + .task-list-item {
-    margin-top: 3px;
+    margin-top: 0.5rem;
   }
-
   .task-list-item input {
-    margin: 0 0.2rem 0.25em -1.6em;
+    margin-right: 0.5rem;
+    margin-bottom: 0.25em;
     vertical-align: middle;
   }
 
@@ -233,41 +199,23 @@ export default css`
     margin-bottom: 2rem;
   }
 
+  /* used in the designers guide */
   .lh-12 {
     line-height: 0.75rem;
   }
-
   .lh-16 {
     line-height: 1rem;
   }
-
   .lh-20 {
     line-height: 1.25rem;
   }
-
   .lh-24 {
     line-height: 1.5rem;
   }
-
   .lh-28 {
     line-height: 1.75rem;
   }
-
   .lh-32 {
     line-height: 2rem;
-  }
-
-  /*
-  *
-  * Helper Classes - some of them need
-  * visualising to see their effect
-  */
-
-  .dnb-nudge--vertical {
-    background-color: var(--color-mint-green-50);
-  }
-
-  .dnb-nudge--horizontal {
-    background-color: var(--color-mint-green-50);
   }
 `

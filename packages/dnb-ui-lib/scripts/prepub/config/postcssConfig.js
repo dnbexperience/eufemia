@@ -13,7 +13,7 @@ module.exports = ({ IE11 = false, ...options } = {}) => {
       browsers: ['last 2 versions', IE11 ? 'explorer >= 11' : null].filter(
         i => i
       ),
-      // importFrom: ['path/to/file.css'],
+      // importFrom: ['./src/style/core/properties.scss'],
       ...options
     }),
 

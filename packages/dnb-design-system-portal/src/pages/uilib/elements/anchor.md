@@ -10,16 +10,16 @@ import CodeBlock from 'Tags/CodeBlock'
 {`
 <ul className="dnb-unstyled-list">
   <li>
-    <a data-dnb-test="anchor-default" href="/" >Default Style</a>
+    <a href="/" data-dnb-test="anchor-default" className="dnb-anchor">Default Style</a>
   </li>
   <li>
-    <a data-dnb-test="anchor-hover" href="/" className="dnb-anchor--hover">Hover Style</a>
+    <a href="/" data-dnb-test="anchor-hover" className="dnb-anchor dnb-anchor--hover">Hover Style</a>
   </li>
   <li>
-    <a data-dnb-test="anchor-active" href="/" className="dnb-anchor--active">Active Style</a>
+    <a href="/" data-dnb-test="anchor-active" className="dnb-anchor dnb-anchor--active">Active Style</a>
   </li>
   <li>
-    <a data-dnb-test="anchor-focus" href="/" className="dnb-anchor--focus">Focus Style</a>
+    <a href="/" data-dnb-test="anchor-focus" className="dnb-anchor dnb-anchor--focus">Focus Style</a>
   </li>
 </ul>
 `}

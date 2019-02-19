@@ -1,0 +1,70 @@
+/*
+ * Lists
+ *
+ */
+
+@mixin ulStyle() {
+  margin: 0;
+  padding: 0;
+  padding-left: 2rem;
+
+  font-size: 1em;
+  line-height: 1.5em;
+
+  &ul ul,
+  &ul ol,
+  &ol ol,
+  &ol ul {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  & li {
+    word-wrap: break-all;
+  }
+}
+@mixin olStyle() {
+  @include ulStyle();
+}
+@mixin dlStyle() {
+  margin: 0;
+  padding: 0;
+
+  font-size: 1em;
+  line-height: 1.5em;
+
+  & > dt {
+    padding: 0;
+    font-weight: var(--font-weight-demi);
+  }
+  & > dd {
+    margin: 0;
+    padding: 0 1rem;
+    padding-left: 2rem;
+  }
+}
+@mixin ulTag() {
+  ul {
+    @include ulStyle();
+  }
+}
+@mixin olTag() {
+  ol {
+    @include olStyle();
+  }
+}
+@mixin dlTag() {
+  dl {
+    @include dlStyle();
+  }
+}
+
+.dnb-ul {
+  @include ulStyle();
+}
+.dnb-ol {
+  @include olStyle();
+}
+.dnb-dl {
+  @include dlStyle();
+}

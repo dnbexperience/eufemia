@@ -1,0 +1,26 @@
+/*
+ * Label
+ *
+ */
+
+@mixin labelStyle() {
+  color: var(--color-black-80);
+  overflow-wrap: break-word;
+
+  &:not([disabled]) {
+    cursor: pointer;
+  }
+  &[disabled] {
+    cursor: not-allowed;
+    color: var(--color-sea-green-alt-30); // TODO: Not defined
+  }
+}
+@mixin labelTag() {
+  label {
+    @include labelStyle();
+  }
+}
+
+.dnb-label {
+  @include labelStyle();
+}

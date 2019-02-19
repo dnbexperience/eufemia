@@ -209,7 +209,9 @@ class ItemWrapper extends PureComponent {
           <h1>{title}</h1>
         ) : (
           <h4>
-            <Link to={`/uilib/components/${id}`}>{title}</Link>
+            <Link to={`/uilib/components/${id}`} className="dnb-anchor">
+              {title}
+            </Link>
           </h4>
         )}
         {!hideTabs && (

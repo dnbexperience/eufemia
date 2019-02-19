@@ -5,4 +5,4 @@
  *
  */
 
-import './dnb-theme-open-banking.scss'
+import './theme-open-banking/dnb-theme-open-banking.scss'

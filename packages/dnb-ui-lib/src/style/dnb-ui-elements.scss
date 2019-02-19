@@ -1,0 +1,11 @@
+/**
+ * HTML Elements
+ *
+ */
+
+@import './core/utilities.scss';
+@import './core/properties.scss';
+
+// import and execute all HTML tag elements
+@import './elements/ui-elements.scss';
+@include executeHTMLElements();

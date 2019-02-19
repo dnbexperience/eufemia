@@ -13,7 +13,7 @@ import ComponentBox from 'Tags/ComponentBox'
   <label htmlFor="textarea-default">
     Label:
   </label>
-  <textarea data-dnb-test="textarea-default" id="textarea-default" rows="2" cols="20" defaultValue="Nec litora inceptos vestibulum id interdum donec gravida nostra lacinia bibendum hendrerit porttitor volutpat nam duis nisl scelerisque sapien erat" />
+  <textarea data-dnb-test="textarea-default" id="textarea-default"  className="dnb-textarea" rows="2" cols="20" defaultValue="Nec litora inceptos vestibulum id interdum donec gravida nostra lacinia bibendum hendrerit porttitor volutpat nam duis nisl scelerisque sapien erat" />
 </div>
 `}
 </CodeBlock>
@@ -24,7 +24,7 @@ import ComponentBox from 'Tags/ComponentBox'
   <label htmlFor="vestibulum">
     Label:
   </label>
-  <textarea id="vestibulum" rows="5" cols="33" disabled defaultValue="Nec litora inceptos vestibulum id interdum donec gravida nostra lacinia bibendum hendrerit porttitor volutpat nam duis nisl scelerisque sapien erat" />
+  <textarea id="vestibulum" className="dnb-textarea" rows="5" cols="33" disabled defaultValue="Nec litora inceptos vestibulum id interdum donec gravida nostra lacinia bibendum hendrerit porttitor volutpat nam duis nisl scelerisque sapien erat" />
 </div>
 `}
 </CodeBlock>
@@ -35,7 +35,7 @@ import ComponentBox from 'Tags/ComponentBox'
   <label htmlFor="vestibulum">
     Label:
   </label>
-  <textarea id="vestibulum" className="status--error" rows="5" cols="33" defaultValue="Nec litora inceptos vestibulum id interdum donec gravida nostra lacinia bibendum hendrerit porttitor volutpat nam duis nisl scelerisque sapien erat" />
+  <textarea id="vestibulum" className="dnb-textarea status--error" rows="5" cols="33" defaultValue="Nec litora inceptos vestibulum id interdum donec gravida nostra lacinia bibendum hendrerit porttitor volutpat nam duis nisl scelerisque sapien erat" />
   <FormStatus text="Message to the user" />
 </div>
 `}
@@ -48,7 +48,7 @@ import ComponentBox from 'Tags/ComponentBox'
     Label:
   </label>
   <div className="dnb-form-group dnb-form-group__position--vertical" >
-    <textarea id="gravida" rows="3" cols="33" defaultValue="Nec litora inceptos vestibulum id interdum donec gravida nostra lacinia bibendum hendrerit porttitor volutpat nam duis nisl scelerisque sapien erat" />
+    <textarea id="gravida" className="dnb-textarea" rows="3" cols="33" defaultValue="Nec litora inceptos vestibulum id interdum donec gravida nostra lacinia bibendum hendrerit porttitor volutpat nam duis nisl scelerisque sapien erat" />
     <FormStatus status="info" text="Message to the user" />
   </div>
 </div>

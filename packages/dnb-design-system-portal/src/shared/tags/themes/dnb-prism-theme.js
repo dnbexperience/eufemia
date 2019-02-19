@@ -7,32 +7,6 @@ const prismStyle = /* @css */ `
   --color-violet-medium: #a06eaf;
   --color-indigo-medium: #6e6491;
 
-  .prism-code {
-    display: block;
-    box-sizing: border-box;
-
-    padding: 1rem;
-    margin: 0;
-
-    background-color: #222;
-    border-radius: 8px;
-    color: var(--color-mint-green-12);
-
-    white-space: pre;
-    vertical-align: baseline;
-    outline: none;
-    text-shadow: none;
-    -webkit-hyphens: none;
-    -ms-hyphens: none;
-    hyphens: none;
-    word-wrap: normal;
-    word-break: normal;
-    text-align: left;
-    word-spacing: normal;
-    -moz-tab-size: 2;
-    -o-tab-size: 2;
-    tab-size: 2;
-  }
   .prism-code[contentEditable='true'] {
     cursor: text;
   }

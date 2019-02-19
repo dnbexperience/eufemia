@@ -1,0 +1,183 @@
+/*
+ * Typography
+ *
+ */
+
+@mixin headingsStyle() {
+  margin: 0;
+  padding: 0;
+
+  font-family: var(--font-family-demi);
+  font-weight: var(--font-weight-demi);
+
+  color: var(--color-emerald-green);
+}
+@mixin h1Style() {
+  font-size: var(--font-size-xx-large); // 48px
+  line-height: 3.5rem; // 56px
+  font-weight: var(--font-weight-demi);
+
+  &.dnb-small,
+  & > small {
+    display: block;
+    font-size: var(--font-size-large); // 32px
+    line-height: 3rem; // 48px
+  }
+}
+@mixin h2Style() {
+  font-size: var(--font-size-medium); // 24px
+  line-height: 2rem; // 32px
+
+  &.dnb-small,
+  & > small {
+    font-size: var(--font-size-x-default); // 20px
+  }
+}
+@mixin h3Style() {
+  font-family: var(--font-family-demi);
+  font-weight: var(--font-weight-demi);
+  font-size: var(--font-size-x-default); // 20px
+  line-height: 2rem; // 32px
+
+  &.dnb-small,
+  & > small {
+    font-size: var(--font-size-default); // 16px
+  }
+}
+@mixin h4Style() {
+  font-size: var(--font-size-default); // 16px
+}
+@mixin h5Style() {
+  font-size: var(--font-size-small); // 14px
+}
+@mixin h6Style() {
+  font-size: var(--font-size-small); // 14px
+  font-weight: var(--font-weight-book);
+}
+@mixin paragraphStyle() {
+  // if we not reset margin, the browser is using: margin-block-end: 1rem;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 0;
+
+  font-size: 1em; // 16px
+  line-height: 1.5em; // 24px
+
+  cite {
+    font-weight: var(--font-weight-demi);
+    font-style: normal; // to avoid cursive
+  }
+}
+@mixin typographyTags() {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @include headingsStyle();
+  }
+  h1 {
+    @include h1Style();
+  }
+  h2 {
+    @include h2Style();
+  }
+  h3 {
+    @include h3Style();
+  }
+  h4 {
+    @include h4Style();
+  }
+  h5 {
+    @include h5Style();
+  }
+  h6 {
+    @include h6Style();
+  }
+  p {
+    @include paragraphStyle();
+  }
+  b,
+  strong {
+    font-weight: var(--font-weight-medium);
+  }
+  small {
+    font-size: var(--font-size-small); // 14px
+  }
+  p > small,
+  h2 > small,
+  h3 > small,
+  h4 > small,
+  h5 > small,
+  h6 > small {
+    line-height: 1; // for vertical alignment, we have to have no line-height
+  }
+}
+
+.dnb-h1,
+.dnb-h2,
+.dnb-h3,
+.dnb-lead,
+.dnb-h4,
+.dnb-h5,
+.dnb-h6,
+// make exception on headings wtich has no class attribute
+h1:not([class]),
+h2:not([class]),
+h3:not([class]),
+h4:not([class]),
+h5:not([class]),
+h6:not([class]) {
+  @include headingsStyle();
+}
+
+.dnb-small {
+  font-size: var(--font-size-small); // 14px
+}
+
+// do not set this for h1, like ".dnb-h1 > .dnb-small"
+.dnb-p > small,
+.dnb-p > .dnb-small,
+.dnb-h2 > .dnb-small,
+.dnb-h3 > .dnb-small,
+.dnb-h4 > .dnb-small,
+.dnb-h5 > .dnb-small,
+.dnb-h6 > .dnb-small {
+  line-height: 1; // for vertical alignment, we have to have no line-height
+}
+
+.dnb-h1 {
+  @include h1Style();
+}
+
+.dnb-h2 {
+  @include h2Style();
+}
+
+/* H3 looks the same as .dnb-lead */
+.dnb-h3,
+.dnb-lead {
+  @include h3Style();
+}
+
+// The rest of the Headings are nod defned by the Eufemia Typography
+.dnb-h4 {
+  @include h4Style();
+}
+.dnb-h5 {
+  @include h5Style();
+}
+.dnb-h6 {
+  @include h6Style();
+}
+
+.dnb-p,
+// make exception on the p tag by checking if there is a class attribute
+p:not([class]) {
+  @include paragraphStyle();
+  b,
+  strong {
+    font-weight: var(--font-weight-medium);
+  }
+}

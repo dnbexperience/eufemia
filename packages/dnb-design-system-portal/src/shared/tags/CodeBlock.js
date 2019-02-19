@@ -8,7 +8,7 @@ import PropTypes from 'prop-types'
 import { css } from '@emotion/core'
 import styled from '@emotion/styled'
 import Highlight, { defaultProps } from 'prism-react-renderer'
-import Pre from './Pre'
+import Tag from './Tag'
 import { Button } from 'dnb-ui-lib/src'
 import Code from '../parts/uilib/Code'
 import { generateElement } from './transpile/index'
@@ -62,7 +62,7 @@ const CodeBlock = ({
       >
         {({ className, style, tokens, getLineProps, getTokenProps }) => (
           <Wrapper css={prismStyle}>
-            <Pre className={className} css={style}>
+            <Tag is="pre" className={className} css={style}>
               {cleanTokens(tokens).map((line, i) => (
                 /* eslint-disable react/jsx-key */
                 <div {...getLineProps({ line, key: i })}>
@@ -71,7 +71,7 @@ const CodeBlock = ({
                   ))}
                 </div>
               ))}
-            </Pre>
+            </Tag>
           </Wrapper>
         )}
       </Highlight>
@@ -202,7 +202,9 @@ class LiveCode extends PureComponent {
               )}
             </Toolbar>
           )}
-          {!hideCode && <LiveEditor language="jsx" ignoreTabKey />}
+          {!hideCode && (
+            <LiveEditor className="dnb-pre" language="jsx" ignoreTabKey />
+          )}
           {!hideCode && (
             <LiveError className="dnb-form-status dnb-form-status--text dnb-form-status--error" />
           )}

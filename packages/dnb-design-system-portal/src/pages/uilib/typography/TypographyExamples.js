@@ -15,7 +15,10 @@ const FontUsageExample = ({ typo_class, font_family }) => (
   <div className="example-box">
     <h3 className={typo_class}>{font_family}</h3>
     <p className={typo_class}>
-      Here is a paragraph with some nonsense <a href="/">Lorem Ipsum</a>
+      Here is a paragraph with some nonsense{' '}
+      <a href="/" className="dnb-anchor">
+        Lorem Ipsum
+      </a>{' '}
       comes from <b>sections</b> 1.10.32 and 1.10.33 of "de
       <i>Finibus Bonorum</i> et <u>Malorum</u>" (
       <strong>The Extremes</strong> of Good and Evil) by Cicero, written in

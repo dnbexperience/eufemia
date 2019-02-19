@@ -12,7 +12,7 @@ describe('StepIndicator screenshot', () => {
   setupPageScreenshot({ url: '/uilib/components/step-indicator' })
   it('have to match', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '.dnb-step-indicator:nth-child(1)'
+      selector: '[data-dnb-test="step-indicator"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })

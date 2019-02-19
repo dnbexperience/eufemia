@@ -1,0 +1,44 @@
+/*
+ * Import all Elements
+ *
+ */
+
+@import './anchor.scss';
+@import './typography.scss';
+@import './blockquote.scss';
+@import './lists.scss';
+@import './table.scss';
+@import './label.scss';
+@import './textarea.scss';
+@import './form.scss';
+@import './code.scss';
+@import './image.scss';
+@import './hr.scss';
+
+@mixin executeHTMLElements() {
+  // div
+  @include anchorTag();
+  @include imageTag();
+  @include blockquoteTag();
+  @include hrTag();
+
+  // typography
+  @include typographyTags();
+
+  // lists
+  @include ulTag();
+  @include olTag();
+  @include dlTag();
+
+  // table
+  @include tableTag();
+
+  // form
+  @include formTag();
+  @include labelTag();
+  @include textareaTag();
+
+  // additional
+  @include codeTag();
+  @include preTag();
+}
