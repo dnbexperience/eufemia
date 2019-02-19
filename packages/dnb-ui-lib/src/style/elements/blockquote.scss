@@ -48,6 +48,21 @@
     @include useAnchorContrastStyle();
   }
 
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  .dnb-h1,
+  .dnb-h2,
+  .dnb-h3,
+  .dnb-h4,
+  .dnb-h5,
+  .dnb-h6 {
+    color: var(--color-mint-green);
+  }
+
   .dnb-cite,
   .dnb-footer,
   .dnb-figcaption,
