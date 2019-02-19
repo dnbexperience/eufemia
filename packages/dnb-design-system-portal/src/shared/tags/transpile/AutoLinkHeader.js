@@ -6,7 +6,14 @@ const slugger = new GHSlugger()
 
 const AutoLinkHeader = ({ is: Component, children, ...props }) => {
   slugger.reset()
-  const id = slugger.slug(children)
+  let id
+  // custom id (https://www.markdownguide.org/extended-syntax/#heading-ids)
+  if (/\{#(.*)\}/.test(children)) {
+    id = /\{#([^}]*)\}/.exec(children)[1]
+    children = children.replace(/\{#(.*)\}/g, '').trim()
+  } else {
+    id = slugger.slug(children)
+  }
   const clickHandler = () => {
     if (typeof window !== 'undefined') {
       try {
