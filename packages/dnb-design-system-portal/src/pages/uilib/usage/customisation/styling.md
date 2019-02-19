@@ -32,7 +32,7 @@ The following Diagram gives an overall overview how the packages are structured.
 
 You may have a look at the guides about [Typography](/uilib/typography).
 
-## Spacing
+## Spacing for Articles {#spacing}
 
 To ensure more flexibility in styling, all the margins / spacings are reset to zero. But more often we have to have a by default defined spacing, e.g. `margin` on HTML Elements like headings or paragraphs.
 
@@ -40,11 +40,11 @@ To use the default DNB spacings, define a CSS class called: `.dnb-spacing`
 Effected HTML Elements inside this container will then have a default spacing. This will be specially helpful for article alike pages.
 
 ```html
-<div class="dnb-spacing">
+<article class="dnb-spacing">
   <!-- DNB spacings -->
   <h1>e.g. I have now a margin</h1>
   <p>☝🏻 Me as well</p>
-</div>
+</article>
 ```
 
 The styles for the `.dnb-spacing` are included in the package: **dnb-theme-ui**
