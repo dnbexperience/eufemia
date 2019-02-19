@@ -201,6 +201,7 @@
 // make sure we style an Anchor like a button
 a.dnb-button {
   -webkit-appearance: none; // because we have "appearance: button" in reset.scss
+  box-shadow: none;
 
   // some correction
   .dnb-button__icon {
@@ -208,6 +209,30 @@ a.dnb-button {
   }
   .dnb-button__text {
     transform: translateY(1px);
+  }
+
+  // because of the anchor styles, we have to reset our border radius
+  // in order to use CSS specificity, we have to do it this way
+  &:hover {
+    border-radius: var(--button-border-radius);
+  }
+  &--size-small {
+    &,
+    &:hover {
+      border-radius: var(--button-border-radius--small);
+    }
+  }
+  &--size-medium {
+    &,
+    &:hover {
+      border-radius: var(--button-border-radius--medium);
+    }
+  }
+  &--size-large {
+    &,
+    &:hover {
+      border-radius: var(--button-border-radius--large);
+    }
   }
 
   &:active,
