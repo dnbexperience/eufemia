@@ -6,11 +6,18 @@
 @import '../../core/utilities.scss';
 @import '../../core/properties.scss';
 
-// import all the "class styles" of the elements
-@import '../../elements/all-elements.scss';
-
 // make sure we load the spacings after we have defined the defaults of the elements
 @import './helper-classes/ui-spacing.scss';
+
+// import all the "class styles" of the elements
+@import '../../elements/ui-elements.scss';
+
+// make all HTML element styles available in the wrapper class "dnb-app-content"
+// NB: This is not a good sollution, as this breaks CSS Specificity
+// therefore we do not support. Rather use the package: "dnb-ui-elements.css"
+// .dnb-use-elements {
+//   @include executeHTMLElements();
+// }
 
 @supports not (-ms-ime-align: auto) {
   ::selection {

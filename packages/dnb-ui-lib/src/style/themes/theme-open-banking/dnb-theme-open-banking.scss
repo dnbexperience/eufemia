@@ -15,6 +15,10 @@
   --color-sea-green: fuchsia; //#f0f
 }
 
+// before we again import "properties.scss" by "dnb-theme-ui.scss"
+// we set this var to true
+$hasCustomProperties: true;
+
 // import the default theme, and go from there
 // will also have all the component themes included
 @import '../theme-ui/dnb-theme-ui.scss';
