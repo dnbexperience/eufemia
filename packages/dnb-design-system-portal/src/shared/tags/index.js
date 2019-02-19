@@ -23,5 +23,7 @@ export default {
   inlineCode: props => <Tag is="code" {...props} />,
   ul: props => <Tag is="ul" {...props} />,
   ol: props => <Tag is="ol" {...props} />,
+  dl: props => <Tag is="dl" {...props} />,
+  blockquote: props => <Tag is="blockquote" {...props} />,
   img: Img
 }
