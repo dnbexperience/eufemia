@@ -25,5 +25,6 @@ export default {
   ol: props => <Tag is="ol" {...props} />,
   dl: props => <Tag is="dl" {...props} />,
   blockquote: props => <Tag is="blockquote" {...props} />,
+  hr: props => <Tag is="hr" {...props} />,
   img: Img
 }
