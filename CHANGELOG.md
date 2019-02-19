@@ -1,23 +1,26 @@
-**February, 19. 2019**
+## February, 19. 2019
 
-## Changes to the default styles
+**Changes to the default styles**
 
 - Anchor (Text Link): Has now white background color on focus state
+- Tables how now always a bottom border
+
+**UI library**
+
+- **Breaking change:** [Styles](/uilib/usage/customisation/styling) got new structure. You have now to declare the [HTML Elements with a class](/uilib/elements#how-to-use)
 
 ---
 
-**February, 14. 2019**
-
-## Changes to the default styles
+## February, 14. 2019
 
 - Anchor (Text Link): Removed underline on hover and active states
 - Tables (the default once) has now always a border line on the bottom
 
 ---
 
-**January 2019**
+## January 2019
 
-## Changes to the default styles
+**Changes to the default styles**
 
 - Change from 1px to 2px outline on input for error state
 - Signal Orange is replaced by Emerald Green for focus state
