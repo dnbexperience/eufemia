@@ -423,8 +423,7 @@ exports[`Tabs scss have to match snapshot 1`] = `
     .dnb-tabs__tabs__tablist:focus {
       outline: none; }
       html[data-whatinput='keyboard'] .dnb-tabs__tabs__tablist:focus {
-        box-shadow: 0 0 0 2px var(--color-emerald-green);
-        border-color: transparent; }
+        box-shadow: 0 0 0 2px; }
   .dnb-tabs__tabs--left .dnb-tabs__tabs__tablist {
     justify-content: flex-start; }
   .dnb-tabs__tabs--right .dnb-tabs__tabs__tablist {

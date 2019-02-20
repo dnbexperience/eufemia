@@ -280,8 +280,7 @@ exports[`Switch scss have to match snapshot 1`] = `
     clip-path: polygon(50% 15%, 110% 15%, 110% -10%, -10% -10%, -10% 110%, 110% 110%, 110% 85%, 50% 85%);
     outline: none; }
     html[data-whatinput='keyboard'] .dnb-switch__focus {
-      box-shadow: 0 0 0 2px var(--color-emerald-green);
-      border-color: transparent; }
+      box-shadow: 0 0 0 2px; }
   .dnb-switch__inner:not([disabled]) .dnb-switch__background,
   .dnb-switch__inner:not([disabled]) .dnb-switch__button {
     cursor: pointer; }
@@ -340,8 +339,7 @@ exports[`Switch scss have to match snapshot 1`] = `
       outline: none; }
       html[data-whatinput='keyboard'] .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__background, html[data-whatinput='keyboard']
       .dnb-switch__input:not([disabled]):active ~ .dnb-switch__background {
-        box-shadow: 0 0 0 2px var(--color-emerald-green);
-        border-color: transparent; }
+        box-shadow: 0 0 0 2px; }
     .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__button .dnb-switch__focus,
     .dnb-switch__input:not([disabled]):active ~ .dnb-switch__button .dnb-switch__focus {
       display: block; }
