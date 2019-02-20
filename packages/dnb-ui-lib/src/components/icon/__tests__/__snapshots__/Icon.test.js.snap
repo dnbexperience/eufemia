@@ -183,6 +183,10 @@ exports[`Icon scss have to match snapshot 1`] = `
  *
  */
 /*
+ * Document Reset
+ *
+ */
+/*
 * Icon component
 *
 */
