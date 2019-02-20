@@ -49,9 +49,17 @@
       width: var(--button-icon-size);
       height: var(--button-icon-size);
     }
+    // if not IE11
+    @supports not (-ms-ime-align: auto) {
+      transform: translateY(calc(1px - 1px - var(--button-border-width)));
+    }
   }
   &__text {
     color: inherit;
+    // if not IE11
+    @supports not (-ms-ime-align: auto) {
+      transform: translateY(calc(1px - var(--button-border-width)));
+    }
   }
 
   // size small
@@ -117,9 +125,6 @@
   }
   &--has-text &__icon {
     margin: 0 calc(var(--button-icon-size) / 2);
-    @supports not (-ms-ime-align: auto) {
-      transform: translateY(-1px);
-    }
   }
   // &--has-text#{&}--size-large &__icon {
   //   margin: 0 var(--button-icon-size);
@@ -190,6 +195,10 @@
   // reset
   &[type='button'] {
     appearance: none;
+  }
+
+  &[disabled] {
+    cursor: not-allowed;
   }
 
   /* Firefox includes a hidden border which messes up button dimensions */
