@@ -44,6 +44,7 @@ export const propTypes = {
   class: PropTypes.string,
   input_class: PropTypes.string,
   attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  wrapper_attributes: PropTypes.object,
 
   // Submit button
   submit_button_icon: PropTypes.oneOfType([
@@ -89,6 +90,7 @@ export const defaultProps = {
   input_class: null,
   class: null,
   attributes: null,
+  wrapper_attributes: null,
 
   // Submit button
   submit_button_title: null,
@@ -213,13 +215,20 @@ export default class Input extends PureComponent {
       input_class,
       submit_button_title,
       submit_button_icon,
-      on_submit
+      on_submit,
+      autocomplete,
+      class: _className,
+      className,
+
+      id: _id /* eslint-disable-line */,
+      children /* eslint-disable-line */,
+      value /* eslint-disable-line */,
+
+      wrapper_attributes,
+
+      ...attributes
     } = this.props
 
-    let { autocomplete } = this.props
-    if (type === 'search') {
-      autocomplete = null
-    }
     const id = this._id
 
     const classes = classnames(
@@ -228,8 +237,8 @@ export default class Input extends PureComponent {
       size ? 'dnb-input--' + size : '',
       align ? `dnb-input__align--${align}` : null,
       status ? `dnb-input__status--${status_state}` : null,
-      this.props.class,
-      this.props.className
+      _className,
+      className
     )
 
     const { inputElement: Elem, ...renderProps } = this.renderProps
@@ -241,13 +250,13 @@ export default class Input extends PureComponent {
       value: this.state.value || '',
       type,
       id,
-      // align,
       disabled,
       name: id,
       onChange: this.onChangeHandler,
       onKeyDown: this.onKeyDownHandler,
       onFocus: this.onFocusHandler,
-      onBlur: this.onBlurHandler
+      onBlur: this.onBlurHandler,
+      ...attributes
     }
 
     // also used for code markup simulation
@@ -256,11 +265,18 @@ export default class Input extends PureComponent {
     if (description) {
       inputParams['aria-describedby'] = id + '-description'
     }
+    if (type === 'search') {
+      inputParams.autoComplete = 'off'
+    }
 
     const shellParams = {
       'data-input-state': this.state.inputState,
       'data-has-content':
-        String(this.state.value || '').length > 0 ? 'true' : 'false'
+        String(this.state.value || '').length > 0 ? 'true' : 'false',
+      ...wrapper_attributes
+    }
+    if (wrapper_attributes && typeof wrapper_attributes === 'object') {
+      Object.assign(shellParams, wrapper_attributes)
     }
 
     return (
