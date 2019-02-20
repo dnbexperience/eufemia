@@ -4,6 +4,13 @@
  */
 
 @mixin bodyDefault() {
+  *,
+  ::before,
+  ::after {
+    background-repeat: no-repeat;
+    box-sizing: border-box;
+  }
+
   font-family: sans-serif;
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
@@ -18,13 +25,6 @@
 }
 
 @mixin componentReset() {
-  *,
-  ::before,
-  ::after {
-    background-repeat: no-repeat;
-    box-sizing: border-box;
-  }
-
   ::before,
   ::after {
     text-decoration: inherit;

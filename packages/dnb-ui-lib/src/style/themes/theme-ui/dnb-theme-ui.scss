@@ -19,6 +19,7 @@
 //   @include executeHTMLElements();
 // }
 
+// if not IE11
 @supports not (-ms-ime-align: auto) {
   ::selection {
     background-color: var(--color-mint-green);

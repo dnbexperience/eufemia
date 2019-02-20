@@ -4,37 +4,40 @@
  */
 
 import dotenv from 'dotenv'
-// import postpack from './postpack'
 import semanticRelease from 'semantic-release'
 import { WritableStreamBuffer } from 'stream-buffers'
+import prepareForRelease from './prepareForRelease'
 
 // import .env variables
 dotenv.config()
 
 const semanicRelease = async () => {
-  // await postpack()
-
-  const stdoutBuffer = new WritableStreamBuffer()
-  const stderrBuffer = new WritableStreamBuffer()
-
   try {
+    await prepareForRelease()
+
+    const stdoutBuffer = new WritableStreamBuffer()
+    const stderrBuffer = new WritableStreamBuffer()
     const result = await semanticRelease(
       {
-        // plugins: [
-        //   [
-        //     '@semantic-release/npm',
-        //     {
-        //       npmPublish: false,
-        //       tarballDir: 'dist2'
-        //     }
-        //   ],
-        //   [
-        //     '@semantic-release/github',
-        //     {
-        //       assets: 'dist/*.tgz'
-        //     }
-        //   ]
-        // ]
+        plugins: [
+          [
+            'semantic-release/release-notes-generator',
+            {
+              preset: 'angular',
+              parserOpts: {
+                noteKeywords: [
+                  'BREAKING CHANGE',
+                  'BREAKING CHANGES',
+                  'BREAKING',
+                  'break:'
+                ]
+              },
+              writerOpts: {
+                commitsSort: ['subject', 'scope']
+              }
+            }
+          ]
+        ]
       },
       {
         // Store stdout and stderr to use later instead of writing to `process.stdout` and `process.stderr`
@@ -75,26 +78,3 @@ const semanicRelease = async () => {
 }
 
 semanicRelease()
-
-// TODO: We may later do someting during the relase process
-// import fs from 'fs'
-// import path from 'path'
-
-// if (fs.existsSync(path.resolve(__dirname, '../lib'))) {
-//   const versionFilePath = path.resolve(
-//     process.cwd(),
-//     'lib',
-//     'version',
-//     'index.js'
-//   )
-//   const versionFileContent = fs.readFileSync(versionFilePath).toString()
-//
-//   fs.writeFileSync(
-//     versionFilePath,
-//     versionFileContent.replace(
-//       `require('../../package.json')`,
-//       `{ version: '${packageInfo.version}' }`
-//     )
-//   )
-//   console.log('Wrote version into lib/version/index.js')
-// }

@@ -6,19 +6,17 @@
 module.exports = {
   pathPrefix: '/',
   siteMetadata: {
-    title: 'DNB Design System - Eufemia',
+    title: 'Eufemia - DNB Design System',
     name: 'Eufemia',
     description:
-      'The DNB Style Guide is the go to place for all who has to design, develop or create visuals with the DNB design.',
-    // homepage: 'https://www.dnb.no',
-    // siteUrl: 'https://www.dnb.no',
+      'Eufemia Design System is the go to place for all who has to design, develop and make digitan WEB applications for DNB.',
     repoUrl: 'https://github.com/dnbexperience/eufemia/tree/release/'
   },
   plugins: [
     {
       resolve: 'gatsby-plugin-manifest',
       options: {
-        name: 'DNB Design System - Eufemia',
+        name: 'Eufemia - DNB Design System',
         short_name: 'Eufemia',
         start_url: '/',
         background_color: '#fff',

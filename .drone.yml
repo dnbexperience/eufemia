@@ -82,6 +82,9 @@ steps:
     when:
       event:
         - pull-request
+      branch:
+        include:
+          - ftr/*
 
   - name: deploy-release
     image: tujoworker/docker-node-puppeteer

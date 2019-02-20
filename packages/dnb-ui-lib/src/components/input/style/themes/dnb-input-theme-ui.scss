@@ -37,7 +37,7 @@
     &[data-input-state='focus'] {
       background-color: var(--color-white);
       border-color: var(--input-border-color--active);
-      @include extendBorder(var(--input-border-color--active));
+      @include extendFakeFocus(var(--input-border-color--active));
       @include fakeFocus();
     }
   }
@@ -49,7 +49,7 @@
     &,
     &[data-input-state='focus'] {
       // In case we want to have a larger border size on the input
-      @include extendBorder(var(--color-cherry-red));
+      @include extendFakeFocus(var(--color-cherry-red));
     }
   }
 

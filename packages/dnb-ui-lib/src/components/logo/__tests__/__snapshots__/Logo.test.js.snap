@@ -179,15 +179,15 @@ exports[`Logo scss have to match snapshot 1`] = `
   font-feature-settings: \\"lnum\\";
   font-size: 1em;
   line-height: 1.5em; }
+  .dnb-logo ::before,
+  .dnb-logo ::after {
+    text-decoration: inherit;
+    vertical-align: inherit; }
   .dnb-logo *,
   .dnb-logo ::before,
   .dnb-logo ::after {
     background-repeat: no-repeat;
     box-sizing: border-box; }
-  .dnb-logo ::before,
-  .dnb-logo ::after {
-    text-decoration: inherit;
-    vertical-align: inherit; }
 
 /*
  * Logo Component

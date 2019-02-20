@@ -4,6 +4,7 @@
 # testing
 /coverage
 /jest-screenshot-report
+jest.config.screenshots.js
 /reports
 
 # production
