@@ -222,68 +222,78 @@ exports[`Button scss have to match default theme snapshot 1`] = `
 * Button mixins
 *
 */
-.dnb-button--secondary:not([disabled]):not(.dnb-button--has-text) .dnb-button__icon {
-  color: var(--color-emerald-green); }
+:root {
+  --button-border-width: 0px;
+  /* stylelint-disable-line */ }
+
+.dnb-button {
+  border: none; }
+  .dnb-button--secondary:not([disabled]):not(.dnb-button--has-text) .dnb-button__icon {
+    color: var(--color-emerald-green); }
 
 .dnb-button--primary {
   color: var(--color-white);
-  background-color: var(--color-sea-green-alt);
-  border-color: transparent; }
+  background-color: var(--color-sea-green-alt); }
   .no-touch .dnb-button--primary:hover[disabled] {
     cursor: not-allowed; }
   .no-touch .dnb-button--primary:hover:not([disabled]) {
+    position: relative;
     color: var(--color-sea-green);
-    background-color: var(--color-mint-green-50);
-    border-color: var(--color-mint-green-50);
-    box-shadow: 0 0 0 var(--button-border-width--hover) var(--color-mint-green-50); }
-    .no-touch .dnb-button--primary:hover:not([disabled]):not([disabled]):active {
-      box-shadow: 0 0 0 2px transparent;
-      border-color: transparent; }
-  .dnb-button--primary:not([disabled]):focus {
+    background-color: var(--color-white);
+    box-shadow: 0 0 0 1px var(--color-white), 0 0 0 3px var(--color-emerald-green); }
+  .no-touch .dnb-button--primary:focus[disabled] {
+    cursor: not-allowed; }
+  .no-touch .dnb-button--primary:focus:not([disabled]) {
     color: var(--color-sea-green);
-    background-color: var(--color-mint-green-50);
-    border-color: var(--color-mint-green-50);
+    background-color: var(--color-white);
     outline: none; }
-    html[data-whatinput='keyboard'] .dnb-button--primary:not([disabled]):focus {
-      box-shadow: 0 0 0 2px var(--color-emerald-green);
-      border-color: transparent; }
+    html[data-whatinput='keyboard'] .no-touch .dnb-button--primary:focus:not([disabled]) {
+      box-shadow: inset 0 0 0 2px; }
+  .no-touch .dnb-button--primary:active[disabled] {
+    cursor: not-allowed; }
+  .no-touch .dnb-button--primary:active:not([disabled]) {
+    color: var(--color-sea-green);
+    background-color: var(--color-mint-green-50);
+    box-shadow: 0 0 0 1px transparent;
+    border-color: transparent; }
   .dnb-button--primary[disabled] {
     color: var(--color-white);
     background-color: var(--color-sea-green-alt-30); }
 
 .dnb-button--secondary {
   color: var(--color-sea-green);
-  background-color: var(--color-white);
-  border-color: var(--color-sea-green-alt); }
+  background-color: var(--color-white); }
   .no-touch .dnb-button--secondary:hover[disabled] {
     cursor: not-allowed; }
   .no-touch .dnb-button--secondary:hover:not([disabled]) {
+    position: relative;
     color: var(--color-sea-green);
-    background-color: var(--color-mint-green-50);
-    border-color: var(--color-mint-green-50);
-    box-shadow: 0 0 0 var(--button-border-width--hover) var(--color-mint-green-50); }
-    .no-touch .dnb-button--secondary:hover:not([disabled]):not([disabled]):active {
-      box-shadow: 0 0 0 2px transparent;
-      border-color: transparent; }
-  .dnb-button--secondary:not([disabled]):focus {
+    background-color: var(--color-white);
+    box-shadow: 0 0 0 1px var(--color-white), 0 0 0 3px var(--color-emerald-green); }
+  .no-touch .dnb-button--secondary:focus[disabled] {
+    cursor: not-allowed; }
+  .no-touch .dnb-button--secondary:focus:not([disabled]) {
     color: var(--color-sea-green);
-    background-color: var(--color-mint-green-50);
-    border-color: var(--color-mint-green-50);
+    background-color: var(--color-white);
     outline: none; }
-    html[data-whatinput='keyboard'] .dnb-button--secondary:not([disabled]):focus {
-      box-shadow: 0 0 0 2px var(--color-emerald-green);
-      border-color: transparent; }
+    html[data-whatinput='keyboard'] .no-touch .dnb-button--secondary:focus:not([disabled]) {
+      box-shadow: inset 0 0 0 2px; }
+  .no-touch .dnb-button--secondary:active[disabled] {
+    cursor: not-allowed; }
+  .no-touch .dnb-button--secondary:active:not([disabled]) {
+    color: var(--color-sea-green);
+    background-color: var(--color-mint-green-50);
+    box-shadow: 0 0 0 1px transparent;
+    border-color: transparent; }
   .dnb-button--secondary[disabled] {
     color: var(--color-sea-green-alt-30);
-    background-color: var(--color-white);
-    border-color: var(--color-sea-green-alt-30); }
+    background-color: var(--color-white); }
 
 .dnb-button--tertiary {
   position: relative;
   z-index: 1;
   color: var(--color-sea-green);
-  background-color: transparent;
-  border-color: transparent; }
+  background-color: transparent; }
   .dnb-button--tertiary.dnb-button--has-text {
     padding-left: 0.5rem;
     padding-right: 0.5rem; }
@@ -316,17 +326,16 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     right: 0.7rem; }
   .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):hover .dnb-button__icon {
     color: var(--color-sea-green-alt-30); }
-  .dnb-button--tertiary:not([disabled]):active::after,
-  html[data-whatinput='keyboard'] .dnb-button--tertiary:not([disabled]):focus::after {
+  .dnb-button--tertiary.dnb-button--has-text:not([disabled]):active::after {
     border-bottom: none; }
-  .dnb-button--tertiary:not([disabled]):focus {
+  .no-touch .dnb-button--tertiary:focus[disabled] {
+    cursor: not-allowed; }
+  .no-touch .dnb-button--tertiary:focus:not([disabled]) {
     color: var(--color-sea-green);
     background-color: transparent;
-    border-color: transparent;
     outline: none; }
-    html[data-whatinput='keyboard'] .dnb-button--tertiary:not([disabled]):focus {
-      box-shadow: 0 0 0 2px var(--color-emerald-green);
-      border-color: transparent; }
+    html[data-whatinput='keyboard'] .no-touch .dnb-button--tertiary:focus:not([disabled]) {
+      box-shadow: inset 0 0 0 2px; }
   .dnb-button--tertiary[disabled] {
     color: var(--color-sea-green-alt-30); }
 
@@ -336,20 +345,27 @@ exports[`Button scss have to match default theme snapshot 1`] = `
   .no-touch .dnb-button--signal:hover[disabled] {
     cursor: not-allowed; }
   .no-touch .dnb-button--signal:hover:not([disabled]) {
-    box-shadow: 0 0 0 var(--button-border-width--hover) var(--color-signal-yellow), 0 0 0 calc(var(--button-border-width--hover) + 1px) var(--color-black); }
-    .no-touch .dnb-button--signal:hover:not([disabled]):not([disabled]):active {
-      box-shadow: 0 0 0 2px transparent;
-      border-color: transparent; }
-  .dnb-button--signal:not([disabled]):focus {
+    position: relative;
     color: var(--color-black);
     background-color: var(--color-signal-yellow);
-    border-color: var(--color-signal-yellow);
+    box-shadow: 0 0 0 1px var(--color-signal-yellow), 0 0 0 3px var(--color-emerald-green); }
+  .no-touch .dnb-button--signal:focus[disabled] {
+    cursor: not-allowed; }
+  .no-touch .dnb-button--signal:focus:not([disabled]) {
+    color: var(--color-black);
+    background-color: var(--color-signal-yellow);
     outline: none; }
-    html[data-whatinput='keyboard'] .dnb-button--signal:not([disabled]):focus {
-      box-shadow: 0 0 0 2px var(--color-emerald-green);
-      border-color: transparent; }
+    html[data-whatinput='keyboard'] .no-touch .dnb-button--signal:focus:not([disabled]) {
+      box-shadow: inset 0 0 0 2px; }
+  .no-touch .dnb-button--signal:active[disabled] {
+    cursor: not-allowed; }
+  .no-touch .dnb-button--signal:active:not([disabled]) {
+    color: var(--color-black);
+    background-color: var(--color-signal-yellow);
+    box-shadow: 0 0 0 1px transparent;
+    border-color: transparent; }
   .dnb-button--signal[disabled] {
-    color: #b0b0b0;
+    color: var(--color-black-30);
     background-color: var(--color-signal-yellow-30); }
 "
 `;
@@ -604,8 +620,14 @@ exports[`Button scss have to match snapshot 1`] = `
     .dnb-button__icon:not(.dnb-icon) svg:not([width]):not([height]) {
       width: var(--button-icon-size);
       height: var(--button-icon-size); }
+    @supports not (-ms-ime-align: auto) {
+      .dnb-button__icon {
+        transform: translateY(calc(1px - 1px - var(--button-border-width))); } }
   .dnb-button__text {
     color: inherit; }
+    @supports not (-ms-ime-align: auto) {
+      .dnb-button__text {
+        transform: translateY(calc(1px - var(--button-border-width))); } }
   .dnb-button--size-small {
     width: var(--button-width--small);
     height: var(--button-height--small);
@@ -649,9 +671,6 @@ exports[`Button scss have to match snapshot 1`] = `
     width: auto; }
   .dnb-button--has-text .dnb-button__icon {
     margin: 0 calc(var(--button-icon-size) / 2); }
-    @supports not (-ms-ime-align: auto) {
-      .dnb-button--has-text .dnb-button__icon {
-        transform: translateY(-1px); } }
   .dnb-button--has-text.dnb-button--icon-position-left {
     padding-left: 0.5rem; }
   .dnb-button--has-text.dnb-button--icon-position-right {
@@ -687,8 +706,7 @@ exports[`Button scss have to match snapshot 1`] = `
     .dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
       outline: none; }
       html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
-        box-shadow: 0 0 0 2px var(--color-emerald-green);
-        border-color: transparent; }
+        box-shadow: 0 0 0 2px; }
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):focus,
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):active {
       box-shadow: none;
@@ -696,15 +714,26 @@ exports[`Button scss have to match snapshot 1`] = `
       border: none; }
   .dnb-button[type='button'] {
     appearance: none; }
+  .dnb-button[disabled] {
+    cursor: not-allowed; }
   button.dnb-button::-moz-focus-inner .dnb-button {
     border: none; }
 
 a.dnb-button {
-  -webkit-appearance: none; }
+  -webkit-appearance: none;
+  box-shadow: none; }
   a.dnb-button .dnb-button__icon {
     transform: translateY(0); }
   a.dnb-button .dnb-button__text {
     transform: translateY(1px); }
+  a.dnb-button:hover {
+    border-radius: var(--button-border-radius); }
+  a.dnb-button--size-small, a.dnb-button--size-small:hover {
+    border-radius: var(--button-border-radius--small); }
+  a.dnb-button--size-medium, a.dnb-button--size-medium:hover {
+    border-radius: var(--button-border-radius--medium); }
+  a.dnb-button--size-large, a.dnb-button--size-large:hover {
+    border-radius: var(--button-border-radius--large); }
   a.dnb-button:active, a.dnb-button:focus {
     border-radius: var(--button-border-radius); }
 "

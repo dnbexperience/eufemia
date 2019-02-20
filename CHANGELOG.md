@@ -1,9 +1,10 @@
-## February, 19. 2019
+## February, 20. 2019
 
 **Changes to the default styles**
 
 - Anchor (Text Link): Has now white background color on focus state
 - Tables how now always a bottom border
+- Button got a new look
 
 **UI library**
 

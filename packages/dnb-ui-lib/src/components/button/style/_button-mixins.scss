@@ -5,30 +5,40 @@
 
 @mixin buttonHover($color, $background-color) {
   @include hover(true) {
+    position: relative; // to get "over" sibling, because of the extendFakeFocus
+
     color: $color;
     background-color: $background-color;
-    border-color: $background-color;
 
-    @include extendBorder(
+    @include extendFakeFocus(
       $background-color,
-      var(--button-border-width--hover)
+      var(--color-emerald-green),
+      1px
     );
 
-    &:not([disabled]):active {
-      @include fakeBorder(transparent);
-    }
+    @content;
+  }
+}
+
+@mixin buttonActive($color, $background-color) {
+  @include active(true) {
+    color: $color;
+    background-color: $background-color;
+
+    // no animation yet
+    // transition: none;
+    @include fakeBorder(transparent);
 
     @content;
   }
 }
 
 @mixin buttonFocus($color, $background-color) {
-  &:not([disabled]):focus {
+  @include focus(true) {
     color: $color;
     background-color: $background-color;
-    border-color: $background-color;
 
-    @include fakeFocus();
+    @include fakeFocus(null, null, inset);
 
     @content;
   }

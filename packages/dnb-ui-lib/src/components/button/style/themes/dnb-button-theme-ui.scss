@@ -6,20 +6,30 @@
 @import '../../../../style/themes/imports.scss';
 @import '../_button-mixins.scss';
 
+:root {
+  // we don't need a border
+  --button-border-width: 0px; /* stylelint-disable-line */
+}
+
 .dnb-button {
+  border: none;
   &--secondary:not([disabled]):not(.dnb-button--has-text) &__icon {
     color: var(--color-emerald-green);
   }
+  // no animation yet
+  // transition: background-color 100ms ease-out, box-shadow 100ms ease-out;
 }
 
 .dnb-button--primary {
   color: var(--color-white);
   background-color: var(--color-sea-green-alt);
-  border-color: transparent;
 
-  @include buttonHover(var(--color-sea-green), var(--color-mint-green-50));
-
-  @include buttonFocus(var(--color-sea-green), var(--color-mint-green-50));
+  @include buttonHover(var(--color-sea-green), var(--color-white));
+  @include buttonFocus(var(--color-sea-green), var(--color-white));
+  @include buttonActive(
+    var(--color-sea-green),
+    var(--color-mint-green-50)
+  );
 
   &[disabled] {
     color: var(--color-white);
@@ -30,16 +40,17 @@
 .dnb-button--secondary {
   color: var(--color-sea-green);
   background-color: var(--color-white);
-  border-color: var(--color-sea-green-alt);
 
-  @include buttonHover(var(--color-sea-green), var(--color-mint-green-50));
-
-  @include buttonFocus(var(--color-sea-green), var(--color-mint-green-50));
+  @include buttonHover(var(--color-sea-green), var(--color-white));
+  @include buttonFocus(var(--color-sea-green), var(--color-white));
+  @include buttonActive(
+    var(--color-sea-green),
+    var(--color-mint-green-50)
+  );
 
   &[disabled] {
     color: var(--color-sea-green-alt-30);
     background-color: var(--color-white);
-    border-color: var(--color-sea-green-alt-30);
   }
 }
 
@@ -48,7 +59,6 @@
   z-index: 1;
   color: var(--color-sea-green);
   background-color: transparent;
-  border-color: transparent;
 
   &.dnb-button--has-text {
     padding-left: 0.5rem;
@@ -65,7 +75,7 @@
   }
 
   &.dnb-button--has-text:not([disabled]):hover {
-    @include anchorDrawUnderlineBorder() {
+    @include drawUnderlineBorder() {
       left: 0.45rem;
       right: 0.45rem;
       bottom: 0.5rem;
@@ -85,8 +95,7 @@
     }
   }
 
-  &:not([disabled]):active::after,
-  html[data-whatinput='keyboard'] &:not([disabled]):focus::after {
+  &.dnb-button--has-text:not([disabled]):active::after {
     border-bottom: none;
   }
 
@@ -97,29 +106,16 @@
   }
 }
 
-@mixin buttonHover--signal() {
-  box-shadow: 0 0 0 var(--button-border-width--hover)
-      var(--color-signal-yellow),
-    0 0 0 calc(var(--button-border-width--hover) + 1px) var(--color-black);
-  @content;
-}
-
 .dnb-button--signal {
   color: var(--color-black);
   background-color: var(--color-signal-yellow);
 
-  @include hover(true) {
-    @include buttonHover--signal();
-
-    &:not([disabled]):active {
-      @include fakeBorder(transparent);
-    }
-  }
-
+  @include buttonHover(var(--color-black), var(--color-signal-yellow));
   @include buttonFocus(var(--color-black), var(--color-signal-yellow));
+  @include buttonActive(var(--color-black), var(--color-signal-yellow));
 
   &[disabled] {
-    color: #b0b0b0;
+    color: var(--color-black-30);
     background-color: var(--color-signal-yellow-30);
   }
 }

@@ -20,7 +20,7 @@
   }
 }
 .dnb-focus-ring {
-  @include fakeBorder($focusRingColor, $focusRingWidth, !important);
+  @include fakeBorder($focusRingColor, $focusRingWidth, null, !important);
 }
 
 // Wraps content inside a visual section banner.

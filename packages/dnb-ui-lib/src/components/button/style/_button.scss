@@ -49,9 +49,17 @@
       width: var(--button-icon-size);
       height: var(--button-icon-size);
     }
+    // if not IE11
+    @supports not (-ms-ime-align: auto) {
+      transform: translateY(calc(1px - 1px - var(--button-border-width)));
+    }
   }
   &__text {
     color: inherit;
+    // if not IE11
+    @supports not (-ms-ime-align: auto) {
+      transform: translateY(calc(1px - var(--button-border-width)));
+    }
   }
 
   // size small
@@ -117,9 +125,6 @@
   }
   &--has-text &__icon {
     margin: 0 calc(var(--button-icon-size) / 2);
-    @supports not (-ms-ime-align: auto) {
-      transform: translateY(-1px);
-    }
   }
   // &--has-text#{&}--size-large &__icon {
   //   margin: 0 var(--button-icon-size);
@@ -192,6 +197,10 @@
     appearance: none;
   }
 
+  &[disabled] {
+    cursor: not-allowed;
+  }
+
   /* Firefox includes a hidden border which messes up button dimensions */
   @at-root button#{&}::-moz-focus-inner & {
     border: none;
@@ -201,6 +210,7 @@
 // make sure we style an Anchor like a button
 a.dnb-button {
   -webkit-appearance: none; // because we have "appearance: button" in reset.scss
+  box-shadow: none;
 
   // some correction
   .dnb-button__icon {
@@ -208,6 +218,30 @@ a.dnb-button {
   }
   .dnb-button__text {
     transform: translateY(1px);
+  }
+
+  // because of the anchor styles, we have to reset our border radius
+  // in order to use CSS specificity, we have to do it this way
+  &:hover {
+    border-radius: var(--button-border-radius);
+  }
+  &--size-small {
+    &,
+    &:hover {
+      border-radius: var(--button-border-radius--small);
+    }
+  }
+  &--size-medium {
+    &,
+    &:hover {
+      border-radius: var(--button-border-radius--medium);
+    }
+  }
+  &--size-large {
+    &,
+    &:hover {
+      border-radius: var(--button-border-radius--large);
+    }
   }
 
   &:active,
