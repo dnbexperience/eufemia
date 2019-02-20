@@ -310,13 +310,10 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     content: '';
     position: absolute;
     z-index: -1;
-    left: 0.1rem;
-    right: 0.1rem;
-    width: auto;
-    height: 100%;
     left: 0.05rem;
     right: 0.05rem;
     bottom: 0;
+    width: auto;
     height: 1px;
     border-radius: 0.5px;
     border-bottom: 1px solid var(--color-sea-green);

@@ -1620,7 +1620,7 @@ a.dnb-button {
   .dnb-input > .dnb-form-label {
     margin-right: 1rem; }
   .dnb-input > .dnb-form-status {
-    margin-top: 0.5rem; }
+    margin-left: 0.5rem; }
 
 .dnb-input-masked {
   /**

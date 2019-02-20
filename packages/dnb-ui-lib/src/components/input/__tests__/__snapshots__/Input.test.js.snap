@@ -144,14 +144,13 @@ exports[`Input scss have to match default theme snapshot 1`] = `
     .dnb-input__shell[data-input-state='focus'] {
       background-color: var(--color-white);
       border-color: var(--input-border-color--active);
-      box-shadow: 0 0 0 1px var(--input-border-color--active), 0 0 0 3px;
-      outline: none; }
-      html[data-whatinput='keyboard'] .dnb-input__shell[data-input-state='focus'] {
-        box-shadow: 0 0 0 2px; }
+      box-shadow: 0 0 0 2px var(--input-border-color--active);
+      border-color: transparent; }
   .dnb-input__status--error .dnb-input__shell {
     border-color: var(--color-cherry-red); }
     .dnb-input__status--error .dnb-input__shell, .dnb-input__status--error .dnb-input__shell[data-input-state='focus'] {
-      box-shadow: 0 0 0 1px var(--color-cherry-red), 0 0 0 3px; }
+      box-shadow: 0 0 0 2px var(--color-cherry-red);
+      border-color: transparent; }
   .dnb-input__placeholder {
     color: var(--color-sea-green); }
   .dnb-input__shell[data-input-state='focus'][data-has-content='false'] .dnb-input__placeholder {
@@ -1741,6 +1740,6 @@ a.dnb-button {
   .dnb-input > .dnb-form-label {
     margin-right: 1rem; }
   .dnb-input > .dnb-form-status {
-    margin-top: 0.5rem; }
+    margin-left: 0.5rem; }
 "
 `;
