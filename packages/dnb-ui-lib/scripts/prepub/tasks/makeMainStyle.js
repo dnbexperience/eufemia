@@ -26,10 +26,10 @@ export default async () => {
   // info: use this aproach to process files because:
   // this way we avoid cross "includePaths" and the result is:
   // Now a custom theme can overwrite existing CSS Custom Properties
-  const listWithThemestoProcess = await globby(
+  const listWithThemesToProcess = await globby(
     './src/style/themes/theme-*/dnb-theme-*.scss'
   )
-  await asyncForEach(listWithThemestoProcess, async themeFile => {
+  await asyncForEach(listWithThemesToProcess, async themeFile => {
     // in order to keep the foder structure, we have to add these asteix
     themeFile = themeFile.replace('/style/themes/', '/style/**/themes/')
     await runFactory(themeFile, {
@@ -37,9 +37,14 @@ export default async () => {
     })
   })
 
-  await runFactory('./src/style/**/dnb-ui-components.scss')
-  await runFactory('./src/style/**/dnb-ui-patterns.scss')
-  await runFactory('./src/style/**/dnb-ui-core.scss')
+  const listWithPackagesToProcess = await globby(
+    './src/style/dnb-ui-*.scss'
+  )
+  await asyncForEach(listWithPackagesToProcess, async packageFile => {
+    // in order to keep the foder structure, we have to add these asteix
+    packageFile = packageFile.replace('/style/', '/style/**/')
+    await runFactory(packageFile)
+  })
 
   log.succeed(
     '> PrePublish: "makeMainStyle" transforming style modules done'
