@@ -21,7 +21,7 @@ const semanicRelease = async () => {
       {
         plugins: [
           [
-            'semantic-release/release-notes-generator',
+            '@semantic-release/release-notes-generator',
             {
               preset: 'angular',
               parserOpts: {
