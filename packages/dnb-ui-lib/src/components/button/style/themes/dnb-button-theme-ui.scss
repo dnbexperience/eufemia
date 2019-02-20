@@ -50,9 +50,14 @@
     var(--color-mint-green-50)
   );
 
-  &[disabled] {
+  &[disabled],
+  &[disabled]:focus // only because of href/anchor button
+ {
     color: var(--color-sea-green-alt-30);
     background-color: var(--color-white);
+
+    // only because of href/anchor button
+    @include fakeBorder(var(--color-sea-green-alt-30), 1px, inset);
   }
 }
 
