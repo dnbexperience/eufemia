@@ -32,6 +32,8 @@ import logout from './logout.js'
 import logout_medium from './logout_medium.js'
 import more from './more.js'
 import more_medium from './more_medium.js'
+import print from './print.js'
+import print_medium from './print_medium.js'
 import question from './question.js'
 import question_medium from './question_medium.js'
 import save from './save.js'
@@ -76,6 +78,8 @@ export {
   logout_medium,
   more,
   more_medium,
+  print,
+  print_medium,
   question,
   question_medium,
   save,

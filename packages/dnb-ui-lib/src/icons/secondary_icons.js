@@ -5,6 +5,7 @@ import file from './file.js'
 import fullscreen from './fullscreen.js'
 import hamburger from './hamburger.js'
 import logout from './logout.js'
+import print from './print.js'
 import trash from './trash.js'
 
-export { check_alt_01, file, fullscreen, hamburger, logout, trash }
+export { check_alt_01, file, fullscreen, hamburger, logout, print, trash }
