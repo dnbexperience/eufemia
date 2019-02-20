@@ -40,3 +40,6 @@ What you should read from brand guidelines before starting to design for DNB
 4. Add Eufemia library to your file
 
 <Img src={FigmaLibraries} caption="Add the Eufemia library" alt="Add Eufemia team" height="320" />
+
+5. In preferences set your nudge amount to 8px
+6.
