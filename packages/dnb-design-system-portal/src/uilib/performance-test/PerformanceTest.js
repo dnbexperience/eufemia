@@ -119,7 +119,7 @@ export default class PerformanceTest extends Component {
           />
         </div>
         <br />
-        <h1>Rendered Components</h1>
+        <h1 className="dnb-h1">Rendered Components</h1>
         {this.components}
         <p>{text}</p>
       </div>

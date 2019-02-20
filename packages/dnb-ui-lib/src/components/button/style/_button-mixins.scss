@@ -43,3 +43,24 @@
     @content;
   }
 }
+
+@mixin drawUnderlineBorder() {
+  // border
+  &::after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+
+    left: 0.05rem;
+    right: 0.05rem;
+    bottom: 0;
+
+    width: auto;
+    height: 1px;
+
+    border-radius: 0.5px;
+    border-bottom: 1px solid var(--color-sea-green);
+
+    @content;
+  }
+}

@@ -2,10 +2,10 @@
 
 import React from 'react'
 
-const trash_medium = props => (
+const print_medium = props => (
   <svg width={24} height={24} viewBox="0 0 24 24" fill="none" {...props}>
     <path
-      d="M1.5 4.5h21"
+      d="M5.25 17.25h-3a1.5 1.5 0 0 1-1.5-1.5v-7.5a1.5 1.5 0 0 1 1.5-1.5h19.5a1.5 1.5 0 0 1 1.5 1.5v7.5a1.5 1.5 0 0 1-1.5 1.5h-3M3.75 9.75h1.5"
       stroke="#000"
       strokeWidth={1.5}
       strokeLinecap="round"
@@ -13,22 +13,14 @@ const trash_medium = props => (
     />
     <path
       clipRule="evenodd"
-      d="M14.25 1.5h-4.5A1.5 1.5 0 0 0 8.25 3v1.5h7.5V3a1.5 1.5 0 0 0-1.5-1.5z"
+      d="M5.25 12.75h13.5v10.5H5.25v-10.5zM18.75 6.75H5.25v-4.5a1.5 1.5 0 0 1 1.5-1.5h10.5a1.5 1.5 0 0 1 1.5 1.5v4.5z"
       stroke="#000"
       strokeWidth={1.5}
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
-      d="M9.75 17.25v-7.5M14.25 17.25v-7.5"
-      stroke="#000"
-      strokeWidth={1.5}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <path
-      clipRule="evenodd"
-      d="M18.865 21.124A1.5 1.5 0 0 1 17.37 22.5H6.631a1.5 1.5 0 0 1-1.495-1.376L3.75 4.5h16.5l-1.385 16.624z"
+      d="M8.25 15.75h7.5M8.25 18.75h5.25"
       stroke="#000"
       strokeWidth={1.5}
       strokeLinecap="round"
@@ -37,4 +29,4 @@ const trash_medium = props => (
   </svg>
 )
 
-export default trash_medium
+export default print_medium

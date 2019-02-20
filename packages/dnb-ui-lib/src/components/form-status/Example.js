@@ -4,30 +4,29 @@
  */
 
 import React, { PureComponent, Fragment } from 'react'
-import Input from '../input/Input'
+import ComponentBox from '../../../../dnb-design-system-portal/src/shared/tags/ComponentBox'
 
 class Example extends PureComponent {
-  state = {
-    status: null
-  }
-  componentDidMount() {
-    setTimeout(() => {
-      this.setState({
-        status: 'You have to fill in this field'
-      })
-    }, 400)
-  }
   render() {
     return (
       <Fragment>
-        <div className="example-box">
-          <Input
-            label="Input with Status:"
-            status={this.state.status}
-            value="Input value with status"
-          />
-          <p className="example-caption">A form status</p>
-        </div>
+        <ComponentBox caption="A form status">
+          {/* @jsx */ `
+<FormStatus
+  title="Input with Status:"
+  text="Input value with status"
+/>
+          `}
+        </ComponentBox>
+        <ComponentBox caption="A form status, used by the Input Component">
+          {/* @jsx */ `
+<Input
+  label="Input with Status:"
+  status="You have to fill in this field"
+  value="Input value with status"
+/>
+          `}
+        </ComponentBox>
       </Fragment>
     )
   }

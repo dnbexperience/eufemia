@@ -105,7 +105,12 @@ const Content = ({ className, children }) => (
   <ContentWrapper
     id="dnb-app-content"
     css={markdownStyle}
-    className={classnames('dnb-spacing', 'dnb-app-content', className)}
+    className={classnames(
+      // 'dnb-core-style',
+      'dnb-spacing',
+      'dnb-app-content',
+      className
+    )}
   >
     {children}
   </ContentWrapper>

@@ -3,13 +3,10 @@
  *
  */
 
+@import './reset.scss';
+
 @mixin bodyDefault() {
-  *,
-  ::before,
-  ::after {
-    background-repeat: no-repeat;
-    box-sizing: border-box;
-  }
+  @include reset();
 
   font-family: sans-serif;
   font-family: var(--font-family-default);
@@ -21,16 +18,14 @@
 
   @include numberFeature(lining-nums, lnum);
 
+  @media print {
+    background-color: white;
+  }
+
   @content;
 }
 
 @mixin componentReset() {
-  ::before,
-  ::after {
-    text-decoration: inherit;
-    vertical-align: inherit;
-  }
-
   @include bodyDefault();
 
   font-size: 1em;
