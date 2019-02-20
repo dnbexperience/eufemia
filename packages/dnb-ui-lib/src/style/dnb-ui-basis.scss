@@ -10,6 +10,12 @@
 @import './core/fonts.scss';
 @import './core/helper-classes.scss';
 
+// The only style we use on body is to reset the margin
+// the rest goas inside dnb-core-style
+body {
+  margin: 0;
+}
+
 // In order to be able to have the body stiles inside a app wrapper,
 // we have this class helper to get the body styles inside the wrapper as well
 // without using the body

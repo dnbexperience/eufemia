@@ -6,21 +6,6 @@
 @import './reset.scss';
 
 @mixin bodyDefault() {
-  &,
-  *,
-  ::before,
-  ::after {
-    background-repeat: no-repeat;
-    box-sizing: border-box;
-  }
-
-  &,
-  ::before,
-  ::after {
-    text-decoration: inherit;
-    vertical-align: inherit;
-  }
-
   @include reset();
 
   font-family: sans-serif;

@@ -3,6 +3,17 @@
 *
 */
 
-// body and reset
-@import './dnb-ui-basis.scss';
-@import './dnb-ui-body.scss';
+// core imports
+@import './core/utilities.scss';
+@import './core/properties.scss';
+@import './core/scopes.scss';
+@import './core/fonts.scss';
+@import './core/helper-classes.scss';
+
+@include globalReset();
+
+// Global body style
+body,
+.dnb-core-style {
+  @include bodyDefault();
+}
