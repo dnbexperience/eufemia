@@ -23,12 +23,13 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
   on_submit_blur={null}
   on_submit_focus={null}
   placeholder={null}
-  search_button_title=""
   show_mask="show_mask"
   size={null}
   status={null}
   status_animation={null}
   status_state="error"
+  submit_button_icon="search"
+  submit_button_title={null}
   type="text"
   value="test"
 />
@@ -1536,7 +1537,7 @@ a.dnb-button {
   --input-border-width: 1px; }
 
 .dnb-input {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   flex-flow: row wrap;
   width: 100%;
@@ -1544,15 +1545,13 @@ a.dnb-button {
   line-height: var(--input-height); }
   .dnb-input__shell {
     position: relative;
-    flex: 1;
     display: flex;
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    align-items: center; }
+    align-items: center;
+    flex: 1; }
   .dnb-input__input {
     outline: none;
-    border: none; }
+    border: none;
+    transform: translateY(1px); }
   .dnb-input__input[disabled] {
     user-select: none; }
   .dnb-input__shell, .dnb-input__input {
@@ -1561,16 +1560,19 @@ a.dnb-button {
   .dnb-input__placeholder, .dnb-input__input {
     width: 100%;
     padding: var(--input-padding);
-    transform: translateY(var(--button-border-width));
     text-align: left;
     color: inherit;
     background-color: transparent; }
   .dnb-input__placeholder {
     pointer-events: none;
     position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
     height: 100%;
-    white-space: nowrap;
     overflow: hidden;
+    transform: translateY(calc(1px - var(--input-border-width))) translateX(1px);
+    white-space: nowrap;
     text-overflow: ellipsis; }
   .dnb-input__description {
     color: inherit;
@@ -1615,8 +1617,10 @@ a.dnb-button {
     line-height: 1.25rem; }
   > .dnb-form-label ~ .dnb-input__extra-information {
     padding: 0.5rem 0; }
-  .dnb-input__search-submit {
-    transform: translateX(var(--button-border-width)); }
+  .dnb-input__submit-button {
+    position: relative;
+    z-index: 2;
+    transform: translateX(var(--input-border-width)); }
   .dnb-input > .dnb-form-label {
     margin-right: 1rem; }
   .dnb-input > .dnb-form-status {

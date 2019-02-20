@@ -2,7 +2,7 @@
 
 exports[`Input component have to match type="search" snapshot 1`] = `
 <span
-  className="dnb-input dnb-input--search dnb-input--size dnb-input__input--search dnb-input__align--align class className"
+  className="dnb-input dnb-input--search dnb-input--size dnb-input__align--align class className"
 >
   <span
     className="dnb-input__shell"
@@ -31,7 +31,8 @@ exports[`Input component have to match type="search" snapshot 1`] = `
       custom_method={[Function]}
       description="description"
       disabled={false}
-      icon_size={16}
+      icon="submit_button_icon"
+      icon_size="medium"
       id="id"
       inputElement={null}
       input_class="input_class"
@@ -46,12 +47,13 @@ exports[`Input component have to match type="search" snapshot 1`] = `
       on_submit_blur={[Function]}
       on_submit_focus={[Function]}
       placeholder="placeholder"
-      search_button_title="search_button_title"
       size="size"
       status={null}
       status_animation="status_animation"
       status_state="status_state"
-      title="search_button_title"
+      submit_button_icon="submit_button_icon"
+      submit_button_title="submit_button_title"
+      title="submit_button_title"
       type="search"
       value="test"
     >
@@ -94,6 +96,44 @@ exports[`Input component have to match type="text" snapshot 1`] = `
       type="text"
       value="test"
     />
+    <Submit
+      align="align"
+      attributes="attributes"
+      autocomplete="off"
+      class="class"
+      className="className"
+      custom_element={Object {}}
+      custom_method={[Function]}
+      description="description"
+      disabled={false}
+      icon="submit_button_icon"
+      icon_size="medium"
+      id="id"
+      inputElement={null}
+      input_class="input_class"
+      label={null}
+      onSubmit={null}
+      onSubmitBlur={null}
+      onSubmitFocus={null}
+      on_blur={[Function]}
+      on_change={[Function]}
+      on_focus={[Function]}
+      on_submit={[Function]}
+      on_submit_blur={[Function]}
+      on_submit_focus={[Function]}
+      placeholder="placeholder"
+      size="size"
+      status={null}
+      status_animation="status_animation"
+      status_state="status_state"
+      submit_button_icon="submit_button_icon"
+      submit_button_title="submit_button_title"
+      title="submit_button_title"
+      type="text"
+      value="test"
+    >
+      children
+    </Submit>
     <span
       className="dnb-input__placeholder dnb-input__align--align"
     >
@@ -123,37 +163,55 @@ exports[`Input scss have to match default theme snapshot 1`] = `
  * Utilities
  */
 :root {
+  --input-text-color: var(--color-sea-green);
+  --input-text-color--focus: var(--color-emerald-green);
+  --input-text-color--active: var(--color-emerald-green);
+  --input-text-color--disabled: var(--color-sea-green-alt-30);
+  --input-background-color: var(--color-white);
+  --input-background-color--focus: var(--color-white);
+  --input-background-color--active: var(--color-white);
+  --input-background-color--disabled: var(--color-mint-green-12);
   --input-border-color: var(--color-sea-green-alt);
-  --input-border-color--disabled: var(--color-sea-green-alt-30);
-  --input-border-color--active: var(--color-emerald-green); }
+  --input-border-color--focus: var(--color-emerald-green);
+  --input-border-color--active: var(--color-sea-green-alt);
+  --input-border-color--disabled: var(--color-sea-green-alt-30); }
 
 .dnb-input {
-  color: var(--color-emerald-green); }
+  color: var(--input-text-color);
+  /* stylelint-disable-next-line */ }
   .dnb-input__shell {
-    background-color: var(--color-mint-green-12);
+    background-color: var(--color-white);
     border: var(--input-border-width) solid var(--input-border-color); }
     .no-touch .dnb-input__shell:not([data-input-state='disabled']):hover[disabled] {
       cursor: not-allowed; }
     .no-touch .dnb-input__shell:not([data-input-state='disabled']):hover:not([disabled]) {
       background-color: var(--color-white); }
     .dnb-input__shell[data-has-content='true'] {
-      background-color: var(--color-white); }
-    .dnb-input__shell[data-input-state='disabled'] {
-      color: var(--color-sea-green-alt-30);
-      border-color: var(--input-border-color--disabled); }
-    .dnb-input__shell[data-input-state='focus'] {
-      background-color: var(--color-white);
+      color: var(--input-text-color--active);
       border-color: var(--input-border-color--active);
-      box-shadow: 0 0 0 2px var(--input-border-color--active);
+      background-color: var(--input-background-color--active); }
+    .dnb-input__shell[data-input-state='disabled'] {
+      color: var(--input-text-color--disabled);
+      border-color: var(--input-border-color--disabled);
+      background-color: var(--input-background-color--disabled); }
+    .dnb-input__shell:not([data-input-state='disabled']):hover, .dnb-input__shell[data-input-state='focus'] {
+      color: var(--input-text-color--focus);
+      border-color: var(--input-border-color--focus);
+      background-color: var(--input-background-color--focus);
+      box-shadow: 0 0 0 2px var(--input-border-color--focus);
       border-color: transparent; }
   .dnb-input__status--error .dnb-input__shell {
-    border-color: var(--color-cherry-red); }
+    border-color: var(--color-cherry-red);
+    /* stylelint-disable-next-line */ }
     .dnb-input__status--error .dnb-input__shell, .dnb-input__status--error .dnb-input__shell[data-input-state='focus'] {
       box-shadow: 0 0 0 2px var(--color-cherry-red);
       border-color: transparent; }
-  .dnb-input__placeholder {
-    color: var(--color-sea-green); }
+  .dnb-input ::selection {
+    background-color: var(--color-mint-green);
+    color: var(--input-text-color--focus);
+    text-shadow: none; }
   .dnb-input__shell[data-input-state='focus'][data-has-content='false'] .dnb-input__placeholder {
+    transition: color 100ms ease-out;
     color: var(--color-sea-green-alt-30); }
 "
 `;
@@ -1656,7 +1714,7 @@ a.dnb-button {
   --input-border-width: 1px; }
 
 .dnb-input {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   flex-flow: row wrap;
   width: 100%;
@@ -1664,15 +1722,13 @@ a.dnb-button {
   line-height: var(--input-height); }
   .dnb-input__shell {
     position: relative;
-    flex: 1;
     display: flex;
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    align-items: center; }
+    align-items: center;
+    flex: 1; }
   .dnb-input__input {
     outline: none;
-    border: none; }
+    border: none;
+    transform: translateY(1px); }
   .dnb-input__input[disabled] {
     user-select: none; }
   .dnb-input__shell, .dnb-input__input {
@@ -1681,16 +1737,19 @@ a.dnb-button {
   .dnb-input__placeholder, .dnb-input__input {
     width: 100%;
     padding: var(--input-padding);
-    transform: translateY(var(--button-border-width));
     text-align: left;
     color: inherit;
     background-color: transparent; }
   .dnb-input__placeholder {
     pointer-events: none;
     position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
     height: 100%;
-    white-space: nowrap;
     overflow: hidden;
+    transform: translateY(calc(1px - var(--input-border-width))) translateX(1px);
+    white-space: nowrap;
     text-overflow: ellipsis; }
   .dnb-input__description {
     color: inherit;
@@ -1735,8 +1794,10 @@ a.dnb-button {
     line-height: 1.25rem; }
   > .dnb-form-label ~ .dnb-input__extra-information {
     padding: 0.5rem 0; }
-  .dnb-input__search-submit {
-    transform: translateX(var(--button-border-width)); }
+  .dnb-input__submit-button {
+    position: relative;
+    z-index: 2;
+    transform: translateX(var(--input-border-width)); }
   .dnb-input > .dnb-form-label {
     margin-right: 1rem; }
   .dnb-input > .dnb-form-status {
