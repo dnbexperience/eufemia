@@ -213,15 +213,15 @@ exports[`Switch scss have to match snapshot 1`] = `
   font-feature-settings: \\"lnum\\";
   font-size: 1em;
   line-height: 1.5em; }
+  .dnb-switch ::before,
+  .dnb-switch ::after {
+    text-decoration: inherit;
+    vertical-align: inherit; }
   .dnb-switch *,
   .dnb-switch ::before,
   .dnb-switch ::after {
     background-repeat: no-repeat;
     box-sizing: border-box; }
-  .dnb-switch ::before,
-  .dnb-switch ::after {
-    text-decoration: inherit;
-    vertical-align: inherit; }
 
 /*
 * Switch component

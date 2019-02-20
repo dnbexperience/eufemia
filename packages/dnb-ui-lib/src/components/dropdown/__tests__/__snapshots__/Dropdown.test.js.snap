@@ -374,15 +374,15 @@ exports[`Dropdown scss have to match snapshot 1`] = `
   font-feature-settings: \\"lnum\\";
   font-size: 1em;
   line-height: 1.5em; }
+  .dnb-button ::before,
+  .dnb-button ::after {
+    text-decoration: inherit;
+    vertical-align: inherit; }
   .dnb-button *,
   .dnb-button ::before,
   .dnb-button ::after {
     background-repeat: no-repeat;
     box-sizing: border-box; }
-  .dnb-button ::before,
-  .dnb-button ::after {
-    text-decoration: inherit;
-    vertical-align: inherit; }
   .dnb-button button {
     overflow: visible;
     text-transform: none; }
@@ -568,15 +568,15 @@ a.dnb-button {
   font-feature-settings: \\"lnum\\";
   font-size: 1em;
   line-height: 1.5em; }
+  .dnb-form-label ::before,
+  .dnb-form-label ::after {
+    text-decoration: inherit;
+    vertical-align: inherit; }
   .dnb-form-label *,
   .dnb-form-label ::before,
   .dnb-form-label ::after {
     background-repeat: no-repeat;
     box-sizing: border-box; }
-  .dnb-form-label ::before,
-  .dnb-form-label ::after {
-    text-decoration: inherit;
-    vertical-align: inherit; }
 
 /*
  * FormLabel element
@@ -602,15 +602,15 @@ a.dnb-button {
   font-feature-settings: \\"lnum\\";
   font-size: 1em;
   line-height: 1.5em; }
+  .dnb-input ::before,
+  .dnb-input ::after {
+    text-decoration: inherit;
+    vertical-align: inherit; }
   .dnb-input *,
   .dnb-input ::before,
   .dnb-input ::after {
     background-repeat: no-repeat;
     box-sizing: border-box; }
-  .dnb-input ::before,
-  .dnb-input ::after {
-    text-decoration: inherit;
-    vertical-align: inherit; }
 
 /*
 * Input component
@@ -730,15 +730,15 @@ a.dnb-button {
   font-feature-settings: \\"lnum\\";
   font-size: 1em;
   line-height: 1.5em; }
+  .dnb-dropdown ::before,
+  .dnb-dropdown ::after {
+    text-decoration: inherit;
+    vertical-align: inherit; }
   .dnb-dropdown *,
   .dnb-dropdown ::before,
   .dnb-dropdown ::after {
     background-repeat: no-repeat;
     box-sizing: border-box; }
-  .dnb-dropdown ::before,
-  .dnb-dropdown ::after {
-    text-decoration: inherit;
-    vertical-align: inherit; }
 
 /*
 * Dropdown component

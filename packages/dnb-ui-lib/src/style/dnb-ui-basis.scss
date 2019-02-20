@@ -6,5 +6,13 @@
 // core imports
 @import './core/utilities.scss';
 @import './core/properties.scss';
+@import './core/scopes.scss';
 @import './core/fonts.scss';
 @import './core/helper-classes.scss';
+
+// In order to be able to have the body stiles inside a app wrapper,
+// we have this class helper to get the body styles inside the wrapper as well
+// without using the body
+.dnb-app-content {
+  @include bodyDefault();
+}

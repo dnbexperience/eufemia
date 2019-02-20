@@ -610,15 +610,15 @@ exports[`Modal scss have to match snapshot 1`] = `
   font-feature-settings: \\"lnum\\";
   font-size: 1em;
   line-height: 1.5em; }
+  .dnb-button ::before,
+  .dnb-button ::after {
+    text-decoration: inherit;
+    vertical-align: inherit; }
   .dnb-button *,
   .dnb-button ::before,
   .dnb-button ::after {
     background-repeat: no-repeat;
     box-sizing: border-box; }
-  .dnb-button ::before,
-  .dnb-button ::after {
-    text-decoration: inherit;
-    vertical-align: inherit; }
   .dnb-button button {
     overflow: visible;
     text-transform: none; }
@@ -800,15 +800,15 @@ a.dnb-button {
   font-feature-settings: \\"lnum\\";
   font-size: 1em;
   line-height: 1.5em; }
+  .dnb-modal ::before,
+  .dnb-modal ::after {
+    text-decoration: inherit;
+    vertical-align: inherit; }
   .dnb-modal *,
   .dnb-modal ::before,
   .dnb-modal ::after {
     background-repeat: no-repeat;
     box-sizing: border-box; }
-  .dnb-modal ::before,
-  .dnb-modal ::after {
-    text-decoration: inherit;
-    vertical-align: inherit; }
 
 /*
  * Modal component

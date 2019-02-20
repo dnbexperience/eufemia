@@ -147,15 +147,15 @@ exports[`ViewTitle scss have to match snapshot 1`] = `
   font-feature-settings: \\"lnum\\";
   font-size: 1em;
   line-height: 1.5em; }
+  .dnb-view-title ::before,
+  .dnb-view-title ::after {
+    text-decoration: inherit;
+    vertical-align: inherit; }
   .dnb-view-title *,
   .dnb-view-title ::before,
   .dnb-view-title ::after {
     background-repeat: no-repeat;
     box-sizing: border-box; }
-  .dnb-view-title ::before,
-  .dnb-view-title ::after {
-    text-decoration: inherit;
-    vertical-align: inherit; }
 
 /*
  * ViewTitle element
