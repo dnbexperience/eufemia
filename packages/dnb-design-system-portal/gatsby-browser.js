@@ -8,6 +8,7 @@ import { applyPageFocus } from 'dnb-ui-lib/src/shared/tools'
 // Load dev styles (to use hot reloading, we do have to import the styles in here)
 if (process.env.NODE_ENV === 'development') {
   require('dnb-ui-lib/src/style/core') // import the core styles
+  // require('dnb-ui-lib/src/style/basis') // in case we want to test ".dnb-core-style"
   require('dnb-ui-lib/src/style/patterns') // import ony patterns
   require('dnb-ui-lib/src/style/components') // import ony components
   // // require('dnb-ui-lib/src/style/themes/open-banking') // import the "open-banking" theme

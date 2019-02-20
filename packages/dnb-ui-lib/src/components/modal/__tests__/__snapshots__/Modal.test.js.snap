@@ -545,6 +545,10 @@ exports[`Modal scss have to match snapshot 1`] = `
  *
  */
 /*
+ * Document Reset
+ *
+ */
+/*
 * DNB Button
 *
 */
@@ -599,6 +603,182 @@ exports[`Modal scss have to match snapshot 1`] = `
     height: auto; }
 
 .dnb-button {
+  /**
+   * 1. Remove repeating backgrounds in all browsers (opinionated).
+   * 2. Add border box sizing in all browsers (opinionated).
+   */
+  /**
+   * 1. Add text decoration inheritance in all browsers (opinionated).
+   * 2. Add vertical alignment inheritance in all browsers (opinionated).
+   */
+  /* Grouping content
+   */
+  /**
+   * 1. Add the correct sizing in Firefox.
+   * 2. Show the overflow in Edge and IE.
+   */
+  /**
+   * Add the correct display in IE.
+   */
+  /**
+   * Remove the list style on navigation lists in all browsers (opinionated).
+   */
+  /**
+   * 1. Use the default monospace user interface font
+   *    in all browsers (opinionated).
+   * 2. Correct the odd \`em\` font sizing in all browsers.
+   */
+  /* Text-level semantics
+   */
+  /**
+   * Remove the gray background on active links in IE 10.
+   */
+  /**
+   * Add the correct text decoration in Edge, IE, Opera, and Safari.
+   */
+  /**
+   * Add the correct font weight in Chrome, Edge, and Safari.
+   */
+  /**
+   * 1. Use the default monospace user interface font
+   *    in all browsers (opinionated).
+   * 2. Correct the odd \`em\` font sizing in all browsers.
+   */
+  /*
+   * Remove the text shadow on text selections in Firefox 61- (opinionated).
+   * 1. Restore the coloring undone by defining the text shadow
+   *    in all browsers (opinionated).
+   */
+  /* Embedded content
+   */
+  /*
+   * Change the alignment on media elements in all browers (opinionated).
+   */
+  /**
+   * Add the correct display in IE 9-.
+   */
+  /**
+   * Add the correct display in iOS 4-7.
+   */
+  /**
+   * Remove the border on images inside links in IE 10-.
+   */
+  /**
+   * Change the fill color to match the text color in all browsers (opinionated).
+   */
+  /**
+   * Hide the overflow in IE.
+   */
+  /* Tabular data
+   */
+  /**
+   * Collapse border spacing in all browsers (opinionated).
+   */
+  /* Forms
+   */
+  /**
+   * Inherit styling in all browsers (opinionated).
+   */
+  /**
+   * Remove the margin in Safari.
+   */
+  /**
+   * 1. Show the overflow in IE.
+   * 2. Remove the inheritance of text transform in Edge, Firefox, and IE.
+   */
+  /**
+   * Correct the inability to style clickable types in iOS and Safari.
+   */
+  /**
+   * Correct the padding in Firefox.
+   */
+  /**
+   * Show the overflow in Edge and IE.
+   */
+  /**
+   * 1. Correct the text wrapping in Edge and IE.
+   * 2. Correct the color inheritance from \`fieldset\` elements in IE.
+   */
+  /**
+   * 1. Add the correct display in Edge and IE.
+   * 2. Add the correct vertical alignment in Chrome, Firefox, and Opera.
+   */
+  /**
+   * Remove the inheritance of text transform in Firefox.
+   */
+  /**
+   * 1. Remove the margin in Firefox and Safari.
+   * 2. Remove the default vertical scrollbar in IE.
+   * 3. Change the resize direction on textareas in all browsers (opinionated).
+   */
+  /**
+   * Remove the padding in IE 10-.
+   */
+  /**
+   * 1. Correct the odd appearance in Chrome and Safari.
+   * 2. Correct the outline style in Safari.
+   */
+  /**
+   * Correct the cursor style of increment and decrement buttons in Safari.
+   */
+  /**
+   * Correct the text style of placeholders in Chrome, Edge, and Safari.
+   */
+  /**
+   * Remove the inner padding in Chrome and Safari on macOS.
+   */
+  /**
+   * 1. Correct the inability to style clickable types in iOS and Safari.
+   * 2. Change font properties to \`inherit\` in Safari.
+   */
+  /**
+   * Remove the inner border and padding of focus outlines in Firefox.
+   */
+  /**
+   * Restore the focus outline styles unset by the previous rule in Firefox.
+   */
+  /* Interactive
+   */
+  /*
+   * Add the correct display in Edge and IE.
+   */
+  /*
+   * Add the correct display in all browsers.
+   */
+  /* Scripting
+   */
+  /**
+   * Add the correct display in IE 9-.
+   */
+  /**
+   * Add the correct display in IE.
+   */
+  /* User interaction
+   */
+  /*
+   * 1. Remove the tapping delay in IE 10.
+   * 2. Remove the tapping delay on clickable elements
+        in all browsers (opinionated).
+   */
+  /**
+   * Add the correct display in IE 10-.
+   */
+  /* Accessibility
+   */
+  /**
+   * Change the cursor on busy elements in all browsers (opinionated).
+   */
+  /*
+   * Change the cursor on control elements in all browsers (opinionated).
+   */
+  /*
+   * Change the cursor on disabled, not-editable, or otherwise
+   * inoperable elements in all browsers (opinionated).
+   */
+  /*
+   * Change the display on visually hidden accessible elements
+   * in all browsers (opinionated).
+   */
   font-family: sans-serif;
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
@@ -610,15 +790,187 @@ exports[`Modal scss have to match snapshot 1`] = `
   font-feature-settings: \\"lnum\\";
   font-size: 1em;
   line-height: 1.5em; }
-  .dnb-button ::before,
-  .dnb-button ::after {
-    text-decoration: inherit;
-    vertical-align: inherit; }
   .dnb-button *,
   .dnb-button ::before,
   .dnb-button ::after {
     background-repeat: no-repeat;
-    box-sizing: border-box; }
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-button ::before,
+  .dnb-button ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+  .dnb-button hr {
+    height: 0;
+    /* 1 */
+    overflow: visible;
+    /* 2 */ }
+  .dnb-button main {
+    display: block; }
+  .dnb-button nav ol,
+  .dnb-button nav ul {
+    list-style: none; }
+  .dnb-button pre {
+    font-family: Menlo, Consolas, Roboto Mono, Ubuntu Monospace, Noto Mono, Oxygen Mono, Liberation Mono, monospace;
+    /* 1 */
+    font-size: 1em;
+    /* 2 */ }
+  .dnb-button a {
+    background-color: transparent; }
+  .dnb-button abbr[title] {
+    text-decoration: underline;
+    text-decoration: underline dotted; }
+  .dnb-button b,
+  .dnb-button strong {
+    font-weight: bolder; }
+  .dnb-button code,
+  .dnb-button kbd,
+  .dnb-button samp {
+    font-family: Menlo, Consolas, Roboto Mono, Ubuntu Monospace, Noto Mono, Oxygen Mono, Liberation Mono, monospace;
+    /* 1 */
+    font-size: 1em;
+    /* 2 */ }
+  .dnb-button ::-moz-selection {
+    background-color: #b3d4fc;
+    /* 1 */
+    color: #000;
+    /* 1 */
+    text-shadow: none; }
+  .dnb-button audio,
+  .dnb-button canvas,
+  .dnb-button iframe,
+  .dnb-button img,
+  .dnb-button svg,
+  .dnb-button video {
+    vertical-align: middle; }
+  .dnb-button audio,
+  .dnb-button video {
+    display: inline-block; }
+  .dnb-button audio:not([controls]) {
+    display: none;
+    height: 0; }
+  .dnb-button img {
+    border-style: none; }
+  .dnb-button svg:not([fill]) {
+    fill: currentColor; }
+  .dnb-button svg:not(:root) {
+    overflow: hidden; }
+  .dnb-button table {
+    border-collapse: collapse; }
+  .dnb-button button,
+  .dnb-button input,
+  .dnb-button select,
+  .dnb-button textarea {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit; }
+  .dnb-button button,
+  .dnb-button input,
+  .dnb-button select {
+    margin: 0; }
+  .dnb-button button {
+    overflow: visible;
+    /* 1 */
+    text-transform: none;
+    /* 2 */ }
+  .dnb-button button,
+  .dnb-button [type='button'],
+  .dnb-button [type='reset'],
+  .dnb-button [type='submit'] {
+    -webkit-appearance: button; }
+  .dnb-button fieldset {
+    padding: 0.35rem 0.75rem 0.625rem; }
+  .dnb-button input {
+    overflow: visible; }
+  .dnb-button legend {
+    color: inherit;
+    /* 2 */
+    display: table;
+    /* 1 */
+    max-width: 100%;
+    /* 1 */
+    white-space: normal;
+    /* 1 */ }
+  .dnb-button progress {
+    display: inline-block;
+    /* 1 */
+    vertical-align: baseline;
+    /* 2 */ }
+  .dnb-button select {
+    text-transform: none; }
+  .dnb-button textarea {
+    margin: 0;
+    /* 1 */
+    overflow: auto;
+    /* 2 */
+    resize: vertical;
+    /* 3 */ }
+  .dnb-button [type='checkbox'],
+  .dnb-button [type='radio'] {
+    padding: 0; }
+  .dnb-button [type='search'] {
+    -webkit-appearance: textfield;
+    /* 1 */
+    outline-offset: -2px;
+    /* 2 */ }
+  .dnb-button ::-webkit-inner-spin-button,
+  .dnb-button ::-webkit-outer-spin-button {
+    height: auto; }
+  .dnb-button ::-webkit-input-placeholder {
+    color: inherit;
+    opacity: 0.54; }
+  .dnb-button ::-webkit-search-decoration {
+    -webkit-appearance: none; }
+  .dnb-button ::-webkit-file-upload-button {
+    -webkit-appearance: button;
+    /* 1 */
+    font: inherit;
+    /* 2 */ }
+  .dnb-button ::-moz-focus-inner {
+    border-style: none;
+    padding: 0; }
+  .dnb-button :-moz-focusring {
+    outline: 1px dotted ButtonText; }
+  .dnb-button details {
+    display: block; }
+  .dnb-button summary {
+    display: list-item; }
+  .dnb-button canvas {
+    display: inline-block; }
+  .dnb-button template {
+    display: none; }
+  .dnb-button a,
+  .dnb-button area,
+  .dnb-button button,
+  .dnb-button input,
+  .dnb-button label,
+  .dnb-button select,
+  .dnb-button summary,
+  .dnb-button textarea,
+  .dnb-button [tabindex] {
+    -ms-touch-action: manipulation;
+    /* 1 */
+    touch-action: manipulation;
+    /* 2 */ }
+  .dnb-button [hidden] {
+    display: none; }
+  .dnb-button [aria-busy='true'] {
+    cursor: progress; }
+  .dnb-button [aria-controls] {
+    cursor: pointer; }
+  .dnb-button [aria-disabled='true'],
+  .dnb-button [disabled] {
+    cursor: not-allowed; }
+  .dnb-button [aria-hidden='false'][hidden]:not(:focus) {
+    clip: rect(0, 0, 0, 0);
+    display: inherit;
+    position: absolute; }
+  @media print {
+    .dnb-button {
+      background-color: white; } }
   .dnb-button button {
     overflow: visible;
     text-transform: none; }
@@ -771,8 +1123,7 @@ exports[`Modal scss have to match snapshot 1`] = `
     border: none; }
 
 a.dnb-button {
-  -webkit-appearance: none;
-  box-shadow: none; }
+  -webkit-appearance: none; }
   a.dnb-button .dnb-button__icon {
     transform: translateY(0); }
   a.dnb-button .dnb-button__text {
@@ -789,6 +1140,182 @@ a.dnb-button {
     border-radius: var(--button-border-radius); }
 
 .dnb-modal {
+  /**
+   * 1. Remove repeating backgrounds in all browsers (opinionated).
+   * 2. Add border box sizing in all browsers (opinionated).
+   */
+  /**
+   * 1. Add text decoration inheritance in all browsers (opinionated).
+   * 2. Add vertical alignment inheritance in all browsers (opinionated).
+   */
+  /* Grouping content
+   */
+  /**
+   * 1. Add the correct sizing in Firefox.
+   * 2. Show the overflow in Edge and IE.
+   */
+  /**
+   * Add the correct display in IE.
+   */
+  /**
+   * Remove the list style on navigation lists in all browsers (opinionated).
+   */
+  /**
+   * 1. Use the default monospace user interface font
+   *    in all browsers (opinionated).
+   * 2. Correct the odd \`em\` font sizing in all browsers.
+   */
+  /* Text-level semantics
+   */
+  /**
+   * Remove the gray background on active links in IE 10.
+   */
+  /**
+   * Add the correct text decoration in Edge, IE, Opera, and Safari.
+   */
+  /**
+   * Add the correct font weight in Chrome, Edge, and Safari.
+   */
+  /**
+   * 1. Use the default monospace user interface font
+   *    in all browsers (opinionated).
+   * 2. Correct the odd \`em\` font sizing in all browsers.
+   */
+  /*
+   * Remove the text shadow on text selections in Firefox 61- (opinionated).
+   * 1. Restore the coloring undone by defining the text shadow
+   *    in all browsers (opinionated).
+   */
+  /* Embedded content
+   */
+  /*
+   * Change the alignment on media elements in all browers (opinionated).
+   */
+  /**
+   * Add the correct display in IE 9-.
+   */
+  /**
+   * Add the correct display in iOS 4-7.
+   */
+  /**
+   * Remove the border on images inside links in IE 10-.
+   */
+  /**
+   * Change the fill color to match the text color in all browsers (opinionated).
+   */
+  /**
+   * Hide the overflow in IE.
+   */
+  /* Tabular data
+   */
+  /**
+   * Collapse border spacing in all browsers (opinionated).
+   */
+  /* Forms
+   */
+  /**
+   * Inherit styling in all browsers (opinionated).
+   */
+  /**
+   * Remove the margin in Safari.
+   */
+  /**
+   * 1. Show the overflow in IE.
+   * 2. Remove the inheritance of text transform in Edge, Firefox, and IE.
+   */
+  /**
+   * Correct the inability to style clickable types in iOS and Safari.
+   */
+  /**
+   * Correct the padding in Firefox.
+   */
+  /**
+   * Show the overflow in Edge and IE.
+   */
+  /**
+   * 1. Correct the text wrapping in Edge and IE.
+   * 2. Correct the color inheritance from \`fieldset\` elements in IE.
+   */
+  /**
+   * 1. Add the correct display in Edge and IE.
+   * 2. Add the correct vertical alignment in Chrome, Firefox, and Opera.
+   */
+  /**
+   * Remove the inheritance of text transform in Firefox.
+   */
+  /**
+   * 1. Remove the margin in Firefox and Safari.
+   * 2. Remove the default vertical scrollbar in IE.
+   * 3. Change the resize direction on textareas in all browsers (opinionated).
+   */
+  /**
+   * Remove the padding in IE 10-.
+   */
+  /**
+   * 1. Correct the odd appearance in Chrome and Safari.
+   * 2. Correct the outline style in Safari.
+   */
+  /**
+   * Correct the cursor style of increment and decrement buttons in Safari.
+   */
+  /**
+   * Correct the text style of placeholders in Chrome, Edge, and Safari.
+   */
+  /**
+   * Remove the inner padding in Chrome and Safari on macOS.
+   */
+  /**
+   * 1. Correct the inability to style clickable types in iOS and Safari.
+   * 2. Change font properties to \`inherit\` in Safari.
+   */
+  /**
+   * Remove the inner border and padding of focus outlines in Firefox.
+   */
+  /**
+   * Restore the focus outline styles unset by the previous rule in Firefox.
+   */
+  /* Interactive
+   */
+  /*
+   * Add the correct display in Edge and IE.
+   */
+  /*
+   * Add the correct display in all browsers.
+   */
+  /* Scripting
+   */
+  /**
+   * Add the correct display in IE 9-.
+   */
+  /**
+   * Add the correct display in IE.
+   */
+  /* User interaction
+   */
+  /*
+   * 1. Remove the tapping delay in IE 10.
+   * 2. Remove the tapping delay on clickable elements
+        in all browsers (opinionated).
+   */
+  /**
+   * Add the correct display in IE 10-.
+   */
+  /* Accessibility
+   */
+  /**
+   * Change the cursor on busy elements in all browsers (opinionated).
+   */
+  /*
+   * Change the cursor on control elements in all browsers (opinionated).
+   */
+  /*
+   * Change the cursor on disabled, not-editable, or otherwise
+   * inoperable elements in all browsers (opinionated).
+   */
+  /*
+   * Change the display on visually hidden accessible elements
+   * in all browsers (opinionated).
+   */
   font-family: sans-serif;
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
@@ -800,15 +1327,187 @@ a.dnb-button {
   font-feature-settings: \\"lnum\\";
   font-size: 1em;
   line-height: 1.5em; }
-  .dnb-modal ::before,
-  .dnb-modal ::after {
-    text-decoration: inherit;
-    vertical-align: inherit; }
   .dnb-modal *,
   .dnb-modal ::before,
   .dnb-modal ::after {
     background-repeat: no-repeat;
-    box-sizing: border-box; }
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-modal ::before,
+  .dnb-modal ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+  .dnb-modal hr {
+    height: 0;
+    /* 1 */
+    overflow: visible;
+    /* 2 */ }
+  .dnb-modal main {
+    display: block; }
+  .dnb-modal nav ol,
+  .dnb-modal nav ul {
+    list-style: none; }
+  .dnb-modal pre {
+    font-family: Menlo, Consolas, Roboto Mono, Ubuntu Monospace, Noto Mono, Oxygen Mono, Liberation Mono, monospace;
+    /* 1 */
+    font-size: 1em;
+    /* 2 */ }
+  .dnb-modal a {
+    background-color: transparent; }
+  .dnb-modal abbr[title] {
+    text-decoration: underline;
+    text-decoration: underline dotted; }
+  .dnb-modal b,
+  .dnb-modal strong {
+    font-weight: bolder; }
+  .dnb-modal code,
+  .dnb-modal kbd,
+  .dnb-modal samp {
+    font-family: Menlo, Consolas, Roboto Mono, Ubuntu Monospace, Noto Mono, Oxygen Mono, Liberation Mono, monospace;
+    /* 1 */
+    font-size: 1em;
+    /* 2 */ }
+  .dnb-modal ::-moz-selection {
+    background-color: #b3d4fc;
+    /* 1 */
+    color: #000;
+    /* 1 */
+    text-shadow: none; }
+  .dnb-modal audio,
+  .dnb-modal canvas,
+  .dnb-modal iframe,
+  .dnb-modal img,
+  .dnb-modal svg,
+  .dnb-modal video {
+    vertical-align: middle; }
+  .dnb-modal audio,
+  .dnb-modal video {
+    display: inline-block; }
+  .dnb-modal audio:not([controls]) {
+    display: none;
+    height: 0; }
+  .dnb-modal img {
+    border-style: none; }
+  .dnb-modal svg:not([fill]) {
+    fill: currentColor; }
+  .dnb-modal svg:not(:root) {
+    overflow: hidden; }
+  .dnb-modal table {
+    border-collapse: collapse; }
+  .dnb-modal button,
+  .dnb-modal input,
+  .dnb-modal select,
+  .dnb-modal textarea {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit; }
+  .dnb-modal button,
+  .dnb-modal input,
+  .dnb-modal select {
+    margin: 0; }
+  .dnb-modal button {
+    overflow: visible;
+    /* 1 */
+    text-transform: none;
+    /* 2 */ }
+  .dnb-modal button,
+  .dnb-modal [type='button'],
+  .dnb-modal [type='reset'],
+  .dnb-modal [type='submit'] {
+    -webkit-appearance: button; }
+  .dnb-modal fieldset {
+    padding: 0.35rem 0.75rem 0.625rem; }
+  .dnb-modal input {
+    overflow: visible; }
+  .dnb-modal legend {
+    color: inherit;
+    /* 2 */
+    display: table;
+    /* 1 */
+    max-width: 100%;
+    /* 1 */
+    white-space: normal;
+    /* 1 */ }
+  .dnb-modal progress {
+    display: inline-block;
+    /* 1 */
+    vertical-align: baseline;
+    /* 2 */ }
+  .dnb-modal select {
+    text-transform: none; }
+  .dnb-modal textarea {
+    margin: 0;
+    /* 1 */
+    overflow: auto;
+    /* 2 */
+    resize: vertical;
+    /* 3 */ }
+  .dnb-modal [type='checkbox'],
+  .dnb-modal [type='radio'] {
+    padding: 0; }
+  .dnb-modal [type='search'] {
+    -webkit-appearance: textfield;
+    /* 1 */
+    outline-offset: -2px;
+    /* 2 */ }
+  .dnb-modal ::-webkit-inner-spin-button,
+  .dnb-modal ::-webkit-outer-spin-button {
+    height: auto; }
+  .dnb-modal ::-webkit-input-placeholder {
+    color: inherit;
+    opacity: 0.54; }
+  .dnb-modal ::-webkit-search-decoration {
+    -webkit-appearance: none; }
+  .dnb-modal ::-webkit-file-upload-button {
+    -webkit-appearance: button;
+    /* 1 */
+    font: inherit;
+    /* 2 */ }
+  .dnb-modal ::-moz-focus-inner {
+    border-style: none;
+    padding: 0; }
+  .dnb-modal :-moz-focusring {
+    outline: 1px dotted ButtonText; }
+  .dnb-modal details {
+    display: block; }
+  .dnb-modal summary {
+    display: list-item; }
+  .dnb-modal canvas {
+    display: inline-block; }
+  .dnb-modal template {
+    display: none; }
+  .dnb-modal a,
+  .dnb-modal area,
+  .dnb-modal button,
+  .dnb-modal input,
+  .dnb-modal label,
+  .dnb-modal select,
+  .dnb-modal summary,
+  .dnb-modal textarea,
+  .dnb-modal [tabindex] {
+    -ms-touch-action: manipulation;
+    /* 1 */
+    touch-action: manipulation;
+    /* 2 */ }
+  .dnb-modal [hidden] {
+    display: none; }
+  .dnb-modal [aria-busy='true'] {
+    cursor: progress; }
+  .dnb-modal [aria-controls] {
+    cursor: pointer; }
+  .dnb-modal [aria-disabled='true'],
+  .dnb-modal [disabled] {
+    cursor: not-allowed; }
+  .dnb-modal [aria-hidden='false'][hidden]:not(:focus) {
+    clip: rect(0, 0, 0, 0);
+    display: inherit;
+    position: absolute; }
+  @media print {
+    .dnb-modal {
+      background-color: white; } }
 
 /*
  * Modal component

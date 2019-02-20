@@ -5,6 +5,7 @@
 
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
+import classnames from 'classnames'
 import { StaticQuery, graphql } from 'gatsby'
 import { css } from '@emotion/core'
 import styled from '@emotion/styled'
@@ -151,7 +152,11 @@ export default class StickyMenuBar extends PureComponent {
                   css={[
                     hideSiebarToggleButton && hideSiebarToggleButtonStyle
                   ]}
-                  className="sticky-menu dev-grid"
+                  className={classnames(
+                    // 'dnb-core-style',
+                    'sticky-menu',
+                    'dev-grid'
+                  )}
                 >
                   <BarInner>
                     <MainMenuToggleButton />

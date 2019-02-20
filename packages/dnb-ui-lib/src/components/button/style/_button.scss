@@ -210,7 +210,6 @@
 // make sure we style an Anchor like a button
 a.dnb-button {
   -webkit-appearance: none; // because we have "appearance: button" in reset.scss
-  box-shadow: none;
 
   // some correction
   .dnb-button__icon {
