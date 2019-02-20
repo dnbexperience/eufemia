@@ -193,15 +193,15 @@ exports[`Slider scss have to match snapshot 1`] = `
   font-feature-settings: \\"lnum\\";
   font-size: 1em;
   line-height: 1.5em; }
+  .dnb-slider ::before,
+  .dnb-slider ::after {
+    text-decoration: inherit;
+    vertical-align: inherit; }
   .dnb-slider *,
   .dnb-slider ::before,
   .dnb-slider ::after {
     background-repeat: no-repeat;
     box-sizing: border-box; }
-  .dnb-slider ::before,
-  .dnb-slider ::after {
-    text-decoration: inherit;
-    vertical-align: inherit; }
 
 /*
 * Slider component

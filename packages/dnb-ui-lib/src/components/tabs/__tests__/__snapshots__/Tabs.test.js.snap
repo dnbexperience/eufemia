@@ -394,15 +394,15 @@ exports[`Tabs scss have to match snapshot 1`] = `
   font-feature-settings: \\"lnum\\";
   font-size: 1em;
   line-height: 1.5em; }
+  .dnb-tabs ::before,
+  .dnb-tabs ::after {
+    text-decoration: inherit;
+    vertical-align: inherit; }
   .dnb-tabs *,
   .dnb-tabs ::before,
   .dnb-tabs ::after {
     background-repeat: no-repeat;
     box-sizing: border-box; }
-  .dnb-tabs ::before,
-  .dnb-tabs ::after {
-    text-decoration: inherit;
-    vertical-align: inherit; }
 
 /*
  * Tabs component
