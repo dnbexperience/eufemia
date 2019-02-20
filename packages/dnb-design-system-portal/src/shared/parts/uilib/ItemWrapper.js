@@ -206,9 +206,9 @@ class ItemWrapper extends PureComponent {
     return (
       <div className="wrapped-item">
         {!hideTabs ? (
-          <h1>{title}</h1>
+          <h1 className="dnb-h1">{title}</h1>
         ) : (
-          <h4>
+          <h4 className="dnb-h4">
             <Link to={`/uilib/components/${id}`} className="dnb-anchor">
               {title}
             </Link>
