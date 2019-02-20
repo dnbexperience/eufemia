@@ -11,6 +11,8 @@ exports[`Input component have to match type="search" snapshot 1`] = `
   >
     <input
       aria-describedby="id-description"
+      attributes="attributes"
+      autoComplete="off"
       className="dnb-input__input input_class"
       id="id"
       name="id"
@@ -56,6 +58,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
       title="submit_button_title"
       type="search"
       value="test"
+      wrapper_attributes={Object {}}
     >
       children
     </Submit>
@@ -85,6 +88,7 @@ exports[`Input component have to match type="text" snapshot 1`] = `
   >
     <input
       aria-describedby="id-description"
+      attributes="attributes"
       autoComplete="off"
       className="dnb-input__input input_class"
       id="id"
@@ -131,6 +135,7 @@ exports[`Input component have to match type="text" snapshot 1`] = `
       title="submit_button_title"
       type="text"
       value="test"
+      wrapper_attributes={Object {}}
     >
       children
     </Submit>
