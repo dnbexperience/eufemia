@@ -66,7 +66,7 @@ class Example extends PureComponent {
 <Input
   label="Search:"
   type="search"
-  search_button_title="Search"
+  submit_button_title="Search"
   placeholder="Search text placeholder"
   on_change={handleInputChange}
 />

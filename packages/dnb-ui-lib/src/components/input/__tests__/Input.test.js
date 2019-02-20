@@ -118,7 +118,7 @@ describe('Input component', () => {
     Button.simulate('focus')
     expect(
       Comp.find('Submit')
-        .find('.dnb-input__search-submit')
+        .find('.dnb-input__submit-button')
         .prop('data-input-state')
     ).toBe('focus')
   })

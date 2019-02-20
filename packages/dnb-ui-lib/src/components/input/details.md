@@ -9,7 +9,7 @@
 | `input_class`         | _(optional)_ in case we have to set a custom input class.                                                                                                        |
 | `type`                | _(optional)_ choose between `text`, `number`, `email`, `password`, `url`, `tel` and `search`.                                                                    |
 | `autocomplete`        | _(optional)_ defaults to `off`. Set to `on` or any of [allowed `attributes`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-autocomplete). |
-| `search_button_title` | _(optional)_ title attribute for the search icon. Only relevant if search input                                                                                  |
+| `submit_button_title` | _(optional)_ title attribute for the search icon. Only relevant if search input                                                                                  |
 | `description`         | _(optional)_ text describing the content of the input more than the label.                                                                                       |
 | `size`                | _(optional)_ at the moment `large` is the only available variant. Leave blank if you want a standard size input.                                                 |
 | `attributes`          | _(optional)_ insert any other attributes. For example `disabled` or any other custom attributes.                                                                 |
