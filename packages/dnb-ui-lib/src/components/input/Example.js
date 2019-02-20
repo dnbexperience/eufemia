@@ -48,6 +48,16 @@ class Example extends PureComponent {
   handleInputChange = ({ value }) => {
     console.log(value)
   }
+  state = { showTestData: false }
+  componentDidMount() {
+    const showTestData = typeof window !== 'undefined' && window.IS_TEST
+    this.setState({ showTestData })
+  }
+  showTestData(state) {
+    return this.state.showTestData
+      ? `wrapper_attributes={{'data-dnb-test': "input-${state}"}}`
+      : ''
+  }
   render() {
     const handleInputChange = this.handleInputChange
     return (
@@ -55,7 +65,9 @@ class Example extends PureComponent {
         <ComponentBox caption="Placeholder text">
           {/* @jsx */ `
 <FormLabel for_id="text-input-1" text="Label:" />
-<Input id="text-input-1" placeholder="Placeholder text" />
+<Input id="text-input-1" placeholder="Placeholder text" ${this.showTestData(
+            'placeholder'
+          )} />
           `}
         </ComponentBox>
         <ComponentBox
@@ -69,6 +81,7 @@ class Example extends PureComponent {
   submit_button_title="Search"
   placeholder="Search text placeholder"
   on_change={handleInputChange}
+  ${this.showTestData('search')}
 />
           `}
         </ComponentBox>
@@ -106,6 +119,7 @@ class Example extends PureComponent {
   disabled
   id="text-input-disabled"
   placeholder="Disabled Input with a placeholder"
+  ${this.showTestData('disabled')}
 />
           `}
         </ComponentBox>

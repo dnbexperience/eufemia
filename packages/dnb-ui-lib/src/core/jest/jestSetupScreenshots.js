@@ -33,6 +33,7 @@ module.exports.testPageScreenshot = ({
   padding = true,
   text = null,
   simulate = null,
+  simulateSelector = null,
   transformElement = null
 } = {}) =>
   new Promise(async (resolve, reject) => {
@@ -113,13 +114,18 @@ module.exports.testPageScreenshot = ({
         await transformElement(element)
       }
 
+      let elementToSimulate = element
+      if (simulateSelector) {
+        elementToSimulate = await page.$(simulateSelector)
+      }
+
       let delay = 0
 
       if (simulate) {
         switch (simulate) {
           case 'hover':
             {
-              await element.hover()
+              await elementToSimulate.hover()
             }
             break
 
@@ -127,7 +133,7 @@ module.exports.testPageScreenshot = ({
             {
               // make a delayed click, no await. Else we get only a release state
               delay = 500
-              element.click({
+              elementToSimulate.click({
                 delay // move the mouse
               })
             }
@@ -135,8 +141,8 @@ module.exports.testPageScreenshot = ({
 
           case 'focus':
             {
-              await element.press('Tab') // to simulate pressing tab key before focus
-              await element.focus()
+              await elementToSimulate.press('Tab') // to simulate pressing tab key before focus
+              await elementToSimulate.focus()
             }
             break
         }

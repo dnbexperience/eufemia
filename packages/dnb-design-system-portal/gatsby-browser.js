@@ -28,6 +28,16 @@ export const disableCorePrefetching = () => false
 // scroll to top on route change
 export const shouldUpdateScroll = () => true
 
+export const onPreRouteUpdate = ({ location }) => {
+  if (
+    location &&
+    location.search.split(/\?|&/).includes('data-dnb-test')
+  ) {
+    if (typeof window !== 'undefined') {
+      window.IS_TEST = true
+    }
+  }
+}
 export const onRouteUpdate = ({ prevLocation }) => {
   // in order to use our own focus management by using applyPageFocus
   // we have to disable the focus management from Reach Router
