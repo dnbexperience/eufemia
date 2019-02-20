@@ -148,56 +148,6 @@ $focusRingColor: var(--color-emerald-green);
   box-shadow: 0 0 0 $width $first-color, $second;
 }
 
-@mixin _drawUnderline() {
-  content: '';
-  position: absolute;
-  z-index: -1;
-  left: 0.1rem;
-  right: 0.1rem;
-
-  width: auto;
-  height: 100%;
-
-  @content;
-}
-
-// NB: This one is currently not in use
-@mixin drawUnderlineBackground() {
-  // bg
-  &::before {
-    @include _drawUnderline() {
-      left: 0.1rem;
-      right: 0.1rem;
-      bottom: 0;
-
-      max-height: 0%;
-      transition: max-height 0.1s ease-out;
-
-      // to make the transition show reverse, we have to define the color here
-      background-color: var(--color-mint-green-50);
-
-      @content;
-    }
-  }
-}
-
-@mixin drawUnderlineBorder() {
-  // border
-  &::after {
-    @include _drawUnderline() {
-      left: 0.05rem;
-      right: 0.05rem;
-      bottom: 0;
-      height: 1px;
-    }
-
-    border-radius: 0.5px;
-    border-bottom: 1px solid var(--color-sea-green);
-
-    @content;
-  }
-}
-
 $breakpoints: (
   'small': 40em,
   'medium': 50em,
