@@ -3,6 +3,8 @@
  *
  */
 
+import { applyPageFocus } from 'dnb-ui-lib/src/shared/tools'
+
 // Load dev styles (to use hot reloading, we do have to import the styles in here)
 if (process.env.NODE_ENV === 'development') {
   require('dnb-ui-lib/src/style/core') // import the core styles
@@ -19,11 +21,26 @@ if (process.env.NODE_ENV !== 'development') {
   require('dnb-ui-lib/style') // import both all components and the default ui theme
 }
 
-const { applyPageFocus } = require('dnb-ui-lib/src/shared/tools')
+// enable prefetching
+export const disableCorePrefetching = () => false
 
-exports.disableCorePrefetching = () => false
+// scroll to top on route change
+export const shouldUpdateScroll = () => true
 
-exports.onRouteUpdate = ({ prevLocation }) => {
+export const onRouteUpdate = ({ prevLocation }) => {
+  // in order to use our own focus management by using applyPageFocus
+  // we have to disable the focus management from Reach Router
+  // More info: why we have to have the tabindex https://reach.tech/router/accessibility
+  // More info: The div is necessary to manage focus https://github.com/reach/router/issues/63#issuecomment-395988602
+  try {
+    const elem = document.querySelector('div[role="group"][tabindex="-1"]')
+    if (elem) {
+      elem.removeAttribute('tabindex')
+    }
+  } catch (e) {
+    console.log(e)
+  }
+
   // if previous location is not null
   // witch means that this was an page change/switch
   //  then we apply the page content focus for accissibility
