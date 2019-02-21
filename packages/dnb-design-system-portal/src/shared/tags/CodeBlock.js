@@ -161,6 +161,12 @@ class LiveCode extends PureComponent {
               {caption && <p className="example-caption">{caption}</p>}
             </div>
           )}
+          {!hideCode && (
+            <LiveEditor className="dnb-pre" language="jsx" ignoreTabKey />
+          )}
+          {!hideCode && (
+            <LiveError className="dnb-form-status dnb-form-status--text dnb-form-status--error" />
+          )}
           {!hideToolbar && (
             <Toolbar>
               {!hideCode && (
@@ -197,12 +203,6 @@ class LiveCode extends PureComponent {
                 />
               )}
             </Toolbar>
-          )}
-          {!hideCode && (
-            <LiveEditor className="dnb-pre" language="jsx" ignoreTabKey />
-          )}
-          {!hideCode && (
-            <LiveError className="dnb-form-status dnb-form-status--text dnb-form-status--error" />
           )}
           {showSyntax && (
             <Syntax>
