@@ -90,7 +90,7 @@ export default class FormStatus extends PureComponent {
           iconToLoad = 'exclamation'
       }
 
-      icon = <IconPrimary icon={iconToLoad} size={icon_size} />
+      icon = <IconPrimary aria-hidden icon={iconToLoad} size={icon_size} />
     }
 
     return icon
