@@ -223,6 +223,7 @@ export default class Input extends PureComponent {
       id: _id /* eslint-disable-line */,
       children /* eslint-disable-line */,
       value /* eslint-disable-line */,
+      inputElement /* eslint-disable-line */,
 
       wrapper_attributes,
 
