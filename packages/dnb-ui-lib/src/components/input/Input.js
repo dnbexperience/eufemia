@@ -231,6 +231,7 @@ export default class Input extends PureComponent {
     } = this.props
 
     const id = this._id
+    const showStatus = status && status !== 'error'
 
     const classes = classnames(
       'dnb-input',
@@ -263,8 +264,10 @@ export default class Input extends PureComponent {
     // also used for code markup simulation
     validateDOMAttributes(this.props, inputParams)
 
-    if (description) {
-      inputParams['aria-describedby'] = id + '-description'
+    if (showStatus) {
+      inputParams['aria-details'] = id + '-status'
+    } else if (description) {
+      inputParams['aria-details'] = id + '-description'
     }
     if (type === 'search') {
       inputParams.autoComplete = 'off'
@@ -283,7 +286,12 @@ export default class Input extends PureComponent {
     return (
       <span className={classes}>
         {label && (
-          <FormLabel for_id={id} text={label} disabled={disabled} />
+          <FormLabel
+            aria-hidden
+            for_id={id}
+            text={label}
+            disabled={disabled}
+          />
         )}
 
         <span className="dnb-input__shell" {...shellParams}>
@@ -303,6 +311,7 @@ export default class Input extends PureComponent {
 
           {placeholder && (
             <span
+              aria-hidden
               className={classnames(
                 'dnb-input__placeholder',
                 align ? `dnb-input__align--${align}` : null
@@ -322,10 +331,11 @@ export default class Input extends PureComponent {
           </span>
         )}
 
-        {status && status !== 'error' && (
+        {showStatus && (
           <FormStatus
             text={status}
             status={status_state}
+            text_id={id + '-status'} // used for "aria-describedby"
             animation={status_animation}
           />
         )}
