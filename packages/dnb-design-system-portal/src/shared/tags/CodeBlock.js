@@ -123,7 +123,9 @@ class LiveCode extends PureComponent {
       // remove test attribute only if: we run live, and are not not test
       (typeof window !== 'undefined' && !window.IS_TEST)
     ) {
-      code = code.replace(/\s+data-dnb-test="[^"]*"/g, '')
+      code = code
+        .replace(/\s+data-dnb-test="[^"]*"/g, '') // remove test data
+        .replace(/^\s*[\r\n]/gm, '') // remove empty lines
     }
     return code
   }
