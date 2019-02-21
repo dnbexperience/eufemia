@@ -121,13 +121,11 @@ class LiveCode extends PureComponent {
     if (
       /data-dnb-test/.test(code) &&
       // remove test attribute only if: we run live, and are not not test
-      (typeof window !== 'undefined' &&
-        !(
-          window.location &&
-          window.location.search.split(/\?|&/).includes('data-dnb-test')
-        ))
+      (typeof window !== 'undefined' && !window.IS_TEST)
     ) {
-      code = code.replace(/\s+data-dnb-test="[^"]*"/g, '')
+      code = code
+        .replace(/\s+data-dnb-test="[^"]*"/g, '') // remove test data
+        .replace(/^\s*$(?:\r\n?|\n)/gm, '') // remove empty lines
     }
     return code
   }
@@ -165,6 +163,12 @@ class LiveCode extends PureComponent {
               {caption && <p className="example-caption">{caption}</p>}
             </div>
           )}
+          {!hideCode && (
+            <LiveEditor className="dnb-pre" language="jsx" ignoreTabKey />
+          )}
+          {!hideCode && (
+            <LiveError className="dnb-form-status dnb-form-status--text dnb-form-status--error" />
+          )}
           {!hideToolbar && (
             <Toolbar>
               {!hideCode && (
@@ -201,12 +205,6 @@ class LiveCode extends PureComponent {
                 />
               )}
             </Toolbar>
-          )}
-          {!hideCode && (
-            <LiveEditor className="dnb-pre" language="jsx" ignoreTabKey />
-          )}
-          {!hideCode && (
-            <LiveError className="dnb-form-status dnb-form-status--text dnb-form-status--error" />
           )}
           {showSyntax && (
             <Syntax>

@@ -123,6 +123,21 @@ stories.push([
       </Box>
       <Box>
         <Input
+          label="Search:"
+          type="search"
+          submit_button_title="Search"
+          placeholder="Search text placeholder"
+        />
+        <Input
+          disabled
+          label="Search:"
+          type="search"
+          submit_button_title="Search"
+          placeholder="Search text placeholder"
+        />
+      </Box>
+      <Box>
+        <Input
           label="Input with Status:"
           status="Message to the user"
           value="Input value with status"

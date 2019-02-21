@@ -33,6 +33,7 @@ module.exports.testPageScreenshot = ({
   padding = true,
   text = null,
   simulate = null,
+  simulateSelector = null,
   transformElement = null
 } = {}) =>
   new Promise(async (resolve, reject) => {
@@ -116,10 +117,15 @@ module.exports.testPageScreenshot = ({
       let delay = 0
 
       if (simulate) {
+        let elementToSimulate = element
+        if (simulateSelector) {
+          elementToSimulate = await page.$(simulateSelector)
+        }
+
         switch (simulate) {
           case 'hover':
             {
-              await element.hover()
+              await elementToSimulate.hover()
             }
             break
 
@@ -127,7 +133,7 @@ module.exports.testPageScreenshot = ({
             {
               // make a delayed click, no await. Else we get only a release state
               delay = 500
-              element.click({
+              elementToSimulate.click({
                 delay // move the mouse
               })
             }
@@ -135,14 +141,16 @@ module.exports.testPageScreenshot = ({
 
           case 'focus':
             {
-              await element.press('Tab') // to simulate pressing tab key before focus
-              await element.focus()
+              await screenshotElement.press('Tab') // to simulate pressing tab key before focus
+              await elementToSimulate.focus()
             }
             break
         }
+        elementToSimulate = null
       }
 
       const screenshot = await screenshotElement.screenshot()
+      screenshotElement = null
 
       // just to make sure we dont resolve, before the delayed click happened
       // so the next interation on the same url will have a reset state
@@ -151,7 +159,7 @@ module.exports.testPageScreenshot = ({
       }
 
       if (!config.headless) {
-        await page.waitFor(1e3)
+        await page.waitFor(10e3)
       }
 
       resolve(screenshot)
