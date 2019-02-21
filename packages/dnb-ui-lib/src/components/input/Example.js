@@ -155,7 +155,6 @@ class Example extends PureComponent {
   autocomplete="on"
   placeholder="Placeholder text"
   description="Additional description"
-  ref={this._ref}
   on_change={handleInputChange}
 />
           `}
@@ -172,7 +171,6 @@ class Example extends PureComponent {
   status="Numbers are ligned by using Proportional Lining"
   status_state="info"
   status_animation="fade-in"
-  ref={this._ref}
   on_change={handleInputChange}
 >
   This is the value 1234567890
