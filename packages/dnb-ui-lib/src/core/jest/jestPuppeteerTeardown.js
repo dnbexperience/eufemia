@@ -36,10 +36,11 @@ module.exports = async function() {
     )
     if (fs.existsSync(reportPath)) {
       const branchName = await getCurrentBranchName()
+      const file = `./reports/${branchName}-jest-screenshot-report.tgz`
       await tar.create(
         {
           gzip: true,
-          file: `./reports/${branchName}-jest-screenshot-report.tgz`
+          file
         },
         ['./jest-screenshot-report']
       )
@@ -47,8 +48,8 @@ module.exports = async function() {
         skipCI: true,
         requiredBranch: ['develop', 'rc/*'],
         what: 'reports',
-        filePathsWhitelist: ['jest-screenshot-report.tgz'],
-        isNotAFeature: ['jest-screenshot-report.tgz']
+        filePathsWhitelist: [file],
+        isNotAFeature: [file]
       })
     }
   }

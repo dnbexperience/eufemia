@@ -36,37 +36,4 @@ describe('Input screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
-  // it('have to match "dnb-input--primary"', async () => {
-  //   const screenshot = await testPageScreenshot({
-  //     selector: '[data-dnb-test="input-primary"]'
-  //   })
-  //   expect(screenshot).toMatchImageSnapshot()
-  // })
-  // it('have to match "dnb-input--primary" with hover state', async () => {
-  //   const screenshot = await testPageScreenshot({
-  //     selector: '[data-dnb-test="input-primary"]',
-  //     simulate: 'hover'
-  //   })
-  //   expect(screenshot).toMatchImageSnapshot()
-  // })
-  // it('have to match "dnb-input--primary" with active state', async () => {
-  //   const screenshot = await testPageScreenshot({
-  //     selector: '[data-dnb-test="input-primary"]',
-  //     simulate: 'active'
-  //   })
-  //   expect(screenshot).toMatchImageSnapshot()
-  // })
-  // it('have to match "dnb-input--primary" with focus state', async () => {
-  //   const screenshot = await testPageScreenshot({
-  //     selector: '[data-dnb-test="input-primary"]',
-  //     simulate: 'focus'
-  //   })
-  //   expect(screenshot).toMatchImageSnapshot()
-  // })
-  // it('have to match primary input with href', async () => {
-  //   const screenshot = await testPageScreenshot({
-  //     selector: '[data-dnb-test="input-anchor"]'
-  //   })
-  //   expect(screenshot).toMatchImageSnapshot()
-  // })
 })
