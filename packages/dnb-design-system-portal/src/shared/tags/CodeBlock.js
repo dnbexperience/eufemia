@@ -125,7 +125,7 @@ class LiveCode extends PureComponent {
     ) {
       code = code
         .replace(/\s+data-dnb-test="[^"]*"/g, '') // remove test data
-        .replace(/^\s*[\r\n]/gm, '') // remove empty lines
+        .replace(/^\s*$(?:\r\n?|\n)/gm, '') // remove empty lines
     }
     return code
   }
