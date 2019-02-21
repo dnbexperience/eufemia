@@ -26,7 +26,8 @@ const props = {
 }
 props.autocomplete = 'off'
 props.label = null
-props.status = null
+props.status = null // to make sure we don't get aria-details
+props.description = null // to make sure we don't get aria-details
 props.type = 'text'
 
 describe('Input component', () => {

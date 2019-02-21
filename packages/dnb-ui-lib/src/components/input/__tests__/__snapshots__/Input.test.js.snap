@@ -10,7 +10,6 @@ exports[`Input component have to match type="search" snapshot 1`] = `
     data-input-state="virgin"
   >
     <input
-      aria-describedby="id-description"
       attributes="attributes"
       autoComplete="off"
       className="dnb-input__input input_class"
@@ -31,7 +30,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
       className="className"
       custom_element={Object {}}
       custom_method={[Function]}
-      description="description"
+      description={null}
       disabled={false}
       icon="submit_button_icon"
       icon_size="medium"
@@ -63,16 +62,11 @@ exports[`Input component have to match type="search" snapshot 1`] = `
       children
     </Submit>
     <span
+      aria-hidden={true}
       className="dnb-input__placeholder dnb-input__align--align"
     >
       placeholder
     </span>
-  </span>
-  <span
-    className="dnb-input__description"
-    id="id-description"
-  >
-    description
   </span>
 </span>
 `;
@@ -87,7 +81,6 @@ exports[`Input component have to match type="text" snapshot 1`] = `
     data-input-state="virgin"
   >
     <input
-      aria-describedby="id-description"
       attributes="attributes"
       autoComplete="off"
       className="dnb-input__input input_class"
@@ -108,7 +101,7 @@ exports[`Input component have to match type="text" snapshot 1`] = `
       className="className"
       custom_element={Object {}}
       custom_method={[Function]}
-      description="description"
+      description={null}
       disabled={false}
       icon="submit_button_icon"
       icon_size="medium"
@@ -140,16 +133,11 @@ exports[`Input component have to match type="text" snapshot 1`] = `
       children
     </Submit>
     <span
+      aria-hidden={true}
       className="dnb-input__placeholder dnb-input__align--align"
     >
       placeholder
     </span>
-  </span>
-  <span
-    className="dnb-input__description"
-    id="id-description"
-  >
-    description
   </span>
 </span>
 `;
