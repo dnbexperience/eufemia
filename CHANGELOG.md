@@ -1,10 +1,12 @@
-## February, 20. 2019
+## February, 21. 2019
 
 **Changes to the default styles**
 
 - Anchor (Text Link): Has now white background color on focus state
 - Tables how now always a bottom border
-- Button got a new look
+- Button got a new look for all states
+- Input got a new look for all states
+- Dropdown got a new look for all states
 
 **UI library**
 
