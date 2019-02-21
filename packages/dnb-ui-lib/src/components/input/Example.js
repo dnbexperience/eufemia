@@ -48,6 +48,9 @@ class Example extends PureComponent {
   handleInputChange = ({ value }) => {
     console.log(value)
   }
+  handleInputSubmit = ({ value }) => {
+    console.log('Submit:', value)
+  }
   state = { showTestData: false }
   componentDidMount() {
     const showTestData = typeof window !== 'undefined' && window.IS_TEST
@@ -60,28 +63,30 @@ class Example extends PureComponent {
   }
   render() {
     const handleInputChange = this.handleInputChange
+    const handleInputSubmit = this.handleInputSubmit
     return (
       <Fragment>
         <ComponentBox caption="Placeholder text">
           {/* @jsx */ `
 <FormLabel for_id="text-input-1" text="Label:" />
-<Input id="text-input-1" placeholder="Placeholder text" ${this.showTestData(
-            'placeholder'
-          )} />
+<Input ${this.showTestData('placeholder')}
+  id="text-input-1"
+  placeholder="Placeholder text"
+/>
           `}
         </ComponentBox>
         <ComponentBox
-          scope={{ handleInputChange }}
+          scope={{ handleInputChange, handleInputSubmit }}
           caption="Search text placeholder"
         >
           {/* @jsx */ `
-<Input
+<Input ${this.showTestData('search')}
   label="Search:"
   type="search"
   submit_button_title="Search"
   placeholder="Search text placeholder"
   on_change={handleInputChange}
-  ${this.showTestData('search')}
+  on_submit={handleInputSubmit}
 />
           `}
         </ComponentBox>
@@ -100,26 +105,25 @@ class Example extends PureComponent {
         </ComponentBox>
         <ComponentBox
           scope={{ handleInputChange }}
-          caption="Large input with right align"
+          caption="Large input with right aligned text"
         >
           {/* @jsx */ `
 <Input
   label="Large input:"
   size="large"
   align="right"
-  placeholder="Large input with right align"
+  placeholder="Large input with right aligned text"
   on_change={handleInputChange}
 />
           `}
         </ComponentBox>
         <ComponentBox caption="Disabled input">
           {/* @jsx */ `
-<Input
-  label="Disabled input:"
+<Input ${this.showTestData('disabled')}
   disabled
+  label="Disabled input:"
   id="text-input-disabled"
   placeholder="Disabled Input with a placeholder"
-  ${this.showTestData('disabled')}
 />
           `}
         </ComponentBox>
@@ -143,6 +147,21 @@ class Example extends PureComponent {
         </ComponentBox>
         <ComponentBox
           scope={{ handleInputChange }}
+          caption="Input wigth additional description"
+        >
+          {/* @jsx */ `
+<Input
+  label="Short Label:"
+  autocomplete="on"
+  placeholder="Placeholder text"
+  description="Additional description"
+  ref={this._ref}
+  on_change={handleInputChange}
+/>
+          `}
+        </ComponentBox>
+        <ComponentBox
+          scope={{ handleInputChange }}
           caption="Numbers are ligned by using Proportional Lining"
         >
           {/* @jsx */ `
@@ -150,7 +169,6 @@ class Example extends PureComponent {
   label="My Status:"
   autocomplete="on"
   placeholder="Placeholder text"
-  description="After info"
   status="Numbers are ligned by using Proportional Lining"
   status_state="info"
   status_animation="fade-in"
