@@ -6,16 +6,26 @@
 @import '../../../../style/themes/imports.scss';
 
 :root {
+  --input-text-color: var(--color-sea-green);
+  --input-text-color--focus: var(--color-emerald-green);
+  --input-text-color--active: var(--color-emerald-green);
+  --input-text-color--disabled: var(--color-sea-green-alt-30);
+  --input-background-color: var(--color-white);
+  --input-background-color--focus: var(--color-white);
+  --input-background-color--active: var(--color-white);
+  --input-background-color--disabled: var(--color-mint-green-12);
   --input-border-color: var(--color-sea-green-alt);
+  --input-border-color--focus: var(--color-emerald-green);
+  --input-border-color--active: var(--color-sea-green-alt);
   --input-border-color--disabled: var(--color-sea-green-alt-30);
-  --input-border-color--active: var(--color-emerald-green);
 }
 
 .dnb-input {
-  color: var(--color-emerald-green);
+  color: var(--input-text-color);
 
   &__shell {
-    background-color: var(--color-mint-green-12);
+    // background-color: var(--color-mint-green-12);
+    background-color: var(--color-white);
     border: var(--input-border-width) solid var(--input-border-color);
 
     &:not([data-input-state='disabled']) {
@@ -26,25 +36,32 @@
 
     // Background color of input when it has content
     &[data-has-content='true'] {
-      background-color: var(--color-white);
+      color: var(--input-text-color--active);
+      border-color: var(--input-border-color--active);
+      background-color: var(--input-background-color--active);
     }
 
     &[data-input-state='disabled'] {
-      color: var(--color-sea-green-alt-30);
+      color: var(--input-text-color--disabled);
       border-color: var(--input-border-color--disabled);
+      background-color: var(--input-background-color--disabled);
     }
 
+    &:not([data-input-state='disabled']):hover,
     &[data-input-state='focus'] {
-      background-color: var(--color-white);
-      border-color: var(--input-border-color--active);
-      @include fakeBorder(var(--input-border-color--active), 2px);
+      color: var(--input-text-color--focus);
+      border-color: var(--input-border-color--focus);
+      background-color: var(--input-background-color--focus);
+      @include fakeBorder(var(--input-border-color--focus), 2px);
     }
   }
 
   // with status_state = "error"
+  /* stylelint-disable-next-line */
   &__status--error &__shell {
     border-color: var(--color-cherry-red);
 
+    /* stylelint-disable-next-line */
     &,
     &[data-input-state='focus'] {
       // In case we want to have a larger border size on the input
@@ -52,14 +69,17 @@
     }
   }
 
-  &__placeholder {
-    color: var(--color-sea-green);
+  ::selection {
+    background-color: var(--color-mint-green);
+    color: var(--input-text-color--focus);
+    text-shadow: none;
   }
 
   // Adjusting opacity of placeholder when:
   // 1: input is in focus and 2. input has no content
   &__shell[data-input-state='focus'][data-has-content='false']
     .dnb-input__placeholder {
+    transition: color 100ms ease-out;
     color: var(--color-sea-green-alt-30);
   }
 }

@@ -28,6 +28,7 @@ export const propTypes = {
   icon_size: PropTypes.string,
   status: PropTypes.oneOf(['error', 'info']),
   hidden: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  text_id: PropTypes.string,
   class: PropTypes.string,
   animation: PropTypes.string,
 
@@ -50,6 +51,7 @@ export const defaultProps = {
   icon_size: 'default',
   status: 'error',
   hidden: false,
+  text_id: null,
   class: null,
   animation: null, // could be 'fade-in'
 
@@ -90,7 +92,7 @@ export default class FormStatus extends PureComponent {
           iconToLoad = 'exclamation'
       }
 
-      icon = <IconPrimary icon={iconToLoad} size={icon_size} />
+      icon = <IconPrimary aria-hidden icon={iconToLoad} size={icon_size} />
     }
 
     return icon
@@ -103,7 +105,13 @@ export default class FormStatus extends PureComponent {
       hidden,
       className,
       animation,
-      class: _className
+      class: _className,
+      text_id,
+      text /* eslint-disable-line */,
+      icon /* eslint-disable-line */,
+      icon_size /* eslint-disable-line */,
+      children /* eslint-disable-line */,
+      ...attributes
     } = this.props
 
     const iconToRender = FormStatus.getIcon(this.props)
@@ -121,7 +129,13 @@ export default class FormStatus extends PureComponent {
         className,
         _className
       ),
-      title
+      title,
+
+      ...attributes
+    }
+    const textParams = {
+      className: 'dnb-form-status--text',
+      id: text_id
     }
 
     if (hidden) {
@@ -133,11 +147,12 @@ export default class FormStatus extends PureComponent {
 
     // also used for code markup simulation
     validateDOMAttributes(this.props, params)
+    validateDOMAttributes(null, textParams)
 
     return (
       <span {...params}>
         {iconToRender}
-        <span className="dnb-form-status--text">{contentToRender}</span>
+        <span {...textParams}>{contentToRender}</span>
       </span>
     )
   }

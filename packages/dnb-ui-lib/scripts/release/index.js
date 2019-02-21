@@ -18,27 +18,7 @@ const semanicRelease = async () => {
     const stdoutBuffer = new WritableStreamBuffer()
     const stderrBuffer = new WritableStreamBuffer()
     const result = await semanticRelease(
-      {
-        plugins: [
-          [
-            '@semantic-release/release-notes-generator',
-            {
-              preset: 'angular',
-              parserOpts: {
-                noteKeywords: [
-                  'BREAKING CHANGE',
-                  'BREAKING CHANGES',
-                  'BREAKING',
-                  'break:'
-                ]
-              },
-              writerOpts: {
-                commitsSort: ['subject', 'scope']
-              }
-            }
-          ]
-        ]
-      },
+      {},
       {
         // Store stdout and stderr to use later instead of writing to `process.stdout` and `process.stderr`
         stdout: stdoutBuffer,

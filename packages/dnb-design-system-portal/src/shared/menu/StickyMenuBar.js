@@ -17,7 +17,7 @@ import { MainMenuToggleButton } from './ToggleMainMenu'
 import { SidebarMenuConsumer } from './SidebarMenuContext'
 import ToggleGrid from './ToggleGrid'
 
-const BarWrapper = styled.div`
+const BarWrapper = styled.header`
   position: fixed;
   z-index: 200;
   top: 0;

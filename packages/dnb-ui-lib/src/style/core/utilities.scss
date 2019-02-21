@@ -30,7 +30,7 @@
 //Uses .no-touch and .touch
 //classes on <body> element
 //based on js touch device test
-@mixin hover($nested) {
+@mixin hover($nested: true) {
   @if $nested {
     .no-touch & {
       &:hover {
@@ -55,7 +55,7 @@
     }
   }
 }
-@mixin active($nested) {
+@mixin active($nested: true) {
   @if $nested {
     .no-touch & {
       &:active {
@@ -80,7 +80,7 @@
     }
   }
 }
-@mixin focus($nested) {
+@mixin focus($nested: true) {
   @if $nested {
     .no-touch & {
       &:focus {

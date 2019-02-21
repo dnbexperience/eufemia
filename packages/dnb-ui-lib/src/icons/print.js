@@ -35,7 +35,7 @@ const print = props => (
       strokeLinejoin="round"
     />
     <path
-      d="M5.924 11.592h5.152M5.924 13.652H9.53"
+      d="M5.924 11.592h5.152m-5.152 2.06H9.53"
       stroke="#000"
       strokeWidth={1.2}
       strokeLinecap="round"

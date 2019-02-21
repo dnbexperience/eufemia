@@ -6,7 +6,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import { DefaultIconSize } from '../icon'
 import Button from '../button/Button'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
@@ -37,7 +36,7 @@ export const propTypes = {
   status_state: PropTypes.string,
   status_animation: PropTypes.string,
   autocomplete: PropTypes.oneOf(['on', 'off']),
-  search_button_title: PropTypes.string,
+  submit_button_title: PropTypes.string,
   placeholder: PropTypes.string,
   description: PropTypes.string,
   align: PropTypes.string,
@@ -45,6 +44,14 @@ export const propTypes = {
   class: PropTypes.string,
   input_class: PropTypes.string,
   attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  wrapper_attributes: PropTypes.object,
+
+  // Submit button
+  submit_button_icon: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.node,
+    PropTypes.func
+  ]),
 
   // React props
   className: PropTypes.string,
@@ -76,7 +83,6 @@ export const defaultProps = {
   status_state: 'error',
   status_animation: null,
   autocomplete: 'off',
-  search_button_title: '',
   placeholder: null,
   description: null,
   align: null,
@@ -84,6 +90,11 @@ export const defaultProps = {
   input_class: null,
   class: null,
   attributes: null,
+  wrapper_attributes: null,
+
+  // Submit button
+  submit_button_title: null,
+  submit_button_icon: 'search',
 
   // React props
   className: null,
@@ -201,24 +212,35 @@ export default class Input extends PureComponent {
       placeholder,
       description,
       align,
-      input_class
+      input_class,
+      submit_button_title,
+      submit_button_icon,
+      on_submit,
+      autocomplete,
+      class: _className,
+      className,
+
+      id: _id /* eslint-disable-line */,
+      children /* eslint-disable-line */,
+      value /* eslint-disable-line */,
+      inputElement /* eslint-disable-line */,
+
+      wrapper_attributes,
+
+      ...attributes
     } = this.props
 
-    let { autocomplete } = this.props
-    if (type === 'search') {
-      autocomplete = null
-    }
     const id = this._id
+    const showStatus = status && status !== 'error'
 
     const classes = classnames(
       'dnb-input',
       `dnb-input--${type}`, //type_modifier
       size ? 'dnb-input--' + size : '',
-      type === 'search' ? 'dnb-input__input--search' : null,
       align ? `dnb-input__align--${align}` : null,
       status ? `dnb-input__status--${status_state}` : null,
-      this.props.class,
-      this.props.className
+      _className,
+      className
     )
 
     const { inputElement: Elem, ...renderProps } = this.renderProps
@@ -230,32 +252,46 @@ export default class Input extends PureComponent {
       value: this.state.value || '',
       type,
       id,
-      // align,
       disabled,
       name: id,
       onChange: this.onChangeHandler,
       onKeyDown: this.onKeyDownHandler,
       onFocus: this.onFocusHandler,
-      onBlur: this.onBlurHandler
+      onBlur: this.onBlurHandler,
+      ...attributes
     }
 
     // also used for code markup simulation
     validateDOMAttributes(this.props, inputParams)
 
-    if (description) {
-      inputParams['aria-describedby'] = id + '-description'
+    if (showStatus) {
+      inputParams['aria-details'] = id + '-status'
+    } else if (description) {
+      inputParams['aria-details'] = id + '-description'
+    }
+    if (type === 'search') {
+      inputParams.autoComplete = 'off'
     }
 
     const shellParams = {
       'data-input-state': this.state.inputState,
       'data-has-content':
-        String(this.state.value || '').length > 0 ? 'true' : 'false'
+        String(this.state.value || '').length > 0 ? 'true' : 'false',
+      ...wrapper_attributes
+    }
+    if (wrapper_attributes && typeof wrapper_attributes === 'object') {
+      Object.assign(shellParams, wrapper_attributes)
     }
 
     return (
       <span className={classes}>
         {label && (
-          <FormLabel for_id={id} text={label} disabled={disabled} />
+          <FormLabel
+            aria-hidden
+            for_id={id}
+            text={label}
+            disabled={disabled}
+          />
         )}
 
         <span className="dnb-input__shell" {...shellParams}>
@@ -264,16 +300,18 @@ export default class Input extends PureComponent {
               <Elem innerRef={this._ref} {...inputParams} />
             ) : null) || <input ref={this._ref} {...inputParams} />)}
 
-          {type === 'search' && (
+          {(on_submit || type === 'search') && (
             <Submit
               {...this.props}
               value={inputParams.value}
-              title={this.props.search_button_title}
+              icon={submit_button_icon}
+              title={submit_button_title}
             />
           )}
 
           {placeholder && (
             <span
+              aria-hidden
               className={classnames(
                 'dnb-input__placeholder',
                 align ? `dnb-input__align--${align}` : null
@@ -293,10 +331,11 @@ export default class Input extends PureComponent {
           </span>
         )}
 
-        {status && status !== 'error' && (
+        {showStatus && (
           <FormStatus
             text={status}
             status={status_state}
+            text_id={id + '-status'} // used for "aria-describedby"
             animation={status_animation}
           />
         )}
@@ -307,8 +346,14 @@ export default class Input extends PureComponent {
 
 class Submit extends PureComponent {
   static propTypes = {
-    title: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    icon: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.node,
+      PropTypes.func
+    ]),
     icon_size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 
     // React props
@@ -324,7 +369,9 @@ class Submit extends PureComponent {
 
   static defaultProps = {
     title: null,
-    icon_size: DefaultIconSize,
+    disabled: false,
+    icon: 'search',
+    icon_size: 'medium',
 
     // React props
     onSubmit: null,
@@ -358,10 +405,12 @@ class Submit extends PureComponent {
     dispatchCustomElementEvent(this, 'on_submit', { value, event })
   }
   render() {
-    const { title } = this.props
+    const { title, disabled, icon, icon_size } = this.props
+
     const params = {
       type: 'submit',
-      title
+      title,
+      disabled
     }
 
     // also used for code markup simulation
@@ -369,14 +418,14 @@ class Submit extends PureComponent {
 
     return (
       <span
-        className="dnb-input__search-submit"
+        className="dnb-input__submit-button"
         data-input-state={this.state.focusState}
       >
         <Button
-          className="dnb-input__search-submit__button"
+          className="dnb-input__submit-button__button"
           variant="secondary"
-          icon="search"
-          size="medium"
+          icon={icon}
+          size={icon_size}
           onClick={this.onSubmitHandler}
           onFocus={this.onFocusHandler}
           onBlur={this.onBlurHandler}

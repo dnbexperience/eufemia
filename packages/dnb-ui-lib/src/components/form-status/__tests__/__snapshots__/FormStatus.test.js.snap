@@ -11,6 +11,7 @@ exports[`FormStatus component have to match snapshot 1`] = `
   render_content={[Function]}
   status="error"
   text="text"
+  text_id="text_id"
   title="title"
 >
   <span
@@ -21,6 +22,7 @@ exports[`FormStatus component have to match snapshot 1`] = `
   >
     <IconPrimary
       alt={null}
+      aria-hidden={true}
       attributes={null}
       class={null}
       className={null}
@@ -34,7 +36,7 @@ exports[`FormStatus component have to match snapshot 1`] = `
     >
       <span
         alt="exclamation"
-        aria-label="exclamation"
+        aria-hidden={true}
         className="dnb-icon"
         role="img"
       >
@@ -57,6 +59,7 @@ exports[`FormStatus component have to match snapshot 1`] = `
     </IconPrimary>
     <span
       className="dnb-form-status--text"
+      id="text_id"
     >
       text
     </span>

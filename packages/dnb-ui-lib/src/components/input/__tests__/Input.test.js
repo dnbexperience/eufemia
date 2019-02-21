@@ -26,7 +26,8 @@ const props = {
 }
 props.autocomplete = 'off'
 props.label = null
-props.status = null
+props.status = null // to make sure we don't get aria-details
+props.description = null // to make sure we don't get aria-details
 props.type = 'text'
 
 describe('Input component', () => {
@@ -118,7 +119,7 @@ describe('Input component', () => {
     Button.simulate('focus')
     expect(
       Comp.find('Submit')
-        .find('.dnb-input__search-submit')
+        .find('.dnb-input__submit-button')
         .prop('data-input-state')
     ).toBe('focus')
   })
