@@ -35,12 +35,13 @@ module.exports = async function() {
       './jest-screenshot-report'
     )
     if (fs.existsSync(reportPath)) {
-      const branchName = await getCurrentBranchName()
-      const file = `./reports/${branchName}-jest-screenshot-report.tgz`
+      const branchName = (await getCurrentBranchName()).replace(/\//g, '-')
+      const file = `${branchName}-jest-screenshot-report.tgz`
+      const filePath = path.resolve(packpath.self(), `./reports/${file}`)
       await tar.create(
         {
           gzip: true,
-          file
+          file: filePath
         },
         ['./jest-screenshot-report']
       )

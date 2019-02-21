@@ -29,11 +29,12 @@ module.exports.testPageScreenshot = ({
   url = null,
   page = global.__PAGE__,
   selector,
-  style = true,
+  style = null,
   padding = true,
   text = null,
   simulate = null,
   simulateSelector = null,
+  wrapperStyle = null,
   transformElement = null
 } = {}) =>
   new Promise(async (resolve, reject) => {
@@ -85,7 +86,9 @@ module.exports.testPageScreenshot = ({
 
               background: 'white',
 
-              height: `${height + 32}px` // because we use "inline-block" - we have to make the height absolute
+              height: `${height + 32}px`, // because we use "inline-block" - we have to make the height absolute
+
+              ...(wrapperStyle ? wrapperStyle : {})
             })
           }
         )
