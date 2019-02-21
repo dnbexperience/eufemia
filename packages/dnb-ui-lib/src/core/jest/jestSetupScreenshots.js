@@ -114,14 +114,14 @@ module.exports.testPageScreenshot = ({
         await transformElement(element)
       }
 
-      let elementToSimulate = element
-      if (simulateSelector) {
-        elementToSimulate = await page.$(simulateSelector)
-      }
-
       let delay = 0
 
       if (simulate) {
+        let elementToSimulate = element
+        if (simulateSelector) {
+          elementToSimulate = await page.$(simulateSelector)
+        }
+
         switch (simulate) {
           case 'hover':
             {
@@ -141,14 +141,16 @@ module.exports.testPageScreenshot = ({
 
           case 'focus':
             {
-              await elementToSimulate.press('Tab') // to simulate pressing tab key before focus
+              await screenshotElement.press('Tab') // to simulate pressing tab key before focus
               await elementToSimulate.focus()
             }
             break
         }
+        elementToSimulate = null
       }
 
       const screenshot = await screenshotElement.screenshot()
+      screenshotElement = null
 
       // just to make sure we dont resolve, before the delayed click happened
       // so the next interation on the same url will have a reset state
@@ -157,7 +159,7 @@ module.exports.testPageScreenshot = ({
       }
 
       if (!config.headless) {
-        await page.waitFor(1e3)
+        await page.waitFor(10e3)
       }
 
       resolve(screenshot)
