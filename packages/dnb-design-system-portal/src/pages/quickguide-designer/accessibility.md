@@ -6,8 +6,6 @@ icon: 'accessibility'
 
 # Accessibility, Inclusivness and WCAG
 
-#### Principles
-
 Accessibility affects all users, not just those with stereotypical disabilities. The extra work that may be required to ensure good accessibility in DNB applications and services will be worth it.
 
 Remember - test for accessibility early in the design process.
@@ -21,7 +19,7 @@ The four main tenets of the WCAG 2.1 are:
 - Understandable
 - Robust
 
-#### Perceivable
+### Perceivable
 
 Perceivable content must be readable.
 
@@ -41,7 +39,7 @@ Avoid fixed pixel sizes - use relative sizing.
 
 Never put important text as part of an image.
 
-#### Operable
+### Operable
 
 All users should be able to get to all the pages and forms.
 
@@ -62,7 +60,7 @@ Keyboard shortcuts can increase task efficiency.
 
 Forms, navigation and other essential components and actions should work on older browsers and devices. Styling comes second to content and accessibility.
 
-#### Understandable
+### Understandable
 
 Contents' intended meaning is easily understandable.
 
@@ -74,7 +72,7 @@ This especially applies to use of icons and symbols. What may be obvious to a de
 
 Back up icons and symbols with clear labels, captions or subtitles.
 
-#### Robustness
+### Robustness
 
 Make content accessible from a wide variety of devices.
 
