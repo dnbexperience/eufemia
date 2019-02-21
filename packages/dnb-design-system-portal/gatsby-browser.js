@@ -37,6 +37,7 @@ export const onRouteUpdate = ({ prevLocation }) => {
     const elem = document.querySelector('div[role="group"][tabindex="-1"]')
     if (elem) {
       elem.removeAttribute('tabindex')
+      elem.removeAttribute('role')
     }
   } catch (e) {
     console.log(e)

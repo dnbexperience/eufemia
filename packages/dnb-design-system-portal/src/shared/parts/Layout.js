@@ -123,7 +123,7 @@ Content.defaultProps = {
   className: null
 }
 
-const ContentWrapper = styled.main`
+const ContentWrapper = styled.div`
   position: relative;
   z-index: 2; /* heigher than styled.aside */
 
@@ -173,7 +173,7 @@ const ContentWrapper = styled.main`
   }
 `
 
-const ContentInner = styled.div`
+const ContentInner = styled.main`
   width: 100%;
   padding: 0 2rem;
 `
