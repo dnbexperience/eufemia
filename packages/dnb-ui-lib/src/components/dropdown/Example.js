@@ -4,7 +4,7 @@
  */
 
 import React, { PureComponent, Fragment } from 'react'
-import Dropdown from './Dropdown'
+import ComponentBox from '../../../../dnb-design-system-portal/src/shared/tags/ComponentBox'
 import styled from '@emotion/styled'
 
 class Example extends PureComponent {
@@ -26,43 +26,49 @@ class Example extends PureComponent {
   render() {
     return (
       <Fragment>
-        <div className="example-box">
-          <Dropdown data={data} selected_item={2} />
-          <p className="example-caption">Default dropdown</p>
-        </div>
-
-        <div className="example-box">
-          <Dropdown
-            icon_position="left"
-            data={data}
-            selected_item={3}
-            onChange={(e, data) => {
-              console.log('onChange', e, data)
-            }}
-            onShow={() => {
-              console.log('onShow')
-            }}
-            attributes={{
-              'data-fake:on_change': 'Example.onChangeHandler()',
-              'data-fake:on_state_update': 'Example.onStateUpdateHandler()'
-            }}
-          />
-          <p className="example-caption">Default dropdown</p>
-        </div>
-
-        <div className="example-box">
-          <Dropdown disabled data={['Disabled Dropdown']} />
-          <p className="example-caption">Disabled dropdown</p>
-        </div>
+        <ComponentBox caption="Default dropdown" scope={{ data }}>
+          {/* @jsx */ `
+<Dropdown data={data} selected_item={2} label="Label:" />
+          `}
+        </ComponentBox>
+        <ComponentBox
+          caption="Default dropdown, icon on left side"
+          scope={{ data }}
+        >
+          {/* @jsx */ `
+<FormLabel for_id="text-dropdown-1" text="Label:" />
+<Dropdown
+  icon_position="left"
+  data={data}
+  selected_item={3}
+  on_change={(e, data) => {
+    console.log('on_change', e, data)
+  }}
+  on_show={() => {
+    console.log('on_show')
+  }}
+  id="text-dropdown-1"
+/>
+          `}
+        </ComponentBox>
+        <ComponentBox caption="Disabled dropdown" scope={{ data }}>
+          {/* @jsx */ `
+<Dropdown disabled id="text-dropdown-3" data={['Disabled Dropdown']} label="Label:" />
+          `}
+        </ComponentBox>
+        <ComponentBox caption="Dropdown with status" scope={{ data }}>
+          {/* @jsx */ `
+<Dropdown id="text-dropdown-3" data={['Disabled Dropdown']} label="Label:" status="Message to the user" />
+          `}
+        </ComponentBox>
       </Fragment>
     )
   }
 }
 
 const Wrapper = styled.div`
-  .dnb-dropdown {
-    display: block;
-    margin: 0.5rem 0;
+  .dnb-form-label {
+    margin-right: 1rem;
   }
 `
 
