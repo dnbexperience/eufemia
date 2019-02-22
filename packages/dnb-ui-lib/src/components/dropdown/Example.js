@@ -16,9 +16,6 @@ class Example extends PureComponent {
       </Fragment>
     )
   }
-  static on_change = (e, data) => {
-    console.log('on_change', e, data)
-  }
   render() {
     return (
       <Fragment>
