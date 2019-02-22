@@ -4,10 +4,26 @@
  *
  */
 
+@mixin defaultMargin() {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+}
+
 // styles styles are effected within the scope of ".dnb-spacing"
 // we also check if there is a class starting with "dnb-*"
 // this is to make sure we don't effect these styles inside of components
 .dnb-spacing {
+  h1,
+  .dnb-core-style h1,
+  .dnb-h1 {
+    margin: 3rem 0 2.5rem;
+  }
+  h2,
+  .dnb-core-style h2,
+  .dnb-h2 {
+    margin: 3rem 0 1rem;
+  }
+
   h3,
   h4,
   h5,
@@ -24,44 +40,46 @@
     margin: 2rem 0 1rem;
   }
 
-  h1,
-  .dnb-core-style h1,
-  .dnb-h1 {
-    margin: 3rem 0 2.5rem;
-  }
-  h2,
-  .dnb-core-style h2,
-  .dnb-h2 {
-    margin: 3rem 0 1rem;
+  p,
+  .dnb-p,
+  .dnb-core-style p,
+  .dnb-blockquote,
+  blockquote,
+  .dnb-pre,
+  pre {
+    @include defaultMargin();
   }
 
-  .dnb-p,
-  .dnb-ul,
-  .dnb-ol,
-  .dnb-dl,
-  .dnb-blockquote,
-  p,
-  .dnb-core-style p,
-  .dnb-pre,
+  blockquote p:last-child,
+  .dnb-blockquote p:last-child {
+    margin-bottom: 0;
+  }
+
+  .dnb-hr,
+  hr {
+    margin-bottom: 1rem;
+  }
+
+  // *:not([class^='dnb-']) > {
   ul,
   ol,
-  dl,
-  blockquote,
-  pre {
-    margin-top: 0;
-    margin-bottom: 1.5rem;
-  }
-
-  ul li,
-  ol li,
-  .dnb-ul li,
-  .dnb-ol li {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    /* stylelint-disable-next-line */
-    & > p {
+  .dnb-ul,
+  .dnb-ol {
+    @include defaultMargin();
+    & > li {
       margin-top: 1rem;
+      margin-bottom: 1rem;
+
+      /* stylelint-disable-next-line */
+      & > p {
+        margin-top: 1rem;
+      }
     }
+  }
+  // }
+  .dnb-dl,
+  dl {
+    @include defaultMargin();
   }
   dl dt,
   .dnb-dl dt {
@@ -83,16 +101,6 @@
       margin-top: 0;
       margin-bottom: 0;
     }
-  }
-
-  blockquote p:last-child,
-  .dnb-blockquote p:last-child {
-    margin-bottom: 0;
-  }
-
-  .dnb-hr,
-  hr {
-    margin-bottom: 1rem;
   }
 
   .dnb-section.dnb-section--content {

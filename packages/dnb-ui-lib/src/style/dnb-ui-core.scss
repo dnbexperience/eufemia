@@ -10,6 +10,9 @@
 @import './core/fonts.scss';
 @import './core/helper-classes.scss';
 
+// make sure we load the spacings after we have defined the defaults of the elements
+@import './core/spacing.scss';
+
 @include globalReset();
 
 // Global body style
