@@ -298,10 +298,10 @@ stories.push([
     <CustomStyle>
       <Wrapper>
         <Box>
-          <Dropdown data={data} selected_item={3} label="Label:" />
+          <Dropdown data={dropdownData} selected_item={3} label="Label:" />
         </Box>
         <Box>
-          <Dropdown data={data} selected_item={3} disabled />
+          <Dropdown data={dropdownData} selected_item={3} disabled />
           <p>
             Eros semper blandit tellus mollis primis quisque platea
             sollicitudin ipsum
@@ -309,7 +309,7 @@ stories.push([
         </Box>
         <Box>
           <Dropdown
-            data={data}
+            data={dropdownData}
             selected_item={3}
             status="Message to the user"
           />
@@ -321,7 +321,7 @@ stories.push([
         <Box>
           <FormLabel for_id="text-dropdown-1" text="Label:" />
           <Dropdown
-            data={data}
+            data={dropdownData}
             id="text-dropdown-1"
             icon_position="left"
             selected_item={2}
@@ -358,7 +358,7 @@ const showMe = e => {
   console.log('showMe', e)
 }
 
-const data = [
+const dropdownData = [
   {
     selected_value: 'Brukskonto - Kari Nordmann',
     // outside_value: '1234.56.78901',

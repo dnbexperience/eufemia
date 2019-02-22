@@ -50,12 +50,12 @@ class Example extends PureComponent {
         </ComponentBox>
         <ComponentBox caption="Disabled dropdown" scope={{ data }}>
           {/* @jsx */ `
-<Dropdown disabled id="text-dropdown-3" data={['Disabled Dropdown']} label="Label:" />
+<Dropdown disabled data={['Disabled Dropdown']} label="Label:" />
           `}
         </ComponentBox>
         <ComponentBox caption="Dropdown with status" scope={{ data }}>
           {/* @jsx */ `
-<Dropdown id="text-dropdown-3" data={['Disabled Dropdown']} label="Label:" status="Message to the user" />
+<Dropdown data={data} label="Label:" status="Message to the user" />
           `}
         </ComponentBox>
         <ComponentBox
