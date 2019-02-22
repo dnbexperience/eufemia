@@ -6,6 +6,8 @@ export const Wrapper = styled.div`
   min-height: 100vh;
   padding: 1rem;
 
+  overflow: hidden;
+
   ${gridStyle({ rgb: '220, 220, 220', a: 0.8 })};
 `
 
@@ -18,7 +20,7 @@ export const Box = styled.div`
   &::after {
     content: '';
     position: absolute;
-    left: -50vw;
+    right: -50vw;
     bottom: 0;
     width: 200vw;
     border-bottom: dashed 1px rgb(0, 200, 200);
