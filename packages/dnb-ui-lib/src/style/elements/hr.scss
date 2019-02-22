@@ -29,6 +29,9 @@
   hr {
     @include hrStyle();
   }
+  .dnb-spacing hr {
+    @include defaultSpacing();
+  }
 }
 
 .dnb-hr {
@@ -40,4 +43,7 @@
     right: -50vw;
     width: 200vw;
   }
+}
+.dnb-spacing .dnb-hr {
+  @include defaultSpacing();
 }

@@ -86,8 +86,20 @@
   blockquote {
     @include blockquoteStyle();
   }
+  .dnb-spacing blockquote {
+    @include defaultSpacing();
+    p:last-child {
+      margin-bottom: 0;
+    }
+  }
 }
 
 .dnb-blockquote {
   @include blockquoteStyle();
+}
+.dnb-spacing .dnb-blockquote {
+  @include defaultSpacing();
+  p:last-child {
+    margin-bottom: 0;
+  }
 }

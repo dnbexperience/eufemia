@@ -68,6 +68,15 @@
     font-style: normal; // to avoid cursive
   }
 }
+@mixin h1Spacing() {
+  margin: 3rem 0 2.5rem;
+}
+@mixin h2Spacing() {
+  margin: 3rem 0 1rem;
+}
+@mixin headingSpacing() {
+  margin: 2rem 0 1rem;
+}
 @mixin typographyTags() {
   h1,
   h2,
@@ -112,6 +121,30 @@
   h5 > small,
   h6 > small {
     line-height: 1; // for vertical alignment, we have to have no line-height
+  }
+  .dnb-spacing {
+    h1,
+    .dnb-core-style h1 {
+      @include h1Spacing();
+    }
+    h2,
+    .dnb-core-style h2 {
+      @include h2Spacing();
+    }
+    h3,
+    h4,
+    h5,
+    h6,
+    .dnb-core-style h3,
+    .dnb-core-style h4,
+    .dnb-core-style h5,
+    .dnb-core-style h6 {
+      @include headingSpacing();
+    }
+    p,
+    .dnb-core-style p {
+      @include defaultSpacing();
+    }
   }
 }
 
@@ -179,5 +212,23 @@
   b,
   strong {
     font-weight: var(--font-weight-medium);
+  }
+}
+.dnb-spacing {
+  .dnb-h1 {
+    @include h1Spacing();
+  }
+  .dnb-h2 {
+    @include h2Spacing();
+  }
+  .dnb-h3,
+  .dnb-lead,
+  .dnb-h4,
+  .dnb-h5,
+  .dnb-h6 {
+    @include headingSpacing();
+  }
+  .dnb-p {
+    @include defaultSpacing();
   }
 }

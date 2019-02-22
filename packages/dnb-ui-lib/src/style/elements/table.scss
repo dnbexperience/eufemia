@@ -60,12 +60,29 @@
     border-bottom: 1px solid var(--color-mint-green-50);
   }
 }
+@mixin resetTableSpacing() {
+  /* stylelint-disable-next-line */
+  p,
+  ul,
+  ol,
+  dl,
+  pre {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
 @mixin tableTag() {
   table {
     @include tableStyle();
+  }
+  .dnb-spacing table {
+    @include resetTableSpacing();
   }
 }
 
 .dnb-table {
   @include tableStyle();
+}
+.dnb-spacing .dnb-table {
+  @include resetTableSpacing();
 }

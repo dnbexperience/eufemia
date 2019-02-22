@@ -1,0 +1,20 @@
+/*
+ * Core Styles
+ * Mainly only the margins are defined in here
+ *
+ */
+
+@mixin defaultSpacing() {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+}
+
+// styles styles are effected within the scope of ".dnb-spacing"
+// we also check if there is a class starting with "dnb-*"
+// this is to make sure we don't effect these styles inside of components
+.dnb-spacing {
+  .dnb-section.dnb-section--content {
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+  }
+}

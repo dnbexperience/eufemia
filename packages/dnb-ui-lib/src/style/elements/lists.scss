@@ -43,19 +43,55 @@
     padding-left: 2rem;
   }
 }
+@mixin listSpacing() {
+  @include defaultSpacing();
+  & > li {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+
+    /* stylelint-disable-next-line */
+    & > p {
+      margin-top: 1rem;
+    }
+  }
+}
+@mixin dlSpacing() {
+  @include defaultSpacing();
+  & dt {
+    margin-top: 1rem;
+  }
+  & dd {
+    margin-bottom: 1rem;
+  }
+}
 @mixin ulTag() {
   ul {
     @include ulStyle();
+  }
+  .dnb-spacing ul {
+    @include listSpacing();
   }
 }
 @mixin olTag() {
   ol {
     @include olStyle();
   }
+  .dnb-spacing ol {
+    @include listSpacing();
+  }
 }
 @mixin dlTag() {
   dl {
     @include dlStyle();
+  }
+  .dnb-spacing {
+    ul,
+    ol {
+      @include listSpacing();
+    }
+    dl {
+      @include dlSpacing();
+    }
   }
 }
 
@@ -68,3 +104,14 @@
 .dnb-dl {
   @include dlStyle();
 }
+.dnb-spacing {
+  .dnb-ul,
+  .dnb-ol {
+    @include listSpacing();
+  }
+  .dnb-dl {
+    @include dlSpacing();
+  }
+}
+// *:not([class^='dnb-']) > {
+// }

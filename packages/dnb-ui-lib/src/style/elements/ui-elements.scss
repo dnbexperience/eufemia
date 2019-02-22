@@ -3,6 +3,9 @@
  *
  */
 
+// include spacings here, cause they are used in elements
+@import './ui-spacing.scss';
+
 @import './anchor.scss';
 @import './typography.scss';
 @import './blockquote.scss';
