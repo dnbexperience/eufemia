@@ -19,7 +19,11 @@ class Example extends PureComponent {
   render() {
     return (
       <Fragment>
-        <ComponentBox caption="Default dropdown" scope={{ data }}>
+        <ComponentBox
+          caption="Default dropdown"
+          scope={{ data }}
+          data-dnb-test="dropdown-closed"
+        >
           {/* @jsx */ `
 <Dropdown data={data} selected_item={2} label="Label:" />
           `}
@@ -54,6 +58,39 @@ class Example extends PureComponent {
 <Dropdown id="text-dropdown-3" data={['Disabled Dropdown']} label="Label:" status="Message to the user" />
           `}
         </ComponentBox>
+        <ComponentBox
+          caption="Dropdown list - only to vissualize"
+          scope={{ data }}
+          data-dnb-test="dropdown-list"
+          hideCode
+        >
+          {/* @jsx */ `
+<ul className="dnb-dropdown__options">
+  <li className="dnb-dropdown__option">
+    <span className="dnb-dropdown__triangle"></span>
+    <span className="dnb-dropdown__option__inner">Brukskonto - Kari Nordmann</span>
+  </li>
+  <li className="dnb-dropdown__option dnb-dropdown__option--selected">
+    <span className="dnb-dropdown__option__inner">
+      <span className="dnb-dropdown__option__item">1234.56.78902</span>
+      <span className="dnb-dropdown__option__item">Sparekonto - Ole Nordmann</span>
+    </span>
+  </li>
+  <li className="dnb-dropdown__option">
+    <span className="dnb-dropdown__option__inner">
+      <span className="dnb-dropdown__option__item">1134.56.78962</span>
+      <span className="dnb-dropdown__option__item">Feriekonto - Kari Nordmann med et kjempelangt etternavnsen</span>
+    </span>
+  </li>
+  <li className="dnb-dropdown__option">
+    <span className="dnb-dropdown__option__inner">
+      <span className="dnb-dropdown__option__item">1534.96.48901</span>
+      <span className="dnb-dropdown__option__item">Oppussing - Ole Nordmann</span>
+    </span>
+  </li>
+</ul>
+          `}
+        </ComponentBox>
       </Fragment>
     )
   }
@@ -62,6 +99,10 @@ class Example extends PureComponent {
 const Wrapper = styled.div`
   .dnb-form-label {
     margin-right: 1rem;
+  }
+  [data-dnb-test='dropdown-list'] .dnb-dropdown__options {
+    position: relative;
+    max-width: var(--dropdown-width);
   }
 `
 

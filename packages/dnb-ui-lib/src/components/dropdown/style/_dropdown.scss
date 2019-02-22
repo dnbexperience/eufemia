@@ -56,10 +56,6 @@
 }
 
 .dnb-dropdown {
-  @at-root .dnb-spacing & ul li {
-    margin: 0;
-  }
-
   margin: 0;
   padding: 0;
 
@@ -81,6 +77,10 @@
 
   // ul element
   &__options {
+    @at-root .dnb-spacing & li {
+      margin: 0;
+    }
+
     position: absolute;
     z-index: 3;
     top: 0;
