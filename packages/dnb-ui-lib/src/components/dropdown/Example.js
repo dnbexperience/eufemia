@@ -19,10 +19,6 @@ class Example extends PureComponent {
   static on_change = (e, data) => {
     console.log('on_change', e, data)
   }
-  componentDidMount() {
-    // Dropdown.enableWebComponent()
-    window.Example = Example
-  }
   render() {
     return (
       <Fragment>
