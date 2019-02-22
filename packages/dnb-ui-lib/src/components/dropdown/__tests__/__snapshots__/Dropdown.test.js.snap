@@ -1723,8 +1723,6 @@ exports[`Dropdown scss have to match snapshot 1`] = `
   display: inline-flex;
   align-items: center;
   color: inherit; }
-  .dnb-spacing .dnb-dropdown ul li {
-    margin: 0; }
   .dnb-dropdown__shell {
     position: relative;
     height: var(--dropdown-height);
@@ -1745,6 +1743,8 @@ exports[`Dropdown scss have to match snapshot 1`] = `
     background-color: transparent;
     transform: translateY(0);
     transition: transform 200ms, opacity 160ms ease-out; }
+    .dnb-spacing .dnb-dropdown__options li {
+      margin: 0; }
   .dnb-dropdown__option {
     position: relative;
     cursor: pointer;
