@@ -370,9 +370,9 @@ export default class Tabs extends PureComponent {
       render: customRenderer,
       label,
       align,
-      selected_key,
       className,
       class: _className,
+      selected_key: _selected_key, //eslint-disable-line
       id, //eslint-disable-line
       data, //eslint-disable-line
       use_hash, //eslint-disable-line
@@ -380,6 +380,8 @@ export default class Tabs extends PureComponent {
       on_change, //eslint-disable-line
       ...props
     } = this.props
+
+    const { selected_key } = this.state
 
     // To have a reusable Component laster, do this like that
     const Tabs = () => {
@@ -488,16 +490,11 @@ export default class Tabs extends PureComponent {
 class ContentWrapper extends PureComponent {
   static propTypes = {
     id: PropTypes.string.isRequired,
-    selected_key: PropTypes.string,
+    selected_key: PropTypes.string.isRequired,
     children: PropTypes.node.isRequired
   }
-  static defaultProps = {
-    selected_key: null
-  }
   render() {
-    const { id, children } = this.props
-    const key = this.props.selected_key || 'key'
-
+    const { id, children, selected_key: key } = this.props
     return (
       <div
         role="tabpanel"

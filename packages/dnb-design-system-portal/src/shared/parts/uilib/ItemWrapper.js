@@ -152,7 +152,7 @@ class ItemWrapper extends PureComponent {
 
     if (this.isActive('demo')) {
       tabsContent.push(
-        <Tabs.ContentWrapper key="demo" id={this._id}>
+        <Tabs.ContentWrapper key="demo" selected_key="demo" id={this._id}>
           {!hideTabs && <Description />}
           <DemoWrapper>
             <h2>Demos</h2>
@@ -173,7 +173,11 @@ class ItemWrapper extends PureComponent {
       tabsUsed.push(tabs.find(({ key }) => key === 'info'))
       if (this.isActive('info')) {
         tabsContent.push(
-          <Tabs.ContentWrapper key="info" id={this._id}>
+          <Tabs.ContentWrapper
+            key="info"
+            selected_key="info"
+            id={this._id}
+          >
             <Details />
             {Additional && Additional.info && (
               <Additional.info CodeRenderer={CodeRenderer} />
@@ -193,7 +197,11 @@ class ItemWrapper extends PureComponent {
       tabsUsed.push(tabs.find(({ key }) => key === 'code'))
       if (this.isActive('code')) {
         tabsContent.push(
-          <Tabs.ContentWrapper key="code" id={this._id}>
+          <Tabs.ContentWrapper
+            key="code"
+            selected_key="code"
+            id={this._id}
+          >
             <Code source={CodeComponent} />
             {Additional && Additional.code && (
               <Additional.code CodeRenderer={CodeRenderer} />
