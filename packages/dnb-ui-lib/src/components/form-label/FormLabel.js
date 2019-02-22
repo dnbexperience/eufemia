@@ -21,7 +21,6 @@ export const propTypes = {
   for_id: PropTypes.string.isRequired,
   title: PropTypes.string,
   text: PropTypes.string,
-  typo: PropTypes.string,
   id: PropTypes.string,
   class: PropTypes.string,
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -40,7 +39,6 @@ export const defaultProps = {
   for_id: null,
   title: null,
   text: null,
-  typo: 'typo-light',
   id: null,
   class: null,
   disabled: false,
@@ -71,7 +69,6 @@ export default class FormLabel extends PureComponent {
     const {
       for_id,
       title,
-      typo,
       className,
       id,
       disabled,
@@ -82,7 +79,7 @@ export default class FormLabel extends PureComponent {
     const content = FormLabel.getContent(this.props)
 
     const params = {
-      className: classnames('dnb-form-label', typo, className, _className),
+      className: classnames('dnb-form-label', className, _className),
       htmlFor: for_id,
       id,
       title,
