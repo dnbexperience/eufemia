@@ -448,6 +448,7 @@ export default class SidebarLayout extends PureComponent {
                   status,
                   icon,
                   active,
+                  ['aria-selected']: active,
                   inside,
                   to: path,
                   onOffsetTop: offsetTop => (this.offsetTop = offsetTop)
@@ -489,7 +490,12 @@ export default class SidebarLayout extends PureComponent {
                       ref={this._scrollRef}
                     >
                       {/* <MainMenuToggleButton /> */}
-                      <ul className="dev-grid">{nav}</ul>
+                      <nav
+                        role="navigation"
+                        aria-label="Section Content Menu"
+                      >
+                        <ul className="dev-grid">{nav}</ul>
+                      </nav>
                       {isOpen && (
                         <Global
                           styles={css`

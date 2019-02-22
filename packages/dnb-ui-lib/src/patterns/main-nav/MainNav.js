@@ -126,6 +126,9 @@ export default class MainNav extends PureComponent {
     const data = MainNav.getData(this.props)
 
     const params = {
+      role: 'navigation',
+      ['aria-label']: 'Main Menu',
+      ['data-nav-active']: this.state.isSubNavActive,
       className: classnames('dnb-main-nav', className, _className)
     }
 
@@ -133,7 +136,7 @@ export default class MainNav extends PureComponent {
     validateDOMAttributes(this.props, params)
 
     return (
-      <nav {...params} data-nav-active={this.state.isSubNavActive}>
+      <nav {...params}>
         <div className="dnb-main-nav__inner">
           <div className="dnb-main-nav__inner__inner">
             <div className="dnb-main-nav__left">
