@@ -132,6 +132,12 @@ module.exports.testPageScreenshot = ({
             }
             break
 
+          case 'click':
+            {
+              elementToSimulate.click()
+            }
+            break
+
           case 'active':
             {
               // make a delayed click, no await. Else we get only a release state
