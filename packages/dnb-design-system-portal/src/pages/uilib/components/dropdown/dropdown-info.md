@@ -1,6 +1,8 @@
 ---
-status: 'wip'
+draft: true
 ---
+
+import Examples from 'Pages/uilib/components/dropdown/Examples'
 
 ## Description
 
@@ -21,3 +23,7 @@ When you need to provide a considerable amount of options to the user and do not
 #### NB!
 
 _This pattern can be constructed in a number of ways to achieve a similar effect - from using the HTML 'select' element to custom building with divs, spans and javascript._
+
+## Demos
+
+<Examples />

@@ -4,7 +4,8 @@
  */
 
 import React, { PureComponent, Fragment } from 'react'
-import ComponentBox from '../../../../dnb-design-system-portal/src/shared/tags/ComponentBox'
+import ComponentBox from '../../../../shared/tags/ComponentBox'
+import CodeBlock from '../../../../shared/tags/CodeBlock'
 import styled from '@emotion/styled'
 
 class Example extends PureComponent {
@@ -138,3 +139,13 @@ const data = [
   }
 ]
 const dataBlob = JSON.stringify(data, null, 2)
+
+export const Data = () => {
+  return (
+    <CodeBlock language="js">{`const data = ${JSON.stringify(
+      data,
+      null,
+      2
+    )}`}</CodeBlock>
+  )
+}

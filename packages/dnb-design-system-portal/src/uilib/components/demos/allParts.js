@@ -4,7 +4,7 @@
      */
 
 // import Button from './Button'
-import Dropdown from './Dropdown'
+// import Dropdown from './Dropdown'
 import FormLabel from './FormLabel'
 import FormStatus from './FormStatus'
 import Icon from './Icon'
@@ -22,7 +22,7 @@ import Tabs from './Tabs'
 
 export default [
   // Button,
-  Dropdown,
+  // Dropdown,
   FormLabel,
   FormStatus,
   Icon,
