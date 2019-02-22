@@ -1,0 +1,167 @@
+/*
+* Dropdown theme
+*
+*/
+
+@import '../../../../style/themes/imports.scss';
+
+:root {
+  --dropdown-text-color: var(--color-emerald-green);
+  --dropdown-text-color--disabled: var(--color-sea-green-alt-30);
+  --dropdown-border-color: var(--color-sea-green-alt);
+  --dropdown-border-color--selected: var(--color-emerald-green);
+  --dropdown-options-border-radius: 0.5rem;
+  --dropdown-option-color: var(--color-black-80);
+  --dropdown-option-color--hover: var(--color-sea-green);
+  --dropdown-option-background-color: var(--color-white);
+  --dropdown-option-background-color--hover: var(--color-mint-green-12);
+  --dropdown-option-background-color--selected: var(--color-mint-green-25);
+  --dropdown-option-border-color: var(--color-mint-green-25);
+}
+
+@mixin dropdownBorderColor($color) {
+  @include fakeBorder($color, 1px, null, !important);
+  border-color: $color;
+}
+
+.dnb-dropdown {
+  color: var(--dropdown-text-color);
+
+  // ul element
+  &__options {
+    border: none;
+    background-color: transparent;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+
+    border-radius: var(--dropdown-options-border-radius);
+  }
+
+  // NB: his will remove the triangle!
+  &--scroll &__options {
+    max-height: 20rem;
+    overflow-y: scroll;
+    overscroll-behavior: contain;
+    scroll-behavior: smooth;
+  }
+
+  // li element inner
+  &__option {
+    padding: $focusRingWidth; // to make space for the fakeFocus
+    color: var(--dropdown-option-color);
+    background-color: var(--dropdown-option-background-color);
+    border-bottom: 2px solid var(--dropdown-option-border-color);
+
+    &__inner {
+      background-color: var(--dropdown-option-background-color);
+    }
+
+    @include hover() {
+      background-color: var(--dropdown-option-background-color--hover);
+      .dnb-dropdown__option__inner {
+        color: var(--dropdown-option-color--hover);
+        background-color: var(--dropdown-option-background-color--hover);
+      }
+    }
+
+    // for keyboard usage
+    &--active {
+      background-color: var(--dropdown-option-background-color--selected);
+      .dnb-dropdown__option__inner {
+        @include fakeBorder(var(--dropdown-border-color--selected), 2px);
+      }
+    }
+
+    &--selected {
+      background-color: var(--dropdown-option-background-color--selected);
+      .dnb-dropdown__option__inner {
+        background-color: var(
+          --dropdown-option-background-color--selected
+        );
+      }
+      @include hover() {
+        background-color: var(
+          --dropdown-option-background-color--selected
+        );
+        .dnb-dropdown__option__inner {
+          background-color: var(
+            --dropdown-option-background-color--selected
+          );
+        }
+      }
+    }
+
+    &:first-of-type,
+    &--active:first-of-type &__inner {
+      border-radius: var(--dropdown-options-border-radius)
+        var(--dropdown-options-border-radius) 0 0;
+    }
+    &:last-of-type,
+    &--active:last-of-type &__inner {
+      border-radius: 0 0 var(--dropdown-options-border-radius)
+        var(--dropdown-options-border-radius);
+      border-bottom: none;
+    }
+  }
+
+  // button
+  &__trigger {
+    background-color: var(--color-white);
+    border-color: var(--dropdown-border-color);
+  }
+  &--opened &__trigger {
+    @include fakeBorder();
+    border-color: var(--dropdown-border-color--selected);
+  }
+
+  // error status
+  &__status--error &__trigger,
+  &__status--error#{&}--opened &__trigger {
+    @include dropdownBorderColor(var(--color-cherry-red));
+  }
+  &__status--error &__icon {
+    color: var(--color-cherry-red);
+  }
+  &__status--error &__input {
+    @include hover() {
+      & ~ .dnb-dropdown__trigger {
+        @include dropdownBorderColor(var(--color-cherry-red));
+      }
+      & ~ .dnb-dropdown__trigger .dnb-dropdown__icon .dnb-icon {
+        color: var(--color-cherry-red);
+      }
+    }
+  }
+
+  &__triangle::before {
+    border: none;
+    background-color: var(--color-white);
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.15);
+  }
+  &__option--selected &__triangle::before {
+    background-color: var(--dropdown-option-background-color--selected);
+  }
+  &__option:hover &__triangle::before {
+    background-color: var(--dropdown-option-background-color--hover);
+  }
+
+  &__input[disabled] ~ &__icon,
+  &__input[disabled] ~ &__trigger {
+    border-color: var(--dropdown-text-color--disabled);
+    color: var(--dropdown-text-color--disabled);
+  }
+
+  // input element
+  /* stylelint-disable-next-line */
+  &__input {
+    @include hover() {
+      & ~ .dnb-dropdown__trigger .dnb-dropdown__text,
+      & ~ .dnb-dropdown__trigger .dnb-dropdown__icon .dnb-icon {
+        color: var(--dropdown-text-color);
+      }
+      & ~ .dnb-dropdown__trigger {
+        border-color: var(--dropdown-border-color--selected);
+        @include fakeBorder();
+      }
+    }
+  }
+}
