@@ -5,9 +5,9 @@
 
 import React from 'react'
 import {
-  shallow,
   mount,
   fakeProps,
+  axeComponent,
   toJson,
   loadScss
 } from '../../../core/jest/jestSetup'
@@ -18,98 +18,10 @@ import '../style/dnb-dropdown.scss'
 const props = fakeProps(require.resolve('../Dropdown'), {
   optional: true
 })
-let Comp
-const selected_item = 1
-
-beforeAll(() => {
-  // then test the state management
-  Comp = mount(
-    <Component {...props} data={mockData} selected_item={selected_item} />
-  )
-})
-
-describe('Dropdown component', () => {
-  // shallow compare the snapshot
-  it('have to match snapshot', () => {
-    const ComponentWrap = shallow(
-      <Component
-        {...props}
-        data={mockData}
-        selected_item={selected_item}
-      />
-    )
-    expect(toJson(ComponentWrap)).toMatchSnapshot()
-  })
-
-  it('has correct state at startup', () => {
-    expect(Comp.state().opened).toBe(false)
-    expect(Comp.state().visible).toBe(false)
-  })
-
-  it('has correct state after "focus" trigger', () => {
-    Comp.find('input').simulate('focus')
-    expect(Comp.state().opened).toBe(true)
-    expect(Comp.state().visible).toBe(true)
-  })
-
-  it('has correct state after "blur" trigger', async () => {
-    Comp.find('input').simulate('blur')
-    expect(Comp.state().opened).toBe(false)
-    await delay(Component.blurDelay + 10)
-    expect(Comp.state().visible).toBe(false)
-  })
-
-  it('has correct css class after calling onFocusHandler', () => {
-    Comp.instance().onFocusHandler()
-    expect(
-      Comp.find('span')
-        .first()
-        .hasClass('dnb-dropdown--visible')
-    ).toBe(true)
-    expect(
-      Comp.find('span')
-        .first()
-        .hasClass('dnb-dropdown--hidden')
-    ).toBe(false)
-  })
-
-  it('has correct length of li elements', () => {
-    expect(Comp.find('li.dnb-dropdown__option').length).toBe(
-      mockData.length
-    )
-  })
-
-  it('has correct selected value', () => {
-    expect(Comp.find('.dnb-dropdown__text__inner').text()).toBe(
-      mockData[selected_item].selected_value
-    )
-  })
-
-  it('has correct outside value', () => {
-    expect(Comp.find('.dnb-dropdown__outside-value').text()).toBe(
-      mockData[selected_item].outside_value
-    )
-  })
-
-  it('has correct selected value', async () => {
-    Comp.find('li.dnb-dropdown__option')
-      .find('.dnb-dropdown__option__inner')
-      .at(selected_item + 1)
-      .simulate('mousedown')
-    expect(Comp.find('.dnb-dropdown__text__inner').text()).toBe(
-      mockData[selected_item + 1].selected_value
-    )
-  })
-})
-
-describe('Dropdown scss', () => {
-  it('have to match snapshot', () => {
-    const scss = loadScss(require.resolve('../style/dnb-dropdown.scss'))
-    expect(scss).toMatchSnapshot()
-  })
-})
-
-const delay = ms => new Promise(resolve => setTimeout(() => resolve(), ms))
+props.id = 'dropdown-id'
+props.status = 'status'
+props.status_state = 'error'
+props.selected_item = 2
 
 const mockData = [
   {
@@ -137,3 +49,88 @@ const mockData = [
     content: ['1534.96.48901', 'Oppussing - Ole Nordmann']
   }
 ]
+
+describe('Dropdown component', () => {
+  const Comp = mount(<Component {...props} data={mockData} />)
+
+  // shallow compare the snapshot
+  it('have to match snapshot', () => {
+    expect(toJson(Comp)).toMatchSnapshot()
+  })
+
+  it('has correct state at startup', () => {
+    expect(Comp.state().opened).toBe(false)
+    expect(Comp.state().visible).toBe(false)
+  })
+
+  it('has correct state after "focus" trigger', () => {
+    Comp.find('input').simulate('focus')
+    expect(Comp.state().opened).toBe(true)
+    expect(Comp.state().visible).toBe(true)
+  })
+
+  it('has correct state after "blur" trigger', () => {
+    Comp.find('input').simulate('blur')
+    expect(Comp.state().opened).toBe(false)
+  })
+
+  it('has correct css class after calling onFocusHandler', () => {
+    Comp.instance().onFocusHandler()
+
+    expect(Comp.state().opened).toBe(true)
+
+    const elem = Comp.find('span.dnb-dropdown')
+
+    expect(
+      elem
+        .find('button')
+        .instance()
+        .getAttribute('aria-expanded')
+    ).toBe('true')
+
+    expect(elem.instance().getAttribute('class')).toContain(
+      'dnb-dropdown--opened'
+    )
+
+    expect(elem.hasClass('dnb-dropdown--closed')).toBe(false)
+  })
+
+  it('has correct length of li elements', () => {
+    expect(Comp.find('li.dnb-dropdown__option').length).toBe(
+      mockData.length
+    )
+  })
+
+  it('has correct selected value', () => {
+    expect(Comp.find('.dnb-dropdown__text__inner').text()).toBe(
+      mockData[props.selected_item].selected_value
+    )
+  })
+
+  it('has correct outside value', () => {
+    expect(Comp.find('.dnb-dropdown__outside-value').text()).toBe(
+      mockData[props.selected_item].outside_value
+    )
+  })
+
+  it('has correct selected value', () => {
+    Comp.find('li.dnb-dropdown__option')
+      .find('.dnb-dropdown__option__inner')
+      .at(props.selected_item + 1)
+      .simulate('mousedown')
+    expect(Comp.find('.dnb-dropdown__text__inner').text()).toBe(
+      mockData[props.selected_item + 1].selected_value
+    )
+  })
+
+  it('should validate with ARIA rules as a tabs', async () => {
+    expect(await axeComponent(Comp)).toHaveNoViolations()
+  })
+})
+
+describe('Dropdown scss', () => {
+  it('have to match snapshot', () => {
+    const scss = loadScss(require.resolve('../style/dnb-dropdown.scss'))
+    expect(scss).toMatchSnapshot()
+  })
+})
