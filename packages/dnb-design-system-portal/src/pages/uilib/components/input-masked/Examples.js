@@ -4,8 +4,7 @@
  */
 
 import React, { PureComponent, Fragment } from 'react'
-import ComponentBox from '../../../../dnb-design-system-portal/src/shared/tags/ComponentBox'
-// import InputMasked from './InputMasked'
+import ComponentBox from '../../../../shared/tags/ComponentBox'
 import styled from '@emotion/styled'
 
 // https://github.com/text-mask/text-mask

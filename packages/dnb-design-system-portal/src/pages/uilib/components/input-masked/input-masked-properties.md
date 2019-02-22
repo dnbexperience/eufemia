@@ -1,3 +1,7 @@
+---
+draft: true
+---
+
 | Properties  | Description                                                                                                                                                                                                                       |
 | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `mask`      | _(mandatory)_ The mask prop, defined with a RegExp style of of characters or a callback function. Se [example](https://github.com/dnbexperience/eufemia/tree/develop/packages/dnb-ui-lib/src/components/input-masked/Example.js). |
