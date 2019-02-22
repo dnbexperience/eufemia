@@ -835,7 +835,6 @@ exports[`Tabs scss have to match snapshot 1`] = `
       margin-left: 0; } }
 
 .dnb-tabs__content {
-  padding-top: 1rem;
-  margin-top: 1rem; }
+  margin-top: 2rem; }
 "
 `;
