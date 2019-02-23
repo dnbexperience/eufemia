@@ -10,12 +10,14 @@
 @import './core/fonts.scss';
 @import './core/helper-classes.scss';
 
-// make sure we load the spacings after we have defined the defaults of the elements
-// @import './core/spacing.scss';
-
 @include globalReset();
 
-// Global body style
+// make sure we have dynamic root font size
+html {
+  font-size: 100%;
+}
+
+// global body style
 body,
 .dnb-core-style {
   @include bodyDefault();
