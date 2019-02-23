@@ -5,6 +5,7 @@
 
 import React from 'react'
 import { Wrapper, Box } from './helpers'
+import styled from '@emotion/styled'
 
 // UI Components
 import {
@@ -14,6 +15,7 @@ import {
   Icon,
   IconPrimary,
   Modal,
+  FormLabel,
   Dropdown,
   Logo,
   StepIndicator
@@ -21,6 +23,12 @@ import {
 
 const stories = []
 export default stories
+
+const CustomStyle = styled.div`
+  p {
+    background-color: rgba(213, 30, 149, 0.25);
+  }
+`
 
 stories.push([
   'Buttons',
@@ -287,11 +295,44 @@ stories.push([
 stories.push([
   'Dropdown',
   () => (
-    <Wrapper>
-      <Box>
-        <Dropdown data={data} selected_item={2} />
-      </Box>
-    </Wrapper>
+    <CustomStyle>
+      <Wrapper>
+        <Box>
+          <Dropdown data={dropdownData} selected_item={3} label="Label:" />
+        </Box>
+        <Box>
+          <Dropdown data={dropdownData} selected_item={3} disabled />
+          <p>
+            Eros semper blandit tellus mollis primis quisque platea
+            sollicitudin ipsum
+          </p>
+        </Box>
+        <Box>
+          <Dropdown
+            data={dropdownData}
+            selected_item={3}
+            status="Message to the user"
+          />
+          <p>
+            Eros semper blandit tellus mollis primis quisque platea
+            sollicitudin ipsum
+          </p>
+        </Box>
+        <Box>
+          <FormLabel for_id="text-dropdown-1" text="Label:" />
+          <Dropdown
+            data={dropdownData}
+            id="text-dropdown-1"
+            icon_position="left"
+            selected_item={2}
+          />
+          <p>
+            Eros semper blandit tellus mollis primis quisque platea
+            sollicitudin ipsum
+          </p>
+        </Box>
+      </Wrapper>
+    </CustomStyle>
   )
 ])
 
@@ -317,7 +358,7 @@ const showMe = e => {
   console.log('showMe', e)
 }
 
-const data = [
+const dropdownData = [
   {
     selected_value: 'Brukskonto - Kari Nordmann',
     // outside_value: '1234.56.78901',

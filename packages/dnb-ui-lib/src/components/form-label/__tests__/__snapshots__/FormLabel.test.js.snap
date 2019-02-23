@@ -10,10 +10,9 @@ exports[`FormLabel component have to match snapshot 1`] = `
   render_content={[Function]}
   text="text"
   title="title"
-  typo="typo"
 >
   <label
-    className="dnb-form-label typo className class"
+    className="dnb-form-label className class"
     disabled="disabled"
     htmlFor="for_id"
     id="id"

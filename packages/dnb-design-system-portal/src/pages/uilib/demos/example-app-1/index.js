@@ -209,7 +209,7 @@ export default class ExampleAppPage extends PureComponent {
                   </div>
                   <div className="dnb-form__cell">
                     <Dropdown
-                      input_id="account_dropdown"
+                      id="account_dropdown"
                       data={dropdownData}
                       selected_item={3}
                     />

@@ -8,7 +8,7 @@ import CodeBlock from 'Tags/CodeBlock'
 
 <CodeBlock reactLive hideCode>
 {`
-<ul className="dnb-unstyled-list">
+<ul className="dnb-ul dnb-unstyled-list">
   <li>
     <a href="/" data-dnb-test="anchor-default" className="dnb-anchor">Default Style</a>
   </li>

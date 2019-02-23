@@ -19,7 +19,6 @@ import Footer from './footer/Footer'
 import Form from './form/Form'
 import FormSummary from './form-summary/FormSummary'
 import Grid from './grid/Grid'
-import HelperClasses from './helper-classes/HelperClasses'
 import MainNav from './main-nav/MainNav'
 import RangeSlider from './range-slider/RangeSlider'
 import SummaryTable from './summary-table/SummaryTable'
@@ -34,7 +33,6 @@ export {
   Form,
   FormSummary,
   Grid,
-  HelperClasses,
   MainNav,
   RangeSlider,
   SummaryTable,
@@ -50,7 +48,6 @@ export const getComponents = () => {
     Form,
     FormSummary,
     Grid,
-    HelperClasses,
     MainNav,
     RangeSlider,
     SummaryTable,

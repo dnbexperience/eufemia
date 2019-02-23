@@ -38,6 +38,9 @@
   pre {
     padding: 1rem;
   }
+  .dnb-spacing pre {
+    @include defaultSpacing();
+  }
 }
 @mixin codeTag() {
   code {
@@ -55,4 +58,7 @@
 }
 .dnb-pre {
   @include preStyle();
+}
+.dnb-spacing .dnb-pre {
+  @include defaultSpacing();
 }

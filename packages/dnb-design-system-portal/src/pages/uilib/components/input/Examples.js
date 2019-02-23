@@ -4,47 +4,10 @@
  */
 
 import React, { PureComponent, Fragment } from 'react'
-import ComponentBox from '../../../../dnb-design-system-portal/src/shared/tags/ComponentBox'
+import ComponentBox from '../../../../shared/tags/ComponentBox'
 import styled from '@emotion/styled'
 
 class Example extends PureComponent {
-  // TODO: an be deleted in future updates - if not needed
-  // state = {
-  //   status: null
-  // }
-  // constructor(props) {
-  //   super(props)
-  //   this._ref = React.createRef()
-  // }
-  // componentDidMount() {
-  //   this.setState({
-  //     icon: 'chevron-right'
-  //   })
-  //   // use this only in case of using web-components - so the tag should then be <dnb-input ref={}> insted if <Input>
-  //   if (this._ref.current.addEvent) {
-  //     Input.enableWebComponent()
-  //     const cb = e => {
-  //       console.log('on_change', e)
-  //     }
-  //     const eventId = this._ref.current.addEvent('on_change', cb)
-  //
-  //     setTimeout(() => {
-  //       this._ref.current.fireEvent('on_change', {
-  //         value:
-  //           'Hello from an auto fired event with a new value. But the event listener gets removed in 2 seconds.'
-  //       })
-  //       setTimeout(() => {
-  //         this._ref.current.removeEvent(eventId)
-  //       }, 2e3)
-  //     }, 2e3)
-  //   }
-  //
-  //   setTimeout(() => {
-  //     this.setState({
-  //       status: 'You have to fill in this field'
-  //     })
-  //   }, 400)
-  // }
   handleInputChange = ({ value }) => {
     console.log(value)
   }

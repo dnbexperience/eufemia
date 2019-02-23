@@ -1,180 +1,333 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Dropdown component have to match snapshot 1`] = `
-<span
-  className="dnb-dropdown typo-light dnb-dropdown--icon-position-icon_position dnb-dropdown--hidden class className"
+<Dropdown
+  class="class"
+  className="className"
+  custom_element={Object {}}
+  custom_method={[Function]}
+  data={
+    Array [
+      Object {
+        "content": Array [
+          "1234.56.78901",
+          "Brukskonto - Kari Nordmann",
+        ],
+        "outside_value": "1234.56.78901",
+        "selected_value": "Brukskonto - Kari Nordmann",
+      },
+      Object {
+        "content": Array [
+          "1234.56.78902",
+          "Sparekonto - Ole Nordmann",
+        ],
+        "outside_value": "1234.56.78902",
+        "selected_value": "Sparekonto - Ole Nordmann",
+      },
+      Object {
+        "content": Array [
+          "1134.56.78962",
+          "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
+        ],
+        "outside_value": "1134.56.78962",
+        "selected_value": "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
+      },
+      Object {
+        "content": Array [
+          "1534.96.48901",
+          "Oppussing - Ole Nordmann",
+        ],
+        "outside_value": "1534.96.48901",
+        "selected_value": "Oppussing - Ole Nordmann",
+      },
+    ]
+  }
+  disabled="disabled"
+  icon="icon"
+  icon_position="icon_position"
+  id="dropdown-id"
+  label="label"
+  no_animation={true}
+  on_change={[Function]}
+  on_hide={[Function]}
+  on_select={[Function]}
+  on_show={[Function]}
+  on_state_update={[Function]}
+  opened="opened"
+  selected_item={2}
+  show_value_outside="show_value_outside"
+  status="status"
+  status_animation="status_animation"
+  status_state="error"
+  title="title"
 >
-  <input
-    aria-haspopup="listbox"
-    aria-label="title"
-    className="dnb-dropdown__value-holder-input"
-    disabled="disabled"
-    id="input_id"
-    onBlur={[Function]}
-    onFocus={[Function]}
-    onKeyDown={[Function]}
-    readOnly={true}
-    title="title"
-    value=""
-  />
-  <button
-    aria-hidden={true}
-    aria-labelledby="undefined"
-    className="dnb-dropdown__trigger dnb-typo-book"
-    disabled="disabled"
-    onMouseDown={[Function]}
-    tabIndex="-1"
-  >
-    <span
-      className="dnb-dropdown__text"
-    >
-      <span
-        className="dnb-dropdown__text__inner"
-      >
-        Sparekonto - Ole Nordmann
-      </span>
-    </span>
-    <span
-      className="dnb-dropdown__icon icon-icon"
-    >
-      <IconPrimary
-        alt={null}
-        attributes={null}
-        class={null}
-        className={null}
-        color={null}
-        height={null}
-        icon="icon"
-        icon_size="24"
-        modifier={null}
-        size={null}
-        title={null}
-        width={null}
-      />
-      <span
-        className="dnb-dropdown__icon__triangle"
-      />
-    </span>
-  </button>
-  <ul
-    aria-labelledby="undefined"
-    className="dnb-dropdown__options"
-  >
-    <li
-      aria-selected={false}
-      className="dnb-dropdown__option   "
-      key="dw_li0"
-      role="option"
-    >
-      <span
-        className="dnb-dropdown__option__inner"
-        onMouseDown={[Function]}
-        role="button"
-        tabIndex="-1"
-        title="Brukskonto - Kari Nordmann"
-      >
-        <span
-          className="dnb-dropdown__option__item"
-          key="dw_item0"
-        >
-          1234.56.78901
-        </span>
-        <span
-          className="dnb-dropdown__option__item"
-          key="dw_item1"
-        >
-          Brukskonto - Kari Nordmann
-        </span>
-      </span>
-    </li>
-    <li
-      aria-selected={false}
-      className="dnb-dropdown__option dnb-dropdown__option--selected  "
-      key="dw_li1"
-      role="option"
-    >
-      <span
-        className="dnb-dropdown__option__inner"
-        onMouseDown={[Function]}
-        role="button"
-        tabIndex="-1"
-        title="Sparekonto - Ole Nordmann"
-      >
-        <span
-          className="dnb-dropdown__option__item"
-          key="dw_item0"
-        >
-          1234.56.78902
-        </span>
-        <span
-          className="dnb-dropdown__option__item"
-          key="dw_item1"
-        >
-          Sparekonto - Ole Nordmann
-        </span>
-      </span>
-    </li>
-    <li
-      aria-selected={false}
-      className="dnb-dropdown__option   "
-      key="dw_li2"
-      role="option"
-    >
-      <span
-        className="dnb-dropdown__option__inner"
-        onMouseDown={[Function]}
-        role="button"
-        tabIndex="-1"
-        title="Feriekonto - Kari Nordmann med et kjempelangt etternavnsen"
-      >
-        <span
-          className="dnb-dropdown__option__item"
-          key="dw_item0"
-        >
-          1134.56.78962
-        </span>
-        <span
-          className="dnb-dropdown__option__item"
-          key="dw_item1"
-        >
-          Feriekonto - Kari Nordmann med et kjempelangt etternavnsen
-        </span>
-      </span>
-    </li>
-    <li
-      aria-selected={false}
-      className="dnb-dropdown__option   "
-      key="dw_li3"
-      role="option"
-    >
-      <span
-        className="dnb-dropdown__option__inner"
-        onMouseDown={[Function]}
-        role="button"
-        tabIndex="-1"
-        title="Oppussing - Ole Nordmann"
-      >
-        <span
-          className="dnb-dropdown__option__item"
-          key="dw_item0"
-        >
-          1534.96.48901
-        </span>
-        <span
-          className="dnb-dropdown__option__item"
-          key="dw_item1"
-        >
-          Oppussing - Ole Nordmann
-        </span>
-      </span>
-    </li>
-  </ul>
   <span
-    className="dnb-dropdown__outside-value dnb-typo-book"
+    className="dnb-dropdown dnb-dropdown--icon-position-icon_position dnb-dropdown--closed dnb-dropdown__status--error class className"
   >
-    1234.56.78902
+    <FormLabel
+      aria-hidden={true}
+      class={null}
+      className={null}
+      disabled="disabled"
+      for_id="dropdown-id"
+      id={null}
+      render_content={null}
+      text="label"
+      title={null}
+    >
+      <label
+        className="dnb-form-label"
+        disabled="disabled"
+        htmlFor="dropdown-id"
+      >
+        label
+      </label>
+    </FormLabel>
+    <span
+      className="dnb-dropdown__shell"
+    >
+      <input
+        aria-hidden={true}
+        className="dnb-dropdown__input"
+        disabled="disabled"
+        id="dropdown-id"
+        onBlur={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        readOnly={true}
+        value=""
+      />
+      <button
+        aria-expanded={false}
+        aria-haspopup="listbox"
+        aria-label="title"
+        aria-labelledby="option-dropdown-id-2"
+        className="dnb-dropdown__trigger"
+        disabled="disabled"
+        onMouseDown={[Function]}
+        title="title"
+      >
+        <span
+          className="dnb-dropdown__text"
+        >
+          <span
+            className="dnb-dropdown__text__inner"
+          >
+            Feriekonto - Kari Nordmann med et kjempelangt etternavnsen
+          </span>
+        </span>
+        <span
+          className="dnb-dropdown__icon icon-icon"
+        >
+          <IconPrimary
+            alt={null}
+            attributes={null}
+            class={null}
+            className={null}
+            color={null}
+            height={null}
+            icon="icon"
+            modifier={null}
+            size={null}
+            title={null}
+            width={null}
+          />
+        </span>
+      </button>
+      <ul
+        aria-activedescendant="option-dropdown-id-2"
+        aria-labelledby="dropdown-id"
+        className="dnb-dropdown__options dnb-dropdown__options--no-animation"
+        role="listbox"
+        tabIndex="-1"
+      >
+        <li
+          aria-selected={false}
+          className="dnb-dropdown__option"
+          id="option-dropdown-id-0"
+          key="dropdown-id0"
+          role="option"
+        >
+          <span
+            className="dnb-dropdown__triangle"
+          />
+          <span
+            className="dnb-dropdown__option__inner"
+            onMouseDown={[Function]}
+            role="button"
+            tabIndex="-1"
+            title="Brukskonto - Kari Nordmann"
+          >
+            <span
+              className="dnb-dropdown__option__item"
+              key="dropdown-id00"
+            >
+              1234.56.78901
+            </span>
+            <span
+              className="dnb-dropdown__option__item"
+              key="dropdown-id01"
+            >
+              Brukskonto - Kari Nordmann
+            </span>
+          </span>
+        </li>
+        <li
+          aria-selected={false}
+          className="dnb-dropdown__option"
+          id="option-dropdown-id-1"
+          key="dropdown-id1"
+          role="option"
+        >
+          <span
+            className="dnb-dropdown__option__inner"
+            onMouseDown={[Function]}
+            role="button"
+            tabIndex="-1"
+            title="Sparekonto - Ole Nordmann"
+          >
+            <span
+              className="dnb-dropdown__option__item"
+              key="dropdown-id10"
+            >
+              1234.56.78902
+            </span>
+            <span
+              className="dnb-dropdown__option__item"
+              key="dropdown-id11"
+            >
+              Sparekonto - Ole Nordmann
+            </span>
+          </span>
+        </li>
+        <li
+          aria-selected={true}
+          className="dnb-dropdown__option dnb-dropdown__option--selected"
+          id="option-dropdown-id-2"
+          key="dropdown-id2"
+          role="option"
+        >
+          <span
+            className="dnb-dropdown__option__inner"
+            onMouseDown={[Function]}
+            role="button"
+            tabIndex="-1"
+            title="Feriekonto - Kari Nordmann med et kjempelangt etternavnsen"
+          >
+            <span
+              className="dnb-dropdown__option__item"
+              key="dropdown-id20"
+            >
+              1134.56.78962
+            </span>
+            <span
+              className="dnb-dropdown__option__item"
+              key="dropdown-id21"
+            >
+              Feriekonto - Kari Nordmann med et kjempelangt etternavnsen
+            </span>
+          </span>
+        </li>
+        <li
+          aria-selected={false}
+          className="dnb-dropdown__option"
+          id="option-dropdown-id-3"
+          key="dropdown-id3"
+          role="option"
+        >
+          <span
+            className="dnb-dropdown__option__inner"
+            onMouseDown={[Function]}
+            role="button"
+            tabIndex="-1"
+            title="Oppussing - Ole Nordmann"
+          >
+            <span
+              className="dnb-dropdown__option__item"
+              key="dropdown-id30"
+            >
+              1534.96.48901
+            </span>
+            <span
+              className="dnb-dropdown__option__item"
+              key="dropdown-id31"
+            >
+              Oppussing - Ole Nordmann
+            </span>
+          </span>
+        </li>
+      </ul>
+    </span>
+    <FormStatus
+      animation="status_animation"
+      class={null}
+      className={null}
+      hidden={false}
+      icon="exclamation"
+      icon_size="default"
+      render_content={null}
+      status="error"
+      text="status"
+      text_id="dropdown-id-status"
+      title={null}
+    >
+      <span
+        aria-live="assertive"
+        className="dnb-form-status dnb-form-status--error dnb-form-status--status_animation dnb-form-status--has-content"
+        hidden={false}
+      >
+        <IconPrimary
+          alt={null}
+          aria-hidden={true}
+          attributes={null}
+          class={null}
+          className={null}
+          color={null}
+          height={null}
+          icon="exclamation"
+          modifier={null}
+          size="default"
+          title={null}
+          width={null}
+        >
+          <span
+            alt="exclamation"
+            aria-hidden={true}
+            className="dnb-icon dnb-icon--default"
+            role="img"
+          >
+            <exclamation>
+              <svg
+                fill="none"
+                height={16}
+                viewBox="0 0 16 16"
+                width={16}
+              >
+                <path
+                  clipRule="evenodd"
+                  d="M8 1.75a.75.75 0 0 1 .75.75v7a.75.75 0 0 1-1.5 0v-7A.75.75 0 0 1 8 1.75zm-.893 10.357A1.25 1.25 0 0 1 8 11.75c.32 0 .646.11.893.357s.357.573.357.893c0 .32-.11.646-.357.893A1.249 1.249 0 0 1 8 14.25c-.32 0-.646-.11-.893-.357A1.249 1.249 0 0 1 6.75 13c0-.32.11-.646.357-.893z"
+                  fill="#000"
+                  fillRule="evenodd"
+                />
+              </svg>
+            </exclamation>
+          </span>
+        </IconPrimary>
+        <span
+          className="dnb-form-status--text"
+          id="dropdown-id-status"
+        >
+          status
+        </span>
+      </span>
+    </FormStatus>
+    <span
+      className="dnb-dropdown__outside-value"
+    >
+      1134.56.78962
+    </span>
   </span>
-</span>
+</Dropdown>
 `;
 
 exports[`Dropdown scss have to match snapshot 1`] = `
@@ -309,14 +462,6 @@ exports[`Dropdown scss have to match snapshot 1`] = `
  *
  */
 /*
-* DNB Input
-*
-*/
-/*
-* DNB Button
-*
-*/
-/*
 * DNB icon
 *
 */
@@ -365,543 +510,6 @@ exports[`Dropdown scss have to match snapshot 1`] = `
   .dnb-icon--custom-size {
     width: auto;
     height: auto; }
-
-.dnb-button {
-  /**
-   * 1. Remove repeating backgrounds in all browsers (opinionated).
-   * 2. Add border box sizing in all browsers (opinionated).
-   */
-  /**
-   * 1. Add text decoration inheritance in all browsers (opinionated).
-   * 2. Add vertical alignment inheritance in all browsers (opinionated).
-   */
-  /* Grouping content
-   */
-  /**
-   * 1. Add the correct sizing in Firefox.
-   * 2. Show the overflow in Edge and IE.
-   */
-  /**
-   * Add the correct display in IE.
-   */
-  /**
-   * Remove the list style on navigation lists in all browsers (opinionated).
-   */
-  /**
-   * 1. Use the default monospace user interface font
-   *    in all browsers (opinionated).
-   * 2. Correct the odd \`em\` font sizing in all browsers.
-   */
-  /* Text-level semantics
-   */
-  /**
-   * Remove the gray background on active links in IE 10.
-   */
-  /**
-   * Add the correct text decoration in Edge, IE, Opera, and Safari.
-   */
-  /**
-   * Add the correct font weight in Chrome, Edge, and Safari.
-   */
-  /**
-   * 1. Use the default monospace user interface font
-   *    in all browsers (opinionated).
-   * 2. Correct the odd \`em\` font sizing in all browsers.
-   */
-  /*
-   * Remove the text shadow on text selections in Firefox 61- (opinionated).
-   * 1. Restore the coloring undone by defining the text shadow
-   *    in all browsers (opinionated).
-   */
-  /* Embedded content
-   */
-  /*
-   * Change the alignment on media elements in all browers (opinionated).
-   */
-  /**
-   * Add the correct display in IE 9-.
-   */
-  /**
-   * Add the correct display in iOS 4-7.
-   */
-  /**
-   * Remove the border on images inside links in IE 10-.
-   */
-  /**
-   * Change the fill color to match the text color in all browsers (opinionated).
-   */
-  /**
-   * Hide the overflow in IE.
-   */
-  /* Tabular data
-   */
-  /**
-   * Collapse border spacing in all browsers (opinionated).
-   */
-  /* Forms
-   */
-  /**
-   * Inherit styling in all browsers (opinionated).
-   */
-  /**
-   * Remove the margin in Safari.
-   */
-  /**
-   * 1. Show the overflow in IE.
-   * 2. Remove the inheritance of text transform in Edge, Firefox, and IE.
-   */
-  /**
-   * Correct the inability to style clickable types in iOS and Safari.
-   */
-  /**
-   * Correct the padding in Firefox.
-   */
-  /**
-   * Show the overflow in Edge and IE.
-   */
-  /**
-   * 1. Correct the text wrapping in Edge and IE.
-   * 2. Correct the color inheritance from \`fieldset\` elements in IE.
-   */
-  /**
-   * 1. Add the correct display in Edge and IE.
-   * 2. Add the correct vertical alignment in Chrome, Firefox, and Opera.
-   */
-  /**
-   * Remove the inheritance of text transform in Firefox.
-   */
-  /**
-   * 1. Remove the margin in Firefox and Safari.
-   * 2. Remove the default vertical scrollbar in IE.
-   * 3. Change the resize direction on textareas in all browsers (opinionated).
-   */
-  /**
-   * Remove the padding in IE 10-.
-   */
-  /**
-   * 1. Correct the odd appearance in Chrome and Safari.
-   * 2. Correct the outline style in Safari.
-   */
-  /**
-   * Correct the cursor style of increment and decrement buttons in Safari.
-   */
-  /**
-   * Correct the text style of placeholders in Chrome, Edge, and Safari.
-   */
-  /**
-   * Remove the inner padding in Chrome and Safari on macOS.
-   */
-  /**
-   * 1. Correct the inability to style clickable types in iOS and Safari.
-   * 2. Change font properties to \`inherit\` in Safari.
-   */
-  /**
-   * Remove the inner border and padding of focus outlines in Firefox.
-   */
-  /**
-   * Restore the focus outline styles unset by the previous rule in Firefox.
-   */
-  /* Interactive
-   */
-  /*
-   * Add the correct display in Edge and IE.
-   */
-  /*
-   * Add the correct display in all browsers.
-   */
-  /* Scripting
-   */
-  /**
-   * Add the correct display in IE 9-.
-   */
-  /**
-   * Add the correct display in IE.
-   */
-  /* User interaction
-   */
-  /*
-   * 1. Remove the tapping delay in IE 10.
-   * 2. Remove the tapping delay on clickable elements
-        in all browsers (opinionated).
-   */
-  /**
-   * Add the correct display in IE 10-.
-   */
-  /* Accessibility
-   */
-  /**
-   * Change the cursor on busy elements in all browsers (opinionated).
-   */
-  /*
-   * Change the cursor on control elements in all browsers (opinionated).
-   */
-  /*
-   * Change the cursor on disabled, not-editable, or otherwise
-   * inoperable elements in all browsers (opinionated).
-   */
-  /*
-   * Change the display on visually hidden accessible elements
-   * in all browsers (opinionated).
-   */
-  font-family: sans-serif;
-  font-family: var(--font-family-default);
-  font-weight: var(--font-weight-default);
-  font-size: 1rem;
-  font-style: normal;
-  line-height: 1.5rem;
-  color: var(--color-black-80, #333);
-  font-variant-numeric: lining-nums;
-  font-feature-settings: \\"lnum\\";
-  font-size: 1em;
-  line-height: 1.5em; }
-  .dnb-button *,
-  .dnb-button ::before,
-  .dnb-button ::after {
-    background-repeat: no-repeat;
-    /* 1 */
-    box-sizing: border-box;
-    /* 2 */ }
-  .dnb-button ::before,
-  .dnb-button ::after {
-    text-decoration: inherit;
-    /* 1 */
-    vertical-align: inherit;
-    /* 2 */ }
-  .dnb-button hr {
-    height: 0;
-    /* 1 */
-    overflow: visible;
-    /* 2 */ }
-  .dnb-button main {
-    display: block; }
-  .dnb-button nav ol,
-  .dnb-button nav ul {
-    list-style: none; }
-  .dnb-button pre {
-    font-family: Menlo, Consolas, Roboto Mono, Ubuntu Monospace, Noto Mono, Oxygen Mono, Liberation Mono, monospace;
-    /* 1 */
-    font-size: 1em;
-    /* 2 */ }
-  .dnb-button a {
-    background-color: transparent; }
-  .dnb-button abbr[title] {
-    text-decoration: underline;
-    text-decoration: underline dotted; }
-  .dnb-button b,
-  .dnb-button strong {
-    font-weight: bolder; }
-  .dnb-button code,
-  .dnb-button kbd,
-  .dnb-button samp {
-    font-family: Menlo, Consolas, Roboto Mono, Ubuntu Monospace, Noto Mono, Oxygen Mono, Liberation Mono, monospace;
-    /* 1 */
-    font-size: 1em;
-    /* 2 */ }
-  .dnb-button ::-moz-selection {
-    background-color: #b3d4fc;
-    /* 1 */
-    color: #000;
-    /* 1 */
-    text-shadow: none; }
-  .dnb-button audio,
-  .dnb-button canvas,
-  .dnb-button iframe,
-  .dnb-button img,
-  .dnb-button svg,
-  .dnb-button video {
-    vertical-align: middle; }
-  .dnb-button audio,
-  .dnb-button video {
-    display: inline-block; }
-  .dnb-button audio:not([controls]) {
-    display: none;
-    height: 0; }
-  .dnb-button img {
-    border-style: none; }
-  .dnb-button svg:not([fill]) {
-    fill: currentColor; }
-  .dnb-button svg:not(:root) {
-    overflow: hidden; }
-  .dnb-button table {
-    border-collapse: collapse; }
-  .dnb-button button,
-  .dnb-button input,
-  .dnb-button select,
-  .dnb-button textarea {
-    font-family: inherit;
-    font-size: inherit;
-    line-height: inherit; }
-  .dnb-button button,
-  .dnb-button input,
-  .dnb-button select {
-    margin: 0; }
-  .dnb-button button {
-    overflow: visible;
-    /* 1 */
-    text-transform: none;
-    /* 2 */ }
-  .dnb-button button,
-  .dnb-button [type='button'],
-  .dnb-button [type='reset'],
-  .dnb-button [type='submit'] {
-    -webkit-appearance: button; }
-  .dnb-button fieldset {
-    padding: 0.35rem 0.75rem 0.625rem; }
-  .dnb-button input {
-    overflow: visible; }
-  .dnb-button legend {
-    color: inherit;
-    /* 2 */
-    display: table;
-    /* 1 */
-    max-width: 100%;
-    /* 1 */
-    white-space: normal;
-    /* 1 */ }
-  .dnb-button progress {
-    display: inline-block;
-    /* 1 */
-    vertical-align: baseline;
-    /* 2 */ }
-  .dnb-button select {
-    text-transform: none; }
-  .dnb-button textarea {
-    margin: 0;
-    /* 1 */
-    overflow: auto;
-    /* 2 */
-    resize: vertical;
-    /* 3 */ }
-  .dnb-button [type='checkbox'],
-  .dnb-button [type='radio'] {
-    padding: 0; }
-  .dnb-button [type='search'] {
-    -webkit-appearance: textfield;
-    /* 1 */
-    outline-offset: -2px;
-    /* 2 */ }
-  .dnb-button ::-webkit-inner-spin-button,
-  .dnb-button ::-webkit-outer-spin-button {
-    height: auto; }
-  .dnb-button ::-webkit-input-placeholder {
-    color: inherit;
-    opacity: 0.54; }
-  .dnb-button ::-webkit-search-decoration {
-    -webkit-appearance: none; }
-  .dnb-button ::-webkit-file-upload-button {
-    -webkit-appearance: button;
-    /* 1 */
-    font: inherit;
-    /* 2 */ }
-  .dnb-button ::-moz-focus-inner {
-    border-style: none;
-    padding: 0; }
-  .dnb-button :-moz-focusring {
-    outline: 1px dotted ButtonText; }
-  .dnb-button details {
-    display: block; }
-  .dnb-button summary {
-    display: list-item; }
-  .dnb-button canvas {
-    display: inline-block; }
-  .dnb-button template {
-    display: none; }
-  .dnb-button a,
-  .dnb-button area,
-  .dnb-button button,
-  .dnb-button input,
-  .dnb-button label,
-  .dnb-button select,
-  .dnb-button summary,
-  .dnb-button textarea,
-  .dnb-button [tabindex] {
-    -ms-touch-action: manipulation;
-    /* 1 */
-    touch-action: manipulation;
-    /* 2 */ }
-  .dnb-button [hidden] {
-    display: none; }
-  .dnb-button [aria-busy='true'] {
-    cursor: progress; }
-  .dnb-button [aria-controls] {
-    cursor: pointer; }
-  .dnb-button [aria-disabled='true'],
-  .dnb-button [disabled] {
-    cursor: not-allowed; }
-  .dnb-button [aria-hidden='false'][hidden]:not(:focus) {
-    clip: rect(0, 0, 0, 0);
-    display: inherit;
-    position: absolute; }
-  @media print {
-    .dnb-button {
-      background-color: white; } }
-  .dnb-button button {
-    overflow: visible;
-    text-transform: none; }
-  .dnb-button button,
-  .dnb-button [type='button'],
-  .dnb-button [type='reset'],
-  .dnb-button [type='submit'] {
-    -webkit-appearance: button; }
-
-/*
-* Button component
-*
-*/
-:root {
-  --button-font-size: var(--font-size-default);
-  --button-font-size-small: var(--font-size-small);
-  --button-width: 2.5rem;
-  --button-height: 2.5rem;
-  --button-width--small: 1.5rem;
-  --button-height--small: 1.5rem;
-  --button-width--medium: 2rem;
-  --button-height--medium: 2rem;
-  --button-width--large: 3rem;
-  --button-height--large: 3rem;
-  --button-icon-size: 1rem;
-  --button-border-width: 1px;
-  --button-border-width--hover: 3px;
-  --button-border-radius: calc(var(--button-height) / 2);
-  --button-border-radius--small: calc(var(--button-height--small) / 2);
-  --button-border-radius--medium: calc(var(--button-height--medium) / 2);
-  --button-border-radius--large: calc(var(--button-height--large) / 2); }
-
-.dnb-button {
-  cursor: pointer;
-  white-space: nowrap;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--button-width);
-  height: var(--button-height);
-  padding: 0;
-  border: var(--button-border-width) solid transparent;
-  border-radius: var(--button-border-radius);
-  font-size: var(--button-font-size);
-  line-height: var(--button-height);
-  text-decoration: none;
-  /* Firefox includes a hidden border which messes up button dimensions */ }
-  .dnb-button__icon {
-    line-height: 1; }
-    .dnb-button__icon:not(.dnb-icon) svg:not([width]):not([height]) {
-      width: var(--button-icon-size);
-      height: var(--button-icon-size); }
-    @supports not (-ms-ime-align: auto) {
-      .dnb-button__icon {
-        transform: translateY(calc(1px - 1px - var(--button-border-width))); } }
-  .dnb-button__text {
-    color: inherit; }
-    @supports not (-ms-ime-align: auto) {
-      .dnb-button__text {
-        transform: translateY(calc(1px - var(--button-border-width))); } }
-  .dnb-button--size-small {
-    width: var(--button-width--small);
-    height: var(--button-height--small);
-    font-size: var(--button-font-size-small);
-    line-height: var(--button-font-size-small);
-    border-radius: var(--button-border-radius--small); }
-  .dnb-button--has-text.dnb-button--size-small {
-    padding-left: 1rem;
-    padding-right: 1rem; }
-  .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-small {
-    padding-left: 0.5rem; }
-  .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-small {
-    padding-right: 0.5rem; }
-  .dnb-button--size-medium {
-    width: var(--button-width--medium);
-    height: var(--button-height--medium);
-    line-height: var(--button-height--medium);
-    border-radius: var(--button-border-radius--medium); }
-  .dnb-button--has-text.dnb-button--size-medium {
-    padding-left: 1rem;
-    padding-right: 1rem; }
-  .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-medium {
-    padding-left: 0.5rem; }
-  .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-medium {
-    padding-right: 0.5rem; }
-  .dnb-button--size-large {
-    width: var(--button-width--large);
-    height: var(--button-height--large);
-    line-height: var(--button-height--large);
-    border-radius: var(--button-border-radius--large); }
-  .dnb-button--has-text.dnb-button--size-large {
-    padding-left: 2rem;
-    padding-right: 2rem; }
-  .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-large {
-    padding-left: 1rem; }
-  .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-large {
-    padding-right: 1rem; }
-  .dnb-button--has-text {
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-    width: auto; }
-  .dnb-button--has-text .dnb-button__icon {
-    margin: 0 calc(var(--button-icon-size) / 2); }
-  .dnb-button--has-text.dnb-button--icon-position-left {
-    padding-left: 0.5rem; }
-  .dnb-button--has-text.dnb-button--icon-position-right {
-    padding-right: 0.5rem; }
-  .dnb-button--has-text.dnb-button--has-icon .dnb-button__icon {
-    order: 2; }
-  .dnb-button--has-text.dnb-button--has-icon .dnb-button__text {
-    order: 1; }
-  .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__icon {
-    order: 1; }
-  .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__text {
-    order: 2; }
-  .dnb-button--reset {
-    margin: 0;
-    padding: 0;
-    width: auto;
-    height: auto;
-    overflow: visible;
-    border: none;
-    border-radius: 0;
-    background-color: transparent;
-    appearance: none;
-    box-shadow: none;
-    color: inherit;
-    font: inherit;
-    text-align: inherit;
-    line-height: inherit; }
-    .no-touch .dnb-button--reset:hover[disabled] {
-      cursor: not-allowed; }
-    .no-touch .dnb-button--reset:hover:not([disabled]) {
-      box-shadow: none;
-      border: none; }
-    .dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
-      outline: none; }
-      html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
-        box-shadow: 0 0 0 2px; }
-    html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):focus,
-    html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):active {
-      box-shadow: none;
-      color: inherit;
-      border: none; }
-  .dnb-button[type='button'] {
-    appearance: none; }
-  .dnb-button[disabled] {
-    cursor: not-allowed; }
-  button.dnb-button::-moz-focus-inner .dnb-button {
-    border: none; }
-
-a.dnb-button {
-  -webkit-appearance: none; }
-  a.dnb-button .dnb-button__icon {
-    transform: translateY(0); }
-  a.dnb-button .dnb-button__text {
-    transform: translateY(1px); }
-  a.dnb-button:hover {
-    border-radius: var(--button-border-radius); }
-  a.dnb-button--size-small, a.dnb-button--size-small:hover {
-    border-radius: var(--button-border-radius--small); }
-  a.dnb-button--size-medium, a.dnb-button--size-medium:hover {
-    border-radius: var(--button-border-radius--medium); }
-  a.dnb-button--size-large, a.dnb-button--size-large:hover {
-    border-radius: var(--button-border-radius--large); }
-  a.dnb-button:active, a.dnb-button:focus {
-    border-radius: var(--button-border-radius); }
 
 /*
 * DNB FormLabel
@@ -1289,7 +897,11 @@ a.dnb-button {
   width: auto;
   white-space: nowrap; }
 
-.dnb-input {
+/*
+* DNB FormStatus
+*
+*/
+.dnb-form-status {
   /**
    * 1. Remove repeating backgrounds in all browsers (opinionated).
    * 2. Add border box sizing in all browsers (opinionated).
@@ -1477,102 +1089,102 @@ a.dnb-button {
   font-feature-settings: \\"lnum\\";
   font-size: 1em;
   line-height: 1.5em; }
-  .dnb-input *,
-  .dnb-input ::before,
-  .dnb-input ::after {
+  .dnb-form-status *,
+  .dnb-form-status ::before,
+  .dnb-form-status ::after {
     background-repeat: no-repeat;
     /* 1 */
     box-sizing: border-box;
     /* 2 */ }
-  .dnb-input ::before,
-  .dnb-input ::after {
+  .dnb-form-status ::before,
+  .dnb-form-status ::after {
     text-decoration: inherit;
     /* 1 */
     vertical-align: inherit;
     /* 2 */ }
-  .dnb-input hr {
+  .dnb-form-status hr {
     height: 0;
     /* 1 */
     overflow: visible;
     /* 2 */ }
-  .dnb-input main {
+  .dnb-form-status main {
     display: block; }
-  .dnb-input nav ol,
-  .dnb-input nav ul {
+  .dnb-form-status nav ol,
+  .dnb-form-status nav ul {
     list-style: none; }
-  .dnb-input pre {
+  .dnb-form-status pre {
     font-family: Menlo, Consolas, Roboto Mono, Ubuntu Monospace, Noto Mono, Oxygen Mono, Liberation Mono, monospace;
     /* 1 */
     font-size: 1em;
     /* 2 */ }
-  .dnb-input a {
+  .dnb-form-status a {
     background-color: transparent; }
-  .dnb-input abbr[title] {
+  .dnb-form-status abbr[title] {
     text-decoration: underline;
     text-decoration: underline dotted; }
-  .dnb-input b,
-  .dnb-input strong {
+  .dnb-form-status b,
+  .dnb-form-status strong {
     font-weight: bolder; }
-  .dnb-input code,
-  .dnb-input kbd,
-  .dnb-input samp {
+  .dnb-form-status code,
+  .dnb-form-status kbd,
+  .dnb-form-status samp {
     font-family: Menlo, Consolas, Roboto Mono, Ubuntu Monospace, Noto Mono, Oxygen Mono, Liberation Mono, monospace;
     /* 1 */
     font-size: 1em;
     /* 2 */ }
-  .dnb-input ::-moz-selection {
+  .dnb-form-status ::-moz-selection {
     background-color: #b3d4fc;
     /* 1 */
     color: #000;
     /* 1 */
     text-shadow: none; }
-  .dnb-input audio,
-  .dnb-input canvas,
-  .dnb-input iframe,
-  .dnb-input img,
-  .dnb-input svg,
-  .dnb-input video {
+  .dnb-form-status audio,
+  .dnb-form-status canvas,
+  .dnb-form-status iframe,
+  .dnb-form-status img,
+  .dnb-form-status svg,
+  .dnb-form-status video {
     vertical-align: middle; }
-  .dnb-input audio,
-  .dnb-input video {
+  .dnb-form-status audio,
+  .dnb-form-status video {
     display: inline-block; }
-  .dnb-input audio:not([controls]) {
+  .dnb-form-status audio:not([controls]) {
     display: none;
     height: 0; }
-  .dnb-input img {
+  .dnb-form-status img {
     border-style: none; }
-  .dnb-input svg:not([fill]) {
+  .dnb-form-status svg:not([fill]) {
     fill: currentColor; }
-  .dnb-input svg:not(:root) {
+  .dnb-form-status svg:not(:root) {
     overflow: hidden; }
-  .dnb-input table {
+  .dnb-form-status table {
     border-collapse: collapse; }
-  .dnb-input button,
-  .dnb-input input,
-  .dnb-input select,
-  .dnb-input textarea {
+  .dnb-form-status button,
+  .dnb-form-status input,
+  .dnb-form-status select,
+  .dnb-form-status textarea {
     font-family: inherit;
     font-size: inherit;
     line-height: inherit; }
-  .dnb-input button,
-  .dnb-input input,
-  .dnb-input select {
+  .dnb-form-status button,
+  .dnb-form-status input,
+  .dnb-form-status select {
     margin: 0; }
-  .dnb-input button {
+  .dnb-form-status button {
     overflow: visible;
     /* 1 */
     text-transform: none;
     /* 2 */ }
-  .dnb-input button,
-  .dnb-input [type='button'],
-  .dnb-input [type='reset'],
-  .dnb-input [type='submit'] {
+  .dnb-form-status button,
+  .dnb-form-status [type='button'],
+  .dnb-form-status [type='reset'],
+  .dnb-form-status [type='submit'] {
     -webkit-appearance: button; }
-  .dnb-input fieldset {
+  .dnb-form-status fieldset {
     padding: 0.35rem 0.75rem 0.625rem; }
-  .dnb-input input {
+  .dnb-form-status input {
     overflow: visible; }
-  .dnb-input legend {
+  .dnb-form-status legend {
     color: inherit;
     /* 2 */
     display: table;
@@ -1581,192 +1193,131 @@ a.dnb-button {
     /* 1 */
     white-space: normal;
     /* 1 */ }
-  .dnb-input progress {
+  .dnb-form-status progress {
     display: inline-block;
     /* 1 */
     vertical-align: baseline;
     /* 2 */ }
-  .dnb-input select {
+  .dnb-form-status select {
     text-transform: none; }
-  .dnb-input textarea {
+  .dnb-form-status textarea {
     margin: 0;
     /* 1 */
     overflow: auto;
     /* 2 */
     resize: vertical;
     /* 3 */ }
-  .dnb-input [type='checkbox'],
-  .dnb-input [type='radio'] {
+  .dnb-form-status [type='checkbox'],
+  .dnb-form-status [type='radio'] {
     padding: 0; }
-  .dnb-input [type='search'] {
+  .dnb-form-status [type='search'] {
     -webkit-appearance: textfield;
     /* 1 */
     outline-offset: -2px;
     /* 2 */ }
-  .dnb-input ::-webkit-inner-spin-button,
-  .dnb-input ::-webkit-outer-spin-button {
+  .dnb-form-status ::-webkit-inner-spin-button,
+  .dnb-form-status ::-webkit-outer-spin-button {
     height: auto; }
-  .dnb-input ::-webkit-input-placeholder {
+  .dnb-form-status ::-webkit-input-placeholder {
     color: inherit;
     opacity: 0.54; }
-  .dnb-input ::-webkit-search-decoration {
+  .dnb-form-status ::-webkit-search-decoration {
     -webkit-appearance: none; }
-  .dnb-input ::-webkit-file-upload-button {
+  .dnb-form-status ::-webkit-file-upload-button {
     -webkit-appearance: button;
     /* 1 */
     font: inherit;
     /* 2 */ }
-  .dnb-input ::-moz-focus-inner {
+  .dnb-form-status ::-moz-focus-inner {
     border-style: none;
     padding: 0; }
-  .dnb-input :-moz-focusring {
+  .dnb-form-status :-moz-focusring {
     outline: 1px dotted ButtonText; }
-  .dnb-input details {
+  .dnb-form-status details {
     display: block; }
-  .dnb-input summary {
+  .dnb-form-status summary {
     display: list-item; }
-  .dnb-input canvas {
+  .dnb-form-status canvas {
     display: inline-block; }
-  .dnb-input template {
+  .dnb-form-status template {
     display: none; }
-  .dnb-input a,
-  .dnb-input area,
-  .dnb-input button,
-  .dnb-input input,
-  .dnb-input label,
-  .dnb-input select,
-  .dnb-input summary,
-  .dnb-input textarea,
-  .dnb-input [tabindex] {
+  .dnb-form-status a,
+  .dnb-form-status area,
+  .dnb-form-status button,
+  .dnb-form-status input,
+  .dnb-form-status label,
+  .dnb-form-status select,
+  .dnb-form-status summary,
+  .dnb-form-status textarea,
+  .dnb-form-status [tabindex] {
     -ms-touch-action: manipulation;
     /* 1 */
     touch-action: manipulation;
     /* 2 */ }
-  .dnb-input [hidden] {
+  .dnb-form-status [hidden] {
     display: none; }
-  .dnb-input [aria-busy='true'] {
+  .dnb-form-status [aria-busy='true'] {
     cursor: progress; }
-  .dnb-input [aria-controls] {
+  .dnb-form-status [aria-controls] {
     cursor: pointer; }
-  .dnb-input [aria-disabled='true'],
-  .dnb-input [disabled] {
+  .dnb-form-status [aria-disabled='true'],
+  .dnb-form-status [disabled] {
     cursor: not-allowed; }
-  .dnb-input [aria-hidden='false'][hidden]:not(:focus) {
+  .dnb-form-status [aria-hidden='false'][hidden]:not(:focus) {
     clip: rect(0, 0, 0, 0);
     display: inherit;
     position: absolute; }
   @media print {
-    .dnb-input {
+    .dnb-form-status {
       background-color: white; } }
 
 /*
-* Input component
-*
-*/
-:root {
-  --input-font-size: 1rem;
-  --input-font-size--medium: 1.5rem;
-  --input-font-size--large: 2rem;
-  --input-padding: 0 1rem;
-  --input-padding--medium: 0 1rem;
-  --input-padding--large: 0 1.5rem;
-  --input-height: 2rem;
-  --input-height--medium: 2.5rem;
-  --input-height--large: 3rem;
-  --input-border-radius: calc(var(--input-height) / 2);
-  --input-border-radius--medium: calc(var(--input-height--medium) / 2);
-  --input-border-radius--large: calc(var(--input-height--large) / 2);
-  --input-border-width: 1px; }
-
-.dnb-input {
+ * FormStatus element
+ *
+ */
+.dnb-form-status {
+  width: auto;
+  white-space: nowrap;
   display: flex;
+  justify-content: flex-start;
   align-items: center;
-  flex-flow: row wrap;
-  width: 100%;
-  font-size: var(--input-font-size);
+  height: var(--input-height);
+  border-radius: var(--input-border-radius);
+  border-color: var(--color-emerald-green);
   line-height: var(--input-height); }
-  .dnb-input__shell {
-    position: relative;
-    display: flex;
-    align-items: center;
-    flex: 1; }
-  .dnb-input__input {
-    outline: none;
-    border: none;
+  .dnb-form-status--text {
+    padding: 0.5rem 1rem;
+    cursor: text;
+    color: var(--color-emerald-green);
     transform: translateY(1px); }
-  .dnb-input__input[disabled] {
-    user-select: none; }
-  .dnb-input__shell, .dnb-input__input {
-    height: var(--input-height);
-    border-radius: var(--input-border-radius); }
-  .dnb-input__placeholder, .dnb-input__input {
-    width: 100%;
-    padding: var(--input-padding);
-    text-align: left;
+  .dnb-icon + .dnb-form-status--text {
+    padding: 0.5rem; }
+  .dnb-form-status > .dnb-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 1.5em;
+    height: 1.5em;
+    margin: 0.5rem;
+    margin-right: 0;
     color: inherit;
-    background-color: transparent; }
-  .dnb-input__placeholder {
-    pointer-events: none;
-    position: absolute;
-    z-index: 1;
-    top: 0;
-    left: 0;
-    height: 100%;
-    overflow: hidden;
-    transform: translateY(calc(1px - var(--input-border-width))) translateX(1px);
-    white-space: nowrap;
-    text-overflow: ellipsis; }
-  .dnb-input__description {
-    color: inherit;
-    padding-left: 0.5rem; }
-  .dnb-input--medium .dnb-input__shell,
-  .dnb-input--medium .dnb-input__input {
-    height: var(--input-height--medium);
-    border-radius: var(--input-border-radius--medium); }
-  .dnb-input--medium .dnb-input__description,
-  .dnb-input--medium .dnb-input__placeholder,
-  .dnb-input--medium .dnb-input__input {
-    font-size: var(--input-font-size--medium); }
-  .dnb-input--medium .dnb-input__placeholder {
-    line-height: var(--input-height--medium); }
-  .dnb-input--medium .dnb-input__placeholder,
-  .dnb-input--medium .dnb-input__input {
-    padding: var(--input-padding--medium); }
-  .dnb-input--large .dnb-input__shell,
-  .dnb-input--large .dnb-input__input {
-    height: var(--input-height--large);
-    border-radius: var(--input-border-radius--large); }
-  .dnb-input--large .dnb-input__description,
-  .dnb-input--large .dnb-input__placeholder,
-  .dnb-input--large .dnb-input__input {
-    font-size: var(--input-font-size--large); }
-  .dnb-input--large .dnb-input__placeholder {
-    line-height: var(--input-height--large); }
-  .dnb-input--large .dnb-input__placeholder,
-  .dnb-input--large .dnb-input__input {
-    padding: var(--input-padding--large); }
-  .dnb-input__align--right .dnb-input__placeholder,
-  .dnb-input__align--right .dnb-input__input {
-    text-align: right; }
-  .dnb-input__shell[data-has-content='true'] .dnb-input__placeholder,
-  .dnb-input__shell[data-has-content='true'][data-input-state='focus'] .dnb-input__placeholder {
+    border-radius: 50%;
+    border: 1px solid;
+    border-color: currentColor; }
+  .dnb-form-status[hidden] {
     display: none; }
-  .dnb-input__extra-information {
-    flex: 1 100%;
-    padding: 0.5rem 1.5rem;
-    color: var(--color-black);
-    font-size: var(--font-size-small);
-    line-height: 1.25rem; }
-  > .dnb-form-label ~ .dnb-input__extra-information {
-    padding: 0.5rem 0; }
-  .dnb-input__submit-button {
-    position: relative;
-    z-index: 2;
-    transform: translateX(var(--input-border-width)); }
-  .dnb-input > .dnb-form-label {
-    margin-right: 1rem; }
-  .dnb-input > .dnb-form-status {
-    margin-left: 0.5rem; }
+  .dnb-form-status--fade-in {
+    height: 0;
+    opacity: 0;
+    animation: fade-in 600ms ease-out 1 200ms forwards; }
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    height: 0; }
+  to {
+    opacity: 1;
+    height: var(--input-height); } }
 
 .dnb-dropdown {
   /**
@@ -2143,158 +1694,181 @@ a.dnb-button {
 *
 */
 :root {
-  --dropdown-padding-horizontal: 1rem; }
+  --dropdown-width: 20rem;
+  --dropdown-height: 2rem;
+  --dropdown-padding-horizontal: 1rem;
+  --dropdown-border-width: 1px;
+  --dropdown-text-padding: 0.5rem;
+  --dropdown-border-radius: calc(var(--dropdown-height) / 2); }
+
+@keyframes dropdownSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(0); }
+  to {
+    opacity: 1;
+    transform: translateY(calc(var(--dropdown-height) + 1px)); } }
+
+@keyframes dropdownSlideUp {
+  from {
+    opacity: 1;
+    transform: translateY(var(--dropdown-height)); }
+  to {
+    opacity: 0;
+    transform: translateY(0); } }
 
 .dnb-dropdown {
-  --dropdown-width: 20rem;
-  width: 20rem;
-  width: var(--dropdown-width);
-  position: relative;
-  display: inline-block; }
+  margin: 0;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  color: inherit; }
+  .dnb-dropdown__shell {
+    position: relative;
+    height: var(--dropdown-height);
+    margin: 0;
+    padding: 0;
+    color: inherit; }
   .dnb-dropdown__options {
     position: absolute;
     z-index: 3;
-    top: calc(var(--input-height) - 15px);
-    left: 0;
+    top: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
     width: 100%;
     margin: 0;
-    padding: 1rem 0 0 0;
+    padding: 0;
     list-style: none;
-    overflow: hidden;
-    opacity: 0;
-    border: 1px solid var(--color-violet);
-    border-radius: 0.5rem;
-    background-color: white;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
-    transform: translate(0, 0);
+    background-color: transparent;
+    transform: translateY(0);
     transition: transform 200ms, opacity 160ms ease-out; }
-  .dnb-dropdown__option__inner {
-    display: block;
-    white-space: nowrap;
-    user-select: none;
-    outline: none;
-    width: 100%;
-    padding: 1rem;
-    cursor: pointer;
-    background-color: white;
-    border-bottom: 1px solid var(--color-black-border); }
-    .dnb-dropdown__option__inner:last-child {
-      border-bottom: none; }
-    .no-touch .dnb-dropdown__option__inner:hover[disabled] {
-      cursor: not-allowed; }
-    .no-touch .dnb-dropdown__option__inner:hover:not([disabled]) {
-      background-color: var(--color-mint-green-12); }
+    .dnb-spacing .dnb-dropdown__options li {
+      margin: 0; }
   .dnb-dropdown__option {
+    position: relative;
+    cursor: pointer;
+    margin: 0;
     padding: 2px;
-    background-color: white; }
-    .dnb-dropdown__option--active {
-      background-color: var(--color-mint-green-12); }
-      .dnb-dropdown__option--active .dnb-dropdown__option__inner {
-        box-shadow: 0 0 0 1px;
-        outline: none; }
-        html[data-whatinput='keyboard'] .dnb-dropdown__option--active .dnb-dropdown__option__inner {
-          box-shadow: 0 0 0 2px; }
+    color: inherit;
+    background-color: var(--color-white); }
+    .dnb-dropdown__option__inner {
+      position: relative;
+      z-index: 1;
+      display: block;
+      outline: none;
+      width: 100%;
+      margin: 0;
+      padding: 1rem;
+      color: inherit;
+      background-color: var(--color-white); }
+      .no-touch .dnb-dropdown__option__inner:hover[disabled] {
+        cursor: not-allowed; }
+      .no-touch .dnb-dropdown__option__inner:hover:not([disabled]) {
+        background-color: grey; }
+    .dnb-dropdown__option__item {
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: 100%; }
     .no-touch .dnb-dropdown__option:hover[disabled] {
       cursor: not-allowed; }
     .no-touch .dnb-dropdown__option:hover:not([disabled]) {
-      background-color: var(--color-mint-green-12); }
+      background-color: grey; }
       .no-touch .dnb-dropdown__option:hover:not([disabled]) .dnb-dropdown__option__inner {
-        background-color: var(--color-mint-green-12); }
-    .dnb-dropdown__option.dnb-dropdown__option--selected {
-      background-color: var(--color-mint-green-12); }
-      .dnb-dropdown__option.dnb-dropdown__option--selected .dnb-dropdown__option__inner {
-        background-color: var(--color-mint-green-12); }
-  .dnb-dropdown--hidden .dnb-dropdown__options {
-    visibility: hidden;
-    opacity: 0;
-    transform: translate(0, 0); }
+        background-color: grey; }
+    .dnb-dropdown__option--active {
+      background-color: grey; }
+      .dnb-dropdown__option--active .dnb-dropdown__option__inner {
+        box-shadow: 0 0 0 1px; }
+    .dnb-dropdown__option--selected {
+      background-color: grey; }
+      .dnb-dropdown__option--selected .dnb-dropdown__option__inner {
+        background-color: grey; }
+  .dnb-dropdown__icon {
+    position: relative;
+    order: 2;
+    pointer-events: none;
+    color: inherit; }
+    .dnb-dropdown__icon .dnb-icon {
+      color: inherit; }
+  .dnb-dropdown__triangle {
+    position: absolute;
+    top: calc(1px - var(--dropdown-height) / 2);
+    left: auto;
+    right: 0;
+    margin: 0 calc( var(--dropdown-padding-horizontal) + var(--dropdown-border-width));
+    width: calc(var(--dropdown-height) / 2);
+    height: calc(var(--dropdown-height) / 2); }
+    .dnb-dropdown__triangle::before {
+      content: '';
+      position: relative;
+      display: block;
+      width: 100%;
+      height: 100%;
+      transform: translateY(70%) rotate(45deg);
+      border: 1px solid var(--color-black-border);
+      background-color: var(--color-white); }
+  .dnb-dropdown--icon-position-left .dnb-dropdown__triangle {
+    left: 0;
+    right: auto; }
   .dnb-dropdown__trigger {
     position: relative;
     z-index: 1;
     user-select: none;
     display: inline-flex;
     outline: none;
-    width: inherit;
-    height: var(--input-height);
+    width: 100%;
+    height: var(--dropdown-height);
     padding: 0 var(--dropdown-padding-horizontal);
     font-size: inherit;
-    line-height: var(--input-height);
-    background-color: white;
-    border: var(--input-border-width) solid var(--input-border-color);
-    border-radius: var(--input-border-radius); }
-  .dnb-dropdown__icon {
-    order: 2;
-    display: inline-block;
-    height: inherit;
-    pointer-events: none; }
-    .dnb-dropdown__icon .dnb-icon {
-      display: flex;
-      align-items: center;
-      height: inherit;
-      color: var(--color-sea-green); }
-    .dnb-dropdown__icon__triangle {
-      position: absolute;
-      z-index: 2;
-      top: 80%;
-      right: 8.5%;
-      visibility: hidden;
-      width: var(--input-height)/2;
-      height: var(--input-height)/2;
-      background-color: white;
-      border: 1px solid var(--color-black-border);
-      opacity: 0;
-      transform: translate(50%, 50%) rotate(45deg);
-      transition: transform 200ms, opacity 50ms ease-out; }
-      .dnb-dropdown__icon__triangle::before {
-        content: '';
-        /* stylelint-disable */
-        width: 110%;
-        height: 110%;
-        width: calc(100% + 2px);
-        height: calc(100% + 2px);
-        /* stylelint-enable */
-        position: relative;
-        background-color: white;
-        display: block; }
+    color: inherit;
+    line-height: var(--dropdown-height);
+    border: var(--dropdown-border-width) solid transparent;
+    border-radius: var(--dropdown-border-radius); }
   .dnb-dropdown__text {
     order: 1;
     position: relative;
     z-index: 4;
-    display: inline-block;
-    width: inherit;
     height: inherit;
-    padding-right: 0.3rem;
+    padding: 0 var(--dropdown-text-padding) 0 0;
     overflow: hidden;
+    color: inherit;
     text-align: left;
     text-overflow: ellipsis; }
     .dnb-dropdown__text__inner {
       display: inline-block;
-      max-width: 20rem;
-      /* stylelint-disable */
-      width: inherit;
       width: calc( var(--dropdown-width) - calc(var(--dropdown-padding-horizontal) * 4));
-      /* stylelint-enable */
+      height: inherit;
+      padding: 0;
       overflow: hidden;
       white-space: nowrap;
-      color: #58595b;
+      color: inherit;
       text-decoration: none;
       text-overflow: inherit;
       text-align: inherit; }
-  .dnb-dropdown__option__item {
-    display: block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    width: 100%; }
+  .dnb-dropdown--opened .dnb-dropdown__options {
+    z-index: 9;
+    display: flex;
+    animation: dropdownSlideDown 200ms ease-out 1 forwards; }
+    .dnb-dropdown--opened .dnb-dropdown__options--no-animation {
+      animation: dropdownSlideDown 1ms ease-out 1 forwards; }
+  .dnb-dropdown--closed .dnb-dropdown__options {
+    display: none; }
+  .dnb-dropdown:not(.dnb-dropdown--opened) .dnb-dropdown__options {
+    opacity: 0.5;
+    transform: translateY(0);
+    animation: dropdownSlideUp 150ms ease-out 1 forwards; }
+    .dnb-dropdown:not(.dnb-dropdown--opened) .dnb-dropdown__options--no-animation {
+      animation: dropdownSlideUp 1ms ease-out 1 forwards; }
   .dnb-dropdown--icon-position-left .dnb-dropdown__icon {
     order: 1;
     margin-top: -1px; }
-    .dnb-dropdown--icon-position-left .dnb-dropdown__icon__triangle {
-      right: auto;
-      left: 4%; }
   .dnb-dropdown--icon-position-left .dnb-dropdown__text {
     order: 2;
-    padding-left: 0.3rem; }
-  .dnb-dropdown__value-holder-input {
+    padding-right: 0;
+    padding-left: var(--dropdown-text-padding); }
+  .dnb-dropdown__input {
     position: absolute;
     z-index: 6;
     top: 0;
@@ -2302,40 +1876,35 @@ a.dnb-button {
     cursor: pointer;
     display: block;
     width: 100%;
-    height: var(--input-height);
+    height: var(--dropdown-height);
     opacity: 0; }
-    .no-touch .dnb-dropdown__value-holder-input:hover[disabled] {
+    .no-touch .dnb-dropdown__input:hover[disabled] {
       cursor: not-allowed; }
-    .no-touch .dnb-dropdown__value-holder-input:hover:not([disabled]) ~ .dnb-dropdown__trigger .dnb-dropdown__text {
-      opacity: 0.8; }
-    .no-touch .dnb-dropdown__value-holder-input:hover:not([disabled]) ~ .dnb-dropdown__trigger .dnb-dropdown__icon .dnb-icon {
-      color: var(--color-sea-green); }
-    .dnb-dropdown__value-holder-input:focus ~ .dnb-dropdown__trigger {
-      z-index: 9;
-      cursor: pointer;
-      box-shadow: 0 0 0 1px;
-      outline: none; }
-      html[data-whatinput='keyboard'] .dnb-dropdown__value-holder-input:focus ~ .dnb-dropdown__trigger {
-        box-shadow: 0 0 0 2px; }
-    .dnb-dropdown__value-holder-input:focus ~ .dnb-dropdown__options {
+    .no-touch .dnb-dropdown__input:hover:not([disabled]) ~ .dnb-dropdown__trigger .dnb-dropdown__text,
+    .no-touch .dnb-dropdown__input:hover:not([disabled]) ~ .dnb-dropdown__trigger .dnb-dropdown__icon .dnb-icon {
+      color: black; }
+    .no-touch .dnb-dropdown__input:focus[disabled] {
+      cursor: not-allowed; }
+    .no-touch .dnb-dropdown__input:focus:not([disabled]) ~ .dnb-dropdown__trigger {
       z-index: 8;
-      visibility: visible;
-      opacity: 1;
-      transform: translate(0, 1.3rem); }
-    .dnb-dropdown__value-holder-input:focus ~ .dnb-dropdown__trigger
-.dnb-dropdown__icon
-.dnb-dropdown__icon__triangle {
-      visibility: visible;
-      transform: translate(50%, 0.25rem) rotate(45deg);
-      opacity: 1; }
-  .dnb-dropdown__value-holder-input[disabled] ~ .dnb-dropdown__icon,
-  .dnb-dropdown__value-holder-input[disabled] ~ .dnb-dropdown__trigger {
-    opacity: 0.4; }
-  .dnb-dropdown__value-holder-input:not([disabled]):hover ~ .dnb-dropdown__trigger {
-    color: #000; }
+      cursor: pointer;
+      box-shadow: 0 0 0 1px; }
+    .no-touch .dnb-dropdown__input:focus:not([disabled]) ~ .dnb-dropdown__options {
+      z-index: 9;
+      display: flex;
+      animation: dropdownSlideDown 200ms ease-out 1 forwards; }
+      .no-touch .dnb-dropdown__input:focus:not([disabled]) ~ .dnb-dropdown__options--no-animation {
+        animation: dropdownSlideDown 1ms ease-out 1 forwards; }
+  .dnb-dropdown__input[disabled] ~ .dnb-dropdown__icon,
+  .dnb-dropdown__input[disabled] ~ .dnb-dropdown__trigger {
+    color: lightgrey; }
   .dnb-dropdown__outside-value {
     display: block;
     padding: 0.5rem 0 1rem var(--dropdown-padding-horizontal); }
+  .dnb-dropdown > .dnb-form-label {
+    margin-right: 1rem; }
+  .dnb-dropdown > .dnb-form-status {
+    margin-left: 0.5rem; }
   .dnb-dropdown .icon-chevron-left .dnb-icon svg {
     transform: rotate(-90deg); }
 "

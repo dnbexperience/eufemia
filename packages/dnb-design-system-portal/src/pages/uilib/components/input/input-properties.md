@@ -1,3 +1,7 @@
+---
+draft: true
+---
+
 | Properties            | Description                                                                                                                                                      |
 | --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `id`                  | _(mandatory)_ the **id** attribute of the input element                                                                                                          |
@@ -13,9 +17,3 @@
 | `description`         | _(optional)_ text describing the content of the input more than the label.                                                                                       |
 | `size`                | _(optional)_ at the moment `large` is the only available variant. Leave blank if you want a standard size input.                                                 |
 | `attributes`          | _(optional)_ insert any other attributes. For example `disabled` or any other custom attributes.                                                                 |
-
-| Events            | Description                                                                 |
-| ----------------- | --------------------------------------------------------------------------- |
-| `on_change`       | _(optional)_ will be called on state changes made by the user.              |
-| `on_submit`       | _(optional)_ will be called on submit button click.                         |
-| `on_state_update` | _(optional)_ will be called once the parameter `checked` changes its value. |

@@ -33,6 +33,9 @@ module.exports.testPageScreenshot = ({
   padding = true,
   text = null,
   simulate = null,
+  waitFor = null,
+  waitBeforeFinish = null,
+  secreenshotSelector = null,
   simulateSelector = null,
   wrapperStyle = null,
   transformElement = null
@@ -92,6 +95,8 @@ module.exports.testPageScreenshot = ({
             })
           }
         )
+
+        await page.waitForSelector(`#${id}`)
         screenshotElement = await page.$(`#${id}`)
       } else {
         screenshotElement = element
@@ -117,12 +122,14 @@ module.exports.testPageScreenshot = ({
         await transformElement(element)
       }
 
-      let delay = 0
-
       if (simulate) {
-        let elementToSimulate = element
+        let elementToSimulate = null
         if (simulateSelector) {
+          await page.waitFor(1e3)
+          await page.waitForSelector(simulateSelector)
           elementToSimulate = await page.$(simulateSelector)
+        } else {
+          elementToSimulate = element
         }
 
         switch (simulate) {
@@ -132,12 +139,18 @@ module.exports.testPageScreenshot = ({
             }
             break
 
+          case 'click':
+            {
+              await elementToSimulate.click()
+            }
+            break
+
           case 'active':
             {
               // make a delayed click, no await. Else we get only a release state
-              delay = 500
+              waitBeforeFinish = 500
               elementToSimulate.click({
-                delay // move the mouse
+                delay: waitBeforeFinish // move the mouse
               })
             }
             break
@@ -148,17 +161,29 @@ module.exports.testPageScreenshot = ({
               await elementToSimulate.focus()
             }
             break
+
+          default:
         }
         elementToSimulate = null
+      }
+
+      if (secreenshotSelector) {
+        await page.waitForSelector(secreenshotSelector)
+        screenshotElement = await page.$(secreenshotSelector)
+      }
+
+      // wait before taking screenshot
+      if (waitFor > 0) {
+        await page.waitFor(waitFor)
       }
 
       const screenshot = await screenshotElement.screenshot()
       screenshotElement = null
 
-      // just to make sure we dont resolve, before the delayed click happened
+      // before we had: just to make sure we dont resolve, before the delayed click happened
       // so the next interation on the same url will have a reset state
-      if (delay > 0) {
-        await page.waitFor(delay)
+      if (waitBeforeFinish > 0) {
+        await page.waitFor(waitBeforeFinish)
       }
 
       if (!config.headless) {

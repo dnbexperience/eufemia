@@ -222,13 +222,15 @@ export default class Input extends PureComponent {
 
       id: _id /* eslint-disable-line */,
       children /* eslint-disable-line */,
-      value /* eslint-disable-line */,
+      value: _value /* eslint-disable-line */,
       inputElement /* eslint-disable-line */,
 
       wrapper_attributes,
 
       ...attributes
     } = this.props
+
+    const { value } = this.state
 
     const id = this._id
     const showStatus = status && status !== 'error'
@@ -249,7 +251,7 @@ export default class Input extends PureComponent {
       ...renderProps,
       className: classnames('dnb-input__input', input_class),
       autoComplete: autocomplete,
-      value: this.state.value || '',
+      value: value || '',
       type,
       id,
       disabled,
@@ -260,9 +262,6 @@ export default class Input extends PureComponent {
       onBlur: this.onBlurHandler,
       ...attributes
     }
-
-    // also used for code markup simulation
-    validateDOMAttributes(this.props, inputParams)
 
     if (showStatus) {
       inputParams['aria-details'] = id + '-status'
@@ -276,12 +275,16 @@ export default class Input extends PureComponent {
     const shellParams = {
       'data-input-state': this.state.inputState,
       'data-has-content':
-        String(this.state.value || '').length > 0 ? 'true' : 'false',
+        String(value || '').length > 0 ? 'true' : 'false',
       ...wrapper_attributes
     }
     if (wrapper_attributes && typeof wrapper_attributes === 'object') {
       Object.assign(shellParams, wrapper_attributes)
     }
+
+    // also used for code markup simulation
+    validateDOMAttributes(this.props, inputParams)
+    validateDOMAttributes(null, shellParams)
 
     return (
       <span className={classes}>

@@ -1,6 +1,8 @@
 ---
-status: 'wip'
+draft: true
 ---
+
+import Examples from 'Pages/uilib/helper-classes/Examples'
 
 ## Description
 
@@ -15,3 +17,7 @@ All CSS helper classes are to be found in `src/style/core/helper-classes.scss`
 ### Mixins
 
 Most helper classes are SCSS _mixins_ which are then applied to the class when invoked. The helper _mixins_ can be found in `src/style/core/utilities.scss`.
+
+## Usage
+
+<Examples />

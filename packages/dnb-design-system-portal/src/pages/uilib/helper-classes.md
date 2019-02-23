@@ -6,6 +6,18 @@ draft: false
 order: 5
 ---
 
-import HelperClasses from 'Src/uilib/patterns/demos/HelperClasses'
+import Tabs from 'Tags/Tabs'
 
-<HelperClasses />
+import HelperClassesInfo from 'Pages/uilib/helper-classes/helper-classes-info'
+import HelperClassesProperties from 'Pages/uilib/helper-classes/helper-classes-properties'
+
+# Helper Classes
+
+<Tabs>
+  <Tabs.Content title="Usage and Description" hash="123">
+    <HelperClassesInfo />
+  </Tabs.Content>
+  <Tabs.Content title="CSS Classes">
+    <HelperClassesProperties />
+  </Tabs.Content>
+</Tabs>

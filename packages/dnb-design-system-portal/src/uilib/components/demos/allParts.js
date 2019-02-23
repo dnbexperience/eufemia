@@ -4,13 +4,13 @@
      */
 
 // import Button from './Button'
-import Dropdown from './Dropdown'
+// import Dropdown from './Dropdown'
 import FormLabel from './FormLabel'
 import FormStatus from './FormStatus'
 import Icon from './Icon'
 import IconPrimary from './IconPrimary'
-import Input from './Input'
-import InputMasked from './InputMasked'
+// import Input from './Input'
+// import InputMasked from './InputMasked'
 import LineTitle from './LineTitle'
 import Logo from './Logo'
 import Modal from './Modal'
@@ -22,13 +22,13 @@ import Tabs from './Tabs'
 
 export default [
   // Button,
-  Dropdown,
+  // Dropdown,
   FormLabel,
   FormStatus,
   Icon,
   IconPrimary,
-  Input,
-  InputMasked,
+  // Input,
+  // InputMasked,
   LineTitle,
   Logo,
   Modal,
