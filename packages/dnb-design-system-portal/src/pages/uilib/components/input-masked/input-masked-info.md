@@ -2,7 +2,7 @@
 draft: true
 ---
 
-import Examples from 'Pages/uilib/components/input/Examples'
+import Examples from 'Pages/uilib/components/input-masked/Examples'
 
 ## Description
 
