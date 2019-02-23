@@ -6,20 +6,20 @@ order: 2
 
 import Tabs from 'Tags/Tabs'
 
-import FirstTabContent from 'Pages/uilib/components/button/button-info'
-import SecondTabContent from 'Pages/uilib/components/button/button-properties'
-import ThirdTabContent from 'Pages/uilib/components/button/button-events'
+import ButtonInfo from 'Pages/uilib/components/button/button-info'
+import ButtonProperties from 'Pages/uilib/components/button/button-properties'
+import ButtonEvents from 'Pages/uilib/components/button/button-events'
 
 # Button
 
 <Tabs>
   <Tabs.Content>
-    <FirstTabContent />
+    <ButtonInfo />
   </Tabs.Content>
   <Tabs.Content>
-    <SecondTabContent />
+    <ButtonProperties />
   </Tabs.Content>
   <Tabs.Content>
-    <ThirdTabContent  />
+    <bBttonEvents  />
   </Tabs.Content>
 </Tabs>

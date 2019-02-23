@@ -10,7 +10,7 @@ import Footer from './Footer'
 import Form from './Form'
 import FormSummary from './FormSummary'
 import Grid from './Grid'
-import HelperClasses from './HelperClasses'
+// import HelperClasses from './HelperClasses'
 import MainNav from './MainNav'
 import RangeSlider from './RangeSlider'
 import SummaryTable from './SummaryTable'
@@ -24,7 +24,7 @@ export default [
   Form,
   FormSummary,
   Grid,
-  HelperClasses,
+  // HelperClasses,
   MainNav,
   RangeSlider,
   SummaryTable,

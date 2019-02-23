@@ -37,7 +37,6 @@ import Footer from './patterns/footer/Footer'
 import Form from './patterns/form/Form'
 import FormSummary from './patterns/form-summary/FormSummary'
 import Grid from './patterns/grid/Grid'
-import HelperClasses from './patterns/helper-classes/HelperClasses'
 import MainNav from './patterns/main-nav/MainNav'
 import RangeSlider from './patterns/range-slider/RangeSlider'
 import SummaryTable from './patterns/summary-table/SummaryTable'
@@ -68,7 +67,6 @@ export {
   Form,
   FormSummary,
   Grid,
-  HelperClasses,
   MainNav,
   RangeSlider,
   SummaryTable,

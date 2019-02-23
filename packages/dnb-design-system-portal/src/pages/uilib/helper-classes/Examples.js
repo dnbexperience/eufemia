@@ -4,7 +4,7 @@
  */
 
 import React, { PureComponent, Fragment } from 'react'
-import CodeBlock from '../../../../dnb-design-system-portal/src/shared/tags/CodeBlock'
+import CodeBlock from '../../../shared/tags/CodeBlock'
 import styled from '@emotion/styled'
 
 class Example extends PureComponent {
