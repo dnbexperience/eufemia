@@ -11,9 +11,7 @@
 @import './core/helper-classes.scss';
 
 // make sure we have dynamic root font size
-html {
-  font-size: 100%;
-}
+@include htmlDefault();
 
 // The only style we use on body is to reset the margin
 // the rest goas inside dnb-core-style

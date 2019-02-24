@@ -25,6 +25,15 @@
   @content;
 }
 
+@mixin htmlDefault() {
+  html {
+    font-size: 100%;
+    @supports (font: -apple-system-body) {
+      font: -apple-system-body; /* stylelint-disable-line */
+    }
+  }
+}
+
 @mixin componentReset() {
   @include bodyDefault();
 
