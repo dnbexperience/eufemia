@@ -1,7 +1,62 @@
 /**
- * Additionally Tools
+ * Global helpers
  *
  */
+
+import whatInput from 'what-input'
+whatInput.specificKeys([9])
+
+defineIsTouch()
+
+/**
+ * Check if device is touch device or not
+ */
+const isTouchDevice = () => {
+  try {
+    return (
+      !!(
+        typeof window !== 'undefined' &&
+        ('ontouchstart' in window ||
+          (window.DocumentTouch &&
+            typeof document !== 'undefined' &&
+            document instanceof window.DocumentTouch))
+      ) ||
+      !!(
+        typeof navigator !== 'undefined' &&
+        (navigator.maxTouchPoints || navigator.msMaxTouchPoints)
+      )
+    )
+  } catch (e) {
+    console.log('Could not determine the touch situation:', e)
+    return null
+  }
+}
+
+export function defineIsTouch(runInstantly = true) {
+  const handleDefineTouch = () => {
+    if (typeof document === 'undefined' || typeof window === 'undefined')
+      return
+    try {
+      if (isTouchDevice()) {
+        document.documentElement.setAttribute('dnb-is-touch', true)
+      }
+    } catch (e) {
+      console.log('Could not apply "touch class"', e)
+    }
+
+    window.removeEventListener('load', handleDefineTouch)
+  }
+
+  if (runInstantly) {
+    handleDefineTouch()
+  } else if (typeof window !== 'undefined') {
+    try {
+      window.addEventListener('load', handleDefineTouch)
+    } catch (e) {
+      console.log('Could not add "load" event listener', e)
+    }
+  }
+}
 
 const pageFocusElements = {}
 export const setPageFocusElement = (element = null, key = 'default') => {

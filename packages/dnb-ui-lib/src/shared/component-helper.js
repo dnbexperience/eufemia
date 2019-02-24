@@ -1,58 +1,10 @@
 /**
  * Component helpers
- * This is kind of a "global" file. Both every component is imporint this, but also the main index file.
  *
  */
 
 import { registerElement } from './custom-element'
-import whatInput from 'what-input' // More flexible solution
-
-// IE 11: as we don't need to change CSS Custom Properties in runtime, we don't use this for now
-// import cssVars from 'css-vars-ponyfill'
-// cssVars()
-
-whatInput.specificKeys([9])
-
 export { registerElement }
-
-export const defineIsTouch = (runInstantly = true) => {
-  const handleDefineTouch = () => {
-    /**
-     * Check if device is touch device or not
-     */
-    const isTouchDevice = () => {
-      return (
-        !!(
-          typeof window !== 'undefined' &&
-          ('ontouchstart' in window ||
-            (window.DocumentTouch &&
-              typeof document !== 'undefined' &&
-              document instanceof window.DocumentTouch))
-        ) ||
-        !!(
-          typeof navigator !== 'undefined' &&
-          (navigator.maxTouchPoints || navigator.msMaxTouchPoints)
-        )
-      )
-    }
-
-    //Adds class to <body> depending on if isTouchDevice()
-    if (typeof document !== 'undefined') {
-      const touchClass = isTouchDevice() ? 'touch' : 'no-touch'
-      document.body.classList.add(touchClass)
-    }
-  }
-
-  if (runInstantly) {
-    handleDefineTouch()
-  } else if (typeof window !== 'undefined') {
-    window.addEventListener('load', handleDefineTouch)
-  }
-
-  return handleDefineTouch
-}
-
-defineIsTouch(true)
 
 export const validateDOMAttributes = (props, params) => {
   // if there is an "attributes" prop, prepare these

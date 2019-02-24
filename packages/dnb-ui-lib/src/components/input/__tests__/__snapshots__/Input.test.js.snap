@@ -175,9 +175,9 @@ exports[`Input scss have to match default theme snapshot 1`] = `
   .dnb-input__shell {
     background-color: var(--color-white);
     border: var(--input-border-width) solid var(--input-border-color); }
-    .no-touch .dnb-input__shell:not([data-input-state='disabled']):hover[disabled] {
+    :not([dnb-is-touch]) .dnb-input__shell:not([data-input-state='disabled']):hover[disabled] {
       cursor: not-allowed; }
-    .no-touch .dnb-input__shell:not([data-input-state='disabled']):hover:not([disabled]) {
+    :not([dnb-is-touch]) .dnb-input__shell:not([data-input-state='disabled']):hover:not([disabled]) {
       background-color: var(--color-white); }
     .dnb-input__shell[data-has-content='true'] {
       color: var(--input-text-color--active);
@@ -893,9 +893,9 @@ exports[`Input scss have to match snapshot 1`] = `
     font: inherit;
     text-align: inherit;
     line-height: inherit; }
-    .no-touch .dnb-button--reset:hover[disabled] {
+    :not([dnb-is-touch]) .dnb-button--reset:hover[disabled] {
       cursor: not-allowed; }
-    .no-touch .dnb-button--reset:hover:not([disabled]) {
+    :not([dnb-is-touch]) .dnb-button--reset:hover:not([disabled]) {
       box-shadow: none;
       border: none; }
     .dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {

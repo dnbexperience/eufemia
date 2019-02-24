@@ -724,9 +724,9 @@ exports[`InputMasked scss have to match snapshot 1`] = `
     font: inherit;
     text-align: inherit;
     line-height: inherit; }
-    .no-touch .dnb-button--reset:hover[disabled] {
+    :not([dnb-is-touch]) .dnb-button--reset:hover[disabled] {
       cursor: not-allowed; }
-    .no-touch .dnb-button--reset:hover:not([disabled]) {
+    :not([dnb-is-touch]) .dnb-button--reset:hover:not([disabled]) {
       box-shadow: none;
       border: none; }
     .dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {

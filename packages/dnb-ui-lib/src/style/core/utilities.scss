@@ -27,12 +27,12 @@
 //   }
 // }
 
-//Uses .no-touch and .touch
+//Uses :not([dnb-is-touch]) and .touch
 //classes on <body> element
 //based on js touch device test
 @mixin hover($nested: true) {
   @if $nested {
-    .no-touch & {
+    :not([dnb-is-touch]) & {
       &:hover {
         &[disabled] {
           cursor: not-allowed;
@@ -43,7 +43,7 @@
       }
     }
   } @else {
-    .no-touch {
+    :not([dnb-is-touch]) {
       &:hover {
         &[disabled] {
           cursor: not-allowed;
@@ -57,7 +57,7 @@
 }
 @mixin active($nested: true) {
   @if $nested {
-    .no-touch & {
+    :not([dnb-is-touch]) & {
       &:active {
         &[disabled] {
           cursor: not-allowed;
@@ -68,7 +68,7 @@
       }
     }
   } @else {
-    .no-touch {
+    :not([dnb-is-touch]) {
       &:active {
         &[disabled] {
           cursor: not-allowed;
@@ -82,7 +82,7 @@
 }
 @mixin focus($nested: true) {
   @if $nested {
-    .no-touch & {
+    :not([dnb-is-touch]) & {
       &:focus {
         &[disabled] {
           cursor: not-allowed;
@@ -93,7 +93,7 @@
       }
     }
   } @else {
-    .no-touch {
+    :not([dnb-is-touch]) {
       &:focus {
         &[disabled] {
           cursor: not-allowed;

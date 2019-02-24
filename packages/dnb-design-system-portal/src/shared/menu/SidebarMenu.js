@@ -18,7 +18,7 @@ import keycode from 'keycode'
 import {
   setPageFocusElement,
   applyPageFocus
-} from 'dnb-ui-lib/src/shared/tools'
+} from 'dnb-ui-lib/src/shared/global-helpers'
 
 const StyledListItem = styled.li`
   list-style: none;
