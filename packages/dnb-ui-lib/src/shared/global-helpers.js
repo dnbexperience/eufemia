@@ -11,7 +11,7 @@ defineIsTouch()
 /**
  * Check if device is touch device or not
  */
-const isTouchDevice = () => {
+function isTouchDevice() {
   try {
     return (
       !!(
@@ -59,8 +59,11 @@ export function defineIsTouch(runInstantly = true) {
 }
 
 const pageFocusElements = {}
-export const setPageFocusElement = (element = null, key = 'default') => {
-  pageFocusElements[key] = element
+export const setPageFocusElement = (
+  selectorOrElement,
+  key = 'default'
+) => {
+  pageFocusElements[key] = selectorOrElement
 }
 
 export const applyPageFocus = (key = 'default') => {
