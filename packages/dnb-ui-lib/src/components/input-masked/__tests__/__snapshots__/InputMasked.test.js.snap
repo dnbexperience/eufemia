@@ -32,7 +32,6 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
   submit_button_title={null}
   type="text"
   value="test"
-  wrapper_attributes={null}
 />
 `;
 

@@ -44,7 +44,6 @@ export const propTypes = {
   class: PropTypes.string,
   input_class: PropTypes.string,
   attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  wrapper_attributes: PropTypes.object,
 
   // Submit button
   submit_button_icon: PropTypes.oneOfType([
@@ -90,7 +89,6 @@ export const defaultProps = {
   input_class: null,
   class: null,
   attributes: null,
-  wrapper_attributes: null,
 
   // Submit button
   submit_button_title: null,
@@ -225,8 +223,6 @@ export default class Input extends PureComponent {
       value: _value /* eslint-disable-line */,
       inputElement /* eslint-disable-line */,
 
-      wrapper_attributes,
-
       ...attributes
     } = this.props
 
@@ -274,12 +270,7 @@ export default class Input extends PureComponent {
 
     const shellParams = {
       'data-input-state': this.state.inputState,
-      'data-has-content':
-        String(value || '').length > 0 ? 'true' : 'false',
-      ...wrapper_attributes
-    }
-    if (wrapper_attributes && typeof wrapper_attributes === 'object') {
-      Object.assign(shellParams, wrapper_attributes)
+      'data-has-content': String(value || '').length > 0 ? 'true' : 'false'
     }
 
     // also used for code markup simulation

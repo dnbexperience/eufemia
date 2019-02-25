@@ -12,24 +12,11 @@ import styled from '@emotion/styled'
 import createNumberMask from 'text-mask-addons/dist/createNumberMask'
 
 class Example extends PureComponent {
-  constructor(props) {
-    super(props)
-    this._ref = React.createRef()
-  }
   handleInputChange = ({ value }) => {
     console.log(value)
   }
-  state = { showTestData: false }
-  componentDidMount() {
-    const showTestData = typeof window !== 'undefined' && window.IS_TEST
-    this.setState({ showTestData })
-  }
-  showTestData(state) {
-    return this.state.showTestData
-      ? `wrapper_attributes={{'data-dnb-test': "input-${state}"}}`
-      : ''
-  }
   render() {
+    const handleInputChange = this.handleInputChange
     return (
       <Fragment>
         <ComponentBox
@@ -37,7 +24,7 @@ class Example extends PureComponent {
           noInline
           scope={{
             createNumberMask,
-            handleInputChange: this.handleInputChange
+            handleInputChange
           }}
         >
           {/* @jsx */ `
@@ -86,6 +73,7 @@ render(<InputMasked
         <ComponentBox
           caption="Phone Number, starting with 4"
           scope={{ handleInputChange: this.handleInputChange }}
+          data-dnb-test="input-masked-phone"
         >
           {/* @jsx */ `
 <InputMasked
@@ -110,7 +98,6 @@ render(<InputMasked
   ]}
   show_mask="true"
   on_change={handleInputChange}
-  ${this.showTestData('masked-phone')}
 />
           `}
         </ComponentBox>

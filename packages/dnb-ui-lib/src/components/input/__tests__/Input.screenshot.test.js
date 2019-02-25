@@ -16,28 +16,28 @@ describe('Input screenshot', () => {
   it('have to match input with placeholder', async () => {
     const screenshot = await testPageScreenshot({
       style,
-      selector: '[data-dnb-test="input-placeholder"]'
+      selector: '[data-dnb-test="input-placeholder"] .dnb-input__shell'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match disabled input', async () => {
     const screenshot = await testPageScreenshot({
       style,
-      selector: '[data-dnb-test="input-disabled"]'
+      selector: '[data-dnb-test="input-disabled"] .dnb-input__shell'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match search type', async () => {
     const screenshot = await testPageScreenshot({
       style,
-      selector: '[data-dnb-test="input-search"]'
+      selector: '[data-dnb-test="input-search"] .dnb-input__shell'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match search type with focus state', async () => {
     const screenshot = await testPageScreenshot({
       style,
-      selector: '[data-dnb-test="input-search"]',
+      selector: '[data-dnb-test="input-search"] .dnb-input__shell',
       simulateSelector: '[data-dnb-test="input-search"] input',
       simulate: 'focus'
     })
