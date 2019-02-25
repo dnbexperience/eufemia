@@ -1006,14 +1006,14 @@ exports[`Dropdown scss have to match snapshot 1`] = `
       background-color: white; } }
 
 /*
- * FormLabel element
+ * FormLabel component
  *
  */
 .dnb-form-label {
   user-select: none;
   display: inline-block;
   cursor: pointer;
-  color: var(--color-black-80);
+  color: inherit;
   width: auto;
   white-space: nowrap; }
 
@@ -1392,7 +1392,7 @@ exports[`Dropdown scss have to match snapshot 1`] = `
       background-color: white; } }
 
 /*
- * FormStatus element
+ * FormStatus component
  *
  */
 .dnb-form-status {
