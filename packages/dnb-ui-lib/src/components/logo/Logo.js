@@ -71,7 +71,8 @@ export default class Logo extends PureComponent {
         'dnb-logo',
         className,
         _className,
-        (width > 0 || height > 0) && `dnb-logo--has-size`
+        (width > 0 || height > 0) && `dnb-logo--has-size`,
+        size === 'inherit' && `dnb-logo--inherit-size`
       ),
       role: 'img',
       alt: 'DNB Logo',

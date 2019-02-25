@@ -18,10 +18,15 @@
   --ratio: attr(data-ratio);
   width: calc(1em * var(--ratio, 1.453690625));
   height: 1em;
+
   &--has-size {
     width: auto;
     height: auto;
   }
+  &--inherit-size {
+    height: inherit;
+  }
+
   svg:not([width]):not([height]) {
     width: inherit;
     height: inherit;

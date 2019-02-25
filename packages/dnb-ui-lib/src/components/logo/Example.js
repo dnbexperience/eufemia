@@ -17,6 +17,13 @@ class Example extends PureComponent {
 </div>
             `}
         </ComponentBox>
+        <ComponentBox caption="DNB Logo with dynamic height">
+          {/* @jsx */ `
+<div style={{height: '12rem'}}>
+  <Logo size="inherit" />
+</div>
+            `}
+        </ComponentBox>
         <ComponentBox caption="DNB Logo with fixed height">
           {/* @jsx */ `
 <Logo height="192" data-dnb-test="logo-default" />
