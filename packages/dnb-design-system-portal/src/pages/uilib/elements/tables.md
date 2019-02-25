@@ -2,24 +2,41 @@
 draft: true
 ---
 
-import CodeBlock from 'Tags/CodeBlock'
-import { IconPrimary } from 'dnb-ui-lib/src'
+import ComponentBox from 'Tags/ComponentBox'
 
 ## Tables
 
-<CodeBlock scope={{IconPrimary}} reactLive hideCode data-dnb-test="table-default">
+The following table has a default style. But in future, there will be several patterns and styles to choose from.
+
+<ComponentBox reactLive hideCode data-dnb-test="table-default">
 {`
 <table className="dnb-table">
   <thead>
     <tr>
-      <th colSpan="2">Column 1 + 2</th>
-      <th>
-        <a href="#sort" className="dnb-anchor">Column 3</a>
+      <th colSpan="2" className="dnb-table--no-wrap">
+        Only text
       </th>
-      <th className="dnb-no-wrap">
-        <a href="#sort" className="dnb-anchor dnb-anchor-no-underline">
-          Column 4 <IconPrimary icon="chevron-down" />
-        </a>
+      <th className="dnb-table--sortable dnb-table--reversed">
+        {/* <a href="#sort">
+          Sortable
+          <IconPrimary icon="chevron-down" />
+        </a> */}
+        <Button
+          variant="tertiary"
+          icon="chevron-down"
+          text="Sortable"
+        />
+      </th>
+      <th className="dnb-table--sortable dnb-table--active">
+        {/* <a href="#sort">
+          Active
+          <IconPrimary icon="chevron-down" />
+        </a> */}
+        <Button
+          variant="tertiary"
+          icon="chevron-down"
+          text="Active"
+        />
       </th>
     </tr>
   </thead>
@@ -53,4 +70,4 @@ import { IconPrimary } from 'dnb-ui-lib/src'
   </tbody>
 </table>
 `}
-</CodeBlock>
+</ComponentBox>
