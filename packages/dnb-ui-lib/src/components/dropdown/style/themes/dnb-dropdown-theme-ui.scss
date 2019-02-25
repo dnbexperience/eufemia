@@ -32,7 +32,8 @@
   &__options {
     border: none;
     background-color: transparent;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+
+    @include defaultDropShadow();
 
     border-radius: var(--dropdown-options-border-radius);
   }
@@ -116,14 +117,13 @@
   }
 
   // error status
-  &__status--error &__trigger,
-  &__status--error#{&}--opened &__trigger {
+  &__status--error:not(.dnb-dropdown--opened) &__trigger {
     @include dropdownBorderColor(var(--color-cherry-red));
   }
-  &__status--error &__icon {
+  &__status--error:not(.dnb-dropdown--opened) &__icon {
     color: var(--color-cherry-red);
   }
-  &__status--error &__input {
+  &__status--error:not(.dnb-dropdown--opened) &__input {
     @include hover() {
       & ~ .dnb-dropdown__trigger {
         @include dropdownBorderColor(var(--color-cherry-red));
@@ -137,7 +137,7 @@
   &__triangle::before {
     border: none;
     background-color: var(--color-white);
-    box-shadow: 0 0 4px rgba(0, 0, 0, 0.15);
+    @include defaultDropShadow();
   }
   &__option--selected &__triangle::before {
     background-color: var(--dropdown-option-background-color--selected);

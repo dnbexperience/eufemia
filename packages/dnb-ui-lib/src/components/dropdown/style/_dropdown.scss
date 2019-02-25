@@ -22,9 +22,6 @@
   }
 }
 @mixin closeDropdown($state: 'animation') {
-  opacity: 0.5;
-  transform: translateY(0);
-
   animation: dropdownSlideUp 150ms ease-out 1 forwards;
   &--no-animation {
     animation: dropdownSlideUp 1ms ease-out 1 forwards;
@@ -176,7 +173,7 @@
 
   &__triangle {
     position: absolute;
-    top: calc(1px - var(--dropdown-height) / 2);
+    top: calc(-1px - var(--dropdown-height) / 2);
     left: auto;
     right: 0;
     margin: 0
