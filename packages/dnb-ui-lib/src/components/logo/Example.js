@@ -10,19 +10,16 @@ class Example extends PureComponent {
   render() {
     return (
       <Fragment>
-        <ComponentBox caption="SVG logo">
+        <ComponentBox caption="DNB Logo with dynamic height">
           {/* @jsx */ `
-<Logo height="200" data-dnb-test="logo-default" />
-          `}
+<div style={{fontSize: '12rem'}}>
+  <Logo size="auto" />
+</div>
+            `}
         </ComponentBox>
-        <ComponentBox>
+        <ComponentBox caption="DNB Logo with fixed height">
           {/* @jsx */ `
-<h1>
-  H1 with the DNB Logo <Logo size="auto" />
-</h1>
-<p>
-  Text with the DNB Logo <Logo />
-</p>
+<Logo height="192" data-dnb-test="logo-default" />
           `}
         </ComponentBox>
       </Fragment>
