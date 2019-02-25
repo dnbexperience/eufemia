@@ -14,6 +14,7 @@ import {
 import Component from '../Dropdown'
 // just to make sure we re-run the test in watch mode due to changes in this file
 import '../style/dnb-dropdown.scss'
+import '../style/themes/dnb-dropdown-theme-ui.scss'
 
 const props = fakeProps(require.resolve('../Dropdown'), {
   optional: true
@@ -131,6 +132,12 @@ describe('Dropdown component', () => {
 describe('Dropdown scss', () => {
   it('have to match snapshot', () => {
     const scss = loadScss(require.resolve('../style/dnb-dropdown.scss'))
+    expect(scss).toMatchSnapshot()
+  })
+  it('have to match default theme snapshot', () => {
+    const scss = loadScss(
+      require.resolve('../style/themes/dnb-dropdown-theme-ui.scss')
+    )
     expect(scss).toMatchSnapshot()
   })
 })

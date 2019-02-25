@@ -7,10 +7,14 @@ import React from 'react'
 import {
   mount,
   fakeProps,
+  axeComponent,
   toJson,
-  axeComponent
+  loadScss
 } from '../../../core/jest/jestSetup'
 import Component from '../FormStatus'
+// just to make sure we re-run the test in watch mode due to changes in this file
+import '../style/dnb-form-status.scss'
+import '../style/themes/dnb-form-status-theme-ui.scss'
 
 const props = fakeProps(require.resolve('../FormStatus'), {
   optional: true
@@ -43,5 +47,18 @@ describe('FormStatus component', () => {
 
   it('has to to have a text value as defined in the prop', () => {
     expect(Comp.find('.dnb-form-status--text').text()).toBe('text')
+  })
+})
+
+describe('FormStatus scss', () => {
+  it('have to match snapshot', () => {
+    const scss = loadScss(require.resolve('../style/dnb-form-status.scss'))
+    expect(scss).toMatchSnapshot()
+  })
+  it('have to match default theme snapshot', () => {
+    const scss = loadScss(
+      require.resolve('../style/themes/dnb-form-status-theme-ui.scss')
+    )
+    expect(scss).toMatchSnapshot()
   })
 })

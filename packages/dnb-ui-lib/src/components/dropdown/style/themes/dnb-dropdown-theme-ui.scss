@@ -16,6 +16,7 @@
   --dropdown-option-background-color: var(--color-white);
   --dropdown-option-background-color--hover: var(--color-mint-green-12);
   --dropdown-option-background-color--selected: var(--color-mint-green-25);
+  --dropdown-option-border-width: 1px;
   --dropdown-option-border-color: var(--color-mint-green-25);
 }
 
@@ -49,7 +50,8 @@
     padding: $focusRingWidth; // to make space for the fakeFocus
     color: var(--dropdown-option-color);
     background-color: var(--dropdown-option-background-color);
-    border-bottom: 2px solid var(--dropdown-option-border-color);
+    border-bottom: var(--dropdown-option-border-width) solid
+      var(--dropdown-option-border-color);
 
     &__inner {
       background-color: var(--dropdown-option-background-color);
@@ -140,7 +142,8 @@
   &__option--selected &__triangle::before {
     background-color: var(--dropdown-option-background-color--selected);
   }
-  &__option:hover &__triangle::before {
+  &__option:not(.dnb-dropdown__option--selected):hover
+    &__triangle::before {
     background-color: var(--dropdown-option-background-color--hover);
   }
 
