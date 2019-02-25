@@ -32,8 +32,6 @@ module.exports = {
       dev: 'yarn figma:dev'
     },
     sb: 'yarn story',
-    t: 'yarn t',
-    ts: 'yarn ts',
     test: {
       default: 'yarn test',
       screenshots: {
