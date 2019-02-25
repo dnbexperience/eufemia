@@ -60,13 +60,13 @@ describe('Dropdown component', () => {
 
   it('has correct state at startup', () => {
     expect(Comp.state().opened).toBe(false)
-    expect(Comp.state().visible).toBe(false)
+    expect(Comp.state().hidden).toBe(true)
   })
 
   it('has correct state after "focus" trigger', () => {
     Comp.find('input').simulate('focus')
     expect(Comp.state().opened).toBe(true)
-    expect(Comp.state().visible).toBe(true)
+    expect(Comp.state().hidden).toBe(false)
   })
 
   it('has correct state after "blur" trigger', () => {

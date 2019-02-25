@@ -62,7 +62,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
   title="title"
 >
   <span
-    className="dnb-dropdown dnb-dropdown--icon-position-icon_position dnb-dropdown--closed dnb-dropdown__status--error class className"
+    className="dnb-dropdown dnb-dropdown--icon-position-icon_position dnb-dropdown--hidden dnb-dropdown__status--error class className"
   >
     <FormLabel
       aria-hidden={true}
@@ -1853,7 +1853,7 @@ exports[`Dropdown scss have to match snapshot 1`] = `
     animation: dropdownSlideDown 200ms ease-out 1 forwards; }
     .dnb-dropdown--opened .dnb-dropdown__options--no-animation {
       animation: dropdownSlideDown 1ms ease-out 1 forwards; }
-  .dnb-dropdown--closed .dnb-dropdown__options {
+  .dnb-dropdown--hidden .dnb-dropdown__options {
     display: none; }
   .dnb-dropdown:not(.dnb-dropdown--opened) .dnb-dropdown__options {
     opacity: 0.5;
