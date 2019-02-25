@@ -7,9 +7,9 @@ import { IconPrimary } from 'dnb-ui-lib/src'
 
 ## Tables
 
-<CodeBlock scope={{IconPrimary}} reactLive hideCode>
+<CodeBlock scope={{IconPrimary}} reactLive hideCode data-dnb-test="table-default">
 {`
-<table data-dnb-test="table" className="dnb-table">
+<table className="dnb-table">
   <thead>
     <tr>
       <th colSpan="2">Column 1 + 2</th>
