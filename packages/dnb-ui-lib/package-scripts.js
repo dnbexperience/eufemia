@@ -34,7 +34,7 @@ module.exports = {
     sb: 'yarn story',
     test: {
       default: 'yarn test',
-      screenshots: {
+      s: {
         default: 'yarn test:screenshots',
         update: 'yarn test:screenshots:update'
       },
