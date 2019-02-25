@@ -13,4 +13,8 @@
 
   width: auto;
   white-space: nowrap; // in contrast to label only
+
+  &[disabled] {
+    cursor: not-allowed;
+  }
 }
