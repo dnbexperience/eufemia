@@ -1,0 +1,363 @@
+@charset "UTF-8";
+@font-face {
+  font-family: 'FedraLight';
+  src: url('/portalfront/dnb/styles/fonts/WF-006379-009570-000002.eot');
+  src: url('/portalfront/dnb/styles/fonts/WF-006379-009570-000002.eot?#iefix') format('embedded-opentype'), url('/portalfront/dnb/styles/fonts/WF-006379-009570-000002.woff') format('woff'), url('/portalfront/dnb/styles/fonts/WF-006379-009570-000002.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "WF-006379-009570-000004";
+  src: url('/portalfront/dnb/styles/fonts/WF-006379-009570-000004.eot');
+  src: url('/portalfront/dnb/styles/fonts/WF-006379-009570-000004.eot?#iefix') format('embedded-opentype'), url('/portalfront/dnb/styles/fonts/WF-006379-009570-000004.woff') format('woff'), url('/portalfront/dnb/styles/fonts/WF-006379-009570-000004.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'FedraBook';
+  src: url('/portalfront/dnb/styles/fonts/WF-006379-009570-000007.eot');
+  src: url('/portalfront/dnb/styles/fonts/WF-006379-009570-000007.eot?#iefix') format('embedded-opentype'), url('/portalfront/dnb/styles/fonts/WF-006379-009570-000007.woff') format('woff'), url('/portalfront/dnb/styles/fonts/WF-006379-009570-000007.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "WF-006379-009570-000008";
+  src: url('/portalfront/dnb/styles/fonts/WF-006379-009570-000008.eot');
+  src: url('/portalfront/dnb/styles/fonts/WF-006379-009570-000008.eot?#iefix') format('embedded-opentype'), url('/portalfront/dnb/styles/fonts/WF-006379-009570-000008.woff') format('woff'), url('/portalfront/dnb/styles/fonts/WF-006379-009570-000008.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'FedraDemi';
+  src: url('/portalfront/dnb/styles/fonts/WF-006379-009570-000017.eot');
+  src: url('/portalfront/dnb/styles/fonts/WF-006379-009570-000017.eot?#iefix') format('embedded-opentype'), url('/portalfront/dnb/styles/fonts/WF-006379-009570-000017.woff') format('woff'), url('/portalfront/dnb/styles/fonts/WF-006379-009570-000017.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "WF-006379-009570-000018";
+  src: url('/portalfront/dnb/styles/fonts/WF-006379-009570-000018.eot');
+  src: url('/portalfront/dnb/styles/fonts/WF-006379-009570-000018.eot?#iefix') format('embedded-opentype'), url('/portalfront/dnb/styles/fonts/WF-006379-009570-000018.woff') format('woff'), url('/portalfront/dnb/styles/fonts/WF-006379-009570-000018.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "WF-006379-009570-000021";
+  src: url('/portalfront/dnb/styles/fonts/WF-006379-009570-000021.eot');
+  src: url('/portalfront/dnb/styles/fonts/WF-006379-009570-000021.eot?#iefix') format('embedded-opentype'), url('/portalfront/dnb/styles/fonts/WF-006379-009570-000021.woff') format('woff'), url('/portalfront/dnb/styles/fonts/WF-006379-009570-000021.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "WF-006379-009570-000022";
+  src: url('/portalfront/dnb/styles/fonts/WF-006379-009570-000022.eot');
+  src: url('/portalfront/dnb/styles/fonts/WF-006379-009570-000022.eot?#iefix') format('embedded-opentype'), url('/portalfront/dnb/styles/fonts/WF-006379-009570-000022.woff') format('woff'), url('/portalfront/dnb/styles/fonts/WF-006379-009570-000022.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "WF-006379-009570-000025";
+  src: url('/portalfront/dnb/styles/fonts/WF-006379-009570-000025.eot');
+  src: url('/portalfront/dnb/styles/fonts/WF-006379-009570-000025.eot?#iefix') format('embedded-opentype'), url('/portalfront/dnb/styles/fonts/WF-006379-009570-000025.woff') format('woff'), url('/portalfront/dnb/styles/fonts/WF-006379-009570-000025.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "WF-006379-009570-000026";
+  src: url('/portalfront/dnb/styles/fonts/WF-006379-009570-000026.eot');
+  src: url('/portalfront/dnb/styles/fonts/WF-006379-009570-000026.eot?#iefix') format('embedded-opentype'), url('/portalfront/dnb/styles/fonts/WF-006379-009570-000026.woff') format('woff'), url('/portalfront/dnb/styles/fonts/WF-006379-009570-000026.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+p.fedra-light-pnum {
+  text-align: center;
+  font-size: 28pt;
+  font-family: "WF-006379-009570-000002";
+  font-weight: normal;
+}
+p.WF-006379-009570-000004 {
+  text-align: center;
+  font-size: 28pt;
+  font-family: "WF-006379-009570-000004";
+  font-weight: normal;
+}
+p.fedra-book-pnum {
+  text-align: center;
+  font-size: 28pt;
+  font-family: "WF-006379-009570-000007";
+  font-weight: normal;
+}
+p.WF-006379-009570-000008 {
+  text-align: center;
+  font-size: 28pt;
+  font-family: "WF-006379-009570-000008";
+  font-weight: normal;
+}
+p.fedra-demi-pnum {
+  text-align: center;
+  font-size: 28pt;
+  font-family: "WF-006379-009570-000017";
+  font-weight: normal;
+}
+p.WF-006379-009570-000018 {
+  text-align: center;
+  font-size: 28pt;
+  font-family: "WF-006379-009570-000018";
+  font-weight: normal;
+}
+p.WF-006379-009570-000021 {
+  text-align: center;
+  font-size: 28pt;
+  font-family: "WF-006379-009570-000021";
+  font-weight: normal;
+}
+p.WF-006379-009570-000022 {
+  text-align: center;
+  font-size: 28pt;
+  font-family: "WF-006379-009570-000022";
+  font-weight: normal;
+}
+p.WF-006379-009570-000025 {
+  text-align: center;
+  font-size: 28pt;
+  font-family: "WF-006379-009570-000025";
+  font-weight: normal;
+}
+p.WF-006379-009570-000026 {
+  text-align: center;
+  font-size: 28pt;
+  font-family: "WF-006379-009570-000026";
+  font-weight: normal;
+}
+/*body {
+  color: #606060;
+  padding: 100px;
+} */
+@font-face {
+  font-family: "WF-029813-009945-000002";
+  src: url('/portalfront/dnb/styles/fonts/fedraDefault/WF-029813-009945-000002.eot');
+  src: url('/portalfront/dnb/styles/fonts/fedraDefault/WF-029813-009945-000002.eot?#iefix') format('embedded-opentype'), url('/portalfront/dnb/styles/fonts/fedraDefault/WF-029813-009945-000002.woff') format('woff'), url('/portalfront/dnb/styles/fonts/fedraDefault/WF-029813-009945-000002.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "WF-029813-009945-000017";
+  src: url('/portalfront/dnb/styles/fonts/fedraDefault/WF-029813-009945-000017.eot');
+  src: url('/portalfront/dnb/styles/fonts/fedraDefault/WF-029813-009945-000017.eot?#iefix') format('embedded-opentype'), url('/portalfront/dnb/styles/fonts/fedraDefault/WF-029813-009945-000017.woff') format('woff'), url('/portalfront/dnb/styles/fonts/fedraDefault/WF-029813-009945-000017.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "WF-029813-009945-000007";
+  src: url('/portalfront/dnb/styles/fonts/fedraDefault/WF-029813-009945-000007.eot');
+  src: url('/portalfront/dnb/styles/fonts/fedraDefault/WF-029813-009945-000007.eot?#iefix') format('embedded-opentype'), url('/portalfront/dnb/styles/fonts/fedraDefault/WF-029813-009945-000007.woff') format('woff'), url('/portalfront/dnb/styles/fonts/fedraDefault/WF-029813-009945-000007.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+p.WF-029813-009945-000002 {
+  text-align: center;
+  font-size: 28pt;
+  font-family: "WF-029813-009945-000002";
+  font-weight: normal;
+}
+p.WF-029813-009945-000017 {
+  text-align: center;
+  font-size: 28pt;
+  font-family: "WF-029813-009945-000017";
+  font-weight: normal;
+}
+p.WF-029813-009945-000007 {
+  text-align: center;
+  font-size: 28pt;
+  font-family: "WF-029813-009945-000007";
+  font-weight: normal;
+}
+.mixin-fedra-default-light {
+  font-family: "WF-029813-009945-000002";
+}
+.mixin-fedra-default-book {
+  font-family: "WF-029813-009945-000007";
+}
+.mixin-fedra-default-demi {
+  font-family: "WF-029813-009945-000017";
+}
+.fedra-default-light {
+  font-family: "WF-029813-009945-000002";
+}
+.fedra-default-book {
+  font-family: "WF-029813-009945-000007";
+}
+.fedra-default-demi {
+  font-family: "WF-029813-009945-000017";
+}
+@font-face {
+  font-family: "WF-029813-009943-000002";
+  src: url('/portalfront/dnb/styles/fonts/fedraLining/WF-029813-009943-000002.eot');
+  src: url('/portalfront/dnb/styles/fonts/fedraLining/WF-029813-009943-000002.eot?#iefix') format('embedded-opentype'), url('/portalfront/dnb/styles/fonts/fedraLining/WF-029813-009943-000002.woff') format('woff'), url('/portalfront/dnb/styles/fonts/fedraLining/WF-029813-009943-000002.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "WF-029813-009943-000007";
+  src: url('/portalfront/dnb/styles/fonts/fedraLining/WF-029813-009943-000007.eot');
+  src: url('/portalfront/dnb/styles/fonts/fedraLining/WF-029813-009943-000007.eot?#iefix') format('embedded-opentype'), url('/portalfront/dnb/styles/fonts/fedraLining/WF-029813-009943-000007.woff') format('woff'), url('/portalfront/dnb/styles/fonts/fedraLining/WF-029813-009943-000007.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "WF-029813-009943-000017";
+  src: url('/portalfront/dnb/styles/fonts/fedraLining/WF-029813-009943-000017.eot');
+  src: url('/portalfront/dnb/styles/fonts/fedraLining/WF-029813-009943-000017.eot?#iefix') format('embedded-opentype'), url('/portalfront/dnb/styles/fonts/fedraLining/WF-029813-009943-000017.woff') format('woff'), url('/portalfront/dnb/styles/fonts/fedraLining/WF-029813-009943-000017.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+p.WF-029813-009943-000002 {
+  text-align: center;
+  font-size: 28pt;
+  font-family: "WF-029813-009943-000002";
+  font-weight: normal;
+}
+p.WF-029813-009943-000007 {
+  text-align: center;
+  font-size: 28pt;
+  font-family: "WF-029813-009943-000007";
+  font-weight: normal;
+}
+p.WF-029813-009943-000017 {
+  text-align: center;
+  font-size: 28pt;
+  font-family: "WF-029813-009943-000017";
+  font-weight: normal;
+}
+.mixin-fedra-lining-light {
+  font-family: "WF-029813-009943-000002";
+}
+.mixin-fedra-lining-book {
+  font-family: "WF-029813-009943-000007";
+}
+.mixin-fedra-lining-demi {
+  font-family: "WF-029813-009943-000017";
+}
+.fedra-lining-light {
+  font-family: "WF-029813-009943-000002";
+}
+.fedra-lining-book {
+  font-family: "WF-029813-009943-000007";
+}
+.fedra-lining-demi {
+  font-family: "WF-029813-009943-000017";
+}
+@font-face {
+  font-family: "WF-029813-009944-000002";
+  src: url('/portalfront/dnb/styles/fonts/fedraTabular/WF-029813-009944-000002.eot');
+  src: url('/portalfront/dnb/styles/fonts/fedraTabular/WF-029813-009944-000002.eot?#iefix') format('embedded-opentype'), url('/portalfront/dnb/styles/fonts/fedraTabular/WF-029813-009944-000002.woff') format('woff'), url('/portalfront/dnb/styles/fonts/fedraTabular/WF-029813-009944-000002.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "WF-029813-009944-000017";
+  src: url('/portalfront/dnb/styles/fonts/fedraTabular/WF-029813-009944-000017.eot');
+  src: url('/portalfront/dnb/styles/fonts/fedraTabular/WF-029813-009944-000017.eot?#iefix') format('embedded-opentype'), url('/portalfront/dnb/styles/fonts/fedraTabular/WF-029813-009944-000017.woff') format('woff'), url('/portalfront/dnb/styles/fonts/fedraTabular/WF-029813-009944-000017.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "WF-029813-009944-000007";
+  src: url('/portalfront/dnb/styles/fonts/fedraTabular/WF-029813-009944-000007.eot');
+  src: url('/portalfront/dnb/styles/fonts/fedraTabular/WF-029813-009944-000007.eot?#iefix') format('embedded-opentype'), url('/portalfront/dnb/styles/fonts/fedraTabular/WF-029813-009944-000007.woff') format('woff'), url('/portalfront/dnb/styles/fonts/fedraTabular/WF-029813-009944-000007.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+p.WF-029813-009944-000002 {
+  text-align: center;
+  font-size: 28pt;
+  font-family: "WF-029813-009944-000002";
+  font-weight: normal;
+}
+p.WF-029813-009944-000017 {
+  text-align: center;
+  font-size: 28pt;
+  font-family: "WF-029813-009944-000017";
+  font-weight: normal;
+}
+p.WF-029813-009944-000007 {
+  text-align: center;
+  font-size: 28pt;
+  font-family: "WF-029813-009944-000007";
+  font-weight: normal;
+}
+.mixin-fedra-tabular-light {
+  font-family: "WF-029813-009944-000002";
+}
+.mixin-fedra-tabular-book {
+  font-family: "WF-029813-009944-000007";
+}
+.mixin-fedra-tabular-demi {
+  font-family: "WF-029813-009944-000017";
+}
+.fedra-tabular-light {
+  font-family: "WF-029813-009944-000002";
+}
+.fedra-tabular-book {
+  font-family: "WF-029813-009944-000007";
+}
+.fedra-tabular-demi {
+  font-family: "WF-029813-009944-000017";
+}
+@font-face {
+  font-family: "WF-029813-009942-000002";
+  src: url('/portalfront/dnb/styles/fonts/fedraOldStyle/WF-029813-009942-000002.eot');
+  src: url('/portalfront/dnb/styles/fonts/fedraOldStyle/WF-029813-009942-000002.eot?#iefix') format('embedded-opentype'), url('/portalfront/dnb/styles/fonts/fedraOldStyle/WF-029813-009942-000002.woff') format('woff'), url('/portalfront/dnb/styles/fonts/fedraOldStyle/WF-029813-009942-000002.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "WF-029813-009942-000002";
+  src: url('/portalfront/dnb/styles/fonts/fedraOldStyle/WF-029813-009942-000007.eot');
+  src: url('/portalfront/dnb/styles/fonts/fedraOldStyle/WF-029813-009942-000007.eot?#iefix') format('embedded-opentype'), url('/portalfront/dnb/styles/fonts/fedraOldStyle/WF-029813-009942-000007.woff') format('woff'), url('/portalfront/dnb/styles/fonts/fedraOldStyle/WF-029813-009942-000007.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "WF-029813-009942-000017";
+  src: url('/portalfront/dnb/styles/fonts/fedraOldStyle/WF-029813-009942-000017.eot');
+  src: url('/portalfront/dnb/styles/fonts/fedraOldStyle/WF-029813-009942-000017.eot?#iefix') format('embedded-opentype'), url('/portalfront/dnb/styles/fonts/fedraOldStyle/WF-029813-009942-000017.woff') format('woff'), url('/portalfront/dnb/styles/fonts/fedraOldStyle/WF-029813-009942-000017.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+p.WF-029813-009942-000002 {
+  text-align: center;
+  font-size: 28pt;
+  font-family: "WF-029813-009942-000002";
+  font-weight: normal;
+}
+p.WF-029813-009942-000007 {
+  text-align: center;
+  font-size: 28pt;
+  font-family: "WF-029813-009942-000007";
+  font-weight: normal;
+}
+p.WF-029813-009942-000017 {
+  text-align: center;
+  font-size: 28pt;
+  font-family: "WF-029813-009942-000017";
+  font-weight: normal;
+}
+.mixin-fedra-oldstyle-light {
+  font-family: "WF-029813-009942-000002";
+}
+.mixin-fedra-oldstyle-book {
+  font-family: "WF-029813-009942-000002";
+}
+.mixin-fedra-oldstyle-demi {
+  font-family: "WF-029813-009942-000017";
+}
+.fedra-oldstyle-light {
+  font-family: "WF-029813-009942-000002";
+}
+.fedra-oldstyle-book {
+  font-family: "WF-029813-009942-000002";
+}
+.fedra-oldstyle-demi {
+  font-family: "WF-029813-009942-000017";
+}
