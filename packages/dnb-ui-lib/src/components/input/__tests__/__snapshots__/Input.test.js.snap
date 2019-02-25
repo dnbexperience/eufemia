@@ -1314,6 +1314,8 @@ a.dnb-button {
   color: inherit;
   width: auto;
   white-space: nowrap; }
+  .dnb-form-label[disabled] {
+    cursor: not-allowed; }
 
 /*
 * DNB FormStatus

@@ -35,8 +35,8 @@
       @include hover() {
         background-color: var(--color-mint-green-50);
         &::after {
-          height: 2px;
-          border-radius: 1px;
+          height: 3px;
+          border-radius: 1.5px;
           background-color: var(--color-sea-green);
         }
       }
