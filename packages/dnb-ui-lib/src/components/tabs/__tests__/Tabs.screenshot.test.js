@@ -12,7 +12,7 @@ describe('Tabs screenshot', () => {
   setupPageScreenshot({ url: '/uilib/components/tabs' })
   it('have to match the "Tablist"', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="tabs-tablist"]'
+      selector: '[data-dnb-test="tabs-tablist"] .dnb-tabs'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
