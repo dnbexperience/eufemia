@@ -1291,7 +1291,7 @@ exports[`Dropdown scss have to match snapshot 1`] = `
     color: var(--color-emerald-green);
     transform: translateY(1px); }
   .dnb-icon + .dnb-form-status--text {
-    padding: 0.5rem; }
+    padding-left: 0.5rem; }
   .dnb-form-status > .dnb-icon {
     display: flex;
     justify-content: center;
