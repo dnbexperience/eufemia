@@ -10,7 +10,7 @@ class Example extends PureComponent {
   render() {
     return (
       <Fragment>
-        <ComponentBox caption="A form status">
+        <ComponentBox caption="A form status" data-dnb-test="form-status">
           {/* @jsx */ `
 <FormStatus
   title="Input with Status:"

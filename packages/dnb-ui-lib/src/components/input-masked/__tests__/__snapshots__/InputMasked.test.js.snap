@@ -32,7 +32,6 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
   submit_button_title={null}
   type="text"
   value="test"
-  wrapper_attributes={null}
 />
 `;
 
@@ -724,9 +723,9 @@ exports[`InputMasked scss have to match snapshot 1`] = `
     font: inherit;
     text-align: inherit;
     line-height: inherit; }
-    .no-touch .dnb-button--reset:hover[disabled] {
+    :not([dnb-is-touch]) .dnb-button--reset:hover[disabled] {
       cursor: not-allowed; }
-    .no-touch .dnb-button--reset:hover:not([disabled]) {
+    :not([dnb-is-touch]) .dnb-button--reset:hover:not([disabled]) {
       box-shadow: none;
       border: none; }
     .dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
@@ -1137,14 +1136,14 @@ a.dnb-button {
       background-color: white; } }
 
 /*
- * FormLabel element
+ * FormLabel component
  *
  */
 .dnb-form-label {
   user-select: none;
   display: inline-block;
   cursor: pointer;
-  color: var(--color-black-80);
+  color: inherit;
   width: auto;
   white-space: nowrap; }
 
@@ -1523,7 +1522,7 @@ a.dnb-button {
       background-color: white; } }
 
 /*
- * FormStatus element
+ * FormStatus component
  *
  */
 .dnb-form-status {
@@ -1542,7 +1541,7 @@ a.dnb-button {
     color: var(--color-emerald-green);
     transform: translateY(1px); }
   .dnb-icon + .dnb-form-status--text {
-    padding: 0.5rem; }
+    padding-left: 0.5rem; }
   .dnb-form-status > .dnb-icon {
     display: flex;
     justify-content: center;
@@ -1985,6 +1984,7 @@ a.dnb-button {
     padding: var(--input-padding);
     text-align: left;
     color: inherit;
+    font-size: var(--input-font-size);
     background-color: transparent; }
   .dnb-input__placeholder {
     pointer-events: none;
@@ -2000,32 +2000,26 @@ a.dnb-button {
   .dnb-input__description {
     color: inherit;
     padding-left: 0.5rem; }
-  .dnb-input--medium .dnb-input__shell,
-  .dnb-input--medium .dnb-input__input {
-    height: var(--input-height--medium);
-    border-radius: var(--input-border-radius--medium); }
-  .dnb-input--medium .dnb-input__description,
-  .dnb-input--medium .dnb-input__placeholder,
-  .dnb-input--medium .dnb-input__input {
-    font-size: var(--input-font-size--medium); }
-  .dnb-input--medium .dnb-input__placeholder {
+  .dnb-input--medium {
     line-height: var(--input-height--medium); }
-  .dnb-input--medium .dnb-input__placeholder,
-  .dnb-input--medium .dnb-input__input {
-    padding: var(--input-padding--medium); }
-  .dnb-input--large .dnb-input__shell,
-  .dnb-input--large .dnb-input__input {
-    height: var(--input-height--large);
-    border-radius: var(--input-border-radius--large); }
-  .dnb-input--large .dnb-input__description,
-  .dnb-input--large .dnb-input__placeholder,
-  .dnb-input--large .dnb-input__input {
-    font-size: var(--input-font-size--large); }
-  .dnb-input--large .dnb-input__placeholder {
+    .dnb-input--medium .dnb-input__shell,
+    .dnb-input--medium .dnb-input__input {
+      height: var(--input-height--medium);
+      border-radius: var(--input-border-radius--medium); }
+    .dnb-input--medium .dnb-input__placeholder,
+    .dnb-input--medium .dnb-input__input {
+      padding: var(--input-padding--medium);
+      font-size: var(--input-font-size--medium); }
+  .dnb-input--large {
     line-height: var(--input-height--large); }
-  .dnb-input--large .dnb-input__placeholder,
-  .dnb-input--large .dnb-input__input {
-    padding: var(--input-padding--large); }
+    .dnb-input--large .dnb-input__shell,
+    .dnb-input--large .dnb-input__input {
+      height: var(--input-height--large);
+      border-radius: var(--input-border-radius--large); }
+    .dnb-input--large .dnb-input__placeholder,
+    .dnb-input--large .dnb-input__input {
+      padding: var(--input-padding--large);
+      font-size: var(--input-font-size--large); }
   .dnb-input__align--right .dnb-input__placeholder,
   .dnb-input__align--right .dnb-input__input {
     text-align: right; }

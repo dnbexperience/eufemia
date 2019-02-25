@@ -198,10 +198,10 @@ exports[`StepIndicator scss have to match default theme snapshot 1`] = `
 .dnb-step-indicator-item-content--link {
   color: var(--color-sea-green-alt); }
 
-.no-touch .dnb-step-indicator--visited .dnb-step-indicator-item-content--link:hover[disabled] {
+:not([dnb-is-touch]) .dnb-step-indicator--visited .dnb-step-indicator-item-content--link:hover[disabled] {
   cursor: not-allowed; }
 
-.no-touch .dnb-step-indicator--visited .dnb-step-indicator-item-content--link:hover:not([disabled]) {
+:not([dnb-is-touch]) .dnb-step-indicator--visited .dnb-step-indicator-item-content--link:hover:not([disabled]) {
   border-color: var(--color-sea-green); }
 
 .dnb-step-indicator--active::after {
@@ -763,9 +763,9 @@ exports[`StepIndicator scss have to match snapshot 1`] = `
     padding: 0.25rem 0.25rem 0.125rem;
     border-bottom: 2px solid transparent;
     text-decoration: none; }
-    .no-touch .dnb-step-indicator-item-content:hover[disabled] {
+    :not([dnb-is-touch]) .dnb-step-indicator-item-content:hover[disabled] {
       cursor: not-allowed; }
-    .no-touch .dnb-step-indicator-item-content:hover:not([disabled]) {
+    :not([dnb-is-touch]) .dnb-step-indicator-item-content:hover:not([disabled]) {
       text-decoration: none; }
   .dnb-step-indicator-number {
     padding-right: 0.25rem;

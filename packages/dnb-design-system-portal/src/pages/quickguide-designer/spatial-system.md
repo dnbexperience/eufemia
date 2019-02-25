@@ -162,7 +162,7 @@ For those familiar with CSS, we establish typographic rules in the following way
 
 1.  Set a body size for the interface. The default size for a browser is 100%
 
-    `body { font-size: 100%; }`
+    `html { font-size: 100%; }`
 
     This will set the default size for paragraph text to **16px**
 

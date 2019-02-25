@@ -264,7 +264,7 @@
   &--opened &__options {
     @include openDropdown();
   }
-  &--closed &__options {
+  &--hidden &__options {
     @include dropdownClosed();
   }
   &:not(.dnb-dropdown--opened) &__options {

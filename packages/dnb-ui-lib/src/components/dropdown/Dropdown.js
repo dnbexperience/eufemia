@@ -161,7 +161,7 @@ export default class Dropdown extends Component {
       _listenForPropChanges: true,
       active: -1,
       opened,
-      visible: opened,
+      hidden: !opened,
       selected_item: props.selected_item,
       _data: props.data || props.children,
       data: Dropdown.getData(props)
@@ -181,7 +181,7 @@ export default class Dropdown extends Component {
   }
 
   componentDidMount() {
-    if (this.state.opened && this.state.visible) {
+    if (this.state.opened && this.state.hidden) {
       this.setFocus()
     }
   }
@@ -195,7 +195,7 @@ export default class Dropdown extends Component {
   setVisible = () => {
     if (this._hideTimeout) clearTimeout(this._hideTimeout)
     this.setState({
-      visible: true,
+      hidden: false,
       _listenForPropChanges: false
     })
     dispatchCustomElementEvent(this, 'on_show', {
@@ -205,7 +205,7 @@ export default class Dropdown extends Component {
   setHidden = () => {
     this._hideTimeout = setTimeout(() => {
       this.setState({
-        visible: false,
+        hidden: true,
         _listenForPropChanges: false
       })
     }, Dropdown.blurDelay) // wait until animation is over
@@ -337,7 +337,7 @@ export default class Dropdown extends Component {
       ...attributes
     } = this.props
 
-    const { opened, active, visible, selected_item } = this.state
+    const { opened, active, hidden, selected_item } = this.state
     const showStatus = status && status !== 'error'
 
     const currentOptionData = this.getOptionData(selected_item)
@@ -346,7 +346,7 @@ export default class Dropdown extends Component {
       'dnb-dropdown',
       icon_position && `dnb-dropdown--icon-position-${icon_position}`,
       opened && 'dnb-dropdown--opened',
-      !visible && 'dnb-dropdown--closed',
+      hidden && 'dnb-dropdown--hidden',
       status ? `dnb-dropdown__status--${status_state}` : null,
       _className,
       className

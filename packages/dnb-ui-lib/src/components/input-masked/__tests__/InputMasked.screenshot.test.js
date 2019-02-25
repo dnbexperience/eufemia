@@ -16,7 +16,7 @@ describe('InputMasked screenshot', () => {
   it('have to match masked input', async () => {
     const screenshot = await testPageScreenshot({
       style,
-      selector: '[data-dnb-test="input-masked-phone"]'
+      selector: '[data-dnb-test="input-masked-phone"] .dnb-input__shell'
     })
     expect(screenshot).toMatchImageSnapshot()
   })

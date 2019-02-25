@@ -24,7 +24,7 @@ import { MainMenuConsumer } from './MainMenuContext'
 import {
   setPageFocusElement,
   applyPageFocus
-} from 'dnb-ui-lib/src/shared/tools'
+} from 'dnb-ui-lib/src/shared/global-helpers'
 
 class MainWrapper extends PureComponent {
   static propTypes = {

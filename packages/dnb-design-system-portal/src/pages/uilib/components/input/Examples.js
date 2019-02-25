@@ -14,25 +14,18 @@ class Example extends PureComponent {
   handleInputSubmit = ({ value }) => {
     console.log('Submit:', value)
   }
-  state = { showTestData: false }
-  componentDidMount() {
-    const showTestData = typeof window !== 'undefined' && window.IS_TEST
-    this.setState({ showTestData })
-  }
-  showTestData(state) {
-    return this.state.showTestData
-      ? `wrapper_attributes={{'data-dnb-test': "input-${state}"}}`
-      : ''
-  }
   render() {
     const handleInputChange = this.handleInputChange
     const handleInputSubmit = this.handleInputSubmit
     return (
       <Fragment>
-        <ComponentBox caption="Placeholder text">
+        <ComponentBox
+          caption="Placeholder text"
+          data-dnb-test="input-placeholder"
+        >
           {/* @jsx */ `
 <FormLabel for_id="text-input-1" text="Label:" />
-<Input ${this.showTestData('placeholder')}
+<Input
   id="text-input-1"
   placeholder="Placeholder text"
 />
@@ -41,9 +34,10 @@ class Example extends PureComponent {
         <ComponentBox
           scope={{ handleInputChange, handleInputSubmit }}
           caption="Search text placeholder"
+          data-dnb-test="input-search"
         >
           {/* @jsx */ `
-<Input ${this.showTestData('search')}
+<Input
   label="Search:"
   type="search"
   submit_button_title="Search"
@@ -80,9 +74,12 @@ class Example extends PureComponent {
 />
           `}
         </ComponentBox>
-        <ComponentBox caption="Disabled input">
+        <ComponentBox
+          caption="Disabled input"
+          data-dnb-test="input-disabled"
+        >
           {/* @jsx */ `
-<Input ${this.showTestData('disabled')}
+<Input
   disabled
   label="Disabled input:"
   id="text-input-disabled"
@@ -155,14 +152,6 @@ const Wrapper = styled.div`
   .dnb-form-label + .dnb-input {
     margin-top: 0;
   }
-
-  ${'' /* .dnb-form-group,
-  .dnb-input {
-    margin-top: 1rem;
-  }
-  .dnb-form-label + .dnb-input {
-    margin-top: 0;
-  } */}
 `
 
 export { Example }

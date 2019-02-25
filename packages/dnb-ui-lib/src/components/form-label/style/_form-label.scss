@@ -1,5 +1,5 @@
 /*
- * FormLabel element
+ * FormLabel component
  *
  */
 
@@ -9,7 +9,7 @@
   display: inline-block;
   cursor: pointer;
 
-  color: var(--color-black-80);
+  color: inherit;
 
   width: auto;
   white-space: nowrap; // in contrast to label only

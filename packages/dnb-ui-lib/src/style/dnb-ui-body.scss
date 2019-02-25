@@ -10,9 +10,7 @@
 @include globalReset();
 
 // make sure we have dynamic root font size
-html {
-  font-size: 100%;
-}
+@include htmlDefault();
 
 // global body style
 body {

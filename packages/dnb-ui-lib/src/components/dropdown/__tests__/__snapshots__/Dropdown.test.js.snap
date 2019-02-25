@@ -62,7 +62,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
   title="title"
 >
   <span
-    className="dnb-dropdown dnb-dropdown--icon-position-icon_position dnb-dropdown--closed dnb-dropdown__status--error class className"
+    className="dnb-dropdown dnb-dropdown--icon-position-icon_position dnb-dropdown--hidden dnb-dropdown__status--error class className"
   >
     <FormLabel
       aria-hidden={true}
@@ -328,6 +328,126 @@ exports[`Dropdown component have to match snapshot 1`] = `
     </span>
   </span>
 </Dropdown>
+`;
+
+exports[`Dropdown scss have to match default theme snapshot 1`] = `
+"/*
+* Dropdown theme
+*
+*/
+/**
+ * This file is only used to make themes independent
+ * so that they can get imported individually, without the core styles
+ *
+ */
+/*
+ * Utilities
+ */
+:root {
+  --dropdown-text-color: var(--color-emerald-green);
+  --dropdown-text-color--disabled: var(--color-sea-green-alt-30);
+  --dropdown-border-color: var(--color-sea-green-alt);
+  --dropdown-border-color--selected: var(--color-emerald-green);
+  --dropdown-options-border-radius: 0.5rem;
+  --dropdown-option-color: var(--color-black-80);
+  --dropdown-option-color--hover: var(--color-sea-green);
+  --dropdown-option-background-color: var(--color-white);
+  --dropdown-option-background-color--hover: var(--color-mint-green-12);
+  --dropdown-option-background-color--selected: var(--color-mint-green-25);
+  --dropdown-option-border-width: 1px;
+  --dropdown-option-border-color: var(--color-mint-green-25); }
+
+.dnb-dropdown {
+  color: var(--dropdown-text-color);
+  /* stylelint-disable-next-line */ }
+  .dnb-dropdown__options {
+    border: none;
+    background-color: transparent;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+    border-radius: var(--dropdown-options-border-radius); }
+  .dnb-dropdown--scroll .dnb-dropdown__options {
+    max-height: 20rem;
+    overflow-y: scroll;
+    overscroll-behavior: contain;
+    scroll-behavior: smooth; }
+  .dnb-dropdown__option {
+    padding: 2px;
+    color: var(--dropdown-option-color);
+    background-color: var(--dropdown-option-background-color);
+    border-bottom: var(--dropdown-option-border-width) solid var(--dropdown-option-border-color); }
+    .dnb-dropdown__option__inner {
+      background-color: var(--dropdown-option-background-color); }
+    :not([dnb-is-touch]) .dnb-dropdown__option:hover[disabled] {
+      cursor: not-allowed; }
+    :not([dnb-is-touch]) .dnb-dropdown__option:hover:not([disabled]) {
+      background-color: var(--dropdown-option-background-color--hover); }
+      :not([dnb-is-touch]) .dnb-dropdown__option:hover:not([disabled]) .dnb-dropdown__option__inner {
+        color: var(--dropdown-option-color--hover);
+        background-color: var(--dropdown-option-background-color--hover); }
+    .dnb-dropdown__option--active {
+      background-color: var(--dropdown-option-background-color--selected); }
+      .dnb-dropdown__option--active .dnb-dropdown__option__inner {
+        box-shadow: 0 0 0 2px var(--dropdown-border-color--selected);
+        border-color: transparent; }
+    .dnb-dropdown__option--selected {
+      background-color: var(--dropdown-option-background-color--selected); }
+      .dnb-dropdown__option--selected .dnb-dropdown__option__inner {
+        background-color: var(--dropdown-option-background-color--selected); }
+      :not([dnb-is-touch]) .dnb-dropdown__option--selected:hover[disabled] {
+        cursor: not-allowed; }
+      :not([dnb-is-touch]) .dnb-dropdown__option--selected:hover:not([disabled]) {
+        background-color: var(--dropdown-option-background-color--selected); }
+        :not([dnb-is-touch]) .dnb-dropdown__option--selected:hover:not([disabled]) .dnb-dropdown__option__inner {
+          background-color: var(--dropdown-option-background-color--selected); }
+    .dnb-dropdown__option:first-of-type,
+    .dnb-dropdown__option--active:first-of-type .dnb-dropdown__option__inner {
+      border-radius: var(--dropdown-options-border-radius) var(--dropdown-options-border-radius) 0 0; }
+    .dnb-dropdown__option:last-of-type,
+    .dnb-dropdown__option--active:last-of-type .dnb-dropdown__option__inner {
+      border-radius: 0 0 var(--dropdown-options-border-radius) var(--dropdown-options-border-radius);
+      border-bottom: none; }
+  .dnb-dropdown__trigger {
+    background-color: var(--color-white);
+    border-color: var(--dropdown-border-color); }
+  .dnb-dropdown--opened .dnb-dropdown__trigger {
+    box-shadow: 0 0 0 1px;
+    border-color: var(--dropdown-border-color--selected); }
+  .dnb-dropdown__status--error .dnb-dropdown__trigger,
+  .dnb-dropdown__status--error.dnb-dropdown--opened .dnb-dropdown__trigger {
+    box-shadow: 0 0 0 1px var(--color-cherry-red) !important;
+    border-color: transparent;
+    border-color: var(--color-cherry-red); }
+  .dnb-dropdown__status--error .dnb-dropdown__icon {
+    color: var(--color-cherry-red); }
+  :not([dnb-is-touch]) .dnb-dropdown__status--error .dnb-dropdown__input:hover[disabled] {
+    cursor: not-allowed; }
+  :not([dnb-is-touch]) .dnb-dropdown__status--error .dnb-dropdown__input:hover:not([disabled]) ~ .dnb-dropdown__trigger {
+    box-shadow: 0 0 0 1px var(--color-cherry-red) !important;
+    border-color: transparent;
+    border-color: var(--color-cherry-red); }
+  :not([dnb-is-touch]) .dnb-dropdown__status--error .dnb-dropdown__input:hover:not([disabled]) ~ .dnb-dropdown__trigger .dnb-dropdown__icon .dnb-icon {
+    color: var(--color-cherry-red); }
+  .dnb-dropdown__triangle::before {
+    border: none;
+    background-color: var(--color-white);
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.15); }
+  .dnb-dropdown__option--selected .dnb-dropdown__triangle::before {
+    background-color: var(--dropdown-option-background-color--selected); }
+  .dnb-dropdown__option:not(.dnb-dropdown__option--selected):hover .dnb-dropdown__triangle::before {
+    background-color: var(--dropdown-option-background-color--hover); }
+  .dnb-dropdown__input[disabled] ~ .dnb-dropdown__icon,
+  .dnb-dropdown__input[disabled] ~ .dnb-dropdown__trigger {
+    border-color: var(--dropdown-text-color--disabled);
+    color: var(--dropdown-text-color--disabled); }
+  :not([dnb-is-touch]) .dnb-dropdown__input:hover[disabled] {
+    cursor: not-allowed; }
+  :not([dnb-is-touch]) .dnb-dropdown__input:hover:not([disabled]) ~ .dnb-dropdown__trigger .dnb-dropdown__text,
+  :not([dnb-is-touch]) .dnb-dropdown__input:hover:not([disabled]) ~ .dnb-dropdown__trigger .dnb-dropdown__icon .dnb-icon {
+    color: var(--dropdown-text-color); }
+  :not([dnb-is-touch]) .dnb-dropdown__input:hover:not([disabled]) ~ .dnb-dropdown__trigger {
+    border-color: var(--dropdown-border-color--selected);
+    box-shadow: 0 0 0 1px; }
+"
 `;
 
 exports[`Dropdown scss have to match snapshot 1`] = `
@@ -886,14 +1006,14 @@ exports[`Dropdown scss have to match snapshot 1`] = `
       background-color: white; } }
 
 /*
- * FormLabel element
+ * FormLabel component
  *
  */
 .dnb-form-label {
   user-select: none;
   display: inline-block;
   cursor: pointer;
-  color: var(--color-black-80);
+  color: inherit;
   width: auto;
   white-space: nowrap; }
 
@@ -1272,7 +1392,7 @@ exports[`Dropdown scss have to match snapshot 1`] = `
       background-color: white; } }
 
 /*
- * FormStatus element
+ * FormStatus component
  *
  */
 .dnb-form-status {
@@ -1291,7 +1411,7 @@ exports[`Dropdown scss have to match snapshot 1`] = `
     color: var(--color-emerald-green);
     transform: translateY(1px); }
   .dnb-icon + .dnb-form-status--text {
-    padding: 0.5rem; }
+    padding-left: 0.5rem; }
   .dnb-form-status > .dnb-icon {
     display: flex;
     justify-content: center;
@@ -1762,20 +1882,20 @@ exports[`Dropdown scss have to match snapshot 1`] = `
       padding: 1rem;
       color: inherit;
       background-color: var(--color-white); }
-      .no-touch .dnb-dropdown__option__inner:hover[disabled] {
+      :not([dnb-is-touch]) .dnb-dropdown__option__inner:hover[disabled] {
         cursor: not-allowed; }
-      .no-touch .dnb-dropdown__option__inner:hover:not([disabled]) {
+      :not([dnb-is-touch]) .dnb-dropdown__option__inner:hover:not([disabled]) {
         background-color: grey; }
     .dnb-dropdown__option__item {
       display: block;
       overflow: hidden;
       text-overflow: ellipsis;
       width: 100%; }
-    .no-touch .dnb-dropdown__option:hover[disabled] {
+    :not([dnb-is-touch]) .dnb-dropdown__option:hover[disabled] {
       cursor: not-allowed; }
-    .no-touch .dnb-dropdown__option:hover:not([disabled]) {
+    :not([dnb-is-touch]) .dnb-dropdown__option:hover:not([disabled]) {
       background-color: grey; }
-      .no-touch .dnb-dropdown__option:hover:not([disabled]) .dnb-dropdown__option__inner {
+      :not([dnb-is-touch]) .dnb-dropdown__option:hover:not([disabled]) .dnb-dropdown__option__inner {
         background-color: grey; }
     .dnb-dropdown__option--active {
       background-color: grey; }
@@ -1853,7 +1973,7 @@ exports[`Dropdown scss have to match snapshot 1`] = `
     animation: dropdownSlideDown 200ms ease-out 1 forwards; }
     .dnb-dropdown--opened .dnb-dropdown__options--no-animation {
       animation: dropdownSlideDown 1ms ease-out 1 forwards; }
-  .dnb-dropdown--closed .dnb-dropdown__options {
+  .dnb-dropdown--hidden .dnb-dropdown__options {
     display: none; }
   .dnb-dropdown:not(.dnb-dropdown--opened) .dnb-dropdown__options {
     opacity: 0.5;
@@ -1878,22 +1998,22 @@ exports[`Dropdown scss have to match snapshot 1`] = `
     width: 100%;
     height: var(--dropdown-height);
     opacity: 0; }
-    .no-touch .dnb-dropdown__input:hover[disabled] {
+    :not([dnb-is-touch]) .dnb-dropdown__input:hover[disabled] {
       cursor: not-allowed; }
-    .no-touch .dnb-dropdown__input:hover:not([disabled]) ~ .dnb-dropdown__trigger .dnb-dropdown__text,
-    .no-touch .dnb-dropdown__input:hover:not([disabled]) ~ .dnb-dropdown__trigger .dnb-dropdown__icon .dnb-icon {
+    :not([dnb-is-touch]) .dnb-dropdown__input:hover:not([disabled]) ~ .dnb-dropdown__trigger .dnb-dropdown__text,
+    :not([dnb-is-touch]) .dnb-dropdown__input:hover:not([disabled]) ~ .dnb-dropdown__trigger .dnb-dropdown__icon .dnb-icon {
       color: black; }
-    .no-touch .dnb-dropdown__input:focus[disabled] {
+    :not([dnb-is-touch]) .dnb-dropdown__input:focus[disabled] {
       cursor: not-allowed; }
-    .no-touch .dnb-dropdown__input:focus:not([disabled]) ~ .dnb-dropdown__trigger {
+    :not([dnb-is-touch]) .dnb-dropdown__input:focus:not([disabled]) ~ .dnb-dropdown__trigger {
       z-index: 8;
       cursor: pointer;
       box-shadow: 0 0 0 1px; }
-    .no-touch .dnb-dropdown__input:focus:not([disabled]) ~ .dnb-dropdown__options {
+    :not([dnb-is-touch]) .dnb-dropdown__input:focus:not([disabled]) ~ .dnb-dropdown__options {
       z-index: 9;
       display: flex;
       animation: dropdownSlideDown 200ms ease-out 1 forwards; }
-      .no-touch .dnb-dropdown__input:focus:not([disabled]) ~ .dnb-dropdown__options--no-animation {
+      :not([dnb-is-touch]) .dnb-dropdown__input:focus:not([disabled]) ~ .dnb-dropdown__options--no-animation {
         animation: dropdownSlideDown 1ms ease-out 1 forwards; }
   .dnb-dropdown__input[disabled] ~ .dnb-dropdown__icon,
   .dnb-dropdown__input[disabled] ~ .dnb-dropdown__trigger {
