@@ -32,7 +32,7 @@
       }
 
       // hover
-      &:not([disabled]):hover {
+      @include hover() {
         background-color: var(--color-mint-green-50);
         &::after {
           height: 2px;
