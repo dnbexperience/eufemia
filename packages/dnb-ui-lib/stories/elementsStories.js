@@ -5,9 +5,12 @@
 
 import React from 'react'
 import { Wrapper, Box } from './helpers'
+import { css } from '@emotion/core'
 import styled from '@emotion/styled'
 import { Button, IconPrimary } from 'dnb-ui-lib/src'
 import { FormStatus } from '../src/components'
+import { H1, H2, P, Link } from '../src/elements'
+// import Link from '../src/elements/Link'
 
 const stories = []
 export default stories
@@ -57,6 +60,30 @@ const CustomStyles = styled.div`
   }
 `
 
+stories.push([
+  'Other Elements',
+  () => (
+    <Wrapper className="dnb-spacing">
+      <Box>
+        <CustomStyles>
+          <H1 className="dnb-small">H1</H1>
+          <H2
+            css={css`
+              color: red;
+            `}
+          >
+            H2
+          </H2>
+          <P>
+            Fermentum sapien ipsum cursus lorem iaculis sagittis elit
+            euismod non
+          </P>
+          <Link href="/">Link</Link>
+        </CustomStyles>
+      </Box>
+    </Wrapper>
+  )
+])
 stories.push([
   'Table',
   () => (

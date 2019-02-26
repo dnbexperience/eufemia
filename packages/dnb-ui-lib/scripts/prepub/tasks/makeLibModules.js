@@ -19,6 +19,7 @@ export default opts =>
       // process the following directories and files
       await runFactory('./src/components/**/*.js', opts)
       await runFactory('./src/patterns/**/*.js', opts)
+      await runFactory('./src/elements/**/*.js', opts)
       await runFactory('./src/shared/**/*.js', opts)
       await runFactory('./src/web-components.js', opts)
       await runFactory('./src/index.js', opts)
