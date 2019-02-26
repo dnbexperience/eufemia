@@ -64,7 +64,7 @@ export default class App extends PureComponent {
           icon="chevron_right"
           on_click={this.handleClick}
         />
-        <Icon icon={bell} width={80} />
+        <Icon icon={bell} width={80} height={80} />
         {this.state.showWebComponents && (
           <Fragment>
             <h1>Web Component in React</h1>

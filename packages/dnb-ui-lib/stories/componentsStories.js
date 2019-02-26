@@ -17,6 +17,7 @@ import {
   Modal,
   FormLabel,
   Dropdown,
+  Switch,
   Logo,
   StepIndicator
 } from '../src/components'
@@ -330,6 +331,34 @@ stories.push([
             Eros semper blandit tellus mollis primis quisque platea
             sollicitudin ipsum
           </p>
+        </Box>
+      </Wrapper>
+    </CustomStyle>
+  )
+])
+stories.push([
+  'Switch',
+  () => (
+    <CustomStyle>
+      <Wrapper>
+        <Box>
+          <Switch
+            id="switch-1"
+            text_positive="Yes"
+            text_negative="No"
+            labelledby="switch-1-label"
+            title="Ths is the title"
+            value="Value of switch"
+            default_state={false}
+            checked={false}
+            // on_state_update={this.props.onStateUpdate}
+            // on_change={this.props.onChange}
+            attributes={{
+              'data-fake:on_change': 'SwitchDemo.onChangeHandler()',
+              'data-fake:on_state_update':
+                'SwitchDemo.onStateUpdateHandler()'
+            }}
+          />
         </Box>
       </Wrapper>
     </CustomStyle>
