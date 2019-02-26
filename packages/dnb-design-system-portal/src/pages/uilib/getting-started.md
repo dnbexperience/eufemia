@@ -29,7 +29,7 @@ Check out all the articles in [the usage section](/uilib/usage/)
 
 <!-- export default ({ children }) => (
   <div>
-    <h1>My Layout</h1>
+    <h1 class="dnb-h1">My Layout</h1>
     <div>{children}</div>
   </div>
 ) -->
