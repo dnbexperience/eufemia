@@ -20,15 +20,16 @@
   },
   "dependencies": {
     "dnb-ui-lib": "*",
-    "react": "^16.6.0",
-    "react-dom": "^16.6.0"
+    "react": "^16.8.3",
+    "react-dom": "^16.8.3"
   },
   "devDependencies": {
-    "@babel/core": "^7.1.2",
-    "@babel/plugin-proposal-class-properties": "^7.1.0",
-    "@babel/preset-env": "^7.1.0",
+    "@babel/core": "^7.3.4",
+    "@babel/plugin-proposal-class-properties": "^7.3.4",
+    "@babel/preset-env": "^7.3.4",
     "@babel/preset-react": "^7.0.0",
-    "live-server": "^1.2.0",
-    "parcel-bundler": "^1.10.1"
+    "emotion": "^10.0.7",
+    "live-server": "^1.2.1",
+    "parcel-bundler": "^1.11.0"
   }
 }
