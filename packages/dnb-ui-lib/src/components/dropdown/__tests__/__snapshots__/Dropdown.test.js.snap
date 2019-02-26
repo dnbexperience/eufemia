@@ -353,7 +353,8 @@ exports[`Dropdown scss have to match default theme snapshot 1`] = `
   --dropdown-option-color--hover: var(--color-sea-green);
   --dropdown-option-background-color: var(--color-white);
   --dropdown-option-background-color--hover: var(--color-mint-green-12);
-  --dropdown-option-background-color--selected: var(--color-mint-green-25);
+  --dropdown-option-color--selected: var(--color-white);
+  --dropdown-option-background-color--selected: var(--color-emerald-green);
   --dropdown-option-border-width: 1px;
   --dropdown-option-border-color: var(--color-mint-green-25); }
 
@@ -376,6 +377,7 @@ exports[`Dropdown scss have to match default theme snapshot 1`] = `
     background-color: var(--dropdown-option-background-color);
     border-bottom: var(--dropdown-option-border-width) solid var(--dropdown-option-border-color); }
     .dnb-dropdown__option__inner {
+      padding-right: 2rem;
       background-color: var(--dropdown-option-background-color); }
     :not([dnb-is-touch]) .dnb-dropdown__option:hover[disabled] {
       cursor: not-allowed; }
@@ -390,15 +392,31 @@ exports[`Dropdown scss have to match default theme snapshot 1`] = `
         box-shadow: 0 0 0 2px var(--dropdown-border-color--selected);
         border-color: transparent; }
     .dnb-dropdown__option--selected {
-      background-color: var(--dropdown-option-background-color--selected); }
+      color: var(--dropdown-option-color--selected);
+      background-color: var(--dropdown-option-background-color--selected);
+      display: flex; }
       .dnb-dropdown__option--selected .dnb-dropdown__option__inner {
-        background-color: var(--dropdown-option-background-color--selected); }
+        color: inherit;
+        background-color: inherit; }
       :not([dnb-is-touch]) .dnb-dropdown__option--selected:hover[disabled] {
         cursor: not-allowed; }
       :not([dnb-is-touch]) .dnb-dropdown__option--selected:hover:not([disabled]) {
+        color: var(--dropdown-option-color--selected);
         background-color: var(--dropdown-option-background-color--selected); }
         :not([dnb-is-touch]) .dnb-dropdown__option--selected:hover:not([disabled]) .dnb-dropdown__option__inner {
-          background-color: var(--dropdown-option-background-color--selected); }
+          color: inherit;
+          background-color: inherit; }
+      .dnb-dropdown__option--selected::after {
+        content: '';
+        position: absolute;
+        z-index: 1;
+        right: 1rem;
+        align-self: center;
+        justify-content: flex-end;
+        width: 1rem;
+        height: 1rem;
+        background-size: cover;
+        background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgZmlsbD0ibm9uZSI+ICA8cGF0aCAgICBmaWxsPSIjRTlGOEY0IiAgICBkPSJNMyA4LjhhLjc1Ljc1IDAgMSAwLTEuMjIuODZMMyA4Ljc5em0xLjg0IDMuOWwuNjMtLjQxdi0uMDFoLS4wMWwtLjYyLjQyem0xLjcxLjA1bC0uNTktLjQ2di4wMWwuNTkuNDV6bTguNDMtOS40NWEuNzUuNzUgMCAwIDAtMS4xOC0uOTNsMS4xOC45M3pNMS43OCA5LjY2bDIuNDUgMy40OCAxLjIzLS44N0wzIDguOGwtMS4yMy44N3ptMi40NCAzLjQ2Yy4zMi40OC44Ni43OCAxLjQ0LjhsLjA1LTEuNWEuMy4zIDAgMCAxLS4yNC0uMTNsLTEuMjUuODN6bTEuNDQuOGExLjggMS44IDAgMCAwIDEuNDktLjcxbC0xLjItLjlhLjMuMyAwIDAgMS0uMjQuMWwtLjA1IDEuNXptMS40OC0uN2w3Ljg0LTkuOTItMS4xOC0uOTMtNy44NCA5LjkyIDEuMTguOTN6Ii8+PC9zdmc+); }
     .dnb-dropdown__option:first-of-type,
     .dnb-dropdown__option--active:first-of-type .dnb-dropdown__option__inner {
       border-radius: var(--dropdown-options-border-radius) var(--dropdown-options-border-radius) 0 0; }
@@ -1816,7 +1834,9 @@ exports[`Dropdown scss have to match snapshot 1`] = `
 *
 */
 :root {
-  --dropdown-width: 20rem;
+  --dropdown-width: 16rem;
+  --dropdown-min-width: 10rem;
+  --dropdown-max-width: 20rem;
   --dropdown-height: 2rem;
   --dropdown-padding-horizontal: 1rem;
   --dropdown-border-width: 1px;
@@ -1960,7 +1980,7 @@ exports[`Dropdown scss have to match snapshot 1`] = `
     text-overflow: ellipsis; }
     .dnb-dropdown__text__inner {
       display: inline-block;
-      width: calc( var(--dropdown-width) - calc(var(--dropdown-padding-horizontal) * 4));
+      width: calc( var(--dropdown-width) - calc(var(--dropdown-padding-horizontal) * 3 + 10px));
       height: inherit;
       padding: 0;
       overflow: hidden;
