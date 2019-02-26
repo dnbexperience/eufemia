@@ -29,6 +29,10 @@ const CustomStyle = styled.div`
   p {
     background-color: rgba(213, 30, 149, 0.25);
   }
+  [data-dnb-test='dropdown-list'] .dnb-dropdown__options {
+    position: relative;
+    max-width: var(--dropdown-width);
+  }
 `
 
 stories.push([
@@ -331,6 +335,47 @@ stories.push([
             Eros semper blandit tellus mollis primis quisque platea
             sollicitudin ipsum
           </p>
+        </Box>
+        <Box data-dnb-test="dropdown-list">
+          <ul className="dnb-dropdown__options">
+            <li className="dnb-dropdown__option">
+              <span className="dnb-dropdown__triangle" />
+              <span className="dnb-dropdown__option__inner">
+                Brukskonto - Kari Nordmann
+              </span>
+            </li>
+            <li className="dnb-dropdown__option dnb-dropdown__option--selected">
+              <span className="dnb-dropdown__option__inner">
+                <span className="dnb-dropdown__option__item">
+                  1234.56.78902
+                </span>
+                <span className="dnb-dropdown__option__item">
+                  Sparekonto - Ole Nordmann
+                </span>
+              </span>
+            </li>
+            <li className="dnb-dropdown__option">
+              <span className="dnb-dropdown__option__inner">
+                <span className="dnb-dropdown__option__item">
+                  1134.56.78962
+                </span>
+                <span className="dnb-dropdown__option__item">
+                  Feriekonto - Kari Nordmann med et kjempelangt
+                  etternavnsen
+                </span>
+              </span>
+            </li>
+            <li className="dnb-dropdown__option">
+              <span className="dnb-dropdown__option__inner">
+                <span className="dnb-dropdown__option__item">
+                  1534.96.48901
+                </span>
+                <span className="dnb-dropdown__option__item">
+                  Oppussing - Ole Nordmann
+                </span>
+              </span>
+            </li>
+          </ul>
         </Box>
       </Wrapper>
     </CustomStyle>

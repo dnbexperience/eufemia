@@ -117,7 +117,7 @@ export default () => (
 const data = [
   {
     selected_value: 'Brukskonto - Kari Nordmann',
-    outside_value: '1234.56.78901',
+    // outside_value: '1234.56.78901',
     content: 'Brukskonto - Kari Nordmann'
   },
   {
@@ -126,7 +126,7 @@ const data = [
   {
     selected_value:
       'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen',
-    outside_value: '1134.56.78962',
+    // outside_value: '1134.56.78962',
     content: [
       '1134.56.78962',
       'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen'
@@ -134,7 +134,7 @@ const data = [
   },
   {
     selected_value: 'Oppussing - Ole Nordmann',
-    outside_value: '1534.96.48901',
+    // outside_value: '1534.96.48901',
     content: ['1534.96.48901', 'Oppussing - Ole Nordmann']
   }
 ]
