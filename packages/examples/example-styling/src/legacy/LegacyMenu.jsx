@@ -1,4 +1,6 @@
 import React from 'react'
+import './reset.css'
+import './dnb.css'
 
 const LegacyMenu = () => {
   return (

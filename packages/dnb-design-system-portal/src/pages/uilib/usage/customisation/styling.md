@@ -44,13 +44,15 @@ The following Diagram gives an overall overview how the packages are structured.
 
 The **dnb-ui-core** package includes some styles witch effects the global scope (body and CSS reset). To avoid interference with existing styles, let's say a header or a menu, You could only use the **dnb-ui-basis** package in combination with other packages like **dnb-theme-ui** and **dnb-ui-components**.
 
-### Use Body Style elsewhere
+You may have a look at some [code examples of dealing with legacy code](/uilib/usage/customisation/styling/legacy-styling).
 
-If You neither include the **dnb-ui-core** nor the **dnb-ui-body** package, then You ending up having no Eufemia styles for the Document `<body>`. To having them inside a wrapper anyway, simply use the following helper class: `.dnb-core-style`
+### Use Eufemia Styles elsewhere {#core-style}
+
+If You neither include the **dnb-ui-core** nor the **dnb-ui-body** package, then You ending up having no Eufemia styles for the Document `<body>`. To have the Eufemia Core styles inside a wrapper anyway, simply use the following helper class: `.dnb-core-style`
 
 ```html
 <div class="dnb-core-style">
-  <!-- Wrapper with the DNB Body Styles -->
+  <!-- Wrapper to have correct Eufemia styles inside -->
   <h1 class="dnb-h1">I have now the Eufemia Style</h1>
   <p class="dnb-p">☝🏻 Me as well</p>
 </div>
