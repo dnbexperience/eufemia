@@ -16,8 +16,8 @@ class Example extends PureComponent {
 <div className="dnb-section">
   Visuall DNB Section
 </div>
-<div className="dnb-section dnb-section--content">
-  Visuall DNB Section, declared with <code className="dnb-code">.dnb-section--content</code>
+<div className="dnb-section dnb-section--spacing">
+  Visuall DNB Section, declared with <code className="dnb-code">.dnb-section--spacing</code>
 </div>
         `}
         </CodeBlock>

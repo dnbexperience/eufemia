@@ -570,7 +570,8 @@ exports[`Modal scss have to match snapshot 1`] = `
   .dnb-icon img,
   .dnb-icon svg {
     width: inherit;
-    height: inherit; }
+    height: inherit;
+    vertical-align: middle; }
   .dnb-icon svg[width='100%'] {
     width: inherit; }
   .dnb-icon svg[height='100%'] {

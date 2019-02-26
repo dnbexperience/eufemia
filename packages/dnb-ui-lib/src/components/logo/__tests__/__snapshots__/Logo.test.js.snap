@@ -559,6 +559,8 @@ exports[`Logo scss have to match snapshot 1`] = `
   .dnb-logo--has-size {
     width: auto;
     height: auto; }
+  .dnb-logo--inherit-size {
+    height: inherit; }
   .dnb-logo svg:not([width]):not([height]) {
     width: inherit;
     height: inherit; }

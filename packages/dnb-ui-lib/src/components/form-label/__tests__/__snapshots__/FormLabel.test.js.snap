@@ -545,5 +545,7 @@ exports[`FormLabel scss have to match snapshot 1`] = `
   color: inherit;
   width: auto;
   white-space: nowrap; }
+  .dnb-form-label[disabled] {
+    cursor: not-allowed; }
 "
 `;

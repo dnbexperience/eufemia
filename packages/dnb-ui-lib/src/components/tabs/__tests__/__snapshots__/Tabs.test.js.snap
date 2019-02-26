@@ -233,8 +233,8 @@ exports[`Tabs scss have to match default theme snapshot 1`] = `
 :not([dnb-is-touch]) .dnb-tabs__tabs .dnb-tablink:hover:not([disabled]) {
   background-color: var(--color-mint-green-50); }
   :not([dnb-is-touch]) .dnb-tabs__tabs .dnb-tablink:hover:not([disabled])::after {
-    height: 2px;
-    border-radius: 1px;
+    height: 3px;
+    border-radius: 1.5px;
     background-color: var(--color-sea-green); }
 
 .dnb-tabs__tabs .dnb-tablink[disabled] .dnb-tablink-title {

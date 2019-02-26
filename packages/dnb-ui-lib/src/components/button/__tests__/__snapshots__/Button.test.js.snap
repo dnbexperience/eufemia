@@ -311,7 +311,7 @@ exports[`Button scss have to match default theme snapshot 1`] = `
   .dnb-button--tertiary.dnb-button--has-text:not([disabled]):hover::after {
     content: '';
     position: absolute;
-    z-index: -1;
+    z-index: 1;
     left: 0.05rem;
     right: 0.05rem;
     bottom: 0;
@@ -521,7 +521,8 @@ exports[`Button scss have to match snapshot 1`] = `
   .dnb-icon img,
   .dnb-icon svg {
     width: inherit;
-    height: inherit; }
+    height: inherit;
+    vertical-align: middle; }
   .dnb-icon svg[width='100%'] {
     width: inherit; }
   .dnb-icon svg[height='100%'] {

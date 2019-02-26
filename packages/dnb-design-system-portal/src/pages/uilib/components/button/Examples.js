@@ -115,6 +115,12 @@ class Example extends PureComponent {
 />
 <Button title="Button with Icon only" icon="calendar" />
 <Button
+  title="Small sized button with default Icon"
+  icon="add"
+  icon_size="default"
+  size="small"
+/>
+<Button
   title="Default sized Button with medium Icon"
   icon="calendar"
   icon_size="medium"

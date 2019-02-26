@@ -8,7 +8,6 @@ import PropTypes from 'prop-types'
 import { Link } from 'gatsby'
 import classnames from 'classnames'
 import styled from '@emotion/styled'
-import { css, Global } from '@emotion/core'
 import MainMenu from '../menu/MainMenu'
 import Sidebar from '../menu/SidebarMenu'
 import StickyMenuBar from '../menu/StickyMenuBar'
@@ -55,7 +54,6 @@ class Layout extends PureComponent {
     return (
       <MainMenuProvider>
         <SidebarMenuProvider>
-          <Global styles={globalStyles} />
           <a className="dnb-skip-link" href="#dnb-app-content">
             Skip to content
           </a>
@@ -77,17 +75,6 @@ class Layout extends PureComponent {
 }
 
 export default Layout
-
-const globalStyles = css`
-  ${'' /* html {
-    scroll-behavior: smooth;
-  } */}
-  @media (max-width: 40em) {
-    a.dnb-skip-link {
-      display: none;
-    }
-  }
-`
 
 const Wrapper = styled.div`
   position: relative;

@@ -50,7 +50,9 @@ If You neither include the **dnb-ui-core** nor the **dnb-ui-body** package, then
 
 ```html
 <div class="dnb-core-style">
-  Wrapper with the DNB Body Styles
+  <!-- Wrapper with the DNB Body Styles -->
+  <h1 class="dnb-h1">I have now the Eufemia Style</h1>
+  <p class="dnb-p">☝🏻 Me as well</p>
 </div>
 ```
 
@@ -75,10 +77,32 @@ Effected HTML Elements inside this container will then have a default spacing. T
 ```html
 <article class="dnb-spacing">
   <!-- DNB spacings -->
-  <h1>e.g. I have now a margin</h1>
-  <p>☝🏻 Me as well</p>
+  <h1 class="dnb-h1">e.g. I have now the Eufemia spacing (margin)</h1>
+  <p class="dnb-p">☝🏻 Me as well</p>
 </article>
 ```
 
 The styles for the `.dnb-spacing` are included in the package: **dnb-theme-ui**
 For more details, check out the source file: `spacing.scss`
+
+## Styling of HTML Elements (tags)
+
+To deal with HTML Elements, without declaring them individual with the right css classes, like `<h1 class="dnb-h1">`, You can import the sub package **dnb-ui-elements**.
+
+**NB:** Use it carefully - cause this will effect existing styles as well!
+
+```js
+/* directly the CSS file */
+import 'dnb-ui-lib/style/dnb-ui-elements.min.css'
+
+/* ... or by the shorthand */
+import 'dnb-ui-lib/style/elements'
+```
+
+```html
+<!-- HTML Elements in the wild -->
+<h1>I'm now Eufemia styled</h1>
+<ul>
+  <li>Me as well</li>
+</ul>
+```

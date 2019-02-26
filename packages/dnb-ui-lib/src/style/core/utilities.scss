@@ -27,6 +27,10 @@
 //   }
 // }
 
+@mixin defaultDropShadow() {
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16);
+}
+
 //Uses :not([dnb-is-touch]) and .touch
 //classes on <body> element
 //based on js touch device test
