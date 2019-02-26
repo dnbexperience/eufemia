@@ -7,6 +7,7 @@ import Img from 'Tags/Img'
 import FigmaTeam from 'Pages/quickguide-designer/assets/figma-team.svg'
 import FigmaLibraries from 'Pages/quickguide-designer/assets/figma-libraries.svg'
 import FigmaLayoutGrid from 'Pages/quickguide-designer/assets/figma-layout-grid.svg'
+import FigmaLibrary from 'Pages/quickguide-designer/assets/figma-library.svg'
 
 # QuickStart - Designers
 
@@ -35,8 +36,11 @@ What you should read from brand guidelines before starting to design for DNB
 <Img src={FigmaTeam} caption="Join the DNB UX team" alt="Join the DNB UX team" height="224" />
 
 5. Create a new file
-6. Add Eufemia library to your file by selecting the 'open book' icon on the top right of the Figma interface. This opens a new dialogue window:
-7. Choose Eufemia by toggling the switch.
+6. Add Eufemia library to your file by selecting the 'open book' icon on the top right of the Figma interface.
+
+<Img src={FigmaLibrary} caption="Figma's library icon" alt="Library icon" height="120" />
+
+7. This opens a new dialogue window. Choose Eufemia by toggling the switch:
 
 <Img src={FigmaLibraries} caption="Add the Eufemia library" alt="Add Eufemia team" height="320" />
 

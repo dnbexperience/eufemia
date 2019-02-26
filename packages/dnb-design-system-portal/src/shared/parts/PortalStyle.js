@@ -121,7 +121,7 @@ export default css`
     ${gridStyle({ rgb: '231, 232, 231', a: 0.8 })};
 
     figcaption {
-      padding-top: 0.9375rem;
+      padding-top: 1rem;
 
       font-size: 1em;
       line-height: 1.5rem;
