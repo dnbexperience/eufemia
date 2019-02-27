@@ -23,7 +23,7 @@ class Example extends PureComponent {
         </CodeBlock>
         <CodeBlock reactLive hideCode>
           {/* @html */ `
-<div class="dnb-core-style">
+<div className="dnb-core-style">
   <h3 className="dnb-h3">Wrapper with the DNB Body Style (CSS reset)</h3>
 </div>
         `}
