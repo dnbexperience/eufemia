@@ -4,8 +4,9 @@
  */
 
 @mixin codeStyle() {
-  margin: 0;
-  padding: 0.125rem 0.25rem; /* 2px 4px */
+  display: inline-block;
+  margin: -0.25em 0;
+  padding: 0.25em 0.25em; /* 2px 4px */
 
   font-size: inherit;
   line-height: 1; // for vertical alignment, we have to have no line-height
