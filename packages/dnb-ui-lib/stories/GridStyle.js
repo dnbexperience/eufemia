@@ -14,6 +14,7 @@ const gridStyle = ({
     rgb ? `rgba(${rgb}, ${a - c})` : `hsla(${hsl}, ${a - c})`
   return css`
     position: relative;
+    z-index: 0;
 
     --grid-gutter: 0.5rem;
     --grid-gutter-bold: 2rem;
