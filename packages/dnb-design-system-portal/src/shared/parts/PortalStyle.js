@@ -118,7 +118,8 @@ export default css`
 
     text-align: center;
 
-    ${gridStyle({ rgb: '231, 232, 231', a: 0.8 })};
+    ${gridStyle({ rgb: '200, 200, 200', a: 0.8 })};
+    background-color: rgba(255, 255, 255, 0.6);
 
     figcaption {
       padding-top: 1rem;
@@ -168,7 +169,7 @@ export default css`
     }
   }
 
-  div.example-box {
+  .example-box {
     margin-bottom: 2rem;
     padding: 2rem;
 
@@ -180,7 +181,7 @@ export default css`
       align-items: center;
     }
   }
-  p.example-caption {
+  .example-caption {
     margin-top: 2rem;
     padding-top: 0.9375rem;
 
@@ -191,7 +192,7 @@ export default css`
 
     border-top: solid 1px #c4c4c4;
   }
-  div.example-box + p.example-caption {
+  .example-box + .example-caption {
     margin-top: -2rem;
   }
 

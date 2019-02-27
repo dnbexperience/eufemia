@@ -7,17 +7,17 @@ import React, { PureComponent, Suspense } from 'react'
 import styled from '@emotion/styled'
 
 // 1. Import Components and Elements
-import { Button, Input, Icon } from 'dnb-ui-lib/components'
-import { H2, H4, P, Code, Hr } from 'dnb-ui-lib/elements'
+import { Button, Icon } from 'dnb-ui-lib/components'
+import { H2, H4, P, Code } from 'dnb-ui-lib/elements'
 import { bell } from 'dnb-ui-lib/icons'
 
 // 2. My App styles
 import './App.css'
 
 // 3. Custom Eufemia import
-import 'dnb-ui-lib/style/basis'
-import 'dnb-ui-lib/style/components'
-import 'dnb-ui-lib/style/themes/ui'
+import 'dnb-ui-lib/src/style/basis'
+import 'dnb-ui-lib/src/style/components'
+import 'dnb-ui-lib/src/style/themes/ui'
 
 // 4. We dont import this, as we will have controll
 // import 'dnb-ui-lib/style'; // Import the global DNB stylesheet
@@ -39,26 +39,26 @@ export default class App extends PureComponent {
 const LegacyMenu = React.lazy(() => import('./legacy/LegacyMenu.jsx'))
 const Legacy = () => {
   return (
-    <Article1>
-      <Code>Legacy code with own CSS reset from 2011 ↓</Code>
+    <LegacyCodeExample>
+      <Code>Legacy code with old CSS reset ↓</Code>
       <hr />
+      <Spacer />
 
       {/* Legacy Menu */}
       <Suspense fallback={<span>Loading...</span>}>
         <LegacyMenu />
       </Suspense>
       <h1>
-        Legacy h1 <Icon icon={bell} size="auto" />
+        Legacy {`<h1>`} <Icon icon={bell} size="auto" />
       </h1>
 
       <h4 className="dnb-h4">
         I have a Eufemia Style (<code>.dnb-h4</code>) without a correct CSS
-        reset, I'm only <b>20px</b> high!
+        reset, I'm only <b>20px</b> (1.25rem) high!
       </h4>
 
       <Button text="Crying Button 😢" />
-      <Input placeholder="Crying even more ..." />
-    </Article1>
+    </LegacyCodeExample>
   )
 }
 
@@ -66,54 +66,84 @@ const Cases = () => {
   return (
     <>
       {/* Use of core style reset */}
-      <Article2 className="dnb-core-style">
-        <Code>.dnb-core-style ↓</Code>
-        <Hr />
+      <CoreStyleExample className="dnb-core-style dnb-dev-grid">
+        <Code>{'<div class="dnb-core-style">'}</Code>
         <H4>
-          I'm using the Eufemia CSS reset, so I'm <b>24px</b> high!{' '}
+          I'm using the Eufemia CSS reset, so I'm <b>1.5rem</b> high!{' '}
         </H4>
         <P>Me as well {'😇'}</P>
         <H2>
-          And I'm a h2 <Icon icon={bell} size="auto" />
+          And I'm a <Code>{`<h2>`}</Code> <Icon icon={bell} size="auto" />
         </H2>
         <Button text="I'm looking good" icon="chevron_right" />
-      </Article2>
+        <br />
+        <br />
+        <Code>{'</div>'}</Code>
+        <ShowPixelBounding>I'm still on the Pixel Grid</ShowPixelBounding>
+      </CoreStyleExample>
 
       {/* Use of spacing */}
-      <Article3 className="dnb-core-style dnb-spacing">
-        <Code>.dnb-core-style ↓ .dnb-spacing ↓</Code>
-        <Hr />
-        <H2>I'm a h2 in an Article, and have the defualt spacing!</H2>
+      <SpacingExample className="dnb-core-style dnb-spacing dnb-dev-grid">
+        <Code>{'<div class="dnb-core-style dnb-spacing">'}</Code>
+        <H2>
+          I'm a <Code>{`<h2>`}</Code> in an Article, and have the defualt
+          spacing!
+        </H2>
         <P>
-          I'm a Paragraph with spacing, written as <Code>{`<P>`}</Code>
+          I'm a happy paragraph with spacing, written as{' '}
+          <Code>{`<p>`}</Code>.
         </P>
         <p className="dnb-p">
-          Identical paragraph, written as{' '}
-          <Code>{`<p className="dnb-p">`}</Code>
+          And I cloned Your style, but written as{' '}
+          <Code>{`<p class="dnb-p">`}</Code>
         </p>
-        <Input placeholder="Type someting ..." />
-      </Article3>
+        <Button
+          variant="secondary"
+          text="I'm looking good"
+          icon="add"
+          icon_position="left"
+        />
+        <br />
+        <br />
+        <Code>{'</div>'}</Code>
+        <ShowPixelBounding>I'm still on the Pixel Grid</ShowPixelBounding>
+      </SpacingExample>
     </>
   )
 }
 
-const Article1 = styled.article`
+const ShowPixelBounding = styled(P)`
+  .dnb-core-style & {
+    margin-top: 3rem;
+  }
+  color: var(--color-sky-blue);
+  background-color: rgba(164, 255, 255, 0.3);
+`
+const LegacyCodeExample = styled.article`
   padding: 3rem 2rem 4rem;
   background-color: var(--color-mint-green-12);
 `
-const Article2 = styled.article`
+const CoreStyleExample = styled.article`
+  margin: 0;
   padding: 3rem 2rem 4rem;
   background-color: var(--color-sea-green-alt-30);
-  hr:after {
-    background-color: var(--color-mint-green-25);
+  code:first-of-type,
+  code:last-of-type {
+    margin-bottom: 1rem;
+  }
+  .show-pixel-bounding {
+    background-color: rgba(255, 255, 255, 0.5);
   }
 `
-const Article3 = styled.article`
+const SpacingExample = styled.article`
   padding: 3rem 2rem 4rem;
   background-color: var(--color-mint-green-50);
-  hr:after {
-    background-color: var(--color-mint-green-12);
+  .show-pixel-bounding {
+    background-color: rgba(255, 255, 255, 0.5);
   }
 `
+const Spacer = styled.div`
+  margin-bottom: 2rem;
+`
 
-export { Cases, Article1 }
+export { Cases, LegacyCodeExample }
