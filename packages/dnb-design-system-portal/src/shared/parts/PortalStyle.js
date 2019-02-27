@@ -219,4 +219,23 @@ export default css`
   .lh-32 {
     line-height: 2rem;
   }
+
+  /* Do not delete, this is used for screenshot testing */
+  .data-dnb-test-wrapper {
+    position: relative;
+    'z-index':9999 ;
+
+    display: inline-block; /* to get smaller width to the right (no white space) */
+
+    overflow: hidden;
+
+    padding: 1rem;
+    margin: -1rem;
+
+    background: white;
+    &,
+    & * {
+      font-family: Arial;
+    }
+  }
 `

@@ -13,5 +13,5 @@ setupJestScreenshot({
   // local we check for 0.1% accuracy
   // due to the differences of font rendering between the os (linux/mac/win)
   // we have to have a hight threshold of 10%
-  pixelThresholdRelative: isCI ? 0.05 : 0
+  pixelThresholdRelative: isCI ? 0.1 : 0
 })

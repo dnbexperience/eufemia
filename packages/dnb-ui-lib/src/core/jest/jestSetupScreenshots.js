@@ -67,7 +67,7 @@ module.exports.testPageScreenshot = ({
           (node, { id, style }) => {
             const elem = document.createElement('div')
             elem.setAttribute('id', id)
-            elem.classList.add('data-dnb-test-padding')
+            elem.classList.add('data-dnb-test-wrapper')
             elem.setAttribute('style', style)
             node.parentNode.appendChild(elem)
             return elem.appendChild(node)
@@ -75,22 +75,7 @@ module.exports.testPageScreenshot = ({
           {
             id,
             style: makeStyles({
-              'font-family': 'Arial',
-
-              position: 'relative',
-              'z-index': 9999,
-
-              display: 'inline-block', // to get smaller width to the right (no white space)
-
-              overflow: 'hidden',
-
-              padding: '1rem',
-              margin: '-1rem',
-
-              background: 'white',
-
               height: `${height + 32}px`, // because we use "inline-block" - we have to make the height absolute
-
               ...(wrapperStyle ? wrapperStyle : {})
             })
           }
