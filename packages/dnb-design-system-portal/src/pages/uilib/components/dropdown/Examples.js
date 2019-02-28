@@ -26,7 +26,11 @@ class Example extends PureComponent {
           data-dnb-test="dropdown-closed"
         >
           {/* @jsx */ `
-<Dropdown data={data} selected_item={2} label="Label:" />
+<Dropdown data={data} selected_item={2} label="Label:" ${
+            typeof window !== 'undefined' && window.IS_TEST
+              ? ' no_animation={true} '
+              : ''
+          }/>
           `}
         </ComponentBox>
         <ComponentBox
