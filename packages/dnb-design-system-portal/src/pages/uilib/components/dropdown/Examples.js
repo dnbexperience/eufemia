@@ -101,9 +101,15 @@ const Wrapper = styled.div`
   .dnb-form-label {
     margin-right: 1rem;
   }
+  [data-dnb-test] {
+    .dnb-dropdown__shell,
+    .dnb-dropdown__text__inner {
+      width: var(--dropdown-width);
+    }
+  }
   [data-dnb-test='dropdown-list'] .dnb-dropdown__options {
     position: relative;
-    max-width: var(--dropdown-width);
+    width: var(--dropdown-width);
   }
 `
 

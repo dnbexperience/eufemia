@@ -227,15 +227,18 @@ class LiveCode extends PureComponent {
 
 const LiveCodeEditor = styled.div`
   position: relative;
+  z-index: 2;
 
   p.example-caption {
     margin-bottom: -1rem;
   }
   div.example-box {
+    z-index: 3; /* one higher than pre.prism-code  */
     margin-bottom: 0.5rem;
   }
   pre.prism-code {
     position: relative;
+    z-index: 1;
 
     &::after {
       content: '';
