@@ -26,7 +26,11 @@ class Example extends PureComponent {
           data-dnb-test="dropdown-closed"
         >
           {/* @jsx */ `
-<Dropdown data={data} selected_item={2} label="Label:" />
+<Dropdown data={data} selected_item={2} label="Label:" ${
+            typeof window !== 'undefined' && window.IS_TEST
+              ? ' no_animation={true} '
+              : ''
+          }/>
           `}
         </ComponentBox>
         <ComponentBox
@@ -101,9 +105,15 @@ const Wrapper = styled.div`
   .dnb-form-label {
     margin-right: 1rem;
   }
+  [data-dnb-test] {
+    .dnb-dropdown__shell,
+    .dnb-dropdown__text__inner {
+      width: var(--dropdown-width);
+    }
+  }
   [data-dnb-test='dropdown-list'] .dnb-dropdown__options {
     position: relative;
-    max-width: var(--dropdown-width);
+    width: var(--dropdown-width);
   }
 `
 
