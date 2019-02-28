@@ -10,7 +10,7 @@ import Link from '../parts/Link'
 import { StaticQuery, graphql } from 'gatsby'
 import { css, Global } from '@emotion/core'
 import styled from '@emotion/styled'
-import { SidebarMenuConsumer } from './SidebarMenuContext'
+import { SidebarMenuContext } from './SidebarMenuContext'
 // import { MainMenuToggleButton } from './ToggleMainMenu'
 import { Icon } from 'dnb-ui-lib/src'
 import graphics from './SidebarGraphics'
@@ -471,7 +471,7 @@ export default class SidebarLayout extends PureComponent {
                   }
                 `}
               />
-              <SidebarMenuConsumer>
+              <SidebarMenuContext.Consumer>
                 {({ isOpen, isClosing, toggleMenu }) => {
                   this.isOpen = isOpen
                   this.toggleMenu = toggleMenu
@@ -508,7 +508,7 @@ export default class SidebarLayout extends PureComponent {
                     </Sidebar>
                   )
                 }}
-              </SidebarMenuConsumer>
+              </SidebarMenuContext.Consumer>
             </>
           )
         }}

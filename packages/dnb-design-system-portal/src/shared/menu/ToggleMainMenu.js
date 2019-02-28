@@ -4,12 +4,12 @@
  */
 
 import React from 'react'
-import { MainMenuConsumer } from './MainMenuContext'
+import { MainMenuContext } from './MainMenuContext'
 import { Button } from 'dnb-ui-lib/src'
 
 export const MainMenuToggleButton = () => {
   return (
-    <MainMenuConsumer>
+    <MainMenuContext.Consumer>
       {({ openMenu }) => (
         <Button
           variant="primary"
@@ -20,6 +20,6 @@ export const MainMenuToggleButton = () => {
           icon_position="left"
         />
       )}
-    </MainMenuConsumer>
+    </MainMenuContext.Consumer>
   )
 }

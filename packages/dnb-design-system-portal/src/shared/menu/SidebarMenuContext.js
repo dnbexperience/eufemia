@@ -98,5 +98,3 @@ export class SidebarMenuProvider extends PureComponent {
     )
   }
 }
-
-export const SidebarMenuConsumer = SidebarMenuContext.Consumer
