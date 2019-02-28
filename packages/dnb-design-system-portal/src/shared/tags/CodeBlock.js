@@ -89,6 +89,7 @@ class LiveCode extends PureComponent {
     hideCode: PropTypes.bool,
     hidePreview: PropTypes.bool,
     showSyntax: PropTypes.bool,
+    hideSyntaxButton: PropTypes.bool,
     caption: PropTypes.string
   }
   static defaultProps = {
@@ -97,13 +98,14 @@ class LiveCode extends PureComponent {
     hideToolbar: false,
     hideCode: false,
     hidePreview: false,
-    showSyntax: true
+    showSyntax: false,
+    hideSyntaxButton: false
   }
 
   constructor(props) {
     super(props)
-    const { hideToolbar, hideCode, hidePreview } = props
-    this.state = { hideToolbar, hideCode, hidePreview }
+    const { hideToolbar, hideCode, hidePreview, showSyntax } = props
+    this.state = { hideToolbar, hideCode, hidePreview, showSyntax }
   }
 
   toggleCode = () => {
@@ -131,22 +133,23 @@ class LiveCode extends PureComponent {
   }
 
   render() {
-    const { code, caption, scope, ...rest } = this.props
+    const {
+      code,
+      caption,
+      scope,
+      hideSyntaxButton,
+
+      hideToolbar: _hideToolbar, // eslint-disable-line
+      hideCode: _hideCode, // eslint-disable-line
+      hidePreview: _hidePreview, // eslint-disable-line
+      showSyntax: _showSyntax, // eslint-disable-line
+
+      ...props
+    } = this.props
     const { hideToolbar, hideCode, hidePreview, showSyntax } = this.state
 
     const codeToUse =
       typeof code === 'string' ? this.prepareCode(code) : null
-
-    const props = Object.entries(rest).reduce((acc, [key, value]) => {
-      if (
-        !['hideCode', 'hidePreview', 'hideToolbar', 'showSyntax'].includes(
-          key
-        )
-      ) {
-        acc[key] = value
-      }
-      return acc
-    }, {})
 
     return (
       <LiveCodeEditor>
@@ -171,7 +174,7 @@ class LiveCode extends PureComponent {
           )}
           {!hideToolbar && (
             <Toolbar>
-              {!hideCode && (
+              {!hideCode && !hideSyntaxButton && (
                 <Button
                   className="toggle-button"
                   on_click={this.toggleSyntax}

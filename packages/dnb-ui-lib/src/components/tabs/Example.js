@@ -37,6 +37,7 @@ class Example extends PureComponent {
           scope={{ exampleContent }}
           data-dnb-test="tabs-tablist"
           noInline
+          hideSyntaxButton
         >
           {/* @jsx */ `
 const data = [
