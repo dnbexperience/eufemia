@@ -81,6 +81,7 @@ steps:
       - yarn test-ci-screenshots
     when:
       event:
+        - push
         - pull-request
       branch:
         include:
