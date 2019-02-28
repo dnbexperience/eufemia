@@ -7,9 +7,9 @@ import React from 'react'
 import styled from '@emotion/styled'
 import Img from 'Tags/Img'
 import { css } from '@emotion/core'
-import { Button, Icon } from 'dnb-ui-lib/components'
-import { H2, H4, P, Hr, Code } from 'dnb-ui-lib/elements'
-import { bell } from 'dnb-ui-lib/icons'
+import { Button, Icon } from 'dnb-ui-lib/src/components'
+import { H2, H4, P, Hr, Code } from 'dnb-ui-lib/src/elements'
+import { bell } from 'dnb-ui-lib/src/icons'
 import LegacyCodeStylingExample from './assets/legacy-code-styling-example.png'
 import PortalStyle, {
   gridStyle
