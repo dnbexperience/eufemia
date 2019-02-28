@@ -6,8 +6,7 @@
 import fs from 'fs-extra'
 import https from 'https'
 import path from 'path'
-// import { Client } from 'figma-js'
-import { Client } from './figmaAPI.js' // as "figma-js" not was flexible enough, we have our own.
+import { Client } from 'figma-js'
 import traverse from 'traverse'
 import isEqual from 'lodash.isequal'
 import isEqualWith from 'lodash.isequalwith'
