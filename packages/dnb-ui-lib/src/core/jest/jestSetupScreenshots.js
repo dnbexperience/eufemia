@@ -66,9 +66,10 @@ module.exports.testPageScreenshot = ({
           selector,
           (node, { id, style }) => {
             const elem = document.createElement('div')
-            elem.setAttribute('id', id)
-            elem.classList.add('data-dnb-test-wrapper')
-            elem.setAttribute('style', style)
+
+            // NB: The styles for [data-dnb-test-wrapper] have to be set in the CSS main file
+            elem.setAttribute('data-dnb-test-wrapper', id)
+            elem.style = style
             node.parentNode.appendChild(elem)
             return elem.appendChild(node)
           },
@@ -81,8 +82,8 @@ module.exports.testPageScreenshot = ({
           }
         )
 
-        await page.waitForSelector(`#${id}`)
-        screenshotElement = await page.$(`#${id}`)
+        await page.waitForSelector(`[data-dnb-test-wrapper="${id}"]`)
+        screenshotElement = await page.$(`[data-dnb-test-wrapper="${id}"]`)
       } else {
         screenshotElement = element
       }
