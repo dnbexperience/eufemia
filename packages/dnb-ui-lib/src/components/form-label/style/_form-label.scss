@@ -6,7 +6,14 @@
 .dnb-form-label {
   user-select: none;
 
+  margin-right: 1rem;
+  &--vertical {
+    margin-right: 0;
+    margin-top: 0;
+  }
+
   display: inline-block;
+  vertical-align: baseline;
   cursor: pointer;
 
   color: inherit;
@@ -14,7 +21,13 @@
   width: auto;
   white-space: nowrap; // in contrast to label only
 
+  &[for]:not([disabled]):hover {
+    color: var(--color-sea-green);
+  }
   &[disabled] {
     cursor: not-allowed;
   }
+}
+.dnb-form-label + [class*='__status'] {
+  vertical-align: baseline;
 }
