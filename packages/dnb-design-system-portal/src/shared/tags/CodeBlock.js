@@ -7,7 +7,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { css } from '@emotion/core'
 import styled from '@emotion/styled'
-import Highlight, { defaultProps } from 'prism-react-renderer'
+import Highlight, { Prism, defaultProps } from 'prism-react-renderer'
 import Tag from './Tag'
 import { Button } from 'dnb-ui-lib/src'
 import Code from '../parts/uilib/Code'
@@ -26,7 +26,12 @@ import {
 // import prismTheme from 'prism-react-renderer/themes/nightOwl'
 import dnbTheme from './themes/dnb-prism-theme'
 
-const prismStyle = css(dnbTheme)
+const prismStyle = css(/* @css */ `
+  .token,
+  .styled-template-string {
+    ${dnbTheme}
+  }
+`)
 
 const Wrapper = styled.div`
   margin-bottom: 2rem;
@@ -299,3 +304,28 @@ const cleanTokens = tokens => {
   }
   return tokens
 }
+
+Prism.languages.insertBefore('jsx', 'template-string', {
+  'styled-template-string': {
+    pattern: /(styled(\.\w+|\([^)]*\))(\.\w+(\([^)]*\))*)*|css|injectGlobal|keyframes|css={)`(?:\$\{[^}]+\}|\\\\|\\?[^\\])*?`/,
+    lookbehind: true,
+    greedy: true,
+    inside: {
+      interpolation: {
+        pattern: /\$\{[^}]+\}/,
+        inside: {
+          'interpolation-punctuation': {
+            pattern: /^\$\{|\}$/,
+            alias: 'punctuation'
+          },
+          rest: Prism.languages.jsx
+        }
+      },
+      string: {
+        pattern: /[^$;]+/,
+        inside: Prism.languages.css,
+        alias: 'language-css'
+      }
+    }
+  }
+})
