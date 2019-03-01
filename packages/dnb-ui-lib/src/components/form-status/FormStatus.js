@@ -48,7 +48,7 @@ export const defaultProps = {
   title: null,
   text: null,
   icon: 'exclamation',
-  icon_size: 'default',
+  icon_size: 'medium',
   status: 'error',
   hidden: false,
   text_id: null,

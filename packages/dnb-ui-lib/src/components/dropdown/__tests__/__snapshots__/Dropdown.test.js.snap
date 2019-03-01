@@ -264,7 +264,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
       className={null}
       hidden={false}
       icon="exclamation"
-      icon_size="default"
+      icon_size="medium"
       render_content={null}
       status="error"
       text="status"
@@ -286,31 +286,31 @@ exports[`Dropdown component have to match snapshot 1`] = `
           height={null}
           icon="exclamation"
           modifier={null}
-          size="default"
+          size="medium"
           title={null}
           width={null}
         >
           <span
             alt="exclamation"
             aria-hidden={true}
-            className="dnb-icon dnb-icon--default"
+            className="dnb-icon dnb-icon--medium"
             role="img"
           >
-            <exclamation>
+            <exclamation_medium>
               <svg
                 fill="none"
-                height={16}
-                viewBox="0 0 16 16"
-                width={16}
+                height={24}
+                viewBox="0 0 24 24"
+                width={24}
               >
                 <path
                   clipRule="evenodd"
-                  d="M8 1.75a.75.75 0 0 1 .75.75v7a.75.75 0 0 1-1.5 0v-7A.75.75 0 0 1 8 1.75zm-.893 10.357A1.25 1.25 0 0 1 8 11.75c.32 0 .646.11.893.357s.357.573.357.893c0 .32-.11.646-.357.893A1.249 1.249 0 0 1 8 14.25c-.32 0-.646-.11-.893-.357A1.249 1.249 0 0 1 6.75 13c0-.32.11-.646.357-.893z"
+                  d="M12 3a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-1.5 0V3.75A.75.75 0 0 1 12 3zm-1.074 15.426c.29-.29.679-.426 1.074-.426s.783.135 1.074.426c.29.29.426.679.426 1.074s-.135.783-.426 1.074c-.29.29-.679.426-1.074.426s-.783-.135-1.074-.426A1.499 1.499 0 0 1 10.5 19.5c0-.395.135-.783.426-1.074z"
                   fill="#000"
                   fillRule="evenodd"
                 />
               </svg>
-            </exclamation>
+            </exclamation_medium>
           </span>
         </IconPrimary>
         <span
