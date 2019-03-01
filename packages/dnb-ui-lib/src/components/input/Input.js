@@ -348,7 +348,7 @@ export default class Input extends PureComponent {
 class Submit extends PureComponent {
   static propTypes = {
     value: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
+    title: PropTypes.string,
     variant: ButtonPropTypes.variant,
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     icon: PropTypes.oneOfType([
