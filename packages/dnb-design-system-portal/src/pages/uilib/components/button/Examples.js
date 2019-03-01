@@ -140,10 +140,9 @@ class Example extends PureComponent {
           {/* @jsx */ `
 <Button
   variant="signal"
-  text="Signal Button (large size)"
-  size="large"
+  text="Signal Button"
   icon={Bell}
-  icon_size="medium"
+  data-dnb-test="button-signal"
 />
           `}
         </ComponentBox>
@@ -151,10 +150,10 @@ class Example extends PureComponent {
           {/* @jsx */ `
 <Button
   variant="signal"
-  text="Disabled Signal Button"
+  text="Large Signal Button"
   icon={<Bell />}
+  size="large"
   icon_size="medium"
-  disabled
 />
           `}
         </ComponentBox>

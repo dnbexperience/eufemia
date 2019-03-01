@@ -366,7 +366,8 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     background-color: var(--color-signal-yellow);
     outline: none; }
     html[data-whatinput='keyboard'] :not([dnb-is-touch]) .dnb-button--signal:focus:not([disabled]) {
-      box-shadow: inset 0 0 0 2px; }
+      box-shadow: inset 0 0 0 2px var(--color-emerald-green);
+      border-color: transparent; }
   :not([dnb-is-touch]) .dnb-button--signal:active[disabled] {
     cursor: not-allowed; }
   :not([dnb-is-touch]) .dnb-button--signal:active:not([disabled]) {

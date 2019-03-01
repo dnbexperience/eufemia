@@ -33,12 +33,12 @@
   }
 }
 
-@mixin buttonFocus($color, $background-color) {
+@mixin buttonFocus($color, $background-color, $focus-color: null) {
   @include focus(true) {
     color: $color;
     background-color: $background-color;
 
-    @include fakeFocus(null, null, inset);
+    @include fakeFocus(null, $focus-color, inset);
 
     @content;
   }
