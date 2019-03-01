@@ -12,8 +12,8 @@ import {
   loadScss
 } from '../../../core/jest/jestSetup'
 import Component from '../Button'
-import '../style/dnb-button.scss' // just to make sure we re-run the test in watch mode due to changes in this file
-import '../style/themes/dnb-button-theme-ui.scss' // just to make sure we re-run the test in watch mode due to changes in this file
+import dnb_button from '../style/dnb-button.scss' // eslint-disable-line
+import dnb_button_theme_ui from '../style/themes/dnb-button-theme-ui.scss' // eslint-disable-line
 
 const props = fakeProps(require.resolve('../Button'), {
   optional: true
