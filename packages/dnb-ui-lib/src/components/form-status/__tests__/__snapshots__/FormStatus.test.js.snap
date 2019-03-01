@@ -305,6 +305,7 @@ exports[`FormStatus scss have to match snapshot 1`] = `
    */
   /**
    * Show the overflow in Edge and IE.
+   * 1. Safari did inherit the break-word from html root
    */
   /**
    * 1. Correct the text wrapping in Edge and IE.
@@ -492,7 +493,9 @@ exports[`FormStatus scss have to match snapshot 1`] = `
   .dnb-form-status fieldset {
     padding: 0.35rem 0.75rem 0.625rem; }
   .dnb-form-status input {
-    overflow: visible; }
+    overflow: visible;
+    word-break: normal;
+    /* 1 */ }
   .dnb-form-status legend {
     color: inherit;
     /* 2 */

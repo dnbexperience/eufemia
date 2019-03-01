@@ -302,10 +302,12 @@
 
   /**
    * Show the overflow in Edge and IE.
+   * 1. Safari did inherit the break-word from html root
    */
 
   input {
     overflow: visible;
+    word-break: normal; /* 1 */
   }
 
   /**

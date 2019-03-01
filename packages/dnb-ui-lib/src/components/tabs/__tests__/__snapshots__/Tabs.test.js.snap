@@ -481,6 +481,7 @@ exports[`Tabs scss have to match snapshot 1`] = `
    */
   /**
    * Show the overflow in Edge and IE.
+   * 1. Safari did inherit the break-word from html root
    */
   /**
    * 1. Correct the text wrapping in Edge and IE.
@@ -668,7 +669,9 @@ exports[`Tabs scss have to match snapshot 1`] = `
   .dnb-tabs fieldset {
     padding: 0.35rem 0.75rem 0.625rem; }
   .dnb-tabs input {
-    overflow: visible; }
+    overflow: visible;
+    word-break: normal;
+    /* 1 */ }
   .dnb-tabs legend {
     color: inherit;
     /* 2 */
@@ -773,7 +776,8 @@ exports[`Tabs scss have to match snapshot 1`] = `
     .dnb-tabs__tabs__tablist:focus {
       outline: none; }
       html[data-whatinput='keyboard'] .dnb-tabs__tabs__tablist:focus {
-        box-shadow: 0 0 0 2px; }
+        box-shadow: 0 0 0 2px var(--color-emerald-green);
+        border-color: transparent; }
   .dnb-tabs__tabs--left .dnb-tabs__tabs__tablist {
     justify-content: flex-start; }
   .dnb-tabs__tabs--right .dnb-tabs__tabs__tablist {

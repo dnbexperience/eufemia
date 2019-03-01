@@ -745,6 +745,7 @@ exports[`Dropdown scss have to match snapshot 1`] = `
    */
   /**
    * Show the overflow in Edge and IE.
+   * 1. Safari did inherit the break-word from html root
    */
   /**
    * 1. Correct the text wrapping in Edge and IE.
@@ -932,7 +933,9 @@ exports[`Dropdown scss have to match snapshot 1`] = `
   .dnb-form-label fieldset {
     padding: 0.35rem 0.75rem 0.625rem; }
   .dnb-form-label input {
-    overflow: visible; }
+    overflow: visible;
+    word-break: normal;
+    /* 1 */ }
   .dnb-form-label legend {
     color: inherit;
     /* 2 */
@@ -1024,13 +1027,23 @@ exports[`Dropdown scss have to match snapshot 1`] = `
  */
 .dnb-form-label {
   user-select: none;
+  margin-right: 1rem;
   display: inline-block;
+  vertical-align: baseline;
   cursor: pointer;
   color: inherit;
   width: auto;
   white-space: nowrap; }
+  .dnb-form-label--vertical {
+    margin-right: 0;
+    margin-top: 0; }
   .dnb-form-label[disabled] {
     cursor: not-allowed; }
+  .dnb-form-label:not([disabled]):hover {
+    color: var(--color-sea-green); }
+
+.dnb-form-label + [class*='__status'] {
+  vertical-align: baseline; }
 
 /*
 * DNB FormStatus
@@ -1128,6 +1141,7 @@ exports[`Dropdown scss have to match snapshot 1`] = `
    */
   /**
    * Show the overflow in Edge and IE.
+   * 1. Safari did inherit the break-word from html root
    */
   /**
    * 1. Correct the text wrapping in Edge and IE.
@@ -1315,7 +1329,9 @@ exports[`Dropdown scss have to match snapshot 1`] = `
   .dnb-form-status fieldset {
     padding: 0.35rem 0.75rem 0.625rem; }
   .dnb-form-status input {
-    overflow: visible; }
+    overflow: visible;
+    word-break: normal;
+    /* 1 */ }
   .dnb-form-status legend {
     color: inherit;
     /* 2 */
@@ -1541,6 +1557,7 @@ exports[`Dropdown scss have to match snapshot 1`] = `
    */
   /**
    * Show the overflow in Edge and IE.
+   * 1. Safari did inherit the break-word from html root
    */
   /**
    * 1. Correct the text wrapping in Edge and IE.
@@ -1728,7 +1745,9 @@ exports[`Dropdown scss have to match snapshot 1`] = `
   .dnb-dropdown fieldset {
     padding: 0.35rem 0.75rem 0.625rem; }
   .dnb-dropdown input {
-    overflow: visible; }
+    overflow: visible;
+    word-break: normal;
+    /* 1 */ }
   .dnb-dropdown legend {
     color: inherit;
     /* 2 */

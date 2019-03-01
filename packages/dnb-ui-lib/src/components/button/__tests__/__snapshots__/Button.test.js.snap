@@ -249,7 +249,8 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     background-color: var(--color-white);
     outline: none; }
     html[data-whatinput='keyboard'] :not([dnb-is-touch]) .dnb-button--primary:focus:not([disabled]) {
-      box-shadow: inset 0 0 0 2px; }
+      box-shadow: inset 0 0 0 2px var(--color-emerald-green);
+      border-color: transparent; }
   :not([dnb-is-touch]) .dnb-button--primary:active[disabled] {
     cursor: not-allowed; }
   :not([dnb-is-touch]) .dnb-button--primary:active:not([disabled]) {
@@ -280,7 +281,8 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     background-color: var(--color-white);
     outline: none; }
     html[data-whatinput='keyboard'] :not([dnb-is-touch]) .dnb-button--secondary:focus:not([disabled]) {
-      box-shadow: inset 0 0 0 2px; }
+      box-shadow: inset 0 0 0 2px var(--color-emerald-green);
+      border-color: transparent; }
   :not([dnb-is-touch]) .dnb-button--secondary:active[disabled] {
     cursor: not-allowed; }
   :not([dnb-is-touch]) .dnb-button--secondary:active:not([disabled]) {
@@ -345,7 +347,8 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     background-color: transparent;
     outline: none; }
     html[data-whatinput='keyboard'] :not([dnb-is-touch]) .dnb-button--tertiary:focus:not([disabled]) {
-      box-shadow: inset 0 0 0 2px; }
+      box-shadow: inset 0 0 0 2px var(--color-emerald-green);
+      border-color: transparent; }
   .dnb-button--tertiary[disabled] {
     color: var(--color-sea-green-alt-30); }
 
@@ -655,6 +658,7 @@ exports[`Button scss have to match snapshot 1`] = `
    */
   /**
    * Show the overflow in Edge and IE.
+   * 1. Safari did inherit the break-word from html root
    */
   /**
    * 1. Correct the text wrapping in Edge and IE.
@@ -842,7 +846,9 @@ exports[`Button scss have to match snapshot 1`] = `
   .dnb-button fieldset {
     padding: 0.35rem 0.75rem 0.625rem; }
   .dnb-button input {
-    overflow: visible; }
+    overflow: visible;
+    word-break: normal;
+    /* 1 */ }
   .dnb-button legend {
     color: inherit;
     /* 2 */
@@ -1065,7 +1071,8 @@ exports[`Button scss have to match snapshot 1`] = `
     .dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
       outline: none; }
       html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
-        box-shadow: 0 0 0 2px; }
+        box-shadow: 0 0 0 2px var(--color-emerald-green);
+        border-color: transparent; }
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):focus,
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):active {
       box-shadow: none;

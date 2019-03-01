@@ -263,6 +263,7 @@ exports[`Logo scss have to match snapshot 1`] = `
    */
   /**
    * Show the overflow in Edge and IE.
+   * 1. Safari did inherit the break-word from html root
    */
   /**
    * 1. Correct the text wrapping in Edge and IE.
@@ -450,7 +451,9 @@ exports[`Logo scss have to match snapshot 1`] = `
   .dnb-logo fieldset {
     padding: 0.35rem 0.75rem 0.625rem; }
   .dnb-logo input {
-    overflow: visible; }
+    overflow: visible;
+    word-break: normal;
+    /* 1 */ }
   .dnb-logo legend {
     color: inherit;
     /* 2 */
