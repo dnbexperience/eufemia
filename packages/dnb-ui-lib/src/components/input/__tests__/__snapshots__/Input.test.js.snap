@@ -2156,6 +2156,7 @@ a.dnb-button {
     overflow: hidden; }
   .dnb-input__input {
     border: none;
+    outline: none;
     word-break: normal; }
   .dnb-input__input[disabled] {
     user-select: none; }
