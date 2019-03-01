@@ -349,7 +349,7 @@ export default class SidebarLayout extends PureComponent {
   }
 
   scrollToLastPosition() {
-    if (this._scrollRef) {
+    if (this._scrollRef.current) {
       this.bussyOnSettingNewPos = true
       const lastPos = this.getLastPosition()
       if (lastPos > 0) {
@@ -364,7 +364,7 @@ export default class SidebarLayout extends PureComponent {
   }
 
   scrollToActiveItem() {
-    if (this._scrollRef) {
+    if (this._scrollRef.current) {
       try {
         const offset = this._scrollRef.current.getBoundingClientRect().top
         const pos = this._scrollRef.current
