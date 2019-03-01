@@ -19,7 +19,7 @@ import ToggleGrid from '../menu/ToggleGrid'
 import {
   setPageFocusElement,
   scrollToLocationHashId
-} from 'dnb-ui-lib/src/shared/global-helpers'
+} from 'dnb-ui-lib/src/shared/helpers'
 import { Logo } from 'dnb-ui-lib/src'
 
 class Layout extends PureComponent {

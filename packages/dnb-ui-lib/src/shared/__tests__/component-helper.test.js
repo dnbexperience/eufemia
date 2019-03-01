@@ -4,12 +4,26 @@
  */
 
 import {
+  defineIsTouch,
   validateDOMAttributes,
   processChildren,
   dispatchCustomElementEvent,
   setCustomElementMethod,
   pickRenderProps
 } from '../component-helper'
+
+beforeAll(() => {
+  navigator.maxTouchPoints = 2 // mocking touch
+  defineIsTouch(true)
+})
+
+describe('"defineIsTouch" should', () => {
+  it('add "dnb-is-touch" as an attribute to the HTML tag', () => {
+    expect(document.documentElement.getAttribute('dnb-is-touch')).toBe(
+      'true'
+    )
+  })
+})
 
 describe('"validateDOMAttributes" should', () => {
   it('work fine', () => {

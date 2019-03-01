@@ -45,7 +45,7 @@ This helper also handles both the `tabindex="-1"` and the `class="dnb-no-focus"`
 import {
   setPageFocusElement,
   applyPageFocus
-} from 'dnb-ui-lib/shared/global-helpers'
+} from 'dnb-ui-lib/shared/helpers'
 
 // 1. Somewhere in Your app, set either an element, or a CSS Selector
 setPageFocusElement('.css-selector', 'MyCustomName')
