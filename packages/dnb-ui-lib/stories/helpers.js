@@ -20,9 +20,10 @@ export const Box = styled.div`
   &::after {
     content: '';
     position: absolute;
-    right: -50vw;
+    left: -50vw;
     bottom: 0;
-    width: 200vw;
+    width: 100vw;
     border-bottom: dashed 1px rgb(0, 200, 200);
+    box-shadow: 100vw 0 0 0 rgb(0, 200, 200);
   }
 `
