@@ -132,7 +132,7 @@ stories.push([
         <Input label="Label:">Input ...</Input>
       </Box>
       <Box>
-        <Input placeholder="Placeholder ..." />
+        <Input label="Label:" placeholder="Placeholder ..." />
       </Box>
       <Box>
         <Input
@@ -141,9 +141,11 @@ stories.push([
           submit_button_title="Search"
           placeholder="Search text placeholder"
         />
+      </Box>
+      <Box>
         <Input
           disabled
-          label="Search:"
+          label="Disabled search:"
           type="search"
           submit_button_title="Search"
           placeholder="Search text placeholder"
@@ -151,8 +153,15 @@ stories.push([
       </Box>
       <Box>
         <Input
-          label="Input with Status:"
+          label="Input with status:"
           status="Message to the user"
+          value="Input value with status"
+        />
+      </Box>
+      <Box>
+        <Input
+          label="Input with description:"
+          description="Description to the user"
           value="Input value with status"
         />
       </Box>
