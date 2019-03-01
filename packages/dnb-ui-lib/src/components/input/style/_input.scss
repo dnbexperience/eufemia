@@ -20,28 +20,26 @@
 }
 
 .dnb-input {
-  display: flex;
-  align-items: center;
-  flex-flow: row wrap; // for wrapping form-status etc.
-  width: 100%;
+  display: inline-flex;
+  align-items: flex-start;
+  flex-direction: column;
+  width: auto;
+
+  vertical-align: middle; // because of the prepending labels
 
   font-size: var(--input-font-size);
-  line-height: var(--input-height);
 
   &__shell {
     position: relative;
 
     display: flex;
     align-items: center;
-    flex: 1;
+    overflow: hidden;
   }
 
   &__input {
-    outline: none;
     border: none;
-
-    // +1px because of vertical center - no mather what border width we have
-    transform: translateY(1px);
+    word-break: normal;
   }
 
   &__input[disabled] {
@@ -56,14 +54,18 @@
 
   &__placeholder,
   &__input {
-    width: 100%;
+    width: 100%; // to get overflow working properly
     padding: var(--input-padding);
 
     text-align: left;
 
     color: inherit;
     font-size: var(--input-font-size);
+    line-height: 1; // because when ::selected is kikking in
     background-color: transparent;
+
+    // because of vertical centering
+    transform: translateY(var(--input-border-width));
   }
 
   &__placeholder {
@@ -71,17 +73,17 @@
 
     position: absolute;
     z-index: 1;
-    top: 0;
     left: 0;
-    height: 100%;
     overflow: hidden;
-
-    // +1px because of the border width
-    transform: translateY(calc(1px - var(--input-border-width)))
-      translateX(1px);
 
     white-space: nowrap;
     text-overflow: ellipsis;
+  }
+
+  &--has-submit-button &__placeholder,
+  &--has-submit-button &__input {
+    padding-right: 2rem;
+    margin-right: -1rem; // to avoid that the total width gets wider
   }
 
   &__description {
@@ -90,7 +92,6 @@
   }
 
   &--medium {
-    line-height: var(--input-height--medium);
     .dnb-input__shell,
     .dnb-input__input {
       height: var(--input-height--medium);
@@ -103,7 +104,6 @@
     }
   }
   &--large {
-    line-height: var(--input-height--large);
     .dnb-input__shell,
     .dnb-input__input {
       height: var(--input-height--large);
@@ -128,52 +128,19 @@
     display: none;
   }
 
-  &__extra-information {
-    flex: 1 100%;
-
-    padding: 0.5rem 1.5rem;
-
-    color: var(--color-black);
-    font-size: var(--font-size-small); // 14px
-    line-height: 1.25rem;
-  }
-  > .dnb-form-label ~ &__extra-information {
-    padding: 0.5rem 0;
-  }
-
   &__submit-button {
     position: relative;
     z-index: 2; // over placeholder
-    transform: translateX(var(--input-border-width));
+
+    // place the button
+    align-self: flex-end;
+    margin-top: -2rem;
   }
   // no special style for search
   // &__input--search {
   // }
 
-  > .dnb-form-label {
-    margin-right: 1rem;
-  }
-
   > .dnb-form-status {
-    margin-left: 0.5rem;
+    margin-top: 0.5rem;
   }
 }
-
-// The input[type='range'] is moved into the slider component style
-// @import '../../slider/style/_range.scss';
-
-// Additional resets - this is moved in here, we may have usage later again
-// legend {
-//   padding: 0;
-//   display: table;
-//   width: 100%;
-// }
-// fieldset {
-//   border: 0;
-//   padding: 0.01rem 0 0 0;
-//   margin: 0;
-//   min-width: 0;
-// }
-// body:not(:-moz-handler-blocked) fieldset {
-//   display: table-cell;
-// }
