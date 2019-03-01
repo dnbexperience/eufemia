@@ -296,9 +296,6 @@ exports[`FormLabel scss have to match snapshot 1`] = `
   /**
    * Remove the inner border and padding of focus outlines in Firefox.
    */
-  /**
-   * Restore the focus outline styles unset by the previous rule in Firefox.
-   */
   /* Interactive
    */
   /*
@@ -494,8 +491,6 @@ exports[`FormLabel scss have to match snapshot 1`] = `
   .dnb-form-label ::-moz-focus-inner {
     border-style: none;
     padding: 0; }
-  .dnb-form-label :-moz-focusring {
-    outline: 1px dotted ButtonText; }
   .dnb-form-label details {
     display: block; }
   .dnb-form-label summary {

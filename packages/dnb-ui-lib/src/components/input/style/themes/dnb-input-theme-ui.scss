@@ -75,11 +75,14 @@
     text-shadow: none;
   }
 
-  // Adjusting opacity of placeholder when:
-  // 1: input is in focus and 2. input has no content
+  // IE11 fallback - hide placeholder on focus
+  &__input:focus ~ .dnb-input__placeholder {
+    display: none;
+  }
+
+  // hide placeholder on focus
   &__shell[data-input-state='focus'][data-has-content='false']
     .dnb-input__placeholder {
-    transition: color 100ms ease-out;
-    color: var(--color-sea-green-alt-30);
+    display: none;
   }
 }

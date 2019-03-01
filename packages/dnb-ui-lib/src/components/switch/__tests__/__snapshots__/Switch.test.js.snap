@@ -337,9 +337,6 @@ exports[`Switch scss have to match snapshot 1`] = `
   /**
    * Remove the inner border and padding of focus outlines in Firefox.
    */
-  /**
-   * Restore the focus outline styles unset by the previous rule in Firefox.
-   */
   /* Interactive
    */
   /*
@@ -535,8 +532,6 @@ exports[`Switch scss have to match snapshot 1`] = `
   .dnb-switch ::-moz-focus-inner {
     border-style: none;
     padding: 0; }
-  .dnb-switch :-moz-focusring {
-    outline: 1px dotted ButtonText; }
   .dnb-switch details {
     display: block; }
   .dnb-switch summary {

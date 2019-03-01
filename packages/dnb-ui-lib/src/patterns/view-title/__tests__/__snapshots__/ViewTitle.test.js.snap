@@ -271,9 +271,6 @@ exports[`ViewTitle scss have to match snapshot 1`] = `
   /**
    * Remove the inner border and padding of focus outlines in Firefox.
    */
-  /**
-   * Restore the focus outline styles unset by the previous rule in Firefox.
-   */
   /* Interactive
    */
   /*
@@ -469,8 +466,6 @@ exports[`ViewTitle scss have to match snapshot 1`] = `
   .dnb-view-title ::-moz-focus-inner {
     border-style: none;
     padding: 0; }
-  .dnb-view-title :-moz-focusring {
-    outline: 1px dotted ButtonText; }
   .dnb-view-title details {
     display: block; }
   .dnb-view-title summary {

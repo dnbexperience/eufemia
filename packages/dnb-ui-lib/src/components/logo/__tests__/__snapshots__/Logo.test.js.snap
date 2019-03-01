@@ -303,9 +303,6 @@ exports[`Logo scss have to match snapshot 1`] = `
   /**
    * Remove the inner border and padding of focus outlines in Firefox.
    */
-  /**
-   * Restore the focus outline styles unset by the previous rule in Firefox.
-   */
   /* Interactive
    */
   /*
@@ -501,8 +498,6 @@ exports[`Logo scss have to match snapshot 1`] = `
   .dnb-logo ::-moz-focus-inner {
     border-style: none;
     padding: 0; }
-  .dnb-logo :-moz-focusring {
-    outline: 1px dotted ButtonText; }
   .dnb-logo details {
     display: block; }
   .dnb-logo summary {
