@@ -130,11 +130,7 @@
   background-color: var(--color-signal-yellow);
 
   @include buttonHover(var(--color-black), var(--color-signal-yellow));
-  @include buttonFocus(
-    var(--color-black),
-    var(--color-signal-yellow),
-    var(--color-emerald-green)
-  );
+  @include buttonFocus(var(--color-black), var(--color-signal-yellow));
   @include buttonActive(var(--color-black), var(--color-signal-yellow));
 
   &[disabled] {
