@@ -12,8 +12,10 @@ import {
 } from '../../../core/jest/jestSetup'
 
 import Component from '../Modal'
-// just to make sure we re-run the test in watch mode due to changes in this file
-import '../style/dnb-modal.scss'
+
+// just to make sure we re-run the test in watch mode due to changes in theese files
+import _modal from '../style/_modal.scss' // eslint-disable-line
+import dnb_modal from '../style/dnb-modal.scss' // eslint-disable-line
 
 const props = fakeProps(require.resolve('../Modal'), {
   all: true,

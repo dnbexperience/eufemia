@@ -12,9 +12,11 @@ import {
   loadScss
 } from '../../../core/jest/jestSetup'
 import Component from '../Dropdown'
-// just to make sure we re-run the test in watch mode due to changes in this file
-import '../style/dnb-dropdown.scss'
-import '../style/themes/dnb-dropdown-theme-ui.scss'
+
+// just to make sure we re-run the test in watch mode due to changes in theese files
+import _dropdown from '../style/_dropdown.scss' // eslint-disable-line
+import dnb_dropdown from '../style/dnb-dropdown.scss' // eslint-disable-line
+import dnb_dropdown_theme_ui from '../style/themes/dnb-dropdown-theme-ui.scss' // eslint-disable-line
 
 const props = fakeProps(require.resolve('../Dropdown'), {
   optional: true

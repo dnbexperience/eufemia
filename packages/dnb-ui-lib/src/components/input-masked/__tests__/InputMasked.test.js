@@ -11,8 +11,10 @@ import {
   loadScss
 } from '../../../core/jest/jestSetup'
 import Component from '../InputMasked'
-// just to make sure we re-run the test in watch mode due to changes in this file
-import '../style/dnb-input-masked.scss'
+
+// just to make sure we re-run the test in watch mode due to changes in theese files
+import _input_masked from '../style/_input-masked.scss' // eslint-disable-line
+import dnb_input_masked from '../style/dnb-input-masked.scss' // eslint-disable-line
 
 const props = {
   ...fakeProps(require.resolve('../InputMasked'), {
