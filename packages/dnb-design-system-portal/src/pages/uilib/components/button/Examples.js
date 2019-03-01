@@ -72,6 +72,7 @@ class Example extends PureComponent {
   text="Tertiary button with icon on left"
   icon_position="left"
   icon="chevron_left"
+  data-dnb-test="button-tertiary"
 />
           `}
         </ComponentBox>
