@@ -1,23 +1,36 @@
 import React from 'react'
 import styled from '@emotion/styled'
 
-// const Example = styled.span
-const Example = styled.span`
-  a.dnb-skip-link {
+const ChangeStylesOfSkipLink = styled.span`
+  a.dnb-show-skip-link {
     position: relative;
     top: 0;
+    left: 0;
     z-index: 1;
-  }
-  a.dnb-skip-link:active,
-  a.dnb-skip-link:focus {
-    margin: 0;
+    &::after {
+      content: none;
+    }
   }
 `
 
-export default () => (
-  <Example>
-    <a className="dnb-skip-link dnb-anchor--focus" href="#dnb-app-content">
-      Skip to content
-    </a>
-  </Example>
-)
+export default () => {
+  const onClick = e => {
+    try {
+      document.querySelector('a.dnb-skip-link').focus()
+      e.preventDefault()
+    } catch (e) {
+      console.log(e)
+    }
+  }
+  return (
+    <ChangeStylesOfSkipLink>
+      <a
+        className="dnb-show-skip-link"
+        onClick={onClick}
+        href="#dnb-app-content"
+      >
+        Show Skip-Link
+      </a>
+    </ChangeStylesOfSkipLink>
+  )
+}

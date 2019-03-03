@@ -1,0 +1,102 @@
+@mixin skipLink() {
+  position: fixed;
+  z-index: 9999;
+  top: 35%;
+  left: 40%;
+
+  margin: 0;
+  padding: 0.8125rem 1rem 0.6875rem 1rem;
+
+  white-space: nowrap;
+
+  font-size: var(--font-size-default);
+  color: var(--color-sea-green);
+  text-decoration: none;
+  text-align: center;
+
+  user-select: none;
+  outline: none;
+
+  background-color: transparent;
+  border-radius: 0;
+  border: none;
+  box-shadow: none;
+
+  &::after {
+    content: '';
+    position: absolute;
+    z-index: -2;
+    left: -200vw;
+    top: -200vh;
+    width: 150vw;
+    height: 150vh;
+
+    background-color: rgba(255, 255, 255, 0.85);
+
+    // we use box-shadow to avoid a horizontal scrollbar
+    box-shadow: 150vw 150vh 0 0 rgba(255, 255, 255, 0.85);
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 1.5rem; //same as anchor
+
+    background-color: var(--color-white);
+
+    @include fakeFocus('mouse');
+  }
+
+  &:hover::before {
+    background-color: var(--color-mint-green-50);
+  }
+  &:active::before {
+    background-color: var(--color-emerald-green);
+  }
+  //focus
+  &:focus:not(:active)::before {
+    @include fakeFocus();
+  }
+
+  //focus
+  &:focus {
+    opacity: 1;
+  }
+  &:hover,
+  &:focus:not(:hover):not(:active) {
+    color: var(--color-sea-green);
+    background-color: transparent;
+    box-shadow: none;
+  }
+  // stylelint-disable-next-line
+  &:active {
+    color: var(--color-white);
+    background-color: transparent;
+  }
+}
+
+// How to use the "skip-link"
+// 1. Have this on the top of Your App: <a class="dnb-skip-link dnb-button" href="#dnb-app-content">Skip to content</a>
+// 2. Place this id="dnb-app-content" on Your main content container
+a.dnb-skip-link {
+  position: fixed;
+  z-index: -9999;
+  top: -100vh;
+  opacity: 0.3;
+  transition: opacity 0.2s ease-out;
+  // @include allBelow(medium) {
+  //   display: none;
+  // }
+}
+a.dnb-show-skip-link,
+a.dnb-skip-link:focus {
+  @include skipLink();
+}
+[dnb-is-touch] a.dnb-skip-link {
+  display: none;
+}

@@ -21,9 +21,9 @@ export const Box = styled.div`
     content: '';
     position: absolute;
     left: -50vw;
+    right: -50vw;
     bottom: 0;
-    width: 100vw;
+    width: 200vw;
     border-bottom: dashed 1px rgb(0, 200, 200);
-    box-shadow: 100vw 0 0 0 rgb(0, 200, 200);
   }
 `
