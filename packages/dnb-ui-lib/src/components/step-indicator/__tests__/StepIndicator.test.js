@@ -12,9 +12,11 @@ import {
   loadScss
 } from '../../../core/jest/jestSetup'
 import Component from '../StepIndicator'
-// just to make sure we re-run the test in watch mode due to changes in this file
-import '../style/dnb-step-indicator.scss'
-import '../style/themes/dnb-step-indicator-theme-ui.scss'
+
+// just to make sure we re-run the test in watch mode due to changes in theese files
+import _step_indicator from '../style/_step-indicator.scss' // eslint-disable-line
+import dnb_step_indicator from '../style/dnb-step-indicator.scss' // eslint-disable-line
+import dnb_step_indicator_theme_ui from '../style/themes/dnb-step-indicator-theme-ui.scss' // eslint-disable-line
 
 const props = fakeProps(require.resolve('../StepIndicator'), {
   optional: true

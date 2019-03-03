@@ -12,9 +12,11 @@ import {
   loadScss
 } from '../../../core/jest/jestSetup'
 import Component from '../FormStatus'
-// just to make sure we re-run the test in watch mode due to changes in this file
-import '../style/dnb-form-status.scss'
-import '../style/themes/dnb-form-status-theme-ui.scss'
+
+// just to make sure we re-run the test in watch mode due to changes in theese files
+import _form_status from '../style/_form-status.scss' // eslint-disable-line
+import dnb_form_status from '../style/dnb-form-status.scss' // eslint-disable-line
+import dnb_form_status_theme_ui from '../style/themes/dnb-form-status-theme-ui.scss' // eslint-disable-line
 
 const props = fakeProps(require.resolve('../FormStatus'), {
   optional: true

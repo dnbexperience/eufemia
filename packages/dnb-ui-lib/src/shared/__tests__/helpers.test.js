@@ -4,12 +4,11 @@
  */
 
 import {
-  defineIsTouch,
   setPageFocusElement,
   applyPageFocus,
   scrollToLocationHashId,
   isIE11
-} from '../global-helpers'
+} from '../helpers'
 
 const bodyElements = window.document.getElementsByTagName('body')
 const bodyElement = bodyElements[0]
@@ -23,19 +22,8 @@ bodyElement.insertAdjacentHTML(
 )
 
 beforeAll(() => {
-  navigator.maxTouchPoints = 2 // mocking touch
-  defineIsTouch(true)
-
   setPageFocusElement('.focus-content', 'content')
   applyPageFocus('content')
-})
-
-describe('"defineIsTouch" should', () => {
-  it('add "dnb-is-touch" as an attribute to the HTML tag', () => {
-    expect(document.documentElement.getAttribute('dnb-is-touch')).toBe(
-      'true'
-    )
-  })
 })
 
 describe('"applyPageFocus" should', () => {

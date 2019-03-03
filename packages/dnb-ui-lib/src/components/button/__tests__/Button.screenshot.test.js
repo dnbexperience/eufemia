@@ -49,4 +49,25 @@ describe('Button screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+  it('have to match "dnb-button--tertiary" with hover state', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-dnb-test="button-tertiary"]',
+      simulate: 'hover'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+  it('have to match "dnb-button--tertiary" with focus state', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-dnb-test="button-tertiary"]',
+      simulate: 'focus'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+  it('have to match "dnb-button--signal" with hover state', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-dnb-test="button-signal"]',
+      simulate: 'hover'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })

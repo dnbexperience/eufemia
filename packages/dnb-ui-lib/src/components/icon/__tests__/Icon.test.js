@@ -12,9 +12,11 @@ import {
   loadScss
 } from '../../../core/jest/jestSetup'
 import Component from '../Icon'
-// just to make sure we re-run the test in watch mode due to changes in this file
-import '../style/dnb-icon.scss'
 import { question } from './test-files'
+
+// just to make sure we re-run the test in watch mode due to changes in theese files
+import _icon from '../style/_icon.scss' // eslint-disable-line
+import dnb_icon from '../style/dnb-icon.scss' // eslint-disable-line
 
 const props = fakeProps(require.resolve('../Icon'), {
   optional: true

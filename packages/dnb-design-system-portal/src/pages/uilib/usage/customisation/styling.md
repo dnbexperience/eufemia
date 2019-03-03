@@ -46,18 +46,6 @@ The **dnb-ui-core** package includes some styles witch effects the global scope 
 
 You may have a look at some [code examples of dealing with legacy code](/uilib/usage/customisation/styling/legacy-styling).
 
-### Use Eufemia Styles elsewhere {#core-style}
-
-If You neither include the **dnb-ui-core** nor the **dnb-ui-body** package, then You ending up having no Eufemia styles for the Document `<body>`. To have the Eufemia Core styles inside a wrapper anyway, simply use the following helper class: `.dnb-core-style`
-
-```html
-<div class="dnb-core-style">
-  <!-- Wrapper to have correct Eufemia styles inside -->
-  <h1 class="dnb-h1">I have now the Eufemia Style</h1>
-  <p class="dnb-p">☝🏻 Me as well</p>
-</div>
-```
-
 ### Example import
 
 ```js
@@ -67,6 +55,43 @@ import 'dnb-ui-lib/style/themes/ui'
 
 // instead of all together
 /* import 'dnb-ui-lib/style' */
+```
+
+### Use Eufemia Styles elsewhere {#core-style}
+
+If You neither include the **dnb-ui-core** nor the **dnb-ui-body** package, then You ending up having no Eufemia styles for the Document `<body>`. To have the Eufemia Core styles inside a wrapper anyway, simply use the following helper class: `.dnb-core-style`
+
+```html
+<div class="dnb-core-style">
+  <!-- Wrapper to have correct Eufemia styles inside -->
+  <h1 class="dnb-h1">I have now the Eufemia Style</h1>
+  <p class="dnb-p">👉 Me as well</p>
+</div>
+```
+
+#### CSS Specificity
+
+Once You use the `.dnb-core-style` wrapper class, You may in some circumstances, need to use it to modify already given properties.
+
+For **Styled Components** You do it this way:
+
+```jsx
+import { P } from 'dnb-ui-lib/elements'
+const MyElement = styled(P)`
+  .dnb-core-style & {
+    margin-top: 3rem;
+  }
+  color: var(--color-sky-blue);
+`
+```
+
+In CSS You simply do it this way:
+
+```css
+.dnb-core-style .my-element {
+  margin-top: 3rem;
+  color: var(--color-sky-blue);
+}
 ```
 
 ## Spacing for Articles {#spacing}
@@ -80,7 +105,7 @@ Effected HTML Elements inside this container will then have a default spacing. T
 <article class="dnb-spacing">
   <!-- DNB spacings -->
   <h1 class="dnb-h1">e.g. I have now the Eufemia spacing (margin)</h1>
-  <p class="dnb-p">☝🏻 Me as well</p>
+  <p class="dnb-p">👉 Me as well</p>
 </article>
 ```
 

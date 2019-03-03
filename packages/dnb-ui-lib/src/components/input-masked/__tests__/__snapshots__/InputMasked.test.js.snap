@@ -30,6 +30,7 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
   status_state="error"
   submit_button_icon="search"
   submit_button_title={null}
+  submit_button_variant="secondary"
   type="text"
   value="test"
 />
@@ -317,6 +318,7 @@ exports[`InputMasked scss have to match snapshot 1`] = `
    */
   /**
    * Show the overflow in Edge and IE.
+   * 1. Safari did inherit the break-word from html root
    */
   /**
    * 1. Correct the text wrapping in Edge and IE.
@@ -356,9 +358,6 @@ exports[`InputMasked scss have to match snapshot 1`] = `
    */
   /**
    * Remove the inner border and padding of focus outlines in Firefox.
-   */
-  /**
-   * Restore the focus outline styles unset by the previous rule in Firefox.
    */
   /* Interactive
    */
@@ -507,7 +506,9 @@ exports[`InputMasked scss have to match snapshot 1`] = `
   .dnb-button fieldset {
     padding: 0.35rem 0.75rem 0.625rem; }
   .dnb-button input {
-    overflow: visible; }
+    overflow: visible;
+    word-break: normal;
+    /* 1 */ }
   .dnb-button legend {
     color: inherit;
     /* 2 */
@@ -555,8 +556,6 @@ exports[`InputMasked scss have to match snapshot 1`] = `
   .dnb-button ::-moz-focus-inner {
     border-style: none;
     padding: 0; }
-  .dnb-button :-moz-focusring {
-    outline: 1px dotted ButtonText; }
   .dnb-button details {
     display: block; }
   .dnb-button summary {
@@ -732,7 +731,8 @@ exports[`InputMasked scss have to match snapshot 1`] = `
     .dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
       outline: none; }
       html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
-        box-shadow: 0 0 0 2px; }
+        box-shadow: 0 0 0 2px var(--color-emerald-green);
+        border-color: transparent; }
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):focus,
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):active {
       box-shadow: none;
@@ -858,6 +858,7 @@ a.dnb-button {
    */
   /**
    * Show the overflow in Edge and IE.
+   * 1. Safari did inherit the break-word from html root
    */
   /**
    * 1. Correct the text wrapping in Edge and IE.
@@ -897,9 +898,6 @@ a.dnb-button {
    */
   /**
    * Remove the inner border and padding of focus outlines in Firefox.
-   */
-  /**
-   * Restore the focus outline styles unset by the previous rule in Firefox.
    */
   /* Interactive
    */
@@ -1048,7 +1046,9 @@ a.dnb-button {
   .dnb-form-label fieldset {
     padding: 0.35rem 0.75rem 0.625rem; }
   .dnb-form-label input {
-    overflow: visible; }
+    overflow: visible;
+    word-break: normal;
+    /* 1 */ }
   .dnb-form-label legend {
     color: inherit;
     /* 2 */
@@ -1096,8 +1096,6 @@ a.dnb-button {
   .dnb-form-label ::-moz-focus-inner {
     border-style: none;
     padding: 0; }
-  .dnb-form-label :-moz-focusring {
-    outline: 1px dotted ButtonText; }
   .dnb-form-label details {
     display: block; }
   .dnb-form-label summary {
@@ -1142,13 +1140,23 @@ a.dnb-button {
  */
 .dnb-form-label {
   user-select: none;
+  margin-right: 1rem;
   display: inline-block;
+  vertical-align: baseline;
   cursor: pointer;
   color: inherit;
   width: auto;
   white-space: nowrap; }
+  .dnb-form-label--vertical {
+    margin-right: 0;
+    margin-top: 0; }
+  .dnb-form-label[for]:not([disabled]):hover {
+    color: var(--color-sea-green); }
   .dnb-form-label[disabled] {
     cursor: not-allowed; }
+
+.dnb-form-label + [class*='__status'] {
+  vertical-align: baseline; }
 
 /*
 * DNB FormStatus
@@ -1246,6 +1254,7 @@ a.dnb-button {
    */
   /**
    * Show the overflow in Edge and IE.
+   * 1. Safari did inherit the break-word from html root
    */
   /**
    * 1. Correct the text wrapping in Edge and IE.
@@ -1285,9 +1294,6 @@ a.dnb-button {
    */
   /**
    * Remove the inner border and padding of focus outlines in Firefox.
-   */
-  /**
-   * Restore the focus outline styles unset by the previous rule in Firefox.
    */
   /* Interactive
    */
@@ -1436,7 +1442,9 @@ a.dnb-button {
   .dnb-form-status fieldset {
     padding: 0.35rem 0.75rem 0.625rem; }
   .dnb-form-status input {
-    overflow: visible; }
+    overflow: visible;
+    word-break: normal;
+    /* 1 */ }
   .dnb-form-status legend {
     color: inherit;
     /* 2 */
@@ -1484,8 +1492,6 @@ a.dnb-button {
   .dnb-form-status ::-moz-focus-inner {
     border-style: none;
     padding: 0; }
-  .dnb-form-status :-moz-focusring {
-    outline: 1px dotted ButtonText; }
   .dnb-form-status details {
     display: block; }
   .dnb-form-status summary {
@@ -1664,6 +1670,7 @@ a.dnb-button {
    */
   /**
    * Show the overflow in Edge and IE.
+   * 1. Safari did inherit the break-word from html root
    */
   /**
    * 1. Correct the text wrapping in Edge and IE.
@@ -1703,9 +1710,6 @@ a.dnb-button {
    */
   /**
    * Remove the inner border and padding of focus outlines in Firefox.
-   */
-  /**
-   * Restore the focus outline styles unset by the previous rule in Firefox.
    */
   /* Interactive
    */
@@ -1854,7 +1858,9 @@ a.dnb-button {
   .dnb-input fieldset {
     padding: 0.35rem 0.75rem 0.625rem; }
   .dnb-input input {
-    overflow: visible; }
+    overflow: visible;
+    word-break: normal;
+    /* 1 */ }
   .dnb-input legend {
     color: inherit;
     /* 2 */
@@ -1902,8 +1908,6 @@ a.dnb-button {
   .dnb-input ::-moz-focus-inner {
     border-style: none;
     padding: 0; }
-  .dnb-input :-moz-focusring {
-    outline: 1px dotted ButtonText; }
   .dnb-input details {
     display: block; }
   .dnb-input summary {
@@ -1962,21 +1966,21 @@ a.dnb-button {
   --input-border-width: 1px; }
 
 .dnb-input {
-  display: flex;
-  align-items: center;
-  flex-flow: row wrap;
-  width: 100%;
-  font-size: var(--input-font-size);
-  line-height: var(--input-height); }
+  display: inline-flex;
+  align-items: flex-start;
+  flex-direction: column;
+  width: auto;
+  vertical-align: middle;
+  font-size: var(--input-font-size); }
   .dnb-input__shell {
     position: relative;
     display: flex;
     align-items: center;
-    flex: 1; }
+    overflow: hidden; }
   .dnb-input__input {
-    outline: none;
     border: none;
-    transform: translateY(1px); }
+    outline: none;
+    word-break: normal; }
   .dnb-input__input[disabled] {
     user-select: none; }
   .dnb-input__shell, .dnb-input__input {
@@ -1988,63 +1992,53 @@ a.dnb-button {
     text-align: left;
     color: inherit;
     font-size: var(--input-font-size);
-    background-color: transparent; }
+    line-height: 1;
+    background-color: transparent;
+    transform: translateY(var(--input-border-width)); }
   .dnb-input__placeholder {
     pointer-events: none;
     position: absolute;
     z-index: 1;
-    top: 0;
     left: 0;
-    height: 100%;
     overflow: hidden;
-    transform: translateY(calc(1px - var(--input-border-width))) translateX(1px);
     white-space: nowrap;
     text-overflow: ellipsis; }
+  .dnb-input--has-submit-button .dnb-input__placeholder,
+  .dnb-input--has-submit-button .dnb-input__input {
+    padding-right: 2rem;
+    margin-right: -1rem; }
   .dnb-input__description {
     color: inherit;
     padding-left: 0.5rem; }
-  .dnb-input--medium {
-    line-height: var(--input-height--medium); }
-    .dnb-input--medium .dnb-input__shell,
-    .dnb-input--medium .dnb-input__input {
-      height: var(--input-height--medium);
-      border-radius: var(--input-border-radius--medium); }
-    .dnb-input--medium .dnb-input__placeholder,
-    .dnb-input--medium .dnb-input__input {
-      padding: var(--input-padding--medium);
-      font-size: var(--input-font-size--medium); }
-  .dnb-input--large {
-    line-height: var(--input-height--large); }
-    .dnb-input--large .dnb-input__shell,
-    .dnb-input--large .dnb-input__input {
-      height: var(--input-height--large);
-      border-radius: var(--input-border-radius--large); }
-    .dnb-input--large .dnb-input__placeholder,
-    .dnb-input--large .dnb-input__input {
-      padding: var(--input-padding--large);
-      font-size: var(--input-font-size--large); }
+  .dnb-input--medium .dnb-input__shell,
+  .dnb-input--medium .dnb-input__input {
+    height: var(--input-height--medium);
+    border-radius: var(--input-border-radius--medium); }
+  .dnb-input--medium .dnb-input__placeholder,
+  .dnb-input--medium .dnb-input__input {
+    padding: var(--input-padding--medium);
+    font-size: var(--input-font-size--medium); }
+  .dnb-input--large .dnb-input__shell,
+  .dnb-input--large .dnb-input__input {
+    height: var(--input-height--large);
+    border-radius: var(--input-border-radius--large); }
+  .dnb-input--large .dnb-input__placeholder,
+  .dnb-input--large .dnb-input__input {
+    padding: var(--input-padding--large);
+    font-size: var(--input-font-size--large); }
   .dnb-input__align--right .dnb-input__placeholder,
   .dnb-input__align--right .dnb-input__input {
     text-align: right; }
   .dnb-input__shell[data-has-content='true'] .dnb-input__placeholder,
   .dnb-input__shell[data-has-content='true'][data-input-state='focus'] .dnb-input__placeholder {
     display: none; }
-  .dnb-input__extra-information {
-    flex: 1 100%;
-    padding: 0.5rem 1.5rem;
-    color: var(--color-black);
-    font-size: var(--font-size-small);
-    line-height: 1.25rem; }
-  > .dnb-form-label ~ .dnb-input__extra-information {
-    padding: 0.5rem 0; }
   .dnb-input__submit-button {
     position: relative;
     z-index: 2;
-    transform: translateX(var(--input-border-width)); }
-  .dnb-input > .dnb-form-label {
-    margin-right: 1rem; }
+    align-self: flex-end;
+    margin-top: -2rem; }
   .dnb-input > .dnb-form-status {
-    margin-left: 0.5rem; }
+    margin-top: 0.5rem; }
 
 .dnb-input-masked {
   /**
@@ -2138,6 +2132,7 @@ a.dnb-button {
    */
   /**
    * Show the overflow in Edge and IE.
+   * 1. Safari did inherit the break-word from html root
    */
   /**
    * 1. Correct the text wrapping in Edge and IE.
@@ -2177,9 +2172,6 @@ a.dnb-button {
    */
   /**
    * Remove the inner border and padding of focus outlines in Firefox.
-   */
-  /**
-   * Restore the focus outline styles unset by the previous rule in Firefox.
    */
   /* Interactive
    */
@@ -2328,7 +2320,9 @@ a.dnb-button {
   .dnb-input-masked fieldset {
     padding: 0.35rem 0.75rem 0.625rem; }
   .dnb-input-masked input {
-    overflow: visible; }
+    overflow: visible;
+    word-break: normal;
+    /* 1 */ }
   .dnb-input-masked legend {
     color: inherit;
     /* 2 */
@@ -2376,8 +2370,6 @@ a.dnb-button {
   .dnb-input-masked ::-moz-focus-inner {
     border-style: none;
     padding: 0; }
-  .dnb-input-masked :-moz-focusring {
-    outline: 1px dotted ButtonText; }
   .dnb-input-masked details {
     display: block; }
   .dnb-input-masked summary {

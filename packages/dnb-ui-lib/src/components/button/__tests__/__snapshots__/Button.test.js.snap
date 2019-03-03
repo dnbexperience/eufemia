@@ -249,7 +249,8 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     background-color: var(--color-white);
     outline: none; }
     html[data-whatinput='keyboard'] :not([dnb-is-touch]) .dnb-button--primary:focus:not([disabled]) {
-      box-shadow: inset 0 0 0 2px; }
+      box-shadow: inset 0 0 0 2px var(--color-emerald-green);
+      border-color: transparent; }
   :not([dnb-is-touch]) .dnb-button--primary:active[disabled] {
     cursor: not-allowed; }
   :not([dnb-is-touch]) .dnb-button--primary:active:not([disabled]) {
@@ -280,7 +281,8 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     background-color: var(--color-white);
     outline: none; }
     html[data-whatinput='keyboard'] :not([dnb-is-touch]) .dnb-button--secondary:focus:not([disabled]) {
-      box-shadow: inset 0 0 0 2px; }
+      box-shadow: inset 0 0 0 2px var(--color-emerald-green);
+      border-color: transparent; }
   :not([dnb-is-touch]) .dnb-button--secondary:active[disabled] {
     cursor: not-allowed; }
   :not([dnb-is-touch]) .dnb-button--secondary:active:not([disabled]) {
@@ -300,15 +302,21 @@ exports[`Button scss have to match default theme snapshot 1`] = `
   color: var(--color-sea-green);
   background-color: transparent; }
   .dnb-button--tertiary.dnb-button--has-text {
-    padding-left: 0.5rem;
-    padding-right: 0.5rem; }
+    padding-left: 1rem;
+    padding-right: 1rem; }
     .dnb-button--tertiary.dnb-button--has-text:not([disabled]) .dnb-button__icon {
-      margin: 0 0.5rem; }
+      margin: 0 calc(var(--button-icon-size) / 2); }
+    .dnb-button--tertiary.dnb-button--has-text.dnb-button--icon-position-right {
+      padding-right: 0.5rem; }
+    .dnb-button--tertiary.dnb-button--has-text.dnb-button--icon-position-left {
+      padding-left: 0.5rem; }
     .dnb-button--tertiary.dnb-button--has-text.dnb-button--icon-position-left .dnb-button__icon {
       margin-left: 0; }
     .dnb-button--tertiary.dnb-button--has-text.dnb-button--icon-position-right .dnb-button__icon {
       margin-right: 0; }
-  .dnb-button--tertiary.dnb-button--has-text:not([disabled]):hover::after {
+  :not([dnb-is-touch]) .dnb-button--tertiary.dnb-button--has-text:not(:focus):not([disabled]):hover[disabled] {
+    cursor: not-allowed; }
+  :not([dnb-is-touch]) .dnb-button--tertiary.dnb-button--has-text:not(:focus):not([disabled]):hover:not([disabled]) .dnb-button__text::after {
     content: '';
     position: absolute;
     z-index: 1;
@@ -319,14 +327,16 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     height: 1px;
     border-radius: 0.5px;
     border-bottom: 1px solid var(--color-sea-green);
-    left: 0.45rem;
-    right: 0.45rem;
+    left: 0;
+    right: 0;
     bottom: 0.5rem; }
-  .dnb-button--tertiary.dnb-button--has-text:not([disabled]):hover.dnb-button--icon-position-left::after {
-    left: 0.7rem; }
-  .dnb-button--tertiary.dnb-button--has-text:not([disabled]):hover.dnb-button--icon-position-right::after {
-    right: 0.7rem; }
-  .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):hover .dnb-button__icon {
+  :not([dnb-is-touch]) .dnb-button--tertiary.dnb-button--has-text:not(:focus):not([disabled]):hover:not([disabled]).dnb-button--icon-position-left .dnb-button__text::after {
+    left: calc(-0.5rem - var(--button-icon-size)); }
+  :not([dnb-is-touch]) .dnb-button--tertiary.dnb-button--has-text:not(:focus):not([disabled]):hover:not([disabled]).dnb-button--icon-position-right .dnb-button__text::after {
+    right: calc(-0.5rem - var(--button-icon-size)); }
+  :not([dnb-is-touch]) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):hover[disabled] {
+    cursor: not-allowed; }
+  :not([dnb-is-touch]) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):hover:not([disabled]) .dnb-button__icon {
     color: var(--color-sea-green-alt-30); }
   .dnb-button--tertiary.dnb-button--has-text:not([disabled]):active::after {
     border-bottom: none; }
@@ -337,7 +347,8 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     background-color: transparent;
     outline: none; }
     html[data-whatinput='keyboard'] :not([dnb-is-touch]) .dnb-button--tertiary:focus:not([disabled]) {
-      box-shadow: inset 0 0 0 2px; }
+      box-shadow: inset 0 0 0 2px var(--color-emerald-green);
+      border-color: transparent; }
   .dnb-button--tertiary[disabled] {
     color: var(--color-sea-green-alt-30); }
 
@@ -358,7 +369,8 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     background-color: var(--color-signal-yellow);
     outline: none; }
     html[data-whatinput='keyboard'] :not([dnb-is-touch]) .dnb-button--signal:focus:not([disabled]) {
-      box-shadow: inset 0 0 0 2px; }
+      box-shadow: inset 0 0 0 2px var(--color-emerald-green);
+      border-color: transparent; }
   :not([dnb-is-touch]) .dnb-button--signal:active[disabled] {
     cursor: not-allowed; }
   :not([dnb-is-touch]) .dnb-button--signal:active:not([disabled]) {
@@ -646,6 +658,7 @@ exports[`Button scss have to match snapshot 1`] = `
    */
   /**
    * Show the overflow in Edge and IE.
+   * 1. Safari did inherit the break-word from html root
    */
   /**
    * 1. Correct the text wrapping in Edge and IE.
@@ -685,9 +698,6 @@ exports[`Button scss have to match snapshot 1`] = `
    */
   /**
    * Remove the inner border and padding of focus outlines in Firefox.
-   */
-  /**
-   * Restore the focus outline styles unset by the previous rule in Firefox.
    */
   /* Interactive
    */
@@ -836,7 +846,9 @@ exports[`Button scss have to match snapshot 1`] = `
   .dnb-button fieldset {
     padding: 0.35rem 0.75rem 0.625rem; }
   .dnb-button input {
-    overflow: visible; }
+    overflow: visible;
+    word-break: normal;
+    /* 1 */ }
   .dnb-button legend {
     color: inherit;
     /* 2 */
@@ -884,8 +896,6 @@ exports[`Button scss have to match snapshot 1`] = `
   .dnb-button ::-moz-focus-inner {
     border-style: none;
     padding: 0; }
-  .dnb-button :-moz-focusring {
-    outline: 1px dotted ButtonText; }
   .dnb-button details {
     display: block; }
   .dnb-button summary {
@@ -1061,7 +1071,8 @@ exports[`Button scss have to match snapshot 1`] = `
     .dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
       outline: none; }
       html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
-        box-shadow: 0 0 0 2px; }
+        box-shadow: 0 0 0 2px var(--color-emerald-green);
+        border-color: transparent; }
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):focus,
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):active {
       box-shadow: none;

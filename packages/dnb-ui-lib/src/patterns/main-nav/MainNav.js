@@ -169,7 +169,7 @@ export default class MainNav extends PureComponent {
                 )}
               </div>
               <div className="dnb-main-nav__item">
-                <Button type="button" variant="secondary" text="Logg ut" />
+                <Button variant="secondary" text="Logg ut" />
               </div>
             </div>
           </div>

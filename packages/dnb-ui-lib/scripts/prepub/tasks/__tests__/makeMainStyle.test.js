@@ -4,9 +4,11 @@
  */
 
 import { runFactory } from '../makeMainStyle'
-import '../../../../src/style/dnb-ui-core.scss' // just to make sure we re-run the test in watch mode due to changes in this file
-import '../../../../src/style/dnb-ui-components.scss' // just to make sure we re-run the test in watch mode due to changes in this file
-import '../../../../src/style/themes/theme-ui/dnb-theme-ui.scss' // just to make sure we re-run the test in watch mode due to changes in this file
+
+// just to make sure we re-run the test in watch mode due to changes in theese files
+import dnb_ui_core from '../../../../src/style/dnb-ui-core.scss' // eslint-disable-line
+import dnb_ui_components from '../../../../src/style/dnb-ui-components.scss' // eslint-disable-line
+import dnb_theme_ui from '../../../../src/style/themes/theme-ui/dnb-theme-ui.scss' // eslint-disable-line
 
 beforeAll(async () => {
   global.core = await runFactory('./src/style/dnb-ui-core.scss', {

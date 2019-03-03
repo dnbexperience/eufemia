@@ -118,8 +118,8 @@ $focusRingColor: var(--color-emerald-green);
   @if $whatinput == null {
     $whatinput: 'keyboard';
   }
-  @if $focusRingColor == null {
-    $focusRingColor: $focusRingColor;
+  @if $color == null {
+    $color: $focusRingColor;
   }
 
   html[data-whatinput='#{$whatinput}'] & {

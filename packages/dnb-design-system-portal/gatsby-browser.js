@@ -3,7 +3,7 @@
  *
  */
 
-import { applyPageFocus } from 'dnb-ui-lib/src/shared/global-helpers'
+import { applyPageFocus } from 'dnb-ui-lib/src/shared/helpers'
 
 // Load dev styles (to use hot reloading, we do have to import the styles in here)
 if (process.env.NODE_ENV === 'development') {

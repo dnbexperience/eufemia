@@ -7,7 +7,7 @@ import ComponentBox from 'Tags/ComponentBox'
 
 ## Textarea
 
-<CodeBlock reactLive hideCode>
+<CodeBlock reactLive hideCode caption="Default Textarea">
 {`
 <div className="dnb-form-group dnb-form-group__position--vertical">
   <label htmlFor="textarea-default">
@@ -18,7 +18,7 @@ import ComponentBox from 'Tags/ComponentBox'
 `}
 </CodeBlock>
 
-<CodeBlock reactLive hideCode>
+<CodeBlock reactLive hideCode caption="Disabled Textarea">
 {`
 <div className="dnb-form-group">
   <label htmlFor="vestibulum">
@@ -29,7 +29,7 @@ import ComponentBox from 'Tags/ComponentBox'
 `}
 </CodeBlock>
 
-<ComponentBox hideCode>
+<ComponentBox hideCode caption="Textarea with status message">
 {`
 <div className="dnb-form-group dnb-form-group__position--vertical">
   <label htmlFor="vestibulum">

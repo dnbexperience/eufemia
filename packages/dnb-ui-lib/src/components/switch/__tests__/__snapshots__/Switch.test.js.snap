@@ -297,6 +297,7 @@ exports[`Switch scss have to match snapshot 1`] = `
    */
   /**
    * Show the overflow in Edge and IE.
+   * 1. Safari did inherit the break-word from html root
    */
   /**
    * 1. Correct the text wrapping in Edge and IE.
@@ -336,9 +337,6 @@ exports[`Switch scss have to match snapshot 1`] = `
    */
   /**
    * Remove the inner border and padding of focus outlines in Firefox.
-   */
-  /**
-   * Restore the focus outline styles unset by the previous rule in Firefox.
    */
   /* Interactive
    */
@@ -487,7 +485,9 @@ exports[`Switch scss have to match snapshot 1`] = `
   .dnb-switch fieldset {
     padding: 0.35rem 0.75rem 0.625rem; }
   .dnb-switch input {
-    overflow: visible; }
+    overflow: visible;
+    word-break: normal;
+    /* 1 */ }
   .dnb-switch legend {
     color: inherit;
     /* 2 */
@@ -535,8 +535,6 @@ exports[`Switch scss have to match snapshot 1`] = `
   .dnb-switch ::-moz-focus-inner {
     border-style: none;
     padding: 0; }
-  .dnb-switch :-moz-focusring {
-    outline: 1px dotted ButtonText; }
   .dnb-switch details {
     display: block; }
   .dnb-switch summary {
@@ -632,7 +630,8 @@ exports[`Switch scss have to match snapshot 1`] = `
     clip-path: polygon(50% 15%, 110% 15%, 110% -10%, -10% -10%, -10% 110%, 110% 110%, 110% 85%, 50% 85%);
     outline: none; }
     html[data-whatinput='keyboard'] .dnb-switch__focus {
-      box-shadow: 0 0 0 2px; }
+      box-shadow: 0 0 0 2px var(--color-emerald-green);
+      border-color: transparent; }
   .dnb-switch__inner:not([disabled]) .dnb-switch__background,
   .dnb-switch__inner:not([disabled]) .dnb-switch__button {
     cursor: pointer; }
@@ -691,7 +690,8 @@ exports[`Switch scss have to match snapshot 1`] = `
       outline: none; }
       html[data-whatinput='keyboard'] .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__background, html[data-whatinput='keyboard']
       .dnb-switch__input:not([disabled]):active ~ .dnb-switch__background {
-        box-shadow: 0 0 0 2px; }
+        box-shadow: 0 0 0 2px var(--color-emerald-green);
+        border-color: transparent; }
     .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__button .dnb-switch__focus,
     .dnb-switch__input:not([disabled]):active ~ .dnb-switch__button .dnb-switch__focus {
       display: block; }

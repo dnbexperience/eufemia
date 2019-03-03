@@ -302,10 +302,12 @@
 
   /**
    * Show the overflow in Edge and IE.
+   * 1. Safari did inherit the break-word from html root
    */
 
   input {
     overflow: visible;
+    word-break: normal; /* 1 */
   }
 
   /**
@@ -412,14 +414,6 @@
   ::-moz-focus-inner {
     border-style: none;
     padding: 0;
-  }
-
-  /**
-   * Restore the focus outline styles unset by the previous rule in Firefox.
-   */
-
-  :-moz-focusring {
-    outline: 1px dotted ButtonText;
   }
 
   /* Interactive

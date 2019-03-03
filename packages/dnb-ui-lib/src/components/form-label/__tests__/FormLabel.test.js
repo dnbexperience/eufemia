@@ -13,9 +13,11 @@ import {
 } from '../../../core/jest/jestSetup'
 import Component from '../FormLabel'
 import Input from '../../input/Input'
-// just to make sure we re-run the test in watch mode due to changes in this file
-import '../style/dnb-form-label.scss'
-import '../style/themes/dnb-form-label-theme-ui.scss'
+
+// just to make sure we re-run the test in watch mode due to changes in theese files
+import _form_label from '../style/_form-label.scss' // eslint-disable-line
+import dnb_form_label from '../style/dnb-form-label.scss' // eslint-disable-line
+import dnb_form_label_theme_ui from '../style/themes/dnb-form-label-theme-ui.scss' // eslint-disable-line
 
 const props = fakeProps(require.resolve('../FormLabel'), {
   optional: true

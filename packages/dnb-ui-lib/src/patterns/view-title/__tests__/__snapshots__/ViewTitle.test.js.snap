@@ -231,6 +231,7 @@ exports[`ViewTitle scss have to match snapshot 1`] = `
    */
   /**
    * Show the overflow in Edge and IE.
+   * 1. Safari did inherit the break-word from html root
    */
   /**
    * 1. Correct the text wrapping in Edge and IE.
@@ -270,9 +271,6 @@ exports[`ViewTitle scss have to match snapshot 1`] = `
    */
   /**
    * Remove the inner border and padding of focus outlines in Firefox.
-   */
-  /**
-   * Restore the focus outline styles unset by the previous rule in Firefox.
    */
   /* Interactive
    */
@@ -421,7 +419,9 @@ exports[`ViewTitle scss have to match snapshot 1`] = `
   .dnb-view-title fieldset {
     padding: 0.35rem 0.75rem 0.625rem; }
   .dnb-view-title input {
-    overflow: visible; }
+    overflow: visible;
+    word-break: normal;
+    /* 1 */ }
   .dnb-view-title legend {
     color: inherit;
     /* 2 */
@@ -469,8 +469,6 @@ exports[`ViewTitle scss have to match snapshot 1`] = `
   .dnb-view-title ::-moz-focus-inner {
     border-style: none;
     padding: 0; }
-  .dnb-view-title :-moz-focusring {
-    outline: 1px dotted ButtonText; }
   .dnb-view-title details {
     display: block; }
   .dnb-view-title summary {
