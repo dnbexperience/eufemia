@@ -50,14 +50,6 @@ export default {
 </script>
 
 <style lang="css">
-html,
-body {
-  height: 100%;
-}
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial,
-  sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
-}
 div.center {
   display: flex;
   justify-content: center;

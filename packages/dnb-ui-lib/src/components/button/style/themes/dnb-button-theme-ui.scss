@@ -68,10 +68,16 @@
   background-color: transparent;
 
   &.dnb-button--has-text {
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
     &:not([disabled]) .dnb-button__icon {
-      margin: 0 0.5rem;
+      margin: 0 calc(var(--button-icon-size) / 2);
+    }
+    &.dnb-button--icon-position-right {
+      padding-right: 0.5rem;
+    }
+    &.dnb-button--icon-position-left {
+      padding-left: 0.5rem;
     }
     &.dnb-button--icon-position-left .dnb-button__icon {
       margin-left: 0;
@@ -81,24 +87,30 @@
     }
   }
 
-  &.dnb-button--has-text:not([disabled]):hover {
-    @include drawUnderlineBorder() {
-      left: 0.45rem;
-      right: 0.45rem;
-      bottom: 0.5rem;
-    }
-    &.dnb-button--icon-position-left::after {
-      left: 0.7rem;
-    }
-    &.dnb-button--icon-position-right::after {
-      right: 0.7rem;
+  &.dnb-button--has-text:not(:focus):not([disabled]) {
+    @include hover(true) {
+      .dnb-button__text {
+        @include drawUnderlineBorder() {
+          left: 0;
+          right: 0;
+          bottom: 0.5rem;
+        }
+      }
+      &.dnb-button--icon-position-left .dnb-button__text::after {
+        left: calc(-0.5rem - var(--button-icon-size));
+      }
+      &.dnb-button--icon-position-right .dnb-button__text::after {
+        right: calc(-0.5rem - var(--button-icon-size));
+      }
     }
   }
 
   // icon only tertiary
-  &.dnb-button--has-icon:not(.dnb-button--has-text):hover {
-    .dnb-button__icon {
-      color: var(--color-sea-green-alt-30);
+  &.dnb-button--has-icon:not(.dnb-button--has-text) {
+    @include hover(true) {
+      .dnb-button__icon {
+        color: var(--color-sea-green-alt-30);
+      }
     }
   }
 

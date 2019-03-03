@@ -14,7 +14,7 @@ import { close as closeIcon } from 'dnb-ui-lib/src/icons/primary_icons'
 import PortalLogo from './graphics/logo'
 import { Icon, Button } from 'dnb-ui-lib/src'
 import { MainMenuToggleButton } from './ToggleMainMenu'
-import { SidebarMenuConsumer } from './SidebarMenuContext'
+import { SidebarMenuContext } from './SidebarMenuContext'
 import ToggleGrid from './ToggleGrid'
 
 const BarWrapper = styled.header`
@@ -126,7 +126,7 @@ export default class StickyMenuBar extends PureComponent {
       return <></>
     }
     return (
-      <SidebarMenuConsumer>
+      <SidebarMenuContext.Consumer>
         {({ toggleMenu, isOpen }) =>
           !hideSiebarToggleButton &&
           !(
@@ -187,7 +187,7 @@ export default class StickyMenuBar extends PureComponent {
             />
           )
         }
-      </SidebarMenuConsumer>
+      </SidebarMenuContext.Consumer>
     )
   }
 }

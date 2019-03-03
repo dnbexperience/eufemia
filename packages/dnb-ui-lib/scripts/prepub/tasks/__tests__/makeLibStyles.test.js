@@ -4,7 +4,9 @@
  */
 
 import { runFactory } from '../makeLibStyles'
-import '../../../../src/components/button/style/dnb-button.scss' // just to make sure we re-run the test in watch mode due to changes in this file
+
+// just to make sure we re-run the test in watch mode due to changes in theese files
+import dnb_button from '../../../../src/components/button/style/dnb-button.scss' // eslint-disable-line
 
 beforeAll(async () => {
   global.css = await runFactory(

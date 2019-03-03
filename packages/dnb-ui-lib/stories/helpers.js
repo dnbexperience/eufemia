@@ -20,6 +20,7 @@ export const Box = styled.div`
   &::after {
     content: '';
     position: absolute;
+    left: -50vw;
     right: -50vw;
     bottom: 0;
     width: 200vw;

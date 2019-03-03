@@ -73,14 +73,14 @@ $anchorBorderRadius: 0.25rem;
 }
 @mixin anchorActiveStyle() {
   color: var(--color-mint-green);
-  background-color: var(--color-sea-green);
+  background-color: var(--color-emerald-green);
   border-radius: $anchorBorderRadius;
   @include resetUnderlineStyle();
 }
 @mixin anchorFocusStyle($whatinput: null) {
   &:not(:active) {
     color: var(--color-sea-green);
-    background-color: var(--color-white);
+    background-color: transparent;
     @include resetAnimationStyle();
     @include resetUnderlineStyle();
   }

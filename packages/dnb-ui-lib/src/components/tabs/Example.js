@@ -4,7 +4,7 @@
  */
 
 import React, { PureComponent, Fragment } from 'react'
-import Tabs from './Tabs'
+import ComponentBox from '../../../../dnb-design-system-portal/src/shared/tags/ComponentBox'
 import Input from '../input/Input'
 import styled from '@emotion/styled'
 
@@ -28,66 +28,83 @@ class Example extends PureComponent {
   }
 
   render() {
+    const { activeTabKey } = this.state
+    const openTab = this.openTab
     return (
       <Fragment>
-        <div className="example-box">
-          <Tabs data-dnb-test="tabs-tablist" data={data}>
-            {exampleContent}
-          </Tabs>
-          <p className="example-caption">
-            Left aligned tabs, using both "data" property and content
-            object
-          </p>
-        </div>
-        <div className="example-box">
-          <Tabs
-            data={{
-              first2: { title: 'First', content: exampleContent.first },
-              second2: { title: 'Second', content: exampleContent.second }
-            }}
-          />
-          <p className="example-caption">
-            Left aligned tabs, using "data" property only
-          </p>
-        </div>
-        <div className="example-box">
-          <Tabs>
-            <Tabs.Content title="First">
-              <h2 className="dnb-h2">First</h2>
-            </Tabs.Content>
-            <Tabs.Content title="Second">
-              <h2 className="dnb-h2">Second</h2>
-            </Tabs.Content>
-          </Tabs>
-          <p className="example-caption">
-            Left aligned tabs, using React Components only
-          </p>
-        </div>
-        <div className="example-box">
-          <Tabs
-            selected_key={this.state.activeTabKey}
-            align="right"
-            label="Some Tabs label"
-            data={data}
-            on_change={this.openTab}
-            render={({ Wrapper, Content, TabsList, Tabs }) => {
-              return (
-                <Wrapper>
-                  <TabsList>
-                    <small>
-                      <b>Active:</b> {this.state.activeTabKey}
-                    </small>
-                    <Tabs />
-                  </TabsList>
-                  <Content />
-                </Wrapper>
-              )
-            }}
-          >
-            {exampleContent}
-          </Tabs>
-          <p className="example-caption">Right aligned tabs</p>
-        </div>
+        <ComponentBox
+          caption="Left aligned tabs, using both 'data' property and content object"
+          scope={{ exampleContent }}
+          data-dnb-test="tabs-tablist"
+          noInline
+          hideSyntaxButton
+        >
+          {/* @jsx */ `
+const data = [
+  { title: 'First', key: 'first' },
+  { title: 'Second', key: 'second' },
+  { title: 'Third', key: 'third', disabled: true },
+  { title: 'Fourth', key: 'fourth' }
+];
+render(<Tabs data={data}>
+  {exampleContent}
+</Tabs>)
+          `}
+        </ComponentBox>
+        <ComponentBox
+          caption="Left aligned tabs, using 'data' property only"
+          scope={{ exampleContent }}
+        >
+          {/* @jsx */ `
+<Tabs
+  data={{
+    first2: { title: 'First', content: exampleContent.first },
+    second2: { title: 'Second', content: exampleContent.second }
+  }}
+/>
+          `}
+        </ComponentBox>
+        <ComponentBox caption="eft aligned tabs, using React Components only">
+          {/* @jsx */ `
+<Tabs>
+  <Tabs.Content title="First">
+    <h2 className="dnb-h2">First</h2>
+  </Tabs.Content>
+  <Tabs.Content title="Second">
+    <h2 className="dnb-h2">Second</h2>
+  </Tabs.Content>
+</Tabs>
+          `}
+        </ComponentBox>
+        <ComponentBox
+          caption="Right aligned tabs"
+          scope={{ exampleContent, activeTabKey, openTab, data }}
+        >
+          {/* @jsx */ `
+<Tabs
+  selected_key={activeTabKey}
+  align="right"
+  label="Some Tabs label"
+  data={data}
+  on_change={openTab}
+  render={({ Wrapper, Content, TabsList, Tabs }) => {
+    return (
+      <Wrapper>
+        <TabsList>
+          <small>
+            <b>Active:</b> {activeTabKey}
+          </small>
+          <Tabs />
+        </TabsList>
+        <Content />
+      </Wrapper>
+    )
+  }}
+>
+  {exampleContent}
+</Tabs>
+          `}
+        </ComponentBox>
       </Fragment>
     )
   }

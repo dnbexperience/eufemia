@@ -7,84 +7,91 @@ const prismStyle = /* @css */ `
   --color-violet-medium: #a06eaf;
   --color-indigo-medium: #6e6491;
 
-  .prism-code[contentEditable='true'] {
+  &.prism-code[contentEditable='true'] {
     cursor: text;
   }
 
-  .token.comment,
-  .token.prolog,
-  .token.doctype,
-  .token.cdata {
+  &.comment,
+  &.prolog,
+  &.doctype,
+  &.cdata {
     opacity: 0.8;
     font-style: italic;
     color: var(--color-signal-yellow-30);
   }
 
-  .token.property,
-  .token.tag,
-  .token.boolean,
-  .token.number,
-  .token.constant,
-  .token.symbol {
+  &.property,
+  &.styled-template-string.property,
+  &.tag,
+  &.boolean,
+  &.number,
+  &.constant,
+  &.symbol {
     color: var(--color-mint-green-12);
   }
-  .token.tag {
+
+  &.tag {
     color: var(--color-sea-green-alt);
   }
 
-  .token.selector,
-  .token.class-name,/* custom */
-  .token.attr-name,
-  .token.string,
-  .token.function,
-  .token.char,
-  .token.builtin,
-  .token.inserted {
+  &.selector,
+  &.class-name,/* custom */
+  &.attr-name,
+  &.string,
+  &.function,
+  &.char,
+  &.builtin,
+  &.inserted {
     color: var(--color-summer-green);
   }
 
-  .token.operator,
-  .token.entity,
-  .token.url,
-  .language-css .token.string,
-  .style .token.string,
-  .token.variable {
+  /* &.selector,
+  &.doctype {
+    color: var(--color-cherry-red);
+    font-style: italic;
+  } */
+
+  &.operator,
+  &.entity,
+  &.url,
+  &.language-css .string,
+  &.style .string,
+  &.variable {
     color: var(--color-mint-green);
   }
 
-  .token.atrule,
-  .token.attr-value,
-  .token.keyword {
+  &.atrule,
+  &.attr-value,
+  &.keyword {
     color: var(--color-mint-green);
   }
 
-  .token.punctuation {
+  &.punctuation {
     color: var(--color-violet-medium);
   }
 
-  .namespace {
-    ${'' /* opacity: 0.7; */}
+  &.namespace {
     color: var(--color-indigo-medium);
   }
 
-  .token.regex,
-  .token.important {
+  &.regex,
+  &.important {
     color: #e90;
   }
 
-  .token.important,
-  .token.bold {
+  &.important,
+  &.bold {
     font-weight: bold;
   }
-  .token.italic {
+  &.italic {
     font-style: italic;
   }
 
-  .token.entity {
+  &.entity {
     cursor: help;
   }
 
-  .token.deleted {
+  &.deleted {
     color: red;
   }
 `

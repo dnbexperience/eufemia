@@ -1,20 +1,26 @@
----
-draft: true
----
+| Selector                | Description                                                                                                                                                                                                                                                                              |
+| ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `dnb-section`           | Wraps content inside a visual section banner. Use additionally `dnb-section--content` to get the default padding inside                                                                                                                                                                  |
+| `dnb-core-style`        | In order to be able to have the core Body Style inside a wrapper and available for all its children. The Body Style contains among others stlyes, both the correct line-height and a CSS reset.                                                                                          |
+| `dnb-app-content-inner` | Adds simply a `overflow:hidden` to cut everything outside of our "content-inner"                                                                                                                                                                                                         |
+| `dnb-tab-focus`         | Removes default focus outline from a focusable element and adds a custom visual focus state when is focused by a tab key. There is also: `dnb-mouse-focus`, `dnb-focus-ring` and `dnb-no-focus`                                                                                          |
+| `dnb-form-group`        | Use it to wrap forms elements vertically or horizontally. This is not meant for production forms. But more for a small and quick solution to get labels and form elements aligned nicely. There is also, `dnb-form-group__position--vertical` and `dnb-form-group__position--horizontal` |
+| `dnb-skip-link`         | A default Skip Link style. More details in the [Focus Secion](/uilib/usage/accessibility/focus#skip-link)                                                                                                                                                                                |
+| `dnb-spacing`           | Default spacing styles. More details in [Styling](/uilib/usage/customisation/styling#spacing)                                                                                                                                                                                            |
+| `dnb-sr-only`           | Visually hides an element, but is still reachable by screen readers. (_sr_ stands for _Screen Reader_)                                                                                                                                                                                   |
+| `dnb-not-sr-only`       | The opposite of `dnb-sr-only`                                                                                                                                                                                                                                                            |
+| `dnb-unstyled-list`     | Removes default styling for lists. Applies to the `ul` or `ol` elements                                                                                                                                                                                                                  |
+| `dnb-hide-on-mobile`    | Hides element on screens that are below the `medium` size. This value of `medium` can be found in `css/core/utilities.scss`                                                                                                                                                              |
+| `dnb-mobile-exclusive`  | The opposite of `dnb-hide-on-mobile`, which means it will only be visible on screens up to the size of `medium                                                                                                                                                                           |
+| `dnb-width-limit`       | Our main wrapping class for containers. It has a max-width and a left and right padding which varies based on screen sizes                                                                                                                                                               |
+| `dnb-belt`              | A wrapping class which adds a background color and padding to top and bottom                                                                                                                                                                                                             |
+| `dnb-nudge`             | A visual nudging tool. It has a modifying class which tells the element if it should expand horizontally or vertically. **NB! Use with caution!**                                                                                                                                        |
 
-## Properties
+### More about `dnb-app-content-inner`
 
-| Properties      | Description                                                                                                                            |
-| --------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| `type`          | _(optional)_ `button`, `reset` or `submit` for the `type` HTML attribute (default to `button`) .                                       |
-| `text`          | _(optional)_ the content of the button.                                                                                                |
-| `title`         | _(optional)_ title of the button. Optional, but should always be included because of accessibility.                                    |
-| `variant`       | _(optional)_ defines the kind of button. Possible values are `primary`, `secondary`, `tertiary` and `signal`.                          |
-| `size`          | _(optional)_ the size of the button. For now there is **medium**, **default** and **large**.                                           |
-| `icon`          | _(optional)_ name of icon to be included in the button.                                                                                |
-| `icon_position` | _(optional)_ position of icon inside the button. Set to `left` or `right`. Defaults to `right` if not set.                             |
-| `icon_size`     | _(optional)_ define icon width and height. Defaults to 16px                                                                            |
-| `disabled`      | _(optional)_ to disable/enable the button without using the `attribute` property.                                                      |
-| `class`         | _(optional)_ any extra modifying class.                                                                                                |
-| `attributes`    | _(optional)_ insert any other attributes. For example `disabled` or any other custom attributes.                                       |
-| `href`          | _(optional)_ if you want the button to behave as a link. Use with caution! A link should normally visually be a link and not a button. |
+Use this class where a style is trying to add background or a lines to the very outer side of the page. e.g. Tabs are using this technique
+In some cases we don't want to have that effect. For instance, if we have a menu (`aside`) to the left or right side.
+
+### More about `dnb-nudge`
+
+It also has a data attribute which takes the amount of nudges. One nudge = `1rem`, two nudges = `3rem`. It takes up to `10 nudges`. See example for usage.

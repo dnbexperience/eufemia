@@ -28,7 +28,7 @@ From the technical side, we have to assign an _invisible_ focus, so the user can
 
 Make sure You ...
 
-- set the focus on the content (e.g. `<h1>`) after a navigation action, initiated by the user.
+- set the focus on the content (e.g. `<h1 class="dnb-h1">`) after a navigation action, initiated by the user.
 - set the focus into a _menu or navigation_ area, if it has an opening mechanism.
 - also set the focus back to the content, once the menu or navigation area gets closed.
 
@@ -45,7 +45,7 @@ This helper also handles both the `tabindex="-1"` and the `class="dnb-no-focus"`
 import {
   setPageFocusElement,
   applyPageFocus
-} from 'dnb-ui-lib/shared/global-helpers'
+} from 'dnb-ui-lib/shared/helpers'
 
 // 1. Somewhere in Your app, set either an element, or a CSS Selector
 setPageFocusElement('.css-selector', 'MyCustomName')

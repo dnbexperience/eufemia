@@ -186,6 +186,10 @@ export default class Dropdown extends Component {
     }
   }
 
+  componentWillUnmount() {
+    clearTimeout(this._hideTimeout)
+  }
+
   setFocus = () => {
     if (this._refInput.current && !this.props.disabled) {
       this._refInput.current.focus()

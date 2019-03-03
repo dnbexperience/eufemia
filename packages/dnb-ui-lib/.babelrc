@@ -63,7 +63,7 @@
         [
           "react-remove-properties",
           {
-            "properties": ["data-dnb-test"]
+            "properties": ["data-dnb-test", "data-dnb-test-wrapper"]
           }
         ],
         [
@@ -102,7 +102,7 @@
         [
           "react-remove-properties",
           {
-            "properties": ["data-dnb-test"]
+            "properties": ["data-dnb-test", "data-dnb-test-wrapper"]
           }
         ],
         [

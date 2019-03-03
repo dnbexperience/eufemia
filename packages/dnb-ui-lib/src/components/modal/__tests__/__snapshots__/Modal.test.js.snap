@@ -570,7 +570,8 @@ exports[`Modal scss have to match snapshot 1`] = `
   .dnb-icon img,
   .dnb-icon svg {
     width: inherit;
-    height: inherit; }
+    height: inherit;
+    vertical-align: middle; }
   .dnb-icon svg[width='100%'] {
     width: inherit; }
   .dnb-icon svg[height='100%'] {
@@ -694,6 +695,7 @@ exports[`Modal scss have to match snapshot 1`] = `
    */
   /**
    * Show the overflow in Edge and IE.
+   * 1. Safari did inherit the break-word from html root
    */
   /**
    * 1. Correct the text wrapping in Edge and IE.
@@ -733,9 +735,6 @@ exports[`Modal scss have to match snapshot 1`] = `
    */
   /**
    * Remove the inner border and padding of focus outlines in Firefox.
-   */
-  /**
-   * Restore the focus outline styles unset by the previous rule in Firefox.
    */
   /* Interactive
    */
@@ -884,7 +883,9 @@ exports[`Modal scss have to match snapshot 1`] = `
   .dnb-button fieldset {
     padding: 0.35rem 0.75rem 0.625rem; }
   .dnb-button input {
-    overflow: visible; }
+    overflow: visible;
+    word-break: normal;
+    /* 1 */ }
   .dnb-button legend {
     color: inherit;
     /* 2 */
@@ -932,8 +933,6 @@ exports[`Modal scss have to match snapshot 1`] = `
   .dnb-button ::-moz-focus-inner {
     border-style: none;
     padding: 0; }
-  .dnb-button :-moz-focusring {
-    outline: 1px dotted ButtonText; }
   .dnb-button details {
     display: block; }
   .dnb-button summary {
@@ -1109,7 +1108,8 @@ exports[`Modal scss have to match snapshot 1`] = `
     .dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
       outline: none; }
       html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
-        box-shadow: 0 0 0 2px; }
+        box-shadow: 0 0 0 2px var(--color-emerald-green);
+        border-color: transparent; }
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):focus,
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):active {
       box-shadow: none;
@@ -1231,6 +1231,7 @@ a.dnb-button {
    */
   /**
    * Show the overflow in Edge and IE.
+   * 1. Safari did inherit the break-word from html root
    */
   /**
    * 1. Correct the text wrapping in Edge and IE.
@@ -1270,9 +1271,6 @@ a.dnb-button {
    */
   /**
    * Remove the inner border and padding of focus outlines in Firefox.
-   */
-  /**
-   * Restore the focus outline styles unset by the previous rule in Firefox.
    */
   /* Interactive
    */
@@ -1421,7 +1419,9 @@ a.dnb-button {
   .dnb-modal fieldset {
     padding: 0.35rem 0.75rem 0.625rem; }
   .dnb-modal input {
-    overflow: visible; }
+    overflow: visible;
+    word-break: normal;
+    /* 1 */ }
   .dnb-modal legend {
     color: inherit;
     /* 2 */
@@ -1469,8 +1469,6 @@ a.dnb-button {
   .dnb-modal ::-moz-focus-inner {
     border-style: none;
     padding: 0; }
-  .dnb-modal :-moz-focusring {
-    outline: 1px dotted ButtonText; }
   .dnb-modal details {
     display: block; }
   .dnb-modal summary {

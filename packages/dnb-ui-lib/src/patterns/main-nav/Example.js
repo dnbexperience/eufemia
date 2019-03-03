@@ -40,7 +40,7 @@ class Example extends PureComponent {
             PageMaker including versions of Lorem Ipsum.
           </p>
 
-          <Button type="button" text="I am a button" variant="primary" />
+          <Button text="I am a button" variant="primary" />
         </div>
       </Fragment>
     )

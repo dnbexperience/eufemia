@@ -8,6 +8,27 @@ import GridStyle from 'dnb-ui-lib/stories/GridStyle'
 
 export const gridStyle = GridStyle
 
+const testWrapperStyle = css`
+  [data-dnb-test-wrapper] {
+    position: relative;
+    z-index: 9999;
+
+    display: inline-block; /* to get smaller width to the right (no white space) */
+
+    overflow: hidden;
+
+    padding: 1rem;
+    margin: -1rem;
+
+    background: white;
+
+    font-family: Arial;
+    & * {
+      font-family: inherit;
+    }
+  }
+`
+
 export default css`
   table td.selectable {
     position: relative;
@@ -20,7 +41,7 @@ export default css`
   table td.selectable:hover,
   table td.selectable:active {
     z-index: 2;
-    transform: scale(1.1);
+    transform: scale(1.3);
     user-select: all;
   }
   table td em {
@@ -118,10 +139,11 @@ export default css`
 
     text-align: center;
 
-    ${gridStyle({ rgb: '231, 232, 231', a: 0.8 })};
+    ${gridStyle({ rgb: '200, 200, 200', a: 0.8 })};
+    background-color: rgba(255, 255, 255, 0.6);
 
     figcaption {
-      padding-top: 0.9375rem;
+      padding-top: 1rem;
 
       font-size: 1em;
       line-height: 1.5rem;
@@ -168,7 +190,7 @@ export default css`
     }
   }
 
-  div.example-box {
+  .example-box {
     margin-bottom: 2rem;
     padding: 2rem;
 
@@ -180,7 +202,7 @@ export default css`
       align-items: center;
     }
   }
-  p.example-caption {
+  .example-caption {
     margin-top: 2rem;
     padding-top: 0.9375rem;
 
@@ -191,7 +213,7 @@ export default css`
 
     border-top: solid 1px #c4c4c4;
   }
-  div.example-box + p.example-caption {
+  .example-box + .example-caption {
     margin-top: -2rem;
   }
 
@@ -218,4 +240,7 @@ export default css`
   .lh-32 {
     line-height: 2rem;
   }
+
+  /* Do not delete, this is used for screenshot testing */
+  ${testWrapperStyle};
 `

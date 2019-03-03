@@ -26,7 +26,11 @@ class Example extends PureComponent {
           data-dnb-test="dropdown-closed"
         >
           {/* @jsx */ `
-<Dropdown data={data} selected_item={2} label="Label:" />
+<Dropdown data={data} selected_item={2} label="Label:" ${
+            typeof window !== 'undefined' && window.IS_TEST
+              ? ' no_animation={true} '
+              : ''
+          }/>
           `}
         </ComponentBox>
         <ComponentBox
@@ -101,9 +105,15 @@ const Wrapper = styled.div`
   .dnb-form-label {
     margin-right: 1rem;
   }
+  [data-dnb-test] {
+    .dnb-dropdown__shell,
+    .dnb-dropdown__text__inner {
+      width: var(--dropdown-width);
+    }
+  }
   [data-dnb-test='dropdown-list'] .dnb-dropdown__options {
     position: relative;
-    max-width: var(--dropdown-width);
+    width: var(--dropdown-width);
   }
 `
 
@@ -117,7 +127,7 @@ export default () => (
 const data = [
   {
     selected_value: 'Brukskonto - Kari Nordmann',
-    outside_value: '1234.56.78901',
+    // outside_value: '1234.56.78901',
     content: 'Brukskonto - Kari Nordmann'
   },
   {
@@ -126,7 +136,7 @@ const data = [
   {
     selected_value:
       'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen',
-    outside_value: '1134.56.78962',
+    // outside_value: '1134.56.78962',
     content: [
       '1134.56.78962',
       'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen'
@@ -134,7 +144,7 @@ const data = [
   },
   {
     selected_value: 'Oppussing - Ole Nordmann',
-    outside_value: '1534.96.48901',
+    // outside_value: '1534.96.48901',
     content: ['1534.96.48901', 'Oppussing - Ole Nordmann']
   }
 ]

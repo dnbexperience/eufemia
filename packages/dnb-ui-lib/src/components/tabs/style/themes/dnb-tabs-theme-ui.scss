@@ -8,12 +8,20 @@
 .dnb-tabs {
   &__tabs {
     &::after {
-      border-bottom: 1px solid var(--color-mint-green);
-      @include allBelow(small) {
+      background-color: var(--color-mint-green);
+      box-shadow: 100vw 0 0 0 var(--color-mint-green);
+    }
+    @include allBelow(small) {
+      &::before {
+        content: '';
+        position: absolute;
+        z-index: -1;
+        left: -50vw;
         top: 0;
-        bottom: auto;
-        height: 100%;
-        border-top: 1px solid var(--color-mint-green);
+        width: 100vw;
+        height: 1px;
+        background-color: var(--color-mint-green);
+        box-shadow: 100vw 0 0 0 var(--color-mint-green);
       }
     }
 
@@ -32,11 +40,11 @@
       }
 
       // hover
-      &:not([disabled]):hover {
+      @include hover() {
         background-color: var(--color-mint-green-50);
         &::after {
-          height: 2px;
-          border-radius: 1px;
+          height: 3px;
+          border-radius: 1.5px;
           background-color: var(--color-sea-green);
         }
       }

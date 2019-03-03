@@ -264,7 +264,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
       className={null}
       hidden={false}
       icon="exclamation"
-      icon_size="default"
+      icon_size="medium"
       render_content={null}
       status="error"
       text="status"
@@ -286,31 +286,31 @@ exports[`Dropdown component have to match snapshot 1`] = `
           height={null}
           icon="exclamation"
           modifier={null}
-          size="default"
+          size="medium"
           title={null}
           width={null}
         >
           <span
             alt="exclamation"
             aria-hidden={true}
-            className="dnb-icon dnb-icon--default"
+            className="dnb-icon dnb-icon--medium"
             role="img"
           >
-            <exclamation>
+            <exclamation_medium>
               <svg
                 fill="none"
-                height={16}
-                viewBox="0 0 16 16"
-                width={16}
+                height={24}
+                viewBox="0 0 24 24"
+                width={24}
               >
                 <path
                   clipRule="evenodd"
-                  d="M8 1.75a.75.75 0 0 1 .75.75v7a.75.75 0 0 1-1.5 0v-7A.75.75 0 0 1 8 1.75zm-.893 10.357A1.25 1.25 0 0 1 8 11.75c.32 0 .646.11.893.357s.357.573.357.893c0 .32-.11.646-.357.893A1.249 1.249 0 0 1 8 14.25c-.32 0-.646-.11-.893-.357A1.249 1.249 0 0 1 6.75 13c0-.32.11-.646.357-.893z"
+                  d="M12 3a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-1.5 0V3.75A.75.75 0 0 1 12 3zm-1.074 15.426c.29-.29.679-.426 1.074-.426s.783.135 1.074.426c.29.29.426.679.426 1.074s-.135.783-.426 1.074c-.29.29-.679.426-1.074.426s-.783-.135-1.074-.426A1.499 1.499 0 0 1 10.5 19.5c0-.395.135-.783.426-1.074z"
                   fill="#000"
                   fillRule="evenodd"
                 />
               </svg>
-            </exclamation>
+            </exclamation_medium>
           </span>
         </IconPrimary>
         <span
@@ -353,7 +353,8 @@ exports[`Dropdown scss have to match default theme snapshot 1`] = `
   --dropdown-option-color--hover: var(--color-sea-green);
   --dropdown-option-background-color: var(--color-white);
   --dropdown-option-background-color--hover: var(--color-mint-green-12);
-  --dropdown-option-background-color--selected: var(--color-mint-green-25);
+  --dropdown-option-color--selected: var(--color-white);
+  --dropdown-option-background-color--selected: var(--color-emerald-green);
   --dropdown-option-border-width: 1px;
   --dropdown-option-border-color: var(--color-mint-green-25); }
 
@@ -363,7 +364,7 @@ exports[`Dropdown scss have to match default theme snapshot 1`] = `
   .dnb-dropdown__options {
     border: none;
     background-color: transparent;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16);
     border-radius: var(--dropdown-options-border-radius); }
   .dnb-dropdown--scroll .dnb-dropdown__options {
     max-height: 20rem;
@@ -376,6 +377,7 @@ exports[`Dropdown scss have to match default theme snapshot 1`] = `
     background-color: var(--dropdown-option-background-color);
     border-bottom: var(--dropdown-option-border-width) solid var(--dropdown-option-border-color); }
     .dnb-dropdown__option__inner {
+      padding-right: 2rem;
       background-color: var(--dropdown-option-background-color); }
     :not([dnb-is-touch]) .dnb-dropdown__option:hover[disabled] {
       cursor: not-allowed; }
@@ -390,15 +392,31 @@ exports[`Dropdown scss have to match default theme snapshot 1`] = `
         box-shadow: 0 0 0 2px var(--dropdown-border-color--selected);
         border-color: transparent; }
     .dnb-dropdown__option--selected {
-      background-color: var(--dropdown-option-background-color--selected); }
+      color: var(--dropdown-option-color--selected);
+      background-color: var(--dropdown-option-background-color--selected);
+      display: flex; }
       .dnb-dropdown__option--selected .dnb-dropdown__option__inner {
-        background-color: var(--dropdown-option-background-color--selected); }
+        color: inherit;
+        background-color: inherit; }
       :not([dnb-is-touch]) .dnb-dropdown__option--selected:hover[disabled] {
         cursor: not-allowed; }
       :not([dnb-is-touch]) .dnb-dropdown__option--selected:hover:not([disabled]) {
+        color: var(--dropdown-option-color--selected);
         background-color: var(--dropdown-option-background-color--selected); }
         :not([dnb-is-touch]) .dnb-dropdown__option--selected:hover:not([disabled]) .dnb-dropdown__option__inner {
-          background-color: var(--dropdown-option-background-color--selected); }
+          color: inherit;
+          background-color: inherit; }
+      .dnb-dropdown__option--selected::after {
+        content: '';
+        position: absolute;
+        z-index: 1;
+        right: 1rem;
+        align-self: center;
+        justify-content: flex-end;
+        width: 1rem;
+        height: 1rem;
+        background-size: cover;
+        background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgZmlsbD0ibm9uZSI+ICA8cGF0aCAgICBmaWxsPSIjRTlGOEY0IiAgICBkPSJNMyA4LjhhLjc1Ljc1IDAgMSAwLTEuMjIuODZMMyA4Ljc5em0xLjg0IDMuOWwuNjMtLjQxdi0uMDFoLS4wMWwtLjYyLjQyem0xLjcxLjA1bC0uNTktLjQ2di4wMWwuNTkuNDV6bTguNDMtOS40NWEuNzUuNzUgMCAwIDAtMS4xOC0uOTNsMS4xOC45M3pNMS43OCA5LjY2bDIuNDUgMy40OCAxLjIzLS44N0wzIDguOGwtMS4yMy44N3ptMi40NCAzLjQ2Yy4zMi40OC44Ni43OCAxLjQ0LjhsLjA1LTEuNWEuMy4zIDAgMCAxLS4yNC0uMTNsLTEuMjUuODN6bTEuNDQuOGExLjggMS44IDAgMCAwIDEuNDktLjcxbC0xLjItLjlhLjMuMyAwIDAgMS0uMjQuMWwtLjA1IDEuNXptMS40OC0uN2w3Ljg0LTkuOTItMS4xOC0uOTMtNy44NCA5LjkyIDEuMTguOTN6Ii8+PC9zdmc+); }
     .dnb-dropdown__option:first-of-type,
     .dnb-dropdown__option--active:first-of-type .dnb-dropdown__option__inner {
       border-radius: var(--dropdown-options-border-radius) var(--dropdown-options-border-radius) 0 0; }
@@ -412,25 +430,24 @@ exports[`Dropdown scss have to match default theme snapshot 1`] = `
   .dnb-dropdown--opened .dnb-dropdown__trigger {
     box-shadow: 0 0 0 1px;
     border-color: var(--dropdown-border-color--selected); }
-  .dnb-dropdown__status--error .dnb-dropdown__trigger,
-  .dnb-dropdown__status--error.dnb-dropdown--opened .dnb-dropdown__trigger {
+  .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger {
     box-shadow: 0 0 0 1px var(--color-cherry-red) !important;
     border-color: transparent;
     border-color: var(--color-cherry-red); }
-  .dnb-dropdown__status--error .dnb-dropdown__icon {
+  .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__icon {
     color: var(--color-cherry-red); }
-  :not([dnb-is-touch]) .dnb-dropdown__status--error .dnb-dropdown__input:hover[disabled] {
+  :not([dnb-is-touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__input:hover[disabled] {
     cursor: not-allowed; }
-  :not([dnb-is-touch]) .dnb-dropdown__status--error .dnb-dropdown__input:hover:not([disabled]) ~ .dnb-dropdown__trigger {
+  :not([dnb-is-touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__input:hover:not([disabled]) ~ .dnb-dropdown__trigger {
     box-shadow: 0 0 0 1px var(--color-cherry-red) !important;
     border-color: transparent;
     border-color: var(--color-cherry-red); }
-  :not([dnb-is-touch]) .dnb-dropdown__status--error .dnb-dropdown__input:hover:not([disabled]) ~ .dnb-dropdown__trigger .dnb-dropdown__icon .dnb-icon {
+  :not([dnb-is-touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__input:hover:not([disabled]) ~ .dnb-dropdown__trigger .dnb-dropdown__icon .dnb-icon {
     color: var(--color-cherry-red); }
   .dnb-dropdown__triangle::before {
     border: none;
     background-color: var(--color-white);
-    box-shadow: 0 0 4px rgba(0, 0, 0, 0.15); }
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16); }
   .dnb-dropdown__option--selected .dnb-dropdown__triangle::before {
     background-color: var(--dropdown-option-background-color--selected); }
   .dnb-dropdown__option:not(.dnb-dropdown__option--selected):hover .dnb-dropdown__triangle::before {
@@ -599,7 +616,8 @@ exports[`Dropdown scss have to match snapshot 1`] = `
   .dnb-icon img,
   .dnb-icon svg {
     width: inherit;
-    height: inherit; }
+    height: inherit;
+    vertical-align: middle; }
   .dnb-icon svg[width='100%'] {
     width: inherit; }
   .dnb-icon svg[height='100%'] {
@@ -727,6 +745,7 @@ exports[`Dropdown scss have to match snapshot 1`] = `
    */
   /**
    * Show the overflow in Edge and IE.
+   * 1. Safari did inherit the break-word from html root
    */
   /**
    * 1. Correct the text wrapping in Edge and IE.
@@ -766,9 +785,6 @@ exports[`Dropdown scss have to match snapshot 1`] = `
    */
   /**
    * Remove the inner border and padding of focus outlines in Firefox.
-   */
-  /**
-   * Restore the focus outline styles unset by the previous rule in Firefox.
    */
   /* Interactive
    */
@@ -917,7 +933,9 @@ exports[`Dropdown scss have to match snapshot 1`] = `
   .dnb-form-label fieldset {
     padding: 0.35rem 0.75rem 0.625rem; }
   .dnb-form-label input {
-    overflow: visible; }
+    overflow: visible;
+    word-break: normal;
+    /* 1 */ }
   .dnb-form-label legend {
     color: inherit;
     /* 2 */
@@ -965,8 +983,6 @@ exports[`Dropdown scss have to match snapshot 1`] = `
   .dnb-form-label ::-moz-focus-inner {
     border-style: none;
     padding: 0; }
-  .dnb-form-label :-moz-focusring {
-    outline: 1px dotted ButtonText; }
   .dnb-form-label details {
     display: block; }
   .dnb-form-label summary {
@@ -1011,11 +1027,23 @@ exports[`Dropdown scss have to match snapshot 1`] = `
  */
 .dnb-form-label {
   user-select: none;
+  margin-right: 1rem;
   display: inline-block;
+  vertical-align: baseline;
   cursor: pointer;
   color: inherit;
   width: auto;
   white-space: nowrap; }
+  .dnb-form-label--vertical {
+    margin-right: 0;
+    margin-top: 0; }
+  .dnb-form-label[for]:not([disabled]):hover {
+    color: var(--color-sea-green); }
+  .dnb-form-label[disabled] {
+    cursor: not-allowed; }
+
+.dnb-form-label + [class*='__status'] {
+  vertical-align: baseline; }
 
 /*
 * DNB FormStatus
@@ -1113,6 +1141,7 @@ exports[`Dropdown scss have to match snapshot 1`] = `
    */
   /**
    * Show the overflow in Edge and IE.
+   * 1. Safari did inherit the break-word from html root
    */
   /**
    * 1. Correct the text wrapping in Edge and IE.
@@ -1152,9 +1181,6 @@ exports[`Dropdown scss have to match snapshot 1`] = `
    */
   /**
    * Remove the inner border and padding of focus outlines in Firefox.
-   */
-  /**
-   * Restore the focus outline styles unset by the previous rule in Firefox.
    */
   /* Interactive
    */
@@ -1303,7 +1329,9 @@ exports[`Dropdown scss have to match snapshot 1`] = `
   .dnb-form-status fieldset {
     padding: 0.35rem 0.75rem 0.625rem; }
   .dnb-form-status input {
-    overflow: visible; }
+    overflow: visible;
+    word-break: normal;
+    /* 1 */ }
   .dnb-form-status legend {
     color: inherit;
     /* 2 */
@@ -1351,8 +1379,6 @@ exports[`Dropdown scss have to match snapshot 1`] = `
   .dnb-form-status ::-moz-focus-inner {
     border-style: none;
     padding: 0; }
-  .dnb-form-status :-moz-focusring {
-    outline: 1px dotted ButtonText; }
   .dnb-form-status details {
     display: block; }
   .dnb-form-status summary {
@@ -1531,6 +1557,7 @@ exports[`Dropdown scss have to match snapshot 1`] = `
    */
   /**
    * Show the overflow in Edge and IE.
+   * 1. Safari did inherit the break-word from html root
    */
   /**
    * 1. Correct the text wrapping in Edge and IE.
@@ -1570,9 +1597,6 @@ exports[`Dropdown scss have to match snapshot 1`] = `
    */
   /**
    * Remove the inner border and padding of focus outlines in Firefox.
-   */
-  /**
-   * Restore the focus outline styles unset by the previous rule in Firefox.
    */
   /* Interactive
    */
@@ -1721,7 +1745,9 @@ exports[`Dropdown scss have to match snapshot 1`] = `
   .dnb-dropdown fieldset {
     padding: 0.35rem 0.75rem 0.625rem; }
   .dnb-dropdown input {
-    overflow: visible; }
+    overflow: visible;
+    word-break: normal;
+    /* 1 */ }
   .dnb-dropdown legend {
     color: inherit;
     /* 2 */
@@ -1769,8 +1795,6 @@ exports[`Dropdown scss have to match snapshot 1`] = `
   .dnb-dropdown ::-moz-focus-inner {
     border-style: none;
     padding: 0; }
-  .dnb-dropdown :-moz-focusring {
-    outline: 1px dotted ButtonText; }
   .dnb-dropdown details {
     display: block; }
   .dnb-dropdown summary {
@@ -1814,7 +1838,9 @@ exports[`Dropdown scss have to match snapshot 1`] = `
 *
 */
 :root {
-  --dropdown-width: 20rem;
+  --dropdown-width: 16rem;
+  --dropdown-min-width: 10rem;
+  --dropdown-max-width: 20rem;
   --dropdown-height: 2rem;
   --dropdown-padding-horizontal: 1rem;
   --dropdown-border-width: 1px;
@@ -1914,7 +1940,7 @@ exports[`Dropdown scss have to match snapshot 1`] = `
       color: inherit; }
   .dnb-dropdown__triangle {
     position: absolute;
-    top: calc(1px - var(--dropdown-height) / 2);
+    top: calc(-1px - var(--dropdown-height) / 2);
     left: auto;
     right: 0;
     margin: 0 calc( var(--dropdown-padding-horizontal) + var(--dropdown-border-width));
@@ -1958,7 +1984,7 @@ exports[`Dropdown scss have to match snapshot 1`] = `
     text-overflow: ellipsis; }
     .dnb-dropdown__text__inner {
       display: inline-block;
-      width: calc( var(--dropdown-width) - calc(var(--dropdown-padding-horizontal) * 4));
+      width: calc( var(--dropdown-width) - calc(var(--dropdown-padding-horizontal) * 3 + 10px));
       height: inherit;
       padding: 0;
       overflow: hidden;
@@ -1976,8 +2002,6 @@ exports[`Dropdown scss have to match snapshot 1`] = `
   .dnb-dropdown--hidden .dnb-dropdown__options {
     display: none; }
   .dnb-dropdown:not(.dnb-dropdown--opened) .dnb-dropdown__options {
-    opacity: 0.5;
-    transform: translateY(0);
     animation: dropdownSlideUp 150ms ease-out 1 forwards; }
     .dnb-dropdown:not(.dnb-dropdown--opened) .dnb-dropdown__options--no-animation {
       animation: dropdownSlideUp 1ms ease-out 1 forwards; }

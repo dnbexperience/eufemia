@@ -26,7 +26,7 @@ You wish to......
 ##### Example:
 
 <div class="typography-box">
-<h1>
+<h1 class="dnb-h1">
 Quem facilisi moderatius id eam, id tamquam albucius per.
 </h1>
 <p>
@@ -51,7 +51,7 @@ You wish to......
 ##### Example:
 
 <div class="typography-box">
-<h1>
+<h1 class="dnb-h1">
 <small>This part is small facilisi moderatius id eam, id tamquam albucius per. Vel quem congue appareat cu, mei te eros convenire</small>
 </h1>
 <p>

@@ -10,15 +10,15 @@ order: 5
 
 Make sure Your Web Applications are [**UU**](https://uu.difi.no) and [**WCAG 2.1**](https://www.w3.org/TR/WCAG21/) compliant. This means, You as a developer has to:
 
-- follow semantics properly
+- follow **semantics** properly, use **landmarks** and ensure correct [heading levels](/uilib/usage/best-practices/for-typography#headings-and-styling)
 - use different **screen readers** and test [regularly](/uilib/usage/accessibility/screenreader)
 - make sure, everything is [responsive](/uilib/usage/layout#web-applications) - use mostly the `rem` [unit](/uilib/usage/best-practices/for-styling#units)
-- define the tab navigation and [focus management](/uilib/usage/accessibility/focus#managing-the-focus-state)
+- define the tab navigation and [focus management](/uilib/usage/accessibility/focus#managing-the-focus-state) properly
 - have a [Skip Link](/uilib/usage/accessibility/focus#skip-link) in place
 - properly use the `for="#id"` attribute on [labels](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/label#Attributes)
 - make good use of `area-label` and `aria-hidden`, e.g. of [decorative content](/uilib/usage/accessibility/icons#decorative-icons)
 - have `aria-live` in place for dynamic content
-- hide "hidden" content with `display: none;` or remove the markup entierly (like React States)
+- hide "hidden" content with `display: none;`, HTML `hidden` attribute or remove the markup entirely (like React States)
 - allow zooming in web pages. Example:
 
 ```html

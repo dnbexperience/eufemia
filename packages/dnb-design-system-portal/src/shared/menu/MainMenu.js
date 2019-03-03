@@ -20,11 +20,11 @@ import {
 } from './MainMenuGraphics'
 import { Logo, Button } from 'dnb-ui-lib/src'
 import { buildVersion } from '../../../package.json'
-import { MainMenuConsumer } from './MainMenuContext'
+import { MainMenuContext } from './MainMenuContext'
 import {
   setPageFocusElement,
   applyPageFocus
-} from 'dnb-ui-lib/src/shared/global-helpers'
+} from 'dnb-ui-lib/src/shared/helpers'
 
 class MainWrapper extends PureComponent {
   static propTypes = {
@@ -198,7 +198,7 @@ export default class MainMenu extends PureComponent {
   render() {
     const { enableOverlay } = this.props
     return (
-      <MainMenuConsumer>
+      <MainMenuContext.Consumer>
         {({ closeMenu, isOpen, isClosing, isActive }) => {
           this.closeMenuHandler = isOpen ? closeMenu : null
           return (
@@ -296,7 +296,7 @@ export default class MainMenu extends PureComponent {
             )
           )
         }}
-      </MainMenuConsumer>
+      </MainMenuContext.Consumer>
     )
   }
 }

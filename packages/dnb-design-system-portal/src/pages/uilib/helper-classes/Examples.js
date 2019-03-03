@@ -16,14 +16,14 @@ class Example extends PureComponent {
 <div className="dnb-section">
   Visuall DNB Section
 </div>
-<div className="dnb-section dnb-section--content">
-  Visuall DNB Section, declared with <code className="dnb-code">.dnb-section--content</code>
+<div className="dnb-section dnb-section--spacing">
+  Visuall DNB Section, declared with <code className="dnb-code">.dnb-section--spacing</code>
 </div>
         `}
         </CodeBlock>
         <CodeBlock reactLive hideCode>
           {/* @html */ `
-<div class="dnb-core-style">
+<div className="dnb-core-style">
   <h3 className="dnb-h3">Wrapper with the DNB Body Style (CSS reset)</h3>
 </div>
         `}

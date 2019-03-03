@@ -44,15 +44,7 @@ The following Diagram gives an overall overview how the packages are structured.
 
 The **dnb-ui-core** package includes some styles witch effects the global scope (body and CSS reset). To avoid interference with existing styles, let's say a header or a menu, You could only use the **dnb-ui-basis** package in combination with other packages like **dnb-theme-ui** and **dnb-ui-components**.
 
-### Use Body Style elsewhere
-
-If You neither include the **dnb-ui-core** nor the **dnb-ui-body** package, then You ending up having no Eufemia styles for the Document `<body>`. To having them inside a wrapper anyway, simply use the following helper class: `.dnb-core-style`
-
-```html
-<div class="dnb-core-style">
-  Wrapper with the DNB Body Styles
-</div>
-```
+You may have a look at some [code examples of dealing with legacy code](/uilib/usage/customisation/styling/legacy-styling).
 
 ### Example import
 
@@ -65,6 +57,43 @@ import 'dnb-ui-lib/style/themes/ui'
 /* import 'dnb-ui-lib/style' */
 ```
 
+### Use Eufemia Styles elsewhere {#core-style}
+
+If You neither include the **dnb-ui-core** nor the **dnb-ui-body** package, then You ending up having no Eufemia styles for the Document `<body>`. To have the Eufemia Core styles inside a wrapper anyway, simply use the following helper class: `.dnb-core-style`
+
+```html
+<div class="dnb-core-style">
+  <!-- Wrapper to have correct Eufemia styles inside -->
+  <h1 class="dnb-h1">I have now the Eufemia Style</h1>
+  <p class="dnb-p">👉 Me as well</p>
+</div>
+```
+
+#### CSS Specificity
+
+Once You use the `.dnb-core-style` wrapper class, You may in some circumstances, need to use it to modify already given properties.
+
+For **Styled Components** You do it this way:
+
+```jsx
+import { P } from 'dnb-ui-lib/elements'
+const MyElement = styled(P)`
+  .dnb-core-style & {
+    margin-top: 3rem;
+  }
+  color: var(--color-sky-blue);
+`
+```
+
+In CSS You simply do it this way:
+
+```css
+.dnb-core-style .my-element {
+  margin-top: 3rem;
+  color: var(--color-sky-blue);
+}
+```
+
 ## Spacing for Articles {#spacing}
 
 To ensure more flexibility in styling, all the margins / spacings are reset to zero. But more often we have to have a by default defined spacing, e.g. `margin` on HTML Elements like headings or paragraphs.
@@ -75,10 +104,32 @@ Effected HTML Elements inside this container will then have a default spacing. T
 ```html
 <article class="dnb-spacing">
   <!-- DNB spacings -->
-  <h1>e.g. I have now a margin</h1>
-  <p>☝🏻 Me as well</p>
+  <h1 class="dnb-h1">e.g. I have now the Eufemia spacing (margin)</h1>
+  <p class="dnb-p">👉 Me as well</p>
 </article>
 ```
 
 The styles for the `.dnb-spacing` are included in the package: **dnb-theme-ui**
 For more details, check out the source file: `spacing.scss`
+
+## Styling of HTML Elements (tags)
+
+To deal with HTML Elements, without declaring them individual with the right css classes, like `<h1 class="dnb-h1">`, You can import the sub package **dnb-ui-elements**.
+
+**NB:** Use it carefully - cause this will effect existing styles as well!
+
+```js
+/* directly the CSS file */
+import 'dnb-ui-lib/style/dnb-ui-elements.min.css'
+
+/* ... or by the shorthand */
+import 'dnb-ui-lib/style/elements'
+```
+
+```html
+<!-- HTML Elements in the wild -->
+<h1>I'm now Eufemia styled</h1>
+<ul>
+  <li>Me as well</li>
+</ul>
+```

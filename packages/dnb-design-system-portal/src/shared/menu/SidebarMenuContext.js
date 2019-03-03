@@ -30,6 +30,14 @@ export class SidebarMenuProvider extends PureComponent {
 
   toggleMenu = () => {
     clearTimeout(this.timeout)
+    // scroll to top on opening the menu, and back again
+    if (!this.state.isOpen && typeof window !== 'undefined') {
+      try {
+        this.lastScrollPosition = window.scrollY
+      } catch (e) {
+        console.log('Could not get scrollY', e)
+      }
+    }
     this.timeout = setTimeout(
       () => {
         const isOpen = !this.state.isOpen
@@ -37,6 +45,18 @@ export class SidebarMenuProvider extends PureComponent {
           isOpen,
           isClosing: false
         })
+        setTimeout(() => {
+          try {
+            if (!isOpen) {
+              window.scrollTo({
+                top: this.lastScrollPosition,
+                behavior: 'smooth'
+              })
+            }
+          } catch (e) {
+            console.log('Could not run scrollTo', e)
+          }
+        }, 100) // after animation is done
       },
       this.state.isOpen ? 260 : 0
     )
@@ -44,21 +64,11 @@ export class SidebarMenuProvider extends PureComponent {
       this.setState({
         isClosing: true
       })
-    }
-    // scroll to top on opening the menu, and back again
-    if (typeof window !== 'undefined') {
+    } else {
       try {
-        if (!this.state.isOpen) {
-          this.lastScrollPosition = window.scrollY
-          window.scrollTo({
-            top: 0
-          })
-        } else {
-          window.scrollTo({
-            top: this.lastScrollPosition,
-            behavior: 'smooth'
-          })
-        }
+        window.scrollTo({
+          top: 0
+        })
       } catch (e) {
         console.log('Could not run scrollTo', e)
       }
@@ -88,6 +98,7 @@ export class SidebarMenuProvider extends PureComponent {
       <SidebarMenuContext.Provider
         value={{
           toggleMenu: this.toggleMenu,
+          _scrollRef: this._scrollRef,
           openMenu: this.openMenu,
           closeMenu: this.closeMenu,
           ...this.state
@@ -98,5 +109,3 @@ export class SidebarMenuProvider extends PureComponent {
     )
   }
 }
-
-export const SidebarMenuConsumer = SidebarMenuContext.Consumer

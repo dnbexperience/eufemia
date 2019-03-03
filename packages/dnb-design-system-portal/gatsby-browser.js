@@ -3,17 +3,22 @@
  *
  */
 
-import { applyPageFocus } from 'dnb-ui-lib/src/shared/global-helpers'
+import { applyPageFocus } from 'dnb-ui-lib/src/shared/helpers'
 
 // Load dev styles (to use hot reloading, we do have to import the styles in here)
 if (process.env.NODE_ENV === 'development') {
+  // import styles
+  require('dnb-ui-lib/src/style/patterns') // import ony patterns
   require('dnb-ui-lib/src/style/core') // import the core styles
   // require('dnb-ui-lib/src/style/basis') // in case we want to test ".dnb-core-style"
-  require('dnb-ui-lib/src/style/patterns') // import ony patterns
   require('dnb-ui-lib/src/style/components') // import ony components
-  // // require('dnb-ui-lib/src/style/themes/open-banking') // import the "open-banking" theme
   require('dnb-ui-lib/src/style/themes/ui') // import the default theme
+  // // require('dnb-ui-lib/src/style/themes/open-banking') // import the "open-banking" theme
   // require('dnb-ui-lib/src/style/elements') // import also styling for HTML elements/tags
+
+  // Only for testing legacy CSS code
+  // require('../examples/example-styling/src/legacy/reset.css')
+  // require('../examples/example-styling/src/legacy/dnb.css')
 }
 
 // UI Style production styles here to prevent loading flickering

@@ -33,7 +33,7 @@ const numberMask = createNumberMask({
   thousandsSeparatorSymbol: '.',
   prefix: '',
   suffix: ',-'
-})
+});
 render(<InputMasked
   label="Amount"
   autocomplete="off"
@@ -58,7 +58,7 @@ const numberMask = createNumberMask({
   allowDecimal: false,
   thousandsSeparatorSymbol: '.',
   prefix: 'NOK '
-})
+});
 render(<InputMasked
   label="Amount"
   autocomplete="off"

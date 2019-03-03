@@ -12,8 +12,10 @@ import {
   loadScss
 } from '../../../core/jest/jestSetup'
 import Component from '../Switch'
-// just to make sure we re-run the test in watch mode due to changes in this file
-import '../style/dnb-switch.scss'
+
+// just to make sure we re-run the test in watch mode due to changes in theese files
+import _switch from '../style/_switch.scss' // eslint-disable-line
+import dnb_switch from '../style/dnb-switch.scss' // eslint-disable-line
 
 const props = fakeProps(require.resolve('../Switch'), {
   optional: true

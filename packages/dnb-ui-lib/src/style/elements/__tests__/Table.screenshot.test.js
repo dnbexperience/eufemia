@@ -12,7 +12,7 @@ describe('Table screenshot', () => {
   setupPageScreenshot({ url: '/uilib/elements/tables' })
   it('have to match the default choice of table styles', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="table"]'
+      selector: '[data-dnb-test="table-default"] .dnb-table'
     })
     expect(screenshot).toMatchImageSnapshot()
   })

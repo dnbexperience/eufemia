@@ -72,6 +72,7 @@ class Example extends PureComponent {
   text="Tertiary button with icon on left"
   icon_position="left"
   icon="chevron_left"
+  data-dnb-test="button-tertiary"
 />
           `}
         </ComponentBox>
@@ -115,6 +116,12 @@ class Example extends PureComponent {
 />
 <Button title="Button with Icon only" icon="calendar" />
 <Button
+  title="Small sized button with default Icon"
+  icon="add"
+  icon_size="default"
+  size="small"
+/>
+<Button
   title="Default sized Button with medium Icon"
   icon="calendar"
   icon_size="medium"
@@ -133,10 +140,9 @@ class Example extends PureComponent {
           {/* @jsx */ `
 <Button
   variant="signal"
-  text="Signal Button (large size)"
-  size="large"
+  text="Signal Button"
   icon={Bell}
-  icon_size="medium"
+  data-dnb-test="button-signal"
 />
           `}
         </ComponentBox>
@@ -144,10 +150,10 @@ class Example extends PureComponent {
           {/* @jsx */ `
 <Button
   variant="signal"
-  text="Disabled Signal Button"
+  text="Large Signal Button"
   icon={<Bell />}
+  size="large"
   icon_size="medium"
-  disabled
 />
           `}
         </ComponentBox>

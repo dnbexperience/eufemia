@@ -131,10 +131,9 @@ class Example extends PureComponent {
   status="Numbers are ligned by using Proportional Lining"
   status_state="info"
   status_animation="fade-in"
+  value="This is the value 1234567890"
   on_change={handleInputChange}
->
-  This is the value 1234567890
-</Input>
+/>
           `}
         </ComponentBox>
       </Fragment>

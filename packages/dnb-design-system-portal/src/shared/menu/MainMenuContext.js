@@ -105,5 +105,3 @@ export class MainMenuProvider extends PureComponent {
     )
   }
 }
-
-export const MainMenuConsumer = MainMenuContext.Consumer

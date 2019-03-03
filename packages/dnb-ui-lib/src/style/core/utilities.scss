@@ -27,6 +27,10 @@
 //   }
 // }
 
+@mixin defaultDropShadow() {
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16);
+}
+
 //Uses :not([dnb-is-touch]) and .touch
 //classes on <body> element
 //based on js touch device test
@@ -114,8 +118,8 @@ $focusRingColor: var(--color-emerald-green);
   @if $whatinput == null {
     $whatinput: 'keyboard';
   }
-  @if $focusRingColor == null {
-    $focusRingColor: $focusRingColor;
+  @if $color == null {
+    $color: $focusRingColor;
   }
 
   html[data-whatinput='#{$whatinput}'] & {

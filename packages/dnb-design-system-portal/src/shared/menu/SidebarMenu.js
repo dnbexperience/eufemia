@@ -10,7 +10,7 @@ import Link from '../parts/Link'
 import { StaticQuery, graphql } from 'gatsby'
 import { css, Global } from '@emotion/core'
 import styled from '@emotion/styled'
-import { SidebarMenuConsumer } from './SidebarMenuContext'
+import { SidebarMenuContext } from './SidebarMenuContext'
 // import { MainMenuToggleButton } from './ToggleMainMenu'
 import { Icon } from 'dnb-ui-lib/src'
 import graphics from './SidebarGraphics'
@@ -18,7 +18,7 @@ import keycode from 'keycode'
 import {
   setPageFocusElement,
   applyPageFocus
-} from 'dnb-ui-lib/src/shared/global-helpers'
+} from 'dnb-ui-lib/src/shared/helpers'
 
 const StyledListItem = styled.li`
   list-style: none;
@@ -311,12 +311,11 @@ export default class SidebarLayout extends PureComponent {
     // remember last scroll position
     if (this._scrollRef.current) {
       if (typeof window !== 'undefined') {
-        const sidebarPos = window.localStorage.getItem('sidebarPos')
-          ? parseFloat(window.localStorage.getItem('sidebarPos'))
-          : this.offsetTop
         let delayBuff
-        this._scrollRef.current.scrollTop = sidebarPos
+        this.scrollToLastPosition()
+
         this._scrollRef.current.onscroll = () => {
+          if (this.bussyOnSettingNewPos) return
           clearTimeout(delayBuff)
           delayBuff = setTimeout(() => {
             try {
@@ -327,13 +326,58 @@ export default class SidebarLayout extends PureComponent {
             } catch (e) {
               console.log('SidebarLayout error:', e)
             }
-          }, 300)
+          }, 200)
         }
       }
     }
 
     if (typeof document !== 'undefined') {
       document.addEventListener('keydown', this.handleKeyDown)
+    }
+  }
+
+  getLastPosition() {
+    if (typeof window !== 'undefined') {
+      try {
+        return window.localStorage.getItem('sidebarPos')
+          ? parseFloat(window.localStorage.getItem('sidebarPos'))
+          : this.offsetTop
+      } catch (e) {
+        return 0
+      }
+    }
+  }
+
+  scrollToLastPosition() {
+    if (this._scrollRef.current) {
+      this.bussyOnSettingNewPos = true
+      const lastPos = this.getLastPosition()
+      if (lastPos > 0) {
+        this._scrollRef.current.scrollTop = lastPos
+      } else {
+        this.scrollToActiveItem()
+      }
+      setTimeout(() => {
+        this.bussyOnSettingNewPos = false
+      }, 10)
+    }
+  }
+
+  scrollToActiveItem() {
+    if (this._scrollRef.current) {
+      try {
+        const offset = this._scrollRef.current.getBoundingClientRect().top
+        const pos = this._scrollRef.current
+          .querySelector('li.is-active')
+          .getBoundingClientRect().top
+        const top = this._scrollRef.current.scrollTop + pos - offset
+        this._scrollRef.current.scrollTo({
+          top,
+          behavior: 'smooth'
+        })
+      } catch (e) {
+        console.log('Could not set scrollToActiveItem', e)
+      }
     }
   }
 
@@ -471,7 +515,7 @@ export default class SidebarLayout extends PureComponent {
                   }
                 `}
               />
-              <SidebarMenuConsumer>
+              <SidebarMenuContext.Consumer>
                 {({ isOpen, isClosing, toggleMenu }) => {
                   this.isOpen = isOpen
                   this.toggleMenu = toggleMenu
@@ -479,6 +523,9 @@ export default class SidebarLayout extends PureComponent {
                     !isClosing &&
                     setTimeout(() => {
                       applyPageFocus('sidebar')
+                      if (isOpen) {
+                        this.scrollToActiveItem()
+                      }
                     }, 100)
                   return (
                     <Sidebar
@@ -508,7 +555,7 @@ export default class SidebarLayout extends PureComponent {
                     </Sidebar>
                   )
                 }}
-              </SidebarMenuConsumer>
+              </SidebarMenuContext.Consumer>
             </>
           )
         }}

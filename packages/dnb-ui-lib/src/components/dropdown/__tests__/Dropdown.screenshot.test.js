@@ -28,7 +28,8 @@ describe('Dropdown screenshot', () => {
   it('have to match the dropdown with click', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-dnb-test="dropdown-closed"] .dnb-dropdown',
-      simulate: 'click'
+      simulate: 'click',
+      waitFor: 10 // to make sure we make the screenshot afte the animation is show
     })
     expect(screenshot).toMatchImageSnapshot()
   })

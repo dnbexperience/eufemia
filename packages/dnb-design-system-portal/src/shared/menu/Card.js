@@ -9,8 +9,8 @@ import Link from 'gatsby-link'
 import { css } from '@emotion/core'
 import styled from '@emotion/styled'
 import { Button } from 'dnb-ui-lib/src'
-import { isIE11 } from 'dnb-ui-lib/src/shared/global-helpers'
-import { MainMenuConsumer } from './MainMenuContext'
+import { isIE11 } from 'dnb-ui-lib/src/shared/helpers'
+import { MainMenuContext } from './MainMenuContext'
 import classnames from 'classnames'
 
 const CardWrapper = styled.div`
@@ -160,7 +160,7 @@ export default class Card extends PureComponent {
     const svgParams = isIE11 ? { width: '48', height: '48' } : null
 
     return (
-      <MainMenuConsumer>
+      <MainMenuContext.Consumer>
         {({ isActive, isClosing, closeMenu }) => (
           <CardWrapper
             className={classnames(
@@ -197,7 +197,7 @@ export default class Card extends PureComponent {
             </Link>
           </CardWrapper>
         )}
-      </MainMenuConsumer>
+      </MainMenuContext.Consumer>
     )
   }
 }

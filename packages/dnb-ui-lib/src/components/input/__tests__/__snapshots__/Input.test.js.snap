@@ -1,27 +1,35 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Input component have to match type="search" snapshot 1`] = `
-<span
-  className="dnb-input dnb-input--search dnb-input--size dnb-input__align--align class className"
->
+<Fragment>
   <span
-    className="dnb-input__shell"
-    data-has-content="true"
-    data-input-state="virgin"
+    className="dnb-input dnb-input--search dnb-input--size dnb-input--has-submit-button dnb-input__align--align class className"
   >
-    <input
-      attributes="attributes"
-      autoComplete="off"
-      className="dnb-input__input input_class"
-      id="id"
-      name="id"
-      onBlur={[Function]}
-      onChange={[Function]}
-      onFocus={[Function]}
-      onKeyDown={[Function]}
-      type="search"
-      value="test"
-    />
+    <span
+      className="dnb-input__shell"
+      data-has-content="true"
+      data-input-state="virgin"
+    >
+      <input
+        attributes="attributes"
+        autoComplete="off"
+        className="dnb-input__input input_class"
+        id="id"
+        name="id"
+        onBlur={[Function]}
+        onChange={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        type="search"
+        value="test"
+      />
+      <span
+        aria-hidden={true}
+        className="dnb-input__placeholder dnb-input__align--align"
+      >
+        placeholder
+      </span>
+    </span>
     <Submit
       align="align"
       attributes="attributes"
@@ -54,44 +62,48 @@ exports[`Input component have to match type="search" snapshot 1`] = `
       status_state="status_state"
       submit_button_icon="submit_button_icon"
       submit_button_title="submit_button_title"
+      submit_button_variant="secondary"
       title="submit_button_title"
       type="search"
       value="test"
+      variant="secondary"
     >
       children
     </Submit>
-    <span
-      aria-hidden={true}
-      className="dnb-input__placeholder dnb-input__align--align"
-    >
-      placeholder
-    </span>
   </span>
-</span>
+</Fragment>
 `;
 
 exports[`Input component have to match type="text" snapshot 1`] = `
-<span
-  className="dnb-input dnb-input--text dnb-input--size dnb-input__align--align class className"
->
+<Fragment>
   <span
-    className="dnb-input__shell"
-    data-has-content="true"
-    data-input-state="virgin"
+    className="dnb-input dnb-input--text dnb-input--size dnb-input--has-submit-button dnb-input__align--align class className"
   >
-    <input
-      attributes="attributes"
-      autoComplete="off"
-      className="dnb-input__input input_class"
-      id="id"
-      name="id"
-      onBlur={[Function]}
-      onChange={[Function]}
-      onFocus={[Function]}
-      onKeyDown={[Function]}
-      type="text"
-      value="test"
-    />
+    <span
+      className="dnb-input__shell"
+      data-has-content="true"
+      data-input-state="virgin"
+    >
+      <input
+        attributes="attributes"
+        autoComplete="off"
+        className="dnb-input__input input_class"
+        id="id"
+        name="id"
+        onBlur={[Function]}
+        onChange={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        type="text"
+        value="test"
+      />
+      <span
+        aria-hidden={true}
+        className="dnb-input__placeholder dnb-input__align--align"
+      >
+        placeholder
+      </span>
+    </span>
     <Submit
       align="align"
       attributes="attributes"
@@ -124,20 +136,16 @@ exports[`Input component have to match type="text" snapshot 1`] = `
       status_state="status_state"
       submit_button_icon="submit_button_icon"
       submit_button_title="submit_button_title"
+      submit_button_variant="secondary"
       title="submit_button_title"
       type="text"
       value="test"
+      variant="secondary"
     >
       children
     </Submit>
-    <span
-      aria-hidden={true}
-      className="dnb-input__placeholder dnb-input__align--align"
-    >
-      placeholder
-    </span>
   </span>
-</span>
+</Fragment>
 `;
 
 exports[`Input scss have to match default theme snapshot 1`] = `
@@ -168,42 +176,44 @@ exports[`Input scss have to match default theme snapshot 1`] = `
   --input-border-color--disabled: var(--color-sea-green-alt-30); }
 
 .dnb-input {
-  color: var(--input-text-color);
-  /* stylelint-disable-next-line */ }
+  color: var(--input-text-color); }
   .dnb-input__shell {
     background-color: var(--color-white);
-    border: var(--input-border-width) solid var(--input-border-color); }
+    border: none;
+    box-shadow: inset 0 0 0 var(--input-border-width) var(--input-border-color);
+    border-color: transparent; }
     :not([dnb-is-touch]) .dnb-input__shell:not([data-input-state='disabled']):hover[disabled] {
       cursor: not-allowed; }
     :not([dnb-is-touch]) .dnb-input__shell:not([data-input-state='disabled']):hover:not([disabled]) {
       background-color: var(--color-white); }
     .dnb-input__shell[data-has-content='true'] {
       color: var(--input-text-color--active);
-      border-color: var(--input-border-color--active);
+      box-shadow: inset 0 0 0 var(--input-border-width) var(--input-border-color--active);
+      border-color: transparent;
       background-color: var(--input-background-color--active); }
     .dnb-input__shell[data-input-state='disabled'] {
       color: var(--input-text-color--disabled);
-      border-color: var(--input-border-color--disabled);
+      box-shadow: inset 0 0 0 var(--input-border-width) var(--input-border-color--disabled);
+      border-color: transparent;
       background-color: var(--input-background-color--disabled); }
     .dnb-input__shell:not([data-input-state='disabled']):hover, .dnb-input__shell[data-input-state='focus'] {
       color: var(--input-text-color--focus);
-      border-color: var(--input-border-color--focus);
       background-color: var(--input-background-color--focus);
-      box-shadow: 0 0 0 2px var(--input-border-color--focus);
+      box-shadow: 0 0 0 calc(var(--input-border-width) + 1px) var(--input-border-color--focus);
       border-color: transparent; }
-  .dnb-input__status--error .dnb-input__shell {
-    border-color: var(--color-cherry-red);
-    /* stylelint-disable-next-line */ }
-    .dnb-input__status--error .dnb-input__shell, .dnb-input__status--error .dnb-input__shell[data-input-state='focus'] {
-      box-shadow: 0 0 0 2px var(--color-cherry-red);
-      border-color: transparent; }
+  .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']), .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']):not([data-input-state='disabled']):hover {
+    box-shadow: 0 0 0 calc(var(--input-border-width) + 1px) var(--color-cherry-red);
+    border-color: transparent; }
   .dnb-input ::selection {
     background-color: var(--color-mint-green);
     color: var(--input-text-color--focus);
     text-shadow: none; }
+  .dnb-input__input:not([disabled]):focus ~ .dnb-input__placeholder {
+    display: none; }
   .dnb-input__shell[data-input-state='focus'][data-has-content='false'] .dnb-input__placeholder {
-    transition: color 100ms ease-out;
-    color: var(--color-sea-green-alt-30); }
+    display: none; }
+  .dnb-input__description {
+    color: var(--input-text-color); }
 "
 `;
 
@@ -360,7 +370,8 @@ exports[`Input scss have to match snapshot 1`] = `
   .dnb-icon img,
   .dnb-icon svg {
     width: inherit;
-    height: inherit; }
+    height: inherit;
+    vertical-align: middle; }
   .dnb-icon svg[width='100%'] {
     width: inherit; }
   .dnb-icon svg[height='100%'] {
@@ -484,6 +495,7 @@ exports[`Input scss have to match snapshot 1`] = `
    */
   /**
    * Show the overflow in Edge and IE.
+   * 1. Safari did inherit the break-word from html root
    */
   /**
    * 1. Correct the text wrapping in Edge and IE.
@@ -523,9 +535,6 @@ exports[`Input scss have to match snapshot 1`] = `
    */
   /**
    * Remove the inner border and padding of focus outlines in Firefox.
-   */
-  /**
-   * Restore the focus outline styles unset by the previous rule in Firefox.
    */
   /* Interactive
    */
@@ -674,7 +683,9 @@ exports[`Input scss have to match snapshot 1`] = `
   .dnb-button fieldset {
     padding: 0.35rem 0.75rem 0.625rem; }
   .dnb-button input {
-    overflow: visible; }
+    overflow: visible;
+    word-break: normal;
+    /* 1 */ }
   .dnb-button legend {
     color: inherit;
     /* 2 */
@@ -722,8 +733,6 @@ exports[`Input scss have to match snapshot 1`] = `
   .dnb-button ::-moz-focus-inner {
     border-style: none;
     padding: 0; }
-  .dnb-button :-moz-focusring {
-    outline: 1px dotted ButtonText; }
   .dnb-button details {
     display: block; }
   .dnb-button summary {
@@ -899,7 +908,8 @@ exports[`Input scss have to match snapshot 1`] = `
     .dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
       outline: none; }
       html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
-        box-shadow: 0 0 0 2px; }
+        box-shadow: 0 0 0 2px var(--color-emerald-green);
+        border-color: transparent; }
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):focus,
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):active {
       box-shadow: none;
@@ -1025,6 +1035,7 @@ a.dnb-button {
    */
   /**
    * Show the overflow in Edge and IE.
+   * 1. Safari did inherit the break-word from html root
    */
   /**
    * 1. Correct the text wrapping in Edge and IE.
@@ -1064,9 +1075,6 @@ a.dnb-button {
    */
   /**
    * Remove the inner border and padding of focus outlines in Firefox.
-   */
-  /**
-   * Restore the focus outline styles unset by the previous rule in Firefox.
    */
   /* Interactive
    */
@@ -1215,7 +1223,9 @@ a.dnb-button {
   .dnb-form-label fieldset {
     padding: 0.35rem 0.75rem 0.625rem; }
   .dnb-form-label input {
-    overflow: visible; }
+    overflow: visible;
+    word-break: normal;
+    /* 1 */ }
   .dnb-form-label legend {
     color: inherit;
     /* 2 */
@@ -1263,8 +1273,6 @@ a.dnb-button {
   .dnb-form-label ::-moz-focus-inner {
     border-style: none;
     padding: 0; }
-  .dnb-form-label :-moz-focusring {
-    outline: 1px dotted ButtonText; }
   .dnb-form-label details {
     display: block; }
   .dnb-form-label summary {
@@ -1309,11 +1317,23 @@ a.dnb-button {
  */
 .dnb-form-label {
   user-select: none;
+  margin-right: 1rem;
   display: inline-block;
+  vertical-align: baseline;
   cursor: pointer;
   color: inherit;
   width: auto;
   white-space: nowrap; }
+  .dnb-form-label--vertical {
+    margin-right: 0;
+    margin-top: 0; }
+  .dnb-form-label[for]:not([disabled]):hover {
+    color: var(--color-sea-green); }
+  .dnb-form-label[disabled] {
+    cursor: not-allowed; }
+
+.dnb-form-label + [class*='__status'] {
+  vertical-align: baseline; }
 
 /*
 * DNB FormStatus
@@ -1411,6 +1431,7 @@ a.dnb-button {
    */
   /**
    * Show the overflow in Edge and IE.
+   * 1. Safari did inherit the break-word from html root
    */
   /**
    * 1. Correct the text wrapping in Edge and IE.
@@ -1450,9 +1471,6 @@ a.dnb-button {
    */
   /**
    * Remove the inner border and padding of focus outlines in Firefox.
-   */
-  /**
-   * Restore the focus outline styles unset by the previous rule in Firefox.
    */
   /* Interactive
    */
@@ -1601,7 +1619,9 @@ a.dnb-button {
   .dnb-form-status fieldset {
     padding: 0.35rem 0.75rem 0.625rem; }
   .dnb-form-status input {
-    overflow: visible; }
+    overflow: visible;
+    word-break: normal;
+    /* 1 */ }
   .dnb-form-status legend {
     color: inherit;
     /* 2 */
@@ -1649,8 +1669,6 @@ a.dnb-button {
   .dnb-form-status ::-moz-focus-inner {
     border-style: none;
     padding: 0; }
-  .dnb-form-status :-moz-focusring {
-    outline: 1px dotted ButtonText; }
   .dnb-form-status details {
     display: block; }
   .dnb-form-status summary {
@@ -1829,6 +1847,7 @@ a.dnb-button {
    */
   /**
    * Show the overflow in Edge and IE.
+   * 1. Safari did inherit the break-word from html root
    */
   /**
    * 1. Correct the text wrapping in Edge and IE.
@@ -1868,9 +1887,6 @@ a.dnb-button {
    */
   /**
    * Remove the inner border and padding of focus outlines in Firefox.
-   */
-  /**
-   * Restore the focus outline styles unset by the previous rule in Firefox.
    */
   /* Interactive
    */
@@ -2019,7 +2035,9 @@ a.dnb-button {
   .dnb-input fieldset {
     padding: 0.35rem 0.75rem 0.625rem; }
   .dnb-input input {
-    overflow: visible; }
+    overflow: visible;
+    word-break: normal;
+    /* 1 */ }
   .dnb-input legend {
     color: inherit;
     /* 2 */
@@ -2067,8 +2085,6 @@ a.dnb-button {
   .dnb-input ::-moz-focus-inner {
     border-style: none;
     padding: 0; }
-  .dnb-input :-moz-focusring {
-    outline: 1px dotted ButtonText; }
   .dnb-input details {
     display: block; }
   .dnb-input summary {
@@ -2127,21 +2143,21 @@ a.dnb-button {
   --input-border-width: 1px; }
 
 .dnb-input {
-  display: flex;
-  align-items: center;
-  flex-flow: row wrap;
-  width: 100%;
-  font-size: var(--input-font-size);
-  line-height: var(--input-height); }
+  display: inline-flex;
+  align-items: flex-start;
+  flex-direction: column;
+  width: auto;
+  vertical-align: middle;
+  font-size: var(--input-font-size); }
   .dnb-input__shell {
     position: relative;
     display: flex;
     align-items: center;
-    flex: 1; }
+    overflow: hidden; }
   .dnb-input__input {
-    outline: none;
     border: none;
-    transform: translateY(1px); }
+    outline: none;
+    word-break: normal; }
   .dnb-input__input[disabled] {
     user-select: none; }
   .dnb-input__shell, .dnb-input__input {
@@ -2153,62 +2169,52 @@ a.dnb-button {
     text-align: left;
     color: inherit;
     font-size: var(--input-font-size);
-    background-color: transparent; }
+    line-height: 1;
+    background-color: transparent;
+    transform: translateY(var(--input-border-width)); }
   .dnb-input__placeholder {
     pointer-events: none;
     position: absolute;
     z-index: 1;
-    top: 0;
     left: 0;
-    height: 100%;
     overflow: hidden;
-    transform: translateY(calc(1px - var(--input-border-width))) translateX(1px);
     white-space: nowrap;
     text-overflow: ellipsis; }
+  .dnb-input--has-submit-button .dnb-input__placeholder,
+  .dnb-input--has-submit-button .dnb-input__input {
+    padding-right: 2rem;
+    margin-right: -1rem; }
   .dnb-input__description {
     color: inherit;
     padding-left: 0.5rem; }
-  .dnb-input--medium {
-    line-height: var(--input-height--medium); }
-    .dnb-input--medium .dnb-input__shell,
-    .dnb-input--medium .dnb-input__input {
-      height: var(--input-height--medium);
-      border-radius: var(--input-border-radius--medium); }
-    .dnb-input--medium .dnb-input__placeholder,
-    .dnb-input--medium .dnb-input__input {
-      padding: var(--input-padding--medium);
-      font-size: var(--input-font-size--medium); }
-  .dnb-input--large {
-    line-height: var(--input-height--large); }
-    .dnb-input--large .dnb-input__shell,
-    .dnb-input--large .dnb-input__input {
-      height: var(--input-height--large);
-      border-radius: var(--input-border-radius--large); }
-    .dnb-input--large .dnb-input__placeholder,
-    .dnb-input--large .dnb-input__input {
-      padding: var(--input-padding--large);
-      font-size: var(--input-font-size--large); }
+  .dnb-input--medium .dnb-input__shell,
+  .dnb-input--medium .dnb-input__input {
+    height: var(--input-height--medium);
+    border-radius: var(--input-border-radius--medium); }
+  .dnb-input--medium .dnb-input__placeholder,
+  .dnb-input--medium .dnb-input__input {
+    padding: var(--input-padding--medium);
+    font-size: var(--input-font-size--medium); }
+  .dnb-input--large .dnb-input__shell,
+  .dnb-input--large .dnb-input__input {
+    height: var(--input-height--large);
+    border-radius: var(--input-border-radius--large); }
+  .dnb-input--large .dnb-input__placeholder,
+  .dnb-input--large .dnb-input__input {
+    padding: var(--input-padding--large);
+    font-size: var(--input-font-size--large); }
   .dnb-input__align--right .dnb-input__placeholder,
   .dnb-input__align--right .dnb-input__input {
     text-align: right; }
   .dnb-input__shell[data-has-content='true'] .dnb-input__placeholder,
   .dnb-input__shell[data-has-content='true'][data-input-state='focus'] .dnb-input__placeholder {
     display: none; }
-  .dnb-input__extra-information {
-    flex: 1 100%;
-    padding: 0.5rem 1.5rem;
-    color: var(--color-black);
-    font-size: var(--font-size-small);
-    line-height: 1.25rem; }
-  > .dnb-form-label ~ .dnb-input__extra-information {
-    padding: 0.5rem 0; }
   .dnb-input__submit-button {
     position: relative;
     z-index: 2;
-    transform: translateX(var(--input-border-width)); }
-  .dnb-input > .dnb-form-label {
-    margin-right: 1rem; }
+    align-self: flex-end;
+    margin-top: -2rem; }
   .dnb-input > .dnb-form-status {
-    margin-left: 0.5rem; }
+    margin-top: 0.5rem; }
 "
 `;

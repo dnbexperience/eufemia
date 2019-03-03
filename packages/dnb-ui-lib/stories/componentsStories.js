@@ -17,6 +17,7 @@ import {
   Modal,
   FormLabel,
   Dropdown,
+  Switch,
   Logo,
   StepIndicator
 } from '../src/components'
@@ -27,6 +28,10 @@ export default stories
 const CustomStyle = styled.div`
   p {
     background-color: rgba(213, 30, 149, 0.25);
+  }
+  [data-dnb-test='dropdown-list'] .dnb-dropdown__options {
+    position: relative;
+    max-width: var(--dropdown-width);
   }
 `
 
@@ -127,7 +132,7 @@ stories.push([
         <Input label="Label:">Input ...</Input>
       </Box>
       <Box>
-        <Input placeholder="Placeholder ..." />
+        <Input label="Label:" placeholder="Placeholder ..." />
       </Box>
       <Box>
         <Input
@@ -136,9 +141,11 @@ stories.push([
           submit_button_title="Search"
           placeholder="Search text placeholder"
         />
+      </Box>
+      <Box>
         <Input
           disabled
-          label="Search:"
+          label="Disabled search:"
           type="search"
           submit_button_title="Search"
           placeholder="Search text placeholder"
@@ -146,8 +153,15 @@ stories.push([
       </Box>
       <Box>
         <Input
-          label="Input with Status:"
+          label="Input with status:"
           status="Message to the user"
+          value="Input value with status"
+        />
+      </Box>
+      <Box>
+        <Input
+          label="Input with description:"
+          description="Description to the user"
           value="Input value with status"
         />
       </Box>
@@ -330,6 +344,75 @@ stories.push([
             Eros semper blandit tellus mollis primis quisque platea
             sollicitudin ipsum
           </p>
+        </Box>
+        <Box data-dnb-test="dropdown-list">
+          <ul className="dnb-dropdown__options">
+            <li className="dnb-dropdown__option">
+              <span className="dnb-dropdown__triangle" />
+              <span className="dnb-dropdown__option__inner">
+                Brukskonto - Kari Nordmann
+              </span>
+            </li>
+            <li className="dnb-dropdown__option dnb-dropdown__option--selected">
+              <span className="dnb-dropdown__option__inner">
+                <span className="dnb-dropdown__option__item">
+                  1234.56.78902
+                </span>
+                <span className="dnb-dropdown__option__item">
+                  Sparekonto - Ole Nordmann
+                </span>
+              </span>
+            </li>
+            <li className="dnb-dropdown__option">
+              <span className="dnb-dropdown__option__inner">
+                <span className="dnb-dropdown__option__item">
+                  1134.56.78962
+                </span>
+                <span className="dnb-dropdown__option__item">
+                  Feriekonto - Kari Nordmann med et kjempelangt
+                  etternavnsen
+                </span>
+              </span>
+            </li>
+            <li className="dnb-dropdown__option">
+              <span className="dnb-dropdown__option__inner">
+                <span className="dnb-dropdown__option__item">
+                  1534.96.48901
+                </span>
+                <span className="dnb-dropdown__option__item">
+                  Oppussing - Ole Nordmann
+                </span>
+              </span>
+            </li>
+          </ul>
+        </Box>
+      </Wrapper>
+    </CustomStyle>
+  )
+])
+stories.push([
+  'Switch',
+  () => (
+    <CustomStyle>
+      <Wrapper>
+        <Box>
+          <Switch
+            id="switch-1"
+            text_positive="Yes"
+            text_negative="No"
+            labelledby="switch-1-label"
+            title="Ths is the title"
+            value="Value of switch"
+            default_state={false}
+            checked={false}
+            // on_state_update={this.props.onStateUpdate}
+            // on_change={this.props.onChange}
+            attributes={{
+              'data-fake:on_change': 'SwitchDemo.onChangeHandler()',
+              'data-fake:on_state_update':
+                'SwitchDemo.onStateUpdateHandler()'
+            }}
+          />
         </Box>
       </Wrapper>
     </CustomStyle>

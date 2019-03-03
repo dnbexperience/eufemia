@@ -13,7 +13,7 @@
 // we also check if there is a class starting with "dnb-*"
 // this is to make sure we don't effect these styles inside of components
 .dnb-spacing {
-  .dnb-section.dnb-section--content {
+  .dnb-section.dnb-section--spacing {
     margin-top: 1rem;
     margin-bottom: 2rem;
   }

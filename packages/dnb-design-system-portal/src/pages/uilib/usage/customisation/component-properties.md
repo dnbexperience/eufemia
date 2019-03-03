@@ -79,17 +79,22 @@ So, if you come over some special use cases, please contribute back and make a p
 {`
 const Component = () => {
   const time = new Date().toLocaleTimeString()
-  render(
+  return (
     <>
       <dnb-form-label for_id="form-input">
         Web Component property updates
       </dnb-form-label>
-      <dnb-input id="form-input" value={time} disabled />
+      <dnb-input id="form-input" value={time} />
     </>
   )
 }
-Component()
-clearInterval(window.intervalId)
-window.intervalId = setInterval(Component, 1e3)
+const RenderHelper = () => {
+  useEffect(() => {
+    const timer = setInterval(() => render(<RenderHelper />), 1e3)
+    return () => clearTimeout(timer)
+  }, [])
+  return <Component />
+}
+render(<RenderHelper />)
 `}
 </ComponentBox>

@@ -208,13 +208,20 @@ exports[`Tabs scss have to match default theme snapshot 1`] = `
  * Utilities
  */
 .dnb-tabs__tabs::after {
-  border-bottom: 1px solid var(--color-mint-green); }
-  @media screen and (max-width: 40em) {
-    .dnb-tabs__tabs::after {
-      top: 0;
-      bottom: auto;
-      height: 100%;
-      border-top: 1px solid var(--color-mint-green); } }
+  background-color: var(--color-mint-green);
+  box-shadow: 100vw 0 0 0 var(--color-mint-green); }
+
+@media screen and (max-width: 40em) {
+  .dnb-tabs__tabs::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    left: -50vw;
+    top: 0;
+    width: 100vw;
+    height: 1px;
+    background-color: var(--color-mint-green);
+    box-shadow: 100vw 0 0 0 var(--color-mint-green); } }
 
 .dnb-tabs__tabs .dnb-tablink-title {
   font-weight: var(--font-weight-book);
@@ -227,11 +234,14 @@ exports[`Tabs scss have to match default theme snapshot 1`] = `
     text-align: left;
     padding: 0.5rem 1rem; } }
 
-.dnb-tabs__tabs .dnb-tablink:not([disabled]):hover {
+:not([dnb-is-touch]) .dnb-tabs__tabs .dnb-tablink:hover[disabled] {
+  cursor: not-allowed; }
+
+:not([dnb-is-touch]) .dnb-tabs__tabs .dnb-tablink:hover:not([disabled]) {
   background-color: var(--color-mint-green-50); }
-  .dnb-tabs__tabs .dnb-tablink:not([disabled]):hover::after {
-    height: 2px;
-    border-radius: 1px;
+  :not([dnb-is-touch]) .dnb-tabs__tabs .dnb-tablink:hover:not([disabled])::after {
+    height: 3px;
+    border-radius: 1.5px;
     background-color: var(--color-sea-green); }
 
 .dnb-tabs__tabs .dnb-tablink[disabled] .dnb-tablink-title {
@@ -478,6 +488,7 @@ exports[`Tabs scss have to match snapshot 1`] = `
    */
   /**
    * Show the overflow in Edge and IE.
+   * 1. Safari did inherit the break-word from html root
    */
   /**
    * 1. Correct the text wrapping in Edge and IE.
@@ -517,9 +528,6 @@ exports[`Tabs scss have to match snapshot 1`] = `
    */
   /**
    * Remove the inner border and padding of focus outlines in Firefox.
-   */
-  /**
-   * Restore the focus outline styles unset by the previous rule in Firefox.
    */
   /* Interactive
    */
@@ -668,7 +676,9 @@ exports[`Tabs scss have to match snapshot 1`] = `
   .dnb-tabs fieldset {
     padding: 0.35rem 0.75rem 0.625rem; }
   .dnb-tabs input {
-    overflow: visible; }
+    overflow: visible;
+    word-break: normal;
+    /* 1 */ }
   .dnb-tabs legend {
     color: inherit;
     /* 2 */
@@ -716,8 +726,6 @@ exports[`Tabs scss have to match snapshot 1`] = `
   .dnb-tabs ::-moz-focus-inner {
     border-style: none;
     padding: 0; }
-  .dnb-tabs :-moz-focusring {
-    outline: 1px dotted ButtonText; }
   .dnb-tabs details {
     display: block; }
   .dnb-tabs summary {
@@ -775,7 +783,8 @@ exports[`Tabs scss have to match snapshot 1`] = `
     .dnb-tabs__tabs__tablist:focus {
       outline: none; }
       html[data-whatinput='keyboard'] .dnb-tabs__tabs__tablist:focus {
-        box-shadow: 0 0 0 2px; }
+        box-shadow: 0 0 0 2px var(--color-emerald-green);
+        border-color: transparent; }
   .dnb-tabs__tabs--left .dnb-tabs__tabs__tablist {
     justify-content: flex-start; }
   .dnb-tabs__tabs--right .dnb-tabs__tabs__tablist {
@@ -819,9 +828,8 @@ exports[`Tabs scss have to match snapshot 1`] = `
     position: absolute;
     z-index: -1;
     left: -50vw;
-    right: -50vw;
     bottom: 0;
-    width: 200vw;
+    width: 100vw;
     height: 1px; }
   @media screen and (max-width: 50em) {
     .dnb-tabs__tabs .dnb-tablink {
