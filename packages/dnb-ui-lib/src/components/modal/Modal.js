@@ -9,6 +9,12 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import keycode from 'keycode'
 import {
+  disableBodyScroll,
+  enableBodyScroll,
+  clearAllBodyScrollLocks
+} from 'body-scroll-lock'
+import {
+  isTouchDevice,
   registerElement,
   processChildren,
   validateDOMAttributes
@@ -54,7 +60,7 @@ export const defaultProps = {
   modal_trigger_title: 'Open Modal',
   modal_trigger_icon: 'question',
   content_id: null,
-  close_title: 'Close',
+  close_title: 'Close Modal Window',
   class: null,
 
   // React props
@@ -66,12 +72,11 @@ export const defaultProps = {
   ...renderProps
 }
 
-let modalRoot // gets later '.dnb-modal-root'
-
 export default class Modal extends PureComponent {
   static tagName = 'dnb-modal'
   static propTypes = propTypes
   static defaultProps = defaultProps
+  static modalRoot = null // gets later '.dnb-modal-root'
 
   static enableWebComponent() {
     registerElement(Modal.tagName, Modal, defaultProps)
@@ -86,6 +91,21 @@ export default class Modal extends PureComponent {
     return processChildren(props)
   }
 
+  static insertModalRoot() {
+    if (!Modal.modalRoot && typeof document !== 'undefined') {
+      try {
+        Modal.modalRoot = document.getElementById('dnb-modal-root') // document.querySelector('.dnb-modal-root')
+        if (!Modal.modalRoot) {
+          Modal.modalRoot = document.createElement('div')
+          Modal.modalRoot.setAttribute('id', 'dnb-modal-root')
+          document.body.appendChild(Modal.modalRoot)
+        }
+      } catch (e) {
+        console.log('Could not insert dnb-modal-root', e)
+      }
+    }
+  }
+
   state = {
     modalActive: false
   }
@@ -98,29 +118,29 @@ export default class Modal extends PureComponent {
   }
 
   toggleOpenClose = (event, showModal = null) => {
+    Modal.insertModalRoot()
+
     const modalActive =
       showModal !== null ? showModal : !this.state.modalActive
     this.setState({
       modalActive
     })
 
-    if (event) {
-      event.preventDefault()
-    }
-
+    // prevent scrolling on the background
     try {
-      if (typeof document !== 'undefined')
-        document
-          .querySelector('body')
-          .setAttribute(
-            'data-modal-active',
-            modalActive ? 'true' : 'false'
-          )
+      document.body.setAttribute(
+        'data-dnb-modal-active',
+        modalActive ? 'true' : 'false'
+      )
     } catch (e) {
       console.log(
-        'Error on set "data-modal-active" by using element.setAttribute()',
+        'Error on set "data-dnb-modal-active" by using element.setAttribute()',
         e
       )
+    }
+
+    if (event) {
+      event.preventDefault()
     }
 
     if (modalActive === false) {
@@ -134,11 +154,6 @@ export default class Modal extends PureComponent {
   }
   hide = e => {
     this.toggleOpenClose(e, false)
-  }
-  componentDidMount() {
-    if (!modalRoot && typeof document !== 'undefined') {
-      modalRoot = document.getElementById('dnb-modal-root') // document.querySelector('.dnb-modal-root')
-    }
   }
   componentWillUnmount() {
     this.toggleOpenClose(null, false)
@@ -222,24 +237,24 @@ class ModalRoot extends PureComponent {
 
   constructor(props) {
     super(props)
-    if (modalRoot) {
+    if (Modal.modalRoot) {
       this.node = document.createElement('div')
       this.node.className = 'dnb-modal-root__inner'
     }
   }
   componentDidMount() {
-    if (modalRoot && this.node) {
-      modalRoot.appendChild(this.node)
+    if (Modal.modalRoot && this.node) {
+      Modal.modalRoot.appendChild(this.node)
     }
   }
   componentWillUnmount() {
-    if (modalRoot && this.node) {
-      modalRoot.removeChild(this.node)
+    if (Modal.modalRoot && this.node) {
+      Modal.modalRoot.removeChild(this.node)
     }
   }
   render() {
     const { children, ...props } = this.props
-    if (modalRoot) {
+    if (Modal.modalRoot) {
       return ReactDOM.createPortal(
         <ModalContent {...props}>{children}</ModalContent>,
         this.node
@@ -270,31 +285,83 @@ class ModalContent extends PureComponent {
     this._contentRef = React.createRef()
   }
   componentDidMount() {
+    // since touch devices works diffrent, and we also use preventScreenReaderPossibility
+    // we dont set the tabindex by using removeFocusPossibility
+    this.isTouchDevice = isTouchDevice()
+    this.removeScrollPossibility()
+    this.preventScreenReaderPossibility()
     this.removeFocusPossibility()
-    if (this._contentRef.current) {
-      this._contentRef.current.focus()
-    }
+    this.setFocus()
   }
   componentWillUnmount() {
-    this.reverseFocusPossibility()
+    clearTimeout(this.focusTimeout)
+    this.revertScrollPossibility()
+    this.revertScreenReaderPossibility()
+    this.revertFocusPossibility()
+  }
+
+  setFocus() {
+    if (this._contentRef.current) {
+      clearTimeout(this.focusTimeout)
+      this.focusTimeout = setTimeout(() => {
+        try {
+          this._contentRef.current.focus() // in case the button is disabled
+          this._contentRef.current
+            .querySelector('.dnb-modal__close-button')
+            .focus()
+        } catch (e) {
+          console.log(e)
+        }
+      }, 300) // with this delay, the user can  press esc without an focus action first
+    }
+  }
+
+  preventScreenReaderPossibility() {
+    this.nonScreenReaderNodes = Array.from(
+      document.querySelectorAll('body > div:not(#dnb-modal-root)')
+    )
+    this.nonScreenReaderNodes.forEach(node => {
+      node.setAttribute('aria-hidden', true)
+    })
+  }
+
+  revertScreenReaderPossibility() {
+    if (this.nonScreenReaderNodes) {
+      this.nonScreenReaderNodes.forEach(node => {
+        node.removeAttribute('aria-hidden')
+      })
+    }
+  }
+
+  removeScrollPossibility() {
+    if (this._contentRef.current) {
+      disableBodyScroll(this._contentRef.current)
+    }
+  }
+
+  revertScrollPossibility() {
+    enableBodyScroll(this._contentRef.current)
+    clearAllBodyScrollLocks()
   }
 
   removeFocusPossibility() {
-    if (typeof document === 'undefined') return
+    if (typeof document === 'undefined' || this.isTouchDevice) {
+      return
+    }
     const modalNodes = Array.from(
       document.querySelectorAll('.dnb-modal__content *')
     )
 
     // by only finding elements that do not have tabindex="-1" we ensure we don't
     // corrupt the previous state of the element if a modal was already open
-    this.nonModalNodes = document.querySelectorAll(
-      'body *:not(.dnb-modal__content):not([tabindex="-1"])'
-    )
+    this.nonModalNodes = Array.from(
+      document.querySelectorAll(
+        'body *:not(.dnb-modal__content):not([tabindex="-1"]):not(script)'
+      )
+    ).filter(node => !modalNodes.includes(node))
 
-    for (let i = 0, l = this.nonModalNodes.length; i < l; i++) {
-      const node = this.nonModalNodes[i]
-
-      if (!modalNodes.includes(node)) {
+    this.nonModalNodes.forEach(node => {
+      try {
         // save the previous tabindex state so we can restore it on close
         node._prevTabindex = node.getAttribute('tabindex')
         node.setAttribute('tabindex', -1)
@@ -304,24 +371,34 @@ class ModalContent extends PureComponent {
         // outline styles while the modal is open
         // @see https://www.sitepoint.com/when-do-elements-take-the-focus/
         node.style.outline = 'none'
+      } catch (e) {
+        console.log(e)
       }
-    }
+    })
   }
-  reverseFocusPossibility() {
-    if (!this.nonModalNodes) return
-    // restore or remove tabindex from nodes
-    for (let i = 0, l = this.nonModalNodes.length; i < l; i++) {
-      const node = this.nonModalNodes[i]
-      if (node._prevTabindex) {
-        node.setAttribute('tabindex', node._prevTabindex)
-        node._prevTabindex = null
-      } else {
-        node.removeAttribute('tabindex')
-      }
-      node.style.outline = null
+
+  revertFocusPossibility() {
+    if (!this.nonModalNodes || this.isTouchDevice) {
+      return
     }
+    // restore or remove tabindex from nodes
+    this.nonModalNodes.forEach(node => {
+      try {
+        if (node && node._prevTabindex) {
+          node.setAttribute('tabindex', node._prevTabindex)
+          node._prevTabindex = null
+          delete node._prevTabindex
+        } else {
+          node.removeAttribute('tabindex')
+        }
+        node.style.outline = null
+      } catch (e) {
+        console.log(e)
+      }
+    })
     this.nonModalNodes = null
   }
+
   preventClick = e => {
     e.preventDefault()
     e.stopPropagation()
@@ -345,31 +422,33 @@ class ModalContent extends PureComponent {
       hide
     } = this.props
 
-    const params = {
+    const contentParams = {
+      className: 'dnb-modal__content',
+      onClick: hide
+    }
+
+    const innerParams = {
       id,
-      'aria-labelledby': title
+      rol: 'dialog',
+      'aria-labelledby': title,
+      ['aria-modal']: 'true',
+      tabIndex: -1,
+      className: classnames(
+        'dnb-modal__content__inner',
+        'dnb-no-focus'
+        // 'dnb-spacing'
+      ),
+      onClick: this.preventClick,
+      onTouchStart: this.preventClick,
+      onKeyDown: this.onKeyDownHandler
     }
 
     return (
       <Fragment>
-        <div
-          aria-hidden="true"
-          className="dnb-modal__content"
-          onClick={hide}
-        >
-          <div
-            ref={this._contentRef}
-            role="dialog"
-            aria-hidden="true"
-            aria-modal="true"
-            tabIndex="-1"
-            className="dnb-modal__content__inner dnb-no-focus dnb-spacing"
-            onClick={this.preventClick}
-            onKeyDown={this.onKeyDownHandler}
-            {...params}
-          >
-            {modal_content}
+        <div {...contentParams}>
+          <div ref={this._contentRef} {...innerParams}>
             <CloseButton on_click={hide} close_title={close_title} />
+            {modal_content}
           </div>
         </div>
         <span className="dnb-modal__overlay" aria-hidden="true" />
@@ -386,8 +465,10 @@ export const CloseButton = ({
   <Button
     type="button"
     variant="secondary"
+    size="medium"
     className={classnames('dnb-modal__close-button', className)}
     icon="close"
+    icon_size="medium"
     title={close_title}
     on_click={on_click}
   />

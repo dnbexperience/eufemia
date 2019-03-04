@@ -53,7 +53,7 @@ exports[`Modal component have to match snapshot 1`] = `
   }
   class={null}
   className={null}
-  close_title="Close"
+  close_title="Close Modal Window"
   content_id={null}
   modal_content="modal_content"
   modal_trigger_icon="question"
@@ -214,7 +214,7 @@ exports[`Modal component have to match snapshot 1`] = `
       }
       class={null}
       className={null}
-      close_title="Close"
+      close_title="Close Modal Window"
       content_id={null}
       hide={[Function]}
       modal_content="modal_content"
@@ -278,7 +278,7 @@ exports[`Modal component have to match snapshot 1`] = `
         }
         class={null}
         className={null}
-        close_title="Close"
+        close_title="Close Modal Window"
         content_id={null}
         hide={[Function]}
         modal_content="modal_content"
@@ -291,25 +291,23 @@ exports[`Modal component have to match snapshot 1`] = `
         type="button"
       >
         <div
-          aria-hidden="true"
           className="dnb-modal__content"
           onClick={[Function]}
         >
           <div
-            aria-hidden="true"
             aria-labelledby={null}
             aria-modal="true"
-            className="dnb-modal__content__inner dnb-no-focus dnb-spacing"
+            className="dnb-modal__content__inner dnb-no-focus"
             id={null}
             onClick={[Function]}
             onKeyDown={[Function]}
-            role="dialog"
-            tabIndex="-1"
+            onTouchStart={[Function]}
+            rol="dialog"
+            tabIndex={-1}
           >
-            modal_content
             <CloseButton
               className={null}
-              close_title="Close"
+              close_title="Close Modal Window"
               on_click={[Function]}
             >
               <Button
@@ -322,22 +320,22 @@ exports[`Modal component have to match snapshot 1`] = `
                 href={null}
                 icon="close"
                 icon_position="right"
-                icon_size="default"
+                icon_size="medium"
                 id={null}
                 innerRef={null}
                 on_click={[Function]}
-                size={null}
+                size="medium"
                 text={null}
-                title="Close"
+                title="Close Modal Window"
                 type="button"
                 variant="secondary"
               >
                 <button
-                  aria-label="Close"
+                  aria-label="Close Modal Window"
                   className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon dnb-modal__close-button"
                   onClick={[Function]}
                   onMouseOut={[Function]}
-                  title="Close"
+                  title="Close Modal Window"
                   type="button"
                 >
                   <Content
@@ -351,19 +349,19 @@ exports[`Modal component have to match snapshot 1`] = `
                     href={null}
                     icon="close"
                     icon_position="right"
-                    icon_size="default"
+                    icon_size="medium"
                     id={null}
                     innerRef={null}
                     isIconOnly={true}
                     on_click={[Function]}
-                    size={null}
+                    size="medium"
                     text={null}
-                    title="Close"
+                    title="Close Modal Window"
                     type="button"
                     variant="secondary"
                   >
                     <IconPrimary
-                      alt="Close"
+                      alt="Close Modal Window"
                       aria-hidden={false}
                       attributes={null}
                       class={null}
@@ -373,38 +371,39 @@ exports[`Modal component have to match snapshot 1`] = `
                       icon="close"
                       key="button-icon"
                       modifier={null}
-                      size="default"
+                      size="medium"
                       title={null}
                       width={null}
                     >
                       <span
-                        alt="Close"
+                        alt="Close Modal Window"
                         aria-hidden={false}
-                        aria-label="Close"
-                        className="dnb-icon dnb-icon--default dnb-button__icon"
+                        aria-label="Close Modal Window"
+                        className="dnb-icon dnb-icon--medium dnb-button__icon"
                         role="img"
                       >
-                        <close>
+                        <close_medium>
                           <svg
                             fill="none"
-                            height={16}
-                            viewBox="0 0 16 16"
-                            width={16}
+                            height={24}
+                            viewBox="0 0 24 24"
+                            width={24}
                           >
                             <path
                               clipRule="evenodd"
-                              d="M4.03 3.1a.75.75 0 0 0-1.06 1.06l3.97 3.97-3.97 3.97a.75.75 0 1 0 1.06 1.06L8 9.19l3.97 3.97a.75.75 0 1 0 1.06-1.06L9.06 8.13l3.97-3.97a.75.75 0 0 0-1.06-1.06L8 7.07 4.03 3.1z"
+                              d="M4.78 3.914a.75.75 0 0 0-1.06 1.061l7.22 7.22-7.22 7.22a.75.75 0 0 0 1.06 1.06l7.22-7.22 7.22 7.22a.75.75 0 0 0 1.06-1.06l-7.22-7.22 7.22-7.22a.75.75 0 0 0-1.06-1.06L12 11.134l-7.22-7.22z"
                               fill="#000"
                               fillRule="evenodd"
                             />
                           </svg>
-                        </close>
+                        </close_medium>
                       </span>
                     </IconPrimary>
                   </Content>
                 </button>
               </Button>
             </CloseButton>
+            modal_content
           </div>
         </div>
         <span
@@ -785,6 +784,7 @@ exports[`Modal scss have to match snapshot 1`] = `
   font-style: normal;
   line-height: 1.5rem;
   color: var(--color-black-80, #333);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   font-variant-numeric: lining-nums;
   font-feature-settings: \\"lnum\\";
   font-size: 1em;
@@ -1321,6 +1321,7 @@ a.dnb-button {
   font-style: normal;
   line-height: 1.5rem;
   color: var(--color-black-80, #333);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   font-variant-numeric: lining-nums;
   font-feature-settings: \\"lnum\\";
   font-size: 1em;
@@ -1511,9 +1512,6 @@ a.dnb-button {
  * Modal component
  *
  */
-body[data-modal-active='true'] {
-  overflow: hidden; }
-
 #dnb-modal-root {
   position: absolute;
   top: 0;
@@ -1525,25 +1523,39 @@ body[data-modal-active='true'] {
     position: fixed;
     top: 0;
     left: 0;
+    z-index: 3001;
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
     height: 100%;
-    user-select: none;
-    z-index: 3001; }
+    user-select: none; }
     .dnb-modal__content__inner {
       position: relative;
-      user-select: text;
-      padding: 2rem 1rem;
+      padding: 2rem;
       max-width: calc(100vw - 1rem);
+      max-height: 100vh;
+      width: auto;
+      height: auto;
+      overflow-y: scroll;
+      overscroll-behavior-y: contain;
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+      user-select: text;
       border: none;
-      box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.15);
-      background: white; }
+      background: var(--color-white); }
       @media screen and (min-width: 50em) {
         .dnb-modal__content__inner {
-          max-width: 500px;
-          padding: 2rem 3rem; } }
+          padding: 2rem 3rem;
+          padding-right: 4rem;
+          box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16); } }
+      @media screen and (max-width: 50em) {
+        .dnb-modal__content__inner {
+          max-width: 100%;
+          width: 100%;
+          height: 100%; } }
+      @media screen and (max-width: 40em) {
+        .dnb-modal__content__inner {
+          padding: 2rem 1rem; } }
   .dnb-modal__trigger {
     cursor: pointer;
     user-select: none; }
@@ -1558,7 +1570,18 @@ body[data-modal-active='true'] {
     top: 1rem;
     right: 1rem;
     cursor: pointer;
-    color: var(--color-sea-green); }
+    color: var(--color-sea-green);
+    outline: none; }
+    @media screen and (min-width: 40em) {
+      .dnb-modal__close-button {
+        top: 2rem;
+        right: 2rem; } }
+    .dnb-modal__close-button.dnb-button--secondary {
+      box-shadow: none;
+      background-color: transparent; }
+    html[data-whatinput='keyboard'] .dnb-modal__close-button {
+      box-shadow: 0 0 0 2px var(--color-emerald-green);
+      border-color: transparent; }
   .dnb-modal__overlay {
     position: fixed;
     z-index: 3000;
@@ -1566,6 +1589,7 @@ body[data-modal-active='true'] {
     top: 0;
     width: 100%;
     height: 100%;
-    background: rgba(255, 255, 255, 0.85); }
+    background: rgba(255, 255, 255, 0.85);
+    box-shadow: 0 100vh 0 0 rgba(255, 255, 255, 0.85); }
 "
 `;
