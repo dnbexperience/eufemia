@@ -371,7 +371,7 @@ export default class SidebarLayout extends PureComponent {
           .querySelector('li.is-active')
           .getBoundingClientRect().top
         const top = this._scrollRef.current.scrollTop + pos - offset
-        this._scrollRef.current.scrollTo({
+        window.scrollTo({
           top,
           behavior: 'smooth'
         })
@@ -519,14 +519,12 @@ export default class SidebarLayout extends PureComponent {
                 {({ isOpen, isClosing, toggleMenu }) => {
                   this.isOpen = isOpen
                   this.toggleMenu = toggleMenu
-                  isOpen &&
-                    !isClosing &&
+                  if (isOpen && !isClosing) {
                     setTimeout(() => {
+                      this.scrollToActiveItem()
                       applyPageFocus('sidebar')
-                      if (isOpen) {
-                        this.scrollToActiveItem()
-                      }
-                    }, 100)
+                    }, 300) // after animation is done
+                  }
                   return (
                     <Sidebar
                       className={classnames(
