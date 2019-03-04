@@ -71,6 +71,7 @@
     "umd:dev": "nodemon -x 'yarn umd' --ext js,html,json,css,scss --watch './src/components/**/*' --watch './src/patterns/**/*' --watch './src/style/**/*' --watch './scripts/**/*' --ignore '*.json'"
   },
   "dependencies": {
+    "body-scroll-lock": "^2.6.1",
     "classnames": "^2.2.6",
     "keycode": "^2.2.0",
     "prop-types": "^15.7.2",

@@ -14,7 +14,7 @@ defineIsTouch()
 /**
  * Check if device is touch device or not
  */
-function isTouchDevice() {
+export function isTouchDevice() {
   try {
     return (
       !!(
