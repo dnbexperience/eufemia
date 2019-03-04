@@ -61,7 +61,7 @@ The `dnb-ui-lib` also has a small setup for a [skip link](https://www.w3.org/TR/
 Our solution is CSS only and should work for all kinds of App setups.
 Place an Anchor like this one blow, on the very top of Your App content:
 
-<div class="margin-bottom"><SkipLinkExample /></div>
+<SkipLinkExample />
 
 <!-- prettier-ignore-start -->
 ```html

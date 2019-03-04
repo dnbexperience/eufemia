@@ -1,7 +1,8 @@
 import React from 'react'
 import styled from '@emotion/styled'
 
-const ChangeStylesOfSkipLink = styled.span`
+const ChangeStylesOfSkipLink = styled.div`
+  margin: 3rem 0;
   a.dnb-show-skip-link {
     position: relative;
     top: 0;
