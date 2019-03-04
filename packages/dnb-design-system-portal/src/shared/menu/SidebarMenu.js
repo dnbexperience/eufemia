@@ -297,13 +297,8 @@ export default class SidebarLayout extends PureComponent {
     super(props)
     this._scrollRef = React.createRef()
     setPageFocusElement(
-      // '.toggle-sidebar-menu',
-      'html[data-whatintent=mouse] aside ul li.is-active a:nth-of-type(1), html[data-whatintent=keyboard] .toggle-sidebar-menu',
-      'sidebar'
-    )
-    setPageFocusElement(
       'aside ul li.is-active a:nth-of-type(1)',
-      'sidebar-tab'
+      'sidebar'
     )
   }
 
@@ -386,18 +381,7 @@ export default class SidebarLayout extends PureComponent {
   }
 
   handleKeyDown = e => {
-    if (!this.isOpen) {
-      this.hadFirstTab = false
-      return
-    }
     switch (keycode(e)) {
-      case 'tab':
-        // on first tab
-        if (!this.hadFirstTab) {
-          this.hadFirstTab = true
-          applyPageFocus('sidebar-tab')
-        }
-        break
       case 'esc':
         this.toggleMenu()
         break
@@ -524,6 +508,10 @@ export default class SidebarLayout extends PureComponent {
                       this.scrollToActiveItem()
                       applyPageFocus('sidebar')
                     }, 300) // after animation is done
+                  } else {
+                    setTimeout(() => {
+                      applyPageFocus('content')
+                    }, 300) // after animation is done - to make sure we can get the focus on h1
                   }
                   return (
                     <Sidebar
