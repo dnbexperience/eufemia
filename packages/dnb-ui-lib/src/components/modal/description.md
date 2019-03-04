@@ -1,7 +1,3 @@
----
-status: 'wip'
----
-
 import Img from 'Tags/Img'
 import ModalExample from './assets/modal-example.svg'
 import ModalExampleButtons from './assets/modal-example-buttons.svg'
@@ -40,3 +36,16 @@ Modal dialogs appear on top of the main content changing the _mode_ of the syste
 
 <Img src={ModalExample} caption="Modal with header, text and close button (spacing suggestions in blue and pink)" alt="My alt" height="256" />
 <Img src={ModalExampleButtons} caption="Modal with header, text, buttons and close button" alt="My alt" height="296" />
+
+## Root Element
+
+To make sure the HTML structure is decoupled from all the page content, You can optionally define a wrapper div like `<div class="dnb-modal-root" />`.
+
+Just place this as a sibling of Your App root HTML element. This ensures that we always can stack the modal content above the App Content.
+
+```html
+<body>
+  <div id="app" />
+  <div id="dnb-modal-root" />
+</body>
+```
