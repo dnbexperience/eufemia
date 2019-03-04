@@ -29,13 +29,15 @@ export const propTypes = {
   content_id: PropTypes.string,
   close_title: PropTypes.string,
   class: PropTypes.string,
-  /** React props */
+
+  // React props
   className: PropTypes.string,
   children: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.node,
     PropTypes.func
   ]),
+
   // Web Component props
   preventSetTriggerRef: PropTypes.bool,
   modal_content: PropTypes.oneOfType([
@@ -54,9 +56,11 @@ export const defaultProps = {
   content_id: null,
   close_title: 'Close',
   class: null,
-  /** React props */
+
+  // React props
   className: null,
   children: null,
+
   // Web Component props
   preventSetTriggerRef: false,
   ...renderProps

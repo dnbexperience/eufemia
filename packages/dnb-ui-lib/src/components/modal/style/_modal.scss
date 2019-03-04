@@ -76,17 +76,15 @@ body[data-modal-active='true'] {
   // &__trigger--button {
   // }
 
-  &__close-button,
-  &__close-button.dnb-button--tertiary {
+  &__close-button {
+    // NB: as the specificity is several levels deep: :not([dnb-is-touch]) .dnb-button--secondary:hover:not([disabled])
+    // we use !important in case we define position="relative" on hover
     position: absolute;
     top: 1rem;
     right: 1rem;
 
     cursor: pointer;
-
     color: var(--color-sea-green);
-    // border: none;
-    // background: transparent;
   }
 
   &__overlay {

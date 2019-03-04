@@ -238,7 +238,6 @@ exports[`Button scss have to match default theme snapshot 1`] = `
   :not([dnb-is-touch]) .dnb-button--primary:hover[disabled] {
     cursor: not-allowed; }
   :not([dnb-is-touch]) .dnb-button--primary:hover:not([disabled]) {
-    position: relative;
     color: var(--color-sea-green);
     background-color: var(--color-white);
     box-shadow: 0 0 0 1px var(--color-white), 0 0 0 3px var(--color-emerald-green); }
@@ -270,7 +269,6 @@ exports[`Button scss have to match default theme snapshot 1`] = `
   :not([dnb-is-touch]) .dnb-button--secondary:hover[disabled] {
     cursor: not-allowed; }
   :not([dnb-is-touch]) .dnb-button--secondary:hover:not([disabled]) {
-    position: relative;
     color: var(--color-sea-green);
     background-color: var(--color-white);
     box-shadow: 0 0 0 1px var(--color-white), 0 0 0 3px var(--color-emerald-green); }
@@ -358,7 +356,6 @@ exports[`Button scss have to match default theme snapshot 1`] = `
   :not([dnb-is-touch]) .dnb-button--signal:hover[disabled] {
     cursor: not-allowed; }
   :not([dnb-is-touch]) .dnb-button--signal:hover:not([disabled]) {
-    position: relative;
     color: var(--color-black);
     background-color: var(--color-signal-yellow);
     box-shadow: 0 0 0 1px var(--color-signal-yellow), 0 0 0 3px var(--color-emerald-green); }

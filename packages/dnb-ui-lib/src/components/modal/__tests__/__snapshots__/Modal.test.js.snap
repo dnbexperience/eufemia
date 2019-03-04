@@ -1553,7 +1553,7 @@ body[data-modal-active='true'] {
     background: transparent; }
     .dnb-modal__trigger--text:not([class*='tertiary']):hover {
       text-decoration: underline; }
-  .dnb-modal__close-button, .dnb-modal__close-button.dnb-button--tertiary {
+  .dnb-modal__close-button {
     position: absolute;
     top: 1rem;
     right: 1rem;
