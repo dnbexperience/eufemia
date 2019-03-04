@@ -21,16 +21,16 @@ Modal dialogs appear on top of the main content changing the _mode_ of the syste
 ### Disadvantages of modal Dialogs
 
 1.  They require immediate attention
-2.  They interrupt users
-3.  They cause users to forget what they were doing
-4.  They add extra goals - reading, interacting and closing the Modal
-5.  They block the content in the background
+1.  They interrupt users
+1.  They cause users to forget what they were doing
+1.  They add extra goals - reading, interacting and closing the Modal
+1.  They block the content in the background
 
 ### Guidelines
 
 1.  Use for important warnings as a way to prevent or correct critical errors.
-2.  Do not use for unessential information that is not related to the users current workflow.
-3.  Use for requesting the user to enter information critical to the current process.
+1.  Do not use for unessential information that is not related to the users current workflow.
+1.  Use for requesting the user to enter information critical to the current process.
 
 ### Design Patterns
 
@@ -38,6 +38,8 @@ Modal dialogs appear on top of the main content changing the _mode_ of the syste
 <Img src={ModalExampleButtons} caption="Modal with header, text, buttons and close button" alt="My alt" height="296" />
 
 ## Root Element
+
+**NB:** If the wrapper is not set manually, a wrapper is inserted automatically as a child node to the body.
 
 To make sure the HTML structure is decoupled from all the page content, You can optionally define a wrapper div like `<div class="dnb-modal-root" />`.
 
