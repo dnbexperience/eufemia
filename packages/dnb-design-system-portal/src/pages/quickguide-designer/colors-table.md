@@ -116,42 +116,42 @@ export default ({ children }) => {
   </tr>
   <tr>
   <td>UX</td>
-  <td>Sea green alt 30</td>
+  <td>Sea green alt 30%</td>
   <td>#B3DADA</td>
   <td>179 218 218</td>
-  <td>Sea green alt 30</td>
+  <td>Sea green alt 30%</td>
   <td>--color-sea-green-alt-30</td>
   </tr>
   <tr>
     <td>UX</td>
-    <td>Mint green 50</td>
+    <td>Mint green 50%</td>
     <td>#D2F0E9</td>
     <td>210 240 233</td>
-    <td>Mint green 50</td>
+    <td>Mint green 50%</td>
     <td>--color-mint-green-50</td>
   </tr>
   <tr>
     <td>UX</td>
-    <td>Mint green 25</td>
+    <td>Mint green 25%</td>
     <td>#E9F8F4</td>
     <td>233 248 244</td>
-    <td>Mint green 25</td>
+    <td>Mint green 25%</td>
     <td>--color-mint-green-25</td>
   </tr>
   <tr>
   <td>UX</td>
-  <td>Mint green 12</td>
+  <td>Mint green 12%</td>
   <td>#F4FBF9</td>
   <td>244 251 249</td>
-  <td>Mint green 12</td>
+  <td>Mint green 12%</td>
   <td>--color-mint-green-12</td>
   </tr>
   <tr>
   <td>UX</td>
-  <td>Signal yellow 30</td>
+  <td>Signal yellow 30%</td>
   <td>#FFFFD7</td>
   <td>255 255 215</td>
-  <td>Signal yellow 30</td>
+  <td>Signal yellow 30%</td>
   <td>--color-signal-yellow-30</td>
   </tr>
   <tr>
@@ -164,10 +164,10 @@ export default ({ children }) => {
   </tr>
   <tr>
   <td>UX</td>
-  <td>Cherry red 8</td>
+  <td>Cherry red 8%</td>
   <td>#FDEBF4</td>
   <td>253 235 244</td>
-  <td>Cherry red 8</td>
+  <td>Cherry red 8%</td>
   <td>--color-cherry-red-8</td>
   </tr>
   <tr>
@@ -180,18 +180,18 @@ export default ({ children }) => {
   </tr>
   <tr>
   <td>UX</td>
-  <td>Black 80</td>
+  <td>Black 80%</td>
   <td>#333333</td>
   <td>51 51 51</td>
-  <td>Black 80</td>
+  <td>Black 80%</td>
   <td>--color-black-80</td>
   </tr>
   <tr>
   <td>UX</td>
-  <td>Black 30</td>
+  <td>Black 30%</td>
   <td>#B3B3B3</td>
   <td>179 179 179</td>
-  <td>Black 30</td>
+  <td>Black 30%</td>
   <td>--color-black-30</td>
   </tr>
   <tr>
