@@ -6,6 +6,9 @@ order: 6
 ---
 
 import CodeBlock from 'Tags/CodeBlock'
+import ComponentBox from 'Tags/ComponentBox'
+import { Link } from 'dnb-ui-lib/src/elements'
+
 import OtherElements from 'Pages/uilib/elements/other'
 import Anchor from 'Pages/uilib/elements/anchor'
 import Blockquote from 'Pages/uilib/elements/blockquote'
@@ -33,6 +36,26 @@ In order to apply a style, You have to define a CSS class, like:
 </CodeBlock>
 
 Although, You have also the possibility to load a [sub package](/uilib/usage/customisation/styling#sub-packages), called **dnb-ui-elements** witch applies all the styles to the HTML tags automatically. Use it with caution, as they can effect existing styles as well.
+
+### React JSX
+
+For those using JSX with React, You can simply use the wrapper Components.
+
+```js
+import { H1, H2, Lead, P, Link } from 'dnb-ui-lib/elements'
+```
+
+They work seamlessly with Styled Components as well:
+
+<ComponentBox noInline scope={{Link}}>
+{`
+const StyledLink = styled(Link)\`
+  font-size: var(--font-size-default);
+  font-weight: var(--font-weight-default);
+\`
+render(<StyledLink href="/" target="_blank">Styled Link</StyledLink>)
+`}
+</ComponentBox>
 
 ## Overview
 
