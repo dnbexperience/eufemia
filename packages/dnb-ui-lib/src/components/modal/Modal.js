@@ -19,7 +19,7 @@ import {
   processChildren,
   validateDOMAttributes
 } from '../../shared/component-helper'
-import Button from '../button/Button'
+import Button, { propTypes as ButtonPropTypes } from '../button/Button'
 // import './style/dnb-modal.scss' // no good solution to import the style here
 
 const renderProps = {
@@ -29,11 +29,12 @@ const renderProps = {
 export const propTypes = {
   id: PropTypes.string,
   labelled_by: PropTypes.string,
-  type: PropTypes.oneOf(['button', 'text']),
   title: PropTypes.string,
-  modal_trigger_text: PropTypes.string,
-  modal_trigger_title: PropTypes.string,
-  modal_trigger_icon: PropTypes.string,
+  trigger_variant: ButtonPropTypes.variant,
+  trigger_text: PropTypes.string,
+  trigger_title: PropTypes.string,
+  trigger_icon: PropTypes.string,
+  trigger_class: PropTypes.string,
   content_id: PropTypes.string,
   close_title: PropTypes.string,
   class: PropTypes.string,
@@ -58,11 +59,12 @@ export const propTypes = {
 export const defaultProps = {
   id: null,
   labelled_by: null,
-  type: 'button',
   title: null,
-  modal_trigger_text: null,
-  modal_trigger_title: 'Open Modal',
-  modal_trigger_icon: 'question',
+  trigger_variant: 'secondary',
+  trigger_text: null,
+  trigger_title: 'Open Modal',
+  trigger_icon: 'question',
+  trigger_class: null,
   content_id: null,
   close_title: 'Close Modal Window',
   class: null,
@@ -117,8 +119,29 @@ export default class Modal extends PureComponent {
   constructor(props) {
     super(props)
     this._id = props.id || `modal-${Math.round(Math.random() * 999)}`
+
     if (!props.preventSetTriggerRef) {
       this._triggerRef = React.createRef()
+    }
+
+    // TODO: Remove warning in v4.
+    if (process.env.NODE_ENV === 'development') {
+      Object.entries(props).forEach(([k, v]) => {
+        if (
+          [
+            'modal_trigger_text',
+            'modal_trigger_title',
+            'modal_trigger_icon'
+          ].includes(k)
+        ) {
+          console.warn(
+            `Using '${k}' is deprecated. Use ${k.replace(
+              /modal_/g,
+              ''
+            )}="${v}" instead!`
+          )
+        }
+      })
     }
   }
 
@@ -166,58 +189,39 @@ export default class Modal extends PureComponent {
   render() {
     const {
       id, // eslint-disable-line
+      preventSetTriggerRef, // eslint-disable-line
       labelled_by,
-      type,
-      modal_trigger_text,
-      modal_trigger_title,
-      modal_trigger_icon,
-      className,
-      class: _className,
+      trigger_variant,
+      trigger_text,
+      trigger_title,
+      trigger_icon,
+      trigger_class,
       ...rest
     } = this.props
 
     const { modalActive } = this.state
-
     const modal_content = Modal.getContent(this.props)
 
-    const params = {
-      className: classnames('dnb-modal', className, _className)
-      // 'data-active': modalActive ? 'true' : 'false'
-    }
-
-    // also used for code markup simulation
-    validateDOMAttributes(this.props, params)
-
     return (
-      <div {...params}>
-        {type === 'button' && (
-          <span className="dnb-modal__trigger dnb-modal__trigger--button">
-            <Button
-              id={this._id}
-              type="button"
-              variant="secondary"
-              text={modal_trigger_text}
-              title={modal_trigger_title}
-              icon={
-                modal_trigger_text &&
-                modal_trigger_icon === defaultProps.modal_trigger_icon
-                  ? null
-                  : modal_trigger_icon
-              }
-              on_click={this.toggleOpenClose}
-              innerRef={this._triggerRef}
-            />
-          </span>
-        )}
-
-        {type === 'text' && (
+      <div className="dnb-modal">
+        {trigger_variant && (
           <Button
             id={this._id}
-            className="dnb-modal__trigger dnb-modal__trigger--text"
-            variant="tertiary"
-            title={modal_trigger_title}
-            text={modal_trigger_text}
+            type="button"
+            variant={trigger_variant}
+            text={trigger_text}
+            title={trigger_title}
+            icon={
+              trigger_text && trigger_icon === defaultProps.trigger_icon
+                ? null
+                : trigger_icon
+            }
             on_click={this.toggleOpenClose}
+            className={classnames(
+              'dnb-modal__trigger',
+              'dnb-modal__trigger--button',
+              trigger_class
+            )}
             innerRef={this._triggerRef}
           />
         )}
@@ -284,7 +288,16 @@ class ModalContent extends PureComponent {
     content_id: PropTypes.string,
     title: PropTypes.string,
     close_title: PropTypes.string,
-    hide: PropTypes.func
+    hide: PropTypes.func,
+    class: PropTypes.string,
+
+    // React props
+    className: PropTypes.string,
+    children: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.node,
+      PropTypes.func
+    ])
   }
 
   static defaultProps = {
@@ -292,7 +305,12 @@ class ModalContent extends PureComponent {
     content_id: null,
     title: null,
     close_title: null,
-    hide: null
+    hide: null,
+    class: null,
+
+    // React props
+    className: null,
+    children: null
   }
 
   constructor(props) {
@@ -435,7 +453,12 @@ class ModalContent extends PureComponent {
       content_id: id,
       modal_content,
       close_title,
-      hide
+      hide,
+      className,
+      class: _className,
+      toggleOpenClose, // eslint-disable-line
+      children, // eslint-disable-line
+      ...rest
     } = this.props
 
     const contentParams = {
@@ -450,23 +473,28 @@ class ModalContent extends PureComponent {
       tabIndex: -1,
       className: classnames(
         'dnb-modal__content__inner',
-        'dnb-no-focus'
-        // 'dnb-spacing'
+        'dnb-no-focus',
+        className,
+        _className
       ),
       onClick: this.preventClick,
       onTouchStart: this.preventClick,
-      onKeyDown: this.onKeyDownHandler
+      onKeyDown: this.onKeyDownHandler,
+      ...rest
     }
     if (labelled_by) {
       innerParams['aria-labelledby'] = labelled_by
     }
 
+    // also used for code markup simulation
+    validateDOMAttributes(this.props, innerParams)
+
     return (
       <Fragment>
         <div {...contentParams}>
           <div ref={this._contentRef} {...innerParams}>
-            <CloseButton on_click={hide} close_title={close_title} />
             {title && <h1 className="dnb-h2 dnb-modal__title">{title}</h1>}
+            <CloseButton on_click={hide} close_title={close_title} />
             {modal_content}
           </div>
         </div>

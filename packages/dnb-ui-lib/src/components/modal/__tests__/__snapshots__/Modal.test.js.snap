@@ -14,12 +14,13 @@ exports[`Modal component have to match snapshot 1`] = `
         "id": "id",
         "labelled_by": "labelled_by",
         "modal_content": "modal_content",
-        "modal_trigger_icon": "modal_trigger_icon",
-        "modal_trigger_text": "modal_trigger_text",
-        "modal_trigger_title": "modal_trigger_title",
         "preventSetTriggerRef": true,
         "title": "title",
-        "type": "'button'",
+        "trigger_class": "trigger_class",
+        "trigger_icon": "trigger_icon",
+        "trigger_text": "trigger_text",
+        "trigger_title": "trigger_title",
+        "trigger_variant": "custom type not supported, please set the correct value for trigger_variant prop",
       },
     }
   }
@@ -35,6 +36,9 @@ exports[`Modal component have to match snapshot 1`] = `
     Object {
       "displayName": "ModalContent",
       "props": Object {
+        "children": "children",
+        "class": "class",
+        "className": "className",
         "close_title": "close_title",
         "content_id": "content_id",
         "hide": [Function],
@@ -61,113 +65,110 @@ exports[`Modal component have to match snapshot 1`] = `
   id="modal_id"
   labelled_by={null}
   modal_content="modal_content"
-  modal_trigger_icon="question"
-  modal_trigger_text={null}
-  modal_trigger_title="Open Modal"
   preventSetTriggerRef={true}
   title={null}
-  type="button"
+  trigger_class={null}
+  trigger_icon="question"
+  trigger_text={null}
+  trigger_title="Open Modal"
+  trigger_variant="secondary"
 >
   <div
     className="dnb-modal"
   >
-    <span
+    <Button
+      attributes={null}
+      class={null}
       className="dnb-modal__trigger dnb-modal__trigger--button"
+      custom_element={null}
+      custom_method={null}
+      disabled={false}
+      href={null}
+      icon="question"
+      icon_position="right"
+      icon_size="default"
+      id="modal_id"
+      innerRef={null}
+      on_click={[Function]}
+      size={null}
+      text={null}
+      title="Open Modal"
+      type="button"
+      variant="secondary"
     >
-      <Button
-        attributes={null}
-        class={null}
-        className={null}
-        custom_element={null}
-        custom_method={null}
-        disabled={false}
-        href={null}
-        icon="question"
-        icon_position="right"
-        icon_size="default"
+      <button
+        aria-label="Open Modal"
+        className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon modal_id dnb-modal__trigger dnb-modal__trigger--button"
         id="modal_id"
-        innerRef={null}
-        on_click={[Function]}
-        size={null}
-        text={null}
+        onClick={[Function]}
+        onMouseOut={[Function]}
         title="Open Modal"
         type="button"
-        variant="secondary"
       >
-        <button
-          aria-label="Open Modal"
-          className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon modal_id"
+        <Content
+          attributes={null}
+          class={null}
+          className="dnb-modal__trigger dnb-modal__trigger--button"
+          content={null}
+          custom_element={null}
+          custom_method={null}
+          disabled={false}
+          href={null}
+          icon="question"
+          icon_position="right"
+          icon_size="default"
           id="modal_id"
-          onClick={[Function]}
-          onMouseOut={[Function]}
+          innerRef={null}
+          isIconOnly={true}
+          on_click={[Function]}
+          size={null}
+          text={null}
           title="Open Modal"
           type="button"
+          variant="secondary"
         >
-          <Content
+          <IconPrimary
+            alt="Open Modal"
+            aria-hidden={false}
             attributes={null}
             class={null}
-            className={null}
-            content={null}
-            custom_element={null}
-            custom_method={null}
-            disabled={false}
-            href={null}
+            className="dnb-button__icon"
+            color={null}
+            height={null}
             icon="question"
-            icon_position="right"
-            icon_size="default"
-            id="modal_id"
-            innerRef={null}
-            isIconOnly={true}
-            on_click={[Function]}
-            size={null}
-            text={null}
-            title="Open Modal"
-            type="button"
-            variant="secondary"
+            key="button-icon"
+            modifier={null}
+            size="default"
+            title={null}
+            width={null}
           >
-            <IconPrimary
+            <span
               alt="Open Modal"
               aria-hidden={false}
-              attributes={null}
-              class={null}
-              className="dnb-button__icon"
-              color={null}
-              height={null}
-              icon="question"
-              key="button-icon"
-              modifier={null}
-              size="default"
-              title={null}
-              width={null}
+              aria-label="Open Modal"
+              className="dnb-icon dnb-icon--default dnb-button__icon"
+              role="img"
             >
-              <span
-                alt="Open Modal"
-                aria-hidden={false}
-                aria-label="Open Modal"
-                className="dnb-icon dnb-icon--default dnb-button__icon"
-                role="img"
-              >
-                <question>
-                  <svg
-                    fill="none"
-                    height={16}
-                    viewBox="0 0 16 16"
-                    width={16}
-                  >
-                    <path
-                      clipRule="evenodd"
-                      d="M4.352 5.1c0-2.05 1.55-3.6 3.6-3.6 2.052 0 3.601 1.55 3.601 3.6 0 2.051-1.55 3.6-3.6 3.6a.75.75 0 0 0-.75.75v2.666a.75.75 0 0 0 1.5 0V10.15c2.506-.348 4.35-2.425 4.35-5.049 0-2.879-2.22-5.1-5.1-5.1-2.88 0-5.1 2.221-5.1 5.1a.75.75 0 0 0 1.5 0zm3.6 10.898c.659 0 1.097-.439 1.097-1.097 0-.658-.438-1.096-1.096-1.096-.658 0-1.097.438-1.097 1.096 0 .658.439 1.097 1.097 1.097z"
-                      fill="#000"
-                      fillRule="evenodd"
-                    />
-                  </svg>
-                </question>
-              </span>
-            </IconPrimary>
-          </Content>
-        </button>
-      </Button>
-    </span>
+              <question>
+                <svg
+                  fill="none"
+                  height={16}
+                  viewBox="0 0 16 16"
+                  width={16}
+                >
+                  <path
+                    clipRule="evenodd"
+                    d="M4.352 5.1c0-2.05 1.55-3.6 3.6-3.6 2.052 0 3.601 1.55 3.601 3.6 0 2.051-1.55 3.6-3.6 3.6a.75.75 0 0 0-.75.75v2.666a.75.75 0 0 0 1.5 0V10.15c2.506-.348 4.35-2.425 4.35-5.049 0-2.879-2.22-5.1-5.1-5.1-2.88 0-5.1 2.221-5.1 5.1a.75.75 0 0 0 1.5 0zm3.6 10.898c.659 0 1.097-.439 1.097-1.097 0-.658-.438-1.096-1.096-1.096-.658 0-1.097.438-1.097 1.096 0 .658.439 1.097 1.097 1.097z"
+                    fill="#000"
+                    fillRule="evenodd"
+                  />
+                </svg>
+              </question>
+            </span>
+          </IconPrimary>
+        </Content>
+      </button>
+    </Button>
     <ModalRoot
       0={
         Object {
@@ -181,12 +182,13 @@ exports[`Modal component have to match snapshot 1`] = `
             "id": "id",
             "labelled_by": "labelled_by",
             "modal_content": "modal_content",
-            "modal_trigger_icon": "modal_trigger_icon",
-            "modal_trigger_text": "modal_trigger_text",
-            "modal_trigger_title": "modal_trigger_title",
             "preventSetTriggerRef": true,
             "title": "title",
-            "type": "'button'",
+            "trigger_class": "trigger_class",
+            "trigger_icon": "trigger_icon",
+            "trigger_text": "trigger_text",
+            "trigger_title": "trigger_title",
+            "trigger_variant": "custom type not supported, please set the correct value for trigger_variant prop",
           },
         }
       }
@@ -202,6 +204,9 @@ exports[`Modal component have to match snapshot 1`] = `
         Object {
           "displayName": "ModalContent",
           "props": Object {
+            "children": "children",
+            "class": "class",
+            "className": "className",
             "close_title": "close_title",
             "content_id": "content_id",
             "hide": [Function],
@@ -221,12 +226,13 @@ exports[`Modal component have to match snapshot 1`] = `
           },
         }
       }
+      class={null}
+      className={null}
       close_title="Close Modal Window"
       content_id={null}
       hide={[Function]}
       labelled_by="modal_id"
       modal_content="modal_content"
-      preventSetTriggerRef={true}
       title={null}
       toggleOpenClose={[Function]}
     >
@@ -243,12 +249,13 @@ exports[`Modal component have to match snapshot 1`] = `
               "id": "id",
               "labelled_by": "labelled_by",
               "modal_content": "modal_content",
-              "modal_trigger_icon": "modal_trigger_icon",
-              "modal_trigger_text": "modal_trigger_text",
-              "modal_trigger_title": "modal_trigger_title",
               "preventSetTriggerRef": true,
               "title": "title",
-              "type": "'button'",
+              "trigger_class": "trigger_class",
+              "trigger_icon": "trigger_icon",
+              "trigger_text": "trigger_text",
+              "trigger_title": "trigger_title",
+              "trigger_variant": "custom type not supported, please set the correct value for trigger_variant prop",
             },
           }
         }
@@ -264,6 +271,9 @@ exports[`Modal component have to match snapshot 1`] = `
           Object {
             "displayName": "ModalContent",
             "props": Object {
+              "children": "children",
+              "class": "class",
+              "className": "className",
               "close_title": "close_title",
               "content_id": "content_id",
               "hide": [Function],
@@ -283,12 +293,13 @@ exports[`Modal component have to match snapshot 1`] = `
             },
           }
         }
+        class={null}
+        className={null}
         close_title="Close Modal Window"
         content_id={null}
         hide={[Function]}
         labelled_by="modal_id"
         modal_content="modal_content"
-        preventSetTriggerRef={true}
         title={null}
         toggleOpenClose={[Function]}
       >
@@ -300,7 +311,6 @@ exports[`Modal component have to match snapshot 1`] = `
             aria-labelledby="modal_id"
             aria-modal="true"
             className="dnb-modal__content__inner dnb-no-focus"
-            id={null}
             onClick={[Function]}
             onKeyDown={[Function]}
             onTouchStart={[Function]}
@@ -1514,6 +1524,9 @@ a.dnb-button {
  * Modal component
  *
  */
+[data-dnb-modal-active='true'] {
+  user-select: none; }
+
 #dnb-modal-root {
   position: absolute;
   top: 0;

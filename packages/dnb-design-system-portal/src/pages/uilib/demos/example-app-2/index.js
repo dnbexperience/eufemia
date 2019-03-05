@@ -83,7 +83,7 @@ export default class ExampleAppPage extends PureComponent {
                   range_step={100000}
                   range_output_description="Kr"
                   range_output_extra_information="Maksimumsbeløpet inkluderer eventuell fellesgjeld og omkostninger ved kjøp."
-                  range_modal_trigger_text="Trykk for mer info"
+                  range_trigger_text="Trykk for mer info"
                   range_modal_text="Dette er litt ekstra informasjon. Lorem ipsum lipsumbolius."
                 />
               </div>

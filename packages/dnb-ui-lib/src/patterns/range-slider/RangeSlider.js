@@ -26,7 +26,7 @@ export const propTypes = {
   range_step: PropTypes.number.isRequired,
   range_output_description: PropTypes.string.isRequired,
   range_output_extra_information: PropTypes.string.isRequired,
-  range_modal_trigger_text: PropTypes.string.isRequired,
+  range_trigger_text: PropTypes.string.isRequired,
   range_modal_text: PropTypes.string.isRequired,
   class: PropTypes.string,
   /** React props */
@@ -77,7 +77,7 @@ export default class RangeSlider extends PureComponent {
       label_text,
       range_output_description,
       range_output_extra_information,
-      range_modal_trigger_text,
+      range_trigger_text,
       range_modal_text,
       className,
       class: _className
@@ -130,7 +130,7 @@ export default class RangeSlider extends PureComponent {
           <div className="dnb-range-slider__slider__modal">
             <Modal
               type="button"
-              modal_trigger_text={range_modal_trigger_text}
+              trigger_text={range_trigger_text}
               modal_content={range_modal_text}
             />
           </div>

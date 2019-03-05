@@ -3,8 +3,9 @@
  *
  */
 
-// [data-dnb-modal-active='true'] {
-// }
+[data-dnb-modal-active='true'] {
+  user-select: none;
+}
 
 #dnb-modal-root {
   position: absolute;

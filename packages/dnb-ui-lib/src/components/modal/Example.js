@@ -13,21 +13,21 @@ class Example extends PureComponent {
         <ComponentBox caption="Diferent ways to open a Modal">
           {/* @jsx */ `
 <Modal
-  type="text"
   title="Modal Title"
-  modal_trigger_text="Click me"
+  trigger_variant="tertiary"
+  trigger_text="Click me"
   modal_content="This is the modal text. Triggered by text."
 />
 <Modal
   title="Modal Title"
-  modal_trigger_title="Click me"
+  trigger_title="Click me"
   modal_content={() => (
       <p className="dnb-p">This is the modal text. Triggered by a button.</p>
   )}
 />
 <Modal
   title="Modal Title"
-  modal_trigger_text="Click me"
+  trigger_text="Click me"
 >
   <Input label="Label:">Focus me with Tab key</Input>
 </Modal>

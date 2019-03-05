@@ -252,7 +252,7 @@ stories.push([
   () => (
     <Wrapper>
       <Modal
-        modal_trigger_text="Open Modal"
+        trigger_text="Open Modal"
         title="Title for accessibility"
       >
         <h2>Some content</h2>
