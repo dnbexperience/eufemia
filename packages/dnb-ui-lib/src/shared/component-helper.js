@@ -85,6 +85,9 @@ export const validateDOMAttributes = (props, params) => {
   else if (params.disabled === 'true') {
     params.disabled = true
   }
+  if (params.disabled) {
+    params['aria-disabled'] = true
+  }
 
   if (props && props.tabindex) {
     let tabIndex = props.tabindex

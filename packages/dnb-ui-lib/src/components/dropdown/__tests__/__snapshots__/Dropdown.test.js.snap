@@ -76,6 +76,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
       title={null}
     >
       <label
+        aria-disabled={true}
         className="dnb-form-label"
         disabled="disabled"
         htmlFor="dropdown-id"
@@ -84,9 +85,11 @@ exports[`Dropdown component have to match snapshot 1`] = `
       </label>
     </FormLabel>
     <span
+      aria-disabled={true}
       className="dnb-dropdown__shell"
     >
       <input
+        aria-disabled={true}
         aria-hidden={true}
         className="dnb-dropdown__input"
         disabled="disabled"
@@ -98,6 +101,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
         value=""
       />
       <button
+        aria-disabled={true}
         aria-expanded={false}
         aria-haspopup="listbox"
         aria-label="title"

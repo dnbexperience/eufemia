@@ -24,6 +24,7 @@ exports[`Switch component have to match snapshot 1`] = `
     className="dnb-switch class className"
   >
     <label
+      aria-disabled={true}
       className="dnb-switch__inner"
       disabled="disabled"
       htmlFor="id"
@@ -32,6 +33,7 @@ exports[`Switch component have to match snapshot 1`] = `
     >
       <input
         aria-checked={false}
+        aria-disabled={true}
         aria-hidden="true"
         aria-labelledby="labelledby"
         checked={false}

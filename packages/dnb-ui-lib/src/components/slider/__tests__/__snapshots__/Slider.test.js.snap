@@ -5,6 +5,7 @@ exports[`Slider component have to match snapshot 1`] = `
   className="dnb-slider className class slider__vertical"
 >
   <div
+    aria-disabled={true}
     aria-orientation="vertical"
     aria-valuemax="max"
     aria-valuemin="min"
@@ -27,6 +28,7 @@ exports[`Slider component have to match snapshot 1`] = `
       }
     />
     <button
+      aria-disabled={true}
       className="slider__thumb"
       disabled="disabled"
       onBlur={[Function]}

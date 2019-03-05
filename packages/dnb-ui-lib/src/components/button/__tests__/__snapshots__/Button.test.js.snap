@@ -22,6 +22,7 @@ exports[`Button component have to match default button snapshot 1`] = `
   variant="primary"
 >
   <button
+    aria-disabled={true}
     className="dnb-button dnb-button--primary dnb-button--icon-position-right dnb-button--has-text dnb-button--has-icon id class className"
     disabled="disabled"
     id="id"
@@ -124,6 +125,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
   variant="primary"
 >
   <a
+    aria-disabled={true}
     className="dnb-button dnb-button--primary dnb-button--icon-position-right dnb-button--has-text dnb-button--has-icon id class className"
     disabled="disabled"
     href="https://url"

@@ -391,6 +391,10 @@ export default class Tabs extends PureComponent {
           if (this.isSelected(key)) {
             params['aria-controls'] = `${this._id}-content-${key}`
           }
+          if (disabled) {
+            params.disabled = true
+            params['aria-disabled'] = true
+          }
           return (
             <button
               key={`tab--${key}`}
@@ -400,7 +404,6 @@ export default class Tabs extends PureComponent {
               aria-selected={this.isSelected(key)}
               className={this.renderSelectedTab(key)}
               onClick={this.openTabByDOM}
-              disabled={disabled}
               {...params}
             >
               <span className="dnb-tablink-title">{title}</span>

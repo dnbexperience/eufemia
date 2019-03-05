@@ -94,7 +94,6 @@ exports[`Tabs component have to match snapshot 1`] = `
               <button
                 aria-selected={false}
                 className="dnb-tablink tab--first "
-                disabled={false}
                 id="id-tab-first"
                 key="tab--first"
                 onClick={[Function]}
@@ -119,7 +118,6 @@ exports[`Tabs component have to match snapshot 1`] = `
                 aria-controls="id-content-second"
                 aria-selected={true}
                 className="dnb-tablink tab--second selected"
-                disabled={false}
                 id="id-tab-second"
                 key="tab--second"
                 onClick={[Function]}
@@ -143,7 +141,6 @@ exports[`Tabs component have to match snapshot 1`] = `
               <button
                 aria-selected={false}
                 className="dnb-tablink tab--third "
-                disabled={false}
                 id="id-tab-third"
                 key="tab--third"
                 onClick={[Function]}

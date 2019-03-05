@@ -277,6 +277,9 @@ export default class Input extends PureComponent {
       'data-input-state': this.state.inputState,
       'data-has-content': String(value || '').length > 0 ? 'true' : 'false'
     }
+    if (disabled) {
+      shellParams['aria-disabled'] = true
+    }
 
     // also used for code markup simulation
     validateDOMAttributes(this.props, inputParams)

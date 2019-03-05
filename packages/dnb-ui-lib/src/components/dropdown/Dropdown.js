@@ -357,6 +357,10 @@ export default class Dropdown extends Component {
     )
 
     const selectedId = `option-${id}-${selected_item}`
+    const shellParams = {}
+    if (disabled) {
+      shellParams['aria-disabled'] = true
+    }
     const inputParams = {
       id,
       className: 'dnb-dropdown__input',
@@ -395,6 +399,7 @@ export default class Dropdown extends Component {
 
     // also used for code markup simulation
     validateDOMAttributes(this.props, triggerParams)
+    validateDOMAttributes(null, shellParams)
     validateDOMAttributes(null, inputParams)
     validateDOMAttributes(null, ulParams)
 
@@ -409,7 +414,7 @@ export default class Dropdown extends Component {
           />
         )}
 
-        <span className="dnb-dropdown__shell">
+        <span className="dnb-dropdown__shell" {...shellParams}>
           <input {...inputParams} />
           <button {...triggerParams}>
             <span className="dnb-dropdown__text">
