@@ -219,11 +219,7 @@ export default class MainMenu extends PureComponent {
                     )}
                     {(enableOverlay && (
                       <Toolbar
-                        className={classnames(
-                          // enableOverlay && 'is-overlay',
-                          // isOpen && 'is-open',
-                          isClosing && 'is-closing'
-                        )}
+                        className={classnames(isClosing && 'is-closing')}
                       >
                         {isOpen && !isClosing && (
                           <Button
@@ -234,7 +230,6 @@ export default class MainMenu extends PureComponent {
                             icon_position="left"
                             text="Close"
                             aria-label="Close Main Menu"
-                            // ref={this._ref}
                           />
                         )}
                       </Toolbar>
@@ -245,7 +240,10 @@ export default class MainMenu extends PureComponent {
                           Eufemia
                         </LogoWrapper>
                       ))}
-                    <CardsWrapper>
+                    <CardsWrapper
+                      id="portal-main-menu"
+                      aria-labelledby="toggle-main-menu"
+                    >
                       <Card
                         url="/design-system/"
                         title="About Eufemia"

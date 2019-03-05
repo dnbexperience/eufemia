@@ -517,6 +517,7 @@ export default class SidebarLayout extends PureComponent {
                   }
                   return (
                     <Sidebar
+                      id="portal-sidebar-menu"
                       className={classnames(
                         // 'dnb-core-style',
                         isOpen && 'show-mobile-menu',
@@ -527,7 +528,7 @@ export default class SidebarLayout extends PureComponent {
                       {/* <MainMenuToggleButton /> */}
                       <nav
                         role="navigation"
-                        aria-label="Section Content Menu"
+                        aria-labelledby="toggle-sidebar-menu"
                       >
                         <ul className="dev-grid">{nav}</ul>
                       </nav>

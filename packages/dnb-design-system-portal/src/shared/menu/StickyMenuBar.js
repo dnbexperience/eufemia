@@ -34,7 +34,7 @@ const BarWrapper = styled.header`
   overflow: hidden;
   white-space: nowrap;
 
-  .toggle-sidebar-menu {
+  #toggle-sidebar-menu {
     display: none;
   }
 
@@ -43,7 +43,7 @@ const BarWrapper = styled.header`
     make sure that Content main "styled.main" gets the same max-width
    */
   @media (max-width: 50em) {
-    .toggle-sidebar-menu {
+    #toggle-sidebar-menu {
       display: flex;
     }
   }
@@ -90,7 +90,7 @@ const CenterWrapper = styled.span`
 `
 
 const hideSiebarToggleButtonStyle = css`
-  .toggle-sidebar-menu {
+  #toggle-sidebar-menu {
     display: none;
   }
 `
@@ -172,7 +172,11 @@ export default class StickyMenuBar extends PureComponent {
                       <Button
                         icon={isOpen ? closeIcon : hamburgerIcon}
                         on_click={toggleMenu}
-                        className="toggle-sidebar-menu"
+                        id="toggle-sidebar-menu"
+                        aria-haspopup="true"
+                        aria-controls="portal-sidebar-menu"
+                        aria-expanded={isOpen}
+                        aria-label="Section Content Menu"
                         title={
                           isOpen
                             ? 'Hide section content menu'
