@@ -149,7 +149,7 @@ export default class Card extends PureComponent {
     if (typeof window !== 'undefined') {
       const { url } = this.props
       const { pathname } = window.location
-      return pathname.length > 1 && url.includes(pathname)
+      return pathname.length > 1 && pathname.includes(url)
     }
     return false
   }
@@ -168,6 +168,7 @@ export default class Card extends PureComponent {
               isActive && !isClosing && 'show-cards',
               isClosing && 'hide-cards'
             )}
+            aria-current={this.isSelected()}
             style={{
               '--delay': `${isClosing ? random(1, 400) : random(1, 200)}ms`
             }}

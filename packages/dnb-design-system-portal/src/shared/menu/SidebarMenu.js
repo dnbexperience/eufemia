@@ -478,7 +478,7 @@ export default class SidebarLayout extends PureComponent {
                   status,
                   icon,
                   active,
-                  ['aria-selected']: active,
+                  ['aria-current']: active,
                   inside,
                   to: path,
                   onOffsetTop: offsetTop => (this.offsetTop = offsetTop)
