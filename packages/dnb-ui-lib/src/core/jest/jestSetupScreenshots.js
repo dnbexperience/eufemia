@@ -36,6 +36,7 @@ module.exports.testPageScreenshot = ({
   waitFor = null,
   waitBeforeFinish = null,
   secreenshotSelector = null,
+  styleSelector = null,
   simulateSelector = null,
   wrapperStyle = null,
   transformElement = null
@@ -98,7 +99,7 @@ module.exports.testPageScreenshot = ({
 
       if (style) {
         await page.$eval(
-          selector,
+          styleSelector || selector,
           (node, style) => node.setAttribute('style', style),
           makeStyles(style)
         )
@@ -111,7 +112,6 @@ module.exports.testPageScreenshot = ({
       if (simulate) {
         let elementToSimulate = null
         if (simulateSelector) {
-          await page.waitFor(1e3)
           await page.waitForSelector(simulateSelector)
           elementToSimulate = await page.$(simulateSelector)
         } else {
