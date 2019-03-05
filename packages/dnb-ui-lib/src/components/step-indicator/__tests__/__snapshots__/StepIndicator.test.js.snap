@@ -455,7 +455,6 @@ exports[`StepIndicator scss have to match snapshot 1`] = `
    * Remove the inheritance of text transform in Firefox.
    */
   /**
-   * 1. Remove the margin in Firefox and Safari.
    * 2. Remove the default vertical scrollbar in IE.
    * 3. Change the resize direction on textareas in all browsers (opinionated).
    */
@@ -650,8 +649,6 @@ exports[`StepIndicator scss have to match snapshot 1`] = `
   .dnb-step-indicator select {
     text-transform: none; }
   .dnb-step-indicator textarea {
-    margin: 0;
-    /* 1 */
     overflow: auto;
     /* 2 */
     resize: vertical;

@@ -270,7 +270,6 @@ exports[`FormLabel scss have to match snapshot 1`] = `
    * Remove the inheritance of text transform in Firefox.
    */
   /**
-   * 1. Remove the margin in Firefox and Safari.
    * 2. Remove the default vertical scrollbar in IE.
    * 3. Change the resize direction on textareas in all browsers (opinionated).
    */
@@ -465,8 +464,6 @@ exports[`FormLabel scss have to match snapshot 1`] = `
   .dnb-form-label select {
     text-transform: none; }
   .dnb-form-label textarea {
-    margin: 0;
-    /* 1 */
     overflow: auto;
     /* 2 */
     resize: vertical;

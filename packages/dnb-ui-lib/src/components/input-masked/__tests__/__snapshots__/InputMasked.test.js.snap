@@ -332,7 +332,6 @@ exports[`InputMasked scss have to match snapshot 1`] = `
    * Remove the inheritance of text transform in Firefox.
    */
   /**
-   * 1. Remove the margin in Firefox and Safari.
    * 2. Remove the default vertical scrollbar in IE.
    * 3. Change the resize direction on textareas in all browsers (opinionated).
    */
@@ -527,8 +526,6 @@ exports[`InputMasked scss have to match snapshot 1`] = `
   .dnb-button select {
     text-transform: none; }
   .dnb-button textarea {
-    margin: 0;
-    /* 1 */
     overflow: auto;
     /* 2 */
     resize: vertical;
@@ -873,7 +870,6 @@ a.dnb-button {
    * Remove the inheritance of text transform in Firefox.
    */
   /**
-   * 1. Remove the margin in Firefox and Safari.
    * 2. Remove the default vertical scrollbar in IE.
    * 3. Change the resize direction on textareas in all browsers (opinionated).
    */
@@ -1068,8 +1064,6 @@ a.dnb-button {
   .dnb-form-label select {
     text-transform: none; }
   .dnb-form-label textarea {
-    margin: 0;
-    /* 1 */
     overflow: auto;
     /* 2 */
     resize: vertical;
@@ -1270,7 +1264,6 @@ a.dnb-button {
    * Remove the inheritance of text transform in Firefox.
    */
   /**
-   * 1. Remove the margin in Firefox and Safari.
    * 2. Remove the default vertical scrollbar in IE.
    * 3. Change the resize direction on textareas in all browsers (opinionated).
    */
@@ -1465,8 +1458,6 @@ a.dnb-button {
   .dnb-form-status select {
     text-transform: none; }
   .dnb-form-status textarea {
-    margin: 0;
-    /* 1 */
     overflow: auto;
     /* 2 */
     resize: vertical;
@@ -1687,7 +1678,6 @@ a.dnb-button {
    * Remove the inheritance of text transform in Firefox.
    */
   /**
-   * 1. Remove the margin in Firefox and Safari.
    * 2. Remove the default vertical scrollbar in IE.
    * 3. Change the resize direction on textareas in all browsers (opinionated).
    */
@@ -1882,8 +1872,6 @@ a.dnb-button {
   .dnb-input select {
     text-transform: none; }
   .dnb-input textarea {
-    margin: 0;
-    /* 1 */
     overflow: auto;
     /* 2 */
     resize: vertical;
@@ -2150,7 +2138,6 @@ a.dnb-button {
    * Remove the inheritance of text transform in Firefox.
    */
   /**
-   * 1. Remove the margin in Firefox and Safari.
    * 2. Remove the default vertical scrollbar in IE.
    * 3. Change the resize direction on textareas in all browsers (opinionated).
    */
@@ -2345,8 +2332,6 @@ a.dnb-button {
   .dnb-input-masked select {
     text-transform: none; }
   .dnb-input-masked textarea {
-    margin: 0;
-    /* 1 */
     overflow: auto;
     /* 2 */
     resize: vertical;

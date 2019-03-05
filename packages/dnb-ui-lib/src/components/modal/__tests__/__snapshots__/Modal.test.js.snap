@@ -763,7 +763,6 @@ exports[`Modal scss have to match snapshot 1`] = `
    * Remove the inheritance of text transform in Firefox.
    */
   /**
-   * 1. Remove the margin in Firefox and Safari.
    * 2. Remove the default vertical scrollbar in IE.
    * 3. Change the resize direction on textareas in all browsers (opinionated).
    */
@@ -958,8 +957,6 @@ exports[`Modal scss have to match snapshot 1`] = `
   .dnb-button select {
     text-transform: none; }
   .dnb-button textarea {
-    margin: 0;
-    /* 1 */
     overflow: auto;
     /* 2 */
     resize: vertical;
@@ -1300,7 +1297,6 @@ a.dnb-button {
    * Remove the inheritance of text transform in Firefox.
    */
   /**
-   * 1. Remove the margin in Firefox and Safari.
    * 2. Remove the default vertical scrollbar in IE.
    * 3. Change the resize direction on textareas in all browsers (opinionated).
    */
@@ -1495,8 +1491,6 @@ a.dnb-button {
   .dnb-modal select {
     text-transform: none; }
   .dnb-modal textarea {
-    margin: 0;
-    /* 1 */
     overflow: auto;
     /* 2 */
     resize: vertical;
