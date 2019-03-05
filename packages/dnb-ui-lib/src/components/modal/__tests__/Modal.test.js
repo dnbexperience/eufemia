@@ -22,6 +22,7 @@ const props = fakeProps(require.resolve('../Modal'), {
   optional: true
 })
 props.id = 'modal_id'
+props.content_id = 'modal_content_id'
 
 describe('Modal component', () => {
   const ComponentWrap = mount(

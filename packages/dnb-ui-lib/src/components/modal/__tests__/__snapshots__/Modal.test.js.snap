@@ -61,7 +61,7 @@ exports[`Modal component have to match snapshot 1`] = `
   class={null}
   className={null}
   close_title="Close Modal Window"
-  content_id={null}
+  content_id="modal_content_id"
   id="modal_id"
   labelled_by={null}
   modal_content="modal_content"
@@ -229,7 +229,7 @@ exports[`Modal component have to match snapshot 1`] = `
       class={null}
       className={null}
       close_title="Close Modal Window"
-      content_id={null}
+      content_id="modal_content_id"
       hide={[Function]}
       labelled_by="modal_id"
       modal_content="modal_content"
@@ -296,7 +296,7 @@ exports[`Modal component have to match snapshot 1`] = `
         class={null}
         className={null}
         close_title="Close Modal Window"
-        content_id={null}
+        content_id="modal_content_id"
         hide={[Function]}
         labelled_by="modal_id"
         modal_content="modal_content"
@@ -304,17 +304,19 @@ exports[`Modal component have to match snapshot 1`] = `
         toggleOpenClose={[Function]}
       >
         <div
+          aria-describedby="modal_content_id"
+          aria-labelledby="modal_id"
+          aria-modal="true"
           className="dnb-modal__content"
           onClick={[Function]}
+          role="dialog"
         >
           <div
-            aria-labelledby="modal_id"
-            aria-modal="true"
             className="dnb-modal__content__inner dnb-no-focus"
+            id="modal_content_id"
             onClick={[Function]}
             onKeyDown={[Function]}
             onTouchStart={[Function]}
-            rol="dialog"
             tabIndex={-1}
           >
             <CloseButton

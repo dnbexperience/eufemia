@@ -316,6 +316,9 @@ class ModalContent extends PureComponent {
   constructor(props) {
     super(props)
     this._contentRef = React.createRef()
+    this._id =
+      props.content_id ||
+      `modal-content-${Math.round(Math.random() * 999)}`
   }
   componentDidMount() {
     // since touch devices works diffrent, and we also use preventScreenReaderPossibility
@@ -450,26 +453,29 @@ class ModalContent extends PureComponent {
     const {
       title,
       labelled_by,
-      content_id: id,
       modal_content,
       close_title,
       hide,
       className,
       class: _className,
+      content_id, // eslint-disable-line
       toggleOpenClose, // eslint-disable-line
       children, // eslint-disable-line
       ...rest
     } = this.props
 
+    const id = this._id
+
     const contentParams = {
+      role: 'dialog',
+      'aria-modal': 'true',
+      'aria-describedby': id,
       className: 'dnb-modal__content',
       onClick: hide
     }
 
     const innerParams = {
       id,
-      rol: 'dialog',
-      'aria-modal': 'true',
       tabIndex: -1,
       className: classnames(
         'dnb-modal__content__inner',
@@ -482,8 +488,9 @@ class ModalContent extends PureComponent {
       onKeyDown: this.onKeyDownHandler,
       ...rest
     }
+
     if (labelled_by) {
-      innerParams['aria-labelledby'] = labelled_by
+      contentParams['aria-labelledby'] = labelled_by
     }
 
     // also used for code markup simulation
