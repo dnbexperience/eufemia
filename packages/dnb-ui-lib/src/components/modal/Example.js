@@ -16,19 +16,20 @@ class Example extends PureComponent {
   title="Modal Title"
   trigger_variant="tertiary"
   trigger_text="Click me"
-  modal_content="This is the modal text. Triggered by text."
+  modal_content="This is the modal text. Triggered by a tertiary button."
 />
 <Modal
   title="Modal Title"
   trigger_title="Click me"
   modal_content={() => (
-      <p className="dnb-p">This is the modal text. Triggered by a button.</p>
+      <p className="dnb-p">This is the modal text. Triggered by a icon button.</p>
   )}
 />
 <Modal
   title="Modal Title"
   trigger_text="Click me"
 >
+  <p className="dnb-p">This is the modal text. Triggered by a secondary button.</p>
   <Input label="Label:">Focus me with Tab key</Input>
 </Modal>
           `}

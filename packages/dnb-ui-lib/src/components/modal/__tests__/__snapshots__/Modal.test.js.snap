@@ -53,20 +53,20 @@ exports[`Modal component have to match snapshot 1`] = `
       "displayName": "CloseButton",
       "props": Object {
         "className": "className",
-        "close_title": "close_title",
         "on_click": [Function],
+        "title": "title",
       },
     }
   }
   class={null}
   className={null}
-  close_title="Close Modal Window"
+  close_title="close_title"
   content_id="modal_content_id"
   id="modal_id"
   labelled_by={null}
-  modal_content="modal_content"
+  modal_content="unique_modal_content"
   preventSetTriggerRef={true}
-  title={null}
+  title="modal_title"
   trigger_class={null}
   trigger_icon="question"
   trigger_text={null}
@@ -221,19 +221,19 @@ exports[`Modal component have to match snapshot 1`] = `
           "displayName": "CloseButton",
           "props": Object {
             "className": "className",
-            "close_title": "close_title",
             "on_click": [Function],
+            "title": "title",
           },
         }
       }
       class={null}
       className={null}
-      close_title="Close Modal Window"
+      close_title="close_title"
       content_id="modal_content_id"
       hide={[Function]}
       labelled_by="modal_id"
-      modal_content="modal_content"
-      title={null}
+      modal_content="unique_modal_content"
+      title="modal_title"
       toggleOpenClose={[Function]}
     >
       <ModalContent
@@ -288,19 +288,19 @@ exports[`Modal component have to match snapshot 1`] = `
             "displayName": "CloseButton",
             "props": Object {
               "className": "className",
-              "close_title": "close_title",
               "on_click": [Function],
+              "title": "title",
             },
           }
         }
         class={null}
         className={null}
-        close_title="Close Modal Window"
+        close_title="close_title"
         content_id="modal_content_id"
         hide={[Function]}
         labelled_by="modal_id"
-        modal_content="modal_content"
-        title={null}
+        modal_content="unique_modal_content"
+        title="modal_title"
         toggleOpenClose={[Function]}
       >
         <div
@@ -319,10 +319,15 @@ exports[`Modal component have to match snapshot 1`] = `
             onTouchStart={[Function]}
             tabIndex={-1}
           >
+            <h1
+              className="dnb-h2 dnb-modal__title"
+            >
+              modal_title
+            </h1>
             <CloseButton
               className={null}
-              close_title="Close Modal Window"
               on_click={[Function]}
+              title="close_title"
             >
               <Button
                 attributes={null}
@@ -340,16 +345,16 @@ exports[`Modal component have to match snapshot 1`] = `
                 on_click={[Function]}
                 size="medium"
                 text={null}
-                title="Close Modal Window"
+                title="close_title"
                 type="button"
                 variant="secondary"
               >
                 <button
-                  aria-label="Close Modal Window"
+                  aria-label="close_title"
                   className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon dnb-modal__close-button"
                   onClick={[Function]}
                   onMouseOut={[Function]}
-                  title="Close Modal Window"
+                  title="close_title"
                   type="button"
                 >
                   <Content
@@ -370,12 +375,12 @@ exports[`Modal component have to match snapshot 1`] = `
                     on_click={[Function]}
                     size="medium"
                     text={null}
-                    title="Close Modal Window"
+                    title="close_title"
                     type="button"
                     variant="secondary"
                   >
                     <IconPrimary
-                      alt="Close Modal Window"
+                      alt="close_title"
                       aria-hidden={false}
                       attributes={null}
                       class={null}
@@ -390,9 +395,9 @@ exports[`Modal component have to match snapshot 1`] = `
                       width={null}
                     >
                       <span
-                        alt="Close Modal Window"
+                        alt="close_title"
                         aria-hidden={false}
-                        aria-label="Close Modal Window"
+                        aria-label="close_title"
                         className="dnb-icon dnb-icon--medium dnb-button__icon"
                         role="img"
                       >
@@ -417,7 +422,7 @@ exports[`Modal component have to match snapshot 1`] = `
                 </button>
               </Button>
             </CloseButton>
-            modal_content
+            unique_modal_content
           </div>
         </div>
         <span

@@ -127,13 +127,7 @@ export default class Modal extends PureComponent {
     // TODO: Remove warning in v4.
     if (process.env.NODE_ENV === 'development') {
       Object.entries(props).forEach(([k, v]) => {
-        if (
-          [
-            'modal_trigger_text',
-            'modal_trigger_title',
-            'modal_trigger_icon'
-          ].includes(k)
-        ) {
+        if (['modal_trigger_text', 'modal_trigger_title'].includes(k)) {
           console.warn(
             `Using '${k}' is deprecated. Use ${k.replace(
               /modal_/g,
@@ -501,7 +495,7 @@ class ModalContent extends PureComponent {
         <div {...contentParams}>
           <div ref={this._contentRef} {...innerParams}>
             {title && <h1 className="dnb-h2 dnb-modal__title">{title}</h1>}
-            <CloseButton on_click={hide} close_title={close_title} />
+            <CloseButton on_click={hide} title={close_title} />
             {modal_content}
           </div>
         </div>
@@ -511,11 +505,7 @@ class ModalContent extends PureComponent {
   }
 }
 
-export const CloseButton = ({
-  on_click,
-  close_title,
-  className = null
-}) => (
+export const CloseButton = ({ on_click, title, className = null }) => (
   <Button
     type="button"
     variant="secondary"
@@ -523,16 +513,16 @@ export const CloseButton = ({
     className={classnames('dnb-modal__close-button', className)}
     icon="close"
     icon_size="medium"
-    title={close_title}
+    title={title}
     on_click={on_click}
   />
 )
 CloseButton.propTypes = {
   on_click: PropTypes.func.isRequired,
   className: PropTypes.string,
-  close_title: PropTypes.string
+  title: PropTypes.string
 }
 CloseButton.defaultProps = {
   className: null,
-  close_title: 'Close'
+  title: 'Close'
 }
