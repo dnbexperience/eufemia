@@ -93,7 +93,7 @@ a.dnb-skip-link {
   //   display: none;
   // }
 }
-a.dnb-show-skip-link,
+a.dnb-skip-link-demo,
 a.dnb-skip-link:focus {
   @include skipLink();
 }
