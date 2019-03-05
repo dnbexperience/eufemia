@@ -11,6 +11,8 @@ exports[`Modal component have to match snapshot 1`] = `
         "className": "className",
         "close_title": "close_title",
         "content_id": "content_id",
+        "id": "id",
+        "labelled_by": "labelled_by",
         "modal_content": "modal_content",
         "modal_trigger_icon": "modal_trigger_icon",
         "modal_trigger_text": "modal_trigger_text",
@@ -36,6 +38,7 @@ exports[`Modal component have to match snapshot 1`] = `
         "close_title": "close_title",
         "content_id": "content_id",
         "hide": [Function],
+        "labelled_by": "labelled_by",
         "modal_content": "modal_content",
         "title": "title",
       },
@@ -55,6 +58,8 @@ exports[`Modal component have to match snapshot 1`] = `
   className={null}
   close_title="Close Modal Window"
   content_id={null}
+  id="modal_id"
+  labelled_by={null}
   modal_content="modal_content"
   modal_trigger_icon="question"
   modal_trigger_text={null}
@@ -80,7 +85,7 @@ exports[`Modal component have to match snapshot 1`] = `
         icon="question"
         icon_position="right"
         icon_size="default"
-        id={null}
+        id="modal_id"
         innerRef={null}
         on_click={[Function]}
         size={null}
@@ -91,7 +96,8 @@ exports[`Modal component have to match snapshot 1`] = `
       >
         <button
           aria-label="Open Modal"
-          className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon"
+          className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon modal_id"
+          id="modal_id"
           onClick={[Function]}
           onMouseOut={[Function]}
           title="Open Modal"
@@ -109,7 +115,7 @@ exports[`Modal component have to match snapshot 1`] = `
             icon="question"
             icon_position="right"
             icon_size="default"
-            id={null}
+            id="modal_id"
             innerRef={null}
             isIconOnly={true}
             on_click={[Function]}
@@ -172,6 +178,8 @@ exports[`Modal component have to match snapshot 1`] = `
             "className": "className",
             "close_title": "close_title",
             "content_id": "content_id",
+            "id": "id",
+            "labelled_by": "labelled_by",
             "modal_content": "modal_content",
             "modal_trigger_icon": "modal_trigger_icon",
             "modal_trigger_text": "modal_trigger_text",
@@ -197,6 +205,7 @@ exports[`Modal component have to match snapshot 1`] = `
             "close_title": "close_title",
             "content_id": "content_id",
             "hide": [Function],
+            "labelled_by": "labelled_by",
             "modal_content": "modal_content",
             "title": "title",
           },
@@ -212,19 +221,14 @@ exports[`Modal component have to match snapshot 1`] = `
           },
         }
       }
-      class={null}
-      className={null}
       close_title="Close Modal Window"
       content_id={null}
       hide={[Function]}
+      labelled_by="modal_id"
       modal_content="modal_content"
-      modal_trigger_icon="question"
-      modal_trigger_text={null}
-      modal_trigger_title="Open Modal"
       preventSetTriggerRef={true}
       title={null}
       toggleOpenClose={[Function]}
-      type="button"
     >
       <ModalContent
         0={
@@ -236,6 +240,8 @@ exports[`Modal component have to match snapshot 1`] = `
               "className": "className",
               "close_title": "close_title",
               "content_id": "content_id",
+              "id": "id",
+              "labelled_by": "labelled_by",
               "modal_content": "modal_content",
               "modal_trigger_icon": "modal_trigger_icon",
               "modal_trigger_text": "modal_trigger_text",
@@ -261,6 +267,7 @@ exports[`Modal component have to match snapshot 1`] = `
               "close_title": "close_title",
               "content_id": "content_id",
               "hide": [Function],
+              "labelled_by": "labelled_by",
               "modal_content": "modal_content",
               "title": "title",
             },
@@ -276,26 +283,21 @@ exports[`Modal component have to match snapshot 1`] = `
             },
           }
         }
-        class={null}
-        className={null}
         close_title="Close Modal Window"
         content_id={null}
         hide={[Function]}
+        labelled_by="modal_id"
         modal_content="modal_content"
-        modal_trigger_icon="question"
-        modal_trigger_text={null}
-        modal_trigger_title="Open Modal"
         preventSetTriggerRef={true}
         title={null}
         toggleOpenClose={[Function]}
-        type="button"
       >
         <div
           className="dnb-modal__content"
           onClick={[Function]}
         >
           <div
-            aria-labelledby={null}
+            aria-labelledby="modal_id"
             aria-modal="true"
             className="dnb-modal__content__inner dnb-no-focus"
             id={null}
@@ -1556,6 +1558,8 @@ a.dnb-button {
       @media screen and (max-width: 40em) {
         .dnb-modal__content__inner {
           padding: 2rem 1rem; } }
+  .dnb-modal__title.dnb-h2 {
+    margin: 0 0 2rem; }
   .dnb-modal__trigger {
     cursor: pointer;
     user-select: none; }

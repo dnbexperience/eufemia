@@ -27,6 +27,8 @@ const renderProps = {
 }
 
 export const propTypes = {
+  id: PropTypes.string,
+  labelled_by: PropTypes.string,
   type: PropTypes.oneOf(['button', 'text']),
   title: PropTypes.string,
   modal_trigger_text: PropTypes.string,
@@ -54,6 +56,8 @@ export const propTypes = {
 }
 
 export const defaultProps = {
+  id: null,
+  labelled_by: null,
   type: 'button',
   title: null,
   modal_trigger_text: null,
@@ -112,6 +116,7 @@ export default class Modal extends PureComponent {
 
   constructor(props) {
     super(props)
+    this._id = props.id || `modal-${Math.round(Math.random() * 999)}`
     if (!props.preventSetTriggerRef) {
       this._triggerRef = React.createRef()
     }
@@ -160,19 +165,24 @@ export default class Modal extends PureComponent {
   }
   render() {
     const {
+      id, // eslint-disable-line
+      labelled_by,
       type,
       modal_trigger_text,
       modal_trigger_title,
       modal_trigger_icon,
       className,
-      class: _className
+      class: _className,
+      ...rest
     } = this.props
+
+    const { modalActive } = this.state
 
     const modal_content = Modal.getContent(this.props)
 
     const params = {
       className: classnames('dnb-modal', className, _className)
-      // 'data-active': this.state.modalActive ? 'true' : 'false'
+      // 'data-active': modalActive ? 'true' : 'false'
     }
 
     // also used for code markup simulation
@@ -183,6 +193,7 @@ export default class Modal extends PureComponent {
         {type === 'button' && (
           <span className="dnb-modal__trigger dnb-modal__trigger--button">
             <Button
+              id={this._id}
               type="button"
               variant="secondary"
               text={modal_trigger_text}
@@ -201,6 +212,7 @@ export default class Modal extends PureComponent {
 
         {type === 'text' && (
           <Button
+            id={this._id}
             className="dnb-modal__trigger dnb-modal__trigger--text"
             variant="tertiary"
             title={modal_trigger_title}
@@ -210,12 +222,13 @@ export default class Modal extends PureComponent {
           />
         )}
 
-        {this.state.modalActive && modal_content && (
+        {modalActive && modal_content && (
           <ModalRoot
-            {...this.props}
-            toggleOpenClose={this.toggleOpenClose}
+            {...rest}
             hide={this.hide}
+            labelled_by={labelled_by || this._id}
             modal_content={modal_content}
+            toggleOpenClose={this.toggleOpenClose}
           />
         )}
       </div>
@@ -267,6 +280,7 @@ class ModalRoot extends PureComponent {
 class ModalContent extends PureComponent {
   static propTypes = {
     modal_content: PropTypes.oneOfType([PropTypes.node]).isRequired,
+    labelled_by: PropTypes.string,
     content_id: PropTypes.string,
     title: PropTypes.string,
     close_title: PropTypes.string,
@@ -274,6 +288,7 @@ class ModalContent extends PureComponent {
   }
 
   static defaultProps = {
+    labelled_by: null,
     content_id: null,
     title: null,
     close_title: null,
@@ -416,6 +431,7 @@ class ModalContent extends PureComponent {
   render() {
     const {
       title,
+      labelled_by,
       content_id: id,
       modal_content,
       close_title,
@@ -430,8 +446,7 @@ class ModalContent extends PureComponent {
     const innerParams = {
       id,
       rol: 'dialog',
-      'aria-labelledby': title,
-      ['aria-modal']: 'true',
+      'aria-modal': 'true',
       tabIndex: -1,
       className: classnames(
         'dnb-modal__content__inner',
@@ -442,12 +457,16 @@ class ModalContent extends PureComponent {
       onTouchStart: this.preventClick,
       onKeyDown: this.onKeyDownHandler
     }
+    if (labelled_by) {
+      innerParams['aria-labelledby'] = labelled_by
+    }
 
     return (
       <Fragment>
         <div {...contentParams}>
           <div ref={this._contentRef} {...innerParams}>
             <CloseButton on_click={hide} close_title={close_title} />
+            {title && <h1 className="dnb-h2 dnb-modal__title">{title}</h1>}
             {modal_content}
           </div>
         </div>

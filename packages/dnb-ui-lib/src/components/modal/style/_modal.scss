@@ -69,6 +69,10 @@
     }
   }
 
+  &__title.dnb-h2 {
+    margin: 0 0 2rem;
+  }
+
   &__trigger {
     cursor: pointer;
     user-select: none;
