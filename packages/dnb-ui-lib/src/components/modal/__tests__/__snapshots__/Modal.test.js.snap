@@ -11,12 +11,15 @@ exports[`Modal component have to match snapshot 1`] = `
         "className": "className",
         "close_title": "close_title",
         "content_id": "content_id",
+        "hide_close_button": "hide_close_button",
         "id": "id",
         "labelled_by": "labelled_by",
         "modal_content": "modal_content",
         "on_close": [Function],
+        "on_close_prevent": [Function],
         "on_open": [Function],
         "preventSetTriggerRef": true,
+        "prevent_close": "prevent_close",
         "title": "title",
         "trigger_class": "trigger_class",
         "trigger_icon": "trigger_icon",
@@ -41,11 +44,13 @@ exports[`Modal component have to match snapshot 1`] = `
         "children": "children",
         "class": "class",
         "className": "className",
+        "closeModal": [Function],
         "close_title": "close_title",
         "content_id": "content_id",
-        "hide": [Function],
+        "hide_close_button": "hide_close_button",
         "labelled_by": "labelled_by",
         "modal_content": "modal_content",
+        "prevent_close": "prevent_close",
         "title": "title",
       },
     }
@@ -64,12 +69,15 @@ exports[`Modal component have to match snapshot 1`] = `
   className={null}
   close_title="close_title"
   content_id="modal_content_id"
+  hide_close_button={false}
   id="modal_id"
   labelled_by={null}
   modal_content="unique_modal_content"
   on_close={null}
+  on_close_prevent={null}
   on_open={null}
   preventSetTriggerRef={true}
+  prevent_close={false}
   title="modal_title"
   trigger_class={null}
   trigger_icon="question"
@@ -183,12 +191,15 @@ exports[`Modal component have to match snapshot 1`] = `
             "className": "className",
             "close_title": "close_title",
             "content_id": "content_id",
+            "hide_close_button": "hide_close_button",
             "id": "id",
             "labelled_by": "labelled_by",
             "modal_content": "modal_content",
             "on_close": [Function],
+            "on_close_prevent": [Function],
             "on_open": [Function],
             "preventSetTriggerRef": true,
+            "prevent_close": "prevent_close",
             "title": "title",
             "trigger_class": "trigger_class",
             "trigger_icon": "trigger_icon",
@@ -213,11 +224,13 @@ exports[`Modal component have to match snapshot 1`] = `
             "children": "children",
             "class": "class",
             "className": "className",
+            "closeModal": [Function],
             "close_title": "close_title",
             "content_id": "content_id",
-            "hide": [Function],
+            "hide_close_button": "hide_close_button",
             "labelled_by": "labelled_by",
             "modal_content": "modal_content",
+            "prevent_close": "prevent_close",
             "title": "title",
           },
         }
@@ -234,13 +247,16 @@ exports[`Modal component have to match snapshot 1`] = `
       }
       class={null}
       className={null}
+      closeModal={[Function]}
       close_title="close_title"
       content_id="modal_content_id"
-      hide={[Function]}
+      hide_close_button={false}
       labelled_by="modal_id"
       modal_content="unique_modal_content"
       on_close={null}
+      on_close_prevent={null}
       on_open={null}
+      prevent_close={false}
       title="modal_title"
       toggleOpenClose={[Function]}
     >
@@ -254,12 +270,15 @@ exports[`Modal component have to match snapshot 1`] = `
               "className": "className",
               "close_title": "close_title",
               "content_id": "content_id",
+              "hide_close_button": "hide_close_button",
               "id": "id",
               "labelled_by": "labelled_by",
               "modal_content": "modal_content",
               "on_close": [Function],
+              "on_close_prevent": [Function],
               "on_open": [Function],
               "preventSetTriggerRef": true,
+              "prevent_close": "prevent_close",
               "title": "title",
               "trigger_class": "trigger_class",
               "trigger_icon": "trigger_icon",
@@ -284,11 +303,13 @@ exports[`Modal component have to match snapshot 1`] = `
               "children": "children",
               "class": "class",
               "className": "className",
+              "closeModal": [Function],
               "close_title": "close_title",
               "content_id": "content_id",
-              "hide": [Function],
+              "hide_close_button": "hide_close_button",
               "labelled_by": "labelled_by",
               "modal_content": "modal_content",
+              "prevent_close": "prevent_close",
               "title": "title",
             },
           }
@@ -305,13 +326,16 @@ exports[`Modal component have to match snapshot 1`] = `
         }
         class={null}
         className={null}
+        closeModal={[Function]}
         close_title="close_title"
         content_id="modal_content_id"
-        hide={[Function]}
+        hide_close_button={false}
         labelled_by="modal_id"
         modal_content="unique_modal_content"
         on_close={null}
+        on_close_prevent={null}
         on_open={null}
+        prevent_close={false}
         title="modal_title"
         toggleOpenClose={[Function]}
       >

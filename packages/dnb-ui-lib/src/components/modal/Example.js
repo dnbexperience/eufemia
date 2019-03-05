@@ -26,10 +26,13 @@ class Example extends PureComponent {
   )}
 />
 <Modal
-  title="Modal Title"
+  title="Modal Title (1s delay)"
   trigger_text="Click me"
+  prevent_close="true"
+  hide_close_button="true"
   on_open={(e) => console.log('on_open', e)}
   on_close={(e) => console.log('on_close', e)}
+  on_close_prevent={({ close }) => setTimeout(close, 1e3)}
 >
   <p className="dnb-p">This is the modal text. Triggered by a secondary button.</p>
   <Input label="Label:">Focus me with Tab key</Input>

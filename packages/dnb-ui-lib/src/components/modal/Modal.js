@@ -26,6 +26,7 @@ const { disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks } =
 const renderProps = {
   on_open: null,
   on_close: null,
+  on_close_prevent: null,
   modal_content: null
 }
 
@@ -40,6 +41,11 @@ export const propTypes = {
   trigger_class: PropTypes.string,
   content_id: PropTypes.string,
   close_title: PropTypes.string,
+  hide_close_button: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool
+  ]),
+  prevent_close: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   class: PropTypes.string,
 
   // React props
@@ -54,6 +60,7 @@ export const propTypes = {
   preventSetTriggerRef: PropTypes.bool,
   on_open: PropTypes.func,
   on_close: PropTypes.func,
+  on_close_prevent: PropTypes.func,
   modal_content: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.node,
@@ -72,6 +79,8 @@ export const defaultProps = {
   trigger_class: null,
   content_id: null,
   close_title: 'Close Modal Window',
+  hide_close_button: false,
+  prevent_close: false,
   class: null,
 
   // React props
@@ -144,8 +153,8 @@ export default class Modal extends PureComponent {
     }
   }
 
-  toggleOpenClose = (event, showModal = null) => {
-    if (event) {
+  toggleOpenClose = (event = null, showModal = null) => {
+    if (event && event.preventDefault) {
       event.preventDefault()
     }
 
@@ -183,10 +192,19 @@ export default class Modal extends PureComponent {
       }
     }
   }
-  show = e => {
+  open = e => {
     this.toggleOpenClose(e, true)
   }
-  hide = e => {
+  close = e => {
+    const { prevent_close } = this.props
+    if (prevent_close === true || prevent_close === 'true') {
+      const id = this._id
+      dispatchCustomElementEvent(this, 'on_close_prevent', {
+        id,
+        close: e => this.toggleOpenClose(e, false)
+      })
+      return
+    }
     this.toggleOpenClose(e, false)
   }
   componentWillUnmount() {
@@ -231,9 +249,9 @@ export default class Modal extends PureComponent {
         {modalActive && modal_content && (
           <ModalRoot
             {...rest}
-            hide={this.hide}
             labelled_by={labelled_by || this._id}
             modal_content={modal_content}
+            closeModal={this.close}
             toggleOpenClose={this.toggleOpenClose}
           />
         )}
@@ -290,10 +308,15 @@ class ModalContent extends PureComponent {
     content_id: PropTypes.string,
     title: PropTypes.string,
     close_title: PropTypes.string,
-    hide: PropTypes.func,
+    hide_close_button: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    prevent_close: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     class: PropTypes.string,
 
     // React props
+    closeModal: PropTypes.func.isRequired,
     className: PropTypes.string,
     children: PropTypes.oneOfType([
       PropTypes.string,
@@ -307,10 +330,12 @@ class ModalContent extends PureComponent {
     content_id: null,
     title: null,
     close_title: null,
-    hide: null,
+    hide_close_button: false,
+    prevent_close: null,
     class: null,
 
     // React props
+    closeModal: null,
     className: null,
     children: null
   }
@@ -344,9 +369,12 @@ class ModalContent extends PureComponent {
       this.focusTimeout = setTimeout(() => {
         try {
           this._contentRef.current.focus() // in case the button is disabled
-          this._contentRef.current
-            .querySelector('.dnb-modal__close-button')
-            .focus()
+          const closeElement = this._contentRef.current.querySelector(
+            '.dnb-modal__close-button'
+          )
+          if (closeElement) {
+            closeElement.focus()
+          }
         } catch (e) {
           console.log(e)
         }
@@ -438,14 +466,16 @@ class ModalContent extends PureComponent {
   }
 
   preventClick = e => {
-    e.preventDefault()
-    e.stopPropagation()
+    if (e) {
+      e.preventDefault()
+      e.stopPropagation()
+    }
   }
 
   onKeyDownHandler = e => {
     switch (keycode(e)) {
       case 'esc':
-        this.props.hide(e)
+        this.props.closeModal(e)
         e.preventDefault()
         break
     }
@@ -457,7 +487,9 @@ class ModalContent extends PureComponent {
       labelled_by,
       modal_content,
       close_title,
-      hide,
+      hide_close_button,
+      prevent_close, // eslint-disable-line
+      closeModal,
       className,
       class: _className,
       content_id, // eslint-disable-line
@@ -473,7 +505,7 @@ class ModalContent extends PureComponent {
       'aria-modal': 'true',
       'aria-describedby': id,
       className: 'dnb-modal__content',
-      onClick: hide
+      onClick: closeModal
     }
 
     const innerParams = {
@@ -503,7 +535,10 @@ class ModalContent extends PureComponent {
         <div {...contentParams}>
           <div ref={this._contentRef} {...innerParams}>
             {title && <h1 className="dnb-h2 dnb-modal__title">{title}</h1>}
-            <CloseButton on_click={hide} title={close_title} />
+            {hide_close_button !== true &&
+              hide_close_button !== 'true' && (
+                <CloseButton on_click={closeModal} title={close_title} />
+              )}
             {modal_content}
           </div>
         </div>
