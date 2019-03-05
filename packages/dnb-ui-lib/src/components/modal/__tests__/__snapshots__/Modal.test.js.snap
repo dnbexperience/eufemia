@@ -79,7 +79,7 @@ exports[`Modal component have to match snapshot 1`] = `
     <Button
       attributes={null}
       class={null}
-      className="dnb-modal__trigger dnb-modal__trigger--button"
+      className="dnb-modal__trigger"
       custom_element={null}
       custom_method={null}
       disabled={false}
@@ -98,7 +98,7 @@ exports[`Modal component have to match snapshot 1`] = `
     >
       <button
         aria-label="Open Modal"
-        className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon modal_id dnb-modal__trigger dnb-modal__trigger--button"
+        className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon modal_id dnb-modal__trigger"
         id="modal_id"
         onClick={[Function]}
         onMouseOut={[Function]}
@@ -108,7 +108,7 @@ exports[`Modal component have to match snapshot 1`] = `
         <Content
           attributes={null}
           class={null}
-          className="dnb-modal__trigger dnb-modal__trigger--button"
+          className="dnb-modal__trigger"
           content={null}
           custom_element={null}
           custom_method={null}
@@ -1560,8 +1560,6 @@ a.dnb-button {
       width: auto;
       height: auto;
       overflow-y: scroll;
-      overscroll-behavior-y: contain;
-      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
       user-select: text;
       border: none;
       background: var(--color-white); }
@@ -1580,32 +1578,14 @@ a.dnb-button {
           padding: 2rem 1rem; } }
   .dnb-modal__title.dnb-h2 {
     margin: 0 0 2rem; }
-  .dnb-modal__trigger {
-    cursor: pointer;
-    user-select: none; }
-  .dnb-modal__trigger--text:not([class*='tertiary']) {
-    border: none;
-    padding: none;
-    background: transparent; }
-    .dnb-modal__trigger--text:not([class*='tertiary']):hover {
-      text-decoration: underline; }
   .dnb-modal__close-button {
     position: absolute;
     top: 1rem;
-    right: 1rem;
-    cursor: pointer;
-    color: var(--color-sea-green);
-    outline: none; }
+    right: 1rem; }
     @media screen and (min-width: 40em) {
       .dnb-modal__close-button {
         top: 2rem;
         right: 2rem; } }
-    .dnb-modal__close-button.dnb-button--secondary {
-      box-shadow: none;
-      background-color: transparent; }
-    html[data-whatinput='keyboard'] .dnb-modal__close-button {
-      box-shadow: 0 0 0 2px var(--color-emerald-green);
-      border-color: transparent; }
   .dnb-modal__overlay {
     position: fixed;
     z-index: 3000;
@@ -1613,7 +1593,6 @@ a.dnb-button {
     top: 0;
     width: 100%;
     height: 100%;
-    background: rgba(255, 255, 255, 0.85);
-    box-shadow: 0 100vh 0 0 rgba(255, 255, 255, 0.85); }
+    background-color: rgba(255, 255, 255, 0.85); }
 "
 `;

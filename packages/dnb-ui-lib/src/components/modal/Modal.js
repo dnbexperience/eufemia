@@ -8,11 +8,7 @@ import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import keycode from 'keycode'
-import {
-  disableBodyScroll,
-  enableBodyScroll,
-  clearAllBodyScrollLocks
-} from 'body-scroll-lock'
+import * as bodyScrollLock from 'body-scroll-lock'
 import {
   isTouchDevice,
   registerElement,
@@ -20,7 +16,11 @@ import {
   validateDOMAttributes
 } from '../../shared/component-helper'
 import Button, { propTypes as ButtonPropTypes } from '../button/Button'
-// import './style/dnb-modal.scss' // no good solution to import the style here
+
+const { disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks } =
+  bodyScrollLock && bodyScrollLock.default
+    ? bodyScrollLock.default
+    : bodyScrollLock
 
 const renderProps = {
   modal_content: null
@@ -211,11 +211,7 @@ export default class Modal extends PureComponent {
                 : trigger_icon
             }
             on_click={this.toggleOpenClose}
-            className={classnames(
-              'dnb-modal__trigger',
-              'dnb-modal__trigger--button',
-              trigger_class
-            )}
+            className={classnames('dnb-modal__trigger', trigger_class)}
             innerRef={this._triggerRef}
           />
         )}
