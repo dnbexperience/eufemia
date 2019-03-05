@@ -383,7 +383,9 @@ export default class SidebarLayout extends PureComponent {
   handleKeyDown = e => {
     switch (keycode(e)) {
       case 'esc':
-        this.toggleMenu()
+        if (this.isOpen) {
+          this.toggleMenu()
+        }
         break
     }
   }
