@@ -197,7 +197,7 @@ const StyledListItem = styled.li`
   }
 `
 
-const Sidebar = styled.aside`
+const Navigation = styled.nav`
   position: fixed;
 
   /* lower than styled.main */
@@ -516,8 +516,9 @@ export default class SidebarLayout extends PureComponent {
                     }, 300) // after animation is done - to make sure we can get the focus on h1
                   }
                   return (
-                    <Sidebar
+                    <Navigation
                       id="portal-sidebar-menu"
+                      aria-labelledby="toggle-sidebar-menu"
                       className={classnames(
                         // 'dnb-core-style',
                         isOpen && 'show-mobile-menu',
@@ -526,12 +527,7 @@ export default class SidebarLayout extends PureComponent {
                       ref={this._scrollRef}
                     >
                       {/* <MainMenuToggleButton /> */}
-                      <nav
-                        role="navigation"
-                        aria-labelledby="toggle-sidebar-menu"
-                      >
-                        <ul className="dev-grid">{nav}</ul>
-                      </nav>
+                      <ul className="dev-grid">{nav}</ul>
                       {isOpen && (
                         <Global
                           styles={css`
@@ -541,7 +537,7 @@ export default class SidebarLayout extends PureComponent {
                           `}
                         />
                       )}
-                    </Sidebar>
+                    </Navigation>
                   )
                 }}
               </SidebarMenuContext.Consumer>

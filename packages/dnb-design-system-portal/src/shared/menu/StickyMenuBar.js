@@ -17,7 +17,7 @@ import { MainMenuToggleButton } from './ToggleMainMenu'
 import { SidebarMenuContext } from './SidebarMenuContext'
 import ToggleGrid from './ToggleGrid'
 
-const BarWrapper = styled.header`
+const Header = styled.header`
   position: fixed;
   z-index: 200;
   top: 0;
@@ -61,7 +61,7 @@ const BarWrapper = styled.header`
   }
 `
 
-const BarInner = styled.div`
+const HeaderInner = styled.div`
   display: flex;
   justify-content: space-between;
   vertical-align: middle;
@@ -148,7 +148,7 @@ export default class StickyMenuBar extends PureComponent {
                   siteMetadata: { name: slogan }
                 }
               }) => (
-                <BarWrapper
+                <Header
                   css={[
                     hideSiebarToggleButton && hideSiebarToggleButtonStyle
                   ]}
@@ -158,7 +158,7 @@ export default class StickyMenuBar extends PureComponent {
                     'dev-grid'
                   )}
                 >
-                  <BarInner>
+                  <HeaderInner>
                     <MainMenuToggleButton />
                     <CenterWrapper aria-hidden>
                       <Icon
@@ -185,8 +185,8 @@ export default class StickyMenuBar extends PureComponent {
                       />
                       <ToggleGrid />
                     </span>
-                  </BarInner>
-                </BarWrapper>
+                  </HeaderInner>
+                </Header>
               )}
             />
           )
