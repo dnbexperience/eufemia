@@ -6,7 +6,7 @@
 @import '../../../../style/themes/imports.scss';
 
 .dnb-step-indicator {
-  &-item-content {
+  &__item-content {
     &--static {
       color: var(--color-emerald-green);
     }
@@ -16,7 +16,7 @@
     }
   }
 
-  &--visited &-item-content {
+  &--visited &__item-content {
     &--link {
       @include hover(true) {
         border-color: var(--color-sea-green);
@@ -31,7 +31,7 @@
   }
 
   span[hidden],/* to make sure we have the wider width on every item */
-  &--active &-item-content {
+  &--active &__item-content {
     font-family: var(--font-family-demi);
     font-weight: var(--font-weight-demi);
 

@@ -53,7 +53,7 @@
     }
   }
 
-  &-item-content {
+  &__item-content {
     display: flex; // make text wrap
     padding: 0.25rem 0.25rem 0.125rem;
 
@@ -66,9 +66,11 @@
 
     // &--static {
     // }
-    //
-    // &--link {
-    // }
+    &--link {
+      @include focus() {
+        @include fakeFocus();
+      }
+    }
   }
 
   &-number {
@@ -87,7 +89,7 @@
     }
   }
 
-  &--visited &-item-content {
+  &--visited &__item-content {
     &--link {
       // @include hover(true) {
       // }
@@ -99,7 +101,7 @@
   //   }
   // }
 
-  &--active &-item-content {
+  &--active &__item-content {
     cursor: default;
     pointer-events: none;
   }
