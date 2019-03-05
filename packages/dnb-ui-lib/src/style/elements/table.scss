@@ -70,7 +70,6 @@
 
       &,
       &.dnb-button--has-text {
-        // line-height: 1.5rem;
         padding: 0;
         @include drawUnderlineBorder() {
           z-index: 1;
@@ -80,6 +79,11 @@
           height: 2px;
           border-radius: 1px;
           background-color: var(--color-emerald-green);
+        }
+        // only for the css specificity
+        &:not(:focus):hover:not([disabled]) .dnb-button__text::after,
+        .dnb-button__text::after {
+          border-bottom: none;
         }
       }
 
