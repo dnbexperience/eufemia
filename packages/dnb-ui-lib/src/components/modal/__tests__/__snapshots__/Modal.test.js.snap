@@ -14,6 +14,8 @@ exports[`Modal component have to match snapshot 1`] = `
         "id": "id",
         "labelled_by": "labelled_by",
         "modal_content": "modal_content",
+        "on_close": [Function],
+        "on_open": [Function],
         "preventSetTriggerRef": true,
         "title": "title",
         "trigger_class": "trigger_class",
@@ -65,6 +67,8 @@ exports[`Modal component have to match snapshot 1`] = `
   id="modal_id"
   labelled_by={null}
   modal_content="unique_modal_content"
+  on_close={null}
+  on_open={null}
   preventSetTriggerRef={true}
   title="modal_title"
   trigger_class={null}
@@ -182,6 +186,8 @@ exports[`Modal component have to match snapshot 1`] = `
             "id": "id",
             "labelled_by": "labelled_by",
             "modal_content": "modal_content",
+            "on_close": [Function],
+            "on_open": [Function],
             "preventSetTriggerRef": true,
             "title": "title",
             "trigger_class": "trigger_class",
@@ -233,6 +239,8 @@ exports[`Modal component have to match snapshot 1`] = `
       hide={[Function]}
       labelled_by="modal_id"
       modal_content="unique_modal_content"
+      on_close={null}
+      on_open={null}
       title="modal_title"
       toggleOpenClose={[Function]}
     >
@@ -249,6 +257,8 @@ exports[`Modal component have to match snapshot 1`] = `
               "id": "id",
               "labelled_by": "labelled_by",
               "modal_content": "modal_content",
+              "on_close": [Function],
+              "on_open": [Function],
               "preventSetTriggerRef": true,
               "title": "title",
               "trigger_class": "trigger_class",
@@ -300,6 +310,8 @@ exports[`Modal component have to match snapshot 1`] = `
         hide={[Function]}
         labelled_by="modal_id"
         modal_content="unique_modal_content"
+        on_close={null}
+        on_open={null}
         title="modal_title"
         toggleOpenClose={[Function]}
       >

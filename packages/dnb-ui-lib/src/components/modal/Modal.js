@@ -13,6 +13,7 @@ import {
   isTouchDevice,
   registerElement,
   processChildren,
+  dispatchCustomElementEvent,
   validateDOMAttributes
 } from '../../shared/component-helper'
 import Button, { propTypes as ButtonPropTypes } from '../button/Button'
@@ -23,6 +24,8 @@ const { disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks } =
     : bodyScrollLock
 
 const renderProps = {
+  on_open: null,
+  on_close: null,
   modal_content: null
 }
 
@@ -49,6 +52,8 @@ export const propTypes = {
 
   // Web Component props
   preventSetTriggerRef: PropTypes.bool,
+  on_open: PropTypes.func,
+  on_close: PropTypes.func,
   modal_content: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.node,
@@ -140,6 +145,10 @@ export default class Modal extends PureComponent {
   }
 
   toggleOpenClose = (event, showModal = null) => {
+    if (event) {
+      event.preventDefault()
+    }
+
     Modal.insertModalRoot()
 
     const modalActive =
@@ -161,8 +170,11 @@ export default class Modal extends PureComponent {
       )
     }
 
-    if (event) {
-      event.preventDefault()
+    const id = this._id
+    if (modalActive) {
+      dispatchCustomElementEvent(this, 'on_open', { id })
+    } else {
+      dispatchCustomElementEvent(this, 'on_close', { id })
     }
 
     if (modalActive === false) {
