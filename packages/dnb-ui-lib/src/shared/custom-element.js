@@ -4,7 +4,6 @@
  */
 
 import React from 'react'
-import isReact from './utils/is-react'
 import { render, unmountComponentAtNode } from 'react-dom'
 import { ErrorHandler } from './error-helper'
 
@@ -121,12 +120,12 @@ export const registerElement = (
             try {
               // check if there is a element returned, convert it to html then
               if (args[0]) {
-                if (isReact.compatible(args[0])) args[0] = [args[0]]
+                if (React.isValidElement(args[0])) args[0] = [args[0]]
                 if (Array.isArray(args[0])) {
                   const elems = []
                   // we have to overwrite the first arg like this - and cant use map/reduce here
                   args[0].forEach(elem => {
-                    if (isReact.compatible(elem)) {
+                    if (React.isValidElement(elem)) {
                       const rootEl = document.createElement('div') // createDocumentFragment
                       render(elem, rootEl)
                       elems.push(rootEl)
