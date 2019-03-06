@@ -264,10 +264,11 @@ export default class Input extends PureComponent {
       ...attributes
     }
 
+    // we may considder using: aria-details
     if (showStatus) {
-      inputParams['aria-details'] = id + '-status'
+      inputParams['aria-describedby'] = id + '-status'
     } else if (description) {
-      inputParams['aria-details'] = id + '-description'
+      inputParams['aria-describedby'] = id + '-description'
     }
     if (type === 'search') {
       inputParams.autoComplete = 'off'
