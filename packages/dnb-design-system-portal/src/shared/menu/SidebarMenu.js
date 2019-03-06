@@ -614,7 +614,7 @@ class ListItem extends PureComponent {
           status ? `status-${status}` : null,
           className
         )}
-        innerRef={this.ref}
+        ref={this.ref}
         style={{
           '--delay': `${nr !== null ? nr * 12 : random(1, 160)}ms`
         }}
