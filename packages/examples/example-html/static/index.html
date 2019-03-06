@@ -13,49 +13,54 @@
     />
     <link
       rel="stylesheet"
-      href="http://localhost:8081/style/themes/dnb-theme-ui.min.css"
+      href="http://localhost:8081/style/themes/theme-ui/dnb-theme-ui.min.css"
     />
   </head>
 
-  <body>
-    <h1>Web Component in HTML</h1>
+  <body class="dnb-spacing">
+    <h1 class="dnb-h1">Web Component in HTML</h1>
 
-    <dnb-button
-      text="Declarative"
-      icon="chevron_right"
-      on_click="myClass.on_click"
-    ></dnb-button>
-    <dnb-button
-      text="Imperative"
-      icon="chevron_right"
-      class="button"
-    ></dnb-button>
+    <div class="dnb-section dnb-section--spacing">
+      <dnb-button
+        text="Declarative"
+        icon="chevron_right"
+        on_click="myClass.on_click"
+      ></dnb-button>
+      <dnb-button
+        text="Imperative"
+        icon="chevron_right"
+        class="button"
+      ></dnb-button>
 
-    <dnb-icon-primary icon="bell_medium" size="medium"></dnb-icon-primary>
+      <dnb-icon-primary
+        icon="bell_medium"
+        size="medium"
+      ></dnb-icon-primary>
 
-    <dnb-form-label for_id="switch-1">Switch</dnb-form-label>
-    <dnb-switch id="switch-1" title="Switch title"></dnb-switch>
+      <dnb-form-label for_id="switch-1">Switch</dnb-form-label>
+      <dnb-switch id="switch-1" title="Switch title"></dnb-switch>
+    </div>
 
-    <br />
+    <div class="dnb-section dnb-section--spacing">
+      <dnb-dropdown
+        class="dropdown"
+        data='[{"selected_value": "Visible value", "content": "Brukskonto - Kari Nordmann"},{"selected_value": "Second value", "content": "Konto - Ola Nordmann"}]'
+      ></dnb-dropdown>
+    </div>
 
-    <dnb-form-label for_id="input-1">Input Imperative</dnb-form-label>
-    <dnb-input
-      id="input-1"
-      placeholder="Imperative Input placeholder"
-    ></dnb-input>
-    <dnb-form-label for_id="input-2">Input Declarative</dnb-form-label>
-    <dnb-input
-      id="input-2"
-      placeholder="Declarative Input placeholder"
-      on_change="myClass.value_change"
-    ></dnb-input>
-
-    <br />
-
-    <dnb-dropdown
-      class="dropdown"
-      data='[{"selected_value": "Visible value", "content": "Brukskonto - Kari Nordmann"},{"selected_value": "Second value", "content": "Konto - Ola Nordmann"}]'
-    ></dnb-dropdown>
+    <div class="dnb-section dnb-section--spacing">
+      <dnb-form-label for_id="input-1">Input Imperative</dnb-form-label>
+      <dnb-input
+        id="input-1"
+        placeholder="Imperative Input placeholder"
+      ></dnb-input>
+      <dnb-form-label for_id="input-2">Input Declarative</dnb-form-label>
+      <dnb-input
+        id="input-2"
+        placeholder="Declarative Input placeholder"
+        on_change="myClass.value_change"
+      ></dnb-input>
+    </div>
 
     <script crossorigin src="./vendor/react.production.min.js"></script>
     <script
