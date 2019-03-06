@@ -168,7 +168,6 @@ export default class Card extends PureComponent {
               isActive && !isClosing && 'show-cards',
               isClosing && 'hide-cards'
             )}
-            aria-current={this.isSelected()}
             style={{
               '--delay': `${isClosing ? random(1, 400) : random(1, 200)}ms`
             }}
@@ -177,6 +176,7 @@ export default class Card extends PureComponent {
               css={[linkStyle, customStyle]}
               className="dnb-anchor-no-style"
               to={url}
+              aria-current={this.isSelected()}
               onClick={closeMenu}
             >
               <LinkInner {...textRole}>

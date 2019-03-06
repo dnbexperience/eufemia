@@ -35,6 +35,8 @@ const StyledListItem = styled.li`
     align-items: center;
 
     transform: translateY(1px);
+    color: var(--color-emerald-green);
+    background-color: var(--color-white);
 
     &:hover {
       color: var(--color-black);
@@ -180,7 +182,7 @@ const StyledListItem = styled.li`
     width: 1.25rem;
     border-radius: 50%;
 
-    background-color: var(--color-sea-green-alt-30);
+    background-color: var(--color-mint-green-25);
     &::after {
       content: '';
       position: absolute;
@@ -188,7 +190,7 @@ const StyledListItem = styled.li`
     }
   }
   &.status-dep .status-badge {
-    color: var(--color-cherry-red);
+    color: var(--color-black-80);
     background-color: var(--color-cherry-red-80);
   }
   &.status-imp .status-badge {
@@ -501,12 +503,13 @@ export default class SidebarLayout extends PureComponent {
                 {({ isOpen, isClosing, toggleMenu }) => {
                   this.isOpen = isOpen
                   this.toggleMenu = toggleMenu
+                  console.log('isClosing', isClosing)
                   if (isOpen && !isClosing) {
                     setTimeout(() => {
                       this.scrollToActiveItem()
                       applyPageFocus('sidebar')
                     }, 300) // after animation is done
-                  } else {
+                  } else if (isClosing) {
                     setTimeout(() => {
                       applyPageFocus('content')
                     }, 300) // after animation is done - to make sure we can get the focus on h1
@@ -522,7 +525,6 @@ export default class SidebarLayout extends PureComponent {
                       )}
                       ref={this._scrollRef}
                     >
-                      {/* <MainMenuToggleButton /> */}
                       <ul className="dev-grid">{nav}</ul>
                       {isOpen && (
                         <Global
@@ -595,7 +597,7 @@ class ListItem extends PureComponent {
     const statusTitle =
       status &&
       {
-        wip: 'Working in Progress',
+        wip: 'Work in Progress',
         dep: 'Deprecated',
         imp: 'Needs improvement'
       }[status]

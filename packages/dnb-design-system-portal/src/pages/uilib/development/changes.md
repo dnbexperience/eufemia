@@ -22,7 +22,7 @@ It is recommended that you make a new branch to isolate your work before it gets
 # Make a Feature branch
 $ git checkout -b ftr/my-feature
 
-# - or a Working In Progress branch
+# - or a Work In Progress branch
 $ git checkout -b wip/working-on-it
 ```
 

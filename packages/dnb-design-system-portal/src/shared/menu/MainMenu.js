@@ -198,103 +198,105 @@ export default class MainMenu extends PureComponent {
   render() {
     const { enableOverlay } = this.props
     return (
-      <MainMenuContext.Consumer>
-        {({ closeMenu, isOpen, isClosing, isActive }) => {
-          this.closeMenuHandler = isOpen ? closeMenu : null
-          return (
-            (isActive || !enableOverlay) && (
-              <MainWrapper
-                className={classnames(
-                  enableOverlay && 'is-overlay',
-                  isOpen && 'is-open',
-                  isClosing && 'is-closing'
-                )}
-                {...{ isOpen }}
-              >
-                {
-                  <>
-                    <Global styles={customBodyStyle} />
-                    {isOpen && !isClosing && (
-                      <Global styles={toggleContent} />
-                    )}
-                    {(enableOverlay && (
-                      <Toolbar
-                        className={classnames(isClosing && 'is-closing')}
+      <div id="portal-main-menu">
+        <MainMenuContext.Consumer>
+          {({ closeMenu, isOpen, isClosing, isActive }) => {
+            this.closeMenuHandler = isOpen ? closeMenu : null
+            return (
+              (isActive || !enableOverlay) && (
+                <MainWrapper
+                  className={classnames(
+                    enableOverlay && 'is-overlay',
+                    isOpen && 'is-open',
+                    isClosing && 'is-closing'
+                  )}
+                  {...{ isOpen }}
+                >
+                  {
+                    <>
+                      <Global styles={customBodyStyle} />
+                      {isOpen && !isClosing && (
+                        <Global styles={toggleContent} />
+                      )}
+                      {(enableOverlay && (
+                        <Toolbar
+                          className={classnames(isClosing && 'is-closing')}
+                        >
+                          {isOpen && !isClosing && (
+                            <Button
+                              variant="secondary"
+                              className="close-button dnb-always-focus"
+                              on_click={closeMenu}
+                              icon="close"
+                              icon_position="left"
+                              text="Close"
+                              aria-label="Close Main Menu"
+                            />
+                          )}
+                        </Toolbar>
+                      )) ||
+                        (!enableOverlay && (
+                          <LogoWrapper>
+                            <Logo size="48" />
+                            Eufemia
+                          </LogoWrapper>
+                        ))}
+                      <CardsWrapper
+                        // id="portal-main-menu"
+                        aria-labelledby="toggle-main-menu"
                       >
-                        {isOpen && !isClosing && (
-                          <Button
-                            variant="secondary"
-                            className="close-button dnb-always-focus"
-                            on_click={closeMenu}
-                            icon="close"
-                            icon_position="left"
-                            text="Close"
-                            aria-label="Close Main Menu"
-                          />
-                        )}
-                      </Toolbar>
-                    )) ||
-                      (!enableOverlay && (
-                        <LogoWrapper>
-                          <Logo size="48" />
-                          Eufemia
-                        </LogoWrapper>
-                      ))}
-                    <CardsWrapper
-                      id="portal-main-menu"
-                      aria-labelledby="toggle-main-menu"
-                    >
-                      <Card
-                        url="/design-system/"
-                        title="About Eufemia"
-                        about={
-                          <>
-                            Change log, contact, etc.
-                            <LastUpadted title="Last Change log update">
-                              Updated: {buildVersion}
-                            </LastUpadted>
-                          </>
-                        }
-                        icon={DesignSystemSvg}
-                      />
-                      <Card
-                        url="/uilib/"
-                        title="UI Library"
-                        about="Buttons, dropdowns, input fields, components etc."
-                        icon={UilibSvg}
-                      />
-                      <Card
-                        url="/quickguide-designer/"
-                        title="Quick Guide - Designers"
-                        about="Eufemia for designers - design guidelines and resources"
-                        icon={QuickguideDesignerSvg}
-                      />
-                      <Card
-                        url="/icons/"
-                        title="Icon Library"
-                        about="An overview of our most used icons"
-                        icon={IconsSvg}
-                      />
-                      <Card
-                        url="/brand/"
-                        title="Brand"
-                        about="Brand guidelines - typography, colors etc."
-                        icon={BrandSvg}
-                      />
-                      <Card
-                        url="/principles/"
-                        title="Design Principles"
-                        about="DNB, Eufemia and UI design principles"
-                        icon={PrinciplesSvg}
-                      />
-                    </CardsWrapper>
-                  </>
-                }
-              </MainWrapper>
+                        <Card
+                          url="/design-system/"
+                          title="About Eufemia"
+                          about={
+                            <>
+                              Change log, contact, etc.
+                              <LastUpadted title="Last Change log update">
+                                Updated: {buildVersion}
+                              </LastUpadted>
+                            </>
+                          }
+                          icon={DesignSystemSvg}
+                        />
+                        <Card
+                          url="/uilib/"
+                          title="UI Library"
+                          about="Buttons, dropdowns, input fields, components etc."
+                          icon={UilibSvg}
+                        />
+                        <Card
+                          url="/quickguide-designer/"
+                          title="Quick Guide - Designers"
+                          about="Eufemia for designers - design guidelines and resources"
+                          icon={QuickguideDesignerSvg}
+                        />
+                        <Card
+                          url="/icons/"
+                          title="Icon Library"
+                          about="An overview of our most used icons"
+                          icon={IconsSvg}
+                        />
+                        <Card
+                          url="/brand/"
+                          title="Brand"
+                          about="Brand guidelines - typography, colors etc."
+                          icon={BrandSvg}
+                        />
+                        <Card
+                          url="/principles/"
+                          title="Design Principles"
+                          about="DNB, Eufemia and UI design principles"
+                          icon={PrinciplesSvg}
+                        />
+                      </CardsWrapper>
+                    </>
+                  }
+                </MainWrapper>
+              )
             )
-          )
-        }}
-      </MainMenuContext.Consumer>
+          }}
+        </MainMenuContext.Consumer>
+      </div>
     )
   }
 }

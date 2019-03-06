@@ -14,7 +14,7 @@ class Example extends PureComponent {
         <CodeBlock reactLive hideCode>
           {/* @html */ `
 <div className="dnb-section">
-  Visuall DNB Section
+  Visuall DNB Section, declared with <code className="dnb-code">.dnb-section</code>
 </div>
 <div className="dnb-section dnb-section--spacing">
   Visuall DNB Section, declared with <code className="dnb-code">.dnb-section--spacing</code>
@@ -25,6 +25,7 @@ class Example extends PureComponent {
           {/* @html */ `
 <div className="dnb-core-style">
   <h3 className="dnb-h3">Wrapper with the DNB Body Style (CSS reset)</h3>
+  <p className="dnb-p">Read more about <a href="/uilib/usage/customisation/styling#core-style" className="dnb-anchor">Use Eufemia Styles elsewhere</a></p>
 </div>
         `}
         </CodeBlock>
