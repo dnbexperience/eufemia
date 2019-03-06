@@ -6,7 +6,6 @@
 // Wraps content inside a visual section banner.
 .dnb-section {
   position: relative;
-  z-index: 1;
 
   &::after {
     content: '';
