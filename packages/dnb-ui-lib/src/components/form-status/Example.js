@@ -10,11 +10,22 @@ class Example extends PureComponent {
   render() {
     return (
       <Fragment>
-        <ComponentBox caption="A form status" data-dnb-test="form-status">
+        <ComponentBox
+          caption="With error status"
+          data-dnb-test="form-status"
+        >
           {/* @jsx */ `
 <FormStatus
-  title="Input with Status:"
-  text="Input value with status"
+  text="Failure text"
+/>
+          `}
+        </ComponentBox>
+        <ComponentBox caption="With info status">
+          {/* @jsx */ `
+<FormStatus
+  title="Hover title"
+  text="Interdum enim molestie vel dictum cras praesent porta duis mollis"
+  status="info"
 />
           `}
         </ComponentBox>
@@ -23,7 +34,7 @@ class Example extends PureComponent {
 <Input
   label="Input with Status:"
   status="You have to fill in this field"
-  value="Input value with status"
+  value="Input value"
 />
           `}
         </ComponentBox>

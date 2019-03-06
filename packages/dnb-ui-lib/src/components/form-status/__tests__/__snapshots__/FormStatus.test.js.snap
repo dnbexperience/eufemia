@@ -72,13 +72,14 @@ exports[`FormStatus scss have to match default theme snapshot 1`] = `
  * FormStatus theme
  *
  */
-.dnb-form-status--error {
-  color: var(--color-cherry-red);
-  background-color: var(--color-cherry-red-80); }
-
-.dnb-form-status--info {
-  color: var(--color-summer-green);
-  background-color: var(--color-mint-green-12); }
+.dnb-form-status {
+  font-size: var(--font-size-small); }
+  .dnb-form-status--error {
+    color: var(--color-cherry-red);
+    background-color: var(--color-cherry-red-80); }
+  .dnb-form-status--info {
+    color: var(--color-summer-green);
+    background-color: var(--color-mint-green-12); }
 "
 `;
 
