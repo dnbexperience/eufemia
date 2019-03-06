@@ -65,7 +65,7 @@ This is a regular paragraph following the text above. Quem facilisi moderatius i
 ##### Example:
 
 <div class="typography-box">
-<h2>
+<h2 class="dnb-h2">
 Quem facilisi moderatius id eam, id tamquam albucius per. Vel quem congue appareat cu, mei te eros convenire. Sea bonorum epicuri ea, ei exerci tacimates pro.
 </h2>
 <p>
@@ -86,7 +86,7 @@ This is a regular paragraph following the text above. Quem facilisi moderatius i
 ##### Example:
 
 <div class="typography-box">
-<h3>
+<h3 class="dnb-h3">
 Quem facilisi moderatius id eam, id tamquam albucius per. Vel quem congue appareat cu, mei te eros convenire. Sea bonorum epicuri ea, ei exerci tacimates pro, aliquam pertinacia eu vim. Vix ei stet ornatus. Est mediocrem reprimique contentiones ei, mea
 ne primis intellegat. Dico purto nullam sea an.
 </h3>
@@ -156,14 +156,14 @@ There are two methods to create 'small' text. One, is to use the 'dnb-small' cla
 
 <div class="typography-box">
 <p>
-This is a paragraph with a <b>small tag</b> inserted here: <small>this is the small content</small>. This is a regular paragraph following the text above. Quem facilisi moderatius id eam, id tamquam albucius per. Vel quem congue appareat cu, mei te eros convenire. Sea bonorum epicuri ea, ei exerci tacimates pro, aliquam pertinacia eu vim.
+This is a paragraph with a <b>small tag</b> inserted here: <smalls>this is the small content</smalls>. This is a regular paragraph following the text above. Quem facilisi moderatius id eam, id tamquam albucius per. Vel quem congue appareat cu, mei te eros convenire. Sea bonorum epicuri ea, ei exerci tacimates pro, aliquam pertinacia eu vim.
 </p>
 </div>
 
 ##### Example #2 text wrapped in a small tag:
 
 <div class="typography-box">
-<small>
+<smalls>
 This is just with a <b>small tag</b>. This is a regular paragraph following the text above. Quem facilisi moderatius id eam, id tamquam albucius per. Vel quem congue appareat cu, mei te eros convenire. Sea bonorum epicuri ea, ei exerci tacimates pro, aliquam pertinacia eu vim.
-</small>
+</smalls>
 </div>

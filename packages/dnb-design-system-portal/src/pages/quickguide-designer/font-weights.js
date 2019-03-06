@@ -6,7 +6,7 @@ import React from 'react'
 
 const Syntax = () => (
   <>
-    <h5>Body Book</h5>
+    <h5 className="dnb-h5">Body Book</h5>
     <p>
       Achieved with classes:{' '}
       <i>.dnb-typo-book, .dnb-typo-demi, .dnb-typo-medium</i>
@@ -26,7 +26,7 @@ const Syntax = () => (
       </p>
     </div>
 
-    <h5>Body Demi</h5>
+    <h5 className="dnb-h5">Body Demi</h5>
     <div className="typography-box">
       <p className="dnb-typo-demi">
         Here is a paragraph with some nonsense lipsum text. Contrary to
@@ -38,7 +38,7 @@ const Syntax = () => (
       </p>
     </div>
 
-    <h5>Body Medium</h5>
+    <h5 className="dnb-h5">Body Medium</h5>
     <div className="typography-box">
       <p className="dnb-typo-medium">
         Here is a paragraph with some nonsense lipsum text. Contrary to

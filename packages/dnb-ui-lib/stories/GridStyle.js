@@ -18,7 +18,7 @@ const gridStyle = ({
     --grid-gutter: 0.5rem;
     --grid-gutter-bold: 2rem;
     --grid-color: ${color(0.5)};
-    --grid-color-bold: ${color(0.15)};
+    --grid-color-bold: ${color(0.4)};
     --grid-line-thickness: 1px;
 
     --grid-columns: repeating-linear-gradient(

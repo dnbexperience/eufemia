@@ -159,9 +159,9 @@ export default css`
 
   .typography-box {
     margin-bottom: 4rem;
-    padding: 2rem 2rem 1.9375rem 2rem;
+    padding: 2rem 2rem 2rem 2rem;
 
-    ${gridStyle({ rgb: '164, 255, 255', a: 0.8 })};
+    ${gridStyle({ rgb: '40, 180, 130', a: 0.55 })};
 
     h1 {
       margin-top: 0rem;
@@ -192,7 +192,7 @@ export default css`
 
   .example-box {
     margin-bottom: 2rem;
-    padding: 2rem;
+    padding: 2rem 2rem 1.9375rem 2rem;
 
     ${gridStyle({ rgb: '236, 236, 236', a: 1 })};
 
