@@ -50,7 +50,6 @@ exports[`StepIndicator component have to match snapshot 1`] = `
             className="dnb-anchor dnb-step-indicator__item-content dnb-step-indicator__item-content--link"
             href="?a"
             onClick={[Function]}
-            role="text"
           >
             <ItemContentWrapper>
               <span
@@ -89,7 +88,6 @@ exports[`StepIndicator component have to match snapshot 1`] = `
             className="dnb-anchor dnb-step-indicator__item-content dnb-step-indicator__item-content--link"
             href="?b"
             onClick={[Function]}
-            role="text"
           >
             <ItemContentWrapper>
               <span

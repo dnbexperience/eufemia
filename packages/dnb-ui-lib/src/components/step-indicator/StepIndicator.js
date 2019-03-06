@@ -242,7 +242,6 @@ class ItemContent extends PureComponent {
     }
 
     const params = {
-      role: 'text',
       ...rest
     }
 
@@ -251,6 +250,10 @@ class ItemContent extends PureComponent {
     }
     if (number > activeItem) {
       params['aria-disabled'] = true
+    }
+    if (!url) {
+      // to screen readers read both the nr. and the text in one sentence
+      params.role = 'text'
     }
 
     const ItemContentWrapper = () => (
