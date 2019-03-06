@@ -24,6 +24,8 @@ const StyledListItem = styled.li`
   list-style: none;
   margin: 0;
 
+  background-color: var(--color-white);
+
   a {
     position: relative;
     padding: 0;
@@ -36,7 +38,7 @@ const StyledListItem = styled.li`
 
     transform: translateY(1px);
     color: var(--color-emerald-green);
-    background-color: var(--color-white);
+    background-color: inherit;
 
     &:hover {
       color: var(--color-black);
