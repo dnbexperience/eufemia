@@ -105,7 +105,7 @@
     "@storybook/addon-options": "^5.0.0",
     "@storybook/react": "^5.0.0",
     "@svgr/core": "^4.1.0",
-    "audit-ci": "^1.4.0",
+    "audit-ci": "^1.4.1",
     "babel-jest": "^24.1.0",
     "babel-loader": "^8.0.5",
     "babel-plugin-emotion": "^10.0.7",
