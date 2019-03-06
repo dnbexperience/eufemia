@@ -112,7 +112,7 @@ render(<Tabs data={data}>
 
 const exampleContent = {
   first: () => <h2 className="dnb-h2">First</h2>,
-  second: () => <Input>Focus me with next Tab key</Input>,
+  second: () => <Input label="Label:">Focus me with next Tab key</Input>,
   third: () => (
     <p>
       Eros semper blandit tellus mollis primis quisque platea sollicitudin

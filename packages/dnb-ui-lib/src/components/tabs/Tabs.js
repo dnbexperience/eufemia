@@ -498,6 +498,9 @@ class ContentWrapper extends PureComponent {
   }
   render() {
     const { id, children, selected_key: key } = this.props
+    if (!children) {
+      return <></>
+    }
     return (
       <div
         role="tabpanel"
