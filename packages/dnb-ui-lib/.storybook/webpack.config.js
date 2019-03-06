@@ -7,8 +7,12 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(css|scss)$/,
-        loaders: ['style-loader', 'css-loader', 'sass-loader']
+        test: /\.(css)$/,
+        loaders: ['style-loader', 'css-loader']
+      },
+      {
+        test: /\.(scss)$/,
+        loaders: ['style-loader', 'sass-loader']
       },
       {
         test: /\/font.*\.(woff|woff2|ttf|eot|otf|svg)/,
