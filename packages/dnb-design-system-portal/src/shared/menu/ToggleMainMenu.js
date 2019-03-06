@@ -20,7 +20,7 @@ export const MainMenuToggleButton = () => {
           icon="chevron-left"
           icon_position="left"
           aria-haspopup="true"
-          aria-controls="portal-main-menu"
+          // aria-controls="portal-main-menu"
           aria-expanded="false"
         />
       )}

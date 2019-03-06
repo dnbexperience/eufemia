@@ -57,8 +57,8 @@ class Layout extends PureComponent {
           <a className="dnb-skip-link" href="#dnb-app-content">
             Skip to content
           </a>
-          <MainMenu enableOverlay />
           <StickyMenuBar />
+          <MainMenu enableOverlay />
           <Wrapper className="content-wrapper">
             <Sidebar location={location} showAll={false} />
             <Content>
