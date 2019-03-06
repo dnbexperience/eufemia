@@ -15,7 +15,7 @@ From the technical side, we have to assign an _invisible_ focus, so the user can
 
 ```html
 <body>
-  <aside><!-- focusable navigation --></aside>
+  <nav><!-- focusable navigation --></nav>
   <main>
     <!-- more markup with focusable HTMLElements -->
     <h1 class="dnb-no-focus" tabindex="-1">Main Title</h1>

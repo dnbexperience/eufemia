@@ -296,10 +296,7 @@ export default class SidebarLayout extends PureComponent {
   constructor(props) {
     super(props)
     this._scrollRef = React.createRef()
-    setPageFocusElement(
-      'aside ul li.is-active a:nth-of-type(1)',
-      'sidebar'
-    )
+    setPageFocusElement('nav ul li.is-active a:nth-of-type(1)', 'sidebar')
   }
 
   componentDidMount() {
@@ -478,7 +475,6 @@ export default class SidebarLayout extends PureComponent {
                   status,
                   icon,
                   active,
-                  ['aria-current']: active,
                   inside,
                   to: path,
                   onOffsetTop: offsetTop => (this.offsetTop = offsetTop)
@@ -604,6 +600,11 @@ class ListItem extends PureComponent {
         imp: 'Needs improvement'
       }[status]
 
+    const params = {}
+    if (active) {
+      params['aria-current'] = true
+    }
+
     return (
       <StyledListItem
         className={classnames(
@@ -627,6 +628,7 @@ class ListItem extends PureComponent {
             'dnb-anchor-no-hover',
             icon && graphics[icon] ? 'has-icon' : null
           )}
+          {...params}
         >
           <span>
             {icon && graphics[icon] && (
