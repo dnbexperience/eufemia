@@ -503,7 +503,6 @@ export default class SidebarLayout extends PureComponent {
                 {({ isOpen, isClosing, toggleMenu }) => {
                   this.isOpen = isOpen
                   this.toggleMenu = toggleMenu
-                  console.log('isClosing', isClosing)
                   if (isOpen && !isClosing) {
                     setTimeout(() => {
                       this.scrollToActiveItem()
