@@ -824,7 +824,9 @@ exports[`Input scss have to match snapshot 1`] = `
       .dnb-button__icon {
         transform: translateY(calc(1px - 1px - var(--button-border-width))); } }
   .dnb-button__text {
-    color: inherit; }
+    line-height: 1;
+    color: inherit;
+    background-color: inherit; }
     @supports not (-ms-ime-align: auto) {
       .dnb-button__text {
         transform: translateY(calc(1px - var(--button-border-width))); } }
