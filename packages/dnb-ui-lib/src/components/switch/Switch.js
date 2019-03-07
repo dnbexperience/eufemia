@@ -20,8 +20,8 @@ const renderProps = {
 }
 
 export const propTypes = {
-  text_positive: PropTypes.string,
-  text_negative: PropTypes.string,
+  title_positive: PropTypes.string,
+  title_negative: PropTypes.string,
   title: PropTypes.string,
   default_state: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   checked: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -45,8 +45,8 @@ export const propTypes = {
 }
 
 export const defaultProps = {
-  text_positive: 'Yes', // Yes
-  text_negative: 'No', // No
+  title_positive: 'Yes', // Yes
+  title_negative: 'No', // No
   title: null,
   default_state: null,
   checked: 'default', //we have to send this as a string
@@ -198,11 +198,11 @@ export default class Switch extends Component {
           <span className="dnb-switch__button">
             {this.state.checked ? (
               <span className="dnb-switch__text-item dnb-switch__text-item--positive">
-                {this.props.text_positive}
+                {this.props.title_positive}
               </span>
             ) : (
               <span className="dnb-switch__text-item dnb-switch__text-item--negative">
-                {this.props.text_negative}
+                {this.props.title_negative}
               </span>
             )}
             <span className="dnb-switch__focus" aria-hidden="true">

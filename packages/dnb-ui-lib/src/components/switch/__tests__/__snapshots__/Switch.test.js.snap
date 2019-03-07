@@ -15,9 +15,9 @@ exports[`Switch component have to match snapshot 1`] = `
   onClick={[Function]}
   on_change={[Function]}
   on_state_update={[Function]}
-  text_negative="text_negative"
-  text_positive="text_positive"
   title="title"
+  title_negative="title_negative"
+  title_positive="title_positive"
   value="value"
 >
   <span
@@ -60,7 +60,7 @@ exports[`Switch component have to match snapshot 1`] = `
         <span
           className="dnb-switch__text-item dnb-switch__text-item--negative"
         >
-          text_negative
+          title_negative
         </span>
         <span
           aria-hidden="true"

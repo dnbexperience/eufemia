@@ -33,8 +33,8 @@ class Example extends PureComponent {
 />
 <Switch
   id="switch-1"
-  text_positive="Yes"
-  text_negative="No"
+  title_positive="Yes"
+  title_negative="No"
   // labelledby="switch-1-label"
   title="Ths is the title"
   value="Value of switch"
@@ -53,8 +53,8 @@ class Example extends PureComponent {
           {/* @jsx */ `
 render(<Switch
   label="Label:"
-  text_positive="Yes"
-  text_negative="No"
+  title_positive="Yes"
+  title_negative="No"
   disabled
   default_state="true"
   checked={false}

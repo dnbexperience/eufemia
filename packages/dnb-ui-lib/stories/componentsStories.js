@@ -398,8 +398,8 @@ stories.push([
         <Box>
           <Switch
             label="Label:"
-            text_positive="Yes"
-            text_negative="No"
+            title_positive="Yes"
+            title_negative="No"
             // labelledby="switch-1-label"
             title="Ths is the title"
             value="Value of switch"
