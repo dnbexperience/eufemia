@@ -398,10 +398,10 @@ stories.push([
         <Box>
           <Switch
             label="Label:"
+            // labelledby="switch-1-label"
+            // title="Ths is the title"
             title_positive="Yes"
             title_negative="No"
-            // labelledby="switch-1-label"
-            title="Ths is the title"
             value="Value of switch"
             default_state={false}
             checked={false}
