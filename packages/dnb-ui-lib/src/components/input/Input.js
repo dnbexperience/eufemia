@@ -16,6 +16,7 @@ import {
   pickRenderProps,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
+import { isIE11 } from '../../shared/helpers'
 
 const renderProps = {
   on_change: null,
@@ -303,7 +304,7 @@ export default class Input extends PureComponent {
                 <Elem innerRef={this._ref} {...inputParams} />
               ) : null) || <input ref={this._ref} {...inputParams} />)}
 
-            {placeholder && (
+            {placeholder && !isIE11 && (
               <span
                 aria-hidden
                 className={classnames(
