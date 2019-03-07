@@ -12,7 +12,17 @@ describe('Tabs screenshot', () => {
   setupPageScreenshot({ url: '/uilib/components/tabs' })
   it('have to match the "Tablist"', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="tabs-tablist"] .dnb-tabs'
+      selector: '[data-dnb-test="tabs-tablist"] .dnb-tabs__tabs'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+  it('have to match the "Tablist" on focus state', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-dnb-test="tabs-tablist"] .dnb-tabs__tabs',
+      style: { margin: '0 2rem' },
+      simulateSelector:
+        '[data-dnb-test="tabs-tablist"] .dnb-tabs__tabs__tablist',
+      simulate: 'focus'
     })
     expect(screenshot).toMatchImageSnapshot()
   })

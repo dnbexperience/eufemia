@@ -25,6 +25,16 @@
       }
     }
 
+    &__tablist {
+      // Only used on to visualize the tab ring nicer
+      // This was a request by the ux team
+      margin: 0 -1rem;
+      padding: 0 1rem;
+      &:focus {
+        border-radius: 0.5rem;
+      }
+    }
+
     .dnb-tablink {
       // should be same as .lead small
       &-title {

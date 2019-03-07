@@ -220,6 +220,12 @@ exports[`Tabs scss have to match default theme snapshot 1`] = `
     background-color: var(--color-mint-green);
     box-shadow: 100vw 0 0 0 var(--color-mint-green); } }
 
+.dnb-tabs__tabs__tablist {
+  margin: 0 -1rem;
+  padding: 0 1rem; }
+  .dnb-tabs__tabs__tablist:focus {
+    border-radius: 0.5rem; }
+
 .dnb-tabs__tabs .dnb-tablink-title {
   font-weight: var(--font-weight-book);
   font-size: var(--font-size-default);
