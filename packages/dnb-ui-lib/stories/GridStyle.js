@@ -54,7 +54,7 @@ const gridStyle = ({
       content: '';
 
       position: absolute;
-      z-index: -1;
+      z-index: -100;
       top: 0;
       left: 0;
 
