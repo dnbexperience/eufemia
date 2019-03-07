@@ -626,9 +626,9 @@ class ListItem extends PureComponent {
           to={to}
           className={classnames(
             'dnb-anchor',
-            'dnb-anchor-no-underline',
-            'dnb-anchor-no-radius',
-            'dnb-anchor-no-hover',
+            'dnb-anchor--no-underline',
+            'dnb-anchor--no-radius',
+            'dnb-anchor--no-hover',
             icon && graphics[icon] ? 'has-icon' : null
           )}
           {...params}

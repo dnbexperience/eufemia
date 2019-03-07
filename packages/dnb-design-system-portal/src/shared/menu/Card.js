@@ -174,7 +174,7 @@ export default class Card extends PureComponent {
           >
             <Link
               css={[linkStyle, customStyle]}
-              className="dnb-anchor-no-style"
+              className="dnb-anchor--no-style"
               to={url}
               aria-current={this.isSelected()}
               onClick={closeMenu}

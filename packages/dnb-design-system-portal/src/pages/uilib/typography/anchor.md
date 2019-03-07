@@ -30,7 +30,7 @@ Beside that the Anchor Tag gets assigned by default - or let's say, by only impo
 
 ## Manipulation
 
-- `.dnb-anchor-no-animation` <a href="/" class="dnb-anchor dnb-anchor-no-animation">No Animation</a>
-- `.dnb-anchor-no-style` <a href="/" class="dnb-anchor dnb-anchor-no-style">No Style</a>
-- `.dnb-anchor-no-hover` <a href="/" class="dnb-anchor dnb-anchor-no-hover">No Hover</a>
-- `.dnb-anchor-no-underline` <a href="/" class="dnb-anchor dnb-anchor-no-underline">No Underline</a>
+- `.dnb-anchor--no-animation` <a href="/" class="dnb-anchor dnb-anchor--no-animation">No Animation</a>
+- `.dnb-anchor--no-style` <a href="/" class="dnb-anchor dnb-anchor--no-style">No Style</a>
+- `.dnb-anchor--no-hover` <a href="/" class="dnb-anchor dnb-anchor--no-hover">No Hover</a>
+- `.dnb-anchor--no-underline` <a href="/" class="dnb-anchor dnb-anchor--no-underline">No Underline</a>
