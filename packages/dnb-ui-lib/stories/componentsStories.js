@@ -396,22 +396,30 @@ stories.push([
     <CustomStyle>
       <Wrapper>
         <Box>
+          <FormLabel for_id="switch">Unchecked:</FormLabel>
+          <Switch id="switch" checked={false} />
+        </Box>
+        <Box>
+          <Switch label="Checked:" checked={true} />
+        </Box>
+        <Box>
+          <Switch label="Unchecked disabled:" checked={false} disabled />
+        </Box>
+        <Box>
+          <Switch label="Checked disabled:" checked={true} disabled />
+        </Box>
+        <Box>
           <Switch
-            id="switch-1"
-            text_positive="Yes"
-            text_negative="No"
-            labelledby="switch-1-label"
-            title="Ths is the title"
-            value="Value of switch"
-            default_state={false}
+            label="Unchecked status error:"
             checked={false}
-            // on_state_update={this.props.onStateUpdate}
-            // on_change={this.props.onChange}
-            attributes={{
-              'data-fake:on_change': 'SwitchDemo.onChangeHandler()',
-              'data-fake:on_state_update':
-                'SwitchDemo.onStateUpdateHandler()'
-            }}
+            status="error"
+          />
+        </Box>
+        <Box>
+          <Switch
+            label="Checked status error:"
+            checked={true}
+            status="Error message"
           />
         </Box>
       </Wrapper>

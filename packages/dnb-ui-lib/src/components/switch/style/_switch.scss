@@ -3,18 +3,16 @@
 *
 */
 
-$switch-border-width: 1px;
+:root {
+  --switch-border-width: 1px;
+}
 
 .dnb-switch {
   user-select: none;
   display: inline-block;
-  vertical-align: middle;
 
-  &__inner {
-    position: relative;
-    display: inline-block;
-    vertical-align: middle;
-  }
+  margin: 0;
+  padding: 0;
 
   &__focus,
   &__button {
@@ -33,52 +31,37 @@ $switch-border-width: 1px;
     top: 50%;
 
     display: inline-flex;
-    vertical-align: middle;
     align-content: center;
     align-items: center;
     justify-content: center;
 
     transition: transform 160ms ease-out 125ms;
-    transform: translate(-0.2rem, -50%);
 
-    background-color: white;
-    border: $switch-border-width solid var(--color-sea-green-alt);
+    border: var(--switch-border-width) solid transparent;
 
-    font-size: 0.5rem;
-    text-transform: uppercase;
-    color: var(--color-sea-green);
-
-    box-shadow: 0 2px 2px rgba(0, 135, 137, 0.24);
-
-    // @include hover(true) {
-    //   opacity: 0.1;
-    // }
+    // TODO: Can be removed later
+    // Text inside the button, take a look at __text-item
+    // vertical-align: middle;
+    // font-size: 0.5rem;
+    // text-transform: uppercase;
+    // color: var(--color-sea-green);
   }
 
-  // this don't works quiet well yet
-  // &:not(.switch-startup) &__button {
-  //   transition: transform 160ms ease-out 125ms;
+  // TODO: Can be removed later
+  // &__text-item {
+  //   z-index: 3;
+  //
+  //   text-align: center;
+  //   line-height: 1; // for vertical alignment, we have to have no line-height
+  //
+  //   color: inherit;
+  //   background-color: inherit;
   // }
-  // &:focus ~ &__button {
-  // }
-
-  &__text-item {
-    z-index: 3;
-
-    text-align: center;
-    line-height: 1; // for vertical alignment, we have to have no line-height
-
-    color: inherit;
-    background-color: inherit;
-    // text-indent: -$switch-border-width;
-    // transform: translateY($switch-border-width);
-  }
 
   &__background {
     display: block;
-    width: 2.3rem;
+    width: 2.5rem; // left  -4,8
     height: 1rem;
-    background-color: var(--color-sea-green-alt);
     border-radius: 0.8125rem;
   }
 
@@ -111,6 +94,12 @@ $switch-border-width: 1px;
     // }
   }
 
+  &__inner {
+    position: relative;
+    display: inline-block;
+    align-items: center;
+    vertical-align: middle;
+  }
   &__inner:not([disabled]) &__background,
   &__inner:not([disabled]) &__button {
     cursor: pointer;
@@ -118,71 +107,5 @@ $switch-border-width: 1px;
 
   &__input {
     @include srOnly;
-
-    /*
-    * When switched ON
-    * aka when the checkbox is :checked
-    */
-    &:checked ~ .dnb-switch__button {
-      border-color: var(--color-sea-green);
-      background-color: var(--color-sea-green);
-      color: white;
-      /* stylelint-disable */
-      transform: translate(1rem, -50%); // IE fix
-      transform: translate(calc(1rem + #{$switch-border-width}), -50%);
-      /* stylelint-enable */
-
-      .dnb-switch__text-item--positive {
-        display: block;
-      }
-
-      .dnb-switch__text-item--negative {
-        display: none;
-      }
-    }
-
-    /*
-    * On disabled
-    *
-    */
-    &[disabled] ~ .dnb-switch__button,
-    &[disabled] ~ .dnb-switch__background {
-      opacity: 0.8;
-    }
-    &[disabled] ~ .dnb-switch__background {
-      background-color: rgba(var(--color-black-30), 0.5);
-    }
-    &[disabled] ~ .dnb-switch__button {
-      color: rgba(white, 0.6);
-      border-color: rgba(var(--color-black-30), 0.5);
-      background-color: var(--color-black-30);
-      box-shadow: none;
-    }
-
-    &:checked:focus ~ .dnb-switch__button .dnb-switch__focus,
-    &:checked:active ~ .dnb-switch__button .dnb-switch__focus {
-      transform: rotate(180deg);
-    }
-
-    &:active ~ .dnb-switch__button {
-      color: rgba(var(--color-sea-green), 0.75);
-    }
-    &:checked:active ~ .dnb-switch__button {
-      color: rgba(white, 0.85);
-    }
-
-    /*
-    * On focus
-    *
-    */
-    &:not([disabled]):focus ~ .dnb-switch__background,
-    &:not([disabled]):active ~ .dnb-switch__background {
-      @include fakeFocus();
-    }
-
-    &:not([disabled]):focus ~ .dnb-switch__button .dnb-switch__focus,
-    &:not([disabled]):active ~ .dnb-switch__button .dnb-switch__focus {
-      display: block;
-    }
   }
 }

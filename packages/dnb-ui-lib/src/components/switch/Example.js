@@ -5,81 +5,91 @@
 
 import React, { PureComponent, Fragment } from 'react'
 import ComponentBox from '../../../../dnb-design-system-portal/src/shared/tags/ComponentBox'
-// import Switch from './Switch'
-// import FormLabel from '../../components/form-label/FormLabel'
 
 class Example extends PureComponent {
-  static onChangeHandler = state => {
+  onChangeHandler = state => {
     console.log('onChangeHandler', state)
-  }
-  static onStateUpdateHandler = state => {
-    console.log('onStateUpdateHandler', state)
   }
 
   render() {
-    const {
-      onStateUpdateHandler: onStateUpdate,
-      onChangeHandler: onChange
-    } = this
+    const { onChangeHandler: onChange } = this
     return (
       <Fragment>
         <ComponentBox
-          caption="Default Swtich"
-          data-dnb-test="swtich-default"
-          scope={{ onStateUpdate, onChange }}
+          caption="Default state, unchecked Switch"
+          data-dnb-test="switch-default"
+          scope={{ onChange }}
         >
           {/* @jsx */ `
-<FormLabel
-  for_id="switch-1"
-  text="Switch label:"
-/>
 <Switch
-  id="switch-1"
-  text_positive="Yes"
-  text_negative="No"
-  // labelledby="switch-1-label"
-  title="Ths is the title"
-  value="Value of switch"
-  default_state={false}
-  checked={false}
-  on_state_update={onStateUpdate}
+  label="Label:"
   on_change={onChange}
 />
           `}
         </ComponentBox>
         <ComponentBox
-          caption="Disabled Swtich"
-          data-dnb-test="swtich-default"
-          scope={{ onStateUpdate, onChange }}
+          caption="Checked Switch"
+          data-dnb-test="switch-checked"
+          scope={{ onChange }}
         >
           {/* @jsx */ `
-<SwitchDemo
-  active_second={this.state.active_second}
-  onStateUpdate={({ checked }) =>
-      this.setState({
-        active_first: checked,
-        active_second: checked
-      })
-    }
-  onChange={({ checked }) =>
-    this.setState({
-      active_first: checked,
-      active_second: checked
-    })
-  }
-/>
-<dnb-switch
-  id="switch-2"
+<Switch
+  label="Label:"
   title="Ths is the title"
-  disabled
-  default_state="true"
-  checked={this.state.active_second ? 'true' : 'false'}
-  on_change="SwitchDemo.onChangeHandler"
-  on_state_update="SwitchDemo.onStateUpdateHandler"
+  checked
+  on_change={({ checked }) => console.log(checked)}
 />
           `}
         </ComponentBox>
+        <StateDemo />
       </Fragment>
+    )
+  }
+}
+
+class StateDemo extends PureComponent {
+  render() {
+    return typeof window !== 'undefined' && window.IS_TEST ? (
+      <ComponentBox data-dnb-test="switch-disabled">
+        {/* @jsx */ `
+<Switch
+  checked
+  disabled
+/>
+`}
+      </ComponentBox>
+    ) : (
+      <ComponentBox
+        caption="Disabled Switch in checked state"
+        noFragments={false}
+      >
+        {/* @jsx */ `
+() => {
+  const [switchIsEnabled, setState] = useState(false)
+  useEffect(() => {
+    const timer = setInterval(() => setState(!switchIsEnabled), 1e3)
+    return () => clearTimeout(timer)
+  })
+  return (<>
+    <FormLabel
+      id="switch-1-label"
+      for_id="switch-1"
+      text="Switch label:"
+    />
+    <Switch
+      id="switch-1"
+      title_positive="Yes"
+      title_negative="No"
+      aria-labelledby="switch-1-label"
+      default_state={true}
+      checked={switchIsEnabled}
+      on_state_update={({checked}) => {}}
+      disabled
+    />
+  </>)
+}
+        `}
+      </ComponentBox>
     )
   }
 }

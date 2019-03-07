@@ -42,7 +42,7 @@ const globalStyle = css`
 
 const ToggleWrapper = styled.span`
   .dnb-form-label {
-    margin: 1px 0.5rem 0;
+    margin-right: 0.5rem;
   }
   @media (max-width: 50em) {
     display: none;

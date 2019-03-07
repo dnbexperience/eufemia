@@ -1,0 +1,227 @@
+/*
+* Switch theme
+*
+*/
+
+@import '../../../../style/themes/imports.scss';
+
+// :root {
+// }
+
+.dnb-switch {
+  &__background {
+    position: relative;
+    background-color: var(--color-sea-green-alt-30);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    overflow: hidden;
+
+    &::after {
+      content: '';
+      position: absolute;
+      transition: transform 0.3s ease-out;
+    }
+  }
+
+  /*
+    * When switched OFF
+    * aka when the checkbox is not :checked
+    */
+  &__input:not(:checked) ~ &__button {
+    transform: translate(0, -50%);
+    transform: translate(
+      calc(1px - 1px - var(--switch-border-width)),
+      -50%
+    );
+
+    background-color: var(--color-white);
+    border: var(--switch-border-width) solid var(--color-sea-green-alt);
+
+    // TODO: remove this
+    // .dnb-switch__text-item--positive {
+    //   display: none;
+    // }
+    // .dnb-switch__text-item--negative {
+    //   display: block;
+    // }
+  }
+
+  /*
+    * When switched ON
+    * aka when the checkbox is :checked
+    */
+  &__input:checked ~ &__button {
+    transform: translate(1rem, -50%); // IE fix
+    transform: translate(calc(1rem + var(--switch-border-width)), -50%);
+
+    background-color: var(--color-sea-green);
+
+    // TODO: remove this
+    // .dnb-switch__text-item--positive {
+    //   display: block;
+    // }
+    // .dnb-switch__text-item--negative {
+    //   display: none;
+    // }
+  }
+
+  /*
+    * Draw the circle / line
+    *
+    */
+  &__input:not(:checked) ~ &__background {
+    &::after {
+      position: absolute;
+      // right: 0.3125rem;
+      right: 0;
+      transform: translateX(-0.3125rem);
+
+      width: 0.5rem;
+      height: 0.5rem;
+      border-radius: 50%;
+      border: 0.0625rem solid var(--color-sea-green);
+    }
+  }
+  &__input:checked ~ &__background {
+    &::after {
+      position: absolute;
+      // left: 0.5rem;
+      left: 0;
+      transform: translateX(calc(0.5rem + 0.125rem));
+
+      width: 0.0625rem;
+      height: 0.5rem;
+      border-radius: 0.0625rem;
+      background-color: var(--color-sea-green);
+    }
+  }
+
+  /*
+    * On disabled
+    *
+    */
+  // &__input[disabled] ~ &__button,
+  // &__input[disabled] ~ &__background {
+  // }
+  &__input[disabled] ~ &__background {
+    background-color: var(--color-mint-green-25);
+  }
+  &__input[disabled]:checked ~ &__background {
+    &::after {
+      background-color: var(--color-sea-green-alt-30);
+    }
+  }
+  &__input[disabled]:not(:checked) ~ &__background {
+    &::after {
+      border-color: var(--color-sea-green-alt-30);
+    }
+  }
+  &__input[disabled] ~ &__button {
+    border-color: var(--color-sea-green-alt-30);
+  }
+  &__input[disabled]:checked ~ &__button {
+    background-color: var(--color-sea-green-alt-30);
+  }
+
+  /*
+    * On hover
+    *
+    */
+  &__input:not([disabled]):not(:focus):hover ~ &__button {
+    border-color: var(--color-sea-green);
+    background-color: var(--color-mint-green-50);
+  }
+
+  /*
+    * On active
+    *
+    */
+  /* stylelint-disable */
+  &__input:not([disabled]):active ~ &__button {
+    background-color: var(--color-mint-green-50);
+    border: none;
+  }
+  /* stylelint-enable */
+
+  /*
+    * On focus
+    *
+    */
+  /* stylelint-disable */
+  &__input:not([disabled]):focus ~ &__button {
+    html[data-whatinput='keyboard'] & {
+      border: none;
+    }
+  }
+  /* stylelint-enable */
+  &__input:not([disabled]):focus ~ &__background,
+  &__input:not([disabled]):active ~ &__background {
+    @include fakeFocus();
+  }
+  &__input:not([disabled]):focus ~ &__button &__focus,
+  &__input:not([disabled]):active ~ &__button &__focus {
+    display: block;
+  }
+  &__input:not([disabled]):checked ~ &__button &__focus {
+    transform: rotate(180deg);
+  }
+  /* stylelint-disable */
+  &__input:not([disabled]):not(:checked):focus ~ &__button,
+  &__input:not([disabled]):not(:checked):active ~ &__button {
+    background-color: var(--color-mint-green-50);
+  }
+  /* stylelint-enable */
+
+  /*
+    * On error state
+    *
+    */
+  /* stylelint-disable */
+  &__status--error
+    &__input:not([disabled]):not(:focus):not(:active)
+    ~ &__button {
+    border: none;
+  }
+  &__status--error
+    &__input:not([disabled]):not(:focus):not(:active):checked
+    ~ &__button {
+    border-color: var(--color-cherry-red);
+    background-color: var(--color-cherry-red);
+  }
+  &__status--error
+    &__input:not([disabled]):not(:focus):not(:active)
+    ~ &__background {
+    background-color: var(--color-cherry-red-80);
+    @include fakeBorder(var(--color-cherry-red), $focusRingWidth);
+  }
+  &__status--error
+    &__input:not(:focus):not([disabled]):not(:active):checked
+    ~ &__background {
+    &::after {
+      background-color: var(--color-cherry-red);
+    }
+  }
+  &__status--error
+    &__input:not(:focus):not([disabled]):not(:active):not(:checked)
+    ~ &__background {
+    &::after {
+      border-color: var(--color-cherry-red);
+    }
+  }
+  &__status--error
+    &__input:not([disabled]):not(:focus):not(:active)
+    ~ &__button
+    &__focus {
+    display: block;
+    @include fakeBorder(var(--color-cherry-red), $focusRingWidth);
+  }
+  &__status--error
+    &__input:not([disabled]):not(:focus):not(:active):checked
+    ~ &__button
+    &__focus {
+    transform: rotate(180deg);
+  }
+  /* stylelint-enable */
+}

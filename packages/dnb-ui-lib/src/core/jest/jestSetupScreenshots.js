@@ -153,14 +153,14 @@ module.exports.testPageScreenshot = ({
         elementToSimulate = null
       }
 
-      if (secreenshotSelector) {
-        await page.waitForSelector(secreenshotSelector)
-        screenshotElement = await page.$(secreenshotSelector)
-      }
-
       // wait before taking screenshot
       if (waitFor > 0) {
         await page.waitFor(waitFor)
+      }
+
+      if (secreenshotSelector) {
+        await page.waitForSelector(secreenshotSelector)
+        screenshotElement = await page.$(secreenshotSelector)
       }
 
       const screenshot = await screenshotElement.screenshot()

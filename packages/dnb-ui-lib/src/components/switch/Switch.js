@@ -10,10 +10,11 @@ import keycode from 'keycode'
 import {
   registerElement,
   validateDOMAttributes,
-  processChildren,
+  // processChildren,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
-// import './style/dnb-switch.scss' // no good solution to import the style here
+import FormLabel from '../form-label/FormLabel'
+import FormStatus from '../form-status/FormStatus'
 
 const renderProps = {
   on_change: null,
@@ -21,20 +22,23 @@ const renderProps = {
 }
 
 export const propTypes = {
-  text_positive: PropTypes.string,
-  text_negative: PropTypes.string,
+  title_positive: PropTypes.string,
+  title_negative: PropTypes.string,
+  label: PropTypes.string,
   title: PropTypes.string,
   default_state: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   checked: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   id: PropTypes.string,
+  status: PropTypes.string,
+  status_state: PropTypes.string,
+  status_animation: PropTypes.string,
   value: PropTypes.string,
   attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  labelledby: PropTypes.string,
+  // labelledby: PropTypes.string,
   class: PropTypes.string,
 
   /// React props
-  onClick: PropTypes.func,
   className: PropTypes.string,
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
 
@@ -46,20 +50,23 @@ export const propTypes = {
 }
 
 export const defaultProps = {
-  text_positive: 'Ja', // Yes
-  text_negative: 'Nei', // No
+  title_positive: 'Yes',
+  title_negative: 'No',
+  label: null,
   title: null,
   default_state: null,
   checked: 'default', //we have to send this as a string
   disabled: false,
   id: null,
+  status: null,
+  status_state: 'error',
+  status_animation: null,
   value: null,
   attributes: null,
-  labelledby: null,
+  // labelledby: null,
   class: null,
 
   // React props
-  onClick: null,
   className: null,
   children: null,
 
@@ -96,11 +103,6 @@ export default class Switch extends Component {
     state._listenForPropChanges = true
 
     return state
-  }
-
-  static getTitle(props) {
-    if (props.title) return props.title
-    return processChildren(props)
   }
 
   constructor(props) {
@@ -141,77 +143,136 @@ export default class Switch extends Component {
     dispatchCustomElementEvent(this, 'on_change', { checked, event })
   }
 
-  render() {
-    const classes = classnames(
-      'dnb-switch',
-      this.props.class,
-      this.props.className
-    )
+  onMouseOutHandler = () => {
+    // this way we keep the new state after the user changed the state, without getting the error state back vissually
+    if (this.props.status_state === 'error') {
+      return
+    }
+    if (this._refInput.current) {
+      this._refInput.current.blur()
+    }
+  }
 
-    const title = Switch.getTitle(this.props)
-    const { disabled, labelledby } = this.props
+  render() {
+    const {
+      value,
+      status,
+      status_state,
+      status_animation,
+      label,
+      title,
+      title_positive,
+      title_negative,
+      disabled,
+      className,
+      class: _className,
+
+      id: _id, // eslint-disable-line
+      default_state: _default_state, // eslint-disable-line
+      checked: _checked, // eslint-disable-line
+      attributes, // eslint-disable-line
+      children, // eslint-disable-line
+      on_change, // eslint-disable-line
+      on_state_update, // eslint-disable-line
+      custom_method, // eslint-disable-line
+      custom_element, // eslint-disable-line
+
+      ...rest
+    } = this.props
+
     const { checked } = this.state
 
-    const params = {
+    const id = this._id
+    const showStatus = status && status !== 'error'
+
+    const classes = classnames(
+      'dnb-switch',
+      status && `dnb-switch__status--${status_state}`,
+      className,
+      _className
+    )
+
+    const labelParams = {
+      disabled,
+      onMouseOut: this.onMouseOutHandler, // for resetting the button to the default state
+      ...rest
+    }
+    const inputParams = {
       disabled,
       checked
     }
-    if (labelledby) {
-      params['aria-labelledby'] = labelledby
-    }
-    const labelParams = { disabled }
 
     // also used for code markup simulation
-    validateDOMAttributes(this.props, params)
+    validateDOMAttributes(this.props, inputParams)
     validateDOMAttributes(null, labelParams)
 
     return (
-      <span className={classes}>
-        <label
-          id={`${this._id}-internal`}
-          className="dnb-switch__inner"
-          htmlFor={this._id}
-          title={title}
-          ref={this._refLabel}
-          {...labelParams}
-        >
-          <input
-            type="checkbox"
-            className="dnb-switch__input"
-            name={this._id}
-            id={this._id}
-            role="switch"
-            aria-hidden="true"
-            aria-checked={this.state.checked}
-            value={this.state.checked ? this.props.value || '' : ''}
-            onChange={this.onChangeHandler}
-            onKeyDown={this.onKeyDownHandler}
-            ref={this._refInput}
-            {...params}
+      <>
+        {label && (
+          <FormLabel
+            aria-hidden
+            for_id={id}
+            text={label}
+            disabled={disabled}
           />
-          <span
-            draggable="true"
-            className="dnb-switch__background"
-            aria-hidden="true"
-            onDragStart={this.onChangeHandler}
-            {...this.helperParams}
-          />
-          <span className="dnb-switch__button">
-            {this.state.checked ? (
-              <span className="dnb-switch__text-item dnb-switch__text-item--positive">
-                {this.props.text_positive}
+        )}
+        <span className={classes}>
+          <label
+            id={`${id}-internal`}
+            className="dnb-switch__inner"
+            htmlFor={id}
+            title={
+              title ? title : checked ? title_positive : title_negative
+            }
+            ref={this._refLabel}
+            {...labelParams}
+          >
+            <input
+              type="checkbox"
+              className="dnb-switch__input"
+              name={id}
+              id={id}
+              role="switch"
+              aria-hidden="true"
+              aria-checked={checked}
+              value={checked ? value || '' : ''}
+              onChange={this.onChangeHandler}
+              onKeyDown={this.onKeyDownHandler}
+              ref={this._refInput}
+              {...inputParams}
+            />
+            <span
+              draggable="true"
+              className="dnb-switch__background"
+              aria-hidden="true"
+              onDragStart={this.onChangeHandler}
+              {...this.helperParams}
+            />
+            <span className="dnb-switch__button">
+              {/* {checked ? (
+                <span className="dnb-switch__text-item dnb-switch__text-item--positive">
+                  {title_positive}
+                </span>
+              ) : (
+                <span className="dnb-switch__text-item dnb-switch__text-item--negative">
+                  {title_negative}
+                </span>
+              )} */}
+              <span className="dnb-switch__focus" aria-hidden="true">
+                <span className="dnb-switch__focus__inner" />
               </span>
-            ) : (
-              <span className="dnb-switch__text-item dnb-switch__text-item--negative">
-                {this.props.text_negative}
-              </span>
-            )}
-            <span className="dnb-switch__focus" aria-hidden="true">
-              <span className="dnb-switch__focus__inner" />
             </span>
-          </span>
-        </label>
-      </span>
+          </label>
+          {showStatus && (
+            <FormStatus
+              text={status}
+              status={status_state}
+              text_id={id + '-status'} // used for "aria-describedby"
+              animation={status_animation}
+            />
+          )}
+        </span>
+      </>
     )
   }
 }

@@ -11,17 +11,39 @@ exports[`Switch component have to match snapshot 1`] = `
   default_state="default_state"
   disabled="disabled"
   id="id"
-  labelledby="labelledby"
-  onClick={[Function]}
+  label="label"
   on_change={[Function]}
   on_state_update={[Function]}
-  text_negative="text_negative"
-  text_positive="text_positive"
+  status={null}
+  status_animation="status_animation"
+  status_state="status_state"
   title="title"
+  title_negative="title_negative"
+  title_positive="title_positive"
   value="value"
 >
+  <FormLabel
+    aria-hidden={true}
+    class={null}
+    className={null}
+    disabled="disabled"
+    for_id="id"
+    id={null}
+    render_content={null}
+    text="label"
+    title={null}
+  >
+    <label
+      aria-disabled={true}
+      className="dnb-form-label"
+      disabled="disabled"
+      htmlFor="id"
+    >
+      label
+    </label>
+  </FormLabel>
   <span
-    className="dnb-switch class className"
+    className="dnb-switch className class"
   >
     <label
       aria-disabled={true}
@@ -29,13 +51,13 @@ exports[`Switch component have to match snapshot 1`] = `
       disabled="disabled"
       htmlFor="id"
       id="id-internal"
+      onMouseOut={[Function]}
       title="title"
     >
       <input
         aria-checked={false}
         aria-disabled={true}
         aria-hidden="true"
-        aria-labelledby="labelledby"
         checked={false}
         className="dnb-switch__input"
         disabled="disabled"
@@ -58,11 +80,6 @@ exports[`Switch component have to match snapshot 1`] = `
         className="dnb-switch__button"
       >
         <span
-          className="dnb-switch__text-item dnb-switch__text-item--negative"
-        >
-          text_negative
-        </span>
-        <span
           aria-hidden="true"
           className="dnb-switch__focus"
         >
@@ -74,6 +91,151 @@ exports[`Switch component have to match snapshot 1`] = `
     </label>
   </span>
 </Switch>
+`;
+
+exports[`Switch scss have to match default theme snapshot 1`] = `
+"/*
+* Switch theme
+*
+*/
+/**
+ * This file is only used to make themes independent
+ * so that they can get imported individually, without the core styles
+ *
+ */
+/*
+ * Utilities
+ */
+.dnb-switch {
+  /*
+    * When switched OFF
+    * aka when the checkbox is not :checked
+    */
+  /*
+    * When switched ON
+    * aka when the checkbox is :checked
+    */
+  /*
+    * Draw the circle / line
+    *
+    */
+  /*
+    * On disabled
+    *
+    */
+  /*
+    * On hover
+    *
+    */
+  /*
+    * On active
+    *
+    */
+  /* stylelint-disable */
+  /* stylelint-enable */
+  /*
+    * On focus
+    *
+    */
+  /* stylelint-disable */
+  /* stylelint-enable */
+  /* stylelint-disable */
+  /* stylelint-enable */
+  /*
+    * On error state
+    *
+    */
+  /* stylelint-disable */
+  /* stylelint-enable */ }
+  .dnb-switch__background {
+    position: relative;
+    background-color: var(--color-sea-green-alt-30);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    overflow: hidden; }
+    .dnb-switch__background::after {
+      content: '';
+      position: absolute;
+      transition: transform 0.3s ease-out; }
+  .dnb-switch__input:not(:checked) ~ .dnb-switch__button {
+    transform: translate(0, -50%);
+    transform: translate(calc(1px - 1px - var(--switch-border-width)), -50%);
+    background-color: var(--color-white);
+    border: var(--switch-border-width) solid var(--color-sea-green-alt); }
+  .dnb-switch__input:checked ~ .dnb-switch__button {
+    transform: translate(1rem, -50%);
+    transform: translate(calc(1rem + var(--switch-border-width)), -50%);
+    background-color: var(--color-sea-green); }
+  .dnb-switch__input:not(:checked) ~ .dnb-switch__background::after {
+    position: absolute;
+    right: 0;
+    transform: translateX(-0.3125rem);
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    border: 0.0625rem solid var(--color-sea-green); }
+  .dnb-switch__input:checked ~ .dnb-switch__background::after {
+    position: absolute;
+    left: 0;
+    transform: translateX(calc(0.5rem + 0.125rem));
+    width: 0.0625rem;
+    height: 0.5rem;
+    border-radius: 0.0625rem;
+    background-color: var(--color-sea-green); }
+  .dnb-switch__input[disabled] ~ .dnb-switch__background {
+    background-color: var(--color-mint-green-25); }
+  .dnb-switch__input[disabled]:checked ~ .dnb-switch__background::after {
+    background-color: var(--color-sea-green-alt-30); }
+  .dnb-switch__input[disabled]:not(:checked) ~ .dnb-switch__background::after {
+    border-color: var(--color-sea-green-alt-30); }
+  .dnb-switch__input[disabled] ~ .dnb-switch__button {
+    border-color: var(--color-sea-green-alt-30); }
+  .dnb-switch__input[disabled]:checked ~ .dnb-switch__button {
+    background-color: var(--color-sea-green-alt-30); }
+  .dnb-switch__input:not([disabled]):not(:focus):hover ~ .dnb-switch__button {
+    border-color: var(--color-sea-green);
+    background-color: var(--color-mint-green-50); }
+  .dnb-switch__input:not([disabled]):active ~ .dnb-switch__button {
+    background-color: var(--color-mint-green-50);
+    border: none; }
+  html[data-whatinput='keyboard'] .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__button {
+    border: none; }
+  .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__background,
+  .dnb-switch__input:not([disabled]):active ~ .dnb-switch__background {
+    outline: none; }
+    html[data-whatinput='keyboard'] .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__background, html[data-whatinput='keyboard']
+    .dnb-switch__input:not([disabled]):active ~ .dnb-switch__background {
+      box-shadow: 0 0 0 2px var(--color-emerald-green);
+      border-color: transparent; }
+  .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__button .dnb-switch__focus,
+  .dnb-switch__input:not([disabled]):active ~ .dnb-switch__button .dnb-switch__focus {
+    display: block; }
+  .dnb-switch__input:not([disabled]):checked ~ .dnb-switch__button .dnb-switch__focus {
+    transform: rotate(180deg); }
+  .dnb-switch__input:not([disabled]):not(:checked):focus ~ .dnb-switch__button,
+  .dnb-switch__input:not([disabled]):not(:checked):active ~ .dnb-switch__button {
+    background-color: var(--color-mint-green-50); }
+  .dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):not(:active) ~ .dnb-switch__button {
+    border: none; }
+  .dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):not(:active):checked ~ .dnb-switch__button {
+    border-color: var(--color-cherry-red);
+    background-color: var(--color-cherry-red); }
+  .dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):not(:active) ~ .dnb-switch__background {
+    background-color: var(--color-cherry-red-80);
+    box-shadow: 0 0 0 2px var(--color-cherry-red);
+    border-color: transparent; }
+  .dnb-switch__status--error .dnb-switch__input:not(:focus):not([disabled]):not(:active):checked ~ .dnb-switch__background::after {
+    background-color: var(--color-cherry-red); }
+  .dnb-switch__status--error .dnb-switch__input:not(:focus):not([disabled]):not(:active):not(:checked) ~ .dnb-switch__background::after {
+    border-color: var(--color-cherry-red); }
+  .dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):not(:active) ~ .dnb-switch__button .dnb-switch__focus {
+    display: block;
+    box-shadow: 0 0 0 2px var(--color-cherry-red);
+    border-color: transparent; }
+  .dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):not(:active):checked ~ .dnb-switch__button .dnb-switch__focus {
+    transform: rotate(180deg); }
+"
 `;
 
 exports[`Switch scss have to match snapshot 1`] = `
@@ -207,6 +369,818 @@ exports[`Switch scss have to match snapshot 1`] = `
  * Document Reset
  *
  */
+/*
+* DNB FormLabel
+*
+*/
+.dnb-form-label {
+  /**
+   * 1. Remove repeating backgrounds in all browsers (opinionated).
+   * 2. Add border box sizing in all browsers (opinionated).
+   */
+  /**
+   * 1. Add text decoration inheritance in all browsers (opinionated).
+   * 2. Add vertical alignment inheritance in all browsers (opinionated).
+   */
+  /* Grouping content
+   */
+  /**
+   * 1. Add the correct sizing in Firefox.
+   * 2. Show the overflow in Edge and IE.
+   */
+  /**
+   * Add the correct display in IE.
+   */
+  /**
+   * Remove the list style on navigation lists in all browsers (opinionated).
+   */
+  /**
+   * 1. Use the default monospace user interface font
+   *    in all browsers (opinionated).
+   * 2. Correct the odd \`em\` font sizing in all browsers.
+   */
+  /* Text-level semantics
+   */
+  /**
+   * Remove the gray background on active links in IE 10.
+   */
+  /**
+   * Add the correct text decoration in Edge, IE, Opera, and Safari.
+   */
+  /**
+   * Add the correct font weight in Chrome, Edge, and Safari.
+   */
+  /**
+   * 1. Use the default monospace user interface font
+   *    in all browsers (opinionated).
+   * 2. Correct the odd \`em\` font sizing in all browsers.
+   */
+  /*
+   * Remove the text shadow on text selections in Firefox 61- (opinionated).
+   * 1. Restore the coloring undone by defining the text shadow
+   *    in all browsers (opinionated).
+   */
+  /* Embedded content
+   */
+  /*
+   * Change the alignment on media elements in all browers (opinionated).
+   */
+  /**
+   * Add the correct display in IE 9-.
+   */
+  /**
+   * Add the correct display in iOS 4-7.
+   */
+  /**
+   * Remove the border on images inside links in IE 10-.
+   */
+  /**
+   * Change the fill color to match the text color in all browsers (opinionated).
+   */
+  /**
+   * Hide the overflow in IE.
+   */
+  /* Tabular data
+   */
+  /**
+   * Collapse border spacing in all browsers (opinionated).
+   */
+  /* Forms
+   */
+  /**
+   * Inherit styling in all browsers (opinionated).
+   */
+  /**
+   * Remove the margin in Safari.
+   */
+  /**
+   * 1. Show the overflow in IE.
+   * 2. Remove the inheritance of text transform in Edge, Firefox, and IE.
+   */
+  /**
+   * Correct the inability to style clickable types in iOS and Safari.
+   */
+  /**
+   * Correct the padding in Firefox.
+   */
+  /**
+   * Show the overflow in Edge and IE.
+   * 1. Safari did inherit the break-word from html root
+   */
+  /**
+   * 1. Correct the text wrapping in Edge and IE.
+   * 2. Correct the color inheritance from \`fieldset\` elements in IE.
+   */
+  /**
+   * 1. Add the correct display in Edge and IE.
+   * 2. Add the correct vertical alignment in Chrome, Firefox, and Opera.
+   */
+  /**
+   * Remove the inheritance of text transform in Firefox.
+   */
+  /**
+   * 2. Remove the default vertical scrollbar in IE.
+   * 3. Change the resize direction on textareas in all browsers (opinionated).
+   */
+  /**
+   * Remove the padding in IE 10-.
+   */
+  /**
+   * 1. Correct the odd appearance in Chrome and Safari.
+   * 2. Correct the outline style in Safari.
+   */
+  /**
+   * Correct the cursor style of increment and decrement buttons in Safari.
+   */
+  /**
+   * Correct the text style of placeholders in Chrome, Edge, and Safari.
+   */
+  /**
+   * Remove the inner padding in Chrome and Safari on macOS.
+   */
+  /**
+   * 1. Correct the inability to style clickable types in iOS and Safari.
+   * 2. Change font properties to \`inherit\` in Safari.
+   */
+  /**
+   * Remove the inner border and padding of focus outlines in Firefox.
+   */
+  /* Interactive
+   */
+  /*
+   * Add the correct display in Edge and IE.
+   */
+  /*
+   * Add the correct display in all browsers.
+   */
+  /* Scripting
+   */
+  /**
+   * Add the correct display in IE 9-.
+   */
+  /**
+   * Add the correct display in IE.
+   */
+  /* User interaction
+   */
+  /*
+   * 1. Remove the tapping delay in IE 10.
+   * 2. Remove the tapping delay on clickable elements
+        in all browsers (opinionated).
+   */
+  /**
+   * Add the correct display in IE 10-.
+   */
+  /* Accessibility
+   */
+  /**
+   * Change the cursor on busy elements in all browsers (opinionated).
+   */
+  /*
+   * Change the cursor on control elements in all browsers (opinionated).
+   */
+  /*
+   * Change the cursor on disabled, not-editable, or otherwise
+   * inoperable elements in all browsers (opinionated).
+   */
+  /*
+   * Change the display on visually hidden accessible elements
+   * in all browsers (opinionated).
+   */
+  font-family: sans-serif;
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-default);
+  font-size: 1rem;
+  font-style: normal;
+  line-height: 1.5rem;
+  color: var(--color-black-80, #333);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  font-variant-numeric: lining-nums;
+  font-feature-settings: \\"lnum\\";
+  font-size: 1em;
+  line-height: 1.5em; }
+  .dnb-form-label *,
+  .dnb-form-label ::before,
+  .dnb-form-label ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-form-label ::before,
+  .dnb-form-label ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+  .dnb-form-label hr {
+    height: 0;
+    /* 1 */
+    overflow: visible;
+    /* 2 */ }
+  .dnb-form-label main {
+    display: block; }
+  .dnb-form-label nav ol,
+  .dnb-form-label nav ul {
+    list-style: none; }
+  .dnb-form-label pre {
+    font-family: Menlo, Consolas, Roboto Mono, Ubuntu Monospace, Noto Mono, Oxygen Mono, Liberation Mono, monospace;
+    /* 1 */
+    font-size: 1em;
+    /* 2 */ }
+  .dnb-form-label a {
+    background-color: transparent; }
+  .dnb-form-label abbr[title] {
+    text-decoration: underline;
+    text-decoration: underline dotted; }
+  .dnb-form-label b,
+  .dnb-form-label strong {
+    font-weight: bolder; }
+  .dnb-form-label code,
+  .dnb-form-label kbd,
+  .dnb-form-label samp {
+    font-family: Menlo, Consolas, Roboto Mono, Ubuntu Monospace, Noto Mono, Oxygen Mono, Liberation Mono, monospace;
+    /* 1 */
+    font-size: 1em;
+    /* 2 */ }
+  .dnb-form-label ::-moz-selection {
+    background-color: #b3d4fc;
+    /* 1 */
+    color: #000;
+    /* 1 */
+    text-shadow: none; }
+  .dnb-form-label audio,
+  .dnb-form-label canvas,
+  .dnb-form-label iframe,
+  .dnb-form-label img,
+  .dnb-form-label svg,
+  .dnb-form-label video {
+    vertical-align: middle; }
+  .dnb-form-label audio,
+  .dnb-form-label video {
+    display: inline-block; }
+  .dnb-form-label audio:not([controls]) {
+    display: none;
+    height: 0; }
+  .dnb-form-label img {
+    border-style: none; }
+  .dnb-form-label svg:not([fill]) {
+    fill: currentColor; }
+  .dnb-form-label svg:not(:root) {
+    overflow: hidden; }
+  .dnb-form-label table {
+    border-collapse: collapse; }
+  .dnb-form-label button,
+  .dnb-form-label input,
+  .dnb-form-label select,
+  .dnb-form-label textarea {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit; }
+  .dnb-form-label button,
+  .dnb-form-label input,
+  .dnb-form-label select {
+    margin: 0; }
+  .dnb-form-label button {
+    overflow: visible;
+    /* 1 */
+    text-transform: none;
+    /* 2 */ }
+  .dnb-form-label button,
+  .dnb-form-label [type='button'],
+  .dnb-form-label [type='reset'],
+  .dnb-form-label [type='submit'] {
+    -webkit-appearance: button; }
+  .dnb-form-label fieldset {
+    padding: 0.35rem 0.75rem 0.625rem; }
+  .dnb-form-label input {
+    overflow: visible;
+    word-break: normal;
+    /* 1 */ }
+  .dnb-form-label legend {
+    color: inherit;
+    /* 2 */
+    display: table;
+    /* 1 */
+    max-width: 100%;
+    /* 1 */
+    white-space: normal;
+    /* 1 */ }
+  .dnb-form-label progress {
+    display: inline-block;
+    /* 1 */
+    vertical-align: baseline;
+    /* 2 */ }
+  .dnb-form-label select {
+    text-transform: none; }
+  .dnb-form-label textarea {
+    overflow: auto;
+    /* 2 */
+    resize: vertical;
+    /* 3 */ }
+  .dnb-form-label [type='checkbox'],
+  .dnb-form-label [type='radio'] {
+    padding: 0; }
+  .dnb-form-label [type='search'] {
+    -webkit-appearance: textfield;
+    /* 1 */
+    outline-offset: -2px;
+    /* 2 */ }
+  .dnb-form-label ::-webkit-inner-spin-button,
+  .dnb-form-label ::-webkit-outer-spin-button {
+    height: auto; }
+  .dnb-form-label ::-webkit-input-placeholder {
+    color: inherit;
+    opacity: 0.54; }
+  .dnb-form-label ::-webkit-search-decoration {
+    -webkit-appearance: none; }
+  .dnb-form-label ::-webkit-file-upload-button {
+    -webkit-appearance: button;
+    /* 1 */
+    font: inherit;
+    /* 2 */ }
+  .dnb-form-label ::-moz-focus-inner {
+    border-style: none;
+    padding: 0; }
+  .dnb-form-label details {
+    display: block; }
+  .dnb-form-label summary {
+    display: list-item; }
+  .dnb-form-label canvas {
+    display: inline-block; }
+  .dnb-form-label template {
+    display: none; }
+  .dnb-form-label a,
+  .dnb-form-label area,
+  .dnb-form-label button,
+  .dnb-form-label input,
+  .dnb-form-label label,
+  .dnb-form-label select,
+  .dnb-form-label summary,
+  .dnb-form-label textarea,
+  .dnb-form-label [tabindex] {
+    -ms-touch-action: manipulation;
+    /* 1 */
+    touch-action: manipulation;
+    /* 2 */ }
+  .dnb-form-label [hidden] {
+    display: none; }
+  .dnb-form-label [aria-busy='true'] {
+    cursor: progress; }
+  .dnb-form-label [aria-controls] {
+    cursor: pointer; }
+  .dnb-form-label [aria-disabled='true'],
+  .dnb-form-label [disabled] {
+    cursor: not-allowed; }
+  .dnb-form-label [aria-hidden='false'][hidden]:not(:focus) {
+    clip: rect(0, 0, 0, 0);
+    display: inherit;
+    position: absolute; }
+  @media print {
+    .dnb-form-label {
+      background-color: white; } }
+
+/*
+ * FormLabel component
+ *
+ */
+.dnb-form-label {
+  user-select: none;
+  margin-right: 1rem;
+  display: inline-block;
+  vertical-align: baseline;
+  cursor: pointer;
+  color: inherit;
+  width: auto;
+  white-space: nowrap; }
+  .dnb-form-label--vertical {
+    margin-right: 0;
+    margin-top: 0; }
+  .dnb-form-label[for]:not([disabled]):hover {
+    color: var(--color-sea-green); }
+  .dnb-form-label[disabled] {
+    cursor: not-allowed; }
+
+.dnb-form-label + [class*='__status'] {
+  vertical-align: baseline; }
+
+/*
+* DNB FormStatus
+*
+*/
+.dnb-form-status {
+  /**
+   * 1. Remove repeating backgrounds in all browsers (opinionated).
+   * 2. Add border box sizing in all browsers (opinionated).
+   */
+  /**
+   * 1. Add text decoration inheritance in all browsers (opinionated).
+   * 2. Add vertical alignment inheritance in all browsers (opinionated).
+   */
+  /* Grouping content
+   */
+  /**
+   * 1. Add the correct sizing in Firefox.
+   * 2. Show the overflow in Edge and IE.
+   */
+  /**
+   * Add the correct display in IE.
+   */
+  /**
+   * Remove the list style on navigation lists in all browsers (opinionated).
+   */
+  /**
+   * 1. Use the default monospace user interface font
+   *    in all browsers (opinionated).
+   * 2. Correct the odd \`em\` font sizing in all browsers.
+   */
+  /* Text-level semantics
+   */
+  /**
+   * Remove the gray background on active links in IE 10.
+   */
+  /**
+   * Add the correct text decoration in Edge, IE, Opera, and Safari.
+   */
+  /**
+   * Add the correct font weight in Chrome, Edge, and Safari.
+   */
+  /**
+   * 1. Use the default monospace user interface font
+   *    in all browsers (opinionated).
+   * 2. Correct the odd \`em\` font sizing in all browsers.
+   */
+  /*
+   * Remove the text shadow on text selections in Firefox 61- (opinionated).
+   * 1. Restore the coloring undone by defining the text shadow
+   *    in all browsers (opinionated).
+   */
+  /* Embedded content
+   */
+  /*
+   * Change the alignment on media elements in all browers (opinionated).
+   */
+  /**
+   * Add the correct display in IE 9-.
+   */
+  /**
+   * Add the correct display in iOS 4-7.
+   */
+  /**
+   * Remove the border on images inside links in IE 10-.
+   */
+  /**
+   * Change the fill color to match the text color in all browsers (opinionated).
+   */
+  /**
+   * Hide the overflow in IE.
+   */
+  /* Tabular data
+   */
+  /**
+   * Collapse border spacing in all browsers (opinionated).
+   */
+  /* Forms
+   */
+  /**
+   * Inherit styling in all browsers (opinionated).
+   */
+  /**
+   * Remove the margin in Safari.
+   */
+  /**
+   * 1. Show the overflow in IE.
+   * 2. Remove the inheritance of text transform in Edge, Firefox, and IE.
+   */
+  /**
+   * Correct the inability to style clickable types in iOS and Safari.
+   */
+  /**
+   * Correct the padding in Firefox.
+   */
+  /**
+   * Show the overflow in Edge and IE.
+   * 1. Safari did inherit the break-word from html root
+   */
+  /**
+   * 1. Correct the text wrapping in Edge and IE.
+   * 2. Correct the color inheritance from \`fieldset\` elements in IE.
+   */
+  /**
+   * 1. Add the correct display in Edge and IE.
+   * 2. Add the correct vertical alignment in Chrome, Firefox, and Opera.
+   */
+  /**
+   * Remove the inheritance of text transform in Firefox.
+   */
+  /**
+   * 2. Remove the default vertical scrollbar in IE.
+   * 3. Change the resize direction on textareas in all browsers (opinionated).
+   */
+  /**
+   * Remove the padding in IE 10-.
+   */
+  /**
+   * 1. Correct the odd appearance in Chrome and Safari.
+   * 2. Correct the outline style in Safari.
+   */
+  /**
+   * Correct the cursor style of increment and decrement buttons in Safari.
+   */
+  /**
+   * Correct the text style of placeholders in Chrome, Edge, and Safari.
+   */
+  /**
+   * Remove the inner padding in Chrome and Safari on macOS.
+   */
+  /**
+   * 1. Correct the inability to style clickable types in iOS and Safari.
+   * 2. Change font properties to \`inherit\` in Safari.
+   */
+  /**
+   * Remove the inner border and padding of focus outlines in Firefox.
+   */
+  /* Interactive
+   */
+  /*
+   * Add the correct display in Edge and IE.
+   */
+  /*
+   * Add the correct display in all browsers.
+   */
+  /* Scripting
+   */
+  /**
+   * Add the correct display in IE 9-.
+   */
+  /**
+   * Add the correct display in IE.
+   */
+  /* User interaction
+   */
+  /*
+   * 1. Remove the tapping delay in IE 10.
+   * 2. Remove the tapping delay on clickable elements
+        in all browsers (opinionated).
+   */
+  /**
+   * Add the correct display in IE 10-.
+   */
+  /* Accessibility
+   */
+  /**
+   * Change the cursor on busy elements in all browsers (opinionated).
+   */
+  /*
+   * Change the cursor on control elements in all browsers (opinionated).
+   */
+  /*
+   * Change the cursor on disabled, not-editable, or otherwise
+   * inoperable elements in all browsers (opinionated).
+   */
+  /*
+   * Change the display on visually hidden accessible elements
+   * in all browsers (opinionated).
+   */
+  font-family: sans-serif;
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-default);
+  font-size: 1rem;
+  font-style: normal;
+  line-height: 1.5rem;
+  color: var(--color-black-80, #333);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  font-variant-numeric: lining-nums;
+  font-feature-settings: \\"lnum\\";
+  font-size: 1em;
+  line-height: 1.5em; }
+  .dnb-form-status *,
+  .dnb-form-status ::before,
+  .dnb-form-status ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-form-status ::before,
+  .dnb-form-status ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+  .dnb-form-status hr {
+    height: 0;
+    /* 1 */
+    overflow: visible;
+    /* 2 */ }
+  .dnb-form-status main {
+    display: block; }
+  .dnb-form-status nav ol,
+  .dnb-form-status nav ul {
+    list-style: none; }
+  .dnb-form-status pre {
+    font-family: Menlo, Consolas, Roboto Mono, Ubuntu Monospace, Noto Mono, Oxygen Mono, Liberation Mono, monospace;
+    /* 1 */
+    font-size: 1em;
+    /* 2 */ }
+  .dnb-form-status a {
+    background-color: transparent; }
+  .dnb-form-status abbr[title] {
+    text-decoration: underline;
+    text-decoration: underline dotted; }
+  .dnb-form-status b,
+  .dnb-form-status strong {
+    font-weight: bolder; }
+  .dnb-form-status code,
+  .dnb-form-status kbd,
+  .dnb-form-status samp {
+    font-family: Menlo, Consolas, Roboto Mono, Ubuntu Monospace, Noto Mono, Oxygen Mono, Liberation Mono, monospace;
+    /* 1 */
+    font-size: 1em;
+    /* 2 */ }
+  .dnb-form-status ::-moz-selection {
+    background-color: #b3d4fc;
+    /* 1 */
+    color: #000;
+    /* 1 */
+    text-shadow: none; }
+  .dnb-form-status audio,
+  .dnb-form-status canvas,
+  .dnb-form-status iframe,
+  .dnb-form-status img,
+  .dnb-form-status svg,
+  .dnb-form-status video {
+    vertical-align: middle; }
+  .dnb-form-status audio,
+  .dnb-form-status video {
+    display: inline-block; }
+  .dnb-form-status audio:not([controls]) {
+    display: none;
+    height: 0; }
+  .dnb-form-status img {
+    border-style: none; }
+  .dnb-form-status svg:not([fill]) {
+    fill: currentColor; }
+  .dnb-form-status svg:not(:root) {
+    overflow: hidden; }
+  .dnb-form-status table {
+    border-collapse: collapse; }
+  .dnb-form-status button,
+  .dnb-form-status input,
+  .dnb-form-status select,
+  .dnb-form-status textarea {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit; }
+  .dnb-form-status button,
+  .dnb-form-status input,
+  .dnb-form-status select {
+    margin: 0; }
+  .dnb-form-status button {
+    overflow: visible;
+    /* 1 */
+    text-transform: none;
+    /* 2 */ }
+  .dnb-form-status button,
+  .dnb-form-status [type='button'],
+  .dnb-form-status [type='reset'],
+  .dnb-form-status [type='submit'] {
+    -webkit-appearance: button; }
+  .dnb-form-status fieldset {
+    padding: 0.35rem 0.75rem 0.625rem; }
+  .dnb-form-status input {
+    overflow: visible;
+    word-break: normal;
+    /* 1 */ }
+  .dnb-form-status legend {
+    color: inherit;
+    /* 2 */
+    display: table;
+    /* 1 */
+    max-width: 100%;
+    /* 1 */
+    white-space: normal;
+    /* 1 */ }
+  .dnb-form-status progress {
+    display: inline-block;
+    /* 1 */
+    vertical-align: baseline;
+    /* 2 */ }
+  .dnb-form-status select {
+    text-transform: none; }
+  .dnb-form-status textarea {
+    overflow: auto;
+    /* 2 */
+    resize: vertical;
+    /* 3 */ }
+  .dnb-form-status [type='checkbox'],
+  .dnb-form-status [type='radio'] {
+    padding: 0; }
+  .dnb-form-status [type='search'] {
+    -webkit-appearance: textfield;
+    /* 1 */
+    outline-offset: -2px;
+    /* 2 */ }
+  .dnb-form-status ::-webkit-inner-spin-button,
+  .dnb-form-status ::-webkit-outer-spin-button {
+    height: auto; }
+  .dnb-form-status ::-webkit-input-placeholder {
+    color: inherit;
+    opacity: 0.54; }
+  .dnb-form-status ::-webkit-search-decoration {
+    -webkit-appearance: none; }
+  .dnb-form-status ::-webkit-file-upload-button {
+    -webkit-appearance: button;
+    /* 1 */
+    font: inherit;
+    /* 2 */ }
+  .dnb-form-status ::-moz-focus-inner {
+    border-style: none;
+    padding: 0; }
+  .dnb-form-status details {
+    display: block; }
+  .dnb-form-status summary {
+    display: list-item; }
+  .dnb-form-status canvas {
+    display: inline-block; }
+  .dnb-form-status template {
+    display: none; }
+  .dnb-form-status a,
+  .dnb-form-status area,
+  .dnb-form-status button,
+  .dnb-form-status input,
+  .dnb-form-status label,
+  .dnb-form-status select,
+  .dnb-form-status summary,
+  .dnb-form-status textarea,
+  .dnb-form-status [tabindex] {
+    -ms-touch-action: manipulation;
+    /* 1 */
+    touch-action: manipulation;
+    /* 2 */ }
+  .dnb-form-status [hidden] {
+    display: none; }
+  .dnb-form-status [aria-busy='true'] {
+    cursor: progress; }
+  .dnb-form-status [aria-controls] {
+    cursor: pointer; }
+  .dnb-form-status [aria-disabled='true'],
+  .dnb-form-status [disabled] {
+    cursor: not-allowed; }
+  .dnb-form-status [aria-hidden='false'][hidden]:not(:focus) {
+    clip: rect(0, 0, 0, 0);
+    display: inherit;
+    position: absolute; }
+  @media print {
+    .dnb-form-status {
+      background-color: white; } }
+
+/*
+ * FormStatus component
+ *
+ */
+.dnb-form-status {
+  width: auto;
+  white-space: nowrap;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  height: var(--input-height);
+  border-radius: var(--input-border-radius);
+  border-color: var(--color-emerald-green);
+  line-height: var(--input-height); }
+  .dnb-form-status--text {
+    padding: 0.5rem 1rem;
+    cursor: text;
+    color: var(--color-emerald-green);
+    transform: translateY(1px); }
+  .dnb-icon + .dnb-form-status--text {
+    padding-left: 0.5rem; }
+  .dnb-form-status > .dnb-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 1.5em;
+    height: 1.5em;
+    margin: 0.5rem;
+    margin-right: 0;
+    color: inherit;
+    border-radius: 50%;
+    border: 1px solid;
+    border-color: currentColor; }
+  .dnb-form-status[hidden] {
+    display: none; }
+  .dnb-form-status--fade-in {
+    height: 0;
+    opacity: 0;
+    animation: fade-in 600ms ease-out 1 200ms forwards; }
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    height: 0; }
+  to {
+    opacity: 1;
+    height: var(--input-height); } }
+
 .dnb-switch {
   /**
    * 1. Remove repeating backgrounds in all browsers (opinionated).
@@ -577,14 +1551,14 @@ exports[`Switch scss have to match snapshot 1`] = `
 * Switch component
 *
 */
+:root {
+  --switch-border-width: 1px; }
+
 .dnb-switch {
   user-select: none;
   display: inline-block;
-  vertical-align: middle; }
-  .dnb-switch__inner {
-    position: relative;
-    display: inline-block;
-    vertical-align: middle; }
+  margin: 0;
+  padding: 0; }
   .dnb-switch__focus, .dnb-switch__button {
     position: absolute;
     z-index: 4;
@@ -595,29 +1569,15 @@ exports[`Switch scss have to match snapshot 1`] = `
     pointer-events: none;
     top: 50%;
     display: inline-flex;
-    vertical-align: middle;
     align-content: center;
     align-items: center;
     justify-content: center;
     transition: transform 160ms ease-out 125ms;
-    transform: translate(-0.2rem, -50%);
-    background-color: white;
-    border: 1px solid var(--color-sea-green-alt);
-    font-size: 0.5rem;
-    text-transform: uppercase;
-    color: var(--color-sea-green);
-    box-shadow: 0 2px 2px rgba(0, 135, 137, 0.24); }
-  .dnb-switch__text-item {
-    z-index: 3;
-    text-align: center;
-    line-height: 1;
-    color: inherit;
-    background-color: inherit; }
+    border: var(--switch-border-width) solid transparent; }
   .dnb-switch__background {
     display: block;
-    width: 2.3rem;
+    width: 2.5rem;
     height: 1rem;
-    background-color: var(--color-sea-green-alt);
     border-radius: 0.8125rem; }
   .dnb-switch__focus {
     display: none;
@@ -632,6 +1592,11 @@ exports[`Switch scss have to match snapshot 1`] = `
     html[data-whatinput='keyboard'] .dnb-switch__focus {
       box-shadow: 0 0 0 2px var(--color-emerald-green);
       border-color: transparent; }
+  .dnb-switch__inner {
+    position: relative;
+    display: inline-block;
+    align-items: center;
+    vertical-align: middle; }
   .dnb-switch__inner:not([disabled]) .dnb-switch__background,
   .dnb-switch__inner:not([disabled]) .dnb-switch__button {
     cursor: pointer; }
@@ -643,57 +1608,6 @@ exports[`Switch scss have to match snapshot 1`] = `
     overflow: hidden;
     padding: 0;
     position: absolute;
-    width: 1px;
-    /*
-    * When switched ON
-    * aka when the checkbox is :checked
-    */
-    /*
-    * On disabled
-    *
-    */
-    /*
-    * On focus
-    *
-    */ }
-    .dnb-switch__input:checked ~ .dnb-switch__button {
-      border-color: var(--color-sea-green);
-      background-color: var(--color-sea-green);
-      color: white;
-      /* stylelint-disable */
-      transform: translate(1rem, -50%);
-      transform: translate(calc(1rem + 1px), -50%);
-      /* stylelint-enable */ }
-      .dnb-switch__input:checked ~ .dnb-switch__button .dnb-switch__text-item--positive {
-        display: block; }
-      .dnb-switch__input:checked ~ .dnb-switch__button .dnb-switch__text-item--negative {
-        display: none; }
-    .dnb-switch__input[disabled] ~ .dnb-switch__button,
-    .dnb-switch__input[disabled] ~ .dnb-switch__background {
-      opacity: 0.8; }
-    .dnb-switch__input[disabled] ~ .dnb-switch__background {
-      background-color: rgba(var(--color-black-30), 0.5); }
-    .dnb-switch__input[disabled] ~ .dnb-switch__button {
-      color: rgba(255, 255, 255, 0.6);
-      border-color: rgba(var(--color-black-30), 0.5);
-      background-color: var(--color-black-30);
-      box-shadow: none; }
-    .dnb-switch__input:checked:focus ~ .dnb-switch__button .dnb-switch__focus,
-    .dnb-switch__input:checked:active ~ .dnb-switch__button .dnb-switch__focus {
-      transform: rotate(180deg); }
-    .dnb-switch__input:active ~ .dnb-switch__button {
-      color: rgba(var(--color-sea-green), 0.75); }
-    .dnb-switch__input:checked:active ~ .dnb-switch__button {
-      color: rgba(255, 255, 255, 0.85); }
-    .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__background,
-    .dnb-switch__input:not([disabled]):active ~ .dnb-switch__background {
-      outline: none; }
-      html[data-whatinput='keyboard'] .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__background, html[data-whatinput='keyboard']
-      .dnb-switch__input:not([disabled]):active ~ .dnb-switch__background {
-        box-shadow: 0 0 0 2px var(--color-emerald-green);
-        border-color: transparent; }
-    .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__button .dnb-switch__focus,
-    .dnb-switch__input:not([disabled]):active ~ .dnb-switch__button .dnb-switch__focus {
-      display: block; }
+    width: 1px; }
 "
 `;
