@@ -11,7 +11,11 @@ class Example extends PureComponent {
   render() {
     return (
       <Fragment>
-        <CodeBlock reactLive hideCode>
+        <CodeBlock
+          reactLive
+          hideCode
+          caption="Shows a colored background out the the browser borders by simply using `.dnb-section`"
+        >
           {/* @html */ `
 <div className="dnb-section">
   Visuall DNB Section, declared with <code className="dnb-code">.dnb-section</code>
@@ -21,11 +25,18 @@ class Example extends PureComponent {
 </div>
         `}
         </CodeBlock>
-        <CodeBlock reactLive hideCode>
+        <CodeBlock
+          reactLive
+          hideCode
+          caption="Reset CSS inside a wrapper by using `.dnb-core-style`"
+        >
           {/* @html */ `
 <div className="dnb-core-style">
   <h3 className="dnb-h3">Wrapper with the DNB Body Style (CSS reset)</h3>
-  <p className="dnb-p">Read more about <a href="/uilib/usage/customisation/styling#core-style" className="dnb-anchor">Use Eufemia Styles elsewhere</a></p>
+  <p className="dnb-p">
+    Read more about <code className="dnb-code">.dnb-core-style</code>
+    and <a href="/uilib/usage/customisation/styling#core-style" className="dnb-anchor">Use Eufemia Styles elsewhere</a>
+  </p>
 </div>
         `}
         </CodeBlock>
@@ -36,11 +47,15 @@ class Example extends PureComponent {
     Try to focus me with the Tab key
   </summary>
   My main focus state has been removed and replaced by the
-  helping class .dnb-tab-focus.
+  helping class <code className="dnb-code">.dnb-tab-focus</code>
 </details>
         `}
         </CodeBlock>
-        <CodeBlock reactLive hideCode>
+        <CodeBlock
+          reactLive
+          hideCode
+          caption="I'm an unstyled list `.dnb-unstyled-list`"
+        >
           {/* @html */ `
 <ul className="dnb-unstyled-list">
   <li>I'm an unstyled list item</li>
@@ -55,7 +70,7 @@ class Example extends PureComponent {
         <CodeBlock
           reactLive
           hideCode
-          caption="I'm not visible on small screens"
+          caption="I'm not visible on small screens `.dnb-hide-on-mobile`"
         >
           {/* @html */ `
 <div className="dnb-hide-on-mobile">
@@ -77,7 +92,7 @@ class Example extends PureComponent {
         <CodeBlock
           reactLive
           hideCode
-          caption="I'm inside a .dnb-width-limit wrapper"
+          caption="I'm inside a `.dnb-width-limit` wrapper"
         >
           {/* @html */ `
 <div className="dnb-width-limit">
@@ -85,7 +100,7 @@ class Example extends PureComponent {
 </div>
           `}
         </CodeBlock>
-        <CodeBlock reactLive hideCode caption="I'm inside a .dnb-belt">
+        <CodeBlock reactLive hideCode caption="I'm inside a `.dnb-belt`">
           {/* @html */ `
 <div className="dnb-belt">I'm inside a .dnb-belt</div>
           `}
@@ -106,7 +121,7 @@ I'm a vertical nudge. I have four nudges, which means I am 4rem units tall.
         <CodeBlock
           reactLive
           hideCode
-          caption="I am only visible to screen readers"
+          caption="I am only visible to screen readers `.dnb-sr-only`"
         >
           {/* @html */ `
 <div className="dnb-sr-only">
@@ -118,7 +133,7 @@ I'm a vertical nudge. I have four nudges, which means I am 4rem units tall.
         <CodeBlock
           reactLive
           hideCode
-          caption="I'm the opposite of .dnb-sr-only"
+          caption="`.dnb-not-sr-only` I'm the opposite of .dnb-sr-only"
         >
           {/* @html */ `
 <div className="dnb-not-sr-only">

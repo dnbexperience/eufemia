@@ -12,6 +12,7 @@ import Tag from './Tag'
 import { Button } from 'dnb-ui-lib/src'
 import Code from '../parts/uilib/Code'
 import { generateElement } from './transpile/index'
+import ReactMarkdown from 'react-markdown'
 
 import {
   LiveProvider,
@@ -168,7 +169,19 @@ class LiveCode extends PureComponent {
           {!hidePreview && (
             <div className="example-box">
               <LivePreview />
-              {caption && <p className="example-caption">{caption}</p>}
+              {caption && (
+                <ReactMarkdown
+                  source={caption}
+                  escapeHtml={false}
+                  renderers={{
+                    // code: CodeBlock,
+                    inlineCode: ({ children }) => (
+                      <Tag is="code">{children}</Tag>
+                    )
+                  }}
+                  className="example-caption"
+                />
+              )}
             </div>
           )}
           {!hideCode && (
@@ -233,11 +246,11 @@ class LiveCode extends PureComponent {
 const LiveCodeEditor = styled.div`
   position: relative;
 
-  p.example-caption {
-    margin-bottom: -1rem;
-  }
-  div.example-box {
+  .example-box {
     margin-bottom: 0.5rem;
+  }
+  .example-caption {
+    margin-bottom: 1.5rem;
   }
   pre.prism-code {
     position: relative;
