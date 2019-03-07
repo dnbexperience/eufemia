@@ -36,7 +36,7 @@ class Example extends PureComponent {
     Try to focus me with the Tab key
   </summary>
   My main focus state has been removed and replaced by the
-  helping class .fake-focus.
+  helping class .dnb-tab-focus.
 </details>
         `}
         </CodeBlock>
