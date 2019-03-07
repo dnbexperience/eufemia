@@ -26,26 +26,35 @@ workbox.clientsClaim();
  */
 self.__precacheManifest = [
   {
-    "url": "webpack-runtime-ad6096be8070d1b1d77f.js"
+    "url": "webpack-runtime-2c116bd41cd286ab3326.js"
   },
   {
-    "url": "styles.a70549c48ce748cb5da4.css"
+    "url": "styles.5b9be34885997e567b20.css"
   },
   {
-    "url": "styles-eb1cb567068a6b64323b.js"
+    "url": "styles-2c6a4fdedd049862923a.js"
   },
   {
-    "url": "app-2b5d4ac917e7be2de034.js"
+    "url": "app-2eb82ba2e2a6b28fba8c.js"
   },
   {
-    "url": "component---node-modules-gatsby-plugin-offline-app-shell-js-913507b645c0cf2944aa.js"
+    "url": "component---node-modules-gatsby-plugin-offline-app-shell-js-abd30b53f80a98237409.js"
   },
   {
     "url": "offline-plugin-app-shell-fallback/index.html",
-    "revision": "01f65f32fc78c79de3bfbdda0ae753d9"
+    "revision": "36073f9423235cfa9fee7b740d7a8390"
   },
   {
-    "url": "component---src-pages-404-js-fc2048b7d4d9585764e4.js"
+    "url": "static/FedraSansStd-Book-72defec4eb362f240076656e7778176a.woff2"
+  },
+  {
+    "url": "static/FedraSansStd-Demi-2ccb31bef521cc0af5b9eec892f3e875.woff2"
+  },
+  {
+    "url": "static/FedraSansStd-Medium-685da93af520e23fb5571838a4af40bd.woff2"
+  },
+  {
+    "url": "component---src-pages-404-js-442ba45e0301a243fa4d.js"
   },
   {
     "url": "static/d/164/path---404-html-516-62a-NZuapzHg3X9TaN1iIixfv1W23E.json"
