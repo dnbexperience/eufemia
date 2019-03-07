@@ -1,3 +1,10 @@
+## March, 6. 2019
+
+**Changes to the default styles**
+
+- ErrorMessage (FormStatus) got a smaller text size (14px)
+- Several "v1" walk though, into detail changes
+
 ## February, 21. 2019
 
 **Changes to the default styles**

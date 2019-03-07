@@ -145,8 +145,6 @@ export default css`
     figcaption {
       padding-top: 1rem;
 
-      font-size: 1em;
-      line-height: 1.5rem;
       font-style: italic;
 
       border-top: solid 1px #c4c4c4;
@@ -171,7 +169,6 @@ export default css`
       margin: 0;
       padding: 0;
 
-      font-size: 1em;
       line-height: 1rem;
       list-style: none;
       /*
@@ -206,12 +203,16 @@ export default css`
     margin-top: 2rem;
     padding-top: 0.9375rem;
 
-    font-size: 1em;
-    line-height: 1.5rem;
+    font-size: var(--font-size-small);
     font-style: italic;
     text-align: center;
 
     border-top: solid 1px #c4c4c4;
+
+    p {
+      margin: 0;
+      padding: 0;
+    }
   }
   .example-box + .example-caption {
     margin-top: -2rem;

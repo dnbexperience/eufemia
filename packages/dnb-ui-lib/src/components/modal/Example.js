@@ -4,45 +4,41 @@
  */
 
 import React, { PureComponent, Fragment } from 'react'
-import Input from '../input/Input'
-import Modal from './Modal'
+import ComponentBox from '../../../../dnb-design-system-portal/src/shared/tags/ComponentBox'
 
 class Example extends PureComponent {
-  static AdditionalCallback = {
-    info: ({ CodeRenderer }) => (
-      <Fragment>
-        <h3>Root Element Example</h3>
-        <CodeRenderer language="html">{`
-<body>
-  <div id="app" />
-  <div id="dnb-modal-root" />
-</body>
-      `}</CodeRenderer>
-      </Fragment>
-    )
-  }
   render() {
     return (
       <Fragment>
-        <div className="example-box">
-          <Modal
-            type="text"
-            modal_trigger_text="Click me"
-            modal_content="This is the modal text. Triggered by text."
-          />
-          <Modal
-            modal_trigger_title="Click me"
-            modal_content={() => (
-              <strong>
-                This is the modal text. Triggered by a button.
-              </strong>
-            )}
-          />
-          <Modal title="Hello" modal_trigger_text="Click me">
-            <h2>Some content</h2>
-            <Input>Focus me with Tab key</Input>
-          </Modal>
-        </div>
+        <ComponentBox caption="Diferent ways to open a Modal">
+          {/* @jsx */ `
+<Modal
+  title="Modal Title"
+  trigger_variant="tertiary"
+  trigger_text="Click me"
+  modal_content="This is the modal text. Triggered by a tertiary button."
+/>
+<Modal
+  title="Modal Title"
+  trigger_title="Click me"
+  modal_content={() => (
+      <p className="dnb-p">This is the modal text. Triggered by a icon button.</p>
+  )}
+/>
+<Modal
+  title="Modal Title (1s delay)"
+  trigger_text="Click me"
+  prevent_close="true"
+  hide_close_button="true"
+  on_open={(e) => console.log('on_open', e)}
+  on_close={(e) => console.log('on_close', e)}
+  on_close_prevent={({ close }) => setTimeout(close, 1e3)}
+>
+  <p className="dnb-p">This is the modal text. Triggered by a secondary button.</p>
+  <Input label="Label:">Focus me with Tab key</Input>
+</Modal>
+          `}
+        </ComponentBox>
       </Fragment>
     )
   }

@@ -15,7 +15,7 @@ From the technical side, we have to assign an _invisible_ focus, so the user can
 
 ```html
 <body>
-  <aside><!-- focusable navigation --></aside>
+  <nav><!-- focusable navigation --></nav>
   <main>
     <!-- more markup with focusable HTMLElements -->
     <h1 class="dnb-no-focus" tabindex="-1">Main Title</h1>
@@ -61,7 +61,7 @@ The `dnb-ui-lib` also has a small setup for a [skip link](https://www.w3.org/TR/
 Our solution is CSS only and should work for all kinds of App setups.
 Place an Anchor like this one blow, on the very top of Your App content:
 
-<div class="margin-bottom"><SkipLinkExample /></div>
+<SkipLinkExample />
 
 <!-- prettier-ignore-start -->
 ```html

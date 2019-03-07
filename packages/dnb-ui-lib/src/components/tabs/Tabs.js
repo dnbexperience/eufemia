@@ -253,7 +253,8 @@ export default class Tabs extends PureComponent {
       /tab--([-_a-z0-9]+)/i
     )[1]
 
-    return this.openTab(selected_key)
+    this.openTab(selected_key)
+    this.setFocusOnTablist()
   }
 
   openTab = selected_key => {
@@ -391,6 +392,10 @@ export default class Tabs extends PureComponent {
           if (this.isSelected(key)) {
             params['aria-controls'] = `${this._id}-content-${key}`
           }
+          if (disabled) {
+            params.disabled = true
+            params['aria-disabled'] = true
+          }
           return (
             <button
               key={`tab--${key}`}
@@ -400,7 +405,6 @@ export default class Tabs extends PureComponent {
               aria-selected={this.isSelected(key)}
               className={this.renderSelectedTab(key)}
               onClick={this.openTabByDOM}
-              disabled={disabled}
               {...params}
             >
               <span className="dnb-tablink-title">{title}</span>
@@ -495,6 +499,9 @@ class ContentWrapper extends PureComponent {
   }
   render() {
     const { id, children, selected_key: key } = this.props
+    if (!children) {
+      return <></>
+    }
     return (
       <div
         role="tabpanel"

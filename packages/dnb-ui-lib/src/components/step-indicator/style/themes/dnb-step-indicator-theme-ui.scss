@@ -6,7 +6,10 @@
 @import '../../../../style/themes/imports.scss';
 
 .dnb-step-indicator {
-  &-item-content {
+  &__item-content {
+    // so we can se the bottom line on anchor hover
+    // transform: translateY(-1px);
+
     &--static {
       color: var(--color-emerald-green);
     }
@@ -16,29 +19,49 @@
     }
   }
 
-  &--visited &-item-content {
-    &--link {
-      @include hover(true) {
-        border-color: var(--color-sea-green);
-      }
+  // &--visited &__item-content {
+  //   &--link {
+  //     @include hover(true) {
+  //       border-color: var(--color-sea-green);
+  //     }
+  //   }
+  // }
+
+  // instead of a fixed margin-left
+  // &__list {
+  //   justify-content: space-between;
+  // }
+
+  &__item {
+    margin-left: 4.5rem;
+
+    &:first-child {
+      margin-left: 0;
+    }
+
+    @include allBelow(medium) {
+      margin-left: 2rem;
     }
   }
 
-  &--active {
+  &::after {
+    color: var(--color-mint-green);
+  }
+  &--active#{&}__item,
+  &--active &__item-content {
+    //   cursor: default;
+    //   pointer-events: none;
     &::after {
       background-color: var(--color-sea-green-alt);
     }
   }
 
   span[hidden],/* to make sure we have the wider width on every item */
-  &--active &-item-content {
-    font-family: var(--font-family-demi);
+  &--active &__item-content {
     font-weight: var(--font-weight-demi);
 
-    color: var(--color-emerald-green);
-  }
-
-  &::after {
-    background-color: var(--color-mint-green);
+    &:not(:hover) {
+      color: var(--color-emerald-green);
+    }
   }
 }

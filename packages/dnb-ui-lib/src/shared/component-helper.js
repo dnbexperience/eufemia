@@ -14,7 +14,7 @@ defineIsTouch()
 /**
  * Check if device is touch device or not
  */
-function isTouchDevice() {
+export function isTouchDevice() {
   try {
     return (
       !!(
@@ -84,6 +84,9 @@ export const validateDOMAttributes = (props, params) => {
   // in case disabled is a string, it its enabled, send it in as a true (this is for web components support)
   else if (params.disabled === 'true') {
     params.disabled = true
+  }
+  if (params.disabled) {
+    params['aria-disabled'] = true
   }
 
   if (props && props.tabindex) {

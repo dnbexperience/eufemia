@@ -6,10 +6,23 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 
+// preload our default fonts
+import FedraSansStdBook from 'dnb-ui-lib/assets/fonts/FedraSansStd-Book.woff2'
+import FedraSansStdDemi from 'dnb-ui-lib/assets/fonts/FedraSansStd-Demi.woff2'
+import FedraSansStdMedium from 'dnb-ui-lib/assets/fonts/FedraSansStd-Medium.woff2'
+
 export default class HTML extends PureComponent {
   render() {
+    const {
+      htmlAttributes,
+      bodyAttributes,
+      headComponents,
+      preBodyComponents,
+      postBodyComponents,
+      body
+    } = this.props
     return (
-      <html lang="en" {...this.props.htmlAttributes}>
+      <html lang="en" {...htmlAttributes}>
         <head>
           <meta charSet="utf-8" />
           <meta httpEquiv="x-ua-compatible" content="ie=edge" />
@@ -18,17 +31,29 @@ export default class HTML extends PureComponent {
             name="viewport"
             content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=yes"
           />
-          {this.props.headComponents}
+          {[FedraSansStdBook, FedraSansStdDemi, FedraSansStdMedium].map(
+            font => (
+              <link
+                key={font}
+                rel="preload"
+                as="font"
+                type="font/woff2"
+                href={font}
+                crossOrigin="anonymous"
+              />
+            )
+          )}
+          {headComponents}
         </head>
-        <body {...this.props.bodyAttributes}>
-          {this.props.preBodyComponents}
+        <body {...bodyAttributes}>
+          {preBodyComponents}
           <div
             key="body"
             id="___gatsby"
-            dangerouslySetInnerHTML={{ __html: this.props.body }}
+            dangerouslySetInnerHTML={{ __html: body }}
           />
           <div id="dnb-modal-root" />
-          {this.props.postBodyComponents}
+          {postBodyComponents}
         </body>
       </html>
     )

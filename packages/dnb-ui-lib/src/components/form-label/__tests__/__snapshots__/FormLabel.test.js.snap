@@ -12,6 +12,7 @@ exports[`FormLabel component have to match snapshot 1`] = `
   title="title"
 >
   <label
+    aria-disabled={true}
     className="dnb-form-label className class"
     disabled="disabled"
     htmlFor="for_id"
@@ -270,7 +271,6 @@ exports[`FormLabel scss have to match snapshot 1`] = `
    * Remove the inheritance of text transform in Firefox.
    */
   /**
-   * 1. Remove the margin in Firefox and Safari.
    * 2. Remove the default vertical scrollbar in IE.
    * 3. Change the resize direction on textareas in all browsers (opinionated).
    */
@@ -346,6 +346,7 @@ exports[`FormLabel scss have to match snapshot 1`] = `
   font-style: normal;
   line-height: 1.5rem;
   color: var(--color-black-80, #333);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   font-variant-numeric: lining-nums;
   font-feature-settings: \\"lnum\\";
   font-size: 1em;
@@ -464,8 +465,6 @@ exports[`FormLabel scss have to match snapshot 1`] = `
   .dnb-form-label select {
     text-transform: none; }
   .dnb-form-label textarea {
-    margin: 0;
-    /* 1 */
     overflow: auto;
     /* 2 */
     resize: vertical;

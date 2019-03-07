@@ -16,6 +16,7 @@ import {
   pickRenderProps,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
+import { isIE11 } from '../../shared/helpers'
 
 const renderProps = {
   on_change: null,
@@ -264,10 +265,11 @@ export default class Input extends PureComponent {
       ...attributes
     }
 
+    // we may considder using: aria-details
     if (showStatus) {
-      inputParams['aria-details'] = id + '-status'
+      inputParams['aria-describedby'] = id + '-status'
     } else if (description) {
-      inputParams['aria-details'] = id + '-description'
+      inputParams['aria-describedby'] = id + '-description'
     }
     if (type === 'search') {
       inputParams.autoComplete = 'off'
@@ -276,6 +278,9 @@ export default class Input extends PureComponent {
     const shellParams = {
       'data-input-state': this.state.inputState,
       'data-has-content': String(value || '').length > 0 ? 'true' : 'false'
+    }
+    if (disabled) {
+      shellParams['aria-disabled'] = true
     }
 
     // also used for code markup simulation
@@ -299,7 +304,7 @@ export default class Input extends PureComponent {
                 <Elem innerRef={this._ref} {...inputParams} />
               ) : null) || <input ref={this._ref} {...inputParams} />)}
 
-            {placeholder && (
+            {placeholder && !isIE11 && (
               <span
                 aria-hidden
                 className={classnames(

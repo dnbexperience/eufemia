@@ -16,6 +16,8 @@
   line-height: 1.5rem;
   color: var(--color-black-80, #333);
 
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
   @include numberFeature(lining-nums, lnum);
 
   @media print {

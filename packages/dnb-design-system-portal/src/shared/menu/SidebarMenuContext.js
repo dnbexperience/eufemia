@@ -47,7 +47,7 @@ export class SidebarMenuProvider extends PureComponent {
         })
         setTimeout(() => {
           try {
-            if (!isOpen) {
+            if (!isOpen && typeof window !== 'undefined') {
               window.scrollTo({
                 top: this.lastScrollPosition,
                 behavior: 'smooth'
@@ -58,13 +58,13 @@ export class SidebarMenuProvider extends PureComponent {
           }
         }, 100) // after animation is done
       },
-      this.state.isOpen ? 260 : 0
+      this.state.isOpen ? 260 : 10
     )
     if (this.state.isOpen) {
       this.setState({
         isClosing: true
       })
-    } else {
+    } else if (typeof window !== 'undefined') {
       try {
         window.scrollTo({
           top: 0

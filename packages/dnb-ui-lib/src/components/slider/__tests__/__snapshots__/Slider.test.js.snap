@@ -5,6 +5,7 @@ exports[`Slider component have to match snapshot 1`] = `
   className="dnb-slider className class slider__vertical"
 >
   <div
+    aria-disabled={true}
     aria-orientation="vertical"
     aria-valuemax="max"
     aria-valuemin="min"
@@ -27,6 +28,7 @@ exports[`Slider component have to match snapshot 1`] = `
       }
     />
     <button
+      aria-disabled={true}
       className="slider__thumb"
       disabled="disabled"
       onBlur={[Function]}
@@ -291,7 +293,6 @@ exports[`Slider scss have to match snapshot 1`] = `
    * Remove the inheritance of text transform in Firefox.
    */
   /**
-   * 1. Remove the margin in Firefox and Safari.
    * 2. Remove the default vertical scrollbar in IE.
    * 3. Change the resize direction on textareas in all browsers (opinionated).
    */
@@ -367,6 +368,7 @@ exports[`Slider scss have to match snapshot 1`] = `
   font-style: normal;
   line-height: 1.5rem;
   color: var(--color-black-80, #333);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   font-variant-numeric: lining-nums;
   font-feature-settings: \\"lnum\\";
   font-size: 1em;
@@ -485,8 +487,6 @@ exports[`Slider scss have to match snapshot 1`] = `
   .dnb-slider select {
     text-transform: none; }
   .dnb-slider textarea {
-    margin: 0;
-    /* 1 */
     overflow: auto;
     /* 2 */
     resize: vertical;

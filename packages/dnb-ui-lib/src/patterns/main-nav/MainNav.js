@@ -179,7 +179,7 @@ export default class MainNav extends PureComponent {
                 <Search id="nav_search_mobile" />
               </div>
               <div
-                className="dnb-main-nav__links dnb-width-limit fake-focus"
+                className="dnb-main-nav__links dnb-width-limit dnb-tab-focus"
                 tabIndex="-1"
                 ref={this._innerRef}
               >

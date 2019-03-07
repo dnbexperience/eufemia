@@ -4,6 +4,7 @@
  */
 
 .dnb-form-status {
+  font-size: var(--font-size-small);
   &--error {
     color: var(--color-cherry-red);
     background-color: var(--color-cherry-red-80);

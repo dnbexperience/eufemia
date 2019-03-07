@@ -25,6 +25,7 @@ The following table has a default style. But in future, there will be several pa
           variant="tertiary"
           icon="chevron-down"
           text="Sortable"
+          title="Sort table row"
         />
       </th>
       <th className="dnb-table--sortable dnb-table--active">
@@ -36,6 +37,7 @@ The following table has a default style. But in future, there will be several pa
           variant="tertiary"
           icon="chevron-down"
           text="Active"
+          title="Sort table row"
         />
       </th>
     </tr>

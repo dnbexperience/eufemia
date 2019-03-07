@@ -59,6 +59,12 @@
       padding-right: 2rem;
       background-color: var(--dropdown-option-background-color);
     }
+    // &__item:first-of-type {
+    //   font-weight: var(--font-weight-medium);
+    // }
+    // &__item:nth-of-type(2) {
+    //   font-weight: var(--font-weight-medium);
+    // }
 
     @include hover() {
       background-color: var(--dropdown-option-background-color--hover);

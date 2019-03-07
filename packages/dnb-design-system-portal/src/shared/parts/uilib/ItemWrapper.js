@@ -155,7 +155,7 @@ class ItemWrapper extends PureComponent {
         <Tabs.ContentWrapper key="demo" selected_key="demo" id={this._id}>
           {!hideTabs && <Description />}
           <DemoWrapper>
-            <h2>Demos</h2>
+            <h2 className="dnb-h2">Demos</h2>
             <DemoComponent />
           </DemoWrapper>
           {Additional && Additional.demo && (

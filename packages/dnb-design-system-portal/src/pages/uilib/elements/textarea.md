@@ -9,11 +9,11 @@ import ComponentBox from 'Tags/ComponentBox'
 
 <CodeBlock reactLive hideCode caption="Default Textarea">
 {`
-<div className="dnb-form-group dnb-form-group__position--vertical">
+<div className="dnb-form-group dnb-form-group__position--vertical" data-dnb-test="textarea-default" >
   <label htmlFor="textarea-default">
     Label:
   </label>
-  <textarea data-dnb-test="textarea-default" id="textarea-default"  className="dnb-textarea" rows="2" cols="20" defaultValue="Nec litora inceptos vestibulum id interdum donec gravida nostra lacinia bibendum hendrerit porttitor volutpat nam duis nisl scelerisque sapien erat" />
+  <textarea id="textarea-default" className="dnb-textarea" rows="2" cols="20" defaultValue="Nec litora inceptos vestibulum id interdum donec gravida nostra lacinia bibendum hendrerit porttitor volutpat nam duis nisl scelerisque sapien erat" />
 </div>
 `}
 </CodeBlock>

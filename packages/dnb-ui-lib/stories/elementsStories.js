@@ -24,6 +24,10 @@ const CustomStyles = styled.div`
     }
   }
 
+  textarea {
+    position: relative;
+  }
+
   blockquote {
     max-width: 220px;
   }
@@ -57,6 +61,10 @@ const CustomStyles = styled.div`
 
   p {
     background-color: rgba(0, 0, 0, 0.15);
+  }
+  .dnb-form-group + p,
+  textarea + p {
+    margin-top: 1rem;
   }
 `
 
@@ -338,7 +346,7 @@ stories.push([
             />
             <FormStatus text="Message to the user" />
           </div>
-          <p>dI have to be on the grid!</p>
+          <p>I have to be on the grid!</p>
         </Box>
         <Box>
           <div className="dnb-form-group">
@@ -346,6 +354,7 @@ stories.push([
             <textarea
               id="volutpat"
               disabled
+              readOnly
               cols="33"
               defaultValue="Nec litora inceptos vestibulum id interdum donec gravida nostra
             lacinia bibendum hendrerit porttitor volutpat nam duis nisl

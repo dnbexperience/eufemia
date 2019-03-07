@@ -149,7 +149,7 @@ export default class Card extends PureComponent {
     if (typeof window !== 'undefined') {
       const { url } = this.props
       const { pathname } = window.location
-      return pathname.length > 1 && url.includes(pathname)
+      return pathname.length > 1 && pathname.includes(url)
     }
     return false
   }
@@ -174,8 +174,9 @@ export default class Card extends PureComponent {
           >
             <Link
               css={[linkStyle, customStyle]}
-              className="dnb-anchor-no-style"
+              className="dnb-anchor--no-style"
               to={url}
+              aria-current={this.isSelected()}
               onClick={closeMenu}
             >
               <LinkInner {...textRole}>

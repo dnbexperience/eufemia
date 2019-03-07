@@ -34,6 +34,7 @@ export const propTypes = {
   active_url: PropTypes.string,
   show_numbers: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   class: PropTypes.string,
+
   /** React props */
   className: PropTypes.string,
   children: PropTypes.oneOfType([
@@ -41,6 +42,7 @@ export const propTypes = {
     PropTypes.node,
     PropTypes.func
   ]),
+
   // Web Component props
   on_change: PropTypes.func
 }
@@ -51,9 +53,11 @@ export const defaultProps = {
   active_url: null,
   show_numbers: true,
   class: null,
+
   /** React props */
   className: null,
   children: null,
+
   // Web Component props
   ...renderProps
 }
@@ -144,6 +148,7 @@ export default class StepIndicator extends PureComponent {
     }
 
     const params = {
+      // role: 'tabpanel',
       className: classnames('dnb-step-indicator', className, _className),
       ...attributes
     }
@@ -154,10 +159,16 @@ export default class StepIndicator extends PureComponent {
     return (
       <div {...params}>
         {data.length > 0 && (
-          <ul className="dnb-step-indicator__list">
+          <ul
+            // role="tablist"
+            className="dnb-step-indicator__list"
+          >
             {data.map((props, i) => (
               <li
                 key={`bc${i}`}
+                // In case we do not use the role="tab" - we could use aria-current instead of aria-selected
+                // role="tab"
+                // aria-selected={i === activeItem}
                 className={classnames(
                   'dnb-step-indicator__item',
                   i === activeItem ? 'dnb-step-indicator--active' : null,
@@ -186,6 +197,7 @@ class ItemContent extends PureComponent {
   static propTypes = {
     activeItem: PropTypes.number.isRequired,
     number: PropTypes.number.isRequired,
+    show_numbers: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     onChangeHandler: PropTypes.func,
     url: PropTypes.string,
     url_future: PropTypes.string,
@@ -194,6 +206,7 @@ class ItemContent extends PureComponent {
   }
   static defaultProps = {
     onChangeHandler: null,
+    show_numbers: true,
     url: null,
     url_future: null,
     url_passed: null
@@ -213,49 +226,66 @@ class ItemContent extends PureComponent {
       url_future,
       url_passed,
       number,
+      show_numbers,
+      onChangeHandler, // eslint-disable-line
+      url: _url,
       ...rest
     } = this.props
-    let { url } = this.props
-    if (number > activeItem) url = url_future
-    if (url_passed !== null && number < activeItem) url = url_passed
+
+    let url = _url
+
+    if (number > activeItem) {
+      url = url_future
+    }
+    if (url_passed !== null && number < activeItem) {
+      url = url_passed
+    }
+
+    const params = {
+      ...rest
+    }
+
+    if (number == activeItem) {
+      params['aria-current'] = true
+    }
+    if (number > activeItem) {
+      params['aria-disabled'] = true
+    }
+    if (!url) {
+      // to screen readers read both the nr. and the text in one sentence
+      params.role = 'text'
+    }
+
+    const ItemContentWrapper = () => (
+      <>
+        {String(show_numbers) === 'true' && (
+          <span className="dnb-step-indicator__item-content--number">
+            {`${number + 1}. `}
+          </span>
+        )}
+        <span className="dnb-step-indicator__item-content--text">
+          {title}
+          <Dummy>{title}</Dummy>
+        </span>
+      </>
+    )
+
     return url ? (
       <a
-        className={classnames(
-          'dnb-step-indicator-item-content',
-          'dnb-step-indicator-item-content--link'
-        )}
+        className="dnb-anchor dnb-step-indicator__item-content dnb-step-indicator__item-content--link"
         href={url}
         onClick={this._onChangeHandler}
+        {...params}
       >
-        <ItemContentWrapper {...{ title, number, ...rest }} />
+        <ItemContentWrapper />
       </a>
     ) : (
       <span
-        className={classnames(
-          'dnb-step-indicator-item-content',
-          'dnb-step-indicator-item-content--static'
-        )}
+        className="dnb-step-indicator__item-content dnb-step-indicator__item-content--static"
+        {...params}
       >
-        <ItemContentWrapper {...{ number, title, ...rest }} />
+        <ItemContentWrapper />
       </span>
     )
   }
-}
-
-const ItemContentWrapper = ({ number, title, show_numbers }) => (
-  <>
-    <span className="dnb-step-indicator-number">
-      {(show_numbers && `${number + 1}. `) || ''}
-    </span>
-    <span className="dnb-step-indicator-text">
-      {title}
-      <Dummy>{title}</Dummy>
-    </span>
-  </>
-)
-ItemContentWrapper.propTypes = {
-  number: PropTypes.number.isRequired,
-  title: PropTypes.string.isRequired,
-  show_numbers: PropTypes.oneOfType([PropTypes.string, PropTypes.bool])
-    .isRequired
 }

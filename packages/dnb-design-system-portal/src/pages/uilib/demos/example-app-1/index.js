@@ -152,7 +152,7 @@ export default class ExampleAppPage extends PureComponent {
                     <div className="dnb-form__cell__cell">
                       <Modal
                         type="button"
-                        modal_trigger_text="Trykk for mer info"
+                        trigger_text="Trykk for mer info"
                         modal_content="Dette er litt ekstra informasjon. Lorem ipsum lipsumbolius."
                       />
                     </div>

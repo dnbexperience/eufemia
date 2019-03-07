@@ -67,6 +67,10 @@
   color: var(--color-sea-green);
   background-color: transparent;
 
+  .dnb-button__text {
+    line-height: inherit;
+  }
+
   &.dnb-button--has-text {
     padding-left: 1rem;
     padding-right: 1rem;

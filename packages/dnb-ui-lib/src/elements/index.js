@@ -32,13 +32,19 @@ import Code from './Code'
 export default function E({
   className,
   class: _className,
+  useClass,
   css,
   is: Tag,
   ...rest
 }) {
   return (
     <Tag
-      className={classnames(`dnb-${Tag}`, className, _className, css)}
+      className={classnames(
+        useClass ? useClass : `dnb-${Tag}`,
+        className,
+        _className,
+        css
+      )}
       {...rest}
     />
   )
@@ -47,12 +53,14 @@ E.propTypes = {
   is: PropTypes.string.isRequired,
   className: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   class: PropTypes.string,
+  useClass: PropTypes.string,
   css: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   children: PropTypes.node
 }
 E.defaultProps = {
   className: null,
   class: null,
+  useClass: null,
   css: null,
   children: null
 }

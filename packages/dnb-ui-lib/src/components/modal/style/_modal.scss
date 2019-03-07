@@ -3,8 +3,8 @@
  *
  */
 
-body[data-modal-active='true'] {
-  overflow: hidden;
+[data-dnb-modal-active='true'] {
+  user-select: none;
 }
 
 #dnb-modal-root {
@@ -20,6 +20,7 @@ body[data-modal-active='true'] {
     position: fixed;
     top: 0;
     left: 0;
+    z-index: 3001;
 
     display: flex;
     align-items: center;
@@ -27,66 +28,62 @@ body[data-modal-active='true'] {
 
     width: 100%;
     height: 100%;
-    user-select: none;
 
-    // [data-active='false'] & {
-    //   @include srOnly();
-    // }
-    // [data-active='true'] & {
-    //   z-index: 3001;
-    // }
-    z-index: 3001;
+    user-select: none;
 
     &__inner {
       position: relative;
-      user-select: text;
-      padding: 2rem 1rem;
-      max-width: calc(100vw - 1rem);
 
+      padding: 2rem;
+      max-width: calc(100vw - 1rem);
+      max-height: 100vh;
+      width: auto;
+      height: auto;
+
+      overflow-y: scroll;
+
+      user-select: text;
       border: none;
-      box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.15);
+
+      background: var(--color-white);
 
       @include allAbove(medium) {
-        max-width: 500px;
         padding: 2rem 3rem;
+        padding-right: 4rem;
+        @include defaultDropShadow();
       }
 
-      // [data-active='true'] & {
-      //   background: white;
-      // }
-      background: white;
+      @include allBelow(medium) {
+        max-width: 100%;
+        width: 100%;
+        height: 100%;
+      }
+
+      @include allBelow(small) {
+        padding: 2rem 1rem;
+      }
     }
   }
 
-  &__trigger {
-    cursor: pointer;
-    user-select: none;
+  &__title.dnb-h2 {
+    margin: 0 0 2rem;
   }
 
-  &__trigger--text:not([class*='tertiary']) {
-    border: none;
-    padding: none;
-    background: transparent;
-
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-
-  // &__trigger--button {
+  // no styles set yet
+  // &__trigger {
   // }
 
-  &__close-button,
-  &__close-button.dnb-button--tertiary {
+  &__close-button {
+    // NB: as the specificity is several levels deep: :not([dnb-is-touch]) .dnb-button--secondary:hover:not([disabled])
+    // we use !important in case we define position="relative" on hover
     position: absolute;
     top: 1rem;
     right: 1rem;
 
-    cursor: pointer;
-
-    color: var(--color-sea-green);
-    // border: none;
-    // background: transparent;
+    @include allAbove(small) {
+      top: 2rem;
+      right: 2rem;
+    }
   }
 
   &__overlay {
@@ -98,14 +95,6 @@ body[data-modal-active='true'] {
     width: 100%;
     height: 100%;
 
-    background: rgba(255, 255, 255, 0.85);
-
-    // opacity: 0;
-    // transition: opacity 0.1s ease-out 0s;
-    // transform: translate(0, -100%);
-    // [data-active='true'] & {
-    //   transform: translate(0, 0);
-    //   opacity: 1;
-    // }
+    background-color: rgba(255, 255, 255, 0.85);
   }
 }

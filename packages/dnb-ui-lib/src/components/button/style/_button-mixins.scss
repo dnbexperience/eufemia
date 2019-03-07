@@ -5,7 +5,10 @@
 
 @mixin buttonHover($color, $background-color) {
   @include hover(true) {
-    position: relative; // to get "over" sibling, because of the extendFakeFocus
+    // NB: to get "over" sibling, because of the extendFakeFocus
+    // But if we would use it,
+    // then then we have to take care of places we use position="absolute", like the Modal Close button
+    // position: relative;
 
     color: $color;
     background-color: $background-color;
