@@ -8,8 +8,6 @@ import { Icon } from 'dnb-ui-lib/src'
 
 ## The Eufemia Repository
 
-The `dnb-ui-lib` is hosted as a sub package inside the;
+The `dnb-ui-lib` is hosted as a sub package inside the [**<Icon icon={EufemiaLogo} size="large" /> Eufemia Repository**](https://github.com/dnbexperience/eufemia) on GitHub.
 
-- [**<Icon icon={EufemiaLogo} size="large" /> Eufemia Repository**](https://github.com/dnbexperience/eufemia) on GitHub.
-
-You may enable [<Icon icon={GithubLogo} size="default" /> notification about upcoming releases](https://help.github.com/articles/watching-and-unwatching-releases-for-a-repository/).
+You can also enable [<Icon icon={GithubLogo} size="default" /> notification about upcoming releases](https://help.github.com/articles/watching-and-unwatching-releases-for-a-repository/).
