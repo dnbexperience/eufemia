@@ -253,7 +253,8 @@ export default class Tabs extends PureComponent {
       /tab--([-_a-z0-9]+)/i
     )[1]
 
-    return this.openTab(selected_key)
+    this.openTab(selected_key)
+    this.setFocusOnTablist()
   }
 
   openTab = selected_key => {
