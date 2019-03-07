@@ -13,7 +13,6 @@ import {
   processChildren,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
-// import './style/dnb-switch.scss' // no good solution to import the style here
 
 const renderProps = {
   on_change: null,
@@ -46,8 +45,8 @@ export const propTypes = {
 }
 
 export const defaultProps = {
-  text_positive: 'Ja', // Yes
-  text_negative: 'Nei', // No
+  text_positive: 'Yes', // Yes
+  text_negative: 'No', // No
   title: null,
   default_state: null,
   checked: 'default', //we have to send this as a string
