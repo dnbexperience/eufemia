@@ -22,15 +22,42 @@ class Example extends PureComponent {
       <Fragment>
         <ComponentBox
           caption="Default dropdown"
-          scope={{ data }}
           data-dnb-test="dropdown-closed"
+          noInline
         >
           {/* @jsx */ `
-<Dropdown data={data} selected_item={2} label="Label:" ${
-            typeof window !== 'undefined' && window.IS_TEST
-              ? ' no_animation={true} '
-              : ''
-          }/>
+const data = [
+  {
+    selected_value: 'Item 1 Value',
+    content: 'Item 1 Content'
+  },
+  {
+    content: ['Item 2 Value', 'Item 2 Content']
+  },
+  {
+    selected_value:
+      'Item 3 Value',
+    content: [
+      'Item 3 Content A',
+      'Item 3 Content B'
+    ]
+  },
+  {
+    selected_value: 'Item 4 Value',
+    content: ['Item 4 Content A', 'Item 4 Content B']
+  }
+]
+render(
+  <Dropdown
+    data={data}
+    selected_item={0}
+    label="Label:"
+  ${
+    typeof window !== 'undefined' && window.IS_TEST
+      ? ' no_animation={true} '
+      : ''
+  }/>
+)
           `}
         </ComponentBox>
         <ComponentBox

@@ -22,6 +22,7 @@ exports[`Button component have to match default button snapshot 1`] = `
   variant="primary"
 >
   <button
+    aria-disabled={true}
     className="dnb-button dnb-button--primary dnb-button--icon-position-right dnb-button--has-text dnb-button--has-icon id class className"
     disabled="disabled"
     id="id"
@@ -124,6 +125,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
   variant="primary"
 >
   <a
+    aria-disabled={true}
     className="dnb-button dnb-button--primary dnb-button--icon-position-right dnb-button--has-text dnb-button--has-icon id class className"
     disabled="disabled"
     href="https://url"
@@ -238,7 +240,6 @@ exports[`Button scss have to match default theme snapshot 1`] = `
   :not([dnb-is-touch]) .dnb-button--primary:hover[disabled] {
     cursor: not-allowed; }
   :not([dnb-is-touch]) .dnb-button--primary:hover:not([disabled]) {
-    position: relative;
     color: var(--color-sea-green);
     background-color: var(--color-white);
     box-shadow: 0 0 0 1px var(--color-white), 0 0 0 3px var(--color-emerald-green); }
@@ -270,7 +271,6 @@ exports[`Button scss have to match default theme snapshot 1`] = `
   :not([dnb-is-touch]) .dnb-button--secondary:hover[disabled] {
     cursor: not-allowed; }
   :not([dnb-is-touch]) .dnb-button--secondary:hover:not([disabled]) {
-    position: relative;
     color: var(--color-sea-green);
     background-color: var(--color-white);
     box-shadow: 0 0 0 1px var(--color-white), 0 0 0 3px var(--color-emerald-green); }
@@ -301,6 +301,8 @@ exports[`Button scss have to match default theme snapshot 1`] = `
   z-index: 1;
   color: var(--color-sea-green);
   background-color: transparent; }
+  .dnb-button--tertiary .dnb-button__text {
+    line-height: inherit; }
   .dnb-button--tertiary.dnb-button--has-text {
     padding-left: 1rem;
     padding-right: 1rem; }
@@ -358,7 +360,6 @@ exports[`Button scss have to match default theme snapshot 1`] = `
   :not([dnb-is-touch]) .dnb-button--signal:hover[disabled] {
     cursor: not-allowed; }
   :not([dnb-is-touch]) .dnb-button--signal:hover:not([disabled]) {
-    position: relative;
     color: var(--color-black);
     background-color: var(--color-signal-yellow);
     box-shadow: 0 0 0 1px var(--color-signal-yellow), 0 0 0 3px var(--color-emerald-green); }
@@ -672,7 +673,6 @@ exports[`Button scss have to match snapshot 1`] = `
    * Remove the inheritance of text transform in Firefox.
    */
   /**
-   * 1. Remove the margin in Firefox and Safari.
    * 2. Remove the default vertical scrollbar in IE.
    * 3. Change the resize direction on textareas in all browsers (opinionated).
    */
@@ -748,6 +748,7 @@ exports[`Button scss have to match snapshot 1`] = `
   font-style: normal;
   line-height: 1.5rem;
   color: var(--color-black-80, #333);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   font-variant-numeric: lining-nums;
   font-feature-settings: \\"lnum\\";
   font-size: 1em;
@@ -866,8 +867,6 @@ exports[`Button scss have to match snapshot 1`] = `
   .dnb-button select {
     text-transform: none; }
   .dnb-button textarea {
-    margin: 0;
-    /* 1 */
     overflow: auto;
     /* 2 */
     resize: vertical;
@@ -989,7 +988,9 @@ exports[`Button scss have to match snapshot 1`] = `
       .dnb-button__icon {
         transform: translateY(calc(1px - 1px - var(--button-border-width))); } }
   .dnb-button__text {
-    color: inherit; }
+    line-height: 1;
+    color: inherit;
+    background-color: inherit; }
     @supports not (-ms-ime-align: auto) {
       .dnb-button__text {
         transform: translateY(calc(1px - var(--button-border-width))); } }

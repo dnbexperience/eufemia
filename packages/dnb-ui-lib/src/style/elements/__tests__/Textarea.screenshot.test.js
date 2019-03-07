@@ -14,6 +14,7 @@ describe('Textarea screenshot', () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-dnb-test="textarea-default"]',
       // Only for screenshot testing - make textarea having same width on linux chromium
+      styleSelector: '[data-dnb-test="textarea-default"] textarea',
       style: { width: '14rem' }
     })
     expect(screenshot).toMatchImageSnapshot()

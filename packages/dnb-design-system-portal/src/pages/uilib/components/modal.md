@@ -1,7 +1,6 @@
 ---
 title: 'Modal'
 draft: false
-status: wip
 order: 11
 ---
 

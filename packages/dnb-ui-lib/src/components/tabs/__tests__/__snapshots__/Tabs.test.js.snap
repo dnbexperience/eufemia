@@ -94,7 +94,6 @@ exports[`Tabs component have to match snapshot 1`] = `
               <button
                 aria-selected={false}
                 className="dnb-tablink tab--first "
-                disabled={false}
                 id="id-tab-first"
                 key="tab--first"
                 onClick={[Function]}
@@ -119,7 +118,6 @@ exports[`Tabs component have to match snapshot 1`] = `
                 aria-controls="id-content-second"
                 aria-selected={true}
                 className="dnb-tablink tab--second selected"
-                disabled={false}
                 id="id-tab-second"
                 key="tab--second"
                 onClick={[Function]}
@@ -143,7 +141,6 @@ exports[`Tabs component have to match snapshot 1`] = `
               <button
                 aria-selected={false}
                 className="dnb-tablink tab--third "
-                disabled={false}
                 id="id-tab-third"
                 key="tab--third"
                 onClick={[Function]}
@@ -222,6 +219,12 @@ exports[`Tabs scss have to match default theme snapshot 1`] = `
     height: 1px;
     background-color: var(--color-mint-green);
     box-shadow: 100vw 0 0 0 var(--color-mint-green); } }
+
+.dnb-tabs__tabs__tablist {
+  margin: 0 -1rem;
+  padding: 0 1rem; }
+  .dnb-tabs__tabs__tablist:focus {
+    border-radius: 0.5rem; }
 
 .dnb-tabs__tabs .dnb-tablink-title {
   font-weight: var(--font-weight-book);
@@ -502,7 +505,6 @@ exports[`Tabs scss have to match snapshot 1`] = `
    * Remove the inheritance of text transform in Firefox.
    */
   /**
-   * 1. Remove the margin in Firefox and Safari.
    * 2. Remove the default vertical scrollbar in IE.
    * 3. Change the resize direction on textareas in all browsers (opinionated).
    */
@@ -578,6 +580,7 @@ exports[`Tabs scss have to match snapshot 1`] = `
   font-style: normal;
   line-height: 1.5rem;
   color: var(--color-black-80, #333);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   font-variant-numeric: lining-nums;
   font-feature-settings: \\"lnum\\";
   font-size: 1em;
@@ -696,8 +699,6 @@ exports[`Tabs scss have to match snapshot 1`] = `
   .dnb-tabs select {
     text-transform: none; }
   .dnb-tabs textarea {
-    margin: 0;
-    /* 1 */
     overflow: auto;
     /* 2 */
     resize: vertical;

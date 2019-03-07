@@ -152,6 +152,18 @@ $focusRingColor: var(--color-emerald-green);
   box-shadow: 0 0 0 $width $first-color, $second;
 }
 
+@mixin dummySpacing() {
+  // we use "aria-hidden" SPAN to simulate a wider width for each tab
+  & > span[hidden] {
+    display: flex;
+    flex-direction: column;
+
+    height: 0;
+    visibility: hidden;
+    overflow: hidden;
+  }
+}
+
 $breakpoints: (
   'small': 40em,
   'medium': 50em,

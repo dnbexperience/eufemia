@@ -7,7 +7,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import E from './index'
 
-const Anchor = p => <E is="a" {...p} />
+const Anchor = p => <E is="a" useClass="dnb-anchor" {...p} />
 Anchor.propTypes = {
   href: PropTypes.string.isRequired,
   children: PropTypes.node

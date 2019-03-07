@@ -47,24 +47,13 @@ exports[`StepIndicator component have to match snapshot 1`] = `
           url_passed={null}
         >
           <a
-            className="dnb-step-indicator-item-content dnb-step-indicator-item-content--link"
+            className="dnb-anchor dnb-step-indicator__item-content dnb-step-indicator__item-content--link"
             href="?a"
             onClick={[Function]}
           >
-            <ItemContentWrapper
-              number={0}
-              onChangeHandler={[Function]}
-              show_numbers="show_numbers"
-              title="Aa"
-              url="?a"
-            >
+            <ItemContentWrapper>
               <span
-                className="dnb-step-indicator-number"
-              >
-                1. 
-              </span>
-              <span
-                className="dnb-step-indicator-text"
+                className="dnb-step-indicator__item-content--text"
               >
                 Aa
                 <Dummy>
@@ -95,24 +84,14 @@ exports[`StepIndicator component have to match snapshot 1`] = `
           url_passed={null}
         >
           <a
-            className="dnb-step-indicator-item-content dnb-step-indicator-item-content--link"
+            aria-current={true}
+            className="dnb-anchor dnb-step-indicator__item-content dnb-step-indicator__item-content--link"
             href="?b"
             onClick={[Function]}
           >
-            <ItemContentWrapper
-              number={1}
-              onChangeHandler={[Function]}
-              show_numbers="show_numbers"
-              title="Bb"
-              url="?b"
-            >
+            <ItemContentWrapper>
               <span
-                className="dnb-step-indicator-number"
-              >
-                2. 
-              </span>
-              <span
-                className="dnb-step-indicator-text"
+                className="dnb-step-indicator__item-content--text"
               >
                 Bb
                 <Dummy>
@@ -143,22 +122,13 @@ exports[`StepIndicator component have to match snapshot 1`] = `
           url_passed={null}
         >
           <span
-            className="dnb-step-indicator-item-content dnb-step-indicator-item-content--static"
+            aria-disabled={true}
+            className="dnb-step-indicator__item-content dnb-step-indicator__item-content--static"
+            role="text"
           >
-            <ItemContentWrapper
-              number={2}
-              onChangeHandler={[Function]}
-              show_numbers="show_numbers"
-              title="Cc"
-              url="?c"
-            >
+            <ItemContentWrapper>
               <span
-                className="dnb-step-indicator-number"
-              >
-                3. 
-              </span>
-              <span
-                className="dnb-step-indicator-text"
+                className="dnb-step-indicator__item-content--text"
               >
                 Cc
                 <Dummy>
@@ -192,29 +162,33 @@ exports[`StepIndicator scss have to match default theme snapshot 1`] = `
 /*
  * Utilities
  */
-.dnb-step-indicator-item-content--static {
+.dnb-step-indicator__item-content--static {
   color: var(--color-emerald-green); }
 
-.dnb-step-indicator-item-content--link {
+.dnb-step-indicator__item-content--link {
   color: var(--color-sea-green-alt); }
 
-:not([dnb-is-touch]) .dnb-step-indicator--visited .dnb-step-indicator-item-content--link:hover[disabled] {
-  cursor: not-allowed; }
+.dnb-step-indicator__item {
+  margin-left: 4.5rem; }
+  .dnb-step-indicator__item:first-child {
+    margin-left: 0; }
+  @media screen and (max-width: 50em) {
+    .dnb-step-indicator__item {
+      margin-left: 2rem; } }
 
-:not([dnb-is-touch]) .dnb-step-indicator--visited .dnb-step-indicator-item-content--link:hover:not([disabled]) {
-  border-color: var(--color-sea-green); }
+.dnb-step-indicator::after {
+  color: var(--color-mint-green); }
 
-.dnb-step-indicator--active::after {
+.dnb-step-indicator--active.dnb-step-indicator__item::after,
+.dnb-step-indicator--active .dnb-step-indicator__item-content::after {
   background-color: var(--color-sea-green-alt); }
 
 .dnb-step-indicator span[hidden],
-.dnb-step-indicator--active .dnb-step-indicator-item-content {
-  font-family: var(--font-family-demi);
-  font-weight: var(--font-weight-demi);
-  color: var(--color-emerald-green); }
-
-.dnb-step-indicator::after {
-  background-color: var(--color-mint-green); }
+.dnb-step-indicator--active .dnb-step-indicator__item-content {
+  font-weight: var(--font-weight-demi); }
+  .dnb-step-indicator span[hidden]:not(:hover),
+  .dnb-step-indicator--active .dnb-step-indicator__item-content:not(:hover) {
+    color: var(--color-emerald-green); }
 "
 `;
 
@@ -455,7 +429,6 @@ exports[`StepIndicator scss have to match snapshot 1`] = `
    * Remove the inheritance of text transform in Firefox.
    */
   /**
-   * 1. Remove the margin in Firefox and Safari.
    * 2. Remove the default vertical scrollbar in IE.
    * 3. Change the resize direction on textareas in all browsers (opinionated).
    */
@@ -531,6 +504,7 @@ exports[`StepIndicator scss have to match snapshot 1`] = `
   font-style: normal;
   line-height: 1.5rem;
   color: var(--color-black-80, #333);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   font-variant-numeric: lining-nums;
   font-feature-settings: \\"lnum\\";
   font-size: 1em;
@@ -649,8 +623,6 @@ exports[`StepIndicator scss have to match snapshot 1`] = `
   .dnb-step-indicator select {
     text-transform: none; }
   .dnb-step-indicator textarea {
-    margin: 0;
-    /* 1 */
     overflow: auto;
     /* 2 */
     resize: vertical;
@@ -718,73 +690,74 @@ exports[`StepIndicator scss have to match snapshot 1`] = `
       background-color: white; } }
 
 /*
- * StepIndicator element
+ * StepIndicator component
  *
  */
 .dnb-step-indicator {
   position: relative;
   z-index: 1;
-  display: inline-flex;
+  display: block;
   margin: 0;
   padding: 0; }
   .dnb-step-indicator__list {
     display: flex;
+    flex-direction: row;
+    align-items: stretch;
     padding: 0;
     margin: 0;
-    list-style: none;
-    align-items: flex-start; }
+    list-style: none; }
   .dnb-spacing .dnb-step-indicator__list,
   .dnb-spacing .dnb-step-indicator__list li {
     margin-top: 0;
     margin-bottom: 0; }
-  .dnb-step-indicator__item {
+  .dnb-step-indicator__item-contenta, .dnb-step-indicator__item-content.dnb-anchor, .dnb-step-indicator__item-content--static, .dnb-step-indicator__item-content--link {
     position: relative;
     z-index: 2;
-    padding: 0;
-    margin-left: 4.5rem; }
-    .dnb-step-indicator__item:first-child {
-      margin-left: 0; }
-    @media screen and (max-width: 50em) {
-      .dnb-step-indicator__item {
-        margin-left: 2rem; } }
-    .dnb-step-indicator__item::after {
-      content: '';
-      position: absolute;
-      z-index: -1;
-      bottom: 0;
-      /* because of the link/anchor border-bottom 2px */
-      width: 100%;
-      height: 3px;
-      border-radius: 1.5px; }
-  .dnb-step-indicator-item-content {
     display: flex;
-    padding: 0.25rem 0.25rem 0.125rem;
-    border-bottom: 2px solid transparent;
-    text-decoration: none; }
-    :not([dnb-is-touch]) .dnb-step-indicator-item-content:hover[disabled] {
-      cursor: not-allowed; }
-    :not([dnb-is-touch]) .dnb-step-indicator-item-content:hover:not([disabled]) {
-      text-decoration: none; }
-  .dnb-step-indicator-number {
+    flex-direction: row;
+    margin: 0;
+    padding: 0.25rem 0.25rem;
+    height: 100%;
+    border-bottom: none;
+    text-decoration: none;
+    box-shadow: none; }
+  :not([dnb-is-touch]) .dnb-step-indicator__item-content--link:focus[disabled] {
+    cursor: not-allowed; }
+  :not([dnb-is-touch]) .dnb-step-indicator__item-content--link:focus:not([disabled]) {
+    outline: none; }
+    html[data-whatinput='keyboard'] :not([dnb-is-touch]) .dnb-step-indicator__item-content--link:focus:not([disabled]) {
+      box-shadow: 0 0 0 2px var(--color-emerald-green);
+      border-color: transparent; }
+    :not([dnb-is-touch]) .dnb-step-indicator__item-content--link:focus:not([disabled])::after {
+      content: none; }
+  .dnb-step-indicator__item-content--number {
     padding-right: 0.25rem;
     white-space: nowrap; }
-  .dnb-step-indicator-text span[hidden] {
+  .dnb-step-indicator__item-content--text > span[hidden] {
     display: flex;
     flex-direction: column;
     height: 0;
     visibility: hidden;
     overflow: hidden; }
-  .dnb-step-indicator--active .dnb-step-indicator-item-content {
-    cursor: default;
-    pointer-events: none; }
-  .dnb-step-indicator::after {
+  .dnb-step-indicator__item-content::after {
     content: '';
     position: absolute;
     z-index: 1;
-    left: -50vw;
-    right: -50vw;
+    left: 0;
     bottom: 0;
-    width: 200vw;
-    height: 1px; }
+    width: 100%;
+    height: 3px;
+    border-radius: 1.5px; }
+  .dnb-step-indicator::after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    left: -50vw;
+    bottom: 0;
+    width: 100vw;
+    height: 1px;
+    color: black;
+    background-color: currentColor;
+    box-shadow: 100vw 0 0 0 currentColor; }
 "
 `;

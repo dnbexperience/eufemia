@@ -43,6 +43,9 @@ stories.push([
         <Button text="Primary" icon="add" />
       </Box>
       <Box>
+        <Button text="Primary" icon="add" disabled />
+      </Box>
+      <Box>
         <Button text="Secondary" variant="secondary" icon="add" />
         <Button
           variant="secondary"
@@ -251,10 +254,7 @@ stories.push([
   'Modal',
   () => (
     <Wrapper>
-      <Modal
-        modal_trigger_text="Open Modal"
-        title="Title for accessibility"
-      >
+      <Modal trigger_text="Open Modal" title="Title for accessibility">
         <h2>Some content</h2>
         <Input>Focus me with Tab key</Input>
       </Modal>

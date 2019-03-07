@@ -1,51 +1,78 @@
 /*
- * StepIndicator element
+ * StepIndicator component
  *
  */
 
 .dnb-step-indicator {
   position: relative;
   z-index: 1;
-  display: inline-flex;
+
+  display: block;
 
   margin: 0;
   padding: 0;
 
   &__list {
     display: flex;
+    flex-direction: row;
+    align-items: stretch;
+
     padding: 0;
     margin: 0;
 
     list-style: none;
-    align-items: flex-start;
   }
+
   .dnb-spacing &__list,
   .dnb-spacing &__list li {
     margin-top: 0;
     margin-bottom: 0;
   }
 
-  &__item {
-    position: relative;
-    z-index: 2;
+  &__item-content {
+    &a,
+    &.dnb-anchor,
+    &--static,
+    &--link {
+      position: relative;
+      z-index: 2;
 
-    padding: 0;
-    // padding: 0 0.5rem;
-    margin-left: 4.5rem;
+      // display: block;
+      display: flex; // make text wrap beside the number
+      flex-direction: row;
 
-    &:first-child {
-      margin-left: 0;
+      margin: 0;
+      padding: 0.25rem 0.25rem;
+      height: 100%;
+
+      border-bottom: none;
+      text-decoration: none;
+      box-shadow: none;
     }
 
-    @include allBelow(medium) {
-      margin-left: 2rem;
+    &--link {
+      @include focus() {
+        @include fakeFocus();
+        &::after {
+          content: none;
+        }
+      }
+    }
+
+    &--number {
+      padding-right: 0.25rem;
+      white-space: nowrap;
+    }
+    &--text {
+      @include dummySpacing();
     }
 
     &::after {
       content: '';
       position: absolute;
-      z-index: -1;
-      bottom: 0; /* because of the link/anchor border-bottom 2px */
+      z-index: 1; // over anchor hover
+      left: 0;
+      bottom: 0; // because of the link/anchor border-bottom 2px
 
       width: 100%;
       height: 3px;
@@ -53,66 +80,25 @@
     }
   }
 
-  &-item-content {
-    display: flex; // make text wrap
-    padding: 0.25rem 0.25rem 0.125rem;
-
-    border-bottom: 2px solid transparent;
-    text-decoration: none;
-
-    @include hover(true) {
-      text-decoration: none;
-    }
-
-    // &--static {
-    // }
-    //
-    // &--link {
-    // }
-  }
-
-  &-number {
-    padding-right: 0.25rem;
-    white-space: nowrap;
-  }
-  &-text {
-    // we use "aria-hidden" SPAN to simulate a wider width for each tab
-    span[hidden] {
-      display: flex;
-      flex-direction: column;
-
-      height: 0;
-      visibility: hidden;
-      overflow: hidden;
-    }
-  }
-
-  &--visited &-item-content {
-    &--link {
-      // @include hover(true) {
-      // }
-    }
-  }
-
-  // &--active {
-  //   &::after {
+  // &--visited &__item-content {
+  //   &--link {
+  //     @include hover(true) {
+  //     }
   //   }
   // }
-
-  &--active &-item-content {
-    cursor: default;
-    pointer-events: none;
-  }
 
   &::after {
     content: '';
     position: absolute;
-    z-index: 1;
+    z-index: -1;
     left: -50vw;
-    right: -50vw;
     bottom: 0;
 
-    width: 200vw;
+    width: 100vw;
     height: 1px;
+
+    color: black;
+    background-color: currentColor;
+    box-shadow: 100vw 0 0 0 currentColor;
   }
 }

@@ -76,7 +76,7 @@ export const propTypes = {
 }
 
 export const defaultProps = {
-  id: `dropdown-${Math.round(Math.random() * 999)}`,
+  id: null,
   title: 'Option Menu',
   icon: 'chevron-left',
   icon_position: null,
@@ -155,6 +155,8 @@ export default class Dropdown extends Component {
 
   constructor(props) {
     super(props)
+
+    this._id = props.id || `dropdown-${Math.round(Math.random() * 999)}`
 
     const opened = Dropdown.parseOpened(props.opened)
     this.state = {
@@ -324,7 +326,6 @@ export default class Dropdown extends Component {
       label,
       icon,
       icon_position,
-      id,
       show_value_outside,
       status,
       status_state,
@@ -334,12 +335,15 @@ export default class Dropdown extends Component {
       class: _className,
       disabled,
 
+      id: _id /* eslint-disable-line */,
       data /* eslint-disable-line */,
       opened: _opened /* eslint-disable-line */,
       selected_item: _selected_item /* eslint-disable-line */,
 
       ...attributes
     } = this.props
+
+    const id = this._id
 
     const { opened, active, hidden, selected_item } = this.state
     const showStatus = status && status !== 'error'
@@ -356,7 +360,11 @@ export default class Dropdown extends Component {
       className
     )
 
-    const selectedId = `option-${id}-${selected_item}`
+    // To link the selected item with the aria-labelledby, use this:
+    // const selectedId = `option-${id}-${selected_item}`
+    // But for now we use
+    const selectedId = `dropdown-${id}-value`
+    const shellParams = {}
     const inputParams = {
       id,
       className: 'dnb-dropdown__input',
@@ -382,6 +390,9 @@ export default class Dropdown extends Component {
       disabled,
       ...attributes
     }
+    if (disabled) {
+      triggerParams['aria-disabled'] = true
+    }
     const ulParams = {
       className: classnames(
         'dnb-dropdown__options',
@@ -395,6 +406,7 @@ export default class Dropdown extends Component {
 
     // also used for code markup simulation
     validateDOMAttributes(this.props, triggerParams)
+    validateDOMAttributes(null, shellParams)
     validateDOMAttributes(null, inputParams)
     validateDOMAttributes(null, ulParams)
 
@@ -409,11 +421,14 @@ export default class Dropdown extends Component {
           />
         )}
 
-        <span className="dnb-dropdown__shell">
+        <span className="dnb-dropdown__shell" {...shellParams}>
           <input {...inputParams} />
           <button {...triggerParams}>
             <span className="dnb-dropdown__text">
-              <span className="dnb-dropdown__text__inner">
+              <span
+                id={`dropdown-${id}-value`}
+                className="dnb-dropdown__text__inner"
+              >
                 {Dropdown.parseContentTitle(currentOptionData)}
               </span>
             </span>

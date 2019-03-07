@@ -21,7 +21,7 @@ stories.push([
       <Box>
         <SkipLinkReset>
           <a
-            className="dnb-show-skip-link"
+            className="dnb-skip-link-demo"
             href="#dnb-app-content"
             onClick={e => e.preventDefault()}
           >

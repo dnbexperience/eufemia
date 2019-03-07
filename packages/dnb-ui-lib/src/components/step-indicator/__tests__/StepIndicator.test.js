@@ -58,7 +58,14 @@ describe('StepIndicator component', () => {
   })
 
   it('should validate with ARIA rules', async () => {
-    expect(await axeComponent(Comp)).toHaveNoViolations()
+    expect(
+      await axeComponent(Comp, {
+        rules: {
+          // because of the role="text", we disable this rule for now
+          'aria-roles': { enabled: false }
+        }
+      })
+    ).toHaveNoViolations()
   })
 })
 

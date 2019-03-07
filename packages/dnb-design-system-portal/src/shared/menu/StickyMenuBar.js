@@ -17,7 +17,7 @@ import { MainMenuToggleButton } from './ToggleMainMenu'
 import { SidebarMenuContext } from './SidebarMenuContext'
 import ToggleGrid from './ToggleGrid'
 
-const BarWrapper = styled.header`
+const Header = styled.header`
   position: fixed;
   z-index: 200;
   top: 0;
@@ -34,7 +34,7 @@ const BarWrapper = styled.header`
   overflow: hidden;
   white-space: nowrap;
 
-  .toggle-sidebar-menu {
+  #toggle-sidebar-menu {
     display: none;
   }
 
@@ -43,7 +43,7 @@ const BarWrapper = styled.header`
     make sure that Content main "styled.main" gets the same max-width
    */
   @media (max-width: 50em) {
-    .toggle-sidebar-menu {
+    #toggle-sidebar-menu {
       display: flex;
     }
   }
@@ -61,7 +61,7 @@ const BarWrapper = styled.header`
   }
 `
 
-const BarInner = styled.div`
+const HeaderInner = styled.div`
   display: flex;
   justify-content: space-between;
   vertical-align: middle;
@@ -90,7 +90,7 @@ const CenterWrapper = styled.span`
 `
 
 const hideSiebarToggleButtonStyle = css`
-  .toggle-sidebar-menu {
+  #toggle-sidebar-menu {
     display: none;
   }
 `
@@ -148,7 +148,7 @@ export default class StickyMenuBar extends PureComponent {
                   siteMetadata: { name: slogan }
                 }
               }) => (
-                <BarWrapper
+                <Header
                   css={[
                     hideSiebarToggleButton && hideSiebarToggleButtonStyle
                   ]}
@@ -158,7 +158,7 @@ export default class StickyMenuBar extends PureComponent {
                     'dev-grid'
                   )}
                 >
-                  <BarInner>
+                  <HeaderInner>
                     <MainMenuToggleButton />
                     <CenterWrapper aria-hidden>
                       <Icon
@@ -172,7 +172,11 @@ export default class StickyMenuBar extends PureComponent {
                       <Button
                         icon={isOpen ? closeIcon : hamburgerIcon}
                         on_click={toggleMenu}
-                        className="toggle-sidebar-menu"
+                        id="toggle-sidebar-menu"
+                        aria-haspopup="true"
+                        aria-controls="portal-sidebar-menu"
+                        aria-expanded={isOpen}
+                        aria-label="Section Content Menu"
                         title={
                           isOpen
                             ? 'Hide section content menu'
@@ -181,8 +185,8 @@ export default class StickyMenuBar extends PureComponent {
                       />
                       <ToggleGrid />
                     </span>
-                  </BarInner>
-                </BarWrapper>
+                  </HeaderInner>
+                </Header>
               )}
             />
           )

@@ -123,7 +123,7 @@ export default class LoanSausage extends PureComponent {
                 <div className="dnb-loan-sausage__title__modal-container">
                   <Modal
                     type="button"
-                    modal_trigger_text="Trykk for mer info om egenkapital"
+                    trigger_text="Trykk for mer info om egenkapital"
                     modal_content="Dette er litt ekstra informasjon om egenkapitalen."
                     content_id="equity-modal-text"
                   />
@@ -148,7 +148,7 @@ export default class LoanSausage extends PureComponent {
                 <div className="dnb-loan-sausage__title__modal-container">
                   <Modal
                     type="button"
-                    modal_trigger_text="Trykk for mer info om lånbeløpet"
+                    trigger_text="Trykk for mer info om lånbeløpet"
                     modal_content="Dette er litt ekstra informasjon om lånbeløpet."
                     content_id="loan-modal-text"
                   />

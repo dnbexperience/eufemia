@@ -24,6 +24,8 @@ const StyledListItem = styled.li`
   list-style: none;
   margin: 0;
 
+  background-color: var(--color-white);
+
   a {
     position: relative;
     padding: 0;
@@ -35,6 +37,8 @@ const StyledListItem = styled.li`
     align-items: center;
 
     transform: translateY(1px);
+    color: var(--color-emerald-green);
+    background-color: inherit;
 
     &:hover {
       color: var(--color-black);
@@ -180,7 +184,7 @@ const StyledListItem = styled.li`
     width: 1.25rem;
     border-radius: 50%;
 
-    background-color: var(--color-sea-green-alt-30);
+    background-color: var(--color-mint-green-25);
     &::after {
       content: '';
       position: absolute;
@@ -188,7 +192,7 @@ const StyledListItem = styled.li`
     }
   }
   &.status-dep .status-badge {
-    color: var(--color-cherry-red);
+    color: var(--color-black-80);
     background-color: var(--color-cherry-red-80);
   }
   &.status-imp .status-badge {
@@ -197,7 +201,7 @@ const StyledListItem = styled.li`
   }
 `
 
-const Sidebar = styled.aside`
+const Navigation = styled.nav`
   position: fixed;
 
   /* lower than styled.main */
@@ -296,15 +300,7 @@ export default class SidebarLayout extends PureComponent {
   constructor(props) {
     super(props)
     this._scrollRef = React.createRef()
-    setPageFocusElement(
-      // '.toggle-sidebar-menu',
-      'html[data-whatintent=mouse] aside ul li.is-active a:nth-of-type(1), html[data-whatintent=keyboard] .toggle-sidebar-menu',
-      'sidebar'
-    )
-    setPageFocusElement(
-      'aside ul li.is-active a:nth-of-type(1)',
-      'sidebar-tab'
-    )
+    setPageFocusElement('nav ul li.is-active a:nth-of-type(1)', 'sidebar')
   }
 
   componentDidMount() {
@@ -371,7 +367,7 @@ export default class SidebarLayout extends PureComponent {
           .querySelector('li.is-active')
           .getBoundingClientRect().top
         const top = this._scrollRef.current.scrollTop + pos - offset
-        this._scrollRef.current.scrollTo({
+        window.scrollTo({
           top,
           behavior: 'smooth'
         })
@@ -386,20 +382,11 @@ export default class SidebarLayout extends PureComponent {
   }
 
   handleKeyDown = e => {
-    if (!this.isOpen) {
-      this.hadFirstTab = false
-      return
-    }
     switch (keycode(e)) {
-      case 'tab':
-        // on first tab
-        if (!this.hadFirstTab) {
-          this.hadFirstTab = true
-          applyPageFocus('sidebar-tab')
-        }
-        break
       case 'esc':
-        this.toggleMenu()
+        if (this.isOpen) {
+          this.toggleMenu()
+        }
         break
     }
   }
@@ -492,7 +479,6 @@ export default class SidebarLayout extends PureComponent {
                   status,
                   icon,
                   active,
-                  ['aria-selected']: active,
                   inside,
                   to: path,
                   onOffsetTop: offsetTop => (this.offsetTop = offsetTop)
@@ -519,16 +505,20 @@ export default class SidebarLayout extends PureComponent {
                 {({ isOpen, isClosing, toggleMenu }) => {
                   this.isOpen = isOpen
                   this.toggleMenu = toggleMenu
-                  isOpen &&
-                    !isClosing &&
+                  if (isOpen && !isClosing) {
                     setTimeout(() => {
+                      this.scrollToActiveItem()
                       applyPageFocus('sidebar')
-                      if (isOpen) {
-                        this.scrollToActiveItem()
-                      }
-                    }, 100)
+                    }, 300) // after animation is done
+                  } else if (isClosing) {
+                    setTimeout(() => {
+                      applyPageFocus('content')
+                    }, 300) // after animation is done - to make sure we can get the focus on h1
+                  }
                   return (
-                    <Sidebar
+                    <Navigation
+                      id="portal-sidebar-menu"
+                      aria-labelledby="toggle-sidebar-menu"
                       className={classnames(
                         // 'dnb-core-style',
                         isOpen && 'show-mobile-menu',
@@ -536,13 +526,7 @@ export default class SidebarLayout extends PureComponent {
                       )}
                       ref={this._scrollRef}
                     >
-                      {/* <MainMenuToggleButton /> */}
-                      <nav
-                        role="navigation"
-                        aria-label="Section Content Menu"
-                      >
-                        <ul className="dev-grid">{nav}</ul>
-                      </nav>
+                      <ul className="dev-grid">{nav}</ul>
                       {isOpen && (
                         <Global
                           styles={css`
@@ -552,7 +536,7 @@ export default class SidebarLayout extends PureComponent {
                           `}
                         />
                       )}
-                    </Sidebar>
+                    </Navigation>
                   )
                 }}
               </SidebarMenuContext.Consumer>
@@ -614,10 +598,15 @@ class ListItem extends PureComponent {
     const statusTitle =
       status &&
       {
-        wip: 'Working in Progress',
+        wip: 'Work in Progress',
         dep: 'Deprecated',
         imp: 'Needs improvement'
       }[status]
+
+    const params = {}
+    if (active) {
+      params['aria-current'] = true
+    }
 
     return (
       <StyledListItem
@@ -628,7 +617,7 @@ class ListItem extends PureComponent {
           status ? `status-${status}` : null,
           className
         )}
-        innerRef={this.ref}
+        ref={this.ref}
         style={{
           '--delay': `${nr !== null ? nr * 12 : random(1, 160)}ms`
         }}
@@ -637,11 +626,12 @@ class ListItem extends PureComponent {
           to={to}
           className={classnames(
             'dnb-anchor',
-            'dnb-anchor-no-underline',
-            'dnb-anchor-no-radius',
-            'dnb-anchor-no-hover',
+            'dnb-anchor--no-underline',
+            'dnb-anchor--no-radius',
+            'dnb-anchor--no-hover',
             icon && graphics[icon] ? 'has-icon' : null
           )}
+          {...params}
         >
           <span>
             {icon && graphics[icon] && (

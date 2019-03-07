@@ -55,7 +55,9 @@
     }
   }
   &__text {
+    line-height: 1;
     color: inherit;
+    background-color: inherit;
     // if not IE11
     @supports not (-ms-ime-align: auto) {
       transform: translateY(calc(1px - var(--button-border-width)));

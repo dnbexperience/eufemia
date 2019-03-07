@@ -21,65 +21,65 @@ export default ({ children }) => {
       <th>Name</th>
       <th>Hex</th>
       <th>RGB</th>
-      <th>Library name</th>
+      <th>Figma Library name</th>
       <th>CSS Custom Properties name</th>
   </tr>
 </thead>
 <tbody>
 <tr>
   <td>Profile</td>
-  <td>Ocean Green</td>
+  <td>Ocean green</td>
   <td>#00343E</td>
   <td>0 52 62</td>
-  <td>Ocean Green</td>
+  <td>Ocean green</td>
   <td>--color-ocean-green</td>
   </tr>
 <tr>
   <td>Profile</td>
-  <td>Emerald Green</td>
+  <td>Emerald green</td>
   <td>#14555A</td>
   <td>20 85 90</td>
-  <td>Emerald Green</td>
+  <td>Emerald green</td>
   <td>--color-emerald-green</td>
   </tr>
   <tr>
     <td>Profile</td>
-    <td>Sea Green</td>
+    <td>Sea green</td>
     <td>#007272</td>
     <td>0 114 114</td>
-    <td>Sea Green</td>
+    <td>Sea green</td>
     <td>--color-sea-green</td>
   </tr>
   <tr>
     <td>Profile</td>
-    <td>Mint Green</td>
+    <td>Mint green</td>
     <td>#A5E1D2</td>
     <td>165 225 210</td>
-    <td>Mint Green</td>
+    <td>Mint green</td>
     <td>--color-mint-green</td>
   </tr>
   <tr>
     <td>Profile</td>
-    <td>Summer Green</td>
+    <td>Summer green</td>
     <td>#28B482</td>
     <td>40 180 130</td>
-    <td>Summer Green</td>
+    <td>Summer green</td>
     <td>--color-summer-green</td>
   </tr>
   <tr>
     <td>Profile</td>
-    <td>Signal Orange</td>
+    <td>Signal orange</td>
     <td>#FF5400</td>
     <td>255 84 0</td>
-    <td>Signal Orange</td>
+    <td>Signal orange</td>
     <td>--color-signal-orange</td>
   </tr>
   <tr>
     <td>Profile</td>
-    <td>Signal Yellow</td>
+    <td>Signal yellow</td>
     <td>#FFFF7A</td>
     <td>255 255 122</td>
-    <td>Signal Yellow</td>
+    <td>Signal yellow</td>
     <td>--color-signal-yellow</td>
   </tr>
   <tr>
@@ -100,74 +100,74 @@ export default ({ children }) => {
   </tr>
   <tr>
     <td>Profile</td>
-    <td>Sky Blue</td>
+    <td>Sky blue</td>
     <td>#4BBED2</td>
     <td>75 190 210</td>
-    <td>Sky Blue</td>
+    <td>Sky blue</td>
     <td>--color-sky-blue</td>
   </tr>
   <tr>
     <td>UX</td>
-    <td>Sea Green Alt</td>
+    <td>Sea green alt</td>
     <td>#008484</td>
     <td>0 132 132</td>
-    <td>Sea Green Alt</td>
+    <td>Sea green alt</td>
     <td>--color-sea-green-alt</td>
   </tr>
   <tr>
   <td>UX</td>
-  <td>Sea Green Alt 30</td>
+  <td>Sea green alt 30%</td>
   <td>#B3DADA</td>
   <td>179 218 218</td>
-  <td>Sea Green Alt 30</td>
+  <td>Sea green alt 30%</td>
   <td>--color-sea-green-alt-30</td>
   </tr>
   <tr>
     <td>UX</td>
-    <td>Mint Green 50</td>
+    <td>Mint green 50%</td>
     <td>#D2F0E9</td>
     <td>210 240 233</td>
-    <td>Mint Green 50</td>
+    <td>Mint green 50%</td>
     <td>--color-mint-green-50</td>
   </tr>
   <tr>
     <td>UX</td>
-    <td>Mint Green 25</td>
+    <td>Mint green 25%</td>
     <td>#E9F8F4</td>
     <td>233 248 244</td>
-    <td>Mint Green 25</td>
+    <td>Mint green 25%</td>
     <td>--color-mint-green-25</td>
   </tr>
   <tr>
   <td>UX</td>
-  <td>Mint Green 12</td>
+  <td>Mint green 12%</td>
   <td>#F4FBF9</td>
   <td>244 251 249</td>
-  <td>Mint Green 12</td>
+  <td>Mint green 12%</td>
   <td>--color-mint-green-12</td>
   </tr>
   <tr>
   <td>UX</td>
-  <td>Signal Yellow 30</td>
+  <td>Signal yellow 30%</td>
   <td>#FFFFD7</td>
   <td>255 255 215</td>
-  <td>Signal Yellow 30</td>
+  <td>Signal yellow 30%</td>
   <td>--color-signal-yellow-30</td>
   </tr>
   <tr>
   <td>UX</td>
-  <td>Cherry Red</td>
+  <td>Cherry red</td>
   <td>#E10076</td>
   <td>225 0 118</td>
-  <td>Cherry Red</td>
+  <td>Cherry red</td>
   <td>--color-cherry-red</td>
   </tr>
   <tr>
   <td>UX</td>
-  <td>Cherry Red 8</td>
+  <td>Cherry red 8%</td>
   <td>#FDEBF4</td>
   <td>253 235 244</td>
-  <td>Cherry Red 8</td>
+  <td>Cherry red 8%</td>
   <td>--color-cherry-red-8</td>
   </tr>
   <tr>
@@ -180,18 +180,18 @@ export default ({ children }) => {
   </tr>
   <tr>
   <td>UX</td>
-  <td>333</td>
+  <td>Black 80%</td>
   <td>#333333</td>
   <td>51 51 51</td>
-  <td>333</td>
+  <td>Black 80%</td>
   <td>--color-black-80</td>
   </tr>
   <tr>
   <td>UX</td>
-  <td>Black 30</td>
+  <td>Black 30%</td>
   <td>#B3B3B3</td>
   <td>179 179 179</td>
-  <td>Black 30</td>
+  <td>Black 30%</td>
   <td>--color-black-30</td>
   </tr>
   <tr>

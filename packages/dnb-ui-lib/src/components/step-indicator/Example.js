@@ -4,7 +4,7 @@
  */
 
 import React, { PureComponent, Fragment } from 'react'
-import StepIndicator from './StepIndicator'
+import ComponentBox from '../../../../dnb-design-system-portal/src/shared/tags/ComponentBox'
 import createHistory from 'history/createBrowserHistory'
 
 class Example extends PureComponent {
@@ -45,37 +45,61 @@ class Example extends PureComponent {
     this.history && this.history.push(e.item.url)
   }
   render() {
+    const { active_url } = this.state
+    const onChangeHandler = this.onChangeHandler
     return (
       <Fragment>
-        <div className="example-box">
-          <StepIndicator
-            data-dnb-test="step-indicator"
-            active_item="2"
-            active_url={this.state.active_url}
-            data={dataBlob}
-            on_change={this.onChangeHandler}
-          />
-          <p className="example-caption">
-            StepIndicator with urls, for visited steps only
-          </p>
-        </div>
-        <div className="example-box">
-          <StepIndicator
-            active_item="3"
-            data={[
-              {
-                title: 'Om din nye bolig'
-              },
-              {
-                title: 'Ditt lån og egenkapital'
-              },
-              {
-                title: 'Oppsummering'
-              }
-            ]}
-          />
-          <p className="example-caption">StepIndicator with no urls</p>
-        </div>
+        <ComponentBox
+          caption="StepIndicator with urls, for visited steps only"
+          data-dnb-test="step-indicator"
+          scope={{ onChangeHandler, active_url }}
+          noInline
+          hideSyntaxButton
+        >
+          {/* @jsx */ `
+const data = [
+  {
+    title: 'Om din nye bolig',
+    url: '?a'
+  },
+  {
+    title: 'Ditt lån og egenkapital',
+    url: '?b'
+  },
+  {
+    title: 'Oppsummering',
+    url: '?c',
+    url_future: ''
+  }
+]
+render(
+  <StepIndicator
+    active_item="2"
+    active_url={active_url}
+    data={data}
+    on_change={onChangeHandler}
+  />
+)
+          `}
+        </ComponentBox>
+        <ComponentBox caption="StepIndicator with no urls">
+          {/* @jsx */ `
+<StepIndicator
+  active_item="3"
+  data={[
+    {
+      title: 'Om din nye bolig'
+    },
+    {
+      title: 'Ditt lån og egenkapital'
+    },
+    {
+      title: 'Oppsummering'
+    }
+  ]}
+/>
+            `}
+        </ComponentBox>
       </Fragment>
     )
   }

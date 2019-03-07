@@ -46,8 +46,18 @@ export const loadImage = async imagePath =>
 export const toHtml = Component =>
   ReactDOMServer.renderToStaticMarkup(Component)
 
-export const axeComponent = async (...components) =>
-  await axe(components.map(Component => toHtml(Component)).join('\n'))
+export const axeComponent = async (...components) => {
+  return await axe(
+    components
+      .filter(Component =>
+        // enzyme names the mounted wrapper: ReactWrapper
+        /react/i.test(String(Component.constructor))
+      )
+      .map(Component => toHtml(Component))
+      .join('\n'),
+    typeof components[1] === 'object' ? components[1] : null
+  )
+}
 
 // global.shallow = enzyme.shallow
 // global.render = enzyme.render
