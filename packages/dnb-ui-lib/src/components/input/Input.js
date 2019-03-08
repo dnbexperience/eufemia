@@ -45,6 +45,7 @@ export const propTypes = {
   class: PropTypes.string,
   input_class: PropTypes.string,
   attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  readOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 
   // Submit button
   submit_button_variant: ButtonPropTypes.variant,
@@ -91,6 +92,7 @@ export const defaultProps = {
   input_class: null,
   class: null,
   attributes: null,
+  readOnly: false,
 
   // Submit button
   submit_button_title: null,
@@ -156,19 +158,6 @@ export default class Input extends PureComponent {
     // make sure we dont trigger getDerivedStateFromProps on startup
     this.state._listenForPropChanges = true
     this.state.value = Input.getValue(props)
-
-    // This is only to show, that we also can add a custom method to the custom element, and call it like so:
-    // this._ref.current.focus() // current would be the Custom Element - we may delay it for 1 tick, to make sure we call if after it is set
-    // We also have to ahve this method in here
-    // setCustomElementMethod(this, 'focus', () => {
-    //   setTimeout(() => {
-    //     try {
-    //       this._ref.current.focus()
-    //     } catch (e) {
-    //       //
-    //     }
-    //   }, 100)
-    // })
   }
   onFocusHandler = event => {
     const value = event.target.value
@@ -219,6 +208,7 @@ export default class Input extends PureComponent {
       submit_button_icon,
       on_submit,
       autocomplete,
+      readOnly,
       class: _className,
       className,
 
@@ -273,6 +263,9 @@ export default class Input extends PureComponent {
     }
     if (type === 'search') {
       inputParams.autoComplete = 'off'
+    }
+    if (readOnly) {
+      inputParams['aria-readonly'] = inputParams.readOnly = true
     }
 
     const shellParams = {

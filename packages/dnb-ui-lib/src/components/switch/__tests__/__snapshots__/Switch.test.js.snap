@@ -14,6 +14,7 @@ exports[`Switch component have to match snapshot 1`] = `
   label="label"
   on_change={[Function]}
   on_state_update={[Function]}
+  readOnly={false}
   status={null}
   status_animation="status_animation"
   status_state="status_state"
@@ -26,7 +27,7 @@ exports[`Switch component have to match snapshot 1`] = `
     className={null}
     disabled="disabled"
     for_id="id"
-    id={null}
+    id="id-label"
     render_content={null}
     text="label"
     title={null}
@@ -36,6 +37,7 @@ exports[`Switch component have to match snapshot 1`] = `
       className="dnb-form-label"
       disabled="disabled"
       htmlFor="id"
+      id="id-label"
     >
       label
     </label>
@@ -49,6 +51,7 @@ exports[`Switch component have to match snapshot 1`] = `
       <input
         aria-checked={false}
         aria-disabled={true}
+        aria-labelledby="id-label"
         checked={false}
         className="dnb-switch__input"
         disabled="disabled"
@@ -1544,13 +1547,14 @@ exports[`Switch scss have to match snapshot 1`] = `
 */
 :root {
   --switch-height: 1.5rem;
-  --switch-border-width: 1px; }
+  --switch-border-width: 0.0625rem; }
 
 .dnb-switch {
   user-select: none;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
+  vertical-align: middle;
   width: auto;
   margin: 0;
   padding: 0; }
@@ -1558,7 +1562,7 @@ exports[`Switch scss have to match snapshot 1`] = `
     position: relative;
     display: flex;
     align-items: center;
-    transform: translateY(0.1875rem); }
+    transform: translateY(-0.0625rem); }
   .dnb-switch__focus, .dnb-switch__button {
     position: absolute;
     z-index: 4;

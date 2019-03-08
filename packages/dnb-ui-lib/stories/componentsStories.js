@@ -133,11 +133,13 @@ stories.push([
     <CustomStyle>
       <Wrapper>
         <Box>
-          <Input label="Label:">Input ...</Input>
+          <Input label="Label:" readOnly>
+            Input ...
+          </Input>
         </Box>
         <Box>
           <p className="dnb-p">
-            <Input label="Label:" placeholder="Placeholder ..." />
+            <Input label="ReadOnly:" placeholder="Placeholder ..." />
           </p>
         </Box>
         <Box>
@@ -406,6 +408,7 @@ stories.push([
         <Box>
           <p className="dnb-p">
             <Switch label="Checked:" checked />
+            <Input label="ReadOnly:" placeholder="Placeholder ..." />
           </p>
         </Box>
         <Box>

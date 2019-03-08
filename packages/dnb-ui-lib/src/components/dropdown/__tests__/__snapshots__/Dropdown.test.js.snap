@@ -359,7 +359,7 @@ exports[`Dropdown scss have to match default theme snapshot 1`] = `
   --dropdown-option-background-color--hover: var(--color-mint-green-12);
   --dropdown-option-color--selected: var(--color-white);
   --dropdown-option-background-color--selected: var(--color-emerald-green);
-  --dropdown-option-border-width: 1px;
+  --dropdown-option-border-width: 0.0625rem;
   --dropdown-option-border-color: var(--color-mint-green-25); }
 
 .dnb-dropdown {
@@ -1841,7 +1841,7 @@ exports[`Dropdown scss have to match snapshot 1`] = `
   --dropdown-max-width: 20rem;
   --dropdown-height: 2rem;
   --dropdown-padding-horizontal: 1rem;
-  --dropdown-border-width: 1px;
+  --dropdown-border-width: 0.0625rem;
   --dropdown-text-padding: 0.5rem;
   --dropdown-border-radius: calc(var(--dropdown-height) / 2); }
 

@@ -1047,7 +1047,7 @@ exports[`Modal scss have to match snapshot 1`] = `
   --button-width--large: 3rem;
   --button-height--large: 3rem;
   --button-icon-size: 1rem;
-  --button-border-width: 1px;
+  --button-border-width: 0.0625rem;
   --button-border-width--hover: 3px;
   --button-border-radius: calc(var(--button-height) / 2);
   --button-border-radius--small: calc(var(--button-height--small) / 2);

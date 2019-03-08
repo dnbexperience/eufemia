@@ -11,6 +11,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
       data-input-state="virgin"
     >
       <input
+        aria-readonly={true}
         attributes="attributes"
         autoComplete="off"
         className="dnb-input__input input_class"
@@ -20,6 +21,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
         onChange={[Function]}
         onFocus={[Function]}
         onKeyDown={[Function]}
+        readOnly={true}
         type="search"
         value="test"
       />
@@ -56,6 +58,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
       on_submit_blur={[Function]}
       on_submit_focus={[Function]}
       placeholder="placeholder"
+      readOnly="readOnly"
       size="size"
       status={null}
       status_animation="status_animation"
@@ -85,6 +88,7 @@ exports[`Input component have to match type="text" snapshot 1`] = `
       data-input-state="virgin"
     >
       <input
+        aria-readonly={true}
         attributes="attributes"
         autoComplete="off"
         className="dnb-input__input input_class"
@@ -94,6 +98,7 @@ exports[`Input component have to match type="text" snapshot 1`] = `
         onChange={[Function]}
         onFocus={[Function]}
         onKeyDown={[Function]}
+        readOnly={true}
         type="text"
         value="test"
       />
@@ -130,6 +135,7 @@ exports[`Input component have to match type="text" snapshot 1`] = `
       on_submit_blur={[Function]}
       on_submit_focus={[Function]}
       placeholder="placeholder"
+      readOnly="readOnly"
       size="size"
       status={null}
       status_animation="status_animation"
@@ -208,9 +214,9 @@ exports[`Input scss have to match default theme snapshot 1`] = `
     background-color: var(--color-mint-green);
     color: var(--input-text-color--focus);
     text-shadow: none; }
-  .dnb-input__input:not([disabled]):focus ~ .dnb-input__placeholder {
+  .dnb-input__input:not([disabled]):not([readonly]):focus ~ .dnb-input__placeholder {
     display: none; }
-  .dnb-input__shell[data-input-state='focus'][data-has-content='false'] .dnb-input__placeholder {
+  .dnb-input__shell[data-input-state='focus'][data-has-content='false'] .dnb-input__input:not([disabled]):not([readonly]) .dnb-input__placeholder {
     display: none; }
   .dnb-input__description {
     color: var(--input-text-color); }
@@ -793,7 +799,7 @@ exports[`Input scss have to match snapshot 1`] = `
   --button-width--large: 3rem;
   --button-height--large: 3rem;
   --button-icon-size: 1rem;
-  --button-border-width: 1px;
+  --button-border-width: 0.0625rem;
   --button-border-width--hover: 3px;
   --button-border-radius: calc(var(--button-height) / 2);
   --button-border-radius--small: calc(var(--button-height--small) / 2);
@@ -2134,12 +2140,13 @@ a.dnb-button {
   --input-border-radius: calc(var(--input-height) / 2);
   --input-border-radius--medium: calc(var(--input-height--medium) / 2);
   --input-border-radius--large: calc(var(--input-height--large) / 2);
-  --input-border-width: 1px; }
+  --input-border-width: 0.0625rem; }
 
 .dnb-input {
   display: inline-flex;
-  align-items: flex-start;
   flex-direction: column;
+  align-items: flex-start;
+  vertical-align: middle;
   width: auto;
   font-size: var(--input-font-size); }
   .dnb-input__shell {
