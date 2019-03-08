@@ -16,10 +16,12 @@ import Component from '../Switch'
 // just to make sure we re-run the test in watch mode due to changes in theese files
 import _switch from '../style/_switch.scss' // eslint-disable-line
 import dnb_switch from '../style/dnb-switch.scss' // eslint-disable-line
+import dnb_switch_theme_ui from '../style/themes/dnb-switch-theme-ui.scss' // eslint-disable-line
 
 const props = fakeProps(require.resolve('../Switch'), {
   optional: true
 })
+props.status = null
 
 describe('Switch component', () => {
   // mount compare the snapshot
@@ -59,6 +61,12 @@ describe('Switch component', () => {
 describe('Switch scss', () => {
   it('have to match snapshot', () => {
     const scss = loadScss(require.resolve('../style/dnb-switch.scss'))
+    expect(scss).toMatchSnapshot()
+  })
+  it('have to match default theme snapshot', () => {
+    const scss = loadScss(
+      require.resolve('../style/themes/dnb-switch-theme-ui.scss')
+    )
     expect(scss).toMatchSnapshot()
   })
 })
