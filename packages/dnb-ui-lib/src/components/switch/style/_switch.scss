@@ -4,6 +4,7 @@
 */
 
 :root {
+  --switch-height: 1.5rem;
   --switch-border-width: 1px;
 }
 
@@ -16,31 +17,32 @@
 
   width: auto;
 
-  line-height: 1.5rem; // just to make sure we actually have the correct line-height
-
-  &__shell {
-    transform: translateY(
-      -1px
-    ); // ajust the shell to the inherited line-height
-  }
-
   margin: 0;
   padding: 0;
+
+  line-height: var(
+    --switch-height
+  ); // just to make sure we actually have the correct line-height
+
+  &__shell {
+    // vertical alignment
+    transform: translateY(
+      0.1875rem
+    ); // ajust the shell to the inherited line-height for 3px
+  }
 
   &__focus,
   &__button {
     position: absolute;
     z-index: 4;
 
-    width: 1.5rem;
-    height: 1.5rem;
+    width: var(--switch-height);
+    height: var(--switch-height);
 
     border-radius: 50%;
   }
 
   &__button {
-    pointer-events: none;
-
     top: 50%;
 
     display: inline-flex;
@@ -51,29 +53,11 @@
     transition: transform 160ms ease-out 125ms;
 
     border: var(--switch-border-width) solid transparent;
-
-    // TODO: Can be removed later
-    // Text inside the button, take a look at __text-item
-    // vertical-align: middle;
-    // font-size: 0.5rem;
-    // text-transform: uppercase;
-    // color: var(--color-sea-green);
   }
-
-  // TODO: Can be removed later
-  // &__text-item {
-  //   z-index: 3;
-  //
-  //   text-align: center;
-  //   line-height: 1; // for vertical alignment, we have to have no line-height
-  //
-  //   color: inherit;
-  //   background-color: inherit;
-  // }
 
   &__background {
     display: block;
-    width: 2.5rem; // left  -4,8
+    width: 2.5rem;
     height: 1rem;
     border-radius: 0.8125rem;
   }
@@ -103,26 +87,30 @@
     );
 
     @include fakeFocus();
-    // &__inner {
-    // }
-  }
-
-  &__inner {
-    position: relative;
-    display: inline-block;
-    align-items: center;
-    vertical-align: middle;
-  }
-  &__inner:not([disabled]) &__background,
-  &__inner:not([disabled]) &__button {
-    cursor: pointer;
   }
 
   &__input {
-    @include srOnly;
+    opacity: 0;
+
+    position: absolute;
+    top: calc(-0.5rem / 2);
+    left: 0;
+    z-index: 5;
+
+    width: 100%;
+    height: var(--switch-height);
+
+    margin: 0;
+    padding: 0;
+
+    border: 0;
+  }
+
+  &__input:not([disabled]) {
+    cursor: pointer;
   }
 
   > .dnb-form-status {
-    margin-top: 0.5rem;
+    margin-top: 1rem;
   }
 }

@@ -5,18 +5,17 @@
 
 @import '../../../../style/themes/imports.scss';
 
-// :root {
-// }
-
 .dnb-switch {
   &__background {
     position: relative;
-    background-color: var(--color-sea-green-alt-30);
+
     display: flex;
     flex-direction: row;
     align-items: center;
 
     overflow: hidden;
+
+    background-color: var(--color-sea-green-alt-30);
 
     &::after {
       content: '';
@@ -87,7 +86,6 @@
   &__input:checked ~ &__background {
     &::after {
       position: absolute;
-      // left: 0.5rem;
       left: 0;
       transform: translateX(calc(0.5rem + 0.125rem));
 
@@ -178,7 +176,6 @@
     * On error state
     *
     */
-  /* stylelint-disable */
   &__status--error
     &__input:not([disabled]):not(:focus):not(:active)
     ~ &__button {
@@ -223,5 +220,4 @@
     &__focus {
     transform: rotate(180deg);
   }
-  /* stylelint-enable */
 }

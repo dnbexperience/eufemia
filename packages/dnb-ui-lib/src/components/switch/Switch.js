@@ -10,7 +10,6 @@ import keycode from 'keycode'
 import {
   registerElement,
   validateDOMAttributes,
-  // processChildren,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import FormLabel from '../form-label/FormLabel'
@@ -22,8 +21,6 @@ const renderProps = {
 }
 
 export const propTypes = {
-  title_positive: PropTypes.string,
-  title_negative: PropTypes.string,
   label: PropTypes.string,
   title: PropTypes.string,
   default_state: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -50,8 +47,6 @@ export const propTypes = {
 }
 
 export const defaultProps = {
-  title_positive: 'Yes',
-  title_negative: 'No',
   label: null,
   title: null,
   default_state: null,
@@ -107,7 +102,6 @@ export default class Switch extends Component {
 
   constructor(props) {
     super(props)
-    this._refLabel = React.createRef()
     this._refInput = React.createRef()
     this._id = props.id || `dnb-switch-${Math.round(Math.random() * 999)}` // cause we need an id anyway
     this.state = {
@@ -161,8 +155,6 @@ export default class Switch extends Component {
       status_animation,
       label,
       title,
-      title_positive,
-      title_negative,
       disabled,
       className,
       class: _className,
@@ -192,19 +184,20 @@ export default class Switch extends Component {
       _className
     )
 
-    const labelParams = {
+    const inputParams = {
       disabled,
+      checked,
       onMouseOut: this.onMouseOutHandler, // for resetting the button to the default state
       ...rest
     }
-    const inputParams = {
-      disabled,
-      checked
+
+    // we may considder using: aria-details
+    if (showStatus) {
+      inputParams['aria-describedby'] = id + '-status'
     }
 
     // also used for code markup simulation
     validateDOMAttributes(this.props, inputParams)
-    validateDOMAttributes(null, labelParams)
 
     return (
       <>
@@ -218,39 +211,29 @@ export default class Switch extends Component {
         )}
         <span className={classes}>
           <span className="dnb-switch__shell">
-            <label
-              id={`${id}-internal`}
-              className="dnb-switch__inner"
-              htmlFor={id}
-              title={
-                title ? title : checked ? title_positive : title_negative
-              }
-              ref={this._refLabel}
-              {...labelParams}
-            >
-              <input
-                type="checkbox"
-                className="dnb-switch__input"
-                name={id}
-                id={id}
-                role="switch"
-                aria-hidden="true"
-                aria-checked={checked}
-                value={checked ? value || '' : ''}
-                onChange={this.onChangeHandler}
-                onKeyDown={this.onKeyDownHandler}
-                ref={this._refInput}
-                {...inputParams}
-              />
-              <span
-                draggable="true"
-                className="dnb-switch__background"
-                aria-hidden="true"
-                onDragStart={this.onChangeHandler}
-                {...this.helperParams}
-              />
-              <span className="dnb-switch__button">
-                {/* {checked ? (
+            <input
+              id={id}
+              name={id}
+              type="checkbox"
+              role="switch"
+              title={title}
+              aria-checked={checked}
+              className="dnb-switch__input"
+              value={checked ? value || '' : ''}
+              onChange={this.onChangeHandler}
+              onKeyDown={this.onKeyDownHandler}
+              ref={this._refInput}
+              {...inputParams}
+            />
+            <span
+              draggable
+              aria-hidden
+              className="dnb-switch__background"
+              onDragStart={this.onChangeHandler}
+              {...this.helperParams}
+            />
+            <span aria-hidden className="dnb-switch__button">
+              {/* {checked ? (
                   <span className="dnb-switch__text-item dnb-switch__text-item--positive">
                     {title_positive}
                   </span>
@@ -259,11 +242,10 @@ export default class Switch extends Component {
                     {title_negative}
                   </span>
                 )} */}
-                <span className="dnb-switch__focus" aria-hidden="true">
-                  <span className="dnb-switch__focus__inner" />
-                </span>
+              <span className="dnb-switch__focus">
+                <span className="dnb-switch__focus__inner" />
               </span>
-            </label>
+            </span>
           </span>
           {showStatus && (
             <FormStatus
