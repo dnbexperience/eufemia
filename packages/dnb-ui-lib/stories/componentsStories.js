@@ -130,45 +130,49 @@ stories.push([
 stories.push([
   'Inputs',
   () => (
-    <Wrapper>
-      <Box>
-        <Input label="Label:">Input ...</Input>
-      </Box>
-      <Box>
-        <Input label="Label:" placeholder="Placeholder ..." />
-      </Box>
-      <Box>
-        <Input
-          label="Search:"
-          type="search"
-          submit_button_title="Search"
-          placeholder="Search text placeholder"
-        />
-      </Box>
-      <Box>
-        <Input
-          disabled
-          label="Disabled search:"
-          type="search"
-          submit_button_title="Search"
-          placeholder="Search text placeholder"
-        />
-      </Box>
-      <Box>
-        <Input
-          label="Input with status:"
-          status="Message to the user"
-          value="Input value with status"
-        />
-      </Box>
-      <Box>
-        <Input
-          label="Input with description:"
-          description="Description to the user"
-          value="Input value with status"
-        />
-      </Box>
-    </Wrapper>
+    <CustomStyle>
+      <Wrapper>
+        <Box>
+          <Input label="Label:">Input ...</Input>
+        </Box>
+        <Box>
+          <p className="dnb-p">
+            <Input label="Label:" placeholder="Placeholder ..." />
+          </p>
+        </Box>
+        <Box>
+          <Input
+            label="Search:"
+            type="search"
+            submit_button_title="Search"
+            placeholder="Search text placeholder"
+          />
+        </Box>
+        <Box>
+          <Input
+            disabled
+            label="Disabled search:"
+            type="search"
+            submit_button_title="Search"
+            placeholder="Search text placeholder"
+          />
+        </Box>
+        <Box>
+          <Input
+            label="Input with status:"
+            status="Message to the user"
+            value="Input value with status"
+          />
+        </Box>
+        <Box>
+          <Input
+            label="Input with description:"
+            description="Description to the user"
+            value="Input value with status"
+          />
+        </Box>
+      </Wrapper>
+    </CustomStyle>
   )
 ])
 
@@ -396,11 +400,13 @@ stories.push([
     <CustomStyle>
       <Wrapper>
         <Box>
-          <FormLabel for_id="switch">Unchecked:</FormLabel>
+          Text: <FormLabel for_id="switch">Unchecked:</FormLabel>
           <Switch id="switch" checked={false} />
         </Box>
         <Box>
-          <Switch label="Checked:" checked />
+          <p className="dnb-p">
+            <Switch label="Checked:" checked />
+          </p>
         </Box>
         <Box>
           <Switch label="Unchecked disabled:" checked={false} disabled />
