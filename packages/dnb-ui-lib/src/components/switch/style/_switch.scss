@@ -9,7 +9,20 @@
 
 .dnb-switch {
   user-select: none;
-  display: inline-block;
+
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  width: auto;
+
+  line-height: 1.5rem; // just to make sure we actually have the correct line-height
+
+  &__shell {
+    transform: translateY(
+      -1px
+    ); // ajust the shell to the inherited line-height
+  }
 
   margin: 0;
   padding: 0;
@@ -107,5 +120,9 @@
 
   &__input {
     @include srOnly;
+  }
+
+  > .dnb-form-status {
+    margin-top: 0.5rem;
   }
 }

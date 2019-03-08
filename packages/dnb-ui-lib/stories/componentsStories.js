@@ -400,13 +400,13 @@ stories.push([
           <Switch id="switch" checked={false} />
         </Box>
         <Box>
-          <Switch label="Checked:" checked={true} />
+          <Switch label="Checked:" checked />
         </Box>
         <Box>
           <Switch label="Unchecked disabled:" checked={false} disabled />
         </Box>
         <Box>
-          <Switch label="Checked disabled:" checked={true} disabled />
+          <Switch label="Checked disabled:" checked disabled />
         </Box>
         <Box>
           <Switch
@@ -416,11 +416,7 @@ stories.push([
           />
         </Box>
         <Box>
-          <Switch
-            label="Checked status error:"
-            checked={true}
-            status="Error message"
-          />
+          <Switch label="Label:" checked status="Error message" />
         </Box>
       </Wrapper>
     </CustomStyle>

@@ -41,6 +41,19 @@ class Example extends PureComponent {
 />
           `}
         </ComponentBox>
+        <ComponentBox
+          caption="Checked Switch"
+          data-dnb-test="switch-error"
+          scope={{ onChange }}
+        >
+          {/* @jsx */ `
+<Switch
+  label="Label:"
+  checked
+  status="Error message"
+/>
+          `}
+        </ComponentBox>
         <StateDemo />
       </Fragment>
     )

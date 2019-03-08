@@ -217,52 +217,54 @@ export default class Switch extends Component {
           />
         )}
         <span className={classes}>
-          <label
-            id={`${id}-internal`}
-            className="dnb-switch__inner"
-            htmlFor={id}
-            title={
-              title ? title : checked ? title_positive : title_negative
-            }
-            ref={this._refLabel}
-            {...labelParams}
-          >
-            <input
-              type="checkbox"
-              className="dnb-switch__input"
-              name={id}
-              id={id}
-              role="switch"
-              aria-hidden="true"
-              aria-checked={checked}
-              value={checked ? value || '' : ''}
-              onChange={this.onChangeHandler}
-              onKeyDown={this.onKeyDownHandler}
-              ref={this._refInput}
-              {...inputParams}
-            />
-            <span
-              draggable="true"
-              className="dnb-switch__background"
-              aria-hidden="true"
-              onDragStart={this.onChangeHandler}
-              {...this.helperParams}
-            />
-            <span className="dnb-switch__button">
-              {/* {checked ? (
-                <span className="dnb-switch__text-item dnb-switch__text-item--positive">
-                  {title_positive}
+          <span className="dnb-switch__shell">
+            <label
+              id={`${id}-internal`}
+              className="dnb-switch__inner"
+              htmlFor={id}
+              title={
+                title ? title : checked ? title_positive : title_negative
+              }
+              ref={this._refLabel}
+              {...labelParams}
+            >
+              <input
+                type="checkbox"
+                className="dnb-switch__input"
+                name={id}
+                id={id}
+                role="switch"
+                aria-hidden="true"
+                aria-checked={checked}
+                value={checked ? value || '' : ''}
+                onChange={this.onChangeHandler}
+                onKeyDown={this.onKeyDownHandler}
+                ref={this._refInput}
+                {...inputParams}
+              />
+              <span
+                draggable="true"
+                className="dnb-switch__background"
+                aria-hidden="true"
+                onDragStart={this.onChangeHandler}
+                {...this.helperParams}
+              />
+              <span className="dnb-switch__button">
+                {/* {checked ? (
+                  <span className="dnb-switch__text-item dnb-switch__text-item--positive">
+                    {title_positive}
+                  </span>
+                ) : (
+                  <span className="dnb-switch__text-item dnb-switch__text-item--negative">
+                    {title_negative}
+                  </span>
+                )} */}
+                <span className="dnb-switch__focus" aria-hidden="true">
+                  <span className="dnb-switch__focus__inner" />
                 </span>
-              ) : (
-                <span className="dnb-switch__text-item dnb-switch__text-item--negative">
-                  {title_negative}
-                </span>
-              )} */}
-              <span className="dnb-switch__focus" aria-hidden="true">
-                <span className="dnb-switch__focus__inner" />
               </span>
-            </span>
-          </label>
+            </label>
+          </span>
           {showStatus && (
             <FormStatus
               text={status}

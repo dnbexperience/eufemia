@@ -45,50 +45,54 @@ exports[`Switch component have to match snapshot 1`] = `
   <span
     className="dnb-switch className class"
   >
-    <label
-      aria-disabled={true}
-      className="dnb-switch__inner"
-      disabled="disabled"
-      htmlFor="id"
-      id="id-internal"
-      onMouseOut={[Function]}
-      title="title"
+    <span
+      className="dnb-switch__shell"
     >
-      <input
-        aria-checked={false}
+      <label
         aria-disabled={true}
-        aria-hidden="true"
-        checked={false}
-        className="dnb-switch__input"
+        className="dnb-switch__inner"
         disabled="disabled"
-        id="id"
-        name="id"
-        onChange={[Function]}
-        onKeyDown={[Function]}
-        role="switch"
-        type="checkbox"
-        value=""
-      />
-      <span
-        aria-hidden="true"
-        className="dnb-switch__background"
-        draggable="true"
-        onDragStart={[Function]}
-        onMouseDown={[Function]}
-      />
-      <span
-        className="dnb-switch__button"
+        htmlFor="id"
+        id="id-internal"
+        onMouseOut={[Function]}
+        title="title"
       >
+        <input
+          aria-checked={false}
+          aria-disabled={true}
+          aria-hidden="true"
+          checked={false}
+          className="dnb-switch__input"
+          disabled="disabled"
+          id="id"
+          name="id"
+          onChange={[Function]}
+          onKeyDown={[Function]}
+          role="switch"
+          type="checkbox"
+          value=""
+        />
         <span
           aria-hidden="true"
-          className="dnb-switch__focus"
+          className="dnb-switch__background"
+          draggable="true"
+          onDragStart={[Function]}
+          onMouseDown={[Function]}
+        />
+        <span
+          className="dnb-switch__button"
         >
           <span
-            className="dnb-switch__focus__inner"
-          />
+            aria-hidden="true"
+            className="dnb-switch__focus"
+          >
+            <span
+              className="dnb-switch__focus__inner"
+            />
+          </span>
         </span>
-      </span>
-    </label>
+      </label>
+    </span>
   </span>
 </Switch>
 `;
@@ -1556,9 +1560,15 @@ exports[`Switch scss have to match snapshot 1`] = `
 
 .dnb-switch {
   user-select: none;
-  display: inline-block;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: auto;
+  line-height: 1.5rem;
   margin: 0;
   padding: 0; }
+  .dnb-switch__shell {
+    transform: translateY(-1px); }
   .dnb-switch__focus, .dnb-switch__button {
     position: absolute;
     z-index: 4;
@@ -1609,5 +1619,7 @@ exports[`Switch scss have to match snapshot 1`] = `
     padding: 0;
     position: absolute;
     width: 1px; }
+  .dnb-switch > .dnb-form-status {
+    margin-top: 0.5rem; }
 "
 `;
