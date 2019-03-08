@@ -3,7 +3,9 @@
 *
 */
 
-$switch-border-width: 1px;
+:root {
+  --switch-border-width: 1px;
+}
 
 .dnb-switch {
   user-select: none;
@@ -42,13 +44,13 @@ $switch-border-width: 1px;
     transform: translate(-0.2rem, -50%);
 
     background-color: white;
-    border: $switch-border-width solid var(--color-sea-green-alt);
+    border: var(--switch-border-width) solid var(--color-sea-green-alt);
 
     font-size: 0.5rem;
     text-transform: uppercase;
     color: var(--color-sea-green);
 
-    box-shadow: 0 2px 2px rgba(0, 135, 137, 0.24);
+    // box-shadow: 0 2px 2px rgba(0, 135, 137, 0.24);
 
     // @include hover(true) {
     //   opacity: 0.1;
@@ -70,8 +72,8 @@ $switch-border-width: 1px;
 
     color: inherit;
     background-color: inherit;
-    // text-indent: -$switch-border-width;
-    // transform: translateY($switch-border-width);
+    // text-indent: -var(--switch-border-width);
+    // transform: translateY(var(--switch-border-width));
   }
 
   &__background {
@@ -129,7 +131,7 @@ $switch-border-width: 1px;
       color: white;
       /* stylelint-disable */
       transform: translate(1rem, -50%); // IE fix
-      transform: translate(calc(1rem + #{$switch-border-width}), -50%);
+      transform: translate(calc(1rem + var(--switch-border-width)), -50%);
       /* stylelint-enable */
 
       .dnb-switch__text-item--positive {
@@ -156,7 +158,7 @@ $switch-border-width: 1px;
       color: rgba(white, 0.6);
       border-color: rgba(var(--color-black-30), 0.5);
       background-color: var(--color-black-30);
-      box-shadow: none;
+      // box-shadow: none;
     }
 
     &:checked:focus ~ .dnb-switch__button .dnb-switch__focus,

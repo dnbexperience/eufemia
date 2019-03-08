@@ -397,21 +397,16 @@ stories.push([
       <Wrapper>
         <Box>
           <Switch
-            id="switch-1"
-            text_positive="Yes"
-            text_negative="No"
-            labelledby="switch-1-label"
-            title="Ths is the title"
+            label="Label:"
+            // labelledby="switch-1-label"
+            // title="Ths is the title"
+            title_positive="Yes"
+            title_negative="No"
             value="Value of switch"
             default_state={false}
             checked={false}
-            // on_state_update={this.props.onStateUpdate}
-            // on_change={this.props.onChange}
-            attributes={{
-              'data-fake:on_change': 'SwitchDemo.onChangeHandler()',
-              'data-fake:on_state_update':
-                'SwitchDemo.onStateUpdateHandler()'
-            }}
+            on_state_update={e => console.log('on_state_update', e)}
+            on_change={e => console.log('on_change', e)}
           />
         </Box>
       </Wrapper>

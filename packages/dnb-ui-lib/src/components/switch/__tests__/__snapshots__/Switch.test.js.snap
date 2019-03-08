@@ -11,17 +11,17 @@ exports[`Switch component have to match snapshot 1`] = `
   default_state="default_state"
   disabled="disabled"
   id="id"
-  labelledby="labelledby"
+  label="label"
   onClick={[Function]}
   on_change={[Function]}
   on_state_update={[Function]}
-  text_negative="text_negative"
-  text_positive="text_positive"
   title="title"
+  title_negative="title_negative"
+  title_positive="title_positive"
   value="value"
 >
   <span
-    className="dnb-switch class className"
+    className="dnb-switch className class"
   >
     <label
       aria-disabled={true}
@@ -35,7 +35,6 @@ exports[`Switch component have to match snapshot 1`] = `
         aria-checked={false}
         aria-disabled={true}
         aria-hidden="true"
-        aria-labelledby="labelledby"
         checked={false}
         className="dnb-switch__input"
         disabled="disabled"
@@ -57,11 +56,6 @@ exports[`Switch component have to match snapshot 1`] = `
       <span
         className="dnb-switch__button"
       >
-        <span
-          className="dnb-switch__text-item dnb-switch__text-item--negative"
-        >
-          text_negative
-        </span>
         <span
           aria-hidden="true"
           className="dnb-switch__focus"
@@ -577,6 +571,9 @@ exports[`Switch scss have to match snapshot 1`] = `
 * Switch component
 *
 */
+:root {
+  --switch-border-width: 1px; }
+
 .dnb-switch {
   user-select: none;
   display: inline-block;
@@ -602,11 +599,10 @@ exports[`Switch scss have to match snapshot 1`] = `
     transition: transform 160ms ease-out 125ms;
     transform: translate(-0.2rem, -50%);
     background-color: white;
-    border: 1px solid var(--color-sea-green-alt);
+    border: var(--switch-border-width) solid var(--color-sea-green-alt);
     font-size: 0.5rem;
     text-transform: uppercase;
-    color: var(--color-sea-green);
-    box-shadow: 0 2px 2px rgba(0, 135, 137, 0.24); }
+    color: var(--color-sea-green); }
   .dnb-switch__text-item {
     z-index: 3;
     text-align: center;
@@ -662,7 +658,7 @@ exports[`Switch scss have to match snapshot 1`] = `
       color: white;
       /* stylelint-disable */
       transform: translate(1rem, -50%);
-      transform: translate(calc(1rem + 1px), -50%);
+      transform: translate(calc(1rem + var(--switch-border-width)), -50%);
       /* stylelint-enable */ }
       .dnb-switch__input:checked ~ .dnb-switch__button .dnb-switch__text-item--positive {
         display: block; }
@@ -676,8 +672,7 @@ exports[`Switch scss have to match snapshot 1`] = `
     .dnb-switch__input[disabled] ~ .dnb-switch__button {
       color: rgba(255, 255, 255, 0.6);
       border-color: rgba(var(--color-black-30), 0.5);
-      background-color: var(--color-black-30);
-      box-shadow: none; }
+      background-color: var(--color-black-30); }
     .dnb-switch__input:checked:focus ~ .dnb-switch__button .dnb-switch__focus,
     .dnb-switch__input:checked:active ~ .dnb-switch__button .dnb-switch__focus {
       transform: rotate(180deg); }
