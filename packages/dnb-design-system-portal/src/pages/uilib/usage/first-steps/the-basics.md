@@ -36,7 +36,7 @@ All the HTML elements have individual interaction states. The look and feel is d
 
 ## CSS Styles
 
-Have a read on [how the styles are setup](/uilib/usage/customisation/styling) and [how to import the CSS](/uilib/usage/customisation/consume-styles).
+Read about [how the styles are setup](/uilib/usage/customisation/styling) and [how to import the CSS](/uilib/usage/customisation/consume-styles).
 
 ## Compiler
 
