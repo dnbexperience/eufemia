@@ -3,20 +3,13 @@
  *
  */
 
-import { addDecorator, configure } from '@storybook/react'
-import { withOptions } from '@storybook/addon-options'
+import { addParameters, addDecorator, configure } from '@storybook/react'
 
-addDecorator(
-  withOptions({
-    name: 'Eufemia',
-    url: 'https://eufemia.dnb.no',
-    goFullScreen: false,
-    showStoriesPanel: true,
-    showAddonPanel: false,
-    showSearchBox: false,
-    addonPanelInRight: false,
-    sortStoriesByKind: false
-  })
-)
+addParameters({
+  options: {
+    brandTitle: 'Eufemia',
+    brandUrl: 'https://eufemia.dnb.no'
+  }
+})
 
 configure(() => require('../stories'), module)
