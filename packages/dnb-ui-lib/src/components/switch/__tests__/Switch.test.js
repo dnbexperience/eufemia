@@ -22,18 +22,18 @@ const props = fakeProps(require.resolve('../Switch'), {
   optional: true
 })
 props.status = null
+props.readOnly = false
 
 describe('Switch component', () => {
+  // then test the state management
+  const Comp = mount(<Component {...props} />)
+
   // mount compare the snapshot
   it('have to match snapshot', () => {
-    const ComponentWrap = mount(<Component {...props} />)
-    expect(toJson(ComponentWrap)).toMatchSnapshot()
+    expect(toJson(Comp)).toMatchSnapshot()
   })
 
   it('has correct state after "change" trigger', () => {
-    // then test the state management
-    const Comp = mount(<Component {...props} />)
-
     // default checked value has to be false
     expect(Comp.state().checked).toBe(false)
 

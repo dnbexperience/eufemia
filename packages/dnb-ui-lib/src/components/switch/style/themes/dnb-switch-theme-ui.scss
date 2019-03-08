@@ -34,14 +34,6 @@
 
     background-color: var(--color-white);
     border: var(--switch-border-width) solid var(--color-sea-green-alt);
-
-    // TODO: remove this
-    // .dnb-switch__text-item--positive {
-    //   display: none;
-    // }
-    // .dnb-switch__text-item--negative {
-    //   display: block;
-    // }
   }
 
   /*
@@ -53,14 +45,6 @@
     transform: translateX(calc(1rem + var(--switch-border-width)));
 
     background-color: var(--color-sea-green);
-
-    // TODO: remove this
-    // .dnb-switch__text-item--positive {
-    //   display: block;
-    // }
-    // .dnb-switch__text-item--negative {
-    //   display: none;
-    // }
   }
 
   /*

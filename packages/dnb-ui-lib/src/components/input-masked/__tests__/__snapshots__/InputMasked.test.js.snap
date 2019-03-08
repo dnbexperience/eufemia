@@ -1154,9 +1154,6 @@ a.dnb-button {
   .dnb-form-label[disabled] {
     cursor: not-allowed; }
 
-.dnb-form-label + [class*='__status'] {
-  vertical-align: baseline; }
-
 /*
 * DNB FormStatus
 *
@@ -1966,12 +1963,15 @@ a.dnb-button {
   align-items: flex-start;
   vertical-align: middle;
   width: auto;
-  font-size: var(--input-font-size); }
+  font-size: var(--input-font-size);
+  font-weight: var(--font-weight-default); }
   .dnb-input__shell {
     position: relative;
     display: flex;
     align-items: center;
     overflow: hidden; }
+  label + .dnb-input[class*='__form-status'] {
+    vertical-align: baseline; }
   .dnb-input__input {
     border: none;
     outline: none;

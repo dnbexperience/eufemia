@@ -321,7 +321,12 @@ stories.push([
           <Dropdown data={dropdownData} selected_item={3} label="Label:" />
         </Box>
         <Box>
-          <Dropdown data={dropdownData} selected_item={3} disabled />
+          <Dropdown
+            data={dropdownData}
+            selected_item={3}
+            disabled
+            show_value_outside
+          />
           <p>
             Eros semper blandit tellus mollis primis quisque platea
             sollicitudin ipsum
@@ -408,7 +413,6 @@ stories.push([
         <Box>
           <p className="dnb-p">
             <Switch label="Checked:" checked />
-            <Input label="ReadOnly:" placeholder="Placeholder ..." />
           </p>
         </Box>
         <Box>
@@ -457,7 +461,7 @@ const showMe = e => {
 const dropdownData = [
   {
     selected_value: 'Brukskonto - Kari Nordmann',
-    // outside_value: '1234.56.78901',
+    outside_value: 'outside_value',
     content: 'Brukskonto - Kari Nordmann'
   },
   {
@@ -466,7 +470,7 @@ const dropdownData = [
   {
     selected_value:
       'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen',
-    // outside_value: '1134.56.78962',
+    outside_value: 'outside_value',
     content: [
       '1134.56.78962',
       'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen'
@@ -474,7 +478,7 @@ const dropdownData = [
   },
   {
     selected_value: 'Oppussing - Ole Nordmann',
-    // outside_value: '1534.96.48901',
+    outside_value: 'outside_value',
     content: ['1534.96.48901', 'Oppussing - Ole Nordmann']
   }
 ]

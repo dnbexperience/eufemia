@@ -183,6 +183,7 @@ export default class Switch extends Component {
 
     const classes = classnames(
       'dnb-switch',
+      showStatus && 'dnb-switch__form-status',
       status && `dnb-switch__status--${status_state}`,
       className,
       _className

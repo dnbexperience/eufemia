@@ -5,7 +5,7 @@
 
 :root {
   --switch-height: 1.5rem;
-  --switch-border-width: 1px;
+  --switch-border-width: 0.0625rem;
 }
 
 .dnb-switch {
@@ -14,6 +14,7 @@
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
+  vertical-align: middle;
 
   width: auto;
 
@@ -28,8 +29,14 @@
 
     // vertical alignment
     transform: translateY(
-      0.1875rem
-    ); // ajust the shell to the inherited line-height for 3px
+      -0.0625rem
+    ); // ajust the shell to the inherited line-height for 1px
+  }
+  label + &[class*='__form-status'] {
+    vertical-align: baseline;
+    transform: translateY(
+      0.25rem
+    ); // ajust the shell to the inherited line-height for 4px
   }
 
   &__focus,
@@ -102,6 +109,6 @@
   }
 
   > .dnb-form-status {
-    margin-top: 1rem;
+    margin-top: 0.5rem;
   }
 }

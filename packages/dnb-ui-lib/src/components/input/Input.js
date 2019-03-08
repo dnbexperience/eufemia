@@ -232,6 +232,7 @@ export default class Input extends PureComponent {
       size && `dnb-input--${size}`,
       hasSubmitButton && 'dnb-input--has-submit-button',
       align && `dnb-input__align--${align}`,
+      showStatus && 'dnb-input__form-status',
       status && `dnb-input__status--${status_state}`,
       _className,
       className
@@ -267,6 +268,9 @@ export default class Input extends PureComponent {
     if (readOnly) {
       inputParams['aria-readonly'] = inputParams.readOnly = true
     }
+    if (label) {
+      inputParams['aria-labelledby'] = id + '-label'
+    }
 
     const shellParams = {
       'data-input-state': this.state.inputState,
@@ -284,6 +288,7 @@ export default class Input extends PureComponent {
       <>
         {label && (
           <FormLabel
+            id={id + '-label'}
             aria-hidden
             for_id={id}
             text={label}

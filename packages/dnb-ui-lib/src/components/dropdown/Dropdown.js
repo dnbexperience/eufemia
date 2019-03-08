@@ -355,7 +355,8 @@ export default class Dropdown extends Component {
       icon_position && `dnb-dropdown--icon-position-${icon_position}`,
       opened && 'dnb-dropdown--opened',
       hidden && 'dnb-dropdown--hidden',
-      status ? `dnb-dropdown__status--${status_state}` : null,
+      showStatus && 'dnb-dropdown__form-status',
+      status && `dnb-dropdown__status--${status_state}`,
       _className,
       className
     )
