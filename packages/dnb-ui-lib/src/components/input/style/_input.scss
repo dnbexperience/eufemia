@@ -25,8 +25,6 @@
   flex-direction: column;
   width: auto;
 
-  vertical-align: middle; // because of the prepending labels
-
   font-size: var(--input-font-size);
 
   &__shell {

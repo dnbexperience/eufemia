@@ -19,9 +19,7 @@ import {
   LiveEditor,
   LiveError,
   LivePreview
-} from 'react-live-replacement'
-// we use this replacement, because;
-// to simply have newer prism version for the LiveEditor - I made a pull request.
+} from 'react-live'
 
 // this theme is replaced my a css one
 // import prismTheme from 'prism-react-renderer/themes/nightOwl'
@@ -91,16 +89,20 @@ class LiveCode extends PureComponent {
   static propTypes = {
     code: PropTypes.string.isRequired,
     scope: PropTypes.object,
+    caption: PropTypes.string,
+    noInline: PropTypes.bool,
+    noFragments: PropTypes.bool,
     hideToolbar: PropTypes.bool,
     hideCode: PropTypes.bool,
     hidePreview: PropTypes.bool,
     showSyntax: PropTypes.bool,
-    hideSyntaxButton: PropTypes.bool,
-    caption: PropTypes.string
+    hideSyntaxButton: PropTypes.bool
   }
   static defaultProps = {
     scope: {},
     caption: null,
+    noInline: false,
+    noFragments: true,
     hideToolbar: false,
     hideCode: false,
     hidePreview: false,
@@ -144,6 +146,8 @@ class LiveCode extends PureComponent {
       caption,
       scope,
       hideSyntaxButton,
+      noInline,
+      noFragments,
 
       hideToolbar: _hideToolbar, // eslint-disable-line
       hideCode: _hideCode, // eslint-disable-line
@@ -164,6 +168,10 @@ class LiveCode extends PureComponent {
           css={prismStyle}
           code={codeToUse}
           scope={scope}
+          transformCode={code =>
+            !noInline && noFragments ? `<>${code}</>` : code
+          }
+          noInline={noInline}
           {...props}
         >
           {!hidePreview && (

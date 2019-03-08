@@ -376,7 +376,7 @@ exports[`Dropdown scss have to match default theme snapshot 1`] = `
     overscroll-behavior: contain;
     scroll-behavior: smooth; }
   .dnb-dropdown__option {
-    padding: 2px;
+    padding: 0.125rem;
     color: var(--dropdown-option-color);
     background-color: var(--dropdown-option-background-color);
     border-bottom: var(--dropdown-option-border-width) solid var(--dropdown-option-border-color); }

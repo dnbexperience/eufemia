@@ -41,8 +41,15 @@ Although, You have also the possibility to load a [sub package](/uilib/usage/cus
 
 For those using JSX with React, You can simply use the wrapper Components.
 
-```js
+```jsx
 import { H1, H2, Lead, P, Link } from 'dnb-ui-lib/elements'
+
+render(
+  <article>
+    <H1>My h1</H1>
+    <P>My Paragraph</P>
+  </article>
+)
 ```
 
 They work seamlessly with Styled Components as well:

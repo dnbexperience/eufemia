@@ -102,7 +102,6 @@
     "@emotion/babel-plugin-core": "^0.6.9",
     "@emotion/core": "^10.0.7",
     "@emotion/styled": "^10.0.7",
-    "@storybook/addon-options": "^5.0.0",
     "@storybook/react": "^5.0.0",
     "@svgr/core": "^4.1.0",
     "audit-ci": "^1.4.1",
@@ -188,7 +187,6 @@
     "stylelint-scss": "^3.5.4",
     "svgo": "^1.2.0",
     "text-mask-addons": "^3.8.0",
-    "traverse": "^0.6.6",
-    "url-loader": "^1.1.2"
+    "traverse": "^0.6.6"
   }
 }

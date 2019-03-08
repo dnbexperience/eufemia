@@ -6,11 +6,11 @@
 import fs from 'fs-extra'
 import https from 'https'
 import path from 'path'
-import { Client } from 'figma-js'
+// import { Client } from 'figma-js'
+import { Client } from './figma-js' // as "figma-js" not was flexible enough, we have our
 import traverse from 'traverse'
 import isEqual from 'lodash.isequal'
 import isEqualWith from 'lodash.isequalwith'
-// import fileOlderThan from 'file-older-than'
 import Color from 'color'
 import { ErrorHandler, ERROR_HARMLESS, ERROR_FATAL } from '../../lib/error'
 import { log } from '../../lib'

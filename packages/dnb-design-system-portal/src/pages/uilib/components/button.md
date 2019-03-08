@@ -20,6 +20,6 @@ import ButtonEvents from 'Pages/uilib/components/button/button-events'
     <ButtonProperties />
   </Tabs.Content>
   <Tabs.Content>
-    <bBttonEvents  />
+    <ButtonEvents  />
   </Tabs.Content>
 </Tabs>
