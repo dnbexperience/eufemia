@@ -94,8 +94,8 @@ export default class ExampleAppPage extends PureComponent {
                   <div className="dnb-form__cell">
                     <Switch
                       id="radio-switch-1"
-                      title_positive="ja"
-                      title_negative="nei"
+                      text_positive="ja"
+                      text_negative="nei"
                       title="Ths is the title"
                       value="Value of switch"
                       is_on={false}
@@ -113,8 +113,8 @@ export default class ExampleAppPage extends PureComponent {
                   <div className="dnb-form__cell">
                     <Switch
                       id="radio-switch-2"
-                      title_positive="ja"
-                      title_negative="nei"
+                      text_positive="ja"
+                      text_negative="nei"
                       title="Ths is the title"
                       value="Value of switch"
                       is_on={true}
@@ -142,8 +142,8 @@ export default class ExampleAppPage extends PureComponent {
                     <div className="dnb-form__cell__cell">
                       <Switch
                         id="radio-switch-3"
-                        title_positive="ja"
-                        title_negative="nei"
+                        text_positive="ja"
+                        text_negative="nei"
                         title="Ths is the title"
                         value="Value of switch"
                         is_on={false}
