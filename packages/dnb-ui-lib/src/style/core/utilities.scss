@@ -110,7 +110,7 @@
   }
 }
 
-$focusRingWidth: 2px;
+$focusRingWidth: 0.125rem;
 $focusRingColor: var(--color-emerald-green);
 @mixin fakeFocus($whatinput: null, $color: null, $inset: null) {
   outline: none;
@@ -148,7 +148,7 @@ $focusRingColor: var(--color-emerald-green);
   $second-color: null,
   $width: 1px
 ) {
-  $second: 0 0 0 ($width + $focusRingWidth) $second-color;
+  $second: 0 0 0 calc(#{$focusRingWidth} + #{$width}) $second-color;
   box-shadow: 0 0 0 $width $first-color, $second;
 }
 

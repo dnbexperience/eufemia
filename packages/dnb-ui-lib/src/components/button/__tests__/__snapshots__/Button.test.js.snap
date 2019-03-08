@@ -242,7 +242,7 @@ exports[`Button scss have to match default theme snapshot 1`] = `
   :not([dnb-is-touch]) .dnb-button--primary:hover:not([disabled]) {
     color: var(--color-sea-green);
     background-color: var(--color-white);
-    box-shadow: 0 0 0 1px var(--color-white), 0 0 0 3px var(--color-emerald-green); }
+    box-shadow: 0 0 0 1px var(--color-white), 0 0 0 calc(0.125rem + 1px) var(--color-emerald-green); }
   :not([dnb-is-touch]) .dnb-button--primary:focus[disabled] {
     cursor: not-allowed; }
   :not([dnb-is-touch]) .dnb-button--primary:focus:not([disabled]) {
@@ -250,7 +250,7 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     background-color: var(--color-white);
     outline: none; }
     html[data-whatinput='keyboard'] :not([dnb-is-touch]) .dnb-button--primary:focus:not([disabled]) {
-      box-shadow: inset 0 0 0 2px var(--color-emerald-green);
+      box-shadow: inset 0 0 0 0.125rem var(--color-emerald-green);
       border-color: transparent; }
   :not([dnb-is-touch]) .dnb-button--primary:active[disabled] {
     cursor: not-allowed; }
@@ -273,7 +273,7 @@ exports[`Button scss have to match default theme snapshot 1`] = `
   :not([dnb-is-touch]) .dnb-button--secondary:hover:not([disabled]) {
     color: var(--color-sea-green);
     background-color: var(--color-white);
-    box-shadow: 0 0 0 1px var(--color-white), 0 0 0 3px var(--color-emerald-green); }
+    box-shadow: 0 0 0 1px var(--color-white), 0 0 0 calc(0.125rem + 1px) var(--color-emerald-green); }
   :not([dnb-is-touch]) .dnb-button--secondary:focus[disabled] {
     cursor: not-allowed; }
   :not([dnb-is-touch]) .dnb-button--secondary:focus:not([disabled]) {
@@ -281,7 +281,7 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     background-color: var(--color-white);
     outline: none; }
     html[data-whatinput='keyboard'] :not([dnb-is-touch]) .dnb-button--secondary:focus:not([disabled]) {
-      box-shadow: inset 0 0 0 2px var(--color-emerald-green);
+      box-shadow: inset 0 0 0 0.125rem var(--color-emerald-green);
       border-color: transparent; }
   :not([dnb-is-touch]) .dnb-button--secondary:active[disabled] {
     cursor: not-allowed; }
@@ -349,7 +349,7 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     background-color: transparent;
     outline: none; }
     html[data-whatinput='keyboard'] :not([dnb-is-touch]) .dnb-button--tertiary:focus:not([disabled]) {
-      box-shadow: inset 0 0 0 2px var(--color-emerald-green);
+      box-shadow: inset 0 0 0 0.125rem var(--color-emerald-green);
       border-color: transparent; }
   .dnb-button--tertiary[disabled] {
     color: var(--color-sea-green-alt-30); }
@@ -362,7 +362,7 @@ exports[`Button scss have to match default theme snapshot 1`] = `
   :not([dnb-is-touch]) .dnb-button--signal:hover:not([disabled]) {
     color: var(--color-black);
     background-color: var(--color-signal-yellow);
-    box-shadow: 0 0 0 1px var(--color-signal-yellow), 0 0 0 3px var(--color-emerald-green); }
+    box-shadow: 0 0 0 1px var(--color-signal-yellow), 0 0 0 calc(0.125rem + 1px) var(--color-emerald-green); }
   :not([dnb-is-touch]) .dnb-button--signal:focus[disabled] {
     cursor: not-allowed; }
   :not([dnb-is-touch]) .dnb-button--signal:focus:not([disabled]) {
@@ -370,7 +370,7 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     background-color: var(--color-signal-yellow);
     outline: none; }
     html[data-whatinput='keyboard'] :not([dnb-is-touch]) .dnb-button--signal:focus:not([disabled]) {
-      box-shadow: inset 0 0 0 2px var(--color-emerald-green);
+      box-shadow: inset 0 0 0 0.125rem var(--color-emerald-green);
       border-color: transparent; }
   :not([dnb-is-touch]) .dnb-button--signal:active[disabled] {
     cursor: not-allowed; }
@@ -1072,7 +1072,7 @@ exports[`Button scss have to match snapshot 1`] = `
     .dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
       outline: none; }
       html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
-        box-shadow: 0 0 0 2px var(--color-emerald-green);
+        box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
         border-color: transparent; }
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):focus,
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):active {
