@@ -29,11 +29,8 @@
     * aka when the checkbox is not :checked
     */
   &__input:not(:checked) ~ &__button {
-    transform: translate(0, -50%);
-    transform: translate(
-      calc(1px - 1px - var(--switch-border-width)),
-      -50%
-    );
+    transform: translateX(0);
+    transform: translateX(calc(1px - 1px - var(--switch-border-width)));
 
     background-color: var(--color-white);
     border: var(--switch-border-width) solid var(--color-sea-green-alt);
@@ -52,8 +49,8 @@
     * aka when the checkbox is :checked
     */
   &__input:checked ~ &__button {
-    transform: translate(1rem, -50%); // IE fix
-    transform: translate(calc(1rem + var(--switch-border-width)), -50%);
+    transform: translateX(1rem); // IE fix
+    transform: translateX(calc(1rem + var(--switch-border-width)));
 
     background-color: var(--color-sea-green);
 

@@ -20,11 +20,12 @@
   margin: 0;
   padding: 0;
 
-  line-height: var(
-    --switch-height
-  ); // just to make sure we actually have the correct line-height
-
   &__shell {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+
     // vertical alignment
     transform: translateY(
       0.1875rem
@@ -43,20 +44,11 @@
   }
 
   &__button {
-    top: 50%;
-
-    display: inline-flex;
-    align-content: center;
-    align-items: center;
-    justify-content: center;
-
     transition: transform 160ms ease-out 125ms;
-
     border: var(--switch-border-width) solid transparent;
   }
 
   &__background {
-    display: block;
     width: 2.5rem;
     height: 1rem;
     border-radius: 0.8125rem;
@@ -93,7 +85,6 @@
     opacity: 0;
 
     position: absolute;
-    top: calc(-0.5rem / 2);
     left: 0;
     z-index: 5;
 

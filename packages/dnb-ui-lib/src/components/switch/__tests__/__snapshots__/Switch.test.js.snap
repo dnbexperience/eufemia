@@ -150,13 +150,13 @@ exports[`Switch scss have to match default theme snapshot 1`] = `
       position: absolute;
       transition: transform 0.3s ease-out; }
   .dnb-switch__input:not(:checked) ~ .dnb-switch__button {
-    transform: translate(0, -50%);
-    transform: translate(calc(1px - 1px - var(--switch-border-width)), -50%);
+    transform: translateX(0);
+    transform: translateX(calc(1px - 1px - var(--switch-border-width)));
     background-color: var(--color-white);
     border: var(--switch-border-width) solid var(--color-sea-green-alt); }
   .dnb-switch__input:checked ~ .dnb-switch__button {
-    transform: translate(1rem, -50%);
-    transform: translate(calc(1rem + var(--switch-border-width)), -50%);
+    transform: translateX(1rem);
+    transform: translateX(calc(1rem + var(--switch-border-width)));
     background-color: var(--color-sea-green); }
   .dnb-switch__input:not(:checked) ~ .dnb-switch__background::after {
     position: absolute;
@@ -1553,9 +1553,11 @@ exports[`Switch scss have to match snapshot 1`] = `
   align-items: flex-start;
   width: auto;
   margin: 0;
-  padding: 0;
-  line-height: var(--switch-height); }
+  padding: 0; }
   .dnb-switch__shell {
+    position: relative;
+    display: flex;
+    align-items: center;
     transform: translateY(0.1875rem); }
   .dnb-switch__focus, .dnb-switch__button {
     position: absolute;
@@ -1564,15 +1566,9 @@ exports[`Switch scss have to match snapshot 1`] = `
     height: var(--switch-height);
     border-radius: 50%; }
   .dnb-switch__button {
-    top: 50%;
-    display: inline-flex;
-    align-content: center;
-    align-items: center;
-    justify-content: center;
     transition: transform 160ms ease-out 125ms;
     border: var(--switch-border-width) solid transparent; }
   .dnb-switch__background {
-    display: block;
     width: 2.5rem;
     height: 1rem;
     border-radius: 0.8125rem; }
@@ -1592,7 +1588,6 @@ exports[`Switch scss have to match snapshot 1`] = `
   .dnb-switch__input {
     opacity: 0;
     position: absolute;
-    top: calc(-0.5rem / 2);
     left: 0;
     z-index: 5;
     width: 100%;
