@@ -139,7 +139,7 @@ export default class Switch extends Component {
 
   onMouseOutHandler = () => {
     // this way we keep the new state after the user changed the state, without getting the error state back vissually
-    if (this.props.status_state === 'error') {
+    if (this.props.status && this.props.status_state === 'error') {
       return
     }
     if (this._refInput.current) {
