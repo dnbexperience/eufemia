@@ -4,9 +4,6 @@
  */
 
 module.exports = {
-  output: {
-    publicPath: '/x'
-  },
   module: {
     rules: [
       {
