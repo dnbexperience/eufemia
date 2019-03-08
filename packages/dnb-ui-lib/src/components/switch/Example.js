@@ -5,6 +5,8 @@
 
 import React, { PureComponent, Fragment } from 'react'
 import ComponentBox from '../../../../dnb-design-system-portal/src/shared/tags/ComponentBox'
+// import Switch from './Switch'
+// import FormLabel from '../../components/form-label/FormLabel'
 
 class Example extends PureComponent {
   static onChangeHandler = state => {
@@ -22,8 +24,8 @@ class Example extends PureComponent {
     return (
       <Fragment>
         <ComponentBox
-          caption="Default unchecked Switch"
-          data-dnb-test="switch-default"
+          caption="Default Swtich"
+          data-dnb-test="swtich-default"
           scope={{ onStateUpdate, onChange }}
         >
           {/* @jsx */ `
@@ -33,8 +35,8 @@ class Example extends PureComponent {
 />
 <Switch
   id="switch-1"
-  title_positive="Yes"
-  title_negative="No"
+  text_positive="Yes"
+  text_negative="No"
   // labelledby="switch-1-label"
   title="Ths is the title"
   value="Value of switch"
@@ -46,21 +48,35 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox
-          caption="Disabled Switch in checked state"
+          caption="Disabled Swtich"
+          data-dnb-test="swtich-default"
           scope={{ onStateUpdate, onChange }}
-          noInline
         >
           {/* @jsx */ `
-render(<Switch
-  label="Label:"
-  title_positive="Yes"
-  title_negative="No"
+<SwitchDemo
+  active_second={this.state.active_second}
+  onStateUpdate={({ checked }) =>
+      this.setState({
+        active_first: checked,
+        active_second: checked
+      })
+    }
+  onChange={({ checked }) =>
+    this.setState({
+      active_first: checked,
+      active_second: checked
+    })
+  }
+/>
+<dnb-switch
+  id="switch-2"
+  title="Ths is the title"
   disabled
   default_state="true"
-  checked={false}
-  on_state_update={onStateUpdate}
-  on_change={onChange}
-/>)
+  checked={this.state.active_second ? 'true' : 'false'}
+  on_change="SwitchDemo.onChangeHandler"
+  on_state_update="SwitchDemo.onStateUpdateHandler"
+/>
           `}
         </ComponentBox>
       </Fragment>
