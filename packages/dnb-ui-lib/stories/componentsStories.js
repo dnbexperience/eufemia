@@ -133,13 +133,11 @@ stories.push([
     <CustomStyle>
       <Wrapper>
         <Box>
-          <Input label="Label:" readOnly>
-            Input ...
-          </Input>
+          <Input label="Label:">Input ...</Input>
         </Box>
         <Box>
           <p className="dnb-p">
-            <Input label="ReadOnly:" placeholder="Placeholder ..." />
+            <Input label="ReadOnly:" value="Placeholder ..." readOnly />
           </p>
         </Box>
         <Box>
@@ -322,6 +320,7 @@ stories.push([
         </Box>
         <Box>
           <Dropdown
+            label="Label:"
             data={dropdownData}
             selected_item={3}
             disabled
@@ -334,6 +333,7 @@ stories.push([
         </Box>
         <Box>
           <Dropdown
+            label="Label:"
             data={dropdownData}
             selected_item={3}
             status="Message to the user"
@@ -461,7 +461,6 @@ const showMe = e => {
 const dropdownData = [
   {
     selected_value: 'Brukskonto - Kari Nordmann',
-    outside_value: 'outside_value',
     content: 'Brukskonto - Kari Nordmann'
   },
   {
@@ -470,7 +469,6 @@ const dropdownData = [
   {
     selected_value:
       'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen',
-    outside_value: 'outside_value',
     content: [
       '1134.56.78962',
       'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen'
@@ -478,7 +476,6 @@ const dropdownData = [
   },
   {
     selected_value: 'Oppussing - Ole Nordmann',
-    outside_value: 'outside_value',
     content: ['1534.96.48901', 'Oppussing - Ole Nordmann']
   }
 ]
