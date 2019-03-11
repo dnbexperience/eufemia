@@ -32,12 +32,6 @@
       inset
     );
 
-    &:not([data-input-state='disabled']) {
-      @include hover(true) {
-        background-color: var(--color-white);
-      }
-    }
-
     // Background color of input when it has content
     &[data-has-content='true'] {
       color: var(--input-text-color--active);

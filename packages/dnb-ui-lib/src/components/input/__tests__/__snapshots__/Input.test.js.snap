@@ -188,10 +188,6 @@ exports[`Input scss have to match default theme snapshot 1`] = `
     border: none;
     box-shadow: inset 0 0 0 var(--input-border-width) var(--input-border-color);
     border-color: transparent; }
-    :not([dnb-is-touch]) .dnb-input__shell:not([data-input-state='disabled']):hover[disabled] {
-      cursor: not-allowed; }
-    :not([dnb-is-touch]) .dnb-input__shell:not([data-input-state='disabled']):hover:not([disabled]) {
-      background-color: var(--color-white); }
     .dnb-input__shell[data-has-content='true'] {
       color: var(--input-text-color--active);
       box-shadow: inset 0 0 0 var(--input-border-width) var(--input-border-color--active);
@@ -370,7 +366,7 @@ exports[`Input scss have to match snapshot 1`] = `
   display: inline-block;
   vertical-align: baseline;
   font-size: inherit;
-  line-height: 1;
+  line-height: 1em;
   width: 1em;
   height: 1em; }
   .dnb-icon img,
@@ -822,7 +818,7 @@ exports[`Input scss have to match snapshot 1`] = `
   text-decoration: none;
   /* Firefox includes a hidden border which messes up button dimensions */ }
   .dnb-button__icon {
-    line-height: 1; }
+    line-height: 1em; }
     .dnb-button__icon:not(.dnb-icon) svg:not([width]):not([height]) {
       width: var(--button-icon-size);
       height: var(--button-icon-size); }
@@ -830,7 +826,7 @@ exports[`Input scss have to match snapshot 1`] = `
       .dnb-button__icon {
         transform: translateY(calc(1px - 1px - var(--button-border-width))); } }
   .dnb-button__text {
-    line-height: 1;
+    line-height: 1em;
     color: inherit;
     background-color: inherit; }
     @supports not (-ms-ime-align: auto) {
@@ -2169,7 +2165,7 @@ a.dnb-button {
     text-align: left;
     color: inherit;
     font-size: var(--input-font-size);
-    line-height: 1;
+    line-height: 1em;
     background-color: transparent;
     transform: translateY(var(--input-border-width)); }
   .dnb-input__placeholder {

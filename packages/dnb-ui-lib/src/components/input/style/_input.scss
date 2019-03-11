@@ -66,7 +66,7 @@
 
     color: inherit;
     font-size: var(--input-font-size);
-    line-height: 1; // because when ::selected is kikking in
+    line-height: 1em; // because when ::selected is kikking in
     background-color: transparent;
 
     // because of vertical centering
