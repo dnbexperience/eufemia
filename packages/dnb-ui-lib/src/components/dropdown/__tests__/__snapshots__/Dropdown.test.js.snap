@@ -458,6 +458,8 @@ exports[`Dropdown scss have to match default theme snapshot 1`] = `
   :not([dnb-is-touch]) .dnb-dropdown__input:hover:not([disabled]) ~ .dnb-dropdown__trigger {
     border-color: var(--dropdown-border-color--selected);
     box-shadow: 0 0 0 1px; }
+  .dnb-dropdown > .dnb-form-status {
+    transform: translateY(-0.125rem); }
 "
 `;
 
@@ -604,7 +606,7 @@ exports[`Dropdown scss have to match snapshot 1`] = `
   display: inline-block;
   vertical-align: baseline;
   font-size: inherit;
-  line-height: 1;
+  line-height: 1em;
   width: 1em;
   height: 1em; }
   .dnb-icon img,

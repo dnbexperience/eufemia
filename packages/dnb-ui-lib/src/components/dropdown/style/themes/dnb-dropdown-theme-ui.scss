@@ -193,4 +193,9 @@
       }
     }
   }
+
+  // ajust the form-status to the inner border for 2px
+  > .dnb-form-status {
+    transform: translateY(-0.125rem);
+  }
 }

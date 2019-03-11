@@ -210,10 +210,12 @@ exports[`Switch scss have to match default theme snapshot 1`] = `
   .dnb-switch__input:not([disabled]):not(:checked):focus ~ .dnb-switch__button,
   .dnb-switch__input:not([disabled]):not(:checked):active ~ .dnb-switch__button {
     background-color: var(--color-mint-green-50); }
-  .dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):not(:active) ~ .dnb-switch__button {
-    border: none; }
-  .dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):not(:active):checked ~ .dnb-switch__button {
+  .dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):hover ~ .dnb-switch__button {
     border-color: var(--color-cherry-red);
+    background-color: var(--color-cherry-red-80); }
+  .dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):not(:active):not(:hover) ~ .dnb-switch__button {
+    border-color: var(--color-cherry-red-80); }
+  .dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):not(:active):not(:hover):checked ~ .dnb-switch__button {
     background-color: var(--color-cherry-red); }
   .dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):not(:active) ~ .dnb-switch__background {
     background-color: var(--color-cherry-red-80);
@@ -229,6 +231,8 @@ exports[`Switch scss have to match default theme snapshot 1`] = `
     border-color: transparent; }
   .dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):not(:active):checked ~ .dnb-switch__button .dnb-switch__focus {
     transform: rotate(180deg); }
+  .dnb-switch > .dnb-form-status {
+    transform: translateY(0.1875rem); }
 "
 `;
 

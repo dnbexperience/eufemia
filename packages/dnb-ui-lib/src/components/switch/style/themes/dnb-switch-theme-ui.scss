@@ -157,23 +157,35 @@
     * On error state
     *
     */
-  &__status--error
-    &__input:not([disabled]):not(:focus):not(:active)
-    ~ &__button {
-    border: none;
+  // TODO: can be removed later
+  // &__status--error
+  //   &__input:not([disabled]):not(:focus):not(:active)
+  //   ~ &__button {
+  //   border: none;
+  // }
+  // change button color
+  &__status--error &__input:not([disabled]):not(:focus):hover ~ &__button {
+    border-color: var(--color-cherry-red);
+    background-color: var(--color-cherry-red-80);
   }
   &__status--error
-    &__input:not([disabled]):not(:focus):not(:active):checked
+    &__input:not([disabled]):not(:focus):not(:active):not(:hover)
     ~ &__button {
-    border-color: var(--color-cherry-red);
+    border-color: var(--color-cherry-red-80);
+  }
+  &__status--error
+    &__input:not([disabled]):not(:focus):not(:active):not(:hover):checked
+    ~ &__button {
     background-color: var(--color-cherry-red);
   }
+  // change background color
   &__status--error
     &__input:not([disabled]):not(:focus):not(:active)
     ~ &__background {
     background-color: var(--color-cherry-red-80);
     @include fakeBorder(var(--color-cherry-red), $focusRingWidth);
   }
+  // change gfx 1 color
   &__status--error
     &__input:not(:focus):not([disabled]):not(:active):checked
     ~ &__background {
@@ -181,6 +193,7 @@
       background-color: var(--color-cherry-red);
     }
   }
+  // change gfx 0 color
   &__status--error
     &__input:not(:focus):not([disabled]):not(:active):not(:checked)
     ~ &__background {
@@ -188,6 +201,7 @@
       border-color: var(--color-cherry-red);
     }
   }
+  // fake border outside
   &__status--error
     &__input:not([disabled]):not(:focus):not(:active)
     ~ &__button
@@ -195,10 +209,16 @@
     display: block;
     @include fakeBorder(var(--color-cherry-red), $focusRingWidth);
   }
+  // and rotate in checked state
   &__status--error
     &__input:not([disabled]):not(:focus):not(:active):checked
     ~ &__button
     &__focus {
     transform: rotate(180deg);
+  }
+
+  // ajust the form-status to the inner border for 3px
+  > .dnb-form-status {
+    transform: translateY(0.1875rem);
   }
 }

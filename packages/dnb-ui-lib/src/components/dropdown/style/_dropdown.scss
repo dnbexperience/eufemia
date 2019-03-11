@@ -56,16 +56,27 @@
 }
 
 .dnb-dropdown {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  vertical-align: middle;
+
   margin: 0;
   padding: 0;
 
-  display: inline-flex;
-  align-items: center;
+  width: auto;
+
+  font-size: var(--font-size-default);
+  font-weight: var(--font-weight-default);
 
   color: inherit;
 
   &__shell {
     position: relative;
+
+    // do not use transform: translateY because of z-index¨
+    // we use therefore top
+    top: -0.0625rem;
 
     height: var(--dropdown-height);
 
@@ -73,6 +84,12 @@
     padding: 0;
 
     color: inherit;
+  }
+  label + &[class*='__form-status'] {
+    vertical-align: top;
+    transform: translateY(
+      -0.25rem
+    ); // ajust the shell to the inherited line-height for 4px
   }
 
   // ul element
@@ -346,7 +363,7 @@
   }
 
   > .dnb-form-status {
-    margin-left: 0.5rem;
+    margin-top: 0.5rem;
   }
 
   .icon-chevron-left .dnb-icon {
