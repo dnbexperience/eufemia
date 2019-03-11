@@ -266,14 +266,14 @@ const LiveCodeEditor = styled.div`
     &::after {
       content: '';
       position: absolute;
-      top: -8px;
-      left: 5vw;
+      top: calc(-0.5rem + 1px);
+      left: 5%;
 
       width: 0;
       height: 0;
 
       border-style: solid;
-      border-width: 0 7px 8px 7px;
+      border-width: 0 0.4375rem 0.5rem;
       border-color: transparent transparent #222 transparent;
     }
   }

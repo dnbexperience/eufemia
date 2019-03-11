@@ -24,8 +24,6 @@ const StyledListItem = styled.li`
   list-style: none;
   margin: 0;
 
-  background-color: var(--color-white);
-
   a {
     position: relative;
     padding: 0;
@@ -45,10 +43,26 @@ const StyledListItem = styled.li`
       background-color: transparent;
     }
   }
+
+  .show-mobile-menu & {
+    opacity: 0;
+    animation: show-mobile-menu 600ms cubic-bezier(0.19, 1, 0.22, 1) 1
+      var(--delay) forwards;
+  }
+  .hide-mobile-menu & {
+    opacity: 1;
+    animation: hide-mobile-menu 300ms cubic-bezier(0.19, 1, 0.22, 1) 1
+      calc(10ms - var(--delay)) forwards;
+  }
+
   &:first-of-type {
     margin-bottom: 1rem;
     font-size: 1.5rem;
     background-color: transparent;
+  }
+
+  html:not([dev-grid]) & {
+    background-color: var(--color-white);
   }
 
   /* 2.5rem - but we dont want it to be responsive */
@@ -79,7 +93,9 @@ const StyledListItem = styled.li`
       }
     }
     &.is-inside {
-      background-color: var(--color-mint-green-12);
+      html:not([dev-grid]) & {
+        background-color: var(--color-mint-green-12);
+      }
       font-weight: var(--font-weight-demi);
     }
   }
@@ -90,7 +106,9 @@ const StyledListItem = styled.li`
       padding-left: calc(var(--level-offset) + var(--level) * 3);
     }
     &.is-inside {
-      background-color: var(--color-sea-green-alt-30);
+      html:not([dev-grid]) & {
+        background-color: var(--color-sea-green-alt-30);
+      }
       font-weight: var(--font-weight-demi);
     }
   }
@@ -110,7 +128,9 @@ const StyledListItem = styled.li`
   &.l-6 {
     font-size: 0.875rem; /* small size */
     &.is-inside {
-      background-color: var(--color-mint-green-12);
+      html:not([dev-grid]) & {
+        background-color: var(--color-mint-green-12);
+      }
     }
   }
 
@@ -121,7 +141,9 @@ const StyledListItem = styled.li`
   &.l-5,
   &.l-6 {
     &.is-active {
-      background-color: var(--color-mint-green-50);
+      html:not([dev-grid]) & {
+        background-color: var(--color-mint-green-50);
+      }
     }
   }
 
@@ -152,17 +174,6 @@ const StyledListItem = styled.li`
       opacity: 0;
       transform: translate3d(0, -20%, 0);
     }
-  }
-
-  .show-mobile-menu & {
-    opacity: 0;
-    animation: show-mobile-menu 600ms cubic-bezier(0.19, 1, 0.22, 1) 1
-      var(--delay) forwards;
-  }
-  .hide-mobile-menu & {
-    opacity: 1;
-    animation: hide-mobile-menu 300ms cubic-bezier(0.19, 1, 0.22, 1) 1
-      calc(10ms - var(--delay)) forwards;
   }
 
   .status-badge {
