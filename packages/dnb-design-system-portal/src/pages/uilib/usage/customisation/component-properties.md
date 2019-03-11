@@ -10,9 +10,9 @@ import { hamburger as hamburgerIcon } from 'dnb-ui-lib/src/icons/secondary_icons
 
 # Component Properties
 
-Every [Component](/uilib/components) has its own `properties` to make them work for a variety of cases. You may have a look at the Table describing all the possibilities. Check out f.eks. the [Button Properties](/uilib/components/button#info).
+Every [Component](/uilib/components) has its own `properties` to make them work for a variety of cases. You may have a look at the table describing all the possibilities. Check out for example the [Button Properties](/uilib/components/button#info).
 
-But here You have some examples. You can even modify them right away in the Browser.
+Below are some examples. You can even modify them right away in the Browser.
 
 ## Large Buttons & Icons
 
@@ -71,7 +71,7 @@ render(
 
 > What if a property has to change at runtime?
 
-Changing a property (`props`) at runtime is a common thing in React. But also `dnb-ui-lib` Web Components support `prop` changes.
+Changing a property (`props`) at runtime is a common thing in React. But also `dnb-ui-lib` web components support `prop` changes.
 Keep in mind that not all components are tested to the last detail.
 So, if you come over some special use cases, please contribute back and make a pull request.
 

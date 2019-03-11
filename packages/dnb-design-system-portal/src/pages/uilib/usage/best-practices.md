@@ -8,4 +8,4 @@ order: 6
 
 # Best Practices
 
-Following the information about best practices for web frontend development, means a higher chance for getting styling right. But also increases the possible quality and consistency of the product and the user experience.
+Following the information about best practices for web frontend development, means a higher chance for getting styling right, but also increases the possible quality, consistency and the user experience of the product.

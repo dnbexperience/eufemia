@@ -6,7 +6,7 @@ order: 2
 
 # Importing the CSS
 
-To include the packages `dnb-ui-core`, `dnb-ui-components` and `dnb-theme-ui` in a [Node.js](https://nodejs.org) based environment (given You have a CSS loader in place), do this:
+To include the packages `dnb-ui-core`, `dnb-ui-components` and `dnb-theme-ui` in a [Node.js](https://nodejs.org) based environment (given you have a CSS loader in place), do this:
 
 ```js
 // This includes the "dnb-ui-core", "dnb-ui-components" and "dnb-theme-ui"
