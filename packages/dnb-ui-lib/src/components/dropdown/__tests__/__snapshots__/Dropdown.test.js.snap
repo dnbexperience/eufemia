@@ -459,7 +459,7 @@ exports[`Dropdown scss have to match default theme snapshot 1`] = `
     border-color: var(--dropdown-border-color--selected);
     box-shadow: 0 0 0 1px; }
   .dnb-dropdown > .dnb-form-status {
-    transform: translateY(-0.125rem); }
+    transform: translateY(-0.4375rem); }
 "
 `;
 
@@ -1869,8 +1869,9 @@ exports[`Dropdown scss have to match snapshot 1`] = `
     padding: 0;
     color: inherit; }
   label + .dnb-dropdown[class*='__form-status'] {
-    vertical-align: top;
-    transform: translateY(-0.25rem); }
+    vertical-align: top; }
+    label + .dnb-dropdown[class*='__form-status'] .dnb-dropdown__shell {
+      top: -0.375rem; }
   .dnb-dropdown__options {
     position: absolute;
     z-index: 3;
