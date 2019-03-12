@@ -20,4 +20,6 @@ Most helper classes are SCSS _mixins_ which are then applied to the class when i
 
 ## Usage
 
+In the following example we show two sections with `.dnb-section` styling which gives a colored background. The helper class `.dnb-section--spacing` adds spacing to the section.
+
 <Examples />

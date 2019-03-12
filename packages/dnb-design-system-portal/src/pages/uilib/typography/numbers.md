@@ -6,7 +6,9 @@ order: 3
 
 # Numbers
 
-Numbers comes in three variants; `Proportional Lining`, `Tabular Lining` and `Proportional Old Style`.
+**How relevan is this? Should we say what 'lining' means? Should we say that this is specific to Fedra but wiil dnb sans have any number variants?**
+
+Numbers comes in three variants: `Proportional Lining`, `Tabular Lining` and `Proportional Old Style`.
 
 The **default lining** is set to `Proportional Lining`, like the CSS class `.dnb-typo-number--lining`.
 

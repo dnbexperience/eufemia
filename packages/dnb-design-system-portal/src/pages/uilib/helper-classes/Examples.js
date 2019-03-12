@@ -14,7 +14,7 @@ class Example extends PureComponent {
         <CodeBlock
           reactLive
           hideCode
-          caption="Shows a colored background out the the browser borders by simply using `.dnb-section`"
+          caption="Helper classes for sections - `.dnb-section`"
         >
           {/* @html */ `
 <div className="dnb-section">

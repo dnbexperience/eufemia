@@ -28,7 +28,7 @@ So simply use them in Your Syntax:
 
 ### Code and Typography
 
-`<code>` snippets show best on a _Monotype_ font. Developers will normally have installed some of these fonts on their devices. Here is an example of CSS `font-family` usage:
+`<code>` snippets look best when rendered in a _Monotype_ font. Developers will normally have installed some of these fonts on their devices. Here is an example of CSS `font-family` usage:
 
 ```css
 font-family: /* macOS 10.10+ */ Menlo, /* Windows 6+ */ Consolas, /* Android 4+ */
