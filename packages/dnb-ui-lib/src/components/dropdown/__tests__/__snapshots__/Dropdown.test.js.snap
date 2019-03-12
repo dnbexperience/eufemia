@@ -370,6 +370,8 @@ exports[`Dropdown scss have to match default theme snapshot 1`] = `
     color: var(--dropdown-option-color);
     background-color: var(--dropdown-option-background-color);
     border-bottom: var(--dropdown-option-border-width) solid var(--dropdown-option-border-color); }
+    .dnb-dropdown__option__item:nth-of-type(1) {
+      font-weight: var(--font-weight-demi); }
     .dnb-dropdown__option__inner {
       padding-right: 2rem;
       background-color: var(--dropdown-option-background-color); }
