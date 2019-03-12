@@ -5,6 +5,7 @@
 
 :root {
   --switch-height: 1.5rem;
+  --switch-width: 2.5rem;
   --switch-border-width: 0.0625rem;
 }
 
@@ -51,12 +52,38 @@
   }
 
   &__button {
+    left: 0;
+
+    transform: translateX(0);
     transition: transform 160ms ease-out 125ms;
     border: var(--switch-border-width) solid transparent;
+
+    // IE fix
+    @media all and (-ms-high-contrast: none) {
+      top: -0.25rem; // because IE is not using flex to center here
+    }
+  }
+
+  /*
+    * When switched OFF
+    * aka when the checkbox is not :checked
+    */
+  &__input:not(:checked) ~ &__button {
+    transform: translateX(0); // IE fix
+    transform: translateX(calc(1px - 1px - var(--switch-border-width)));
+  }
+
+  /*
+    * When switched ON
+    * aka when the checkbox is :checked
+    */
+  &__input:checked ~ &__button {
+    transform: translateX(1rem); // IE fix
+    transform: translateX(calc(1rem + var(--switch-border-width)));
   }
 
   &__background {
-    width: 2.5rem;
+    width: var(--switch-width);
     height: 1rem;
     border-radius: 0.8125rem;
   }
