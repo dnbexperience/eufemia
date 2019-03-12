@@ -8,13 +8,13 @@ import TypographyExamples from 'Pages/uilib/typography/TypographyExamples'
 
 # Font Weights
 
-### For now we have 3 Font Weights:
+### Currently we have 3 font weights:
 
 - <span class="dnb-typo-book">Book</span> (normal)
 - <span class="dnb-typo-demi">Demi</span> (500)
 - <span class="dnb-typo-medium">Medium</span> (600)
 
-### How to use the Weights (CSS)
+### How to use the weights (CSS)
 
 ```css
 /* I am Book */
