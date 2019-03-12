@@ -14,6 +14,7 @@ exports[`Switch component have to match snapshot 1`] = `
   label="label"
   on_change={[Function]}
   on_state_update={[Function]}
+  readOnly={false}
   status={null}
   status_animation="status_animation"
   status_state="status_state"
@@ -26,7 +27,7 @@ exports[`Switch component have to match snapshot 1`] = `
     className={null}
     disabled="disabled"
     for_id="id"
-    id={null}
+    id="id-label"
     render_content={null}
     text="label"
     title={null}
@@ -36,6 +37,7 @@ exports[`Switch component have to match snapshot 1`] = `
       className="dnb-form-label"
       disabled="disabled"
       htmlFor="id"
+      id="id-label"
     >
       label
     </label>
@@ -49,6 +51,7 @@ exports[`Switch component have to match snapshot 1`] = `
       <input
         aria-checked={false}
         aria-disabled={true}
+        aria-labelledby="id-label"
         checked={false}
         className="dnb-switch__input"
         disabled="disabled"
@@ -148,18 +151,16 @@ exports[`Switch scss have to match default theme snapshot 1`] = `
     .dnb-switch__background::after {
       content: '';
       position: absolute;
-      transition: transform 0.3s ease-out; }
+      transition: transform 0.3s ease-out, position 0.3s ease-out; }
+      @media all and (-ms-high-contrast: none) {
+        .dnb-switch__background::after {
+          top: 0.25rem; } }
   .dnb-switch__input:not(:checked) ~ .dnb-switch__button {
-    transform: translateX(0);
-    transform: translateX(calc(1px - 1px - var(--switch-border-width)));
     background-color: var(--color-white);
-    border: var(--switch-border-width) solid var(--color-sea-green-alt); }
+    border-color: var(--color-sea-green-alt); }
   .dnb-switch__input:checked ~ .dnb-switch__button {
-    transform: translateX(1rem);
-    transform: translateX(calc(1rem + var(--switch-border-width)));
     background-color: var(--color-sea-green); }
   .dnb-switch__input:not(:checked) ~ .dnb-switch__background::after {
-    position: absolute;
     right: 0;
     transform: translateX(-0.3125rem);
     width: 0.5rem;
@@ -167,7 +168,6 @@ exports[`Switch scss have to match default theme snapshot 1`] = `
     border-radius: 50%;
     border: 0.0625rem solid var(--color-sea-green); }
   .dnb-switch__input:checked ~ .dnb-switch__background::after {
-    position: absolute;
     left: 0;
     transform: translateX(calc(0.5rem + 0.125rem));
     width: 0.0625rem;
@@ -189,7 +189,7 @@ exports[`Switch scss have to match default theme snapshot 1`] = `
     background-color: var(--color-mint-green-50); }
   .dnb-switch__input:not([disabled]):active ~ .dnb-switch__button {
     background-color: var(--color-mint-green-50);
-    border: none; }
+    border-color: transparent; }
   html[data-whatinput='keyboard'] .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__button {
     border: none; }
   .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__background,
@@ -207,10 +207,12 @@ exports[`Switch scss have to match default theme snapshot 1`] = `
   .dnb-switch__input:not([disabled]):not(:checked):focus ~ .dnb-switch__button,
   .dnb-switch__input:not([disabled]):not(:checked):active ~ .dnb-switch__button {
     background-color: var(--color-mint-green-50); }
-  .dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):not(:active) ~ .dnb-switch__button {
-    border: none; }
-  .dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):not(:active):checked ~ .dnb-switch__button {
+  .dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):hover ~ .dnb-switch__button {
     border-color: var(--color-cherry-red);
+    background-color: var(--color-cherry-red-80); }
+  .dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):not(:active):not(:hover) ~ .dnb-switch__button {
+    border-color: var(--color-cherry-red-80); }
+  .dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):not(:active):not(:hover):checked ~ .dnb-switch__button {
     background-color: var(--color-cherry-red); }
   .dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):not(:active) ~ .dnb-switch__background {
     background-color: var(--color-cherry-red-80);
@@ -226,6 +228,8 @@ exports[`Switch scss have to match default theme snapshot 1`] = `
     border-color: transparent; }
   .dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):not(:active):checked ~ .dnb-switch__button .dnb-switch__focus {
     transform: rotate(180deg); }
+  .dnb-switch > .dnb-form-status {
+    transform: translateY(0.1875rem); }
 "
 `;
 
@@ -750,9 +754,6 @@ exports[`Switch scss have to match snapshot 1`] = `
     color: var(--color-sea-green); }
   .dnb-form-label[disabled] {
     cursor: not-allowed; }
-
-.dnb-form-label + [class*='__status'] {
-  vertical-align: baseline; }
 
 /*
 * DNB FormStatus
@@ -1544,21 +1545,34 @@ exports[`Switch scss have to match snapshot 1`] = `
 */
 :root {
   --switch-height: 1.5rem;
-  --switch-border-width: 1px; }
+  --switch-width: 2.5rem;
+  --switch-border-width: 0.0625rem; }
 
 .dnb-switch {
   user-select: none;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
+  vertical-align: middle;
   width: auto;
   margin: 0;
-  padding: 0; }
+  padding: 0;
+  /*
+    * When switched OFF
+    * aka when the checkbox is not :checked
+    */
+  /*
+    * When switched ON
+    * aka when the checkbox is :checked
+    */ }
   .dnb-switch__shell {
     position: relative;
     display: flex;
     align-items: center;
-    transform: translateY(0.1875rem); }
+    transform: translateY(-0.0625rem); }
+  label + .dnb-switch[class*='__form-status'] {
+    vertical-align: baseline;
+    transform: translateY(0.25rem); }
   .dnb-switch__focus, .dnb-switch__button {
     position: absolute;
     z-index: 4;
@@ -1566,10 +1580,21 @@ exports[`Switch scss have to match snapshot 1`] = `
     height: var(--switch-height);
     border-radius: 50%; }
   .dnb-switch__button {
+    left: 0;
+    transform: translateX(0);
     transition: transform 160ms ease-out 125ms;
     border: var(--switch-border-width) solid transparent; }
+    @media all and (-ms-high-contrast: none) {
+      .dnb-switch__button {
+        top: -0.25rem; } }
+  .dnb-switch__input:not(:checked) ~ .dnb-switch__button {
+    transform: translateX(0);
+    transform: translateX(calc(1px - 1px - var(--switch-border-width))); }
+  .dnb-switch__input:checked ~ .dnb-switch__button {
+    transform: translateX(1rem);
+    transform: translateX(calc(1rem + var(--switch-border-width))); }
   .dnb-switch__background {
-    width: 2.5rem;
+    width: var(--switch-width);
     height: 1rem;
     border-radius: 0.8125rem; }
   .dnb-switch__focus {
@@ -1598,6 +1623,6 @@ exports[`Switch scss have to match snapshot 1`] = `
   .dnb-switch__input:not([disabled]) {
     cursor: pointer; }
   .dnb-switch > .dnb-form-status {
-    margin-top: 1rem; }
+    margin-top: 0.5rem; }
 "
 `;

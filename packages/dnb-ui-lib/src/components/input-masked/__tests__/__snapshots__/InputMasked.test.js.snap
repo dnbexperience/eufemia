@@ -23,6 +23,7 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
   on_submit_blur={null}
   on_submit_focus={null}
   placeholder={null}
+  readOnly={false}
   show_mask="show_mask"
   size={null}
   status={null}
@@ -187,7 +188,7 @@ exports[`InputMasked scss have to match snapshot 1`] = `
   display: inline-block;
   vertical-align: baseline;
   font-size: inherit;
-  line-height: 1;
+  line-height: 1em;
   width: 1em;
   height: 1em; }
   .dnb-icon img,
@@ -616,7 +617,7 @@ exports[`InputMasked scss have to match snapshot 1`] = `
   --button-width--large: 3rem;
   --button-height--large: 3rem;
   --button-icon-size: 1rem;
-  --button-border-width: 1px;
+  --button-border-width: 0.0625rem;
   --button-border-width--hover: 3px;
   --button-border-radius: calc(var(--button-height) / 2);
   --button-border-radius--small: calc(var(--button-height--small) / 2);
@@ -639,7 +640,7 @@ exports[`InputMasked scss have to match snapshot 1`] = `
   text-decoration: none;
   /* Firefox includes a hidden border which messes up button dimensions */ }
   .dnb-button__icon {
-    line-height: 1; }
+    line-height: 1em; }
     .dnb-button__icon:not(.dnb-icon) svg:not([width]):not([height]) {
       width: var(--button-icon-size);
       height: var(--button-icon-size); }
@@ -647,7 +648,7 @@ exports[`InputMasked scss have to match snapshot 1`] = `
       .dnb-button__icon {
         transform: translateY(calc(1px - 1px - var(--button-border-width))); } }
   .dnb-button__text {
-    line-height: 1;
+    line-height: 1em;
     color: inherit;
     background-color: inherit; }
     @supports not (-ms-ime-align: auto) {
@@ -1152,9 +1153,6 @@ a.dnb-button {
     color: var(--color-sea-green); }
   .dnb-form-label[disabled] {
     cursor: not-allowed; }
-
-.dnb-form-label + [class*='__status'] {
-  vertical-align: baseline; }
 
 /*
 * DNB FormStatus
@@ -1954,22 +1952,27 @@ a.dnb-button {
   --input-height: 2rem;
   --input-height--medium: 2.5rem;
   --input-height--large: 3rem;
+  --input-border-width: 0.0625rem;
   --input-border-radius: calc(var(--input-height) / 2);
   --input-border-radius--medium: calc(var(--input-height--medium) / 2);
-  --input-border-radius--large: calc(var(--input-height--large) / 2);
-  --input-border-width: 1px; }
+  --input-border-radius--large: calc(var(--input-height--large) / 2); }
 
 .dnb-input {
   display: inline-flex;
-  align-items: flex-start;
   flex-direction: column;
+  align-items: flex-start;
+  vertical-align: middle;
   width: auto;
-  font-size: var(--input-font-size); }
+  font-size: var(--input-font-size);
+  font-weight: var(--font-weight-default); }
   .dnb-input__shell {
     position: relative;
     display: flex;
     align-items: center;
-    overflow: hidden; }
+    overflow: hidden;
+    border: var(--input-border-width, 1px) solid var(--color-sea-green-alt); }
+  label + .dnb-input[class*='__form-status'] {
+    vertical-align: baseline; }
   .dnb-input__input {
     border: none;
     outline: none;
@@ -1985,9 +1988,9 @@ a.dnb-button {
     text-align: left;
     color: inherit;
     font-size: var(--input-font-size);
-    line-height: 1;
+    line-height: 1em;
     background-color: transparent;
-    transform: translateY(var(--input-border-width)); }
+    transform: translateY(var(--input-border-width, 1px)); }
   .dnb-input__placeholder {
     pointer-events: none;
     position: absolute;

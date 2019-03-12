@@ -33,6 +33,12 @@ export const disableCorePrefetching = () => false
 // scroll to top on route change
 export const shouldUpdateScroll = () => true
 
+if (
+  typeof window !== 'undefined' &&
+  window.location.search.split(/\?|&/).includes('data-dnb-test')
+) {
+  window.IS_TEST = true
+}
 export const onPreRouteUpdate = ({ location }) => {
   if (
     location &&

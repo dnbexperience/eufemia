@@ -85,7 +85,8 @@ export default class FormStatus extends PureComponent {
 
       switch (status) {
         case 'info':
-          iconToLoad = 'info'
+        case 'information':
+          iconToLoad = 'information'
           break
         case 'error':
         default:

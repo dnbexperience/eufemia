@@ -13,7 +13,6 @@ exports[`Dropdown component have to match snapshot 1`] = `
           "1234.56.78901",
           "Brukskonto - Kari Nordmann",
         ],
-        "outside_value": "1234.56.78901",
         "selected_value": "Brukskonto - Kari Nordmann",
       },
       Object {
@@ -21,7 +20,6 @@ exports[`Dropdown component have to match snapshot 1`] = `
           "1234.56.78902",
           "Sparekonto - Ole Nordmann",
         ],
-        "outside_value": "1234.56.78902",
         "selected_value": "Sparekonto - Ole Nordmann",
       },
       Object {
@@ -29,7 +27,6 @@ exports[`Dropdown component have to match snapshot 1`] = `
           "1134.56.78962",
           "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
         ],
-        "outside_value": "1134.56.78962",
         "selected_value": "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
       },
       Object {
@@ -37,7 +34,6 @@ exports[`Dropdown component have to match snapshot 1`] = `
           "1534.96.48901",
           "Oppussing - Ole Nordmann",
         ],
-        "outside_value": "1534.96.48901",
         "selected_value": "Oppussing - Ole Nordmann",
       },
     ]
@@ -55,35 +51,34 @@ exports[`Dropdown component have to match snapshot 1`] = `
   on_state_update={[Function]}
   opened="opened"
   selected_item={2}
-  show_value_outside="show_value_outside"
   status="status"
   status_animation="status_animation"
   status_state="error"
   title="title"
 >
-  <span
-    className="dnb-dropdown dnb-dropdown--icon-position-icon_position dnb-dropdown--hidden dnb-dropdown__status--error class className"
+  <FormLabel
+    aria-hidden={true}
+    class={null}
+    className={null}
+    disabled="disabled"
+    for_id="dropdown-id"
+    id={null}
+    render_content={null}
+    text="label"
+    title={null}
   >
-    <FormLabel
-      aria-hidden={true}
-      class={null}
-      className={null}
+    <label
+      aria-disabled={true}
+      className="dnb-form-label"
       disabled="disabled"
-      for_id="dropdown-id"
-      id={null}
-      render_content={null}
-      text="label"
-      title={null}
+      htmlFor="dropdown-id"
     >
-      <label
-        aria-disabled={true}
-        className="dnb-form-label"
-        disabled="disabled"
-        htmlFor="dropdown-id"
-      >
-        label
-      </label>
-    </FormLabel>
+      label
+    </label>
+  </FormLabel>
+  <span
+    className="dnb-dropdown dnb-dropdown--icon-position-icon_position dnb-dropdown--hidden dnb-dropdown__form-status dnb-dropdown__status--error class className"
+  >
     <span
       className="dnb-dropdown__shell"
     >
@@ -325,11 +320,6 @@ exports[`Dropdown component have to match snapshot 1`] = `
         </span>
       </span>
     </FormStatus>
-    <span
-      className="dnb-dropdown__outside-value"
-    >
-      1134.56.78962
-    </span>
   </span>
 </Dropdown>
 `;
@@ -359,7 +349,7 @@ exports[`Dropdown scss have to match default theme snapshot 1`] = `
   --dropdown-option-background-color--hover: var(--color-mint-green-12);
   --dropdown-option-color--selected: var(--color-white);
   --dropdown-option-background-color--selected: var(--color-emerald-green);
-  --dropdown-option-border-width: 1px;
+  --dropdown-option-border-width: 0.0625rem;
   --dropdown-option-border-color: var(--color-mint-green-25); }
 
 .dnb-dropdown {
@@ -380,6 +370,8 @@ exports[`Dropdown scss have to match default theme snapshot 1`] = `
     color: var(--dropdown-option-color);
     background-color: var(--dropdown-option-background-color);
     border-bottom: var(--dropdown-option-border-width) solid var(--dropdown-option-border-color); }
+    .dnb-dropdown__option__item:nth-of-type(1) {
+      font-weight: var(--font-weight-demi); }
     .dnb-dropdown__option__inner {
       padding-right: 2rem;
       background-color: var(--dropdown-option-background-color); }
@@ -468,6 +460,8 @@ exports[`Dropdown scss have to match default theme snapshot 1`] = `
   :not([dnb-is-touch]) .dnb-dropdown__input:hover:not([disabled]) ~ .dnb-dropdown__trigger {
     border-color: var(--dropdown-border-color--selected);
     box-shadow: 0 0 0 1px; }
+  .dnb-dropdown > .dnb-form-status {
+    transform: translateY(-0.4375rem); }
 "
 `;
 
@@ -614,7 +608,7 @@ exports[`Dropdown scss have to match snapshot 1`] = `
   display: inline-block;
   vertical-align: baseline;
   font-size: inherit;
-  line-height: 1;
+  line-height: 1em;
   width: 1em;
   height: 1em; }
   .dnb-icon img,
@@ -1043,9 +1037,6 @@ exports[`Dropdown scss have to match snapshot 1`] = `
     color: var(--color-sea-green); }
   .dnb-form-label[disabled] {
     cursor: not-allowed; }
-
-.dnb-form-label + [class*='__status'] {
-  vertical-align: baseline; }
 
 /*
 * DNB FormStatus
@@ -1841,7 +1832,7 @@ exports[`Dropdown scss have to match snapshot 1`] = `
   --dropdown-max-width: 20rem;
   --dropdown-height: 2rem;
   --dropdown-padding-horizontal: 1rem;
-  --dropdown-border-width: 1px;
+  --dropdown-border-width: 0.0625rem;
   --dropdown-text-padding: 0.5rem;
   --dropdown-border-radius: calc(var(--dropdown-height) / 2); }
 
@@ -1862,17 +1853,27 @@ exports[`Dropdown scss have to match snapshot 1`] = `
     transform: translateY(0); } }
 
 .dnb-dropdown {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  vertical-align: middle;
   margin: 0;
   padding: 0;
-  display: inline-flex;
-  align-items: center;
+  width: auto;
+  font-size: var(--font-size-default);
+  font-weight: var(--font-weight-default);
   color: inherit; }
   .dnb-dropdown__shell {
     position: relative;
+    top: -0.0625rem;
     height: var(--dropdown-height);
     margin: 0;
     padding: 0;
     color: inherit; }
+  label + .dnb-dropdown[class*='__form-status'] {
+    vertical-align: top; }
+    label + .dnb-dropdown[class*='__form-status'] .dnb-dropdown__shell {
+      top: -0.375rem; }
   .dnb-dropdown__options {
     position: absolute;
     z-index: 3;
@@ -2046,7 +2047,7 @@ exports[`Dropdown scss have to match snapshot 1`] = `
   .dnb-dropdown > .dnb-form-label {
     margin-right: 1rem; }
   .dnb-dropdown > .dnb-form-status {
-    margin-left: 0.5rem; }
+    margin-top: 0.5rem; }
   .dnb-dropdown .icon-chevron-left .dnb-icon svg {
     transform: rotate(-90deg); }
 "

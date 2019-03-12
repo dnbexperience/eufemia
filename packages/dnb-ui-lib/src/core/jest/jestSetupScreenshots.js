@@ -5,6 +5,7 @@
 
 const fs = require('fs-extra')
 const path = require('path')
+const isCI = require('is-ci')
 const os = require('os')
 const { setupJestScreenshot } = require('jest-screenshot')
 
@@ -14,6 +15,8 @@ const config = {
   testScreenshotOnHost: '127.0.0.1',
   testScreenshotOnPort: 8000,
   headless: true,
+  blockFontRequest: true,
+  allowedFonts: [], // e.g. 'LiberationMono'
   pageSettings: {
     width: 1280,
     height: 1024,
@@ -24,9 +27,11 @@ const config = {
   }
 }
 module.exports.config = config
+module.exports.isCI = isCI
 
 module.exports.testPageScreenshot = ({
   url = null,
+  fullscreen = true,
   page = global.__PAGE__,
   selector,
   style = null,
@@ -51,10 +56,22 @@ module.exports.testPageScreenshot = ({
       }
 
       if (url) {
-        await page.goto(createUrl(url))
+        await page.goto(createUrl(url, fullscreen))
       }
 
       await page.waitForSelector(selector)
+
+      if (style) {
+        await page.$eval(
+          styleSelector || selector,
+          (node, style) => node.setAttribute('style', style),
+          makeStyles(style)
+        )
+      }
+
+      if (transformElement) {
+        await transformElement(element)
+      }
 
       let screenshotElement = null
       const element = await page.$(selector)
@@ -95,18 +112,6 @@ module.exports.testPageScreenshot = ({
           (node, { text }) => (node.innerText = text),
           { text }
         )
-      }
-
-      if (style) {
-        await page.$eval(
-          styleSelector || selector,
-          (node, style) => node.setAttribute('style', style),
-          makeStyles(style)
-        )
-      }
-
-      if (transformElement) {
-        await transformElement(element)
       }
 
       if (simulate) {
@@ -182,24 +187,61 @@ module.exports.testPageScreenshot = ({
     }
   })
 
-module.exports.setupPageScreenshot = ({ timeout, url, ...rest } = {}) => {
-  if (
-    Object.keys(rest).length > 0 ||
-    (expect && !expect.toMatchImageSnapshot)
-  ) {
-    setupJestScreenshot(rest)
+const setupPageScreenshot = async ({
+  url,
+  fullscreen = true,
+  pageSettings = null,
+  screenshotConfig = null,
+  timeout = null
+} = {}) => {
+  if (screenshotConfig && (expect && !expect.toMatchImageSnapshot)) {
+    setupJestScreenshot(screenshotConfig)
   }
 
-  const useUrl = createUrl(url)
+  beforeAll(
+    async () =>
+      setupBeforeAll({
+        url,
+        fullscreen,
+        pageSettings
+      }),
+    timeout
+  )
 
-  beforeAll(async () => {
-    const context = await global.__BROWSER__.createIncognitoBrowserContext()
-    const page = await context.newPage()
+  afterAll(async () => {
+    await global.__PAGE__.close()
+    global.__PAGE__ = null
+  })
+}
+module.exports.setupPageScreenshot = setupPageScreenshot
 
-    await page.setViewport(config.pageSettings)
+const setupBeforeAll = async ({
+  url,
+  fullscreen = true,
+  pageSettings = null
+}) => {
+  const context = await global.__BROWSER__.createIncognitoBrowserContext()
+  const page = await context.newPage()
 
+  if (pageSettings || (pageSettings !== false && config.pageSettings)) {
+    if (pageSettings && config.pageSettings) {
+      pageSettings = { ...config.pageSettings, ...pageSettings }
+    } else {
+      pageSettings = config.pageSettings
+    }
+    await page.setViewport(pageSettings)
+  }
+
+  if (config.blockFontRequest) {
     await page.setRequestInterception(true) // is needed in order to use on "request"
     page.on('request', req => {
+      const url = req.url()
+      if (
+        config.allowedFonts &&
+        config.allowedFonts.some(f => url.includes(f))
+      ) {
+        return req.continue()
+      }
       const type = req.resourceType()
       switch (type) {
         case 'font':
@@ -210,16 +252,13 @@ module.exports.setupPageScreenshot = ({ timeout, url, ...rest } = {}) => {
           req.continue()
       }
     })
+  }
 
-    await page.goto(useUrl)
+  if (url) {
+    await page.goto(createUrl(url, fullscreen))
+  }
 
-    global.__PAGE__ = page
-  }, timeout)
-
-  afterAll(async () => {
-    await global.__PAGE__.close()
-    global.__PAGE__ = null
-  })
+  global.__PAGE__ = page
 }
 
 module.exports.setupJestScreenshot = setupJestScreenshot
@@ -227,23 +266,15 @@ module.exports.loadImage = async imagePath =>
   await fs.readFile(path.resolve(imagePath))
 
 // make sure "${url}/" has actually a slash on the end
-const createUrl = url =>
+const createUrl = (url, fullscreen = true) =>
   `http://${config.testScreenshotOnHost}:${
     config.testScreenshotOnPort
-  }/${url}/?data-dnb-test&fullscreen`.replace(/\/\//g, '/')
+  }/${url}/?data-dnb-test${fullscreen ? '&fullscreen' : ''}`.replace(
+    /\/\//g,
+    '/'
+  )
 
 const makeStyles = style =>
   Object.entries(style)
-    // .map(([k, v]) => {
-    //   console.log('k', k)
-    //   if (k === 'x' || k === 'y') {
-    //     return null
-    //   }
-    //   if (v > 0) {
-    //     v = `${v}px`
-    //   }
-    //   return [k, v]
-    // })
-    // .filter(i => i)
     .map(([k, v]) => `${k}: ${v}`)
     .join(';')

@@ -70,6 +70,11 @@ export default class ToggleGrid extends Component {
   }
   showGrid = showGrid => {
     if (typeof document !== 'undefined') {
+      if (showGrid) {
+        document.documentElement.setAttribute('dev-grid', true)
+      } else {
+        document.documentElement.removeAttribute('dev-grid')
+      }
       if (typeof window !== 'undefined') {
         window.localStorage.setItem('showGrid', showGrid ? 1 : 0)
       }

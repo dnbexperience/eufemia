@@ -266,7 +266,7 @@ exports[`Button scss have to match default theme snapshot 1`] = `
 .dnb-button--secondary {
   color: var(--color-sea-green);
   background-color: var(--color-white);
-  box-shadow: inset 0 0 0 1px var(--color-sea-green-alt);
+  box-shadow: inset 0 0 0 0.0625rem var(--color-sea-green-alt);
   border-color: transparent; }
   :not([dnb-is-touch]) .dnb-button--secondary:hover[disabled] {
     cursor: not-allowed; }
@@ -293,7 +293,7 @@ exports[`Button scss have to match default theme snapshot 1`] = `
   .dnb-button--secondary[disabled], .dnb-button--secondary[disabled]:focus {
     color: var(--color-sea-green-alt-30);
     background-color: var(--color-white);
-    box-shadow: inset 0 0 0 1px var(--color-sea-green-alt-30);
+    box-shadow: inset 0 0 0 0.0625rem var(--color-sea-green-alt-30);
     border-color: transparent; }
 
 .dnb-button--tertiary {
@@ -528,7 +528,7 @@ exports[`Button scss have to match snapshot 1`] = `
   display: inline-block;
   vertical-align: baseline;
   font-size: inherit;
-  line-height: 1;
+  line-height: 1em;
   width: 1em;
   height: 1em; }
   .dnb-icon img,
@@ -957,7 +957,7 @@ exports[`Button scss have to match snapshot 1`] = `
   --button-width--large: 3rem;
   --button-height--large: 3rem;
   --button-icon-size: 1rem;
-  --button-border-width: 1px;
+  --button-border-width: 0.0625rem;
   --button-border-width--hover: 3px;
   --button-border-radius: calc(var(--button-height) / 2);
   --button-border-radius--small: calc(var(--button-height--small) / 2);
@@ -980,7 +980,7 @@ exports[`Button scss have to match snapshot 1`] = `
   text-decoration: none;
   /* Firefox includes a hidden border which messes up button dimensions */ }
   .dnb-button__icon {
-    line-height: 1; }
+    line-height: 1em; }
     .dnb-button__icon:not(.dnb-icon) svg:not([width]):not([height]) {
       width: var(--button-icon-size);
       height: var(--button-icon-size); }
@@ -988,7 +988,7 @@ exports[`Button scss have to match snapshot 1`] = `
       .dnb-button__icon {
         transform: translateY(calc(1px - 1px - var(--button-border-width))); } }
   .dnb-button__text {
-    line-height: 1;
+    line-height: 1em;
     color: inherit;
     background-color: inherit; }
     @supports not (-ms-ime-align: auto) {
