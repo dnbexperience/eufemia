@@ -84,8 +84,8 @@
     "what-input": "^5.1.4"
   },
   "peerDependencies": {
-    "react": ">=16",
-    "react-dom": ">=16"
+    "react": ">=16.6",
+    "react-dom": ">=16.6"
   },
   "devDependencies": {
     "@babel/core": "^7.3.4",
