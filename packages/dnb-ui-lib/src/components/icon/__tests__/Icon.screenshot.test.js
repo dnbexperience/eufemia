@@ -12,8 +12,10 @@ import {
 describe('Icon screenshot', () => {
   setupPageScreenshot({
     url: '/uilib/components/icon',
-    // use 10% on CI because of the font rendering differences
-    pixelThresholdRelative: isCI ? 0.1 : 0
+    screenshotConfig: {
+      // use 10% on CI because of the font rendering differences
+      pixelThresholdRelative: isCI ? 0.1 : 0
+    }
   })
   it('have to match responsive icons', async () => {
     const screenshot = await testPageScreenshot({

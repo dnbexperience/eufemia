@@ -12,8 +12,10 @@ import {
 describe('Anchor screenshot', () => {
   setupPageScreenshot({
     url: '/uilib/elements/anchor',
-    // use 6% on CI because of the font rendering differences
-    pixelThresholdRelative: isCI ? 0.06 : 0
+    screenshotConfig: {
+      // use 6% on CI because of the font rendering differences
+      pixelThresholdRelative: isCI ? 0.06 : 0
+    }
   })
   // the first one is on 5.54%
   it('have to match the "default" state', async () => {

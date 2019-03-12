@@ -31,6 +31,7 @@ module.exports.isCI = isCI
 
 module.exports.testPageScreenshot = ({
   url = null,
+  fullscreen = true,
   page = global.__PAGE__,
   selector,
   style = null,
@@ -55,7 +56,7 @@ module.exports.testPageScreenshot = ({
       }
 
       if (url) {
-        await page.goto(createUrl(url))
+        await page.goto(createUrl(url, fullscreen))
       }
 
       await page.waitForSelector(selector)
@@ -186,53 +187,78 @@ module.exports.testPageScreenshot = ({
     }
   })
 
-module.exports.setupPageScreenshot = ({ timeout, url, ...rest } = {}) => {
-  if (
-    Object.keys(rest).length > 0 ||
-    (expect && !expect.toMatchImageSnapshot)
-  ) {
-    setupJestScreenshot(rest)
+const setupPageScreenshot = async ({
+  url,
+  fullscreen = true,
+  pageSettings = null,
+  screenshotConfig = null,
+  timeout = null
+} = {}) => {
+  if (screenshotConfig && (expect && !expect.toMatchImageSnapshot)) {
+    setupJestScreenshot(screenshotConfig)
   }
 
-  const useUrl = createUrl(url)
-
-  beforeAll(async () => {
-    const context = await global.__BROWSER__.createIncognitoBrowserContext()
-    const page = await context.newPage()
-
-    await page.setViewport(config.pageSettings)
-
-    if (config.blockFontRequest) {
-      await page.setRequestInterception(true) // is needed in order to use on "request"
-      page.on('request', req => {
-        const url = req.url()
-        if (
-          config.allowedFonts &&
-          config.allowedFonts.some(f => url.includes(f))
-        ) {
-          return req.continue()
-        }
-        const type = req.resourceType()
-        switch (type) {
-          case 'font':
-            req.abort()
-            break
-
-          default:
-            req.continue()
-        }
-      })
-    }
-
-    await page.goto(useUrl)
-
-    global.__PAGE__ = page
-  }, timeout)
+  beforeAll(
+    async () =>
+      setupBeforeAll({
+        url,
+        fullscreen,
+        pageSettings
+      }),
+    timeout
+  )
 
   afterAll(async () => {
     await global.__PAGE__.close()
     global.__PAGE__ = null
   })
+}
+module.exports.setupPageScreenshot = setupPageScreenshot
+
+const setupBeforeAll = async ({
+  url,
+  fullscreen = true,
+  pageSettings = null
+}) => {
+  const context = await global.__BROWSER__.createIncognitoBrowserContext()
+  const page = await context.newPage()
+
+  if (pageSettings || (pageSettings !== false && config.pageSettings)) {
+    if (pageSettings && config.pageSettings) {
+      pageSettings = { ...config.pageSettings, ...pageSettings }
+    } else {
+      pageSettings = config.pageSettings
+    }
+    await page.setViewport(pageSettings)
+  }
+
+  if (config.blockFontRequest) {
+    await page.setRequestInterception(true) // is needed in order to use on "request"
+    page.on('request', req => {
+      const url = req.url()
+      if (
+        config.allowedFonts &&
+        config.allowedFonts.some(f => url.includes(f))
+      ) {
+        return req.continue()
+      }
+      const type = req.resourceType()
+      switch (type) {
+        case 'font':
+          req.abort()
+          break
+
+        default:
+          req.continue()
+      }
+    })
+  }
+
+  if (url) {
+    await page.goto(createUrl(url, fullscreen))
+  }
+
+  global.__PAGE__ = page
 }
 
 module.exports.setupJestScreenshot = setupJestScreenshot
@@ -240,23 +266,15 @@ module.exports.loadImage = async imagePath =>
   await fs.readFile(path.resolve(imagePath))
 
 // make sure "${url}/" has actually a slash on the end
-const createUrl = url =>
+const createUrl = (url, fullscreen = true) =>
   `http://${config.testScreenshotOnHost}:${
     config.testScreenshotOnPort
-  }/${url}/?data-dnb-test&fullscreen`.replace(/\/\//g, '/')
+  }/${url}/?data-dnb-test${fullscreen ? '&fullscreen' : ''}`.replace(
+    /\/\//g,
+    '/'
+  )
 
 const makeStyles = style =>
   Object.entries(style)
-    // .map(([k, v]) => {
-    //   console.log('k', k)
-    //   if (k === 'x' || k === 'y') {
-    //     return null
-    //   }
-    //   if (v > 0) {
-    //     v = `${v}px`
-    //   }
-    //   return [k, v]
-    // })
-    // .filter(i => i)
     .map(([k, v]) => `${k}: ${v}`)
     .join(';')

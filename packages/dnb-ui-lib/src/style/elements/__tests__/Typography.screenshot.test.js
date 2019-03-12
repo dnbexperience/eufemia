@@ -14,14 +14,16 @@ import {
 describe('Heading screenshot', () => {
   setupPageScreenshot({
     url: '/uilib/typography',
-    /*
-      if we use Helvetica, we can go down to 6%
-      style: {
-        'font-family': 'Helvetica, Arial, sans-serif'
-      },
+    screenshotConfig: {
+      /*
+        if we use Helvetica, we can go down to 6%
+        style: {
+          'font-family': 'Helvetica, Arial, sans-serif'
+        },
       */
-    // use 10% on CI because of the font rendering differences
-    pixelThresholdRelative: isCI ? 0.1 : 0
+      // use 10% on CI because of the font rendering differences
+      pixelThresholdRelative: isCI ? 0.1 : 0
+    }
   })
   it('have to match the additional heading examples', async () => {
     const screenshot = await testPageScreenshot({
