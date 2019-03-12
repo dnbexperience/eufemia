@@ -28,6 +28,8 @@ import fullscreen from './fullscreen.js'
 import fullscreen_medium from './fullscreen_medium.js'
 import hamburger from './hamburger.js'
 import hamburger_medium from './hamburger_medium.js'
+import information from './information.js'
+import information_medium from './information_medium.js'
 import logout from './logout.js'
 import logout_medium from './logout_medium.js'
 import more from './more.js'
@@ -74,6 +76,8 @@ export {
   fullscreen_medium,
   hamburger,
   hamburger_medium,
+  information,
+  information_medium,
   logout,
   logout_medium,
   more,
