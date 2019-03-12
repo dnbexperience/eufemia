@@ -43,7 +43,6 @@ export const propTypes = {
         PropTypes.string,
         PropTypes.shape({
           selected_value: PropTypes.string,
-          outside_value: PropTypes.string,
           content: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.arrayOf(PropTypes.string)
@@ -55,10 +54,6 @@ export const propTypes = {
   selected_item: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   opened: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  show_value_outside: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool
-  ]),
   class: PropTypes.string,
 
   // React props
@@ -89,7 +84,6 @@ export const defaultProps = {
   selected_item: 0,
   opened: false,
   disabled: false,
-  show_value_outside: false,
   class: null,
 
   // React props
@@ -326,7 +320,6 @@ export default class Dropdown extends Component {
       label,
       icon,
       icon_position,
-      show_value_outside,
       status,
       status_state,
       status_animation,
@@ -355,7 +348,8 @@ export default class Dropdown extends Component {
       icon_position && `dnb-dropdown--icon-position-${icon_position}`,
       opened && 'dnb-dropdown--opened',
       hidden && 'dnb-dropdown--hidden',
-      status ? `dnb-dropdown__status--${status_state}` : null,
+      showStatus && 'dnb-dropdown__form-status',
+      status && `dnb-dropdown__status--${status_state}`,
       _className,
       className
     )
@@ -411,7 +405,7 @@ export default class Dropdown extends Component {
     validateDOMAttributes(null, ulParams)
 
     return (
-      <span className={classes}>
+      <>
         {label && (
           <FormLabel
             aria-hidden
@@ -420,90 +414,87 @@ export default class Dropdown extends Component {
             disabled={disabled}
           />
         )}
-
-        <span className="dnb-dropdown__shell" {...shellParams}>
-          <input {...inputParams} />
-          <button {...triggerParams}>
-            <span className="dnb-dropdown__text">
-              <span
-                id={`dropdown-${id}-value`}
-                className="dnb-dropdown__text__inner"
-              >
-                {Dropdown.parseContentTitle(currentOptionData)}
+        <span className={classes}>
+          <span className="dnb-dropdown__shell" {...shellParams}>
+            <input {...inputParams} />
+            <button {...triggerParams}>
+              <span className="dnb-dropdown__text">
+                <span
+                  id={`dropdown-${id}-value`}
+                  className="dnb-dropdown__text__inner"
+                >
+                  {Dropdown.parseContentTitle(currentOptionData)}
+                </span>
               </span>
-            </span>
-            <span
-              className={classnames(
-                'dnb-dropdown__icon',
-                `icon-${icon}`,
-                parseFloat(selected_item) === 0 &&
-                  'dnb-dropdown__icon--first'
-              )}
-            >
-              {icon && <Icon icon={icon} />}
-            </span>
-          </button>
+              <span
+                className={classnames(
+                  'dnb-dropdown__icon',
+                  `icon-${icon}`,
+                  parseFloat(selected_item) === 0 &&
+                    'dnb-dropdown__icon--first'
+                )}
+              >
+                {icon && <Icon icon={icon} />}
+              </span>
+            </button>
 
-          <ul {...ulParams}>
-            {this.state.data.map((dataItem, i) => {
-              const isCurrent = i === parseFloat(selected_item)
-              const params = {
-                id: `option-${id}-${i}`,
-                role: 'option',
-                ['aria-selected']: isCurrent,
-                className: classnames(
-                  'dnb-dropdown__option',
-                  isCurrent && 'dnb-dropdown__option--selected',
-                  i === active && 'dnb-dropdown__option--active'
+            <ul {...ulParams}>
+              {this.state.data.map((dataItem, i) => {
+                const isCurrent = i === parseFloat(selected_item)
+                const params = {
+                  id: `option-${id}-${i}`,
+                  role: 'option',
+                  ['aria-selected']: isCurrent,
+                  className: classnames(
+                    'dnb-dropdown__option',
+                    isCurrent && 'dnb-dropdown__option--selected',
+                    i === active && 'dnb-dropdown__option--active'
+                  )
+                }
+                return (
+                  <li key={id + i} {...params}>
+                    {i === 0 && (
+                      <span className="dnb-dropdown__triangle" />
+                    )}
+                    <span
+                      title={Dropdown.parseContentTitle(dataItem)}
+                      className="dnb-dropdown__option__inner"
+                      onMouseDown={() =>
+                        this.selectItem(i, { fireSelectEvent: true })
+                      }
+                      role="button"
+                      tabIndex="-1"
+                    >
+                      {(Array.isArray(dataItem.content) &&
+                        dataItem.content.map((item, n) => {
+                          return (
+                            <span
+                              key={id + i + n}
+                              className="dnb-dropdown__option__item"
+                            >
+                              {item}
+                            </span>
+                          )
+                        })) ||
+                        dataItem.content ||
+                        dataItem}
+                    </span>
+                  </li>
                 )
-              }
-              return (
-                <li key={id + i} {...params}>
-                  {i === 0 && <span className="dnb-dropdown__triangle" />}
-                  <span
-                    title={Dropdown.parseContentTitle(dataItem)}
-                    className="dnb-dropdown__option__inner"
-                    onMouseDown={() =>
-                      this.selectItem(i, { fireSelectEvent: true })
-                    }
-                    role="button"
-                    tabIndex="-1"
-                  >
-                    {(Array.isArray(dataItem.content) &&
-                      dataItem.content.map((item, n) => {
-                        return (
-                          <span
-                            key={id + i + n}
-                            className="dnb-dropdown__option__item"
-                          >
-                            {item}
-                          </span>
-                        )
-                      })) ||
-                      dataItem.content ||
-                      dataItem}
-                  </span>
-                </li>
-              )
-            })}
-          </ul>
-        </span>
-
-        {showStatus && (
-          <FormStatus
-            text={status}
-            status={status_state}
-            text_id={id + '-status'} // used for "aria-describedby"
-            animation={status_animation}
-          />
-        )}
-
-        {show_value_outside && (
-          <span className="dnb-dropdown__outside-value">
-            {currentOptionData.outside_value}
+              })}
+            </ul>
           </span>
-        )}
-      </span>
+
+          {showStatus && (
+            <FormStatus
+              text={status}
+              status={status_state}
+              text_id={id + '-status'} // used for "aria-describedby"
+              animation={status_animation}
+            />
+          )}
+        </span>
+      </>
     )
   }
 }

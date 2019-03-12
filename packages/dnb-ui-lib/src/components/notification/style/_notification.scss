@@ -64,12 +64,12 @@
   }
 
   &__amount__inner {
-    font-size: 0.8rem;
     display: block;
-    width: 0.8rem;
-    height: 0.8rem;
-    // line-height: 0.8rem;
-    line-height: 1;
+    width: 0.8em;
+    height: 0.8em;
+
+    line-height: 0.8em;
+    font-size: 0.8em;
   }
 }
 

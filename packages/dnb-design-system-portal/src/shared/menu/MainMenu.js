@@ -84,6 +84,12 @@ const MainWrapperStyled = styled.div`
   &:not(.is-overlay) {
     background-color: var(--color-emerald-green);
   }
+
+  /* IE11 fix */
+  @media screen and (-ms-high-contrast: active),
+    (-ms-high-contrast: none) {
+    background-color: #14555a;
+  }
 `
 
 const LogoWrapper = styled.div`

@@ -5,11 +5,18 @@
 
 import {
   testPageScreenshot,
-  setupPageScreenshot
+  setupPageScreenshot,
+  isCI
 } from '../../../core/jest/jestSetupScreenshots'
 
 describe('Icon screenshot', () => {
-  setupPageScreenshot({ url: '/uilib/components/icon' })
+  setupPageScreenshot({
+    url: '/uilib/components/icon',
+    screenshotConfig: {
+      // use 10% on CI because of the font rendering differences
+      pixelThresholdRelative: isCI ? 0.1 : 0
+    }
+  })
   it('have to match responsive icons', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-dnb-test="icon-medium"] div.react-live-preview'

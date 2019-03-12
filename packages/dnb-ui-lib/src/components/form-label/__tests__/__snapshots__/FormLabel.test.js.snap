@@ -551,8 +551,5 @@ exports[`FormLabel scss have to match snapshot 1`] = `
     color: var(--color-sea-green); }
   .dnb-form-label[disabled] {
     cursor: not-allowed; }
-
-.dnb-form-label + [class*='__status'] {
-  vertical-align: baseline; }
 "
 `;

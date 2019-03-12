@@ -8,26 +8,41 @@ import GridStyle from 'dnb-ui-lib/stories/GridStyle'
 
 export const gridStyle = GridStyle
 
-const testWrapperStyle = css`
-  [data-dnb-test-wrapper] {
-    position: relative;
-    z-index: 9999;
+// Screenshot Tests Setup
+let testWrapperStyle = ''
+if (typeof window !== 'undefined' && window.IS_TEST) {
+  testWrapperStyle = css`
+    [data-dnb-test-wrapper] {
+      position: relative;
+      z-index: 9999;
 
-    display: inline-block; /* to get smaller width to the right (no white space) */
+      display: inline-block; /* to get smaller width to the right (no white space) */
 
-    overflow: hidden;
+      overflow: hidden;
 
-    padding: 1rem;
-    margin: -1rem;
+      padding: 1rem;
+      margin: -1rem;
 
-    background: white;
+      background: white;
 
-    font-family: Arial;
-    & * {
-      font-family: inherit;
+      & * {
+        font-family: inherit;
+        font-variant-numeric: inherit;
+        font-feature-settings: inherit;
+      }
     }
-  }
-`
+
+    --font-weight-demi: 600;
+    --font-weight-medium: 700;
+
+    font-family: Arial, Helvetica, sans-serif;
+
+    font-variant-numeric: normal;
+    font-feature-settings: normal;
+
+    -webkit-font-smoothing: antialiased;
+  `
+}
 
 export default css`
   table td.selectable {

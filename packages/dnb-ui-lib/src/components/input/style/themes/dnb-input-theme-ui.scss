@@ -24,36 +24,31 @@
   color: var(--input-text-color);
 
   &__shell {
-    background-color: var(--color-white);
+    background-color: var(--input-background-color--active);
     border: none;
+
     @include fakeBorder(
       var(--input-border-color),
-      var(--input-border-width),
+      var(--input-border-width, 1px),
       inset
     );
 
-    &:not([data-input-state='disabled']) {
-      @include hover(true) {
-        background-color: var(--color-white);
-      }
-    }
-
-    // Background color of input when it has content
+    // background-color: var(--input-background-color--active);
     &[data-has-content='true'] {
+      // Background color of input when it has content
       color: var(--input-text-color--active);
       @include fakeBorder(
         var(--input-border-color--active),
-        var(--input-border-width),
+        var(--input-border-width, 1px),
         inset
       );
-      background-color: var(--input-background-color--active);
     }
 
     &[data-input-state='disabled'] {
       color: var(--input-text-color--disabled);
       @include fakeBorder(
         var(--input-border-color--disabled),
-        var(--input-border-width),
+        var(--input-border-width, 1px),
         inset
       );
       background-color: var(--input-background-color--disabled);
@@ -65,7 +60,7 @@
       background-color: var(--input-background-color--focus);
       @include fakeBorder(
         var(--input-border-color--focus),
-        calc(var(--input-border-width) + 1px)
+        calc(var(--input-border-width, 1px) + 1px)
       );
     }
   }
@@ -77,7 +72,7 @@
       // In case we want to have a larger border size on the input
       @include fakeBorder(
         var(--color-cherry-red),
-        calc(var(--input-border-width) + 1px)
+        calc(var(--input-border-width, 1px) + 1px)
       );
     }
   }
@@ -89,12 +84,14 @@
   }
 
   // IE11 fallback - hide placeholder on focus
-  &__input:not([disabled]):focus ~ .dnb-input__placeholder {
+  &__input:not([disabled]):not([readonly]):focus
+    ~ .dnb-input__placeholder {
     display: none;
   }
 
   // hide placeholder on focus
   &__shell[data-input-state='focus'][data-has-content='false']
+    &__input:not([disabled]):not([readonly])
     .dnb-input__placeholder {
     display: none;
   }

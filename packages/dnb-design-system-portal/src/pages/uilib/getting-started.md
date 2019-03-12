@@ -24,24 +24,3 @@ Do you want to...
 Check out all the articles in [the usage section](/uilib/usage/)
 
 <WelcomeAdvice />
-
-<!-- prettier-ignore-start -->
-
-<!-- export default ({ children }) => (
-  <div>
-    <h1 class="dnb-h1">My Layout</h1>
-    <div>{children}</div>
-  </div>
-) -->
-
-<!-- prettier-ignore-end -->
-
-<!-- ```json
-[
-  {
-    "selected_value": "Visible value",
-    "outside_value": "1234.56.78901",
-    "content": ["1234.56.78901", "Brukskonto - Kari Nordmann"]
-  }
-]
-``` -->

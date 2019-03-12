@@ -31,7 +31,7 @@ export default class Icons extends PureComponent {
         <ListItem key={`icon${name}`}>
           <ListItemInner>
             <span aria-labelledby={`id${name}`}>
-              <Icon icon={Svg} />
+              <Icon icon={Svg} size="medium" />
             </span>
             <h3 id={`id${name}`}>{humanFormat(name)}</h3>
             <p>({name})</p>

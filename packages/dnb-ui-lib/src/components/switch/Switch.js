@@ -32,7 +32,7 @@ export const propTypes = {
   status_animation: PropTypes.string,
   value: PropTypes.string,
   attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  // labelledby: PropTypes.string,
+  readOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   class: PropTypes.string,
 
   /// React props
@@ -58,7 +58,7 @@ export const defaultProps = {
   status_animation: null,
   value: null,
   attributes: null,
-  // labelledby: null,
+  readOnly: false,
   class: null,
 
   // React props
@@ -132,6 +132,9 @@ export default class Switch extends Component {
   }
 
   onChangeHandler = event => {
+    if (String(this.props.readOnly) === 'true') {
+      return event.preventDefault()
+    }
     const checked = !this.state.checked
     this.setState({ checked, _listenForPropChanges: false })
     dispatchCustomElementEvent(this, 'on_change', { checked, event })
@@ -156,6 +159,7 @@ export default class Switch extends Component {
       label,
       title,
       disabled,
+      readOnly,
       className,
       class: _className,
 
@@ -179,6 +183,7 @@ export default class Switch extends Component {
 
     const classes = classnames(
       'dnb-switch',
+      showStatus && 'dnb-switch__form-status',
       status && `dnb-switch__status--${status_state}`,
       className,
       _className
@@ -191,9 +196,14 @@ export default class Switch extends Component {
       ...rest
     }
 
-    // we may considder using: aria-details
     if (showStatus) {
       inputParams['aria-describedby'] = id + '-status'
+    }
+    if (label) {
+      inputParams['aria-labelledby'] = id + '-label'
+    }
+    if (readOnly) {
+      inputParams['aria-readonly'] = inputParams.readOnly = true
     }
 
     // also used for code markup simulation
@@ -203,8 +213,9 @@ export default class Switch extends Component {
       <>
         {label && (
           <FormLabel
-            aria-hidden
+            id={id + '-label'}
             for_id={id}
+            aria-hidden
             text={label}
             disabled={disabled}
           />

@@ -29,18 +29,15 @@ props.selected_item = 2
 const mockData = [
   {
     selected_value: 'Brukskonto - Kari Nordmann',
-    outside_value: '1234.56.78901',
     content: ['1234.56.78901', 'Brukskonto - Kari Nordmann']
   },
   {
     selected_value: 'Sparekonto - Ole Nordmann',
-    outside_value: '1234.56.78902',
     content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
   },
   {
     selected_value:
       'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen',
-    outside_value: '1134.56.78962',
     content: [
       '1134.56.78962',
       'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen'
@@ -48,7 +45,6 @@ const mockData = [
   },
   {
     selected_value: 'Oppussing - Ole Nordmann',
-    outside_value: '1534.96.48901',
     content: ['1534.96.48901', 'Oppussing - Ole Nordmann']
   }
 ]
@@ -107,12 +103,6 @@ describe('Dropdown component', () => {
   it('has correct selected value', () => {
     expect(Comp.find('.dnb-dropdown__text__inner').text()).toBe(
       mockData[props.selected_item].selected_value
-    )
-  })
-
-  it('has correct outside value', () => {
-    expect(Comp.find('.dnb-dropdown__outside-value').text()).toBe(
-      mockData[props.selected_item].outside_value
     )
   })
 

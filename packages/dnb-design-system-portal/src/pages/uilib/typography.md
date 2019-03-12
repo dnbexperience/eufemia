@@ -30,7 +30,7 @@ Read more about [best practices for typography](/uilib/usage/best-practices/for-
 
 #### Heading examples
 
-<CodeBlock reactLive hideCode>
+<CodeBlock reactLive hideCode caption="Default Heading typography">
 {`
 <h1 className="dnb-h1">H1</h1>
 <h2 className="dnb-h2">H2</h2>
@@ -41,12 +41,67 @@ Read more about [best practices for typography](/uilib/usage/best-practices/for-
 `}
 </CodeBlock>
 
+<CodeBlock reactLive hideCode data-dnb-test="heading-additional" caption="Additional Heading typography">
+{`
+<article>
+  <h1 className="dnb-h1">
+    <small>Small H1</small> Normal H1
+  </h1>
+  <h1 className="dnb-h1 dnb-small">Small H1 with class</h1>
+  <h2 className="dnb-h2">
+    Normal H2 <small>Small H2</small>
+  </h2>
+  <h3 className="dnb-h3">
+    Normal H3/Lead <small>Small H3/Lead</small>
+  </h3>
+</article>
+`}
+</CodeBlock>
+
 ### Paragraph
 
-<CodeBlock reactLive hideCode>
+<CodeBlock reactLive hideCode data-dnb-test="paragraph-default" caption="Default Paragraph styles">
 {`
-<p>
-  Here is a paragraph with some nonsense <a href="/" className="dnb-anchor">Lorem Ipsum</a> comes from <b>sections</b> 1.10.32 and 1.10.33 of "de <i>Finibus Bonorum</i> et <u>Malorum</u>" (<strong>The Extremes</strong> of Good and Evil) by Cicero, written in 45 BC.
+<p className="dnb-p">
+  Here is a paragraph text<br />
+  <a href="/" className="dnb-anchor">Anchor / Text Link</a><br />
+  <b>Bold paragraph</b><br />
+  <strong>Strong paragraph</strong><br />
+  <i>Italic paragraph</i><br />
+  <u>Underline paragraph</u><br />
+  Numbers 0123456789<br />
+  <code className="dnb-code">Code paragraph</code><br />
+  <cite>Cite paragraph</cite><br />
+</p>
+`}
+</CodeBlock>
+
+<CodeBlock reactLive hideCode data-dnb-test="paragraph-small" caption="Paragraph with small font-size">
+{`
+<p className="dnb-p">
+  <small>
+    Here is a small paragraph text<br />
+    <a href="/" className="dnb-anchor">Anchor / Text Link</a><br />
+    <b>Bold paragraph</b><br />
+    <strong>Strong paragraph</strong><br />
+    <i>Italic paragraph</i><br />
+    <u>Underline paragraph</u><br />
+    Numbers 0123456789<br />
+    <code className="dnb-code">Code paragraph</code><br />
+    <cite>Cite paragraph</cite><br />
+  </small>
+</p>
+`}
+</CodeBlock>
+
+<CodeBlock reactLive hideCode data-dnb-test="paragraph-additional" caption="Additional Paragraph formatting (not defined yet)">
+{`
+<p className="dnb-p">
+  <del>Deleted paragraph</del><br />
+  <mark>Marked paragraph</mark><br />
+  <ins>Inserted paragraph</ins><br />
+  <sub>Subscript paragraph</sub><br />
+  <sup>Superscript paragraph</sup><br />
 </p>
 `}
 </CodeBlock>

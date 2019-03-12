@@ -19,8 +19,7 @@ describe('Dropdown screenshot', () => {
   it('have to match the closed dropdown with hover', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-dnb-test="dropdown-closed"] .dnb-dropdown',
-      simulateSelector:
-        '[data-dnb-test="dropdown-closed"] .dnb-dropdown input',
+      simulateSelector: '[data-dnb-test="dropdown-closed"] .dnb-dropdown',
       simulate: 'hover'
     })
     expect(screenshot).toMatchImageSnapshot()

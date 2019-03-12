@@ -20,7 +20,12 @@
     &::after {
       content: '';
       position: absolute;
-      transition: transform 0.3s ease-out;
+      transition: transform 0.3s ease-out, position 0.3s ease-out;
+
+      // IE fix
+      @media all and (-ms-high-contrast: none) {
+        top: 0.25rem; // because IE is not using flex to center here
+      }
     }
   }
 
@@ -29,19 +34,9 @@
     * aka when the checkbox is not :checked
     */
   &__input:not(:checked) ~ &__button {
-    transform: translateX(0);
-    transform: translateX(calc(1px - 1px - var(--switch-border-width)));
-
     background-color: var(--color-white);
-    border: var(--switch-border-width) solid var(--color-sea-green-alt);
-
-    // TODO: remove this
-    // .dnb-switch__text-item--positive {
-    //   display: none;
-    // }
-    // .dnb-switch__text-item--negative {
-    //   display: block;
-    // }
+    border-color: var(--color-sea-green-alt);
+    // border: var(--switch-border-width) solid var(--color-sea-green-alt);
   }
 
   /*
@@ -49,18 +44,7 @@
     * aka when the checkbox is :checked
     */
   &__input:checked ~ &__button {
-    transform: translateX(1rem); // IE fix
-    transform: translateX(calc(1rem + var(--switch-border-width)));
-
     background-color: var(--color-sea-green);
-
-    // TODO: remove this
-    // .dnb-switch__text-item--positive {
-    //   display: block;
-    // }
-    // .dnb-switch__text-item--negative {
-    //   display: none;
-    // }
   }
 
   /*
@@ -69,10 +53,9 @@
     */
   &__input:not(:checked) ~ &__background {
     &::after {
-      position: absolute;
-      // right: 0.3125rem;
       right: 0;
-      transform: translateX(-0.3125rem);
+      transform: translateX(-0.3125rem); // 5px
+      // transform: translateX(calc(var(--switch-width) - 0.85rem)); // alternative positioning
 
       width: 0.5rem;
       height: 0.5rem;
@@ -82,7 +65,6 @@
   }
   &__input:checked ~ &__background {
     &::after {
-      position: absolute;
       left: 0;
       transform: translateX(calc(0.5rem + 0.125rem));
 
@@ -136,7 +118,7 @@
   /* stylelint-disable */
   &__input:not([disabled]):active ~ &__button {
     background-color: var(--color-mint-green-50);
-    border: none;
+    border-color: transparent;
   }
   /* stylelint-enable */
 
@@ -148,6 +130,7 @@
   &__input:not([disabled]):focus ~ &__button {
     html[data-whatinput='keyboard'] & {
       border: none;
+      // border-color: var(--color-sea-green-alt-30);
     }
   }
   /* stylelint-enable */
@@ -173,23 +156,29 @@
     * On error state
     *
     */
-  &__status--error
-    &__input:not([disabled]):not(:focus):not(:active)
-    ~ &__button {
-    border: none;
+  // change button color
+  &__status--error &__input:not([disabled]):not(:focus):hover ~ &__button {
+    border-color: var(--color-cherry-red);
+    background-color: var(--color-cherry-red-80);
   }
   &__status--error
-    &__input:not([disabled]):not(:focus):not(:active):checked
+    &__input:not([disabled]):not(:focus):not(:active):not(:hover)
     ~ &__button {
-    border-color: var(--color-cherry-red);
+    border-color: var(--color-cherry-red-80);
+  }
+  &__status--error
+    &__input:not([disabled]):not(:focus):not(:active):not(:hover):checked
+    ~ &__button {
     background-color: var(--color-cherry-red);
   }
+  // change background color
   &__status--error
     &__input:not([disabled]):not(:focus):not(:active)
     ~ &__background {
     background-color: var(--color-cherry-red-80);
     @include fakeBorder(var(--color-cherry-red), $focusRingWidth);
   }
+  // change gfx 1 color
   &__status--error
     &__input:not(:focus):not([disabled]):not(:active):checked
     ~ &__background {
@@ -197,6 +186,7 @@
       background-color: var(--color-cherry-red);
     }
   }
+  // change gfx 0 color
   &__status--error
     &__input:not(:focus):not([disabled]):not(:active):not(:checked)
     ~ &__background {
@@ -204,6 +194,7 @@
       border-color: var(--color-cherry-red);
     }
   }
+  // fake border outside
   &__status--error
     &__input:not([disabled]):not(:focus):not(:active)
     ~ &__button
@@ -211,10 +202,16 @@
     display: block;
     @include fakeBorder(var(--color-cherry-red), $focusRingWidth);
   }
+  // and rotate in checked state
   &__status--error
     &__input:not([disabled]):not(:focus):not(:active):checked
     ~ &__button
     &__focus {
     transform: rotate(180deg);
+  }
+
+  // ajust the form-status to the inner border for 3px
+  > .dnb-form-status {
+    transform: translateY(0.1875rem);
   }
 }

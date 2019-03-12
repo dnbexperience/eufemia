@@ -5,7 +5,8 @@
 
 :root {
   --switch-height: 1.5rem;
-  --switch-border-width: 1px;
+  --switch-width: 2.5rem;
+  --switch-border-width: 0.0625rem;
 }
 
 .dnb-switch {
@@ -14,6 +15,7 @@
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
+  vertical-align: middle;
 
   width: auto;
 
@@ -28,8 +30,14 @@
 
     // vertical alignment
     transform: translateY(
-      0.1875rem
-    ); // ajust the shell to the inherited line-height for 3px
+      -0.0625rem
+    ); // ajust the shell to the inherited line-height for 1px
+  }
+  label + &[class*='__form-status'] {
+    vertical-align: baseline;
+    transform: translateY(
+      0.25rem
+    ); // ajust the shell to the inherited line-height for 4px
   }
 
   &__focus,
@@ -44,12 +52,38 @@
   }
 
   &__button {
+    left: 0;
+
+    transform: translateX(0);
     transition: transform 160ms ease-out 125ms;
     border: var(--switch-border-width) solid transparent;
+
+    // IE fix
+    @media all and (-ms-high-contrast: none) {
+      top: -0.25rem; // because IE is not using flex to center here
+    }
+  }
+
+  /*
+    * When switched OFF
+    * aka when the checkbox is not :checked
+    */
+  &__input:not(:checked) ~ &__button {
+    transform: translateX(0); // IE fix
+    transform: translateX(calc(1px - 1px - var(--switch-border-width)));
+  }
+
+  /*
+    * When switched ON
+    * aka when the checkbox is :checked
+    */
+  &__input:checked ~ &__button {
+    transform: translateX(1rem); // IE fix
+    transform: translateX(calc(1rem + var(--switch-border-width)));
   }
 
   &__background {
-    width: 2.5rem;
+    width: var(--switch-width);
     height: 1rem;
     border-radius: 0.8125rem;
   }
@@ -102,6 +136,6 @@
   }
 
   > .dnb-form-status {
-    margin-top: 1rem;
+    margin-top: 0.5rem;
   }
 }
