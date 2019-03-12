@@ -5,6 +5,7 @@
 
 const fs = require('fs-extra')
 const path = require('path')
+const isCI = require('is-ci')
 const os = require('os')
 const { setupJestScreenshot } = require('jest-screenshot')
 
@@ -14,6 +15,8 @@ const config = {
   testScreenshotOnHost: '127.0.0.1',
   testScreenshotOnPort: 8000,
   headless: true,
+  blockFontRequest: true,
+  allowedFonts: [], // e.g. 'LiberationMono'
   pageSettings: {
     width: 1280,
     height: 1024,
@@ -24,6 +27,7 @@ const config = {
   }
 }
 module.exports.config = config
+module.exports.isCI = isCI
 
 module.exports.testPageScreenshot = ({
   url = null,
@@ -55,6 +59,18 @@ module.exports.testPageScreenshot = ({
       }
 
       await page.waitForSelector(selector)
+
+      if (style) {
+        await page.$eval(
+          styleSelector || selector,
+          (node, style) => node.setAttribute('style', style),
+          makeStyles(style)
+        )
+      }
+
+      if (transformElement) {
+        await transformElement(element)
+      }
 
       let screenshotElement = null
       const element = await page.$(selector)
@@ -95,18 +111,6 @@ module.exports.testPageScreenshot = ({
           (node, { text }) => (node.innerText = text),
           { text }
         )
-      }
-
-      if (style) {
-        await page.$eval(
-          styleSelector || selector,
-          (node, style) => node.setAttribute('style', style),
-          makeStyles(style)
-        )
-      }
-
-      if (transformElement) {
-        await transformElement(element)
       }
 
       if (simulate) {
@@ -198,18 +202,27 @@ module.exports.setupPageScreenshot = ({ timeout, url, ...rest } = {}) => {
 
     await page.setViewport(config.pageSettings)
 
-    await page.setRequestInterception(true) // is needed in order to use on "request"
-    page.on('request', req => {
-      const type = req.resourceType()
-      switch (type) {
-        case 'font':
-          req.abort()
-          break
+    if (config.blockFontRequest) {
+      await page.setRequestInterception(true) // is needed in order to use on "request"
+      page.on('request', req => {
+        const url = req.url()
+        if (
+          config.allowedFonts &&
+          config.allowedFonts.some(f => url.includes(f))
+        ) {
+          return req.continue()
+        }
+        const type = req.resourceType()
+        switch (type) {
+          case 'font':
+            req.abort()
+            break
 
-        default:
-          req.continue()
-      }
-    })
+          default:
+            req.continue()
+        }
+      })
+    }
 
     await page.goto(useUrl)
 

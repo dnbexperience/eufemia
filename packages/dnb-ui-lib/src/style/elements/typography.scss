@@ -63,9 +63,16 @@
   font-size: 1em; // 16px
   line-height: 1.5em; // 24px
 
-  cite {
+  @include numberFeature(lining-nums, lnum);
+
+  & > small {
+    font-size: var(--font-size-small); // 14px
+    line-height: 1.375rem; // 22px
+  }
+
+  & > cite {
     font-weight: var(--font-weight-demi);
-    font-style: normal; // to avoid cursive
+    font-style: italic;
   }
 }
 @mixin h1Spacing() {
@@ -114,7 +121,6 @@
   small {
     font-size: var(--font-size-small); // 14px
   }
-  p > small,
   h2 > small,
   h3 > small,
   h4 > small,
