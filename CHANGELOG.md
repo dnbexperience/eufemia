@@ -1,3 +1,11 @@
+## March, 12. 2019
+
+**Changes to the default styles**
+
+- Toggle Switch got new states and look & feel
+- New Primary Icons where added (information)
+- Overall Component enhancements
+
 ## March, 6. 2019
 
 **Changes to the default styles**
