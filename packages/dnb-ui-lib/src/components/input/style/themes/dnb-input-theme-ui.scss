@@ -24,30 +24,31 @@
   color: var(--input-text-color);
 
   &__shell {
-    background-color: var(--color-white);
+    background-color: var(--input-background-color--active);
     border: none;
+
     @include fakeBorder(
       var(--input-border-color),
-      var(--input-border-width),
+      var(--input-border-width, 1px),
       inset
     );
 
-    // Background color of input when it has content
+    // background-color: var(--input-background-color--active);
     &[data-has-content='true'] {
+      // Background color of input when it has content
       color: var(--input-text-color--active);
       @include fakeBorder(
         var(--input-border-color--active),
-        var(--input-border-width),
+        var(--input-border-width, 1px),
         inset
       );
-      background-color: var(--input-background-color--active);
     }
 
     &[data-input-state='disabled'] {
       color: var(--input-text-color--disabled);
       @include fakeBorder(
         var(--input-border-color--disabled),
-        var(--input-border-width),
+        var(--input-border-width, 1px),
         inset
       );
       background-color: var(--input-background-color--disabled);
@@ -59,7 +60,7 @@
       background-color: var(--input-background-color--focus);
       @include fakeBorder(
         var(--input-border-color--focus),
-        calc(var(--input-border-width) + 1px)
+        calc(var(--input-border-width, 1px) + 1px)
       );
     }
   }
@@ -71,7 +72,7 @@
       // In case we want to have a larger border size on the input
       @include fakeBorder(
         var(--color-cherry-red),
-        calc(var(--input-border-width) + 1px)
+        calc(var(--input-border-width, 1px) + 1px)
       );
     }
   }

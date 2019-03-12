@@ -1952,10 +1952,10 @@ a.dnb-button {
   --input-height: 2rem;
   --input-height--medium: 2.5rem;
   --input-height--large: 3rem;
+  --input-border-width: 0.0625rem;
   --input-border-radius: calc(var(--input-height) / 2);
   --input-border-radius--medium: calc(var(--input-height--medium) / 2);
-  --input-border-radius--large: calc(var(--input-height--large) / 2);
-  --input-border-width: 0.0625rem; }
+  --input-border-radius--large: calc(var(--input-height--large) / 2); }
 
 .dnb-input {
   display: inline-flex;
@@ -1969,7 +1969,8 @@ a.dnb-button {
     position: relative;
     display: flex;
     align-items: center;
-    overflow: hidden; }
+    overflow: hidden;
+    border: var(--input-border-width, 1px) solid var(--color-sea-green-alt); }
   label + .dnb-input[class*='__form-status'] {
     vertical-align: baseline; }
   .dnb-input__input {
@@ -1989,7 +1990,7 @@ a.dnb-button {
     font-size: var(--input-font-size);
     line-height: 1em;
     background-color: transparent;
-    transform: translateY(var(--input-border-width)); }
+    transform: translateY(var(--input-border-width, 1px)); }
   .dnb-input__placeholder {
     pointer-events: none;
     position: absolute;

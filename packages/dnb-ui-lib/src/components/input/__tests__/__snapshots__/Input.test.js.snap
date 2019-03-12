@@ -184,27 +184,26 @@ exports[`Input scss have to match default theme snapshot 1`] = `
 .dnb-input {
   color: var(--input-text-color); }
   .dnb-input__shell {
-    background-color: var(--color-white);
+    background-color: var(--input-background-color--active);
     border: none;
-    box-shadow: inset 0 0 0 var(--input-border-width) var(--input-border-color);
+    box-shadow: inset 0 0 0 var(--input-border-width, 1px) var(--input-border-color);
     border-color: transparent; }
     .dnb-input__shell[data-has-content='true'] {
       color: var(--input-text-color--active);
-      box-shadow: inset 0 0 0 var(--input-border-width) var(--input-border-color--active);
-      border-color: transparent;
-      background-color: var(--input-background-color--active); }
+      box-shadow: inset 0 0 0 var(--input-border-width, 1px) var(--input-border-color--active);
+      border-color: transparent; }
     .dnb-input__shell[data-input-state='disabled'] {
       color: var(--input-text-color--disabled);
-      box-shadow: inset 0 0 0 var(--input-border-width) var(--input-border-color--disabled);
+      box-shadow: inset 0 0 0 var(--input-border-width, 1px) var(--input-border-color--disabled);
       border-color: transparent;
       background-color: var(--input-background-color--disabled); }
     .dnb-input__shell:not([data-input-state='disabled']):hover, .dnb-input__shell[data-input-state='focus'] {
       color: var(--input-text-color--focus);
       background-color: var(--input-background-color--focus);
-      box-shadow: 0 0 0 calc(var(--input-border-width) + 1px) var(--input-border-color--focus);
+      box-shadow: 0 0 0 calc(var(--input-border-width, 1px) + 1px) var(--input-border-color--focus);
       border-color: transparent; }
   .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']), .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']):not([data-input-state='disabled']):hover {
-    box-shadow: 0 0 0 calc(var(--input-border-width) + 1px) var(--color-cherry-red);
+    box-shadow: 0 0 0 calc(var(--input-border-width, 1px) + 1px) var(--color-cherry-red);
     border-color: transparent; }
   .dnb-input ::selection {
     background-color: var(--color-mint-green);
@@ -2130,10 +2129,10 @@ a.dnb-button {
   --input-height: 2rem;
   --input-height--medium: 2.5rem;
   --input-height--large: 3rem;
+  --input-border-width: 0.0625rem;
   --input-border-radius: calc(var(--input-height) / 2);
   --input-border-radius--medium: calc(var(--input-height--medium) / 2);
-  --input-border-radius--large: calc(var(--input-height--large) / 2);
-  --input-border-width: 0.0625rem; }
+  --input-border-radius--large: calc(var(--input-height--large) / 2); }
 
 .dnb-input {
   display: inline-flex;
@@ -2147,7 +2146,8 @@ a.dnb-button {
     position: relative;
     display: flex;
     align-items: center;
-    overflow: hidden; }
+    overflow: hidden;
+    border: var(--input-border-width, 1px) solid var(--color-sea-green-alt); }
   label + .dnb-input[class*='__form-status'] {
     vertical-align: baseline; }
   .dnb-input__input {
@@ -2167,7 +2167,7 @@ a.dnb-button {
     font-size: var(--input-font-size);
     line-height: 1em;
     background-color: transparent;
-    transform: translateY(var(--input-border-width)); }
+    transform: translateY(var(--input-border-width, 1px)); }
   .dnb-input__placeholder {
     pointer-events: none;
     position: absolute;
