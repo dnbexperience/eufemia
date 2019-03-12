@@ -26,20 +26,23 @@ workbox.clientsClaim();
  */
 self.__precacheManifest = [
   {
-    "url": "webpack-runtime-bb1feabb35b2b48a4ff1.js"
+    "url": "webpack-runtime-d4c86b7d6649c0d1933c.js"
   },
   {
-    "url": "styles.79c788d8b629c4386c77.css"
+    "url": "styles.4f985072600f171da723.css"
   },
   {
-    "url": "styles-1eaf13569ef1e284a04d.js"
+    "url": "styles-b1efa0dc6ed593055511.js"
   },
   {
-    "url": "component---node-modules-gatsby-plugin-offline-app-shell-js-0ed4e198dca4fbce581a.js"
+    "url": "app-0d6ca8b7c651e0946f9f.js"
+  },
+  {
+    "url": "component---node-modules-gatsby-plugin-offline-app-shell-js-d75bf6ad626838d2b5a6.js"
   },
   {
     "url": "offline-plugin-app-shell-fallback/index.html",
-    "revision": "2d306fa1ed13b2b08d1fda50f265b0a2"
+    "revision": "a8f9a611dad4e400db9a0ec3a42862e8"
   },
   {
     "url": "static/FedraSansStd-Book-72defec4eb362f240076656e7778176a.woff2"
@@ -51,7 +54,7 @@ self.__precacheManifest = [
     "url": "static/FedraSansStd-Medium-685da93af520e23fb5571838a4af40bd.woff2"
   },
   {
-    "url": "component---src-pages-404-js-5aa900b486e0b5e6f0e0.js"
+    "url": "component---src-pages-404-js-ffbac80deb472074b10f.js"
   },
   {
     "url": "static/d/164/path---404-html-516-62a-NZuapzHg3X9TaN1iIixfv1W23E.json"
