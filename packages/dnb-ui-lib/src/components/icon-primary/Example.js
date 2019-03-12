@@ -10,27 +10,21 @@ class Example extends PureComponent {
   render() {
     return (
       <Fragment>
-        <ComponentBox caption="Default and Medium sized Icons (Responsive)">
+        <ComponentBox caption="Default and Medium sized icons (responsive)">
           {/* @jsx */ `
-<IconPrimary icon="question" title="Give Icons a Title" />
+<IconPrimary icon="question" title="Give icons a title" />
 <IconPrimary
   icon="question_medium"
   title="Size defined in name"
   aria-hidden
 />
-<IconPrimary
-  icon="question"
-  size="medium"
-  title="Size defined in size prop"
-  aria-hidden
-/>
           `}
         </ComponentBox>
-        <ComponentBox caption="Default Icon with custom, but fixed size">
+        <ComponentBox caption="Default Icon with custom, but fixed size (64)">
           {/* @jsx */ `
 <IconPrimary
   icon="question"
-  size="40"
+  size="64"
   title="I'm not responsive!"
 />
           `}

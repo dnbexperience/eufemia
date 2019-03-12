@@ -28,7 +28,7 @@ import Bell from 'dnb-ui-lib/icons/bell'
         <ComponentBox
           data-dnb-test="icon-sizes"
           scope={{ Bell, BellMedium }}
-          caption="Default and Medium sized Icons (Responsive)"
+          caption="Default and Medium sized icons (Responsive)"
         >
           {/* @jsx */ `
 <Icon icon={Bell} title="Give Icons a Title, or ..." />

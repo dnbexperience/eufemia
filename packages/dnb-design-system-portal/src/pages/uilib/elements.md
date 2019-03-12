@@ -19,13 +19,13 @@ import Code from 'Pages/uilib/elements/code'
 
 # HTML Elements
 
-The `dnb-ui-lib` contains a DNB styling for the most common used [HTML Elements](https://developer.mozilla.org/en-US/docs/Web/HTML/Element), defined by the UX Team at DNB. You may also have a look at [Typography](/uilib/typography) for Headings and Paragraph usage.
+The `dnb-ui-lib` contains styling for the most commonly used [HTML Elements](https://developer.mozilla.org/en-US/docs/Web/HTML/Element) defined by the UX team at DNB. You may also have a look at [Typography](/uilib/typography) for headings and paragraph usage.
 
 ### How to use
 
-By default, no HTML Element Tag will be styled, except for [Headings and Paragraphs](/uilib/typography) with no CSS class defined.
+By default, no HTML element tag will be styled, except for [Headings and Paragraphs](/uilib/typography) which are styled by default without defining a class(es).
 
-In order to apply a style, You have to define a CSS class, like:
+In order to apply a style, you have to define a CSS class, like:
 
 <CodeBlock reactLive hidePreview>
 {`
@@ -40,7 +40,7 @@ Although, You have also the possibility to load a [sub package](/uilib/usage/cus
 
 ### React JSX
 
-For those using JSX with React, You can simply use the wrapper Components.
+For those using JSX with React, you can simply use the wrapper Components.
 
 ```jsx
 import { H1, H2, Lead, P, Link } from 'dnb-ui-lib/elements'
