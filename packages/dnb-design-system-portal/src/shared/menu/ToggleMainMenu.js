@@ -6,8 +6,20 @@
 import React from 'react'
 import { MainMenuContext } from './MainMenuContext'
 import { Button } from 'dnb-ui-lib/src'
+import { isIE11 } from 'dnb-ui-lib/src/shared/helpers'
 
 export const MainMenuToggleButton = () => {
+  if (!isIE11) {
+    return (
+      <Button
+        variant="primary"
+        icon="chevron-left"
+        icon_position="left"
+        text="Home"
+        href="/"
+      />
+    )
+  }
   return (
     <MainMenuContext.Consumer>
       {({ openMenu }) => (
