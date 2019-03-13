@@ -551,7 +551,8 @@ exports[`Logo scss have to match snapshot 1`] = `
   width: calc(1em * var(--ratio, 1.453690625));
   height: 1em; }
   .dnb-logo svg {
-    fill: currentColor; }
+    fill: currentColor;
+    shape-rendering: geometricPrecision; }
   .dnb-logo--has-size {
     width: auto;
     height: auto; }

@@ -195,7 +195,8 @@ exports[`InputMasked scss have to match snapshot 1`] = `
   .dnb-icon svg {
     width: inherit;
     height: inherit;
-    vertical-align: middle; }
+    vertical-align: middle;
+    shape-rendering: geometricPrecision; }
   .dnb-icon svg[width='100%'] {
     width: inherit; }
   .dnb-icon svg[height='100%'] {
@@ -1554,6 +1555,7 @@ a.dnb-button {
     margin: 0.5rem;
     margin-right: 0;
     color: inherit;
+    font-size: 1rem;
     border-radius: 50%;
     border: 1px solid;
     border-color: currentColor; }
