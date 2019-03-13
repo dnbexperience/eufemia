@@ -610,6 +610,7 @@ exports[`FormStatus scss have to match snapshot 1`] = `
     margin: 0.5rem;
     margin-right: 0;
     color: inherit;
+    font-size: 1rem;
     border-radius: 50%;
     border: 1px solid;
     border-color: currentColor; }
