@@ -64,8 +64,8 @@ jobs:
       - run: yarn test-ci
 
       - run:
-          name: Prepublish the ui-lib and commit changes
-          command: yarn prepublish-ci
+          name: Prebuild the ui-lib and commit changes
+          command: yarn prebuild-ci
 
       - run:
           name: Build the portal, just to test if the build is successful
@@ -106,8 +106,8 @@ jobs:
       - run: yarn test-ci
 
       - run:
-          name: Prepublish the ui-lib to use it in "build-ci"
-          command: yarn prepublish-ci
+          name: Prebuild the ui-lib to use it in "build-ci"
+          command: yarn prebuild-ci
 
       - run:
           name: Build the portal
