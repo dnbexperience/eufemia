@@ -18,6 +18,7 @@ describe('cleanupPackage', () => {
     })
     const parsedJson = JSON.parse(cleanedPackage)
 
+    expect(parsedJson).not.toHaveProperty('release')
     expect(parsedJson).not.toHaveProperty('scripts')
     expect(parsedJson).not.toHaveProperty('devDependencies')
     expect(parsedJson).toHaveProperty('dependencies')

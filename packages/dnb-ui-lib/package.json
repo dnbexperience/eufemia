@@ -17,7 +17,12 @@
     "post-build": "yarn prettier:other",
     "audit-ci": "npm i && audit-ci --moderate --package-manager=npm --advisories=782",
     "audit-ci:yarn": "babel-node ./scripts/prepub/audit/toOpt && audit-ci --moderate --package-manager=yarn --advisories=782 && babel-node ./scripts/prepub/audit/toDev",
-    "build": "yarn prepublish:local && yarn post-build",
+    "build": "yarn prebuild:local && yarn post-build",
+    "prebuild-ci": "yarn figma-ci-build && yarn prebuild:local && yarn test:update && yarn figma-ci-commit",
+    "prebuild:dev": "nodemon --exec 'babel-node ./scripts/prepub/dev.js' --watch 'rollup.config.js' --ext js,html,json,css,scss --watch './src/style/**/*' --watch './scripts/**/*' --ignore '*.json'",
+    "prebuild:local": "babel-node ./scripts/prepub/runPrepub.js",
+    "prebuild:update": "babel-node ./scripts/prepub/updateAndPrepub.js",
+    "prebuildOnly:disabled": "yarn prebuild:update && jest --ci",
     "cdn": "live-server --no-browser --cors --port=8081",
     "precommit": "yarn lint-staged",
     "dev:convertIcons": "nodemon --exec 'babel-node ./scripts/tools/convertIcons' --ignore '/icons/**' --ignore '*.json'",
@@ -39,14 +44,9 @@
     "lint:styles": "stylelint './src/{components,patterns,style}/**/*.{js,scss}'",
     "lint:styles:staged": "stylelint",
     "publish": "yarn publish-ci --dry-run",
-    "prepublish-ci": "yarn figma-ci-build && yarn prepublish:local && yarn test:update && yarn figma-ci-commit",
     "publish-ci": "babel-node ./scripts/release --ci",
-    "prepublish:dev": "nodemon --exec 'babel-node ./scripts/prepub/dev.js' --watch 'rollup.config.js' --ext js,html,json,css,scss --watch './src/style/**/*' --watch './scripts/**/*' --ignore '*.json'",
     "publish:disabled": "yarn publish:prerelease && npm publish ./dnb-ui-lib-v*.tgz --preid=ci --npm-tag=ci",
-    "prepublish:local": "babel-node ./scripts/prepub/runPrepub.js",
     "publish:postpack": "yarn pack && nodemon --exec 'babel-node ./scripts/release/postpack.js' ",
-    "prepublish:update": "babel-node ./scripts/prepub/updateAndPrepub.js",
-    "prepublishOnly:disabled": "yarn prepublish:update && jest --ci",
     "reset": "rm -rf ./node_modules ./components ./elements ./es ./icons ./patterns ./shared ./style ./umd",
     "start": "yarn story",
     "story": "start-storybook -s / -p 8002 --ci",
@@ -189,5 +189,12 @@
     "svgo": "^1.2.0",
     "text-mask-addons": "^3.8.0",
     "traverse": "^0.6.6"
+  },
+  "release": {
+    "ci": true,
+    "debug": false,
+    "dryRun": false,
+    "branch": "release",
+    "analyzeCommits": "simple-commit-message"
   }
 }

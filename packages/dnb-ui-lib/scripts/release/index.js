@@ -7,6 +7,7 @@ import dotenv from 'dotenv'
 import semanticRelease from 'semantic-release'
 import { WritableStreamBuffer } from 'stream-buffers'
 import prepareForRelease from './prepareForRelease'
+import { release } from '../../package.json'
 
 // import .env variables
 dotenv.config()
@@ -17,14 +18,11 @@ const semanicRelease = async () => {
 
     const stdoutBuffer = new WritableStreamBuffer()
     const stderrBuffer = new WritableStreamBuffer()
-    const result = await semanticRelease(
-      {},
-      {
-        // Store stdout and stderr to use later instead of writing to `process.stdout` and `process.stderr`
-        stdout: stdoutBuffer,
-        stderr: stderrBuffer
-      }
-    )
+    const result = await semanticRelease(release, {
+      // Store stdout and stderr to use later instead of writing to `process.stdout` and `process.stderr`
+      stdout: stdoutBuffer,
+      stderr: stderrBuffer
+    })
 
     if (result) {
       const { lastRelease, commits, nextRelease, releases } = result

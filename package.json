@@ -16,7 +16,7 @@
   "main": "./packages/dnb-ui-lib/index.js",
   "scripts": {
     "audit-ci": "yarn workspace dnb-ui-lib audit-ci",
-    "prepublish-ci": "yarn workspace dnb-ui-lib prepublish-ci",
+    "prebuild-ci": "yarn workspace dnb-ui-lib prebuild-ci",
     "precommit": "yarn workspace dnb-ui-lib precommit && yarn workspace dnb-design-system-portal precommit",
     "build-ci": "yarn workspace dnb-design-system-portal build-ci",
     "deploy-ci": "yarn workspace dnb-design-system-portal deploy-ci",
