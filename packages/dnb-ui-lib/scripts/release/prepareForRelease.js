@@ -12,6 +12,7 @@ export const cleanupPackage = ({ packageJsonString, filepath }) =>
   new Promise(async (resolve, reject) => {
     try {
       const packageJson = JSON.parse(packageJsonString)
+      delete packageJson.release
       delete packageJson.scripts
       delete packageJson.devDependencies
 

@@ -17,15 +17,15 @@ module.exports = {
     serve: 'yarn cdn',
     cdn: 'yarn cdn',
     publish: {
-      default: 'yarn prepublish:local',
-      local: 'yarn prepublish:local',
-      dev: 'yarn prepublish:dev',
-      update: 'yarn prepublish:update',
-      release: 'yarn prepublishOnly'
+      default: 'yarn prebuild:local',
+      local: 'yarn prebuild:local',
+      dev: 'yarn prebuild:dev',
+      update: 'yarn prebuild:update',
+      release: 'yarn prebuildOnly'
     },
     generate: {
       default: 'yarn build',
-      dev: 'yarn prepublish:dev'
+      dev: 'yarn prebuild:dev'
     },
     figma: {
       default: 'yarn figma',

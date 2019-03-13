@@ -47,7 +47,7 @@ steps:
       - yarn install
       - yarn lint-ci
       - yarn test-ci
-      - yarn prepublish-ci
+      - yarn prebuild-ci
       - yarn build-ci
       - yarn test-ci-screenshots
     when:
@@ -82,7 +82,7 @@ steps:
       - yarn install
       - yarn lint-ci
       - yarn test-ci
-      - yarn prepublish-ci
+      - yarn prebuild-ci
       - yarn build-ci
       - yarn test-ci-screenshots
       - yarn deploy-ci
