@@ -46,8 +46,8 @@ const CardWrapper = styled.div`
   }
   &.show-cards {
     opacity: 0;
-    ${'' /* animation: fade-in 600ms cubic-bezier(0.19, 1, 0.22, 1) 1 var(--delay)
-      forwards; */}
+    animation: fade-in 600ms cubic-bezier(0.19, 1, 0.22, 1) 1 var(--delay)
+      forwards;
   }
   &.hide-cards {
     opacity: 1;
