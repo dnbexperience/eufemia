@@ -14,7 +14,7 @@ Next, we need to **pre-publish** the library locally, so we can check the buildi
 
 To use the local build, you can either run the portal, or use `yarn link` to link the package with a totally different project.
 
-Besides that, you can also use Storybook. Inside `dnb-ui-lib`, run `yarn story` to start the server.
+As well as that, you can also use Storybook. Inside `dnb-ui-lib`, run `yarn story` to start the server.
 
 It is recommended that you make a new branch to isolate your work before it gets merged into the `origin/develop` branch.
 
