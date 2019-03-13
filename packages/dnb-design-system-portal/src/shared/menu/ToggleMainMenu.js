@@ -9,7 +9,7 @@ import { Button } from 'dnb-ui-lib/src'
 import { isIE11 } from 'dnb-ui-lib/src/shared/helpers'
 
 export const MainMenuToggleButton = () => {
-  if (!isIE11) {
+  if (isIE11) {
     return (
       <Button
         variant="primary"
