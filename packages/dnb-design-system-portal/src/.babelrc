@@ -1,20 +1,4 @@
 {
-  "presets": [
-    [
-      "@babel/preset-env",
-      {
-        "targets": {
-          "browsers": ["last 2 versions", "explorer >= 11"]
-        },
-        "useBuiltIns": "usage"
-      }
-    ],
-    "@babel/preset-react"
-  ],
-  "ignore": ["node_modules/**"],
-  "plugins": [
-    "emotion",
-    "@babel/plugin-proposal-object-rest-spread",
-    "@babel/plugin-proposal-class-properties"
-  ]
+  "presets": ["babel-preset-gatsby"],
+  "plugins": ["emotion"]
 }
