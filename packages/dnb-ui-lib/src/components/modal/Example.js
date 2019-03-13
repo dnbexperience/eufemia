@@ -10,7 +10,7 @@ class Example extends PureComponent {
   render() {
     return (
       <Fragment>
-        <ComponentBox caption="Diferent ways to open a Modal">
+        <ComponentBox caption="Different ways to open a modal">
           {/* @jsx */ `
 <Modal
   title="Modal Title"
