@@ -79,6 +79,17 @@ const CardWrapper = styled.div`
       transform: scale3d(0.9, 0.9, 1) translate3d(0, -8%, 0);
     }
   }
+
+  /* IE11 fix */
+  @media screen and (-ms-high-contrast: active),
+    (-ms-high-contrast: none) {
+    opacity: 1;
+    overflow: hidden;
+    background-color: #fff;
+    p {
+      width: 20rem;
+    }
+  }
 `
 
 const linkStyle = css`

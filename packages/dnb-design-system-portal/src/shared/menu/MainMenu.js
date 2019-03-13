@@ -109,6 +109,14 @@ const LogoWrapper = styled.div`
     margin-right: 1rem;
     color: inherit;
   }
+
+  /* IE11 fix */
+  @media screen and (-ms-high-contrast: active),
+    (-ms-high-contrast: none) {
+    width: auto;
+    left: 48%;
+    color: #fff;
+  }
 `
 
 const CardsWrapper = styled.div`
