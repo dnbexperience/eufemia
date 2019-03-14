@@ -5,8 +5,15 @@
 
 import { applyPageFocus } from 'dnb-ui-lib/src/shared/helpers'
 
-// Load dev styles (to use hot reloading, we do have to import the styles in here)
+if (process.env.NODE_ENV === 'production') {
+  loadProdStyles()
+}
 if (process.env.NODE_ENV === 'development') {
+  loadDevStyles()
+}
+
+function loadDevStyles() {
+  // Load dev styles (to use hot reloading, we do have to import the styles in here)
   // import styles
   require('dnb-ui-lib/src/style/patterns') // import ony patterns
   require('dnb-ui-lib/src/style/core') // import the core styles
@@ -21,10 +28,14 @@ if (process.env.NODE_ENV === 'development') {
   // require('../examples/example-styling/src/legacy/dnb.css')
 }
 
-// UI Style production styles here to prevent loading flickering
-if (process.env.NODE_ENV !== 'development') {
-  require('dnb-ui-lib/style/patterns') // import ony patterns
-  require('dnb-ui-lib/style') // import both all components and the default ui theme
+function loadProdStyles() {
+  try {
+    require('dnb-ui-lib/style/patterns') // import ony patterns
+    require('dnb-ui-lib/style') // import both all components and the default ui theme
+  } catch (e) {
+    console.warn('[Using loadDevStyles]', e)
+    loadDevStyles()
+  }
 }
 
 // enable prefetching
