@@ -1,6 +1,6 @@
 <template lang="html">
   <div id="app" class="dnb-spacing">
-    <h1>{{ header }}</h1>
+    <h1 class="dnb-h1">{{ header }}</h1>
     <dnb-button
       text="DNB Button with Icon"
       icon="add"
