@@ -50,10 +50,8 @@ export default {
 </script>
 
 <style lang="css">
-div.center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+body {
+  background-color: var(--color-white);
 }
 h1 {
   font-weight: var(--font-weight-medium);

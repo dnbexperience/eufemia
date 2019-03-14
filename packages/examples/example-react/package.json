@@ -10,13 +10,9 @@
   "scripts": {
     "build": "parcel build src/index.html",
     "build:dev": "nodemon -x 'parcel build src/index.html' -e js,jsx,html,json,css -w 'src/*'",
-    "precommit": ":",
-    "lint-ci": ":",
     "serve": "live-server dist --watch --no-browser --port=12345",
     "start": "rm -rf .cache && parcel start src/index.html --no-autoinstall -p 1234",
-    "start:fresh": "parcel start src/index.html --no-autoinstall --no-cache -p 1234",
-    "startup": ":",
-    "test-ci": ":"
+    "start:fresh": "parcel start src/index.html --no-autoinstall --no-cache -p 1234"
   },
   "dependencies": {
     "dnb-ui-lib": "*",
