@@ -5,11 +5,10 @@
 
 import { applyPageFocus } from 'dnb-ui-lib/src/shared/helpers'
 
-if (process.env.NODE_ENV === 'production') {
-  loadProdStyles()
-}
 if (process.env.NODE_ENV === 'development') {
   loadDevStyles()
+} else if (process.env.NODE_ENV === 'production') {
+  loadProdStyles()
 }
 
 function loadDevStyles() {
@@ -30,8 +29,10 @@ function loadDevStyles() {
 
 function loadProdStyles() {
   try {
-    require('dnb-ui-lib/style/patterns') // import ony patterns
-    require('dnb-ui-lib/style') // import both all components and the default ui theme
+    if (process.env.NODE_ENV === 'production') {
+      require('dnb-ui-lib/style/patterns') // import ony patterns
+      require('dnb-ui-lib/style') // import both all components and the default ui theme
+    }
   } catch (e) {
     console.warn('[Using loadDevStyles]', e)
     loadDevStyles()
