@@ -41,12 +41,12 @@ const tabsWrapperStyle = css`
       margin: 0 -2rem;
     }
   }
-  .dnb-modal__close-button {
+  .dnb-tabs__tabs .dnb-modal__close-button {
     position: relative;
     top: auto; /* to force the button to center */
     right: auto;
   }
-  .dnb-button--secondary {
+  .dnb-tabs__tabs .dnb-button--secondary {
     box-shadow: none;
     background-color: transparent;
   }
