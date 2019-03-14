@@ -11,7 +11,7 @@ import Highlight, { Prism, defaultProps } from 'prism-react-renderer'
 import ReactMarkdown from 'react-markdown'
 import Tag from './Tag'
 import Code from '../parts/uilib/Code'
-import { Button } from 'dnb-ui-lib/src'
+import { Button } from 'dnb-ui-lib/src/components'
 import { isIE11 } from 'dnb-ui-lib/src/shared/helpers'
 
 import {

@@ -16,6 +16,7 @@ import { Icon, Button } from 'dnb-ui-lib/src'
 import { MainMenuToggleButton } from './ToggleMainMenu'
 import { SidebarMenuContext } from './SidebarMenuContext'
 import ToggleGrid from './ToggleGrid'
+import { isIE11 } from 'dnb-ui-lib/src/shared/helpers'
 
 const Header = styled.header`
   position: fixed;
@@ -98,28 +99,15 @@ const hideSiebarToggleButtonStyle = css`
 export default class StickyMenuBar extends PureComponent {
   state = {
     mobileMenuVisible: false
-    // showOverlayMenu: false
   }
   static propTypes = {
-    // onToggleMenu: PropTypes.func,
     hideSiebarToggleButton: PropTypes.bool,
     preventBarVisibility: PropTypes.bool
   }
   static defaultProps = {
-    // onToggleMenu: null,
     hideSiebarToggleButton: false,
     preventBarVisibility: false
   }
-  // toggleMenuHandler = (state = null) => {
-  //   const showOverlayMenu =
-  //     state !== null ? state : !this.state.showOverlayMenu
-  //   if (this.props.onToggleMenu) {
-  //     this.props.onToggleMenu(showOverlayMenu)
-  //   }
-  //   this.setState({
-  //     showOverlayMenu
-  //   })
-  // }
   render() {
     const { hideSiebarToggleButton, preventBarVisibility } = this.props
     if (preventBarVisibility) {
@@ -148,45 +136,52 @@ export default class StickyMenuBar extends PureComponent {
                   siteMetadata: { name: slogan }
                 }
               }) => (
-                <Header
-                  css={[
-                    hideSiebarToggleButton && hideSiebarToggleButtonStyle
-                  ]}
-                  className={classnames(
-                    // 'dnb-core-style',
-                    'sticky-menu',
-                    'dev-grid'
+                <>
+                  {isIE11 && (
+                    <Advice>
+                      The Portal is not made for IE 11 users.
+                    </Advice>
                   )}
-                >
-                  <HeaderInner>
-                    <MainMenuToggleButton />
-                    <CenterWrapper aria-hidden>
-                      <Icon
-                        icon={PortalLogo}
-                        size={48}
-                        alt={`${slogan} logo`}
-                      />
-                      <Slogan>{slogan}</Slogan>
-                    </CenterWrapper>
-                    <span>
-                      <Button
-                        icon={isOpen ? closeIcon : hamburgerIcon}
-                        on_click={toggleMenu}
-                        id="toggle-sidebar-menu"
-                        aria-haspopup="true"
-                        aria-controls="portal-sidebar-menu"
-                        aria-expanded={isOpen}
-                        aria-label="Section Content Menu"
-                        title={
-                          isOpen
-                            ? 'Hide section content menu'
-                            : 'Show section content menu'
-                        }
-                      />
-                      <ToggleGrid />
-                    </span>
-                  </HeaderInner>
-                </Header>
+                  <Header
+                    css={[
+                      hideSiebarToggleButton && hideSiebarToggleButtonStyle
+                    ]}
+                    className={classnames(
+                      // 'dnb-core-style',
+                      'sticky-menu',
+                      'dev-grid'
+                    )}
+                  >
+                    <HeaderInner>
+                      <MainMenuToggleButton />
+                      <CenterWrapper aria-hidden>
+                        <Icon
+                          icon={PortalLogo}
+                          size={48}
+                          alt={`${slogan} logo`}
+                        />
+                        <Slogan>{slogan}</Slogan>
+                      </CenterWrapper>
+                      <span>
+                        <Button
+                          icon={isOpen ? closeIcon : hamburgerIcon}
+                          on_click={toggleMenu}
+                          id="toggle-sidebar-menu"
+                          aria-haspopup="true"
+                          aria-controls="portal-sidebar-menu"
+                          aria-expanded={isOpen}
+                          aria-label="Section Content Menu"
+                          title={
+                            isOpen
+                              ? 'Hide section content menu'
+                              : 'Show section content menu'
+                          }
+                        />
+                        <ToggleGrid />
+                      </span>
+                    </HeaderInner>
+                  </Header>
+                </>
               )}
             />
           )
@@ -195,3 +190,16 @@ export default class StickyMenuBar extends PureComponent {
     )
   }
 }
+
+const Advice = styled.div`
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 1000;
+  height: 1.5rem;
+  width: 100vw;
+  background-color: #e10076;
+  color: black;
+  text-align: center;
+  box-shadow: 0 0 2px 0 black;
+`
