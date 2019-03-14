@@ -1,6 +1,6 @@
 <template lang="html">
   <div id="app" class="dnb-spacing">
-    <h1>{{ header }}</h1>
+    <h1 class="dnb-h1">{{ header }}</h1>
     <dnb-button
       text="DNB Button with Icon"
       icon="add"
@@ -50,10 +50,8 @@ export default {
 </script>
 
 <style lang="css">
-div.center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+body {
+  background-color: var(--color-white);
 }
 h1 {
   font-weight: var(--font-weight-medium);
