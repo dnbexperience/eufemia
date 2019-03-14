@@ -22,11 +22,7 @@ import SpaceBlocksSvg from 'Pages/quickguide-designer/assets/space-blocks.svg'
 import DiscrepenciesSvg from 'Pages/quickguide-designer/assets/discrepencies.svg'
 import ExampleAarsoppgaveSvg from 'Pages/quickguide-designer/assets/example-aarsoppgave.svg'
 import ExampleAarsoppgaveGuidesSvg from 'Pages/quickguide-designer/assets/example-aarsoppgave-guides.svg'
-
-<!-- import SpacingButtonSvg from 'Pages/quickguide-designer/assets/spacing-button.svg' -->
-<!-- import ToggleSvg from 'Pages/quickguide-designer/assets/toggle.svg' -->
-<!-- import ButtonPrimaryIconLeftSvg from 'Pages/quickguide-designer/assets/button-primary-icon-left.svg' -->
-<!-- import ButtonPrimaryIconRightSvg from 'Pages/quickguide-designer/assets/button-primary-icon-right.svg' -->
+import StandardSpacingBlocks from 'Pages/quickguide-designer/spatial-system/assets/standard-spacing-blocks.svg'
 
 # Spatial system
 
@@ -42,21 +38,21 @@ It is simple and consistent whilst allowing for some design freedom.
 NB! All unitless measurements in the following illustrations are multiples of 8px (for example: x2 means two 8px units)
 <Img src={TypeAndLayoutSvg} caption="Label with line height 16 aligning with dropdown of 32px high, padding left and right 16px and an icon sized 16x16" alt="My alt" height="48" />
 
-#### Line-height % Grid base unit = 0
+### Line-height % Grid base unit = 0
 
 A general rule for getting type to sit precisely on the 8px grid is to make sure that line heights are divisible by 8
 
-#### Don't make me think - Make everything out of 8's
+### Don't make me think - Make everything out of 8's
 
 Applying the 8px base system to as much as possible within UI design means that design decisions can be made easier. margins, paddings, empty space, widths and heights can all be made with multiples of 8.
 
-##### Exceptions
+### Exceptions
 
 Sometimes 8 is not small enough or too big. Line thicknesses and borders are usually 1-2px in thickness. When we encounter situations where lines may 'throw' the layout off the grid, we can compensate by removing these line thicknesses from the padding or margin of the neighbouring element.
 
 <Img src={BordersAndLinesSvg} caption="Removing border thickness from padding" alt="Removing border thickness from padding" height="328" />
 
-##### Calculating line thickness v. the 8px grid
+### Calculating line thickness v. the 8px grid
 
 A single pixel equates to about 0.0625em ( 1/16 ), therefore if an element has padding of 1em (~16px) and a border of thickness 1px, we remove the border thickness from the padding:
 
@@ -73,14 +69,14 @@ In typography, a similar effect is seen when the line height of a text style is 
 
 In this case **line-height / 8** is equal to 3 (24 / 8 = 3)
 
-##### Horizontal lines and divider Lines
+### Horizontal lines and divider Lines
 
 The same process should be applied in dealing with divider lines.
 Horizontal rules and other dividing mechanisms usually have some margin or padding around them. Remove the lines thickness from the padding or margin (above or below), to maintain the baseline grid.
 
 <Img src={LineHeightSvg} caption="Line heights divisible by 8 sit on the grid (left side)" alt="Line heights and the grid" height="304" />
 
-#### Why do we need a spatial system?
+## Why do we need a spatial system?
 
 Space affects consistency, usability, readability and ultimately user experience.
 
@@ -191,7 +187,7 @@ The spatial system doesn’t care what elements are in the design guide. It does
 Rules dictate which slugs are placed adjacent to which blocks.
 -->
 
-### Eufemia Spatial System ≠ A Grid System
+## Eufemia Spatial System ≠ A Grid System
 
 A spatial system and grid system are two different things. A grid is a component which _uses_ space.
 The Eufemia Spatial System is a very simple set of ’space-blocks’ than _create_ space - akin to the leading slugs in a typesetters frame.
@@ -233,6 +229,14 @@ In order to see how type is rendered in the browser and view the space it uses, 
 <Img src={DiscrepenciesSvg} caption="Slight discrepencies between design tool and browser rendering" alt="Discrepencies between design tool and browser" height="160" />
 
 In the image above the heading with the blue background is how Figma shows the space the the heading uses. The heading with the yellow background is how the browser (Chrome) renders and shows the space taken up. Note the space above the first letter 'T'. In Figma this is 2 pixels whereas in Chrome it is 6 pixels.
+
+## Using Eufemia's spatial system for layout
+
+The Eufemia Figma library contains a set of standard spacing components which can be very helpful when laying out user interfaces, web pages etc.:
+
+<Img src={StandardSpacingBlocks} caption="Standard Eufemia spacing blocks" alt="Standard Eufemia spacing blocks" height="336" />
+
+Layout design is not limited to these selected sizing blocks. If you need more space than the blocks provide simply add it in multiples of **8 pixels**, but don't strecth the components as another designer or developer may simply glance at the space component and read it's label assuming it is exacly as large it was when created.
 
 ### Examples
 
