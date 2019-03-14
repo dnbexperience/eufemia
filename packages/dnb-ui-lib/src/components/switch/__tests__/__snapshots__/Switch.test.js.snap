@@ -1131,19 +1131,17 @@ exports[`Switch scss have to match snapshot 1`] = `
  */
 .dnb-form-status {
   width: auto;
-  white-space: nowrap;
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  height: var(--input-height);
+  min-height: var(--input-height);
   border-radius: var(--input-border-radius);
-  border-color: var(--color-emerald-green);
-  line-height: var(--input-height); }
+  line-height: 0.5rem; }
   .dnb-form-status--text {
-    padding: 0.5rem 1rem;
+    padding: calc(0.5rem / 2) 1rem;
     cursor: text;
     color: var(--color-emerald-green);
-    transform: translateY(1px); }
+    line-height: 1.5rem; }
   .dnb-icon + .dnb-form-status--text {
     padding-left: 0.5rem; }
   .dnb-form-status > .dnb-icon {
@@ -1152,9 +1150,9 @@ exports[`Switch scss have to match snapshot 1`] = `
     align-items: center;
     width: 1.5em;
     height: 1.5em;
-    margin: 0.5rem;
-    margin-right: 0;
+    margin-left: 0.5rem;
     color: inherit;
+    font-size: 1rem;
     border-radius: 50%;
     border: 1px solid;
     border-color: currentColor; }

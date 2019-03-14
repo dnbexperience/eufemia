@@ -8,7 +8,7 @@ import Table from './Table'
 import Img from './Img'
 import Tag from './Tag'
 import Anchor from './Anchor'
-import Header from './transpile/AutoLinkHeader'
+import Header from './AutoLinkHeader'
 
 export default {
   h1: props => <Header is="h1" {...props} />,

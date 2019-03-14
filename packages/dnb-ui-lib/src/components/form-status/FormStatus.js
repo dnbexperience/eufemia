@@ -99,10 +99,19 @@ export default class FormStatus extends PureComponent {
     return icon
   }
 
+  correctStatus(status) {
+    switch (status) {
+      case 'information':
+        status = 'info'
+        break
+    }
+    return status
+  }
+
   render() {
     const {
       title,
-      status,
+      status: rawStatus,
       hidden,
       className,
       animation,
@@ -115,7 +124,12 @@ export default class FormStatus extends PureComponent {
       ...attributes
     } = this.props
 
-    const iconToRender = FormStatus.getIcon(this.props)
+    const status = this.correctStatus(rawStatus)
+    const iconToRender = FormStatus.getIcon({
+      status,
+      icon,
+      icon_size
+    })
     const contentToRender = FormStatus.getContent(this.props)
     const hasStringContent =
       typeof contentToRender === 'string' && contentToRender.length > 0

@@ -46,6 +46,10 @@ const tabsWrapperStyle = css`
     top: auto; /* to force the button to center */
     right: auto;
   }
+  .dnb-button--secondary {
+    box-shadow: none;
+    background-color: transparent;
+  }
 `
 
 class ItemWrapper extends PureComponent {

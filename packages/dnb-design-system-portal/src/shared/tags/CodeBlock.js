@@ -8,13 +8,14 @@ import PropTypes from 'prop-types'
 import { css } from '@emotion/core'
 import styled from '@emotion/styled'
 import Highlight, { Prism, defaultProps } from 'prism-react-renderer'
-import Tag from './Tag'
-import { Button } from 'dnb-ui-lib/src'
-import Code from '../parts/uilib/Code'
-import { generateElement } from './transpile/index'
 import ReactMarkdown from 'react-markdown'
+import Tag from './Tag'
+import Code from '../parts/uilib/Code'
+import { Button } from 'dnb-ui-lib/src/components'
+import { isIE11 } from 'dnb-ui-lib/src/shared/helpers'
 
 import {
+  generateElement,
   LiveProvider,
   LiveEditor,
   LiveError,
@@ -161,6 +162,14 @@ class LiveCode extends PureComponent {
     const codeToUse =
       typeof code === 'string' ? this.prepareCode(code) : null
 
+    if (isIE11) {
+      return <b>Sorry, You use IE 11</b>
+    }
+
+    if (codeToUse.trim().length === 0) {
+      return <span>No Code provided</span>
+    }
+
     return (
       <LiveCodeEditor>
         <LiveProvider
@@ -239,7 +248,10 @@ class LiveCode extends PureComponent {
             <Syntax>
               <Code
                 source={generateElement({
-                  code: `<>${codeToUse}</>`,
+                  code:
+                    !noInline && noFragments
+                      ? `<>${codeToUse}</>`
+                      : codeToUse,
                   scope
                 })}
               />

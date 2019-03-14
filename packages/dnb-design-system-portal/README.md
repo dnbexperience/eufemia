@@ -1,28 +1,24 @@
-# DNB Style Guide
+# DNB Eufemia Portal
 
-The DNB Style Guide is the go to place for all who has to design, develop or create digitan WEB applications with the DNB brand.
+The DNB Eufemia Design System Portal is the go to place for all who has to design, develop or create digital WEB applications with the DNB brand.
 
-## Run the Style Guide locally
+## Run the Portal locally
 
-The DNB Style Guide is built with the [static site generator React Static](https://react-static.js.org/).
+The DNB Eufemia Portal is built with the [Gatsby](https://www.gatsbyjs.org/).
 
-1.  To run the site locally you'll need to [Node](https://node.io/). macOS users, use: `brew install node`
-1.  Run the site: `yarn start`
-1.  It should now be live at `http://localhost:3000/`
+1. To run the site locally you'll need [Node](https://nodejs.org/) and [NPM](https://www.npmjs.com) or [Yarn](https://yarnpkg.com/)
+1. Run the site: `yarn start`
+1. It should now be live at `http://localhost:8000/`
 
-## Environment Variables
+## Build the pages
 
-1.  You have to create a **.env** file in this package to set correct environment variables.
-1.  Add the following content to it: `BASE_PATH=/dnb-design-system` - this may change in the future, depending of where the production site is deployed to.
+1. Run `yarn build`
+1. This will generate all pages and necessary linking
 
-## Export locally
+## Build static locally
 
-1.  run `yarn build:local`
-1.  This will generate a new folder called: `docs`. You will find it in the root if this package.
-1.  You may run `yarn serve` to view the site at `http://localhost:3001/`
-
-## Export for publishing
-
-1.  run `yarn build`
-1.  This will generate a new folder called: `docs`. You will find it in the root if this package. It contains a **static** site with only html, js and css files.
-1.  This will be the content You can push to a deploying server or copy it manually into a git branch called `gh-pages`.
+1. Run `yarn build-portal`
+1. This will generate a new folder called: `public`. You will find it in the root in this package.
+   1. `public` contain all the generated static files inside
+1. You may run `yarn serve` to view the site at `http://localhost:8000/`
+1. You may delete all Browser Caches afterwards to remove the Service Worker
