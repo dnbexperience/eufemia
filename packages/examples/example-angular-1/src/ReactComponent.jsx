@@ -5,7 +5,8 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Input, Icon } from 'dnb-ui-lib/components'; // optional, import "dnb-ui-lib/components/web-components" to enable Web Components
+import { Button, Input, Icon } from 'dnb-ui-lib/components';
+import { H1 } from 'dnb-ui-lib/elements';
 
 class ReactComponent extends Component {
   static propTypes = {
@@ -29,7 +30,7 @@ class ReactComponent extends Component {
 
     return (
       <div>
-        <h1 className="dnb-h1">React Component(s)</h1>
+        <H1>React Component(s)</H1>
         <Input
           placeholder="Type someting ..."
           value={message}

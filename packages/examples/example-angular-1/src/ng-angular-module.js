@@ -38,16 +38,17 @@ ngUIModule.directive('uiDirective', () => {
     template: /* @html */ `
 <div>
   <div class="dnb-section dnb-section--spacing">
-    <h1 class="dnb-h1">Angular v1.7.8</h1>
+    <h2 class="dnb-h2">Angular v1.7.8 + <small>no Eufemia CSS reset</small></h2>
     <input type="text" ng-model="message" />
   </div>
   <hr class="dnb-hr"/>
-  <div class="dnb-section dnb-section--spacing">
+  <div class="dnb-core-style dnb-spacing dnb-section dnb-section--spacing">
     <react-component
       icon="icon"
       message="message"
       on-message-change="onReactMessageChange"
-      on-click="onReactClick" />
+      on-click="onReactClick" ></react-component>
+      <p class="dnb-p">+ Eufemia CSS reset</p>
   </div>
 </div>
 `
