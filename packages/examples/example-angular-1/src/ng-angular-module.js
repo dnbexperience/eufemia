@@ -8,7 +8,6 @@ import angular from 'angular';
 import ReactComponent from './ReactComponent.jsx';
 import { react2angular } from 'react2angular';
 
-import './App.css';
 import { bell_medium as Bell } from 'dnb-ui-lib/icons';
 import { Icon } from 'dnb-ui-lib';
 
@@ -65,6 +64,7 @@ ngUIModule.directive('uiDirective', () => {
       on-click="onReactClick"
     ></react-component>
     <p class="dnb-p">Eufemia CSS Styles 👌</p>
+    <div eufemia-button-directive></div>
   </div>
 </div>
 `
