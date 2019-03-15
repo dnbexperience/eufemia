@@ -15,9 +15,7 @@ import {
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
 
-const renderProps = {
-  on_click: null
-}
+const renderProps = { on_click: null }
 
 export const propTypes = {
   /** the content of the button. */
@@ -52,7 +50,9 @@ export const propTypes = {
   // Web Component props
   custom_element: PropTypes.object,
   custom_method: PropTypes.func,
-  /** will be called on a click event. */
+
+  // Events
+  onClick: PropTypes.func,
   on_click: PropTypes.oneOfType([PropTypes.string, PropTypes.func])
 }
 
@@ -79,7 +79,10 @@ export const defaultProps = {
   // Web Component props
   custom_element: null,
   custom_method: null,
-  ...renderProps
+
+  // Events
+  onClick: null,
+  on_click: null
 }
 
 /**
@@ -124,8 +127,8 @@ export default class Button extends PureComponent {
   }
   onClickHandler = event => {
     // add web component event handler
-    if (typeof this.props.on_click === 'function') {
-      this.props.on_click({ event })
+    if (typeof this.props.onClick === 'function') {
+      this.props.onClick({ event })
     }
     dispatchCustomElementEvent(this, 'on_click', { event })
   }
