@@ -1,7 +1,7 @@
 ---
 title: 'ES6'
 draft: false
-order: 8
+order: 9
 ---
 
 # ES6

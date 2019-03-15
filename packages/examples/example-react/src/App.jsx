@@ -54,7 +54,7 @@ export default class App extends PureComponent {
   render() {
     return (
       <div>
-        <h1>React Components</h1>
+        <h1 className="dnb-h1">React Components</h1>
         <Input
           placeholder="Type someting ..."
           on_change={this.handleValueChange}
@@ -67,7 +67,7 @@ export default class App extends PureComponent {
         <Icon icon={bell} width={80} height={80} />
         {this.state.showWebComponents && (
           <Fragment>
-            <h1>Web Component in React</h1>
+            <h1 className="dnb-h1">Web Component in React</h1>
             <small>
               This is not for real world usage. But only to show the
               functionality of the dnb-ui-lib

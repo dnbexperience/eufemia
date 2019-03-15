@@ -8,11 +8,7 @@
   },
   "version": "1.0.0",
   "scripts": {
-    "precommit": ":",
-    "lint-ci": ":",
     "start": "live-server static --watch --no-browser --cors --port=8080",
-    "startup": ":",
-    "test-ci": ":",
     "umd": "live-server static/umd --watch --no-browser --cors --port=8080"
   },
   "dependencies": {},

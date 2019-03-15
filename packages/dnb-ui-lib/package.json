@@ -77,7 +77,6 @@
     "classnames": "^2.2.6",
     "keycode": "^2.2.0",
     "react-text-mask": "^5.4.3",
-    "vuera": "^0.2.3",
     "what-input": "^5.1.4"
   },
   "peerDependencies": {

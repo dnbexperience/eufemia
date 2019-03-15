@@ -1,29 +1,36 @@
 <template lang="html">
-  <div id="app" class="dnb-spacing">
-    <h1>{{ header }}</h1>
-    <dnb-button
-      text="DNB Button with Icon"
-      icon="add"
-      icon_position="left"
-      @on_click="onClick"
-    ></dnb-button>
-    <dnb-input
-      :value="header"
-      placeholder="My Placeholder"
-      @on_change="onChange"
-    ></dnb-input>
+  <div id="app">
+    <div
+      class="dnb-core-style dnb-spacing dnb-section dnb-section--spacing"
+    >
+      <h1 class="dnb-h1">{{ header }}</h1>
+      <dnb-button
+        text="DNB Button with Icon"
+        icon="add"
+        icon_position="left"
+        @on_click="onClick"
+      ></dnb-button>
+      <br />
+      <dnb-input
+        :value="header"
+        label="Label:"
+        placeholder="My Placeholder"
+        @on_change="handleChange"
+      ></dnb-input>
+    </div>
   </div>
 </template>
 
 <script>
 import Vue from 'vue'
 
-// import styles
-import 'dnb-ui-lib/src/style/components'
-import 'dnb-ui-lib/src/style/themes/open-banking'
+// import styles for realtime mono repo development
+/* import 'dnb-ui-lib/src/style/components'
+import 'dnb-ui-lib/src/style/themes/open-banking' */
 
 import dnb, { Button, Input } from 'dnb-ui-lib/components/vue'
 
+// Bind the components
 const components = dnb.getComponents(Vue)
 
 export default {
@@ -38,11 +45,9 @@ export default {
     handleClick: e => {
       console.log('handleClick', e)
     },
-    onChange: e => {
-      console.log('onChange', e.value || (e.target && e.target.value))
-    },
     handleChange: e => {
-      console.log('handleChange', e.value || (e.target && e.target.value))
+      const value = e.value || (e.target && e.target.value)
+      console.log('handleChange', value)
     }
   },
   components
@@ -50,12 +55,10 @@ export default {
 </script>
 
 <style lang="css">
-div.center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+body {
+  background-color: var(--color-white);
 }
-h1 {
-  font-weight: var(--font-weight-medium);
+.dnb-section {
+  padding-left: 2rem;
 }
 </style>
