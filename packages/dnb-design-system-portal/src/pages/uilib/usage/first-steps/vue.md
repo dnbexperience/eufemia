@@ -51,3 +51,7 @@ Besides `vue` and `vuera`, you may also install, `dnb-ui-lib`, `react` and `reac
 },
 ...
 ```
+
+## Build
+
+If You run this app inside the mono repo Eufemia, then make sure You build the `dnb-ui-lib` first. To do so, go to the `dnb-ui-lib` directory and run `yarn build`. This is because we consume the package content directly like: import `dnb-ui-lib/components` and not from the `src` folder, like: `dnb-ui-lib/src/components`.

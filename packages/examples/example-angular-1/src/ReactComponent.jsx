@@ -35,6 +35,7 @@ class ReactComponent extends Component {
       <div>
         <H1>React Component(s)</H1>
         <Input
+          label="Label:"
           placeholder="Type someting ..."
           value={message}
           on_change={onMessageChange}

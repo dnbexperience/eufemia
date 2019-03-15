@@ -16,16 +16,17 @@
   },
   "dependencies": {
     "dnb-ui-lib": "*",
-    "react": "^16.6.0",
-    "react-dom": "^16.6.0",
-    "vue": "^2.5.17"
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4",
+    "vue": "^2.6.9",
+    "vuera": "^0.2.3"
   },
   "devDependencies": {
-    "@vue/component-compiler-utils": "^2.2.0",
-    "eslint-plugin-vue": "^4.7.1",
-    "live-server": "^1.2.0",
-    "parcel-bundler": "^1.10.1",
-    "vue-hot-reload-api": "^2.3.1",
-    "vue-template-compiler": "^2.5.17"
+    "@vue/component-compiler-utils": "^2.6.0",
+    "eslint-plugin-vue": "^5.2.2",
+    "live-server": "^1.2.1",
+    "parcel-bundler": "^1.12.2",
+    "vue-hot-reload-api": "^2.3.3",
+    "vue-template-compiler": "^2.6.9"
   }
 }
