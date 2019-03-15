@@ -22182,11 +22182,6 @@ vue@^2.5.17:
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.7.tgz#254f188e7621d2d19ee28d0c0442c6d21b53ae2d"
   integrity sha512-g7ADfQ82QU+j6F/bVDioVQf2ccIMYLuR4E8ev+RsDBlmwRkhGO3HhgF4PF9vpwjdPpxyb1zzLur2nQ2oIMAMEg==
 
-vuera@^0.2.3:
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/vuera/-/vuera-0.2.3.tgz#f7f3535ab22cef149558cbcea7dab60c56c67c78"
-  integrity sha512-BzAILHtR4HG4Ke+k5qQGbrlgUhewcV+489XqhxJMHLu3sGB9gISxvTajC9KpJt4h4Boy0UslCLitf1gRRoMFJA==
-
 w3c-hr-time@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/w3c-hr-time/-/w3c-hr-time-1.0.1.tgz#82ac2bff63d950ea9e3189a58a65625fedf19045"
