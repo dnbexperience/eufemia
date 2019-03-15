@@ -1,3 +1,6 @@
 body {
   background-color: var(--color-white);
 }
+.dnb-section {
+  padding-left: 2rem;
+}

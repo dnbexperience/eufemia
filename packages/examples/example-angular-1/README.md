@@ -2,6 +2,8 @@
 
 This example uses [Parcel](https://parceljs.org) to bundle our example app.
 
+![Screenshot](./assets/README-example-angular-1-screenshot.png)
+
 ## How to run this Example App
 
 1. Make sure You have installed the dependencies `yarn install`.

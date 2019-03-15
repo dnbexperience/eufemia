@@ -11,17 +11,20 @@ import { H1 } from 'dnb-ui-lib/elements';
 class ReactComponent extends Component {
   static propTypes = {
     icon: PropTypes.func,
+    iconJsx: PropTypes.func,
     message: PropTypes.string.isRequired,
     onMessageChange: PropTypes.func.isRequired,
     onClick: PropTypes.func.isRequired
   };
   static defaultProps = {
-    icon: null
+    icon: null,
+    iconJsx: null
   };
 
   render() {
     const {
       icon,
+      iconJsx,
       message,
       onMessageChange,
       onClick,
@@ -42,6 +45,7 @@ class ReactComponent extends Component {
           on_click={onClick}
         />
         {icon && <Icon icon={icon} {...rest} />}
+        {iconJsx && <Icon icon={iconJsx} />}
       </div>
     );
   }
