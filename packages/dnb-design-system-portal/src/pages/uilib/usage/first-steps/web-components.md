@@ -1,7 +1,7 @@
 ---
 title: 'Web Components'
 draft: false
-order: 7
+order: 8
 ---
 
 import 'dnb-ui-lib/src/web-components'
