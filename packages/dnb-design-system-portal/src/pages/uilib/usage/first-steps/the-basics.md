@@ -27,7 +27,7 @@ We can also bind event listeners to work together with your application.
 
 ## States
 
-All the HTML elements have individual interaction states. The look and feel is defined in the default [theming file](/uilib/usage/theming) (**theme-ui**).
+All the HTML elements have individual interaction states. The look and feel is defined in the default [theming file](/uilib/usage/customisation/theming) (**theme-ui**).
 
 - hover
 - active (TouchStart)
@@ -56,7 +56,7 @@ import { Button } from 'dnb-ui-lib'
 render(<Button text="Primary Button" />)
 ```
 
-You also may [import the styles](/uilib/usage/customisation/styling) on a higher lever in Your application:
+You also may [import the styles](/uilib/usage/customisation/consume-styles) on a higher lever in Your application:
 
 ```js
 // e.g. in the App root
