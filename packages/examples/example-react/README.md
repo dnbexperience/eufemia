@@ -1,7 +1,5 @@
 # DNB UI Library - React Example
 
-This example uses [Parcel](https://parceljs.org) to bundle our test app.
-
 ## How to run this Example App
 
 1. Make sure You have installed the dependencies `yarn install`.
