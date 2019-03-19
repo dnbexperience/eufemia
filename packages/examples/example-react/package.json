@@ -17,12 +17,12 @@
     "react-dom": "^16.8.4"
   },
   "devDependencies": {
-    "prop-types": "^15.7.2",
     "babel-loader": "8.0.5",
-    "file-loader": "^3.0.1",
     "css-loader": "^2.1.1",
-    "sass-loader": "^7.1.0",
+    "file-loader": "^3.0.1",
     "node-sass": "^4.11.0",
+    "prop-types": "^15.7.2",
+    "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",
     "webpack": "4.29.6",
     "webpack-cli": "3.3.0",
