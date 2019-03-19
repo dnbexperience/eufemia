@@ -31,7 +31,8 @@ import { Button } from 'dnb-ui-lib'
 And here an example with several imports:
 
 ```js
-import { Button, Icon } from 'dnb-ui-lib'
+import { Button, Icon } from 'dnb-ui-lib/components'
+import { H1, P, Link } from 'dnb-ui-lib/elements'
 import { hamburger as hamburgerIcon } from 'dnb-ui-lib/icons/secondary_icons'
 ```
 

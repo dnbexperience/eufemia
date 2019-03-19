@@ -5,7 +5,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Input, Icon } from 'dnb-ui-lib/components';
+import { Button, Input, Icon } from 'dnb-ui-lib';
 import { H1 } from 'dnb-ui-lib/elements';
 
 class ReactComponent extends Component {

@@ -14,7 +14,7 @@ import 'dnb-ui-lib/style/components'
 // Use other theme
 import 'dnb-ui-lib/style/themes/open-banking'
 
-new Vue({
+App.vm = new Vue({
   el: '#app',
   data: {
     header: 'header'
