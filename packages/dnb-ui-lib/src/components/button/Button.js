@@ -200,9 +200,9 @@ export default class Button extends PureComponent {
       title,
       id,
       disabled,
+      ...props,
       onMouseOut: this.onMouseOutHandler, // for resetting the button to the default state
-      onClick: this.onClickHandler,
-      ...props
+      onClick: this.onClickHandler
     }
     if (!params['aria-label'] && !text && title) {
       params['aria-label'] = title
