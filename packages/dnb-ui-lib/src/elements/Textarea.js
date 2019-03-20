@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import E from './index'
+import E from './Element'
 
 const Textarea = p => <E is="textarea" {...p} />
 export default Textarea

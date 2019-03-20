@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import E from './index'
+import E from './Element'
 
 const P = p => <E is="p" {...p} />
 export default P
