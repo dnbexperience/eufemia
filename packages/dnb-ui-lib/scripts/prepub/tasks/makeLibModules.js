@@ -79,6 +79,22 @@ const runFactory = (src, { preventDelete = false } = {}) =>
               cwd: process.env.ROOT_DIR
             })
             .pipe(transform('utf8', transformContent))
+            .pipe(
+              babel({
+                presets: [
+                  [
+                    '@babel/preset-env',
+                    {
+                      targets: {
+                        esmodules: true
+                      },
+                      modules: false,
+                      useBuiltIns: false // no polyfill
+                    }
+                  ]
+                ]
+              })
+            )
             .pipe(transform('utf8', transformContentRevertForES))
             .pipe(gulp.dest(`./es/${dest}`, { cwd: process.env.ROOT_DIR }))
             .on('end', resolve)
