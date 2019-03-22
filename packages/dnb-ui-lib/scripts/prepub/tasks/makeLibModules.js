@@ -68,7 +68,7 @@ const runFactory = (src, { preventDelete = false } = {}) =>
             .pipe(transform('utf8', transformContent))
             .pipe(babel())
             .pipe(uglify())
-            .pipe(sourcemaps.write())
+            .pipe(sourcemaps.write('./'))
             .pipe(gulp.dest(`./${dest}`, { cwd: process.env.ROOT_DIR }))
             .on('end', resolve)
             .on('error', reject)

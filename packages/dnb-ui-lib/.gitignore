@@ -20,8 +20,8 @@
 **/test-files/dist
 /docs
 /dist
-/index.js
-/web-components.js
+/index.*
+/web-components.*
 /web-components
 dnb-ui-lib-*.tgz
 
