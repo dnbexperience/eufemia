@@ -190,7 +190,10 @@ class LiveCode extends PureComponent {
         >
           {!hidePreview && (
             <div className="example-box">
-              <LivePreview data-dnb-test={dnbTest} />
+              <LivePreview
+                data-dnb-test={dnbTest}
+                className="dnb-live-preview"
+              />
               {caption && (
                 <ReactMarkdown
                   source={caption}
