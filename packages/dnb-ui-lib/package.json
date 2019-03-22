@@ -15,7 +15,7 @@
   "main": "index.js",
   "scripts": {
     "post-build": "yarn prettier:other",
-    "audit-ci": "npm install && audit-ci --moderate --package-manager=npm --advisories=782",
+    "audit-ci": "npm install && audit-ci --moderate --package-manager=npm --advisories=782,788",
     "audit-ci:yarn": "babel-node ./scripts/prepub/audit/toOpt && audit-ci --moderate --package-manager=yarn --advisories=782 && babel-node ./scripts/prepub/audit/toDev",
     "build": "yarn prebuild:local && yarn post-build",
     "prebuild-ci": "yarn figma-ci-build && yarn prebuild:local && yarn test:update && yarn figma-ci-commit",
