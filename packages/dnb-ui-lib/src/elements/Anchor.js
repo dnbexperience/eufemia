@@ -5,7 +5,7 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import E from './index'
+import E from './Element'
 
 const Anchor = p => <E is="a" useClass="dnb-anchor" {...p} />
 Anchor.propTypes = {
