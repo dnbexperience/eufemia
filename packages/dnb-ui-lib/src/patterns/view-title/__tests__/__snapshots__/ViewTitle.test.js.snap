@@ -4,14 +4,14 @@ exports[`ViewTitle component have to match snapshot 1`] = `
 <ViewTitle
   class="class"
   className="className"
-  tag="tag"
+  tag="h1"
   text="text"
 >
-  <tag
+  <h1
     className="dnb-view-title className class"
   >
     text
-  </tag>
+  </h1>
 </ViewTitle>
 `;
 

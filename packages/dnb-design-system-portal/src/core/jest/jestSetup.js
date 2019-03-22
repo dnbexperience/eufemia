@@ -5,11 +5,11 @@
 
 import { createSerializer } from 'jest-emotion'
 import fakeProps from 'react-fake-props'
-import { mount, render, shallow } from './enzyme'
+import { mount, render } from './enzyme'
 import toJson from 'enzyme-to-json'
 import providerProps from './providerProps'
 
-export { mount, render, shallow }
+export { mount, render }
 export { fakeProps }
 export { toJson }
 export { providerProps }

@@ -19,6 +19,7 @@ import dnb_view_title from '../style/dnb-view-title.scss' // eslint-disable-line
 const props = fakeProps(require.resolve('../ViewTitle'), {
   optional: true
 })
+props.tag = 'h1'
 
 describe('ViewTitle component', () => {
   const ComponentWrap = mount(<Component {...props} />)
