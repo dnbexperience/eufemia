@@ -51,7 +51,7 @@
               "safari": 10,
               "node": "10.6"
             },
-            "useBuiltIns": false
+            "useBuiltIns": "usage"
           }
         ],
         "@babel/preset-react"
