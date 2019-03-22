@@ -159,6 +159,7 @@ class LiveCode extends PureComponent {
       hideCode: _hideCode, // eslint-disable-line
       hidePreview: _hidePreview, // eslint-disable-line
       showSyntax: _showSyntax, // eslint-disable-line
+      'data-dnb-test': dnbTest, // eslint-disable-line
 
       ...props
     } = this.props
@@ -189,7 +190,7 @@ class LiveCode extends PureComponent {
         >
           {!hidePreview && (
             <div className="example-box">
-              <LivePreview />
+              <LivePreview data-dnb-test={dnbTest} />
               {caption && (
                 <ReactMarkdown
                   source={caption}
