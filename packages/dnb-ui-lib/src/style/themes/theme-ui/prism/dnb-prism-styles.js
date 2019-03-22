@@ -1,6 +1,6 @@
 /**
- * DNB Prism Theme
- *
+ * DNB Prism Theme Styles
+ * NB: Not in active use for now
  */
 
 const prismStyle = /* @css */ `
@@ -92,7 +92,7 @@ const prismStyle = /* @css */ `
   }
 
   &.deleted {
-    color: red;
+    color: var(--color-cherry-red);
   }
 `
 

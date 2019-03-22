@@ -20,9 +20,9 @@
   margin: 0;
   padding: 1rem;
 
-  background-color: #222;
-  border-radius: 8px;
+  border-radius: 0.5rem;
   color: var(--color-mint-green-12);
+  background-color: #222;
 
   // make a base reset
   white-space: pre;
@@ -36,11 +36,22 @@
   word-spacing: normal;
   tab-size: 2;
 
+  font-size: inherit;
+  font-family:
+  /* macOS 10.10+ */ Menlo, /* Windows 6+ */ Consolas,
+    /* Android 4+ */ Roboto Mono, /* Ubuntu 10.10+ */ Ubuntu Monospace,
+    /* KDE Plasma 5+ */ Noto Mono, /* KDE Plasma 4+ */ Oxygen Mono,
+    /* Linux/OpenOffice fallback */ Liberation Mono,
+    /* fallback */ monospace; /* 1 */
+
   pre {
     padding: 1rem;
   }
   .dnb-spacing pre {
     @include defaultSpacing();
+  }
+  &.dnb-pre--focus {
+    @include fakeBorder(var(--color-sea-green), 0.25rem);
   }
 }
 @mixin codeTag() {
