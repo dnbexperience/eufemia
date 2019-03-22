@@ -1,59 +1,77 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Slider component have to match snapshot 1`] = `
-<div
-  className="dnb-slider className class slider__vertical"
+<Slider
+  class="class"
+  className="className"
+  disabled="disabled"
+  href={null}
+  id="id"
+  max="max"
+  min="min"
+  on_change={[Function]}
+  on_drag_end={[Function]}
+  on_drag_start={[Function]}
+  on_init={[Function]}
+  on_state_update={[Function]}
+  step="step"
+  value="value"
+  vertical="vertical"
 >
   <div
-    aria-disabled={true}
-    aria-orientation="vertical"
-    aria-valuemax="max"
-    aria-valuemin="min"
-    aria-valuenow="value"
-    className="slider__root slider__state--disabled"
-    disabled="disabled"
-    id="id"
-    onClick={[Function]}
-    onMouseDown={[Function]}
-    onTouchMove={[Function]}
-    onTouchStartCapture={[Function]}
-    role="slider"
+    className="dnb-slider className class slider__vertical"
   >
     <div
-      className="slider__line slider__line__before"
-      style={
-        Object {
-          "height": "calc(NaN% - 6px)",
-        }
-      }
-    />
-    <button
       aria-disabled={true}
-      className="slider__thumb"
+      aria-orientation="vertical"
+      aria-valuemax="max"
+      aria-valuemin="min"
+      aria-valuenow="value"
+      className="slider__root slider__state--disabled"
       disabled="disabled"
-      onBlur={[Function]}
-      onFocus={[Function]}
-      onKeyDown={[Function]}
+      id="id"
+      onClick={[Function]}
+      onMouseDown={[Function]}
       onTouchMove={[Function]}
-      onTouchStart={[Function]}
-      style={
-        Object {
-          "top": "NaN%",
+      onTouchStartCapture={[Function]}
+      role="slider"
+    >
+      <div
+        className="slider__line slider__line__before"
+        style={
+          Object {
+            "height": "calc(NaN% - 6px)",
+          }
         }
-      }
-      tabIndex="0"
-      type="button"
-    />
-    <div
-      className="slider__line slider__line__after"
-      style={
-        Object {
-          "height": "calc(NaN% - 6px)",
+      />
+      <button
+        aria-disabled={true}
+        className="slider__thumb"
+        disabled="disabled"
+        onBlur={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onTouchMove={[Function]}
+        onTouchStart={[Function]}
+        style={
+          Object {
+            "top": "NaN%",
+          }
         }
-      }
-    />
+        tabIndex="0"
+        type="button"
+      />
+      <div
+        className="slider__line slider__line__after"
+        style={
+          Object {
+            "height": "calc(NaN% - 6px)",
+          }
+        }
+      />
+    </div>
   </div>
-</div>
+</Slider>
 `;
 
 exports[`Slider scss have to match snapshot 1`] = `

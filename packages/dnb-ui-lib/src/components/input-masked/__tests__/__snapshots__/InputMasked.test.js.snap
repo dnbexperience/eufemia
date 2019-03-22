@@ -1,20 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`InputMasked component have to match type="text" snapshot 1`] = `
-<Input
-  align={null}
-  attributes={null}
-  autocomplete="off"
-  class={null}
-  className={null}
-  custom_element={null}
-  custom_method={null}
-  description={null}
+<InputMasked
   disabled={false}
-  id={null}
-  inputElement={[Function]}
-  input_class={null}
-  label={null}
+  id="input-masked"
   mask={Array []}
   on_blur={null}
   on_change={null}
@@ -22,19 +11,103 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
   on_submit={null}
   on_submit_blur={null}
   on_submit_focus={null}
-  placeholder={null}
-  readOnly={false}
   show_mask="show_mask"
-  size={null}
-  status={null}
-  status_animation={null}
-  status_state="error"
-  submit_button_icon="search"
-  submit_button_title={null}
-  submit_button_variant="secondary"
   type="text"
   value="test"
-/>
+>
+  <Input
+    align={null}
+    attributes={null}
+    autocomplete="off"
+    class={null}
+    className={null}
+    custom_element={null}
+    custom_method={null}
+    description={null}
+    disabled={false}
+    id="input-masked"
+    inputElement={[Function]}
+    input_class={null}
+    label={null}
+    mask={Array []}
+    on_blur={null}
+    on_change={null}
+    on_focus={null}
+    on_submit={null}
+    on_submit_blur={null}
+    on_submit_focus={null}
+    placeholder={null}
+    readOnly={false}
+    show_mask="show_mask"
+    size={null}
+    status={null}
+    status_animation={null}
+    status_state="error"
+    submit_button_icon="search"
+    submit_button_title={null}
+    submit_button_variant="secondary"
+    type="text"
+    value="test"
+  >
+    <span
+      className="dnb-input dnb-input--text"
+    >
+      <span
+        className="dnb-input__shell"
+        data-has-content="true"
+        data-input-state="virgin"
+      >
+        <elem
+          autoComplete="off"
+          className="dnb-input__input"
+          id="input-masked"
+          innerRef={
+            Object {
+              "current": null,
+            }
+          }
+          mask={Array []}
+          name="input-masked"
+          onBlur={[Function]}
+          onChange={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          type="text"
+          value="test"
+        >
+          <t
+            autoComplete="off"
+            className="dnb-input__input"
+            id="input-masked"
+            mask={Array []}
+            name="input-masked"
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            render={[Function]}
+            showMask={true}
+            type="text"
+            value="test"
+          >
+            <input
+              autoComplete="off"
+              className="dnb-input__input"
+              defaultValue="test"
+              id="input-masked"
+              name="input-masked"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              type="text"
+            />
+          </t>
+        </elem>
+      </span>
+    </span>
+  </Input>
+</InputMasked>
 `;
 
 exports[`InputMasked scss have to match snapshot 1`] = `

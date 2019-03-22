@@ -5,7 +5,7 @@
 
 import React from 'react'
 import {
-  shallow,
+  mount,
   fakeProps,
   toJson,
   loadScss
@@ -21,7 +21,7 @@ const props = fakeProps(require.resolve('../ViewTitle'), {
 })
 
 describe('ViewTitle component', () => {
-  const ComponentWrap = shallow(<Component {...props} />)
+  const ComponentWrap = mount(<Component {...props} />)
   it('have to match snapshot', () => {
     expect(toJson(ComponentWrap)).toMatchSnapshot()
   })

@@ -6,7 +6,7 @@
 import React from 'react'
 import path from 'path'
 import del from 'del'
-import { shallow, toJson } from '../../../../src/core/jest/jestSetup'
+import { mount, toJson } from '../../../../src/core/jest/jestSetup'
 import convertSvgToJsx from '../convertSvgToJsx'
 
 beforeAll(async () => {
@@ -20,7 +20,7 @@ beforeAll(async () => {
 describe('run convertSvgToJsx to convert ES6 to ES5', () => {
   it('has to convert correctly and match snapshot', async () => {
     const { default: Svg } = await import('./test-files/dist/bell')
-    const ComponentWrap = shallow(<Svg />)
+    const ComponentWrap = mount(<Svg />)
     expect(toJson(ComponentWrap)).toMatchSnapshot()
   })
 })

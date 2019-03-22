@@ -1,11 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ViewTitle component have to match snapshot 1`] = `
-<tag
-  className="dnb-view-title className class"
+<ViewTitle
+  class="class"
+  className="className"
+  tag="tag"
+  text="text"
 >
-  text
-</tag>
+  <tag
+    className="dnb-view-title className class"
+  >
+    text
+  </tag>
+</ViewTitle>
 `;
 
 exports[`ViewTitle scss have to match snapshot 1`] = `

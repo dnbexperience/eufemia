@@ -1,3 +1,10 @@
+## March, 22. 2019
+
+**Changes to the default styles**
+
+- New Primary and Secondary Icons where added (link_out, pencil, bubble, save)
+- Enhanced the behavior of the Input Component with a entered text (dirty) state, changing the typography color to Emerald Green
+
 ## March, 12. 2019
 
 **Changes to the default styles**

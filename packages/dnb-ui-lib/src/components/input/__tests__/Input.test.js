@@ -5,7 +5,6 @@
 
 import React from 'react'
 import {
-  shallow,
   mount,
   fakeProps,
   toJson,
@@ -26,6 +25,7 @@ const props = {
   inputElement: null,
   disabled: false
 }
+props.id = 'input'
 props.autocomplete = 'off'
 props.label = null
 props.submit_button_variant = 'secondary'
@@ -34,15 +34,13 @@ props.description = null // to make sure we don't get aria-details
 props.type = 'text'
 
 describe('Input component', () => {
-  // shallow compare the snapshot
+  // compare the snapshot
   it('have to match type="text" snapshot', () => {
-    const Comp = shallow(<Component {...props} value="test" />)
+    const Comp = mount(<Component {...props} value="test" />)
     expect(toJson(Comp)).toMatchSnapshot()
   })
   it('have to match type="search" snapshot', () => {
-    const Comp = shallow(
-      <Component {...props} type="search" value="test" />
-    )
+    const Comp = mount(<Component {...props} type="search" value="test" />)
     expect(toJson(Comp)).toMatchSnapshot()
   })
 

@@ -1,7 +1,38 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Input component have to match type="search" snapshot 1`] = `
-<Fragment>
+<Input
+  align="align"
+  attributes="attributes"
+  autocomplete="off"
+  class="class"
+  className="className"
+  custom_element={Object {}}
+  custom_method={[Function]}
+  description={null}
+  disabled={false}
+  id="input"
+  inputElement={null}
+  input_class="input_class"
+  label={null}
+  on_blur={[Function]}
+  on_change={[Function]}
+  on_focus={[Function]}
+  on_submit={[Function]}
+  on_submit_blur={[Function]}
+  on_submit_focus={[Function]}
+  placeholder="placeholder"
+  readOnly="readOnly"
+  size="size"
+  status={null}
+  status_animation="status_animation"
+  status_state="status_state"
+  submit_button_icon="submit_button_icon"
+  submit_button_title="submit_button_title"
+  submit_button_variant="secondary"
+  type="search"
+  value="test"
+>
   <span
     className="dnb-input dnb-input--search dnb-input--size dnb-input--has-submit-button dnb-input__align--align class className"
   >
@@ -15,8 +46,8 @@ exports[`Input component have to match type="search" snapshot 1`] = `
         attributes="attributes"
         autoComplete="off"
         className="dnb-input__input input_class"
-        id="id"
-        name="id"
+        id="input"
+        name="input"
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -44,7 +75,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
       disabled={false}
       icon="submit_button_icon"
       icon_size="medium"
-      id="id"
+      id="input"
       inputElement={null}
       input_class="input_class"
       label={null}
@@ -71,14 +102,125 @@ exports[`Input component have to match type="search" snapshot 1`] = `
       value="test"
       variant="secondary"
     >
-      children
+      <span
+        className="dnb-input__submit-button"
+        data-input-state="virgin"
+      >
+        <Button
+          attributes={null}
+          class={null}
+          className="dnb-input__submit-button__button"
+          custom_element={null}
+          custom_method={null}
+          disabled={false}
+          href={null}
+          icon="submit_button_icon"
+          icon_position="right"
+          icon_size="default"
+          id={null}
+          innerRef={null}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          on_click={null}
+          size="medium"
+          text={null}
+          title="submit_button_title"
+          type="submit"
+          variant="secondary"
+        >
+          <button
+            aria-label="submit_button_title"
+            className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon dnb-input__submit-button__button"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            title="submit_button_title"
+            type="submit"
+          >
+            <Content
+              attributes={null}
+              class={null}
+              className="dnb-input__submit-button__button"
+              content={null}
+              custom_element={null}
+              custom_method={null}
+              disabled={false}
+              href={null}
+              icon="submit_button_icon"
+              icon_position="right"
+              icon_size="default"
+              id={null}
+              innerRef={null}
+              isIconOnly={true}
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              on_click={null}
+              size="medium"
+              text={null}
+              title="submit_button_title"
+              type="submit"
+              variant="secondary"
+            >
+              <IconPrimary
+                alt="submit_button_title"
+                aria-hidden={false}
+                attributes={null}
+                class={null}
+                className="dnb-button__icon"
+                color={null}
+                height={null}
+                icon="submit_button_icon"
+                key="button-icon"
+                modifier={null}
+                size="default"
+                title={null}
+                width={null}
+              />
+            </Content>
+          </button>
+        </Button>
+      </span>
     </Submit>
   </span>
-</Fragment>
+</Input>
 `;
 
 exports[`Input component have to match type="text" snapshot 1`] = `
-<Fragment>
+<Input
+  align="align"
+  attributes="attributes"
+  autocomplete="off"
+  class="class"
+  className="className"
+  custom_element={Object {}}
+  custom_method={[Function]}
+  description={null}
+  disabled={false}
+  id="input"
+  inputElement={null}
+  input_class="input_class"
+  label={null}
+  on_blur={[Function]}
+  on_change={[Function]}
+  on_focus={[Function]}
+  on_submit={[Function]}
+  on_submit_blur={[Function]}
+  on_submit_focus={[Function]}
+  placeholder="placeholder"
+  readOnly="readOnly"
+  size="size"
+  status={null}
+  status_animation="status_animation"
+  status_state="status_state"
+  submit_button_icon="submit_button_icon"
+  submit_button_title="submit_button_title"
+  submit_button_variant="secondary"
+  type="text"
+  value="test"
+>
   <span
     className="dnb-input dnb-input--text dnb-input--size dnb-input--has-submit-button dnb-input__align--align class className"
   >
@@ -92,8 +234,8 @@ exports[`Input component have to match type="text" snapshot 1`] = `
         attributes="attributes"
         autoComplete="off"
         className="dnb-input__input input_class"
-        id="id"
-        name="id"
+        id="input"
+        name="input"
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -121,7 +263,7 @@ exports[`Input component have to match type="text" snapshot 1`] = `
       disabled={false}
       icon="submit_button_icon"
       icon_size="medium"
-      id="id"
+      id="input"
       inputElement={null}
       input_class="input_class"
       label={null}
@@ -148,10 +290,90 @@ exports[`Input component have to match type="text" snapshot 1`] = `
       value="test"
       variant="secondary"
     >
-      children
+      <span
+        className="dnb-input__submit-button"
+        data-input-state="virgin"
+      >
+        <Button
+          attributes={null}
+          class={null}
+          className="dnb-input__submit-button__button"
+          custom_element={null}
+          custom_method={null}
+          disabled={false}
+          href={null}
+          icon="submit_button_icon"
+          icon_position="right"
+          icon_size="default"
+          id={null}
+          innerRef={null}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          on_click={null}
+          size="medium"
+          text={null}
+          title="submit_button_title"
+          type="submit"
+          variant="secondary"
+        >
+          <button
+            aria-label="submit_button_title"
+            className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon dnb-input__submit-button__button"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            title="submit_button_title"
+            type="submit"
+          >
+            <Content
+              attributes={null}
+              class={null}
+              className="dnb-input__submit-button__button"
+              content={null}
+              custom_element={null}
+              custom_method={null}
+              disabled={false}
+              href={null}
+              icon="submit_button_icon"
+              icon_position="right"
+              icon_size="default"
+              id={null}
+              innerRef={null}
+              isIconOnly={true}
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              on_click={null}
+              size="medium"
+              text={null}
+              title="submit_button_title"
+              type="submit"
+              variant="secondary"
+            >
+              <IconPrimary
+                alt="submit_button_title"
+                aria-hidden={false}
+                attributes={null}
+                class={null}
+                className="dnb-button__icon"
+                color={null}
+                height={null}
+                icon="submit_button_icon"
+                key="button-icon"
+                modifier={null}
+                size="default"
+                title={null}
+                width={null}
+              />
+            </Content>
+          </button>
+        </Button>
+      </span>
     </Submit>
   </span>
-</Fragment>
+</Input>
 `;
 
 exports[`Input scss have to match default theme snapshot 1`] = `
@@ -169,29 +391,28 @@ exports[`Input scss have to match default theme snapshot 1`] = `
  */
 :root {
   --input-text-color: var(--color-sea-green);
-  --input-text-color--focus: var(--color-emerald-green);
-  --input-text-color--active: var(--color-emerald-green);
+  --input-text-color--focus: var(--color-sea-green);
+  --input-text-color--changed: var(--color-emerald-green);
   --input-text-color--disabled: var(--color-sea-green-alt-30);
   --input-background-color: var(--color-white);
   --input-background-color--focus: var(--color-white);
-  --input-background-color--active: var(--color-white);
+  --input-background-color--changed: var(--color-white);
   --input-background-color--disabled: var(--color-mint-green-12);
   --input-border-color: var(--color-sea-green-alt);
   --input-border-color--focus: var(--color-emerald-green);
-  --input-border-color--active: var(--color-sea-green-alt);
+  --input-border-color--changed: var(--color-sea-green-alt);
   --input-border-color--disabled: var(--color-sea-green-alt-30); }
 
 .dnb-input {
   color: var(--input-text-color); }
   .dnb-input__shell {
-    background-color: var(--input-background-color--active);
+    background-color: var(--input-background-color);
     border: none;
     box-shadow: inset 0 0 0 var(--input-border-width, 1px) var(--input-border-color);
     border-color: transparent; }
-    .dnb-input__shell[data-has-content='true'] {
-      color: var(--input-text-color--active);
-      box-shadow: inset 0 0 0 var(--input-border-width, 1px) var(--input-border-color--active);
-      border-color: transparent; }
+    .dnb-input__shell[data-input-state='dirty'] {
+      color: var(--input-text-color--changed);
+      background-color: var(--input-background-color--changed); }
     .dnb-input__shell[data-input-state='disabled'] {
       color: var(--input-text-color--disabled);
       box-shadow: inset 0 0 0 var(--input-border-width, 1px) var(--input-border-color--disabled);
