@@ -20,6 +20,7 @@
 **/test-files/dist
 /docs
 /dist
+/vue.*
 /index.*
 /web-components.*
 /web-components

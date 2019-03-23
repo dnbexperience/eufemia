@@ -14,7 +14,7 @@ import dnb, {
   IconPrimary as Icon,
   Switch,
   FormLabel
-} from 'dnb-ui-lib/src'
+} from 'dnb-ui-lib/src/components'
 
 // Content
 import text from 'raw-loader!./lipsum.txt'

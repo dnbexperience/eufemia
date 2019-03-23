@@ -23,6 +23,7 @@ export default opts =>
       await runFactory('./src/shared/**/*.js', opts)
       await runFactory('./src/web-components.js', opts)
       await runFactory('./src/index.js', opts)
+      await runFactory('./src/vue.js', opts)
       log.succeed(`> PrePublish: "makeLibModules" done`)
       resolve()
     } catch (e) {

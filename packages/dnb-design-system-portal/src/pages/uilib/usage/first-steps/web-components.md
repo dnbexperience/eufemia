@@ -15,8 +15,8 @@ So called [Custom Elements](https://www.w3.org/TR/custom-elements/), running as 
 
 ```jsx
 // Method #1
-import dnb from 'dnb-ui-lib'
-dnb.enableWebComponents()
+import { enableWebComponents } from 'dnb-ui-lib/components'
+enableWebComponents()
 
 // Method #2
 import 'dnb-ui-lib/web-components'

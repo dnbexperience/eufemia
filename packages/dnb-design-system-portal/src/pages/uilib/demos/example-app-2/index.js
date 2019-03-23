@@ -16,7 +16,7 @@ import dnb, {
   RangeSlider,
   FormSummary,
   ActionNav
-} from 'dnb-ui-lib/src'
+} from 'dnb-ui-lib/src/components'
 import LoanSausage from './LoanSausage'
 
 const style = css`
