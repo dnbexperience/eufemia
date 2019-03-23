@@ -107,6 +107,30 @@ class Example extends PureComponent {
 />
           `}
         </ComponentBox>
+        <ComponentBox
+          scope={{ Bell }}
+          caption="Medium is equalent to 24, but responsive"
+        >
+          {/* @jsx */ `
+<Button
+  variant="signal"
+  text="Signal Button"
+  icon={Bell}
+  data-dnb-test="button-signal"
+/>
+          `}
+        </ComponentBox>
+        <ComponentBox scope={{ Bell }}>
+          {/* @jsx */ `
+<Button
+  variant="signal"
+  text="Large Signal Button"
+  icon={<Bell />}
+  size="large"
+  icon_size="medium"
+/>
+          `}
+        </ComponentBox>
         <ComponentBox scope={{ question }} caption="Button with Icon only">
           {/* @jsx */ `
 <Button
@@ -130,30 +154,6 @@ class Example extends PureComponent {
 <Button
   title="Button with custom, Secondary Icon only"
   icon={question}
-/>
-          `}
-        </ComponentBox>
-        <ComponentBox
-          scope={{ Bell }}
-          caption="Medium is equalent to 24, but responsive"
-        >
-          {/* @jsx */ `
-<Button
-  variant="signal"
-  text="Signal Button"
-  icon={Bell}
-  data-dnb-test="button-signal"
-/>
-          `}
-        </ComponentBox>
-        <ComponentBox scope={{ Bell }}>
-          {/* @jsx */ `
-<Button
-  variant="signal"
-  text="Large Signal Button"
-  icon={<Bell />}
-  size="large"
-  icon_size="medium"
 />
           `}
         </ComponentBox>
