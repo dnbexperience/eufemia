@@ -23,7 +23,7 @@ class Example extends PureComponent {
         <ComponentBox
           caption="Default dropdown"
           data-dnb-test="dropdown-closed"
-          noInline
+          useRender
         >
           {/* @jsx */ `
 const data = [

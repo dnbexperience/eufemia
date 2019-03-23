@@ -15,7 +15,7 @@ You may have a look at the QuickStart for Designers [About Colors](/quickguide-d
 
 ## Example usage
 
-<ComponentBox hideCode noInline>
+<ComponentBox hideCode useRender>
 {`
 const P = styled.p\`
   color: var(--color-cherry-red);

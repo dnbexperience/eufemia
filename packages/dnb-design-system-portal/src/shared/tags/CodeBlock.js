@@ -87,7 +87,7 @@ class LiveCode extends PureComponent {
     code: PropTypes.string.isRequired,
     scope: PropTypes.object,
     caption: PropTypes.string,
-    noInline: PropTypes.bool,
+    useRender: PropTypes.bool,
     noFragments: PropTypes.bool,
     hideToolbar: PropTypes.bool,
     hideCode: PropTypes.bool,
@@ -99,7 +99,7 @@ class LiveCode extends PureComponent {
   static defaultProps = {
     scope: {},
     caption: null,
-    noInline: false,
+    useRender: false,
     noFragments: true,
     hideToolbar: false,
     hideCode: false,
@@ -151,7 +151,7 @@ class LiveCode extends PureComponent {
       caption,
       scope,
       hideSyntaxButton,
-      noInline,
+      useRender,
       noFragments,
       language,
 
@@ -179,13 +179,14 @@ class LiveCode extends PureComponent {
     return (
       <LiveCodeEditor>
         <LiveProvider
+          Prism={Prism}
           theme={prismTheme}
           code={codeToUse}
           scope={scope}
           transformCode={code =>
-            !noInline && noFragments ? `<>${code}</>` : code
+            !useRender && noFragments ? `<>${code}</>` : code
           }
-          noInline={noInline}
+          noInline={useRender}
           {...props}
         >
           {!hidePreview && (
@@ -219,7 +220,6 @@ class LiveCode extends PureComponent {
             >
               <LiveEditor
                 ignoreTabKey
-                language={language}
                 padding={0}
                 style={{
                   font: 'inherit'
@@ -230,6 +230,29 @@ class LiveCode extends PureComponent {
                 onBlur={() => {
                   this.setState({ hasFocus: false })
                 }}
+                // make this wrap to get in the custom Prism
+                // This way we can reformat jsx css template-string
+                // language={language}
+                highlight={code => (
+                  <Highlight
+                    Prism={Prism}
+                    code={code}
+                    theme={prismTheme}
+                    language={language}
+                  >
+                    {({ tokens, getLineProps, getTokenProps }) => (
+                      <>
+                        {tokens.map((line, i) => (
+                          <div {...getLineProps({ line, key: i })}>
+                            {line.map((token, key) => (
+                              <span {...getTokenProps({ token, key })} />
+                            ))}
+                          </div>
+                        ))}
+                      </>
+                    )}
+                  </Highlight>
+                )}
               />
             </div>
           )}
@@ -278,7 +301,7 @@ class LiveCode extends PureComponent {
               <Code
                 source={generateElement({
                   code:
-                    !noInline && noFragments
+                    !useRender && noFragments
                       ? `<>${codeToUse}</>`
                       : codeToUse,
                   scope

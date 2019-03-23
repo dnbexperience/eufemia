@@ -35,7 +35,7 @@ Use `size="auto"` to force the icon to inherit the size of its parent element.
 
 _Scalable Vector Graphics_ can be set up to be scaleable and actually respond to the `font-size`.
 
-<ComponentBox scope={{Beach}} noInline>
+<ComponentBox scope={{Beach}} useRender>
 {`
 const Responsive = styled.span\`
   svg {

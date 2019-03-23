@@ -54,7 +54,7 @@ render(
 
 They work seamlessly with Styled Components as well:
 
-<ComponentBox noInline scope={{Link}}>
+<ComponentBox useRender scope={{Link}}>
 {`
 const StyledLink = styled(Link)\`
   font-size: var(--font-size-default);

@@ -21,7 +21,7 @@ class Example extends PureComponent {
       <Fragment>
         <ComponentBox
           caption="Only numbers"
-          noInline
+          useRender
           scope={{
             createNumberMask,
             handleInputChange
@@ -47,7 +47,7 @@ render(<InputMasked
         </ComponentBox>
         <ComponentBox
           caption="Only numbers, right aligned and large sized input"
-          noInline
+          useRender
           scope={{
             createNumberMask,
             handleInputChange: this.handleInputChange

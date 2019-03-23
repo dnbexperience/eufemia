@@ -53,7 +53,7 @@ class Example extends PureComponent {
           caption="StepIndicator with urls, for visited steps only"
           data-dnb-test="step-indicator"
           scope={{ onChangeHandler, active_url }}
-          noInline
+          useRender
           hideSyntaxButton
         >
           {/* @jsx */ `

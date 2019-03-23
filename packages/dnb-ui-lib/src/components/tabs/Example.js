@@ -36,7 +36,7 @@ class Example extends PureComponent {
           caption="Left aligned tabs, using both 'data' property and content object"
           scope={{ exampleContent }}
           data-dnb-test="tabs-tablist"
-          noInline
+          useRender
           hideSyntaxButton
         >
           {/* @jsx */ `

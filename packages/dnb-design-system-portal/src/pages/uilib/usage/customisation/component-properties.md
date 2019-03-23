@@ -34,7 +34,7 @@ But here You have some examples. You can even modify them right away in the Brow
 
 ## Extended example
 
-<ComponentBox scope={{hamburgerIcon}} noInline>
+<ComponentBox scope={{hamburgerIcon}} useRender>
 {`
 const Wrapper = styled.div\`
   .dnb-button {
@@ -75,7 +75,7 @@ Changing a property (`props`) at runtime is a common thing in React. But also `d
 Keep in mind that not all components are tested to the last detail.
 So, if you come over some special use cases, please contribute back and make a pull request.
 
-<ComponentBox noInline>
+<ComponentBox useRender>
 {`
 const Component = () => {
   const time = new Date().toLocaleTimeString()
