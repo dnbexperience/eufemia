@@ -17,6 +17,4 @@ export const enableWebComponents = () => {
   patternsIndex.enableWebComponents()
 }
 
-export default {
-  enableWebComponents
-}
+enableWebComponents()

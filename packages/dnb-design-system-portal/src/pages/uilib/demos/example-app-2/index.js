@@ -6,7 +6,8 @@
 import React, { PureComponent } from 'react'
 import { css } from '@emotion/core'
 import Head from 'react-helmet'
-import dnb, {
+import dnb from 'dnb-ui-lib/src/components'
+import {
   Button,
   MainNav,
   ViewTitle,
@@ -16,7 +17,7 @@ import dnb, {
   RangeSlider,
   FormSummary,
   ActionNav
-} from 'dnb-ui-lib/src/components'
+} from 'dnb-ui-lib/src'
 import LoanSausage from './LoanSausage'
 
 const style = css`
