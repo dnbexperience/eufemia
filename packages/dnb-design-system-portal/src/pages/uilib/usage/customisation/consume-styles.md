@@ -44,9 +44,12 @@ import 'dnb-ui-lib/style/themes/[NAME].css'
 
 ### Single Component only
 
-You also can import a single style of a single component:
+It is possible to import a single CSS Style of a single component at once:
 
 ```js
+// Import the minimum required package: "dnb-ui-basis"
+import 'dnb-ui-lib/style/basis'
+
 // Imports only the Button CSS and Main DNB Theme
 import 'dnb-ui-lib/components/button/style'
 import 'dnb-ui-lib/components/button/style/themes/ui'
