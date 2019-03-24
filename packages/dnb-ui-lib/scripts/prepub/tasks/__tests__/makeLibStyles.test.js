@@ -21,7 +21,14 @@ describe('makeLibStyles transform main SASS to CSS', () => {
   it('has to contain a button selector', () => {
     expect(global.css).toContain('.dnb-button {')
   })
-  it('has to have correct path to fonts', () => {
-    expect(global.css).toContain('"../../../assets/fonts/')
+  it('has to contain a icon selector as it is a dependdency', () => {
+    expect(global.css).toContain('.dnb-icon {')
   })
+  it('has to contain a polyfil for font-family', () => {
+    expect(global.css).toMatch(new RegExp('font-family: .*, sans-serif;'))
+  })
+  // NB: New from 24. mars 2019 - we relay on the css style packages (e.g. basic)
+  // it('has to have correct path to fonts', () => {
+  //   expect(global.css).toContain('"../../../assets/fonts/')
+  // })
 })
