@@ -23,6 +23,7 @@ import '../src/style/elements'
 // import '../src/components/button/style/themes/ui'
 // import '../src/style/themes/ui'
 /* or use the compiled version */
+// import '../style/basis'
 // import '../components/button/style/dnb-button.css'
 // import '../components/button/style/themes/dnb-button-theme-ui.css'
 // import '../style/themes/dnb-theme-ui.css'
