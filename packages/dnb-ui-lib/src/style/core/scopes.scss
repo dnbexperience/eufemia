@@ -5,10 +5,7 @@
 
 @import './reset.scss';
 
-@mixin bodyDefault() {
-  @include reset();
-
-  font-family: sans-serif;
+@mixin coreDefault() {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
   font-size: 1rem;
@@ -19,6 +16,13 @@
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 
   @include numberFeature(lining-nums, lnum);
+
+  @content;
+}
+
+@mixin bodyDefault() {
+  @include reset();
+  @include coreDefault();
 
   @media print {
     background-color: white;
@@ -37,10 +41,11 @@
 }
 
 @mixin componentReset() {
-  @include bodyDefault();
+  @include coreDefault();
+  @include coreReset();
 
-  font-size: 1em;
-  line-height: 1.5em;
+  margin: 0;
+  padding: 0;
 
   @content;
 }
