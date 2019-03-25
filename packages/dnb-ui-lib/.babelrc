@@ -44,7 +44,7 @@
           "@babel/preset-env",
           {
             "useBuiltIns": "usage",
-            "corejs": "core-js@2"
+            "corejs": 2
           }
         ],
         "@babel/preset-react"
@@ -76,7 +76,7 @@
           "@babel/preset-env",
           {
             "useBuiltIns": "usage",
-            "corejs": "core-js@2",
+            "corejs": 2,
             "modules": false
           }
         ],

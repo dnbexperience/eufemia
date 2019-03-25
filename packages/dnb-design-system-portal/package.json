@@ -43,7 +43,10 @@
     "prettier:package": "prettier-package-json --write ./package.json"
   },
   "dependencies": {
-    "dnb-ui-lib": "*"
+    "core-js": "2",
+    "dnb-ui-lib": "*",
+    "react": "^16.8.5",
+    "react-dom": "^16.8.5"
   },
   "devDependencies": {
     "@babel/core": "^7.4.0",
@@ -104,9 +107,7 @@
     "prism-react-renderer": "^0.1.6",
     "prop-types": "^15.7.2",
     "raw-loader": "^2.0.0",
-    "react": "^16.8.5",
     "react-anchor-link-smooth-scroll": "^1.0.12",
-    "react-dom": "^16.8.5",
     "react-fake-props": "^0.3.1",
     "react-helmet": "^5.2.0",
     "react-live": "^2.0.0",

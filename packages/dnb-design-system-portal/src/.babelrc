@@ -7,7 +7,7 @@
           "browsers": ["last 2 versions", "explorer >= 11"]
         },
         "useBuiltIns": "usage",
-        "corejs": "core-js@2"
+        "corejs": 2
       }
     ],
     "@babel/preset-react"

@@ -60,8 +60,9 @@ module.exports = ({ IE11 = false, ...options } = {}) => {
 
 function extractCSSProperties(file, opts = {}) {
   try {
+    file = path.resolve(__dirname, '../../../../dnb-ui-lib/', file)
     const sassResult = sass.renderSync({
-      file: file,
+      file,
       ...opts
     })
     const dir = path.resolve(__dirname, '.cache')
@@ -75,6 +76,6 @@ function extractCSSProperties(file, opts = {}) {
     fs.writeFileSync(tmpFile, String(sassResult.css))
     return tmpFile
   } catch (e) {
-    console.log('Error', e)
+    console.log('Error in postcssConfig (extractCSSProperties):', e)
   }
 }
