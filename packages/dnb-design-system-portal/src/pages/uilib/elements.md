@@ -15,6 +15,7 @@ import Blockquote from 'Pages/uilib/elements/blockquote'
 import Textarea from 'Pages/uilib/elements/textarea'
 import Tables from 'Pages/uilib/elements/tables'
 import Lists from 'Pages/uilib/elements/lists'
+import Code from 'Pages/uilib/elements/code'
 
 # HTML Elements
 
@@ -74,6 +75,7 @@ render(<StyledLink href="/" target="_blank">Styled Link</StyledLink>)
 - [Select](#missing-html-elements)
 - [Radio](#missing-html-elements)
 - [Checkbox](#missing-html-elements)
+- [Code](#code)
 
 <Anchor />
 <Blockquote />
@@ -84,3 +86,7 @@ render(<StyledLink href="/" target="_blank">Styled Link</StyledLink>)
 ---
 
 <OtherElements />
+
+---
+
+<Code />
