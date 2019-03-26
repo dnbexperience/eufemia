@@ -197,15 +197,21 @@ export default class Modal extends PureComponent {
   }
   close = e => {
     const { prevent_close } = this.props
-    if (prevent_close === true || prevent_close === 'true') {
-      const id = this._id
-      dispatchCustomElementEvent(this, 'on_close_prevent', {
-        id,
-        close: e => this.toggleOpenClose(e, false)
-      })
-      return
+    if (String(prevent_close) === 'true') {
+      if (!this.isClosing) {
+        const id = this._id
+        this.isClosing = true
+        dispatchCustomElementEvent(this, 'on_close_prevent', {
+          id,
+          close: e => {
+            this.isClosing = false
+            this.toggleOpenClose(e, false)
+          }
+        })
+      }
+    } else {
+      this.toggleOpenClose(e, false)
     }
-    this.toggleOpenClose(e, false)
   }
   componentWillUnmount() {
     this.toggleOpenClose(null, false)
