@@ -8,7 +8,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 
 const Tag = ({ children, className, is: Component, ...rest }) => {
-  if (!children) return <></>
+  if (children === null && !/hr/.test(Component)) return <></>
   return (
     <Component
       className={classnames(`dnb-${Component}`, className)}
