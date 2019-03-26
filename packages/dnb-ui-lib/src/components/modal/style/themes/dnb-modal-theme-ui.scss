@@ -19,12 +19,13 @@
     cursor: pointer;
     color: var(--color-sea-green);
 
+    @include fakeFocus();
+
+    html[data-whatinput='keyboard'] &,
     &.dnb-button--secondary {
       box-shadow: none;
       background-color: transparent;
     }
-
-    @include fakeFocus();
   }
 
   &__overlay {
