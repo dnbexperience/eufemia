@@ -73,3 +73,26 @@ The following table has a default style. But in future, there will be several pa
 </table>
 `}
 </ComponentBox>
+
+### Tabular Numbers
+
+Set [Tabular Lining](/uilib/typography/numbers) on tables by using this CSS class: `.dnb-table--tabular`
+
+<ComponentBox reactLive hideCode data-dnb-test="table-default">
+{`
+<table className="dnb-table dnb-table--tabular">
+  <thead>
+    <tr>
+      <th>
+        Tabular Lining
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0123456789</td>
+    </tr>
+  </tbody>
+</table>
+`}
+</ComponentBox>
