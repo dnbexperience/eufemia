@@ -467,7 +467,6 @@ class ModalContent extends PureComponent {
 
   preventClick = e => {
     if (e) {
-      e.preventDefault()
       e.stopPropagation()
     }
   }

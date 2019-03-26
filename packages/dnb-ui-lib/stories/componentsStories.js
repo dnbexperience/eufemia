@@ -21,6 +21,7 @@ import {
   Logo,
   StepIndicator
 } from '../src/components'
+import { H2, P, Hr } from '../src/elements'
 
 const stories = []
 export default stories
@@ -90,8 +91,8 @@ stories.push([
 ])
 
 const tablistDataWithContent = [
-  { title: 'First', key: 'first', content: <h2>First</h2> },
-  { title: 'Second', key: 'second', content: () => <h2>Second</h2> }
+  { title: 'First', key: 'first', content: <H2>First</H2> },
+  { title: 'Second', key: 'second', content: () => <H2>Second</H2> }
 ]
 
 stories.push([
@@ -108,18 +109,18 @@ stories.push([
         <Tabs
           selected_key="second"
           data={{
-            first: { title: 'First', content: () => <h2>First</h2> },
-            second: { title: 'Second', content: () => <h2>Second</h2> }
+            first: { title: 'First', content: () => <H2>First</H2> },
+            second: { title: 'Second', content: () => <H2>Second</H2> }
           }}
         />
       </Box>
       <Box>
         <Tabs>
           <Tabs.Content title="First">
-            <h2>First</h2>
+            <H2>First</H2>
           </Tabs.Content>
           <Tabs.Content title="Second" selected>
-            <h2>Second</h2>
+            <H2>Second</H2>
           </Tabs.Content>
         </Tabs>
       </Box>
@@ -258,9 +259,17 @@ stories.push([
   'Modal',
   () => (
     <Wrapper>
-      <Modal trigger_text="Open Modal" title="Title for accessibility">
-        <h2>Some content</h2>
-        <Input>Focus me with Tab key</Input>
+      <Modal trigger_text="Open Modal" title="Modal Title">
+        <Hr />
+        <Box>
+          <H2>Some content</H2>
+          <Input>Focus me with Tab key</Input>
+        </Box>
+        <Box>
+          <P>
+            <Switch label="Checked:" checked />
+          </P>
+        </Box>
       </Modal>
     </Wrapper>
   )
@@ -437,7 +446,7 @@ stories.push([
 ])
 
 const exampleTabsContent = {
-  first: () => <h2>First</h2>,
+  first: () => <H2>First</H2>,
   second: () => <Input>Focus me with next Tab key</Input>,
   third: () => (
     <p>
@@ -445,7 +454,7 @@ const exampleTabsContent = {
       ipsum
     </p>
   ),
-  fourth: () => <h2>Fourth</h2>
+  fourth: () => <H2>Fourth</H2>
 }
 const tabsData = [
   { title: 'First', key: 'first' },
