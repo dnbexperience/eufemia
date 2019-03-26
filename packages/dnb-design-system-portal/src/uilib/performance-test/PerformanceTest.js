@@ -8,7 +8,8 @@ import ReactTestUtils from 'react-dom/test-utils' // ES6
 import PropTypes from 'prop-types'
 
 // UI Components
-import dnb, {
+import dnb from 'dnb-ui-lib/src/components/lib'
+import {
   Button,
   Input,
   IconPrimary as Icon,

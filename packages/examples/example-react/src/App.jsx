@@ -14,11 +14,7 @@ import './App.css'
 // import 'dnb-ui-lib/components/Icon/style' // Import only the icon styles
 // import 'dnb-ui-lib/components' // in case we only use web component version
 
-import dnb, {
-  Button,
-  Input,
-  Icon
-} from 'dnb-ui-lib/src/components/web-components' // optional, import "dnb-ui-lib/components/web-components" to enable Web Components
+import dnb, { Button, Input, Icon } from 'dnb-ui-lib/components/lib' // optional, import "dnb-ui-lib/components/web-components" to enable Web Components
 import { H1, H2, P } from 'dnb-ui-lib/elements'
 import { bell_medium as Bell } from 'dnb-ui-lib/icons'
 import 'dnb-ui-lib/style' // Import the global DNB stylesheet

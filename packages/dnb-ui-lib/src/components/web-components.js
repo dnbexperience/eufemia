@@ -3,7 +3,7 @@
  *
  */
 
-export * from './index'
-import lib from './index'
+export * from './lib'
+import lib from './lib'
 lib.enableWebComponents()
 export default lib
