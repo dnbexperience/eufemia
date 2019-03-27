@@ -255,11 +255,40 @@ stories.push([
   )
 ])
 
-stories.push([
-  'Modal',
-  () => (
-    <Wrapper>
-      <Modal trigger_text="Open Modal" title="Modal Title">
+class ModalCloseExample extends React.PureComponent {
+  state = {
+    open_state: null
+  }
+
+  // constructor(props) {
+  //   super(props)
+  //
+  //   setTimeout(() => {
+  //     this.setState({
+  //       open_state: 'opened'
+  //     })
+  //     setTimeout(() => {
+  //       this.setState({
+  //         open_state: 'closed'
+  //       })
+  //     }, 3e3)
+  //   }, 1e3)
+  // }
+
+  render() {
+    return (
+      <Modal
+        trigger_text="Open Modal and auto close"
+        title="Modal Title"
+        // open_state={this.state.open_state}
+        // open_modal={open => {
+        //   setTimeout(open, 3e3)
+        // }}
+        close_modal={close => {
+          console.log('Modal was opened')
+          setTimeout(close, 3e3)
+        }}
+      >
         <Hr />
         <Box>
           <H2>Some content</H2>
@@ -271,6 +300,31 @@ stories.push([
           </P>
         </Box>
       </Modal>
+    )
+  }
+}
+
+stories.push([
+  'Modal',
+  () => (
+    <Wrapper>
+      <Box>
+        <Modal trigger_text="Open Modal" title="Modal Title">
+          <Hr />
+          <Box>
+            <H2>Some content</H2>
+            <Input>Focus me with Tab key</Input>
+          </Box>
+          <Box>
+            <P>
+              <Switch label="Checked:" checked />
+            </P>
+          </Box>
+        </Modal>
+      </Box>
+      <Box>
+        <ModalCloseExample />
+      </Box>
     </Wrapper>
   )
 ])

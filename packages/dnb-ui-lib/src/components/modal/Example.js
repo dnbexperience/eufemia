@@ -51,6 +51,22 @@ class Example extends PureComponent {
 </Modal>
           `}
         </ComponentBox>
+        <ComponentBox caption="Close Modal by handlers">
+          {/* @jsx */ `
+<Modal
+  title="Auto close"
+  trigger_text="Click me"
+  // open_state="opened"
+  close_modal={close => {
+    setTimeout(close, 3e3)
+  }}
+>
+  <p className="dnb-p">
+    This Modal will close in 3 seconds.
+  </p>
+</Modal>
+          `}
+        </ComponentBox>
       </Fragment>
     )
   }
