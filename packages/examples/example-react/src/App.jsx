@@ -5,20 +5,20 @@
 
 import React, { PureComponent } from 'react'
 
-import Icon from 'dnb-ui-lib/es/components/icon/Icon' // optional, import "dnb-ui-lib/es/components/web-components" to enable Web Components
-import Input from 'dnb-ui-lib/es/components/input/Input' // optional, import "dnb-ui-lib/es/components/web-components" to enable Web Components
-import Button from 'dnb-ui-lib/es/components/button/Button' // optional, import "dnb-ui-lib/es/components/web-components" to enable Web Components
-import H1 from 'dnb-ui-lib/src/elements/H1'
-import H2 from 'dnb-ui-lib/src/elements/H2'
-import P from 'dnb-ui-lib/src/elements/P'
-import Section from 'dnb-ui-lib/src/elements/Section'
+// With this we get 100kb more in bundle size
+// import { Button, Input, Icon } from 'dnb-ui-lib/components'
+// import { H1, H2, P, Section } from 'dnb-ui-lib/elements'
+// import { bell_medium as Bell } from 'dnb-ui-lib/icons'
+
+// Better for Tree Shaking as webpack treeshaking only works with ES6 module syntax
+import Icon from 'dnb-ui-lib/es/components/icon/Icon'
+import Input from 'dnb-ui-lib/es/components/input/Input'
+import Button from 'dnb-ui-lib/es/components/button/Button'
+import H1 from 'dnb-ui-lib/es/elements/H1'
+import H2 from 'dnb-ui-lib/es/elements/H2'
+import P from 'dnb-ui-lib/es/elements/P'
+import Section from 'dnb-ui-lib/es/elements/Section'
 import Bell from 'dnb-ui-lib/icons/bell_medium'
-
-console.log('H1', H1.tagName)
-console.log('Section', Section.tagName)
-console.log('H2', H2.tagName)
-
-// to enable Web Components, cause we use both react and Web Components in here
 
 export default class App extends PureComponent {
   state = { inputValue: null }
