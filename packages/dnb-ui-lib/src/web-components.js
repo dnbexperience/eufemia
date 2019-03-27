@@ -3,8 +3,8 @@
  *
  */
 
-import * as lib from './index'
+// import all the aviable libs
+export * from './lib'
+import { enableWebComponents } from './lib'
 
-lib.enableWebComponents()
-
-export default lib
+enableWebComponents()

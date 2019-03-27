@@ -20,7 +20,8 @@ export const DefaultIconSizes = {
   medium: 24
   // large: 32 // currently not in use
 }
-export const ListDefaultIconSizes = Object.entries(DefaultIconSizes)
+// instead of using Object.entries(DefaultIconSizes)
+export const ListDefaultIconSizes = [['default', 16], ['medium', 24]]
 export const ValidIconSizes = [
   'small', // 12px 0.75rem
   'default', // 16px 1rem

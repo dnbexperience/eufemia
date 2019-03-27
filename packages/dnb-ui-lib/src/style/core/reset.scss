@@ -25,7 +25,7 @@
       /* Windows emoji */ 'Segoe UI Symbol',
       /* Linux emoji */ 'Noto Color Emoji'; /* 2 */
 
-    line-height: 1.15; /* 3 */
+    line-height: 1.5rem; /* 3 */
     -moz-tab-size: 4; /* 4 */
     tab-size: 4; /* 4 */
     -ms-text-size-adjust: 100%; /* 5 */
@@ -45,11 +45,11 @@
   }
 }
 
-@mixin reset() {
+@mixin coreReset() {
   /**
-   * 1. Remove repeating backgrounds in all browsers (opinionated).
-   * 2. Add border box sizing in all browsers (opinionated).
-   */
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
 
   *,
   ::before,
@@ -59,15 +59,19 @@
   }
 
   /**
-   * 1. Add text decoration inheritance in all browsers (opinionated).
-   * 2. Add vertical alignment inheritance in all browsers (opinionated).
-   */
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
 
   ::before,
   ::after {
     text-decoration: inherit; /* 1 */
     vertical-align: inherit; /* 2 */
   }
+}
+
+@mixin reset() {
+  @include coreReset();
 
   /* Grouping content
    */

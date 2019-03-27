@@ -160,7 +160,7 @@ export default class Input extends PureComponent {
     this.state.value = Input.getValue(props)
   }
   onFocusHandler = event => {
-    const value = event.target.value
+    const { value } = event.target
     this.setState({
       value,
       _listenForPropChanges: false,
@@ -169,23 +169,23 @@ export default class Input extends PureComponent {
     dispatchCustomElementEvent(this, 'on_focus', { value, event })
   }
   onBlurHandler = event => {
-    const value = event.target.value
+    const { value } = event.target
     this.setState({
       value,
       _listenForPropChanges: false,
-      inputState: 'dirty'
+      inputState: String(value || '').length > 0 ? 'dirty' : 'initial'
     })
     dispatchCustomElementEvent(this, 'on_blur', { value, event })
   }
   onChangeHandler = event => {
-    const value = event.target.value
+    const { value } = event.target
     this.setState({ value, _listenForPropChanges: false })
     event.preventDefault()
     dispatchCustomElementEvent(this, 'on_change', { value, event })
   }
   onKeyDownHandler = event => {
     if (event.key === 'Enter') {
-      const value = event.target.value
+      const { value } = event.target
       event.preventDefault()
       dispatchCustomElementEvent(this, 'on_submit', { value, event })
     }
@@ -220,7 +220,7 @@ export default class Input extends PureComponent {
       ...attributes
     } = this.props
 
-    const { value } = this.state
+    const { value, inputState } = this.state
 
     const id = this._id
     const showStatus = status && status !== 'error'
@@ -273,7 +273,7 @@ export default class Input extends PureComponent {
     }
 
     const shellParams = {
-      'data-input-state': this.state.inputState,
+      'data-input-state': inputState,
       'data-has-content': String(value || '').length > 0 ? 'true' : 'false'
     }
     if (disabled) {

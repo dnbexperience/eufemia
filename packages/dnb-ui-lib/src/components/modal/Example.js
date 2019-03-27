@@ -22,11 +22,17 @@ class Example extends PureComponent {
   title="Modal Title"
   trigger_title="Click me"
   modal_content={() => (
-      <p className="dnb-p">This is the modal text. Triggered by a icon button.</p>
+      <p className="dnb-p">
+        This is the modal text. Triggered by a icon button.
+      </p>
   )}
 />
+          `}
+        </ComponentBox>
+        <ComponentBox caption="Hide the Close Button and Prevent Close for 1sec">
+          {/* @jsx */ `
 <Modal
-  title="Modal Title (1s delay)"
+  title="1s close delay"
   trigger_text="Click me"
   prevent_close="true"
   hide_close_button="true"
@@ -34,8 +40,14 @@ class Example extends PureComponent {
   on_close={(e) => console.log('on_close', e)}
   on_close_prevent={({ close }) => setTimeout(close, 1e3)}
 >
-  <p className="dnb-p">This is the modal text. Triggered by a secondary button.</p>
-  <Input label="Label:">Focus me with Tab key</Input>
+  <p className="dnb-p">
+    This is a Modal Window with no close button.
+  </p>
+  <p className="dnb-p">
+    Click outside me, and I will be closed within 1 second.
+  </p>
+  <br/>
+  <Input label="Focus:">Focus me with Tab key</Input>
 </Modal>
           `}
         </ComponentBox>

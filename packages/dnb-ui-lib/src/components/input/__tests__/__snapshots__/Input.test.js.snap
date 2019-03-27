@@ -1,7 +1,38 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Input component have to match type="search" snapshot 1`] = `
-<Fragment>
+<Input
+  align="align"
+  attributes="attributes"
+  autocomplete="off"
+  class="class"
+  className="className"
+  custom_element={Object {}}
+  custom_method={[Function]}
+  description={null}
+  disabled={false}
+  id="input"
+  inputElement={null}
+  input_class="input_class"
+  label={null}
+  on_blur={[Function]}
+  on_change={[Function]}
+  on_focus={[Function]}
+  on_submit={[Function]}
+  on_submit_blur={[Function]}
+  on_submit_focus={[Function]}
+  placeholder="placeholder"
+  readOnly="readOnly"
+  size="size"
+  status={null}
+  status_animation="status_animation"
+  status_state="status_state"
+  submit_button_icon="submit_button_icon"
+  submit_button_title="submit_button_title"
+  submit_button_variant="secondary"
+  type="search"
+  value="test"
+>
   <span
     className="dnb-input dnb-input--search dnb-input--size dnb-input--has-submit-button dnb-input__align--align class className"
   >
@@ -15,8 +46,8 @@ exports[`Input component have to match type="search" snapshot 1`] = `
         attributes="attributes"
         autoComplete="off"
         className="dnb-input__input input_class"
-        id="id"
-        name="id"
+        id="input"
+        name="input"
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -44,7 +75,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
       disabled={false}
       icon="submit_button_icon"
       icon_size="medium"
-      id="id"
+      id="input"
       inputElement={null}
       input_class="input_class"
       label={null}
@@ -71,14 +102,125 @@ exports[`Input component have to match type="search" snapshot 1`] = `
       value="test"
       variant="secondary"
     >
-      children
+      <span
+        className="dnb-input__submit-button"
+        data-input-state="virgin"
+      >
+        <Button
+          attributes={null}
+          class={null}
+          className="dnb-input__submit-button__button"
+          custom_element={null}
+          custom_method={null}
+          disabled={false}
+          href={null}
+          icon="submit_button_icon"
+          icon_position="right"
+          icon_size="default"
+          id={null}
+          innerRef={null}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          on_click={null}
+          size="medium"
+          text={null}
+          title="submit_button_title"
+          type="submit"
+          variant="secondary"
+        >
+          <button
+            aria-label="submit_button_title"
+            className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon dnb-input__submit-button__button"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            title="submit_button_title"
+            type="submit"
+          >
+            <Content
+              attributes={null}
+              class={null}
+              className="dnb-input__submit-button__button"
+              content={null}
+              custom_element={null}
+              custom_method={null}
+              disabled={false}
+              href={null}
+              icon="submit_button_icon"
+              icon_position="right"
+              icon_size="default"
+              id={null}
+              innerRef={null}
+              isIconOnly={true}
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              on_click={null}
+              size="medium"
+              text={null}
+              title="submit_button_title"
+              type="submit"
+              variant="secondary"
+            >
+              <IconPrimary
+                alt="submit_button_title"
+                aria-hidden={false}
+                attributes={null}
+                class={null}
+                className="dnb-button__icon"
+                color={null}
+                height={null}
+                icon="submit_button_icon"
+                key="button-icon"
+                modifier={null}
+                size="default"
+                title={null}
+                width={null}
+              />
+            </Content>
+          </button>
+        </Button>
+      </span>
     </Submit>
   </span>
-</Fragment>
+</Input>
 `;
 
 exports[`Input component have to match type="text" snapshot 1`] = `
-<Fragment>
+<Input
+  align="align"
+  attributes="attributes"
+  autocomplete="off"
+  class="class"
+  className="className"
+  custom_element={Object {}}
+  custom_method={[Function]}
+  description={null}
+  disabled={false}
+  id="input"
+  inputElement={null}
+  input_class="input_class"
+  label={null}
+  on_blur={[Function]}
+  on_change={[Function]}
+  on_focus={[Function]}
+  on_submit={[Function]}
+  on_submit_blur={[Function]}
+  on_submit_focus={[Function]}
+  placeholder="placeholder"
+  readOnly="readOnly"
+  size="size"
+  status={null}
+  status_animation="status_animation"
+  status_state="status_state"
+  submit_button_icon="submit_button_icon"
+  submit_button_title="submit_button_title"
+  submit_button_variant="secondary"
+  type="text"
+  value="test"
+>
   <span
     className="dnb-input dnb-input--text dnb-input--size dnb-input--has-submit-button dnb-input__align--align class className"
   >
@@ -92,8 +234,8 @@ exports[`Input component have to match type="text" snapshot 1`] = `
         attributes="attributes"
         autoComplete="off"
         className="dnb-input__input input_class"
-        id="id"
-        name="id"
+        id="input"
+        name="input"
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -121,7 +263,7 @@ exports[`Input component have to match type="text" snapshot 1`] = `
       disabled={false}
       icon="submit_button_icon"
       icon_size="medium"
-      id="id"
+      id="input"
       inputElement={null}
       input_class="input_class"
       label={null}
@@ -148,10 +290,90 @@ exports[`Input component have to match type="text" snapshot 1`] = `
       value="test"
       variant="secondary"
     >
-      children
+      <span
+        className="dnb-input__submit-button"
+        data-input-state="virgin"
+      >
+        <Button
+          attributes={null}
+          class={null}
+          className="dnb-input__submit-button__button"
+          custom_element={null}
+          custom_method={null}
+          disabled={false}
+          href={null}
+          icon="submit_button_icon"
+          icon_position="right"
+          icon_size="default"
+          id={null}
+          innerRef={null}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          on_click={null}
+          size="medium"
+          text={null}
+          title="submit_button_title"
+          type="submit"
+          variant="secondary"
+        >
+          <button
+            aria-label="submit_button_title"
+            className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon dnb-input__submit-button__button"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            title="submit_button_title"
+            type="submit"
+          >
+            <Content
+              attributes={null}
+              class={null}
+              className="dnb-input__submit-button__button"
+              content={null}
+              custom_element={null}
+              custom_method={null}
+              disabled={false}
+              href={null}
+              icon="submit_button_icon"
+              icon_position="right"
+              icon_size="default"
+              id={null}
+              innerRef={null}
+              isIconOnly={true}
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              on_click={null}
+              size="medium"
+              text={null}
+              title="submit_button_title"
+              type="submit"
+              variant="secondary"
+            >
+              <IconPrimary
+                alt="submit_button_title"
+                aria-hidden={false}
+                attributes={null}
+                class={null}
+                className="dnb-button__icon"
+                color={null}
+                height={null}
+                icon="submit_button_icon"
+                key="button-icon"
+                modifier={null}
+                size="default"
+                title={null}
+                width={null}
+              />
+            </Content>
+          </button>
+        </Button>
+      </span>
     </Submit>
   </span>
-</Fragment>
+</Input>
 `;
 
 exports[`Input scss have to match default theme snapshot 1`] = `
@@ -169,29 +391,28 @@ exports[`Input scss have to match default theme snapshot 1`] = `
  */
 :root {
   --input-text-color: var(--color-sea-green);
-  --input-text-color--focus: var(--color-emerald-green);
-  --input-text-color--active: var(--color-emerald-green);
+  --input-text-color--focus: var(--color-sea-green);
+  --input-text-color--changed: var(--color-emerald-green);
   --input-text-color--disabled: var(--color-sea-green-alt-30);
   --input-background-color: var(--color-white);
   --input-background-color--focus: var(--color-white);
-  --input-background-color--active: var(--color-white);
+  --input-background-color--changed: var(--color-white);
   --input-background-color--disabled: var(--color-mint-green-12);
   --input-border-color: var(--color-sea-green-alt);
   --input-border-color--focus: var(--color-emerald-green);
-  --input-border-color--active: var(--color-sea-green-alt);
+  --input-border-color--changed: var(--color-sea-green-alt);
   --input-border-color--disabled: var(--color-sea-green-alt-30); }
 
 .dnb-input {
   color: var(--input-text-color); }
   .dnb-input__shell {
-    background-color: var(--input-background-color--active);
+    background-color: var(--input-background-color);
     border: none;
     box-shadow: inset 0 0 0 var(--input-border-width, 1px) var(--input-border-color);
     border-color: transparent; }
-    .dnb-input__shell[data-has-content='true'] {
-      color: var(--input-text-color--active);
-      box-shadow: inset 0 0 0 var(--input-border-width, 1px) var(--input-border-color--active);
-      border-color: transparent; }
+    .dnb-input__shell[data-input-state='dirty'] {
+      color: var(--input-text-color--changed);
+      background-color: var(--input-background-color--changed); }
     .dnb-input__shell[data-input-state='disabled'] {
       color: var(--input-text-color--disabled);
       box-shadow: inset 0 0 0 var(--input-border-width, 1px) var(--input-border-color--disabled);
@@ -231,116 +452,6 @@ exports[`Input scss have to match snapshot 1`] = `
 /*
  * Utilities
  */
-/*
- * CSS Properties
- *
- */
-:root {
-  --font-family-default: 'Fedra Sans Std', sans-serif;
-  --font-family-book: 'Fedra Sans Std', sans-serif;
-  /* Do not use, use --font-weight-... */
-  --font-family-demi: 'Fedra Sans Std', sans-serif;
-  /* Do not use, use --font-weight-... */
-  --font-family-medium: 'Fedra Sans Std', sans-serif;
-  /* Do not use, use --font-weight-... */
-  --font-weight-default: normal;
-  --font-weight-book: normal;
-  --font-weight-demi: 500;
-  --font-weight-medium: 600;
-  --font-size-small: 0.875rem;
-  --font-size-default: 1rem;
-  --font-size-x-default: 1.25rem;
-  --font-size-medium: 1.5rem;
-  --font-size-large: 2rem;
-  --font-size-xx-large: 3rem;
-  --color-sea-green-alt: #008484;
-  --color-mint-green-50: #d2f0e9;
-  --color-mint-green-25: #e9f8f4;
-  --color-mint-green-12: #f4fbf9;
-  --color-sea-green-alt-30: #b3dada;
-  --color-signal-yellow-30: #ffffd7;
-  --color-cherry-red: #e10076;
-  --color-cherry-red-80: #fdebf4;
-  --color-black: #000;
-  --color-black-80: #333;
-  --color-black-30: #b3b3b3;
-  --color-white: #fff;
-  --color-black-border: #cdcdcd;
-  --color-black-background: #fafafa;
-  --color-sea-green: #007272;
-  --color-mint-green: #a5e1d2;
-  --color-summer-green: #28b482;
-  --color-emerald-green: #14555a;
-  --color-ocean-green: #00343e;
-  --color-signal-orange: #ff5400;
-  --color-signal-yellow: #ffff7a;
-  --color-indigo: #23195a;
-  --color-violet: #6e2382;
-  --color-sky-blue: #4bbed2; }
-
-/*
- * Typography
- *
- * The font-family properties are defined in the properties.scss file, like:
- * --font-family-default:
- *
- */
-.dnb-typo-std,
-.dnb-typo-book {
-  font-family: var(--font-family-default);
-  font-weight: normal;
-  font-style: normal; }
-
-.dnb-typo-medium {
-  font-family: var(--font-family-default);
-  font-weight: var(--font-weight-medium);
-  font-style: normal; }
-
-.dnb-typo-demi {
-  font-family: var(--font-family-default);
-  font-weight: var(--font-weight-demi);
-  font-style: normal; }
-
-.dnb-typo-number--lining {
-  font-variant-numeric: lining-nums;
-  font-feature-settings: \\"lnum\\"; }
-
-.dnb-typo-number--tabular {
-  font-variant-numeric: tabular-nums;
-  font-feature-settings: \\"lnum\\"; }
-
-.dnb-typo-number--oldstyle {
-  font-variant-numeric: oldstyle-nums;
-  font-feature-settings: \\"onum\\"; }
-
-.dnb-typo-number--proportional {
-  font-variant-numeric: proportional-nums;
-  font-feature-settings: \\"pnum\\"; }
-
-@font-face {
-  font-family: 'Fedra Sans Std';
-  src: url(\\"../../../../assets/fonts//FedraSansStd-Book.eot\\");
-  src: url(\\"../../../../assets/fonts//FedraSansStd-Book.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts//FedraSansStd-Book.woff2\\") format(\\"woff2\\"), url(\\"../../../../assets/fonts//FedraSansStd-Book.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts//FedraSansStd-Book.ttf\\") format(\\"truetype\\");
-  font-weight: normal;
-  font-style: normal;
-  font-display: fallback; }
-
-@font-face {
-  font-family: 'Fedra Sans Std';
-  src: url(\\"../../../../assets/fonts//FedraSansStd-Demi.eot\\");
-  src: url(\\"../../../../assets/fonts//FedraSansStd-Demi.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts//FedraSansStd-Demi.woff2\\") format(\\"woff2\\"), url(\\"../../../../assets/fonts//FedraSansStd-Demi.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts//FedraSansStd-Demi.ttf\\") format(\\"truetype\\");
-  font-weight: 500;
-  font-style: normal;
-  font-display: fallback; }
-
-@font-face {
-  font-family: 'Fedra Sans Std';
-  src: url(\\"../../../../assets/fonts//FedraSansStd-Medium.eot\\");
-  src: url(\\"../../../../assets/fonts//FedraSansStd-Medium.eot?#iefix\\") format(\\"embedded-opentype\\"), url(\\"../../../../assets/fonts//FedraSansStd-Medium.woff2\\") format(\\"woff2\\"), url(\\"../../../../assets/fonts//FedraSansStd-Medium.woff\\") format(\\"woff\\"), url(\\"../../../../assets/fonts//FedraSansStd-Medium.ttf\\") format(\\"truetype\\");
-  font-weight: 600;
-  font-style: normal;
-  font-display: fallback; }
-
 /*
  * Scopes
  *
@@ -406,180 +517,6 @@ exports[`Input scss have to match snapshot 1`] = `
     height: auto; }
 
 .dnb-button {
-  /**
-   * 1. Remove repeating backgrounds in all browsers (opinionated).
-   * 2. Add border box sizing in all browsers (opinionated).
-   */
-  /**
-   * 1. Add text decoration inheritance in all browsers (opinionated).
-   * 2. Add vertical alignment inheritance in all browsers (opinionated).
-   */
-  /* Grouping content
-   */
-  /**
-   * 1. Add the correct sizing in Firefox.
-   * 2. Show the overflow in Edge and IE.
-   */
-  /**
-   * Add the correct display in IE.
-   */
-  /**
-   * Remove the list style on navigation lists in all browsers (opinionated).
-   */
-  /**
-   * 1. Use the default monospace user interface font
-   *    in all browsers (opinionated).
-   * 2. Correct the odd \`em\` font sizing in all browsers.
-   */
-  /* Text-level semantics
-   */
-  /**
-   * Remove the gray background on active links in IE 10.
-   */
-  /**
-   * Add the correct text decoration in Edge, IE, Opera, and Safari.
-   */
-  /**
-   * Add the correct font weight in Chrome, Edge, and Safari.
-   */
-  /**
-   * 1. Use the default monospace user interface font
-   *    in all browsers (opinionated).
-   * 2. Correct the odd \`em\` font sizing in all browsers.
-   */
-  /*
-   * Remove the text shadow on text selections in Firefox 61- (opinionated).
-   * 1. Restore the coloring undone by defining the text shadow
-   *    in all browsers (opinionated).
-   */
-  /* Embedded content
-   */
-  /*
-   * Change the alignment on media elements in all browers (opinionated).
-   */
-  /**
-   * Add the correct display in IE 9-.
-   */
-  /**
-   * Add the correct display in iOS 4-7.
-   */
-  /**
-   * Remove the border on images inside links in IE 10-.
-   */
-  /**
-   * Change the fill color to match the text color in all browsers (opinionated).
-   */
-  /**
-   * Hide the overflow in IE.
-   */
-  /* Tabular data
-   */
-  /**
-   * Collapse border spacing in all browsers (opinionated).
-   */
-  /* Forms
-   */
-  /**
-   * Inherit styling in all browsers (opinionated).
-   */
-  /**
-   * Remove the margin in Safari.
-   */
-  /**
-   * 1. Show the overflow in IE.
-   * 2. Remove the inheritance of text transform in Edge, Firefox, and IE.
-   */
-  /**
-   * Correct the inability to style clickable types in iOS and Safari.
-   */
-  /**
-   * Correct the padding in Firefox.
-   */
-  /**
-   * Show the overflow in Edge and IE.
-   * 1. Safari did inherit the break-word from html root
-   */
-  /**
-   * 1. Correct the text wrapping in Edge and IE.
-   * 2. Correct the color inheritance from \`fieldset\` elements in IE.
-   */
-  /**
-   * 1. Add the correct display in Edge and IE.
-   * 2. Add the correct vertical alignment in Chrome, Firefox, and Opera.
-   */
-  /**
-   * Remove the inheritance of text transform in Firefox.
-   */
-  /**
-   * 2. Remove the default vertical scrollbar in IE.
-   * 3. Change the resize direction on textareas in all browsers (opinionated).
-   */
-  /**
-   * Remove the padding in IE 10-.
-   */
-  /**
-   * 1. Correct the odd appearance in Chrome and Safari.
-   * 2. Correct the outline style in Safari.
-   */
-  /**
-   * Correct the cursor style of increment and decrement buttons in Safari.
-   */
-  /**
-   * Correct the text style of placeholders in Chrome, Edge, and Safari.
-   */
-  /**
-   * Remove the inner padding in Chrome and Safari on macOS.
-   */
-  /**
-   * 1. Correct the inability to style clickable types in iOS and Safari.
-   * 2. Change font properties to \`inherit\` in Safari.
-   */
-  /**
-   * Remove the inner border and padding of focus outlines in Firefox.
-   */
-  /* Interactive
-   */
-  /*
-   * Add the correct display in Edge and IE.
-   */
-  /*
-   * Add the correct display in all browsers.
-   */
-  /* Scripting
-   */
-  /**
-   * Add the correct display in IE 9-.
-   */
-  /**
-   * Add the correct display in IE.
-   */
-  /* User interaction
-   */
-  /*
-   * 1. Remove the tapping delay in IE 10.
-   * 2. Remove the tapping delay on clickable elements
-        in all browsers (opinionated).
-   */
-  /**
-   * Add the correct display in IE 10-.
-   */
-  /* Accessibility
-   */
-  /**
-   * Change the cursor on busy elements in all browsers (opinionated).
-   */
-  /*
-   * Change the cursor on control elements in all browsers (opinionated).
-   */
-  /*
-   * Change the cursor on disabled, not-editable, or otherwise
-   * inoperable elements in all browsers (opinionated).
-   */
-  /*
-   * Change the display on visually hidden accessible elements
-   * in all browsers (opinionated).
-   */
-  font-family: sans-serif;
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
   font-size: 1rem;
@@ -589,8 +526,16 @@ exports[`Input scss have to match snapshot 1`] = `
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   font-variant-numeric: lining-nums;
   font-feature-settings: \\"lnum\\";
-  font-size: 1em;
-  line-height: 1.5em; }
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
   .dnb-button *,
   .dnb-button ::before,
   .dnb-button ::after {
@@ -604,172 +549,6 @@ exports[`Input scss have to match snapshot 1`] = `
     /* 1 */
     vertical-align: inherit;
     /* 2 */ }
-  .dnb-button hr {
-    height: 0;
-    /* 1 */
-    overflow: visible;
-    /* 2 */ }
-  .dnb-button main {
-    display: block; }
-  .dnb-button nav ol,
-  .dnb-button nav ul {
-    list-style: none; }
-  .dnb-button pre {
-    font-family: Menlo, Consolas, Roboto Mono, Ubuntu Monospace, Noto Mono, Oxygen Mono, Liberation Mono, monospace;
-    /* 1 */
-    font-size: 1em;
-    /* 2 */ }
-  .dnb-button a {
-    background-color: transparent; }
-  .dnb-button abbr[title] {
-    text-decoration: underline;
-    text-decoration: underline dotted; }
-  .dnb-button b,
-  .dnb-button strong {
-    font-weight: bolder; }
-  .dnb-button code,
-  .dnb-button kbd,
-  .dnb-button samp {
-    font-family: Menlo, Consolas, Roboto Mono, Ubuntu Monospace, Noto Mono, Oxygen Mono, Liberation Mono, monospace;
-    /* 1 */
-    font-size: 1em;
-    /* 2 */ }
-  .dnb-button ::-moz-selection {
-    background-color: #b3d4fc;
-    /* 1 */
-    color: #000;
-    /* 1 */
-    text-shadow: none; }
-  .dnb-button audio,
-  .dnb-button canvas,
-  .dnb-button iframe,
-  .dnb-button img,
-  .dnb-button svg,
-  .dnb-button video {
-    vertical-align: middle; }
-  .dnb-button audio,
-  .dnb-button video {
-    display: inline-block; }
-  .dnb-button audio:not([controls]) {
-    display: none;
-    height: 0; }
-  .dnb-button img {
-    border-style: none; }
-  .dnb-button svg:not([fill]) {
-    fill: currentColor; }
-  .dnb-button svg:not(:root) {
-    overflow: hidden; }
-  .dnb-button table {
-    border-collapse: collapse; }
-  .dnb-button button,
-  .dnb-button input,
-  .dnb-button select,
-  .dnb-button textarea {
-    font-family: inherit;
-    font-size: inherit;
-    line-height: inherit; }
-  .dnb-button button,
-  .dnb-button input,
-  .dnb-button select {
-    margin: 0; }
-  .dnb-button button {
-    overflow: visible;
-    /* 1 */
-    text-transform: none;
-    /* 2 */ }
-  .dnb-button button,
-  .dnb-button [type='button'],
-  .dnb-button [type='reset'],
-  .dnb-button [type='submit'] {
-    -webkit-appearance: button; }
-  .dnb-button fieldset {
-    padding: 0.35rem 0.75rem 0.625rem; }
-  .dnb-button input {
-    overflow: visible;
-    word-break: normal;
-    /* 1 */ }
-  .dnb-button legend {
-    color: inherit;
-    /* 2 */
-    display: table;
-    /* 1 */
-    max-width: 100%;
-    /* 1 */
-    white-space: normal;
-    /* 1 */ }
-  .dnb-button progress {
-    display: inline-block;
-    /* 1 */
-    vertical-align: baseline;
-    /* 2 */ }
-  .dnb-button select {
-    text-transform: none; }
-  .dnb-button textarea {
-    overflow: auto;
-    /* 2 */
-    resize: vertical;
-    /* 3 */ }
-  .dnb-button [type='checkbox'],
-  .dnb-button [type='radio'] {
-    padding: 0; }
-  .dnb-button [type='search'] {
-    -webkit-appearance: textfield;
-    /* 1 */
-    outline-offset: -2px;
-    /* 2 */ }
-  .dnb-button ::-webkit-inner-spin-button,
-  .dnb-button ::-webkit-outer-spin-button {
-    height: auto; }
-  .dnb-button ::-webkit-input-placeholder {
-    color: inherit;
-    opacity: 0.54; }
-  .dnb-button ::-webkit-search-decoration {
-    -webkit-appearance: none; }
-  .dnb-button ::-webkit-file-upload-button {
-    -webkit-appearance: button;
-    /* 1 */
-    font: inherit;
-    /* 2 */ }
-  .dnb-button ::-moz-focus-inner {
-    border-style: none;
-    padding: 0; }
-  .dnb-button details {
-    display: block; }
-  .dnb-button summary {
-    display: list-item; }
-  .dnb-button canvas {
-    display: inline-block; }
-  .dnb-button template {
-    display: none; }
-  .dnb-button a,
-  .dnb-button area,
-  .dnb-button button,
-  .dnb-button input,
-  .dnb-button label,
-  .dnb-button select,
-  .dnb-button summary,
-  .dnb-button textarea,
-  .dnb-button [tabindex] {
-    -ms-touch-action: manipulation;
-    /* 1 */
-    touch-action: manipulation;
-    /* 2 */ }
-  .dnb-button [hidden] {
-    display: none; }
-  .dnb-button [aria-busy='true'] {
-    cursor: progress; }
-  .dnb-button [aria-controls] {
-    cursor: pointer; }
-  .dnb-button [aria-disabled='true'],
-  .dnb-button [disabled] {
-    cursor: not-allowed; }
-  .dnb-button [aria-hidden='false'][hidden]:not(:focus) {
-    clip: rect(0, 0, 0, 0);
-    display: inherit;
-    position: absolute; }
-  @media print {
-    .dnb-button {
-      background-color: white; } }
   .dnb-button button {
     overflow: visible;
     text-transform: none; }
@@ -946,180 +725,6 @@ a.dnb-button {
 *
 */
 .dnb-form-label {
-  /**
-   * 1. Remove repeating backgrounds in all browsers (opinionated).
-   * 2. Add border box sizing in all browsers (opinionated).
-   */
-  /**
-   * 1. Add text decoration inheritance in all browsers (opinionated).
-   * 2. Add vertical alignment inheritance in all browsers (opinionated).
-   */
-  /* Grouping content
-   */
-  /**
-   * 1. Add the correct sizing in Firefox.
-   * 2. Show the overflow in Edge and IE.
-   */
-  /**
-   * Add the correct display in IE.
-   */
-  /**
-   * Remove the list style on navigation lists in all browsers (opinionated).
-   */
-  /**
-   * 1. Use the default monospace user interface font
-   *    in all browsers (opinionated).
-   * 2. Correct the odd \`em\` font sizing in all browsers.
-   */
-  /* Text-level semantics
-   */
-  /**
-   * Remove the gray background on active links in IE 10.
-   */
-  /**
-   * Add the correct text decoration in Edge, IE, Opera, and Safari.
-   */
-  /**
-   * Add the correct font weight in Chrome, Edge, and Safari.
-   */
-  /**
-   * 1. Use the default monospace user interface font
-   *    in all browsers (opinionated).
-   * 2. Correct the odd \`em\` font sizing in all browsers.
-   */
-  /*
-   * Remove the text shadow on text selections in Firefox 61- (opinionated).
-   * 1. Restore the coloring undone by defining the text shadow
-   *    in all browsers (opinionated).
-   */
-  /* Embedded content
-   */
-  /*
-   * Change the alignment on media elements in all browers (opinionated).
-   */
-  /**
-   * Add the correct display in IE 9-.
-   */
-  /**
-   * Add the correct display in iOS 4-7.
-   */
-  /**
-   * Remove the border on images inside links in IE 10-.
-   */
-  /**
-   * Change the fill color to match the text color in all browsers (opinionated).
-   */
-  /**
-   * Hide the overflow in IE.
-   */
-  /* Tabular data
-   */
-  /**
-   * Collapse border spacing in all browsers (opinionated).
-   */
-  /* Forms
-   */
-  /**
-   * Inherit styling in all browsers (opinionated).
-   */
-  /**
-   * Remove the margin in Safari.
-   */
-  /**
-   * 1. Show the overflow in IE.
-   * 2. Remove the inheritance of text transform in Edge, Firefox, and IE.
-   */
-  /**
-   * Correct the inability to style clickable types in iOS and Safari.
-   */
-  /**
-   * Correct the padding in Firefox.
-   */
-  /**
-   * Show the overflow in Edge and IE.
-   * 1. Safari did inherit the break-word from html root
-   */
-  /**
-   * 1. Correct the text wrapping in Edge and IE.
-   * 2. Correct the color inheritance from \`fieldset\` elements in IE.
-   */
-  /**
-   * 1. Add the correct display in Edge and IE.
-   * 2. Add the correct vertical alignment in Chrome, Firefox, and Opera.
-   */
-  /**
-   * Remove the inheritance of text transform in Firefox.
-   */
-  /**
-   * 2. Remove the default vertical scrollbar in IE.
-   * 3. Change the resize direction on textareas in all browsers (opinionated).
-   */
-  /**
-   * Remove the padding in IE 10-.
-   */
-  /**
-   * 1. Correct the odd appearance in Chrome and Safari.
-   * 2. Correct the outline style in Safari.
-   */
-  /**
-   * Correct the cursor style of increment and decrement buttons in Safari.
-   */
-  /**
-   * Correct the text style of placeholders in Chrome, Edge, and Safari.
-   */
-  /**
-   * Remove the inner padding in Chrome and Safari on macOS.
-   */
-  /**
-   * 1. Correct the inability to style clickable types in iOS and Safari.
-   * 2. Change font properties to \`inherit\` in Safari.
-   */
-  /**
-   * Remove the inner border and padding of focus outlines in Firefox.
-   */
-  /* Interactive
-   */
-  /*
-   * Add the correct display in Edge and IE.
-   */
-  /*
-   * Add the correct display in all browsers.
-   */
-  /* Scripting
-   */
-  /**
-   * Add the correct display in IE 9-.
-   */
-  /**
-   * Add the correct display in IE.
-   */
-  /* User interaction
-   */
-  /*
-   * 1. Remove the tapping delay in IE 10.
-   * 2. Remove the tapping delay on clickable elements
-        in all browsers (opinionated).
-   */
-  /**
-   * Add the correct display in IE 10-.
-   */
-  /* Accessibility
-   */
-  /**
-   * Change the cursor on busy elements in all browsers (opinionated).
-   */
-  /*
-   * Change the cursor on control elements in all browsers (opinionated).
-   */
-  /*
-   * Change the cursor on disabled, not-editable, or otherwise
-   * inoperable elements in all browsers (opinionated).
-   */
-  /*
-   * Change the display on visually hidden accessible elements
-   * in all browsers (opinionated).
-   */
-  font-family: sans-serif;
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
   font-size: 1rem;
@@ -1129,8 +734,16 @@ a.dnb-button {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   font-variant-numeric: lining-nums;
   font-feature-settings: \\"lnum\\";
-  font-size: 1em;
-  line-height: 1.5em; }
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
   .dnb-form-label *,
   .dnb-form-label ::before,
   .dnb-form-label ::after {
@@ -1144,172 +757,6 @@ a.dnb-button {
     /* 1 */
     vertical-align: inherit;
     /* 2 */ }
-  .dnb-form-label hr {
-    height: 0;
-    /* 1 */
-    overflow: visible;
-    /* 2 */ }
-  .dnb-form-label main {
-    display: block; }
-  .dnb-form-label nav ol,
-  .dnb-form-label nav ul {
-    list-style: none; }
-  .dnb-form-label pre {
-    font-family: Menlo, Consolas, Roboto Mono, Ubuntu Monospace, Noto Mono, Oxygen Mono, Liberation Mono, monospace;
-    /* 1 */
-    font-size: 1em;
-    /* 2 */ }
-  .dnb-form-label a {
-    background-color: transparent; }
-  .dnb-form-label abbr[title] {
-    text-decoration: underline;
-    text-decoration: underline dotted; }
-  .dnb-form-label b,
-  .dnb-form-label strong {
-    font-weight: bolder; }
-  .dnb-form-label code,
-  .dnb-form-label kbd,
-  .dnb-form-label samp {
-    font-family: Menlo, Consolas, Roboto Mono, Ubuntu Monospace, Noto Mono, Oxygen Mono, Liberation Mono, monospace;
-    /* 1 */
-    font-size: 1em;
-    /* 2 */ }
-  .dnb-form-label ::-moz-selection {
-    background-color: #b3d4fc;
-    /* 1 */
-    color: #000;
-    /* 1 */
-    text-shadow: none; }
-  .dnb-form-label audio,
-  .dnb-form-label canvas,
-  .dnb-form-label iframe,
-  .dnb-form-label img,
-  .dnb-form-label svg,
-  .dnb-form-label video {
-    vertical-align: middle; }
-  .dnb-form-label audio,
-  .dnb-form-label video {
-    display: inline-block; }
-  .dnb-form-label audio:not([controls]) {
-    display: none;
-    height: 0; }
-  .dnb-form-label img {
-    border-style: none; }
-  .dnb-form-label svg:not([fill]) {
-    fill: currentColor; }
-  .dnb-form-label svg:not(:root) {
-    overflow: hidden; }
-  .dnb-form-label table {
-    border-collapse: collapse; }
-  .dnb-form-label button,
-  .dnb-form-label input,
-  .dnb-form-label select,
-  .dnb-form-label textarea {
-    font-family: inherit;
-    font-size: inherit;
-    line-height: inherit; }
-  .dnb-form-label button,
-  .dnb-form-label input,
-  .dnb-form-label select {
-    margin: 0; }
-  .dnb-form-label button {
-    overflow: visible;
-    /* 1 */
-    text-transform: none;
-    /* 2 */ }
-  .dnb-form-label button,
-  .dnb-form-label [type='button'],
-  .dnb-form-label [type='reset'],
-  .dnb-form-label [type='submit'] {
-    -webkit-appearance: button; }
-  .dnb-form-label fieldset {
-    padding: 0.35rem 0.75rem 0.625rem; }
-  .dnb-form-label input {
-    overflow: visible;
-    word-break: normal;
-    /* 1 */ }
-  .dnb-form-label legend {
-    color: inherit;
-    /* 2 */
-    display: table;
-    /* 1 */
-    max-width: 100%;
-    /* 1 */
-    white-space: normal;
-    /* 1 */ }
-  .dnb-form-label progress {
-    display: inline-block;
-    /* 1 */
-    vertical-align: baseline;
-    /* 2 */ }
-  .dnb-form-label select {
-    text-transform: none; }
-  .dnb-form-label textarea {
-    overflow: auto;
-    /* 2 */
-    resize: vertical;
-    /* 3 */ }
-  .dnb-form-label [type='checkbox'],
-  .dnb-form-label [type='radio'] {
-    padding: 0; }
-  .dnb-form-label [type='search'] {
-    -webkit-appearance: textfield;
-    /* 1 */
-    outline-offset: -2px;
-    /* 2 */ }
-  .dnb-form-label ::-webkit-inner-spin-button,
-  .dnb-form-label ::-webkit-outer-spin-button {
-    height: auto; }
-  .dnb-form-label ::-webkit-input-placeholder {
-    color: inherit;
-    opacity: 0.54; }
-  .dnb-form-label ::-webkit-search-decoration {
-    -webkit-appearance: none; }
-  .dnb-form-label ::-webkit-file-upload-button {
-    -webkit-appearance: button;
-    /* 1 */
-    font: inherit;
-    /* 2 */ }
-  .dnb-form-label ::-moz-focus-inner {
-    border-style: none;
-    padding: 0; }
-  .dnb-form-label details {
-    display: block; }
-  .dnb-form-label summary {
-    display: list-item; }
-  .dnb-form-label canvas {
-    display: inline-block; }
-  .dnb-form-label template {
-    display: none; }
-  .dnb-form-label a,
-  .dnb-form-label area,
-  .dnb-form-label button,
-  .dnb-form-label input,
-  .dnb-form-label label,
-  .dnb-form-label select,
-  .dnb-form-label summary,
-  .dnb-form-label textarea,
-  .dnb-form-label [tabindex] {
-    -ms-touch-action: manipulation;
-    /* 1 */
-    touch-action: manipulation;
-    /* 2 */ }
-  .dnb-form-label [hidden] {
-    display: none; }
-  .dnb-form-label [aria-busy='true'] {
-    cursor: progress; }
-  .dnb-form-label [aria-controls] {
-    cursor: pointer; }
-  .dnb-form-label [aria-disabled='true'],
-  .dnb-form-label [disabled] {
-    cursor: not-allowed; }
-  .dnb-form-label [aria-hidden='false'][hidden]:not(:focus) {
-    clip: rect(0, 0, 0, 0);
-    display: inherit;
-    position: absolute; }
-  @media print {
-    .dnb-form-label {
-      background-color: white; } }
 
 /*
  * FormLabel component
@@ -1337,180 +784,6 @@ a.dnb-button {
 *
 */
 .dnb-form-status {
-  /**
-   * 1. Remove repeating backgrounds in all browsers (opinionated).
-   * 2. Add border box sizing in all browsers (opinionated).
-   */
-  /**
-   * 1. Add text decoration inheritance in all browsers (opinionated).
-   * 2. Add vertical alignment inheritance in all browsers (opinionated).
-   */
-  /* Grouping content
-   */
-  /**
-   * 1. Add the correct sizing in Firefox.
-   * 2. Show the overflow in Edge and IE.
-   */
-  /**
-   * Add the correct display in IE.
-   */
-  /**
-   * Remove the list style on navigation lists in all browsers (opinionated).
-   */
-  /**
-   * 1. Use the default monospace user interface font
-   *    in all browsers (opinionated).
-   * 2. Correct the odd \`em\` font sizing in all browsers.
-   */
-  /* Text-level semantics
-   */
-  /**
-   * Remove the gray background on active links in IE 10.
-   */
-  /**
-   * Add the correct text decoration in Edge, IE, Opera, and Safari.
-   */
-  /**
-   * Add the correct font weight in Chrome, Edge, and Safari.
-   */
-  /**
-   * 1. Use the default monospace user interface font
-   *    in all browsers (opinionated).
-   * 2. Correct the odd \`em\` font sizing in all browsers.
-   */
-  /*
-   * Remove the text shadow on text selections in Firefox 61- (opinionated).
-   * 1. Restore the coloring undone by defining the text shadow
-   *    in all browsers (opinionated).
-   */
-  /* Embedded content
-   */
-  /*
-   * Change the alignment on media elements in all browers (opinionated).
-   */
-  /**
-   * Add the correct display in IE 9-.
-   */
-  /**
-   * Add the correct display in iOS 4-7.
-   */
-  /**
-   * Remove the border on images inside links in IE 10-.
-   */
-  /**
-   * Change the fill color to match the text color in all browsers (opinionated).
-   */
-  /**
-   * Hide the overflow in IE.
-   */
-  /* Tabular data
-   */
-  /**
-   * Collapse border spacing in all browsers (opinionated).
-   */
-  /* Forms
-   */
-  /**
-   * Inherit styling in all browsers (opinionated).
-   */
-  /**
-   * Remove the margin in Safari.
-   */
-  /**
-   * 1. Show the overflow in IE.
-   * 2. Remove the inheritance of text transform in Edge, Firefox, and IE.
-   */
-  /**
-   * Correct the inability to style clickable types in iOS and Safari.
-   */
-  /**
-   * Correct the padding in Firefox.
-   */
-  /**
-   * Show the overflow in Edge and IE.
-   * 1. Safari did inherit the break-word from html root
-   */
-  /**
-   * 1. Correct the text wrapping in Edge and IE.
-   * 2. Correct the color inheritance from \`fieldset\` elements in IE.
-   */
-  /**
-   * 1. Add the correct display in Edge and IE.
-   * 2. Add the correct vertical alignment in Chrome, Firefox, and Opera.
-   */
-  /**
-   * Remove the inheritance of text transform in Firefox.
-   */
-  /**
-   * 2. Remove the default vertical scrollbar in IE.
-   * 3. Change the resize direction on textareas in all browsers (opinionated).
-   */
-  /**
-   * Remove the padding in IE 10-.
-   */
-  /**
-   * 1. Correct the odd appearance in Chrome and Safari.
-   * 2. Correct the outline style in Safari.
-   */
-  /**
-   * Correct the cursor style of increment and decrement buttons in Safari.
-   */
-  /**
-   * Correct the text style of placeholders in Chrome, Edge, and Safari.
-   */
-  /**
-   * Remove the inner padding in Chrome and Safari on macOS.
-   */
-  /**
-   * 1. Correct the inability to style clickable types in iOS and Safari.
-   * 2. Change font properties to \`inherit\` in Safari.
-   */
-  /**
-   * Remove the inner border and padding of focus outlines in Firefox.
-   */
-  /* Interactive
-   */
-  /*
-   * Add the correct display in Edge and IE.
-   */
-  /*
-   * Add the correct display in all browsers.
-   */
-  /* Scripting
-   */
-  /**
-   * Add the correct display in IE 9-.
-   */
-  /**
-   * Add the correct display in IE.
-   */
-  /* User interaction
-   */
-  /*
-   * 1. Remove the tapping delay in IE 10.
-   * 2. Remove the tapping delay on clickable elements
-        in all browsers (opinionated).
-   */
-  /**
-   * Add the correct display in IE 10-.
-   */
-  /* Accessibility
-   */
-  /**
-   * Change the cursor on busy elements in all browsers (opinionated).
-   */
-  /*
-   * Change the cursor on control elements in all browsers (opinionated).
-   */
-  /*
-   * Change the cursor on disabled, not-editable, or otherwise
-   * inoperable elements in all browsers (opinionated).
-   */
-  /*
-   * Change the display on visually hidden accessible elements
-   * in all browsers (opinionated).
-   */
-  font-family: sans-serif;
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
   font-size: 1rem;
@@ -1520,8 +793,16 @@ a.dnb-button {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   font-variant-numeric: lining-nums;
   font-feature-settings: \\"lnum\\";
-  font-size: 1em;
-  line-height: 1.5em; }
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
   .dnb-form-status *,
   .dnb-form-status ::before,
   .dnb-form-status ::after {
@@ -1535,172 +816,6 @@ a.dnb-button {
     /* 1 */
     vertical-align: inherit;
     /* 2 */ }
-  .dnb-form-status hr {
-    height: 0;
-    /* 1 */
-    overflow: visible;
-    /* 2 */ }
-  .dnb-form-status main {
-    display: block; }
-  .dnb-form-status nav ol,
-  .dnb-form-status nav ul {
-    list-style: none; }
-  .dnb-form-status pre {
-    font-family: Menlo, Consolas, Roboto Mono, Ubuntu Monospace, Noto Mono, Oxygen Mono, Liberation Mono, monospace;
-    /* 1 */
-    font-size: 1em;
-    /* 2 */ }
-  .dnb-form-status a {
-    background-color: transparent; }
-  .dnb-form-status abbr[title] {
-    text-decoration: underline;
-    text-decoration: underline dotted; }
-  .dnb-form-status b,
-  .dnb-form-status strong {
-    font-weight: bolder; }
-  .dnb-form-status code,
-  .dnb-form-status kbd,
-  .dnb-form-status samp {
-    font-family: Menlo, Consolas, Roboto Mono, Ubuntu Monospace, Noto Mono, Oxygen Mono, Liberation Mono, monospace;
-    /* 1 */
-    font-size: 1em;
-    /* 2 */ }
-  .dnb-form-status ::-moz-selection {
-    background-color: #b3d4fc;
-    /* 1 */
-    color: #000;
-    /* 1 */
-    text-shadow: none; }
-  .dnb-form-status audio,
-  .dnb-form-status canvas,
-  .dnb-form-status iframe,
-  .dnb-form-status img,
-  .dnb-form-status svg,
-  .dnb-form-status video {
-    vertical-align: middle; }
-  .dnb-form-status audio,
-  .dnb-form-status video {
-    display: inline-block; }
-  .dnb-form-status audio:not([controls]) {
-    display: none;
-    height: 0; }
-  .dnb-form-status img {
-    border-style: none; }
-  .dnb-form-status svg:not([fill]) {
-    fill: currentColor; }
-  .dnb-form-status svg:not(:root) {
-    overflow: hidden; }
-  .dnb-form-status table {
-    border-collapse: collapse; }
-  .dnb-form-status button,
-  .dnb-form-status input,
-  .dnb-form-status select,
-  .dnb-form-status textarea {
-    font-family: inherit;
-    font-size: inherit;
-    line-height: inherit; }
-  .dnb-form-status button,
-  .dnb-form-status input,
-  .dnb-form-status select {
-    margin: 0; }
-  .dnb-form-status button {
-    overflow: visible;
-    /* 1 */
-    text-transform: none;
-    /* 2 */ }
-  .dnb-form-status button,
-  .dnb-form-status [type='button'],
-  .dnb-form-status [type='reset'],
-  .dnb-form-status [type='submit'] {
-    -webkit-appearance: button; }
-  .dnb-form-status fieldset {
-    padding: 0.35rem 0.75rem 0.625rem; }
-  .dnb-form-status input {
-    overflow: visible;
-    word-break: normal;
-    /* 1 */ }
-  .dnb-form-status legend {
-    color: inherit;
-    /* 2 */
-    display: table;
-    /* 1 */
-    max-width: 100%;
-    /* 1 */
-    white-space: normal;
-    /* 1 */ }
-  .dnb-form-status progress {
-    display: inline-block;
-    /* 1 */
-    vertical-align: baseline;
-    /* 2 */ }
-  .dnb-form-status select {
-    text-transform: none; }
-  .dnb-form-status textarea {
-    overflow: auto;
-    /* 2 */
-    resize: vertical;
-    /* 3 */ }
-  .dnb-form-status [type='checkbox'],
-  .dnb-form-status [type='radio'] {
-    padding: 0; }
-  .dnb-form-status [type='search'] {
-    -webkit-appearance: textfield;
-    /* 1 */
-    outline-offset: -2px;
-    /* 2 */ }
-  .dnb-form-status ::-webkit-inner-spin-button,
-  .dnb-form-status ::-webkit-outer-spin-button {
-    height: auto; }
-  .dnb-form-status ::-webkit-input-placeholder {
-    color: inherit;
-    opacity: 0.54; }
-  .dnb-form-status ::-webkit-search-decoration {
-    -webkit-appearance: none; }
-  .dnb-form-status ::-webkit-file-upload-button {
-    -webkit-appearance: button;
-    /* 1 */
-    font: inherit;
-    /* 2 */ }
-  .dnb-form-status ::-moz-focus-inner {
-    border-style: none;
-    padding: 0; }
-  .dnb-form-status details {
-    display: block; }
-  .dnb-form-status summary {
-    display: list-item; }
-  .dnb-form-status canvas {
-    display: inline-block; }
-  .dnb-form-status template {
-    display: none; }
-  .dnb-form-status a,
-  .dnb-form-status area,
-  .dnb-form-status button,
-  .dnb-form-status input,
-  .dnb-form-status label,
-  .dnb-form-status select,
-  .dnb-form-status summary,
-  .dnb-form-status textarea,
-  .dnb-form-status [tabindex] {
-    -ms-touch-action: manipulation;
-    /* 1 */
-    touch-action: manipulation;
-    /* 2 */ }
-  .dnb-form-status [hidden] {
-    display: none; }
-  .dnb-form-status [aria-busy='true'] {
-    cursor: progress; }
-  .dnb-form-status [aria-controls] {
-    cursor: pointer; }
-  .dnb-form-status [aria-disabled='true'],
-  .dnb-form-status [disabled] {
-    cursor: not-allowed; }
-  .dnb-form-status [aria-hidden='false'][hidden]:not(:focus) {
-    clip: rect(0, 0, 0, 0);
-    display: inherit;
-    position: absolute; }
-  @media print {
-    .dnb-form-status {
-      background-color: white; } }
 
 /*
  * FormStatus component
@@ -1749,180 +864,6 @@ a.dnb-button {
     height: var(--input-height); } }
 
 .dnb-input {
-  /**
-   * 1. Remove repeating backgrounds in all browsers (opinionated).
-   * 2. Add border box sizing in all browsers (opinionated).
-   */
-  /**
-   * 1. Add text decoration inheritance in all browsers (opinionated).
-   * 2. Add vertical alignment inheritance in all browsers (opinionated).
-   */
-  /* Grouping content
-   */
-  /**
-   * 1. Add the correct sizing in Firefox.
-   * 2. Show the overflow in Edge and IE.
-   */
-  /**
-   * Add the correct display in IE.
-   */
-  /**
-   * Remove the list style on navigation lists in all browsers (opinionated).
-   */
-  /**
-   * 1. Use the default monospace user interface font
-   *    in all browsers (opinionated).
-   * 2. Correct the odd \`em\` font sizing in all browsers.
-   */
-  /* Text-level semantics
-   */
-  /**
-   * Remove the gray background on active links in IE 10.
-   */
-  /**
-   * Add the correct text decoration in Edge, IE, Opera, and Safari.
-   */
-  /**
-   * Add the correct font weight in Chrome, Edge, and Safari.
-   */
-  /**
-   * 1. Use the default monospace user interface font
-   *    in all browsers (opinionated).
-   * 2. Correct the odd \`em\` font sizing in all browsers.
-   */
-  /*
-   * Remove the text shadow on text selections in Firefox 61- (opinionated).
-   * 1. Restore the coloring undone by defining the text shadow
-   *    in all browsers (opinionated).
-   */
-  /* Embedded content
-   */
-  /*
-   * Change the alignment on media elements in all browers (opinionated).
-   */
-  /**
-   * Add the correct display in IE 9-.
-   */
-  /**
-   * Add the correct display in iOS 4-7.
-   */
-  /**
-   * Remove the border on images inside links in IE 10-.
-   */
-  /**
-   * Change the fill color to match the text color in all browsers (opinionated).
-   */
-  /**
-   * Hide the overflow in IE.
-   */
-  /* Tabular data
-   */
-  /**
-   * Collapse border spacing in all browsers (opinionated).
-   */
-  /* Forms
-   */
-  /**
-   * Inherit styling in all browsers (opinionated).
-   */
-  /**
-   * Remove the margin in Safari.
-   */
-  /**
-   * 1. Show the overflow in IE.
-   * 2. Remove the inheritance of text transform in Edge, Firefox, and IE.
-   */
-  /**
-   * Correct the inability to style clickable types in iOS and Safari.
-   */
-  /**
-   * Correct the padding in Firefox.
-   */
-  /**
-   * Show the overflow in Edge and IE.
-   * 1. Safari did inherit the break-word from html root
-   */
-  /**
-   * 1. Correct the text wrapping in Edge and IE.
-   * 2. Correct the color inheritance from \`fieldset\` elements in IE.
-   */
-  /**
-   * 1. Add the correct display in Edge and IE.
-   * 2. Add the correct vertical alignment in Chrome, Firefox, and Opera.
-   */
-  /**
-   * Remove the inheritance of text transform in Firefox.
-   */
-  /**
-   * 2. Remove the default vertical scrollbar in IE.
-   * 3. Change the resize direction on textareas in all browsers (opinionated).
-   */
-  /**
-   * Remove the padding in IE 10-.
-   */
-  /**
-   * 1. Correct the odd appearance in Chrome and Safari.
-   * 2. Correct the outline style in Safari.
-   */
-  /**
-   * Correct the cursor style of increment and decrement buttons in Safari.
-   */
-  /**
-   * Correct the text style of placeholders in Chrome, Edge, and Safari.
-   */
-  /**
-   * Remove the inner padding in Chrome and Safari on macOS.
-   */
-  /**
-   * 1. Correct the inability to style clickable types in iOS and Safari.
-   * 2. Change font properties to \`inherit\` in Safari.
-   */
-  /**
-   * Remove the inner border and padding of focus outlines in Firefox.
-   */
-  /* Interactive
-   */
-  /*
-   * Add the correct display in Edge and IE.
-   */
-  /*
-   * Add the correct display in all browsers.
-   */
-  /* Scripting
-   */
-  /**
-   * Add the correct display in IE 9-.
-   */
-  /**
-   * Add the correct display in IE.
-   */
-  /* User interaction
-   */
-  /*
-   * 1. Remove the tapping delay in IE 10.
-   * 2. Remove the tapping delay on clickable elements
-        in all browsers (opinionated).
-   */
-  /**
-   * Add the correct display in IE 10-.
-   */
-  /* Accessibility
-   */
-  /**
-   * Change the cursor on busy elements in all browsers (opinionated).
-   */
-  /*
-   * Change the cursor on control elements in all browsers (opinionated).
-   */
-  /*
-   * Change the cursor on disabled, not-editable, or otherwise
-   * inoperable elements in all browsers (opinionated).
-   */
-  /*
-   * Change the display on visually hidden accessible elements
-   * in all browsers (opinionated).
-   */
-  font-family: sans-serif;
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
   font-size: 1rem;
@@ -1932,8 +873,16 @@ a.dnb-button {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   font-variant-numeric: lining-nums;
   font-feature-settings: \\"lnum\\";
-  font-size: 1em;
-  line-height: 1.5em; }
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
   .dnb-input *,
   .dnb-input ::before,
   .dnb-input ::after {
@@ -1947,172 +896,6 @@ a.dnb-button {
     /* 1 */
     vertical-align: inherit;
     /* 2 */ }
-  .dnb-input hr {
-    height: 0;
-    /* 1 */
-    overflow: visible;
-    /* 2 */ }
-  .dnb-input main {
-    display: block; }
-  .dnb-input nav ol,
-  .dnb-input nav ul {
-    list-style: none; }
-  .dnb-input pre {
-    font-family: Menlo, Consolas, Roboto Mono, Ubuntu Monospace, Noto Mono, Oxygen Mono, Liberation Mono, monospace;
-    /* 1 */
-    font-size: 1em;
-    /* 2 */ }
-  .dnb-input a {
-    background-color: transparent; }
-  .dnb-input abbr[title] {
-    text-decoration: underline;
-    text-decoration: underline dotted; }
-  .dnb-input b,
-  .dnb-input strong {
-    font-weight: bolder; }
-  .dnb-input code,
-  .dnb-input kbd,
-  .dnb-input samp {
-    font-family: Menlo, Consolas, Roboto Mono, Ubuntu Monospace, Noto Mono, Oxygen Mono, Liberation Mono, monospace;
-    /* 1 */
-    font-size: 1em;
-    /* 2 */ }
-  .dnb-input ::-moz-selection {
-    background-color: #b3d4fc;
-    /* 1 */
-    color: #000;
-    /* 1 */
-    text-shadow: none; }
-  .dnb-input audio,
-  .dnb-input canvas,
-  .dnb-input iframe,
-  .dnb-input img,
-  .dnb-input svg,
-  .dnb-input video {
-    vertical-align: middle; }
-  .dnb-input audio,
-  .dnb-input video {
-    display: inline-block; }
-  .dnb-input audio:not([controls]) {
-    display: none;
-    height: 0; }
-  .dnb-input img {
-    border-style: none; }
-  .dnb-input svg:not([fill]) {
-    fill: currentColor; }
-  .dnb-input svg:not(:root) {
-    overflow: hidden; }
-  .dnb-input table {
-    border-collapse: collapse; }
-  .dnb-input button,
-  .dnb-input input,
-  .dnb-input select,
-  .dnb-input textarea {
-    font-family: inherit;
-    font-size: inherit;
-    line-height: inherit; }
-  .dnb-input button,
-  .dnb-input input,
-  .dnb-input select {
-    margin: 0; }
-  .dnb-input button {
-    overflow: visible;
-    /* 1 */
-    text-transform: none;
-    /* 2 */ }
-  .dnb-input button,
-  .dnb-input [type='button'],
-  .dnb-input [type='reset'],
-  .dnb-input [type='submit'] {
-    -webkit-appearance: button; }
-  .dnb-input fieldset {
-    padding: 0.35rem 0.75rem 0.625rem; }
-  .dnb-input input {
-    overflow: visible;
-    word-break: normal;
-    /* 1 */ }
-  .dnb-input legend {
-    color: inherit;
-    /* 2 */
-    display: table;
-    /* 1 */
-    max-width: 100%;
-    /* 1 */
-    white-space: normal;
-    /* 1 */ }
-  .dnb-input progress {
-    display: inline-block;
-    /* 1 */
-    vertical-align: baseline;
-    /* 2 */ }
-  .dnb-input select {
-    text-transform: none; }
-  .dnb-input textarea {
-    overflow: auto;
-    /* 2 */
-    resize: vertical;
-    /* 3 */ }
-  .dnb-input [type='checkbox'],
-  .dnb-input [type='radio'] {
-    padding: 0; }
-  .dnb-input [type='search'] {
-    -webkit-appearance: textfield;
-    /* 1 */
-    outline-offset: -2px;
-    /* 2 */ }
-  .dnb-input ::-webkit-inner-spin-button,
-  .dnb-input ::-webkit-outer-spin-button {
-    height: auto; }
-  .dnb-input ::-webkit-input-placeholder {
-    color: inherit;
-    opacity: 0.54; }
-  .dnb-input ::-webkit-search-decoration {
-    -webkit-appearance: none; }
-  .dnb-input ::-webkit-file-upload-button {
-    -webkit-appearance: button;
-    /* 1 */
-    font: inherit;
-    /* 2 */ }
-  .dnb-input ::-moz-focus-inner {
-    border-style: none;
-    padding: 0; }
-  .dnb-input details {
-    display: block; }
-  .dnb-input summary {
-    display: list-item; }
-  .dnb-input canvas {
-    display: inline-block; }
-  .dnb-input template {
-    display: none; }
-  .dnb-input a,
-  .dnb-input area,
-  .dnb-input button,
-  .dnb-input input,
-  .dnb-input label,
-  .dnb-input select,
-  .dnb-input summary,
-  .dnb-input textarea,
-  .dnb-input [tabindex] {
-    -ms-touch-action: manipulation;
-    /* 1 */
-    touch-action: manipulation;
-    /* 2 */ }
-  .dnb-input [hidden] {
-    display: none; }
-  .dnb-input [aria-busy='true'] {
-    cursor: progress; }
-  .dnb-input [aria-controls] {
-    cursor: pointer; }
-  .dnb-input [aria-disabled='true'],
-  .dnb-input [disabled] {
-    cursor: not-allowed; }
-  .dnb-input [aria-hidden='false'][hidden]:not(:focus) {
-    clip: rect(0, 0, 0, 0);
-    display: inherit;
-    position: absolute; }
-  @media print {
-    .dnb-input {
-      background-color: white; } }
 
 /*
 * Input component

@@ -1,5 +1,5 @@
 {
-  "name": "html-example",
+  "name": "example-html",
   "description": "Vanilla HTML example",
   "license": "SEE LICENSE IN LICENSE FILE",
   "repository": {
@@ -13,6 +13,6 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "live-server": "^1.2.0"
+    "live-server": "^1.2.1"
   }
 }

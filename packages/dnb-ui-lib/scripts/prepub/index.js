@@ -72,12 +72,18 @@ export const cleanupLib = async ({ preventDelete = false } = {}) => {
     log.text = '> PrePublish: deliting existing style'
     await del(
       [
+        './es/**',
         './components/**',
+        './elements/**',
         './patterns/**',
         './style/**',
+        './umd/**',
+        '!./es',
         '!./components',
+        '!./elements',
         '!./patterns',
-        '!./style'
+        '!./style',
+        '!./umd'
       ],
       {
         force: true

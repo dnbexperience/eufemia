@@ -5,7 +5,7 @@
 
 import React from 'react'
 import {
-  shallow,
+  mount,
   fakeProps,
   toJson,
   loadScss
@@ -19,9 +19,10 @@ import dnb_view_title from '../style/dnb-view-title.scss' // eslint-disable-line
 const props = fakeProps(require.resolve('../ViewTitle'), {
   optional: true
 })
+props.tag = 'h1'
 
 describe('ViewTitle component', () => {
-  const ComponentWrap = shallow(<Component {...props} />)
+  const ComponentWrap = mount(<Component {...props} />)
   it('have to match snapshot', () => {
     expect(toJson(ComponentWrap)).toMatchSnapshot()
   })

@@ -23,6 +23,7 @@ export default opts =>
       await runFactory('./src/shared/**/*.js', opts)
       await runFactory('./src/web-components.js', opts)
       await runFactory('./src/index.js', opts)
+      await runFactory('./src/vue.js', opts)
       log.succeed(`> PrePublish: "makeLibModules" done`)
       resolve()
     } catch (e) {
@@ -68,7 +69,7 @@ const runFactory = (src, { preventDelete = false } = {}) =>
             .pipe(transform('utf8', transformContent))
             .pipe(babel())
             .pipe(uglify())
-            .pipe(sourcemaps.write())
+            .pipe(sourcemaps.write('./'))
             .pipe(gulp.dest(`./${dest}`, { cwd: process.env.ROOT_DIR }))
             .on('end', resolve)
             .on('error', reject)
@@ -79,6 +80,22 @@ const runFactory = (src, { preventDelete = false } = {}) =>
               cwd: process.env.ROOT_DIR
             })
             .pipe(transform('utf8', transformContent))
+            .pipe(
+              babel({
+                presets: [
+                  [
+                    '@babel/preset-env',
+                    {
+                      targets: {
+                        esmodules: true
+                      },
+                      modules: false,
+                      useBuiltIns: false // no polyfill
+                    }
+                  ]
+                ]
+              })
+            )
             .pipe(transform('utf8', transformContentRevertForES))
             .pipe(gulp.dest(`./es/${dest}`, { cwd: process.env.ROOT_DIR }))
             .on('end', resolve)

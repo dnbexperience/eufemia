@@ -5,7 +5,7 @@
 
 import React from 'react'
 import {
-  shallow,
+  mount,
   fakeProps,
   toJson,
   loadScss
@@ -22,11 +22,12 @@ const props = {
   }),
   disabled: false
 }
+props.id = 'input-masked'
 
 describe('InputMasked component', () => {
-  // shallow compare the snapshot
+  // compare the snapshot
   it('have to match type="text" snapshot', () => {
-    const Comp = shallow(<Component {...props} type="text" value="test" />)
+    const Comp = mount(<Component {...props} type="text" value="test" />)
     expect(toJson(Comp)).toMatchSnapshot()
   })
 })

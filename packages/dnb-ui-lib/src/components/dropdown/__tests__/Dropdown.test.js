@@ -52,7 +52,7 @@ const mockData = [
 describe('Dropdown component', () => {
   const Comp = mount(<Component {...props} data={mockData} />)
 
-  // shallow compare the snapshot
+  // compare the snapshot
   it('have to match snapshot', () => {
     expect(toJson(Comp)).toMatchSnapshot()
   })

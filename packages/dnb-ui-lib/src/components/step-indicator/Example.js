@@ -5,7 +5,7 @@
 
 import React, { PureComponent, Fragment } from 'react'
 import ComponentBox from '../../../../dnb-design-system-portal/src/shared/tags/ComponentBox'
-import createHistory from 'history/createBrowserHistory'
+import { createBrowserHistory } from 'history'
 
 class Example extends PureComponent {
   static AdditionalCallback = {
@@ -22,7 +22,7 @@ class Example extends PureComponent {
   constructor(props) {
     super(props)
     if (typeof window !== 'undefined') {
-      this.history = createHistory()
+      this.history = createBrowserHistory()
       this.state = {
         active_url: this.history.location.search
       }
@@ -53,7 +53,7 @@ class Example extends PureComponent {
           caption="StepIndicator with urls, for visited steps only"
           data-dnb-test="step-indicator"
           scope={{ onChangeHandler, active_url }}
-          noInline
+          useRender
           hideSyntaxButton
         >
           {/* @jsx */ `

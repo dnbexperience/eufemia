@@ -4,6 +4,10 @@
  *
  */
 
+const fs = require('fs')
+const sass = require('node-sass')
+const path = require('path')
+
 module.exports = ({ IE11 = false, ...options } = {}) => {
   return [
     // preset-env processes the most of our old legacy browsers
@@ -13,7 +17,13 @@ module.exports = ({ IE11 = false, ...options } = {}) => {
       browsers: ['last 2 versions', IE11 ? 'explorer >= 11' : null].filter(
         i => i
       ),
-      // importFrom: ['./src/style/core/properties.scss'],
+      importFrom: [
+        extractCSSProperties('./src/style/core/properties.scss', {
+          // includePaths: [
+          //   path.resolve(__dirname, '../../../src/style/core/')
+          // ]
+        })
+      ],
       ...options
     }),
 
@@ -46,4 +56,26 @@ module.exports = ({ IE11 = false, ...options } = {}) => {
     //   )
     // })
   ].filter(i => i)
+}
+
+function extractCSSProperties(file, opts = {}) {
+  try {
+    file = path.resolve(__dirname, '../../../../dnb-ui-lib/', file)
+    const sassResult = sass.renderSync({
+      file,
+      ...opts
+    })
+    const dir = path.resolve(__dirname, '.cache')
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir)
+    }
+    const tmpFile = path.resolve(
+      dir,
+      path.basename(file.replace('.scss', '.css'))
+    )
+    fs.writeFileSync(tmpFile, String(sassResult.css))
+    return tmpFile
+  } catch (e) {
+    console.log('Error in postcssConfig (extractCSSProperties):', e)
+  }
 }

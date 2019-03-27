@@ -60,7 +60,7 @@ export default class ViewTitle extends PureComponent {
   }
 
   render() {
-    const { tag, className, class: _className } = this.props
+    const { tag: Component, className, class: _className } = this.props
 
     const text = ViewTitle.getText(this.props)
 
@@ -71,7 +71,6 @@ export default class ViewTitle extends PureComponent {
     // also used for code markup simulation
     validateDOMAttributes(this.props, params)
 
-    const Tag = `${tag}`
-    return <Tag {...params}>{text}</Tag>
+    return <Component {...params}>{text}</Component>
   }
 }

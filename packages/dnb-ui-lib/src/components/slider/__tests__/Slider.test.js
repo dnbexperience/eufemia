@@ -5,8 +5,7 @@
 
 import React from 'react'
 import {
-  shallow,
-  // mount,
+  mount,
   fakeProps,
   toJson,
   loadScss
@@ -22,9 +21,9 @@ const props = fakeProps(require.resolve('../Slider'), {
 })
 
 describe('Slider component', () => {
-  // shallow compare the snapshot
+  // compare the snapshot
   it('have to match snapshot', () => {
-    const ComponentWrap = shallow(<Component {...props} href={null} />)
+    const ComponentWrap = mount(<Component {...props} href={null} />)
     expect(toJson(ComponentWrap)).toMatchSnapshot()
   })
 

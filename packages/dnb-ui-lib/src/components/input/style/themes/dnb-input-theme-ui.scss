@@ -7,16 +7,16 @@
 
 :root {
   --input-text-color: var(--color-sea-green);
-  --input-text-color--focus: var(--color-emerald-green);
-  --input-text-color--active: var(--color-emerald-green);
+  --input-text-color--focus: var(--color-sea-green);
+  --input-text-color--changed: var(--color-emerald-green);
   --input-text-color--disabled: var(--color-sea-green-alt-30);
   --input-background-color: var(--color-white);
   --input-background-color--focus: var(--color-white);
-  --input-background-color--active: var(--color-white);
+  --input-background-color--changed: var(--color-white);
   --input-background-color--disabled: var(--color-mint-green-12);
   --input-border-color: var(--color-sea-green-alt);
   --input-border-color--focus: var(--color-emerald-green);
-  --input-border-color--active: var(--color-sea-green-alt);
+  --input-border-color--changed: var(--color-sea-green-alt);
   --input-border-color--disabled: var(--color-sea-green-alt-30);
 }
 
@@ -24,7 +24,7 @@
   color: var(--input-text-color);
 
   &__shell {
-    background-color: var(--input-background-color--active);
+    background-color: var(--input-background-color);
     border: none;
 
     @include fakeBorder(
@@ -33,15 +33,10 @@
       inset
     );
 
-    // background-color: var(--input-background-color--active);
-    &[data-has-content='true'] {
+    &[data-input-state='dirty'] {
       // Background color of input when it has content
-      color: var(--input-text-color--active);
-      @include fakeBorder(
-        var(--input-border-color--active),
-        var(--input-border-width, 1px),
-        inset
-      );
+      color: var(--input-text-color--changed);
+      background-color: var(--input-background-color--changed);
     }
 
     &[data-input-state='disabled'] {

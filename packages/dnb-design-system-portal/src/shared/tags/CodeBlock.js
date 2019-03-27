@@ -5,7 +5,7 @@
 
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { css } from '@emotion/core'
+import classnames from 'classnames'
 import styled from '@emotion/styled'
 import Highlight, { Prism, defaultProps } from 'prism-react-renderer'
 import ReactMarkdown from 'react-markdown'
@@ -23,18 +23,13 @@ import {
 } from 'react-live'
 
 // this theme is replaced my a css one
-// import prismTheme from 'prism-react-renderer/themes/nightOwl'
-import dnbTheme from './themes/dnb-prism-theme'
-
-const prismStyle = css(/* @css */ `
-  .token,
-  .styled-template-string {
-    ${dnbTheme}
-  }
-`)
+import prismTheme from 'dnb-ui-lib/src/style/themes/theme-ui/prism/dnb-prism-theme'
 
 const Wrapper = styled.div`
   margin-bottom: 2rem;
+  textarea {
+    outline: inherit;
+  }
 `
 
 const CodeBlock = ({
@@ -61,12 +56,13 @@ const CodeBlock = ({
         {...defaultProps}
         code={String(exampleCode).trim()}
         language={language}
-        theme={{
-          styles: []
-        }} // reset styles, instead of using "prismTheme"
+        theme={prismTheme}
+        // theme={{
+        //   styles: []
+        // }} // reset styles, instead of using "prismTheme"
       >
         {({ className, style, tokens, getLineProps, getTokenProps }) => (
-          <Wrapper css={prismStyle}>
+          <Wrapper>
             <Tag is="pre" className={className} css={style}>
               {cleanTokens(tokens).map((line, i) => (
                 /* eslint-disable react/jsx-key */
@@ -91,30 +87,38 @@ class LiveCode extends PureComponent {
     code: PropTypes.string.isRequired,
     scope: PropTypes.object,
     caption: PropTypes.string,
-    noInline: PropTypes.bool,
+    useRender: PropTypes.bool,
     noFragments: PropTypes.bool,
     hideToolbar: PropTypes.bool,
     hideCode: PropTypes.bool,
     hidePreview: PropTypes.bool,
     showSyntax: PropTypes.bool,
-    hideSyntaxButton: PropTypes.bool
+    hideSyntaxButton: PropTypes.bool,
+    language: PropTypes.string
   }
   static defaultProps = {
     scope: {},
     caption: null,
-    noInline: false,
+    useRender: false,
     noFragments: true,
     hideToolbar: false,
     hideCode: false,
     hidePreview: false,
     showSyntax: false,
-    hideSyntaxButton: false
+    hideSyntaxButton: false,
+    language: 'jsx'
   }
 
   constructor(props) {
     super(props)
     const { hideToolbar, hideCode, hidePreview, showSyntax } = props
-    this.state = { hideToolbar, hideCode, hidePreview, showSyntax }
+    this.state = {
+      hideToolbar,
+      hideCode,
+      hidePreview,
+      showSyntax,
+      hasFocus: false
+    }
   }
 
   toggleCode = () => {
@@ -147,13 +151,15 @@ class LiveCode extends PureComponent {
       caption,
       scope,
       hideSyntaxButton,
-      noInline,
+      useRender,
       noFragments,
+      language,
 
       hideToolbar: _hideToolbar, // eslint-disable-line
       hideCode: _hideCode, // eslint-disable-line
       hidePreview: _hidePreview, // eslint-disable-line
       showSyntax: _showSyntax, // eslint-disable-line
+      'data-dnb-test': dnbTest, // eslint-disable-line
 
       ...props
     } = this.props
@@ -173,19 +179,22 @@ class LiveCode extends PureComponent {
     return (
       <LiveCodeEditor>
         <LiveProvider
-          mountStylesheet={false}
-          css={prismStyle}
+          Prism={Prism}
+          theme={prismTheme}
           code={codeToUse}
           scope={scope}
           transformCode={code =>
-            !noInline && noFragments ? `<>${code}</>` : code
+            !useRender && noFragments ? `<>${code}</>` : code
           }
-          noInline={noInline}
+          noInline={useRender}
           {...props}
         >
           {!hidePreview && (
             <div className="example-box">
-              <LivePreview />
+              <LivePreview
+                data-dnb-test={dnbTest}
+                className="dnb-live-preview"
+              />
               {caption && (
                 <ReactMarkdown
                   source={caption}
@@ -202,7 +211,50 @@ class LiveCode extends PureComponent {
             </div>
           )}
           {!hideCode && (
-            <LiveEditor className="dnb-pre" language="jsx" ignoreTabKey />
+            <div
+              className={classnames(
+                'dnb-pre',
+                'dnb-live-editor',
+                this.state.hasFocus && 'dnb-pre--focus'
+              )}
+            >
+              <LiveEditor
+                ignoreTabKey
+                padding={0}
+                style={{
+                  font: 'inherit'
+                }}
+                onFocus={() => {
+                  this.setState({ hasFocus: true })
+                }}
+                onBlur={() => {
+                  this.setState({ hasFocus: false })
+                }}
+                // make this wrap to get in the custom Prism
+                // This way we can reformat jsx css template-string
+                // language={language}
+                highlight={code => (
+                  <Highlight
+                    Prism={Prism}
+                    code={code}
+                    theme={prismTheme}
+                    language={language}
+                  >
+                    {({ tokens, getLineProps, getTokenProps }) => (
+                      <>
+                        {tokens.map((line, i) => (
+                          <div {...getLineProps({ line, key: i })}>
+                            {line.map((token, key) => (
+                              <span {...getTokenProps({ token, key })} />
+                            ))}
+                          </div>
+                        ))}
+                      </>
+                    )}
+                  </Highlight>
+                )}
+              />
+            </div>
           )}
           {!hideCode && (
             <LiveError className="dnb-form-status dnb-form-status--text dnb-form-status--error" />
@@ -249,7 +301,7 @@ class LiveCode extends PureComponent {
               <Code
                 source={generateElement({
                   code:
-                    !noInline && noFragments
+                    !useRender && noFragments
                       ? `<>${codeToUse}</>`
                       : codeToUse,
                   scope
@@ -272,7 +324,7 @@ const LiveCodeEditor = styled.div`
   .example-caption {
     margin-bottom: 1.5rem;
   }
-  pre.prism-code {
+  .dnb-live-editor {
     position: relative;
 
     &::after {
@@ -287,6 +339,16 @@ const LiveCodeEditor = styled.div`
       border-style: solid;
       border-width: 0 0.4375rem 0.5rem;
       border-color: transparent transparent #222 transparent;
+
+      opacity: 1;
+      transition: opacity 0.2s ease-out, border-width 0.2s ease-out;
+    }
+
+    &.dnb-pre--focus {
+      &::after {
+        opacity: 0;
+        border-top-width: 0.5rem;
+      }
     }
   }
 

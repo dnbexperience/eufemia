@@ -6,12 +6,8 @@
 
 /**
  * Main Index template to autogenerate all the libs
- *
+ * Used by "prepareTemplates"
  */
-
-// import all the aviable libs
-import * as componentsIndex from './components'
-import * as patternsIndex from './patterns'
 
 // import all the aviable components and patterns
 import Button from './components/button/Button'
@@ -30,6 +26,26 @@ import Slider from './components/slider/Slider'
 import StepIndicator from './components/step-indicator/StepIndicator'
 import Switch from './components/switch/Switch'
 import Tabs from './components/tabs/Tabs'
+import Anchor from './elements/Anchor'
+import Blockquote from './elements/Blockquote'
+import Code from './elements/Code'
+import Dl from './elements/Dl'
+import H1 from './elements/H1'
+import H2 from './elements/H2'
+import H3 from './elements/H3'
+import H4 from './elements/H4'
+import H5 from './elements/H5'
+import H6 from './elements/H6'
+import Hr from './elements/Hr'
+import Img from './elements/Img'
+import Lead from './elements/Lead'
+import Link from './elements/Link'
+import Ol from './elements/Ol'
+import P from './elements/P'
+import Section from './elements/Section'
+import Table from './elements/Table'
+import Textarea from './elements/Textarea'
+import Ul from './elements/Ul'
 import ActionNav from './patterns/action-nav/ActionNav'
 import DescriptionList from './patterns/description-list/DescriptionList'
 import FieldsetDescription from './patterns/fieldset-description/FieldsetDescription'
@@ -60,6 +76,26 @@ export {
   StepIndicator,
   Switch,
   Tabs,
+  Anchor,
+  Blockquote,
+  Code,
+  Dl,
+  H1,
+  H2,
+  H3,
+  H4,
+  H5,
+  H6,
+  Hr,
+  Img,
+  Lead,
+  Link,
+  Ol,
+  P,
+  Section,
+  Table,
+  Textarea,
+  Ul,
   ActionNav,
   DescriptionList,
   FieldsetDescription,
@@ -73,17 +109,4 @@ export {
   ViewTitle
 }
 
-let webComponentsAreEnabled = false
-export const enableWebComponents = () => {
-  if (webComponentsAreEnabled) return false
-  webComponentsAreEnabled = true
-  // register libs to work with custom element
-  componentsIndex.enableWebComponents()
-  patternsIndex.enableWebComponents()
-}
-
-export default {
-  // ...componentsIndex, // exporting all components can effect the production bundle size
-  // ...patternsIndex, // exporting all patterns can effect the production bundle size
-  enableWebComponents
-}
+export default {}

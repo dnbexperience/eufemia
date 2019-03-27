@@ -42,7 +42,7 @@ const transformStyleModule = () =>
         .src(['./src/umd/dnb-ui-lib.js'], {
           cwd: process.env.ROOT_DIR
         })
-        .pipe(sourcemaps.init())
+        .pipe(sourcemaps.init({ largeFile: true }))
         .pipe(
           rollupEach(
             {
@@ -59,7 +59,7 @@ const transformStyleModule = () =>
         .pipe(cloneSink) // clone the original
         .pipe(rename({ suffix: '.min' })) // rename
         .pipe(uglify()) // minify
-        .pipe(sourcemaps.write()) // add the sourcemaps
+        .pipe(sourcemaps.write('./')) // create sourcemaps
         .pipe(cloneSink.tap()) // get the original
         .pipe(gulp.dest('./umd', { cwd: process.env.ROOT_DIR }))
         .on('end', resolve)

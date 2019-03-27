@@ -30,11 +30,13 @@ There are several Packages You can use and combine.
 
 All the CSS packages are ready to use, **minified CSS files**. You will find the main style here: `dnb-ui-lib/style/dnb-ui-core.min.css`
 
+### Individual styles
+
 Additionally, it is also possible to import a style and theme for every single component separately. You find the styles here, like: `dnb-ui-lib/components/[button]/style/dnb-button.min.css` - read more about [how to import a single-component style](/uilib/usage/customisation/consume-styles#single-component-only)
 
-The following Diagram gives an overall overview how the packages are structured.
-
 ## CSS Structure Diagram
+
+The following Diagram gives an overall overview how the packages are structured.
 
 <div class="margin-bottom">
   <CSSDiagram />

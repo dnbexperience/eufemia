@@ -182,9 +182,10 @@ export default class Modal extends PureComponent {
     const id = this._id
     if (modalActive) {
       dispatchCustomElementEvent(this, 'on_open', { id })
-    } else {
+    } else if (this.wasActive) {
       dispatchCustomElementEvent(this, 'on_close', { id })
     }
+    this.wasActive = modalActive
 
     if (modalActive === false) {
       if (this._triggerRef.current) {
@@ -197,15 +198,21 @@ export default class Modal extends PureComponent {
   }
   close = e => {
     const { prevent_close } = this.props
-    if (prevent_close === true || prevent_close === 'true') {
-      const id = this._id
-      dispatchCustomElementEvent(this, 'on_close_prevent', {
-        id,
-        close: e => this.toggleOpenClose(e, false)
-      })
-      return
+    if (String(prevent_close) === 'true') {
+      if (!this.isClosing) {
+        const id = this._id
+        this.isClosing = true
+        dispatchCustomElementEvent(this, 'on_close_prevent', {
+          id,
+          close: e => {
+            this.isClosing = false
+            this.toggleOpenClose(e, false)
+          }
+        })
+      }
+    } else {
+      this.toggleOpenClose(e, false)
     }
-    this.toggleOpenClose(e, false)
   }
   componentWillUnmount() {
     this.toggleOpenClose(null, false)
@@ -467,7 +474,6 @@ class ModalContent extends PureComponent {
 
   preventClick = e => {
     if (e) {
-      e.preventDefault()
       e.stopPropagation()
     }
   }

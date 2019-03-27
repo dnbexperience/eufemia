@@ -8,13 +8,14 @@ import ReactTestUtils from 'react-dom/test-utils' // ES6
 import PropTypes from 'prop-types'
 
 // UI Components
-import dnb, {
+import dnb from 'dnb-ui-lib/src/components/lib'
+import {
   Button,
   Input,
   IconPrimary as Icon,
   Switch,
   FormLabel
-} from 'dnb-ui-lib/src'
+} from 'dnb-ui-lib/src/components'
 
 // Content
 import text from 'raw-loader!./lipsum.txt'

@@ -19,7 +19,7 @@ describe('Icon screenshot', () => {
   })
   it('have to match responsive icons', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="icon-medium"] div.react-live-preview'
+      selector: '[data-dnb-test="icon-medium"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })

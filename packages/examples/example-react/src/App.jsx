@@ -3,92 +3,63 @@
  *
  */
 
-import React, { PureComponent, Fragment } from 'react';
-import './App.css';
+import React, { PureComponent } from 'react'
 
-// different mothodes of importing the dnb-ui-lib
-// import Icon from 'dnb-ui-lib/components/icon' // alternative method to import dnb-ui-lib
-// import Button from 'dnb-ui-lib/components/Button' // alternative method to import dnb-ui-lib
-// import dnb from 'dnb-ui-lib/components' // alternative method to import dnb-ui-lib
-// import 'dnb-ui-lib/components/Button/style' // Import only the button styles
-// import 'dnb-ui-lib/components/Icon/style' // Import only the icon styles
-// import 'dnb-ui-lib/components' // in case we only use web component version
+// With this we get 100kb more in bundle size
+// import { Button, Input, Icon } from 'dnb-ui-lib/components'
+// import { H1, H2, P, Section } from 'dnb-ui-lib/elements'
+// import { bell_medium as Bell } from 'dnb-ui-lib/icons'
 
-import dnb, { Button, Input, Icon } from 'dnb-ui-lib/components'; // optional, import "dnb-ui-lib/components/web-components" to enable Web Components
-import { bell } from 'dnb-ui-lib/icons';
-import 'dnb-ui-lib/style'; // Import the global DNB stylesheet
-
-// to enable Web Components, cause we use both react and Web Components in here
+// Better for Tree Shaking as webpack treeshaking only works with ES6 module syntax
+import Icon from 'dnb-ui-lib/es/components/icon/Icon'
+import Input from 'dnb-ui-lib/es/components/input/Input'
+import Button from 'dnb-ui-lib/es/components/button/Button'
+import H1 from 'dnb-ui-lib/es/elements/H1'
+import H2 from 'dnb-ui-lib/es/elements/H2'
+import P from 'dnb-ui-lib/es/elements/P'
+import Section from 'dnb-ui-lib/es/elements/Section'
+import Bell from 'dnb-ui-lib/icons/bell_medium'
 
 export default class App extends PureComponent {
-  state = { showWebComponents: false };
-  constructor(props) {
-    super(props);
-    this._buttonRef = React.createRef();
-    this._inputRef = React.createRef();
-  }
+  state = { inputValue: null }
   handleClick = e => {
-    console.log('handleClick', e);
-  };
-  handleValueChange = e => {
-    console.log(
-      'handleValueChange',
-      e.value || (e.detail && e.detail.value) || ''
-    );
-  };
-  handleWebComponentsVisibility() {
-    this.setState({ showWebComponents: true });
-    dnb.enableWebComponents();
-
-    // there are different ways to enable usage of WebComponents
-    // Button.enableWebComponents()
-    // Icon.enableWebComponents()
-    //
-    // bind the imperative (not declarative) event handlers
-    this._inputRef.current.addEvent('on_change', this.handleValueChange);
-    this._buttonRef.current.addEvent('on_click', this.handleClick);
+    console.log('handleClick', e)
   }
-  componentDidMount() {
-    setTimeout(this.handleWebComponentsVisibility.bind(this), 100);
+  handleValueChange = e => {
+    const inputValue = e.value || (e.detail && e.detail.value) || ''
+    console.log('handleValueChange', inputValue)
+    this.setState({ inputValue })
   }
   render() {
+    const { inputValue } = this.state
     return (
-      <div>
-        <h1 className="dnb-h1">React Components</h1>
-        <Input
-          placeholder="Type someting ..."
-          on_change={this.handleValueChange}
-        />
-        <Button
-          text="Custom Element with icon"
-          icon="chevron_right"
-          on_click={this.handleClick}
-        />
-        <Icon icon={bell} width={80} height={80} />
-        {this.state.showWebComponents && (
-          <Fragment>
-            <h1 className="dnb-h1">Web Component in React</h1>
-            <small>
+      <>
+        <div className="dnb-core-style">
+          <Section className="dnb-spacing" useSpacing>
+            <H1>React Components</H1>
+            <P>
               This is not for real world usage. But only to show the
               functionality of the dnb-ui-lib
-            </small>
-            <dnb-input
-              ref={this._inputRef}
+            </P>
+            <Input
               placeholder="Type someting ..."
-              on_change={e => {
-                console.log('e', e);
-              }}
+              value={inputValue}
+              on_change={this.handleValueChange}
             />
-            <dnb-button
-              ref={this._buttonRef}
+            <Button
               text="Custom Element with icon"
               icon="chevron_right"
               on_click={this.handleClick}
             />
-            <dnb-icon-primary icon="bell" size="80" />
-          </Fragment>
-        )}
-      </div>
-    );
+          </Section>
+          <Section className="dnb-spacing" useSpacing>
+            <H2>H2</H2>
+            <P>
+              Show me an Icon <Icon icon={Bell} size="medium" />
+            </P>
+          </Section>
+        </div>
+      </>
+    )
   }
 }

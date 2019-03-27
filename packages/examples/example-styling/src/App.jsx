@@ -11,18 +11,7 @@ import { Button, Icon } from 'dnb-ui-lib/components'
 import { H2, H4, P, Code } from 'dnb-ui-lib/elements'
 import { bell } from 'dnb-ui-lib/icons'
 
-// 2. My App styles
-import './App.css'
-
-// 3. Custom Eufemia import
-import 'dnb-ui-lib/src/style/basis'
-import 'dnb-ui-lib/src/style/components'
-import 'dnb-ui-lib/src/style/themes/ui'
-
-// 4. We dont import this, as we will have controll
-// import 'dnb-ui-lib/style'; // Import the global DNB stylesheet
-
-// 5. We dont import this, as we will have controll
+// 2. We dont import this, as we will have controll
 // import 'dnb-ui-lib/style/elements'
 
 export default class App extends PureComponent {

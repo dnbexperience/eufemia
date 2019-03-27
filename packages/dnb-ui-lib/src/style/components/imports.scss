@@ -4,12 +4,12 @@
  *
  */
 
-$fonts-path: '../../../../assets/fonts/' !default;
+// $fonts-path: '../../../../assets/fonts/' !default;
 
 // core imports
 @import '../core/utilities.scss';
-@import '../core/properties.scss';
+// @import '../core/properties.scss';
 // the assets path in typography gets transformed to the right amount back dirs
 // but as this is not prsent under dev enviroment, we cant use the components directly
-@import '../core/fonts.scss';
+// @import '../core/fonts.scss';
 @import '../core/scopes.scss';

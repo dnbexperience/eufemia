@@ -20,8 +20,9 @@
 **/test-files/dist
 /docs
 /dist
-/index.js
-/web-components.js
+/vue.*
+/index.*
+/web-components.*
 /web-components
 dnb-ui-lib-*.tgz
 
