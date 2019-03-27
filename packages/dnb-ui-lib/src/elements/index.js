@@ -26,6 +26,7 @@ import Lead from './Lead'
 import Link from './Link'
 import Ol from './Ol'
 import P from './P'
+import Section from './Section'
 import Table from './Table'
 import Textarea from './Textarea'
 import Ul from './Ul'
@@ -48,6 +49,7 @@ export {
   Link,
   Ol,
   P,
+  Section,
   Table,
   Textarea,
   Ul
