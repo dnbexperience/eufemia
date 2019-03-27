@@ -15,7 +15,6 @@ export default function E({
   is: Tag,
   ...rest
 }) {
-  this.tagName = `dnb-${String(Tag).toLowerCase()}`
   return (
     <Tag
       className={classnames(

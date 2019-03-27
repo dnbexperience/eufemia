@@ -17,6 +17,7 @@ const Section = ({ useSpacing, className, ...p }) => (
     {...p}
   />
 )
+Section.tagName = 'dnb-section'
 
 Section.propTypes = {
   useSpacing: PropTypes.bool,
