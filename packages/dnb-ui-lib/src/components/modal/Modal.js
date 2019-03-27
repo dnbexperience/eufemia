@@ -27,6 +27,8 @@ const renderProps = {
   on_open: null,
   on_close: null,
   on_close_prevent: null,
+  open_modal: null,
+  close_modal: null,
   modal_content: null
 }
 
@@ -46,6 +48,7 @@ export const propTypes = {
     PropTypes.bool
   ]),
   prevent_close: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  open_state: PropTypes.oneOf(['opened', 'closed']),
   class: PropTypes.string,
 
   // React props
@@ -56,11 +59,15 @@ export const propTypes = {
     PropTypes.func
   ]),
 
-  // Web Component props
-  preventSetTriggerRef: PropTypes.bool,
+  // Events and functions
   on_open: PropTypes.func,
   on_close: PropTypes.func,
   on_close_prevent: PropTypes.func,
+  open_modal: PropTypes.func,
+  close_modal: PropTypes.func,
+
+  // Web Component props
+  preventSetTriggerRef: PropTypes.bool,
   modal_content: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.node,
@@ -126,7 +133,23 @@ export default class Modal extends PureComponent {
     }
   }
 
+  static getDerivedStateFromProps(props, state) {
+    if (state._listenForPropChanges) {
+      switch (props.open_state) {
+        case 'opened':
+          state.modalActive = true
+          break
+        case 'closed':
+          state.modalActive = false
+          break
+      }
+    }
+    state._listenForPropChanges = true
+    return state
+  }
+
   state = {
+    _listenForPropChanges: true,
     modalActive: false
   }
 
@@ -153,18 +176,37 @@ export default class Modal extends PureComponent {
     }
   }
 
+  componentDidMount() {
+    const { open_modal, open_state } = this.props
+    if (typeof open_modal === 'function') {
+      open_modal(() => {
+        this.toggleOpenClose(null, true)
+      }, this)
+    }
+    if (open_state) {
+      this.handleSideEffects(this.state.modalActive)
+    }
+  }
+  componentWillUnmount() {
+    this.toggleOpenClose(null, false)
+  }
+
   toggleOpenClose = (event = null, showModal = null) => {
     if (event && event.preventDefault) {
       event.preventDefault()
     }
 
-    Modal.insertModalRoot()
-
     const modalActive =
       showModal !== null ? showModal : !this.state.modalActive
     this.setState({
-      modalActive
+      modalActive,
+      _listenForPropChanges: false
     })
+
+    this.handleSideEffects(modalActive)
+  }
+  handleSideEffects = modalActive => {
+    Modal.insertModalRoot()
 
     // prevent scrolling on the background
     try {
@@ -177,6 +219,15 @@ export default class Modal extends PureComponent {
         'Error on set "data-dnb-modal-active" by using element.setAttribute()',
         e
       )
+    }
+
+    if (modalActive) {
+      if (typeof this.props.close_modal === 'function') {
+        this.props.close_modal(() => {
+          this.isClosing = false
+          this.toggleOpenClose(null, false)
+        }, this)
+      }
     }
 
     const id = this._id
@@ -213,9 +264,6 @@ export default class Modal extends PureComponent {
     } else {
       this.toggleOpenClose(e, false)
     }
-  }
-  componentWillUnmount() {
-    this.toggleOpenClose(null, false)
   }
   render() {
     const {

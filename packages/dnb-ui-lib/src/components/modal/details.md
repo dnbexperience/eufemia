@@ -10,6 +10,9 @@
 | `close_title`       | _(optional)_ the title of the close button. Defaults to _Close Modal Window_                                                                               |
 | `hide_close_button` | _(optional)_ if set to true, the close button will now be shown                                                                                            |
 | `prevent_close`     | _(optional)_ if set to `true` (boolean or string), then the user can't close the modal.                                                                    |
+| `open_state`        | _(optional)_ use this prop to control the open/close state by setting either: `opened` or `closed`                                                         |
+| `open_modal`        | _(optional)_ set a function to call the callback function, once the modal should open: `open_modal={(open) => open()}`                                     |
+| `close_modal`       | _(optional)_ set a function to call the callback function, once the modal should close: `close_modal={(close) => close()}`                                 |
 
 | Events             | Description                                                                                                                                                                                    |
 | ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
