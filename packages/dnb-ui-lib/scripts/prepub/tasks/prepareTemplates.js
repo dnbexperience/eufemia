@@ -18,7 +18,7 @@ const prepareTemplates = async () => {
   log.start('> PrePublish: Starting the index template lib factory ...')
 
   // process components
-  const components = await runFactory({
+  const componentsTemplateConfig = {
     templateObjectToFill: '{ Template }',
     templateListToExtend: `import Template from './template/Template'`,
     templateListToExtendBy: 'Template',
@@ -33,6 +33,26 @@ const prepareTemplates = async () => {
     ),
     processToNamesIgnoreList: ['web-components', 'style'],
     processToNamesListByUsingFolders: true
+  }
+  const components = await runFactory(componentsTemplateConfig).then(
+    res => {
+      if (require.main === module) {
+        log.succeed(
+          '> PrePublish: Created the index template with all the components'
+        )
+      }
+      return res
+    }
+  )
+  await runFactory({
+    ...componentsTemplateConfig,
+    ...{
+      srcFile: path.resolve(
+        __dirname,
+        '../../../src/core/templates/components-lib-template.js'
+      ),
+      destFile: path.resolve(__dirname, '../../../src/components/lib.js')
+    }
   }).then(res => {
     if (require.main === module) {
       log.succeed(
@@ -43,7 +63,7 @@ const prepareTemplates = async () => {
   })
 
   // process elements
-  const elements = await runFactory({
+  const elementsTemplateConfig = {
     templateObjectToFill: '{ Template }',
     templateListToExtend: `import Template from './Template'`,
     templateListToExtendBy: 'Template',
@@ -53,8 +73,24 @@ const prepareTemplates = async () => {
     ),
     destFile: path.resolve(__dirname, '../../../src/elements/index.js'),
     processToNamesList: path.resolve(__dirname, '../../../src/elements/'),
-    processToNamesIgnoreList: ['index', 'Element'],
+    processToNamesIgnoreList: ['index', 'lib', 'Element'],
     processToNamesListByUsingFolders: false
+  }
+  const elements = await runFactory(elementsTemplateConfig).then(res => {
+    if (require.main === module) {
+      log.text = '> Created the index template with all the elements'
+    }
+    return res
+  })
+  await runFactory({
+    ...elementsTemplateConfig,
+    ...{
+      srcFile: path.resolve(
+        __dirname,
+        '../../../src/core/templates/elements-lib-template.js'
+      ),
+      destFile: path.resolve(__dirname, '../../../src/elements/lib.js')
+    }
   }).then(res => {
     if (require.main === module) {
       log.text = '> Created the index template with all the elements'
@@ -63,7 +99,7 @@ const prepareTemplates = async () => {
   })
 
   // process patterns
-  const patterns = await runFactory({
+  const patternsTemplateConfig = {
     templateObjectToFill: '{ Template }',
     templateListToExtend: `import Template from './template/Template'`,
     templateListToExtendBy: 'Template',
@@ -75,9 +111,25 @@ const prepareTemplates = async () => {
     processToNamesList: path.resolve(__dirname, '../../../src/patterns/'),
     processToNamesIgnoreList: ['web-components', 'style'],
     processToNamesListByUsingFolders: true
-  }).then(res => {
+  }
+  const patterns = await runFactory(patternsTemplateConfig).then(res => {
     if (require.main === module) {
       log.text = '> Created the index template with all the patterns'
+    }
+    return res
+  })
+  await runFactory({
+    ...patternsTemplateConfig,
+    ...{
+      srcFile: path.resolve(
+        __dirname,
+        '../../../src/core/templates/components-lib-template.js'
+      ),
+      destFile: path.resolve(__dirname, '../../../src/patterns/lib.js')
+    }
+  }).then(res => {
+    if (require.main === module) {
+      log.text = '> Created the lib template with all the patterns'
     }
     return res
   })

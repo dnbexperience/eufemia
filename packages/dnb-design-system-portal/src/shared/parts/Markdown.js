@@ -6,7 +6,7 @@
 import React, { PureComponent, Fragment } from 'react'
 
 import PropTypes from 'prop-types'
-import dnb from 'dnb-ui-lib/src/components'
+import dnb from 'dnb-ui-lib/src/lib'
 import portalStyle from './PortalStyle'
 
 // import { CodeRenderer } from './Code'

@@ -9,6 +9,8 @@
  * Used by "prepareTemplates"
  */
 
+import { registerElement } from '../shared/component-helper'
+
 // import all the aviable components
 import Button from './button/Button'
 import Dropdown from './dropdown/Dropdown'
@@ -45,4 +47,46 @@ export {
   StepIndicator,
   Switch,
   Tabs
+}
+
+export const getComponents = () => {
+  return {
+    Button,
+    Dropdown,
+    FormLabel,
+    FormStatus,
+    Icon,
+    IconPrimary,
+    Input,
+    InputMasked,
+    LineTitle,
+    Logo,
+    Modal,
+    Notification,
+    Slider,
+    StepIndicator,
+    Switch,
+    Tabs
+  }
+}
+
+let webComponentsAreEnabled = false
+export const enableWebComponents = () => {
+  if (webComponentsAreEnabled) return false
+  webComponentsAreEnabled = true
+  const components = getComponents()
+  // register this component to work with custom element
+  for (const c in components) {
+    if (components[c] && components[c].tagName) {
+      registerElement(
+        components[c].tagName,
+        components[c],
+        components[c].defaultProps
+      )
+    }
+  }
+}
+
+export default {
+  enableWebComponents
 }

@@ -15,5 +15,6 @@ Anchor.propTypes = {
 Anchor.defaultProps = {
   children: null
 }
+Anchor.tagName = 'dnb-anchor'
 
 export default Anchor

@@ -1,6 +1,6 @@
 /**
  * Main Index template to autogenerate all the libs
- *
+ * Used by "prepareTemplates"
  */
 
 // import all the aviable components and patterns

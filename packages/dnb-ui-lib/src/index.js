@@ -6,7 +6,7 @@
 
 /**
  * Main Index template to autogenerate all the libs
- *
+ * Used by "prepareTemplates"
  */
 
 // import all the aviable components and patterns
@@ -42,6 +42,7 @@ import Lead from './elements/Lead'
 import Link from './elements/Link'
 import Ol from './elements/Ol'
 import P from './elements/P'
+import Section from './elements/Section'
 import Table from './elements/Table'
 import Textarea from './elements/Textarea'
 import Ul from './elements/Ul'
@@ -91,6 +92,7 @@ export {
   Link,
   Ol,
   P,
+  Section,
   Table,
   Textarea,
   Ul,

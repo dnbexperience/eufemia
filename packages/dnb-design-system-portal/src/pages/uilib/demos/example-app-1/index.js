@@ -6,7 +6,8 @@
 import React, { PureComponent } from 'react'
 import { css } from '@emotion/core'
 import Head from 'react-helmet'
-import dnb, {
+import dnb from 'dnb-ui-lib/src/lib'
+import {
   Input,
   Dropdown,
   Switch,

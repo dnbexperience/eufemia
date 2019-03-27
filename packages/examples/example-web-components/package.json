@@ -1,6 +1,6 @@
 {
-  "name": "example-angular-1",
-  "description": "Angular v1 example",
+  "name": "example-web-components",
+  "description": "Web Components example",
   "license": "SEE LICENSE IN LICENSE FILE",
   "repository": {
     "type": "git",
@@ -12,19 +12,16 @@
     "build": "webpack --mode=production --display-modules"
   },
   "dependencies": {
-    "angular": "1.7.8",
     "dnb-ui-lib": "*",
     "react": "^16.8.4",
-    "react-dom": "^16.8.4",
-    "react2angular": "4.0.6"
+    "react-dom": "^16.8.4"
   },
   "devDependencies": {
-    "@types/angular": "1.6.54",
-    "prop-types": "^15.7.2",
     "babel-loader": "8.0.5",
-    "file-loader": "^3.0.1",
     "css-loader": "^2.1.1",
+    "file-loader": "^3.0.1",
     "node-sass": "^4.11.0",
+    "prop-types": "^15.7.2",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",
     "webpack": "4.29.6",

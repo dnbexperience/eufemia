@@ -54,3 +54,28 @@ export {
   Textarea,
   Ul
 }
+
+export const getElements = () => {
+  return {
+    Anchor,
+    Blockquote,
+    Code,
+    Dl,
+    H1,
+    H2,
+    H3,
+    H4,
+    H5,
+    H6,
+    Hr,
+    Img,
+    Lead,
+    Link,
+    Ol,
+    P,
+    Section,
+    Table,
+    Textarea,
+    Ul
+  }
+}
