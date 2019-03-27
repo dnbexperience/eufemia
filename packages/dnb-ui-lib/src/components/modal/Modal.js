@@ -182,9 +182,10 @@ export default class Modal extends PureComponent {
     const id = this._id
     if (modalActive) {
       dispatchCustomElementEvent(this, 'on_open', { id })
-    } else {
+    } else if (this.wasActive) {
       dispatchCustomElementEvent(this, 'on_close', { id })
     }
+    this.wasActive = modalActive
 
     if (modalActive === false) {
       if (this._triggerRef.current) {
