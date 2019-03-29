@@ -2,6 +2,8 @@
 
 import add from './add.js'
 import add_medium from './add_medium.js'
+import attachment from './attachment.js'
+import attachment_medium from './attachment_medium.js'
 import bell from './bell.js'
 import bell_medium from './bell_medium.js'
 import bubble from './bubble.js'
@@ -58,6 +60,8 @@ import trash_medium from './trash_medium.js'
 export {
   add,
   add_medium,
+  attachment,
+  attachment_medium,
   bell,
   bell_medium,
   bubble,
