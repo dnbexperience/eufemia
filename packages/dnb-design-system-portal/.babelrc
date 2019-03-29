@@ -1,0 +1,15 @@
+{
+  "presets": [
+    [
+      "babel-preset-gatsby",
+      {
+        "targets": {
+          "browsers": ["last 2 versions", "explorer >= 11"]
+        },
+        "useBuiltIns": "usage",
+        "corejs": 2
+      }
+    ]
+  ],
+  "plugins": ["emotion"]
+}
