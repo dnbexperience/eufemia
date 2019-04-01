@@ -28,3 +28,12 @@ This results in maintaining the integrity of the 8px base grid.
 ## Responsibility
 
 If You are working together with an DNB UX Designer, You can decide freely what layout mechanism You want to use. For Web Applications we mainly use **CSS Flexbox** or **CSS Grid**. But it is Your responsibility to ensure 100% consistency and compatibility.
+
+### Media Queries and Breakpoints
+
+- `small`: 40em
+- `medium`: 50em
+- `large`: 60em
+- `x-large`: 90em (is the default max-width of 1440px)
+
+Use `em` for media query sizing for best overall browser support. Read [more abouts units](/uilib/usage/best-practices/for-styling#units)
