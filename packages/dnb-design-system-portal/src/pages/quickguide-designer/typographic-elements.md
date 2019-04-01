@@ -11,10 +11,6 @@ Note, the following have a 16px (1 rem) default bottom margin. This can be adjus
 
 #### H1 heading
 
-##### Use when:
-
-You wish to......
-
 ##### Specs:
 
 <ul>
@@ -26,19 +22,15 @@ You wish to......
 ##### Example:
 
 <div class="typography-box">
-<h1 class="dnb-h1">
-Quem facilisi moderatius id eam, id tamquam albucius per.
-</h1>
-<p>
-This is a regular paragraph following the text above. Quem facilisi moderatius id eam, id tamquam albucius per. Vel quem congue appareat cu, mei te eros convenire. Sea bonorum epicuri ea, ei exerci tacimates pro, aliquam pertinacia eu vim.
-</p>
+  <h1 class="dnb-h1">
+    Quem facilisi moderatius id eam, id tamquam albucius per.
+  </h1>
+  <p>
+    This is a regular paragraph following the text above. Quem facilisi moderatius id eam, id tamquam albucius per. Vel quem congue appareat cu, mei te eros convenire. Sea bonorum epicuri ea, ei exerci tacimates pro, aliquam pertinacia eu vim.
+  </p>
 </div>
 
 #### H1 small heading
-
-##### Use when:
-
-You wish to......
 
 ##### Specs:
 
@@ -51,12 +43,12 @@ You wish to......
 ##### Example:
 
 <div class="typography-box">
-<h1 class="dnb-h1">
-<small>This part is small facilisi moderatius id eam, id tamquam albucius per. Vel quem congue appareat cu, mei te eros convenire</small>
-</h1>
-<p>
-This is a regular paragraph following the text above. Quem facilisi moderatius id eam, id tamquam albucius per. Vel quem congue appareat cu, mei te eros convenire. Sea bonorum epicuri ea, ei exerci tacimates pro, aliquam pertinacia eu vim.
-</p>
+  <h1 class="dnb-h1">
+    <small>This part is small facilisi moderatius id eam, id tamquam albucius per. Vel quem congue appareat cu, mei te eros convenire</small>
+  </h1>
+  <p>
+    This is a regular paragraph following the text above. Quem facilisi moderatius id eam, id tamquam albucius per. Vel quem congue appareat cu, mei te eros convenire. Sea bonorum epicuri ea, ei exerci tacimates pro, aliquam pertinacia eu vim.
+  </p>
 </div>
 
 #### H2 Heading
@@ -77,20 +69,16 @@ You wish to.....
 ##### Example:
 
 <div class="typography-box">
-<h2>
-Quem facilisi moderatius id eam, id tamquam albucius per. Vel quem congue appareat cu, mei te eros convenire. Sea bonorum epicuri ea, ei exerci tacimates pro.
-</h2>
-<p>
-This is a regular paragraph following the text above. Quem facilisi moderatius id eam, id tamquam albucius per. Vel quem congue appareat cu, mei te eros convenire. Sea bonorum epicuri ea, ei exerci tacimates pro, aliquam pertinacia eu vim.
-</p>
+  <h2 class="dnb-h2">
+    Quem facilisi moderatius id eam, id tamquam albucius per. Vel quem congue appareat cu, mei te eros convenire. Sea bonorum epicuri ea, ei exerci tacimates pro.
+  </h2>
+  <p>
+    This is a regular paragraph following the text above. Quem facilisi moderatius id eam, id tamquam albucius per. Vel quem congue appareat cu, mei te eros convenire. Sea bonorum epicuri ea, ei exerci tacimates pro, aliquam pertinacia eu vim.
+  </p>
 </div>
 
 #### H3 - Heading
 
-##### Use when:
-
-You wish to......
-
 ##### Specs:
 
 <ul>
@@ -102,21 +90,17 @@ You wish to......
 ##### Example:
 
 <div class="typography-box">
-<h3>
-Quem facilisi moderatius id eam, id tamquam albucius per. Vel quem congue appareat cu, mei te eros convenire. Sea bonorum epicuri ea, ei exerci tacimates pro, aliquam pertinacia eu vim. Vix ei stet ornatus. Est mediocrem reprimique contentiones ei, mea
-ne primis intellegat. Dico purto nullam sea an.
-</h3>
-<p>
-This is a regular paragraph following the text above. Quem facilisi moderatius id eam, id tamquam albucius per. Vel quem congue appareat cu, mei te eros convenire. Sea bonorum epicuri ea, ei exerci tacimates pro, aliquam pertinacia eu vim.
-</p>
+  <h3 class="dnb-h3">
+    Quem facilisi moderatius id eam, id tamquam albucius per. Vel quem congue appareat cu, mei te eros convenire. Sea bonorum epicuri ea, ei exerci tacimates pro, aliquam pertinacia eu vim. Vix ei stet ornatus. Est mediocrem reprimique contentiones ei, mea
+    ne primis intellegat. Dico purto nullam sea an.
+  </h3>
+  <p>
+    This is a regular paragraph following the text above. Quem facilisi moderatius id eam, id tamquam albucius per. Vel quem congue appareat cu, mei te eros convenire. Sea bonorum epicuri ea, ei exerci tacimates pro, aliquam pertinacia eu vim.
+  </p>
 </div>
 
 #### Lead - Block of text
 
-##### Use when:
-
-You wish to......
-
 ##### Specs:
 
 <ul>
@@ -128,20 +112,16 @@ You wish to......
 ##### Example:
 
 <div class="typography-box">
-<p class="dnb-lead">
-Quem facilisi moderatius id eam, id tamquam albucius per. Vel quem congue appareat cu, mei te eros convenire. Sea bonorum epicuri ea, ei exerci tacimates pro, aliquam pertinacia eu vim. Vix ei stet ornatus. Est mediocrem reprimique contentiones ei, mea
-ne primis intellegat. Dico purto nullam sea an.
-</p>
-<p>
-This is a regular paragraph following the text above. Quem facilisi moderatius id eam, id tamquam albucius per. Vel quem congue appareat cu, mei te eros convenire. Sea bonorum epicuri ea, ei exerci tacimates pro, aliquam pertinacia eu vim.
-</p>
+  <p class="dnb-lead">
+    Quem facilisi moderatius id eam, id tamquam albucius per. Vel quem congue appareat cu, mei te eros convenire. Sea bonorum epicuri ea, ei exerci tacimates pro, aliquam pertinacia eu vim. Vix ei stet ornatus. Est mediocrem reprimique contentiones ei, mea
+    ne primis intellegat. Dico purto nullam sea an.
+  </p>
+  <p>
+    This is a regular paragraph following the text above. Quem facilisi moderatius id eam, id tamquam albucius per. Vel quem congue appareat cu, mei te eros convenire. Sea bonorum epicuri ea, ei exerci tacimates pro, aliquam pertinacia eu vim.
+  </p>
 </div>
 
 #### Body text (paragraph)
-
-##### Use when:
-
-You wish to......
 
 ##### Specs:
 
@@ -154,20 +134,16 @@ You wish to......
 ##### Example:
 
 <div class="typography-box">
-<p>
-Quem facilisi moderatius id eam, id tamquam albucius per. Vel quem congue appareat cu, mei te eros convenire. Sea bonorum epicuri ea, ei exerci tacimates pro, aliquam pertinacia eu vim. Vix ei stet ornatus. Est mediocrem reprimique contentiones ei, mea
-ne primis intellegat. Dico purto nullam sea an.
-</p>
-<p>
-This is a regular paragraph following the text above. Quem facilisi moderatius id eam, id tamquam albucius per. Vel quem congue appareat cu, mei te eros convenire. Sea bonorum epicuri ea, ei exerci tacimates pro, aliquam pertinacia eu vim.
-</p>
+  <p>
+    Quem facilisi moderatius id eam, id tamquam albucius per. Vel quem congue appareat cu, mei te eros convenire. Sea bonorum epicuri ea, ei exerci tacimates pro, aliquam pertinacia eu vim. Vix ei stet ornatus. Est mediocrem reprimique contentiones ei, mea
+    ne primis intellegat. Dico purto nullam sea an.
+  </p>
+  <p>
+    This is a regular paragraph following the text above. Quem facilisi moderatius id eam, id tamquam albucius per. Vel quem congue appareat cu, mei te eros convenire. Sea bonorum epicuri ea, ei exerci tacimates pro, aliquam pertinacia eu vim.
+  </p>
 </div>
 
 #### Small Text
-
-##### Use when:
-
-You wish to......
 
 #### Specs:
 
@@ -180,29 +156,18 @@ You wish to......
 
 There are two methods to create 'small' text. One, is to use the 'dnb-small' class which can be used on paragraphs etc. and allows you to use a bottom margin. The other method is to just use a 'small' tag which is inline and cannot have a margin.
 
-<!--
-
-##### Example #1 dnb-small class on the p tag:
-
-<div class="typography-box">
-<p class="dnb-small">
-This is a 'dnb-small' <b>class</b> on a paragraph tag. Lorem ipsum this has no p tag. Quem facilisi moderatius id eam, id tamquam albucius per. Vel quem congue appareat cu, mei te eros convenire. Sea bonorum epicuri ea, ei exerci tacimates pro, aliquam pertinacia eu vim. Vix ei stet ornatus.
-</p>
-</div>
--->
-
 ##### Example #1 - small tag embedded in a p tag:
 
 <div class="typography-box">
-<p>
-This is a paragraph with a <b>small tag</b> inserted here: <small>this is the small content</small>. This is a regular paragraph following the text above. Quem facilisi moderatius id eam, id tamquam albucius per. Vel quem congue appareat cu, mei te eros convenire. Sea bonorum epicuri ea, ei exerci tacimates pro, aliquam pertinacia eu vim.
-</p>
+  <p>
+    This is a paragraph with a <b>small tag</b> inserted here: <small>this is the small content</small>. This is a regular paragraph following the text above. Quem facilisi moderatius id eam, id tamquam albucius per. Vel quem congue appareat cu, mei te eros convenire. Sea bonorum epicuri ea, ei exerci tacimates pro, aliquam pertinacia eu vim.
+  </p>
 </div>
 
 ##### Example #2 text wrapped in a small tag:
 
 <div class="typography-box">
-<small>
-This is just with a <b>small tag</b>. This is a regular paragraph following the text above. Quem facilisi moderatius id eam, id tamquam albucius per. Vel quem congue appareat cu, mei te eros convenire. Sea bonorum epicuri ea, ei exerci tacimates pro, aliquam pertinacia eu vim.
-</small>
+  <small>
+    This is just with a <b>small tag</b>. This is a regular paragraph following the text above. Quem facilisi moderatius id eam, id tamquam albucius per. Vel quem congue appareat cu, mei te eros convenire. Sea bonorum epicuri ea, ei exerci tacimates pro, aliquam pertinacia eu vim.
+  </small>
 </div>

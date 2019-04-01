@@ -154,7 +154,7 @@ export default css`
 
     text-align: center;
 
-    ${gridStyle({ rgb: '200, 200, 200', a: 0.8 })};
+    ${gridStyle({ rgb: '40, 180, 130', a: 0.4 })};
     background-color: rgba(255, 255, 255, 0.6);
 
     figcaption {
