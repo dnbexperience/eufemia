@@ -10181,6 +10181,14 @@ hoist-non-react-statics@^3.3.0:
   dependencies:
     react-is "^16.7.0"
 
+hoist-react-statics@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/hoist-react-statics/-/hoist-react-statics-1.0.2.tgz#27e9aa24714560fd3b2e43a160069ffd6682d807"
+  integrity sha512-tAUX5aT4aKq+D1E1hVnf+veWZPDCOZFaPZri+T38XNs1SueTDQWVwcVy0pEkjV6tCq0Xl6HMyTgzJjs7W2w92w==
+  dependencies:
+    hoist-non-react-statics "^2.3.1"
+    react-display-name "^0.2.3"
+
 homedir-polyfill@^1.0.1:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/homedir-polyfill/-/homedir-polyfill-1.0.3.tgz#743298cef4e5af3e194161fbadcc2151d3a058e8"
@@ -17533,6 +17541,11 @@ react-dev-utils@^7.0.0, react-dev-utils@^7.0.1:
     strip-ansi "5.0.0"
     text-table "0.2.0"
 
+react-display-name@^0.2.3:
+  version "0.2.4"
+  resolved "https://registry.yarnpkg.com/react-display-name/-/react-display-name-0.2.4.tgz#e2a670b81d79a2204335510c01246f4c92ff12cf"
+  integrity sha512-zvU6iouW+SWwHTyThwxGICjJYCMZFk/6r/+jmOdC7ntQoPlS/Pqb81MkxaMf2bHTSq9TN3K3zX2/ayMW/jCtyA==
+
 react-docgen@^3.0.0, react-docgen@^3.0.0-rc.2:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/react-docgen/-/react-docgen-3.0.0.tgz#79c6e1b1870480c3c2bc1a65bede0577a11c38cd"
@@ -17714,6 +17727,15 @@ react-popper@^1.3.3:
     typed-styles "^0.0.7"
     warning "^4.0.2"
 
+react-prerendered-component@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/react-prerendered-component/-/react-prerendered-component-1.1.1.tgz#d3237927d96509c2ff0308d3d8958565afb0df53"
+  integrity sha512-9CYFNGp3vNeE8mxcIZ/UcCLX+26ET1xGQvE53Zice08+OzDR7QecMkaFkOHfC3HMpbmyqZzyN3wai/1vg++ktA==
+  dependencies:
+    detect-node "^2.0.4"
+    hoist-react-statics "^1.0.2"
+    react-uid "^2.2.0"
+
 react-resize-detector@^3.2.1:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/react-resize-detector/-/react-resize-detector-3.4.0.tgz#2ccd399958a0efe9b7c52c5db5a13d87e47cd585"
@@ -17772,6 +17794,11 @@ react-textarea-autosize@^7.0.4:
   dependencies:
     "@babel/runtime" "^7.1.2"
     prop-types "^15.6.0"
+
+react-uid@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/react-uid/-/react-uid-2.2.0.tgz#0f77e1e0594fbf29fc4fe528cc9aa415c5bf9159"
+  integrity sha512-z+g5+hFOQ08hCfrGcJ1PNs+cmvH8Uq2CVzCmPeWBsUi5A4W4NWXR5jouledzy3oSKGMU9HOzf8zFuGi15TXJoQ==
 
 react2angular@4.0.6:
   version "4.0.6"
