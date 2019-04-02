@@ -15,7 +15,7 @@ The `dnb-ui-lib` uses a [Node.js](https://nodejs.org) based setup with a lot of 
 
 [<Icon icon={GithubLogo} size="default" /> Eufemia at GitHub](https://github.com/dnbexperience/eufemia)
 
-## Install the repo locally on Your machine
+## Install the repo locally on your machine
 
 ```bash
 # Clone the repo into your project working directory

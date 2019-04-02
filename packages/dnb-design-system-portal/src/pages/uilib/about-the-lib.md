@@ -8,7 +8,7 @@ order: 1
 import WelcomeAdvice from 'Pages/welcome-advice.md'
 import WatchingReleases from 'Pages/uilib/info/about-watching-releases.md'
 
-# About the Library
+# About the library
 
 **Why does this UI Library exist?**
 
@@ -18,7 +18,7 @@ This part of the Design System is dedicated to **application development**.
 
 ## License
 
-The `dnb-ui-lib` is for internal DNB development only. Also, make sure You act within the [license](/license).
+The `dnb-ui-lib` is for internal DNB development only. Also, make sure you act according to the [license](/license).
 
 ---
 
@@ -26,21 +26,21 @@ The `dnb-ui-lib` is for internal DNB development only. Also, make sure You act w
 
 ---
 
-## Only HTML Elements? No.
+## Only HTML elements? No.
 
 Designers and developers tend to think differently regarding the structure, layout and sizing of web interface elements. It is common for designers to design grids, fixed font sizes, widths etc.
 
 Developers tend to think more in terms of re-usability, modularity, flexibility and scaleability of their elements.
 This library aims to bridge and merge these two ways of thinking by applying naming conventions, spatial rules and single sources of truth for the most common resources. Design resources are designed based on how they behave in the browser. This means that coded designs will more likely resemble the handovers from designers.
 
-## The Library ...
+## The library ...
 
 - contains ready to use HTML elements
 - is built on top of the DNB Eufemia Design System principles
 - includes DNB brand styles, fonts and icons
 - incorporates accessibility compliancy ([ARIA Techniques](https://www.w3.org/TR/WCAG20-TECHS/aria))
 
-### Developers - what to expect :
+## Developers - what to expect :
 
 1. a theme-able resource of HTML elements to use in existing and new applications
 1. an independent layer in applications, where a build in versioning system takes care of future changes
@@ -48,7 +48,7 @@ This library aims to bridge and merge these two ways of thinking by applying nam
 1. the most commonly used Icons as a part of the bundle
 1. tested and widely compatible HTML elements where the code is automatically verified, formatted and tested using the latest tools such as Axe, StyleLint, ESLint and Prettier. All the HTML elements are build upon integration tests for internal states, static tests and snapshot tests to make future changes more obvious to the stakeholders
 
-### Collaboration
+## Collaboration
 
 Collaboration between design and development is easy through use of NPM and Github. Figma's API integration opens the possibilities for collaboration between cross disciplinary teams (developer-developer, developer-designer).
 
@@ -57,17 +57,17 @@ Collaboration between design and development is easy through use of NPM and Gith
 The HTML Elements are built based on [React](https://reactjs.org/).
 The reason for this is that React offers a robust library of tools to build deep, well tested and reusable elements.
 
-### What about other Frontend Frameworks?
+## What about other Frontend Frameworks?
 
-To make the HTML Elements work in other environments like Vue or Angular, You can use the built-in Web Components support. [VueJS](https://vuejs.org/) has also integrated direct binding by using [vuera](https://github.com/akxcv/vuera).
+To make the HTML Elements work in other environments like Vue or Angular, You can use the built-in web components support. [VueJS](https://vuejs.org/) has also integrated direct binding by using [vuera](https://github.com/akxcv/vuera).
 
 The Library is hosted on [NPM](npmjs.com), so versioning and openness is secure.
 
-### Production ready
+## Production ready
 
 All code examples are shown as ES6 ([ECMAScript 2015](https://en.wikipedia.org/wiki/ECMAScript)). But the production `dnb-ui-lib` is actually compiled down to ES5 (5th Edition). So your product is using production ready code.
 
-### Components & Patterns
+## Components & Patterns
 
 The HTML Elements UI Library comes with two different parts. The first and most common is the [Components Library](/uilib/components/).
 These are standard, out-of-the box, ready to use components.

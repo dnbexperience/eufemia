@@ -7,13 +7,13 @@ draft: false
 
 ## Usage only
 
-### To use the Components
+### To use the components
 
 There are no specific technical requirements only that it is highly recommended to use a compiling process with proper tree shaking in place.
 
-This library can be used on top of a modern JavaScript frontend libraries like React or or framework like Vue.js.
+This library can be used on top of modern JavaScript frontend libraries like React or a framework like Vue.js.
 
-### To use the Styles
+### To use the styles
 
 This library works perfectly together with any styling techniques, like **Styled Components** ([Emotion](https://emotion.sh)), CSS Modules or SASS/LESS. You simply consume **ready to use CSS files**.
 

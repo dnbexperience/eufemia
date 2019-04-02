@@ -7,11 +7,11 @@ order: 1
 
 # Styling
 
-CSS is easy. Everyone is thinking at least that in the first place. Cause You get not forced to make things right - so it fells like an endless freedom. But actually, this is a kind of trap.
+One can be forgiven for assuming that CSS is easy. After all, your stylesheets will probably work still work even when there are mistakes in them. However, this 'freedom' can be a trap.
 
 > It is VERY important to do CSS right from the very beginning.
 
-You will else find Yourself making a fix of a fix, and so on. Also, refactoring and enhancements will often effect code deeper down as well.
+Otherwise you will find yourself making a fix of a fix, and so on. Also, refactoring and enhancements will often effect code deeper down as well.
 
 ## Structure
 
@@ -57,7 +57,7 @@ This helps coworkers quickly find and understand the sentence and meaning of the
 
 Here is a list of what we should use as layout and styling units to embrace the best possible accessibility experience and visual correctness.
 
-- **`rem`**: Use _rem_ as a default sizing unit - when ever other units don't are favorited.
-- **`em`**: Use _em_ only on complex layouts, when ever You need the sizes to respond to constrains. But use _em_ for CSS `@media` queries for the best browser compatibility.
+- **`rem`**: Use _rem_ as a default sizing unit - as long as no other unit if preferred.
+- **`em`**: Use _em_ only on complex layouts, whenever you need the sizes to respond to constraints. But use _em_ for CSS `@media` queries for the best browser compatibility.
 - **`px`**: Use _pixels_ on visual helper lines and borders. Borders don't need necessarily to be responsive.
-- **`viewport units and percentage`**: Use these units to make layout and component withs responsive. Also placing and positioning layout wrappers, with these units, may give the user a good experience.
+- **`viewport units and percentage`**: Use these units to make layout and component widths responsive. Use also for placing and positioning layout wrappers which can give a better user experience.

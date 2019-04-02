@@ -1,0 +1,23 @@
+{
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "useBuiltIns": "usage",
+        "corejs": 2
+      }
+    ],
+    "@babel/preset-react"
+  ],
+  "ignore": [
+    ".*node_modules/(?!rewrite-pattern|regexpu-core|buble|react-live).*"
+  ],
+  "plugins": [
+    "emotion",
+    "@babel/plugin-proposal-class-properties",
+    "@babel/plugin-proposal-object-rest-spread",
+    "@babel/plugin-proposal-export-default-from",
+    "@babel/plugin-syntax-dynamic-import",
+    "@babel/plugin-transform-runtime"
+  ]
+}

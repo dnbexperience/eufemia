@@ -9,14 +9,14 @@ order: 2
 
 ### Headings and styling
 
-Never use Headings (like `<h3>`) for only styling purposes. Headings exist in first place to practice correct semantics, witch again will gain all kind of users.
+Never use headings (like `<h3>`) for purely styling purposes. Headings have a defined purpose and place in a web document. Using them correctly benefits all users.
 
-For styling purposes only, use `.dnb-h1` , `.dnb-h2` or `.dnb-lead`. Or style Your Typography regarding to the Prototypes.
+For styling purposes only, use these classes `.dnb-h1` , `.dnb-h2` or `.dnb-lead` or style your typography according to the prototypes.
 
-Use headings where You think that someone with a Screen Reader would have benefits of finding and reading a title.
+Use headings where you think that someone with a screen reader would have the benefit of finding and reading a title.
 
-Heading levels should only **increase by one**.
+Heading levels should only **increase by one**: `<h1>` followed by `<h2>` followed by `<h3>` and so on.
 
 ## Disable local fonts
 
-In case You are actively develop, testing or measuring Your web app, make sure You disable local installed fonts, witch are used as web fonts. This way You are sure the browser is not using the locally installed fonts, but actually using the fonts the end user will get.
+If you are actively developing, testing or measuring your web app, make sure you disable locally installed fonts which are being used as web fonts. this way you can ensure that the browser will not use these locally installed fonts and display the fonts the end user will actually see.

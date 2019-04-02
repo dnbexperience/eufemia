@@ -1,6 +1,6 @@
 ## Description
 
-The step indicator (progress indicator) is a visual representation of a users progress through a set of steps or series of actions. their purpose is to both guide the user through the process and to help them create a mental model of the amount of time and effort that is required of them.
+The step indicator (progress indicator) is a visual representation of a users progress through a set of steps or series of actions. Their purpose is to both guide the user through the process and to help them create a mental model of the amount of time and effort that is required of them.
 
 In this example we've sent the component an array of objects to simulate a scenario in a web application.
 

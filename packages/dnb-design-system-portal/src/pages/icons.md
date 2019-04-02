@@ -67,7 +67,7 @@ Icons should have a minimum area of 8px between them and their nearest neighbor.
 <div class="image-box">
   <Img
     src={IconNearestNeighbour}
-    caption="Icons with nearest neighbour 8px distance"
+    caption="Icons with nearest neighbour 8px (0.5rem) distance"
     alt="Icon's nearest neighbour"
     height="136"
   />

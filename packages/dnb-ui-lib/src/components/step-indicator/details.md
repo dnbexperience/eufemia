@@ -1,8 +1,8 @@
 | Properties     | Description                                                                                  |
 | -------------- | -------------------------------------------------------------------------------------------- |
-| `data`         | _(mandatory)_ defines the data/steps showing up in a json format like `[{title,url}]`        |
-| `active_item`  | _(mandatory)_ defines the as active number marked step                                       |
-| `active_url`   | _(mandatory)_ defines the as active url marked step                                          |
+| `data`         | _(mandatory)_ defines the data/steps showing up in a JSON format like `[{title,url}]`        |
+| `active_item`  | _(mandatory)_ defines the active number marked step                                          |
+| `active_url`   | _(mandatory)_ defines the active url marked step                                             |
 | `show_numbers` | _(optional)_ define whether to show automatically counted numbers or not. Defaults to `true` |
 
 | Data Parameters | Description                                                                                                       |

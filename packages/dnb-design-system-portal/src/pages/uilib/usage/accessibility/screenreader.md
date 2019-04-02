@@ -4,12 +4,12 @@ status: 'wip'
 draft: false
 ---
 
-# Screen reader
+# Screen readers
 
-In many ways, You have to kind of rethink both navigation and content presentation to make sure people with screen readers can navigate and read the application content properly.
+In order for screen reader users to be able to properly navigate and access content, you need to plan navigation and contentent presentation with screen readers in mind.
 
-To avoid much work afterwards, make sure You actually check You application with a screen readers **regularly during development**.
+To avoid much work afterwards, make sure you actually check your application with a screen reader **regularly during development**.
 
 ## Mobile
 
-Also, screen readers **behave differently** on mobile phones than desktop browsers. So, use both in Your frontend tooling.
+Also, screen readers **behave differently** on mobile phones than desktop browsers. So, use both in your frontend tooling.

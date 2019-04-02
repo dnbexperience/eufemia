@@ -11,16 +11,16 @@ import CodeBlock from 'Tags/CodeBlock'
 
 ## Font Face
 
-The DNB default Font Family is `Fedra Sans Std`. This font, together with its weights is loaded and imported with `@font-face` in `/css/core/fonts.scss`. The font is included in the library package.
-To make sure You don't load all of the font faces at once, You apply a font `weights` to load the predefined font faces.
+The DNB default Font Family is `Fedra Sans Std`. This font, together with it's weights is loaded and imported with `@font-face` in `/css/core/fonts.scss`. The font is included in the library package.
+To make sure you don't load all of the font faces at once, you apply font `weights` to load the predefined font faces.
 
 Read more how to use the [different weights](/uilib/typography/font-weights/).
 
 ### Headings
 
-DNB UX Team has currently only defined tree levels of heading styles (h1, h2 and h3). But level 4, 5 and 6 is also supported by the `dnb-ui-lib`.
+The DNB UX team has currently only defined tree levels of heading styles (h1, h2 and h3). But level 4, 5 and 6 are also supported by the `dnb-ui-lib`.
 
-In case You want to have a header look like a heading, You can use these classes:
+If you wish to have a header look like a heading, you can use these classes:
 
 - `.dnb-h1`
 - `.dnb-h2`

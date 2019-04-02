@@ -3,10 +3,11 @@
  */
 
 import React from 'react'
+import { H5 } from 'dnb-ui-lib/src/elements'
 
 const Syntax = () => (
   <>
-    <h5>Fedra Sans Book</h5>
+    <H5>Fedra Sans Book</H5>
     <div className="typography-box">
       <div className="dnb-typo-book">
         <p>
@@ -17,7 +18,7 @@ const Syntax = () => (
           &quot;de Finibus Bonorum et Malorum&quot; (The Extremes of Good
           and Evil) by Cicero, written in 45 BC.
         </p>
-        <h5>Here are some numbers:</h5>
+        <H5>Here are some numbers:</H5>
         <div className="dnb-font-family-demo__numbers">
           <p className="dnb-typo-number--lining">
             <b>Lining:</b> 123456789
@@ -29,7 +30,7 @@ const Syntax = () => (
       </div>
     </div>
 
-    <h5>Fedra Sans Book Italic</h5>
+    <H5>Fedra Sans Book Italic</H5>
     <div className="typography-box">
       <div className="dnb-typo-book-italic">
         <p>
@@ -40,7 +41,7 @@ const Syntax = () => (
           &quot;de Finibus Bonorum et Malorum&quot; (The Extremes of Good
           and Evil) by Cicero, written in 45 BC.
         </p>
-        <h5>Here are some numbers:</h5>
+        <H5>Here are some numbers:</H5>
         <div className="dnb-font-family-demo__numbers">
           <p className="dnb-typo-number--lining">
             <b>Lining:</b> 123456789
@@ -52,7 +53,7 @@ const Syntax = () => (
       </div>
     </div>
 
-    <h5 className="dnb-typo-medium">Fedra Sans Medium</h5>
+    <H5 className="dnb-typo-medium">Fedra Sans Medium</H5>
     <div className="typography-box">
       <div className="dnb-typo-medium">
         <p className="dnb-typo-medium">
@@ -63,7 +64,7 @@ const Syntax = () => (
           &quot;de Finibus Bonorum et Malorum&quot; (The Extremes of Good
           and Evil) by Cicero, written in 45 BC.
         </p>
-        <h5>Here are some numbers:</h5>
+        <H5>Here are some numbers:</H5>
         <div className="dnb-font-family-demo__numbers">
           <p className="dnb-typo-number--lining">
             <b>Lining:</b> 123456789
@@ -75,7 +76,7 @@ const Syntax = () => (
       </div>
     </div>
 
-    <h5>Fedra Sans Medium Italic</h5>
+    <H5>Fedra Sans Medium Italic</H5>
     <div className="typography-box">
       <div className="dnb-typo-medium">
         <p>
@@ -88,7 +89,7 @@ const Syntax = () => (
             Extremes of Good and Evil) by Cicero, written in 45 BC.
           </i>
         </p>
-        <h5>Here are some numbers:</h5>
+        <H5>Here are some numbers:</H5>
         <div className="dnb-font-family-demo__numbers">
           <p className="dnb-typo-number--lining">
             <b>Lining:</b> 123456789
@@ -100,7 +101,7 @@ const Syntax = () => (
       </div>
     </div>
 
-    <h5>Fedra Sans Light</h5>
+    <H5>Fedra Sans Light</H5>
     <div className="typography-box">
       <div className="typo-light">
         <p>
@@ -111,7 +112,7 @@ const Syntax = () => (
           &quot;de Finibus Bonorum et Malorum&quot; (The Extremes of Good
           and Evil) by Cicero, written in 45 BC.
         </p>
-        <h5>Here are some numbers:</h5>
+        <H5>Here are some numbers:</H5>
         <div className="dnb-font-family-demo__numbers">
           <p className="dnb-typo-number--lining">
             <b>Lining:</b> 123456789
@@ -123,7 +124,7 @@ const Syntax = () => (
       </div>
     </div>
 
-    <h5>Fedra Sans Light Italic</h5>
+    <H5>Fedra Sans Light Italic</H5>
     <div className="typography-box">
       <div className="typo-light-italic">
         <p>
@@ -134,7 +135,7 @@ const Syntax = () => (
           &quot;de Finibus Bonorum et Malorum&quot; (The Extremes of Good
           and Evil) by Cicero, written in 45 BC.
         </p>
-        <h5>Here are some numbers:</h5>
+        <H5>Here are some numbers:</H5>
         <div className="dnb-font-family-demo__numbers">
           <p className="dnb-typo-number--lining">
             <b>Lining:</b> 123456789
@@ -146,7 +147,7 @@ const Syntax = () => (
       </div>
     </div>
 
-    <h5>This is the Fedra Sans Bold</h5>
+    <H5>This is the Fedra Sans Bold</H5>
     <div className="typography-box">
       <div className="typo-bold">
         <p className="typo-bold">
@@ -157,7 +158,7 @@ const Syntax = () => (
           &quot;de Finibus Bonorum et Malorum&quot; (The Extremes of Good
           and Evil) by Cicero, written in 45 BC.
         </p>
-        <h5>Here are some numbers:</h5>
+        <H5>Here are some numbers:</H5>
         <div className="dnb-font-family-demo__numbers">
           <p className="dnb-typo-number--lining">
             <b>Lining:</b> 123456789
@@ -168,7 +169,7 @@ const Syntax = () => (
         </div>
       </div>
     </div>
-    <h5>Fedra Sans Bold Italic</h5>
+    <H5>Fedra Sans Bold Italic</H5>
     <div className="typography-box">
       <div className="typo-bold-italic">
         <p className="typo-bold-italic">
@@ -179,7 +180,7 @@ const Syntax = () => (
           &quot;de Finibus Bonorum et Malorum&quot; (The Extremes of Good
           and Evil) by Cicero, written in 45 BC.
         </p>
-        <h5>Here are some numbers:</h5>
+        <H5>Here are some numbers:</H5>
         <div className="dnb-font-family-demo__numbers">
           <p className="dnb-typo-number--lining">
             <b>Lining:</b> 123456789

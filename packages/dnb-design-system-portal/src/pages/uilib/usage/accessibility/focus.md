@@ -69,7 +69,7 @@ Place an Anchor like this one blow, on the very top of Your App content:
 ```
 <!-- prettier-ignore-end -->
 
-Also, place a `id="dnb-app-content"` on Your content wrapper:
+Also, place a `id="dnb-app-content"` on your content wrapper:
 
 <!-- prettier-ignore-start -->
 ```html

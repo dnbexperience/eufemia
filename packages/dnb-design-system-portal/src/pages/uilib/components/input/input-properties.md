@@ -9,7 +9,7 @@ draft: true
 | `label`               | _(optional)_ prepends the Form Label component. If no ID is provided, a random ID is created. input.                                                             |
 | `status`              | _(optional)_ text with a status message. The style defaults to an error message.                                                                                 |
 | `status_state`        | _(optional)_ defines the state of the status. Currently are two statuses `[error, info]`. Defaults to `error`.                                                   |
-| `placeholder`         | _(optional)_ the placeholder witch shows up once the input value is empty                                                                                        |
+| `placeholder`         | _(optional)_ the placeholder which shows up once the input value is empty                                                                                        |
 | `input_class`         | _(optional)_ in case we have to set a custom input class.                                                                                                        |
 | `type`                | _(optional)_ choose between `text`, `number`, `email`, `password`, `url`, `tel` and `search`.                                                                    |
 | `autocomplete`        | _(optional)_ defaults to `off`. Set to `on` or any of [allowed `attributes`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-autocomplete). |

@@ -11,7 +11,7 @@ class Example extends PureComponent {
     return (
       <Fragment>
         <ComponentBox
-          caption="With error status"
+          caption="FormStatus displaying error status"
           data-dnb-test="form-status"
         >
           {/* @jsx */ `
@@ -20,7 +20,7 @@ class Example extends PureComponent {
 />
           `}
         </ComponentBox>
-        <ComponentBox caption="With info status">
+        <ComponentBox caption="FormStatus displaying info status">
           {/* @jsx */ `
 <FormStatus
   title="Hover title"

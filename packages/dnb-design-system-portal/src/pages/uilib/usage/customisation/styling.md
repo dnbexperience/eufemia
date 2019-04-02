@@ -10,10 +10,10 @@ import CSSDiagram from 'Pages/uilib/usage/customisation/assets/css_structure_dia
 
 # CSS Styles
 
-To ensure flexibility and the possibility of [theming](/uilib/usage/customisation/theming), the DNB CSS Styles area build in a bottom up manner.
+To ensure flexibility and the possibility of [theming](/uilib/usage/customisation/theming), the DNB CSS Styles area built in a bottom up manner.
 
 The styles are decoupled from the functional [components](/uilib/components).
-There are several Packages You can use and combine.
+There are several packages you can use and combine.
 
 ## Main Packages
 
@@ -24,9 +24,9 @@ There are several Packages You can use and combine.
 
 ## Sub Packages
 
-- **dnb-ui-body** - Includes the default body style and a CSS reset (normalize).
-- **dnb-ui-basis** - Includes everything from `dnb-ui-core`, except `dnb-ui-body`.
-- **dnb-ui-elements** - This package will force styles for all the HTML Elements/Tags. Use it carefully - cause this will effect existing styles as well.
+- **dnb-ui-body** - includes the default body style and a CSS reset (normalize).
+- **dnb-ui-basis** - includes everything from `dnb-ui-core`, except `dnb-ui-body`.
+- **dnb-ui-elements** - this package will force styles for all the HTML Elements/Tags. Use it carefully - because this will effect existing styles as well.
 
 All the CSS packages are ready to use, **minified CSS files**. You will find the main style here: `dnb-ui-lib/style/dnb-ui-core.min.css`
 

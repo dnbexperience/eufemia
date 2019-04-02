@@ -8,29 +8,30 @@ order: 3
 
 # Testing Frontend Code
 
-Having tips and tricks on testing in the Design System may seem at first glance meaningless. But as the Design System is also all about Accessibility and make the User Experience as good possible, it may make more sense to have some tips about best practice about testing frontend code as well.
+It is a good idea to include some tips and tricks for frontend testing
+Since accessibility and user experience are major factors in any design system, it may be sensible to include some tips and tricks for frontend testing.
 
 ## Write tests, but not too many
 
-That said, write tests to gain confidence that Your code is strong for both refactoring, enhancements and new features.
+That said, write tests to gain confidence that your code is strong for both refactoring, enhancements and new features.
 
-Frontend code is changing and moving fast. So 100% code coverage should never be a goal by itself. Rather try to make tests witch reflects what the end-user would do. By doing so, You will probably cover several internal functions and states by simulating a "click" anyways.
+Frontend code is changing and moving fast. So 100% code coverage should never be a goal by itself, rather try to make tests which reflect what the end-user would do. By doing so, you will probably cover several internal functions and states by simulating a "click" anyways.
 
 ### Static testing
 
-- Use Static testers like **ESLint** (also in Your Editor of choice) to detect typos etc.
-- Use code formatters like **Prettier** to uniform code style. This makes working together so much more fun and makes Your everyday more productive.
-- Like ESLint, there is also a linter for styling, called **StyleLint**. It works even on Styled Components.
+- Use static testers like **ESLint** (also in your editor of choice) to detect typos etc.
+- Use code formatters like **Prettier** to uniform code style. This makes working together so much more fun and makes your everyday more productive.
+- Like ESLint, there is also a linter for styling, called **StyleLint**. It works even on styled components.
 
 ### Integration tests
 
-Do not write Unit tests in Frontend code. But make integration tests.
-Think as a user. Think how the user will interact with Your application. Do not shallow test, but test components like a user would get it (use mount or render to also test their children, cause a user would do have these as well).
+Do not write unit tests in frontend code. But make integration tests.
+Think as a user. Think how the user will interact with your application. Do not shallow test, but test components like a user would get it (use mount or render to also test their children, cause a user would do have these as well).
 
-There are several packages You can integrate in Your test, so Your can test Your code for accessibility e.g. `axe` and `pa11y`.
+There are several packages you can integrate in your test, so your can test your code for accessibility e.g. `axe` and `pa11y`.
 
 ### End-to-end testing
 
-Having tests witch actually runs in a browser, makes a lot of sense in frontend code. This method of testing is good to gain confidence and ensure a flow of interactions is working correctly - like a user registration process.
+Having tests which actually run in a browser, makes a lot of sense in frontend code. This method of testing is good to gain confidence and ensure a flow of interactions is working correctly - like a user registration process.
 
-Fore sure, end-to-end tests can be run on a CI server as well. Make sure You run Your tests against a production-like version of Your application.
+Of course, end-to-end tests can be run on a CI server as well. Make sure you run your tests against a production-like version of your application.

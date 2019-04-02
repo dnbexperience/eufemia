@@ -3,10 +3,11 @@
  */
 
 import React from 'react'
+import { H5 } from 'dnb-ui-lib/src/elements'
 
 const Syntax = () => (
   <>
-    <h5>Body Book</h5>
+    <H5>Body Book</H5>
     <p>
       Achieved with classes:{' '}
       <i>.dnb-typo-book, .dnb-typo-demi, .dnb-typo-medium</i>
@@ -26,7 +27,7 @@ const Syntax = () => (
       </p>
     </div>
 
-    <h5>Body Demi</h5>
+    <H5>Body Demi</H5>
     <div className="typography-box">
       <p className="dnb-typo-demi">
         Here is a paragraph with some nonsense lipsum text. Contrary to
@@ -38,7 +39,7 @@ const Syntax = () => (
       </p>
     </div>
 
-    <h5>Body Medium</h5>
+    <H5>Body Medium</H5>
     <div className="typography-box">
       <p className="dnb-typo-medium">
         Here is a paragraph with some nonsense lipsum text. Contrary to

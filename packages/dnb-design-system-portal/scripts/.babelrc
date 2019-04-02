@@ -1,3 +1,13 @@
 {
-  "extends": "../src/.babelrc"
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "targets": {
+          "node": "10.6"
+        }
+      }
+    ]
+  ],
+  "ignore": ["node_modules/**"]
 }

@@ -8,7 +8,11 @@ import { IconPrimary } from 'dnb-ui-lib/src'
 
 # Anchor
 
+<!--
 Beside that the Anchor Tag gets assigned by default - or let's say, by only importing the core styles, there are also some classes to handle the visual states manually.
+-->
+
+Anchor tags get assigned by default? However, the following classes are used to style states:
 
 ## Default Styles
 
@@ -17,7 +21,7 @@ Beside that the Anchor Tag gets assigned by default - or let's say, by only impo
 - `.dnb-anchor--active` <a href="/" class="dnb-anchor dnb-anchor--active">Active Style</a>
 - `.dnb-anchor--focus` <a href="/" class="dnb-anchor dnb-anchor--focus">Focus Style</a>
 
-## With Icon
+## With icon
 
 - <a href="/" className="dnb-anchor">Anchor with Icon <IconPrimary icon="chevron_right" /></a>
 - <p>
