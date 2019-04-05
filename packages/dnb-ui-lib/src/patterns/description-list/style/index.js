@@ -3,4 +3,4 @@
  *
  */
 
-export * from './dnb-description-list.scss'
+import './dnb-description-list.scss'

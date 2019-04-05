@@ -3,4 +3,4 @@
  *
  */
 
-export * from './dnb-dropdown.scss'
+import './dnb-dropdown.scss'

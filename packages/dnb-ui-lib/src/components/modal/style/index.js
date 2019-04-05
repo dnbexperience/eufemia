@@ -3,4 +3,4 @@
  *
  */
 
-export * from './dnb-modal.scss'
+import './dnb-modal.scss'

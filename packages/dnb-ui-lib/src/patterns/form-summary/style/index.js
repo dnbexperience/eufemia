@@ -3,4 +3,4 @@
  *
  */
 
-export * from './dnb-form-summary.scss'
+import './dnb-form-summary.scss'

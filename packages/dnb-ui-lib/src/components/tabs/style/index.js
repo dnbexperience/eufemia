@@ -3,4 +3,4 @@
  *
  */
 
-export * from './dnb-tabs.scss'
+import './dnb-tabs.scss'
