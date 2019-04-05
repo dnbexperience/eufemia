@@ -19,13 +19,13 @@ module.exports = {
     publish: {
       default: 'yarn prebuild:local',
       local: 'yarn prebuild:local',
-      dev: 'yarn prebuild:dev',
+      dev: 'yarn dev',
       update: 'yarn prebuild:update',
       release: 'yarn prebuildOnly'
     },
     generate: {
       default: 'yarn build',
-      dev: 'yarn prebuild:dev'
+      dev: 'yarn dev'
     },
     figma: {
       default: 'yarn figma',

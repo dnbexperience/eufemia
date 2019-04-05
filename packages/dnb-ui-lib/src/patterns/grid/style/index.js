@@ -3,4 +3,4 @@
  *
  */
 
-export * from './dnb-grid.scss'
+import './dnb-grid.scss'

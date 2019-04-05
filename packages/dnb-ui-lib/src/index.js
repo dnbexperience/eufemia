@@ -46,17 +46,6 @@ import Section from './elements/Section'
 import Table from './elements/Table'
 import Textarea from './elements/Textarea'
 import Ul from './elements/Ul'
-import ActionNav from './patterns/action-nav/ActionNav'
-import DescriptionList from './patterns/description-list/DescriptionList'
-import FieldsetDescription from './patterns/fieldset-description/FieldsetDescription'
-import Footer from './patterns/footer/Footer'
-import Form from './patterns/form/Form'
-import FormSummary from './patterns/form-summary/FormSummary'
-import Grid from './patterns/grid/Grid'
-import MainNav from './patterns/main-nav/MainNav'
-import RangeSlider from './patterns/range-slider/RangeSlider'
-import SummaryTable from './patterns/summary-table/SummaryTable'
-import ViewTitle from './patterns/view-title/ViewTitle'
 
 // define / export all the aviable components
 export {
@@ -95,18 +84,7 @@ export {
   Section,
   Table,
   Textarea,
-  Ul,
-  ActionNav,
-  DescriptionList,
-  FieldsetDescription,
-  Footer,
-  Form,
-  FormSummary,
-  Grid,
-  MainNav,
-  RangeSlider,
-  SummaryTable,
-  ViewTitle
+  Ul
 }
 
 export default {}

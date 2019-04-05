@@ -3,4 +3,4 @@
  *
  */
 
-export * from './dnb-input.scss'
+import './dnb-input.scss'

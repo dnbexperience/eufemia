@@ -16,7 +16,7 @@
     @include extendFakeFocus(
       $background-color,
       var(--color-emerald-green),
-      1px
+      0.0625rem //1px
     );
 
     @content;

@@ -39,7 +39,8 @@ const runFactory = (src, { preventDelete = false } = {}) =>
         src,
         '!**/example/**',
         '!**/__tests__/**',
-        '!**/*_not_in_use*/**/*'
+        '!**/*_not_in_use*/**/*',
+        '!**/*_not_in_use*'
       ])
 
       const isFile = /[a-z]\.js$/.test(src)
@@ -126,8 +127,11 @@ const transformContentRevertForES = content => {
   if (/\.min\.css/.test(content)) {
     content = content.replace(new RegExp('/(.*).min.css', 'g'), '/$1.css')
   }
-  if (new RegExp('../../').test(content)) {
-    content = content.replace(new RegExp('../../', 'g'), '../../../')
-  }
+  // if (new RegExp('../../').test(content)) {
+  //   content = content.replace(
+  //     new RegExp('../../(.*).css', 'g'),
+  //     '../../../$1.css'
+  //   )
+  // }
   return content
 }
