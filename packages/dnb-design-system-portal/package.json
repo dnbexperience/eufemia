@@ -45,8 +45,8 @@
   "dependencies": {
     "core-js": "2",
     "dnb-ui-lib": "*",
-    "react": "^16.8.5",
-    "react-dom": "^16.8.5"
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
   },
   "devDependencies": {
     "@babel/core": "^7.4.3",
@@ -59,7 +59,7 @@
     "@babel/preset-react": "^7.0.0",
     "@mdx-js/mdx": "0.20.3",
     "@mdx-js/tag": "0.20.3",
-    "babel-jest": "^24.5.0",
+    "babel-jest": "^24.7.1",
     "babel-plugin-emotion": "^10.0.9",
     "camelcase": "^5.3.1",
     "ci-info": "^2.0.0",
@@ -93,8 +93,7 @@
     "gatsby-source-filesystem": "^2.0.28",
     "gh-pages": "^2.0.1",
     "github-slugger": "^1.2.1",
-    "jest": "^24.5.0",
-    "jest-css-modules": "^2.0.0",
+    "jest": "^24.7.1",
     "jest-emotion": "^10.0.10",
     "jest-raw-loader": "^1.0.1",
     "keycode": "^2.2.0",
