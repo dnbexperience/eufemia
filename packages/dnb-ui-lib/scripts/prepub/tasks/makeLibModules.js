@@ -127,11 +127,11 @@ const transformContentRevertForES = content => {
   if (/\.min\.css/.test(content)) {
     content = content.replace(new RegExp('/(.*).min.css', 'g'), '/$1.css')
   }
-  // if (new RegExp('../../').test(content)) {
-  //   content = content.replace(
-  //     new RegExp('../../(.*).css', 'g'),
-  //     '../../../$1.css'
-  //   )
-  // }
+  if (new RegExp('../../').test(content)) {
+    content = content.replace(
+      new RegExp("'../../icons/", 'g'),
+      "'../../../icons/"
+    )
+  }
   return content
 }
