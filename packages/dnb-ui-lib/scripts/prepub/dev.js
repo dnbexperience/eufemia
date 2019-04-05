@@ -14,13 +14,13 @@ import {
   // makeIconsUMDBundle
   // runStyleFactory,
   // convertSvgToJsx,
-  makeLibStyles
-  // makeLibModules
-  // makeMainUMDBundle
+  // makeLibStyles
+  makeLibModules,
+  makeMainUMDBundle
 } from './index'
 
 const dev = async () => {
-  process.env.NODE_ENV = 'development'
+  process.env.NODE_ENV = 'production'
   log.start('Starting dev prepublish...')
   // const preventDelete = false
 
@@ -30,9 +30,9 @@ const dev = async () => {
   // await makeIconsUMDBundle({ doRefetch: false })
   // await runStyleFactory()
   // await convertSvgToJsx({ preventDelete })
-  await makeLibStyles()
-  // await makeLibModules()
-  // await makeMainUMDBundle()
+  // await makeLibStyles()
+  await makeLibModules()
+  await makeMainUMDBundle()
 
   log.succeed('Nice')
   return true

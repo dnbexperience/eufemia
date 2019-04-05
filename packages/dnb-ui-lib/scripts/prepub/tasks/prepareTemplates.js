@@ -112,7 +112,9 @@ const prepareTemplates = async () => {
     processToNamesIgnoreList: ['web-components', 'style'],
     processToNamesListByUsingFolders: true
   }
-  const patterns = await runFactory(patternsTemplateConfig).then(res => {
+  // we dont ezport patterns anymore!
+  // const patterns =
+  await runFactory(patternsTemplateConfig).then(res => {
     if (require.main === module) {
       log.text = '> Created the index template with all the patterns'
     }
@@ -144,7 +146,7 @@ const prepareTemplates = async () => {
       '../../../src/core/templates/main-index-template.js'
     ),
     destFile: path.resolve(__dirname, '../../../src/index.js'),
-    processToNamesList: [...components, ...elements, ...patterns],
+    processToNamesList: [...components, ...elements],
     transformNamesList: ({ result }) => {
       // because elements don't have a folder, we remove the last part of the path
       if (/\/elements\//.test(result)) {
