@@ -7,17 +7,15 @@ import React, { PureComponent } from 'react'
 import { css } from '@emotion/core'
 import Head from 'react-helmet'
 import dnb from 'dnb-ui-lib/src/lib'
+import { Button, StepIndicator, LineTitle } from 'dnb-ui-lib/src'
 import {
-  Button,
-  MainNav,
   ViewTitle,
-  StepIndicator,
-  LineTitle,
+  MainNav,
+  ActionNav,
   Form,
   RangeSlider,
-  FormSummary,
-  ActionNav
-} from 'dnb-ui-lib/src'
+  FormSummary
+} from 'dnb-ui-lib/src/patterns'
 import LoanSausage from './LoanSausage'
 
 const style = css`

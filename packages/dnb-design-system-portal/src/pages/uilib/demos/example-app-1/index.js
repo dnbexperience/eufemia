@@ -11,16 +11,18 @@ import {
   Input,
   Dropdown,
   Switch,
-  MainNav,
-  ViewTitle,
   StepIndicator,
   FormLabel,
   LineTitle,
+  Modal
+} from 'dnb-ui-lib/src'
+import {
   Form,
-  Modal,
+  MainNav,
+  ViewTitle,
   FieldsetDescription,
   ActionNav
-} from 'dnb-ui-lib/src'
+} from 'dnb-ui-lib/src/patterns'
 
 const style = css`
   background: white;
