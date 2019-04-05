@@ -110,7 +110,7 @@
   }
 }
 
-$focusRingWidth: 0.125rem;
+$focusRingWidth: 0.125rem; //2px
 $focusRingColor: var(--color-emerald-green);
 @mixin fakeFocus($whatinput: null, $color: null, $inset: null) {
   outline: none;
@@ -129,7 +129,7 @@ $focusRingColor: var(--color-emerald-green);
 
 @mixin fakeBorder(
   $color: null,
-  $width: 1px,
+  $width: 0.0625rem /*1px*/,
   $inset: null,
   $important: null
 ) {
@@ -146,10 +146,16 @@ $focusRingColor: var(--color-emerald-green);
 @mixin extendFakeFocus(
   $first-color: null,
   $second-color: null,
-  $width: 1px
+  $width: 0.0625rem /*1px*/
 ) {
-  $second: 0 0 0 calc(#{$focusRingWidth} + #{$width}) $second-color;
+  $second: 0 0 0 ($focusRingWidth + $width) $second-color;
   box-shadow: 0 0 0 $width $first-color, $second;
+
+  /* IE11 fix */
+  @media screen and (-ms-high-contrast: active),
+    (-ms-high-contrast: none) {
+    border: 0 solid transparent; // only to trigger the renderering correctly in IE11
+  }
 }
 
 @mixin dummySpacing() {

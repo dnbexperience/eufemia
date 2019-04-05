@@ -424,7 +424,7 @@ exports[`Dropdown scss have to match default theme snapshot 1`] = `
     background-color: var(--color-white);
     border-color: var(--dropdown-border-color); }
   .dnb-dropdown--opened .dnb-dropdown__trigger {
-    box-shadow: 0 0 0 1px;
+    box-shadow: 0 0 0 0.0625rem;
     border-color: var(--dropdown-border-color--selected); }
   .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger {
     box-shadow: 0 0 0 1px var(--color-cherry-red) !important;
@@ -459,7 +459,7 @@ exports[`Dropdown scss have to match default theme snapshot 1`] = `
     color: var(--dropdown-text-color); }
   :not([dnb-is-touch]) .dnb-dropdown__input:hover:not([disabled]) ~ .dnb-dropdown__trigger {
     border-color: var(--dropdown-border-color--selected);
-    box-shadow: 0 0 0 1px; }
+    box-shadow: 0 0 0 0.0625rem; }
   .dnb-dropdown > .dnb-form-status {
     transform: translateY(-0.4375rem); }
 "
@@ -818,7 +818,7 @@ exports[`Dropdown scss have to match snapshot 1`] = `
     .dnb-dropdown__option--active {
       background-color: grey; }
       .dnb-dropdown__option--active .dnb-dropdown__option__inner {
-        box-shadow: 0 0 0 1px; }
+        box-shadow: 0 0 0 0.0625rem; }
     .dnb-dropdown__option--selected {
       background-color: grey; }
       .dnb-dropdown__option--selected .dnb-dropdown__option__inner {
@@ -926,7 +926,7 @@ exports[`Dropdown scss have to match snapshot 1`] = `
     :not([dnb-is-touch]) .dnb-dropdown__input:focus:not([disabled]) ~ .dnb-dropdown__trigger {
       z-index: 8;
       cursor: pointer;
-      box-shadow: 0 0 0 1px; }
+      box-shadow: 0 0 0 0.0625rem; }
     :not([dnb-is-touch]) .dnb-dropdown__input:focus:not([disabled]) ~ .dnb-dropdown__options {
       z-index: 9;
       display: flex;
