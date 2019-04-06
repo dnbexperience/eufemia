@@ -8,7 +8,7 @@
   },
   "version": "1.0.0",
   "scripts": {
-    "start": "webpack-serve --port=1234",
+    "start": "webpack-dev-server --port=1234",
     "build": "webpack --mode=production --display-modules"
   },
   "dependencies": {
@@ -17,7 +17,7 @@
     "react-dom": "^16.8.4"
   },
   "devDependencies": {
-    "babel-loader": "8.0.5",
+    "babel-loader": "^8.0.5",
     "css-loader": "^2.1.1",
     "file-loader": "^3.0.1",
     "mini-css-extract-plugin": "^0.5.0",
@@ -25,8 +25,8 @@
     "prop-types": "^15.7.2",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",
-    "webpack": "4.29.6",
-    "webpack-cli": "3.3.0",
-    "webpack-serve": "2.0.3"
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.3.0",
+    "webpack-dev-server": "^3.2.1"
   }
 }
