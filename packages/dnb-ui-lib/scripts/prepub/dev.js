@@ -15,8 +15,9 @@ import {
   // runStyleFactory,
   // convertSvgToJsx,
   // makeLibStyles
-  makeLibModules,
-  makeMainUMDBundle
+  prepareTemplates
+  // makeLibModules,
+  // makeMainUMDBundle
 } from './index'
 
 const dev = async () => {
@@ -31,8 +32,9 @@ const dev = async () => {
   // await runStyleFactory()
   // await convertSvgToJsx({ preventDelete })
   // await makeLibStyles()
-  await makeLibModules()
-  await makeMainUMDBundle()
+  await prepareTemplates()
+  // await makeLibModules()
+  // await makeMainUMDBundle()
 
   log.succeed('Nice')
   return true
