@@ -8,8 +8,8 @@
   },
   "version": "1.0.0",
   "scripts": {
-    "generate": "nodemon --exec 'babel-node --root-mode upward ./scripts/generator.js' --ext js,json,jsx",
-    "start": "babel-node --root-mode upward ./scripts/generator.js && webpack-serve --port=1234",
+    "generate": "nodemon --exec 'babel-node ./scripts/generator.js' --ext js,json,jsx",
+    "start": "babel-node ./scripts/generator.js && webpack-dev-server --port=1234",
     "build": "webpack --mode=production --display-modules && cp index.html dist/index.html && cp src/favicon.ico dist/favicon.ico"
   },
   "dependencies": {
@@ -20,6 +20,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.4.3",
+    "@babel/node": "^7.2.2",
     "@babel/plugin-proposal-class-properties": "^7.4.0",
     "@babel/polyfill": "^7.4.3",
     "@babel/preset-env": "^7.4.3",
@@ -36,6 +37,6 @@
     "style-loader": "^0.23.1",
     "webpack": "4.29.6",
     "webpack-cli": "3.3.0",
-    "webpack-serve": "2.0.3"
+    "webpack-dev-server": "^3.2.1"
   }
 }

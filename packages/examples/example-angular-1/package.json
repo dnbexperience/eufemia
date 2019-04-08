@@ -8,7 +8,7 @@
   },
   "version": "1.0.0",
   "scripts": {
-    "start": "webpack-serve --port=1234",
+    "start": "webpack-dev-server --port=1234",
     "build": "webpack --mode=production --display-modules && cp index.html dist/index.html"
   },
   "dependencies": {
