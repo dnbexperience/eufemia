@@ -19,10 +19,7 @@ module.exports = {
                 ],
                 js: [
                   {
-                    loader: 'babel-loader',
-                    options: {
-                      rootMode: 'upward'
-                    }
+                    loader: 'babel-loader'
                   }
                 ]
               },
@@ -36,10 +33,7 @@ module.exports = {
         exclude: file => !/\.vue\.js/.test(file),
         use: [
           {
-            loader: 'babel-loader',
-            options: {
-              rootMode: 'upward'
-            }
+            loader: 'babel-loader'
           }
         ]
       },
@@ -48,7 +42,7 @@ module.exports = {
         use: ['vue-style-loader', 'css-loader', 'sass-loader']
       },
       {
-        test: /\.(woff|woff2|ttf|otf|eot)$/,
+        test: /\.(woff|woff2|ttf)$/,
         loader: 'file-loader'
       }
     ]
