@@ -7,10 +7,7 @@ module.exports = {
         test: /\.(js|jsx)$/,
         use: [
           {
-            loader: 'babel-loader',
-            options: {
-              rootMode: 'upward'
-            }
+            loader: 'babel-loader'
           }
         ]
       },

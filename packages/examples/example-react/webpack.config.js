@@ -5,12 +5,13 @@ module.exports = {
     rules: [
       {
         test: /\.(js|jsx)$/,
+        exclude: [/node_modules/], // intention: exclude dependencies from transpilation
         use: [
           {
-            loader: 'babel-loader',
-            options: {
-              rootMode: 'upward'
-            }
+            loader: 'babel-loader'
+            // ,options: {
+            //   rootMode: 'upward'
+            // }
           }
         ]
       },
@@ -25,7 +26,7 @@ module.exports = {
         ]
       },
       {
-        test: /\.(woff|woff2|ttf|otf|eot)$/,
+        test: /\.(woff|woff2|ttf)$/,
         loader: 'file-loader'
       }
     ]

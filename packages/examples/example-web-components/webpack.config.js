@@ -6,10 +6,7 @@ module.exports = {
         test: /\.(js|jsx)$/,
         use: [
           {
-            loader: 'babel-loader',
-            options: {
-              rootMode: 'upward'
-            }
+            loader: 'babel-loader'
           }
         ]
       },
@@ -18,7 +15,7 @@ module.exports = {
         use: ['style-loader', 'css-loader', 'sass-loader']
       },
       {
-        test: /\.(woff|woff2|ttf|otf|eot)$/,
+        test: /\.(woff|woff2|ttf)$/,
         loader: 'file-loader'
       }
     ]
@@ -28,4 +25,4 @@ module.exports = {
     minimize: true,
     sideEffects: false
   }
-};
+}

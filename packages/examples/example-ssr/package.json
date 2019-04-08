@@ -13,11 +13,17 @@
     "build": "webpack --mode=production --display-modules && cp index.html dist/index.html && cp src/favicon.ico dist/favicon.ico"
   },
   "dependencies": {
+    "core-js": "2",
     "dnb-ui-lib": "*",
     "react": "^16.8.4",
     "react-dom": "^16.8.4"
   },
   "devDependencies": {
+    "@babel/core": "^7.4.3",
+    "@babel/plugin-proposal-class-properties": "^7.4.0",
+    "@babel/polyfill": "^7.4.3",
+    "@babel/preset-env": "^7.4.3",
+    "@babel/preset-react": "^7.0.0",
     "babel-loader": "8.0.5",
     "css-loader": "^2.1.1",
     "file-loader": "^3.0.1",
