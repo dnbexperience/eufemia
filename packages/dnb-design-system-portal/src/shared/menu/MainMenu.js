@@ -19,7 +19,8 @@ import {
   DesignSystemSvg
 } from './MainMenuGraphics'
 import { Logo, Button } from 'dnb-ui-lib/src'
-import { buildVersion } from '../../../package.json'
+// import { buildVersion } from '../../../package.json'
+import { version as buildVersion } from '../../../version.json'
 import { MainMenuContext } from './MainMenuContext'
 import {
   setPageFocusElement,
