@@ -6,12 +6,17 @@
  *
  */
 
-// process.env.ROOT_DIR = `${__dirname}/../../`
 process.env.ROOT_DIR = require('packpath').self()
 
 import { ErrorHandler, log } from '../lib'
 import del from 'del'
 
+/**
+ * The Templates (prepareTemplates) generation is special in the sense
+ * That it has to be run locally to generate the files statily
+ * so we can commit them as as core part.
+ * The rest is only generated during the package build
+ */
 import { prepareTemplates } from './tasks/prepareTemplates'
 import { runStyleFactory } from './tasks/styleFactory'
 import { runThemeFactory } from './tasks/themeFactory'

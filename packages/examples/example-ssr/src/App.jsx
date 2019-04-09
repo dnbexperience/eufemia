@@ -1,27 +1,29 @@
 /**
- * To showcase the usage of the dnb-ui-lib in React
+ * To showcase the usage of the dnb-ui-lib in React SSR
  *
  */
 
 import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
+import { PrerenderedComponent } from 'react-prerendered-component'
 
 // With this we get 100kb more in bundle size
 import { Button, Input, Icon } from 'dnb-ui-lib/components'
 import { H1, H2, P, Section } from 'dnb-ui-lib/elements'
 import { bell_medium as Bell } from 'dnb-ui-lib/icons'
 
-// Better for Tree Shaking as webpack treeshaking only works with ES6 module syntax
-// import Icon from 'dnb-ui-lib/es/components/icon/Icon'
-// import Input from 'dnb-ui-lib/es/components/input/Input'
-// import Button from 'dnb-ui-lib/es/components/button/Button'
-// import H1 from 'dnb-ui-lib/es/elements/H1'
-// import H2 from 'dnb-ui-lib/es/elements/H2'
-// import P from 'dnb-ui-lib/es/elements/P'
-// import Section from 'dnb-ui-lib/es/elements/Section'
-// import Bell from 'dnb-ui-lib/icons/bell_medium'
-
 export default class App extends PureComponent {
-  state = { inputValue: null }
+  static propTypes = {
+    count: PropTypes.number
+  }
+  static defaultProps = {
+    count: 1
+  }
+  state = { inputValue: null, count: 0, restored: false }
+  constructor(props) {
+    super(props)
+    this.state.count = props.count
+  }
   handleClick = e => {
     console.log('handleClick', e)
   }
@@ -30,13 +32,20 @@ export default class App extends PureComponent {
     console.log('handleValueChange', inputValue)
     this.setState({ inputValue })
   }
+  restore = (element, state) => {
+    this.setState({ ...state, restored: true })
+  }
   render() {
     const { inputValue } = this.state
     return (
-      <>
+      <PrerenderedComponent
+        store={this.props}
+        restore={this.restore}
+        live={this.state.restored}
+      >
         <div className="dnb-core-style">
           <Section className="dnb-spacing" useSpacing>
-            <H1>React Components</H1>
+            <H1>React Components {this.state.count}</H1>
             <P>
               This is not for real world usage. But only to show the
               functionality of the dnb-ui-lib
@@ -59,7 +68,7 @@ export default class App extends PureComponent {
             </P>
           </Section>
         </div>
-      </>
+      </PrerenderedComponent>
     )
   }
 }

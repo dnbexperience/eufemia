@@ -4,6 +4,9 @@ draft: false
 order: 2
 ---
 
+import GithubLogo from 'Pages/uilib/development/assets/github-logo.js'
+import { Icon } from 'dnb-ui-lib/src'
+
 # First Steps
 
 ## Installation
@@ -12,7 +15,7 @@ Check out the `dnb-ui-lib` **[Installation documentation](/uilib/usage/#installa
 
 ## Working Examples
 
-You can find some more detailed and running examples under `REPOSITORY/packages/examples/...`.
+You can find some more detailed and running examples under [<Icon icon={GithubLogo} size="default" /> REPOSITORY/packages/examples/...](https://github.com/dnbexperience/eufemia/tree/develop/packages/examples)
 
 ## Be continued
 
