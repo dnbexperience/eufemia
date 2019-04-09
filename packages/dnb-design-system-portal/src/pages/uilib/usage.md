@@ -5,6 +5,10 @@ draft: false
 order: 3
 ---
 
+<!-- import ReleasesInfo from 'Pages/design-system/changelog/info-about-releases' -->
+
+import WatchingReleases from 'Pages/uilib/info/about-watching-releases.md'
+
 # Usage
 
 **Get started using the DNB user interface library**
@@ -16,6 +20,8 @@ The UI Library HTML Elements and UI Components are isolated, ready-to-use elemen
 - **UI Patterns** are a way to demonstrate how a set of components and elements could work together
 
 You can use any of the HTML Elements and UI Components as demonstrated in the documentation with a variety of customization properties.
+
+<WatchingReleases />
 
 ## Installation
 
