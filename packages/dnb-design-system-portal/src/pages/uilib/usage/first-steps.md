@@ -5,6 +5,7 @@ order: 2
 ---
 
 import GithubLogo from 'Pages/uilib/development/assets/github-logo.js'
+import { Icon } from 'dnb-ui-lib/src'
 
 # First Steps
 
