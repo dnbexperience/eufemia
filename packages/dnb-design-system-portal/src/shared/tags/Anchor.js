@@ -21,6 +21,9 @@ const Anchor = ({ children, className, href, ...rest }) => {
       </AnchorLink>
     )
   }
+  if (/^http/.test(href)) {
+    rest.target = '_blank'
+  }
   return (
     <a
       href={href}
