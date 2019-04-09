@@ -7,6 +7,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import keycode from 'keycode'
+// import * as bodyScrollLock from 'body-scroll-lock'
 import {
   registerElement,
   validateDOMAttributes,
@@ -17,6 +18,11 @@ import {
 import Icon from '../icon-primary/IconPrimary'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
+
+// const { disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks } =
+// bodyScrollLock && bodyScrollLock.default
+//   ? bodyScrollLock.default
+//   : bodyScrollLock
 
 const renderProps = {
   on_show: null,
@@ -35,6 +41,7 @@ export const propTypes = {
   status: PropTypes.string,
   status_state: PropTypes.string,
   status_animation: PropTypes.string,
+  scrollable: PropTypes.bool,
   no_animation: PropTypes.bool,
   data: PropTypes.oneOfType([
     PropTypes.string,
@@ -56,7 +63,7 @@ export const propTypes = {
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   class: PropTypes.string,
 
-  // React props
+  // React
   className: PropTypes.string,
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
 
@@ -79,6 +86,7 @@ export const defaultProps = {
   status: null,
   status_state: 'error',
   status_animation: null,
+  scrollable: false,
   no_animation: false,
   data: null,
   selected_item: 0,
@@ -116,7 +124,16 @@ export default class Dropdown extends Component {
     if (dataItem.selected_value) return dataItem.selected_value
     if (dataItem.content)
       return Array.isArray(dataItem.content)
-        ? dataItem.content.join(' ')
+        ? dataItem.content
+            .reduce((acc, cur) => {
+              // remove only numbers
+              const found = cur && cur.match(/[0-9.,-\s]+/)
+              if (!(found && found[0].length === cur.length)) {
+                acc.push(cur)
+              }
+              return acc
+            }, [])
+            .join(' ')
         : dataItem.content
     if (typeof dataItem === 'string') return dataItem
     return ''
@@ -163,6 +180,7 @@ export default class Dropdown extends Component {
       data: Dropdown.getData(props)
     }
 
+    this._refUl = React.createRef()
     this._refInput = React.createRef()
     this._refButton = React.createRef()
   }
@@ -214,6 +232,45 @@ export default class Dropdown extends Component {
     })
   }
 
+  findItemByValue(value) {
+    const itemNumberFound = this.state.data
+      .slice(0)
+      .reduce((acc, itemData, i, arr) => {
+        const str = Dropdown.parseContentTitle(itemData)
+        if (str) {
+          const found = new RegExp(`^${value}`, 'i').test(str)
+          if (found) {
+            arr.splice(1)
+            return i
+          }
+        }
+        return -1
+      }, -1)
+    if (itemNumberFound > -1) {
+      return this._refUl.current.querySelector(
+        `li:nth-of-type(${itemNumberFound + 1})`
+      )
+    }
+
+    return null
+  }
+
+  scrollToItem(liElement) {
+    if (!liElement) {
+      return
+    }
+    try {
+      const top = liElement.offsetTop
+      liElement.parentNode.scrollTo({
+        top,
+        behavior: 'smooth'
+      })
+      liElement.classList.add('dnb-dropdown__option--current')
+    } catch (e) {
+      console.log('Dropdown could not scroll into element:', e)
+    }
+  }
+
   onFocusHandler = () => {
     if (!this.state.opened) {
       this.setState({
@@ -236,7 +293,6 @@ export default class Dropdown extends Component {
     })
     this.setHidden()
   }
-
   onMouseDownHandler = () => {
     if (this.state.opened) {
       this.onBlurHandler()
@@ -271,6 +327,12 @@ export default class Dropdown extends Component {
           this._refInput.current.blur()
         }
         e.preventDefault()
+        break
+
+      default:
+        if (this._refUl.current) {
+          this.scrollToItem(this.findItemByValue(keycode(e)))
+        }
         break
     }
 
@@ -323,6 +385,7 @@ export default class Dropdown extends Component {
       status,
       status_state,
       status_animation,
+      scrollable,
       no_animation,
       className,
       class: _className,
@@ -346,6 +409,7 @@ export default class Dropdown extends Component {
     const classes = classnames(
       'dnb-dropdown',
       icon_position && `dnb-dropdown--icon-position-${icon_position}`,
+      scrollable && 'dnb-dropdown--scroll',
       opened && 'dnb-dropdown--opened',
       hidden && 'dnb-dropdown--hidden',
       showStatus && 'dnb-dropdown__form-status',
@@ -395,7 +459,8 @@ export default class Dropdown extends Component {
       role: 'listbox',
       tabIndex: '-1',
       ['aria-activedescendant']: `option-${id}-${selected_item}`,
-      ['aria-labelledby']: id
+      ['aria-labelledby']: id,
+      ref: this._refUl
     }
 
     // also used for code markup simulation

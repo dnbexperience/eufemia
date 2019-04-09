@@ -50,6 +50,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
   on_show={[Function]}
   on_state_update={[Function]}
   opened="opened"
+  scrollable={true}
   selected_item={2}
   status="status"
   status_animation="status_animation"
@@ -77,7 +78,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
     </label>
   </FormLabel>
   <span
-    className="dnb-dropdown dnb-dropdown--icon-position-icon_position dnb-dropdown--hidden dnb-dropdown__form-status dnb-dropdown__status--error class className"
+    className="dnb-dropdown dnb-dropdown--icon-position-icon_position dnb-dropdown--scroll dnb-dropdown--hidden dnb-dropdown__form-status dnb-dropdown__status--error class className"
   >
     <span
       className="dnb-dropdown__shell"
@@ -375,6 +376,11 @@ exports[`Dropdown scss have to match default theme snapshot 1`] = `
     .dnb-dropdown__option__inner {
       padding-right: 2rem;
       background-color: var(--dropdown-option-background-color); }
+    .dnb-dropdown__option--current {
+      background-color: var(--dropdown-option-background-color--hover); }
+      .dnb-dropdown__option--current .dnb-dropdown__option__inner {
+        color: var(--dropdown-option-color--hover);
+        background-color: var(--dropdown-option-background-color--hover); }
     :not([dnb-is-touch]) .dnb-dropdown__option:hover[disabled] {
       cursor: not-allowed; }
     :not([dnb-is-touch]) .dnb-dropdown__option:hover:not([disabled]) {

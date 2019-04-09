@@ -39,7 +39,7 @@
     border-radius: var(--dropdown-options-border-radius);
   }
 
-  // NB: his will remove the triangle!
+  // NB: this will remove the triangle!
   &--scroll &__options {
     max-height: 20rem;
     overflow-y: scroll;
@@ -64,6 +64,13 @@
       background-color: var(--dropdown-option-background-color);
     }
 
+    &--current {
+      background-color: var(--dropdown-option-background-color--hover);
+      .dnb-dropdown__option__inner {
+        color: var(--dropdown-option-color--hover);
+        background-color: var(--dropdown-option-background-color--hover);
+      }
+    }
     @include hover() {
       background-color: var(--dropdown-option-background-color--hover);
       .dnb-dropdown__option__inner {

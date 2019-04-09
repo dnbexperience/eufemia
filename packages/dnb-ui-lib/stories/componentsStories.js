@@ -379,7 +379,20 @@ stories.push([
     <CustomStyle>
       <Wrapper>
         <Box>
-          <Dropdown data={dropdownData} selected_item={3} label="Label:" />
+          <select name="x" id="x">
+            <option value="Value 1">A 1</option>
+            <option value="Value 2">B 2</option>
+            <option value="Value 3">C 3</option>
+            <option value="Value 3">S 4</option>
+          </select>
+        </Box>
+        <Box>
+          <Dropdown
+            data={dropdownData}
+            selected_item={3}
+            scrollable
+            label="Label:"
+          />
         </Box>
         <Box>
           <Dropdown
@@ -525,6 +538,99 @@ const dropdownData = [
   {
     selected_value: 'Brukskonto - Kari Nordmann',
     content: 'Brukskonto - Kari Nordmann'
+  },
+  {
+    content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
+  },
+  {
+    content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
+  },
+  {
+    content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
+  },
+  {
+    content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
+  },
+  {
+    content: ['1234.56.78902', 'Aparekonto - Ole Nordmann']
+  },
+  {
+    content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
+  },
+  {
+    content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
+  },
+  {
+    content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
+  },
+  {
+    content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
+  },
+  {
+    content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
+  },
+  {
+    content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
+  },
+  {
+    content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
+  },
+  {
+    content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
+  },
+  {
+    content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
+  },
+  {
+    content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
+  },
+  {
+    content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
+  },
+  {
+    content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
+  },
+  {
+    content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
+  },
+  {
+    content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
+  },
+  {
+    content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
+  },
+  {
+    content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
+  },
+  {
+    content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
+  },
+  {
+    content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
+  },
+  {
+    content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
+  },
+  {
+    content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
+  },
+  {
+    content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
+  },
+  {
+    content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
+  },
+  {
+    content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
+  },
+  {
+    content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
+  },
+  {
+    content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
+  },
+  {
+    content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
   },
   {
     content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
