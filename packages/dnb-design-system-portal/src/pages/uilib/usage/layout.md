@@ -31,9 +31,9 @@ If You are working together with an DNB UX Designer, You can decide freely what 
 
 ### Media Queries and Breakpoints
 
-- `small`: 40em
-- `medium`: 50em
-- `large`: 60em
-- `x-large`: 90em (is the default max-width of 1440px)
+- `40em` **small**
+- `50em` **medium**
+- `60em` **large**
+- `90em` **x-large** (is the default max-width of 1440px)
 
 Use `em` for media query sizing for best overall browser support. Read [more abouts units](/uilib/usage/best-practices/for-styling#units)

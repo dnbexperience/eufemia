@@ -22,12 +22,32 @@ There are three things going on once an HTML element is displayed and up-and-run
 - styling by CSS
 - internal states by JavaScript
 
-From here we can redefine the properties of the HTML elements in order to customise them.
+From here we can redefine the properties of the HTML elements in order to customize them.
 We can also bind event listeners to work together with your application.
+
+### Pixel Perfect
+
+One of the most important reasons why Eufemia exists, is to make it more easy to get a pixel perfect result on developing WEB Applications.
+
+Therefore, You come a long way on using the `dnb-ui-lib` correctly:
+
+- Make You use [import the style packages correctly](/uilib/usage/customisation/styling) (with or without CSS reset depending on Your legacy code situation)
+- Always (mostly) use `rem` to the nearest "8px" value, like **1px = 0.0625rem** (1/16)
+- Always use the [HTML Elements](/uilib/elements) or [UI Components](/uilib/components)
+- There are more [useful tips on styling](/uilib/usage/best-practices/for-styling)
+
+**Make sure You test Your Layout and Styles for various conditions during and after development:**
+
+- Up two 3x times in **font-size** (change the Web Browser default font size)
+- **Zoom** the Web Browser up to 3x times
+- Make Your layout **responsive**, either with CSS Grid or Media Queries and,
+- Check the different screen sizes
+- Test Your App on different devices and operating systems
+- Pixel perfection is good for many, for the rest, make everything [accessible for everyone](/uilib/usage/accessibility)
 
 ## States
 
-All the HTML elements have individual interaction states. The look and feel is defined in the default [theming file](/uilib/usage/customisation/theming) (**theme-ui**).
+All the UI Components (and some HTML Elements) have individual interaction states. The look and feel is defined in the default [theming file](/uilib/usage/customisation/theming) (**theme-ui**).
 
 - hover
 - active (TouchStart)

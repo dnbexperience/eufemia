@@ -9,9 +9,13 @@ order: 3
 
 **Get started using the DNB user interface library**
 
-The UI Library HTML elements are isolated, ready-to-use elements. They are self-supporting, and will use the styles they need to display.
+The UI Library HTML Elements and UI Components are isolated, ready-to-use elements. They are self-supporting, and will use the styles they need to display.
 
-You can use any of the HTML Elements as demonstrated in the documentation. Please refer to the demo pages to see [how they should be used](/uilib/components).
+- **HTML Elements** are styled HTML tags
+- **UI Components** are styled and custom build HTML elements
+- **UI Patterns** are a way to demonstrate how a set of components and elements could work together
+
+You can use any of the HTML Elements and UI Components as demonstrated in the documentation with a variety of customization properties.
 
 ## Installation
 
@@ -22,7 +26,7 @@ _NB!_ [React](https://www.npmjs.com/package/react) and [React-dom](https://www.n
 ```bash
 # at time of writing, React version 16 was used
 # so consider to run react@16 and react-dom@16
-$ yarn add dnb-ui-lib react react-dom
+$ npm i dnb-ui-lib react react-dom
 ```
 
 Read more in the [First Steps](/uilib/usage/first-steps/) section.
