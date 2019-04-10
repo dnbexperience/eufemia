@@ -489,51 +489,51 @@ export default class Dropdown extends Component {
               </span>
             </button>
 
-            <ul {...ulParams}>
-              {this.state.data.map((dataItem, i) => {
-                const isCurrent = i === parseFloat(selected_item)
-                const params = {
-                  id: `option-${id}-${i}`,
-                  role: 'option',
-                  ['aria-selected']: isCurrent,
-                  className: classnames(
-                    'dnb-dropdown__option',
-                    isCurrent && 'dnb-dropdown__option--selected',
-                    i === active_item && 'dnb-dropdown__option--focus'
+            <span className="dnb-dropdown__list">
+              <span className="dnb-dropdown__triangle" />
+              <ul {...ulParams}>
+                {this.state.data.map((dataItem, i) => {
+                  const isCurrent = i === parseFloat(selected_item)
+                  const params = {
+                    id: `option-${id}-${i}`,
+                    role: 'option',
+                    ['aria-selected']: isCurrent,
+                    className: classnames(
+                      'dnb-dropdown__option',
+                      isCurrent && 'dnb-dropdown__option--selected',
+                      i === active_item && 'dnb-dropdown__option--focus'
+                    )
+                  }
+                  return (
+                    <li key={id + i} {...params}>
+                      <span
+                        title={Dropdown.parseContentTitle(dataItem)}
+                        className="dnb-dropdown__option__inner"
+                        onMouseDown={() =>
+                          this.selectItem(i, { fireSelectEvent: true })
+                        }
+                        role="button"
+                        tabIndex="-1"
+                      >
+                        {(Array.isArray(dataItem.content) &&
+                          dataItem.content.map((item, n) => {
+                            return (
+                              <span
+                                key={id + i + n}
+                                className="dnb-dropdown__option__item"
+                              >
+                                {item}
+                              </span>
+                            )
+                          })) ||
+                          dataItem.content ||
+                          dataItem}
+                      </span>
+                    </li>
                   )
-                }
-                return (
-                  <li key={id + i} {...params}>
-                    {i === 0 && (
-                      <span className="dnb-dropdown__triangle" />
-                    )}
-                    <span
-                      title={Dropdown.parseContentTitle(dataItem)}
-                      className="dnb-dropdown__option__inner"
-                      onMouseDown={() =>
-                        this.selectItem(i, { fireSelectEvent: true })
-                      }
-                      role="button"
-                      tabIndex="-1"
-                    >
-                      {(Array.isArray(dataItem.content) &&
-                        dataItem.content.map((item, n) => {
-                          return (
-                            <span
-                              key={id + i + n}
-                              className="dnb-dropdown__option__item"
-                            >
-                              {item}
-                            </span>
-                          )
-                        })) ||
-                        dataItem.content ||
-                        dataItem}
-                    </span>
-                  </li>
-                )
-              })}
-            </ul>
+                })}
+              </ul>
+            </span>
           </span>
 
           {showStatus && (

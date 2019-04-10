@@ -134,129 +134,133 @@ exports[`Dropdown component have to match snapshot 1`] = `
           />
         </span>
       </button>
-      <ul
-        aria-activedescendant="option-dropdown-id-2"
-        aria-labelledby="dropdown-id"
-        className="dnb-dropdown__options dnb-dropdown__options--no-animation"
-        role="listbox"
-        tabIndex="-1"
+      <span
+        className="dnb-dropdown__list"
       >
-        <li
-          aria-selected={false}
-          className="dnb-dropdown__option"
-          id="option-dropdown-id-0"
-          key="dropdown-id0"
-          role="option"
+        <span
+          className="dnb-dropdown__triangle"
+        />
+        <ul
+          aria-activedescendant="option-dropdown-id-2"
+          aria-labelledby="dropdown-id"
+          className="dnb-dropdown__options dnb-dropdown__options--no-animation"
+          role="listbox"
+          tabIndex="-1"
         >
-          <span
-            className="dnb-dropdown__triangle"
-          />
-          <span
-            className="dnb-dropdown__option__inner"
-            onMouseDown={[Function]}
-            role="button"
-            tabIndex="-1"
-            title="Brukskonto - Kari Nordmann"
+          <li
+            aria-selected={false}
+            className="dnb-dropdown__option"
+            id="option-dropdown-id-0"
+            key="dropdown-id0"
+            role="option"
           >
             <span
-              className="dnb-dropdown__option__item"
-              key="dropdown-id00"
+              className="dnb-dropdown__option__inner"
+              onMouseDown={[Function]}
+              role="button"
+              tabIndex="-1"
+              title="Brukskonto - Kari Nordmann"
             >
-              1234.56.78901
+              <span
+                className="dnb-dropdown__option__item"
+                key="dropdown-id00"
+              >
+                1234.56.78901
+              </span>
+              <span
+                className="dnb-dropdown__option__item"
+                key="dropdown-id01"
+              >
+                Brukskonto - Kari Nordmann
+              </span>
             </span>
-            <span
-              className="dnb-dropdown__option__item"
-              key="dropdown-id01"
-            >
-              Brukskonto - Kari Nordmann
-            </span>
-          </span>
-        </li>
-        <li
-          aria-selected={false}
-          className="dnb-dropdown__option"
-          id="option-dropdown-id-1"
-          key="dropdown-id1"
-          role="option"
-        >
-          <span
-            className="dnb-dropdown__option__inner"
-            onMouseDown={[Function]}
-            role="button"
-            tabIndex="-1"
-            title="Sparekonto - Ole Nordmann"
+          </li>
+          <li
+            aria-selected={false}
+            className="dnb-dropdown__option"
+            id="option-dropdown-id-1"
+            key="dropdown-id1"
+            role="option"
           >
             <span
-              className="dnb-dropdown__option__item"
-              key="dropdown-id10"
+              className="dnb-dropdown__option__inner"
+              onMouseDown={[Function]}
+              role="button"
+              tabIndex="-1"
+              title="Sparekonto - Ole Nordmann"
             >
-              1234.56.78902
+              <span
+                className="dnb-dropdown__option__item"
+                key="dropdown-id10"
+              >
+                1234.56.78902
+              </span>
+              <span
+                className="dnb-dropdown__option__item"
+                key="dropdown-id11"
+              >
+                Sparekonto - Ole Nordmann
+              </span>
             </span>
-            <span
-              className="dnb-dropdown__option__item"
-              key="dropdown-id11"
-            >
-              Sparekonto - Ole Nordmann
-            </span>
-          </span>
-        </li>
-        <li
-          aria-selected={true}
-          className="dnb-dropdown__option dnb-dropdown__option--selected dnb-dropdown__option--focus"
-          id="option-dropdown-id-2"
-          key="dropdown-id2"
-          role="option"
-        >
-          <span
-            className="dnb-dropdown__option__inner"
-            onMouseDown={[Function]}
-            role="button"
-            tabIndex="-1"
-            title="Feriekonto - Kari Nordmann med et kjempelangt etternavnsen"
+          </li>
+          <li
+            aria-selected={true}
+            className="dnb-dropdown__option dnb-dropdown__option--selected dnb-dropdown__option--focus"
+            id="option-dropdown-id-2"
+            key="dropdown-id2"
+            role="option"
           >
             <span
-              className="dnb-dropdown__option__item"
-              key="dropdown-id20"
+              className="dnb-dropdown__option__inner"
+              onMouseDown={[Function]}
+              role="button"
+              tabIndex="-1"
+              title="Feriekonto - Kari Nordmann med et kjempelangt etternavnsen"
             >
-              1134.56.78962
+              <span
+                className="dnb-dropdown__option__item"
+                key="dropdown-id20"
+              >
+                1134.56.78962
+              </span>
+              <span
+                className="dnb-dropdown__option__item"
+                key="dropdown-id21"
+              >
+                Feriekonto - Kari Nordmann med et kjempelangt etternavnsen
+              </span>
             </span>
-            <span
-              className="dnb-dropdown__option__item"
-              key="dropdown-id21"
-            >
-              Feriekonto - Kari Nordmann med et kjempelangt etternavnsen
-            </span>
-          </span>
-        </li>
-        <li
-          aria-selected={false}
-          className="dnb-dropdown__option"
-          id="option-dropdown-id-3"
-          key="dropdown-id3"
-          role="option"
-        >
-          <span
-            className="dnb-dropdown__option__inner"
-            onMouseDown={[Function]}
-            role="button"
-            tabIndex="-1"
-            title="Oppussing - Ole Nordmann"
+          </li>
+          <li
+            aria-selected={false}
+            className="dnb-dropdown__option"
+            id="option-dropdown-id-3"
+            key="dropdown-id3"
+            role="option"
           >
             <span
-              className="dnb-dropdown__option__item"
-              key="dropdown-id30"
+              className="dnb-dropdown__option__inner"
+              onMouseDown={[Function]}
+              role="button"
+              tabIndex="-1"
+              title="Oppussing - Ole Nordmann"
             >
-              1534.96.48901
+              <span
+                className="dnb-dropdown__option__item"
+                key="dropdown-id30"
+              >
+                1534.96.48901
+              </span>
+              <span
+                className="dnb-dropdown__option__item"
+                key="dropdown-id31"
+              >
+                Oppussing - Ole Nordmann
+              </span>
             </span>
-            <span
-              className="dnb-dropdown__option__item"
-              key="dropdown-id31"
-            >
-              Oppussing - Ole Nordmann
-            </span>
-          </span>
-        </li>
-      </ul>
+          </li>
+        </ul>
+      </span>
     </span>
     <FormStatus
       animation="status_animation"
@@ -356,16 +360,13 @@ exports[`Dropdown scss have to match default theme snapshot 1`] = `
 .dnb-dropdown {
   color: var(--dropdown-text-color);
   /* stylelint-disable-next-line */ }
+  .dnb-dropdown__list {
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16);
+    border-radius: var(--dropdown-options-border-radius); }
   .dnb-dropdown__options {
     border: none;
     background-color: transparent;
-    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16);
     border-radius: var(--dropdown-options-border-radius); }
-  .dnb-dropdown--scroll .dnb-dropdown__options {
-    max-height: 20rem;
-    overflow-y: scroll;
-    overscroll-behavior: contain;
-    scroll-behavior: smooth; }
   .dnb-dropdown__option {
     padding: 0.125rem;
     color: var(--dropdown-option-color);
@@ -769,22 +770,32 @@ exports[`Dropdown scss have to match snapshot 1`] = `
     vertical-align: top; }
     label + .dnb-dropdown[class*='__form-status'] .dnb-dropdown__shell {
       top: -0.375rem; }
-  .dnb-dropdown__options {
+  .dnb-dropdown__list {
     position: absolute;
     z-index: 3;
     top: 0;
     right: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: transparent;
+    transform: translateY(0);
+    transition: transform 200ms, opacity 160ms ease-out; }
+  .dnb-dropdown__options {
     display: flex;
     flex-direction: column;
     width: 100%;
     margin: 0;
     padding: 0;
     list-style: none;
-    background-color: transparent;
-    transform: translateY(0);
-    transition: transform 200ms, opacity 160ms ease-out; }
+    background-color: transparent; }
     .dnb-spacing .dnb-dropdown__options li {
       margin: 0; }
+  .dnb-dropdown--scroll .dnb-dropdown__options {
+    max-height: 20rem;
+    overflow-y: scroll;
+    overscroll-behavior: contain;
+    scroll-behavior: smooth; }
   .dnb-dropdown__option {
     position: relative;
     cursor: pointer;
@@ -889,17 +900,17 @@ exports[`Dropdown scss have to match snapshot 1`] = `
       text-decoration: none;
       text-overflow: inherit;
       text-align: inherit; }
-  .dnb-dropdown--opened .dnb-dropdown__options {
+  .dnb-dropdown--opened .dnb-dropdown__list {
     z-index: 9;
     display: flex;
     animation: dropdownSlideDown 200ms ease-out 1 forwards; }
-    .dnb-dropdown--opened .dnb-dropdown__options--no-animation {
+    .dnb-dropdown--opened .dnb-dropdown__list--no-animation {
       animation: dropdownSlideDown 1ms ease-out 1 forwards; }
-  .dnb-dropdown--hidden .dnb-dropdown__options {
+  .dnb-dropdown--hidden .dnb-dropdown__list {
     display: none; }
-  .dnb-dropdown:not(.dnb-dropdown--opened) .dnb-dropdown__options {
+  .dnb-dropdown:not(.dnb-dropdown--opened) .dnb-dropdown__list {
     animation: dropdownSlideUp 150ms ease-out 1 forwards; }
-    .dnb-dropdown:not(.dnb-dropdown--opened) .dnb-dropdown__options--no-animation {
+    .dnb-dropdown:not(.dnb-dropdown--opened) .dnb-dropdown__list--no-animation {
       animation: dropdownSlideUp 1ms ease-out 1 forwards; }
   .dnb-dropdown--icon-position-left .dnb-dropdown__icon {
     order: 1;
@@ -929,11 +940,11 @@ exports[`Dropdown scss have to match snapshot 1`] = `
       z-index: 8;
       cursor: pointer;
       box-shadow: 0 0 0 0.0625rem; }
-    :not([dnb-is-touch]) .dnb-dropdown__input:focus:not([disabled]) ~ .dnb-dropdown__options {
+    :not([dnb-is-touch]) .dnb-dropdown__input:focus:not([disabled]) ~ .dnb-dropdown__list {
       z-index: 9;
       display: flex;
       animation: dropdownSlideDown 200ms ease-out 1 forwards; }
-      :not([dnb-is-touch]) .dnb-dropdown__input:focus:not([disabled]) ~ .dnb-dropdown__options--no-animation {
+      :not([dnb-is-touch]) .dnb-dropdown__input:focus:not([disabled]) ~ .dnb-dropdown__list--no-animation {
         animation: dropdownSlideDown 1ms ease-out 1 forwards; }
   .dnb-dropdown__input[disabled] ~ .dnb-dropdown__icon,
   .dnb-dropdown__input[disabled] ~ .dnb-dropdown__trigger {

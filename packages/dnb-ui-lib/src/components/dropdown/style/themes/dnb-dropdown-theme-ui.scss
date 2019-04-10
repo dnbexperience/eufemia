@@ -29,22 +29,16 @@
 .dnb-dropdown {
   color: var(--dropdown-text-color);
 
+  &__list {
+    @include defaultDropShadow();
+    border-radius: var(--dropdown-options-border-radius);
+  }
+
   // ul element
   &__options {
     border: none;
     background-color: transparent;
-
-    @include defaultDropShadow();
-
     border-radius: var(--dropdown-options-border-radius);
-  }
-
-  // NB: this will remove the triangle!
-  &--scroll &__options {
-    max-height: 20rem;
-    overflow-y: scroll;
-    overscroll-behavior: contain;
-    scroll-behavior: smooth;
   }
 
   // li element inner
