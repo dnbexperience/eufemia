@@ -7,22 +7,15 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import keycode from 'keycode'
-// import * as bodyScrollLock from 'body-scroll-lock'
 import {
   registerElement,
   validateDOMAttributes,
   processChildren,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
-// import './style/dnb-dropdown.scss' // no good solution to import the style here
 import Icon from '../icon-primary/IconPrimary'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
-
-// const { disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks } =
-// bodyScrollLock && bodyScrollLock.default
-//   ? bodyScrollLock.default
-//   : bodyScrollLock
 
 const renderProps = {
   on_show: null,
@@ -232,28 +225,20 @@ export default class Dropdown extends Component {
     })
   }
 
+  // this gives us the possibility to quickly search for an item
+  // by simply pressing any alfabetic key
   findItemByValue(value) {
-    const itemNumberFound = this.state.data
-      .slice(0)
-      .reduce((acc, itemData, i, arr) => {
-        const str = Dropdown.parseContentTitle(itemData)
-        if (str) {
-          const found = new RegExp(`^${value}`, 'i').test(str)
-          if (found) {
-            arr.splice(1)
-            return i
-          }
+    return this.state.data.slice(0).reduce((acc, itemData, i, arr) => {
+      const str = Dropdown.parseContentTitle(itemData)
+      if (str) {
+        const found = new RegExp(`^${value}`, 'i').test(str)
+        if (found) {
+          arr.splice(1) // break the loop
+          return i
         }
-        return -1
-      }, -1)
-    if (itemNumberFound > -1) {
-      return itemNumberFound
-      // return this._refUl.current.querySelector(
-      //   `li:nth-of-type(${itemNumberFound + 1})`
-      // )
-    }
-
-    return null
+      }
+      return -1
+    }, -1)
   }
 
   scrollToItem(active_item) {
@@ -264,6 +249,8 @@ export default class Dropdown extends Component {
       active_item,
       _listenForPropChanges: false
     })
+
+    // try to scroll to item
     try {
       const liElement = this._refUl.current.querySelector(
         `li:nth-of-type(${active_item + 1})`
@@ -286,11 +273,6 @@ export default class Dropdown extends Component {
       })
       this.setVisible()
     }
-
-    // Experimental, but not crucial
-    // if (this._refInput.current && this._refInput.current.scrollIntoView) {
-    //   this._refInput.current.scrollIntoView()
-    // }
   }
   onBlurHandler = () => {
     this.setState({
@@ -352,10 +334,6 @@ export default class Dropdown extends Component {
 
     if (active_item !== this.state.active_item) {
       this.scrollToItem(active_item)
-      // this.setState({
-      //   active_item,
-      //   _listenForPropChanges: false
-      // })
     }
   }
 
