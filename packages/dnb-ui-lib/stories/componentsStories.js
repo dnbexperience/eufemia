@@ -388,7 +388,7 @@ stories.push([
         </Box>
         <Box>
           <Dropdown
-            data={dropdownData}
+            data={dropdownDataScrollable}
             selected_item={3}
             scrollable
             label="Label:"
@@ -543,99 +543,6 @@ const dropdownData = [
     content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
   },
   {
-    content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
-  },
-  {
-    content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
-  },
-  {
-    content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
-  },
-  {
-    content: ['1234.56.78902', 'Aparekonto - Ole Nordmann']
-  },
-  {
-    content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
-  },
-  {
-    content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
-  },
-  {
-    content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
-  },
-  {
-    content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
-  },
-  {
-    content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
-  },
-  {
-    content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
-  },
-  {
-    content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
-  },
-  {
-    content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
-  },
-  {
-    content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
-  },
-  {
-    content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
-  },
-  {
-    content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
-  },
-  {
-    content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
-  },
-  {
-    content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
-  },
-  {
-    content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
-  },
-  {
-    content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
-  },
-  {
-    content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
-  },
-  {
-    content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
-  },
-  {
-    content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
-  },
-  {
-    content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
-  },
-  {
-    content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
-  },
-  {
-    content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
-  },
-  {
-    content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
-  },
-  {
-    content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
-  },
-  {
-    content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
-  },
-  {
-    content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
-  },
-  {
-    content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
-  },
-  {
-    content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
-  },
-  {
     selected_value:
       'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen',
     content: [
@@ -646,5 +553,34 @@ const dropdownData = [
   {
     selected_value: 'Oppussing - Ole Nordmann',
     content: ['1534.96.48901', 'Oppussing - Ole Nordmann']
+  }
+]
+const dropdownDataScrollable = [
+  {
+    selected_value: 'AA',
+    content: 'A'
+  },
+  {
+    content: ['1234.56.78902', 'B']
+  },
+  {
+    selected_value: 'CC',
+    content: ['1134.56.78962', 'C']
+  },
+  {
+    selected_value: 'DD',
+    content: ['1534.96.48901', 'D']
+  },
+  {
+    content: 'E'
+  },
+  {
+    content: ['F', 'F', 'F', 'F', 'F']
+  },
+  {
+    content: 'G'
+  },
+  {
+    content: 'H'
   }
 ]

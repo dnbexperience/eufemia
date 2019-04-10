@@ -172,9 +172,9 @@ export default class Dropdown extends Component {
     const opened = Dropdown.parseOpened(props.opened)
     this.state = {
       _listenForPropChanges: true,
-      active: -1,
       opened,
       hidden: !opened,
+      active_item: props.selected_item,
       selected_item: props.selected_item,
       _data: props.data || props.children,
       data: Dropdown.getData(props)
@@ -247,25 +247,32 @@ export default class Dropdown extends Component {
         return -1
       }, -1)
     if (itemNumberFound > -1) {
-      return this._refUl.current.querySelector(
-        `li:nth-of-type(${itemNumberFound + 1})`
-      )
+      return itemNumberFound
+      // return this._refUl.current.querySelector(
+      //   `li:nth-of-type(${itemNumberFound + 1})`
+      // )
     }
 
     return null
   }
 
-  scrollToItem(liElement) {
-    if (!liElement) {
+  scrollToItem(active_item) {
+    if (!(active_item > -1)) {
       return
     }
+    this.setState({
+      active_item,
+      _listenForPropChanges: false
+    })
     try {
+      const liElement = this._refUl.current.querySelector(
+        `li:nth-of-type(${active_item + 1})`
+      )
       const top = liElement.offsetTop
       liElement.parentNode.scrollTo({
         top,
         behavior: 'smooth'
       })
-      liElement.classList.add('dnb-dropdown__option--current')
     } catch (e) {
       console.log('Dropdown could not scroll into element:', e)
     }
@@ -287,7 +294,6 @@ export default class Dropdown extends Component {
   }
   onBlurHandler = () => {
     this.setState({
-      active: -1,
       opened: false,
       _listenForPropChanges: false
     })
@@ -300,25 +306,26 @@ export default class Dropdown extends Component {
   }
 
   onKeyDownHandler = e => {
-    let selected_item = this.state.selected_item
+    let active_item = this.state.active_item
     const total = this.state.data.length - 1
 
     switch (keycode(e)) {
       case 'up':
-        selected_item--
+        active_item--
         e.preventDefault()
         break
       case 'down':
-        selected_item++
+        active_item++
         e.preventDefault()
         break
       case 'enter':
       case 'space':
+        this.selectItem(active_item)
         if (this._refInput.current) {
           this._refInput.current.blur()
         }
         dispatchCustomElementEvent(this, 'on_select', {
-          data: this.getOptionData(selected_item)
+          data: this.getOptionData(active_item)
         })
         e.preventDefault()
         break
@@ -336,18 +343,19 @@ export default class Dropdown extends Component {
         break
     }
 
-    if (selected_item < 0) {
-      selected_item = total
+    if (active_item < 0) {
+      active_item = total
     }
-    if (selected_item > total) {
-      selected_item = 0
+    if (active_item > total) {
+      active_item = 0
     }
 
-    if (selected_item !== this.state.selected_item) {
-      this.setState({
-        active: selected_item
-      })
-      this.selectItem(selected_item)
+    if (active_item !== this.state.active_item) {
+      this.scrollToItem(active_item)
+      // this.setState({
+      //   active_item,
+      //   _listenForPropChanges: false
+      // })
     }
   }
 
@@ -401,7 +409,7 @@ export default class Dropdown extends Component {
 
     const id = this._id
 
-    const { opened, active, hidden, selected_item } = this.state
+    const { opened, hidden, active_item, selected_item } = this.state
     const showStatus = status && status !== 'error'
 
     const currentOptionData = this.getOptionData(selected_item)
@@ -513,7 +521,7 @@ export default class Dropdown extends Component {
                   className: classnames(
                     'dnb-dropdown__option',
                     isCurrent && 'dnb-dropdown__option--selected',
-                    i === active && 'dnb-dropdown__option--active'
+                    i === active_item && 'dnb-dropdown__option--focus'
                   )
                 }
                 return (

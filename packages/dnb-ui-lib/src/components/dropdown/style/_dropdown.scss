@@ -164,7 +164,7 @@
     }
 
     // for keyboard usage
-    &--active {
+    &--focus {
       background-color: grey;
       .dnb-dropdown__option__inner {
         @include fakeBorder();
