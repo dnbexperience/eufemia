@@ -110,7 +110,7 @@
     transition: transform 200ms, opacity 160ms ease-out;
   }
 
-  &--direction-bottom &__list {
+  &--direction-top &__list {
     top: auto;
     bottom: calc(
       var(--dropdown-height) * 2 + var(--dropdown-focus-border-width)
@@ -252,7 +252,7 @@
     left: 0;
     right: auto;
   }
-  &--direction-bottom &__triangle {
+  &--direction-top &__triangle {
     top: auto;
     bottom: calc(
       var(--dropdown-focus-border-width) - var(--dropdown-height) / 2

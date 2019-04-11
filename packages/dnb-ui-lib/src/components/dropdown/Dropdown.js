@@ -408,7 +408,7 @@ export default class Dropdown extends Component {
     const classes = classnames(
       'dnb-dropdown',
       icon_position && `dnb-dropdown--icon-position-${icon_position}`,
-      direction === 'bottom' && `dnb-dropdown--direction-bottom`,
+      direction === 'top' && `dnb-dropdown--direction-top`,
       scrollable && 'dnb-dropdown--scroll',
       opened && 'dnb-dropdown--opened',
       hidden && 'dnb-dropdown--hidden',

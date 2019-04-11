@@ -38,7 +38,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
       },
     ]
   }
-  direction="'auto'"
+  direction="bottom"
   disabled="disabled"
   icon="icon"
   icon_position="icon_position"
@@ -787,7 +787,7 @@ exports[`Dropdown scss have to match snapshot 1`] = `
     background-color: transparent;
     transform: translateY(0);
     transition: transform 200ms, opacity 160ms ease-out; }
-  .dnb-dropdown--direction-bottom .dnb-dropdown__list {
+  .dnb-dropdown--direction-top .dnb-dropdown__list {
     top: auto;
     bottom: calc( var(--dropdown-height) * 2 + var(--dropdown-focus-border-width)); }
   .dnb-dropdown__options {
@@ -874,7 +874,7 @@ exports[`Dropdown scss have to match snapshot 1`] = `
   .dnb-dropdown--icon-position-left .dnb-dropdown__triangle {
     left: 0;
     right: auto; }
-  .dnb-dropdown--direction-bottom .dnb-dropdown__triangle {
+  .dnb-dropdown--direction-top .dnb-dropdown__triangle {
     top: auto;
     bottom: calc( var(--dropdown-focus-border-width) - var(--dropdown-height) / 2);
     transform: rotate(180deg); }

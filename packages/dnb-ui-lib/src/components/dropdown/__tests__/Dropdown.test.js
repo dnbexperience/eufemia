@@ -24,6 +24,7 @@ const props = fakeProps(require.resolve('../Dropdown'), {
 props.id = 'dropdown-id'
 props.status = 'status'
 props.status_state = 'error'
+props.direction = 'bottom'
 props.selected_item = 2
 
 const mockData = [
