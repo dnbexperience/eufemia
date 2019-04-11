@@ -69,7 +69,10 @@
     // Focus ring arround item. Only for keyboard usage
     &--focus {
       .dnb-dropdown__option__inner {
-        @include fakeBorder(var(--dropdown-border-color--selected), 2px);
+        @include fakeBorder(
+          var(--dropdown-border-color--selected),
+          var(--dropdown-focus-border-width, 2px)
+        );
       }
     }
 
@@ -164,13 +167,14 @@
     background-color: var(--color-white);
     @include defaultDropShadow();
   }
-  &__option--selected &__triangle::before {
-    background-color: var(--dropdown-option-background-color--selected);
-  }
-  &__option:not(.dnb-dropdown__option--selected):hover
-    &__triangle::before {
-    background-color: var(--dropdown-option-background-color--hover);
-  }
+  // Hover etc. is not working anymore, as we have the triangle outside
+  // &__option--selected &__triangle::before {
+  //   background-color: var(--dropdown-option-background-color--selected);
+  // }
+  // &__option:not(.dnb-dropdown__option--selected):hover
+  //   &__triangle::before {
+  //   background-color: var(--dropdown-option-background-color--hover);
+  // }
 
   &__input[disabled] ~ &__icon,
   &__input[disabled] ~ &__trigger {

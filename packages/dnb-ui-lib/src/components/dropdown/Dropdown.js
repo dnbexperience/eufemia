@@ -35,6 +35,7 @@ export const propTypes = {
   status_state: PropTypes.string,
   status_animation: PropTypes.string,
   scrollable: PropTypes.bool,
+  direction: PropTypes.oneOf(['auto', 'top', 'bottom']),
   no_animation: PropTypes.bool,
   data: PropTypes.oneOfType([
     PropTypes.string,
@@ -79,7 +80,8 @@ export const defaultProps = {
   status: null,
   status_state: 'error',
   status_animation: null,
-  scrollable: false,
+  scrollable: true,
+  direction: 'auto',
   no_animation: false,
   data: null,
   selected_item: 0,
@@ -337,6 +339,15 @@ export default class Dropdown extends Component {
     }
   }
 
+  selectItemHandler = e => {
+    const selected_item = parseFloat(
+      e.currentTarget.getAttribute('data-item')
+    )
+    if (selected_item > -1) {
+      this.selectItem(selected_item, { fireSelectEvent: true })
+    }
+  }
+
   selectItem = (selected_item, { fireSelectEvent } = {}) => {
     if (this.state.selected_item !== selected_item) {
       dispatchCustomElementEvent(this, 'on_change', {
@@ -345,6 +356,7 @@ export default class Dropdown extends Component {
     }
     this.setState({
       selected_item,
+      active_item: selected_item,
       _listenForPropChanges: false
     })
     if (fireSelectEvent) {
@@ -372,6 +384,7 @@ export default class Dropdown extends Component {
       status_state,
       status_animation,
       scrollable,
+      direction,
       no_animation,
       className,
       class: _className,
@@ -395,6 +408,7 @@ export default class Dropdown extends Component {
     const classes = classnames(
       'dnb-dropdown',
       icon_position && `dnb-dropdown--icon-position-${icon_position}`,
+      direction === 'bottom' && `dnb-dropdown--direction-bottom`,
       scrollable && 'dnb-dropdown--scroll',
       opened && 'dnb-dropdown--opened',
       hidden && 'dnb-dropdown--hidden',
@@ -490,7 +504,6 @@ export default class Dropdown extends Component {
             </button>
 
             <span className="dnb-dropdown__list">
-              <span className="dnb-dropdown__triangle" />
               <ul {...ulParams}>
                 {this.state.data.map((dataItem, i) => {
                   const isCurrent = i === parseFloat(selected_item)
@@ -509,9 +522,9 @@ export default class Dropdown extends Component {
                       <span
                         title={Dropdown.parseContentTitle(dataItem)}
                         className="dnb-dropdown__option__inner"
-                        onMouseDown={() =>
-                          this.selectItem(i, { fireSelectEvent: true })
-                        }
+                        data-item={i}
+                        onTouchStart={this.selectItemHandler}
+                        onMouseDown={this.selectItemHandler}
                         role="button"
                         tabIndex="-1"
                       >
@@ -533,6 +546,7 @@ export default class Dropdown extends Component {
                   )
                 })}
               </ul>
+              <span className="dnb-dropdown__triangle" />
             </span>
           </span>
 

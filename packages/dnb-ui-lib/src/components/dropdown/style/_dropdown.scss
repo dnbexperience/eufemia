@@ -11,6 +11,7 @@
   --dropdown-height: 2rem;
   --dropdown-padding-horizontal: 1rem;
   --dropdown-border-width: 0.0625rem;
+  --dropdown-focus-border-width: 0.125rem;
   --dropdown-text-padding: 0.5rem;
   --dropdown-border-radius: calc(var(--dropdown-height) / 2);
 }
@@ -109,6 +110,13 @@
     transition: transform 200ms, opacity 160ms ease-out;
   }
 
+  &--direction-bottom &__list {
+    top: auto;
+    bottom: calc(
+      var(--dropdown-height) * 2 + var(--dropdown-focus-border-width)
+    );
+  }
+
   // ul element
   &__options {
     @at-root .dnb-spacing & li {
@@ -127,7 +135,7 @@
   }
 
   &--scroll &__options {
-    max-height: 20rem;
+    max-height: 50vh;
     overflow-y: scroll;
     overscroll-behavior: contain;
     scroll-behavior: smooth;
@@ -140,7 +148,9 @@
     cursor: pointer;
 
     margin: 0;
-    padding: 2px; // to make space for the fakeFocus
+    padding: var(
+      --dropdown-focus-border-width
+    ); // to make space for the fakeFocus
     color: inherit;
 
     background-color: var(--color-white);
@@ -209,7 +219,9 @@
 
   &__triangle {
     position: absolute;
-    top: calc(2px - var(--dropdown-height) / 2);
+    top: calc(
+      var(--dropdown-focus-border-width) - var(--dropdown-height) / 2
+    );
     left: auto;
     right: 0;
     margin: 0
@@ -239,6 +251,13 @@
   &--icon-position-left &__triangle {
     left: 0;
     right: auto;
+  }
+  &--direction-bottom &__triangle {
+    top: auto;
+    bottom: calc(
+      var(--dropdown-focus-border-width) - var(--dropdown-height) / 2
+    );
+    transform: rotate(180deg);
   }
 
   // button

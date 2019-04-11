@@ -38,6 +38,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
       },
     ]
   }
+  direction="'auto'"
   disabled="disabled"
   icon="icon"
   icon_position="icon_position"
@@ -137,9 +138,6 @@ exports[`Dropdown component have to match snapshot 1`] = `
       <span
         className="dnb-dropdown__list"
       >
-        <span
-          className="dnb-dropdown__triangle"
-        />
         <ul
           aria-activedescendant="option-dropdown-id-2"
           aria-labelledby="dropdown-id"
@@ -156,7 +154,9 @@ exports[`Dropdown component have to match snapshot 1`] = `
           >
             <span
               className="dnb-dropdown__option__inner"
+              data-item={0}
               onMouseDown={[Function]}
+              onTouchStart={[Function]}
               role="button"
               tabIndex="-1"
               title="Brukskonto - Kari Nordmann"
@@ -184,7 +184,9 @@ exports[`Dropdown component have to match snapshot 1`] = `
           >
             <span
               className="dnb-dropdown__option__inner"
+              data-item={1}
               onMouseDown={[Function]}
+              onTouchStart={[Function]}
               role="button"
               tabIndex="-1"
               title="Sparekonto - Ole Nordmann"
@@ -212,7 +214,9 @@ exports[`Dropdown component have to match snapshot 1`] = `
           >
             <span
               className="dnb-dropdown__option__inner"
+              data-item={2}
               onMouseDown={[Function]}
+              onTouchStart={[Function]}
               role="button"
               tabIndex="-1"
               title="Feriekonto - Kari Nordmann med et kjempelangt etternavnsen"
@@ -240,7 +244,9 @@ exports[`Dropdown component have to match snapshot 1`] = `
           >
             <span
               className="dnb-dropdown__option__inner"
+              data-item={3}
               onMouseDown={[Function]}
+              onTouchStart={[Function]}
               role="button"
               tabIndex="-1"
               title="Oppussing - Ole Nordmann"
@@ -260,6 +266,9 @@ exports[`Dropdown component have to match snapshot 1`] = `
             </span>
           </li>
         </ul>
+        <span
+          className="dnb-dropdown__triangle"
+        />
       </span>
     </span>
     <FormStatus
@@ -385,7 +394,7 @@ exports[`Dropdown scss have to match default theme snapshot 1`] = `
         color: var(--dropdown-option-color--hover);
         background-color: var(--dropdown-option-background-color--hover); }
     .dnb-dropdown__option--focus .dnb-dropdown__option__inner {
-      box-shadow: 0 0 0 2px var(--dropdown-border-color--selected);
+      box-shadow: 0 0 0 var(--dropdown-focus-border-width, 2px) var(--dropdown-border-color--selected);
       border-color: transparent; }
     .dnb-dropdown__option--selected {
       color: var(--dropdown-option-color--selected);
@@ -447,10 +456,6 @@ exports[`Dropdown scss have to match default theme snapshot 1`] = `
     border: none;
     background-color: var(--color-white);
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16); }
-  .dnb-dropdown__option--selected .dnb-dropdown__triangle::before {
-    background-color: var(--dropdown-option-background-color--selected); }
-  .dnb-dropdown__option:not(.dnb-dropdown__option--selected):hover .dnb-dropdown__triangle::before {
-    background-color: var(--dropdown-option-background-color--hover); }
   .dnb-dropdown__input[disabled] ~ .dnb-dropdown__icon,
   .dnb-dropdown__input[disabled] ~ .dnb-dropdown__trigger {
     border-color: var(--dropdown-text-color--disabled);
@@ -729,6 +734,7 @@ exports[`Dropdown scss have to match snapshot 1`] = `
   --dropdown-height: 2rem;
   --dropdown-padding-horizontal: 1rem;
   --dropdown-border-width: 0.0625rem;
+  --dropdown-focus-border-width: 0.125rem;
   --dropdown-text-padding: 0.5rem;
   --dropdown-border-radius: calc(var(--dropdown-height) / 2); }
 
@@ -781,6 +787,9 @@ exports[`Dropdown scss have to match snapshot 1`] = `
     background-color: transparent;
     transform: translateY(0);
     transition: transform 200ms, opacity 160ms ease-out; }
+  .dnb-dropdown--direction-bottom .dnb-dropdown__list {
+    top: auto;
+    bottom: calc( var(--dropdown-height) * 2 + var(--dropdown-focus-border-width)); }
   .dnb-dropdown__options {
     display: flex;
     flex-direction: column;
@@ -792,7 +801,7 @@ exports[`Dropdown scss have to match snapshot 1`] = `
     .dnb-spacing .dnb-dropdown__options li {
       margin: 0; }
   .dnb-dropdown--scroll .dnb-dropdown__options {
-    max-height: 20rem;
+    max-height: 50vh;
     overflow-y: scroll;
     overscroll-behavior: contain;
     scroll-behavior: smooth; }
@@ -800,7 +809,7 @@ exports[`Dropdown scss have to match snapshot 1`] = `
     position: relative;
     cursor: pointer;
     margin: 0;
-    padding: 2px;
+    padding: var(--dropdown-focus-border-width);
     color: inherit;
     background-color: var(--color-white); }
     .dnb-dropdown__option__inner {
@@ -845,7 +854,7 @@ exports[`Dropdown scss have to match snapshot 1`] = `
       color: inherit; }
   .dnb-dropdown__triangle {
     position: absolute;
-    top: calc(2px - var(--dropdown-height) / 2);
+    top: calc( var(--dropdown-focus-border-width) - var(--dropdown-height) / 2);
     left: auto;
     right: 0;
     margin: 0 calc( var(--dropdown-padding-horizontal) + var(--dropdown-border-width));
@@ -865,6 +874,10 @@ exports[`Dropdown scss have to match snapshot 1`] = `
   .dnb-dropdown--icon-position-left .dnb-dropdown__triangle {
     left: 0;
     right: auto; }
+  .dnb-dropdown--direction-bottom .dnb-dropdown__triangle {
+    top: auto;
+    bottom: calc( var(--dropdown-focus-border-width) - var(--dropdown-height) / 2);
+    transform: rotate(180deg); }
   .dnb-dropdown__trigger {
     position: relative;
     z-index: 1;
