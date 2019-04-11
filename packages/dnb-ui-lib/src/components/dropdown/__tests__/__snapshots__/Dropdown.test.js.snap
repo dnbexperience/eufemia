@@ -44,6 +44,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
   icon_position="icon_position"
   id="dropdown-id"
   label="label"
+  max_height={1}
   no_animation={true}
   on_change={[Function]}
   on_hide={[Function]}
@@ -135,141 +136,6 @@ exports[`Dropdown component have to match snapshot 1`] = `
           />
         </span>
       </button>
-      <span
-        className="dnb-dropdown__list"
-      >
-        <ul
-          aria-activedescendant="option-dropdown-id-2"
-          aria-labelledby="dropdown-id"
-          className="dnb-dropdown__options dnb-dropdown__options--no-animation"
-          role="listbox"
-          tabIndex="-1"
-        >
-          <li
-            aria-selected={false}
-            className="dnb-dropdown__option"
-            id="option-dropdown-id-0"
-            key="dropdown-id0"
-            role="option"
-          >
-            <span
-              className="dnb-dropdown__option__inner"
-              data-item={0}
-              onMouseDown={[Function]}
-              onTouchStart={[Function]}
-              role="button"
-              tabIndex="-1"
-              title="Brukskonto - Kari Nordmann"
-            >
-              <span
-                className="dnb-dropdown__option__item"
-                key="dropdown-id00"
-              >
-                1234.56.78901
-              </span>
-              <span
-                className="dnb-dropdown__option__item"
-                key="dropdown-id01"
-              >
-                Brukskonto - Kari Nordmann
-              </span>
-            </span>
-          </li>
-          <li
-            aria-selected={false}
-            className="dnb-dropdown__option"
-            id="option-dropdown-id-1"
-            key="dropdown-id1"
-            role="option"
-          >
-            <span
-              className="dnb-dropdown__option__inner"
-              data-item={1}
-              onMouseDown={[Function]}
-              onTouchStart={[Function]}
-              role="button"
-              tabIndex="-1"
-              title="Sparekonto - Ole Nordmann"
-            >
-              <span
-                className="dnb-dropdown__option__item"
-                key="dropdown-id10"
-              >
-                1234.56.78902
-              </span>
-              <span
-                className="dnb-dropdown__option__item"
-                key="dropdown-id11"
-              >
-                Sparekonto - Ole Nordmann
-              </span>
-            </span>
-          </li>
-          <li
-            aria-selected={true}
-            className="dnb-dropdown__option dnb-dropdown__option--selected dnb-dropdown__option--focus"
-            id="option-dropdown-id-2"
-            key="dropdown-id2"
-            role="option"
-          >
-            <span
-              className="dnb-dropdown__option__inner"
-              data-item={2}
-              onMouseDown={[Function]}
-              onTouchStart={[Function]}
-              role="button"
-              tabIndex="-1"
-              title="Feriekonto - Kari Nordmann med et kjempelangt etternavnsen"
-            >
-              <span
-                className="dnb-dropdown__option__item"
-                key="dropdown-id20"
-              >
-                1134.56.78962
-              </span>
-              <span
-                className="dnb-dropdown__option__item"
-                key="dropdown-id21"
-              >
-                Feriekonto - Kari Nordmann med et kjempelangt etternavnsen
-              </span>
-            </span>
-          </li>
-          <li
-            aria-selected={false}
-            className="dnb-dropdown__option"
-            id="option-dropdown-id-3"
-            key="dropdown-id3"
-            role="option"
-          >
-            <span
-              className="dnb-dropdown__option__inner"
-              data-item={3}
-              onMouseDown={[Function]}
-              onTouchStart={[Function]}
-              role="button"
-              tabIndex="-1"
-              title="Oppussing - Ole Nordmann"
-            >
-              <span
-                className="dnb-dropdown__option__item"
-                key="dropdown-id30"
-              >
-                1534.96.48901
-              </span>
-              <span
-                className="dnb-dropdown__option__item"
-                key="dropdown-id31"
-              >
-                Oppussing - Ole Nordmann
-              </span>
-            </span>
-          </li>
-        </ul>
-        <span
-          className="dnb-dropdown__triangle"
-        />
-      </span>
     </span>
     <FormStatus
       animation="status_animation"
@@ -371,7 +237,8 @@ exports[`Dropdown scss have to match default theme snapshot 1`] = `
   /* stylelint-disable-next-line */ }
   .dnb-dropdown__list {
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16);
-    border-radius: var(--dropdown-options-border-radius); }
+    border-radius: var(--dropdown-options-border-radius);
+    background-color: var(--dropdown-option-background-color); }
   .dnb-dropdown__options {
     border: none;
     background-color: transparent;
@@ -776,6 +643,8 @@ exports[`Dropdown scss have to match snapshot 1`] = `
     vertical-align: top; }
     label + .dnb-dropdown[class*='__form-status'] .dnb-dropdown__shell {
       top: -0.375rem; }
+  .dnb-dropdown__content {
+    padding: 0; }
   .dnb-dropdown__list {
     position: absolute;
     z-index: 3;

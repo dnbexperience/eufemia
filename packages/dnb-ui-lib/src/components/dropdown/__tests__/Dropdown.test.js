@@ -96,6 +96,9 @@ describe('Dropdown component', () => {
   })
 
   it('has correct length of li elements', () => {
+    Comp.setState({
+      opened: true
+    })
     expect(Comp.find('li.dnb-dropdown__option').length).toBe(
       mockData.length
     )

@@ -32,6 +32,7 @@
   &__list {
     @include defaultDropShadow();
     border-radius: var(--dropdown-options-border-radius);
+    background-color: var(--dropdown-option-background-color);
   }
 
   // ul element

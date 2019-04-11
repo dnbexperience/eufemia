@@ -93,6 +93,10 @@
     }
   }
 
+  &__content {
+    padding: 0;
+  }
+
   &__list {
     position: absolute;
     z-index: 3;
