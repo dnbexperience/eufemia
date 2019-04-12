@@ -101,13 +101,13 @@
     position: absolute;
     z-index: 3;
     top: 0;
+    left: 0;
     right: 0;
 
     width: 100%;
     margin: 0;
     padding: 0;
 
-    // list-style: none;
     background-color: transparent;
 
     transform: translateY(0);
@@ -123,7 +123,7 @@
 
   // ul element
   &__options {
-    @at-root .dnb-spacing & li {
+    @at-root .dnb-spacing & li.dnb-dropdown__option {
       margin: 0;
     }
 
@@ -259,9 +259,12 @@
   &--direction-top &__triangle {
     top: auto;
     bottom: calc(
-      var(--dropdown-focus-border-width) - var(--dropdown-height) / 2
+      var(--dropdown-focus-border-width) - var(--dropdown-height) / 2 - 2px
     );
     transform: rotate(180deg);
+    &::before {
+      transform: translateY(65%) rotate(45deg);
+    }
   }
 
   // button

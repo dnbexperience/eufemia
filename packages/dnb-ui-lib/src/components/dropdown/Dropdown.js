@@ -110,17 +110,17 @@ export default class Dropdown extends Component {
   static defaultProps = defaultProps
   static renderProps = renderProps
 
-  static blurDelay = 400
+  static blurDelay = 201 // some ms more than "dropdownSlideDown 200ms"
 
   static enableWebComponent() {
     registerElement(Dropdown.tagName, Dropdown, defaultProps)
   }
 
   static parseOpened = state => /true|on/.test(String(state))
-  static parseContentTitle = dataItem => {
-    if (dataItem.selected_value) return dataItem.selected_value
-    if (dataItem.content)
-      return Array.isArray(dataItem.content)
+  static parseContentTitle = (dataItem, separator = '\n') => {
+    let ret = ''
+    if (dataItem.content) {
+      ret = Array.isArray(dataItem.content)
         ? dataItem.content
             .reduce((acc, cur) => {
               // remove only numbers
@@ -130,10 +130,15 @@ export default class Dropdown extends Component {
               }
               return acc
             }, [])
-            .join(' ')
+            .join(separator)
         : dataItem.content
-    if (typeof dataItem === 'string') return dataItem
-    return ''
+    } else if (typeof dataItem === 'string') {
+      ret = dataItem
+    }
+    if (dataItem.selected_value) {
+      ret = dataItem.selected_value + separator + ret
+    }
+    return ret
   }
 
   static getData(props) {
@@ -151,7 +156,6 @@ export default class Dropdown extends Component {
         if (state.data && state._data !== props.data) {
           state._data = props.data
           state.data = Dropdown.getData(props)
-          console.log('getDerivedStateFromProps', props)
         }
       }
       if (state.selected_item !== props.selected_item) {
@@ -184,6 +188,8 @@ export default class Dropdown extends Component {
     this._refUl = React.createRef()
     this._refInput = React.createRef()
     this._refButton = React.createRef()
+
+    this.foundSeveral = {}
   }
 
   shouldComponentUpdate(nextProps) {
@@ -215,13 +221,19 @@ export default class Dropdown extends Component {
   setVisible = () => {
     if (this._hideTimeout) clearTimeout(this._hideTimeout)
     const { selected_item } = this.state
-    this.setState({
-      hidden: false,
-      _listenForPropChanges: false
-    })
-    this.scrollToItem(selected_item, {
-      scrollTo: false
-    })
+    this.setState(
+      {
+        hidden: false,
+        _listenForPropChanges: false
+      },
+      () => {
+        this.setDirectionObserver()
+        this.setScrollObserver()
+        this.scrollToItem(selected_item, {
+          scrollTo: false
+        })
+      }
+    )
     dispatchCustomElementEvent(this, 'on_show', {
       data: this.getOptionData(selected_item)
     })
@@ -233,6 +245,8 @@ export default class Dropdown extends Component {
         _listenForPropChanges: false
       })
     }, Dropdown.blurDelay) // wait until animation is over
+    this.removeDirectionObserver()
+    this.removeScrollObserver()
     dispatchCustomElementEvent(this, 'on_hide', {
       data: this.getOptionData(this.state.selected_item)
     })
@@ -241,16 +255,23 @@ export default class Dropdown extends Component {
   // this gives us the possibility to quickly search for an item
   // by simply pressing any alfabetic key
   findItemByValue(value) {
+    if (!this.foundSeveral[value]) {
+      this.foundSeveral[value] = []
+    }
     return this.state.data.slice(0).reduce((acc, itemData, i, arr) => {
-      const str = Dropdown.parseContentTitle(itemData)
+      const str = Dropdown.parseContentTitle(itemData, ' ')
       if (str) {
         const found = new RegExp(`^${value}`, 'i').test(str)
-        if (found) {
+        if (found && !this.foundSeveral[value].includes(i)) {
+          this.foundSeveral[value].push(i)
           arr.splice(1) // break the loop
           return i
         }
       }
-      return -1
+      if (i === arr.length - 1) {
+        this.foundSeveral[value] = []
+      }
+      return acc
     }, -1)
   }
 
@@ -267,18 +288,16 @@ export default class Dropdown extends Component {
         // try to scroll to item
         try {
           const liElement = this._refUl.current.querySelector(
-            `li:nth-of-type(${active_item + 1})`
+            `li.dnb-dropdown__option:nth-of-type(${active_item + 1})`
           )
           const top = liElement.offsetTop
           if (scrollTo) {
             liElement.parentNode.scrollTo({
-              top,
-              behavior: 'smooth'
+              top
             })
           } else {
             liElement.parentNode.scrollTop = top
           }
-          this.setDirectionObserver()
         } catch (e) {
           console.log('Dropdown could not scroll into element:', e)
         }
@@ -314,15 +333,24 @@ export default class Dropdown extends Component {
 
     switch (keycode(e)) {
       case 'up':
-        active_item--
         e.preventDefault()
+        active_item--
         break
       case 'down':
+        e.preventDefault()
         active_item++
+        break
+      case 'home':
+        e.preventDefault()
+        active_item = 0
+        break
+      case 'end':
+        active_item = total
         e.preventDefault()
         break
       case 'enter':
       case 'space':
+        e.preventDefault()
         this.selectItem(active_item)
         if (this._refInput.current) {
           this._refInput.current.blur()
@@ -330,27 +358,24 @@ export default class Dropdown extends Component {
         dispatchCustomElementEvent(this, 'on_select', {
           data: this.getOptionData(active_item)
         })
-        e.preventDefault()
         break
       case 'esc':
+        e.preventDefault()
         if (this._refInput.current) {
           this._refInput.current.blur()
         }
-        e.preventDefault()
         break
 
       default:
-        if (this._refUl.current) {
-          this.scrollToItem(this.findItemByValue(keycode(e)))
-        }
+        this.scrollToItem(this.findItemByValue(keycode(e)))
         break
     }
 
     if (active_item < 0) {
-      active_item = total
+      active_item = 0
     }
     if (active_item > total) {
-      active_item = 0
+      active_item = total
     }
 
     if (active_item !== this.state.active_item) {
@@ -368,16 +393,16 @@ export default class Dropdown extends Component {
   }
 
   selectItem = (selected_item, { fireSelectEvent } = {}) => {
-    if (this.state.selected_item !== selected_item) {
-      dispatchCustomElementEvent(this, 'on_change', {
-        data: this.getOptionData(selected_item)
-      })
-    }
     this.setState({
       selected_item,
       active_item: selected_item,
       _listenForPropChanges: false
     })
+    if (this.state.selected_item !== selected_item) {
+      dispatchCustomElementEvent(this, 'on_change', {
+        data: this.getOptionData(selected_item)
+      })
+    }
     if (fireSelectEvent) {
       dispatchCustomElementEvent(this, 'on_select', {
         data: this.getOptionData(selected_item)
@@ -385,33 +410,110 @@ export default class Dropdown extends Component {
     }
   }
 
-  setDirectionObserver() {
-    if (typeof window === 'undefined' || this.setDirection) {
+  setScrollObserver() {
+    if (typeof window === 'undefined' || !this._refUl.current) {
       return
     }
+    this.removeScrollObserver()
+
     try {
+      const itemSpots = this.state.data.reduce((acc, current, i) => {
+        const element = this._refUl.current.querySelector(
+          `li.dnb-dropdown__option:nth-of-type(${i + 1})`
+        )
+        if (element) {
+          acc[element.offsetTop] = {
+            i
+          }
+        }
+        return acc
+      }, {})
+      const counts = Object.keys(itemSpots)
+      const findClosest = (arr, val) =>
+        Math.max.apply(null, arr.filter(v => v <= val))
+      let closestToTop = null,
+        closestToBottom = null,
+        tmpToTop,
+        tmpToBottom
+      this.setOnScroll = () => {
+        closestToBottom = findClosest(
+          counts,
+          this._refUl.current.scrollTop + this._refUl.current.offsetHeight
+        )
+        closestToTop = findClosest(counts, this._refUl.current.scrollTop)
+        if (closestToTop !== tmpToTop) {
+          this.setState({
+            closestToTop: itemSpots[closestToTop].i,
+            _listenForPropChanges: false
+          })
+        }
+        if (closestToBottom !== tmpToBottom) {
+          this.setState({
+            closestToBottom: itemSpots[closestToBottom].i,
+            _listenForPropChanges: false
+          })
+        }
+        tmpToTop = closestToTop
+        tmpToBottom = closestToBottom
+      }
+      this._refUl.current.addEventListener('scroll', this.setOnScroll)
+      this.setOnScroll()
+    } catch (e) {
+      console.log('Dropdown could not set onScroll:', e)
+    }
+  }
+
+  removeScrollObserver() {
+    if (typeof window !== 'undefined' && this.setOnScroll) {
+      window.removeEventListener('resize', this.setOnScroll)
+    }
+  }
+
+  setDirectionObserver() {
+    if (typeof window === 'undefined' || !this._ref.current) {
+      return
+    }
+    this.removeDirectionObserver()
+    try {
+      const min_height = 320 // 20rem = 20x16=320
+      const spaceToTopOffset = 4 * 16 //because of headers
+      const spaceToBottomOffset = 2 * 16
       const elem = this._ref.current
 
       this.setDirection = () => {
+        const spaceToTop =
+          getOffseTop(elem) + elem.offsetHeight - window.scrollY
         const spaceToBottom =
-          window.innerHeight - (getOffseTop(elem) + elem.offsetHeight)
-        console.log('spaceToBottom', spaceToBottom)
+          window.innerHeight -
+          (getOffseTop(elem) + elem.offsetHeight) +
+          window.scrollY
+        const direction =
+          spaceToBottom < min_height && spaceToTop > min_height
+            ? 'top'
+            : 'bottom'
+        const height =
+          direction === 'top'
+            ? spaceToTop -
+              this._refButton.current.offsetHeight -
+              spaceToTopOffset
+            : spaceToBottom - spaceToBottomOffset
+        const max_height = height / 16 // calc to rem
 
         this.setState({
-          direction: spaceToBottom < 80 ? 'top' : 'bottom', // 5rem = 5x16=800
-          max_height: spaceToBottom > 320 ? spaceToBottom / 16 : null // 50rem = 50x16=800
+          direction,
+          max_height
         })
       }
 
-      this.setDirection()
       window.addEventListener('resize', this.setDirection)
+      this.setDirection()
     } catch (e) {
-      console.log('Dropdown could not set onresize:', e)
+      console.log('Dropdown could not set onResize:', e)
     }
   }
 
   removeDirectionObserver() {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== 'undefined' && this.setDirection) {
       window.removeEventListener('resize', this.setDirection)
     }
   }
@@ -470,7 +572,7 @@ export default class Dropdown extends Component {
     const classes = classnames(
       'dnb-dropdown',
       icon_position && `dnb-dropdown--icon-position-${icon_position}`,
-      direction === 'top' && `dnb-dropdown--direction-top`,
+      `dnb-dropdown--direction-${direction}`,
       scrollable && 'dnb-dropdown--scroll',
       opened && 'dnb-dropdown--opened',
       hidden && 'dnb-dropdown--hidden',
@@ -484,7 +586,6 @@ export default class Dropdown extends Component {
     // const selectedId = `option-${id}-${selected_item}`
     // But for now we use
     const selectedId = `dropdown-${id}-value`
-    const shellParams = {}
     const inputParams = {
       id,
       className: 'dnb-dropdown__input',
@@ -530,7 +631,6 @@ export default class Dropdown extends Component {
 
     // also used for code markup simulation
     validateDOMAttributes(this.props, triggerParams)
-    validateDOMAttributes(null, shellParams)
     validateDOMAttributes(null, inputParams)
     validateDOMAttributes(null, ulParams)
 
@@ -545,7 +645,7 @@ export default class Dropdown extends Component {
           />
         )}
         <span className={classes} ref={this._ref}>
-          <span className="dnb-dropdown__shell" {...shellParams}>
+          <span className="dnb-dropdown__shell">
             <input {...inputParams} />
             <button {...triggerParams}>
               <span className="dnb-dropdown__text">
@@ -554,7 +654,8 @@ export default class Dropdown extends Component {
                   className="dnb-dropdown__text__inner"
                 >
                   {data && data.length > 0
-                    ? Dropdown.parseContentTitle(currentOptionData)
+                    ? currentOptionData.selected_value ||
+                      Dropdown.parseContentTitle(currentOptionData)
                     : title}
                 </span>
               </span>
@@ -570,7 +671,7 @@ export default class Dropdown extends Component {
               </span>
             </button>
 
-            {opened && (
+            {!hidden && (
               <span className="dnb-dropdown__list">
                 {data && data.length > 0 ? (
                   <ul {...ulParams}>
@@ -584,7 +685,13 @@ export default class Dropdown extends Component {
                           'dnb-dropdown__option',
                           isCurrent && 'dnb-dropdown__option--selected',
                           i === active_item &&
-                            'dnb-dropdown__option--focus'
+                            'dnb-dropdown__option--focus',
+                          // helper classes
+                          i === this.state.closestToTop &&
+                            'closest-to-top',
+                          i === this.state.closestToBottom &&
+                            'closest-to-bottom',
+                          i === data.length - 1 && 'last-of-type' // because of the triangle element
                         )
                       }
                       return (
@@ -615,6 +722,7 @@ export default class Dropdown extends Component {
                         </li>
                       )
                     })}
+                    <li className="dnb-dropdown__triangle" />
                   </ul>
                 ) : (
                   children && (
@@ -623,7 +731,7 @@ export default class Dropdown extends Component {
                     </span>
                   )
                 )}
-                <span className="dnb-dropdown__triangle" />
+                {/* <span className="dnb-dropdown__triangle" /> */}
               </span>
             )}
           </span>

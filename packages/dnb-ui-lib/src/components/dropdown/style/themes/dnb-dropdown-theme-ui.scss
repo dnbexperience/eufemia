@@ -122,17 +122,34 @@
       }
     }
 
-    &:first-of-type,
+    &:first-of-type,/* only for the vissual demo */
     &--focus:first-of-type &__inner {
       border-radius: var(--dropdown-options-border-radius)
         var(--dropdown-options-border-radius) 0 0;
     }
-    &:last-of-type,
-    &--focus:last-of-type &__inner {
+    &.last-of-type,/* only for the vissual demo */
+    &--focus.last-of-type &__inner {
       border-radius: 0 0 var(--dropdown-options-border-radius)
         var(--dropdown-options-border-radius);
       border-bottom: none;
     }
+  }
+
+  &--direction-bottom &__option--focus.closest-to-top &__option__inner {
+    border-radius: var(--dropdown-options-border-radius)
+      var(--dropdown-options-border-radius) 0 0;
+  }
+  &--direction-bottom &__option--focus.closest-to-bottom &__option__inner {
+    border-radius: 0 0 var(--dropdown-options-border-radius)
+      var(--dropdown-options-border-radius);
+  }
+  &--direction-top &__option--focus.closest-to-bottom &__option__inner {
+    border-radius: 0 0 var(--dropdown-options-border-radius)
+      var(--dropdown-options-border-radius);
+  }
+  &--direction-top &__option--focus.closest-to-top &__option__inner {
+    border-radius: var(--dropdown-options-border-radius)
+      var(--dropdown-options-border-radius) 0 0;
   }
 
   // button
@@ -146,13 +163,13 @@
   }
 
   // error status
-  &__status--error:not(.dnb-dropdown--opened) &__trigger {
+  &__status--error:not(#{&}--opened) &__trigger {
     @include dropdownBorderColor(var(--color-cherry-red));
   }
-  &__status--error:not(.dnb-dropdown--opened) &__icon {
+  &__status--error:not(#{&}--opened) &__icon {
     color: var(--color-cherry-red);
   }
-  &__status--error:not(.dnb-dropdown--opened) &__input {
+  &__status--error:not(#{&}--opened) &__input {
     @include hover() {
       & ~ .dnb-dropdown__trigger {
         @include dropdownBorderColor(var(--color-cherry-red));
@@ -168,14 +185,29 @@
     background-color: var(--color-white);
     @include defaultDropShadow();
   }
-  // Hover etc. is not working anymore, as we have the triangle outside
-  // &__option--selected &__triangle::before {
-  //   background-color: var(--dropdown-option-background-color--selected);
-  // }
-  // &__option:not(.dnb-dropdown__option--selected):hover
-  //   &__triangle::before {
-  //   background-color: var(--dropdown-option-background-color--hover);
-  // }
+
+  // hover
+  &__option:first-of-type:hover ~ &__triangle::before,/* only for the vissual demo */
+  &--direction-bottom &__option.closest-to-top:hover ~ &__triangle::before ,
+  &--direction-top &__option.closest-to-bottom:hover ~ &__triangle::before {
+    background-color: var(--dropdown-option-background-color--hover);
+  }
+
+  // selected
+  &--direction-bottom
+    &__option.closest-to-top#{&}__option--selected
+    ~ &__triangle::before,
+  &--direction-bottom
+    &__option.closest-to-top#{&}__option--focus
+    ~ &__triangle::before,
+  &--direction-top
+    &__option.closest-to-bottom#{&}__option--selected
+    ~ &__triangle::before,
+  &--direction-top
+    &__option.closest-to-bottom#{&}__option--focus
+    ~ &__triangle::before {
+    background-color: var(--dropdown-option-background-color--selected);
+  }
 
   &__input[disabled] ~ &__icon,
   &__input[disabled] ~ &__trigger {

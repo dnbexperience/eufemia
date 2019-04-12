@@ -80,7 +80,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
     </label>
   </FormLabel>
   <span
-    className="dnb-dropdown dnb-dropdown--icon-position-icon_position dnb-dropdown--scroll dnb-dropdown--hidden dnb-dropdown__form-status dnb-dropdown__status--error class className"
+    className="dnb-dropdown dnb-dropdown--icon-position-icon_position dnb-dropdown--direction-bottom dnb-dropdown--scroll dnb-dropdown--hidden dnb-dropdown__form-status dnb-dropdown__status--error class className"
   >
     <span
       className="dnb-dropdown__shell"
@@ -295,10 +295,18 @@ exports[`Dropdown scss have to match default theme snapshot 1`] = `
     .dnb-dropdown__option:first-of-type,
     .dnb-dropdown__option--focus:first-of-type .dnb-dropdown__option__inner {
       border-radius: var(--dropdown-options-border-radius) var(--dropdown-options-border-radius) 0 0; }
-    .dnb-dropdown__option:last-of-type,
-    .dnb-dropdown__option--focus:last-of-type .dnb-dropdown__option__inner {
+    .dnb-dropdown__option.last-of-type,
+    .dnb-dropdown__option--focus.last-of-type .dnb-dropdown__option__inner {
       border-radius: 0 0 var(--dropdown-options-border-radius) var(--dropdown-options-border-radius);
       border-bottom: none; }
+  .dnb-dropdown--direction-bottom .dnb-dropdown__option--focus.closest-to-top .dnb-dropdown__option__inner {
+    border-radius: var(--dropdown-options-border-radius) var(--dropdown-options-border-radius) 0 0; }
+  .dnb-dropdown--direction-bottom .dnb-dropdown__option--focus.closest-to-bottom .dnb-dropdown__option__inner {
+    border-radius: 0 0 var(--dropdown-options-border-radius) var(--dropdown-options-border-radius); }
+  .dnb-dropdown--direction-top .dnb-dropdown__option--focus.closest-to-bottom .dnb-dropdown__option__inner {
+    border-radius: 0 0 var(--dropdown-options-border-radius) var(--dropdown-options-border-radius); }
+  .dnb-dropdown--direction-top .dnb-dropdown__option--focus.closest-to-top .dnb-dropdown__option__inner {
+    border-radius: var(--dropdown-options-border-radius) var(--dropdown-options-border-radius) 0 0; }
   .dnb-dropdown__trigger {
     background-color: var(--color-white);
     border-color: var(--dropdown-border-color); }
@@ -323,6 +331,15 @@ exports[`Dropdown scss have to match default theme snapshot 1`] = `
     border: none;
     background-color: var(--color-white);
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16); }
+  .dnb-dropdown__option:first-of-type:hover ~ .dnb-dropdown__triangle::before,
+  .dnb-dropdown--direction-bottom .dnb-dropdown__option.closest-to-top:hover ~ .dnb-dropdown__triangle::before,
+  .dnb-dropdown--direction-top .dnb-dropdown__option.closest-to-bottom:hover ~ .dnb-dropdown__triangle::before {
+    background-color: var(--dropdown-option-background-color--hover); }
+  .dnb-dropdown--direction-bottom .dnb-dropdown__option.closest-to-top.dnb-dropdown__option--selected ~ .dnb-dropdown__triangle::before,
+  .dnb-dropdown--direction-bottom .dnb-dropdown__option.closest-to-top.dnb-dropdown__option--focus ~ .dnb-dropdown__triangle::before,
+  .dnb-dropdown--direction-top .dnb-dropdown__option.closest-to-bottom.dnb-dropdown__option--selected ~ .dnb-dropdown__triangle::before,
+  .dnb-dropdown--direction-top .dnb-dropdown__option.closest-to-bottom.dnb-dropdown__option--focus ~ .dnb-dropdown__triangle::before {
+    background-color: var(--dropdown-option-background-color--selected); }
   .dnb-dropdown__input[disabled] ~ .dnb-dropdown__icon,
   .dnb-dropdown__input[disabled] ~ .dnb-dropdown__trigger {
     border-color: var(--dropdown-text-color--disabled);
@@ -649,6 +666,7 @@ exports[`Dropdown scss have to match snapshot 1`] = `
     position: absolute;
     z-index: 3;
     top: 0;
+    left: 0;
     right: 0;
     width: 100%;
     margin: 0;
@@ -667,7 +685,7 @@ exports[`Dropdown scss have to match snapshot 1`] = `
     padding: 0;
     list-style: none;
     background-color: transparent; }
-    .dnb-spacing .dnb-dropdown__options li {
+    .dnb-spacing .dnb-dropdown__options li.dnb-dropdown__option {
       margin: 0; }
   .dnb-dropdown--scroll .dnb-dropdown__options {
     max-height: 50vh;
@@ -745,8 +763,10 @@ exports[`Dropdown scss have to match snapshot 1`] = `
     right: auto; }
   .dnb-dropdown--direction-top .dnb-dropdown__triangle {
     top: auto;
-    bottom: calc( var(--dropdown-focus-border-width) - var(--dropdown-height) / 2);
+    bottom: calc( var(--dropdown-focus-border-width) - var(--dropdown-height) / 2 - 2px);
     transform: rotate(180deg); }
+    .dnb-dropdown--direction-top .dnb-dropdown__triangle::before {
+      transform: translateY(65%) rotate(45deg); }
   .dnb-dropdown__trigger {
     position: relative;
     z-index: 1;
