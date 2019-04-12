@@ -393,18 +393,14 @@ export default class Dropdown extends Component {
       const elem = this._ref.current
 
       this.setDirection = () => {
-        let space =
+        const spaceToBottom =
           window.innerHeight - (getOffseTop(elem) + elem.offsetHeight)
+        console.log('spaceToBottom', spaceToBottom)
 
-        if (space < 50) {
-          this.setState({
-            max_height: space,
-            direction: 'top'
-          })
-        } else
-          this.setState({
-            max_height: space
-          })
+        this.setState({
+          direction: spaceToBottom < 80 ? 'top' : 'bottom', // 5rem = 5x16=800
+          max_height: spaceToBottom > 320 ? spaceToBottom / 16 : null // 50rem = 50x16=800
+        })
       }
 
       this.setDirection()
@@ -528,7 +524,7 @@ export default class Dropdown extends Component {
       ['aria-labelledby']: id,
       ref: this._refUl,
       style: {
-        maxHeight: max_height > 50 ? `${max_height}px` : '50vh'
+        maxHeight: max_height > 0 ? `${max_height}rem` : null
       }
     }
 
