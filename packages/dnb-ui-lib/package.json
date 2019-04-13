@@ -193,7 +193,7 @@
   "release": {
     "ci": true,
     "debug": false,
-    "dryRun": true,
+    "dryRun": false,
     "branches": [
       "+([1-9])?(.{+([1-9]),x}).x",
       "release",

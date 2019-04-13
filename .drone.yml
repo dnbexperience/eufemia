@@ -7,7 +7,7 @@ trigger:
     - pull-request
 
 steps:
-  - name: yarn setup
+  - name: setup
     image: tujoworker/docker-node-puppeteer
     commands:
       - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.13.0
@@ -19,7 +19,7 @@ steps:
       - yarn install
       - yarn audit-ci
 
-  - name: static test
+  - name: test
     image: tujoworker/docker-node-puppeteer
     commands:
       - yarn lint-ci
@@ -29,7 +29,7 @@ steps:
         - push
         - pull-request
 
-  - name: make prebuild
+  - name: prebuild
     image: tujoworker/docker-node-puppeteer
     environment:
       FIGMA_MAIN_FILE:
@@ -57,7 +57,7 @@ steps:
           - rc/*
           - ftr/*
 
-  - name: screenshot test
+  - name: make build and run screenshot tests
     image: tujoworker/docker-node-puppeteer
     environment:
       FIGMA_MAIN_FILE:
