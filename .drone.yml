@@ -27,6 +27,39 @@ steps:
           - rc/*
           - ftr/*
 
+  - name: deploy-next
+    image: node:10.6
+    environment:
+      FIGMA_MAIN_FILE:
+        from_secret: FIGMA_MAIN_FILE
+      FIGMA_TOKEN:
+        from_secret: FIGMA_TOKEN
+      GH_EMAIL:
+        from_secret: GH_EMAIL
+      GH_NAME:
+        from_secret: GH_NAME
+      GH_TOKEN:
+        from_secret: GH_TOKEN
+      NPM_TOKEN:
+        from_secret: NPM_TOKEN
+    commands:
+      - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.13.0
+      - export PATH="$HOME/.yarn/bin:$PATH"
+      - yarn install
+      - yarn audit-ci
+      - yarn lint-ci
+      - yarn test-ci
+      - yarn prebuild-ci
+      - yarn publish-ci
+    when:
+      event:
+        - push
+      branch:
+        include:
+          - beta
+          - alpha
+          - next
+
   - name: deploy-preview
     image: tujoworker/docker-node-puppeteer
     environment:
