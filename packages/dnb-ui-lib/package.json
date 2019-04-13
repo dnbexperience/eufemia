@@ -102,7 +102,7 @@
     "@emotion/styled": "^10.0.10",
     "@storybook/react": "^5.0.6",
     "@svgr/core": "^4.1.0",
-    "audit-ci": "^1.5.0",
+    "audit-ci": "^1.6.0",
     "babel-jest": "^24.7.1",
     "babel-plugin-emotion": "^10.0.9",
     "babel-plugin-react-remove-properties": "^0.3.0",
