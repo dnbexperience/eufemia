@@ -194,7 +194,6 @@
     "ci": true,
     "debug": false,
     "dryRun": false,
-    "branch": "release",
     "analyzeCommits": "simple-commit-message"
   }
 }
