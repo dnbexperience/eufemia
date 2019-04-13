@@ -3433,10 +3433,10 @@ atob@^2.1.1:
   resolved "https://registry.yarnpkg.com/atob/-/atob-2.1.2.tgz#6d9517eb9e030d2436666651e86bd9f6f13533c9"
   integrity sha512-Wm6ukoaOGJi/73p/cl2GvLjTI5JM1k/O14isD73YML8StrH/7/lRFgmg8nICZgD3bZZvjwCGxtMOD3wWNAu8cg==
 
-audit-ci@^1.5.0:
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/audit-ci/-/audit-ci-1.5.0.tgz#aa9f818b216faca58f1787a631da4541ae3ee5b2"
-  integrity sha512-c8I3rIm6tRCL4s8/s2LE2Sq147uOlG/5di4i6y9YSU2uKUgnmFOx6KetImpEdFuyJTK17eOa2bDCxuuZAkw2Ng==
+audit-ci@^1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/audit-ci/-/audit-ci-1.6.0.tgz#81d0e7d43786276ca18bb931c749b1630f071035"
+  integrity sha512-auyZzIL4Booqgb4ulh2i/hNNbBVfdKob1yBLu1RssWLyex13ih4j5S4mROU0LMlwJQdzPHpslby0zS95nd8uHQ==
   dependencies:
     byline "^5.0.0"
     cross-spawn "6.0.5"

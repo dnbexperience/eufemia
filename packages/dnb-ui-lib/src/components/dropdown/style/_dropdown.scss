@@ -11,6 +11,7 @@
   --dropdown-height: 2rem;
   --dropdown-padding-horizontal: 1rem;
   --dropdown-border-width: 0.0625rem;
+  --dropdown-focus-border-width: 0.125rem;
   --dropdown-text-padding: 0.5rem;
   --dropdown-border-radius: calc(var(--dropdown-height) / 2);
 }
@@ -19,13 +20,17 @@
   z-index: 9;
   display: flex;
 
-  animation: dropdownSlideDown 200ms ease-out 1 forwards;
+  &:not(#{&}--no-animation) {
+    animation: dropdownSlideDown 200ms ease-out 1 forwards;
+  }
   &--no-animation {
     animation: dropdownSlideDown 1ms ease-out 1 forwards;
   }
 }
 @mixin closeDropdown($state: 'animation') {
-  animation: dropdownSlideUp 150ms ease-out 1 forwards;
+  &:not(#{&}--no-animation) {
+    animation: dropdownSlideUp 150ms ease-out 1 forwards;
+  }
   &--no-animation {
     animation: dropdownSlideUp 1ms ease-out 1 forwards;
   }
@@ -92,16 +97,39 @@
     }
   }
 
-  // ul element
-  &__options {
-    @at-root .dnb-spacing & li {
-      margin: 0;
-    }
+  &__content {
+    padding: 0;
+  }
 
+  &__list {
     position: absolute;
     z-index: 3;
     top: 0;
+    left: 0;
     right: 0;
+
+    width: 100%;
+    margin: 0;
+    padding: 0;
+
+    background-color: transparent;
+
+    transform: translateY(0);
+    transition: transform 200ms, opacity 160ms ease-out;
+  }
+
+  &--direction-top &__list {
+    top: auto;
+    bottom: calc(
+      var(--dropdown-height) * 2 + var(--dropdown-focus-border-width)
+    );
+  }
+
+  // ul element
+  &__options {
+    @at-root .dnb-spacing & li.dnb-dropdown__option {
+      margin: 0;
+    }
 
     display: flex;
     flex-direction: column;
@@ -112,9 +140,13 @@
 
     list-style: none;
     background-color: transparent;
+  }
 
-    transform: translateY(0);
-    transition: transform 200ms, opacity 160ms ease-out;
+  &--scroll &__options {
+    max-height: 50vh;
+    overflow-y: scroll;
+    overscroll-behavior: contain;
+    scroll-behavior: smooth;
   }
 
   // li element
@@ -124,7 +156,9 @@
     cursor: pointer;
 
     margin: 0;
-    padding: 2px; // to make space for the fakeFocus
+    padding: var(
+      --dropdown-focus-border-width
+    ); // to make space for the fakeFocus
     color: inherit;
 
     background-color: var(--color-white);
@@ -164,7 +198,7 @@
     }
 
     // for keyboard usage
-    &--active {
+    &--focus {
       background-color: grey;
       .dnb-dropdown__option__inner {
         @include fakeBorder();
@@ -193,7 +227,9 @@
 
   &__triangle {
     position: absolute;
-    top: calc(2px - var(--dropdown-height) / 2);
+    top: calc(
+      var(--dropdown-focus-border-width) - var(--dropdown-height) / 2
+    );
     left: auto;
     right: 0;
     margin: 0
@@ -223,6 +259,16 @@
   &--icon-position-left &__triangle {
     left: 0;
     right: auto;
+  }
+  &--direction-top &__triangle {
+    top: auto;
+    bottom: calc(
+      var(--dropdown-focus-border-width) - var(--dropdown-height) / 2 - 2px
+    );
+    transform: rotate(180deg);
+    &::before {
+      transform: translateY(65%) rotate(45deg);
+    }
   }
 
   // button
@@ -290,13 +336,13 @@
     }
   }
 
-  &--opened &__options {
+  &--opened &__list {
     @include openDropdown();
   }
-  &--hidden &__options {
+  &--hidden &__list {
     @include dropdownClosed();
   }
-  &:not(.dnb-dropdown--opened) &__options {
+  &:not(.dnb-dropdown--opened) &__list {
     @include closeDropdown();
   }
 
@@ -340,7 +386,7 @@
         cursor: pointer;
         @include fakeBorder();
       }
-      & ~ .dnb-dropdown__options {
+      & ~ .dnb-dropdown__list {
         @include openDropdown();
       }
       // & ~ ul li .dnb-dropdown__triangle {

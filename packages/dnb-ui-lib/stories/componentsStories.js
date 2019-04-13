@@ -378,8 +378,21 @@ stories.push([
   () => (
     <CustomStyle>
       <Wrapper>
+        {/* <Box>
+          <select name="x" id="x">
+            <option value="Value 1">A 1</option>
+            <option value="Value 2">B 2</option>
+            <option value="Value 3">C 3</option>
+            <option value="Value 3">S 4</option>
+          </select>
+        </Box> */}
         <Box>
-          <Dropdown data={dropdownData} selected_item={3} label="Label:" />
+          <Dropdown
+            data={dropdownData}
+            selected_item={0}
+            // scrollable
+            label="Label:"
+          />
         </Box>
         <Box>
           <Dropdown
@@ -397,8 +410,9 @@ stories.push([
         <Box>
           <Dropdown
             label="Label:"
-            data={dropdownData}
-            selected_item={3}
+            // direction="top"
+            data={dropdownDataScrollable}
+            selected_item={4}
             status="Message to the user"
           />
           <p>
@@ -422,7 +436,6 @@ stories.push([
         <Box data-dnb-test="dropdown-list">
           <ul className="dnb-dropdown__options">
             <li className="dnb-dropdown__option">
-              <span className="dnb-dropdown__triangle" />
               <span className="dnb-dropdown__option__inner">
                 Brukskonto - Kari Nordmann
               </span>
@@ -448,7 +461,7 @@ stories.push([
                 </span>
               </span>
             </li>
-            <li className="dnb-dropdown__option">
+            <li className="dnb-dropdown__option last-of-type">
               <span className="dnb-dropdown__option__inner">
                 <span className="dnb-dropdown__option__item">
                   1534.96.48901
@@ -458,6 +471,7 @@ stories.push([
                 </span>
               </span>
             </li>
+            <li className="dnb-dropdown__triangle" />
           </ul>
         </Box>
       </Wrapper>
@@ -540,5 +554,40 @@ const dropdownData = [
   {
     selected_value: 'Oppussing - Ole Nordmann',
     content: ['1534.96.48901', 'Oppussing - Ole Nordmann']
+  }
+]
+const dropdownDataScrollable = [
+  {
+    selected_value: 'AA',
+    content: 'A'
+  },
+  {
+    content: ['1234.56.78902', 'B']
+  },
+  {
+    selected_value: 'CC',
+    content: ['1134.56.78962', 'C']
+  },
+  {
+    selected_value: 'DD',
+    content: ['1534.96.48901', 'D']
+  },
+  {
+    content: 'E'
+  },
+  {
+    content: 'EE'
+  },
+  {
+    content: 'EEE'
+  },
+  {
+    content: ['F', 'F', 'F', 'F', 'F']
+  },
+  {
+    content: 'G'
+  },
+  {
+    content: 'H'
   }
 ]

@@ -1,7 +1,9 @@
 {
   "advisories": [
     782,
-    788
+    788,
+    803,
+    812
   ],
   "moderate": true,
   "package-manager": "npm",
