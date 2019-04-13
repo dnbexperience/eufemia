@@ -194,6 +194,20 @@
     "ci": true,
     "debug": false,
     "dryRun": false,
+    "branches": [
+      "+([1-9])?(.{+([1-9]),x}).x",
+      "release",
+      "next",
+      "next-major",
+      {
+        "name": "beta",
+        "prerelease": true
+      },
+      {
+        "name": "alpha",
+        "prerelease": true
+      }
+    ],
     "analyzeCommits": "simple-commit-message"
   }
 }

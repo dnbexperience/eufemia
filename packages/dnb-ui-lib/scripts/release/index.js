@@ -18,24 +18,11 @@ const semanicRelease = async () => {
 
     const stdoutBuffer = new WritableStreamBuffer()
     const stderrBuffer = new WritableStreamBuffer()
-    const result = await semanticRelease(
-      {
-        ...release,
-        branches: [
-          '+([1-9])?(.{+([1-9]),x}).x',
-          'release',
-          'next',
-          'next-major',
-          { name: 'beta', prerelease: true },
-          { name: 'alpha', prerelease: true }
-        ]
-      },
-      {
-        // Store stdout and stderr to use later instead of writing to `process.stdout` and `process.stderr`
-        stdout: stdoutBuffer,
-        stderr: stderrBuffer
-      }
-    )
+    const result = await semanticRelease(release, {
+      // Store stdout and stderr to use later instead of writing to `process.stdout` and `process.stderr`
+      stdout: stdoutBuffer,
+      stderr: stderrBuffer
+    })
 
     if (result) {
       const { lastRelease, commits, nextRelease, releases } = result
