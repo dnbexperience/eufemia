@@ -804,16 +804,17 @@ exports[`Dropdown scss have to match snapshot 1`] = `
       text-align: inherit; }
   .dnb-dropdown--opened .dnb-dropdown__list {
     z-index: 9;
-    display: flex;
-    animation: dropdownSlideDown 200ms ease-out 1 forwards; }
+    display: flex; }
+    .dnb-dropdown--opened .dnb-dropdown__list {
+      animation: dropdownSlideDown 200ms ease-out 1 forwards; }
     .dnb-dropdown--opened .dnb-dropdown__list--no-animation {
       animation: dropdownSlideDown 1ms ease-out 1 forwards; }
   .dnb-dropdown--hidden .dnb-dropdown__list {
     display: none; }
   .dnb-dropdown:not(.dnb-dropdown--opened) .dnb-dropdown__list {
     animation: dropdownSlideUp 150ms ease-out 1 forwards; }
-    .dnb-dropdown:not(.dnb-dropdown--opened) .dnb-dropdown__list--no-animation {
-      animation: dropdownSlideUp 1ms ease-out 1 forwards; }
+  .dnb-dropdown:not(.dnb-dropdown--opened) .dnb-dropdown__list--no-animation {
+    animation: dropdownSlideUp 1ms ease-out 1 forwards; }
   .dnb-dropdown--icon-position-left .dnb-dropdown__icon {
     order: 1;
     margin-top: -1px; }
@@ -844,8 +845,9 @@ exports[`Dropdown scss have to match snapshot 1`] = `
       box-shadow: 0 0 0 0.0625rem; }
     :not([dnb-is-touch]) .dnb-dropdown__input:focus:not([disabled]) ~ .dnb-dropdown__list {
       z-index: 9;
-      display: flex;
-      animation: dropdownSlideDown 200ms ease-out 1 forwards; }
+      display: flex; }
+      :not([dnb-is-touch]) .dnb-dropdown__input:focus:not([disabled]) ~ .dnb-dropdown__list {
+        animation: dropdownSlideDown 200ms ease-out 1 forwards; }
       :not([dnb-is-touch]) .dnb-dropdown__input:focus:not([disabled]) ~ .dnb-dropdown__list--no-animation {
         animation: dropdownSlideDown 1ms ease-out 1 forwards; }
   .dnb-dropdown__input[disabled] ~ .dnb-dropdown__icon,

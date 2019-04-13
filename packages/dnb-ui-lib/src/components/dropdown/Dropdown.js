@@ -239,12 +239,15 @@ export default class Dropdown extends Component {
     })
   }
   setHidden = () => {
-    this._hideTimeout = setTimeout(() => {
-      this.setState({
-        hidden: true,
-        _listenForPropChanges: false
-      })
-    }, Dropdown.blurDelay) // wait until animation is over
+    this._hideTimeout = setTimeout(
+      () => {
+        this.setState({
+          hidden: true,
+          _listenForPropChanges: false
+        })
+      },
+      this.props.no_animation ? 1 : Dropdown.blurDelay
+    ) // wait until animation is over
     this.removeDirectionObserver()
     this.removeScrollObserver()
     dispatchCustomElementEvent(this, 'on_hide', {
@@ -614,11 +617,14 @@ export default class Dropdown extends Component {
     if (disabled) {
       triggerParams['aria-disabled'] = true
     }
-    const ulParams = {
+    const listParams = {
       className: classnames(
-        'dnb-dropdown__options',
-        no_animation && 'dnb-dropdown__options--no-animation'
-      ),
+        'dnb-dropdown__list',
+        no_animation && 'dnb-dropdown__list--no-animation'
+      )
+    }
+    const ulParams = {
+      className: classnames('dnb-dropdown__options'),
       role: 'listbox',
       tabIndex: '-1',
       ['aria-activedescendant']: `option-${id}-${selected_item}`,
@@ -632,6 +638,7 @@ export default class Dropdown extends Component {
     // also used for code markup simulation
     validateDOMAttributes(this.props, triggerParams)
     validateDOMAttributes(null, inputParams)
+    validateDOMAttributes(null, listParams)
     validateDOMAttributes(null, ulParams)
 
     return (
@@ -672,7 +679,7 @@ export default class Dropdown extends Component {
             </button>
 
             {!hidden && (
-              <span className="dnb-dropdown__list">
+              <span {...listParams}>
                 {data && data.length > 0 ? (
                   <ul {...ulParams}>
                     {data.map((dataItem, i) => {

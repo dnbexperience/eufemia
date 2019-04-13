@@ -20,13 +20,17 @@
   z-index: 9;
   display: flex;
 
-  animation: dropdownSlideDown 200ms ease-out 1 forwards;
+  &:not(#{&}--no-animation) {
+    animation: dropdownSlideDown 200ms ease-out 1 forwards;
+  }
   &--no-animation {
     animation: dropdownSlideDown 1ms ease-out 1 forwards;
   }
 }
 @mixin closeDropdown($state: 'animation') {
-  animation: dropdownSlideUp 150ms ease-out 1 forwards;
+  &:not(#{&}--no-animation) {
+    animation: dropdownSlideUp 150ms ease-out 1 forwards;
+  }
   &--no-animation {
     animation: dropdownSlideUp 1ms ease-out 1 forwards;
   }
