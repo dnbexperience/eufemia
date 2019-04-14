@@ -625,18 +625,18 @@ exports[`Dropdown scss have to match snapshot 1`] = `
 @keyframes dropdownSlideDown {
   from {
     opacity: 0;
-    transform: translateY(0); }
+    transform: translateY(calc(1px - var(--dropdown-height))); }
   to {
     opacity: 1;
-    transform: translateY(calc(var(--dropdown-height) + 1px)); } }
+    transform: translateY(0); } }
 
 @keyframes dropdownSlideUp {
   from {
     opacity: 1;
-    transform: translateY(var(--dropdown-height)); }
+    transform: translateY(0); }
   to {
     opacity: 0;
-    transform: translateY(0); } }
+    transform: translateY(calc(1px - var(--dropdown-height))); } }
 
 .dnb-dropdown {
   display: inline-flex;
@@ -665,7 +665,8 @@ exports[`Dropdown scss have to match snapshot 1`] = `
   .dnb-dropdown__list {
     position: absolute;
     z-index: 3;
-    top: 0;
+    top: calc( var(--dropdown-height) + var(--dropdown-focus-border-width) - 1px);
+    bottom: auto;
     left: 0;
     right: 0;
     width: 100%;
@@ -676,7 +677,7 @@ exports[`Dropdown scss have to match snapshot 1`] = `
     transition: transform 200ms, opacity 160ms ease-out; }
   .dnb-dropdown--direction-top .dnb-dropdown__list {
     top: auto;
-    bottom: calc( var(--dropdown-height) * 2 + var(--dropdown-focus-border-width)); }
+    bottom: calc( var(--dropdown-height) + var(--dropdown-focus-border-width) - 1px); }
   .dnb-dropdown__options {
     display: flex;
     flex-direction: column;
