@@ -772,15 +772,17 @@ exports[`Dropdown scss have to match snapshot 1`] = `
     z-index: 1;
     user-select: none;
     display: inline-flex;
+    align-items: center;
     outline: none;
     width: 100%;
     height: var(--dropdown-height);
     padding: 0 var(--dropdown-padding-horizontal);
     font-size: inherit;
     color: inherit;
-    line-height: var(--dropdown-height);
     border: var(--dropdown-border-width) solid transparent;
     border-radius: var(--dropdown-border-radius); }
+  .dnb-dropdown button, .dnb-dropdown__trigger {
+    line-height: var(--dropdown-height); }
   .dnb-dropdown__text {
     order: 1;
     position: relative;

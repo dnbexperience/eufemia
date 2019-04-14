@@ -279,6 +279,8 @@
     user-select: none;
 
     display: inline-flex;
+    align-items: center;
+
     outline: none;
 
     width: 100%;
@@ -287,10 +289,13 @@
 
     font-size: inherit;
     color: inherit;
-    line-height: var(--dropdown-height);
     border: var(--dropdown-border-width) solid transparent;
 
     border-radius: var(--dropdown-border-radius);
+  }
+  button,
+  &__trigger {
+    line-height: var(--dropdown-height);
   }
   &__text {
     order: 1;
