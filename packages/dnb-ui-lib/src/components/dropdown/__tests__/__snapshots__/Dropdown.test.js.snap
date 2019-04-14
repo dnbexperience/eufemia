@@ -691,7 +691,8 @@ exports[`Dropdown scss have to match snapshot 1`] = `
     max-height: 50vh;
     overflow-y: scroll;
     overscroll-behavior: contain;
-    scroll-behavior: smooth; }
+    scroll-behavior: smooth;
+    -ms-overflow-style: none; }
   .dnb-dropdown__option {
     position: relative;
     cursor: pointer;

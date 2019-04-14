@@ -147,6 +147,7 @@
     overflow-y: scroll;
     overscroll-behavior: contain;
     scroll-behavior: smooth;
+    -ms-overflow-style: none;
   }
 
   // li element

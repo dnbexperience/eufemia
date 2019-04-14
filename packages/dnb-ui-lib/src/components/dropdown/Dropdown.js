@@ -295,8 +295,10 @@ export default class Dropdown extends Component {
           )
           const top = liElement.offsetTop
           if (scrollTo) {
+            liElement.parentNode.scrollTop = top
             liElement.parentNode.scrollTo({
-              top
+              top,
+              behavior: 'smooth'
             })
           } else {
             liElement.parentNode.scrollTop = top
