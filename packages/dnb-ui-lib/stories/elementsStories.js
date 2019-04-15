@@ -105,7 +105,7 @@ stories.push([
                   Only text
                 </th>
                 <th className="dnb-table--sortable dnb-table--reversed">
-                  {/* <a href="#sort">
+                  {/* <a className="dnb-anchor" href="#sort">
                     Sortable
                     <IconPrimary icon="chevron-down" />
                   </a> */}
@@ -116,7 +116,7 @@ stories.push([
                   />
                 </th>
                 <th className="dnb-table--sortable dnb-table--active">
-                  {/* <a href="#sort">
+                  {/* <a className="dnb-anchor" href="#sort">
                     Active
                     <IconPrimary icon="chevron-down" />
                   </a> */}
@@ -131,7 +131,7 @@ stories.push([
             <tbody>
               <tr>
                 <td>
-                  <p>
+                  <p className="dnb-p">
                     Column 1 <b>width p</b>
                   </p>
                 </td>
@@ -158,7 +158,7 @@ stories.push([
             </tbody>
           </table>
 
-          <p>
+          <p className="dnb-p">
             Lorem in morbi euismod id lectus varius imperdiet proin dui
           </p>
         </CustomStyles>
@@ -173,8 +173,8 @@ stories.push([
     <Wrapper className="dnb-spacing">
       <CustomStyles>
         <Box>
-          <p>Paragraph</p>
-          <ul>
+          <p className="dnb-p">Paragraph</p>
+          <ul className="dnb-ul">
             <li>Item 1</li>
             <li>Item 2</li>
             <li>
@@ -191,7 +191,7 @@ stories.push([
                     <li>Item 1</li>
                     <li>Item 2</li>
                     <li>
-                      Item 3 with <p>Paragraph</p>
+                      Item 3 with <p className="dnb-p">Paragraph</p>
                     </li>
                     <li>Item 4</li>
                   </ul>
@@ -201,10 +201,10 @@ stories.push([
             </li>
             <li>Item 4</li>
           </ul>
-          <p>
+          <p className="dnb-p">
             Lorem in morbi euismod id lectus varius imperdiet proin dui
           </p>
-          <p>
+          <p className="dnb-p">
             Lorem in morbi euismod id lectus varius imperdiet proin dui
           </p>
         </Box>
@@ -219,19 +219,19 @@ stories.push([
     <Wrapper className="dnb-spacing">
       <CustomStyles>
         <Box>
-          <blockquote>
+          <blockquote className="dnb-blockquote">
             Scaevola dissentias ne nec, praesent pertinacia te vim, velit
             laboramus assentior ne ius. Choro vivendum tractatos ei quo. Te
             vim enim meis conclusionemque, per ut dolorem copiosae, ea veri
             sanctus deterruisset per
             <footer>Footer Referance</footer>
           </blockquote>
-          <p>
+          <p className="dnb-p">
             Next line <cite>with a Cite</cite>
           </p>
         </Box>
         <Box>
-          <blockquote className="dnb-blockquote--top">
+          <blockquote className="dnb-blockquote dnb-blockquote--top">
             Scaevola dissentias ne nec, praesent pertinacia te vim, velit
             laboramus assentior ne ius. Choro vivendum tractatos ei quo. Te
             vim enim meis conclusionemque, per ut dolorem copiosae, ea veri
@@ -251,7 +251,7 @@ stories.push([
     <Wrapper className="dnb-spacing">
       <CustomStyles>
         <Box>
-          <ol>
+          <ol className="dnb-ol">
             <li>Item 1</li>
             <li>Item 2</li>
             <li>Item 3</li>
@@ -277,7 +277,7 @@ stories.push([
     <Wrapper className="dnb-spacing">
       <CustomStyles>
         <Box>
-          <dl>
+          <dl className="dnb-dl">
             <dt>Item Title 1</dt>
             <dd>Item Description 1</dd>
             <dt>Item Title 1</dt>
@@ -298,6 +298,7 @@ stories.push([
           <div className="dnb-form-group dnb-form-group__position--vertical">
             <label htmlFor="hendrerit">Label for the textarea:</label>
             <textarea
+              className="dnb-textarea"
               id="hendrerit"
               rows="5"
               cols="33"
@@ -306,22 +307,24 @@ stories.push([
             nisl scelerisque sapien erat"
             />
           </div>
-          <p>I have to be on the grid!</p>
+          <p className="dnb-p">I have to be on the grid!</p>
         </Box>
         <Box>
           <div className="dnb-form-group">
             <label htmlFor="litora">Label for the textarea:</label>
             <textarea
+              className="dnb-textarea"
               id="litora"
               placeholder="Nec litora inceptos vestibulum id interdum donec gravida nostra
             lacinia bibendum hendrerit porttitor volutpat nam duis nisl
             scelerisque sapien erat"
             />
           </div>
-          <p>I have to be on the grid!</p>
+          <p className="dnb-p">I have to be on the grid!</p>
         </Box>
         <Box>
           <textarea
+            className="dnb-textarea"
             rows="5"
             cols="33"
             minLength="10"
@@ -331,14 +334,14 @@ stories.push([
             lacinia bibendum hendrerit porttitor volutpat nam duis nisl
             scelerisque sapien erat"
           />
-          <p>I have to be on the grid!</p>
+          <p className="dnb-p">I have to be on the grid!</p>
         </Box>
         <Box>
           <div className="dnb-form-group dnb-form-group__position--vertical">
             <label htmlFor="vestibulum">Label:</label>
             <textarea
               id="vestibulum"
-              className="status--error"
+              className="dnb-textarea status--error"
               cols="33"
               defaultValue="Nec litora inceptos vestibulum id interdum donec gravida nostra
             lacinia bibendum hendrerit porttitor volutpat nam duis nisl
@@ -346,12 +349,13 @@ stories.push([
             />
             <FormStatus text="Message to the user" />
           </div>
-          <p>I have to be on the grid!</p>
+          <p className="dnb-p">I have to be on the grid!</p>
         </Box>
         <Box>
           <div className="dnb-form-group">
             <label htmlFor="volutpat">Label:</label>
             <textarea
+              className="dnb-textarea"
               id="volutpat"
               disabled
               readOnly
@@ -361,7 +365,7 @@ stories.push([
             scelerisque sapien erat"
             />
           </div>
-          <p>I have to be on the grid!</p>
+          <p className="dnb-p">I have to be on the grid!</p>
         </Box>
       </CustomStyles>
     </Wrapper>
@@ -373,37 +377,37 @@ stories.push([
   () => (
     <Wrapper>
       <Box>
-        <a href="http://dnb.no">
+        <a className="dnb-anchor" href="http://dnb.no">
           <IconPrimary icon="chevron_left" /> Anchor
         </a>
       </Box>
       <Box>
-        <a href="http://dnb.no">
+        <a className="dnb-anchor" href="http://dnb.no">
           Anchor <IconPrimary icon="chevron_right" />
         </a>
       </Box>
       <Box>
-        <a href="/" className="dnb-anchor--hover">
+        <a href="/" className="dnb-anchor dnb-anchor--hover">
           Hover Style
         </a>
       </Box>
       <Box>
-        <a href="/" className="dnb-anchor--active">
+        <a href="/" className="dnb-anchor dnb-anchor--active">
           Active Style
         </a>
       </Box>
       <Box>
-        <a href="/" className="dnb-anchor--focus">
+        <a href="/" className="dnb-anchor dnb-anchor--focus">
           Focus Style
         </a>
       </Box>
       <Box>
-        <a href="/" className="dnb-anchor--animation">
+        <a href="/" className="dnb-anchor dnb-anchor--animation">
           With a special Animation (is removed from the styles)
         </a>
       </Box>
       <Box>
-        <a href="http://dnb.no">
+        <a className="dnb-anchor" href="http://dnb.no">
           Default Anchor - Adipiscing per egestas duis feugiat dignissim
           quam cras eget non est ante purus taciti volutpat mi phasellus
           rhoncus ridiculus diam at proin fusce bibendum netus dapibus
@@ -411,12 +415,18 @@ stories.push([
         </a>
       </Box>
       <Box>
-        <a href="http://dnb.no" className="dnb-anchor--animation">
+        <a
+          href="http://dnb.no"
+          className="dnb-anchor dnb-anchor--animation"
+        >
           Anchor with Animation <IconPrimary icon="chevron_right" />
         </a>
       </Box>
       <Box>
-        <a href="http://dnb.no" className="dnb-anchor--animation">
+        <a
+          href="http://dnb.no"
+          className="dnb-anchor dnb-anchor--animation"
+        >
           Anchor with Animation - Adipiscing per egestas duis feugiat
           dignissim quam cras eget non est ante purus taciti volutpat mi
           phasellus rhoncus ridiculus diam at proin fusce bibendum netus
@@ -426,7 +436,7 @@ stories.push([
       <Box>
         <a
           href="http://dnb.no"
-          className="dnb-anchor--animation"
+          className="dnb-anchor dnb-anchor--animation"
           style={{ whiteSpace: 'normal' }}
         >
           Anchor with Animation and no `white-space: pre;` - Adipiscing per

@@ -24,6 +24,7 @@ const props = fakeProps(require.resolve('../Dropdown'), {
 props.id = 'dropdown-id'
 props.status = 'status'
 props.status_state = 'error'
+props.direction = 'bottom'
 props.selected_item = 2
 
 const mockData = [
@@ -95,6 +96,9 @@ describe('Dropdown component', () => {
   })
 
   it('has correct length of li elements', () => {
+    Comp.setState({
+      opened: true
+    })
     expect(Comp.find('li.dnb-dropdown__option').length).toBe(
       mockData.length
     )

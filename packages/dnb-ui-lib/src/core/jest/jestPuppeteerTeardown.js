@@ -6,7 +6,7 @@
 const fs = require('fs-extra')
 const packpath = require('packpath')
 const path = require('path')
-const tar = require('tar')
+const { create } = require('tar')
 const chalk = require('chalk')
 const rimraf = require('rimraf')
 const isCi = require('is-ci')
@@ -38,7 +38,7 @@ module.exports = async function() {
       const branchName = (await getCurrentBranchName()).replace(/\//g, '-')
       const file = `${branchName}-jest-screenshot-report.tgz`
       const filePath = path.resolve(packpath.self(), `./reports/${file}`)
-      await tar.create(
+      await create(
         {
           gzip: true,
           file: filePath
@@ -47,7 +47,14 @@ module.exports = async function() {
       )
       await commitToBranch({
         skipCI: true,
-        requiredBranch: ['develop', 'release', 'rc/*', 'ftr/*'],
+        requiredBranch: [
+          'develop',
+          'release',
+          'beta',
+          'alpha',
+          'rc/*',
+          'ftr/*'
+        ],
         what: 'reports',
         filePathsWhitelist: [file],
         isNotAFeature: [file]

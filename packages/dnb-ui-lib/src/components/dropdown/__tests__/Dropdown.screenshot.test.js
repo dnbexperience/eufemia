@@ -34,9 +34,9 @@ describe('Dropdown screenshot', () => {
   })
   it('have to match the dropdown items', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="dropdown-list"] .dnb-dropdown__options',
+      selector: '[data-dnb-test="dropdown-list"] .dnb-dropdown__list',
       simulateSelector:
-        '[data-dnb-test="dropdown-list"] .dnb-dropdown__options li:nth-of-type(1)',
+        '[data-dnb-test="dropdown-list"] li.dnb-dropdown__option:nth-of-type(1)',
       simulate: 'hover'
     })
     expect(screenshot).toMatchImageSnapshot()

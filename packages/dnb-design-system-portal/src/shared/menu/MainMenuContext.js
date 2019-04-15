@@ -52,9 +52,11 @@ export class MainMenuProvider extends PureComponent {
         // scroll to top on opening the menu, and back again
         if (typeof window !== 'undefined') {
           try {
+            const top =
+              !isOpen && lastScrollPosition > 0 ? lastScrollPosition : 0
+            window.scrollTop = top
             window.scrollTo({
-              top:
-                !isOpen && lastScrollPosition > 0 ? lastScrollPosition : 0,
+              top,
               behavior: 'smooth'
             })
           } catch (e) {
