@@ -188,8 +188,6 @@ export default class Dropdown extends Component {
     this._refUl = React.createRef()
     this._refInput = React.createRef()
     this._refButton = React.createRef()
-
-    this.foundSeveral = {}
   }
 
   shouldComponentUpdate(nextProps) {
@@ -219,7 +217,10 @@ export default class Dropdown extends Component {
   }
 
   setVisible = () => {
-    if (this._hideTimeout) clearTimeout(this._hideTimeout)
+    if (this._hideTimeout) {
+      clearTimeout(this._hideTimeout)
+    }
+    this.searchCache = null
     const { selected_item } = this.state
     this.setState(
       {
@@ -258,24 +259,39 @@ export default class Dropdown extends Component {
   // this gives us the possibility to quickly search for an item
   // by simply pressing any alfabetic key
   findItemByValue(value) {
-    if (!this.foundSeveral[value]) {
-      this.foundSeveral[value] = []
+    // delete the cache
+    // if ther eare several of the same type
+    if (this.changedOrderFor !== value) {
+      this.searchCache = null
+      this.changedOrderFor = null
     }
-    return this.state.data.slice(0).reduce((acc, itemData, i, arr) => {
-      const str = Dropdown.parseContentTitle(itemData, ' ')
-      if (str) {
-        const found = new RegExp(`^${value}`, 'i').test(str)
-        if (found && !this.foundSeveral[value].includes(i)) {
-          this.foundSeveral[value].push(i)
-          arr.splice(1) // break the loop
-          return i
-        }
-      }
-      if (i === arr.length - 1) {
-        this.foundSeveral[value] = []
-      }
-      return acc
-    }, -1)
+
+    this.searchCache =
+      this.searchCache ||
+      this.state.data.reduce((acc, itemData, i) => {
+        const str = String(
+          Dropdown.parseContentTitle(itemData, ' ')
+        ).toLowerCase()
+        acc[str[0]] = acc[str[0]] || []
+        acc[str[0]].push({
+          i
+        })
+        return acc
+      }, {})
+
+    const found = this.searchCache[value]
+    let index = (found && found[0] && found[0].i) || -1
+
+    // if ther eare several of the same type
+    if (found && found.length > 1) {
+      found.push(found.shift())
+      // if (!this.changedOrderFor && index === this.state.selected_item) {
+      //   index = found[0].i || -1
+      // }
+      this.changedOrderFor = value
+    }
+
+    return index
   }
 
   scrollToItem(active_item, { scrollTo = true } = {}) {
