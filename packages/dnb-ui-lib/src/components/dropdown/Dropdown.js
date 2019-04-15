@@ -259,36 +259,39 @@ export default class Dropdown extends Component {
   // this gives us the possibility to quickly search for an item
   // by simply pressing any alfabetic key
   findItemByValue(value) {
-    // delete the cache
-    // if ther eare several of the same type
-    if (this.changedOrderFor !== value) {
-      this.searchCache = null
-      this.changedOrderFor = null
-    }
+    let index
 
-    this.searchCache =
-      this.searchCache ||
-      this.state.data.reduce((acc, itemData, i) => {
-        const str = String(
-          Dropdown.parseContentTitle(itemData, ' ')
-        ).toLowerCase()
-        acc[str[0]] = acc[str[0]] || []
-        acc[str[0]].push({
-          i
-        })
-        return acc
-      }, {})
+    try {
+      // delete the cache
+      // if ther eare several of the same type
+      if (this.changedOrderFor !== value) {
+        this.searchCache = null
+        this.changedOrderFor = null
+      }
 
-    const found = this.searchCache[value]
-    let index = (found && found[0] && found[0].i) || -1
+      this.searchCache =
+        this.searchCache ||
+        this.state.data.reduce((acc, itemData, i) => {
+          const str = String(
+            Dropdown.parseContentTitle(itemData, ' ')
+          ).toLowerCase()
+          acc[str[0]] = acc[str[0]] || []
+          acc[str[0]].push({
+            i
+          })
+          return acc
+        }, {})
 
-    // if ther eare several of the same type
-    if (found && found.length > 1) {
-      found.push(found.shift())
-      // if (!this.changedOrderFor && index === this.state.selected_item) {
-      //   index = found[0].i || -1
-      // }
-      this.changedOrderFor = value
+      const found = this.searchCache[value]
+      index = (found && found[0] && found[0].i) || -1
+
+      // if ther eare several of the same type
+      if (found && found.length > 1) {
+        found.push(found.shift())
+        this.changedOrderFor = value
+      }
+    } catch (e) {
+      console.log('Dropdown could not findItemByValue:', e)
     }
 
     return index
