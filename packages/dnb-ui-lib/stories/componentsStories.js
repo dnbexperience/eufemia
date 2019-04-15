@@ -82,7 +82,7 @@ stories.push([
         <h1>
           H1 with the DNB Logo <Logo size="auto" />
         </h1>
-        <p>
+        <p className="dnb-p">
           Text with the DNB Logo <Logo />
         </p>
       </Box>
@@ -289,16 +289,18 @@ class ModalCloseExample extends React.PureComponent {
           setTimeout(close, 3e3)
         }}
       >
-        <Hr />
-        <Box>
-          <H2>Some content</H2>
-          <Input>Focus me with Tab key</Input>
-        </Box>
-        <Box>
-          <P>
-            <Switch label="Checked:" checked />
-          </P>
-        </Box>
+        <Wrapper>
+          <Hr />
+          <Box>
+            <H2>Some content</H2>
+            <Input>Focus me with Tab key</Input>
+          </Box>
+          <Box>
+            <P>
+              <Switch label="Checked:" checked />
+            </P>
+          </Box>
+        </Wrapper>
       </Modal>
     )
   }
@@ -310,16 +312,18 @@ stories.push([
     <Wrapper>
       <Box>
         <Modal trigger_text="Open Modal" title="Modal Title">
-          <Hr />
-          <Box>
-            <H2>Some content</H2>
-            <Input>Focus me with Tab key</Input>
-          </Box>
-          <Box>
-            <P>
-              <Switch label="Checked:" checked />
-            </P>
-          </Box>
+          <Wrapper>
+            <Hr />
+            <Box>
+              <H2>Some content</H2>
+              <Input>Focus me with Tab key</Input>
+            </Box>
+            <Box>
+              <P>
+                <Switch label="Checked:" checked />
+              </P>
+            </Box>
+          </Wrapper>
         </Modal>
       </Box>
       <Box>
@@ -402,7 +406,7 @@ stories.push([
             disabled
             show_value_outside
           />
-          <p>
+          <p className="dnb-p">
             Eros semper blandit tellus mollis primis quisque platea
             sollicitudin ipsum
           </p>
@@ -415,7 +419,7 @@ stories.push([
             selected_item={4}
             status="Message to the user"
           />
-          <p>
+          <p className="dnb-p">
             Eros semper blandit tellus mollis primis quisque platea
             sollicitudin ipsum
           </p>
@@ -428,7 +432,7 @@ stories.push([
             icon_position="left"
             selected_item={2}
           />
-          <p>
+          <p className="dnb-p">
             Eros semper blandit tellus mollis primis quisque platea
             sollicitudin ipsum
           </p>
@@ -517,7 +521,7 @@ const exampleTabsContent = {
   first: () => <H2>First</H2>,
   second: () => <Input>Focus me with next Tab key</Input>,
   third: () => (
-    <p>
+    <p className="dnb-p">
       Eros semper blandit tellus mollis primis quisque platea sollicitudin
       ipsum
     </p>

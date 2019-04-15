@@ -15,8 +15,12 @@ import helpers from './helperStories'
 // import '../style/elements'
 
 /* UI style + theme */
-import '../src/style'
-import '../src/style/elements'
+// import '../src/style'
+// import '../src/style/elements'
+
+import 'dnb-ui-lib/src/style/basis'
+import 'dnb-ui-lib/src/style/components'
+import 'dnb-ui-lib/src/style/themes/ui'
 
 /* only import a component scope style, like Button */
 // import '../src/components/button/style'
