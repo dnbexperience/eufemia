@@ -188,6 +188,7 @@ const Wrapper = styled.div`
   [data-dnb-test='dropdown-list'] .dnb-dropdown__list {
     display: block;
     position: relative;
+    top: 0;
     width: var(--dropdown-width);
   }
 `
