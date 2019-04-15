@@ -47,7 +47,14 @@ module.exports = async function() {
       )
       await commitToBranch({
         skipCI: true,
-        requiredBranch: ['develop', 'release', 'rc/*', 'ftr/*'],
+        requiredBranch: [
+          'develop',
+          'release',
+          'beta',
+          'alpha',
+          'rc/*',
+          'ftr/*'
+        ],
         what: 'reports',
         filePathsWhitelist: [file],
         isNotAFeature: [file]
