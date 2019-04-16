@@ -41,8 +41,8 @@ class Layout extends PureComponent {
       return (
         <>
           <Content className="fullscreen-page">
-            <ContentInner className="dnb-app-content-inner dev-grid-first">
-              {children}
+            <ContentInner className="dnb-app-content-inner">
+              <div className="dev-grid">{children}</div>
             </ContentInner>
           </Content>
           <ToggleGrid hidden />
@@ -62,8 +62,8 @@ class Layout extends PureComponent {
           <Wrapper className="content-wrapper">
             <Sidebar location={location} showAll={false} />
             <Content>
-              <ContentInner className="dnb-app-content-inner dev-grid-first">
-                {children}
+              <ContentInner className="dnb-app-content-inner">
+                <div className="dev-grid">{children}</div>
               </ContentInner>
               <Footer />
             </Content>

@@ -10,8 +10,7 @@ import { FormLabel, Switch } from 'dnb-ui-lib/src'
 import { gridStyle } from '../parts/PortalStyle'
 
 const globalStyle = css`
-  .dev-grid,
-  .dev-grid-first > div:first-of-type {
+  .dev-grid {
     ${gridStyle({ rgb: '220, 220, 220', a: 0.8 })};
 
     /* stylelint-disable no-descending-specificity */
@@ -31,12 +30,6 @@ const globalStyle = css`
       }
     }
     /* stylelint-enable */
-
-    ${'' /* code {
-      display: block;
-      margin: 0 0 1rem 0;
-      background-color: rgba(0, 200, 200, 0.25);
-    } */}
   }
 `
 

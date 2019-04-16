@@ -15,7 +15,8 @@
   "main": "index.js",
   "scripts": {
     "post-build": "yarn prettier:other",
-    "audit-ci": "npm install && audit-ci --directory ./ --config ./audit-ci.json",
+    "audit-ci": "npm install && npm run audit-ci:npm",
+    "audit-ci:npm": "audit-ci --directory ./ --config ./audit-ci.json",
     "audit-ci:yarn": "babel-node ./scripts/prepub/audit/toOpt && audit-ci --moderate --package-manager=yarn --advisories=782 && babel-node ./scripts/prepub/audit/toDev",
     "build": "yarn prebuild:local && yarn post-build",
     "prebuild-ci": "yarn figma-ci-build && yarn prebuild:local && yarn test:update && yarn figma-ci-commit",
@@ -98,7 +99,6 @@
     "@babel/preset-env": "^7.4.3",
     "@babel/preset-react": "^7.0.0",
     "@babel/register": "^7.4.0",
-    "@babel/runtime": "^7.4.3",
     "@emotion/babel-plugin-core": "^0.6.9",
     "@emotion/core": "^10.0.10",
     "@emotion/styled": "^10.0.10",
