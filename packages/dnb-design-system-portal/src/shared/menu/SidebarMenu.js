@@ -322,19 +322,16 @@ export default class SidebarLayout extends PureComponent {
         let delayBuff
         this.scrollToLastPosition()
 
-        this._scrollRef.current.onscroll = () => {
+        this._scrollRef.current.onscroll = e => {
           if (this.bussyOnSettingNewPos) return
           clearTimeout(delayBuff)
           delayBuff = setTimeout(() => {
             try {
-              window.localStorage.setItem(
-                'sidebarPos',
-                this._scrollRef.current.scrollTop
-              )
+              window.localStorage.setItem('sidebarPos', e.target.scrollTop)
             } catch (e) {
               console.log('SidebarLayout error:', e)
             }
-          }, 200)
+          }, 100)
         }
       }
     }

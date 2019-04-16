@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
 
 import Head from 'react-helmet'
 import Layout from '../shared/parts/Layout'
-import { MDXProvider } from '@mdx-js/tag'
+import { MDXProvider } from '@mdx-js/react'
 import MDXRenderer from 'gatsby-mdx/mdx-renderer'
 import { graphql, withPrefix } from 'gatsby'
 import tags from '../shared/tags'
