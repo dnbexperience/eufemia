@@ -73,6 +73,7 @@
     "umd:dev": "nodemon -x 'yarn umd' --ext js,html,json,css,scss --watch './src/components/**/*' --watch './src/patterns/**/*' --watch './src/style/**/*' --watch './scripts/**/*' --ignore '*.json'"
   },
   "dependencies": {
+    "@babel/runtime": "^7.4.3",
     "body-scroll-lock": "^2.6.1",
     "classnames": "^2.2.6",
     "core-js": "2",
@@ -103,7 +104,7 @@
     "@emotion/styled": "^10.0.10",
     "@storybook/react": "^5.0.6",
     "@svgr/core": "^4.1.0",
-    "audit-ci": "^1.5.0",
+    "audit-ci": "^1.6.0",
     "babel-jest": "^24.7.1",
     "babel-plugin-emotion": "^10.0.9",
     "babel-plugin-react-remove-properties": "^0.3.0",
@@ -177,7 +178,7 @@
     "sass-loader": "^7.1.0",
     "sass-variable-parser": "^1.2.2",
     "scss-to-json": "^2.0.0",
-    "semantic-release": "^15.13.3",
+    "semantic-release": "^16.0.0-beta.18",
     "simple-commit-message": "^4.0.3",
     "simple-git": "^1.110.0",
     "stream-buffers": "^3.0.2",
@@ -187,6 +188,7 @@
     "stylelint-config-standard": "^18.2.0",
     "stylelint-scss": "^3.5.4",
     "svgo": "^1.2.1",
+    "tar": "^4.4.8",
     "text-mask-addons": "^3.8.0",
     "traverse": "^0.6.6"
   },
@@ -194,7 +196,20 @@
     "ci": true,
     "debug": false,
     "dryRun": false,
-    "branch": "release",
+    "branches": [
+      "+([1-9])?(.{+([1-9]),x}).x",
+      "release",
+      "next",
+      "next-major",
+      {
+        "name": "beta",
+        "prerelease": true
+      },
+      {
+        "name": "alpha",
+        "prerelease": true
+      }
+    ],
     "analyzeCommits": "simple-commit-message"
   }
 }

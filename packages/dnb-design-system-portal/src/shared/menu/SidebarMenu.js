@@ -226,6 +226,7 @@ const Navigation = styled.nav`
   overflow-x: hidden;
   overflow-y: auto;
   overscroll-behavior: contain;
+  -ms-overflow-style: none;
 
   /* make the sidemenu accsible for screenreaders on mobile devices  */
   @media (max-width: 50em) {
@@ -378,6 +379,7 @@ export default class SidebarLayout extends PureComponent {
           .querySelector('li.is-active')
           .getBoundingClientRect().top
         const top = this._scrollRef.current.scrollTop + pos - offset
+        window.scrollTop = top
         window.scrollTo({
           top,
           behavior: 'smooth'

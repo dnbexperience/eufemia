@@ -378,22 +378,29 @@ exports[`InputMasked scss have to match snapshot 1`] = `
   button.dnb-button::-moz-focus-inner .dnb-button {
     border: none; }
 
-a.dnb-button {
+a.dnb-button[type='button'] {
   -webkit-appearance: none; }
-  a.dnb-button .dnb-button__icon {
-    transform: translateY(0); }
-  a.dnb-button .dnb-button__text {
-    transform: translateY(1px); }
-  a.dnb-button:hover {
-    border-radius: var(--button-border-radius); }
-  a.dnb-button--size-small, a.dnb-button--size-small:hover {
-    border-radius: var(--button-border-radius--small); }
-  a.dnb-button--size-medium, a.dnb-button--size-medium:hover {
-    border-radius: var(--button-border-radius--medium); }
-  a.dnb-button--size-large, a.dnb-button--size-large:hover {
-    border-radius: var(--button-border-radius--large); }
-  a.dnb-button:active, a.dnb-button:focus {
-    border-radius: var(--button-border-radius); }
+
+a.dnb-button .dnb-button__icon {
+  transform: translateY(0); }
+
+a.dnb-button .dnb-button__text {
+  transform: translateY(1px); }
+
+a.dnb-button:hover {
+  border-radius: var(--button-border-radius); }
+
+a.dnb-button--size-small, a.dnb-button--size-small:hover {
+  border-radius: var(--button-border-radius--small); }
+
+a.dnb-button--size-medium, a.dnb-button--size-medium:hover {
+  border-radius: var(--button-border-radius--medium); }
+
+a.dnb-button--size-large, a.dnb-button--size-large:hover {
+  border-radius: var(--button-border-radius--large); }
+
+a.dnb-button:active, a.dnb-button:focus {
+  border-radius: var(--button-border-radius); }
 
 /*
 * DNB FormLabel

@@ -48,8 +48,10 @@ export class SidebarMenuProvider extends PureComponent {
         setTimeout(() => {
           try {
             if (!isOpen && typeof window !== 'undefined') {
+              const top = this.lastScrollPosition
+              window.scrollTop = top
               window.scrollTo({
-                top: this.lastScrollPosition,
+                top,
                 behavior: 'smooth'
               })
             }

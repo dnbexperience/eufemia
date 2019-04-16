@@ -4,6 +4,7 @@
  */
 
 import path from 'path'
+import { isCI } from 'ci-info'
 import fs from 'fs-extra'
 import packpath from 'packpath'
 import prettier from 'prettier'
@@ -46,7 +47,9 @@ const prepareForRelease = () =>
         packageJsonString,
         filepath
       })
-      await fs.writeFile(filepath, formattedPackageJson)
+      if (isCI) {
+        await fs.writeFile(filepath, formattedPackageJson)
+      }
     } catch (e) {
       reject(e)
     }

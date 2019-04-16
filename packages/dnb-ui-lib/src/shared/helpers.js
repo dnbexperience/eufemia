@@ -63,6 +63,7 @@ export const scrollToLocationHashId = ({ offset = 0 } = {}) => {
     if (elem instanceof HTMLElement) {
       const top = parseFloat(elem.offsetTop) - offset
       try {
+        window.scrollTop = top
         window.scrollTo({
           top,
           behavior: 'smooth'

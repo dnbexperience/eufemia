@@ -13,7 +13,6 @@ import {
   processChildren,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
-// import './style/dnb-dropdown.scss' // no good solution to import the style here
 import Icon from '../icon-primary/IconPrimary'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
@@ -35,6 +34,9 @@ export const propTypes = {
   status: PropTypes.string,
   status_state: PropTypes.string,
   status_animation: PropTypes.string,
+  scrollable: PropTypes.bool,
+  direction: PropTypes.oneOf(['auto', 'top', 'bottom']),
+  max_height: PropTypes.number,
   no_animation: PropTypes.bool,
   data: PropTypes.oneOfType([
     PropTypes.string,
@@ -56,7 +58,7 @@ export const propTypes = {
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   class: PropTypes.string,
 
-  // React props
+  // React
   className: PropTypes.string,
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
 
@@ -79,6 +81,9 @@ export const defaultProps = {
   status: null,
   status_state: 'error',
   status_animation: null,
+  scrollable: true,
+  max_height: null,
+  direction: 'auto',
   no_animation: false,
   data: null,
   selected_item: 0,
@@ -105,21 +110,35 @@ export default class Dropdown extends Component {
   static defaultProps = defaultProps
   static renderProps = renderProps
 
-  static blurDelay = 400
+  static blurDelay = 201 // some ms more than "dropdownSlideDown 200ms"
 
   static enableWebComponent() {
     registerElement(Dropdown.tagName, Dropdown, defaultProps)
   }
 
   static parseOpened = state => /true|on/.test(String(state))
-  static parseContentTitle = dataItem => {
-    if (dataItem.selected_value) return dataItem.selected_value
-    if (dataItem.content)
-      return Array.isArray(dataItem.content)
-        ? dataItem.content.join(' ')
+  static parseContentTitle = (dataItem, separator = '\n') => {
+    let ret = ''
+    if (dataItem.content) {
+      ret = Array.isArray(dataItem.content)
+        ? dataItem.content
+            .reduce((acc, cur) => {
+              // remove only numbers
+              const found = cur && cur.match(/[0-9.,-\s]+/)
+              if (!(found && found[0].length === cur.length)) {
+                acc.push(cur)
+              }
+              return acc
+            }, [])
+            .join(separator)
         : dataItem.content
-    if (typeof dataItem === 'string') return dataItem
-    return ''
+    } else if (typeof dataItem === 'string') {
+      ret = dataItem
+    }
+    if (dataItem.selected_value) {
+      ret = dataItem.selected_value + separator + ret
+    }
+    return ret
   }
 
   static getData(props) {
@@ -134,7 +153,7 @@ export default class Dropdown extends Component {
   static getDerivedStateFromProps(props, state) {
     if (state._listenForPropChanges) {
       if (props.data) {
-        if (state._data !== props.data) {
+        if (state.data && state._data !== props.data) {
           state._data = props.data
           state.data = Dropdown.getData(props)
         }
@@ -155,14 +174,18 @@ export default class Dropdown extends Component {
     const opened = Dropdown.parseOpened(props.opened)
     this.state = {
       _listenForPropChanges: true,
-      active: -1,
       opened,
       hidden: !opened,
+      direction: props.direction,
+      max_height: props.max_height,
+      active_item: props.selected_item,
       selected_item: props.selected_item,
       _data: props.data || props.children,
       data: Dropdown.getData(props)
     }
 
+    this._ref = React.createRef()
+    this._refUl = React.createRef()
     this._refInput = React.createRef()
     this._refButton = React.createRef()
   }
@@ -184,6 +207,7 @@ export default class Dropdown extends Component {
 
   componentWillUnmount() {
     clearTimeout(this._hideTimeout)
+    this.removeDirectionObserver()
   }
 
   setFocus = () => {
@@ -193,25 +217,116 @@ export default class Dropdown extends Component {
   }
 
   setVisible = () => {
-    if (this._hideTimeout) clearTimeout(this._hideTimeout)
-    this.setState({
-      hidden: false,
-      _listenForPropChanges: false
-    })
+    if (this._hideTimeout) {
+      clearTimeout(this._hideTimeout)
+    }
+    this.searchCache = null
+    const { selected_item } = this.state
+    this.setState(
+      {
+        hidden: false,
+        _listenForPropChanges: false
+      },
+      () => {
+        this.setDirectionObserver()
+        this.setScrollObserver()
+        this.scrollToItem(selected_item, {
+          scrollTo: false
+        })
+      }
+    )
     dispatchCustomElementEvent(this, 'on_show', {
-      data: this.getOptionData(this.state.selected_item)
+      data: this.getOptionData(selected_item)
     })
   }
   setHidden = () => {
-    this._hideTimeout = setTimeout(() => {
-      this.setState({
-        hidden: true,
-        _listenForPropChanges: false
-      })
-    }, Dropdown.blurDelay) // wait until animation is over
+    this._hideTimeout = setTimeout(
+      () => {
+        this.setState({
+          hidden: true,
+          _listenForPropChanges: false
+        })
+      },
+      this.props.no_animation ? 1 : Dropdown.blurDelay
+    ) // wait until animation is over
+    this.removeDirectionObserver()
+    this.removeScrollObserver()
     dispatchCustomElementEvent(this, 'on_hide', {
       data: this.getOptionData(this.state.selected_item)
     })
+  }
+
+  // this gives us the possibility to quickly search for an item
+  // by simply pressing any alfabetic key
+  findItemByValue(value) {
+    let index
+
+    try {
+      // delete the cache
+      // if ther eare several of the same type
+      if (this.changedOrderFor !== value) {
+        this.searchCache = null
+        this.changedOrderFor = null
+      }
+
+      this.searchCache =
+        this.searchCache ||
+        this.state.data.reduce((acc, itemData, i) => {
+          const str = String(
+            Dropdown.parseContentTitle(itemData, ' ')
+          ).toLowerCase()
+          acc[str[0]] = acc[str[0]] || []
+          acc[str[0]].push({
+            i
+          })
+          return acc
+        }, {})
+
+      const found = this.searchCache[value]
+      index = (found && found[0] && found[0].i) || -1
+
+      // if ther eare several of the same type
+      if (found && found.length > 1) {
+        found.push(found.shift())
+        this.changedOrderFor = value
+      }
+    } catch (e) {
+      console.log('Dropdown could not findItemByValue:', e)
+    }
+
+    return index
+  }
+
+  scrollToItem(active_item, { scrollTo = true } = {}) {
+    if (!(active_item > -1)) {
+      return
+    }
+    this.setState(
+      {
+        active_item,
+        _listenForPropChanges: false
+      },
+      () => {
+        // try to scroll to item
+        try {
+          const liElement = this._refUl.current.querySelector(
+            `li.dnb-dropdown__option:nth-of-type(${active_item + 1})`
+          )
+          const top = liElement.offsetTop
+          if (scrollTo) {
+            liElement.parentNode.scrollTop = top
+            liElement.parentNode.scrollTo({
+              top,
+              behavior: 'smooth'
+            })
+          } else {
+            liElement.parentNode.scrollTop = top
+          }
+        } catch (e) {
+          console.log('Dropdown could not scroll into element:', e)
+        }
+      }
+    )
   }
 
   onFocusHandler = () => {
@@ -222,21 +337,14 @@ export default class Dropdown extends Component {
       })
       this.setVisible()
     }
-
-    // Experimental, but not crucial
-    // if (this._refInput.current && this._refInput.current.scrollIntoView) {
-    //   this._refInput.current.scrollIntoView()
-    // }
   }
   onBlurHandler = () => {
     this.setState({
-      active: -1,
       opened: false,
       _listenForPropChanges: false
     })
     this.setHidden()
   }
-
   onMouseDownHandler = () => {
     if (this.state.opened) {
       this.onBlurHandler()
@@ -244,61 +352,81 @@ export default class Dropdown extends Component {
   }
 
   onKeyDownHandler = e => {
-    let selected_item = this.state.selected_item
+    let active_item = this.state.active_item
     const total = this.state.data.length - 1
 
     switch (keycode(e)) {
       case 'up':
-        selected_item--
         e.preventDefault()
+        active_item--
         break
       case 'down':
-        selected_item++
+        e.preventDefault()
+        active_item++
+        break
+      case 'home':
+        e.preventDefault()
+        active_item = 0
+        break
+      case 'end':
+        active_item = total
         e.preventDefault()
         break
       case 'enter':
       case 'space':
+        e.preventDefault()
+        this.selectItem(active_item)
         if (this._refInput.current) {
           this._refInput.current.blur()
         }
         dispatchCustomElementEvent(this, 'on_select', {
-          data: this.getOptionData(selected_item)
+          data: this.getOptionData(active_item)
         })
-        e.preventDefault()
         break
       case 'esc':
+        e.preventDefault()
         if (this._refInput.current) {
           this._refInput.current.blur()
         }
-        e.preventDefault()
+        break
+
+      default:
+        this.scrollToItem(this.findItemByValue(keycode(e)))
         break
     }
 
-    if (selected_item < 0) {
-      selected_item = total
+    if (active_item < 0) {
+      active_item = 0
     }
-    if (selected_item > total) {
-      selected_item = 0
+    if (active_item > total) {
+      active_item = total
     }
 
-    if (selected_item !== this.state.selected_item) {
-      this.setState({
-        active: selected_item
-      })
-      this.selectItem(selected_item)
+    if (active_item !== this.state.active_item) {
+      this.scrollToItem(active_item)
+    }
+  }
+
+  selectItemHandler = e => {
+    const selected_item = parseFloat(
+      e.currentTarget.getAttribute('data-item')
+    )
+    if (selected_item > -1) {
+      this.selectItem(selected_item, { fireSelectEvent: true })
     }
   }
 
   selectItem = (selected_item, { fireSelectEvent } = {}) => {
+    this.setState({
+      selected_item,
+      active_item: selected_item,
+      _listenForPropChanges: false
+    })
     if (this.state.selected_item !== selected_item) {
       dispatchCustomElementEvent(this, 'on_change', {
         data: this.getOptionData(selected_item)
       })
     }
-    this.setState({
-      selected_item,
-      _listenForPropChanges: false
-    })
     if (fireSelectEvent) {
       dispatchCustomElementEvent(this, 'on_select', {
         data: this.getOptionData(selected_item)
@@ -306,11 +434,121 @@ export default class Dropdown extends Component {
     }
   }
 
+  setScrollObserver() {
+    if (typeof window === 'undefined' || !this._refUl.current) {
+      return
+    }
+    this.removeScrollObserver()
+
+    try {
+      const itemSpots = this.state.data.reduce((acc, current, i) => {
+        const element = this._refUl.current.querySelector(
+          `li.dnb-dropdown__option:nth-of-type(${i + 1})`
+        )
+        if (element) {
+          acc[element.offsetTop] = {
+            i
+          }
+        }
+        return acc
+      }, {})
+      const counts = Object.keys(itemSpots)
+      const findClosest = (arr, val) =>
+        Math.max.apply(null, arr.filter(v => v <= val))
+      let closestToTop = null,
+        closestToBottom = null,
+        tmpToTop,
+        tmpToBottom
+      this.setOnScroll = () => {
+        closestToBottom = findClosest(
+          counts,
+          this._refUl.current.scrollTop + this._refUl.current.offsetHeight
+        )
+        closestToTop = findClosest(counts, this._refUl.current.scrollTop)
+        if (closestToTop !== tmpToTop) {
+          this.setState({
+            closestToTop: itemSpots[closestToTop].i,
+            _listenForPropChanges: false
+          })
+        }
+        if (closestToBottom !== tmpToBottom) {
+          this.setState({
+            closestToBottom: itemSpots[closestToBottom].i,
+            _listenForPropChanges: false
+          })
+        }
+        tmpToTop = closestToTop
+        tmpToBottom = closestToBottom
+      }
+      this._refUl.current.addEventListener('scroll', this.setOnScroll)
+      this.setOnScroll()
+    } catch (e) {
+      console.log('Dropdown could not set onScroll:', e)
+    }
+  }
+
+  removeScrollObserver() {
+    if (typeof window !== 'undefined' && this.setOnScroll) {
+      window.removeEventListener('resize', this.setOnScroll)
+    }
+  }
+
+  setDirectionObserver() {
+    if (typeof window === 'undefined' || !this._ref.current) {
+      return
+    }
+    this.removeDirectionObserver()
+    try {
+      const min_height = 320 // 20rem = 20x16=320
+      const spaceToTopOffset = 4 * 16 //because of headers
+      const spaceToBottomOffset = 2 * 16
+      const elem = this._ref.current
+
+      this.setDirection = () => {
+        const spaceToTop =
+          getOffseTop(elem) + elem.offsetHeight - window.scrollY
+        const spaceToBottom =
+          window.innerHeight -
+          (getOffseTop(elem) + elem.offsetHeight) +
+          window.scrollY
+        const direction =
+          spaceToBottom < min_height && spaceToTop > min_height
+            ? 'top'
+            : 'bottom'
+        const height =
+          direction === 'top'
+            ? spaceToTop -
+              this._refButton.current.offsetHeight -
+              spaceToTopOffset
+            : spaceToBottom - spaceToBottomOffset
+        const max_height = height / 16 // calc to rem
+
+        this.setState({
+          direction,
+          max_height
+        })
+      }
+
+      window.addEventListener('resize', this.setDirection)
+      this.setDirection()
+    } catch (e) {
+      console.log('Dropdown could not set onResize:', e)
+    }
+  }
+
+  removeDirectionObserver() {
+    if (typeof window !== 'undefined' && this.setDirection) {
+      window.removeEventListener('resize', this.setDirection)
+    }
+  }
+
   getOptionData(selected_item) {
     return (
-      this.state.data.filter(
-        (data, i) => i === parseFloat(selected_item)
-      )[0] || []
+      (this.state.data &&
+        this.state.data.filter(
+          (data, i) => i === parseFloat(selected_item)
+        )[0]) ||
+      []
     )
   }
 
@@ -323,22 +561,34 @@ export default class Dropdown extends Component {
       status,
       status_state,
       status_animation,
+      scrollable,
       no_animation,
       className,
       class: _className,
       disabled,
 
+      direction: _direction /* eslint-disable-line */,
+      max_height: _max_height /* eslint-disable-line */,
       id: _id /* eslint-disable-line */,
-      data /* eslint-disable-line */,
+      data: _data /* eslint-disable-line */,
       opened: _opened /* eslint-disable-line */,
       selected_item: _selected_item /* eslint-disable-line */,
+      children,
 
       ...attributes
     } = this.props
 
     const id = this._id
 
-    const { opened, active, hidden, selected_item } = this.state
+    const {
+      data,
+      direction,
+      max_height,
+      opened,
+      hidden,
+      active_item,
+      selected_item
+    } = this.state
     const showStatus = status && status !== 'error'
 
     const currentOptionData = this.getOptionData(selected_item)
@@ -346,6 +596,8 @@ export default class Dropdown extends Component {
     const classes = classnames(
       'dnb-dropdown',
       icon_position && `dnb-dropdown--icon-position-${icon_position}`,
+      `dnb-dropdown--direction-${direction}`,
+      scrollable && 'dnb-dropdown--scroll',
       opened && 'dnb-dropdown--opened',
       hidden && 'dnb-dropdown--hidden',
       showStatus && 'dnb-dropdown__form-status',
@@ -358,7 +610,6 @@ export default class Dropdown extends Component {
     // const selectedId = `option-${id}-${selected_item}`
     // But for now we use
     const selectedId = `dropdown-${id}-value`
-    const shellParams = {}
     const inputParams = {
       id,
       className: 'dnb-dropdown__input',
@@ -374,7 +625,7 @@ export default class Dropdown extends Component {
     }
     const triggerParams = {
       className: 'dnb-dropdown__trigger',
-      title: title, // type="checkbox"// dont works well on firefox
+      title, // type="checkbox"// dont works well on firefox
       ['aria-label']: title,
       ['aria-haspopup']: 'listbox',
       ['aria-labelledby']: selectedId,
@@ -387,21 +638,28 @@ export default class Dropdown extends Component {
     if (disabled) {
       triggerParams['aria-disabled'] = true
     }
-    const ulParams = {
+    const listParams = {
       className: classnames(
-        'dnb-dropdown__options',
-        no_animation && 'dnb-dropdown__options--no-animation'
-      ),
+        'dnb-dropdown__list',
+        no_animation && 'dnb-dropdown__list--no-animation'
+      )
+    }
+    const ulParams = {
+      className: classnames('dnb-dropdown__options'),
       role: 'listbox',
       tabIndex: '-1',
       ['aria-activedescendant']: `option-${id}-${selected_item}`,
-      ['aria-labelledby']: id
+      ['aria-labelledby']: id,
+      ref: this._refUl,
+      style: {
+        maxHeight: max_height > 0 ? `${max_height}rem` : null
+      }
     }
 
     // also used for code markup simulation
     validateDOMAttributes(this.props, triggerParams)
-    validateDOMAttributes(null, shellParams)
     validateDOMAttributes(null, inputParams)
+    validateDOMAttributes(null, listParams)
     validateDOMAttributes(null, ulParams)
 
     return (
@@ -414,8 +672,8 @@ export default class Dropdown extends Component {
             disabled={disabled}
           />
         )}
-        <span className={classes}>
-          <span className="dnb-dropdown__shell" {...shellParams}>
+        <span className={classes} ref={this._ref}>
+          <span className="dnb-dropdown__shell">
             <input {...inputParams} />
             <button {...triggerParams}>
               <span className="dnb-dropdown__text">
@@ -423,7 +681,10 @@ export default class Dropdown extends Component {
                   id={`dropdown-${id}-value`}
                   className="dnb-dropdown__text__inner"
                 >
-                  {Dropdown.parseContentTitle(currentOptionData)}
+                  {data && data.length > 0
+                    ? currentOptionData.selected_value ||
+                      Dropdown.parseContentTitle(currentOptionData)
+                    : title}
                 </span>
               </span>
               <span
@@ -438,51 +699,69 @@ export default class Dropdown extends Component {
               </span>
             </button>
 
-            <ul {...ulParams}>
-              {this.state.data.map((dataItem, i) => {
-                const isCurrent = i === parseFloat(selected_item)
-                const params = {
-                  id: `option-${id}-${i}`,
-                  role: 'option',
-                  ['aria-selected']: isCurrent,
-                  className: classnames(
-                    'dnb-dropdown__option',
-                    isCurrent && 'dnb-dropdown__option--selected',
-                    i === active && 'dnb-dropdown__option--active'
-                  )
-                }
-                return (
-                  <li key={id + i} {...params}>
-                    {i === 0 && (
-                      <span className="dnb-dropdown__triangle" />
-                    )}
-                    <span
-                      title={Dropdown.parseContentTitle(dataItem)}
-                      className="dnb-dropdown__option__inner"
-                      onMouseDown={() =>
-                        this.selectItem(i, { fireSelectEvent: true })
+            {!hidden && (
+              <span {...listParams}>
+                {data && data.length > 0 ? (
+                  <ul {...ulParams}>
+                    {data.map((dataItem, i) => {
+                      const isCurrent = i === parseFloat(selected_item)
+                      const params = {
+                        id: `option-${id}-${i}`,
+                        role: 'option',
+                        ['aria-selected']: isCurrent,
+                        className: classnames(
+                          'dnb-dropdown__option',
+                          isCurrent && 'dnb-dropdown__option--selected',
+                          i === active_item &&
+                            'dnb-dropdown__option--focus',
+                          // helper classes
+                          i === this.state.closestToTop &&
+                            'closest-to-top',
+                          i === this.state.closestToBottom &&
+                            'closest-to-bottom',
+                          i === data.length - 1 && 'last-of-type' // because of the triangle element
+                        )
                       }
-                      role="button"
-                      tabIndex="-1"
-                    >
-                      {(Array.isArray(dataItem.content) &&
-                        dataItem.content.map((item, n) => {
-                          return (
-                            <span
-                              key={id + i + n}
-                              className="dnb-dropdown__option__item"
-                            >
-                              {item}
-                            </span>
-                          )
-                        })) ||
-                        dataItem.content ||
-                        dataItem}
+                      return (
+                        <li key={id + i} {...params}>
+                          <span
+                            title={Dropdown.parseContentTitle(dataItem)}
+                            className="dnb-dropdown__option__inner"
+                            data-item={i}
+                            onTouchStart={this.selectItemHandler}
+                            onMouseDown={this.selectItemHandler}
+                            role="button"
+                            tabIndex="-1"
+                          >
+                            {(Array.isArray(dataItem.content) &&
+                              dataItem.content.map((item, n) => {
+                                return (
+                                  <span
+                                    key={id + i + n}
+                                    className="dnb-dropdown__option__item"
+                                  >
+                                    {item}
+                                  </span>
+                                )
+                              })) ||
+                              dataItem.content ||
+                              dataItem}
+                          </span>
+                        </li>
+                      )
+                    })}
+                    <li className="dnb-dropdown__triangle" />
+                  </ul>
+                ) : (
+                  children && (
+                    <span className="dnb-dropdown__content">
+                      {children}
                     </span>
-                  </li>
-                )
-              })}
-            </ul>
+                  )
+                )}
+                {/* <span className="dnb-dropdown__triangle" /> */}
+              </span>
+            )}
           </span>
 
           {showStatus && (
@@ -497,4 +776,14 @@ export default class Dropdown extends Component {
       </>
     )
   }
+}
+
+function getOffseTop(elem) {
+  let offsetTop = 0
+  do {
+    if (!isNaN(elem.offsetTop)) {
+      offsetTop += elem.offsetTop
+    }
+  } while ((elem = elem.offsetParent))
+  return offsetTop
 }
