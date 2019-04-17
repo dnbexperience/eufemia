@@ -69,6 +69,36 @@ describe('Dropdown component', () => {
     expect(Comp.state().hidden).toBe(false)
   })
 
+  it('has correct selected_item on keydown "ArrowDown" and "Enter"', () => {
+    expect(Comp.state().selected_item).toBe(props.selected_item)
+    Comp.find('input').simulate('focus')
+    expect(Comp.state().active_item).toBe(props.selected_item)
+    Comp.find('input').simulate('keyDown', {
+      key: 'ArrowDown',
+      keyCode: 40
+    })
+    Comp.find('input').simulate('keyDown', {
+      key: 'Enter',
+      keyCode: 13
+    })
+    expect(Comp.state().active_item).toBe(props.selected_item + 1)
+    expect(Comp.state().selected_item).toBe(props.selected_item + 1)
+  })
+
+  it('has correct selected_item on key search', () => {
+    Comp.find('input').simulate('focus')
+    Comp.find('input').simulate('keyDown', {
+      key: 'B',
+      keyCode: 66
+    })
+    expect(Comp.state().active_item).toBe(0)
+    Comp.find('input').simulate('keyDown', {
+      key: 'F',
+      keyCode: 70
+    })
+    expect(Comp.state().active_item).toBe(2)
+  })
+
   it('has correct state after "blur" trigger', () => {
     Comp.find('input').simulate('blur')
     expect(Comp.state().opened).toBe(false)

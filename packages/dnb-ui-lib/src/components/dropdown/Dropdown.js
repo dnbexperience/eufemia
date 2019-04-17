@@ -117,14 +117,21 @@ export default class Dropdown extends Component {
   }
 
   static parseOpened = state => /true|on/.test(String(state))
-  static parseContentTitle = (dataItem, separator = '\n') => {
+  static parseContentTitle = (
+    dataItem,
+    { separator = '\n', removeNumericOnlyValues = false } = {}
+  ) => {
     let ret = ''
+    const onlyNumericRegex = /[0-9.,-\s]+/
     if (dataItem.content) {
       ret = Array.isArray(dataItem.content)
         ? dataItem.content
             .reduce((acc, cur) => {
               // remove only numbers
-              const found = cur && cur.match(/[0-9.,-\s]+/)
+              const found =
+                removeNumericOnlyValues &&
+                cur &&
+                cur.match(onlyNumericRegex)
               if (!(found && found[0].length === cur.length)) {
                 acc.push(cur)
               }
@@ -135,7 +142,10 @@ export default class Dropdown extends Component {
     } else if (typeof dataItem === 'string') {
       ret = dataItem
     }
-    if (dataItem.selected_value) {
+    if (
+      dataItem.selected_value &&
+      !onlyNumericRegex.test(dataItem.selected_value)
+    ) {
       ret = dataItem.selected_value + separator + ret
     }
     return ret
@@ -259,7 +269,7 @@ export default class Dropdown extends Component {
   // this gives us the possibility to quickly search for an item
   // by simply pressing any alfabetic key
   findItemByValue(value) {
-    let index
+    let index = -1
 
     try {
       // delete the cache
@@ -273,8 +283,12 @@ export default class Dropdown extends Component {
         this.searchCache ||
         this.state.data.reduce((acc, itemData, i) => {
           const str = String(
-            Dropdown.parseContentTitle(itemData, ' ')
+            Dropdown.parseContentTitle(itemData, {
+              removeNumericOnlyValues: true,
+              separator: ' '
+            })
           ).toLowerCase()
+
           acc[str[0]] = acc[str[0]] || []
           acc[str[0]].push({
             i
@@ -283,7 +297,7 @@ export default class Dropdown extends Component {
         }, {})
 
       const found = this.searchCache[value]
-      index = (found && found[0] && found[0].i) || -1
+      index = found && found[0] && found[0].i > -1 ? found[0].i : -1
 
       // if ther eare several of the same type
       if (found && found.length > 1) {
@@ -313,14 +327,15 @@ export default class Dropdown extends Component {
             `li.dnb-dropdown__option:nth-of-type(${active_item + 1})`
           )
           const top = liElement.offsetTop
-          if (scrollTo) {
-            liElement.parentNode.scrollTop = top
-            liElement.parentNode.scrollTo({
+          const { parentNode } = liElement
+          if (parentNode.scrollTo) {
+            parentNode.scrollTop = top
+          }
+          if (scrollTo && parentNode.scrollTo) {
+            parentNode.scrollTo({
               top,
               behavior: 'smooth'
             })
-          } else {
-            liElement.parentNode.scrollTop = top
           }
         } catch (e) {
           console.log('Dropdown could not scroll into element:', e)
