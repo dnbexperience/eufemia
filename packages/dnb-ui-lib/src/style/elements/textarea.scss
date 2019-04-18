@@ -4,7 +4,7 @@
  */
 
 :root {
-  --textarea-vertical-correction: 4px; // for chromium browsers
+  --textarea-vertical-correction: 0.25rem; // for chromium browsers
   --textarea-padding-width: 0.5rem;
   --textarea-border-inner: 0 0 0 var(--textarea-padding-width)
     var(--color-white);
@@ -26,7 +26,7 @@
   line-height: 1.5rem;
 
   box-shadow: var(--textarea-border-inner),
-    0 0 0 calc(var(--textarea-padding-width) + 1px)
+    0 0 0 calc(var(--textarea-padding-width) + 0.0625rem)
       var(--color-sea-green-alt);
 
   /* IE11 fix */
@@ -39,21 +39,33 @@
   &.status--error,
   .dnb-textarea__status--error {
     box-shadow: var(--textarea-border-inner),
-      0 0 0 calc(var(--textarea-padding-width) + 2px)
+      0 0 0 calc(var(--textarea-padding-width) + 0.125rem)
         var(--color-cherry-red);
   }
   @include hover(true) {
     &:not(.status--error) {
       box-shadow: var(--textarea-border-inner),
-        0 0 0 calc(var(--textarea-padding-width) + 2px)
+        0 0 0 calc(var(--textarea-padding-width) + 0.125rem)
           var(--color-emerald-green);
+
+      /* IE11 fix */
+      @media screen and (-ms-high-contrast: active),
+        (-ms-high-contrast: none) {
+        box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
+      }
     }
   }
   &:focus {
     outline: none;
     box-shadow: var(--textarea-border-inner),
-      0 0 0 calc(var(--textarea-padding-width) + 2px)
+      0 0 0 calc(var(--textarea-padding-width) + 0.125rem)
         var(--color-emerald-green);
+
+    /* IE11 fix */
+    @media screen and (-ms-high-contrast: active),
+      (-ms-high-contrast: none) {
+      box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
+    }
   }
   &[disabled] {
     user-select: none;
@@ -62,7 +74,7 @@
     background-color: var(--color-mint-green-12);
     box-shadow: 0 0 0 var(--textarea-padding-width)
         var(--color-mint-green-12),
-      0 0 0 calc(var(--textarea-padding-width) + 1px)
+      0 0 0 calc(var(--textarea-padding-width) + 0.0625rem)
         var(--color-sea-green-alt-30);
 
     &::-webkit-scrollbar {
