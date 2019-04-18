@@ -150,13 +150,13 @@ export default class StickyMenuBar extends PureComponent {
                     <HeaderInner>
                       <MainMenuToggleButton />
                       <CenterWrapper aria-hidden>
-                        {!isIE11 && (
+                        {isIE11 && (
                           <Advice>
                             Please use other methods to check IE 11
                             compatibility.
                           </Advice>
                         )}
-                        {isIE11 && (
+                        {!isIE11 && (
                           <>
                             <Icon
                               icon={PortalLogo}
