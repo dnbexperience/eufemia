@@ -148,19 +148,24 @@ export default class StickyMenuBar extends PureComponent {
                     )}
                   >
                     <HeaderInner>
-                      {isIE11 && (
-                        <Advice>
-                          The Portal is not made for IE 11 usage.
-                        </Advice>
-                      )}
                       <MainMenuToggleButton />
                       <CenterWrapper aria-hidden>
-                        <Icon
-                          icon={PortalLogo}
-                          size={48}
-                          alt={`${slogan} logo`}
-                        />
-                        <Slogan>{slogan}</Slogan>
+                        {!isIE11 && (
+                          <Advice>
+                            Please use other methods to check IE 11
+                            compatibility.
+                          </Advice>
+                        )}
+                        {isIE11 && (
+                          <>
+                            <Icon
+                              icon={PortalLogo}
+                              size={48}
+                              alt={`${slogan} logo`}
+                            />
+                            <Slogan>{slogan}</Slogan>
+                          </>
+                        )}
                       </CenterWrapper>
                       <span>
                         <Button
@@ -192,14 +197,11 @@ export default class StickyMenuBar extends PureComponent {
 }
 
 const Advice = styled.div`
-  position: absolute;
-  left: 0;
-  top: 0;
-  z-index: 201;
-  height: 1.5rem;
-  width: 100vw;
+  height: 2rem;
+  padding: 0 0.5rem;
   background-color: #e10076;
+  line-height: 2rem;
   color: black;
   text-align: center;
-  box-shadow: 0 0 2px 0 black;
+  border-radius: 0.125rem;
 `
