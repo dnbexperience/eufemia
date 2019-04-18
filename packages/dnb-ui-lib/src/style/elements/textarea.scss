@@ -29,6 +29,13 @@
     0 0 0 calc(var(--textarea-padding-width) + 1px)
       var(--color-sea-green-alt);
 
+  /* IE11 fix */
+  @media screen and (-ms-high-contrast: active),
+    (-ms-high-contrast: none) {
+    -ms-overflow-style: -ms-autohiding-scrollba;
+    box-shadow: 0 0 0 0.0625rem var(--color-sea-green-alt);
+  }
+
   &.status--error,
   .dnb-textarea__status--error {
     box-shadow: var(--textarea-border-inner),

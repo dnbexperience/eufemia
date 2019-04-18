@@ -137,11 +137,6 @@ export default class StickyMenuBar extends PureComponent {
                 }
               }) => (
                 <>
-                  {isIE11 && (
-                    <Advice>
-                      The Portal is not made for IE 11 users.
-                    </Advice>
-                  )}
                   <Header
                     css={[
                       hideSiebarToggleButton && hideSiebarToggleButtonStyle
@@ -153,6 +148,11 @@ export default class StickyMenuBar extends PureComponent {
                     )}
                   >
                     <HeaderInner>
+                      {isIE11 && (
+                        <Advice>
+                          The Portal is not made for IE 11 usage.
+                        </Advice>
+                      )}
                       <MainMenuToggleButton />
                       <CenterWrapper aria-hidden>
                         <Icon
@@ -192,10 +192,10 @@ export default class StickyMenuBar extends PureComponent {
 }
 
 const Advice = styled.div`
-  position: fixed;
+  position: absolute;
   left: 0;
   top: 0;
-  z-index: 1000;
+  z-index: 201;
   height: 1.5rem;
   width: 100vw;
   background-color: #e10076;

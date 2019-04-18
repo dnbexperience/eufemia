@@ -30,25 +30,25 @@ class Example extends PureComponent {
           {`
 const scrollableData = [
   {
-    selected_value: 'Find me by keypress',
     content: 'A'
   },
   {
     content: 'B'
   },
   {
-    selected_value: 'CC',
+    selected_value: '1134.56.78962',
     content: ['1134.56.78962', 'C']
   },
   {
-    selected_value: 'DD',
+    selected_value: '1534.96.48901',
     content: ['1534.96.48901', 'D']
   },
   {
     content: 'E'
   },
   {
-    content: ['F', 'F', 'F', 'F', 'Find me by keypress']
+    selected_value: 'Find me by keypress',
+    content: ['F', 'F', 'F', 'F']
   },
   {
     content: 'G'
@@ -60,7 +60,7 @@ const scrollableData = [
 render(
   <Dropdown
     data={scrollableData}
-    selected_item={0}
+    selected_item={5}
     label="Label:"
   />
 )
