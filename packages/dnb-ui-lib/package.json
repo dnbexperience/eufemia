@@ -128,7 +128,6 @@
     "eslint-plugin-react": "^7.12.4",
     "eslint-plugin-security": "^1.4.0",
     "figma-js": "^1.6.1",
-    "file-loader": "^3.0.1",
     "files-exist": "^1.1.0",
     "fs-extra": "^7.0.1",
     "globby": "^9.2.0",
