@@ -12,6 +12,7 @@
     "build": "webpack --mode=production --display-modules && cp index.html dist/index.html"
   },
   "dependencies": {
+    "css-vars-ponyfill": "^1.17.2",
     "dnb-ui-lib": "*",
     "react": "^16.8.4",
     "react-dom": "^16.8.4"
@@ -21,11 +22,16 @@
     "@babel/plugin-proposal-class-properties": "^7.4.0",
     "@babel/preset-env": "^7.4.3",
     "@babel/preset-react": "^7.0.0",
+    "@emotion/core": "^10.0.10",
+    "@emotion/styled": "^10.0.10",
     "babel-loader": "8.0.5",
+    "babel-plugin-emotion": "^10.0.9",
     "css-loader": "^2.1.1",
     "file-loader": "^3.0.1",
     "mini-css-extract-plugin": "^0.5.0",
     "node-sass": "^4.11.0",
+    "postcss-loader": "^3.0.0",
+    "postcss-preset-env": "^6.6.0",
     "prop-types": "^15.7.2",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",
