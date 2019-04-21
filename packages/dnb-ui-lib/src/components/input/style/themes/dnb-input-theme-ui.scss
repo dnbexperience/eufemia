@@ -29,7 +29,7 @@
 
     @include fakeBorder(
       var(--input-border-color),
-      var(--input-border-width, 1px),
+      var(--input-border-width),
       inset
     );
 
@@ -43,7 +43,7 @@
       color: var(--input-text-color--disabled);
       @include fakeBorder(
         var(--input-border-color--disabled),
-        var(--input-border-width, 1px),
+        var(--input-border-width),
         inset
       );
       background-color: var(--input-background-color--disabled);
@@ -53,10 +53,7 @@
     &[data-input-state='focus'] {
       color: var(--input-text-color--focus);
       background-color: var(--input-background-color--focus);
-      @include fakeBorder(
-        var(--input-border-color--focus),
-        calc(var(--input-border-width, 1px) + 1px)
-      );
+      @include fakeBorder(var(--input-border-color--focus), 0.125rem);
     }
   }
 
@@ -65,10 +62,7 @@
     &,
     &:not([data-input-state='disabled']):hover {
       // In case we want to have a larger border size on the input
-      @include fakeBorder(
-        var(--color-cherry-red),
-        calc(var(--input-border-width, 1px) + 1px)
-      );
+      @include fakeBorder(var(--color-cherry-red), 0.125rem);
     }
   }
 
