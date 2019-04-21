@@ -9,7 +9,11 @@ import ColorsTable from 'Pages/quickguide-designer/colors-table.md'
 
 # Colors
 
-All Colors are provided by CSS Custom Properties. Make sure you have also a PostCSS plugin like [postcss-preset-env](https://github.com/csstools/postcss-preset-env) in place.
+All Colors are provided by CSS Custom Properties.
+
+## Polyfill
+
+Make sure you have also a PostCSS plugin like [postcss-preset-env](https://github.com/csstools/postcss-preset-env) to polyfill support legacy browsers. For Styled Components (CSS-in-JS) use [css-vars-ponyfill](https://github.com/jhildenbiddle/css-vars-ponyfill).
 
 You may have a look at the QuickStart for Designers [About Colors](/quickguide-designer/colors).
 

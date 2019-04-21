@@ -4,21 +4,12 @@
  */
 
 import React, { PureComponent } from 'react'
+import styled from '@emotion/styled'
 
 // With this we get 100kb more in bundle size
-import { Button, Input, Icon } from 'dnb-ui-lib/components'
-import { H1, H2, P, Section } from 'dnb-ui-lib/elements'
-import { bell_medium as Bell } from 'dnb-ui-lib/icons'
-
-// Better for Tree Shaking as webpack treeshaking only works with ES6 module syntax
-// import Icon from 'dnb-ui-lib/es/components/icon/Icon'
-// import Input from 'dnb-ui-lib/es/components/input/Input'
-// import Button from 'dnb-ui-lib/es/components/button/Button'
-// import H1 from 'dnb-ui-lib/es/elements/H1'
-// import H2 from 'dnb-ui-lib/es/elements/H2'
-// import P from 'dnb-ui-lib/es/elements/P'
-// import Section from 'dnb-ui-lib/es/elements/Section'
-// import Bell from 'dnb-ui-lib/icons/bell_medium'
+import { Button, Input, Icon } from 'dnb-ui-lib/src/components'
+import { H1, H2, P, Section } from 'dnb-ui-lib/src/elements'
+import { bell_medium as Bell } from 'dnb-ui-lib/src/icons'
 
 export default class App extends PureComponent {
   state = { inputValue: null }
@@ -53,7 +44,7 @@ export default class App extends PureComponent {
             />
           </Section>
           <Section className="dnb-spacing" useSpacing>
-            <H2>H2</H2>
+            <Title>Colored H2 (by using --color-cherry-red)</Title>
             <P>
               Show me an Icon <Icon icon={Bell} size="medium" />
             </P>
@@ -63,3 +54,11 @@ export default class App extends PureComponent {
     )
   }
 }
+
+/* will be polyfilled by "css-vars-ponyfill" */
+const Title = styled(H2)`
+  &.dnb-h2 {
+    color: blue;
+    color: var(--color-cherry-red);
+  }
+`

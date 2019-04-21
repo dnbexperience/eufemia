@@ -15,5 +15,5 @@ module.exports = {
   ],
   sourceType: 'unambiguous', // we need to set this, once we define: "useBuiltIns: 'usage'"
   ignore: ['node_modules/**'],
-  plugins: ['@babel/plugin-proposal-class-properties']
+  plugins: ['emotion', '@babel/plugin-proposal-class-properties']
 }

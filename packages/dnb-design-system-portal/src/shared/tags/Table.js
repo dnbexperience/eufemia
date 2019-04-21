@@ -47,7 +47,7 @@ export default class Table extends PureComponent {
         return child
 
         // in case we will color the whole tr
-      } else if (0 && child.type === 'tr') {
+      } else if (0 && child.props.originalType === 'tr') {
         const hex = findColor(child.props.children)
         if (hex && hex.length === 7) {
           return (
@@ -58,7 +58,7 @@ export default class Table extends PureComponent {
         }
 
         // in case we will color the whole td
-      } else if (1 && child.type === 'td') {
+      } else if (1 && child.props.originalType === 'td') {
         const hex = findColor(child.props.children)
         if (hex && hex.length === 7) {
           return (
