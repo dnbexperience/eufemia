@@ -1,4 +1,7 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const postcssPresetEnv = require('postcss-preset-env')
+const path = require('path')
+
 module.exports = {
   mode: 'development',
   module: {
@@ -9,9 +12,6 @@ module.exports = {
         use: [
           {
             loader: 'babel-loader'
-            // ,options: {
-            //   rootMode: 'upward'
-            // }
           }
         ]
       },
@@ -21,7 +21,26 @@ module.exports = {
           process.env.NODE_ENV === 'development'
             ? 'style-loader'
             : MiniCssExtractPlugin.loader,
-          'css-loader',
+          { loader: 'css-loader', options: { importLoaders: 1 } },
+          {
+            loader: 'postcss-loader',
+            options: {
+              ident: 'postcss',
+              plugins: () => [
+                postcssPresetEnv({
+                  stage: 0,
+                  preserve: true, // so we get the calc from vars, to process for IE11 later with "postcss-calc"
+                  browsers: ['last 2 versions', 'explorer >= 11'],
+                  importFrom: [
+                    path.resolve(
+                      __dirname,
+                      '../../dnb-ui-lib/style/dnb-ui-core.min.css'
+                    )
+                  ]
+                })
+              ]
+            }
+          },
           'sass-loader'
         ]
       },

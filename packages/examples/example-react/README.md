@@ -1,5 +1,7 @@
 # DNB UI Library - React Example
 
+The Example App has also a CSS Custom Properties Polyfill (ponyfill) in place, because we have some Styled Components usage as well.
+
 ## How to run this Example App
 
 1. Make sure You have installed the dependencies `yarn install`.
