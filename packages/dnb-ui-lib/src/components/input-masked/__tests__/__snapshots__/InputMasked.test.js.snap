@@ -611,7 +611,7 @@ a.dnb-button:active, a.dnb-button:focus {
     display: flex;
     align-items: center;
     overflow: hidden;
-    border: var(--input-border-width, 1px) solid var(--color-sea-green-alt); }
+    border: var(--input-border-width) solid var(--color-sea-green-alt); }
   label + .dnb-input[class*='__form-status'] {
     vertical-align: baseline; }
   .dnb-input__input {
@@ -631,7 +631,7 @@ a.dnb-button:active, a.dnb-button:focus {
     font-size: var(--input-font-size);
     line-height: 1em;
     background-color: transparent;
-    transform: translateY(var(--input-border-width, 1px)); }
+    transform: translateY(var(--input-border-width)); }
   .dnb-input__placeholder {
     pointer-events: none;
     position: absolute;
