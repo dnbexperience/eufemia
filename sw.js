@@ -26,10 +26,10 @@ workbox.clientsClaim();
  */
 self.__precacheManifest = [
   {
-    "url": "webpack-runtime-d0d1c3626b403428843f.js"
+    "url": "webpack-runtime-f4bb53a7f526d3a9b744.js"
   },
   {
-    "url": "styles.676bf074d97e2a35cb1a.css"
+    "url": "styles.36b817922c60066449c1.css"
   },
   {
     "url": "styles-a4809aa21897eca50ba0.js"
@@ -39,7 +39,7 @@ self.__precacheManifest = [
   },
   {
     "url": "offline-plugin-app-shell-fallback/index.html",
-    "revision": "74b58c4ba35f64b3f96ac3c63b0f223b"
+    "revision": "837c947e8898a00f7a8c4e5437d9bab5"
   },
   {
     "url": "static/FedraSansStd-Book-72defec4eb362f240076656e7778176a.woff2"
