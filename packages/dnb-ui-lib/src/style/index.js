@@ -3,4 +3,6 @@
  *
  */
 
-import './index.scss'
+import './dnb-ui-core.scss'
+import './dnb-ui-components.scss'
+import './themes/theme-ui/dnb-theme-ui.scss'
