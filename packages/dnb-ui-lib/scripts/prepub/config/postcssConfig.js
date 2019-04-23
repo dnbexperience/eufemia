@@ -17,13 +17,7 @@ module.exports = ({ IE11 = false, ...options } = {}) => {
       browsers: ['last 2 versions', IE11 ? 'explorer >= 11' : null].filter(
         i => i
       ),
-      importFrom: [
-        extractCSSProperties('./src/style/core/properties.scss', {
-          // includePaths: [
-          //   path.resolve(__dirname, '../../../src/style/core/')
-          // ]
-        })
-      ],
+      importFrom: [extractCSSProperties('./src/style/index.scss')],
       ...options
     }),
 
