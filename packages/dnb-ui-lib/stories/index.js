@@ -10,17 +10,19 @@ import typography from './typographyStories'
 import elements from './elementsStories'
 import helpers from './helperStories'
 
+// for .dnb-core-style usage
+import 'dnb-ui-lib/src/style/basis'
+import 'dnb-ui-lib/src/style/components'
+import 'dnb-ui-lib/src/style/themes/ui'
+
 /* ATTENTION: for testing with IE11, we have to use the build version - make sure to run `yarn build` first */
-// import '../style'
-// import '../style/elements'
+// import 'dnb-ui-lib/style/basis'
+// import 'dnb-ui-lib/style/components'
+// import 'dnb-ui-lib/style/themes/ui'
 
 /* UI style + theme */
 // import '../src/style'
 // import '../src/style/elements'
-
-import 'dnb-ui-lib/src/style/basis'
-import 'dnb-ui-lib/src/style/components'
-import 'dnb-ui-lib/src/style/themes/ui'
 
 /* only import a component scope style, like Button */
 // import '../src/components/button/style'
