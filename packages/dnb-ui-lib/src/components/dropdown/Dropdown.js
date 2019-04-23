@@ -328,14 +328,13 @@ export default class Dropdown extends Component {
           )
           const top = liElement.offsetTop
           const { parentNode } = liElement
-          if (parentNode.scrollTo) {
-            parentNode.scrollTop = top
-          }
           if (scrollTo && parentNode.scrollTo) {
             parentNode.scrollTo({
               top,
               behavior: 'smooth'
             })
+          } else if (parentNode.scrollTop) {
+            parentNode.scrollTop = top
           }
         } catch (e) {
           console.log('Dropdown could not scroll into element:', e)
