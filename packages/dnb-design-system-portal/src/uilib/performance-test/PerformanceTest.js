@@ -16,6 +16,7 @@ import {
   Switch,
   FormLabel
 } from 'dnb-ui-lib/src/components'
+import { H2, P, Hr } from 'dnb-ui-lib/src/elements'
 
 // Content
 import text from 'raw-loader!./lipsum.txt'
@@ -79,51 +80,54 @@ export default class PerformanceTest extends Component {
       this.components.push(<IconTest key={'icon' + i} {...params} />)
     }
     return (
-      <div>
-        <h2>Performance Test of Web Components</h2>
-        <div>
-          <FormLabel for_id="is_active" text="Active" />{' '}
-          <Switch
-            id="is_active"
-            on_change={this.toggleActiveState}
-            checked={this.state.isActive}
-          />
-        </div>
-        <br />
-        <div>
-          <FormLabel for_id="swith_mode" text="Web Components" />{' '}
-          <Switch
-            id="swith_mode"
-            on_change={this.switchMode}
-            checked={this.state.webComponentsEnabled}
-          />
-        </div>
-        <br />
-        <div>
-          <FormLabel for_id="count_to_render" text="Components Count" />{' '}
-          <Input
-            id="count_to_render"
-            on_change={this.onNewCountToRender}
-            value={this.state.countToRender}
-            is_numeric={true}
-          />
-        </div>
-        <br />
+      <>
+        <div className="dnb-section dnb-section--spacing dnb-section--white">
+          <H2>Change testing conditions</H2>
 
-        <div>
-          <FormLabel for_id="test_speed" text="Change interval" />{' '}
-          <Input
-            id="test_speed"
-            on_change={this.onNewTestSpeed}
-            value={this.state.testSpeed}
-            is_numeric={true}
-          />
+          <div className="dnb-form-row">
+            <FormLabel for_id="is_active" text="Active" />{' '}
+            <Switch
+              id="is_active"
+              on_change={this.toggleActiveState}
+              checked={this.state.isActive}
+            />
+          </div>
+
+          <div className="dnb-form-row">
+            <FormLabel for_id="swith_mode" text="Web Components" />{' '}
+            <Switch
+              id="swith_mode"
+              on_change={this.switchMode}
+              checked={this.state.webComponentsEnabled}
+            />
+          </div>
+
+          <div className="dnb-form-row">
+            <FormLabel for_id="count_to_render" text="Components Count" />{' '}
+            <Input
+              id="count_to_render"
+              on_change={this.onNewCountToRender}
+              value={this.state.countToRender}
+              is_numeric={true}
+            />
+          </div>
+
+          <div className="dnb-form-row">
+            <FormLabel for_id="test_speed" text="Change interval" />{' '}
+            <Input
+              id="test_speed"
+              on_change={this.onNewTestSpeed}
+              value={this.state.testSpeed}
+              is_numeric={true}
+            />
+          </div>
         </div>
         <br />
-        <h1 className="dnb-h1">Rendered Components</h1>
+        <H2>Rendered Components</H2>
+        <Hr />
         {this.components}
-        <p>{text}</p>
-      </div>
+        <P>{text}</P>
+      </>
     )
   }
 }
