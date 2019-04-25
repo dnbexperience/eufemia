@@ -12,9 +12,8 @@ copyContentIntoPublic().then(() => {
   console.log('Copied "public folder" successful')
 })
 
-exports.createPages = ({ graphql, actions }) => {
-  const { createPage } = actions
-  return new Promise(async (resolve, reject) => {
+exports.createPages = ({ graphql, actions }) =>
+  new Promise(async (resolve, reject) => {
     const mdxResult = await graphql(/* GraphQL */ `
       {
         allMdx {
@@ -36,20 +35,31 @@ exports.createPages = ({ graphql, actions }) => {
 
     if (mdxResult.errors) {
       console.log(mdxResult.errors)
-      reject(mdxResult.errors)
+      return reject(mdxResult.errors)
     }
 
-    mdxResult.data.allMdx.edges.forEach(({ node }) => {
-      createPage({
-        path: node.fields.slug || '/',
-        component: path.resolve('./src/templates/mdx.js'),
-        context: {
-          id: node.fields.id
-        }
-      })
-    })
+    const { createPage } = actions
+    const { edges } = mdxResult.data.allMdx
+
+    createPages(createPage, edges)
 
     resolve()
+  })
+
+const createPages = (createPage, edges) => {
+  edges.forEach(({ node }, i) => {
+    const prev = i === 0 ? null : edges[i - 1].node
+    const next = i === edges.length - 1 ? null : edges[i + 1].node
+
+    createPage({
+      path: node.fields.slug || '/',
+      component: path.resolve('./src/templates/mdx.js'),
+      context: {
+        id: node.id,
+        prev,
+        next
+      }
+    })
   })
 }
 
@@ -73,16 +83,16 @@ exports.onCreateNode = ({ node, getNode, actions }) => {
 
   if (node.internal.type === 'Mdx') {
     const parent = getNode(node.parent)
-    let value = parent.relativePath.replace(parent.ext, '')
+    let slug = parent.relativePath.replace(parent.ext, '')
 
-    if (value === 'index') {
-      value = ''
+    if (slug === 'index') {
+      slug = '/'
     }
 
     createNodeField({
       name: 'slug',
       node,
-      value: `/${value}`
+      value: `/${slug}`
     })
 
     createNodeField({
