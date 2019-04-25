@@ -1,0 +1,34 @@
+/*
+ * Import all element tags
+ *
+ */
+
+@import './ui-elements.scss';
+
+@mixin executeHTMLTags() {
+  // div
+  @include anchorTag();
+  @include imageTag();
+  @include blockquoteTag();
+  @include hrTag();
+
+  // typography
+  @include typographyTags();
+
+  // lists
+  @include ulTag();
+  @include olTag();
+  @include dlTag();
+
+  // table
+  @include tableTag();
+
+  // form
+  @include formTag();
+  @include labelTag();
+  @include textareaTag();
+
+  // additional
+  @include codeTag();
+  @include preTag();
+}
