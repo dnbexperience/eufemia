@@ -32,3 +32,16 @@ stories.push([
     </Wrapper>
   )
 ])
+
+stories.push([
+  'Section',
+  () => (
+    <Wrapper>
+      <Box>
+        <div className="dnb-section dnb-section--spacing dnb-section--emerald-green">
+          Section
+        </div>
+      </Box>
+    </Wrapper>
+  )
+])

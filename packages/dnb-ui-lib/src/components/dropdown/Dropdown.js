@@ -38,6 +38,7 @@ export const propTypes = {
   direction: PropTypes.oneOf(['auto', 'top', 'bottom']),
   max_height: PropTypes.number,
   no_animation: PropTypes.bool,
+  no_scroll_animation: PropTypes.bool,
   data: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.arrayOf(
@@ -85,6 +86,7 @@ export const defaultProps = {
   max_height: null,
   direction: 'auto',
   no_animation: false,
+  no_scroll_animation: false,
   data: null,
   selected_item: 0,
   opened: false,
@@ -578,6 +580,7 @@ export default class Dropdown extends Component {
       status_animation,
       scrollable,
       no_animation,
+      no_scroll_animation,
       className,
       class: _className,
       disabled,
@@ -613,6 +616,7 @@ export default class Dropdown extends Component {
       icon_position && `dnb-dropdown--icon-position-${icon_position}`,
       `dnb-dropdown--direction-${direction}`,
       scrollable && 'dnb-dropdown--scroll',
+      no_scroll_animation && 'dnb-dropdown--no-scroll-animation',
       opened && 'dnb-dropdown--opened',
       hidden && 'dnb-dropdown--hidden',
       showStatus && 'dnb-dropdown__form-status',
@@ -660,7 +664,7 @@ export default class Dropdown extends Component {
       )
     }
     const ulParams = {
-      className: classnames('dnb-dropdown__options'),
+      className: 'dnb-dropdown__options',
       role: 'listbox',
       tabIndex: '-1',
       ['aria-activedescendant']: `option-${id}-${selected_item}`,

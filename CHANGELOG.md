@@ -1,3 +1,9 @@
+## April, 26. 2019
+
+**Changes to the default styles**
+
+- DNB [section helper class](/uilib/helper-classes/#usage) `.dnb-section` got two new default colors `.dnb-section--emerald-green` and `.dnb-section--signal-orange`.
+
 ## March, 22. 2019
 
 **Changes to the default styles**

@@ -47,8 +47,8 @@ module.exports = {
       options: {
         extensions: ['.mdx', '.md'],
         // More info of using plugins: https://github.com/mdx-js/mdx/blob/d4154b8c4a546d0b675826826f85014cc04098c2/docs/plugins.md
-        mdPlugins: [],
-        hastPlugins: [],
+        rehypePlugins: [], // hastPlugins
+        remarkPlugins: [], // mdPlugins
         gatsbyRemarkPlugins: [
           {
             resolve: 'gatsby-remark-images',

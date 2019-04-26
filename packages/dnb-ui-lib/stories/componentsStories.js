@@ -391,12 +391,7 @@ stories.push([
           </select>
         </Box> */}
         <Box>
-          <Dropdown
-            data={dropdownData}
-            selected_item={0}
-            // scrollable
-            label="Label:"
-          />
+          <Dropdown data={dropdownData} selected_item={0} label="Label:" />
         </Box>
         <Box>
           <Dropdown
@@ -417,6 +412,7 @@ stories.push([
             // direction="top"
             data={dropdownDataScrollable}
             selected_item={4}
+            no_scroll_animation={true}
             status="Message to the user"
           />
           <p className="dnb-p">

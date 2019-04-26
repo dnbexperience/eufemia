@@ -6,6 +6,6 @@ draft: false
 
 import PerformanceTest from 'Src/uilib/performance-test/PerformanceTest'
 
-# Testing Performance
+# Performance Test of Web Components
 
 <PerformanceTest />

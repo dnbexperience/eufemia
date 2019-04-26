@@ -71,7 +71,7 @@ render(
           data-dnb-test="dropdown-closed"
           useRender
           hideSyntaxButton
-          scope={{ no_animation }}
+          scope={{ no_animation, no_scroll_animation: no_animation }}
         >
           {`
 const data = [

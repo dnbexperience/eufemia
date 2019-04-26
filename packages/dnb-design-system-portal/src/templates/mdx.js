@@ -64,6 +64,7 @@ export const pageQuery = graphql`
     mdx(fields: { id: { eq: $id } }) {
       fields {
         title
+        fullscreen
       }
       code {
         body
