@@ -688,6 +688,7 @@ exports[`Dropdown scss have to match snapshot 1`] = `
     .dnb-spacing .dnb-dropdown__options li.dnb-dropdown__option {
       margin: 0; }
   .dnb-dropdown--scroll .dnb-dropdown__options {
+    min-height: 8rem;
     max-height: 50vh;
     overflow-y: scroll;
     overscroll-behavior: contain;
