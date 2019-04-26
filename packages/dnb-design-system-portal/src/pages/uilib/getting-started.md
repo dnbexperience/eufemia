@@ -21,6 +21,6 @@ Do you want to...
 
 ## So, how do I get started?
 
-Check out all the articles in [the usage section](/uilib/usage/)
+You can [**follower this intro**](/uilib/intro), guiding You through all the elementary elements of Eufemia. Or continue reading all the articles in [the usage section](/uilib/usage/).
 
 <WelcomeAdvice />

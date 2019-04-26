@@ -370,12 +370,14 @@ export default class SidebarLayout extends PureComponent {
 
   scrollToActiveItem() {
     if (this._scrollRef.current) {
+      const elem = this._scrollRef.current.querySelector('li.is-active')
+      if (!elem) {
+        return false
+      }
       try {
         const offset = this._scrollRef.current.getBoundingClientRect().top
-        const pos = this._scrollRef.current
-          .querySelector('li.is-active')
-          .getBoundingClientRect().top
-        const top = this._scrollRef.current.scrollTop + pos - offset
+        const rect = elem.getBoundingClientRect()
+        const top = this._scrollRef.current.scrollTop + rect.top - offset
         window.scrollTop = top
         window.scrollTo({
           top,

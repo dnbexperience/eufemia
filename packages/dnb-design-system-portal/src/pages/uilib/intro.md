@@ -3,4 +3,6 @@ fullscreen: true
 draft: true
 ---
 
-# Intro
+import IntroPage from 'Pages/uilib/intro/01-about-design-systems.md'
+
+<IntroPage />
