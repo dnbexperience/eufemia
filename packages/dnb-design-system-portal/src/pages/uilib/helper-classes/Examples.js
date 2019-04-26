@@ -15,6 +15,7 @@ class Example extends PureComponent {
           reactLive
           hideCode
           caption="Helper classes for sections - `.dnb-section`"
+          data-dnb-test="helper-classes-section"
         >
           {/* @html */ `
 <div className="dnb-section">
@@ -22,6 +23,15 @@ class Example extends PureComponent {
 </div>
 <div className="dnb-section dnb-section--spacing">
   Visuall DNB Section, declared with <code className="dnb-code">.dnb-section--spacing</code>
+</div>
+<div className="dnb-section dnb-section--spacing dnb-section--emerald-green">
+  Visuall DNB Section, declared with <code className="dnb-code">.dnb-section--emerald-green</code>
+</div>
+<div className="dnb-section dnb-section--spacing dnb-section--signal-orange">
+  Visuall DNB Section, declared with <code className="dnb-code">.dnb-section--signal-orange</code>
+</div>
+<div className="dnb-section dnb-section--spacing dnb-section--white">
+  Visuall DNB Section, declared with <code className="dnb-code">.dnb-section--signal-white</code>
 </div>
         `}
         </CodeBlock>

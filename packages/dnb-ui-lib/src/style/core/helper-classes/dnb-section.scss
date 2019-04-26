@@ -15,19 +15,32 @@
     top: 0;
     width: 100vw;
     height: 100%;
-    background-color: var(--color-mint-green-12);
+    color: var(--color-mint-green-12);
+    background-color: currentColor;
 
     // we use box-shadow to avoid a horizontal scrollbar
-    box-shadow: 100vw 0 0 0 var(--color-mint-green-12);
+    box-shadow: 100vw 0 0 0 currentColor;
   }
 }
 .dnb-section--spacing {
   padding-top: 2rem;
   padding-bottom: 2rem;
 }
-.dnb-section--white {
+.dnb-section--white::after {
+  color: var(--color-white);
+}
+.dnb-section--emerald-green {
+  color: var(--color-mint-green);
   &::after {
-    background-color: var(--color-white);
-    box-shadow: 100vw 0 0 0 var(--color-white);
+    color: var(--color-emerald-green);
+  }
+  .dnb-code {
+    color: var(--color-emerald-green);
+  }
+}
+.dnb-section--signal-orange {
+  color: var(--color-ocean-green);
+  &::after {
+    color: var(--color-signal-orange);
   }
 }
