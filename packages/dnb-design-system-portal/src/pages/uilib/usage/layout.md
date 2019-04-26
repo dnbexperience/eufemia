@@ -21,11 +21,17 @@ In short, only use `rem` for layouts and spacing and make sure ...
 
 This results in maintaining the integrity of the **8px** base grid.
 
+### Smaller Units
+
+Sometimes You may need a compensation of only a few pixels. Heres how to calculate the correct _rem_ values:
+
+- 1px = `1/16x1` = **0.0625rem**
+- 2px = `1/16x2` = **0.125rem**
+- And so on ...
+
 ## Layout system
 
-If You are working together with an DNB UX Designer, You can decide freely what layout mechanism You want to use. For Web Applications we mainly use **CSS Flexbox** or **CSS Grid**. But it is Your responsibility to ensure 100% consistency and compatibility.
-
-If You are working together with an DNB UX Designer, You can decide freely what layout mechanism You want to use. For Web Applications we mainly use **CSS Flexbox** or **CSS Grid**. But it is Your responsibility to ensure 100% consistency and compatibility.
+If You are working together with an DNB UX Designer, You can decide freely what layout mechanism You want to use. For web applications use **CSS Flexbox** or **CSS Grid**. But it is Your responsibility to ensure 100% consistency and compatibility.
 
 ### Grid Pattern
 
