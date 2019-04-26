@@ -152,6 +152,12 @@ exports.onCreateNode = ({ node, getNode, actions }) => {
       value: node.frontmatter.icon
     })
 
+    createNodeField({
+      name: 'fullscreen',
+      node,
+      value: node.frontmatter.fullscreen
+    })
+
     // File
   } else if (node.internal.type === 'File') {
     const parsedFilePath = path.parse(node.absolutePath)

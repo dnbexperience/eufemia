@@ -24,6 +24,7 @@ import { Logo } from 'dnb-ui-lib/src'
 
 class Layout extends PureComponent {
   static propTypes = {
+    data: PropTypes.object.isRequired,
     children: PropTypes.node.isRequired,
     location: PropTypes.object.isRequired
   }
@@ -37,7 +38,10 @@ class Layout extends PureComponent {
   render() {
     const { children, location } = this.props
 
-    if (/fullscreen/.test(location.search)) {
+    if (
+      this.props.data.mdx.fields.fullscreen ||
+      /fullscreen/.test(location.search)
+    ) {
       return (
         <>
           <Content className="fullscreen-page">
