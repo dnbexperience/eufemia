@@ -152,6 +152,9 @@
     scroll-behavior: smooth;
     -ms-overflow-style: none;
   }
+  &--no-scroll-animation &__options {
+    scroll-behavior: auto;
+  }
 
   // li element
   &__option {
