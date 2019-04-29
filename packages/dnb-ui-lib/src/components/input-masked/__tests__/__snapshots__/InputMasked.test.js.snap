@@ -3,15 +3,23 @@
 exports[`InputMasked component have to match type="text" snapshot 1`] = `
 <InputMasked
   disabled={false}
+  guide={true}
   id="input-masked"
-  mask={Array []}
+  keep_char_positions={true}
+  mask={
+    Array [
+      /\\[a-z\\]/,
+    ]
+  }
   on_blur={null}
   on_change={null}
   on_focus={null}
   on_submit={null}
   on_submit_blur={null}
   on_submit_focus={null}
-  show_mask="show_mask"
+  pipe={null}
+  placeholder_char="placeholder_char"
+  show_mask={true}
   type="text"
   value="test"
 >
@@ -29,7 +37,6 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
     inputElement={[Function]}
     input_class={null}
     label={null}
-    mask={Array []}
     on_blur={null}
     on_change={null}
     on_focus={null}
@@ -38,7 +45,6 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
     on_submit_focus={null}
     placeholder={null}
     readOnly={false}
-    show_mask="show_mask"
     size={null}
     status={null}
     status_animation={null}
@@ -57,7 +63,7 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
         data-has-content="true"
         data-input-state="virgin"
       >
-        <elem
+        <Component
           autoComplete="off"
           className="dnb-input__input"
           id="input-masked"
@@ -66,7 +72,6 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
               "current": null,
             }
           }
-          mask={Array []}
           name="input-masked"
           onBlur={[Function]}
           onChange={[Function]}
@@ -78,13 +83,21 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
           <t
             autoComplete="off"
             className="dnb-input__input"
+            guide={true}
             id="input-masked"
-            mask={Array []}
+            keepCharPositions={true}
+            mask={
+              Array [
+                /\\[a-z\\]/,
+              ]
+            }
             name="input-masked"
             onBlur={[Function]}
             onChange={[Function]}
             onFocus={[Function]}
             onKeyDown={[Function]}
+            pipe={null}
+            placeholderChar="placeholder_char"
             render={[Function]}
             showMask={true}
             type="text"
@@ -103,7 +116,7 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
               type="text"
             />
           </t>
-        </elem>
+        </Component>
       </span>
     </span>
   </Input>

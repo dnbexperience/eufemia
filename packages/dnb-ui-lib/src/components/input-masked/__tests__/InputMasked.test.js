@@ -20,7 +20,10 @@ const props = {
   ...fakeProps(require.resolve('../InputMasked'), {
     optional: true
   }),
-  disabled: false
+  mask: [/[a-z]/],
+  show_mask: true,
+  disabled: false,
+  pipe: null
 }
 props.id = 'input-masked'
 

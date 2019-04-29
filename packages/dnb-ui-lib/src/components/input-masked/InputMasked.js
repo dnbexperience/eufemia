@@ -21,12 +21,20 @@ const renderProps = {
 
 export const propTypes = {
   mask: PropTypes.oneOfType([PropTypes.array, PropTypes.func]),
-  show_mask: PropTypes.oneOfType([PropTypes.string, PropTypes.bool])
+  show_mask: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  guide: PropTypes.bool,
+  pipe: PropTypes.func,
+  keep_char_positions: PropTypes.bool,
+  placeholder_char: PropTypes.string
 }
 
 export const defaultProps = {
   mask: [],
   show_mask: false,
+  guide: true,
+  pipe: null,
+  keep_char_positions: false,
+  placeholder_char: '_',
   ...renderProps
 }
 
@@ -44,27 +52,39 @@ export default class InputMasked extends PureComponent {
     super(props)
   }
   render() {
-    const { mask, show_mask } = this.props
-
-    const params = {
+    const {
       mask,
-      showMask: Boolean(show_mask)
-    }
+      show_mask,
+      guide,
+      pipe,
+      keep_char_positions,
+      placeholder_char,
+      ...props
+    } = this.props
 
-    const elem = ({ innerRef, ...props }) => {
-      return (
-        <MaskedInput
-          ref={ref => {
-            if (innerRef.current) {
-              innerRef.current = ref
-            }
-          }}
-          {...props}
-          {...params}
-        />
-      )
-    }
+    if (!props.inputElement)
+      props.inputElement = ({ innerRef, ...rest }) => {
+        const params = {
+          mask,
+          guide,
+          pipe,
+          showMask: Boolean(show_mask),
+          keepCharPositions: keep_char_positions,
+          placeholderChar: placeholder_char
+        }
+        return (
+          <MaskedInput
+            ref={ref => {
+              if (innerRef.current) {
+                innerRef.current = ref
+              }
+            }}
+            {...rest}
+            {...params}
+          />
+        )
+      }
 
-    return <Input {...this.props} inputElement={elem} />
+    return <Input {...props} />
   }
 }
