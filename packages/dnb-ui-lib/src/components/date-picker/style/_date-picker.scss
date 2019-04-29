@@ -1,0 +1,38 @@
+/*
+* DatePicker component
+*
+*/
+
+:root {
+  --date-picker-input-width-two: 1.5em;
+  --date-picker-input-width-four: 2.5em;
+}
+
+.dnb-date-picker {
+  padding-right: 4rem;
+
+  input {
+    outline: none;
+
+    // display: inline-block;
+    width: var(--date-picker-input-width-two);
+    margin: 0 0.1rem;
+    // width: auto;
+
+    text-align: center;
+    border: none;
+    background: transparent;
+  }
+  input.width-two {
+    width: var(--date-picker-input-width-two);
+  }
+  input.width-four {
+    width: var(--date-picker-input-width-four);
+  }
+  input:first-of-type {
+    margin-left: 1rem;
+  }
+  input:last-of-type {
+    margin-right: 2.5rem;
+  }
+}

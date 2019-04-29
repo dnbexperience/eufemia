@@ -13,6 +13,7 @@ import { registerElement } from '../shared/component-helper'
 
 // import all the aviable components
 import Button from './button/Button'
+import DatePicker from './date-picker/DatePicker'
 import Dropdown from './dropdown/Dropdown'
 import FormLabel from './form-label/FormLabel'
 import FormStatus from './form-status/FormStatus'
@@ -32,6 +33,7 @@ import Tabs from './tabs/Tabs'
 // define / export all the aviable components
 export {
   Button,
+  DatePicker,
   Dropdown,
   FormLabel,
   FormStatus,
@@ -52,6 +54,7 @@ export {
 export const getComponents = () => {
   return {
     Button,
+    DatePicker,
     Dropdown,
     FormLabel,
     FormStatus,

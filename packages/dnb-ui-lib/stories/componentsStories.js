@@ -20,8 +20,10 @@ import {
   Switch,
   Logo,
   StepIndicator
+  // DatePicker
 } from '../src/components'
 import { H2, P, Hr } from '../src/elements'
+import DatePicker from '../src/components/date-picker/DatePicker'
 
 const stories = []
 export default stories
@@ -171,6 +173,19 @@ stories.push([
             description="Description to the user"
             value="Input value with status"
           />
+        </Box>
+      </Wrapper>
+    </CustomStyle>
+  )
+])
+
+stories.push([
+  'DatePicker',
+  () => (
+    <CustomStyle>
+      <Wrapper>
+        <Box>
+          <DatePicker />
         </Box>
       </Wrapper>
     </CustomStyle>
