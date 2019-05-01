@@ -5,41 +5,49 @@
 
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-// import keycode from 'keycode'
 // import {
 //   registerElement,
 //   validateDOMAttributes,
 //   processChildren,
 //   dispatchCustomElementEvent
 // } from '../../shared/component-helper'
-// import Icon from '../icon-primary/IconPrimary'
-import Input from '../input/Input'
+import DatePickerRange from './DatePickerRange'
+import DatePickerInput from './DatePickerInput'
 
 const renderProps = {
   on_change: null
 }
 
 export const propTypes = {
-  mask: PropTypes.string
-  // show_mask: PropTypes.oneOfType([PropTypes.string, PropTypes.bool])
+  mask: PropTypes.string,
+  label: PropTypes.string
 }
 
 export const defaultProps = {
-  // mask: ['DD', 'MM', 'YYYY'],
   mask: 'dd/mm/yyyy',
-  // show_mask: false,
+  label: null,
   ...renderProps
 }
 
 export default class DatePicker extends PureComponent {
-  // static tagName = 'dnb-input-masked'
+  static tagName = 'dnb-date-picker'
   static propTypes = propTypes
   static defaultProps = defaultProps
   static renderProps = renderProps
 
   // static enableWebComponent() {
-  //   registerElement(InputMasked.tagName, InputMasked, defaultProps)
+  //   registerElement(DatePicker.tagName, DatePicker, defaultProps)
   // }
+
+  state = {
+    pickerIsVisible: false,
+    // startDay: null,
+    // startMonth: null,
+    // startYear: null,
+    // date: null,
+    startDate: null,
+    endDate: null
+  }
 
   constructor(props) {
     super(props)
@@ -52,94 +60,131 @@ export default class DatePicker extends PureComponent {
       }
       return acc
     }, [])
-    // console.log('this.maskList', this.maskList)
+
+    // this.dayRef = React.createRef()
   }
-  render() {
-    // const {
-    //   mask,
-    //   // show_mask,
-    //   // guide,
-    //   // pipe,
-    //   // keep_char_positions,
-    //   // placeholder_char,
-    //   ...props
-    // } = this.props
 
-    // const params = {
-    //   mask,
-    //   showMask: Boolean(show_mask),
-    //   guide,
-    //   pipe,
-    //   keepCharPositions: keep_char_positions,
-    //   placeholderChar: placeholder_char
-    // }
+  onInputChange = ({ startDate, endDate }) => {
+    console.log('onInputChange', startDate, endDate)
+    // const startDate = null
+    // parseFloat(this.state.startMonth) > -1
+    //   ? new Date(
+    //       this.state.startYear,
+    //       this.state.startMonth - 1,
+    //       this.state.startDay
+    //     )
+    //   : null
 
-    const list = this.maskList.map((m, i) => {
-      if (/[a-z]/.test(m)) {
-        switch (m.slice(0, 1)) {
-          case 'd':
-            return <DayInput key={'d' + i} value={m} />
-          case 'm':
-            return <MonthInput key={'m' + i} value={m} />
-          case 'y':
-            return <YearInput key={'y' + i} value={m} />
-        }
-      }
-      return m
+    // console.log('startDate', this.state.startMonth, '|', startDate)
+
+    this.setState({
+      startDate,
+      endDate
     })
+  }
 
+  onPickerChange = ({ startDate, endDate }) => {
+    // const startDay = pad(format(startDate, 'D'), 2)
+    // const startMonth = pad(format(startDate, 'M'), 2)
+    // const startYear = format(startDate, 'YYYY')
+    // const endDay = pad(format(endDate, 'D'), 2)
+    // const endMonth = pad(format(endDate, 'M'), 2)
+    // const endYear = format(endDate, 'YYYY')
+    this.setState({
+      startDate,
+      endDate
+      //   startDay,
+      //   startMonth,
+      //   startYear,
+      //   endDay,
+      //   endMonth,
+      //   endYear,
+      //   startDate,
+      //   endDate
+    })
+    // const date = new Date(startYear, startMonth - 1, startDay)
+    // console.log('date', date)
+  }
+
+  showPicker = () => {
+    this.setState({
+      pickerIsVisible: true
+    })
+  }
+
+  hidePicker = () => {
+    this.setState({
+      pickerIsVisible: false
+    })
+  }
+
+  togglePicker = () => {
+    const pickerIsVisible = !this.state.pickerIsVisible
+    this.setState({
+      pickerIsVisible
+    })
+  }
+
+  // setStartDay = event => {
+  //   try {
+  //     let startDay = event.currentTarget.value
+  //     if (parseFloat(startDay) > 0 && startDay.length === 2) {
+  //       startDay = pad(parseFloat(event.currentTarget.value), 2)
+  //       this.setState({
+  //         startDay
+  //       })
+  //     }
+  //   } catch (e) {
+  //     console.log(e)
+  //   }
+  // }
+  //
+  // setStartMonth = event => {
+  //   try {
+  //     let startMonth = event.currentTarget.value
+  //     if (parseFloat(startMonth) > 0 && startMonth.length === 2) {
+  //       startMonth = pad(parseFloat(event.currentTarget.value), 2)
+  //       this.setState({
+  //         startMonth
+  //       })
+  //     }
+  //   } catch (e) {
+  //     console.log(e)
+  //   }
+  // }
+  //
+  // setStartYear = event => {
+  //   try {
+  //     const startYear = event.currentTarget.value
+  //     if (parseFloat(startYear) > 0 && startYear.length === 4) {
+  //       this.setState({
+  //         startYear
+  //       })
+  //     }
+  //   } catch (e) {
+  //     console.log(e)
+  //   }
+  // }
+
+  render() {
     return (
       <span className="dnb-date-picker">
-        <Input
-          label="Date:"
-          inputElement={() => {
-            return <span className="dnb-date-picker--shell">{list}</span>
-          }}
-          on_submit={e => {
-            console.log('on_submit', e)
-          }}
-          submit_button_icon="calendar"
-          on_change={val => {
-            console.log('val', val)
-          }}
+        <DatePickerInput
+          label={this.props.label}
+          onChange={this.onInputChange}
+          onFocus={this.showPicker}
+          onSubmit={this.togglePicker}
+          startDate={this.state.startDate}
+          endDate={this.state.endDate}
         />
+        {this.state.pickerIsVisible && (
+          <DatePickerRange
+            onChange={this.onPickerChange}
+            startDate={this.state.startDate}
+            endDate={this.state.endDate}
+          />
+        )}
       </span>
     )
   }
 }
-
-const DayInput = () => (
-  <input
-    className="width-two"
-    defaultValue="dd"
-    maxLength="2"
-    aria-label="Day"
-  />
-)
-const MonthInput = () => (
-  <input
-    className="width-two"
-    defaultValue="mm"
-    maxLength="2"
-    aria-label="Month"
-  />
-)
-const YearInput = () => (
-  <input
-    className="width-four"
-    defaultValue="yyyy"
-    maxLength="4"
-    aria-label="Year"
-  />
-)
-
-// const pascalCase = s => {
-//   return s.replace(/\w+/g, function(w) {
-//     return w[0].toUpperCase() + w.slice(1).toLowerCase()
-//   })
-// }
-
-// const pascalCase = s =>
-//   s.replace(/(\w)(\w*)/g, function(g0, g1, g2) {
-//     return g1.toUpperCase() + g2.toLowerCase()
-//   })

@@ -19,11 +19,10 @@ import {
   Dropdown,
   Switch,
   Logo,
-  StepIndicator
-  // DatePicker
+  StepIndicator,
+  DatePicker
 } from '../src/components'
 import { H2, P, Hr } from '../src/elements'
-import DatePicker from '../src/components/date-picker/DatePicker'
 
 const stories = []
 export default stories
@@ -185,7 +184,7 @@ stories.push([
     <CustomStyle>
       <Wrapper>
         <Box>
-          <DatePicker />
+          <DatePicker label="Date:" start_date="03/04/1981" />
         </Box>
       </Wrapper>
     </CustomStyle>
