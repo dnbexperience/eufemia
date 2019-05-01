@@ -4,30 +4,13 @@
 */
 
 :root {
-  // --date-picker-input-width-day: 1.5em;
-  // --date-picker-input-width-month: 2em;
-  // --date-picker-input-width-year: 2.5em;
-
-  // --nav-buttons-color: inherit;
   --date-picker-today-color: inherit; // The DNB UX team has desiced to not show today diffrently
   --date-picker-header-color: var(--color-emerald-green);
   --date-picker-labels-day-color: var(--color-emerald-green);
   --date-picker-selected-color: var(--color-mint-green-25);
   --date-picker-selected-bg-color: var(--color-emerald-green);
   --date-picker-selected-bg-color-hover: var(--color-emerald-green);
-  // --date-picker-within-selection-color: inherit;
-  --date-picker-within-selection-color: var(--color-emerald-green);
   --date-picker-within-selection-bg-color: var(--color-mint-green-50);
-  // --date-picker-unselected-hover-color: inherit;
-  // --date-picker-unselected-hover-bg-color: var(--color-mint-green-50);
-  // --date-picker-preview-selection-bg-color: var(--color-mint-green-50);
-  // --date-picker-day-inactive-color: var(--color-sea-green-alt-30);
-
-  // day-button
-  // --day-border-radius: 4px;
-  // --date-picker-day-button--color: inherit;
-  // --date-picker-day-button--padding: 11px;
-  // --date-picker-day-button--margin: 4px;
 }
 
 .dnb-date-picker {
@@ -190,24 +173,6 @@
       background-color: var(--date-picker-selected-bg-color);
     }
 
-    // &--start-date .dnb-button,
-    // &--within-selection#{&}--end-date .dnb-button {
-    //   color: var(--date-picker-selected-color);
-    //   background-color: var(--date-picker-selected-bg-color);
-    // }
-    // &--start-date:not(#{&}--within-selection) .dnb-button,
-    // &--within-selection
-    // &:not(#{&}--preview)
-    //   ~ &--end-date:not(#{&}--within-selection)
-    //   .dnb-button {
-    //   color: var(--date-picker-within-selection-color);
-    //   background-color: var(--date-picker-within-selection-bg-color);
-    // }
-    // &--end-date:hover .dnb-button {
-    //   color: var(--date-picker-within-selection-color);
-    //   background-color: var(--date-picker-within-selection-bg-color);
-    // }
-
     &--start-date,
     &--end-date {
       position: relative;
@@ -272,21 +237,5 @@
     .dnb-date-picker__next::before {
       transform: scaleX(-1);
     }
-
-    // .start-date {
-    //   border-top-left-radius: 0;
-    //   border-bottom-left-radius: 0;
-    //
-    //   border-top-right-radius: var(--day-border-radius);
-    //   border-bottom-right-radius: var(--day-border-radius);
-    // }
-    //
-    // .end-date {
-    //   border-top-right-radius: 0;
-    //   border-bottom-right-radius: 0;
-    //
-    //   border-top-left-radius: var(--day-border-radius);
-    //   border-bottom-left-radius: var(--day-border-radius);
-    // }
   }
 }

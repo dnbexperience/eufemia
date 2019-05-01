@@ -1,5 +1,5 @@
 /*
-* Dropdown theme
+* DatePicker theme
 *
 */
 
@@ -7,61 +7,3 @@
 
 // :root {
 // }
-
-/* .dnb-date-picker__calendar {
-  font-family: sans-serif;
-  font-size: 12px;
-  padding: 10px;
-}
-.header .title {
-  color: #000;
-}
-.dnb-date-picker__prev:before {
-  content: '';
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 5px 8px 5px 0;
-  border-color: transparent #000 transparent transparent;
-}
-.dnb-date-picker__next:before {
-  content: '';
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 5px 0 5px 8px;
-  border-color: transparent transparent transparent #000;
-}
-.dnb-date-picker__labels {
-  color: #000;
-}
-.dnb-date-picker__labels--day {
-  font-weight: bold;
-}
-.day-of-month {
-  color: #000;
-}
-.day-of-month.today {
-  color: grey;
-}
-.day-of-month.within-selection {
-  color: #000;
-  background-color: #93c9f4;
-}
-.day-of-month.selectable:hover {
-  color: #fff;
-  background-color: #a4a9b1;
-}
-.day-of-month.selectable:not(.start-date):not(.end-date):not(.preview):not(.within-selection) {
-  border-radius: 4px;
-}
-.day-of-month.start-date:hover, .day-of-month.end-date:hover {
-  background-color: #1789E3;
-}
-.day-of-month.start-date, .day-of-month.end-date {
-  color: #fff;
-  background-color: #2693e8;
-}
-.day-of-month.preview {
-  background-color: #D2D4D8;
-} */
