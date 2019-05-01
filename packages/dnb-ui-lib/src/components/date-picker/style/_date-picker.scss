@@ -4,35 +4,289 @@
 */
 
 :root {
-  --date-picker-input-width-two: 1.5em;
-  --date-picker-input-width-four: 2.5em;
+  // --date-picker-input-width-day: 1.5em;
+  // --date-picker-input-width-month: 2em;
+  // --date-picker-input-width-year: 2.5em;
+
+  // --nav-buttons-color: inherit;
+  --date-picker-today-color: inherit; // The DNB UX team has desiced to not show today diffrently
+  --date-picker-header-color: var(--color-emerald-green);
+  --date-picker-labels-day-color: var(--color-emerald-green);
+  --date-picker-selected-color: var(--color-mint-green-25);
+  --date-picker-selected-bg-color: var(--color-emerald-green);
+  --date-picker-selected-bg-color-hover: var(--color-emerald-green);
+  // --date-picker-within-selection-color: inherit;
+  --date-picker-within-selection-color: var(--color-emerald-green);
+  --date-picker-within-selection-bg-color: var(--color-mint-green-50);
+  // --date-picker-unselected-hover-color: inherit;
+  // --date-picker-unselected-hover-bg-color: var(--color-mint-green-50);
+  // --date-picker-preview-selection-bg-color: var(--color-mint-green-50);
+  // --date-picker-day-inactive-color: var(--color-sea-green-alt-30);
+
+  // day-button
+  // --day-border-radius: 4px;
+  // --date-picker-day-button--color: inherit;
+  // --date-picker-day-button--padding: 11px;
+  // --date-picker-day-button--margin: 4px;
 }
 
 .dnb-date-picker {
-  padding-right: 4rem;
+  position: absolute;
 
-  input {
+  &__input {
+    display: inline-block;
     outline: none;
 
-    // display: inline-block;
-    width: var(--date-picker-input-width-two);
-    margin: 0 0.1rem;
-    // width: auto;
+    width: auto;
 
     text-align: center;
     border: none;
     background: transparent;
+    overflow: visible;
+
+    color: var(--color-sea-green);
+
+    white-space: nowrap;
   }
-  input.width-two {
-    width: var(--date-picker-input-width-two);
+  &__input:first-of-type {
+    margin-left: 0.8rem;
   }
-  input.width-four {
-    width: var(--date-picker-input-width-four);
+  &__input:last-of-type {
+    margin-right: 2.2rem;
   }
-  input:first-of-type {
-    margin-left: 1rem;
+
+  &--separator {
+    margin: 0 -0.1rem;
+    color: var(--color-sea-green);
   }
-  input:last-of-type {
-    margin-right: 2.5rem;
+
+  // stylelint-disable-next-line
+  &__input,
+  .dnb-core-style &__input {
+    font-family: /* macOS 10.10+ */ Menlo, /* Windows 6+ */ Consolas,
+      /* Android 4+ */ Roboto Mono, /* Ubuntu 10.10+ */ Ubuntu Monospace,
+      /* KDE Plasma 5+ */ Noto Mono, /* KDE Plasma 4+ */ Oxygen Mono,
+      /* Linux/OpenOffice fallback */ Liberation Mono,
+      /* fallback */ monospace; /* 1 */
+  }
+
+  &__range {
+    display: flex;
+    user-select: none;
+  }
+
+  &__calendar {
+    padding: 1rem;
+    background-color: var(--color-white);
+  }
+
+  &__header {
+    position: relative;
+
+    display: flex;
+    padding-bottom: 1rem;
+
+    // border
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 1px;
+      background-color: var(--color-mint-green-50);
+    }
+
+    &__nav .dnb-button {
+      box-shadow: none;
+    }
+    &__nav,
+    &__title {
+      display: flex;
+      justify-content: center;
+      flex-basis: percentage(1 / 7);
+    }
+    &__title {
+      flex-basis: percentage(5 / 7);
+
+      text-transform: capitalize;
+      color: var(--date-picker-header-color);
+    }
+  }
+
+  &__labels {
+    cursor: default;
+
+    &__day {
+      padding: 1.5rem 0 0.5rem;
+
+      text-transform: capitalize;
+      font-weight: var(--font-weight-demi);
+      color: var(--date-picker-labels-day-color);
+    }
+  }
+
+  &__labels,
+  &__days {
+    min-width: 12rem;
+    max-width: 18rem;
+
+    display: flex;
+    flex-wrap: wrap;
+
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__day,
+  &__labels__day {
+    display: flex;
+    flex-basis: percentage(1 / 7);
+    justify-content: center;
+
+    text-align: center;
+  }
+
+  &__day {
+    position: relative;
+
+    width: 2rem; // medium size
+    height: 2rem; // medium size
+    margin: 4px 0;
+
+    .dnb-button {
+      position: absolute;
+      top: 0;
+      width: 2rem; // medium size
+      height: 2rem; // medium size
+
+      box-shadow: none;
+    }
+
+    &--today .dnb-button {
+      color: var(--date-picker-today-color);
+    }
+
+    &--preview .dnb-button,
+    &--preview#{&}--inactive .dnb-button,
+    &--within-selection:not(#{&}--start-date):not(#{&}--end-date)
+      .dnb-button {
+      background-color: transparent;
+    }
+
+    &--preview:not(#{&}--start-date):not(#{&}--end-date),
+    &--within-selection:not(#{&}--start-date):not(#{&}--end-date) {
+      background-color: var(--date-picker-within-selection-bg-color);
+    }
+    &--selectable:hover {
+      z-index: 2;
+      // cursor: pointer;
+    }
+
+    &--start-date .dnb-button,
+    &--end-date .dnb-button {
+      z-index: 1;
+      color: var(--date-picker-selected-color);
+      background-color: var(--date-picker-selected-bg-color);
+    }
+
+    // &--start-date .dnb-button,
+    // &--within-selection#{&}--end-date .dnb-button {
+    //   color: var(--date-picker-selected-color);
+    //   background-color: var(--date-picker-selected-bg-color);
+    // }
+    // &--start-date:not(#{&}--within-selection) .dnb-button,
+    // &--within-selection
+    // &:not(#{&}--preview)
+    //   ~ &--end-date:not(#{&}--within-selection)
+    //   .dnb-button {
+    //   color: var(--date-picker-within-selection-color);
+    //   background-color: var(--date-picker-within-selection-bg-color);
+    // }
+    // &--end-date:hover .dnb-button {
+    //   color: var(--date-picker-within-selection-color);
+    //   background-color: var(--date-picker-within-selection-bg-color);
+    // }
+
+    &--start-date,
+    &--end-date {
+      position: relative;
+
+      &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        width: 1rem;
+        height: 100%;
+        background-color: var(--date-picker-within-selection-bg-color);
+      }
+    }
+    &--start-date::after {
+      left: auto;
+      right: 0;
+    }
+    &--end-date::after {
+      left: 0;
+      right: auto;
+    }
+    &--start-date#{&}--end-date::after {
+      content: none;
+    }
+
+    :not([dnb-is-touch])
+      &--start-date#{&}--within-selection
+      .dnb-button:hover:not([disabled]),
+    :not([dnb-is-touch])
+      &--end-date#{&}--within-selection
+      .dnb-button:hover:not([disabled]) {
+      color: var(--date-picker-selected-color);
+      background-color: var(--date-picker-selected-bg-color-hover);
+    }
+
+    &--inactive#{&}--start-date,
+    &--inactive#{&}--end-date {
+      .dnb-button {
+        background-color: var(--date-picker-within-selection-bg-color);
+      }
+    }
+
+    &--inactive .dnb-button,
+    &--disabled .dnb-button {
+      &[disabled] {
+        box-shadow: none;
+      }
+    }
+
+    :not([dnb-is-touch]) &--inactive .dnb-button:hover[disabled] {
+      cursor: default;
+    }
+  }
+
+  .rtl {
+    direction: rtl;
+
+    .dnb-date-picker__prev::before {
+      transform: scaleX(-1);
+    }
+
+    .dnb-date-picker__next::before {
+      transform: scaleX(-1);
+    }
+
+    // .start-date {
+    //   border-top-left-radius: 0;
+    //   border-bottom-left-radius: 0;
+    //
+    //   border-top-right-radius: var(--day-border-radius);
+    //   border-bottom-right-radius: var(--day-border-radius);
+    // }
+    //
+    // .end-date {
+    //   border-top-right-radius: 0;
+    //   border-bottom-right-radius: 0;
+    //
+    //   border-top-left-radius: var(--day-border-radius);
+    //   border-bottom-left-radius: var(--day-border-radius);
+    // }
   }
 }
