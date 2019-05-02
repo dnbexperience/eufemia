@@ -18,6 +18,7 @@
     &__tablist {
       display: flex;
       flex-direction: row;
+      align-self: flex-end; // on case we use dnb-section
 
       &:focus {
         @include fakeFocus();
