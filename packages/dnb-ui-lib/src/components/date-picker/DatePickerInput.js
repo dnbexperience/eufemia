@@ -94,11 +94,11 @@ export default class DatePicker extends PureComponent {
   }
 
   setEndDay = event => {
-    this.setStartDate(event, 2, 'endDay', setDate)
+    this.setEndDate(event, 2, 'endDay', setDate)
   }
 
   setEndMonth = event => {
-    this.setStartDate(event, 2, 'endMonth', setMonth)
+    this.setEndDate(event, 2, 'endMonth', setMonth)
   }
 
   setEndYear = event => {
@@ -111,14 +111,34 @@ export default class DatePicker extends PureComponent {
 
   setStartDate = (event, count, type, fn) => {
     try {
+      let value = event.currentTarget.value
+      if (
+        parseFloat(value) > 0 &&
+        new RegExp(`[0-9]{${count}}`).test(value)
+      ) {
+        if (type === 'startMonth' || type === 'endMonth') {
+          value--
+        }
+        const startDate = fn(this.state.startDate, parseFloat(value))
+        this.callOnChange({
+          startDate
+        })
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  setEndDate = (event, count, type, fn) => {
+    try {
       const value = event.currentTarget.value
       if (
         parseFloat(value) > 0 &&
         new RegExp(`[0-9]{${count}}`).test(value)
       ) {
-        const startDate = fn(this.state.startDate, parseFloat(value))
+        const endDate = fn(this.state.endDate, parseFloat(value))
         this.callOnChange({
-          startDate
+          endDate
         })
       }
     } catch (e) {
@@ -148,13 +168,8 @@ export default class DatePicker extends PureComponent {
     }
   }
 
-  // componentDidMount() {
-  // console.log('this.dayRef', this.dayRef.current.inputElement)
-  // this.dayRef.current.inputElement.value = '12'
-  // }
-
-  render() {
-    const list = this.maskList.map((m, i) => {
+  generateStartDateList() {
+    return this.maskList.map((m, i) => {
       if (/[a-z]/.test(m)) {
         const params = {}
         switch (m.slice(0, 1)) {
@@ -220,12 +235,93 @@ export default class DatePicker extends PureComponent {
         </span>
       )
     })
+  }
+
+  generateEndDateList() {
+    return this.maskList.map((m, i) => {
+      if (/[a-z]/.test(m)) {
+        const params = {}
+        switch (m.slice(0, 1)) {
+          case 'd':
+            if (this.isValidDate(this.state.endDate)) {
+              params.value = pad(format(this.state.endDate, 'D'), 2)
+            }
+            return (
+              <InputElement
+                key={'d' + i}
+                className="dnb-date-picker__input dnb-date-picker__input--day"
+                size="2"
+                mask={[/[0-3]/, /[0-9]/]}
+                placeholderChar="d"
+                onFocus={this.props.onFocus}
+                onMouseUp={selectInput}
+                onChange={this.setEndDay}
+                // ref={this.dayRef}
+                // defaultValue={this.state.endDay}
+                // innerRef={innerRef}
+                {...params}
+              />
+            )
+          case 'm':
+            if (this.isValidDate(this.state.endDate)) {
+              params.value = pad(format(this.state.endDate, 'M'), 2)
+            }
+            return (
+              <InputElement
+                key={'m' + i}
+                className="dnb-date-picker__input dnb-date-picker__input--month"
+                size="2"
+                mask={[/[0-1]/, /[0-9]/]}
+                placeholderChar="m"
+                onFocus={this.props.onFocus}
+                onMouseUp={selectInput}
+                onChange={this.setEndMonth}
+                {...params}
+              />
+            )
+          case 'y':
+            if (this.isValidDate(this.state.endDate)) {
+              params.value = format(this.state.endDate, 'YYYY')
+            }
+            return (
+              <InputElement
+                key={'y' + i}
+                className="dnb-date-picker__input dnb-date-picker__input--year"
+                size="4"
+                mask={[/[1-2]/, /[0-9]/, /[0-9]/, /[0-9]/]}
+                placeholderChar="y"
+                onFocus={this.props.onFocus}
+                onMouseUp={selectInput}
+                onChange={this.setEndYear}
+                {...params}
+              />
+            )
+        }
+      }
+      return (
+        <span key={'s' + i} className="dnb-date-picker--separator">
+          {m}
+        </span>
+      )
+    })
+  }
+
+  // componentDidMount() {
+  // console.log('this.dayRef', this.dayRef.current.inputElement)
+  // this.dayRef.current.inputElement.value = '12'
+  // }
+
+  render() {
+    const startDateList = this.generateStartDateList()
+    const endDateList = this.generateEndDateList()
 
     return (
       <Input
         label={this.props.label}
         inputElement={
-          <span className="dnb-date-picker--shell">{list}</span>
+          <span className="dnb-date-picker--shell">
+            {startDateList} - {endDateList}
+          </span>
         }
         on_submit={this.props.onSubmit}
         submit_button_icon="calendar"
