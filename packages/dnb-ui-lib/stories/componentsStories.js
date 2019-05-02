@@ -184,8 +184,11 @@ stories.push([
     <CustomStyle>
       <Wrapper>
         <Box>
-          <DatePicker label="Date:" start_date="03/04/1981" />
+          <DatePicker label="Date:" start_date="2013-02-05T16:30:01Z" />
         </Box>
+        {/* <Box>
+          <DatePicker label="Date:" start_date={new Date()} />
+        </Box> */}
       </Wrapper>
     </CustomStyle>
   )
