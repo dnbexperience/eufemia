@@ -594,8 +594,6 @@ exports[`Input scss have to match snapshot 1`] = `
   line-height: 1.5rem;
   color: var(--color-black-80, #333);
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  font-variant-numeric: lining-nums;
-  font-feature-settings: \\"lnum\\";
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -606,6 +604,9 @@ exports[`Input scss have to match snapshot 1`] = `
   */
   margin: 0;
   padding: 0; }
+  .dnb-button * {
+    font-variant-numeric: lining-nums;
+    font-feature-settings: \\"lnum\\"; }
   .dnb-button *,
   .dnb-button ::before,
   .dnb-button ::after {
@@ -816,8 +817,6 @@ a.dnb-button:active, a.dnb-button:focus {
   line-height: 1.5rem;
   color: var(--color-black-80, #333);
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  font-variant-numeric: lining-nums;
-  font-feature-settings: \\"lnum\\";
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -828,6 +827,9 @@ a.dnb-button:active, a.dnb-button:focus {
   */
   margin: 0;
   padding: 0; }
+  .dnb-form-label * {
+    font-variant-numeric: lining-nums;
+    font-feature-settings: \\"lnum\\"; }
   .dnb-form-label *,
   .dnb-form-label ::before,
   .dnb-form-label ::after {
@@ -875,8 +877,6 @@ a.dnb-button:active, a.dnb-button:focus {
   line-height: 1.5rem;
   color: var(--color-black-80, #333);
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  font-variant-numeric: lining-nums;
-  font-feature-settings: \\"lnum\\";
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -887,6 +887,9 @@ a.dnb-button:active, a.dnb-button:focus {
   */
   margin: 0;
   padding: 0; }
+  .dnb-form-status * {
+    font-variant-numeric: lining-nums;
+    font-feature-settings: \\"lnum\\"; }
   .dnb-form-status *,
   .dnb-form-status ::before,
   .dnb-form-status ::after {
@@ -955,8 +958,6 @@ a.dnb-button:active, a.dnb-button:focus {
   line-height: 1.5rem;
   color: var(--color-black-80, #333);
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  font-variant-numeric: lining-nums;
-  font-feature-settings: \\"lnum\\";
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -967,6 +968,9 @@ a.dnb-button:active, a.dnb-button:focus {
   */
   margin: 0;
   padding: 0; }
+  .dnb-input * {
+    font-variant-numeric: lining-nums;
+    font-feature-settings: \\"lnum\\"; }
   .dnb-input *,
   .dnb-input ::before,
   .dnb-input ::after {
