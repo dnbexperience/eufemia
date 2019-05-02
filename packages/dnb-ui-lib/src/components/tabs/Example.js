@@ -64,7 +64,7 @@ render(<Tabs data={data}>
 />
           `}
         </ComponentBox>
-        <ComponentBox caption="eft aligned tabs, using React Components only">
+        <ComponentBox caption="Left aligned tabs, using React Components only">
           {/* @jsx */ `
 <Tabs section_style="mint-green">
   <Tabs.Content title="First">

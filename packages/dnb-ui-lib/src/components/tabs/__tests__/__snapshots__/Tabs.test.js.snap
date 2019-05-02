@@ -206,12 +206,15 @@ exports[`Tabs scss have to match default theme snapshot 1`] = `
 /*
  * Utilities
  */
-.dnb-tabs__tabs:not(.dnb-section)::after {
+.dnb-tabs__tabs::before {
   background-color: var(--color-mint-green-50);
   box-shadow: 100vw 0 0 0 var(--color-mint-green-50); }
 
+.dnb-tabs__tabs.dnb-section::before {
+  z-index: 0; }
+
 @media screen and (max-width: 40em) {
-  .dnb-tabs__tabs:not(.dnb-section)::before {
+  .dnb-tabs__tabs:not(.dnb-section)::after {
     content: '';
     position: absolute;
     z-index: -1;
@@ -221,9 +224,6 @@ exports[`Tabs scss have to match default theme snapshot 1`] = `
     height: 1px;
     background-color: var(--color-mint-green-50);
     box-shadow: 100vw 0 0 0 var(--color-mint-green-50); } }
-
-.dnb-tabs__tabs.dnb-section::after {
-  height: 100%; }
 
 .dnb-tabs__tabs__tablist {
   margin: 0 -1rem;
@@ -389,7 +389,7 @@ exports[`Tabs scss have to match snapshot 1`] = `
       height: 1px; }
   .dnb-tabs__tabs .dnb-tablink:first-child {
     margin-left: 0; }
-  .dnb-tabs__tabs::after {
+  .dnb-tabs__tabs::before {
     content: '';
     position: absolute;
     z-index: -1;
