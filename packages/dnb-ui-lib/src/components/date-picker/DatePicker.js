@@ -65,45 +65,21 @@ export default class DatePicker extends PureComponent {
   }
 
   onInputChange = ({ startDate, endDate }) => {
-    console.log('onInputChange', startDate, endDate)
-    // const startDate = null
-    // parseFloat(this.state.startMonth) > -1
-    //   ? new Date(
-    //       this.state.startYear,
-    //       this.state.startMonth - 1,
-    //       this.state.startDay
-    //     )
-    //   : null
-
-    // console.log('startDate', this.state.startMonth, '|', startDate)
-
-    this.setState({
-      startDate,
-      endDate
-    })
+    if (startDate)
+      this.setState({
+        startDate
+      })
+    if (endDate)
+      this.setState({
+        endDate
+      })
   }
 
   onPickerChange = ({ startDate, endDate }) => {
-    // const startDay = pad(format(startDate, 'D'), 2)
-    // const startMonth = pad(format(startDate, 'M'), 2)
-    // const startYear = format(startDate, 'YYYY')
-    // const endDay = pad(format(endDate, 'D'), 2)
-    // const endMonth = pad(format(endDate, 'M'), 2)
-    // const endYear = format(endDate, 'YYYY')
     this.setState({
       startDate,
       endDate
-      //   startDay,
-      //   startMonth,
-      //   startYear,
-      //   endDay,
-      //   endMonth,
-      //   endYear,
-      //   startDate,
-      //   endDate
     })
-    // const date = new Date(startYear, startMonth - 1, startDay)
-    // console.log('date', date)
   }
 
   showPicker = () => {
