@@ -29,6 +29,15 @@
 .dnb-section--white::after {
   color: var(--color-white);
 }
+.dnb-section--mint-green {
+  &::after {
+    color: var(--color-mint-green);
+  }
+  // &.dnb-tabs__tabs::after {
+  //   height: 100%;
+  //   color: var(--color-mint-green);
+  // }
+}
 .dnb-section--emerald-green {
   color: var(--color-mint-green);
   &::after {

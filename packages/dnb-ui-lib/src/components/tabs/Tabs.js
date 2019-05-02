@@ -39,6 +39,7 @@ export const propTypes = {
   label: PropTypes.string,
   selected_key: PropTypes.string,
   align: PropTypes.oneOf(['left', 'center', 'right']),
+  section_style: PropTypes.string,
   use_hash: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   id: PropTypes.string,
   class: PropTypes.string,
@@ -59,6 +60,7 @@ export const defaultProps = {
   label: null,
   selected_key: null,
   align: 'left',
+  section_style: null,
   use_hash: false,
   id: null,
   class: null,
@@ -371,6 +373,7 @@ export default class Tabs extends PureComponent {
       render: customRenderer,
       label,
       align,
+      section_style,
       className,
       class: _className,
       selected_key: _selected_key, //eslint-disable-line
@@ -434,16 +437,21 @@ export default class Tabs extends PureComponent {
     Tabs.displayName = 'Tabs'
 
     // To have a reusable Component laster, do this like that
-    const TabsList = ({ children }) => (
+    const TabsList = ({ children, className }) => (
       <div
         className={classnames(
           'dnb-tabs__tabs',
-          align ? `dnb-tabs__tabs--${align}` : null
+          align ? `dnb-tabs__tabs--${align}` : null,
+          section_style
+            ? `dnb-section dnb-section--${section_style}`
+            : null,
+          className
         )}
       >
         {children}
       </div>
     )
+
     TabsList.displayName = 'TabsList'
 
     // To have a reusable Component laster, do this like that

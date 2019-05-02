@@ -115,13 +115,33 @@ stories.push([
         />
       </Box>
       <Box>
-        <Tabs>
+        <Tabs section_style="mint-green">
           <Tabs.Content title="First">
             <H2>First</H2>
           </Tabs.Content>
           <Tabs.Content title="Second" selected>
             <H2>Second</H2>
           </Tabs.Content>
+        </Tabs>
+      </Box>
+      <Box>
+        <Tabs
+          align="right"
+          label="Some Tabs label"
+          data={tabsData}
+          render={({ Wrapper, Content, TabsList, Tabs }) => {
+            return (
+              <Wrapper>
+                <TabsList className="dnb-section dnb-section--mint-green">
+                  <small>I'm on the left side</small>
+                  <Tabs />
+                </TabsList>
+                <Content />
+              </Wrapper>
+            )
+          }}
+        >
+          {exampleTabsContent}
         </Tabs>
       </Box>
     </Wrapper>
