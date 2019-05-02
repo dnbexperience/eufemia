@@ -4,13 +4,8 @@
 */
 
 :root {
-  --date-picker-today-color: inherit; // The DNB UX team has desiced to not show today diffrently
-  --date-picker-header-color: var(--color-emerald-green);
-  --date-picker-labels-day-color: var(--color-emerald-green);
-  --date-picker-selected-color: var(--color-mint-green-25);
-  --date-picker-selected-bg-color: var(--color-emerald-green);
-  --date-picker-selected-bg-color-hover: var(--color-emerald-green);
-  --date-picker-within-selection-bg-color: var(--color-mint-green-50);
+  --date-picker-day-width: 2rem;
+  --date-picker-day-horizontal-spacing: 4px;
 }
 
 .dnb-date-picker {
@@ -27,8 +22,6 @@
     background: transparent;
     overflow: visible;
 
-    color: var(--color-sea-green);
-
     white-space: nowrap;
   }
   &__input:first-of-type {
@@ -40,7 +33,6 @@
 
   &--separator {
     margin: 0 -0.1rem;
-    color: var(--color-sea-green);
   }
 
   // stylelint-disable-next-line
@@ -60,7 +52,6 @@
 
   &__calendar {
     padding: 1rem;
-    background-color: var(--color-white);
   }
 
   &__header {
@@ -76,12 +67,8 @@
       bottom: 0;
       width: 100%;
       height: 1px;
-      background-color: var(--color-mint-green-50);
     }
 
-    &__nav .dnb-button {
-      box-shadow: none;
-    }
     &__nav,
     &__title {
       display: flex;
@@ -90,21 +77,12 @@
     }
     &__title {
       flex-basis: percentage(5 / 7);
-
-      text-transform: capitalize;
-      color: var(--date-picker-header-color);
     }
   }
 
   &__labels {
-    cursor: default;
-
     &__day {
       padding: 1.5rem 0 0.5rem;
-
-      text-transform: capitalize;
-      font-weight: var(--font-weight-demi);
-      color: var(--date-picker-labels-day-color);
     }
   }
 
@@ -126,41 +104,22 @@
     display: flex;
     flex-basis: percentage(1 / 7);
     justify-content: center;
-
-    text-align: center;
   }
 
   &__day {
     position: relative;
 
-    width: 2rem; // medium size
-    height: 2rem; // medium size
-    margin: 4px 0;
+    width: var(--date-picker-day-width); // medium size
+    height: var(--date-picker-day-width); // medium size
+    margin: var(--date-picker-day-horizontal-spacing) 0;
 
     .dnb-button {
       position: absolute;
       top: 0;
-      width: 2rem; // medium size
-      height: 2rem; // medium size
-
-      box-shadow: none;
+      width: var(--date-picker-day-width); // medium size
+      height: var(--date-picker-day-width); // medium size
     }
 
-    &--today .dnb-button {
-      color: var(--date-picker-today-color);
-    }
-
-    &--preview .dnb-button,
-    &--preview#{&}--inactive .dnb-button,
-    &--within-selection:not(#{&}--start-date):not(#{&}--end-date)
-      .dnb-button {
-      background-color: transparent;
-    }
-
-    &--preview:not(#{&}--start-date):not(#{&}--end-date),
-    &--within-selection:not(#{&}--start-date):not(#{&}--end-date) {
-      background-color: var(--date-picker-within-selection-bg-color);
-    }
     &--selectable:hover {
       z-index: 2;
       // cursor: pointer;
@@ -169,8 +128,6 @@
     &--start-date .dnb-button,
     &--end-date .dnb-button {
       z-index: 1;
-      color: var(--date-picker-selected-color);
-      background-color: var(--date-picker-selected-bg-color);
     }
 
     &--start-date,
@@ -181,9 +138,8 @@
         content: '';
         position: absolute;
         top: 0;
-        width: 1rem;
+        width: calc(var(--date-picker-day-width) / 2);
         height: 100%;
-        background-color: var(--date-picker-within-selection-bg-color);
       }
     }
     &--start-date::after {
@@ -196,34 +152,6 @@
     }
     &--start-date#{&}--end-date::after {
       content: none;
-    }
-
-    :not([dnb-is-touch])
-      &--start-date#{&}--within-selection
-      .dnb-button:hover:not([disabled]),
-    :not([dnb-is-touch])
-      &--end-date#{&}--within-selection
-      .dnb-button:hover:not([disabled]) {
-      color: var(--date-picker-selected-color);
-      background-color: var(--date-picker-selected-bg-color-hover);
-    }
-
-    &--inactive#{&}--start-date,
-    &--inactive#{&}--end-date {
-      .dnb-button {
-        background-color: var(--date-picker-within-selection-bg-color);
-      }
-    }
-
-    &--inactive .dnb-button,
-    &--disabled .dnb-button {
-      &[disabled] {
-        box-shadow: none;
-      }
-    }
-
-    :not([dnb-is-touch]) &--inactive .dnb-button:hover[disabled] {
-      cursor: default;
     }
   }
 
