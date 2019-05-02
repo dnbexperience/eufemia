@@ -64,9 +64,9 @@ render(<Tabs data={data}>
 />
           `}
         </ComponentBox>
-        <ComponentBox caption="eft aligned tabs, using React Components only">
+        <ComponentBox caption="Left aligned tabs, using React Components only">
           {/* @jsx */ `
-<Tabs>
+<Tabs section_style="mint-green">
   <Tabs.Content title="First">
     <h2 className="dnb-h2">First</h2>
   </Tabs.Content>
@@ -90,7 +90,7 @@ render(<Tabs data={data}>
   render={({ Wrapper, Content, TabsList, Tabs }) => {
     return (
       <Wrapper>
-        <TabsList>
+        <TabsList className="dnb-section">
           <small>
             <b>Active:</b> {activeTabKey}
           </small>

@@ -7,12 +7,15 @@
 
 .dnb-tabs {
   &__tabs {
-    &::after {
-      background-color: var(--color-mint-green);
-      box-shadow: 100vw 0 0 0 var(--color-mint-green);
+    &::before {
+      background-color: var(--color-mint-green-50);
+      box-shadow: 100vw 0 0 0 var(--color-mint-green-50);
+    }
+    &.dnb-section::before {
+      z-index: 0;
     }
     @include allBelow(small) {
-      &::before {
+      &:not(.dnb-section)::after {
         content: '';
         position: absolute;
         z-index: -1;
@@ -20,8 +23,8 @@
         top: 0;
         width: 100vw;
         height: 1px;
-        background-color: var(--color-mint-green);
-        box-shadow: 100vw 0 0 0 var(--color-mint-green);
+        background-color: var(--color-mint-green-50);
+        box-shadow: 100vw 0 0 0 var(--color-mint-green-50);
       }
     }
 
