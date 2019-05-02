@@ -7,12 +7,15 @@
 
 .dnb-tabs {
   &__tabs {
-    &:not(.dnb-section)::after {
+    &::before {
       background-color: var(--color-mint-green-50);
       box-shadow: 100vw 0 0 0 var(--color-mint-green-50);
     }
+    &.dnb-section::before {
+      z-index: 0;
+    }
     @include allBelow(small) {
-      &:not(.dnb-section)::before {
+      &:not(.dnb-section)::after {
         content: '';
         position: absolute;
         z-index: -1;
@@ -23,9 +26,6 @@
         background-color: var(--color-mint-green-50);
         box-shadow: 100vw 0 0 0 var(--color-mint-green-50);
       }
-    }
-    &.dnb-section::after {
-      height: 100%;
     }
 
     &__tablist {

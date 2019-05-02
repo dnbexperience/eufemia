@@ -73,7 +73,7 @@
       margin-left: 0;
     }
 
-    &::after {
+    &::before {
       content: '';
       position: absolute;
       z-index: -1;
