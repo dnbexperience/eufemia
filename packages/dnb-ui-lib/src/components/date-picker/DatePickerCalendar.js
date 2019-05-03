@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
@@ -14,7 +14,8 @@ import {
   isSameMonth
 } from 'date-fns'
 import nbLocale from 'date-fns/locale/nb'
-import DatePickerCalc, {
+import {
+  makeDayObject,
   toRange,
   getWeek,
   dayOffset,
@@ -22,135 +23,12 @@ import DatePickerCalc, {
 } from './DatePickerCalc'
 import Button from '../button/Button'
 
-const Calendar = props => {
-  const onSelect = day => {
-    if (props.onSelect) {
-      if (!props.range) {
-        props.onSelect({
-          startDate: startOfDay(day.date),
-          endDate: endOfDay(day.date)
-        })
-      } else if (!props.startDate || (props.startDate && props.endDate)) {
-        // user is selecting startDate
-        props.onSelect({
-          startDate: startOfDay(day.date),
-          endDate: null
-        })
-      } else {
-        // user is selecting endDate
-        const range = toRange(props.startDate, day.date)
-        props.onSelect({
-          startDate: startOfDay(range.startDate),
-          endDate: endOfDay(range.endDate)
-        })
-      }
-    }
-  }
-
-  const onHover = day => {
-    if (!isSameDay(day.date, props.hoverDate)) {
-      props.onHover && props.onHover(day.date)
-    }
-  }
-
-  const getPrevButton = () => {
-    if (props.prevBtn) {
-      const disabled =
-        props.minDate && isSameMonth(props.month, props.minDate)
-      const onClick = () =>
-        props.onPrev && !disabled && props.onPrev(props)
-      return (
-        <Button
-          className={classnames('dnb-date-picker__prev', { disabled })}
-          icon="chevron-left"
-          size="small"
-          onClick={onClick}
-        />
-      )
-    }
-  }
-
-  const getNextButton = () => {
-    const disabled =
-      props.maxDate && isSameMonth(props.month, props.maxDate)
-    const onClick = () => props.onNext && !disabled && props.onNext(props)
-    return (
-      props.nextBtn && (
-        <Button
-          className={classnames('dnb-date-picker__next', { disabled })}
-          icon="chevron-right"
-          size="small"
-          onClick={onClick}
-        />
-      )
-    )
-  }
-
-  return (
-    <div
-      className={classnames(
-        'dnb-date-picker__calendar',
-        props.rtl && 'rtl'
-      )}
-    >
-      <div className="dnb-date-picker__header">
-        <div className="dnb-date-picker__header__nav">
-          {getPrevButton()}
-        </div>
-        <div className="dnb-date-picker__header__title">
-          {format(props.month, props.titleFormat, {
-            locale: props.locale
-          })}
-        </div>
-        <div className="dnb-date-picker__header__nav">
-          {getNextButton()}
-        </div>
-      </div>
-      <ul className="dnb-date-picker__labels">
-        {getWeek(dayOffset(props.firstDayOfWeek)).map((day, i) => (
-          <li key={i} className="dnb-date-picker__labels__day">
-            {format(day, props.dayOfWeekFormat, {
-              locale: props.locale
-            })}
-          </li>
-        ))}
-      </ul>
-      <ul className="dnb-date-picker__days">
-        {getCalendar(props.month, dayOffset(props.firstDayOfWeek))
-          .map(date => DatePickerCalc(date, props))
-          .map((day, i) => (
-            <li
-              key={'day' + i}
-              className={classnames(
-                'dnb-date-picker__day',
-                buildClassNames(day)
-              )}
-            >
-              <Button
-                key={'day' + i}
-                onClick={() =>
-                  !day.isLastMonth &&
-                  !day.isNextMonth &&
-                  !day.isDisabled &&
-                  onSelect(day)
-                }
-                onMouseOver={() => onHover(day)}
-                onFocus={() => onHover(day)}
-                size="medium"
-                variant="secondary"
-                text={format(day.date, 'D', { locale: props.locale })}
-                disabled={
-                  day.isLastMonth || day.isNextMonth || day.isDisabled
-                }
-              />
-            </li>
-          ))}
-      </ul>
-    </div>
-  )
+const renderProps = {
+  on_change: null
 }
 
-Calendar.propTypes = {
+export const propTypes = {
+  id: PropTypes.number,
   month: PropTypes.instanceOf(Date), // What month will be displayed in the first calendar. Default: new Date()
   prevBtn: PropTypes.bool,
   nextBtn: PropTypes.bool,
@@ -174,7 +52,8 @@ Calendar.propTypes = {
   maxDate: PropTypes.instanceOf(Date)
 }
 
-Calendar.defaultProps = {
+export const defaultProps = {
+  id: null,
   month: new Date(),
   prevBtn: true,
   nextBtn: true,
@@ -203,20 +82,205 @@ Calendar.defaultProps = {
   maxDate: null // addDays(new Date(), 45)
 }
 
-const buildClassNames = day =>
-  classnames({
-    'dnb-date-picker__day--start-date': day.isStartDate,
-    'dnb-date-picker__day--end-date': day.isEndDate,
-    'dnb-date-picker__day--preview': day.isPreview,
-    'dnb-date-picker__day--within-selection': day.isWithinSelection,
-    'dnb-date-picker__day--selectable':
-      !day.isLastMonth && !day.isNextMonth && !day.isDisabled,
-    'dnb-date-picker__day--inactive': day.isLastMonth || day.isNextMonth,
-    'dnb-date-picker__day--disabled': day.isDisabled,
-    'dnb-date-picker__day--today': day.isToday,
-    'dnb-date-picker__day--weekend': day.isWeekend,
-    'dnb-date-picker__day--last-month': day.isLastMonth,
-    'dnb-date-picker__day--next-month': day.isNextMonth
-  })
+export default class DatePickerCalendar extends PureComponent {
+  static propTypes = propTypes
+  static defaultProps = defaultProps
+  static renderProps = renderProps
 
-export default Calendar
+  // state = {
+  //   startDate: null,
+  //   endDate: null
+  // }
+
+  // static getDerivedStateFromProps(props, state) {
+  //   // if (state._listenForPropChanges) {
+  //   if (props.startDate) {
+  //     // console.log('getDerivedStateFromProps', props.startDate)
+  //     state.startDate = props.startDate
+  //   }
+  //   if (props.endDate) {
+  //     state.endDate = props.endDate
+  //   }
+  //   // state._listenForPropChanges = true
+  //   return state
+  // }
+
+  buildClassNames = day =>
+    classnames({
+      'dnb-date-picker__day--start-date': day.isStartDate,
+      'dnb-date-picker__day--end-date': day.isEndDate,
+      'dnb-date-picker__day--preview': day.isPreview,
+      'dnb-date-picker__day--within-selection': day.isWithinSelection,
+      'dnb-date-picker__day--selectable':
+        !day.isLastMonth && !day.isNextMonth && !day.isDisabled,
+      'dnb-date-picker__day--inactive': day.isLastMonth || day.isNextMonth,
+      'dnb-date-picker__day--disabled': day.isDisabled,
+      'dnb-date-picker__day--today': day.isToday,
+      'dnb-date-picker__day--weekend': day.isWeekend,
+      'dnb-date-picker__day--last-month': day.isLastMonth,
+      'dnb-date-picker__day--next-month': day.isNextMonth
+    })
+
+  render() {
+    const {
+      id,
+      rtl,
+      month,
+      range,
+      titleFormat,
+      locale,
+      firstDayOfWeek,
+      dayOfWeekFormat,
+      onPrev,
+      onNext,
+      onSelect,
+      onHover,
+      prevBtn,
+      nextBtn,
+      maxDate,
+      minDate,
+      hoverDate
+    } = this.props
+    const { startDate, endDate } = this.props
+
+    this.days = getCalendar(month, dayOffset(firstDayOfWeek)).map(date =>
+      makeDayObject(date, this.props)
+    )
+
+    return (
+      <div
+        className={classnames('dnb-date-picker__calendar', rtl && 'rtl')}
+      >
+        <div className="dnb-date-picker__header">
+          <div className="dnb-date-picker__header__nav">
+            <PrevButton
+              id={id}
+              minDate={minDate}
+              month={month}
+              prevBtn={prevBtn}
+              onPrev={onPrev}
+            />
+          </div>
+          <div className="dnb-date-picker__header__title">
+            {format(month, titleFormat, {
+              locale: locale
+            })}
+          </div>
+          <div className="dnb-date-picker__header__nav">
+            <NextButton
+              id={id}
+              maxDate={maxDate}
+              month={month}
+              nextBtn={nextBtn}
+              onNext={onNext}
+            />
+          </div>
+        </div>
+        <ul className="dnb-date-picker__labels">
+          {getWeek(dayOffset(firstDayOfWeek)).map((day, i) => (
+            <li key={i} className="dnb-date-picker__labels__day">
+              {format(day, dayOfWeekFormat, {
+                locale: locale
+              })}
+            </li>
+          ))}
+        </ul>
+        <ul className="dnb-date-picker__days">
+          {this.days.map((day, i) => (
+            <li
+              key={'day' + i}
+              className={classnames(
+                'dnb-date-picker__day',
+                this.buildClassNames(day)
+              )}
+            >
+              <Button
+                key={'day' + i}
+                onClick={() =>
+                  !day.isLastMonth &&
+                  !day.isNextMonth &&
+                  !day.isDisabled &&
+                  onSelectRange({
+                    day,
+                    range,
+                    startDate,
+                    endDate,
+                    onSelect
+                  })
+                }
+                onMouseOver={() => onHoverDay({ day, hoverDate, onHover })}
+                onFocus={() => onHoverDay({ day, hoverDate, onHover })}
+                size="medium"
+                variant="secondary"
+                text={format(day.date, 'D', { locale: locale })}
+                disabled={
+                  day.isLastMonth || day.isNextMonth || day.isDisabled
+                }
+              />
+            </li>
+          ))}
+        </ul>
+      </div>
+    )
+  }
+}
+
+const PrevButton = ({ id, minDate, month, prevBtn, onPrev }) => {
+  if (prevBtn) {
+    const disabled = minDate && isSameMonth(month, minDate)
+    const onClick = () => onPrev && !disabled && onPrev({ id })
+    return (
+      <Button
+        className={classnames('dnb-date-picker__prev', { disabled })}
+        icon="chevron-left"
+        size="small"
+        onClick={onClick}
+      />
+    )
+  }
+}
+
+const NextButton = ({ id, maxDate, month, nextBtn, onNext }) => {
+  const disabled = maxDate && isSameMonth(month, maxDate)
+  const onClick = () => onNext && !disabled && onNext({ id })
+  return (
+    nextBtn && (
+      <Button
+        className={classnames('dnb-date-picker__next', { disabled })}
+        icon="chevron-right"
+        size="small"
+        onClick={onClick}
+      />
+    )
+  )
+}
+
+const onSelectRange = ({ day, range, startDate, endDate, onSelect }) => {
+  if (onSelect) {
+    if (!range) {
+      onSelect({
+        startDate: startOfDay(day.date),
+        endDate: endOfDay(day.date)
+      })
+    } else if (!startDate || (startDate && endDate)) {
+      // user is selecting startDate
+      onSelect({
+        startDate: startOfDay(day.date),
+        endDate: null
+      })
+    } else {
+      // user is selecting endDate
+      const range = toRange(startDate, day.date)
+      onSelect({
+        startDate: startOfDay(range.startDate),
+        endDate: endOfDay(range.endDate)
+      })
+    }
+  }
+}
+
+const onHoverDay = ({ day, hoverDate, onHover }) => {
+  if (!isSameDay(day.date, hoverDate)) {
+    onHover && onHover(day.date)
+  }
+}

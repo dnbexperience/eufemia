@@ -10,6 +10,8 @@ import DatePickerCalendar from './DatePickerCalendar'
 
 export const propTypes = {
   month: PropTypes.instanceOf(Date),
+  startDate: PropTypes.instanceOf(Date),
+  endDate: PropTypes.instanceOf(Date),
 
   link: PropTypes.bool,
   pages: PropTypes.oneOfType([
@@ -25,6 +27,8 @@ export const propTypes = {
 export const defaultProps = {
   // formats
   month: new Date(), // What month will be displayed in the first calendar. Default: new Date()
+  startDate: null,
+  endDate: null,
 
   // apperance
   link: false,
@@ -37,26 +41,43 @@ export const defaultProps = {
   onSelect: null // {startDate: Date, endDate: Date | null}
 }
 
-class Daterange extends PureComponent {
+export default class DatePickerRange extends PureComponent {
   static propTypes = propTypes
   static defaultProps = defaultProps
 
-  state = {}
-
-  componentWillMount = () => {
-    const pages = Array.isArray(this.props.pages)
-      ? this.props.pages
-      : [...Array(this.props.pages)]
-    this.setState({
-      pages: pages.map((page, i) => ({
-        month: addMonths(this.props.month, i),
-        ...page,
-        id: i
-      }))
-    })
+  state = {
+    pages: null,
+    startDate: null,
+    endDate: null,
+    _listenForPropChanges: true
   }
 
-  emitChange() {
+  constructor(props) {
+    super(props)
+
+    this.state.pages = Array.isArray(props.pages)
+      ? props.pages
+      : [...Array(props.pages)].map((page, i) => ({
+          month: addMonths(props.month, i),
+          ...page,
+          id: i
+        }))
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    if (state._listenForPropChanges) {
+      if (props.startDate) {
+        state.startDate = props.startDate
+      }
+      if (props.endDate) {
+        state.endDate = props.endDate
+      }
+    }
+    state._listenForPropChanges = true
+    return state
+  }
+
+  callOnChange() {
     this.props.onChange &&
       this.props.onChange({
         startDate: this.state.startDate,
@@ -65,47 +86,47 @@ class Daterange extends PureComponent {
       })
   }
 
-  emitNav() {
+  callOnNav() {
     this.props.onNav && this.props.onNav(this.state.pages)
   }
 
   onSelect = change => {
-    this.setState({ ...change }, () => {
+    this.setState({ ...change, _listenForPropChanges: false }, () => {
       this.props.onSelect &&
         this.props.onSelect({
           startDate: this.state.startDate,
           endDate: this.state.endDate
         })
-      this.emitChange()
+      this.callOnChange()
     })
   }
 
-  onNext = cal => {
+  onNext = ({ id }) => {
     const pages = this.state.pages.map(c => {
-      return this.props.link || c.id === cal.id
+      return this.props.link || c.id === id
         ? { ...c, month: addMonths(c.month, 1) }
         : c
     })
-    this.setState({ pages }, () => {
-      this.emitNav()
-      this.emitChange()
+    this.setState({ pages, _listenForPropChanges: false }, () => {
+      this.callOnNav()
+      this.callOnChange()
     })
   }
 
-  onPrev = cal => {
+  onPrev = ({ id }) => {
     const pages = this.state.pages.map(c => {
-      return this.props.link || c.id === cal.id
+      return this.props.link || c.id === id
         ? { ...c, month: subMonths(c.month, 1) }
         : c
     })
-    this.setState({ pages }, () => {
-      this.emitNav()
-      this.emitChange()
+    this.setState({ pages, _listenForPropChanges: false }, () => {
+      this.callOnNav()
+      this.callOnChange()
     })
   }
 
   onHover = date => {
-    this.setState({ hoverDate: date })
+    this.setState({ hoverDate: date, _listenForPropChanges: false })
   }
 
   render() {
@@ -114,10 +135,10 @@ class Daterange extends PureComponent {
         {this.state.pages.map(calendar => (
           <DatePickerCalendar
             key={calendar.id}
-            startDate={this.state.startDate}
-            endDate={this.state.endDate}
             {...this.props}
             {...calendar}
+            startDate={this.state.startDate}
+            endDate={this.state.endDate}
             hoverDate={this.state.hoverDate}
             onSelect={this.onSelect}
             onHover={this.onHover}
@@ -129,5 +150,3 @@ class Daterange extends PureComponent {
     )
   }
 }
-
-export default Daterange

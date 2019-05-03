@@ -36,7 +36,7 @@ export const defaultProps = {
   ...renderProps
 }
 
-export default class DatePicker extends PureComponent {
+export default class DatePickerInput extends PureComponent {
   static propTypes = propTypes
   static defaultProps = defaultProps
   static renderProps = renderProps
