@@ -7,11 +7,13 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { setDate, setMonth, setYear, isAfter, format } from 'date-fns'
 import MaskedInput from 'react-text-mask' // https://github.com/text-mask/text-mask
-import Input from '../input/Input'
+import Input, { SubmitButton } from '../input/Input'
 // import keycode from 'keycode'
 
 export const propTypes = {
   mask: PropTypes.string,
+  mask_input: PropTypes.string,
+  separatorRexExp: PropTypes.instanceOf(RegExp),
   range: PropTypes.bool,
   onChange: PropTypes.func,
   onSubmit: PropTypes.func,
@@ -20,6 +22,8 @@ export const propTypes = {
 
 export const defaultProps = {
   mask: 'dd/mm/yyyy',
+  mask_input: 'dd/mm/åååå',
+  separatorRexExp: /[-/ ]/g,
   range: null,
   onChange: null,
   onSubmit: null,
@@ -38,14 +42,16 @@ export default class DatePickerInput extends PureComponent {
   constructor(props) {
     super(props)
 
-    const separators = props.mask.match(/[^mdy]/g)
-    this.maskList = props.mask.split(/[^mdy]/).reduce((acc, cur) => {
-      acc.push(cur)
-      if (separators.length > 0) {
-        acc.push(separators.shift())
-      }
-      return acc
-    }, [])
+    const separators = props.mask.match(props.separatorRexExp)
+    this.maskList = props.mask
+      .split(props.separatorRexExp)
+      .reduce((acc, cur) => {
+        acc.push(cur)
+        if (separators.length > 0) {
+          acc.push(separators.shift())
+        }
+        return acc
+      }, [])
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -153,10 +159,13 @@ export default class DatePickerInput extends PureComponent {
   }
 
   generateStartDateList() {
-    return this.maskList.map((m, i) => {
-      if (/[a-z]/.test(m)) {
+    return this.maskList.map((value, i) => {
+      const state = value.slice(0, 1)
+      const index = this.props.mask.indexOf(value)
+      const placeholderChar = this.props.mask_input[index]
+      if (!this.props.separatorRexExp.test(value)) {
         const params = {}
-        switch (m.slice(0, 1)) {
+        switch (state) {
           case 'd':
             if (this.isValidDate(this.state.startDate)) {
               params.value = pad(format(this.state.startDate, 'D'), 2)
@@ -167,8 +176,7 @@ export default class DatePickerInput extends PureComponent {
                 className="dnb-date-picker__input dnb-date-picker__input--day"
                 size="2"
                 mask={[/[0-3]/, /[0-9]/]}
-                placeholderChar="d"
-                onFocus={this.props.onFocus}
+                placeholderChar={placeholderChar}
                 onMouseUp={selectInput}
                 onChange={this.setStartDay}
                 {...params}
@@ -184,8 +192,7 @@ export default class DatePickerInput extends PureComponent {
                 className="dnb-date-picker__input dnb-date-picker__input--month"
                 size="2"
                 mask={[/[0-1]/, /[0-9]/]}
-                placeholderChar="m"
-                onFocus={this.props.onFocus}
+                placeholderChar={placeholderChar}
                 onMouseUp={selectInput}
                 onChange={this.setStartMonth}
                 {...params}
@@ -201,8 +208,7 @@ export default class DatePickerInput extends PureComponent {
                 className="dnb-date-picker__input dnb-date-picker__input--year"
                 size="4"
                 mask={[/[1-2]/, /[0-9]/, /[0-9]/, /[0-9]/]}
-                placeholderChar="y"
-                onFocus={this.props.onFocus}
+                placeholderChar={placeholderChar}
                 onMouseUp={selectInput}
                 onChange={this.setStartYear}
                 {...params}
@@ -212,17 +218,20 @@ export default class DatePickerInput extends PureComponent {
       }
       return (
         <span key={'s' + i} className="dnb-date-picker--separator">
-          {m}
+          {placeholderChar}
         </span>
       )
     })
   }
 
   generateEndDateList() {
-    return this.maskList.map((m, i) => {
-      if (/[a-z]/.test(m)) {
+    return this.maskList.map((value, i) => {
+      const state = value.slice(0, 1)
+      const index = this.props.mask.indexOf(value)
+      const placeholderChar = this.props.mask_input[index]
+      if (!this.props.separatorRexExp.test(value)) {
         const params = {}
-        switch (m.slice(0, 1)) {
+        switch (state) {
           case 'd':
             if (this.isValidDate(this.state.endDate)) {
               params.value = pad(format(this.state.endDate, 'D'), 2)
@@ -233,8 +242,7 @@ export default class DatePickerInput extends PureComponent {
                 className="dnb-date-picker__input dnb-date-picker__input--day"
                 size="2"
                 mask={[/[0-3]/, /[0-9]/]}
-                placeholderChar="d"
-                onFocus={this.props.onFocus}
+                placeholderChar={placeholderChar}
                 onMouseUp={selectInput}
                 onChange={this.setEndDay}
                 {...params}
@@ -250,8 +258,7 @@ export default class DatePickerInput extends PureComponent {
                 className="dnb-date-picker__input dnb-date-picker__input--month"
                 size="2"
                 mask={[/[0-1]/, /[0-9]/]}
-                placeholderChar="m"
-                onFocus={this.props.onFocus}
+                placeholderChar={placeholderChar}
                 onMouseUp={selectInput}
                 onChange={this.setEndMonth}
                 {...params}
@@ -267,8 +274,7 @@ export default class DatePickerInput extends PureComponent {
                 className="dnb-date-picker__input dnb-date-picker__input--year"
                 size="4"
                 mask={[/[1-2]/, /[0-9]/, /[0-9]/, /[0-9]/]}
-                placeholderChar="y"
-                onFocus={this.props.onFocus}
+                placeholderChar={placeholderChar}
                 onMouseUp={selectInput}
                 onChange={this.setEndYear}
                 {...params}
@@ -278,7 +284,7 @@ export default class DatePickerInput extends PureComponent {
       }
       return (
         <span key={'s' + i} className="dnb-date-picker--separator">
-          {m}
+          {placeholderChar}
         </span>
       )
     })
@@ -299,8 +305,14 @@ export default class DatePickerInput extends PureComponent {
             {range && endDateList}
           </span>
         }
-        submit_button_icon="calendar"
-        on_submit={this.props.onSubmit}
+        submitButton={
+          <SubmitButton
+            // title={submit_button_title}
+            icon="calendar"
+            variant="secondary"
+            on_submit={this.props.onSubmit}
+          />
+        }
       />
     )
   }

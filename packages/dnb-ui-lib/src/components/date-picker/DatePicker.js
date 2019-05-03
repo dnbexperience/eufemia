@@ -19,13 +19,36 @@ import DatePickerInput from './DatePickerInput'
 import DatePickerFooter from './DatePickerFooter'
 
 const renderProps = {
-  on_change: null
+  on_change: null,
+  on_show: null,
+  on_hide: null,
+  on_submit: null,
+  on_cancel: null
 }
 
 export const propTypes = {
   id: PropTypes.string,
+  start_date: PropTypes.oneOfType([
+    PropTypes.instanceOf(Date),
+    PropTypes.string
+  ]), // e.g. 2019-04-03T00:00:00Z
+  end_date: PropTypes.oneOfType([
+    PropTypes.instanceOf(Date),
+    PropTypes.string
+  ]), // e.g. 2019-04-03T00:00:00Z
   mask: PropTypes.string,
+  mask_input: PropTypes.string,
+  hide_navigation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  hide_days: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   show_input: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  show_submit_button: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool
+  ]),
+  show_cancel_button: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool
+  ]),
   range: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   link: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   label: PropTypes.string,
@@ -40,13 +63,24 @@ export const propTypes = {
   // Web Component props
   custom_element: PropTypes.object,
   custom_method: PropTypes.func,
-  on_change: PropTypes.func
+  on_change: PropTypes.func,
+  on_show: PropTypes.func,
+  on_hide: PropTypes.func,
+  on_submit: PropTypes.func,
+  on_cancel: PropTypes.func
 }
 
 export const defaultProps = {
   id: null,
+  start_date: null,
+  end_date: null,
   mask: 'dd/mm/yyyy',
+  mask_input: 'dd/mm/åååå', // have to be same setup as "mask" - but can be like: dd/mm/åååå
+  hide_navigation: false,
+  hide_days: false,
   show_input: false,
+  show_submit_button: null,
+  show_cancel_button: null,
   range: false,
   link: false,
   label: null,
@@ -78,6 +112,28 @@ export default class DatePicker extends PureComponent {
 
   static parseOpened = state => /true|on/.test(String(state))
 
+  static getDerivedStateFromProps(props, state) {
+    if (state._listenForPropChanges) {
+      if (props.start_date) {
+        state.startDate = DatePicker.convertStringToDate(props.start_date)
+        if (!props.range) {
+          state.endDate = state.startDate
+        }
+      }
+      if (props.end_date) {
+        state.endDate = DatePicker.convertStringToDate(props.end_date)
+      }
+    }
+    state._listenForPropChanges = true
+    return state
+  }
+
+  static convertStringToDate(stringDate) {
+    const date =
+      typeof stringDate === Date ? stringDate : new Date(stringDate)
+    return date
+  }
+
   constructor(props) {
     super(props)
 
@@ -86,11 +142,22 @@ export default class DatePicker extends PureComponent {
 
     const opened = DatePicker.parseOpened(props.opened)
     this.state = {
+      show_submit_button:
+        props.show_submit_button !== null
+          ? props.show_submit_button
+          : props.range,
+      show_cancel_button:
+        props.show_cancel_button !== null
+          ? props.show_cancel_button
+          : props.range,
       startDate: null,
       endDate: null,
+      _startDate: props.start_date,
+      _endDate: props.end_date,
       opened,
       hidden: !opened,
-      direction: props.direction
+      direction: props.direction,
+      _listenForPropChanges: true
     }
 
     const separators = props.mask.match(/[^mdy]/g)
@@ -102,34 +169,59 @@ export default class DatePicker extends PureComponent {
       return acc
     }, [])
 
-    // this._refInput = React.createRef()
+    if (props.end_date && !props.range) {
+      console.log(
+        `The DatePicker got a "end_date". You have to set range={true} as well!.`
+      )
+    }
+
+    this._wrapperRef = React.createRef()
   }
 
-  // componentDidMount() {
-  //   if (this.state.opened && this.state.hidden) {
-  //     this.setFocus()
-  //   }
-  // }
-  // setFocus = () => {
-  //   if (this._refInput.current && !this.props.disabled) {
-  //     this._refInput.current.focus()
-  //   }
-  // }
+  setOutsideClickHandler = () => {
+    if (!this.handleClickOutside && typeof document !== 'undefined') {
+      this.handleClickOutside = event => {
+        let targetElement = event.target
+        do {
+          if (targetElement == this._wrapperRef.current) {
+            return // stop here
+          }
+          targetElement = targetElement.parentNode
+        } while (targetElement)
+
+        this.hidePicker()
+      }
+      document.addEventListener('mousedown', this.handleClickOutside)
+    }
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this._hideTimeout)
+    if (this.handleClickOutside && typeof document !== 'undefined') {
+      document.removeEventListener('mousedown', this.handleClickOutside)
+    }
+  }
 
   onInputChange = ({ startDate, endDate }) => {
+    // make sure endDate is same as startDate if we don't use range
+    if (!this.props.range) {
+      endDate = startDate
+    }
     if (startDate)
       this.setState(
         {
-          startDate
+          startDate,
+          _listenForPropChanges: false
         },
         this.callOnChangeHandler
       )
     if (endDate)
       this.setState(
         {
-          endDate
+          endDate,
+          _listenForPropChanges: false
         },
-        this.callOnChangeHandler
+        () => !startDate && this.callOnChangeHandler()
       )
   }
 
@@ -137,19 +229,46 @@ export default class DatePicker extends PureComponent {
     this.setState(
       {
         startDate,
-        endDate
+        endDate,
+        _listenForPropChanges: false
       },
       this.callOnChangeHandler
     )
+    if (!this.state.show_submit_button || !this.state.show_cancel_button) {
+      this.hidePicker()
+    }
   }
 
-  componentWillUnmount() {
-    clearTimeout(this._hideTimeout)
+  onSubmitHandler = () => {
+    this.hidePicker()
+    const { startDate, endDate } = this.state
+    dispatchCustomElementEvent(this, 'on_submit', {
+      startDate,
+      endDate
+    })
+  }
+
+  onCancelHandler = () => {
+    this.setState(
+      {
+        startDate: DatePicker.convertStringToDate(this.state._startDate),
+        endDate: DatePicker.convertStringToDate(this.state._endDate)
+      },
+      () => {
+        this.hidePicker()
+        const { startDate, endDate } = this.state
+        dispatchCustomElementEvent(this, 'on_cancel', {
+          startDate,
+          endDate
+        })
+      }
+    )
   }
 
   showPicker = () => {
     this.setState({
-      opened: true
+      opened: true,
+      _listenForPropChanges: false
     })
 
     if (this._hideTimeout) {
@@ -159,12 +278,17 @@ export default class DatePicker extends PureComponent {
       hidden: false,
       _listenForPropChanges: false
     })
-    dispatchCustomElementEvent(this, 'on_show', {})
+    const { startDate, endDate } = this.state
+    dispatchCustomElementEvent(this, 'on_show', {
+      startDate,
+      endDate
+    })
   }
 
   hidePicker = () => {
     this.setState({
-      opened: false
+      opened: false,
+      _listenForPropChanges: false
     })
 
     this._hideTimeout = setTimeout(
@@ -176,7 +300,11 @@ export default class DatePicker extends PureComponent {
       },
       this.props.no_animation ? 1 : DatePicker.blurDelay
     ) // wait until animation is over
-    dispatchCustomElementEvent(this, 'on_hide')
+    const { startDate, endDate } = this.state
+    dispatchCustomElementEvent(this, 'on_hide', {
+      startDate,
+      endDate
+    })
   }
 
   togglePicker = () => {
@@ -184,13 +312,20 @@ export default class DatePicker extends PureComponent {
   }
 
   callOnChangeHandler = () => {
-    const { startDay, endDay } = this.state
-    dispatchCustomElementEvent(this, 'on_change', { startDay, endDay })
+    const { startDate, endDate } = this.state
+    dispatchCustomElementEvent(this, 'on_change', {
+      startDate,
+      endDate,
+      start_date: startDate,
+      end_date: endDate
+    })
   }
 
   render() {
     const {
       label,
+      hide_navigation,
+      hide_days,
       show_input,
       range,
       link,
@@ -198,11 +333,11 @@ export default class DatePicker extends PureComponent {
       status,
       status_state,
       status_animation,
+      mask,
+      mask_input,
 
       start_date: _start_date /* eslint-disable-line */,
       end_date: _end_date /* eslint-disable-line */,
-      // on_change: on_change /* eslint-disable-line */,
-      mask: _mask /* eslint-disable-line */,
       opened: _opened /* eslint-disable-line */,
       direction: _direction /* eslint-disable-line */,
       id: _id /* eslint-disable-line */,
@@ -210,7 +345,12 @@ export default class DatePicker extends PureComponent {
       ...attributes
     } = this.props
 
-    const { opened, hidden } = this.state
+    const {
+      opened,
+      hidden,
+      show_submit_button,
+      show_cancel_button
+    } = this.state
 
     const id = this._id
     const showStatus = status && status !== 'error'
@@ -224,6 +364,10 @@ export default class DatePicker extends PureComponent {
 
     validateDOMAttributes(this.props, pickerParams)
     validateDOMAttributes(null, inputParams)
+
+    if (!hidden) {
+      this.setOutsideClickHandler()
+    }
 
     return (
       <>
@@ -243,16 +387,20 @@ export default class DatePicker extends PureComponent {
             opened && 'dnb-date-picker--opened',
             hidden && 'dnb-date-picker--hidden',
             show_input && 'dnb-date-picker--show-input'
+            // show_submit_button && 'dnb-date-picker--show-submit-footer'
 
             // TODO: make status work on #date-picker
             // showStatus && 'dnb-date-picker__form-status',
             // status && `dnb-date-picker__status--${status_state}`,
           )}
+          ref={this._wrapperRef}
           {...pickerParams}
         >
           <span className="dnb-date-picker__shell">
             <DatePickerInput
               disabled={disabled}
+              mask={mask}
+              mask_input={mask_input}
               show_input={show_input}
               range={range}
               onChange={this.onInputChange}
@@ -278,14 +426,16 @@ export default class DatePicker extends PureComponent {
                   <DatePickerRange
                     range={range}
                     link={link}
+                    hideNav={hide_navigation}
+                    hideDays={hide_days}
                     onChange={this.onPickerChange}
                     startDate={this.state.startDate}
                     endDate={this.state.endDate}
                   />
                   <DatePickerFooter
                     range={range}
-                    onCancel={this.hidePicker}
-                    onSubmit={this.hidePicker}
+                    onSubmit={show_submit_button && this.onSubmitHandler}
+                    onCancel={show_cancel_button && this.onCancelHandler}
                   />
                 </>
               )}

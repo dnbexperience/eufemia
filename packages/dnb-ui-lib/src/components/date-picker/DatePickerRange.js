@@ -116,7 +116,6 @@ export default class DatePickerRange extends PureComponent {
     })
     this.setState({ pages, _listenForPropChanges: false }, () => {
       this.callOnNav()
-      this.callOnChange()
     })
   }
 
@@ -128,7 +127,6 @@ export default class DatePickerRange extends PureComponent {
     })
     this.setState({ pages, _listenForPropChanges: false }, () => {
       this.callOnNav()
-      this.callOnChange()
     })
   }
 

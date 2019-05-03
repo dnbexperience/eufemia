@@ -205,8 +205,11 @@ stories.push([
       <Wrapper>
         <Box>
           <DatePicker
-            label="Defualt DatePicker:"
-            start_date="2013-02-05T16:30:01Z"
+            label="Range DatePicker:"
+            start_date={new Date()}
+            end_date="2019-05-15"
+            range={true}
+            show_input={true}
             on_change={props => {
               console.log('on_change', props)
             }}
@@ -215,8 +218,10 @@ stories.push([
         <Box>
           <DatePicker
             label="Defualt DatePicker with Input:"
-            start_date="2013-02-05T16:30:01Z"
+            start_date="2019-05-05"
             show_input={true}
+            // show_submit_button={true}
+            show_cancel_button={true}
             on_change={props => {
               console.log('on_change', props)
             }}
@@ -224,13 +229,19 @@ stories.push([
         </Box>
         <Box>
           <DatePicker
-            label="Range DatePicker:"
-            start_date={new Date()}
-            range={true}
-            show_input={true}
+            label="Defualt DatePicker:"
+            start_date="2019-05-05"
             on_change={props => {
               console.log('on_change', props)
             }}
+          />
+        </Box>
+        <Box>
+          <DatePicker
+            label="Hidden Nav:"
+            start_date="2019-05-05"
+            hide_navigation={true}
+            hide_days={true}
           />
         </Box>
       </Wrapper>
