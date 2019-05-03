@@ -644,10 +644,12 @@ exports[`Modal scss have to match snapshot 1`] = `
   padding: 0;
   border: var(--button-border-width) solid transparent;
   border-radius: var(--button-border-radius);
-  font-size: var(--button-font-size);
-  line-height: var(--button-height);
   text-decoration: none;
   /* Firefox includes a hidden border which messes up button dimensions */ }
+  .dnb-button,
+  .dnb-core-style .dnb-button {
+    font-size: var(--button-font-size);
+    line-height: var(--button-height); }
   .dnb-button__icon {
     line-height: 1em; }
     .dnb-button__icon:not(.dnb-icon) svg:not([width]):not([height]) {

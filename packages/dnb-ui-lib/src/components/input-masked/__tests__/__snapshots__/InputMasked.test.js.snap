@@ -268,10 +268,12 @@ exports[`InputMasked scss have to match snapshot 1`] = `
   padding: 0;
   border: var(--button-border-width) solid transparent;
   border-radius: var(--button-border-radius);
-  font-size: var(--button-font-size);
-  line-height: var(--button-height);
   text-decoration: none;
   /* Firefox includes a hidden border which messes up button dimensions */ }
+  .dnb-button,
+  .dnb-core-style .dnb-button {
+    font-size: var(--button-font-size);
+    line-height: var(--button-height); }
   .dnb-button__icon {
     line-height: 1em; }
     .dnb-button__icon:not(.dnb-icon) svg:not([width]):not([height]) {
@@ -608,8 +610,7 @@ a.dnb-button:active, a.dnb-button:focus {
   align-items: flex-start;
   vertical-align: middle;
   width: auto;
-  font-size: var(--input-font-size);
-  font-weight: var(--font-weight-default); }
+  font-size: var(--input-font-size); }
   .dnb-input__shell {
     position: relative;
     display: flex;
@@ -632,7 +633,7 @@ a.dnb-button:active, a.dnb-button:focus {
     padding: var(--input-padding);
     text-align: left;
     color: inherit;
-    font-size: var(--input-font-size);
+    font-size: inherit;
     line-height: 1em;
     background-color: transparent;
     transform: translateY(var(--input-border-width)); }
