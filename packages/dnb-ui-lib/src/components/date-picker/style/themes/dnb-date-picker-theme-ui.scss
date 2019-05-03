@@ -6,7 +6,8 @@
 @import '../../../../style/themes/imports.scss';
 
 :root {
-  --date-picker-today-color: inherit; // The DNB UX team has desiced to not show today diffrently
+  // The DNB UX team has desiced to not show today diffrently
+  --date-picker-today-color: var(--color-emerald-green);
   --date-picker-header-color: var(--color-emerald-green);
   --date-picker-labels-day-color: var(--color-emerald-green);
   --date-picker-selected-color: var(--color-mint-green-25);
