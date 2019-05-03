@@ -12,7 +12,7 @@ import Input from '../input/Input'
 
 export const propTypes = {
   mask: PropTypes.string,
-  label: PropTypes.string,
+  range: PropTypes.bool,
   onChange: PropTypes.func,
   onSubmit: PropTypes.func,
   onFocus: PropTypes.func
@@ -20,7 +20,7 @@ export const propTypes = {
 
 export const defaultProps = {
   mask: 'dd/mm/yyyy',
-  label: null,
+  range: null,
   onChange: null,
   onSubmit: null,
   onFocus: null
@@ -288,12 +288,15 @@ export default class DatePickerInput extends PureComponent {
     const startDateList = this.generateStartDateList()
     const endDateList = this.generateEndDateList()
 
+    const { range } = this.props
+
     return (
       <Input
-        label={this.props.label}
         inputElement={
-          <span className="dnb-date-picker--shell">
-            {startDateList} - {endDateList}
+          <span className="dnb-date-picker__input__wrapper">
+            {startDateList}
+            {range && ' - '}
+            {range && endDateList}
           </span>
         }
         submit_button_icon="calendar"

@@ -204,11 +204,35 @@ stories.push([
     <CustomStyle>
       <Wrapper>
         <Box>
-          <DatePicker label="Date:" start_date="2013-02-05T16:30:01Z" />
+          <DatePicker
+            label="Defualt DatePicker:"
+            start_date="2013-02-05T16:30:01Z"
+            on_change={props => {
+              console.log('on_change', props)
+            }}
+          />
         </Box>
-        {/* <Box>
-          <DatePicker label="Date:" start_date={new Date()} />
-        </Box> */}
+        <Box>
+          <DatePicker
+            label="Defualt DatePicker with Input:"
+            start_date="2013-02-05T16:30:01Z"
+            show_input={true}
+            on_change={props => {
+              console.log('on_change', props)
+            }}
+          />
+        </Box>
+        <Box>
+          <DatePicker
+            label="Range DatePicker:"
+            start_date={new Date()}
+            range={true}
+            show_input={true}
+            on_change={props => {
+              console.log('on_change', props)
+            }}
+          />
+        </Box>
       </Wrapper>
     </CustomStyle>
   )
