@@ -13,8 +13,6 @@ import Input from '../input/Input'
 export const propTypes = {
   mask: PropTypes.string,
   label: PropTypes.string,
-  // startDate: PropTypes.instanceOf(Date),
-  // endDate: PropTypes.instanceOf(Date),
   onChange: PropTypes.func,
   onSubmit: PropTypes.func,
   onFocus: PropTypes.func
@@ -23,8 +21,6 @@ export const propTypes = {
 export const defaultProps = {
   mask: 'dd/mm/yyyy',
   label: null,
-  // startDate: null,
-  // endDate: null,
   onChange: null,
   onSubmit: null,
   onFocus: null
@@ -50,20 +46,15 @@ export default class DatePickerInput extends PureComponent {
       }
       return acc
     }, [])
-
-    // this.dayRef = React.createRef()
   }
 
   static getDerivedStateFromProps(props, state) {
-    // if (state._listenForPropChanges) {
     if (props.startDate) {
       state.startDate = props.startDate
     }
     if (props.endDate) {
       state.endDate = props.endDate
     }
-    // }
-    // state._listenForPropChanges = true
     return state
   }
 
@@ -180,9 +171,6 @@ export default class DatePickerInput extends PureComponent {
                 onFocus={this.props.onFocus}
                 onMouseUp={selectInput}
                 onChange={this.setStartDay}
-                // ref={this.dayRef}
-                // defaultValue={this.state.startDay}
-                // innerRef={innerRef}
                 {...params}
               />
             )
@@ -249,9 +237,6 @@ export default class DatePickerInput extends PureComponent {
                 onFocus={this.props.onFocus}
                 onMouseUp={selectInput}
                 onChange={this.setEndDay}
-                // ref={this.dayRef}
-                // defaultValue={this.state.endDay}
-                // innerRef={innerRef}
                 {...params}
               />
             )
@@ -299,11 +284,6 @@ export default class DatePickerInput extends PureComponent {
     })
   }
 
-  // componentDidMount() {
-  // console.log('this.dayRef', this.dayRef.current.inputElement)
-  // this.dayRef.current.inputElement.value = '12'
-  // }
-
   render() {
     const startDateList = this.generateStartDateList()
     const endDateList = this.generateEndDateList()
@@ -316,11 +296,8 @@ export default class DatePickerInput extends PureComponent {
             {startDateList} - {endDateList}
           </span>
         }
-        on_submit={this.props.onSubmit}
         submit_button_icon="calendar"
-        on_change={val => {
-          console.log('val', val)
-        }}
+        on_submit={this.props.onSubmit}
       />
     )
   }
