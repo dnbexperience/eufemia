@@ -41,10 +41,6 @@ export default class DatePicker extends PureComponent {
 
   state = {
     pickerIsVisible: false,
-    // startDay: null,
-    // startMonth: null,
-    // startYear: null,
-    // date: null,
     startDate: null,
     endDate: null
   }
@@ -100,47 +96,6 @@ export default class DatePicker extends PureComponent {
       pickerIsVisible
     })
   }
-
-  // setStartDay = event => {
-  //   try {
-  //     let startDay = event.currentTarget.value
-  //     if (parseFloat(startDay) > 0 && startDay.length === 2) {
-  //       startDay = pad(parseFloat(event.currentTarget.value), 2)
-  //       this.setState({
-  //         startDay
-  //       })
-  //     }
-  //   } catch (e) {
-  //     console.log(e)
-  //   }
-  // }
-  //
-  // setStartMonth = event => {
-  //   try {
-  //     let startMonth = event.currentTarget.value
-  //     if (parseFloat(startMonth) > 0 && startMonth.length === 2) {
-  //       startMonth = pad(parseFloat(event.currentTarget.value), 2)
-  //       this.setState({
-  //         startMonth
-  //       })
-  //     }
-  //   } catch (e) {
-  //     console.log(e)
-  //   }
-  // }
-  //
-  // setStartYear = event => {
-  //   try {
-  //     const startYear = event.currentTarget.value
-  //     if (parseFloat(startYear) > 0 && startYear.length === 4) {
-  //       this.setState({
-  //         startYear
-  //       })
-  //     }
-  //   } catch (e) {
-  //     console.log(e)
-  //   }
-  // }
 
   render() {
     return (
