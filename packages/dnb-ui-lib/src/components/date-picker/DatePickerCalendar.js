@@ -31,6 +31,8 @@ export const propTypes = {
   titleFormat: PropTypes.string,
   dayOfWeekFormat: PropTypes.string,
   firstDayOfWeek: PropTypes.string,
+  hideNav: PropTypes.bool,
+  hideDays: PropTypes.bool,
 
   onHover: PropTypes.func,
   onSelect: PropTypes.func,
@@ -56,6 +58,8 @@ export const defaultProps = {
   titleFormat: 'MMMM YYYY',
   dayOfWeekFormat: 'dd',
   firstDayOfWeek: 'monday',
+  hideNav: false,
+  hideDays: false,
 
   // locale
   locale: nbLocale,
@@ -108,6 +112,8 @@ export default class DatePickerCalendar extends PureComponent {
       locale,
       firstDayOfWeek,
       dayOfWeekFormat,
+      hideNav,
+      hideDays,
       onPrev,
       onNext,
       onSelect,
@@ -128,40 +134,44 @@ export default class DatePickerCalendar extends PureComponent {
       <div
         className={classnames('dnb-date-picker__calendar', rtl && 'rtl')}
       >
-        <div className="dnb-date-picker__header">
-          <div className="dnb-date-picker__header__nav">
-            <PrevButton
-              id={id}
-              minDate={minDate}
-              month={month}
-              prevBtn={prevBtn}
-              onPrev={onPrev}
-            />
-          </div>
-          <div className="dnb-date-picker__header__title">
-            {format(month, titleFormat, {
-              locale: locale
-            })}
-          </div>
-          <div className="dnb-date-picker__header__nav">
-            <NextButton
-              id={id}
-              maxDate={maxDate}
-              month={month}
-              nextBtn={nextBtn}
-              onNext={onNext}
-            />
-          </div>
-        </div>
-        <ul className="dnb-date-picker__labels">
-          {getWeek(dayOffset(firstDayOfWeek)).map((day, i) => (
-            <li key={i} className="dnb-date-picker__labels__day">
-              {format(day, dayOfWeekFormat, {
+        {!hideNav && (
+          <div className="dnb-date-picker__header">
+            <div className="dnb-date-picker__header__nav">
+              <PrevButton
+                id={id}
+                minDate={minDate}
+                month={month}
+                prevBtn={prevBtn}
+                onPrev={onPrev}
+              />
+            </div>
+            <div className="dnb-date-picker__header__title">
+              {format(month, titleFormat, {
                 locale: locale
               })}
-            </li>
-          ))}
-        </ul>
+            </div>
+            <div className="dnb-date-picker__header__nav">
+              <NextButton
+                id={id}
+                maxDate={maxDate}
+                month={month}
+                nextBtn={nextBtn}
+                onNext={onNext}
+              />
+            </div>
+          </div>
+        )}
+        {!hideDays && (
+          <ul className="dnb-date-picker__labels">
+            {getWeek(dayOffset(firstDayOfWeek)).map((day, i) => (
+              <li key={i} className="dnb-date-picker__labels__day">
+                {format(day, dayOfWeekFormat, {
+                  locale: locale
+                })}
+              </li>
+            ))}
+          </ul>
+        )}
         <ul className="dnb-date-picker__days">
           {this.days.map((day, i) => (
             <li

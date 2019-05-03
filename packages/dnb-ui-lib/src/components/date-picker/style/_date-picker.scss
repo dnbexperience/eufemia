@@ -70,6 +70,9 @@
     left: -1rem;
     top: var(--date-picker-input-height);
   }
+  &--show-input &__container {
+    left: 0;
+  }
 
   &--opened &__container {
     @include openDatePicker();
@@ -115,11 +118,8 @@
   // stylelint-disable-next-line
   &__input,
   .dnb-core-style &__input {
-    font-family: /* macOS 10.10+ */ Menlo, /* Windows 6+ */ Consolas,
-      /* Android 4+ */ Roboto Mono, /* Ubuntu 10.10+ */ Ubuntu Monospace,
-      /* KDE Plasma 5+ */ Noto Mono, /* KDE Plasma 4+ */ Oxygen Mono,
-      /* Linux/OpenOffice fallback */ Liberation Mono,
-      /* fallback */ monospace; /* 1 */
+    font-family: var(--font-family-monospace);
+    // @include numberFeature(tabular-nums, lnum);
   }
 
   &__range {
@@ -139,6 +139,10 @@
       width: calc(100% - 2rem);
       height: 1px;
     }
+  }
+
+  &:not(#{&}--show-submit-footer) &__calendar::after {
+    content: none;
   }
 
   &__header {
@@ -214,6 +218,8 @@
       top: 0;
       width: var(--date-picker-day-width); // medium size
       height: var(--date-picker-day-width); // medium size
+
+      @include numberFeature(tabular-nums, lnum);
     }
 
     &--selectable:hover {
@@ -252,6 +258,8 @@
   }
 
   &__triangle {
+    pointer-events: none;
+
     position: absolute;
     top: calc(1px + 1px - var(--date-picker-input-height) / 2);
     left: 0;
@@ -276,6 +284,9 @@
       border: 1px solid var(--color-black-border);
       background-color: var(--color-white);
     }
+  }
+  &--show-input &__triangle {
+    left: 0;
   }
 
   .rtl {
