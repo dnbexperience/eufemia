@@ -7,6 +7,7 @@ import file from './file.js'
 import fullscreen from './fullscreen.js'
 import hamburger from './hamburger.js'
 import link_out from './link_out.js'
+import list from './list.js'
 import logout from './logout.js'
 import pencil from './pencil.js'
 import print from './print.js'
@@ -21,6 +22,7 @@ export {
   fullscreen,
   hamburger,
   link_out,
+  list,
   logout,
   pencil,
   print,
