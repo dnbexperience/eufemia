@@ -29,6 +29,11 @@
 
   &__calendar {
     background-color: var(--color-white);
+
+    // border
+    &::after {
+      background-color: var(--color-mint-green-50);
+    }
   }
 
   &__header {

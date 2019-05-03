@@ -40,20 +40,18 @@ export default class DatePickerFooter extends PureComponent {
   render() {
     return (
       <div className="dnb-date-picker__footer">
-        <div className="dnb-date-picker__header__nav">
-          <Button
-            text="Ok"
-            variant="secondary"
-            onClick={this.onSubmitHandler}
-          />
-          <Button
-            text="Cancel"
-            icon="close"
-            icon_position="left"
-            variant="tertiary"
-            onClick={this.onCancelHandler}
-          />
-        </div>
+        <Button
+          text="Ok"
+          variant="secondary"
+          onClick={this.onSubmitHandler}
+        />
+        <Button
+          text="Cancel"
+          icon="close"
+          icon_position="left"
+          variant="tertiary"
+          onClick={this.onCancelHandler}
+        />
       </div>
     )
   }

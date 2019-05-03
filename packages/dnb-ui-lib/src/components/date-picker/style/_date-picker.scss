@@ -51,7 +51,17 @@
   }
 
   &__calendar {
+    position: relative;
     padding: 1rem;
+
+    // border
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      width: calc(100% - 2rem);
+      height: 1px;
+    }
   }
 
   &__header {
@@ -78,6 +88,16 @@
     &__title {
       flex-basis: percentage(5 / 7);
     }
+  }
+
+  &__footer {
+    position: relative;
+
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+
+    background-color: var(--color-white);
   }
 
   &__labels {
