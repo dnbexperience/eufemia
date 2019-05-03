@@ -39,8 +39,11 @@
   border: var(--button-border-width) solid transparent;
   border-radius: var(--button-border-radius);
 
-  font-size: var(--button-font-size);
-  line-height: var(--button-height);
+  &,
+  .dnb-core-style & {
+    font-size: var(--button-font-size);
+    line-height: var(--button-height);
+  }
   text-decoration: none;
 
   &__icon {
