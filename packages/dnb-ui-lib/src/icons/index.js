@@ -36,6 +36,8 @@ import information from './information.js'
 import information_medium from './information_medium.js'
 import link_out from './link_out.js'
 import link_out_medium from './link_out_medium.js'
+import list from './list.js'
+import list_medium from './list_medium.js'
 import logout from './logout.js'
 import logout_medium from './logout_medium.js'
 import more from './more.js'
@@ -94,6 +96,8 @@ export {
   information_medium,
   link_out,
   link_out_medium,
+  list,
+  list_medium,
   logout,
   logout_medium,
   more,
