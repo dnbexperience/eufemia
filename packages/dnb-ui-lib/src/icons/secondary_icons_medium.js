@@ -7,6 +7,7 @@ import file_medium from './file_medium.js'
 import fullscreen_medium from './fullscreen_medium.js'
 import hamburger_medium from './hamburger_medium.js'
 import link_out_medium from './link_out_medium.js'
+import list_medium from './list_medium.js'
 import logout_medium from './logout_medium.js'
 import pencil_medium from './pencil_medium.js'
 import print_medium from './print_medium.js'
@@ -21,6 +22,7 @@ export {
   fullscreen_medium,
   hamburger_medium,
   link_out_medium,
+  list_medium,
   logout_medium,
   pencil_medium,
   print_medium,
