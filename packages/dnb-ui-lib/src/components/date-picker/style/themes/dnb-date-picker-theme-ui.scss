@@ -17,8 +17,6 @@
 }
 
 .dnb-date-picker {
-  position: absolute;
-
   &__input {
     color: var(--color-sea-green);
   }
@@ -27,9 +25,17 @@
     color: var(--color-sea-green);
   }
 
-  &__calendar {
-    background-color: var(--color-white);
+  &__shell {
+    // border-radius: 0.5rem;
+  }
 
+  &__container {
+    @include defaultDropShadow();
+    border-radius: 0.5rem;
+    background-color: var(--color-white);
+  }
+
+  &__calendar {
     // border
     &::after {
       background-color: var(--color-mint-green-50);
@@ -128,5 +134,11 @@
     :not([dnb-is-touch]) &--inactive .dnb-button[disabled] {
       cursor: default;
     }
+  }
+
+  &__triangle::before {
+    border: none;
+    background-color: var(--color-white);
+    @include defaultDropShadow();
   }
 }

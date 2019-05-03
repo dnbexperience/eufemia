@@ -4,18 +4,86 @@
 */
 
 :root {
+  --date-picker-input-height: 2rem;
   --date-picker-day-width: 2rem;
   --date-picker-day-horizontal-spacing: 4px;
 }
 
+@mixin openDatePicker($state: 'animation') {
+  z-index: 9;
+  // display: flex;
+
+  &:not(#{&}--no-animation) {
+    animation: datePickerSlideDown 200ms ease-out 1 forwards;
+  }
+  &--no-animation {
+    animation: datePickerSlideDown 1ms ease-out 1 forwards;
+  }
+}
+@mixin closeDatePicker($state: 'animation') {
+  &:not(#{&}--no-animation) {
+    animation: datePickerSlideUp 150ms ease-out 1 forwards;
+  }
+  &--no-animation {
+    animation: datePickerSlideUp 1ms ease-out 1 forwards;
+  }
+}
+
+@keyframes datePickerSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(calc(1px - var(--date-picker-input-height)));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes datePickerSlideUp {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(calc(1px - var(--date-picker-input-height)));
+  }
+}
+
+@mixin datePickerClosed() {
+  display: none;
+}
+
 .dnb-date-picker {
-  position: absolute;
+  &__shell {
+    position: relative;
+    top: 0;
+
+    display: inline-block;
+  }
+
+  &__container {
+    position: absolute;
+    display: block;
+    z-index: 3;
+    left: -1rem;
+    top: var(--date-picker-input-height);
+  }
+
+  &--opened &__container {
+    @include openDatePicker();
+  }
+  &--hidden &__container {
+    @include datePickerClosed();
+  }
+  &:not(#{&}--opened) &__container {
+    @include closeDatePicker();
+  }
 
   &__input {
-    display: inline-block;
+    // display: inline-block;
     outline: none;
-
-    width: auto;
 
     text-align: center;
     border: none;
@@ -23,12 +91,21 @@
     overflow: visible;
 
     white-space: nowrap;
+
+    &:first-of-type {
+      margin-left: 0.8rem;
+    }
+    &:last-of-type {
+      margin-right: 2.2rem;
+    }
   }
-  &__input:first-of-type {
-    margin-left: 0.8rem;
+  &__input__wrapper {
+    width: 0; // hide input by default
+    visibility: hidden;
   }
-  &__input:last-of-type {
-    margin-right: 2.2rem;
+  &--show-input &__input__wrapper {
+    width: auto;
+    visibility: visible;
   }
 
   &--separator {
@@ -96,8 +173,6 @@
     display: flex;
     justify-content: space-between;
     padding: 1rem;
-
-    background-color: var(--color-white);
   }
 
   &__labels {
@@ -108,7 +183,8 @@
 
   &__labels,
   &__days {
-    min-width: 12rem;
+    // min-width: 12rem;
+    min-width: 18rem;
     max-width: 18rem;
 
     display: flex;
@@ -172,6 +248,33 @@
     }
     &--start-date#{&}--end-date::after {
       content: none;
+    }
+  }
+
+  &__triangle {
+    position: absolute;
+    top: calc(1px + 1px - var(--date-picker-input-height) / 2);
+    left: 0;
+    right: auto;
+    margin: 0 1.5rem;
+
+    width: calc(var(--date-picker-input-height) / 2);
+    height: calc(var(--date-picker-input-height) / 2);
+
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+
+      width: calc(var(--date-picker-input-height) / 2);
+      height: calc(var(--date-picker-input-height) / 2);
+      transform: translateY(60%) rotate(45deg);
+
+      border: 1px solid var(--color-black-border);
+      background-color: var(--color-white);
     }
   }
 

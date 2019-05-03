@@ -13,6 +13,7 @@ export const propTypes = {
   startDate: PropTypes.instanceOf(Date),
   endDate: PropTypes.instanceOf(Date),
 
+  range: PropTypes.bool,
   link: PropTypes.bool,
   pages: PropTypes.oneOfType([
     PropTypes.number,
@@ -31,8 +32,9 @@ export const defaultProps = {
   endDate: null,
 
   // apperance
-  link: false,
-  pages: 2,
+  range: null,
+  link: null,
+  pages: null,
   // pages: [{ nextBtn: false }, { prevBtn: false }],
 
   // events
@@ -55,9 +57,14 @@ export default class DatePickerRange extends PureComponent {
   constructor(props) {
     super(props)
 
+    let pagesCount = props.pages
+    if (pagesCount === null && props.range) {
+      pagesCount = 2
+    }
+
     this.state.pages = Array.isArray(props.pages)
       ? props.pages
-      : [...Array(props.pages)].map((page, i) => ({
+      : [...Array(pagesCount)].map((page, i) => ({
           month: addMonths(props.month, i),
           ...page,
           id: i

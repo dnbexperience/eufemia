@@ -69,7 +69,7 @@ export const defaultProps = {
   hoverDate: null,
 
   // dates
-  range: true,
+  range: null,
   startDate: null,
   endDate: null,
 
@@ -81,24 +81,6 @@ export const defaultProps = {
 export default class DatePickerCalendar extends PureComponent {
   static propTypes = propTypes
   static defaultProps = defaultProps
-
-  // state = {
-  //   startDate: null,
-  //   endDate: null
-  // }
-
-  // static getDerivedStateFromProps(props, state) {
-  //   // if (state._listenForPropChanges) {
-  //   if (props.startDate) {
-  //     // console.log('getDerivedStateFromProps', props.startDate)
-  //     state.startDate = props.startDate
-  //   }
-  //   if (props.endDate) {
-  //     state.endDate = props.endDate
-  //   }
-  //   // state._listenForPropChanges = true
-  //   return state
-  // }
 
   buildClassNames = day =>
     classnames({
