@@ -13,6 +13,7 @@ import PropTypes from 'prop-types'
 // } from '../../shared/component-helper'
 import DatePickerRange from './DatePickerRange'
 import DatePickerInput from './DatePickerInput'
+import DatePickerFooter from './DatePickerFooter'
 
 const renderProps = {
   on_change: null
@@ -109,11 +110,17 @@ export default class DatePicker extends PureComponent {
           endDate={this.state.endDate}
         />
         {this.state.pickerIsVisible && (
-          <DatePickerRange
-            onChange={this.onPickerChange}
-            startDate={this.state.startDate}
-            endDate={this.state.endDate}
-          />
+          <>
+            <DatePickerRange
+              onChange={this.onPickerChange}
+              startDate={this.state.startDate}
+              endDate={this.state.endDate}
+            />
+            <DatePickerFooter
+              onCancel={this.hidePicker}
+              onSubmit={this.hidePicker}
+            />
+          </>
         )}
       </span>
     )

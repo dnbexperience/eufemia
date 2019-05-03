@@ -23,10 +23,6 @@ import {
 } from './DatePickerCalc'
 import Button from '../button/Button'
 
-const renderProps = {
-  on_change: null
-}
-
 export const propTypes = {
   id: PropTypes.number,
   month: PropTypes.instanceOf(Date), // What month will be displayed in the first calendar. Default: new Date()
@@ -85,7 +81,6 @@ export const defaultProps = {
 export default class DatePickerCalendar extends PureComponent {
   static propTypes = propTypes
   static defaultProps = defaultProps
-  static renderProps = renderProps
 
   // state = {
   //   startDate: null,

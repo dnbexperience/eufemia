@@ -8,12 +8,7 @@ import PropTypes from 'prop-types'
 import { setDate, setMonth, setYear, isAfter, format } from 'date-fns'
 import MaskedInput from 'react-text-mask' // https://github.com/text-mask/text-mask
 import Input from '../input/Input'
-// import Icon from '../icon-primary/IconPrimary'
 // import keycode from 'keycode'
-
-const renderProps = {
-  on_change: null
-}
 
 export const propTypes = {
   mask: PropTypes.string,
@@ -32,14 +27,12 @@ export const defaultProps = {
   // endDate: null,
   onChange: null,
   onSubmit: null,
-  onFocus: null,
-  ...renderProps
+  onFocus: null
 }
 
 export default class DatePickerInput extends PureComponent {
   static propTypes = propTypes
   static defaultProps = defaultProps
-  static renderProps = renderProps
 
   state = {
     startDate: null,
