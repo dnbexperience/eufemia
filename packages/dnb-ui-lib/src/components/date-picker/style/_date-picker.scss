@@ -10,7 +10,7 @@
 }
 
 @mixin openDatePicker($state: 'animation') {
-  z-index: 9;
+  z-index: 4;
   // display: flex;
 
   &:not(#{&}--no-animation) {
@@ -219,12 +219,14 @@
       width: var(--date-picker-day-width); // medium size
       height: var(--date-picker-day-width); // medium size
 
-      @include numberFeature(tabular-nums, lnum);
+      box-shadow: none;
+      &__bounding {
+        border-radius: 0;
+      }
     }
 
     &--selectable:hover {
       z-index: 2;
-      // cursor: pointer;
     }
 
     &--start-date .dnb-button,

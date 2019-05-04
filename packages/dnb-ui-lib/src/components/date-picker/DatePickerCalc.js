@@ -157,8 +157,9 @@ const isPreview = (date, startDate, endDate, hoverDate) => {
   return (
     startDate &&
     !endDate &&
-    !isStartDate(date, previewRange) &&
-    !isEndDate(date, previewRange) &&
+    // To exlude "isPreview" from startDate/endDate, we have to enable theese two lines
+    // !isStartDate(date, previewRange) &&
+    // !isEndDate(date, previewRange) &&
     isWithinRange(date, previewRange.startDate, previewRange.endDate)
   )
 }
