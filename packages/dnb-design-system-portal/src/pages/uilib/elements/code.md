@@ -31,8 +31,5 @@ So simply use them in Your Syntax:
 `<code>` snippets look best when rendered in a _Monotype_ font. Developers will normally have installed some of these fonts on their devices. Here is an example of CSS `font-family` usage:
 
 ```css
-font-family: /* macOS 10.10+ */ Menlo, /* Windows 6+ */ Consolas, /* Android 4+ */
-    Roboto Mono, /* Ubuntu 10.10+ */ Ubuntu Monospace, /* KDE Plasma 5+ */
-    Noto Mono, /* KDE Plasma 4+ */ Oxygen Mono, /* Linux/OpenOffice fallback */
-    Liberation Mono, /* fallback */ monospace; /* 1 */
+font-family: var(--font-family-monospace);
 ```
