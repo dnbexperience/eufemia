@@ -63,6 +63,7 @@ export const propTypes = {
     PropTypes.node,
     PropTypes.func
   ]),
+  submitButton: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
 
   // Web Component props
   custom_element: PropTypes.object,
@@ -103,6 +104,7 @@ export const defaultProps = {
   className: null,
   inputElement: null,
   children: null,
+  submitButton: null,
 
   // Web Component props
   custom_element: null,
@@ -207,6 +209,7 @@ export default class Input extends PureComponent {
       submit_button_variant,
       submit_button_icon,
       on_submit,
+      submitButton,
       autocomplete,
       readOnly,
       class: _className,
@@ -224,7 +227,7 @@ export default class Input extends PureComponent {
 
     const id = this._id
     const showStatus = status && status !== 'error'
-    const hasSubmitButton = on_submit || type === 'search'
+    const hasSubmitButton = on_submit || submitButton || type === 'search'
 
     const classes = classnames(
       'dnb-input',
@@ -321,15 +324,18 @@ export default class Input extends PureComponent {
             )}
           </span>
 
-          {hasSubmitButton && (
-            <Submit
-              {...this.props}
-              value={inputParams.value}
-              icon={submit_button_icon}
-              title={submit_button_title}
-              variant={submit_button_variant}
-            />
-          )}
+          {hasSubmitButton &&
+            (submitButton ? (
+              submitButton
+            ) : (
+              <SubmitButton
+                {...this.props}
+                value={inputParams.value}
+                icon={submit_button_icon}
+                title={submit_button_title}
+                variant={submit_button_variant}
+              />
+            ))}
 
           {showStatus && (
             <FormStatus
@@ -354,9 +360,9 @@ export default class Input extends PureComponent {
   }
 }
 
-class Submit extends PureComponent {
+class SubmitButton extends PureComponent {
   static propTypes = {
-    value: PropTypes.string.isRequired,
+    value: PropTypes.string,
     title: PropTypes.string,
     variant: ButtonPropTypes.variant,
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -367,11 +373,6 @@ class Submit extends PureComponent {
     ]),
     icon_size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 
-    // React props
-    onSubmit: PropTypes.func,
-    onSubmitFocus: PropTypes.func,
-    onSubmitBlur: PropTypes.func,
-
     // Web Component props
     on_submit: PropTypes.func,
     on_submit_focus: PropTypes.func,
@@ -379,16 +380,12 @@ class Submit extends PureComponent {
   }
 
   static defaultProps = {
+    value: null,
     title: null,
     disabled: false,
     variant: 'secondary',
     icon: 'search',
     icon_size: 'medium',
-
-    // React props
-    onSubmit: null,
-    onSubmitFocus: null,
-    onSubmitBlur: null,
 
     // Web Component props
     on_submit: null,
@@ -447,3 +444,5 @@ class Submit extends PureComponent {
     )
   }
 }
+
+export { SubmitButton }

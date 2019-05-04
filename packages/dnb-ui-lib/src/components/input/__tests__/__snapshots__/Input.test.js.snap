@@ -2,39 +2,95 @@
 
 exports[`Input component have to match type="search" snapshot 1`] = `
 <Input
-  align="align"
-  attributes="attributes"
+  0={
+    Object {
+      "displayName": "Input",
+      "props": Object {
+        "align": "align",
+        "attributes": "attributes",
+        "autocomplete": "'on'",
+        "children": "children",
+        "class": "class",
+        "className": "className",
+        "custom_element": Object {},
+        "custom_method": [Function],
+        "description": "description",
+        "disabled": "disabled",
+        "id": "id",
+        "inputElement": [Function],
+        "input_class": "input_class",
+        "label": "label",
+        "on_blur": [Function],
+        "on_change": [Function],
+        "on_focus": [Function],
+        "on_submit": [Function],
+        "on_submit_blur": [Function],
+        "on_submit_focus": [Function],
+        "placeholder": "placeholder",
+        "readOnly": "readOnly",
+        "size": "size",
+        "status": "status",
+        "status_animation": "status_animation",
+        "status_state": "status_state",
+        "submitButton": [Function],
+        "submit_button_icon": "submit_button_icon",
+        "submit_button_title": "submit_button_title",
+        "submit_button_variant": "custom type not supported, please set the correct value for submit_button_variant prop",
+        "type": "type",
+        "value": "value",
+      },
+    }
+  }
+  1={
+    Object {
+      "displayName": "SubmitButton",
+      "props": Object {
+        "disabled": "disabled",
+        "icon": "icon",
+        "icon_size": "icon_size",
+        "on_submit": [Function],
+        "on_submit_blur": [Function],
+        "on_submit_focus": [Function],
+        "title": "title",
+        "value": "value",
+        "variant": "custom type not supported, please set the correct value for variant prop",
+      },
+    }
+  }
+  align={null}
+  attributes={null}
   autocomplete="off"
-  class="class"
-  className="className"
-  custom_element={Object {}}
-  custom_method={[Function]}
+  class={null}
+  className={null}
+  custom_element={null}
+  custom_method={null}
   description={null}
   disabled={false}
   id="input"
   inputElement={null}
-  input_class="input_class"
+  input_class={null}
   label={null}
-  on_blur={[Function]}
-  on_change={[Function]}
-  on_focus={[Function]}
-  on_submit={[Function]}
-  on_submit_blur={[Function]}
-  on_submit_focus={[Function]}
-  placeholder="placeholder"
-  readOnly="readOnly"
-  size="size"
+  on_blur={null}
+  on_change={null}
+  on_focus={null}
+  on_submit={null}
+  on_submit_blur={null}
+  on_submit_focus={null}
+  placeholder={null}
+  readOnly={false}
+  size={null}
   status={null}
-  status_animation="status_animation"
-  status_state="status_state"
-  submit_button_icon="submit_button_icon"
-  submit_button_title="submit_button_title"
+  status_animation={null}
+  status_state="error"
+  submitButton={null}
+  submit_button_icon="search"
+  submit_button_title={null}
   submit_button_variant="secondary"
   type="search"
   value="test"
 >
   <span
-    className="dnb-input dnb-input--search dnb-input--size dnb-input--has-submit-button dnb-input__align--align class className"
+    className="dnb-input dnb-input--search dnb-input--has-submit-button"
   >
     <span
       className="dnb-input__shell"
@@ -42,62 +98,106 @@ exports[`Input component have to match type="search" snapshot 1`] = `
       data-input-state="virgin"
     >
       <input
-        aria-readonly={true}
-        attributes="attributes"
         autoComplete="off"
-        className="dnb-input__input input_class"
+        className="dnb-input__input"
         id="input"
         name="input"
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
         onKeyDown={[Function]}
-        readOnly={true}
         type="search"
         value="test"
       />
-      <span
-        aria-hidden={true}
-        className="dnb-input__placeholder dnb-input__align--align"
-      >
-        placeholder
-      </span>
     </span>
-    <Submit
-      align="align"
-      attributes="attributes"
+    <SubmitButton
+      0={
+        Object {
+          "displayName": "Input",
+          "props": Object {
+            "align": "align",
+            "attributes": "attributes",
+            "autocomplete": "'on'",
+            "children": "children",
+            "class": "class",
+            "className": "className",
+            "custom_element": Object {},
+            "custom_method": [Function],
+            "description": "description",
+            "disabled": "disabled",
+            "id": "id",
+            "inputElement": [Function],
+            "input_class": "input_class",
+            "label": "label",
+            "on_blur": [Function],
+            "on_change": [Function],
+            "on_focus": [Function],
+            "on_submit": [Function],
+            "on_submit_blur": [Function],
+            "on_submit_focus": [Function],
+            "placeholder": "placeholder",
+            "readOnly": "readOnly",
+            "size": "size",
+            "status": "status",
+            "status_animation": "status_animation",
+            "status_state": "status_state",
+            "submitButton": [Function],
+            "submit_button_icon": "submit_button_icon",
+            "submit_button_title": "submit_button_title",
+            "submit_button_variant": "custom type not supported, please set the correct value for submit_button_variant prop",
+            "type": "type",
+            "value": "value",
+          },
+        }
+      }
+      1={
+        Object {
+          "displayName": "SubmitButton",
+          "props": Object {
+            "disabled": "disabled",
+            "icon": "icon",
+            "icon_size": "icon_size",
+            "on_submit": [Function],
+            "on_submit_blur": [Function],
+            "on_submit_focus": [Function],
+            "title": "title",
+            "value": "value",
+            "variant": "custom type not supported, please set the correct value for variant prop",
+          },
+        }
+      }
+      align={null}
+      attributes={null}
       autocomplete="off"
-      class="class"
-      className="className"
-      custom_element={Object {}}
-      custom_method={[Function]}
+      class={null}
+      className={null}
+      custom_element={null}
+      custom_method={null}
       description={null}
       disabled={false}
-      icon="submit_button_icon"
+      icon="search"
       icon_size="medium"
       id="input"
       inputElement={null}
-      input_class="input_class"
+      input_class={null}
       label={null}
-      onSubmit={null}
-      onSubmitBlur={null}
-      onSubmitFocus={null}
-      on_blur={[Function]}
-      on_change={[Function]}
-      on_focus={[Function]}
-      on_submit={[Function]}
-      on_submit_blur={[Function]}
-      on_submit_focus={[Function]}
-      placeholder="placeholder"
-      readOnly="readOnly"
-      size="size"
+      on_blur={null}
+      on_change={null}
+      on_focus={null}
+      on_submit={null}
+      on_submit_blur={null}
+      on_submit_focus={null}
+      placeholder={null}
+      readOnly={false}
+      size={null}
       status={null}
-      status_animation="status_animation"
-      status_state="status_state"
-      submit_button_icon="submit_button_icon"
-      submit_button_title="submit_button_title"
+      status_animation={null}
+      status_state="error"
+      submitButton={null}
+      submit_button_icon="search"
+      submit_button_title={null}
       submit_button_variant="secondary"
-      title="submit_button_title"
+      title={null}
       type="search"
       value="test"
       variant="secondary"
@@ -108,13 +208,14 @@ exports[`Input component have to match type="search" snapshot 1`] = `
       >
         <Button
           attributes={null}
+          bounding={false}
           class={null}
           className="dnb-input__submit-button__button"
           custom_element={null}
           custom_method={null}
           disabled={false}
           href={null}
-          icon="submit_button_icon"
+          icon="search"
           icon_position="right"
           icon_size="default"
           id={null}
@@ -125,22 +226,21 @@ exports[`Input component have to match type="search" snapshot 1`] = `
           on_click={null}
           size="medium"
           text={null}
-          title="submit_button_title"
+          title={null}
           type="submit"
           variant="secondary"
         >
           <button
-            aria-label="submit_button_title"
             className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon dnb-input__submit-button__button"
             onBlur={[Function]}
             onClick={[Function]}
             onFocus={[Function]}
             onMouseOut={[Function]}
-            title="submit_button_title"
             type="submit"
           >
             <Content
               attributes={null}
+              bounding={false}
               class={null}
               className="dnb-input__submit-button__button"
               content={null}
@@ -148,7 +248,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
               custom_method={null}
               disabled={false}
               href={null}
-              icon="submit_button_icon"
+              icon="search"
               icon_position="right"
               icon_size="default"
               id={null}
@@ -160,69 +260,165 @@ exports[`Input component have to match type="search" snapshot 1`] = `
               on_click={null}
               size="medium"
               text={null}
-              title="submit_button_title"
+              title={null}
               type="submit"
               variant="secondary"
             >
               <IconPrimary
-                alt="submit_button_title"
+                alt={null}
                 aria-hidden={false}
                 attributes={null}
                 class={null}
                 className="dnb-button__icon"
                 color={null}
                 height={null}
-                icon="submit_button_icon"
+                icon="search"
                 key="button-icon"
                 modifier={null}
                 size="default"
                 title={null}
                 width={null}
-              />
+              >
+                <span
+                  alt="search"
+                  aria-hidden={false}
+                  aria-label="search"
+                  className="dnb-icon dnb-icon--default dnb-button__icon"
+                  role="img"
+                >
+                  <search>
+                    <svg
+                      fill="none"
+                      height={17}
+                      viewBox="0 0 17 17"
+                      width={17}
+                    >
+                      <g
+                        clipPath="url(#clip-06a943)"
+                        stroke="#000"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={1.5}
+                      >
+                        <path
+                          d="M9.055 11.937a5.445 5.445 0 1 0-4.26-10.023 5.445 5.445 0 0 0 4.26 10.023zm1.72-1.162L15 14.999"
+                        />
+                      </g>
+                      <defs>
+                        <clipPath
+                          id="clip-06a943"
+                        >
+                          <path
+                            d="M0 0h16v16H0z"
+                            fill="#fff"
+                            transform="scale(1.02995)"
+                          />
+                        </clipPath>
+                      </defs>
+                    </svg>
+                  </search>
+                </span>
+              </IconPrimary>
             </Content>
           </button>
         </Button>
       </span>
-    </Submit>
+    </SubmitButton>
   </span>
 </Input>
 `;
 
 exports[`Input component have to match type="text" snapshot 1`] = `
 <Input
-  align="align"
-  attributes="attributes"
+  0={
+    Object {
+      "displayName": "Input",
+      "props": Object {
+        "align": "align",
+        "attributes": "attributes",
+        "autocomplete": "'on'",
+        "children": "children",
+        "class": "class",
+        "className": "className",
+        "custom_element": Object {},
+        "custom_method": [Function],
+        "description": "description",
+        "disabled": "disabled",
+        "id": "id",
+        "inputElement": [Function],
+        "input_class": "input_class",
+        "label": "label",
+        "on_blur": [Function],
+        "on_change": [Function],
+        "on_focus": [Function],
+        "on_submit": [Function],
+        "on_submit_blur": [Function],
+        "on_submit_focus": [Function],
+        "placeholder": "placeholder",
+        "readOnly": "readOnly",
+        "size": "size",
+        "status": "status",
+        "status_animation": "status_animation",
+        "status_state": "status_state",
+        "submitButton": [Function],
+        "submit_button_icon": "submit_button_icon",
+        "submit_button_title": "submit_button_title",
+        "submit_button_variant": "custom type not supported, please set the correct value for submit_button_variant prop",
+        "type": "type",
+        "value": "value",
+      },
+    }
+  }
+  1={
+    Object {
+      "displayName": "SubmitButton",
+      "props": Object {
+        "disabled": "disabled",
+        "icon": "icon",
+        "icon_size": "icon_size",
+        "on_submit": [Function],
+        "on_submit_blur": [Function],
+        "on_submit_focus": [Function],
+        "title": "title",
+        "value": "value",
+        "variant": "custom type not supported, please set the correct value for variant prop",
+      },
+    }
+  }
+  align={null}
+  attributes={null}
   autocomplete="off"
-  class="class"
-  className="className"
-  custom_element={Object {}}
-  custom_method={[Function]}
+  class={null}
+  className={null}
+  custom_element={null}
+  custom_method={null}
   description={null}
   disabled={false}
   id="input"
   inputElement={null}
-  input_class="input_class"
+  input_class={null}
   label={null}
-  on_blur={[Function]}
-  on_change={[Function]}
-  on_focus={[Function]}
-  on_submit={[Function]}
-  on_submit_blur={[Function]}
-  on_submit_focus={[Function]}
-  placeholder="placeholder"
-  readOnly="readOnly"
-  size="size"
+  on_blur={null}
+  on_change={null}
+  on_focus={null}
+  on_submit={null}
+  on_submit_blur={null}
+  on_submit_focus={null}
+  placeholder={null}
+  readOnly={false}
+  size={null}
   status={null}
-  status_animation="status_animation"
-  status_state="status_state"
-  submit_button_icon="submit_button_icon"
-  submit_button_title="submit_button_title"
+  status_animation={null}
+  status_state="error"
+  submitButton={null}
+  submit_button_icon="search"
+  submit_button_title={null}
   submit_button_variant="secondary"
   type="text"
   value="test"
 >
   <span
-    className="dnb-input dnb-input--text dnb-input--size dnb-input--has-submit-button dnb-input__align--align class className"
+    className="dnb-input dnb-input--text"
   >
     <span
       className="dnb-input__shell"
@@ -230,148 +426,18 @@ exports[`Input component have to match type="text" snapshot 1`] = `
       data-input-state="virgin"
     >
       <input
-        aria-readonly={true}
-        attributes="attributes"
         autoComplete="off"
-        className="dnb-input__input input_class"
+        className="dnb-input__input"
         id="input"
         name="input"
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
         onKeyDown={[Function]}
-        readOnly={true}
         type="text"
         value="test"
       />
-      <span
-        aria-hidden={true}
-        className="dnb-input__placeholder dnb-input__align--align"
-      >
-        placeholder
-      </span>
     </span>
-    <Submit
-      align="align"
-      attributes="attributes"
-      autocomplete="off"
-      class="class"
-      className="className"
-      custom_element={Object {}}
-      custom_method={[Function]}
-      description={null}
-      disabled={false}
-      icon="submit_button_icon"
-      icon_size="medium"
-      id="input"
-      inputElement={null}
-      input_class="input_class"
-      label={null}
-      onSubmit={null}
-      onSubmitBlur={null}
-      onSubmitFocus={null}
-      on_blur={[Function]}
-      on_change={[Function]}
-      on_focus={[Function]}
-      on_submit={[Function]}
-      on_submit_blur={[Function]}
-      on_submit_focus={[Function]}
-      placeholder="placeholder"
-      readOnly="readOnly"
-      size="size"
-      status={null}
-      status_animation="status_animation"
-      status_state="status_state"
-      submit_button_icon="submit_button_icon"
-      submit_button_title="submit_button_title"
-      submit_button_variant="secondary"
-      title="submit_button_title"
-      type="text"
-      value="test"
-      variant="secondary"
-    >
-      <span
-        className="dnb-input__submit-button"
-        data-input-state="virgin"
-      >
-        <Button
-          attributes={null}
-          class={null}
-          className="dnb-input__submit-button__button"
-          custom_element={null}
-          custom_method={null}
-          disabled={false}
-          href={null}
-          icon="submit_button_icon"
-          icon_position="right"
-          icon_size="default"
-          id={null}
-          innerRef={null}
-          onBlur={[Function]}
-          onClick={[Function]}
-          onFocus={[Function]}
-          on_click={null}
-          size="medium"
-          text={null}
-          title="submit_button_title"
-          type="submit"
-          variant="secondary"
-        >
-          <button
-            aria-label="submit_button_title"
-            className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon dnb-input__submit-button__button"
-            onBlur={[Function]}
-            onClick={[Function]}
-            onFocus={[Function]}
-            onMouseOut={[Function]}
-            title="submit_button_title"
-            type="submit"
-          >
-            <Content
-              attributes={null}
-              class={null}
-              className="dnb-input__submit-button__button"
-              content={null}
-              custom_element={null}
-              custom_method={null}
-              disabled={false}
-              href={null}
-              icon="submit_button_icon"
-              icon_position="right"
-              icon_size="default"
-              id={null}
-              innerRef={null}
-              isIconOnly={true}
-              onBlur={[Function]}
-              onClick={[Function]}
-              onFocus={[Function]}
-              on_click={null}
-              size="medium"
-              text={null}
-              title="submit_button_title"
-              type="submit"
-              variant="secondary"
-            >
-              <IconPrimary
-                alt="submit_button_title"
-                aria-hidden={false}
-                attributes={null}
-                class={null}
-                className="dnb-button__icon"
-                color={null}
-                height={null}
-                icon="submit_button_icon"
-                key="button-icon"
-                modifier={null}
-                size="default"
-                title={null}
-                width={null}
-              />
-            </Content>
-          </button>
-        </Button>
-      </span>
-    </Submit>
   </span>
 </Input>
 `;
@@ -614,6 +680,13 @@ exports[`Input scss have to match snapshot 1`] = `
     @supports not (-ms-ime-align: auto) {
       .dnb-button__text {
         transform: translateY(calc(1px - var(--button-border-width))); } }
+  .dnb-button__bounding {
+    position: absolute;
+    background-color: transparent;
+    width: var(--button-width);
+    height: var(--button-height);
+    border-radius: var(--button-border-radius);
+    transform: scale(1.2); }
   .dnb-button--size-small {
     width: var(--button-width--small);
     height: var(--button-height--small);

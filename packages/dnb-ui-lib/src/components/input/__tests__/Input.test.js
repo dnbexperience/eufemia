@@ -20,6 +20,7 @@ import dnb_input_theme_ui from '../style/themes/dnb-input-theme-ui.scss' // esli
 
 const props = {
   ...fakeProps(require.resolve('../Input'), {
+    all: true,
     optional: true
   }),
   inputElement: null,
@@ -114,12 +115,12 @@ describe('Input component', () => {
       </Component>
     )
 
-    const Button = Comp.find('Submit').find('button')
+    const Button = Comp.find('SubmitButton').find('button')
     expect(Button.exists()).toBe(true)
 
     Button.simulate('focus')
     expect(
-      Comp.find('Submit')
+      Comp.find('SubmitButton')
         .find('.dnb-input__submit-button')
         .prop('data-input-state')
     ).toBe('focus')
