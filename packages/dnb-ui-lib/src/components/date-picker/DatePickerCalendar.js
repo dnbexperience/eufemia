@@ -11,7 +11,8 @@ import {
   isSameDay,
   startOfDay,
   endOfDay,
-  isSameMonth
+  isSameMonth,
+  differenceInCalendarDays
 } from 'date-fns'
 import nbLocale from 'date-fns/locale/nb'
 import {
@@ -43,6 +44,7 @@ export const propTypes = {
   rtl: PropTypes.bool,
 
   range: PropTypes.bool,
+  resetDate: PropTypes.bool,
   hoverDate: PropTypes.instanceOf(Date),
   startDate: PropTypes.instanceOf(Date),
   endDate: PropTypes.instanceOf(Date),
@@ -74,6 +76,7 @@ export const defaultProps = {
 
   // dates
   range: null,
+  resetDate: false, // reset start/end date once we already have them
   startDate: null,
   endDate: null,
 
@@ -117,6 +120,7 @@ export default class DatePickerCalendar extends PureComponent {
       onPrev,
       onNext,
       onSelect,
+      resetDate,
       onHover,
       prevBtn,
       nextBtn,
@@ -192,7 +196,8 @@ export default class DatePickerCalendar extends PureComponent {
                     range,
                     startDate,
                     endDate,
-                    onSelect
+                    onSelect,
+                    resetDate
                   })
                 }
                 onMouseOver={() => onHoverDay({ day, hoverDate, onHover })}
@@ -243,22 +248,43 @@ const NextButton = ({ id, maxDate, month, nextBtn, onNext }) => {
   )
 }
 
-const onSelectRange = ({ day, range, startDate, endDate, onSelect }) => {
+const onSelectRange = ({
+  day,
+  range,
+  startDate,
+  endDate,
+  onSelect,
+  resetDate
+}) => {
   if (onSelect) {
     if (!range) {
+      // set only date
       onSelect({
         startDate: startOfDay(day.date),
         endDate: endOfDay(day.date)
       })
-    } else if (!startDate || (startDate && endDate)) {
+
+      // for setting date new on every selection, do this here
+    } else if (!startDate || (resetDate && (startDate && endDate))) {
+      // set startDate
       // user is selecting startDate
       onSelect({
         startDate: startOfDay(day.date),
         endDate: null
       })
     } else {
-      // user is selecting endDate
-      const range = toRange(startDate, day.date)
+      // set either startDate or endDate
+      const daysToStartDate = Math.abs(
+        differenceInCalendarDays(startDate, day.date)
+      )
+      const daysToEndDate = Math.abs(
+        differenceInCalendarDays(endDate, day.date)
+      )
+
+      let range = toRange(startDate, day.date)
+      if (!resetDate && daysToStartDate < daysToEndDate) {
+        range = toRange(endDate, day.date)
+      }
       onSelect({
         startDate: startOfDay(range.startDate),
         endDate: endOfDay(range.endDate)

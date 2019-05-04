@@ -319,12 +319,18 @@ export default class DatePicker extends PureComponent {
 
   callOnChangeHandler = () => {
     const { startDate, endDate } = this.state
-    dispatchCustomElementEvent(this, 'on_change', {
-      startDate,
-      endDate,
-      start_date: startDate,
-      end_date: endDate
-    })
+    dispatchCustomElementEvent(
+      this,
+      'on_change',
+      this.props.range
+        ? {
+            startDate,
+            endDate,
+            start_date: startDate,
+            end_date: endDate
+          }
+        : { date: startDate }
+    )
   }
 
   render() {
