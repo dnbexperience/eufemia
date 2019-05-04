@@ -12,6 +12,8 @@ import {
   dispatchCustomElementEvent,
   validateDOMAttributes
 } from '../../shared/component-helper'
+import nbLocale from 'date-fns/locale/nb'
+
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 import DatePickerRange from './DatePickerRange'
@@ -49,6 +51,8 @@ export const propTypes = {
     PropTypes.string,
     PropTypes.bool
   ]),
+  first_day: PropTypes.string,
+  locale: PropTypes.object,
   range: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   link: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   label: PropTypes.string,
@@ -81,6 +85,8 @@ export const defaultProps = {
   show_input: false,
   show_submit_button: null,
   show_cancel_button: null,
+  first_day: 'monday',
+  locale: nbLocale,
   range: false,
   link: false,
   label: null,
@@ -328,6 +334,8 @@ export default class DatePicker extends PureComponent {
       hide_days,
       show_input,
       range,
+      first_day,
+      locale,
       link,
       disabled,
       status,
@@ -425,6 +433,8 @@ export default class DatePicker extends PureComponent {
                 <>
                   <DatePickerRange
                     range={range}
+                    firstDayOfWeek={first_day}
+                    locale={locale}
                     link={link}
                     hideNav={hide_navigation}
                     hideDays={hide_days}
