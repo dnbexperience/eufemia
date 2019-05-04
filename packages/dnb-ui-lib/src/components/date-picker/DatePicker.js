@@ -406,6 +406,7 @@ export default class DatePicker extends PureComponent {
         >
           <span className="dnb-date-picker__shell">
             <DatePickerInput
+              id={id}
               disabled={disabled}
               mask={mask}
               mask_input={mask_input}
