@@ -200,6 +200,7 @@ export default class DatePickerCalendar extends PureComponent {
                 size="medium"
                 variant="secondary"
                 text={format(day.date, 'D', { locale: locale })}
+                bounding={true}
                 disabled={
                   day.isLastMonth || day.isNextMonth || day.isDisabled
                 }
