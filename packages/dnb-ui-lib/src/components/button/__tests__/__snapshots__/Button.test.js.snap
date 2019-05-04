@@ -3,6 +3,7 @@
 exports[`Button component have to match default button snapshot 1`] = `
 <Button
   attributes="attributes"
+  bounding="bounding"
   class="class"
   className="className"
   custom_element={Object {}}
@@ -34,6 +35,7 @@ exports[`Button component have to match default button snapshot 1`] = `
   >
     <Content
       attributes="attributes"
+      bounding="bounding"
       class="class"
       className="className"
       content="children"
@@ -55,6 +57,10 @@ exports[`Button component have to match default button snapshot 1`] = `
       type="type"
       variant="primary"
     >
+      <span
+        className="dnb-button__bounding"
+        key="button-bounding"
+      />
       children
       <span
         className="dnb-button__text"
@@ -108,6 +114,7 @@ exports[`Button component have to match default button snapshot 1`] = `
 exports[`Button component have to match href="..." snapshot 1`] = `
 <Button
   attributes="attributes"
+  bounding="bounding"
   class="class"
   className="className"
   custom_element={Object {}}
@@ -140,6 +147,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
   >
     <Content
       attributes="attributes"
+      bounding="bounding"
       class="class"
       className="className"
       content="children"
@@ -161,6 +169,10 @@ exports[`Button component have to match href="..." snapshot 1`] = `
       type="type"
       variant="primary"
     >
+      <span
+        className="dnb-button__bounding"
+        key="button-bounding"
+      />
       children
       <span
         className="dnb-button__text"
@@ -569,6 +581,13 @@ exports[`Button scss have to match snapshot 1`] = `
     @supports not (-ms-ime-align: auto) {
       .dnb-button__text {
         transform: translateY(calc(1px - var(--button-border-width))); } }
+  .dnb-button__bounding {
+    position: absolute;
+    background-color: transparent;
+    width: var(--button-width);
+    height: var(--button-height);
+    border-radius: var(--button-border-radius);
+    transform: scale(1.2); }
   .dnb-button--size-small {
     width: var(--button-width--small);
     height: var(--button-height--small);

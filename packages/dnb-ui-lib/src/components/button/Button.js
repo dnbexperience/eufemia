@@ -36,6 +36,7 @@ export const propTypes = {
   class: PropTypes.string,
   attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   href: PropTypes.string,
+  bounding: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 
   // React props
@@ -69,6 +70,7 @@ export const defaultProps = {
   id: null,
   class: null,
   attributes: null,
+  bounding: false,
   disabled: false,
 
   // React props
@@ -146,6 +148,7 @@ export default class Button extends PureComponent {
       icon,
       icon_position,
       href,
+      bounding, // eslint-disable-line
       attributes, // eslint-disable-line
       innerRef, // eslint-disable-line
       ...props
@@ -242,6 +245,7 @@ class Content extends PureComponent {
       PropTypes.func
     ]),
     icon_size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    bounding: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     isIconOnly: PropTypes.bool
   }
   static defaultProps = {
@@ -250,6 +254,7 @@ class Content extends PureComponent {
     content: null,
     icon: null,
     icon_size: 'default',
+    bounding: false,
     isIconOnly: null
   }
   render() {
@@ -259,10 +264,17 @@ class Content extends PureComponent {
       content,
       icon,
       icon_size,
+      bounding,
       isIconOnly
     } = this.props
 
     const ret = []
+
+    if (bounding) {
+      ret.push(
+        <span key="button-bounding" className="dnb-button__bounding" />
+      )
+    }
 
     if (content) {
       ret.push(content)
