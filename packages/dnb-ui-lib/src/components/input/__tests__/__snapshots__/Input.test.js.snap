@@ -48,6 +48,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
         "disabled": "disabled",
         "icon": "icon",
         "icon_size": "icon_size",
+        "id": "id",
         "on_submit": [Function],
         "on_submit_blur": [Function],
         "on_submit_focus": [Function],
@@ -157,6 +158,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
             "disabled": "disabled",
             "icon": "icon",
             "icon_size": "icon_size",
+            "id": "id",
             "on_submit": [Function],
             "on_submit_blur": [Function],
             "on_submit_focus": [Function],
@@ -218,7 +220,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
           icon="search"
           icon_position="right"
           icon_size="default"
-          id={null}
+          id="input"
           innerRef={null}
           onBlur={[Function]}
           onClick={[Function]}
@@ -231,7 +233,8 @@ exports[`Input component have to match type="search" snapshot 1`] = `
           variant="secondary"
         >
           <button
-            className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon dnb-input__submit-button__button"
+            className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon input dnb-input__submit-button__button"
+            id="input"
             onBlur={[Function]}
             onClick={[Function]}
             onFocus={[Function]}
@@ -251,7 +254,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
               icon="search"
               icon_position="right"
               icon_size="default"
-              id={null}
+              id="input"
               innerRef={null}
               isIconOnly={true}
               onBlur={[Function]}
@@ -376,6 +379,7 @@ exports[`Input component have to match type="text" snapshot 1`] = `
         "disabled": "disabled",
         "icon": "icon",
         "icon_size": "icon_size",
+        "id": "id",
         "on_submit": [Function],
         "on_submit_blur": [Function],
         "on_submit_focus": [Function],
