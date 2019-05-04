@@ -67,6 +67,15 @@
     }
   }
 
+  &__bounding {
+    position: absolute;
+    background-color: transparent;
+    width: var(--button-width);
+    height: var(--button-height);
+    border-radius: var(--button-border-radius);
+    transform: scale(1.2);
+  }
+
   // size small
   &--size-small {
     width: var(--button-width--small);

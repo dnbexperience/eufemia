@@ -95,6 +95,7 @@ exports[`Modal component have to match snapshot 1`] = `
   >
     <Button
       attributes={null}
+      bounding={false}
       class={null}
       className="dnb-modal__trigger"
       custom_element={null}
@@ -125,6 +126,7 @@ exports[`Modal component have to match snapshot 1`] = `
       >
         <Content
           attributes={null}
+          bounding={false}
           class={null}
           className="dnb-modal__trigger"
           content={null}
@@ -384,6 +386,7 @@ exports[`Modal component have to match snapshot 1`] = `
             >
               <Button
                 attributes={null}
+                bounding={false}
                 class={null}
                 className="dnb-modal__close-button"
                 custom_element={null}
@@ -413,6 +416,7 @@ exports[`Modal component have to match snapshot 1`] = `
                 >
                   <Content
                     attributes={null}
+                    bounding={false}
                     class={null}
                     className="dnb-modal__close-button"
                     content={null}
@@ -665,6 +669,13 @@ exports[`Modal scss have to match snapshot 1`] = `
     @supports not (-ms-ime-align: auto) {
       .dnb-button__text {
         transform: translateY(calc(1px - var(--button-border-width))); } }
+  .dnb-button__bounding {
+    position: absolute;
+    background-color: transparent;
+    width: var(--button-width);
+    height: var(--button-height);
+    border-radius: var(--button-border-radius);
+    transform: scale(1.2); }
   .dnb-button--size-small {
     width: var(--button-width--small);
     height: var(--button-height--small);
