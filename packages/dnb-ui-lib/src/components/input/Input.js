@@ -362,6 +362,7 @@ export default class Input extends PureComponent {
 
 class SubmitButton extends PureComponent {
   static propTypes = {
+    id: PropTypes.string,
     value: PropTypes.string,
     title: PropTypes.string,
     variant: ButtonPropTypes.variant,
@@ -380,6 +381,7 @@ class SubmitButton extends PureComponent {
   }
 
   static defaultProps = {
+    id: null,
     value: null,
     title: null,
     disabled: false,
@@ -414,9 +416,10 @@ class SubmitButton extends PureComponent {
     dispatchCustomElementEvent(this, 'on_submit', { value, event })
   }
   render() {
-    const { title, disabled, variant, icon, icon_size } = this.props
+    const { id, title, disabled, variant, icon, icon_size } = this.props
 
     const params = {
+      id,
       type: 'submit',
       title,
       disabled
