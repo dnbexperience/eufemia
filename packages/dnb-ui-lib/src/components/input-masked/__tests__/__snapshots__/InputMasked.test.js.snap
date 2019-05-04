@@ -49,6 +49,7 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
     status={null}
     status_animation={null}
     status_state="error"
+    submitButton={null}
     submit_button_icon="search"
     submit_button_title={null}
     submit_button_variant="secondary"
@@ -299,6 +300,13 @@ exports[`InputMasked scss have to match snapshot 1`] = `
     @supports not (-ms-ime-align: auto) {
       .dnb-button__text {
         transform: translateY(calc(1px - var(--button-border-width))); } }
+  .dnb-button__bounding {
+    position: absolute;
+    background-color: transparent;
+    width: var(--button-width);
+    height: var(--button-height);
+    border-radius: var(--button-border-radius);
+    transform: scale(1.2); }
   .dnb-button--size-small {
     width: var(--button-width--small);
     height: var(--button-height--small);
