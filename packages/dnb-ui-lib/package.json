@@ -13,6 +13,7 @@
   },
   "version": "1.0.0",
   "main": "index.js",
+  "module": "es/index.js",
   "scripts": {
     "post-build": "yarn prettier:other",
     "audit-ci": "npm install && npm run audit-ci:npm",
