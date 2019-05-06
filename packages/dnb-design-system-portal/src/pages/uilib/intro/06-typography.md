@@ -24,8 +24,8 @@ The default _font lining_ is **Proportional Lining**. But in some circumstances 
 
 Read [more about Typography](!/uilib/typography)
 
-</Intro>
-
 ---
 
 [Next - Color usage](/uilib/intro/07-color-usage?fullscreen)
+
+</Intro>

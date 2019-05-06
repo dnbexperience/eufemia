@@ -16,8 +16,8 @@ To ensure quality and ship future changes with confidence, Eufemia has both;
 
 Read [more about tests](!/uilib/usage/best-practices/for-testing).
 
-</Intro>
-
 ---
 
 [Next - Accessibility](/uilib/intro/13-accessibility?fullscreen)
+
+</Intro>

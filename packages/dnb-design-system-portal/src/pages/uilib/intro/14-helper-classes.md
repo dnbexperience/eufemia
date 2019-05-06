@@ -24,8 +24,8 @@ As a place for commonly used **global CSS classes**, Eufemia has the term [Helpe
   Visual DNB Section, declared with <code className="dnb-code">.dnb-section--mint-green</code>
 </div>
 
-</Intro>
-
 ---
 
 [Summary](/uilib/intro/15-summary?fullscreen)
+
+</Intro>

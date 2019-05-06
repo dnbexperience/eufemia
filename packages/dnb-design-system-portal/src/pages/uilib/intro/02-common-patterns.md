@@ -20,8 +20,8 @@ Both UX designers and frontend web developers will have a huge benefit of **"tal
 - UU/WCAG Accessibility
 - Best practices for DNB UX/UI
 
-</Intro>
-
 ---
 
 [Next - UX handover](/uilib/intro/03-ux-handover?fullscreen)
+
+</Intro>

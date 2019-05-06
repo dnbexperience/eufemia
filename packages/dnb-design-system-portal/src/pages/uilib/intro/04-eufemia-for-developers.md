@@ -21,8 +21,8 @@ What Eufemia offers for Developers? NPM Package including:
 - Accessibility tools
 - Quality definition and best practices
 
-</Intro>
-
 ---
 
 [Next - CSS Packages](/uilib/intro/05-css-packages?fullscreen)
+
+</Intro>

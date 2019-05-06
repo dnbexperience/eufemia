@@ -17,8 +17,8 @@ Primary Icons are used inside of other custom [Components](!/uilib/components) a
 
 It is recommended to use the [Icon Component](!/uilib/components/icon) to display icons for best accessibility.
 
-</Intro>
-
 ---
 
 [Next - Components, Elements and Patterns](/uilib/intro/09-layout?fullscreen)
+
+</Intro>
