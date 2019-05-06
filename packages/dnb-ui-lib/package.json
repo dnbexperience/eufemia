@@ -108,6 +108,7 @@
     "@svgr/core": "^4.2.0",
     "audit-ci": "^1.7.0",
     "babel-jest": "^24.8.0",
+    "babel-loader": "^8.0.5",
     "babel-plugin-emotion": "^10.0.9",
     "babel-plugin-react-remove-properties": "^0.3.0",
     "babel-plugin-transform-dev-warning": "^0.1.1",
