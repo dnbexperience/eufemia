@@ -64,11 +64,13 @@ export default class DatePickerRange extends PureComponent {
 
     this.state.pages = Array.isArray(props.pages)
       ? props.pages
-      : [...Array(pagesCount)].map((page, i) => ({
-          month: addMonths(props.month, i),
-          ...page,
-          id: i
-        }))
+      : Array(pagesCount)
+          .fill(1)
+          .map((page, i) => ({
+            month: addMonths(props.month, i),
+            ...page,
+            id: i
+          }))
   }
 
   static getDerivedStateFromProps(props, state) {

@@ -112,7 +112,9 @@ const getRange = (startDate, endDate, hoverDate) => {
 // weekStartsOn is a number, use dayOffset to convert from a string
 export const getWeek = weekStartsOn => {
   const startDay = startOfWeek(new Date(), { weekStartsOn })
-  return [...Array(7)].map((value, i) => addDays(startDay, i))
+  return Array(7)
+    .fill(1)
+    .map((value, i) => addDays(startDay, i))
 }
 
 // returns an array of dates of the month, optionally skip x number of days
@@ -121,7 +123,9 @@ export const getMonth = (month, skip = 0, limit) => {
   let size = getDaysInMonth(month) - skip
   size = Math.min(Math.max(parseInt(size), 0), limit > -1 ? limit : size)
   size = size < 0 ? 0 : size
-  return [...Array(size)].map((value, i) => addDays(startDay, i + skip))
+  return Array(size)
+    .fill(1)
+    .map((value, i) => addDays(startDay, i + skip))
 }
 
 // date is between selection range

@@ -12,7 +12,7 @@ import {
   dispatchCustomElementEvent,
   validateDOMAttributes
 } from '../../shared/component-helper'
-import { format, differenceInCalendarDays } from 'date-fns'
+import { format, parse, differenceInCalendarDays } from 'date-fns'
 import nbLocale from 'date-fns/locale/nb'
 
 import FormLabel from '../form-label/FormLabel'
@@ -83,7 +83,7 @@ export const defaultProps = {
   end_date: null,
   mask: 'dd/mm/yyyy',
   mask_input: 'dd/mm/åååå', // have to be same setup as "mask" - but can be like: dd/mm/åååå
-  return_format: 'DD/MM/YYYY',
+  return_format: 'YYYY-MM-DD',
   hide_navigation: false,
   hide_days: false,
   show_input: false,
@@ -141,7 +141,8 @@ export default class DatePicker extends PureComponent {
 
   static convertStringToDate(stringDate) {
     const date =
-      typeof stringDate === Date ? stringDate : new Date(stringDate)
+      typeof stringDate === Date ? stringDate : parse(stringDate)
+    // new Date(stringDate)
     return date
   }
 
