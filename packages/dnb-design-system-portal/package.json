@@ -24,7 +24,7 @@
     "lint:js": "yarn lint --fix",
     "lint:js:staged": "eslint --quiet --fix",
     "lint:styles": "stylelint './src/**/*.{js,css}'",
-    "lint:styles:staged": "stylelint",
+    "lint:styles:staged": "stylelint './src/**/*.{js,css}'",
     "make-ui-lib-pages": "babel-node ./scripts/uilib/makeDemosFactory.js && yarn prettier:components",
     "make-ui-lib-pages:dev": "nodemon --exec 'yarn make-ui-lib-pages' --ext js --watch '../dnb-ui-lib/src/**/*' --watch '**/makeDemosFactory.js' --watch '**/tasks/*' --watch '**/Template.js'  --watch '**/template.md'",
     "reset": "rm -rf .cache ./public/** ./node_modules",
