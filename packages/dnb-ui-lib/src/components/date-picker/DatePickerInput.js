@@ -5,7 +5,16 @@
 
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { setDate, setMonth, setYear, isAfter, format } from 'date-fns'
+import {
+  addDays,
+  addMonths,
+  addYears,
+  setDate,
+  setMonth,
+  setYear,
+  isAfter,
+  format
+} from 'date-fns'
 import MaskedInput from 'react-text-mask' // https://github.com/text-mask/text-mask
 import Input, { SubmitButton } from '../input/Input'
 import keycode from 'keycode'
@@ -105,7 +114,7 @@ export default class DatePickerInput extends PureComponent {
   }
 
   isValidDate = date => {
-    return isAfter(date, new Date(1971, 1, 1))
+    return date && isAfter(date, new Date(1971, 1, 1))
   }
 
   setStartDate = (event, count, type, fn) => {
@@ -115,10 +124,16 @@ export default class DatePickerInput extends PureComponent {
         parseFloat(value) > 0 &&
         new RegExp(`[0-9]{${count}}`).test(value)
       ) {
-        if (type === 'startMonth' || type === 'endMonth') {
+        if (type === 'startMonth') {
           value--
         }
-        const startDate = fn(this.state.startDate, parseFloat(value))
+        if (!this._startDate) {
+          this._startDate = new Date(1111, 1, 1)
+        }
+        const startDate = (this._startDate = fn(
+          this.state.startDate || this._startDate,
+          parseFloat(value)
+        ))
         this.callOnChange({
           startDate
         })
@@ -130,12 +145,21 @@ export default class DatePickerInput extends PureComponent {
 
   setEndDate = (event, count, type, fn) => {
     try {
-      const value = event.currentTarget.value
+      let value = event.currentTarget.value
       if (
         parseFloat(value) > 0 &&
         new RegExp(`[0-9]{${count}}`).test(value)
       ) {
-        const endDate = fn(this.state.endDate, parseFloat(value))
+        if (type === 'endMonth') {
+          value--
+        }
+        if (!this._endDate) {
+          this._endDate = new Date(1111, 1, 1)
+        }
+        const endDate = (this._endDate = fn(
+          this.state.endDate || this._endDate,
+          parseFloat(value)
+        ))
         this.callOnChange({
           endDate
         })
@@ -145,19 +169,25 @@ export default class DatePickerInput extends PureComponent {
     }
   }
 
-  callOnChange = ({
-    startDate = this.state.startDate,
-    endDate = this.state.endDate
-  }) => {
+  callOnChange = (
+    { startDate = this.state.startDate, endDate = this.state.endDate },
+    onState = null
+  ) => {
     if (startDate) {
-      this.setState({
-        startDate
-      })
+      this.setState(
+        {
+          startDate
+        },
+        onState
+      )
     }
     if (endDate) {
-      this.setState({
-        endDate
-      })
+      this.setState(
+        {
+          endDate
+        },
+        onState
+      )
     }
     if (typeof this.props.onChange === 'function') {
       this.props.onChange({
@@ -167,28 +197,82 @@ export default class DatePickerInput extends PureComponent {
     }
   }
 
+  prepareCounting = async ({ keyCode, target }) => {
+    const isDate = target
+      .getAttribute('class')
+      .match(/__input--([day|month|year]+)($|\s)/)[1]
+    const isInRange = target
+      .getAttribute('id')
+      .match(/[0-9]-([start|end]+)-/)[1]
+
+    let date =
+      isInRange === 'start' ? this.state.startDate : this.state.endDate
+
+    const count = keyCode === 'up' ? 1 : -1
+
+    if (keyCode === 'up' || keyCode === 'down') {
+      switch (isDate) {
+        case 'day':
+          date = addDays(date, count)
+          break
+        case 'month':
+          date = addMonths(date, count)
+          break
+        case 'year':
+          date = addYears(date, count)
+          break
+      }
+    }
+
+    this.callOnChange({
+      [isInRange === 'start' ? 'startDate' : 'endDate']: date
+    })
+
+    await wait(1) // to get the correct position afterwards
+
+    const endPos = target.value.length
+    target.focus()
+    target.setSelectionRange(0, endPos)
+  }
+
   onKeyDownHandler = async e => {
     const keyCode = keycode(e)
     const target = e.target
+
+    // only to process key up and down press
+    switch (keyCode) {
+      case 'up':
+      case 'down':
+        this.prepareCounting({ keyCode, target })
+        e.preventDefault()
+        return false
+      case 'tab':
+        return false
+    }
+
+    // the rest is for value entry
+
     const size = parseFloat(target.getAttribute('size'))
-    const firstPosition = target.selectionStart
+    const firstSelectionStart = target.selectionStart
 
-    await wait(1)
+    await wait(1) // to get the correct position afterwards
 
-    const secondPosition = target.selectionStart
-    const value = target.value
-    const isValid = /[0-9]/.test(value)
+    const secondSelectionStart = target.selectionStart
+    // const isValid = /[0-9]/.test(target.value)
+    const isValid = /[0-9]/.test(keyCode)
     const index = this.refList.findIndex(
       ({ current: { inputElement } }) => inputElement === target
     )
 
     if (
       index < this.refList.length - 1 &&
-      ((secondPosition === size && isValid && keyCode !== 'left') ||
-        (firstPosition === size && keyCode === 'right'))
+      ((secondSelectionStart === size &&
+        isValid &&
+        keyCode !== 'left' &&
+        keyCode !== 'backspace') ||
+        (firstSelectionStart === size && keyCode === 'right'))
     ) {
       try {
-        await wait(1)
         const nextSibling = this.refList[index + 1].current.inputElement
         if (nextSibling) {
           nextSibling.focus()
@@ -197,8 +281,7 @@ export default class DatePickerInput extends PureComponent {
       } catch (e) {
         console.log(e)
       }
-    } else if (firstPosition === 0 && index > 0) {
-      await wait(1)
+    } else if (firstSelectionStart === 0 && index > 0) {
       switch (keyCode) {
         case 'left':
         case 'backspace':
