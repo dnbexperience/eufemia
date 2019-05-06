@@ -141,7 +141,7 @@
     }
   }
 
-  &:not(#{&}--show-submit-footer) &__calendar::after {
+  &:not(#{&}--show-footer) &__calendar::after {
     content: none;
   }
 

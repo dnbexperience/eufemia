@@ -64,10 +64,10 @@ export default class DatePickerInput extends PureComponent {
   }
 
   static getDerivedStateFromProps(props, state) {
-    if (props.startDate) {
+    if (typeof props.startDate !== 'undefined') {
       state.startDate = props.startDate
     }
-    if (props.endDate) {
+    if (typeof props.endDate !== 'undefined') {
       state.endDate = props.endDate
     }
     return state
@@ -232,9 +232,6 @@ export default class DatePickerInput extends PureComponent {
         }
         switch (state) {
           case 'd':
-            if (this.isValidDate(this.state.startDate)) {
-              params.value = pad(format(this.state.startDate, 'D'), 2)
-            }
             this.refList.push(this._startDayRef)
             return (
               <InputElement
@@ -245,14 +242,15 @@ export default class DatePickerInput extends PureComponent {
                 mask={[/[0-3]/, /[0-9]/]}
                 onChange={this.setStartDay}
                 ref={this._startDayRef}
+                value={
+                  this.isValidDate(this.state.startDate)
+                    ? pad(format(this.state.startDate, 'D'), 2)
+                    : ''
+                }
                 {...params}
               />
             )
           case 'm':
-            if (this.isValidDate(this.state.startDate)) {
-              params.value = pad(format(this.state.startDate, 'M'), 2)
-            }
-
             this.refList.push(this._startMonthRef)
             return (
               <InputElement
@@ -263,13 +261,15 @@ export default class DatePickerInput extends PureComponent {
                 mask={[/[0-1]/, /[0-9]/]}
                 onChange={this.setStartMonth}
                 ref={this._startMonthRef}
+                value={
+                  this.isValidDate(this.state.startDate)
+                    ? pad(format(this.state.startDate, 'M'), 2)
+                    : null
+                }
                 {...params}
               />
             )
           case 'y':
-            if (this.isValidDate(this.state.startDate)) {
-              params.value = format(this.state.startDate, 'YYYY')
-            }
             this.refList.push(this._startYearRef)
             return (
               <InputElement
@@ -279,6 +279,11 @@ export default class DatePickerInput extends PureComponent {
                 size="4"
                 mask={[/[1-2]/, /[0-9]/, /[0-9]/, /[0-9]/]}
                 onChange={this.setStartYear}
+                value={
+                  this.isValidDate(this.state.startDate)
+                    ? format(this.state.startDate, 'YYYY')
+                    : null
+                }
                 ref={this._startYearRef}
                 {...params}
               />
@@ -306,9 +311,6 @@ export default class DatePickerInput extends PureComponent {
         }
         switch (state) {
           case 'd':
-            if (this.isValidDate(this.state.endDate)) {
-              params.value = pad(format(this.state.endDate, 'D'), 2)
-            }
             this.refList.push(this._endDayRef)
             return (
               <InputElement
@@ -318,14 +320,16 @@ export default class DatePickerInput extends PureComponent {
                 size="2"
                 mask={[/[0-3]/, /[0-9]/]}
                 onChange={this.setEndDay}
+                value={
+                  this.isValidDate(this.state.endDate)
+                    ? pad(format(this.state.endDate, 'D'), 2)
+                    : null
+                }
                 ref={this._endDayRef}
                 {...params}
               />
             )
           case 'm':
-            if (this.isValidDate(this.state.endDate)) {
-              params.value = pad(format(this.state.endDate, 'M'), 2)
-            }
             this.refList.push(this._endMonthRef)
             return (
               <InputElement
@@ -335,14 +339,16 @@ export default class DatePickerInput extends PureComponent {
                 size="2"
                 mask={[/[0-1]/, /[0-9]/]}
                 onChange={this.setEndMonth}
+                value={
+                  this.isValidDate(this.state.endDate)
+                    ? pad(format(this.state.endDate, 'M'), 2)
+                    : null
+                }
                 ref={this._endMonthRef}
                 {...params}
               />
             )
           case 'y':
-            if (this.isValidDate(this.state.endDate)) {
-              params.value = format(this.state.endDate, 'YYYY')
-            }
             this.refList.push(this._endYearRef)
             return (
               <InputElement
@@ -352,6 +358,11 @@ export default class DatePickerInput extends PureComponent {
                 size="4"
                 mask={[/[1-2]/, /[0-9]/, /[0-9]/, /[0-9]/]}
                 onChange={this.setEndYear}
+                value={
+                  this.isValidDate(this.state.endDate)
+                    ? format(this.state.endDate, 'YYYY')
+                    : null
+                }
                 ref={this._endYearRef}
                 {...params}
               />

@@ -76,7 +76,7 @@ export const defaultProps = {
 
   // dates
   range: null,
-  resetDate: false, // reset start/end date once we already have them
+  resetDate: true, // reset start/end date once we already have them
   startDate: null,
   endDate: null,
 
@@ -273,6 +273,7 @@ const onSelectRange = ({
         endDate: null
       })
     } else {
+      const hasEndDate = endDate
       // set either startDate or endDate
       const daysToStartDate = Math.abs(
         differenceInCalendarDays(startDate, day.date)
@@ -282,7 +283,7 @@ const onSelectRange = ({
       )
 
       let range = toRange(startDate, day.date)
-      if (!resetDate && daysToStartDate < daysToEndDate) {
+      if (hasEndDate && !resetDate && daysToStartDate < daysToEndDate) {
         range = toRange(endDate, day.date)
       }
       onSelect({

@@ -186,12 +186,18 @@ stories.push([
         <Box>
           <DatePicker
             label="Range DatePicker:"
-            start_date={new Date()}
-            end_date="2019-05-15"
+            // start_date={new Date()}
+            // end_date="2019-05-15"
             range={true}
             show_input={true}
             on_change={props => {
               console.log('on_change', props)
+            }}
+            on_submit={props => {
+              console.log('on_submit', props)
+            }}
+            on_cancel={props => {
+              console.log('on_cancel', props)
             }}
           />
         </Box>

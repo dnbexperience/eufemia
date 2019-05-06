@@ -12,6 +12,7 @@ import {
   dispatchCustomElementEvent,
   validateDOMAttributes
 } from '../../shared/component-helper'
+import { format, differenceInCalendarDays } from 'date-fns'
 import nbLocale from 'date-fns/locale/nb'
 
 import FormLabel from '../form-label/FormLabel'
@@ -40,6 +41,7 @@ export const propTypes = {
   ]), // e.g. 2019-04-03T00:00:00Z
   mask: PropTypes.string,
   mask_input: PropTypes.string,
+  return_format: PropTypes.string,
   hide_navigation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   hide_days: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   show_input: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -51,6 +53,7 @@ export const propTypes = {
     PropTypes.string,
     PropTypes.bool
   ]),
+  reset_date: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   first_day: PropTypes.string,
   locale: PropTypes.object,
   range: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -80,11 +83,13 @@ export const defaultProps = {
   end_date: null,
   mask: 'dd/mm/yyyy',
   mask_input: 'dd/mm/åååå', // have to be same setup as "mask" - but can be like: dd/mm/åååå
+  return_format: 'DD/MM/YYYY',
   hide_navigation: false,
   hide_days: false,
   show_input: false,
   show_submit_button: null,
   show_cancel_button: null,
+  reset_date: true,
   first_day: 'monday',
   locale: nbLocale,
   range: false,
@@ -269,26 +274,26 @@ export default class DatePicker extends PureComponent {
 
   onSubmitHandler = () => {
     this.hidePicker()
-    const { startDate, endDate } = this.state
-    dispatchCustomElementEvent(this, 'on_submit', {
-      startDate,
-      endDate
-    })
+    dispatchCustomElementEvent(this, 'on_submit', this.getReturnObject())
   }
 
   onCancelHandler = () => {
     this.setState(
       {
-        startDate: DatePicker.convertStringToDate(this.state._startDate),
-        endDate: DatePicker.convertStringToDate(this.state._endDate)
+        startDate: this.state._startDate
+          ? DatePicker.convertStringToDate(this.state._startDate)
+          : null,
+        endDate: this.state._endDate
+          ? DatePicker.convertStringToDate(this.state._endDate)
+          : null
       },
       () => {
         this.hidePicker()
-        const { startDate, endDate } = this.state
-        dispatchCustomElementEvent(this, 'on_cancel', {
-          startDate,
-          endDate
-        })
+        dispatchCustomElementEvent(
+          this,
+          'on_cancel',
+          this.getReturnObject()
+        )
       }
     )
   }
@@ -306,11 +311,7 @@ export default class DatePicker extends PureComponent {
       hidden: false,
       _listenForPropChanges: false
     })
-    const { startDate, endDate } = this.state
-    dispatchCustomElementEvent(this, 'on_show', {
-      startDate,
-      endDate
-    })
+    dispatchCustomElementEvent(this, 'on_show', this.getReturnObject())
   }
 
   hidePicker = () => {
@@ -328,11 +329,7 @@ export default class DatePicker extends PureComponent {
       },
       this.props.no_animation ? 1 : DatePicker.blurDelay
     ) // wait until animation is over
-    const { startDate, endDate } = this.state
-    dispatchCustomElementEvent(this, 'on_hide', {
-      startDate,
-      endDate
-    })
+    dispatchCustomElementEvent(this, 'on_hide', this.getReturnObject())
   }
 
   togglePicker = () => {
@@ -340,19 +337,43 @@ export default class DatePicker extends PureComponent {
   }
 
   callOnChangeHandler = () => {
+    const returnObject = this.getReturnObject()
+    if (this.returnObject) {
+      if (this.props.range) {
+        if (
+          this.returnObject.start_date === returnObject.start_date &&
+          this.returnObject.end_date === returnObject.end_date
+        ) {
+          return
+        }
+      } else {
+        if (this.returnObject.date === returnObject.date) {
+          return
+        }
+      }
+    }
+    this.returnObject = returnObject
+    dispatchCustomElementEvent(this, 'on_change', returnObject)
+  }
+
+  getReturnObject() {
     const { startDate, endDate } = this.state
-    dispatchCustomElementEvent(
-      this,
-      'on_change',
-      this.props.range
-        ? {
-            startDate,
-            endDate,
-            start_date: startDate,
-            end_date: endDate
-          }
-        : { date: startDate }
-    )
+
+    return this.props.range
+      ? {
+          startDate,
+          endDate,
+          days_between: endDate
+            ? differenceInCalendarDays(endDate, startDate)
+            : null,
+          start_date: endDate
+            ? format(startDate, this.props.return_format)
+            : null,
+          end_date: endDate
+            ? format(endDate, this.props.return_format)
+            : null
+        }
+      : { date: format(startDate, this.props.return_format) }
   }
 
   render() {
@@ -363,6 +384,7 @@ export default class DatePicker extends PureComponent {
       show_input,
       range,
       first_day,
+      reset_date,
       locale,
       link,
       disabled,
@@ -423,8 +445,9 @@ export default class DatePicker extends PureComponent {
             'dnb-date-picker',
             opened && 'dnb-date-picker--opened',
             hidden && 'dnb-date-picker--hidden',
-            show_input && 'dnb-date-picker--show-input'
-            // show_submit_button && 'dnb-date-picker--show-submit-footer'
+            show_input && 'dnb-date-picker--show-input',
+            (show_submit_button || show_cancel_button) &&
+              'dnb-date-picker--show-footer'
 
             // TODO: make status work on #date-picker
             // showStatus && 'dnb-date-picker__form-status',
@@ -467,6 +490,7 @@ export default class DatePicker extends PureComponent {
                   <DatePickerRange
                     range={range}
                     firstDayOfWeek={first_day}
+                    resetDate={reset_date}
                     locale={locale}
                     link={link}
                     hideNav={hide_navigation}
