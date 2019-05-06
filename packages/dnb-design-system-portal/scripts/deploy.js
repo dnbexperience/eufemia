@@ -42,7 +42,7 @@ const run = () => {
     },
     error => {
       if (error) {
-        log.fail(`Failed to deploy! \n${error.message}`)
+        return log.fail(`Failed to deploy! \n${error.message}`)
       }
       log.succeed(`Deployed successfully, version ${currentVersion}!`)
     }
