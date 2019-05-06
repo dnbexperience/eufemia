@@ -182,6 +182,28 @@ export default class DatePicker extends PureComponent {
     }
 
     this._wrapperRef = React.createRef()
+    this._triangleRef = React.createRef()
+  }
+
+  setTrianglePosition = () => {
+    if (
+      this.props.show_input &&
+      this._triangleRef.current &&
+      this._wrapperRef.current
+    ) {
+      try {
+        const shellWidth = this._wrapperRef.current
+          .querySelector('.dnb-input__shell')
+          .getBoundingClientRect().width
+        const buttonWidth = this._wrapperRef.current
+          .querySelector('.dnb-input__submit-button__button')
+          .getBoundingClientRect().width
+        const left = shellWidth - buttonWidth / 2 - 8
+        this._triangleRef.current.style.marginLeft = `${left / 16}rem`
+      } catch (e) {
+        console.log(e)
+      }
+    }
   }
 
   setOutsideClickHandler = () => {
@@ -380,6 +402,7 @@ export default class DatePicker extends PureComponent {
     validateDOMAttributes(null, inputParams)
 
     if (!hidden) {
+      this.setTrianglePosition()
       this.setOutsideClickHandler()
     }
 
@@ -435,7 +458,10 @@ export default class DatePicker extends PureComponent {
             )}
 
             <span className="dnb-date-picker__container">
-              <span className="dnb-date-picker__triangle" />
+              <span
+                className="dnb-date-picker__triangle"
+                ref={this._triangleRef}
+              />
               {!hidden && (
                 <>
                   <DatePickerRange
