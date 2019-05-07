@@ -168,39 +168,20 @@ exports[`Input component have to match type="search" snapshot 1`] = `
           },
         }
       }
-      align={null}
       attributes={null}
-      autocomplete="off"
-      class={null}
-      className={null}
       custom_element={null}
       custom_method={null}
-      description={null}
       disabled={false}
       icon="search"
       icon_size="medium"
-      id="input"
-      inputElement={null}
-      input_class={null}
-      label={null}
+      id={null}
       on_blur={null}
       on_change={null}
       on_focus={null}
       on_submit={null}
       on_submit_blur={null}
       on_submit_focus={null}
-      placeholder={null}
-      readOnly={false}
-      size={null}
-      status={null}
-      status_animation={null}
-      status_state="error"
-      submitButton={null}
-      submit_button_icon="search"
-      submit_button_title={null}
-      submit_button_variant="secondary"
       title={null}
-      type="search"
       value="test"
       variant="secondary"
     >
@@ -220,7 +201,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
           icon="search"
           icon_position="right"
           icon_size="default"
-          id="input"
+          id={null}
           innerRef={null}
           onBlur={[Function]}
           onClick={[Function]}
@@ -230,16 +211,17 @@ exports[`Input component have to match type="search" snapshot 1`] = `
           text={null}
           title={null}
           type="submit"
+          value="test"
           variant="secondary"
         >
           <button
-            className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon input dnb-input__submit-button__button"
-            id="input"
+            className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon dnb-input__submit-button__button"
             onBlur={[Function]}
             onClick={[Function]}
             onFocus={[Function]}
             onMouseOut={[Function]}
             type="submit"
+            value="test"
           >
             <Content
               attributes={null}
@@ -254,7 +236,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
               icon="search"
               icon_position="right"
               icon_size="default"
-              id="input"
+              id={null}
               innerRef={null}
               isIconOnly={true}
               onBlur={[Function]}
@@ -265,6 +247,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
               text={null}
               title={null}
               type="submit"
+              value="test"
               variant="secondary"
             >
               <IconPrimary

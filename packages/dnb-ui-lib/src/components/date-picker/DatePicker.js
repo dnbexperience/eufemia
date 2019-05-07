@@ -43,6 +43,10 @@ export const propTypes = {
     PropTypes.instanceOf(Date),
     PropTypes.string
   ]), // e.g. 2019-04-03T00:00:00Z
+  month: PropTypes.oneOfType([
+    PropTypes.instanceOf(Date),
+    PropTypes.string
+  ]),
   mask_order: PropTypes.string,
   mask_placeholder: PropTypes.string,
   return_format: PropTypes.string,
@@ -86,6 +90,7 @@ export const defaultProps = {
   date: null,
   start_date: null,
   end_date: null,
+  month: null,
   mask_order: 'dd/mm/yyyy',
   mask_placeholder: 'dd/mm/åååå', // have to be same setup as "mask" - but can be like: dd/mm/åååå
   return_format: 'YYYY-MM-DD',
@@ -404,6 +409,7 @@ export default class DatePicker extends PureComponent {
       first_day,
       reset_date,
       locale,
+      month,
       link,
       disabled,
       status,
@@ -504,6 +510,7 @@ export default class DatePicker extends PureComponent {
                     firstDayOfWeek={first_day}
                     resetDate={reset_date}
                     locale={locale}
+                    month={month}
                     link={link}
                     hideNav={hide_navigation}
                     hideDays={hide_days}

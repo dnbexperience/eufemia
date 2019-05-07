@@ -5,12 +5,13 @@
 
 import React, { PureComponent, Fragment } from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
+import DatePickerRange from 'dnb-ui-lib/src/components/date-picker/DatePickerRange'
 
 class Example extends PureComponent {
   render() {
     return (
       <Fragment>
-        <ComponentBox>
+        <ComponentBox data-dnb-test="date-picker-closed">
           {/* @jsx */ `
 <DatePicker
   label="Range DatePicker:"
@@ -36,7 +37,6 @@ class Example extends PureComponent {
   label="Defualt DatePicker with Input:"
   date={new Date()}
   show_input={true}
-  // show_submit_button={true}
   show_cancel_button={true}
   on_change={({ date }) => {
     console.log('on_change', date)
@@ -77,6 +77,21 @@ class Example extends PureComponent {
 />
           `}
         </ComponentBox>
+
+        <div className="example-box">
+          <div data-dnb-test="date-picker-calendar">
+            <DatePickerRange
+              range={true}
+              startDate={new Date('2019-05-05')}
+              endDate={new Date('2019-06-05')}
+              firstDayOfWeek={'monday'}
+            />
+          </div>
+          <p className="example-caption">
+            Example styling of range calendar (also used for screenshot
+            tests)
+          </p>
+        </div>
       </Fragment>
     )
   }

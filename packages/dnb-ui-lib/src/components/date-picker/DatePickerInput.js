@@ -18,6 +18,7 @@ import {
 import MaskedInput from 'react-text-mask' // https://github.com/text-mask/text-mask
 import Input, { SubmitButton } from '../input/Input'
 import keycode from 'keycode'
+import { validateDOMAttributes } from '../../shared/component-helper'
 
 export const propTypes = {
   id: PropTypes.string,
@@ -25,6 +26,7 @@ export const propTypes = {
   maskPlaceholder: PropTypes.string,
   separatorRexExp: PropTypes.instanceOf(RegExp),
   range: PropTypes.bool,
+  disabled: PropTypes.bool,
   onChange: PropTypes.func,
   onSubmit: PropTypes.func,
   onFocus: PropTypes.func
@@ -36,6 +38,7 @@ export const defaultProps = {
   maskPlaceholder: 'dd/mm/åååå',
   separatorRexExp: /[-/ ]/g,
   range: null,
+  disabled: null,
   onChange: null,
   onSubmit: null,
   onFocus: null
@@ -309,6 +312,8 @@ export default class DatePickerInput extends PureComponent {
       const placeholderChar = this.props.maskPlaceholder[index]
       if (!this.props.separatorRexExp.test(value)) {
         const params = {
+          disabled: this.props.disabled,
+          'aria-labelledby': this.props.id,
           onKeyDown: this.onKeyDownHandler,
           placeholderChar: placeholderChar,
           onMouseUp: selectInput
@@ -388,6 +393,8 @@ export default class DatePickerInput extends PureComponent {
       const placeholderChar = this.props.maskPlaceholder[index]
       if (!this.props.separatorRexExp.test(value)) {
         const params = {
+          disabled: this.props.disabled,
+          'aria-labelledby': this.props.id,
           onKeyDown: this.onKeyDownHandler,
           placeholderChar: placeholderChar,
           onMouseUp: selectInput
@@ -464,7 +471,25 @@ export default class DatePickerInput extends PureComponent {
     const startDateList = this.generateStartDateList()
     const endDateList = this.generateEndDateList()
 
-    const { range, id } = this.props
+    const {
+      range,
+      id,
+
+      maskOrder /* eslint-disable-line */,
+      maskPlaceholder /* eslint-disable-line */,
+      separatorRexExp /* eslint-disable-line */,
+      date /* eslint-disable-line */,
+      endDate /* eslint-disable-line */,
+      startDate /* eslint-disable-line */,
+      onChange /* eslint-disable-line */,
+      onFocus /* eslint-disable-line */,
+      onSubmit /* eslint-disable-line */,
+      disabled,
+
+      ...rest
+    } = this.props
+
+    validateDOMAttributes(this.props, rest)
 
     return (
       <Input
@@ -478,10 +503,12 @@ export default class DatePickerInput extends PureComponent {
         submitButton={
           <SubmitButton
             id={id}
-            // title={submit_button_title}
+            disabled={disabled}
+            // title={submit_button_title} // Not implemented yet
             icon="calendar"
             variant="secondary"
             on_submit={this.props.onSubmit}
+            {...rest}
           />
         }
       />

@@ -186,8 +186,9 @@ stories.push([
         <Box>
           <DatePicker
             label="Range DatePicker:"
-            start_date={new Date()}
-            end_date="2019-05-15"
+            // start_date={new Date()}
+            start_date="2019-01-15"
+            end_date="2019-02-15"
             range={true}
             opened={false}
             show_input={true}

@@ -1,0 +1,1773 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DatePicker component have to match snapshot 1`] = `
+<DatePicker
+  custom_element={null}
+  custom_method={null}
+  date="2019-01-01"
+  direction="auto"
+  disabled={false}
+  end_date="2019-02-15"
+  first_day="monday"
+  hide_days={false}
+  hide_navigation={false}
+  id="date-picker-id"
+  label={null}
+  link={false}
+  locale={
+    Object {
+      "distanceInWords": Object {
+        "localize": [Function],
+      },
+      "format": Object {
+        "formatters": Object {
+          "A": [Function],
+          "DDDo": [Function],
+          "Do": [Function],
+          "MMM": [Function],
+          "MMMM": [Function],
+          "Mo": [Function],
+          "Qo": [Function],
+          "Wo": [Function],
+          "a": [Function],
+          "aa": [Function],
+          "dd": [Function],
+          "ddd": [Function],
+          "dddd": [Function],
+          "do": [Function],
+        },
+        "formattingTokensRegExp": /\\(\\\\\\[\\[\\^\\\\\\[\\]\\*\\\\\\]\\)\\|\\(\\\\\\\\\\)\\?\\(x\\|ss\\|s\\|mm\\|m\\|hh\\|h\\|do\\|dddd\\|ddd\\|dd\\|d\\|aa\\|a\\|ZZ\\|Z\\|YYYY\\|YY\\|X\\|Wo\\|WW\\|W\\|SSS\\|SS\\|S\\|Qo\\|Q\\|Mo\\|MMMM\\|MMM\\|MM\\|M\\|HH\\|H\\|GGGG\\|GG\\|E\\|Do\\|DDDo\\|DDDD\\|DDD\\|DD\\|D\\|A\\|\\.\\)/g,
+      },
+    }
+  }
+  mask_order="dd/mm/yyyy"
+  mask_placeholder="dd/mm/åååå"
+  month={null}
+  no_animation={false}
+  on_cancel={null}
+  on_change={null}
+  on_hide={null}
+  on_show={null}
+  on_submit={null}
+  opened={false}
+  range={true}
+  reset_date={true}
+  return_format="YYYY-MM-DD"
+  show_cancel_button={null}
+  show_input={true}
+  show_submit_button={null}
+  start_date="2019-01-01"
+  status="status"
+  status_animation={null}
+  status_state="error"
+>
+  <span
+    className="dnb-date-picker dnb-date-picker--hidden dnb-date-picker--show-input dnb-date-picker--show-footer"
+  >
+    <span
+      className="dnb-date-picker__shell"
+    >
+      <DatePickerInput
+        aria-expanded={false}
+        date="2019-01-01"
+        disabled={false}
+        endDate={2019-02-14T23:00:00.000Z}
+        id="date-picker-id"
+        maskOrder="dd/mm/yyyy"
+        maskPlaceholder="dd/mm/åååå"
+        onChange={[Function]}
+        onFocus={[Function]}
+        onSubmit={[Function]}
+        range={true}
+        separatorRexExp={/\\[-\\\\/ \\]/g}
+        startDate={2018-12-31T23:00:00.000Z}
+      >
+        <Input
+          align={null}
+          attributes={null}
+          autocomplete="off"
+          class={null}
+          className={null}
+          custom_element={null}
+          custom_method={null}
+          description={null}
+          disabled={false}
+          id={null}
+          inputElement={
+            <span
+              className="dnb-date-picker__input__wrapper"
+            >
+              <ForwardRef
+                aria-labelledby="date-picker-id"
+                className="dnb-date-picker__input dnb-date-picker__input--day"
+                disabled={false}
+                id="date-picker-id-start-day"
+                mask={
+                  Array [
+                    /\\[0-3\\]/,
+                    /\\[0-9\\]/,
+                  ]
+                }
+                onChange={[Function]}
+                onKeyDown={[Function]}
+                onMouseUp={[Function]}
+                placeholderChar="d"
+                size="2"
+                value="01"
+              />
+              <span
+                className="dnb-date-picker--separator"
+              >
+                /
+              </span>
+              <ForwardRef
+                aria-labelledby="date-picker-id"
+                className="dnb-date-picker__input dnb-date-picker__input--month"
+                disabled={false}
+                id="date-picker-id-start-month"
+                mask={
+                  Array [
+                    /\\[0-1\\]/,
+                    /\\[0-9\\]/,
+                  ]
+                }
+                onChange={[Function]}
+                onKeyDown={[Function]}
+                onMouseUp={[Function]}
+                placeholderChar="m"
+                size="2"
+                value="01"
+              />
+              <span
+                className="dnb-date-picker--separator"
+              >
+                /
+              </span>
+              <ForwardRef
+                aria-labelledby="date-picker-id"
+                className="dnb-date-picker__input dnb-date-picker__input--year"
+                disabled={false}
+                id="date-picker-id-start-year"
+                mask={
+                  Array [
+                    /\\[1-2\\]/,
+                    /\\[0-9\\]/,
+                    /\\[0-9\\]/,
+                    /\\[0-9\\]/,
+                  ]
+                }
+                onChange={[Function]}
+                onKeyDown={[Function]}
+                onMouseUp={[Function]}
+                placeholderChar="å"
+                size="4"
+                value="2019"
+              />
+               - 
+              <ForwardRef
+                aria-labelledby="date-picker-id"
+                className="dnb-date-picker__input dnb-date-picker__input--day"
+                disabled={false}
+                id="date-picker-id-end-day"
+                mask={
+                  Array [
+                    /\\[0-3\\]/,
+                    /\\[0-9\\]/,
+                  ]
+                }
+                onChange={[Function]}
+                onKeyDown={[Function]}
+                onMouseUp={[Function]}
+                placeholderChar="d"
+                size="2"
+                value="15"
+              />
+              <span
+                className="dnb-date-picker--separator"
+              >
+                /
+              </span>
+              <ForwardRef
+                aria-labelledby="date-picker-id"
+                className="dnb-date-picker__input dnb-date-picker__input--month"
+                disabled={false}
+                id="date-picker-id-end-month"
+                mask={
+                  Array [
+                    /\\[0-1\\]/,
+                    /\\[0-9\\]/,
+                  ]
+                }
+                onChange={[Function]}
+                onKeyDown={[Function]}
+                onMouseUp={[Function]}
+                placeholderChar="m"
+                size="2"
+                value="02"
+              />
+              <span
+                className="dnb-date-picker--separator"
+              >
+                /
+              </span>
+              <ForwardRef
+                aria-labelledby="date-picker-id"
+                className="dnb-date-picker__input dnb-date-picker__input--year"
+                disabled={false}
+                id="date-picker-id-end-year"
+                mask={
+                  Array [
+                    /\\[1-2\\]/,
+                    /\\[0-9\\]/,
+                    /\\[0-9\\]/,
+                    /\\[0-9\\]/,
+                  ]
+                }
+                onChange={[Function]}
+                onKeyDown={[Function]}
+                onMouseUp={[Function]}
+                placeholderChar="å"
+                size="4"
+                value="2019"
+              />
+            </span>
+          }
+          input_class={null}
+          label={null}
+          on_blur={null}
+          on_change={null}
+          on_focus={null}
+          on_submit={null}
+          on_submit_blur={null}
+          on_submit_focus={null}
+          placeholder={null}
+          readOnly={false}
+          size={null}
+          status={null}
+          status_animation={null}
+          status_state="error"
+          submitButton={
+            <SubmitButton
+              aria-expanded={false}
+              disabled={false}
+              icon="calendar"
+              icon_size="medium"
+              id="date-picker-id"
+              on_submit={[Function]}
+              on_submit_blur={null}
+              on_submit_focus={null}
+              title={null}
+              value={null}
+              variant="secondary"
+            />
+          }
+          submit_button_icon="search"
+          submit_button_title={null}
+          submit_button_variant="secondary"
+          type="text"
+          value={null}
+        >
+          <span
+            className="dnb-input dnb-input--text dnb-input--has-submit-button"
+          >
+            <span
+              className="dnb-input__shell"
+              data-has-content="false"
+              data-input-state="virgin"
+            >
+              <span
+                className="dnb-date-picker__input__wrapper"
+              >
+                <ForwardRef
+                  aria-labelledby="date-picker-id"
+                  className="dnb-date-picker__input dnb-date-picker__input--day"
+                  disabled={false}
+                  id="date-picker-id-start-day"
+                  key="d0"
+                  mask={
+                    Array [
+                      /\\[0-3\\]/,
+                      /\\[0-9\\]/,
+                    ]
+                  }
+                  onChange={[Function]}
+                  onKeyDown={[Function]}
+                  onMouseUp={[Function]}
+                  placeholderChar="d"
+                  size="2"
+                  value="01"
+                >
+                  <t
+                    aria-labelledby="date-picker-id"
+                    autoComplete="off"
+                    className="dnb-date-picker__input dnb-date-picker__input--day"
+                    disabled={false}
+                    guide={true}
+                    id="date-picker-id-start-day"
+                    keepCharPositions={true}
+                    mask={
+                      Array [
+                        /\\[0-3\\]/,
+                        /\\[0-9\\]/,
+                      ]
+                    }
+                    onChange={[Function]}
+                    onKeyDown={[Function]}
+                    onMouseUp={[Function]}
+                    placeholderChar="d"
+                    render={[Function]}
+                    showMask={true}
+                    size="2"
+                    value="01"
+                  >
+                    <input
+                      aria-labelledby="date-picker-id"
+                      autoComplete="off"
+                      className="dnb-date-picker__input dnb-date-picker__input--day"
+                      defaultValue="01"
+                      disabled={false}
+                      id="date-picker-id-start-day"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onKeyDown={[Function]}
+                      onMouseUp={[Function]}
+                      size="2"
+                    />
+                  </t>
+                </ForwardRef>
+                <span
+                  className="dnb-date-picker--separator"
+                  key="s1"
+                >
+                  /
+                </span>
+                <ForwardRef
+                  aria-labelledby="date-picker-id"
+                  className="dnb-date-picker__input dnb-date-picker__input--month"
+                  disabled={false}
+                  id="date-picker-id-start-month"
+                  key="m2"
+                  mask={
+                    Array [
+                      /\\[0-1\\]/,
+                      /\\[0-9\\]/,
+                    ]
+                  }
+                  onChange={[Function]}
+                  onKeyDown={[Function]}
+                  onMouseUp={[Function]}
+                  placeholderChar="m"
+                  size="2"
+                  value="01"
+                >
+                  <t
+                    aria-labelledby="date-picker-id"
+                    autoComplete="off"
+                    className="dnb-date-picker__input dnb-date-picker__input--month"
+                    disabled={false}
+                    guide={true}
+                    id="date-picker-id-start-month"
+                    keepCharPositions={true}
+                    mask={
+                      Array [
+                        /\\[0-1\\]/,
+                        /\\[0-9\\]/,
+                      ]
+                    }
+                    onChange={[Function]}
+                    onKeyDown={[Function]}
+                    onMouseUp={[Function]}
+                    placeholderChar="m"
+                    render={[Function]}
+                    showMask={true}
+                    size="2"
+                    value="01"
+                  >
+                    <input
+                      aria-labelledby="date-picker-id"
+                      autoComplete="off"
+                      className="dnb-date-picker__input dnb-date-picker__input--month"
+                      defaultValue="01"
+                      disabled={false}
+                      id="date-picker-id-start-month"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onKeyDown={[Function]}
+                      onMouseUp={[Function]}
+                      size="2"
+                    />
+                  </t>
+                </ForwardRef>
+                <span
+                  className="dnb-date-picker--separator"
+                  key="s3"
+                >
+                  /
+                </span>
+                <ForwardRef
+                  aria-labelledby="date-picker-id"
+                  className="dnb-date-picker__input dnb-date-picker__input--year"
+                  disabled={false}
+                  id="date-picker-id-start-year"
+                  key="y4"
+                  mask={
+                    Array [
+                      /\\[1-2\\]/,
+                      /\\[0-9\\]/,
+                      /\\[0-9\\]/,
+                      /\\[0-9\\]/,
+                    ]
+                  }
+                  onChange={[Function]}
+                  onKeyDown={[Function]}
+                  onMouseUp={[Function]}
+                  placeholderChar="å"
+                  size="4"
+                  value="2019"
+                >
+                  <t
+                    aria-labelledby="date-picker-id"
+                    autoComplete="off"
+                    className="dnb-date-picker__input dnb-date-picker__input--year"
+                    disabled={false}
+                    guide={true}
+                    id="date-picker-id-start-year"
+                    keepCharPositions={true}
+                    mask={
+                      Array [
+                        /\\[1-2\\]/,
+                        /\\[0-9\\]/,
+                        /\\[0-9\\]/,
+                        /\\[0-9\\]/,
+                      ]
+                    }
+                    onChange={[Function]}
+                    onKeyDown={[Function]}
+                    onMouseUp={[Function]}
+                    placeholderChar="å"
+                    render={[Function]}
+                    showMask={true}
+                    size="4"
+                    value="2019"
+                  >
+                    <input
+                      aria-labelledby="date-picker-id"
+                      autoComplete="off"
+                      className="dnb-date-picker__input dnb-date-picker__input--year"
+                      defaultValue="2019"
+                      disabled={false}
+                      id="date-picker-id-start-year"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onKeyDown={[Function]}
+                      onMouseUp={[Function]}
+                      size="4"
+                    />
+                  </t>
+                </ForwardRef>
+                 - 
+                <ForwardRef
+                  aria-labelledby="date-picker-id"
+                  className="dnb-date-picker__input dnb-date-picker__input--day"
+                  disabled={false}
+                  id="date-picker-id-end-day"
+                  key="d0"
+                  mask={
+                    Array [
+                      /\\[0-3\\]/,
+                      /\\[0-9\\]/,
+                    ]
+                  }
+                  onChange={[Function]}
+                  onKeyDown={[Function]}
+                  onMouseUp={[Function]}
+                  placeholderChar="d"
+                  size="2"
+                  value="15"
+                >
+                  <t
+                    aria-labelledby="date-picker-id"
+                    autoComplete="off"
+                    className="dnb-date-picker__input dnb-date-picker__input--day"
+                    disabled={false}
+                    guide={true}
+                    id="date-picker-id-end-day"
+                    keepCharPositions={true}
+                    mask={
+                      Array [
+                        /\\[0-3\\]/,
+                        /\\[0-9\\]/,
+                      ]
+                    }
+                    onChange={[Function]}
+                    onKeyDown={[Function]}
+                    onMouseUp={[Function]}
+                    placeholderChar="d"
+                    render={[Function]}
+                    showMask={true}
+                    size="2"
+                    value="15"
+                  >
+                    <input
+                      aria-labelledby="date-picker-id"
+                      autoComplete="off"
+                      className="dnb-date-picker__input dnb-date-picker__input--day"
+                      defaultValue="15"
+                      disabled={false}
+                      id="date-picker-id-end-day"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onKeyDown={[Function]}
+                      onMouseUp={[Function]}
+                      size="2"
+                    />
+                  </t>
+                </ForwardRef>
+                <span
+                  className="dnb-date-picker--separator"
+                  key="s1"
+                >
+                  /
+                </span>
+                <ForwardRef
+                  aria-labelledby="date-picker-id"
+                  className="dnb-date-picker__input dnb-date-picker__input--month"
+                  disabled={false}
+                  id="date-picker-id-end-month"
+                  key="m2"
+                  mask={
+                    Array [
+                      /\\[0-1\\]/,
+                      /\\[0-9\\]/,
+                    ]
+                  }
+                  onChange={[Function]}
+                  onKeyDown={[Function]}
+                  onMouseUp={[Function]}
+                  placeholderChar="m"
+                  size="2"
+                  value="02"
+                >
+                  <t
+                    aria-labelledby="date-picker-id"
+                    autoComplete="off"
+                    className="dnb-date-picker__input dnb-date-picker__input--month"
+                    disabled={false}
+                    guide={true}
+                    id="date-picker-id-end-month"
+                    keepCharPositions={true}
+                    mask={
+                      Array [
+                        /\\[0-1\\]/,
+                        /\\[0-9\\]/,
+                      ]
+                    }
+                    onChange={[Function]}
+                    onKeyDown={[Function]}
+                    onMouseUp={[Function]}
+                    placeholderChar="m"
+                    render={[Function]}
+                    showMask={true}
+                    size="2"
+                    value="02"
+                  >
+                    <input
+                      aria-labelledby="date-picker-id"
+                      autoComplete="off"
+                      className="dnb-date-picker__input dnb-date-picker__input--month"
+                      defaultValue="02"
+                      disabled={false}
+                      id="date-picker-id-end-month"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onKeyDown={[Function]}
+                      onMouseUp={[Function]}
+                      size="2"
+                    />
+                  </t>
+                </ForwardRef>
+                <span
+                  className="dnb-date-picker--separator"
+                  key="s3"
+                >
+                  /
+                </span>
+                <ForwardRef
+                  aria-labelledby="date-picker-id"
+                  className="dnb-date-picker__input dnb-date-picker__input--year"
+                  disabled={false}
+                  id="date-picker-id-end-year"
+                  key="y4"
+                  mask={
+                    Array [
+                      /\\[1-2\\]/,
+                      /\\[0-9\\]/,
+                      /\\[0-9\\]/,
+                      /\\[0-9\\]/,
+                    ]
+                  }
+                  onChange={[Function]}
+                  onKeyDown={[Function]}
+                  onMouseUp={[Function]}
+                  placeholderChar="å"
+                  size="4"
+                  value="2019"
+                >
+                  <t
+                    aria-labelledby="date-picker-id"
+                    autoComplete="off"
+                    className="dnb-date-picker__input dnb-date-picker__input--year"
+                    disabled={false}
+                    guide={true}
+                    id="date-picker-id-end-year"
+                    keepCharPositions={true}
+                    mask={
+                      Array [
+                        /\\[1-2\\]/,
+                        /\\[0-9\\]/,
+                        /\\[0-9\\]/,
+                        /\\[0-9\\]/,
+                      ]
+                    }
+                    onChange={[Function]}
+                    onKeyDown={[Function]}
+                    onMouseUp={[Function]}
+                    placeholderChar="å"
+                    render={[Function]}
+                    showMask={true}
+                    size="4"
+                    value="2019"
+                  >
+                    <input
+                      aria-labelledby="date-picker-id"
+                      autoComplete="off"
+                      className="dnb-date-picker__input dnb-date-picker__input--year"
+                      defaultValue="2019"
+                      disabled={false}
+                      id="date-picker-id-end-year"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onKeyDown={[Function]}
+                      onMouseUp={[Function]}
+                      size="4"
+                    />
+                  </t>
+                </ForwardRef>
+              </span>
+            </span>
+            <SubmitButton
+              aria-expanded={false}
+              disabled={false}
+              icon="calendar"
+              icon_size="medium"
+              id="date-picker-id"
+              on_submit={[Function]}
+              on_submit_blur={null}
+              on_submit_focus={null}
+              title={null}
+              value={null}
+              variant="secondary"
+            >
+              <span
+                className="dnb-input__submit-button"
+                data-input-state="virgin"
+              >
+                <Button
+                  aria-expanded={false}
+                  attributes={null}
+                  bounding={false}
+                  class={null}
+                  className="dnb-input__submit-button__button"
+                  custom_element={null}
+                  custom_method={null}
+                  disabled={false}
+                  href={null}
+                  icon="calendar"
+                  icon_position="right"
+                  icon_size="default"
+                  id="date-picker-id"
+                  innerRef={null}
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  on_click={null}
+                  size="medium"
+                  text={null}
+                  title={null}
+                  type="submit"
+                  variant="secondary"
+                >
+                  <button
+                    aria-expanded={false}
+                    className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon date-picker-id dnb-input__submit-button__button"
+                    id="date-picker-id"
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onMouseOut={[Function]}
+                    type="submit"
+                  >
+                    <Content
+                      aria-expanded={false}
+                      attributes={null}
+                      bounding={false}
+                      class={null}
+                      className="dnb-input__submit-button__button"
+                      content={null}
+                      custom_element={null}
+                      custom_method={null}
+                      disabled={false}
+                      href={null}
+                      icon="calendar"
+                      icon_position="right"
+                      icon_size="default"
+                      id="date-picker-id"
+                      innerRef={null}
+                      isIconOnly={true}
+                      onBlur={[Function]}
+                      onClick={[Function]}
+                      onFocus={[Function]}
+                      on_click={null}
+                      size="medium"
+                      text={null}
+                      title={null}
+                      type="submit"
+                      variant="secondary"
+                    >
+                      <IconPrimary
+                        alt={null}
+                        aria-hidden={false}
+                        attributes={null}
+                        class={null}
+                        className="dnb-button__icon"
+                        color={null}
+                        height={null}
+                        icon="calendar"
+                        key="button-icon"
+                        modifier={null}
+                        size="default"
+                        title={null}
+                        width={null}
+                      >
+                        <span
+                          alt="calendar"
+                          aria-hidden={false}
+                          aria-label="calendar"
+                          className="dnb-icon dnb-icon--default dnb-button__icon"
+                          role="img"
+                        >
+                          <calendar>
+                            <svg
+                              fill="none"
+                              height={17}
+                              viewBox="0 0 17 17"
+                              width={17}
+                            >
+                              <path
+                                clipRule="evenodd"
+                                d="M4.905 0c.44 0 .797.357.797.797v1.257h5.596V.797a.797.797 0 1 1 1.594 0v1.257h1.718A2.39 2.39 0 0 1 17 4.444V14.61A2.39 2.39 0 0 1 14.61 17H2.39A2.39 2.39 0 0 1 0 14.61V4.444a2.39 2.39 0 0 1 2.39-2.39h1.719V.797c0-.44.356-.797.796-.797zm6.393 3.648v.744a.797.797 0 1 0 1.594 0v-.744h1.718c.44 0 .797.356.797.796v1.719H1.593V4.444c0-.44.357-.796.797-.796h1.719v.744a.797.797 0 1 0 1.593 0v-.744h5.596zM1.593 7.756h13.814v6.854c0 .44-.357.797-.797.797H2.39a.797.797 0 0 1-.797-.797V7.756z"
+                                fill="#000"
+                                fillRule="evenodd"
+                              />
+                            </svg>
+                          </calendar>
+                        </span>
+                      </IconPrimary>
+                    </Content>
+                  </button>
+                </Button>
+              </span>
+            </SubmitButton>
+          </span>
+        </Input>
+      </DatePickerInput>
+      <FormStatus
+        animation={null}
+        class={null}
+        className={null}
+        hidden={false}
+        icon="exclamation"
+        icon_size="medium"
+        render_content={null}
+        status="error"
+        text="status"
+        text_id="date-picker-id-status"
+        title={null}
+      >
+        <span
+          aria-live="assertive"
+          className="dnb-form-status dnb-form-status--error dnb-form-status--has-content"
+          hidden={false}
+        >
+          <IconPrimary
+            alt={null}
+            aria-hidden={true}
+            attributes={null}
+            class={null}
+            className={null}
+            color={null}
+            height={null}
+            icon="exclamation"
+            modifier={null}
+            size="medium"
+            title={null}
+            width={null}
+          >
+            <span
+              alt="exclamation"
+              aria-hidden={true}
+              className="dnb-icon dnb-icon--medium"
+              role="img"
+            >
+              <exclamation_medium>
+                <svg
+                  fill="none"
+                  height={24}
+                  viewBox="0 0 24 24"
+                  width={24}
+                >
+                  <path
+                    clipRule="evenodd"
+                    d="M12 3a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-1.5 0V3.75A.75.75 0 0 1 12 3zm-1.074 15.426c.29-.29.679-.426 1.074-.426s.783.135 1.074.426c.29.29.426.679.426 1.074s-.135.783-.426 1.074c-.29.29-.679.426-1.074.426s-.783-.135-1.074-.426A1.499 1.499 0 0 1 10.5 19.5c0-.395.135-.783.426-1.074z"
+                    fill="#000"
+                    fillRule="evenodd"
+                  />
+                </svg>
+              </exclamation_medium>
+            </span>
+          </IconPrimary>
+          <span
+            className="dnb-form-status--text"
+            id="date-picker-id-status"
+          >
+            status
+          </span>
+        </span>
+      </FormStatus>
+      <span
+        className="dnb-date-picker__container"
+      >
+        <span
+          className="dnb-date-picker__triangle"
+        />
+      </span>
+    </span>
+  </span>
+</DatePicker>
+`;
+
+exports[`DatePicker scss have to match default theme snapshot 1`] = `
+"/*
+* DatePicker theme
+*
+*/
+/**
+ * This file is only used to make themes independent
+ * so that they can get imported individually, without the core styles
+ *
+ */
+/*
+ * Utilities
+ */
+:root {
+  --date-picker-today-color: var(--color-emerald-green);
+  --date-picker-header-color: var(--color-emerald-green);
+  --date-picker-labels-day-color: var(--color-emerald-green);
+  --date-picker-selected-color: var(--color-mint-green-25);
+  --date-picker-selected-bg-color: var(--color-emerald-green);
+  --date-picker-selected-bg-color-hover: var(--color-emerald-green);
+  --date-picker-within-selection-bg-color: var(--color-mint-green-50); }
+
+.dnb-date-picker__input {
+  color: var(--color-sea-green); }
+
+.dnb-date-picker--separator {
+  color: var(--color-sea-green); }
+
+.dnb-date-picker__container {
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16);
+  border-radius: 0.5rem;
+  background-color: var(--color-white); }
+
+.dnb-date-picker__calendar::after {
+  background-color: var(--color-mint-green-50); }
+
+.dnb-date-picker__header::after {
+  background-color: var(--color-mint-green-50); }
+
+.dnb-date-picker__header__nav .dnb-button {
+  box-shadow: none; }
+
+.dnb-date-picker__header__title {
+  text-transform: capitalize;
+  color: var(--date-picker-header-color); }
+
+.dnb-date-picker__labels__day {
+  text-transform: capitalize;
+  font-weight: var(--font-weight-demi);
+  color: var(--date-picker-labels-day-color); }
+
+.dnb-date-picker__day, .dnb-date-picker__labels__day {
+  text-align: center; }
+
+.dnb-date-picker__day .dnb-button {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: \\"lnum\\"; }
+
+.dnb-date-picker__day--today .dnb-button {
+  color: var(--date-picker-today-color); }
+
+.dnb-date-picker__day--preview .dnb-button,
+.dnb-date-picker__day--preview.dnb-date-picker__day--inactive .dnb-button,
+.dnb-date-picker__day--within-selection:not(.dnb-date-picker__day--start-date):not(.dnb-date-picker__day--end-date) .dnb-button:not(:hover) {
+  background-color: transparent; }
+
+.dnb-date-picker__day--preview:not(.dnb-date-picker__day--inactive):not(.dnb-date-picker__day--start-date):not(.dnb-date-picker__day--end-date), .dnb-date-picker__day--within-selection:not(.dnb-date-picker__day--inactive):not(.dnb-date-picker__day--start-date):not(.dnb-date-picker__day--end-date) {
+  background-color: var(--date-picker-within-selection-bg-color); }
+
+.dnb-date-picker__day--start-date:not(.dnb-date-picker__day--inactive)::after, .dnb-date-picker__day--end-date:not(.dnb-date-picker__day--inactive)::after {
+  background-color: var(--date-picker-within-selection-bg-color); }
+
+.dnb-date-picker__day--start-date:not(.dnb-date-picker__day--inactive) .dnb-button, .dnb-date-picker__day--end-date:not(.dnb-date-picker__day--inactive) .dnb-button {
+  color: var(--date-picker-selected-color);
+  background-color: var(--date-picker-selected-bg-color); }
+
+.dnb-date-picker__day--start-date:not(.dnb-date-picker__day--inactive):not(.dnb-date-picker__day--preview) .dnb-button:hover, .dnb-date-picker__day--end-date:not(.dnb-date-picker__day--inactive):not(.dnb-date-picker__day--preview) .dnb-button:hover {
+  box-shadow: none; }
+
+:not([dnb-is-touch])
+.dnb-date-picker__day--start-date.dnb-date-picker__day--within-selection .dnb-button:hover:not([disabled]),
+:not([dnb-is-touch])
+.dnb-date-picker__day--end-date.dnb-date-picker__day--within-selection .dnb-button:hover:not([disabled]) {
+  color: var(--date-picker-selected-color);
+  background-color: var(--date-picker-selected-bg-color-hover); }
+
+.dnb-date-picker__day--inactive .dnb-button[disabled],
+.dnb-date-picker__day--disabled .dnb-button[disabled] {
+  box-shadow: none; }
+
+:not([dnb-is-touch]) .dnb-date-picker__day--inactive .dnb-button[disabled] {
+  cursor: default; }
+
+.dnb-date-picker__triangle::before {
+  border: none;
+  background-color: var(--color-white);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16); }
+"
+`;
+
+exports[`DatePicker scss have to match snapshot 1`] = `
+"/*
+* DNB DatePicker
+*
+*/
+/**
+ * This file is only used to make components independent
+ * so that they can get imported individually, without the core styles
+ *
+ */
+/*
+ * Utilities
+ */
+/*
+ * Scopes
+ *
+ */
+/*
+ * Document Reset
+ *
+ */
+/*
+* DNB Input
+*
+*/
+/*
+* DNB Button
+*
+*/
+/*
+* DNB icon
+*
+*/
+/*
+* Icon component
+*
+*/
+.dnb-icon {
+  display: inline-block;
+  vertical-align: baseline;
+  font-size: inherit;
+  line-height: 1em;
+  width: 1em;
+  height: 1em; }
+  .dnb-icon img,
+  .dnb-icon svg {
+    width: inherit;
+    height: inherit;
+    vertical-align: middle;
+    shape-rendering: geometricPrecision; }
+  .dnb-icon svg[width='100%'] {
+    width: inherit; }
+  .dnb-icon svg[height='100%'] {
+    height: inherit; }
+  .dnb-icon svg:not([fill]),
+  .dnb-icon svg [fill] {
+    fill: currentColor; }
+  .dnb-icon svg [stroke] {
+    stroke: currentColor; }
+  .dnb-icon--small {
+    width: 0.75rem;
+    height: 0.75rem; }
+  .dnb-icon--default {
+    width: 1rem;
+    height: 1rem; }
+  .dnb-icon--medium {
+    width: 1.5rem;
+    height: 1.5rem; }
+  .dnb-icon--large {
+    width: 2rem;
+    height: 2rem; }
+  .dnb-icon--x-large {
+    width: 2.5rem;
+    height: 2.5rem; }
+  .dnb-icon--xx-large {
+    width: 3rem;
+    height: 3rem; }
+  .dnb-icon--custom-size {
+    width: auto;
+    height: auto; }
+
+.dnb-button {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-default);
+  font-size: 1rem;
+  font-style: normal;
+  line-height: 1.5rem;
+  color: var(--color-black-80, #333);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  font-variant-numeric: lining-nums;
+  font-feature-settings: \\"lnum\\";
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-button *,
+  .dnb-button ::before,
+  .dnb-button ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-button ::before,
+  .dnb-button ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+  .dnb-button button {
+    overflow: visible;
+    text-transform: none; }
+  .dnb-button button,
+  .dnb-button [type='button'],
+  .dnb-button [type='reset'],
+  .dnb-button [type='submit'] {
+    -webkit-appearance: button; }
+
+/*
+* Button component
+*
+*/
+:root {
+  --button-font-size: var(--font-size-default);
+  --button-font-size-small: var(--font-size-small);
+  --button-width: 2.5rem;
+  --button-height: 2.5rem;
+  --button-width--small: 1.5rem;
+  --button-height--small: 1.5rem;
+  --button-width--medium: 2rem;
+  --button-height--medium: 2rem;
+  --button-width--large: 3rem;
+  --button-height--large: 3rem;
+  --button-icon-size: 1rem;
+  --button-border-width: 0.0625rem;
+  --button-border-width--hover: 3px;
+  --button-border-radius: calc(var(--button-height) / 2);
+  --button-border-radius--small: calc(var(--button-height--small) / 2);
+  --button-border-radius--medium: calc(var(--button-height--medium) / 2);
+  --button-border-radius--large: calc(var(--button-height--large) / 2); }
+
+.dnb-button {
+  cursor: pointer;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--button-width);
+  height: var(--button-height);
+  padding: 0;
+  border: var(--button-border-width) solid transparent;
+  border-radius: var(--button-border-radius);
+  font-size: var(--button-font-size);
+  line-height: var(--button-height);
+  text-decoration: none;
+  /* Firefox includes a hidden border which messes up button dimensions */ }
+  .dnb-button__icon {
+    line-height: 1em; }
+    .dnb-button__icon:not(.dnb-icon) svg:not([width]):not([height]) {
+      width: var(--button-icon-size);
+      height: var(--button-icon-size); }
+    @supports not (-ms-ime-align: auto) {
+      .dnb-button__icon {
+        transform: translateY(calc(1px - 1px - var(--button-border-width))); } }
+  .dnb-button__text {
+    line-height: 1em;
+    color: inherit;
+    background-color: inherit; }
+    @supports not (-ms-ime-align: auto) {
+      .dnb-button__text {
+        transform: translateY(calc(1px - var(--button-border-width))); } }
+  .dnb-button__bounding {
+    position: absolute;
+    background-color: transparent;
+    width: var(--button-width);
+    height: var(--button-height);
+    border-radius: var(--button-border-radius);
+    transform: scale(1.2); }
+  .dnb-button--size-small {
+    width: var(--button-width--small);
+    height: var(--button-height--small);
+    font-size: var(--button-font-size-small);
+    line-height: var(--button-font-size-small);
+    border-radius: var(--button-border-radius--small); }
+  .dnb-button--has-text.dnb-button--size-small {
+    padding-left: 1rem;
+    padding-right: 1rem; }
+  .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-small {
+    padding-left: 0.5rem; }
+  .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-small {
+    padding-right: 0.5rem; }
+  .dnb-button--size-medium {
+    width: var(--button-width--medium);
+    height: var(--button-height--medium);
+    line-height: var(--button-height--medium);
+    border-radius: var(--button-border-radius--medium); }
+  .dnb-button--has-text.dnb-button--size-medium {
+    padding-left: 1rem;
+    padding-right: 1rem; }
+  .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-medium {
+    padding-left: 0.5rem; }
+  .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-medium {
+    padding-right: 0.5rem; }
+  .dnb-button--size-large {
+    width: var(--button-width--large);
+    height: var(--button-height--large);
+    line-height: var(--button-height--large);
+    border-radius: var(--button-border-radius--large); }
+  .dnb-button--has-text.dnb-button--size-large {
+    padding-left: 2rem;
+    padding-right: 2rem; }
+  .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-large {
+    padding-left: 1rem; }
+  .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-large {
+    padding-right: 1rem; }
+  .dnb-button--has-text {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    width: auto; }
+  .dnb-button--has-text .dnb-button__icon {
+    margin: 0 calc(var(--button-icon-size) / 2); }
+  .dnb-button--has-text.dnb-button--icon-position-left {
+    padding-left: 0.5rem; }
+  .dnb-button--has-text.dnb-button--icon-position-right {
+    padding-right: 0.5rem; }
+  .dnb-button--has-text.dnb-button--has-icon .dnb-button__icon {
+    order: 2; }
+  .dnb-button--has-text.dnb-button--has-icon .dnb-button__text {
+    order: 1; }
+  .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__icon {
+    order: 1; }
+  .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__text {
+    order: 2; }
+  .dnb-button--reset {
+    margin: 0;
+    padding: 0;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    border: none;
+    border-radius: 0;
+    background-color: transparent;
+    appearance: none;
+    box-shadow: none;
+    color: inherit;
+    font: inherit;
+    text-align: inherit;
+    line-height: inherit; }
+    :not([dnb-is-touch]) .dnb-button--reset:hover[disabled] {
+      cursor: not-allowed; }
+    :not([dnb-is-touch]) .dnb-button--reset:hover:not([disabled]) {
+      box-shadow: none;
+      border: none; }
+    .dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
+      outline: none; }
+      html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
+        box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
+        border-color: transparent; }
+    html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):focus,
+    html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):active {
+      box-shadow: none;
+      color: inherit;
+      border: none; }
+  .dnb-button[type='button'] {
+    appearance: none; }
+  .dnb-button[disabled] {
+    cursor: not-allowed; }
+  button.dnb-button::-moz-focus-inner .dnb-button {
+    border: none; }
+
+a.dnb-button[type='button'] {
+  -webkit-appearance: none; }
+
+a.dnb-button .dnb-button__icon {
+  transform: translateY(0); }
+
+a.dnb-button .dnb-button__text {
+  transform: translateY(1px); }
+
+a.dnb-button:hover {
+  border-radius: var(--button-border-radius); }
+
+a.dnb-button--size-small, a.dnb-button--size-small:hover {
+  border-radius: var(--button-border-radius--small); }
+
+a.dnb-button--size-medium, a.dnb-button--size-medium:hover {
+  border-radius: var(--button-border-radius--medium); }
+
+a.dnb-button--size-large, a.dnb-button--size-large:hover {
+  border-radius: var(--button-border-radius--large); }
+
+a.dnb-button:active, a.dnb-button:focus {
+  border-radius: var(--button-border-radius); }
+
+/*
+* DNB FormLabel
+*
+*/
+.dnb-form-label {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-default);
+  font-size: 1rem;
+  font-style: normal;
+  line-height: 1.5rem;
+  color: var(--color-black-80, #333);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  font-variant-numeric: lining-nums;
+  font-feature-settings: \\"lnum\\";
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-form-label *,
+  .dnb-form-label ::before,
+  .dnb-form-label ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-form-label ::before,
+  .dnb-form-label ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+ * FormLabel component
+ *
+ */
+.dnb-form-label {
+  user-select: none;
+  margin-right: 1rem;
+  display: inline-block;
+  vertical-align: baseline;
+  cursor: pointer;
+  color: inherit;
+  width: auto;
+  white-space: nowrap; }
+  .dnb-form-label--vertical {
+    margin-right: 0;
+    margin-top: 0; }
+  .dnb-form-label[for]:not([disabled]):hover {
+    color: var(--color-sea-green); }
+  .dnb-form-label[disabled] {
+    cursor: not-allowed; }
+
+/*
+* DNB FormStatus
+*
+*/
+.dnb-form-status {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-default);
+  font-size: 1rem;
+  font-style: normal;
+  line-height: 1.5rem;
+  color: var(--color-black-80, #333);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  font-variant-numeric: lining-nums;
+  font-feature-settings: \\"lnum\\";
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-form-status *,
+  .dnb-form-status ::before,
+  .dnb-form-status ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-form-status ::before,
+  .dnb-form-status ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+ * FormStatus component
+ *
+ */
+.dnb-form-status {
+  width: auto;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  min-height: var(--input-height);
+  border-radius: var(--input-border-radius);
+  line-height: 0.5rem; }
+  .dnb-form-status--text {
+    padding: calc(0.5rem / 2) 1rem;
+    cursor: text;
+    color: var(--color-emerald-green);
+    line-height: 1.5rem; }
+  .dnb-icon + .dnb-form-status--text {
+    padding-left: 0.5rem; }
+  .dnb-form-status > .dnb-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 1.5em;
+    height: 1.5em;
+    margin-left: 0.5rem;
+    color: inherit;
+    font-size: 1rem;
+    border-radius: 50%;
+    border: 1px solid;
+    border-color: currentColor; }
+  .dnb-form-status[hidden] {
+    display: none; }
+  .dnb-form-status--fade-in {
+    height: 0;
+    opacity: 0;
+    animation: fade-in 600ms ease-out 1 200ms forwards; }
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    height: 0; }
+  to {
+    opacity: 1;
+    height: var(--input-height); } }
+
+.dnb-input {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-default);
+  font-size: 1rem;
+  font-style: normal;
+  line-height: 1.5rem;
+  color: var(--color-black-80, #333);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  font-variant-numeric: lining-nums;
+  font-feature-settings: \\"lnum\\";
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-input *,
+  .dnb-input ::before,
+  .dnb-input ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-input ::before,
+  .dnb-input ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+* Input component
+*
+*/
+:root {
+  --input-font-size: 1rem;
+  --input-font-size--medium: 1.5rem;
+  --input-font-size--large: 2rem;
+  --input-padding: 0 1rem;
+  --input-padding--medium: 0 1rem;
+  --input-padding--large: 0 1.5rem;
+  --input-height: 2rem;
+  --input-height--medium: 2.5rem;
+  --input-height--large: 3rem;
+  --input-border-width: 0.0625rem;
+  --input-border-radius: calc(var(--input-height) / 2);
+  --input-border-radius--medium: calc(var(--input-height--medium) / 2);
+  --input-border-radius--large: calc(var(--input-height--large) / 2); }
+
+.dnb-input {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  vertical-align: middle;
+  width: auto;
+  font-size: var(--input-font-size);
+  font-weight: var(--font-weight-default); }
+  .dnb-input__shell {
+    position: relative;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    border: var(--input-border-width) solid var(--color-sea-green-alt); }
+  label + .dnb-input[class*='__form-status'] {
+    vertical-align: baseline; }
+  .dnb-input__input {
+    border: none;
+    outline: none;
+    word-break: normal; }
+  .dnb-input__input[disabled] {
+    user-select: none; }
+  .dnb-input__shell, .dnb-input__input {
+    height: var(--input-height);
+    border-radius: var(--input-border-radius); }
+  .dnb-input__placeholder, .dnb-input__input {
+    width: 100%;
+    padding: var(--input-padding);
+    text-align: left;
+    color: inherit;
+    font-size: var(--input-font-size);
+    line-height: 1em;
+    background-color: transparent;
+    transform: translateY(var(--input-border-width)); }
+  .dnb-input__placeholder {
+    pointer-events: none;
+    position: absolute;
+    z-index: 1;
+    left: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis; }
+  .dnb-input--has-submit-button .dnb-input__placeholder,
+  .dnb-input--has-submit-button .dnb-input__input {
+    padding-right: 2rem;
+    margin-right: -1rem; }
+  .dnb-input__description {
+    color: inherit;
+    padding-left: 0.5rem; }
+  .dnb-input--medium .dnb-input__shell,
+  .dnb-input--medium .dnb-input__input {
+    height: var(--input-height--medium);
+    border-radius: var(--input-border-radius--medium); }
+  .dnb-input--medium .dnb-input__placeholder,
+  .dnb-input--medium .dnb-input__input {
+    padding: var(--input-padding--medium);
+    font-size: var(--input-font-size--medium); }
+  .dnb-input--large .dnb-input__shell,
+  .dnb-input--large .dnb-input__input {
+    height: var(--input-height--large);
+    border-radius: var(--input-border-radius--large); }
+  .dnb-input--large .dnb-input__placeholder,
+  .dnb-input--large .dnb-input__input {
+    padding: var(--input-padding--large);
+    font-size: var(--input-font-size--large); }
+  .dnb-input__align--right .dnb-input__placeholder,
+  .dnb-input__align--right .dnb-input__input {
+    text-align: right; }
+  .dnb-input__shell[data-has-content='true'] .dnb-input__placeholder,
+  .dnb-input__shell[data-has-content='true'][data-input-state='focus'] .dnb-input__placeholder {
+    display: none; }
+  .dnb-input__submit-button {
+    position: relative;
+    z-index: 2;
+    align-self: flex-end;
+    margin-top: -2rem; }
+  .dnb-input > .dnb-form-status {
+    margin-top: 0.5rem; }
+
+.dnb-dropdown {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-default);
+  font-size: 1rem;
+  font-style: normal;
+  line-height: 1.5rem;
+  color: var(--color-black-80, #333);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  font-variant-numeric: lining-nums;
+  font-feature-settings: \\"lnum\\";
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-dropdown *,
+  .dnb-dropdown ::before,
+  .dnb-dropdown ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-dropdown ::before,
+  .dnb-dropdown ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+* DatePicker component
+*
+*/
+:root {
+  --date-picker-input-height: 2rem;
+  --date-picker-day-width: 2rem;
+  --date-picker-day-horizontal-spacing: 4px; }
+
+@keyframes datePickerSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(calc(1px - var(--date-picker-input-height))); }
+  to {
+    opacity: 1;
+    transform: translateY(0); } }
+
+@keyframes datePickerSlideUp {
+  from {
+    opacity: 1;
+    transform: translateY(0); }
+  to {
+    opacity: 0;
+    transform: translateY(calc(1px - var(--date-picker-input-height))); } }
+
+.dnb-date-picker__shell {
+  position: relative;
+  top: 0;
+  display: inline-block; }
+
+.dnb-date-picker__container {
+  position: absolute;
+  display: block;
+  z-index: 3;
+  left: -1rem;
+  top: var(--date-picker-input-height); }
+
+.dnb-date-picker--show-input .dnb-date-picker__container {
+  left: 0; }
+
+.dnb-date-picker--opened .dnb-date-picker__container {
+  z-index: 4; }
+  .dnb-date-picker--opened .dnb-date-picker__container {
+    animation: datePickerSlideDown 200ms ease-out 1 forwards; }
+  .dnb-date-picker--opened .dnb-date-picker__container--no-animation {
+    animation: datePickerSlideDown 1ms ease-out 1 forwards; }
+
+.dnb-date-picker--hidden .dnb-date-picker__container {
+  display: none; }
+
+.dnb-date-picker:not(.dnb-date-picker--opened) .dnb-date-picker__container {
+  animation: datePickerSlideUp 150ms ease-out 1 forwards; }
+
+.dnb-date-picker:not(.dnb-date-picker--opened) .dnb-date-picker__container--no-animation {
+  animation: datePickerSlideUp 1ms ease-out 1 forwards; }
+
+.dnb-date-picker__input {
+  outline: none;
+  text-align: center;
+  border: none;
+  background: transparent;
+  overflow: visible;
+  white-space: nowrap; }
+  .dnb-date-picker__input:first-of-type {
+    margin-left: 0.8rem; }
+  .dnb-date-picker__input:last-of-type {
+    margin-right: 2.2rem; }
+
+.dnb-date-picker__input__wrapper {
+  width: 0;
+  visibility: hidden; }
+
+.dnb-date-picker--show-input .dnb-date-picker__input__wrapper {
+  width: auto;
+  visibility: visible; }
+
+.dnb-date-picker--separator {
+  margin: 0 -0.1rem; }
+
+.dnb-date-picker__input,
+.dnb-core-style .dnb-date-picker__input {
+  font-family: var(--font-family-monospace); }
+
+.dnb-date-picker__views {
+  display: flex;
+  user-select: none; }
+
+.dnb-date-picker__calendar {
+  position: relative;
+  padding: 1rem; }
+  .dnb-date-picker__calendar::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    width: calc(100% - 2rem);
+    height: 1px; }
+
+.dnb-date-picker:not(.dnb-date-picker--show-footer) .dnb-date-picker__calendar::after {
+  content: none; }
+
+.dnb-date-picker__header {
+  position: relative;
+  display: flex;
+  padding-bottom: 1rem; }
+  .dnb-date-picker__header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 1px; }
+  .dnb-date-picker__header__nav, .dnb-date-picker__header__title {
+    display: flex;
+    justify-content: center;
+    flex-basis: 14.28571%; }
+  .dnb-date-picker__header__title {
+    flex-basis: 71.42857%; }
+
+.dnb-date-picker__footer {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem; }
+
+.dnb-date-picker__labels__day {
+  padding: 1.5rem 0 0.5rem; }
+
+.dnb-date-picker__labels, .dnb-date-picker__days {
+  min-width: 18rem;
+  max-width: 18rem;
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+  list-style: none; }
+
+.dnb-date-picker__day, .dnb-date-picker__labels__day {
+  display: flex;
+  flex-basis: 14.28571%;
+  justify-content: center; }
+
+.dnb-date-picker__day {
+  position: relative;
+  width: var(--date-picker-day-width);
+  height: var(--date-picker-day-width);
+  margin: var(--date-picker-day-horizontal-spacing) 0; }
+  .dnb-date-picker__day .dnb-button {
+    position: absolute;
+    top: 0;
+    width: var(--date-picker-day-width);
+    height: var(--date-picker-day-width);
+    box-shadow: none; }
+    .dnb-date-picker__day .dnb-button__bounding {
+      border-radius: 0; }
+  .dnb-date-picker__day--selectable:hover {
+    z-index: 2; }
+  .dnb-date-picker__day--start-date .dnb-button,
+  .dnb-date-picker__day--end-date .dnb-button {
+    z-index: 1; }
+  .dnb-date-picker__day--start-date, .dnb-date-picker__day--end-date {
+    position: relative; }
+    .dnb-date-picker__day--start-date::after, .dnb-date-picker__day--end-date::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      width: calc(var(--date-picker-day-width) / 2);
+      height: 100%; }
+  .dnb-date-picker__day--start-date::after {
+    left: auto;
+    right: 0; }
+  .dnb-date-picker__day--end-date::after {
+    left: 0;
+    right: auto; }
+  .dnb-date-picker__day--start-date.dnb-date-picker__day--end-date::after {
+    content: none; }
+
+.dnb-date-picker__triangle {
+  pointer-events: none;
+  position: absolute;
+  top: calc(1px + 1px - var(--date-picker-input-height) / 2);
+  left: 0;
+  right: auto;
+  margin: 0 1.5rem;
+  width: calc(var(--date-picker-input-height) / 2);
+  height: calc(var(--date-picker-input-height) / 2);
+  overflow: hidden; }
+  .dnb-date-picker__triangle::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: calc(var(--date-picker-input-height) / 2);
+    height: calc(var(--date-picker-input-height) / 2);
+    transform: translateY(60%) rotate(45deg);
+    border: 1px solid var(--color-black-border);
+    background-color: var(--color-white); }
+
+.dnb-date-picker--show-input .dnb-date-picker__triangle {
+  left: 0; }
+
+.dnb-date-picker .rtl {
+  direction: rtl; }
+  .dnb-date-picker .rtl .dnb-date-picker__prev::before {
+    transform: scaleX(-1); }
+  .dnb-date-picker .rtl .dnb-date-picker__next::before {
+    transform: scaleX(-1); }
+"
+`;

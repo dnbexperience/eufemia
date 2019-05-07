@@ -329,7 +329,7 @@ export default class Input extends PureComponent {
               submitButton
             ) : (
               <SubmitButton
-                {...this.props}
+                {...attributes}
                 value={inputParams.value}
                 icon={submit_button_icon}
                 title={submit_button_title}
@@ -416,13 +416,22 @@ class SubmitButton extends PureComponent {
     dispatchCustomElementEvent(this, 'on_submit', { value, event })
   }
   render() {
-    const { id, title, disabled, variant, icon, icon_size } = this.props
+    const {
+      id,
+      title,
+      disabled,
+      variant,
+      icon,
+      icon_size,
+      ...rest
+    } = this.props
 
     const params = {
       id,
       type: 'submit',
       title,
-      disabled
+      disabled,
+      ...rest
     }
 
     // also used for code markup simulation

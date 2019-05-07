@@ -15,7 +15,7 @@ export const propTypes = {
 
   range: PropTypes.bool,
   link: PropTypes.bool,
-  pages: PropTypes.oneOfType([
+  views: PropTypes.oneOfType([
     PropTypes.number,
     PropTypes.arrayOf(PropTypes.object)
   ]),
@@ -27,15 +27,15 @@ export const propTypes = {
 
 export const defaultProps = {
   // formats
-  month: new Date(), // What month will be displayed in the first calendar. Default: new Date()
+  month: null, // What month will be displayed in the first calendar
   startDate: null,
   endDate: null,
 
   // apperance
   range: null,
   link: null,
-  pages: null,
-  // pages: [{ nextBtn: false }, { prevBtn: false }],
+  views: null,
+  // views: [{ nextBtn: false }, { prevBtn: false }],
 
   // events
   onChange: null, // fires when user makes a selection or navigates
@@ -48,7 +48,7 @@ export default class DatePickerRange extends PureComponent {
   static defaultProps = defaultProps
 
   state = {
-    pages: null,
+    views: null,
     startDate: null,
     endDate: null,
     _listenForPropChanges: true
@@ -57,17 +57,19 @@ export default class DatePickerRange extends PureComponent {
   constructor(props) {
     super(props)
 
-    let pagesCount = props.pages
-    if (pagesCount === null && props.range) {
-      pagesCount = 2
+    let viewsCount = props.views
+    if (viewsCount === null && props.range) {
+      viewsCount = 2
     }
 
-    this.state.pages = Array.isArray(props.pages)
-      ? props.pages
-      : Array(pagesCount)
+    const startupMonth = props.month || props.startDate
+
+    this.state.views = Array.isArray(props.views)
+      ? props.views
+      : Array(viewsCount)
           .fill(1)
           .map((page, i) => ({
-            month: addMonths(props.month, i),
+            month: addMonths(startupMonth, i),
             ...page,
             id: i
           }))
@@ -91,12 +93,12 @@ export default class DatePickerRange extends PureComponent {
       this.props.onChange({
         startDate: this.state.startDate,
         endDate: this.state.endDate,
-        pages: this.state.pages
+        views: this.state.views
       })
   }
 
   callOnNav() {
-    this.props.onNav && this.props.onNav(this.state.pages)
+    this.props.onNav && this.props.onNav(this.state.views)
   }
 
   onSelect = change => {
@@ -111,23 +113,23 @@ export default class DatePickerRange extends PureComponent {
   }
 
   onNext = ({ id }) => {
-    const pages = this.state.pages.map(c => {
+    const views = this.state.views.map(c => {
       return this.props.link || c.id === id
         ? { ...c, month: addMonths(c.month, 1) }
         : c
     })
-    this.setState({ pages, _listenForPropChanges: false }, () => {
+    this.setState({ views, _listenForPropChanges: false }, () => {
       this.callOnNav()
     })
   }
 
   onPrev = ({ id }) => {
-    const pages = this.state.pages.map(c => {
+    const views = this.state.views.map(c => {
       return this.props.link || c.id === id
         ? { ...c, month: subMonths(c.month, 1) }
         : c
     })
-    this.setState({ pages, _listenForPropChanges: false }, () => {
+    this.setState({ views, _listenForPropChanges: false }, () => {
       this.callOnNav()
     })
   }
@@ -138,8 +140,8 @@ export default class DatePickerRange extends PureComponent {
 
   render() {
     return (
-      <div className="dnb-date-picker__range">
-        {this.state.pages.map(calendar => (
+      <div className="dnb-date-picker__views">
+        {this.state.views.map(calendar => (
           <DatePickerCalendar
             key={calendar.id}
             {...this.props}
