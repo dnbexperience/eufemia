@@ -238,11 +238,16 @@ export default class DatePicker extends PureComponent {
     }
   }
 
-  componentWillUnmount() {
-    clearTimeout(this._hideTimeout)
+  removeOutsideClickHandler() {
     if (this.handleClickOutside && typeof document !== 'undefined') {
       document.removeEventListener('mousedown', this.handleClickOutside)
+      this.handleClickOutside = null
     }
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this._hideTimeout)
+    this.removeOutsideClickHandler()
   }
 
   onInputChange = ({ startDate, endDate }) => {
@@ -321,6 +326,9 @@ export default class DatePicker extends PureComponent {
       _listenForPropChanges: false
     })
     dispatchCustomElementEvent(this, 'on_show', this.getReturnObject())
+
+    this.setTrianglePosition()
+    this.setOutsideClickHandler()
   }
 
   hidePicker = () => {
@@ -339,6 +347,7 @@ export default class DatePicker extends PureComponent {
       this.props.no_animation ? 1 : DatePicker.blurDelay
     ) // wait until animation is over
     dispatchCustomElementEvent(this, 'on_hide', this.getReturnObject())
+    this.removeOutsideClickHandler()
   }
 
   togglePicker = () => {
@@ -431,11 +440,6 @@ export default class DatePicker extends PureComponent {
 
     validateDOMAttributes(this.props, pickerParams)
     validateDOMAttributes(null, inputParams)
-
-    if (!hidden) {
-      this.setTrianglePosition()
-      this.setOutsideClickHandler()
-    }
 
     return (
       <>
