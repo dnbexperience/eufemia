@@ -21,8 +21,8 @@ import keycode from 'keycode'
 
 export const propTypes = {
   id: PropTypes.string,
-  mask: PropTypes.string,
-  mask_input: PropTypes.string,
+  maskOrder: PropTypes.string,
+  maskPlaceholder: PropTypes.string,
   separatorRexExp: PropTypes.instanceOf(RegExp),
   range: PropTypes.bool,
   onChange: PropTypes.func,
@@ -32,8 +32,8 @@ export const propTypes = {
 
 export const defaultProps = {
   id: null,
-  mask: 'dd/mm/yyyy',
-  mask_input: 'dd/mm/åååå',
+  maskOrder: 'dd/mm/yyyy',
+  maskPlaceholder: 'dd/mm/åååå',
   separatorRexExp: /[-/ ]/g,
   range: null,
   onChange: null,
@@ -53,8 +53,8 @@ export default class DatePickerInput extends PureComponent {
   constructor(props) {
     super(props)
 
-    const separators = props.mask.match(props.separatorRexExp)
-    this.maskList = props.mask
+    const separators = props.maskOrder.match(props.separatorRexExp)
+    this.maskList = props.maskOrder
       .split(props.separatorRexExp)
       .reduce((acc, cur) => {
         acc.push(cur)
@@ -305,8 +305,8 @@ export default class DatePickerInput extends PureComponent {
     this.refList = []
     return this.maskList.map((value, i) => {
       const state = value.slice(0, 1)
-      const index = this.props.mask.indexOf(value)
-      const placeholderChar = this.props.mask_input[index]
+      const index = this.props.maskOrder.indexOf(value)
+      const placeholderChar = this.props.maskPlaceholder[index]
       if (!this.props.separatorRexExp.test(value)) {
         const params = {
           onKeyDown: this.onKeyDownHandler,
@@ -384,8 +384,8 @@ export default class DatePickerInput extends PureComponent {
   generateEndDateList() {
     return this.maskList.map((value, i) => {
       const state = value.slice(0, 1)
-      const index = this.props.mask.indexOf(value)
-      const placeholderChar = this.props.mask_input[index]
+      const index = this.props.maskOrder.indexOf(value)
+      const placeholderChar = this.props.maskPlaceholder[index]
       if (!this.props.separatorRexExp.test(value)) {
         const params = {
           onKeyDown: this.onKeyDownHandler,

@@ -31,6 +31,10 @@ const renderProps = {
 
 export const propTypes = {
   id: PropTypes.string,
+  date: PropTypes.oneOfType([
+    PropTypes.instanceOf(Date),
+    PropTypes.string
+  ]), // e.g. 2019-04-03T00:00:00Z
   start_date: PropTypes.oneOfType([
     PropTypes.instanceOf(Date),
     PropTypes.string
@@ -39,8 +43,8 @@ export const propTypes = {
     PropTypes.instanceOf(Date),
     PropTypes.string
   ]), // e.g. 2019-04-03T00:00:00Z
-  mask: PropTypes.string,
-  mask_input: PropTypes.string,
+  mask_order: PropTypes.string,
+  mask_placeholder: PropTypes.string,
   return_format: PropTypes.string,
   hide_navigation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   hide_days: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -79,10 +83,11 @@ export const propTypes = {
 
 export const defaultProps = {
   id: null,
+  date: null,
   start_date: null,
   end_date: null,
-  mask: 'dd/mm/yyyy',
-  mask_input: 'dd/mm/åååå', // have to be same setup as "mask" - but can be like: dd/mm/åååå
+  mask_order: 'dd/mm/yyyy',
+  mask_placeholder: 'dd/mm/åååå', // have to be same setup as "mask" - but can be like: dd/mm/åååå
   return_format: 'YYYY-MM-DD',
   hide_navigation: false,
   hide_days: false,
@@ -125,8 +130,15 @@ export default class DatePicker extends PureComponent {
 
   static getDerivedStateFromProps(props, state) {
     if (state._listenForPropChanges) {
+      let startDate = null
+      if (props.date) {
+        startDate = props.date
+      }
       if (props.start_date) {
-        state.startDate = DatePicker.convertStringToDate(props.start_date)
+        startDate = props.start_date
+      }
+      if (startDate) {
+        state.startDate = DatePicker.convertStringToDate(startDate)
         if (!props.range) {
           state.endDate = state.startDate
         }
@@ -139,11 +151,8 @@ export default class DatePicker extends PureComponent {
     return state
   }
 
-  static convertStringToDate(stringDate) {
-    const date =
-      typeof stringDate === Date ? stringDate : parse(stringDate)
-    // new Date(stringDate)
-    return date
+  static convertStringToDate(date) {
+    return typeof date === Date ? date : parse(date)
   }
 
   constructor(props) {
@@ -172,8 +181,8 @@ export default class DatePicker extends PureComponent {
       _listenForPropChanges: true
     }
 
-    const separators = props.mask.match(/[^mdy]/g)
-    this.maskList = props.mask.split(/[^mdy]/).reduce((acc, cur) => {
+    const separators = props.mask_order.match(/[^mdy]/g)
+    this.maskList = props.mask_order.split(/[^mdy]/).reduce((acc, cur) => {
       acc.push(cur)
       if (separators.length > 0) {
         acc.push(separators.shift())
@@ -304,7 +313,6 @@ export default class DatePicker extends PureComponent {
       opened: true,
       _listenForPropChanges: false
     })
-
     if (this._hideTimeout) {
       clearTimeout(this._hideTimeout)
     }
@@ -362,8 +370,8 @@ export default class DatePicker extends PureComponent {
 
     return this.props.range
       ? {
-          startDate,
-          endDate,
+          // startDate,
+          // endDate,
           days_between: endDate
             ? differenceInCalendarDays(endDate, startDate)
             : null,
@@ -392,8 +400,8 @@ export default class DatePicker extends PureComponent {
       status,
       status_state,
       status_animation,
-      mask,
-      mask_input,
+      mask_order,
+      mask_placeholder,
 
       start_date: _start_date /* eslint-disable-line */,
       end_date: _end_date /* eslint-disable-line */,
@@ -461,9 +469,8 @@ export default class DatePicker extends PureComponent {
             <DatePickerInput
               id={id}
               disabled={disabled}
-              mask={mask}
-              mask_input={mask_input}
-              show_input={show_input}
+              maskOrder={mask_order}
+              maskPlaceholder={mask_placeholder}
               range={range}
               onChange={this.onInputChange}
               onFocus={this.showPicker}
