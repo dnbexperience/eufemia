@@ -747,7 +747,6 @@ export default class Dropdown extends Component {
                             title={Dropdown.parseContentTitle(dataItem)}
                             className="dnb-dropdown__option__inner"
                             data-item={i}
-                            onTouchStart={this.selectItemHandler}
                             onMouseDown={this.selectItemHandler}
                             role="button"
                             tabIndex="-1"
