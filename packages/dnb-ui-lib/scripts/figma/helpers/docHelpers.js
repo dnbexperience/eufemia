@@ -200,17 +200,14 @@ export const getLocalVersionFromLockFile = async ({
 }
 
 export const getFigmaDoc = async ({
-  figmaFile = null,
+  figmaFile = defaultFigmaFile,
   localFile = null,
   forceRefetch = null,
   preventUpdate = null
 } = {}) => {
-  if (!(figmaFile && String(figmaFile).length > 0)) {
-    figmaFile = defaultFigmaFile
-  }
-
-  if (!figmaFile) {
-    new ErrorHandler(
+  if (!figmaFile) figmaFile = defaultFigmaFile
+  if (!(typeof figmaFile === 'string' && figmaFile.length > 0)) {
+    return new ErrorHandler(
       'No Figma Main File defined. Make sure there is a .env file with a valid FIGMA_MAIN_FILE defined!'
     )
   }

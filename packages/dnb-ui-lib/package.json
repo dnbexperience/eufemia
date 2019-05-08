@@ -43,7 +43,7 @@
     "lint:js": "yarn lint --fix",
     "lint:js:staged": "eslint --quiet --fix",
     "lint:styles": "stylelint './src/{components,patterns,style}/**/*.{js,scss}'",
-    "lint:styles:staged": "stylelint",
+    "lint:styles:staged": "stylelint './src/{components,patterns,style}/**/*.{js,scss}'",
     "publish": "yarn publish-ci --dry-run",
     "publish-ci": "babel-node ./scripts/release --ci",
     "publish:disabled": "yarn publish:prerelease && npm publish ./dnb-ui-lib-v*.tgz --preid=ci --npm-tag=ci",
