@@ -9,6 +9,12 @@
   --font-family-book: 'Fedra Sans Std', sans-serif; /* Do not use, use --font-weight-... */
   --font-family-demi: 'Fedra Sans Std', sans-serif; /* Do not use, use --font-weight-... */
   --font-family-medium: 'Fedra Sans Std', sans-serif; /* Do not use, use --font-weight-... */
+  --font-family-monospace: /* macOS 10.10+ */ Menlo,
+    /* Windows 6+ */ Consolas, /* Android 4+ */ Roboto Mono,
+    /* Ubuntu 10.10+ */ Ubuntu Monospace, /* KDE Plasma 5+ */ Noto Mono,
+    /* KDE Plasma 4+ */ Oxygen Mono,
+    /* Linux/OpenOffice fallback */ Liberation Mono,
+    /* fallback */ monospace;
 
   // Typography Weights
   --font-weight-default: normal;

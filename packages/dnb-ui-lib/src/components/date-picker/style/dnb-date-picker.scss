@@ -1,0 +1,19 @@
+/*
+* DNB DatePicker
+*
+*/
+
+@import '../../../style/components/imports.scss';
+
+// import dependencies
+@import '../../input/style/dnb-input.scss';
+@import '../../button/style/dnb-button.scss';
+@import '../../form-label/style/dnb-form-label.scss';
+// @import '../../icon/style/dnb-icon.scss';
+@import '../../form-status/style/dnb-form-status.scss';
+
+.dnb-dropdown {
+  @include componentReset();
+}
+
+@import './_date-picker.scss';

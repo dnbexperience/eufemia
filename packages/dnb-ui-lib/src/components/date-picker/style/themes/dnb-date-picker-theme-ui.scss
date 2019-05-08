@@ -1,0 +1,140 @@
+/*
+* DatePicker theme
+*
+*/
+
+@import '../../../../style/themes/imports.scss';
+
+:root {
+  // The DNB UX team has desiced to not show today diffrently
+  --date-picker-today-color: var(--color-emerald-green);
+  --date-picker-header-color: var(--color-emerald-green);
+  --date-picker-labels-day-color: var(--color-emerald-green);
+  --date-picker-selected-color: var(--color-mint-green-25);
+  --date-picker-selected-bg-color: var(--color-emerald-green);
+  --date-picker-selected-bg-color-hover: var(--color-emerald-green);
+  --date-picker-within-selection-bg-color: var(--color-mint-green-50);
+}
+
+.dnb-date-picker {
+  &__input {
+    color: var(--color-sea-green);
+  }
+
+  &--separator {
+    color: var(--color-sea-green);
+  }
+
+  // &__shell {
+  //   // border-radius: 0.5rem;
+  // }
+
+  &__container {
+    @include defaultDropShadow();
+    border-radius: 0.5rem;
+    background-color: var(--color-white);
+  }
+
+  &__calendar {
+    // border
+    &::after {
+      background-color: var(--color-mint-green-50);
+    }
+  }
+
+  &__header {
+    // border
+    &::after {
+      background-color: var(--color-mint-green-50);
+    }
+
+    &__nav .dnb-button {
+      box-shadow: none;
+    }
+    &__title {
+      text-transform: capitalize;
+      color: var(--date-picker-header-color);
+    }
+  }
+
+  &__labels {
+    &__day {
+      text-transform: capitalize;
+      font-weight: var(--font-weight-demi);
+      color: var(--date-picker-labels-day-color);
+    }
+  }
+
+  &__day,
+  &__labels__day {
+    text-align: center;
+  }
+
+  &__day {
+    .dnb-button {
+      @include numberFeature(tabular-nums, lnum);
+    }
+
+    &--today .dnb-button {
+      color: var(--date-picker-today-color);
+    }
+
+    &--preview .dnb-button,
+    &--preview#{&}--inactive .dnb-button,
+    &--within-selection:not(#{&}--start-date):not(#{&}--end-date)
+      .dnb-button:not(:hover) {
+      background-color: transparent;
+    }
+
+    &--preview:not(#{&}--inactive):not(#{&}--start-date):not(#{&}--end-date),
+    &--within-selection:not(#{&}--inactive):not(#{&}--start-date):not(#{&}--end-date) {
+      background-color: var(--date-picker-within-selection-bg-color);
+    }
+
+    &--start-date:not(#{&}--inactive),
+    &--end-date:not(#{&}--inactive) {
+      &::after {
+        background-color: var(--date-picker-within-selection-bg-color);
+      }
+      .dnb-button {
+        color: var(--date-picker-selected-color);
+        background-color: var(--date-picker-selected-bg-color);
+      }
+    }
+    &--start-date:not(#{&}--inactive):not(#{&}--preview),
+    &--end-date:not(#{&}--inactive):not(#{&}--preview) {
+      .dnb-button {
+        &:hover {
+          box-shadow: none;
+        }
+      }
+    }
+
+    :not([dnb-is-touch])
+      &--start-date#{&}--within-selection
+      .dnb-button:hover:not([disabled]),
+    :not([dnb-is-touch])
+      &--end-date#{&}--within-selection
+      .dnb-button:hover:not([disabled]) {
+      color: var(--date-picker-selected-color);
+      background-color: var(--date-picker-selected-bg-color-hover);
+    }
+
+    &--inactive .dnb-button,
+    &--disabled .dnb-button {
+      &[disabled] {
+        box-shadow: none;
+      }
+    }
+
+    :not([dnb-is-touch]) &--inactive .dnb-button[disabled] {
+      cursor: default;
+    }
+  }
+
+  &__triangle::before {
+    border: none;
+    background-color: var(--color-white);
+    @include defaultDropShadow();
+  }
+}

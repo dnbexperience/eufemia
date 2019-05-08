@@ -1,0 +1,17 @@
+---
+draft: true
+---
+
+import Examples from 'Pages/uilib/components/date-picker/Examples'
+
+## Description
+
+The date-picker component should be used whenever there is to enter a single date or a date range/period with a start and end date.
+
+### Date Object
+
+The date-picker operates with a default JavaScript Date instance as well as string (ISO 8601) like `start_date="2019-05-05"`.
+
+## Demos
+
+<Examples />
