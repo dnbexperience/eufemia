@@ -205,9 +205,11 @@ export const getFigmaDoc = async ({
   forceRefetch = null,
   preventUpdate = null
 } = {}) => {
-  if (!figmaFile) figmaFile = defaultFigmaFile
-  if (!(typeof figmaFile === 'string' && figmaFile.length > 0)) {
-    return new ErrorHandler(
+  if (
+    !(typeof figmaFile === 'string' && figmaFile.length > 0) &&
+    !localFile
+  ) {
+    new ErrorHandler(
       'No Figma Main File defined. Make sure there is a .env file with a valid FIGMA_MAIN_FILE defined!'
     )
   }
