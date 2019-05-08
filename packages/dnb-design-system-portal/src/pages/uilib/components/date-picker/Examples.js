@@ -9,9 +9,10 @@ import DatePickerRange from 'dnb-ui-lib/src/components/date-picker/DatePickerRan
 
 class Example extends PureComponent {
   render() {
+    const IS_TEST = typeof window !== 'undefined' && window.IS_TEST
     return (
       <Fragment>
-        <ComponentBox data-dnb-test="date-picker-input">
+        <ComponentBox data-dnb-test={IS_TEST && 'date-picker-input'}>
           {/* @jsx */ `
 <DatePicker
   label="Range DatePicker:"
