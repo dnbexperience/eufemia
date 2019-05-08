@@ -11,7 +11,7 @@ class Example extends PureComponent {
   render() {
     return (
       <Fragment>
-        <ComponentBox data-dnb-test="date-picker-closed">
+        <ComponentBox data-dnb-test="date-picker-input">
           {/* @jsx */ `
 <DatePicker
   label="Range DatePicker:"

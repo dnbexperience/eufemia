@@ -121,6 +121,9 @@
     font-family: var(--font-family-monospace);
     // @include numberFeature(tabular-nums, lnum);
   }
+  [data-dnb-test] &__input {
+    font-family: var(--font-family-default);
+  }
 
   &__views {
     display: flex;
