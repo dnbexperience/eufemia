@@ -523,6 +523,7 @@ const selectInput = e => {
 
 const InputElement = React.forwardRef((props, ref) => (
   <MaskedInput
+    type="text"
     guide={true}
     showMask={true}
     keepCharPositions={true}

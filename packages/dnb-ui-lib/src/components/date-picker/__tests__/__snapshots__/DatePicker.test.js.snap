@@ -318,6 +318,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                     render={[Function]}
                     showMask={true}
                     size="2"
+                    type="text"
                     value="01"
                   >
                     <input
@@ -332,6 +333,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                       onKeyDown={[Function]}
                       onMouseUp={[Function]}
                       size="2"
+                      type="text"
                     />
                   </t>
                 </ForwardRef>
@@ -381,6 +383,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                     render={[Function]}
                     showMask={true}
                     size="2"
+                    type="text"
                     value="01"
                   >
                     <input
@@ -395,6 +398,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                       onKeyDown={[Function]}
                       onMouseUp={[Function]}
                       size="2"
+                      type="text"
                     />
                   </t>
                 </ForwardRef>
@@ -448,6 +452,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                     render={[Function]}
                     showMask={true}
                     size="4"
+                    type="text"
                     value="2019"
                   >
                     <input
@@ -462,6 +467,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                       onKeyDown={[Function]}
                       onMouseUp={[Function]}
                       size="4"
+                      type="text"
                     />
                   </t>
                 </ForwardRef>
@@ -506,6 +512,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                     render={[Function]}
                     showMask={true}
                     size="2"
+                    type="text"
                     value="15"
                   >
                     <input
@@ -520,6 +527,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                       onKeyDown={[Function]}
                       onMouseUp={[Function]}
                       size="2"
+                      type="text"
                     />
                   </t>
                 </ForwardRef>
@@ -569,6 +577,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                     render={[Function]}
                     showMask={true}
                     size="2"
+                    type="text"
                     value="02"
                   >
                     <input
@@ -583,6 +592,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                       onKeyDown={[Function]}
                       onMouseUp={[Function]}
                       size="2"
+                      type="text"
                     />
                   </t>
                 </ForwardRef>
@@ -636,6 +646,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                     render={[Function]}
                     showMask={true}
                     size="4"
+                    type="text"
                     value="2019"
                   >
                     <input
@@ -650,6 +661,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                       onKeyDown={[Function]}
                       onMouseUp={[Function]}
                       size="4"
+                      type="text"
                     />
                   </t>
                 </ForwardRef>
@@ -1621,6 +1633,10 @@ a.dnb-button:active, a.dnb-button:focus {
   animation: datePickerSlideUp 1ms ease-out 1 forwards; }
 
 .dnb-date-picker__input {
+  display: inline-block;
+  width: auto;
+  margin: 0;
+  padding: 0;
   outline: none;
   text-align: center;
   border: none;
@@ -1645,13 +1661,7 @@ a.dnb-button:active, a.dnb-button:focus {
 
 .dnb-date-picker__input,
 .dnb-core-style .dnb-date-picker__input {
-  margin: 0;
-  padding: 0;
   font-family: var(--font-family-monospace); }
-
-[data-dnb-test] .dnb-date-picker__input {
-  padding: 0 0.1875rem;
-  font-family: var(--font-family-default); }
 
 .dnb-date-picker__views {
   display: flex;

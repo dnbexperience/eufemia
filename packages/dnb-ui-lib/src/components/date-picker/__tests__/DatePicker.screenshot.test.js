@@ -10,13 +10,16 @@ import {
 
 describe('DatePicker screenshot', () => {
   setupPageScreenshot({ url: '/uilib/components/date-picker' })
-  it('have to match the input fields', async () => {
+
+  // skip the input fields, as there is a linux input issue
+  it.skip('have to match the input fields', async () => {
     const screenshot = await testPageScreenshot({
       selector:
         '[data-dnb-test="date-picker-input"] .dnb-date-picker__shell'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match the calendar', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-dnb-test="date-picker-calendar"]'

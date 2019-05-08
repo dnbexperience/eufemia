@@ -85,14 +85,19 @@
   }
 
   &__input {
-    // display: inline-block;
+    display: inline-block;
+    width: auto;
+
+    margin: 0;
+    padding: 0;
+
     outline: none;
 
     text-align: center;
     border: none;
     background: transparent;
-    overflow: visible;
 
+    overflow: visible;
     white-space: nowrap;
 
     &:first-of-type {
@@ -118,13 +123,7 @@
   // stylelint-disable-next-line
   &__input,
   .dnb-core-style &__input {
-    margin: 0;
-    padding: 0;
     font-family: var(--font-family-monospace);
-  }
-  [data-dnb-test] &__input {
-    padding: 0 0.1875rem;
-    font-family: var(--font-family-default);
   }
 
   &__views {
