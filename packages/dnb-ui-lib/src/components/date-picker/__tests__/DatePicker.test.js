@@ -6,34 +6,41 @@
 import React from 'react'
 import {
   mount,
-  // fakeProps,
   axeComponent,
   toJson,
   loadScss
 } from '../../../core/jest/jestSetup'
 import Component from '../DatePicker'
 
+// for the unit calc tests
+import { addDays, addMonths, getDaysInMonth } from 'date-fns'
+import {
+  toRange,
+  dayOffset,
+  getWeek,
+  getMonth,
+  getCalendar
+} from '../DatePickerCalc'
+
 // just to make sure we re-run the test in watch mode due to changes in theese files
 import _DatePicker from '../style/_date-picker.scss' // eslint-disable-line
 import dnb_DatePicker from '../style/dnb-date-picker.scss' // eslint-disable-line
 import dnb_DatePicker_theme_ui from '../style/themes/dnb-date-picker-theme-ui.scss' // eslint-disable-line
 
-// const props = fakeProps(require.resolve('../DatePicker'), {
-//   optional: true
-// })
-const props = {}
-props.id = 'date-picker-id'
-props.range = true
-props.show_input = true
-props.date = '2019-01-01T00:00:00.000Z'
-props.start_date = '2019-01-01T00:00:00.000Z'
-props.end_date = '2019-02-15T00:00:00.000Z'
-// props.direction = 'auto'
-props.status = 'status'
-props.status_state = 'error'
-
 describe('DatePicker component', () => {
-  const Comp = mount(<Component {...props} />)
+  // for the integration tests
+  const defaultProps = {
+    id: 'date-picker-id',
+    range: true,
+    show_input: true,
+    date: '2019-01-01T00:00:00.000Z',
+    start_date: '2019-01-01T00:00:00.000Z',
+    end_date: '2019-02-15T00:00:00.000Z',
+    status: 'status',
+    status_state: 'error'
+  }
+
+  const Comp = mount(<Component {...defaultProps} />)
 
   // compare the snapshot
   it('have to match snapshot', () => {
@@ -92,7 +99,7 @@ describe('DatePicker component', () => {
       ).text()
     ).toBe('15')
 
-    // check the second calendar
+    // from now on, check the second calendar
 
     Comp.find('.dnb-date-picker__calendar')
       .at(1)
@@ -108,6 +115,80 @@ describe('DatePicker component', () => {
 
   it('should validate with ARIA rules as a tabs', async () => {
     expect(await axeComponent(Comp)).toHaveNoViolations()
+  })
+})
+
+// for the unit calc tests
+describe('DatePicker calc', () => {
+  // for the unit calc tests
+  const testDate = new Date(2000, 0) // use an arbitrary date
+  const nOfMonths = 12 * 4 // test methods for this many months
+  const daysOfWeek = [
+    'sunday',
+    'monday',
+    'tuesday',
+    'wednesday',
+    'thursday',
+    'friday'
+  ]
+
+  describe('toRange', () => {
+    const startDate = new Date()
+    const endDate = addDays(new Date(), 2)
+    it('returns a date range object', () => {
+      expect(toRange(startDate, endDate)).toEqual({ startDate, endDate })
+    })
+    it('automatically swaps start and end date if needed', () => {
+      expect(toRange(endDate, startDate)).toEqual({ startDate, endDate })
+    })
+  })
+
+  describe('dayOffset', () => {
+    it('returns the correct offset', () => {
+      for (let i = 0; i < daysOfWeek.length - 1; i++) {
+        expect(dayOffset(daysOfWeek[i])).toBe(i)
+      }
+    })
+  })
+
+  describe('getWeek', () => {
+    it('returns an array of length 7', () => {
+      expect(getWeek()).toHaveLength(7)
+    })
+  })
+
+  describe('getMonth', () => {
+    it('returns an array with length of days in a given month', () => {
+      for (let i = 0; i < nOfMonths; i++) {
+        const date = addMonths(testDate, i)
+        expect(getMonth(date)).toHaveLength(getDaysInMonth(date))
+      }
+    })
+
+    it('skips x days from the start and limits to a set maximum number of days', () => {
+      for (let i = 0; i < nOfMonths; i++) {
+        const date = addMonths(testDate, i)
+        const daysInMonth = getDaysInMonth(date)
+        const skip = i % daysInMonth
+        const limit = (i % 30) + 1
+        expect(getMonth(date, skip)).toHaveLength(daysInMonth - skip)
+        expect(getMonth(date, 0, limit)).toHaveLength(limit)
+        expect(getMonth(date, skip, limit)).toHaveLength(
+          Math.min(limit, daysInMonth - skip)
+        )
+      }
+    })
+  })
+
+  describe('getCalendar', () => {
+    it('always returns an array of length 42', () => {
+      for (let i = 0; i < nOfMonths; i++) {
+        const date = addMonths(testDate, i)
+        const dayOffset = i % 7
+        expect(getCalendar(date)).toHaveLength(42)
+        expect(getCalendar(date, dayOffset)).toHaveLength(42)
+      }
+    })
   })
 })
 
