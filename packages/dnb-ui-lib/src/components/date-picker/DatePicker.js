@@ -151,6 +151,9 @@ export default class DatePicker extends PureComponent {
       if (props.end_date) {
         state.endDate = DatePicker.convertStringToDate(props.end_date)
       }
+      if (props.month) {
+        state.month = DatePicker.convertStringToDate(props.month)
+      }
     }
     state._listenForPropChanges = true
     return state
@@ -409,7 +412,6 @@ export default class DatePicker extends PureComponent {
       first_day,
       reset_date,
       locale,
-      month,
       link,
       disabled,
       status,
@@ -418,6 +420,7 @@ export default class DatePicker extends PureComponent {
       mask_order,
       mask_placeholder,
 
+      month: _month /* eslint-disable-line */,
       start_date: _start_date /* eslint-disable-line */,
       end_date: _end_date /* eslint-disable-line */,
       opened: _opened /* eslint-disable-line */,
@@ -428,6 +431,9 @@ export default class DatePicker extends PureComponent {
     } = this.props
 
     const {
+      month,
+      startDate,
+      endDate,
       opened,
       hidden,
       show_submit_button,
@@ -485,8 +491,8 @@ export default class DatePicker extends PureComponent {
               onChange={this.onInputChange}
               onFocus={this.showPicker}
               onSubmit={this.togglePicker}
-              startDate={this.state.startDate}
-              endDate={this.state.endDate}
+              startDate={startDate}
+              endDate={endDate}
               {...inputParams}
             />
             {showStatus && (
@@ -515,8 +521,8 @@ export default class DatePicker extends PureComponent {
                     hideNav={hide_navigation}
                     hideDays={hide_days}
                     onChange={this.onPickerChange}
-                    startDate={this.state.startDate}
-                    endDate={this.state.endDate}
+                    startDate={startDate}
+                    endDate={endDate}
                   />
                   <DatePickerFooter
                     range={range}

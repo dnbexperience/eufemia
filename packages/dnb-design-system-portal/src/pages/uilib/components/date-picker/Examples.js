@@ -16,7 +16,7 @@ class Example extends PureComponent {
           {/* @jsx */ `
 <DatePicker
   label="Range DatePicker:"
-  start_date="2019-05-1"
+  start_date="2019-05-01"
   end_date="2019-05-17"
   range={true}
   show_input={true}

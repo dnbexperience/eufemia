@@ -221,6 +221,8 @@ exports[`StepIndicator scss have to match snapshot 1`] = `
   line-height: 1.5rem;
   color: var(--color-black-80, #333);
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  font-variant-numeric: lining-nums;
+  font-feature-settings: \\"lnum\\";
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -231,9 +233,6 @@ exports[`StepIndicator scss have to match snapshot 1`] = `
   */
   margin: 0;
   padding: 0; }
-  .dnb-step-indicator * {
-    font-variant-numeric: lining-nums;
-    font-feature-settings: \\"lnum\\"; }
   .dnb-step-indicator *,
   .dnb-step-indicator ::before,
   .dnb-step-indicator ::after {

@@ -54,7 +54,7 @@ export const propTypes = {
 
 export const defaultProps = {
   id: null,
-  month: new Date(),
+  month: null,
   prevBtn: true,
   nextBtn: true,
   titleFormat: 'MMMM YYYY',
@@ -130,9 +130,10 @@ export default class DatePickerCalendar extends PureComponent {
     } = this.props
     const { startDate, endDate } = this.props
 
-    this.days = getCalendar(month, dayOffset(firstDayOfWeek)).map(date =>
-      makeDayObject(date, this.props)
-    )
+    this.days = getCalendar(
+      month || new Date(),
+      dayOffset(firstDayOfWeek)
+    ).map(date => makeDayObject(date, this.props))
 
     return (
       <div

@@ -84,30 +84,58 @@
     @include closeDatePicker();
   }
 
-  &__input {
+  // stylelint-disable-next-line
+  &__input,
+  .dnb-core-style &__input {
     display: inline-block;
     width: auto;
 
     margin: 0;
-    padding: 0;
+
+    /* Chrome fix */
+    @supports (-webkit-appearance: none) and
+      (not (overflow: -webkit-marquee)) and (not (-ms-ime-align: auto)) and
+      (not (-moz-appearance: none)) {
+      & {
+        margin: 0 -2px;
+      }
+    }
+
+    /* Safari fix */
+    padding: 0 0.1875rem;
+    @media not all and (min-resolution: 0.001dpcm) {
+      @supports (-webkit-appearance: none) and (stroke-color: transparent) {
+        &:not(*:root) {
+          margin: 0 -5px;
+        }
+        &:first-of-type:not(*:root) {
+          margin-left: 0.8rem;
+        }
+        // stylelint-disable-next-line
+        &:last-of-type:not(*:root) {
+          margin-right: 2.2rem;
+        }
+      }
+    }
 
     outline: none;
 
+    font-family: var(--font-family-monospace);
     text-align: center;
     border: none;
     background: transparent;
 
     overflow: visible;
     white-space: nowrap;
-
-    &:first-of-type {
-      margin-left: 0.8rem;
-    }
-    &:last-of-type {
-      margin-right: 2.2rem;
-    }
+  }
+  &__input:first-of-type {
+    margin-left: 0.8rem;
+  }
+  &__input:last-of-type {
+    margin-right: 2.2rem;
   }
   &__input__wrapper {
+    display: block;
     width: 0; // hide input by default
     visibility: hidden;
   }
@@ -118,12 +146,6 @@
 
   &--separator {
     margin: 0 -0.1rem;
-  }
-
-  // stylelint-disable-next-line
-  &__input,
-  .dnb-core-style &__input {
-    font-family: var(--font-family-monospace);
   }
 
   &__views {
