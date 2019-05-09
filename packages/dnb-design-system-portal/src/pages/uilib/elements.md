@@ -36,7 +36,7 @@ In order to apply a style, you have to define a CSS class, like:
 `}
 </CodeBlock>
 
-Although, You have also the possibility to load a [sub package](/uilib/usage/customisation/styling#sub-packages), called **dnb-ui-elements** witch applies all the styles to the HTML tags automatically. Use it with caution, as they can effect existing styles as well.
+Although, You have also the possibility to load a [sub package](/uilib/usage/customisation/styling#additional-packages), called **dnb-ui-tags** witch applies all the styles to the HTML tags automatically. Use it with caution, as they can effect existing styles as well.
 
 ### React JSX
 
