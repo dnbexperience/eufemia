@@ -75,13 +75,6 @@ class CustomTabs extends PureComponent {
   isActive(tabKey) {
     return this.state.activeTabKey === tabKey
   }
-  componentWillMount() {
-    const location = getLocation()
-    if (location)
-      this.setState({
-        wasFullscreen: /fullscreen/.test(location.search)
-      })
-  }
   openFullscreen = () => {
     const location = getLocation()
     if (location)

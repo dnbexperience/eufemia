@@ -140,7 +140,7 @@ describe('Dropdown component', () => {
     )
   })
 
-  it('has correct selected value', () => {
+  it('has correct selected value after new selection', () => {
     Comp.find('li.dnb-dropdown__option')
       .find('.dnb-dropdown__option__inner')
       .at(props.selected_item + 1)

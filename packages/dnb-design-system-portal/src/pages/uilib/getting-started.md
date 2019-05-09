@@ -6,6 +6,7 @@ order: 2
 ---
 
 import WelcomeAdvice from 'Pages/welcome-advice.md'
+import { Button } from 'dnb-ui-lib/src'
 
 # Getting Started
 
@@ -22,5 +23,9 @@ Do you want to...
 ## So, how do I get started?
 
 You can [**follower this intro**](/uilib/intro), guiding You through all the elementary elements of Eufemia. Or continue reading all the articles in [the usage section](/uilib/usage/).
+
+<div align="left" className="dnb-section dnb-section--spacing dnb-section--mint-green">
+  <Button href="/uilib/intro" size="large" text="Quick Intro" />
+</div>
 
 <WelcomeAdvice />

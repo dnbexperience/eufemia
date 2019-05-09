@@ -51,8 +51,10 @@ steps:
       branch:
         include:
           - release
+          - portal
           - beta
           - alpha
+          - next
           - develop
           - rc/*
           - ftr/*
@@ -80,8 +82,10 @@ steps:
       branch:
         include:
           - release
+          - portal
           - beta
           - alpha
+          - next
           - develop
           - rc/*
           - ftr/*
@@ -128,6 +132,7 @@ steps:
           - release
           - beta
           - alpha
+          - next
 
   - name: slack
     image: plugins/slack

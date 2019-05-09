@@ -3,15 +3,23 @@
 exports[`InputMasked component have to match type="text" snapshot 1`] = `
 <InputMasked
   disabled={false}
+  guide={true}
   id="input-masked"
-  mask={Array []}
+  keep_char_positions={true}
+  mask={
+    Array [
+      /\\[a-z\\]/,
+    ]
+  }
   on_blur={null}
   on_change={null}
   on_focus={null}
   on_submit={null}
   on_submit_blur={null}
   on_submit_focus={null}
-  show_mask="show_mask"
+  pipe={null}
+  placeholder_char="placeholder_char"
+  show_mask={true}
   type="text"
   value="test"
 >
@@ -29,7 +37,6 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
     inputElement={[Function]}
     input_class={null}
     label={null}
-    mask={Array []}
     on_blur={null}
     on_change={null}
     on_focus={null}
@@ -38,11 +45,11 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
     on_submit_focus={null}
     placeholder={null}
     readOnly={false}
-    show_mask="show_mask"
     size={null}
     status={null}
     status_animation={null}
     status_state="error"
+    submitButton={null}
     submit_button_icon="search"
     submit_button_title={null}
     submit_button_variant="secondary"
@@ -57,7 +64,7 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
         data-has-content="true"
         data-input-state="virgin"
       >
-        <elem
+        <Component
           autoComplete="off"
           className="dnb-input__input"
           id="input-masked"
@@ -66,7 +73,6 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
               "current": null,
             }
           }
-          mask={Array []}
           name="input-masked"
           onBlur={[Function]}
           onChange={[Function]}
@@ -78,13 +84,21 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
           <t
             autoComplete="off"
             className="dnb-input__input"
+            guide={true}
             id="input-masked"
-            mask={Array []}
+            keepCharPositions={true}
+            mask={
+              Array [
+                /\\[a-z\\]/,
+              ]
+            }
             name="input-masked"
             onBlur={[Function]}
             onChange={[Function]}
             onFocus={[Function]}
             onKeyDown={[Function]}
+            pipe={null}
+            placeholderChar="placeholder_char"
             render={[Function]}
             showMask={true}
             type="text"
@@ -103,7 +117,7 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
               type="text"
             />
           </t>
-        </elem>
+        </Component>
       </span>
     </span>
   </Input>
@@ -199,6 +213,8 @@ exports[`InputMasked scss have to match snapshot 1`] = `
   line-height: 1.5rem;
   color: var(--color-black-80, #333);
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  font-variant-numeric: lining-nums;
+  font-feature-settings: \\"lnum\\";
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -209,9 +225,6 @@ exports[`InputMasked scss have to match snapshot 1`] = `
   */
   margin: 0;
   padding: 0; }
-  .dnb-button * {
-    font-variant-numeric: lining-nums;
-    font-feature-settings: \\"lnum\\"; }
   .dnb-button *,
   .dnb-button ::before,
   .dnb-button ::after {
@@ -268,10 +281,12 @@ exports[`InputMasked scss have to match snapshot 1`] = `
   padding: 0;
   border: var(--button-border-width) solid transparent;
   border-radius: var(--button-border-radius);
-  font-size: var(--button-font-size);
-  line-height: var(--button-height);
   text-decoration: none;
   /* Firefox includes a hidden border which messes up button dimensions */ }
+  .dnb-button,
+  .dnb-core-style .dnb-button {
+    font-size: var(--button-font-size);
+    line-height: var(--button-height); }
   .dnb-button__icon {
     line-height: 1em; }
     .dnb-button__icon:not(.dnb-icon) svg:not([width]):not([height]) {
@@ -287,6 +302,13 @@ exports[`InputMasked scss have to match snapshot 1`] = `
     @supports not (-ms-ime-align: auto) {
       .dnb-button__text {
         transform: translateY(calc(1px - var(--button-border-width))); } }
+  .dnb-button__bounding {
+    position: absolute;
+    background-color: transparent;
+    width: var(--button-width);
+    height: var(--button-height);
+    border-radius: var(--button-border-radius);
+    transform: scale(1.2); }
   .dnb-button--size-small {
     width: var(--button-width--small);
     height: var(--button-height--small);
@@ -415,6 +437,8 @@ a.dnb-button:active, a.dnb-button:focus {
   line-height: 1.5rem;
   color: var(--color-black-80, #333);
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  font-variant-numeric: lining-nums;
+  font-feature-settings: \\"lnum\\";
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -425,9 +449,6 @@ a.dnb-button:active, a.dnb-button:focus {
   */
   margin: 0;
   padding: 0; }
-  .dnb-form-label * {
-    font-variant-numeric: lining-nums;
-    font-feature-settings: \\"lnum\\"; }
   .dnb-form-label *,
   .dnb-form-label ::before,
   .dnb-form-label ::after {
@@ -475,6 +496,8 @@ a.dnb-button:active, a.dnb-button:focus {
   line-height: 1.5rem;
   color: var(--color-black-80, #333);
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  font-variant-numeric: lining-nums;
+  font-feature-settings: \\"lnum\\";
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -485,9 +508,6 @@ a.dnb-button:active, a.dnb-button:focus {
   */
   margin: 0;
   padding: 0; }
-  .dnb-form-status * {
-    font-variant-numeric: lining-nums;
-    font-feature-settings: \\"lnum\\"; }
   .dnb-form-status *,
   .dnb-form-status ::before,
   .dnb-form-status ::after {
@@ -556,6 +576,8 @@ a.dnb-button:active, a.dnb-button:focus {
   line-height: 1.5rem;
   color: var(--color-black-80, #333);
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  font-variant-numeric: lining-nums;
+  font-feature-settings: \\"lnum\\";
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -566,9 +588,6 @@ a.dnb-button:active, a.dnb-button:focus {
   */
   margin: 0;
   padding: 0; }
-  .dnb-input * {
-    font-variant-numeric: lining-nums;
-    font-feature-settings: \\"lnum\\"; }
   .dnb-input *,
   .dnb-input ::before,
   .dnb-input ::after {
@@ -608,8 +627,7 @@ a.dnb-button:active, a.dnb-button:focus {
   align-items: flex-start;
   vertical-align: middle;
   width: auto;
-  font-size: var(--input-font-size);
-  font-weight: var(--font-weight-default); }
+  font-size: var(--input-font-size); }
   .dnb-input__shell {
     position: relative;
     display: flex;
@@ -632,7 +650,7 @@ a.dnb-button:active, a.dnb-button:focus {
     padding: var(--input-padding);
     text-align: left;
     color: inherit;
-    font-size: var(--input-font-size);
+    font-size: inherit;
     line-height: 1em;
     background-color: transparent;
     transform: translateY(var(--input-border-width)); }
@@ -689,6 +707,8 @@ a.dnb-button:active, a.dnb-button:focus {
   line-height: 1.5rem;
   color: var(--color-black-80, #333);
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  font-variant-numeric: lining-nums;
+  font-feature-settings: \\"lnum\\";
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -699,9 +719,6 @@ a.dnb-button:active, a.dnb-button:focus {
   */
   margin: 0;
   padding: 0; }
-  .dnb-input-masked * {
-    font-variant-numeric: lining-nums;
-    font-feature-settings: \\"lnum\\"; }
   .dnb-input-masked *,
   .dnb-input-masked ::before,
   .dnb-input-masked ::after {

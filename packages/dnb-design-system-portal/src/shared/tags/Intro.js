@@ -3,15 +3,41 @@
  *
  */
 
-import React from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
+import { navigate } from 'gatsby'
 import styled from '@emotion/styled'
 import {
   Link
   // Hr
 } from 'dnb-ui-lib/src/elements'
 
+const onKeyDownHandler = e => {
+  try {
+    if (e.key === 'ArrowRight') {
+      const elem = document.querySelector('a[href*="/intro"]:last-of-type')
+      const href = elem.getAttribute('href')
+      navigate(href)
+    }
+    if (e.key === 'ArrowLeft') {
+      window.history.back()
+    }
+  } catch (e) {
+    console.log(e)
+  }
+}
+
 const Intro = ({ children }) => {
+  useEffect(() => {
+    try {
+      document.addEventListener('keydown', onKeyDownHandler)
+    } catch (e) {
+      console.log(e)
+    }
+    return () => {
+      document.removeEventListener('keydown', onKeyDownHandler)
+    }
+  }, [])
   return (
     <Wrapper>
       <Inner>{children}</Inner>
@@ -24,7 +50,7 @@ Intro.propTypes = {
 Intro.defaultProps = {}
 
 const Wrapper = styled.div`
-  margin: 10vh 15vw;
+  margin: 10vh 10vw;
 
   ${'' /* a[href*='/intro/'] {
     display: block;

@@ -95,6 +95,7 @@ exports[`Modal component have to match snapshot 1`] = `
   >
     <Button
       attributes={null}
+      bounding={false}
       class={null}
       className="dnb-modal__trigger"
       custom_element={null}
@@ -125,6 +126,7 @@ exports[`Modal component have to match snapshot 1`] = `
       >
         <Content
           attributes={null}
+          bounding={false}
           class={null}
           className="dnb-modal__trigger"
           content={null}
@@ -384,6 +386,7 @@ exports[`Modal component have to match snapshot 1`] = `
             >
               <Button
                 attributes={null}
+                bounding={false}
                 class={null}
                 className="dnb-modal__close-button"
                 custom_element={null}
@@ -413,6 +416,7 @@ exports[`Modal component have to match snapshot 1`] = `
                 >
                   <Content
                     attributes={null}
+                    bounding={false}
                     class={null}
                     className="dnb-modal__close-button"
                     content={null}
@@ -575,6 +579,8 @@ exports[`Modal scss have to match snapshot 1`] = `
   line-height: 1.5rem;
   color: var(--color-black-80, #333);
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  font-variant-numeric: lining-nums;
+  font-feature-settings: \\"lnum\\";
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -585,9 +591,6 @@ exports[`Modal scss have to match snapshot 1`] = `
   */
   margin: 0;
   padding: 0; }
-  .dnb-button * {
-    font-variant-numeric: lining-nums;
-    font-feature-settings: \\"lnum\\"; }
   .dnb-button *,
   .dnb-button ::before,
   .dnb-button ::after {
@@ -644,10 +647,12 @@ exports[`Modal scss have to match snapshot 1`] = `
   padding: 0;
   border: var(--button-border-width) solid transparent;
   border-radius: var(--button-border-radius);
-  font-size: var(--button-font-size);
-  line-height: var(--button-height);
   text-decoration: none;
   /* Firefox includes a hidden border which messes up button dimensions */ }
+  .dnb-button,
+  .dnb-core-style .dnb-button {
+    font-size: var(--button-font-size);
+    line-height: var(--button-height); }
   .dnb-button__icon {
     line-height: 1em; }
     .dnb-button__icon:not(.dnb-icon) svg:not([width]):not([height]) {
@@ -663,6 +668,13 @@ exports[`Modal scss have to match snapshot 1`] = `
     @supports not (-ms-ime-align: auto) {
       .dnb-button__text {
         transform: translateY(calc(1px - var(--button-border-width))); } }
+  .dnb-button__bounding {
+    position: absolute;
+    background-color: transparent;
+    width: var(--button-width);
+    height: var(--button-height);
+    border-radius: var(--button-border-radius);
+    transform: scale(1.2); }
   .dnb-button--size-small {
     width: var(--button-width--small);
     height: var(--button-height--small);
@@ -787,6 +799,8 @@ a.dnb-button:active, a.dnb-button:focus {
   line-height: 1.5rem;
   color: var(--color-black-80, #333);
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  font-variant-numeric: lining-nums;
+  font-feature-settings: \\"lnum\\";
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -797,9 +811,6 @@ a.dnb-button:active, a.dnb-button:focus {
   */
   margin: 0;
   padding: 0; }
-  .dnb-modal * {
-    font-variant-numeric: lining-nums;
-    font-feature-settings: \\"lnum\\"; }
   .dnb-modal *,
   .dnb-modal ::before,
   .dnb-modal ::after {

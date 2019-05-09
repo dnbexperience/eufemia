@@ -12,8 +12,8 @@ order: 10
 - [Elements](!/uilib/elements) are basicity ready to use styled HTML elements.
 - [Patterns](!/uilib/patterns) are larger components, less strictly defined, but with a more flexible outcome.
 
-</Intro>
-
 ---
 
 [Next - Usage of Components and Patterns](/uilib/intro/11-usage-of-components-elements?fullscreen)
+
+</Intro>

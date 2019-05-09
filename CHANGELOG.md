@@ -1,3 +1,7 @@
+## May, 8. 2019
+
+- New component in the `dnb-ui-lib`: DatePicker with range/period support
+
 ## April, 26. 2019
 
 **Changes to the default styles**

@@ -15,10 +15,7 @@
 
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 
-  // to support firefox, we have to use asterix
-  * {
-    @include numberFeature(lining-nums, lnum);
-  }
+  @include numberFeature(lining-nums, lnum);
 
   @content;
 }

@@ -56,6 +56,11 @@ describe('Button component', () => {
     expect(Comp.find('.dnb-button--has-text').exists()).toBe(false)
   })
 
+  it('has to have a bounding tag if property is set', () => {
+    const Comp = mount(<Component bounding={true} />)
+    expect(Comp.find('.dnb-button__bounding').exists()).toBe(true)
+  })
+
   it('has a button tag', () => {
     const Comp = mount(<Component {...props} href="https://url" />)
     expect(Comp.find('a').exists()).toBe(true)

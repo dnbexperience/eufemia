@@ -19,7 +19,8 @@ import {
   Dropdown,
   Switch,
   Logo,
-  StepIndicator
+  StepIndicator,
+  DatePicker
 } from '../src/components'
 import { H2, P, Hr } from '../src/elements'
 
@@ -190,6 +191,65 @@ stories.push([
             label="Input with description:"
             description="Description to the user"
             value="Input value with status"
+          />
+        </Box>
+      </Wrapper>
+    </CustomStyle>
+  )
+])
+
+stories.push([
+  'DatePicker',
+  () => (
+    <CustomStyle>
+      <Wrapper>
+        <Box>
+          <DatePicker
+            label="Range DatePicker:"
+            // start_date={new Date()}
+            start_date="2019-01-15"
+            end_date="2019-02-15"
+            range={true}
+            opened={false}
+            show_input={true}
+            on_change={props => {
+              console.log('on_change', props)
+            }}
+            on_submit={props => {
+              console.log('on_submit', props)
+            }}
+            on_cancel={props => {
+              console.log('on_cancel', props)
+            }}
+          />
+        </Box>
+        <Box>
+          <DatePicker
+            label="Defualt DatePicker with Input:"
+            date="2019-05-05"
+            show_input={true}
+            // show_submit_button={true}
+            show_cancel_button={true}
+            on_change={props => {
+              console.log('on_change', props)
+            }}
+          />
+        </Box>
+        <Box>
+          <DatePicker
+            label="Defualt DatePicker:"
+            date="2019-05-05"
+            on_change={props => {
+              console.log('on_change', props)
+            }}
+          />
+        </Box>
+        <Box>
+          <DatePicker
+            label="Hidden Nav:"
+            date="2019-05-05"
+            hide_navigation={true}
+            hide_days={true}
           />
         </Box>
       </Wrapper>

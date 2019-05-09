@@ -17,8 +17,8 @@ It is recommended to use **CSS Custom Properties name** like `--color-ocean-gree
 
 See the [Color Table](!/uilib/usage/customisation/colors#colors-table).
 
-</Intro>
-
 ---
 
 [Next - Icons](/uilib/intro/08-icons?fullscreen)
+
+</Intro>

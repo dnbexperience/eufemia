@@ -19,8 +19,8 @@ Remember, everything should be in the **8px grid/spacing** (0.5rem) - even it th
 
 ![Figma UX handover](./assets/ux-handover.png)
 
-</Intro>
-
 ---
 
 [Next - Eufemia for Developers](/uilib/intro/04-eufemia-for-developers?fullscreen)
+
+</Intro>

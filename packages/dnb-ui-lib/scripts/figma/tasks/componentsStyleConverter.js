@@ -21,13 +21,9 @@ const frameName = process.env.FIGMA_STYLES_FRAME || 'Components' // before we us
 
 export const ConvertAndSaveComponentsStyle = async ({
   figmaDoc = null,
-  figmaFile = null,
+  figmaFile = defaultFigmaFile,
   convertOptions = {}
 }) => {
-  if (!figmaFile) {
-    figmaFile = defaultFigmaFile
-  }
-
   if (figmaDoc === null) {
     log.text = '> Figma: Fetching the figma doc.'
     figmaDoc = await getFigmaDoc({ figmaFile })

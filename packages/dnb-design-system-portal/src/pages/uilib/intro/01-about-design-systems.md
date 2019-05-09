@@ -17,8 +17,8 @@ What is a Design System good for?
 - Notification of [new releases](!/uilib/usage#the-eufemia-repository)
 - Ready to use sub systems, tested and easy to integrate
 
-</Intro>
-
 ---
 
 [Next - Common Design Patterns](/uilib/intro/02-common-patterns?fullscreen)
+
+</Intro>

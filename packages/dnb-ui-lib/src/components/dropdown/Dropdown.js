@@ -330,14 +330,13 @@ export default class Dropdown extends Component {
           )
           const top = liElement.offsetTop
           const { parentNode } = liElement
-          if (parentNode.scrollTo) {
-            parentNode.scrollTop = top
-          }
           if (scrollTo && parentNode.scrollTo) {
             parentNode.scrollTo({
               top,
               behavior: 'smooth'
             })
+          } else if (parentNode.scrollTop) {
+            parentNode.scrollTop = top
           }
         } catch (e) {
           console.log('Dropdown could not scroll into element:', e)
@@ -747,7 +746,6 @@ export default class Dropdown extends Component {
                             title={Dropdown.parseContentTitle(dataItem)}
                             className="dnb-dropdown__option__inner"
                             data-item={i}
-                            onTouchStart={this.selectItemHandler}
                             onMouseDown={this.selectItemHandler}
                             role="button"
                             tabIndex="-1"

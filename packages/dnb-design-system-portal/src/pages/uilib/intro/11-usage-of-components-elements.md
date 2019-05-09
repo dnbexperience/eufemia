@@ -48,8 +48,8 @@ render(<H1>Title</H1>)
 
 Read more about using elements as [React JSX](!/uilib/elements#react-jsx)
 
-</Intro>
-
 ---
 
 [Next - Quality and Tests](/uilib/intro/12-quality-and-tests?fullscreen)
+
+</Intro>

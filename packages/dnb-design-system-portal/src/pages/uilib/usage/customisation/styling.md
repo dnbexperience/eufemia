@@ -26,7 +26,13 @@ There are several packages you can use and combine.
 
 - **dnb-ui-body** - includes the default body style and a CSS reset (normalize).
 - **dnb-ui-basis** - includes everything from `dnb-ui-core`, except `dnb-ui-body`.
-- **dnb-ui-elements** - this package will force styles for all the HTML Elements/Tags. Use it carefully - because this will effect existing styles as well.
+- **dnb-ui-elements** - includes only the styles for [HTML Elements](/uilib/elements) CSS classes, like `.dnb-h1`.
+
+## Additional Packages
+
+- **dnb-ui-tags** - this package will force styles on all the HTML Tags like `<h1>` instead of CSS classes, like `.dnb-h1`. Use it carefully - because this will effect existing styles as well.
+- **dnb-ui-properties** - includes only the CSS Custom Properties.
+- **dnb-ui-fonts** - includes only the `@font-face` and properties.
 
 All the CSS packages are ready to use, **minified CSS files**. You will find the main style here: `dnb-ui-lib/style/dnb-ui-core.min.css`
 
@@ -116,13 +122,13 @@ For more details, check out the source file: `spacing.scss`
 
 ## Styling of HTML Elements (tags)
 
-To deal with HTML Elements, without declaring them individual with the right css classes, like `<h1 class="dnb-h1">`, You can import the sub package **dnb-ui-elements**.
+To deal with HTML Elements, without declaring them individual with the right css classes, like `<h1 class="dnb-h1">`, You can import the sub package **dnb-ui-tags**.
 
 **NB:** Use it carefully - cause this will effect existing styles as well!
 
 ```js
 /* directly the CSS file */
-import 'dnb-ui-lib/style/dnb-ui-elements.min.css'
+import 'dnb-ui-lib/style/dnb-ui-tags.min.css'
 
 /* ... or by the shorthand */
 import 'dnb-ui-lib/style/elements'

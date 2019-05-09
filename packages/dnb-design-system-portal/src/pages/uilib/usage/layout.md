@@ -43,7 +43,7 @@ Although, it will probably be removed in a future major release.
 
 - `40em` **small**
 - `50em` **medium**
-- `60em` **large**
-- `90em` **x-large** (is the default max-width of 1440px)
+- `60em` **large** (is the DNB default width by 960px)
+- `90em` **x-large**
 
 Use `em` for media query sizing for best overall browser support. Read [more abouts units](/uilib/usage/best-practices/for-styling#units)

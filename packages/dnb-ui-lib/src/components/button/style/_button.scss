@@ -39,8 +39,11 @@
   border: var(--button-border-width) solid transparent;
   border-radius: var(--button-border-radius);
 
-  font-size: var(--button-font-size);
-  line-height: var(--button-height);
+  &,
+  .dnb-core-style & {
+    font-size: var(--button-font-size);
+    line-height: var(--button-height);
+  }
   text-decoration: none;
 
   &__icon {
@@ -62,6 +65,15 @@
     @supports not (-ms-ime-align: auto) {
       transform: translateY(calc(1px - var(--button-border-width)));
     }
+  }
+
+  &__bounding {
+    position: absolute;
+    background-color: transparent;
+    width: var(--button-width);
+    height: var(--button-height);
+    border-radius: var(--button-border-radius);
+    transform: scale(1.2);
   }
 
   // size small

@@ -1,0 +1,331 @@
+/*
+* DatePicker component
+*
+*/
+
+:root {
+  --date-picker-input-height: 2rem;
+  --date-picker-day-width: 2rem;
+  --date-picker-day-horizontal-spacing: 4px;
+}
+
+@mixin openDatePicker($state: 'animation') {
+  z-index: 4;
+  // display: flex;
+
+  &:not(#{&}--no-animation) {
+    animation: datePickerSlideDown 200ms ease-out 1 forwards;
+  }
+  &--no-animation {
+    animation: datePickerSlideDown 1ms ease-out 1 forwards;
+  }
+}
+@mixin closeDatePicker($state: 'animation') {
+  &:not(#{&}--no-animation) {
+    animation: datePickerSlideUp 150ms ease-out 1 forwards;
+  }
+  &--no-animation {
+    animation: datePickerSlideUp 1ms ease-out 1 forwards;
+  }
+}
+
+@keyframes datePickerSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(calc(1px - var(--date-picker-input-height)));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes datePickerSlideUp {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(calc(1px - var(--date-picker-input-height)));
+  }
+}
+
+@mixin datePickerClosed() {
+  display: none;
+}
+
+.dnb-date-picker {
+  &__shell {
+    position: relative;
+    top: 0;
+
+    display: inline-block;
+  }
+
+  &__container {
+    position: absolute;
+    display: block;
+    z-index: 3;
+    left: -1rem;
+    top: var(--date-picker-input-height);
+  }
+  &--show-input &__container {
+    left: 0;
+  }
+
+  &--opened &__container {
+    @include openDatePicker();
+  }
+  &--hidden &__container {
+    @include datePickerClosed();
+  }
+  &:not(#{&}--opened) &__container {
+    @include closeDatePicker();
+  }
+
+  // stylelint-disable-next-line
+  &__input,
+  .dnb-core-style &__input {
+    display: inline-block;
+    width: auto;
+
+    margin: 0;
+
+    /* Chrome fix */
+    @supports (-webkit-appearance: none) and
+      (not (overflow: -webkit-marquee)) and (not (-ms-ime-align: auto)) and
+      (not (-moz-appearance: none)) {
+      & {
+        margin: 0 -2px;
+      }
+    }
+
+    /* Safari fix */
+    padding: 0 0.1875rem;
+    @media not all and (min-resolution: 0.001dpcm) {
+      @supports (-webkit-appearance: none) and (stroke-color: transparent) {
+        &:not(*:root) {
+          margin: 0 -5px;
+        }
+        &:first-of-type:not(*:root) {
+          margin-left: 0.8rem;
+        }
+        // stylelint-disable-next-line
+        &:last-of-type:not(*:root) {
+          margin-right: 2.2rem;
+        }
+      }
+    }
+
+    outline: none;
+
+    font-family: var(--font-family-monospace);
+    text-align: center;
+    border: none;
+    background: transparent;
+
+    overflow: visible;
+    white-space: nowrap;
+  }
+  &__input:first-of-type {
+    margin-left: 0.8rem;
+  }
+  &__input:last-of-type {
+    margin-right: 2.2rem;
+  }
+  &__input__wrapper {
+    display: block;
+    width: 0; // hide input by default
+    visibility: hidden;
+  }
+  &--show-input &__input__wrapper {
+    width: auto;
+    visibility: visible;
+  }
+
+  &--separator {
+    margin: 0 -0.1rem;
+  }
+
+  &__views {
+    display: flex;
+    user-select: none;
+  }
+
+  &__calendar {
+    position: relative;
+    padding: 1rem;
+
+    // border
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      width: calc(100% - 2rem);
+      height: 1px;
+    }
+  }
+
+  &:not(#{&}--show-footer) &__calendar::after {
+    content: none;
+  }
+
+  &__header {
+    position: relative;
+
+    display: flex;
+    padding-bottom: 1rem;
+
+    // border
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 1px;
+    }
+
+    &__nav,
+    &__title {
+      display: flex;
+      justify-content: center;
+      flex-basis: percentage(1 / 7);
+    }
+    &__title {
+      flex-basis: percentage(5 / 7);
+    }
+  }
+
+  &__footer {
+    position: relative;
+
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+  }
+
+  &__labels {
+    &__day {
+      padding: 1.5rem 0 0.5rem;
+    }
+  }
+
+  &__labels,
+  &__days {
+    // min-width: 12rem;
+    min-width: 18rem;
+    max-width: 18rem;
+
+    display: flex;
+    flex-wrap: wrap;
+
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__day,
+  &__labels__day {
+    display: flex;
+    flex-basis: percentage(1 / 7);
+    justify-content: center;
+  }
+
+  &__day {
+    position: relative;
+
+    width: var(--date-picker-day-width); // medium size
+    height: var(--date-picker-day-width); // medium size
+    margin: var(--date-picker-day-horizontal-spacing) 0;
+
+    .dnb-button {
+      position: absolute;
+      top: 0;
+      width: var(--date-picker-day-width); // medium size
+      height: var(--date-picker-day-width); // medium size
+
+      box-shadow: none;
+      &__bounding {
+        border-radius: 0;
+      }
+    }
+
+    &--selectable:hover {
+      z-index: 2;
+    }
+
+    &--start-date .dnb-button,
+    &--end-date .dnb-button {
+      z-index: 1;
+    }
+
+    &--start-date,
+    &--end-date {
+      position: relative;
+
+      &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        width: calc(var(--date-picker-day-width) / 2);
+        height: 100%;
+      }
+    }
+    &--start-date::after {
+      left: auto;
+      right: 0;
+    }
+    &--end-date::after {
+      left: 0;
+      right: auto;
+    }
+    &--start-date#{&}--end-date::after {
+      content: none;
+    }
+  }
+
+  &__triangle {
+    pointer-events: none;
+
+    position: absolute;
+    top: calc(1px + 1px - var(--date-picker-input-height) / 2);
+    left: 0;
+    right: auto;
+    margin: 0 1.5rem;
+
+    width: calc(var(--date-picker-input-height) / 2);
+    height: calc(var(--date-picker-input-height) / 2);
+
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+
+      width: calc(var(--date-picker-input-height) / 2);
+      height: calc(var(--date-picker-input-height) / 2);
+      transform: translateY(60%) rotate(45deg);
+
+      border: 1px solid var(--color-black-border);
+      background-color: var(--color-white);
+    }
+  }
+  &--show-input &__triangle {
+    left: 0;
+  }
+
+  .rtl {
+    direction: rtl;
+
+    .dnb-date-picker__prev::before {
+      transform: scaleX(-1);
+    }
+
+    .dnb-date-picker__next::before {
+      transform: scaleX(-1);
+    }
+  }
+}

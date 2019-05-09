@@ -16,8 +16,8 @@ To get a good user experience and a professional looking result, perfect layouti
 
 You may have a [look at the layout docs](!/uilib/usage/layout)
 
-</Intro>
-
 ---
 
 [Next - Components, Elements and Patterns](/uilib/intro/10-components-elements-patterns?fullscreen)
+
+</Intro>

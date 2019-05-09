@@ -8,21 +8,21 @@ order: 4
 
 # Eufemia for Developers
 
-What Eufemia offers for Developers? NPM Package inkling:
+What Eufemia offers for Developers? NPM Package including:
 
-- Styling of HTML elements
+- Styling of HTML elements (to get correct sizing)
 - DNB custom components
 - Fonts
 - Typography
 - Colors
 - Icons
 - Theming
-- Quality definition and best practices
 - Helper classes
 - Accessibility tools
-
-</Intro>
+- Quality definition and best practices
 
 ---
 
 [Next - CSS Packages](/uilib/intro/05-css-packages?fullscreen)
+
+</Intro>
