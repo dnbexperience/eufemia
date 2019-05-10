@@ -259,14 +259,6 @@ export default class Input extends PureComponent {
       ...attributes
     }
 
-    validateDOMAttributes(null, inputParams)
-
-    if (InputElement && typeof InputElement === 'function') {
-      InputElement = <InputElement innerRef={this._ref} {...inputParams} />
-    } else if (!InputElement && _inputElement) {
-      InputElement = _inputElement
-    }
-
     // we may considder using: aria-details
     if (showStatus) {
       inputParams['aria-describedby'] = id + '-status'
@@ -295,6 +287,12 @@ export default class Input extends PureComponent {
     validateDOMAttributes(this.props, inputParams)
     validateDOMAttributes(null, shellParams)
 
+    if (InputElement && typeof InputElement === 'function') {
+      InputElement = InputElement(inputParams, this._ref)
+    } else if (!InputElement && _inputElement) {
+      InputElement = _inputElement
+    }
+
     return (
       <>
         {label && (
@@ -308,8 +306,7 @@ export default class Input extends PureComponent {
         )}
         <span className={classes}>
           <span className="dnb-input__shell" {...shellParams}>
-            {(type === 'text' || type === 'number' || type === 'search') &&
-              (InputElement || <input ref={this._ref} {...inputParams} />)}
+            {InputElement || <input ref={this._ref} {...inputParams} />}
 
             {placeholder && !isIE11 && (
               <span
