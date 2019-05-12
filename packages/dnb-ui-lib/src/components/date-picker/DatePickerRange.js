@@ -72,7 +72,7 @@ export default class DatePickerRange extends PureComponent {
     ).map((view, i) => ({
       ...view,
       month: this.getMonth(i),
-      id: i
+      nr: i
     }))
   }
 
@@ -134,9 +134,9 @@ export default class DatePickerRange extends PureComponent {
     })
   }
 
-  onNext = ({ id }) => {
+  onNext = ({ nr }) => {
     const views = this.state.views.map(c => {
-      return this.props.link || c.id === id
+      return this.props.link || c.nr === nr
         ? { ...c, month: addMonths(c.month, 1) }
         : c
     })
@@ -145,9 +145,9 @@ export default class DatePickerRange extends PureComponent {
     })
   }
 
-  onPrev = ({ id }) => {
+  onPrev = ({ nr }) => {
     const views = this.state.views.map(c => {
-      return this.props.link || c.id === id
+      return this.props.link || c.nr === nr
         ? { ...c, month: subMonths(c.month, 1) }
         : c
     })
@@ -165,7 +165,7 @@ export default class DatePickerRange extends PureComponent {
       <div className="dnb-date-picker__views">
         {this.state.views.map(calendar => (
           <DatePickerCalendar
-            key={calendar.id}
+            key={calendar.nr}
             {...this.props}
             {...calendar}
             startDate={this.state.startDate}

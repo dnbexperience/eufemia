@@ -12,6 +12,8 @@ import {
   startOfDay,
   endOfDay,
   isSameMonth,
+  subMonths,
+  addMonths,
   differenceInCalendarDays
 } from 'date-fns'
 import nbLocale from 'date-fns/locale/nb'
@@ -25,7 +27,8 @@ import {
 import Button from '../button/Button'
 
 export const propTypes = {
-  id: PropTypes.number,
+  id: PropTypes.string,
+  nr: PropTypes.number,
   month: PropTypes.instanceOf(Date), // What month will be displayed in the first calendar. Default: new Date()
   prevBtn: PropTypes.bool,
   nextBtn: PropTypes.bool,
@@ -55,6 +58,7 @@ export const propTypes = {
 
 export const defaultProps = {
   id: null,
+  nr: null,
   month: null,
   prevBtn: true,
   nextBtn: true,
@@ -91,6 +95,17 @@ export default class DatePickerCalendar extends PureComponent {
   static propTypes = propTypes
   static defaultProps = defaultProps
 
+  constructor(props) {
+    super(props)
+    this._listRef = React.createRef()
+  }
+
+  componentDidMount() {
+    if (this.props.nr === 0 && this._listRef.current) {
+      this._listRef.current.focus()
+    }
+  }
+
   buildClassNames = day =>
     classnames({
       'dnb-date-picker__day--start-date': day.isStartDate,
@@ -111,6 +126,7 @@ export default class DatePickerCalendar extends PureComponent {
   render() {
     const {
       id,
+      nr,
       rtl,
       month,
       range,
@@ -157,101 +173,134 @@ export default class DatePickerCalendar extends PureComponent {
           <div className="dnb-date-picker__header">
             <div className="dnb-date-picker__header__nav">
               <PrevButton
-                id={id}
+                nr={nr}
                 minDate={minDate}
                 month={month}
                 prevBtn={prevBtn}
                 onPrev={onPrev}
+                locale={locale}
               />
             </div>
-            <div className="dnb-date-picker__header__title">
+            <div
+              id={`${id}--title`}
+              className="dnb-date-picker__header__title"
+              aria-hidden
+            >
               {format(month, titleFormat, {
-                locale: locale
+                locale
               })}
             </div>
             <div className="dnb-date-picker__header__nav">
               <NextButton
-                id={id}
+                nr={nr}
                 maxDate={maxDate}
                 month={month}
                 nextBtn={nextBtn}
                 onNext={onNext}
+                locale={locale}
               />
             </div>
           </div>
         )}
         {!hideDays && (
-          <ul className="dnb-date-picker__labels">
+          <ul className="dnb-date-picker__labels" aria-hidden>
             {getWeek(dayOffset(firstDayOfWeek)).map((day, i) => (
               <li key={i} className="dnb-date-picker__labels__day">
                 {format(day, dayOfWeekFormat, {
-                  locale: locale
+                  locale
                 })}
               </li>
             ))}
           </ul>
         )}
-        <ul className="dnb-date-picker__days">
-          {this.days.map((day, i) => (
-            <li
-              key={'day' + i}
-              className={classnames(
-                'dnb-date-picker__day',
-                this.buildClassNames(day)
-              )}
-            >
-              <Button
+        <ul
+          className="dnb-date-picker__days dnb-no-focus"
+          aria-labelledby={`${id}--title`}
+          tabIndex="-1"
+          ref={this._listRef}
+        >
+          {this.days.map((day, i) => {
+            const title = format(day.date, 'dddd, Do MMMM YYYY', {
+              locale
+            })
+            const params = {}
+            if (day.isLastMonth || day.isNextMonth) {
+              params['aria-hidden'] = true
+            } else if (day.isWithinSelection) {
+              params['aria-selected'] = true
+            }
+            return (
+              <li
                 key={'day' + i}
-                onClick={() =>
-                  !day.isLastMonth &&
-                  !day.isNextMonth &&
-                  !day.isDisabled &&
-                  onSelectRange({
-                    day,
-                    range,
-                    startDate,
-                    endDate,
-                    onSelect,
-                    resetDate
-                  })
-                }
-                onMouseOver={() => onHoverDay({ day, hoverDate, onHover })}
-                onFocus={() => onHoverDay({ day, hoverDate, onHover })}
-                size="medium"
-                variant="secondary"
-                text={format(day.date, 'D', { locale: locale })}
-                bounding={true}
-                disabled={
-                  day.isLastMonth || day.isNextMonth || day.isDisabled
-                }
-              />
-            </li>
-          ))}
+                className={classnames(
+                  'dnb-date-picker__day',
+                  this.buildClassNames(day)
+                )}
+              >
+                <Button
+                  key={'day' + i}
+                  onClick={() =>
+                    !day.isLastMonth &&
+                    !day.isNextMonth &&
+                    !day.isDisabled &&
+                    onSelectRange({
+                      day,
+                      range,
+                      startDate,
+                      endDate,
+                      onSelect,
+                      resetDate
+                    })
+                  }
+                  onMouseOver={() =>
+                    onHoverDay({ day, hoverDate, onHover })
+                  }
+                  onFocus={() => onHoverDay({ day, hoverDate, onHover })}
+                  size="medium"
+                  variant="secondary"
+                  text={format(day.date, 'D', { locale })}
+                  aria-label={title}
+                  title={title}
+                  bounding={true}
+                  disabled={
+                    day.isLastMonth || day.isNextMonth || day.isDisabled
+                  }
+                  {...params}
+                />
+              </li>
+            )
+          })}
         </ul>
       </div>
     )
   }
 }
 
-const PrevButton = ({ id, minDate, month, prevBtn, onPrev }) => {
+const PrevButton = ({ nr, minDate, month, prevBtn, onPrev, locale }) => {
   if (!prevBtn) {
     return <></>
   }
   const disabled = minDate && isSameMonth(month, minDate)
-  const onClick = () => onPrev && !disabled && onPrev({ id })
+  const onClick = () => onPrev && !disabled && onPrev({ nr })
+  const title = format(subMonths(month, 1), 'MMMM YYYY', {
+    locale
+  })
   return (
     <Button
       className={classnames('dnb-date-picker__prev', { disabled })}
       icon="chevron-left"
       size="small"
+      aria-label={title}
+      title={title}
       onClick={onClick}
     />
   )
 }
 PrevButton.propTypes = {
-  id: PropTypes.number.isRequired,
+  nr: PropTypes.number.isRequired,
   minDate: PropTypes.instanceOf(Date),
   month: PropTypes.object.isRequired,
+  locale: PropTypes.object.isRequired,
   prevBtn: PropTypes.bool.isRequired,
   onPrev: PropTypes.func.isRequired
 }
@@ -259,27 +308,33 @@ PrevButton.defaultProps = {
   minDate: null
 }
 
-const NextButton = ({ id, maxDate, month, nextBtn, onNext }) => {
+const NextButton = ({ nr, maxDate, month, nextBtn, onNext, locale }) => {
   if (!nextBtn) {
     return <></>
   }
   const disabled = maxDate && isSameMonth(month, maxDate)
-  const onClick = () => onNext && !disabled && onNext({ id })
+  const onClick = () => onNext && !disabled && onNext({ nr })
+  const title = format(addMonths(month, 1), 'MMMM YYYY', {
+    locale
+  })
   return (
     nextBtn && (
       <Button
         className={classnames('dnb-date-picker__next', { disabled })}
         icon="chevron-right"
         size="small"
+        aria-label={title}
+        title={title}
         onClick={onClick}
       />
     )
   )
 }
 NextButton.propTypes = {
-  id: PropTypes.number.isRequired,
+  nr: PropTypes.number.isRequired,
   maxDate: PropTypes.instanceOf(Date),
   month: PropTypes.object.isRequired,
+  locale: PropTypes.object.isRequired,
   nextBtn: PropTypes.bool.isRequired,
   onNext: PropTypes.func.isRequired
 }

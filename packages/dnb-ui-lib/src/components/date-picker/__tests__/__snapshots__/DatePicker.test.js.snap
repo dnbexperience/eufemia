@@ -216,6 +216,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                   </t>
                 </ForwardRef>
                 <span
+                  aria-hidden={true}
                   className="dnb-date-picker--separator"
                   key="s1"
                 >
@@ -288,6 +289,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                   </t>
                 </ForwardRef>
                 <span
+                  aria-hidden={true}
                   className="dnb-date-picker--separator"
                   key="s3"
                 >
@@ -364,6 +366,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                   </t>
                 </ForwardRef>
                 <span
+                  aria-hidden={true}
                   className="dnb-date-picker--separator"
                 >
                    – 
@@ -435,6 +438,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                   </t>
                 </ForwardRef>
                 <span
+                  aria-hidden={true}
                   className="dnb-date-picker--separator"
                   key="s1"
                 >
@@ -507,6 +511,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                   </t>
                 </ForwardRef>
                 <span
+                  aria-hidden={true}
                   className="dnb-date-picker--separator"
                   key="s3"
                 >

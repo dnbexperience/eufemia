@@ -337,7 +337,11 @@ export default class DatePickerInput extends PureComponent {
     return (
       <span className="dnb-date-picker__input__wrapper">
         {startDateList}
-        {range && <span className="dnb-date-picker--separator"> – </span>}
+        {range && (
+          <span className="dnb-date-picker--separator" aria-hidden>
+            {' – '}
+          </span>
+        )}
         {range && endDateList}
       </span>
     )
@@ -446,7 +450,11 @@ export default class DatePickerInput extends PureComponent {
         }
       }
       return (
-        <span key={'s' + i} className="dnb-date-picker--separator">
+        <span
+          key={'s' + i}
+          className="dnb-date-picker--separator"
+          aria-hidden
+        >
           {placeholderChar}
         </span>
       )

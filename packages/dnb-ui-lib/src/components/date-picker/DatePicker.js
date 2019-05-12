@@ -574,6 +574,7 @@ export default class DatePicker extends PureComponent {
               {!hidden && (
                 <>
                   <DatePickerRange
+                    id={id}
                     range={range}
                     firstDayOfWeek={first_day}
                     minDate={minDate}
