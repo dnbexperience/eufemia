@@ -10,6 +10,8 @@ import DatePickerCalendar from './DatePickerCalendar'
 
 export const propTypes = {
   month: PropTypes.instanceOf(Date),
+  startMonth: PropTypes.instanceOf(Date),
+  endMonth: PropTypes.instanceOf(Date),
   startDate: PropTypes.instanceOf(Date),
   endDate: PropTypes.instanceOf(Date),
 
@@ -28,6 +30,8 @@ export const propTypes = {
 export const defaultProps = {
   // formats
   month: null, // What month will be displayed in the first calendar
+  startMonth: null, // What month will be displayed in the first calendar
+  endMonth: null, // What month will be displayed in the first calendar
   startDate: null,
   endDate: null,
 
@@ -57,22 +61,38 @@ export default class DatePickerRange extends PureComponent {
   constructor(props) {
     super(props)
 
-    let viewsCount = props.views
-    if (viewsCount === null && props.range) {
-      viewsCount = 2
-    }
-
-    const startupMonth = props.month || props.startDate
-
-    this.state.views = Array.isArray(props.views)
+    // fill the views with the calendar data getMonth()
+    this.state.views = (Array.isArray(props.views)
       ? props.views
-      : Array(viewsCount)
-          .fill(1)
-          .map((page, i) => ({
-            month: addMonths(startupMonth, i),
-            ...page,
-            id: i
-          }))
+      : Array(
+          props.range
+            ? 2 // set default range calendars
+            : props.views
+        ).fill(1)
+    ).map((view, i) => ({
+      ...view,
+      month: this.getMonth(i),
+      id: i
+    }))
+  }
+
+  getMonth(viewCount) {
+    if (
+      (this.props.startMonth || this.props.startDate) &&
+      viewCount === 0
+    ) {
+      return this.props.startMonth || this.props.startDate
+    }
+    if ((this.props.endMonth || this.props.endDate) && viewCount === 1) {
+      return this.props.endMonth || this.props.endDate
+    }
+    return addMonths(
+      this.props.month ||
+        this.props.startMonth ||
+        this.props.startDate ||
+        new Date(),
+      viewCount
+    )
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -89,11 +109,12 @@ export default class DatePickerRange extends PureComponent {
   }
 
   callOnChange() {
+    const { startDate, endDate, views } = this.state
     this.props.onChange &&
       this.props.onChange({
-        startDate: this.state.startDate,
-        endDate: this.state.endDate,
-        views: this.state.views
+        startDate,
+        endDate,
+        views
       })
   }
 
@@ -103,10 +124,11 @@ export default class DatePickerRange extends PureComponent {
 
   onSelect = change => {
     this.setState({ ...change, _listenForPropChanges: false }, () => {
+      const { startDate, endDate } = this.state
       this.props.onSelect &&
         this.props.onSelect({
-          startDate: this.state.startDate,
-          endDate: this.state.endDate
+          startDate,
+          endDate
         })
       this.callOnChange()
     })

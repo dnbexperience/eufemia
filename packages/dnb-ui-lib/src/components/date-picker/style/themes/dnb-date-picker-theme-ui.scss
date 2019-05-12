@@ -17,21 +17,25 @@
 }
 
 .dnb-date-picker {
-  &__input {
-    color: var(--color-sea-green);
+  &__input[value*='0'],
+  &__input[value*='1'],
+  &__input[value*='2'],
+  &__input[value*='3'],
+  &__input[value*='4'],
+  &__input[value*='5'],
+  &__input[value*='6'],
+  &__input[value*='7'],
+  &__input[value*='8'],
+  &__input[value*='9'] {
+    &,
+    & ~ .dnb-date-picker--separator {
+      color: var(--color-emerald-green);
+    }
   }
-
-  &--separator {
-    color: var(--color-sea-green);
-  }
-
-  // &__shell {
-  //   // border-radius: 0.5rem;
-  // }
 
   &__container {
     @include defaultDropShadow();
-    border-radius: 0.5rem;
+    border-radius: 0.3125rem; // 5px
     background-color: var(--color-white);
   }
 
@@ -80,7 +84,7 @@
     }
 
     &--preview .dnb-button,
-    &--preview#{&}--inactive .dnb-button,
+    &--inactive .dnb-button,
     &--within-selection:not(#{&}--start-date):not(#{&}--end-date)
       .dnb-button:not(:hover) {
       background-color: transparent;

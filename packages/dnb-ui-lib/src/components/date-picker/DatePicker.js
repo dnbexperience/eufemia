@@ -47,11 +47,32 @@ export const propTypes = {
     PropTypes.instanceOf(Date),
     PropTypes.string
   ]),
+  start_month: PropTypes.oneOfType([
+    PropTypes.instanceOf(Date),
+    PropTypes.string
+  ]),
+  end_month: PropTypes.oneOfType([
+    PropTypes.instanceOf(Date),
+    PropTypes.string
+  ]),
+  min_date: PropTypes.oneOfType([
+    PropTypes.instanceOf(Date),
+    PropTypes.string
+  ]),
+  max_date: PropTypes.oneOfType([
+    PropTypes.instanceOf(Date),
+    PropTypes.string
+  ]),
   mask_order: PropTypes.string,
   mask_placeholder: PropTypes.string,
   return_format: PropTypes.string,
   hide_navigation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  hide_navigation_buttons: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool
+  ]),
   hide_days: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  only_month: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   show_input: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   show_submit_button: PropTypes.oneOfType([
     PropTypes.string,
@@ -91,16 +112,22 @@ export const defaultProps = {
   start_date: null,
   end_date: null,
   month: null,
+  start_month: null,
+  end_month: null,
   mask_order: 'dd/mm/yyyy',
   mask_placeholder: 'dd/mm/åååå', // have to be same setup as "mask" - but can be like: dd/mm/åååå
   return_format: 'YYYY-MM-DD',
   hide_navigation: false,
+  hide_navigation_buttons: false,
   hide_days: false,
+  only_month: false,
   show_input: false,
   show_submit_button: null,
   show_cancel_button: null,
   reset_date: true,
   first_day: 'monday',
+  min_date: null,
+  max_date: null,
   locale: nbLocale,
   range: false,
   link: false,
@@ -153,6 +180,20 @@ export default class DatePicker extends PureComponent {
       }
       if (props.month) {
         state.month = DatePicker.convertStringToDate(props.month)
+      }
+      if (props.start_month) {
+        state.startMonth = DatePicker.convertStringToDate(
+          props.start_month
+        )
+      }
+      if (props.end_month) {
+        state.endMonth = DatePicker.convertStringToDate(props.end_month)
+      }
+      if (props.min_date) {
+        state.minDate = DatePicker.convertStringToDate(props.min_date)
+      }
+      if (props.max_date) {
+        state.maxDate = DatePicker.convertStringToDate(props.max_date)
       }
     }
     state._listenForPropChanges = true
@@ -263,7 +304,7 @@ export default class DatePicker extends PureComponent {
     if (!this.props.range) {
       endDate = startDate
     }
-    if (startDate)
+    if (typeof startDate !== 'undefined') {
       this.setState(
         {
           startDate,
@@ -271,7 +312,8 @@ export default class DatePicker extends PureComponent {
         },
         this.callOnChangeHandler
       )
-    if (endDate)
+    }
+    if (typeof endDate !== 'undefined') {
       this.setState(
         {
           endDate,
@@ -279,6 +321,7 @@ export default class DatePicker extends PureComponent {
         },
         () => !startDate && this.callOnChangeHandler()
       )
+    }
   }
 
   onPickerChange = ({ startDate, endDate }) => {
@@ -364,6 +407,7 @@ export default class DatePicker extends PureComponent {
 
   callOnChangeHandler = () => {
     const returnObject = this.getReturnObject()
+
     if (this.returnObject) {
       if (this.props.range) {
         if (
@@ -392,7 +436,7 @@ export default class DatePicker extends PureComponent {
           days_between: endDate
             ? differenceInCalendarDays(endDate, startDate)
             : null,
-          start_date: endDate
+          start_date: startDate
             ? format(startDate, this.props.return_format)
             : null,
           end_date: endDate
@@ -405,8 +449,8 @@ export default class DatePicker extends PureComponent {
   render() {
     const {
       label,
-      hide_navigation,
-      hide_days,
+      only_month,
+      hide_navigation_buttons,
       show_input,
       range,
       first_day,
@@ -420,9 +464,13 @@ export default class DatePicker extends PureComponent {
       mask_order,
       mask_placeholder,
 
+      hide_navigation: _hide_navigation /* eslint-disable-line */,
+      hide_days: _hide_days /* eslint-disable-line */,
       month: _month /* eslint-disable-line */,
       start_date: _start_date /* eslint-disable-line */,
       end_date: _end_date /* eslint-disable-line */,
+      min_date: _min_date /* eslint-disable-line */,
+      max_date: _max_date /* eslint-disable-line */,
       opened: _opened /* eslint-disable-line */,
       direction: _direction /* eslint-disable-line */,
       id: _id /* eslint-disable-line */,
@@ -430,10 +478,22 @@ export default class DatePicker extends PureComponent {
       ...attributes
     } = this.props
 
+    let { hide_navigation, hide_days } = this.props
+
+    // never hsow days and navigation
+    if (only_month) {
+      hide_days = true
+      hide_navigation = hide_navigation_buttons ? false : true
+    }
+
     const {
       month,
       startDate,
       endDate,
+      startMonth,
+      endMonth,
+      minDate,
+      maxDate,
       opened,
       hidden,
       show_submit_button,
@@ -443,12 +503,12 @@ export default class DatePicker extends PureComponent {
     const id = this._id
     const showStatus = status && status !== 'error'
 
-    const pickerParams = {}
+    const pickerParams = { ...attributes }
     if (label) {
       pickerParams['aria-labelledby'] = id + '-label'
     }
 
-    const inputParams = { ['aria-expanded']: opened, ...attributes }
+    const inputParams = { ['aria-expanded']: opened }
 
     validateDOMAttributes(this.props, pickerParams)
     validateDOMAttributes(null, inputParams)
@@ -493,6 +553,8 @@ export default class DatePicker extends PureComponent {
               onSubmit={this.togglePicker}
               startDate={startDate}
               endDate={endDate}
+              minDate={minDate}
+              maxDate={maxDate}
               {...inputParams}
             />
             {showStatus && (
@@ -514,13 +576,23 @@ export default class DatePicker extends PureComponent {
                   <DatePickerRange
                     range={range}
                     firstDayOfWeek={first_day}
+                    minDate={minDate}
+                    maxDate={maxDate}
                     resetDate={reset_date}
                     locale={locale}
-                    month={month}
                     link={link}
-                    hideNav={hide_navigation}
                     hideDays={hide_days}
+                    hideNav={hide_navigation}
+                    views={
+                      hide_navigation_buttons
+                        ? [{ nextBtn: false, prevBtn: false }]
+                        : null
+                    }
+                    onlyMonth={only_month}
                     onChange={this.onPickerChange}
+                    month={month}
+                    startMonth={startMonth}
+                    endMonth={endMonth}
                     startDate={startDate}
                     endDate={endDate}
                   />

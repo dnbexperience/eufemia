@@ -34,6 +34,7 @@ export const propTypes = {
   firstDayOfWeek: PropTypes.string,
   hideNav: PropTypes.bool,
   hideDays: PropTypes.bool,
+  onlyMonth: PropTypes.bool,
 
   onHover: PropTypes.func,
   onSelect: PropTypes.func,
@@ -62,6 +63,7 @@ export const defaultProps = {
   firstDayOfWeek: 'monday',
   hideNav: false,
   hideDays: false,
+  onlyMonth: false,
 
   // locale
   locale: nbLocale,
@@ -97,7 +99,8 @@ export default class DatePickerCalendar extends PureComponent {
       'dnb-date-picker__day--within-selection': day.isWithinSelection,
       'dnb-date-picker__day--selectable':
         !day.isLastMonth && !day.isNextMonth && !day.isDisabled,
-      'dnb-date-picker__day--inactive': day.isLastMonth || day.isNextMonth,
+      'dnb-date-picker__day--inactive':
+        day.isLastMonth || day.isNextMonth || day.isDisabled,
       'dnb-date-picker__day--disabled': day.isDisabled,
       'dnb-date-picker__day--today': day.isToday,
       'dnb-date-picker__day--weekend': day.isWeekend,
@@ -117,6 +120,7 @@ export default class DatePickerCalendar extends PureComponent {
       dayOfWeekFormat,
       hideNav,
       hideDays,
+      onlyMonth,
       onPrev,
       onNext,
       onSelect,
@@ -132,8 +136,18 @@ export default class DatePickerCalendar extends PureComponent {
 
     this.days = getCalendar(
       month || new Date(),
-      dayOffset(firstDayOfWeek)
-    ).map(date => makeDayObject(date, this.props))
+      dayOffset(firstDayOfWeek),
+      { onlyMonth }
+    ).map(date =>
+      makeDayObject(date, {
+        startDate,
+        endDate,
+        hoverDate,
+        minDate,
+        maxDate,
+        month
+      })
+    )
 
     return (
       <div
@@ -220,21 +234,35 @@ export default class DatePickerCalendar extends PureComponent {
 }
 
 const PrevButton = ({ id, minDate, month, prevBtn, onPrev }) => {
-  if (prevBtn) {
-    const disabled = minDate && isSameMonth(month, minDate)
-    const onClick = () => onPrev && !disabled && onPrev({ id })
-    return (
-      <Button
-        className={classnames('dnb-date-picker__prev', { disabled })}
-        icon="chevron-left"
-        size="small"
-        onClick={onClick}
-      />
-    )
+  if (!prevBtn) {
+    return <></>
   }
+  const disabled = minDate && isSameMonth(month, minDate)
+  const onClick = () => onPrev && !disabled && onPrev({ id })
+  return (
+    <Button
+      className={classnames('dnb-date-picker__prev', { disabled })}
+      icon="chevron-left"
+      size="small"
+      onClick={onClick}
+    />
+  )
+}
+PrevButton.propTypes = {
+  id: PropTypes.number.isRequired,
+  minDate: PropTypes.instanceOf(Date),
+  month: PropTypes.object.isRequired,
+  prevBtn: PropTypes.bool.isRequired,
+  onPrev: PropTypes.func.isRequired
+}
+PrevButton.defaultProps = {
+  minDate: null
 }
 
 const NextButton = ({ id, maxDate, month, nextBtn, onNext }) => {
+  if (!nextBtn) {
+    return <></>
+  }
   const disabled = maxDate && isSameMonth(month, maxDate)
   const onClick = () => onNext && !disabled && onNext({ id })
   return (
@@ -247,6 +275,16 @@ const NextButton = ({ id, maxDate, month, nextBtn, onNext }) => {
       />
     )
   )
+}
+NextButton.propTypes = {
+  id: PropTypes.number.isRequired,
+  maxDate: PropTypes.instanceOf(Date),
+  month: PropTypes.object.isRequired,
+  nextBtn: PropTypes.bool.isRequired,
+  onNext: PropTypes.func.isRequired
+}
+NextButton.defaultProps = {
+  maxDate: null
 }
 
 const onSelectRange = ({

@@ -32,22 +32,22 @@
 @keyframes datePickerSlideDown {
   from {
     opacity: 0;
-    transform: translateY(calc(1px - var(--date-picker-input-height)));
+    // transform: translateY(calc(1px - var(--date-picker-input-height)));
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    // transform: translateY(0);
   }
 }
 
 @keyframes datePickerSlideUp {
   from {
     opacity: 1;
-    transform: translateY(0);
+    // transform: translateY(0);
   }
   to {
     opacity: 0;
-    transform: translateY(calc(1px - var(--date-picker-input-height)));
+    // transform: translateY(calc(1px - var(--date-picker-input-height)));
   }
 }
 
@@ -86,11 +86,13 @@
 
   // stylelint-disable-next-line
   &__input,
+  .dnb-input__input#{&}__input,
   .dnb-core-style &__input {
     display: inline-block;
     width: auto;
 
     margin: 0;
+    transform: translateY(0);
 
     /* Chrome fix */
     @supports (-webkit-appearance: none) and
@@ -128,9 +130,11 @@
     overflow: visible;
     white-space: nowrap;
   }
+  .dnb-input__input#{&}__input:first-of-type,
   &__input:first-of-type {
     margin-left: 0.8rem;
   }
+  .dnb-input__input#{&}__input:last-of-type,
   &__input:last-of-type {
     margin-right: 2.2rem;
   }
@@ -145,7 +149,7 @@
   }
 
   &--separator {
-    margin: 0 -0.1rem;
+    margin: 0 -0.2rem;
   }
 
   &__views {
@@ -175,6 +179,7 @@
     position: relative;
 
     display: flex;
+    justify-content: space-between;
     padding-bottom: 1rem;
 
     // border
@@ -184,16 +189,6 @@
       bottom: 0;
       width: 100%;
       height: 1px;
-    }
-
-    &__nav,
-    &__title {
-      display: flex;
-      justify-content: center;
-      flex-basis: percentage(1 / 7);
-    }
-    &__title {
-      flex-basis: percentage(5 / 7);
     }
   }
 
