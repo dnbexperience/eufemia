@@ -86,8 +86,10 @@ exports[`DatePicker component have to match snapshot 1`] = `
         onChange={[Function]}
         onFocus={[Function]}
         onSubmit={[Function]}
+        onSubmitButtonFocus={[Function]}
         range={true}
         separatorRexExp={/\\[-\\\\/ \\]/g}
+        showInput={true}
         startDate={2019-01-01T00:00:00.000Z}
       >
         <Input
@@ -124,6 +126,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
               icon="calendar"
               icon_size="medium"
               id="date-picker-id"
+              onKeyUp={[Function]}
               on_submit={[Function]}
               on_submit_blur={null}
               on_submit_focus={null}
@@ -595,6 +598,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
               icon="calendar"
               icon_size="medium"
               id="date-picker-id"
+              onKeyUp={[Function]}
               on_submit={[Function]}
               on_submit_blur={null}
               on_submit_focus={null}
@@ -624,6 +628,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
+                  onKeyUp={[Function]}
                   on_click={null}
                   size="medium"
                   text={null}
@@ -638,6 +643,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                     onBlur={[Function]}
                     onClick={[Function]}
                     onFocus={[Function]}
+                    onKeyUp={[Function]}
                     onMouseOut={[Function]}
                     type="submit"
                   >
@@ -661,6 +667,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                       onBlur={[Function]}
                       onClick={[Function]}
                       onFocus={[Function]}
+                      onKeyUp={[Function]}
                       on_click={null}
                       size="medium"
                       text={null}
@@ -1602,13 +1609,13 @@ a.dnb-button:active, a.dnb-button:focus {
   margin-right: 2.2rem; }
 
 .dnb-date-picker__input__wrapper {
-  display: block;
-  width: 0;
-  visibility: hidden; }
+  display: none; }
 
 .dnb-date-picker--show-input .dnb-date-picker__input__wrapper {
-  width: auto;
-  visibility: visible; }
+  display: block; }
+
+.dnb-input__submit-button button:focus ~ .dnb-date-picker__input__wrapper {
+  display: block; }
 
 .dnb-date-picker--separator {
   margin: 0 -0.2rem; }

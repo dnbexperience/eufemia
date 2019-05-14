@@ -31,8 +31,10 @@ export const propTypes = {
   maxDate: PropTypes.instanceOf(Date),
   range: PropTypes.bool,
   disabled: PropTypes.bool,
+  showInput: PropTypes.bool,
   onChange: PropTypes.func,
   onSubmit: PropTypes.func,
+  onSubmitButtonFocus: PropTypes.func,
   onFocus: PropTypes.func
 }
 
@@ -45,8 +47,10 @@ export const defaultProps = {
   minDate: null,
   maxDate: null,
   disabled: null,
+  showInput: null,
   onChange: null,
   onSubmit: null,
+  onSubmitButtonFocus: null,
   onFocus: null
 }
 
@@ -121,6 +125,27 @@ export default class DatePickerInput extends PureComponent {
     }
     state._listenForPropChanges = true
     return state
+  }
+
+  onKeyUpHandler = () => {
+    if (this.props.showInput) {
+      return
+    }
+    if (this._startDayRef.current) {
+      setTimeout(() => {
+        try {
+          const elem = this._startDayRef.current.inputElement
+          elem.focus()
+          elem.select()
+        } catch (e) {
+          console.log(e)
+        }
+      }, 100)
+    }
+    if (typeof this.props.onSubmitButtonFocus === 'function') {
+      this.props.onSubmitButtonFocus()
+    }
+    this.onKeyUpHandler = null
   }
 
   onPickerChange = ({ startDate, endDate }) => {
@@ -477,6 +502,8 @@ export default class DatePickerInput extends PureComponent {
       onChange /* eslint-disable-line */,
       onFocus /* eslint-disable-line */,
       onSubmit /* eslint-disable-line */,
+      onSubmitButtonFocus /* eslint-disable-line */,
+      showInput /* eslint-disable-line */,
       disabled,
 
       ...rest
@@ -498,7 +525,10 @@ export default class DatePickerInput extends PureComponent {
             // title={submit_button_title} // Not implemented yet
             icon="calendar"
             variant="secondary"
-            on_submit={this.props.onSubmit}
+            on_submit={onSubmit}
+            // on_submit={this.onKeyUpHandler}
+            // onFocus={this.onKeyUpHandler}
+            onKeyUp={this.onKeyUpHandler}
             {...rest}
           />
         }

@@ -6,6 +6,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
+import keycode from 'keycode'
 import {
   registerElement,
   //   processChildren,
@@ -224,6 +225,7 @@ export default class DatePicker extends PureComponent {
       endDate: null,
       _startDate: props.start_date,
       _endDate: props.end_date,
+      showInput: props.show_input,
       opened,
       hidden: !opened,
       direction: props.direction,
@@ -273,17 +275,30 @@ export default class DatePicker extends PureComponent {
   setOutsideClickHandler = () => {
     if (!this.handleClickOutside && typeof document !== 'undefined') {
       this.handleClickOutside = event => {
-        let targetElement = event.target
-        do {
-          if (targetElement == this._wrapperRef.current) {
-            return // stop here
-          }
-          targetElement = targetElement.parentNode
-        } while (targetElement)
+        try {
+          let targetElement = event.target
+          do {
+            if (targetElement == this._wrapperRef.current) {
+              return // stop here
+            }
+            targetElement = targetElement.parentNode
+          } while (targetElement)
 
-        this.hidePicker()
+          this.hidePicker()
+        } catch (e) {
+          console.log(e)
+        }
       }
       document.addEventListener('mousedown', this.handleClickOutside)
+
+      this.keydownCallback = event => {
+        const keyCode = keycode(event)
+        if (keyCode === 'esc') {
+          window.removeEventListener('keydown', this.keydownCallback)
+          this.hidePicker()
+        }
+      }
+      window.addEventListener('keydown', this.keydownCallback)
     }
   }
 
@@ -292,11 +307,21 @@ export default class DatePicker extends PureComponent {
       document.removeEventListener('mousedown', this.handleClickOutside)
       this.handleClickOutside = null
     }
+    if (this.keydownCallback) {
+      window.removeEventListener('keydown', this.keydownCallback)
+      this.keydownCallback = null
+    }
   }
 
   componentWillUnmount() {
     clearTimeout(this._hideTimeout)
     this.removeOutsideClickHandler()
+  }
+
+  onSubmitButtonFocus = () => {
+    this.setState({
+      showInput: true
+    })
   }
 
   onInputChange = ({ startDate, endDate }) => {
@@ -451,7 +476,7 @@ export default class DatePicker extends PureComponent {
       label,
       only_month,
       hide_navigation_buttons,
-      show_input,
+      show_input /* eslint-disable-line */,
       range,
       first_day,
       reset_date,
@@ -496,6 +521,7 @@ export default class DatePicker extends PureComponent {
       maxDate,
       opened,
       hidden,
+      showInput,
       show_submit_button,
       show_cancel_button
     } = this.state
@@ -530,7 +556,7 @@ export default class DatePicker extends PureComponent {
             'dnb-date-picker',
             opened && 'dnb-date-picker--opened',
             hidden && 'dnb-date-picker--hidden',
-            show_input && 'dnb-date-picker--show-input',
+            showInput && 'dnb-date-picker--show-input',
             (show_submit_button || show_cancel_button) &&
               'dnb-date-picker--show-footer'
 
@@ -555,6 +581,8 @@ export default class DatePicker extends PureComponent {
               endDate={endDate}
               minDate={minDate}
               maxDate={maxDate}
+              showInput={showInput}
+              onSubmitButtonFocus={this.onSubmitButtonFocus}
               {...inputParams}
             />
             {showStatus && (
