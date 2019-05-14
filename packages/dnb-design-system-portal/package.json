@@ -43,6 +43,7 @@
     "prettier:package": "prettier-package-json --write ./package.json"
   },
   "dependencies": {
+    "@reach/router": "^1.2.1",
     "dnb-ui-lib": "*",
     "react": "^16.8.6",
     "react-dom": "^16.8.6"
