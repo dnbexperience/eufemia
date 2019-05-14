@@ -137,6 +137,9 @@ export default class Input extends PureComponent {
     if (props.disabled) {
       state.inputState = 'disabled'
     }
+    if (props.input_state) {
+      state.inputState = props.input_state
+    }
     state._listenForPropChanges = true
     return state
   }
@@ -160,6 +163,9 @@ export default class Input extends PureComponent {
     // make sure we dont trigger getDerivedStateFromProps on startup
     this.state._listenForPropChanges = true
     this.state.value = Input.getValue(props)
+    if (props.input_state) {
+      this.state.inputState = props.input_state
+    }
   }
   onFocusHandler = event => {
     const { value } = event.target
@@ -331,6 +337,7 @@ export default class Input extends PureComponent {
                 icon={submit_button_icon}
                 title={submit_button_title}
                 variant={submit_button_variant}
+                disabled={disabled}
               />
             ))}
 
