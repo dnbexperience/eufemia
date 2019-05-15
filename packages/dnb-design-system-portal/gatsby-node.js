@@ -21,7 +21,6 @@ exports.createPages = ({ graphql, actions }) =>
             node {
               id
               fields {
-                id
                 slug
               }
               code {
@@ -85,9 +84,10 @@ exports.onCreateNode = ({ node, getNode, actions }) => {
     const parent = getNode(node.parent)
     let slug = parent.relativePath.replace(parent.ext, '')
 
-    if (slug === 'index') {
-      slug = '/'
-    }
+    // if (slug === 'index') {
+    //   console.log('index slug')
+    //   slug = '/'
+    // }
 
     createNodeField({
       name: 'slug',
@@ -104,10 +104,7 @@ exports.onCreateNode = ({ node, getNode, actions }) => {
     createNodeField({
       name: 'title',
       node,
-      value:
-        node.frontmatter.title ||
-        // parent.name.replace(/^[a-z]/, parent.name[0].toUpperCase()) ||
-        null
+      value: node.frontmatter.title || null
     })
 
     createNodeField({
@@ -121,12 +118,6 @@ exports.onCreateNode = ({ node, getNode, actions }) => {
       node,
       value: node.frontmatter.menuTitle
     })
-
-    // createNodeField({
-    //   name: 'header',
-    //   node,
-    //   value: node.frontmatter.header
-    // })
 
     createNodeField({
       name: 'order',
@@ -159,11 +150,11 @@ exports.onCreateNode = ({ node, getNode, actions }) => {
     })
 
     // File
-  } else if (node.internal.type === 'File') {
-    const parsedFilePath = path.parse(node.absolutePath)
-    // const slug = `/${path.basename(parsedFilePath.dir)}/`
-    const slug = `${parsedFilePath.dir.split('/src/pages')[1]}/`
-
-    createNodeField({ node, name: 'slug', value: slug })
+    // } else if (node.internal.type === 'File') {
+    //   const parsedFilePath = path.parse(node.absolutePath)
+    //   // const slug = `/${path.basename(parsedFilePath.dir)}/`
+    //   const slug = `${parsedFilePath.dir.split('/src/pages')[1]}/`
+    //
+    //   createNodeField({ node, name: 'slug', value: slug })
   }
 }

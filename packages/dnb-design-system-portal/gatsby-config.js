@@ -54,8 +54,8 @@ module.exports = {
             resolve: 'gatsby-remark-images',
             options: {
               maxWidth: 1024,
-              showCaptions: true,
-              sizeByPixelDensity: true
+              showCaptions: true
+              // sizeByPixelDensity: true
               // linkImagesToOriginal: true
               // wrapperStyle: {}
             }
