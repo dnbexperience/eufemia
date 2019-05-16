@@ -78,7 +78,7 @@
     "eslint-plugin-react": "^7.13.0",
     "front-matter": "^3.0.2",
     "fs-extra": "^8.0.1",
-    "gatsby": "^2.4.6",
+    "gatsby": "^2.4.7",
     "gatsby-link": "^2.1.1",
     "gatsby-mdx": "^0.6.3",
     "gatsby-plugin-catch-links": "^2.0.14",

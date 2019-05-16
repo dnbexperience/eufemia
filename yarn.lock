@@ -2078,10 +2078,10 @@
   resolved "https://registry.yarnpkg.com/@semantic-release/error/-/error-2.2.0.tgz#ee9d5a09c9969eade1ec864776aeda5c5cddbbf0"
   integrity sha512-9Tj/qn+y2j+sjCI3Jd+qseGtHjOAeg7dU2/lVcqIQ9TV3QDaDXDYXcoOHU+7o2Hwh8L8ymL4gfuO7KxDs3q2zg==
 
-"@semantic-release/github@^5.3.0-beta.6":
-  version "5.3.1"
-  resolved "https://registry.yarnpkg.com/@semantic-release/github/-/github-5.3.1.tgz#3c792b3c774af8192d615b5d199bbdd841e8ed0a"
-  integrity sha512-61ZJprfabi9IQ1n7l0RSyAJN/saJQyPYyxmDBQqZqtZgoo706XkOc+++DiztuEOzSN0RBybE7d33zK4CXNsgWA==
+"@semantic-release/github@^5.4.0-beta.1":
+  version "5.4.0-beta.1"
+  resolved "https://registry.yarnpkg.com/@semantic-release/github/-/github-5.4.0-beta.1.tgz#7626394dbc63c5002164c65ab877c1e19bfc6204"
+  integrity sha512-XxV/pU94Qekpck2wBsA9ld5wDPlDYpW87SzJElk51k1yFVA99r/QeSW1PqkYIIa120UCdbOEvVBbfFfAeFpFKA==
   dependencies:
     "@octokit/rest" "^16.13.1"
     "@semantic-release/error" "^2.2.0"
@@ -6424,7 +6424,7 @@ core-util-is@1.0.2, core-util-is@~1.0.0:
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
   integrity sha1-tf1UIgqivFq1eqtxQMlAdUUDwac=
 
-cors@latest:
+cors@^2.8.5, cors@latest:
   version "2.8.5"
   resolved "https://registry.yarnpkg.com/cors/-/cors-2.8.5.tgz#eac11da51592dd86b9f06f6e7ac293b3df875d29"
   integrity sha512-KIHbLJqu73RGr/hnbrO9uBeixNGuvSQjul/jdFvS/KFSIH1hWVd1ng7zOHx+YrEfInLG7q4n6GHQ9cDtxv/P6g==
@@ -9669,10 +9669,10 @@ gatsby-telemetry@^1.0.9:
     stack-utils "1.0.2"
     uuid "3.3.2"
 
-gatsby@^2.4.6:
-  version "2.4.6"
-  resolved "https://registry.yarnpkg.com/gatsby/-/gatsby-2.4.6.tgz#90c0b36ed330454b3aa80b3451ffccb5da060f3d"
-  integrity sha512-Gki9dtIYMT7UOe3d8Z78TGMaQP1Govooi1vNjcgJ4dpC+YPCEMcgU3Nx1Xx/Ey3IDzOlCyBwvqtxlkuy/zPHvA==
+gatsby@^2.4.7:
+  version "2.4.7"
+  resolved "https://registry.yarnpkg.com/gatsby/-/gatsby-2.4.7.tgz#056fd3b5934efed3b991c696ff6fc4e8ef8404c1"
+  integrity sha512-5LKKRsVqKSL7DQTpG3JwvtsN/OocZOnhXdWYDXZIfKJlVVDtrNmk/nMmjFplcnQGN61XIGPmu7XWamHjEFjlpw==
   dependencies:
     "@babel/code-frame" "^7.0.0"
     "@babel/core" "^7.0.0"
@@ -9707,6 +9707,7 @@ gatsby@^2.4.6:
     convert-hrtime "^2.0.0"
     copyfiles "^1.2.0"
     core-js "^2.5.0"
+    cors "^2.8.5"
     css-loader "^1.0.0"
     debug "^3.1.0"
     del "^3.0.0"
@@ -19532,10 +19533,10 @@ rollup@^1.0.0:
     "@types/node" "^11.13.0"
     acorn "^6.1.1"
 
-rollup@^1.12.0:
-  version "1.12.0"
-  resolved "https://registry.yarnpkg.com/rollup/-/rollup-1.12.0.tgz#3e07e7d178bf61fe12325660a037ae0041219d8c"
-  integrity sha512-DFqgTupu9dkoS80AZ4xMgeLCeC96pGRCu1MLlOwRAjJ3qGItw+j4YWcL3/uWbgQO2mnmrAZphxAdjSXYsG5pWA==
+rollup@^1.12.1:
+  version "1.12.1"
+  resolved "https://registry.yarnpkg.com/rollup/-/rollup-1.12.1.tgz#02148d3d79f819b418a2f4c374f859fed56ae40c"
+  integrity sha512-6CL0c+HxqEY9/8G+7mYIvor0tt60mVC64410/1DeaGWZCFAvcY8ClT0bsnTxECd6vR004CMm0X2yBZmod5gWjw==
   dependencies:
     "@types/estree" "0.0.39"
     "@types/node" "^12.0.2"
@@ -19781,14 +19782,14 @@ selfsigned@^1.9.1:
   dependencies:
     node-forge "0.7.5"
 
-semantic-release@^16.0.0-beta.18:
-  version "16.0.0-beta.18"
-  resolved "https://registry.yarnpkg.com/semantic-release/-/semantic-release-16.0.0-beta.18.tgz#8df1562c55d5d1e6804d0e9bc4935703f2f20516"
-  integrity sha512-d27vHo5f5o2hyHNVMFkou4qllXRjuOxUKree5A2xz/Lr3io8ySqc0BDnr4sZxvfhUd85AC8/I0uw49UMQSPtAw==
+semantic-release@^16.0.0-beta.19:
+  version "16.0.0-beta.19"
+  resolved "https://registry.yarnpkg.com/semantic-release/-/semantic-release-16.0.0-beta.19.tgz#ae031051f2e9776297a0fc906b71ce636675680f"
+  integrity sha512-Xv/uQK4tb6LBZMjnZJepVRUQ9kJTdh/vTOkCXZ0ZGBmwhFi/tCW3GXYcfXHmgmxEV8J6NaObzoOVhQpOVZqmCQ==
   dependencies:
     "@semantic-release/commit-analyzer" "^7.0.0-beta.1"
     "@semantic-release/error" "^2.2.0"
-    "@semantic-release/github" "^5.3.0-beta.6"
+    "@semantic-release/github" "^5.4.0-beta.1"
     "@semantic-release/npm" "^5.2.0-beta.5"
     "@semantic-release/release-notes-generator" "^7.1.2"
     aggregate-error "^2.0.0"

@@ -1,14 +1,12 @@
 {
-  "advisories": [
-    "788"
-  ],
+  "advisories": [],
   "moderate": true,
   "package-manager": "npm",
-  "registry": "https://registry.npmjs.org",
   "whitelist": [
     "js-yaml",
     "lodash",
     "tar",
+    "fstream",
     "handlebars"
   ]
 }
