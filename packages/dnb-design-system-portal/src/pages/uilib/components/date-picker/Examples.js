@@ -16,6 +16,15 @@ class Example extends PureComponent {
           {/* @jsx */ `
 <DatePicker
   label="Range DatePicker:"
+  range={true}
+  show_input={true}
+/>
+          `}
+        </ComponentBox>
+        <ComponentBox>
+          {/* @jsx */ `
+<DatePicker
+  label="Range DatePicker:"
   start_date="2019-05-01"
   end_date="2019-05-17"
   range={true}
@@ -75,6 +84,15 @@ class Example extends PureComponent {
   on_hide={({ date }) => {
     console.log('on_hide', date)
   }}
+/>
+          `}
+        </ComponentBox>
+        <ComponentBox>
+          {/* @jsx */ `
+<DatePicker
+  label="Show month only:"
+  date="2019-02-05"
+  only_month={true}
 />
           `}
         </ComponentBox>
