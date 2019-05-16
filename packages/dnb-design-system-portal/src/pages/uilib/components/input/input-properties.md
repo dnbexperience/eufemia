@@ -10,6 +10,7 @@ draft: true
 | `status`              | _(optional)_ text with a status message. The style defaults to an error message.                                                                                 |
 | `status_state`        | _(optional)_ defines the state of the status. Currently are two statuses `[error, info]`. Defaults to `error`.                                                   |
 | `placeholder`         | _(optional)_ the placeholder which shows up once the input value is empty                                                                                        |
+| `input_state`         | _(optional)_ to control the visual focus state as a prop, like `focus` or `blur`.                                                                                |
 | `input_class`         | _(optional)_ in case we have to set a custom input class.                                                                                                        |
 | `type`                | _(optional)_ choose between `text`, `number`, `email`, `password`, `url`, `tel` and `search`.                                                                    |
 | `autocomplete`        | _(optional)_ defaults to `off`. Set to `on` or any of [allowed `attributes`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-autocomplete). |

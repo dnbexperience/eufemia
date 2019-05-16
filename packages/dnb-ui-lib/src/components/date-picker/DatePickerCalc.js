@@ -10,7 +10,6 @@ import {
   isAfter,
   isBefore,
   isSameDay,
-  subDays,
   isToday,
   isWeekend,
   isSameMonth,
@@ -42,14 +41,24 @@ export const makeDayObject = (
 }
 
 // return an array of objects with dates and extra info
-export const getCalendar = (month, weekStartsOn = 0) => {
+export const getCalendar = (
+  month,
+  weekStartsOn = 0,
+  { onlyMonth = false } = {}
+) => {
   if (calendarCache[month]) {
     return calendarCache[month]
   }
+
+  // Get the main month
+  const thisMonth = getMonth(month)
+  if (onlyMonth) {
+    return (calendarCache[month] = [...thisMonth])
+  }
+
   // Get day of the week of the first day of month, eg => 3
   // Add 7 days 7 to make sure it's not negative when subtracting weekStartsOn and wraps around
   const firstDay = (7 + getDay(startOfMonth(month)) - weekStartsOn) % 7
-  const thisMonth = getMonth(month)
   const lastMonth = getMonth(
     subMonths(month, 1),
     getDaysInMonth(subMonths(month, 1)) - firstDay
@@ -137,10 +146,10 @@ const isWithinSelection = (date, startDate, endDate) => {
 }
 
 // date is before minDate or after maxDate
-const isDisabled = (date, minDate, maxDate) => {
+export const isDisabled = (date, minDate, maxDate) => {
   // isBefore and isAfter return false if comparison date is undefined, which is useful here in case minDate and maxDate aren't supplied
   return (
-    (minDate && isBefore(date, subDays(minDate, 1))) ||
+    (minDate && isBefore(date, minDate)) ||
     (maxDate && isAfter(date, maxDate))
   )
 }
