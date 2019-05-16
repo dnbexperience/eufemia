@@ -10,6 +10,10 @@ draft: true
 | `start_date`         | _(optional)_ to set the pre filled starting date. Is used if `range={true}` is set to true. Defaults to null, showing the `mask_placeholder`.                        |
 | `end_date`           | _(optional)_ to set the pre filled ending date. Is used if `range={true}` is set to true. Defaults to null, showing the `mask_placeholder`.                          |
 | `month`              | _(optional)_ to display what month should be shows in the first calendar by default. Defaults to the `date` respective `start_date`.                                 |
+| `start_month`        | _(optional)_ to display what month should be shows in the first calendar by default. Defaults to the `date` respective `start_date`.                                 |
+| `end_month`          | _(optional)_ to display what month should be shows in the second calendar by default. Defaults to the `date` respective `start_date`.                                |
+| `min_date`           | _(optional)_ to limit a date range to a minimum `start_date`. Defaults to null. `start_date`.                                                                        |
+| `max_date`           | _(optional)_ to limit a date range to a maximum `end_date`. Defaults to null. `start_date`.                                                                          |
 | `return_format`      | _(optional)_ Defines how the returned date, as a string, should be formatted as. Defualts to `YYYY-MM-DD`.                                                           |
 | `range`              | _(optional)_ if the date picker should support a range of two dates (starting and ending date). Defaults to `false`.                                                 |
 | `show_input`         | _(optional)_ if the input fields with the mask should be visible. Defaults to `false`.                                                                               |

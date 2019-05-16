@@ -137,6 +137,9 @@ export default class Input extends PureComponent {
     if (props.disabled) {
       state.inputState = 'disabled'
     }
+    if (props.input_state) {
+      state.inputState = props.input_state
+    }
     state._listenForPropChanges = true
     return state
   }
@@ -160,6 +163,9 @@ export default class Input extends PureComponent {
     // make sure we dont trigger getDerivedStateFromProps on startup
     this.state._listenForPropChanges = true
     this.state.value = Input.getValue(props)
+    if (props.input_state) {
+      this.state.inputState = props.input_state
+    }
   }
   onFocusHandler = event => {
     const { value } = event.target
@@ -259,14 +265,6 @@ export default class Input extends PureComponent {
       ...attributes
     }
 
-    validateDOMAttributes(null, inputParams)
-
-    if (InputElement && typeof InputElement === 'function') {
-      InputElement = <InputElement innerRef={this._ref} {...inputParams} />
-    } else if (!InputElement && _inputElement) {
-      InputElement = _inputElement
-    }
-
     // we may considder using: aria-details
     if (showStatus) {
       inputParams['aria-describedby'] = id + '-status'
@@ -295,6 +293,12 @@ export default class Input extends PureComponent {
     validateDOMAttributes(this.props, inputParams)
     validateDOMAttributes(null, shellParams)
 
+    if (InputElement && typeof InputElement === 'function') {
+      InputElement = InputElement(inputParams, this._ref)
+    } else if (!InputElement && _inputElement) {
+      InputElement = _inputElement
+    }
+
     return (
       <>
         {label && (
@@ -308,8 +312,7 @@ export default class Input extends PureComponent {
         )}
         <span className={classes}>
           <span className="dnb-input__shell" {...shellParams}>
-            {(type === 'text' || type === 'number' || type === 'search') &&
-              (InputElement || <input ref={this._ref} {...inputParams} />)}
+            {InputElement || <input ref={this._ref} {...inputParams} />}
 
             {placeholder && !isIE11 && (
               <span
@@ -334,6 +337,7 @@ export default class Input extends PureComponent {
                 icon={submit_button_icon}
                 title={submit_button_title}
                 variant={submit_button_variant}
+                disabled={disabled}
               />
             ))}
 

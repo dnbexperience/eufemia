@@ -16,19 +16,21 @@ describe('Switch unchecked screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
-  it('have to match switch in unchecked state with hover', async () => {
-    const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="switch-default"] .dnb-switch',
-      simulate: 'hover'
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
   it('have to match switch in unchecked state with focus', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-dnb-test="switch-default"] .dnb-switch',
       simulateSelector:
         '[data-dnb-test="switch-default"] .dnb-switch__input',
       simulate: 'focus'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+  it('have to match switch in unchecked state with hover', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-dnb-test="switch-default"] .dnb-switch',
+      simulateSelector:
+        '[data-dnb-test="switch-default"] .dnb-switch__input',
+      simulate: 'hover'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -44,19 +46,21 @@ describe('Switch checked screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
-  it('have to match switch in checked state with hover', async () => {
-    const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="switch-checked"] .dnb-switch',
-      simulate: 'hover'
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
   it('have to match switch in checked state with focus', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-dnb-test="switch-checked"] .dnb-switch',
       simulateSelector:
         '[data-dnb-test="switch-checked"] .dnb-switch__input',
       simulate: 'focus'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+  it('have to match switch in checked state with hover', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-dnb-test="switch-checked"] .dnb-switch',
+      simulateSelector:
+        '[data-dnb-test="switch-checked"] .dnb-switch__input',
+      simulate: 'hover'
     })
     expect(screenshot).toMatchImageSnapshot()
   })

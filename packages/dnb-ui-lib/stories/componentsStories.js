@@ -12,6 +12,7 @@ import {
   Button,
   Tabs,
   Input,
+  InputMasked,
   Icon,
   IconPrimary,
   Modal,
@@ -80,7 +81,7 @@ stories.push([
         <Logo size="80" style={{ color: 'var(--color-cherry-red)' }} />
       </Box>
       <Box>
-        <h1>
+        <h1 className="dnb-h1">
           H1 with the DNB Logo <Logo size="auto" />
         </h1>
         <p className="dnb-p">
@@ -133,7 +134,7 @@ stories.push([
           render={({ Wrapper, Content, TabsList, Tabs }) => {
             return (
               <Wrapper>
-                <TabsList className="dnb-section dnb-section--mint-green">
+                <TabsList className="dnb-section">
                   <small>I'm on the left side</small>
                   <Tabs />
                 </TabsList>
@@ -193,6 +194,32 @@ stories.push([
             value="Input value with status"
           />
         </Box>
+        <Box>
+          <InputMasked
+            label="Masked:"
+            autocomplete="off"
+            // value="1000000"
+            mask={[
+              '+',
+              /[4]/, // have to start with 4
+              /[5-7]/, // can be 5,6 or 7
+              ' ',
+              '/',
+              ' ',
+              /[49]/, // have to start with 4 or 9
+              /\d/,
+              /\d/,
+              ' ',
+              /\d/,
+              /\d/,
+              ' ',
+              /\d/,
+              /\d/,
+              /\d/
+            ]}
+            show_mask="true"
+          />
+        </Box>
       </Wrapper>
     </CustomStyle>
   )
@@ -207,8 +234,30 @@ stories.push([
           <DatePicker
             label="Range DatePicker:"
             // start_date={new Date()}
-            start_date="2019-01-15"
+            // start_date="2019-01-15"
+            start_date="1981-01-15"
             end_date="2019-02-15"
+            range={true}
+            opened={false}
+            show_input={true}
+            on_change={props => {
+              console.log('on_change', props)
+            }}
+            on_submit={props => {
+              console.log('on_submit', props)
+            }}
+            on_cancel={props => {
+              console.log('on_cancel', props)
+            }}
+          />
+        </Box>
+        <Box>
+          <DatePicker
+            label="Range DatePicker:"
+            // start_date="2019-05-01"
+            // end_date="2019-06-17"
+            // min_date="2019-05-02"
+            // max_date="2019-06-15"
             range={true}
             opened={false}
             show_input={true}
@@ -250,6 +299,14 @@ stories.push([
             date="2019-05-05"
             hide_navigation={true}
             hide_days={true}
+          />
+        </Box>
+        <Box>
+          <DatePicker
+            label="Show month only:"
+            date="2019-02-05"
+            // hide_navigation_buttons={true}
+            only_month={true}
           />
         </Box>
       </Wrapper>

@@ -63,8 +63,9 @@ export default class InputMasked extends PureComponent {
     } = this.props
 
     if (!props.inputElement)
-      props.inputElement = ({ innerRef, ...rest }) => {
-        const params = {
+      props.inputElement = (params, innerRef) => {
+        params = {
+          ...params,
           mask,
           guide,
           pipe,
@@ -72,19 +73,9 @@ export default class InputMasked extends PureComponent {
           keepCharPositions: keep_char_positions,
           placeholderChar: placeholder_char
         }
-        return (
-          <MaskedInput
-            ref={ref => {
-              if (innerRef.current) {
-                innerRef.current = ref
-              }
-            }}
-            {...rest}
-            {...params}
-          />
-        )
+        return <MaskedInput ref={innerRef} {...params} />
       }
 
-    return <Input {...props} />
+    return <Input className="dnb-input-masked" {...props} />
   }
 }

@@ -28,7 +28,7 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
     attributes={null}
     autocomplete="off"
     class={null}
-    className={null}
+    className="dnb-input-masked"
     custom_element={null}
     custom_method={null}
     description={null}
@@ -57,67 +57,49 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
     value="test"
   >
     <span
-      className="dnb-input dnb-input--text"
+      className="dnb-input dnb-input--text dnb-input-masked"
     >
       <span
         className="dnb-input__shell"
         data-has-content="true"
         data-input-state="virgin"
       >
-        <Component
+        <t
           autoComplete="off"
           className="dnb-input__input"
+          guide={true}
           id="input-masked"
-          innerRef={
-            Object {
-              "current": null,
-            }
+          keepCharPositions={true}
+          mask={
+            Array [
+              /\\[a-z\\]/,
+            ]
           }
           name="input-masked"
           onBlur={[Function]}
           onChange={[Function]}
           onFocus={[Function]}
           onKeyDown={[Function]}
+          pipe={null}
+          placeholderChar="placeholder_char"
+          render={[Function]}
+          showMask={true}
           type="text"
           value="test"
         >
-          <t
+          <input
             autoComplete="off"
             className="dnb-input__input"
-            guide={true}
+            defaultValue="test"
             id="input-masked"
-            keepCharPositions={true}
-            mask={
-              Array [
-                /\\[a-z\\]/,
-              ]
-            }
             name="input-masked"
             onBlur={[Function]}
             onChange={[Function]}
             onFocus={[Function]}
             onKeyDown={[Function]}
-            pipe={null}
-            placeholderChar="placeholder_char"
-            render={[Function]}
-            showMask={true}
             type="text"
-            value="test"
-          >
-            <input
-              autoComplete="off"
-              className="dnb-input__input"
-              defaultValue="test"
-              id="input-masked"
-              name="input-masked"
-              onBlur={[Function]}
-              onChange={[Function]}
-              onFocus={[Function]}
-              onKeyDown={[Function]}
-              type="text"
-            />
-          </t>
-        </Component>
+          />
+        </t>
       </span>
     </span>
   </Input>

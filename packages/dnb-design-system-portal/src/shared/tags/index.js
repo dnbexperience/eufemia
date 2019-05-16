@@ -22,6 +22,7 @@ export default {
   h5: props => <Header is="h5" {...props} />,
   h6: props => <Header is="h6" {...props} />,
   a: Anchor,
+  link: Anchor,
   table: Table,
   code: CodeBlock,
   inlineCode: props => <Tag is="code" {...props} />,
