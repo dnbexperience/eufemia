@@ -24,7 +24,7 @@ export default {
   a: Anchor,
   link: Anchor,
   table: Table,
-  code: CodeBlock,
+  code: (...args) => CodeBlock(...args),
   inlineCode: props => <Tag is="code" {...props} />,
   ul: props => <Tag is="ul" {...props} />,
   ol: props => <Tag is="ol" {...props} />,

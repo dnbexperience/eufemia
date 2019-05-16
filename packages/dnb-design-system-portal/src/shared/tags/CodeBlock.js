@@ -58,9 +58,6 @@ const CodeBlock = ({
         code={String(exampleCode).trim()}
         language={language}
         theme={prismTheme}
-        // theme={{
-        //   styles: []
-        // }} // reset styles, instead of using "prismTheme"
       >
         {({ className, style, tokens, getLineProps, getTokenProps }) => (
           <Wrapper>
