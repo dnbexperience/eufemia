@@ -338,6 +338,8 @@ export default class Tabs extends PureComponent {
       } else if (typeof children === 'function') {
         // if content is provided as a render prop
         content = children.apply(this, [useKey])
+      } else if (React.isValidElement(children)) {
+        content = children
       }
     }
 

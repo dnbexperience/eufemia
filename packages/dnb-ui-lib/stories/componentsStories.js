@@ -133,7 +133,7 @@ stories.push([
           render={({ Wrapper, Content, TabsList, Tabs }) => {
             return (
               <Wrapper>
-                <TabsList className="dnb-section dnb-section--mint-green">
+                <TabsList className="dnb-section">
                   <small>I'm on the left side</small>
                   <Tabs />
                 </TabsList>

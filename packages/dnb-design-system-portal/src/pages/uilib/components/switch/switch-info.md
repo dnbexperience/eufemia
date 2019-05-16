@@ -1,3 +1,9 @@
+---
+draft: true
+---
+
+import Examples from 'Pages/uilib/components/switch/Examples'
+
 ## Description
 
 _Also known as a toggle switch or a toggle._
@@ -20,3 +26,7 @@ Don't use it if the user is required to click save or update to apply the new st
 The label should describe what the toggle will do when the switch is on.
 
 [1]: https://www.nngroup.com/articles/toggle-switch-guidelines/
+
+## Demos
+
+<Examples />

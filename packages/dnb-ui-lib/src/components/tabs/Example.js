@@ -7,6 +7,7 @@ import React, { PureComponent, Fragment } from 'react'
 import ComponentBox from '../../../../dnb-design-system-portal/src/shared/tags/ComponentBox'
 import Input from '../input/Input'
 import styled from '@emotion/styled'
+import { Location, createHistory } from '@reach/router'
 
 class Example extends PureComponent {
   static AdditionalCallback = {
@@ -103,6 +104,42 @@ render(<Tabs data={data}>
 >
   {exampleContent}
 </Tabs>
+          `}
+        </ComponentBox>
+        <ComponentBox
+          caption="Router navigation example. More [examples on CodeSandbox](https://codesandbox.io/embed/8z8xov7xyj)"
+          scope={{ Location, createHistory }}
+          useRender
+          hideSyntaxButton
+        >
+          {/* @jsx */ `
+// import { Location, createHistory } from '@reach/router'
+const history = createHistory(window)
+const tabsData = [
+  { title: 'Home', key: 'home' },
+  { title: 'About', key: 'about' },
+  { title: 'Topics', key: 'topics' }
+]
+const tabsContent = {
+  home: () => <h2 className="dnb-h2">Home</h2>,
+  about: () => <h2 className="dnb-h2">About</h2>,
+  topics: () => <h2 className="dnb-h2">Topics</h2>
+}
+const TabsNav = () => (
+  <Location>
+    {({ location }) => (
+      <Tabs
+        section_style="mint-green"
+        data={tabsData}
+        selected_key={(/path=(.*)/g.exec(location.search)||[null,''])[1]}
+        on_change={({ key }) => history.navigate('?path=' + key)}
+      >
+        {tabsContent}
+      </Tabs>
+    )}
+  </Location>
+)
+render(<TabsNav />)
           `}
         </ComponentBox>
       </Fragment>
