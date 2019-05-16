@@ -1,5 +1,6 @@
 ---
-draft: true
+title: 'Tables'
+draft: false
 ---
 
 import ComponentBox from 'Tags/ComponentBox'

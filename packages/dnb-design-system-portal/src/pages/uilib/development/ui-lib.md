@@ -10,6 +10,7 @@ These folders/files will be a part of the npm [package](https://unpkg.com/dnb-ui
 
 - /assets
 - /components
+- /elements
 - /patterns
 - /icons
 - /style
@@ -18,6 +19,7 @@ These folders/files will be a part of the npm [package](https://unpkg.com/dnb-ui
 - /shared
 - /web-components
 - index.js
+- package.json
 
 ## How to publish a new version to NPM?
 
