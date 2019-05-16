@@ -1,6 +1,6 @@
 ---
 title: 'Footer'
-draft: false
+draft: true
 status: wip
 order: 5
 ---
