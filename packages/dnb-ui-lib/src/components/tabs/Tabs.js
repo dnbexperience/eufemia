@@ -94,7 +94,7 @@ export default class Tabs extends PureComponent {
         props.selected_key &&
         state._selected_key !== props.selected_key
       ) {
-        state.selected_key = props.selected_key
+        state.selected_key = state._selected_key = props.selected_key
       }
     }
     state._listenForPropChanges = true
