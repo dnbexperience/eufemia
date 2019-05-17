@@ -4,8 +4,9 @@
  */
 
 import React, { PureComponent, Fragment } from 'react'
-import ComponentBox from '../../../../dnb-design-system-portal/src/shared/tags/ComponentBox'
-import Input from '../input/Input'
+import ComponentBox from '../../../../shared/tags/ComponentBox'
+
+import Input from 'dnb-ui-lib/src/components/input/Input'
 import styled from '@emotion/styled'
 // import { Location, createHistory } from '@reach/router'
 import {
