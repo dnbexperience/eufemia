@@ -18,14 +18,14 @@ export default class ProgressCircular extends PureComponent {
 }
 
 const Circle = ({ className }) => (
-  <svg className={className} viewBox="0 0 50 50">
+  <svg className={className} viewBox="0 0 32 32">
     <circle
       className="dnb-progress__circular__circle"
       fill="none"
       strokeWidth="4"
-      cx="25"
-      cy="25"
-      r="20"
+      cx="16"
+      cy="16"
+      r="14"
     />
   </svg>
 )

@@ -4,8 +4,9 @@
  */
 
 :root {
-  --progress-circular-circle: 130;
-  --progress-circular-circle--nreg: -130;
+  --progress-circular-circle: 80;
+  --progress-circular-circle-offset--min: -1;
+  --progress-circular-circle-offset--max: -80;
 }
 
 .dnb-progress {
@@ -15,8 +16,8 @@
   &__circular {
     position: relative;
 
-    width: 20rem;
-    height: 20rem;
+    width: 2rem;
+    height: 2rem;
 
     // since SVG is starting 90deg from top
     transform: rotate(-90deg);
@@ -54,19 +55,19 @@
 @keyframes progress-circular-line {
   0% {
     stroke-dasharray: 0, var(--progress-circular-circle);
-    stroke-dashoffset: 0;
+    stroke-dashoffset: var(--progress-circular-circle-offset--min);
     opacity: 1;
   }
   50% {
     stroke-dasharray: var(--progress-circular-circle),
       var(--progress-circular-circle);
-    stroke-dashoffset: 0;
+    stroke-dashoffset: var(--progress-circular-circle-offset--min);
     opacity: 1;
   }
   100% {
     stroke-dasharray: var(--progress-circular-circle),
       var(--progress-circular-circle);
-    stroke-dashoffset: var(--progress-circular-circle--nreg);
+    stroke-dashoffset: var(--progress-circular-circle-offset--max);
     opacity: 1;
   }
 }
