@@ -9,11 +9,7 @@ import ComponentBox from '../../../../shared/tags/ComponentBox'
 import Input from 'dnb-ui-lib/src/components/input/Input'
 import styled from '@emotion/styled'
 // import { Location, createHistory } from '@reach/router'
-import {
-  BrowserRouter as Router,
-  Route,
-  withRouter
-} from 'react-router-dom'
+import { BrowserRouter, Route, withRouter } from 'react-router-dom'
 
 class Example extends PureComponent {
   static AdditionalCallback = {
@@ -112,13 +108,14 @@ render(<Tabs data={data}>
 </Tabs>
           `}
         </ComponentBox>
-        <ComponentBox
-          caption="Router navigation example. More [examples on CodeSandbox](https://codesandbox.io/embed/8z8xov7xyj)"
-          scope={{ Router, Route, withRouter }}
-          useRender
-          hideSyntaxButton
-        >
-          {/* @jsx */ `
+        {typeof window !== 'undefined' && (
+          <ComponentBox
+            caption="Router navigation example. More [examples on CodeSandbox](https://codesandbox.io/embed/8z8xov7xyj)"
+            scope={{ BrowserRouter, Route, withRouter }}
+            useRender
+            hideSyntaxButton
+          >
+            {/* @jsx */ `
 // import { Router, Route, withRouter } from 'react-router-dom'
 const tabsData = [
   { title: 'Home', key: 'home' },
@@ -149,9 +146,10 @@ const TabsNav = withRouter(({ history, location }) => (
     </Tabs>
   )
 )
-render(<Router><TabsNav /></Router>)
+render(<BrowserRouter><TabsNav /></BrowserRouter>)
           `}
-        </ComponentBox>
+          </ComponentBox>
+        )}
       </Fragment>
     )
   }

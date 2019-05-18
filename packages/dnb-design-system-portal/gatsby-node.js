@@ -4,13 +4,14 @@
  */
 
 const path = require('path')
-const {
-  copyContentIntoPublic
-} = require('./scripts/copyContentIntoPublic')
 
-copyContentIntoPublic().then(() => {
-  console.log('Copied "public folder" successful')
-})
+// skip the assets content for now
+// const {
+//   copyContentIntoPublic
+// } = require('./scripts/copyContentIntoPublic')
+// copyContentIntoPublic().then(() => {
+//   console.log('Copied "public folder" successful')
+// })
 
 exports.createPages = ({ graphql, actions }) =>
   new Promise(async (resolve, reject) => {
