@@ -1,0 +1,72 @@
+/*
+ * Progress component
+ *
+ */
+
+:root {
+  --progress-circular-circle: 130;
+  --progress-circular-circle--nreg: -130;
+}
+
+.dnb-progress {
+  position: relative;
+
+  // circular variant
+  &__circular {
+    position: relative;
+
+    width: 20rem;
+    height: 20rem;
+
+    // since SVG is starting 90deg from top
+    transform: rotate(-90deg);
+
+    svg {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+
+    &__line {
+      stroke-dasharray: 0, var(--progress-circular-circle);
+      stroke-dashoffset: 0;
+
+      // animation details
+      animation-name: progress-circular-line;
+      animation-duration: 1.5s;
+      animation-delay: 200ms;
+      animation-iteration-count: infinite;
+      animation-timing-function: linear;
+
+      opacity: 0;
+    }
+
+    &__circle {
+      stroke-linecap: round;
+      stroke: var(--color-emerald-green);
+    }
+    &__line &__circle {
+      stroke: var(--color-mint-green);
+    }
+  }
+}
+
+@keyframes progress-circular-line {
+  0% {
+    stroke-dasharray: 0, var(--progress-circular-circle);
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  50% {
+    stroke-dasharray: var(--progress-circular-circle),
+      var(--progress-circular-circle);
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  100% {
+    stroke-dasharray: var(--progress-circular-circle),
+      var(--progress-circular-circle);
+    stroke-dashoffset: var(--progress-circular-circle--nreg);
+    opacity: 1;
+  }
+}

@@ -1,0 +1,12 @@
+/*
+* DNB Progress
+*
+*/
+
+@import '../../../style/components/imports.scss';
+
+.dnb-progress {
+  @include componentReset();
+}
+
+@import './progress.scss';
