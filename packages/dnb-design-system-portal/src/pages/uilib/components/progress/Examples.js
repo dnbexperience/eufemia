@@ -10,11 +10,19 @@ class Example extends PureComponent {
   render() {
     return (
       <Fragment>
-        <ComponentBox>
+        <ComponentBox caption="Default circular progress">
+          {/* @jsx */ `
+<Progress />
+          `}
+        </ComponentBox>
+        <ComponentBox
+          caption="Shows a large circular progress with a static 50% in progress"
+          data-dnb-test="progress-circular--primary"
+        >
           {/* @jsx */ `
 <Progress
-  // label="Primary button with text only"
-  data-dnb-test="progress-circular--primary"
+  progress="50"
+  size="large"
 />
           `}
         </ComponentBox>

@@ -520,7 +520,10 @@ stories.push([
   () => (
     <Wrapper>
       <Box>
-        <Progress />
+        <Progress size="huge" />
+      </Box>
+      <Box>
+        <Progress progress={88} size="huge" />
       </Box>
     </Wrapper>
   )

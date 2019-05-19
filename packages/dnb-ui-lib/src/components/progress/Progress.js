@@ -5,8 +5,7 @@
 
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-// import classnames from 'classnames'
-// import keycode from 'keycode'
+import classnames from 'classnames'
 import {
   registerElement
   // validateDOMAttributes,
@@ -14,40 +13,39 @@ import {
 } from '../../shared/component-helper'
 import ProgressCircular from './ProgressCircular'
 
-const renderProps = {
-  render: null
-}
+const renderProps = {}
 
 export const propTypes = {
-  label: PropTypes.string,
+  // label: PropTypes.string,
   visible: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  type: PropTypes.oneOf(['circular']),
-  no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  min_time: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  variant: PropTypes.oneOf(['primary', 'secondary']),
-  size: PropTypes.oneOf(['large', 'medium']),
+  // type: PropTypes.oneOf(['circular']),
+  // no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  // min_time: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  // variant: PropTypes.oneOf(['primary', 'secondary']),
+  size: PropTypes.oneOf(['small', 'medium', 'large', 'huge']),
+  progress: PropTypes.number
   // id: PropTypes.string,
   // class: PropTypes.string,
   /** React props */
-  className: PropTypes.string,
-  children: PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.node,
-    PropTypes.func
-  ]),
+  // className: PropTypes.string,
+  // children: PropTypes.oneOfType([
+  //   PropTypes.object,
+  //   PropTypes.node,
+  //   PropTypes.func
+  // ]),
 
   // Web Component props
-  render: PropTypes.func
 }
 
 export const defaultProps = {
-  label: null,
+  // label: null,
   visible: true,
-  type: 'circular',
-  no_animation: false,
-  min_time: null,
-  variant: 'primary',
+  // type: 'circular',
+  // no_animation: false,
+  // min_time: null,
+  // variant: 'primary',
   size: 'medium',
+  progress: null,
   // id: null,
   // class: null,
 
@@ -70,8 +68,11 @@ export default class Progress extends PureComponent {
 
   static getDerivedStateFromProps(props, state) {
     if (state._listenForPropChanges) {
-      if (props.visible && state._visible !== props.visible) {
-        state.visible = state._visible = props.visible
+      if (props.visible) {
+        state.visible = Boolean(props.visible)
+      }
+      if (parseFloat(props.progress) > -1) {
+        state.visible = props.progress
       }
     }
     state._listenForPropChanges = true
@@ -88,23 +89,28 @@ export default class Progress extends PureComponent {
     this.state = {
       _listenForPropChanges: true,
       visible,
-      _visible: visible
+      progress: props.progress
     }
-
-    // this._tablistRef = React.createRef()
   }
 
   render() {
     const {
+      size,
+      progress: _progress, //eslint-disable-line
       visible: _visible //eslint-disable-line
-      // ...props
+      // ...attributes
     } = this.props
 
-    // const { visible } = this.state
+    const { progress, visible } = this.state
 
     return (
-      <div className="dnb-progress">
-        <ProgressCircular />
+      <div
+        className={classnames(
+          'dnb-progress',
+          !visible && 'dnb-progress--hidden'
+        )}
+      >
+        <ProgressCircular size={size} progress={progress} />
       </div>
     )
   }

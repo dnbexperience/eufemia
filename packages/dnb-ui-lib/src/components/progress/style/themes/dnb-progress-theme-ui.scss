@@ -5,5 +5,29 @@
 
 @import '../../../../style/themes/imports.scss';
 
-// .dnb-progress {
-// }
+/*
+ * Progress complightnt
+ *
+ */
+
+:root {
+  --progress-circular-circle: 88;
+  --progress-circular-circle-offset--min: -1;
+  --progress-circular-circle-offset--max: -88;
+}
+
+.dnb-progress {
+  // circular variant
+  &__circular {
+    &__line {
+      animation-duration: 2s;
+    }
+
+    &__line.light &__circle {
+      stroke: var(--color-mint-green);
+    }
+    &__line.dark &__circle {
+      stroke: var(--color-emerald-green);
+    }
+  }
+}
