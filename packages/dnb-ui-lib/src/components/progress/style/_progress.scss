@@ -1,12 +1,12 @@
 /*
- * Progress component
+ * Progress complightnt
  *
  */
 
 :root {
-  --progress-circular-circle: 80;
+  --progress-circular-circle: 88;
   --progress-circular-circle-offset--min: -1;
-  --progress-circular-circle-offset--max: -80;
+  --progress-circular-circle-offset--max: -88;
 }
 
 .dnb-progress {
@@ -29,45 +29,75 @@
     }
 
     &__line {
-      stroke-dasharray: 0, var(--progress-circular-circle);
-      stroke-dashoffset: 0;
-
-      // animation details
-      animation-name: progress-circular-line;
-      animation-duration: 1.5s;
+      animation-duration: 2s;
       animation-delay: 200ms;
-      animation-iteration-count: infinite;
       animation-timing-function: linear;
+      animation-iteration-count: infinite;
+    }
 
-      opacity: 0;
+    &__line.light {
+      // z-index: 2;
+      animation-name: progress-circular-line-light;
+      stroke-dasharray: var(--progress-circular-circle),
+        var(--progress-circular-circle);
+      stroke-dashoffset: var(--progress-circular-circle-offset--min);
+    }
+    &__line.dark {
+      // z-index: 3;
+      animation-name: progress-circular-line-dark;
+      stroke-dasharray: var(--progress-circular-circle),
+        var(--progress-circular-circle);
+      stroke-dashoffset: var(--progress-circular-circle-offset--min);
+    }
+    &__line.dark.paused {
+      // z-index: 1;
+      animation-play-state: paused;
     }
 
     &__circle {
       stroke-linecap: round;
-      stroke: var(--color-emerald-green);
     }
-    &__line &__circle {
+    &__line.light &__circle {
       stroke: var(--color-mint-green);
+    }
+    &__line.dark &__circle {
+      stroke: var(--color-emerald-green);
     }
   }
 }
 
-@keyframes progress-circular-line {
+@keyframes progress-circular-line-light {
   0% {
-    stroke-dasharray: 0, var(--progress-circular-circle);
+    stroke-dasharray: var(--progress-circular-circle),
+      var(--progress-circular-circle);
     stroke-dashoffset: var(--progress-circular-circle-offset--min);
-    opacity: 1;
   }
   50% {
     stroke-dasharray: var(--progress-circular-circle),
       var(--progress-circular-circle);
     stroke-dashoffset: var(--progress-circular-circle-offset--min);
-    opacity: 1;
   }
   100% {
     stroke-dasharray: var(--progress-circular-circle),
       var(--progress-circular-circle);
     stroke-dashoffset: var(--progress-circular-circle-offset--max);
-    opacity: 1;
+  }
+}
+
+@keyframes progress-circular-line-dark {
+  0% {
+    stroke-dasharray: var(--progress-circular-circle),
+      var(--progress-circular-circle);
+    stroke-dashoffset: var(--progress-circular-circle-offset--min);
+  }
+  50% {
+    stroke-dasharray: var(--progress-circular-circle),
+      var(--progress-circular-circle);
+    stroke-dashoffset: var(--progress-circular-circle-offset--max);
+  }
+  100% {
+    stroke-dasharray: var(--progress-circular-circle),
+      var(--progress-circular-circle);
+    stroke-dashoffset: var(--progress-circular-circle-offset--max);
   }
 }

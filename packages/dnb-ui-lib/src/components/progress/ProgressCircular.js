@@ -10,15 +10,20 @@ export default class ProgressCircular extends PureComponent {
   render() {
     return (
       <div className="dnb-progress__circular">
-        <Circle className="dnb-progress__circular__bg" />
-        <Circle className="dnb-progress__circular__line" />
+        <Circle className="dnb-progress__circular__line dark paused" />
+        <Circle className="dnb-progress__circular__line light" />
+        <Circle className="dnb-progress__circular__line dark" />
       </div>
     )
   }
 }
 
 const Circle = ({ className }) => (
-  <svg className={className} viewBox="0 0 32 32">
+  <svg
+    className={className}
+    viewBox="0 0 32 32"
+    shapeRendering="optimizeSpeed"
+  >
     <circle
       className="dnb-progress__circular__circle"
       fill="none"
