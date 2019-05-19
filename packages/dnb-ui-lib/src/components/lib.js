@@ -25,6 +25,7 @@ import LineTitle from './line-title/LineTitle'
 import Logo from './logo/Logo'
 import Modal from './modal/Modal'
 import Notification from './notification/Notification'
+import Progress from './progress/Progress'
 import Slider from './slider/Slider'
 import StepIndicator from './step-indicator/StepIndicator'
 import Switch from './switch/Switch'
@@ -45,6 +46,7 @@ export {
   Logo,
   Modal,
   Notification,
+  Progress,
   Slider,
   StepIndicator,
   Switch,
@@ -66,6 +68,7 @@ export const getComponents = () => {
     Logo,
     Modal,
     Notification,
+    Progress,
     Slider,
     StepIndicator,
     Switch,

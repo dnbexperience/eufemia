@@ -21,6 +21,7 @@ import {
   Switch,
   Logo,
   StepIndicator,
+  Progress,
   DatePicker
 } from '../src/components'
 import { H2, P, Hr } from '../src/elements'
@@ -509,6 +510,20 @@ stories.push([
             }
           ]}
         />
+      </Box>
+    </Wrapper>
+  )
+])
+
+stories.push([
+  'Progress',
+  () => (
+    <Wrapper>
+      <Box>
+        <Progress size="huge" />
+      </Box>
+      <Box>
+        <Progress progress={88} size="huge" quality="hight" />
       </Box>
     </Wrapper>
   )

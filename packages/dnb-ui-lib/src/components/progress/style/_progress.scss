@@ -1,0 +1,119 @@
+/*
+ * Progress complightnt
+ *
+ */
+
+:root {
+  --progress-circular-circle: 88;
+  --progress-circular-circle-offset--min: -1;
+  --progress-circular-circle-offset--max: -88;
+}
+
+.dnb-progress {
+  position: relative;
+
+  // circular variant
+  &__circular {
+    position: relative;
+
+    // medium
+    width: 2rem;
+    height: 2rem;
+
+    &--small {
+      width: 1rem;
+      height: 1rem;
+    }
+
+    &--large {
+      width: 4rem;
+      height: 4rem;
+    }
+
+    &--huge {
+      width: 20rem;
+      height: 20rem;
+    }
+
+    // since SVG is starting 90deg from top
+    transform: rotate(-90deg);
+
+    svg {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+
+    &__line {
+      animation-duration: 2s;
+      animation-delay: 200ms;
+      animation-timing-function: linear;
+      animation-iteration-count: infinite;
+    }
+
+    &__line.light {
+      // z-index: 2;
+      animation-name: progress-circular-line-light;
+      stroke-dasharray: var(--progress-circular-circle),
+        var(--progress-circular-circle);
+      stroke-dashoffset: var(--progress-circular-circle-offset--min);
+    }
+    &__line.dark {
+      // z-index: 3;
+      animation-name: progress-circular-line-dark;
+      stroke-dasharray: var(--progress-circular-circle),
+        var(--progress-circular-circle);
+      stroke-dashoffset: var(--progress-circular-circle-offset--min);
+    }
+    &__line.paused {
+      // z-index: 1;
+      animation-play-state: paused;
+    }
+
+    &__circle {
+      stroke-linecap: round;
+    }
+    &__line.light &__circle {
+      stroke: grey;
+    }
+    &__line.dark &__circle {
+      stroke: black;
+    }
+  }
+}
+
+@keyframes progress-circular-line-light {
+  0% {
+    stroke-dasharray: var(--progress-circular-circle),
+      var(--progress-circular-circle);
+    stroke-dashoffset: var(--progress-circular-circle-offset--min);
+  }
+  50% {
+    stroke-dasharray: var(--progress-circular-circle),
+      var(--progress-circular-circle);
+    stroke-dashoffset: var(--progress-circular-circle-offset--min);
+  }
+  100% {
+    stroke-dasharray: var(--progress-circular-circle),
+      var(--progress-circular-circle);
+    stroke-dashoffset: var(--progress-circular-circle-offset--max);
+  }
+}
+
+@keyframes progress-circular-line-dark {
+  0% {
+    stroke-dasharray: var(--progress-circular-circle),
+      var(--progress-circular-circle);
+    stroke-dashoffset: var(--progress-circular-circle-offset--min);
+  }
+  50% {
+    stroke-dasharray: var(--progress-circular-circle),
+      var(--progress-circular-circle);
+    stroke-dashoffset: var(--progress-circular-circle-offset--max);
+  }
+  100% {
+    stroke-dasharray: var(--progress-circular-circle),
+      var(--progress-circular-circle);
+    stroke-dashoffset: var(--progress-circular-circle-offset--max);
+  }
+}
