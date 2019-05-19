@@ -1,6 +1,10 @@
+## May, 19. 2019
+
+- New component in the `dnb-ui-lib`: Circular [Progress](/uilib/components/progress) bar (spinner with animation)
+
 ## May, 8. 2019
 
-- New component in the `dnb-ui-lib`: DatePicker with range/period support
+- New component in the `dnb-ui-lib`: [DatePicker](/uilib/components/date-picker) with range/period support
 
 ## April, 26. 2019
 
