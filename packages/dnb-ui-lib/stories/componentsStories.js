@@ -523,7 +523,7 @@ stories.push([
         <Progress size="huge" />
       </Box>
       <Box>
-        <Progress progress={88} size="huge" />
+        <Progress progress={88} size="huge" quality="hight" />
       </Box>
     </Wrapper>
   )

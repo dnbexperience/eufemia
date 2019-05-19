@@ -1,0 +1,281 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Circular Progress component have to match snapshot 1`] = `
+<Progress
+  0={
+    Object {
+      "displayName": "Progress",
+      "props": Object {
+        "progress": 1,
+        "quality": "quality",
+        "size": "'small'",
+        "type": "'circular'",
+        "visible": "visible",
+      },
+    }
+  }
+  progress={50}
+  quality={null}
+  size="medium"
+  type="circular"
+  visible={true}
+>
+  <div
+    className="dnb-progress"
+  >
+    <ProgressCircular
+      maxOffset={88}
+      progress={50}
+      quality={null}
+      size="medium"
+    >
+      <div
+        aria-label="50%"
+        className="dnb-progress__circular dnb-progress__circular--medium"
+        title="50%"
+      >
+        <Circle
+          className="dnb-progress__circular__line dark paused"
+          quality="hight"
+        >
+          <svg
+            className="dnb-progress__circular__line dark paused"
+            shapeRendering="geometricPrecision"
+            viewBox="0 0 32 32"
+          >
+            <circle
+              className="dnb-progress__circular__circle"
+              cx="16"
+              cy="16"
+              fill="none"
+              r="14"
+              strokeWidth="4"
+            />
+          </svg>
+        </Circle>
+        <Circle
+          className="dnb-progress__circular__line light paused"
+          quality="hight"
+          style={
+            Object {
+              "strokeDashoffset": -44,
+            }
+          }
+        >
+          <svg
+            className="dnb-progress__circular__line light paused"
+            shapeRendering="geometricPrecision"
+            style={
+              Object {
+                "strokeDashoffset": -44,
+              }
+            }
+            viewBox="0 0 32 32"
+          >
+            <circle
+              className="dnb-progress__circular__circle"
+              cx="16"
+              cy="16"
+              fill="none"
+              r="14"
+              strokeWidth="4"
+            />
+          </svg>
+        </Circle>
+        <Circle
+          className="dnb-progress__circular__line dark paused"
+          quality="hight"
+          style={
+            Object {
+              "strokeDashoffset": -88,
+            }
+          }
+        >
+          <svg
+            className="dnb-progress__circular__line dark paused"
+            shapeRendering="geometricPrecision"
+            style={
+              Object {
+                "strokeDashoffset": -88,
+              }
+            }
+            viewBox="0 0 32 32"
+          >
+            <circle
+              className="dnb-progress__circular__circle"
+              cx="16"
+              cy="16"
+              fill="none"
+              r="14"
+              strokeWidth="4"
+            />
+          </svg>
+        </Circle>
+      </div>
+    </ProgressCircular>
+  </div>
+</Progress>
+`;
+
+exports[`Progress scss have to match default theme snapshot 1`] = `
+"/*
+* Progress theme
+*
+*/
+/**
+ * This file is only used to make themes independent
+ * so that they can get imported individually, without the core styles
+ *
+ */
+/*
+ * Utilities
+ */
+/*
+ * Progress complightnt
+ *
+ */
+:root {
+  --progress-circular-circle: 88;
+  --progress-circular-circle-offset--min: -1;
+  --progress-circular-circle-offset--max: -88; }
+
+.dnb-progress__circular__line {
+  animation-duration: 2s; }
+
+.dnb-progress__circular__line.light .dnb-progress__circular__circle {
+  stroke: var(--color-mint-green); }
+
+.dnb-progress__circular__line.dark .dnb-progress__circular__circle {
+  stroke: var(--color-emerald-green); }
+"
+`;
+
+exports[`Progress scss have to match snapshot 1`] = `
+"/*
+* DNB Progress
+*
+*/
+/**
+ * This file is only used to make components independent
+ * so that they can get imported individually, without the core styles
+ *
+ */
+/*
+ * Utilities
+ */
+/*
+ * Scopes
+ *
+ */
+/*
+ * Document Reset
+ *
+ */
+.dnb-progress {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-default);
+  font-size: 1rem;
+  font-style: normal;
+  line-height: 1.5rem;
+  color: var(--color-black-80, #333);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  font-variant-numeric: lining-nums;
+  font-feature-settings: \\"lnum\\";
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-progress *,
+  .dnb-progress ::before,
+  .dnb-progress ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-progress ::before,
+  .dnb-progress ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+ * Progress complightnt
+ *
+ */
+:root {
+  --progress-circular-circle: 88;
+  --progress-circular-circle-offset--min: -1;
+  --progress-circular-circle-offset--max: -88; }
+
+.dnb-progress {
+  position: relative; }
+  .dnb-progress__circular {
+    position: relative;
+    width: 2rem;
+    height: 2rem;
+    transform: rotate(-90deg); }
+    .dnb-progress__circular--small {
+      width: 1rem;
+      height: 1rem; }
+    .dnb-progress__circular--large {
+      width: 4rem;
+      height: 4rem; }
+    .dnb-progress__circular--huge {
+      width: 20rem;
+      height: 20rem; }
+    .dnb-progress__circular svg {
+      position: absolute;
+      width: 100%;
+      height: 100%; }
+    .dnb-progress__circular__line {
+      animation-duration: 2s;
+      animation-delay: 200ms;
+      animation-timing-function: linear;
+      animation-iteration-count: infinite; }
+    .dnb-progress__circular__line.light {
+      animation-name: progress-circular-line-light;
+      stroke-dasharray: var(--progress-circular-circle), var(--progress-circular-circle);
+      stroke-dashoffset: var(--progress-circular-circle-offset--min); }
+    .dnb-progress__circular__line.dark {
+      animation-name: progress-circular-line-dark;
+      stroke-dasharray: var(--progress-circular-circle), var(--progress-circular-circle);
+      stroke-dashoffset: var(--progress-circular-circle-offset--min); }
+    .dnb-progress__circular__line.paused {
+      animation-play-state: paused; }
+    .dnb-progress__circular__circle {
+      stroke-linecap: round; }
+    .dnb-progress__circular__line.light .dnb-progress__circular__circle {
+      stroke: grey; }
+    .dnb-progress__circular__line.dark .dnb-progress__circular__circle {
+      stroke: black; }
+
+@keyframes progress-circular-line-light {
+  0% {
+    stroke-dasharray: var(--progress-circular-circle), var(--progress-circular-circle);
+    stroke-dashoffset: var(--progress-circular-circle-offset--min); }
+  50% {
+    stroke-dasharray: var(--progress-circular-circle), var(--progress-circular-circle);
+    stroke-dashoffset: var(--progress-circular-circle-offset--min); }
+  100% {
+    stroke-dasharray: var(--progress-circular-circle), var(--progress-circular-circle);
+    stroke-dashoffset: var(--progress-circular-circle-offset--max); } }
+
+@keyframes progress-circular-line-dark {
+  0% {
+    stroke-dasharray: var(--progress-circular-circle), var(--progress-circular-circle);
+    stroke-dashoffset: var(--progress-circular-circle-offset--min); }
+  50% {
+    stroke-dasharray: var(--progress-circular-circle), var(--progress-circular-circle);
+    stroke-dashoffset: var(--progress-circular-circle-offset--max); }
+  100% {
+    stroke-dasharray: var(--progress-circular-circle), var(--progress-circular-circle);
+    stroke-dashoffset: var(--progress-circular-circle-offset--max); } }
+"
+`;

@@ -12,7 +12,7 @@ class Example extends PureComponent {
       <Fragment>
         <ComponentBox caption="Default circular progress">
           {/* @jsx */ `
-<Progress />
+<Progress type="circular" />
           `}
         </ComponentBox>
         <ComponentBox
@@ -21,6 +21,7 @@ class Example extends PureComponent {
         >
           {/* @jsx */ `
 <Progress
+  type="circular"
   progress="50"
   size="large"
 />

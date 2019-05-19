@@ -7,8 +7,8 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
-  registerElement
-  // validateDOMAttributes,
+  registerElement,
+  validateDOMAttributes
   // dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import ProgressCircular from './ProgressCircular'
@@ -18,12 +18,13 @@ const renderProps = {}
 export const propTypes = {
   // label: PropTypes.string,
   visible: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  // type: PropTypes.oneOf(['circular']),
+  type: PropTypes.oneOf(['circular']),
   // no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   // min_time: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   // variant: PropTypes.oneOf(['primary', 'secondary']),
   size: PropTypes.oneOf(['small', 'medium', 'large', 'huge']),
-  progress: PropTypes.number
+  progress: PropTypes.number,
+  quality: PropTypes.string
   // id: PropTypes.string,
   // class: PropTypes.string,
   /** React props */
@@ -40,18 +41,19 @@ export const propTypes = {
 export const defaultProps = {
   // label: null,
   visible: true,
-  // type: 'circular',
+  type: 'circular',
   // no_animation: false,
   // min_time: null,
   // variant: 'primary',
   size: 'medium',
   progress: null,
+  quality: null,
   // id: null,
   // class: null,
 
   /** React props */
-  className: null,
-  children: null,
+  // className: null,
+  // children: null,
 
   // Web Component props
   ...renderProps
@@ -95,13 +97,25 @@ export default class Progress extends PureComponent {
 
   render() {
     const {
+      type,
       size,
+      quality,
       progress: _progress, //eslint-disable-line
-      visible: _visible //eslint-disable-line
-      // ...attributes
+      visible: _visible, //eslint-disable-line
+      ...props
     } = this.props
 
     const { progress, visible } = this.state
+
+    const params = { ...props }
+    const hasProgress = parseFloat(progress) > -1
+
+    if (visible && !hasProgress) {
+      params.role = 'alert'
+      params['aria-busy'] = 'true'
+    }
+
+    validateDOMAttributes(this.props, params)
 
     return (
       <div
@@ -109,8 +123,15 @@ export default class Progress extends PureComponent {
           'dnb-progress',
           !visible && 'dnb-progress--hidden'
         )}
+        {...params}
       >
-        <ProgressCircular size={size} progress={progress} />
+        {type === 'circular' && (
+          <ProgressCircular
+            size={size}
+            progress={progress}
+            quality={quality}
+          />
+        )}
       </div>
     )
   }
