@@ -8,12 +8,12 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
   registerElement,
-  validateDOMAttributes
-  // dispatchCustomElementEvent
+  validateDOMAttributes,
+  dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import ProgressCircular from './ProgressCircular'
 
-const renderProps = {}
+const renderProps = { on_complete: null }
 
 export const propTypes = {
   // label: PropTypes.string,
@@ -23,8 +23,7 @@ export const propTypes = {
   // min_time: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   // variant: PropTypes.oneOf(['primary', 'secondary']),
   size: PropTypes.oneOf(['small', 'medium', 'large', 'huge']),
-  progress: PropTypes.number,
-  quality: PropTypes.string
+  progress: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   // id: PropTypes.string,
   // class: PropTypes.string,
   /** React props */
@@ -36,6 +35,7 @@ export const propTypes = {
   // ]),
 
   // Web Component props
+  on_complete: PropTypes.func
 }
 
 export const defaultProps = {
@@ -47,7 +47,6 @@ export const defaultProps = {
   // variant: 'primary',
   size: 'medium',
   progress: null,
-  quality: null,
   // id: null,
   // class: null,
 
@@ -56,6 +55,7 @@ export const defaultProps = {
   // children: null,
 
   // Web Component props
+
   ...renderProps
 }
 
@@ -70,11 +70,13 @@ export default class Progress extends PureComponent {
 
   static getDerivedStateFromProps(props, state) {
     if (state._listenForPropChanges) {
-      if (props.visible) {
-        state.visible = Boolean(props.visible)
+      state.visible = Boolean(props.visible)
+      if (state.visible) {
+        state.complete = false
+        state.startTime = new Date().getTime()
       }
       if (parseFloat(props.progress) > -1) {
-        state.visible = props.progress
+        state.progress = props.progress
       }
     }
     state._listenForPropChanges = true
@@ -87,25 +89,58 @@ export default class Progress extends PureComponent {
     // this._id =
     //   props.id || `dnb-progress-${Math.round(Math.random() * 999)}` // cause we need an id anyway
 
-    const visible = Boolean(props.visible)
     this.state = {
       _listenForPropChanges: true,
-      visible,
+      visible: Boolean(props.visible),
+      complete: false,
       progress: props.progress
     }
+
+    this.firstDelay = 300 // wait for the rest time  + 200 start delay
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.completeTimeout)
+    clearTimeout(this.fadeOutTimeout)
+  }
+
+  callOnCompleteHandler() {
+    if (typeof this.props.on_complete === 'function') {
+      this.fadeOutTimeout = setTimeout(() => {
+        dispatchCustomElementEvent(this, 'on_complete')
+      }, 600) // wait for CSS fade out, defined in "progress-fade-out"
+    }
+  }
+
+  delayVisibility() {
+    if (this.state.complete) {
+      return
+    }
+
+    const duration = 1e3 // the duration, defined in CSS
+    const difference = new Date().getTime() - this.state.startTime
+    const ceil = Math.ceil(difference / duration) * duration
+    const timeToWait = ceil - difference
+
+    this.fadeOutTimeout = setTimeout(() => {
+      this.firstDelay = 0
+      this.setState({
+        complete: true
+      })
+      this.callOnCompleteHandler()
+    }, timeToWait + this.firstDelay)
   }
 
   render() {
     const {
       type,
       size,
-      quality,
       progress: _progress, //eslint-disable-line
       visible: _visible, //eslint-disable-line
       ...props
     } = this.props
 
-    const { progress, visible } = this.state
+    const { progress, visible, complete } = this.state
 
     const params = { ...props }
     const hasProgress = parseFloat(progress) > -1
@@ -117,11 +152,18 @@ export default class Progress extends PureComponent {
 
     validateDOMAttributes(this.props, params)
 
+    const isComplete =
+      visible === false || (hasProgress && parseFloat(progress) >= 100)
+    if (isComplete) {
+      this.delayVisibility()
+    }
+
     return (
       <div
         className={classnames(
           'dnb-progress',
-          !visible && 'dnb-progress--hidden'
+          visible && 'dnb-progress--visible',
+          complete && 'dnb-progress--complete'
         )}
         {...params}
       >
@@ -129,7 +171,7 @@ export default class Progress extends PureComponent {
           <ProgressCircular
             size={size}
             progress={progress}
-            quality={quality}
+            complete={complete}
           />
         )}
       </div>

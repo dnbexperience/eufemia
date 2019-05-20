@@ -6,27 +6,27 @@ exports[`Circular Progress component have to match snapshot 1`] = `
     Object {
       "displayName": "Progress",
       "props": Object {
-        "progress": 1,
-        "quality": "quality",
+        "on_complete": [Function],
+        "progress": "progress",
         "size": "'small'",
         "type": "'circular'",
         "visible": "visible",
       },
     }
   }
+  on_complete={null}
   progress={50}
-  quality={null}
   size="medium"
   type="circular"
   visible={true}
 >
   <div
-    className="dnb-progress"
+    className="dnb-progress dnb-progress--visible"
   >
     <ProgressCircular
+      complete={false}
       maxOffset={88}
       progress={50}
-      quality={null}
       size="medium"
     >
       <div
@@ -36,7 +36,6 @@ exports[`Circular Progress component have to match snapshot 1`] = `
       >
         <Circle
           className="dnb-progress__circular__line dark paused"
-          quality="hight"
         >
           <svg
             className="dnb-progress__circular__line dark paused"
@@ -55,7 +54,6 @@ exports[`Circular Progress component have to match snapshot 1`] = `
         </Circle>
         <Circle
           className="dnb-progress__circular__line light paused"
-          quality="hight"
           style={
             Object {
               "strokeDashoffset": -44,
@@ -68,35 +66,6 @@ exports[`Circular Progress component have to match snapshot 1`] = `
             style={
               Object {
                 "strokeDashoffset": -44,
-              }
-            }
-            viewBox="0 0 32 32"
-          >
-            <circle
-              className="dnb-progress__circular__circle"
-              cx="16"
-              cy="16"
-              fill="none"
-              r="14"
-              strokeWidth="4"
-            />
-          </svg>
-        </Circle>
-        <Circle
-          className="dnb-progress__circular__line dark paused"
-          quality="hight"
-          style={
-            Object {
-              "strokeDashoffset": -88,
-            }
-          }
-        >
-          <svg
-            className="dnb-progress__circular__line dark paused"
-            shapeRendering="geometricPrecision"
-            style={
-              Object {
-                "strokeDashoffset": -88,
               }
             }
             viewBox="0 0 32 32"
@@ -215,7 +184,8 @@ exports[`Progress scss have to match snapshot 1`] = `
   --progress-circular-circle-offset--max: -88; }
 
 .dnb-progress {
-  position: relative; }
+  position: relative;
+  opacity: 0; }
   .dnb-progress__circular {
     position: relative;
     width: 2rem;
@@ -255,6 +225,22 @@ exports[`Progress scss have to match snapshot 1`] = `
       stroke: grey; }
     .dnb-progress__circular__line.dark .dnb-progress__circular__circle {
       stroke: black; }
+  .dnb-progress, .dnb-progress--visible {
+    animation: progress-fade-in 200ms ease-out 1 forwards; }
+  .dnb-progress--complete:not(.dnb-progress--visible) {
+    animation: progress-fade-out 600ms ease-out 1 forwards; }
+
+@keyframes progress-fade-in {
+  0% {
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
+
+@keyframes progress-fade-out {
+  0% {
+    opacity: 1; }
+  100% {
+    opacity: 0; } }
 
 @keyframes progress-circular-line-light {
   0% {

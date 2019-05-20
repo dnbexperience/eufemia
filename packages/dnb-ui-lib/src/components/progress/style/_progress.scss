@@ -80,6 +80,32 @@
       stroke: black;
     }
   }
+
+  opacity: 0;
+  &,
+  &--visible {
+    animation: progress-fade-in 200ms ease-out 1 forwards;
+  }
+  &--complete:not(#{&}--visible) {
+    animation: progress-fade-out 600ms ease-out 1 forwards;
+  }
+
+  @keyframes progress-fade-in {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  @keyframes progress-fade-out {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
 }
 
 @keyframes progress-circular-line-light {

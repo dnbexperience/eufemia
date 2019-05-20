@@ -10,13 +10,13 @@ import { validateDOMAttributes } from '../../shared/component-helper'
 
 export const propTypes = {
   size: PropTypes.string,
-  quality: PropTypes.string,
-  progress: PropTypes.number,
+  complete: PropTypes.bool,
+  progress: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   maxOffset: PropTypes.number
 }
 export const defaultProps = {
   size: null,
-  quality: null,
+  complete: false,
   progress: null,
   maxOffset: 88
 }
@@ -25,10 +25,9 @@ export default class ProgressCircular extends PureComponent {
   static propTypes = propTypes
   static defaultProps = defaultProps
   render() {
-    const { size, maxOffset, progress, quality } = this.props
+    const { size, complete, maxOffset, progress } = this.props
     const strokeDashoffset = -((maxOffset / 100) * progress)
     const hasProgress = parseFloat(progress) > -1
-    const renerQuality = !quality && hasProgress ? 'hight' : quality
 
     const params = {}
     if (hasProgress) {
@@ -54,40 +53,35 @@ export default class ProgressCircular extends PureComponent {
             'dark',
             'paused'
           )}
-          quality={renerQuality}
         />
         <Circle
           className={classnames(
             'dnb-progress__circular__line',
             'light',
-            hasProgress && 'paused'
+            hasProgress || complete ? 'paused' : null
           )}
           style={hasProgress ? { strokeDashoffset } : {}}
-          quality={renerQuality}
         />
-        <Circle
-          className={classnames(
-            'dnb-progress__circular__line',
-            'dark',
-            hasProgress && 'paused'
-          )}
-          style={hasProgress ? { strokeDashoffset: -maxOffset } : {}}
-          quality={renerQuality}
-        />
+        {!hasProgress && (
+          <Circle
+            className={classnames(
+              'dnb-progress__circular__line',
+              'dark',
+              hasProgress || complete ? 'paused' : null
+            )}
+          />
+        )}
       </div>
     )
   }
 }
 
-const Circle = ({ className, quality, ...rest }) => {
-  if (quality === 'hight') {
-    rest.shapeRendering = 'geometricPrecision'
-  }
+const Circle = ({ className, ...rest }) => {
   return (
     <svg
       className={className}
       viewBox="0 0 32 32"
-      shapeRendering="optimizeSpeed"
+      shapeRendering="geometricPrecision"
       {...rest}
     >
       <circle
@@ -102,9 +96,7 @@ const Circle = ({ className, quality, ...rest }) => {
   )
 }
 Circle.propTypes = {
-  quality: PropTypes.string,
   className: PropTypes.string.isRequired
 }
-Circle.defaultProps = {
-  quality: null
-}
+// Circle.defaultProps = {
+// }

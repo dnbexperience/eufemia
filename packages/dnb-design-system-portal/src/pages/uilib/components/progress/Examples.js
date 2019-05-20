@@ -12,7 +12,7 @@ class Example extends PureComponent {
       <Fragment>
         <ComponentBox caption="Default circular progress">
           {/* @jsx */ `
-<Progress type="circular" />
+<Progress />
           `}
         </ComponentBox>
         <ComponentBox
@@ -25,6 +25,29 @@ class Example extends PureComponent {
   progress="50"
   size="large"
 />
+          `}
+        </ComponentBox>
+        <ComponentBox
+          caption="Progress with on_complete callback"
+          noFragments={false}
+        >
+          {/* @jsx */ `
+() => {
+  const [visible, setVisibe] = useState(true)
+  useEffect(() => {
+    const timer = setInterval(() => setVisibe(!visible), 2400)
+    return () => clearTimeout(timer)
+  })
+  return (
+    <Progress
+      size="large"
+      visible={visible}
+      on_complete={() => {
+        console.log('on_complete')
+      }}
+    />
+  )
+}
           `}
         </ComponentBox>
       </Fragment>

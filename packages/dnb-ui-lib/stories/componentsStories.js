@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Wrapper, Box } from './helpers'
 import styled from '@emotion/styled'
 
@@ -515,19 +515,31 @@ stories.push([
   )
 ])
 
-stories.push([
-  'Progress',
-  () => (
+stories.push(['Progress', () => <ProgressCircular />])
+const ProgressCircular = () => {
+  const [visible, setVisibe] = useState(true)
+  useEffect(() => {
+    const timer = setInterval(() => setVisibe(!visible), 2400)
+    return () => clearTimeout(timer)
+  })
+  return (
     <Wrapper>
-      <Box>
+      {/* <Box>
         <Progress size="huge" />
-      </Box>
+      </Box> */}
       <Box>
-        <Progress progress={88} size="huge" quality="hight" />
+        <Progress
+          // progress={88}
+          size="huge"
+          visible={visible}
+          on_complete={() => {
+            console.log('on_complete')
+          }}
+        />
       </Box>
     </Wrapper>
   )
-])
+}
 
 stories.push([
   'Dropdown',
