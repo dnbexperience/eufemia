@@ -232,6 +232,9 @@ stories.push([
     <CustomStyle>
       <Wrapper>
         <Box>
+          <CustomDate />
+        </Box>
+        <Box>
           <DatePicker
             label="Range DatePicker:"
             // start_date={new Date()}
@@ -287,15 +290,6 @@ stories.push([
         </Box>
         <Box>
           <DatePicker
-            label="Defualt DatePicker:"
-            date="2019-05-05"
-            on_change={props => {
-              console.log('on_change', props)
-            }}
-          />
-        </Box>
-        <Box>
-          <DatePicker
             label="Hidden Nav:"
             date="2019-05-05"
             hide_navigation={true}
@@ -314,6 +308,22 @@ stories.push([
     </CustomStyle>
   )
 ])
+
+const CustomDate = () => {
+  const [date, setDate] = useState('2019-02-15')
+  console.log('date', date)
+  return (
+    <DatePicker
+      label="Defualt DatePicker:"
+      date={date}
+      return_format="YYYY-MM-DD"
+      on_change={({ date }) => {
+        console.log('on_change', date)
+        setDate(date)
+      }}
+    />
+  )
+}
 
 const svg = props => (
   <svg
