@@ -52,21 +52,21 @@
     }
 
     &__line.light {
-      // z-index: 2;
+      z-index: 2;
       animation-name: progress-circular-line-light;
       stroke-dasharray: var(--progress-circular-circle),
         var(--progress-circular-circle);
       stroke-dashoffset: var(--progress-circular-circle-offset--min);
     }
     &__line.dark {
-      // z-index: 3;
+      z-index: 3;
       animation-name: progress-circular-line-dark;
       stroke-dasharray: var(--progress-circular-circle),
         var(--progress-circular-circle);
       stroke-dashoffset: var(--progress-circular-circle-offset--min);
     }
     &__line.paused {
-      // z-index: 1;
+      z-index: 1;
       animation-play-state: paused;
     }
 

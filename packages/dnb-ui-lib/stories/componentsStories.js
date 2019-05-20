@@ -515,7 +515,19 @@ stories.push([
   )
 ])
 
-stories.push(['Progress', () => <ProgressCircular />])
+stories.push([
+  'Progress',
+  () => (
+    <Wrapper>
+      <Box>
+        <Progress size="huge" progress={50} />
+      </Box>
+      <Box>
+        <ProgressCircular />
+      </Box>
+    </Wrapper>
+  )
+])
 const ProgressCircular = () => {
   const [visible, setVisibe] = useState(true)
   useEffect(() => {
@@ -523,21 +535,14 @@ const ProgressCircular = () => {
     return () => clearTimeout(timer)
   })
   return (
-    <Wrapper>
-      {/* <Box>
-        <Progress size="huge" />
-      </Box> */}
-      <Box>
-        <Progress
-          // progress={88}
-          size="huge"
-          visible={visible}
-          on_complete={() => {
-            console.log('on_complete')
-          }}
-        />
-      </Box>
-    </Wrapper>
+    <Progress
+      // progress={88}
+      size="huge"
+      visible={visible}
+      on_complete={() => {
+        console.log('on_complete')
+      }}
+    />
   )
 }
 
