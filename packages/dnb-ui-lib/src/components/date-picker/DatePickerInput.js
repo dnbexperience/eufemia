@@ -523,6 +523,7 @@ export default class DatePickerInput extends PureComponent {
             id={id}
             disabled={disabled}
             // title={submit_button_title} // Not implemented yet
+            type="button"
             icon="calendar"
             variant="secondary"
             on_submit={onSubmit}
