@@ -29,7 +29,7 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox
-          caption="Progress with random progress value to show the the transition"
+          caption="Progress with random progress value to show the transition"
           noFragments={false}
         >
           {/* @jsx */ `

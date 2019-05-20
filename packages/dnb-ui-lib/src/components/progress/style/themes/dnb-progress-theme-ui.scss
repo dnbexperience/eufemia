@@ -16,6 +16,19 @@
 .dnb-progress {
   // circular variant
   &__circular {
+    &--small {
+      width: 1rem;
+      height: 1rem;
+    }
+    &--large {
+      width: 3.5rem;
+      height: 3.5rem;
+    }
+    &--huge {
+      width: 20rem;
+      height: 20rem;
+    }
+
     &__line {
       animation-duration: 2s;
     }

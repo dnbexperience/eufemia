@@ -101,6 +101,18 @@ exports[`Progress scss have to match default theme snapshot 1`] = `
 /*
  * Utilities
  */
+.dnb-progress__circular--small {
+  width: 1rem;
+  height: 1rem; }
+
+.dnb-progress__circular--large {
+  width: 3.5rem;
+  height: 3.5rem; }
+
+.dnb-progress__circular--huge {
+  width: 20rem;
+  height: 20rem; }
+
 .dnb-progress__circular__line {
   animation-duration: 2s; }
 
@@ -183,15 +195,6 @@ exports[`Progress scss have to match snapshot 1`] = `
     width: 2rem;
     height: 2rem;
     transform: rotate(-90deg); }
-    .dnb-progress__circular--small {
-      width: 1rem;
-      height: 1rem; }
-    .dnb-progress__circular--large {
-      width: 4rem;
-      height: 4rem; }
-    .dnb-progress__circular--huge {
-      width: 20rem;
-      height: 20rem; }
     .dnb-progress__circular svg {
       position: absolute;
       width: 100%;

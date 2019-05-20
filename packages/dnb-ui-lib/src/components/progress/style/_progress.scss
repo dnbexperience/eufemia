@@ -20,21 +20,6 @@
     width: 2rem;
     height: 2rem;
 
-    &--small {
-      width: 1rem;
-      height: 1rem;
-    }
-
-    &--large {
-      width: 4rem;
-      height: 4rem;
-    }
-
-    &--huge {
-      width: 20rem;
-      height: 20rem;
-    }
-
     // since SVG is starting 90deg from top
     transform: rotate(-90deg);
 
