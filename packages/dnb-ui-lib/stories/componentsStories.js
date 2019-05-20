@@ -157,7 +157,14 @@ stories.push([
     <CustomStyle>
       <Wrapper>
         <Box>
-          <Input label="Label:">Input ...</Input>
+          <Input
+            label="Label:"
+            on_change={event => {
+              console.log('on_change', event)
+            }}
+          >
+            Input ...
+          </Input>
         </Box>
         <Box>
           <p className="dnb-p">
@@ -220,6 +227,27 @@ stories.push([
             ]}
             show_mask="true"
           />
+        </Box>
+        <Box>
+          <form
+            onSubmit={event => {
+              console.log('onSubmit', event)
+              event.preventDefault()
+              // event.persist()
+            }}
+          >
+            <Input
+              label="Label:"
+              on_change={event => {
+                console.log('on_change', event)
+              }}
+              on_submit={event => {
+                console.log('on_submit', event)
+              }}
+              value="Input ..."
+            />
+            <Button text="Submit" type="submit" />
+          </form>
         </Box>
       </Wrapper>
     </CustomStyle>

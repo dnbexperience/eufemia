@@ -186,15 +186,15 @@ export default class Input extends PureComponent {
     dispatchCustomElementEvent(this, 'on_blur', { value, event })
   }
   onChangeHandler = event => {
+    event.persist()
     const { value } = event.target
     this.setState({ value, _listenForPropChanges: false })
-    event.preventDefault()
     dispatchCustomElementEvent(this, 'on_change', { value, event })
   }
   onKeyDownHandler = event => {
     if (event.key === 'Enter') {
+      event.persist()
       const { value } = event.target
-      event.preventDefault()
       dispatchCustomElementEvent(this, 'on_submit', { value, event })
     }
   }
@@ -214,17 +214,17 @@ export default class Input extends PureComponent {
       submit_button_title,
       submit_button_variant,
       submit_button_icon,
-      on_submit,
       submitButton,
       autocomplete,
       readOnly,
       class: _className,
       className,
 
-      id: _id /* eslint-disable-line */,
-      children /* eslint-disable-line */,
-      value: _value /* eslint-disable-line */,
-      inputElement: _inputElement /* eslint-disable-line */,
+      id: _id, //eslint-disable-line
+      children, //eslint-disable-line
+      value: _value, //eslint-disable-line
+      on_submit, //eslint-disable-line
+      inputElement: _inputElement, //eslint-disable-line
 
       ...attributes
     } = this.props
@@ -233,7 +233,7 @@ export default class Input extends PureComponent {
 
     const id = this._id
     const showStatus = status && status !== 'error'
-    const hasSubmitButton = on_submit || submitButton || type === 'search'
+    const hasSubmitButton = submitButton || type === 'search'
 
     const classes = classnames(
       'dnb-input',
