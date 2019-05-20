@@ -5,16 +5,13 @@
 
 @import '../../../../style/themes/imports.scss';
 
-/*
- * Progress complightnt
- *
- */
-
-:root {
-  --progress-circular-circle: 88;
-  --progress-circular-circle-offset--min: -1;
-  --progress-circular-circle-offset--max: -88;
-}
+// to get a reverse #v3 - use the following setup, strokeDashoffset has also to be:
+// const strokeDashoffset = -((maxOffset / 100) * progress)
+// :root {
+//   --progress-circular-circle: 88;
+//   --progress-circular-circle-offset--min: -1;
+//   --progress-circular-circle-offset--max: -88;
+// }
 
 .dnb-progress {
   // circular variant

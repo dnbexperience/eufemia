@@ -29,6 +29,27 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox
+          caption="Progress with random progress value to show the the transition"
+          noFragments={false}
+        >
+          {/* @jsx */ `
+() => {
+  const random = (min, max) => (Math.floor( Math.random () * (max - min + 1)) + min)
+  const [progress, setProgress] = useState(random(1, 100))
+  useEffect(() => {
+    const timer = setInterval(() => setProgress(random(1, 100)), 1e3)
+    return () => clearTimeout(timer)
+  })
+  return (
+    <Progress
+      size="large"
+      progress={progress}
+    />
+  )
+}
+          `}
+        </ComponentBox>
+        <ComponentBox
           caption="Progress with on_complete callback"
           noFragments={false}
         >

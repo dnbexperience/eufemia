@@ -1,12 +1,12 @@
 /*
- * Progress complightnt
+ * Progress component
  *
  */
 
 :root {
   --progress-circular-circle: 88;
-  --progress-circular-circle-offset--min: -1;
-  --progress-circular-circle-offset--max: -88;
+  --progress-circular-circle-offset--min: 88;
+  --progress-circular-circle-offset--max: 1;
 }
 
 .dnb-progress {
@@ -51,23 +51,27 @@
       animation-iteration-count: infinite;
     }
 
+    &__line.background {
+      stroke-dashoffset: var(--progress-circular-circle-offset--max);
+    }
     &__line.light {
-      z-index: 2;
       animation-name: progress-circular-line-light;
       stroke-dasharray: var(--progress-circular-circle),
         var(--progress-circular-circle);
-      stroke-dashoffset: var(--progress-circular-circle-offset--min);
+      stroke-dashoffset: var(--progress-circular-circle-offset--max);
     }
     &__line.dark {
-      z-index: 3;
       animation-name: progress-circular-line-dark;
       stroke-dasharray: var(--progress-circular-circle),
         var(--progress-circular-circle);
       stroke-dashoffset: var(--progress-circular-circle-offset--min);
     }
     &__line.paused {
-      z-index: 1;
       animation-play-state: paused;
+    }
+    // for static progress animation
+    &--has-progress &__line.dark {
+      transition: stroke-dashoffset 200ms ease-out;
     }
 
     &__circle {
@@ -84,7 +88,7 @@
   &:not(#{&}--no-animation),
   &--visible:not(#{&}--no-animation) {
     opacity: 0;
-    animation: progress-fade-in 2000ms ease-out 1 forwards;
+    animation: progress-fade-in 200ms ease-out 1 forwards;
   }
   &--complete:not(#{&}--no-animation):not(#{&}--visible) {
     animation: progress-fade-out 600ms ease-out 1 forwards;
@@ -110,36 +114,24 @@
 
 @keyframes progress-circular-line-light {
   0% {
-    stroke-dasharray: var(--progress-circular-circle),
-      var(--progress-circular-circle);
     stroke-dashoffset: var(--progress-circular-circle-offset--min);
   }
   50% {
-    stroke-dasharray: var(--progress-circular-circle),
-      var(--progress-circular-circle);
     stroke-dashoffset: var(--progress-circular-circle-offset--min);
   }
   100% {
-    stroke-dasharray: var(--progress-circular-circle),
-      var(--progress-circular-circle);
     stroke-dashoffset: var(--progress-circular-circle-offset--max);
   }
 }
 
 @keyframes progress-circular-line-dark {
   0% {
-    stroke-dasharray: var(--progress-circular-circle),
-      var(--progress-circular-circle);
     stroke-dashoffset: var(--progress-circular-circle-offset--min);
   }
   50% {
-    stroke-dasharray: var(--progress-circular-circle),
-      var(--progress-circular-circle);
     stroke-dashoffset: var(--progress-circular-circle-offset--max);
   }
   100% {
-    stroke-dasharray: var(--progress-circular-circle),
-      var(--progress-circular-circle);
     stroke-dashoffset: var(--progress-circular-circle-offset--max);
   }
 }

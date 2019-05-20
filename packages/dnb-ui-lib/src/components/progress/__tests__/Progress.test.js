@@ -32,12 +32,12 @@ describe('Circular Progress component', () => {
     expect(toJson(Comp)).toMatchSnapshot()
   })
 
-  it('has to have a stroke-dashoffset of -44 on 50%', () => {
+  it('has to have a stroke-dashoffset of 44 on 50%', () => {
     expect(
-      Comp.find('svg.dnb-progress__circular__line.light[style]')
+      Comp.find('svg.dnb-progress__circular__line.dark[style]')
         .instance()
         .getAttribute('style')
-    ).toBe('stroke-dashoffset: -44;')
+    ).toBe('stroke-dashoffset: 44;')
   })
 
   it('has to have a aria-label with a 50% value', () => {

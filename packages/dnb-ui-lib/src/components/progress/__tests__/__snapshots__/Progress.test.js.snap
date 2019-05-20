@@ -33,14 +33,14 @@ exports[`Circular Progress component have to match snapshot 1`] = `
     >
       <div
         aria-label="50%"
-        className="dnb-progress__circular dnb-progress__circular--medium"
+        className="dnb-progress__circular dnb-progress__circular--medium dnb-progress__circular--has-progress"
         title="50%"
       >
         <Circle
-          className="dnb-progress__circular__line dark paused"
+          className="dnb-progress__circular__line light paused"
         >
           <svg
-            className="dnb-progress__circular__line dark paused"
+            className="dnb-progress__circular__line light paused"
             shapeRendering="geometricPrecision"
             viewBox="0 0 32 32"
           >
@@ -55,19 +55,19 @@ exports[`Circular Progress component have to match snapshot 1`] = `
           </svg>
         </Circle>
         <Circle
-          className="dnb-progress__circular__line light paused"
+          className="dnb-progress__circular__line dark paused"
           style={
             Object {
-              "strokeDashoffset": -44,
+              "strokeDashoffset": 44,
             }
           }
         >
           <svg
-            className="dnb-progress__circular__line light paused"
+            className="dnb-progress__circular__line dark paused"
             shapeRendering="geometricPrecision"
             style={
               Object {
-                "strokeDashoffset": -44,
+                "strokeDashoffset": 44,
               }
             }
             viewBox="0 0 32 32"
@@ -101,15 +101,6 @@ exports[`Progress scss have to match default theme snapshot 1`] = `
 /*
  * Utilities
  */
-/*
- * Progress complightnt
- *
- */
-:root {
-  --progress-circular-circle: 88;
-  --progress-circular-circle-offset--min: -1;
-  --progress-circular-circle-offset--max: -88; }
-
 .dnb-progress__circular__line {
   animation-duration: 2s; }
 
@@ -177,13 +168,13 @@ exports[`Progress scss have to match snapshot 1`] = `
     /* 2 */ }
 
 /*
- * Progress complightnt
+ * Progress component
  *
  */
 :root {
   --progress-circular-circle: 88;
-  --progress-circular-circle-offset--min: -1;
-  --progress-circular-circle-offset--max: -88; }
+  --progress-circular-circle-offset--min: 88;
+  --progress-circular-circle-offset--max: 1; }
 
 .dnb-progress {
   position: relative; }
@@ -210,19 +201,20 @@ exports[`Progress scss have to match snapshot 1`] = `
       animation-delay: 200ms;
       animation-timing-function: linear;
       animation-iteration-count: infinite; }
+    .dnb-progress__circular__line.background {
+      stroke-dashoffset: var(--progress-circular-circle-offset--max); }
     .dnb-progress__circular__line.light {
-      z-index: 2;
       animation-name: progress-circular-line-light;
       stroke-dasharray: var(--progress-circular-circle), var(--progress-circular-circle);
-      stroke-dashoffset: var(--progress-circular-circle-offset--min); }
+      stroke-dashoffset: var(--progress-circular-circle-offset--max); }
     .dnb-progress__circular__line.dark {
-      z-index: 3;
       animation-name: progress-circular-line-dark;
       stroke-dasharray: var(--progress-circular-circle), var(--progress-circular-circle);
       stroke-dashoffset: var(--progress-circular-circle-offset--min); }
     .dnb-progress__circular__line.paused {
-      z-index: 1;
       animation-play-state: paused; }
+    .dnb-progress__circular--has-progress .dnb-progress__circular__line.dark {
+      transition: stroke-dashoffset 200ms ease-out; }
     .dnb-progress__circular__circle {
       stroke-linecap: round; }
     .dnb-progress__circular__line.light .dnb-progress__circular__circle {
@@ -231,7 +223,7 @@ exports[`Progress scss have to match snapshot 1`] = `
       stroke: black; }
   .dnb-progress:not(.dnb-progress--no-animation), .dnb-progress--visible:not(.dnb-progress--no-animation) {
     opacity: 0;
-    animation: progress-fade-in 2000ms ease-out 1 forwards; }
+    animation: progress-fade-in 200ms ease-out 1 forwards; }
   .dnb-progress--complete:not(.dnb-progress--no-animation):not(.dnb-progress--visible) {
     animation: progress-fade-out 600ms ease-out 1 forwards; }
 
@@ -249,24 +241,18 @@ exports[`Progress scss have to match snapshot 1`] = `
 
 @keyframes progress-circular-line-light {
   0% {
-    stroke-dasharray: var(--progress-circular-circle), var(--progress-circular-circle);
     stroke-dashoffset: var(--progress-circular-circle-offset--min); }
   50% {
-    stroke-dasharray: var(--progress-circular-circle), var(--progress-circular-circle);
     stroke-dashoffset: var(--progress-circular-circle-offset--min); }
   100% {
-    stroke-dasharray: var(--progress-circular-circle), var(--progress-circular-circle);
     stroke-dashoffset: var(--progress-circular-circle-offset--max); } }
 
 @keyframes progress-circular-line-dark {
   0% {
-    stroke-dasharray: var(--progress-circular-circle), var(--progress-circular-circle);
     stroke-dashoffset: var(--progress-circular-circle-offset--min); }
   50% {
-    stroke-dasharray: var(--progress-circular-circle), var(--progress-circular-circle);
     stroke-dashoffset: var(--progress-circular-circle-offset--max); }
   100% {
-    stroke-dasharray: var(--progress-circular-circle), var(--progress-circular-circle);
     stroke-dashoffset: var(--progress-circular-circle-offset--max); } }
 "
 `;

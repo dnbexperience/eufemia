@@ -26,7 +26,7 @@ export default class ProgressCircular extends PureComponent {
   static defaultProps = defaultProps
   render() {
     const { size, complete, maxOffset, progress } = this.props
-    const strokeDashoffset = -((maxOffset / 100) * progress)
+    const strokeDashoffset = maxOffset - (maxOffset / 100) * progress
     const hasProgress = parseFloat(progress) > -1
 
     const params = {}
@@ -43,21 +43,23 @@ export default class ProgressCircular extends PureComponent {
       <div
         className={classnames(
           'dnb-progress__circular',
-          size && `dnb-progress__circular--${size}`
+          size && `dnb-progress__circular--${size}`,
+          hasProgress && 'dnb-progress__circular--has-progress'
         )}
         {...params}
       >
+        {/* The first one is the background line */}
         <Circle
           className={classnames(
             'dnb-progress__circular__line',
-            'dark',
+            'light',
             'paused'
           )}
         />
         <Circle
           className={classnames(
             'dnb-progress__circular__line',
-            'light',
+            'dark',
             hasProgress || complete ? 'paused' : null
           )}
           style={hasProgress ? { strokeDashoffset } : {}}
@@ -66,7 +68,7 @@ export default class ProgressCircular extends PureComponent {
           <Circle
             className={classnames(
               'dnb-progress__circular__line',
-              'dark',
+              'light',
               hasProgress || complete ? 'paused' : null
             )}
           />
