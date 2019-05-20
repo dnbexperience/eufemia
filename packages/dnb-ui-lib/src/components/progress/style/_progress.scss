@@ -81,12 +81,12 @@
     }
   }
 
-  opacity: 0;
-  &,
-  &--visible {
-    animation: progress-fade-in 200ms ease-out 1 forwards;
+  &:not(#{&}--no-animation),
+  &--visible:not(#{&}--no-animation) {
+    opacity: 0;
+    animation: progress-fade-in 2000ms ease-out 1 forwards;
   }
-  &--complete:not(#{&}--visible) {
+  &--complete:not(#{&}--no-animation):not(#{&}--visible) {
     animation: progress-fade-out 600ms ease-out 1 forwards;
   }
 

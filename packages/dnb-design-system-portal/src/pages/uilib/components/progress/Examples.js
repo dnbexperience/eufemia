@@ -24,6 +24,7 @@ class Example extends PureComponent {
   type="circular"
   progress="50"
   size="large"
+  no_animation
 />
           `}
         </ComponentBox>

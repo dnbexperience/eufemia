@@ -520,7 +520,7 @@ stories.push([
   () => (
     <Wrapper>
       <Box>
-        <Progress size="huge" progress={50} />
+        <Progress size="huge" progress={50} no_animation />
       </Box>
       <Box>
         <ProgressCircular />

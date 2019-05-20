@@ -19,7 +19,7 @@ export const propTypes = {
   // label: PropTypes.string,
   visible: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   type: PropTypes.oneOf(['circular']),
-  // no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   // min_time: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   // variant: PropTypes.oneOf(['primary', 'secondary']),
   size: PropTypes.oneOf(['small', 'medium', 'large', 'huge']),
@@ -42,7 +42,7 @@ export const defaultProps = {
   // label: null,
   visible: true,
   type: 'circular',
-  // no_animation: false,
+  no_animation: false,
   // min_time: null,
   // variant: 'primary',
   size: 'medium',
@@ -135,6 +135,7 @@ export default class Progress extends PureComponent {
     const {
       type,
       size,
+      no_animation,
       progress: _progress, //eslint-disable-line
       visible: _visible, //eslint-disable-line
       ...props
@@ -163,7 +164,8 @@ export default class Progress extends PureComponent {
         className={classnames(
           'dnb-progress',
           visible && 'dnb-progress--visible',
-          complete && 'dnb-progress--complete'
+          complete && 'dnb-progress--complete',
+          Boolean(no_animation) && 'dnb-progress--no-animation'
         )}
         {...params}
       >

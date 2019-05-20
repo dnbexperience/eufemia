@@ -6,6 +6,7 @@ exports[`Circular Progress component have to match snapshot 1`] = `
     Object {
       "displayName": "Progress",
       "props": Object {
+        "no_animation": "no_animation",
         "on_complete": [Function],
         "progress": "progress",
         "size": "'small'",
@@ -14,6 +15,7 @@ exports[`Circular Progress component have to match snapshot 1`] = `
       },
     }
   }
+  no_animation={false}
   on_complete={null}
   progress={50}
   size="medium"
@@ -184,8 +186,7 @@ exports[`Progress scss have to match snapshot 1`] = `
   --progress-circular-circle-offset--max: -88; }
 
 .dnb-progress {
-  position: relative;
-  opacity: 0; }
+  position: relative; }
   .dnb-progress__circular {
     position: relative;
     width: 2rem;
@@ -210,14 +211,17 @@ exports[`Progress scss have to match snapshot 1`] = `
       animation-timing-function: linear;
       animation-iteration-count: infinite; }
     .dnb-progress__circular__line.light {
+      z-index: 2;
       animation-name: progress-circular-line-light;
       stroke-dasharray: var(--progress-circular-circle), var(--progress-circular-circle);
       stroke-dashoffset: var(--progress-circular-circle-offset--min); }
     .dnb-progress__circular__line.dark {
+      z-index: 3;
       animation-name: progress-circular-line-dark;
       stroke-dasharray: var(--progress-circular-circle), var(--progress-circular-circle);
       stroke-dashoffset: var(--progress-circular-circle-offset--min); }
     .dnb-progress__circular__line.paused {
+      z-index: 1;
       animation-play-state: paused; }
     .dnb-progress__circular__circle {
       stroke-linecap: round; }
@@ -225,9 +229,10 @@ exports[`Progress scss have to match snapshot 1`] = `
       stroke: grey; }
     .dnb-progress__circular__line.dark .dnb-progress__circular__circle {
       stroke: black; }
-  .dnb-progress, .dnb-progress--visible {
-    animation: progress-fade-in 200ms ease-out 1 forwards; }
-  .dnb-progress--complete:not(.dnb-progress--visible) {
+  .dnb-progress:not(.dnb-progress--no-animation), .dnb-progress--visible:not(.dnb-progress--no-animation) {
+    opacity: 0;
+    animation: progress-fade-in 2000ms ease-out 1 forwards; }
+  .dnb-progress--complete:not(.dnb-progress--no-animation):not(.dnb-progress--visible) {
     animation: progress-fade-out 600ms ease-out 1 forwards; }
 
 @keyframes progress-fade-in {
