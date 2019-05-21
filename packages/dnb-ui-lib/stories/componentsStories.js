@@ -19,6 +19,7 @@ import {
   FormLabel,
   Dropdown,
   Switch,
+  Checkbox,
   Logo,
   StepIndicator,
   ProgressIndicator,
@@ -733,6 +734,40 @@ stories.push([
         <Box>
           <Switch label="Label:" checked status="Error message" />
         </Box>
+      </Wrapper>
+    </CustomStyle>
+  )
+])
+stories.push([
+  'Checkbox',
+  () => (
+    <CustomStyle>
+      <Wrapper>
+        <Box>
+          {/* Text: <FormLabel for_id="checkbox">Unchecked:</FormLabel> */}
+          <Checkbox id="checkbox" checked={false} />
+        </Box>
+        {/* <Box>
+          <p className="dnb-p">
+            <Checkbox label="Checked:" checked />
+          </p>
+        </Box>
+        <Box>
+          <Checkbox label="Unchecked disabled:" checked={false} disabled />
+        </Box>
+        <Box>
+          <Checkbox label="Checked disabled:" checked disabled />
+        </Box>
+        <Box>
+          <Checkbox
+            label="Unchecked status error:"
+            checked={false}
+            status="error"
+          />
+        </Box>
+        <Box>
+          <Checkbox label="Label:" checked status="Error message" />
+        </Box> */}
       </Wrapper>
     </CustomStyle>
   )

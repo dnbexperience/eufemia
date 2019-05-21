@@ -1,0 +1,217 @@
+/*
+* Checkbox theme
+*
+*/
+
+@import '../../../../style/themes/imports.scss';
+
+.dnb-checkbox {
+  &__background {
+    position: relative;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    overflow: hidden;
+
+    background-color: var(--color-sea-green-alt-30);
+
+    &::after {
+      content: '';
+      position: absolute;
+      transition: transform 0.3s ease-out, position 0.3s ease-out;
+
+      // IE fix
+      @media all and (-ms-high-contrast: none) {
+        top: 0.25rem; // because IE is not using flex to center here
+      }
+    }
+  }
+
+  /*
+    * When checkboxed OFF
+    * aka when the checkbox is not :checked
+    */
+  &__input:not(:checked) ~ &__button {
+    background-color: var(--color-white);
+    border-color: var(--color-sea-green-alt);
+    // border: var(--checkbox-border-width) solid var(--color-sea-green-alt);
+  }
+
+  /*
+    * When checkboxed ON
+    * aka when the checkbox is :checked
+    */
+  &__input:checked ~ &__button {
+    background-color: var(--color-sea-green);
+  }
+
+  /*
+    * Draw the circle / line
+    *
+    */
+  &__input:not(:checked) ~ &__background {
+    &::after {
+      right: 0;
+      transform: translateX(-0.3125rem); // 5px
+      // transform: translateX(calc(var(--checkbox-width) - 0.85rem)); // alternative positioning
+
+      width: 0.5rem;
+      height: 0.5rem;
+      border-radius: 50%;
+      border: 0.0625rem solid var(--color-sea-green);
+    }
+  }
+  &__input:checked ~ &__background {
+    &::after {
+      left: 0;
+      transform: translateX(calc(0.5rem + 0.125rem));
+
+      width: 0.0625rem;
+      height: 0.5rem;
+      border-radius: 0.0625rem;
+      background-color: var(--color-sea-green);
+    }
+  }
+
+  /*
+    * On disabled
+    *
+    */
+  // &__input[disabled] ~ &__button,
+  // &__input[disabled] ~ &__background {
+  // }
+  &__input[disabled] ~ &__background {
+    background-color: var(--color-mint-green-25);
+  }
+  &__input[disabled]:checked ~ &__background {
+    &::after {
+      background-color: var(--color-sea-green-alt-30);
+    }
+  }
+  &__input[disabled]:not(:checked) ~ &__background {
+    &::after {
+      border-color: var(--color-sea-green-alt-30);
+    }
+  }
+  &__input[disabled] ~ &__button {
+    border-color: var(--color-sea-green-alt-30);
+  }
+  &__input[disabled]:checked ~ &__button {
+    background-color: var(--color-sea-green-alt-30);
+  }
+
+  /*
+    * On hover
+    *
+    */
+  &__input:not([disabled]):not(:focus):hover ~ &__button {
+    border-color: var(--color-sea-green);
+    background-color: var(--color-mint-green-50);
+  }
+
+  /*
+    * On active
+    *
+    */
+  /* stylelint-disable */
+  &__input:not([disabled]):active ~ &__button {
+    background-color: var(--color-mint-green-50);
+    border-color: transparent;
+  }
+  /* stylelint-enable */
+
+  /*
+    * On focus
+    *
+    */
+  /* stylelint-disable */
+  &__input:not([disabled]):focus ~ &__button {
+    html[data-whatinput='keyboard'] & {
+      border: none;
+      // border-color: var(--color-sea-green-alt-30);
+    }
+  }
+  /* stylelint-enable */
+  &__input:not([disabled]):focus ~ &__background,
+  &__input:not([disabled]):active ~ &__background {
+    @include fakeFocus();
+  }
+  &__input:not([disabled]):focus ~ &__button &__focus,
+  &__input:not([disabled]):active ~ &__button &__focus {
+    display: block;
+  }
+  &__input:not([disabled]):checked ~ &__button &__focus {
+    transform: rotate(180deg);
+  }
+  /* stylelint-disable */
+  &__input:not([disabled]):not(:checked):focus ~ &__button,
+  &__input:not([disabled]):not(:checked):active ~ &__button {
+    background-color: var(--color-mint-green-50);
+  }
+  /* stylelint-enable */
+
+  /*
+    * On error state
+    *
+    */
+  // change button color
+  &__status--error &__input:not([disabled]):not(:focus):hover ~ &__button {
+    border-color: var(--color-cherry-red);
+    background-color: var(--color-cherry-red-80);
+  }
+  &__status--error
+    &__input:not([disabled]):not(:focus):not(:active):not(:hover)
+    ~ &__button {
+    border-color: var(--color-cherry-red-80);
+  }
+  &__status--error
+    &__input:not([disabled]):not(:focus):not(:active):not(:hover):checked
+    ~ &__button {
+    background-color: var(--color-cherry-red);
+  }
+  // change background color
+  &__status--error
+    &__input:not([disabled]):not(:focus):not(:active)
+    ~ &__background {
+    background-color: var(--color-cherry-red-80);
+    @include fakeBorder(var(--color-cherry-red), $focusRingWidth);
+  }
+  // change gfx 1 color
+  &__status--error
+    &__input:not(:focus):not([disabled]):not(:active):checked
+    ~ &__background {
+    &::after {
+      background-color: var(--color-cherry-red);
+    }
+  }
+  // change gfx 0 color
+  &__status--error
+    &__input:not(:focus):not([disabled]):not(:active):not(:checked)
+    ~ &__background {
+    &::after {
+      border-color: var(--color-cherry-red);
+    }
+  }
+  // fake border outside
+  &__status--error
+    &__input:not([disabled]):not(:focus):not(:active)
+    ~ &__button
+    &__focus {
+    display: block;
+    @include fakeBorder(var(--color-cherry-red), $focusRingWidth);
+  }
+  // and rotate in checked state
+  &__status--error
+    &__input:not([disabled]):not(:focus):not(:active):checked
+    ~ &__button
+    &__focus {
+    transform: rotate(180deg);
+  }
+
+  // ajust the form-status to the inner border for 3px
+  > .dnb-form-status {
+    transform: translateY(0.1875rem);
+  }
+}
