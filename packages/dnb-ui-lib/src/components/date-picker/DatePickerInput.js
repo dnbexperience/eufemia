@@ -156,11 +156,14 @@ export default class DatePickerInput extends PureComponent {
   }
 
   callOnChange = ({ startDate, endDate }, onState = null) => {
-    if (typeof startDate !== 'undefined') {
+    if (
+      typeof startDate !== 'undefined' &&
+      DatePickerInput.isValidDate(startDate)
+    ) {
       this.setState(
         {
-          startDate
-          // ,_listenForPropChanges: false
+          startDate,
+          _listenForPropChanges: false
         },
         onState
       )
@@ -170,11 +173,14 @@ export default class DatePickerInput extends PureComponent {
         })
       }
     }
-    if (typeof endDate !== 'undefined') {
+    if (
+      typeof endDate !== 'undefined' &&
+      DatePickerInput.isValidDate(endDate)
+    ) {
       this.setState(
         {
-          endDate
-          // ,  _listenForPropChanges: false
+          endDate,
+          _listenForPropChanges: false
         },
         onState
       )
