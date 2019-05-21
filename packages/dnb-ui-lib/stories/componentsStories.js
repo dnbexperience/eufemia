@@ -241,12 +241,27 @@ stories.push([
               on_change={event => {
                 console.log('on_change', event)
               }}
+              onChange={event => {
+                console.log('onChange', event)
+              }}
               on_submit={event => {
+                console.log('on_submit', event)
+              }}
+              onSubmit={event => {
                 console.log('on_submit', event)
               }}
               value="Input ..."
             />
-            <Button text="Submit" type="submit" />
+            <Button
+              text="Submit"
+              type="submit"
+              on_click={event => {
+                console.log('on_click', event)
+              }}
+              onClick={event => {
+                console.log('onClick', event)
+              }}
+            />
           </form>
         </Box>
       </Wrapper>

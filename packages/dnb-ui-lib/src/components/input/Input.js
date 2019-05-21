@@ -186,14 +186,12 @@ export default class Input extends PureComponent {
     dispatchCustomElementEvent(this, 'on_blur', { value, event })
   }
   onChangeHandler = event => {
-    event.persist()
     const { value } = event.target
     this.setState({ value, _listenForPropChanges: false })
     dispatchCustomElementEvent(this, 'on_change', { value, event })
   }
   onKeyDownHandler = event => {
     if (event.key === 'Enter') {
-      event.persist()
       const { value } = event.target
       dispatchCustomElementEvent(this, 'on_submit', { value, event })
     }
@@ -258,11 +256,11 @@ export default class Input extends PureComponent {
       id,
       disabled,
       name: id,
+      ...attributes,
       onChange: this.onChangeHandler,
       onKeyDown: this.onKeyDownHandler,
       onFocus: this.onFocusHandler,
-      onBlur: this.onBlurHandler,
-      ...attributes
+      onBlur: this.onBlurHandler
     }
 
     // we may considder using: aria-details

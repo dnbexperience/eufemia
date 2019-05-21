@@ -161,9 +161,30 @@ export const dispatchCustomElementEvent = (element, eventName, event) => {
   }
 
   if (element && typeof element.props[eventName] === 'function') {
-    element.props[eventName].apply(element, [event]) // TODO: remove this because of security notation
+    element.props[eventName].apply(element, [event])
+  }
+
+  eventName = transformToReactEventCase(eventName)
+  if (element && typeof element.props[eventName] === 'function') {
+    element.props[eventName].apply(element, [event])
   }
 }
+
+// transform on_click to onClick
+export const transformToReactEventCase = s =>
+  s
+    .split(/_/g)
+    .reduce(
+      (acc, cur, i) =>
+        acc +
+        (i === 0
+          ? cur
+          : cur.replace(
+              /(\w)(\w*)/g,
+              (g0, g1, g2) => g1.toUpperCase() + g2.toLowerCase()
+            )),
+      ''
+    )
 
 export const setCustomElementMethod = (
   element,
