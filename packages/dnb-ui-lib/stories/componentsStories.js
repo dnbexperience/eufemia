@@ -475,10 +475,48 @@ class ModalCloseExample extends React.PureComponent {
         // open_modal={open => {
         //   setTimeout(open, 3e3)
         // }}
+        hide_close_button
         close_modal={close => {
           console.log('Modal was opened')
           setTimeout(close, 3e3)
         }}
+      >
+        <Wrapper>
+          <Hr />
+          <Box>
+            <H2>Some content</H2>
+            <Input>Focus me with Tab key</Input>
+          </Box>
+          <Box>
+            <P>
+              <Switch label="Checked:" checked />
+            </P>
+          </Box>
+        </Wrapper>
+      </Modal>
+    )
+  }
+}
+class ModalRerenderExample extends React.PureComponent {
+  state = {
+    title: 'Modal Title',
+    trigger_text: 'Open Modal'
+  }
+
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({ title: 'New Title' })
+      this.setState({ trigger_text: 'New Open Modal' })
+    }, 1e3)
+  }
+
+  render() {
+    return (
+      <Modal
+        trigger_text={this.state.trigger_text}
+        title={this.state.title}
+        trigger_disabled
+        // trigger_hidden
       >
         <Wrapper>
           <Hr />
@@ -516,6 +554,9 @@ stories.push([
             </Box>
           </Wrapper>
         </Modal>
+      </Box>
+      <Box>
+        <ModalRerenderExample />
       </Box>
       <Box>
         <ModalCloseExample />
@@ -588,7 +629,7 @@ const ProgressIndicatorCircular = () => {
   const [visible, setVisibe] = useState(true)
   useEffect(() => {
     const timer = setInterval(() => setVisibe(!visible), 2400)
-    return () => clearTimeout(timer)
+    return () => clearInterval(timer)
   })
   return (
     <ProgressIndicator

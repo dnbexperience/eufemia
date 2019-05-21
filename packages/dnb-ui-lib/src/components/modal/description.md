@@ -41,7 +41,7 @@ Modal dialogs appear on top of the main content changing the _mode_ of the syste
 
 **NB:** If the wrapper is not set manually, a wrapper is inserted automatically as a child node to the body.
 
-To make sure the HTML structure is decoupled from all the page content, You can optionally define a wrapper div like `<div class="dnb-modal-root" />`.
+To make sure the HTML structure is decoupled from all the page content, You can optionally define a wrapper div like `<div class="dnb-modal-root" className="dnb-core-style" />`.
 
 Just place this as a sibling of Your App root HTML element. This ensures that we always can stack the modal content above the App Content.
 

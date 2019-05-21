@@ -81,7 +81,7 @@ class StateDemo extends PureComponent {
   const [switchIsEnabled, setState] = useState(false)
   useEffect(() => {
     const timer = setInterval(() => setState(!switchIsEnabled), 1e3)
-    return () => clearTimeout(timer)
+    return () => clearInterval(timer)
   })
   return (<>
     <FormLabel

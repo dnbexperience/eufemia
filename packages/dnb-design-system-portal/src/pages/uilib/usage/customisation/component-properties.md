@@ -91,7 +91,7 @@ const Component = () => {
 const RenderHelper = () => {
   useEffect(() => {
     const timer = setInterval(() => render(<RenderHelper />), 1e3)
-    return () => clearTimeout(timer)
+    return () => clearInterval(timer)
   }, [])
   return <Component />
 }

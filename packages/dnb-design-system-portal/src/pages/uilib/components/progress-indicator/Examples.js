@@ -38,7 +38,7 @@ class Example extends PureComponent {
   const [progress, setProgressIndicator] = useState(random(1, 100))
   useEffect(() => {
     const timer = setInterval(() => setProgressIndicator(random(1, 100)), 1e3)
-    return () => clearTimeout(timer)
+    return () => clearInterval(timer)
   })
   return (
     <ProgressIndicator
