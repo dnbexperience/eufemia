@@ -4,6 +4,6 @@ draft: true
 order: 12
 ---
 
-import OldProgress from 'Pages/uilib/components/progress'
+import OldProgress from 'Pages/uilib/components/progress-indicator'
 
 <OldProgress />
