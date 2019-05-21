@@ -52,6 +52,19 @@ describe('DatePicker component', () => {
     expect(Comp.state().hidden).toBe(true)
   })
 
+  it('has a disabled attribute, once we set disabled to true', () => {
+    const Comp = mount(<Component show_input />)
+    Comp.setProps({
+      disabled: true
+    })
+    expect(
+      Comp.find('input')
+        .first()
+        .instance()
+        .hasAttribute('disabled')
+    ).toBe(true)
+  })
+
   it('has correct state after "click" trigger', () => {
     Comp.find('button.dnb-input__submit-button__button').simulate('click')
     expect(Comp.state().opened).toBe(true)

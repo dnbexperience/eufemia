@@ -44,6 +44,36 @@ describe('Modal component', () => {
   it('has to have the correct title', () => {
     expect(Comp.find('h1').text()).toBe(props.title)
   })
+  it('has no trigger button once we set trigger_hidden to true', () => {
+    Comp.setProps({
+      trigger_hidden: true
+    })
+    expect(Comp.find('button.dnb-modal__trigger').exists()).toBe(false)
+    Comp.setProps({
+      trigger_hidden: false
+    })
+  })
+  it('has a disabled trigger button once we set trigger_disabled to true', () => {
+    Comp.setProps({
+      trigger_disabled: true
+    })
+    expect(
+      Comp.find('button.dnb-modal__trigger')
+        .instance()
+        .hasAttribute('disabled')
+    ).toBe(true)
+  })
+  it('has an opened modal if open_state is set to "opened"', () => {
+    const Comp = mount(<Component modal_content="unique_modal_content" />)
+    Comp.setProps({
+      open_state: 'opened'
+    })
+    expect(Comp.find('div.dnb-modal__content').exists()).toBe(true)
+    Comp.setProps({
+      open_state: 'closed'
+    })
+    expect(Comp.find('div.dnb-modal__content').exists()).toBe(false)
+  })
   it('has to have the correct aria-describedby', () => {
     expect(
       Comp.find('[aria-describedby]').props()['aria-describedby']

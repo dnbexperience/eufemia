@@ -527,6 +527,7 @@ export default class DatePickerInput extends PureComponent {
         id={`${id}__input`}
         input_state={focusState}
         inputElement={this.renderInputElement}
+        disabled={disabled}
         submitButton={
           <SubmitButton
             id={id}

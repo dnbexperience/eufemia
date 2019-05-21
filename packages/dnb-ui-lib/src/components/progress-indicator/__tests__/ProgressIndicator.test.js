@@ -24,6 +24,8 @@ const props = fakeProps(require.resolve('../ProgressIndicator'), {
 })
 
 describe('Circular ProgressIndicator component', () => {
+  const mainLineSelector =
+    'svg.dnb-progress-indicator__circular__line.dark[style]'
   const Comp = mount(
     <Component {...props} type="circular" progress={50} />
   )
@@ -34,7 +36,7 @@ describe('Circular ProgressIndicator component', () => {
 
   it('has to have a stroke-dashoffset of 44 on 50%', () => {
     expect(
-      Comp.find('svg.dnb-progress-indicator__circular__line.dark[style]')
+      Comp.find(mainLineSelector)
         .instance()
         .getAttribute('style')
     ).toBe('stroke-dashoffset: 44;')
@@ -46,6 +48,25 @@ describe('Circular ProgressIndicator component', () => {
         .instance()
         .getAttribute('aria-label')
     ).toBe('50%')
+  })
+
+  it('has to react to a progress value of 80%', () => {
+    Comp.setProps({
+      progress: 80
+    })
+    expect(
+      Comp.find('.dnb-progress-indicator__circular')
+        .instance()
+        .getAttribute('aria-label')
+    ).toBe('80%')
+    expect(
+      Comp.find(mainLineSelector)
+        .instance()
+        .getAttribute('style')
+    ).toBe('stroke-dashoffset: 17.599999999999994;')
+    Comp.setProps({
+      progress: 50
+    })
   })
 
   it('should validate with ARIA rules as a svg element', async () => {
