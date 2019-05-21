@@ -150,6 +150,18 @@ describe('Dropdown component', () => {
     )
   })
 
+  it('has a disabled attribute, once we set disabled to true', () => {
+    const Comp = mount(<Component data={mockData} />)
+    Comp.setProps({
+      disabled: true
+    })
+    expect(
+      Comp.find('button.dnb-dropdown__trigger')
+        .instance()
+        .hasAttribute('disabled')
+    ).toBe(true)
+  })
+
   it('should validate with ARIA rules as a tabs', async () => {
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })

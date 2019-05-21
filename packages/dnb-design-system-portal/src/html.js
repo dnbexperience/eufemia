@@ -51,7 +51,7 @@ export default class HTML extends PureComponent {
             id="___gatsby"
             dangerouslySetInnerHTML={{ __html: body }}
           />
-          <div id="dnb-modal-root" />
+          <div id="dnb-modal-root" className="dnb-core-style" />
           {postBodyComponents}
         </body>
       </html>

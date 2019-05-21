@@ -36,6 +36,11 @@ export const propTypes = {
   id: PropTypes.string,
   labelled_by: PropTypes.string,
   title: PropTypes.string,
+  trigger_hidden: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  trigger_disabled: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool
+  ]),
   trigger_variant: ButtonPropTypes.variant,
   trigger_text: PropTypes.string,
   trigger_title: PropTypes.string,
@@ -79,6 +84,8 @@ export const defaultProps = {
   id: null,
   labelled_by: null,
   title: null,
+  trigger_hidden: false,
+  trigger_disabled: false,
   trigger_variant: 'secondary',
   trigger_text: null,
   trigger_title: 'Open Modal',
@@ -270,6 +277,8 @@ export default class Modal extends PureComponent {
       id, // eslint-disable-line
       preventSetTriggerRef, // eslint-disable-line
       labelled_by,
+      trigger_hidden,
+      trigger_disabled,
       trigger_variant,
       trigger_text,
       trigger_title,
@@ -283,23 +292,25 @@ export default class Modal extends PureComponent {
 
     return (
       <div className="dnb-modal">
-        {trigger_variant && (
-          <Button
-            id={this._id}
-            type="button"
-            variant={trigger_variant}
-            text={trigger_text}
-            title={trigger_title}
-            icon={
-              trigger_text && trigger_icon === defaultProps.trigger_icon
-                ? null
-                : trigger_icon
-            }
-            on_click={this.toggleOpenClose}
-            className={classnames('dnb-modal__trigger', trigger_class)}
-            innerRef={this._triggerRef}
-          />
-        )}
+        {Boolean(trigger_hidden) ||
+          (trigger_variant && (trigger_text || trigger_icon) && (
+            <Button
+              id={this._id}
+              type="button"
+              variant={trigger_variant}
+              text={trigger_text}
+              title={trigger_title}
+              disabled={Boolean(trigger_disabled)}
+              icon={
+                trigger_text && trigger_icon === defaultProps.trigger_icon
+                  ? null
+                  : trigger_icon
+              }
+              on_click={this.toggleOpenClose}
+              className={classnames('dnb-modal__trigger', trigger_class)}
+              innerRef={this._triggerRef}
+            />
+          ))}
 
         {modalActive && modal_content && (
           <ModalRoot
@@ -589,10 +600,9 @@ class ModalContent extends PureComponent {
         <div {...contentParams}>
           <div ref={this._contentRef} {...innerParams}>
             {title && <h1 className="dnb-h2 dnb-modal__title">{title}</h1>}
-            {hide_close_button !== true &&
-              hide_close_button !== 'true' && (
-                <CloseButton on_click={closeModal} title={close_title} />
-              )}
+            {Boolean(hide_close_button) !== true && (
+              <CloseButton on_click={closeModal} title={close_title} />
+            )}
             {modal_content}
           </div>
         </div>
