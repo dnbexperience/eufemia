@@ -131,6 +131,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
               on_submit_blur={null}
               on_submit_focus={null}
               title={null}
+              type="button"
               value={null}
               variant="secondary"
             />
@@ -603,6 +604,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
               on_submit_blur={null}
               on_submit_focus={null}
               title={null}
+              type="button"
               value={null}
               variant="secondary"
             >
@@ -633,7 +635,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                   size="medium"
                   text={null}
                   title={null}
-                  type="submit"
+                  type="button"
                   variant="secondary"
                 >
                   <button
@@ -645,7 +647,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                     onFocus={[Function]}
                     onKeyUp={[Function]}
                     onMouseOut={[Function]}
-                    type="submit"
+                    type="button"
                   >
                     <Content
                       aria-expanded={false}
@@ -672,7 +674,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                       size="medium"
                       text={null}
                       title={null}
-                      type="submit"
+                      type="button"
                       variant="secondary"
                     >
                       <IconPrimary

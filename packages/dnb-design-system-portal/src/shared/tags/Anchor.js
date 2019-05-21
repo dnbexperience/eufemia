@@ -26,7 +26,6 @@ const Anchor = ({ children, className, href, ...rest }) => {
   } else if (/^!/.test(href)) {
     rest.target = '_blank'
     href = href.substr(1)
-    console.log('href', href)
   }
   return (
     <a

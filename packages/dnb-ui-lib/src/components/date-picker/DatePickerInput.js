@@ -156,11 +156,14 @@ export default class DatePickerInput extends PureComponent {
   }
 
   callOnChange = ({ startDate, endDate }, onState = null) => {
-    if (typeof startDate !== 'undefined') {
+    if (
+      typeof startDate !== 'undefined' &&
+      DatePickerInput.isValidDate(startDate)
+    ) {
       this.setState(
         {
-          startDate
-          // ,_listenForPropChanges: false
+          startDate,
+          _listenForPropChanges: false
         },
         onState
       )
@@ -170,11 +173,14 @@ export default class DatePickerInput extends PureComponent {
         })
       }
     }
-    if (typeof endDate !== 'undefined') {
+    if (
+      typeof endDate !== 'undefined' &&
+      DatePickerInput.isValidDate(endDate)
+    ) {
       this.setState(
         {
-          endDate
-          // ,  _listenForPropChanges: false
+          endDate,
+          _listenForPropChanges: false
         },
         onState
       )
@@ -266,8 +272,11 @@ export default class DatePickerInput extends PureComponent {
         (firstSelectionStart === size && keyCode === 'right'))
     ) {
       try {
+        // stop in case there is no next input element
+        if (!this.refList[index + 1].current) {
+          return
+        }
         const nextSibling = this.refList[index + 1].current.inputElement
-        // const nextSibling = this.refList[index + 1].current
         if (nextSibling) {
           nextSibling.focus()
           nextSibling.setSelectionRange(0, 0)
@@ -523,6 +532,7 @@ export default class DatePickerInput extends PureComponent {
             id={id}
             disabled={disabled}
             // title={submit_button_title} // Not implemented yet
+            type="button"
             icon="calendar"
             variant="secondary"
             on_submit={onSubmit}

@@ -1,0 +1,43 @@
+/*
+* ProgressIndicator theme
+*
+*/
+
+@import '../../../../style/themes/imports.scss';
+
+// to get a reverse #v3 - use the following setup, strokeDashoffset has also to be:
+// const strokeDashoffset = -((maxOffset / 100) * progress-indicator)
+// :root {
+//   --progress-indicator-circular-circle: 88;
+//   --progress-indicator-circular-circle-offset--min: -1;
+//   --progress-indicator-circular-circle-offset--max: -88;
+// }
+
+.dnb-progress-indicator {
+  // circular variant
+  &__circular {
+    &--small {
+      width: 1rem;
+      height: 1rem;
+    }
+    &--large {
+      width: 3.5rem;
+      height: 3.5rem;
+    }
+    &--huge {
+      width: 20rem;
+      height: 20rem;
+    }
+
+    &__line {
+      animation-duration: 2s;
+    }
+
+    &__line.light &__circle {
+      stroke: var(--color-mint-green);
+    }
+    &__line.dark &__circle {
+      stroke: var(--color-emerald-green);
+    }
+  }
+}

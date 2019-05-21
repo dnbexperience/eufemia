@@ -53,12 +53,12 @@ describe('DatePicker component', () => {
   })
 
   it('has correct state after "click" trigger', () => {
-    Comp.find('button[type="submit"]').simulate('click')
+    Comp.find('button.dnb-input__submit-button__button').simulate('click')
     expect(Comp.state().opened).toBe(true)
     expect(Comp.state().hidden).toBe(false)
 
     expect(
-      Comp.find('button[type="submit"]')
+      Comp.find('button.dnb-input__submit-button__button')
         .instance()
         .getAttribute('aria-expanded')
     ).toBe('true')
@@ -75,7 +75,7 @@ describe('DatePicker component', () => {
   })
 
   it('has two calendar views', () => {
-    Comp.find('button[type="submit"]').simulate('click')
+    Comp.find('button.dnb-input__submit-button__button').simulate('click')
     expect(Comp.find('.dnb-date-picker__views').exists()).toBe(true)
     expect(Comp.find('.dnb-date-picker__calendar').length).toBe(2)
   })

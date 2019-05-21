@@ -1,0 +1,12 @@
+/*
+* DNB ProgressIndicator
+*
+*/
+
+@import '../../../style/components/imports.scss';
+
+.dnb-progress-indicator {
+  @include componentReset();
+}
+
+@import './progress-indicator.scss';

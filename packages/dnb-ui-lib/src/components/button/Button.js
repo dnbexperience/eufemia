@@ -128,10 +128,6 @@ export default class Button extends PureComponent {
     }
   }
   onClickHandler = event => {
-    // add web component event handler
-    if (typeof this.props.onClick === 'function') {
-      this.props.onClick({ event })
-    }
     dispatchCustomElementEvent(this, 'on_click', { event })
   }
   render() {

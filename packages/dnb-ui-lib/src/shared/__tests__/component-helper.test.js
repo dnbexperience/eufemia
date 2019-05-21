@@ -8,6 +8,7 @@ import {
   validateDOMAttributes,
   processChildren,
   dispatchCustomElementEvent,
+  transformToReactEventCase,
   setCustomElementMethod,
   pickRenderProps
 } from '../component-helper'
@@ -118,14 +119,17 @@ describe('"processChildren" should', () => {
 describe('"dispatchCustomElementEvent" should', () => {
   it('call a custom event function, set as a property in props', () => {
     const my_event = jest.fn()
+    const myEvent = jest.fn()
     const element = {
       props: {
-        my_event
+        my_event,
+        myEvent
       }
     }
     const event = {}
     dispatchCustomElementEvent(element, 'my_event', event)
     expect(my_event.mock.calls.length).toBe(1)
+    expect(myEvent.mock.calls.length).toBe(1)
   })
   it('call a custom event function, set as a property in props', () => {
     const fireEvent = jest.fn()
@@ -140,6 +144,14 @@ describe('"dispatchCustomElementEvent" should', () => {
     dispatchCustomElementEvent(element, 'eventName', event)
     expect(fireEvent.mock.calls.length).toBe(1)
     expect(fireEvent.mock.calls[0][0]).toBe('eventName')
+  })
+})
+
+describe('"transformToReactEventCase" should', () => {
+  it('transform a snail case event name to a React event case', () => {
+    expect(transformToReactEventCase('my_event_is_long')).toBe(
+      'myEventIsLong'
+    )
   })
 })
 

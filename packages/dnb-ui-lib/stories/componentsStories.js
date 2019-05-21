@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Wrapper, Box } from './helpers'
 import styled from '@emotion/styled'
 
@@ -21,6 +21,7 @@ import {
   Switch,
   Logo,
   StepIndicator,
+  ProgressIndicator,
   DatePicker
 } from '../src/components'
 import { H2, P, Hr } from '../src/elements'
@@ -156,7 +157,14 @@ stories.push([
     <CustomStyle>
       <Wrapper>
         <Box>
-          <Input label="Label:">Input ...</Input>
+          <Input
+            label="Label:"
+            on_change={event => {
+              console.log('on_change', event)
+            }}
+          >
+            Input ...
+          </Input>
         </Box>
         <Box>
           <p className="dnb-p">
@@ -220,6 +228,42 @@ stories.push([
             show_mask="true"
           />
         </Box>
+        <Box>
+          <form
+            onSubmit={event => {
+              console.log('onSubmit', event)
+              event.preventDefault()
+              // event.persist()
+            }}
+          >
+            <Input
+              label="Label:"
+              on_change={event => {
+                console.log('on_change', event)
+              }}
+              onChange={event => {
+                console.log('onChange', event)
+              }}
+              on_submit={event => {
+                console.log('on_submit', event)
+              }}
+              onSubmit={event => {
+                console.log('on_submit', event)
+              }}
+              value="Input ..."
+            />
+            <Button
+              text="Submit"
+              type="submit"
+              on_click={event => {
+                console.log('on_click', event)
+              }}
+              onClick={event => {
+                console.log('onClick', event)
+              }}
+            />
+          </form>
+        </Box>
       </Wrapper>
     </CustomStyle>
   )
@@ -230,6 +274,9 @@ stories.push([
   () => (
     <CustomStyle>
       <Wrapper>
+        <Box>
+          <CustomDate />
+        </Box>
         <Box>
           <DatePicker
             label="Range DatePicker:"
@@ -286,15 +333,6 @@ stories.push([
         </Box>
         <Box>
           <DatePicker
-            label="Defualt DatePicker:"
-            date="2019-05-05"
-            on_change={props => {
-              console.log('on_change', props)
-            }}
-          />
-        </Box>
-        <Box>
-          <DatePicker
             label="Hidden Nav:"
             date="2019-05-05"
             hide_navigation={true}
@@ -313,6 +351,22 @@ stories.push([
     </CustomStyle>
   )
 ])
+
+const CustomDate = () => {
+  const [date, setDate] = useState('2019-02-15')
+  console.log('date', date)
+  return (
+    <DatePicker
+      label="Defualt DatePicker:"
+      date={date}
+      return_format="YYYY-MM-DD"
+      on_change={({ date }) => {
+        console.log('on_change', date)
+        setDate(date)
+      }}
+    />
+  )
+}
 
 const svg = props => (
   <svg
@@ -513,6 +567,40 @@ stories.push([
     </Wrapper>
   )
 ])
+
+stories.push([
+  'ProgressIndicator',
+  () => (
+    <Wrapper>
+      <Box>
+        <ProgressIndicator progress={50} no_animation />
+      </Box>
+      <Box>
+        <ProgressIndicator size="huge" no_animation />
+      </Box>
+      <Box>
+        <ProgressIndicatorCircular />
+      </Box>
+    </Wrapper>
+  )
+])
+const ProgressIndicatorCircular = () => {
+  const [visible, setVisibe] = useState(true)
+  useEffect(() => {
+    const timer = setInterval(() => setVisibe(!visible), 2400)
+    return () => clearTimeout(timer)
+  })
+  return (
+    <ProgressIndicator
+      // progress={88}
+      size="huge"
+      visible={visible}
+      on_complete={() => {
+        console.log('on_complete')
+      }}
+    />
+  )
+}
 
 stories.push([
   'Dropdown',

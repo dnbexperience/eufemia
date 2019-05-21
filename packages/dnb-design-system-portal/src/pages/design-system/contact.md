@@ -28,10 +28,9 @@ order: 2
 
 ### Designers
 
-- **Jens Thuland** (Figma, Web Design, )
+- **Jens Thuland** (Figma, Web)
 - **Sindre Marken** (Figma, Typography)
-- **Casper Brekke** (Figma, iOS Design)
-- **Kevin Murphy** (Design System)
+- **Casper Brekke** (Figma, Native Mobile)
 
 ### Developers
 

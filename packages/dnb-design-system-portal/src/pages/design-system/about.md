@@ -33,7 +33,7 @@ Thank You for all who as contributed to build Eufemia. People who has contribute
 - [Sindre Marken](https://dnb.enterprise.slack.com/user/@WDUUEJNVC)
 - [Casper Brekke](https://dnb.enterprise.slack.com/user/@WDU4VCEP5)
 - [Tobias Høegh](https://dnb.enterprise.slack.com/user/@WE2M4E65N)
-- [Kevin Murphy](https://dnb.enterprise.slack.com/user/@WE38HLQQ4)
+- Kevin Murphy
 - Hans Kristian Smedsrød
 
 The DNB ASA Design System (Eufemia) is build together with [EGGS Design](https://eggsdesign.com/).
@@ -41,4 +41,3 @@ The DNB ASA Design System (Eufemia) is build together with [EGGS Design](https:/
 ## More People to thank
 
 - [Nicolai Rygh](https://dnb.enterprise.slack.com/user/@WDY36GXKM)
--

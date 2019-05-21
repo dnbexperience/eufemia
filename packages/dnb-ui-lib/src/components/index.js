@@ -23,6 +23,7 @@ import LineTitle from './line-title/LineTitle'
 import Logo from './logo/Logo'
 import Modal from './modal/Modal'
 import Notification from './notification/Notification'
+import ProgressIndicator from './progress-indicator/ProgressIndicator'
 import Slider from './slider/Slider'
 import StepIndicator from './step-indicator/StepIndicator'
 import Switch from './switch/Switch'
@@ -43,6 +44,7 @@ export {
   Logo,
   Modal,
   Notification,
+  ProgressIndicator,
   Slider,
   StepIndicator,
   Switch,
