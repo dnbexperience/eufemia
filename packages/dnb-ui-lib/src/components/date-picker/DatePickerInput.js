@@ -266,8 +266,11 @@ export default class DatePickerInput extends PureComponent {
         (firstSelectionStart === size && keyCode === 'right'))
     ) {
       try {
+        // stop in case there is no next input element
+        if (!this.refList[index + 1].current) {
+          return
+        }
         const nextSibling = this.refList[index + 1].current.inputElement
-        // const nextSibling = this.refList[index + 1].current
         if (nextSibling) {
           nextSibling.focus()
           nextSibling.setSelectionRange(0, 0)
