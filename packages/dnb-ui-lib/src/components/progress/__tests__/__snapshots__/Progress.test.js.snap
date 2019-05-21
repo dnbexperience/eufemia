@@ -202,7 +202,8 @@ exports[`Progress scss have to match snapshot 1`] = `
     .dnb-progress__circular__line {
       animation-duration: 2s;
       animation-delay: 200ms;
-      animation-timing-function: linear;
+      animation-timing-function: ease-in-out;
+      animation-timing-function: cubic-bezier(0.67, 0.06, 0.27, 0.92);
       animation-iteration-count: infinite; }
     .dnb-progress__circular__line.background {
       stroke-dashoffset: var(--progress-circular-circle-offset--max); }
