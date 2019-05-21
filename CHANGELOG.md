@@ -1,6 +1,6 @@
 ## May, 19. 2019
 
-- New component in the `dnb-ui-lib`: Circular [Progress](/uilib/components/progress) bar (spinner with animation)
+- New component in the `dnb-ui-lib`: Circular [ProgressIndicator](/uilib/components/progress-indicator) bar (spinner with animation)
 
 ## May, 8. 2019
 

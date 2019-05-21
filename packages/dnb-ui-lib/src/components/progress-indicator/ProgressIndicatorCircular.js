@@ -1,5 +1,5 @@
 /**
- * Web Progress Component
+ * Web ProgressIndicator Component
  *
  */
 
@@ -21,16 +21,16 @@ export const defaultProps = {
   maxOffset: 88
 }
 
-export default class ProgressCircular extends PureComponent {
+export default class ProgressIndicatorCircular extends PureComponent {
   static propTypes = propTypes
   static defaultProps = defaultProps
   render() {
     const { size, complete, maxOffset, progress } = this.props
     const strokeDashoffset = maxOffset - (maxOffset / 100) * progress
-    const hasProgress = parseFloat(progress) > -1
+    const hasProgressIndicator = parseFloat(progress) > -1
 
     const params = {}
-    if (hasProgress) {
+    if (hasProgressIndicator) {
       params['title'] = `${progress}%`
       params['aria-label'] = `${progress}%`
     } else {
@@ -42,34 +42,35 @@ export default class ProgressCircular extends PureComponent {
     return (
       <div
         className={classnames(
-          'dnb-progress__circular',
-          size && `dnb-progress__circular--${size}`,
-          hasProgress && 'dnb-progress__circular--has-progress'
+          'dnb-progress-indicator__circular',
+          size && `dnb-progress-indicator__circular--${size}`,
+          hasProgressIndicator &&
+            'dnb-progress-indicator__circular--has-progress-indicator'
         )}
         {...params}
       >
         {/* The first one is the background line */}
         <Circle
           className={classnames(
-            'dnb-progress__circular__line',
+            'dnb-progress-indicator__circular__line',
             'light',
             'paused'
           )}
         />
         <Circle
           className={classnames(
-            'dnb-progress__circular__line',
+            'dnb-progress-indicator__circular__line',
             'dark',
-            hasProgress || complete ? 'paused' : null
+            hasProgressIndicator || complete ? 'paused' : null
           )}
-          style={hasProgress ? { strokeDashoffset } : {}}
+          style={hasProgressIndicator ? { strokeDashoffset } : {}}
         />
-        {!hasProgress && (
+        {!hasProgressIndicator && (
           <Circle
             className={classnames(
-              'dnb-progress__circular__line',
+              'dnb-progress-indicator__circular__line',
               'light',
-              hasProgress || complete ? 'paused' : null
+              hasProgressIndicator || complete ? 'paused' : null
             )}
           />
         )}
@@ -87,7 +88,7 @@ const Circle = ({ className, ...rest }) => {
       {...rest}
     >
       <circle
-        className="dnb-progress__circular__circle"
+        className="dnb-progress-indicator__circular__circle"
         fill="none"
         strokeWidth="4"
         cx="16"

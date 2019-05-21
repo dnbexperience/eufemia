@@ -8,12 +8,12 @@ import {
   setupPageScreenshot
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('Progress screenshot', () => {
-  setupPageScreenshot({ url: '/uilib/components/progress' })
+describe('ProgressIndicator screenshot', () => {
+  setupPageScreenshot({ url: '/uilib/components/progress-indicator' })
   it('have to match the static primary circular with 50 percentage', async () => {
     const screenshot = await testPageScreenshot({
       selector:
-        '[data-dnb-test="progress-circular--primary"] .dnb-progress'
+        '[data-dnb-test="progress-indicator-circular--primary"] .dnb-progress-indicator'
     })
     expect(screenshot).toMatchImageSnapshot()
   })

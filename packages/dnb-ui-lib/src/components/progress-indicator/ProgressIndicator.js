@@ -1,5 +1,5 @@
 /**
- * Web Progress Component
+ * Web ProgressIndicator Component
  *
  */
 
@@ -11,7 +11,7 @@ import {
   validateDOMAttributes,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
-import ProgressCircular from './ProgressCircular'
+import ProgressIndicatorCircular from './ProgressIndicatorCircular'
 
 const renderProps = { on_complete: null }
 
@@ -59,13 +59,17 @@ export const defaultProps = {
   ...renderProps
 }
 
-export default class Progress extends PureComponent {
-  static tagName = 'dnb-progress'
+export default class ProgressIndicator extends PureComponent {
+  static tagName = 'dnb-progress-indicator'
   static propTypes = propTypes
   static defaultProps = defaultProps
 
   static enableWebComponent() {
-    registerElement(Progress.tagName, Progress, defaultProps)
+    registerElement(
+      ProgressIndicator.tagName,
+      ProgressIndicator,
+      defaultProps
+    )
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -87,7 +91,7 @@ export default class Progress extends PureComponent {
     super(props)
 
     // this._id =
-    //   props.id || `dnb-progress-${Math.round(Math.random() * 999)}` // cause we need an id anyway
+    //   props.id || `dnb-progress-indicator-${Math.round(Math.random() * 999)}` // cause we need an id anyway
 
     this.state = {
       _listenForPropChanges: true,
@@ -108,7 +112,7 @@ export default class Progress extends PureComponent {
     if (typeof this.props.on_complete === 'function') {
       this.fadeOutTimeout = setTimeout(() => {
         dispatchCustomElementEvent(this, 'on_complete')
-      }, 600) // wait for CSS fade out, defined in "progress-fade-out"
+      }, 600) // wait for CSS fade out, defined in "progress-indicator-fade-out"
     }
   }
 
@@ -144,9 +148,9 @@ export default class Progress extends PureComponent {
     const { progress, visible, complete } = this.state
 
     const params = { ...props }
-    const hasProgress = parseFloat(progress) > -1
+    const hasProgressIndicator = parseFloat(progress) > -1
 
-    if (visible && !hasProgress) {
+    if (visible && !hasProgressIndicator) {
       params.role = 'alert'
       params['aria-busy'] = 'true'
     }
@@ -154,7 +158,8 @@ export default class Progress extends PureComponent {
     validateDOMAttributes(this.props, params)
 
     const isComplete =
-      visible === false || (hasProgress && parseFloat(progress) >= 100)
+      visible === false ||
+      (hasProgressIndicator && parseFloat(progress) >= 100)
     if (isComplete) {
       this.delayVisibility()
     }
@@ -162,15 +167,15 @@ export default class Progress extends PureComponent {
     return (
       <div
         className={classnames(
-          'dnb-progress',
-          visible && 'dnb-progress--visible',
-          complete && 'dnb-progress--complete',
-          Boolean(no_animation) && 'dnb-progress--no-animation'
+          'dnb-progress-indicator',
+          visible && 'dnb-progress-indicator--visible',
+          complete && 'dnb-progress-indicator--complete',
+          Boolean(no_animation) && 'dnb-progress-indicator--no-animation'
         )}
         {...params}
       >
         {type === 'circular' && (
-          <ProgressCircular
+          <ProgressIndicatorCircular
             size={size}
             progress={progress}
             complete={complete}

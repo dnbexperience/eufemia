@@ -1,19 +1,19 @@
 /*
-* Progress theme
+* ProgressIndicator theme
 *
 */
 
 @import '../../../../style/themes/imports.scss';
 
 // to get a reverse #v3 - use the following setup, strokeDashoffset has also to be:
-// const strokeDashoffset = -((maxOffset / 100) * progress)
+// const strokeDashoffset = -((maxOffset / 100) * progress-indicator)
 // :root {
-//   --progress-circular-circle: 88;
-//   --progress-circular-circle-offset--min: -1;
-//   --progress-circular-circle-offset--max: -88;
+//   --progress-indicator-circular-circle: 88;
+//   --progress-indicator-circular-circle-offset--min: -1;
+//   --progress-indicator-circular-circle-offset--max: -88;
 // }
 
-.dnb-progress {
+.dnb-progress-indicator {
   // circular variant
   &__circular {
     &--small {

@@ -59,9 +59,13 @@ A ready to use DNB logo in SVG format.
 
 Modal dialogs appear on top of the main content changing the mode of the system into a special mode requiring user interaction. The main content is disabled until the user interacts with the modal dialog.
 
+## [ProgressIndicator](/uilib/components/progress-indicator)
+
+Use a `ProgressIndicator` whenever the user has to wait for more than _150ms_.
+
 ## [StepIndicator](/uilib/components/step-indicator)
 
-The step indicator (progress indicator) is a visual representation of a users progress through a set of steps or series of actions. Their purpose is to both guide the user through the process and to help them create a mental model of the amount of time and effort that is required of them.
+The step indicator (progress) is a visual representation of a users progress through a set of steps or series of actions. Their purpose is to both guide the user through the process and to help them create a mental model of the amount of time and effort that is required of them.
 
 ## [Notification](/uilib/components/notification)
 

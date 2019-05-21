@@ -10,17 +10,17 @@ class Example extends PureComponent {
   render() {
     return (
       <Fragment>
-        <ComponentBox caption="Default circular progress">
+        <ComponentBox caption="Default Circular ProgressIndicator">
           {/* @jsx */ `
-<Progress />
+<ProgressIndicator />
           `}
         </ComponentBox>
         <ComponentBox
-          caption="Shows a large circular progress with a static 50% in progress"
-          data-dnb-test="progress-circular--primary"
+          caption="Shows a large Circular ProgressIndicator with a static 50% in progress"
+          data-dnb-test="progress-indicator-circular--primary"
         >
           {/* @jsx */ `
-<Progress
+<ProgressIndicator
   type="circular"
   progress="50"
   size="large"
@@ -29,19 +29,19 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox
-          caption="Progress with random progress value to show the transition"
+          caption="ProgressIndicator with random progress value to show the transition"
           noFragments={false}
         >
           {/* @jsx */ `
 () => {
   const random = (min, max) => (Math.floor( Math.random () * (max - min + 1)) + min)
-  const [progress, setProgress] = useState(random(1, 100))
+  const [progress, setProgressIndicator] = useState(random(1, 100))
   useEffect(() => {
-    const timer = setInterval(() => setProgress(random(1, 100)), 1e3)
+    const timer = setInterval(() => setProgressIndicator(random(1, 100)), 1e3)
     return () => clearTimeout(timer)
   })
   return (
-    <Progress
+    <ProgressIndicator
       size="large"
       progress={progress}
     />
@@ -50,7 +50,7 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox
-          caption="Progress with on_complete callback"
+          caption="ProgressIndicator with on_complete callback"
           noFragments={false}
         >
           {/* @jsx */ `
@@ -61,7 +61,7 @@ class Example extends PureComponent {
     return () => clearTimeout(timer)
   })
   return (
-    <Progress
+    <ProgressIndicator
       size="large"
       visible={visible}
       on_complete={() => {

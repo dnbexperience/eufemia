@@ -21,7 +21,7 @@ import {
   Switch,
   Logo,
   StepIndicator,
-  Progress,
+  ProgressIndicator,
   DatePicker
 } from '../src/components'
 import { H2, P, Hr } from '../src/elements'
@@ -569,29 +569,29 @@ stories.push([
 ])
 
 stories.push([
-  'Progress',
+  'ProgressIndicator',
   () => (
     <Wrapper>
       <Box>
-        <Progress progress={50} no_animation />
+        <ProgressIndicator progress={50} no_animation />
       </Box>
       <Box>
-        <Progress size="huge" no_animation />
+        <ProgressIndicator size="huge" no_animation />
       </Box>
       <Box>
-        <ProgressCircular />
+        <ProgressIndicatorCircular />
       </Box>
     </Wrapper>
   )
 ])
-const ProgressCircular = () => {
+const ProgressIndicatorCircular = () => {
   const [visible, setVisibe] = useState(true)
   useEffect(() => {
     const timer = setInterval(() => setVisibe(!visible), 2400)
     return () => clearTimeout(timer)
   })
   return (
-    <Progress
+    <ProgressIndicator
       // progress={88}
       size="huge"
       visible={visible}
