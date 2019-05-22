@@ -5,8 +5,8 @@
 
 :root {
   --checkbox-height: 1.5rem;
-  --checkbox-width: 2.5rem;
-  --checkbox-border-width: 0.0625rem;
+  --checkbox-width: 1.5rem;
+  --checkbox-border-width: 0.125rem;
 }
 
 .dnb-checkbox {
@@ -22,11 +22,18 @@
   margin: 0;
   padding: 0;
 
+  color: var(--color-white);
+
   &__shell {
     position: relative;
 
     display: flex;
     align-items: center;
+    justify-content: center;
+
+    width: var(--checkbox-height);
+    height: var(--checkbox-height);
+    // background: red;
 
     // vertical alignment
     transform: translateY(
@@ -41,21 +48,17 @@
   }
 
   &__focus,
-  &__button {
+  &__button,
+  &__gfx {
     position: absolute;
     z-index: 4;
 
-    width: var(--checkbox-height);
-    height: var(--checkbox-height);
-
-    border-radius: 50%;
+    border-radius: 0.25rem;
   }
-
   &__button {
-    left: 0;
+    width: calc(var(--checkbox-width) - 0.125rem);
+    height: calc(var(--checkbox-height) - 0.125rem);
 
-    transform: translateX(0);
-    transition: transform 160ms ease-out 125ms;
     border: var(--checkbox-border-width) solid transparent;
 
     // IE fix
@@ -63,54 +66,39 @@
       top: -0.25rem; // because IE is not using flex to center here
     }
   }
+  &__gfx {
+    position: absolute;
+    width: var(--checkbox-height);
+    height: var(--checkbox-height);
+
+    transition: opacity 200ms ease-out, transform 200ms ease-out;
+    fill: currentColor;
+    shape-rendering: geometricPrecision;
+  }
 
   /*
-    * When checkboxed OFF
+    * When checkbox is OFF
     * aka when the checkbox is not :checked
     */
-  &__input:not(:checked) ~ &__button {
-    transform: translateX(0); // IE fix
-    transform: translateX(calc(1px - 1px - var(--checkbox-border-width)));
+  &__input:not(:checked) ~ &__gfx {
+    opacity: 0;
+    transform: scale(0.8);
   }
 
   /*
-    * When checkboxed ON
+    * When checkbox is ON
     * aka when the checkbox is :checked
     */
-  &__input:checked ~ &__button {
-    transform: translateX(1rem); // IE fix
-    transform: translateX(calc(1rem + var(--checkbox-border-width)));
-  }
-
-  &__background {
-    width: var(--checkbox-width);
-    height: 1rem;
-    border-radius: 0.8125rem;
+  &__input:checked ~ &__gfx {
+    opacity: 1;
+    transform: scale(1);
   }
 
   &__focus {
     display: none;
-    position: absolute;
-    z-index: 2;
 
-    width: 100%;
-    height: 100%;
-
-    transition: transform 150ms ease-out;
-    transform: rotate(0deg);
-
-    //15% is the top value
-    //85% is the bottom value
-    clip-path: polygon(
-      50% 15%,
-      110% 15%,
-      110% -10%,
-      -10% -10%,
-      -10% 110%,
-      110% 110%,
-      110% 85%,
-      50% 85%
-    );
+    width: calc(var(--checkbox-width) - 0.125rem);
+    height: calc(var(--checkbox-height) - 0.125rem);
 
     @include fakeFocus();
   }
@@ -122,7 +110,7 @@
     left: 0;
     z-index: 5;
 
-    width: 100%;
+    width: var(--checkbox-width);
     height: var(--checkbox-height);
 
     margin: 0;

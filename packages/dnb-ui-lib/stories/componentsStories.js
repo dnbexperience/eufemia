@@ -744,13 +744,27 @@ stories.push([
     <CustomStyle>
       <Wrapper>
         <Box>
-          {/* Text: <FormLabel for_id="checkbox">Unchecked:</FormLabel> */}
-          <Checkbox id="checkbox" checked={false} />
-        </Box>
-        {/* <Box>
           <p className="dnb-p">
-            <Checkbox label="Checked:" checked />
+            Text: <FormLabel for_id="checkbox">Unchecked:</FormLabel>
+            <Checkbox id="checkbox" />
           </p>
+        </Box>
+        <Box>
+          <Checkbox
+            label="Checked:"
+            checked
+            on_change={({ checked }) => {
+              console.log('on_change', checked)
+            }}
+          />
+        </Box>
+        <Box>
+          <Checkbox
+            label="Unchecked:"
+            on_change={({ checked }) => {
+              console.log('on_change', checked)
+            }}
+          />
         </Box>
         <Box>
           <Checkbox label="Unchecked disabled:" checked={false} disabled />
@@ -766,8 +780,12 @@ stories.push([
           />
         </Box>
         <Box>
-          <Checkbox label="Label:" checked status="Error message" />
-        </Box> */}
+          <Checkbox
+            label="Checked status message:"
+            checked
+            status="Error message"
+          />
+        </Box>
       </Wrapper>
     </CustomStyle>
   )

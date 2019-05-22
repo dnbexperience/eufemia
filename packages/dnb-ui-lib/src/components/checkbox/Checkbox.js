@@ -237,18 +237,10 @@ export default class Checkbox extends Component {
               ref={this._refInput}
               {...inputParams}
             />
-            <span
-              draggable
-              aria-hidden
-              className="dnb-checkbox__background"
-              onDragStart={this.onChangeHandler}
-              {...this.helperParams}
-            />
-            {/* <span aria-hidden className="dnb-checkbox__button">
-              <span className="dnb-checkbox__focus">
-                <span className="dnb-checkbox__focus__inner" />
-              </span>
-            </span> */}
+            <span aria-hidden className="dnb-checkbox__button">
+              <span className="dnb-checkbox__focus" />
+            </span>
+            <CheckGfx className="dnb-checkbox__gfx" />
           </span>
           {showStatus && (
             <FormStatus
@@ -263,3 +255,16 @@ export default class Checkbox extends Component {
     )
   }
 }
+
+const CheckGfx = props => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    {...props}
+  >
+    <path d="M5.86 12.95a.75.75 0 1 0-1.22.86l1.22-.86zm2.15 4.34l.62-.42-.01-.01-.61.43zm.94.52l.02-.75-.02.75zm.98-.46l-.6-.47v.01l.6.46zm9.4-10.7a.75.75 0 0 0-1.17-.93l1.18.93zm-14.7 7.16l2.76 3.91 1.23-.86-2.76-3.91-1.22.86zm2.75 3.9c.35.52.93.84 1.55.85l.04-1.5a.43.43 0 0 1-.34-.19l-1.25.84zm1.55.85c.62.02 1.22-.26 1.6-.76l-1.2-.9a.43.43 0 0 1-.36.16l-.04 1.5zm1.59-.75l8.82-11.16-1.18-.93-8.82 11.16 1.18.93z" />
+  </svg>
+)
