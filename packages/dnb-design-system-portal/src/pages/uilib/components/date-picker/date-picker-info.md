@@ -6,7 +6,7 @@ import Examples from 'Pages/uilib/components/date-picker/Examples'
 
 ## Description
 
-The date-picker component should be used whenever there is to enter a single date or a date range/period with a start and end date.
+The `DatePicker` component should be used whenever there is to enter a single date or a date range/period with a start and end date.
 
 ### Date Object
 

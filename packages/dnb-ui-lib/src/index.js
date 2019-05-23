@@ -11,6 +11,7 @@
 
 // import all the aviable components and patterns
 import Button from './components/button/Button'
+import Checkbox from './components/checkbox/Checkbox'
 import DatePicker from './components/date-picker/DatePicker'
 import Dropdown from './components/dropdown/Dropdown'
 import FormLabel from './components/form-label/FormLabel'
@@ -52,6 +53,7 @@ import Ul from './elements/Ul'
 // define / export all the aviable components
 export {
   Button,
+  Checkbox,
   DatePicker,
   Dropdown,
   FormLabel,

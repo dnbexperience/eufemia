@@ -70,4 +70,10 @@ describe('Switch checked screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+  it('have to match switch in error state', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-dnb-test="switch-error"] .dnb-switch'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })

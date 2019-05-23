@@ -8,15 +8,7 @@ import ComponentBox from '../../../../shared/tags/ComponentBox'
 import styled from '@emotion/styled'
 
 class Example extends PureComponent {
-  handleInputChange = ({ value }) => {
-    console.log(value)
-  }
-  handleInputSubmit = ({ value }) => {
-    console.log('Submit:', value)
-  }
   render() {
-    const handleInputChange = this.handleInputChange
-    const handleInputSubmit = this.handleInputSubmit
     return (
       <Fragment>
         <ComponentBox
@@ -32,7 +24,6 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox
-          scope={{ handleInputChange, handleInputSubmit }}
           caption="Search text placeholder"
           data-dnb-test="input-search"
         >
@@ -42,35 +33,37 @@ class Example extends PureComponent {
   type="search"
   submit_button_title="Search"
   placeholder="Search text placeholder"
-  on_change={handleInputChange}
-  on_submit={handleInputSubmit}
+  on_change={({ value }) => {
+    console.log(value)
+  }}
+  on_submit={({ value }) => {
+    console.log('Submit:', value)
+  }}
 />
           `}
         </ComponentBox>
-        <ComponentBox
-          scope={{ handleInputChange }}
-          caption="Medium input placeholder"
-        >
+        <ComponentBox caption="Medium input placeholder">
           {/* @jsx */ `
 <Input
   label="Medium input:"
   size="medium"
   placeholder="Medium input placeholder"
-  on_change={handleInputChange}
+  on_change={({ value }) => {
+    console.log(value)
+  }}
 />
           `}
         </ComponentBox>
-        <ComponentBox
-          scope={{ handleInputChange }}
-          caption="Large input with right aligned text"
-        >
+        <ComponentBox caption="Large input with right aligned text">
           {/* @jsx */ `
 <Input
   label="Large input:"
   size="large"
   align="right"
   placeholder="Large input with right aligned text"
-  on_change={handleInputChange}
+  on_change={({ value }) => {
+    console.log(value)
+  }}
 />
           `}
         </ComponentBox>
@@ -105,24 +98,20 @@ class Example extends PureComponent {
 />
           `}
         </ComponentBox>
-        <ComponentBox
-          scope={{ handleInputChange }}
-          caption="Input wigth additional description"
-        >
+        <ComponentBox caption="Input wigth additional description">
           {/* @jsx */ `
 <Input
   label="Short Label:"
   autocomplete="on"
   placeholder="Placeholder text"
   description="Additional description"
-  on_change={handleInputChange}
+  on_change={({ value }) => {
+    console.log(value)
+  }}
 />
           `}
         </ComponentBox>
-        <ComponentBox
-          scope={{ handleInputChange }}
-          caption="Numbers are ligned by using Proportional Lining"
-        >
+        <ComponentBox caption="Numbers are ligned by using Proportional Lining">
           {/* @jsx */ `
 <Input
   label="My Status:"
@@ -132,8 +121,35 @@ class Example extends PureComponent {
   status_state="info"
   status_animation="fade-in"
   value="This is the value 1234567890"
-  on_change={handleInputChange}
+  on_change={({ value }) => {
+    console.log(value)
+  }}
 />
+          `}
+        </ComponentBox>
+        <ComponentBox caption="Submit Form with Input. Pressing the enter key will trigger a submit.">
+          {/* @jsx */ `
+<form
+  onSubmit={event => {
+    console.log('onSubmit')
+    event.preventDefault()
+  }}
+>
+  <Input
+    label="Label:"
+    value="Input ..."
+    on_submit={event => {
+      console.log('on_submit')
+    }}
+    on_change={({ value }) => {
+      console.log('on_change:', value)
+    }}
+    onChange={({ value }) => {
+      console.log('onChange:', value)
+    }}
+  />
+  <Button text="Submit" type="submit" />
+</form>
           `}
         </ComponentBox>
       </Fragment>

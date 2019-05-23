@@ -54,4 +54,4 @@ This is the navigation which appears at the bottom of step-by-step forms. It has
 
 ## [ViewTitle](/uilib/patterns/view-title)
 
-The line title component is a heading variant with borders on both sides. It is commonly used as a `legend` in form fieldsets.
+The `ViewTitle` component is a heading variant with borders on both sides. It is commonly used as a `legend` in form fieldsets.

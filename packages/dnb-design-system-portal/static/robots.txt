@@ -1,2 +1,3 @@
 User-agent: *
-Disallow: /
+Disallow: /design-system/contact
+Disallow: /icons
