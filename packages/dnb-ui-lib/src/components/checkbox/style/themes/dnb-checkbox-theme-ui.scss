@@ -72,7 +72,6 @@
     html[data-whatinput='keyboard'] & {
       border: none;
       background-color: var(--color-mint-green-50);
-      // border-color: var(--color-sea-green-alt-30);
     }
   }
   &__input:not([disabled]):focus ~ &__gfx {

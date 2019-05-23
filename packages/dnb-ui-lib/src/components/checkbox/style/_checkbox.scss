@@ -33,7 +33,6 @@
 
     width: var(--checkbox-height);
     height: var(--checkbox-height);
-    // background: red;
 
     // vertical alignment
     transform: translateY(
@@ -56,15 +55,16 @@
     border-radius: 0.25rem;
   }
   &__button {
-    width: calc(var(--checkbox-width) - 0.125rem);
-    height: calc(var(--checkbox-height) - 0.125rem);
-
     border: var(--checkbox-border-width) solid transparent;
-
-    // IE fix
-    @media all and (-ms-high-contrast: none) {
-      top: -0.25rem; // because IE is not using flex to center here
-    }
+  }
+  &__focus {
+    display: none;
+    @include fakeFocus();
+  }
+  &__focus,
+  &__button {
+    width: calc(var(--checkbox-width) - 0.25rem);
+    height: calc(var(--checkbox-height) - 0.25rem);
   }
   &__gfx {
     position: absolute;
@@ -94,19 +94,11 @@
     transform: scale(1);
   }
 
-  &__focus {
-    display: none;
-
-    width: calc(var(--checkbox-width) - 0.125rem);
-    height: calc(var(--checkbox-height) - 0.125rem);
-
-    @include fakeFocus();
-  }
-
   &__input {
     opacity: 0;
 
     position: absolute;
+    top: 0;
     left: 0;
     z-index: 5;
 
