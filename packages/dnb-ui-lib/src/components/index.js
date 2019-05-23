@@ -11,6 +11,7 @@
 
 // import all the aviable components
 import Button from './button/Button'
+import Checkbox from './checkbox/Checkbox'
 import DatePicker from './date-picker/DatePicker'
 import Dropdown from './dropdown/Dropdown'
 import FormLabel from './form-label/FormLabel'
@@ -32,6 +33,7 @@ import Tabs from './tabs/Tabs'
 // define / export all the aviable components
 export {
   Button,
+  Checkbox,
   DatePicker,
   Dropdown,
   FormLabel,
