@@ -1,0 +1,475 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Radio component have to match snapshot 1`] = `
+<Radio
+  attributes="attributes"
+  checked="checked"
+  class="class"
+  className="className"
+  custom_element={Object {}}
+  custom_method={[Function]}
+  default_state="default_state"
+  disabled="disabled"
+  id="id"
+  label="label"
+  on_change={[Function]}
+  on_state_update={[Function]}
+  readOnly={false}
+  status={null}
+  status_animation="status_animation"
+  status_state="status_state"
+  title="title"
+  value="value"
+>
+  <FormLabel
+    aria-hidden={true}
+    class={null}
+    className={null}
+    disabled="disabled"
+    for_id="id"
+    id="id-label"
+    render_content={null}
+    text="label"
+    title={null}
+  >
+    <label
+      aria-disabled={true}
+      className="dnb-form-label"
+      disabled="disabled"
+      htmlFor="id"
+      id="id-label"
+    >
+      label
+    </label>
+  </FormLabel>
+  <span
+    className="dnb-radio className class"
+  >
+    <span
+      className="dnb-radio__shell"
+    >
+      <input
+        aria-checked={false}
+        aria-disabled={true}
+        aria-labelledby="id-label"
+        checked={false}
+        className="dnb-radio__input"
+        disabled="disabled"
+        id="id"
+        name="id"
+        onChange={[Function]}
+        onKeyDown={[Function]}
+        onMouseOut={[Function]}
+        title="title"
+        type="radio"
+        value=""
+      />
+      <span
+        aria-hidden={true}
+        className="dnb-radio__button"
+      >
+        <span
+          className="dnb-radio__focus"
+        />
+      </span>
+      <CheckGfx
+        className="dnb-radio__gfx"
+      >
+        <svg
+          className="dnb-radio__gfx"
+          fill="none"
+          height="24"
+          viewBox="0 0 24 24"
+          width="24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M5.86 12.95a.75.75 0 1 0-1.22.86l1.22-.86zm2.15 4.34l.62-.42-.01-.01-.61.43zm.94.52l.02-.75-.02.75zm.98-.46l-.6-.47v.01l.6.46zm9.4-10.7a.75.75 0 0 0-1.17-.93l1.18.93zm-14.7 7.16l2.76 3.91 1.23-.86-2.76-3.91-1.22.86zm2.75 3.9c.35.52.93.84 1.55.85l.04-1.5a.43.43 0 0 1-.34-.19l-1.25.84zm1.55.85c.62.02 1.22-.26 1.6-.76l-1.2-.9a.43.43 0 0 1-.36.16l-.04 1.5zm1.59-.75l8.82-11.16-1.18-.93-8.82 11.16 1.18.93z"
+          />
+        </svg>
+      </CheckGfx>
+    </span>
+  </span>
+</Radio>
+`;
+
+exports[`Radio scss have to match default theme snapshot 1`] = `
+"/*
+* Radio theme
+*
+*/
+/**
+ * This file is only used to make themes independent
+ * so that they can get imported individually, without the core styles
+ *
+ */
+/*
+ * Utilities
+ */
+.dnb-radio {
+  /*
+    * When radioed OFF
+    * aka when the radio is not :checked
+    */
+  /*
+    * When radioed ON
+    * aka when the radio is :checked
+    */
+  /*
+    * On disabled
+    *
+    */
+  /*
+    * On hover
+    *
+    */
+  /*
+    * On active
+    *
+    */
+  /* stylelint-disable */
+  /* stylelint-enable */
+  /*
+    * On focus
+    *
+    */
+  /* stylelint-disable */
+  /* stylelint-enable */
+  /*
+    * On error state
+    *
+    */ }
+  .dnb-radio__input:not(:checked) ~ .dnb-radio__button {
+    background-color: var(--color-white);
+    border-color: var(--color-sea-green-alt); }
+  .dnb-radio__input:checked ~ .dnb-radio__button {
+    background-color: var(--color-sea-green-alt); }
+  .dnb-radio__input[disabled] ~ .dnb-radio__button {
+    border-color: var(--color-mint-green-50); }
+  .dnb-radio__input[disabled]:checked ~ .dnb-radio__button {
+    border-color: transparent;
+    background-color: var(--color-sea-green-alt-30); }
+  .dnb-radio__input:not([disabled]):not(:focus):hover ~ .dnb-radio__button {
+    background-color: var(--color-mint-green-50); }
+  .dnb-radio__input:not([disabled]):not(:focus):checked:hover ~ .dnb-radio__button {
+    border-color: transparent; }
+  .dnb-radio__input:not([disabled]):not(:focus):hover ~ .dnb-radio__gfx {
+    color: var(--color-sea-green-alt); }
+  .dnb-radio__input:not([disabled]):active ~ .dnb-radio__button {
+    background-color: var(--color-mint-green-50);
+    border-color: transparent; }
+  .dnb-radio__input:not([disabled]):active ~ .dnb-radio__gfx {
+    color: var(--color-white); }
+  html[data-whatinput='keyboard'] .dnb-radio__input:not([disabled]):focus ~ .dnb-radio__button {
+    border: none;
+    background-color: var(--color-mint-green-50); }
+  html[data-whatinput='keyboard'] .dnb-radio__input:not([disabled]):focus ~ .dnb-radio__gfx {
+    color: var(--color-sea-green-alt); }
+  .dnb-radio__input:not([disabled]):focus ~ .dnb-radio__button .dnb-radio__focus,
+  .dnb-radio__input:not([disabled]):active ~ .dnb-radio__button .dnb-radio__focus {
+    display: block; }
+  .dnb-radio__input:not([disabled]):not(:checked):focus ~ .dnb-radio__button,
+  .dnb-radio__input:not([disabled]):not(:checked):active ~ .dnb-radio__button {
+    background-color: var(--color-mint-green-50); }
+  .dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:active) ~ .dnb-radio__button {
+    border: none; }
+  .dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:active) ~ .dnb-radio__button .dnb-radio__focus {
+    display: block;
+    box-shadow: 0 0 0 0.125rem var(--color-cherry-red);
+    border-color: transparent; }
+  .dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):hover ~ .dnb-radio__button {
+    border-color: var(--color-cherry-red);
+    background-color: var(--color-cherry-red-80); }
+  .dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:active):not(:hover) ~ .dnb-radio__button {
+    border-color: var(--color-cherry-red-80); }
+  .dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:active):not(:hover):checked ~ .dnb-radio__button {
+    background-color: var(--color-cherry-red); }
+  .dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):hover ~ .dnb-radio__gfx {
+    color: var(--color-cherry-red); }
+  .dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:active):not(:hover) ~ .dnb-radio__gfx {
+    color: var(--color-cherry-red-80); }
+  .dnb-radio > .dnb-form-status {
+    transform: translateY(0.1875rem); }
+"
+`;
+
+exports[`Radio scss have to match snapshot 1`] = `
+"/*
+* DNB Radio
+*
+*/
+/**
+ * This file is only used to make components independent
+ * so that they can get imported individually, without the core styles
+ *
+ */
+/*
+ * Utilities
+ */
+/*
+ * Scopes
+ *
+ */
+/*
+ * Document Reset
+ *
+ */
+/*
+* DNB FormLabel
+*
+*/
+.dnb-form-label {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-default);
+  font-size: 1rem;
+  font-style: normal;
+  line-height: 1.5rem;
+  color: var(--color-black-80, #333);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  font-variant-numeric: lining-nums;
+  font-feature-settings: \\"lnum\\";
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-form-label *,
+  .dnb-form-label ::before,
+  .dnb-form-label ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-form-label ::before,
+  .dnb-form-label ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+ * FormLabel component
+ *
+ */
+.dnb-form-label {
+  user-select: none;
+  margin-right: 1rem;
+  display: inline-block;
+  vertical-align: baseline;
+  cursor: pointer;
+  color: inherit;
+  width: auto;
+  white-space: nowrap; }
+  .dnb-form-label--vertical {
+    margin-right: 0;
+    margin-top: 0; }
+  .dnb-form-label[for]:not([disabled]):hover {
+    color: var(--color-sea-green); }
+  .dnb-form-label[disabled] {
+    cursor: not-allowed; }
+
+/*
+* DNB FormStatus
+*
+*/
+.dnb-form-status {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-default);
+  font-size: 1rem;
+  font-style: normal;
+  line-height: 1.5rem;
+  color: var(--color-black-80, #333);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  font-variant-numeric: lining-nums;
+  font-feature-settings: \\"lnum\\";
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-form-status *,
+  .dnb-form-status ::before,
+  .dnb-form-status ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-form-status ::before,
+  .dnb-form-status ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+ * FormStatus component
+ *
+ */
+.dnb-form-status {
+  width: auto;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  min-height: var(--input-height);
+  border-radius: var(--input-border-radius);
+  line-height: 0.5rem; }
+  .dnb-form-status--text {
+    padding: calc(0.5rem / 2) 1rem;
+    cursor: text;
+    color: var(--color-emerald-green);
+    line-height: 1.5rem; }
+  .dnb-icon + .dnb-form-status--text {
+    padding-left: 0.5rem; }
+  .dnb-form-status > .dnb-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 1.5em;
+    height: 1.5em;
+    margin-left: 0.5rem;
+    color: inherit;
+    font-size: 1rem;
+    border-radius: 50%;
+    border: 1px solid;
+    border-color: currentColor; }
+  .dnb-form-status[hidden] {
+    display: none; }
+  .dnb-form-status--fade-in {
+    height: 0;
+    opacity: 0;
+    animation: fade-in 600ms ease-out 1 200ms forwards; }
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    height: 0; }
+  to {
+    opacity: 1;
+    height: var(--input-height); } }
+
+.dnb-radio {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-default);
+  font-size: 1rem;
+  font-style: normal;
+  line-height: 1.5rem;
+  color: var(--color-black-80, #333);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  font-variant-numeric: lining-nums;
+  font-feature-settings: \\"lnum\\";
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-radio *,
+  .dnb-radio ::before,
+  .dnb-radio ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-radio ::before,
+  .dnb-radio ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+* Radio component
+*
+*/
+:root {
+  --radio-height: 1.5rem;
+  --radio-width: 1.5rem;
+  --radio-border-width: 0.125rem; }
+
+.dnb-radio {
+  user-select: none;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  vertical-align: middle;
+  width: auto;
+  margin: 0;
+  padding: 0;
+  color: var(--color-white);
+  /*
+    * When radio is OFF
+    * aka when the radio is not :checked
+    */
+  /*
+    * When radio is ON
+    * aka when the radio is :checked
+    */ }
+  .dnb-radio__shell {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--radio-height);
+    height: var(--radio-height);
+    transform: translateY(-0.0625rem); }
+  label + .dnb-radio[class*='__form-status'] {
+    vertical-align: top; }
+  .dnb-radio__focus, .dnb-radio__button, .dnb-radio__gfx {
+    position: absolute;
+    z-index: 4;
+    border-radius: 0.25rem; }
+  .dnb-radio__button {
+    border: var(--radio-border-width) solid transparent; }
+  .dnb-radio__focus {
+    display: none;
+    outline: none; }
+    html[data-whatinput='keyboard'] .dnb-radio__focus {
+      box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
+      border-color: transparent; }
+  .dnb-radio__focus, .dnb-radio__button {
+    width: calc(var(--radio-width) - 0.25rem);
+    height: calc(var(--radio-height) - 0.25rem); }
+  .dnb-radio__gfx {
+    position: absolute;
+    width: var(--radio-height);
+    height: var(--radio-height);
+    transition: opacity 200ms ease-out, transform 200ms ease-out;
+    fill: currentColor;
+    shape-rendering: geometricPrecision; }
+  .dnb-radio__input:not(:checked) ~ .dnb-radio__gfx {
+    opacity: 0;
+    transform: scale(0.8); }
+  .dnb-radio__input:checked ~ .dnb-radio__gfx {
+    opacity: 1;
+    transform: scale(1); }
+  .dnb-radio__input {
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 5;
+    width: var(--radio-width);
+    height: var(--radio-height);
+    margin: 0;
+    padding: 0;
+    border: 0; }
+  .dnb-radio__input:not([disabled]) {
+    cursor: pointer; }
+  .dnb-radio > .dnb-form-status {
+    margin-top: 0.125rem; }
+"
+`;
