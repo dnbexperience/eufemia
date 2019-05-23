@@ -13,15 +13,20 @@ DNB Eufemia components are ready to use, styled and custom build HTML elements.
 
 ## [Button](/uilib/components/button)
 
-The button component should be used as the primary call-to-action in a form, or as a user interaction mechanism.
+The `Button` component should be used as the primary call-to-action in a form, or as a user interaction mechanism.
+
+## [Button](/uilib/components/button)
+
+The `Checkbox` component is shown as a square box that is ticked (checked) when activated.
+Checkboxes are used to let a user select one or more options of a limited number of choices.
 
 ## [DatePicker](/uilib/components/date-picker)
 
-The date-picker component should be used whenever there is to enter a single date or a date range/period with a start and end date.
+The `DatePicker` component should be used whenever there is to enter a single date or a date range/period with a start and end date.
 
 ## [Dropdown](/uilib/components/dropdown)
 
-The dropdown component is a fully custom-made component. This allows us to change it's form based on context (small screens, touch devices etc.)
+The `Dropdown` component is a fully custom-made component. This allows us to change it's form based on context (small screens, touch devices etc.)
 
 ## [FormLabel](/uilib/components/form-label)
 
@@ -33,11 +38,11 @@ The form-status is a simple component meant for displaying the status of a form 
 
 ## [Icon](/uilib/components/icon)
 
-The main icon component is basically a wrapper for whatever icon you place within it. This means a span wrapping an inline svg.
+The main `Icon` component is basically a wrapper for whatever icon you place within it. This means a span wrapping an inline svg.
 
 ## [IconPrimary](/uilib/components/icon-primary)
 
-The IconPrimary component loads by default all Primary Icons so they can easily be included and used without additionally importing every icon.
+The `IconPrimary` component loads by default all Primary Icons so they can easily be included and used without additionally importing every icon.
 
 ## [Input](/uilib/components/input)
 
@@ -45,11 +50,11 @@ The input component is an umbrella component for all inputs which share the same
 
 ## [InputMasked](/uilib/components/input-masked)
 
-The masked input component uses the DNB Eufemia normal input component, but with some additional masking functionality. Read more about the details on the open source project.
+The `InputMasked` component uses the DNB Eufemia normal input component, but with some additional masking functionality. Read more about the details on the open source project.
 
 ## [LineTitle (deprecated)](/uilib/components/line-title)
 
-The line title component is a heading variant with borders on both sides. It is commonly used as a legend in form fieldsets.
+The `LineTitle` component is a heading variant with borders on both sides. It is commonly used as a legend in form fieldsets.
 
 ## [Logo](/uilib/components/logo)
 
@@ -77,7 +82,7 @@ Sliders provide a visual indication of adjustable content. A value can be adjust
 
 ## [Switch](/uilib/components/switch)
 
-A (toggle) switch is a digital on/off switch. Toggle switches are best used for changing the state of system functionalities and preferences.
+The `Switch` component (toggle) is a digital on/off switch. Toggle switches are best used for changing the state of system functionalities and preferences.
 
 ## [Tabs](/uilib/components/tabs)
 

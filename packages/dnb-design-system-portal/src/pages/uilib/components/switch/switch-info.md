@@ -8,7 +8,7 @@ import Examples from 'Pages/uilib/components/switch/Examples'
 
 _Also known as a toggle switch or a toggle._
 
-A (toggle) switch is a digital on/off switch.
+The `Switch` component (toggle) is a digital on/off switch.
 Toggle switches are best used for changing the state of system functionalities and preferences. "Toggles may replace two radio buttons or a single checkbox to allow users to choose between two opposing states." - [Source][1]
 
 ## How it **should** work
