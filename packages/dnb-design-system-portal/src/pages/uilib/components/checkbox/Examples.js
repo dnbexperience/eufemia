@@ -47,13 +47,11 @@ class Example extends PureComponent {
           scope={{ onChange }}
         >
           {/* @jsx */ `
-<p className="dnb-p">
-  <Checkbox
-    label="Label:"
-    checked
-    status="Error message"
-  />
-</p>
+<Checkbox
+  label="Label:"
+  checked
+  status="Error message"
+/>
           `}
         </ComponentBox>
         <StateDemo />
@@ -96,7 +94,7 @@ class StateDemo extends PureComponent {
       title_positive="Yes"
       title_negative="No"
       aria-labelledby="checkbox-1-label"
-      default_state={true}
+      default_state
       checked={checkboxIsEnabled}
       on_state_update={({checked}) => {}}
       disabled
