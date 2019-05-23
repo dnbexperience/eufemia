@@ -15,7 +15,7 @@ DNB Eufemia components are ready to use, styled and custom build HTML elements.
 
 The `Button` component should be used as the primary call-to-action in a form, or as a user interaction mechanism.
 
-## [Button](/uilib/components/button)
+## [Checkbox](/uilib/components/checkbox)
 
 The `Checkbox` component is shown as a square box that is ticked (checked) when activated.
 Checkboxes are used to let a user select one or more options of a limited number of choices.
