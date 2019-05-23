@@ -1,7 +1,7 @@
 ---
 title: 'Checkbox'
 draft: false
-order: 15
+order: 2
 ---
 
 import Tabs from 'Tags/Tabs'
