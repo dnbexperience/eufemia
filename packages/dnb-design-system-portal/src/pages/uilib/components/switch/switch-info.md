@@ -11,6 +11,8 @@ _Also known as a toggle switch or a toggle._
 A (toggle) switch is a digital on/off switch.
 Toggle switches are best used for changing the state of system functionalities and preferences. "Toggles may replace two radio buttons or a single checkbox to allow users to choose between two opposing states." - [Source][1]
 
+May may also check out the [Checkbox](/uilib/components/checkbox) component.
+
 ## How it **should** work
 
 "Toggle switches should take immediate effect and should not require the user to click Save or Submit to apply the new state. As always, we should strive to match the system to the real world." - [Source][1]
