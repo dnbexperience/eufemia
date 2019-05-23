@@ -1,0 +1,138 @@
+/*
+* Radio theme
+*
+*/
+
+@import '../../../../style/themes/imports.scss';
+
+.dnb-radio {
+  /*
+    * When radioed OFF
+    * aka when the radio is not :checked
+    */
+  &__input:not(:checked) ~ &__button {
+    background-color: var(--color-white);
+    border-color: var(--color-sea-green-alt);
+  }
+
+  /*
+    * When radioed ON
+    * aka when the radio is :checked
+    */
+  &__input:checked ~ &__button {
+    background-color: var(--color-sea-green-alt);
+  }
+
+  /*
+    * On disabled
+    *
+    */
+  &__input[disabled] ~ &__button {
+    border-color: var(--color-mint-green-50);
+  }
+  &__input[disabled]:checked ~ &__button {
+    border-color: transparent;
+    background-color: var(--color-sea-green-alt-30);
+  }
+
+  /*
+    * On hover
+    *
+    */
+  &__input:not([disabled]):not(:focus):hover ~ &__button {
+    background-color: var(--color-mint-green-50);
+  }
+  &__input:not([disabled]):not(:focus):checked:hover ~ &__button {
+    border-color: transparent;
+  }
+  &__input:not([disabled]):not(:focus):hover ~ &__gfx {
+    color: var(--color-sea-green-alt);
+  }
+
+  /*
+    * On active
+    *
+    */
+  /* stylelint-disable */
+  &__input:not([disabled]):active ~ &__button {
+    background-color: var(--color-mint-green-50);
+    border-color: transparent;
+  }
+  &__input:not([disabled]):active ~ &__gfx {
+    color: var(--color-white);
+  }
+  /* stylelint-enable */
+
+  /*
+    * On focus
+    *
+    */
+  /* stylelint-disable */
+  &__input:not([disabled]):focus ~ &__button {
+    html[data-whatinput='keyboard'] & {
+      border: none;
+      background-color: var(--color-mint-green-50);
+    }
+  }
+  &__input:not([disabled]):focus ~ &__gfx {
+    html[data-whatinput='keyboard'] & {
+      color: var(--color-sea-green-alt);
+    }
+  }
+  &__input:not([disabled]):focus ~ &__button &__focus,
+  &__input:not([disabled]):active ~ &__button &__focus {
+    display: block;
+  }
+  &__input:not([disabled]):not(:checked):focus ~ &__button,
+  &__input:not([disabled]):not(:checked):active ~ &__button {
+    background-color: var(--color-mint-green-50);
+  }
+  /* stylelint-enable */
+
+  /*
+    * On error state
+    *
+    */
+  // change button color
+  // fake border outside
+  &__status--error
+    &__input:not([disabled]):not(:focus):not(:active)
+    ~ &__button {
+    border: none;
+  }
+  &__status--error
+    &__input:not([disabled]):not(:focus):not(:active)
+    ~ &__button
+    &__focus {
+    display: block;
+    @include fakeBorder(var(--color-cherry-red), $focusRingWidth);
+  }
+  &__status--error &__input:not([disabled]):not(:focus):hover ~ &__button {
+    border-color: var(--color-cherry-red);
+    background-color: var(--color-cherry-red-80);
+  }
+  &__status--error
+    &__input:not([disabled]):not(:focus):not(:active):not(:hover)
+    ~ &__button {
+    border-color: var(--color-cherry-red-80);
+  }
+  &__status--error
+    &__input:not([disabled]):not(:focus):not(:active):not(:hover):checked
+    ~ &__button {
+    background-color: var(--color-cherry-red);
+  }
+  // check gfx color
+  &__status--error &__input:not([disabled]):not(:focus):hover ~ &__gfx {
+    color: var(--color-cherry-red);
+  }
+  &__status--error
+    &__input:not([disabled]):not(:focus):not(:active):not(:hover)
+    ~ &__gfx {
+    color: var(--color-cherry-red-80);
+  }
+
+  // ajust the form-status to the inner border for 3px
+  > .dnb-form-status {
+    transform: translateY(0.1875rem);
+  }
+}

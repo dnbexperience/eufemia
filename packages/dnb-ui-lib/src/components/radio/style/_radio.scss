@@ -1,0 +1,118 @@
+/*
+* Radio component
+*
+*/
+
+:root {
+  --radio-height: 1.5rem;
+  --radio-width: 1.5rem;
+  --radio-border-width: 0.125rem;
+}
+
+.dnb-radio {
+  user-select: none;
+
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  vertical-align: middle;
+
+  width: auto;
+
+  margin: 0;
+  padding: 0;
+
+  color: var(--color-white);
+
+  &__shell {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: var(--radio-height);
+    height: var(--radio-height);
+
+    // vertical alignment
+    transform: translateY(
+      -0.0625rem
+    ); // ajust the shell to the inherited line-height for 1px
+  }
+  label + &[class*='__form-status'] {
+    vertical-align: top;
+  }
+
+  &__focus,
+  &__button,
+  &__gfx {
+    position: absolute;
+    z-index: 4;
+
+    border-radius: 0.25rem;
+  }
+  &__button {
+    border: var(--radio-border-width) solid transparent;
+  }
+  &__focus {
+    display: none;
+    @include fakeFocus();
+  }
+  &__focus,
+  &__button {
+    width: calc(var(--radio-width) - 0.25rem);
+    height: calc(var(--radio-height) - 0.25rem);
+  }
+  &__gfx {
+    position: absolute;
+    width: var(--radio-height);
+    height: var(--radio-height);
+
+    transition: opacity 200ms ease-out, transform 200ms ease-out;
+    fill: currentColor;
+    shape-rendering: geometricPrecision;
+  }
+
+  /*
+    * When radio is OFF
+    * aka when the radio is not :checked
+    */
+  &__input:not(:checked) ~ &__gfx {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+
+  /*
+    * When radio is ON
+    * aka when the radio is :checked
+    */
+  &__input:checked ~ &__gfx {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  &__input {
+    opacity: 0;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 5;
+
+    width: var(--radio-width);
+    height: var(--radio-height);
+
+    margin: 0;
+    padding: 0;
+
+    border: 0;
+  }
+
+  &__input:not([disabled]) {
+    cursor: pointer;
+  }
+
+  > .dnb-form-status {
+    margin-top: 0.125rem;
+  }
+}
