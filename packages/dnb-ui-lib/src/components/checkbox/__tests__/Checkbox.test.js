@@ -52,6 +52,18 @@ describe('Checkbox component', () => {
     expect(Comp.find('input').props().value).toBe(value)
   })
 
+  it('has a disabled attribute, once we set disabled to true', () => {
+    const Comp = mount(<Component />)
+    Comp.setProps({
+      disabled: true
+    })
+    expect(
+      Comp.find('input')
+        .instance()
+        .hasAttribute('disabled')
+    ).toBe(true)
+  })
+
   it('should validate with ARIA rules', async () => {
     const Comp = mount(<Component {...props} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
