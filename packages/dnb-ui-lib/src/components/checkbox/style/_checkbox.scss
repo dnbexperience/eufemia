@@ -40,10 +40,7 @@
     ); // ajust the shell to the inherited line-height for 1px
   }
   label + &[class*='__form-status'] {
-    vertical-align: baseline;
-    transform: translateY(
-      0.25rem
-    ); // ajust the shell to the inherited line-height for 4px
+    vertical-align: top;
   }
 
   &__focus,
@@ -116,6 +113,6 @@
   }
 
   > .dnb-form-status {
-    margin-top: 0.5rem;
+    margin-top: 0.125rem;
   }
 }

@@ -47,11 +47,13 @@ class Example extends PureComponent {
           scope={{ onChange }}
         >
           {/* @jsx */ `
-<Checkbox
-  label="Label:"
-  checked
-  status="Error message"
-/>
+<p className="dnb-p">
+  <Checkbox
+    label="Label:"
+    checked
+    status="Error message"
+  />
+</p>
           `}
         </ComponentBox>
         <StateDemo />
