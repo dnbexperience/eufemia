@@ -427,8 +427,7 @@ exports[`Checkbox scss have to match snapshot 1`] = `
     height: var(--checkbox-height);
     transform: translateY(-0.0625rem); }
   label + .dnb-checkbox[class*='__form-status'] {
-    vertical-align: baseline;
-    transform: translateY(0.25rem); }
+    vertical-align: top; }
   .dnb-checkbox__focus, .dnb-checkbox__button, .dnb-checkbox__gfx {
     position: absolute;
     z-index: 4;
@@ -471,6 +470,6 @@ exports[`Checkbox scss have to match snapshot 1`] = `
   .dnb-checkbox__input:not([disabled]) {
     cursor: pointer; }
   .dnb-checkbox > .dnb-form-status {
-    margin-top: 0.5rem; }
+    margin-top: 0.125rem; }
 "
 `;
