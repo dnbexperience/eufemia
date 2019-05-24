@@ -18,7 +18,7 @@ const renderProps = {
 }
 
 export const propTypes = {
-  for_id: PropTypes.string.isRequired,
+  for_id: PropTypes.string,
   title: PropTypes.string,
   text: PropTypes.string,
   id: PropTypes.string,
