@@ -36,6 +36,7 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
     id="input-masked"
     inputElement={[Function]}
     input_class={null}
+    input_state={null}
     label={null}
     on_blur={null}
     on_change={null}

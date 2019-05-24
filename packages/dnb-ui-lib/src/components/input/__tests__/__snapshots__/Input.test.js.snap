@@ -19,6 +19,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
         "id": "id",
         "inputElement": [Function],
         "input_class": "input_class",
+        "input_state": "input_state",
         "label": "label",
         "on_blur": [Function],
         "on_change": [Function],
@@ -70,6 +71,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
   id="input"
   inputElement={null}
   input_class={null}
+  input_state={null}
   label={null}
   on_blur={null}
   on_change={null}
@@ -129,6 +131,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
             "id": "id",
             "inputElement": [Function],
             "input_class": "input_class",
+            "input_state": "input_state",
             "label": "label",
             "on_blur": [Function],
             "on_change": [Function],
@@ -175,6 +178,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
       icon="search"
       icon_size="medium"
       id={null}
+      input_state={null}
       on_blur={null}
       on_change={null}
       on_focus={null}
@@ -333,6 +337,7 @@ exports[`Input component have to match type="text" snapshot 1`] = `
         "id": "id",
         "inputElement": [Function],
         "input_class": "input_class",
+        "input_state": "input_state",
         "label": "label",
         "on_blur": [Function],
         "on_change": [Function],
@@ -384,6 +389,7 @@ exports[`Input component have to match type="text" snapshot 1`] = `
   id="input"
   inputElement={null}
   input_class={null}
+  input_state={null}
   label={null}
   on_blur={null}
   on_change={null}
