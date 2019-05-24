@@ -105,6 +105,10 @@
       margin-right: 0.5rem;
       margin-left: 1rem;
     }
+    .dnb-radio-group--layout-direction-column & {
+      display: flex;
+      margin-bottom: 0.5rem;
+    }
   }
 
   &--label-position-right {
@@ -119,12 +123,29 @@
       margin-right: 1rem;
       margin-left: 0.5rem;
     }
+    .dnb-radio-group--layout-direction-column & {
+      display: flex;
+      margin-bottom: 0.5rem;
+    }
   }
 
+  // reset left position of label
   &--label-position-left:first-of-type {
     .dnb-form-label {
       margin-left: 0;
     }
+  }
+
+  // in case we don't define a wrapping group
+  // and have a custom label component before the radio (and not inside)
+  :not(.dnb-radio-group) > .dnb-form-label ~ &--label-position-left,
+  :not(.dnb-radio-group) > .dnb-form-label ~ &--label-position-right {
+    display: inline;
+  }
+
+  &--label-position-left ~ .dnb-form-status,
+  &--label-position-right ~ .dnb-form-status {
+    margin-bottom: 1rem;
   }
 }
 

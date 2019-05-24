@@ -14,9 +14,12 @@ export default [
   () => (
     <Wrapper>
       <Box>
+        <FormLabel for_id="alone">Single Radio button:</FormLabel>
         <Radio
-          label="Alone:"
+          id="alone"
+          // label="Alone:"
           value="I'm alone"
+          title="Give me a Title"
           on_change={({ value, checked }) => {
             console.log('on_change', value, checked)
           }}
@@ -24,22 +27,32 @@ export default [
       </Box>
       <Box>
         <p className="dnb-p dnb-radio-group">
-          <FormLabel id="RadioGroup">Without Radio.Group:</FormLabel>
+          <FormLabel id="MyRadioGroup">Without Radio.Group:</FormLabel>
           <Radio
-            value="A"
-            label="A"
-            group="RadioGroup"
-            labelledby="RadioGroup"
+            value="First"
+            label="First"
+            group="MyRadioGroup"
+            labelledby="MyRadioGroup"
             on_change={({ group, value }) => {
               console.log('on_change', group, value)
             }}
           />
           <Radio
             checked
-            value="B"
-            label="B"
-            group="RadioGroup"
-            labelledby="RadioGroup"
+            value="Second"
+            label="Second"
+            group="MyRadioGroup"
+            labelledby="MyRadioGroup"
+            on_change={({ group, value }) => {
+              console.log('on_change', group, value)
+            }}
+          />
+          <Radio
+            checked
+            value="Third"
+            label="Third"
+            group="MyRadioGroup"
+            labelledby="MyRadioGroup"
             on_change={({ group, value }) => {
               console.log('on_change', group, value)
             }}
@@ -49,12 +62,13 @@ export default [
       <Box>
         <Radio.Group
           label="Group:"
+          title="Give me a Title"
           on_change={({ value }) => {
             console.log('on_change', value)
           }}
-          // value="First"
+          value="First"
           // disabled
-          // name="A" // The Group Name
+          // name="MyGroup" // The Group Name
         >
           <Radio label="First" value="First" label_position="right" />
           <Radio label="Second" value="Second" label_position="right" />
@@ -62,6 +76,45 @@ export default [
             label="Third"
             value="Third"
             // checked
+            label_position="right"
+          />
+        </Radio.Group>
+      </Box>
+      <Box>
+        <Radio.Group
+          label="Group:"
+          title="Give me a Title"
+          on_change={({ value }) => {
+            console.log('on_change', value)
+          }}
+          // disabled
+          // name="First" // Custom Group Name
+        >
+          <Radio label="First" value="First" label_position="right" />
+          <Radio
+            label="Second"
+            value="Second"
+            label_position="right"
+            status="Error message"
+          />
+          <Radio
+            label="Third"
+            value="Third"
+            checked
+            label_position="right"
+            status="Info message"
+            status_state="info"
+          />
+        </Radio.Group>
+      </Box>
+      <Box>
+        <Radio.Group label="Vertical group:" layout_direction="column">
+          <Radio label="First" value="First" label_position="right" />
+          <Radio label="Second" value="Second" label_position="right" />
+          <Radio
+            label="Third"
+            value="Third"
+            checked
             label_position="right"
           />
         </Radio.Group>

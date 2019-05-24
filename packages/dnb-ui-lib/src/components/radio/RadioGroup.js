@@ -28,6 +28,7 @@ export const propTypes = {
   status: PropTypes.string,
   status_state: PropTypes.string,
   status_animation: PropTypes.string,
+  layout_direction: PropTypes.string,
   value: PropTypes.string,
   attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   class: PropTypes.string,
@@ -55,6 +56,7 @@ export const defaultProps = {
   status: null,
   status_state: 'error',
   status_animation: null,
+  layout_direction: 'row',
   value: null,
   attributes: null,
   class: null,
@@ -120,6 +122,7 @@ export default class RadioGroup extends PureComponent {
       status,
       status_state,
       status_animation,
+      layout_direction,
       label,
       disabled,
       className,
@@ -146,6 +149,8 @@ export default class RadioGroup extends PureComponent {
       'dnb-radio-group',
       showStatus && 'dnb-radio-group__form-status',
       status && `dnb-radio-group__status--${status_state}`,
+      layout_direction &&
+        `dnb-radio-group--layout-direction-${layout_direction}`,
       className,
       _className
     )
@@ -183,7 +188,7 @@ export default class RadioGroup extends PureComponent {
               disabled={disabled}
             />
           )}
-          <span role="radiogroup" {...params}>
+          <span id={id} role="radiogroup" {...params}>
             <span className="dnb-radio_group__shell">{children}</span>
             {showStatus && (
               <FormStatus

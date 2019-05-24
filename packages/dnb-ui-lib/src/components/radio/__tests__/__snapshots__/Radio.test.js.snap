@@ -54,6 +54,7 @@ exports[`Radio component have to match snapshot 1`] = `
       >
         <input
           aria-checked={false}
+          aria-label="title"
           aria-labelledby="id-label"
           checked={false}
           className="dnb-radio__input"
@@ -453,6 +454,9 @@ exports[`Radio scss have to match snapshot 1`] = `
     .dnb-radio--label-position-left .dnb-form-label {
       margin-right: 0.5rem;
       margin-left: 1rem; }
+    .dnb-radio-group--layout-direction-column .dnb-radio--label-position-left {
+      display: flex;
+      margin-bottom: 0.5rem; }
   .dnb-radio--label-position-right {
     display: inline-flex; }
     .dnb-radio--label-position-right .dnb-radio {
@@ -462,8 +466,17 @@ exports[`Radio scss have to match snapshot 1`] = `
     .dnb-radio--label-position-right .dnb-form-label {
       margin-right: 1rem;
       margin-left: 0.5rem; }
+    .dnb-radio-group--layout-direction-column .dnb-radio--label-position-right {
+      display: flex;
+      margin-bottom: 0.5rem; }
   .dnb-radio--label-position-left:first-of-type .dnb-form-label {
     margin-left: 0; }
+  :not(.dnb-radio-group) > .dnb-form-label ~ .dnb-radio--label-position-left,
+  :not(.dnb-radio-group) > .dnb-form-label ~ .dnb-radio--label-position-right {
+    display: inline; }
+  .dnb-radio--label-position-left ~ .dnb-form-status,
+  .dnb-radio--label-position-right ~ .dnb-form-status {
+    margin-bottom: 1rem; }
 
 .dnb-radio-group {
   display: flex; }
