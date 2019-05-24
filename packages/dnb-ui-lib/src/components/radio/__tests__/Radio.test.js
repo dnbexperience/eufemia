@@ -21,6 +21,7 @@ import dnb_radio_theme_ui from '../style/themes/dnb-radio-theme-ui.scss' // esli
 const props = fakeProps(require.resolve('../Radio'), {
   optional: true
 })
+props.group = null
 props.status = null
 props.readOnly = false
 

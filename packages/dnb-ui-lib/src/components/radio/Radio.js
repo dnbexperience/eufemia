@@ -14,6 +14,8 @@ import {
 } from '../../shared/component-helper'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
+import RadioGroup from './RadioGroup'
+import RadioGroupContext from './RadioGroupContext'
 
 const renderProps = {
   on_change: null,
@@ -23,10 +25,10 @@ const renderProps = {
 export const propTypes = {
   label: PropTypes.string,
   title: PropTypes.string,
-  default_state: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   checked: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   id: PropTypes.string,
+  group: PropTypes.string,
   status: PropTypes.string,
   status_state: PropTypes.string,
   status_animation: PropTypes.string,
@@ -49,14 +51,14 @@ export const propTypes = {
 export const defaultProps = {
   label: null,
   title: null,
-  default_state: null,
-  checked: 'default', //we have to send this as a string
+  checked: null,
   disabled: false,
   id: null,
+  group: null,
   status: null,
   status_state: 'error',
   status_animation: null,
-  value: null,
+  value: '',
   attributes: null,
   readOnly: false,
   class: null,
@@ -72,13 +74,15 @@ export const defaultProps = {
 }
 
 /**
- * The radio component is our enhancement of the classic radio button. It acts like a radio. Example: On/off, yes/no.
+ * The radio component is our enhancement of the classic radio button.
  */
 export default class Radio extends Component {
   static tagName = 'dnb-radio'
   static propTypes = propTypes
   static defaultProps = defaultProps
   static renderProps = renderProps
+  static contextType = RadioGroupContext
+  static Group = RadioGroup
 
   static enableWebComponent() {
     registerElement(Radio.tagName, Radio, defaultProps)
@@ -88,12 +92,7 @@ export default class Radio extends Component {
 
   static getDerivedStateFromProps(props, state) {
     if (state._listenForPropChanges) {
-      if (state.hasDefaultState) {
-        state.checked = Radio.parseChecked(props.default_state)
-        state.hasDefaultState = false
-      } else if (props.checked !== 'default') {
-        state.checked = Radio.parseChecked(props.checked)
-      }
+      state.checked = Radio.parseChecked(props.checked)
     }
     state._listenForPropChanges = true
 
@@ -103,14 +102,10 @@ export default class Radio extends Component {
   constructor(props) {
     super(props)
     this._refInput = React.createRef()
-    this._id =
-      props.id || `dnb-radio-${Math.round(Math.random() * 999)}` // cause we need an id anyway
+    this._id = props.id || `dnb-radio-${Math.round(Math.random() * 999)}` // cause we need an id anyway
     this.state = {
-      _listenForPropChanges: true,
-      hasDefaultState: props.default_state !== null,
-      checked: Radio.parseChecked(props.default_state || props.checked)
+      _listenForPropChanges: true
     }
-    this.helperParams = { onMouseDown: e => e.preventDefault() }
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -130,18 +125,39 @@ export default class Radio extends Component {
         this.onChangeHandler(event)
         break
     }
+    dispatchCustomElementEvent(this, 'on_key_down', { event })
   }
 
   onChangeHandler = event => {
     if (String(this.props.readOnly) === 'true') {
-      return event.preventDefault()
+      return // TODO: check if event.preventDefault() is not needed?
     }
+    const { group } = this.props
     const checked = !this.state.checked
-    this.setState({ checked, _listenForPropChanges: false })
-    dispatchCustomElementEvent(this, 'on_change', { checked, event })
+    const value = event.target.value
+    if (this.context.onChange) {
+      this.context.onChange({
+        value,
+        event
+      })
+    }
+    dispatchCustomElementEvent(this, 'on_change', {
+      group,
+      checked,
+      value,
+      event
+    })
+    if (typeof this.context.value === 'undefined' && group) {
+      setTimeout(() => {
+        this.setState({ checked, _listenForPropChanges: false })
+      }, 1) // in case we have a false "hasContext" but a "group", then we have to use a delay, to overwrite the uncrontrolled state
+    } else {
+      this.setState({ checked, _listenForPropChanges: false })
+    }
   }
 
-  onMouseOutHandler = () => {
+  onMouseOutHandler = event => {
+    dispatchCustomElementEvent(this, 'on_mouse_out', { event })
     // this way we keep the new state after the user changed the state, without getting the error state back vissually
     if (this.props.status && this.props.status_state === 'error') {
       return
@@ -153,20 +169,20 @@ export default class Radio extends Component {
 
   render() {
     const {
-      value,
       status,
       status_state,
       status_animation,
       label,
       title,
-      disabled,
       readOnly,
       className,
       class: _className,
 
       id: _id, // eslint-disable-line
-      default_state: _default_state, // eslint-disable-line
+      group: _group, // eslint-disable-line
+      value: _value, // eslint-disable-line
       checked: _checked, // eslint-disable-line
+      disabled: _disabled, // eslint-disable-line
       attributes, // eslint-disable-line
       children, // eslint-disable-line
       on_change, // eslint-disable-line
@@ -177,7 +193,15 @@ export default class Radio extends Component {
       ...rest
     } = this.props
 
-    const { checked } = this.state
+    let { checked } = this.state
+    let { value, group, disabled } = this.props
+
+    const hasContext = typeof this.context.value !== 'undefined'
+    if (hasContext) {
+      checked = this.context.value === value
+      group = this.context.name
+      disabled = this.context.disabled
+    }
 
     const id = this._id
     const showStatus = status && status !== 'error'
@@ -191,10 +215,10 @@ export default class Radio extends Component {
     )
 
     const inputParams = {
-      disabled,
-      checked,
-      onMouseOut: this.onMouseOutHandler, // for resetting the button to the default state
-      ...rest
+      role: hasContext || group ? 'radio' : null,
+      type: hasContext || group ? 'radio' : 'checkbox', // overwriting the type
+      ...rest,
+      onMouseOut: this.onMouseOutHandler // for resetting the button to the default state
     }
 
     if (showStatus) {
@@ -224,18 +248,19 @@ export default class Radio extends Component {
         <span className={classes}>
           <span className="dnb-radio__shell">
             <input
+              type="checkbox"
+              value={value}
               id={id}
-              name={id}
-              type="radio"
-              // role="radio"
-              title={title}
-              aria-checked={checked}
+              name={group}
               className="dnb-radio__input"
-              value={checked ? value || '' : ''}
-              onChange={this.onChangeHandler}
-              onKeyDown={this.onKeyDownHandler}
+              checked={checked}
+              aria-checked={checked}
+              title={title}
+              disabled={disabled}
               ref={this._refInput}
               {...inputParams}
+              onChange={this.onChangeHandler}
+              onKeyDown={this.onKeyDownHandler}
             />
             <span aria-hidden className="dnb-radio__button">
               <span className="dnb-radio__focus" />

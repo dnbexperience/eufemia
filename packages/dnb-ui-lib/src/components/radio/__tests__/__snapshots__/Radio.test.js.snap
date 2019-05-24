@@ -8,8 +8,8 @@ exports[`Radio component have to match snapshot 1`] = `
   className="className"
   custom_element={Object {}}
   custom_method={[Function]}
-  default_state="default_state"
   disabled="disabled"
+  group={null}
   id="id"
   label="label"
   on_change={[Function]}
@@ -50,19 +50,18 @@ exports[`Radio component have to match snapshot 1`] = `
     >
       <input
         aria-checked={false}
-        aria-disabled={true}
         aria-labelledby="id-label"
         checked={false}
         className="dnb-radio__input"
         disabled="disabled"
         id="id"
-        name="id"
+        name={null}
         onChange={[Function]}
         onKeyDown={[Function]}
         onMouseOut={[Function]}
         title="title"
-        type="radio"
-        value=""
+        type="checkbox"
+        value="value"
       />
       <span
         aria-hidden={true}
@@ -457,7 +456,6 @@ exports[`Radio scss have to match snapshot 1`] = `
     opacity: 1;
     transform: scale(1); }
   .dnb-radio__input {
-    opacity: 0;
     position: absolute;
     top: 0;
     left: 0;
