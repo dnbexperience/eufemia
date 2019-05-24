@@ -6,9 +6,9 @@ order: 5
 
 # Accessibility
 
-## WCAG 2.1 and UU
+## WCAG 2.1 and Universal design
 
-Make sure Your Web Applications are [**UU**](https://uu.difi.no) and [**WCAG 2.1**](https://www.w3.org/TR/WCAG21/) compliant. This means, You as a developer has to:
+Make sure your applications are [**universally designed**](https://uu.difi.no) and [**WCAG 2.1**](https://www.w3.org/TR/WCAG21/) compliant. This means, You as a developer has to:
 
 - follow **semantics** properly, use **landmarks** and ensure correct [heading levels](/uilib/usage/best-practices/for-typography#headings-and-styling)
 - use different **screen readers** and test [regularly](/uilib/usage/accessibility/screenreader)
