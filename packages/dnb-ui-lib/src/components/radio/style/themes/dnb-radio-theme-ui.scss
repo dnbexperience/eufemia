@@ -7,7 +7,7 @@
 
 .dnb-radio {
   /*
-    * When radioed OFF
+    * When is OFF
     * aka when the radio is not :checked
     */
   &__input:not(:checked) ~ &__button {
@@ -16,10 +16,14 @@
   }
 
   /*
-    * When radioed ON
+    * When is ON
     * aka when the radio is :checked
     */
   &__input:checked ~ &__button {
+    background-color: var(--color-white);
+    border-color: var(--color-sea-green-alt);
+  }
+  &__input:checked ~ &__dot {
     background-color: var(--color-sea-green-alt);
   }
 
@@ -31,7 +35,9 @@
     border-color: var(--color-mint-green-50);
   }
   &__input[disabled]:checked ~ &__button {
-    border-color: transparent;
+    border-color: var(--color-sea-green-alt-30);
+  }
+  &__input[disabled]:checked ~ &__dot {
     background-color: var(--color-sea-green-alt-30);
   }
 
@@ -39,14 +45,11 @@
     * On hover
     *
     */
-  &__input:not([disabled]):not(:focus):hover ~ &__button {
+  &__input:not([disabled]):not(:focus):not(:checked):hover ~ &__button {
     background-color: var(--color-mint-green-50);
   }
-  &__input:not([disabled]):not(:focus):checked:hover ~ &__button {
-    border-color: transparent;
-  }
-  &__input:not([disabled]):not(:focus):hover ~ &__gfx {
-    color: var(--color-sea-green-alt);
+  &__input:not([disabled]):not(:focus):checked:hover ~ &__dot {
+    background-color: var(--color-mint-green-50);
   }
 
   /*
@@ -54,12 +57,15 @@
     *
     */
   /* stylelint-disable */
-  &__input:not([disabled]):active ~ &__button {
+  &__input:not([disabled]):not(:checked):active ~ &__button {
     background-color: var(--color-mint-green-50);
     border-color: transparent;
   }
-  &__input:not([disabled]):active ~ &__gfx {
-    color: var(--color-white);
+  &__input:not([disabled]):checked:active ~ &__button {
+    border-color: var(--color-mint-green-50);
+  }
+  &__input:not([disabled]):checked:active ~ &__dot {
+    background-color: var(--color-mint-green-50);
   }
   /* stylelint-enable */
 
@@ -68,19 +74,18 @@
     *
     */
   /* stylelint-disable */
-  &__input:not([disabled]):focus ~ &__button {
+  &__input:not([disabled]):not(:checked):focus ~ &__button {
     html[data-whatinput='keyboard'] & {
-      border: none;
       background-color: var(--color-mint-green-50);
     }
   }
-  &__input:not([disabled]):focus ~ &__gfx {
+  &__input:not([disabled]):focus ~ &__button {
     html[data-whatinput='keyboard'] & {
-      color: var(--color-sea-green-alt);
+      border: none;
     }
   }
-  &__input:not([disabled]):focus ~ &__button &__focus,
-  &__input:not([disabled]):active ~ &__button &__focus {
+  &__input:not([disabled]):focus ~ &__focus,
+  &__input:not([disabled]):active ~ &__focus {
     display: block;
   }
   &__input:not([disabled]):not(:checked):focus ~ &__button,
@@ -95,40 +100,33 @@
     */
   // change button color
   // fake border outside
+  /* stylelint-disable */
   &__status--error
     &__input:not([disabled]):not(:focus):not(:active)
     ~ &__button {
     border: none;
   }
+  /* stylelint-enable */
   &__status--error
     &__input:not([disabled]):not(:focus):not(:active)
-    ~ &__button
-    &__focus {
+    ~ &__focus {
     display: block;
     @include fakeBorder(var(--color-cherry-red), $focusRingWidth);
   }
-  &__status--error &__input:not([disabled]):not(:focus):hover ~ &__button {
-    border-color: var(--color-cherry-red);
+  &__status--error
+    &__input:not([disabled]):not(:focus):not(:checked):hover
+    ~ &__button {
     background-color: var(--color-cherry-red-80);
   }
   &__status--error
-    &__input:not([disabled]):not(:focus):not(:active):not(:hover)
-    ~ &__button {
-    border-color: var(--color-cherry-red-80);
-  }
-  &__status--error
     &__input:not([disabled]):not(:focus):not(:active):not(:hover):checked
-    ~ &__button {
+    ~ &__dot {
     background-color: var(--color-cherry-red);
   }
-  // check gfx color
-  &__status--error &__input:not([disabled]):not(:focus):hover ~ &__gfx {
-    color: var(--color-cherry-red);
-  }
   &__status--error
-    &__input:not([disabled]):not(:focus):not(:active):not(:hover)
-    ~ &__gfx {
-    color: var(--color-cherry-red-80);
+    &__input:not([disabled]):not(:focus):not(:active):checked:hover
+    ~ &__dot {
+    background-color: var(--color-cherry-red-80);
   }
 
   // ajust the form-status to the inner border for 3px

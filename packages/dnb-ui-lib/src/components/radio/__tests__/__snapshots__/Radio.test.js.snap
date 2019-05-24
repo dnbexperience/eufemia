@@ -12,6 +12,7 @@ exports[`Radio component have to match snapshot 1`] = `
   group={null}
   id="id"
   label="label"
+  label_position="label_position"
   on_change={[Function]}
   on_state_update={[Function]}
   readOnly={false}
@@ -21,72 +22,62 @@ exports[`Radio component have to match snapshot 1`] = `
   title="title"
   value="value"
 >
-  <FormLabel
-    aria-hidden={true}
-    class={null}
-    className={null}
-    disabled="disabled"
-    for_id="id"
-    id="id-label"
-    render_content={null}
-    text="label"
-    title={null}
-  >
-    <label
-      aria-disabled={true}
-      className="dnb-form-label"
-      disabled="disabled"
-      htmlFor="id"
-      id="id-label"
-    >
-      label
-    </label>
-  </FormLabel>
   <span
-    className="dnb-radio className class"
+    className="dnb-radio--label-position-label_position"
   >
-    <span
-      className="dnb-radio__shell"
+    <FormLabel
+      aria-hidden={true}
+      class={null}
+      className={null}
+      disabled="disabled"
+      for_id="id"
+      id="id-label"
+      render_content={null}
+      text="label"
+      title={null}
     >
-      <input
-        aria-checked={false}
-        aria-labelledby="id-label"
-        checked={false}
-        className="dnb-radio__input"
+      <label
+        aria-disabled={true}
+        className="dnb-form-label"
         disabled="disabled"
-        id="id"
-        name={null}
-        onChange={[Function]}
-        onKeyDown={[Function]}
-        onMouseOut={[Function]}
-        title="title"
-        type="checkbox"
-        value="value"
-      />
-      <span
-        aria-hidden={true}
-        className="dnb-radio__button"
+        htmlFor="id"
+        id="id-label"
       >
+        label
+      </label>
+    </FormLabel>
+    <span
+      className="dnb-radio className class"
+    >
+      <span
+        className="dnb-radio__shell"
+      >
+        <input
+          aria-checked={false}
+          aria-labelledby="id-label"
+          checked={false}
+          className="dnb-radio__input"
+          disabled="disabled"
+          id="id"
+          name={null}
+          onChange={[Function]}
+          onKeyDown={[Function]}
+          onMouseOut={[Function]}
+          title="title"
+          type="checkbox"
+          value="value"
+        />
+        <span
+          aria-hidden={true}
+          className="dnb-radio__button"
+        />
         <span
           className="dnb-radio__focus"
         />
+        <span
+          className="dnb-radio__dot"
+        />
       </span>
-      <CheckGfx
-        className="dnb-radio__gfx"
-      >
-        <svg
-          className="dnb-radio__gfx"
-          fill="none"
-          height="24"
-          viewBox="0 0 24 24"
-          width="24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M5.86 12.95a.75.75 0 1 0-1.22.86l1.22-.86zm2.15 4.34l.62-.42-.01-.01-.61.43zm.94.52l.02-.75-.02.75zm.98-.46l-.6-.47v.01l.6.46zm9.4-10.7a.75.75 0 0 0-1.17-.93l1.18.93zm-14.7 7.16l2.76 3.91 1.23-.86-2.76-3.91-1.22.86zm2.75 3.9c.35.52.93.84 1.55.85l.04-1.5a.43.43 0 0 1-.34-.19l-1.25.84zm1.55.85c.62.02 1.22-.26 1.6-.76l-1.2-.9a.43.43 0 0 1-.36.16l-.04 1.5zm1.59-.75l8.82-11.16-1.18-.93-8.82 11.16 1.18.93z"
-          />
-        </svg>
-      </CheckGfx>
     </span>
   </span>
 </Radio>
@@ -107,11 +98,11 @@ exports[`Radio scss have to match default theme snapshot 1`] = `
  */
 .dnb-radio {
   /*
-    * When radioed OFF
+    * When is OFF
     * aka when the radio is not :checked
     */
   /*
-    * When radioed ON
+    * When is ON
     * aka when the radio is :checked
     */
   /*
@@ -137,56 +128,56 @@ exports[`Radio scss have to match default theme snapshot 1`] = `
   /*
     * On error state
     *
-    */ }
+    */
+  /* stylelint-disable */
+  /* stylelint-enable */ }
   .dnb-radio__input:not(:checked) ~ .dnb-radio__button {
     background-color: var(--color-white);
     border-color: var(--color-sea-green-alt); }
   .dnb-radio__input:checked ~ .dnb-radio__button {
+    background-color: var(--color-white);
+    border-color: var(--color-sea-green-alt); }
+  .dnb-radio__input:checked ~ .dnb-radio__dot {
     background-color: var(--color-sea-green-alt); }
   .dnb-radio__input[disabled] ~ .dnb-radio__button {
     border-color: var(--color-mint-green-50); }
   .dnb-radio__input[disabled]:checked ~ .dnb-radio__button {
-    border-color: transparent;
+    border-color: var(--color-sea-green-alt-30); }
+  .dnb-radio__input[disabled]:checked ~ .dnb-radio__dot {
     background-color: var(--color-sea-green-alt-30); }
-  .dnb-radio__input:not([disabled]):not(:focus):hover ~ .dnb-radio__button {
+  .dnb-radio__input:not([disabled]):not(:focus):not(:checked):hover ~ .dnb-radio__button {
     background-color: var(--color-mint-green-50); }
-  .dnb-radio__input:not([disabled]):not(:focus):checked:hover ~ .dnb-radio__button {
-    border-color: transparent; }
-  .dnb-radio__input:not([disabled]):not(:focus):hover ~ .dnb-radio__gfx {
-    color: var(--color-sea-green-alt); }
-  .dnb-radio__input:not([disabled]):active ~ .dnb-radio__button {
+  .dnb-radio__input:not([disabled]):not(:focus):checked:hover ~ .dnb-radio__dot {
+    background-color: var(--color-mint-green-50); }
+  .dnb-radio__input:not([disabled]):not(:checked):active ~ .dnb-radio__button {
     background-color: var(--color-mint-green-50);
     border-color: transparent; }
-  .dnb-radio__input:not([disabled]):active ~ .dnb-radio__gfx {
-    color: var(--color-white); }
-  html[data-whatinput='keyboard'] .dnb-radio__input:not([disabled]):focus ~ .dnb-radio__button {
-    border: none;
+  .dnb-radio__input:not([disabled]):checked:active ~ .dnb-radio__button {
+    border-color: var(--color-mint-green-50); }
+  .dnb-radio__input:not([disabled]):checked:active ~ .dnb-radio__dot {
     background-color: var(--color-mint-green-50); }
-  html[data-whatinput='keyboard'] .dnb-radio__input:not([disabled]):focus ~ .dnb-radio__gfx {
-    color: var(--color-sea-green-alt); }
-  .dnb-radio__input:not([disabled]):focus ~ .dnb-radio__button .dnb-radio__focus,
-  .dnb-radio__input:not([disabled]):active ~ .dnb-radio__button .dnb-radio__focus {
+  html[data-whatinput='keyboard'] .dnb-radio__input:not([disabled]):not(:checked):focus ~ .dnb-radio__button {
+    background-color: var(--color-mint-green-50); }
+  html[data-whatinput='keyboard'] .dnb-radio__input:not([disabled]):focus ~ .dnb-radio__button {
+    border: none; }
+  .dnb-radio__input:not([disabled]):focus ~ .dnb-radio__focus,
+  .dnb-radio__input:not([disabled]):active ~ .dnb-radio__focus {
     display: block; }
   .dnb-radio__input:not([disabled]):not(:checked):focus ~ .dnb-radio__button,
   .dnb-radio__input:not([disabled]):not(:checked):active ~ .dnb-radio__button {
     background-color: var(--color-mint-green-50); }
   .dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:active) ~ .dnb-radio__button {
     border: none; }
-  .dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:active) ~ .dnb-radio__button .dnb-radio__focus {
+  .dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:active) ~ .dnb-radio__focus {
     display: block;
     box-shadow: 0 0 0 0.125rem var(--color-cherry-red);
     border-color: transparent; }
-  .dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):hover ~ .dnb-radio__button {
-    border-color: var(--color-cherry-red);
+  .dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:checked):hover ~ .dnb-radio__button {
     background-color: var(--color-cherry-red-80); }
-  .dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:active):not(:hover) ~ .dnb-radio__button {
-    border-color: var(--color-cherry-red-80); }
-  .dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:active):not(:hover):checked ~ .dnb-radio__button {
+  .dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:active):not(:hover):checked ~ .dnb-radio__dot {
     background-color: var(--color-cherry-red); }
-  .dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):hover ~ .dnb-radio__gfx {
-    color: var(--color-cherry-red); }
-  .dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:active):not(:hover) ~ .dnb-radio__gfx {
-    color: var(--color-cherry-red-80); }
+  .dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:active):checked:hover ~ .dnb-radio__dot {
+    background-color: var(--color-cherry-red-80); }
   .dnb-radio > .dnb-form-status {
     transform: translateY(0.1875rem); }
 "
@@ -408,15 +399,7 @@ exports[`Radio scss have to match snapshot 1`] = `
   width: auto;
   margin: 0;
   padding: 0;
-  color: var(--color-white);
-  /*
-    * When radio is OFF
-    * aka when the radio is not :checked
-    */
-  /*
-    * When radio is ON
-    * aka when the radio is :checked
-    */ }
+  color: var(--color-white); }
   .dnb-radio__shell {
     position: relative;
     display: flex;
@@ -427,10 +410,9 @@ exports[`Radio scss have to match snapshot 1`] = `
     transform: translateY(-0.0625rem); }
   label + .dnb-radio[class*='__form-status'] {
     vertical-align: top; }
-  .dnb-radio__focus, .dnb-radio__button, .dnb-radio__gfx {
+  .dnb-radio__focus, .dnb-radio__button, .dnb-radio__dot {
     position: absolute;
-    z-index: 4;
-    border-radius: 0.25rem; }
+    z-index: 4; }
   .dnb-radio__button {
     border: var(--radio-border-width) solid transparent; }
   .dnb-radio__focus {
@@ -441,21 +423,14 @@ exports[`Radio scss have to match snapshot 1`] = `
       border-color: transparent; }
   .dnb-radio__focus, .dnb-radio__button {
     width: calc(var(--radio-width) - 0.25rem);
-    height: calc(var(--radio-height) - 0.25rem); }
-  .dnb-radio__gfx {
-    position: absolute;
-    width: var(--radio-height);
-    height: var(--radio-height);
-    transition: opacity 200ms ease-out, transform 200ms ease-out;
-    fill: currentColor;
-    shape-rendering: geometricPrecision; }
-  .dnb-radio__input:not(:checked) ~ .dnb-radio__gfx {
-    opacity: 0;
-    transform: scale(0.8); }
-  .dnb-radio__input:checked ~ .dnb-radio__gfx {
-    opacity: 1;
-    transform: scale(1); }
+    height: calc(var(--radio-height) - 0.25rem);
+    border-radius: 50%; }
+  .dnb-radio__dot {
+    width: calc(var(--radio-width) - 0.75rem);
+    height: calc(var(--radio-height) - 0.75rem);
+    border-radius: 50%; }
   .dnb-radio__input {
+    opacity: 0;
     position: absolute;
     top: 0;
     left: 0;
@@ -469,5 +444,28 @@ exports[`Radio scss have to match snapshot 1`] = `
     cursor: pointer; }
   .dnb-radio > .dnb-form-status {
     margin-top: 0.125rem; }
+  .dnb-radio--label-position-left {
+    display: inline-flex; }
+    .dnb-radio--label-position-left .dnb-radio {
+      order: 2; }
+    .dnb-radio--label-position-left label {
+      order: 1; }
+    .dnb-radio--label-position-left .dnb-form-label {
+      margin-right: 0.5rem;
+      margin-left: 1rem; }
+  .dnb-radio--label-position-right {
+    display: inline-flex; }
+    .dnb-radio--label-position-right .dnb-radio {
+      order: 1; }
+    .dnb-radio--label-position-right label {
+      order: 2; }
+    .dnb-radio--label-position-right .dnb-form-label {
+      margin-right: 1rem;
+      margin-left: 0.5rem; }
+  .dnb-radio--label-position-left:first-of-type .dnb-form-label {
+    margin-left: 0; }
+
+.dnb-radio-group {
+  display: flex; }
 "
 `;

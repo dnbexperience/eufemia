@@ -24,6 +24,7 @@ const renderProps = {
 
 export const propTypes = {
   label: PropTypes.string,
+  label_position: PropTypes.string,
   title: PropTypes.string,
   checked: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -50,6 +51,7 @@ export const propTypes = {
 
 export const defaultProps = {
   label: null,
+  label_position: 'left',
   title: null,
   checked: null,
   disabled: false,
@@ -120,10 +122,25 @@ export default class Radio extends Component {
   }
 
   onKeyDownHandler = event => {
-    switch (keycode(event)) {
-      case 'enter':
-        this.onChangeHandler(event)
-        break
+    // only have key support if there is only a single radio
+    if (typeof this.context.value === 'undefined' && !this.props.group) {
+      switch (keycode(event)) {
+        case 'enter':
+          this.onChangeHandler(event)
+          break
+        case 'space':
+          event.preventDefault()
+          this.onChangeHandler(event)
+          break
+      }
+    } else {
+      // else we only use the native support, and don't want space support
+      // because only arrow keys has to be used
+      switch (keycode(event)) {
+        case 'space':
+          event.preventDefault()
+          break
+      }
     }
     dispatchCustomElementEvent(this, 'on_key_down', { event })
   }
@@ -173,6 +190,7 @@ export default class Radio extends Component {
       status_state,
       status_animation,
       label,
+      label_position,
       title,
       readOnly,
       className,
@@ -198,7 +216,9 @@ export default class Radio extends Component {
 
     const hasContext = typeof this.context.value !== 'undefined'
     if (hasContext) {
-      checked = this.context.value === value
+      if (this.context.value !== null) {
+        checked = this.context.value === value
+      }
       group = this.context.name
       disabled = this.context.disabled
     }
@@ -210,6 +230,7 @@ export default class Radio extends Component {
       'dnb-radio',
       showStatus && 'dnb-radio__form-status',
       status && `dnb-radio__status--${status_state}`,
+      // label_position && `dnb-radio--label-position-${label_position}`,
       className,
       _className
     )
@@ -235,7 +256,11 @@ export default class Radio extends Component {
     validateDOMAttributes(this.props, inputParams)
 
     return (
-      <>
+      <span
+        className={classnames(
+          label_position && `dnb-radio--label-position-${label_position}`
+        )}
+      >
         {label && (
           <FormLabel
             id={id + '-label'}
@@ -262,10 +287,9 @@ export default class Radio extends Component {
               onChange={this.onChangeHandler}
               onKeyDown={this.onKeyDownHandler}
             />
-            <span aria-hidden className="dnb-radio__button">
-              <span className="dnb-radio__focus" />
-            </span>
-            <CheckGfx className="dnb-radio__gfx" />
+            <span aria-hidden className="dnb-radio__button" />
+            <span className="dnb-radio__focus" />
+            <span className="dnb-radio__dot" />
           </span>
           {showStatus && (
             <FormStatus
@@ -276,20 +300,7 @@ export default class Radio extends Component {
             />
           )}
         </span>
-      </>
+      </span>
     )
   }
 }
-
-const CheckGfx = props => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    {...props}
-  >
-    <path d="M5.86 12.95a.75.75 0 1 0-1.22.86l1.22-.86zm2.15 4.34l.62-.42-.01-.01-.61.43zm.94.52l.02-.75-.02.75zm.98-.46l-.6-.47v.01l.6.46zm9.4-10.7a.75.75 0 0 0-1.17-.93l1.18.93zm-14.7 7.16l2.76 3.91 1.23-.86-2.76-3.91-1.22.86zm2.75 3.9c.35.52.93.84 1.55.85l.04-1.5a.43.43 0 0 1-.34-.19l-1.25.84zm1.55.85c.62.02 1.22-.26 1.6-.76l-1.2-.9a.43.43 0 0 1-.36.16l-.04 1.5zm1.59-.75l8.82-11.16-1.18-.93-8.82 11.16 1.18.93z" />
-  </svg>
-)

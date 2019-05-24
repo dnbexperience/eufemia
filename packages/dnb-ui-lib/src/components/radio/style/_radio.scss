@@ -45,11 +45,9 @@
 
   &__focus,
   &__button,
-  &__gfx {
+  &__dot {
     position: absolute;
     z-index: 4;
-
-    border-radius: 0.25rem;
   }
   &__button {
     border: var(--radio-border-width) solid transparent;
@@ -62,33 +60,12 @@
   &__button {
     width: calc(var(--radio-width) - 0.25rem);
     height: calc(var(--radio-height) - 0.25rem);
+    border-radius: 50%;
   }
-  &__gfx {
-    position: absolute;
-    width: var(--radio-height);
-    height: var(--radio-height);
-
-    transition: opacity 200ms ease-out, transform 200ms ease-out;
-    fill: currentColor;
-    shape-rendering: geometricPrecision;
-  }
-
-  /*
-    * When radio is OFF
-    * aka when the radio is not :checked
-    */
-  &__input:not(:checked) ~ &__gfx {
-    opacity: 0;
-    transform: scale(0.8);
-  }
-
-  /*
-    * When radio is ON
-    * aka when the radio is :checked
-    */
-  &__input:checked ~ &__gfx {
-    opacity: 1;
-    transform: scale(1);
+  &__dot {
+    width: calc(var(--radio-width) - 0.75rem);
+    height: calc(var(--radio-height) - 0.75rem);
+    border-radius: 50%;
   }
 
   &__input {
@@ -115,4 +92,42 @@
   > .dnb-form-status {
     margin-top: 0.125rem;
   }
+
+  &--label-position-left {
+    display: inline-flex;
+    .dnb-radio {
+      order: 2;
+    }
+    label {
+      order: 1;
+    }
+    .dnb-form-label {
+      margin-right: 0.5rem;
+      margin-left: 1rem;
+    }
+  }
+
+  &--label-position-right {
+    display: inline-flex;
+    .dnb-radio {
+      order: 1;
+    }
+    label {
+      order: 2;
+    }
+    .dnb-form-label {
+      margin-right: 1rem;
+      margin-left: 0.5rem;
+    }
+  }
+
+  &--label-position-left:first-of-type {
+    .dnb-form-label {
+      margin-left: 0;
+    }
+  }
+}
+
+.dnb-radio-group {
+  display: flex;
 }

@@ -173,7 +173,7 @@ export default class RadioGroup extends PureComponent {
 
     return (
       <RadioGroupContext.Provider value={context}>
-        <>
+        <span className={classes}>
           {label && (
             <FormLabel
               id={id + '-label'}
@@ -183,7 +183,7 @@ export default class RadioGroup extends PureComponent {
               disabled={disabled}
             />
           )}
-          <span className={classes} role="radiogroup" {...params}>
+          <span role="radiogroup" {...params}>
             <span className="dnb-radio_group__shell">{children}</span>
             {showStatus && (
               <FormStatus
@@ -194,7 +194,7 @@ export default class RadioGroup extends PureComponent {
               />
             )}
           </span>
-        </>
+        </span>
       </RadioGroupContext.Provider>
     )
   }
