@@ -8,6 +8,7 @@ import { Wrapper, Box } from './helpers'
 import styled from '@emotion/styled'
 
 // UI Components
+import Radio from './components/Radio'
 import {
   Button,
   Tabs,
@@ -29,6 +30,8 @@ import { H2, P, Hr } from '../src/elements'
 
 const stories = []
 export default stories
+
+stories.push(Radio)
 
 const CustomStyle = styled.div`
   p {

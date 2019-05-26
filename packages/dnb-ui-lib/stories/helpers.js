@@ -44,4 +44,8 @@ export const Box = styled.div`
     width: 200vw;
     border-bottom: dashed 1px rgb(0, 200, 200);
   }
+
+  p {
+    background-color: rgba(213, 30, 149, 0.25);
+  }
 `

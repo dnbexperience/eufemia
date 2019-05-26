@@ -1,0 +1,154 @@
+/*
+* Radio component
+*
+*/
+
+:root {
+  --radio-height: 1.5rem;
+  --radio-width: 1.5rem;
+  --radio-border-width: 0.125rem;
+}
+
+.dnb-radio {
+  user-select: none;
+
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  vertical-align: middle;
+
+  width: auto;
+
+  margin: 0;
+  padding: 0;
+
+  color: var(--color-white);
+
+  &__shell {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: var(--radio-height);
+    height: var(--radio-height);
+
+    // vertical alignment
+    transform: translateY(
+      -0.0625rem
+    ); // ajust the shell to the inherited line-height for 1px
+  }
+  label + &[class*='__form-status'] {
+    vertical-align: top;
+  }
+
+  &__focus,
+  &__button,
+  &__dot {
+    position: absolute;
+    z-index: 4;
+  }
+  &__button {
+    border: var(--radio-border-width) solid transparent;
+  }
+  &__focus {
+    display: none;
+    @include fakeFocus();
+  }
+  &__focus,
+  &__button {
+    width: calc(var(--radio-width) - 0.25rem);
+    height: calc(var(--radio-height) - 0.25rem);
+    border-radius: 50%;
+  }
+  &__dot {
+    width: calc(var(--radio-width) - 0.75rem);
+    height: calc(var(--radio-height) - 0.75rem);
+    border-radius: 50%;
+  }
+
+  &__input {
+    opacity: 0;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 5;
+
+    width: var(--radio-width);
+    height: var(--radio-height);
+
+    margin: 0;
+    padding: 0;
+
+    border: 0;
+  }
+
+  &__input:not([disabled]) {
+    cursor: pointer;
+  }
+
+  > .dnb-form-status {
+    margin-top: 0.125rem;
+  }
+
+  &--label-position-left {
+    display: inline-flex;
+    .dnb-radio {
+      order: 2;
+    }
+    label {
+      order: 1;
+    }
+    .dnb-form-label {
+      margin-right: 0.5rem;
+      margin-left: 1rem;
+    }
+    .dnb-radio-group--layout-direction-column & {
+      display: flex;
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  &--label-position-right {
+    display: inline-flex;
+    .dnb-radio {
+      order: 1;
+    }
+    label {
+      order: 2;
+    }
+    .dnb-form-label {
+      margin-right: 1rem;
+      margin-left: 0.5rem;
+    }
+    .dnb-radio-group--layout-direction-column & {
+      display: flex;
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  // reset left position of label
+  &--label-position-left:first-of-type {
+    .dnb-form-label {
+      margin-left: 0;
+    }
+  }
+
+  // in case we don't define a wrapping group
+  // and have a custom label component before the radio (and not inside)
+  :not(.dnb-radio-group) > .dnb-form-label ~ &--label-position-left,
+  :not(.dnb-radio-group) > .dnb-form-label ~ &--label-position-right {
+    display: inline;
+  }
+
+  &--label-position-left ~ .dnb-form-status,
+  &--label-position-right ~ .dnb-form-status {
+    margin-bottom: 1rem;
+  }
+}
+
+.dnb-radio-group {
+  display: flex;
+}
