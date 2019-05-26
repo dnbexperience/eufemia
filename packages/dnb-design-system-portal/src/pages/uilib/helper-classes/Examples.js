@@ -24,7 +24,13 @@ class Example extends PureComponent {
 <div className="dnb-section dnb-section--spacing">
   Visual DNB Section, declared with <code className="dnb-code">.dnb-section--spacing</code>
 </div>
-<div className="dnb-section dnb-section--spacing dnb-section--mint-green">
+<div className="dnb-section dnb-section--spacing dnb-section--white">
+  Visual DNB Section, declared with <code className="dnb-code">.dnb-section--white</code>
+</div>
+<div className="dnb-section dnb-section--spacing-small dnb-section--lines">
+  Visual DNB Section, declared with <code className="dnb-code">.dnb-section--lines</code>
+</div>
+<div className="dnb-section dnb-section--spacing-large dnb-section--mint-green">
   Visual DNB Section, declared with <code className="dnb-code">.dnb-section--mint-green</code>
 </div>
 <div className="dnb-section dnb-section--spacing dnb-section--emerald-green">
@@ -32,9 +38,6 @@ class Example extends PureComponent {
 </div>
 <div className="dnb-section dnb-section--spacing dnb-section--signal-orange">
   Visual DNB Section, declared with <code className="dnb-code">.dnb-section--signal-orange</code>
-</div>
-<div className="dnb-section dnb-section--spacing dnb-section--white">
-  Visual DNB Section, declared with <code className="dnb-code">.dnb-section--signal-white</code>
 </div>
         `}
         </CodeBlock>
