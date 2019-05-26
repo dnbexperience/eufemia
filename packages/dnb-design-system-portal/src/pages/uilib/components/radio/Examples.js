@@ -173,7 +173,7 @@ class StateDemo extends PureComponent {
       </ComponentBox>
     ) : (
       <ComponentBox
-        caption="Disabled Radio in checked state"
+        caption="External state update with possible event **on_state_update**"
         noFragments={false}
       >
         {/* @jsx */ `
