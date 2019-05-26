@@ -64,15 +64,21 @@ describe('Radio checked screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
-  it('have to match disabled radio', async () => {
+  it('have to match radio group', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="radio-disabled"] .dnb-radio'
+      selector: '[data-dnb-test="radio-group"] .dnb-radio-group'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
-  it('have to match radio in error state', async () => {
+  it('have to match radio group in vertical layout', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="radio-error"] .dnb-radio'
+      selector: '[data-dnb-test="radio-group-vertical"] .dnb-radio-group'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+  it('have to match radio group with form-status', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-dnb-test="radio-group-status"] .dnb-radio-group'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
