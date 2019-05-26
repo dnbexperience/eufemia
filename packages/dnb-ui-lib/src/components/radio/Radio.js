@@ -147,30 +147,59 @@ export default class Radio extends Component {
 
   onChangeHandler = event => {
     if (String(this.props.readOnly) === 'true') {
-      return // TODO: check if event.preventDefault() is not needed?
+      return
     }
-    const { group } = this.props
-    const checked = !this.state.checked
     const value = event.target.value
+    const checked = !this.state.checked
+    // only support on change if there is either:
+    // 1. context group usage
+    // 2. or a single, no group usage
+    const isContextGroupOrSingle =
+      typeof this.context.value !== 'undefined' && !this.props.group
+
+    // delay in case we have a
+    if (this.isPlainGroup()) {
+      setTimeout(() => {
+        this.setState(
+          { checked, _listenForPropChanges: false },
+          () =>
+            isContextGroupOrSingle && this.callOnChange({ value, checked })
+        )
+      }, 1) // in case we have a false "hasContext" but a "group", then we have to use a delay, to overwrite the uncrontrolled state
+    } else {
+      this.setState(
+        { checked, _listenForPropChanges: false },
+        () =>
+          isContextGroupOrSingle && this.callOnChange({ value, checked })
+      )
+    }
+  }
+
+  isPlainGroup = () =>
+    typeof this.context.value === 'undefined' && this.props.group
+
+  onClickHandler = event => {
+    // only have click support if there are more plain radio
+    if (!this.isPlainGroup()) {
+      return
+    }
+    const value = event.target.value
+    const checked = event.target.checked
+    this.callOnChange({ value, checked })
+  }
+
+  callOnChange = ({ value, checked }) => {
+    const { group } = this.props
     if (this.context.onChange) {
       this.context.onChange({
-        value,
-        event
+        value
       })
     }
     dispatchCustomElementEvent(this, 'on_change', {
       group,
       checked,
-      value,
-      event
+      value
     })
-    if (typeof this.context.value === 'undefined' && group) {
-      setTimeout(() => {
-        this.setState({ checked, _listenForPropChanges: false })
-      }, 1) // in case we have a false "hasContext" but a "group", then we have to use a delay, to overwrite the uncrontrolled state
-    } else {
-      this.setState({ checked, _listenForPropChanges: false })
-    }
   }
 
   onMouseOutHandler = event => {
@@ -295,6 +324,7 @@ export default class Radio extends Component {
                 ref={this._refInput}
                 {...inputParams}
                 onChange={this.onChangeHandler}
+                onClick={this.onClickHandler}
                 onKeyDown={this.onKeyDownHandler}
               />
               <span aria-hidden className="dnb-radio__button" />
