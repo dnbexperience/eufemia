@@ -17,7 +17,6 @@ export default [
         <FormLabel for_id="alone">Single Radio button:</FormLabel>
         <Radio
           id="alone"
-          // label="Alone:"
           value="I'm alone"
           title="Give me a Title"
           on_change={({ value, checked }) => {

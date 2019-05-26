@@ -147,7 +147,7 @@ export default class Radio extends Component {
 
   onChangeHandler = event => {
     if (String(this.props.readOnly) === 'true') {
-      return
+      return event.preventDefault()
     }
     const value = event.target.value
     const checked = !this.state.checked
@@ -179,6 +179,9 @@ export default class Radio extends Component {
     typeof this.context.value === 'undefined' && this.props.group
 
   onClickHandler = event => {
+    if (String(this.props.readOnly) === 'true') {
+      return event.preventDefault()
+    }
     // only have click support if there are more plain radio
     if (!this.isPlainGroup()) {
       return
