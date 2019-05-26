@@ -101,7 +101,7 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox
-          caption="Plain Radio group. Without `<Radio.Group>`"
+          caption="Plain Radio group. Without **<Radio.Group>**"
           data-dnb-test="radio-group-plain"
         >
           {/* @jsx */ `

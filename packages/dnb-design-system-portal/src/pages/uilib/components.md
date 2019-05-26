@@ -76,6 +76,10 @@ The step indicator (progress) is a visual representation of a users progress thr
 
 Notifications are messages that communicate information to the user.
 
+## [Radio](/uilib/components/radio)
+
+Radio buttons lets a user select one option / value of a limited number of choices. It is recommended to use it in a group. You can use either the React component `<Radio.Group>` or use the property `group="NAME"` to define the group.
+
 ## [Slider](/uilib/components/slider)
 
 Sliders provide a visual indication of adjustable content. A value can be adjusted (increased or decreased) by moving the drag handle along a track (usually horizontal or vertical). Remember to inform users that they can also adjust the value directly in the value input field (if it exists).
