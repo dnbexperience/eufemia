@@ -36,12 +36,12 @@ export default class Table extends PureComponent {
     // manipulate the colors, if providet
     children = recursiveMap(children, (child, isValid) => {
       if (!isValid && typeof child === 'string') {
-        child = String(child).trim()
-        if (child.length === 0) {
+        const checkChild = String(child).trim()
+        if (checkChild.length === 0) {
           return null
         }
         // in case we will color only the filed with the hex color
-        if (0 && child[0] === '#') {
+        if (0 && checkChild[0] === '#') {
           return <span style={{ background: child }}>{child}</span>
         }
         return child
