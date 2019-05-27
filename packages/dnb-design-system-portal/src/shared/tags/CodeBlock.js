@@ -109,8 +109,9 @@ class LiveCode extends PureComponent {
 
   constructor(props) {
     super(props)
-    const { hideToolbar, hideCode, hidePreview, showSyntax } = props
+    const { code, hideToolbar, hideCode, hidePreview, showSyntax } = props
     this.state = {
+      code,
       hideToolbar,
       hideCode,
       hidePreview,
@@ -145,7 +146,7 @@ class LiveCode extends PureComponent {
 
   render() {
     const {
-      code,
+      // code,
       caption,
       scope,
       hideSyntaxButton,
@@ -153,6 +154,7 @@ class LiveCode extends PureComponent {
       noFragments,
       language,
 
+      code: _code, // eslint-disable-line
       hideToolbar: _hideToolbar, // eslint-disable-line
       hideCode: _hideCode, // eslint-disable-line
       hidePreview: _hidePreview, // eslint-disable-line
@@ -161,7 +163,14 @@ class LiveCode extends PureComponent {
 
       ...props
     } = this.props
-    const { hideToolbar, hideCode, hidePreview, showSyntax } = this.state
+    const {
+      code,
+      hideToolbar,
+      hideCode,
+      hidePreview,
+      showSyntax,
+      hasFocus
+    } = this.state
 
     const codeToUse =
       typeof code === 'string' ? this.prepareCode(code) : null
@@ -173,6 +182,8 @@ class LiveCode extends PureComponent {
     if (codeToUse.trim().length === 0) {
       return <span>No Code provided</span>
     }
+
+    // console.log('render', code)
 
     return (
       <LiveCodeEditor>
@@ -208,7 +219,7 @@ class LiveCode extends PureComponent {
               className={classnames(
                 'dnb-pre',
                 'dnb-live-editor',
-                this.state.hasFocus && 'dnb-pre--focus'
+                hasFocus && 'dnb-pre--focus'
               )}
             >
               <LiveEditor
@@ -216,6 +227,9 @@ class LiveCode extends PureComponent {
                 padding={0}
                 style={{
                   font: 'inherit'
+                }}
+                onChange={code => {
+                  this.setState({ code })
                 }}
                 onFocus={() => {
                   this.setState({ hasFocus: true })
