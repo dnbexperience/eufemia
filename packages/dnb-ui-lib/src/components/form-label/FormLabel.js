@@ -72,8 +72,11 @@ export default class FormLabel extends PureComponent {
       className,
       id,
       disabled,
-      class: _className
-      // ...otherProps
+      class: _className,
+
+      text: _text, // eslint-disable-line
+
+      ...otherProps
     } = this.props
 
     const content = FormLabel.getContent(this.props)
@@ -83,8 +86,8 @@ export default class FormLabel extends PureComponent {
       htmlFor: for_id,
       id,
       title,
-      disabled
-      // ...otherProps
+      disabled,
+      ...otherProps
     }
 
     // also used for code markup simulation
