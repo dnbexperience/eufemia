@@ -310,7 +310,7 @@ export default class Radio extends Component {
             <FormLabel
               id={id + '-label'}
               for_id={id}
-              aria-hidden
+              aria-hidden={!this.isInNoGroup()}
               text={label}
               disabled={disabled}
             />

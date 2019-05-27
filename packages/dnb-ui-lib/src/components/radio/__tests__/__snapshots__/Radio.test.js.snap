@@ -26,7 +26,7 @@ exports[`Radio component have to match snapshot 1`] = `
     className="dnb-radio--label-position-label_position"
   >
     <FormLabel
-      aria-hidden={true}
+      aria-hidden={false}
       class={null}
       className={null}
       disabled="disabled"
@@ -38,7 +38,7 @@ exports[`Radio component have to match snapshot 1`] = `
     >
       <label
         aria-disabled={true}
-        aria-hidden={true}
+        aria-hidden={false}
         className="dnb-form-label"
         disabled="disabled"
         htmlFor="id"

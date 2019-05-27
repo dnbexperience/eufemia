@@ -304,7 +304,6 @@ export default class Input extends PureComponent {
         {label && (
           <FormLabel
             id={id + '-label'}
-            aria-hidden
             for_id={id}
             text={label}
             disabled={disabled}
