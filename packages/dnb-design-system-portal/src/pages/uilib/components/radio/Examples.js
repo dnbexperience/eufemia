@@ -10,6 +10,7 @@ class Example extends PureComponent {
   render() {
     return (
       <Fragment>
+        <UseOnTests />
         <ComponentBox caption="Radio group" data-dnb-test="radio-group">
           {/* @jsx */ `
 <Radio.Group
@@ -131,31 +132,42 @@ class Example extends PureComponent {
 </Radio.Group>
           `}
         </ComponentBox>
+        <StateDemo />
+      </Fragment>
+    )
+  }
+}
+
+class UseOnTests extends PureComponent {
+  render() {
+    return typeof window !== 'undefined' && window.IS_TEST ? (
+      <>
         <ComponentBox
           caption="Unchecked Radio (Single Radio buttons should not be used)"
           data-dnb-test="radio-default"
         >
           {/* @jsx */ `
-<Radio
-  label="Single Radio:"
-/>
-          `}
+      <Radio
+      label="Single Radio:"
+      />
+        `}
         </ComponentBox>
         <ComponentBox
           caption="Checked Radio (Single Radio buttons should not be used)"
           data-dnb-test="radio-checked"
         >
           {/* @jsx */ `
-<Radio
-  label="Checked Radio:"
-  title="Ths is the title"
-  checked
-  on_change={({ checked }) => console.log(checked)}
-/>
-          `}
+      <Radio
+      label="Checked Radio:"
+      title="Ths is the title"
+      checked
+      on_change={({ checked }) => console.log(checked)}
+      />
+        `}
         </ComponentBox>
-        <StateDemo />
-      </Fragment>
+      </>
+    ) : (
+      <></>
     )
   }
 }
@@ -163,14 +175,7 @@ class Example extends PureComponent {
 class StateDemo extends PureComponent {
   render() {
     return typeof window !== 'undefined' && window.IS_TEST ? (
-      <ComponentBox data-dnb-test="radio-disabled">
-        {/* @jsx */ `
-<Radio
-  checked
-  disabled
-/>
-`}
-      </ComponentBox>
+      <></>
     ) : (
       <ComponentBox
         caption="External state update with possible event **on_state_update**"
