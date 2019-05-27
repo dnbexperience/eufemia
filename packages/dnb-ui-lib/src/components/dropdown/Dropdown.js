@@ -683,12 +683,7 @@ export default class Dropdown extends Component {
     return (
       <>
         {label && (
-          <FormLabel
-            aria-hidden
-            for_id={id}
-            text={label}
-            disabled={disabled}
-          />
+          <FormLabel for_id={id} text={label} disabled={disabled} />
         )}
         <span className={classes} ref={this._ref}>
           <span className="dnb-dropdown__shell">
