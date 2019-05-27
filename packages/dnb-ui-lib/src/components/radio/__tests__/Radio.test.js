@@ -71,6 +71,25 @@ describe('Radio component', () => {
   })
 })
 
+describe('Radio group component', () => {
+  // then test the state management
+  const Comp = mount(
+    <Component.Group label="Label" name="group" id="group">
+      <Component id="radio-1" label="Radio 1" />
+      <Component id="radio-2" label="Radio 2" checked />
+    </Component.Group>
+  )
+
+  // mount compare the snapshot
+  it('have to match group snapshot', () => {
+    expect(toJson(Comp)).toMatchSnapshot()
+  })
+
+  it('should validate with ARIA rules', async () => {
+    expect(await axeComponent(Comp)).toHaveNoViolations()
+  })
+})
+
 describe('Radio scss', () => {
   it('have to match snapshot', () => {
     const scss = loadScss(require.resolve('../style/dnb-radio.scss'))

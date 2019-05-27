@@ -183,7 +183,6 @@ export default class RadioGroup extends PureComponent {
             <FormLabel
               id={id + '-label'}
               for_id={id}
-              aria-hidden
               text={label}
               disabled={disabled}
             />
