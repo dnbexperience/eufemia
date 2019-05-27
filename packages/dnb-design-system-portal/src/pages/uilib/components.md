@@ -9,8 +9,6 @@ order: 7
 
 DNB Eufemia components are ready to use, styled and custom build HTML elements.
 
-<!-- - ### [Accordion](/uilib/components/accordion) -->
-
 ## [Button](/uilib/components/button)
 
 The `Button` component should be used as the primary call-to-action in a form, or as a user interaction mechanism.

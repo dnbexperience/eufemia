@@ -12,7 +12,11 @@ const AutoLinkHeader = ({ is: Component, children, ...props }) => {
     id = /\{#([^}]*)\}/.exec(children)[1]
     children = children.replace(/\{#(.*)\}/g, '').trim()
   } else {
-    id = slugger.slug(children)
+    id = slugger.slug(
+      children.props && children.props.children
+        ? children.props.children
+        : children
+    )
   }
   const clickHandler = () => {
     if (typeof window !== 'undefined') {
@@ -23,6 +27,7 @@ const AutoLinkHeader = ({ is: Component, children, ...props }) => {
       }
     }
   }
+  // console.log('id', id)
   return (
     <Component className={`dnb-${Component}`} {...props}>
       <AnchorLink
