@@ -10,29 +10,6 @@ class Example extends PureComponent {
   render() {
     return (
       <Fragment>
-        <ComponentBox
-          caption="Unchecked Radio (default state)"
-          data-dnb-test="radio-default"
-        >
-          {/* @jsx */ `
-<Radio
-  label="Single Radio:"
-/>
-          `}
-        </ComponentBox>
-        <ComponentBox
-          caption="Checked Radio"
-          data-dnb-test="radio-checked"
-        >
-          {/* @jsx */ `
-<Radio
-  label="Checked Radio:"
-  title="Ths is the title"
-  checked
-  on_change={({ checked }) => console.log(checked)}
-/>
-          `}
-        </ComponentBox>
         <ComponentBox caption="Radio group" data-dnb-test="radio-group">
           {/* @jsx */ `
 <Radio.Group
@@ -152,6 +129,29 @@ class Example extends PureComponent {
     checked
   />
 </Radio.Group>
+          `}
+        </ComponentBox>
+        <ComponentBox
+          caption="Unchecked Radio (Single Radio buttons should not be used)"
+          data-dnb-test="radio-default"
+        >
+          {/* @jsx */ `
+<Radio
+  label="Single Radio:"
+/>
+          `}
+        </ComponentBox>
+        <ComponentBox
+          caption="Checked Radio (Single Radio buttons should not be used)"
+          data-dnb-test="radio-checked"
+        >
+          {/* @jsx */ `
+<Radio
+  label="Checked Radio:"
+  title="Ths is the title"
+  checked
+  on_change={({ checked }) => console.log(checked)}
+/>
           `}
         </ComponentBox>
         <StateDemo />
