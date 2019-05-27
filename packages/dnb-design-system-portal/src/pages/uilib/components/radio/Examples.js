@@ -19,12 +19,11 @@ class Example extends PureComponent {
   on_change={({ value }) => { console.log('on_change', value) }}
   value="first"
 >
-  <Radio label="First" value="first" label_position="right" />
-  <Radio label="Second" value="second" label_position="right" />
+  <Radio label="First" value="first" />
+  <Radio label="Second" value="second" />
   <Radio
     label="Third"
     value="third"
-    label_position="right"
   />
 </Radio.Group>
           `}
@@ -39,13 +38,12 @@ class Example extends PureComponent {
   layout_direction="column"
   on_change={({ value }) => { console.log('on_change', value) }}
 >
-  <Radio label="First" value="first" label_position="right" />
-  <Radio label="Second" value="second" label_position="right" />
+  <Radio label="First" value="first" />
+  <Radio label="Second" value="second" />
   <Radio
     label="Third"
     value="third"
     checked
-    label_position="right"
   />
 </Radio.Group>
           `}
@@ -60,18 +58,15 @@ class Example extends PureComponent {
   layout_direction="column"
   on_change={({ value }) => { console.log('on_change', value) }}
 >
-  <Radio label="First" value="first" label_position="right" status="error" />
   <Radio
     label="Second"
     value="second"
-    label_position="right"
     status="Error message"
   />
   <Radio
     label="Third"
     value="third"
     checked
-    label_position="right"
     status="Info message"
     status_state="info"
   />
@@ -121,12 +116,11 @@ class Example extends PureComponent {
   disabled
   name="MyGroup" // The Group Name
 >
-  <Radio label="First" value="first" label_position="right" />
-  <Radio label="Second" value="second" label_position="right" />
+  <Radio label="First" value="first" />
+  <Radio label="Second" value="second" />
   <Radio
     label="Third"
     value="third"
-    label_position="right"
     checked
   />
 </Radio.Group>
