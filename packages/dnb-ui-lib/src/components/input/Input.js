@@ -34,6 +34,7 @@ export const propTypes = {
   id: PropTypes.string,
   label: PropTypes.string,
   status: PropTypes.string,
+  input_state: PropTypes.string,
   status_state: PropTypes.string,
   status_animation: PropTypes.string,
   autocomplete: PropTypes.oneOf(['on', 'off']),
@@ -83,6 +84,7 @@ export const defaultProps = {
   id: null,
   label: null,
   status: null,
+  input_state: null,
   status_state: 'error',
   status_animation: null,
   autocomplete: 'off',
@@ -302,7 +304,6 @@ export default class Input extends PureComponent {
         {label && (
           <FormLabel
             id={id + '-label'}
-            aria-hidden
             for_id={id}
             text={label}
             disabled={disabled}

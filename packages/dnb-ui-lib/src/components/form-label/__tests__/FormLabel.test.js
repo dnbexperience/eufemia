@@ -30,6 +30,16 @@ describe('FormLabel component', () => {
     expect(toJson(Comp)).toMatchSnapshot()
   })
 
+  it('should forward unlisted attributes like "aria-hidden"', () => {
+    const Comp = mount(<Component {...props} for_id="input" aria-hidden />)
+    expect(Comp.find('label[aria-hidden]').exists()).toBe(true)
+    expect(
+      Comp.find('label[aria-hidden]')
+        .instance()
+        .getAttribute('aria-hidden')
+    ).toBe('true')
+  })
+
   it('should validate with ARIA rules', async () => {
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })

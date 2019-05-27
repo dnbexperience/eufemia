@@ -110,7 +110,6 @@ export default class Checkbox extends Component {
       hasDefaultState: props.default_state !== null,
       checked: Checkbox.parseChecked(props.default_state || props.checked)
     }
-    this.helperParams = { onMouseDown: e => e.preventDefault() }
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -216,7 +215,6 @@ export default class Checkbox extends Component {
           <FormLabel
             id={id + '-label'}
             for_id={id}
-            aria-hidden
             text={label}
             disabled={disabled}
           />
@@ -227,15 +225,14 @@ export default class Checkbox extends Component {
               id={id}
               name={id}
               type="checkbox"
-              // role="checkbox"
               title={title}
               aria-checked={checked}
               className="dnb-checkbox__input"
               value={checked ? value || '' : ''}
+              {...inputParams}
               onChange={this.onChangeHandler}
               onKeyDown={this.onKeyDownHandler}
               ref={this._refInput}
-              {...inputParams}
             />
             <span aria-hidden className="dnb-checkbox__button">
               <span className="dnb-checkbox__focus" />

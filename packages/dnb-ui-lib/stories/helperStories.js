@@ -6,6 +6,7 @@
 import React from 'react'
 import { Wrapper, Box } from './helpers'
 import styled from '@emotion/styled'
+import { Button } from 'dnb-ui-lib/src'
 
 const stories = []
 export default stories
@@ -38,8 +39,8 @@ stories.push([
   () => (
     <Wrapper>
       <Box>
-        <div className="dnb-section dnb-section--spacing dnb-section--emerald-green">
-          Section
+        <div className="dnb-section dnb-section--divider">
+          <Button text="Next" icon="chevron_right" />
         </div>
       </Box>
     </Wrapper>

@@ -27,6 +27,7 @@ import Logo from './logo/Logo'
 import Modal from './modal/Modal'
 import Notification from './notification/Notification'
 import ProgressIndicator from './progress-indicator/ProgressIndicator'
+import Radio from './radio/Radio'
 import Slider from './slider/Slider'
 import StepIndicator from './step-indicator/StepIndicator'
 import Switch from './switch/Switch'
@@ -49,6 +50,7 @@ export {
   Modal,
   Notification,
   ProgressIndicator,
+  Radio,
   Slider,
   StepIndicator,
   Switch,
@@ -72,6 +74,7 @@ export const getComponents = () => {
     Modal,
     Notification,
     ProgressIndicator,
+    Radio,
     Slider,
     StepIndicator,
     Switch,

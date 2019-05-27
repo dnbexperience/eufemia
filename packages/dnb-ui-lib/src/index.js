@@ -25,6 +25,7 @@ import Logo from './components/logo/Logo'
 import Modal from './components/modal/Modal'
 import Notification from './components/notification/Notification'
 import ProgressIndicator from './components/progress-indicator/ProgressIndicator'
+import Radio from './components/radio/Radio'
 import Slider from './components/slider/Slider'
 import StepIndicator from './components/step-indicator/StepIndicator'
 import Switch from './components/switch/Switch'
@@ -67,6 +68,7 @@ export {
   Modal,
   Notification,
   ProgressIndicator,
+  Radio,
   Slider,
   StepIndicator,
   Switch,

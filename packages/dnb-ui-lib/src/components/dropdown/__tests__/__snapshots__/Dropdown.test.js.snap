@@ -61,7 +61,6 @@ exports[`Dropdown component have to match snapshot 1`] = `
   title="title"
 >
   <FormLabel
-    aria-hidden={true}
     class={null}
     className={null}
     disabled="disabled"

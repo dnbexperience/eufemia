@@ -22,7 +22,6 @@ exports[`Checkbox component have to match snapshot 1`] = `
   value="value"
 >
   <FormLabel
-    aria-hidden={true}
     class={null}
     className={null}
     disabled="disabled"
