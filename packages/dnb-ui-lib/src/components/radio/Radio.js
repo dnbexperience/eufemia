@@ -123,7 +123,7 @@ export default class Radio extends Component {
 
   onKeyDownHandler = event => {
     // only have key support if there is only a single radio
-    if (typeof this.context.value === 'undefined' && !this.props.group) {
+    if (this.isInNoGroup()) {
       switch (keycode(event)) {
         case 'enter':
           this.onChangeHandler(event)
@@ -151,11 +151,6 @@ export default class Radio extends Component {
     }
     const value = event.target.value
     const checked = !this.state.checked
-    // only support on change if there is either:
-    // 1. context group usage
-    // 2. or a single, no group usage
-    const isContextGroupOrSingle =
-      typeof this.context.value !== 'undefined' && !this.props.group
 
     // delay in case we have a
     if (this.isPlainGroup()) {
@@ -163,20 +158,29 @@ export default class Radio extends Component {
         this.setState(
           { checked, _listenForPropChanges: false },
           () =>
-            isContextGroupOrSingle && this.callOnChange({ value, checked })
+            this.isContextGroupOrSingle() &&
+            this.callOnChange({ value, checked })
         )
       }, 1) // in case we have a false "hasContext" but a "group", then we have to use a delay, to overwrite the uncrontrolled state
     } else {
       this.setState(
         { checked, _listenForPropChanges: false },
         () =>
-          isContextGroupOrSingle && this.callOnChange({ value, checked })
+          this.isContextGroupOrSingle() &&
+          this.callOnChange({ value, checked })
       )
     }
   }
 
+  // only support on change if there is either:
+  // 1. context group usage
+  // 2. or a single, no group usage
+  isContextGroupOrSingle = () =>
+    typeof this.context.value !== 'undefined' && !this.props.group
   isPlainGroup = () =>
     typeof this.context.value === 'undefined' && this.props.group
+  isInNoGroup = () =>
+    typeof this.context.value === 'undefined' && !this.props.group
 
   onClickHandler = event => {
     if (String(this.props.readOnly) === 'true') {
