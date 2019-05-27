@@ -59,6 +59,11 @@ class Example extends PureComponent {
   on_change={({ value }) => { console.log('on_change', value) }}
 >
   <Radio
+    label="First"
+    value="first"
+    status="error"
+  />
+  <Radio
     label="Second"
     value="second"
     status="Error message"
