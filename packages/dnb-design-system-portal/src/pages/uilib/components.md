@@ -89,3 +89,7 @@ The `Switch` component (toggle) is a digital on/off switch. Toggle switches are 
 ## [Tabs](/uilib/components/tabs)
 
 Tabs are a set of buttons which allow navigation between content that is related and on the same level of hierarchy.
+
+## [Textarea](/uilib/components/textarea)
+
+The `Textarea` component has to be used as a multi-line text input control with an unlimited number of characters possible.

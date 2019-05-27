@@ -10,6 +10,7 @@ import styled from '@emotion/styled'
 // UI Components
 import Radio from './components/Radio'
 import DatePicker from './components/DatePicker'
+import Textarea from './components/Textarea'
 import {
   Button,
   Tabs,
@@ -33,6 +34,7 @@ export default stories
 
 stories.push(Radio)
 stories.push(DatePicker)
+stories.push(Textarea)
 
 const CustomStyle = styled.div`
   p {

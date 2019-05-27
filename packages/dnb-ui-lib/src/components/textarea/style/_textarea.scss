@@ -1,7 +1,7 @@
 /*
- * Textarea
- *
- */
+* Textarea component
+*
+*/
 
 :root {
   --textarea-vertical-correction: 0.25rem; // for chromium browsers
@@ -82,12 +82,24 @@
     }
   }
 }
-@mixin textareaTag() {
-  textarea {
-    @include textareaStyle();
-  }
-}
 
 .dnb-textarea {
+  &__shell {
+    position: relative;
+  }
+  label + &[class*='__form-status'] {
+    vertical-align: baseline;
+  }
+
+  textarea#{&}__textarea {
+    @include textareaStyle();
+  }
+
+  // > .dnb-form-status {
+  //   margin-top: 0.5rem;
+  // }
+}
+
+textarea.dnb-textarea {
   @include textareaStyle();
 }

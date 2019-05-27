@@ -26,7 +26,7 @@
   // form
   @include formTag();
   @include labelTag();
-  @include textareaTag();
+  // @include textareaTag(); // Deprecated sice v. 3.23.0
 
   // additional
   @include codeTag();

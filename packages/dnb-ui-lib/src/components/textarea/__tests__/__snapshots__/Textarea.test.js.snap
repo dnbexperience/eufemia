@@ -1,0 +1,716 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Textarea component have to match snapshot 1`] = `
+<Textarea
+  0={
+    Object {
+      "displayName": "Textarea",
+      "props": Object {
+        "align": "align",
+        "attributes": "attributes",
+        "children": "children",
+        "class": "class",
+        "className": "className",
+        "custom_element": Object {},
+        "custom_method": [Function],
+        "description": "description",
+        "disabled": "disabled",
+        "id": "id",
+        "label": "label",
+        "on_change": [Function],
+        "placeholder": "placeholder",
+        "readOnly": "readOnly",
+        "size": "size",
+        "status": "status",
+        "status_animation": "status_animation",
+        "status_state": "status_state",
+        "submit_button_title": "submit_button_title",
+        "textareaElement": [Function],
+        "textarea_class": "textarea_class",
+        "type": "type",
+        "value": "value",
+      },
+    }
+  }
+  align={null}
+  attributes={null}
+  class={null}
+  className={null}
+  custom_element={null}
+  custom_method={null}
+  description={null}
+  disabled={false}
+  id="textarea"
+  label={null}
+  on_blur={null}
+  on_change={null}
+  on_focus={null}
+  on_submit={null}
+  on_submit_blur={null}
+  on_submit_focus={null}
+  placeholder={null}
+  readOnly={false}
+  size={null}
+  status={null}
+  status_animation={null}
+  status_state="error"
+  submit_button_variant="secondary"
+  textareaElement={null}
+  textarea_class={null}
+  type="text"
+  value="test"
+>
+  <span
+    className="dnb-textarea dnb-textarea--text"
+  >
+    <span
+      className="dnb-textarea__shell"
+    >
+      <textarea
+        className="dnb-textarea__textarea"
+        id="textarea"
+        name="textarea"
+        onChange={[Function]}
+        value="test"
+      />
+    </span>
+  </span>
+</Textarea>
+`;
+
+exports[`Textarea scss have to match default theme snapshot 1`] = `
+"/*
+* Textarea theme
+*
+*/
+/**
+ * This file is only used to make themes independent
+ * so that they can get imported individually, without the core styles
+ *
+ */
+/*
+ * Utilities
+ */
+:root {
+  --textarea-text-color: var(--color-sea-green);
+  --textarea-text-color--focus: var(--color-sea-green);
+  --textarea-text-color--changed: var(--color-emerald-green);
+  --textarea-text-color--disabled: var(--color-sea-green-alt-30);
+  --textarea-background-color: var(--color-white);
+  --textarea-background-color--focus: var(--color-white);
+  --textarea-background-color--changed: var(--color-white);
+  --textarea-background-color--disabled: var(--color-mint-green-12);
+  --textarea-border-color: var(--color-sea-green-alt);
+  --textarea-border-color--focus: var(--color-emerald-green);
+  --textarea-border-color--changed: var(--color-sea-green-alt);
+  --textarea-border-color--disabled: var(--color-sea-green-alt-30); }
+
+.dnb-textarea {
+  color: var(--textarea-text-color); }
+  .dnb-textarea__shell {
+    background-color: var(--textarea-background-color);
+    border: none;
+    box-shadow: inset 0 0 0 var(--textarea-border-width) var(--textarea-border-color);
+    border-color: transparent; }
+    .dnb-textarea__shell[data-textarea-state='dirty'] {
+      color: var(--textarea-text-color--changed);
+      background-color: var(--textarea-background-color--changed); }
+    .dnb-textarea__shell[data-textarea-state='disabled'] {
+      color: var(--textarea-text-color--disabled);
+      box-shadow: inset 0 0 0 var(--textarea-border-width) var(--textarea-border-color--disabled);
+      border-color: transparent;
+      background-color: var(--textarea-background-color--disabled); }
+    .dnb-textarea__shell:not([data-textarea-state='disabled']):hover, .dnb-textarea__shell[data-textarea-state='focus'] {
+      color: var(--textarea-text-color--focus);
+      background-color: var(--textarea-background-color--focus);
+      box-shadow: 0 0 0 0.125rem var(--textarea-border-color--focus);
+      border-color: transparent; }
+  .dnb-textarea__status--error .dnb-textarea__shell:not([data-textarea-state='focus']), .dnb-textarea__status--error .dnb-textarea__shell:not([data-textarea-state='focus']):not([data-textarea-state='disabled']):hover {
+    box-shadow: 0 0 0 0.125rem var(--color-cherry-red);
+    border-color: transparent; }
+  .dnb-textarea ::selection {
+    background-color: var(--color-mint-green);
+    color: var(--textarea-text-color--focus);
+    text-shadow: none; }
+  .dnb-textarea__textarea:not([disabled]):not([readonly]):focus ~ .dnb-textarea__placeholder {
+    display: none; }
+  .dnb-textarea__shell[data-textarea-state='focus'][data-has-content='false'] .dnb-textarea__textarea:not([disabled]):not([readonly]) .dnb-textarea__placeholder {
+    display: none; }
+  .dnb-textarea__description {
+    color: var(--textarea-text-color); }
+"
+`;
+
+exports[`Textarea scss have to match snapshot 1`] = `
+"/*
+* DNB Textarea
+*
+*/
+/**
+ * This file is only used to make components independent
+ * so that they can get imported individually, without the core styles
+ *
+ */
+/*
+ * Utilities
+ */
+/*
+ * Scopes
+ *
+ */
+/*
+ * Document Reset
+ *
+ */
+/*
+* DNB Button
+*
+*/
+/*
+* DNB icon
+*
+*/
+/*
+* Icon component
+*
+*/
+.dnb-icon {
+  display: inline-block;
+  vertical-align: baseline;
+  font-size: inherit;
+  line-height: 1em;
+  width: 1em;
+  height: 1em; }
+  .dnb-icon img,
+  .dnb-icon svg {
+    width: inherit;
+    height: inherit;
+    vertical-align: middle;
+    shape-rendering: geometricPrecision; }
+  .dnb-icon svg[width='100%'] {
+    width: inherit; }
+  .dnb-icon svg[height='100%'] {
+    height: inherit; }
+  .dnb-icon svg:not([fill]),
+  .dnb-icon svg [fill] {
+    fill: currentColor; }
+  .dnb-icon svg [stroke] {
+    stroke: currentColor; }
+  .dnb-icon--small {
+    width: 0.75rem;
+    height: 0.75rem; }
+  .dnb-icon--default {
+    width: 1rem;
+    height: 1rem; }
+  .dnb-icon--medium {
+    width: 1.5rem;
+    height: 1.5rem; }
+  .dnb-icon--large {
+    width: 2rem;
+    height: 2rem; }
+  .dnb-icon--x-large {
+    width: 2.5rem;
+    height: 2.5rem; }
+  .dnb-icon--xx-large {
+    width: 3rem;
+    height: 3rem; }
+  .dnb-icon--custom-size {
+    width: auto;
+    height: auto; }
+
+.dnb-button {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-default);
+  font-size: 1rem;
+  font-style: normal;
+  line-height: 1.5rem;
+  color: var(--color-black-80, #333);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  font-variant-numeric: lining-nums;
+  font-feature-settings: \\"lnum\\";
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-button *,
+  .dnb-button ::before,
+  .dnb-button ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-button ::before,
+  .dnb-button ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+  .dnb-button button {
+    overflow: visible;
+    text-transform: none; }
+  .dnb-button button,
+  .dnb-button [type='button'],
+  .dnb-button [type='reset'],
+  .dnb-button [type='submit'] {
+    -webkit-appearance: button; }
+
+/*
+* Button component
+*
+*/
+:root {
+  --button-font-size: var(--font-size-default);
+  --button-font-size-small: var(--font-size-small);
+  --button-width: 2.5rem;
+  --button-height: 2.5rem;
+  --button-width--small: 1.5rem;
+  --button-height--small: 1.5rem;
+  --button-width--medium: 2rem;
+  --button-height--medium: 2rem;
+  --button-width--large: 3rem;
+  --button-height--large: 3rem;
+  --button-icon-size: 1rem;
+  --button-border-width: 0.0625rem;
+  --button-border-width--hover: 3px;
+  --button-border-radius: calc(var(--button-height) / 2);
+  --button-border-radius--small: calc(var(--button-height--small) / 2);
+  --button-border-radius--medium: calc(var(--button-height--medium) / 2);
+  --button-border-radius--large: calc(var(--button-height--large) / 2); }
+
+.dnb-button {
+  cursor: pointer;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--button-width);
+  height: var(--button-height);
+  padding: 0;
+  border: var(--button-border-width) solid transparent;
+  border-radius: var(--button-border-radius);
+  text-decoration: none;
+  /* Firefox includes a hidden border which messes up button dimensions */ }
+  .dnb-button,
+  .dnb-core-style .dnb-button {
+    font-size: var(--button-font-size);
+    line-height: var(--button-height); }
+  .dnb-button__icon {
+    line-height: 1em; }
+    .dnb-button__icon:not(.dnb-icon) svg:not([width]):not([height]) {
+      width: var(--button-icon-size);
+      height: var(--button-icon-size); }
+    @supports not (-ms-ime-align: auto) {
+      .dnb-button__icon {
+        transform: translateY(calc(1px - 1px - var(--button-border-width))); } }
+  .dnb-button__text {
+    line-height: 1em;
+    color: inherit;
+    background-color: inherit; }
+    @supports not (-ms-ime-align: auto) {
+      .dnb-button__text {
+        transform: translateY(calc(1px - var(--button-border-width))); } }
+  .dnb-button__bounding {
+    position: absolute;
+    background-color: transparent;
+    width: var(--button-width);
+    height: var(--button-height);
+    border-radius: var(--button-border-radius);
+    transform: scale(1.2); }
+  .dnb-button--size-small {
+    width: var(--button-width--small);
+    height: var(--button-height--small);
+    font-size: var(--button-font-size-small);
+    line-height: var(--button-font-size-small);
+    border-radius: var(--button-border-radius--small); }
+  .dnb-button--has-text.dnb-button--size-small {
+    padding-left: 1rem;
+    padding-right: 1rem; }
+  .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-small {
+    padding-left: 0.5rem; }
+  .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-small {
+    padding-right: 0.5rem; }
+  .dnb-button--size-medium {
+    width: var(--button-width--medium);
+    height: var(--button-height--medium);
+    line-height: var(--button-height--medium);
+    border-radius: var(--button-border-radius--medium); }
+  .dnb-button--has-text.dnb-button--size-medium {
+    padding-left: 1rem;
+    padding-right: 1rem; }
+  .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-medium {
+    padding-left: 0.5rem; }
+  .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-medium {
+    padding-right: 0.5rem; }
+  .dnb-button--size-large {
+    width: var(--button-width--large);
+    height: var(--button-height--large);
+    line-height: var(--button-height--large);
+    border-radius: var(--button-border-radius--large); }
+  .dnb-button--has-text.dnb-button--size-large {
+    padding-left: 2rem;
+    padding-right: 2rem; }
+  .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-large {
+    padding-left: 1rem; }
+  .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-large {
+    padding-right: 1rem; }
+  .dnb-button--has-text {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    width: auto; }
+  .dnb-button--has-text .dnb-button__icon {
+    margin: 0 calc(var(--button-icon-size) / 2); }
+  .dnb-button--has-text.dnb-button--icon-position-left {
+    padding-left: 0.5rem; }
+  .dnb-button--has-text.dnb-button--icon-position-right {
+    padding-right: 0.5rem; }
+  .dnb-button--has-text.dnb-button--has-icon .dnb-button__icon {
+    order: 2; }
+  .dnb-button--has-text.dnb-button--has-icon .dnb-button__text {
+    order: 1; }
+  .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__icon {
+    order: 1; }
+  .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__text {
+    order: 2; }
+  .dnb-button--reset {
+    margin: 0;
+    padding: 0;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    border: none;
+    border-radius: 0;
+    background-color: transparent;
+    appearance: none;
+    box-shadow: none;
+    color: inherit;
+    font: inherit;
+    text-align: inherit;
+    line-height: inherit; }
+    :not([dnb-is-touch]) .dnb-button--reset:hover[disabled] {
+      cursor: not-allowed; }
+    :not([dnb-is-touch]) .dnb-button--reset:hover:not([disabled]) {
+      box-shadow: none;
+      border: none; }
+    .dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
+      outline: none; }
+      html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
+        box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
+        border-color: transparent; }
+    html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):focus,
+    html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):active {
+      box-shadow: none;
+      color: inherit;
+      border: none; }
+  .dnb-button[type='button'] {
+    appearance: none; }
+  .dnb-button[disabled] {
+    cursor: not-allowed; }
+  button.dnb-button::-moz-focus-inner .dnb-button {
+    border: none; }
+
+a.dnb-button[type='button'] {
+  -webkit-appearance: none; }
+
+a.dnb-button .dnb-button__icon {
+  transform: translateY(0); }
+
+a.dnb-button .dnb-button__text {
+  transform: translateY(1px); }
+
+a.dnb-button:hover {
+  border-radius: var(--button-border-radius); }
+
+a.dnb-button--size-small, a.dnb-button--size-small:hover {
+  border-radius: var(--button-border-radius--small); }
+
+a.dnb-button--size-medium, a.dnb-button--size-medium:hover {
+  border-radius: var(--button-border-radius--medium); }
+
+a.dnb-button--size-large, a.dnb-button--size-large:hover {
+  border-radius: var(--button-border-radius--large); }
+
+a.dnb-button:active, a.dnb-button:focus {
+  border-radius: var(--button-border-radius); }
+
+/*
+* DNB FormLabel
+*
+*/
+.dnb-form-label {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-default);
+  font-size: 1rem;
+  font-style: normal;
+  line-height: 1.5rem;
+  color: var(--color-black-80, #333);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  font-variant-numeric: lining-nums;
+  font-feature-settings: \\"lnum\\";
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-form-label *,
+  .dnb-form-label ::before,
+  .dnb-form-label ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-form-label ::before,
+  .dnb-form-label ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+ * FormLabel component
+ *
+ */
+.dnb-form-label {
+  user-select: none;
+  margin-right: 1rem;
+  display: inline-block;
+  vertical-align: baseline;
+  cursor: pointer;
+  color: inherit;
+  width: auto;
+  white-space: nowrap; }
+  .dnb-form-label--vertical {
+    margin-right: 0;
+    margin-top: 0; }
+  .dnb-form-label[for]:not([disabled]):hover {
+    color: var(--color-sea-green); }
+  .dnb-form-label[disabled] {
+    cursor: not-allowed; }
+
+/*
+* DNB FormStatus
+*
+*/
+.dnb-form-status {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-default);
+  font-size: 1rem;
+  font-style: normal;
+  line-height: 1.5rem;
+  color: var(--color-black-80, #333);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  font-variant-numeric: lining-nums;
+  font-feature-settings: \\"lnum\\";
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-form-status *,
+  .dnb-form-status ::before,
+  .dnb-form-status ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-form-status ::before,
+  .dnb-form-status ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+ * FormStatus component
+ *
+ */
+.dnb-form-status {
+  width: auto;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  min-height: var(--input-height);
+  border-radius: var(--input-border-radius);
+  line-height: 0.5rem; }
+  .dnb-form-status--text {
+    padding: calc(0.5rem / 2) 1rem;
+    cursor: text;
+    color: var(--color-emerald-green);
+    line-height: 1.5rem; }
+  .dnb-icon + .dnb-form-status--text {
+    padding-left: 0.5rem; }
+  .dnb-form-status > .dnb-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 1.5em;
+    height: 1.5em;
+    margin-left: 0.5rem;
+    color: inherit;
+    font-size: 1rem;
+    border-radius: 50%;
+    border: 1px solid;
+    border-color: currentColor; }
+  .dnb-form-status[hidden] {
+    display: none; }
+  .dnb-form-status--fade-in {
+    height: 0;
+    opacity: 0;
+    animation: fade-in 600ms ease-out 1 200ms forwards; }
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    height: 0; }
+  to {
+    opacity: 1;
+    height: var(--input-height); } }
+
+.dnb-textarea {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-default);
+  font-size: 1rem;
+  font-style: normal;
+  line-height: 1.5rem;
+  color: var(--color-black-80, #333);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  font-variant-numeric: lining-nums;
+  font-feature-settings: \\"lnum\\";
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-textarea *,
+  .dnb-textarea ::before,
+  .dnb-textarea ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-textarea ::before,
+  .dnb-textarea ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+* Textarea component
+*
+*/
+:root {
+  --textarea-vertical-correction: 0.25rem;
+  --textarea-padding-width: 0.5rem;
+  --textarea-border-inner: 0 0 0 var(--textarea-padding-width)
+    var(--color-white); }
+
+.dnb-textarea__shell {
+  position: relative; }
+
+label + .dnb-textarea[class*='__form-status'] {
+  vertical-align: baseline; }
+
+.dnb-textarea textarea.dnb-textarea__textarea {
+  display: block;
+  margin: var(--textarea-padding-width);
+  padding: var(--textarea-padding-width);
+  padding-top: calc( var(--textarea-padding-width) - var(--textarea-vertical-correction));
+  padding-bottom: var(--textarea-vertical-correction);
+  border: none;
+  border-radius: 1px;
+  line-height: 1.5rem;
+  box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.0625rem) var(--color-sea-green-alt);
+  /* IE11 fix */ }
+  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    .dnb-textarea textarea.dnb-textarea__textarea {
+      -ms-overflow-style: -ms-autohiding-scrollba;
+      box-shadow: 0 0 0 0.0625rem var(--color-sea-green-alt); } }
+  .dnb-textarea textarea.dnb-textarea__textarea.status--error,
+  .dnb-textarea textarea.dnb-textarea__textarea .dnb-textarea__status--error {
+    box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.125rem) var(--color-cherry-red); }
+  :not([dnb-is-touch]) .dnb-textarea textarea.dnb-textarea__textarea:hover[disabled] {
+    cursor: not-allowed; }
+  :not([dnb-is-touch]) .dnb-textarea textarea.dnb-textarea__textarea:hover:not([disabled]):not(.status--error) {
+    box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.125rem) var(--color-emerald-green);
+    /* IE11 fix */ }
+    @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+      :not([dnb-is-touch]) .dnb-textarea textarea.dnb-textarea__textarea:hover:not([disabled]):not(.status--error) {
+        box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
+  .dnb-textarea textarea.dnb-textarea__textarea:focus {
+    outline: none;
+    box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.125rem) var(--color-emerald-green);
+    /* IE11 fix */ }
+    @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+      .dnb-textarea textarea.dnb-textarea__textarea:focus {
+        box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
+  .dnb-textarea textarea.dnb-textarea__textarea[disabled] {
+    user-select: none;
+    color: var(--color-sea-green-alt-30);
+    background-color: var(--color-mint-green-12);
+    box-shadow: 0 0 0 var(--textarea-padding-width) var(--color-mint-green-12), 0 0 0 calc(var(--textarea-padding-width) + 0.0625rem) var(--color-sea-green-alt-30); }
+    .dnb-textarea textarea.dnb-textarea__textarea[disabled]::-webkit-scrollbar {
+      width: 0; }
+
+textarea.dnb-textarea {
+  display: block;
+  margin: var(--textarea-padding-width);
+  padding: var(--textarea-padding-width);
+  padding-top: calc( var(--textarea-padding-width) - var(--textarea-vertical-correction));
+  padding-bottom: var(--textarea-vertical-correction);
+  border: none;
+  border-radius: 1px;
+  line-height: 1.5rem;
+  box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.0625rem) var(--color-sea-green-alt);
+  /* IE11 fix */ }
+  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    textarea.dnb-textarea {
+      -ms-overflow-style: -ms-autohiding-scrollba;
+      box-shadow: 0 0 0 0.0625rem var(--color-sea-green-alt); } }
+  textarea.dnb-textarea.status--error,
+  textarea.dnb-textarea .dnb-textarea__status--error {
+    box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.125rem) var(--color-cherry-red); }
+  :not([dnb-is-touch]) textarea.dnb-textarea:hover[disabled] {
+    cursor: not-allowed; }
+  :not([dnb-is-touch]) textarea.dnb-textarea:hover:not([disabled]):not(.status--error) {
+    box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.125rem) var(--color-emerald-green);
+    /* IE11 fix */ }
+    @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+      :not([dnb-is-touch]) textarea.dnb-textarea:hover:not([disabled]):not(.status--error) {
+        box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
+  textarea.dnb-textarea:focus {
+    outline: none;
+    box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.125rem) var(--color-emerald-green);
+    /* IE11 fix */ }
+    @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+      textarea.dnb-textarea:focus {
+        box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
+  textarea.dnb-textarea[disabled] {
+    user-select: none;
+    color: var(--color-sea-green-alt-30);
+    background-color: var(--color-mint-green-12);
+    box-shadow: 0 0 0 var(--textarea-padding-width) var(--color-mint-green-12), 0 0 0 calc(var(--textarea-padding-width) + 0.0625rem) var(--color-sea-green-alt-30); }
+    textarea.dnb-textarea[disabled]::-webkit-scrollbar {
+      width: 0; }
+"
+`;
