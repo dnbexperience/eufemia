@@ -27,8 +27,8 @@ class Example extends PureComponent {
 <div className="dnb-section dnb-section--spacing dnb-section--white">
   Visual DNB Section, declared with <code className="dnb-code">.dnb-section--white</code>
 </div>
-<div className="dnb-section dnb-section--spacing-small dnb-section--lines">
-  Visual DNB Section, declared with <code className="dnb-code">.dnb-section--lines</code>
+<div className="dnb-section dnb-section--spacing-small dnb-section--divider">
+  Visual DNB Section, declared with <code className="dnb-code">.dnb-section--divider</code>
 </div>
 <div className="dnb-section dnb-section--spacing-large dnb-section--mint-green">
   Visual DNB Section, declared with <code className="dnb-code">.dnb-section--mint-green</code>

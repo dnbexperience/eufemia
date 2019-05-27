@@ -39,7 +39,7 @@ stories.push([
   () => (
     <Wrapper>
       <Box>
-        <div className="dnb-section dnb-section--lines">
+        <div className="dnb-section dnb-section--divider">
           <Button text="Next" icon="chevron_right" />
         </div>
       </Box>
