@@ -19,11 +19,8 @@ import {
 
 const renderProps = {
   on_change: null,
-  on_submit: null,
   on_focus: null,
-  on_blur: null,
-  on_submit_focus: null,
-  on_submit_blur: null
+  on_blur: null
 }
 
 export const propTypes = {
@@ -33,10 +30,9 @@ export const propTypes = {
   id: PropTypes.string,
   label: PropTypes.string,
   status: PropTypes.string,
-  // textarea_state: PropTypes.string,
+  textarea_state: PropTypes.string,
   status_state: PropTypes.string,
   status_animation: PropTypes.string,
-  // autocomplete: PropTypes.oneOf(['on', 'off']),
   submit_button_title: PropTypes.string,
   placeholder: PropTypes.string,
   description: PropTypes.string,
@@ -73,10 +69,9 @@ export const defaultProps = {
   id: null,
   label: null,
   status: null,
-  // textarea_state: null,
+  textarea_state: null,
   status_state: 'error',
   status_animation: null,
-  // autocomplete: 'off',
   placeholder: null,
   description: null,
   align: null,
@@ -119,12 +114,12 @@ export default class Textarea extends PureComponent {
     ) {
       state.value = value
     }
-    // if (props.disabled) {
-    //   state.textareaState = 'disabled'
-    // }
-    // if (props.textarea_state) {
-    //   state.textareaState = props.textarea_state
-    // }
+    if (props.disabled) {
+      state.textareaState = 'disabled'
+    }
+    if (props.textarea_state) {
+      state.textareaState = props.textarea_state
+    }
     state._listenForPropChanges = true
     return state
   }
@@ -135,7 +130,7 @@ export default class Textarea extends PureComponent {
   }
 
   state = {
-    // textareaState: 'virgin',
+    textareaState: 'virgin',
     value: null
   }
 
@@ -152,39 +147,33 @@ export default class Textarea extends PureComponent {
     // make sure we dont trigger getDerivedStateFromProps on startup
     this.state._listenForPropChanges = true
     this.state.value = Textarea.getValue(props)
-    // if (props.textarea_state) {
-    //   this.state.textareaState = props.textarea_state
-    // }
+    if (props.textarea_state) {
+      this.state.textareaState = props.textarea_state
+    }
   }
-  // onFocusHandler = event => {
-  //   const { value } = event.target
-  //   this.setState({
-  //     value,
-  //     _listenForPropChanges: false,
-  //     textareaState: 'focus'
-  //   })
-  //   dispatchCustomElementEvent(this, 'on_focus', { value, event })
-  // }
-  // onBlurHandler = event => {
-  //   const { value } = event.target
-  //   this.setState({
-  //     value,
-  //     _listenForPropChanges: false,
-  //     textareaState: String(value || '').length > 0 ? 'dirty' : 'initial'
-  //   })
-  //   dispatchCustomElementEvent(this, 'on_blur', { value, event })
-  // }
+  onFocusHandler = event => {
+    const { value } = event.target
+    this.setState({
+      value,
+      _listenForPropChanges: false,
+      textareaState: 'focus'
+    })
+    dispatchCustomElementEvent(this, 'on_focus', { value, event })
+  }
+  onBlurHandler = event => {
+    const { value } = event.target
+    this.setState({
+      value,
+      _listenForPropChanges: false,
+      textareaState: String(value || '').length > 0 ? 'dirty' : 'initial'
+    })
+    dispatchCustomElementEvent(this, 'on_blur', { value, event })
+  }
   onChangeHandler = event => {
     const { value } = event.target
     this.setState({ value, _listenForPropChanges: false })
     dispatchCustomElementEvent(this, 'on_change', { value, event })
   }
-  // onKeyDownHandler = event => {
-  //   if (event.key === 'Enter') {
-  //     const { value } = event.target
-  //     dispatchCustomElementEvent(this, 'on_submit', { value, event })
-  //   }
-  // }
   render() {
     const {
       type,
@@ -198,11 +187,6 @@ export default class Textarea extends PureComponent {
       description,
       align,
       textarea_class,
-      // submit_button_title,
-      // submit_button_variant,
-      // submit_button_icon,
-      // submitButton,
-      // autocomplete,
       readOnly,
       class: _className,
       className,
@@ -216,20 +200,19 @@ export default class Textarea extends PureComponent {
       ...attributes
     } = this.props
 
-    const {
-      value
-      // , textareaState
-    } = this.state
+    const { value, textareaState } = this.state
 
     const id = this._id
     const showStatus = status && status !== 'error'
-    // const hasSubmitButton = submitButton || type === 'search'
+
+    console.log('textareaState', textareaState)
 
     const classes = classnames(
       'dnb-textarea',
       `dnb-textarea--${type}`, //type_modifier
+      `dnb-textarea--${textareaState}`,
+      String(value || '').length > 0 && 'dnb-textarea--has-content',
       // size && `dnb-textarea--${size}`,
-      // hasSubmitButton && 'dnb-textarea--has-submit-button',
       align && `dnb-textarea__align--${align}`,
       showStatus && 'dnb-textarea__form-status',
       status && `dnb-textarea__status--${status_state}`,
@@ -245,17 +228,14 @@ export default class Textarea extends PureComponent {
     const textareaParams = {
       ...renderProps,
       className: classnames('dnb-textarea__textarea', textarea_class),
-      // autoComplete: autocomplete,
       value: value || '',
-      // type,
       id,
       disabled,
       name: id,
       ...attributes,
-      onChange: this.onChangeHandler
-      // onKeyDown: this.onKeyDownHandler,
-      // onFocus: this.onFocusHandler,
-      // onBlur: this.onBlurHandler
+      onChange: this.onChangeHandler,
+      onFocus: this.onFocusHandler,
+      onBlur: this.onBlurHandler
     }
 
     // we may considder using: aria-details
@@ -264,9 +244,6 @@ export default class Textarea extends PureComponent {
     } else if (description) {
       textareaParams['aria-describedby'] = id + '-description'
     }
-    // if (type === 'search') {
-    //   textareaParams.autoComplete = 'off'
-    // }
     if (readOnly) {
       textareaParams['aria-readonly'] = textareaParams.readOnly = true
     }
@@ -274,10 +251,7 @@ export default class Textarea extends PureComponent {
       textareaParams['aria-labelledby'] = id + '-label'
     }
 
-    const shellParams = {
-      // 'data-textarea-state': textareaState,
-      // 'data-has-content': String(value || '').length > 0 ? 'true' : 'false'
-    }
+    const shellParams = {}
     if (disabled) {
       shellParams['aria-disabled'] = true
     }

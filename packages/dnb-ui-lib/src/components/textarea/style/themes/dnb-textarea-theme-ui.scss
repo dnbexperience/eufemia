@@ -14,56 +14,36 @@
   --textarea-background-color--focus: var(--color-white);
   --textarea-background-color--changed: var(--color-white);
   --textarea-background-color--disabled: var(--color-mint-green-12);
-  --textarea-border-color: var(--color-sea-green-alt);
-  --textarea-border-color--focus: var(--color-emerald-green);
-  --textarea-border-color--changed: var(--color-sea-green-alt);
-  --textarea-border-color--disabled: var(--color-sea-green-alt-30);
+  // --textarea-border-color: var(--color-sea-green-alt);
+  // --textarea-border-color--focus: var(--color-emerald-green);
+  // --textarea-border-color--changed: var(--color-sea-green-alt);
+  // --textarea-border-color--disabled: var(--color-sea-green-alt-30);
 }
 
-.dnb-textarea {
-  color: var(--textarea-text-color);
-
-  &__shell {
+@mixin textareaTheme() {
+  &,
+  &--virgin,
+  &--initial {
+    color: var(--textarea-text-color);
     background-color: var(--textarea-background-color);
-    border: none;
-
-    @include fakeBorder(
-      var(--textarea-border-color),
-      var(--textarea-border-width),
-      inset
-    );
-
-    &[data-textarea-state='dirty'] {
-      // Background color of textarea when it has content
-      color: var(--textarea-text-color--changed);
-      background-color: var(--textarea-background-color--changed);
-    }
-
-    &[data-textarea-state='disabled'] {
-      color: var(--textarea-text-color--disabled);
-      @include fakeBorder(
-        var(--textarea-border-color--disabled),
-        var(--textarea-border-width),
-        inset
-      );
-      background-color: var(--textarea-background-color--disabled);
-    }
-
-    &:not([data-textarea-state='disabled']):hover,
-    &[data-textarea-state='focus'] {
-      color: var(--textarea-text-color--focus);
-      background-color: var(--textarea-background-color--focus);
-      @include fakeBorder(var(--textarea-border-color--focus), 0.125rem);
-    }
   }
 
-  // with status_state = "error"
-  &__status--error &__shell:not([data-textarea-state='focus']) {
-    &,
-    &:not([data-textarea-state='disabled']):hover {
-      // In case we want to have a larger border size on the textarea
-      @include fakeBorder(var(--color-cherry-red), 0.125rem);
-    }
+  &--dirty {
+    // Background color of textarea when it has content
+    color: var(--textarea-text-color--changed);
+    background-color: var(--textarea-background-color--changed);
+  }
+
+  &[disabled],
+  &--disabled {
+    color: var(--textarea-text-color--disabled);
+    background-color: var(--textarea-background-color--disabled);
+  }
+
+  &:not([disabled]):not(#{&}--disabled):hover,
+  &--focus {
+    color: var(--textarea-text-color--focus);
+    background-color: var(--textarea-background-color--focus);
   }
 
   ::selection {
@@ -71,21 +51,45 @@
     color: var(--textarea-text-color--focus);
     text-shadow: none;
   }
+}
+
+.dnb-textarea {
+  &__shell {
+    // background-color: var(--textarea-background-color);
+    border: none;
+    color: inherit;
+    background-color: inherit;
+  }
+
+  // with status_state = "error"
+  // &__status--error &__shell:not(#{&}--focus) {
+  //   &,
+  //   &:not(#{&}--disabled):hover {
+  //     // In case we want to have a larger border size on the textarea
+  //     @include fakeBorder(var(--color-cherry-red), 0.125rem);
+  //   }
+  // }
+
+  @include textareaTheme();
+  textarea#{&}__textarea {
+    color: inherit;
+    background-color: inherit;
+  }
 
   // IE11 fallback - hide placeholder on focus
-  &__textarea:not([disabled]):not([readonly]):focus
-    ~ .dnb-textarea__placeholder {
-    display: none;
-  }
+  // &__textarea:not([disabled]):not([readonly]):focus
+  //   ~ .dnb-textarea__placeholder {
+  //   display: none;
+  // }
 
   // hide placeholder on focus
-  &__shell[data-textarea-state='focus'][data-has-content='false']
-    &__textarea:not([disabled]):not([readonly])
-    .dnb-textarea__placeholder {
-    display: none;
-  }
+  // &__shell#{&}--focus[data-has-content='false']
+  //   &__textarea:not([disabled]):not([readonly])
+  //   .dnb-textarea__placeholder {
+  //   display: none;
+  // }
+}
 
-  &__description {
-    color: var(--textarea-text-color);
-  }
+textarea.dnb-textarea {
+  @include textareaTheme();
 }

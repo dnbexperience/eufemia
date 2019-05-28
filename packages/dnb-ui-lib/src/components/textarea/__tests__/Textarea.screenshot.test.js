@@ -10,35 +10,24 @@ import {
 
 describe('Textarea screenshot', () => {
   const style = {
-    width: '200px' // make sure our textarea gets an explicit width, because of mac/linux rendering differences
+    width: '14rem' // make sure our textarea gets an explicit width, because of mac/linux rendering differences
   }
   setupPageScreenshot({ url: '/uilib/components/textarea' })
-  it('have to match textarea with placeholder', async () => {
+  it('have to match the "default" textarea style', async () => {
     const screenshot = await testPageScreenshot({
       style,
-      selector: '[data-dnb-test="textarea-placeholder"] .dnb-textarea'
+      selector: '[data-dnb-test="textarea-default"]',
+      // Only for screenshot testing - make textarea having same width on linux chromium
+      styleSelector: '[data-dnb-test="textarea-default"] textarea'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
-  it('have to match disabled textarea', async () => {
+  // we do not make a active state, due to the differences of font rendering
+  it('have to match the "focus" textarea style', async () => {
     const screenshot = await testPageScreenshot({
       style,
-      selector: '[data-dnb-test="textarea-disabled"] .dnb-textarea'
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-  it('have to match search type', async () => {
-    const screenshot = await testPageScreenshot({
-      style,
-      selector: '[data-dnb-test="textarea-search"] .dnb-textarea'
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-  it('have to match search type with focus state', async () => {
-    const screenshot = await testPageScreenshot({
-      style,
-      selector: '[data-dnb-test="textarea-search"] .dnb-textarea',
-      simulateSelector: '[data-dnb-test="textarea-search"] textarea',
+      selector: '[data-dnb-test="textarea-default"] .dnb-textarea',
+      simulateSelector: '[data-dnb-test="textarea-default"] textarea',
       simulate: 'focus'
     })
     expect(screenshot).toMatchImageSnapshot()

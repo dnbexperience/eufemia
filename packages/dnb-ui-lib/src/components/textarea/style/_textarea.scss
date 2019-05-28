@@ -3,6 +3,8 @@
 *
 */
 
+@import './themes/dnb-textarea-theme-ui.scss';
+
 :root {
   --textarea-vertical-correction: 0.25rem; // for chromium browsers
   --textarea-padding-width: 0.5rem;
@@ -70,8 +72,8 @@
   &[disabled] {
     user-select: none;
 
-    color: var(--color-sea-green-alt-30);
-    background-color: var(--color-mint-green-12);
+    // color: var(--color-sea-green-alt-30);
+    // background-color: var(--color-mint-green-12);
     box-shadow: 0 0 0 var(--textarea-padding-width)
         var(--color-mint-green-12),
       0 0 0 calc(var(--textarea-padding-width) + 0.0625rem)
@@ -102,4 +104,5 @@
 
 textarea.dnb-textarea {
   @include textareaStyle();
+  @include textareaTheme();
 }

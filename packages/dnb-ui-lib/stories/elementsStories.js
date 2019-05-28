@@ -24,10 +24,6 @@ const CustomStyles = styled.div`
     }
   }
 
-  textarea {
-    position: relative;
-  }
-
   blockquote {
     max-width: 220px;
   }
@@ -62,10 +58,10 @@ const CustomStyles = styled.div`
   p {
     background-color: rgba(0, 0, 0, 0.15);
   }
-  .dnb-form-group + p,
+  ${'' /* .dnb-form-group + p,
   textarea + p {
     margin-top: 1rem;
-  }
+  } */}
 `
 
 stories.push([
