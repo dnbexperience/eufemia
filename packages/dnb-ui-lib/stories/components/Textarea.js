@@ -24,6 +24,7 @@ export default [
               nisl scelerisque sapien erat"
           />
         </div>
+        <p className="dnb-p">I have still to be on the grid!</p>
       </Box>
       <Box>
         <div className="dnb-form-group">
@@ -35,6 +36,7 @@ export default [
               scelerisque sapien erat"
           />
         </div>
+        <p className="dnb-p">I have still to be on the grid!</p>
       </Box>
       <Box>
         <Textarea
@@ -47,6 +49,7 @@ export default [
               lacinia bibendum hendrerit porttitor volutpat nam duis nisl
               scelerisque sapien erat"
         />
+        <p className="dnb-p">I have still to be on the grid!</p>
       </Box>
       <Box>
         <div className="dnb-form-group dnb-form-group__position--vertical">
@@ -59,6 +62,7 @@ export default [
             status="Message to the user"
           />
         </div>
+        <p className="dnb-p">I have still to be on the grid!</p>
       </Box>
       <Box>
         <div className="dnb-form-group">

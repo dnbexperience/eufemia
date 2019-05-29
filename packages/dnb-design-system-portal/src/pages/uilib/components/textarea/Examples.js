@@ -13,143 +13,102 @@ class Example extends PureComponent {
       <Fragment>
         <ComponentBox
           caption="Placeholder text"
-          data-dnb-test="textarea-placeholder"
+          data-dnb-test="textarea-default"
         >
           {/* @jsx */ `
-<FormLabel for_id="text-textarea-1" text="Label:" />
-<Textarea
-  id="text-textarea-1"
-  placeholder="Placeholder text"
-/>
-          `}
-        </ComponentBox>
-        <ComponentBox
-          caption="Search text placeholder"
-          data-dnb-test="textarea-search"
-        >
-          {/* @jsx */ `
-<Textarea
-  label="Search:"
-  type="search"
-  submit_button_title="Search"
-  placeholder="Search text placeholder"
-  on_change={({ value }) => {
-    console.log(value)
-  }}
-  on_submit={({ value }) => {
-    console.log('Submit:', value)
-  }}
-/>
-          `}
-        </ComponentBox>
-        <ComponentBox caption="Medium textarea placeholder">
-          {/* @jsx */ `
-<Textarea
-  label="Medium textarea:"
-  size="medium"
-  placeholder="Medium textarea placeholder"
-  on_change={({ value }) => {
-    console.log(value)
-  }}
-/>
-          `}
-        </ComponentBox>
-        <ComponentBox caption="Large textarea with right aligned text">
-          {/* @jsx */ `
-<Textarea
-  label="Large textarea:"
-  size="large"
-  align="right"
-  placeholder="Large textarea with right aligned text"
-  on_change={({ value }) => {
-    console.log(value)
-  }}
-/>
-          `}
-        </ComponentBox>
-        <ComponentBox
-          caption="Disabled textarea"
-          data-dnb-test="textarea-disabled"
-        >
-          {/* @jsx */ `
-<Textarea
-  disabled
-  label="Disabled textarea:"
-  id="text-textarea-disabled"
-  placeholder="Disabled Textarea with a placeholder"
-/>
-          `}
-        </ComponentBox>
-        <ComponentBox caption="Show FormStatus (Error)">
-          {/* @jsx */ `
-<Textarea
-  label="Show status:"
-  status="error"
-  value="Shows status with border only"
-/>
-          `}
-        </ComponentBox>
-        <ComponentBox caption="With FormStatus">
-          {/* @jsx */ `
-<Textarea
-  label="With FormStatus:"
-  status="You have to fill in this field"
-  value="Textarea value with error"
-/>
-          `}
-        </ComponentBox>
-        <ComponentBox caption="Textarea wigth additional description">
-          {/* @jsx */ `
-<Textarea
-  label="Short Label:"
-  autocomplete="on"
-  placeholder="Placeholder text"
-  description="Additional description"
-  on_change={({ value }) => {
-    console.log(value)
-  }}
-/>
-          `}
-        </ComponentBox>
-        <ComponentBox caption="Numbers are ligned by using Proportional Lining">
-          {/* @jsx */ `
-<Textarea
-  label="My Status:"
-  autocomplete="on"
-  placeholder="Placeholder text"
-  status="Numbers are ligned by using Proportional Lining"
-  status_state="info"
-  status_animation="fade-in"
-  value="This is the value 1234567890"
-  on_change={({ value }) => {
-    console.log(value)
-  }}
-/>
-          `}
-        </ComponentBox>
-        <ComponentBox caption="Submit Form with Textarea. Pressing the enter key will trigger a submit.">
-          {/* @jsx */ `
-<form
-  onSubmit={event => {
-    console.log('onSubmit')
-    event.preventDefault()
-  }}
->
+<div className="dnb-form-group">
   <Textarea
-    label="Label:"
-    value="Textarea ..."
-    on_submit={event => {
-      console.log('on_submit')
-    }}
-    on_change={({ value }) => {
-      console.log('on_change:', value)
-    }}
-    onChange={({ value }) => {
-      console.log('onChange:', value)
-    }}
+    label="Default:"
+    rows="2"
+    cols="20"
+    value="Textarea value\\nNewline"
   />
-  <Button text="Submit" type="submit" />
-</form>
+</div>
+          `}
+        </ComponentBox>
+        <ComponentBox caption="Placeholder text">
+          {/* @jsx */ `
+<div className="dnb-form-group">
+  <FormLabel for_id="text-textarea-1" text="Placeholder:" />
+  <Textarea
+    id="text-textarea-1"
+    placeholder="Placeholder text"
+  />
+</div>
+          `}
+        </ComponentBox>
+        <ComponentBox caption="Vertical placed label, using `.dnb-form-group`">
+          {/* @jsx */ `
+<div className="dnb-form-group dnb-form-group__position--vertical">
+  <Textarea
+    label="Vertical:"
+    rows="3"
+    cols="33"
+    value="Textarea value with more than 3 lines\\nNewline\\nNewline\\nNewline\\nNewline"
+  />
+</div>
+          `}
+        </ComponentBox>
+        <ComponentBox caption="Horizontal placed label, using `.dnb-form-group`">
+          {/* @jsx */ `
+<div className="dnb-form-group">
+  <Textarea
+    label="Horizontal:"
+    rows="3"
+    value="Nec litora inceptos vestibulum id interdum donec gravida."
+  />
+</div>
+          `}
+        </ComponentBox>
+        <ComponentBox caption="Max length usage">
+          {/* @jsx */ `
+<div className="dnb-form-group">
+  <Textarea
+    label="Length limit:"
+    rows="3"
+    cols="33"
+    maxLength="20"
+    required
+    value="Nec litora inceptos vestibulum id interdum donec gravida."
+  />
+</div>
+          `}
+        </ComponentBox>
+        <ComponentBox
+          caption="With FormStatus failure message"
+          data-dnb-test="textarea-error"
+        >
+          {/* @jsx */ `
+<div className="dnb-form-group dnb-form-group__position--vertical">
+  <Textarea
+    label="Error Message:"
+    cols="33"
+    value="Nec litora inceptos vestibulum id interdum donec gravida."
+    status="Message to the user"
+  />
+</div>
+          `}
+        </ComponentBox>
+        <ComponentBox caption="Show failure status">
+          {/* @jsx */ `
+<div className="dnb-form-group">
+  <Textarea
+    label="Show status:"
+    status="error"
+    value="Shows status with border only"
+  />
+</div>
+`}
+        </ComponentBox>
+        <ComponentBox caption="Disabled textarea">
+          {/* @jsx */ `
+<div className="dnb-form-group">
+  <Textarea
+    label="Disabled:"
+    disabled
+    value="Nec litora inceptos vestibulum id interdum donec gravida."
+  />
+</div>
           `}
         </ComponentBox>
       </Fragment>
@@ -161,12 +120,12 @@ const Wrapper = styled.div`
   display: block;
   width: 100%;
 
-  .dnb-textarea textarea {
+  ${'' /* .dnb-textarea textarea {
     min-width: 10rem;
   }
   .dnb-form-label + .dnb-textarea {
     margin-top: 0;
-  }
+  } */}
 `
 
 export { Example }

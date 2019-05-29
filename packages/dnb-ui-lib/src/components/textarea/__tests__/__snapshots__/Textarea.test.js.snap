@@ -53,7 +53,6 @@ exports[`Textarea component have to match snapshot 1`] = `
   status={null}
   status_animation={null}
   status_state="error"
-  submit_button_variant="secondary"
   textareaElement={null}
   textarea_class={null}
   textarea_state={null}
@@ -526,9 +525,10 @@ textarea.dnb-textarea {
     var(--color-white); }
 
 .dnb-textarea {
-  display: block; }
+  display: block;
+  margin: var(--textarea-padding-width); }
   .dnb-textarea__shell {
-    display: block;
+    display: inline-flex;
     position: relative; }
   .dnb-textarea__placeholder, .dnb-textarea__textarea {
     text-align: left; }
@@ -537,7 +537,7 @@ textarea.dnb-textarea {
     position: absolute;
     z-index: 1;
     top: 0;
-    left: var(--textarea-padding-width);
+    left: 0;
     overflow: hidden;
     width: 100%;
     height: 100%;
@@ -546,8 +546,6 @@ textarea.dnb-textarea {
     padding-bottom: var(--textarea-vertical-correction);
     line-height: 1.5rem; }
   .dnb-textarea__textarea {
-    display: block;
-    margin: var(--textarea-padding-width);
     border: none;
     border-radius: 1px;
     box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.0625rem) var(--color-sea-green-alt);
@@ -558,6 +556,8 @@ textarea.dnb-textarea {
   .dnb-textarea--has-content .dnb-textarea__textarea ~ .dnb-textarea__placeholder,
   .dnb-textarea--focus .dnb-textarea__textarea:not([disabled]):not([readonly]) ~ .dnb-textarea__placeholder {
     opacity: 0.5; }
+  .dnb-textarea__form-status .dnb-form-status {
+    margin: 1rem 0 0 calc(1px - 1px - var(--textarea-padding-width)); }
 
 textarea.dnb-textarea {
   display: block;
@@ -618,7 +618,5 @@ textarea.dnb-textarea {
 .dnb-form-group:not(.dnb-form-group__position--vertical) > .dnb-textarea, .dnb-form-group__position--hoizontal:not(.dnb-form-group__position--vertical) > .dnb-textarea {
   transform: translateY(calc(1px - 1px - var(--textarea-vertical-correction)));
   margin-top: 0; }
-  .dnb-form-group:not(.dnb-form-group__position--vertical) > .dnb-textarea:not(textarea), .dnb-form-group__position--hoizontal:not(.dnb-form-group__position--vertical) > .dnb-textarea:not(textarea) {
-    margin-top: -0.5rem; }
 "
 `;

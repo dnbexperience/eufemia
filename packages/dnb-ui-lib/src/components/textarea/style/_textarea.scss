@@ -22,9 +22,6 @@
   line-height: 1.5rem;
 }
 @mixin textareaStyle() {
-  display: block;
-  margin: var(--textarea-padding-width);
-
   border: none;
   border-radius: 1px;
 
@@ -37,9 +34,10 @@
 
 .dnb-textarea {
   display: block;
+  margin: var(--textarea-padding-width);
 
   &__shell {
-    display: block;
+    display: inline-flex;
     position: relative;
   }
 
@@ -54,7 +52,7 @@
     position: absolute;
     z-index: 1;
     top: 0;
-    left: var(--textarea-padding-width);
+    left: 0;
 
     overflow: hidden;
     width: 100%; // to get overflow working properly
@@ -72,11 +70,19 @@
   &--focus &__textarea:not([disabled]):not([readonly]) ~ &__placeholder {
     opacity: 0.5;
   }
+
+  &__form-status .dnb-form-status {
+    margin: 1rem 0 0 calc(1px - 1px - var(--textarea-padding-width));
+  }
 }
 
 textarea.dnb-textarea {
+  display: block;
+  margin: var(--textarea-padding-width);
+
   @include textareaStyle();
   @include textareaTheme();
+
   label + &[class*='__form-status'] {
     vertical-align: baseline;
   }
@@ -101,9 +107,9 @@ textarea.dnb-textarea {
           calc(1px - 1px - var(--textarea-vertical-correction))
         );
         margin-top: 0;
-        &:not(textarea) {
-          margin-top: -0.5rem;
-        }
+        // &:not(textarea) {
+        //   margin-top: -0.5rem;
+        // }
       }
     }
   }
