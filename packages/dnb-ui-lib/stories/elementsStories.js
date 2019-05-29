@@ -315,6 +315,7 @@ stories.push([
             <textarea
               className="dnb-textarea"
               id="litora"
+              rows="3"
               placeholder="Nec litora inceptos vestibulum id interdum donec gravida nostra
             lacinia bibendum hendrerit porttitor volutpat nam duis nisl
             scelerisque sapien erat"
@@ -362,7 +363,7 @@ stories.push([
               className="dnb-textarea"
               id="volutpat"
               disabled
-              readOnly
+              // readOnly
               cols="33"
               defaultValue="Nec litora inceptos vestibulum id interdum donec gravida nostra
             lacinia bibendum hendrerit porttitor volutpat nam duis nisl

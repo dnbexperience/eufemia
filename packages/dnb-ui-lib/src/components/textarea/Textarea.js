@@ -39,6 +39,8 @@ export const propTypes = {
   textarea_class: PropTypes.string,
   attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   readOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  rows: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  cols: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
   // React props
   className: PropTypes.string,
@@ -75,6 +77,8 @@ export const defaultProps = {
   class: null,
   attributes: null,
   readOnly: false,
+  rows: null,
+  cols: null,
 
   // React props
   className: null,
@@ -245,6 +249,15 @@ export default class Textarea extends PureComponent {
       shellParams['aria-disabled'] = true
     }
 
+    // to show the ending dots on a placeholder, if the text is longer
+    const placeholderStyle =
+      parseFloat(this.props.rows) > 0
+        ? {
+            '--textarea-rows': parseFloat(this.props.rows)
+            // '--textarea-cols': parseFloat(this.props.cols)
+          }
+        : null
+
     // also used for code markup simulation
     validateDOMAttributes(this.props, textareaParams)
     validateDOMAttributes(null, shellParams)
@@ -278,6 +291,7 @@ export default class Textarea extends PureComponent {
                   'dnb-textarea__placeholder',
                   align ? `dnb-textarea__align--${align}` : null
                 )}
+                style={placeholderStyle}
               >
                 {placeholder}
               </span>

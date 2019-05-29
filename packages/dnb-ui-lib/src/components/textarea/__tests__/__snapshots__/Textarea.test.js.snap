@@ -11,6 +11,7 @@ exports[`Textarea component have to match snapshot 1`] = `
         "children": "children",
         "class": "class",
         "className": "className",
+        "cols": 1,
         "custom_element": Object {},
         "custom_method": [Function],
         "description": "description",
@@ -20,6 +21,7 @@ exports[`Textarea component have to match snapshot 1`] = `
         "on_change": [Function],
         "placeholder": "placeholder",
         "readOnly": "readOnly",
+        "rows": 1,
         "status": "status",
         "status_animation": "status_animation",
         "status_state": "status_state",
@@ -35,6 +37,7 @@ exports[`Textarea component have to match snapshot 1`] = `
   attributes={null}
   class={null}
   className={null}
+  cols={null}
   custom_element={null}
   custom_method={null}
   description={null}
@@ -46,6 +49,7 @@ exports[`Textarea component have to match snapshot 1`] = `
   on_focus={null}
   placeholder={null}
   readOnly={false}
+  rows={null}
   status={null}
   status_animation={null}
   status_state="error"
@@ -98,59 +102,102 @@ exports[`Textarea scss have to match default theme snapshot 1`] = `
   --textarea-background-color--changed: var(--color-white);
   --textarea-background-color--disabled: var(--color-mint-green-12); }
 
-.dnb-textarea__shell {
-  color: inherit;
-  background-color: inherit; }
-
-.dnb-textarea, .dnb-textarea--virgin, .dnb-textarea--initial {
-  color: var(--textarea-text-color);
-  background-color: var(--textarea-background-color); }
-
-.dnb-textarea--dirty {
-  color: var(--textarea-text-color--changed);
-  background-color: var(--textarea-background-color--changed); }
-
-.dnb-textarea[disabled], .dnb-textarea--disabled {
-  color: var(--textarea-text-color--disabled);
-  background-color: var(--textarea-background-color--disabled); }
-
-.dnb-textarea:not([disabled]):not(.dnb-textarea--disabled):hover, .dnb-textarea--focus {
-  color: var(--textarea-text-color--focus);
-  background-color: var(--textarea-background-color--focus); }
-
-.dnb-textarea ::selection {
-  background-color: var(--color-mint-green);
-  color: var(--textarea-text-color--focus);
-  text-shadow: none; }
-
 .dnb-textarea__textarea {
-  color: inherit;
-  background-color: inherit; }
+  /* IE11 fix */ }
+  .dnb-textarea__textarea,
+  .dnb-textarea--virgin .dnb-textarea__textarea,
+  .dnb-textarea--initial .dnb-textarea__textarea {
+    color: var(--textarea-text-color);
+    background-color: var(--textarea-background-color); }
+  .dnb-textarea--dirty .dnb-textarea__textarea {
+    color: var(--textarea-text-color--changed);
+    background-color: var(--textarea-background-color--changed); }
+  .dnb-textarea--focus .dnb-textarea__textarea, .dnb-textarea__textarea:focus, .dnb-textarea__textarea:hover {
+    outline: none; }
+    .dnb-textarea--focus .dnb-textarea__textarea:not([disabled]), .dnb-textarea__textarea:focus:not([disabled]), .dnb-textarea__textarea:hover:not([disabled]) {
+      color: var(--textarea-text-color--focus);
+      background-color: var(--textarea-background-color--focus); }
+      .dnb-textarea--focus .dnb-textarea__textarea:not([disabled]):not(.status--error), .dnb-textarea__textarea:focus:not([disabled]):not(.status--error), .dnb-textarea__textarea:hover:not([disabled]):not(.status--error) {
+        box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.125rem) var(--color-emerald-green);
+        /* IE11 fix */ }
+        @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+          .dnb-textarea--focus .dnb-textarea__textarea:not([disabled]):not(.status--error), .dnb-textarea__textarea:focus:not([disabled]):not(.status--error), .dnb-textarea__textarea:hover:not([disabled]):not(.status--error) {
+            box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
+  .dnb-textarea__textarea[disabled],
+  .dnb-textarea--disabled .dnb-textarea__textarea {
+    user-select: none;
+    color: var(--textarea-text-color--disabled);
+    background-color: var(--textarea-background-color--disabled);
+    box-shadow: 0 0 0 var(--textarea-padding-width) var(--color-mint-green-12), 0 0 0 calc(var(--textarea-padding-width) + 0.0625rem) var(--color-sea-green-alt-30); }
+    .dnb-textarea__textarea[disabled]::-webkit-scrollbar,
+    .dnb-textarea--disabled .dnb-textarea__textarea::-webkit-scrollbar {
+      width: 0; }
+  .dnb-textarea__textarea.status--error,
+  .dnb-textarea__textarea .dnb-textarea__status--error {
+    box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.125rem) var(--color-cherry-red); }
+  .dnb-textarea__textarea ::selection {
+    background-color: var(--color-mint-green);
+    color: var(--textarea-text-color--focus);
+    text-shadow: none; }
+  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    .dnb-textarea__textarea {
+      -ms-overflow-style: -ms-autohiding-scrollba;
+      box-shadow: 0 0 0 0.0625rem var(--color-sea-green-alt); } }
+
+.dnb-textarea__placeholder {
+  color: var(--textarea-text-color);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: var(--textarea-rows, 2); }
+
+.dnb-textarea__status--error:not(.dnb-textarea--focus) .dnb-textarea__textarea, .dnb-textarea__status--error:not(.dnb-textarea--focus) .dnb-textarea__textarea:hover {
+  box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.125rem) var(--color-cherry-red); }
 
 .dnb-textarea--has-content .dnb-textarea__textarea ~ .dnb-textarea__placeholder,
 .dnb-textarea--focus .dnb-textarea__textarea:not([disabled]):not([readonly]) ~ .dnb-textarea__placeholder {
   display: none; }
 
-textarea.dnb-textarea, textarea.dnb-textarea--virgin, textarea.dnb-textarea--initial {
-  color: var(--textarea-text-color);
-  background-color: var(--textarea-background-color); }
-
-textarea.dnb-textarea--dirty {
-  color: var(--textarea-text-color--changed);
-  background-color: var(--textarea-background-color--changed); }
-
-textarea.dnb-textarea[disabled], textarea.dnb-textarea--disabled {
-  color: var(--textarea-text-color--disabled);
-  background-color: var(--textarea-background-color--disabled); }
-
-textarea.dnb-textarea:not([disabled]):not(textarea.dnb-textarea--disabled):hover, textarea.dnb-textarea--focus {
-  color: var(--textarea-text-color--focus);
-  background-color: var(--textarea-background-color--focus); }
-
-textarea.dnb-textarea ::selection {
-  background-color: var(--color-mint-green);
-  color: var(--textarea-text-color--focus);
-  text-shadow: none; }
+textarea.dnb-textarea {
+  /* IE11 fix */ }
+  textarea.dnb-textarea,
+  .dnb-textarea--virgin textarea.dnb-textarea,
+  .dnb-textarea--initial textarea.dnb-textarea {
+    color: var(--textarea-text-color);
+    background-color: var(--textarea-background-color); }
+  .dnb-textarea--dirty textarea.dnb-textarea {
+    color: var(--textarea-text-color--changed);
+    background-color: var(--textarea-background-color--changed); }
+  .dnb-textarea--focus textarea.dnb-textarea, textarea.dnb-textarea:focus, textarea.dnb-textarea:hover {
+    outline: none; }
+    .dnb-textarea--focus textarea.dnb-textarea:not([disabled]), textarea.dnb-textarea:focus:not([disabled]), textarea.dnb-textarea:hover:not([disabled]) {
+      color: var(--textarea-text-color--focus);
+      background-color: var(--textarea-background-color--focus); }
+      .dnb-textarea--focus textarea.dnb-textarea:not([disabled]):not(.status--error), textarea.dnb-textarea:focus:not([disabled]):not(.status--error), textarea.dnb-textarea:hover:not([disabled]):not(.status--error) {
+        box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.125rem) var(--color-emerald-green);
+        /* IE11 fix */ }
+        @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+          .dnb-textarea--focus textarea.dnb-textarea:not([disabled]):not(.status--error), textarea.dnb-textarea:focus:not([disabled]):not(.status--error), textarea.dnb-textarea:hover:not([disabled]):not(.status--error) {
+            box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
+  textarea.dnb-textarea[disabled],
+  .dnb-textarea--disabled textarea.dnb-textarea {
+    user-select: none;
+    color: var(--textarea-text-color--disabled);
+    background-color: var(--textarea-background-color--disabled);
+    box-shadow: 0 0 0 var(--textarea-padding-width) var(--color-mint-green-12), 0 0 0 calc(var(--textarea-padding-width) + 0.0625rem) var(--color-sea-green-alt-30); }
+    textarea.dnb-textarea[disabled]::-webkit-scrollbar,
+    .dnb-textarea--disabled textarea.dnb-textarea::-webkit-scrollbar {
+      width: 0; }
+  textarea.dnb-textarea.status--error,
+  textarea.dnb-textarea .dnb-textarea__status--error {
+    box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.125rem) var(--color-cherry-red); }
+  textarea.dnb-textarea ::selection {
+    background-color: var(--color-mint-green);
+    color: var(--textarea-text-color--focus);
+    text-shadow: none; }
+  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    textarea.dnb-textarea {
+      -ms-overflow-style: -ms-autohiding-scrollba;
+      box-shadow: 0 0 0 0.0625rem var(--color-sea-green-alt); } }
 "
 `;
 
@@ -375,59 +422,102 @@ exports[`Textarea scss have to match snapshot 1`] = `
   --textarea-background-color--changed: var(--color-white);
   --textarea-background-color--disabled: var(--color-mint-green-12); }
 
-.dnb-textarea__shell {
-  color: inherit;
-  background-color: inherit; }
-
-.dnb-textarea, .dnb-textarea--virgin, .dnb-textarea--initial {
-  color: var(--textarea-text-color);
-  background-color: var(--textarea-background-color); }
-
-.dnb-textarea--dirty {
-  color: var(--textarea-text-color--changed);
-  background-color: var(--textarea-background-color--changed); }
-
-.dnb-textarea[disabled], .dnb-textarea--disabled {
-  color: var(--textarea-text-color--disabled);
-  background-color: var(--textarea-background-color--disabled); }
-
-.dnb-textarea:not([disabled]):not(.dnb-textarea--disabled):hover, .dnb-textarea--focus {
-  color: var(--textarea-text-color--focus);
-  background-color: var(--textarea-background-color--focus); }
-
-.dnb-textarea ::selection {
-  background-color: var(--color-mint-green);
-  color: var(--textarea-text-color--focus);
-  text-shadow: none; }
-
 .dnb-textarea__textarea {
-  color: inherit;
-  background-color: inherit; }
+  /* IE11 fix */ }
+  .dnb-textarea__textarea,
+  .dnb-textarea--virgin .dnb-textarea__textarea,
+  .dnb-textarea--initial .dnb-textarea__textarea {
+    color: var(--textarea-text-color);
+    background-color: var(--textarea-background-color); }
+  .dnb-textarea--dirty .dnb-textarea__textarea {
+    color: var(--textarea-text-color--changed);
+    background-color: var(--textarea-background-color--changed); }
+  .dnb-textarea--focus .dnb-textarea__textarea, .dnb-textarea__textarea:focus, .dnb-textarea__textarea:hover {
+    outline: none; }
+    .dnb-textarea--focus .dnb-textarea__textarea:not([disabled]), .dnb-textarea__textarea:focus:not([disabled]), .dnb-textarea__textarea:hover:not([disabled]) {
+      color: var(--textarea-text-color--focus);
+      background-color: var(--textarea-background-color--focus); }
+      .dnb-textarea--focus .dnb-textarea__textarea:not([disabled]):not(.status--error), .dnb-textarea__textarea:focus:not([disabled]):not(.status--error), .dnb-textarea__textarea:hover:not([disabled]):not(.status--error) {
+        box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.125rem) var(--color-emerald-green);
+        /* IE11 fix */ }
+        @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+          .dnb-textarea--focus .dnb-textarea__textarea:not([disabled]):not(.status--error), .dnb-textarea__textarea:focus:not([disabled]):not(.status--error), .dnb-textarea__textarea:hover:not([disabled]):not(.status--error) {
+            box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
+  .dnb-textarea__textarea[disabled],
+  .dnb-textarea--disabled .dnb-textarea__textarea {
+    user-select: none;
+    color: var(--textarea-text-color--disabled);
+    background-color: var(--textarea-background-color--disabled);
+    box-shadow: 0 0 0 var(--textarea-padding-width) var(--color-mint-green-12), 0 0 0 calc(var(--textarea-padding-width) + 0.0625rem) var(--color-sea-green-alt-30); }
+    .dnb-textarea__textarea[disabled]::-webkit-scrollbar,
+    .dnb-textarea--disabled .dnb-textarea__textarea::-webkit-scrollbar {
+      width: 0; }
+  .dnb-textarea__textarea.status--error,
+  .dnb-textarea__textarea .dnb-textarea__status--error {
+    box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.125rem) var(--color-cherry-red); }
+  .dnb-textarea__textarea ::selection {
+    background-color: var(--color-mint-green);
+    color: var(--textarea-text-color--focus);
+    text-shadow: none; }
+  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    .dnb-textarea__textarea {
+      -ms-overflow-style: -ms-autohiding-scrollba;
+      box-shadow: 0 0 0 0.0625rem var(--color-sea-green-alt); } }
+
+.dnb-textarea__placeholder {
+  color: var(--textarea-text-color);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: var(--textarea-rows, 2); }
+
+.dnb-textarea__status--error:not(.dnb-textarea--focus) .dnb-textarea__textarea, .dnb-textarea__status--error:not(.dnb-textarea--focus) .dnb-textarea__textarea:hover {
+  box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.125rem) var(--color-cherry-red); }
 
 .dnb-textarea--has-content .dnb-textarea__textarea ~ .dnb-textarea__placeholder,
 .dnb-textarea--focus .dnb-textarea__textarea:not([disabled]):not([readonly]) ~ .dnb-textarea__placeholder {
   display: none; }
 
-textarea.dnb-textarea, textarea.dnb-textarea--virgin, textarea.dnb-textarea--initial {
-  color: var(--textarea-text-color);
-  background-color: var(--textarea-background-color); }
-
-textarea.dnb-textarea--dirty {
-  color: var(--textarea-text-color--changed);
-  background-color: var(--textarea-background-color--changed); }
-
-textarea.dnb-textarea[disabled], textarea.dnb-textarea--disabled {
-  color: var(--textarea-text-color--disabled);
-  background-color: var(--textarea-background-color--disabled); }
-
-textarea.dnb-textarea:not([disabled]):not(textarea.dnb-textarea--disabled):hover, textarea.dnb-textarea--focus {
-  color: var(--textarea-text-color--focus);
-  background-color: var(--textarea-background-color--focus); }
-
-textarea.dnb-textarea ::selection {
-  background-color: var(--color-mint-green);
-  color: var(--textarea-text-color--focus);
-  text-shadow: none; }
+textarea.dnb-textarea {
+  /* IE11 fix */ }
+  textarea.dnb-textarea,
+  .dnb-textarea--virgin textarea.dnb-textarea,
+  .dnb-textarea--initial textarea.dnb-textarea {
+    color: var(--textarea-text-color);
+    background-color: var(--textarea-background-color); }
+  .dnb-textarea--dirty textarea.dnb-textarea {
+    color: var(--textarea-text-color--changed);
+    background-color: var(--textarea-background-color--changed); }
+  .dnb-textarea--focus textarea.dnb-textarea, textarea.dnb-textarea:focus, textarea.dnb-textarea:hover {
+    outline: none; }
+    .dnb-textarea--focus textarea.dnb-textarea:not([disabled]), textarea.dnb-textarea:focus:not([disabled]), textarea.dnb-textarea:hover:not([disabled]) {
+      color: var(--textarea-text-color--focus);
+      background-color: var(--textarea-background-color--focus); }
+      .dnb-textarea--focus textarea.dnb-textarea:not([disabled]):not(.status--error), textarea.dnb-textarea:focus:not([disabled]):not(.status--error), textarea.dnb-textarea:hover:not([disabled]):not(.status--error) {
+        box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.125rem) var(--color-emerald-green);
+        /* IE11 fix */ }
+        @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+          .dnb-textarea--focus textarea.dnb-textarea:not([disabled]):not(.status--error), textarea.dnb-textarea:focus:not([disabled]):not(.status--error), textarea.dnb-textarea:hover:not([disabled]):not(.status--error) {
+            box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
+  textarea.dnb-textarea[disabled],
+  .dnb-textarea--disabled textarea.dnb-textarea {
+    user-select: none;
+    color: var(--textarea-text-color--disabled);
+    background-color: var(--textarea-background-color--disabled);
+    box-shadow: 0 0 0 var(--textarea-padding-width) var(--color-mint-green-12), 0 0 0 calc(var(--textarea-padding-width) + 0.0625rem) var(--color-sea-green-alt-30); }
+    textarea.dnb-textarea[disabled]::-webkit-scrollbar,
+    .dnb-textarea--disabled textarea.dnb-textarea::-webkit-scrollbar {
+      width: 0; }
+  textarea.dnb-textarea.status--error,
+  textarea.dnb-textarea .dnb-textarea__status--error {
+    box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.125rem) var(--color-cherry-red); }
+  textarea.dnb-textarea ::selection {
+    background-color: var(--color-mint-green);
+    color: var(--textarea-text-color--focus);
+    text-shadow: none; }
+  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    textarea.dnb-textarea {
+      -ms-overflow-style: -ms-autohiding-scrollba;
+      box-shadow: 0 0 0 0.0625rem var(--color-sea-green-alt); } }
 
 :root {
   --textarea-vertical-correction: 0.25rem;
@@ -460,39 +550,11 @@ textarea.dnb-textarea ::selection {
     margin: var(--textarea-padding-width);
     border: none;
     border-radius: 1px;
+    box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.0625rem) var(--color-sea-green-alt);
     padding: var(--textarea-padding-width);
     padding-top: calc( var(--textarea-padding-width) - var(--textarea-vertical-correction));
     padding-bottom: var(--textarea-vertical-correction);
-    line-height: 1.5rem;
-    box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.0625rem) var(--color-sea-green-alt);
-    /* IE11 fix */ }
-    @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
-      .dnb-textarea__textarea {
-        -ms-overflow-style: -ms-autohiding-scrollba;
-        box-shadow: 0 0 0 0.0625rem var(--color-sea-green-alt); } }
-    .dnb-textarea__textarea.status--error,
-    .dnb-textarea__textarea .dnb-textarea__status--error {
-      box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.125rem) var(--color-cherry-red); }
-    :not([dnb-is-touch]) .dnb-textarea__textarea:hover[disabled] {
-      cursor: not-allowed; }
-    :not([dnb-is-touch]) .dnb-textarea__textarea:hover:not([disabled]):not(.status--error) {
-      box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.125rem) var(--color-emerald-green);
-      /* IE11 fix */ }
-      @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
-        :not([dnb-is-touch]) .dnb-textarea__textarea:hover:not([disabled]):not(.status--error) {
-          box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
-    .dnb-textarea__textarea:focus {
-      outline: none;
-      box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.125rem) var(--color-emerald-green);
-      /* IE11 fix */ }
-      @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
-        .dnb-textarea__textarea:focus {
-          box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
-    .dnb-textarea__textarea[disabled] {
-      user-select: none;
-      box-shadow: 0 0 0 var(--textarea-padding-width) var(--color-mint-green-12), 0 0 0 calc(var(--textarea-padding-width) + 0.0625rem) var(--color-sea-green-alt-30); }
-      .dnb-textarea__textarea[disabled]::-webkit-scrollbar {
-        width: 0; }
+    line-height: 1.5rem; }
   .dnb-textarea--has-content .dnb-textarea__textarea ~ .dnb-textarea__placeholder,
   .dnb-textarea--focus .dnb-textarea__textarea:not([disabled]):not([readonly]) ~ .dnb-textarea__placeholder {
     opacity: 0.5; }
@@ -502,55 +564,51 @@ textarea.dnb-textarea {
   margin: var(--textarea-padding-width);
   border: none;
   border-radius: 1px;
+  box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.0625rem) var(--color-sea-green-alt);
   padding: var(--textarea-padding-width);
   padding-top: calc( var(--textarea-padding-width) - var(--textarea-vertical-correction));
   padding-bottom: var(--textarea-vertical-correction);
   line-height: 1.5rem;
-  box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.0625rem) var(--color-sea-green-alt);
   /* IE11 fix */ }
-  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
-    textarea.dnb-textarea {
-      -ms-overflow-style: -ms-autohiding-scrollba;
-      box-shadow: 0 0 0 0.0625rem var(--color-sea-green-alt); } }
+  textarea.dnb-textarea,
+  .dnb-textarea--virgin textarea.dnb-textarea,
+  .dnb-textarea--initial textarea.dnb-textarea {
+    color: var(--textarea-text-color);
+    background-color: var(--textarea-background-color); }
+  .dnb-textarea--dirty textarea.dnb-textarea {
+    color: var(--textarea-text-color--changed);
+    background-color: var(--textarea-background-color--changed); }
+  .dnb-textarea--focus textarea.dnb-textarea, textarea.dnb-textarea:focus, textarea.dnb-textarea:hover {
+    outline: none; }
+    .dnb-textarea--focus textarea.dnb-textarea:not([disabled]), textarea.dnb-textarea:focus:not([disabled]), textarea.dnb-textarea:hover:not([disabled]) {
+      color: var(--textarea-text-color--focus);
+      background-color: var(--textarea-background-color--focus); }
+      .dnb-textarea--focus textarea.dnb-textarea:not([disabled]):not(.status--error), textarea.dnb-textarea:focus:not([disabled]):not(.status--error), textarea.dnb-textarea:hover:not([disabled]):not(.status--error) {
+        box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.125rem) var(--color-emerald-green);
+        /* IE11 fix */ }
+        @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+          .dnb-textarea--focus textarea.dnb-textarea:not([disabled]):not(.status--error), textarea.dnb-textarea:focus:not([disabled]):not(.status--error), textarea.dnb-textarea:hover:not([disabled]):not(.status--error) {
+            box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
+  textarea.dnb-textarea[disabled],
+  .dnb-textarea--disabled textarea.dnb-textarea {
+    user-select: none;
+    color: var(--textarea-text-color--disabled);
+    background-color: var(--textarea-background-color--disabled);
+    box-shadow: 0 0 0 var(--textarea-padding-width) var(--color-mint-green-12), 0 0 0 calc(var(--textarea-padding-width) + 0.0625rem) var(--color-sea-green-alt-30); }
+    textarea.dnb-textarea[disabled]::-webkit-scrollbar,
+    .dnb-textarea--disabled textarea.dnb-textarea::-webkit-scrollbar {
+      width: 0; }
   textarea.dnb-textarea.status--error,
   textarea.dnb-textarea .dnb-textarea__status--error {
     box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.125rem) var(--color-cherry-red); }
-  :not([dnb-is-touch]) textarea.dnb-textarea:hover[disabled] {
-    cursor: not-allowed; }
-  :not([dnb-is-touch]) textarea.dnb-textarea:hover:not([disabled]):not(.status--error) {
-    box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.125rem) var(--color-emerald-green);
-    /* IE11 fix */ }
-    @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
-      :not([dnb-is-touch]) textarea.dnb-textarea:hover:not([disabled]):not(.status--error) {
-        box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
-  textarea.dnb-textarea:focus {
-    outline: none;
-    box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.125rem) var(--color-emerald-green);
-    /* IE11 fix */ }
-    @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
-      textarea.dnb-textarea:focus {
-        box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
-  textarea.dnb-textarea[disabled] {
-    user-select: none;
-    box-shadow: 0 0 0 var(--textarea-padding-width) var(--color-mint-green-12), 0 0 0 calc(var(--textarea-padding-width) + 0.0625rem) var(--color-sea-green-alt-30); }
-    textarea.dnb-textarea[disabled]::-webkit-scrollbar {
-      width: 0; }
-  textarea.dnb-textarea, textarea.dnb-textarea--virgin, textarea.dnb-textarea--initial {
-    color: var(--textarea-text-color);
-    background-color: var(--textarea-background-color); }
-  textarea.dnb-textarea--dirty {
-    color: var(--textarea-text-color--changed);
-    background-color: var(--textarea-background-color--changed); }
-  textarea.dnb-textarea[disabled], textarea.dnb-textarea--disabled {
-    color: var(--textarea-text-color--disabled);
-    background-color: var(--textarea-background-color--disabled); }
-  textarea.dnb-textarea:not([disabled]):not(textarea.dnb-textarea--disabled):hover, textarea.dnb-textarea--focus {
-    color: var(--textarea-text-color--focus);
-    background-color: var(--textarea-background-color--focus); }
   textarea.dnb-textarea ::selection {
     background-color: var(--color-mint-green);
     color: var(--textarea-text-color--focus);
     text-shadow: none; }
+  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    textarea.dnb-textarea {
+      -ms-overflow-style: -ms-autohiding-scrollba;
+      box-shadow: 0 0 0 0.0625rem var(--color-sea-green-alt); } }
   label + textarea.dnb-textarea[class*='__form-status'] {
     vertical-align: baseline; }
 
