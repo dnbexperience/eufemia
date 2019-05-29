@@ -7,7 +7,7 @@ import React /* , { useState, useEffect } */ from 'react'
 import { Wrapper, Box } from '../helpers'
 // import styled from '@emotion/styled'
 
-import { Textarea, FormStatus } from '../../src/components'
+import { Textarea } from '../../src/components'
 
 export default [
   'Textarea',
@@ -32,6 +32,7 @@ export default [
           <label htmlFor="litora">Label for the textarea:</label>
           <Textarea
             id="litora"
+            // label="Label for the textarea:"
             placeholder="Nec litora inceptos vestibulum id interdum donec gravida nostra
               lacinia bibendum hendrerit porttitor volutpat nam duis nisl
               scelerisque sapien erat"
@@ -57,13 +58,14 @@ export default [
           <label htmlFor="vestibulum">Label:</label>
           <Textarea
             id="vestibulum"
-            className="dnb-textarea status--error"
+            // className="dnb-textarea status--error"
             cols="33"
             value="Nec litora inceptos vestibulum id interdum donec gravida nostra
               lacinia bibendum hendrerit porttitor volutpat nam duis nisl
               scelerisque sapien erat"
+            status="Message to the user"
           />
-          <FormStatus text="Message to the user" />
+          {/* <FormStatus text="Message to the user" /> */}
         </div>
         <p className="dnb-p">I have to be on the grid!</p>
       </Box>

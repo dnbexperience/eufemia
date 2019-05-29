@@ -12,22 +12,23 @@
     var(--color-white);
 }
 
-@mixin textareaStyle() {
-  display: block;
-
-  margin: var(--textarea-padding-width);
+@mixin textareaStyleCommon() {
   padding: var(--textarea-padding-width);
   padding-top: calc(
     var(--textarea-padding-width) - var(--textarea-vertical-correction)
   );
   padding-bottom: var(--textarea-vertical-correction);
 
+  line-height: 1.5rem;
+}
+@mixin textareaStyle() {
+  display: block;
+  margin: var(--textarea-padding-width);
+
   border: none;
   border-radius: 1px;
 
-  line-height: 1.5rem;
-
-  box-shadow: var(--textarea-border-inner),
+  @include textareaStyleCommon() box-shadow: var(--textarea-border-inner),
     0 0 0 calc(var(--textarea-padding-width) + 0.0625rem)
       var(--color-sea-green-alt);
 
@@ -86,23 +87,79 @@
 }
 
 .dnb-textarea {
+  display: block;
+
   &__shell {
+    display: block;
     position: relative;
   }
-  label + &[class*='__form-status'] {
-    vertical-align: baseline;
+
+  &__placeholder,
+  &__textarea {
+    text-align: left;
   }
 
-  textarea#{&}__textarea {
+  &__placeholder {
+    pointer-events: none;
+
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: var(--textarea-padding-width);
+
+    overflow: hidden;
+    width: 100%; // to get overflow working properly
+    height: 100%; // to get overflow working properly
+
+    @include textareaStyleCommon();
+  }
+
+  &__textarea {
     @include textareaStyle();
   }
 
   // > .dnb-form-status {
   //   margin-top: 0.5rem;
   // }
+
+  // hide placeholder on focus
+  &--has-content &__textarea ~ &__placeholder,
+  &--focus &__textarea:not([disabled]):not([readonly]) ~ &__placeholder {
+    opacity: 0.5;
+  }
 }
 
 textarea.dnb-textarea {
   @include textareaStyle();
   @include textareaTheme();
+  label + &[class*='__form-status'] {
+    vertical-align: baseline;
+  }
+}
+
+.dnb-form-group {
+  // for vertical labeling
+  &__position--vertical {
+    // To fake, that we actuallyhave 8px between
+    > .dnb-textarea {
+      transform: translateY(2px);
+    }
+  }
+
+  // for hoizontal labeling
+  &,
+  &__position--hoizontal {
+    // To fake, that the first line is aligned with the label
+    &:not(.dnb-form-group__position--vertical) {
+      > .dnb-textarea {
+        transform: translateY(
+          calc(1px - 1px - var(--textarea-vertical-correction))
+        );
+        margin-top: 0;
+        &:not(textarea) {
+          margin-top: -0.5rem;
+        }
+      }
+    }
+  }
 }

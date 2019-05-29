@@ -292,7 +292,9 @@ stories.push([
       <CustomStyles>
         <Box>
           <div className="dnb-form-group dnb-form-group__position--vertical">
-            <label htmlFor="hendrerit">Label for the textarea:</label>
+            <label className="dnb-label" htmlFor="hendrerit">
+              Label for the textarea:
+            </label>
             <textarea
               className="dnb-textarea"
               id="hendrerit"
@@ -307,7 +309,9 @@ stories.push([
         </Box>
         <Box>
           <div className="dnb-form-group">
-            <label htmlFor="litora">Label for the textarea:</label>
+            <label className="dnb-label" htmlFor="litora">
+              Label for the textarea:
+            </label>
             <textarea
               className="dnb-textarea"
               id="litora"
@@ -334,7 +338,9 @@ stories.push([
         </Box>
         <Box>
           <div className="dnb-form-group dnb-form-group__position--vertical">
-            <label htmlFor="vestibulum">Label:</label>
+            <label className="dnb-label" htmlFor="vestibulum">
+              Label:
+            </label>
             <textarea
               id="vestibulum"
               className="dnb-textarea status--error"
@@ -349,7 +355,9 @@ stories.push([
         </Box>
         <Box>
           <div className="dnb-form-group">
-            <label htmlFor="volutpat">Label:</label>
+            <label className="dnb-label" htmlFor="volutpat">
+              Label:
+            </label>
             <textarea
               className="dnb-textarea"
               id="volutpat"

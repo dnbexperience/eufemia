@@ -55,8 +55,6 @@
 
 .dnb-textarea {
   &__shell {
-    // background-color: var(--textarea-background-color);
-    border: none;
     color: inherit;
     background-color: inherit;
   }
@@ -71,23 +69,17 @@
   // }
 
   @include textareaTheme();
-  textarea#{&}__textarea {
+
+  &__textarea {
     color: inherit;
     background-color: inherit;
   }
 
-  // IE11 fallback - hide placeholder on focus
-  // &__textarea:not([disabled]):not([readonly]):focus
-  //   ~ .dnb-textarea__placeholder {
-  //   display: none;
-  // }
-
   // hide placeholder on focus
-  // &__shell#{&}--focus[data-has-content='false']
-  //   &__textarea:not([disabled]):not([readonly])
-  //   .dnb-textarea__placeholder {
-  //   display: none;
-  // }
+  &--has-content &__textarea ~ &__placeholder,
+  &--focus &__textarea:not([disabled]):not([readonly]) ~ &__placeholder {
+    display: none;
+  }
 }
 
 textarea.dnb-textarea {

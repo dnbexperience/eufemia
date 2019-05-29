@@ -15,7 +15,6 @@ import {
   pickRenderProps,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
-// import { isIE11 } from '../../shared/helpers'
 
 const renderProps = {
   on_change: null,
@@ -24,8 +23,6 @@ const renderProps = {
 }
 
 export const propTypes = {
-  type: PropTypes.string,
-  size: PropTypes.string,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   id: PropTypes.string,
   label: PropTypes.string,
@@ -63,8 +60,6 @@ export const propTypes = {
 }
 
 export const defaultProps = {
-  type: 'text',
-  size: null,
   value: null,
   id: null,
   label: null,
@@ -176,14 +171,12 @@ export default class Textarea extends PureComponent {
   }
   render() {
     const {
-      type,
-      // size,
       label,
       status,
       status_state,
       status_animation,
       disabled,
-      // placeholder,
+      placeholder,
       description,
       align,
       textarea_class,
@@ -205,14 +198,10 @@ export default class Textarea extends PureComponent {
     const id = this._id
     const showStatus = status && status !== 'error'
 
-    console.log('textareaState', textareaState)
-
     const classes = classnames(
       'dnb-textarea',
-      `dnb-textarea--${type}`, //type_modifier
       `dnb-textarea--${textareaState}`,
       String(value || '').length > 0 && 'dnb-textarea--has-content',
-      // size && `dnb-textarea--${size}`,
       align && `dnb-textarea__align--${align}`,
       showStatus && 'dnb-textarea__form-status',
       status && `dnb-textarea__status--${status_state}`,
@@ -282,7 +271,7 @@ export default class Textarea extends PureComponent {
               <textarea ref={this._ref} {...textareaParams} />
             )}
 
-            {/* {placeholder && !isIE11 && (
+            {placeholder && (
               <span
                 aria-hidden
                 className={classnames(
@@ -292,7 +281,7 @@ export default class Textarea extends PureComponent {
               >
                 {placeholder}
               </span>
-            )} */}
+            )}
           </span>
 
           {showStatus && (
