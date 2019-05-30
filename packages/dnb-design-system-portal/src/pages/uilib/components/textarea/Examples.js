@@ -16,62 +16,52 @@ class Example extends PureComponent {
           data-dnb-test="textarea-default"
         >
           {/* @jsx */ `
-<div className="dnb-form-group">
-  <Textarea
-    label="Default:"
-    rows="2"
-    cols="20"
-    value="Textarea value\\nNewline"
-  />
-</div>
+<Textarea
+  label="Default:"
+  rows="2"
+  cols="20"
+  value="Textarea value\\nNewline"
+/>
           `}
         </ComponentBox>
         <ComponentBox caption="Placeholder text">
           {/* @jsx */ `
-<div className="dnb-form-group">
-  <FormLabel for_id="text-textarea-1" text="Placeholder:" />
-  <Textarea
-    id="text-textarea-1"
-    placeholder="Placeholder text"
-  />
-</div>
+<FormLabel for_id="text-textarea-1" text="Placeholder:" />
+<Textarea
+  id="text-textarea-1"
+  placeholder="Placeholder text"
+/>
           `}
         </ComponentBox>
         <ComponentBox caption="Vertical placed label, using `.dnb-form-group`">
           {/* @jsx */ `
-<div className="dnb-form-group dnb-form-group__position--vertical">
-  <Textarea
-    label="Vertical:"
-    rows="3"
-    cols="33"
-    value="Textarea value with more than 3 lines\\nNewline\\nNewline\\nNewline\\nNewline"
-  />
-</div>
+<Textarea
+  label="Vertical:"
+  rows="3"
+  cols="33"
+  value="Textarea value with more than 3 lines\\nNewline\\nNewline\\nNewline\\nNewline"
+/>
           `}
         </ComponentBox>
         <ComponentBox caption="Horizontal placed label, using `.dnb-form-group`">
           {/* @jsx */ `
-<div className="dnb-form-group">
-  <Textarea
-    label="Horizontal:"
-    rows="3"
-    value="Nec litora inceptos vestibulum id interdum donec gravida."
-  />
-</div>
+<Textarea
+  label="Horizontal:"
+  rows="3"
+  value="Nec litora inceptos vestibulum id interdum donec gravida."
+/>
           `}
         </ComponentBox>
         <ComponentBox caption="Max length usage">
           {/* @jsx */ `
-<div className="dnb-form-group">
-  <Textarea
-    label="Length limit:"
-    rows="3"
-    cols="33"
-    maxLength="20"
-    required
-    value="Nec litora inceptos vestibulum id interdum donec gravida."
-  />
-</div>
+<Textarea
+  label="Length limit:"
+  rows="3"
+  cols="33"
+  maxLength="20"
+  required
+  value="Nec litora inceptos vestibulum id interdum donec gravida."
+/>
           `}
         </ComponentBox>
         <ComponentBox
@@ -79,36 +69,30 @@ class Example extends PureComponent {
           data-dnb-test="textarea-error"
         >
           {/* @jsx */ `
-<div className="dnb-form-group dnb-form-group__position--vertical">
-  <Textarea
-    label="Error Message:"
-    cols="33"
-    value="Nec litora inceptos vestibulum id interdum donec gravida."
-    status="Message to the user"
-  />
-</div>
+<Textarea
+  label="Error Message:"
+  cols="33"
+  value="Nec litora inceptos vestibulum id interdum donec gravida."
+  status="Message to the user"
+/>
           `}
         </ComponentBox>
         <ComponentBox caption="Show failure status">
           {/* @jsx */ `
-<div className="dnb-form-group">
-  <Textarea
-    label="Show status:"
-    status="error"
-    value="Shows status with border only"
-  />
-</div>
+<Textarea
+  label="Show status:"
+  status="error"
+  value="Shows status with border only"
+/>
 `}
         </ComponentBox>
         <ComponentBox caption="Disabled textarea">
           {/* @jsx */ `
-<div className="dnb-form-group">
-  <Textarea
-    label="Disabled:"
-    disabled
-    value="Nec litora inceptos vestibulum id interdum donec gravida."
-  />
-</div>
+<Textarea
+  label="Disabled:"
+  disabled
+  value="Nec litora inceptos vestibulum id interdum donec gravida."
+/>
           `}
         </ComponentBox>
       </Fragment>

@@ -17,6 +17,8 @@
 }
 
 @mixin textareaTheme() {
+  border-radius: 0.5rem; // will be actually 1rem/16px
+
   &,
   .dnb-textarea--virgin &,
   .dnb-textarea--initial & {

@@ -33,7 +33,7 @@ export const propTypes = {
   submit_button_title: PropTypes.string,
   placeholder: PropTypes.string,
   description: PropTypes.string,
-  align: PropTypes.string,
+  align: PropTypes.oneOf(['left', 'right']),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   class: PropTypes.string,
   textarea_class: PropTypes.string,

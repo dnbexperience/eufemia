@@ -33,17 +33,14 @@
 }
 
 .dnb-textarea {
-  display: block;
+  display: inline-flex;
+  flex-direction: column;
+
   margin: var(--textarea-padding-width);
 
   &__shell {
     display: inline-flex;
     position: relative;
-  }
-
-  &__placeholder,
-  &__textarea {
-    text-align: left;
   }
 
   &__placeholder {
@@ -65,6 +62,16 @@
     @include textareaStyle();
   }
 
+  &__placeholder,
+  &__textarea {
+    text-align: left;
+  }
+
+  &__align--right &__textarea,
+  &__align--right &__placeholder {
+    text-align: right;
+  }
+
   // hide placeholder on focus
   &--has-content &__textarea ~ &__placeholder,
   &--focus &__textarea:not([disabled]):not([readonly]) ~ &__placeholder {
@@ -77,7 +84,7 @@
 }
 
 textarea.dnb-textarea {
-  display: block;
+  display: inline-block;
   margin: var(--textarea-padding-width);
 
   @include textareaStyle();
@@ -107,9 +114,6 @@ textarea.dnb-textarea {
           calc(1px - 1px - var(--textarea-vertical-correction))
         );
         margin-top: 0;
-        // &:not(textarea) {
-        //   margin-top: -0.5rem;
-        // }
       }
     }
   }
