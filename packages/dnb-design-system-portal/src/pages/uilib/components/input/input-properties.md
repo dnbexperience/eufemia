@@ -6,7 +6,8 @@ draft: true
 | --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `id`                  | _(optional)_ the `id` attribute of the input element                                                                                                                                          |
 | `value`               | _(optional)_ the content value of the input.                                                                                                                                                  |
-| `label`               | _(optional)_ prepends the Form Label component. If no ID is provided, a random ID is created. input.                                                                                          |
+| `align`               | _(optional)_ defines the `text-align` of the input. Defaults to `left`.                                                                                                                       |
+| `label`               | _(optional)_ prepends the Form Label component. If no ID is provided, a random ID is created.                                                                                                 |
 | `status`              | _(optional)_ text with a status message. The style defaults to an error message.                                                                                                              |
 | `status_state`        | _(optional)_ defines the state of the status. Currently are two statuses `[error, info]`. Defaults to `error`.                                                                                |
 | `placeholder`         | _(optional)_ the placeholder which shows up once the input value is empty                                                                                                                     |
@@ -19,3 +20,4 @@ draft: true
 | `size`                | _(optional)_ at the moment `large` is the only available variant. Leave blank if you want a standard size input.                                                                              |
 | `attributes`          | _(optional)_ insert any other attributes. For example `disabled` or any other custom attributes.                                                                                              |
 | `input_state`         | _(optional)_ defines a custom visual state of the input. Use it only if you have to simulate a custom state. Currently are three statuses `virgin` , `focus` and `dirty`. Defaults to `null`. |
+| `disabled`            | _(optional)_ to disable the input.                                                                                                                                                            |
