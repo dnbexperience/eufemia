@@ -21,6 +21,7 @@ class Example extends PureComponent {
   rows="2"
   cols="20"
   value="Textarea value\\nNewline"
+  on_change={({ value }) => { console.log('on_change', value) }}
 />
           `}
         </ComponentBox>
