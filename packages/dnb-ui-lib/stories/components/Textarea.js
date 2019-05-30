@@ -24,6 +24,12 @@ export default [
           on_change={({ value }) => {
             console.log('on_change', value)
           }}
+          on_focus={() => {
+            console.log('on_focus')
+          }}
+          on_blur={() => {
+            console.log('on_blur')
+          }}
         />
         <p className="dnb-p">I have still to be on the grid!</p>
       </Box>
@@ -33,6 +39,9 @@ export default [
           rows="3"
           align="right"
           placeholder="Nec litora inceptos vestibulum id interdum donec gravida nostra
+              lacinia bibendum hendrerit porttitor volutpat nam duis nisl
+              scelerisque sapien erat"
+          description="Nec litora inceptos vestibulum id interdum donec gravida nostra
               lacinia bibendum hendrerit porttitor volutpat nam duis nisl
               scelerisque sapien erat"
         />

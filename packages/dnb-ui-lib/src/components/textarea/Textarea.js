@@ -30,9 +30,7 @@ export const propTypes = {
   textarea_state: PropTypes.string,
   status_state: PropTypes.string,
   status_animation: PropTypes.string,
-  submit_button_title: PropTypes.string,
   placeholder: PropTypes.string,
-  description: PropTypes.string,
   align: PropTypes.oneOf(['left', 'right']),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   class: PropTypes.string,
@@ -54,11 +52,9 @@ export const propTypes = {
   // Web Component props
   custom_element: PropTypes.object,
   custom_method: PropTypes.func,
-  on_change: PropTypes.func
-  // on_focus: PropTypes.func,
-  // on_blur: PropTypes.func,
-  // on_submit_focus: PropTypes.func,
-  // on_submit_blur: PropTypes.func
+  on_change: PropTypes.func,
+  on_focus: PropTypes.func,
+  on_blur: PropTypes.func
 }
 
 export const defaultProps = {
@@ -70,7 +66,6 @@ export const defaultProps = {
   status_state: 'error',
   status_animation: null,
   placeholder: null,
-  description: null,
   align: null,
   disabled: false,
   textarea_class: null,
@@ -181,7 +176,6 @@ export default class Textarea extends PureComponent {
       status_animation,
       disabled,
       placeholder,
-      description,
       align,
       textarea_class,
       readOnly,
@@ -191,7 +185,6 @@ export default class Textarea extends PureComponent {
       id: _id, //eslint-disable-line
       children, //eslint-disable-line
       value: _value, //eslint-disable-line
-      on_submit, //eslint-disable-line
       textareaElement: _textareaElement, //eslint-disable-line
 
       ...attributes
@@ -234,8 +227,6 @@ export default class Textarea extends PureComponent {
     // we may considder using: aria-details
     if (showStatus) {
       textareaParams['aria-describedby'] = id + '-status'
-    } else if (description) {
-      textareaParams['aria-describedby'] = id + '-description'
     }
     if (readOnly) {
       textareaParams['aria-readonly'] = textareaParams.readOnly = true
@@ -307,15 +298,6 @@ export default class Textarea extends PureComponent {
             />
           )}
         </span>
-
-        {this.props.description && (
-          <span
-            className="dnb-textarea__description"
-            id={id + '-description'} // used for "aria-describedby"
-          >
-            {this.props.description}
-          </span>
-        )}
       </>
     )
   }

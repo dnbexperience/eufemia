@@ -14,18 +14,18 @@ exports[`Textarea component have to match snapshot 1`] = `
         "cols": 1,
         "custom_element": Object {},
         "custom_method": [Function],
-        "description": "description",
         "disabled": "disabled",
         "id": "id",
         "label": "label",
+        "on_blur": [Function],
         "on_change": [Function],
+        "on_focus": [Function],
         "placeholder": "placeholder",
         "readOnly": "readOnly",
         "rows": 1,
         "status": "status",
         "status_animation": "status_animation",
         "status_state": "status_state",
-        "submit_button_title": "submit_button_title",
         "textareaElement": [Function],
         "textarea_class": "textarea_class",
         "textarea_state": "textarea_state",
@@ -40,7 +40,6 @@ exports[`Textarea component have to match snapshot 1`] = `
   cols={null}
   custom_element={null}
   custom_method={null}
-  description={null}
   disabled={false}
   id="textarea"
   label={null}

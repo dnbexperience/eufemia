@@ -22,6 +22,8 @@ class Example extends PureComponent {
   cols="20"
   value="Textarea value\\nNewline"
   on_change={({ value }) => { console.log('on_change', value) }}
+  on_focus={() => { console.log('on_focus') }}
+  on_blur={() => { console.log('on_blur') }}
 />
           `}
         </ComponentBox>
