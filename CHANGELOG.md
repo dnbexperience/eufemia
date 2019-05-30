@@ -1,3 +1,11 @@
+## May, 27. 2019
+
+- New component in the `dnb-ui-lib`: [Textarea](/uilib/components/textarea). Got also a wider corner radius by `16px (1rem)`.
+
+## May, 27. 2019
+
+- New component in the `dnb-ui-lib`: [Checkbox](/uilib/components/checkbox) and [Radio](/uilib/components/radio) button
+
 ## May, 19. 2019
 
 - New component in the `dnb-ui-lib`: Circular [ProgressIndicator](/uilib/components/progress-indicator) bar (spinner with animation)
