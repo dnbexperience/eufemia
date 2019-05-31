@@ -17,6 +17,7 @@ export const propTypes = {
 
   range: PropTypes.bool,
   link: PropTypes.bool,
+  sync: PropTypes.bool,
   views: PropTypes.oneOfType([
     PropTypes.number,
     PropTypes.arrayOf(PropTypes.object)
@@ -38,6 +39,7 @@ export const defaultProps = {
   // apperance
   range: null,
   link: null,
+  sync: null,
   views: null,
   // views: [{ nextBtn: false }, { prevBtn: false }],
 
@@ -51,52 +53,23 @@ export default class DatePickerRange extends PureComponent {
   static propTypes = propTypes
   static defaultProps = defaultProps
 
-  state = {
-    views: null,
-    startDate: null,
-    endDate: null,
-    _listenForPropChanges: true
-  }
-
-  constructor(props) {
-    super(props)
-
-    // fill the views with the calendar data getMonth()
-    this.state.views = (Array.isArray(props.views)
-      ? props.views
-      : Array(
-          props.range
-            ? 2 // set default range calendars
-            : props.views
-        ).fill(1)
-    ).map((view, i) => ({
-      ...view,
-      month: this.getMonth(i),
-      nr: i
-    }))
-  }
-
-  getMonth(viewCount) {
-    if (
-      (this.props.startMonth || this.props.startDate) &&
-      viewCount === 0
-    ) {
-      return this.props.startMonth || this.props.startDate
-    }
-    if ((this.props.endMonth || this.props.endDate) && viewCount === 1) {
-      return this.props.endMonth || this.props.endDate
-    }
-    return addMonths(
-      this.props.month ||
-        this.props.startMonth ||
-        this.props.startDate ||
-        new Date(),
-      viewCount
-    )
-  }
-
   static getDerivedStateFromProps(props, state) {
     if (state._listenForPropChanges) {
+      if (
+        props.sync &&
+        ((props.startDate &&
+          state.startDate &&
+          (props.startDate.getMonth() !== state.startDate.getMonth() ||
+            props.startDate.getFullYear() !==
+              state.startDate.getFullYear())) ||
+          (props.endDate &&
+            state.endDate &&
+            (props.endDate.getMonth() !== state.endDate.getMonth() ||
+              props.endDate.getFullYear() !==
+                state.endDate.getFullYear())))
+      ) {
+        state.views = DatePickerRange.getViews(props)
+      }
       if (props.startDate) {
         state.startDate = props.startDate
       }
@@ -106,6 +79,47 @@ export default class DatePickerRange extends PureComponent {
     }
     state._listenForPropChanges = true
     return state
+  }
+
+  state = {
+    views: null,
+    startDate: null,
+    endDate: null,
+    _listenForPropChanges: true
+  }
+
+  constructor(props) {
+    super(props)
+    this.state.views = DatePickerRange.getViews(props)
+  }
+
+  static getViews(props) {
+    // fill the views with the calendar data getMonth()
+    return (Array.isArray(props.views)
+      ? props.views
+      : Array(
+          props.range
+            ? 2 // set default range calendars
+            : props.views
+        ).fill(1)
+    ).map((view, i) => ({
+      ...view,
+      month: DatePickerRange.getMonth(i, props),
+      nr: i
+    }))
+  }
+
+  static getMonth(viewCount, props) {
+    if ((props.startMonth || props.startDate) && viewCount === 0) {
+      return props.startMonth || props.startDate
+    }
+    if ((props.endMonth || props.endDate) && viewCount === 1) {
+      return props.endMonth || props.endDate
+    }
+    return addMonths(
+      props.month || props.startMonth || props.startDate || new Date(),
+      viewCount
+    )
   }
 
   callOnChange() {
@@ -161,16 +175,17 @@ export default class DatePickerRange extends PureComponent {
   }
 
   render() {
+    const { views, startDate, endDate, hoverDate } = this.state
     return (
       <div className="dnb-date-picker__views">
-        {this.state.views.map(calendar => (
+        {views.map(calendar => (
           <DatePickerCalendar
             key={calendar.nr}
             {...this.props}
             {...calendar}
-            startDate={this.state.startDate}
-            endDate={this.state.endDate}
-            hoverDate={this.state.hoverDate}
+            startDate={startDate}
+            endDate={endDate}
+            hoverDate={hoverDate}
             onSelect={this.onSelect}
             onHover={this.onHover}
             onPrev={this.onPrev}

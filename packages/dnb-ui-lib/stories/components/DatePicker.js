@@ -24,6 +24,8 @@ export default [
           start_date="1981-01-15"
           end_date="2019-06-15"
           range={true}
+          // link={true}
+          // sync={false}
           opened={false}
           show_input={true}
           on_change={props => {

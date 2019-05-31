@@ -88,7 +88,6 @@ export default class DatePickerInput extends PureComponent {
   }
 
   static isValidDate(date) {
-    // console.log('date', date)
     return date && isAfter(date, new Date(1971, 1, 1))
   }
 
@@ -104,26 +103,23 @@ export default class DatePickerInput extends PureComponent {
 
       if (isDisabled(state.startDate, props.minDate, props.maxDate)) {
         state.startDate = props.minDate
-        // state.startDate = addDays(props.minDate, 1)
       }
       if (isDisabled(state.endDate, props.minDate, props.maxDate)) {
         state.endDate = props.maxDate
-        // state.endDate = addDays(props.maxDate, -1)
-      }
-
-      // set the input values
-      if (DatePickerInput.isValidDate(state.startDate)) {
-        state._startDay = pad(format(state.startDate, 'D'), 2)
-        state._startMonth = pad(format(state.startDate, 'M'), 2)
-        state._startYear = format(state.startDate, 'YYYY')
-      }
-      if (DatePickerInput.isValidDate(state.endDate)) {
-        state._endDay = pad(format(state.endDate, 'D'), 2)
-        state._endMonth = pad(format(state.endDate, 'M'), 2)
-        state._endYear = format(state.endDate, 'YYYY')
       }
     }
     state._listenForPropChanges = true
+    // set the input values
+    if (DatePickerInput.isValidDate(state.startDate)) {
+      state._startDay = pad(format(state.startDate, 'D'), 2)
+      state._startMonth = pad(format(state.startDate, 'M'), 2)
+      state._startYear = format(state.startDate, 'YYYY')
+    }
+    if (DatePickerInput.isValidDate(state.endDate)) {
+      state._endDay = pad(format(state.endDate, 'D'), 2)
+      state._endMonth = pad(format(state.endDate, 'M'), 2)
+      state._endYear = format(state.endDate, 'YYYY')
+    }
     return state
   }
 
@@ -146,13 +142,6 @@ export default class DatePickerInput extends PureComponent {
       this.props.onSubmitButtonFocus()
     }
     this.onKeyUpHandler = null
-  }
-
-  onPickerChange = ({ startDate, endDate }) => {
-    this.setState({
-      startDate,
-      endDate
-    })
   }
 
   callOnChange = ({ startDate, endDate }, onState = null) => {
@@ -330,7 +319,7 @@ export default class DatePickerInput extends PureComponent {
 
   setDate = (event, count, mode, type, fn) => {
     try {
-      let value = event.currentTarget.value
+      let value = event.target.value
       if (
         parseFloat(value) > 0 &&
         new RegExp(`[0-9]{${count}}`).test(value)
@@ -384,18 +373,6 @@ export default class DatePickerInput extends PureComponent {
   generateDateList(params, mode) {
     return this.maskList.map((value, i) => {
       const state = value.slice(0, 1)
-      // let type = null
-      // switch (state) {
-      //   case 'd':
-      //     type = 'Day'
-      //     break
-      //   case 'm':
-      //     type = 'Month'
-      //     break
-      //   case 'y':
-      //     type = 'Year'
-      //     break
-      // }
       const index = this.props.maskOrder.indexOf(value)
       const placeholderChar = this.props.maskPlaceholder[index]
       if (!this.props.separatorRexExp.test(value)) {
@@ -412,11 +389,9 @@ export default class DatePickerInput extends PureComponent {
           },
           onBlur: () => {
             this.setState({
-              // [`_${mode}${type}`]: event.currentTarget.value,
               focusState: 'blur',
               _listenForPropChanges: false
             })
-            // this[`set_${mode}${type}`](event)
           },
           placeholderChar
         }
@@ -537,8 +512,6 @@ export default class DatePickerInput extends PureComponent {
             icon="calendar"
             variant="secondary"
             on_submit={onSubmit}
-            // on_submit={this.onKeyUpHandler}
-            // onFocus={this.onKeyUpHandler}
             onKeyUp={this.onKeyUpHandler}
             {...rest}
           />

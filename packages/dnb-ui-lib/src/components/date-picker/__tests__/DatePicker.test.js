@@ -93,6 +93,88 @@ describe('DatePicker component', () => {
     expect(Comp.find('.dnb-date-picker__calendar').length).toBe(2)
   })
 
+  it('has a reacting start date input with valid value', () => {
+    const elem = Comp.find('input.dnb-date-picker__input--day').at(0)
+
+    // by defualt we have the start day
+    expect(elem.instance().value).toBe('01')
+
+    // listen to changes
+    let changedStartDate = null
+    Comp.setProps({
+      on_change: ({ start_date }) => {
+        changedStartDate = start_date
+      }
+    })
+
+    // change the date
+    const value = '02'
+    elem.simulate('change', {
+      target: { value }
+    })
+
+    // then check the new input value
+    expect(elem.instance().value).toBe(value)
+
+    // and the event fired value
+    expect(changedStartDate).toBe(`2019-01-${value}`)
+
+    // test prop change to make sure getDerivedStateFromProps works
+    Comp.setProps({
+      start_date: '2019-01-03'
+    })
+    expect(elem.instance().value).toBe('03')
+
+    // reset the value
+    elem.simulate('change', {
+      target: { value: '01' }
+    })
+    Comp.setProps({
+      start_date: defaultProps.start_date
+    })
+  })
+
+  it('has a reacting end date input with valid value', () => {
+    const elem = Comp.find('input.dnb-date-picker__input--day').at(1)
+
+    // by defualt we have the start day
+    expect(elem.instance().value).toBe('15')
+
+    // listen to changes
+    let changedStartDate = null
+    Comp.setProps({
+      on_change: ({ end_date }) => {
+        changedStartDate = end_date
+      }
+    })
+
+    // change the date
+    const value = '16'
+    elem.simulate('change', {
+      target: { value }
+    })
+
+    // then check the new input value
+    expect(elem.instance().value).toBe(value)
+
+    // and the event fired value
+    expect(changedStartDate).toBe(`2019-02-${value}`)
+
+    // test prop change to make sure getDerivedStateFromProps works
+    Comp.setProps({
+      end_date: '2019-02-17'
+    })
+    expect(elem.instance().value).toBe('17')
+
+    // reset the value
+    elem.simulate('change', {
+      target: { value: '15' }
+    })
+    Comp.setProps({
+      start_date: defaultProps.start_date
+    })
+  })
+
   it('is displaying correct month', () => {
     expect(
       Comp.find('.dnb-date-picker__header__title')
