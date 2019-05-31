@@ -119,9 +119,18 @@ describe('DatePicker component', () => {
     // and the event fired value
     expect(changedStartDate).toBe(`2019-01-${value}`)
 
+    // test prop change to make sure getDerivedStateFromProps works
+    Comp.setProps({
+      start_date: '2019-01-03'
+    })
+    expect(elem.instance().value).toBe('03')
+
     // reset the value
     elem.simulate('change', {
       target: { value: '01' }
+    })
+    Comp.setProps({
+      start_date: defaultProps.start_date
     })
   })
 
@@ -151,9 +160,18 @@ describe('DatePicker component', () => {
     // and the event fired value
     expect(changedStartDate).toBe(`2019-02-${value}`)
 
+    // test prop change to make sure getDerivedStateFromProps works
+    Comp.setProps({
+      end_date: '2019-02-17'
+    })
+    expect(elem.instance().value).toBe('17')
+
     // reset the value
     elem.simulate('change', {
       target: { value: '15' }
+    })
+    Comp.setProps({
+      start_date: defaultProps.start_date
     })
   })
 

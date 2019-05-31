@@ -88,7 +88,6 @@ export default class DatePickerInput extends PureComponent {
   }
 
   static isValidDate(date) {
-    // console.log('date', date)
     return date && isAfter(date, new Date(1971, 1, 1))
   }
 
@@ -104,13 +103,12 @@ export default class DatePickerInput extends PureComponent {
 
       if (isDisabled(state.startDate, props.minDate, props.maxDate)) {
         state.startDate = props.minDate
-        // state.startDate = addDays(props.minDate, 1)
       }
       if (isDisabled(state.endDate, props.minDate, props.maxDate)) {
         state.endDate = props.maxDate
       }
-      state._listenForPropChanges = true
     }
+    state._listenForPropChanges = true
     // set the input values
     if (DatePickerInput.isValidDate(state.startDate)) {
       state._startDay = pad(format(state.startDate, 'D'), 2)
@@ -144,13 +142,6 @@ export default class DatePickerInput extends PureComponent {
       this.props.onSubmitButtonFocus()
     }
     this.onKeyUpHandler = null
-  }
-
-  onPickerChange = ({ startDate, endDate }) => {
-    this.setState({
-      startDate,
-      endDate
-    })
   }
 
   callOnChange = ({ startDate, endDate }, onState = null) => {
