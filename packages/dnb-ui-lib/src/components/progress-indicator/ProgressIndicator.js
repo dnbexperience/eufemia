@@ -76,7 +76,7 @@ export default class ProgressIndicator extends PureComponent {
     if (state._listenForPropChanges) {
       state.visible = Boolean(props.visible)
       if (state.visible) {
-        state.complete = false
+        // state.complete = false
         state.startTime = new Date().getTime()
       }
       if (parseFloat(props.progress) > -1) {
@@ -96,7 +96,7 @@ export default class ProgressIndicator extends PureComponent {
     this.state = {
       _listenForPropChanges: true,
       visible: Boolean(props.visible),
-      complete: false,
+      // complete: false,
       progress: props.progress
     }
 
@@ -108,7 +108,7 @@ export default class ProgressIndicator extends PureComponent {
     clearTimeout(this.fadeOutTimeout)
   }
 
-  callOnCompleteHandler() {
+  callOnCompleteHandler = () => {
     if (typeof this.props.on_complete === 'function') {
       this.fadeOutTimeout = setTimeout(() => {
         dispatchCustomElementEvent(this, 'on_complete')
@@ -116,36 +116,41 @@ export default class ProgressIndicator extends PureComponent {
     }
   }
 
-  delayVisibility() {
-    if (this.state.complete) {
-      return
-    }
-
-    const duration = 1e3 // the duration, defined in CSS
-    const difference = new Date().getTime() - this.state.startTime
-    const ceil = Math.ceil(difference / duration) * duration
-    const timeToWait = ceil - difference
-
-    this.fadeOutTimeout = setTimeout(() => {
-      this.firstDelay = 0
-      this.setState({
-        complete: true
-      })
-      this.callOnCompleteHandler()
-    }, timeToWait + this.firstDelay)
-  }
+  // delayCompletion() {
+  //   if (this.state.complete) {
+  //     return
+  //   }
+  //
+  //   const duration = 1e3 // the duration, defined in CSS
+  //   const difference = new Date().getTime() - this.state.startTime
+  //   const ceil = Math.ceil(difference / duration) * duration
+  //   const timeToWait = ceil - difference
+  //
+  //   this.fadeOutTimeout = setTimeout(() => {
+  //     this.firstDelay = 0
+  //     this.setState({
+  //       complete: true
+  //     })
+  //     this.callOnCompleteHandler()
+  //   }, timeToWait + this.firstDelay)
+  // }
 
   render() {
     const {
       type,
       size,
       no_animation,
+      on_complete, //eslint-disable-line
       progress: _progress, //eslint-disable-line
       visible: _visible, //eslint-disable-line
       ...props
     } = this.props
 
-    const { progress, visible, complete } = this.state
+    const {
+      progress,
+      visible
+      // , complete
+    } = this.state
 
     const params = { ...props }
     const hasProgressIndicator = parseFloat(progress) > -1
@@ -157,19 +162,19 @@ export default class ProgressIndicator extends PureComponent {
 
     validateDOMAttributes(this.props, params)
 
-    const isComplete =
-      visible === false ||
-      (hasProgressIndicator && parseFloat(progress) >= 100)
-    if (isComplete) {
-      this.delayVisibility()
-    }
+    // const isComplete =
+    //   visible === false ||
+    //   (hasProgressIndicator && parseFloat(progress) >= 100)
+    // if (isComplete) {
+    //   this.delayCompletion()
+    // }
 
     return (
       <div
         className={classnames(
           'dnb-progress-indicator',
           visible && 'dnb-progress-indicator--visible',
-          complete && 'dnb-progress-indicator--complete',
+          // complete && 'dnb-progress-indicator--complete',
           Boolean(no_animation) && 'dnb-progress-indicator--no-animation'
         )}
         {...params}
@@ -178,7 +183,9 @@ export default class ProgressIndicator extends PureComponent {
           <ProgressIndicatorCircular
             size={size}
             progress={progress}
-            complete={complete}
+            // complete={complete}
+            visible={visible}
+            onComplete={this.callOnCompleteHandler}
           />
         )}
       </div>

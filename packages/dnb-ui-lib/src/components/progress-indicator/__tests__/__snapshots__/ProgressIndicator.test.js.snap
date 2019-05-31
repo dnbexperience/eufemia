@@ -26,35 +26,18 @@ exports[`Circular ProgressIndicator component have to match snapshot 1`] = `
     className="dnb-progress-indicator dnb-progress-indicator--visible"
   >
     <ProgressIndicatorCircular
-      complete={false}
       maxOffset={88}
+      onComplete={[Function]}
       progress={50}
       size="medium"
+      visible={true}
     >
       <div
         aria-label="50%"
         className="dnb-progress-indicator__circular dnb-progress-indicator__circular--medium dnb-progress-indicator__circular--has-progress-indicator"
         title="50%"
       >
-        <Circle
-          className="dnb-progress-indicator__circular__line light paused"
-        >
-          <svg
-            className="dnb-progress-indicator__circular__line light paused"
-            shapeRendering="geometricPrecision"
-            viewBox="0 0 32 32"
-          >
-            <circle
-              className="dnb-progress-indicator__circular__circle"
-              cx="16"
-              cy="16"
-              fill="none"
-              r="14"
-              strokeWidth="4"
-            />
-          </svg>
-        </Circle>
-        <Circle
+        <ForwardRef
           className="dnb-progress-indicator__circular__line dark paused"
           style={
             Object {
@@ -81,7 +64,7 @@ exports[`Circular ProgressIndicator component have to match snapshot 1`] = `
               strokeWidth="4"
             />
           </svg>
-        </Circle>
+        </ForwardRef>
       </div>
     </ProgressIndicatorCircular>
   </div>
