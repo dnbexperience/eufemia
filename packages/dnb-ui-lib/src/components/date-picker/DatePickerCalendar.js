@@ -6,6 +6,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
+import keycode from 'keycode'
 import {
   format,
   isSameDay,
@@ -13,6 +14,8 @@ import {
   endOfDay,
   isSameMonth,
   subMonths,
+  addDays,
+  addWeeks,
   addMonths,
   differenceInCalendarDays
 } from 'date-fns'
@@ -95,6 +98,25 @@ export default class DatePickerCalendar extends PureComponent {
   static propTypes = propTypes
   static defaultProps = defaultProps
 
+  static getDerivedStateFromProps(props, state) {
+    if (state._listenForPropChanges) {
+      if (props.startDate) {
+        state.startDate = props.startDate
+      }
+      if (props.endDate) {
+        state.endDate = props.endDate
+      }
+    }
+    state._listenForPropChanges = true
+    return state
+  }
+
+  state = {
+    startDate: null,
+    endDate: null,
+    _listenForPropChanges: true
+  }
+
   constructor(props) {
     super(props)
     this._listRef = React.createRef()
@@ -104,6 +126,73 @@ export default class DatePickerCalendar extends PureComponent {
     if (this.props.nr === 0 && this._listRef.current) {
       this._listRef.current.focus()
     }
+  }
+
+  onKeyDownHandler = event => {
+    const keyCode = keycode(event)
+
+    switch (keyCode) {
+      case 'left':
+      case 'right':
+      case 'up':
+      case 'down':
+        event.preventDefault()
+        if (event.currentTarget.tagName === 'UL') {
+          try {
+            const elem = event.currentTarget.querySelector(
+              '.dnb-date-picker__day--start-date button'
+            )
+            if (elem) {
+              elem.focus()
+            }
+            // dnb-date-picker__day  dnb-date-picker__day--within-selection dnb-date-picker__day--selectable
+          } catch (e) {
+            console.log(e)
+          }
+          return
+        }
+        break
+    }
+
+    // only to process key up and down press
+    switch (keyCode) {
+      case 'left':
+        this.setState({
+          startDate: addDays(this.state.startDate, -1),
+          _listenForPropChanges: false
+        })
+        break
+      case 'right':
+        this.setState({
+          startDate: addDays(this.state.startDate, 1),
+          _listenForPropChanges: false
+        })
+        break
+      case 'up':
+        this.setState({
+          startDate: addWeeks(this.state.startDate, -1),
+          _listenForPropChanges: false
+        })
+        break
+      case 'down':
+        this.setState({
+          startDate: addWeeks(this.state.startDate, 1),
+          _listenForPropChanges: false
+        })
+        break
+    }
+
+    // !day.isLastMonth &&
+    // !day.isNextMonth &&
+    // !day.isDisabled &&
+    // onSelectRange({
+    //   day,
+    //   range,
+    //   startDate,
+    //   endDate,
+    //   onSelect,
+    //   resetDate
+    // })
   }
 
   buildClassNames = day =>
@@ -148,7 +237,7 @@ export default class DatePickerCalendar extends PureComponent {
       minDate,
       hoverDate
     } = this.props
-    const { startDate, endDate } = this.props
+    const { startDate, endDate } = this.state
 
     this.days = getCalendar(
       month || new Date(),
@@ -164,6 +253,10 @@ export default class DatePickerCalendar extends PureComponent {
         month
       })
     )
+
+    const params = {
+      onKeyDown: this.onKeyDownHandler
+    }
 
     return (
       <div
@@ -218,6 +311,7 @@ export default class DatePickerCalendar extends PureComponent {
           aria-labelledby={`${id}--title`}
           tabIndex="-1"
           ref={this._listRef}
+          {...params}
         >
           {this.days.map((day, i) => {
             const title = format(day.date, 'dddd, Do MMMM YYYY', {
@@ -252,6 +346,7 @@ export default class DatePickerCalendar extends PureComponent {
                       resetDate
                     })
                   }
+                  onKeyDown={this.onKeyDownHandler}
                   onMouseOver={() =>
                     onHoverDay({ day, hoverDate, onHover })
                   }
