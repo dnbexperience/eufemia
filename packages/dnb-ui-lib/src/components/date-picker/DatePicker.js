@@ -8,8 +8,8 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import keycode from 'keycode'
 import {
+  isTrue,
   registerElement,
-  //   processChildren,
   dispatchCustomElementEvent,
   validateDOMAttributes
 } from '../../shared/component-helper'
@@ -172,7 +172,7 @@ export default class DatePicker extends PureComponent {
       }
       if (startDate) {
         state.startDate = DatePicker.convertStringToDate(startDate)
-        if (!props.range) {
+        if (!isTrue(props.range)) {
           state.endDate = state.startDate
         }
       }
@@ -215,17 +215,17 @@ export default class DatePicker extends PureComponent {
     this.state = {
       show_submit_button:
         props.show_submit_button !== null
-          ? props.show_submit_button
-          : props.range,
+          ? isTrue(props.show_submit_button)
+          : isTrue(props.range),
       show_cancel_button:
         props.show_cancel_button !== null
-          ? props.show_cancel_button
-          : props.range,
+          ? isTrue(props.show_cancel_button)
+          : isTrue(props.range),
       startDate: null,
       endDate: null,
       _startDate: props.start_date,
       _endDate: props.end_date,
-      showInput: props.show_input,
+      showInput: isTrue(props.show_input),
       opened,
       hidden: !opened,
       direction: props.direction,
@@ -241,7 +241,7 @@ export default class DatePicker extends PureComponent {
       return acc
     }, [])
 
-    if (props.end_date && !props.range) {
+    if (props.end_date && !isTrue(props.range)) {
       console.log(
         `The DatePicker got a "end_date". You have to set range={true} as well!.`
       )
@@ -253,7 +253,7 @@ export default class DatePicker extends PureComponent {
 
   setTrianglePosition = () => {
     if (
-      this.props.show_input &&
+      isTrue(this.props.show_input) &&
       this._triangleRef.current &&
       this._wrapperRef.current
     ) {
@@ -326,7 +326,7 @@ export default class DatePicker extends PureComponent {
 
   onInputChange = ({ startDate, endDate }) => {
     // make sure endDate is same as startDate if we don't use range
-    if (!this.props.range) {
+    if (!isTrue(this.props.range)) {
       endDate = startDate
     }
     if (typeof startDate !== 'undefined') {
@@ -358,7 +358,10 @@ export default class DatePicker extends PureComponent {
       },
       this.callOnChangeHandler
     )
-    if (!this.state.show_submit_button || !this.state.show_cancel_button) {
+    if (
+      !isTrue(this.state.show_submit_button) ||
+      !isTrue(this.state.show_cancel_button)
+    ) {
       this.hidePicker()
     }
   }
@@ -434,7 +437,7 @@ export default class DatePicker extends PureComponent {
     const returnObject = this.getReturnObject()
 
     if (this.returnObject) {
-      if (this.props.range) {
+      if (isTrue(this.props.range)) {
         if (
           this.returnObject.start_date === returnObject.start_date &&
           this.returnObject.end_date === returnObject.end_date
@@ -454,7 +457,7 @@ export default class DatePicker extends PureComponent {
   getReturnObject() {
     const { startDate, endDate } = this.state
 
-    return this.props.range
+    return isTrue(this.props.range)
       ? {
           // startDate,
           // endDate,
@@ -506,9 +509,9 @@ export default class DatePicker extends PureComponent {
     let { hide_navigation, hide_days } = this.props
 
     // never hsow days and navigation
-    if (only_month) {
+    if (isTrue(only_month)) {
       hide_days = true
-      hide_navigation = hide_navigation_buttons ? false : true
+      hide_navigation = isTrue(hide_navigation_buttons) ? false : true
     }
 
     const {
@@ -546,7 +549,7 @@ export default class DatePicker extends PureComponent {
             id={id + '-label'}
             for_id={id}
             text={label}
-            disabled={disabled}
+            disabled={isTrue(disabled)}
           />
         )}
 
@@ -556,7 +559,7 @@ export default class DatePicker extends PureComponent {
             opened && 'dnb-date-picker--opened',
             hidden && 'dnb-date-picker--hidden',
             showInput && 'dnb-date-picker--show-input',
-            (show_submit_button || show_cancel_button) &&
+            (isTrue(show_submit_button) || isTrue(show_cancel_button)) &&
               'dnb-date-picker--show-footer'
 
             // TODO: make status work on #date-picker
@@ -569,10 +572,10 @@ export default class DatePicker extends PureComponent {
           <span className="dnb-date-picker__shell">
             <DatePickerInput
               id={id}
-              disabled={disabled}
+              disabled={isTrue(disabled)}
               maskOrder={mask_order}
               maskPlaceholder={mask_placeholder}
-              range={range}
+              range={isTrue(range)}
               onChange={this.onInputChange}
               onFocus={this.showPicker}
               onSubmit={this.togglePicker}
@@ -602,21 +605,21 @@ export default class DatePicker extends PureComponent {
                 <>
                   <DatePickerRange
                     id={id}
-                    range={range}
+                    range={isTrue(range)}
                     firstDayOfWeek={first_day}
                     minDate={minDate}
                     maxDate={maxDate}
-                    resetDate={reset_date}
+                    resetDate={isTrue(reset_date)}
                     locale={locale}
-                    link={link}
-                    hideDays={hide_days}
-                    hideNav={hide_navigation}
+                    link={isTrue(link)}
+                    hideDays={isTrue(hide_days)}
+                    hideNav={isTrue(hide_navigation)}
                     views={
-                      hide_navigation_buttons
+                      isTrue(hide_navigation_buttons)
                         ? [{ nextBtn: false, prevBtn: false }]
                         : null
                     }
-                    onlyMonth={only_month}
+                    onlyMonth={isTrue(only_month)}
                     onChange={this.onPickerChange}
                     month={month}
                     startMonth={startMonth}
@@ -625,9 +628,13 @@ export default class DatePicker extends PureComponent {
                     endDate={endDate}
                   />
                   <DatePickerFooter
-                    range={range}
-                    onSubmit={show_submit_button && this.onSubmitHandler}
-                    onCancel={show_cancel_button && this.onCancelHandler}
+                    range={isTrue(range)}
+                    onSubmit={
+                      isTrue(show_submit_button) && this.onSubmitHandler
+                    }
+                    onCancel={
+                      isTrue(show_cancel_button) && this.onCancelHandler
+                    }
                   />
                 </>
               )}
