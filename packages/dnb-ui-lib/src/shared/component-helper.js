@@ -153,6 +153,18 @@ export const processChildren = props => {
   return res
 }
 
+// check if value is "truthy"
+export const isTrue = value => {
+  if (
+    value !== null &&
+    typeof value !== 'undefined' &&
+    (String(value) === 'true' || String(value) === '1')
+  ) {
+    return true
+  }
+  return false
+}
+
 export const dispatchCustomElementEvent = (element, eventName, event) => {
   if (element && element.props && element.props.custom_element) {
     if (typeof element.props.custom_element.fireEvent === 'function') {
