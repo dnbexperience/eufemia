@@ -3,7 +3,7 @@
  *
  */
 
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { Wrapper, Box } from './helpers'
 import styled from '@emotion/styled'
 
@@ -11,6 +11,7 @@ import styled from '@emotion/styled'
 import Radio from './components/Radio'
 import DatePicker from './components/DatePicker'
 import Textarea from './components/Textarea'
+import ProgressIndicator from './components/ProgressIndicator'
 import {
   Button,
   Tabs,
@@ -24,8 +25,7 @@ import {
   Switch,
   Checkbox,
   Logo,
-  StepIndicator,
-  ProgressIndicator
+  StepIndicator
 } from '../src/components'
 import { H2, P, Hr } from '../src/elements'
 
@@ -35,6 +35,7 @@ export default stories
 stories.push(Radio)
 stories.push(DatePicker)
 stories.push(Textarea)
+stories.push(ProgressIndicator)
 
 const CustomStyle = styled.div`
   p {
@@ -516,40 +517,6 @@ stories.push([
     </Wrapper>
   )
 ])
-
-stories.push([
-  'ProgressIndicator',
-  () => (
-    <Wrapper>
-      <Box>
-        <ProgressIndicator progress={50} no_animation />
-      </Box>
-      <Box>
-        <ProgressIndicator size="huge" no_animation />
-      </Box>
-      <Box>
-        <ProgressIndicatorCircular />
-      </Box>
-    </Wrapper>
-  )
-])
-const ProgressIndicatorCircular = () => {
-  const [visible, setVisibe] = useState(true)
-  useEffect(() => {
-    const timer = setInterval(() => setVisibe(!visible), 2400)
-    return () => clearInterval(timer)
-  })
-  return (
-    <ProgressIndicator
-      // progress={88}
-      size="huge"
-      visible={visible}
-      on_complete={() => {
-        console.log('on_complete')
-      }}
-    />
-  )
-}
 
 stories.push([
   'Dropdown',
