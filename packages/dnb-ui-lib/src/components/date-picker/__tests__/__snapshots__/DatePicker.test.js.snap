@@ -66,6 +66,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
   status="status"
   status_animation={null}
   status_state="error"
+  sync={true}
 >
   <span
     className="dnb-date-picker dnb-date-picker--hidden dnb-date-picker--show-input dnb-date-picker--show-footer"

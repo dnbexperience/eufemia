@@ -25,6 +25,7 @@ draft: true
 | `show_submit_button` | _(optional)_ if set to `true`, a submit button will be shown. Defaults to `false`.                                                                                   |
 | `show_cancel_button` | _(optional)_ if set to `true`, a cancel button will be shown. Defaults to `false`.                                                                                   |
 | `link`               | _(optional)_ link both calendars, once to user is navigating between months. Only meant to use if range is set to ture. Defaults to `false`.                         |
+| `sync`               | _(optional)_ sync input values with the calendars views. Once the input values getting changed, the calendar changes its views in sync. Defaults to `true`.          |
 | `first_day`          | _(optional)_ to define the first day of the week. Defaults to `monday`.                                                                                              |
 | `locale`             | _(optional)_ to define the locale used in the calendar. Needs to be an `date-fns` locale object, like `import nbLocale from 'date-fns/locale/nb'`. Defaults to `nb`. |
 | `label`              | _(optional)_ a prepending label in sync with the date input field.                                                                                                   |

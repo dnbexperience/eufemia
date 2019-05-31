@@ -88,6 +88,7 @@ export const propTypes = {
   locale: PropTypes.object,
   range: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   link: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  sync: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   label: PropTypes.string,
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   status: PropTypes.string,
@@ -132,6 +133,7 @@ export const defaultProps = {
   locale: nbLocale,
   range: false,
   link: false,
+  sync: true,
   label: null,
   disabled: false,
   status: null,
@@ -485,6 +487,7 @@ export default class DatePicker extends PureComponent {
       reset_date,
       locale,
       link,
+      sync,
       disabled,
       status,
       status_state,
@@ -609,9 +612,10 @@ export default class DatePicker extends PureComponent {
                     firstDayOfWeek={first_day}
                     minDate={minDate}
                     maxDate={maxDate}
-                    resetDate={isTrue(reset_date)}
                     locale={locale}
+                    resetDate={isTrue(reset_date)}
                     link={isTrue(link)}
+                    sync={isTrue(sync)}
                     hideDays={isTrue(hide_days)}
                     hideNav={isTrue(hide_navigation)}
                     views={
