@@ -1,0 +1,630 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Textarea component have to match snapshot 1`] = `
+<Textarea
+  0={
+    Object {
+      "displayName": "Textarea",
+      "props": Object {
+        "align": "'left'",
+        "attributes": "attributes",
+        "children": "children",
+        "class": "class",
+        "className": "className",
+        "cols": 1,
+        "custom_element": Object {},
+        "custom_method": [Function],
+        "disabled": "disabled",
+        "id": "id",
+        "label": "label",
+        "on_blur": [Function],
+        "on_change": [Function],
+        "on_focus": [Function],
+        "placeholder": "placeholder",
+        "readOnly": "readOnly",
+        "rows": 1,
+        "status": "status",
+        "status_animation": "status_animation",
+        "status_state": "status_state",
+        "textareaElement": [Function],
+        "textarea_class": "textarea_class",
+        "textarea_state": "textarea_state",
+        "value": "value",
+      },
+    }
+  }
+  align={null}
+  attributes={null}
+  class={null}
+  className={null}
+  cols={null}
+  custom_element={null}
+  custom_method={null}
+  disabled={false}
+  id="textarea"
+  label={null}
+  on_blur={null}
+  on_change={null}
+  on_focus={null}
+  placeholder={null}
+  readOnly={false}
+  rows={null}
+  status={null}
+  status_animation={null}
+  status_state="error"
+  textareaElement={null}
+  textarea_class={null}
+  textarea_state={null}
+  value="test"
+>
+  <span
+    className="dnb-textarea dnb-textarea--virgin dnb-textarea--has-content"
+  >
+    <span
+      className="dnb-textarea__shell"
+    >
+      <textarea
+        className="dnb-textarea__textarea"
+        id="textarea"
+        name="textarea"
+        onBlur={[Function]}
+        onChange={[Function]}
+        onFocus={[Function]}
+        value="test"
+      />
+    </span>
+  </span>
+</Textarea>
+`;
+
+exports[`Textarea scss have to match default theme snapshot 1`] = `
+"/*
+* Textarea theme
+*
+*/
+/**
+ * This file is only used to make themes independent
+ * so that they can get imported individually, without the core styles
+ *
+ */
+/*
+ * Utilities
+ */
+:root {
+  --textarea-text-color: var(--color-sea-green);
+  --textarea-text-color--focus: var(--color-sea-green);
+  --textarea-text-color--changed: var(--color-emerald-green);
+  --textarea-text-color--disabled: var(--color-sea-green-alt-30);
+  --textarea-background-color: var(--color-white);
+  --textarea-background-color--focus: var(--color-white);
+  --textarea-background-color--changed: var(--color-white);
+  --textarea-background-color--disabled: var(--color-mint-green-12); }
+
+.dnb-textarea__textarea {
+  border-radius: 0.5rem;
+  /* IE11 fix */ }
+  .dnb-textarea__textarea,
+  .dnb-textarea--virgin .dnb-textarea__textarea,
+  .dnb-textarea--initial .dnb-textarea__textarea {
+    color: var(--textarea-text-color);
+    background-color: var(--textarea-background-color); }
+  .dnb-textarea--dirty .dnb-textarea__textarea {
+    color: var(--textarea-text-color--changed);
+    background-color: var(--textarea-background-color--changed); }
+  .dnb-textarea--focus .dnb-textarea__textarea, .dnb-textarea__textarea:focus, .dnb-textarea__textarea:hover {
+    outline: none; }
+    .dnb-textarea--focus .dnb-textarea__textarea:not([disabled]), .dnb-textarea__textarea:focus:not([disabled]), .dnb-textarea__textarea:hover:not([disabled]) {
+      color: var(--textarea-text-color--focus);
+      background-color: var(--textarea-background-color--focus); }
+      .dnb-textarea--focus .dnb-textarea__textarea:not([disabled]):not(.status--error), .dnb-textarea__textarea:focus:not([disabled]):not(.status--error), .dnb-textarea__textarea:hover:not([disabled]):not(.status--error) {
+        box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.125rem) var(--color-emerald-green);
+        /* IE11 fix */ }
+        @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+          .dnb-textarea--focus .dnb-textarea__textarea:not([disabled]):not(.status--error), .dnb-textarea__textarea:focus:not([disabled]):not(.status--error), .dnb-textarea__textarea:hover:not([disabled]):not(.status--error) {
+            box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
+  .dnb-textarea__textarea[disabled],
+  .dnb-textarea--disabled .dnb-textarea__textarea {
+    user-select: none;
+    color: var(--textarea-text-color--disabled);
+    background-color: var(--textarea-background-color--disabled);
+    box-shadow: 0 0 0 var(--textarea-padding-width) var(--color-mint-green-12), 0 0 0 calc(var(--textarea-padding-width) + 0.0625rem) var(--color-sea-green-alt-30); }
+    .dnb-textarea__textarea[disabled]::-webkit-scrollbar,
+    .dnb-textarea--disabled .dnb-textarea__textarea::-webkit-scrollbar {
+      width: 0; }
+  .dnb-textarea__textarea.status--error,
+  .dnb-textarea__textarea .dnb-textarea__status--error {
+    box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.125rem) var(--color-cherry-red); }
+  .dnb-textarea__textarea ::selection {
+    background-color: var(--color-mint-green);
+    color: var(--textarea-text-color--focus);
+    text-shadow: none; }
+  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    .dnb-textarea__textarea {
+      -ms-overflow-style: -ms-autohiding-scrollba;
+      box-shadow: 0 0 0 0.0625rem var(--color-sea-green-alt); } }
+
+.dnb-textarea__placeholder {
+  color: var(--textarea-text-color);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: var(--textarea-rows, 2); }
+
+.dnb-textarea__status--error:not(.dnb-textarea--focus) .dnb-textarea__textarea, .dnb-textarea__status--error:not(.dnb-textarea--focus) .dnb-textarea__textarea:hover {
+  box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.125rem) var(--color-cherry-red); }
+
+.dnb-textarea--has-content .dnb-textarea__textarea ~ .dnb-textarea__placeholder,
+.dnb-textarea--focus .dnb-textarea__textarea:not([disabled]):not([readonly]) ~ .dnb-textarea__placeholder {
+  display: none; }
+
+textarea.dnb-textarea {
+  border-radius: 0.5rem;
+  /* IE11 fix */ }
+  textarea.dnb-textarea,
+  .dnb-textarea--virgin textarea.dnb-textarea,
+  .dnb-textarea--initial textarea.dnb-textarea {
+    color: var(--textarea-text-color);
+    background-color: var(--textarea-background-color); }
+  .dnb-textarea--dirty textarea.dnb-textarea {
+    color: var(--textarea-text-color--changed);
+    background-color: var(--textarea-background-color--changed); }
+  .dnb-textarea--focus textarea.dnb-textarea, textarea.dnb-textarea:focus, textarea.dnb-textarea:hover {
+    outline: none; }
+    .dnb-textarea--focus textarea.dnb-textarea:not([disabled]), textarea.dnb-textarea:focus:not([disabled]), textarea.dnb-textarea:hover:not([disabled]) {
+      color: var(--textarea-text-color--focus);
+      background-color: var(--textarea-background-color--focus); }
+      .dnb-textarea--focus textarea.dnb-textarea:not([disabled]):not(.status--error), textarea.dnb-textarea:focus:not([disabled]):not(.status--error), textarea.dnb-textarea:hover:not([disabled]):not(.status--error) {
+        box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.125rem) var(--color-emerald-green);
+        /* IE11 fix */ }
+        @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+          .dnb-textarea--focus textarea.dnb-textarea:not([disabled]):not(.status--error), textarea.dnb-textarea:focus:not([disabled]):not(.status--error), textarea.dnb-textarea:hover:not([disabled]):not(.status--error) {
+            box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
+  textarea.dnb-textarea[disabled],
+  .dnb-textarea--disabled textarea.dnb-textarea {
+    user-select: none;
+    color: var(--textarea-text-color--disabled);
+    background-color: var(--textarea-background-color--disabled);
+    box-shadow: 0 0 0 var(--textarea-padding-width) var(--color-mint-green-12), 0 0 0 calc(var(--textarea-padding-width) + 0.0625rem) var(--color-sea-green-alt-30); }
+    textarea.dnb-textarea[disabled]::-webkit-scrollbar,
+    .dnb-textarea--disabled textarea.dnb-textarea::-webkit-scrollbar {
+      width: 0; }
+  textarea.dnb-textarea.status--error,
+  textarea.dnb-textarea .dnb-textarea__status--error {
+    box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.125rem) var(--color-cherry-red); }
+  textarea.dnb-textarea ::selection {
+    background-color: var(--color-mint-green);
+    color: var(--textarea-text-color--focus);
+    text-shadow: none; }
+  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    textarea.dnb-textarea {
+      -ms-overflow-style: -ms-autohiding-scrollba;
+      box-shadow: 0 0 0 0.0625rem var(--color-sea-green-alt); } }
+"
+`;
+
+exports[`Textarea scss have to match snapshot 1`] = `
+"/*
+* DNB Textarea
+*
+*/
+/**
+ * This file is only used to make components independent
+ * so that they can get imported individually, without the core styles
+ *
+ */
+/*
+ * Utilities
+ */
+/*
+ * Scopes
+ *
+ */
+/*
+ * Document Reset
+ *
+ */
+/*
+* DNB FormLabel
+*
+*/
+.dnb-form-label {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-default);
+  font-size: 1rem;
+  font-style: normal;
+  line-height: 1.5rem;
+  color: var(--color-black-80, #333);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  font-variant-numeric: lining-nums;
+  font-feature-settings: \\"lnum\\";
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-form-label *,
+  .dnb-form-label ::before,
+  .dnb-form-label ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-form-label ::before,
+  .dnb-form-label ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+ * FormLabel component
+ *
+ */
+.dnb-form-label {
+  user-select: none;
+  margin-right: 1rem;
+  display: inline-block;
+  vertical-align: baseline;
+  cursor: pointer;
+  color: inherit;
+  width: auto;
+  white-space: nowrap; }
+  .dnb-form-label--vertical {
+    margin-right: 0;
+    margin-top: 0; }
+  .dnb-form-label[for]:not([disabled]):hover {
+    color: var(--color-sea-green); }
+  .dnb-form-label[disabled] {
+    cursor: not-allowed; }
+
+/*
+* DNB FormStatus
+*
+*/
+.dnb-form-status {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-default);
+  font-size: 1rem;
+  font-style: normal;
+  line-height: 1.5rem;
+  color: var(--color-black-80, #333);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  font-variant-numeric: lining-nums;
+  font-feature-settings: \\"lnum\\";
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-form-status *,
+  .dnb-form-status ::before,
+  .dnb-form-status ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-form-status ::before,
+  .dnb-form-status ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+ * FormStatus component
+ *
+ */
+.dnb-form-status {
+  width: auto;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  min-height: var(--input-height);
+  border-radius: var(--input-border-radius);
+  line-height: 0.5rem; }
+  .dnb-form-status--text {
+    padding: calc(0.5rem / 2) 1rem;
+    cursor: text;
+    color: var(--color-emerald-green);
+    line-height: 1.5rem; }
+  .dnb-icon + .dnb-form-status--text {
+    padding-left: 0.5rem; }
+  .dnb-form-status > .dnb-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 1.5em;
+    height: 1.5em;
+    margin-left: 0.5rem;
+    color: inherit;
+    font-size: 1rem;
+    border-radius: 50%;
+    border: 1px solid;
+    border-color: currentColor; }
+  .dnb-form-status[hidden] {
+    display: none; }
+  .dnb-form-status--fade-in {
+    height: 0;
+    opacity: 0;
+    animation: fade-in 600ms ease-out 1 200ms forwards; }
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    height: 0; }
+  to {
+    opacity: 1;
+    height: var(--input-height); } }
+
+.dnb-textarea {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-default);
+  font-size: 1rem;
+  font-style: normal;
+  line-height: 1.5rem;
+  color: var(--color-black-80, #333);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  font-variant-numeric: lining-nums;
+  font-feature-settings: \\"lnum\\";
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-textarea *,
+  .dnb-textarea ::before,
+  .dnb-textarea ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-textarea ::before,
+  .dnb-textarea ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+* Textarea component
+*
+*/
+/*
+* Textarea theme
+*
+*/
+/**
+ * This file is only used to make themes independent
+ * so that they can get imported individually, without the core styles
+ *
+ */
+:root {
+  --textarea-text-color: var(--color-sea-green);
+  --textarea-text-color--focus: var(--color-sea-green);
+  --textarea-text-color--changed: var(--color-emerald-green);
+  --textarea-text-color--disabled: var(--color-sea-green-alt-30);
+  --textarea-background-color: var(--color-white);
+  --textarea-background-color--focus: var(--color-white);
+  --textarea-background-color--changed: var(--color-white);
+  --textarea-background-color--disabled: var(--color-mint-green-12); }
+
+.dnb-textarea__textarea {
+  border-radius: 0.5rem;
+  /* IE11 fix */ }
+  .dnb-textarea__textarea,
+  .dnb-textarea--virgin .dnb-textarea__textarea,
+  .dnb-textarea--initial .dnb-textarea__textarea {
+    color: var(--textarea-text-color);
+    background-color: var(--textarea-background-color); }
+  .dnb-textarea--dirty .dnb-textarea__textarea {
+    color: var(--textarea-text-color--changed);
+    background-color: var(--textarea-background-color--changed); }
+  .dnb-textarea--focus .dnb-textarea__textarea, .dnb-textarea__textarea:focus, .dnb-textarea__textarea:hover {
+    outline: none; }
+    .dnb-textarea--focus .dnb-textarea__textarea:not([disabled]), .dnb-textarea__textarea:focus:not([disabled]), .dnb-textarea__textarea:hover:not([disabled]) {
+      color: var(--textarea-text-color--focus);
+      background-color: var(--textarea-background-color--focus); }
+      .dnb-textarea--focus .dnb-textarea__textarea:not([disabled]):not(.status--error), .dnb-textarea__textarea:focus:not([disabled]):not(.status--error), .dnb-textarea__textarea:hover:not([disabled]):not(.status--error) {
+        box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.125rem) var(--color-emerald-green);
+        /* IE11 fix */ }
+        @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+          .dnb-textarea--focus .dnb-textarea__textarea:not([disabled]):not(.status--error), .dnb-textarea__textarea:focus:not([disabled]):not(.status--error), .dnb-textarea__textarea:hover:not([disabled]):not(.status--error) {
+            box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
+  .dnb-textarea__textarea[disabled],
+  .dnb-textarea--disabled .dnb-textarea__textarea {
+    user-select: none;
+    color: var(--textarea-text-color--disabled);
+    background-color: var(--textarea-background-color--disabled);
+    box-shadow: 0 0 0 var(--textarea-padding-width) var(--color-mint-green-12), 0 0 0 calc(var(--textarea-padding-width) + 0.0625rem) var(--color-sea-green-alt-30); }
+    .dnb-textarea__textarea[disabled]::-webkit-scrollbar,
+    .dnb-textarea--disabled .dnb-textarea__textarea::-webkit-scrollbar {
+      width: 0; }
+  .dnb-textarea__textarea.status--error,
+  .dnb-textarea__textarea .dnb-textarea__status--error {
+    box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.125rem) var(--color-cherry-red); }
+  .dnb-textarea__textarea ::selection {
+    background-color: var(--color-mint-green);
+    color: var(--textarea-text-color--focus);
+    text-shadow: none; }
+  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    .dnb-textarea__textarea {
+      -ms-overflow-style: -ms-autohiding-scrollba;
+      box-shadow: 0 0 0 0.0625rem var(--color-sea-green-alt); } }
+
+.dnb-textarea__placeholder {
+  color: var(--textarea-text-color);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: var(--textarea-rows, 2); }
+
+.dnb-textarea__status--error:not(.dnb-textarea--focus) .dnb-textarea__textarea, .dnb-textarea__status--error:not(.dnb-textarea--focus) .dnb-textarea__textarea:hover {
+  box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.125rem) var(--color-cherry-red); }
+
+.dnb-textarea--has-content .dnb-textarea__textarea ~ .dnb-textarea__placeholder,
+.dnb-textarea--focus .dnb-textarea__textarea:not([disabled]):not([readonly]) ~ .dnb-textarea__placeholder {
+  display: none; }
+
+textarea.dnb-textarea {
+  border-radius: 0.5rem;
+  /* IE11 fix */ }
+  textarea.dnb-textarea,
+  .dnb-textarea--virgin textarea.dnb-textarea,
+  .dnb-textarea--initial textarea.dnb-textarea {
+    color: var(--textarea-text-color);
+    background-color: var(--textarea-background-color); }
+  .dnb-textarea--dirty textarea.dnb-textarea {
+    color: var(--textarea-text-color--changed);
+    background-color: var(--textarea-background-color--changed); }
+  .dnb-textarea--focus textarea.dnb-textarea, textarea.dnb-textarea:focus, textarea.dnb-textarea:hover {
+    outline: none; }
+    .dnb-textarea--focus textarea.dnb-textarea:not([disabled]), textarea.dnb-textarea:focus:not([disabled]), textarea.dnb-textarea:hover:not([disabled]) {
+      color: var(--textarea-text-color--focus);
+      background-color: var(--textarea-background-color--focus); }
+      .dnb-textarea--focus textarea.dnb-textarea:not([disabled]):not(.status--error), textarea.dnb-textarea:focus:not([disabled]):not(.status--error), textarea.dnb-textarea:hover:not([disabled]):not(.status--error) {
+        box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.125rem) var(--color-emerald-green);
+        /* IE11 fix */ }
+        @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+          .dnb-textarea--focus textarea.dnb-textarea:not([disabled]):not(.status--error), textarea.dnb-textarea:focus:not([disabled]):not(.status--error), textarea.dnb-textarea:hover:not([disabled]):not(.status--error) {
+            box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
+  textarea.dnb-textarea[disabled],
+  .dnb-textarea--disabled textarea.dnb-textarea {
+    user-select: none;
+    color: var(--textarea-text-color--disabled);
+    background-color: var(--textarea-background-color--disabled);
+    box-shadow: 0 0 0 var(--textarea-padding-width) var(--color-mint-green-12), 0 0 0 calc(var(--textarea-padding-width) + 0.0625rem) var(--color-sea-green-alt-30); }
+    textarea.dnb-textarea[disabled]::-webkit-scrollbar,
+    .dnb-textarea--disabled textarea.dnb-textarea::-webkit-scrollbar {
+      width: 0; }
+  textarea.dnb-textarea.status--error,
+  textarea.dnb-textarea .dnb-textarea__status--error {
+    box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.125rem) var(--color-cherry-red); }
+  textarea.dnb-textarea ::selection {
+    background-color: var(--color-mint-green);
+    color: var(--textarea-text-color--focus);
+    text-shadow: none; }
+  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    textarea.dnb-textarea {
+      -ms-overflow-style: -ms-autohiding-scrollba;
+      box-shadow: 0 0 0 0.0625rem var(--color-sea-green-alt); } }
+
+:root {
+  --textarea-vertical-correction: 0.25rem;
+  --textarea-padding-width: 0.5rem;
+  --textarea-border-inner: 0 0 0 var(--textarea-padding-width)
+    var(--color-white); }
+
+.dnb-textarea {
+  display: inline-flex;
+  flex-direction: column;
+  margin: var(--textarea-padding-width); }
+  .dnb-textarea__shell {
+    display: inline-flex;
+    position: relative; }
+  .dnb-textarea__placeholder {
+    pointer-events: none;
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    padding: var(--textarea-padding-width);
+    padding-top: calc( var(--textarea-padding-width) - var(--textarea-vertical-correction));
+    padding-bottom: var(--textarea-vertical-correction);
+    line-height: 1.5rem; }
+  .dnb-textarea__textarea {
+    border: none;
+    border-radius: 1px;
+    box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.0625rem) var(--color-sea-green-alt);
+    padding: var(--textarea-padding-width);
+    padding-top: calc( var(--textarea-padding-width) - var(--textarea-vertical-correction));
+    padding-bottom: var(--textarea-vertical-correction);
+    line-height: 1.5rem; }
+  .dnb-textarea__placeholder, .dnb-textarea__textarea {
+    text-align: left; }
+  .dnb-textarea__align--right .dnb-textarea__textarea,
+  .dnb-textarea__align--right .dnb-textarea__placeholder {
+    text-align: right; }
+  .dnb-textarea--has-content .dnb-textarea__textarea ~ .dnb-textarea__placeholder,
+  .dnb-textarea--focus .dnb-textarea__textarea:not([disabled]):not([readonly]) ~ .dnb-textarea__placeholder {
+    opacity: 0.5; }
+  .dnb-textarea__form-status .dnb-form-status {
+    margin: 1rem 0 0 calc(1px - 1px - var(--textarea-padding-width)); }
+
+textarea.dnb-textarea {
+  display: inline-block;
+  margin: var(--textarea-padding-width);
+  border: none;
+  border-radius: 1px;
+  box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.0625rem) var(--color-sea-green-alt);
+  padding: var(--textarea-padding-width);
+  padding-top: calc( var(--textarea-padding-width) - var(--textarea-vertical-correction));
+  padding-bottom: var(--textarea-vertical-correction);
+  line-height: 1.5rem;
+  border-radius: 0.5rem;
+  /* IE11 fix */ }
+  textarea.dnb-textarea,
+  .dnb-textarea--virgin textarea.dnb-textarea,
+  .dnb-textarea--initial textarea.dnb-textarea {
+    color: var(--textarea-text-color);
+    background-color: var(--textarea-background-color); }
+  .dnb-textarea--dirty textarea.dnb-textarea {
+    color: var(--textarea-text-color--changed);
+    background-color: var(--textarea-background-color--changed); }
+  .dnb-textarea--focus textarea.dnb-textarea, textarea.dnb-textarea:focus, textarea.dnb-textarea:hover {
+    outline: none; }
+    .dnb-textarea--focus textarea.dnb-textarea:not([disabled]), textarea.dnb-textarea:focus:not([disabled]), textarea.dnb-textarea:hover:not([disabled]) {
+      color: var(--textarea-text-color--focus);
+      background-color: var(--textarea-background-color--focus); }
+      .dnb-textarea--focus textarea.dnb-textarea:not([disabled]):not(.status--error), textarea.dnb-textarea:focus:not([disabled]):not(.status--error), textarea.dnb-textarea:hover:not([disabled]):not(.status--error) {
+        box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.125rem) var(--color-emerald-green);
+        /* IE11 fix */ }
+        @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+          .dnb-textarea--focus textarea.dnb-textarea:not([disabled]):not(.status--error), textarea.dnb-textarea:focus:not([disabled]):not(.status--error), textarea.dnb-textarea:hover:not([disabled]):not(.status--error) {
+            box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
+  textarea.dnb-textarea[disabled],
+  .dnb-textarea--disabled textarea.dnb-textarea {
+    user-select: none;
+    color: var(--textarea-text-color--disabled);
+    background-color: var(--textarea-background-color--disabled);
+    box-shadow: 0 0 0 var(--textarea-padding-width) var(--color-mint-green-12), 0 0 0 calc(var(--textarea-padding-width) + 0.0625rem) var(--color-sea-green-alt-30); }
+    textarea.dnb-textarea[disabled]::-webkit-scrollbar,
+    .dnb-textarea--disabled textarea.dnb-textarea::-webkit-scrollbar {
+      width: 0; }
+  textarea.dnb-textarea.status--error,
+  textarea.dnb-textarea .dnb-textarea__status--error {
+    box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.125rem) var(--color-cherry-red); }
+  textarea.dnb-textarea ::selection {
+    background-color: var(--color-mint-green);
+    color: var(--textarea-text-color--focus);
+    text-shadow: none; }
+  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    textarea.dnb-textarea {
+      -ms-overflow-style: -ms-autohiding-scrollba;
+      box-shadow: 0 0 0 0.0625rem var(--color-sea-green-alt); } }
+  label + textarea.dnb-textarea[class*='__form-status'] {
+    vertical-align: baseline; }
+
+.dnb-form-group__position--vertical > .dnb-textarea {
+  transform: translateY(2px); }
+
+.dnb-form-group:not(.dnb-form-group__position--vertical) > .dnb-textarea, .dnb-form-group__position--hoizontal:not(.dnb-form-group__position--vertical) > .dnb-textarea {
+  transform: translateY(calc(1px - 1px - var(--textarea-vertical-correction)));
+  margin-top: 0; }
+"
+`;

@@ -111,11 +111,6 @@
       margin: 0;
       margin-bottom: 0.5rem;
     }
-
-    // To fake, that we actuallyhave 8px between
-    > textarea {
-      transform: translateY(2px);
-    }
   }
 
   // for hoizontal labeling
@@ -125,16 +120,6 @@
     > .dnb-form-label {
       margin: 0;
       margin-right: 1rem;
-    }
-
-    // To fake, that the first line is aligned with the label
-    &:not(.dnb-form-group__position--vertical) {
-      > textarea {
-        transform: translateY(
-          calc(1px - 1px - var(--textarea-vertical-correction))
-        );
-        margin-top: 0;
-      }
     }
   }
 }

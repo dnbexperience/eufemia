@@ -28,7 +28,6 @@ import Ol from './Ol'
 import P from './P'
 import Section from './Section'
 import Table from './Table'
-import Textarea from './Textarea'
 import Ul from './Ul'
 
 // define / export all the aviable components
@@ -51,6 +50,5 @@ export {
   P,
   Section,
   Table,
-  Textarea,
   Ul
 }
