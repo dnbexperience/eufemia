@@ -276,7 +276,7 @@ export default class DatePicker extends PureComponent {
 
   setOutsideClickHandler = () => {
     if (!this.handleClickOutside && typeof document !== 'undefined') {
-      this.handleClickOutside = event => {
+      this.handleClickOutside = (event, onSuccess = null) => {
         try {
           let targetElement = event.target
           do {
@@ -286,6 +286,9 @@ export default class DatePicker extends PureComponent {
             targetElement = targetElement.parentNode
           } while (targetElement)
 
+          if (onSuccess) {
+            onSuccess()
+          }
           this.hidePicker()
         } catch (e) {
           console.log(e)
@@ -301,6 +304,21 @@ export default class DatePicker extends PureComponent {
         }
       }
       window.addEventListener('keydown', this.keydownCallback)
+
+      // use keyup so we get the correct new target
+      this.keyupCallback = event => {
+        const keyCode = keycode(event)
+        if (
+          keyCode === 'tab' &&
+          typeof this.handleClickOutside === 'function'
+        ) {
+          this.handleClickOutside(event, () => {
+            if (this.keyupCallback)
+              window.removeEventListener('keyup', this.keyupCallback)
+          })
+        }
+      }
+      window.addEventListener('keyup', this.keyupCallback)
     }
   }
 
@@ -312,6 +330,10 @@ export default class DatePicker extends PureComponent {
     if (this.keydownCallback) {
       window.removeEventListener('keydown', this.keydownCallback)
       this.keydownCallback = null
+    }
+    if (this.keyupCallback) {
+      window.removeEventListener('keyup', this.keyupCallback)
+      this.keyupCallback = null
     }
   }
 
@@ -351,7 +373,13 @@ export default class DatePicker extends PureComponent {
     }
   }
 
-  onPickerChange = ({ startDate, endDate }) => {
+  onPickerChange = (
+    { startDate, endDate },
+    { hidePicker = true, callOnlyOnChangeHandler = false } = {}
+  ) => {
+    if (callOnlyOnChangeHandler) {
+      return this.callOnChangeHandler()
+    }
     this.setState(
       {
         startDate,
@@ -361,8 +389,9 @@ export default class DatePicker extends PureComponent {
       this.callOnChangeHandler
     )
     if (
-      !isTrue(this.state.show_submit_button) ||
-      !isTrue(this.state.show_cancel_button)
+      (!isTrue(this.state.show_submit_button) ||
+        !isTrue(this.state.show_cancel_button)) &&
+      hidePicker
     ) {
       this.hidePicker()
     }

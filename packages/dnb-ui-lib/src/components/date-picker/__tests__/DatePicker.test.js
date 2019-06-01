@@ -184,13 +184,13 @@ describe('DatePicker component', () => {
 
     expect(
       Comp.find(
-        'li.dnb-date-picker__day--start-date .dnb-button__text'
+        'td.dnb-date-picker__day--start-date .dnb-button__text'
       ).text()
     ).toBe('1')
 
     expect(
       Comp.find(
-        'li.dnb-date-picker__day--end-date .dnb-button__text'
+        'td.dnb-date-picker__day--end-date .dnb-button__text'
       ).text()
     ).toBe('15')
 

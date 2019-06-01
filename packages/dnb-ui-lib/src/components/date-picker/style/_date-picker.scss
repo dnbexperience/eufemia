@@ -220,6 +220,10 @@
     list-style: none;
   }
 
+  table.dnb-no-focus:focus {
+    @include fakeFocus();
+  }
+
   &__day,
   &__labels__day {
     display: flex;

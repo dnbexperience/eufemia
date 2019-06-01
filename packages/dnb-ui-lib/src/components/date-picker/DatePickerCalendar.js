@@ -6,7 +6,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import keycode from 'keycode'
 import {
   format,
   isSameDay,
@@ -14,8 +13,6 @@ import {
   endOfDay,
   isSameMonth,
   subMonths,
-  addDays,
-  addWeeks,
   addMonths,
   differenceInCalendarDays
 } from 'date-fns'
@@ -56,7 +53,8 @@ export const propTypes = {
   startDate: PropTypes.instanceOf(Date),
   endDate: PropTypes.instanceOf(Date),
   minDate: PropTypes.instanceOf(Date),
-  maxDate: PropTypes.instanceOf(Date)
+  maxDate: PropTypes.instanceOf(Date),
+  onKeyDown: PropTypes.func
 }
 
 export const defaultProps = {
@@ -91,31 +89,13 @@ export const defaultProps = {
 
   // Limit selection with minDate and maxDate
   minDate: null,
-  maxDate: null // addDays(new Date(), 45)
+  maxDate: null, // addDays(new Date(), 45)
+  onKeyDown: null
 }
 
 export default class DatePickerCalendar extends PureComponent {
   static propTypes = propTypes
   static defaultProps = defaultProps
-
-  static getDerivedStateFromProps(props, state) {
-    if (state._listenForPropChanges) {
-      if (props.startDate) {
-        state.startDate = props.startDate
-      }
-      if (props.endDate) {
-        state.endDate = props.endDate
-      }
-    }
-    state._listenForPropChanges = true
-    return state
-  }
-
-  state = {
-    startDate: null,
-    endDate: null,
-    _listenForPropChanges: true
-  }
 
   constructor(props) {
     super(props)
@@ -129,70 +109,9 @@ export default class DatePickerCalendar extends PureComponent {
   }
 
   onKeyDownHandler = event => {
-    const keyCode = keycode(event)
-
-    switch (keyCode) {
-      case 'left':
-      case 'right':
-      case 'up':
-      case 'down':
-        event.preventDefault()
-        if (event.currentTarget.tagName === 'UL') {
-          try {
-            const elem = event.currentTarget.querySelector(
-              '.dnb-date-picker__day--start-date button'
-            )
-            if (elem) {
-              elem.focus()
-            }
-            // dnb-date-picker__day  dnb-date-picker__day--within-selection dnb-date-picker__day--selectable
-          } catch (e) {
-            console.log(e)
-          }
-          return
-        }
-        break
+    if (typeof this.props.onKeyDown === 'function') {
+      this.props.onKeyDown(event, this._listRef, this.props.nr)
     }
-
-    // only to process key up and down press
-    switch (keyCode) {
-      case 'left':
-        this.setState({
-          startDate: addDays(this.state.startDate, -1),
-          _listenForPropChanges: false
-        })
-        break
-      case 'right':
-        this.setState({
-          startDate: addDays(this.state.startDate, 1),
-          _listenForPropChanges: false
-        })
-        break
-      case 'up':
-        this.setState({
-          startDate: addWeeks(this.state.startDate, -1),
-          _listenForPropChanges: false
-        })
-        break
-      case 'down':
-        this.setState({
-          startDate: addWeeks(this.state.startDate, 1),
-          _listenForPropChanges: false
-        })
-        break
-    }
-
-    // !day.isLastMonth &&
-    // !day.isNextMonth &&
-    // !day.isDisabled &&
-    // onSelectRange({
-    //   day,
-    //   range,
-    //   startDate,
-    //   endDate,
-    //   onSelect,
-    //   resetDate
-    // })
   }
 
   buildClassNames = day =>
@@ -237,7 +156,7 @@ export default class DatePickerCalendar extends PureComponent {
       minDate,
       hoverDate
     } = this.props
-    const { startDate, endDate } = this.state
+    const { startDate, endDate } = this.props
 
     this.days = getCalendar(
       month || new Date(),
@@ -253,10 +172,6 @@ export default class DatePickerCalendar extends PureComponent {
         month
       })
     )
-
-    const params = {
-      onKeyDown: this.onKeyDownHandler
-    }
 
     return (
       <div
@@ -274,7 +189,7 @@ export default class DatePickerCalendar extends PureComponent {
                 locale={locale}
               />
             </div>
-            <div
+            <label
               id={`${id}--title`}
               className="dnb-date-picker__header__title"
               aria-hidden
@@ -282,7 +197,7 @@ export default class DatePickerCalendar extends PureComponent {
               {format(month, titleFormat, {
                 locale
               })}
-            </div>
+            </label>
             <div className="dnb-date-picker__header__nav">
               <NextButton
                 nr={nr}
@@ -295,77 +210,102 @@ export default class DatePickerCalendar extends PureComponent {
             </div>
           </div>
         )}
-        {!hideDays && (
-          <ul className="dnb-date-picker__labels" aria-hidden>
-            {getWeek(dayOffset(firstDayOfWeek)).map((day, i) => (
-              <li key={i} className="dnb-date-picker__labels__day">
-                {format(day, dayOfWeekFormat, {
-                  locale
-                })}
-              </li>
-            ))}
-          </ul>
-        )}
-        <ul
-          className="dnb-date-picker__days dnb-no-focus"
+        <table
+          role="grid"
+          className="dnb-no-focus"
+          tabIndex="0"
           aria-labelledby={`${id}--title`}
-          tabIndex="-1"
+          onKeyDown={this.onKeyDownHandler}
           ref={this._listRef}
-          {...params}
         >
-          {this.days.map((day, i) => {
-            const title = format(day.date, 'dddd, Do MMMM YYYY', {
-              locale
-            })
-            const params = {}
-            if (day.isLastMonth || day.isNextMonth) {
-              params['aria-hidden'] = true
-            } else if (day.isWithinSelection) {
-              params['aria-selected'] = true
-            }
-            return (
-              <li
-                key={'day' + i}
-                className={classnames(
-                  'dnb-date-picker__day',
-                  this.buildClassNames(day)
-                )}
-              >
-                <Button
-                  key={'day' + i}
-                  onClick={() =>
-                    !day.isLastMonth &&
-                    !day.isNextMonth &&
-                    !day.isDisabled &&
-                    onSelectRange({
-                      day,
-                      range,
-                      startDate,
-                      endDate,
-                      onSelect,
-                      resetDate
-                    })
+          {!hideDays && (
+            <thead aria-hidden>
+              <tr role="row" className="dnb-date-picker__labels">
+                {getWeek(dayOffset(firstDayOfWeek)).map((day, i) => (
+                  <th
+                    key={i}
+                    role="columnheader"
+                    className="dnb-date-picker__labels__day"
+                  >
+                    {format(day, dayOfWeekFormat, {
+                      locale
+                    })}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+          )}
+          <tbody>
+            <tr role="row" className="dnb-date-picker__days">
+              {this.days.map((day, i) => {
+                const title = format(day.date, 'dddd, Do MMMM YYYY', {
+                  locale
+                })
+                const isDisabled =
+                  day.isLastMonth || day.isNextMonth || day.isDisabled
+                const params = {}
+                const isInactive = day.isLastMonth || day.isNextMonth
+                if (isInactive) {
+                  params['aria-hidden'] = true
+                } else {
+                  params.tabIndex = '-1'
+                  if (day.isStartDate) {
+                    params.id = id + '--button-start'
+                  } else if (day.isEndDate) {
+                    params.id = id + '--button-end'
                   }
-                  onKeyDown={this.onKeyDownHandler}
-                  onMouseOver={() =>
-                    onHoverDay({ day, hoverDate, onHover })
-                  }
-                  onFocus={() => onHoverDay({ day, hoverDate, onHover })}
-                  size="medium"
-                  variant="secondary"
-                  text={format(day.date, 'D', { locale })}
-                  aria-label={title}
-                  title={title}
-                  bounding={true}
-                  disabled={
-                    day.isLastMonth || day.isNextMonth || day.isDisabled
-                  }
-                  {...params}
-                />
-              </li>
-            )
-          })}
-        </ul>
+                }
+                return (
+                  <td
+                    key={'day' + i}
+                    role="gridcell"
+                    className={classnames(
+                      'dnb-date-picker__day',
+                      'dnb-no-focus',
+                      this.buildClassNames(day)
+                    )}
+                    {...params}
+                  >
+                    <Button
+                      tabIndex="-1"
+                      aria-selected={
+                        nr === 0 ? day.isStartDate : day.isEndDate
+                      }
+                      aria-hidden={isInactive}
+                      aria-label={title}
+                      aria-disabled={isDisabled}
+                      onClick={() =>
+                        !day.isLastMonth &&
+                        !day.isNextMonth &&
+                        !day.isDisabled &&
+                        onSelectRange({
+                          day,
+                          range,
+                          startDate,
+                          endDate,
+                          onSelect,
+                          resetDate
+                        })
+                      }
+                      onMouseOver={() =>
+                        onHoverDay({ day, hoverDate, onHover })
+                      }
+                      onFocus={() =>
+                        onHoverDay({ day, hoverDate, onHover })
+                      }
+                      size="medium"
+                      variant="secondary"
+                      text={format(day.date, 'D', { locale })}
+                      title={title}
+                      bounding={true}
+                      disabled={isDisabled}
+                    />
+                  </td>
+                )
+              })}
+            </tr>
+          </tbody>
+        </table>
       </div>
     )
   }
