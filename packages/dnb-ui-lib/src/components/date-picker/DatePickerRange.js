@@ -125,10 +125,11 @@ export default class DatePickerRange extends PureComponent {
     if ((props.endMonth || props.endDate) && viewCount === 1) {
       return props.endMonth || props.endDate
     }
-    return addMonths(
-      props.month || props.startMonth || props.startDate || new Date(),
-      viewCount
-    )
+    return addMonths(DatePickerRange.getFallbackMonth(props), viewCount)
+  }
+
+  static getFallbackMonth(props) {
+    return props.month || props.startMonth || props.startDate || new Date()
   }
 
   callOnChange() {
@@ -204,20 +205,29 @@ export default class DatePickerRange extends PureComponent {
     }
     let newDate = this.state[`${type}Date`]
 
-    // only to process key up and down press
-    switch (keyCode) {
-      case 'left':
-        newDate = addDays(newDate, -1)
-        break
-      case 'right':
-        newDate = addDays(newDate, 1)
-        break
-      case 'up':
-        newDate = addWeeks(newDate, -1)
-        break
-      case 'down':
-        newDate = addWeeks(newDate, 1)
-        break
+    if (newDate) {
+      // only to process key up and down press
+      switch (keyCode) {
+        case 'left':
+          newDate = addDays(newDate, -1)
+          break
+        case 'right':
+          newDate = addDays(newDate, 1)
+          break
+        case 'up':
+          newDate = addWeeks(newDate, -1)
+          break
+        case 'down':
+          newDate = addWeeks(newDate, 1)
+          break
+      }
+    }
+
+    if (!newDate) {
+      newDate =
+        nr === 0
+          ? this.props.month || this.props.startMonth || new Date()
+          : this.props.endMonth || addMonths(new Date(), 1)
     }
 
     if (newDate !== this.state[`${type}Date`]) {
@@ -225,8 +235,8 @@ export default class DatePickerRange extends PureComponent {
         [`${type}Date`]: newDate,
         _listenForPropChanges: false
       }
-      if (!this.props.range) {
-        state.endDate = newDate
+      if (!this.props.range || (nr === 0 && !this.state.endDate)) {
+        state.endDate = addMonths(newDate, 1)
       }
 
       // make sure we stay on the same month
