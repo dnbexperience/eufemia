@@ -14,7 +14,7 @@ Components and styles for HTML elements can be consumed differently. But for the
 - [Import styles](!/uilib/usage/customisation/consume-styles) application wide:
 
 ```js
-/* Application root */
+/* In Your Application root */
 import 'dnb-ui-lib/style/basis'
 import 'dnb-ui-lib/style/components'
 import 'dnb-ui-lib/style/themes/ui'
@@ -25,23 +25,25 @@ import 'dnb-ui-lib/style/themes/ui'
 ```js
 /* Named imports */
 import { Button, ... } from 'dnb-ui-lib'
+import { Button, ... } from 'dnb-ui-lib/components'
 ```
 
 ```js
-/* Default imports */
+/* or default imports */
 import MyButton from 'dnb-ui-lib/components/Button'
 ```
 
 - HTML elements can be consumed as:
 
 ```html
-<!-- Classic HTML syntax with class definition -->
+<!-- Classic HTML syntax with CSS class definition -->
 <h1 class="dnb-h1">Title</h1>
 ```
 
-```jsx
-/* React JSX */
+```js
+/* or React JSX */
 import { H1, P, ... } from 'dnb-ui-lib'
+import { H1, P, ... } from 'dnb-ui-lib/elements'
 
 render(<H1>Title</H1>)
 ```

@@ -1,12 +1,12 @@
 ---
-title: 'Anchor / Link'
+title: 'Anchor (Text Link)'
 draft: false
 ---
 
 import CodeBlock from 'Tags/CodeBlock'
 import { IconPrimary } from 'dnb-ui-lib/src'
 
-## Anchor
+## Anchor (Text Link)
 
 The Anchor, also knows as `Link` is used to navigate from one linked content to the next.
 

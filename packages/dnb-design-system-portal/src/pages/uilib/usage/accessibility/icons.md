@@ -16,7 +16,7 @@ If your icons are purely **decorative**, you’ll need to manually add an **aria
 
 <ComponentBox scope={{Beach}}>
 {`
-<Icon icon={Beach} size="64" title="Beach" aria-hidden />
+<Icon icon={Beach} size="64" title="Beach" aria-hidden="true" />
 `}
 </ComponentBox>
 
