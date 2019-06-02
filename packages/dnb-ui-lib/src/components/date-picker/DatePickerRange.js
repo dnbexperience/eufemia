@@ -5,7 +5,14 @@
 
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { subMonths, addMonths } from 'date-fns'
+import keycode from 'keycode'
+import {
+  subMonths,
+  addDays,
+  addWeeks,
+  addMonths,
+  isSameMonth
+} from 'date-fns'
 import DatePickerCalendar from './DatePickerCalendar'
 
 export const propTypes = {
@@ -18,6 +25,7 @@ export const propTypes = {
   range: PropTypes.bool,
   link: PropTypes.bool,
   sync: PropTypes.bool,
+  onlyMonth: PropTypes.bool,
   views: PropTypes.oneOfType([
     PropTypes.number,
     PropTypes.arrayOf(PropTypes.object)
@@ -40,6 +48,7 @@ export const defaultProps = {
   range: null,
   link: null,
   sync: null,
+  onlyMonth: null,
   views: null,
   // views: [{ nextBtn: false }, { prevBtn: false }],
 
@@ -116,20 +125,24 @@ export default class DatePickerRange extends PureComponent {
     if ((props.endMonth || props.endDate) && viewCount === 1) {
       return props.endMonth || props.endDate
     }
-    return addMonths(
-      props.month || props.startMonth || props.startDate || new Date(),
-      viewCount
-    )
+    return addMonths(DatePickerRange.getFallbackMonth(props), viewCount)
+  }
+
+  static getFallbackMonth(props) {
+    return props.month || props.startMonth || props.startDate || new Date()
   }
 
   callOnChange() {
     const { startDate, endDate, views } = this.state
     this.props.onChange &&
-      this.props.onChange({
-        startDate,
-        endDate,
-        views
-      })
+      this.props.onChange(
+        {
+          startDate,
+          endDate,
+          views
+        },
+        { hidePicker: false, callOnlyOnChangeHandler: false }
+      )
   }
 
   callOnNav() {
@@ -174,6 +187,81 @@ export default class DatePickerRange extends PureComponent {
     this.setState({ hoverDate: date, _listenForPropChanges: false })
   }
 
+  onKeyDownHandler = (event, ref, nr) => {
+    const keyCode = keycode(event)
+
+    switch (keyCode) {
+      case 'left':
+      case 'right':
+      case 'up':
+      case 'down':
+        event.preventDefault()
+        break
+    }
+
+    let type = nr === 0 ? 'start' : 'end'
+    if (!this.props.range) {
+      type = 'start'
+    }
+    let newDate = this.state[`${type}Date`]
+
+    if (newDate) {
+      // only to process key up and down press
+      switch (keyCode) {
+        case 'left':
+          newDate = addDays(newDate, -1)
+          break
+        case 'right':
+          newDate = addDays(newDate, 1)
+          break
+        case 'up':
+          newDate = addWeeks(newDate, -1)
+          break
+        case 'down':
+          newDate = addWeeks(newDate, 1)
+          break
+      }
+    }
+
+    if (!newDate) {
+      newDate =
+        nr === 0
+          ? this.props.month || this.props.startMonth || new Date()
+          : this.props.endMonth || addMonths(new Date(), 1)
+    }
+
+    if (newDate !== this.state[`${type}Date`]) {
+      const state = {
+        [`${type}Date`]: newDate,
+        _listenForPropChanges: false
+      }
+      if (!this.props.range || (nr === 0 && !this.state.endDate)) {
+        state.endDate = addMonths(newDate, 1)
+      }
+
+      // make sure we stay on the same month
+      if (this.props.onlyMonth) {
+        if (
+          !isSameMonth(state.startDate, this.state.startDate) ||
+          !isSameMonth(state.endDate, this.state.startDate)
+        ) {
+          return
+        }
+      }
+
+      if (this.props.sync) {
+        state.views = DatePickerRange.getViews({ ...this.props, ...state })
+      }
+      this.setState(state)
+      setTimeout(() => {
+        this.callOnChange()
+        if (ref && ref.current) {
+          ref.current.focus()
+        }
+      }, 1)
+    }
+  }
+
   render() {
     const { views, startDate, endDate, hoverDate } = this.state
     return (
@@ -190,6 +278,7 @@ export default class DatePickerRange extends PureComponent {
             onHover={this.onHover}
             onPrev={this.onPrev}
             onNext={this.onNext}
+            onKeyDown={this.onKeyDownHandler}
           />
         ))}
       </div>
