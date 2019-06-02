@@ -84,7 +84,7 @@ exports[`StepIndicator component have to match snapshot 1`] = `
           url_passed={null}
         >
           <a
-            aria-current={true}
+            aria-current="step"
             className="dnb-anchor dnb-step-indicator__item-content dnb-step-indicator__item-content--link"
             href="?b"
             onClick={[Function]}
