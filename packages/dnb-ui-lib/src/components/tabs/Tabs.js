@@ -215,22 +215,16 @@ export default class Tabs extends PureComponent {
   onKeyDownHandler = e => {
     switch (keycode(e)) {
       case 'left':
-        this.hasKeyDown = true
         e.preventDefault()
         this.prevTab()
         this.setFocusOnTablist()
         break
       case 'right':
-        this.hasKeyDown = true
         e.preventDefault()
         this.nextTab()
         this.setFocusOnTablist()
         break
     }
-  }
-
-  onKeyUpHandler = () => {
-    this.hasKeyDown = false
   }
 
   prevTab = () => {
@@ -427,7 +421,6 @@ export default class Tabs extends PureComponent {
           role="tablist"
           className="dnb-tabs__tabs__tablist"
           tabIndex="0"
-          onKeyUp={this.onKeyUpHandler}
           onKeyDown={this.onKeyDownHandler}
           ref={this._tablistRef}
           {...params}

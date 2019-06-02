@@ -89,7 +89,6 @@ exports[`Tabs component have to match snapshot 1`] = `
             <div
               className="dnb-tabs__tabs__tablist"
               onKeyDown={[Function]}
-              onKeyUp={[Function]}
               role="tablist"
               tabIndex="0"
             >
