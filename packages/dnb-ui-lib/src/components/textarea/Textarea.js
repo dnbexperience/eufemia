@@ -269,7 +269,7 @@ export default class Textarea extends PureComponent {
             disabled={disabled}
           />
         )}
-        <span className={classes}>
+        <span role="textbox" className={classes}>
           <span className="dnb-textarea__shell" {...shellParams}>
             {TextareaElement || (
               <textarea ref={this._ref} {...textareaParams} />
