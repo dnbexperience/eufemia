@@ -243,17 +243,26 @@ export default class DatePickerCalendar extends PureComponent {
                 })
                 const isDisabled =
                   day.isLastMonth || day.isNextMonth || day.isDisabled
-                const params = {}
                 const isInactive = day.isLastMonth || day.isNextMonth
+
+                // cell params
+                const paramsCell = {}
                 if (isInactive) {
-                  params['aria-hidden'] = true
+                  paramsCell['aria-hidden'] = true
                 } else {
-                  params.tabIndex = '-1'
+                  paramsCell.tabIndex = '-1'
                   if (day.isStartDate) {
-                    params.id = id + '--button-start'
+                    paramsCell.id = id + '--button-start'
                   } else if (day.isEndDate) {
-                    params.id = id + '--button-end'
+                    paramsCell.id = id + '--button-end'
                   }
+                }
+
+                // button params
+                const paramsButton = {}
+                if (nr === 0 ? day.isStartDate : day.isEndDate) {
+                  paramsButton['aria-current'] = 'date'
+                  paramsButton['aria-selected'] = true
                 }
                 return (
                   <td
@@ -264,16 +273,20 @@ export default class DatePickerCalendar extends PureComponent {
                       'dnb-no-focus',
                       this.buildClassNames(day)
                     )}
-                    {...params}
+                    {...paramsCell}
                   >
                     <Button
+                      size="medium"
+                      variant="secondary"
+                      text={format(day.date, 'D', { locale })}
+                      title={title}
+                      bounding={true}
+                      disabled={isDisabled}
                       tabIndex="-1"
-                      aria-selected={
-                        nr === 0 ? day.isStartDate : day.isEndDate
-                      }
                       aria-hidden={isInactive}
                       aria-label={title}
                       aria-disabled={isDisabled}
+                      {...paramsButton}
                       onClick={() =>
                         !day.isLastMonth &&
                         !day.isNextMonth &&
@@ -293,12 +306,6 @@ export default class DatePickerCalendar extends PureComponent {
                       onFocus={() =>
                         onHoverDay({ day, hoverDate, onHover })
                       }
-                      size="medium"
-                      variant="secondary"
-                      text={format(day.date, 'D', { locale })}
-                      title={title}
-                      bounding={true}
-                      disabled={isDisabled}
                     />
                   </td>
                 )
