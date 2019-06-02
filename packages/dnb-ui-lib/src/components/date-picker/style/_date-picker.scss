@@ -92,6 +92,7 @@
     width: auto;
 
     margin: 0;
+    padding: 0 0.1875rem;
     transform: translateY(0);
 
     /* Chrome fix */
@@ -104,18 +105,19 @@
     }
 
     /* Safari fix */
-    padding: 0 0.1875rem;
     @media not all and (min-resolution: 0.001dpcm) {
       @supports (-webkit-appearance: none) and (stroke-color: transparent) {
-        &:not(*:root) {
-          margin: 0 -5px;
-        }
-        &:first-of-type:not(*:root) {
-          margin-left: 0.8rem;
-        }
-        // stylelint-disable-next-line
-        &:last-of-type:not(*:root) {
-          margin-right: 2.2rem;
+        @supports not (-webkit-overflow-scrolling: touch) {
+          &:not(*:root) {
+            margin: 0 -5px;
+          }
+          &:first-of-type:not(*:root) {
+            margin-left: 0.8rem;
+          }
+          // stylelint-disable-next-line
+          &:last-of-type:not(*:root) {
+            margin-right: 2.2rem;
+          }
         }
       }
     }
