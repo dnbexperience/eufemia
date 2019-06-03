@@ -132,7 +132,7 @@ export default class DatePickerRange extends PureComponent {
     return props.month || props.startMonth || props.startDate || new Date()
   }
 
-  callOnChange() {
+  callOnChange(opts = {}) {
     const { startDate, endDate, views } = this.state
     this.props.onChange &&
       this.props.onChange(
@@ -141,7 +141,7 @@ export default class DatePickerRange extends PureComponent {
           endDate,
           views
         },
-        { hidePicker: false, callOnlyOnChangeHandler: false }
+        { hidePicker: false, callOnlyOnChangeHandler: false, ...opts }
       )
   }
 
@@ -157,7 +157,7 @@ export default class DatePickerRange extends PureComponent {
           startDate,
           endDate
         })
-      this.callOnChange()
+      this.callOnChange({ hidePicker: true })
     })
   }
 
