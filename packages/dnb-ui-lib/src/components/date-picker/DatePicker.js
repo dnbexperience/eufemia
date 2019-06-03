@@ -295,6 +295,7 @@ export default class DatePicker extends PureComponent {
         }
       }
       document.addEventListener('mousedown', this.handleClickOutside)
+      document.addEventListener('touchstart', this.handleClickOutside)
 
       this.keydownCallback = event => {
         const keyCode = keycode(event)
@@ -325,6 +326,7 @@ export default class DatePicker extends PureComponent {
   removeOutsideClickHandler() {
     if (this.handleClickOutside && typeof document !== 'undefined') {
       document.removeEventListener('mousedown', this.handleClickOutside)
+      document.removeEventListener('touchstart', this.handleClickOutside)
       this.handleClickOutside = null
     }
     if (this.keydownCallback) {
