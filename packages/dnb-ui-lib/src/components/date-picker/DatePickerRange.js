@@ -235,7 +235,9 @@ export default class DatePickerRange extends PureComponent {
         [`${type}Date`]: newDate,
         _listenForPropChanges: false
       }
-      if (!this.props.range || (nr === 0 && !this.state.endDate)) {
+      if (!this.props.range) {
+        state.endDate = newDate
+      } else if (this.props.range && nr === 0 && !this.state.endDate) {
         state.endDate = addMonths(newDate, 1)
       }
 
