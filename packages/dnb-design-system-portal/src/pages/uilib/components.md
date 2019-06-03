@@ -9,8 +9,6 @@ order: 7
 
 DNB Eufemia components are ready to use, styled and custom build HTML elements.
 
-<!-- - ### [Accordion](/uilib/components/accordion) -->
-
 ## [Button](/uilib/components/button)
 
 The `Button` component should be used as the primary call-to-action in a form, or as a user interaction mechanism.
@@ -91,3 +89,7 @@ The `Switch` component (toggle) is a digital on/off switch. Toggle switches are 
 ## [Tabs](/uilib/components/tabs)
 
 Tabs are a set of buttons which allow navigation between content that is related and on the same level of hierarchy.
+
+## [Textarea](/uilib/components/textarea)
+
+The `Textarea` component has to be used as a multi-line text input control with an unlimited number of characters possible.

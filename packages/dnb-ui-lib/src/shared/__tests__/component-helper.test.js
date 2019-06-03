@@ -4,6 +4,7 @@
  */
 
 import {
+  isTrue,
   defineIsTouch,
   validateDOMAttributes,
   processChildren,
@@ -113,6 +114,24 @@ describe('"processChildren" should', () => {
     const props = { children: () => children }
     const res = processChildren(props)
     expect(res).toMatch(children.join(''))
+  })
+})
+
+describe('"isTrue" should', () => {
+  it('return true if we provide true as boolean', () => {
+    expect(isTrue(true)).toBe(true)
+  })
+  it('return true if we provide true as string', () => {
+    expect(isTrue('true')).toBe(true)
+  })
+  it('return true if we provide 1 as number', () => {
+    expect(isTrue(1)).toBe(true)
+  })
+  it('return false if we provide a invalid value', () => {
+    expect(isTrue(0)).toBe(false)
+    expect(isTrue(null)).toBe(false)
+    expect(isTrue(undefined)).toBe(false)
+    expect(isTrue('someting')).toBe(false)
   })
 })
 

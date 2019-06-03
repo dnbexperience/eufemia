@@ -34,7 +34,7 @@ class Example extends PureComponent {
   submit_button_title="Search"
   placeholder="Search text placeholder"
   on_change={({ value }) => {
-    console.log(value)
+    console.log('on_change', value)
   }}
   on_submit={({ value }) => {
     console.log('Submit:', value)
@@ -49,7 +49,7 @@ class Example extends PureComponent {
   size="medium"
   placeholder="Medium input placeholder"
   on_change={({ value }) => {
-    console.log(value)
+    console.log('on_change', value)
   }}
 />
           `}
@@ -62,7 +62,7 @@ class Example extends PureComponent {
   align="right"
   placeholder="Large input with right aligned text"
   on_change={({ value }) => {
-    console.log(value)
+    console.log('on_change', value)
   }}
 />
           `}
@@ -80,7 +80,7 @@ class Example extends PureComponent {
 />
           `}
         </ComponentBox>
-        <ComponentBox caption="Show FormStatus (Error)">
+        <ComponentBox caption="Show failure status">
           {/* @jsx */ `
 <Input
   label="Show status:"
@@ -106,7 +106,7 @@ class Example extends PureComponent {
   placeholder="Placeholder text"
   description="Additional description"
   on_change={({ value }) => {
-    console.log(value)
+    console.log('on_change', value)
   }}
 />
           `}
@@ -122,7 +122,7 @@ class Example extends PureComponent {
   status_animation="fade-in"
   value="This is the value 1234567890"
   on_change={({ value }) => {
-    console.log(value)
+    console.log('on_change', value)
   }}
 />
           `}

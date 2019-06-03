@@ -1,0 +1,133 @@
+/*
+* Textarea theme
+*
+*/
+
+@import '../../../../style/themes/imports.scss';
+
+:root {
+  --textarea-text-color: var(--color-sea-green);
+  --textarea-text-color--focus: var(--color-sea-green);
+  --textarea-text-color--changed: var(--color-emerald-green);
+  --textarea-text-color--disabled: var(--color-sea-green-alt-30);
+  --textarea-background-color: var(--color-white);
+  --textarea-background-color--focus: var(--color-white);
+  --textarea-background-color--changed: var(--color-white);
+  --textarea-background-color--disabled: var(--color-mint-green-12);
+}
+
+@mixin textareaTheme() {
+  border-radius: 0.5rem; // will be actually 1rem/16px
+
+  &,
+  .dnb-textarea--virgin &,
+  .dnb-textarea--initial & {
+    color: var(--textarea-text-color);
+    background-color: var(--textarea-background-color);
+  }
+
+  // content changed
+  .dnb-textarea--dirty & {
+    // Background color of textarea when it has content
+    color: var(--textarea-text-color--changed);
+    background-color: var(--textarea-background-color--changed);
+  }
+
+  // hover and focus
+  .dnb-textarea--focus &,
+  &:focus /* for the HTML element */,
+  &:hover {
+    outline: none;
+    &:not([disabled]):not(#{&}--disabled) {
+      color: var(--textarea-text-color--focus);
+      background-color: var(--textarea-background-color--focus);
+      &:not(.status--error) /* for the HTML element */ {
+        box-shadow: var(--textarea-border-inner),
+          0 0 0 calc(var(--textarea-padding-width) + 0.125rem)
+            var(--color-emerald-green);
+
+        /* IE11 fix */
+        @media screen and (-ms-high-contrast: active),
+          (-ms-high-contrast: none) {
+          box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
+        }
+      }
+    }
+  }
+
+  // disabled
+  &[disabled] /* for the HTML element */,
+  .dnb-textarea--disabled & {
+    user-select: none;
+
+    color: var(--textarea-text-color--disabled);
+    background-color: var(--textarea-background-color--disabled);
+
+    box-shadow: 0 0 0 var(--textarea-padding-width)
+        var(--color-mint-green-12),
+      0 0 0 calc(var(--textarea-padding-width) + 0.0625rem)
+        var(--color-sea-green-alt-30);
+
+    &::-webkit-scrollbar {
+      width: 0;
+    }
+  }
+
+  // only fot the HTML element textarea
+  &.status--error /* for the HTML element */,
+  .dnb-textarea__status--error/* for the HTML element */ {
+    box-shadow: var(--textarea-border-inner),
+      0 0 0 calc(var(--textarea-padding-width) + 0.125rem)
+        var(--color-cherry-red);
+  }
+
+  ::selection {
+    background-color: var(--color-mint-green);
+    color: var(--textarea-text-color--focus);
+    text-shadow: none;
+  }
+
+  /* IE11 fix */
+  @media screen and (-ms-high-contrast: active),
+    (-ms-high-contrast: none) {
+    -ms-overflow-style: -ms-autohiding-scrollba;
+    box-shadow: 0 0 0 0.0625rem var(--color-sea-green-alt);
+  }
+}
+
+.dnb-textarea {
+  &__textarea {
+    @include textareaTheme();
+  }
+
+  &__placeholder {
+    color: var(--textarea-text-color);
+
+    // Required for line-clamp
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+
+    // Limit the text block to two lines
+    -webkit-line-clamp: var(--textarea-rows, 2);
+  }
+
+  // with status_state = "error"
+  &__status--error:not(#{&}--focus) &__textarea {
+    &,
+    &:not(#{&}--disabled):hover {
+      box-shadow: var(--textarea-border-inner),
+        0 0 0 calc(var(--textarea-padding-width) + 0.125rem)
+          var(--color-cherry-red);
+    }
+  }
+
+  // hide placeholder on focus
+  &--has-content &__textarea ~ &__placeholder,
+  &--focus &__textarea:not([disabled]):not([readonly]) ~ &__placeholder {
+    display: none;
+  }
+}
+
+textarea.dnb-textarea {
+  @include textareaTheme();
+}

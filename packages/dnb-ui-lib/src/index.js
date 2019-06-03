@@ -30,6 +30,7 @@ import Slider from './components/slider/Slider'
 import StepIndicator from './components/step-indicator/StepIndicator'
 import Switch from './components/switch/Switch'
 import Tabs from './components/tabs/Tabs'
+import Textarea from './components/textarea/Textarea'
 import Anchor from './elements/Anchor'
 import Blockquote from './elements/Blockquote'
 import Code from './elements/Code'
@@ -48,7 +49,6 @@ import Ol from './elements/Ol'
 import P from './elements/P'
 import Section from './elements/Section'
 import Table from './elements/Table'
-import Textarea from './elements/Textarea'
 import Ul from './elements/Ul'
 
 // define / export all the aviable components
@@ -73,6 +73,7 @@ export {
   StepIndicator,
   Switch,
   Tabs,
+  Textarea,
   Anchor,
   Blockquote,
   Code,
@@ -91,7 +92,6 @@ export {
   P,
   Section,
   Table,
-  Textarea,
   Ul
 }
 

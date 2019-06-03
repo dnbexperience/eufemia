@@ -8,11 +8,9 @@ order: 6
 import CodeBlock from 'Tags/CodeBlock'
 import ComponentBox from 'Tags/ComponentBox'
 import { Link } from 'dnb-ui-lib/src/elements'
-
 import OtherElements from 'Pages/uilib/elements/other'
 import Anchor from 'Pages/uilib/elements/anchor'
 import Blockquote from 'Pages/uilib/elements/blockquote'
-import Textarea from 'Pages/uilib/elements/textarea'
 import Tables from 'Pages/uilib/elements/tables'
 import Lists from 'Pages/uilib/elements/lists'
 import Code from 'Pages/uilib/elements/code'
@@ -71,7 +69,6 @@ render(<StyledLink href="/" target="_blank">Styled Link</StyledLink>)
 - [Blockquote](#blockquote)
 - [Lists](#lists)
 - [Tables](#tables)
-- [Textarea](#textarea)
 - [Select](#missing-html-elements)
 - [Radio](#missing-html-elements)
 - [Checkbox](#missing-html-elements)
@@ -81,7 +78,6 @@ render(<StyledLink href="/" target="_blank">Styled Link</StyledLink>)
 <Blockquote />
 <Lists />
 <Tables />
-<Textarea />
 
 ---
 

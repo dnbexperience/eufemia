@@ -1,0 +1,16 @@
+/*
+* DNB Textarea
+*
+*/
+
+@import '../../../style/components/imports.scss';
+
+// import dependencies
+@import '../../form-label/style/dnb-form-label.scss';
+@import '../../form-status/style/dnb-form-status.scss';
+
+.dnb-textarea {
+  @include componentReset();
+}
+
+@import './_textarea.scss';

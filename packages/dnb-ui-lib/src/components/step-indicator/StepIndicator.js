@@ -246,7 +246,7 @@ class ItemContent extends PureComponent {
     }
 
     if (number == activeItem) {
-      params['aria-current'] = true
+      params['aria-current'] = 'step'
     }
     if (number > activeItem) {
       params['aria-disabled'] = true

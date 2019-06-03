@@ -6,8 +6,6 @@
 @import '../../../../style/themes/imports.scss';
 
 :root {
-  // The DNB UX team has desiced to not show today diffrently
-  --date-picker-today-color: var(--color-emerald-green);
   --date-picker-header-color: var(--color-emerald-green);
   --date-picker-labels-day-color: var(--color-emerald-green);
   --date-picker-selected-color: var(--color-mint-green-25);
@@ -79,9 +77,10 @@
       @include numberFeature(tabular-nums, lnum);
     }
 
-    &--today .dnb-button {
-      color: var(--date-picker-today-color);
-    }
+    // The DNB UX team has desiced to not show today diffrently
+    // &--today .dnb-button {
+    //   color: var(--color-);
+    // }
 
     &--preview .dnb-button,
     &--inactive .dnb-button,

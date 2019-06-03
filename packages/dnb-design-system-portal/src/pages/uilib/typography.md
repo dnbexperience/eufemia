@@ -106,4 +106,13 @@ Read more about [best practices for typography](/uilib/usage/best-practices/for-
 `}
 </CodeBlock>
 
-Read more [about Fonts in the Designer Guides](/quickguide-designer/fonts/).
+Read more [about Fonts in the Designer Guides](/quickguide-designer/fonts/)
+
+### Anchor
+
+- `.dnb-anchor` <a href="/" class="dnb-anchor">Anchor with default style</a>
+- `.dnb-anchor--hover` <a href="/" class="dnb-anchor dnb-anchor--hover">Hover Style</a>
+- `.dnb-anchor--active` <a href="/" class="dnb-anchor dnb-anchor--active">Active Style</a>
+- `.dnb-anchor--focus` <a href="/" class="dnb-anchor dnb-anchor--focus">Focus Style</a>
+
+Read more about the [Anchor / Link](/uilib/elements/anchor)
