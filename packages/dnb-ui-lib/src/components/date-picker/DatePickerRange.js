@@ -11,7 +11,11 @@ import {
   addDays,
   addWeeks,
   addMonths,
-  isSameMonth
+  isSameMonth,
+  isSameYear,
+  setDate,
+  lastDayOfMonth,
+  differenceInMonths
 } from 'date-fns'
 import DatePickerCalendar from './DatePickerCalendar'
 
@@ -68,14 +72,12 @@ export default class DatePickerRange extends PureComponent {
         props.sync &&
         ((props.startDate &&
           state.startDate &&
-          (props.startDate.getMonth() !== state.startDate.getMonth() ||
-            props.startDate.getFullYear() !==
-              state.startDate.getFullYear())) ||
+          (!isSameMonth(props.startDate, state.startDate) ||
+            !isSameYear(props.startDate, state.startDate))) ||
           (props.endDate &&
             state.endDate &&
-            (props.endDate.getMonth() !== state.endDate.getMonth() ||
-              props.endDate.getFullYear() !==
-                state.endDate.getFullYear())))
+            (!isSameMonth(props.endDate, state.endDate) ||
+              !isSameYear(props.endDate, state.endDate))))
       ) {
         state.views = DatePickerRange.getViews(props)
       }
@@ -84,6 +86,15 @@ export default class DatePickerRange extends PureComponent {
       }
       if (props.endDate) {
         state.endDate = props.endDate
+      }
+      if (props.month) {
+        state.startMonth = props.month
+      }
+      if (props.startMonth) {
+        state.startMonth = props.startMonth
+      }
+      if (props.endMonth) {
+        state.endMonth = props.endMonth
       }
     }
     state._listenForPropChanges = true
@@ -94,42 +105,44 @@ export default class DatePickerRange extends PureComponent {
     views: null,
     startDate: null,
     endDate: null,
+    startMonth: null,
+    endMonth: null,
     _listenForPropChanges: true
   }
 
   constructor(props) {
     super(props)
-    this.state.views = DatePickerRange.getViews(props)
+    this.state.views = DatePickerRange.getViews(props, props.range)
   }
 
-  static getViews(props) {
+  static getViews(state, isRange) {
     // fill the views with the calendar data getMonth()
-    return (Array.isArray(props.views)
-      ? props.views
+    return (Array.isArray(state.views)
+      ? state.views
       : Array(
-          props.range
+          isRange
             ? 2 // set default range calendars
-            : props.views
+            : state.views
         ).fill(1)
     ).map((view, i) => ({
       ...view,
-      month: DatePickerRange.getMonth(i, props),
+      month: DatePickerRange.getMonth(i, state),
       nr: i
     }))
   }
 
-  static getMonth(viewCount, props) {
-    if ((props.startMonth || props.startDate) && viewCount === 0) {
-      return props.startMonth || props.startDate
+  static getMonth(viewCount, state) {
+    if ((state.startMonth || state.startDate) && viewCount === 0) {
+      return state.startMonth || state.startDate
     }
-    if ((props.endMonth || props.endDate) && viewCount === 1) {
-      return props.endMonth || props.endDate
+    if ((state.endMonth || state.endDate) && viewCount === 1) {
+      return state.endMonth || state.endDate
     }
-    return addMonths(DatePickerRange.getFallbackMonth(props), viewCount)
+    return addMonths(DatePickerRange.getFallbackMonth(state), viewCount)
   }
 
-  static getFallbackMonth(props) {
-    return props.month || props.startMonth || props.startDate || new Date()
+  static getFallbackMonth(state) {
+    return state.startMonth || state.startDate || new Date()
   }
 
   callOnChange(opts = {}) {
@@ -163,9 +176,15 @@ export default class DatePickerRange extends PureComponent {
 
   onNext = ({ nr }) => {
     const views = this.state.views.map(c => {
-      return this.props.link || c.nr === nr
-        ? { ...c, month: addMonths(c.month, 1) }
-        : c
+      if (c.nr === nr) {
+        const month = addMonths(c.month, 1)
+        this.setState({
+          [`${nr === 0 ? 'start' : 'end'}Month`]: month,
+          _listenForPropChanges: false
+        })
+        return this.props.link || { ...c, month }
+      }
+      return this.props.link || c
     })
     this.setState({ views, _listenForPropChanges: false }, () => {
       this.callOnNav()
@@ -174,9 +193,15 @@ export default class DatePickerRange extends PureComponent {
 
   onPrev = ({ nr }) => {
     const views = this.state.views.map(c => {
-      return this.props.link || c.nr === nr
-        ? { ...c, month: subMonths(c.month, 1) }
-        : c
+      if (c.nr === nr) {
+        const month = subMonths(c.month, 1)
+        this.setState({
+          [`${nr === 0 ? 'start' : 'end'}Month`]: month,
+          _listenForPropChanges: false
+        })
+        return this.props.link || { ...c, month }
+      }
+      return this.props.link || c
     })
     this.setState({ views, _listenForPropChanges: false }, () => {
       this.callOnNav()
@@ -197,6 +222,8 @@ export default class DatePickerRange extends PureComponent {
       case 'down':
         event.preventDefault()
         break
+      default:
+        return
     }
 
     let type = nr === 0 ? 'start' : 'end'
@@ -221,24 +248,58 @@ export default class DatePickerRange extends PureComponent {
           newDate = addWeeks(newDate, 1)
           break
       }
-    }
-
-    if (!newDate) {
+    } else {
+      // use the date picker month, if provided
       newDate =
-        nr === 0
-          ? this.props.month || this.props.startMonth || new Date()
-          : this.props.endMonth || addMonths(new Date(), 1)
+        this.state[`${type}Month`] ||
+        (this.props.range && nr === 1
+          ? addMonths(new Date(), 1)
+          : new Date())
     }
 
     if (newDate !== this.state[`${type}Date`]) {
-      const state = {
-        [`${type}Date`]: newDate,
-        _listenForPropChanges: false
+      const state = { _listenForPropChanges: false }
+
+      const currentMonth = this.state[`${type}Month`]
+
+      if (
+        // in case we dont have a start/end date, then we use the current month date
+        (currentMonth && !this.state[`${type}Date`]) ||
+        // if we have a larger gap between the new date and the curent month in the calendar
+        (currentMonth &&
+          Math.abs(differenceInMonths(newDate, currentMonth)) > 1)
+      ) {
+        if (!this.props.range) {
+          newDate = currentMonth
+        } else {
+          newDate =
+            nr === 0
+              ? setDate(currentMonth, 1)
+              : lastDayOfMonth(currentMonth)
+        }
+        // if (nr === 1) {
+        //   newDate = addMonths(newDate, 1)
+        // }
+        // only to make sure we navigate the calendar to the new date
+      } else if (
+        currentMonth &&
+        !isSameMonth(this.state[`${type}Date`], currentMonth)
+      ) {
+        state[`${type}Month`] = newDate
       }
+
+      state[`${type}Date`] = newDate
+
+      // set fallbacks
       if (!this.props.range) {
         state.endDate = newDate
-      } else if (this.props.range && nr === 0 && !this.state.endDate) {
-        state.endDate = addMonths(newDate, 1)
+      } else {
+        if (!this.state.startDate) {
+          state.startDate = newDate
+        }
+        if (!this.state.endDate) {
+          state.endDate = newDate
+        }
       }
 
       // make sure we stay on the same month
@@ -251,9 +312,15 @@ export default class DatePickerRange extends PureComponent {
         }
       }
 
+      // make sure we also navigate the view
       if (this.props.sync) {
-        state.views = DatePickerRange.getViews({ ...this.props, ...state })
+        state.views = this.state.views
+        state.views[nr] = DatePickerRange.getViews(
+          { ...this.state, ...state },
+          this.props.range
+        )[nr]
       }
+
       this.setState(state)
       setTimeout(() => {
         this.callOnChange()
