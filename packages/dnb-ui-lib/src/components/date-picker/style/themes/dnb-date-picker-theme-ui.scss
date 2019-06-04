@@ -140,4 +140,16 @@
     background-color: var(--color-white);
     @include defaultDropShadow();
   }
+
+  /* stylelint-disable */
+  &:not(#{&}--opened)#{&}__status--error
+    .dnb-input__shell:not([data-input-state='focus'])
+    &__input,
+  &:not(#{&}--opened)#{&}__status--error
+    .dnb-input__shell:not([data-input-state='focus'])
+    &__input
+    ~ &--separator {
+    color: var(--color-cherry-red);
+  }
+  /* stylelint-enable */
 }

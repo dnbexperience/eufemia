@@ -96,7 +96,7 @@ describe('DatePicker component', () => {
   it('has a reacting start date input with valid value', () => {
     const elem = Comp.find('input.dnb-date-picker__input--day').at(0)
 
-    // by defualt we have the start day
+    // by default we have the start day
     expect(elem.instance().value).toBe('01')
 
     // listen to changes
@@ -137,7 +137,7 @@ describe('DatePicker component', () => {
   it('has a reacting end date input with valid value', () => {
     const elem = Comp.find('input.dnb-date-picker__input--day').at(1)
 
-    // by defualt we have the start day
+    // by default we have the start day
     expect(elem.instance().value).toBe('15')
 
     // listen to changes

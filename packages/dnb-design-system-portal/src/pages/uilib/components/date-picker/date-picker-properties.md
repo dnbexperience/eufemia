@@ -14,7 +14,7 @@ draft: true
 | `end_month`          | _(optional)_ to display what month should be shows in the second calendar by default. Defaults to the `date` respective `start_date`.                                |
 | `min_date`           | _(optional)_ to limit a date range to a minimum `start_date`. Defaults to null. `start_date`.                                                                        |
 | `max_date`           | _(optional)_ to limit a date range to a maximum `end_date`. Defaults to null. `start_date`.                                                                          |
-| `return_format`      | _(optional)_ Defines how the returned date, as a string, should be formatted as. Defualts to `YYYY-MM-DD`.                                                           |
+| `return_format`      | _(optional)_ Defines how the returned date, as a string, should be formatted as. Defaults to `YYYY-MM-DD`.                                                           |
 | `range`              | _(optional)_ if the date picker should support a range of two dates (starting and ending date). Defaults to `false`.                                                 |
 | `show_input`         | _(optional)_ if the input fields with the mask should be visible. Defaults to `false`.                                                                               |
 | `mask_order`         | _(optional)_ to define the order of the masked placeholder input fields. Defaults to `dd/mm/yyyy`                                                                    |
@@ -29,3 +29,5 @@ draft: true
 | `first_day`          | _(optional)_ to define the first day of the week. Defaults to `monday`.                                                                                              |
 | `locale`             | _(optional)_ to define the locale used in the calendar. Needs to be an `date-fns` locale object, like `import nbLocale from 'date-fns/locale/nb'`. Defaults to `nb`. |
 | `label`              | _(optional)_ a prepending label in sync with the date input field.                                                                                                   |
+| `status`             | _(optional)_ text with a status message. The style defaults to an error message.                                                                                     |
+| `status_state`       | _(optional)_ defines the state of the status. Currently are two statuses `[error, info]`. Defaults to `error`.                                                       |

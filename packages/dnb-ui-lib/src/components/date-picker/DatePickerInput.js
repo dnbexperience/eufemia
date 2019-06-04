@@ -30,7 +30,11 @@ export const propTypes = {
   minDate: PropTypes.instanceOf(Date),
   maxDate: PropTypes.instanceOf(Date),
   range: PropTypes.bool,
+  status: PropTypes.string,
+  status_state: PropTypes.string,
+  status_animation: PropTypes.string,
   disabled: PropTypes.bool,
+  opened: PropTypes.bool,
   showInput: PropTypes.bool,
   onChange: PropTypes.func,
   onSubmit: PropTypes.func,
@@ -44,9 +48,13 @@ export const defaultProps = {
   maskPlaceholder: 'dd/mm/åååå',
   separatorRexExp: /[-/ ]/g,
   range: null,
+  status: null,
+  status_state: 'error',
+  status_animation: null,
   minDate: null,
   maxDate: null,
   disabled: null,
+  opened: false,
   showInput: null,
   onChange: null,
   onSubmit: null,
@@ -489,6 +497,10 @@ export default class DatePickerInput extends PureComponent {
       onSubmitButtonFocus /* eslint-disable-line */,
       showInput /* eslint-disable-line */,
       disabled,
+      opened,
+      status,
+      status_state,
+      status_animation,
 
       ...rest
     } = this.props
@@ -503,6 +515,9 @@ export default class DatePickerInput extends PureComponent {
         input_state={focusState}
         inputElement={this.renderInputElement}
         disabled={disabled}
+        status={!opened ? status : null}
+        status_state={status_state}
+        status_animation={status_animation}
         submitButton={
           <SubmitButton
             id={id}

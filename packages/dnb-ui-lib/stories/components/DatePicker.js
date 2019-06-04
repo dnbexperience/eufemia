@@ -37,6 +37,7 @@ export default [
           on_cancel={props => {
             console.log('on_cancel', props)
           }}
+          status="Please select a valid date"
         />
       </Box>
       <Box>
@@ -62,7 +63,7 @@ export default [
       </Box>
       <Box>
         <DatePicker
-          label="Defualt DatePicker with Input:"
+          label="Default DatePicker with Input:"
           date="2019-05-05"
           show_input={true}
           // show_submit_button={true}
@@ -97,13 +98,14 @@ const CustomDate = () => {
   console.log('date', date)
   return (
     <DatePicker
-      label="Defualt DatePicker:"
+      label="Default DatePicker:"
       date={date}
       return_format="YYYY-MM-DD"
       on_change={({ date }) => {
         console.log('on_change', date)
         setDate(date)
       }}
+      status="Please select a valid date"
     />
   )
 }

@@ -593,6 +593,8 @@ export default class DatePicker extends PureComponent {
             opened && 'dnb-date-picker--opened',
             hidden && 'dnb-date-picker--hidden',
             showInput && 'dnb-date-picker--show-input',
+            showStatus && 'dnb-date-picker__form-status',
+            status && `dnb-date-picker__status--${status_state}`,
             (isTrue(show_submit_button) || isTrue(show_cancel_button)) &&
               'dnb-date-picker--show-footer'
 
@@ -610,17 +612,22 @@ export default class DatePicker extends PureComponent {
               maskOrder={mask_order}
               maskPlaceholder={mask_placeholder}
               range={isTrue(range)}
-              onChange={this.onInputChange}
-              onFocus={this.showPicker}
-              onSubmit={this.togglePicker}
               startDate={startDate}
               endDate={endDate}
               minDate={minDate}
               maxDate={maxDate}
               showInput={showInput}
-              onSubmitButtonFocus={this.onSubmitButtonFocus}
+              opened={opened}
+              status={status ? 'error' : null}
+              status_state={status_state}
+              // status_animation={status_animation}
               {...inputParams}
+              onChange={this.onInputChange}
+              onFocus={this.showPicker}
+              onSubmit={this.togglePicker}
+              onSubmitButtonFocus={this.onSubmitButtonFocus}
             />
+
             {showStatus && (
               <FormStatus
                 text={status}
