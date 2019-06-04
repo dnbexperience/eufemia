@@ -308,6 +308,7 @@ export default class SidebarLayout extends PureComponent {
   static defaultProps = {
     showAll: false
   }
+  static contextType = SidebarMenuContext
 
   constructor(props) {
     super(props)
@@ -447,13 +448,15 @@ export default class SidebarLayout extends PureComponent {
             .filter(({ title, menuTitle }) => title || menuTitle)
 
             .map(props => {
+              const path = `/${props.path}`
+
               // get the active item
               const active =
-                currentPathname === props.path ||
-                currentPathname === props.path.replace(/(\/)$/, '')
+                currentPathname === path ||
+                currentPathname === path.replace(/(\/)$/, '')
 
               // check if a item path is inside another
-              const inside = props.path
+              const inside = path
                 .split('/')
                 .filter(i => i)
                 .every(i => currentPathnameList.includes(i))
@@ -504,6 +507,21 @@ export default class SidebarLayout extends PureComponent {
               }
             )
 
+          const { isOpen, isClosing, toggleMenu } = this.context
+
+          this.isOpen = isOpen
+          this.toggleMenu = toggleMenu
+          if (isOpen && !isClosing) {
+            setTimeout(() => {
+              this.scrollToActiveItem()
+              applyPageFocus('sidebar')
+            }, 300) // after animation is done
+          } else if (isClosing) {
+            setTimeout(() => {
+              applyPageFocus('content')
+            }, 300) // after animation is done - to make sure we can get the focus on h1
+          }
+
           return (
             <>
               <Global
@@ -513,45 +531,27 @@ export default class SidebarLayout extends PureComponent {
                   }
                 `}
               />
-              <SidebarMenuContext.Consumer>
-                {({ isOpen, isClosing, toggleMenu }) => {
-                  this.isOpen = isOpen
-                  this.toggleMenu = toggleMenu
-                  if (isOpen && !isClosing) {
-                    setTimeout(() => {
-                      this.scrollToActiveItem()
-                      applyPageFocus('sidebar')
-                    }, 300) // after animation is done
-                  } else if (isClosing) {
-                    setTimeout(() => {
-                      applyPageFocus('content')
-                    }, 300) // after animation is done - to make sure we can get the focus on h1
-                  }
-                  return (
-                    <Navigation
-                      id="portal-sidebar-menu"
-                      aria-labelledby="toggle-sidebar-menu"
-                      className={classnames(
-                        // 'dnb-core-style',
-                        isOpen && 'show-mobile-menu',
-                        isClosing && 'hide-mobile-menu'
-                      )}
-                      ref={this._scrollRef}
-                    >
-                      <ul className="dev-grid">{nav}</ul>
-                      {isOpen && (
-                        <Global
-                          styles={css`
-                            .dnb-app-content {
-                              display: none !important;
-                            }
-                          `}
-                        />
-                      )}
-                    </Navigation>
-                  )
-                }}
-              </SidebarMenuContext.Consumer>
+              <Navigation
+                id="portal-sidebar-menu"
+                aria-labelledby="toggle-sidebar-menu"
+                className={classnames(
+                  // 'dnb-core-style',
+                  isOpen && 'show-mobile-menu',
+                  isClosing && 'hide-mobile-menu'
+                )}
+                ref={this._scrollRef}
+              >
+                <ul className="dev-grid">{nav}</ul>
+                {isOpen && (
+                  <Global
+                    styles={css`
+                      .dnb-app-content {
+                        display: none !important;
+                      }
+                    `}
+                  />
+                )}
+              </Navigation>
             </>
           )
         }}
