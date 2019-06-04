@@ -485,6 +485,12 @@ exports[`Input scss have to match default theme snapshot 1`] = `
   .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']), .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']):not([data-input-state='disabled']):hover {
     box-shadow: 0 0 0 0.125rem var(--color-cherry-red);
     border-color: transparent; }
+  .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']) ~ .dnb-input__submit-button .dnb-button__icon,
+  .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']) ~ .dnb-input__submit-button .dnb-button--secondary .dnb-button__icon {
+    color: var(--color-cherry-red); }
+  .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']) ~ .dnb-input__submit-button .dnb-button {
+    box-shadow: 0 0 0 0.125rem var(--color-cherry-red);
+    border-color: transparent; }
   .dnb-input ::selection {
     background-color: var(--color-mint-green);
     color: var(--input-text-color--focus);

@@ -10,7 +10,7 @@ import {
 
 describe('Blockquote screenshot', () => {
   setupPageScreenshot({ url: '/uilib/elements/blockquote' })
-  it('have to match defualt "blockquote"', async () => {
+  it('have to match default "blockquote"', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-dnb-test="blockquote-default"]'
     })

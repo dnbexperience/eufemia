@@ -12,9 +12,11 @@ draft: true
 | `group`          | _(optional)_ use a unique group identifier to define the Radio buttons who belongs together.                                                 |
 | `label`          | _(optional)_ use either the `label` property or provide custom one.                                                                          |
 | `label_position` | _(optional)_ defines the position of the `label`. Use either `left` or `right`. Defaults to `right`.                                         |
-| `status`         | _(optional)_ uses the `form-status` component to show failure messages.                                                                      |
 | `id`             | _(optional)_ the `id` of the input. Default will be a random id.                                                                             |
 | `disabled`       | _(optional)_ to disable/enable the radio.                                                                                                    |
+| `status`         | _(optional)_ text with a status message. The style defaults to an error message.                                                             |
+| `status_state`   | _(optional)_ defines the state of the status. Currently are two statuses `[error, info]`. Defaults to `error`.                               |
+|                  |                                                                                                                                              |
 
 ## Radio group
 

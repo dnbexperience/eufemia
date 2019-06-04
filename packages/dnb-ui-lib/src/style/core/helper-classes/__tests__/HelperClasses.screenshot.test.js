@@ -10,7 +10,7 @@ import {
 
 describe('Helper Classes screenshot', () => {
   setupPageScreenshot({ url: '/uilib/helper-classes' })
-  it('have to match defualt "Section"', async () => {
+  it('have to match default "Section"', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-dnb-test="helper-classes-section"]'
     })

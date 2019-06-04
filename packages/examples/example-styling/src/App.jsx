@@ -75,7 +75,7 @@ const Cases = () => {
       <SpacingExample className="dnb-core-style dnb-spacing dnb-dev-grid">
         <Code>{'<div class="dnb-core-style dnb-spacing">'}</Code>
         <H2>
-          I'm a <Code>{`<h2>`}</Code> in an Article, and have the defualt
+          I'm a <Code>{`<h2>`}</Code> in an Article, and have the default
           spacing!
         </H2>
         <P>

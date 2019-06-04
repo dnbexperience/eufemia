@@ -10,6 +10,8 @@ import dnb_ui_core from '../../../../src/style/dnb-ui-core.scss' // eslint-disab
 import dnb_ui_components from '../../../../src/style/dnb-ui-components.scss' // eslint-disable-line
 import dnb_theme_ui from '../../../../src/style/themes/theme-ui/dnb-theme-ui.scss' // eslint-disable-line
 
+jest.setTimeout(30e3)
+
 beforeAll(async () => {
   global.core = await runFactory('./src/style/dnb-ui-core.scss', {
     returnResult: true
