@@ -14,6 +14,6 @@ order: 10
 
 ---
 
-[Next - Usage of Components and Patterns](/uilib/intro/11-usage-of-components-elements?fullscreen)
+<IntroFooter href="/uilib/intro/11-usage-of-components-elements" text="Next - Usage of Components and Patterns" />
 
 </Intro>

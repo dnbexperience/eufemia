@@ -52,6 +52,6 @@ Read more about using elements as [React JSX](!/uilib/elements#react-jsx)
 
 ---
 
-[Next - Quality and Tests](/uilib/intro/12-quality-and-tests?fullscreen)
+<IntroFooter href="/uilib/intro/12-quality-and-tests" text="Next - Quality and Tests" />
 
 </Intro>

@@ -8,11 +8,12 @@ import Table from './Table'
 // import Img from './Img'
 import Tag from './Tag'
 import Anchor from './Anchor'
-import Intro from './Intro'
+import Intro, { IntroFooter } from './Intro'
 import Header from './AutoLinkHeader'
 
 export default {
   Intro,
+  IntroFooter,
   // Img,
   // img: Img
   h1: props => <Header is="h1" {...props} />,

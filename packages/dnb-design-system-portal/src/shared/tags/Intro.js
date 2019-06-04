@@ -11,11 +11,12 @@ import {
   Link
   // Hr
 } from 'dnb-ui-lib/src/elements'
+import { Button } from 'dnb-ui-lib/src/components'
 
 const onKeyDownHandler = e => {
   try {
-    if (e.key === 'ArrowRight') {
-      const elem = document.querySelector('a[href*="/intro"]:last-of-type')
+    if (e.key === 'ArrowRight' && ref && ref.current) {
+      const elem = ref.current.querySelector('a[href*="/intro"]')
       const href = elem.getAttribute('href')
       navigate(href)
     }
@@ -27,6 +28,7 @@ const onKeyDownHandler = e => {
   }
 }
 
+const ref = React.createRef()
 const Intro = ({ children }) => {
   useEffect(() => {
     try {
@@ -40,7 +42,7 @@ const Intro = ({ children }) => {
   }, [])
   return (
     <Wrapper>
-      <Inner>{children}</Inner>
+      <Inner ref={ref}>{children}</Inner>
     </Wrapper>
   )
 }
@@ -48,6 +50,29 @@ Intro.propTypes = {
   children: PropTypes.node.isRequired
 }
 Intro.defaultProps = {}
+
+export const IntroFooter = ({ href, text }) => (
+  <Footer>
+    <Button href={href} text={text} icon="chevron_right" />
+    <Button
+      href="/uilib/getting-started"
+      variant="secondary"
+      text="Cancel"
+      icon="close"
+      icon_position="left"
+    />
+  </Footer>
+)
+IntroFooter.propTypes = {
+  href: PropTypes.string.isRequired,
+  text: PropTypes.string.isRequired
+}
+IntroFooter.defaultProps = {}
+
+const Footer = styled.div`
+  display: flex;
+  justify-content: space-between;
+`
 
 const Wrapper = styled.div`
   margin: 10vh 10vw;

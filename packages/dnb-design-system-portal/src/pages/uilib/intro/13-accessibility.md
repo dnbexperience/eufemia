@@ -12,6 +12,6 @@ order: 12
 
 ---
 
-[Next - Helper Classes](/uilib/intro/14-helper-classes?fullscreen)
+<IntroFooter href="/uilib/intro/14-helper-classes" text="Next - Helper Classes" />
 
 </Intro>

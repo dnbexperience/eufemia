@@ -23,6 +23,6 @@ What Eufemia offers for Developers? NPM Package including:
 
 ---
 
-[Next - CSS Packages](/uilib/intro/05-css-packages?fullscreen)
+<IntroFooter href="/uilib/intro/05-css-packages" text="Next - CSS Packages" />
 
 </Intro>

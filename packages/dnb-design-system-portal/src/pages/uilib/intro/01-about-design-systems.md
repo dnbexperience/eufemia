@@ -19,6 +19,6 @@ What is a Design System good for?
 
 ---
 
-[Next - Common Design Patterns](/uilib/intro/02-common-patterns?fullscreen)
+<IntroFooter href="/uilib/intro/02-common-patterns" text="Next - Common Design Patterns" />
 
 </Intro>

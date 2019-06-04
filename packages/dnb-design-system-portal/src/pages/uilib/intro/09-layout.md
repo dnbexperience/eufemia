@@ -18,6 +18,6 @@ You may have a [look at the layout docs](!/uilib/usage/layout)
 
 ---
 
-[Next - Components, Elements and Patterns](/uilib/intro/10-components-elements-patterns?fullscreen)
+<IntroFooter href="/uilib/intro/10-components-elements-patterns" text="Next - Components, Elements and Patterns" />
 
 </Intro>

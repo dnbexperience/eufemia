@@ -26,6 +26,6 @@ As a place for commonly used **global CSS classes**, Eufemia has the term [Helpe
 
 ---
 
-[Summary](/uilib/intro/15-summary?fullscreen)
+<IntroFooter href="/uilib/intro/15-summary" text="Summary" />
 
 </Intro>

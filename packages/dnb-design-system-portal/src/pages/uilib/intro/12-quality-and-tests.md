@@ -18,6 +18,6 @@ Read [more about tests](!/uilib/usage/best-practices/for-testing).
 
 ---
 
-[Next - Accessibility](/uilib/intro/13-accessibility?fullscreen)
+<IntroFooter href="/uilib/intro/13-accessibility" text="Next - Accessibility" />
 
 </Intro>

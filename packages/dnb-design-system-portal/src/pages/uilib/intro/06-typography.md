@@ -26,6 +26,6 @@ Read [more about Typography](!/uilib/typography)
 
 ---
 
-[Next - Color usage](/uilib/intro/07-color-usage?fullscreen)
+<IntroFooter href="/uilib/intro/07-color-usage" text="Next - Color usage" />
 
 </Intro>

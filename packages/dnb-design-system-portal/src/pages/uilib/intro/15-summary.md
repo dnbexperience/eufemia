@@ -12,6 +12,6 @@ The UX Team behind the **Eufemia Design System** would love to hear [your meanin
 
 ---
 
-[Back to start](/uilib/intro/01-about-design-systems?fullscreen)
+<IntroFooter href="/uilib/intro/01-about-design-systems" text="Back to start" />
 
 </Intro>
