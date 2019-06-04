@@ -8,12 +8,12 @@ import { Wrapper, Box } from './helpers'
 import styled from '@emotion/styled'
 
 // UI Components
+import Button from './components/Button'
 import Radio from './components/Radio'
 import DatePicker from './components/DatePicker'
 import Textarea from './components/Textarea'
 import ProgressIndicator from './components/ProgressIndicator'
 import {
-  Button,
   Tabs,
   Input,
   InputMasked,
@@ -32,6 +32,7 @@ import { H2, P, Hr } from '../src/elements'
 const stories = []
 export default stories
 
+stories.push(Button)
 stories.push(Radio)
 stories.push(DatePicker)
 stories.push(Textarea)
@@ -46,41 +47,6 @@ const CustomStyle = styled.div`
     max-width: var(--dropdown-width);
   }
 `
-
-stories.push([
-  'Buttons',
-  () => (
-    <Wrapper>
-      <Box>
-        <Button text="Primary" icon="add" />
-      </Box>
-      <Box>
-        <Button text="Primary" icon="add" disabled />
-      </Box>
-      <Box>
-        <Button text="Secondary" variant="secondary" icon="add" />
-        <Button
-          variant="secondary"
-          text="Secondary button with href"
-          href="?no-cache=1"
-          icon="add"
-          onClick={e => e.preventDefault()}
-        />
-      </Box>
-      <Box>
-        <Button text="Signal" variant="signal" icon="add" />
-      </Box>
-      <Box>
-        <Button
-          text="Tertiary"
-          variant="tertiary"
-          icon_position="left"
-          icon="add"
-        />
-      </Box>
-    </Wrapper>
-  )
-])
 
 stories.push([
   'Logo',
