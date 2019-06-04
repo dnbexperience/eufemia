@@ -7,6 +7,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
+  isTrue,
   registerElement,
   validateDOMAttributes,
   dispatchCustomElementEvent
@@ -74,10 +75,9 @@ export default class ProgressIndicator extends PureComponent {
 
   static getDerivedStateFromProps(props, state) {
     if (state._listenForPropChanges) {
-      state.visible = Boolean(props.visible)
+      state.visible = isTrue(props.visible)
       if (state.visible) {
         state.complete = false
-        state.startTime = new Date().getTime()
       }
       if (parseFloat(props.progress) > -1) {
         state.progress = props.progress
@@ -87,20 +87,8 @@ export default class ProgressIndicator extends PureComponent {
     return state
   }
 
-  constructor(props) {
-    super(props)
-
-    // this._id =
-    //   props.id || `dnb-progress-indicator-${Math.round(Math.random() * 999)}` // cause we need an id anyway
-
-    this.state = {
-      _listenForPropChanges: true,
-      visible: Boolean(props.visible),
-      complete: false,
-      progress: props.progress
-    }
-
-    this.firstDelay = 300 // wait for the rest time  + 200 start delay
+  state = {
+    _listenForPropChanges: true
   }
 
   componentWillUnmount() {
@@ -108,31 +96,17 @@ export default class ProgressIndicator extends PureComponent {
     clearTimeout(this.fadeOutTimeout)
   }
 
-  callOnCompleteHandler() {
-    if (typeof this.props.on_complete === 'function') {
-      this.fadeOutTimeout = setTimeout(() => {
-        dispatchCustomElementEvent(this, 'on_complete')
-      }, 600) // wait for CSS fade out, defined in "progress-indicator-fade-out"
-    }
-  }
-
-  delayVisibility() {
-    if (this.state.complete) {
-      return
-    }
-
-    const duration = 1e3 // the duration, defined in CSS
-    const difference = new Date().getTime() - this.state.startTime
-    const ceil = Math.ceil(difference / duration) * duration
-    const timeToWait = ceil - difference
-
-    this.fadeOutTimeout = setTimeout(() => {
-      this.firstDelay = 0
+  callOnCompleteHandler = () => {
+    this.completeTimeout = setTimeout(() => {
       this.setState({
         complete: true
       })
-      this.callOnCompleteHandler()
-    }, timeToWait + this.firstDelay)
+      if (typeof this.props.on_complete === 'function') {
+        this.fadeOutTimeout = setTimeout(() => {
+          dispatchCustomElementEvent(this, 'on_complete')
+        }, 600) // wait for CSS fade out, defined in "progress-indicator-fade-out"
+      }
+    }, 200)
   }
 
   render() {
@@ -140,8 +114,10 @@ export default class ProgressIndicator extends PureComponent {
       type,
       size,
       no_animation,
+      on_complete,
       progress: _progress, //eslint-disable-line
       visible: _visible, //eslint-disable-line
+      complete: _complete, //eslint-disable-line
       ...props
     } = this.props
 
@@ -157,20 +133,13 @@ export default class ProgressIndicator extends PureComponent {
 
     validateDOMAttributes(this.props, params)
 
-    const isComplete =
-      visible === false ||
-      (hasProgressIndicator && parseFloat(progress) >= 100)
-    if (isComplete) {
-      this.delayVisibility()
-    }
-
     return (
       <div
         className={classnames(
           'dnb-progress-indicator',
           visible && 'dnb-progress-indicator--visible',
           complete && 'dnb-progress-indicator--complete',
-          Boolean(no_animation) && 'dnb-progress-indicator--no-animation'
+          isTrue(no_animation) && 'dnb-progress-indicator--no-animation'
         )}
         {...params}
       >
@@ -178,7 +147,10 @@ export default class ProgressIndicator extends PureComponent {
           <ProgressIndicatorCircular
             size={size}
             progress={progress}
+            visible={visible}
             complete={complete}
+            onComplete={on_complete}
+            callOnCompleteHandler={this.callOnCompleteHandler}
           />
         )}
       </div>

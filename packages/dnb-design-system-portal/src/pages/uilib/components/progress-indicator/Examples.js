@@ -50,14 +50,15 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox
-          caption="ProgressIndicator with on_complete callback"
+          caption="ProgressIndicator with random `on_complete` callback"
           noFragments={false}
         >
           {/* @jsx */ `
 () => {
+  const random = (min, max) => (Math.floor( Math.random () * (max - min + 1)) + min)
   const [visible, setVisibe] = useState(true)
   useEffect(() => {
-    const timer = setInterval(() => setVisibe(!visible), 2400)
+    const timer = setInterval(() => setVisibe(!visible), random(2400, 4200))
     return () => clearTimeout(timer)
   })
   return (
