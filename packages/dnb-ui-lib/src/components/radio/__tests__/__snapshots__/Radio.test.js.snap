@@ -474,8 +474,7 @@ exports[`Radio scss have to match snapshot 1`] = `
   vertical-align: baseline;
   cursor: pointer;
   color: inherit;
-  width: auto;
-  white-space: nowrap; }
+  width: auto; }
   .dnb-form-label--vertical {
     margin-right: 0;
     margin-top: 0; }
@@ -663,32 +662,39 @@ exports[`Radio scss have to match snapshot 1`] = `
     border: 0; }
   .dnb-radio__input:not([disabled]) {
     cursor: pointer; }
-  .dnb-radio > .dnb-form-status {
-    margin-top: 0.125rem; }
-  .dnb-radio--label-position-left {
-    display: inline-flex; }
-    .dnb-radio--label-position-left .dnb-radio {
-      order: 2; }
-    .dnb-radio--label-position-left label {
-      order: 1; }
-    .dnb-radio--label-position-left .dnb-form-label {
-      margin-right: 0.5rem;
-      margin-left: 1rem; }
-    .dnb-radio-group--layout-direction-column .dnb-radio--label-position-left {
-      display: flex;
+  .dnb-radio--label-position-left, .dnb-radio--label-position-right {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: flex-start;
+    flex-wrap: wrap; }
+    .dnb-radio--label-position-left .dnb-form-label, .dnb-radio--label-position-right .dnb-form-label {
+      flex: 1 1 33%; }
+    .dnb-radio--label-position-left .dnb-form-status, .dnb-radio--label-position-right .dnb-form-status {
+      order: 3;
+      flex: 1 1 1;
+      margin-top: 0.125rem;
       margin-bottom: 0.5rem; }
-  .dnb-radio--label-position-right {
-    display: inline-flex; }
-    .dnb-radio--label-position-right .dnb-radio {
-      order: 1; }
-    .dnb-radio--label-position-right label {
-      order: 2; }
-    .dnb-radio--label-position-right .dnb-form-label {
-      margin-right: 1rem;
-      margin-left: 0.5rem; }
-    .dnb-radio-group--layout-direction-column .dnb-radio--label-position-right {
-      display: flex;
-      margin-bottom: 0.5rem; }
+  .dnb-radio--label-position-left .dnb-radio {
+    order: 2; }
+  .dnb-radio--label-position-left label {
+    order: 1; }
+  .dnb-radio--label-position-left .dnb-form-label {
+    flex: 0 1 auto;
+    margin-right: 0.5rem;
+    margin-left: 1rem; }
+  .dnb-radio-group--layout-direction-column .dnb-radio--label-position-left {
+    display: flex;
+    margin-bottom: 0.5rem; }
+  .dnb-radio--label-position-right .dnb-radio {
+    order: 1; }
+  .dnb-radio--label-position-right label {
+    order: 2; }
+  .dnb-radio--label-position-right .dnb-form-label {
+    margin-right: 1rem;
+    margin-left: 0.5rem; }
+  .dnb-radio-group--layout-direction-column .dnb-radio--label-position-right {
+    display: flex;
+    margin-bottom: 0.5rem; }
   .dnb-radio--label-position-left:first-of-type .dnb-form-label {
     margin-left: 0; }
   :not(.dnb-radio-group) > .dnb-form-label ~ .dnb-radio--label-position-left,

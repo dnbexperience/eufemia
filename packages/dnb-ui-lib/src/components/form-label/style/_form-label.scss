@@ -19,7 +19,6 @@
   color: inherit;
 
   width: auto;
-  white-space: nowrap; // in contrast to label only
 
   &[for]:not([disabled]):hover {
     color: var(--color-sea-green);

@@ -72,7 +72,7 @@ describe('Checkbox checked screenshot', () => {
   })
   it('have to match checkbox in error state', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="checkbox-error"] .dnb-checkbox'
+      selector: '[data-dnb-test="checkbox-error"] span:first-of-type'
     })
     expect(screenshot).toMatchImageSnapshot()
   })

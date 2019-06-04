@@ -287,15 +287,6 @@ export default class Radio extends Component {
       inputParams['aria-readonly'] = inputParams.readOnly = true
     }
 
-    const StatusComp = showStatus && (
-      <FormStatus
-        text={status}
-        status={status_state}
-        text_id={id + '-status'} // used for "aria-describedby"
-        animation={status_animation}
-      />
-    )
-
     // also used for code markup simulation
     validateDOMAttributes(this.props, inputParams)
 
@@ -338,10 +329,16 @@ export default class Radio extends Component {
               <span className="dnb-radio__focus" />
               <span className="dnb-radio__dot" />
             </span>
-            {label_position === 'left' && StatusComp}
           </span>
+          {showStatus && (
+            <FormStatus
+              text={status}
+              status={status_state}
+              text_id={id + '-status'} // used for "aria-describedby"
+              animation={status_animation}
+            />
+          )}
         </span>
-        {label_position === 'right' && StatusComp}
       </>
     )
   }

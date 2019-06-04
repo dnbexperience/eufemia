@@ -112,7 +112,54 @@
     cursor: pointer;
   }
 
-  > .dnb-form-status {
-    margin-top: 0.125rem;
+  &--label-position-left,
+  &--label-position-right {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: flex-start;
+    flex-wrap: wrap;
+
+    .dnb-form-label {
+      flex: 1 1 33%;
+    }
+    .dnb-form-status {
+      order: 3;
+      flex: 1 1 1;
+      margin-top: 0.125rem;
+    }
+  }
+
+  &--label-position-left {
+    .dnb-checkbox {
+      order: 2;
+    }
+    label {
+      order: 1;
+    }
+    .dnb-form-label {
+      flex: 0 1 auto;
+      margin-left: 0;
+      margin-right: 0.5rem;
+    }
+  }
+
+  &--label-position-right {
+    .dnb-checkbox {
+      order: 1;
+    }
+    label {
+      order: 2;
+    }
+    .dnb-form-label {
+      margin-right: 0;
+      margin-left: 0.5rem;
+    }
+  }
+
+  // in case we don't define a wrapping group
+  // and have a custom label component before the radio (and not inside)
+  .dnb-form-label ~ &--label-position-left,
+  .dnb-form-label ~ &--label-position-right {
+    display: inline;
   }
 }
