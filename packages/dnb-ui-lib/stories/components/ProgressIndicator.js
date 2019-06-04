@@ -13,12 +13,12 @@ export default [
   'ProgressIndicator',
   () => (
     <Wrapper>
-      {/* <Box>
-        <ProgressIndicator progress={50} no_animation />
+      <Box>
+        <ProgressIndicator progress={60} no_animation />
       </Box>
       <Box>
-        <ProgressIndicator size="huge" no_animation />
-      </Box> */}
+        <ProgressIndicator size="large" />
+      </Box>
       <Box>
         <ProgressIndicatorCircular />
       </Box>
@@ -37,7 +37,7 @@ const ProgressIndicatorCircular = () => {
       size="huge"
       visible={visible}
       on_complete={() => {
-        // console.log('on_complete')
+        console.log('on_complete')
       }}
     />
   )

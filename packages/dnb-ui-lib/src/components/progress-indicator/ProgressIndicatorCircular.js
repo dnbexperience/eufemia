@@ -10,34 +10,42 @@ import { validateDOMAttributes } from '../../shared/component-helper'
 
 export const propTypes = {
   size: PropTypes.string,
-  // complete: PropTypes.bool,
   visible: PropTypes.bool,
+  complete: PropTypes.bool,
   progress: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   maxOffset: PropTypes.number,
-  onComplete: PropTypes.func
+  onComplete: PropTypes.func,
+  callOnCompleteHandler: PropTypes.func
 }
 export const defaultProps = {
   size: null,
-  // complete: false,
   visible: true,
+  complete: false,
   progress: null,
   maxOffset: 88,
-  onComplete: null
+  onComplete: null,
+  callOnCompleteHandler: null
 }
 
 export default class ProgressIndicatorCircular extends PureComponent {
   static propTypes = propTypes
   static defaultProps = defaultProps
-  state = { animate: false }
+  static getDerivedStateFromProps(props, state) {
+    state.progress = parseFloat(props.progress)
+    state.visible = props.visible
+    state.complete = props.complete
+    return state
+  }
   constructor(props) {
     super(props)
-    this.useAnimationFrame = props.onComplete
+    this.useAnimationFrame = typeof props.onComplete === 'function'
     this._refDark = React.createRef()
     this._refLight = React.createRef()
+    this.state = { animate: false }
   }
   componentDidMount() {
     if (this.useAnimationFrame) {
-      this.startAnimation()
+      this.startAnimationFirstTime()
     }
   }
   componentWillUnmount() {
@@ -50,19 +58,24 @@ export default class ProgressIndicatorCircular extends PureComponent {
     }
   }
   startAnimationFirstTime() {
-    this.startupTimeout = setTimeout(() => this.startAnimation, 300)
+    this.setState({ animate: false })
+    this.startupTimeout = setTimeout(() => this.startAnimation(), 300)
   }
   startAnimation() {
     this.setState({ animate: true }, () => {
       if (this._refDark.current) {
-        this.animate(this._refDark.current, true, this.props.onComplete)
+        this.animate(
+          this._refDark.current,
+          true,
+          this.props.callOnCompleteHandler
+        )
       }
       if (this._refLight.current) {
         this.animate(this._refLight.current, false)
       }
     })
   }
-  animate(element, animateOnStart = true, onComplete = null) {
+  animate(element, animateOnStart = true, callback = null) {
     const min = 1
     const max = 88
     let start = 0,
@@ -82,7 +95,7 @@ export default class ProgressIndicatorCircular extends PureComponent {
       ms = timestamp - start
 
       if (animate) {
-        if (!this.props.visible && prog < 5) {
+        if (!this.state.visible && prog < 5) {
           prog = min
         }
         if (setProg) {
@@ -97,18 +110,16 @@ export default class ProgressIndicatorCircular extends PureComponent {
         animate = false
         if (!completeCalled) {
           completeCalled = true
-          if (animateOnStart && typeof onComplete === 'function') {
-            console.log('onComplete')
-            onComplete()
+          if (animateOnStart && typeof callback === 'function') {
+            callback()
           }
-          // } else if (this.props.visible && prog === min) {
-        } else if (this.props.visible && ms % 1e3 > 970) {
-          animate = true
+        } else if (this.state.visible && ms % 1e3 > 950) {
+          // this.startAnimationFirstTime() // will not start completely from scratch
           stopNextRound = false
         }
       } else {
         // make sure we stop next round
-        stopNextRound = !this.props.visible && prog === min
+        stopNextRound = !this.state.visible && prog === min
         animate = true
         completeCalled = false
       }
@@ -133,15 +144,21 @@ export default class ProgressIndicatorCircular extends PureComponent {
     const {
       size,
       maxOffset,
-      progress,
+      progress: _progress, // eslint-disable-line
       visible, // eslint-disable-line
-      onComplete // eslint-disable-line
+      complete, // eslint-disable-line
+      onComplete, // eslint-disable-line
+      callOnCompleteHandler, // eslint-disable-line
+
+      ...rest
     } = this.props
-    // console.log('visible', visible)
+
+    const { progress } = this.state
+
     const strokeDashoffset = maxOffset - (maxOffset / 100) * progress
     const hasProgressIndicator = parseFloat(progress) > -1
 
-    const params = {}
+    const params = { ...rest }
     if (hasProgressIndicator) {
       params['title'] = `${progress}%`
       params['aria-label'] = `${progress}%`
@@ -172,6 +189,7 @@ export default class ProgressIndicatorCircular extends PureComponent {
         <Circle
           className={classnames(
             'dnb-progress-indicator__circular__line',
+            'dark',
             'dark',
             hasProgressIndicator || this.useAnimationFrame
               ? 'paused'
