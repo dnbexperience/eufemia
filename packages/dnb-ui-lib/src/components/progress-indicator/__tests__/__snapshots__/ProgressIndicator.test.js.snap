@@ -38,6 +38,24 @@ exports[`Circular ProgressIndicator component have to match snapshot 1`] = `
         title="50%"
       >
         <ForwardRef
+          className="dnb-progress-indicator__circular__line light paused"
+        >
+          <svg
+            className="dnb-progress-indicator__circular__line light paused"
+            shapeRendering="geometricPrecision"
+            viewBox="0 0 32 32"
+          >
+            <circle
+              className="dnb-progress-indicator__circular__circle"
+              cx="16"
+              cy="16"
+              fill="none"
+              r="14"
+              strokeWidth="4"
+            />
+          </svg>
+        </ForwardRef>
+        <ForwardRef
           className="dnb-progress-indicator__circular__line dark paused"
           style={
             Object {

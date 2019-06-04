@@ -58,7 +58,7 @@ export default class ProgressIndicatorCircular extends PureComponent {
         this.animate(this._refDark.current, true, this.props.onComplete)
       }
       if (this._refLight.current) {
-        // this.animate(this._refLight.current, false)
+        this.animate(this._refLight.current, false)
       }
     })
   }
@@ -67,10 +67,10 @@ export default class ProgressIndicatorCircular extends PureComponent {
     const max = 88
     let start = 0,
       ms = 0,
-      count = 0,
       prog = max,
-      animate = animateOnStart,
-      stopNextRoundState = this.props.visible,
+      setProg = animateOnStart,
+      animate = true,
+      completeCalled = false,
       stopNextRound = false
 
     const step = timestamp => {
@@ -81,57 +81,45 @@ export default class ProgressIndicatorCircular extends PureComponent {
       // milliseconds
       ms = timestamp - start
 
-      // console.log('animate?', animate)
-
-      if (stopNextRoundState === this.props.visible) {
-        // console.log('stop animate')
-        // animate = false
+      if (animate) {
+        if (!this.props.visible && prog < 5) {
+          prog = min
+        }
+        if (setProg) {
+          element.style['stroke-dashoffset'] = prog
+        } else if (!animateOnStart) {
+          element.style['stroke-dashoffset'] = max
+        }
       }
 
-      if (animate) {
-        //   // console.log('ms', animate, prog)
-        if (stopNextRound) {
-          prog = animateOnStart ? min : prog
+      // if complete
+      if (stopNextRound) {
+        animate = false
+        if (!completeCalled) {
+          completeCalled = true
+          if (animateOnStart && typeof onComplete === 'function') {
+            console.log('onComplete')
+            onComplete()
+          }
+          // } else if (this.props.visible && prog === min) {
+        } else if (this.props.visible && ms % 1e3 > 970) {
+          animate = true
+          stopNextRound = false
         }
-        element.style['stroke-dashoffset'] = prog
-      } else if (!animateOnStart) {
-        // if (stopNextRound) {
-        //   prog = animateOnStart ? min : max
-        // }
-        element.style['stroke-dashoffset'] = max
+      } else {
+        // make sure we stop next round
+        stopNextRound = !this.props.visible && prog === min
+        animate = true
+        completeCalled = false
       }
 
       // sice we have 1sec as duration, and we want always a max of 1000ms
-      count = ms % 1e3
-
-      // do count from 88 to 1
-      if (!stopNextRound) {
-        prog = Math.round(max - (max / 1e3) * count)
-      }
+      prog = Math.round(max - (max / 1e3) * (ms % 1e3))
 
       // calc if we want to animate
-      animate = animateOnStart
+      setProg = animateOnStart
         ? Math.ceil(ms / 1e3) % 2 === 1 || ms === 0
-        : Math.ceil(ms / 1e3) % 2 === 0 && ms !== 0 // && !stopNextRound
-
-      // make sure we stop next round
-      stopNextRound =
-        !this.props.visible && animate && animate % 2 && prog < 5
-
-      // if complete
-      if (stopNextRound && prog === min) {
-        // if (animate) {
-        stopNextRoundState = this.props.visible
-        // animate = false
-        // }
-        if (animateOnStart && typeof onComplete === 'function') {
-          console.log('onComplete')
-          onComplete()
-        }
-      }
-      // if(stopNextRound && !this.props.visible){
-      //   animate
-      // }
+        : Math.ceil(ms / 1e3) % 2 === 0 && ms !== 0
 
       if (this.state.animate) {
         window.requestAnimationFrame(step)
@@ -174,13 +162,13 @@ export default class ProgressIndicatorCircular extends PureComponent {
         {...params}
       >
         {/* The first one is the background line */}
-        {/* <Circle
+        <Circle
           className={classnames(
             'dnb-progress-indicator__circular__line',
             'light',
             'paused'
           )}
-        /> */}
+        />
         <Circle
           className={classnames(
             'dnb-progress-indicator__circular__line',
@@ -192,7 +180,7 @@ export default class ProgressIndicatorCircular extends PureComponent {
           style={hasProgressIndicator ? { strokeDashoffset } : {}}
           ref={this._refDark}
         />
-        {/* {!hasProgressIndicator && (
+        {!hasProgressIndicator && (
           <Circle
             className={classnames(
               'dnb-progress-indicator__circular__line',
@@ -201,7 +189,7 @@ export default class ProgressIndicatorCircular extends PureComponent {
             )}
             ref={this._refLight}
           />
-        )} */}
+        )}
       </div>
     )
   }

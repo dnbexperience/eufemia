@@ -28,7 +28,7 @@ export default [
 const ProgressIndicatorCircular = () => {
   const [visible, setVisibe] = useState(true)
   useEffect(() => {
-    const timer = setInterval(() => setVisibe(!visible), 2400)
+    const timer = setInterval(() => setVisibe(!visible), 3400)
     return () => clearInterval(timer)
   })
   return (
