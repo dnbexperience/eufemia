@@ -78,6 +78,15 @@ describe('Button component', () => {
     ).toBe(true)
   })
 
+  it('has "on_click" event witch will trigger on a click', () => {
+    const my_event = jest.fn()
+    const myEvent = jest.fn()
+    const Comp = mount(<Component on_click={my_event} onClick={myEvent} />)
+    Comp.simulate('click')
+    expect(my_event.mock.calls.length).toBe(1)
+    expect(myEvent.mock.calls.length).toBe(1)
+  })
+
   it('should validate with ARIA rules as a button', async () => {
     const Comp = mount(<Component {...props} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
