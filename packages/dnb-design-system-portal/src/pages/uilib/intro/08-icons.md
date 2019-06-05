@@ -19,6 +19,6 @@ It is recommended to use the [Icon Component](!/uilib/components/icon) to displa
 
 ---
 
-[Next - Components, Elements and Patterns](/uilib/intro/09-layout?fullscreen)
+<IntroFooter href="/uilib/intro/09-layout" text="Next - Components, Elements and Patterns" />
 
 </Intro>

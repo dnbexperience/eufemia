@@ -4,16 +4,34 @@ draft: true
 order: 10
 ---
 
+import { Button } from 'dnb-ui-lib/src'
+
 <Intro>
 
 # Components, Elements and Patterns
 
-- [Components](!/uilib/components) are custom made **user interaction elements** with an internal state, your application can interact with.
-- [Elements](!/uilib/elements) are basicity ready to use styled HTML elements.
-- [Patterns](!/uilib/patterns) are larger components, less strictly defined, but with a more flexible outcome.
+## [Components](!/uilib/components)
+
+Components are custom made **user interaction elements** with an internal state, your application can interact with.
+
+<div className="example-box" align="center">
+  <Button text="Button" />
+</div>
+
+## [Elements](!/uilib/elements)
+
+Elements are basicity ready to use styled HTML elements.
+
+<div className="example-box" align="center">
+  <a className="dnb-anchor" href="/">Anchor (Text Link)</a>
+</div>
+
+## [Patterns](!/uilib/patterns)
+
+Patterns are larger components, less strictly defined, but with a more flexible outcome.
 
 ---
 
-[Next - Usage of Components and Patterns](/uilib/intro/11-usage-of-components-elements?fullscreen)
+<IntroFooter href="/uilib/intro/11-usage-of-components-elements" text="Next - Usage of Components and Patterns" />
 
 </Intro>

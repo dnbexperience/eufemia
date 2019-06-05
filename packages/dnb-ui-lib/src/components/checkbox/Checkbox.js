@@ -22,6 +22,7 @@ const renderProps = {
 
 export const propTypes = {
   label: PropTypes.string,
+  label_position: PropTypes.string,
   title: PropTypes.string,
   default_state: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   checked: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -48,6 +49,7 @@ export const propTypes = {
 
 export const defaultProps = {
   label: null,
+  label_position: 'right',
   title: null,
   default_state: null,
   checked: 'default', //we have to send this as a string
@@ -72,7 +74,7 @@ export const defaultProps = {
 }
 
 /**
- * The checkbox component is our enhancement of the classic radio button. It acts like a checkbox. Example: On/off, yes/no.
+ * The checkbox component is our enhancement of the classic checkbox button. It acts like a checkbox. Example: On/off, yes/no.
  */
 export default class Checkbox extends Component {
   static tagName = 'dnb-checkbox'
@@ -157,6 +159,7 @@ export default class Checkbox extends Component {
       status_state,
       status_animation,
       label,
+      label_position,
       title,
       disabled,
       readOnly,
@@ -211,33 +214,40 @@ export default class Checkbox extends Component {
 
     return (
       <>
-        {label && (
-          <FormLabel
-            id={id + '-label'}
-            for_id={id}
-            text={label}
-            disabled={disabled}
-          />
-        )}
-        <span className={classes}>
-          <span className="dnb-checkbox__shell">
-            <input
-              id={id}
-              name={id}
-              type="checkbox"
-              title={title}
-              aria-checked={checked}
-              className="dnb-checkbox__input"
-              value={checked ? value || '' : ''}
-              {...inputParams}
-              onChange={this.onChangeHandler}
-              onKeyDown={this.onKeyDownHandler}
-              ref={this._refInput}
+        <span
+          className={classnames(
+            label_position &&
+              `dnb-checkbox--label-position-${label_position}`
+          )}
+        >
+          {label && (
+            <FormLabel
+              id={id + '-label'}
+              for_id={id}
+              text={label}
+              disabled={disabled}
             />
-            <span aria-hidden className="dnb-checkbox__button">
-              <span className="dnb-checkbox__focus" />
+          )}
+          <span className={classes}>
+            <span className="dnb-checkbox__shell">
+              <input
+                id={id}
+                name={id}
+                type="checkbox"
+                title={title}
+                aria-checked={checked}
+                className="dnb-checkbox__input"
+                value={checked ? value || '' : ''}
+                {...inputParams}
+                onChange={this.onChangeHandler}
+                onKeyDown={this.onKeyDownHandler}
+                ref={this._refInput}
+              />
+              <span aria-hidden className="dnb-checkbox__button">
+                <span className="dnb-checkbox__focus" />
+              </span>
+              <CheckGfx className="dnb-checkbox__gfx" />
             </span>
-            <CheckGfx className="dnb-checkbox__gfx" />
           </span>
           {showStatus && (
             <FormStatus

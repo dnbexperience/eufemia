@@ -17,7 +17,9 @@
   border-collapse: collapse;
 
   & th,
-  & td {
+  & td,
+  & .dnb-table__th,
+  & .dnb-table__td {
     // to make sure we have the ability to have a border where ever we want
     border-bottom: 1px solid transparent;
 
@@ -28,7 +30,8 @@
     word-break: keep-all;
     text-align: left;
   }
-  & th {
+  & th,
+  & .dnb-table__th {
     padding: 3rem 1rem 0.5rem;
 
     font-weight: var(--font-weight-medium);
@@ -37,12 +40,14 @@
     background-color: var(--color-mint-green-50);
     border-bottom: 1px solid var(--color-mint-green);
   }
-  &--tabular td {
+  &--tabular td,
+  &--tabular .dnb-table__th {
     @include numberFeature(tabular-nums, lnum);
   }
 
   // sortable
-  & th#{&}--sortable {
+  & th#{&}--sortable,
+  & .dnb-table__th#{&}--sortable {
     color: var(--color-emerald-green);
 
     .dnb-icon {
@@ -105,7 +110,8 @@
       }
     }
   }
-  & th#{&}--active {
+  & th#{&}--active,
+  & .dnb-table__th#{&}--active {
     a,
     .dnb-anchor,
     .dnb-button,
@@ -121,7 +127,8 @@
       }
     }
   }
-  & th#{&}--reversed {
+  & th#{&}--reversed,
+  & .dnb-table__td#{&}--reversed {
     a,
     .dnb-anchor,
     .dnb-button,
@@ -132,21 +139,28 @@
     }
   }
 
-  & th#{&}--no-wrap {
+  & th#{&}--no-wrap,
+  & .dnb-table__th#{&}--no-wrap {
     white-space: nowrap;
   }
-  & td {
+  & td,
+  & .dnb-table__td {
     padding: 1rem;
     padding-top: 1.25rem;
     padding-bottom: 1.1875rem;
   }
-  & tr {
+  & tr,
+  & .dnb-table__tr,
+  & .dnb-table__tr--odd {
     background-color: var(--color-white);
   }
-  & tr:nth-of-type(2n) {
+  & tr:not(.dnb-table__tr--odd):nth-of-type(2n),
+  & .dnb-table__tr:not(.dnb-table__tr--odd):nth-of-type(2n),
+  & .dnb-table__tr--even {
     background-color: var(--color-mint-green-12);
   }
-  & tr:last-of-type td {
+  & tr:last-of-type td,
+  & .dnb-table__tr:last-of-type .dnb-table__td {
     // to get the perfect height of pixles, to this:
     padding-bottom: calc(1.1875rem - 1px);
     border-bottom: 1px solid var(--color-mint-green-50);

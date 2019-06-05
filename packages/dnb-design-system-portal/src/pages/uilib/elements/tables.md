@@ -75,6 +75,43 @@ The following table has a default style. But in future, there will be several pa
 `}
 </ComponentBox>
 
+### Classes
+
+There are a couple helper classes to style tables:
+
+- `.dnb-table__th` Table Header
+- `.dnb-table__td` Table Data
+- `.dnb-table__tr` Table Row
+- `.dnb-table__tr--even` Use this on a `tr`
+- `.dnb-table__tr--odd` Use this on a `tr`
+- `.dnb-table--no-wrap` Use this on a `th`
+- `.dnb-table--active` Use this on a `th`
+- `.dnb-table--sortable` Use this on a `th`
+- `.dnb-table--reversed` Use this on a `th`
+- `.dnb-table--tabular` Use this on the `table` root
+
+<ComponentBox reactLive hideCode data-dnb-test="table-classes" caption="Example usage of class helpers">
+{`
+<table className="dnb-table">
+  <thead>
+    <tr className="dnb-table__tr">
+      <th colSpan="2" className="dnb-table__th">
+        .dnb-table__th
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr className="dnb-table__tr dnb-table__tr--even">
+      <td className="dnb-table__td">.dnb-table__td .dnb-table__tr--even</td>
+    </tr>
+    <tr className="dnb-table__tr dnb-table__tr--odd">
+      <td className="dnb-table__td">.dnb-table__td .dnb-table__tr--odd</td>
+    </tr>
+  </tbody>
+</table>
+`}
+</ComponentBox>
+
 ### Tabular Numbers
 
 Set [Tabular Lining](/uilib/typography/numbers) on tables by using this CSS class: `.dnb-table--tabular`

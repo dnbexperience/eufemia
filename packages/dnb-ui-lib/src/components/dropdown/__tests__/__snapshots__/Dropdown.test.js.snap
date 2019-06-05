@@ -222,7 +222,7 @@ exports[`Dropdown scss have to match default theme snapshot 1`] = `
   --dropdown-text-color--disabled: var(--color-sea-green-alt-30);
   --dropdown-border-color: var(--color-sea-green-alt);
   --dropdown-border-color--selected: var(--color-emerald-green);
-  --dropdown-options-border-radius: 0.5rem;
+  --dropdown-options-border-radius: 0.25rem;
   --dropdown-option-color: var(--color-black-80);
   --dropdown-option-color--hover: var(--color-sea-green);
   --dropdown-option-background-color: var(--color-white);
@@ -477,8 +477,7 @@ exports[`Dropdown scss have to match snapshot 1`] = `
   vertical-align: baseline;
   cursor: pointer;
   color: inherit;
-  width: auto;
-  white-space: nowrap; }
+  width: auto; }
   .dnb-form-label--vertical {
     margin-right: 0;
     margin-top: 0; }

@@ -485,6 +485,12 @@ exports[`Input scss have to match default theme snapshot 1`] = `
   .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']), .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']):not([data-input-state='disabled']):hover {
     box-shadow: 0 0 0 0.125rem var(--color-cherry-red);
     border-color: transparent; }
+  .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']) ~ .dnb-input__submit-button .dnb-button__icon,
+  .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']) ~ .dnb-input__submit-button .dnb-button--secondary .dnb-button__icon {
+    color: var(--color-cherry-red); }
+  .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']) ~ .dnb-input__submit-button .dnb-button {
+    box-shadow: 0 0 0 0.125rem var(--color-cherry-red);
+    border-color: transparent; }
   .dnb-input ::selection {
     background-color: var(--color-mint-green);
     color: var(--input-text-color--focus);
@@ -780,21 +786,6 @@ a.dnb-button .dnb-button__icon {
 a.dnb-button .dnb-button__text {
   transform: translateY(1px); }
 
-a.dnb-button:hover {
-  border-radius: var(--button-border-radius); }
-
-a.dnb-button--size-small, a.dnb-button--size-small:hover {
-  border-radius: var(--button-border-radius--small); }
-
-a.dnb-button--size-medium, a.dnb-button--size-medium:hover {
-  border-radius: var(--button-border-radius--medium); }
-
-a.dnb-button--size-large, a.dnb-button--size-large:hover {
-  border-radius: var(--button-border-radius--large); }
-
-a.dnb-button:active, a.dnb-button:focus {
-  border-radius: var(--button-border-radius); }
-
 /*
 * DNB FormLabel
 *
@@ -844,8 +835,7 @@ a.dnb-button:active, a.dnb-button:focus {
   vertical-align: baseline;
   cursor: pointer;
   color: inherit;
-  width: auto;
-  white-space: nowrap; }
+  width: auto; }
   .dnb-form-label--vertical {
     margin-right: 0;
     margin-top: 0; }

@@ -14,15 +14,17 @@ export default [
   () => (
     <Wrapper>
       <Box>
-        <FormLabel for_id="alone">Single Radio button:</FormLabel>
-        <Radio
-          id="alone"
-          value="I'm alone"
-          title="Give me a Title"
-          on_change={({ value, checked }) => {
-            console.log('on_change', value, checked)
-          }}
-        />
+        <p className="dnb-p">
+          Text: <FormLabel for_id="alone">Single Radio button:</FormLabel>
+          <Radio
+            id="alone"
+            value="I'm alone"
+            title="Give me a Title"
+            on_change={({ value, checked }) => {
+              console.log('on_change', value, checked)
+            }}
+          />
+        </p>
       </Box>
       <Box>
         <p className="dnb-p dnb-radio-group">
@@ -94,7 +96,7 @@ export default [
             label="Second"
             value="Second"
             label_position="right"
-            status="Error message"
+            status="Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
           />
           <Radio
             label="Third"
@@ -119,21 +121,21 @@ export default [
         </Radio.Group>
       </Box>
       <Box>
-        <Radio label="Unchecked disabled:" checked={false} disabled />
+        <Radio label="Unchecked disabled" checked={false} disabled />
       </Box>
       <Box>
-        <Radio label="Checked disabled:" checked disabled />
+        <Radio label="Checked disabled" checked disabled />
       </Box>
       <Box>
         <Radio
-          label="Unchecked status error:"
+          label="Unchecked status error"
           checked={false}
           status="error"
         />
       </Box>
       <Box>
         <Radio
-          label="Checked status message:"
+          label="Checked status message"
           checked
           status="Error message"
         />

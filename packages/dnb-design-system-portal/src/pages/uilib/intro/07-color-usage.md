@@ -35,6 +35,6 @@ See the [Color Table](!/uilib/usage/customisation/colors#colors-table).
 
 ---
 
-[Next - Icons](/uilib/intro/08-icons?fullscreen)
+<IntroFooter href="/uilib/intro/08-icons" text="Next - Icons" />
 
 </Intro>

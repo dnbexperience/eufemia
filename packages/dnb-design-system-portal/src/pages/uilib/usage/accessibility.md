@@ -16,7 +16,7 @@ Make sure your applications are [**universally designed**](https://uu.difi.no) a
 - define the tab navigation and [focus management](/uilib/usage/accessibility/focus#managing-the-focus-state) properly
 - have a [Skip Link](/uilib/usage/accessibility/focus#skip-link) in place
 - properly use the `for="#id"` attribute on [labels](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/label#Attributes)
-- make good use of `area-label` and `aria-hidden`, e.g. of [decorative content](/uilib/usage/accessibility/icons#decorative-icons)
+- make good use of `aria-label` and `aria-hidden`, e.g. of [decorative content](/uilib/usage/accessibility/icons#decorative-icons)
 - have `aria-live` in place for dynamic content
 - hide "hidden" content with `display: none;`, HTML `hidden` attribute or remove the markup entirely (like React States)
 - allow zooming in web pages. Example:

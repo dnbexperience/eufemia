@@ -22,6 +22,6 @@ Both UX designers and frontend web developers will have a huge benefit of **"tal
 
 ---
 
-[Next - UX handover](/uilib/intro/03-ux-handover?fullscreen)
+<IntroFooter href="/uilib/intro/03-ux-handover" text="Next - UX handover" />
 
 </Intro>

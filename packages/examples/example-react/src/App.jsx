@@ -24,33 +24,31 @@ export default class App extends PureComponent {
   render() {
     const { inputValue } = this.state
     return (
-      <>
-        <div className="dnb-core-style">
-          <Section className="dnb-spacing" useSpacing>
-            <H1>React Components</H1>
-            <P>
-              This is not for real world usage. But only to show the
-              functionality of the dnb-ui-lib
-            </P>
-            <Input
-              placeholder="Type someting ..."
-              value={inputValue}
-              on_change={this.handleValueChange}
-            />
-            <Button
-              text="Custom Element with icon"
-              icon="chevron_right"
-              on_click={this.handleClick}
-            />
-          </Section>
-          <Section className="dnb-spacing" useSpacing>
-            <Title>Colored H2 (by using --color-cherry-red)</Title>
-            <P>
-              Show me an Icon <Icon icon={Bell} size="medium" />
-            </P>
-          </Section>
-        </div>
-      </>
+      <div className="dnb-core-style">
+        <Section className="dnb-spacing" useSpacing>
+          <H1>React Components</H1>
+          <P>
+            This is not for real world usage. But only to show the
+            functionality of the dnb-ui-lib
+          </P>
+          <Input
+            placeholder="Type someting ..."
+            value={inputValue}
+            on_change={this.handleValueChange}
+          />
+          <Button
+            text="Custom Element with icon"
+            icon="chevron_right"
+            on_click={this.handleClick}
+          />
+        </Section>
+        <Section className="dnb-spacing" useSpacing>
+          <Title>Colored H2 (by using --color-cherry-red)</Title>
+          <P>
+            Show me an Icon <Icon icon={Bell} size="medium" />
+          </P>
+        </Section>
+      </div>
     )
   }
 }

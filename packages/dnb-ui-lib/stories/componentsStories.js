@@ -3,14 +3,17 @@
  *
  */
 
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { Wrapper, Box } from './helpers'
 import styled from '@emotion/styled'
 
 // UI Components
+import ButtonStory from './components/Button'
 import Radio from './components/Radio'
+import Checkbox from './components/Checkbox'
 import DatePicker from './components/DatePicker'
 import Textarea from './components/Textarea'
+import ProgressIndicator from './components/ProgressIndicator'
 import {
   Button,
   Tabs,
@@ -22,19 +25,20 @@ import {
   FormLabel,
   Dropdown,
   Switch,
-  Checkbox,
   Logo,
-  StepIndicator,
-  ProgressIndicator
+  StepIndicator
 } from '../src/components'
 import { H2, P, Hr } from '../src/elements'
 
 const stories = []
 export default stories
 
+stories.push(ButtonStory)
 stories.push(Radio)
+stories.push(Checkbox)
 stories.push(DatePicker)
 stories.push(Textarea)
+stories.push(ProgressIndicator)
 
 const CustomStyle = styled.div`
   p {
@@ -45,41 +49,6 @@ const CustomStyle = styled.div`
     max-width: var(--dropdown-width);
   }
 `
-
-stories.push([
-  'Buttons',
-  () => (
-    <Wrapper>
-      <Box>
-        <Button text="Primary" icon="add" />
-      </Box>
-      <Box>
-        <Button text="Primary" icon="add" disabled />
-      </Box>
-      <Box>
-        <Button text="Secondary" variant="secondary" icon="add" />
-        <Button
-          variant="secondary"
-          text="Secondary button with href"
-          href="?no-cache=1"
-          icon="add"
-          onClick={e => e.preventDefault()}
-        />
-      </Box>
-      <Box>
-        <Button text="Signal" variant="signal" icon="add" />
-      </Box>
-      <Box>
-        <Button
-          text="Tertiary"
-          variant="tertiary"
-          icon_position="left"
-          icon="add"
-        />
-      </Box>
-    </Wrapper>
-  )
-])
 
 stories.push([
   'Logo',
@@ -518,40 +487,6 @@ stories.push([
 ])
 
 stories.push([
-  'ProgressIndicator',
-  () => (
-    <Wrapper>
-      <Box>
-        <ProgressIndicator progress={50} no_animation />
-      </Box>
-      <Box>
-        <ProgressIndicator size="huge" no_animation />
-      </Box>
-      <Box>
-        <ProgressIndicatorCircular />
-      </Box>
-    </Wrapper>
-  )
-])
-const ProgressIndicatorCircular = () => {
-  const [visible, setVisibe] = useState(true)
-  useEffect(() => {
-    const timer = setInterval(() => setVisibe(!visible), 2400)
-    return () => clearInterval(timer)
-  })
-  return (
-    <ProgressIndicator
-      // progress={88}
-      size="huge"
-      visible={visible}
-      on_complete={() => {
-        console.log('on_complete')
-      }}
-    />
-  )
-}
-
-stories.push([
   'Dropdown',
   () => (
     <CustomStyle>
@@ -681,58 +616,6 @@ stories.push([
         </Box>
         <Box>
           <Switch label="Label:" checked status="Error message" />
-        </Box>
-      </Wrapper>
-    </CustomStyle>
-  )
-])
-stories.push([
-  'Checkbox',
-  () => (
-    <CustomStyle>
-      <Wrapper>
-        <Box>
-          <p className="dnb-p">
-            Text: <FormLabel for_id="checkbox">Unchecked:</FormLabel>
-            <Checkbox id="checkbox" />
-          </p>
-        </Box>
-        <Box>
-          <Checkbox
-            label="Checked:"
-            checked
-            on_change={({ checked }) => {
-              console.log('on_change', checked)
-            }}
-          />
-        </Box>
-        <Box>
-          <Checkbox
-            label="Unchecked:"
-            on_change={({ checked }) => {
-              console.log('on_change', checked)
-            }}
-          />
-        </Box>
-        <Box>
-          <Checkbox label="Unchecked disabled:" checked={false} disabled />
-        </Box>
-        <Box>
-          <Checkbox label="Checked disabled:" checked disabled />
-        </Box>
-        <Box>
-          <Checkbox
-            label="Unchecked status error:"
-            checked={false}
-            status="error"
-          />
-        </Box>
-        <Box>
-          <Checkbox
-            label="Checked status message:"
-            checked
-            status="Error message"
-          />
         </Box>
       </Wrapper>
     </CustomStyle>

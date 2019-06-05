@@ -187,6 +187,7 @@ export default class DatePickerCalendar extends PureComponent {
                 prevBtn={prevBtn}
                 onPrev={onPrev}
                 locale={locale}
+                onKeyDown={this.onKeyDownHandler}
               />
             </div>
             <label
@@ -206,6 +207,7 @@ export default class DatePickerCalendar extends PureComponent {
                 nextBtn={nextBtn}
                 onNext={onNext}
                 locale={locale}
+                onKeyDown={this.onKeyDownHandler}
               />
             </div>
           </div>
@@ -318,7 +320,15 @@ export default class DatePickerCalendar extends PureComponent {
   }
 }
 
-const PrevButton = ({ nr, minDate, month, prevBtn, onPrev, locale }) => {
+const PrevButton = ({
+  nr,
+  minDate,
+  month,
+  prevBtn,
+  onPrev,
+  locale,
+  onKeyDown
+}) => {
   if (!prevBtn) {
     return <></>
   }
@@ -335,6 +345,7 @@ const PrevButton = ({ nr, minDate, month, prevBtn, onPrev, locale }) => {
       aria-label={title}
       title={title}
       onClick={onClick}
+      onKeyDown={onKeyDown}
     />
   )
 }
@@ -344,13 +355,23 @@ PrevButton.propTypes = {
   month: PropTypes.object.isRequired,
   locale: PropTypes.object.isRequired,
   prevBtn: PropTypes.bool.isRequired,
-  onPrev: PropTypes.func.isRequired
+  onPrev: PropTypes.func.isRequired,
+  onKeyDown: PropTypes.func
 }
 PrevButton.defaultProps = {
-  minDate: null
+  minDate: null,
+  onKeyDown: null
 }
 
-const NextButton = ({ nr, maxDate, month, nextBtn, onNext, locale }) => {
+const NextButton = ({
+  nr,
+  maxDate,
+  month,
+  nextBtn,
+  onNext,
+  locale,
+  onKeyDown
+}) => {
   if (!nextBtn) {
     return <></>
   }
@@ -368,6 +389,7 @@ const NextButton = ({ nr, maxDate, month, nextBtn, onNext, locale }) => {
         aria-label={title}
         title={title}
         onClick={onClick}
+        onKeyDown={onKeyDown}
       />
     )
   )
@@ -378,10 +400,12 @@ NextButton.propTypes = {
   month: PropTypes.object.isRequired,
   locale: PropTypes.object.isRequired,
   nextBtn: PropTypes.bool.isRequired,
-  onNext: PropTypes.func.isRequired
+  onNext: PropTypes.func.isRequired,
+  onKeyDown: PropTypes.func
 }
 NextButton.defaultProps = {
-  maxDate: null
+  maxDate: null,
+  onKeyDown: null
 }
 
 const onSelectRange = ({

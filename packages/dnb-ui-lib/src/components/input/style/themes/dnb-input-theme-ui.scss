@@ -65,6 +65,17 @@
       @include fakeBorder(var(--color-cherry-red), 0.125rem);
     }
   }
+  &__status--error
+    &__shell:not([data-input-state='focus'])
+    ~ &__submit-button {
+    .dnb-button__icon,
+    .dnb-button--secondary .dnb-button__icon {
+      color: var(--color-cherry-red);
+    }
+    .dnb-button {
+      @include fakeBorder(var(--color-cherry-red), 0.125rem);
+    }
+  }
 
   ::selection {
     background-color: var(--color-mint-green);

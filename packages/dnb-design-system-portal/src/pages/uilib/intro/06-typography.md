@@ -15,7 +15,9 @@ Every typography HTML element, like headings and paragraphs, have a defined `hei
 You don't need to define the `font-family` ever, but rather use CSS Custom Properties for `font-weight`.
 
 ```css
-font-weight: var(--font-weight-demi);
+.selector {
+  font-weight: var(--font-weight-demi);
+}
 ```
 
 The default [font-weight](!/uilib/typography/font-weights) is currently **Book**, alongside _Demi_ and _Medium_.
@@ -26,6 +28,6 @@ Read [more about Typography](!/uilib/typography)
 
 ---
 
-[Next - Color usage](/uilib/intro/07-color-usage?fullscreen)
+<IntroFooter href="/uilib/intro/07-color-usage" text="Next - Color usage" />
 
 </Intro>

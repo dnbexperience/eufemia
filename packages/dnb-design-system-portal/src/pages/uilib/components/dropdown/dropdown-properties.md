@@ -15,7 +15,9 @@ import { Data } from 'Pages/uilib/components/dropdown/Examples'
 | `scrollable`          | _(optional)_ defines if the options list should be scrollable (the `max-height` is set by default to `50vh`). Defaults to `true`. |
 | `no_scroll_animation` | _(optional)_ to disable scrolling animation. Defaults to `false`.                                                                 |
 | `no_animation`        | _(optional)_ to disable appear/disappear (show/hide) animation. Defaults to `false`.                                              |
-| `max_height`          | _(optional)_ defines if the height (in `rem`) of the options list. Defualts to null, as this is set automatically by default.     |
+| `max_height`          | _(optional)_ defines if the height (in `rem`) of the options list. Defaults to null, as this is set automatically by default.     |
+| `status`              | _(optional)_ text with a status message. The style defaults to an error message.                                                  |
+| `status_state`        | _(optional)_ defines the state of the status. Currently are two statuses `[error, info]`. Defaults to `error`.                    |
 
 ## Data structure
 

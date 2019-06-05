@@ -22,9 +22,9 @@ Do you want to...
 
 ## So, how do I get started?
 
-You can [**follower this intro**](/uilib/intro), guiding You through all the elementary elements of Eufemia. Or continue reading all the articles in [the usage section](/uilib/usage/).
+You can follow a [**Quick Intro**](/uilib/intro), guiding You through all the elementary elements of Eufemia. Or continue reading all the articles in [the usage section](/uilib/usage/).
 
-<div align="left" className="dnb-section dnb-section--spacing dnb-section--mint-green">
+<div align="center" className="dnb-section dnb-section--spacing dnb-section--mint-green">
   <Button href="/uilib/intro" size="large" text="Quick Intro" />
 </div>
 

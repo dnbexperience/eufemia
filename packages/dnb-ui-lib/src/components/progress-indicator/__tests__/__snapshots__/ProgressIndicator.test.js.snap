@@ -26,17 +26,20 @@ exports[`Circular ProgressIndicator component have to match snapshot 1`] = `
     className="dnb-progress-indicator dnb-progress-indicator--visible"
   >
     <ProgressIndicatorCircular
+      callOnCompleteHandler={[Function]}
       complete={false}
       maxOffset={88}
+      onComplete={null}
       progress={50}
       size="medium"
+      visible={true}
     >
       <div
         aria-label="50%"
         className="dnb-progress-indicator__circular dnb-progress-indicator__circular--medium dnb-progress-indicator__circular--has-progress-indicator"
         title="50%"
       >
-        <Circle
+        <ForwardRef
           className="dnb-progress-indicator__circular__line light paused"
         >
           <svg
@@ -53,9 +56,9 @@ exports[`Circular ProgressIndicator component have to match snapshot 1`] = `
               strokeWidth="4"
             />
           </svg>
-        </Circle>
-        <Circle
-          className="dnb-progress-indicator__circular__line dark paused"
+        </ForwardRef>
+        <ForwardRef
+          className="dnb-progress-indicator__circular__line dark dark paused"
           style={
             Object {
               "strokeDashoffset": 44,
@@ -63,7 +66,7 @@ exports[`Circular ProgressIndicator component have to match snapshot 1`] = `
           }
         >
           <svg
-            className="dnb-progress-indicator__circular__line dark paused"
+            className="dnb-progress-indicator__circular__line dark dark paused"
             shapeRendering="geometricPrecision"
             style={
               Object {
@@ -81,7 +84,7 @@ exports[`Circular ProgressIndicator component have to match snapshot 1`] = `
               strokeWidth="4"
             />
           </svg>
-        </Circle>
+        </ForwardRef>
       </div>
     </ProgressIndicatorCircular>
   </div>
@@ -184,6 +187,7 @@ exports[`ProgressIndicator scss have to match snapshot 1`] = `
  *
  */
 :root {
+  --progress-indicator-timing: cubic-bezier(0.5, 0, 0.5, 0.99);
   --progress-indicator-circular-circle: 88;
   --progress-indicator-circular-circle-offset--min: 88;
   --progress-indicator-circular-circle-offset--max: 1; }
@@ -202,7 +206,7 @@ exports[`ProgressIndicator scss have to match snapshot 1`] = `
     .dnb-progress-indicator__circular__line {
       animation-duration: 2s;
       animation-delay: 200ms;
-      animation-timing-function: cubic-bezier(0.5, 0, 0.5, 0.99);
+      animation-timing-function: var(--progress-indicator-timing);
       animation-iteration-count: infinite; }
     .dnb-progress-indicator__circular__line.background {
       stroke-dashoffset: var(--progress-indicator-circular-circle-offset--max); }
@@ -217,7 +221,7 @@ exports[`ProgressIndicator scss have to match snapshot 1`] = `
     .dnb-progress-indicator__circular__line.paused {
       animation-play-state: paused; }
     .dnb-progress-indicator__circular--has-progress-indicator .dnb-progress-indicator__circular__line.dark {
-      transition: stroke-dashoffset 600ms cubic-bezier(0.5, 0, 0.5, 0.99); }
+      transition: stroke-dashoffset 600ms var(--progress-indicator-timing); }
     .dnb-progress-indicator__circular__circle {
       stroke-linecap: round; }
     .dnb-progress-indicator__circular__line.light .dnb-progress-indicator__circular__circle {
