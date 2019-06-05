@@ -1,8 +1,8 @@
-## May, 27. 2019
+## June, 5. 2019
 
 - New corner radius (border-radius) on `Dropdown` and `DatePicker`: 4px (0.25rem)
 
-## May, 27. 2019
+## June, 3. 2019
 
 - New component in the `dnb-ui-lib`: [Textarea](/uilib/components/textarea). Got also a wider corner radius by `16px (1rem)`.
 
