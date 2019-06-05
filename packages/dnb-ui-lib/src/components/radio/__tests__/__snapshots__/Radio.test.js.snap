@@ -327,6 +327,10 @@ exports[`Radio scss have to match default theme snapshot 1`] = `
     * aka when the radio is :checked
     */
   /*
+  * When radio is OFF
+  * aka when the radio is not :checked
+  */
+  /*
     * On disabled
     *
     */
@@ -352,6 +356,11 @@ exports[`Radio scss have to match default theme snapshot 1`] = `
     */
   /* stylelint-disable */
   /* stylelint-enable */ }
+  .dnb-radio__input {
+    opacity: 0; }
+  .dnb-radio__dot {
+    background-color: var(--color-sea-green-alt);
+    transition: opacity 200ms ease-out, transform 200ms ease-out; }
   .dnb-radio__input:not(:checked) ~ .dnb-radio__button {
     background-color: var(--color-white);
     border-color: var(--color-sea-green-alt); }
@@ -359,7 +368,11 @@ exports[`Radio scss have to match default theme snapshot 1`] = `
     background-color: var(--color-white);
     border-color: var(--color-sea-green-alt); }
   .dnb-radio__input:checked ~ .dnb-radio__dot {
-    background-color: var(--color-sea-green-alt); }
+    opacity: 1;
+    transform: scale(1); }
+  .dnb-radio__input:not(:checked) ~ .dnb-radio__dot {
+    opacity: 0;
+    transform: scale(0.8); }
   .dnb-radio__input[disabled] ~ .dnb-radio__button {
     border-color: var(--color-mint-green-50); }
   .dnb-radio__input[disabled]:checked ~ .dnb-radio__button {
