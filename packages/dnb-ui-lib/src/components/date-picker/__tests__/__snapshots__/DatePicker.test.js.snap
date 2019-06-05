@@ -842,7 +842,7 @@ exports[`DatePicker scss have to match default theme snapshot 1`] = `
     color: var(--color-emerald-green); }
   .dnb-date-picker__container {
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16);
-    border-radius: 0.3125rem;
+    border-radius: 0.25rem;
     background-color: var(--color-white); }
   .dnb-date-picker__calendar::after {
     background-color: var(--color-mint-green-50); }

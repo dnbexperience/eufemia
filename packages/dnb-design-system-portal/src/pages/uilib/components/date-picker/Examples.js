@@ -5,7 +5,8 @@
 
 import React, { PureComponent, Fragment } from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import DatePickerRange from 'dnb-ui-lib/src/components/date-picker/DatePickerRange'
+import DatePicker from 'dnb-ui-lib/src/components/date-picker/DatePicker'
+import styled from '@emotion/styled'
 
 class Example extends PureComponent {
   render() {
@@ -121,7 +122,7 @@ export default Example
 
 const ScreenshotTests = () => {
   return (
-    <>
+    <Wrapper>
       <ComponentBox data-dnb-test="date-picker-trigger-default">
         {/* @jsx */ `
 <DatePicker
@@ -159,11 +160,11 @@ const ScreenshotTests = () => {
 
       <div className="example-box">
         <div data-dnb-test="date-picker-calendar">
-          <DatePickerRange
-            range={true}
-            startDate={new Date('2019-05-05')}
-            endDate={new Date('2019-06-05')}
-            firstDayOfWeek={'monday'}
+          <DatePicker
+            opened="true"
+            range="true"
+            start_date="2019-05-05"
+            end_date="2019-06-05"
           />
         </div>
         <p className="example-caption">
@@ -171,6 +172,17 @@ const ScreenshotTests = () => {
           tests)
         </p>
       </div>
-    </>
+    </Wrapper>
   )
 }
+
+const Wrapper = styled.div`
+  [data-dnb-test='date-picker-calendar'] .dnb-date-picker__container {
+    display: block;
+    position: relative;
+    top: 0;
+  }
+  [data-dnb-test='date-picker-calendar'] .dnb-date-picker {
+    margin-left: 1rem;
+  }
+`

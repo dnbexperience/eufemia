@@ -33,7 +33,7 @@
 
   &__container {
     @include defaultDropShadow();
-    border-radius: 0.3125rem; // 5px
+    border-radius: 0.25rem;
     background-color: var(--color-white);
   }
 
