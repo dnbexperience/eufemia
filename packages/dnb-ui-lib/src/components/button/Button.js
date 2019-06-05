@@ -111,6 +111,8 @@ export default class Button extends PureComponent {
 
     // pass along all props we wish to have as params
     this.renderProps = pickRenderProps(props, renderProps)
+
+    this.state = { afterContent: null }
   }
 
   componentDidMount() {
@@ -128,7 +130,14 @@ export default class Button extends PureComponent {
     }
   }
   onClickHandler = event => {
-    dispatchCustomElementEvent(this, 'on_click', { event })
+    const afterContent = dispatchCustomElementEvent(this, 'on_click', {
+      event
+    })
+    if (afterContent && React.isValidElement(afterContent)) {
+      this.setState({
+        afterContent
+      })
+    }
   }
   render() {
     const {
@@ -152,8 +161,6 @@ export default class Button extends PureComponent {
 
     let usedVariant = variant
     let usedSize = size
-
-    // let {  size } = props
 
     // if only has Icon, then resize it and define it as secondary
     const isIconOnly = Boolean(!text && icon)
@@ -210,22 +217,27 @@ export default class Button extends PureComponent {
     // also used for code markup simulation
     validateDOMAttributes(this.props, params)
 
-    return href ? (
-      <a href={href} ref={this._ref} {...params}>
-        <Content
-          {...this.props}
-          content={content}
-          isIconOnly={isIconOnly}
-        />
-      </a>
-    ) : (
-      <button ref={this._ref} {...params}>
-        <Content
-          {...this.props}
-          content={content}
-          isIconOnly={isIconOnly}
-        />
-      </button>
+    return (
+      <>
+        {href ? (
+          <a href={href} ref={this._ref} {...params}>
+            <Content
+              {...this.props}
+              content={content}
+              isIconOnly={isIconOnly}
+            />
+          </a>
+        ) : (
+          <button ref={this._ref} {...params}>
+            <Content
+              {...this.props}
+              content={content}
+              isIconOnly={isIconOnly}
+            />
+          </button>
+        )}
+        {this.state.afterContent}
+      </>
     )
   }
 }

@@ -57,15 +57,6 @@ describe('"validateDOMAttributes" should', () => {
     expect(res2).toHaveProperty('disabled')
   })
 
-  it('props "on_click" property should be returned as a "onClick" property if its a function', () => {
-    const props = {
-      on_click: () => {}
-    }
-    const params = {}
-    const res = validateDOMAttributes(props, params)
-    expect(res).toHaveProperty('onClick')
-  })
-
   it('pass thru rest attrinutes', () => {
     const props = {}
     const params = { 'aria-hidden': true }
@@ -97,7 +88,6 @@ describe('"validateDOMAttributes" should', () => {
     }
     const res = validateDOMAttributes(props, params)
     expect(res).toHaveProperty('onChange')
-    expect(res).toHaveProperty('onClick')
     expect(res).not.toHaveProperty('someting')
   })
 })

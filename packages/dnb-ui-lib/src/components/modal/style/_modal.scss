@@ -3,6 +3,10 @@
  *
  */
 
+:root {
+  --modal-z-index: 3000;
+}
+
 [data-dnb-modal-active='true'] {
   user-select: none;
 }
@@ -20,7 +24,7 @@
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 3001;
+    z-index: calc(var(--modal-z-index) + 1);
 
     display: flex;
     align-items: center;
@@ -48,7 +52,7 @@
       background: var(--color-white);
 
       @include allAbove(medium) {
-        padding: 2rem 3rem;
+        padding: 2rem 2rem 3rem;
         padding-right: 4rem;
         @include defaultDropShadow();
       }
@@ -65,13 +69,17 @@
     }
   }
 
-  &__title.dnb-h2 {
-    margin: 0 0 2rem;
+  &__title {
+    &.dnb-h2,
+    .dnb-core-style &.dnb-h2 {
+      margin: 0;
+    }
   }
-
-  // no styles set yet
-  // &__trigger {
-  // }
+  &__wrapper {
+    position: relative;
+    z-index: 1;
+    margin-top: 1.5rem;
+  }
 
   &__close-button {
     // NB: as the specificity is several levels deep: :not([dnb-is-touch]) .dnb-button--secondary:hover:not([disabled])
@@ -88,7 +96,7 @@
 
   &__overlay {
     position: fixed;
-    z-index: 3000;
+    z-index: var(--modal-z-index);
     left: 0;
     top: 0;
 

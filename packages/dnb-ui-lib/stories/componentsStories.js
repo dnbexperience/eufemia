@@ -14,6 +14,7 @@ import Checkbox from './components/Checkbox'
 import DatePicker from './components/DatePicker'
 import Textarea from './components/Textarea'
 import ProgressIndicator from './components/ProgressIndicator'
+import Modal from './components/Modal'
 import {
   Button,
   Tabs,
@@ -21,14 +22,13 @@ import {
   InputMasked,
   Icon,
   IconPrimary,
-  Modal,
   FormLabel,
   Dropdown,
   Switch,
   Logo,
   StepIndicator
 } from '../src/components'
-import { H2, P, Hr } from '../src/elements'
+import { H2 } from '../src/elements'
 
 const stories = []
 export default stories
@@ -39,6 +39,7 @@ stories.push(Checkbox)
 stories.push(DatePicker)
 stories.push(Textarea)
 stories.push(ProgressIndicator)
+stories.push(Modal)
 
 const CustomStyle = styled.div`
   p {
@@ -318,125 +319,6 @@ stories.push([
           variant="tertiary"
           icon="add"
         />
-      </Box>
-    </Wrapper>
-  )
-])
-
-class ModalCloseExample extends React.PureComponent {
-  state = {
-    open_state: null
-  }
-
-  // constructor(props) {
-  //   super(props)
-  //
-  //   setTimeout(() => {
-  //     this.setState({
-  //       open_state: 'opened'
-  //     })
-  //     setTimeout(() => {
-  //       this.setState({
-  //         open_state: 'closed'
-  //       })
-  //     }, 3e3)
-  //   }, 1e3)
-  // }
-
-  render() {
-    return (
-      <Modal
-        trigger_text="Open Modal and auto close"
-        title="Modal Title"
-        // open_state={this.state.open_state}
-        // open_modal={open => {
-        //   setTimeout(open, 3e3)
-        // }}
-        hide_close_button
-        close_modal={close => {
-          console.log('Modal was opened')
-          setTimeout(close, 3e3)
-        }}
-      >
-        <Wrapper>
-          <Hr />
-          <Box>
-            <H2>Some content</H2>
-            <Input>Focus me with Tab key</Input>
-          </Box>
-          <Box>
-            <P>
-              <Switch label="Checked:" checked />
-            </P>
-          </Box>
-        </Wrapper>
-      </Modal>
-    )
-  }
-}
-class ModalRerenderExample extends React.PureComponent {
-  state = {
-    title: 'Modal Title',
-    trigger_text: 'Open Modal'
-  }
-
-  componentDidMount() {
-    setTimeout(() => {
-      this.setState({ title: 'New Title' })
-      this.setState({ trigger_text: 'New Open Modal' })
-    }, 1e3)
-  }
-
-  render() {
-    return (
-      <Modal
-        trigger_text={this.state.trigger_text}
-        title={this.state.title}
-        trigger_disabled
-        // trigger_hidden
-      >
-        <Wrapper>
-          <Hr />
-          <Box>
-            <H2>Some content</H2>
-            <Input>Focus me with Tab key</Input>
-          </Box>
-          <Box>
-            <P>
-              <Switch label="Checked:" checked />
-            </P>
-          </Box>
-        </Wrapper>
-      </Modal>
-    )
-  }
-}
-
-stories.push([
-  'Modal',
-  () => (
-    <Wrapper>
-      <Box>
-        <Modal trigger_text="Open Modal" title="Modal Title">
-          <Wrapper>
-            <Hr />
-            <Box>
-              <H2>Some content</H2>
-              <Input>Focus me with Tab key</Input>
-            </Box>
-            <Box>
-              <P>
-                <Switch label="Checked:" checked />
-              </P>
-            </Box>
-          </Wrapper>
-        </Modal>
-      </Box>
-      <Box>
-        <ModalRerenderExample />
-      </Box>
-      <Box>
-        <ModalCloseExample />
       </Box>
     </Wrapper>
   )
