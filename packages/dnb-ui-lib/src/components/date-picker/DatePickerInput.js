@@ -512,7 +512,7 @@ export default class DatePickerInput extends PureComponent {
     return (
       <Input
         id={`${id}__input`}
-        input_state={focusState}
+        input_state={disabled ? 'disabled' : focusState}
         inputElement={this.renderInputElement}
         disabled={disabled}
         status={!opened ? status : null}
