@@ -1,6 +1,11 @@
+---
+draft: true
+---
+
 import Img from 'Tags/Img'
 import ModalExample from './assets/modal-example.svg'
 import ModalExampleButtons from './assets/modal-example-buttons.svg'
+import Examples from 'Pages/uilib/components/modal/Examples'
 
 ## Description
 
@@ -51,3 +56,17 @@ Just place this as a sibling of Your App root HTML element. This ensures that we
   <div id="dnb-modal-root" />
 </body>
 ```
+
+### Z-index
+
+The Modal component is using **3000** as the `z-index`.
+
+```css
+:root {
+  --modal-z-index: 3000;
+}
+```
+
+## Demos
+
+<Examples />

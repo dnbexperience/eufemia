@@ -25,16 +25,13 @@ const props = fakeProps(require.resolve('../Modal'), {
 props.title = 'modal_title'
 props.id = 'modal_id'
 props.content_id = 'modal_content_id'
+props.modal_content = 'unique_modal_content'
 props.close_title = 'close_title'
+props.direct_dom_return = true
+props.preventSetTriggerRef = true // we set preventSetTriggerRef to true, cause jest gives us an error
 
 describe('Modal component', () => {
-  const Comp = mount(
-    <Component
-      {...props}
-      modal_content="unique_modal_content"
-      preventSetTriggerRef={true} // we set preventSetTriggerRef to true, cause jest gives us an error
-    />
-  )
+  const Comp = mount(<Component {...props} />)
   Comp.setState({
     modalActive: true
   })
@@ -64,7 +61,7 @@ describe('Modal component', () => {
     ).toBe(true)
   })
   it('has an opened modal if open_state is set to "opened"', () => {
-    const Comp = mount(<Component modal_content="unique_modal_content" />)
+    const Comp = mount(<Component {...props} />)
     Comp.setProps({
       open_state: 'opened'
     })

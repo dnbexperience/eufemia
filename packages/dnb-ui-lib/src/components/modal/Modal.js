@@ -10,6 +10,7 @@ import classnames from 'classnames'
 import keycode from 'keycode'
 import * as bodyScrollLock from 'body-scroll-lock'
 import {
+  isTrue,
   isTouchDevice,
   registerElement,
   processChildren,
@@ -45,6 +46,7 @@ export const propTypes = {
   trigger_text: PropTypes.string,
   trigger_title: PropTypes.string,
   trigger_icon: PropTypes.string,
+  trigger_icon_position: PropTypes.string,
   trigger_class: PropTypes.string,
   content_id: PropTypes.string,
   close_title: PropTypes.string,
@@ -54,6 +56,10 @@ export const propTypes = {
   ]),
   prevent_close: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   open_state: PropTypes.oneOf(['opened', 'closed']),
+  direct_dom_return: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool
+  ]),
   class: PropTypes.string,
 
   // React props
@@ -89,12 +95,15 @@ export const defaultProps = {
   trigger_variant: 'secondary',
   trigger_text: null,
   trigger_title: 'Open Modal',
-  trigger_icon: 'question',
+  trigger_icon: null,
+  trigger_icon_position: 'left',
   trigger_class: null,
   content_id: null,
   close_title: 'Close Modal Window',
   hide_close_button: false,
   prevent_close: false,
+  open_state: null,
+  direct_dom_return: false,
   class: null,
 
   // React props
@@ -138,6 +147,8 @@ export default class Modal extends PureComponent {
         console.log('Could not insert dnb-modal-root', e)
       }
     }
+
+    return Modal.modalRoot
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -167,31 +178,17 @@ export default class Modal extends PureComponent {
     if (!props.preventSetTriggerRef) {
       this._triggerRef = React.createRef()
     }
-
-    // TODO: Remove warning in v4.
-    if (process.env.NODE_ENV === 'development') {
-      Object.entries(props).forEach(([k, v]) => {
-        if (['modal_trigger_text', 'modal_trigger_title'].includes(k)) {
-          console.warn(
-            `Using '${k}' is deprecated. Use ${k.replace(
-              /modal_/g,
-              ''
-            )}="${v}" instead!`
-          )
-        }
-      })
-    }
   }
 
   componentDidMount() {
     const { open_modal, open_state } = this.props
+    if (open_state) {
+      this.handleSideEffects(this.state.modalActive)
+    }
     if (typeof open_modal === 'function') {
       open_modal(() => {
         this.toggleOpenClose(null, true)
       }, this)
-    }
-    if (open_state) {
-      this.handleSideEffects(this.state.modalActive)
     }
   }
   componentWillUnmount() {
@@ -213,19 +210,23 @@ export default class Modal extends PureComponent {
     this.handleSideEffects(modalActive)
   }
   handleSideEffects = modalActive => {
-    Modal.insertModalRoot()
+    if (!isTrue(this.props.direct_dom_return)) {
+      Modal.insertModalRoot()
+    }
 
     // prevent scrolling on the background
-    try {
-      document.body.setAttribute(
-        'data-dnb-modal-active',
-        modalActive ? 'true' : 'false'
-      )
-    } catch (e) {
-      console.log(
-        'Error on set "data-dnb-modal-active" by using element.setAttribute()',
-        e
-      )
+    if (typeof document !== 'undefined') {
+      try {
+        document.body.setAttribute(
+          'data-dnb-modal-active',
+          modalActive ? 'true' : 'false'
+        )
+      } catch (e) {
+        console.log(
+          'Error on set "data-dnb-modal-active" by using element.setAttribute()',
+          e
+        )
+      }
     }
 
     if (modalActive) {
@@ -256,7 +257,7 @@ export default class Modal extends PureComponent {
   }
   close = e => {
     const { prevent_close } = this.props
-    if (String(prevent_close) === 'true') {
+    if (isTrue(prevent_close)) {
       if (!this.isClosing) {
         const id = this._id
         this.isClosing = true
@@ -275,6 +276,7 @@ export default class Modal extends PureComponent {
   render() {
     const {
       id, // eslint-disable-line
+      open_state, // eslint-disable-line
       preventSetTriggerRef, // eslint-disable-line
       labelled_by,
       trigger_hidden,
@@ -283,6 +285,7 @@ export default class Modal extends PureComponent {
       trigger_text,
       trigger_title,
       trigger_icon,
+      trigger_icon_position,
       trigger_class,
       ...rest
     } = this.props
@@ -292,25 +295,26 @@ export default class Modal extends PureComponent {
 
     return (
       <div className="dnb-modal">
-        {Boolean(trigger_hidden) ||
-          (trigger_variant && (trigger_text || trigger_icon) && (
-            <Button
-              id={this._id}
-              type="button"
-              variant={trigger_variant}
-              text={trigger_text}
-              title={trigger_title}
-              disabled={Boolean(trigger_disabled)}
-              icon={
-                trigger_text && trigger_icon === defaultProps.trigger_icon
-                  ? null
-                  : trigger_icon
-              }
-              on_click={this.toggleOpenClose}
-              className={classnames('dnb-modal__trigger', trigger_class)}
-              innerRef={this._triggerRef}
-            />
-          ))}
+        {!isTrue(trigger_hidden) && (
+          <Button
+            id={this._id}
+            type="button"
+            variant={trigger_variant}
+            text={trigger_text}
+            title={trigger_title}
+            disabled={isTrue(trigger_disabled)}
+            icon={
+              trigger_icon
+                ? trigger_icon
+                : (!trigger_text || trigger_variant === 'tertiary') &&
+                  'question'
+            }
+            icon_position={trigger_icon_position}
+            on_click={this.toggleOpenClose}
+            className={classnames('dnb-modal__trigger', trigger_class)}
+            innerRef={this._triggerRef}
+          />
+        )}
 
         {modalActive && modal_content && (
           <ModalRoot
@@ -328,6 +332,10 @@ export default class Modal extends PureComponent {
 
 class ModalRoot extends PureComponent {
   static propTypes = {
+    direct_dom_return: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
     children: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.node,
@@ -335,41 +343,58 @@ class ModalRoot extends PureComponent {
     ])
   }
   static defaultProps = {
+    direct_dom_return: false,
     children: null
   }
 
-  constructor(props) {
-    super(props)
-    if (Modal.modalRoot) {
-      this.node = document.createElement('div')
-      this.node.className = 'dnb-modal-root__inner'
-    }
+  state = {
+    isMonted: false
   }
+
   componentDidMount() {
-    if (Modal.modalRoot && this.node) {
-      Modal.modalRoot.appendChild(this.node)
+    if (!isTrue(this.props.direct_dom_return)) {
+      Modal.insertModalRoot()
+
+      try {
+        if (!this.node) {
+          this.node = document.createElement('div')
+          this.node.className = 'dnb-modal-root__inner'
+        }
+        if (Modal.modalRoot && this.node) {
+          Modal.modalRoot.appendChild(this.node)
+        }
+      } catch (e) {
+        console.log(e)
+      }
+      this.setState({ isMonted: true })
     }
   }
+
   componentWillUnmount() {
     if (Modal.modalRoot && this.node) {
+      this.setState({ isMonted: false })
       Modal.modalRoot.removeChild(this.node)
+      this.node = null
     }
   }
   render() {
-    const { children, ...props } = this.props
-    if (Modal.modalRoot) {
+    const { children, direct_dom_return, ...props } = this.props
+    if (isTrue(direct_dom_return)) {
+      return <ModalContent {...props}>{children}</ModalContent>
+    }
+    if (this.state.isMonted && Modal.modalRoot && this.node) {
       return ReactDOM.createPortal(
         <ModalContent {...props}>{children}</ModalContent>,
         this.node
       )
     }
-    return <ModalContent {...props}>{children}</ModalContent>
+    return null
   }
 }
 
 class ModalContent extends PureComponent {
   static propTypes = {
-    modal_content: PropTypes.oneOfType([PropTypes.node]).isRequired,
+    modal_content: PropTypes.node.isRequired,
     labelled_by: PropTypes.string,
     content_id: PropTypes.string,
     title: PropTypes.string,
@@ -599,11 +624,11 @@ class ModalContent extends PureComponent {
       <Fragment>
         <div {...contentParams}>
           <div ref={this._contentRef} {...innerParams}>
-            {title && <h1 className="dnb-h2 dnb-modal__title">{title}</h1>}
-            {Boolean(hide_close_button) !== true && (
+            {title && <h1 className="dnb-modal__title dnb-h2">{title}</h1>}
+            {isTrue(hide_close_button) !== true && (
               <CloseButton on_click={closeModal} title={close_title} />
             )}
-            {modal_content}
+            <div className="dnb-modal__wrapper">{modal_content}</div>
           </div>
         </div>
         <span className="dnb-modal__overlay" aria-hidden="true" />

@@ -12,6 +12,7 @@ exports[`Modal component have to match snapshot 1`] = `
         "close_modal": [Function],
         "close_title": "close_title",
         "content_id": "content_id",
+        "direct_dom_return": "direct_dom_return",
         "hide_close_button": "hide_close_button",
         "id": "id",
         "labelled_by": "labelled_by",
@@ -28,6 +29,7 @@ exports[`Modal component have to match snapshot 1`] = `
         "trigger_disabled": "trigger_disabled",
         "trigger_hidden": "trigger_hidden",
         "trigger_icon": "trigger_icon",
+        "trigger_icon_position": "trigger_icon_position",
         "trigger_text": "trigger_text",
         "trigger_title": "trigger_title",
         "trigger_variant": "custom type not supported, please set the correct value for trigger_variant prop",
@@ -39,6 +41,7 @@ exports[`Modal component have to match snapshot 1`] = `
       "displayName": "ModalRoot",
       "props": Object {
         "children": "children",
+        "direct_dom_return": "direct_dom_return",
       },
     }
   }
@@ -75,6 +78,7 @@ exports[`Modal component have to match snapshot 1`] = `
   close_modal={null}
   close_title="close_title"
   content_id="modal_content_id"
+  direct_dom_return={true}
   hide_close_button={false}
   id="modal_id"
   labelled_by={null}
@@ -83,13 +87,15 @@ exports[`Modal component have to match snapshot 1`] = `
   on_close_prevent={null}
   on_open={null}
   open_modal={null}
+  open_state={null}
   preventSetTriggerRef={true}
   prevent_close={false}
   title="modal_title"
   trigger_class={null}
   trigger_disabled={false}
   trigger_hidden={false}
-  trigger_icon="question"
+  trigger_icon={null}
+  trigger_icon_position="left"
   trigger_text={null}
   trigger_title="Open Modal"
   trigger_variant="secondary"
@@ -107,7 +113,7 @@ exports[`Modal component have to match snapshot 1`] = `
       disabled={false}
       href={null}
       icon="question"
-      icon_position="right"
+      icon_position="left"
       icon_size="default"
       id="modal_id"
       innerRef={null}
@@ -121,7 +127,7 @@ exports[`Modal component have to match snapshot 1`] = `
     >
       <button
         aria-label="Open Modal"
-        className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon modal_id dnb-modal__trigger"
+        className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-left dnb-button--has-icon modal_id dnb-modal__trigger"
         id="modal_id"
         onClick={[Function]}
         onMouseOut={[Function]}
@@ -139,7 +145,7 @@ exports[`Modal component have to match snapshot 1`] = `
           disabled={false}
           href={null}
           icon="question"
-          icon_position="right"
+          icon_position="left"
           icon_size="default"
           id="modal_id"
           innerRef={null}
@@ -205,6 +211,7 @@ exports[`Modal component have to match snapshot 1`] = `
             "close_modal": [Function],
             "close_title": "close_title",
             "content_id": "content_id",
+            "direct_dom_return": "direct_dom_return",
             "hide_close_button": "hide_close_button",
             "id": "id",
             "labelled_by": "labelled_by",
@@ -221,6 +228,7 @@ exports[`Modal component have to match snapshot 1`] = `
             "trigger_disabled": "trigger_disabled",
             "trigger_hidden": "trigger_hidden",
             "trigger_icon": "trigger_icon",
+            "trigger_icon_position": "trigger_icon_position",
             "trigger_text": "trigger_text",
             "trigger_title": "trigger_title",
             "trigger_variant": "custom type not supported, please set the correct value for trigger_variant prop",
@@ -232,6 +240,7 @@ exports[`Modal component have to match snapshot 1`] = `
           "displayName": "ModalRoot",
           "props": Object {
             "children": "children",
+            "direct_dom_return": "direct_dom_return",
           },
         }
       }
@@ -269,6 +278,7 @@ exports[`Modal component have to match snapshot 1`] = `
       close_modal={null}
       close_title="close_title"
       content_id="modal_content_id"
+      direct_dom_return={true}
       hide_close_button={false}
       labelled_by="modal_id"
       modal_content="unique_modal_content"
@@ -291,6 +301,7 @@ exports[`Modal component have to match snapshot 1`] = `
               "close_modal": [Function],
               "close_title": "close_title",
               "content_id": "content_id",
+              "direct_dom_return": "direct_dom_return",
               "hide_close_button": "hide_close_button",
               "id": "id",
               "labelled_by": "labelled_by",
@@ -307,6 +318,7 @@ exports[`Modal component have to match snapshot 1`] = `
               "trigger_disabled": "trigger_disabled",
               "trigger_hidden": "trigger_hidden",
               "trigger_icon": "trigger_icon",
+              "trigger_icon_position": "trigger_icon_position",
               "trigger_text": "trigger_text",
               "trigger_title": "trigger_title",
               "trigger_variant": "custom type not supported, please set the correct value for trigger_variant prop",
@@ -318,6 +330,7 @@ exports[`Modal component have to match snapshot 1`] = `
             "displayName": "ModalRoot",
             "props": Object {
               "children": "children",
+              "direct_dom_return": "direct_dom_return",
             },
           }
         }
@@ -383,7 +396,7 @@ exports[`Modal component have to match snapshot 1`] = `
             tabIndex={-1}
           >
             <h1
-              className="dnb-h2 dnb-modal__title"
+              className="dnb-modal__title dnb-h2"
             >
               modal_title
             </h1>
@@ -489,7 +502,11 @@ exports[`Modal component have to match snapshot 1`] = `
                 </button>
               </Button>
             </CloseButton>
-            unique_modal_content
+            <div
+              className="dnb-modal__wrapper"
+            >
+              unique_modal_content
+            </div>
           </div>
         </div>
         <span
@@ -822,6 +839,9 @@ a.dnb-button .dnb-button__text {
  * Modal component
  *
  */
+:root {
+  --modal-z-index: 3000; }
+
 [data-dnb-modal-active='true'] {
   user-select: none; }
 
@@ -836,7 +856,7 @@ a.dnb-button .dnb-button__text {
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 3001;
+    z-index: calc(var(--modal-z-index) + 1);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -856,7 +876,7 @@ a.dnb-button .dnb-button__text {
       background: var(--color-white); }
       @media screen and (min-width: 50em) {
         .dnb-modal__content__inner {
-          padding: 2rem 3rem;
+          padding: 2rem 2rem 3rem;
           padding-right: 4rem;
           box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16); } }
       @media screen and (max-width: 50em) {
@@ -867,8 +887,13 @@ a.dnb-button .dnb-button__text {
       @media screen and (max-width: 40em) {
         .dnb-modal__content__inner {
           padding: 2rem 1rem; } }
-  .dnb-modal__title.dnb-h2 {
-    margin: 0 0 2rem; }
+  .dnb-modal__title.dnb-h2,
+  .dnb-core-style .dnb-modal__title.dnb-h2 {
+    margin: 0; }
+  .dnb-modal__wrapper {
+    position: relative;
+    z-index: 1;
+    margin-top: 1.5rem; }
   .dnb-modal__close-button {
     position: absolute;
     top: 1rem;
@@ -879,7 +904,7 @@ a.dnb-button .dnb-button__text {
         right: 2rem; } }
   .dnb-modal__overlay {
     position: fixed;
-    z-index: 3000;
+    z-index: var(--modal-z-index);
     left: 0;
     top: 0;
     width: 100%;

@@ -97,11 +97,6 @@ export const validateDOMAttributes = (props, params) => {
     params['tabIndex'] = tabIndex
   }
 
-  // add web component event handler
-  if (props && typeof props.on_click === 'function') {
-    params['onClick'] = props.on_click
-  }
-
   // make sure we don't return a render prop as a DOM attribute
   if (params && typeof params === 'object') {
     for (const i in params) {
@@ -166,20 +161,24 @@ export const isTrue = value => {
 }
 
 export const dispatchCustomElementEvent = (element, eventName, event) => {
+  let ret = null
+
   if (element && element.props && element.props.custom_element) {
     if (typeof element.props.custom_element.fireEvent === 'function') {
-      element.props.custom_element.fireEvent(eventName, event)
+      ret = element.props.custom_element.fireEvent(eventName, event)
     }
   }
 
   if (element && typeof element.props[eventName] === 'function') {
-    element.props[eventName].apply(element, [event])
+    ret = element.props[eventName].apply(element, [event])
   }
 
   eventName = transformToReactEventCase(eventName)
   if (element && typeof element.props[eventName] === 'function') {
-    element.props[eventName].apply(element, [event])
+    ret = element.props[eventName].apply(element, [event])
   }
+
+  return ret
 }
 
 // transform on_click to onClick
