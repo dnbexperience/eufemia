@@ -5,7 +5,6 @@
 
 import React, { PureComponent, Fragment } from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import DatePicker from 'dnb-ui-lib/src/components/date-picker/DatePicker'
 import styled from '@emotion/styled'
 
 class Example extends PureComponent {
@@ -157,21 +156,19 @@ const ScreenshotTests = () => {
 />
     `}
       </ComponentBox>
-
-      <div className="example-box">
-        <div data-dnb-test="date-picker-calendar">
-          <DatePicker
-            opened="true"
-            range="true"
-            start_date="2019-05-05"
-            end_date="2019-06-05"
-          />
-        </div>
-        <p className="example-caption">
-          Example styling of range calendar (also used for screenshot
-          tests)
-        </p>
-      </div>
+      <ComponentBox
+        data-dnb-test="date-picker-calendar"
+        caption="Opened DatePicker (also used for screenshot tests)"
+      >
+        {/* @jsx */ `
+<DatePicker
+  opened="true"
+  range="true"
+  start_date="2019-05-05"
+  end_date="2019-06-05"
+/>
+    `}
+      </ComponentBox>
     </Wrapper>
   )
 }
