@@ -10,7 +10,9 @@ To not overcomplicate the Eufemia - and limit the creativity and possibilities, 
 
 ## Spacing
 
-Eufemia has a [Spatial System](/quickguide-designer/spatial-system) with a grid of **8px**. This is simply a guide grid which helps with making design decisions about the sizes of components, elements, margins, paddings etc.
+Eufemia has a [Spatial System](/quickguide-designer/spatial-system) with a grid of **8px** (0.5rem). This is simply a guide grid which helps with making design decisions about the sizes of components, elements, margins, paddings etc.
+
+![UX layout spacing](./assets/ux-layout-spacing.png)
 
 ### Responsiveness
 

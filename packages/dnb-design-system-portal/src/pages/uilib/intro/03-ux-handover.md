@@ -16,14 +16,31 @@ To get the details and properties about the layout, styles and the used componen
 
 Remember, everything should be in the **8px grid** (0.5rem) spacing - even it the designer sometimes are one or two pixels of, you now know what it should be.
 
-![Spacing](./assets/ux-handover-spacing.png)
+1. Select an area by a single _click_.
+2. _Hover_ on the next areas to se the spacing between them.
 
-## Handover
+![What spacing is used](./assets/ux-handover-spacing.png)
 
-1. First, select and area by one click.
-2. Second, hover on the next by areas to se the distance.
+## Components
 
-![Figma UX handover](./assets/ux-handover.png)
+1. Select a component by a single _click_.
+2. Have a look at the _Pages_ pane on the left side.
+
+![What component is used](./assets/ux-handover-component.png)
+
+## Typography
+
+1. Select a text by a single _click_.
+2. Have a look at the _Properties_ pane on the right side.
+
+![What typography is used](./assets/ux-handover-typography.png)
+
+## Color
+
+1. Select an area by a single _click_.
+2. Have a look at the _Properties_ pane on the right side. Only use the color name as the reference. Do not copy HEX codes.
+
+![What color is uses](./assets/ux-handover-color.png)
 
 <IntroFooter href="/uilib/intro/04-eufemia-for-developers" text="Next - Eufemia for Developers" />
 
