@@ -62,7 +62,8 @@ export default [
       </Box>
       <Box>
         <Radio.Group
-          label="Group:"
+          // label="Group:"
+          label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:"
           title="Give me a Title"
           on_change={({ value }) => {
             console.log('on_change', value)
@@ -83,7 +84,8 @@ export default [
       </Box>
       <Box>
         <Radio.Group
-          label="Group:"
+          // label="Group:"
+          label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:"
           title="Give me a Title"
           on_change={({ value }) => {
             console.log('on_change', value)

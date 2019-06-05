@@ -13,9 +13,7 @@
   user-select: none;
 
   display: inline-flex;
-  flex-direction: column;
-  align-items: flex-start;
-  vertical-align: middle;
+  flex-direction: row;
 
   width: auto;
 
@@ -30,6 +28,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    // vertical-align: middle;
 
     width: var(--checkbox-height);
     height: var(--checkbox-height);
@@ -39,9 +38,9 @@
       -0.0625rem
     ); // ajust the shell to the inherited line-height for 1px
   }
-  label + &[class*='__form-status'] {
-    vertical-align: top;
-  }
+  // label + &[class*='__form-status'] {
+  //   vertical-align: top;
+  // }
 
   &__focus,
   &__button,
@@ -91,54 +90,39 @@
     cursor: pointer;
   }
 
-  &--label-position-left,
-  &--label-position-right {
-    display: inline-flex;
-    flex-direction: row;
-    align-items: flex-start;
-    flex-wrap: wrap;
-
-    .dnb-form-label {
-      flex: 1 1 33%;
-    }
-    .dnb-form-status {
-      order: 3;
-      flex: 1 1 1;
-      margin-top: 0.125rem;
-    }
+  .dnb-form-label {
+    flex: 1; // for long labels
+    margin: 0;
   }
+  // & + .dnb-form-status {
+  //   // margin-top: -0.125rem;
+  //   margin-top: 0;
+  // }
 
   &--label-position-left {
-    .dnb-checkbox {
+    .dnb-checkbox__shell {
       order: 2;
     }
-    label {
-      order: 1;
-    }
     .dnb-form-label {
-      flex: 0 1 auto;
-      margin-left: 0;
+      order: 1;
       margin-right: 0.5rem;
     }
   }
 
   &--label-position-right {
-    .dnb-checkbox {
+    .dnb-checkbox__shell {
       order: 1;
     }
-    label {
-      order: 2;
-    }
     .dnb-form-label {
-      margin-right: 0;
+      order: 2;
       margin-left: 0.5rem;
     }
   }
 
   // in case we don't define a wrapping group
   // and have a custom label component before the radio (and not inside)
-  .dnb-form-label ~ &--label-position-left,
-  .dnb-form-label ~ &--label-position-right {
-    display: inline;
+  .dnb-form-label + &,
+  .dnb-form-label + & {
+    vertical-align: middle;
   }
 }

@@ -185,10 +185,16 @@ export default class RadioGroup extends PureComponent {
               for_id={id}
               text={label}
               disabled={disabled}
+              className="dnb-radio-group__label"
             />
           )}
-          <span id={id} role="radiogroup" {...params}>
-            <span className="dnb-radio_group__shell">{children}</span>
+          <span
+            id={id}
+            className="dnb-radio-group__shell"
+            role="radiogroup"
+            {...params}
+          >
+            <span>{children}</span>
             {showStatus && (
               <FormStatus
                 text={status}

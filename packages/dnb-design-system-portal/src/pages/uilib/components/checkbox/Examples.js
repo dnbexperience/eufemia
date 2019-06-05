@@ -22,19 +22,20 @@ class Example extends PureComponent {
         >
           {/* @jsx */ `
 <Checkbox
-  label="Label:"
+  label="Label"
   on_change={onChange}
 />
           `}
         </ComponentBox>
         <ComponentBox
-          caption="Checked Checkbox"
+          caption="Checked Checkbox, left label position"
           data-dnb-test="checkbox-checked"
           scope={{ onChange }}
         >
           {/* @jsx */ `
 <Checkbox
   label="Label:"
+  label_position="left"
   title="Ths is the title"
   checked
   on_change={({ checked }) => console.log(checked)}
@@ -48,7 +49,7 @@ class Example extends PureComponent {
         >
           {/* @jsx */ `
 <Checkbox
-  label="Label:"
+  label="Label"
   checked
   status="Error message"
 />
