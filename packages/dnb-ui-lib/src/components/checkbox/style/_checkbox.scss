@@ -10,25 +10,21 @@
 }
 
 .dnb-checkbox {
-  user-select: none;
-
   display: inline-flex;
-  flex-direction: row;
+  flex-direction: column;
 
   width: auto;
 
   margin: 0;
   padding: 0;
 
-  color: var(--color-white);
-
   &__shell {
+    user-select: none;
     position: relative;
 
     display: flex;
     align-items: center;
     justify-content: center;
-    // vertical-align: middle;
 
     width: var(--checkbox-height);
     height: var(--checkbox-height);
@@ -36,11 +32,8 @@
     // vertical alignment
     transform: translateY(
       -0.0625rem
-    ); // ajust the shell to the inherited line-height for 1px
+    ); // ajust (for 1px) the shell because of line-height of fedra font
   }
-  // label + &[class*='__form-status'] {
-  //   vertical-align: top;
-  // }
 
   &__focus,
   &__button,
@@ -72,8 +65,9 @@
   }
 
   &__input {
+    opacity: 0;
+
     position: absolute;
-    top: 0;
     left: 0;
     z-index: 5;
 
@@ -90,39 +84,40 @@
     cursor: pointer;
   }
 
-  .dnb-form-label {
-    flex: 1; // for long labels
-    margin: 0;
+  &--modifier {
+    display: inline-flex;
+    flex-direction: row;
+
+    // in case we have text before, or after, make sure we are aligned
+    vertical-align: top;
   }
-  // & + .dnb-form-status {
-  //   // margin-top: -0.125rem;
-  //   margin-top: 0;
-  // }
 
   &--label-position-left {
-    .dnb-checkbox__shell {
+    .dnb-checkbox {
       order: 2;
     }
     .dnb-form-label {
       order: 1;
-      margin-right: 0.5rem;
+    }
+    .dnb-form-status {
+      margin-top: 0.5rem;
     }
   }
 
   &--label-position-right {
-    .dnb-checkbox__shell {
+    .dnb-checkbox {
       order: 1;
     }
     .dnb-form-label {
       order: 2;
-      margin-left: 0.5rem;
+      margin-left: 1rem;
+      margin-right: 0.5rem; // because of the possible status
     }
-  }
+    & + .dnb-form-status {
+      // in case the status did not wrap, we want to have the status on the same line
+      vertical-align: top;
 
-  // in case we don't define a wrapping group
-  // and have a custom label component before the radio (and not inside)
-  .dnb-form-label + &,
-  .dnb-form-label + & {
-    vertical-align: middle;
+      margin-top: 0.5rem;
+    }
   }
 }

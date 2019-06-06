@@ -12,7 +12,7 @@ exports[`Checkbox component have to match snapshot 1`] = `
   disabled="disabled"
   id="id"
   label="label"
-  label_position="label_position"
+  label_position="left"
   on_change={[Function]}
   on_state_update={[Function]}
   readOnly={false}
@@ -23,12 +23,12 @@ exports[`Checkbox component have to match snapshot 1`] = `
   value="value"
 >
   <span
-    className="dnb-checkbox dnb-checkbox--label-position-label_position className class"
+    className="dnb-checkbox--modifier dnb-checkbox--label-position-left"
   >
     <FormLabel
       class={null}
       className={null}
-      disabled={false}
+      disabled="disabled"
       for_id="id"
       id="id-label"
       render_content={null}
@@ -36,7 +36,9 @@ exports[`Checkbox component have to match snapshot 1`] = `
       title={null}
     >
       <label
+        aria-disabled={true}
         className="dnb-form-label"
+        disabled="disabled"
         htmlFor="id"
         id="id-label"
       >
@@ -44,48 +46,52 @@ exports[`Checkbox component have to match snapshot 1`] = `
       </label>
     </FormLabel>
     <span
-      className="dnb-checkbox__shell"
+      className="dnb-checkbox className class"
     >
-      <input
-        aria-checked={false}
-        aria-disabled={true}
-        aria-labelledby="id-label"
-        checked={false}
-        className="dnb-checkbox__input"
-        disabled="disabled"
-        id="id"
-        name="id"
-        onChange={[Function]}
-        onKeyDown={[Function]}
-        onMouseOut={[Function]}
-        title="title"
-        type="checkbox"
-        value=""
-      />
       <span
-        aria-hidden={true}
-        className="dnb-checkbox__button"
+        className="dnb-checkbox__shell"
       >
-        <span
-          className="dnb-checkbox__focus"
+        <input
+          aria-checked={false}
+          aria-disabled={true}
+          aria-labelledby="id-label"
+          checked={false}
+          className="dnb-checkbox__input"
+          disabled="disabled"
+          id="id"
+          name="id"
+          onChange={[Function]}
+          onKeyDown={[Function]}
+          onMouseOut={[Function]}
+          title="title"
+          type="checkbox"
+          value=""
         />
-      </span>
-      <CheckGfx
-        className="dnb-checkbox__gfx"
-      >
-        <svg
-          className="dnb-checkbox__gfx"
-          fill="none"
-          height="24"
-          viewBox="0 0 24 24"
-          width="24"
-          xmlns="http://www.w3.org/2000/svg"
+        <span
+          aria-hidden={true}
+          className="dnb-checkbox__button"
         >
-          <path
-            d="M5.86 12.95a.75.75 0 1 0-1.22.86l1.22-.86zm2.15 4.34l.62-.42-.01-.01-.61.43zm.94.52l.02-.75-.02.75zm.98-.46l-.6-.47v.01l.6.46zm9.4-10.7a.75.75 0 0 0-1.17-.93l1.18.93zm-14.7 7.16l2.76 3.91 1.23-.86-2.76-3.91-1.22.86zm2.75 3.9c.35.52.93.84 1.55.85l.04-1.5a.43.43 0 0 1-.34-.19l-1.25.84zm1.55.85c.62.02 1.22-.26 1.6-.76l-1.2-.9a.43.43 0 0 1-.36.16l-.04 1.5zm1.59-.75l8.82-11.16-1.18-.93-8.82 11.16 1.18.93z"
+          <span
+            className="dnb-checkbox__focus"
           />
-        </svg>
-      </CheckGfx>
+        </span>
+        <CheckGfx
+          className="dnb-checkbox__gfx"
+        >
+          <svg
+            className="dnb-checkbox__gfx"
+            fill="none"
+            height="24"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M5.86 12.95a.75.75 0 1 0-1.22.86l1.22-.86zm2.15 4.34l.62-.42-.01-.01-.61.43zm.94.52l.02-.75-.02.75zm.98-.46l-.6-.47v.01l.6.46zm9.4-10.7a.75.75 0 0 0-1.17-.93l1.18.93zm-14.7 7.16l2.76 3.91 1.23-.86-2.76-3.91-1.22.86zm2.75 3.9c.35.52.93.84 1.55.85l.04-1.5a.43.43 0 0 1-.34-.19l-1.25.84zm1.55.85c.62.02 1.22-.26 1.6-.76l-1.2-.9a.43.43 0 0 1-.36.16l-.04 1.5zm1.59-.75l8.82-11.16-1.18-.93-8.82 11.16 1.18.93z"
+            />
+          </svg>
+        </CheckGfx>
+      </span>
     </span>
   </span>
 </Checkbox>
@@ -145,8 +151,6 @@ exports[`Checkbox scss have to match default theme snapshot 1`] = `
     * On error state
     *
     */ }
-  .dnb-checkbox__input {
-    opacity: 0; }
   .dnb-checkbox__gfx {
     transition: opacity 200ms ease-out, transform 200ms ease-out; }
   .dnb-checkbox__input:not(:checked) ~ .dnb-checkbox__gfx {
@@ -206,8 +210,6 @@ exports[`Checkbox scss have to match default theme snapshot 1`] = `
     color: var(--color-cherry-red); }
   .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:focus):not(:active):not(:hover) ~ .dnb-checkbox__gfx {
     color: var(--color-cherry-red-80); }
-  .dnb-checkbox > .dnb-form-status {
-    transform: translateY(0.1875rem); }
 "
 `;
 
@@ -335,11 +337,12 @@ exports[`Checkbox scss have to match snapshot 1`] = `
 .dnb-form-status {
   width: auto;
   display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  min-height: var(--input-height);
-  border-radius: var(--input-border-radius);
-  line-height: 0.5rem; }
+  min-height: var(--input-height); }
+  .dnb-form-status__shell {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    border-radius: var(--input-border-radius); }
   .dnb-form-status--text {
     padding: calc(0.5rem / 2) 1rem;
     cursor: text;
@@ -347,7 +350,7 @@ exports[`Checkbox scss have to match snapshot 1`] = `
     line-height: 1.5rem; }
   .dnb-icon + .dnb-form-status--text {
     padding-left: 0.5rem; }
-  .dnb-form-status > .dnb-icon {
+  .dnb-form-status__shell > .dnb-icon {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -418,14 +421,13 @@ exports[`Checkbox scss have to match snapshot 1`] = `
   --checkbox-border-width: 0.125rem; }
 
 .dnb-checkbox {
-  user-select: none;
   display: inline-flex;
-  flex-direction: row;
+  flex-direction: column;
   width: auto;
   margin: 0;
-  padding: 0;
-  color: var(--color-white); }
+  padding: 0; }
   .dnb-checkbox__shell {
+    user-select: none;
     position: relative;
     display: flex;
     align-items: center;
@@ -455,8 +457,8 @@ exports[`Checkbox scss have to match snapshot 1`] = `
     fill: currentColor;
     shape-rendering: geometricPrecision; }
   .dnb-checkbox__input {
+    opacity: 0;
     position: absolute;
-    top: 0;
     left: 0;
     z-index: 5;
     width: var(--checkbox-width);
@@ -466,21 +468,24 @@ exports[`Checkbox scss have to match snapshot 1`] = `
     border: 0; }
   .dnb-checkbox__input:not([disabled]) {
     cursor: pointer; }
-  .dnb-checkbox .dnb-form-label {
-    flex: 1;
-    margin: 0; }
-  .dnb-checkbox--label-position-left .dnb-checkbox__shell {
+  .dnb-checkbox--modifier {
+    display: inline-flex;
+    flex-direction: row;
+    vertical-align: top; }
+  .dnb-checkbox--label-position-left .dnb-checkbox {
     order: 2; }
   .dnb-checkbox--label-position-left .dnb-form-label {
-    order: 1;
-    margin-right: 0.5rem; }
-  .dnb-checkbox--label-position-right .dnb-checkbox__shell {
+    order: 1; }
+  .dnb-checkbox--label-position-left .dnb-form-status {
+    margin-top: 0.5rem; }
+  .dnb-checkbox--label-position-right .dnb-checkbox {
     order: 1; }
   .dnb-checkbox--label-position-right .dnb-form-label {
     order: 2;
-    margin-left: 0.5rem; }
-  .dnb-form-label + .dnb-checkbox,
-  .dnb-form-label + .dnb-checkbox {
-    vertical-align: middle; }
+    margin-left: 1rem;
+    margin-right: 0.5rem; }
+  .dnb-checkbox--label-position-right + .dnb-form-status {
+    vertical-align: top;
+    margin-top: 0.5rem; }
 "
 `;

@@ -23,6 +23,7 @@ const props = fakeProps(require.resolve('../Checkbox'), {
 })
 props.status = null
 props.readOnly = false
+props.label_position = 'left'
 
 describe('Checkbox component', () => {
   // then test the state management

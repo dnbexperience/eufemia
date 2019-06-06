@@ -20,6 +20,7 @@ export default [
         </p>
       </Box>
       <Box>
+        Text:{' '}
         <Checkbox
           label="Checked"
           checked
@@ -29,6 +30,7 @@ export default [
         />
       </Box>
       <Box>
+        Text:{' '}
         <Checkbox
           label="Unchecked"
           on_change={({ checked }) => {
@@ -37,7 +39,7 @@ export default [
         />
       </Box>
       <Box>
-        <Checkbox label="Unchecked disabled" checked={false} disabled />
+        <Checkbox label="Unchecked disabled" disabled />
       </Box>
       <Box>
         <Checkbox label="Checked disabled" checked disabled />
@@ -45,23 +47,24 @@ export default [
       <Box>
         <Checkbox
           label="Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
-          checked={false}
           status="Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
         />
       </Box>
       <Box>
         <Checkbox
-          label="Unchecked status error:"
+          // label="Unchecked status error:"
+          label="Unchecked:"
           label_position="left"
-          checked={false}
-          status="Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
+          // status="Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
+          status="Potenti viverra facilisi blandit sodales lorem est fusce"
+          status_state="info"
         />
       </Box>
       <Box>
         <Checkbox
           label="Checked status message"
           checked
-          status="Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
+          status="Potenti viverra ft quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
         />
       </Box>
     </Wrapper>
