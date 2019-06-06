@@ -8,7 +8,7 @@ import { Wrapper, Box } from './helpers'
 import { css } from '@emotion/core'
 import styled from '@emotion/styled'
 import { Button, IconPrimary } from 'dnb-ui-lib/src'
-import { FormStatus } from '../src/components'
+import { FormStatus, FormRow } from '../src/components'
 import { H1, H2, P, Link } from '../src/elements'
 // import Link from '../src/elements/Link'
 
@@ -28,7 +28,7 @@ const CustomStyles = styled.div`
     max-width: 220px;
   }
 
-  .dnb-form-group {
+  .dnb-form-row {
     background-color: rgba(200, 0, 200, 0.15);
   }
 
@@ -58,7 +58,7 @@ const CustomStyles = styled.div`
   p {
     background-color: rgba(0, 0, 0, 0.15);
   }
-  ${'' /* .dnb-form-group + p,
+  ${'' /* .dnb-form-row + p,
   textarea + p {
     margin-top: 1rem;
   } */}
@@ -291,7 +291,7 @@ stories.push([
     <Wrapper className="dnb-spacing">
       <CustomStyles>
         <Box>
-          <div className="dnb-form-group dnb-form-group__position--vertical">
+          <FormRow vertical>
             <label className="dnb-label" htmlFor="hendrerit">
               Label for the textarea:
             </label>
@@ -301,14 +301,14 @@ stories.push([
               rows="5"
               cols="33"
               defaultValue="Nec litora inceptos vestibulum id interdum donec gravida
-            nostra lacinia bibendum hendrerit porttitor volutpat nam duis
-            nisl scelerisque sapien erat"
+              nostra lacinia bibendum hendrerit porttitor volutpat nam duis
+              nisl scelerisque sapien erat"
             />
-          </div>
+          </FormRow>
           <p className="dnb-p">I have to be on the grid!</p>
         </Box>
         <Box>
-          <div className="dnb-form-group">
+          <FormRow>
             <label className="dnb-label" htmlFor="litora">
               Label for the textarea:
             </label>
@@ -320,7 +320,7 @@ stories.push([
             lacinia bibendum hendrerit porttitor volutpat nam duis nisl
             scelerisque sapien erat"
             />
-          </div>
+          </FormRow>
           <p className="dnb-p">I have to be on the grid!</p>
         </Box>
         <Box>
@@ -338,7 +338,7 @@ stories.push([
           <p className="dnb-p">I have to be on the grid!</p>
         </Box>
         <Box>
-          <div className="dnb-form-group dnb-form-group__position--vertical">
+          <FormRow vertical>
             <label className="dnb-label" htmlFor="vestibulum">
               Label:
             </label>
@@ -351,11 +351,11 @@ stories.push([
             scelerisque sapien erat"
             />
             <FormStatus text="Message to the user" />
-          </div>
+          </FormRow>
           <p className="dnb-p">I have to be on the grid!</p>
         </Box>
         <Box>
-          <div className="dnb-form-group">
+          <FormRow>
             <label className="dnb-label" htmlFor="volutpat">
               Label:
             </label>
@@ -369,7 +369,7 @@ stories.push([
             lacinia bibendum hendrerit porttitor volutpat nam duis nisl
             scelerisque sapien erat"
             />
-          </div>
+          </FormRow>
           <p className="dnb-p">I have to be on the grid!</p>
         </Box>
       </CustomStyles>

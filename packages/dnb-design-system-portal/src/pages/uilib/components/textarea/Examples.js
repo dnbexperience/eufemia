@@ -36,23 +36,27 @@ class Example extends PureComponent {
 />
           `}
         </ComponentBox>
-        <ComponentBox caption="Vertical placed label, using `.dnb-form-group`">
+        <ComponentBox caption="Vertical placed label, using the `FormRow` component">
           {/* @jsx */ `
-<Textarea
-  label="Vertical:"
-  rows="3"
-  cols="33"
-  value="Textarea value with more than 3 lines\\nNewline\\nNewline\\nNewline\\nNewline"
-/>
+<FormRow vertical={true}>
+  <Textarea
+    label="Vertical:"
+    rows="3"
+    cols="33"
+    value="Textarea value with more than 3 lines\\nNewline\\nNewline\\nNewline\\nNewline"
+  />
+</FormRow>
           `}
         </ComponentBox>
-        <ComponentBox caption="Horizontal placed label, using `.dnb-form-group`">
+        <ComponentBox caption="Horizontal placed label, using the `FormRow` component">
           {/* @jsx */ `
-<Textarea
-  label="Horizontal:"
-  rows="3"
-  value="Nec litora inceptos vestibulum id interdum donec gravida."
-/>
+<FormRow>
+  <Textarea
+    label="Horizontal:"
+    rows="3"
+    value="Nec litora inceptos vestibulum id interdum donec gravida."
+  />
+</FormRow>
           `}
         </ComponentBox>
         <ComponentBox caption="Max length usage">

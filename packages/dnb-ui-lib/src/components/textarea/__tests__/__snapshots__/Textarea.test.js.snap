@@ -622,10 +622,10 @@ textarea.dnb-textarea {
   label + textarea.dnb-textarea[class*='__form-status'] {
     vertical-align: baseline; }
 
-.dnb-form-group__position--vertical > .dnb-textarea {
+.dnb-form-group--vertical > .dnb-textarea {
   transform: translateY(2px); }
 
-.dnb-form-group:not(.dnb-form-group__position--vertical) > .dnb-textarea, .dnb-form-group__position--hoizontal:not(.dnb-form-group__position--vertical) > .dnb-textarea {
+.dnb-form-group:not(.dnb-form-group--vertical) > .dnb-textarea, .dnb-form-group--hoizontal:not(.dnb-form-group--vertical) > .dnb-textarea {
   transform: translateY(calc(1px - 1px - var(--textarea-vertical-correction)));
   margin-top: 0; }
 "

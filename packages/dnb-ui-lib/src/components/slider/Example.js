@@ -8,6 +8,7 @@ import styled from '@emotion/styled'
 import Slider from './Slider'
 import Input from '../input/Input'
 import FormLabel from '../../components/form-label/FormLabel'
+import FormRow from '../../components/form-row/FormRow'
 
 // import the native range slider as well
 import './style/dnb-range.scss'
@@ -118,7 +119,7 @@ class AditionalExample extends PureComponent {
           </p>
         </div>
         <div className="example-box">
-          <div className="dnb-form-group">
+          <FormRow>
             <FormLabel
               id="range-slider-label"
               for_id="range-slider"
@@ -133,7 +134,7 @@ class AditionalExample extends PureComponent {
               defaultValue="20"
               onChange={this.handleRangeChange}
             />
-          </div>
+          </FormRow>
         </div>
       </Wrapper>
     )

@@ -95,9 +95,10 @@ textarea.dnb-textarea {
   }
 }
 
-.dnb-form-group {
+// enhance "FormRow" components styles
+.dnb-form-row {
   // for vertical labeling
-  &__position--vertical {
+  &--vertical {
     // To fake, that we actuallyhave 8px between
     > .dnb-textarea {
       transform: translateY(2px);
@@ -106,9 +107,9 @@ textarea.dnb-textarea {
 
   // for hoizontal labeling
   &,
-  &__position--hoizontal {
+  &--hoizontal {
     // To fake, that the first line is aligned with the label
-    &:not(.dnb-form-group__position--vertical) {
+    &:not(.dnb-form-row--vertical) {
       > .dnb-textarea {
         transform: translateY(
           calc(1px - 1px - var(--textarea-vertical-correction))
