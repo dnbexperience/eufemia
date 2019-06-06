@@ -326,11 +326,12 @@ exports[`Textarea scss have to match snapshot 1`] = `
 .dnb-form-status {
   width: auto;
   display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  min-height: var(--input-height);
-  border-radius: var(--input-border-radius);
-  line-height: 0.5rem; }
+  min-height: var(--input-height); }
+  .dnb-form-status__shell {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    border-radius: var(--input-border-radius); }
   .dnb-form-status--text {
     padding: calc(0.5rem / 2) 1rem;
     cursor: text;
@@ -338,7 +339,7 @@ exports[`Textarea scss have to match snapshot 1`] = `
     line-height: 1.5rem; }
   .dnb-icon + .dnb-form-status--text {
     padding-left: 0.5rem; }
-  .dnb-form-status > .dnb-icon {
+  .dnb-form-status__shell > .dnb-icon {
     display: flex;
     justify-content: center;
     align-items: center;

@@ -212,15 +212,6 @@ export default class Switch extends Component {
     // also used for code markup simulation
     validateDOMAttributes(this.props, inputParams)
 
-    const labelComp = label && (
-      <FormLabel
-        id={id + '-label'}
-        for_id={id}
-        text={label}
-        disabled={disabled}
-      />
-    )
-
     const statusComp = showStatus && (
       <FormStatus
         text={status}
@@ -240,7 +231,14 @@ export default class Switch extends Component {
             hasStatusMessage && `dnb-switch__status--message`
           )}
         >
-          {labelComp}
+          {label && (
+            <FormLabel
+              id={id + '-label'}
+              for_id={id}
+              text={label}
+              disabled={disabled}
+            />
+          )}
           <span className={classes}>
             <span className="dnb-switch__shell">
               <input

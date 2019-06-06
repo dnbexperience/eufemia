@@ -4,12 +4,14 @@
  */
 
 .dnb-form-status {
-  font-size: var(--font-size-small);
-  &--error {
+  &__shell {
+    font-size: var(--font-size-small);
+  }
+  &--error &__shell {
     color: var(--color-cherry-red);
     background-color: var(--color-cherry-red-80);
   }
-  &--info {
+  &--info &__shell {
     color: var(--color-emerald-green);
     background-color: var(--color-mint-green-25);
   }

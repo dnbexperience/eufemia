@@ -166,8 +166,10 @@ export default class FormStatus extends PureComponent {
 
     return (
       <span {...params}>
-        {iconToRender}
-        <span {...textParams}>{contentToRender}</span>
+        <span className="dnb-form-status__shell">
+          {iconToRender}
+          <span {...textParams}>{contentToRender}</span>
+        </span>
       </span>
     )
   }
