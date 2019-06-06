@@ -1,0 +1,29 @@
+/*
+ * FormSection component
+ *
+ */
+
+.dnb-form-section {
+  display: inline-block;
+
+  width: auto;
+  margin: 0;
+  margin-right: 1rem;
+
+  &--vertical {
+    display: block;
+    margin-right: 0;
+    margin-bottom: 0.5rem;
+  }
+
+  vertical-align: baseline;
+  color: inherit;
+
+  &[for]:not([disabled]) {
+    user-select: none;
+    cursor: pointer;
+  }
+  &[disabled] {
+    cursor: not-allowed;
+  }
+}

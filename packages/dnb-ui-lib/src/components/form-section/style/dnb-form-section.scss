@@ -1,0 +1,12 @@
+/*
+* DNB FormSection
+*
+*/
+
+@import '../../../style/components/imports.scss';
+
+.dnb-form-section {
+  @include componentReset();
+}
+
+@import './_form-section.scss';

@@ -1,0 +1,11 @@
+/*
+ * FormSection theme
+ *
+ */
+
+.dnb-form-section {
+  color: var(--color-black-80);
+  &[for]:not([disabled]):hover {
+    color: var(--color-sea-green);
+  }
+}

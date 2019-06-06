@@ -1,0 +1,115 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FormSection component have to match snapshot 1`] = `
+<FormSection
+  class="class"
+  className="className"
+  direction="horizontal"
+  disabled="disabled"
+  for_id="for_id"
+  id="id"
+  render_content={[Function]}
+  text="text"
+  title="title"
+  vertical={true}
+>
+  <section
+    className="dnb-form-section dnb-form-section--vertical className class"
+    htmlFor="for_id"
+    id="id"
+    title="title"
+  >
+    text
+  </section>
+</FormSection>
+`;
+
+exports[`FormSection scss have to match default theme snapshot 1`] = `
+"/*
+ * FormSection theme
+ *
+ */
+.dnb-form-section {
+  color: var(--color-black-80); }
+  .dnb-form-section[for]:not([disabled]):hover {
+    color: var(--color-sea-green); }
+"
+`;
+
+exports[`FormSection scss have to match snapshot 1`] = `
+"/*
+* DNB FormSection
+*
+*/
+/**
+ * This file is only used to make components independent
+ * so that they can get imported individually, without the core styles
+ *
+ */
+/*
+ * Utilities
+ */
+/*
+ * Scopes
+ *
+ */
+/*
+ * Document Reset
+ *
+ */
+.dnb-form-section {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-default);
+  font-size: 1rem;
+  font-style: normal;
+  line-height: 1.5rem;
+  color: var(--color-black-80, #333);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  font-variant-numeric: lining-nums;
+  font-feature-settings: \\"lnum\\";
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-form-section *,
+  .dnb-form-section ::before,
+  .dnb-form-section ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-form-section ::before,
+  .dnb-form-section ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+ * FormSection component
+ *
+ */
+.dnb-form-section {
+  display: inline-block;
+  width: auto;
+  margin: 0;
+  margin-right: 1rem;
+  vertical-align: baseline;
+  color: inherit; }
+  .dnb-form-section--vertical {
+    display: block;
+    margin-right: 0;
+    margin-bottom: 0.5rem; }
+  .dnb-form-section[for]:not([disabled]) {
+    user-select: none;
+    cursor: pointer; }
+  .dnb-form-section[disabled] {
+    cursor: not-allowed; }
+"
+`;
