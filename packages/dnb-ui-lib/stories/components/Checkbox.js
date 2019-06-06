@@ -39,7 +39,10 @@ export default [
         />
       </Box>
       <Box>
-        <Checkbox label="Unchecked disabled" disabled />
+        <FormLabel for_id="checkbox-1" direction="vertical" vertical>
+          Vertical FormLabel for a Checkbox component:
+        </FormLabel>
+        <Checkbox id="checkbox-1" label="Unchecked disabled" />
       </Box>
       <Box>
         <Checkbox label="Checked disabled" checked disabled />
