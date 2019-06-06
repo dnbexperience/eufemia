@@ -6,7 +6,7 @@ order: 14
 
 <Intro>
 
-# Helper Classes
+# Styling Helpers
 
 As a place for commonly used **global CSS classes**, Eufemia has the term [Helper Classes](!/uilib/helper-classes).
 

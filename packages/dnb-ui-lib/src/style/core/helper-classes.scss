@@ -24,8 +24,9 @@
 }
 @import './helper-classes/skip-link.scss';
 
-// Cosmetic helpers
+// TODO: Including the helper here is deprecated and will be removed in the major version
 @import './helper-classes/dnb-section.scss';
+
 .dnb-unstyled-list {
   @include unstyledList();
 }
