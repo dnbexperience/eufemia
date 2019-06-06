@@ -3,81 +3,11 @@
  *
  */
 
-// Wraps content inside a visual section banner.
+@import '../../../components/form-section/style/_form-section.scss';
+@import '../../../components/form-section/style/themes/dnb-form-Section-theme-ui.scss';
+
+// TODO: Including the helper here is deprecated and will be removed in the major version
 .dnb-section {
-  position: relative;
-
-  &::after {
-    content: '';
-    position: absolute;
-    z-index: -1;
-    left: -50vw;
-    top: 0;
-    width: 100vw;
-    height: 100%;
-    color: var(--color-mint-green-12);
-    background-color: currentColor;
-
-    // we use box-shadow to avoid a horizontal scrollbar
-    box-shadow: 100vw 0 0 0 currentColor;
-  }
-}
-.dnb-section--divider {
-  &::after {
-    color: var(--color-white);
-    box-shadow: 100vw 0 0 0 currentColor,
-      0 0.0625rem 0 0 var(--color-mint-green-50),
-      100vw 0.0625rem 0 0 var(--color-mint-green-50),
-      0 -0.0625rem 0 0 var(--color-mint-green-50),
-      100vw -0.0625rem 0 0 var(--color-mint-green-50);
-  }
-}
-.dnb-section--white::after {
-  color: var(--color-white);
-}
-.dnb-section--mint-green {
-  &::after {
-    color: var(--color-mint-green);
-  }
-}
-.dnb-section--emerald-green {
-  color: var(--color-mint-green);
-  &::after {
-    color: var(--color-emerald-green);
-  }
-  .dnb-code {
-    color: var(--color-emerald-green);
-  }
-}
-.dnb-section--signal-orange {
-  color: var(--color-ocean-green);
-  &::after {
-    color: var(--color-signal-orange);
-  }
-}
-
-// spacing
-.dnb-section--spacing {
-  padding-top: 2rem;
-  padding-bottom: 2rem;
-}
-.dnb-section--spacing-small {
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-}
-.dnb-section--spacing-large {
-  padding-top: 3rem;
-  padding-bottom: 3.5rem;
-}
-
-// styles styles are effected within the scope of ".dnb-spacing"
-// we also check if there is a class starting with "dnb-*"
-// this is to make sure we don't effect these styles inside of components
-.dnb-spacing {
-  .dnb-section.dnb-section--spacing,
-  .dnb-section.dnb-section--spacing-small,
-  .dnb-section.dnb-section--spacing-large {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-  }
+  @include FormSectionStyle();
+  @include FormSectionTheme();
 }

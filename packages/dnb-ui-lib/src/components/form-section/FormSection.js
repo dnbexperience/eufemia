@@ -12,21 +12,15 @@ import {
   validateDOMAttributes,
   processChildren
 } from '../../shared/component-helper'
-// import './style/dnb-form-section.scss' // no good solution to import the style here
 
 const renderProps = {
   render_content: null
 }
 
 export const propTypes = {
-  for_id: PropTypes.string,
-  title: PropTypes.string,
-  text: PropTypes.string,
-  id: PropTypes.string,
+  style: PropTypes.string,
+  spacing: PropTypes.string,
   class: PropTypes.string,
-  disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  direction: PropTypes.oneOf(['vertical', 'horizontal']),
-  vertical: PropTypes.bool,
 
   /** React props */
   className: PropTypes.string,
@@ -41,14 +35,8 @@ export const propTypes = {
 }
 
 export const defaultProps = {
-  for_id: null,
-  title: null,
-  text: null,
-  id: null,
+  style: 'mint-green-12',
   class: null,
-  disabled: false,
-  direction: 'horizontal',
-  vertical: null,
 
   /** React props */
   className: null,
@@ -76,18 +64,12 @@ export default class FormSection extends PureComponent {
 
   render() {
     const {
-      for_id,
-      title,
+      style,
+      spacing,
       className,
-      id,
-      disabled,
-      direction,
-      vertical,
       class: _className,
 
-      text: _text, // eslint-disable-line
-
-      ...otherProps
+      ...attributes
     } = this.props
 
     const content = FormSection.getContent(this.props)
@@ -95,15 +77,15 @@ export default class FormSection extends PureComponent {
     const params = {
       className: classnames(
         'dnb-form-section',
-        `dnb-form-section--${isTrue(vertical) ? 'vertical' : direction}`,
+        `dnb-form-section--${style}`,
+        (isTrue(spacing) || spacing) &&
+          `dnb-form-section--spacing${
+            !/true|false/.test(String(spacing)) ? '-' + spacing : ''
+          }`,
         className,
         _className
       ),
-      htmlFor: for_id,
-      id,
-      title,
-      disabled: isTrue(disabled),
-      ...otherProps
+      ...attributes
     }
 
     // also used for code markup simulation

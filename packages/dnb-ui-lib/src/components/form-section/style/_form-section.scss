@@ -3,27 +3,42 @@
  *
  */
 
+@mixin FormSectionStyle() {
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    left: -50vw;
+    top: 0;
+    width: 100vw;
+    height: 100%;
+    color: var(--color-mint-green-12);
+    background-color: currentColor;
+
+    // we use box-shadow to avoid a horizontal scrollbar
+    box-shadow: 100vw 0 0 0 currentColor;
+  }
+
+  // spacing-default
+  &--spacing,
+  .dnb-spacing &--spacing {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+  &--spacing-small,
+  .dnb-spacing &--spacing-small {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+  &--spacing-large,
+  .dnb-spacing &--spacing-large {
+    padding-top: 3rem;
+    padding-bottom: 3.5rem;
+  }
+}
+
 .dnb-form-section {
-  display: inline-block;
-
-  width: auto;
-  margin: 0;
-  margin-right: 1rem;
-
-  &--vertical {
-    display: block;
-    margin-right: 0;
-    margin-bottom: 0.5rem;
-  }
-
-  vertical-align: baseline;
-  color: inherit;
-
-  &[for]:not([disabled]) {
-    user-select: none;
-    cursor: pointer;
-  }
-  &[disabled] {
-    cursor: not-allowed;
-  }
+  @include FormSectionStyle();
 }

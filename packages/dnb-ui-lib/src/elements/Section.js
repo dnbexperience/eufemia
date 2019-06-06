@@ -8,7 +8,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 
 const Section = ({ useSpacing, className, ...p }) => (
-  <div
+  <section
     className={classnames(
       className,
       'dnb-section',

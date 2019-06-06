@@ -5,89 +5,121 @@
 
 import React, { PureComponent, Fragment } from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
+// import CodeBlock from '../../../../shared/tags/ComponentBox'
 
 class Example extends PureComponent {
   render() {
     return (
       <Fragment>
         <ComponentBox
-          caption="Default form-label"
-          data-dnb-test="form-label-default"
+          hideCode
+          caption="Default FormSection"
+          data-dnb-test="form-section-default"
         >
-          {/* @jsx */ `
-<FormLabel for_id="alone-1">
-  Default horizontal FormLabel:
-</FormLabel>
-<Checkbox id="alone-1" label="Checkbox" />
-          `}
+          {/* @html */ `
+<FormSection>
+  Visual DNB Section: <code className="dnb-code">default</code>
+</FormSection>
+        `}
         </ComponentBox>
         <ComponentBox
-          caption="Vertical form-label"
-          data-dnb-test="form-label-vertical"
+          hideCode
+          caption="Default FormSection with large spacing"
+          data-dnb-test="form-section-spacing"
         >
-          {/* @jsx */ `
-<FormLabel for_id="alone-2" direction="vertical">
-  Vertical FormLabel:
-</FormLabel>
-<Checkbox id="alone-2" label="Checkbox" />
-          `}
+          {/* @html */ `
+<FormSection spacing="large">
+  Visual DNB Section: <code className="dnb-code">default with spacing</code>
+</FormSection>
+        `}
         </ComponentBox>
         <ComponentBox
-          caption="Default form-label"
-          data-dnb-test="form-label-default"
-          useRender
+          hideCode
+          caption="White FormSection"
+          data-dnb-test="form-section-white"
         >
-          {/* @jsx */ `
-const CustomRow = styled(FormRow)\`
-  color: var(--color-cherry-red);
-  > .dnb-form-label {
-    max-width: 12rem;
-    background: blue;
-  }
-\`
-render(<>
-  <CustomRow>
-    <FormLabel for_id="alone-1">
-      Default horizontal FormLabel:
-    </FormLabel>
-    <Checkbox id="alone-1" label="Checkbox" />
-  </CustomRow>
-</>)
-          `}
+          {/* @html */ `
+<FormSection spacing="true" style="white">
+  Visual DNB Section: <code className="dnb-code">white</code>
+</FormSection>
+        `}
         </ComponentBox>
-        <ComponentBox caption="Vertical form-label without a `for_id`">
-          {/* @jsx */ `
-<FormLabel vertical={true}>
-  Without for_id (select me):
-</FormLabel>
-<Checkbox label="Checkbox" />
-          `}
+        <ComponentBox
+          hideCode
+          caption="Divider FormSection"
+          data-dnb-test="form-section-divider"
+        >
+          {/* @html */ `
+<FormSection spacing="true" style="divider">
+  Visual DNB Section: <code className="dnb-code">divider</code>
+</FormSection>
+        `}
         </ComponentBox>
-        <ComponentBox caption="A form-label using `.dnb-form` (pattern)">
-          {/* @jsx */ `
-<form className="dnb-form">
-  <div className="dnb-form__item">
-    <div className="dnb-form__cell">
-      <FormLabel
-        for_id="switch-1"
-        text="Form Label Text (click me):"
-      />
-    </div>
-    <div className="dnb-form__cell">
-      <Switch
-        id="switch-1"
-        title="Ths is the title"
-        value="Value of switch"
-      />
-    </div>
-  </div>
-</form>
-          `}
+        <ComponentBox
+          hideCode
+          caption="Mint-Green FormSection"
+          data-dnb-test="form-section-mint-green"
+        >
+          {/* @html */ `
+<FormSection spacing="true" style="mint-green">
+  Visual DNB Section: <code className="dnb-code">mint-green</code>
+</FormSection>
+        `}
+        </ComponentBox>
+        <ComponentBox
+          hideCode
+          caption="Emerald-Green FormSection"
+          data-dnb-test="form-section-emerald-green"
+        >
+          {/* @html */ `
+<FormSection spacing="true" style="emerald-green">
+  Visual DNB Section: <code className="dnb-code">emerald-green</code>
+</FormSection>
+        `}
+        </ComponentBox>
+        <ComponentBox
+          caption="Signal-Orange FormSection"
+          data-dnb-test="form-section-signal-orange"
+        >
+          {/* @html */ `
+<FormSection spacing="true" style="signal-orange">
+  Visual DNB Section: <code className="dnb-code">signal-orange</code>
+</FormSection>
+        `}
         </ComponentBox>
       </Fragment>
     )
   }
 }
+
+/* <CodeBlock
+  reactLive
+  hideCode
+  caption="All sections - `.dnb-section`"
+  data-dnb-test="helper-classes-section"
+  >
+    <div className="dnb-section">
+      Visual DNB Section, declared with <code className="dnb-code">.dnb-section</code>
+    </div>
+    <div className="dnb-section dnb-section--spacing">
+      Visual DNB Section, declared with <code className="dnb-code">.dnb-section--spacing</code>
+    </div>
+    <div className="dnb-section dnb-section--spacing dnb-section--white">
+      Visual DNB Section, declared with <code className="dnb-code">.dnb-section--white</code>
+    </div>
+    <div className="dnb-section dnb-section--spacing-small dnb-section--divider">
+      Visual DNB Section, declared with <code className="dnb-code">.dnb-section--divider</code>
+    </div>
+    <div className="dnb-section dnb-section--spacing-large dnb-section--mint-green">
+      Visual DNB Section, declared with <code className="dnb-code">.dnb-section--mint-green</code>
+    </div>
+    <div className="dnb-section dnb-section--spacing dnb-section--emerald-green">
+      Visual DNB Section, declared with <code className="dnb-code">.dnb-section--emerald-green</code>
+    </div>
+    <div className="dnb-section dnb-section--spacing dnb-section--signal-orange">
+      Visual DNB Section, declared with <code className="dnb-code">.dnb-section--signal-orange</code>
+    </div>
+  </CodeBlock> */
 
 export { Example }
 export default () => <Example />
