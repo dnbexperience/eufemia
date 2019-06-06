@@ -72,13 +72,12 @@ export default [
           // disabled
           // name="MyGroup" // The Group Name
         >
-          <Radio label="First" value="First" label_position="right" />
-          <Radio label="Second" value="Second" label_position="right" />
+          <Radio label="First" value="First" />
+          <Radio label="Second" value="Second" />
           <Radio
             label="Third"
             value="Third"
             // checked
-            label_position="right"
           />
         </Radio.Group>
       </Box>
@@ -93,53 +92,71 @@ export default [
           // disabled
           // name="First" // Custom Group Name
         >
-          <Radio label="First" value="First" label_position="right" />
+          <Radio label="First" value="First" />
           <Radio
             label="Second"
             value="Second"
-            label_position="right"
             status="Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
           />
           <Radio
             label="Third"
             value="Third"
             checked
-            label_position="right"
             status="Info message"
             status_state="info"
           />
         </Radio.Group>
       </Box>
       <Box>
-        <Radio.Group label="Vertical group:" layout_direction="column">
-          <Radio label="First" value="First" label_position="right" />
-          <Radio label="Second" value="Second" label_position="right" />
+        <Radio.Group label="Vertical group:" direction="vertical">
+          <Radio label="First" value="First" />
+          <Radio label="Second" value="Second" />
+          <Radio label="Third" value="Third" checked />
+        </Radio.Group>
+      </Box>
+      <Box>
+        <Radio.Group
+          label="Vertical group with error:"
+          vertical="true"
+          status="Error message Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
+        >
+          <Radio label="First" value="First" />
+          <Radio label="Second" value="Second" />
+          <Radio label="Third" value="Third" checked />
+        </Radio.Group>
+      </Box>
+      <Box>
+        <Radio.Group
+          label="Group with error:"
+          status="Error message Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
+        >
+          <Radio label_position="left" label="First" value="First" />
+          <Radio label_position="left" label="Second" value="Second" />
           <Radio
+            label_position="left"
             label="Third"
             value="Third"
             checked
-            label_position="right"
           />
         </Radio.Group>
       </Box>
       <Box>
-        <Radio label="Unchecked disabled" checked={false} disabled />
+        <Radio label="Unchecked disabled" disabled />
       </Box>
       <Box>
         <Radio label="Checked disabled" checked disabled />
       </Box>
       <Box>
         <Radio
-          label="Unchecked status error"
-          checked={false}
-          status="error"
+          label="Unchecked status error Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
+          status="Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
         />
       </Box>
       <Box>
         <Radio
           label="Checked status message"
           checked
-          status="Error message"
+          status="Error message Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
         />
       </Box>
     </Wrapper>
