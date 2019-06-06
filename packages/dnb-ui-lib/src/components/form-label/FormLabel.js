@@ -7,6 +7,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
+  isTrue,
   registerElement,
   validateDOMAttributes,
   processChildren
@@ -24,6 +25,9 @@ export const propTypes = {
   id: PropTypes.string,
   class: PropTypes.string,
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  direction: PropTypes.oneOf(['vertical', 'horizontal']),
+  vertical: PropTypes.bool,
+
   /** React props */
   className: PropTypes.string,
   children: PropTypes.oneOfType([
@@ -31,6 +35,7 @@ export const propTypes = {
     PropTypes.func,
     PropTypes.node
   ]),
+
   // Web Component props
   render_content: PropTypes.func
 }
@@ -42,9 +47,13 @@ export const defaultProps = {
   id: null,
   class: null,
   disabled: false,
+  direction: 'horizontal',
+  vertical: null,
+
   /** React props */
   className: null,
   children: null,
+
   // Web Component props
   ...renderProps
 }
@@ -72,6 +81,8 @@ export default class FormLabel extends PureComponent {
       className,
       id,
       disabled,
+      direction,
+      vertical,
       class: _className,
 
       text: _text, // eslint-disable-line
@@ -82,11 +93,16 @@ export default class FormLabel extends PureComponent {
     const content = FormLabel.getContent(this.props)
 
     const params = {
-      className: classnames('dnb-form-label', className, _className),
+      className: classnames(
+        'dnb-form-label',
+        `dnb-form-label--${isTrue(vertical) ? 'vertical' : direction}`,
+        className,
+        _className
+      ),
       htmlFor: for_id,
       id,
       title,
-      disabled,
+      disabled: isTrue(disabled),
       ...otherProps
     }
 

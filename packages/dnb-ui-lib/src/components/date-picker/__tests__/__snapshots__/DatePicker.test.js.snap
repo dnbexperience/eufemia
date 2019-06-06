@@ -1243,18 +1243,19 @@ a.dnb-button .dnb-button__text {
  *
  */
 .dnb-form-label {
-  user-select: none;
-  margin-right: 1rem;
   display: inline-block;
+  width: auto;
+  margin: 0;
+  margin-right: 1rem;
   vertical-align: baseline;
-  cursor: pointer;
-  color: inherit;
-  width: auto; }
+  color: inherit; }
   .dnb-form-label--vertical {
+    display: block;
     margin-right: 0;
-    margin-top: 0; }
-  .dnb-form-label[for]:not([disabled]):hover {
-    color: var(--color-sea-green); }
+    margin-bottom: 0.5rem; }
+  .dnb-form-label[for]:not([disabled]) {
+    user-select: none;
+    cursor: pointer; }
   .dnb-form-label[disabled] {
     cursor: not-allowed; }
 

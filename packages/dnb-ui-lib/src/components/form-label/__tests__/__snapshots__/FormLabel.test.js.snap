@@ -4,17 +4,17 @@ exports[`FormLabel component have to match snapshot 1`] = `
 <FormLabel
   class="class"
   className="className"
+  direction="horizontal"
   disabled="disabled"
   for_id="for_id"
   id="id"
   render_content={[Function]}
   text="text"
   title="title"
+  vertical={true}
 >
   <label
-    aria-disabled={true}
-    className="dnb-form-label className class"
-    disabled="disabled"
+    className="dnb-form-label dnb-form-label--vertical className class"
     htmlFor="for_id"
     id="id"
     title="title"
@@ -31,6 +31,8 @@ exports[`FormLabel scss have to match default theme snapshot 1`] = `
  */
 .dnb-form-label {
   color: var(--color-black-80); }
+  .dnb-form-label[for]:not([disabled]):hover {
+    color: var(--color-sea-green); }
 "
 `;
 
@@ -94,18 +96,19 @@ exports[`FormLabel scss have to match snapshot 1`] = `
  *
  */
 .dnb-form-label {
-  user-select: none;
-  margin-right: 1rem;
   display: inline-block;
+  width: auto;
+  margin: 0;
+  margin-right: 1rem;
   vertical-align: baseline;
-  cursor: pointer;
-  color: inherit;
-  width: auto; }
+  color: inherit; }
   .dnb-form-label--vertical {
+    display: block;
     margin-right: 0;
-    margin-top: 0; }
-  .dnb-form-label[for]:not([disabled]):hover {
-    color: var(--color-sea-green); }
+    margin-bottom: 0.5rem; }
+  .dnb-form-label[for]:not([disabled]) {
+    user-select: none;
+    cursor: pointer; }
   .dnb-form-label[disabled] {
     cursor: not-allowed; }
 "

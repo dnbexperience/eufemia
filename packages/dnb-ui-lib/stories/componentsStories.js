@@ -16,6 +16,7 @@ import DatePicker from './components/DatePicker'
 import Textarea from './components/Textarea'
 import ProgressIndicator from './components/ProgressIndicator'
 import Modal from './components/Modal'
+import FormLabelStory from './components/FormLabel'
 import {
   Button,
   Tabs,
@@ -41,6 +42,7 @@ stories.push(DatePicker)
 stories.push(Textarea)
 stories.push(ProgressIndicator)
 stories.push(Modal)
+stories.push(FormLabelStory)
 
 const CustomStyle = styled.div`
   p {
