@@ -25,7 +25,7 @@ const renderProps = {
 
 export const propTypes = {
   label: PropTypes.string,
-  label_position: PropTypes.string,
+  label_position: PropTypes.oneOf(['left', 'right']),
   title: PropTypes.string,
   checked: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),

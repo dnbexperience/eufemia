@@ -7,6 +7,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
+  isTrue,
   registerElement,
   validateDOMAttributes,
   dispatchCustomElementEvent
@@ -28,7 +29,8 @@ export const propTypes = {
   status: PropTypes.string,
   status_state: PropTypes.string,
   status_animation: PropTypes.string,
-  layout_direction: PropTypes.string,
+  direction: PropTypes.oneOf(['horizontal', 'vertical']),
+  vertical: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   value: PropTypes.string,
   attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   class: PropTypes.string,
@@ -56,7 +58,8 @@ export const defaultProps = {
   status: null,
   status_state: 'error',
   status_animation: null,
-  layout_direction: 'row',
+  direction: 'horizontal',
+  vertical: null,
   value: null,
   attributes: null,
   class: null,
@@ -122,7 +125,8 @@ export default class RadioGroup extends PureComponent {
       status,
       status_state,
       status_animation,
-      layout_direction,
+      direction,
+      vertical,
       label,
       disabled,
       className,
@@ -149,8 +153,7 @@ export default class RadioGroup extends PureComponent {
       'dnb-radio-group',
       showStatus && 'dnb-radio-group__form-status',
       status && `dnb-radio-group__status--${status_state}`,
-      layout_direction &&
-        `dnb-radio-group--layout-direction-${layout_direction}`,
+      `dnb-radio-group--${isTrue(vertical) ? 'vertical' : direction}`,
       className,
       _className
     )

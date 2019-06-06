@@ -24,6 +24,8 @@ const props = fakeProps(require.resolve('../Radio'), {
 props.group = null
 props.status = null
 props.readOnly = false
+props.label_position = 'left'
+props.direction = 'horizontal'
 
 describe('Radio component', () => {
   // then test the state management
