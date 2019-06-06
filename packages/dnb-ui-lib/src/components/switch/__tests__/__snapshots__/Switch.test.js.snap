@@ -12,6 +12,7 @@ exports[`Switch component have to match snapshot 1`] = `
   disabled="disabled"
   id="id"
   label="label"
+  label_position="left"
   on_change={[Function]}
   on_state_update={[Function]}
   readOnly={false}
@@ -21,66 +22,70 @@ exports[`Switch component have to match snapshot 1`] = `
   title="title"
   value="value"
 >
-  <FormLabel
-    class={null}
-    className={null}
-    disabled="disabled"
-    for_id="id"
-    id="id-label"
-    render_content={null}
-    text="label"
-    title={null}
-  >
-    <label
-      aria-disabled={true}
-      className="dnb-form-label"
-      disabled="disabled"
-      htmlFor="id"
-      id="id-label"
-    >
-      label
-    </label>
-  </FormLabel>
   <span
-    className="dnb-switch className class"
+    className="dnb-switch--label-position-left"
   >
-    <span
-      className="dnb-switch__shell"
+    <FormLabel
+      class={null}
+      className={null}
+      disabled="disabled"
+      for_id="id"
+      id="id-label"
+      render_content={null}
+      text="label"
+      title={null}
     >
-      <input
-        aria-checked={false}
+      <label
         aria-disabled={true}
-        aria-labelledby="id-label"
-        checked={false}
-        className="dnb-switch__input"
+        className="dnb-form-label"
         disabled="disabled"
-        id="id"
-        name="id"
-        onChange={[Function]}
-        onKeyDown={[Function]}
-        onMouseOut={[Function]}
-        role="switch"
-        title="title"
-        type="checkbox"
-        value=""
-      />
-      <span
-        aria-hidden={true}
-        className="dnb-switch__background"
-        draggable={true}
-        onDragStart={[Function]}
-        onMouseDown={[Function]}
-      />
-      <span
-        aria-hidden={true}
-        className="dnb-switch__button"
+        htmlFor="id"
+        id="id-label"
       >
+        label
+      </label>
+    </FormLabel>
+    <span
+      className="dnb-switch className class"
+    >
+      <span
+        className="dnb-switch__shell"
+      >
+        <input
+          aria-checked={false}
+          aria-disabled={true}
+          aria-labelledby="id-label"
+          checked={false}
+          className="dnb-switch__input"
+          disabled="disabled"
+          id="id"
+          name="id"
+          onChange={[Function]}
+          onKeyDown={[Function]}
+          onMouseOut={[Function]}
+          role="switch"
+          title="title"
+          type="checkbox"
+          value=""
+        />
         <span
-          className="dnb-switch__focus"
+          aria-hidden={true}
+          className="dnb-switch__background"
+          draggable={true}
+          onDragStart={[Function]}
+          onMouseDown={[Function]}
+        />
+        <span
+          aria-hidden={true}
+          className="dnb-switch__button"
         >
           <span
-            className="dnb-switch__focus__inner"
-          />
+            className="dnb-switch__focus"
+          >
+            <span
+              className="dnb-switch__focus__inner"
+            />
+          </span>
         </span>
       </span>
     </span>
@@ -355,7 +360,7 @@ exports[`Switch scss have to match snapshot 1`] = `
  */
 .dnb-form-status {
   width: auto;
-  display: flex;
+  display: inline-flex;
   justify-content: flex-start;
   align-items: center;
   min-height: var(--input-height);
@@ -439,30 +444,26 @@ exports[`Switch scss have to match snapshot 1`] = `
   --switch-border-width: 0.0625rem; }
 
 .dnb-switch {
-  user-select: none;
   display: inline-flex;
   flex-direction: column;
-  align-items: flex-start;
   vertical-align: middle;
   width: auto;
   margin: 0;
   padding: 0;
   /*
     * When switched OFF
-    * aka when the checkbox is not :checked
+    * aka when the switch is not :checked
     */
   /*
     * When switched ON
-    * aka when the checkbox is :checked
+    * aka when the switch is :checked
     */ }
   .dnb-switch__shell {
+    user-select: none;
     position: relative;
     display: flex;
     align-items: center;
     transform: translateY(-0.0625rem); }
-  label + .dnb-switch[class*='__form-status'] {
-    vertical-align: baseline;
-    transform: translateY(0.25rem); }
   .dnb-switch__focus, .dnb-switch__button {
     position: absolute;
     z-index: 4;
@@ -512,7 +513,30 @@ exports[`Switch scss have to match snapshot 1`] = `
     border: 0; }
   .dnb-switch__input:not([disabled]) {
     cursor: pointer; }
-  .dnb-switch > .dnb-form-status {
+  .dnb-switch--label-position-left, .dnb-switch--label-position-right {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center; }
+  .dnb-switch--label-position-left .dnb-switch {
+    order: 2; }
+  .dnb-switch--label-position-left .dnb-form-label {
+    order: 1;
+    align-self: flex-start; }
+  .dnb-switch--label-position-left .dnb-form-status {
     margin-top: 0.5rem; }
+  .dnb-switch__status--message.dnb-switch--label-position-left .dnb-form-label {
+    transform: translateY(-0.25rem); }
+  .dnb-switch--label-position-right {
+    vertical-align: middle; }
+    .dnb-switch--label-position-right .dnb-switch {
+      order: 1; }
+    .dnb-switch--label-position-right .dnb-form-label {
+      order: 2;
+      margin-left: 1rem;
+      margin-right: 0.5rem;
+      line-height: 1rem; }
+    .dnb-switch--label-position-right + .dnb-form-status {
+      vertical-align: bottom;
+      margin-top: 0.5rem; }
 "
 `;

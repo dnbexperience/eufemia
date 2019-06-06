@@ -22,6 +22,7 @@ const props = fakeProps(require.resolve('../Switch'), {
   optional: true
 })
 props.status = null
+props.label_position = 'left'
 props.readOnly = false
 
 describe('Switch component', () => {
@@ -50,6 +51,20 @@ describe('Switch component', () => {
     const value = 'new value'
     Comp.setProps({ value })
     expect(Comp.find('input').props().value).toBe(value)
+  })
+
+  it('has "on_change" event witch will trigger on a input change', () => {
+    const my_event = jest.fn()
+    const myEvent = jest.fn()
+    const Comp = mount(
+      <Component on_change={my_event} onChange={myEvent} checked={false} />
+    )
+    Comp.find('input').simulate('change')
+    expect(my_event.mock.calls.length).toBe(1)
+    expect(myEvent.mock.calls.length).toBe(1)
+    expect(myEvent.mock.calls[0][0]).toHaveProperty('checked')
+    expect(myEvent.mock.calls[0][0].checked).toBe(true)
+    expect(my_event.mock.calls[0][0].checked).toBe(true)
   })
 
   it('has a disabled attribute, once we set disabled to true', () => {

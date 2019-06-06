@@ -11,6 +11,7 @@ import styled from '@emotion/styled'
 import ButtonStory from './components/Button'
 import Radio from './components/Radio'
 import Checkbox from './components/Checkbox'
+import Switch from './components/Switch'
 import DatePicker from './components/DatePicker'
 import Textarea from './components/Textarea'
 import ProgressIndicator from './components/ProgressIndicator'
@@ -24,7 +25,6 @@ import {
   IconPrimary,
   FormLabel,
   Dropdown,
-  Switch,
   Logo,
   StepIndicator
 } from '../src/components'
@@ -36,6 +36,7 @@ export default stories
 stories.push(ButtonStory)
 stories.push(Radio)
 stories.push(Checkbox)
+stories.push(Switch)
 stories.push(DatePicker)
 stories.push(Textarea)
 stories.push(ProgressIndicator)
@@ -464,40 +465,6 @@ stories.push([
             </li>
             <li className="dnb-dropdown__triangle" />
           </ul>
-        </Box>
-      </Wrapper>
-    </CustomStyle>
-  )
-])
-stories.push([
-  'Switch',
-  () => (
-    <CustomStyle>
-      <Wrapper>
-        <Box>
-          Text: <FormLabel for_id="switch">Unchecked:</FormLabel>
-          <Switch id="switch" checked={false} />
-        </Box>
-        <Box>
-          <p className="dnb-p">
-            <Switch label="Checked:" checked />
-          </p>
-        </Box>
-        <Box>
-          <Switch label="Unchecked disabled:" checked={false} disabled />
-        </Box>
-        <Box>
-          <Switch label="Checked disabled:" checked disabled />
-        </Box>
-        <Box>
-          <Switch
-            label="Unchecked status error:"
-            checked={false}
-            status="error"
-          />
-        </Box>
-        <Box>
-          <Switch label="Label:" checked status="Error message" />
         </Box>
       </Wrapper>
     </CustomStyle>

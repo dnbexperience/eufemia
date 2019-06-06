@@ -22,6 +22,7 @@ const renderProps = {
 
 export const propTypes = {
   label: PropTypes.string,
+  label_position: PropTypes.oneOf(['left', 'right']),
   title: PropTypes.string,
   default_state: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   checked: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -48,6 +49,7 @@ export const propTypes = {
 
 export const defaultProps = {
   label: null,
+  label_position: 'left',
   title: null,
   default_state: null,
   checked: 'default', //we have to send this as a string
@@ -157,6 +159,7 @@ export default class Switch extends Component {
       status_state,
       status_animation,
       label,
+      label_position,
       title,
       disabled,
       readOnly,
@@ -180,10 +183,10 @@ export default class Switch extends Component {
 
     const id = this._id
     const showStatus = status && status !== 'error'
+    const hasStatusMessage = showStatus && status !== 'info'
 
     const classes = classnames(
       'dnb-switch',
-      showStatus && 'dnb-switch__form-status',
       status && `dnb-switch__status--${status_state}`,
       className,
       _className
@@ -209,63 +212,68 @@ export default class Switch extends Component {
     // also used for code markup simulation
     validateDOMAttributes(this.props, inputParams)
 
+    const labelComp = label && (
+      <FormLabel
+        id={id + '-label'}
+        for_id={id}
+        text={label}
+        disabled={disabled}
+      />
+    )
+
+    const statusComp = showStatus && (
+      <FormStatus
+        text={status}
+        status={status_state}
+        text_id={id + '-status'} // used for "aria-describedby"
+        animation={status_animation}
+      />
+    )
+
     return (
       <>
-        {label && (
-          <FormLabel
-            id={id + '-label'}
-            for_id={id}
-            text={label}
-            disabled={disabled}
-          />
-        )}
-        <span className={classes}>
-          <span className="dnb-switch__shell">
-            <input
-              id={id}
-              name={id}
-              type="checkbox"
-              role="switch"
-              title={title}
-              aria-checked={checked}
-              className="dnb-switch__input"
-              value={checked ? value || '' : ''}
-              onChange={this.onChangeHandler}
-              onKeyDown={this.onKeyDownHandler}
-              ref={this._refInput}
-              {...inputParams}
-            />
-            <span
-              draggable
-              aria-hidden
-              className="dnb-switch__background"
-              onDragStart={this.onChangeHandler}
-              {...this.helperParams}
-            />
-            <span aria-hidden className="dnb-switch__button">
-              {/* {checked ? (
-                  <span className="dnb-switch__text-item dnb-switch__text-item--positive">
-                    {title_positive}
-                  </span>
-                ) : (
-                  <span className="dnb-switch__text-item dnb-switch__text-item--negative">
-                    {title_negative}
-                  </span>
-                )} */}
-              <span className="dnb-switch__focus">
-                <span className="dnb-switch__focus__inner" />
+        <span
+          className={classnames(
+            label &&
+              label_position &&
+              `dnb-switch--label-position-${label_position}`,
+            hasStatusMessage && `dnb-switch__status--message`
+          )}
+        >
+          {labelComp}
+          <span className={classes}>
+            <span className="dnb-switch__shell">
+              <input
+                id={id}
+                name={id}
+                type="checkbox"
+                role="switch"
+                title={title}
+                aria-checked={checked}
+                className="dnb-switch__input"
+                value={checked ? value || '' : ''}
+                ref={this._refInput}
+                {...inputParams}
+                onChange={this.onChangeHandler}
+                onKeyDown={this.onKeyDownHandler}
+              />
+              <span
+                draggable
+                aria-hidden
+                className="dnb-switch__background"
+                onDragStart={this.onChangeHandler}
+                {...this.helperParams}
+              />
+              <span aria-hidden className="dnb-switch__button">
+                <span className="dnb-switch__focus">
+                  <span className="dnb-switch__focus__inner" />
+                </span>
               </span>
             </span>
+            {label_position === 'left' && statusComp}
           </span>
-          {showStatus && (
-            <FormStatus
-              text={status}
-              status={status_state}
-              text_id={id + '-status'} // used for "aria-describedby"
-              animation={status_animation}
-            />
-          )}
         </span>
+        {label_position === 'right' && statusComp}
       </>
     )
   }
