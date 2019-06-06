@@ -8,8 +8,7 @@ import React /* , { useState, useEffect } */ from 'react'
 import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
 
-import { Checkbox, FormLabel } from '../../src/components'
-import { FormRow } from '../../src/elements'
+import { Checkbox, FormLabel, FormRow } from '../../src/components'
 
 const CustomRow = styled(FormRow)`
   > .dnb-form-label {
