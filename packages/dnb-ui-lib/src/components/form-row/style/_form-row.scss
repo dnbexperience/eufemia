@@ -1,0 +1,40 @@
+/*
+ * FormRow component
+ *
+ */
+
+.dnb-form-row {
+  display: inline-flex;
+  flex-direction: row;
+
+  > .dnb-form-status {
+    margin: 0.5rem 0;
+  }
+  > .dnb-form-label {
+    margin: 0;
+  }
+
+  // for vertical labeling
+  &--vertical {
+    flex-direction: column;
+
+    width: auto;
+
+    > label,
+    > .dnb-form-label {
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  // for hoizontal labeling
+  &,
+  &--hoizontal {
+    align-items: flex-end;
+
+    > label,
+    > .dnb-form-label {
+      margin-right: 1rem;
+      // text-align: right;
+    }
+  }
+}
