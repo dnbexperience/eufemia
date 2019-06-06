@@ -15,6 +15,8 @@ import Checkbox from './checkbox/Checkbox'
 import DatePicker from './date-picker/DatePicker'
 import Dropdown from './dropdown/Dropdown'
 import FormLabel from './form-label/FormLabel'
+import FormRow from './form-row/FormRow'
+import FormSection from './form-section/FormSection'
 import FormStatus from './form-status/FormStatus'
 import Icon from './icon/Icon'
 import IconPrimary from './icon-primary/IconPrimary'
@@ -39,6 +41,8 @@ export {
   DatePicker,
   Dropdown,
   FormLabel,
+  FormRow,
+  FormSection,
   FormStatus,
   Icon,
   IconPrimary,
