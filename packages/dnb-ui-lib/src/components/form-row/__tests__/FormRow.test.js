@@ -12,7 +12,6 @@ import {
   loadScss
 } from '../../../core/jest/jestSetup'
 import Component from '../FormRow'
-import Input from '../../input/Input'
 
 // just to make sure we re-run the test in watch mode due to changes in theese files
 import _form_row from '../style/_form-row.scss' // eslint-disable-line
@@ -31,24 +30,22 @@ describe('FormRow component', () => {
     expect(toJson(Comp)).toMatchSnapshot()
   })
 
-  it.skip('should forward unlisted attributes like "aria-hidden"', () => {
-    const Comp = mount(<Component {...props} for_id="input" aria-hidden />)
-    expect(Comp.find('row[aria-hidden]').exists()).toBe(true)
+  it('should have vertical direction class', () => {
+    const Comp = mount(<Component {...props} direction="vertical" />)
     expect(
-      Comp.find('row[aria-hidden]')
-        .instance()
-        .getAttribute('aria-hidden')
-    ).toBe('true')
+      Comp.find('.dnb-form-row').hasClass('dnb-form-row--vertical')
+    ).toBe(true)
+  })
+
+  it('should have correct size class', () => {
+    const Comp = mount(<Component {...props} size="large" />)
+    expect(
+      Comp.find('.dnb-form-row').hasClass('dnb-form-row__size--large')
+    ).toBe(true)
   })
 
   it('should validate with ARIA rules', async () => {
     expect(await axeComponent(Comp)).toHaveNoViolations()
-  })
-
-  it.skip('should validate with ARIA rules as a row with a input', async () => {
-    const RowComp = mount(<Component {...props} for_id="input" />)
-    const InputComp = mount(<Input id="input" value="some value" />)
-    expect(await axeComponent(RowComp, InputComp)).toHaveNoViolations()
   })
 })
 

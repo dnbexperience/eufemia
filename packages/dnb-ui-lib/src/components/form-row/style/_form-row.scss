@@ -14,7 +14,19 @@
     margin: 0;
   }
 
-  // for vertical labeling
+  // for hoizontal direction
+  &,
+  &--hoizontal {
+    align-items: flex-end;
+
+    > label,
+    > .dnb-form-label {
+      margin-right: 1rem;
+      // text-align: right;
+    }
+  }
+
+  // for vertical direction
   &--vertical {
     flex-direction: column;
 
@@ -26,15 +38,21 @@
     }
   }
 
-  // for hoizontal labeling
-  &,
-  &--hoizontal {
-    align-items: flex-end;
-
-    > label,
-    > .dnb-form-label {
-      margin-right: 1rem;
-      // text-align: right;
+  // TODO: size has to be defined
+  // the width of label
+  &:not(#{&}--vertical)#{&}__size {
+    &--small > .dnb-form-label {
+      // min-width: 6rem;
+      // max-width: 12rem;
+    }
+    &--default > .dnb-form-label,
+    &--medium > .dnb-form-label {
+      min-width: 6rem;
+      max-width: 12rem;
+    }
+    &--large > .dnb-form-label {
+      // min-width: 6rem;
+      // max-width: 12rem;
     }
   }
 }

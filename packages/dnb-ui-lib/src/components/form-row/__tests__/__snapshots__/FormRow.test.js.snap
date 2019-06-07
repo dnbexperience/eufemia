@@ -5,21 +5,14 @@ exports[`FormRow component have to match snapshot 1`] = `
   class="class"
   className="className"
   direction="horizontal"
-  disabled="disabled"
-  for_id="for_id"
-  id="id"
   render_content={[Function]}
-  text="text"
-  title="title"
-  vertical={true}
+  size="size"
+  vertical="vertical"
 >
   <div
-    className="dnb-form-row dnb-form-row--vertical className class"
-    htmlFor="for_id"
-    id="id"
-    title="title"
+    className="dnb-form-row dnb-form-row--horizontal dnb-form-row__size--size className class"
   >
-    text
+    children
   </div>
 </FormRow>
 `;
@@ -29,10 +22,6 @@ exports[`FormRow scss have to match default theme snapshot 1`] = `
  * FormRow theme
  *
  */
-.dnb-form-row {
-  color: var(--color-black-80); }
-  .dnb-form-row[for]:not([disabled]):hover {
-    color: var(--color-sea-green); }
 "
 `;
 
@@ -102,17 +91,21 @@ exports[`FormRow scss have to match snapshot 1`] = `
     margin: 0.5rem 0; }
   .dnb-form-row > .dnb-form-label {
     margin: 0; }
-  .dnb-form-row--vertical {
-    flex-direction: column;
-    width: auto; }
-    .dnb-form-row--vertical > label,
-    .dnb-form-row--vertical > .dnb-form-label {
-      margin-bottom: 0.5rem; }
   .dnb-form-row, .dnb-form-row--hoizontal {
     align-items: flex-end; }
     .dnb-form-row > label,
     .dnb-form-row > .dnb-form-label, .dnb-form-row--hoizontal > label,
     .dnb-form-row--hoizontal > .dnb-form-label {
       margin-right: 1rem; }
+  .dnb-form-row--vertical {
+    flex-direction: column;
+    width: auto; }
+    .dnb-form-row--vertical > label,
+    .dnb-form-row--vertical > .dnb-form-label {
+      margin-bottom: 0.5rem; }
+  .dnb-form-row:not(.dnb-form-row--vertical).dnb-form-row__size--default > .dnb-form-label,
+  .dnb-form-row:not(.dnb-form-row--vertical).dnb-form-row__size--medium > .dnb-form-label {
+    min-width: 6rem;
+    max-width: 12rem; }
 "
 `;

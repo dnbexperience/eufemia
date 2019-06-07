@@ -12,7 +12,7 @@ import {
   validateDOMAttributes,
   processChildren
 } from '../../shared/component-helper'
-// import './style/dnb-form-label.scss' // no good solution to import the style here
+import FormContext from '../form-row/FormContext'
 
 const renderProps = {
   render_content: null
@@ -26,7 +26,7 @@ export const propTypes = {
   class: PropTypes.string,
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   direction: PropTypes.oneOf(['vertical', 'horizontal']),
-  vertical: PropTypes.bool,
+  vertical: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 
   /** React props */
   className: PropTypes.string,
@@ -62,6 +62,7 @@ export default class FormLabel extends PureComponent {
   static tagName = 'dnb-form-label'
   static propTypes = propTypes
   static defaultProps = defaultProps
+  static contextType = FormContext
 
   static enableWebComponent() {
     registerElement(FormLabel.tagName, FormLabel, defaultProps)
@@ -75,6 +76,21 @@ export default class FormLabel extends PureComponent {
   }
 
   render() {
+    let props = this.props
+
+    // consume the formRow context
+    if (this.context.formRow) {
+      props = Object.entries(this.context.formRow).reduce(
+        (acc, [key, value]) => {
+          if (typeof props[key] !== 'undefined' && value !== null) {
+            acc[key] = value
+          }
+          return acc
+        },
+        {}
+      )
+    }
+
     const {
       for_id,
       title,
@@ -87,8 +103,8 @@ export default class FormLabel extends PureComponent {
 
       text: _text, // eslint-disable-line
 
-      ...otherProps
-    } = this.props
+      ...attributes
+    } = props
 
     const content = FormLabel.getContent(this.props)
 
@@ -103,7 +119,7 @@ export default class FormLabel extends PureComponent {
       id,
       title,
       disabled: isTrue(disabled),
-      ...otherProps
+      ...attributes
     }
 
     // also used for code markup simulation

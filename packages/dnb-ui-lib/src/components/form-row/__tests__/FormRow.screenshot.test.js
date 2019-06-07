@@ -16,13 +16,6 @@ describe('FormRow screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
-  it('have to match default form-row with hover', async () => {
-    const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="form-row-default"]',
-      simulate: 'hover'
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
   it('have to match vertical form-row', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-dnb-test="form-row-vertical"]'

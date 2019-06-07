@@ -12,21 +12,17 @@ import {
   validateDOMAttributes,
   processChildren
 } from '../../shared/component-helper'
-// import './style/dnb-form-row.scss' // no good solution to import the style here
+import FormContext from './FormContext'
 
 const renderProps = {
   render_content: null
 }
 
 export const propTypes = {
-  for_id: PropTypes.string,
-  title: PropTypes.string,
-  text: PropTypes.string,
-  id: PropTypes.string,
+  size: PropTypes.string,
   class: PropTypes.string,
-  disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   direction: PropTypes.oneOf(['vertical', 'horizontal']),
-  vertical: PropTypes.bool,
+  vertical: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 
   /** React props */
   className: PropTypes.string,
@@ -41,12 +37,8 @@ export const propTypes = {
 }
 
 export const defaultProps = {
-  for_id: null,
-  title: null,
-  text: null,
-  id: null,
+  size: null,
   class: null,
-  disabled: false,
   direction: 'horizontal',
   vertical: null,
 
@@ -68,7 +60,6 @@ export default class FormRow extends PureComponent {
   }
 
   static getContent(props) {
-    if (props.text) return props.text
     if (typeof props.render_content === 'function')
       props.render_content(props)
     return processChildren(props)
@@ -76,18 +67,13 @@ export default class FormRow extends PureComponent {
 
   render() {
     const {
-      for_id,
-      title,
-      className,
-      id,
-      disabled,
+      size,
       direction,
       vertical,
+      className,
       class: _className,
 
-      text: _text, // eslint-disable-line
-
-      ...otherProps
+      ...attributes
     } = this.props
 
     const content = FormRow.getContent(this.props)
@@ -96,19 +82,28 @@ export default class FormRow extends PureComponent {
       className: classnames(
         'dnb-form-row',
         `dnb-form-row--${isTrue(vertical) ? 'vertical' : direction}`,
+        size && `dnb-form-row__size--${isTrue(size) ? 'default' : size}`,
         className,
         _className
       ),
-      htmlFor: for_id,
-      id,
-      title,
-      disabled: isTrue(disabled),
-      ...otherProps
+      ...attributes
     }
 
     // also used for code markup simulation
     validateDOMAttributes(this.props, params)
 
-    return <div {...params}>{content}</div>
+    const context = {
+      formRow: {
+        direction,
+        vertical,
+        size
+      }
+    }
+
+    return (
+      <FormContext.Provider value={context}>
+        <div {...params}>{content}</div>
+      </FormContext.Provider>
+    )
   }
 }

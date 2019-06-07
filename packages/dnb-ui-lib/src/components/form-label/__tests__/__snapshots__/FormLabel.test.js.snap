@@ -11,10 +11,10 @@ exports[`FormLabel component have to match snapshot 1`] = `
   render_content={[Function]}
   text="text"
   title="title"
-  vertical={true}
+  vertical="vertical"
 >
   <label
-    className="dnb-form-label dnb-form-label--vertical className class"
+    className="dnb-form-label dnb-form-label--horizontal className class"
     htmlFor="for_id"
     id="id"
     title="title"
