@@ -107,7 +107,7 @@ textarea.dnb-textarea {
 
   // for hoizontal labeling
   &,
-  &--hoizontal {
+  &--horizontal {
     // To fake, that the first line is aligned with the label
     &:not(.dnb-form-row--vertical) {
       > .dnb-textarea {

@@ -91,11 +91,11 @@ exports[`FormRow scss have to match snapshot 1`] = `
     margin: 0.5rem 0; }
   .dnb-form-row > .dnb-form-label {
     margin: 0; }
-  .dnb-form-row, .dnb-form-row--hoizontal {
+  .dnb-form-row, .dnb-form-row--horizontal {
     align-items: flex-end; }
     .dnb-form-row > label,
-    .dnb-form-row > .dnb-form-label, .dnb-form-row--hoizontal > label,
-    .dnb-form-row--hoizontal > .dnb-form-label {
+    .dnb-form-row > .dnb-form-label, .dnb-form-row--horizontal > label,
+    .dnb-form-row--horizontal > .dnb-form-label {
       margin-right: 1rem; }
   .dnb-form-row--vertical {
     flex-direction: column;
