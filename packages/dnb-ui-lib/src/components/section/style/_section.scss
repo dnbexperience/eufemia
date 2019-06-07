@@ -1,9 +1,9 @@
 /*
- * FormSection component
+ * Section component
  *
  */
 
-@mixin FormSectionStyle() {
+@mixin SectionStyle() {
   position: relative;
 
   &::after {
@@ -39,6 +39,6 @@
   }
 }
 
-.dnb-form-section {
-  @include FormSectionStyle();
+.dnb-section {
+  @include SectionStyle();
 }

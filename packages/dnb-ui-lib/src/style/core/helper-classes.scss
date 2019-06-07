@@ -24,13 +24,6 @@
 }
 @import './helper-classes/skip-link.scss';
 
-// TODO: Including the helper here is deprecated and will be removed in the major version
-@import './helper-classes/dnb-section.scss';
-
-.dnb-unstyled-list {
-  @include unstyledList();
-}
-
 // Layout management
 // Use this class where components are trying to add background boxes/borders/lines
 // to the very outer sides of the page

@@ -1,9 +1,9 @@
 /*
- * FormSection theme
+ * Section theme
  *
  */
 
-@mixin FormSectionTheme() {
+@mixin SectionTheme() {
   &--divider::after {
     color: var(--color-white);
     box-shadow: 100vw 0 0 0 currentColor,
@@ -40,6 +40,6 @@
   }
 }
 
-.dnb-form-section {
-  @include FormSectionTheme();
+.dnb-section {
+  @include SectionTheme();
 }

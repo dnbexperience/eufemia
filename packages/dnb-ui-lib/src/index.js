@@ -16,7 +16,6 @@ import DatePicker from './components/date-picker/DatePicker'
 import Dropdown from './components/dropdown/Dropdown'
 import FormLabel from './components/form-label/FormLabel'
 import FormRow from './components/form-row/FormRow'
-import FormSection from './components/form-section/FormSection'
 import FormStatus from './components/form-status/FormStatus'
 import Icon from './components/icon/Icon'
 import IconPrimary from './components/icon-primary/IconPrimary'
@@ -28,6 +27,7 @@ import Modal from './components/modal/Modal'
 import Notification from './components/notification/Notification'
 import ProgressIndicator from './components/progress-indicator/ProgressIndicator'
 import Radio from './components/radio/Radio'
+import Section from './components/section/Section'
 import Slider from './components/slider/Slider'
 import StepIndicator from './components/step-indicator/StepIndicator'
 import Switch from './components/switch/Switch'
@@ -49,7 +49,7 @@ import Lead from './elements/Lead'
 import Link from './elements/Link'
 import Ol from './elements/Ol'
 import P from './elements/P'
-import Section from './elements/Section'
+import Paragraph from './elements/Paragraph'
 import Table from './elements/Table'
 import Ul from './elements/Ul'
 
@@ -61,7 +61,6 @@ export {
   Dropdown,
   FormLabel,
   FormRow,
-  FormSection,
   FormStatus,
   Icon,
   IconPrimary,
@@ -73,6 +72,7 @@ export {
   Notification,
   ProgressIndicator,
   Radio,
+  Section,
   Slider,
   StepIndicator,
   Switch,
@@ -94,7 +94,7 @@ export {
   Link,
   Ol,
   P,
-  Section,
+  Paragraph,
   Table,
   Ul
 }

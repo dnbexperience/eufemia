@@ -1,5 +1,5 @@
 /**
- * Web FormSection Component
+ * Web Section Component
  *
  */
 
@@ -46,13 +46,13 @@ export const defaultProps = {
   ...renderProps
 }
 
-export default class FormSection extends PureComponent {
-  static tagName = 'dnb-form-section'
+export default class Section extends PureComponent {
+  static tagName = 'dnb-section'
   static propTypes = propTypes
   static defaultProps = defaultProps
 
   static enableWebComponent() {
-    registerElement(FormSection.tagName, FormSection, defaultProps)
+    registerElement(Section.tagName, Section, defaultProps)
   }
 
   static getContent(props) {
@@ -72,14 +72,14 @@ export default class FormSection extends PureComponent {
       ...attributes
     } = this.props
 
-    const content = FormSection.getContent(this.props)
+    const content = Section.getContent(this.props)
 
     const params = {
       className: classnames(
-        'dnb-form-section',
-        `dnb-form-section--${style}`,
+        'dnb-section',
+        `dnb-section--${style}`,
         (isTrue(spacing) || spacing) &&
-          `dnb-form-section--spacing${
+          `dnb-section--spacing${
             !/true|false/.test(String(spacing)) ? '-' + spacing : ''
           }`,
         className,

@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`FormSection component have to match snapshot 1`] = `
-<FormSection
+exports[`Section component have to match snapshot 1`] = `
+<Section
   class="class"
   className="className"
   render_content={[Function]}
@@ -9,48 +9,48 @@ exports[`FormSection component have to match snapshot 1`] = `
   style="style"
 >
   <section
-    className="dnb-form-section dnb-form-section--style dnb-form-section--spacing-spacing className class"
+    className="dnb-section dnb-section--style dnb-section--spacing-spacing className class"
   >
     children
   </section>
-</FormSection>
+</Section>
 `;
 
-exports[`FormSection scss have to match default theme snapshot 1`] = `
+exports[`Section scss have to match default theme snapshot 1`] = `
 "/*
- * FormSection theme
+ * Section theme
  *
  */
-.dnb-form-section--divider::after {
+.dnb-section--divider::after {
   color: var(--color-white);
   box-shadow: 100vw 0 0 0 currentColor, 0 0.0625rem 0 0 var(--color-mint-green-50), 100vw 0.0625rem 0 0 var(--color-mint-green-50), 0 -0.0625rem 0 0 var(--color-mint-green-50), 100vw -0.0625rem 0 0 var(--color-mint-green-50); }
 
-.dnb-form-section--mint-green-12::after {
+.dnb-section--mint-green-12::after {
   color: var(--color-mint-green-12); }
 
-.dnb-form-section--white::after {
+.dnb-section--white::after {
   color: var(--color-white); }
 
-.dnb-form-section--mint-green::after {
+.dnb-section--mint-green::after {
   color: var(--color-mint-green); }
 
-.dnb-form-section--emerald-green {
+.dnb-section--emerald-green {
   color: var(--color-mint-green); }
-  .dnb-form-section--emerald-green::after {
+  .dnb-section--emerald-green::after {
     color: var(--color-emerald-green); }
-  .dnb-form-section--emerald-green .dnb-code {
+  .dnb-section--emerald-green .dnb-code {
     color: var(--color-emerald-green); }
 
-.dnb-form-section--signal-orange {
+.dnb-section--signal-orange {
   color: var(--color-ocean-green); }
-  .dnb-form-section--signal-orange::after {
+  .dnb-section--signal-orange::after {
     color: var(--color-signal-orange); }
 "
 `;
 
-exports[`FormSection scss have to match snapshot 1`] = `
+exports[`Section scss have to match snapshot 1`] = `
 "/*
-* DNB FormSection
+* DNB Section
 *
 */
 /**
@@ -69,7 +69,7 @@ exports[`FormSection scss have to match snapshot 1`] = `
  * Document Reset
  *
  */
-.dnb-form-section {
+.dnb-section {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
   font-size: 1rem;
@@ -89,27 +89,27 @@ exports[`FormSection scss have to match snapshot 1`] = `
   */
   margin: 0;
   padding: 0; }
-  .dnb-form-section *,
-  .dnb-form-section ::before,
-  .dnb-form-section ::after {
+  .dnb-section *,
+  .dnb-section ::before,
+  .dnb-section ::after {
     background-repeat: no-repeat;
     /* 1 */
     box-sizing: border-box;
     /* 2 */ }
-  .dnb-form-section ::before,
-  .dnb-form-section ::after {
+  .dnb-section ::before,
+  .dnb-section ::after {
     text-decoration: inherit;
     /* 1 */
     vertical-align: inherit;
     /* 2 */ }
 
 /*
- * FormSection component
+ * Section component
  *
  */
-.dnb-form-section {
+.dnb-section {
   position: relative; }
-  .dnb-form-section::after {
+  .dnb-section::after {
     content: '';
     position: absolute;
     z-index: -1;
@@ -120,16 +120,16 @@ exports[`FormSection scss have to match snapshot 1`] = `
     color: var(--color-mint-green-12);
     background-color: currentColor;
     box-shadow: 100vw 0 0 0 currentColor; }
-  .dnb-form-section--spacing,
-  .dnb-spacing .dnb-form-section--spacing {
+  .dnb-section--spacing,
+  .dnb-spacing .dnb-section--spacing {
     padding-top: 2rem;
     padding-bottom: 2rem; }
-  .dnb-form-section--spacing-small,
-  .dnb-spacing .dnb-form-section--spacing-small {
+  .dnb-section--spacing-small,
+  .dnb-spacing .dnb-section--spacing-small {
     padding-top: 1rem;
     padding-bottom: 1rem; }
-  .dnb-form-section--spacing-large,
-  .dnb-spacing .dnb-form-section--spacing-large {
+  .dnb-section--spacing-large,
+  .dnb-spacing .dnb-section--spacing-large {
     padding-top: 3rem;
     padding-bottom: 3.5rem; }
 "

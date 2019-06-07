@@ -13,78 +13,78 @@ class Example extends PureComponent {
       <Fragment>
         <ComponentBox
           hideCode
-          caption="Default FormSection"
-          data-dnb-test="form-section-default"
+          caption="Default Section"
+          data-dnb-test="section-default"
         >
           {/* @html */ `
-<FormSection>
+<Section>
   Visual DNB Section: <code className="dnb-code">default</code>
-</FormSection>
+</Section>
         `}
         </ComponentBox>
         <ComponentBox
           hideCode
-          caption="Default FormSection with large spacing"
-          data-dnb-test="form-section-spacing"
+          caption="Default Section with large spacing"
+          data-dnb-test="section-spacing"
         >
           {/* @html */ `
-<FormSection spacing="large">
+<Section spacing="large">
   Visual DNB Section: <code className="dnb-code">default with spacing</code>
-</FormSection>
+</Section>
         `}
         </ComponentBox>
         <ComponentBox
           hideCode
-          caption="White FormSection"
-          data-dnb-test="form-section-white"
+          caption="White Section"
+          data-dnb-test="section-white"
         >
           {/* @html */ `
-<FormSection spacing="true" style="white">
+<Section spacing="true" style="white">
   Visual DNB Section: <code className="dnb-code">white</code>
-</FormSection>
+</Section>
         `}
         </ComponentBox>
         <ComponentBox
           hideCode
-          caption="Divider FormSection"
-          data-dnb-test="form-section-divider"
+          caption="Divider Section"
+          data-dnb-test="section-divider"
         >
           {/* @html */ `
-<FormSection spacing="true" style="divider">
+<Section spacing="true" style="divider">
   Visual DNB Section: <code className="dnb-code">divider</code>
-</FormSection>
+</Section>
         `}
         </ComponentBox>
         <ComponentBox
           hideCode
-          caption="Mint-Green FormSection"
-          data-dnb-test="form-section-mint-green"
+          caption="Mint-Green Section"
+          data-dnb-test="section-mint-green"
         >
           {/* @html */ `
-<FormSection spacing="true" style="mint-green">
+<Section spacing="true" style="mint-green">
   Visual DNB Section: <code className="dnb-code">mint-green</code>
-</FormSection>
+</Section>
         `}
         </ComponentBox>
         <ComponentBox
           hideCode
-          caption="Emerald-Green FormSection"
-          data-dnb-test="form-section-emerald-green"
+          caption="Emerald-Green Section"
+          data-dnb-test="section-emerald-green"
         >
           {/* @html */ `
-<FormSection spacing="true" style="emerald-green">
+<Section spacing="true" style="emerald-green">
   Visual DNB Section: <code className="dnb-code">emerald-green</code>
-</FormSection>
+</Section>
         `}
         </ComponentBox>
         <ComponentBox
-          caption="Signal-Orange FormSection"
-          data-dnb-test="form-section-signal-orange"
+          caption="Signal-Orange Section"
+          data-dnb-test="section-signal-orange"
         >
           {/* @html */ `
-<FormSection spacing="true" style="signal-orange">
+<Section spacing="true" style="signal-orange">
   Visual DNB Section: <code className="dnb-code">signal-orange</code>
-</FormSection>
+</Section>
         `}
         </ComponentBox>
       </Fragment>

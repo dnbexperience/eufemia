@@ -9,15 +9,20 @@ import {
 } from '../../../core/jest/jestSetupScreenshots'
 
 describe('FormRow screenshot', () => {
+  const style = {
+    width: '200px' // make sure our input gets an explicit width, because of mac/linux rendering differences
+  }
   setupPageScreenshot({ url: '/uilib/components/form-row' })
   it('have to match default form-row', async () => {
     const screenshot = await testPageScreenshot({
+      style,
       selector: '[data-dnb-test="form-row-default"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match vertical form-row', async () => {
     const screenshot = await testPageScreenshot({
+      style,
       selector: '[data-dnb-test="form-row-vertical"]'
     })
     expect(screenshot).toMatchImageSnapshot()
