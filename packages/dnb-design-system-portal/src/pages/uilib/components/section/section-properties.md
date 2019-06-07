@@ -7,7 +7,7 @@ draft: true
 | `style`    | _(optional)_ to define the style of the visual helper. Use and `Style ID` from below. Defaults to `mint-green-12`.                                                                             |
 | `spacing`  | _(optional)_ will add the default spacing around the wrapped content. Use `spacing-large`, `spacing-large` or `spacing-small`. Defaults to `false`. If `true`, then `spacing-default` is used. |
 
-| Available types | Style                                                                    |
+| Style           | Description                                                              |
 | --------------- | ------------------------------------------------------------------------ |
 | `mint-green-12` | _(default)_ uses `--color-mint-green-12`.                                |
 | `white`         | uses `--color-white`.                                                    |
