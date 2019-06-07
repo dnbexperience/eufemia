@@ -18,6 +18,9 @@ class Example extends PureComponent {
           {/* @jsx */ `
 <Button
   text="Primary button with text only"
+  on_click={() => {
+    console.log('on_click')
+  }}
   data-dnb-test="button-primary"
 />
           `}
@@ -27,6 +30,9 @@ class Example extends PureComponent {
 <Button
   text="Secondary button with text only"
   variant="secondary"
+  onClick={() => {
+    console.log('onClick')
+  }}
   data-dnb-test="button-secondary"
 />
           `}
