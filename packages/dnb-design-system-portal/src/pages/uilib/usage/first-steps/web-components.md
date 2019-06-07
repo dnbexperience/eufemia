@@ -45,3 +45,7 @@ Now we can use our web components right away in our markup.
 </form>
 `}
 </ComponentBox>
+
+## Events
+
+You may have a look at [HTML & ES5 event handling](/uilib/usage/customisation/event-handling#html--es5) for both **Declarative** and **Imperative** usage and examples.
