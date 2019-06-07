@@ -164,7 +164,8 @@ const commitToBranch = async ({
       log.succeed(`> Commit: There where no ${what} to commit`)
     }
   } catch (e) {
-    log.fail(e)
+    log.fail(`> Commit: Cached error with message:\n${e.message}\n`)
+    console.log(e)
   }
 
   return []
