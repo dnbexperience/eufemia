@@ -48,8 +48,8 @@ class Example extends PureComponent {
   label="Medium input:"
   size="medium"
   placeholder="Medium input placeholder"
-  on_change={({ value }) => {
-    console.log('on_change', value)
+  onChange={({ value }) => {
+    console.log('onChange', value)
   }}
 />
           `}
