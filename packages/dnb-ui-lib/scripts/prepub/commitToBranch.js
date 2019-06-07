@@ -152,7 +152,9 @@ const commitToBranch = async ({
       ).trim()
       log.text = `> Commit: ${commitMessage}`
 
-      await repo.commit(commitMessage)
+      await repo.commit(commitMessage, null, {
+        '--no-verify': null
+      })
       await repo.push('origin', branchName)
 
       log.succeed(
