@@ -1,0 +1,59 @@
+/*
+ * FormRow component
+ *
+ */
+
+.dnb-form-row {
+  display: inline-flex;
+  flex-direction: row;
+
+  > .dnb-form-status {
+    margin: 0.5rem 0;
+  }
+  > .dnb-form-label {
+    margin: 0;
+  }
+
+  // for hoizontal direction
+  &,
+  &--horizontal {
+    align-items: flex-end;
+
+    > label,
+    > .dnb-form-label {
+      margin-right: 1rem;
+      // text-align: right;
+    }
+  }
+
+  // for vertical direction
+  &--vertical {
+    flex-direction: column;
+    align-items: flex-start;
+
+    width: auto;
+
+    > label,
+    > .dnb-form-label {
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  // TODO: size has to be defined
+  // the width of label
+  &:not(#{&}--vertical)#{&}__size {
+    &--small > .dnb-form-label {
+      // min-width: 6rem;
+      // max-width: 12rem;
+    }
+    &--default > .dnb-form-label,
+    &--medium > .dnb-form-label {
+      min-width: 6rem;
+      max-width: 12rem;
+    }
+    &--large > .dnb-form-label {
+      // min-width: 6rem;
+      // max-width: 12rem;
+    }
+  }
+}

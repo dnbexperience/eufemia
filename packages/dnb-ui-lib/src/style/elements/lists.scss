@@ -115,3 +115,7 @@
 }
 // *:not([class^='dnb-']) > {
 // }
+
+.dnb-unstyled-list {
+  @include unstyledList();
+}

@@ -1,0 +1,45 @@
+/*
+ * Section theme
+ *
+ */
+
+@mixin SectionTheme() {
+  &--divider::after {
+    color: var(--color-white);
+    box-shadow: 100vw 0 0 0 currentColor,
+      0 0.0625rem 0 0 var(--color-mint-green-50),
+      100vw 0.0625rem 0 0 var(--color-mint-green-50),
+      0 -0.0625rem 0 0 var(--color-mint-green-50),
+      100vw -0.0625rem 0 0 var(--color-mint-green-50);
+  }
+  &--mint-green-12::after {
+    color: var(--color-mint-green-12);
+  }
+  &--white::after {
+    color: var(--color-white);
+  }
+  &--mint-green {
+    &::after {
+      color: var(--color-mint-green);
+    }
+  }
+  &--emerald-green {
+    color: var(--color-mint-green);
+    &::after {
+      color: var(--color-emerald-green);
+    }
+    .dnb-code {
+      color: var(--color-emerald-green);
+    }
+  }
+  &--signal-orange {
+    color: var(--color-ocean-green);
+    &::after {
+      color: var(--color-signal-orange);
+    }
+  }
+}
+
+.dnb-section {
+  @include SectionTheme();
+}

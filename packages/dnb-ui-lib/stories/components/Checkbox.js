@@ -4,10 +4,17 @@
  */
 
 import React /* , { useState, useEffect } */ from 'react'
+// import PropTypes from 'prop-types'
 import { Wrapper, Box } from '../helpers'
-// import styled from '@emotion/styled'
+import styled from '@emotion/styled'
 
-import { Checkbox, FormLabel } from '../../src/components'
+import { Checkbox, FormLabel, FormRow } from '../../src/components'
+
+const CustomRow = styled(FormRow)`
+  > .dnb-form-label {
+    max-width: 12rem;
+  }
+`
 
 export default [
   'Checkbox',
@@ -30,13 +37,19 @@ export default [
         />
       </Box>
       <Box>
-        Text:{' '}
-        <Checkbox
-          label="Unchecked"
-          on_change={({ checked }) => {
-            console.log('on_change', checked)
-          }}
-        />
+        <CustomRow>
+          <FormLabel for_id="checkbox-2">
+            Vertical FormLabel for a Checkbox component Sapien rhoncus
+            sagittis pharetra ornare platea feugiat cras senectus viverra:
+          </FormLabel>
+          <Checkbox
+            id="checkbox-2"
+            label="Unchecked"
+            on_change={({ checked }) => {
+              console.log('on_change', checked)
+            }}
+          />
+        </CustomRow>
       </Box>
       <Box>
         <FormLabel for_id="checkbox-1" direction="vertical" vertical>

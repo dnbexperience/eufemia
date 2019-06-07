@@ -152,7 +152,9 @@ const commitToBranch = async ({
       ).trim()
       log.text = `> Commit: ${commitMessage}`
 
-      await repo.commit(commitMessage)
+      await repo.commit(commitMessage, null, {
+        '--no-verify': null
+      })
       await repo.push('origin', branchName)
 
       log.succeed(
@@ -164,7 +166,8 @@ const commitToBranch = async ({
       log.succeed(`> Commit: There where no ${what} to commit`)
     }
   } catch (e) {
-    log.fail(e)
+    log.fail(`> Commit: Cached error with message:\n${e.message}\n`)
+    console.log(e)
   }
 
   return []
