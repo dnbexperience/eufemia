@@ -7,7 +7,12 @@ import React /* , { useState, useEffect } */ from 'react'
 import { Wrapper, Box } from '../helpers'
 // import styled from '@emotion/styled'
 
-import { Radio, FormLabel } from '../../src/components'
+import {
+  Radio,
+  // FormSet,
+  FormRow,
+  FormLabel
+} from '../../src/components'
 
 export default [
   'Radio',
@@ -61,25 +66,36 @@ export default [
         </p>
       </Box>
       <Box>
-        <Radio.Group
-          // label="Group:"
+        {/* <FormSet size> */}
+        <FormRow size>
+          <FormLabel aria-hidden />
+          123
+        </FormRow>
+        <FormRow
+          size
           label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:"
-          title="Give me a Title"
-          on_change={({ value }) => {
-            console.log('on_change', value)
-          }}
-          value="First"
-          // disabled
-          // name="MyGroup" // The Group Name
         >
-          <Radio label="First" value="First" />
-          <Radio label="Second" value="Second" />
-          <Radio
-            label="Third"
-            value="Third"
-            // checked
-          />
-        </Radio.Group>
+          <Radio.Group
+            // label="Group:"
+            // label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:"
+            title="Give me a Title"
+            on_change={({ value }) => {
+              console.log('on_change', value)
+            }}
+            value="First"
+            // disabled
+            // name="MyGroup" // The Group Name
+          >
+            <Radio label="First" value="First" />
+            <Radio label="Second" value="Second" />
+            <Radio
+              label="Third"
+              value="Third"
+              // checked
+            />
+          </Radio.Group>
+        </FormRow>
+        {/* </FormSet> */}
       </Box>
       <Box>
         <Radio.Group

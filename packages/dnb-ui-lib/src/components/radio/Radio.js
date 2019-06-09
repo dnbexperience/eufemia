@@ -260,7 +260,6 @@ export default class Radio extends Component {
 
     const classes = classnames(
       'dnb-radio',
-      showStatus && 'dnb-radio__form-status',
       status && `dnb-radio__status--${status_state}`,
       label_position && `dnb-radio--label-position-${label_position}`,
       className,

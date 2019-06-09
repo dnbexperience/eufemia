@@ -12,8 +12,10 @@ import {
   validateDOMAttributes,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
+import FormRow from '../form-row/FormRow'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
+import FormContext from '../form-row/FormContext'
 import RadioGroupContext from './RadioGroupContext'
 
 const renderProps = {
@@ -82,6 +84,7 @@ export default class RadioGroup extends PureComponent {
   static propTypes = propTypes
   static defaultProps = defaultProps
   static renderProps = renderProps
+  static contextType = FormContext
 
   static enableWebComponent() {
     registerElement(RadioGroup.tagName, RadioGroup, defaultProps)
@@ -151,7 +154,6 @@ export default class RadioGroup extends PureComponent {
 
     const classes = classnames(
       'dnb-radio-group',
-      showStatus && 'dnb-radio-group__form-status',
       status && `dnb-radio-group__status--${status_state}`,
       `dnb-radio-group--${isTrue(vertical) ? 'vertical' : direction}`,
       className,
@@ -179,34 +181,44 @@ export default class RadioGroup extends PureComponent {
       onChange: this.onChangeHandler
     }
 
+    const formRowParams = {
+      direction: direction,
+      vertical: vertical,
+      status: status,
+      status_state: status_state,
+      ...this.context.formRow
+    }
+
     return (
       <RadioGroupContext.Provider value={context}>
         <span className={classes}>
-          {label && (
-            <FormLabel
-              id={id + '-label'}
-              for_id={id}
-              text={label}
-              disabled={disabled}
-              className="dnb-radio-group__label"
-            />
-          )}
-          <span
-            id={id}
-            className="dnb-radio-group__shell"
-            role="radiogroup"
-            {...params}
-          >
-            <span>{children}</span>
-            {showStatus && (
-              <FormStatus
-                text={status}
-                status={status_state}
-                text_id={id + '-status'} // used for "aria-describedby"
-                animation={status_animation}
+          <FormRow {...formRowParams}>
+            {label && (
+              <FormLabel
+                id={id + '-label'}
+                for_id={id}
+                text={label}
+                disabled={disabled}
+                className="dnb-radio-group__label"
               />
             )}
-          </span>
+            <span
+              id={id}
+              className="dnb-radio-group__shell"
+              role="radiogroup"
+              {...params}
+            >
+              {children}
+              {showStatus && (
+                <FormStatus
+                  text={status}
+                  status={status_state}
+                  text_id={id + '-status'} // used for "aria-describedby"
+                  animation={status_animation}
+                />
+              )}
+            </span>
+          </FormRow>
         </span>
       </RadioGroupContext.Provider>
     )

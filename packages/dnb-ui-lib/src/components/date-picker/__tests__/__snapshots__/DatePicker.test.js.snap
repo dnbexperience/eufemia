@@ -69,7 +69,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
   sync={true}
 >
   <span
-    className="dnb-date-picker dnb-date-picker--hidden dnb-date-picker--show-input dnb-date-picker__form-status dnb-date-picker__status--error dnb-date-picker--show-footer"
+    className="dnb-date-picker dnb-date-picker--hidden dnb-date-picker--show-input dnb-date-picker__status--error dnb-date-picker--show-footer"
     date="2019-01-01T00:00:00.000Z"
   >
     <span

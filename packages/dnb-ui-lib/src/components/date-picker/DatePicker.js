@@ -593,14 +593,9 @@ export default class DatePicker extends PureComponent {
             opened && 'dnb-date-picker--opened',
             hidden && 'dnb-date-picker--hidden',
             showInput && 'dnb-date-picker--show-input',
-            showStatus && 'dnb-date-picker__form-status',
             status && `dnb-date-picker__status--${status_state}`,
             (isTrue(show_submit_button) || isTrue(show_cancel_button)) &&
               'dnb-date-picker--show-footer'
-
-            // TODO: make status work on #date-picker
-            // showStatus && 'dnb-date-picker__form-status',
-            // status && `dnb-date-picker__status--${status_state}`,
           )}
           ref={this._wrapperRef}
           {...pickerParams}

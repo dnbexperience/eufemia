@@ -13,16 +13,20 @@ import {
   processChildren
 } from '../../shared/component-helper'
 import FormContext from './FormContext'
+import FormLabel from '../form-label/FormLabel'
 
 const renderProps = {
   render_content: null
 }
 
 export const propTypes = {
-  size: PropTypes.string,
-  class: PropTypes.string,
+  id: PropTypes.string,
+  label: PropTypes.string,
+  size: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   direction: PropTypes.oneOf(['vertical', 'horizontal']),
   vertical: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  class: PropTypes.string,
 
   /** React props */
   className: PropTypes.string,
@@ -37,10 +41,13 @@ export const propTypes = {
 }
 
 export const defaultProps = {
+  id: null,
+  label: null,
   size: null,
-  class: null,
   direction: 'horizontal',
   vertical: null,
+  disabled: null,
+  class: null,
 
   /** React props */
   className: null,
@@ -54,6 +61,7 @@ export default class FormRow extends PureComponent {
   static tagName = 'dnb-form-row'
   static propTypes = propTypes
   static defaultProps = defaultProps
+  static contextType = FormContext
 
   static enableWebComponent() {
     registerElement(FormRow.tagName, FormRow, defaultProps)
@@ -65,11 +73,20 @@ export default class FormRow extends PureComponent {
     return processChildren(props)
   }
 
+  constructor(props) {
+    super(props)
+    this._id =
+      props.id || `dnb-form-row-${Math.round(Math.random() * 999)}` // cause we need an id anyway
+  }
+
   render() {
     const {
+      label,
       size,
       direction,
       vertical,
+      disabled,
+      id, // eslint-disable-line
       className,
       class: _className,
 
@@ -92,17 +109,43 @@ export default class FormRow extends PureComponent {
     // also used for code markup simulation
     validateDOMAttributes(this.props, params)
 
-    const context = {
-      formRow: {
-        direction,
-        vertical,
-        size
+    // if (!(this.context && this.context.formRow)) {
+    //   params.className = classnames(
+    //     `dnb-form-row--${isTrue(vertical) ? 'vertical' : direction}`,
+    //     size && `dnb-form-row__size--${isTrue(size) ? 'default' : size}`,
+    //     params.className
+    //   )
+    //   console.log('params.className', params.className)
+    // }
+    // console.log('this.context.formRow', this.context.formRow)
+    // if (this.context && this.context.formRow) {
+    //   // return content
+    //   // return <div {...params}>{content}</div>
+    // }
+
+    let context
+    if (this.context) {
+      context = { ...this.props, id: this._id, ...this.context }
+    } else {
+      context = {
+        formRow: { ...this.props, id: this._id }
       }
     }
 
     return (
       <FormContext.Provider value={context}>
-        <div {...params}>{content}</div>
+        <div {...params}>
+          {label && (
+            <FormLabel
+              // id={id + '-label'}
+              // for_id={id}
+              text={label}
+              disabled={isTrue(disabled)}
+              className="dnb-form-row__label"
+            />
+          )}
+          {content}
+        </div>
       </FormContext.Provider>
     )
   }
