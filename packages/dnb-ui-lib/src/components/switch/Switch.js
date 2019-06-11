@@ -140,6 +140,11 @@ export default class Switch extends Component {
     const checked = !this.state.checked
     this.setState({ checked, _listenForPropChanges: false })
     dispatchCustomElementEvent(this, 'on_change', { checked, event })
+
+    // help firefox and safari to have an correct state after a click
+    if (this._refInput.current) {
+      this._refInput.current.focus()
+    }
   }
 
   onMouseOutHandler = () => {

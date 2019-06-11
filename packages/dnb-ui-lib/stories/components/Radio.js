@@ -124,7 +124,7 @@ export default [
         </Radio.Group>
       </Box>
       <Box>
-        <Radio.Group label="Vertical group:" direction="vertical">
+        <Radio.Group label="Vertical group:" layout_direction="row">
           <Radio label="First" value="First" />
           <Radio label="Second" value="Second" />
           <Radio label="Third" value="Third" checked />
@@ -133,6 +133,7 @@ export default [
       <Box>
         <Radio.Group
           label="Vertical group with error:"
+          layout_direction="row"
           vertical="true"
           status="Error message Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
         >

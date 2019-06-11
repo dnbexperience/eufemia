@@ -31,6 +31,7 @@ export const propTypes = {
   status: PropTypes.string,
   status_state: PropTypes.string,
   status_animation: PropTypes.string,
+  layout_direction: PropTypes.oneOf(['column', 'row']),
   direction: PropTypes.oneOf(['horizontal', 'vertical']),
   vertical: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   value: PropTypes.string,
@@ -62,6 +63,7 @@ export const defaultProps = {
   status_animation: null,
   direction: 'horizontal',
   vertical: null,
+  layout_direction: 'row',
   value: null,
   attributes: null,
   class: null,
@@ -130,6 +132,7 @@ export default class RadioGroup extends PureComponent {
       status_animation,
       direction,
       vertical,
+      layout_direction,
       label,
       disabled,
       className,
@@ -155,7 +158,7 @@ export default class RadioGroup extends PureComponent {
     const classes = classnames(
       'dnb-radio-group',
       status && `dnb-radio-group__status--${status_state}`,
-      `dnb-radio-group--${isTrue(vertical) ? 'vertical' : direction}`,
+      `dnb-radio-group--${layout_direction}`,
       className,
       _className
     )
@@ -182,10 +185,10 @@ export default class RadioGroup extends PureComponent {
     }
 
     const formRowParams = {
-      direction: direction,
-      vertical: vertical,
-      status: status,
-      status_state: status_state,
+      direction,
+      vertical,
+      status,
+      status_state,
       ...this.context.formRow
     }
 
@@ -198,7 +201,7 @@ export default class RadioGroup extends PureComponent {
                 id={id + '-label'}
                 for_id={id}
                 text={label}
-                disabled={disabled}
+                disabled={isTrue(disabled)}
                 className="dnb-radio-group__label"
               />
             )}

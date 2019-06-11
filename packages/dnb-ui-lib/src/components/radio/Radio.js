@@ -129,10 +129,6 @@ export default class Radio extends Component {
         case 'enter':
           this.onChangeHandler(event)
           break
-        case 'space':
-          event.preventDefault()
-          this.onChangeHandler(event)
-          break
       }
     } else {
       // else we only use the native support, and don't want space support
@@ -203,6 +199,11 @@ export default class Radio extends Component {
       checked,
       value
     })
+
+    // help firefox and safari to have an correct state after a click
+    if (this._refInput.current) {
+      this._refInput.current.focus()
+    }
   }
 
   onMouseOutHandler = event => {

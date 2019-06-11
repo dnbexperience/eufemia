@@ -10,7 +10,7 @@ import {
 
 describe('FormRow screenshot', () => {
   const style = {
-    width: '22rem' // make sure our input gets an explicit width, because of mac/linux rendering differences
+    width: '30rem' // make sure our input gets an explicit width, because of mac/linux rendering differences
   }
   setupPageScreenshot({ url: '/uilib/components/form-row' })
   it('have to match default form-row', async () => {
