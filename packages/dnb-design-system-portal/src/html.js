@@ -46,6 +46,9 @@ export default class HTML extends PureComponent {
         </head>
         <body {...bodyAttributes}>
           {preBodyComponents}
+          <noscript key="noscript" id="gatsby-noscript">
+            Eufemia works best with JavaScript enabled.
+          </noscript>
           <div
             key="body"
             id="___gatsby"
