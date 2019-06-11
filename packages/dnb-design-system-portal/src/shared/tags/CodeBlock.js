@@ -110,14 +110,18 @@ class LiveCode extends PureComponent {
   constructor(props) {
     super(props)
     const { code, hideToolbar, hideCode, hidePreview, showSyntax } = props
+
     this.state = {
-      code,
       hideToolbar,
       hideCode,
       hidePreview,
-      showSyntax,
-      hasFocus: false
+      showSyntax
     }
+
+    this.codeToUse =
+      typeof code === 'string' ? this.prepareCode(code) : null
+
+    this._refEditor = React.createRef()
   }
 
   toggleCode = () => {
@@ -146,7 +150,6 @@ class LiveCode extends PureComponent {
 
   render() {
     const {
-      // code,
       caption,
       scope,
       hideSyntaxButton,
@@ -163,34 +166,22 @@ class LiveCode extends PureComponent {
 
       ...props
     } = this.props
-    const {
-      code,
-      hideToolbar,
-      hideCode,
-      hidePreview,
-      showSyntax,
-      hasFocus
-    } = this.state
-
-    const codeToUse =
-      typeof code === 'string' ? this.prepareCode(code) : null
+    const { hideToolbar, hideCode, hidePreview, showSyntax } = this.state
 
     if (isIE11) {
       return <b>Sorry, You use IE 11</b>
     }
 
-    if (codeToUse.trim().length === 0) {
+    if (this.codeToUse.trim().length === 0) {
       return <span>No Code provided</span>
     }
-
-    // console.log('render', code)
 
     return (
       <LiveCodeEditor>
         <LiveProvider
           Prism={Prism}
           theme={prismTheme}
-          code={codeToUse}
+          code={this.codeToUse}
           scope={scope}
           transformCode={code =>
             !useRender && noFragments ? `<>${code}</>` : code
@@ -216,11 +207,8 @@ class LiveCode extends PureComponent {
           )}
           {!hideCode && (
             <div
-              className={classnames(
-                'dnb-pre',
-                'dnb-live-editor',
-                hasFocus && 'dnb-pre--focus'
-              )}
+              className={classnames('dnb-pre', 'dnb-live-editor')}
+              ref={this._refEditor}
             >
               <LiveEditor
                 ignoreTabKey
@@ -232,10 +220,16 @@ class LiveCode extends PureComponent {
                   this.setState({ code })
                 }}
                 onFocus={() => {
-                  this.setState({ hasFocus: true })
+                  if (this._refEditor.current) {
+                    this._refEditor.current.classList.add('dnb-pre--focus')
+                  }
                 }}
                 onBlur={() => {
-                  this.setState({ hasFocus: false })
+                  if (this._refEditor.current) {
+                    this._refEditor.current.classList.remove(
+                      'dnb-pre--focus'
+                    )
+                  }
                 }}
                 // make this wrap to get in the custom Prism
                 // This way we can reformat jsx css template-string
@@ -309,8 +303,8 @@ class LiveCode extends PureComponent {
                 source={generateElement({
                   code:
                     !useRender && noFragments
-                      ? `<>${codeToUse}</>`
-                      : codeToUse,
+                      ? `<>${this.codeToUse}</>`
+                      : this.codeToUse,
                   scope
                 })}
               />
