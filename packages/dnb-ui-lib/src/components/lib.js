@@ -18,6 +18,7 @@ import DatePicker from './date-picker/DatePicker'
 import Dropdown from './dropdown/Dropdown'
 import FormLabel from './form-label/FormLabel'
 import FormRow from './form-row/FormRow'
+import FormSet from './form-set/FormSet'
 import FormStatus from './form-status/FormStatus'
 import Icon from './icon/Icon'
 import IconPrimary from './icon-primary/IconPrimary'
@@ -44,6 +45,7 @@ export {
   Dropdown,
   FormLabel,
   FormRow,
+  FormSet,
   FormStatus,
   Icon,
   IconPrimary,
@@ -71,6 +73,7 @@ export const getComponents = () => {
     Dropdown,
     FormLabel,
     FormRow,
+    FormSet,
     FormStatus,
     Icon,
     IconPrimary,
