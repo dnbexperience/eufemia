@@ -15,7 +15,7 @@ import {
 import FormRow from '../form-row/FormRow'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
-import FormContext from '../form-row/FormContext'
+import Context from '../../shared/Context'
 import RadioGroupContext from './RadioGroupContext'
 
 const renderProps = {
@@ -84,7 +84,7 @@ export default class RadioGroup extends PureComponent {
   static propTypes = propTypes
   static defaultProps = defaultProps
   static renderProps = renderProps
-  static contextType = FormContext
+  static contextType = Context
 
   static enableWebComponent() {
     registerElement(RadioGroup.tagName, RadioGroup, defaultProps)

@@ -12,7 +12,7 @@ import {
   validateDOMAttributes,
   processChildren
 } from '../../shared/component-helper'
-import FormContext from '../form-row/FormContext'
+import Context from '../../shared/Context'
 
 const renderProps = {
   render_content: null
@@ -62,7 +62,7 @@ export default class FormLabel extends PureComponent {
   static tagName = 'dnb-form-label'
   static propTypes = propTypes
   static defaultProps = defaultProps
-  static contextType = FormContext
+  static contextType = Context
 
   static enableWebComponent() {
     registerElement(FormLabel.tagName, FormLabel, defaultProps)
