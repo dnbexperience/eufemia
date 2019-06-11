@@ -35,7 +35,7 @@ class Example extends PureComponent {
           {/* @jsx */ `
 <Radio.Group
   label="Vertical Group:"
-  layout_direction="row"
+  layout_direction="column"
   on_change={({ value }) => { console.log('on_change', value) }}
 >
   <Radio label="First" value="first" />
@@ -55,7 +55,7 @@ class Example extends PureComponent {
           {/* @jsx */ `
 <Radio.Group
   label="Radio Group with status:"
-  layout_direction="row"
+  layout_direction="column"
   on_change={({ value }) => { console.log('on_change', value) }}
 >
   <Radio
