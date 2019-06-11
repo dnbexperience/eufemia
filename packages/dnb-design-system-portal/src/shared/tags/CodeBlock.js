@@ -195,6 +195,8 @@ class LiveCode extends PureComponent {
       return <span>No Code provided</span>
     }
 
+    const IS_TEST = typeof window !== 'undefined' && window.IS_TEST
+
     return (
       <LiveCodeEditor>
         <LiveProvider
@@ -224,7 +226,7 @@ class LiveCode extends PureComponent {
               )}
             </div>
           )}
-          {!hideCode && (
+          {!IS_TEST && !hideCode && (
             <div
               className={classnames('dnb-pre', 'dnb-live-editor')}
               ref={this._refEditor}
@@ -279,7 +281,7 @@ class LiveCode extends PureComponent {
           {!hideCode && (
             <LiveError className="dnb-form-status dnb-form-status--text dnb-form-status--error" />
           )}
-          {!hideToolbar && (
+          {!IS_TEST && !hideToolbar && (
             <Toolbar>
               {!hideCode && !hideSyntaxButton && (
                 <Button
@@ -316,7 +318,7 @@ class LiveCode extends PureComponent {
               )}
             </Toolbar>
           )}
-          {showSyntax && (
+          {!IS_TEST && showSyntax && (
             <Syntax>
               <Code
                 source={generateElement({
