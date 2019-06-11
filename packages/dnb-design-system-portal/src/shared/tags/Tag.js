@@ -9,6 +9,9 @@ import classnames from 'classnames'
 
 const Tag = ({ children, className, is: Component, ...rest }) => {
   if (children === null && !/hr/.test(Component)) return <></>
+  if (rest.inline) {
+    rest.inline = rest.inline.toString()
+  }
   return (
     <Component
       className={classnames(`dnb-${Component}`, className)}
