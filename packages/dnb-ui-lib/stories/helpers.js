@@ -7,10 +7,12 @@ import classnames from 'classnames'
 const WrapperDiv = styled.div`
   width: 100%;
   min-height: 100vh;
-  padding: 1rem;
+  margin: 0;
 
   overflow: hidden;
-
+`
+const Grid = styled.div`
+  padding: 1rem;
   ${gridStyle({ rgb: '220, 220, 220', a: 0.8 })};
 `
 export const Wrapper = ({ children, className, ...rest }) => (
@@ -18,7 +20,7 @@ export const Wrapper = ({ children, className, ...rest }) => (
     className={classnames('dnb-core-style', className)}
     {...rest}
   >
-    {children}
+    <Grid>{children}</Grid>
   </WrapperDiv>
 )
 Wrapper.propTypes = {
@@ -32,15 +34,16 @@ Wrapper.defaultProps = {
 export const Box = styled.div`
   position: relative;
 
+  margin: 0;
   padding: 2rem;
-  margin-bottom: 2rem;
+  ${'' /* margin-bottom: 2rem; */}
 
   &::after {
     content: '';
     position: absolute;
     left: -50vw;
     right: -50vw;
-    bottom: 0;
+    bottom: -1px;
     width: 200vw;
     border-bottom: dashed 1px rgb(0, 200, 200);
   }

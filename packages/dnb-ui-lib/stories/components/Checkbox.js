@@ -12,7 +12,8 @@ import { Checkbox, FormLabel, FormRow } from '../../src/components'
 
 const CustomRow = styled(FormRow)`
   > .dnb-form-label {
-    max-width: 12rem;
+    ${'' /* max-width: 12rem; */}
+    color: blue;
   }
 `
 
@@ -27,17 +28,19 @@ export default [
         </p>
       </Box>
       <Box>
-        Text:{' '}
-        <Checkbox
-          label="Checked"
-          checked
-          on_change={({ checked }) => {
-            console.log('on_change', checked)
-          }}
-        />
+        <p className="dnb-p">
+          Text:{' '}
+          <Checkbox
+            label="Checked"
+            checked
+            on_change={({ checked }) => {
+              console.log('on_change', checked)
+            }}
+          />
+        </p>
       </Box>
       <Box>
-        <CustomRow>
+        <CustomRow size>
           <FormLabel for_id="checkbox-2">
             Vertical FormLabel for a Checkbox component Sapien rhoncus
             sagittis pharetra ornare platea feugiat cras senectus viverra:
@@ -55,7 +58,7 @@ export default [
         <FormLabel for_id="checkbox-1" direction="vertical" vertical>
           Vertical FormLabel for a Checkbox component:
         </FormLabel>
-        <Checkbox id="checkbox-1" label="Unchecked disabled" />
+        <Checkbox id="checkbox-1" label="Unchecked disabled" disabled />
       </Box>
       <Box>
         <Checkbox label="Checked disabled" checked disabled />

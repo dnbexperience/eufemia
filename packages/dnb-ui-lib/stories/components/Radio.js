@@ -14,6 +14,8 @@ import {
   FormLabel
 } from '../../src/components'
 
+import { H2 } from '../../src/elements'
+
 export default [
   'Radio',
   () => (
@@ -69,7 +71,7 @@ export default [
         {/* <FormSet size> */}
         <FormRow size>
           <FormLabel aria-hidden />
-          123
+          <H2>A h2 in a FormRow without a label</H2>
         </FormRow>
         <FormRow
           size
@@ -98,30 +100,34 @@ export default [
         {/* </FormSet> */}
       </Box>
       <Box>
-        <Radio.Group
-          // label="Group:"
+        <FormRow
+          size
           label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:"
-          title="Give me a Title"
-          on_change={({ value }) => {
-            console.log('on_change', value)
-          }}
-          // disabled
-          // name="First" // Custom Group Name
         >
-          <Radio label="First" value="First" />
-          <Radio
-            label="Second"
-            value="Second"
-            status="Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
-          />
-          <Radio
-            label="Third"
-            value="Third"
-            checked
-            status="Info message"
-            status_state="info"
-          />
-        </Radio.Group>
+          <Radio.Group
+            label="Group label:"
+            title="Give me a Title"
+            on_change={({ value }) => {
+              console.log('on_change', value)
+            }}
+            // disabled
+            // name="First" // Custom Group Name
+          >
+            <Radio label="First" value="First" />
+            <Radio
+              label="Second"
+              value="Second"
+              status="Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
+            />
+            <Radio
+              label="Third"
+              value="Third"
+              checked
+              status="Info message"
+              status_state="info"
+            />
+          </Radio.Group>
+        </FormRow>
       </Box>
       <Box>
         <Radio.Group label="Vertical group:" layout_direction="column">
