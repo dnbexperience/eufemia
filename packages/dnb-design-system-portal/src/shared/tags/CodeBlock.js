@@ -185,8 +185,6 @@ class LiveCode extends PureComponent {
 
     const IS_TEST = typeof window !== 'undefined' && window.IS_TEST
 
-    console.log('IS_TEST', IS_TEST)
-
     return (
       <LiveCodeEditor>
         <LiveProvider
