@@ -1574,20 +1574,19 @@ a.dnb-button .dnb-button__text {
       .dnb-core-style .dnb-date-picker__input {
         margin: 0 -2px; } }
     @media not all and (min-resolution: 0.001dpcm) {
-      @supports (-webkit-appearance: none) and (stroke-color: transparent) {
-        @supports not (-webkit-overflow-scrolling: touch) {
-          .dnb-date-picker__input:not(*:root),
-          .dnb-date-picker .dnb-input__input.dnb-date-picker__input:not(*:root),
-          .dnb-core-style .dnb-date-picker__input:not(*:root) {
-            margin: 0 -5px; }
-          .dnb-date-picker__input:first-of-type:not(*:root),
-          .dnb-date-picker .dnb-input__input.dnb-date-picker__input:first-of-type:not(*:root),
-          .dnb-core-style .dnb-date-picker__input:first-of-type:not(*:root) {
-            margin-left: 0.8rem; }
-          .dnb-date-picker__input:last-of-type:not(*:root),
-          .dnb-date-picker .dnb-input__input.dnb-date-picker__input:last-of-type:not(*:root),
-          .dnb-core-style .dnb-date-picker__input:last-of-type:not(*:root) {
-            margin-right: 2.2rem; } } } }
+      @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-overflow-scrolling: touch)) {
+        .dnb-date-picker__input:not(*:root),
+        .dnb-date-picker .dnb-input__input.dnb-date-picker__input:not(*:root),
+        .dnb-core-style .dnb-date-picker__input:not(*:root) {
+          margin: 0 -5px; }
+        .dnb-date-picker__input:first-of-type:not(*:root),
+        .dnb-date-picker .dnb-input__input.dnb-date-picker__input:first-of-type:not(*:root),
+        .dnb-core-style .dnb-date-picker__input:first-of-type:not(*:root) {
+          margin-left: 0.8rem; }
+        .dnb-date-picker__input:last-of-type:not(*:root),
+        .dnb-date-picker .dnb-input__input.dnb-date-picker__input:last-of-type:not(*:root),
+        .dnb-core-style .dnb-date-picker__input:last-of-type:not(*:root) {
+          margin-right: 2.2rem; } } }
   .dnb-date-picker .dnb-input__input.dnb-date-picker__input:first-of-type, .dnb-date-picker__input:first-of-type {
     margin-left: 0.8rem; }
   .dnb-date-picker .dnb-input__input.dnb-date-picker__input:last-of-type, .dnb-date-picker__input:last-of-type {

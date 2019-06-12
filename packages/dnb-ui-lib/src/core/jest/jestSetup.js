@@ -26,16 +26,18 @@ export {
 expect.extend({ toBeType })
 expect.extend(toHaveNoViolations)
 
-export const loadScss = file => {
+export const loadScss = (file, options = {}) => {
   try {
     const sassResult = sass.renderSync({
-      file: file,
+      file,
       includePaths: [path.resolve(__dirname, '../../style/core/')],
-      importer: [onceImporter()]
+      importer: [onceImporter()],
+      ...options
     })
     return String(sassResult.css)
   } catch (e) {
     console.log('Error', e)
+    return e
   }
 }
 
