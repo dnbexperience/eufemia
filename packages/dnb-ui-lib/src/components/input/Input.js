@@ -10,6 +10,8 @@ import Button, { propTypes as ButtonPropTypes } from '../button/Button'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 import {
+  isTrue,
+  extendPropsWithContext,
   registerElement,
   validateDOMAttributes,
   processChildren,
@@ -91,7 +93,7 @@ export const defaultProps = {
   placeholder: null,
   description: null,
   align: null,
-  disabled: false,
+  disabled: null,
   input_class: null,
   class: null,
   attributes: null,
@@ -199,6 +201,12 @@ export default class Input extends PureComponent {
     }
   }
   render() {
+    // consume the formRow context
+    const props = this.context.formRow
+      ? // use only the props from context, who are available here anyway
+        extendPropsWithContext(this.props, this.context.formRow)
+      : this.props
+
     const {
       type,
       size,
@@ -227,7 +235,7 @@ export default class Input extends PureComponent {
       inputElement: _inputElement, //eslint-disable-line
 
       ...attributes
-    } = this.props
+    } = props
 
     const { value, inputState } = this.state
 
@@ -433,7 +441,7 @@ class SubmitButton extends PureComponent {
       id,
       type: 'submit',
       title,
-      disabled,
+      disabled: isTrue(disabled),
       ...rest
     }
 

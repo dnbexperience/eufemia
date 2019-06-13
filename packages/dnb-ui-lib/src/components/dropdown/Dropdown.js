@@ -8,6 +8,8 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import keycode from 'keycode'
 import {
+  isTrue,
+  extendPropsWithContext,
   registerElement,
   validateDOMAttributes,
   processChildren,
@@ -90,7 +92,7 @@ export const defaultProps = {
   data: null,
   selected_item: 0,
   opened: false,
-  disabled: false,
+  disabled: null,
   class: null,
 
   // React props
@@ -569,6 +571,12 @@ export default class Dropdown extends Component {
   }
 
   render() {
+    // consume the formRow context
+    const props = this.context.formRow
+      ? // use only the props from context, who are available here anyway
+        extendPropsWithContext(this.props, this.context.formRow)
+      : this.props
+
     const {
       title,
       label,
@@ -593,7 +601,7 @@ export default class Dropdown extends Component {
       children,
 
       ...attributes
-    } = this.props
+    } = props
 
     const id = this._id
 
@@ -639,7 +647,7 @@ export default class Dropdown extends Component {
       onFocus: this.onFocusHandler,
       onBlur: this.onBlurHandler,
       ref: this._refInput,
-      disabled
+      disabled: isTrue(disabled)
     }
     const triggerParams = {
       className: 'dnb-dropdown__trigger',
@@ -650,10 +658,10 @@ export default class Dropdown extends Component {
       ['aria-expanded']: opened,
       onMouseDown: this.onMouseDownHandler,
       ref: this._refButton,
-      disabled,
+      disabled: isTrue(disabled),
       ...attributes
     }
-    if (disabled) {
+    if (isTrue(disabled)) {
       triggerParams['aria-disabled'] = true
     }
     const listParams = {
@@ -683,7 +691,12 @@ export default class Dropdown extends Component {
     return (
       <>
         {label && (
-          <FormLabel for_id={id} text={label} disabled={disabled} />
+          <FormLabel
+            id={id + '-label'}
+            for_id={id}
+            text={label}
+            disabled={disabled}
+          />
         )}
         <span className={classes} ref={this._ref}>
           <span className="dnb-dropdown__shell">

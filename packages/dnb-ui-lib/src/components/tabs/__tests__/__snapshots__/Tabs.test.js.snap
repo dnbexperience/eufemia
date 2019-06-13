@@ -14,6 +14,7 @@ exports[`Tabs component have to match snapshot 1`] = `
         "id": "id",
         "label": "label",
         "render": [Function],
+        "section_spacing": "section_spacing",
         "section_style": "section_style",
         "selected_key": "selected_key",
         "use_hash": "use_hash",
@@ -73,6 +74,7 @@ exports[`Tabs component have to match snapshot 1`] = `
   id="id"
   label={null}
   render={null}
+  section_spacing={null}
   section_style={null}
   selected_key="second"
   use_hash={false}

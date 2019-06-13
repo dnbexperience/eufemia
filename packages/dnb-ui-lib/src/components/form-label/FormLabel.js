@@ -7,6 +7,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
+  extendPropsWithContext,
   isTrue,
   registerElement,
   validateDOMAttributes,
@@ -46,8 +47,8 @@ export const defaultProps = {
   text: null,
   id: null,
   class: null,
-  disabled: false,
-  direction: 'horizontal',
+  disabled: null,
+  direction: null,
   vertical: null,
 
   /** React props */
@@ -76,20 +77,11 @@ export default class FormLabel extends PureComponent {
   }
 
   render() {
-    let props = this.props
-
     // consume the formRow context
-    if (this.context.formRow) {
-      props = Object.entries(this.context.formRow).reduce(
-        (acc, [key, value]) => {
-          if (typeof props[key] !== 'undefined' && value !== null) {
-            acc[key] = value
-          }
-          return acc
-        },
-        {}
-      )
-    }
+    const props = this.context.formRow
+      ? // use only the props from context, who are available here anyway
+        extendPropsWithContext(this.props, this.context.formRow)
+      : this.props
 
     const {
       for_id,
@@ -111,7 +103,8 @@ export default class FormLabel extends PureComponent {
     const params = {
       className: classnames(
         'dnb-form-label',
-        `dnb-form-label--${isTrue(vertical) ? 'vertical' : direction}`,
+        (isTrue(vertical) || direction) &&
+          `dnb-form-label--${isTrue(vertical) ? 'vertical' : direction}`,
         className,
         _className
       ),

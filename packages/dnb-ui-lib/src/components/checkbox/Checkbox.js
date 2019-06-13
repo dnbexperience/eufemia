@@ -9,6 +9,7 @@ import classnames from 'classnames'
 import keycode from 'keycode'
 import {
   isTrue,
+  extendPropsWithContext,
   registerElement,
   validateDOMAttributes,
   dispatchCustomElementEvent
@@ -54,7 +55,7 @@ export const defaultProps = {
   title: null,
   default_state: null,
   checked: 'default', //we have to send this as a string
-  disabled: false,
+  disabled: null,
   id: null,
   status: null,
   status_state: 'error',
@@ -159,6 +160,12 @@ export default class Checkbox extends Component {
   }
 
   render() {
+    // consume the formRow context
+    const props = this.context.formRow
+      ? // use only the props from context, who are available here anyway
+        extendPropsWithContext(this.props, this.context.formRow)
+      : this.props
+
     const {
       value,
       status,
@@ -183,7 +190,7 @@ export default class Checkbox extends Component {
       custom_element, // eslint-disable-line
 
       ...rest
-    } = this.props
+    } = props
 
     const { checked } = this.state
 

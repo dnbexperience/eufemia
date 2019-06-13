@@ -6,8 +6,11 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
+import Context from '../../shared/Context'
 import IconPrimary from '../icon-primary/IconPrimary'
 import {
+  isTrue,
+  extendPropsWithContext,
   registerElement,
   validateDOMAttributes,
   processChildren,
@@ -34,7 +37,6 @@ export const propTypes = {
   icon_size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   id: PropTypes.string,
   class: PropTypes.string,
-  attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   href: PropTypes.string,
   bounding: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -69,9 +71,8 @@ export const defaultProps = {
   href: null,
   id: null,
   class: null,
-  attributes: null,
   bounding: false,
-  disabled: false,
+  disabled: null,
 
   // React props
   className: null,
@@ -95,6 +96,7 @@ export default class Button extends PureComponent {
   static propTypes = propTypes
   static defaultProps = defaultProps
   static renderProps = renderProps
+  static contextType = Context
 
   static enableWebComponent() {
     registerElement(Button.tagName, Button, defaultProps)
@@ -140,6 +142,12 @@ export default class Button extends PureComponent {
     }
   }
   render() {
+    // consume the formRow context
+    const props = this.context.formRow
+      ? // use only the props from context, who are available here anyway
+        extendPropsWithContext(this.props, this.context.formRow)
+      : this.props
+
     const {
       class: class_name,
       className,
@@ -154,10 +162,9 @@ export default class Button extends PureComponent {
       icon_position,
       href,
       bounding, // eslint-disable-line
-      attributes, // eslint-disable-line
       innerRef, // eslint-disable-line
-      ...props
-    } = this.props
+      ...attributes
+    } = props
 
     let usedVariant = variant
     let usedSize = size
@@ -205,8 +212,8 @@ export default class Button extends PureComponent {
       type,
       title,
       id,
-      disabled,
-      ...props,
+      disabled: isTrue(disabled),
+      ...attributes,
       onMouseOut: this.onMouseOutHandler, // for resetting the button to the default state
       onClick: this.onClickHandler
     }

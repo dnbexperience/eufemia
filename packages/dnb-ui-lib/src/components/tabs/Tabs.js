@@ -8,6 +8,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import keycode from 'keycode'
 import {
+  isTrue,
   registerElement,
   validateDOMAttributes,
   dispatchCustomElementEvent
@@ -40,6 +41,7 @@ export const propTypes = {
   selected_key: PropTypes.string,
   align: PropTypes.oneOf(['left', 'center', 'right']),
   section_style: PropTypes.string,
+  section_spacing: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   use_hash: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   id: PropTypes.string,
   class: PropTypes.string,
@@ -61,6 +63,7 @@ export const defaultProps = {
   selected_key: null,
   align: 'left',
   section_style: null,
+  section_spacing: null,
   use_hash: false,
   id: null,
   class: null,
@@ -370,6 +373,7 @@ export default class Tabs extends PureComponent {
       label,
       align,
       section_style,
+      section_spacing,
       className,
       class: _className,
       selected_key: _selected_key, //eslint-disable-line
@@ -391,7 +395,7 @@ export default class Tabs extends PureComponent {
           if (this.isSelected(key)) {
             params['aria-controls'] = `${this._id}-content-${key}`
           }
-          if (disabled) {
+          if (isTrue(disabled)) {
             params.disabled = true
             params['aria-disabled'] = true
           }
@@ -439,6 +443,11 @@ export default class Tabs extends PureComponent {
           align ? `dnb-tabs__tabs--${align}` : null,
           section_style
             ? `dnb-section dnb-section--${section_style}`
+            : null,
+          section_spacing
+            ? `dnb-section--spacing-${
+                isTrue(section_spacing) ? 'default' : section_spacing
+              }`
             : null,
           className
         )}
