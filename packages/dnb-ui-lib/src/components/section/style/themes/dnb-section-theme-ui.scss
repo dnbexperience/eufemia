@@ -22,6 +22,9 @@
     &::after {
       color: var(--color-mint-green);
     }
+    ::selection {
+      background-color: var(--color-white);
+    }
   }
   &--emerald-green {
     color: var(--color-mint-green);
