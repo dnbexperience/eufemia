@@ -8,9 +8,9 @@ import PropTypes from 'prop-types'
 
 import Context from './Context'
 
-const Provider = ({ children, ...rest }) => {
-  return <Context.Provider {...rest}>{children}</Context.Provider>
-}
+const Provider = ({ children, ...context }) => (
+  <Context.Provider value={context}>{children}</Context.Provider>
+)
 Provider.propTypes = {
   children: PropTypes.node.isRequired
 }
