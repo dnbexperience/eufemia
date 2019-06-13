@@ -10,12 +10,12 @@ order: 4
 
 What Eufemia offers for Developers? NPM Package including:
 
-- Styling of HTML elements (to get correct sizing)
-- DNB custom components
-- Fonts
-- Typography
-- Colors
-- Icons
+- **Styling of HTML elements (to get correct sizing)**
+- **DNB custom components**
+- **Fonts**
+- **Typography**
+- **Colors**
+- **Icons**
 - Theming
 - Helper classes
 - Accessibility tools

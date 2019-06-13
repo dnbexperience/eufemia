@@ -4,6 +4,7 @@ draft: false
 ---
 
 import CodeBlock from 'Tags/CodeBlock'
+import ComponentBox from 'Tags/ComponentBox'
 import { IconPrimary } from 'dnb-ui-lib/src'
 
 ## Anchor (Text Link)
@@ -38,6 +39,15 @@ You would normally just decorate your anchor class withe this CSS class: `.dnb-a
 </ul>
 `}
 </CodeBlock>
+
+### React JSX
+
+<ComponentBox reactLive useRender>
+{`
+// import { Link, Anchor } from 'dnb-ui-lib/elements'
+render(<Anchor href="/uilib/elements/anchor">My Link</Anchor>)
+`}
+</ComponentBox>
 
 ### Additional Anchor helper classes
 

@@ -15,7 +15,7 @@ Components and styles for HTML elements can be consumed differently. But for the
 
 ```js
 /* In Your Application root */
-import 'dnb-ui-lib/style/basis'
+import 'dnb-ui-lib/style/core'
 import 'dnb-ui-lib/style/components'
 import 'dnb-ui-lib/style/themes/ui'
 ```
@@ -42,8 +42,9 @@ import MyButton from 'dnb-ui-lib/components/Button'
 
 ```js
 /* or React JSX */
-import { H1, P, ... } from 'dnb-ui-lib'
-import { H1, P, ... } from 'dnb-ui-lib/elements'
+import { H1, P, Link, ... } from 'dnb-ui-lib'
+import { H1, P, Anchor, ... } from 'dnb-ui-lib/elements'
+import H1 from 'dnb-ui-lib/elements/H1'
 
 render(<H1>Title</H1>)
 ```
