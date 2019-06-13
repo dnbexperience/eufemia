@@ -103,23 +103,31 @@ class LiveCode extends PureComponent {
     hideCode: false,
     hidePreview: false,
     showSyntax: false,
-    hideSyntaxButton: false,
+    hideSyntaxButton: null,
     language: 'jsx'
   }
 
   constructor(props) {
     super(props)
-    const { code, hideToolbar, hideCode, hidePreview, showSyntax } = props
-
-    this.state = {
+    const {
+      code,
       hideToolbar,
       hideCode,
       hidePreview,
-      showSyntax
-    }
+      showSyntax,
+      useRender,
+      hideSyntaxButton
+    } = props
 
-    this.codeToUse =
-      typeof code === 'string' ? this.prepareCode(code) : null
+    this.state = {
+      code,
+      hideToolbar,
+      hideCode,
+      hidePreview,
+      showSyntax,
+      hideSyntaxButton:
+        hideSyntaxButton === null ? useRender : hideSyntaxButton
+    }
 
     this._refEditor = React.createRef()
   }
@@ -152,7 +160,6 @@ class LiveCode extends PureComponent {
     const {
       caption,
       scope,
-      hideSyntaxButton,
       useRender,
       noFragments,
       language,
@@ -162,17 +169,29 @@ class LiveCode extends PureComponent {
       hideCode: _hideCode, // eslint-disable-line
       hidePreview: _hidePreview, // eslint-disable-line
       showSyntax: _showSyntax, // eslint-disable-line
+      hideSyntaxButton: _hideSyntaxButton, // eslint-disable-line
       'data-dnb-test': dnbTest, // eslint-disable-line
 
       ...props
     } = this.props
-    const { hideToolbar, hideCode, hidePreview, showSyntax } = this.state
+
+    const {
+      code,
+      hideToolbar,
+      hideCode,
+      hidePreview,
+      showSyntax,
+      hideSyntaxButton
+    } = this.state
 
     if (isIE11) {
       return <b>Sorry, You use IE 11</b>
     }
 
-    if (this.codeToUse.trim().length === 0) {
+    const codeToUse =
+      typeof code === 'string' ? this.prepareCode(code) : null
+
+    if (codeToUse.trim().length === 0) {
       return <span>No Code provided</span>
     }
 
@@ -181,7 +200,7 @@ class LiveCode extends PureComponent {
         <LiveProvider
           Prism={Prism}
           theme={prismTheme}
-          code={this.codeToUse}
+          code={codeToUse}
           scope={scope}
           transformCode={code =>
             !useRender && noFragments ? `<>${code}</>` : code
@@ -303,8 +322,8 @@ class LiveCode extends PureComponent {
                 source={generateElement({
                   code:
                     !useRender && noFragments
-                      ? `<>${this.codeToUse}</>`
-                      : this.codeToUse,
+                      ? `<>${codeToUse}</>`
+                      : codeToUse,
                   scope
                 })}
               />
