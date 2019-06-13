@@ -36,68 +36,62 @@ export default [
       <Box>
         <p className="dnb-p dnb-radio-group">
           <FormLabel id="MyRadioGroup">Without Radio.Group:</FormLabel>
-          <Radio
-            value="First"
-            label="First"
-            group="MyRadioGroup"
-            labelledby="MyRadioGroup"
-            on_change={({ group, value }) => {
-              console.log('on_change', group, value)
-            }}
-          />
-          <Radio
-            checked
-            value="Second"
-            label="Second"
-            group="MyRadioGroup"
-            labelledby="MyRadioGroup"
-            on_change={({ group, value }) => {
-              console.log('on_change', group, value)
-            }}
-          />
-          <Radio
-            checked
-            value="Third"
-            label="Third"
-            group="MyRadioGroup"
-            labelledby="MyRadioGroup"
-            on_change={({ group, value }) => {
-              console.log('on_change', group, value)
-            }}
-          />
+          <span role="radiogroup" aria-labelledby="MyRadioGroup">
+            <Radio
+              value="first"
+              label="First"
+              group="MyRadioGroup"
+              on_change={({ group, value }) => {
+                console.log('on_change', group, value)
+              }}
+            />
+            <Radio
+              checked
+              value="second"
+              label="Second"
+              group="MyRadioGroup"
+              on_change={({ group, value }) => {
+                console.log('on_change', group, value)
+              }}
+            />
+            <Radio
+              checked
+              value="third"
+              label="Third"
+              group="MyRadioGroup"
+              on_change={({ group, value }) => {
+                console.log('on_change', group, value)
+              }}
+            />
+          </span>
         </p>
       </Box>
       <Box>
-        {/* <FormSet size> */}
-        <FormRow size>
-          <FormLabel aria-hidden />
+        <FormRow size no_label>
           <H2>A h2 in a FormRow without a label</H2>
         </FormRow>
-        <FormRow
-          size
-          label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:"
-        >
+        <FormRow size>
           <Radio.Group
+            label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:"
             // label="Group:"
             // label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:"
             title="Give me a Title"
             on_change={({ value }) => {
               console.log('on_change', value)
             }}
-            value="First"
+            value="first"
             // disabled
             // name="MyGroup" // The Group Name
           >
-            <Radio label="First" value="First" />
-            <Radio label="Second" value="Second" />
+            <Radio label="First" value="first" />
+            <Radio label="Second" value="second" />
             <Radio
               label="Third"
-              value="Third"
+              value="third"
               // checked
             />
           </Radio.Group>
         </FormRow>
-        {/* </FormSet> */}
       </Box>
       <Box>
         <FormRow
@@ -113,15 +107,15 @@ export default [
             // disabled
             // name="First" // Custom Group Name
           >
-            <Radio label="First" value="First" />
+            <Radio label="First" value="first" />
             <Radio
               label="Second"
-              value="Second"
+              value="second"
               status="Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
             />
             <Radio
               label="Third"
-              value="Third"
+              value="third"
               checked
               status="Info message"
               status_state="info"
@@ -131,9 +125,9 @@ export default [
       </Box>
       <Box>
         <Radio.Group label="Vertical group:" layout_direction="column">
-          <Radio label="First" value="First" />
-          <Radio label="Second" value="Second" />
-          <Radio label="Third" value="Third" checked />
+          <Radio label="First" value="first" />
+          <Radio label="Second" value="second" />
+          <Radio label="Third" value="third" checked />
         </Radio.Group>
       </Box>
       <Box>
@@ -143,9 +137,9 @@ export default [
           vertical="true"
           status="Error message Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
         >
-          <Radio label="First" value="First" />
-          <Radio label="Second" value="Second" />
-          <Radio label="Third" value="Third" checked />
+          <Radio label="First" value="first" />
+          <Radio label="Second" value="second" />
+          <Radio label="Third" value="third" checked />
         </Radio.Group>
       </Box>
       <Box>
@@ -153,12 +147,12 @@ export default [
           label="Group with error:"
           status="Error message Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
         >
-          <Radio label_position="left" label="First" value="First" />
-          <Radio label_position="left" label="Second" value="Second" />
+          <Radio label_position="left" label="First" value="first" />
+          <Radio label_position="left" label="Second" value="second" />
           <Radio
             label_position="left"
             label="Third"
-            value="Third"
+            value="third"
             checked
           />
         </Radio.Group>

@@ -7,13 +7,12 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
-  isTrue,
+  extendPropsWithContext,
   registerElement,
   validateDOMAttributes,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import FormRow from '../form-row/FormRow'
-import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 import Context from '../../shared/Context'
 import RadioGroupContext from './RadioGroupContext'
@@ -55,7 +54,7 @@ export const propTypes = {
 export const defaultProps = {
   label: null,
   title: null,
-  disabled: false,
+  disabled: null,
   id: null,
   name: null,
   status: null,
@@ -126,6 +125,12 @@ export default class RadioGroup extends PureComponent {
   }
 
   render() {
+    // consume the formRow context
+    const props = this.context.formRow
+      ? // use only the props from context, who are available here anyway
+        extendPropsWithContext(this.props, this.context.formRow)
+      : this.props
+
     const {
       status,
       status_state,
@@ -148,7 +153,7 @@ export default class RadioGroup extends PureComponent {
       custom_element, // eslint-disable-line
 
       ...rest
-    } = this.props
+    } = props
 
     const { value } = this.state
 
@@ -185,26 +190,19 @@ export default class RadioGroup extends PureComponent {
     }
 
     const formRowParams = {
+      label,
+      label_id: id, // send the id along, so the FormRow component can use it
       direction,
       vertical,
-      status,
-      status_state,
-      ...this.context.formRow
+      disabled
+      // status,
+      // status_state
     }
 
     return (
       <RadioGroupContext.Provider value={context}>
         <span className={classes}>
           <FormRow {...formRowParams}>
-            {label && (
-              <FormLabel
-                id={id + '-label'}
-                for_id={id}
-                text={label}
-                disabled={isTrue(disabled)}
-                className="dnb-radio-group__label"
-              />
-            )}
             <span
               id={id}
               className="dnb-radio-group__shell"
