@@ -9,20 +9,24 @@ import {
 } from '../../../core/jest/jestSetupScreenshots'
 
 describe('FormSet screenshot', () => {
-  const style = {
-    width: '30rem' // make sure our input gets an explicit width, because of mac/linux rendering differences
-  }
+  // const style = {
+  //   width: '60rem' // make sure our input gets an explicit width, because of mac/linux rendering differences
+  // }
   setupPageScreenshot({ url: '/uilib/components/form-set' })
   it('have to match default form-set', async () => {
     const screenshot = await testPageScreenshot({
-      style,
+      style: {
+        width: '40rem' // make sure our input gets an explicit width, because of mac/linux rendering differences
+      },
       selector: '[data-dnb-test="form-set-default"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match vertical form-set', async () => {
     const screenshot = await testPageScreenshot({
-      style,
+      style: {
+        width: '30rem' // make sure our input gets an explicit width, because of mac/linux rendering differences
+      },
       selector: '[data-dnb-test="form-set-vertical"]'
     })
     expect(screenshot).toMatchImageSnapshot()

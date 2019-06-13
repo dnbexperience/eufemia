@@ -7,13 +7,13 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
-  isTrue,
+  // isTrue,
+  extend,
   registerElement,
   validateDOMAttributes,
   processChildren
 } from '../../shared/component-helper'
 import Context from '../../shared/Context'
-import FormLabel from '../form-label/FormLabel'
 
 const renderProps = {
   render_content: null
@@ -21,7 +21,6 @@ const renderProps = {
 
 export const propTypes = {
   id: PropTypes.string,
-  label: PropTypes.string,
   size: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   direction: PropTypes.oneOf(['vertical', 'horizontal']),
   vertical: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -42,7 +41,6 @@ export const propTypes = {
 
 export const defaultProps = {
   id: null,
-  label: null,
   size: null,
   direction: 'horizontal',
   vertical: null,
@@ -81,11 +79,10 @@ export default class FormSet extends PureComponent {
 
   render() {
     const {
-      label,
       size,
       direction,
       vertical,
-      disabled,
+      disabled, // eslint-disable-line
       id, // eslint-disable-line
       className,
       class: _className,
@@ -98,8 +95,8 @@ export default class FormSet extends PureComponent {
     const params = {
       className: classnames(
         'dnb-form-set',
-        `dnb-form-set--${isTrue(vertical) ? 'vertical' : direction}`,
-        size && `dnb-form-set__size--${isTrue(size) ? 'default' : size}`,
+        // (isTrue(vertical) || direction) && `dnb-form-set--${isTrue(vertical) ? 'vertical' : direction}`,
+        // size && `dnb-form-set__size--${isTrue(size) ? 'default' : size}`,
         className,
         _className
       ),
@@ -109,43 +106,13 @@ export default class FormSet extends PureComponent {
     // also used for code markup simulation
     validateDOMAttributes(this.props, params)
 
-    // if (!(this.context && this.context.FormSet)) {
-    //   params.className = classnames(
-    //     `dnb-form-set--${isTrue(vertical) ? 'vertical' : direction}`,
-    //     size && `dnb-form-set__size--${isTrue(size) ? 'default' : size}`,
-    //     params.className
-    //   )
-    //   console.log('params.className', params.className)
-    // }
-    // console.log('this.context.FormSet', this.context.FormSet)
-    // if (this.context && this.context.FormSet) {
-    //   // return content
-    //   // return <div {...params}>{content}</div>
-    // }
-
-    let context
-    if (this.context) {
-      context = { ...this.props, id: this._id, ...this.context }
-    } else {
-      context = {
-        FormSet: { ...this.props, id: this._id }
-      }
-    }
+    const context = extend(this.context, {
+      formRow: { size, direction, vertical, disabled }
+    })
 
     return (
       <Context.Provider value={context}>
-        <div {...params}>
-          {label && (
-            <FormLabel
-              // id={id + '-label'}
-              // for_id={id}
-              text={label}
-              disabled={isTrue(disabled)}
-              className="dnb-form-set__label"
-            />
-          )}
-          {content}
-        </div>
+        <div {...params}>{content}</div>
       </Context.Provider>
     )
   }

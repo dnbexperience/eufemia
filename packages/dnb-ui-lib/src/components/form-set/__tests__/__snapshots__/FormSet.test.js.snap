@@ -1,0 +1,90 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FormSet component have to match snapshot 1`] = `
+<FormSet
+  class="class"
+  className="className"
+  direction="horizontal"
+  disabled="disabled"
+  id="id"
+  render_content={[Function]}
+  size="size"
+  vertical="vertical"
+>
+  <div
+    className="dnb-form-set className class"
+  >
+    children
+  </div>
+</FormSet>
+`;
+
+exports[`FormSet scss have to match default theme snapshot 1`] = `
+"/*
+ * FormSet theme
+ *
+ */
+"
+`;
+
+exports[`FormSet scss have to match snapshot 1`] = `
+"/*
+* DNB FormSet
+*
+*/
+/**
+ * This file is only used to make components independent
+ * so that they can get imported individually, without the core styles
+ *
+ */
+/*
+ * Utilities
+ */
+/*
+ * Scopes
+ *
+ */
+/*
+ * Document Reset
+ *
+ */
+.dnb-form-set {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-default);
+  font-size: 1rem;
+  font-style: normal;
+  line-height: 1.5rem;
+  color: var(--color-black-80, #333);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  font-variant-numeric: lining-nums;
+  font-feature-settings: \\"lnum\\";
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-form-set *,
+  .dnb-form-set ::before,
+  .dnb-form-set ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-form-set ::before,
+  .dnb-form-set ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+ * FormSet component
+ *
+ */
+"
+`;

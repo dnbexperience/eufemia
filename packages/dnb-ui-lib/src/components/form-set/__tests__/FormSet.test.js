@@ -12,6 +12,7 @@ import {
   loadScss
 } from '../../../core/jest/jestSetup'
 import Component from '../FormSet'
+import FormRow from '../../form-row/FormRow'
 
 // just to make sure we re-run the test in watch mode due to changes in theese files
 import _form_row from '../style/_form-set.scss' // eslint-disable-line
@@ -30,17 +31,29 @@ describe('FormSet component', () => {
     expect(toJson(Comp)).toMatchSnapshot()
   })
 
-  it('should have vertical direction class', () => {
-    const Comp = mount(<Component {...props} direction="vertical" />)
+  it('should have .dnb-form-set class', () => {
+    expect(Comp.find('.dnb-form-set').exists()).toBe(true)
+  })
+
+  it('should have working provider with vertical direction class on form-row', () => {
+    const Comp = mount(
+      <Component {...props} direction="vertical">
+        <FormRow />
+      </Component>
+    )
     expect(
-      Comp.find('.dnb-form-set').hasClass('dnb-form-set--vertical')
+      Comp.find('.dnb-form-row').hasClass('dnb-form-row--vertical')
     ).toBe(true)
   })
 
-  it('should have correct size class', () => {
-    const Comp = mount(<Component {...props} size="large" />)
+  it('should have working provider have correct size classs on form-row', () => {
+    const Comp = mount(
+      <Component {...props} size="large">
+        <FormRow />
+      </Component>
+    )
     expect(
-      Comp.find('.dnb-form-set').hasClass('dnb-form-set__size--large')
+      Comp.find('.dnb-form-row').hasClass('dnb-form-row__size--large')
     ).toBe(true)
   })
 

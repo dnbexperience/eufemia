@@ -11,44 +11,23 @@ class Example extends PureComponent {
     return (
       <Fragment>
         <ComponentBox
-          caption="The label should align the bottom"
+          caption="Use the `FormSet` as a Provider for `FormRow`"
           data-dnb-test="form-set-default"
         >
           {/* @jsx */ `
-<FormSet direction="horizontal" size="default">
-  <FormLabel for_id="alone-1">
-    A long Vertical FormLabel with a lot of informative text and a default size:
-  </FormLabel>
-  <Checkbox id="alone-1" label="Checkbox" />
-</FormSet>
-          `}
-        </ComponentBox>
-        <ComponentBox
-          caption="Customize the `.dnb-form-set` class"
-          useRender
-        >
-          {/* @jsx */ `
-const CustomRow = styled(FormSet)\`
-  > .dnb-form-label {
-    max-width: 12rem;
-    background: var(--color-white);
-    color: var(--color-cherry-red);
-  }
-\`
-render(<>
-  <CustomRow>
-    <FormLabel for_id="alone-1">
-      A long Vertical FormLabel with a lot of informative text and a max-width of 12rem:
-    </FormLabel>
-    <Checkbox id="alone-1" label="Checkbox" />
-  </CustomRow>
-</>)
-          `}
-        </ComponentBox>
-        <ComponentBox caption="Default form-set">
-          {/* @jsx */ `
-<FormSet>
-  <Input label="Default horizontal FormSet:" value="Input value ..." />
+<FormSet size direction="horizontal">
+  <FormRow no_label>
+    <H2>A h2 in a FormRow without a label</H2>
+  </FormRow>
+  <FormRow section_style="default" section_spacing label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:">
+    <Radio.Group
+      value="first"
+    >
+      <Radio label="First" value="first" />
+      <Radio label="Second" value="second" />
+      <Radio label="Third" value="third" />
+    </Radio.Group>
+  </FormRow>
 </FormSet>
           `}
         </ComponentBox>
@@ -57,17 +36,14 @@ render(<>
           data-dnb-test="form-set-vertical"
         >
           {/* @jsx */ `
-<FormSet vertical="true">
-  <Input label="Default vertical FormSet:" value="Input value ..." />
-</FormSet>
-          `}
-        </ComponentBox>
-        <ComponentBox caption="Vertical form-set without a `for_id`">
-          {/* @jsx */ `
-<FormLabel vertical={true}>
-  Without for_id (select me):
-</FormLabel>
-<Checkbox label="Checkbox" />
+<FormRow direction="vertical">
+  <FormRow no_label>
+    <H2>A h2 in a FormRow without a label</H2>
+  </FormRow>
+  <FormRow>
+    <Checkbox label="Checkbox" />
+  </FormRow>
+</FormRow>
           `}
         </ComponentBox>
       </Fragment>
