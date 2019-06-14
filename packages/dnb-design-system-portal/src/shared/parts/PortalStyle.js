@@ -35,7 +35,7 @@ if (typeof window !== 'undefined' && window.IS_TEST) {
     --font-weight-demi: 600;
     --font-weight-medium: 700;
 
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: Arial, Helvetica, sans-serif !important;
 
     font-variant-numeric: normal;
     font-feature-settings: normal;

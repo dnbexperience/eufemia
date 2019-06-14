@@ -12,7 +12,8 @@ const { setupJestScreenshot } = require('jest-screenshot')
 const config = {
   DIR: path.join(os.tmpdir(), 'jest_puppeteer_global_setup'),
   // use same port as the local dev setup, this way we can test from the dev setup as well
-  testScreenshotOnHost: '127.0.0.1',
+  // testScreenshotOnHost: isCI ? '127.0.0.1' : 'localhost',
+  testScreenshotOnHost: 'localhost',
   testScreenshotOnPort: 8000,
   headless: true,
   blockFontRequest: true,
@@ -59,6 +60,9 @@ module.exports.testPageScreenshot = ({
         await page.goto(createUrl(url, fullscreen))
       }
 
+      // just to make sure we get the latest version
+      await page.waitFor(500)
+      await page.reload()
       await page.waitForSelector(selector)
 
       if (style) {
