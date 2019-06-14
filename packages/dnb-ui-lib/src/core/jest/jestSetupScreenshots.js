@@ -265,11 +265,10 @@ const setupBeforeAll = async ({
   }
 
   // just to make sure we get the latest version
-  // But for now - it works fine without this hack
-  // await page.waitFor(500)
-  // await page.reload({
-  //   waitUntil: 'domcontentloaded'
-  // })
+  await page.waitFor(1e3)
+  await page.reload({
+    waitUntil: 'domcontentloaded'
+  })
 
   global.__PAGE__ = page
 }
