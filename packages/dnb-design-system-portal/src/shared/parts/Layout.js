@@ -8,6 +8,7 @@ import PropTypes from 'prop-types'
 import { Link } from 'gatsby'
 import classnames from 'classnames'
 import styled from '@emotion/styled'
+import { Global } from '@emotion/core'
 import MainMenu from '../menu/MainMenu'
 import Sidebar from '../menu/SidebarMenu'
 import StickyMenuBar from '../menu/StickyMenuBar'
@@ -95,14 +96,9 @@ const Wrapper = styled.div`
 const Content = ({ className, children }) => (
   <ContentWrapper
     id="dnb-app-content"
-    css={markdownStyle}
-    className={classnames(
-      // 'dnb-core-style',
-      'dnb-spacing',
-      'dnb-app-content',
-      className
-    )}
+    className={classnames('dnb-spacing', 'dnb-app-content', className)}
   >
+    <Global styles={markdownStyle} />
     {children}
   </ContentWrapper>
 )

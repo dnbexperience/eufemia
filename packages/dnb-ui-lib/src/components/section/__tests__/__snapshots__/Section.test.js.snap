@@ -1,0 +1,140 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Section component have to match snapshot 1`] = `
+<Section
+  class="class"
+  className="className"
+  render_content={[Function]}
+  spacing="spacing"
+  style="style"
+>
+  <section
+    className="dnb-section dnb-section--style dnb-section--spacing-spacing className class"
+  >
+    children
+  </section>
+</Section>
+`;
+
+exports[`Section scss have to match default theme snapshot 1`] = `
+"/*
+ * Section theme
+ *
+ */
+.dnb-section--divider::after {
+  color: var(--color-white);
+  box-shadow: 100vw 0 0 0 currentColor, 0 0.0625rem 0 0 var(--color-mint-green-50), 100vw 0.0625rem 0 0 var(--color-mint-green-50), 0 -0.0625rem 0 0 var(--color-mint-green-50), 100vw -0.0625rem 0 0 var(--color-mint-green-50); }
+
+.dnb-section--mint-green-12::after {
+  color: var(--color-mint-green-12); }
+
+.dnb-section--white::after {
+  color: var(--color-white); }
+
+.dnb-section--mint-green::after {
+  color: var(--color-mint-green); }
+
+.dnb-section--mint-green ::selection {
+  background-color: var(--color-white); }
+
+.dnb-section--emerald-green {
+  color: var(--color-mint-green); }
+  .dnb-section--emerald-green::after {
+    color: var(--color-emerald-green); }
+  .dnb-section--emerald-green .dnb-code {
+    color: var(--color-emerald-green); }
+
+.dnb-section--signal-orange {
+  color: var(--color-ocean-green); }
+  .dnb-section--signal-orange::after {
+    color: var(--color-signal-orange); }
+"
+`;
+
+exports[`Section scss have to match snapshot 1`] = `
+"/*
+* DNB Section
+*
+*/
+/**
+ * This file is only used to make components independent
+ * so that they can get imported individually, without the core styles
+ *
+ */
+/*
+ * Utilities
+ */
+/*
+ * Scopes
+ *
+ */
+/*
+ * Document Reset
+ *
+ */
+.dnb-section {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-default);
+  font-size: 1rem;
+  font-style: normal;
+  line-height: 1.5rem;
+  color: var(--color-black-80, #333);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  font-variant-numeric: lining-nums;
+  font-feature-settings: \\"lnum\\";
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-section *,
+  .dnb-section ::before,
+  .dnb-section ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-section ::before,
+  .dnb-section ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+ * Section component
+ *
+ */
+.dnb-section {
+  position: relative; }
+  .dnb-section::after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    left: -50vw;
+    top: 0;
+    width: 100vw;
+    height: 100%;
+    color: var(--color-mint-green-12);
+    background-color: currentColor;
+    box-shadow: 100vw 0 0 0 currentColor; }
+  .dnb-section--spacing,
+  .dnb-spacing .dnb-section--spacing, .dnb-section--spacing-default,
+  .dnb-spacing .dnb-section--spacing-default {
+    padding-top: 2rem;
+    padding-bottom: 2rem; }
+  .dnb-section--spacing-small,
+  .dnb-spacing .dnb-section--spacing-small {
+    padding-top: 1rem;
+    padding-bottom: 1rem; }
+  .dnb-section--spacing-large,
+  .dnb-spacing .dnb-section--spacing-large {
+    padding-top: 3rem;
+    padding-bottom: 3.5rem; }
+"
+`;

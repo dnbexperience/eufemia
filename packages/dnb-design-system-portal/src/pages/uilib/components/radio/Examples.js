@@ -119,7 +119,7 @@ class Example extends PureComponent {
 <Radio.Group
   label="Disabled Group:"
   disabled
-  name="MyGroup" // The Group Name
+  name="MyGroup"
 >
   <Radio label="First" value="first" />
   <Radio label="Second" value="second" />

@@ -11,17 +11,17 @@
 .dnb-button {
   @include componentReset();
 
-  button {
-    overflow: visible;
-    text-transform: none;
-  }
-
-  button,
-  [type='button'],
-  [type='reset'],
-  [type='submit'] {
-    -webkit-appearance: button;
-  }
+  // button {
+  //   overflow: visible;
+  //   text-transform: none;
+  // }
+  //
+  // button,
+  // [type='button'],
+  // [type='reset'],
+  // [type='submit'] {
+  //   -webkit-appearance: button;
+  // }
 }
 
 @import './_button.scss';

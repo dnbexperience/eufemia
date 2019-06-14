@@ -10,21 +10,16 @@
 }
 
 .dnb-checkbox {
-  user-select: none;
-
   display: inline-flex;
   flex-direction: column;
-  align-items: flex-start;
-  vertical-align: middle;
 
   width: auto;
 
   margin: 0;
   padding: 0;
 
-  color: var(--color-white);
-
   &__shell {
+    user-select: none;
     position: relative;
 
     display: flex;
@@ -37,10 +32,7 @@
     // vertical alignment
     transform: translateY(
       -0.0625rem
-    ); // ajust the shell to the inherited line-height for 1px
-  }
-  label + &[class*='__form-status'] {
-    vertical-align: top;
+    ); // ajust (for 1px) the shell because of line-height of fedra font
   }
 
   &__focus,
@@ -73,8 +65,9 @@
   }
 
   &__input {
+    opacity: 0;
+
     position: absolute;
-    top: 0;
     left: 0;
     z-index: 5;
 
@@ -91,34 +84,24 @@
     cursor: pointer;
   }
 
-  &--label-position-left,
-  &--label-position-right {
+  &--modifier {
     display: inline-flex;
     flex-direction: row;
-    align-items: flex-start;
-    flex-wrap: wrap;
 
-    .dnb-form-label {
-      flex: 1 1 33%;
-    }
-    .dnb-form-status {
-      order: 3;
-      flex: 1 1 1;
-      margin-top: 0.125rem;
-    }
+    // in case we have text before, or after, make sure we are aligned
+    vertical-align: top;
   }
 
   &--label-position-left {
     .dnb-checkbox {
       order: 2;
     }
-    label {
-      order: 1;
-    }
     .dnb-form-label {
-      flex: 0 1 auto;
-      margin-left: 0;
-      margin-right: 0.5rem;
+      order: 1;
+      margin-right: 1rem;
+    }
+    .dnb-form-status {
+      margin-top: 0.5rem;
     }
   }
 
@@ -126,19 +109,16 @@
     .dnb-checkbox {
       order: 1;
     }
-    label {
-      order: 2;
-    }
     .dnb-form-label {
-      margin-right: 0;
-      margin-left: 0.5rem;
+      order: 2;
+      margin-left: 1rem;
+      margin-right: 0.5rem; // because of the possible status
     }
-  }
+    & + .dnb-form-status {
+      // in case the status did not wrap, we want to have the status on the same line
+      vertical-align: top;
 
-  // in case we don't define a wrapping group
-  // and have a custom label component before the radio (and not inside)
-  .dnb-form-label ~ &--label-position-left,
-  .dnb-form-label ~ &--label-position-right {
-    display: inline;
+      margin-top: 0.5rem;
+    }
   }
 }

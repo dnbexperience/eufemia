@@ -20,48 +20,52 @@ exports[`FormStatus component have to match snapshot 1`] = `
     hidden={false}
     title="title"
   >
-    <IconPrimary
-      alt={null}
-      aria-hidden={true}
-      attributes={null}
-      class={null}
-      className={null}
-      color={null}
-      height={null}
-      icon="exclamation"
-      modifier={null}
-      size="icon_size"
-      title={null}
-      width={null}
-    >
-      <span
-        alt="exclamation"
-        aria-hidden={true}
-        className="dnb-icon"
-        role="img"
-      >
-        <exclamation>
-          <svg
-            fill="none"
-            height={16}
-            viewBox="0 0 16 16"
-            width={16}
-          >
-            <path
-              clipRule="evenodd"
-              d="M8 1.75a.75.75 0 0 1 .75.75v7a.75.75 0 0 1-1.5 0v-7A.75.75 0 0 1 8 1.75zm-.893 10.357A1.25 1.25 0 0 1 8 11.75c.32 0 .646.11.893.357s.357.573.357.893c0 .32-.11.646-.357.893A1.249 1.249 0 0 1 8 14.25c-.32 0-.646-.11-.893-.357A1.249 1.249 0 0 1 6.75 13c0-.32.11-.646.357-.893z"
-              fill="#000"
-              fillRule="evenodd"
-            />
-          </svg>
-        </exclamation>
-      </span>
-    </IconPrimary>
     <span
-      className="dnb-form-status--text"
-      id="text_id"
+      className="dnb-form-status__shell"
     >
-      text
+      <IconPrimary
+        alt={null}
+        aria-hidden={true}
+        attributes={null}
+        class={null}
+        className={null}
+        color={null}
+        height={null}
+        icon="exclamation"
+        modifier={null}
+        size="icon_size"
+        title={null}
+        width={null}
+      >
+        <span
+          alt="exclamation"
+          aria-hidden={true}
+          className="dnb-icon"
+          role="img"
+        >
+          <exclamation>
+            <svg
+              fill="none"
+              height={16}
+              viewBox="0 0 16 16"
+              width={16}
+            >
+              <path
+                clipRule="evenodd"
+                d="M8 1.75a.75.75 0 0 1 .75.75v7a.75.75 0 0 1-1.5 0v-7A.75.75 0 0 1 8 1.75zm-.893 10.357A1.25 1.25 0 0 1 8 11.75c.32 0 .646.11.893.357s.357.573.357.893c0 .32-.11.646-.357.893A1.249 1.249 0 0 1 8 14.25c-.32 0-.646-.11-.893-.357A1.249 1.249 0 0 1 6.75 13c0-.32.11-.646.357-.893z"
+                fill="#000"
+                fillRule="evenodd"
+              />
+            </svg>
+          </exclamation>
+        </span>
+      </IconPrimary>
+      <span
+        className="dnb-form-status--text"
+        id="text_id"
+      >
+        text
+      </span>
     </span>
   </span>
 </FormStatus>
@@ -72,14 +76,16 @@ exports[`FormStatus scss have to match default theme snapshot 1`] = `
  * FormStatus theme
  *
  */
-.dnb-form-status {
+.dnb-form-status__shell {
   font-size: var(--font-size-small); }
-  .dnb-form-status--error {
-    color: var(--color-cherry-red);
-    background-color: var(--color-cherry-red-80); }
-  .dnb-form-status--info {
-    color: var(--color-emerald-green);
-    background-color: var(--color-mint-green-25); }
+
+.dnb-form-status--error .dnb-form-status__shell {
+  color: var(--color-cherry-red);
+  background-color: var(--color-cherry-red-80); }
+
+.dnb-form-status--info .dnb-form-status__shell {
+  color: var(--color-emerald-green);
+  background-color: var(--color-mint-green-25); }
 "
 `;
 
@@ -145,11 +151,12 @@ exports[`FormStatus scss have to match snapshot 1`] = `
 .dnb-form-status {
   width: auto;
   display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  min-height: var(--input-height);
-  border-radius: var(--input-border-radius);
-  line-height: 0.5rem; }
+  min-height: var(--input-height); }
+  .dnb-form-status__shell {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    border-radius: var(--input-border-radius); }
   .dnb-form-status--text {
     padding: calc(0.5rem / 2) 1rem;
     cursor: text;
@@ -157,7 +164,7 @@ exports[`FormStatus scss have to match snapshot 1`] = `
     line-height: 1.5rem; }
   .dnb-icon + .dnb-form-status--text {
     padding-left: 0.5rem; }
-  .dnb-form-status > .dnb-icon {
+  .dnb-form-status__shell > .dnb-icon {
     display: flex;
     justify-content: center;
     align-items: center;

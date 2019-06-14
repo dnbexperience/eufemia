@@ -12,6 +12,7 @@ export const gridStyle = GridStyle
 let testWrapperStyle = ''
 if (typeof window !== 'undefined' && window.IS_TEST) {
   testWrapperStyle = css`
+    ${'' /* [data-dnb-test] { */}
     [data-dnb-test-wrapper] {
       position: relative;
       z-index: 9999;
@@ -23,24 +24,19 @@ if (typeof window !== 'undefined' && window.IS_TEST) {
       padding: 1rem;
       margin: -1rem;
 
-      background: white;
-
-      & * {
-        font-family: inherit;
-        font-variant-numeric: inherit;
-        font-feature-settings: inherit;
-      }
+      background: #fff;
     }
 
     --font-weight-demi: 600;
     --font-weight-medium: 700;
 
-    font-family: Arial, Helvetica, sans-serif;
+    body * {
+      font-family: Arial, Helvetica, sans-serif !important;
+      font-variant-numeric: normal;
+      font-feature-settings: normal;
 
-    font-variant-numeric: normal;
-    font-feature-settings: normal;
-
-    -webkit-font-smoothing: antialiased;
+      -webkit-font-smoothing: antialiased;
+    }
   `
 }
 

@@ -21,8 +21,8 @@ const {
 } = require('./jestSetupScreenshots').config
 
 const startStaticServer = () =>
-  new Promise(async resolve => {
-    {
+  new Promise(async (resolve, reject) => {
+    try {
       const portIsAvailable = await detectPort(testScreenshotOnPort)
       if (testScreenshotOnPort === portIsAvailable) {
         const root = path.resolve(
@@ -46,7 +46,7 @@ const startStaticServer = () =>
           wait: 10e3
         }
         const server = liveServer.start(params)
-        const onDone = () => {
+        const onDone = async () => {
           server.removeListener('listening', onDone)
           resolve()
         }
@@ -54,12 +54,17 @@ const startStaticServer = () =>
       } else {
         resolve()
       }
+    } catch (e) {
+      reject(e)
     }
   })
 
 module.exports = async function() {
   console.log(chalk.green('Setup Puppeteer'))
   await startStaticServer()
+
+  // give the server additional one second to spin up
+  await wait(1e3)
 
   const browser = await puppeteer.launch({
     headless,
@@ -76,3 +81,5 @@ module.exports = async function() {
   mkdirp.sync(DIR)
   fs.writeFileSync(path.join(DIR, 'wsEndpoint'), browser.wsEndpoint())
 }
+
+const wait = t => new Promise(r => setTimeout(r, t))

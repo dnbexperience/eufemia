@@ -2,7 +2,7 @@
 title: 'Typography'
 icon: 'typography'
 draft: false
-order: 4
+order: 5
 ---
 
 import CodeBlock from 'Tags/CodeBlock'

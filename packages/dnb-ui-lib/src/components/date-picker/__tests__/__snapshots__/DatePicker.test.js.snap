@@ -6,7 +6,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
   custom_method={null}
   date="2019-01-01T00:00:00.000Z"
   direction="auto"
-  disabled={false}
+  disabled={null}
   end_date="2019-02-15T00:00:00.000Z"
   end_month={null}
   first_day="monday"
@@ -69,7 +69,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
   sync={true}
 >
   <span
-    className="dnb-date-picker dnb-date-picker--hidden dnb-date-picker--show-input dnb-date-picker__form-status dnb-date-picker__status--error dnb-date-picker--show-footer"
+    className="dnb-date-picker dnb-date-picker--hidden dnb-date-picker--show-input dnb-date-picker__status--error dnb-date-picker--show-footer"
     date="2019-01-01T00:00:00.000Z"
   >
     <span
@@ -619,13 +619,12 @@ exports[`DatePicker component have to match snapshot 1`] = `
               >
                 <Button
                   aria-expanded={false}
-                  attributes={null}
                   bounding={false}
                   class={null}
                   className="dnb-input__submit-button__button"
                   custom_element={null}
                   custom_method={null}
-                  disabled={false}
+                  disabled={null}
                   href={null}
                   icon="calendar"
                   icon_position="right"
@@ -656,14 +655,13 @@ exports[`DatePicker component have to match snapshot 1`] = `
                   >
                     <Content
                       aria-expanded={false}
-                      attributes={null}
                       bounding={false}
                       class={null}
                       className="dnb-input__submit-button__button"
                       content={null}
                       custom_element={null}
                       custom_method={null}
-                      disabled={false}
+                      disabled={null}
                       href={null}
                       icon="calendar"
                       icon_position="right"
@@ -747,48 +745,52 @@ exports[`DatePicker component have to match snapshot 1`] = `
           className="dnb-form-status dnb-form-status--error dnb-form-status--has-content"
           hidden={false}
         >
-          <IconPrimary
-            alt={null}
-            aria-hidden={true}
-            attributes={null}
-            class={null}
-            className={null}
-            color={null}
-            height={null}
-            icon="exclamation"
-            modifier={null}
-            size="medium"
-            title={null}
-            width={null}
-          >
-            <span
-              alt="exclamation"
-              aria-hidden={true}
-              className="dnb-icon dnb-icon--medium"
-              role="img"
-            >
-              <exclamation_medium>
-                <svg
-                  fill="none"
-                  height={24}
-                  viewBox="0 0 24 24"
-                  width={24}
-                >
-                  <path
-                    clipRule="evenodd"
-                    d="M12 3a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-1.5 0V3.75A.75.75 0 0 1 12 3zm-1.074 15.426c.29-.29.679-.426 1.074-.426s.783.135 1.074.426c.29.29.426.679.426 1.074s-.135.783-.426 1.074c-.29.29-.679.426-1.074.426s-.783-.135-1.074-.426A1.499 1.499 0 0 1 10.5 19.5c0-.395.135-.783.426-1.074z"
-                    fill="#000"
-                    fillRule="evenodd"
-                  />
-                </svg>
-              </exclamation_medium>
-            </span>
-          </IconPrimary>
           <span
-            className="dnb-form-status--text"
-            id="date-picker-id-status"
+            className="dnb-form-status__shell"
           >
-            status
+            <IconPrimary
+              alt={null}
+              aria-hidden={true}
+              attributes={null}
+              class={null}
+              className={null}
+              color={null}
+              height={null}
+              icon="exclamation"
+              modifier={null}
+              size="medium"
+              title={null}
+              width={null}
+            >
+              <span
+                alt="exclamation"
+                aria-hidden={true}
+                className="dnb-icon dnb-icon--medium"
+                role="img"
+              >
+                <exclamation_medium>
+                  <svg
+                    fill="none"
+                    height={24}
+                    viewBox="0 0 24 24"
+                    width={24}
+                  >
+                    <path
+                      clipRule="evenodd"
+                      d="M12 3a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-1.5 0V3.75A.75.75 0 0 1 12 3zm-1.074 15.426c.29-.29.679-.426 1.074-.426s.783.135 1.074.426c.29.29.426.679.426 1.074s-.135.783-.426 1.074c-.29.29-.679.426-1.074.426s-.783-.135-1.074-.426A1.499 1.499 0 0 1 10.5 19.5c0-.395.135-.783.426-1.074z"
+                      fill="#000"
+                      fillRule="evenodd"
+                    />
+                  </svg>
+                </exclamation_medium>
+              </span>
+            </IconPrimary>
+            <span
+              className="dnb-form-status--text"
+              id="date-picker-id-status"
+            >
+              status
+            </span>
           </span>
         </span>
       </FormStatus>
@@ -1024,14 +1026,6 @@ exports[`DatePicker scss have to match snapshot 1`] = `
     /* 1 */
     vertical-align: inherit;
     /* 2 */ }
-  .dnb-button button {
-    overflow: visible;
-    text-transform: none; }
-  .dnb-button button,
-  .dnb-button [type='button'],
-  .dnb-button [type='reset'],
-  .dnb-button [type='submit'] {
-    -webkit-appearance: button; }
 
 /*
 * Button component
@@ -1180,15 +1174,13 @@ exports[`DatePicker scss have to match snapshot 1`] = `
       box-shadow: none;
       color: inherit;
       border: none; }
-  .dnb-button[type='button'] {
-    appearance: none; }
   .dnb-button[disabled] {
     cursor: not-allowed; }
   button.dnb-button::-moz-focus-inner .dnb-button {
     border: none; }
 
 a.dnb-button[type='button'] {
-  -webkit-appearance: none; }
+  appearance: none; }
 
 a.dnb-button .dnb-button__icon {
   transform: translateY(0); }
@@ -1239,18 +1231,19 @@ a.dnb-button .dnb-button__text {
  *
  */
 .dnb-form-label {
-  user-select: none;
-  margin-right: 1rem;
   display: inline-block;
+  width: auto;
+  margin: 0;
+  margin-right: 1rem;
   vertical-align: baseline;
-  cursor: pointer;
-  color: inherit;
-  width: auto; }
+  color: inherit; }
   .dnb-form-label--vertical {
+    display: block;
     margin-right: 0;
-    margin-top: 0; }
-  .dnb-form-label[for]:not([disabled]):hover {
-    color: var(--color-sea-green); }
+    margin-bottom: 0.5rem; }
+  .dnb-form-label[for]:not([disabled]) {
+    user-select: none;
+    cursor: pointer; }
   .dnb-form-label[disabled] {
     cursor: not-allowed; }
 
@@ -1299,11 +1292,12 @@ a.dnb-button .dnb-button__text {
 .dnb-form-status {
   width: auto;
   display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  min-height: var(--input-height);
-  border-radius: var(--input-border-radius);
-  line-height: 0.5rem; }
+  min-height: var(--input-height); }
+  .dnb-form-status__shell {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    border-radius: var(--input-border-radius); }
   .dnb-form-status--text {
     padding: calc(0.5rem / 2) 1rem;
     cursor: text;
@@ -1311,7 +1305,7 @@ a.dnb-button .dnb-button__text {
     line-height: 1.5rem; }
   .dnb-icon + .dnb-form-status--text {
     padding-left: 0.5rem; }
-  .dnb-form-status > .dnb-icon {
+  .dnb-form-status__shell > .dnb-icon {
     display: flex;
     justify-content: center;
     align-items: center;

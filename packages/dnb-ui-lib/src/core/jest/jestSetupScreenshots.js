@@ -12,10 +12,11 @@ const { setupJestScreenshot } = require('jest-screenshot')
 const config = {
   DIR: path.join(os.tmpdir(), 'jest_puppeteer_global_setup'),
   // use same port as the local dev setup, this way we can test from the dev setup as well
-  testScreenshotOnHost: '127.0.0.1',
+  // testScreenshotOnHost: isCI ? '127.0.0.1' : 'localhost',
+  testScreenshotOnHost: 'localhost',
   testScreenshotOnPort: 8000,
   headless: true,
-  blockFontRequest: true,
+  blockFontRequest: false,
   allowedFonts: [], // e.g. 'LiberationMono'
   pageSettings: {
     width: 1280,
@@ -200,7 +201,7 @@ const setupPageScreenshot = async ({
 
   beforeAll(
     async () =>
-      setupBeforeAll({
+      await setupBeforeAll({
         url,
         fullscreen,
         pageSettings
@@ -220,8 +221,11 @@ const setupBeforeAll = async ({
   fullscreen = true,
   pageSettings = null
 }) => {
-  const context = await global.__BROWSER__.createIncognitoBrowserContext()
-  const page = await context.newPage()
+  const page = await global.__BROWSER__.newPage()
+
+  // in case we want to use private window
+  // const context = await global.__BROWSER__.createIncognitoBrowserContext()
+  // const page = await context.newPage()
 
   if (pageSettings || (pageSettings !== false && config.pageSettings)) {
     if (pageSettings && config.pageSettings) {
@@ -236,12 +240,14 @@ const setupBeforeAll = async ({
     await page.setRequestInterception(true) // is needed in order to use on "request"
     page.on('request', req => {
       const url = req.url()
+
       if (
         config.allowedFonts &&
         config.allowedFonts.some(f => url.includes(f))
       ) {
         return req.continue()
       }
+
       const type = req.resourceType()
       switch (type) {
         case 'font':
@@ -257,6 +263,12 @@ const setupBeforeAll = async ({
   if (url) {
     await page.goto(createUrl(url, fullscreen))
   }
+
+  // just to make sure we get the latest version
+  await page.waitFor(1e3)
+  await page.reload({
+    waitUntil: 'domcontentloaded'
+  })
 
   global.__PAGE__ = page
 }

@@ -12,7 +12,7 @@ exports[`Checkbox component have to match snapshot 1`] = `
   disabled="disabled"
   id="id"
   label="label"
-  label_position="label_position"
+  label_position="left"
   on_change={[Function]}
   on_state_update={[Function]}
   readOnly={false}
@@ -23,22 +23,22 @@ exports[`Checkbox component have to match snapshot 1`] = `
   value="value"
 >
   <span
-    className="dnb-checkbox--label-position-label_position"
+    className="dnb-checkbox--modifier dnb-checkbox--label-position-left"
   >
     <FormLabel
       class={null}
       className={null}
+      direction={null}
       disabled="disabled"
       for_id="id"
       id="id-label"
       render_content={null}
       text="label"
       title={null}
+      vertical={null}
     >
       <label
-        aria-disabled={true}
         className="dnb-form-label"
-        disabled="disabled"
         htmlFor="id"
         id="id-label"
       >
@@ -151,16 +151,16 @@ exports[`Checkbox scss have to match default theme snapshot 1`] = `
     * On error state
     *
     */ }
-  .dnb-checkbox__input {
-    opacity: 0; }
   .dnb-checkbox__gfx {
     transition: opacity 200ms ease-out, transform 200ms ease-out; }
   .dnb-checkbox__input:not(:checked) ~ .dnb-checkbox__gfx {
     opacity: 0;
-    transform: scale(0.8); }
+    transform: scale(0.8);
+    color: var(--color-sea-green-alt); }
   .dnb-checkbox__input:checked ~ .dnb-checkbox__gfx {
     opacity: 1;
-    transform: scale(1); }
+    transform: scale(1);
+    color: var(--color-white); }
   .dnb-checkbox__input:not(:checked) ~ .dnb-checkbox__button {
     background-color: var(--color-white);
     border-color: var(--color-sea-green-alt); }
@@ -210,8 +210,6 @@ exports[`Checkbox scss have to match default theme snapshot 1`] = `
     color: var(--color-cherry-red); }
   .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:focus):not(:active):not(:hover) ~ .dnb-checkbox__gfx {
     color: var(--color-cherry-red-80); }
-  .dnb-checkbox > .dnb-form-status {
-    transform: translateY(0.1875rem); }
 "
 `;
 
@@ -279,18 +277,19 @@ exports[`Checkbox scss have to match snapshot 1`] = `
  *
  */
 .dnb-form-label {
-  user-select: none;
-  margin-right: 1rem;
   display: inline-block;
+  width: auto;
+  margin: 0;
+  margin-right: 1rem;
   vertical-align: baseline;
-  cursor: pointer;
-  color: inherit;
-  width: auto; }
+  color: inherit; }
   .dnb-form-label--vertical {
+    display: block;
     margin-right: 0;
-    margin-top: 0; }
-  .dnb-form-label[for]:not([disabled]):hover {
-    color: var(--color-sea-green); }
+    margin-bottom: 0.5rem; }
+  .dnb-form-label[for]:not([disabled]) {
+    user-select: none;
+    cursor: pointer; }
   .dnb-form-label[disabled] {
     cursor: not-allowed; }
 
@@ -339,11 +338,12 @@ exports[`Checkbox scss have to match snapshot 1`] = `
 .dnb-form-status {
   width: auto;
   display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  min-height: var(--input-height);
-  border-radius: var(--input-border-radius);
-  line-height: 0.5rem; }
+  min-height: var(--input-height); }
+  .dnb-form-status__shell {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    border-radius: var(--input-border-radius); }
   .dnb-form-status--text {
     padding: calc(0.5rem / 2) 1rem;
     cursor: text;
@@ -351,7 +351,7 @@ exports[`Checkbox scss have to match snapshot 1`] = `
     line-height: 1.5rem; }
   .dnb-icon + .dnb-form-status--text {
     padding-left: 0.5rem; }
-  .dnb-form-status > .dnb-icon {
+  .dnb-form-status__shell > .dnb-icon {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -422,16 +422,13 @@ exports[`Checkbox scss have to match snapshot 1`] = `
   --checkbox-border-width: 0.125rem; }
 
 .dnb-checkbox {
-  user-select: none;
   display: inline-flex;
   flex-direction: column;
-  align-items: flex-start;
-  vertical-align: middle;
   width: auto;
   margin: 0;
-  padding: 0;
-  color: var(--color-white); }
+  padding: 0; }
   .dnb-checkbox__shell {
+    user-select: none;
     position: relative;
     display: flex;
     align-items: center;
@@ -439,8 +436,6 @@ exports[`Checkbox scss have to match snapshot 1`] = `
     width: var(--checkbox-height);
     height: var(--checkbox-height);
     transform: translateY(-0.0625rem); }
-  label + .dnb-checkbox[class*='__form-status'] {
-    vertical-align: top; }
   .dnb-checkbox__focus, .dnb-checkbox__button, .dnb-checkbox__gfx {
     position: absolute;
     z-index: 4;
@@ -463,8 +458,8 @@ exports[`Checkbox scss have to match snapshot 1`] = `
     fill: currentColor;
     shape-rendering: geometricPrecision; }
   .dnb-checkbox__input {
+    opacity: 0;
     position: absolute;
-    top: 0;
     left: 0;
     z-index: 5;
     width: var(--checkbox-width);
@@ -474,34 +469,25 @@ exports[`Checkbox scss have to match snapshot 1`] = `
     border: 0; }
   .dnb-checkbox__input:not([disabled]) {
     cursor: pointer; }
-  .dnb-checkbox--label-position-left, .dnb-checkbox--label-position-right {
+  .dnb-checkbox--modifier {
     display: inline-flex;
     flex-direction: row;
-    align-items: flex-start;
-    flex-wrap: wrap; }
-    .dnb-checkbox--label-position-left .dnb-form-label, .dnb-checkbox--label-position-right .dnb-form-label {
-      flex: 1 1 33%; }
-    .dnb-checkbox--label-position-left .dnb-form-status, .dnb-checkbox--label-position-right .dnb-form-status {
-      order: 3;
-      flex: 1 1 1;
-      margin-top: 0.125rem; }
+    vertical-align: top; }
   .dnb-checkbox--label-position-left .dnb-checkbox {
     order: 2; }
-  .dnb-checkbox--label-position-left label {
-    order: 1; }
   .dnb-checkbox--label-position-left .dnb-form-label {
-    flex: 0 1 auto;
-    margin-left: 0;
-    margin-right: 0.5rem; }
+    order: 1;
+    margin-right: 1rem; }
+  .dnb-checkbox--label-position-left .dnb-form-status {
+    margin-top: 0.5rem; }
   .dnb-checkbox--label-position-right .dnb-checkbox {
     order: 1; }
-  .dnb-checkbox--label-position-right label {
-    order: 2; }
   .dnb-checkbox--label-position-right .dnb-form-label {
-    margin-right: 0;
-    margin-left: 0.5rem; }
-  .dnb-form-label ~ .dnb-checkbox--label-position-left,
-  .dnb-form-label ~ .dnb-checkbox--label-position-right {
-    display: inline; }
+    order: 2;
+    margin-left: 1rem;
+    margin-right: 0.5rem; }
+  .dnb-checkbox--label-position-right + .dnb-form-status {
+    vertical-align: top;
+    margin-top: 0.5rem; }
 "
 `;

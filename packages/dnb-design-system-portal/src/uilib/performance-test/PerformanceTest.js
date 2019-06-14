@@ -6,6 +6,7 @@
 import React, { Component, Fragment } from 'react'
 import ReactTestUtils from 'react-dom/test-utils' // ES6
 import PropTypes from 'prop-types'
+import styled from '@emotion/styled'
 
 // UI Components
 import dnb from 'dnb-ui-lib/src/components/lib'
@@ -20,6 +21,10 @@ import { H2, P, Hr } from 'dnb-ui-lib/src/elements'
 
 // Content
 import text from 'raw-loader!./lipsum.txt'
+
+const FormRow = styled.div`
+  margin-bottom: 1.5rem;
+`
 
 export default class PerformanceTest extends Component {
   state = {
@@ -84,25 +89,25 @@ export default class PerformanceTest extends Component {
         <div className="dnb-section dnb-section--spacing dnb-section--white">
           <H2>Change testing conditions</H2>
 
-          <div className="dnb-form-row">
+          <FormRow>
             <FormLabel for_id="is_active" text="Active" />{' '}
             <Switch
               id="is_active"
               on_change={this.toggleActiveState}
               checked={this.state.isActive}
             />
-          </div>
+          </FormRow>
 
-          <div className="dnb-form-row">
+          <FormRow>
             <FormLabel for_id="swith_mode" text="Web Components" />{' '}
             <Switch
               id="swith_mode"
               on_change={this.switchMode}
               checked={this.state.webComponentsEnabled}
             />
-          </div>
+          </FormRow>
 
-          <div className="dnb-form-row">
+          <FormRow>
             <FormLabel for_id="count_to_render" text="Components Count" />{' '}
             <Input
               id="count_to_render"
@@ -110,9 +115,9 @@ export default class PerformanceTest extends Component {
               value={this.state.countToRender}
               is_numeric={true}
             />
-          </div>
+          </FormRow>
 
-          <div className="dnb-form-row">
+          <FormRow>
             <FormLabel for_id="test_speed" text="Change interval" />{' '}
             <Input
               id="test_speed"
@@ -120,7 +125,7 @@ export default class PerformanceTest extends Component {
               value={this.state.testSpeed}
               is_numeric={true}
             />
-          </div>
+          </FormRow>
         </div>
         <br />
         <H2>Rendered Components</H2>

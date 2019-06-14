@@ -106,7 +106,7 @@
     * On hover
     *
     */
-  &__input:not([disabled]):not(:focus):hover ~ &__button {
+  &__input:not([disabled]):not(:focus):not(:active):hover ~ &__button {
     border-color: var(--color-sea-green);
     background-color: var(--color-mint-green-50);
   }

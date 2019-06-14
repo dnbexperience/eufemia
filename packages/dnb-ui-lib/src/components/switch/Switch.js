@@ -8,6 +8,8 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import keycode from 'keycode'
 import {
+  isTrue,
+  extendPropsWithContext,
   registerElement,
   validateDOMAttributes,
   dispatchCustomElementEvent
@@ -22,6 +24,7 @@ const renderProps = {
 
 export const propTypes = {
   label: PropTypes.string,
+  label_position: PropTypes.oneOf(['left', 'right']),
   title: PropTypes.string,
   default_state: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   checked: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -48,10 +51,11 @@ export const propTypes = {
 
 export const defaultProps = {
   label: null,
+  label_position: 'left',
   title: null,
   default_state: null,
   checked: 'default', //we have to send this as a string
-  disabled: false,
+  disabled: null,
   id: null,
   status: null,
   status_state: 'error',
@@ -138,6 +142,11 @@ export default class Switch extends Component {
     const checked = !this.state.checked
     this.setState({ checked, _listenForPropChanges: false })
     dispatchCustomElementEvent(this, 'on_change', { checked, event })
+
+    // help firefox and safari to have an correct state after a click
+    if (this._refInput.current) {
+      this._refInput.current.focus()
+    }
   }
 
   onMouseOutHandler = () => {
@@ -151,12 +160,19 @@ export default class Switch extends Component {
   }
 
   render() {
+    // consume the formRow context
+    const props = this.context.formRow
+      ? // use only the props from context, who are available here anyway
+        extendPropsWithContext(this.props, this.context.formRow)
+      : this.props
+
     const {
       value,
       status,
       status_state,
       status_animation,
       label,
+      label_position,
       title,
       disabled,
       readOnly,
@@ -174,23 +190,23 @@ export default class Switch extends Component {
       custom_element, // eslint-disable-line
 
       ...rest
-    } = this.props
+    } = props
 
     const { checked } = this.state
 
     const id = this._id
     const showStatus = status && status !== 'error'
+    const hasStatusMessage = showStatus && status !== 'info'
 
     const classes = classnames(
       'dnb-switch',
-      showStatus && 'dnb-switch__form-status',
       status && `dnb-switch__status--${status_state}`,
       className,
       _className
     )
 
     const inputParams = {
-      disabled,
+      disabled: isTrue(disabled),
       checked,
       onMouseOut: this.onMouseOutHandler, // for resetting the button to the default state
       ...rest
@@ -209,63 +225,66 @@ export default class Switch extends Component {
     // also used for code markup simulation
     validateDOMAttributes(this.props, inputParams)
 
+    const statusComp = showStatus && (
+      <FormStatus
+        text={status}
+        status={status_state}
+        text_id={id + '-status'} // used for "aria-describedby"
+        animation={status_animation}
+      />
+    )
+
     return (
       <>
-        {label && (
-          <FormLabel
-            id={id + '-label'}
-            for_id={id}
-            text={label}
-            disabled={disabled}
-          />
-        )}
-        <span className={classes}>
-          <span className="dnb-switch__shell">
-            <input
-              id={id}
-              name={id}
-              type="checkbox"
-              role="switch"
-              title={title}
-              aria-checked={checked}
-              className="dnb-switch__input"
-              value={checked ? value || '' : ''}
-              onChange={this.onChangeHandler}
-              onKeyDown={this.onKeyDownHandler}
-              ref={this._refInput}
-              {...inputParams}
-            />
-            <span
-              draggable
-              aria-hidden
-              className="dnb-switch__background"
-              onDragStart={this.onChangeHandler}
-              {...this.helperParams}
-            />
-            <span aria-hidden className="dnb-switch__button">
-              {/* {checked ? (
-                  <span className="dnb-switch__text-item dnb-switch__text-item--positive">
-                    {title_positive}
-                  </span>
-                ) : (
-                  <span className="dnb-switch__text-item dnb-switch__text-item--negative">
-                    {title_negative}
-                  </span>
-                )} */}
-              <span className="dnb-switch__focus">
-                <span className="dnb-switch__focus__inner" />
-              </span>
-            </span>
-          </span>
-          {showStatus && (
-            <FormStatus
-              text={status}
-              status={status_state}
-              text_id={id + '-status'} // used for "aria-describedby"
-              animation={status_animation}
+        <span
+          className={classnames(
+            label &&
+              label_position &&
+              `dnb-switch--label-position-${label_position}`,
+            hasStatusMessage && `dnb-switch__status--message`
+          )}
+        >
+          {label && (
+            <FormLabel
+              id={id + '-label'}
+              for_id={id}
+              text={label}
+              disabled={disabled}
             />
           )}
+          <span className={classes}>
+            <span className="dnb-switch__shell">
+              <input
+                id={id}
+                name={id}
+                type="checkbox"
+                role="switch"
+                title={title}
+                aria-checked={checked}
+                className="dnb-switch__input"
+                value={checked ? value || '' : ''}
+                ref={this._refInput}
+                {...inputParams}
+                onChange={this.onChangeHandler}
+                onKeyDown={this.onKeyDownHandler}
+              />
+              <span
+                draggable
+                aria-hidden
+                className="dnb-switch__background"
+                onDragStart={this.onChangeHandler}
+                {...this.helperParams}
+              />
+              <span aria-hidden className="dnb-switch__button">
+                <span className="dnb-switch__focus">
+                  <span className="dnb-switch__focus__inner" />
+                </span>
+              </span>
+            </span>
+            {label_position === 'left' && statusComp}
+          </span>
         </span>
+        {label_position === 'right' && statusComp}
       </>
     )
   }

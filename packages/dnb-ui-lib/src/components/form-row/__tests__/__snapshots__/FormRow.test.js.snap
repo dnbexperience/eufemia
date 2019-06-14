@@ -1,0 +1,236 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FormRow component have to match snapshot 1`] = `
+<FormRow
+  class="class"
+  className="className"
+  direction="horizontal"
+  disabled="disabled"
+  id="id"
+  label="label"
+  label_id="label_id"
+  no_label="no_label"
+  render_content={[Function]}
+  section_spacing="section_spacing"
+  section_style="section_style"
+  size="size"
+  vertical="vertical"
+>
+  <div
+    className="dnb-form-row dnb-form-row--horizontal dnb-form-row__size--size dnb-section dnb-section--section_style dnb-section--spacing-section_spacing className class"
+  >
+    <FormLabel
+      class={null}
+      className="dnb-form-row__label"
+      direction={null}
+      disabled={false}
+      for_id={null}
+      id="label_id-label"
+      render_content={null}
+      text="label"
+      title={null}
+      vertical={null}
+    >
+      <label
+        className="dnb-form-label dnb-form-label--horizontal dnb-form-row__label"
+        id="label_id-label"
+      >
+        label
+      </label>
+    </FormLabel>
+    <div
+      className="dnb-form-row__content"
+    >
+      children
+    </div>
+  </div>
+</FormRow>
+`;
+
+exports[`FormRow scss have to match default theme snapshot 1`] = `
+"/*
+ * FormRow theme
+ *
+ */
+"
+`;
+
+exports[`FormRow scss have to match snapshot 1`] = `
+"/*
+* DNB FormRow
+*
+*/
+/**
+ * This file is only used to make components independent
+ * so that they can get imported individually, without the core styles
+ *
+ */
+/*
+ * Utilities
+ */
+/*
+ * Scopes
+ *
+ */
+/*
+ * Document Reset
+ *
+ */
+/*
+* DNB FormLabel
+*
+*/
+.dnb-form-label {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-default);
+  font-size: 1rem;
+  font-style: normal;
+  line-height: 1.5rem;
+  color: var(--color-black-80, #333);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  font-variant-numeric: lining-nums;
+  font-feature-settings: \\"lnum\\";
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-form-label *,
+  .dnb-form-label ::before,
+  .dnb-form-label ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-form-label ::before,
+  .dnb-form-label ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+ * FormLabel component
+ *
+ */
+.dnb-form-label {
+  display: inline-block;
+  width: auto;
+  margin: 0;
+  margin-right: 1rem;
+  vertical-align: baseline;
+  color: inherit; }
+  .dnb-form-label--vertical {
+    display: block;
+    margin-right: 0;
+    margin-bottom: 0.5rem; }
+  .dnb-form-label[for]:not([disabled]) {
+    user-select: none;
+    cursor: pointer; }
+  .dnb-form-label[disabled] {
+    cursor: not-allowed; }
+
+.dnb-form-row {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-default);
+  font-size: 1rem;
+  font-style: normal;
+  line-height: 1.5rem;
+  color: var(--color-black-80, #333);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  font-variant-numeric: lining-nums;
+  font-feature-settings: \\"lnum\\";
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-form-row *,
+  .dnb-form-row ::before,
+  .dnb-form-row ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-form-row ::before,
+  .dnb-form-row ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+ * FormRow component
+ *
+ */
+:root {
+  --form-row-column1-start: auto;
+  --form-row-column2-start: 1fr;
+  --form-row-row1-start: auto;
+  --form-row-row2-start: auto; }
+
+.dnb-form-row {
+  display: flex;
+  flex-direction: row; }
+  .dnb-form-row > .dnb-form-status {
+    margin: 0.5rem 0; }
+  .dnb-form-row > .dnb-form-label {
+    margin: 0; }
+  @supports (display: grid) {
+    .dnb-form-row:not(.dnb-form-row--vertical), .dnb-form-row--horizontal {
+      display: grid;
+      grid-template-columns: [column1-start] var(--form-row-column1-start) [column1-end column2-start] var(--form-row-column2-start) [column2-end];
+      grid-template-rows: [row1-start] var(--form-row-row1-start) [row1-end row2-start] var(--form-row-row2-start) [row2-end]; } }
+  @supports not (display: grid) {
+    .dnb-form-row:not(.dnb-form-row--vertical), .dnb-form-row--horizontal {
+      align-items: flex-end; } }
+  .dnb-form-row:not(.dnb-form-row--vertical) > .dnb-form-row__content, .dnb-form-row--horizontal > .dnb-form-row__content {
+    grid-column: column2-start / column2-end;
+    grid-row: row2-start / row2-end;
+    justify-self: start; }
+  .dnb-form-row:not(.dnb-form-row--vertical) > label,
+  .dnb-form-row:not(.dnb-form-row--vertical) > .dnb-form-label, .dnb-form-row--horizontal > label,
+  .dnb-form-row--horizontal > .dnb-form-label {
+    margin-right: 1rem; }
+    @supports (display: grid) {
+      .dnb-form-row:not(.dnb-form-row--vertical) > label,
+      .dnb-form-row:not(.dnb-form-row--vertical) > .dnb-form-label, .dnb-form-row--horizontal > label,
+      .dnb-form-row--horizontal > .dnb-form-label {
+        grid-column: column1-start / column1-end;
+        grid-row: row1-start / row1-end;
+        margin-bottom: -1.5rem; }
+        @media (min-width: 40em) {
+          .dnb-form-row:not(.dnb-form-row--vertical) > label,
+          .dnb-form-row:not(.dnb-form-row--vertical) > .dnb-form-label, .dnb-form-row--horizontal > label,
+          .dnb-form-row--horizontal > .dnb-form-label {
+            text-align: right; } } }
+  @media (max-width: 40em) {
+    .dnb-form-row:not(.dnb-form-row--vertical), .dnb-form-row--horizontal {
+      display: block; } }
+  .dnb-form-row--vertical {
+    flex-direction: column;
+    align-items: flex-start;
+    width: auto;
+    /* stylelint-disable */
+    /* stylelint-enable */ }
+    .dnb-form-row--vertical > label,
+    .dnb-form-row--vertical > .dnb-form-label {
+      margin-bottom: 0.5rem; }
+  .dnb-form-row:not(.dnb-form-row--vertical).dnb-form-row__size--default > .dnb-form-label, .dnb-form-row:not(.dnb-form-row--vertical).dnb-form-row__size--medium > .dnb-form-label {
+    width: 30vw;
+    max-width: 20rem; }
+    @media (max-width: 40em) {
+      .dnb-form-row:not(.dnb-form-row--vertical).dnb-form-row__size--default > .dnb-form-label, .dnb-form-row:not(.dnb-form-row--vertical).dnb-form-row__size--medium > .dnb-form-label {
+        width: auto; } }
+"
+`;

@@ -4,10 +4,18 @@
  */
 
 import React /* , { useState, useEffect } */ from 'react'
+// import PropTypes from 'prop-types'
 import { Wrapper, Box } from '../helpers'
-// import styled from '@emotion/styled'
+import styled from '@emotion/styled'
 
-import { Checkbox, FormLabel } from '../../src/components'
+import { Checkbox, FormLabel, FormRow } from '../../src/components'
+
+const CustomRow = styled(FormRow)`
+  > .dnb-form-label {
+    ${'' /* max-width: 12rem; */}
+    color: blue;
+  }
+`
 
 export default [
   'Checkbox',
@@ -20,24 +28,37 @@ export default [
         </p>
       </Box>
       <Box>
-        <Checkbox
-          label="Checked"
-          checked
-          on_change={({ checked }) => {
-            console.log('on_change', checked)
-          }}
-        />
+        <p className="dnb-p">
+          Text:{' '}
+          <Checkbox
+            label="Checked"
+            checked
+            on_change={({ checked }) => {
+              console.log('on_change', checked)
+            }}
+          />
+        </p>
       </Box>
       <Box>
-        <Checkbox
-          label="Unchecked"
-          on_change={({ checked }) => {
-            console.log('on_change', checked)
-          }}
-        />
+        <CustomRow size>
+          <FormLabel for_id="checkbox-2">
+            Vertical FormLabel for a Checkbox component Sapien rhoncus
+            sagittis pharetra ornare platea feugiat cras senectus viverra:
+          </FormLabel>
+          <Checkbox
+            id="checkbox-2"
+            label="Unchecked"
+            on_change={({ checked }) => {
+              console.log('on_change', checked)
+            }}
+          />
+        </CustomRow>
       </Box>
       <Box>
-        <Checkbox label="Unchecked disabled" checked={false} disabled />
+        <FormLabel for_id="checkbox-1" direction="vertical" vertical>
+          Vertical FormLabel for a Checkbox component:
+        </FormLabel>
+        <Checkbox id="checkbox-1" label="Unchecked disabled" disabled />
       </Box>
       <Box>
         <Checkbox label="Checked disabled" checked disabled />
@@ -45,23 +66,24 @@ export default [
       <Box>
         <Checkbox
           label="Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
-          checked={false}
           status="Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
         />
       </Box>
       <Box>
         <Checkbox
-          label="Unchecked status error:"
+          // label="Unchecked status error:"
+          label="Unchecked:"
           label_position="left"
-          checked={false}
-          status="Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
+          // status="Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
+          status="Potenti viverra facilisi blandit sodales lorem est fusce"
+          status_state="info"
         />
       </Box>
       <Box>
         <Checkbox
           label="Checked status message"
           checked
-          status="Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
+          status="Potenti viverra ft quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
         />
       </Box>
     </Wrapper>

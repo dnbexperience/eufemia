@@ -10,8 +10,18 @@ order: 8
 
 Icons are categories on two [main groups](!/icons) and comes in two sizes each:
 
-- [Primary Icons](!/icons/primary)
-- [Secondary Icons](!/icons/secondary)
+## [Primary Icons](!/icons/primary)
+
+```jsx
+<Button icon="chevron_right" text="Button" />
+```
+
+## [Secondary Icons](!/icons/secondary)
+
+```jsx
+import { hamburger } from `dnb-ui-lib/icons`
+<Button icon={hamburger} text="Button" />
+```
 
 Primary Icons are used inside of other custom [Components](!/uilib/components) and are imported by default.
 

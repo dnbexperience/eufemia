@@ -17,6 +17,8 @@ import Checkbox from './checkbox/Checkbox'
 import DatePicker from './date-picker/DatePicker'
 import Dropdown from './dropdown/Dropdown'
 import FormLabel from './form-label/FormLabel'
+import FormRow from './form-row/FormRow'
+import FormSet from './form-set/FormSet'
 import FormStatus from './form-status/FormStatus'
 import Icon from './icon/Icon'
 import IconPrimary from './icon-primary/IconPrimary'
@@ -28,6 +30,7 @@ import Modal from './modal/Modal'
 import Notification from './notification/Notification'
 import ProgressIndicator from './progress-indicator/ProgressIndicator'
 import Radio from './radio/Radio'
+import Section from './section/Section'
 import Slider from './slider/Slider'
 import StepIndicator from './step-indicator/StepIndicator'
 import Switch from './switch/Switch'
@@ -41,6 +44,8 @@ export {
   DatePicker,
   Dropdown,
   FormLabel,
+  FormRow,
+  FormSet,
   FormStatus,
   Icon,
   IconPrimary,
@@ -52,6 +57,7 @@ export {
   Notification,
   ProgressIndicator,
   Radio,
+  Section,
   Slider,
   StepIndicator,
   Switch,
@@ -66,6 +72,8 @@ export const getComponents = () => {
     DatePicker,
     Dropdown,
     FormLabel,
+    FormRow,
+    FormSet,
     FormStatus,
     Icon,
     IconPrimary,
@@ -77,6 +85,7 @@ export const getComponents = () => {
     Notification,
     ProgressIndicator,
     Radio,
+    Section,
     Slider,
     StepIndicator,
     Switch,

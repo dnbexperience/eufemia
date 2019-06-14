@@ -26,7 +26,7 @@ import Lead from './Lead'
 import Link from './Link'
 import Ol from './Ol'
 import P from './P'
-import Section from './Section'
+import Paragraph from './Paragraph'
 import Table from './Table'
 import Ul from './Ul'
 
@@ -48,7 +48,7 @@ export {
   Link,
   Ol,
   P,
-  Section,
+  Paragraph,
   Table,
   Ul
 }
@@ -71,7 +71,7 @@ export const getElements = () => {
     Link,
     Ol,
     P,
-    Section,
+    Paragraph,
     Table,
     Ul
   }

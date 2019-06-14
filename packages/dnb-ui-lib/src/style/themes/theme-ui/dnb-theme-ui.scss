@@ -9,9 +9,10 @@
 // import all the "class styles" of the elements
 @import '../../elements/ui-elements.scss';
 
-// if not IE11
-@supports not (-ms-ime-align: auto) {
-  ::selection {
+// ::selection appearance helper
+[class^='dnb-'] ::selection {
+  // if not IE11
+  @supports not (-ms-ime-align: auto) {
     background-color: var(--color-mint-green);
     color: var(--color-black);
     text-shadow: none;
@@ -29,11 +30,14 @@
 @import '../../../components/date-picker/style/themes/dnb-date-picker-theme-ui.scss';
 @import '../../../components/dropdown/style/themes/dnb-dropdown-theme-ui.scss';
 @import '../../../components/form-label/style/themes/dnb-form-label-theme-ui.scss';
+@import '../../../components/form-row/style/themes/dnb-form-row-theme-ui.scss';
+@import '../../../components/form-set/style/themes/dnb-form-set-theme-ui.scss';
 @import '../../../components/form-status/style/themes/dnb-form-status-theme-ui.scss';
 @import '../../../components/input/style/themes/dnb-input-theme-ui.scss';
 @import '../../../components/modal/style/themes/dnb-modal-theme-ui.scss';
 @import '../../../components/progress-indicator/style/themes/dnb-progress-indicator-theme-ui.scss';
 @import '../../../components/radio/style/themes/dnb-radio-theme-ui.scss';
+@import '../../../components/section/style/themes/dnb-section-theme-ui.scss';
 @import '../../../components/step-indicator/style/themes/dnb-step-indicator-theme-ui.scss';
 @import '../../../components/switch/style/themes/dnb-switch-theme-ui.scss';
 @import '../../../components/tabs/style/themes/dnb-tabs-theme-ui.scss';

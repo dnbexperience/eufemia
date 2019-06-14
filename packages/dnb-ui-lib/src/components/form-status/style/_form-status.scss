@@ -7,13 +7,16 @@
   width: auto;
 
   display: flex;
-  justify-content: flex-start;
-  align-items: center; // could be flex-start to have the icon on top
-
   min-height: var(--input-height);
-  border-radius: var(--input-border-radius);
 
-  line-height: 0.5rem;
+  &__shell {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center; // could be flex-start to have the icon on top
+
+    border-radius: var(--input-border-radius);
+    // line-height: 0.5rem;
+  }
 
   &--text {
     padding: calc(0.5rem / 2) 1rem;
@@ -28,7 +31,7 @@
     padding-left: 0.5rem;
   }
 
-  > .dnb-icon {
+  &__shell > .dnb-icon {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -45,9 +48,6 @@
     border: 1px solid;
     border-color: currentColor;
   }
-
-  // &--error {
-  // }
 
   &[hidden] {
     display: none;

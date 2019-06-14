@@ -8,6 +8,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import keycode from 'keycode'
 import {
+  isTrue,
   registerElement,
   validateDOMAttributes,
   dispatchCustomElementEvent
@@ -24,7 +25,7 @@ const renderProps = {
 
 export const propTypes = {
   label: PropTypes.string,
-  label_position: PropTypes.string,
+  label_position: PropTypes.oneOf(['left', 'right']),
   title: PropTypes.string,
   checked: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -128,10 +129,6 @@ export default class Radio extends Component {
         case 'enter':
           this.onChangeHandler(event)
           break
-        case 'space':
-          event.preventDefault()
-          this.onChangeHandler(event)
-          break
       }
     } else {
       // else we only use the native support, and don't want space support
@@ -146,29 +143,24 @@ export default class Radio extends Component {
   }
 
   onChangeHandler = event => {
-    if (String(this.props.readOnly) === 'true') {
+    if (isTrue(this.props.readOnly)) {
       return event.preventDefault()
     }
     const value = event.target.value
     const checked = !this.state.checked
 
-    // delay in case we have a
+    // delay in case we have a props group only
     if (this.isPlainGroup()) {
+      // in case we have a false "hasContext" but a "group"
+      // then we have to use a delay, to overwrite the uncrontrolled state
       setTimeout(() => {
-        this.setState(
-          { checked, _listenForPropChanges: false },
-          () =>
-            this.isContextGroupOrSingle() &&
-            this.callOnChange({ value, checked })
-        )
-      }, 1) // in case we have a false "hasContext" but a "group", then we have to use a delay, to overwrite the uncrontrolled state
-    } else {
-      this.setState(
-        { checked, _listenForPropChanges: false },
-        () =>
-          this.isContextGroupOrSingle() &&
+        this.setState({ checked, _listenForPropChanges: false }, () =>
           this.callOnChange({ value, checked })
-      )
+        )
+      }, 1)
+    } else {
+      this.setState({ checked, _listenForPropChanges: false })
+      this.callOnChange({ value, checked })
     }
   }
 
@@ -183,7 +175,7 @@ export default class Radio extends Component {
     typeof this.context.value === 'undefined' && !this.props.group
 
   onClickHandler = event => {
-    if (String(this.props.readOnly) === 'true') {
+    if (isTrue(this.props.readOnly)) {
       return event.preventDefault()
     }
     // only have click support if there are more plain radio
@@ -207,6 +199,11 @@ export default class Radio extends Component {
       checked,
       value
     })
+
+    // help firefox and safari to have an correct state after a click
+    if (this._refInput.current) {
+      this._refInput.current.focus()
+    }
   }
 
   onMouseOutHandler = event => {
@@ -256,7 +253,7 @@ export default class Radio extends Component {
         checked = this.context.value === value
       }
       group = this.context.name
-      disabled = this.context.disabled
+      disabled = isTrue(this.context.disabled)
     }
 
     const id = this._id
@@ -264,8 +261,8 @@ export default class Radio extends Component {
 
     const classes = classnames(
       'dnb-radio',
-      showStatus && 'dnb-radio__form-status',
       status && `dnb-radio__status--${status_state}`,
+      label_position && `dnb-radio--label-position-${label_position}`,
       className,
       _className
     )
@@ -292,53 +289,47 @@ export default class Radio extends Component {
 
     return (
       <>
-        <span
-          className={classnames(
-            label_position && `dnb-radio--label-position-${label_position}`
-          )}
-        >
+        <span className={classes}>
           {label && (
             <FormLabel
               id={id + '-label'}
               for_id={id}
               aria-hidden={!this.isInNoGroup()}
               text={label}
-              disabled={disabled}
+              disabled={isTrue(disabled)}
             />
           )}
-          <span className={classes}>
-            <span className="dnb-radio__shell">
-              <input
-                type="checkbox"
-                value={value}
-                id={id}
-                name={group}
-                className="dnb-radio__input"
-                checked={checked}
-                aria-checked={checked}
-                title={title}
-                aria-label={title}
-                disabled={disabled}
-                ref={this._refInput}
-                {...inputParams}
-                onChange={this.onChangeHandler}
-                onClick={this.onClickHandler}
-                onKeyDown={this.onKeyDownHandler}
-              />
-              <span aria-hidden className="dnb-radio__button" />
-              <span className="dnb-radio__focus" />
-              <span className="dnb-radio__dot" />
-            </span>
+          <span className="dnb-radio__shell">
+            <input
+              type="checkbox"
+              value={value}
+              id={id}
+              name={group}
+              className="dnb-radio__input"
+              checked={checked}
+              aria-checked={checked}
+              title={title}
+              aria-label={title}
+              disabled={isTrue(disabled)}
+              ref={this._refInput}
+              {...inputParams}
+              onChange={this.onChangeHandler}
+              onClick={this.onClickHandler}
+              onKeyDown={this.onKeyDownHandler}
+            />
+            <span aria-hidden className="dnb-radio__button" />
+            <span className="dnb-radio__focus" />
+            <span className="dnb-radio__dot" />
           </span>
-          {showStatus && (
-            <FormStatus
-              text={status}
-              status={status_state}
-              text_id={id + '-status'} // used for "aria-describedby"
-              animation={status_animation}
-            />
-          )}
         </span>
+        {showStatus && (
+          <FormStatus
+            text={status}
+            status={status_state}
+            text_id={id + '-status'} // used for "aria-describedby"
+            animation={status_animation}
+          />
+        )}
       </>
     )
   }

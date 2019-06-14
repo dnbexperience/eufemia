@@ -31,7 +31,7 @@
     "test-ci-screenshots": "yarn workspace dnb-ui-lib test-ci-screenshots"
   },
   "devDependencies": {
-    "husky": "^2.3.0"
+    "husky": "^2.4.1"
   },
   "release": {
     "analyzeCommits": "simple-commit-message"

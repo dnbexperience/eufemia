@@ -10,12 +10,9 @@
 }
 
 .dnb-switch {
-  user-select: none;
-
   display: inline-flex;
   flex-direction: column;
-  align-items: flex-start;
-  vertical-align: middle;
+  vertical-align: middle; // just to center, in case we dont have provided a internal label
 
   width: auto;
 
@@ -23,6 +20,7 @@
   padding: 0;
 
   &__shell {
+    user-select: none;
     position: relative;
 
     display: flex;
@@ -31,13 +29,7 @@
     // vertical alignment
     transform: translateY(
       -0.0625rem
-    ); // ajust the shell to the inherited line-height for 1px
-  }
-  label + &[class*='__form-status'] {
-    vertical-align: baseline;
-    transform: translateY(
-      0.25rem
-    ); // ajust the shell to the inherited line-height for 4px
+    ); // ajust (for 1px) the shell because of line-height of fedra font
   }
 
   &__focus,
@@ -66,7 +58,7 @@
 
   /*
     * When switched OFF
-    * aka when the checkbox is not :checked
+    * aka when the switch is not :checked
     */
   &__input:not(:checked) ~ &__button {
     transform: translateX(0); // IE fix
@@ -75,7 +67,7 @@
 
   /*
     * When switched ON
-    * aka when the checkbox is :checked
+    * aka when the switch is :checked
     */
   &__input:checked ~ &__button {
     transform: translateX(1rem); // IE fix
@@ -135,7 +127,51 @@
     cursor: pointer;
   }
 
-  > .dnb-form-status {
-    margin-top: 0.5rem;
+  &--label-position-left,
+  &--label-position-right {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  &--label-position-left {
+    .dnb-switch {
+      order: 2;
+    }
+    .dnb-form-label {
+      order: 1;
+      align-self: flex-start;
+    }
+    .dnb-form-status {
+      margin-top: 0.5rem;
+    }
+  }
+  // correct the label
+  &__status--message#{&}--label-position-left .dnb-form-label {
+    transform: translateY(-0.25rem); // 4px
+  }
+
+  &--label-position-right {
+    // in case we have text before, or after, make sure we are aligned
+    vertical-align: middle;
+
+    .dnb-switch {
+      order: 1;
+    }
+    .dnb-form-label {
+      order: 2;
+      margin-left: 1rem;
+      margin-right: 0.5rem; // because of the possible status
+
+      // to make sure we dont interupt the total height
+      // else the label will push down and increase the total height
+      line-height: 1rem;
+    }
+    & + .dnb-form-status {
+      // in case the status did not wrap, we want to have the status on the same line
+      vertical-align: bottom;
+
+      margin-top: 0.5rem;
+    }
   }
 }

@@ -97,11 +97,6 @@ export const validateDOMAttributes = (props, params) => {
     params['tabIndex'] = tabIndex
   }
 
-  // add web component event handler
-  if (props && typeof props.on_click === 'function') {
-    params['onClick'] = props.on_click
-  }
-
   // make sure we don't return a render prop as a DOM attribute
   if (params && typeof params === 'object') {
     for (const i in params) {
@@ -153,6 +148,47 @@ export const processChildren = props => {
   return res
 }
 
+// extends given objects recursively and removing entries with null values
+export const extend = (...objects) => {
+  const list = Array.from(objects)
+  const recursive = list[0] !== false
+  return list.reduce((acc1, object) => {
+    if (object) {
+      acc1 = Object.assign(
+        acc1,
+        Object.entries(object).reduce((acc2, [key, value]) => {
+          if (value !== null) {
+            if (recursive && typeof value === 'object') {
+              value = extend(acc1[key] || {}, value)
+              if (Object.keys(value).length > 0) {
+                acc2[key] = value
+              }
+            } else {
+              acc2[key] = value
+            }
+          }
+          return acc2
+        }, {})
+      )
+    }
+    return acc1
+  }, {})
+}
+
+// extends props from a given context
+// but give the context second priority only
+export const extendPropsWithContext = (props, context) =>
+  extend(
+    false, // prevent recursion
+    Object.entries(context).reduce((acc, [key, value]) => {
+      if (typeof props[key] !== 'undefined' && value !== null) {
+        acc[key] = value
+      }
+      return acc
+    }, {}),
+    props
+  )
+
 // check if value is "truthy"
 export const isTrue = value => {
   if (
@@ -166,20 +202,24 @@ export const isTrue = value => {
 }
 
 export const dispatchCustomElementEvent = (element, eventName, event) => {
+  let ret = null
+
   if (element && element.props && element.props.custom_element) {
     if (typeof element.props.custom_element.fireEvent === 'function') {
-      element.props.custom_element.fireEvent(eventName, event)
+      ret = element.props.custom_element.fireEvent(eventName, event)
     }
   }
 
   if (element && typeof element.props[eventName] === 'function') {
-    element.props[eventName].apply(element, [event])
+    ret = element.props[eventName].apply(element, [event])
   }
 
   eventName = transformToReactEventCase(eventName)
   if (element && typeof element.props[eventName] === 'function') {
-    element.props[eventName].apply(element, [event])
+    ret = element.props[eventName].apply(element, [event])
   }
+
+  return ret
 }
 
 // transform on_click to onClick

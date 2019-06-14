@@ -7,12 +7,14 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
+  extendPropsWithContext,
   registerElement,
   validateDOMAttributes,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
-import FormLabel from '../form-label/FormLabel'
+import FormRow from '../form-row/FormRow'
 import FormStatus from '../form-status/FormStatus'
+import Context from '../../shared/Context'
 import RadioGroupContext from './RadioGroupContext'
 
 const renderProps = {
@@ -28,7 +30,9 @@ export const propTypes = {
   status: PropTypes.string,
   status_state: PropTypes.string,
   status_animation: PropTypes.string,
-  layout_direction: PropTypes.string,
+  layout_direction: PropTypes.oneOf(['column', 'row']),
+  direction: PropTypes.oneOf(['horizontal', 'vertical']),
+  vertical: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   value: PropTypes.string,
   attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   class: PropTypes.string,
@@ -50,12 +54,14 @@ export const propTypes = {
 export const defaultProps = {
   label: null,
   title: null,
-  disabled: false,
+  disabled: null,
   id: null,
   name: null,
   status: null,
   status_state: 'error',
   status_animation: null,
+  direction: 'horizontal',
+  vertical: null,
   layout_direction: 'row',
   value: null,
   attributes: null,
@@ -79,6 +85,7 @@ export default class RadioGroup extends PureComponent {
   static propTypes = propTypes
   static defaultProps = defaultProps
   static renderProps = renderProps
+  static contextType = Context
 
   static enableWebComponent() {
     registerElement(RadioGroup.tagName, RadioGroup, defaultProps)
@@ -118,10 +125,18 @@ export default class RadioGroup extends PureComponent {
   }
 
   render() {
+    // consume the formRow context
+    const props = this.context.formRow
+      ? // use only the props from context, who are available here anyway
+        extendPropsWithContext(this.props, this.context.formRow)
+      : this.props
+
     const {
       status,
       status_state,
       status_animation,
+      direction,
+      vertical,
       layout_direction,
       label,
       disabled,
@@ -138,7 +153,7 @@ export default class RadioGroup extends PureComponent {
       custom_element, // eslint-disable-line
 
       ...rest
-    } = this.props
+    } = props
 
     const { value } = this.state
 
@@ -147,10 +162,8 @@ export default class RadioGroup extends PureComponent {
 
     const classes = classnames(
       'dnb-radio-group',
-      showStatus && 'dnb-radio-group__form-status',
       status && `dnb-radio-group__status--${status_state}`,
-      layout_direction &&
-        `dnb-radio-group--layout-direction-${layout_direction}`,
+      `dnb-radio-group--${layout_direction}`,
       className,
       _className
     )
@@ -176,28 +189,37 @@ export default class RadioGroup extends PureComponent {
       onChange: this.onChangeHandler
     }
 
+    const formRowParams = {
+      label,
+      label_id: id, // send the id along, so the FormRow component can use it
+      direction,
+      vertical,
+      disabled
+      // status,
+      // status_state
+    }
+
     return (
       <RadioGroupContext.Provider value={context}>
         <span className={classes}>
-          {label && (
-            <FormLabel
-              id={id + '-label'}
-              for_id={id}
-              text={label}
-              disabled={disabled}
-            />
-          )}
-          <span id={id} role="radiogroup" {...params}>
-            <span className="dnb-radio_group__shell">{children}</span>
-            {showStatus && (
-              <FormStatus
-                text={status}
-                status={status_state}
-                text_id={id + '-status'} // used for "aria-describedby"
-                animation={status_animation}
-              />
-            )}
-          </span>
+          <FormRow {...formRowParams}>
+            <span
+              id={id}
+              className="dnb-radio-group__shell"
+              role="radiogroup"
+              {...params}
+            >
+              {children}
+              {showStatus && (
+                <FormStatus
+                  text={status}
+                  status={status_state}
+                  text_id={id + '-status'} // used for "aria-describedby"
+                  animation={status_animation}
+                />
+              )}
+            </span>
+          </FormRow>
         </span>
       </RadioGroupContext.Provider>
     )

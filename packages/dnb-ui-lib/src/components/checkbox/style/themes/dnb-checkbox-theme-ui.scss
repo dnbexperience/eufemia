@@ -6,9 +6,6 @@
 @import '../../../../style/themes/imports.scss';
 
 .dnb-checkbox {
-  &__input {
-    opacity: 0;
-  }
   &__gfx {
     transition: opacity 200ms ease-out, transform 200ms ease-out;
   }
@@ -20,6 +17,7 @@
   &__input:not(:checked) ~ &__gfx {
     opacity: 0;
     transform: scale(0.8);
+    color: var(--color-sea-green-alt);
   }
 
   /*
@@ -29,6 +27,7 @@
   &__input:checked ~ &__gfx {
     opacity: 1;
     transform: scale(1);
+    color: var(--color-white);
   }
 
   /*
@@ -154,10 +153,5 @@
     &__input:not([disabled]):not(:focus):not(:active):not(:hover)
     ~ &__gfx {
     color: var(--color-cherry-red-80);
-  }
-
-  // ajust the form-status to the inner border for 3px
-  > .dnb-form-status {
-    transform: translateY(0.1875rem);
   }
 }
