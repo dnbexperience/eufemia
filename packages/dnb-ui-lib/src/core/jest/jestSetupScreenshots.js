@@ -16,7 +16,7 @@ const config = {
   testScreenshotOnHost: 'localhost',
   testScreenshotOnPort: 8000,
   headless: true,
-  blockFontRequest: true,
+  blockFontRequest: false,
   allowedFonts: [], // e.g. 'LiberationMono'
   pageSettings: {
     width: 1280,
@@ -60,9 +60,6 @@ module.exports.testPageScreenshot = ({
         await page.goto(createUrl(url, fullscreen))
       }
 
-      // just to make sure we get the latest version
-      await page.waitFor(500)
-      await page.reload()
       await page.waitForSelector(selector)
 
       if (style) {
@@ -204,7 +201,7 @@ const setupPageScreenshot = async ({
 
   beforeAll(
     async () =>
-      setupBeforeAll({
+      await setupBeforeAll({
         url,
         fullscreen,
         pageSettings
@@ -224,8 +221,11 @@ const setupBeforeAll = async ({
   fullscreen = true,
   pageSettings = null
 }) => {
-  const context = await global.__BROWSER__.createIncognitoBrowserContext()
-  const page = await context.newPage()
+  const page = await global.__BROWSER__.newPage()
+
+  // in case we want to use private window
+  // const context = await global.__BROWSER__.createIncognitoBrowserContext()
+  // const page = await context.newPage()
 
   if (pageSettings || (pageSettings !== false && config.pageSettings)) {
     if (pageSettings && config.pageSettings) {
@@ -240,12 +240,14 @@ const setupBeforeAll = async ({
     await page.setRequestInterception(true) // is needed in order to use on "request"
     page.on('request', req => {
       const url = req.url()
+
       if (
         config.allowedFonts &&
         config.allowedFonts.some(f => url.includes(f))
       ) {
         return req.continue()
       }
+
       const type = req.resourceType()
       switch (type) {
         case 'font':
@@ -261,6 +263,13 @@ const setupBeforeAll = async ({
   if (url) {
     await page.goto(createUrl(url, fullscreen))
   }
+
+  // just to make sure we get the latest version
+  // But for now - it works fine without this hack
+  // await page.waitFor(500)
+  // await page.reload({
+  //   waitUntil: 'domcontentloaded'
+  // })
 
   global.__PAGE__ = page
 }

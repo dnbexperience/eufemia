@@ -48,7 +48,6 @@ const startStaticServer = () =>
         const server = liveServer.start(params)
         const onDone = async () => {
           server.removeListener('listening', onDone)
-          await wait(3e3)
           resolve()
         }
         server.addListener('listening', onDone)
@@ -60,11 +59,12 @@ const startStaticServer = () =>
     }
   })
 
-const wait = t => new Promise(r => setTimeout(r, t))
-
 module.exports = async function() {
   console.log(chalk.green('Setup Puppeteer'))
   await startStaticServer()
+
+  // give the server additional one second to spin up
+  await wait(1e3)
 
   const browser = await puppeteer.launch({
     headless,
@@ -81,3 +81,5 @@ module.exports = async function() {
   mkdirp.sync(DIR)
   fs.writeFileSync(path.join(DIR, 'wsEndpoint'), browser.wsEndpoint())
 }
+
+const wait = t => new Promise(r => setTimeout(r, t))
