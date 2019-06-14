@@ -15,8 +15,8 @@ All styles are inside of CSS files. In order to ensure flexibility with legacy c
 
 - **dnb-ui-core**
 - **dnb-ui-basis**
-- **dnb-theme-ui**
 - **dnb-ui-components**
+- **dnb-theme-ui**
 - etc.
 
 ## CSS Reset

@@ -6,9 +6,6 @@
 @import '../../../../style/themes/imports.scss';
 
 .dnb-radio {
-  &__input {
-    opacity: 0;
-  }
   &__dot {
     background-color: var(--color-sea-green-alt);
     transition: opacity 200ms ease-out, transform 200ms ease-out;

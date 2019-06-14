@@ -292,7 +292,7 @@ stories.push([
       <CustomStyles>
         <Box>
           <FormRow vertical>
-            <label className="dnb-label" htmlFor="hendrerit">
+            <label className="dnb-form-label" htmlFor="hendrerit">
               Label for the textarea:
             </label>
             <textarea
@@ -309,7 +309,7 @@ stories.push([
         </Box>
         <Box>
           <FormRow>
-            <label className="dnb-label" htmlFor="litora">
+            <label className="dnb-form-label" htmlFor="litora">
               Label for the textarea:
             </label>
             <textarea
@@ -339,7 +339,7 @@ stories.push([
         </Box>
         <Box>
           <FormRow vertical>
-            <label className="dnb-label" htmlFor="vestibulum">
+            <label className="dnb-form-label" htmlFor="vestibulum">
               Label:
             </label>
             <textarea
@@ -356,7 +356,7 @@ stories.push([
         </Box>
         <Box>
           <FormRow>
-            <label className="dnb-label" htmlFor="volutpat">
+            <label className="dnb-form-label" htmlFor="volutpat">
               Label:
             </label>
             <textarea

@@ -17,6 +17,8 @@ import Textarea from './components/Textarea'
 import ProgressIndicator from './components/ProgressIndicator'
 import Modal from './components/Modal'
 import FormLabelStory from './components/FormLabel'
+import FormRowStory from './components/FormRow'
+import FormSetStory from './components/FormSet'
 import {
   Button,
   Tabs,
@@ -43,6 +45,8 @@ stories.push(Textarea)
 stories.push(ProgressIndicator)
 stories.push(Modal)
 stories.push(FormLabelStory)
+stories.push(FormRowStory)
+stories.push(FormSetStory)
 
 const CustomStyle = styled.div`
   p {

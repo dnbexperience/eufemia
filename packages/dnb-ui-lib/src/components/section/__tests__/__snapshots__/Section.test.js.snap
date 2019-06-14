@@ -34,6 +34,9 @@ exports[`Section scss have to match default theme snapshot 1`] = `
 .dnb-section--mint-green::after {
   color: var(--color-mint-green); }
 
+.dnb-section--mint-green ::selection {
+  background-color: var(--color-white); }
+
 .dnb-section--emerald-green {
   color: var(--color-mint-green); }
   .dnb-section--emerald-green::after {
@@ -121,7 +124,8 @@ exports[`Section scss have to match snapshot 1`] = `
     background-color: currentColor;
     box-shadow: 100vw 0 0 0 currentColor; }
   .dnb-section--spacing,
-  .dnb-spacing .dnb-section--spacing {
+  .dnb-spacing .dnb-section--spacing, .dnb-section--spacing-default,
+  .dnb-spacing .dnb-section--spacing-default {
     padding-top: 2rem;
     padding-bottom: 2rem; }
   .dnb-section--spacing-small,

@@ -206,11 +206,6 @@
     }
   }
 
-  // reset
-  &[type='button'] {
-    appearance: none;
-  }
-
   &[disabled] {
     cursor: not-allowed;
   }
@@ -224,7 +219,7 @@
 // make sure we style an Anchor like a button
 a.dnb-button {
   &[type='button'] {
-    -webkit-appearance: none; // because we have "appearance: button" in reset.scss
+    appearance: none; // because we have "appearance: button" in reset.scss
   }
 
   // some correction

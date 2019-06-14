@@ -194,13 +194,12 @@ exports[`Input component have to match type="search" snapshot 1`] = `
         data-input-state="virgin"
       >
         <Button
-          attributes={null}
           bounding={false}
           class={null}
           className="dnb-input__submit-button__button"
           custom_element={null}
           custom_method={null}
-          disabled={false}
+          disabled={null}
           href={null}
           icon="search"
           icon_position="right"
@@ -228,14 +227,13 @@ exports[`Input component have to match type="search" snapshot 1`] = `
             value="test"
           >
             <Content
-              attributes={null}
               bounding={false}
               class={null}
               className="dnb-input__submit-button__button"
               content={null}
               custom_element={null}
               custom_method={null}
-              disabled={false}
+              disabled={null}
               href={null}
               icon="search"
               icon_position="right"
@@ -614,14 +612,6 @@ exports[`Input scss have to match snapshot 1`] = `
     /* 1 */
     vertical-align: inherit;
     /* 2 */ }
-  .dnb-button button {
-    overflow: visible;
-    text-transform: none; }
-  .dnb-button button,
-  .dnb-button [type='button'],
-  .dnb-button [type='reset'],
-  .dnb-button [type='submit'] {
-    -webkit-appearance: button; }
 
 /*
 * Button component
@@ -770,15 +760,13 @@ exports[`Input scss have to match snapshot 1`] = `
       box-shadow: none;
       color: inherit;
       border: none; }
-  .dnb-button[type='button'] {
-    appearance: none; }
   .dnb-button[disabled] {
     cursor: not-allowed; }
   button.dnb-button::-moz-focus-inner .dnb-button {
     border: none; }
 
 a.dnb-button[type='button'] {
-  -webkit-appearance: none; }
+  appearance: none; }
 
 a.dnb-button .dnb-button__icon {
   transform: translateY(0); }

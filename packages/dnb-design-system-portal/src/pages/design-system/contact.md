@@ -25,7 +25,7 @@ order: 2
 ### Administrators
 
 - **Jens Thuland** (_jens.thuland@dnb.no_)
-- **Tobias Høegh** (_tobias.hoegh@dnb.no_)
+- **Tobias Høegh** (mob. 450 16 473 or _tobias.hoegh@dnb.no_)
 
 ### Designers
 

@@ -9,6 +9,8 @@ import classnames from 'classnames'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 import {
+  isTrue,
+  extendPropsWithContext,
   registerElement,
   validateDOMAttributes,
   processChildren,
@@ -67,7 +69,7 @@ export const defaultProps = {
   status_animation: null,
   placeholder: null,
   align: null,
-  disabled: false,
+  disabled: null,
   textarea_class: null,
   class: null,
   attributes: null,
@@ -108,7 +110,7 @@ export default class Textarea extends PureComponent {
     ) {
       state.value = value
     }
-    if (props.disabled) {
+    if (isTrue(props.disabled)) {
       state.textareaState = 'disabled'
     }
     if (props.textarea_state) {
@@ -169,6 +171,12 @@ export default class Textarea extends PureComponent {
     dispatchCustomElementEvent(this, 'on_change', { value, event })
   }
   render() {
+    // consume the formRow context
+    const props = this.context.formRow
+      ? // use only the props from context, who are available here anyway
+        extendPropsWithContext(this.props, this.context.formRow)
+      : this.props
+
     const {
       label,
       status,
@@ -188,7 +196,7 @@ export default class Textarea extends PureComponent {
       textareaElement: _textareaElement, //eslint-disable-line
 
       ...attributes
-    } = this.props
+    } = props
 
     const { value, textareaState } = this.state
 
@@ -236,7 +244,7 @@ export default class Textarea extends PureComponent {
     }
 
     const shellParams = {}
-    if (disabled) {
+    if (isTrue(disabled)) {
       shellParams['aria-disabled'] = true
     }
 

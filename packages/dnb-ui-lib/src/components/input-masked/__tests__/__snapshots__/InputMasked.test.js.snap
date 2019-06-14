@@ -221,14 +221,6 @@ exports[`InputMasked scss have to match snapshot 1`] = `
     /* 1 */
     vertical-align: inherit;
     /* 2 */ }
-  .dnb-button button {
-    overflow: visible;
-    text-transform: none; }
-  .dnb-button button,
-  .dnb-button [type='button'],
-  .dnb-button [type='reset'],
-  .dnb-button [type='submit'] {
-    -webkit-appearance: button; }
 
 /*
 * Button component
@@ -377,15 +369,13 @@ exports[`InputMasked scss have to match snapshot 1`] = `
       box-shadow: none;
       color: inherit;
       border: none; }
-  .dnb-button[type='button'] {
-    appearance: none; }
   .dnb-button[disabled] {
     cursor: not-allowed; }
   button.dnb-button::-moz-focus-inner .dnb-button {
     border: none; }
 
 a.dnb-button[type='button'] {
-  -webkit-appearance: none; }
+  appearance: none; }
 
 a.dnb-button .dnb-button__icon {
   transform: translateY(0); }

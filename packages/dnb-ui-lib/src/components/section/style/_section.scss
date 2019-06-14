@@ -23,7 +23,9 @@
 
   // spacing-default
   &--spacing,
-  .dnb-spacing &--spacing {
+  .dnb-spacing &--spacing,
+  &--spacing-default,
+  .dnb-spacing &--spacing-default {
     padding-top: 2rem;
     padding-bottom: 2rem;
   }

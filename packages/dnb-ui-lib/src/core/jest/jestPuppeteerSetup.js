@@ -21,8 +21,8 @@ const {
 } = require('./jestSetupScreenshots').config
 
 const startStaticServer = () =>
-  new Promise(async resolve => {
-    {
+  new Promise(async (resolve, reject) => {
+    try {
       const portIsAvailable = await detectPort(testScreenshotOnPort)
       if (testScreenshotOnPort === portIsAvailable) {
         const root = path.resolve(
@@ -46,16 +46,21 @@ const startStaticServer = () =>
           wait: 10e3
         }
         const server = liveServer.start(params)
-        const onDone = () => {
+        const onDone = async () => {
           server.removeListener('listening', onDone)
+          await wait(3e3)
           resolve()
         }
         server.addListener('listening', onDone)
       } else {
         resolve()
       }
+    } catch (e) {
+      reject(e)
     }
   })
+
+const wait = t => new Promise(r => setTimeout(r, t))
 
 module.exports = async function() {
   console.log(chalk.green('Setup Puppeteer'))

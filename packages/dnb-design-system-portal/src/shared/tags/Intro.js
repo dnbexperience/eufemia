@@ -77,6 +77,10 @@ const Footer = styled.div`
 const Wrapper = styled.div`
   margin: 10vh 10vw;
 
+  .dnb-spacing & blockquote h2 {
+    margin: 0.5rem 1rem 0 0;
+  }
+
   ${'' /* a[href*='/intro/'] {
     display: block;
     color: red;

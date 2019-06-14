@@ -9,6 +9,7 @@ import classnames from 'classnames'
 import keycode from 'keycode'
 import {
   isTrue,
+  extendPropsWithContext,
   registerElement,
   dispatchCustomElementEvent,
   validateDOMAttributes
@@ -135,7 +136,7 @@ export const defaultProps = {
   link: false,
   sync: true,
   label: null,
-  disabled: false,
+  disabled: null,
   status: null,
   status_state: 'error',
   status_animation: null,
@@ -508,6 +509,12 @@ export default class DatePicker extends PureComponent {
   }
 
   render() {
+    // consume the formRow context
+    const props = this.context.formRow
+      ? // use only the props from context, who are available here anyway
+        extendPropsWithContext(this.props, this.context.formRow)
+      : this.props
+
     const {
       label,
       only_month,
@@ -538,7 +545,7 @@ export default class DatePicker extends PureComponent {
       id: _id /* eslint-disable-line */,
 
       ...attributes
-    } = this.props
+    } = props
 
     let { hide_navigation, hide_days } = this.props
 
@@ -593,14 +600,9 @@ export default class DatePicker extends PureComponent {
             opened && 'dnb-date-picker--opened',
             hidden && 'dnb-date-picker--hidden',
             showInput && 'dnb-date-picker--show-input',
-            showStatus && 'dnb-date-picker__form-status',
             status && `dnb-date-picker__status--${status_state}`,
             (isTrue(show_submit_button) || isTrue(show_cancel_button)) &&
               'dnb-date-picker--show-footer'
-
-            // TODO: make status work on #date-picker
-            // showStatus && 'dnb-date-picker__form-status',
-            // status && `dnb-date-picker__status--${status_state}`,
           )}
           ref={this._wrapperRef}
           {...pickerParams}
