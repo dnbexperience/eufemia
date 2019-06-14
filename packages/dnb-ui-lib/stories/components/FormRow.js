@@ -25,8 +25,8 @@ export default [
         <Box>
           <FormRow direction="horizontal" size="default">
             <FormLabel for_id="alone-1">
-              A long Vertical FormLabel with a lot of informative text and
-              a default size:
+              A long horizontal FormLabel with a lot of informative text
+              and a default size:
             </FormLabel>
             <Checkbox id="alone-1" label="Checkbox" />
           </FormRow>
@@ -39,8 +39,8 @@ export default [
             section_spacing="large"
           >
             <FormLabel for_id="alone-2">
-              A long Vertical FormLabel with a lot of informative text and
-              a default size:
+              A long horizontal FormLabel with a lot of informative text
+              and a default size:
             </FormLabel>
             <Radio.Group
               id="alone-2"

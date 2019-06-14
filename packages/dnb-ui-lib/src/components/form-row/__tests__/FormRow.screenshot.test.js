@@ -4,6 +4,7 @@
  */
 
 import {
+  // isCI,
   testPageScreenshot,
   setupPageScreenshot
 } from '../../../core/jest/jestSetupScreenshots'
@@ -11,11 +12,15 @@ import {
 describe('FormRow screenshot', () => {
   setupPageScreenshot({
     url: '/uilib/components/form-row'
+    // screenshotConfig: {
+    //   // use 7% on CI because of the font rendering differences
+    //   pixelThresholdRelative: isCI ? 0.07 : 0
+    // }
   })
   it('have to match default form-row', async () => {
     const screenshot = await testPageScreenshot({
       style: {
-        width: '40rem' // make sure our input gets an explicit width, because of mac/linux rendering differences
+        width: '35rem' // make sure our input gets an explicit width, because of mac/linux rendering differences
       },
       selector: '[data-dnb-test="form-row-default"]'
     })

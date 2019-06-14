@@ -15,9 +15,9 @@ class Example extends PureComponent {
           data-dnb-test="form-row-default"
         >
           {/* @jsx */ `
-<FormRow direction="horizontal" size="default">
+<FormRow size="default">
   <FormLabel for_id="alone-1">
-    A long Vertical FormLabel with a lot of informative text and a default size:
+    A long horizontal FormLabel with a lot of informative text and a default size:
   </FormLabel>
   <Checkbox id="alone-1" label="Checkbox" />
 </FormRow>
@@ -29,7 +29,7 @@ class Example extends PureComponent {
   section_style="mint-green"
   section_spacing="default"
   size={true}
-  label="A long Vertical FormLabel with a lot of informative text and a default size:"
+  label="A long horizontal FormLabel with a lot of informative text and a default size:"
 >
   <Checkbox label="Checkbox" />
 </FormRow>
@@ -50,7 +50,7 @@ const CustomRow = styled(FormRow)\`
 render(
   <CustomRow>
     <FormLabel for_id="alone-1">
-      A long Vertical FormLabel with a lot of informative text and a max-width of 12rem:
+      A long horizontal FormLabel with a lot of informative text and a max-width of 12rem:
     </FormLabel>
     <Checkbox id="alone-1" label="Checkbox" />
   </CustomRow>
