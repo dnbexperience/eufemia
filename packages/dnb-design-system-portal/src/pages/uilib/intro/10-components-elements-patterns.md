@@ -15,7 +15,7 @@ import { Button } from 'dnb-ui-lib/src'
 Components are custom made **user interaction elements** with an internal state, your application can interact with.
 
 <div className="example-box" align="center">
-  <Button text="Button" />
+  <Button text="Button"  href="/uilib/components/button" target="_blank" />
 </div>
 
 ## [Elements](!/uilib/elements)
@@ -23,7 +23,7 @@ Components are custom made **user interaction elements** with an internal state,
 Elements are basicity ready to use styled HTML elements.
 
 <div className="example-box" align="center">
-  <a className="dnb-anchor" href="/">Anchor (Text Link)</a>
+  <a className="dnb-anchor" href="!/uilib/elements/anchor" target="_blank">Anchor (Text Link)</a>
 </div>
 
 ## [Patterns](!/uilib/patterns)

@@ -5,6 +5,8 @@
 
 import {
   isTrue,
+  extend,
+  extendPropsWithContext,
   defineIsTouch,
   validateDOMAttributes,
   processChildren,
@@ -104,6 +106,61 @@ describe('"processChildren" should', () => {
     const props = { children: () => children }
     const res = processChildren(props)
     expect(res).toMatch(children.join(''))
+  })
+})
+
+describe('"extend" should', () => {
+  it('extend an object and remove all object values with null', () => {
+    expect(extend({ key: null })).not.toHaveProperty('key')
+  })
+  it('extend an object and have correct object shape', () => {
+    expect(extend({ key: null }, { key: 'value' })).toMatchObject({
+      key: 'value'
+    })
+    expect(extend({ key: 'value' }, { key: null })).toMatchObject({
+      key: 'value'
+    })
+  })
+  it('extend an object recursively and have correct object shape', () => {
+    expect(
+      extend({ key1: { key2: null } }, { key1: { key2: 'value' } })
+    ).toMatchObject({
+      key1: { key2: 'value' }
+    })
+    expect(
+      extend({ key1: { key2: 'value' } }, { key1: { key2: null } })
+    ).toMatchObject({
+      key1: { key2: 'value' }
+    })
+    expect(
+      extend(
+        { key1: { key2: 'value' } },
+        { key1: { key2: null, foo: 'bar' } }
+      )
+    ).toMatchObject({
+      key1: { key2: 'value', foo: 'bar' }
+    })
+  })
+  it('extend an object, not recursively, so it gets overwritten', () => {
+    expect(
+      extend(false, { key1: { key2: 'value' } }, { key1: { key2: null } })
+    ).toMatchObject({
+      key1: { key2: null }
+    })
+  })
+})
+
+describe('"extendPropsWithContext" should', () => {
+  it('extend prop from other context object', () => {
+    expect(
+      extendPropsWithContext(
+        { key: { x: 'y' }, foo: null },
+        { key: 'I cant replace You', foo: 'bar' }
+      )
+    ).toMatchObject({
+      key: { x: 'y' },
+      foo: 'bar' // because the prop was null, we get bar
+    })
   })
 })
 

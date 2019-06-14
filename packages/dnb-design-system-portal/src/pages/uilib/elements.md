@@ -65,7 +65,7 @@ render(<StyledLink href="/" target="_blank">Styled Link</StyledLink>)
 
 ## Overview
 
-- [Anchor (Text Link)](#anchor)
+- [Anchor (Text Link)](#anchor-text-link)
 - [Blockquote](#blockquote)
 - [Lists](#lists)
 - [Tables](#tables)

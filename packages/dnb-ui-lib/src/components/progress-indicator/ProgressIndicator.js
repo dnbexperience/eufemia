@@ -17,46 +17,24 @@ import ProgressIndicatorCircular from './ProgressIndicatorCircular'
 const renderProps = { on_complete: null }
 
 export const propTypes = {
-  // label: PropTypes.string,
   visible: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   type: PropTypes.oneOf(['circular']),
   no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  // min_time: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  // variant: PropTypes.oneOf(['primary', 'secondary']),
   size: PropTypes.oneOf(['small', 'medium', 'large', 'huge']),
   progress: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  // id: PropTypes.string,
-  // class: PropTypes.string,
-  /** React props */
-  // className: PropTypes.string,
-  // children: PropTypes.oneOfType([
-  //   PropTypes.object,
-  //   PropTypes.node,
-  //   PropTypes.func
-  // ]),
 
   // Web Component props
   on_complete: PropTypes.func
 }
 
 export const defaultProps = {
-  // label: null,
   visible: true,
   type: 'circular',
   no_animation: false,
-  // min_time: null,
-  // variant: 'primary',
   size: 'medium',
   progress: null,
-  // id: null,
-  // class: null,
-
-  /** React props */
-  // className: null,
-  // children: null,
 
   // Web Component props
-
   ...renderProps
 }
 

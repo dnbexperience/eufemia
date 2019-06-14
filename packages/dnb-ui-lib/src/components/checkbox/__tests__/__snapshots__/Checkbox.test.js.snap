@@ -28,7 +28,7 @@ exports[`Checkbox component have to match snapshot 1`] = `
     <FormLabel
       class={null}
       className={null}
-      direction="horizontal"
+      direction={null}
       disabled="disabled"
       for_id="id"
       id="id-label"
@@ -38,7 +38,7 @@ exports[`Checkbox component have to match snapshot 1`] = `
       vertical={null}
     >
       <label
-        className="dnb-form-label dnb-form-label--horizontal"
+        className="dnb-form-label"
         htmlFor="id"
         id="id-label"
       >

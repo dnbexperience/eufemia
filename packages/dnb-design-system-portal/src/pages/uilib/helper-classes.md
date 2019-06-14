@@ -3,7 +3,7 @@ title: 'Helper Classes'
 icon: 'helper_classes'
 status: 'wip'
 draft: false
-order: 5
+order: 4
 ---
 
 import Tabs from 'Tags/Tabs'

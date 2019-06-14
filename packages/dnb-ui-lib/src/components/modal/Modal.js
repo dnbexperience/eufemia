@@ -11,6 +11,7 @@ import keycode from 'keycode'
 import * as bodyScrollLock from 'body-scroll-lock'
 import {
   isTrue,
+  extendPropsWithContext,
   isTouchDevice,
   registerElement,
   processChildren,
@@ -37,6 +38,7 @@ export const propTypes = {
   id: PropTypes.string,
   labelled_by: PropTypes.string,
   title: PropTypes.string,
+  disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   trigger_hidden: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   trigger_disabled: PropTypes.oneOfType([
     PropTypes.string,
@@ -90,8 +92,9 @@ export const defaultProps = {
   id: null,
   labelled_by: null,
   title: null,
+  disabled: null,
   trigger_hidden: false,
-  trigger_disabled: false,
+  trigger_disabled: null,
   trigger_variant: 'secondary',
   trigger_text: null,
   trigger_title: 'Open Modal',
@@ -274,10 +277,17 @@ export default class Modal extends PureComponent {
     }
   }
   render() {
+    // consume the formRow context
+    const props = this.context.formRow
+      ? // use only the props from context, who are available here anyway
+        extendPropsWithContext(this.props, this.context.formRow)
+      : this.props
+
     const {
       id, // eslint-disable-line
       open_state, // eslint-disable-line
       preventSetTriggerRef, // eslint-disable-line
+      disabled,
       labelled_by,
       trigger_hidden,
       trigger_disabled,
@@ -288,7 +298,7 @@ export default class Modal extends PureComponent {
       trigger_icon_position,
       trigger_class,
       ...rest
-    } = this.props
+    } = props
 
     const { modalActive } = this.state
     const modal_content = Modal.getContent(this.props)
@@ -302,7 +312,7 @@ export default class Modal extends PureComponent {
             variant={trigger_variant}
             text={trigger_text}
             title={trigger_title}
-            disabled={isTrue(trigger_disabled)}
+            disabled={isTrue(disabled) || isTrue(trigger_disabled)}
             icon={
               trigger_icon
                 ? trigger_icon

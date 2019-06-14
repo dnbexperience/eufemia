@@ -20,13 +20,15 @@ draft: true
 
 ## Radio group
 
-| Properties         | Description                                                                                                               |
-| ------------------ | ------------------------------------------------------------------------------------------------------------------------- |
-| `value`            | _(optional)_ defines the pre-selected Radio button. The value has to match one provided in the Radio button. Use strings. |
-| `name`             | _(optional)_ custom grouping name. Defaults to random name.                                                               |
-| `layout_direction` | _(optional)_ Define the layout direction of the Radio buttons. Can be either `row` or `column`. Defaults to `row`.        |
-| `title`            | _(optional)_ the `title` of group, describing it a bit further for accessibility reasons.                                 |
-| `label`            | _(optional)_ use either the `label` property or provide custom one.                                                       |
-| `status`           | _(optional)_ uses the `form-status` component to show failure messages.                                                   |
-| `id`               | _(optional)_ the `id` of the input. Default will be a random id.                                                          |
-| `disabled`         | _(optional)_ to disable/enable the all the Radio buttons.                                                                 |
+| Properties         | Description                                                                                                                                                          |
+| ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `value`            | _(optional)_ defines the pre-selected Radio button. The value has to match one provided in the Radio button. Use strings.                                            |
+| `name`             | _(optional)_ custom grouping name. Defaults to random name.                                                                                                          |
+| `layout_direction` | _(optional)_ Define the layout direction of the Radio buttons. Can be either `column` or `row`. Defaults to `column`.                                                |
+| `title`            | _(optional)_ the `title` of group, describing it a bit further for accessibility reasons.                                                                            |
+| `status`           | _(optional)_ uses the `form-status` component to show failure messages.                                                                                              |
+| `id`               | _(optional)_ the `id` of the input. Default will be a random id.                                                                                                     |
+| `disabled`         | _(optional)_ to disable/enable the all the nested Radio buttons.                                                                                                     |
+| `label`            | _(optional)_ use either the `label` property or provide custom one.                                                                                                  |
+| `direction`        | _(optional)_ to define the `label` layout direction on how the next element should be placed on. Can be either `vertical` or `horizontal`. Defaults to `horizontal`. |
+| `vertical`         | _(optional)_ is a short hand to define a `vertical` direction if set to `true`.                                                                                      |

@@ -16,6 +16,7 @@ import DatePicker from './components/date-picker/DatePicker'
 import Dropdown from './components/dropdown/Dropdown'
 import FormLabel from './components/form-label/FormLabel'
 import FormRow from './components/form-row/FormRow'
+import FormSet from './components/form-set/FormSet'
 import FormStatus from './components/form-status/FormStatus'
 import Icon from './components/icon/Icon'
 import IconPrimary from './components/icon-primary/IconPrimary'
@@ -61,6 +62,7 @@ export {
   Dropdown,
   FormLabel,
   FormRow,
+  FormSet,
   FormStatus,
   Icon,
   IconPrimary,

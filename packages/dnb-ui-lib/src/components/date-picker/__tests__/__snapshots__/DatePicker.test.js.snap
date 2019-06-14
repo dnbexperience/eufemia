@@ -6,7 +6,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
   custom_method={null}
   date="2019-01-01T00:00:00.000Z"
   direction="auto"
-  disabled={false}
+  disabled={null}
   end_date="2019-02-15T00:00:00.000Z"
   end_month={null}
   first_day="monday"
@@ -69,7 +69,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
   sync={true}
 >
   <span
-    className="dnb-date-picker dnb-date-picker--hidden dnb-date-picker--show-input dnb-date-picker__form-status dnb-date-picker__status--error dnb-date-picker--show-footer"
+    className="dnb-date-picker dnb-date-picker--hidden dnb-date-picker--show-input dnb-date-picker__status--error dnb-date-picker--show-footer"
     date="2019-01-01T00:00:00.000Z"
   >
     <span
@@ -619,13 +619,12 @@ exports[`DatePicker component have to match snapshot 1`] = `
               >
                 <Button
                   aria-expanded={false}
-                  attributes={null}
                   bounding={false}
                   class={null}
                   className="dnb-input__submit-button__button"
                   custom_element={null}
                   custom_method={null}
-                  disabled={false}
+                  disabled={null}
                   href={null}
                   icon="calendar"
                   icon_position="right"
@@ -656,14 +655,13 @@ exports[`DatePicker component have to match snapshot 1`] = `
                   >
                     <Content
                       aria-expanded={false}
-                      attributes={null}
                       bounding={false}
                       class={null}
                       className="dnb-input__submit-button__button"
                       content={null}
                       custom_element={null}
                       custom_method={null}
-                      disabled={false}
+                      disabled={null}
                       href={null}
                       icon="calendar"
                       icon_position="right"
@@ -1028,14 +1026,6 @@ exports[`DatePicker scss have to match snapshot 1`] = `
     /* 1 */
     vertical-align: inherit;
     /* 2 */ }
-  .dnb-button button {
-    overflow: visible;
-    text-transform: none; }
-  .dnb-button button,
-  .dnb-button [type='button'],
-  .dnb-button [type='reset'],
-  .dnb-button [type='submit'] {
-    -webkit-appearance: button; }
 
 /*
 * Button component
@@ -1184,15 +1174,13 @@ exports[`DatePicker scss have to match snapshot 1`] = `
       box-shadow: none;
       color: inherit;
       border: none; }
-  .dnb-button[type='button'] {
-    appearance: none; }
   .dnb-button[disabled] {
     cursor: not-allowed; }
   button.dnb-button::-moz-focus-inner .dnb-button {
     border: none; }
 
 a.dnb-button[type='button'] {
-  -webkit-appearance: none; }
+  appearance: none; }
 
 a.dnb-button .dnb-button__icon {
   transform: translateY(0); }

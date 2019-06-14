@@ -13,6 +13,7 @@ exports[`Modal component have to match snapshot 1`] = `
         "close_title": "close_title",
         "content_id": "content_id",
         "direct_dom_return": "direct_dom_return",
+        "disabled": "disabled",
         "hide_close_button": "hide_close_button",
         "id": "id",
         "labelled_by": "labelled_by",
@@ -79,6 +80,7 @@ exports[`Modal component have to match snapshot 1`] = `
   close_title="close_title"
   content_id="modal_content_id"
   direct_dom_return={true}
+  disabled={null}
   hide_close_button={false}
   id="modal_id"
   labelled_by={null}
@@ -92,7 +94,7 @@ exports[`Modal component have to match snapshot 1`] = `
   prevent_close={false}
   title="modal_title"
   trigger_class={null}
-  trigger_disabled={false}
+  trigger_disabled={null}
   trigger_hidden={false}
   trigger_icon={null}
   trigger_icon_position="left"
@@ -104,7 +106,6 @@ exports[`Modal component have to match snapshot 1`] = `
     className="dnb-modal"
   >
     <Button
-      attributes={null}
       bounding={false}
       class={null}
       className="dnb-modal__trigger"
@@ -135,7 +136,6 @@ exports[`Modal component have to match snapshot 1`] = `
         type="button"
       >
         <Content
-          attributes={null}
           bounding={false}
           class={null}
           className="dnb-modal__trigger"
@@ -212,6 +212,7 @@ exports[`Modal component have to match snapshot 1`] = `
             "close_title": "close_title",
             "content_id": "content_id",
             "direct_dom_return": "direct_dom_return",
+            "disabled": "disabled",
             "hide_close_button": "hide_close_button",
             "id": "id",
             "labelled_by": "labelled_by",
@@ -302,6 +303,7 @@ exports[`Modal component have to match snapshot 1`] = `
               "close_title": "close_title",
               "content_id": "content_id",
               "direct_dom_return": "direct_dom_return",
+              "disabled": "disabled",
               "hide_close_button": "hide_close_button",
               "id": "id",
               "labelled_by": "labelled_by",
@@ -406,13 +408,12 @@ exports[`Modal component have to match snapshot 1`] = `
               title="close_title"
             >
               <Button
-                attributes={null}
                 bounding={false}
                 class={null}
                 className="dnb-modal__close-button"
                 custom_element={null}
                 custom_method={null}
-                disabled={false}
+                disabled={null}
                 href={null}
                 icon="close"
                 icon_position="right"
@@ -436,14 +437,13 @@ exports[`Modal component have to match snapshot 1`] = `
                   type="button"
                 >
                   <Content
-                    attributes={null}
                     bounding={false}
                     class={null}
                     className="dnb-modal__close-button"
                     content={null}
                     custom_element={null}
                     custom_method={null}
-                    disabled={false}
+                    disabled={null}
                     href={null}
                     icon="close"
                     icon_position="right"
@@ -629,14 +629,6 @@ exports[`Modal scss have to match snapshot 1`] = `
     /* 1 */
     vertical-align: inherit;
     /* 2 */ }
-  .dnb-button button {
-    overflow: visible;
-    text-transform: none; }
-  .dnb-button button,
-  .dnb-button [type='button'],
-  .dnb-button [type='reset'],
-  .dnb-button [type='submit'] {
-    -webkit-appearance: button; }
 
 /*
 * Button component
@@ -785,15 +777,13 @@ exports[`Modal scss have to match snapshot 1`] = `
       box-shadow: none;
       color: inherit;
       border: none; }
-  .dnb-button[type='button'] {
-    appearance: none; }
   .dnb-button[disabled] {
     cursor: not-allowed; }
   button.dnb-button::-moz-focus-inner .dnb-button {
     border: none; }
 
 a.dnb-button[type='button'] {
-  -webkit-appearance: none; }
+  appearance: none; }
 
 a.dnb-button .dnb-button__icon {
   transform: translateY(0); }

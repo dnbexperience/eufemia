@@ -28,7 +28,7 @@ exports[`Switch component have to match snapshot 1`] = `
     <FormLabel
       class={null}
       className={null}
-      direction="horizontal"
+      direction={null}
       disabled="disabled"
       for_id="id"
       id="id-label"
@@ -38,7 +38,7 @@ exports[`Switch component have to match snapshot 1`] = `
       vertical={null}
     >
       <label
-        className="dnb-form-label dnb-form-label--horizontal"
+        className="dnb-form-label"
         htmlFor="id"
         id="id-label"
       >
@@ -53,11 +53,9 @@ exports[`Switch component have to match snapshot 1`] = `
       >
         <input
           aria-checked={false}
-          aria-disabled={true}
           aria-labelledby="id-label"
           checked={false}
           className="dnb-switch__input"
-          disabled="disabled"
           id="id"
           name="id"
           onChange={[Function]}
@@ -188,7 +186,7 @@ exports[`Switch scss have to match default theme snapshot 1`] = `
     border-color: var(--color-sea-green-alt-30); }
   .dnb-switch__input[disabled]:checked ~ .dnb-switch__button {
     background-color: var(--color-sea-green-alt-30); }
-  .dnb-switch__input:not([disabled]):not(:focus):hover ~ .dnb-switch__button {
+  .dnb-switch__input:not([disabled]):not(:focus):not(:active):hover ~ .dnb-switch__button {
     border-color: var(--color-sea-green);
     background-color: var(--color-mint-green-50); }
   .dnb-switch__input:not([disabled]):active ~ .dnb-switch__button {

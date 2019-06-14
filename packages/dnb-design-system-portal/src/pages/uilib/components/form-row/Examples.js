@@ -3,23 +3,47 @@
  *
  */
 
-import React, { PureComponent, Fragment } from 'react'
+import React, { PureComponent } from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
+import styled from '@emotion/styled'
+
+const IS_TEST = typeof window !== 'undefined' && window.IS_TEST
+const TestStyles = IS_TEST
+  ? styled.div`
+      .dnb-form-row:not(.dnb-form-row--vertical).dnb-form-row__size--default
+        > .dnb-form-label {
+        width: 20rem;
+        max-width: none;
+      }
+    `
+  : styled.div``
 
 class Example extends PureComponent {
   render() {
     return (
-      <Fragment>
+      <TestStyles>
         <ComponentBox
           caption="The label should align the bottom"
           data-dnb-test="form-row-default"
         >
           {/* @jsx */ `
-<FormRow direction="horizontal" size="default">
+<FormRow size="default">
   <FormLabel for_id="alone-1">
-    A long Vertical FormLabel with a lot of informative text and a default size:
+    A long horizontal FormLabel with a lot of informative text and a default size:
   </FormLabel>
   <Checkbox id="alone-1" label="Checkbox" />
+</FormRow>
+          `}
+        </ComponentBox>
+        <ComponentBox caption="The `label` property can be used to set a row label">
+          {/* @jsx */ `
+<FormRow
+  section_style="mint-green"
+  section_spacing="default"
+  size={true}
+  label="A long horizontal FormLabel with a lot of informative text and a default size:"
+>
+  <Checkbox label="Checkbox" />
 </FormRow>
           `}
         </ComponentBox>
@@ -35,14 +59,14 @@ const CustomRow = styled(FormRow)\`
     color: var(--color-cherry-red);
   }
 \`
-render(<>
+render(
   <CustomRow>
     <FormLabel for_id="alone-1">
-      A long Vertical FormLabel with a lot of informative text and a max-width of 12rem:
+      A long horizontal FormLabel with a lot of informative text and a max-width of 12rem:
     </FormLabel>
     <Checkbox id="alone-1" label="Checkbox" />
   </CustomRow>
-</>)
+)
           `}
         </ComponentBox>
         <ComponentBox caption="Default form-row">
@@ -57,20 +81,20 @@ render(<>
           data-dnb-test="form-row-vertical"
         >
           {/* @jsx */ `
-<FormRow vertical="true">
+<FormRow direction="vertical">
   <Input label="Default vertical FormRow:" value="Input value ..." />
 </FormRow>
           `}
         </ComponentBox>
-        <ComponentBox caption="Vertical form-row without a `for_id`">
+        <ComponentBox caption="Vertical, and disabled, form-row without a `for_id`">
           {/* @jsx */ `
-<FormLabel vertical={true}>
-  Without for_id (select me):
-</FormLabel>
-<Checkbox label="Checkbox" />
+<FormRow vertical={true} disabled={true}>
+  <FormLabel>Without for_id (select me):</FormLabel>
+  <Checkbox label="Checkbox" />
+</FormRow>
           `}
         </ComponentBox>
-      </Fragment>
+      </TestStyles>
     )
   }
 }

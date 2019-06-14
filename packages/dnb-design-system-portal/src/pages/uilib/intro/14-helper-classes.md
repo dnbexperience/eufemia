@@ -6,11 +6,23 @@ order: 14
 
 <Intro>
 
-# Styling Helpers
+# Section Component
 
-As a place for commonly used **global CSS classes**, Eufemia has the term [Helper Classes](!/uilib/helper-classes).
+A commonly used visual style is the DNB section divider. To make it easy to achieve this in Your layout setup, have a look at the [Section component](!/uilib/components/section).
 
-## Example:
+## React:
+
+```js
+import { Section } from 'dnb-ui-lib'
+
+render(
+  <Section style="mint-green" spacing>
+    Visual DNB Section
+  </Section>
+)
+```
+
+## CSS:
 
 ```html
 <div className="dnb-section dnb-section--spacing dnb-section--mint-green">
@@ -21,7 +33,7 @@ As a place for commonly used **global CSS classes**, Eufemia has the term [Helpe
 ## Demo:
 
 <div className="dnb-section dnb-section--spacing dnb-section--mint-green">
-  Visual DNB Section, declared with <code className="dnb-code">.dnb-section--mint-green</code>
+  Visual DNB Section
 </div>
 
 ---

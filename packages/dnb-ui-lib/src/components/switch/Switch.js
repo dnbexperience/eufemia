@@ -8,6 +8,8 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import keycode from 'keycode'
 import {
+  isTrue,
+  extendPropsWithContext,
   registerElement,
   validateDOMAttributes,
   dispatchCustomElementEvent
@@ -53,7 +55,7 @@ export const defaultProps = {
   title: null,
   default_state: null,
   checked: 'default', //we have to send this as a string
-  disabled: false,
+  disabled: null,
   id: null,
   status: null,
   status_state: 'error',
@@ -140,6 +142,11 @@ export default class Switch extends Component {
     const checked = !this.state.checked
     this.setState({ checked, _listenForPropChanges: false })
     dispatchCustomElementEvent(this, 'on_change', { checked, event })
+
+    // help firefox and safari to have an correct state after a click
+    if (this._refInput.current) {
+      this._refInput.current.focus()
+    }
   }
 
   onMouseOutHandler = () => {
@@ -153,6 +160,12 @@ export default class Switch extends Component {
   }
 
   render() {
+    // consume the formRow context
+    const props = this.context.formRow
+      ? // use only the props from context, who are available here anyway
+        extendPropsWithContext(this.props, this.context.formRow)
+      : this.props
+
     const {
       value,
       status,
@@ -177,7 +190,7 @@ export default class Switch extends Component {
       custom_element, // eslint-disable-line
 
       ...rest
-    } = this.props
+    } = props
 
     const { checked } = this.state
 
@@ -193,7 +206,7 @@ export default class Switch extends Component {
     )
 
     const inputParams = {
-      disabled,
+      disabled: isTrue(disabled),
       checked,
       onMouseOut: this.onMouseOutHandler, // for resetting the button to the default state
       ...rest

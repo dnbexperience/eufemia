@@ -25,7 +25,7 @@ const renderProps = {
 
 export const propTypes = {
   label: PropTypes.string,
-  label_position: PropTypes.string,
+  label_position: PropTypes.oneOf(['left', 'right']),
   title: PropTypes.string,
   checked: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -129,10 +129,6 @@ export default class Radio extends Component {
         case 'enter':
           this.onChangeHandler(event)
           break
-        case 'space':
-          event.preventDefault()
-          this.onChangeHandler(event)
-          break
       }
     } else {
       // else we only use the native support, and don't want space support
@@ -203,6 +199,11 @@ export default class Radio extends Component {
       checked,
       value
     })
+
+    // help firefox and safari to have an correct state after a click
+    if (this._refInput.current) {
+      this._refInput.current.focus()
+    }
   }
 
   onMouseOutHandler = event => {
@@ -260,7 +261,6 @@ export default class Radio extends Component {
 
     const classes = classnames(
       'dnb-radio',
-      showStatus && 'dnb-radio__form-status',
       status && `dnb-radio__status--${status_state}`,
       label_position && `dnb-radio--label-position-${label_position}`,
       className,

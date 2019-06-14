@@ -3,9 +3,22 @@
  *
  */
 
+:root {
+  --form-row-column1-start: auto;
+  --form-row-column2-start: 1fr;
+  --form-row-row1-start: auto;
+  --form-row-row2-start: auto; //minmax(max-content, auto)
+}
+
 .dnb-form-row {
-  display: inline-flex;
+  display: flex;
   flex-direction: row;
+
+  // TODO: we may considder this to be included with a prop later on
+  // default spacing
+  // &:not(#{&}--nested) {
+  //   margin-bottom: 1.5rem;
+  // }
 
   > .dnb-form-status {
     margin: 0.5rem 0;
@@ -15,14 +28,53 @@
   }
 
   // for hoizontal direction
-  &,
+  &:not(#{&}--vertical),
   &--horizontal {
-    align-items: flex-end;
+    @supports (display: grid) {
+      display: grid;
+      grid-template-columns:
+        [column1-start] var(--form-row-column1-start)
+        [column1-end column2-start] var(--form-row-column2-start)
+        [column2-end];
+      grid-template-rows:
+        [row1-start] var(--form-row-row1-start) [row1-end row2-start] var(
+          --form-row-row2-start
+        )
+        [row2-end];
+    }
+    @supports not (display: grid) {
+      align-items: flex-end;
+    }
+
+    // > * { // <-- we used this before
+    > .dnb-form-row__content {
+      grid-column: column2-start / column2-end;
+      grid-row: row2-start / row2-end;
+      justify-self: start;
+      // align-self: end;
+    }
 
     > label,
     > .dnb-form-label {
+      @supports (display: grid) {
+        // put the label in the first column
+        grid-column: column1-start / column1-end;
+        grid-row: row1-start / row1-end;
+
+        // move the label up in case we have several lines (use the line-height)
+        margin-bottom: -1.5rem;
+
+        @media (min-width: 40em) {
+          text-align: right;
+        }
+      }
+
       margin-right: 1rem;
-      // text-align: right;
+    }
+
+    // overwrite display to be block on small screens
+    @media (max-width: 40em) {
+      display: block;
     }
   }
 
@@ -33,27 +85,41 @@
 
     width: auto;
 
+    /* stylelint-disable */
     > label,
     > .dnb-form-label {
       margin-bottom: 0.5rem;
     }
+    /* stylelint-enable */
   }
 
   // TODO: size has to be defined
   // the width of label
   &:not(#{&}--vertical)#{&}__size {
-    &--small > .dnb-form-label {
-      // min-width: 6rem;
-      // max-width: 12rem;
+    // &--small {
+    //   > .dnb-form-label {
+    //     width: 10rem;
+    //   }
+    // }
+    &--default,
+    &--medium {
+      > .dnb-form-label {
+        // because the browser screen is different
+        width: 30vw; // 30vw is very close to 20rem if the wrapper is 60rem
+        max-width: 20rem;
+
+        // a fixed with is not the best sollution
+        // width: 20rem;
+
+        @media (max-width: 40em) {
+          width: auto;
+        }
+      }
     }
-    &--default > .dnb-form-label,
-    &--medium > .dnb-form-label {
-      min-width: 6rem;
-      max-width: 12rem;
-    }
-    &--large > .dnb-form-label {
-      // min-width: 6rem;
-      // max-width: 12rem;
-    }
+    // &--large {
+    //   > .dnb-form-label {
+    //     width: 30rem;
+    //   }
+    // }
   }
 }
