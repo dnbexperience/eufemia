@@ -30,19 +30,21 @@
   // for hoizontal direction
   &:not(#{&}--vertical),
   &--horizontal {
-    display: grid;
-    grid-template-columns:
-      [column1-start] var(--form-row-column1-start)
-      [column1-end column2-start] var(--form-row-column2-start)
-      [column2-end];
-    grid-template-rows:
-      [row1-start] var(--form-row-row1-start) [row1-end row2-start] var(
-        --form-row-row2-start
-      )
-      [row2-end];
-
-    // in case flex is used as the fallback
-    align-items: flex-end;
+    @supports (display: grid) {
+      display: grid;
+      grid-template-columns:
+        [column1-start] var(--form-row-column1-start)
+        [column1-end column2-start] var(--form-row-column2-start)
+        [column2-end];
+      grid-template-rows:
+        [row1-start] var(--form-row-row1-start) [row1-end row2-start] var(
+          --form-row-row2-start
+        )
+        [row2-end];
+    }
+    @supports not (display: grid) {
+      align-items: flex-end;
+    }
 
     // > * { // <-- we used this before
     > .dnb-form-row__content {
@@ -54,15 +56,17 @@
 
     > label,
     > .dnb-form-label {
-      // put the label in the first column
-      grid-column: column1-start / column1-end;
-      grid-row: row1-start / row1-end;
+      @supports (display: grid) {
+        // put the label in the first column
+        grid-column: column1-start / column1-end;
+        grid-row: row1-start / row1-end;
 
-      // move the label up in case we have several lines (use the line-height)
-      margin-bottom: -1.5rem;
+        // move the label up in case we have several lines (use the line-height)
+        margin-bottom: -1.5rem;
 
-      @media (min-width: 40em) {
-        text-align: right;
+        @media (min-width: 40em) {
+          text-align: right;
+        }
       }
 
       margin-right: 1rem;
@@ -100,14 +104,16 @@
     &--default,
     &--medium {
       > .dnb-form-label {
+        // because the browser screen is different
         width: 30vw; // 30vw is very close to 20rem if the wrapper is 60rem
         max-width: 20rem;
+
+        // a fixed with is not the best sollution
         // width: 20rem;
 
-        // @media (max-width: 40em) {
-        //   display: block;
-        //   width: 10rem;
-        // }
+        @media (max-width: 40em) {
+          width: auto;
+        }
       }
     }
     // &--large {

@@ -3,13 +3,26 @@
  *
  */
 
-import React, { PureComponent, Fragment } from 'react'
+import React, { PureComponent } from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
+import styled from '@emotion/styled'
+
+const IS_TEST = typeof window !== 'undefined' && window.IS_TEST
+const TestStyles = IS_TEST
+  ? styled.div`
+      .dnb-form-row__size--default,
+      .dnb-form-row__size--medium {
+        > .dnb-form-label {
+          width: 20rem;
+        }
+      }
+    `
+  : styled.div``
 
 class Example extends PureComponent {
   render() {
     return (
-      <Fragment>
+      <TestStyles>
         <ComponentBox
           caption="The label should align the bottom"
           data-dnb-test="form-row-default"
@@ -82,7 +95,7 @@ render(
 </FormRow>
           `}
         </ComponentBox>
-      </Fragment>
+      </TestStyles>
     )
   }
 }
