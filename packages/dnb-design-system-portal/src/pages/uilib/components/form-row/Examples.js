@@ -27,10 +27,7 @@ class Example extends PureComponent {
           data-dnb-test="form-row-default"
         >
           {/* @jsx */ `
-<FormRow size="default">
-  <FormLabel for_id="alone-1">
-    A long horizontal FormLabel with a lot of informative text and a default size:
-  </FormLabel>
+<FormRow size="default" label="A long horizontal FormLabel with a lot of informative text and a default size:">
   <Checkbox id="alone-1" label="Checkbox" />
 </FormRow>
           `}
