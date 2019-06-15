@@ -34,6 +34,7 @@ import StepIndicator from './components/step-indicator/StepIndicator'
 import Switch from './components/switch/Switch'
 import Tabs from './components/tabs/Tabs'
 import Textarea from './components/textarea/Textarea'
+import ToggleButton from './components/toggle-button/ToggleButton'
 import Anchor from './elements/Anchor'
 import Blockquote from './elements/Blockquote'
 import Code from './elements/Code'
@@ -80,6 +81,7 @@ export {
   Switch,
   Tabs,
   Textarea,
+  ToggleButton,
   Anchor,
   Blockquote,
   Code,

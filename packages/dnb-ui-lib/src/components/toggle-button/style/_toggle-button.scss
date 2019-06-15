@@ -1,0 +1,148 @@
+/*
+* ToggleButton component
+*
+*/
+
+:root {
+  --toggle-button-height: 1.5rem;
+  --toggle-button-width: 1.5rem;
+  --toggle-button-border-width: 0.125rem;
+}
+
+.dnb-toggle-button {
+  display: inline-flex;
+  flex-direction: row;
+
+  width: auto;
+
+  margin: 0;
+  padding: 0;
+
+  &__shell {
+    position: relative;
+    user-select: none;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    width: var(--toggle-button-height);
+    height: var(--toggle-button-height);
+
+    // vertical alignment
+    transform: translateY(
+      -0.0625rem
+    ); // ajust (for 1px) the shell because of line-height of fedra font
+  }
+
+  &__focus,
+  &__button,
+  &__dot {
+    position: absolute;
+    z-index: 4;
+  }
+  &__button {
+    border: var(--toggle-button-border-width) solid transparent;
+  }
+  &__focus {
+    display: none;
+    @include fakeFocus();
+  }
+  &__focus,
+  &__button {
+    width: calc(var(--toggle-button-width) - 0.25rem);
+    height: calc(var(--toggle-button-height) - 0.25rem);
+    border-radius: 50%;
+  }
+  &__dot {
+    width: calc(var(--toggle-button-width) - 0.75rem);
+    height: calc(var(--toggle-button-height) - 0.75rem);
+    border-radius: 50%;
+  }
+
+  &__input {
+    opacity: 0;
+
+    position: absolute;
+    left: 0;
+    z-index: 5;
+
+    width: var(--toggle-button-width);
+    height: var(--toggle-button-height);
+
+    margin: 0;
+    padding: 0;
+
+    border: 0;
+  }
+
+  &__input:not([disabled]) {
+    cursor: pointer;
+  }
+
+  .dnb-form-status {
+    margin-bottom: 0.5rem;
+  }
+
+  &--modifier {
+    display: inline-flex;
+    flex-direction: row;
+
+    // in case we have text before, or after, make sure we are aligned
+    // vertical-align: top;
+  }
+
+  &--label-position-left {
+    .dnb-toggle-button {
+      order: 2;
+    }
+    .dnb-form-label {
+      order: 1;
+      margin-right: 0.5rem;
+      margin-left: 1rem;
+    }
+    .dnb-toggle-button-group--column & {
+      display: flex;
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  &--label-position-right {
+    .dnb-toggle-button {
+      order: 1;
+    }
+    .dnb-form-label {
+      order: 2;
+      margin-right: 1rem;
+      margin-left: 0.5rem;
+    }
+    .dnb-toggle-button-group--column & {
+      display: flex;
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  // reset left position of label
+  // &--label-position-left:first-of-type {
+  //   .dnb-form-label {
+  //     margin-left: 0;
+  //   }
+  // }
+
+  // in case we don't define a wrapping group
+  // and have a custom label component before the toggle-button (and not inside)
+  :not(#{&}-group) > .dnb-form-label + & {
+    vertical-align: top;
+  }
+
+  &--label-position-left ~ .dnb-form-status,
+  &--label-position-right ~ .dnb-form-status {
+    margin-bottom: 1rem;
+  }
+
+  &-group {
+    display: inline-flex;
+    flex-direction: row;
+  }
+}

@@ -36,6 +36,7 @@ import StepIndicator from './step-indicator/StepIndicator'
 import Switch from './switch/Switch'
 import Tabs from './tabs/Tabs'
 import Textarea from './textarea/Textarea'
+import ToggleButton from './toggle-button/ToggleButton'
 
 // define / export all the aviable components
 export {
@@ -62,7 +63,8 @@ export {
   StepIndicator,
   Switch,
   Tabs,
-  Textarea
+  Textarea,
+  ToggleButton
 }
 
 export const getComponents = () => {
@@ -90,7 +92,8 @@ export const getComponents = () => {
     StepIndicator,
     Switch,
     Tabs,
-    Textarea
+    Textarea,
+    ToggleButton
   }
 }
 
