@@ -9,6 +9,7 @@ import { Wrapper, Box } from '../helpers'
 
 import {
   ToggleButton,
+  Button,
   // FormSet,
   FormRow,
   FormLabel
@@ -23,9 +24,39 @@ export default [
       <Box>
         <p className="dnb-p">
           Text:{' '}
-          <FormLabel for_id="alone">Single ToggleButton button:</FormLabel>
+          <FormLabel for_id="alone-1">
+            Single ToggleButton button:
+          </FormLabel>
           <ToggleButton
-            id="alone"
+            id="alone-1"
+            left_component="checkbox"
+            icon_position="left"
+            // icon="bell"
+            icon="chevron_left"
+            text="Toggle Button"
+            value="I'm alone"
+            title="Give me a Title"
+            on_change={({ value, checked }) => {
+              console.log('on_change', value, checked)
+            }}
+          />
+          <ToggleButton
+            checked
+            left_component="checkbox"
+            icon_position="right"
+            // icon="bell"
+            icon="chevron_right"
+            text="Toggle Button"
+            value="I'm alone"
+            title="Give me a Title"
+            on_change={({ value, checked }) => {
+              console.log('on_change', value, checked)
+            }}
+          />
+          <ToggleButton
+            // checked
+            left_component="checkbox"
+            text="Toggle Button"
             value="I'm alone"
             title="Give me a Title"
             on_change={({ value, checked }) => {
@@ -35,6 +66,52 @@ export default [
         </p>
       </Box>
       <Box>
+        <p className="dnb-p">
+          Text:{' '}
+          <FormLabel for_id="alone-2">
+            Single ToggleButton button:
+          </FormLabel>
+          <ToggleButton
+            id="alone-2"
+            checked
+            left_component="radio"
+            icon_position="left"
+            // icon="bell"
+            icon="chevron_left"
+            text="Toggle Button"
+            value="I'm alone"
+            title="Give me a Title"
+            on_change={({ value, checked }) => {
+              console.log('on_change', value, checked)
+            }}
+          />
+          <ToggleButton
+            checked
+            left_component="radio"
+            icon_position="right"
+            // icon="bell"
+            icon="chevron_right"
+            text="Toggle Button"
+            value="I'm alone"
+            title="Give me a Title"
+            on_change={({ value, checked }) => {
+              console.log('on_change', value, checked)
+            }}
+          />
+          <ToggleButton
+            // checked
+            left_component="radio"
+            text="Toggle Button"
+            value="I'm alone"
+            title="Give me a Title"
+            on_change={({ value, checked }) => {
+              console.log('on_change', value, checked)
+            }}
+          />
+          <Button icon="chevron_right" text="Button" variant="secondary" />
+        </p>
+      </Box>
+      {/* <Box>
         <p className="dnb-p dnb-toggle-button-group">
           <FormLabel id="MyToggleButtonGroup">
             Without ToggleButton.Group:
@@ -42,7 +119,7 @@ export default [
           <span role="radiogroup" aria-labelledby="MyToggleButtonGroup">
             <ToggleButton
               value="first"
-              label="First"
+              text="First"
               group="MyToggleButtonGroup"
               on_change={({ group, value }) => {
                 console.log('on_change', group, value)
@@ -51,7 +128,7 @@ export default [
             <ToggleButton
               checked
               value="second"
-              label="Second"
+              text="Second"
               group="MyToggleButtonGroup"
               on_change={({ group, value }) => {
                 console.log('on_change', group, value)
@@ -60,7 +137,7 @@ export default [
             <ToggleButton
               checked
               value="third"
-              label="Third"
+              text="Third"
               group="MyToggleButtonGroup"
               on_change={({ group, value }) => {
                 console.log('on_change', group, value)
@@ -68,7 +145,7 @@ export default [
             />
           </span>
         </p>
-      </Box>
+      </Box> */}
       <Box>
         <FormRow size no_label>
           <H2>A h2 in a FormRow without a label</H2>
@@ -79,17 +156,21 @@ export default [
             // label="Group:"
             // label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:"
             title="Give me a Title"
-            on_change={({ value }) => {
-              console.log('on_change', value)
+            on_change={({ value, values }) => {
+              console.log('on_change', value, values)
             }}
-            value="first"
+            // value="first"
+            multiselect
+            values={['first', 'third']}
+            left_component="checkbox"
+            // value={['first', 'second']}
             // disabled
             // name="MyGroup" // The Group Name
           >
-            <ToggleButton label="First" value="first" />
-            <ToggleButton label="Second" value="second" />
+            <ToggleButton text="First" value="first" />
+            <ToggleButton text="Second" value="second" />
             <ToggleButton
-              label="Third"
+              text="Third"
               value="third"
               // checked
             />
@@ -110,14 +191,14 @@ export default [
             // disabled
             // name="First" // Custom Group Name
           >
-            <ToggleButton label="First" value="first" />
+            <ToggleButton text="First" value="first" />
             <ToggleButton
-              label="Second"
+              text="Second"
               value="second"
               status="Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
             />
             <ToggleButton
-              label="Third"
+              text="Third"
               value="third"
               checked
               status="Info message"
@@ -131,9 +212,9 @@ export default [
           label="Vertical group:"
           layout_direction="column"
         >
-          <ToggleButton label="First" value="first" />
-          <ToggleButton label="Second" value="second" />
-          <ToggleButton label="Third" value="third" checked />
+          <ToggleButton text="First" value="first" />
+          <ToggleButton text="Second" value="second" />
+          <ToggleButton text="Third" value="third" checked />
         </ToggleButton.Group>
       </Box>
       <Box>
@@ -143,9 +224,9 @@ export default [
           vertical="true"
           status="Error message Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
         >
-          <ToggleButton label="First" value="first" />
-          <ToggleButton label="Second" value="second" />
-          <ToggleButton label="Third" value="third" checked />
+          <ToggleButton text="First" value="first" />
+          <ToggleButton text="Second" value="second" />
+          <ToggleButton text="Third" value="third" checked />
         </ToggleButton.Group>
       </Box>
       <Box>
@@ -154,38 +235,38 @@ export default [
           status="Error message Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
         >
           <ToggleButton
-            label_position="left"
-            label="First"
+            // label_position="left"
+            text="First"
             value="first"
           />
           <ToggleButton
-            label_position="left"
-            label="Second"
+            // label_position="left"
+            text="Second"
             value="second"
           />
           <ToggleButton
-            label_position="left"
-            label="Third"
+            // label_position="left"
+            text="Third"
             value="third"
             checked
           />
         </ToggleButton.Group>
       </Box>
       <Box>
-        <ToggleButton label="Unchecked disabled" disabled />
+        <ToggleButton text="Unchecked disabled" disabled />
       </Box>
       <Box>
-        <ToggleButton label="Checked disabled" checked disabled />
+        <ToggleButton text="Checked disabled" checked disabled />
       </Box>
       <Box>
         <ToggleButton
-          label="Unchecked status error Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
+          text="Unchecked status error Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
           status="Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
         />
       </Box>
       <Box>
         <ToggleButton
-          label="Checked status message"
+          text="Checked status message"
           checked
           status="Error message Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
         />

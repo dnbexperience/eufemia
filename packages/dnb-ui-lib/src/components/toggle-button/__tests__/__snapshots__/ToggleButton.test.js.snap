@@ -11,74 +11,125 @@ exports[`ToggleButton component have to match snapshot 1`] = `
   direction="horizontal"
   disabled="disabled"
   group={null}
+  icon="icon"
+  icon_position="icon_position"
   id="id"
-  label="label"
   label_position="left"
+  left_component="left_component"
   on_change={[Function]}
   on_state_update={[Function]}
   readOnly={false}
   status={null}
   status_animation="status_animation"
   status_state="status_state"
+  text="text"
   title="title"
   value="value"
 >
   <span
-    className="dnb-toggle-button dnb-toggle-button--label-position-left className class"
+    className="dnb-toggle-button className class"
   >
-    <FormLabel
-      aria-hidden={false}
-      class={null}
-      className={null}
-      direction={null}
-      disabled={false}
-      for_id="id"
-      id="id-label"
-      render_content={null}
-      text="label"
-      title={null}
-      vertical={null}
-    >
-      <label
-        aria-hidden={false}
-        className="dnb-form-label"
-        htmlFor="id"
-        id="id-label"
-      >
-        label
-      </label>
-    </FormLabel>
     <span
       className="dnb-toggle-button__shell"
     >
-      <input
-        aria-checked={false}
-        aria-label="title"
-        aria-labelledby="id-label"
-        checked={false}
-        className="dnb-toggle-button__input"
+      <Button
+        aria-pressed="false"
+        bounding={false}
+        class={null}
+        className="dnb-toggle-button__button"
+        custom_element={null}
+        custom_method={null}
         direction="horizontal"
-        disabled={false}
+        disabled="disabled"
+        href={null}
+        icon="icon"
+        icon_position="icon_position"
+        icon_size="default"
         id="id"
-        name={null}
-        onChange={[Function]}
+        innerRef={null}
+        label_position="left"
         onClick={[Function]}
         onKeyDown={[Function]}
-        onMouseOut={[Function]}
+        on_click={null}
+        size={null}
+        text="text"
         title="title"
-        type="checkbox"
-        value="value"
-      />
-      <span
-        aria-hidden={true}
-        className="dnb-toggle-button__button"
-      />
-      <span
-        className="dnb-toggle-button__focus"
-      />
-      <span
-        className="dnb-toggle-button__dot"
-      />
+        type="button"
+        variant="secondary"
+      >
+        <button
+          aria-pressed="false"
+          className="dnb-button dnb-button--secondary dnb-button--icon-position-icon_position dnb-button--has-text dnb-button--has-icon dnb-toggle-button__button"
+          direction="horizontal"
+          id="id"
+          onClick={[Function]}
+          onKeyDown={[Function]}
+          onMouseOut={[Function]}
+          title="title"
+          type="button"
+        >
+          <Content
+            aria-pressed="false"
+            bounding={false}
+            class={null}
+            className="dnb-toggle-button__button"
+            content={
+              <span
+                className="dnb-toggle-button__component"
+              >
+                left_component
+              </span>
+            }
+            custom_element={null}
+            custom_method={null}
+            direction="horizontal"
+            disabled="disabled"
+            href={null}
+            icon="icon"
+            icon_position="icon_position"
+            icon_size="default"
+            id="id"
+            innerRef={null}
+            isIconOnly={false}
+            label_position="left"
+            onClick={[Function]}
+            onKeyDown={[Function]}
+            on_click={null}
+            size={null}
+            text="text"
+            title="title"
+            type="button"
+            variant="secondary"
+          >
+            <span
+              className="dnb-toggle-button__component"
+            >
+              left_component
+            </span>
+            <span
+              className="dnb-button__text"
+              key="button-text"
+            >
+              text
+            </span>
+            <IconPrimary
+              alt="title"
+              aria-hidden={true}
+              attributes={null}
+              class={null}
+              className="dnb-button__icon"
+              color={null}
+              height={null}
+              icon="icon"
+              key="button-icon"
+              modifier={null}
+              size="default"
+              title={null}
+              width={null}
+            />
+          </Content>
+        </button>
+      </Button>
     </span>
   </span>
 </ToggleButton>
@@ -96,6 +147,8 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
   id="group"
   label="Label"
   layout_direction="row"
+  left_component={null}
+  multiselect={null}
   name="group"
   on_change={null}
   status={null}
@@ -103,6 +156,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
   status_state="error"
   title={null}
   value={null}
+  values={null}
   vertical={null}
 >
   <span
@@ -163,74 +217,97 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
               custom_method={null}
               disabled={false}
               group={null}
+              icon={null}
+              icon_position="right"
               id="toggle-button-1"
               label="ToggleButton 1"
-              label_position="right"
+              left_component={null}
               on_change={null}
               on_state_update={null}
               readOnly={false}
               status={null}
               status_animation={null}
               status_state="error"
+              text={null}
               title={null}
               value=""
             >
               <span
-                className="dnb-toggle-button dnb-toggle-button--label-position-right"
+                className="dnb-toggle-button"
               >
-                <FormLabel
-                  aria-hidden={true}
-                  class={null}
-                  className={null}
-                  direction={null}
-                  disabled={false}
-                  for_id="toggle-button-1"
-                  id="toggle-button-1-label"
-                  render_content={null}
-                  text="ToggleButton 1"
-                  title={null}
-                  vertical={null}
-                >
-                  <label
-                    aria-hidden={true}
-                    className="dnb-form-label dnb-form-label--horizontal"
-                    htmlFor="toggle-button-1"
-                    id="toggle-button-1-label"
-                  >
-                    ToggleButton 1
-                  </label>
-                </FormLabel>
                 <span
                   className="dnb-toggle-button__shell"
                 >
-                  <input
-                    aria-checked={false}
-                    aria-label={null}
-                    aria-labelledby="toggle-button-1-label"
-                    checked={false}
-                    className="dnb-toggle-button__input"
+                  <Button
+                    aria-pressed="false"
+                    bounding={false}
+                    class={null}
+                    className="dnb-toggle-button__button"
+                    custom_element={null}
+                    custom_method={null}
                     disabled={false}
+                    href={null}
+                    icon={null}
+                    icon_position="right"
+                    icon_size="default"
                     id="toggle-button-1"
-                    name="group"
-                    onChange={[Function]}
+                    innerRef={null}
+                    label="ToggleButton 1"
                     onClick={[Function]}
                     onKeyDown={[Function]}
-                    onMouseOut={[Function]}
-                    role="radio"
+                    on_click={null}
+                    size={null}
+                    text={null}
                     title={null}
-                    type="radio"
-                    value=""
-                  />
-                  <span
-                    aria-hidden={true}
-                    className="dnb-toggle-button__button"
-                  />
-                  <span
-                    className="dnb-toggle-button__focus"
-                  />
-                  <span
-                    className="dnb-toggle-button__dot"
-                  />
+                    type="button"
+                    variant="secondary"
+                  >
+                    <button
+                      aria-pressed="false"
+                      className="dnb-button dnb-button--secondary dnb-toggle-button__button"
+                      id="toggle-button-1"
+                      label="ToggleButton 1"
+                      onClick={[Function]}
+                      onKeyDown={[Function]}
+                      onMouseOut={[Function]}
+                      type="button"
+                    >
+                      <Content
+                        aria-pressed="false"
+                        bounding={false}
+                        class={null}
+                        className="dnb-toggle-button__button"
+                        content={
+                          <span
+                            className="dnb-toggle-button__component"
+                          />
+                        }
+                        custom_element={null}
+                        custom_method={null}
+                        disabled={false}
+                        href={null}
+                        icon={null}
+                        icon_position="right"
+                        icon_size="default"
+                        id="toggle-button-1"
+                        innerRef={null}
+                        isIconOnly={false}
+                        label="ToggleButton 1"
+                        onClick={[Function]}
+                        onKeyDown={[Function]}
+                        on_click={null}
+                        size={null}
+                        text={null}
+                        title={null}
+                        type="button"
+                        variant="secondary"
+                      >
+                        <span
+                          className="dnb-toggle-button__component"
+                        />
+                      </Content>
+                    </button>
+                  </Button>
                 </span>
               </span>
             </ToggleButton>
@@ -243,74 +320,97 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
               custom_method={null}
               disabled={false}
               group={null}
+              icon={null}
+              icon_position="right"
               id="toggle-button-2"
               label="ToggleButton 2"
-              label_position="right"
+              left_component={null}
               on_change={null}
               on_state_update={null}
               readOnly={false}
               status={null}
               status_animation={null}
               status_state="error"
+              text={null}
               title={null}
               value=""
             >
               <span
-                className="dnb-toggle-button dnb-toggle-button--label-position-right"
+                className="dnb-toggle-button dnb-toggle-button--checked"
               >
-                <FormLabel
-                  aria-hidden={true}
-                  class={null}
-                  className={null}
-                  direction={null}
-                  disabled={false}
-                  for_id="toggle-button-2"
-                  id="toggle-button-2-label"
-                  render_content={null}
-                  text="ToggleButton 2"
-                  title={null}
-                  vertical={null}
-                >
-                  <label
-                    aria-hidden={true}
-                    className="dnb-form-label dnb-form-label--horizontal"
-                    htmlFor="toggle-button-2"
-                    id="toggle-button-2-label"
-                  >
-                    ToggleButton 2
-                  </label>
-                </FormLabel>
                 <span
                   className="dnb-toggle-button__shell"
                 >
-                  <input
-                    aria-checked={true}
-                    aria-label={null}
-                    aria-labelledby="toggle-button-2-label"
-                    checked={true}
-                    className="dnb-toggle-button__input"
+                  <Button
+                    aria-pressed="true"
+                    bounding={false}
+                    class={null}
+                    className="dnb-toggle-button__button"
+                    custom_element={null}
+                    custom_method={null}
                     disabled={false}
+                    href={null}
+                    icon={null}
+                    icon_position="right"
+                    icon_size="default"
                     id="toggle-button-2"
-                    name="group"
-                    onChange={[Function]}
+                    innerRef={null}
+                    label="ToggleButton 2"
                     onClick={[Function]}
                     onKeyDown={[Function]}
-                    onMouseOut={[Function]}
-                    role="radio"
+                    on_click={null}
+                    size={null}
+                    text={null}
                     title={null}
-                    type="radio"
-                    value=""
-                  />
-                  <span
-                    aria-hidden={true}
-                    className="dnb-toggle-button__button"
-                  />
-                  <span
-                    className="dnb-toggle-button__focus"
-                  />
-                  <span
-                    className="dnb-toggle-button__dot"
-                  />
+                    type="button"
+                    variant="secondary"
+                  >
+                    <button
+                      aria-pressed="true"
+                      className="dnb-button dnb-button--secondary dnb-toggle-button__button"
+                      id="toggle-button-2"
+                      label="ToggleButton 2"
+                      onClick={[Function]}
+                      onKeyDown={[Function]}
+                      onMouseOut={[Function]}
+                      type="button"
+                    >
+                      <Content
+                        aria-pressed="true"
+                        bounding={false}
+                        class={null}
+                        className="dnb-toggle-button__button"
+                        content={
+                          <span
+                            className="dnb-toggle-button__component"
+                          />
+                        }
+                        custom_element={null}
+                        custom_method={null}
+                        disabled={false}
+                        href={null}
+                        icon={null}
+                        icon_position="right"
+                        icon_size="default"
+                        id="toggle-button-2"
+                        innerRef={null}
+                        isIconOnly={false}
+                        label="ToggleButton 2"
+                        onClick={[Function]}
+                        onKeyDown={[Function]}
+                        on_click={null}
+                        size={null}
+                        text={null}
+                        title={null}
+                        type="button"
+                        variant="secondary"
+                      >
+                        <span
+                          className="dnb-toggle-button__component"
+                        />
+                      </Content>
+                    </button>
+                  </Button>
                 </span>
               </span>
             </ToggleButton>
@@ -337,97 +437,62 @@ exports[`ToggleButton scss have to match default theme snapshot 1`] = `
  */
 .dnb-toggle-button {
   /*
-    * When is OFF
-    * aka when the toggle-button is not :checked
-    */
-  /*
-    * When is ON
-    * aka when the toggle-button is :checked
-    */
-  /*
-  * When toggle-button is OFF
-  * aka when the toggle-button is not :checked
-  */
-  /*
-    * On disabled
-    *
-    */
-  /*
-    * On hover
-    *
-    */
-  /*
-    * On active
-    *
-    */
-  /* stylelint-disable */
-  /* stylelint-enable */
-  /*
-    * On focus
-    *
-    */
-  /* stylelint-disable */
-  /* stylelint-enable */
-  /*
     * On error state
     *
     */
   /* stylelint-disable */
   /* stylelint-enable */ }
-  .dnb-toggle-button__dot {
-    background-color: var(--color-sea-green-alt);
-    transition: opacity 200ms ease-out, transform 200ms ease-out; }
-  .dnb-toggle-button__input:not(:checked) ~ .dnb-toggle-button__button {
+  .dnb-toggle-button__button .dnb-checkbox .dnb-checkbox__input {
+    pointer-events: none; }
+  .dnb-toggle-button__button .dnb-checkbox .dnb-checkbox__button {
+    width: calc(var(--checkbox-width) - 0.5rem);
+    height: calc(var(--checkbox-width) - 0.5rem);
+    border-width: 0.0625rem;
+    box-shadow: 0 0 0 0.03125rem var(--color-sea-green-alt); }
+  .dnb-toggle-button__button .dnb-checkbox .dnb-checkbox__dot {
+    width: calc(var(--checkbox-width) - 1rem);
+    height: calc(var(--checkbox-width) - 1rem); }
+  .dnb-toggle-button__button .dnb-checkbox .dnb-checkbox__gfx {
+    width: calc(var(--checkbox-width) - 0.25rem);
+    height: calc(var(--checkbox-width) - 0.25rem); }
+  .dnb-toggle-button__button .dnb-radio .dnb-radio__input {
+    pointer-events: none; }
+  .dnb-toggle-button__button .dnb-radio .dnb-radio__button {
+    width: calc(var(--radio-width) - 0.5rem);
+    height: calc(var(--radio-width) - 0.5rem);
+    border-width: 0.0625rem;
+    box-shadow: 0 0 0 0.03125rem var(--color-sea-green-alt); }
+  .dnb-toggle-button__button .dnb-radio .dnb-radio__dot {
+    width: calc(var(--radio-width) - 1rem);
+    height: calc(var(--radio-width) - 1rem); }
+  .dnb-toggle-button--checked .dnb-toggle-button__button,
+  .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):hover {
+    background-color: var(--color-emerald-green);
+    color: var(--color-mint-green); }
+    .dnb-toggle-button--checked .dnb-toggle-button__button .dnb-radio .dnb-radio__button,
+    .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):hover .dnb-radio .dnb-radio__button {
+      border-color: var(--color-mint-green);
+      box-shadow: 0 0 0 0.03125rem var(--color-mint-green); }
+    .dnb-toggle-button--checked .dnb-toggle-button__button .dnb-radio .dnb-radio__dot,
+    .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):hover .dnb-radio .dnb-radio__dot {
+      background-color: var(--color-mint-green); }
+    .dnb-toggle-button--checked .dnb-toggle-button__button .dnb-checkbox .dnb-checkbox__button,
+    .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):hover .dnb-checkbox .dnb-checkbox__button {
+      background-color: var(--color-mint-green);
+      box-shadow: 0 0 0 0.03125rem var(--color-mint-green); }
+    .dnb-toggle-button--checked .dnb-toggle-button__button .dnb-checkbox .dnb-checkbox__gfx,
+    .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):hover .dnb-checkbox .dnb-checkbox__gfx {
+      color: var(--color-emerald-green); }
+  .dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]):not(:focus):not(:active) {
     background-color: var(--color-white);
-    border-color: var(--color-sea-green-alt); }
-  .dnb-toggle-button__input:checked ~ .dnb-toggle-button__button {
-    background-color: var(--color-white);
-    border-color: var(--color-sea-green-alt); }
-  .dnb-toggle-button__input:checked ~ .dnb-toggle-button__dot {
-    opacity: 1;
-    transform: scale(1); }
-  .dnb-toggle-button__input:not(:checked) ~ .dnb-toggle-button__dot {
-    opacity: 0;
-    transform: scale(0.8); }
-  .dnb-toggle-button__input[disabled] ~ .dnb-toggle-button__button {
-    border-color: var(--color-mint-green-50); }
-  .dnb-toggle-button__input[disabled]:checked ~ .dnb-toggle-button__button {
-    border-color: var(--color-sea-green-alt-30); }
-  .dnb-toggle-button__input[disabled]:checked ~ .dnb-toggle-button__dot {
-    background-color: var(--color-sea-green-alt-30); }
-  .dnb-toggle-button__input:not([disabled]):not(:focus):not(:checked):hover ~ .dnb-toggle-button__button {
-    background-color: var(--color-mint-green-50); }
-  .dnb-toggle-button__input:not([disabled]):not(:focus):checked:hover ~ .dnb-toggle-button__dot {
-    background-color: var(--color-mint-green-50); }
-  .dnb-toggle-button__input:not([disabled]):not(:checked):active ~ .dnb-toggle-button__button {
-    background-color: var(--color-mint-green-50);
+    color: var(--color-cherry-red);
+    box-shadow: inset 0 0 0 0.0625rem var(--color-cherry-red);
     border-color: transparent; }
-  .dnb-toggle-button__input:not([disabled]):checked:active ~ .dnb-toggle-button__button {
-    border-color: var(--color-mint-green-50); }
-  .dnb-toggle-button__input:not([disabled]):checked:active ~ .dnb-toggle-button__dot {
-    background-color: var(--color-mint-green-50); }
-  html[data-whatinput='keyboard'] .dnb-toggle-button__input:not([disabled]):not(:checked):focus ~ .dnb-toggle-button__button {
-    background-color: var(--color-mint-green-50); }
-  html[data-whatinput='keyboard'] .dnb-toggle-button__input:not([disabled]):focus ~ .dnb-toggle-button__button {
-    border: none; }
-  .dnb-toggle-button__input:not([disabled]):focus ~ .dnb-toggle-button__focus,
-  .dnb-toggle-button__input:not([disabled]):active ~ .dnb-toggle-button__focus {
-    display: block; }
-  .dnb-toggle-button__input:not([disabled]):not(:checked):focus ~ .dnb-toggle-button__button,
-  .dnb-toggle-button__input:not([disabled]):not(:checked):active ~ .dnb-toggle-button__button {
-    background-color: var(--color-mint-green-50); }
-  .dnb-toggle-button__status--error .dnb-toggle-button__input:not([disabled]):not(:focus):not(:active) ~ .dnb-toggle-button__button {
-    border: none; }
-  .dnb-toggle-button__status--error .dnb-toggle-button__input:not([disabled]):not(:focus):not(:active) ~ .dnb-toggle-button__focus {
-    display: block;
-    box-shadow: 0 0 0 0.125rem var(--color-cherry-red);
+  .dnb-toggle-button--checked.dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]):not(:focus):not(:active) {
+    background-color: var(--color-cherry-red);
+    color: var(--color-white);
+    box-shadow: inset 0 0 0 0.0625rem var(--color-cherry-red);
     border-color: transparent; }
-  .dnb-toggle-button__status--error .dnb-toggle-button__input:not([disabled]):not(:focus):not(:checked):hover ~ .dnb-toggle-button__button {
-    background-color: var(--color-cherry-red-80); }
-  .dnb-toggle-button__status--error .dnb-toggle-button__input:not([disabled]):not(:focus):not(:active):not(:hover):checked ~ .dnb-toggle-button__dot {
-    background-color: var(--color-cherry-red); }
-  .dnb-toggle-button__status--error .dnb-toggle-button__input:not([disabled]):not(:focus):not(:active):checked:hover ~ .dnb-toggle-button__dot {
-    background-color: var(--color-cherry-red-80); }
   .dnb-toggle-button > .dnb-form-status {
     transform: translateY(0.1875rem); }
 "
@@ -514,6 +579,262 @@ exports[`ToggleButton scss have to match snapshot 1`] = `
     cursor: not-allowed; }
 
 /*
+* DNB Button
+*
+*/
+/*
+* DNB icon
+*
+*/
+/*
+* Icon component
+*
+*/
+.dnb-icon {
+  display: inline-block;
+  vertical-align: baseline;
+  font-size: inherit;
+  line-height: 1em;
+  width: 1em;
+  height: 1em; }
+  .dnb-icon img,
+  .dnb-icon svg {
+    width: inherit;
+    height: inherit;
+    vertical-align: middle;
+    shape-rendering: geometricPrecision; }
+  .dnb-icon svg[width='100%'] {
+    width: inherit; }
+  .dnb-icon svg[height='100%'] {
+    height: inherit; }
+  .dnb-icon svg:not([fill]),
+  .dnb-icon svg [fill] {
+    fill: currentColor; }
+  .dnb-icon svg [stroke] {
+    stroke: currentColor; }
+  .dnb-icon--small {
+    width: 0.75rem;
+    height: 0.75rem; }
+  .dnb-icon--default {
+    width: 1rem;
+    height: 1rem; }
+  .dnb-icon--medium {
+    width: 1.5rem;
+    height: 1.5rem; }
+  .dnb-icon--large {
+    width: 2rem;
+    height: 2rem; }
+  .dnb-icon--x-large {
+    width: 2.5rem;
+    height: 2.5rem; }
+  .dnb-icon--xx-large {
+    width: 3rem;
+    height: 3rem; }
+  .dnb-icon--custom-size {
+    width: auto;
+    height: auto; }
+
+.dnb-button {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-default);
+  font-size: 1rem;
+  font-style: normal;
+  line-height: 1.5rem;
+  color: var(--color-black-80, #333);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  font-variant-numeric: lining-nums;
+  font-feature-settings: \\"lnum\\";
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-button *,
+  .dnb-button ::before,
+  .dnb-button ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-button ::before,
+  .dnb-button ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+* Button component
+*
+*/
+:root {
+  --button-font-size: var(--font-size-default);
+  --button-font-size-small: var(--font-size-small);
+  --button-width: 2.5rem;
+  --button-height: 2.5rem;
+  --button-width--small: 1.5rem;
+  --button-height--small: 1.5rem;
+  --button-width--medium: 2rem;
+  --button-height--medium: 2rem;
+  --button-width--large: 3rem;
+  --button-height--large: 3rem;
+  --button-icon-size: 1rem;
+  --button-border-width: 0.0625rem;
+  --button-border-width--hover: 3px;
+  --button-border-radius: calc(var(--button-height) / 2);
+  --button-border-radius--small: calc(var(--button-height--small) / 2);
+  --button-border-radius--medium: calc(var(--button-height--medium) / 2);
+  --button-border-radius--large: calc(var(--button-height--large) / 2); }
+
+.dnb-button {
+  cursor: pointer;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--button-width);
+  height: var(--button-height);
+  padding: 0;
+  border: var(--button-border-width) solid transparent;
+  border-radius: var(--button-border-radius);
+  text-decoration: none;
+  /* Firefox includes a hidden border which messes up button dimensions */ }
+  .dnb-button,
+  .dnb-core-style .dnb-button {
+    font-size: var(--button-font-size);
+    line-height: var(--button-height); }
+  .dnb-button__icon {
+    line-height: 1em; }
+    .dnb-button__icon:not(.dnb-icon) svg:not([width]):not([height]) {
+      width: var(--button-icon-size);
+      height: var(--button-icon-size); }
+    @supports not (-ms-ime-align: auto) {
+      .dnb-button__icon {
+        transform: translateY(calc(1px - 1px - var(--button-border-width))); } }
+  .dnb-button__text {
+    line-height: 1em;
+    color: inherit;
+    background-color: inherit; }
+    @supports not (-ms-ime-align: auto) {
+      .dnb-button__text {
+        transform: translateY(calc(1px - var(--button-border-width))); } }
+  .dnb-button__bounding {
+    position: absolute;
+    background-color: transparent;
+    width: var(--button-width);
+    height: var(--button-height);
+    border-radius: var(--button-border-radius);
+    transform: scale(1.2); }
+  .dnb-button--size-small {
+    width: var(--button-width--small);
+    height: var(--button-height--small);
+    font-size: var(--button-font-size-small);
+    line-height: var(--button-font-size-small);
+    border-radius: var(--button-border-radius--small); }
+  .dnb-button--has-text.dnb-button--size-small {
+    padding-left: 1rem;
+    padding-right: 1rem; }
+  .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-small {
+    padding-left: 0.5rem; }
+  .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-small {
+    padding-right: 0.5rem; }
+  .dnb-button--size-medium {
+    width: var(--button-width--medium);
+    height: var(--button-height--medium);
+    line-height: var(--button-height--medium);
+    border-radius: var(--button-border-radius--medium); }
+  .dnb-button--has-text.dnb-button--size-medium {
+    padding-left: 1rem;
+    padding-right: 1rem; }
+  .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-medium {
+    padding-left: 0.5rem; }
+  .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-medium {
+    padding-right: 0.5rem; }
+  .dnb-button--size-large {
+    width: var(--button-width--large);
+    height: var(--button-height--large);
+    line-height: var(--button-height--large);
+    border-radius: var(--button-border-radius--large); }
+  .dnb-button--has-text.dnb-button--size-large {
+    padding-left: 2rem;
+    padding-right: 2rem; }
+  .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-large {
+    padding-left: 1rem; }
+  .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-large {
+    padding-right: 1rem; }
+  .dnb-button--has-text {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    width: auto; }
+  .dnb-button--has-text .dnb-button__icon {
+    margin: 0 calc(var(--button-icon-size) / 2); }
+  .dnb-button--has-text.dnb-button--icon-position-left {
+    padding-left: 0.5rem; }
+  .dnb-button--has-text.dnb-button--icon-position-right {
+    padding-right: 0.5rem; }
+  .dnb-button--has-text.dnb-button--has-icon .dnb-button__icon {
+    order: 2; }
+  .dnb-button--has-text.dnb-button--has-icon .dnb-button__text {
+    order: 1; }
+  .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__icon {
+    order: 1; }
+  .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__text {
+    order: 2; }
+  .dnb-button--reset {
+    margin: 0;
+    padding: 0;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    border: none;
+    border-radius: 0;
+    background-color: transparent;
+    appearance: none;
+    box-shadow: none;
+    color: inherit;
+    font: inherit;
+    text-align: inherit;
+    line-height: inherit; }
+    :not([dnb-is-touch]) .dnb-button--reset:hover[disabled] {
+      cursor: not-allowed; }
+    :not([dnb-is-touch]) .dnb-button--reset:hover:not([disabled]) {
+      box-shadow: none;
+      border: none; }
+    .dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
+      outline: none; }
+      html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
+        box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
+        border-color: transparent; }
+    html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):focus,
+    html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):active {
+      box-shadow: none;
+      color: inherit;
+      border: none; }
+  .dnb-button[disabled] {
+    cursor: not-allowed; }
+  button.dnb-button::-moz-focus-inner .dnb-button {
+    border: none; }
+
+a.dnb-button[type='button'] {
+  appearance: none;
+  -webkit-appearance: none; }
+
+a.dnb-button .dnb-button__icon {
+  transform: translateY(0); }
+
+a.dnb-button .dnb-button__text {
+  transform: translateY(1px); }
+
+/*
+* DNB Checkbox
+*
+*/
+/*
 * DNB FormStatus
 *
 */
@@ -598,6 +919,244 @@ exports[`ToggleButton scss have to match snapshot 1`] = `
     opacity: 1;
     height: var(--input-height); } }
 
+.dnb-checkbox {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-default);
+  font-size: 1rem;
+  font-style: normal;
+  line-height: 1.5rem;
+  color: var(--color-black-80, #333);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  font-variant-numeric: lining-nums;
+  font-feature-settings: \\"lnum\\";
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-checkbox *,
+  .dnb-checkbox ::before,
+  .dnb-checkbox ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-checkbox ::before,
+  .dnb-checkbox ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+* Checkbox component
+*
+*/
+:root {
+  --checkbox-height: 1.5rem;
+  --checkbox-width: 1.5rem;
+  --checkbox-border-width: 0.125rem; }
+
+.dnb-checkbox {
+  display: inline-flex;
+  flex-direction: column;
+  width: auto;
+  margin: 0;
+  padding: 0; }
+  .dnb-checkbox__shell {
+    user-select: none;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--checkbox-height);
+    height: var(--checkbox-height);
+    transform: translateY(-0.0625rem); }
+  .dnb-checkbox__focus, .dnb-checkbox__button, .dnb-checkbox__gfx {
+    position: absolute;
+    z-index: 4;
+    border-radius: 0.25rem; }
+  .dnb-checkbox__button {
+    border: var(--checkbox-border-width) solid transparent; }
+  .dnb-checkbox__focus {
+    display: none;
+    outline: none; }
+    html[data-whatinput='keyboard'] .dnb-checkbox__focus {
+      box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
+      border-color: transparent; }
+  .dnb-checkbox__focus, .dnb-checkbox__button {
+    width: calc(var(--checkbox-width) - 0.25rem);
+    height: calc(var(--checkbox-height) - 0.25rem); }
+  .dnb-checkbox__gfx {
+    position: absolute;
+    width: var(--checkbox-height);
+    height: var(--checkbox-height);
+    fill: currentColor;
+    shape-rendering: geometricPrecision; }
+  .dnb-checkbox__input {
+    opacity: 0;
+    position: absolute;
+    left: 0;
+    z-index: 5;
+    width: var(--checkbox-width);
+    height: var(--checkbox-height);
+    margin: 0;
+    padding: 0;
+    border: 0; }
+  .dnb-checkbox__input:not([disabled]) {
+    cursor: pointer; }
+  .dnb-checkbox--modifier {
+    display: inline-flex;
+    flex-direction: row;
+    vertical-align: top; }
+  .dnb-checkbox--label-position-left .dnb-checkbox {
+    order: 2; }
+  .dnb-checkbox--label-position-left .dnb-form-label {
+    order: 1;
+    margin-right: 1rem; }
+  .dnb-checkbox--label-position-left .dnb-form-status {
+    margin-top: 0.5rem; }
+  .dnb-checkbox--label-position-right .dnb-checkbox {
+    order: 1; }
+  .dnb-checkbox--label-position-right .dnb-form-label {
+    order: 2;
+    margin-left: 1rem;
+    margin-right: 0.5rem; }
+  .dnb-checkbox--label-position-right + .dnb-form-status {
+    vertical-align: top;
+    margin-top: 0.5rem; }
+
+/*
+* DNB Radio
+*
+*/
+.dnb-radio {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-default);
+  font-size: 1rem;
+  font-style: normal;
+  line-height: 1.5rem;
+  color: var(--color-black-80, #333);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  font-variant-numeric: lining-nums;
+  font-feature-settings: \\"lnum\\";
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-radio *,
+  .dnb-radio ::before,
+  .dnb-radio ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-radio ::before,
+  .dnb-radio ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+* Radio component
+*
+*/
+:root {
+  --radio-height: 1.5rem;
+  --radio-width: 1.5rem;
+  --radio-border-width: 0.125rem; }
+
+.dnb-radio {
+  display: inline-flex;
+  flex-direction: row;
+  width: auto;
+  margin: 0;
+  padding: 0; }
+  .dnb-radio__shell {
+    position: relative;
+    user-select: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: var(--radio-height);
+    height: var(--radio-height);
+    transform: translateY(-0.0625rem); }
+  .dnb-radio__focus, .dnb-radio__button, .dnb-radio__dot {
+    position: absolute;
+    z-index: 4; }
+  .dnb-radio__button {
+    border: var(--radio-border-width) solid transparent; }
+  .dnb-radio__focus {
+    display: none;
+    outline: none; }
+    html[data-whatinput='keyboard'] .dnb-radio__focus {
+      box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
+      border-color: transparent; }
+  .dnb-radio__focus, .dnb-radio__button {
+    width: calc(var(--radio-width) - 0.25rem);
+    height: calc(var(--radio-height) - 0.25rem);
+    border-radius: 50%; }
+  .dnb-radio__dot {
+    width: calc(var(--radio-width) - 0.75rem);
+    height: calc(var(--radio-height) - 0.75rem);
+    border-radius: 50%; }
+  .dnb-radio__input {
+    opacity: 0;
+    position: absolute;
+    left: 0;
+    z-index: 5;
+    width: var(--radio-width);
+    height: var(--radio-height);
+    margin: 0;
+    padding: 0;
+    border: 0; }
+  .dnb-radio__input:not([disabled]) {
+    cursor: pointer; }
+  .dnb-radio .dnb-form-status {
+    margin-bottom: 0.5rem; }
+  .dnb-radio--modifier {
+    display: inline-flex;
+    flex-direction: row; }
+  .dnb-radio--label-position-left .dnb-radio {
+    order: 2; }
+  .dnb-radio--label-position-left .dnb-form-label {
+    order: 1;
+    margin-right: 0.5rem;
+    margin-left: 1rem; }
+  .dnb-radio-group--column .dnb-radio--label-position-left {
+    display: flex;
+    margin-bottom: 0.5rem; }
+  .dnb-radio--label-position-right .dnb-radio {
+    order: 1; }
+  .dnb-radio--label-position-right .dnb-form-label {
+    order: 2;
+    margin-right: 1rem;
+    margin-left: 0.5rem; }
+  .dnb-radio-group--column .dnb-radio--label-position-right {
+    display: flex;
+    margin-bottom: 0.5rem; }
+  :not(.dnb-radio-group) > .dnb-form-label + .dnb-radio {
+    vertical-align: top; }
+  .dnb-radio--label-position-left ~ .dnb-form-status,
+  .dnb-radio--label-position-right ~ .dnb-form-status {
+    margin-bottom: 1rem; }
+  .dnb-radio-group {
+    display: inline-flex;
+    flex-direction: row; }
+
 .dnb-toggle-button {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
@@ -637,85 +1196,49 @@ exports[`ToggleButton scss have to match snapshot 1`] = `
 *
 */
 :root {
-  --toggle-button-height: 1.5rem;
-  --toggle-button-width: 1.5rem;
+  --toggle-button-height: 2.5rem;
+  --toggle-button-width: 100%;
   --toggle-button-border-width: 0.125rem; }
 
 .dnb-toggle-button {
   display: inline-flex;
   flex-direction: row;
-  width: auto;
   margin: 0;
   padding: 0; }
   .dnb-toggle-button__shell {
     position: relative;
-    user-select: none;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: var(--toggle-button-height);
-    height: var(--toggle-button-height);
-    transform: translateY(-0.0625rem); }
-  .dnb-toggle-button__focus, .dnb-toggle-button__button, .dnb-toggle-button__dot {
-    position: absolute;
-    z-index: 4; }
-  .dnb-toggle-button__button {
-    border: var(--toggle-button-border-width) solid transparent; }
-  .dnb-toggle-button__focus {
-    display: none;
-    outline: none; }
-    html[data-whatinput='keyboard'] .dnb-toggle-button__focus {
-      box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
-      border-color: transparent; }
-  .dnb-toggle-button__focus, .dnb-toggle-button__button {
-    width: calc(var(--toggle-button-width) - 0.25rem);
-    height: calc(var(--toggle-button-height) - 0.25rem);
-    border-radius: 50%; }
-  .dnb-toggle-button__dot {
-    width: calc(var(--toggle-button-width) - 0.75rem);
-    height: calc(var(--toggle-button-height) - 0.75rem);
-    border-radius: 50%; }
-  .dnb-toggle-button__input {
-    opacity: 0;
-    position: absolute;
     left: 0;
-    z-index: 5;
-    width: var(--toggle-button-width);
-    height: var(--toggle-button-height);
-    margin: 0;
-    padding: 0;
-    border: 0; }
-  .dnb-toggle-button__input:not([disabled]) {
-    cursor: pointer; }
-  .dnb-toggle-button .dnb-form-status {
-    margin-bottom: 0.5rem; }
-  .dnb-toggle-button--modifier {
+    user-select: none; }
+  .dnb-toggle-button__component {
+    padding-right: 0.25rem;
     display: inline-flex;
-    flex-direction: row; }
-  .dnb-toggle-button--label-position-left .dnb-toggle-button {
-    order: 2; }
-  .dnb-toggle-button--label-position-left .dnb-form-label {
-    order: 1;
-    margin-right: 0.5rem;
-    margin-left: 1rem; }
-  .dnb-toggle-button-group--column .dnb-toggle-button--label-position-left {
-    display: flex;
+    align-items: center; }
+  .dnb-toggle-button__button {
+    padding-left: 1rem;
+    padding-right: 1.5rem; }
+    .dnb-toggle-button__button .dnb-checkbox {
+      margin-left: -0.25rem; }
+    .dnb-toggle-button__button .dnb-radio {
+      margin-left: -0.25rem; }
+  .dnb-toggle-button__button.dnb-button--has-icon.dnb-button--icon-position-right {
+    padding-right: 0.5rem; }
+  .dnb-toggle-button__button.dnb-button--has-icon.dnb-button--icon-position-left {
+    padding-left: 0.5rem; }
+    .dnb-toggle-button__button.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__icon {
+      margin-left: 0.25rem;
+      margin-right: 0.25rem; }
+  .dnb-toggle-button__button.dnb-button--has-icon.dnb-button--icon-position-left > .dnb-toggle-button__component {
+    padding-left: 0.5rem;
+    padding-right: 0; }
+  .dnb-toggle-button--checked .dnb-toggle-button__button {
+    background-color: var(--color-emerald-green);
+    color: var(--color-mint-green); }
+  .dnb-toggle-button + .dnb-form-status {
     margin-bottom: 0.5rem; }
-  .dnb-toggle-button--label-position-right .dnb-toggle-button {
-    order: 1; }
-  .dnb-toggle-button--label-position-right .dnb-form-label {
-    order: 2;
-    margin-right: 1rem;
-    margin-left: 0.5rem; }
-  .dnb-toggle-button-group--column .dnb-toggle-button--label-position-right {
-    display: flex;
+  .dnb-toggle-button__status--error {
     margin-bottom: 0.5rem; }
   :not(.dnb-toggle-button-group) > .dnb-form-label + .dnb-toggle-button {
     vertical-align: top; }
-  .dnb-toggle-button--label-position-left ~ .dnb-form-status,
-  .dnb-toggle-button--label-position-right ~ .dnb-form-status {
-    margin-bottom: 1rem; }
   .dnb-toggle-button-group {
     display: inline-flex;
     flex-direction: row; }

@@ -7,6 +7,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
+  isTrue,
   extendPropsWithContext,
   registerElement,
   validateDOMAttributes,
@@ -24,6 +25,11 @@ const renderProps = {
 export const propTypes = {
   label: PropTypes.string,
   title: PropTypes.string,
+  multiselect: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  left_component: PropTypes.oneOfType([
+    PropTypes.node,
+    PropTypes.oneOf(['checkbox', 'radio'])
+  ]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   id: PropTypes.string,
   name: PropTypes.string,
@@ -34,6 +40,7 @@ export const propTypes = {
   direction: PropTypes.oneOf(['horizontal', 'vertical']),
   vertical: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   value: PropTypes.string,
+  values: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   class: PropTypes.string,
 
@@ -54,6 +61,8 @@ export const propTypes = {
 export const defaultProps = {
   label: null,
   title: null,
+  multiselect: null,
+  left_component: null,
   disabled: null,
   id: null,
   name: null,
@@ -64,6 +73,7 @@ export const defaultProps = {
   vertical: null,
   layout_direction: 'row',
   value: null,
+  values: null,
   attributes: null,
   class: null,
 
@@ -77,9 +87,6 @@ export const defaultProps = {
   ...renderProps
 }
 
-/**
- * The toggle-button component is our enhancement of the classic toggle-button button. It acts like a toggle-button. Example: On/off, yes/no.
- */
 export default class ToggleButtonGroup extends PureComponent {
   static tagName = 'dnb-toggle-button-group'
   static propTypes = propTypes
@@ -102,10 +109,20 @@ export default class ToggleButtonGroup extends PureComponent {
       if (typeof props.value !== 'undefined') {
         state.value = props.value
       }
+      if (typeof props.values !== 'undefined') {
+        state.values = ToggleButtonGroup.getValues(props)
+      }
     }
     state._listenForPropChanges = true
 
     return state
+  }
+
+  static getValues(props) {
+    if (typeof props.values === 'string' && props.values[0] === '[') {
+      return JSON.parse(props.values)
+    }
+    return props.values
   }
 
   constructor(props) {
@@ -118,14 +135,31 @@ export default class ToggleButtonGroup extends PureComponent {
       props.name ||
       `dnb-toggle-button-group-${Math.round(Math.random() * 999)}` // cause we need an id anyway
     this.state = {
+      values: ToggleButtonGroup.getValues(props) || [],
+      // values:  [],
       _listenForPropChanges: true
     }
   }
 
   onChangeHandler = ({ value, event }) => {
-    this.setState({ value, _listenForPropChanges: false })
+    const { multiselect } = this.props
+    const { values } = this.state
+    if (isTrue(multiselect)) {
+      if (!values.includes(value)) {
+        values.push(value)
+      } else {
+        values.splice(values.indexOf(value), 1)
+      }
+    } else {
+      this.setState({
+        value,
+        values,
+        _listenForPropChanges: false
+      })
+    }
     dispatchCustomElementEvent(this, 'on_change', {
       value,
+      values,
       event
     })
   }
@@ -145,13 +179,16 @@ export default class ToggleButtonGroup extends PureComponent {
       vertical,
       layout_direction,
       label,
+      left_component,
       disabled,
       className,
       class: _className,
 
+      multiselect,
       id: _id, // eslint-disable-line
       name: _name, // eslint-disable-line
       value: _value, // eslint-disable-line
+      values: _values, // eslint-disable-line
       attributes, // eslint-disable-line
       children, // eslint-disable-line
       on_change, // eslint-disable-line
@@ -161,7 +198,7 @@ export default class ToggleButtonGroup extends PureComponent {
       ...rest
     } = props
 
-    const { value } = this.state
+    const { value, values } = this.state
 
     const id = this._id
     const showStatus = status && status !== 'error'
@@ -191,6 +228,9 @@ export default class ToggleButtonGroup extends PureComponent {
     const context = {
       name: this._name,
       value,
+      values,
+      multiselect: isTrue(multiselect),
+      left_component,
       disabled,
       onChange: this.onChangeHandler
     }
