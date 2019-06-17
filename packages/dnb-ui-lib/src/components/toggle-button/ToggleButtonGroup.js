@@ -205,6 +205,7 @@ export default class ToggleButtonGroup extends PureComponent {
 
     const classes = classnames(
       'dnb-toggle-button-group',
+      // showStatus && `dnb-toggle-button-group__status}`,
       status && `dnb-toggle-button-group__status--${status_state}`,
       `dnb-toggle-button-group--${layout_direction}`,
       className,
@@ -252,7 +253,7 @@ export default class ToggleButtonGroup extends PureComponent {
             <span
               id={id}
               className="dnb-toggle-button-group__shell"
-              role="radiogroup"
+              role="group"
               {...params}
             >
               {children}

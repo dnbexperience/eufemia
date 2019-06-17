@@ -46,12 +46,13 @@
     }
   }
 
-  // &--checked &__button:not([disabled]):focus,
   &--checked &__button,
+  &--checked &__button:not([disabled]):focus,
   &--checked &__button:not([disabled]):hover {
     background-color: var(--color-emerald-green);
     color: var(--color-mint-green);
 
+    // do not hide the box-shadow, due to the focus ring
     // box-shadow: none;
 
     // radio button

@@ -13,7 +13,6 @@ import {
   // validateDOMAttributes,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
-// import FormLabel from '../form-label/FormLabel'
 import Radio from '../radio/Radio'
 import Checkbox from '../checkbox/Checkbox'
 import Button from '../button/Button'
@@ -28,7 +27,6 @@ const renderProps = {
 
 export const propTypes = {
   text: PropTypes.string,
-  // label_position: PropTypes.oneOf(['left', 'right']),
   title: PropTypes.string,
   checked: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   left_component: PropTypes.oneOfType([
@@ -37,7 +35,7 @@ export const propTypes = {
   ]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   id: PropTypes.string,
-  group: PropTypes.string,
+  // group: PropTypes.string,
   status: PropTypes.string,
   status_state: PropTypes.string,
   status_animation: PropTypes.string,
@@ -67,7 +65,7 @@ export const defaultProps = {
   left_component: null,
   disabled: false,
   id: null,
-  group: null,
+  // group: null,
   status: null,
   status_state: 'error',
   status_animation: null,
@@ -116,12 +114,12 @@ export default class ToggleButton extends Component {
 
   constructor(props) {
     super(props)
-    this._refButton = React.createRef()
     this._id =
       props.id || `dnb-toggle-button-${Math.round(Math.random() * 999)}` // cause we need an id anyway
     this.state = {
       _listenForPropChanges: true
     }
+    this._refButton = React.createRef()
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -136,113 +134,52 @@ export default class ToggleButton extends Component {
   }
 
   onKeyDownHandler = event => {
-    // only have key support if there is only a single toggle-button
-    // if (this.isInNoGroup()) {
     switch (keycode(event)) {
       case 'enter':
         this.onClickHandler(event)
-        event.preventDefault()
-        break
-    }
-    // } else {
-    // }
-    // else we only use the native support, and don't want space support
-    // because only arrow keys has to be used
-    switch (keycode(event)) {
-      case 'space':
-        // console.log('this._refButton', this._refButton)
-        // if (this._refButton.current._ref.current) {
-        //   this._refButton.current._ref.current.focus()
-        // }
-        // this.onClickHandler(event)
         // event.preventDefault()
         break
     }
     dispatchCustomElementEvent(this, 'on_key_down', { event })
   }
 
-  // onChangeHandler = event => {
-  //   console.log('onChangeHandler', event)
-  //   if (isTrue(this.props.readOnly)) {
-  //     return event.preventDefault()
-  //   }
-  //   // const value = event.target.value
-  //   const value = this.props.value
-  //   const checked = !this.state.checked
-  //
-  //   // delay in case we have a props group only
-  //   if (this.isPlainGroup()) {
-  //     // in case we have a false "hasContext" but a "group"
-  //     // then we have to use a delay, to overwrite the uncrontrolled state
-  //     setTimeout(() => {
-  //       this.setState({ checked, _listenForPropChanges: false }, () =>
-  //         this.callOnChange({ value, checked })
-  //       )
-  //     }, 1)
-  //   } else {
-  //     this.setState({ checked, _listenForPropChanges: false })
-  //     this.callOnChange({ value, checked })
-  //   }
-  // }
-
-  // only support on change if there is either:
-  // 1. context group usage
-  // 2. or a single, no group usage
-  isContextGroupOrSingle = () =>
-    typeof this.context.value !== 'undefined' && !this.props.group
-  isPlainGroup = () =>
-    typeof this.context.value === 'undefined' && this.props.group
-  isInNoGroup = () =>
-    typeof this.context.value === 'undefined' && !this.props.group
+  onKeyUpHandler = event => {
+    switch (keycode(event)) {
+      case 'enter':
+        this.onClickHandler(event)
+        // event.preventDefault()
+        break
+    }
+    dispatchCustomElementEvent(this, 'on_key_up', { event })
+  }
 
   onClickHandler = event => {
     if (isTrue(this.props.readOnly)) {
       return event.preventDefault()
     }
-    // only have click support if there are more plain toggle-button
-    // if (!this.isPlainGroup()) {
-    //   return
-    // }
     const checked = !this.state.checked
-    // console.log('checked', checked)
     this.setState({
       checked,
       _listenForPropChanges: false
     })
-    this.callOnChange()
-    // const value = event.target.value
-    // const checked = event.target.checked
+    this.callOnChange({ checked })
   }
 
-  callOnChange = () => {
-    const { group, value } = this.props
-    const { checked } = this.state
+  callOnChange = ({ checked }) => {
+    const {
+      // group,
+      value
+    } = this.props
     if (this.context.onChange) {
       this.context.onChange({
         value
       })
     }
     dispatchCustomElementEvent(this, 'on_change', {
-      group,
+      // group,
       checked,
       value
     })
-
-    // help firefox and safari to have an correct state after a click
-    // if (this._refButton.current) {
-    //   this._refButton.current.focus()
-    // }
-  }
-
-  onMouseOutHandler = event => {
-    dispatchCustomElementEvent(this, 'on_mouse_out', { event })
-    // this way we keep the new state after the user changed the state, without getting the error state back vissually
-    if (this.props.status && this.props.status_state === 'error') {
-      return
-    }
-    if (this._refButton.current) {
-      this._refButton.current.blur()
-    }
   }
 
   render() {
@@ -251,14 +188,13 @@ export default class ToggleButton extends Component {
       status_state,
       status_animation,
       text,
-      // label_position,
       title,
       readOnly,
       className,
       class: _className,
 
       id: _id, // eslint-disable-line
-      group: _group, // eslint-disable-line
+      // group: _group, // eslint-disable-line
       value: _value, // eslint-disable-line
       checked: _checked, // eslint-disable-line
       left_component: _left_component, // eslint-disable-line
@@ -303,8 +239,6 @@ export default class ToggleButton extends Component {
       'dnb-toggle-button',
       status && `dnb-toggle-button__status--${status_state}`,
       checked && `dnb-toggle-button--checked`,
-      // label_position &&
-      //   `dnb-toggle-button--label-position-${label_position}`,
       className,
       _className
     )
@@ -337,9 +271,6 @@ export default class ToggleButton extends Component {
     if (showStatus) {
       buttonParams['aria-describedby'] = id + '-status'
     }
-    // if (label) {
-    //   buttonParams['aria-labelledby'] = id + '-label'
-    // }
     if (readOnly) {
       buttonParams['aria-readonly'] = buttonParams.readOnly = true
     }
@@ -348,12 +279,22 @@ export default class ToggleButton extends Component {
     switch (left_component) {
       case 'radio':
         leftComponent = (
-          <Radio checked={checked} aria-hidden tabIndex="-1" />
+          <Radio
+            id={`${id}-radio`}
+            checked={checked}
+            aria-hidden
+            tabIndex="-1"
+          />
         )
         break
       case 'checkbox':
         leftComponent = (
-          <Checkbox checked={checked} aria-hidden tabIndex="-1" />
+          <Checkbox
+            id={`${id}-checkbox`}
+            checked={checked}
+            aria-hidden
+            tabIndex="-1"
+          />
         )
         break
       default:
@@ -361,23 +302,9 @@ export default class ToggleButton extends Component {
         break
     }
 
-    // also used for code markup simulation
-    // validateDOMAttributes(this.props, buttonParams)
-
-    // console.log('buttonParams', buttonParams)
-
     return (
       <>
         <span className={classes}>
-          {/* {label && (
-            <FormLabel
-              id={id + '-label'}
-              for_id={id}
-              aria-hidden={!this.isInNoGroup()}
-              text={label}
-              disabled={isTrue(disabled)}
-            />
-          )} */}
           <span className="dnb-toggle-button__shell">
             {/* <input
               type="checkbox"
@@ -403,13 +330,16 @@ export default class ToggleButton extends Component {
               className="dnb-toggle-button__button"
               {...buttonParams}
               // onChange={this.onChangeHandler}
+              ref={this._refButton}
               onClick={this.onClickHandler}
               onKeyDown={this.onKeyDownHandler}
-              ref={this._refButton}
+              onKeyUp={this.onKeyUpHandler}
             >
-              <span className="dnb-toggle-button__component">
-                {leftComponent}
-              </span>
+              {leftComponent && (
+                <span className="dnb-toggle-button__component">
+                  {leftComponent}
+                </span>
+              )}
             </Button>
           </span>
         </span>

@@ -21,11 +21,11 @@ import dnb_toggle_button_theme_ui from '../style/themes/dnb-toggle-button-theme-
 const props = fakeProps(require.resolve('../ToggleButton'), {
   optional: true
 })
-props.group = null
+// props.group = null
 props.status = null
+props.icon_position = 'left'
+props.left_component = 'checkbox'
 props.readOnly = false
-props.label_position = 'left'
-props.direction = 'horizontal'
 
 describe('ToggleButton component', () => {
   // then test the state management
@@ -36,26 +36,22 @@ describe('ToggleButton component', () => {
     expect(toJson(Comp)).toMatchSnapshot()
   })
 
-  it('has correct state after "change" trigger', () => {
+  it('has correct state after "click" trigger', () => {
     // default checked value has to be false
     expect(Comp.state().checked).toBe(false)
 
-    Comp.find('input').simulate('change') // we could send inn the event data structure like this: , { target: { checked: true } }
+    Comp.find('button').simulate('click') // we could send inn the event data structure like this: , { target: { checked: true } }
     expect(Comp.state().checked).toBe(true)
 
-    Comp.find('input').simulate('change')
+    Comp.find('button').simulate('click')
     expect(Comp.state().checked).toBe(false)
 
     // also check if getDerivedStateFromProps sets the state as expected
     Comp.setProps({ checked: true })
     expect(Comp.state().checked).toBe(true)
-
-    const value = 'new value'
-    Comp.setProps({ value })
-    expect(Comp.find('input').props().value).toBe(value)
   })
 
-  it('has "on_change" event witch will trigger on a input change', () => {
+  it('has "on_change" event witch will trigger on a button click', () => {
     const my_event = jest.fn()
     const myEvent = jest.fn()
     const Comp = mount(
@@ -63,10 +59,10 @@ describe('ToggleButton component', () => {
         on_change={my_event}
         onChange={myEvent}
         checked={false}
-        group={null}
+        // group={null}
       />
     )
-    Comp.find('input').simulate('change')
+    Comp.find('button').simulate('click')
     expect(my_event.mock.calls.length).toBe(1)
     expect(myEvent.mock.calls.length).toBe(1)
     expect(myEvent.mock.calls[0][0]).toHaveProperty('checked')
@@ -80,7 +76,7 @@ describe('ToggleButton component', () => {
       disabled: true
     })
     expect(
-      Comp.find('input')
+      Comp.find('button')
         .instance()
         .hasAttribute('disabled')
     ).toBe(true)
@@ -95,8 +91,8 @@ describe('ToggleButton group component', () => {
   // then test the state management
   const Comp = mount(
     <Component.Group label="Label" name="group" id="group">
-      <Component id="toggle-button-1" label="ToggleButton 1" />
-      <Component id="toggle-button-2" label="ToggleButton 2" checked />
+      <Component id="toggle-button-1" text="ToggleButton 1" />
+      <Component id="toggle-button-2" text="ToggleButton 2" checked />
     </Component.Group>
   )
 
