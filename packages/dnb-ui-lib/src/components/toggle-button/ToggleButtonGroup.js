@@ -106,10 +106,10 @@ export default class ToggleButtonGroup extends PureComponent {
 
   static getDerivedStateFromProps(props, state) {
     if (state._listenForPropChanges) {
-      if (typeof props.value !== 'undefined') {
+      if (props.value && typeof props.value !== 'undefined') {
         state.value = props.value
       }
-      if (typeof props.values !== 'undefined') {
+      if (props.values && typeof props.values !== 'undefined') {
         state.values = ToggleButtonGroup.getValues(props)
       }
     }
@@ -135,8 +135,6 @@ export default class ToggleButtonGroup extends PureComponent {
       props.name ||
       `dnb-toggle-button-group-${Math.round(Math.random() * 999)}` // cause we need an id anyway
     this.state = {
-      values: ToggleButtonGroup.getValues(props) || [],
-      // values:  [],
       _listenForPropChanges: true
     }
   }
@@ -205,7 +203,6 @@ export default class ToggleButtonGroup extends PureComponent {
 
     const classes = classnames(
       'dnb-toggle-button-group',
-      // showStatus && `dnb-toggle-button-group__status}`,
       status && `dnb-toggle-button-group__status--${status_state}`,
       `dnb-toggle-button-group--${layout_direction}`,
       className,
@@ -233,6 +230,12 @@ export default class ToggleButtonGroup extends PureComponent {
       multiselect: isTrue(multiselect),
       left_component,
       disabled,
+      setContext: context => {
+        this.setState({
+          ...context,
+          _listenForPropChanges: false
+        })
+      },
       onChange: this.onChangeHandler
     }
 

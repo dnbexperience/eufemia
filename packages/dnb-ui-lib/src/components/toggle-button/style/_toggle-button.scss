@@ -12,6 +12,7 @@
 .dnb-toggle-button {
   display: inline-flex;
   flex-direction: row;
+  align-items: center;
 
   // width: auto;
 
@@ -83,9 +84,18 @@
     .dnb-toggle-button {
       margin-right: 0.5rem;
     }
+    &--column .dnb-toggle-button {
+      display: flex;
+      margin-right: 0;
+      margin-bottom: 0.5rem;
+    }
     // .dnb-toggle-button:last-of-type {
     //   margin-right: 0;
     // }
+  }
+
+  .dnb-form-row__content > &-group {
+    margin-top: -0.5rem;
   }
 
   // status
@@ -93,5 +103,17 @@
   &-group &-group__shell > .dnb-form-status {
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
+  }
+
+  &--label-position-right {
+    vertical-align: middle;
+
+    .dnb-form-label {
+      order: 2;
+      margin-left: 1rem;
+    }
+    .dnb-toggle-button__shell {
+      order: 1;
+    }
   }
 }

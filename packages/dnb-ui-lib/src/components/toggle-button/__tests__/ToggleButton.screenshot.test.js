@@ -10,24 +10,27 @@ import {
 
 describe('ToggleButton unchecked screenshot', () => {
   setupPageScreenshot({ url: '/uilib/components/toggle-button' })
-  it('have to match toggle-button in unchecked state', async () => {
+  it.skip('have to match toggle-button in unchecked state', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="toggle-button-default"] .dnb-toggle-button__shell'
+      selector:
+        '[data-dnb-test="toggle-button-default"] .dnb-toggle-button__shell'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
-  it('have to match toggle-button in unchecked state with focus', async () => {
+  it.skip('have to match toggle-button in unchecked state with focus', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="toggle-button-default"] .dnb-toggle-button__shell',
+      selector:
+        '[data-dnb-test="toggle-button-default"] .dnb-toggle-button__shell',
       simulateSelector:
         '[data-dnb-test="toggle-button-default"] .dnb-toggle-button__input',
       simulate: 'focus'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
-  it('have to match toggle-button in unchecked state with hover', async () => {
+  it.skip('have to match toggle-button in unchecked state with hover', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="toggle-button-default"] .dnb-toggle-button__shell',
+      selector:
+        '[data-dnb-test="toggle-button-default"] .dnb-toggle-button__shell',
       simulateSelector:
         '[data-dnb-test="toggle-button-default"] .dnb-toggle-button__input',
       simulate: 'hover'
@@ -40,45 +43,51 @@ describe('ToggleButton unchecked screenshot', () => {
 // we have to run the two focus simulations in a seperate run each
 describe('ToggleButton checked screenshot', () => {
   setupPageScreenshot({ url: '/uilib/components/toggle-button' })
-  it('have to match toggle-button in checked state', async () => {
+  it.skip('have to match toggle-button in checked state', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="toggle-button-checked"] .dnb-toggle-button__shell'
+      selector:
+        '[data-dnb-test="toggle-button-checked"] .dnb-toggle-button__shell'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
-  it('have to match toggle-button in checked state with focus', async () => {
+  it.skip('have to match toggle-button in checked state with focus', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="toggle-button-checked"] .dnb-toggle-button__shell',
+      selector:
+        '[data-dnb-test="toggle-button-checked"] .dnb-toggle-button__shell',
       simulateSelector:
         '[data-dnb-test="toggle-button-checked"] .dnb-toggle-button__input',
       simulate: 'focus'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
-  it('have to match toggle-button in checked state with hover', async () => {
+  it.skip('have to match toggle-button in checked state with hover', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="toggle-button-checked"] .dnb-toggle-button__shell',
+      selector:
+        '[data-dnb-test="toggle-button-checked"] .dnb-toggle-button__shell',
       simulateSelector:
         '[data-dnb-test="toggle-button-checked"] .dnb-toggle-button__input',
       simulate: 'hover'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
-  it('have to match toggle-button group', async () => {
+  it.skip('have to match toggle-button group', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="toggle-button-group"] .dnb-toggle-button-group'
+      selector:
+        '[data-dnb-test="toggle-button-group"] .dnb-toggle-button-group'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
-  it('have to match toggle-button group in vertical layout', async () => {
+  it.skip('have to match toggle-button group in vertical layout', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="toggle-button-group-vertical"] .dnb-toggle-button-group'
+      selector:
+        '[data-dnb-test="toggle-button-group-vertical"] .dnb-toggle-button-group'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
-  it('have to match toggle-button group with form-status', async () => {
+  it.skip('have to match toggle-button group with form-status', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="toggle-button-group-status"] .dnb-toggle-button-group'
+      selector:
+        '[data-dnb-test="toggle-button-group-status"] .dnb-toggle-button-group'
     })
     expect(screenshot).toMatchImageSnapshot()
   })

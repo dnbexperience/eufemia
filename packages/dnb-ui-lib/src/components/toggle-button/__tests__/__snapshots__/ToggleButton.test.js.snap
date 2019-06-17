@@ -12,6 +12,8 @@ exports[`ToggleButton component have to match snapshot 1`] = `
   icon="icon"
   icon_position="left"
   id="id"
+  label="label"
+  label_position="left"
   left_component="checkbox"
   on_change={[Function]}
   on_state_update={[Function]}
@@ -24,8 +26,28 @@ exports[`ToggleButton component have to match snapshot 1`] = `
   value="value"
 >
   <span
-    className="dnb-toggle-button className class"
+    className="dnb-toggle-button dnb-toggle-button--label-position-left className class"
   >
+    <FormLabel
+      class={null}
+      className={null}
+      direction={null}
+      disabled="disabled"
+      for_id="id"
+      id="id-label"
+      render_content={null}
+      text="label"
+      title={null}
+      vertical={null}
+    >
+      <label
+        className="dnb-form-label"
+        htmlFor="id"
+        id="id-label"
+      >
+        label
+      </label>
+    </FormLabel>
     <span
       className="dnb-toggle-button__shell"
     >
@@ -307,10 +329,12 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
               className={null}
               custom_element={null}
               custom_method={null}
-              disabled={false}
+              disabled={null}
               icon={null}
               icon_position="right"
               id="toggle-button-1"
+              label={null}
+              label_position="left"
               left_component={null}
               on_change={null}
               on_state_update={null}
@@ -323,19 +347,19 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
               value=""
             >
               <span
-                className="dnb-toggle-button"
+                className="dnb-toggle-button dnb-toggle-button--checked"
               >
                 <span
                   className="dnb-toggle-button__shell"
                 >
                   <Button
-                    aria-pressed="false"
+                    aria-pressed="true"
                     bounding={false}
                     class={null}
                     className="dnb-toggle-button__button"
                     custom_element={null}
                     custom_method={null}
-                    disabled={false}
+                    disabled={null}
                     href={null}
                     icon={null}
                     icon_position="right"
@@ -353,7 +377,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                     variant="secondary"
                   >
                     <button
-                      aria-pressed="false"
+                      aria-pressed="true"
                       className="dnb-button dnb-button--secondary dnb-button--has-text dnb-toggle-button__button"
                       id="toggle-button-1"
                       onClick={[Function]}
@@ -363,14 +387,14 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                       type="button"
                     >
                       <Content
-                        aria-pressed="false"
+                        aria-pressed="true"
                         bounding={false}
                         class={null}
                         className="dnb-toggle-button__button"
                         content={null}
                         custom_element={null}
                         custom_method={null}
-                        disabled={false}
+                        disabled={null}
                         href={null}
                         icon={null}
                         icon_position="right"
@@ -407,10 +431,12 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
               className={null}
               custom_element={null}
               custom_method={null}
-              disabled={false}
+              disabled={null}
               icon={null}
               icon_position="right"
               id="toggle-button-2"
+              label={null}
+              label_position="left"
               left_component={null}
               on_change={null}
               on_state_update={null}
@@ -435,7 +461,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                     className="dnb-toggle-button__button"
                     custom_element={null}
                     custom_method={null}
-                    disabled={false}
+                    disabled={null}
                     href={null}
                     icon={null}
                     icon_position="right"
@@ -470,7 +496,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                         content={null}
                         custom_element={null}
                         custom_method={null}
-                        disabled={false}
+                        disabled={null}
                         href={null}
                         icon={null}
                         icon_position="right"
@@ -1295,6 +1321,7 @@ a.dnb-button .dnb-button__text {
 .dnb-toggle-button {
   display: inline-flex;
   flex-direction: row;
+  align-items: center;
   margin: 0;
   padding: 0; }
   .dnb-toggle-button__shell {
@@ -1335,9 +1362,22 @@ a.dnb-button .dnb-button__text {
     flex-direction: row; }
     .dnb-toggle-button-group .dnb-toggle-button {
       margin-right: 0.5rem; }
+    .dnb-toggle-button-group--column .dnb-toggle-button {
+      display: flex;
+      margin-right: 0;
+      margin-bottom: 0.5rem; }
+  .dnb-form-row__content > .dnb-toggle-button-group {
+    margin-top: -0.5rem; }
   .dnb-toggle-button + .dnb-form-status,
   .dnb-toggle-button-group .dnb-toggle-button-group__shell > .dnb-form-status {
     margin-top: 0.5rem;
     margin-bottom: 0.5rem; }
+  .dnb-toggle-button--label-position-right {
+    vertical-align: middle; }
+    .dnb-toggle-button--label-position-right .dnb-form-label {
+      order: 2;
+      margin-left: 1rem; }
+    .dnb-toggle-button--label-position-right .dnb-toggle-button__shell {
+      order: 1; }
 "
 `;

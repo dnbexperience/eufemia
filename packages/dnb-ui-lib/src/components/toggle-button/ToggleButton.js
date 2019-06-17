@@ -10,15 +10,17 @@ import keycode from 'keycode'
 import {
   isTrue,
   registerElement,
-  // validateDOMAttributes,
+  extendPropsWithContext,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import Radio from '../radio/Radio'
 import Checkbox from '../checkbox/Checkbox'
 import Button from '../button/Button'
+import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 import ToggleButtonGroup from './ToggleButtonGroup'
 import ToggleButtonGroupContext from './ToggleButtonGroupContext'
+import Context from '../../shared/Context'
 
 const renderProps = {
   on_change: null,
@@ -27,6 +29,8 @@ const renderProps = {
 
 export const propTypes = {
   text: PropTypes.string,
+  label: PropTypes.string,
+  label_position: PropTypes.oneOf(['left', 'right']),
   title: PropTypes.string,
   checked: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   left_component: PropTypes.oneOfType([
@@ -59,11 +63,12 @@ export const propTypes = {
 
 export const defaultProps = {
   text: null,
-  // label_position: 'right',
+  label: null,
+  label_position: 'left',
   title: null,
   checked: null,
   left_component: null,
-  disabled: false,
+  disabled: null,
   id: null,
   // group: null,
   status: null,
@@ -112,14 +117,41 @@ export default class ToggleButton extends Component {
     return state
   }
 
-  constructor(props) {
+  constructor(props, context) {
     super(props)
     this._id =
       props.id || `dnb-toggle-button-${Math.round(Math.random() * 999)}` // cause we need an id anyway
+    this._refButton = React.createRef()
+
     this.state = {
       _listenForPropChanges: true
     }
-    this._refButton = React.createRef()
+
+    // set the startup checked values from context, if they exists
+    if (context.name && typeof props.value !== 'undefined') {
+      if (typeof context.value !== 'undefined') {
+        this.state.checked = context.value === props.value
+        this.state._listenForPropChanges = false
+      } else if (context.values && Array.isArray(context.values)) {
+        this.state.checked = context.values.includes(props.value)
+        this.state._listenForPropChanges = false
+
+        // make sure we update the context
+        // with a possible custom set "checked" state
+      } else if (ToggleButton.parseChecked(props.checked)) {
+        if (context.setContext) {
+          if (isTrue(context.multiselect)) {
+            context.setContext({
+              values: [props.value]
+            })
+          } else {
+            context.setContext({
+              value: props.value
+            })
+          }
+        }
+      }
+    }
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -137,26 +169,32 @@ export default class ToggleButton extends Component {
     switch (keycode(event)) {
       case 'enter':
         this.onClickHandler(event)
-        // event.preventDefault()
         break
     }
-    dispatchCustomElementEvent(this, 'on_key_down', { event })
   }
 
   onKeyUpHandler = event => {
     switch (keycode(event)) {
       case 'enter':
         this.onClickHandler(event)
-        // event.preventDefault()
         break
     }
-    dispatchCustomElementEvent(this, 'on_key_up', { event })
   }
 
   onClickHandler = event => {
     if (isTrue(this.props.readOnly)) {
       return event.preventDefault()
     }
+
+    // only select a value once
+    if (
+      !isTrue(this.context.multiselect) &&
+      this.props.value === this.context.value
+    ) {
+      return
+    }
+
+    // else we change the checked sstate
     const checked = !this.state.checked
     this.setState({
       checked,
@@ -183,175 +221,157 @@ export default class ToggleButton extends Component {
   }
 
   render() {
-    const {
-      status,
-      status_state,
-      status_animation,
-      text,
-      title,
-      readOnly,
-      className,
-      class: _className,
-
-      id: _id, // eslint-disable-line
-      // group: _group, // eslint-disable-line
-      value: _value, // eslint-disable-line
-      checked: _checked, // eslint-disable-line
-      left_component: _left_component, // eslint-disable-line
-      disabled: _disabled, // eslint-disable-line
-      attributes, // eslint-disable-line
-      children, // eslint-disable-line
-      on_change, // eslint-disable-line
-      on_state_update, // eslint-disable-line
-      custom_method, // eslint-disable-line
-      custom_element, // eslint-disable-line
-
-      ...rest
-    } = this.props
-
-    let { checked } = this.state
-    let {
-      value,
-      // group,
-      disabled,
-      left_component
-    } = this.props
-
-    const hasContext = typeof this.context.value !== 'undefined'
-    if (hasContext) {
-      if (this.context.value !== null) {
-        checked = this.context.value === value
-      } else if (
-        this.context.multiselect &&
-        this.context.values !== null
-      ) {
-        checked = this.context.values.includes(value)
-      }
-      // group = this.context.name
-      left_component = this.context.left_component
-      disabled = isTrue(this.context.disabled)
-    }
-
-    const id = this._id
-    const showStatus = status && status !== 'error'
-
-    const classes = classnames(
-      'dnb-toggle-button',
-      status && `dnb-toggle-button__status--${status_state}`,
-      checked && `dnb-toggle-button--checked`,
-      className,
-      _className
-    )
-
-    const buttonParams = {
-      id,
-      disabled,
-      text: text,
-      title: title,
-      ['aria-pressed']: String(checked),
-      // role: hasContext || group ? 'radio' : null,
-      // type: 'checkbox', // overwriting the type
-      // role: hasContext || group ? 'radio' : null,
-      // type: hasContext || group ? 'radio' : 'checkbox', // overwriting the type
-      ...rest
-      // onMouseOut: this.onMouseOutHandler // for resetting the button to the default state
-    }
-    // if (this.isPlainGroup()) {
-    //   buttonParams.checked = checked
-    //   buttonParams['aria-checked'] = checked
-    //   buttonParams.name = group
-    //   buttonParams.role = 'radio'
-    //   buttonParams.type = 'radio'
-    //   // buttonParams.onClick = this.onChangeHandler
-    //   // buttonParams.onMouseOver = e => {
-    //   //   console.log('e', e)
-    //   // }
-    // }
-
-    if (showStatus) {
-      buttonParams['aria-describedby'] = id + '-status'
-    }
-    if (readOnly) {
-      buttonParams['aria-readonly'] = buttonParams.readOnly = true
-    }
-
-    let leftComponent = null
-    switch (left_component) {
-      case 'radio':
-        leftComponent = (
-          <Radio
-            id={`${id}-radio`}
-            checked={checked}
-            aria-hidden
-            tabIndex="-1"
-          />
-        )
-        break
-      case 'checkbox':
-        leftComponent = (
-          <Checkbox
-            id={`${id}-checkbox`}
-            checked={checked}
-            aria-hidden
-            tabIndex="-1"
-          />
-        )
-        break
-      default:
-        leftComponent = left_component
-        break
-    }
-
     return (
-      <>
-        <span className={classes}>
-          <span className="dnb-toggle-button__shell">
-            {/* <input
-              type="checkbox"
-              value={value}
-              id={id}
-              name={group}
-              className="dnb-toggle-button__input"
-              checked={checked}
-              aria-checked={checked}
-              title={title}
-              aria-label={title}
-              disabled={isTrue(disabled)}
-              tabIndex="-1"
-              ref={this._refButton}
-              {...buttonParams}
-              onChange={this.onChangeHandler}
-              // onClick={this.onClickHandler}
-              onKeyDown={this.onKeyDownHandler}
-            /> */}
-            {/* <span aria-hidden className="dnb-toggle-button__button" /> */}
-            <Button
-              variant="secondary"
-              className="dnb-toggle-button__button"
-              {...buttonParams}
-              // onChange={this.onChangeHandler}
-              ref={this._refButton}
-              onClick={this.onClickHandler}
-              onKeyDown={this.onKeyDownHandler}
-              onKeyUp={this.onKeyUpHandler}
-            >
-              {leftComponent && (
-                <span className="dnb-toggle-button__component">
-                  {leftComponent}
+      <Context.Consumer>
+        {({ formRow }) => {
+          // consume the formRow context
+          let props = formRow
+            ? // use only the props from context, who are available here anyway
+              extendPropsWithContext(this.props, formRow)
+            : this.props
+
+          // consume the toggleButton context
+          props = this.context.name
+            ? // use only the props from context, who are available here anyway
+              extendPropsWithContext(this.props, this.context)
+            : props
+
+          const {
+            status,
+            status_state,
+            status_animation,
+            label,
+            label_position,
+            text,
+            title,
+            readOnly,
+            className,
+            class: _className,
+            disabled,
+            left_component,
+
+            id: _id, // eslint-disable-line
+            // group: _group, // eslint-disable-line
+            value: _value, // eslint-disable-line
+            checked: _checked, // eslint-disable-line
+            attributes, // eslint-disable-line
+            children, // eslint-disable-line
+            on_change, // eslint-disable-line
+            on_state_update, // eslint-disable-line
+            custom_method, // eslint-disable-line
+            custom_element, // eslint-disable-line
+
+            ...rest
+          } = props
+
+          let { checked } = this.state
+
+          if (
+            !isTrue(this.context.multiselect) &&
+            typeof this.context.value !== 'undefined'
+          ) {
+            checked = _value === this.context.value
+          }
+
+          const id = this._id
+          const showStatus = status && status !== 'error'
+
+          const classes = classnames(
+            'dnb-toggle-button',
+            status && `dnb-toggle-button__status--${status_state}`,
+            checked && `dnb-toggle-button--checked`,
+            label &&
+              label_position &&
+              `dnb-toggle-button--label-position-${label_position}`,
+            className,
+            _className
+          )
+
+          const buttonParams = {
+            id,
+            disabled,
+            text: text,
+            title: title,
+            ['aria-pressed']: String(checked),
+            ...rest
+          }
+
+          if (showStatus) {
+            buttonParams['aria-describedby'] = id + '-status'
+          }
+          if (readOnly) {
+            buttonParams['aria-readonly'] = buttonParams.readOnly = true
+          }
+
+          let leftComponent = null
+          switch (left_component) {
+            case 'radio':
+              leftComponent = (
+                <Radio
+                  id={`${id}-radio`}
+                  checked={checked}
+                  aria-hidden
+                  tabIndex="-1"
+                />
+              )
+              break
+            case 'checkbox':
+              leftComponent = (
+                <Checkbox
+                  id={`${id}-checkbox`}
+                  checked={checked}
+                  aria-hidden
+                  tabIndex="-1"
+                />
+              )
+              break
+            default:
+              leftComponent = left_component
+              break
+          }
+
+          return (
+            <>
+              <span className={classes}>
+                {label && (
+                  <FormLabel
+                    id={id + '-label'}
+                    for_id={id}
+                    text={label}
+                    disabled={disabled}
+                  />
+                )}
+                <span className="dnb-toggle-button__shell">
+                  <Button
+                    variant="secondary"
+                    className="dnb-toggle-button__button"
+                    {...buttonParams}
+                    // onChange={this.onChangeHandler}
+                    ref={this._refButton}
+                    onClick={this.onClickHandler}
+                    onKeyDown={this.onKeyDownHandler}
+                    onKeyUp={this.onKeyUpHandler}
+                  >
+                    {leftComponent && (
+                      <span className="dnb-toggle-button__component">
+                        {leftComponent}
+                      </span>
+                    )}
+                  </Button>
                 </span>
+              </span>
+              {showStatus && (
+                <FormStatus
+                  text={status}
+                  status={status_state}
+                  text_id={id + '-status'} // used for "aria-describedby"
+                  animation={status_animation}
+                />
               )}
-            </Button>
-          </span>
-        </span>
-        {showStatus && (
-          <FormStatus
-            text={status}
-            status={status_state}
-            text_id={id + '-status'} // used for "aria-describedby"
-            animation={status_animation}
-          />
-        )}
-      </>
+            </>
+          )
+        }}
+      </Context.Consumer>
     )
   }
 }
