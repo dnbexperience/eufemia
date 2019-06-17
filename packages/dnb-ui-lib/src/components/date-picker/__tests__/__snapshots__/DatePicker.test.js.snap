@@ -644,7 +644,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                 >
                   <button
                     aria-expanded={false}
-                    className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon date-picker-id dnb-input__submit-button__button"
+                    className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon dnb-input__submit-button__button"
                     id="date-picker-id"
                     onBlur={[Function]}
                     onClick={[Function]}
@@ -1180,7 +1180,8 @@ exports[`DatePicker scss have to match snapshot 1`] = `
     border: none; }
 
 a.dnb-button[type='button'] {
-  appearance: none; }
+  appearance: none;
+  -webkit-appearance: none; }
 
 a.dnb-button .dnb-button__icon {
   transform: translateY(0); }
