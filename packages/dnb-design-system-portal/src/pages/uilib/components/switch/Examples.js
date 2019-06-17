@@ -93,8 +93,6 @@ class StateDemo extends PureComponent {
     />
     <Switch
       id="switch-1"
-      title_positive="Yes"
-      title_negative="No"
       aria-labelledby="switch-1-label"
       default_state={true}
       checked={switchIsEnabled}

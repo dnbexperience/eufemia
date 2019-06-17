@@ -195,8 +195,6 @@ class StateDemo extends PureComponent {
     />
     <Radio
       id="radio-1"
-      title_positive="Yes"
-      title_negative="No"
       aria-labelledby="radio-1-label"
       checked={radioIsEnabled}
       on_state_update={({checked}) => {}}
