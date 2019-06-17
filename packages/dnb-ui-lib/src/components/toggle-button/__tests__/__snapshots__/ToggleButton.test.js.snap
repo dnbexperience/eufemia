@@ -1327,14 +1327,16 @@ a.dnb-button .dnb-button__text {
   .dnb-toggle-button--checked .dnb-toggle-button__button {
     background-color: var(--color-emerald-green);
     color: var(--color-mint-green); }
-  .dnb-toggle-button + .dnb-form-status {
-    margin-bottom: 0.5rem; }
-  .dnb-toggle-button__status--error {
-    margin-bottom: 0.5rem; }
   :not(.dnb-toggle-button-group) > .dnb-form-label + .dnb-toggle-button {
     vertical-align: top; }
   .dnb-toggle-button-group {
     display: inline-flex;
     flex-direction: row; }
+    .dnb-toggle-button-group .dnb-toggle-button {
+      margin-right: 0.5rem; }
+  .dnb-toggle-button + .dnb-form-status,
+  .dnb-toggle-button-group .dnb-toggle-button-group__shell > .dnb-form-status {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem; }
 "
 `;
