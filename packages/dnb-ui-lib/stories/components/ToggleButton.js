@@ -24,7 +24,7 @@ export default [
       <Box>
         <p className="dnb-p">
           Text:{' '}
-          <FormLabel for_id="alone-1">
+          {/* <FormLabel for_id="alone-1">
             Single ToggleButton button:
           </FormLabel>
           <ToggleButton
@@ -39,9 +39,10 @@ export default [
             on_change={({ value, checked }) => {
               console.log('on_change', value, checked)
             }}
-          />
+          /> */}
           <ToggleButton
             checked
+            label="Label:"
             left_component="checkbox"
             icon_position="right"
             // icon="bell"
@@ -53,7 +54,7 @@ export default [
               console.log('on_change', value, checked)
             }}
           />
-          <ToggleButton
+          {/* <ToggleButton
             // checked
             left_component="checkbox"
             text="Toggle Button"
@@ -62,13 +63,13 @@ export default [
             on_change={({ value, checked }) => {
               console.log('on_change', value, checked)
             }}
-          />
+          /> */}
         </p>
       </Box>
       <Box>
         <p className="dnb-p">
           Text:{' '}
-          <FormLabel for_id="alone-2">
+          {/* <FormLabel for_id="alone-2">
             Single ToggleButton button:
           </FormLabel>
           <ToggleButton
@@ -84,9 +85,11 @@ export default [
             on_change={({ value, checked }) => {
               console.log('on_change', value, checked)
             }}
-          />
+          /> */}
           <ToggleButton
             checked
+            label="Label"
+            label_position="right"
             left_component="radio"
             icon_position="right"
             // icon="bell"
@@ -98,7 +101,7 @@ export default [
               console.log('on_change', value, checked)
             }}
           />
-          <ToggleButton
+          {/* <ToggleButton
             // checked
             left_component="radio"
             text="Toggle Button"
@@ -108,7 +111,7 @@ export default [
               console.log('on_change', value, checked)
             }}
           />
-          <Button icon="chevron_right" text="Button" variant="secondary" />
+          <Button icon="chevron_right" text="Button" variant="secondary" /> */}
         </p>
       </Box>
       {/* <Box>
@@ -150,9 +153,11 @@ export default [
         <FormRow size no_label>
           <H2>A h2 in a FormRow without a label</H2>
         </FormRow>
-        <FormRow size>
+        <FormRow
+          size
+          label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:"
+        >
           <ToggleButton.Group
-            label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:"
             // label="Group:"
             // label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:"
             title="Give me a Title"
@@ -183,7 +188,7 @@ export default [
           label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:"
         >
           <ToggleButton.Group
-            label="Group label:"
+            // label="Group label:"
             title="Give me a Title"
             on_change={({ value }) => {
               console.log('on_change', value)

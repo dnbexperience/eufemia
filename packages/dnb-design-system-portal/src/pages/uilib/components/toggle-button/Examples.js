@@ -10,8 +10,35 @@ class Example extends PureComponent {
   render() {
     return (
       <Fragment>
-        <UseOnTests />
-        <ComponentBox caption="ToggleButton group" data-dnb-test="toggle-button-group">
+        <ComponentBox
+          caption="Unchecked ToggleButton"
+          data-dnb-test="toggle-button-default"
+        >
+          {/* @jsx */ `
+<ToggleButton
+  label="Label:"
+  text="Click Me"
+/>
+        `}
+        </ComponentBox>
+        <ComponentBox
+          caption="Checked ToggleButton"
+          data-dnb-test="toggle-button-checked"
+        >
+          {/* @jsx */ `
+<ToggleButton
+  label="Label:"
+  text="Checked ToggleButton"
+  title="Ths is the title"
+  checked
+  on_change={({ value }) => { console.log('on_change', value) }}
+/>
+        `}
+        </ComponentBox>
+        <ComponentBox
+          caption="Default ToggleButton group"
+          data-dnb-test="toggle-button-group-default"
+        >
           {/* @jsx */ `
 <ToggleButton.Group
   label="ToggleButton Group:"
@@ -19,10 +46,31 @@ class Example extends PureComponent {
   on_change={({ value }) => { console.log('on_change', value) }}
   value="first"
 >
-  <ToggleButton label="First" value="first" />
-  <ToggleButton label="Second" value="second" />
+  <ToggleButton text="First" value="first" />
+  <ToggleButton text="Second" value="second" />
   <ToggleButton
-    label="Third"
+    text="Third"
+    value="third"
+  />
+</ToggleButton.Group>
+          `}
+        </ComponentBox>
+        <ComponentBox
+          caption="Multi-select ToggleButton group"
+          data-dnb-test="toggle-button-group-multiselect"
+        >
+          {/* @jsx */ `
+<ToggleButton.Group
+  label="Multi-select Group:"
+  title="Give me a Title"
+  multiselect="true"
+  values={['first', 'third']}
+  on_change={({ values }) => { console.log('on_change', values) }}
+>
+  <ToggleButton text="First" value="first" />
+  <ToggleButton text="Second" value="second" />
+  <ToggleButton
+    text="Third"
     value="third"
   />
 </ToggleButton.Group>
@@ -36,12 +84,14 @@ class Example extends PureComponent {
 <ToggleButton.Group
   label="Vertical Group:"
   layout_direction="column"
-  on_change={({ value }) => { console.log('on_change', value) }}
+  multiselect={true}
+  left_component="checkbox"
+  on_change={({ values }) => { console.log('on_change', values) }}
 >
-  <ToggleButton label="First" value="first" />
-  <ToggleButton label="Second" value="second" />
+  <ToggleButton text="First" value="first" />
+  <ToggleButton text="Second" value="second" />
   <ToggleButton
-    label="Third"
+    text="Third"
     value="third"
     checked
   />
@@ -55,60 +105,26 @@ class Example extends PureComponent {
           {/* @jsx */ `
 <ToggleButton.Group
   label="ToggleButton Group with status:"
-  layout_direction="column"
   on_change={({ value }) => { console.log('on_change', value) }}
 >
   <ToggleButton
-    label="First"
+    text="First"
     value="first"
     status="error"
   />
   <ToggleButton
-    label="Second"
+    text="Second"
     value="second"
     status="Error message"
   />
   <ToggleButton
-    label="Third"
+    text="Third"
     value="third"
     checked
     status="Info message"
     status_state="info"
   />
 </ToggleButton.Group>
-          `}
-        </ComponentBox>
-        <ComponentBox
-          caption="Plain ToggleButton group. Without **<ToggleButton.Group>**"
-          data-dnb-test="toggle-button-group-plain"
-        >
-          {/* @jsx */ `
-<p className="dnb-p dnb-toggle-button-group">
-  <FormLabel id="MyToggleButtonGroup">Plain ToggleButton group:</FormLabel>
-  <ToggleButton
-    value="first"
-    label="First"
-    group="MyToggleButtonGroup"
-    labelledby="MyToggleButtonGroup"
-    on_change={({ value, checked }) => { console.log('on_change', value, checked) }}
-  />
-  <ToggleButton
-    checked
-    value="second"
-    label="Second"
-    group="MyToggleButtonGroup"
-    labelledby="MyToggleButtonGroup"
-    on_change={({ value, checked }) => { console.log('on_change', value, checked) }}
-  />
-  <ToggleButton
-    checked
-    value="third"
-    label="Third"
-    group="MyToggleButtonGroup"
-    labelledby="MyToggleButtonGroup"
-    on_change={({ value, checked }) => { console.log('on_change', value, checked) }}
-  />
-</p>
           `}
         </ComponentBox>
         <ComponentBox
@@ -121,10 +137,10 @@ class Example extends PureComponent {
   disabled
   name="MyGroup"
 >
-  <ToggleButton label="First" value="first" />
-  <ToggleButton label="Second" value="second" />
+  <ToggleButton text="First" value="first" />
+  <ToggleButton text="Second" value="second" />
   <ToggleButton
-    label="Third"
+    text="Third"
     value="third"
     checked
   />
@@ -137,39 +153,17 @@ class Example extends PureComponent {
   }
 }
 
-class UseOnTests extends PureComponent {
-  render() {
-    return typeof window !== 'undefined' && window.IS_TEST ? (
-      <>
-        <ComponentBox
-          caption="Unchecked ToggleButton (Single ToggleButton buttons should not be used)"
-          data-dnb-test="toggle-button-default"
-        >
-          {/* @jsx */ `
-      <ToggleButton
-      label="Single ToggleButton:"
-      />
-        `}
-        </ComponentBox>
-        <ComponentBox
-          caption="Checked ToggleButton (Single ToggleButton buttons should not be used)"
-          data-dnb-test="toggle-button-checked"
-        >
-          {/* @jsx */ `
-      <ToggleButton
-      label="Checked ToggleButton:"
-      title="Ths is the title"
-      checked
-      on_change={({ checked }) => console.log(checked)}
-      />
-        `}
-        </ComponentBox>
-      </>
-    ) : (
-      <></>
-    )
-  }
-}
+// class UseOnTests extends PureComponent {
+//   render() {
+//     return typeof window !== 'undefined' && window.IS_TEST ? (
+//       <>
+//
+//       </>
+//     ) : (
+//       <></>
+//     )
+//   }
+// }
 
 class StateDemo extends PureComponent {
   render() {
@@ -182,27 +176,28 @@ class StateDemo extends PureComponent {
       >
         {/* @jsx */ `
 () => {
-  const [toggle-buttonIsEnabled, setState] = useState(false)
-  useEffect(() => {
-    const timer = setInterval(() => setState(!toggle-buttonIsEnabled), 1e3)
-    return () => clearTimeout(timer)
-  })
-  return (<>
-    <FormLabel
-      id="toggle-button-1-label"
-      for_id="toggle-button-1"
-      text="ToggleButton label:"
-    />
-    <ToggleButton
-      id="toggle-button-1"
-      title_positive="Yes"
-      title_negative="No"
-      aria-labelledby="toggle-button-1-label"
-      checked={toggle-buttonIsEnabled}
-      on_state_update={({checked}) => {}}
-      readOnly
-    />
-  </>)
+  const [isEnabled, setState] = useState(false)
+  // useEffect(() => {
+  //   const timer = setInterval(() => setState(!isEnabled), 1e3)
+  //   return () => clearTimeout(timer)
+  // })
+  return (
+    <>
+      <FormLabel
+        id="toggle-button-1-label"
+        for_id="toggle-button-1"
+        text="ToggleButton label:"
+      />
+      <ToggleButton
+        id="toggle-button-1"
+        aria-labelledby="toggle-button-1-label"
+        text="ToggleButton"
+        checked={isEnabled}
+        on_state_update={({checked}) => {}}
+        readOnly
+      />
+    </>
+  )
 }
         `}
       </ComponentBox>

@@ -6,10 +6,11 @@ import Examples from 'Pages/uilib/components/toggle-button/Examples'
 
 ## Description
 
-The `ToggleButton` component is shown as a circle that is filled (checked) when activated.
-ToggleButton buttons are used to let a user select one option / value of a limited number of choices within a group of ToggleButton buttons.
+The `ToggleButton` component should be used to toggle on or off a limited number of choices.
 
-It is recommended to use it in a group. You can use either the React component `<ToggleButton.Group>` or use the property `group="NAME"` to define the group.
+You can use the React component `<ToggleButton.Group>` to wrap several `ToggleButton`. This makes it more easy to handle the event `on_change` on a higher level - as well as several other [context related properties](uilib/components/toggle-button#tab-properties).
+
+By default the `ToggleButton.Group`'s are single select, like [Radio](/uilib/components/radio) button. But You can easily enable `multiselect` as well.
 
 ## Demos
 
