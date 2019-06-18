@@ -13,11 +13,7 @@
     color: $color;
     background-color: $background-color;
 
-    @include extendFakeFocus(
-      $background-color,
-      var(--color-emerald-green),
-      0.0625rem //1px
-    );
+    @include fakeBorder(var(--color-emerald-green), 0.125rem /*2px*/);
 
     @content;
   }
