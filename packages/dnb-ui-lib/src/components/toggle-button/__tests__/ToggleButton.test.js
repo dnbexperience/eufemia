@@ -55,12 +55,7 @@ describe('ToggleButton component', () => {
     const my_event = jest.fn()
     const myEvent = jest.fn()
     const Comp = mount(
-      <Component
-        on_change={my_event}
-        onChange={myEvent}
-        checked={false}
-        // group={null}
-      />
+      <Component on_change={my_event} onChange={myEvent} checked={false} />
     )
     Comp.find('button').simulate('click')
     expect(my_event.mock.calls.length).toBe(1)
@@ -68,6 +63,8 @@ describe('ToggleButton component', () => {
     expect(myEvent.mock.calls[0][0]).toHaveProperty('checked')
     expect(myEvent.mock.calls[0][0].checked).toBe(true)
     expect(my_event.mock.calls[0][0].checked).toBe(true)
+    Comp.find('button').simulate('click')
+    expect(my_event.mock.calls[1][0].checked).toBe(false)
   })
 
   it('has a disabled attribute, once we set disabled to true', () => {
@@ -90,11 +87,84 @@ describe('ToggleButton component', () => {
 describe('ToggleButton group component', () => {
   // then test the state management
   const Comp = mount(
-    <Component.Group label="Label" name="group" id="group">
+    <Component.Group label="Label" id="group">
       <Component id="toggle-button-1" text="ToggleButton 1" />
       <Component id="toggle-button-2" text="ToggleButton 2" checked />
     </Component.Group>
   )
+
+  it('has to have correct aria-pressed', () => {
+    expect(
+      Comp.find('button#toggle-button-2')
+        .instance()
+        .hasAttribute('aria-pressed')
+    ).toBe(true)
+  })
+
+  it('has "on_change" event witch will trigger on a button click', () => {
+    const my_event = jest.fn()
+    const myEvent = jest.fn()
+    const Comp = mount(
+      <Component.Group
+        id="group"
+        on_change={my_event}
+        onChange={myEvent}
+        value="second"
+      >
+        <Component
+          id="toggle-button-1"
+          text="ToggleButton 1"
+          value="first"
+        />
+        <Component
+          id="toggle-button-2"
+          text="ToggleButton 2"
+          value="second"
+        />
+      </Component.Group>
+    )
+    Comp.find('button#toggle-button-1').simulate('click')
+    expect(my_event.mock.calls.length).toBe(1)
+    expect(myEvent.mock.calls.length).toBe(1)
+    expect(myEvent.mock.calls[0][0]).toHaveProperty('value')
+    expect(myEvent.mock.calls[0][0].value).toBe('first')
+    expect(my_event.mock.calls[0][0].value).toBe('first')
+    Comp.find('button#toggle-button-2').simulate('click')
+    expect(my_event.mock.calls[1][0].value).toBe('second')
+  })
+
+  it('has multiselect "on_change" event witch will trigger on a button click', () => {
+    const my_event = jest.fn()
+    const myEvent = jest.fn()
+    const Comp = mount(
+      <Component.Group
+        id="group"
+        on_change={my_event}
+        onChange={myEvent}
+        values={['second']}
+        multiselect="true"
+      >
+        <Component
+          id="toggle-button-1"
+          text="ToggleButton 1"
+          value="first"
+        />
+        <Component
+          id="toggle-button-2"
+          text="ToggleButton 2"
+          value="second"
+        />
+      </Component.Group>
+    )
+    Comp.find('button#toggle-button-1').simulate('click')
+    expect(my_event.mock.calls.length).toBe(1)
+    expect(myEvent.mock.calls.length).toBe(1)
+    expect(myEvent.mock.calls[0][0]).toHaveProperty('values')
+    expect(myEvent.mock.calls[0][0].values).toEqual(['second', 'first'])
+    expect(my_event.mock.calls[0][0].values).toEqual(['second', 'first'])
+    Comp.find('button#toggle-button-1').simulate('click')
+    expect(my_event.mock.calls[1][0].values).toEqual(['second'])
+  })
 
   // mount compare the snapshot
   it('have to match group snapshot', () => {
