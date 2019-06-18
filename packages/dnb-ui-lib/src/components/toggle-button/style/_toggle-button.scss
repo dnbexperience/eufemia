@@ -3,12 +3,6 @@
 *
 */
 
-:root {
-  --toggle-button-height: 2.5rem;
-  --toggle-button-width: 100%;
-  --toggle-button-border-width: 0.125rem;
-}
-
 .dnb-toggle-button {
   display: inline-flex;
   flex-direction: row;
@@ -36,19 +30,56 @@
     padding-left: 1rem;
     padding-right: 1rem;
 
-    .dnb-checkbox {
-      margin-left: -0.25rem;
-    }
-    .dnb-radio {
-      margin-left: -0.25rem;
-    }
-
     // reset translateY
     .dnb-checkbox__shell,
     .dnb-radio__shell {
       transform: translateY(0);
     }
+
+    // checkbox button
+    .dnb-checkbox {
+      margin-left: -0.25rem;
+      &__input {
+        pointer-events: none;
+      }
+      &__focus,
+      &__button {
+        width: calc(var(--checkbox-width) - 0.5rem);
+        height: calc(var(--checkbox-width) - 0.5rem);
+        border-width: 0.0625rem; // to get 1.5px we use 1px here, and 0.5px with box-shadow
+        box-shadow: 0 0 0 0.03125rem var(--color-sea-green-alt);
+      }
+
+      &__dot {
+        width: calc(var(--checkbox-width) - 1rem);
+        height: calc(var(--checkbox-width) - 1rem);
+      }
+      &__gfx {
+        width: calc(var(--checkbox-width) - 0.25rem);
+        height: calc(var(--checkbox-width) - 0.25rem);
+      }
+    }
+
+    // radio button
+    .dnb-radio {
+      margin-left: -0.25rem;
+      &__input {
+        pointer-events: none;
+      }
+      &__focus,
+      &__button {
+        width: calc(var(--radio-width) - 0.5rem);
+        height: calc(var(--radio-width) - 0.5rem);
+        border-width: 0.0625rem; // to get 1.5px we use 1px here, and 0.5px with box-shadow
+        box-shadow: 0 0 0 0.03125rem var(--color-sea-green-alt);
+      }
+      &__dot {
+        width: calc(var(--radio-width) - 1rem);
+        height: calc(var(--radio-width) - 1rem);
+      }
+    }
   }
+
   &__button.dnb-button--has-icon.dnb-button--icon-position-right {
     padding-right: 0.5rem;
   }
@@ -65,7 +96,8 @@
     padding-right: 0;
   }
 
-  &--checked &__button {
+  // default "active" style
+  &--checked &__button:not([disabled]):not(:active) {
     background-color: var(--color-emerald-green);
     color: var(--color-mint-green);
   }
@@ -89,13 +121,23 @@
       margin-right: 0;
       margin-bottom: 0.5rem;
     }
-    // .dnb-toggle-button:last-of-type {
-    //   margin-right: 0;
-    // }
+    @media (min-width: 40em) {
+      .dnb-form-row__content > & {
+        margin-top: -0.5rem;
+      }
+      .dnb-form-row--horizontal .dnb-form-row__content > &__shell,
+      :not(.dnb-form-label--vertical) + .dnb-form-row__content > &__shell {
+        display: block;
+        margin-top: -0.5rem;
+      }
+    }
   }
 
-  .dnb-form-row__content > &-group {
-    margin-top: -0.5rem;
+  // defualt spacing for a single toggle button
+  @media (min-width: 40em) {
+    .dnb-form-label + & {
+      margin-top: -0.5rem;
+    }
   }
 
   // status

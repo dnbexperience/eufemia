@@ -17,7 +17,7 @@ class Example extends PureComponent {
           {/* @jsx */ `
 <ToggleButton
   label="Label:"
-  text="Click Me"
+  text="Toggle Me"
 />
         `}
         </ComponentBox>
@@ -43,8 +43,8 @@ class Example extends PureComponent {
 <ToggleButton.Group
   label="ToggleButton Group:"
   title="Give me a Title"
-  on_change={({ value }) => { console.log('on_change', value) }}
   value="first"
+  on_change={({ value }) => { console.log('on_change', value) }}
 >
   <ToggleButton text="First" value="first" />
   <ToggleButton text="Second" value="second" />
@@ -77,7 +77,7 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox
-          caption="Vertical aligned ToggleButton group"
+          caption="Vertical aligned ToggleButton group with `checkbox` variant and `multiselect`"
           data-dnb-test="toggle-button-group-vertical"
         >
           {/* @jsx */ `
@@ -85,7 +85,7 @@ class Example extends PureComponent {
   label="Vertical Group:"
   layout_direction="column"
   multiselect={true}
-  left_component="checkbox"
+  variant="checkbox"
   on_change={({ values }) => { console.log('on_change', values) }}
 >
   <ToggleButton text="First" value="first" />
@@ -99,12 +99,13 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox
-          caption="ToggleButton group with status messages"
+          caption="ToggleButton with status messages and a gorup variant as `radio`"
           data-dnb-test="toggle-button-group-status"
         >
           {/* @jsx */ `
 <ToggleButton.Group
   label="ToggleButton Group with status:"
+  variant="radio"
   on_change={({ value }) => { console.log('on_change', value) }}
 >
   <ToggleButton
@@ -115,12 +116,12 @@ class Example extends PureComponent {
   <ToggleButton
     text="Second"
     value="second"
+    checked
     status="Error message"
   />
   <ToggleButton
     text="Third"
     value="third"
-    checked
     status="Info message"
     status_state="info"
   />
@@ -135,7 +136,7 @@ class Example extends PureComponent {
 <ToggleButton.Group
   label="Disabled Group:"
   disabled
-  name="MyGroup"
+  variant="checkbox"
 >
   <ToggleButton text="First" value="first" />
   <ToggleButton text="Second" value="second" />
@@ -177,10 +178,10 @@ class StateDemo extends PureComponent {
         {/* @jsx */ `
 () => {
   const [isEnabled, setState] = useState(false)
-  // useEffect(() => {
-  //   const timer = setInterval(() => setState(!isEnabled), 1e3)
-  //   return () => clearTimeout(timer)
-  // })
+  useEffect(() => {
+    const timer = setInterval(() => setState(!isEnabled), 1e3)
+    return () => clearTimeout(timer)
+  })
   return (
     <>
       <FormLabel
@@ -192,6 +193,7 @@ class StateDemo extends PureComponent {
         id="toggle-button-1"
         aria-labelledby="toggle-button-1-label"
         text="ToggleButton"
+        variant="checkbox"
         checked={isEnabled}
         on_state_update={({checked}) => {}}
         readOnly

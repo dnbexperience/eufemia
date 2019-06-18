@@ -24,7 +24,7 @@ const props = fakeProps(require.resolve('../ToggleButton'), {
 props.label_position = 'left'
 props.status = null
 props.icon_position = 'left'
-props.left_component = 'checkbox'
+props.variant = 'checkbox'
 props.readOnly = false
 
 describe('ToggleButton component', () => {

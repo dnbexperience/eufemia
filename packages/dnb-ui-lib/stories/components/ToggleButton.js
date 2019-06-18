@@ -9,10 +9,10 @@ import { Wrapper, Box } from '../helpers'
 
 import {
   ToggleButton,
-  Button,
+  // Button,
   // FormSet,
-  FormRow,
-  FormLabel
+  FormRow
+  // FormLabel
 } from '../../src/components'
 
 import { H2 } from '../../src/elements'
@@ -24,26 +24,10 @@ export default [
       <Box>
         <p className="dnb-p">
           Text:{' '}
-          {/* <FormLabel for_id="alone-1">
-            Single ToggleButton button:
-          </FormLabel>
-          <ToggleButton
-            id="alone-1"
-            left_component="checkbox"
-            icon_position="left"
-            // icon="bell"
-            icon="chevron_left"
-            text="Toggle Button"
-            value="I'm alone"
-            title="Give me a Title"
-            on_change={({ value, checked }) => {
-              console.log('on_change', value, checked)
-            }}
-          /> */}
           <ToggleButton
             checked
             label="Label:"
-            left_component="checkbox"
+            variant="checkbox"
             icon_position="right"
             // icon="bell"
             icon="chevron_right"
@@ -54,43 +38,16 @@ export default [
               console.log('on_change', value, checked)
             }}
           />
-          {/* <ToggleButton
-            // checked
-            left_component="checkbox"
-            text="Toggle Button"
-            value="I'm alone"
-            title="Give me a Title"
-            on_change={({ value, checked }) => {
-              console.log('on_change', value, checked)
-            }}
-          /> */}
         </p>
       </Box>
       <Box>
         <p className="dnb-p">
           Text:{' '}
-          {/* <FormLabel for_id="alone-2">
-            Single ToggleButton button:
-          </FormLabel>
-          <ToggleButton
-            id="alone-2"
-            checked
-            left_component="radio"
-            icon_position="left"
-            // icon="bell"
-            icon="chevron_left"
-            text="Toggle Button"
-            value="I'm alone"
-            title="Give me a Title"
-            on_change={({ value, checked }) => {
-              console.log('on_change', value, checked)
-            }}
-          /> */}
           <ToggleButton
             checked
             label="Label"
             label_position="right"
-            left_component="radio"
+            variant="radio"
             icon_position="right"
             // icon="bell"
             icon="chevron_right"
@@ -101,17 +58,6 @@ export default [
               console.log('on_change', value, checked)
             }}
           />
-          {/* <ToggleButton
-            // checked
-            left_component="radio"
-            text="Toggle Button"
-            value="I'm alone"
-            title="Give me a Title"
-            on_change={({ value, checked }) => {
-              console.log('on_change', value, checked)
-            }}
-          />
-          <Button icon="chevron_right" text="Button" variant="secondary" /> */}
         </p>
       </Box>
       {/* <Box>
@@ -167,10 +113,7 @@ export default [
             // value="first"
             multiselect
             values={['first', 'third']}
-            left_component="checkbox"
-            // value={['first', 'second']}
-            // disabled
-            // name="MyGroup" // The Group Name
+            variant="checkbox"
           >
             <ToggleButton text="First" value="first" />
             <ToggleButton text="Second" value="second" />
@@ -188,13 +131,10 @@ export default [
           label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:"
         >
           <ToggleButton.Group
-            // label="Group label:"
             title="Give me a Title"
             on_change={({ value }) => {
               console.log('on_change', value)
             }}
-            // disabled
-            // name="First" // Custom Group Name
           >
             <ToggleButton text="First" value="first" />
             <ToggleButton
@@ -258,22 +198,60 @@ export default [
         </ToggleButton.Group>
       </Box>
       <Box>
-        <ToggleButton text="Unchecked disabled" disabled />
-      </Box>
-      <Box>
-        <ToggleButton text="Checked disabled" checked disabled />
+        <ToggleButton
+          text="Unchecked disabled"
+          disabled
+          checked
+          variant="radio"
+        />
       </Box>
       <Box>
         <ToggleButton
-          text="Unchecked status error Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
+          text="Checked disabled"
+          checked
+          disabled
+          variant="checkbox"
+        />
+      </Box>
+      <Box>
+        <ToggleButton
+          text="Unchecked status error"
+          status="error"
+          variant="checkbox"
+        />
+        <ToggleButton
+          text="Unchecked status error"
           status="Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
+          variant="checkbox"
+          checked
         />
       </Box>
       <Box>
         <ToggleButton
           text="Checked status message"
+          variant="radio"
+          status="error"
+        />
+        <ToggleButton
+          text="Checked status message"
           checked
+          variant="radio"
           status="Error message Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
+        />
+      </Box>
+      <Box>
+        <ToggleButton
+          text="Checked status message"
+          variant="radio"
+          status="Info message\n123"
+          status_state="info"
+        />
+        <ToggleButton
+          text="Checked status message"
+          checked
+          variant="checkbox"
+          status="Error message Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
+          status_state="info"
         />
       </Box>
     </Wrapper>

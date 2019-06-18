@@ -33,10 +33,8 @@ export const propTypes = {
   label_position: PropTypes.oneOf(['left', 'right']),
   title: PropTypes.string,
   checked: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  left_component: PropTypes.oneOfType([
-    PropTypes.node,
-    PropTypes.oneOf(['checkbox', 'radio'])
-  ]),
+  variant: PropTypes.oneOf(['default', 'checkbox', 'radio']),
+  left_component: PropTypes.node,
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   id: PropTypes.string,
   // group: PropTypes.string,
@@ -67,6 +65,7 @@ export const defaultProps = {
   label_position: 'left',
   title: null,
   checked: null,
+  variant: null,
   left_component: null,
   disabled: null,
   id: null,
@@ -183,7 +182,7 @@ export default class ToggleButton extends Component {
 
   onClickHandler = event => {
     if (isTrue(this.props.readOnly)) {
-      return event.preventDefault()
+      return event.preventDefault && event.preventDefault()
     }
 
     // only select a value once
@@ -201,6 +200,16 @@ export default class ToggleButton extends Component {
       _listenForPropChanges: false
     })
     this.callOnChange({ checked })
+
+    if (this._refButton.current) {
+      // simulate focus for firefox and safari
+      // so we can get rid of the hover ring after click
+      try {
+        this._refButton.current._ref.current.focus()
+      } catch (e) {
+        console.log(e)
+      }
+    }
   }
 
   callOnChange = ({ checked }) => {
@@ -248,6 +257,7 @@ export default class ToggleButton extends Component {
             className,
             class: _className,
             disabled,
+            variant,
             left_component,
 
             id: _id, // eslint-disable-line
@@ -296,6 +306,22 @@ export default class ToggleButton extends Component {
             ...rest
           }
 
+          const componentParams = {
+            checked,
+            disabled,
+            ['aria-hidden']: true,
+            tabIndex: '-1'
+          }
+
+          if (status) {
+            // do not send along the message, but only the status states
+            if (status_state === 'info') {
+              componentParams.status_state = 'info'
+            } else {
+              componentParams.status = 'error'
+            }
+          }
+
           if (showStatus) {
             buttonParams['aria-describedby'] = id + '-status'
           }
@@ -304,27 +330,20 @@ export default class ToggleButton extends Component {
           }
 
           let leftComponent = null
-          switch (left_component) {
+          switch (variant) {
             case 'radio':
               leftComponent = (
-                <Radio
-                  id={`${id}-radio`}
-                  checked={checked}
-                  aria-hidden
-                  tabIndex="-1"
-                />
+                <Radio id={`${id}-radio`} {...componentParams} />
               )
               break
+
             case 'checkbox':
               leftComponent = (
-                <Checkbox
-                  id={`${id}-checkbox`}
-                  checked={checked}
-                  aria-hidden
-                  tabIndex="-1"
-                />
+                <Checkbox id={`${id}-checkbox`} {...componentParams} />
               )
               break
+
+            case 'default':
             default:
               leftComponent = left_component
               break
@@ -346,7 +365,6 @@ export default class ToggleButton extends Component {
                     variant="secondary"
                     className="dnb-toggle-button__button"
                     {...buttonParams}
-                    // onChange={this.onChangeHandler}
                     ref={this._refButton}
                     onClick={this.onClickHandler}
                     onKeyDown={this.onKeyDownHandler}

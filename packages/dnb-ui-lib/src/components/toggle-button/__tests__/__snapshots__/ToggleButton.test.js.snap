@@ -14,7 +14,7 @@ exports[`ToggleButton component have to match snapshot 1`] = `
   id="id"
   label="label"
   label_position="left"
-  left_component="checkbox"
+  left_component="left_component"
   on_change={[Function]}
   on_state_update={[Function]}
   readOnly={false}
@@ -24,6 +24,7 @@ exports[`ToggleButton component have to match snapshot 1`] = `
   text="text"
   title="title"
   value="value"
+  variant="checkbox"
 >
   <span
     className="dnb-toggle-button dnb-toggle-button--label-position-left className class"
@@ -104,7 +105,7 @@ exports[`ToggleButton component have to match snapshot 1`] = `
                   custom_element={null}
                   custom_method={null}
                   default_state={null}
-                  disabled={null}
+                  disabled="disabled"
                   id="id-checkbox"
                   label={null}
                   label_position="right"
@@ -152,7 +153,7 @@ exports[`ToggleButton component have to match snapshot 1`] = `
                 custom_element={null}
                 custom_method={null}
                 default_state={null}
-                disabled={null}
+                disabled="disabled"
                 id="id-checkbox"
                 label={null}
                 label_position="right"
@@ -177,10 +178,11 @@ exports[`ToggleButton component have to match snapshot 1`] = `
                     >
                       <input
                         aria-checked={false}
+                        aria-disabled={true}
                         aria-hidden={true}
                         checked={false}
                         className="dnb-checkbox__input"
-                        disabled={false}
+                        disabled="disabled"
                         id="id-checkbox"
                         name="id-checkbox"
                         onChange={[Function]}
@@ -271,6 +273,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
   title={null}
   value={null}
   values={null}
+  variant={null}
   vertical={null}
 >
   <span
@@ -345,6 +348,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
               text="ToggleButton 1"
               title={null}
               value=""
+              variant={null}
             >
               <span
                 className="dnb-toggle-button dnb-toggle-button--checked"
@@ -447,6 +451,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
               text="ToggleButton 2"
               title={null}
               value=""
+              variant={null}
             >
               <span
                 className="dnb-toggle-button dnb-toggle-button--checked"
@@ -548,69 +553,87 @@ exports[`ToggleButton scss have to match default theme snapshot 1`] = `
  * Utilities
  */
 .dnb-toggle-button {
+  /* stylelint-disable */
+  /* stylelint-enable */
   /*
     * On error state
     *
     */
   /* stylelint-disable */
   /* stylelint-enable */ }
-  .dnb-toggle-button__button .dnb-checkbox .dnb-checkbox__input {
-    pointer-events: none; }
-  .dnb-toggle-button__button .dnb-checkbox .dnb-checkbox__button {
-    width: calc(var(--checkbox-width) - 0.5rem);
-    height: calc(var(--checkbox-width) - 0.5rem);
-    border-width: 0.0625rem;
-    box-shadow: 0 0 0 0.03125rem var(--color-sea-green-alt); }
-  .dnb-toggle-button__button .dnb-checkbox .dnb-checkbox__dot {
-    width: calc(var(--checkbox-width) - 1rem);
-    height: calc(var(--checkbox-width) - 1rem); }
-  .dnb-toggle-button__button .dnb-checkbox .dnb-checkbox__gfx {
-    width: calc(var(--checkbox-width) - 0.25rem);
-    height: calc(var(--checkbox-width) - 0.25rem); }
-  .dnb-toggle-button__button .dnb-radio .dnb-radio__input {
-    pointer-events: none; }
-  .dnb-toggle-button__button .dnb-radio .dnb-radio__button {
-    width: calc(var(--radio-width) - 0.5rem);
-    height: calc(var(--radio-width) - 0.5rem);
-    border-width: 0.0625rem;
-    box-shadow: 0 0 0 0.03125rem var(--color-sea-green-alt); }
-  .dnb-toggle-button__button .dnb-radio .dnb-radio__dot {
-    width: calc(var(--radio-width) - 1rem);
-    height: calc(var(--radio-width) - 1rem); }
-  .dnb-toggle-button--checked .dnb-toggle-button__button,
-  .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):focus,
-  .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):hover {
+  .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active),
+  .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:active),
+  .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:active) {
     background-color: var(--color-emerald-green);
     color: var(--color-mint-green); }
-    .dnb-toggle-button--checked .dnb-toggle-button__button .dnb-radio .dnb-radio__button,
-    .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):focus .dnb-radio .dnb-radio__button,
-    .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):hover .dnb-radio .dnb-radio__button {
-      background-color: transparent;
-      border-color: var(--color-mint-green);
-      box-shadow: 0 0 0 0.03125rem var(--color-mint-green); }
-    .dnb-toggle-button--checked .dnb-toggle-button__button .dnb-radio .dnb-radio__dot,
-    .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):focus .dnb-radio .dnb-radio__dot,
-    .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):hover .dnb-radio .dnb-radio__dot {
-      background-color: var(--color-mint-green); }
-    .dnb-toggle-button--checked .dnb-toggle-button__button .dnb-checkbox .dnb-checkbox__button,
-    .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):focus .dnb-checkbox .dnb-checkbox__button,
-    .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):hover .dnb-checkbox .dnb-checkbox__button {
-      background-color: var(--color-mint-green);
-      box-shadow: 0 0 0 0.03125rem var(--color-mint-green); }
-    .dnb-toggle-button--checked .dnb-toggle-button__button .dnb-checkbox .dnb-checkbox__gfx,
-    .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):focus .dnb-checkbox .dnb-checkbox__gfx,
-    .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):hover .dnb-checkbox .dnb-checkbox__gfx {
-      color: var(--color-emerald-green); }
+    .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:hover),
+    .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:active):not(:hover),
+    .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:active):not(:hover) {
+      box-shadow: inset 0 0 0 0.0625rem var(--color-emerald-green);
+      border-color: transparent; }
+  .dnb-toggle-button--checked .dnb-toggle-button__button:focus:hover,
+  .dnb-toggle-button--checked .dnb-toggle-button__button:focus:focus:hover,
+  .dnb-toggle-button--checked .dnb-toggle-button__button:hover:focus:hover {
+    box-shadow: none; }
+  .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]) .dnb-radio__button,
+  .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]) .dnb-radio__button,
+  .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]) .dnb-radio__button {
+    background-color: transparent;
+    border-color: var(--color-mint-green);
+    box-shadow: 0 0 0 0.03125rem var(--color-mint-green); }
+  .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]) .dnb-radio__dot,
+  .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]) .dnb-radio__dot,
+  .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]) .dnb-radio__dot {
+    background-color: var(--color-mint-green); }
+  .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]) .dnb-checkbox__button,
+  .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]) .dnb-checkbox__button,
+  .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]) .dnb-checkbox__button {
+    background-color: var(--color-mint-green); }
+  .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]) .dnb-checkbox__gfx,
+  .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]) .dnb-checkbox__gfx,
+  .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]) .dnb-checkbox__gfx {
+    color: var(--color-emerald-green); }
+  .dnb-toggle-button--checked .dnb-toggle-button__button[disabled] .dnb-radio__button,
+  .dnb-toggle-button--checked .dnb-toggle-button__button[disabled] .dnb-checkbox__button,
+  .dnb-toggle-button--checked .dnb-toggle-button__button:focus[disabled] .dnb-radio__button,
+  .dnb-toggle-button--checked .dnb-toggle-button__button:focus[disabled] .dnb-checkbox__button,
+  .dnb-toggle-button--checked .dnb-toggle-button__button:hover[disabled] .dnb-radio__button,
+  .dnb-toggle-button--checked .dnb-toggle-button__button:hover[disabled] .dnb-checkbox__button {
+    box-shadow: none; }
+  .dnb-toggle-button__button:not([disabled]):active .dnb-radio__button,
+  .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):active .dnb-radio__button {
+    background-color: transparent;
+    border-color: var(--color-sea-green-alt);
+    box-shadow: 0 0 0 0.03125rem var(--color-sea-green-alt); }
+  .dnb-toggle-button__button:not([disabled]):active .dnb-radio__dot,
+  .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):active .dnb-radio__dot {
+    background-color: var(--color-sea-green-alt); }
+  .dnb-toggle-button__button:not([disabled]):active .dnb-checkbox__button,
+  .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):active .dnb-checkbox__button {
+    background-color: transparent;
+    border-color: var(--color-sea-green-alt);
+    box-shadow: 0 0 0 0.03125rem var(--color-sea-green-alt); }
+  .dnb-toggle-button__button:not([disabled]):active .dnb-checkbox__gfx,
+  .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):active .dnb-checkbox__gfx {
+    color: var(--color-sea-green-alt); }
   .dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]):not(:focus):not(:active) {
     background-color: var(--color-white);
     color: var(--color-cherry-red);
     box-shadow: inset 0 0 0 0.0625rem var(--color-cherry-red);
     border-color: transparent; }
+    .dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]):not(:focus):not(:active):hover {
+      box-shadow: 0 0 0 0.125rem var(--color-cherry-red); }
   .dnb-toggle-button--checked.dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]):not(:focus):not(:active) {
     background-color: var(--color-cherry-red);
-    color: var(--color-white);
-    box-shadow: inset 0 0 0 0.0625rem var(--color-cherry-red);
-    border-color: transparent; }
+    color: var(--color-white); }
+    .dnb-toggle-button--checked.dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]):not(:focus):not(:active):hover {
+      box-shadow: 0 0 0 0.125rem var(--color-cherry-red); }
+  .dnb-toggle-button--checked.dnb-toggle-button__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:active) ~ .dnb-radio__focus {
+    box-shadow: 0 0 0 0.125rem var(--color-white); }
+  .dnb-toggle-button--checked.dnb-toggle-button__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:active):not(:hover) ~ .dnb-radio__dot {
+    background-color: var(--color-white); }
+  .dnb-toggle-button--checked.dnb-toggle-button__status--error .dnb-checkbox__input:not([disabled]):not(:focus):not(:active):not(:hover) ~ .dnb-checkbox__gfx path {
+    stroke: var(--color-white); }
   .dnb-toggle-button > .dnb-form-status {
     transform: translateY(0.1875rem); }
 "
@@ -1313,11 +1336,6 @@ a.dnb-button .dnb-button__text {
 * ToggleButton component
 *
 */
-:root {
-  --toggle-button-height: 2.5rem;
-  --toggle-button-width: 100%;
-  --toggle-button-border-width: 0.125rem; }
-
 .dnb-toggle-button {
   display: inline-flex;
   flex-direction: row;
@@ -1335,13 +1353,36 @@ a.dnb-button .dnb-button__text {
   .dnb-toggle-button__button {
     padding-left: 1rem;
     padding-right: 1rem; }
-    .dnb-toggle-button__button .dnb-checkbox {
-      margin-left: -0.25rem; }
-    .dnb-toggle-button__button .dnb-radio {
-      margin-left: -0.25rem; }
     .dnb-toggle-button__button .dnb-checkbox__shell,
     .dnb-toggle-button__button .dnb-radio__shell {
       transform: translateY(0); }
+    .dnb-toggle-button__button .dnb-checkbox {
+      margin-left: -0.25rem; }
+      .dnb-toggle-button__button .dnb-checkbox__input {
+        pointer-events: none; }
+      .dnb-toggle-button__button .dnb-checkbox__focus, .dnb-toggle-button__button .dnb-checkbox__button {
+        width: calc(var(--checkbox-width) - 0.5rem);
+        height: calc(var(--checkbox-width) - 0.5rem);
+        border-width: 0.0625rem;
+        box-shadow: 0 0 0 0.03125rem var(--color-sea-green-alt); }
+      .dnb-toggle-button__button .dnb-checkbox__dot {
+        width: calc(var(--checkbox-width) - 1rem);
+        height: calc(var(--checkbox-width) - 1rem); }
+      .dnb-toggle-button__button .dnb-checkbox__gfx {
+        width: calc(var(--checkbox-width) - 0.25rem);
+        height: calc(var(--checkbox-width) - 0.25rem); }
+    .dnb-toggle-button__button .dnb-radio {
+      margin-left: -0.25rem; }
+      .dnb-toggle-button__button .dnb-radio__input {
+        pointer-events: none; }
+      .dnb-toggle-button__button .dnb-radio__focus, .dnb-toggle-button__button .dnb-radio__button {
+        width: calc(var(--radio-width) - 0.5rem);
+        height: calc(var(--radio-width) - 0.5rem);
+        border-width: 0.0625rem;
+        box-shadow: 0 0 0 0.03125rem var(--color-sea-green-alt); }
+      .dnb-toggle-button__button .dnb-radio__dot {
+        width: calc(var(--radio-width) - 1rem);
+        height: calc(var(--radio-width) - 1rem); }
   .dnb-toggle-button__button.dnb-button--has-icon.dnb-button--icon-position-right {
     padding-right: 0.5rem; }
   .dnb-toggle-button__button.dnb-button--has-icon.dnb-button--icon-position-left {
@@ -1352,7 +1393,7 @@ a.dnb-button .dnb-button__text {
   .dnb-toggle-button__button.dnb-button--has-icon.dnb-button--icon-position-left > .dnb-toggle-button__component {
     padding-left: 0.5rem;
     padding-right: 0; }
-  .dnb-toggle-button--checked .dnb-toggle-button__button {
+  .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active) {
     background-color: var(--color-emerald-green);
     color: var(--color-mint-green); }
   :not(.dnb-toggle-button-group) > .dnb-form-label + .dnb-toggle-button {
@@ -1366,8 +1407,16 @@ a.dnb-button .dnb-button__text {
       display: flex;
       margin-right: 0;
       margin-bottom: 0.5rem; }
-  .dnb-form-row__content > .dnb-toggle-button-group {
-    margin-top: -0.5rem; }
+    @media (min-width: 40em) {
+      .dnb-form-row__content > .dnb-toggle-button-group {
+        margin-top: -0.5rem; }
+      .dnb-form-row--horizontal .dnb-form-row__content > .dnb-toggle-button-group__shell,
+      :not(.dnb-form-label--vertical) + .dnb-form-row__content > .dnb-toggle-button-group__shell {
+        display: block;
+        margin-top: -0.5rem; } }
+  @media (min-width: 40em) {
+    .dnb-form-label + .dnb-toggle-button {
+      margin-top: -0.5rem; } }
   .dnb-toggle-button + .dnb-form-status,
   .dnb-toggle-button-group .dnb-toggle-button-group__shell > .dnb-form-status {
     margin-top: 0.5rem;
