@@ -99,12 +99,41 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox
-          caption="ToggleButton with status messages and a gorup variant as `radio`"
+          caption="ToggleButton group as `multiselect` with status message"
           data-dnb-test="toggle-button-group-status"
         >
           {/* @jsx */ `
 <ToggleButton.Group
   label="ToggleButton Group with status:"
+  status="Error message"
+  multiselect={true}
+  on_change={({ values }) => { console.log('on_change', values) }}
+>
+  <ToggleButton
+    text="First"
+    value="first"
+  />
+  <ToggleButton
+    text="Second"
+    value="second"
+    checked
+
+  />
+  <ToggleButton
+    text="Third"
+    value="third"
+    checked="true"
+  />
+</ToggleButton.Group>
+          `}
+        </ComponentBox>
+        <ComponentBox
+          caption="ToggleButton with status messages and a gorup variant as `radio`"
+          data-dnb-test="toggle-button-group-status"
+        >
+          {/* @jsx */ `
+<ToggleButton.Group
+  label="ToggleButtons with status:"
   variant="radio"
   on_change={({ value }) => { console.log('on_change', value) }}
 >

@@ -115,6 +115,7 @@
     // defualt spacing
     .dnb-toggle-button {
       margin-right: 0.5rem;
+      margin-bottom: 0.5rem;
     }
     &--column .dnb-toggle-button {
       display: flex;
@@ -143,7 +144,8 @@
   // status
   + .dnb-form-status,
   &-group &-group__shell > .dnb-form-status {
-    margin-top: 0.5rem;
+    // sice we have a margin-bottom on every ToggleButton - we do not set it here additional
+    // margin-top: 0.5rem;
     margin-bottom: 0.5rem;
   }
 

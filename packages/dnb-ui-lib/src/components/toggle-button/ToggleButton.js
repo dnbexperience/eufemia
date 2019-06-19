@@ -139,9 +139,16 @@ export default class ToggleButton extends Component {
         // with a possible custom set "checked" state
       } else if (ToggleButton.parseChecked(props.checked)) {
         if (context.setContext) {
-          if (isTrue(context.multiselect)) {
-            context.setContext({
-              values: [props.value]
+          if (context.multiselect) {
+            context.setContext(tmp => {
+              return {
+                values:
+                  // in case we have set before a new context (other component)
+                  // we fill combine theese arrays
+                  tmp && Array.isArray(tmp.values)
+                    ? [...tmp.values, props.value]
+                    : [props.value]
+              }
             })
           } else {
             context.setContext({
@@ -196,6 +203,8 @@ export default class ToggleButton extends Component {
     // else we change the checked sstate
     const checked = !this.state.checked
     this.setState({
+      // reset the status state, because the user has mad an action
+      // status_state: null,
       checked,
       _listenForPropChanges: false
     })

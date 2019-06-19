@@ -1402,7 +1402,8 @@ a.dnb-button .dnb-button__text {
     display: inline-flex;
     flex-direction: row; }
     .dnb-toggle-button-group .dnb-toggle-button {
-      margin-right: 0.5rem; }
+      margin-right: 0.5rem;
+      margin-bottom: 0.5rem; }
     .dnb-toggle-button-group--column .dnb-toggle-button {
       display: flex;
       margin-right: 0;
@@ -1419,7 +1420,6 @@ a.dnb-button .dnb-button__text {
       margin-top: -0.5rem; } }
   .dnb-toggle-button + .dnb-form-status,
   .dnb-toggle-button-group .dnb-toggle-button-group__shell > .dnb-form-status {
-    margin-top: 0.5rem;
     margin-bottom: 0.5rem; }
   .dnb-toggle-button--label-position-right {
     vertical-align: middle; }

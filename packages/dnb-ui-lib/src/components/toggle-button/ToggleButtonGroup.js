@@ -232,6 +232,12 @@ export default class ToggleButtonGroup extends PureComponent {
       left_component,
       disabled,
       setContext: context => {
+        // also look for a fuctions, we we are able to fill old values
+        // this is ued in the "constructor" inside the ToggleButton.js component
+        if (typeof context === 'function') {
+          context = context(this._tmp)
+        }
+        this._tmp = { ...this._tmp, ...context }
         this.setState({
           ...context,
           _listenForPropChanges: false

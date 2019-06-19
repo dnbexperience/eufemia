@@ -111,17 +111,15 @@ export default [
               console.log('on_change', value, values)
             }}
             // value="first"
-            multiselect
-            values={['first', 'third']}
-            variant="checkbox"
+            status="Error message"
+            // multiselect
+            multiselect={true}
+            // values={['first', 'third']}
+            // variant="checkbox"
           >
             <ToggleButton text="First" value="first" />
-            <ToggleButton text="Second" value="second" />
-            <ToggleButton
-              text="Third"
-              value="third"
-              // checked
-            />
+            <ToggleButton text="Second" value="second" checked />
+            <ToggleButton text="Third" value="third" checked />
           </ToggleButton.Group>
         </FormRow>
       </Box>
