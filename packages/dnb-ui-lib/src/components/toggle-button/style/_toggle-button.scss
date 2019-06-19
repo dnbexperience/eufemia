@@ -1,0 +1,163 @@
+/*
+* ToggleButton component
+*
+*/
+
+.dnb-toggle-button {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+
+  // width: auto;
+
+  margin: 0;
+  padding: 0;
+
+  &__shell {
+    position: relative;
+    left: 0;
+    user-select: none;
+  }
+
+  &__component {
+    padding-right: 0.25rem;
+
+    display: inline-flex;
+    align-items: center;
+  }
+
+  &__button {
+    padding-left: 1rem;
+    padding-right: 1rem;
+
+    // reset translateY
+    .dnb-checkbox__shell,
+    .dnb-radio__shell {
+      transform: translateY(0);
+    }
+
+    // checkbox button
+    .dnb-checkbox {
+      margin-left: -0.25rem;
+      &__input {
+        pointer-events: none;
+      }
+      &__focus,
+      &__button {
+        width: calc(var(--checkbox-width) - 0.5rem);
+        height: calc(var(--checkbox-width) - 0.5rem);
+        border-width: 0.0625rem; // to get 1.5px we use 1px here, and 0.5px with box-shadow
+        box-shadow: 0 0 0 0.03125rem var(--color-sea-green-alt);
+      }
+
+      &__dot {
+        width: calc(var(--checkbox-width) - 1rem);
+        height: calc(var(--checkbox-width) - 1rem);
+      }
+      &__gfx {
+        width: calc(var(--checkbox-width) - 0.25rem);
+        height: calc(var(--checkbox-width) - 0.25rem);
+      }
+    }
+
+    // radio button
+    .dnb-radio {
+      margin-left: -0.25rem;
+      &__input {
+        pointer-events: none;
+      }
+      &__focus,
+      &__button {
+        width: calc(var(--radio-width) - 0.5rem);
+        height: calc(var(--radio-width) - 0.5rem);
+        border-width: 0.0625rem; // to get 1.5px we use 1px here, and 0.5px with box-shadow
+        box-shadow: 0 0 0 0.03125rem var(--color-sea-green-alt);
+      }
+      &__dot {
+        width: calc(var(--radio-width) - 1rem);
+        height: calc(var(--radio-width) - 1rem);
+      }
+    }
+  }
+
+  &__button.dnb-button--has-icon.dnb-button--icon-position-right {
+    padding-right: 0.5rem;
+  }
+  &__button.dnb-button--has-icon.dnb-button--icon-position-left {
+    padding-left: 0.5rem;
+    .dnb-button__icon {
+      margin-left: 0.25rem;
+      margin-right: 0.25rem;
+    }
+  }
+  &__button.dnb-button--has-icon.dnb-button--icon-position-left
+    > &__component {
+    padding-left: 0.5rem;
+    padding-right: 0;
+  }
+
+  // default "active" style
+  &--checked &__button:not([disabled]):not(:active) {
+    background-color: var(--color-emerald-green);
+    color: var(--color-mint-green);
+  }
+
+  // in case we don't define a wrapping group
+  // and have a custom label component before the toggle-button (and not inside)
+  :not(#{&}-group) > .dnb-form-label + & {
+    vertical-align: top;
+  }
+
+  &-group {
+    display: inline-flex;
+    flex-direction: row;
+
+    // defualt spacing
+    .dnb-toggle-button {
+      margin-right: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+    &--column .dnb-toggle-button {
+      display: flex;
+      margin-right: 0;
+      margin-bottom: 0.5rem;
+    }
+    @media (min-width: 40em) {
+      .dnb-form-row__content > & {
+        margin-top: -0.5rem;
+      }
+      .dnb-form-row--horizontal .dnb-form-row__content > &__shell,
+      :not(.dnb-form-label--vertical) + .dnb-form-row__content > &__shell {
+        display: block;
+        margin-top: -0.5rem;
+      }
+    }
+  }
+
+  // defualt spacing for a single toggle button
+  @media (min-width: 40em) {
+    .dnb-form-label + & {
+      margin-top: -0.5rem;
+    }
+  }
+
+  // status
+  + .dnb-form-status,
+  &-group &-group__shell > .dnb-form-status {
+    // sice we have a margin-bottom on every ToggleButton - we do not set it here additional
+    // margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  &--label-position-right {
+    vertical-align: middle;
+
+    .dnb-form-label {
+      order: 2;
+      margin-left: 1rem;
+    }
+    .dnb-toggle-button__shell {
+      order: 1;
+    }
+  }
+}

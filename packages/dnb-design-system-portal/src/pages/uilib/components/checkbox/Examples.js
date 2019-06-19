@@ -92,8 +92,6 @@ class StateDemo extends PureComponent {
     />
     <Checkbox
       id="checkbox-1"
-      title_positive="Yes"
-      title_negative="No"
       aria-labelledby="checkbox-1-label"
       default_state
       checked={checkboxIsEnabled}

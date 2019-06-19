@@ -17,7 +17,7 @@ import { Data } from 'Pages/uilib/components/dropdown/Examples'
 | `no_animation`        | _(optional)_ to disable appear/disappear (show/hide) animation. Defaults to `false`.                                              |
 | `max_height`          | _(optional)_ defines if the height (in `rem`) of the options list. Defaults to null, as this is set automatically by default.     |
 | `status`              | _(optional)_ text with a status message. The style defaults to an error message.                                                  |
-| `status_state`        | _(optional)_ defines the state of the status. Currently are two statuses `[error, info]`. Defaults to `error`.                    |
+| `status_state`        | _(optional)_ defines the state of the status. Currently there are two statuses `[error, info]`. Defaults to `error`.                    |
 
 ## Data structure
 

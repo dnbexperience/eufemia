@@ -93,3 +93,7 @@ Tabs are a set of buttons which allow navigation between content that is related
 ## [Textarea](/uilib/components/textarea)
 
 The `Textarea` component has to be used as a multi-line text input control with an unlimited number of characters possible.
+
+## [ToggleButton](/uilib/components/toggle-button)
+
+The `ToggleButton` component should be used to toggle on or off a limited number of choices.

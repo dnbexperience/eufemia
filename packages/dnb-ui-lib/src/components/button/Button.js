@@ -200,7 +200,6 @@ export default class Button extends PureComponent {
         : null,
       text ? 'dnb-button--has-text' : null,
       icon ? 'dnb-button--has-icon' : null,
-      id,
       class_name,
       className,
       href ? '' : null // dnb-anchor--no-underline dnb-anchor--no-hover

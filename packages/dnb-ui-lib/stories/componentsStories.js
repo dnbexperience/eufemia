@@ -10,6 +10,7 @@ import styled from '@emotion/styled'
 // UI Components
 import ButtonStory from './components/Button'
 import Radio from './components/Radio'
+import ToggleButton from './components/ToggleButton'
 import Checkbox from './components/Checkbox'
 import Switch from './components/Switch'
 import DatePicker from './components/DatePicker'
@@ -38,6 +39,7 @@ export default stories
 
 stories.push(ButtonStory)
 stories.push(Radio)
+stories.push(ToggleButton)
 stories.push(Checkbox)
 stories.push(Switch)
 stories.push(DatePicker)

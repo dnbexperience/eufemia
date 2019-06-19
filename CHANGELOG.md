@@ -1,3 +1,7 @@
+## June, 19. 2019
+
+- New components in the `dnb-ui-lib`: [ToggleButton](/uilib/components/toggle-button) as well as two layout components [FormSet](/uilib/components/form-set) and [FormRow](/uilib/components/form-row)
+
 ## June, 5. 2019
 
 - New corner radius (border-radius) on `Dropdown` and `DatePicker`: 4px (0.25rem)

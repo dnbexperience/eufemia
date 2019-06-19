@@ -128,7 +128,7 @@ exports[`Modal component have to match snapshot 1`] = `
     >
       <button
         aria-label="Open Modal"
-        className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-left dnb-button--has-icon modal_id dnb-modal__trigger"
+        className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-left dnb-button--has-icon dnb-modal__trigger"
         id="modal_id"
         onClick={[Function]}
         onMouseOut={[Function]}
@@ -783,7 +783,8 @@ exports[`Modal scss have to match snapshot 1`] = `
     border: none; }
 
 a.dnb-button[type='button'] {
-  appearance: none; }
+  appearance: none;
+  -webkit-appearance: none; }
 
 a.dnb-button .dnb-button__icon {
   transform: translateY(0); }
