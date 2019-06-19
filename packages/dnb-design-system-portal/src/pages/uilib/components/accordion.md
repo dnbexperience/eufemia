@@ -2,7 +2,7 @@
 title: 'Accordion'
 draft: false
 status: 'wip'
-order: 1
+order: 20
 ---
 
 import Tabs from 'Tags/Tabs'
