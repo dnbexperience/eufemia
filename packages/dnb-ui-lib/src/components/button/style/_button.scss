@@ -220,6 +220,7 @@
 a.dnb-button {
   &[type='button'] {
     appearance: none; // because we have "appearance: button" in reset.scss
+    -webkit-appearance: none; // and use prefix to make sure webkit does  a good job
   }
 
   // some correction

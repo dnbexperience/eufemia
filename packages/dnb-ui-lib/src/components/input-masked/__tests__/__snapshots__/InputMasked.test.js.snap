@@ -375,7 +375,8 @@ exports[`InputMasked scss have to match snapshot 1`] = `
     border: none; }
 
 a.dnb-button[type='button'] {
-  appearance: none; }
+  appearance: none;
+  -webkit-appearance: none; }
 
 a.dnb-button .dnb-button__icon {
   transform: translateY(0); }

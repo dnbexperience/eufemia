@@ -1,13 +1,13 @@
 ---
-title: 'Spaceholder'
+title: 'SpaceholderIndicator'
 draft: false
 status: 'wip'
-# order: 1
+order: 20
 ---
 
 import Tabs from 'Tags/Tabs'
 
-# Spaceholder
+# SpaceholderIndicator
 
 <Tabs>
   <Tabs.Content title="Info" selected>
