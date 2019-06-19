@@ -98,10 +98,7 @@ class Example extends PureComponent {
 </ToggleButton.Group>
           `}
         </ComponentBox>
-        <ComponentBox
-          caption="ToggleButton group as `multiselect` with status message"
-          data-dnb-test="toggle-button-group-status"
-        >
+        <ComponentBox caption="ToggleButton group as `multiselect` with status message">
           {/* @jsx */ `
 <ToggleButton.Group
   label="ToggleButton Group with status:"

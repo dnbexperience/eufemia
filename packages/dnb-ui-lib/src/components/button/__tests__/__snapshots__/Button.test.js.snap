@@ -250,11 +250,8 @@ exports[`Button scss have to match default theme snapshot 1`] = `
   :not([dnb-is-touch]) .dnb-button--primary:hover:not([disabled]) {
     color: var(--color-sea-green);
     background-color: var(--color-white);
-    box-shadow: 0 0 0 0.0625rem var(--color-white), 0 0 0 0.1875rem var(--color-emerald-green);
-    /* IE11 fix */ }
-    @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
-      :not([dnb-is-touch]) .dnb-button--primary:hover:not([disabled]) {
-        border: 0 solid transparent; } }
+    box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
+    border-color: transparent; }
   :not([dnb-is-touch]) .dnb-button--primary:focus[disabled] {
     cursor: not-allowed; }
   :not([dnb-is-touch]) .dnb-button--primary:focus:not([disabled]) {
@@ -285,11 +282,8 @@ exports[`Button scss have to match default theme snapshot 1`] = `
   :not([dnb-is-touch]) .dnb-button--secondary:hover:not([disabled]) {
     color: var(--color-sea-green);
     background-color: var(--color-white);
-    box-shadow: 0 0 0 0.0625rem var(--color-white), 0 0 0 0.1875rem var(--color-emerald-green);
-    /* IE11 fix */ }
-    @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
-      :not([dnb-is-touch]) .dnb-button--secondary:hover:not([disabled]) {
-        border: 0 solid transparent; } }
+    box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
+    border-color: transparent; }
   :not([dnb-is-touch]) .dnb-button--secondary:focus[disabled] {
     cursor: not-allowed; }
   :not([dnb-is-touch]) .dnb-button--secondary:focus:not([disabled]) {
@@ -378,11 +372,8 @@ exports[`Button scss have to match default theme snapshot 1`] = `
   :not([dnb-is-touch]) .dnb-button--signal:hover:not([disabled]) {
     color: var(--color-black);
     background-color: var(--color-signal-yellow);
-    box-shadow: 0 0 0 0.0625rem var(--color-signal-yellow), 0 0 0 0.1875rem var(--color-emerald-green);
-    /* IE11 fix */ }
-    @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
-      :not([dnb-is-touch]) .dnb-button--signal:hover:not([disabled]) {
-        border: 0 solid transparent; } }
+    box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
+    border-color: transparent; }
   :not([dnb-is-touch]) .dnb-button--signal:focus[disabled] {
     cursor: not-allowed; }
   :not([dnb-is-touch]) .dnb-button--signal:focus:not([disabled]) {
