@@ -7,6 +7,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
+  isTrue,
   registerElement,
   validateDOMAttributes,
   processChildren,
@@ -32,7 +33,7 @@ export const propTypes = {
   ]).isRequired,
   active_item: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   active_url: PropTypes.string,
-  show_numbers: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  hide_numbers: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   class: PropTypes.string,
 
   /** React props */
@@ -51,7 +52,7 @@ export const defaultProps = {
   data: [],
   active_item: 1,
   active_url: null,
-  show_numbers: true,
+  hide_numbers: false,
   class: null,
 
   /** React props */
@@ -112,6 +113,13 @@ export default class StepIndicator extends PureComponent {
       _data: props.data || props.children,
       data: StepIndicator.getData(props)
     }
+
+    const sn = 'show_numbers'
+    if (typeof props[sn] !== 'undefined') {
+      console.warn(
+        'StepIndicator: "show_numbers" is deprecated. Use "hide_numbers" instead.'
+      )
+    }
   }
 
   onChangeHandler = (event, item) => {
@@ -124,7 +132,7 @@ export default class StepIndicator extends PureComponent {
     const {
       active_item,
       active_url,
-      show_numbers,
+      hide_numbers,
       className,
       class: _className,
       data: _data, //eslint-disable-line
@@ -148,7 +156,6 @@ export default class StepIndicator extends PureComponent {
     }
 
     const params = {
-      // role: 'tabpanel',
       className: classnames('dnb-step-indicator', className, _className),
       ...attributes
     }
@@ -178,7 +185,7 @@ export default class StepIndicator extends PureComponent {
                 <ItemContent
                   {...{
                     activeItem,
-                    show_numbers,
+                    hide_numbers,
                     number: i,
                     ...props
                   }}
@@ -197,7 +204,7 @@ class ItemContent extends PureComponent {
   static propTypes = {
     activeItem: PropTypes.number.isRequired,
     number: PropTypes.number.isRequired,
-    show_numbers: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    hide_numbers: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     onChangeHandler: PropTypes.func,
     url: PropTypes.string,
     url_future: PropTypes.string,
@@ -206,7 +213,7 @@ class ItemContent extends PureComponent {
   }
   static defaultProps = {
     onChangeHandler: null,
-    show_numbers: true,
+    hide_numbers: true,
     url: null,
     url_future: null,
     url_passed: null
@@ -226,7 +233,7 @@ class ItemContent extends PureComponent {
       url_future,
       url_passed,
       number,
-      show_numbers,
+      hide_numbers,
       onChangeHandler, // eslint-disable-line
       url: _url,
       ...rest
@@ -258,7 +265,7 @@ class ItemContent extends PureComponent {
 
     const ItemContentWrapper = () => (
       <>
-        {String(show_numbers) === 'true' && (
+        {!isTrue(hide_numbers) && (
           <span className="dnb-step-indicator__item-content--number">
             {`${number + 1}. `}
           </span>

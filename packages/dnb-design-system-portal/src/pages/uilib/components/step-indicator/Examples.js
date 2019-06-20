@@ -4,18 +4,10 @@
  */
 
 import React, { PureComponent, Fragment } from 'react'
-import ComponentBox from '../../../../dnb-design-system-portal/src/shared/tags/ComponentBox'
+import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { createBrowserHistory } from 'history'
 
 class Example extends PureComponent {
-  static AdditionalCallback = {
-    info: ({ CodeRenderer }) => (
-      <Fragment>
-        <h4>Data Structure</h4>
-        <CodeRenderer language="json">{dataBlob}</CodeRenderer>
-      </Fragment>
-    )
-  }
   state = {
     active_url: null
   }
@@ -56,7 +48,7 @@ class Example extends PureComponent {
           useRender
           hideSyntaxButton
         >
-          {/* @jsx */ `
+          {`
 const data = [
   {
     title: 'Om din nye bolig',
@@ -104,23 +96,6 @@ render(
     )
   }
 }
-
-const data = [
-  {
-    title: 'Om din nye bolig',
-    url: '?a'
-  },
-  {
-    title: 'Ditt lån og egenkapital',
-    url: '?b'
-  },
-  {
-    title: 'Oppsummering',
-    url: '?c',
-    url_future: ''
-  }
-]
-const dataBlob = JSON.stringify(data, null, 2)
 
 export { Example }
 export default () => <Example />

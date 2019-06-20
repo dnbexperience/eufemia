@@ -23,8 +23,8 @@ exports[`StepIndicator component have to match snapshot 1`] = `
       },
     ]
   }
+  hide_numbers="hide_numbers"
   on_change={[Function]}
-  show_numbers="show_numbers"
 >
   <div
     className="dnb-step-indicator className class"
@@ -38,9 +38,9 @@ exports[`StepIndicator component have to match snapshot 1`] = `
       >
         <ItemContent
           activeItem={1}
+          hide_numbers="hide_numbers"
           number={0}
           onChangeHandler={[Function]}
-          show_numbers="show_numbers"
           title="Aa"
           url="?a"
           url_future={null}
@@ -52,6 +52,11 @@ exports[`StepIndicator component have to match snapshot 1`] = `
             onClick={[Function]}
           >
             <ItemContentWrapper>
+              <span
+                className="dnb-step-indicator__item-content--number"
+              >
+                1. 
+              </span>
               <span
                 className="dnb-step-indicator__item-content--text"
               >
@@ -75,9 +80,9 @@ exports[`StepIndicator component have to match snapshot 1`] = `
       >
         <ItemContent
           activeItem={1}
+          hide_numbers="hide_numbers"
           number={1}
           onChangeHandler={[Function]}
-          show_numbers="show_numbers"
           title="Bb"
           url="?b"
           url_future={null}
@@ -90,6 +95,11 @@ exports[`StepIndicator component have to match snapshot 1`] = `
             onClick={[Function]}
           >
             <ItemContentWrapper>
+              <span
+                className="dnb-step-indicator__item-content--number"
+              >
+                2. 
+              </span>
               <span
                 className="dnb-step-indicator__item-content--text"
               >
@@ -113,9 +123,9 @@ exports[`StepIndicator component have to match snapshot 1`] = `
       >
         <ItemContent
           activeItem={1}
+          hide_numbers="hide_numbers"
           number={2}
           onChangeHandler={[Function]}
-          show_numbers="show_numbers"
           title="Cc"
           url="?c"
           url_future=""
@@ -127,6 +137,11 @@ exports[`StepIndicator component have to match snapshot 1`] = `
             role="text"
           >
             <ItemContentWrapper>
+              <span
+                className="dnb-step-indicator__item-content--number"
+              >
+                3. 
+              </span>
               <span
                 className="dnb-step-indicator__item-content--text"
               >
