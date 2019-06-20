@@ -4,7 +4,7 @@ const production = {
       '@babel/preset-env',
       {
         useBuiltIns: 'usage',
-        corejs: 3
+        corejs: 2
       }
     ],
     '@babel/preset-react'
@@ -80,7 +80,7 @@ module.exports = {
           '@babel/preset-env',
           {
             useBuiltIns: 'usage',
-            corejs: 3,
+            corejs: 2,
             modules: false
           }
         ],

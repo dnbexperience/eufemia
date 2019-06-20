@@ -9,7 +9,9 @@ if (require.main === module) {
   commitToBranch({
     requiredBranch: 'develop',
     what: 'pages',
-    filePathsWhitelist: ['/version.json', '/src/pages/', '/src/uilib/'],
+    skipCI: files => files.length === 1, // in case we only update the "version.lock"
+    filePathsWhitelist: ['version.json', '/src/pages/', '/src/uilib/'],
+    // isNotAFeature: ['version.json'],
     isFeature: false
   })
 }
