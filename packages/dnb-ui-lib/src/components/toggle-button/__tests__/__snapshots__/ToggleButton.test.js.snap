@@ -262,7 +262,6 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
   disabled={null}
   id="group"
   label="Label"
-  label_direction="horizontal"
   layout_direction="row"
   left_component={null}
   multiselect={null}
