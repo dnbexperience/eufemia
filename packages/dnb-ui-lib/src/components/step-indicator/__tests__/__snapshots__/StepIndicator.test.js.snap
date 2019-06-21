@@ -529,6 +529,8 @@ exports[`StepIndicator scss have to match snapshot 1`] = `
     border-bottom: none;
     text-decoration: none;
     box-shadow: none; }
+  .dnb-step-indicator__item-content--link.dnb-anchor {
+    line-height: 1.5rem; }
   :not([dnb-is-touch]) .dnb-step-indicator__item-content--link:focus[disabled] {
     cursor: not-allowed; }
   :not([dnb-is-touch]) .dnb-step-indicator__item-content--link:focus:not([disabled]) {
