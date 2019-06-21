@@ -50,7 +50,11 @@
     }
 
     &--link {
-      cursor: pointer;
+      // to reset the anchor button
+      &.dnb-anchor {
+        line-height: 1.5rem;
+      }
+
       @include focus() {
         @include fakeFocus();
         &::after {

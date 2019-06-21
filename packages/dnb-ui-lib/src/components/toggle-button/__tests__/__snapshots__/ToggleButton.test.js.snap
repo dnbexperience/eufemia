@@ -262,6 +262,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
   disabled={null}
   id="group"
   label="Label"
+  label_direction="horizontal"
   layout_direction="row"
   left_component={null}
   multiselect={null}
@@ -963,6 +964,7 @@ exports[`ToggleButton scss have to match snapshot 1`] = `
 
 a.dnb-button[type='button'] {
   appearance: none;
+  -moz-appearance: none;
   -webkit-appearance: none; }
 
 a.dnb-button .dnb-button__icon {

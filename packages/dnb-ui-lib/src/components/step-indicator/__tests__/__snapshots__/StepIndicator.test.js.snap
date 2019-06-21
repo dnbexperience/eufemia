@@ -529,17 +529,15 @@ exports[`StepIndicator scss have to match snapshot 1`] = `
     border-bottom: none;
     text-decoration: none;
     box-shadow: none; }
-  .dnb-step-indicator__item-content--link {
-    cursor: pointer; }
-    :not([dnb-is-touch]) .dnb-step-indicator__item-content--link:focus[disabled] {
-      cursor: not-allowed; }
-    :not([dnb-is-touch]) .dnb-step-indicator__item-content--link:focus:not([disabled]) {
-      outline: none; }
-      html[data-whatinput='keyboard'] :not([dnb-is-touch]) .dnb-step-indicator__item-content--link:focus:not([disabled]) {
-        box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
-        border-color: transparent; }
-      :not([dnb-is-touch]) .dnb-step-indicator__item-content--link:focus:not([disabled])::after {
-        content: none; }
+  :not([dnb-is-touch]) .dnb-step-indicator__item-content--link:focus[disabled] {
+    cursor: not-allowed; }
+  :not([dnb-is-touch]) .dnb-step-indicator__item-content--link:focus:not([disabled]) {
+    outline: none; }
+    html[data-whatinput='keyboard'] :not([dnb-is-touch]) .dnb-step-indicator__item-content--link:focus:not([disabled]) {
+      box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
+      border-color: transparent; }
+    :not([dnb-is-touch]) .dnb-step-indicator__item-content--link:focus:not([disabled])::after {
+      content: none; }
   .dnb-step-indicator__item-content--number {
     padding-right: 0.25rem;
     white-space: nowrap; }
