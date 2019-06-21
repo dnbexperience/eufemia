@@ -1,6 +1,204 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`StepIndicator component have to match snapshot 1`] = `
+exports[`StepIndicator component with buttons have to match snapshot 1`] = `
+<StepIndicator
+  active_item={1}
+  active_url={null}
+  class={null}
+  className={null}
+  data={
+    Array [
+      Object {
+        "title": "Aa",
+      },
+      Object {
+        "title": "Bb",
+      },
+      Object {
+        "title": "Cc",
+      },
+    ]
+  }
+  hide_numbers={false}
+  on_change={null}
+  on_item_render={null}
+  use_navigation={true}
+>
+  <div
+    className="dnb-step-indicator"
+  >
+    <ul
+      className="dnb-step-indicator__list"
+    >
+      <StepItem
+        activeItem={1}
+        currentItem={0}
+        hasReached={
+          Array [
+            1,
+          ]
+        }
+        hide_numbers={false}
+        is_active={null}
+        is_current={null}
+        key="bc0"
+        on_change={null}
+        on_click={null}
+        on_item_render={null}
+        on_render={null}
+        setActimeItem={[Function]}
+        title="Aa"
+        url={null}
+        url_future={null}
+        url_passed={null}
+        use_navigation={true}
+      >
+        <li
+          className="dnb-step-indicator__item dnb-step-indicator--visited"
+        >
+          <button
+            className="dnb-anchor dnb-step-indicator__item-content dnb-step-indicator__item-content--link"
+            onClick={[Function]}
+            role="text"
+          >
+            <StepItemWrapper>
+              <span
+                className="dnb-step-indicator__item-content--number"
+              >
+                1. 
+              </span>
+              <span
+                className="dnb-step-indicator__item-content--text"
+              >
+                Aa
+                <Dummy>
+                  <span
+                    aria-hidden={true}
+                    hidden={true}
+                  >
+                    Aa
+                  </span>
+                </Dummy>
+              </span>
+            </StepItemWrapper>
+          </button>
+        </li>
+      </StepItem>
+      <StepItem
+        activeItem={1}
+        currentItem={1}
+        hasReached={
+          Array [
+            1,
+          ]
+        }
+        hide_numbers={false}
+        is_active={null}
+        is_current={null}
+        key="bc1"
+        on_change={null}
+        on_click={null}
+        on_item_render={null}
+        on_render={null}
+        setActimeItem={[Function]}
+        title="Bb"
+        url={null}
+        url_future={null}
+        url_passed={null}
+        use_navigation={true}
+      >
+        <li
+          className="dnb-step-indicator__item dnb-step-indicator--active"
+        >
+          <button
+            aria-current="step"
+            className="dnb-anchor dnb-step-indicator__item-content dnb-step-indicator__item-content--link"
+            onClick={[Function]}
+            role="text"
+          >
+            <StepItemWrapper>
+              <span
+                className="dnb-step-indicator__item-content--number"
+              >
+                2. 
+              </span>
+              <span
+                className="dnb-step-indicator__item-content--text"
+              >
+                Bb
+                <Dummy>
+                  <span
+                    aria-hidden={true}
+                    hidden={true}
+                  >
+                    Bb
+                  </span>
+                </Dummy>
+              </span>
+            </StepItemWrapper>
+          </button>
+        </li>
+      </StepItem>
+      <StepItem
+        activeItem={1}
+        currentItem={2}
+        hasReached={
+          Array [
+            1,
+          ]
+        }
+        hide_numbers={false}
+        is_active={null}
+        is_current={null}
+        key="bc2"
+        on_change={null}
+        on_click={null}
+        on_item_render={null}
+        on_render={null}
+        setActimeItem={[Function]}
+        title="Cc"
+        url={null}
+        url_future={null}
+        url_passed={null}
+        use_navigation={true}
+      >
+        <li
+          className="dnb-step-indicator__item"
+        >
+          <span
+            aria-disabled={true}
+            className="dnb-step-indicator__item-content dnb-step-indicator__item-content--static"
+            role="text"
+          >
+            <StepItemWrapper>
+              <span
+                className="dnb-step-indicator__item-content--number"
+              >
+                3. 
+              </span>
+              <span
+                className="dnb-step-indicator__item-content--text"
+              >
+                Cc
+                <Dummy>
+                  <span
+                    aria-hidden={true}
+                    hidden={true}
+                  >
+                    Cc
+                  </span>
+                </Dummy>
+              </span>
+            </StepItemWrapper>
+          </span>
+        </li>
+      </StepItem>
+    </ul>
+  </div>
+</StepIndicator>
+`;
+
+exports[`StepIndicator component with urls have to match snapshot 1`] = `
 <StepIndicator
   active_item="active_item"
   active_url="?b"
@@ -25,6 +223,8 @@ exports[`StepIndicator component have to match snapshot 1`] = `
   }
   hide_numbers="hide_numbers"
   on_change={[Function]}
+  on_item_render={null}
+  use_navigation="use_navigation"
 >
   <div
     className="dnb-step-indicator className class"
@@ -32,26 +232,38 @@ exports[`StepIndicator component have to match snapshot 1`] = `
     <ul
       className="dnb-step-indicator__list"
     >
-      <li
-        className="dnb-step-indicator__item dnb-step-indicator--visited"
+      <StepItem
+        activeItem={1}
+        currentItem={0}
+        hasReached={
+          Array [
+            1,
+          ]
+        }
+        hide_numbers="hide_numbers"
+        is_active={null}
+        is_current={null}
         key="bc0"
+        on_change={[Function]}
+        on_click={null}
+        on_item_render={null}
+        on_render={null}
+        setActimeItem={[Function]}
+        title="Aa"
+        url="?a"
+        url_future={null}
+        url_passed={null}
+        use_navigation="use_navigation"
       >
-        <ItemContent
-          activeItem={1}
-          hide_numbers="hide_numbers"
-          number={0}
-          onChangeHandler={[Function]}
-          title="Aa"
-          url="?a"
-          url_future={null}
-          url_passed={null}
+        <li
+          className="dnb-step-indicator__item dnb-step-indicator--visited"
         >
           <a
             className="dnb-anchor dnb-step-indicator__item-content dnb-step-indicator__item-content--link"
             href="?a"
             onClick={[Function]}
           >
-            <ItemContentWrapper>
+            <StepItemWrapper>
               <span
                 className="dnb-step-indicator__item-content--number"
               >
@@ -70,23 +282,35 @@ exports[`StepIndicator component have to match snapshot 1`] = `
                   </span>
                 </Dummy>
               </span>
-            </ItemContentWrapper>
+            </StepItemWrapper>
           </a>
-        </ItemContent>
-      </li>
-      <li
-        className="dnb-step-indicator__item dnb-step-indicator--active"
+        </li>
+      </StepItem>
+      <StepItem
+        activeItem={1}
+        currentItem={1}
+        hasReached={
+          Array [
+            1,
+          ]
+        }
+        hide_numbers="hide_numbers"
+        is_active={null}
+        is_current={null}
         key="bc1"
+        on_change={[Function]}
+        on_click={null}
+        on_item_render={null}
+        on_render={null}
+        setActimeItem={[Function]}
+        title="Bb"
+        url="?b"
+        url_future={null}
+        url_passed={null}
+        use_navigation="use_navigation"
       >
-        <ItemContent
-          activeItem={1}
-          hide_numbers="hide_numbers"
-          number={1}
-          onChangeHandler={[Function]}
-          title="Bb"
-          url="?b"
-          url_future={null}
-          url_passed={null}
+        <li
+          className="dnb-step-indicator__item dnb-step-indicator--active"
         >
           <a
             aria-current="step"
@@ -94,7 +318,7 @@ exports[`StepIndicator component have to match snapshot 1`] = `
             href="?b"
             onClick={[Function]}
           >
-            <ItemContentWrapper>
+            <StepItemWrapper>
               <span
                 className="dnb-step-indicator__item-content--number"
               >
@@ -113,30 +337,41 @@ exports[`StepIndicator component have to match snapshot 1`] = `
                   </span>
                 </Dummy>
               </span>
-            </ItemContentWrapper>
+            </StepItemWrapper>
           </a>
-        </ItemContent>
-      </li>
-      <li
-        className="dnb-step-indicator__item"
+        </li>
+      </StepItem>
+      <StepItem
+        activeItem={1}
+        currentItem={2}
+        hasReached={
+          Array [
+            1,
+          ]
+        }
+        hide_numbers="hide_numbers"
+        is_active={null}
+        is_current={null}
         key="bc2"
+        on_change={[Function]}
+        on_click={null}
+        on_item_render={null}
+        on_render={null}
+        setActimeItem={[Function]}
+        title="Cc"
+        url="?c"
+        url_future=""
+        url_passed={null}
+        use_navigation="use_navigation"
       >
-        <ItemContent
-          activeItem={1}
-          hide_numbers="hide_numbers"
-          number={2}
-          onChangeHandler={[Function]}
-          title="Cc"
-          url="?c"
-          url_future=""
-          url_passed={null}
+        <li
+          className="dnb-step-indicator__item"
         >
           <span
-            aria-disabled={true}
             className="dnb-step-indicator__item-content dnb-step-indicator__item-content--static"
             role="text"
           >
-            <ItemContentWrapper>
+            <StepItemWrapper>
               <span
                 className="dnb-step-indicator__item-content--number"
               >
@@ -155,10 +390,10 @@ exports[`StepIndicator component have to match snapshot 1`] = `
                   </span>
                 </Dummy>
               </span>
-            </ItemContentWrapper>
+            </StepItemWrapper>
           </span>
-        </ItemContent>
-      </li>
+        </li>
+      </StepItem>
     </ul>
   </div>
 </StepIndicator>
@@ -294,24 +529,28 @@ exports[`StepIndicator scss have to match snapshot 1`] = `
     border-bottom: none;
     text-decoration: none;
     box-shadow: none; }
-  :not([dnb-is-touch]) .dnb-step-indicator__item-content--link:focus[disabled] {
-    cursor: not-allowed; }
-  :not([dnb-is-touch]) .dnb-step-indicator__item-content--link:focus:not([disabled]) {
-    outline: none; }
-    html[data-whatinput='keyboard'] :not([dnb-is-touch]) .dnb-step-indicator__item-content--link:focus:not([disabled]) {
-      box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
-      border-color: transparent; }
-    :not([dnb-is-touch]) .dnb-step-indicator__item-content--link:focus:not([disabled])::after {
-      content: none; }
+  .dnb-step-indicator__item-content--link {
+    cursor: pointer; }
+    :not([dnb-is-touch]) .dnb-step-indicator__item-content--link:focus[disabled] {
+      cursor: not-allowed; }
+    :not([dnb-is-touch]) .dnb-step-indicator__item-content--link:focus:not([disabled]) {
+      outline: none; }
+      html[data-whatinput='keyboard'] :not([dnb-is-touch]) .dnb-step-indicator__item-content--link:focus:not([disabled]) {
+        box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
+        border-color: transparent; }
+      :not([dnb-is-touch]) .dnb-step-indicator__item-content--link:focus:not([disabled])::after {
+        content: none; }
   .dnb-step-indicator__item-content--number {
     padding-right: 0.25rem;
     white-space: nowrap; }
-  .dnb-step-indicator__item-content--text > span[hidden] {
-    display: flex;
-    flex-direction: column;
-    height: 0;
-    visibility: hidden;
-    overflow: hidden; }
+  .dnb-step-indicator__item-content--text {
+    text-align: left; }
+    .dnb-step-indicator__item-content--text > span[hidden] {
+      display: flex;
+      flex-direction: column;
+      height: 0;
+      visibility: hidden;
+      overflow: hidden; }
   .dnb-step-indicator__item-content::after {
     content: '';
     position: absolute;

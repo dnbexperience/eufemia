@@ -7,13 +7,12 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
-  isTrue,
+  // isTrue,
   registerElement,
   validateDOMAttributes,
-  processChildren,
-  dispatchCustomElementEvent
+  processChildren
 } from '../../shared/component-helper'
-import { Dummy } from '../tabs/Tabs'
+import StepItem from './StepIndicatorItem'
 
 const renderProps = {
   on_change: null
@@ -26,14 +25,23 @@ export const propTypes = {
       PropTypes.shape({
         title: PropTypes.string.isRequired,
         url: PropTypes.string,
+        is_active: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+        is_current: PropTypes.oneOfType([
+          PropTypes.string,
+          PropTypes.bool
+        ]),
         url_future: PropTypes.string,
-        url_passed: PropTypes.string
+        url_passed: PropTypes.string,
+        on_click: PropTypes.func,
+        on_render: PropTypes.func
       })
     )
   ]).isRequired,
   active_item: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   active_url: PropTypes.string,
   hide_numbers: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  use_navigation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  on_item_render: PropTypes.func,
   class: PropTypes.string,
 
   /** React props */
@@ -50,9 +58,11 @@ export const propTypes = {
 
 export const defaultProps = {
   data: [],
-  active_item: 1,
+  active_item: 0,
   active_url: null,
   hide_numbers: false,
+  use_navigation: false,
+  on_item_render: null,
   class: null,
 
   /** React props */
@@ -89,14 +99,26 @@ export default class StepIndicator extends PureComponent {
           state.data = StepIndicator.getData(props)
         }
       }
-      if (state.active_item !== props.active_item) {
-        state.active_item = props.active_item
+
+      if (state.activeItem !== props.active_item) {
+        state.activeItem = parseFloat(props.active_item)
       }
+
+      if (props.active_url && state.activeUrl !== props.active_url) {
+        state.activeUrl = props.active_url
+      }
+
       if (
-        props.active_url !== null &&
-        state.active_url !== props.active_url
+        (state.activeUrl || !(parseFloat(state.activeItem) > 0)) &&
+        state.data.length > 0
       ) {
-        state.active_url = props.active_url
+        state.activeItem = state.data.reduce(
+          (acc, { url }, i) =>
+            url && (url === state.activeItem || url === state.activeUrl)
+              ? i
+              : acc,
+          0
+        )
       }
     }
     state._listenForPropChanges = true
@@ -107,11 +129,8 @@ export default class StepIndicator extends PureComponent {
     super(props)
 
     this.state = {
-      _listenForPropChanges: true,
-      active_item: props.active_item,
-      active_url: props.active_url,
-      _data: props.data || props.children,
-      data: StepIndicator.getData(props)
+      hasReached: [],
+      _listenForPropChanges: true
     }
 
     const sn = 'show_numbers'
@@ -122,38 +141,30 @@ export default class StepIndicator extends PureComponent {
     }
   }
 
-  onChangeHandler = (event, item) => {
-    if (typeof this.props.on_change === 'function') {
-      dispatchCustomElementEvent(this, 'on_change', { event, item })
-    }
+  setActimeItem = activeItem => {
+    this.setState({
+      activeItem,
+      _listenForPropChanges: false
+    })
   }
 
   render() {
     const {
-      active_item,
-      active_url,
+      active_item, //eslint-disable-line
+      active_url, //eslint-disable-line
       hide_numbers,
+      use_navigation,
+      on_item_render,
+      on_change,
       className,
       class: _className,
       data: _data, //eslint-disable-line
       children, //eslint-disable-line
-      on_change, //eslint-disable-line
       ...attributes
     } = this.props
 
     const data = StepIndicator.getData(this.props)
-    let activeItem = parseFloat(active_item) - 1
-
-    if (
-      (active_url || !(parseFloat(active_item) > 0)) &&
-      data.length > 0
-    ) {
-      activeItem = data.reduce(
-        (acc, { url }, i) =>
-          url && (url === active_item || url === active_url) ? i : acc,
-        1
-      )
-    }
+    const { activeItem } = this.state
 
     const params = {
       className: classnames('dnb-step-indicator', className, _className),
@@ -163,6 +174,10 @@ export default class StepIndicator extends PureComponent {
     // also used for code markup simulation
     validateDOMAttributes(this.props, params)
 
+    if (!this.state.hasReached.includes(activeItem)) {
+      this.state.hasReached.push(activeItem)
+    }
+
     return (
       <div {...params}>
         {data.length > 0 && (
@@ -170,129 +185,28 @@ export default class StepIndicator extends PureComponent {
             // role="tablist"
             className="dnb-step-indicator__list"
           >
-            {data.map((props, i) => (
-              <li
-                key={`bc${i}`}
-                // In case we do not use the role="tab" - we could use aria-current instead of aria-selected
-                // role="tab"
-                // aria-selected={i === activeItem}
-                className={classnames(
-                  'dnb-step-indicator__item',
-                  i === activeItem ? 'dnb-step-indicator--active' : null,
-                  i < activeItem ? 'dnb-step-indicator--visited' : null
-                )}
-              >
-                <ItemContent
-                  {...{
-                    activeItem,
-                    hide_numbers,
-                    number: i,
-                    ...props
-                  }}
-                  onChangeHandler={this.onChangeHandler}
+            {data.map((props, i) => {
+              const params = {
+                currentItem: i,
+                activeItem,
+                hide_numbers,
+                use_navigation,
+                on_item_render,
+                on_change,
+                ...props
+              }
+              return (
+                <StepItem
+                  key={`bc${i}`}
+                  {...params}
+                  setActimeItem={this.setActimeItem}
+                  hasReached={this.state.hasReached}
                 />
-              </li>
-            ))}
+              )
+            })}
           </ul>
         )}
       </div>
-    )
-  }
-}
-
-class ItemContent extends PureComponent {
-  static propTypes = {
-    activeItem: PropTypes.number.isRequired,
-    number: PropTypes.number.isRequired,
-    hide_numbers: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    onChangeHandler: PropTypes.func,
-    url: PropTypes.string,
-    url_future: PropTypes.string,
-    url_passed: PropTypes.string,
-    title: PropTypes.string.isRequired
-  }
-  static defaultProps = {
-    onChangeHandler: null,
-    hide_numbers: true,
-    url: null,
-    url_future: null,
-    url_passed: null
-  }
-
-  _onChangeHandler = e => {
-    this.props.onChangeHandler.apply(this.props.onChangeHandler, [
-      e,
-      this.props
-    ])
-  }
-
-  render() {
-    const {
-      activeItem,
-      title,
-      url_future,
-      url_passed,
-      number,
-      hide_numbers,
-      onChangeHandler, // eslint-disable-line
-      url: _url,
-      ...rest
-    } = this.props
-
-    let url = _url
-
-    if (number > activeItem) {
-      url = url_future
-    }
-    if (url_passed !== null && number < activeItem) {
-      url = url_passed
-    }
-
-    const params = {
-      ...rest
-    }
-
-    if (number == activeItem) {
-      params['aria-current'] = 'step'
-    }
-    if (number > activeItem) {
-      params['aria-disabled'] = true
-    }
-    if (!url) {
-      // to screen readers read both the nr. and the text in one sentence
-      params.role = 'text'
-    }
-
-    const ItemContentWrapper = () => (
-      <>
-        {!isTrue(hide_numbers) && (
-          <span className="dnb-step-indicator__item-content--number">
-            {`${number + 1}. `}
-          </span>
-        )}
-        <span className="dnb-step-indicator__item-content--text">
-          {title}
-          <Dummy>{title}</Dummy>
-        </span>
-      </>
-    )
-
-    return url ? (
-      <a
-        className="dnb-anchor dnb-step-indicator__item-content dnb-step-indicator__item-content--link"
-        href={url}
-        onClick={this._onChangeHandler}
-        {...params}
-      >
-        <ItemContentWrapper />
-      </a>
-    ) : (
-      <span
-        className="dnb-step-indicator__item-content dnb-step-indicator__item-content--static"
-        {...params}
-      >
-        <ItemContentWrapper />
-      </span>
     )
   }
 }

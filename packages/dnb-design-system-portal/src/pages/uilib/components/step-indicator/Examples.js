@@ -42,39 +42,67 @@ class Example extends PureComponent {
     return (
       <Fragment>
         <ComponentBox
-          caption="StepIndicator with urls, for visited steps only"
-          data-dnb-test="step-indicator"
+          caption="StepIndicator with navigation. Every visited step can be clicked."
+          data-dnb-test="step-indicator-buttons"
           scope={{ onChangeHandler, active_url }}
-          useRender
           hideSyntaxButton
         >
           {`
-const data = [
-  {
-    title: 'Om din nye bolig',
-    url: '?a'
-  },
-  {
-    title: 'Ditt lån og egenkapital',
-    url: '?b'
-  },
-  {
-    title: 'Oppsummering',
-    url: '?c',
-    url_future: ''
-  }
-]
-render(
-  <StepIndicator
-    active_item="2"
-    active_url={active_url}
-    data={data}
-    on_change={onChangeHandler}
-  />
-)
+<StepIndicator
+  use_navigation="true"
+  active_item={1}
+  on_change={({ currentItem }) => {
+    console.log('on_change', currentItem)
+  }}
+  data={[
+    {
+      title: 'Om din nye bolig',
+    },
+    {
+      title: 'Ditt lån og egenkapital',
+      on_click: ({ currentItem }) =>
+        console.log(currentItem)
+    },
+    {
+      title: 'Oppsummering',
+    }
+  ]}
+/>
           `}
         </ComponentBox>
-        <ComponentBox caption="StepIndicator with no urls">
+        <ComponentBox
+          caption="StepIndicator with urls, for visited steps only"
+          data-dnb-test="step-indicator-urls"
+          scope={{ onChangeHandler, active_url }}
+          hideSyntaxButton
+        >
+          {`
+<StepIndicator
+  active_item="1"
+  active_url={active_url}
+  data={[
+    {
+      title: 'Om din nye bolig',
+      url: '?a'
+    },
+    {
+      title: 'Ditt lån og egenkapital',
+      url: '?b'
+    },
+    {
+      title: 'Oppsummering',
+      url: '?c',
+      url_future: ''
+    }
+  ]}
+  on_change={onChangeHandler}
+/>
+          `}
+        </ComponentBox>
+        <ComponentBox
+          caption="Default StepIndicator with no navigation"
+          data-dnb-test="step-indicator-default"
+        >
           {/* @jsx */ `
 <StepIndicator
   active_item="3"
@@ -91,6 +119,51 @@ render(
   ]}
 />
             `}
+        </ComponentBox>
+        <ComponentBox
+          caption="StepIndicator with custom renderer."
+          scope={{ onChangeHandler, active_url }}
+          hideSyntaxButton
+        >
+          {`
+<StepIndicator
+  use_navigation
+  active_item={1}
+  on_change={({ currentItem }) => {
+    console.log('on_change', currentItem)
+  }}
+  on_item_render={({ StepItem }) => {
+    return (
+      <StepItem
+        onClick={e => console.log(e)}
+      />
+    )
+  }}
+  data={[
+    {
+      title: 'Om din nye bolig',
+    },
+    {
+      title: 'Ditt lån og egenkapital',
+      on_click: ({ currentItem }) =>
+        console.log(currentItem),
+      on_render: ({ StepItem, props, params }) => (
+        <StepItem
+          onClick={e => console.log(e)}
+        />
+      )
+    },
+    {
+      title: 'Oppsummering',
+      /*
+        We can also overwrite the states
+        is_active: true
+        is_current: true
+      */
+    }
+  ]}
+/>
+          `}
         </ComponentBox>
       </Fragment>
     )

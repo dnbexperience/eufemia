@@ -2,15 +2,14 @@
 draft: true
 ---
 
-## ToggleButton button
+## Component events
 
-| Events            | Description                                                                                                        |
-| ----------------- | ------------------------------------------------------------------------------------------------------------------ |
-| `on_change`       | _(optional)_ will be called on state changes made by the user. Returns an boolean and string `{ checked, value }`. |
-| `on_state_update` | _(optional)_ will be called once the parameter `checked` changes its state.                                        |
+| Events      | Description                                                                                     |
+| ----------- | ----------------------------------------------------------------------------------------------- |
+| `on_change` | _(optional)_ will be called on state changes. Returns an object `{ event, item, currentItem }`. |
 
-## ToggleButton group
+## Item events
 
-| Events      | Description                                                                                                      |
-| ----------- | ---------------------------------------------------------------------------------------------------------------- |
-| `on_change` | _(optional)_ will be called once a ToggleButton button changes the state. Returns an object `{ value, values }`. |
+| Events     | Description                                                                                                                               |
+| ---------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| `on_click` | _(optional)_ will be called on a click event, if a `anchor` or a `button` is available. Returns an object `{ event, item, currentItem }`. |
