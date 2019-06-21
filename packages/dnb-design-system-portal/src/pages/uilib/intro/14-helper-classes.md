@@ -16,7 +16,7 @@ A commonly used visual style is the DNB section divider. To make it easy to achi
 import { Section } from 'dnb-ui-lib'
 
 render(
-  <Section style="mint-green" spacing>
+  <Section style_type="mint-green" spacing>
     Visual DNB Section
   </Section>
 )
