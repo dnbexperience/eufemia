@@ -86,6 +86,11 @@ To force a specific state of style, use the following classes to do so:
       Reset anchor style
     </a>
   </li>
+  <li>
+    <button className="dnb-anchor">
+      I'm a Button!
+    </button>
+  </li>
 </ul>
 `}
 </CodeBlock>

@@ -10,9 +10,24 @@ import {
 
 describe('StepIndicator screenshot', () => {
   setupPageScreenshot({ url: '/uilib/components/step-indicator' })
-  it('have to match', async () => {
+  it('have to match urls mode', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="step-indicator"] .dnb-step-indicator'
+      selector: '[data-dnb-test="step-indicator-urls"] .dnb-step-indicator'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+  it('have to match button mode', async () => {
+    const screenshot = await testPageScreenshot({
+      selector:
+        '[data-dnb-test="step-indicator-buttons"] .dnb-step-indicator'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+  it('have to match default mode with a narrow width', async () => {
+    const screenshot = await testPageScreenshot({
+      style: { width: '30rem' },
+      selector:
+        '[data-dnb-test="step-indicator-default"] .dnb-step-indicator'
     })
     expect(screenshot).toMatchImageSnapshot()
   })

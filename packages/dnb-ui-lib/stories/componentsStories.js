@@ -16,6 +16,7 @@ import Switch from './components/Switch'
 import DatePicker from './components/DatePicker'
 import Textarea from './components/Textarea'
 import ProgressIndicator from './components/ProgressIndicator'
+import StepIndicator from './components/StepIndicator'
 import Modal from './components/Modal'
 import FormLabelStory from './components/FormLabel'
 import FormRowStory from './components/FormRow'
@@ -29,8 +30,7 @@ import {
   IconPrimary,
   FormLabel,
   Dropdown,
-  Logo,
-  StepIndicator
+  Logo
 } from '../src/components'
 import { H2 } from '../src/elements'
 
@@ -45,6 +45,7 @@ stories.push(Switch)
 stories.push(DatePicker)
 stories.push(Textarea)
 stories.push(ProgressIndicator)
+stories.push(StepIndicator)
 stories.push(Modal)
 stories.push(FormLabelStory)
 stories.push(FormRowStory)
@@ -327,50 +328,6 @@ stories.push([
           on_click={showMe}
           variant="tertiary"
           icon="add"
-        />
-      </Box>
-    </Wrapper>
-  )
-])
-
-stories.push([
-  'StepIndicator',
-  () => (
-    <Wrapper>
-      <Box>
-        <StepIndicator
-          active_url="?d"
-          data={[
-            {
-              title: 'Om din nye bolig',
-              url: '?a'
-            },
-            {
-              title: 'Ditt lån og egenkapital',
-              url: '?b'
-            },
-            {
-              title: 'Oppsummering',
-              url: '?c',
-              url_future: ''
-            }
-          ]}
-        />
-      </Box>
-      <Box>
-        <StepIndicator
-          active_item="3"
-          data={[
-            {
-              title: 'Om din nye bolig'
-            },
-            {
-              title: 'Ditt lån og egenkapital'
-            },
-            {
-              title: 'Oppsummering'
-            }
-          ]}
         />
       </Box>
     </Wrapper>
