@@ -134,6 +134,18 @@ $anchorBorderRadius: 0.25rem;
   }
 }
 
+button.dnb-anchor {
+  cursor: pointer;
+
+  // to get the buton to 32px
+  line-height: 1.625rem;
+
+  border: none;
+  background: none;
+  appearance: none; // because we have "appearance: button" in reset.scss
+  -moz-appearance: none; // and use prefix to make sure webkit does  a good job
+  -webkit-appearance: none; // and use prefix to make sure webkit does  a good job
+}
 .dnb-anchor {
   @include anchorStyle();
 }

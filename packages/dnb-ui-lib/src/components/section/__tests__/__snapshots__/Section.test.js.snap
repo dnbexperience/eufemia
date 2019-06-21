@@ -6,10 +6,11 @@ exports[`Section component have to match snapshot 1`] = `
   className="className"
   render_content={[Function]}
   spacing="spacing"
-  style="style"
+  style={null}
+  style_type="mint-green-12"
 >
   <section
-    className="dnb-section dnb-section--style dnb-section--spacing-spacing className class"
+    className="dnb-section dnb-section--mint-green-12 dnb-section--spacing-spacing className class"
   >
     children
   </section>

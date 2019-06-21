@@ -784,6 +784,7 @@ exports[`Modal scss have to match snapshot 1`] = `
 
 a.dnb-button[type='button'] {
   appearance: none;
+  -moz-appearance: none;
   -webkit-appearance: none; }
 
 a.dnb-button .dnb-button__icon {

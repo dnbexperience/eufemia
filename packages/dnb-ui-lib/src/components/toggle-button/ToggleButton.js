@@ -210,7 +210,7 @@ export default class ToggleButton extends Component {
     })
     this.callOnChange({ checked })
 
-    if (this._refButton.current) {
+    if (this._refButton.current && checked) {
       // simulate focus for firefox and safari
       // so we can get rid of the hover ring after click
       try {

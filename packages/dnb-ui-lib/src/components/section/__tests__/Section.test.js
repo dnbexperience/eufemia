@@ -21,6 +21,8 @@ import dnb_form_section_theme_ui from '../style/themes/dnb-section-theme-ui.scss
 const props = fakeProps(require.resolve('../Section'), {
   optional: true
 })
+props.style = null
+props.style_type = 'mint-green-12'
 
 describe('Section component', () => {
   const Comp = mount(<Component {...props} />)
@@ -30,7 +32,7 @@ describe('Section component', () => {
   })
 
   it('should have correct styles', () => {
-    const Comp = mount(<Component {...props} style="divider" />)
+    const Comp = mount(<Component {...props} style_type="divider" />)
     expect(
       Comp.find('.dnb-section').hasClass('dnb-section--divider')
     ).toBe(true)
@@ -39,9 +41,7 @@ describe('Section component', () => {
   it('should have correct spacing', () => {
     const Comp = mount(<Component {...props} spacing="large" />)
     expect(
-      Comp.find('.dnb-section').hasClass(
-        'dnb-section--spacing-large'
-      )
+      Comp.find('.dnb-section').hasClass('dnb-section--spacing-large')
     ).toBe(true)
   })
 
@@ -52,9 +52,7 @@ describe('Section component', () => {
 
 describe('Section scss', () => {
   it('have to match snapshot', () => {
-    const scss = loadScss(
-      require.resolve('../style/dnb-section.scss')
-    )
+    const scss = loadScss(require.resolve('../style/dnb-section.scss'))
     expect(scss).toMatchSnapshot()
   })
   it('have to match default theme snapshot', () => {

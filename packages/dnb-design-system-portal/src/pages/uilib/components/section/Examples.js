@@ -39,7 +39,7 @@ class Example extends PureComponent {
           data-dnb-test="section-white"
         >
           {/* @html */ `
-<Section spacing="true" style="white">
+<Section spacing="true" style_type="white">
   Visual DNB Section: <code className="dnb-code">white</code>
 </Section>
         `}
@@ -50,7 +50,7 @@ class Example extends PureComponent {
           data-dnb-test="section-divider"
         >
           {/* @html */ `
-<Section spacing="true" style="divider">
+<Section spacing="true" style_type="divider">
   Visual DNB Section: <code className="dnb-code">divider</code>
 </Section>
         `}
@@ -61,7 +61,7 @@ class Example extends PureComponent {
           data-dnb-test="section-mint-green"
         >
           {/* @html */ `
-<Section spacing="true" style="mint-green">
+<Section spacing="true" style_type="mint-green">
   Visual DNB Section: <code className="dnb-code">mint-green</code>
 </Section>
         `}
@@ -72,7 +72,7 @@ class Example extends PureComponent {
           data-dnb-test="section-emerald-green"
         >
           {/* @html */ `
-<Section spacing="true" style="emerald-green">
+<Section spacing="true" style_type="emerald-green">
   Visual DNB Section: <code className="dnb-code">emerald-green</code>
 </Section>
         `}
@@ -82,7 +82,7 @@ class Example extends PureComponent {
           data-dnb-test="section-signal-orange"
         >
           {/* @html */ `
-<Section spacing="true" style="signal-orange">
+<Section spacing="true" style_type="signal-orange">
   Visual DNB Section: <code className="dnb-code">signal-orange</code>
 </Section>
         `}

@@ -19,6 +19,7 @@ const renderProps = {
 
 export const propTypes = {
   style: PropTypes.string,
+  style_type: PropTypes.string,
   spacing: PropTypes.string,
   class: PropTypes.string,
 
@@ -35,7 +36,8 @@ export const propTypes = {
 }
 
 export const defaultProps = {
-  style: 'mint-green-12',
+  style: null,
+  style_type: 'mint-green-12',
   class: null,
 
   /** React props */
@@ -65,6 +67,7 @@ export default class Section extends PureComponent {
   render() {
     const {
       style,
+      style_type,
       spacing,
       className,
       class: _className,
@@ -77,7 +80,7 @@ export default class Section extends PureComponent {
     const params = {
       className: classnames(
         'dnb-section',
-        `dnb-section--${style}`,
+        `dnb-section--${typeof style === 'string' ? style : style_type}`,
         (isTrue(spacing) || spacing) &&
           `dnb-section--spacing${
             !/true|false/.test(String(spacing)) ? '-' + spacing : ''
