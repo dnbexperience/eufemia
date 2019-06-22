@@ -26,4 +26,14 @@ describe('Table screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+  it('have to match a sortable table header on focus', async () => {
+    const selector =
+      '[data-dnb-test="table-default"] th.dnb-table--sortable:not(.dnb-table--active)'
+    const screenshot = await testPageScreenshot({
+      selector,
+      simulateSelector: `${selector} button`,
+      simulate: 'focus'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })
