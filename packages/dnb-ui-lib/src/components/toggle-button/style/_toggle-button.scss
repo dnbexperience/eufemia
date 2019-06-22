@@ -27,8 +27,8 @@
   }
 
   &__button {
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
 
     // reset translateY
     .dnb-checkbox__shell,
@@ -38,7 +38,7 @@
 
     // checkbox button
     .dnb-checkbox {
-      margin-left: -0.25rem;
+      margin-left: -0.75rem;
       &__input {
         pointer-events: none;
       }
@@ -62,7 +62,7 @@
 
     // radio button
     .dnb-radio {
-      margin-left: -0.25rem;
+      margin-left: -0.75rem;
       &__input {
         pointer-events: none;
       }
@@ -114,20 +114,29 @@
 
     // defualt spacing
     .dnb-toggle-button {
-      margin-right: 0.5rem;
-      margin-bottom: 0.5rem;
+      margin-right: 1rem;
+      margin-bottom: 1rem;
     }
     &--column .dnb-toggle-button {
       display: flex;
       margin-right: 0;
-      margin-bottom: 0.5rem;
+      margin-bottom: 1rem;
     }
+    // correct the bottom on the last row
+    & &__shell {
+      display: block;
+      margin-bottom: -1rem;
+    }
+
     @media (min-width: 40em) {
-      .dnb-form-row__content > & {
+      .dnb-form-row__label:not(.dnb-form-label--vertical)
+        + .dnb-form-row__content
+        > & {
         margin-top: -0.5rem;
       }
-      .dnb-form-row--horizontal .dnb-form-row__content > &__shell,
-      :not(.dnb-form-label--vertical) + .dnb-form-row__content > &__shell {
+      .dnb-form-row__label:not(.dnb-form-label--vertical)
+        + .dnb-form-row__content
+        > &__shell {
         display: block;
         margin-top: -0.5rem;
       }
@@ -145,8 +154,12 @@
   + .dnb-form-status,
   &-group &-group__shell > .dnb-form-status {
     // sice we have a margin-bottom on every ToggleButton - we do not set it here additional
-    // margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  &-group &-group__shell & + .dnb-form-status {
+    // sice we have a margin-bottom on every ToggleButton - we do not set it here additional
+    margin-top: 0;
   }
 
   &--label-position-right {
