@@ -133,6 +133,10 @@ exports[`Section scss have to match snapshot 1`] = `
   .dnb-spacing .dnb-section--spacing-small {
     padding-top: 1rem;
     padding-bottom: 1rem; }
+  .dnb-section--spacing-medium,
+  .dnb-spacing .dnb-section--spacing-medium {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem; }
   .dnb-section--spacing-large,
   .dnb-spacing .dnb-section--spacing-large {
     padding-top: 3rem;
