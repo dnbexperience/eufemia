@@ -6,52 +6,67 @@ order: 5
 ---
 
 import CodeBlock from 'Tags/CodeBlock'
+import ComponentBox from 'Tags/ComponentBox'
 
 # Typography
 
-## Font Face
+Fonts are handled automatically once the CSS packages **dnb-ui-core** or **dnb-ui-basis** are loaded.
 
-The DNB default Font Family is `Fedra Sans Std`. This font, together with it's weights is loaded and imported with `@font-face` in `/css/core/fonts.scss`. The font is included in the library package.
-To make sure you don't load all of the font faces at once, you apply font `weights` to load the predefined font faces.
+Every typography HTML element, like headings and paragraphs, have a defined `height`, respective `line-height` so everything falls exactly into the **8 pixel grid**.
+
+You don't need to define the `font-family` ever, but rather use CSS Custom Properties for `font-weight`.
 
 Read more how to use the [different weights](/uilib/typography/font-weights/).
 
-### Headings
+## Font Face
+
+The DNB default Font Family is `Fedra Sans Std`. This font, together with it's weights is loaded and imported with `@font-face` in `/css/core/fonts.scss`. The font family is included in the library package.
+
+## Headings
 
 The DNB UX team has currently only defined tree levels of heading styles (h1, h2 and h3). But level 4, 5 and 6 are also supported by the `dnb-ui-lib`.
 
-If you wish to have a header look like a heading, you can use these classes:
+If you wish to have a header **look like** a heading, you can use these classes:
 
 - `.dnb-h1`
+- `.dnb-h1--small`
 - `.dnb-h2`
-- `.dnb-lead`
+- `.dnb-lead` (h3)
 
 Read more about [best practices for typography](/uilib/usage/best-practices/for-typography).
 
-#### Heading examples
+### Headings in React
+
+<ComponentBox hideOnTest caption="Default Heading typography using React JSX">
+{`
+<H1 style_type="small">H1 small</H1>
+<H1>H1</H1>
+<H2>H2</H2>
+<Lead>Lead</Lead>
+`}
+</ComponentBox>
+
+### Headings with vanilla HTML
 
 <CodeBlock reactLive hideCode caption="Default Heading typography">
 {`
-<h1 className="dnb-h1">H1</h1>
-<h2 className="dnb-h2">H2</h2>
-<h3 className="dnb-h3">H3</h3>
-<h4 className="dnb-h4">H4</h4>
-<h5 className="dnb-h5">H5</h5>
-<h6 className="dnb-h6">H6</h6>
+<h1 class="dnb-h1">H1</h1>
+<h2 class="dnb-h2">H2</h2>
+<h3 class="dnb-lead">Lead</h3>
 `}
 </CodeBlock>
 
 <CodeBlock reactLive hideCode data-dnb-test="heading-additional" caption="Additional Heading typography">
 {`
 <article>
-  <h1 className="dnb-h1">
+  <h1 class="dnb-h1">
     <small>Small H1</small> Normal H1
   </h1>
-  <h1 className="dnb-h1 dnb-small">Small H1 with class</h1>
-  <h2 className="dnb-h2">
+  <h1 class="dnb-h1 dnb-h1--small">Small H1 with class</h1>
+  <h2 class="dnb-h2">
     Normal H2 <small>Small H2</small>
   </h2>
-  <h3 className="dnb-h3">
+  <h3 class="dnb-lead">
     Normal H3/Lead <small>Small H3/Lead</small>
   </h3>
 </article>
@@ -60,17 +75,41 @@ Read more about [best practices for typography](/uilib/usage/best-practices/for-
 
 ### Paragraph
 
+Paragraph comes in several variants. You can use these classes:
+
+- `.dnb-p` (Body)
+- `.dnb-p--demi`
+- `.dnb-p--medium`
+- `.dnb-p--ingress`
+- `.dnb-p--small`
+
+### Paragraphs in React
+
+  <ComponentBox hideOnTest caption="Default paragraph typography using React JSX">
+  {`
+  <P>Paragraph (Body)</P>
+  <P style_type="demi">Paragraph Demi</P>
+  <P style_type="medium">Paragraph Medium</P>
+  <P style_type="ingress">Paragraph Ingress</P>
+  <P style_type="small">Paragraph Small</P>
+  <P style_type="small demi">Paragraph Demi Small</P>
+  <P style_type="small medium">Paragraph Medium Small</P>
+  `}
+  </ComponentBox>
+
+### Paragraphs with vanilla HTML
+
 <CodeBlock reactLive hideCode data-dnb-test="paragraph-default" caption="Default Paragraph styles">
 {`
-<p className="dnb-p">
+<p class="dnb-p">
   Here is a paragraph text<br />
-  <a href="/" className="dnb-anchor">Anchor / Text Link</a><br />
+  <a href="/" class="dnb-anchor">Anchor / Text Link</a><br />
   <b>Bold paragraph</b><br />
   <strong>Strong paragraph</strong><br />
   <i>Italic paragraph</i><br />
   <u>Underline paragraph</u><br />
   Numbers 0123456789<br />
-  <code className="dnb-code">Code paragraph</code><br />
+  <code class="dnb-code">Code paragraph</code><br />
   <cite>Cite paragraph</cite><br />
 </p>
 `}
@@ -78,25 +117,23 @@ Read more about [best practices for typography](/uilib/usage/best-practices/for-
 
 <CodeBlock reactLive hideCode data-dnb-test="paragraph-small" caption="Paragraph with small font-size">
 {`
-<p className="dnb-p">
-  <small>
-    Here is a small paragraph text<br />
-    <a href="/" className="dnb-anchor">Anchor / Text Link</a><br />
-    <b>Bold paragraph</b><br />
-    <strong>Strong paragraph</strong><br />
-    <i>Italic paragraph</i><br />
-    <u>Underline paragraph</u><br />
-    Numbers 0123456789<br />
-    <code className="dnb-code">Code paragraph</code><br />
-    <cite>Cite paragraph</cite><br />
-  </small>
+<p class="dnb-p dnb-p--small">
+  Here is a small paragraph text<br />
+  <a href="/" class="dnb-anchor">Anchor / Text Link</a><br />
+  <b>Bold paragraph</b><br />
+  <strong>Strong paragraph</strong><br />
+  <i>Italic paragraph</i><br />
+  <u>Underline paragraph</u><br />
+  Numbers 0123456789<br />
+  <code class="dnb-code">Code paragraph</code><br />
+  <cite>Cite paragraph</cite><br />
 </p>
 `}
 </CodeBlock>
 
 <CodeBlock reactLive hideCode data-dnb-test="paragraph-additional" caption="Additional Paragraph formatting (not defined yet)">
 {`
-<p className="dnb-p">
+<p class="dnb-p">
   <del>Deleted paragraph</del><br />
   <mark>Marked paragraph</mark><br />
   <ins>Inserted paragraph</ins><br />
@@ -108,11 +145,11 @@ Read more about [best practices for typography](/uilib/usage/best-practices/for-
 
 Read more [about Fonts in the Designer Guides](/quickguide-designer/fonts/)
 
-### Anchor
+## Anchor
 
 - `.dnb-anchor` <a href="/" class="dnb-anchor">Anchor with default style</a>
 - `.dnb-anchor--hover` <a href="/" class="dnb-anchor dnb-anchor--hover">Hover Style</a>
 - `.dnb-anchor--active` <a href="/" class="dnb-anchor dnb-anchor--active">Active Style</a>
 - `.dnb-anchor--focus` <a href="/" class="dnb-anchor dnb-anchor--focus">Focus Style</a>
 
-Read more about the [Anchor / Link](/uilib/elements/anchor)
+Read more about the [Anchor / Text Link](/uilib/elements/anchor)

@@ -17,7 +17,7 @@
   line-height: 3.5rem; // 56px
   font-weight: var(--font-weight-demi);
 
-  &.dnb-small,
+  &--small,
   & > small {
     display: block;
     font-size: var(--font-size-large); // 32px
@@ -28,7 +28,7 @@
   font-size: var(--font-size-medium); // 24px
   line-height: 2rem; // 32px
 
-  &.dnb-small,
+  &--small,
   & > small {
     font-size: var(--font-size-x-default); // 20px
   }
@@ -42,7 +42,7 @@
   font-size: var(--font-size-x-default); // 20px
   line-height: 2rem; // 32px
 
-  &.dnb-small,
+  &--small,
   & > small {
     font-size: var(--font-size-default); // 16px
   }
@@ -80,9 +80,25 @@
 
   @include numberFeature(lining-nums, lnum);
 
+  &--demi {
+    font-weight: var(--font-weight-demi);
+  }
+  &--ingress {
+    font-weight: var(--font-weight-demi);
+    color: var(--color-emerald-green);
+  }
+  b,
+  strong,
+  &--medium {
+    font-weight: var(--font-weight-medium);
+  }
+  &--small,
   & > small {
     font-size: var(--font-size-small); // 14px
-    line-height: 1.375rem; // 22px
+
+    // shold be 22px - but we force it to the pixel grid!
+    // - sorry Sindre
+    line-height: 1.5rem;
   }
 
   & > cite {
@@ -198,6 +214,7 @@
   @include h6Style();
 }
 
+// Headings
 .dnb-h1,
 .dnb-h2,
 .dnb-h3,
@@ -215,24 +232,18 @@
   @include headingsStyle();
 }
 
-// do not set this for h1, like ".dnb-h1 > .dnb-small"
-.dnb-p > small,
-.dnb-p > .dnb-small,
-.dnb-h2 > .dnb-small,
-.dnb-h3 > .dnb-small,
-.dnb-h4 > .dnb-small,
-.dnb-h5 > .dnb-small,
-.dnb-h6 > .dnb-small {
-  line-height: 1em; // for vertical alignment, we have to have no line-height
-}
+// // Small: do not set this for h1, like ".dnb-h1 > .dnb-small"
+// .dnb-p > small,
+// .dnb-p > .dnb-small {
+//   line-height: 1em; // for vertical alignment, we have to have no line-height
+// }
 
+// Paragraphs
 .dnb-p {
   @include paragraphStyle();
-  b,
-  strong {
-    font-weight: var(--font-weight-medium);
-  }
 }
+
+// Spacing
 .dnb-spacing {
   .dnb-h1 {
     @include h1Spacing();
