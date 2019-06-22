@@ -1,5 +1,6 @@
 {
   "reject": [
-    "core-js"
+    "core-js",
+    "eslint"
   ]
 }

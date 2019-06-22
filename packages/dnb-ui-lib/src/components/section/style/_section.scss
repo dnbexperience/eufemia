@@ -34,6 +34,11 @@
     padding-top: 1rem;
     padding-bottom: 1rem;
   }
+  &--spacing-medium,
+  .dnb-spacing &--spacing-medium {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
   &--spacing-large,
   .dnb-spacing &--spacing-large {
     padding-top: 3rem;

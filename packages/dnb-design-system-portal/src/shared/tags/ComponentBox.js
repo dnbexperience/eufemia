@@ -10,7 +10,10 @@ import styled from '@emotion/styled'
 import { getComponents } from 'dnb-ui-lib/src/components/lib'
 import { getElements } from 'dnb-ui-lib/src/elements/lib'
 
-const ComponentBox = ({ children, scope = {}, ...rest }) => {
+const ComponentBox = ({ children, hideOnTest, scope = {}, ...rest }) => {
+  if (hideOnTest && typeof window !== 'undefined' && window.IS_TEST) {
+    return <></>
+  }
   return (
     <CodeBlock
       scope={{
@@ -29,9 +32,11 @@ const ComponentBox = ({ children, scope = {}, ...rest }) => {
 }
 ComponentBox.propTypes = {
   children: PropTypes.node.isRequired,
+  hideOnTest: PropTypes.bool,
   scope: PropTypes.object
 }
 ComponentBox.defaultProps = {
+  hideOnTest: false,
   scope: {}
 }
 

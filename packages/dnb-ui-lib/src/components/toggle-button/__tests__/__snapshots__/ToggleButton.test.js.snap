@@ -1352,13 +1352,13 @@ a.dnb-button .dnb-button__text {
     display: inline-flex;
     align-items: center; }
   .dnb-toggle-button__button {
-    padding-left: 1rem;
-    padding-right: 1rem; }
+    padding-left: 1.5rem;
+    padding-right: 1.5rem; }
     .dnb-toggle-button__button .dnb-checkbox__shell,
     .dnb-toggle-button__button .dnb-radio__shell {
       transform: translateY(0); }
     .dnb-toggle-button__button .dnb-checkbox {
-      margin-left: -0.25rem; }
+      margin-left: -0.75rem; }
       .dnb-toggle-button__button .dnb-checkbox__input {
         pointer-events: none; }
       .dnb-toggle-button__button .dnb-checkbox__focus, .dnb-toggle-button__button .dnb-checkbox__button {
@@ -1373,7 +1373,7 @@ a.dnb-button .dnb-button__text {
         width: calc(var(--checkbox-width) - 0.25rem);
         height: calc(var(--checkbox-width) - 0.25rem); }
     .dnb-toggle-button__button .dnb-radio {
-      margin-left: -0.25rem; }
+      margin-left: -0.75rem; }
       .dnb-toggle-button__button .dnb-radio__input {
         pointer-events: none; }
       .dnb-toggle-button__button .dnb-radio__focus, .dnb-toggle-button__button .dnb-radio__button {
@@ -1403,17 +1403,23 @@ a.dnb-button .dnb-button__text {
     display: inline-flex;
     flex-direction: row; }
     .dnb-toggle-button-group .dnb-toggle-button {
-      margin-right: 0.5rem;
-      margin-bottom: 0.5rem; }
+      margin-right: 1rem;
+      margin-bottom: 1rem; }
     .dnb-toggle-button-group--column .dnb-toggle-button {
       display: flex;
       margin-right: 0;
-      margin-bottom: 0.5rem; }
+      margin-bottom: 1rem; }
+    .dnb-toggle-button-group .dnb-toggle-button-group__shell {
+      display: block;
+      margin-bottom: -1rem; }
     @media (min-width: 40em) {
-      .dnb-form-row__content > .dnb-toggle-button-group {
+      .dnb-form-row__label:not(.dnb-form-label--vertical)
++ .dnb-form-row__content
+> .dnb-toggle-button-group {
         margin-top: -0.5rem; }
-      .dnb-form-row--horizontal .dnb-form-row__content > .dnb-toggle-button-group__shell,
-      :not(.dnb-form-label--vertical) + .dnb-form-row__content > .dnb-toggle-button-group__shell {
+      .dnb-form-row__label:not(.dnb-form-label--vertical)
++ .dnb-form-row__content
+> .dnb-toggle-button-group__shell {
         display: block;
         margin-top: -0.5rem; } }
   @media (min-width: 40em) {
@@ -1421,7 +1427,10 @@ a.dnb-button .dnb-button__text {
       margin-top: -0.5rem; } }
   .dnb-toggle-button + .dnb-form-status,
   .dnb-toggle-button-group .dnb-toggle-button-group__shell > .dnb-form-status {
-    margin-bottom: 0.5rem; }
+    margin-top: 0.5rem;
+    margin-bottom: 1rem; }
+  .dnb-toggle-button-group .dnb-toggle-button-group__shell .dnb-toggle-button + .dnb-form-status {
+    margin-top: 0; }
   .dnb-toggle-button--label-position-right {
     vertical-align: middle; }
     .dnb-toggle-button--label-position-right .dnb-form-label {

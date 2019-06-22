@@ -61,7 +61,7 @@ class Example extends PureComponent {
         >
           {/* @jsx */ `
 <ToggleButton.Group
-  label="Multi-select Group:"
+  label="Multi-select:"
   title="Give me a Title"
   multiselect="true"
   values={['first', 'third']}

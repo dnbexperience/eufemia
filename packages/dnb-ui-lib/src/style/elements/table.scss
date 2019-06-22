@@ -76,11 +76,10 @@
       font-weight: var(--font-weight-medium);
       white-space: nowrap;
 
-      &,
-      &.dnb-button--has-text {
+      &:not(:focus),
+      &:not(:focus).dnb-button--has-text {
         padding: 0;
         @include drawUnderlineBorder() {
-          z-index: 1;
           left: 0;
           right: 1.5rem;
           bottom: 0;
@@ -98,7 +97,7 @@
       @include hover() {
         color: var(--color-sea-green);
 
-        .dnb-icon {
+        &:not(:focus) .dnb-icon {
           visibility: visible;
         }
 
@@ -106,6 +105,19 @@
           right: 0;
           background-color: var(--color-sea-green);
           visibility: visible;
+        }
+      }
+
+      &:focus {
+        @include removeFakeFocus();
+
+        &::before {
+          content: '';
+          position: absolute;
+          top: -0.6rem;
+          left: -1rem;
+          right: 1rem;
+          height: 2.5rem;
         }
       }
     }
@@ -124,6 +136,12 @@
       }
       .dnb-icon {
         visibility: visible;
+      }
+
+      &:focus {
+        &::before {
+          right: -0.5rem;
+        }
       }
     }
   }

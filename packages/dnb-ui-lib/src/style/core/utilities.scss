@@ -120,6 +120,16 @@ $focusRingColor: var(--color-emerald-green);
     @include fakeBorder($color, $focusRingWidth, $inset);
   }
 }
+@mixin removeFakeFocus($whatinput: null) {
+  outline: initial;
+  @if $whatinput == null {
+    $whatinput: 'keyboard';
+  }
+
+  html[data-whatinput='#{$whatinput}'] & {
+    box-shadow: none;
+  }
+}
 
 @mixin fakeBorder(
   $color: null,

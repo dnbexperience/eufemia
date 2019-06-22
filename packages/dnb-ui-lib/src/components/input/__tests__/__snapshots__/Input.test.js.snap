@@ -497,8 +497,6 @@ exports[`Input scss have to match default theme snapshot 1`] = `
     display: none; }
   .dnb-input__shell[data-input-state='focus'][data-has-content='false'] .dnb-input__input:not([disabled]):not([readonly]) .dnb-input__placeholder {
     display: none; }
-  .dnb-input__description {
-    color: var(--input-text-color); }
 "
 `;
 
