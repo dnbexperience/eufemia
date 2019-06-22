@@ -96,7 +96,8 @@
     display: none;
   }
 
-  &__description {
-    color: var(--input-text-color);
-  }
+  // TODO: This has to be considdered with Jens
+  // &__description {
+  //   color: var(--input-text-color);
+  // }
 }
