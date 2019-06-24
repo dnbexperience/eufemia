@@ -18,6 +18,7 @@ const config = {
   headless: true,
   blockFontRequest: false,
   allowedFonts: [], // e.g. 'LiberationMono'
+  pixelGrid: 8,
   pageSettings: {
     width: 1280,
     height: 1024,
@@ -45,6 +46,7 @@ module.exports.testPageScreenshot = ({
   styleSelector = null,
   simulateSelector = null,
   wrapperStyle = null,
+  measureElement = null,
   transformElement = null
 } = {}) =>
   new Promise(async (resolve, reject) => {
@@ -162,6 +164,41 @@ module.exports.testPageScreenshot = ({
       // wait before taking screenshot
       if (waitFor > 0) {
         await page.waitFor(waitFor)
+      }
+
+      // with this, we get a warning (console)
+      // if an element is not in the pixel grid
+      if (!measureElement) {
+        measureElement = selector
+      }
+      if (!isCI && measureElement) {
+        const pixelGrid = config.pixelGrid
+        if (selector !== measureElement) {
+          await page.waitForSelector(measureElement)
+        }
+        const heightInPixels = await page.evaluate(
+          ({ measureElement }) => {
+            const node = document.querySelector(measureElement)
+            return window.getComputedStyle(node).getPropertyValue('height')
+          },
+          {
+            measureElement
+          }
+        )
+        const heightInPixelsFloat = parseFloat(heightInPixels)
+        const isInEightSeries = num => num % pixelGrid
+        const howManyPixeToNextEight = num => {
+          const v = isInEightSeries(num)
+          return v === 0 ? v : pixelGrid - v
+        }
+        const off = howManyPixeToNextEight(heightInPixelsFloat)
+        if (off > 0) {
+          const inRem = Math.round(heightInPixelsFloat / (pixelGrid * 2))
+          console.warn(
+            `"${measureElement}" is <${off}px off to ${heightInPixelsFloat +
+              off}rem (${heightInPixels}) witch corresponds to a rem value of ${inRem}rem.`
+          )
+        }
       }
 
       if (secreenshotSelector) {
