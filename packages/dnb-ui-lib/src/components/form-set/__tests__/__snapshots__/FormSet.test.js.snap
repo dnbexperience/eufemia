@@ -6,16 +6,26 @@ exports[`FormSet component have to match snapshot 1`] = `
   className="className"
   direction="horizontal"
   disabled="disabled"
+  element="form"
   id="id"
+  no_form="no_form"
+  prevent_submit="prevent_submit"
   render_content={[Function]}
   size="size"
   vertical="vertical"
 >
-  <div
+  <Element
     className="dnb-form-set className class"
+    is="form"
+    onSubmit={[Function]}
   >
-    children
-  </div>
+    <form
+      className="dnb-form-set className class"
+      onSubmit={[Function]}
+    >
+      children
+    </form>
+  </Element>
 </FormSet>
 `;
 
