@@ -47,6 +47,7 @@ import H5 from './elements/H5'
 import H6 from './elements/H6'
 import Hr from './elements/Hr'
 import Img from './elements/Img'
+import Ingress from './elements/Ingress'
 import Lead from './elements/Lead'
 import Link from './elements/Link'
 import Ol from './elements/Ol'
@@ -94,6 +95,7 @@ export {
   H6,
   Hr,
   Img,
+  Ingress,
   Lead,
   Link,
   Ol,
