@@ -142,10 +142,6 @@ export default class StepItem extends PureComponent {
     ) {
       params['aria-disabled'] = true
     }
-    if (!url) {
-      // to screen readers read both the nr. and the text in one sentence
-      params.role = 'text'
-    }
 
     const StepItemWrapper = props => (
       <>
@@ -209,6 +205,8 @@ export default class StepItem extends PureComponent {
         </a>
       )
     } else {
+      // to screen readers read both the nr. and the text in one sentence
+      params.role = 'text'
       child = (
         <span
           className="dnb-step-indicator__item-content dnb-step-indicator__item-content--static"

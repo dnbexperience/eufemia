@@ -23,6 +23,7 @@ const props = fakeProps(require.resolve('../FormSet'), {
   optional: true
 })
 props.direction = 'horizontal'
+props.element = 'form'
 
 describe('FormSet component', () => {
   const Comp = mount(<Component {...props} />)

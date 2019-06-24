@@ -59,7 +59,6 @@ exports[`StepIndicator component with buttons have to match snapshot 1`] = `
           <button
             className="dnb-anchor dnb-step-indicator__item-content dnb-step-indicator__item-content--link"
             onClick={[Function]}
-            role="text"
           >
             <StepItemWrapper>
               <span
@@ -114,7 +113,6 @@ exports[`StepIndicator component with buttons have to match snapshot 1`] = `
             aria-current="step"
             className="dnb-anchor dnb-step-indicator__item-content dnb-step-indicator__item-content--link"
             onClick={[Function]}
-            role="text"
           >
             <StepItemWrapper>
               <span

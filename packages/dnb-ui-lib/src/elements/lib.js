@@ -22,6 +22,7 @@ import H5 from './H5'
 import H6 from './H6'
 import Hr from './Hr'
 import Img from './Img'
+import Ingress from './Ingress'
 import Lead from './Lead'
 import Link from './Link'
 import Ol from './Ol'
@@ -44,6 +45,7 @@ export {
   H6,
   Hr,
   Img,
+  Ingress,
   Lead,
   Link,
   Ol,
@@ -67,6 +69,7 @@ export const getElements = () => {
     H6,
     Hr,
     Img,
+    Ingress,
     Lead,
     Link,
     Ol,
