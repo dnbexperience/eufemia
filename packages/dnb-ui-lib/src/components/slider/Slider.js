@@ -8,6 +8,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import keycode from 'keycode'
 import {
+  isTrue,
   registerElement,
   validateDOMAttributes,
   processChildren,
@@ -35,13 +36,6 @@ export const propTypes = {
   // attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   class: PropTypes.string,
 
-  // range_output_visible: PropTypes.oneOfType([
-  //   PropTypes.string,
-  //   PropTypes.bool
-  // ]),
-  // range_output_input_size: PropTypes.string,
-  // range_output_extra_information: PropTypes.string,
-
   /// React props
   className: PropTypes.string,
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
@@ -65,9 +59,6 @@ export const defaultProps = {
   vertical: false,
   reverse: false,
   disabled: false,
-  // range_output_visible: false,
-  // range_output_input_size: 'large',
-  // range_output_extra_information: null,
   class: null,
 
   // React props
@@ -140,20 +131,10 @@ export default class Slider extends Component {
     return true
   }
 
-  // onChangeHandler = event => {
-  //   const value = !this.state.value
-  //   this.setState({ value, _listenForPropChanges: false })
-  //   dispatchCustomElementEvent(this, 'on_change', { value, event })
-  // }
-
   handleKeyDown = event => {
     const { value: currentValue } = this.state
-    const {
-      reverse,
-      min,
-      max
-      // value: currentValue
-    } = this.props
+    const { reverse, min, max } = this.props
+    const isReverse = isTrue(reverse)
 
     const onePercent = Math.abs((max - min) / 100)
     const step = this.props.step || onePercent
@@ -161,28 +142,28 @@ export default class Slider extends Component {
 
     switch (keycode(event)) {
       case 'home':
-        value = reverse ? max : min
+        value = isReverse ? max : min
         break
       case 'end':
-        value = reverse ? min : max
+        value = isReverse ? min : max
         break
       case 'page up':
-        value = reverse
+        value = isReverse
           ? currentValue - onePercent
           : currentValue + onePercent * 10
         break
       case 'page down':
-        value = reverse
+        value = isReverse
           ? currentValue + onePercent
           : currentValue - onePercent * 10
         break
       case 'right':
       case 'up':
-        value = reverse ? currentValue - step : currentValue + step
+        value = isReverse ? currentValue - step : currentValue + step
         break
       case 'left':
       case 'down':
-        value = reverse ? currentValue + step : currentValue - step
+        value = isReverse ? currentValue + step : currentValue - step
         break
       default:
         return
@@ -294,14 +275,7 @@ export default class Slider extends Component {
       return
     }
 
-    // console.log(
-    //   'Number(rawValue).toFixed(3)',
-    //   parseFloat(rawValue).toFixed(3)
-    // )
-
     value = this.roundValue(rawValue)
-
-    // step ? roundToStep(rawValue, step) : parseFloat(rawValue).toFixed(3)
 
     if (
       typeof on_change === 'function' &&
@@ -309,6 +283,7 @@ export default class Slider extends Component {
     ) {
       dispatchCustomElementEvent(this, 'on_change', {
         value,
+        raw_value: rawValue,
         event
       })
 
@@ -408,14 +383,14 @@ export default class Slider extends Component {
       'dnb-slider',
       className,
       _className,
-      reverse && 'slider__reverse',
-      vertical && 'slider__vertical'
+      isTrue(reverse) && 'slider__reverse',
+      isTrue(vertical) && 'slider__vertical'
     )
 
     const percent = clamp(((value - min) * 100) / (max - min))
 
-    const lineProperty = vertical ? 'height' : 'width'
-    const thumbProperty = vertical ? 'top' : 'left'
+    const lineProperty = isTrue(vertical) ? 'height' : 'width'
+    const thumbProperty = isTrue(vertical) ? 'top' : 'left'
     const inlineLineBeforeStyles = {
       [lineProperty]: this.calculateLineBeforeStyles(percent)
     }
@@ -458,7 +433,7 @@ export default class Slider extends Component {
           aria-valuenow={this.roundValue(value)}
           aria-valuemin={min}
           aria-valuemax={max}
-          aria-orientation={vertical ? 'vertical' : 'horizontal'}
+          aria-orientation={isTrue(vertical) ? 'vertical' : 'horizontal'}
           ref={this._containerRef}
           {...params}
         >
