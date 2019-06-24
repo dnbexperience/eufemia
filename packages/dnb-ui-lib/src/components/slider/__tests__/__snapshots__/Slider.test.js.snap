@@ -27,7 +27,7 @@ exports[`Slider component have to match snapshot 1`] = `
       aria-orientation="vertical"
       aria-valuemax="max"
       aria-valuemin="min"
-      aria-valuenow="value"
+      aria-valuenow="NaN"
       className="slider__root slider__state--disabled"
       disabled="disabled"
       id="id"
@@ -36,8 +36,6 @@ exports[`Slider component have to match snapshot 1`] = `
       onTouchMove={[Function]}
       onTouchStartCapture={[Function]}
       role="slider"
-      step="step"
-      value="value"
     >
       <div
         className="slider__line slider__line__before"

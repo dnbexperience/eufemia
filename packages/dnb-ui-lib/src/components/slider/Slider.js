@@ -111,7 +111,6 @@ export default class Slider extends Component {
     state._listenForPropChanges = true
 
     return state
-    // return null
   }
 
   static getValue(props) {
@@ -278,25 +277,35 @@ export default class Slider extends Component {
     this.emitChange(event, value)
   }
 
+  roundValue(value) {
+    const { step } = this.props
+
+    return parseFloat(step) > 0
+      ? roundToStep(value, step)
+      : parseFloat(value).toFixed(3)
+  }
+
   emitChange(event, rawValue, callback) {
     const { value: previousValue } = this.state
-    const { step, disabled } = this.props
+    const { on_change, disabled } = this.props
     let value = rawValue
 
     if (disabled) {
       return
     }
 
-    console.log('Number(rawValue).toFixed(3)', Number(rawValue).toFixed(3))
+    // console.log(
+    //   'Number(rawValue).toFixed(3)',
+    //   parseFloat(rawValue).toFixed(3)
+    // )
 
-    value = step
-      ? roundToStep(rawValue, step)
-      : Number(rawValue).toFixed(3)
+    value = this.roundValue(rawValue)
+
+    // step ? roundToStep(rawValue, step) : parseFloat(rawValue).toFixed(3)
 
     if (
-      typeof this.props.on_change === 'function' && value !== step
-        ? roundToStep(previousValue, step)
-        : Number(previousValue).toFixed(3)
+      typeof on_change === 'function' &&
+      value !== this.roundValue(previousValue)
     ) {
       dispatchCustomElementEvent(this, 'on_change', {
         value,
@@ -387,6 +396,11 @@ export default class Slider extends Component {
       min,
       reverse,
       vertical,
+
+      id: _id, // eslint-disable-line
+      step: _step, // eslint-disable-line
+      value: _value, // eslint-disable-line
+
       ...attributes
     } = this.props
 
@@ -441,7 +455,7 @@ export default class Slider extends Component {
         <div
           id={this._id}
           role="slider"
-          aria-valuenow={value}
+          aria-valuenow={this.roundValue(value)}
           aria-valuemin={min}
           aria-valuemax={max}
           aria-orientation={vertical ? 'vertical' : 'horizontal'}
@@ -469,15 +483,12 @@ export default class Slider extends Component {
   }
 }
 
-function percentToValue(percent, min, max) {
-  return ((max - min) * percent) / 100 + min
-}
+const percentToValue = (percent, min, max) =>
+  ((max - min) * percent) / 100 + min
 
-function roundToStep(number, step) {
-  return Math.round(number / step) * step
-}
+const roundToStep = (number, step) => Math.round(number / step) * step
 
-function getOffset(node) {
+const getOffset = node => {
   const { pageYOffset, pageXOffset } = global
   const { left, top } = node.getBoundingClientRect()
 
@@ -487,7 +498,7 @@ function getOffset(node) {
   }
 }
 
-function getMousePosition(event) {
+const getMousePosition = event => {
   if (event.changedTouches && event.changedTouches[0]) {
     return {
       x: event.changedTouches[0].pageX,
@@ -501,7 +512,7 @@ function getMousePosition(event) {
   }
 }
 
-function calculatePercent(node, event, isVertical, isReverted) {
+const calculatePercent = (node, event, isVertical, isReverted) => {
   const { width, height } = node.getBoundingClientRect()
   const { top, left } = getOffset(node)
   const { x, y } = getMousePosition(event)
@@ -514,10 +525,7 @@ function calculatePercent(node, event, isVertical, isReverted) {
     : clamp(value / onePercent)
 }
 
-function preventPageScrolling(event) {
-  event.preventDefault()
-}
+const preventPageScrolling = event => event.preventDefault()
 
-function clamp(value, min = 0, max = 100) {
-  return Math.min(Math.max(value, min), max)
-}
+const clamp = (value, min = 0, max = 100) =>
+  Math.min(Math.max(value, min), max)
