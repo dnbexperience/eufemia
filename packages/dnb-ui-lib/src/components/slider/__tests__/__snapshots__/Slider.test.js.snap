@@ -14,12 +14,13 @@ exports[`Slider component have to match snapshot 1`] = `
   on_drag_start={[Function]}
   on_init={[Function]}
   on_state_update={[Function]}
+  reverse="reverse"
   step="step"
   value="value"
   vertical="vertical"
 >
   <div
-    className="dnb-slider className class slider__vertical"
+    className="dnb-slider className class slider__reverse slider__vertical"
   >
     <div
       aria-disabled={true}
@@ -35,6 +36,8 @@ exports[`Slider component have to match snapshot 1`] = `
       onTouchMove={[Function]}
       onTouchStartCapture={[Function]}
       role="slider"
+      step="step"
+      value="value"
     >
       <div
         className="slider__line slider__line__before"

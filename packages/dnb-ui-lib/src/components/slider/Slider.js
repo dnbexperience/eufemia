@@ -30,6 +30,7 @@ export const propTypes = {
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   step: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   vertical: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  reverse: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   // attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   class: PropTypes.string,
@@ -62,6 +63,7 @@ export const defaultProps = {
   value: null,
   step: null,
   vertical: false,
+  reverse: false,
   disabled: false,
   // range_output_visible: false,
   // range_output_input_size: 'large',
@@ -285,14 +287,16 @@ export default class Slider extends Component {
       return
     }
 
+    console.log('Number(rawValue).toFixed(3)', Number(rawValue).toFixed(3))
+
     value = step
       ? roundToStep(rawValue, step)
-      : Number(rawValue.toFixed(3))
+      : Number(rawValue).toFixed(3)
 
     if (
       typeof this.props.on_change === 'function' && value !== step
         ? roundToStep(previousValue, step)
-        : Number(previousValue.toFixed(3))
+        : Number(previousValue).toFixed(3)
     ) {
       dispatchCustomElementEvent(this, 'on_change', {
         value,
@@ -350,7 +354,7 @@ export default class Slider extends Component {
       )
     }
     if (typeof this.props.on_init === 'function') {
-      const value = this.state.value
+      const { value } = this.state
       dispatchCustomElementEvent(this, 'on_init', {
         value
       })
@@ -382,7 +386,8 @@ export default class Slider extends Component {
       max,
       min,
       reverse,
-      vertical
+      vertical,
+      ...attributes
     } = this.props
 
     const classes = classnames(
@@ -411,6 +416,7 @@ export default class Slider extends Component {
         currentState && `slider__state--${currentState}`
       ),
       disabled,
+      ...attributes,
       onClick: this.handleClick,
       onMouseDown: this.handleMouseDown,
       onTouchStartCapture: this.handleTouchStart,

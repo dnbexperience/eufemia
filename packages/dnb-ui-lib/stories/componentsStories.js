@@ -15,6 +15,7 @@ import Checkbox from './components/Checkbox'
 import Switch from './components/Switch'
 import DatePicker from './components/DatePicker'
 import Textarea from './components/Textarea'
+import Slider from './components/Slider'
 import ProgressIndicator from './components/ProgressIndicator'
 import StepIndicator from './components/StepIndicator'
 import Modal from './components/Modal'
@@ -43,6 +44,7 @@ stories.push(Checkbox)
 stories.push(Switch)
 stories.push(DatePicker)
 stories.push(Textarea)
+stories.push(Slider)
 stories.push(ProgressIndicator)
 stories.push(StepIndicator)
 stories.push(Modal)
