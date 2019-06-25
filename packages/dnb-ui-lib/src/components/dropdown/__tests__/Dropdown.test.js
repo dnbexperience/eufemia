@@ -135,18 +135,20 @@ describe('Dropdown component', () => {
   })
 
   it('has correct selected value', () => {
+    const Comp = mount(<Component {...props} data={mockData} />)
     expect(Comp.find('.dnb-dropdown__text__inner').text()).toBe(
       mockData[props.selected_item].selected_value
     )
   })
 
   it('has correct selected value after new selection', () => {
+    Comp.find('input').simulate('focus')
     Comp.find('li.dnb-dropdown__option')
       .find('.dnb-dropdown__option__inner')
-      .at(props.selected_item + 1)
+      .at(props.selected_item)
       .simulate('mousedown')
     expect(Comp.find('.dnb-dropdown__text__inner').text()).toBe(
-      mockData[props.selected_item + 1].selected_value
+      mockData[props.selected_item].selected_value
     )
   })
 

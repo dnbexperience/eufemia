@@ -30,14 +30,24 @@ inptuEl.addEvent('on_submit', function(e) {
 
 // New Web Components Event API
 document.querySelector('dnb-switch').addEvent('on_change', function(e) {
-  console.log('radio_change', e.checked);
+  console.log('switch.on_change', e.checked);
 });
-document.querySelector('.dropdown').addEvent('on_change', function(e) {
-  console.log('radio_change', e.data);
-});
-document.querySelector('.dropdown').addEvent('on_select', function(e) {
-  console.log('radio_select', e.data);
-});
+document
+  .querySelector('.date-picker-event')
+  .addEvent('on_change', function(e) {
+    console.log('date-picker.on_change', e);
+    document.querySelector('.my-date').innerHTML = e.date;
+  });
+document
+  .querySelector('.dropdown-event')
+  .addEvent('on_change', function(e) {
+    console.log('dropdown.on_change', e.data);
+  });
+document
+  .querySelector('.dropdown-event')
+  .addEvent('on_select', function(e) {
+    console.log('dropdown.on_select', e.data);
+  });
 document.querySelector('.button').addEvent('on_click', function(e) {
   console.log('on_click', e);
 });

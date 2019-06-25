@@ -42,8 +42,17 @@
     </div>
 
     <div class="dnb-section dnb-section--spacing">
+      <span class="my-date">dd.mm.åååå</span>
+      <dnb-date-picker
+        class="date-picker-event"
+        return_format="DD.MM.YYYY"
+      ></dnb-date-picker>
+      <dnb-date-picker show_input="true"></dnb-date-picker>
+    </div>
+
+    <div class="dnb-section dnb-section--spacing">
       <dnb-dropdown
-        class="dropdown"
+        class="dropdown-event"
         data='[{"selected_value": "Visible value", "content": "Brukskonto - Kari Nordmann"},{"selected_value": "Second value", "content": "Konto - Ola Nordmann"}]'
       ></dnb-dropdown>
     </div>
@@ -62,10 +71,13 @@
       ></dnb-input>
     </div>
 
-    <script crossorigin src="./vendor/react.production.min.js"></script>
     <script
       crossorigin
-      src="./vendor/react-dom.production.min.js"
+      src="https://unpkg.com/react@16/umd/react.production.min.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"
     ></script>
     <script src="http://localhost:8081/umd/dnb-ui-lib-icons.min.js"></script>
     <script src="http://localhost:8081/umd/dnb-ui-lib.min.js"></script>

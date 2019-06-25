@@ -177,7 +177,10 @@ export default class Dropdown extends PureComponent {
       if (props.data) {
         state.data = Dropdown.getData(props)
       }
-      if (state.selected_item !== props.selected_item) {
+      if (
+        !state._isNewActiveItem &&
+        state.selected_item !== props.selected_item
+      ) {
         state.selected_item = props.selected_item
         if (typeof props.on_state_update === 'function') {
           dispatchCustomElementEvent({ props }, 'on_state_update', {
@@ -329,6 +332,7 @@ export default class Dropdown extends PureComponent {
       },
       () => {
         // try to scroll to item
+        if (!this._refUl.current) return
         try {
           const liElement = this._refUl.current.querySelector(
             `li.dnb-dropdown__option:nth-of-type(${active_item + 1})`
@@ -439,9 +443,10 @@ export default class Dropdown extends PureComponent {
 
   selectItem = (selected_item, { fireSelectEvent } = {}) => {
     this.setState({
+      // Do not reset "_listenForPropChanges" here, as it will block instant component rerender
+      _isNewActiveItem: true,
       selected_item,
-      active_item: selected_item,
-      _listenForPropChanges: false
+      active_item: selected_item
     })
     if (this.state.selected_item !== selected_item) {
       dispatchCustomElementEvent(this, 'on_change', {
