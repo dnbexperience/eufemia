@@ -3,7 +3,7 @@
  *
  */
 
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import keycode from 'keycode'
@@ -108,7 +108,7 @@ export const defaultProps = {
 /**
  * The dropdown component is our enhancement of the classic radio button. It acts like a switch. Example: On/off, yes/no.
  */
-export default class Dropdown extends Component {
+export default class Dropdown extends PureComponent {
   static tagName = 'dnb-dropdown'
   static propTypes = propTypes
   static defaultProps = defaultProps
@@ -164,16 +164,26 @@ export default class Dropdown extends Component {
     return res || []
   }
 
+  static getOptionData(selected_item, data) {
+    return (
+      (data &&
+        data.filter((data, i) => i === parseFloat(selected_item))[0]) ||
+      []
+    )
+  }
+
   static getDerivedStateFromProps(props, state) {
     if (state._listenForPropChanges) {
       if (props.data) {
-        if (state.data && state._data !== props.data) {
-          state._data = props.data
-          state.data = Dropdown.getData(props)
-        }
+        state.data = Dropdown.getData(props)
       }
       if (state.selected_item !== props.selected_item) {
         state.selected_item = props.selected_item
+        if (typeof props.on_state_update === 'function') {
+          dispatchCustomElementEvent({ props }, 'on_state_update', {
+            data: Dropdown.getOptionData(props.selected_item, props.data)
+          })
+        }
       }
     }
     state._listenForPropChanges = true
@@ -193,24 +203,14 @@ export default class Dropdown extends Component {
       direction: props.direction,
       max_height: props.max_height,
       active_item: props.selected_item,
-      selected_item: props.selected_item,
-      _data: props.data || props.children,
-      data: Dropdown.getData(props)
+      // send selected_item in here, so we dont trigger on_state_update
+      selected_item: props.selected_item
     }
 
     this._ref = React.createRef()
     this._refUl = React.createRef()
     this._refInput = React.createRef()
     this._refButton = React.createRef()
-  }
-
-  shouldComponentUpdate(nextProps) {
-    if (this.props.selected_item !== nextProps.selected_item) {
-      dispatchCustomElementEvent(this, 'on_state_update', {
-        data: this.getOptionData(nextProps.selected_item)
-      })
-    }
-    return true
   }
 
   componentDidMount() {
@@ -250,7 +250,7 @@ export default class Dropdown extends Component {
       }
     )
     dispatchCustomElementEvent(this, 'on_show', {
-      data: this.getOptionData(selected_item)
+      data: Dropdown.getOptionData(selected_item, this.state.data)
     })
   }
   setHidden = () => {
@@ -266,7 +266,10 @@ export default class Dropdown extends Component {
     this.removeDirectionObserver()
     this.removeScrollObserver()
     dispatchCustomElementEvent(this, 'on_hide', {
-      data: this.getOptionData(this.state.selected_item)
+      data: Dropdown.getOptionData(
+        this.state.selected_item,
+        this.state.data
+      )
     })
   }
 
@@ -398,7 +401,7 @@ export default class Dropdown extends Component {
           this._refInput.current.blur()
         }
         dispatchCustomElementEvent(this, 'on_select', {
-          data: this.getOptionData(active_item)
+          data: Dropdown.getOptionData(active_item, this.state.data)
         })
         break
       case 'esc':
@@ -442,12 +445,12 @@ export default class Dropdown extends Component {
     })
     if (this.state.selected_item !== selected_item) {
       dispatchCustomElementEvent(this, 'on_change', {
-        data: this.getOptionData(selected_item)
+        data: Dropdown.getOptionData(selected_item, this.state.data)
       })
     }
     if (fireSelectEvent) {
       dispatchCustomElementEvent(this, 'on_select', {
-        data: this.getOptionData(selected_item)
+        data: Dropdown.getOptionData(selected_item, this.state.data)
       })
     }
   }
@@ -489,6 +492,8 @@ export default class Dropdown extends Component {
             _listenForPropChanges: false
           })
         }
+        // we do this because we want the arrow
+        // to change visually
         if (closestToBottom !== tmpToBottom) {
           this.setState({
             closestToBottom: itemSpots[closestToBottom].i,
@@ -560,16 +565,6 @@ export default class Dropdown extends Component {
     }
   }
 
-  getOptionData(selected_item) {
-    return (
-      (this.state.data &&
-        this.state.data.filter(
-          (data, i) => i === parseFloat(selected_item)
-        )[0]) ||
-      []
-    )
-  }
-
   render() {
     // consume the formRow context
     const props = this.context.formRow
@@ -616,7 +611,7 @@ export default class Dropdown extends Component {
     } = this.state
     const showStatus = status && status !== 'error'
 
-    const currentOptionData = this.getOptionData(selected_item)
+    const currentOptionData = Dropdown.getOptionData(selected_item, data)
 
     const classes = classnames(
       'dnb-dropdown',

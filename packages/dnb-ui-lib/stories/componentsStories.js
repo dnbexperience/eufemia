@@ -21,6 +21,7 @@ import Modal from './components/Modal'
 import FormLabelStory from './components/FormLabel'
 import FormRowStory from './components/FormRow'
 import FormSetStory from './components/FormSet'
+import Dropdown from './components/Dropdown'
 import {
   Button,
   Tabs,
@@ -28,8 +29,7 @@ import {
   InputMasked,
   Icon,
   IconPrimary,
-  FormLabel,
-  Dropdown,
+  // FormLabel,
   Logo
 } from '../src/components'
 import { H2 } from '../src/elements'
@@ -50,14 +50,11 @@ stories.push(Modal)
 stories.push(FormLabelStory)
 stories.push(FormRowStory)
 stories.push(FormSetStory)
+stories.push(Dropdown)
 
 const CustomStyle = styled.div`
   p {
     background-color: rgba(213, 30, 149, 0.25);
-  }
-  [data-dnb-test='dropdown-list'] .dnb-dropdown__options {
-    position: relative;
-    max-width: var(--dropdown-width);
   }
 `
 
@@ -334,108 +331,6 @@ stories.push([
   )
 ])
 
-stories.push([
-  'Dropdown',
-  () => (
-    <CustomStyle>
-      <Wrapper>
-        {/* <Box>
-          <select name="x" id="x">
-            <option value="Value 1">A 1</option>
-            <option value="Value 2">B 2</option>
-            <option value="Value 3">C 3</option>
-            <option value="Value 3">S 4</option>
-          </select>
-        </Box> */}
-        <Box>
-          <Dropdown data={dropdownData} selected_item={0} label="Label:" />
-        </Box>
-        <Box>
-          <Dropdown
-            label="Label:"
-            data={dropdownData}
-            selected_item={3}
-            disabled
-            show_value_outside
-          />
-          <p className="dnb-p">
-            Eros semper blandit tellus mollis primis quisque platea
-            sollicitudin ipsum
-          </p>
-        </Box>
-        <Box>
-          <Dropdown
-            label="Label:"
-            // direction="top"
-            data={dropdownDataScrollable}
-            selected_item={4}
-            no_scroll_animation={true}
-            status="Message to the user"
-          />
-          <p className="dnb-p">
-            Eros semper blandit tellus mollis primis quisque platea
-            sollicitudin ipsum
-          </p>
-        </Box>
-        <Box>
-          <FormLabel for_id="text-dropdown-1" text="Label:" />
-          <Dropdown
-            data={dropdownData}
-            id="text-dropdown-1"
-            icon_position="left"
-            selected_item={2}
-          />
-          <p className="dnb-p">
-            Eros semper blandit tellus mollis primis quisque platea
-            sollicitudin ipsum
-          </p>
-        </Box>
-        <Box data-dnb-test="dropdown-list">
-          <ul className="dnb-dropdown__options">
-            <li className="dnb-dropdown__option">
-              <span className="dnb-dropdown__option__inner">
-                Brukskonto - Kari Nordmann
-              </span>
-            </li>
-            <li className="dnb-dropdown__option dnb-dropdown__option--selected">
-              <span className="dnb-dropdown__option__inner">
-                <span className="dnb-dropdown__option__item">
-                  1234.56.78902
-                </span>
-                <span className="dnb-dropdown__option__item">
-                  Sparekonto - Ole Nordmann
-                </span>
-              </span>
-            </li>
-            <li className="dnb-dropdown__option">
-              <span className="dnb-dropdown__option__inner">
-                <span className="dnb-dropdown__option__item">
-                  1134.56.78962
-                </span>
-                <span className="dnb-dropdown__option__item">
-                  Feriekonto - Kari Nordmann med et kjempelangt
-                  etternavnsen
-                </span>
-              </span>
-            </li>
-            <li className="dnb-dropdown__option last-of-type">
-              <span className="dnb-dropdown__option__inner">
-                <span className="dnb-dropdown__option__item">
-                  1534.96.48901
-                </span>
-                <span className="dnb-dropdown__option__item">
-                  Oppussing - Ole Nordmann
-                </span>
-              </span>
-            </li>
-            <li className="dnb-dropdown__triangle" />
-          </ul>
-        </Box>
-      </Wrapper>
-    </CustomStyle>
-  )
-])
-
 const exampleTabsContent = {
   first: () => <H2>First</H2>,
   second: () => <Input>Focus me with next Tab key</Input>,
@@ -457,60 +352,3 @@ const tabsData = [
 const showMe = e => {
   console.log('showMe', e)
 }
-
-const dropdownData = [
-  {
-    selected_value: 'Brukskonto - Kari Nordmann',
-    content: 'Brukskonto - Kari Nordmann'
-  },
-  {
-    content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
-  },
-  {
-    selected_value:
-      'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen',
-    content: [
-      '1134.56.78962',
-      'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen'
-    ]
-  },
-  {
-    selected_value: 'Oppussing - Ole Nordmann',
-    content: ['1534.96.48901', 'Oppussing - Ole Nordmann']
-  }
-]
-const dropdownDataScrollable = [
-  {
-    selected_value: 'AA',
-    content: 'A'
-  },
-  {
-    content: ['1234.56.78902', 'B']
-  },
-  {
-    selected_value: 'CC',
-    content: ['1134.56.78962', 'C']
-  },
-  {
-    selected_value: 'DD',
-    content: ['1534.96.48901', 'D']
-  },
-  {
-    content: 'E'
-  },
-  {
-    content: 'EE'
-  },
-  {
-    content: 'EEE'
-  },
-  {
-    content: ['F', 'F', 'F', 'F', 'F']
-  },
-  {
-    content: 'G'
-  },
-  {
-    content: 'H'
-  }
-]
