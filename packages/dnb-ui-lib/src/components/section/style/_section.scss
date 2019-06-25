@@ -21,28 +21,39 @@
     box-shadow: 100vw 0 0 0 currentColor;
   }
 
+  &--spacing-s,
+  &--spacing-small {
+    padding-top: var(--spacing-s);
+    padding-bottom: var(--spacing-s);
+  }
+
+  &--spacing-m,
+  &--spacing-medium {
+    padding-top: var(--spacing-m);
+    padding-bottom: var(--spacing-m);
+  }
+
   // spacing-default
   &--spacing,
-  .dnb-spacing &--spacing,
   &--spacing-default,
-  .dnb-spacing &--spacing-default {
-    padding-top: 2rem;
-    padding-bottom: 2rem;
+  &--spacing-l,
+  &--spacing-large {
+    padding-top: var(--spacing-l);
+    padding-bottom: var(--spacing-l);
   }
-  &--spacing-small,
-  .dnb-spacing &--spacing-small {
-    padding-top: 1rem;
-    padding-bottom: 1rem;
+
+  &--spacing-xl,
+  &--spacing-x-large {
+    padding-top: var(--spacing-xl);
+    // larger than top
+    padding-bottom: var(--spacing-xxl);
   }
-  &--spacing-medium,
-  .dnb-spacing &--spacing-medium {
-    padding-top: 1.5rem;
-    padding-bottom: 1.5rem;
-  }
-  &--spacing-large,
-  .dnb-spacing &--spacing-large {
-    padding-top: 3rem;
-    padding-bottom: 3.5rem;
+
+  &--spacing-xxl,
+  &--spacing-xx-large {
+    padding-top: var(--spacing-xxl);
+    // larger than top
+    padding-bottom: calc(var(--spacing-xxl) + var(--spacing-s));
   }
 }
 
