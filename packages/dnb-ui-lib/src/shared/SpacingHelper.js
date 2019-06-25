@@ -34,9 +34,17 @@ export const SpacingHelper = props => {
   if (props.bottom && !(parseFloat(props.bottom) > 0)) {
     props.bottom = translateSpacing(props.bottom)
   }
-  return {
+  return Object.entries({
     marginTop: props.top && `${props.top}rem`,
     marginBottom: props.bottom && `${props.bottom}rem`,
-    maxWidth: props.maxWidth && `${props.maxWidth}rem`
-  }
+    maxWidth: props.maxWidth && `${props.maxWidth}rem`,
+    maxHeight: props.maxHeight && `${props.maxHeight}rem`,
+    width: props.width && `${props.width}rem`,
+    height: props.height && `${props.height}rem`
+  }).reduce((acc, [key, val]) => {
+    if (typeof val !== 'undefined') {
+      acc[key] = val
+    }
+    return acc
+  }, {})
 }
