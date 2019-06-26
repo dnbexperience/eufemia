@@ -90,7 +90,7 @@ export const defaultProps = {
   no_animation: false,
   no_scroll_animation: false,
   data: null,
-  selected_item: 0,
+  selected_item: null,
   opened: false,
   disabled: null,
   class: null,
@@ -709,7 +709,8 @@ export default class Dropdown extends PureComponent {
                 >
                   {data && data.length > 0
                     ? currentOptionData.selected_value ||
-                      Dropdown.parseContentTitle(currentOptionData)
+                      Dropdown.parseContentTitle(currentOptionData) ||
+                      title
                     : title}
                 </span>
               </span>
@@ -784,7 +785,6 @@ export default class Dropdown extends PureComponent {
                     </span>
                   )
                 )}
-                {/* <span className="dnb-dropdown__triangle" /> */}
               </span>
             )}
           </span>

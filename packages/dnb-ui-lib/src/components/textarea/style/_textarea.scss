@@ -6,7 +6,8 @@
 @import './themes/dnb-textarea-theme-ui.scss';
 
 :root {
-  --textarea-vertical-correction: 0.25rem; // for chromium browsers
+  // --textarea-vertical-correction: 0.25rem; // for chromium browsers
+  --textarea-vertical-correction: 0;
   --textarea-padding-width: 0.5rem;
   --textarea-border-inner: 0 0 0 var(--textarea-padding-width)
     var(--color-white);
@@ -24,6 +25,11 @@
 @mixin textareaStyle() {
   border: none;
   border-radius: 1px;
+
+  &,
+  textarea {
+    margin: 0;
+  }
 
   box-shadow: var(--textarea-border-inner),
     0 0 0 calc(var(--textarea-padding-width) + 0.0625rem)

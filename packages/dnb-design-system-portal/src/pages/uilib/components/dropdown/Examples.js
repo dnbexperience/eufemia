@@ -67,7 +67,7 @@ render(
           `}
         </ComponentBox>
         <ComponentBox
-          caption="Default dropdown"
+          caption="Default dropdown - no `selected_item` is defined, but a `title` is given."
           data-dnb-test="dropdown-closed"
           useRender
           hideSyntaxButton
@@ -98,8 +98,8 @@ const data = [
 render(
   <Dropdown
     data={data}
-    selected_item={0}
     label="Label:"
+    title="Please select a value"
     no_animation={no_animation}
   />
 )

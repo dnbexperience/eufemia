@@ -152,6 +152,14 @@ describe('Dropdown component', () => {
     )
   })
 
+  it('has a default title if no selected_item is given', () => {
+    const title = 'Make a selection'
+    const Comp = mount(<Component data={mockData} title={title} />)
+    expect(
+      Comp.find('.dnb-dropdown__text__inner').instance().innerHTML
+    ).toBe(title)
+  })
+
   it('has a disabled attribute, once we set disabled to true', () => {
     const Comp = mount(<Component data={mockData} />)
     Comp.setProps({

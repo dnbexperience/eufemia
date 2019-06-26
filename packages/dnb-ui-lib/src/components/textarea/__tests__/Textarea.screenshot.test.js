@@ -16,7 +16,7 @@ describe('Textarea screenshot', () => {
   it('have to match the "default" textarea style', async () => {
     const screenshot = await testPageScreenshot({
       style,
-      selector: '[data-dnb-test="textarea-default"] .dnb-textarea',
+      selector: '[data-dnb-test="textarea-default"]',
       // Only for screenshot testing - make textarea having same width on linux chromium
       styleSelector: '[data-dnb-test="textarea-default"] textarea'
     })
@@ -26,9 +26,11 @@ describe('Textarea screenshot', () => {
   it('have to match the "focus" textarea style', async () => {
     const screenshot = await testPageScreenshot({
       style,
-      selector: '[data-dnb-test="textarea-default"] .dnb-textarea',
+      selector: '[data-dnb-test="textarea-default"]',
       simulateSelector: '[data-dnb-test="textarea-default"] textarea',
-      simulate: 'focus'
+      simulate: 'focus',
+      // Only for screenshot testing - make textarea having same width on linux chromium
+      styleSelector: '[data-dnb-test="textarea-default"] textarea'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -36,16 +38,20 @@ describe('Textarea screenshot', () => {
   it('have to match the "hover" textarea style', async () => {
     const screenshot = await testPageScreenshot({
       style,
-      selector: '[data-dnb-test="textarea-default"] .dnb-textarea',
+      selector: '[data-dnb-test="textarea-default"]',
       simulateSelector: '[data-dnb-test="textarea-default"] textarea',
-      simulate: 'hover'
+      simulate: 'hover',
+      // Only for screenshot testing - make textarea having same width on linux chromium
+      styleSelector: '[data-dnb-test="textarea-default"] textarea'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match the default error textarea style', async () => {
     const screenshot = await testPageScreenshot({
       style,
-      selector: '[data-dnb-test="textarea-error"] .dnb-textarea'
+      selector: '[data-dnb-test="textarea-error"]',
+      // Only for screenshot testing - make textarea having same width on linux chromium
+      styleSelector: '[data-dnb-test="textarea-error"] textarea'
     })
     expect(screenshot).toMatchImageSnapshot()
   })

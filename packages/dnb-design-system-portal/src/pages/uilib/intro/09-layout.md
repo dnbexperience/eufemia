@@ -20,7 +20,13 @@ Remember, everything should be in the **8px grid** (0.5rem) spacing - even it th
 
 ![UX layout spacing](../usage/assets/ux-layout-spacing.png)
 
-You may have a [look at the layout docs](!/uilib/usage/layout)
+You may have a [look at the layout docs](!/uilib/usage/layout) as well as [the spacing helpers](!/uilib/usage/layout/spacing).
+
+### Example
+
+```css
+margin-top: var(--spacing-large);
+```
 
 ---
 

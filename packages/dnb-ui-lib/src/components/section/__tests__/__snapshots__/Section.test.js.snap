@@ -124,22 +124,20 @@ exports[`Section scss have to match snapshot 1`] = `
     color: var(--color-mint-green-12);
     background-color: currentColor;
     box-shadow: 100vw 0 0 0 currentColor; }
-  .dnb-section--spacing,
-  .dnb-spacing .dnb-section--spacing, .dnb-section--spacing-default,
-  .dnb-spacing .dnb-section--spacing-default {
-    padding-top: 2rem;
-    padding-bottom: 2rem; }
-  .dnb-section--spacing-small,
-  .dnb-spacing .dnb-section--spacing-small {
-    padding-top: 1rem;
-    padding-bottom: 1rem; }
-  .dnb-section--spacing-medium,
-  .dnb-spacing .dnb-section--spacing-medium {
-    padding-top: 1.5rem;
-    padding-bottom: 1.5rem; }
-  .dnb-section--spacing-large,
-  .dnb-spacing .dnb-section--spacing-large {
-    padding-top: 3rem;
-    padding-bottom: 3.5rem; }
+  .dnb-section--spacing-s, .dnb-section--spacing-small {
+    padding-top: var(--spacing-s);
+    padding-bottom: var(--spacing-s); }
+  .dnb-section--spacing-m, .dnb-section--spacing-medium {
+    padding-top: var(--spacing-m);
+    padding-bottom: var(--spacing-m); }
+  .dnb-section--spacing, .dnb-section--spacing-default, .dnb-section--spacing-l, .dnb-section--spacing-large {
+    padding-top: var(--spacing-l);
+    padding-bottom: var(--spacing-l); }
+  .dnb-section--spacing-xl, .dnb-section--spacing-x-large {
+    padding-top: var(--spacing-xl);
+    padding-bottom: var(--spacing-xxl); }
+  .dnb-section--spacing-xxl, .dnb-section--spacing-xx-large {
+    padding-top: var(--spacing-xxl);
+    padding-bottom: calc(var(--spacing-xxl) + var(--spacing-s)); }
 "
 `;

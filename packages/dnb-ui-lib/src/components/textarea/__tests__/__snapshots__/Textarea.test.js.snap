@@ -524,7 +524,7 @@ textarea.dnb-textarea {
       box-shadow: 0 0 0 0.0625rem var(--color-sea-green-alt); } }
 
 :root {
-  --textarea-vertical-correction: 0.25rem;
+  --textarea-vertical-correction: 0;
   --textarea-padding-width: 0.5rem;
   --textarea-border-inner: 0 0 0 var(--textarea-padding-width)
     var(--color-white); }
@@ -557,6 +557,9 @@ textarea.dnb-textarea {
     padding-top: calc( var(--textarea-padding-width) - var(--textarea-vertical-correction));
     padding-bottom: var(--textarea-vertical-correction);
     line-height: 1.5rem; }
+    .dnb-textarea__textarea,
+    .dnb-textarea__textarea textarea {
+      margin: 0; }
   .dnb-textarea__placeholder, .dnb-textarea__textarea {
     text-align: left; }
   .dnb-textarea__align--right .dnb-textarea__textarea,
@@ -580,6 +583,9 @@ textarea.dnb-textarea {
   line-height: 1.5rem;
   border-radius: 0.5rem;
   /* IE11 fix */ }
+  textarea.dnb-textarea,
+  textarea.dnb-textarea textarea {
+    margin: 0; }
   textarea.dnb-textarea,
   .dnb-textarea--virgin textarea.dnb-textarea,
   .dnb-textarea--initial textarea.dnb-textarea {
