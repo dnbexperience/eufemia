@@ -3,7 +3,7 @@
  * stylelint-disable
  */
 
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import keycode from 'keycode'
@@ -26,6 +26,8 @@ const renderProps = {
 
 export const propTypes = {
   id: PropTypes.string,
+  label: PropTypes.string,
+  button_title: PropTypes.string,
   min: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   max: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -41,8 +43,6 @@ export const propTypes = {
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
 
   // Web Component props
-  // custom_element: PropTypes.object,
-  // custom_method: PropTypes.func,
   on_init: PropTypes.func,
   on_change: PropTypes.func,
   on_drag_start: PropTypes.func,
@@ -52,6 +52,8 @@ export const propTypes = {
 
 export const defaultProps = {
   id: null,
+  label: null,
+  button_title: 'Slider',
   min: 0,
   max: 100,
   value: null,
@@ -66,15 +68,13 @@ export const defaultProps = {
   children: null,
 
   // Web Component props
-  // custom_element: null,
-  // custom_method: null,
   ...renderProps
 }
 
 /**
  * The slider component is our enhancement of the classic radio button. It acts like a slider. Example: On/off, yes/no.
  */
-export default class Slider extends Component {
+export default class Slider extends PureComponent {
   static tagName = 'dnb-slider'
   static propTypes = propTypes
   static defaultProps = defaultProps
@@ -86,18 +86,41 @@ export default class Slider extends Component {
     registerElement(Slider.tagName, Slider, defaultProps)
   }
 
-  static getDerivedStateFromProps(nextProps, state) {
-    if (nextProps.disabled) {
-      return { currentState: 'disabled' }
-    }
-    if (!nextProps.disabled && state.currentState === 'disabled') {
-      return { currentState: 'normal' }
-    }
-
+  static getDerivedStateFromProps(props, state) {
     if (state._listenForPropChanges) {
-      if (state.default_value !== nextProps.value) {
-        state.value = nextProps.value
+      if (state.reverse !== props.reverse) {
+        state.reverse = isTrue(props.reverse)
+        if (isTrue(props.vertical)) {
+          state.reverse = !state.reverse
+        }
       }
+      if (state.vertical !== props.vertical) {
+        state.vertical = isTrue(props.vertical)
+      }
+      if (state.disabled !== props.disabled) {
+        state.disabled = isTrue(props.disabled)
+      }
+      if (state.min !== props.min) {
+        state.min = parseFloat(props.min)
+      }
+      if (state.max !== props.max) {
+        state.max = parseFloat(props.max)
+      }
+
+      // if (state.default_value !== props.value) {
+      if (state.value !== props.value) {
+        state.value = props.value
+        if (typeof props.on_state_update === 'function') {
+          dispatchCustomElementEvent({ ...props }, 'on_state_update', {
+            value: state.value
+          })
+        }
+      }
+    }
+    if (state.disabled) {
+      return { currentState: 'disabled' }
+    } else if (state.currentState === 'disabled') {
+      return { currentState: 'normal' }
     }
     state._listenForPropChanges = true
 
@@ -123,18 +146,9 @@ export default class Slider extends Component {
     }
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    if (this.props.value !== nextProps.value) {
-      const { value } = nextState
-      dispatchCustomElementEvent(this, 'on_state_update', { value })
-    }
-    return true
-  }
-
   handleKeyDown = event => {
-    const { value: currentValue } = this.state
-    const { reverse, min, max } = this.props
-    const isReverse = isTrue(reverse)
+    const { min, max, reverse, vertical, value: currentValue } = this.state
+    const isReverse = vertical ? !reverse : reverse
 
     const onePercent = Math.abs((max - min) / 100)
     const step = this.props.step || onePercent
@@ -177,15 +191,18 @@ export default class Slider extends Component {
   }
 
   handleFocus = () => {
-    this.setState({ currentState: 'focused' })
+    this.setState({
+      _listenForPropChanges: false,
+      currentState: 'focused'
+    })
   }
 
   handleBlur = () => {
-    this.setState({ currentState: 'normal' })
+    this.setState({ _listenForPropChanges: false, currentState: 'normal' })
   }
 
   handleClick = event => {
-    const { min, max, vertical, reverse } = this.props
+    const { min, max, reverse, vertical } = this.state
     const percent = calculatePercent(
       this._containerRef.current,
       event,
@@ -201,7 +218,10 @@ export default class Slider extends Component {
 
   handleTouchStart = event => {
     event.preventDefault()
-    this.setState({ currentState: 'activated' })
+    this.setState({
+      _listenForPropChanges: false,
+      currentState: 'activated'
+    })
 
     if (typeof document !== 'undefined') {
       document.body.addEventListener('touchend', this.handleMouseUp)
@@ -216,7 +236,10 @@ export default class Slider extends Component {
 
   handleMouseDown = event => {
     event.preventDefault()
-    this.setState({ currentState: 'activated' })
+    this.setState({
+      _listenForPropChanges: false,
+      currentState: 'activated'
+    })
 
     if (typeof document !== 'undefined') {
       document.body.addEventListener('mousemove', this.handleMouseMove)
@@ -231,7 +254,7 @@ export default class Slider extends Component {
   }
 
   handleMouseUp = event => {
-    this.setState({ currentState: 'normal' })
+    this.setState({ _listenForPropChanges: false, currentState: 'normal' })
 
     if (typeof document !== 'undefined') {
       document.body.removeEventListener('mousemove', this.handleMouseMove)
@@ -246,13 +269,15 @@ export default class Slider extends Component {
   }
 
   handleMouseMove = event => {
-    const { min, max, vertical, reverse } = this.props
-    const percent = calculatePercent(
-      this._containerRef.current,
-      event,
-      vertical,
-      reverse
-    )
+    let elem = this._containerRef.current
+    if (event.detail) {
+      // we have to mock this for jsdom.
+      elem = createMockDiv(event.detail)
+      event = event.detail
+    }
+
+    const { min, max, vertical, reverse } = this.state
+    const percent = calculatePercent(elem, event, vertical, reverse)
     const value = percentToValue(percent, min, max)
 
     this.emitChange(event, value)
@@ -267,18 +292,16 @@ export default class Slider extends Component {
   }
 
   emitChange(event, rawValue, callback) {
-    const { value: previousValue } = this.state
-    const { on_change, disabled } = this.props
-    let value = rawValue
+    const { value: previousValue, disabled } = this.state
 
     if (disabled) {
       return
     }
 
-    value = this.roundValue(rawValue)
+    const value = this.roundValue(rawValue)
 
     if (
-      typeof on_change === 'function' &&
+      typeof this.props.on_change === 'function' &&
       value !== this.roundValue(previousValue)
     ) {
       dispatchCustomElementEvent(this, 'on_change', {
@@ -297,12 +320,18 @@ export default class Slider extends Component {
 
   resetStateTimeoutId = -1
   setToResetState() {
-    this.setState({ currentState: 'jumped' }, () => {
-      clearTimeout(this.resetStateTimeoutId)
-      this.resetStateTimeoutId = setTimeout(() => {
-        this.setState({ currentState: 'normal' })
-      }, 1e3)
-    })
+    this.setState(
+      { _listenForPropChanges: false, currentState: 'jumped' },
+      () => {
+        clearTimeout(this.resetStateTimeoutId)
+        this.resetStateTimeoutId = setTimeout(() => {
+          this.setState({
+            _listenForPropChanges: false,
+            currentState: 'normal'
+          })
+        }, 1e3)
+      }
+    )
   }
 
   calculateLineAfterStyles(percent) {
@@ -364,14 +393,16 @@ export default class Slider extends Component {
     const { currentState, value } = this.state
 
     const {
+      label, // eslint-disable-line
+      button_title,
       className,
       class: _className,
-      disabled,
-      max,
-      min,
-      reverse,
-      vertical,
 
+      max: _max, // eslint-disable-line
+      min: _min, // eslint-disable-line
+      disabled: _disabled, // eslint-disable-line
+      reverse: _reverse, // eslint-disable-line
+      vertical: _vertical, // eslint-disable-line
       id: _id, // eslint-disable-line
       step: _step, // eslint-disable-line
       value: _value, // eslint-disable-line
@@ -379,18 +410,20 @@ export default class Slider extends Component {
       ...attributes
     } = this.props
 
+    const { min, max, reverse, vertical, disabled } = this.state
+
     const classes = classnames(
       'dnb-slider',
       className,
       _className,
-      isTrue(reverse) && 'slider__reverse',
-      isTrue(vertical) && 'slider__vertical'
+      reverse && 'slider__reverse',
+      vertical && 'slider__vertical'
     )
 
     const percent = clamp(((value - min) * 100) / (max - min))
 
-    const lineProperty = isTrue(vertical) ? 'height' : 'width'
-    const thumbProperty = isTrue(vertical) ? 'top' : 'left'
+    const lineProperty = vertical ? 'height' : 'width'
+    const thumbProperty = vertical ? 'top' : 'left'
     const inlineLineBeforeStyles = {
       [lineProperty]: this.calculateLineBeforeStyles(percent)
     }
@@ -433,7 +466,7 @@ export default class Slider extends Component {
           aria-valuenow={this.roundValue(value)}
           aria-valuemin={min}
           aria-valuemax={max}
-          aria-orientation={isTrue(vertical) ? 'vertical' : 'horizontal'}
+          aria-orientation={vertical ? 'vertical' : 'horizontal'}
           ref={this._containerRef}
           {...params}
         >
@@ -443,6 +476,7 @@ export default class Slider extends Component {
           />
           <button
             tabIndex="0"
+            aria-label={button_title}
             type="button"
             className="slider__thumb"
             style={inlineThumbStyles}
@@ -504,3 +538,20 @@ const preventPageScrolling = event => event.preventDefault()
 
 const clamp = (value, min = 0, max = 100) =>
   Math.min(Math.max(value, min), max)
+
+const createMockDiv = ({ width, height }) => {
+  const div = document.createElement('div')
+  Object.assign(div.style, {
+    width: `${width}px`,
+    height: `${height}px`
+  })
+  div.getBoundingClientRect = () => ({
+    width,
+    height,
+    top: 0,
+    left: 0,
+    right: width,
+    bottom: height
+  })
+  return div
+}

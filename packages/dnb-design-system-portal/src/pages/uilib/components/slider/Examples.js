@@ -5,7 +5,17 @@
 
 import React, { PureComponent, Fragment } from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-// import styled from '@emotion/styled'
+import styled from '@emotion/styled'
+
+const Wrapper = styled.div`
+  .dnb-slider.slider__vertical {
+    height: 10rem;
+  }
+  .dnb-input {
+    width: 4rem;
+    margin-top: 2rem;
+  }
+`
 
 // import the native range slider as well
 import 'dnb-ui-lib/src/components/slider/style/dnb-range.scss'
@@ -18,102 +28,67 @@ class Example extends PureComponent {
   render() {
     return (
       <Fragment>
-        <ComponentBox caption="Defualt Slider">
+        <ComponentBox
+          caption="Defualt Slider"
+          data-dnb-test="slider-default"
+        >
           {/* @jsx */ `
 <Slider
   min={0}
   max={100}
   value={70}
-  step={10}
-  // on_change={this.onChangeHandler}
-  // attributes={{
-  //   'data-fake:on_change': 'SliderDemo.onChangeHandler()',
-  //   'data-fake:on_state_update':
-  //     'SliderDemo.onStateUpdateHandler()'
-  // }}
+  on_change={({ value }) => console.log('on_change:', value)}
 />
           `}
         </ComponentBox>
-        <ComponentBox caption="Horizontal slider - two states: active (above) and disabled (below)">
+        <ComponentBox
+          caption="Vertical slider with steps"
+          data-dnb-test="slider-vertical"
+        >
           {/* @jsx */ `
-<Slider value="70" max="100" disabled />
+<Slider
+  min="0"
+  max="100"
+  value="20"
+  step="10"
+  vertical="true"
+  on_change={({ value }) => console.log('on_change:', value)}
+/>
           `}
         </ComponentBox>
-      </Fragment>
-    )
-  }
+        <ComponentBox
+          caption="Horizontal and vertical slider with input field"
+          noFragments={false}
+        >
+          {/* @jsx */ `
+() => {
+  const [value, setValue] = useState(70)
+  return (<>
+    <Slider
+      value={value}
+      step={10}
+      on_change={({ value }) => setValue(value)}
+    />
+    <Slider
+      value={value}
+      vertical
+      on_change={({ value }) => setValue(value)}
+    />
+    <Input
+      align="center"
+      value={String(value)}
+      on_change={({ value }) => setValue(parseFloat(value))}
+    />
+  </>)
 }
-
-class AditionalExample extends PureComponent {
-  state = {
-    value: 5908000
-  }
-  handleRangeChange = ({ target: { value } }) => {
-    console.log(value)
-  }
-  render() {
-    return (
-      <>
-        <Example />
-        <ComponentBox caption="Defualt Slider">
-          {/* @jsx */ `
-{/* <FormLabel
-  for_id="slider-2"
-  text="Hvor mye ønsker du å kjøpe bolig for?"
-/> */}
-<Slider
-  id="slider-2"
-  min={1000000}
-  max={8000000}
-  value={this.state.value}
-  step={100000}
-  on_init={({ value }) => {
-    this.setState({ value })
-  }}
-  on_change={({ value }) => {
-    this.setState({ value })
-  }}
-/>
-<Input
-  type="text"
-  value={this.state.value}
-  input_class="dnb-typo-number--old-style"
-  // input_class="dnb-typo-number--lining"
-  description="Kr"
-  extra_information="Maksimumsbeløpet inkluderer eventuell fellesgjeld og omkostninger ved kjøp."
-  on_change={({ value }) => {
-    this.setState({ value: parseFloat(value) })
-  }}
-/>
           `}
         </ComponentBox>
-        <ComponentBox caption="Sliders (horizontal and vertical) with value input field">
-          {/* @jsx */ `
-<Slider
-  id="slider-3"
-  min={1000000}
-  max={8000000}
-  value={this.state.value}
-  step={10}
-  vertical
-  reverse
-  on_change={({ value }) => {
-    this.setState({ value })
-  }}
-  on_state_update={({ value }) => {
-    console.log('on_state_update', value)
-  }}
-/>
-          `}
-        </ComponentBox>
-        <ComponentBox caption="Sliders (horizontal and vertical) with value input field">
+        <ComponentBox caption="Native Range Slider">
           {/* @jsx */ `
 <FormRow>
-  <FormLabel
-    id="range-slider-label"
-    for_id="range-slider"
-    text="Native Range Slider"
-  />
+  <FormLabel for_id="range-slider">
+    Native Range Slider
+  </FormLabel>
   <input
     id="range-slider"
     type="range"
@@ -121,68 +96,19 @@ class AditionalExample extends PureComponent {
     max="100"
     step="5"
     defaultValue="20"
-    onChange={this.handleRangeChange}
+    onChange={(event) => console.log(event.currentTarget.value)}
   />
 </FormRow>
           `}
         </ComponentBox>
-        {/* <div className="example-box">
-          <form className="dnb-form">
-            <div className="dnb-form__item">
-form
-            </div>
-            <div className="dnb-form__item">
-              <div className="dnb-slider__slider-row">
-                <div className="dnb-slider__input-container">
-slider
-                </div>
-                <div className="dnb-slider__output-container">
-input
-                </div>
-              </div>
-            </div>
-            <Cell className="dnb-form__item">
-
-            </Cell>
-          </form>
-          <p className="example-caption">
-          </p>
-        </div>
-        <div className="example-box">
-
-        </div> */}
-      </>
+      </Fragment>
     )
   }
 }
 
-// const Wrapper = styled.div`
-//   .dnb-form {
-//     padding-top: 2em;
-//   }
-//
-//   .dnb-slider__slider-row {
-//     display: flex;
-//     align-items: flex-start;
-//     justify-content: center;
-//     align-content: center;
-//
-//     .dnb-slider {
-//       width: 100%;
-//     }
-//
-//     .dnb-slider__input-container {
-//       flex: 3;
-//     }
-//     .dnb-slider__output-container {
-//       margin: 0 0 0 0.5rem;
-//       flex: 2;
-//     }
-//     .dnb-slider__input {
-//       margin: 0 0.25rem;
-//     }
-//   }
-// `
-
 export { Example }
-export default AditionalExample
+export default () => (
+  <Wrapper>
+    <Example />
+  </Wrapper>
+)
