@@ -13,9 +13,9 @@ import { Icon } from 'dnb-ui-lib/src'
 
 Check out the `dnb-ui-lib` **[Installation documentation](/uilib/usage/#installation)**.
 
-## Working Examples
+## Demo Apps
 
-You can find some more detailed and running examples under [<Icon icon={GithubLogo} size="default" /> REPOSITORY/packages/examples/...](https://github.com/dnbexperience/eufemia/tree/develop/packages/examples)
+You find some [Demo Apps](/uilib/getting-started/demos) as well as some setup examples: [<Icon icon={GithubLogo} size="default" /> REPOSITORY/packages/examples/...](https://github.com/dnbexperience/eufemia/tree/develop/packages/examples)
 
 ## Be continued
 

@@ -1,3 +1,8 @@
+## June, 26. 2019
+
+- The `dnb-ui-lib` got new helpers for [Spacing](/uilib/usage/layout/spacing#spacing-helpers) and [Layout](/uilib/usage/layout).
+- Added first [Demo App](uilib/getting-started/demos)
+
 ## June, 19. 2019
 
 - New components in the `dnb-ui-lib`: [ToggleButton](/uilib/components/toggle-button) as well as two layout components [FormSet](/uilib/components/form-set) and [FormRow](/uilib/components/form-row)

@@ -14,33 +14,31 @@ import styled from '@emotion/styled'
 import Layout from '../layout/Layout'
 
 // Get Eufemia in
-import { H1, H2, P } from 'dnb-ui-lib/elements'
+import { SpacingHelper } from 'dnb-ui-lib/src/shared'
+import { H1, H2, P } from 'dnb-ui-lib/src/elements'
 import {
   FormSet,
   FormRow,
   Input,
   Textarea,
-  Section,
+  Section as _Section,
   StepIndicator,
   ToggleButton,
   Icon,
   Button,
   Switch
-} from 'dnb-ui-lib/components'
+} from 'dnb-ui-lib/src/components'
 import {
   save_alt_01 as SaveIcon,
   trash as TrashIcon,
   attachment as AttachmentIcon
-} from 'dnb-ui-lib/icons'
+} from 'dnb-ui-lib/src/icons'
 
 // Spacing helper for styled components
-const SpacingHelper = props => ({
-  marginTop: props.top && `${props.top}rem`,
-  marginBottom: props.bottom && `${props.bottom}rem`,
-  maxWidth: props.maxWidth && `${props.maxWidth}rem`
-})
 const Spacing = styled.div(SpacingHelper)
-const SectionWithSpacing = styled(Section)(SpacingHelper)
+
+// Section's combined with Spacing
+const Section = styled(_Section)(SpacingHelper)
 
 // Visual helper to limit the width inside of our layout
 const WidthLimit = styled.div`
@@ -48,10 +46,15 @@ const WidthLimit = styled.div`
   .dnb-input {
     max-width: 10rem;
   }
+  @media (max-width: 40em) {
+    textarea {
+      width: 90vw;
+    }
+  }
 `
 
 // set the header hight
-const HeaderSection = styled(SectionWithSpacing)`
+const HeaderSection = styled(Section)`
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -66,17 +69,12 @@ const HeaderTitleWrapper = styled.div`
   margin-top: 3rem;
 `
 
-// Section's combined, but now with spacing possibility
-const SectionCustom = styled(SectionWithSpacing)`
-  /* change from 3rem to 1.5rem */
-  padding-bottom: 1.5rem;
-`
-
 // Paragraph with spacing
-const Paragraph = styled(P)`
+const Paragraph = styled(styled(P)`
   margin-top: 0.5rem;
   margin-bottom: 1rem;
-`
+`)(SpacingHelper)
+
 // Custom paragraph
 const Ingress = styled(Paragraph)`
   font-weight: var(--font-weight-demi);
@@ -101,11 +99,11 @@ Attachment.Add = styled(Spacing)`
 `
 
 // The bottom section / divider has some extra CSS
-const DividerSection = styled(SectionWithSpacing)`
+const DividerSection = styled(Section)`
   display: flex;
   justify-content: space-between;
   .dnb-button + .dnb-button {
-    margin-left: 0.5rem;
+    margin-left: 1rem;
   }
 `
 
@@ -168,15 +166,13 @@ const FormDemo = () => {
           updateErrors({})
 
           // simulate error
-          setTimeout(() => {
-            if (currentValues.switchIsChecked) {
-              updateErrors(defaultErrors)
-            }
-          }, 1e3)
+          if (currentValues.switchIsChecked) {
+            updateErrors(defaultErrors)
+          }
         }}
       >
         <WidthLimit>
-          <SectionCustom top="1.5" spacing="large" style="white">
+          <Section top="medium" spacing="x-large" style="white">
             <H2>What has happened?</H2>
             <Ingress>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
@@ -205,16 +201,16 @@ const FormDemo = () => {
               <ToggleButton text="Wrong amount charged" value="seventh" />
               <ToggleButton text="I am after charged" value="eighth" />
             </ToggleButton.Group>
-          </SectionCustom>
+          </Section>
 
-          <SectionCustom top="1.5" spacing="large">
+          <Section spacing="x-large">
             <H2>Lorem ipsum</H2>
             <Ingress>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
               do eiusmod tempor incididunt ut labore.
             </Ingress>
 
-            <Spacing top=".5">
+            <Spacing top="small">
               <FormRow label="Did you receive some money from the ATM?">
                 <ToggleButton.Group
                   value={currentValues.yesNoQuestionValue}
@@ -231,7 +227,7 @@ const FormDemo = () => {
               </FormRow>
             </Spacing>
 
-            <Spacing top="1.5">
+            <Spacing top="medium">
               <FormRow>
                 <Input
                   label="How much money did you withdraw?"
@@ -247,7 +243,7 @@ const FormDemo = () => {
               </FormRow>
             </Spacing>
 
-            <Spacing top="1.5">
+            <Spacing top="medium">
               <FormRow>
                 <Input
                   label="How much money did you receive?"
@@ -263,7 +259,7 @@ const FormDemo = () => {
               </FormRow>
             </Spacing>
 
-            <Spacing top="1.5">
+            <Spacing top="medium">
               <FormRow>
                 <Textarea
                   rows="6"
@@ -279,20 +275,20 @@ const FormDemo = () => {
                 />
               </FormRow>
             </Spacing>
-          </SectionCustom>
+          </Section>
 
-          <SectionCustom top="1.5" spacing="large" style="white">
+          <Section spacing="x-large" style="white">
             <H2>Attachment</H2>
 
-            <Ingress>
+            <Ingress bottom="xs">
               If you have a receipt of the ATM transaction showing that
               money was not dispensed, then please upload the copy as this
               would strengthen your case.
             </Ingress>
 
-            <Attachment top=".5">
+            <Attachment>
               <Attachment.FileRow>
-                <Icon icon={AttachmentIcon} /> filname_01.jpg
+                <Icon icon={AttachmentIcon} /> <span>filname_01.jpg</span>
               </Attachment.FileRow>
               <Button
                 text="Delete"
@@ -302,7 +298,7 @@ const FormDemo = () => {
               />
             </Attachment>
 
-            <Attachment.Add top=".5">
+            <Attachment.Add top="x-small">
               <Button
                 text="Upload attachment"
                 variant="tertiary"
@@ -310,23 +306,33 @@ const FormDemo = () => {
                 icon_position="left"
               />
             </Attachment.Add>
-          </SectionCustom>
+          </Section>
         </WidthLimit>
 
-        <SectionCustom top="3.5" spacing="medium">
+        <Section top="medium" spacing="medium">
           <Switch
             label="I hereby declare that all information given is correct and to the best of my knowledge."
             label_position="right"
             checked={currentValues.switchIsChecked}
-            on_change={({ checked }) =>
+            on_change={({ checked }) => {
               updateValues({
                 ...currentValues,
                 switchIsChecked: checked
               })
-            }
+            }}
+            on_change_ends={({ checked }) => {
+              if (!checked) {
+                // remove errors
+                updateErrors({
+                  ...currentErrors,
+                  switchErrorMessage: null
+                })
+              }
+            }}
             status={currentErrors.switchErrorMessage}
+            // status_animation
           />
-        </SectionCustom>
+        </Section>
 
         <DividerSection spacing="small" style="divider">
           <Button
@@ -358,7 +364,7 @@ const FormDemo = () => {
           </div>
         </DividerSection>
 
-        <Spacing bottom="1.5" />
+        <Spacing bottom="medium" />
       </FormSet>
     </Layout>
   )
