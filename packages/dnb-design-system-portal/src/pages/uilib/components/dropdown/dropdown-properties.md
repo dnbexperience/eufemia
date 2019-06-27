@@ -19,6 +19,7 @@ import { Data } from 'Pages/uilib/components/dropdown/Examples'
 | `max_height`          | _(optional)_ defines if the height (in `rem`) of the options list. Defaults to null, as this is set automatically by default.         |
 | `status`              | _(optional)_ text with a status message. The style defaults to an error message.                                                      |
 | `status_state`        | _(optional)_ defines the state of the status. Currently there are two statuses `[error, info]`. Defaults to `error`.                  |
+| `label`               | _(optional)_ prepends the Form Label component. If no ID is provided, a random ID is created.                                         |
 
 ## Data structure
 
