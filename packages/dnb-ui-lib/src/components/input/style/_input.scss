@@ -122,6 +122,10 @@
     }
   }
 
+  &__align--center &__placeholder,
+  &__align--center &__input {
+    text-align: center;
+  }
   &__align--right &__placeholder,
   &__align--right &__input {
     text-align: right;

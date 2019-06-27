@@ -646,6 +646,9 @@ a.dnb-button .dnb-button__text {
   .dnb-input--large .dnb-input__input {
     padding: var(--input-padding--large);
     font-size: var(--input-font-size--large); }
+  .dnb-input__align--center .dnb-input__placeholder,
+  .dnb-input__align--center .dnb-input__input {
+    text-align: center; }
   .dnb-input__align--right .dnb-input__placeholder,
   .dnb-input__align--right .dnb-input__input {
     text-align: right; }
