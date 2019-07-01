@@ -65,10 +65,10 @@ const DropdownStory = () => {
       <Box>
         <Dropdown
           label="Label:"
+          title={<>Custom title {'🔥'}</>}
           data={dropdownData}
-          selected_item={3}
-          disabled
-          show_value_outside
+          // selected_item={3}
+          // disabled
         />
         <p className="dnb-p">
           Eros semper blandit tellus mollis primis quisque platea
@@ -80,9 +80,9 @@ const DropdownStory = () => {
           label="Label:"
           // direction="top"
           data={dropdownDataScrollable}
-          selected_item={4}
+          selected_item={6}
           no_scroll_animation={true}
-          status="Message to the user"
+          // status="Message to the user"
         />
         <p className="dnb-p">
           Eros semper blandit tellus mollis primis quisque platea
@@ -172,8 +172,8 @@ let dropdownData = [
     ]
   },
   {
-    selected_value: 'Oppussing - Ole Nordmann',
-    content: ['1534.96.48901', 'Oppussing - Ole Nordmann']
+    selected_value: <>Custom selected {'🔥'}</>,
+    content: ['1534.96.48901', <>Custom content {'🔥'}</>]
   }
 ]
 const dropdownDataScrollable = [
@@ -193,8 +193,10 @@ const dropdownDataScrollable = [
     content: ['1534.96.48901', 'D']
   },
   {
-    content: 'E'
+    content: <>E</>
   },
+  <>Custom content {'🔥'}</>,
+  [<>Custom content X {'🔥'}</>],
   {
     content: 'EE'
   },

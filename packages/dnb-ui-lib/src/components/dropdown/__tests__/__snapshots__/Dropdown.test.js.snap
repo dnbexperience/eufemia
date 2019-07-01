@@ -36,6 +36,22 @@ exports[`Dropdown component have to match snapshot 1`] = `
         ],
         "selected_value": "Oppussing - Ole Nordmann",
       },
+      Object {
+        "content": <React.Fragment>
+          Custom content 
+          123
+        </React.Fragment>,
+      },
+      <React.Fragment>
+        Custom content 
+        123
+      </React.Fragment>,
+      Array [
+        <React.Fragment>
+          Custom content 
+          123
+        </React.Fragment>,
+      ],
     ]
   }
   direction="bottom"

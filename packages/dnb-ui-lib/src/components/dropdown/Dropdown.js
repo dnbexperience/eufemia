@@ -29,7 +29,7 @@ const renderProps = {
 
 export const propTypes = {
   id: PropTypes.string,
-  title: PropTypes.string,
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   icon: PropTypes.string,
   icon_position: PropTypes.string,
   label: PropTypes.string,
@@ -42,14 +42,18 @@ export const propTypes = {
   no_animation: PropTypes.bool,
   no_scroll_animation: PropTypes.bool,
   data: PropTypes.oneOfType([
-    PropTypes.string,
+    PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
     PropTypes.arrayOf(
       PropTypes.oneOfType([
-        PropTypes.string,
+        PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
         PropTypes.shape({
-          selected_value: PropTypes.string,
+          selected_value: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.node
+          ]),
           content: PropTypes.oneOfType([
             PropTypes.string,
+            PropTypes.node,
             PropTypes.arrayOf(PropTypes.string)
           ])
         })
@@ -127,10 +131,28 @@ export default class Dropdown extends PureComponent {
   ) => {
     let ret = ''
     const onlyNumericRegex = /[0-9.,-\s]+/
+    if (Array.isArray(dataItem) && dataItem.length > 0) {
+      dataItem.content = dataItem
+    }
     if (dataItem.content) {
       ret = Array.isArray(dataItem.content)
         ? dataItem.content
             .reduce((acc, cur) => {
+              // check if we have React inside, with strings we can use
+              if (React.isValidElement(cur)) {
+                if (Array.isArray(cur.props.children)) {
+                  cur = cur.props.children.reduce((acc, cur) => {
+                    if (typeof cur === 'string') {
+                      acc = acc + cur
+                    }
+                    return acc
+                  }, '')
+                } else if (typeof cur.props.children === 'string') {
+                  cur = cur.props.children
+                } else {
+                  return acc
+                }
+              }
               // remove only numbers
               const found =
                 removeNumericOnlyValues &&
@@ -143,7 +165,10 @@ export default class Dropdown extends PureComponent {
             }, [])
             .join(separator)
         : dataItem.content
-    } else if (typeof dataItem === 'string') {
+    } else if (
+      typeof dataItem === 'string' ||
+      (typeof dataItem === 'object' && !Array.isArray(dataItem))
+    ) {
       ret = dataItem
     }
     if (

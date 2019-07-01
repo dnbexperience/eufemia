@@ -47,7 +47,12 @@ const mockData = [
   {
     selected_value: 'Oppussing - Ole Nordmann',
     content: ['1534.96.48901', 'Oppussing - Ole Nordmann']
-  }
+  },
+  {
+    content: <>Custom content {'123'}</>
+  },
+  <>Custom content {'123'}</>,
+  [<>Custom content {'123'}</>]
 ]
 
 describe('Dropdown component', () => {
@@ -158,6 +163,22 @@ describe('Dropdown component', () => {
     expect(
       Comp.find('.dnb-dropdown__text__inner').instance().innerHTML
     ).toBe(title)
+  })
+
+  it('has a corret selected_item content if we send in a React component', () => {
+    const aStringOf = 'Custom content 123'
+    const Comp1 = mount(<Component data={mockData} selected_item={4} />)
+    const Comp2 = mount(<Component data={mockData} selected_item={5} />)
+    const Comp3 = mount(<Component data={mockData} selected_item={6} />)
+    expect(
+      Comp1.find('.dnb-dropdown__text__inner').instance().innerHTML
+    ).toBe(aStringOf)
+    expect(
+      Comp2.find('.dnb-dropdown__text__inner').instance().innerHTML
+    ).toBe(aStringOf)
+    expect(
+      Comp3.find('.dnb-dropdown__text__inner').instance().innerHTML
+    ).toBe(aStringOf)
   })
 
   it('has a disabled attribute, once we set disabled to true', () => {
