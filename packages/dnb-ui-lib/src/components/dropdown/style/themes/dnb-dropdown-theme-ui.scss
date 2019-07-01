@@ -50,13 +50,15 @@
 
     // This is our border, instead of border-bottom: var(--dropdown-option-border-width) solid
     &::before {
+      pointer-events: none;
+
       content: '';
       position: absolute;
       z-index: 2;
       top: auto;
       left: 0;
       right: 0;
-      bottom: var(--dropdown-option-border-width);
+      bottom: 0;
       // width: 100%; // 100% width would result in no margin right
       height: var(--dropdown-option-border-width);
 
@@ -82,34 +84,23 @@
 
     // Focus ring arround item. Only for keyboard usage
     &--focus {
-      // .dnb-dropdown__option__inner {
-      // }
+      // we use the border/line and change it to a fake focus
       &::before {
-        // pointer-events: none;
-
-        content: '';
-        position: absolute;
         z-index: 3;
+
         top: var(--dropdown-focus-border-width);
         left: var(--dropdown-focus-border-width);
-        bottom: var(--dropdown-focus-border-width);
         right: var(--dropdown-focus-border-width);
+        bottom: var(--dropdown-focus-border-width);
+
         height: auto;
-
-        // @include fakeBorder(
-        //   var(--dropdown-border-color--selected),
-        //   var(--dropdown-focus-border-width)
-        // );
-        box-shadow: 0 0 0 var(--dropdown-focus-border-width)
-          var(--dropdown-border-color--selected);
-
         background-color: transparent;
-      }
 
-      // remove bottom border
-      // &::before {
-      // content: none;
-      // }
+        @include fakeBorder(
+          var(--dropdown-border-color--selected),
+          var(--dropdown-focus-border-width)
+        );
+      }
     }
 
     &--selected {
@@ -145,7 +136,7 @@
         background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgZmlsbD0ibm9uZSI+ICA8cGF0aCAgICBmaWxsPSIjRTlGOEY0IiAgICBkPSJNMyA4LjhhLjc1Ljc1IDAgMSAwLTEuMjIuODZMMyA4Ljc5em0xLjg0IDMuOWwuNjMtLjQxdi0uMDFoLS4wMWwtLjYyLjQyem0xLjcxLjA1bC0uNTktLjQ2di4wMWwuNTkuNDV6bTguNDMtOS40NWEuNzUuNzUgMCAwIDAtMS4xOC0uOTNsMS4xOC45M3pNMS43OCA5LjY2bDIuNDUgMy40OCAxLjIzLS44N0wzIDguOGwtMS4yMy44N3ptMi40NCAzLjQ2Yy4zMi40OC44Ni43OCAxLjQ0LjhsLjA1LTEuNWEuMy4zIDAgMCAxLS4yNC0uMTNsLTEuMjUuODN6bTEuNDQuOGExLjggMS44IDAgMCAwIDEuNDktLjcxbC0xLjItLjlhLjMuMyAwIDAgMS0uMjQuMWwtLjA1IDEuNXptMS40OC0uN2w3Ljg0LTkuOTItMS4xOC0uOTMtNy44NCA5LjkyIDEuMTguOTN6Ii8+PC9zdmc+);
       }
 
-      // remove bottom border
+      // Remvoe line on selected items
       &::before {
         content: none;
       }
@@ -161,29 +152,26 @@
 
     &:first-of-type,/* only for the vissual demo */
     &--focus:first-of-type &__inner,
-    &--focus:first-of-type &__inner::after {
+    &--focus:first-of-type::before {
       border-radius: var(--dropdown-options-border-radius)
         var(--dropdown-options-border-radius) 0 0;
     }
     &.last-of-type,/* only for the vissual demo */
     &--focus.last-of-type &__inner ,
-    &--focus.last-of-type &__inner::after {
+    &--focus.last-of-type::before {
       border-radius: 0 0 var(--dropdown-options-border-radius)
         var(--dropdown-options-border-radius);
     }
     // remove last bottom border
-    &.last-of-type::before {
+    &.last-of-type:not(#{&}--focus)::before {
       content: none;
     }
   }
 
   // make sure we have a spacing on the right side if we have a scrollbar
-  &--scroll &__option::before {
-    // left: 0.5rem;
-    // right: 0.5rem;
-  }
-  &--focus &__option::before {
-    // display: none;
+  &--scroll &__option:not(#{&}__option--focus)::before {
+    left: 0.5rem;
+    right: 0.5rem;
   }
 
   &--direction-bottom &__option--focus.closest-to-top &__option__inner {

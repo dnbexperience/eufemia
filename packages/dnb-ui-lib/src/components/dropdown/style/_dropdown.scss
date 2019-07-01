@@ -183,10 +183,6 @@
 
       color: inherit;
       background-color: var(--color-white);
-
-      @include hover() {
-        background-color: grey;
-      }
     }
 
     &__item {
@@ -194,28 +190,6 @@
       overflow: hidden;
       text-overflow: ellipsis;
       width: 100%;
-    }
-
-    @include hover() {
-      background-color: grey;
-      .dnb-dropdown__option__inner {
-        background-color: grey;
-      }
-    }
-
-    // for keyboard usage
-    &--focus {
-      background-color: grey;
-      .dnb-dropdown__option__inner {
-        @include fakeBorder();
-      }
-    }
-
-    &--selected {
-      background-color: grey;
-      .dnb-dropdown__option__inner {
-        background-color: grey;
-      }
     }
   }
 
