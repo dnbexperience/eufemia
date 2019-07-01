@@ -266,7 +266,11 @@ export const pickRenderProps = (props, renderProps) =>
     }, {})
 
 export const detectOutsideClick = (element, onSuccess) => {
-  if (!element.handleClickOutside && typeof document !== 'undefined') {
+  if (
+    !element.handleClickOutside &&
+    typeof document !== 'undefined' &&
+    typeof window !== 'undefined'
+  ) {
     element.handleClickOutside = event => {
       checkOutsideClick(
         {
@@ -312,11 +316,11 @@ detectOutsideClick.remove = element => {
     document.removeEventListener('touchstart', element.handleClickOutside)
     element.handleClickOutside = null
   }
-  if (element.keydownCallback) {
+  if (element.keydownCallback && typeof window !== 'undefined') {
     window.removeEventListener('keydown', element.keydownCallback)
     element.keydownCallback = null
   }
-  if (element.keyupCallback) {
+  if (element.keyupCallback && typeof window !== 'undefined') {
     window.removeEventListener('keyup', element.keyupCallback)
     element.keyupCallback = null
   }
