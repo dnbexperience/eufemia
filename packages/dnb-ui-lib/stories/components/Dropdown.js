@@ -81,7 +81,7 @@ const DropdownStory = () => {
           // direction="top"
           data={dropdownDataScrollable}
           selected_item={4}
-          no_scroll_animation={true}
+          no_scroll_animation="true"
           // status="Message to the user"
         />
         <p className="dnb-p">

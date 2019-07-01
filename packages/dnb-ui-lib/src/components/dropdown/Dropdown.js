@@ -40,7 +40,10 @@ export const propTypes = {
   direction: PropTypes.oneOf(['auto', 'top', 'bottom']),
   max_height: PropTypes.number,
   no_animation: PropTypes.bool,
-  no_scroll_animation: PropTypes.bool,
+  no_scroll_animation: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool
+  ]),
   data: PropTypes.oneOfType([
     PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
     PropTypes.arrayOf(
@@ -353,11 +356,14 @@ export default class Dropdown extends PureComponent {
           )
           const top = liElement.offsetTop
           const { parentNode } = liElement
-          if (scrollTo && parentNode.scrollTo) {
-            parentNode.scrollTo({
-              top,
-              behavior: 'smooth'
-            })
+          if (parentNode.scrollTo) {
+            const params = {
+              top
+            }
+            if (scrollTo) {
+              params.behavior = 'smooth'
+            }
+            parentNode.scrollTo(params)
           } else if (parentNode.scrollTop) {
             parentNode.scrollTop = top
           }
@@ -637,7 +643,7 @@ export default class Dropdown extends PureComponent {
       icon_position && `dnb-dropdown--icon-position-${icon_position}`,
       `dnb-dropdown--direction-${direction}`,
       scrollable && 'dnb-dropdown--scroll',
-      no_scroll_animation && 'dnb-dropdown--no-scroll-animation',
+      isTrue(no_scroll_animation) && 'dnb-dropdown--no-scroll-animation',
       opened && 'dnb-dropdown--opened',
       hidden && 'dnb-dropdown--hidden',
       showStatus && 'dnb-dropdown__form-status',
