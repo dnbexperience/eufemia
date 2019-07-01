@@ -6,12 +6,13 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import keycode from 'keycode'
+
 import {
   isTrue,
   extendPropsWithContext,
   registerElement,
   dispatchCustomElementEvent,
+  detectOutsideClick,
   validateDOMAttributes
 } from '../../shared/component-helper'
 import { format, parse, differenceInCalendarDays } from 'date-fns'
@@ -276,68 +277,11 @@ export default class DatePicker extends PureComponent {
   }
 
   setOutsideClickHandler = () => {
-    if (!this.handleClickOutside && typeof document !== 'undefined') {
-      this.handleClickOutside = (event, onSuccess = null) => {
-        try {
-          let targetElement = event.target
-          do {
-            if (targetElement == this._wrapperRef.current) {
-              return // stop here
-            }
-            targetElement = targetElement.parentNode
-          } while (targetElement)
-
-          if (onSuccess) {
-            onSuccess()
-          }
-          this.hidePicker()
-        } catch (e) {
-          console.log(e)
-        }
-      }
-      document.addEventListener('mousedown', this.handleClickOutside)
-      document.addEventListener('touchstart', this.handleClickOutside)
-
-      this.keydownCallback = event => {
-        const keyCode = keycode(event)
-        if (keyCode === 'esc') {
-          window.removeEventListener('keydown', this.keydownCallback)
-          this.hidePicker()
-        }
-      }
-      window.addEventListener('keydown', this.keydownCallback)
-
-      // use keyup so we get the correct new target
-      this.keyupCallback = event => {
-        const keyCode = keycode(event)
-        if (
-          keyCode === 'tab' &&
-          typeof this.handleClickOutside === 'function'
-        ) {
-          this.handleClickOutside(event, () => {
-            if (this.keyupCallback)
-              window.removeEventListener('keyup', this.keyupCallback)
-          })
-        }
-      }
-      window.addEventListener('keyup', this.keyupCallback)
-    }
+    detectOutsideClick(this, this.hidePicker)
   }
 
   removeOutsideClickHandler() {
-    if (this.handleClickOutside && typeof document !== 'undefined') {
-      document.removeEventListener('mousedown', this.handleClickOutside)
-      document.removeEventListener('touchstart', this.handleClickOutside)
-      this.handleClickOutside = null
-    }
-    if (this.keydownCallback) {
-      window.removeEventListener('keydown', this.keydownCallback)
-      this.keydownCallback = null
-    }
-    if (this.keyupCallback) {
-      window.removeEventListener('keyup', this.keyupCallback)
-      this.keyupCallback = null
-    }
+    detectOutsideClick.remove(this)
   }
 
   componentWillUnmount() {

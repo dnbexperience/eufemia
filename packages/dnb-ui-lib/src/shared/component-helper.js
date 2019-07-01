@@ -5,6 +5,7 @@
 
 import { registerElement } from './custom-element'
 export { registerElement }
+import keycode from 'keycode'
 import whatInput from 'what-input'
 
 // run component helper functions
@@ -263,3 +264,81 @@ export const pickRenderProps = (props, renderProps) =>
       obj[key] = value // TODO: remove this because of security notation
       return obj
     }, {})
+
+export const detectOutsideClick = (element, onSuccess) => {
+  if (!element.handleClickOutside && typeof document !== 'undefined') {
+    element.handleClickOutside = event => {
+      checkOutsideClick(
+        {
+          currentElement: event.target,
+          ignoreElement: element._wrapperRef.current
+        },
+        onSuccess
+      )
+    }
+    document.addEventListener('mousedown', element.handleClickOutside)
+    document.addEventListener('touchstart', element.handleClickOutside)
+
+    element.keydownCallback = event => {
+      const keyCode = keycode(event)
+      if (keyCode === 'esc') {
+        window.removeEventListener('keydown', element.keydownCallback)
+        if (typeof onSuccess === 'function') {
+          onSuccess()
+        }
+      }
+    }
+    window.addEventListener('keydown', element.keydownCallback)
+
+    // use keyup so we get the correct new target
+    element.keyupCallback = event => {
+      const keyCode = keycode(event)
+      if (
+        keyCode === 'tab' &&
+        typeof element.handleClickOutside === 'function'
+      ) {
+        element.handleClickOutside(event, () => {
+          if (element.keyupCallback)
+            window.removeEventListener('keyup', element.keyupCallback)
+        })
+      }
+    }
+    window.addEventListener('keyup', element.keyupCallback)
+  }
+}
+detectOutsideClick.remove = element => {
+  if (element.handleClickOutside && typeof document !== 'undefined') {
+    document.removeEventListener('mousedown', element.handleClickOutside)
+    document.removeEventListener('touchstart', element.handleClickOutside)
+    element.handleClickOutside = null
+  }
+  if (element.keydownCallback) {
+    window.removeEventListener('keydown', element.keydownCallback)
+    element.keydownCallback = null
+  }
+  if (element.keyupCallback) {
+    window.removeEventListener('keyup', element.keyupCallback)
+    element.keyupCallback = null
+  }
+}
+
+export const checkOutsideClick = (
+  { currentElement, ignoreElement },
+  onSuccess = null
+) => {
+  try {
+    let targetElement = currentElement
+    do {
+      if (targetElement == ignoreElement) {
+        return // stop here
+      }
+      targetElement = targetElement.parentNode
+    } while (targetElement)
+
+    if (typeof onSuccess === 'function') {
+      onSuccess()
+    }
+  } catch (e) {
+    console.log(e)
+  }
+}
