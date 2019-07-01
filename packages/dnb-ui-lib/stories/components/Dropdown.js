@@ -3,7 +3,7 @@
  *
  */
 
-import React, { useState } from 'react'
+import React, { useState, Fragment } from 'react'
 import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
 
@@ -80,7 +80,7 @@ const DropdownStory = () => {
           label="Label:"
           // direction="top"
           data={dropdownDataScrollable}
-          selected_item={6}
+          selected_item={4}
           no_scroll_animation={true}
           // status="Message to the user"
         />
@@ -193,10 +193,10 @@ const dropdownDataScrollable = [
     content: ['1534.96.48901', 'D']
   },
   {
-    content: <>E</>
+    content: <Fragment>E</Fragment>
   },
-  <>Custom content {'🔥'}</>,
-  [<>Custom content X {'🔥'}</>],
+  <Fragment key="key1">Custom content {'🔥'}</Fragment>,
+  [<Fragment key="key2">Custom content X {'🔥'}</Fragment>],
   {
     content: 'EE'
   },

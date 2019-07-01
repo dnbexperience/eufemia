@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import React, { Fragment } from 'react'
 import {
   mount,
   fakeProps,
@@ -49,10 +49,10 @@ const mockData = [
     content: ['1534.96.48901', 'Oppussing - Ole Nordmann']
   },
   {
-    content: <>Custom content {'123'}</>
+    content: <Fragment>Custom content {'123'}</Fragment>
   },
-  <>Custom content {'123'}</>,
-  [<>Custom content {'123'}</>]
+  <Fragment key="key1">Custom content {'123'}</Fragment>,
+  [<Fragment key="key2">Custom content {'123'}</Fragment>]
 ]
 
 describe('Dropdown component', () => {

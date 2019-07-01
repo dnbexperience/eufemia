@@ -125,6 +125,7 @@ export default class Dropdown extends PureComponent {
   }
 
   static parseOpened = state => /true|on/.test(String(state))
+
   static parseContentTitle = (
     dataItem,
     { separator = '\n', removeNumericOnlyValues = false } = {}
@@ -132,50 +133,38 @@ export default class Dropdown extends PureComponent {
     let ret = ''
     const onlyNumericRegex = /[0-9.,-\s]+/
     if (Array.isArray(dataItem) && dataItem.length > 0) {
-      dataItem.content = dataItem
+      dataItem = { content: dataItem }
     }
-    if (dataItem.content) {
-      ret = Array.isArray(dataItem.content)
-        ? dataItem.content
-            .reduce((acc, cur) => {
-              // check if we have React inside, with strings we can use
-              if (React.isValidElement(cur)) {
-                if (Array.isArray(cur.props.children)) {
-                  cur = cur.props.children.reduce((acc, cur) => {
-                    if (typeof cur === 'string') {
-                      acc = acc + cur
-                    }
-                    return acc
-                  }, '')
-                } else if (typeof cur.props.children === 'string') {
-                  cur = cur.props.children
-                } else {
-                  return acc
-                }
-              }
-              // remove only numbers
-              const found =
-                removeNumericOnlyValues &&
-                cur &&
-                cur.match(onlyNumericRegex)
-              if (!(found && found[0].length === cur.length)) {
-                acc.push(cur)
-              }
-              return acc
-            }, [])
-            .join(separator)
-        : dataItem.content
-    } else if (
-      typeof dataItem === 'string' ||
-      (typeof dataItem === 'object' && !Array.isArray(dataItem))
-    ) {
-      ret = dataItem
+    if (dataItem && Array.isArray(dataItem.content)) {
+      ret = dataItem.content
+        .reduce((acc, cur) => {
+          // check if we have React inside, with strings we can use
+          cur = grabStringFromReact(cur)
+          if (cur === false) {
+            return acc
+          }
+          // remove only numbers
+          const found =
+            removeNumericOnlyValues && cur && cur.match(onlyNumericRegex)
+          if (!(found && found[0].length === cur.length)) {
+            acc.push(cur)
+          }
+          return acc
+        }, [])
+        .join(separator)
+    } else {
+      ret = grabStringFromReact((dataItem && dataItem.content) || dataItem)
     }
     if (
+      dataItem &&
       dataItem.selected_value &&
       !onlyNumericRegex.test(dataItem.selected_value)
     ) {
       ret = dataItem.selected_value + separator + ret
+    }
+    // make sure we don't return empty strings
+    if (Array.isArray(dataItem) && dataItem.length === 0) {
+      ret = null
     }
     return ret
   }
@@ -836,4 +825,23 @@ function getOffseTop(elem) {
     }
   } while ((elem = elem.offsetParent))
   return offsetTop
+}
+
+function grabStringFromReact(cur) {
+  if (React.isValidElement(cur)) {
+    if (typeof cur.props.children === 'string') {
+      cur = cur.props.children
+    } else if (Array.isArray(cur.props.children)) {
+      cur = cur.props.children.reduce((acc, cur) => {
+        if (typeof cur === 'string') {
+          acc = acc + cur
+        }
+        return acc
+      }, '')
+    } else {
+      return false
+    }
+  }
+
+  return cur
 }
