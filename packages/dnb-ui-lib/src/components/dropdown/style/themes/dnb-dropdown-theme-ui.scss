@@ -44,11 +44,25 @@
 
   // li element inner
   &__option {
+    position: relative !important;
     padding: $focusRingWidth; // to make space for the fakeFocus
     color: var(--dropdown-option-color);
     background-color: var(--dropdown-option-background-color);
-    border-bottom: var(--dropdown-option-border-width) solid
-      var(--dropdown-option-border-color);
+
+    // This is our border, instead of border-bottom: var(--dropdown-option-border-width) solid
+    &::before {
+      content: '';
+      position: absolute;
+      top: auto;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      // width: 100%; // 100% width would result in no margin right
+      // margin-right: 1.5rem;
+      height: var(--dropdown-option-border-width);
+
+      background-color: var(--dropdown-option-border-color);
+    }
 
     &__item:nth-of-type(1) {
       font-weight: var(--font-weight-demi);
@@ -128,7 +142,18 @@
     &--focus.last-of-type &__inner {
       border-radius: 0 0 var(--dropdown-options-border-radius)
         var(--dropdown-options-border-radius);
-      border-bottom: none;
+
+      // remove last bottom border
+      &::before {
+        content: none;
+      }
+    }
+  }
+
+  // make sure we have a spacing on the right side if we have a scrollbar
+  &--scroll &__option {
+    &::before {
+      right: 0;
     }
   }
 
