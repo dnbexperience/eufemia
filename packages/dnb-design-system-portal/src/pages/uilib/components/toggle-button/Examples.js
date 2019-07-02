@@ -31,7 +31,7 @@ class Example extends PureComponent {
   text="Checked ToggleButton"
   title="Ths is the title"
   checked
-  on_change={({ value }) => { console.log('on_change', value) }}
+  on_change={({ checked }) => { console.log('on_change', checked) }}
 />
         `}
         </ComponentBox>

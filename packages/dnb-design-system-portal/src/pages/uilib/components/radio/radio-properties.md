@@ -12,7 +12,6 @@ draft: true
 | `group`          | _(optional)_ use a unique group identifier to define the Radio buttons who belongs together.                                                 |
 | `label`          | _(optional)_ use either the `label` property or provide custom one.                                                                          |
 | `label_position` | _(optional)_ defines the position of the `label`. Use either `left` or `right`. Defaults to `right`.                                         |
-| `id`             | _(optional)_ the `id` of the input. Default will be a random id.                                                                             |
 | `disabled`       | _(optional)_ to disable/enable the radio.                                                                                                    |
 | `status`         | _(optional)_ text with a status message. The style defaults to an error message.                                                             |
 | `status_state`   | _(optional)_ defines the state of the status. Currently there are two statuses `[error, info]`. Defaults to `error`.                         |
@@ -28,7 +27,6 @@ draft: true
 | `title`            | _(optional)_ the `title` of group, describing it a bit further for accessibility reasons.                                                                            |
 | `status`           | _(optional)_ uses the `form-status` component to show failure messages.                                                                                              |
 | `status_state`     | _(optional)_ defines the state of the status. Currently there are two statuses `[error, info]`. Defaults to `error`.                                                 |
-| `id`               | _(optional)_ the `id` of the input. Default will be a random id.                                                                                                     |
 | `disabled`         | _(optional)_ to disable/enable the all the nested Radio buttons.                                                                                                     |
 | `label`            | _(optional)_ use either the `label` property or provide custom one.                                                                                                  |
 | `direction`        | _(optional)_ to define the `label` layout direction on how the next element should be placed on. Can be either `vertical` or `horizontal`. Defaults to `horizontal`. |
