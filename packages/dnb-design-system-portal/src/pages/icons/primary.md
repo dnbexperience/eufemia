@@ -13,6 +13,13 @@ The Primary Icons are included in the [UI Library](/uilib) and also shipped bund
 
 Primary Icons can easily be included, for instance, in [Buttons](/uilib/components/button). They are integrated by using the `<IconPrimary />` [Icon Component](/uilib/components/icon-primary).
 
+## React example usage
+
+```jsx
+<Icon icon="bell" size="medium" />
+<Button icon="chevron_right" />
+```
+
 ## A list of all Primary Icons
 
 Title in parentheses are the icon's variable name used in coding.
