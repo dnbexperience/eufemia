@@ -40,6 +40,9 @@
     border: none;
     background-color: transparent;
     border-radius: var(--dropdown-options-border-radius);
+    &:focus {
+      @include fakeFocus();
+    }
   }
 
   // li element inner
@@ -195,15 +198,20 @@
   &__trigger {
     background-color: var(--color-white);
     border-color: var(--dropdown-border-color);
-    @include hover() {
-      border-color: var(--dropdown-border-color--selected);
-      @include fakeBorder();
-      & .dnb-dropdown__text,
-      & .dnb-dropdown__icon .dnb-icon {
-        color: var(--dropdown-text-color);
+
+    &:not(:disabled) {
+      &:focus,
+      &:hover {
+        border-color: var(--dropdown-border-color--selected);
+        @include fakeBorder();
+        & .dnb-dropdown__text,
+        & .dnb-dropdown__icon .dnb-icon {
+          color: var(--dropdown-text-color);
+        }
       }
     }
   }
+  /* stylelint-disable-next-line */
   &--opened &__trigger {
     @include fakeBorder();
     border-color: var(--dropdown-border-color--selected);

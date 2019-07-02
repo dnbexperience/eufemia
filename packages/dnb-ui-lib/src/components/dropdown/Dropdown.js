@@ -65,6 +65,7 @@ export const propTypes = {
     )
   ]).isRequired,
   selected_item: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  open_on_focus: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   opened: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   class: PropTypes.string,
@@ -99,6 +100,7 @@ export const defaultProps = {
   no_scroll_animation: false,
   data: null,
   selected_item: null,
+  open_on_focus: false,
   opened: false,
   disabled: null,
   class: null,
@@ -377,21 +379,25 @@ export default class Dropdown extends PureComponent {
         // try to scroll to item
         if (!this._refUl.current) return
         try {
-          const liElement = this._refUl.current.querySelector(
+          const ulElement = this._refUl.current
+          const liElement = ulElement.querySelector(
             `li.dnb-dropdown__option:nth-of-type(${active_item + 1})`
           )
           const top = liElement.offsetTop
-          const { parentNode } = liElement
-          if (parentNode.scrollTo) {
+          // const { parentNode } = liElement
+          if (ulElement.scrollTo) {
             const params = {
               top
             }
             if (scrollTo) {
               params.behavior = 'smooth'
             }
-            parentNode.scrollTo(params)
-          } else if (parentNode.scrollTop) {
-            parentNode.scrollTop = top
+            ulElement.scrollTo(params)
+          } else if (ulElement.scrollTop) {
+            ulElement.scrollTop = top
+          }
+          if (liElement) {
+            liElement.focus()
           }
         } catch (e) {
           console.log('Dropdown could not scroll into element:', e)
@@ -401,10 +407,21 @@ export default class Dropdown extends PureComponent {
   }
 
   onFocusHandler = () => {
-    this.setVisible()
+    if (isTrue(this.props.open_on_focus)) {
+      this.setVisible()
+    }
   }
   onBlurHandler = () => {
-    this.setHidden()
+    if (isTrue(this.props.open_on_focus)) {
+      this.setHidden()
+    }
+  }
+  toggleVisible = () => {
+    if (!this.state.hidden && this.state.opened) {
+      this.setHidden()
+    } else {
+      this.setVisible()
+    }
   }
   onMouseDownHandler = () => {
     if (
@@ -415,6 +432,23 @@ export default class Dropdown extends PureComponent {
       this.setHidden()
     } else {
       this.setVisible()
+    }
+  }
+
+  onTriggerKeyDownHandler = e => {
+    switch (keycode(e)) {
+      case 'enter':
+      case 'space':
+      case 'up':
+      case 'down':
+        if (this.state.hidden) {
+          e.preventDefault()
+          this.setVisible()
+        }
+        break
+      case 'esc':
+        this.setHidden()
+        break
     }
   }
 
@@ -493,6 +527,9 @@ export default class Dropdown extends PureComponent {
         }
         this._selectTimeout = setTimeout(() => {
           this.setHidden()
+          if (this._refButton.current) {
+            this._refButton.current.focus()
+          }
         }, 150) // only for the user experience
       }
     )
@@ -696,6 +733,7 @@ export default class Dropdown extends PureComponent {
       onFocus: this.onFocusHandler,
       onBlur: this.onBlurHandler,
       onMouseDown: this.onMouseDownHandler,
+      onKeyDown: this.onTriggerKeyDownHandler,
       ref: this._refButton,
       disabled: isTrue(disabled),
       ...attributes
@@ -712,7 +750,7 @@ export default class Dropdown extends PureComponent {
     const ulParams = {
       className: 'dnb-dropdown__options',
       role: 'listbox',
-      tabIndex: '-1',
+      tabIndex: '0',
       ['aria-activedescendant']: `option-${id}-${selected_item}`,
       ['aria-labelledby']: id,
       ref: this._refUl,
@@ -769,10 +807,11 @@ export default class Dropdown extends PureComponent {
                   <ul {...ulParams}>
                     {data.map((dataItem, i) => {
                       const isCurrent = i === parseFloat(selected_item)
-                      const params = {
+                      const liParams = {
                         id: `option-${id}-${i}`,
-                        role: 'option',
-                        ['aria-selected']: isCurrent,
+                        role: 'option', // here we could use "menuitem"
+                        tabIndex: '-1',
+                        title: Dropdown.parseContentTitle(dataItem),
                         className: classnames(
                           'dnb-dropdown__option',
                           isCurrent && 'dnb-dropdown__option--selected',
@@ -784,18 +823,19 @@ export default class Dropdown extends PureComponent {
                           i === this.state.closestToBottom &&
                             'closest-to-bottom',
                           i === data.length - 1 && 'last-of-type' // because of the triangle element
-                        )
+                        ),
+                        onMouseDown: this.selectItemHandler,
+                        'data-item': i
+                      }
+                      if (isCurrent) {
+                        liParams['aria-selected'] = true
+
+                        // use checked if we use role="menuitem"
+                        // liParams['aria-checked'] = true
                       }
                       return (
-                        <li key={id + i} {...params}>
-                          <span
-                            title={Dropdown.parseContentTitle(dataItem)}
-                            className="dnb-dropdown__option__inner"
-                            data-item={i}
-                            onMouseDown={this.selectItemHandler}
-                            role="button"
-                            tabIndex="-1"
-                          >
+                        <li key={id + i} {...liParams}>
+                          <span className="dnb-dropdown__option__inner">
                             {(Array.isArray(dataItem.content) &&
                               dataItem.content.map((item, n) => {
                                 return (
@@ -813,7 +853,7 @@ export default class Dropdown extends PureComponent {
                         </li>
                       )
                     })}
-                    <li className="dnb-dropdown__triangle" />
+                    <li className="dnb-dropdown__triangle" aria-hidden />
                   </ul>
                 ) : (
                   children && (

@@ -5,18 +5,9 @@
 
 import React, { PureComponent, Fragment } from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import CodeBlock from '../../../../shared/tags/CodeBlock'
 import styled from '@emotion/styled'
 
 class Example extends PureComponent {
-  static AdditionalCallback = {
-    info: ({ CodeRenderer }) => (
-      <Fragment>
-        <h3>Data Structure</h3>
-        <CodeRenderer language="json">{dataBlob}</CodeRenderer>
-      </Fragment>
-    )
-  }
   render() {
     const no_animation = typeof window !== 'undefined' && window.IS_TEST
     return (
@@ -221,14 +212,3 @@ const data = [
     content: ['1534.96.48901', 'Oppussing - Ole Nordmann']
   }
 ]
-const dataBlob = JSON.stringify(data, null, 2)
-
-export const Data = () => {
-  return (
-    <CodeBlock language="js">{`const data = ${JSON.stringify(
-      data,
-      null,
-      2
-    )}`}</CodeBlock>
-  )
-}

@@ -22,6 +22,10 @@ const DropdownStory = () => {
   return (
     <Wrapper>
       <Box>
+        <select name="x" id="y">
+          <option value="a">A</option>
+          <option value="b">B</option>
+        </select>
         <Dropdown
           data={data}
           selected_item={selected_item}

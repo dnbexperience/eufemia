@@ -68,15 +68,15 @@ describe('Dropdown component', () => {
     expect(Comp.state().hidden).toBe(true)
   })
 
-  it('has correct state after "focus" trigger', () => {
-    Comp.find('button').simulate('focus')
+  it('has correct state after "mousedown" trigger', () => {
+    Comp.find('button').simulate('mousedown')
     expect(Comp.state().opened).toBe(true)
     expect(Comp.state().hidden).toBe(false)
   })
 
   it('has correct selected_item on keydown "ArrowDown" and "Enter"', () => {
     expect(Comp.state().selected_item).toBe(props.selected_item)
-    Comp.find('button').simulate('focus')
+    Comp.find('button').simulate('mousedown')
     expect(Comp.state().active_item).toBe(props.selected_item)
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 40 }))
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 13 }))
@@ -93,7 +93,7 @@ describe('Dropdown component', () => {
   })
 
   it('has correct selected_item on key search', () => {
-    Comp.find('button').simulate('focus')
+    Comp.find('button').simulate('mousedown')
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 66 }))
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 70 }))
     // Comp.find('button').simulate('keyDown', {
@@ -108,18 +108,18 @@ describe('Dropdown component', () => {
     expect(Comp.state().active_item).toBe(2)
   })
 
-  it('has correct state after "blur" trigger', () => {
-    Comp.find('button').simulate('blur')
+  it('has correct state after "esc" key', () => {
+    // document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
+    Comp.find('button').simulate('keyDown', {
+      key: 'esc',
+      keyCode: 27
+    })
     expect(Comp.state().opened).toBe(false)
   })
 
-  it('has correct css class after calling onFocusHandler', () => {
-    Comp.instance().onFocusHandler()
-
-    expect(Comp.state().opened).toBe(true)
-
+  it('has correct "aria-expanded"', () => {
+    Comp.find('button').simulate('mousedown')
     const elem = Comp.find('span.dnb-dropdown')
-
     expect(
       elem
         .find('button')
@@ -151,7 +151,7 @@ describe('Dropdown component', () => {
   })
 
   it('has correct selected value after new selection', () => {
-    Comp.find('button').simulate('focus')
+    Comp.find('button').simulate('mousedown')
     Comp.find('li.dnb-dropdown__option')
       .find('.dnb-dropdown__option__inner')
       .at(props.selected_item)

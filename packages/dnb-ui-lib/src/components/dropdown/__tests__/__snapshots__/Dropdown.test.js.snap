@@ -68,6 +68,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
   on_select={[Function]}
   on_show={[Function]}
   on_state_update={[Function]}
+  open_on_focus="open_on_focus"
   opened="opened"
   scrollable={true}
   selected_item={2}
@@ -110,6 +111,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
         className="dnb-dropdown__trigger"
         onBlur={[Function]}
         onFocus={[Function]}
+        onKeyDown={[Function]}
         onMouseDown={[Function]}
         title="title"
       >
@@ -242,7 +244,8 @@ exports[`Dropdown scss have to match default theme snapshot 1`] = `
   --dropdown-option-border-color: var(--color-mint-green-25); }
 
 .dnb-dropdown {
-  color: var(--dropdown-text-color); }
+  color: var(--dropdown-text-color);
+  /* stylelint-disable-next-line */ }
   .dnb-dropdown__list {
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16);
     border-radius: var(--dropdown-options-border-radius);
@@ -251,6 +254,11 @@ exports[`Dropdown scss have to match default theme snapshot 1`] = `
     border: none;
     background-color: transparent;
     border-radius: var(--dropdown-options-border-radius); }
+    .dnb-dropdown__options:focus {
+      outline: none; }
+      html[data-whatinput='keyboard'] .dnb-dropdown__options:focus {
+        box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
+        border-color: transparent; }
   .dnb-dropdown__option {
     position: relative;
     color: var(--dropdown-option-color);
@@ -339,13 +347,12 @@ exports[`Dropdown scss have to match default theme snapshot 1`] = `
   .dnb-dropdown__trigger {
     background-color: var(--color-white);
     border-color: var(--dropdown-border-color); }
-    :not([dnb-is-touch]) .dnb-dropdown__trigger:hover[disabled] {
-      cursor: not-allowed; }
-    :not([dnb-is-touch]) .dnb-dropdown__trigger:hover:not([disabled]) {
+    .dnb-dropdown__trigger:not(:disabled):focus, .dnb-dropdown__trigger:not(:disabled):hover {
       border-color: var(--dropdown-border-color--selected);
       box-shadow: 0 0 0 0.0625rem; }
-      :not([dnb-is-touch]) .dnb-dropdown__trigger:hover:not([disabled]) .dnb-dropdown__text,
-      :not([dnb-is-touch]) .dnb-dropdown__trigger:hover:not([disabled]) .dnb-dropdown__icon .dnb-icon {
+      .dnb-dropdown__trigger:not(:disabled):focus .dnb-dropdown__text,
+      .dnb-dropdown__trigger:not(:disabled):focus .dnb-dropdown__icon .dnb-icon, .dnb-dropdown__trigger:not(:disabled):hover .dnb-dropdown__text,
+      .dnb-dropdown__trigger:not(:disabled):hover .dnb-dropdown__icon .dnb-icon {
         color: var(--dropdown-text-color); }
   .dnb-dropdown--opened .dnb-dropdown__trigger {
     box-shadow: 0 0 0 0.0625rem;
