@@ -164,9 +164,7 @@
     cursor: pointer;
 
     margin: 0;
-    padding: var(
-      --dropdown-focus-border-width
-    ); // to make space for the fakeFocus
+    padding: 0;
     color: inherit;
 
     background-color: var(--color-white);
@@ -185,10 +183,6 @@
 
       color: inherit;
       background-color: var(--color-white);
-
-      @include hover() {
-        background-color: grey;
-      }
     }
 
     &__item {
@@ -196,28 +190,6 @@
       overflow: hidden;
       text-overflow: ellipsis;
       width: 100%;
-    }
-
-    @include hover() {
-      background-color: grey;
-      .dnb-dropdown__option__inner {
-        background-color: grey;
-      }
-    }
-
-    // for keyboard usage
-    &--focus {
-      background-color: grey;
-      .dnb-dropdown__option__inner {
-        @include fakeBorder();
-      }
-    }
-
-    &--selected {
-      background-color: grey;
-      .dnb-dropdown__option__inner {
-        background-color: grey;
-      }
     }
   }
 
@@ -281,6 +253,8 @@
 
   // button
   &__trigger {
+    cursor: pointer;
+
     position: relative;
     z-index: 1;
 
@@ -369,50 +343,6 @@
       padding-right: 0;
       padding-left: var(--dropdown-text-padding);
     }
-  }
-
-  // input element
-  &__input {
-    position: absolute;
-    z-index: 6;
-    top: 0;
-    left: 0;
-
-    cursor: pointer;
-    display: block;
-
-    width: 100%;
-    height: var(--dropdown-height);
-
-    opacity: 0;
-
-    @include hover() {
-      & ~ .dnb-dropdown__trigger .dnb-dropdown__text,
-      & ~ .dnb-dropdown__trigger .dnb-dropdown__icon .dnb-icon {
-        color: black;
-      }
-    }
-
-    @include focus() {
-      & ~ .dnb-dropdown__trigger {
-        z-index: 8; // make the trigger to the foreground, so we can watch the click to reset
-        cursor: pointer;
-        @include fakeBorder();
-      }
-      & ~ .dnb-dropdown__list {
-        @include openDropdown();
-      }
-      // & ~ ul li .dnb-dropdown__triangle {
-      //   transition: opacity 200ms ease-out 50ms;
-      //   opacity: 1;
-      //   visibility: visible;
-      // }
-    }
-  }
-
-  &__input[disabled] ~ &__icon,
-  &__input[disabled] ~ &__trigger {
-    color: lightgrey;
   }
 
   &__outside-value {

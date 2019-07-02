@@ -3,7 +3,7 @@
  *
  */
 
-import React, { useState } from 'react'
+import React, { useState, Fragment } from 'react'
 import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
 
@@ -65,10 +65,10 @@ const DropdownStory = () => {
       <Box>
         <Dropdown
           label="Label:"
+          title={<>Custom title {'🔥'}</>}
           data={dropdownData}
-          selected_item={3}
-          disabled
-          show_value_outside
+          // selected_item={3}
+          // disabled
         />
         <p className="dnb-p">
           Eros semper blandit tellus mollis primis quisque platea
@@ -81,8 +81,8 @@ const DropdownStory = () => {
           // direction="top"
           data={dropdownDataScrollable}
           selected_item={4}
-          no_scroll_animation={true}
-          status="Message to the user"
+          no_scroll_animation="true"
+          // status="Message to the user"
         />
         <p className="dnb-p">
           Eros semper blandit tellus mollis primis quisque platea
@@ -172,8 +172,8 @@ let dropdownData = [
     ]
   },
   {
-    selected_value: 'Oppussing - Ole Nordmann',
-    content: ['1534.96.48901', 'Oppussing - Ole Nordmann']
+    selected_value: <>Custom selected {'🔥'}</>,
+    content: ['1534.96.48901', <>Custom content {'🔥'}</>]
   }
 ]
 const dropdownDataScrollable = [
@@ -193,8 +193,10 @@ const dropdownDataScrollable = [
     content: ['1534.96.48901', 'D']
   },
   {
-    content: 'E'
+    content: <Fragment>E</Fragment>
   },
+  <Fragment key="key1">Custom content {'🔥'}</Fragment>,
+  [<Fragment key="key2">Custom content X {'🔥'}</Fragment>],
   {
     content: 'EE'
   },

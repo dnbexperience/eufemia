@@ -13,6 +13,7 @@ import {
   registerElement,
   validateDOMAttributes,
   processChildren,
+  detectOutsideClick,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import Icon from '../icon-primary/IconPrimary'
@@ -29,7 +30,7 @@ const renderProps = {
 
 export const propTypes = {
   id: PropTypes.string,
-  title: PropTypes.string,
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   icon: PropTypes.string,
   icon_position: PropTypes.string,
   label: PropTypes.string,
@@ -40,16 +41,23 @@ export const propTypes = {
   direction: PropTypes.oneOf(['auto', 'top', 'bottom']),
   max_height: PropTypes.number,
   no_animation: PropTypes.bool,
-  no_scroll_animation: PropTypes.bool,
-  data: PropTypes.oneOfType([
+  no_scroll_animation: PropTypes.oneOfType([
     PropTypes.string,
+    PropTypes.bool
+  ]),
+  data: PropTypes.oneOfType([
+    PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
     PropTypes.arrayOf(
       PropTypes.oneOfType([
-        PropTypes.string,
+        PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
         PropTypes.shape({
-          selected_value: PropTypes.string,
+          selected_value: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.node
+          ]),
           content: PropTypes.oneOfType([
             PropTypes.string,
+            PropTypes.node,
             PropTypes.arrayOf(PropTypes.string)
           ])
         })
@@ -121,36 +129,46 @@ export default class Dropdown extends PureComponent {
   }
 
   static parseOpened = state => /true|on/.test(String(state))
+
   static parseContentTitle = (
     dataItem,
     { separator = '\n', removeNumericOnlyValues = false } = {}
   ) => {
     let ret = ''
     const onlyNumericRegex = /[0-9.,-\s]+/
-    if (dataItem.content) {
-      ret = Array.isArray(dataItem.content)
-        ? dataItem.content
-            .reduce((acc, cur) => {
-              // remove only numbers
-              const found =
-                removeNumericOnlyValues &&
-                cur &&
-                cur.match(onlyNumericRegex)
-              if (!(found && found[0].length === cur.length)) {
-                acc.push(cur)
-              }
-              return acc
-            }, [])
-            .join(separator)
-        : dataItem.content
-    } else if (typeof dataItem === 'string') {
-      ret = dataItem
+    if (Array.isArray(dataItem) && dataItem.length > 0) {
+      dataItem = { content: dataItem }
+    }
+    if (dataItem && Array.isArray(dataItem.content)) {
+      ret = dataItem.content
+        .reduce((acc, cur) => {
+          // check if we have React inside, with strings we can use
+          cur = grabStringFromReact(cur)
+          if (cur === false) {
+            return acc
+          }
+          // remove only numbers
+          const found =
+            removeNumericOnlyValues && cur && cur.match(onlyNumericRegex)
+          if (!(found && found[0].length === cur.length)) {
+            acc.push(cur)
+          }
+          return acc
+        }, [])
+        .join(separator)
+    } else {
+      ret = grabStringFromReact((dataItem && dataItem.content) || dataItem)
     }
     if (
+      dataItem &&
       dataItem.selected_value &&
       !onlyNumericRegex.test(dataItem.selected_value)
     ) {
       ret = dataItem.selected_value + separator + ret
+    }
+    // make sure we don't return empty strings
+    if (Array.isArray(dataItem) && dataItem.length === 0) {
+      ret = null
     }
     return ret
   }
@@ -212,41 +230,56 @@ export default class Dropdown extends PureComponent {
 
     this._ref = React.createRef()
     this._refUl = React.createRef()
-    this._refInput = React.createRef()
     this._refButton = React.createRef()
   }
 
   componentDidMount() {
-    if (this.state.opened && this.state.hidden) {
-      this.setFocus()
+    if (this.state.opened && !this.state.hidden) {
+      this.setVisible()
     }
   }
 
   componentWillUnmount() {
+    this.setHidden()
     clearTimeout(this._hideTimeout)
-    this.removeDirectionObserver()
+    clearTimeout(this._selectTimeout)
   }
 
-  setFocus = () => {
-    if (this._refInput.current && !this.props.disabled) {
-      this._refInput.current.focus()
+  setOutsideClickObserver = () => {
+    detectOutsideClick(this, this._ref.current, this.setHidden)
+    if (typeof document !== 'undefined') {
+      document.addEventListener('keydown', this.onKeyDownHandler)
+    }
+  }
+
+  removeOutsideClickObserver() {
+    detectOutsideClick.remove(this)
+    if (typeof document !== 'undefined') {
+      document.removeEventListener('keydown', this.onKeyDownHandler)
     }
   }
 
   setVisible = () => {
-    if (this._hideTimeout) {
-      clearTimeout(this._hideTimeout)
-    }
+    clearTimeout(this._hideTimeout)
+    clearTimeout(this._showTimeout)
     this.searchCache = null
-    const { selected_item } = this.state
+    const { selected_item, opened, hidden } = this.state
+    if (!opened && hidden) {
+      this.blockDoubleClick = true
+    }
     this.setState(
       {
         hidden: false,
+        opened: true,
         _listenForPropChanges: false
       },
       () => {
+        this._showTimeout = setTimeout(() => {
+          this.blockDoubleClick = false
+        }, 1e3) // wait until animation is over
         this.setDirectionObserver()
         this.setScrollObserver()
+        this.setOutsideClickObserver()
         this.scrollToItem(selected_item, {
           scrollTo: false
         })
@@ -257,23 +290,33 @@ export default class Dropdown extends PureComponent {
     })
   }
   setHidden = () => {
-    this._hideTimeout = setTimeout(
-      () => {
-        this.setState({
-          hidden: true,
-          _listenForPropChanges: false
-        })
+    this.setState(
+      {
+        opened: false,
+        _listenForPropChanges: false
       },
-      this.props.no_animation ? 1 : Dropdown.blurDelay
-    ) // wait until animation is over
+      () => {
+        this._hideTimeout = setTimeout(
+          () => {
+            this.setState({
+              hidden: true,
+              _listenForPropChanges: false
+            })
+          },
+          this.props.no_animation ? 1 : Dropdown.blurDelay
+        ) // wait until animation is over
+      }
+    )
     this.removeDirectionObserver()
     this.removeScrollObserver()
+    this.removeOutsideClickObserver()
     dispatchCustomElementEvent(this, 'on_hide', {
       data: Dropdown.getOptionData(
         this.state.selected_item,
         this.state.data
       )
     })
+    this.blockDoubleClick = false
   }
 
   // this gives us the possibility to quickly search for an item
@@ -339,11 +382,14 @@ export default class Dropdown extends PureComponent {
           )
           const top = liElement.offsetTop
           const { parentNode } = liElement
-          if (scrollTo && parentNode.scrollTo) {
-            parentNode.scrollTo({
-              top,
-              behavior: 'smooth'
-            })
+          if (parentNode.scrollTo) {
+            const params = {
+              top
+            }
+            if (scrollTo) {
+              params.behavior = 'smooth'
+            }
+            parentNode.scrollTo(params)
           } else if (parentNode.scrollTop) {
             parentNode.scrollTop = top
           }
@@ -355,24 +401,20 @@ export default class Dropdown extends PureComponent {
   }
 
   onFocusHandler = () => {
-    if (!this.state.opened) {
-      this.setState({
-        opened: true,
-        _listenForPropChanges: false
-      })
-      this.setVisible()
-    }
+    this.setVisible()
   }
   onBlurHandler = () => {
-    this.setState({
-      opened: false,
-      _listenForPropChanges: false
-    })
     this.setHidden()
   }
   onMouseDownHandler = () => {
-    if (this.state.opened) {
-      this.onBlurHandler()
+    if (
+      !this.state.hidden &&
+      this.state.opened &&
+      !this.blockDoubleClick
+    ) {
+      this.setHidden()
+    } else {
+      this.setVisible()
     }
   }
 
@@ -394,29 +436,25 @@ export default class Dropdown extends PureComponent {
         active_item = 0
         break
       case 'end':
-        active_item = total
         e.preventDefault()
+        active_item = total
         break
       case 'enter':
       case 'space':
         e.preventDefault()
-        this.selectItem(active_item)
-        if (this._refInput.current) {
-          this._refInput.current.blur()
-        }
+        this.selectItem(active_item, { event: e })
+        this.setHidden()
         dispatchCustomElementEvent(this, 'on_select', {
           data: Dropdown.getOptionData(active_item, this.state.data)
         })
         break
       case 'esc':
         e.preventDefault()
-        if (this._refInput.current) {
-          this._refInput.current.blur()
-        }
+        this.setHidden()
         break
 
       default:
-        this.scrollToItem(this.findItemByValue(keycode(e)))
+        active_item = this.findItemByValue(keycode(e))
         break
     }
 
@@ -432,30 +470,42 @@ export default class Dropdown extends PureComponent {
     }
   }
 
-  selectItemHandler = e => {
+  selectItemHandler = event => {
     const selected_item = parseFloat(
-      e.currentTarget.getAttribute('data-item')
+      event.currentTarget.getAttribute('data-item')
     )
     if (selected_item > -1) {
-      this.selectItem(selected_item, { fireSelectEvent: true })
+      this.selectItem(selected_item, { fireSelectEvent: true, event })
     }
   }
 
-  selectItem = (selected_item, { fireSelectEvent } = {}) => {
-    this.setState({
-      // Do not reset "_listenForPropChanges" here, as it will block instant component rerender
-      _isNewActiveItem: true,
-      selected_item,
-      active_item: selected_item
-    })
+  selectItem = (selected_item, { fireSelectEvent, event = null } = {}) => {
+    this.setState(
+      {
+        // Do not set "_listenForPropChanges" to false here, as it will block instant component rerender
+        _isNewActiveItem: true,
+        selected_item,
+        active_item: selected_item
+      },
+      () => {
+        if (this._selectTimeout) {
+          clearTimeout(this._selectTimeout)
+        }
+        this._selectTimeout = setTimeout(() => {
+          this.setHidden()
+        }, 150) // only for the user experience
+      }
+    )
     if (this.state.selected_item !== selected_item) {
       dispatchCustomElementEvent(this, 'on_change', {
-        data: Dropdown.getOptionData(selected_item, this.state.data)
+        data: Dropdown.getOptionData(selected_item, this.state.data),
+        event
       })
     }
     if (fireSelectEvent) {
       dispatchCustomElementEvent(this, 'on_select', {
-        data: Dropdown.getOptionData(selected_item, this.state.data)
+        data: Dropdown.getOptionData(selected_item, this.state.data),
+        event
       })
     }
   }
@@ -623,7 +673,7 @@ export default class Dropdown extends PureComponent {
       icon_position && `dnb-dropdown--icon-position-${icon_position}`,
       `dnb-dropdown--direction-${direction}`,
       scrollable && 'dnb-dropdown--scroll',
-      no_scroll_animation && 'dnb-dropdown--no-scroll-animation',
+      isTrue(no_scroll_animation) && 'dnb-dropdown--no-scroll-animation',
       opened && 'dnb-dropdown--opened',
       hidden && 'dnb-dropdown--hidden',
       showStatus && 'dnb-dropdown__form-status',
@@ -636,26 +686,15 @@ export default class Dropdown extends PureComponent {
     // const selectedId = `option-${id}-${selected_item}`
     // But for now we use
     const selectedId = `dropdown-${id}-value`
-    const inputParams = {
-      id,
-      className: 'dnb-dropdown__input',
-      ['aria-hidden']: true,
-      readOnly: true,
-      value: currentOptionData.value || '',
-      onKeyUp: this.onKeyUpHandler,
-      onKeyDown: this.onKeyDownHandler,
-      onFocus: this.onFocusHandler,
-      onBlur: this.onBlurHandler,
-      ref: this._refInput,
-      disabled: isTrue(disabled)
-    }
     const triggerParams = {
       className: 'dnb-dropdown__trigger',
-      title, // type="checkbox"// dont works well on firefox
+      title,
       ['aria-label']: title,
       ['aria-haspopup']: 'listbox',
       ['aria-labelledby']: selectedId,
       ['aria-expanded']: opened,
+      onFocus: this.onFocusHandler,
+      onBlur: this.onBlurHandler,
       onMouseDown: this.onMouseDownHandler,
       ref: this._refButton,
       disabled: isTrue(disabled),
@@ -684,7 +723,6 @@ export default class Dropdown extends PureComponent {
 
     // also used for code markup simulation
     validateDOMAttributes(this.props, triggerParams)
-    validateDOMAttributes(null, inputParams)
     validateDOMAttributes(null, listParams)
     validateDOMAttributes(null, ulParams)
 
@@ -700,7 +738,6 @@ export default class Dropdown extends PureComponent {
         )}
         <span className={classes} ref={this._ref}>
           <span className="dnb-dropdown__shell">
-            <input {...inputParams} />
             <button {...triggerParams}>
               <span className="dnb-dropdown__text">
                 <span
@@ -811,4 +848,23 @@ function getOffseTop(elem) {
     }
   } while ((elem = elem.offsetParent))
   return offsetTop
+}
+
+function grabStringFromReact(cur) {
+  if (React.isValidElement(cur)) {
+    if (typeof cur.props.children === 'string') {
+      cur = cur.props.children
+    } else if (Array.isArray(cur.props.children)) {
+      cur = cur.props.children.reduce((acc, cur) => {
+        if (typeof cur === 'string') {
+          acc = acc + cur
+        }
+        return acc
+      }, '')
+    } else {
+      return false
+    }
+  }
+
+  return cur
 }

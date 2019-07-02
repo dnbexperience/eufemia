@@ -92,7 +92,7 @@ const data = [
   },
   {
     selected_value: 'Item 4 Value',
-    content: ['Item 4 Content A', 'Item 4 Content B']
+    content: ['Item 4 Content A', <>Custom Component</>]
   }
 ]
 render(
