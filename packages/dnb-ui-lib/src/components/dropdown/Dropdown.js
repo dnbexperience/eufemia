@@ -442,7 +442,7 @@ export default class Dropdown extends PureComponent {
       case 'enter':
       case 'space':
         e.preventDefault()
-        this.selectItem(active_item)
+        this.selectItem(active_item, { event: e })
         this.setHidden()
         dispatchCustomElementEvent(this, 'on_select', {
           data: Dropdown.getOptionData(active_item, this.state.data)
@@ -470,16 +470,16 @@ export default class Dropdown extends PureComponent {
     }
   }
 
-  selectItemHandler = e => {
+  selectItemHandler = event => {
     const selected_item = parseFloat(
-      e.currentTarget.getAttribute('data-item')
+      event.currentTarget.getAttribute('data-item')
     )
     if (selected_item > -1) {
-      this.selectItem(selected_item, { fireSelectEvent: true })
+      this.selectItem(selected_item, { fireSelectEvent: true, event })
     }
   }
 
-  selectItem = (selected_item, { fireSelectEvent } = {}) => {
+  selectItem = (selected_item, { fireSelectEvent, event = null } = {}) => {
     this.setState(
       {
         // Do not set "_listenForPropChanges" to false here, as it will block instant component rerender
@@ -498,12 +498,14 @@ export default class Dropdown extends PureComponent {
     )
     if (this.state.selected_item !== selected_item) {
       dispatchCustomElementEvent(this, 'on_change', {
-        data: Dropdown.getOptionData(selected_item, this.state.data)
+        data: Dropdown.getOptionData(selected_item, this.state.data),
+        event
       })
     }
     if (fireSelectEvent) {
       dispatchCustomElementEvent(this, 'on_select', {
-        data: Dropdown.getOptionData(selected_item, this.state.data)
+        data: Dropdown.getOptionData(selected_item, this.state.data),
+        event
       })
     }
   }
