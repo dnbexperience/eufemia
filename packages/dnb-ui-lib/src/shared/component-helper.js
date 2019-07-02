@@ -265,7 +265,7 @@ export const pickRenderProps = (props, renderProps) =>
       return obj
     }, {})
 
-export const detectOutsideClick = (element, onSuccess) => {
+export const detectOutsideClick = (element, ignoreElement, onSuccess) => {
   if (
     !element.handleClickOutside &&
     typeof document !== 'undefined' &&
@@ -275,7 +275,7 @@ export const detectOutsideClick = (element, onSuccess) => {
       checkOutsideClick(
         {
           currentElement: event.target,
-          ignoreElement: element._wrapperRef.current
+          ignoreElement
         },
         onSuccess
       )

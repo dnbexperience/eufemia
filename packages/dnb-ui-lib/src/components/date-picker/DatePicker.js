@@ -277,7 +277,7 @@ export default class DatePicker extends PureComponent {
   }
 
   setOutsideClickHandler = () => {
-    detectOutsideClick(this, this.hidePicker)
+    detectOutsideClick(this, this._wrapperRef.current, this.hidePicker)
   }
 
   removeOutsideClickHandler() {
@@ -371,14 +371,11 @@ export default class DatePicker extends PureComponent {
   }
 
   showPicker = () => {
-    this.setState({
-      opened: true,
-      _listenForPropChanges: false
-    })
     if (this._hideTimeout) {
       clearTimeout(this._hideTimeout)
     }
     this.setState({
+      opened: true,
       hidden: false,
       _listenForPropChanges: false
     })

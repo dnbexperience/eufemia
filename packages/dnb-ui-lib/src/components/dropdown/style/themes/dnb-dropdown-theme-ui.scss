@@ -208,16 +208,6 @@
   &__status--error:not(#{&}--opened) &__icon {
     color: var(--color-cherry-red);
   }
-  &__status--error:not(#{&}--opened) &__input {
-    @include hover() {
-      & ~ .dnb-dropdown__trigger {
-        @include dropdownBorderColor(var(--color-cherry-red));
-      }
-      & ~ .dnb-dropdown__trigger .dnb-dropdown__icon .dnb-icon {
-        color: var(--color-cherry-red);
-      }
-    }
-  }
 
   &__triangle::before {
     border: none;
@@ -246,27 +236,6 @@
     &__option.closest-to-bottom#{&}__option--focus
     ~ &__triangle::before {
     background-color: var(--dropdown-option-background-color--selected);
-  }
-
-  &__input[disabled] ~ &__icon,
-  &__input[disabled] ~ &__trigger {
-    border-color: var(--dropdown-text-color--disabled);
-    color: var(--dropdown-text-color--disabled);
-  }
-
-  // input element
-  /* stylelint-disable-next-line */
-  &__input {
-    @include hover() {
-      & ~ .dnb-dropdown__trigger .dnb-dropdown__text,
-      & ~ .dnb-dropdown__trigger .dnb-dropdown__icon .dnb-icon {
-        color: var(--dropdown-text-color);
-      }
-      & ~ .dnb-dropdown__trigger {
-        border-color: var(--dropdown-border-color--selected);
-        @include fakeBorder();
-      }
-    }
   }
 
   // ajust the form-status to the inner border for 2px
