@@ -30,16 +30,16 @@ class Example extends PureComponent {
           {/* @jsx */ `
 const numberMask = createNumberMask({
   allowDecimal: false,
-  thousandsSeparatorSymbol: '.',
+  thousandsSeparatorSymbol: ' ',
   prefix: '',
-  suffix: ',-'
+  suffix: ',- kr.'
 });
 render(<InputMasked
   label="Amount"
   autocomplete="off"
   value="1000000"
   mask={numberMask}
-  show_mask="true"
+  show_mask="false"
   align="right"
   on_change={handleInputChange}
 />)
@@ -56,7 +56,7 @@ render(<InputMasked
           {/* @jsx */ `
 const numberMask = createNumberMask({
   allowDecimal: false,
-  thousandsSeparatorSymbol: '.',
+  thousandsSeparatorSymbol: ' ',
   prefix: 'NOK '
 });
 render(<InputMasked

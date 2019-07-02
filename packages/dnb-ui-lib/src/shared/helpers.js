@@ -59,17 +59,19 @@ export const applyPageFocus = (key = 'default') => {
 export const scrollToLocationHashId = ({ offset = 0 } = {}) => {
   if (typeof document !== 'undefined' && typeof window !== 'undefined') {
     const id = String(window.location.hash).replace('#', '')
-    const elem = document.getElementById(id)
-    if (elem instanceof HTMLElement) {
-      const top = parseFloat(elem.offsetTop) - offset
-      try {
-        window.scrollTop = top
-        window.scrollTo({
-          top,
-          behavior: 'smooth'
-        })
-      } catch (e) {
-        console.log('Error on scrollToLocationHashId:', e)
+    if (id) {
+      const elem = document.getElementById(id)
+      if (elem instanceof HTMLElement) {
+        const top = parseFloat(elem.offsetTop) - offset
+        try {
+          window.scrollTop = top
+          window.scrollTo({
+            top,
+            behavior: 'smooth'
+          })
+        } catch (e) {
+          console.log('Error on scrollToLocationHashId:', e)
+        }
       }
     }
   }

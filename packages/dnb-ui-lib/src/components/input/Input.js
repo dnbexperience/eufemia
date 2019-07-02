@@ -161,9 +161,6 @@ export default class Input extends PureComponent {
     this._ref = React.createRef()
     this._id = props.id || `dnb-input-${Math.round(Math.random() * 999)}` // cause we need an id anyway
 
-    // pass along all props we wish to have as params
-    this.renderProps = pickRenderProps(props, renderProps)
-
     // make sure we dont trigger getDerivedStateFromProps on startup
     this.state._listenForPropChanges = true
     this.state.value = Input.getValue(props)
@@ -255,7 +252,11 @@ export default class Input extends PureComponent {
       className
     )
 
-    let { inputElement: InputElement, ...renderProps } = this.renderProps
+    // pass along all props we wish to have as params
+    let { inputElement: InputElement, ...renderProps } = pickRenderProps(
+      this.props,
+      Input.renderProps
+    )
 
     const inputParams = {
       ...renderProps,
