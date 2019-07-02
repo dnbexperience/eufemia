@@ -2,10 +2,13 @@
 draft: true
 ---
 
-| Properties   | Description                                                                                                                                                                                     |
-| ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `style_type` | _(optional)_ to define the style of the visual helper. Use and `Style ID` from below. Defaults to `mint-green-12`.                                                                              |
-| `spacing`    | _(optional)_ will add the default spacing around the wrapped content. Use `spacing-large`, `spacing-medium` or `spacing-small`. Defaults to `false`. If `true`, then `spacing-default` is used. |
+| Properties   | Description                                                                                                                                                                                                                                                           |
+| ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `style_type` | _(optional)_ to define the style of the visual helper. Use and `Style ID` from below. Defaults to `mint-green-12`.                                                                                                                                                    |
+| `spacing`    | _(optional)_ will add the default spacing around the wrapped content. Use `spacing-large`, `spacing-medium` or `spacing-small`. Defaults to `false`. If `true`, then `spacing-default` is used. Se the [avilable sizes](/uilib/usage/layout/spacing#spacing-helpers). |
+| `element`    | _(optional)_ define what HTML element should be used. Defaults to `<section>`.                                                                                                                                                                                        |
+
+## Styles
 
 | Style           | Description                                                              |
 | --------------- | ------------------------------------------------------------------------ |

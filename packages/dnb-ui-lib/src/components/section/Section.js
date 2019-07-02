@@ -21,6 +21,7 @@ export const propTypes = {
   style: PropTypes.string,
   style_type: PropTypes.string,
   spacing: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  element: PropTypes.string,
   class: PropTypes.string,
 
   /** React props */
@@ -38,6 +39,7 @@ export const propTypes = {
 export const defaultProps = {
   style: null,
   style_type: 'mint-green-12',
+  element: 'section',
   class: null,
 
   /** React props */
@@ -66,6 +68,7 @@ export default class Section extends PureComponent {
 
   render() {
     const {
+      element,
       style,
       style_type,
       spacing,
@@ -94,6 +97,18 @@ export default class Section extends PureComponent {
     // also used for code markup simulation
     validateDOMAttributes(this.props, params)
 
-    return <section {...params}>{content}</section>
+    return (
+      <Element is={element || 'section'} {...params}>
+        {content}
+      </Element>
+    )
   }
+}
+
+const Element = ({ is: Element, children, ...rest }) => (
+  <Element {...rest}>{children}</Element>
+)
+Element.propTypes = {
+  is: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired
 }
