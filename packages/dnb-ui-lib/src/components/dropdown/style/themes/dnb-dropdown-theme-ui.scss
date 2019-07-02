@@ -195,6 +195,14 @@
   &__trigger {
     background-color: var(--color-white);
     border-color: var(--dropdown-border-color);
+    @include hover() {
+      border-color: var(--dropdown-border-color--selected);
+      @include fakeBorder();
+      & .dnb-dropdown__text,
+      & .dnb-dropdown__icon .dnb-icon {
+        color: var(--dropdown-text-color);
+      }
+    }
   }
   &--opened &__trigger {
     @include fakeBorder();
@@ -204,6 +212,12 @@
   // error status
   &__status--error:not(#{&}--opened) &__trigger {
     @include dropdownBorderColor(var(--color-cherry-red));
+    @include hover() {
+      @include dropdownBorderColor(var(--color-cherry-red));
+      & .dnb-dropdown__icon .dnb-icon {
+        color: var(--color-cherry-red);
+      }
+    }
   }
   &__status--error:not(#{&}--opened) &__icon {
     color: var(--color-cherry-red);

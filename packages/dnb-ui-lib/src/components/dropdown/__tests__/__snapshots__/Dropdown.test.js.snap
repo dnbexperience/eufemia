@@ -339,6 +339,14 @@ exports[`Dropdown scss have to match default theme snapshot 1`] = `
   .dnb-dropdown__trigger {
     background-color: var(--color-white);
     border-color: var(--dropdown-border-color); }
+    :not([dnb-is-touch]) .dnb-dropdown__trigger:hover[disabled] {
+      cursor: not-allowed; }
+    :not([dnb-is-touch]) .dnb-dropdown__trigger:hover:not([disabled]) {
+      border-color: var(--dropdown-border-color--selected);
+      box-shadow: 0 0 0 0.0625rem; }
+      :not([dnb-is-touch]) .dnb-dropdown__trigger:hover:not([disabled]) .dnb-dropdown__text,
+      :not([dnb-is-touch]) .dnb-dropdown__trigger:hover:not([disabled]) .dnb-dropdown__icon .dnb-icon {
+        color: var(--dropdown-text-color); }
   .dnb-dropdown--opened .dnb-dropdown__trigger {
     box-shadow: 0 0 0 0.0625rem;
     border-color: var(--dropdown-border-color--selected); }
@@ -346,6 +354,14 @@ exports[`Dropdown scss have to match default theme snapshot 1`] = `
     box-shadow: 0 0 0 1px var(--color-cherry-red) !important;
     border-color: transparent;
     border-color: var(--color-cherry-red); }
+    :not([dnb-is-touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover[disabled] {
+      cursor: not-allowed; }
+    :not([dnb-is-touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover:not([disabled]) {
+      box-shadow: 0 0 0 1px var(--color-cherry-red) !important;
+      border-color: transparent;
+      border-color: var(--color-cherry-red); }
+      :not([dnb-is-touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover:not([disabled]) .dnb-dropdown__icon .dnb-icon {
+        color: var(--color-cherry-red); }
   .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__icon {
     color: var(--color-cherry-red); }
   .dnb-dropdown__triangle::before {
