@@ -3,10 +3,10 @@
  *
  */
 
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { Button, Input, Icon } from 'dnb-ui-lib';
-import { H1 } from 'dnb-ui-lib/elements';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { Button, Input, Icon } from 'dnb-ui-lib'
+import { H1 } from 'dnb-ui-lib/elements'
 
 class ReactComponent extends Component {
   static propTypes = {
@@ -15,11 +15,11 @@ class ReactComponent extends Component {
     message: PropTypes.string.isRequired,
     onMessageChange: PropTypes.func.isRequired,
     onClick: PropTypes.func.isRequired
-  };
+  }
   static defaultProps = {
     icon: null,
     iconJsx: null
-  };
+  }
 
   render() {
     const {
@@ -29,11 +29,11 @@ class ReactComponent extends Component {
       onMessageChange,
       onClick,
       ...rest
-    } = this.props;
+    } = this.props
 
     return (
       <div>
-        <H1>React Component(s)</H1>
+        <H1>React Components inside Angular</H1>
         <Input
           label="Label:"
           placeholder="Type someting ..."
@@ -48,8 +48,8 @@ class ReactComponent extends Component {
         {icon && <Icon icon={icon} {...rest} />}
         {iconJsx && <Icon icon={iconJsx} />}
       </div>
-    );
+    )
   }
 }
 
-export default ReactComponent;
+export default ReactComponent

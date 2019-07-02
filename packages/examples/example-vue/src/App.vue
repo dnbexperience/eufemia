@@ -25,11 +25,11 @@
 import Vue from 'vue'
 
 // import styles for realtime mono repo development
-/* import 'dnb-ui-lib/src/style/components'
-import 'dnb-ui-lib/src/style/themes/open-banking' */
+/* import 'dnb-ui-lib/style/components'
+import 'dnb-ui-lib/style/themes/open-banking' */
 
 /* import dnb from 'dnb-ui-lib/vue' */
-import dnb from 'dnb-ui-lib/components/vue'
+import dnb from 'dnb-ui-lib/vue'
 
 // Bind the components
 const components = dnb.getComponents(Vue)

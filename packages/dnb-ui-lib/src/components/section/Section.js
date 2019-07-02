@@ -20,7 +20,7 @@ const renderProps = {
 export const propTypes = {
   style: PropTypes.string,
   style_type: PropTypes.string,
-  spacing: PropTypes.string,
+  spacing: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   class: PropTypes.string,
 
   /** React props */

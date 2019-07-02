@@ -7,9 +7,9 @@ import React, { PureComponent } from 'react'
 import styled from '@emotion/styled'
 
 // With this we get 100kb more in bundle size
-import { Button, Input, Icon } from 'dnb-ui-lib/src/components'
-import { H1, H2, P, Section } from 'dnb-ui-lib/src/elements'
-import { bell_medium as Bell } from 'dnb-ui-lib/src/icons'
+import { Button, Input, Icon, Section } from 'dnb-ui-lib/components'
+import { H1, H2, P } from 'dnb-ui-lib/elements'
+import { bell_medium as Bell } from 'dnb-ui-lib/icons'
 
 export default class App extends PureComponent {
   state = { inputValue: null }
@@ -25,7 +25,7 @@ export default class App extends PureComponent {
     const { inputValue } = this.state
     return (
       <div className="dnb-core-style">
-        <Section className="dnb-spacing" useSpacing>
+        <Section className="dnb-spacing" spacing="true">
           <H1>React Components</H1>
           <P>
             This is not for real world usage. But only to show the
@@ -42,7 +42,7 @@ export default class App extends PureComponent {
             on_click={this.handleClick}
           />
         </Section>
-        <Section className="dnb-spacing" useSpacing>
+        <Section className="dnb-spacing" spacing="true">
           <Title>Colored H2 (by using --color-cherry-red)</Title>
           <P>
             Show me an Icon <Icon icon={Bell} size="medium" />
