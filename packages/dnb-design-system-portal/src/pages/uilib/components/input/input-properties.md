@@ -18,4 +18,3 @@ draft: true
 | `description`         | _(optional)_ text describing the content of the input more than the label.                                                                                                                    |
 | `size`                | _(optional)_ at the moment `large` is the only available variant. Leave blank if you want a standard size input.                                                                              |
 | `input_state`         | _(optional)_ defines a custom visual state of the input. Use it only if you have to simulate a custom state. Currently are three statuses `virgin` , `focus` and `dirty`. Defaults to `null`. |
-| `disabled`            | _(optional)_ to disable the input.                                                                                                                                                            |
