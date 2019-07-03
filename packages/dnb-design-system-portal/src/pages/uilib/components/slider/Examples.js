@@ -65,12 +65,14 @@ const Component = () => {
     <Slider
       value={value}
       step={10}
+      hide_buttons="true"
       on_change={({ value }) => setValue(value)}
     />
     <VerticalWrapper>
       <Slider
         value={value}
         vertical={true}
+        hide_buttons={true}
         step={1}
         on_change={({ value }) => setValue(value)}
       />

@@ -29,6 +29,7 @@ const SliderStory = () => {
     <Wrapper>
       <Box>
         <Slider
+          // hide_buttons
           label="Label:"
           // min={'50'}
           max={100}

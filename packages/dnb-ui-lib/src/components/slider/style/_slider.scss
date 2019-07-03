@@ -6,6 +6,7 @@
 :root {
   --slider-line-height: 0.25rem;
   --slider-thumb-size: 2rem;
+  --slider-button-size: 1.5rem;
   --slider-space: 1rem;
 }
 
@@ -13,10 +14,13 @@
   &__wrapper {
     display: flex;
     align-items: center; // to center the label vertical
+
     &--vertical {
       flex: none;
       align-items: flex-start; // make sure we have the label on top
-      height: 100%;
+
+      // height: 100%;
+
       min-width: inherit;
       min-height: inherit;
     }
@@ -27,32 +31,81 @@
     flex: 1;
   }
 
-  width: auto;
+  // set a height so it's easier to click on the track
   height: var(--slider-thumb-size);
+  width: auto;
 
-  &__shell {
+  &__track {
     position: relative;
     flex: 1;
 
     // makre room again for the negative line manipulation
-    margin: 0 var(--slider-space);
+    margin: 0 calc(var(--slider-space) * 1.5);
 
     cursor: pointer;
+
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      z-index: 2;
+      left: 0;
+      top: 50%;
+
+      width: var(--slider-thumb-size);
+      height: var(--slider-line-height);
+
+      transform: translate3d(0, -50%, 0);
+
+      border-radius: calc(var(--slider-line-height) / 2);
+      background-color: inherit;
+    }
+
+    &::before {
+      background-color: red;
+      left: calc(1px - 1px - var(--slider-space));
+      right: auto;
+    }
+    &::after {
+      background-color: blue;
+      left: auto;
+      right: calc(1px - 1px - var(--slider-space));
+    }
+  }
+  &--vertical &__track {
+    margin: calc(var(--slider-space) * 1.5) 0;
+
+    &::before,
+    &::after {
+      left: 50%;
+      transform: translate3d(-50%, 0, 0);
+      width: var(--slider-line-height);
+      height: var(--slider-thumb-size);
+    }
+    &::before {
+      top: calc(1px - 1px - var(--slider-space));
+      bottom: auto;
+    }
+    &::after {
+      top: auto;
+      bottom: calc(1px - 1px - var(--slider-space));
+    }
   }
 
   &--vertical {
+    flex-direction: column;
+
+    // set a width so it's easier to click on the track
     width: var(--slider-thumb-size);
     height: inherit;
+
     min-width: inherit;
     min-height: inherit;
   }
-  &--vertical &__shell {
-    margin: var(--slider-space) 0;
-  }
-  &--reverse &__shell {
+  &--reverse &__track {
     transform: scaleX(-1);
   }
-  &--reverse#{&}--vertical &__shell {
+  &--reverse#{&}--vertical &__track {
     transform: scaleY(-1);
   }
 
@@ -62,12 +115,12 @@
     left: 0;
     top: 50%;
 
-    margin: 0 calc(1px - 1px - var(--slider-space));
+    // margin: 0 calc(1px - 1px - var(--slider-space));
 
     height: var(--slider-line-height);
-    transform: translate(0, -50%);
+    transform: translate3d(0, -50%, 0);
 
-    border-radius: calc(var(--slider-line-height) / 2);
+    // border-radius: calc(var(--slider-line-height) / 2);
     background-color: grey;
   }
   &--vertical &__line {
@@ -77,16 +130,20 @@
     left: 50%;
     top: 0;
 
-    margin: calc(1px - 1px - var(--slider-space)) 0;
+    // margin: calc(1px - 1px - var(--slider-space)) 0;
 
-    transform: translate(-50%, 0);
+    transform: translate3d(-50%, 0, 0);
   }
 
   &__line__before {
-    left: 0;
-    z-index: 1;
+    z-index: 2;
+    // left: 1rem; // to get the
+    // margin-left: 1rem;
+    // right: -1rem;
+    // opacity: 0.2;
   }
   &__line__after {
+    z-index: 1;
     right: 0;
     background-color: #ddd;
   }
@@ -101,10 +158,10 @@
     position: absolute;
     left: 0;
     top: 0;
-    z-index: 2;
+    z-index: 3;
 
     display: block;
-    transform: translate(-50%, 0);
+    transform: translate3d(-50%, 0, 0);
 
     // Becaus of the DropShadow
     border-radius: 50%;
@@ -116,7 +173,16 @@
     }
   }
   &--vertical &__thumb {
-    transform: translate(0, -50%);
+    transform: translate3d(0, -50%, 0);
+  }
+
+  &__button {
+    transform: translateY(0.25rem);
+    height: var(--slider-button-size);
+    width: var(--slider-button-size);
+  }
+  &--vertical &__button {
+    transform: translateX(0.25rem);
   }
 
   &__state--jumped &__thumb,
@@ -125,7 +191,7 @@
       left 250ms ease 0ms, top 250ms ease 0ms, box-shadow 250ms ease 0ms;
   }
 
-  &__state--disabled#{&}__shell,
+  &__state--disabled#{&}__track,
   &__state--disabled &__thumb {
     cursor: not-allowed;
   }

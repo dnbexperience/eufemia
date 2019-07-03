@@ -2,10 +2,10 @@
 
 exports[`Slider component have to match snapshot 1`] = `
 <Slider
-  button_title="button_title"
   class="class"
   className="className"
   disabled="disabled"
+  hide_buttons="hide_buttons"
   id="id"
   label="label"
   max={100}
@@ -20,6 +20,7 @@ exports[`Slider component have to match snapshot 1`] = `
   status_animation="status_animation"
   status_state="status_state"
   step={10}
+  thump_title="thump_title"
   value={70}
   vertical="vertical"
 >
@@ -49,12 +50,104 @@ exports[`Slider component have to match snapshot 1`] = `
     <span
       className="dnb-slider className class"
     >
+      <Button
+        bounding={false}
+        class={null}
+        className="dnb-slider__button dnb-slider__button--subtract"
+        custom_element={null}
+        custom_method={null}
+        disabled={null}
+        href={null}
+        icon="subtract"
+        icon_position="right"
+        icon_size="default"
+        id={null}
+        innerRef={null}
+        onClick={null}
+        on_click={[Function]}
+        size={null}
+        text={null}
+        title={null}
+        type="button"
+        variant="secondary"
+      >
+        <button
+          className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon dnb-slider__button dnb-slider__button--subtract"
+          onClick={[Function]}
+          onMouseOut={[Function]}
+          type="button"
+        >
+          <Content
+            bounding={false}
+            class={null}
+            className="dnb-slider__button dnb-slider__button--subtract"
+            content={null}
+            custom_element={null}
+            custom_method={null}
+            disabled={null}
+            href={null}
+            icon="subtract"
+            icon_position="right"
+            icon_size="default"
+            id={null}
+            innerRef={null}
+            isIconOnly={true}
+            onClick={null}
+            on_click={[Function]}
+            size={null}
+            text={null}
+            title={null}
+            type="button"
+            variant="secondary"
+          >
+            <IconPrimary
+              alt={null}
+              aria-hidden={false}
+              attributes={null}
+              class={null}
+              className="dnb-button__icon"
+              color={null}
+              height={null}
+              icon="subtract"
+              key="button-icon"
+              modifier={null}
+              size="default"
+              title={null}
+              width={null}
+            >
+              <span
+                alt="subtract"
+                aria-hidden={false}
+                aria-label="subtract"
+                className="dnb-icon dnb-icon--default dnb-button__icon"
+                role="img"
+              >
+                <subtract>
+                  <svg
+                    fill="none"
+                    height={16}
+                    viewBox="0 0 16 16"
+                    width={16}
+                  >
+                    <path
+                      clipRule="evenodd"
+                      d="M1 8a.75.75 0 0 1 .75-.75h12.5a.75.75 0 0 1 0 1.5H1.75A.75.75 0 0 1 1 8z"
+                      fill="#000"
+                      fillRule="evenodd"
+                    />
+                  </svg>
+                </subtract>
+              </span>
+            </IconPrimary>
+          </Content>
+        </button>
+      </Button>
       <span
         aria-orientation="horizontal"
         aria-valuemax={100}
         aria-valuemin={0}
         aria-valuenow={70}
-        className="dnb-slider__shell"
+        className="dnb-slider__track"
         id="id"
         onClick={[Function]}
         onMouseDown={[Function]}
@@ -92,12 +185,12 @@ exports[`Slider component have to match snapshot 1`] = `
             on_click={null}
             size={null}
             text={null}
-            title="button_title"
+            title="thump_title"
             type="button"
             variant="secondary"
           >
             <button
-              aria-label="button_title"
+              aria-label="thump_title"
               className="dnb-button dnb-button--secondary"
               onBlur={[Function]}
               onClick={[Function]}
@@ -106,7 +199,7 @@ exports[`Slider component have to match snapshot 1`] = `
               onMouseOut={[Function]}
               onTouchMove={[Function]}
               onTouchStart={[Function]}
-              title="button_title"
+              title="thump_title"
               type="button"
             >
               <Content
@@ -133,7 +226,7 @@ exports[`Slider component have to match snapshot 1`] = `
                 on_click={null}
                 size={null}
                 text={null}
-                title="button_title"
+                title="thump_title"
                 type="button"
                 variant="secondary"
               />
@@ -152,6 +245,98 @@ exports[`Slider component have to match snapshot 1`] = `
           className="dnb-slider__line dnb-slider__line__after"
         />
       </span>
+      <Button
+        bounding={false}
+        class={null}
+        className="dnb-slider__button dnb-slider__button--add"
+        custom_element={null}
+        custom_method={null}
+        disabled={null}
+        href={null}
+        icon="add"
+        icon_position="right"
+        icon_size="default"
+        id={null}
+        innerRef={null}
+        onClick={null}
+        on_click={[Function]}
+        size={null}
+        text={null}
+        title={null}
+        type="button"
+        variant="secondary"
+      >
+        <button
+          className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon dnb-slider__button dnb-slider__button--add"
+          onClick={[Function]}
+          onMouseOut={[Function]}
+          type="button"
+        >
+          <Content
+            bounding={false}
+            class={null}
+            className="dnb-slider__button dnb-slider__button--add"
+            content={null}
+            custom_element={null}
+            custom_method={null}
+            disabled={null}
+            href={null}
+            icon="add"
+            icon_position="right"
+            icon_size="default"
+            id={null}
+            innerRef={null}
+            isIconOnly={true}
+            onClick={null}
+            on_click={[Function]}
+            size={null}
+            text={null}
+            title={null}
+            type="button"
+            variant="secondary"
+          >
+            <IconPrimary
+              alt={null}
+              aria-hidden={false}
+              attributes={null}
+              class={null}
+              className="dnb-button__icon"
+              color={null}
+              height={null}
+              icon="add"
+              key="button-icon"
+              modifier={null}
+              size="default"
+              title={null}
+              width={null}
+            >
+              <span
+                alt="add"
+                aria-hidden={false}
+                aria-label="add"
+                className="dnb-icon dnb-icon--default dnb-button__icon"
+                role="img"
+              >
+                <add>
+                  <svg
+                    fill="none"
+                    height={16}
+                    viewBox="0 0 16 16"
+                    width={16}
+                  >
+                    <path
+                      clipRule="evenodd"
+                      d="M8.75 1.75a.75.75 0 0 0-1.5 0v5.5h-5.5a.75.75 0 0 0 0 1.5h5.5v5.5a.75.75 0 0 0 1.5 0v-5.5h5.5a.75.75 0 0 0 0-1.5h-5.5v-5.5z"
+                      fill="#000"
+                      fillRule="evenodd"
+                    />
+                  </svg>
+                </add>
+              </span>
+            </IconPrimary>
+          </Content>
+        </button>
+      </Button>
     </span>
   </span>
 </Slider>
@@ -616,59 +801,87 @@ a.dnb-button .dnb-button__text {
 :root {
   --slider-line-height: 0.25rem;
   --slider-thumb-size: 2rem;
+  --slider-button-size: 1.5rem;
   --slider-space: 1rem; }
 
 .dnb-slider {
   display: inline-flex;
-  width: auto;
-  height: var(--slider-thumb-size); }
+  height: var(--slider-thumb-size);
+  width: auto; }
   .dnb-slider__wrapper {
     display: flex;
     align-items: center; }
     .dnb-slider__wrapper--vertical {
       flex: none;
       align-items: flex-start;
-      height: 100%;
       min-width: inherit;
       min-height: inherit; }
   .dnb-slider:not(.dnb-slider--vertical) {
     flex: 1; }
-  .dnb-slider__shell {
+  .dnb-slider__track {
     position: relative;
     flex: 1;
-    margin: 0 var(--slider-space);
+    margin: 0 calc(var(--slider-space) * 1.5);
     cursor: pointer; }
+    .dnb-slider__track::before, .dnb-slider__track::after {
+      content: '';
+      position: absolute;
+      z-index: 2;
+      left: 0;
+      top: 50%;
+      width: var(--slider-thumb-size);
+      height: var(--slider-line-height);
+      transform: translate3d(0, -50%, 0);
+      border-radius: calc(var(--slider-line-height) / 2);
+      background-color: inherit; }
+    .dnb-slider__track::before {
+      background-color: red;
+      left: calc(1px - 1px - var(--slider-space));
+      right: auto; }
+    .dnb-slider__track::after {
+      background-color: blue;
+      left: auto;
+      right: calc(1px - 1px - var(--slider-space)); }
+  .dnb-slider--vertical .dnb-slider__track {
+    margin: calc(var(--slider-space) * 1.5) 0; }
+    .dnb-slider--vertical .dnb-slider__track::before, .dnb-slider--vertical .dnb-slider__track::after {
+      left: 50%;
+      transform: translate3d(-50%, 0, 0);
+      width: var(--slider-line-height);
+      height: var(--slider-thumb-size); }
+    .dnb-slider--vertical .dnb-slider__track::before {
+      top: calc(1px - 1px - var(--slider-space));
+      bottom: auto; }
+    .dnb-slider--vertical .dnb-slider__track::after {
+      top: auto;
+      bottom: calc(1px - 1px - var(--slider-space)); }
   .dnb-slider--vertical {
+    flex-direction: column;
     width: var(--slider-thumb-size);
     height: inherit;
     min-width: inherit;
     min-height: inherit; }
-  .dnb-slider--vertical .dnb-slider__shell {
-    margin: var(--slider-space) 0; }
-  .dnb-slider--reverse .dnb-slider__shell {
+  .dnb-slider--reverse .dnb-slider__track {
     transform: scaleX(-1); }
-  .dnb-slider--reverse.dnb-slider--vertical .dnb-slider__shell {
+  .dnb-slider--reverse.dnb-slider--vertical .dnb-slider__track {
     transform: scaleY(-1); }
   .dnb-slider__line {
     position: absolute;
     left: 0;
     top: 50%;
-    margin: 0 calc(1px - 1px - var(--slider-space));
     height: var(--slider-line-height);
-    transform: translate(0, -50%);
-    border-radius: calc(var(--slider-line-height) / 2);
+    transform: translate3d(0, -50%, 0);
     background-color: grey; }
   .dnb-slider--vertical .dnb-slider__line {
     width: var(--slider-line-height);
     height: auto;
     left: 50%;
     top: 0;
-    margin: calc(1px - 1px - var(--slider-space)) 0;
-    transform: translate(-50%, 0); }
+    transform: translate3d(-50%, 0, 0); }
   .dnb-slider__line__before {
-    left: 0;
-    z-index: 1; }
+    z-index: 2; }
   .dnb-slider__line__after {
+    z-index: 1;
     right: 0;
     background-color: #ddd; }
   .dnb-slider--vertical .dnb-slider__line__before {
@@ -679,20 +892,26 @@ a.dnb-button .dnb-button__text {
     position: absolute;
     left: 0;
     top: 0;
-    z-index: 2;
+    z-index: 3;
     display: block;
-    transform: translate(-50%, 0);
+    transform: translate3d(-50%, 0, 0);
     border-radius: 50%; }
     .dnb-slider__thumb,
     .dnb-slider__thumb .dnb-button {
       height: var(--slider-thumb-size);
       width: var(--slider-thumb-size); }
   .dnb-slider--vertical .dnb-slider__thumb {
-    transform: translate(0, -50%); }
+    transform: translate3d(0, -50%, 0); }
+  .dnb-slider__button {
+    transform: translateY(0.25rem);
+    height: var(--slider-button-size);
+    width: var(--slider-button-size); }
+  .dnb-slider--vertical .dnb-slider__button {
+    transform: translateX(0.25rem); }
   .dnb-slider__state--jumped .dnb-slider__thumb,
   .dnb-slider__state--jumped .dnb-slider__line {
     transition: width 250ms ease 0ms, height 250ms ease 0ms, left 250ms ease 0ms, top 250ms ease 0ms, box-shadow 250ms ease 0ms; }
-  .dnb-slider__state--disabled.dnb-slider__shell,
+  .dnb-slider__state--disabled.dnb-slider__track,
   .dnb-slider__state--disabled .dnb-slider__thumb {
     cursor: not-allowed; }
   .dnb-slider > .dnb-form-label {

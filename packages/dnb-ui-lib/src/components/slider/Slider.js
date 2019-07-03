@@ -32,7 +32,7 @@ export const propTypes = {
   status: PropTypes.string,
   status_state: PropTypes.string,
   status_animation: PropTypes.string,
-  button_title: PropTypes.string,
+  thump_title: PropTypes.string,
   min: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   max: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -40,7 +40,7 @@ export const propTypes = {
   vertical: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   reverse: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  // attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  hide_buttons: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   class: PropTypes.string,
 
   /// React props
@@ -61,7 +61,7 @@ export const defaultProps = {
   status: null,
   status_state: 'error',
   status_animation: null,
-  button_title: 'Slider',
+  thump_title: null,
   min: 0,
   max: 100,
   value: null,
@@ -69,6 +69,7 @@ export const defaultProps = {
   vertical: false,
   reverse: false,
   disabled: false,
+  hide_buttons: false,
   class: null,
 
   // React props
@@ -143,24 +144,22 @@ export default class Slider extends PureComponent {
   constructor(props) {
     super(props)
     this._id = props.id || `dnb-slider-${Math.round(Math.random() * 999)}` // cause we need an id anyway
-    this._containerRef = React.createRef()
+    this._trackRef = React.createRef()
     const value = Slider.getValue(props)
     this.state = {
       _listenForPropChanges: true,
       default_value: value,
       value
-      // hasDefaultState: props.default_state !== null
-      // checked: (props.default_state || props.checked)
     }
   }
 
-  handleKeyDown = event => {
+  onKeyDownHandler = event => {
     const { min, max, reverse, vertical, value: currentValue } = this.state
     const isReverse = vertical ? !reverse : reverse
 
     const onePercent = Math.abs((max - min) / 100)
     const step = this.props.step || onePercent
-    let value
+    let value = -1
 
     switch (keycode(event)) {
       case 'home':
@@ -188,31 +187,32 @@ export default class Slider extends PureComponent {
         value = isReverse ? currentValue + step : currentValue - step
         break
       default:
-        return
+        break
     }
 
     event.preventDefault()
 
-    value = clamp(value, min, max)
-
-    this.emitChange(event, value)
+    if (value !== -1) {
+      value = clamp(value, min, max)
+      this.emitChange(event, value)
+    }
   }
 
-  handleFocus = () => {
+  onFocusHandler = () => {
     this.setState({
       _listenForPropChanges: false,
       currentState: 'focused'
     })
   }
 
-  handleBlur = () => {
+  onBlurHandler = () => {
     this.setState({ _listenForPropChanges: false, currentState: 'normal' })
   }
 
-  handleClick = event => {
+  onClickHandler = event => {
     const { min, max, reverse, vertical } = this.state
     const percent = calculatePercent(
-      this._containerRef.current,
+      this._trackRef.current,
       event,
       vertical,
       reverse
@@ -224,7 +224,18 @@ export default class Slider extends PureComponent {
     })
   }
 
-  handleTouchStart = event => {
+  onSubtractClickHandler = event => {
+    let { step } = this.props
+    let { min, max, value } = this.state
+    this.emitChange(event, clamp(value - (step || 1), min, max))
+  }
+  onAddClickHandler = event => {
+    let { step } = this.props
+    let { min, max, value } = this.state
+    this.emitChange(event, clamp(value + (step || 1), min, max))
+  }
+
+  onTouchStartHandler = event => {
     event.preventDefault()
     this.setState({
       _listenForPropChanges: false,
@@ -232,7 +243,7 @@ export default class Slider extends PureComponent {
     })
 
     if (typeof document !== 'undefined') {
-      document.body.addEventListener('touchend', this.handleMouseUp)
+      document.body.addEventListener('touchend', this.onMouseUpHandler)
     }
 
     if (typeof this.props.on_drag_start === 'function') {
@@ -242,7 +253,7 @@ export default class Slider extends PureComponent {
     }
   }
 
-  handleMouseDown = event => {
+  onMouseDownHandler = event => {
     event.preventDefault()
     this.setState({
       _listenForPropChanges: false,
@@ -250,8 +261,8 @@ export default class Slider extends PureComponent {
     })
 
     if (typeof document !== 'undefined') {
-      document.body.addEventListener('mousemove', this.handleMouseMove)
-      document.body.addEventListener('mouseup', this.handleMouseUp)
+      document.body.addEventListener('mousemove', this.onMouseMoveHandler)
+      document.body.addEventListener('mouseup', this.onMouseUpHandler)
     }
 
     if (typeof this.props.on_drag_start === 'function') {
@@ -261,12 +272,15 @@ export default class Slider extends PureComponent {
     }
   }
 
-  handleMouseUp = event => {
+  onMouseUpHandler = event => {
     this.setState({ _listenForPropChanges: false, currentState: 'normal' })
 
     if (typeof document !== 'undefined') {
-      document.body.removeEventListener('mousemove', this.handleMouseMove)
-      document.body.removeEventListener('mouseup', this.handleMouseUp)
+      document.body.removeEventListener(
+        'mousemove',
+        this.onMouseMoveHandler
+      )
+      document.body.removeEventListener('mouseup', this.onMouseUpHandler)
     }
 
     if (typeof this.props.on_drag_end === 'function') {
@@ -276,8 +290,8 @@ export default class Slider extends PureComponent {
     }
   }
 
-  handleMouseMove = event => {
-    let elem = this._containerRef.current
+  onMouseMoveHandler = event => {
+    let elem = this._trackRef.current
     if (event.detail) {
       // we have to mock this for jsdom.
       elem = createMockDiv(event.detail)
@@ -343,20 +357,27 @@ export default class Slider extends PureComponent {
   }
 
   componentDidMount() {
-    if (this._containerRef.current) {
-      this._containerRef.current.addEventListener(
+    if (this._trackRef.current) {
+      this._trackRef.current.addEventListener(
         'touchstart',
         preventPageScrolling,
         { passive: false }
       )
 
-      const { min, max } = this.state
-      this._containerRef.current.addEventListener('wheel', event => {
+      const { min, max, reverse, vertical } = this.state
+      this._trackRef.current.addEventListener('wheel', event => {
         event.preventDefault()
         // Math.sign(event.deltaY)
         this.emitChange(
           event,
-          clamp(this.state.value + event.deltaY / 10, min, max)
+          clamp(
+            this.state.value +
+              ((!vertical && reverse) || (vertical && !reverse)
+                ? -event.deltaY / 10
+                : event.deltaY / 10),
+            min,
+            max
+          )
         )
       })
     }
@@ -370,16 +391,19 @@ export default class Slider extends PureComponent {
   }
 
   componentWillUnmount() {
-    if (this._containerRef.current) {
-      this._containerRef.current.removeEventListener(
+    if (this._trackRef.current) {
+      this._trackRef.current.removeEventListener(
         'touchstart',
         preventPageScrolling,
         { passive: false }
       )
     }
     if (typeof document !== 'undefined') {
-      document.body.removeEventListener('mousemove', this.handleMouseMove)
-      document.body.removeEventListener('mouseup', this.handleMouseUp)
+      document.body.removeEventListener(
+        'mousemove',
+        this.onMouseMoveHandler
+      )
+      document.body.removeEventListener('mouseup', this.onMouseUpHandler)
     }
     clearTimeout(this.resetStateTimeoutId)
   }
@@ -392,7 +416,8 @@ export default class Slider extends PureComponent {
       status,
       status_state,
       status_animation,
-      button_title: title,
+      thump_title: title,
+      hide_buttons,
       className,
       class: _className,
 
@@ -410,6 +435,7 @@ export default class Slider extends PureComponent {
 
     const { min, max, reverse, vertical, disabled } = this.state
     const showStatus = status && status !== 'error'
+    const showButtons = !isTrue(hide_buttons)
 
     const id = this._id
     const wrapperClasses = classnames(
@@ -428,40 +454,63 @@ export default class Slider extends PureComponent {
 
     const percent = clamp(((value - min) * 100) / (max - min))
 
-    const lineProperty = vertical ? 'height' : 'width'
-    const thumbProperty = vertical ? 'top' : 'left'
-
     const inlineStyleBefore = {
-      [lineProperty]: `${percent}%`
+      [vertical ? 'height' : 'width']: `${percent}%`
     }
 
-    const inlineThumbStyles = { [thumbProperty]: `${percent}%` }
+    const inlineThumbStyles = {
+      [vertical ? 'top' : 'left']: `${percent}%`
+    }
 
-    const params = {
+    const trackParams = {
       className: classnames(
-        'dnb-slider__shell',
+        'dnb-slider__track',
         currentState && `dnb-slider__state--${currentState}`
       ),
       disabled,
       ...attributes,
-      onClick: this.handleClick,
-      onMouseDown: this.handleMouseDown,
-      onTouchStartCapture: this.handleTouchStart,
-      onTouchMove: this.handleMouseMove
+      onClick: this.onClickHandler,
+      onMouseDown: this.onMouseDownHandler,
+      onTouchStartCapture: this.onTouchStartHandler,
+      onTouchMove: this.onMouseMoveHandler
     }
-    const buttonParams = {
+    const thumbParams = {
       disabled,
       title,
-      onBlur: this.handleBlur,
-      onKeyDown: this.handleKeyDown,
-      onTouchStart: this.handleTouchStart,
-      onTouchMove: this.handleMouseMove,
-      onFocus: this.handleFocus
+      onBlur: this.onBlurHandler,
+      onKeyDown: this.onKeyDownHandler,
+      onTouchStart: this.onTouchStartHandler,
+      onTouchMove: this.onMouseMoveHandler,
+      onFocus: this.onFocusHandler
+    }
+    const buttonParams = {
+      disabled
     }
 
     // also used for code markup simulation
-    validateDOMAttributes(this.props, params)
+    validateDOMAttributes(this.props, trackParams)
+    validateDOMAttributes(null, thumbParams)
     validateDOMAttributes(null, buttonParams)
+
+    const subtractButton = (
+      <Button
+        className="dnb-slider__button dnb-slider__button--subtract"
+        variant="secondary"
+        icon="subtract"
+        on_click={this.onSubtractClickHandler}
+        {...buttonParams}
+      />
+    )
+
+    const addButton = (
+      <Button
+        className="dnb-slider__button dnb-slider__button--add"
+        variant="secondary"
+        icon="add"
+        on_click={this.onAddClickHandler}
+        {...buttonParams}
+      />
+    )
 
     return (
       <span className={wrapperClasses}>
@@ -474,6 +523,7 @@ export default class Slider extends PureComponent {
           />
         )}
         <span className={classes}>
+          {showButtons && (reverse ? addButton : subtractButton)}
           <span
             id={this._id}
             role="slider"
@@ -481,11 +531,11 @@ export default class Slider extends PureComponent {
             aria-valuemin={min}
             aria-valuemax={max}
             aria-orientation={vertical ? 'vertical' : 'horizontal'}
-            ref={this._containerRef}
-            {...params}
+            ref={this._trackRef}
+            {...trackParams}
           >
             <span className="dnb-slider__thumb" style={inlineThumbStyles}>
-              <Button variant="secondary" {...buttonParams} />
+              <Button variant="secondary" {...thumbParams} />
             </span>
             <span
               className="dnb-slider__line dnb-slider__line__before"
@@ -493,6 +543,7 @@ export default class Slider extends PureComponent {
             />
             <span className="dnb-slider__line dnb-slider__line__after" />
           </span>
+          {showButtons && (reverse ? subtractButton : addButton)}
           {showStatus && (
             <FormStatus
               text={status}
