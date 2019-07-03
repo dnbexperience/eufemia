@@ -142,7 +142,8 @@ export default class Radio extends Component {
     dispatchCustomElementEvent(this, 'on_key_down', { event })
   }
 
-  onChangeHandler = event => {
+  onChangeHandler = _event => {
+    const event = _event
     if (isTrue(this.props.readOnly)) {
       return event.preventDefault()
     }
@@ -155,12 +156,12 @@ export default class Radio extends Component {
       // then we have to use a delay, to overwrite the uncrontrolled state
       setTimeout(() => {
         this.setState({ checked, _listenForPropChanges: false }, () =>
-          this.callOnChange({ value, checked })
+          this.callOnChange({ value, checked, event })
         )
       }, 1)
     } else {
       this.setState({ checked, _listenForPropChanges: false })
-      this.callOnChange({ value, checked })
+      this.callOnChange({ value, checked, event })
     }
   }
 
@@ -184,10 +185,10 @@ export default class Radio extends Component {
     }
     const value = event.target.value
     const checked = event.target.checked
-    this.callOnChange({ value, checked })
+    this.callOnChange({ value, checked, event })
   }
 
-  callOnChange = ({ value, checked }) => {
+  callOnChange = ({ value, checked, event }) => {
     const { group } = this.props
     if (this.context.onChange) {
       this.context.onChange({
@@ -197,7 +198,8 @@ export default class Radio extends Component {
     dispatchCustomElementEvent(this, 'on_change', {
       group,
       checked,
-      value
+      value,
+      event
     })
 
     // help firefox and safari to have an correct state after a click

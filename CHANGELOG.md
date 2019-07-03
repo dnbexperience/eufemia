@@ -1,7 +1,7 @@
 ## June, 26. 2019
 
 - The `dnb-ui-lib` got new helpers for [Spacing](/uilib/usage/layout/spacing#spacing-helpers) and [Layout](/uilib/usage/layout).
-- Added first [Demo App](uilib/getting-started/demos)
+- Added first [Demo App](/uilib/getting-started/demos)
 
 ## June, 19. 2019
 

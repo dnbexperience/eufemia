@@ -22,6 +22,7 @@ const props = fakeProps(require.resolve('../Section'), {
   optional: true
 })
 props.style = null
+props.element = null
 props.style_type = 'mint-green-12'
 
 describe('Section component', () => {
@@ -34,15 +35,24 @@ describe('Section component', () => {
   it('should have correct styles', () => {
     const Comp = mount(<Component {...props} style_type="divider" />)
     expect(
-      Comp.find('.dnb-section').hasClass('dnb-section--divider')
+      Comp.find('section.dnb-section')
+        .first()
+        .hasClass('dnb-section--divider')
     ).toBe(true)
   })
 
   it('should have correct spacing', () => {
     const Comp = mount(<Component {...props} spacing="large" />)
     expect(
-      Comp.find('.dnb-section').hasClass('dnb-section--spacing-large')
+      Comp.find('section.dnb-section')
+        .first()
+        .hasClass('dnb-section--spacing-large')
     ).toBe(true)
+  })
+
+  it('should have a div as the element tag', () => {
+    const Comp = mount(<Component {...props} element="div" />)
+    expect(Comp.find('div.dnb-section').exists()).toBe(true)
   })
 
   it('should validate with ARIA rules', async () => {

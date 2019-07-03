@@ -44,10 +44,10 @@ Besides `vue` and `vuera`, you may also install, `dnb-ui-lib`, `react` and `reac
 ```json
 "dependencies": {
   "dnb-ui-lib": "*",
-  "react": "^16.6",
-  "react-dom": "^16.6",
+  "react": "^16",
+  "react-dom": "^16",
   "vue": "^2",
-  "vuera": "**^2**"
+  "vuera": "^2"
 },
 ...
 ```

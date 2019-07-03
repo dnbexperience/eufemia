@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import React, { Fragment } from 'react'
 import {
   mount,
   fakeProps,
@@ -47,7 +47,12 @@ const mockData = [
   {
     selected_value: 'Oppussing - Ole Nordmann',
     content: ['1534.96.48901', 'Oppussing - Ole Nordmann']
-  }
+  },
+  {
+    content: <Fragment>Custom content {'123'}</Fragment>
+  },
+  <Fragment key="key1">Custom content {'123'}</Fragment>,
+  [<Fragment key="key2">Custom content {'123'}</Fragment>]
 ]
 
 describe('Dropdown component', () => {
@@ -63,54 +68,58 @@ describe('Dropdown component', () => {
     expect(Comp.state().hidden).toBe(true)
   })
 
-  it('has correct state after "focus" trigger', () => {
-    Comp.find('input').simulate('focus')
+  it('has correct state after "mousedown" trigger', () => {
+    Comp.find('button').simulate('mousedown')
     expect(Comp.state().opened).toBe(true)
     expect(Comp.state().hidden).toBe(false)
   })
 
   it('has correct selected_item on keydown "ArrowDown" and "Enter"', () => {
     expect(Comp.state().selected_item).toBe(props.selected_item)
-    Comp.find('input').simulate('focus')
+    Comp.find('button').simulate('mousedown')
     expect(Comp.state().active_item).toBe(props.selected_item)
-    Comp.find('input').simulate('keyDown', {
-      key: 'ArrowDown',
-      keyCode: 40
-    })
-    Comp.find('input').simulate('keyDown', {
-      key: 'Enter',
-      keyCode: 13
-    })
+    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 40 }))
+    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 13 }))
+    // Comp.find('button').simulate('keyDown', {
+    //   key: 'ArrowDown',
+    //   keyCode: 40
+    // })
+    // Comp.find('button').simulate('keyDown', {
+    //   key: 'Enter',
+    //   keyCode: 13
+    // })
     expect(Comp.state().active_item).toBe(props.selected_item + 1)
     expect(Comp.state().selected_item).toBe(props.selected_item + 1)
   })
 
   it('has correct selected_item on key search', () => {
-    Comp.find('input').simulate('focus')
-    Comp.find('input').simulate('keyDown', {
-      key: 'B',
-      keyCode: 66
-    })
-    expect(Comp.state().active_item).toBe(0)
-    Comp.find('input').simulate('keyDown', {
-      key: 'F',
-      keyCode: 70
-    })
+    Comp.find('button').simulate('mousedown')
+    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 66 }))
+    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 70 }))
+    // Comp.find('button').simulate('keyDown', {
+    //   key: 'B',
+    //   keyCode: 66
+    // })
+    // expect(Comp.state().active_item).toBe(0)
+    // Comp.find('button').simulate('keyDown', {
+    //   key: 'F',
+    //   keyCode: 70
+    // })
     expect(Comp.state().active_item).toBe(2)
   })
 
-  it('has correct state after "blur" trigger', () => {
-    Comp.find('input').simulate('blur')
+  it('has correct state after "esc" key', () => {
+    // document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
+    Comp.find('button').simulate('keyDown', {
+      key: 'esc',
+      keyCode: 27
+    })
     expect(Comp.state().opened).toBe(false)
   })
 
-  it('has correct css class after calling onFocusHandler', () => {
-    Comp.instance().onFocusHandler()
-
-    expect(Comp.state().opened).toBe(true)
-
+  it('has correct "aria-expanded"', () => {
+    Comp.find('button').simulate('mousedown')
     const elem = Comp.find('span.dnb-dropdown')
-
     expect(
       elem
         .find('button')
@@ -142,7 +151,7 @@ describe('Dropdown component', () => {
   })
 
   it('has correct selected value after new selection', () => {
-    Comp.find('input').simulate('focus')
+    Comp.find('button').simulate('mousedown')
     Comp.find('li.dnb-dropdown__option')
       .find('.dnb-dropdown__option__inner')
       .at(props.selected_item)
@@ -158,6 +167,22 @@ describe('Dropdown component', () => {
     expect(
       Comp.find('.dnb-dropdown__text__inner').instance().innerHTML
     ).toBe(title)
+  })
+
+  it('has a corret selected_item content if we send in a React component', () => {
+    const aStringOf = 'Custom content 123'
+    const Comp1 = mount(<Component data={mockData} selected_item={4} />)
+    const Comp2 = mount(<Component data={mockData} selected_item={5} />)
+    const Comp3 = mount(<Component data={mockData} selected_item={6} />)
+    expect(
+      Comp1.find('.dnb-dropdown__text__inner').instance().innerHTML
+    ).toBe(aStringOf)
+    expect(
+      Comp2.find('.dnb-dropdown__text__inner').instance().innerHTML
+    ).toBe(aStringOf)
+    expect(
+      Comp3.find('.dnb-dropdown__text__inner').instance().innerHTML
+    ).toBe(aStringOf)
   })
 
   it('has a disabled attribute, once we set disabled to true', () => {

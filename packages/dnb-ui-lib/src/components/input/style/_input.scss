@@ -7,12 +7,12 @@
   --input-font-size: 1rem;
   --input-font-size--medium: 1.5rem;
   --input-font-size--large: 2rem;
-  --input-padding: 0 1rem;
-  --input-padding--medium: 0 1rem;
-  --input-padding--large: 0 1.5rem;
+  --input-padding: 1rem;
+  --input-padding--medium: 1.5rem;
+  --input-padding--large: 2rem;
   --input-height: 2rem;
-  --input-height--medium: 2.5rem;
-  --input-height--large: 3rem;
+  --input-height--medium: 3rem;
+  --input-height--large: 4rem;
   --input-border-width: 0.0625rem;
   --input-border-radius: calc(var(--input-height) / 2);
   --input-border-radius--medium: calc(var(--input-height--medium) / 2);
@@ -61,7 +61,8 @@
   &__placeholder,
   &__input {
     width: 100%; // to get overflow working properly
-    padding: var(--input-padding);
+    padding-left: var(--input-padding);
+    padding-right: var(--input-padding);
 
     text-align: left;
 
@@ -97,6 +98,19 @@
     padding-left: 0.5rem;
   }
 
+  &__submit-button {
+    position: relative;
+    z-index: 2; // over placeholder
+
+    // place the button
+    align-self: flex-end;
+    margin-top: calc(1px - 1px - var(--input-height));
+
+    &__button {
+      border-radius: 50%;
+    }
+  }
+
   &--medium {
     .dnb-input__shell,
     .dnb-input__input {
@@ -105,10 +119,23 @@
     }
     .dnb-input__placeholder,
     .dnb-input__input {
-      padding: var(--input-padding--medium);
+      padding-left: var(--input-padding--medium);
+      padding-right: var(--input-padding--medium);
       font-size: var(--input-font-size--medium);
     }
+    .dnb-input__submit-button {
+      margin-top: calc(1px - 1px - var(--input-height--medium));
+      &__button {
+        width: var(--input-height--medium);
+        height: var(--input-height--medium);
+      }
+    }
   }
+  &--medium#{&}--has-submit-button &__placeholder,
+  &--medium#{&}--has-submit-button &__input {
+    padding-right: calc(var(--input-padding--medium) * 2.5);
+  }
+
   &--large {
     .dnb-input__shell,
     .dnb-input__input {
@@ -117,14 +144,35 @@
     }
     .dnb-input__placeholder,
     .dnb-input__input {
-      padding: var(--input-padding--large);
+      padding-left: var(--input-padding--large);
+      padding-right: var(--input-padding--large);
       font-size: var(--input-font-size--large);
     }
+    .dnb-input__submit-button {
+      margin-top: calc(1px - 1px - var(--input-height--large));
+      &__button {
+        width: var(--input-height--large);
+        height: var(--input-height--large);
+      }
+    }
+  }
+  &--large#{&}--has-submit-button &__placeholder,
+  &--large#{&}--has-submit-button &__input {
+    padding-right: calc(var(--input-padding--large) * 2.5);
   }
 
+  &__align--center &__placeholder,
+  &__align--center &__input {
+    text-align: center;
+  }
   &__align--right &__placeholder,
   &__align--right &__input {
     text-align: right;
+  }
+
+  &--stretch,
+  &--stretch &__shell {
+    width: 100%;
   }
 
   // Hide placeholder when: 1. input has content or 2: input is in focus
@@ -134,14 +182,6 @@
     display: none;
   }
 
-  &__submit-button {
-    position: relative;
-    z-index: 2; // over placeholder
-
-    // place the button
-    align-self: flex-end;
-    margin-top: -2rem;
-  }
   // no special style for search
   // &__input--search {
   // }

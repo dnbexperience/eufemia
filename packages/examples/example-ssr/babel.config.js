@@ -6,9 +6,7 @@ module.exports = {
         debug: false,
         targets: {
           browsers: ['last 1 versions']
-        },
-        useBuiltIns: 'entry', // add polyfill proposal usage
-        corejs: 2 // define the version we use in package.json
+        }
       }
     ],
     '@babel/preset-react'

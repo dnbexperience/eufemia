@@ -44,6 +44,8 @@ export const propTypes = {
   placeholder: PropTypes.string,
   description: PropTypes.string,
   align: PropTypes.string,
+  selectall: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   class: PropTypes.string,
   input_class: PropTypes.string,
@@ -93,6 +95,8 @@ export const defaultProps = {
   placeholder: null,
   description: null,
   align: null,
+  selectall: null,
+  stretch: null,
   disabled: null,
   input_class: null,
   class: null,
@@ -161,9 +165,6 @@ export default class Input extends PureComponent {
     this._ref = React.createRef()
     this._id = props.id || `dnb-input-${Math.round(Math.random() * 999)}` // cause we need an id anyway
 
-    // pass along all props we wish to have as params
-    this.renderProps = pickRenderProps(props, renderProps)
-
     // make sure we dont trigger getDerivedStateFromProps on startup
     this.state._listenForPropChanges = true
     this.state.value = Input.getValue(props)
@@ -178,6 +179,17 @@ export default class Input extends PureComponent {
       _listenForPropChanges: false,
       inputState: 'focus'
     })
+
+    if (isTrue(this.props.selectall) && this._ref.current) {
+      setTimeout(() => {
+        try {
+          this._ref.current.select()
+        } catch (e) {
+          console.log(e)
+        }
+      }, 1) // safari need a delay
+    }
+
     dispatchCustomElementEvent(this, 'on_focus', { value, event })
   }
   onBlurHandler = event => {
@@ -225,12 +237,14 @@ export default class Input extends PureComponent {
       submitButton,
       autocomplete,
       readOnly,
+      stretch,
       class: _className,
       className,
 
       id: _id, //eslint-disable-line
       children, //eslint-disable-line
       value: _value, //eslint-disable-line
+      selectall, //eslint-disable-line
       on_submit, //eslint-disable-line
       inputElement: _inputElement, //eslint-disable-line
 
@@ -251,11 +265,16 @@ export default class Input extends PureComponent {
       align && `dnb-input__align--${align}`,
       showStatus && 'dnb-input__form-status',
       status && `dnb-input__status--${status_state}`,
+      isTrue(stretch) && `dnb-input--stretch`,
       _className,
       className
     )
 
-    let { inputElement: InputElement, ...renderProps } = this.renderProps
+    // pass along all props we wish to have as params
+    let { inputElement: InputElement, ...renderProps } = pickRenderProps(
+      this.props,
+      Input.renderProps
+    )
 
     const inputParams = {
       ...renderProps,
@@ -342,9 +361,11 @@ export default class Input extends PureComponent {
                 {...attributes}
                 value={inputParams.value}
                 icon={submit_button_icon}
+                icon_size={size === 'large' ? 'medium' : size}
                 title={submit_button_title}
                 variant={submit_button_variant}
                 disabled={disabled}
+                size={size}
               />
             ))}
 
@@ -398,7 +419,7 @@ class SubmitButton extends PureComponent {
     disabled: false,
     variant: 'secondary',
     icon: 'search',
-    icon_size: 'medium',
+    icon_size: null,
 
     // Web Component props
     on_submit: null,
@@ -441,7 +462,7 @@ class SubmitButton extends PureComponent {
       id,
       type: 'submit',
       title,
-      disabled: isTrue(disabled),
+      disabled,
       ...rest
     }
 
@@ -457,7 +478,7 @@ class SubmitButton extends PureComponent {
           className="dnb-input__submit-button__button"
           variant={variant}
           icon={icon}
-          size={icon_size}
+          icon_size={icon_size}
           onClick={this.onSubmitHandler}
           onFocus={this.onFocusHandler}
           onBlur={this.onBlurHandler}

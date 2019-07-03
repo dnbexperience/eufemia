@@ -46,10 +46,12 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
     on_submit_focus={null}
     placeholder={null}
     readOnly={false}
+    selectall={null}
     size={null}
     status={null}
     status_animation={null}
     status_state="error"
+    stretch={null}
     submitButton={null}
     submit_button_icon="search"
     submit_button_title={null}
@@ -571,12 +573,12 @@ a.dnb-button .dnb-button__text {
   --input-font-size: 1rem;
   --input-font-size--medium: 1.5rem;
   --input-font-size--large: 2rem;
-  --input-padding: 0 1rem;
-  --input-padding--medium: 0 1rem;
-  --input-padding--large: 0 1.5rem;
+  --input-padding: 1rem;
+  --input-padding--medium: 1.5rem;
+  --input-padding--large: 2rem;
   --input-height: 2rem;
-  --input-height--medium: 2.5rem;
-  --input-height--large: 3rem;
+  --input-height--medium: 3rem;
+  --input-height--large: 4rem;
   --input-border-width: 0.0625rem;
   --input-border-radius: calc(var(--input-height) / 2);
   --input-border-radius--medium: calc(var(--input-height--medium) / 2);
@@ -608,7 +610,8 @@ a.dnb-button .dnb-button__text {
     border-radius: var(--input-border-radius); }
   .dnb-input__placeholder, .dnb-input__input {
     width: 100%;
-    padding: var(--input-padding);
+    padding-left: var(--input-padding);
+    padding-right: var(--input-padding);
     text-align: left;
     color: inherit;
     font-size: inherit;
@@ -630,33 +633,59 @@ a.dnb-button .dnb-button__text {
   .dnb-input__description {
     color: inherit;
     padding-left: 0.5rem; }
+  .dnb-input__submit-button {
+    position: relative;
+    z-index: 2;
+    align-self: flex-end;
+    margin-top: calc(1px - 1px - var(--input-height)); }
+    .dnb-input__submit-button__button {
+      border-radius: 50%; }
   .dnb-input--medium .dnb-input__shell,
   .dnb-input--medium .dnb-input__input {
     height: var(--input-height--medium);
     border-radius: var(--input-border-radius--medium); }
   .dnb-input--medium .dnb-input__placeholder,
   .dnb-input--medium .dnb-input__input {
-    padding: var(--input-padding--medium);
+    padding-left: var(--input-padding--medium);
+    padding-right: var(--input-padding--medium);
     font-size: var(--input-font-size--medium); }
+  .dnb-input--medium .dnb-input__submit-button {
+    margin-top: calc(1px - 1px - var(--input-height--medium)); }
+    .dnb-input--medium .dnb-input__submit-button__button {
+      width: var(--input-height--medium);
+      height: var(--input-height--medium); }
+  .dnb-input--medium.dnb-input--has-submit-button .dnb-input__placeholder,
+  .dnb-input--medium.dnb-input--has-submit-button .dnb-input__input {
+    padding-right: calc(var(--input-padding--medium) * 2.5); }
   .dnb-input--large .dnb-input__shell,
   .dnb-input--large .dnb-input__input {
     height: var(--input-height--large);
     border-radius: var(--input-border-radius--large); }
   .dnb-input--large .dnb-input__placeholder,
   .dnb-input--large .dnb-input__input {
-    padding: var(--input-padding--large);
+    padding-left: var(--input-padding--large);
+    padding-right: var(--input-padding--large);
     font-size: var(--input-font-size--large); }
+  .dnb-input--large .dnb-input__submit-button {
+    margin-top: calc(1px - 1px - var(--input-height--large)); }
+    .dnb-input--large .dnb-input__submit-button__button {
+      width: var(--input-height--large);
+      height: var(--input-height--large); }
+  .dnb-input--large.dnb-input--has-submit-button .dnb-input__placeholder,
+  .dnb-input--large.dnb-input--has-submit-button .dnb-input__input {
+    padding-right: calc(var(--input-padding--large) * 2.5); }
+  .dnb-input__align--center .dnb-input__placeholder,
+  .dnb-input__align--center .dnb-input__input {
+    text-align: center; }
   .dnb-input__align--right .dnb-input__placeholder,
   .dnb-input__align--right .dnb-input__input {
     text-align: right; }
+  .dnb-input--stretch,
+  .dnb-input--stretch .dnb-input__shell {
+    width: 100%; }
   .dnb-input__shell[data-has-content='true'] .dnb-input__placeholder,
   .dnb-input__shell[data-has-content='true'][data-input-state='focus'] .dnb-input__placeholder {
     display: none; }
-  .dnb-input__submit-button {
-    position: relative;
-    z-index: 2;
-    align-self: flex-end;
-    margin-top: -2rem; }
   .dnb-input > .dnb-form-status {
     margin-top: 0.5rem; }
 

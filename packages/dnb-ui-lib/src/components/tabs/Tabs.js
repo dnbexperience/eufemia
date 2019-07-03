@@ -219,22 +219,22 @@ export default class Tabs extends PureComponent {
     switch (keycode(e)) {
       case 'left':
         e.preventDefault()
-        this.prevTab()
+        this.prevTab(e)
         this.setFocusOnTablist()
         break
       case 'right':
         e.preventDefault()
-        this.nextTab()
+        this.nextTab(e)
         this.setFocusOnTablist()
         break
     }
   }
 
-  prevTab = () => {
-    this.openTab(-1)
+  prevTab = e => {
+    this.openTab(-1, e)
   }
-  nextTab = () => {
-    this.openTab(+1)
+  nextTab = e => {
+    this.openTab(+1, e)
   }
 
   setFocusOnTablist = () => {
@@ -252,11 +252,11 @@ export default class Tabs extends PureComponent {
       /tab--([-_a-z0-9]+)/i
     )[1]
 
-    this.openTab(selected_key)
+    this.openTab(selected_key, e)
     this.setFocusOnTablist()
   }
 
-  openTab = selected_key => {
+  openTab = (selected_key, event = null) => {
     if (parseFloat(selected_key)) {
       const currentData = this.state.data.filter(
         ({ disabled }) => !disabled
@@ -285,7 +285,8 @@ export default class Tabs extends PureComponent {
     }
 
     dispatchCustomElementEvent(this, 'on_change', {
-      key: selected_key
+      key: selected_key,
+      event
     })
 
     if (this.props.use_hash && typeof window !== 'undefined') {

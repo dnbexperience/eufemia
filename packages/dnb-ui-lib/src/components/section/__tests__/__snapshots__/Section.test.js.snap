@@ -4,16 +4,22 @@ exports[`Section component have to match snapshot 1`] = `
 <Section
   class="class"
   className="className"
+  element={null}
   render_content={[Function]}
   spacing="spacing"
   style={null}
   style_type="mint-green-12"
 >
-  <section
+  <Element
     className="dnb-section dnb-section--mint-green-12 dnb-section--spacing-spacing className class"
+    is="section"
   >
-    children
-  </section>
+    <section
+      className="dnb-section dnb-section--mint-green-12 dnb-section--spacing-spacing className class"
+    >
+      children
+    </section>
+  </Element>
 </Section>
 `;
 

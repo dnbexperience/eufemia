@@ -3,15 +3,15 @@
  *
  */
 
-import React from 'react'; // only used in here because of the usage of <Bell />
-import angular from 'angular';
-import ReactComponent from './ReactComponent.jsx';
-import { react2angular } from 'react2angular';
+import React from 'react' // only used in here because of the usage of <Bell />
+import angular from 'angular'
+import ReactComponent from './ReactComponent.jsx'
+import { react2angular } from 'react2angular'
 
-import { bell_medium as Bell } from 'dnb-ui-lib/icons';
-import { Icon } from 'dnb-ui-lib';
+import { bell_medium as Bell } from 'dnb-ui-lib/icons'
+import { Icon } from 'dnb-ui-lib'
 
-const ngUIModule = angular.module('uiModule', []);
+const ngUIModule = angular.module('uiModule', [])
 
 ngUIModule.component(
   'reactComponent', // is used by <react-component
@@ -27,25 +27,25 @@ ngUIModule.component(
     NB: bindingNames -> Read more about the usage of injectNames
     https://github.com/coatue-oss/react2angular#dependency-injection
    */
-);
+)
 
 ngUIModule.directive('uiDirective', () => {
   return {
     controller: $scope => {
-      $scope.icon = Bell;
+      $scope.icon = Bell
       /** To show the flexibility */
       $scope.iconJsx = () => (
         <Icon icon={<Bell color="#e10076" />} size="medium" />
-      );
-      $scope.message = 'Input value';
+      )
+      $scope.message = 'Input value'
       $scope.onReactMessageChange = ({ value: message }) => {
-        $scope.message = message;
-        $scope.$apply();
-        console.log('onReactMessageChange', message);
-      };
+        $scope.message = message
+        $scope.$apply()
+        console.log('onReactMessageChange', message)
+      }
       $scope.onReactClick = event => {
-        console.log('onReactClick', event);
-      };
+        console.log('onReactClick', event)
+      }
     },
     template: /* @html */ `
 <div>
@@ -68,5 +68,5 @@ ngUIModule.directive('uiDirective', () => {
   </div>
 </div>
 `
-  };
-});
+  }
+})

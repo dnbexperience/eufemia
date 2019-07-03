@@ -208,7 +208,7 @@ export default class ToggleButton extends Component {
       checked,
       _listenForPropChanges: false
     })
-    this.callOnChange({ checked })
+    this.callOnChange({ checked, event })
 
     if (this._refButton.current && checked) {
       // simulate focus for firefox and safari
@@ -221,20 +221,17 @@ export default class ToggleButton extends Component {
     }
   }
 
-  callOnChange = ({ checked }) => {
-    const {
-      // group,
-      value
-    } = this.props
+  callOnChange = ({ checked, event }) => {
+    const { value } = this.props
     if (this.context.onChange) {
       this.context.onChange({
         value
       })
     }
     dispatchCustomElementEvent(this, 'on_change', {
-      // group,
       checked,
-      value
+      value,
+      event
     })
   }
 

@@ -36,14 +36,31 @@ class Example extends PureComponent {
           data-dnb-test="form-set-vertical"
         >
           {/* @jsx */ `
-<FormRow direction="vertical">
+<FormSet direction="vertical">
   <FormRow no_label>
     <H2>A h2 in a FormRow without a label</H2>
   </FormRow>
   <FormRow>
     <Checkbox label="Checkbox" />
   </FormRow>
-</FormRow>
+</FormSet>
+          `}
+        </ComponentBox>
+        <ComponentBox
+          caption="FormSet with `on_submit` event and `prevent_submit` set to true"
+          data-dnb-test="form-set-submit"
+        >
+          {/* @jsx */ `
+<FormSet
+    direction="horizontal"
+    on_submit={({ event }) => console.log('on_submit', event)}
+    prevent_submit={true}
+  >
+  <FormRow>
+    <Input label="Search Input:" type="search" value="Search text ..." />
+    <Button type="submit" text="Trigger submit" />
+  </FormRow>
+</FormSet>
           `}
         </ComponentBox>
       </Fragment>

@@ -183,7 +183,7 @@ const StyledListItem = styled.li`
     justify-content: center;
     align-items: baseline; /* then we can set line-height */
 
-    font-size: 7px; /* safari handles rem value incorrectly */
+    font-size: 0.4375rem; /* safari handles rem value incorrectly */
     line-height: 1.3125rem; /* same as height + 1px */
     font-weight: var(--font-weight-default);
     text-align: center;

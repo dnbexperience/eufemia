@@ -136,7 +136,7 @@ export default class Switch extends Component {
   }
 
   onChangeHandler = event => {
-    if (String(this.props.readOnly) === 'true') {
+    if (isTrue(this.props.readOnly)) {
       return event.preventDefault()
     }
     const checked = !this.state.checked
