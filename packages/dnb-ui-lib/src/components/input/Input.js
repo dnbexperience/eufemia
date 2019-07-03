@@ -44,6 +44,7 @@ export const propTypes = {
   placeholder: PropTypes.string,
   description: PropTypes.string,
   align: PropTypes.string,
+  selectall: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   class: PropTypes.string,
   input_class: PropTypes.string,
@@ -93,6 +94,7 @@ export const defaultProps = {
   placeholder: null,
   description: null,
   align: null,
+  selectall: null,
   disabled: null,
   input_class: null,
   class: null,
@@ -175,6 +177,17 @@ export default class Input extends PureComponent {
       _listenForPropChanges: false,
       inputState: 'focus'
     })
+
+    if (isTrue(this.props.selectall) && this._ref.current) {
+      setTimeout(() => {
+        try {
+          this._ref.current.select()
+        } catch (e) {
+          console.log(e)
+        }
+      }, 1) // safari need a delay
+    }
+
     dispatchCustomElementEvent(this, 'on_focus', { value, event })
   }
   onBlurHandler = event => {
@@ -228,6 +241,7 @@ export default class Input extends PureComponent {
       id: _id, //eslint-disable-line
       children, //eslint-disable-line
       value: _value, //eslint-disable-line
+      selectall, //eslint-disable-line
       on_submit, //eslint-disable-line
       inputElement: _inputElement, //eslint-disable-line
 
