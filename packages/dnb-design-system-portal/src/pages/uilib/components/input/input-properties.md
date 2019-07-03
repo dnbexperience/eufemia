@@ -18,4 +18,5 @@ draft: true
 | `description`         | _(optional)_ text describing the content of the input more than the label.                                                                                                                    |
 | `size`                | _(optional)_ at the moment `large` is the only available variant. Leave blank if you want a standard size input.                                                                              |
 | `selectall`           | _(optional)_ if set to `true`, then the whole input value gets selected on the entry focus. A second click will place the cursor on the wanted position.                                      |
+| `stretch`             | _(optional)_ if set to `true`, then the input field will be 100% in `width`.                                                                                                                  |
 | `input_state`         | _(optional)_ defines a custom visual state of the input. Use it only if you have to simulate a custom state. Currently are three statuses `virgin` , `focus` and `dirty`. Defaults to `null`. |

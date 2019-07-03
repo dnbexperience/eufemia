@@ -40,8 +40,22 @@ export default [
           <Input
             label="Search:"
             type="search"
+            stretch
             submit_button_title="Search"
             placeholder="Search text placeholder"
+          />
+          <Input
+            size="large"
+            type="search"
+            align="right"
+            stretch
+            placeholder="Large input with right aligned text"
+          />
+          <Input
+            size="medium"
+            type="search"
+            stretch
+            placeholder="Large input with right aligned text"
           />
         </Box>
         <Box>

@@ -34,6 +34,15 @@ describe('Input screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+  it('have to match stretched and large size', async () => {
+    const screenshot = await testPageScreenshot({
+      style: {
+        width: '600px' // make sure our input gets an explicit width, because of mac/linux rendering differences
+      },
+      selector: '[data-dnb-test="input-large"] .dnb-input'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
   it('have to match search type with focus state', async () => {
     const screenshot = await testPageScreenshot({
       style,

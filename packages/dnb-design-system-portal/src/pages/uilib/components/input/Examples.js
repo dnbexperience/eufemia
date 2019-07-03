@@ -42,11 +42,13 @@ class Example extends PureComponent {
 />
           `}
         </ComponentBox>
-        <ComponentBox caption="Medium input placeholder">
+        <ComponentBox caption="Medium input with right aligned text">
           {/* @jsx */ `
 <Input
   label="Medium input:"
   size="medium"
+  align="right"
+  stretch="true"
   placeholder="Medium input placeholder"
   onChange={({ value }) => {
     console.log('onChange', value)
@@ -54,13 +56,16 @@ class Example extends PureComponent {
 />
           `}
         </ComponentBox>
-        <ComponentBox caption="Large input with right aligned text">
+        <ComponentBox
+          caption="Large and stretched search input"
+          data-dnb-test="input-large"
+        >
           {/* @jsx */ `
 <Input
-  label="Large input:"
   size="large"
-  align="right"
-  placeholder="Large input with right aligned text"
+  type="search"
+  stretch="true"
+  placeholder="Large search placeholder"
   on_change={({ value }) => {
     console.log('on_change', value)
   }}

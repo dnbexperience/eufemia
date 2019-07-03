@@ -45,6 +45,7 @@ export const propTypes = {
   description: PropTypes.string,
   align: PropTypes.string,
   selectall: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   class: PropTypes.string,
   input_class: PropTypes.string,
@@ -95,6 +96,7 @@ export const defaultProps = {
   description: null,
   align: null,
   selectall: null,
+  stretch: null,
   disabled: null,
   input_class: null,
   class: null,
@@ -235,6 +237,7 @@ export default class Input extends PureComponent {
       submitButton,
       autocomplete,
       readOnly,
+      stretch,
       class: _className,
       className,
 
@@ -262,6 +265,7 @@ export default class Input extends PureComponent {
       align && `dnb-input__align--${align}`,
       showStatus && 'dnb-input__form-status',
       status && `dnb-input__status--${status_state}`,
+      isTrue(stretch) && `dnb-input--stretch`,
       _className,
       className
     )
@@ -357,9 +361,11 @@ export default class Input extends PureComponent {
                 {...attributes}
                 value={inputParams.value}
                 icon={submit_button_icon}
+                icon_size={size === 'large' ? 'medium' : size}
                 title={submit_button_title}
                 variant={submit_button_variant}
                 disabled={disabled}
+                size={size}
               />
             ))}
 
@@ -413,7 +419,7 @@ class SubmitButton extends PureComponent {
     disabled: false,
     variant: 'secondary',
     icon: 'search',
-    icon_size: 'medium',
+    icon_size: null,
 
     // Web Component props
     on_submit: null,
@@ -456,7 +462,7 @@ class SubmitButton extends PureComponent {
       id,
       type: 'submit',
       title,
-      disabled: isTrue(disabled),
+      disabled,
       ...rest
     }
 
@@ -472,7 +478,7 @@ class SubmitButton extends PureComponent {
           className="dnb-input__submit-button__button"
           variant={variant}
           icon={icon}
-          size={icon_size}
+          icon_size={icon_size}
           onClick={this.onSubmitHandler}
           onFocus={this.onFocusHandler}
           onBlur={this.onBlurHandler}

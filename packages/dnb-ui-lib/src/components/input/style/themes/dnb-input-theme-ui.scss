@@ -57,6 +57,10 @@
     }
   }
 
+  &:not([data-input-state='disabled'])#{&}__submit-button svg {
+    color: var(--color-sea-green);
+  }
+
   // with status_state = "error"
   &__status--error &__shell:not([data-input-state='focus']) {
     &,
