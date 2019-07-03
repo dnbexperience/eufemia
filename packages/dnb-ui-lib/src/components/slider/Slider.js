@@ -14,7 +14,9 @@ import {
   processChildren,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
-// import './style/dnb-slider.scss' // no good solution to import the style here
+import Button from '../button/Button'
+import FormLabel from '../form-label/FormLabel'
+import FormStatus from '../form-status/FormStatus'
 
 const renderProps = {
   on_init: null,
@@ -27,6 +29,9 @@ const renderProps = {
 export const propTypes = {
   id: PropTypes.string,
   label: PropTypes.string,
+  status: PropTypes.string,
+  status_state: PropTypes.string,
+  status_animation: PropTypes.string,
   button_title: PropTypes.string,
   min: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   max: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -53,6 +58,9 @@ export const propTypes = {
 export const defaultProps = {
   id: null,
   label: null,
+  status: null,
+  status_state: 'error',
+  status_animation: null,
   button_title: 'Slider',
   min: 0,
   max: 100,
@@ -334,30 +342,6 @@ export default class Slider extends PureComponent {
     )
   }
 
-  calculateLineAfterStyles(percent) {
-    const { currentState } = this.state
-
-    switch (currentState) {
-      case 'activated':
-        return `calc(100% - ${percent === 0 ? 7 : 5}px)`
-      case 'disabled':
-        return `calc(${100 - percent}% - 6px)`
-      default:
-        return 'calc(100% - 5px)'
-    }
-  }
-
-  calculateLineBeforeStyles(percent) {
-    const { currentState } = this.state
-
-    switch (currentState) {
-      case 'disabled':
-        return `calc(${percent}% - 6px)`
-      default:
-        return `${percent}%`
-    }
-  }
-
   componentDidMount() {
     if (this._containerRef.current) {
       this._containerRef.current.addEventListener(
@@ -365,7 +349,18 @@ export default class Slider extends PureComponent {
         preventPageScrolling,
         { passive: false }
       )
+
+      const { min, max } = this.state
+      this._containerRef.current.addEventListener('wheel', event => {
+        event.preventDefault()
+        // Math.sign(event.deltaY)
+        this.emitChange(
+          event,
+          clamp(this.state.value + event.deltaY / 10, min, max)
+        )
+      })
     }
+
     if (typeof this.props.on_init === 'function') {
       const { value } = this.state
       dispatchCustomElementEvent(this, 'on_init', {
@@ -393,8 +388,11 @@ export default class Slider extends PureComponent {
     const { currentState, value } = this.state
 
     const {
-      label, // eslint-disable-line
-      button_title,
+      label,
+      status,
+      status_state,
+      status_animation,
+      button_title: title,
       className,
       class: _className,
 
@@ -411,31 +409,38 @@ export default class Slider extends PureComponent {
     } = this.props
 
     const { min, max, reverse, vertical, disabled } = this.state
+    const showStatus = status && status !== 'error'
 
+    const id = this._id
+    const wrapperClasses = classnames(
+      'dnb-slider__wrapper',
+      vertical && 'dnb-slider__wrapper--vertical'
+    )
     const classes = classnames(
       'dnb-slider',
       className,
       _className,
-      reverse && 'slider__reverse',
-      vertical && 'slider__vertical'
+      reverse && 'dnb-slider--reverse',
+      vertical && 'dnb-slider--vertical',
+      showStatus && 'dnb-slider__form-status',
+      status && `dnb-slider__status--${status_state}`
     )
 
     const percent = clamp(((value - min) * 100) / (max - min))
 
     const lineProperty = vertical ? 'height' : 'width'
     const thumbProperty = vertical ? 'top' : 'left'
-    const inlineLineBeforeStyles = {
-      [lineProperty]: this.calculateLineBeforeStyles(percent)
+
+    const inlineStyleBefore = {
+      [lineProperty]: `${percent}%`
     }
-    const inlineLineAfterStyles = {
-      [lineProperty]: this.calculateLineAfterStyles(percent)
-    }
+
     const inlineThumbStyles = { [thumbProperty]: `${percent}%` }
 
     const params = {
       className: classnames(
-        'slider__root',
-        currentState && `slider__state--${currentState}`
+        'dnb-slider__shell',
+        currentState && `dnb-slider__state--${currentState}`
       ),
       disabled,
       ...attributes,
@@ -445,8 +450,8 @@ export default class Slider extends PureComponent {
       onTouchMove: this.handleMouseMove
     }
     const buttonParams = {
-      className: 'slider__thumb',
       disabled,
+      title,
       onBlur: this.handleBlur,
       onKeyDown: this.handleKeyDown,
       onTouchStart: this.handleTouchStart,
@@ -459,35 +464,45 @@ export default class Slider extends PureComponent {
     validateDOMAttributes(null, buttonParams)
 
     return (
-      <div className={classes}>
-        <div
-          id={this._id}
-          role="slider"
-          aria-valuenow={this.roundValue(value)}
-          aria-valuemin={min}
-          aria-valuemax={max}
-          aria-orientation={vertical ? 'vertical' : 'horizontal'}
-          ref={this._containerRef}
-          {...params}
-        >
-          <div
-            className="slider__line slider__line__before"
-            style={inlineLineBeforeStyles}
+      <span className={wrapperClasses}>
+        {label && (
+          <FormLabel
+            id={id + '-label'}
+            for_id={id}
+            text={label}
+            disabled={disabled}
           />
-          <button
-            tabIndex="0"
-            aria-label={button_title}
-            type="button"
-            className="slider__thumb"
-            style={inlineThumbStyles}
-            {...buttonParams}
-          />
-          <div
-            className="slider__line slider__line__after"
-            style={inlineLineAfterStyles}
-          />
-        </div>
-      </div>
+        )}
+        <span className={classes}>
+          <span
+            id={this._id}
+            role="slider"
+            aria-valuenow={this.roundValue(value)}
+            aria-valuemin={min}
+            aria-valuemax={max}
+            aria-orientation={vertical ? 'vertical' : 'horizontal'}
+            ref={this._containerRef}
+            {...params}
+          >
+            <span className="dnb-slider__thumb" style={inlineThumbStyles}>
+              <Button variant="secondary" {...buttonParams} />
+            </span>
+            <span
+              className="dnb-slider__line dnb-slider__line__before"
+              style={inlineStyleBefore}
+            />
+            <span className="dnb-slider__line dnb-slider__line__after" />
+          </span>
+          {showStatus && (
+            <FormStatus
+              text={status}
+              status={status_state}
+              text_id={id + '-status'} // used for "aria-describedby"
+              animation={status_animation}
+            />
+          )}
+        </span>
+      </span>
     )
   }
 }

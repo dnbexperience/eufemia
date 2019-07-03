@@ -16,60 +16,144 @@ exports[`Slider component have to match snapshot 1`] = `
   on_init={[Function]}
   on_state_update={[Function]}
   reverse="reverse"
+  status={null}
+  status_animation="status_animation"
+  status_state="status_state"
   step={10}
   value={70}
   vertical="vertical"
 >
-  <div
-    className="dnb-slider className class"
+  <span
+    className="dnb-slider__wrapper"
   >
-    <div
-      aria-orientation="horizontal"
-      aria-valuemax={100}
-      aria-valuemin={0}
-      aria-valuenow={70}
-      className="slider__root"
-      id="id"
-      onClick={[Function]}
-      onMouseDown={[Function]}
-      onTouchMove={[Function]}
-      onTouchStartCapture={[Function]}
-      role="slider"
+    <FormLabel
+      class={null}
+      className={null}
+      direction={null}
+      disabled={false}
+      for_id="id"
+      id="id-label"
+      render_content={null}
+      text="label"
+      title={null}
+      vertical={null}
     >
-      <div
-        className="slider__line slider__line__before"
-        style={
-          Object {
-            "width": "70%",
-          }
-        }
-      />
-      <button
-        aria-label="button_title"
-        className="slider__thumb"
-        onBlur={[Function]}
-        onFocus={[Function]}
-        onKeyDown={[Function]}
+      <label
+        className="dnb-form-label"
+        htmlFor="id"
+        id="id-label"
+      >
+        label
+      </label>
+    </FormLabel>
+    <span
+      className="dnb-slider className class"
+    >
+      <span
+        aria-orientation="horizontal"
+        aria-valuemax={100}
+        aria-valuemin={0}
+        aria-valuenow={70}
+        className="dnb-slider__shell"
+        id="id"
+        onClick={[Function]}
+        onMouseDown={[Function]}
         onTouchMove={[Function]}
-        onTouchStart={[Function]}
-        style={
-          Object {
-            "left": "70%",
+        onTouchStartCapture={[Function]}
+        role="slider"
+      >
+        <span
+          className="dnb-slider__thumb"
+          style={
+            Object {
+              "left": "70%",
+            }
           }
-        }
-        tabIndex="0"
-        type="button"
-      />
-      <div
-        className="slider__line slider__line__after"
-        style={
-          Object {
-            "width": "calc(100% - 5px)",
+        >
+          <Button
+            bounding={false}
+            class={null}
+            className={null}
+            custom_element={null}
+            custom_method={null}
+            disabled={null}
+            href={null}
+            icon={null}
+            icon_position="right"
+            icon_size="default"
+            id={null}
+            innerRef={null}
+            onBlur={[Function]}
+            onClick={null}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onTouchMove={[Function]}
+            onTouchStart={[Function]}
+            on_click={null}
+            size={null}
+            text={null}
+            title="button_title"
+            type="button"
+            variant="secondary"
+          >
+            <button
+              aria-label="button_title"
+              className="dnb-button dnb-button--secondary"
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onMouseOut={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              title="button_title"
+              type="button"
+            >
+              <Content
+                bounding={false}
+                class={null}
+                className={null}
+                content={null}
+                custom_element={null}
+                custom_method={null}
+                disabled={null}
+                href={null}
+                icon={null}
+                icon_position="right"
+                icon_size="default"
+                id={null}
+                innerRef={null}
+                isIconOnly={false}
+                onBlur={[Function]}
+                onClick={null}
+                onFocus={[Function]}
+                onKeyDown={[Function]}
+                onTouchMove={[Function]}
+                onTouchStart={[Function]}
+                on_click={null}
+                size={null}
+                text={null}
+                title="button_title"
+                type="button"
+                variant="secondary"
+              />
+            </button>
+          </Button>
+        </span>
+        <span
+          className="dnb-slider__line dnb-slider__line__before"
+          style={
+            Object {
+              "width": "70%",
+            }
           }
-        }
-      />
-    </div>
-  </div>
+        />
+        <span
+          className="dnb-slider__line dnb-slider__line__after"
+        />
+      </span>
+    </span>
+  </span>
 </Slider>
 `;
 
@@ -94,6 +178,403 @@ exports[`Slider scss have to match snapshot 1`] = `
  * Document Reset
  *
  */
+/*
+* DNB Button
+*
+*/
+/*
+* DNB icon
+*
+*/
+/*
+* Icon component
+*
+*/
+.dnb-icon {
+  display: inline-block;
+  vertical-align: baseline;
+  font-size: inherit;
+  line-height: 1em;
+  width: 1em;
+  height: 1em; }
+  .dnb-icon img,
+  .dnb-icon svg {
+    width: inherit;
+    height: inherit;
+    vertical-align: middle;
+    shape-rendering: geometricPrecision; }
+  .dnb-icon svg[width='100%'] {
+    width: inherit; }
+  .dnb-icon svg[height='100%'] {
+    height: inherit; }
+  .dnb-icon svg:not([fill]),
+  .dnb-icon svg [fill] {
+    fill: currentColor; }
+  .dnb-icon svg [stroke] {
+    stroke: currentColor; }
+  .dnb-icon--small {
+    width: 0.75rem;
+    height: 0.75rem; }
+  .dnb-icon--default {
+    width: 1rem;
+    height: 1rem; }
+  .dnb-icon--medium {
+    width: 1.5rem;
+    height: 1.5rem; }
+  .dnb-icon--large {
+    width: 2rem;
+    height: 2rem; }
+  .dnb-icon--x-large {
+    width: 2.5rem;
+    height: 2.5rem; }
+  .dnb-icon--xx-large {
+    width: 3rem;
+    height: 3rem; }
+  .dnb-icon--custom-size {
+    width: auto;
+    height: auto; }
+
+.dnb-button {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-default);
+  font-size: 1rem;
+  font-style: normal;
+  line-height: 1.5rem;
+  color: var(--color-black-80, #333);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  font-variant-numeric: lining-nums;
+  font-feature-settings: \\"lnum\\";
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-button *,
+  .dnb-button ::before,
+  .dnb-button ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-button ::before,
+  .dnb-button ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+* Button component
+*
+*/
+:root {
+  --button-font-size: var(--font-size-default);
+  --button-font-size-small: var(--font-size-small);
+  --button-width: 2.5rem;
+  --button-height: 2.5rem;
+  --button-width--small: 1.5rem;
+  --button-height--small: 1.5rem;
+  --button-width--medium: 2rem;
+  --button-height--medium: 2rem;
+  --button-width--large: 3rem;
+  --button-height--large: 3rem;
+  --button-icon-size: 1rem;
+  --button-border-width: 0.0625rem;
+  --button-border-width--hover: 3px;
+  --button-border-radius: calc(var(--button-height) / 2);
+  --button-border-radius--small: calc(var(--button-height--small) / 2);
+  --button-border-radius--medium: calc(var(--button-height--medium) / 2);
+  --button-border-radius--large: calc(var(--button-height--large) / 2); }
+
+.dnb-button {
+  cursor: pointer;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--button-width);
+  height: var(--button-height);
+  padding: 0;
+  border: var(--button-border-width) solid transparent;
+  border-radius: var(--button-border-radius);
+  text-decoration: none;
+  /* Firefox includes a hidden border which messes up button dimensions */ }
+  .dnb-button,
+  .dnb-core-style .dnb-button {
+    font-size: var(--button-font-size);
+    line-height: var(--button-height); }
+  .dnb-button__icon {
+    line-height: 1em; }
+    .dnb-button__icon:not(.dnb-icon) svg:not([width]):not([height]) {
+      width: var(--button-icon-size);
+      height: var(--button-icon-size); }
+    @supports not (-ms-ime-align: auto) {
+      .dnb-button__icon {
+        transform: translateY(calc(1px - 1px - var(--button-border-width))); } }
+  .dnb-button__text {
+    line-height: 1em;
+    color: inherit;
+    background-color: inherit; }
+    @supports not (-ms-ime-align: auto) {
+      .dnb-button__text {
+        transform: translateY(calc(1px - var(--button-border-width))); } }
+  .dnb-button__bounding {
+    position: absolute;
+    background-color: transparent;
+    width: var(--button-width);
+    height: var(--button-height);
+    border-radius: var(--button-border-radius);
+    transform: scale(1.2); }
+  .dnb-button--size-small {
+    width: var(--button-width--small);
+    height: var(--button-height--small);
+    font-size: var(--button-font-size-small);
+    line-height: var(--button-font-size-small);
+    border-radius: var(--button-border-radius--small); }
+  .dnb-button--has-text.dnb-button--size-small {
+    padding-left: 1rem;
+    padding-right: 1rem; }
+  .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-small {
+    padding-left: 0.5rem; }
+  .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-small {
+    padding-right: 0.5rem; }
+  .dnb-button--size-medium {
+    width: var(--button-width--medium);
+    height: var(--button-height--medium);
+    line-height: var(--button-height--medium);
+    border-radius: var(--button-border-radius--medium); }
+  .dnb-button--has-text.dnb-button--size-medium {
+    padding-left: 1rem;
+    padding-right: 1rem; }
+  .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-medium {
+    padding-left: 0.5rem; }
+  .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-medium {
+    padding-right: 0.5rem; }
+  .dnb-button--size-large {
+    width: var(--button-width--large);
+    height: var(--button-height--large);
+    line-height: var(--button-height--large);
+    border-radius: var(--button-border-radius--large); }
+  .dnb-button--has-text.dnb-button--size-large {
+    padding-left: 2rem;
+    padding-right: 2rem; }
+  .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-large {
+    padding-left: 1rem; }
+  .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-large {
+    padding-right: 1rem; }
+  .dnb-button--has-text {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    width: auto; }
+  .dnb-button--has-text .dnb-button__icon {
+    margin: 0 calc(var(--button-icon-size) / 2); }
+  .dnb-button--has-text.dnb-button--icon-position-left {
+    padding-left: 0.5rem; }
+  .dnb-button--has-text.dnb-button--icon-position-right {
+    padding-right: 0.5rem; }
+  .dnb-button--has-text.dnb-button--has-icon .dnb-button__icon {
+    order: 2; }
+  .dnb-button--has-text.dnb-button--has-icon .dnb-button__text {
+    order: 1; }
+  .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__icon {
+    order: 1; }
+  .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__text {
+    order: 2; }
+  .dnb-button--reset {
+    margin: 0;
+    padding: 0;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    border: none;
+    border-radius: 0;
+    background-color: transparent;
+    appearance: none;
+    box-shadow: none;
+    color: inherit;
+    font: inherit;
+    text-align: inherit;
+    line-height: inherit; }
+    :not([dnb-is-touch]) .dnb-button--reset:hover[disabled] {
+      cursor: not-allowed; }
+    :not([dnb-is-touch]) .dnb-button--reset:hover:not([disabled]) {
+      box-shadow: none;
+      border: none; }
+    .dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
+      outline: none; }
+      html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
+        box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
+        border-color: transparent; }
+    html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):focus,
+    html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):active {
+      box-shadow: none;
+      color: inherit;
+      border: none; }
+  .dnb-button[disabled] {
+    cursor: not-allowed; }
+  button.dnb-button::-moz-focus-inner .dnb-button {
+    border: none; }
+
+a.dnb-button[type='button'] {
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none; }
+
+a.dnb-button .dnb-button__icon {
+  transform: translateY(0); }
+
+a.dnb-button .dnb-button__text {
+  transform: translateY(1px); }
+
+/*
+* DNB FormLabel
+*
+*/
+.dnb-form-label {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-default);
+  font-size: 1rem;
+  font-style: normal;
+  line-height: 1.5rem;
+  color: var(--color-black-80, #333);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  font-variant-numeric: lining-nums;
+  font-feature-settings: \\"lnum\\";
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-form-label *,
+  .dnb-form-label ::before,
+  .dnb-form-label ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-form-label ::before,
+  .dnb-form-label ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+ * FormLabel component
+ *
+ */
+.dnb-form-label {
+  display: inline-block;
+  width: auto;
+  margin: 0;
+  margin-right: 1rem;
+  vertical-align: baseline;
+  color: inherit; }
+  .dnb-form-label--vertical {
+    display: block;
+    margin-right: 0;
+    margin-bottom: 0.5rem; }
+  .dnb-form-label[for]:not([disabled]) {
+    user-select: none;
+    cursor: pointer; }
+  .dnb-form-label[disabled] {
+    cursor: not-allowed; }
+
+/*
+* DNB FormStatus
+*
+*/
+.dnb-form-status {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-default);
+  font-size: 1rem;
+  font-style: normal;
+  line-height: 1.5rem;
+  color: var(--color-black-80, #333);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  font-variant-numeric: lining-nums;
+  font-feature-settings: \\"lnum\\";
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-form-status *,
+  .dnb-form-status ::before,
+  .dnb-form-status ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-form-status ::before,
+  .dnb-form-status ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+ * FormStatus component
+ *
+ */
+.dnb-form-status {
+  width: auto;
+  display: flex;
+  min-height: var(--input-height); }
+  .dnb-form-status__shell {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    border-radius: var(--input-border-radius); }
+  .dnb-form-status--text {
+    padding: calc(0.5rem / 2) 1rem;
+    cursor: text;
+    color: var(--color-emerald-green);
+    line-height: 1.5rem; }
+  .dnb-icon + .dnb-form-status--text {
+    padding-left: 0.5rem; }
+  .dnb-form-status__shell > .dnb-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 1.5em;
+    height: 1.5em;
+    margin-left: 0.5rem;
+    color: inherit;
+    font-size: 1rem;
+    border-radius: 50%;
+    border: 1px solid;
+    border-color: currentColor; }
+  .dnb-form-status[hidden] {
+    display: none; }
+  .dnb-form-status--fade-in {
+    height: 0;
+    opacity: 0;
+    animation: fade-in 600ms ease-out 1 200ms forwards; }
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    height: 0; }
+  to {
+    opacity: 1;
+    height: var(--input-height); } }
+
 .dnb-slider {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
@@ -132,86 +613,91 @@ exports[`Slider scss have to match snapshot 1`] = `
 * Slider component
 *
 */
+:root {
+  --slider-line-height: 0.25rem;
+  --slider-thumb-size: 2rem;
+  --slider-space: 1rem; }
+
 .dnb-slider {
-  display: flex; }
-  .dnb-slider .slider__root {
-    width: 100%;
-    cursor: pointer;
-    padding: 1rem 0.5rem;
-    position: relative; }
-  .dnb-slider.slider__vertical {
-    height: 100%;
-    padding: 0.5rem 1rem; }
-    .dnb-slider.slider__vertical .slider__root {
-      width: inherit;
-      height: inherit; }
-  .dnb-slider.slider__reverse .slider__root {
+  display: inline-flex;
+  width: auto;
+  height: var(--slider-thumb-size); }
+  .dnb-slider__wrapper {
+    display: flex;
+    align-items: center; }
+    .dnb-slider__wrapper--vertical {
+      flex: none;
+      align-items: flex-start;
+      height: 100%;
+      min-width: inherit;
+      min-height: inherit; }
+  .dnb-slider:not(.dnb-slider--vertical) {
+    flex: 1; }
+  .dnb-slider__shell {
+    position: relative;
+    flex: 1;
+    margin: 0 var(--slider-space);
+    cursor: pointer; }
+  .dnb-slider--vertical {
+    width: var(--slider-thumb-size);
+    height: inherit;
+    min-width: inherit;
+    min-height: inherit; }
+  .dnb-slider--vertical .dnb-slider__shell {
+    margin: var(--slider-space) 0; }
+  .dnb-slider--reverse .dnb-slider__shell {
     transform: scaleX(-1); }
-  .dnb-slider.slider__reverse.slider__vertical .slider__root {
+  .dnb-slider--reverse.dnb-slider--vertical .dnb-slider__shell {
     transform: scaleY(-1); }
-  .dnb-slider .slider__line {
+  .dnb-slider__line {
     position: absolute;
+    left: 0;
     top: 50%;
-    height: 2px;
+    margin: 0 calc(1px - 1px - var(--slider-space));
+    height: var(--slider-line-height);
     transform: translate(0, -50%);
-    background-color: var(--color-sea-green); }
-  .dnb-slider .slider__state--disabled .slider__line {
-    background-color: var(--color-black-30); }
-  .dnb-slider.slider__vertical .slider__line {
-    transform: translate(-50%, 0);
+    border-radius: calc(var(--slider-line-height) / 2);
+    background-color: grey; }
+  .dnb-slider--vertical .dnb-slider__line {
+    width: var(--slider-line-height);
+    height: auto;
     left: 50%;
-    top: initial;
-    width: 2px; }
-  .dnb-slider .slider__line__before {
+    top: 0;
+    margin: calc(1px - 1px - var(--slider-space)) 0;
+    transform: translate(-50%, 0); }
+  .dnb-slider__line__before {
     left: 0;
     z-index: 1; }
-  .dnb-slider .slider__line__after {
+  .dnb-slider__line__after {
     right: 0;
-    opacity: 0.24; }
-  .dnb-slider.slider__vertical .slider__line__before {
+    background-color: #ddd; }
+  .dnb-slider--vertical .dnb-slider__line__before {
     top: 0; }
-  .dnb-slider.slider__vertical .slider__line__after {
+  .dnb-slider--vertical .dnb-slider__line__after {
     bottom: 0; }
-  .dnb-slider .slider__thumb {
+  .dnb-slider__thumb {
     position: absolute;
+    left: 0;
+    top: 0;
     z-index: 2;
-    height: 1.5rem;
-    width: 1.5rem;
-    transform: translate(-50%, -50%);
-    margin: 0;
-    padding: 0;
-    display: inline-flex;
-    align-items: center;
-    vertical-align: middle;
-    justify-content: center;
-    cursor: pointer;
-    user-select: none;
-    outline: none;
-    color: inherit;
-    border: 1px solid var(--color-mint-green-50);
-    border-radius: 50%;
-    text-decoration: none;
-    appearance: none;
-    background-color: white;
-    box-shadow: 1px 1px 2px rgba(0, 135, 137, 0.25), 0 0 1px rgba(0, 160, 163, 0.25); }
-    .dnb-slider .slider__thumb:focus {
-      outline: none; }
-      html[data-whatinput='keyboard'] .dnb-slider .slider__thumb:focus {
-        box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
-        border-color: transparent; }
-  .dnb-slider .slider__state--disabled .slider__thumb {
-    border: none;
-    box-shadow: none;
-    background-color: var(--color-black-30);
-    height: 0.5rem;
-    width: 0.5rem; }
-  .dnb-slider .slider__state--jumped .slider__thumb,
-  .dnb-slider .slider__state--jumped .slider__line {
+    display: block;
+    transform: translate(-50%, 0);
+    border-radius: 50%; }
+    .dnb-slider__thumb,
+    .dnb-slider__thumb .dnb-button {
+      height: var(--slider-thumb-size);
+      width: var(--slider-thumb-size); }
+  .dnb-slider--vertical .dnb-slider__thumb {
+    transform: translate(0, -50%); }
+  .dnb-slider__state--jumped .dnb-slider__thumb,
+  .dnb-slider__state--jumped .dnb-slider__line {
     transition: width 250ms ease 0ms, height 250ms ease 0ms, left 250ms ease 0ms, top 250ms ease 0ms, box-shadow 250ms ease 0ms; }
-  .dnb-slider .slider__state--activated .slider__thumb {
-    border-width: 2px; }
-  .dnb-slider .slider__state--disabled.slider__root,
-  .dnb-slider .slider__state--disabled .slider__thumb {
+  .dnb-slider__state--disabled.dnb-slider__shell,
+  .dnb-slider__state--disabled .dnb-slider__thumb {
     cursor: not-allowed; }
+  .dnb-slider > .dnb-form-label {
+    margin-right: 1rem; }
+  .dnb-slider > .dnb-form-status {
+    margin-top: 0.5rem; }
 "
 `;

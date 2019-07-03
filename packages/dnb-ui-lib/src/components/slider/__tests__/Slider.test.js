@@ -20,6 +20,7 @@ import dnb_slider from '../style/dnb-slider.scss' // eslint-disable-line
 const props = fakeProps(require.resolve('../Slider'), {
   optional: true
 })
+props.status = null
 props.min = 0
 props.max = 100
 props.value = 70

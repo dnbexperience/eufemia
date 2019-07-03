@@ -1,7 +1,6 @@
 ---
 title: 'Slider'
 draft: false
-# status: 'imp'
 order: 13
 ---
 

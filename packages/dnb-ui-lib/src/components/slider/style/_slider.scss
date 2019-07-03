@@ -3,129 +3,138 @@
 *
 */
 
-$range-line-background: var(--color-sea-green);
-$range-line-height: 0.25rem;
-$range-line-border-radius: 0.25rem;
-
-$range-thumb-background: white;
-$range-thumb-border-color: var(--color-mint-green-50);
-$range-thumb-dimension: 1.5rem;
+:root {
+  --slider-line-height: 0.25rem;
+  --slider-thumb-size: 2rem;
+  --slider-space: 1rem;
+}
 
 .dnb-slider {
-  display: flex;
-
-  .slider__root {
-    width: 100%;
-    cursor: pointer;
-    padding: 1rem 0.5rem;
-    position: relative;
-    // -webkit-tap-highlight-color: transparent;
-  }
-  &.slider__vertical {
-    height: 100%;
-    padding: 0.5rem 1rem;
-
-    .slider__root {
-      width: inherit;
-      height: inherit;
+  &__wrapper {
+    display: flex;
+    align-items: center; // to center the label vertical
+    &--vertical {
+      flex: none;
+      align-items: flex-start; // make sure we have the label on top
+      height: 100%;
+      min-width: inherit;
+      min-height: inherit;
     }
   }
-  &.slider__reverse .slider__root {
+
+  display: inline-flex;
+  &:not(#{&}--vertical) {
+    flex: 1;
+  }
+
+  width: auto;
+  height: var(--slider-thumb-size);
+
+  &__shell {
+    position: relative;
+    flex: 1;
+
+    // makre room again for the negative line manipulation
+    margin: 0 var(--slider-space);
+
+    cursor: pointer;
+  }
+
+  &--vertical {
+    width: var(--slider-thumb-size);
+    height: inherit;
+    min-width: inherit;
+    min-height: inherit;
+  }
+  &--vertical &__shell {
+    margin: var(--slider-space) 0;
+  }
+  &--reverse &__shell {
     transform: scaleX(-1);
   }
-  &.slider__reverse.slider__vertical .slider__root {
+  &--reverse#{&}--vertical &__shell {
     transform: scaleY(-1);
   }
 
-  .slider__line {
+  &__line {
     position: absolute;
+
+    left: 0;
     top: 50%;
-    height: 2px;
+
+    margin: 0 calc(1px - 1px - var(--slider-space));
+
+    height: var(--slider-line-height);
     transform: translate(0, -50%);
-    background-color: $range-line-background;
+
+    border-radius: calc(var(--slider-line-height) / 2);
+    background-color: grey;
   }
-  .slider__state--disabled .slider__line {
-    background-color: var(--color-black-30);
-  }
-  &.slider__vertical .slider__line {
-    transform: translate(-50%, 0);
+  &--vertical &__line {
+    width: var(--slider-line-height);
+    height: auto;
+
     left: 50%;
-    top: initial;
-    width: 2px;
+    top: 0;
+
+    margin: calc(1px - 1px - var(--slider-space)) 0;
+
+    transform: translate(-50%, 0);
   }
 
-  .slider__line__before {
+  &__line__before {
     left: 0;
     z-index: 1;
   }
-  .slider__line__after {
+  &__line__after {
     right: 0;
-    opacity: 0.24;
+    background-color: #ddd;
   }
-  &.slider__vertical .slider__line__before {
+  &--vertical &__line__before {
     top: 0;
   }
-  &.slider__vertical .slider__line__after {
+  &--vertical &__line__after {
     bottom: 0;
   }
 
-  .slider__thumb {
+  &__thumb {
     position: absolute;
+    left: 0;
+    top: 0;
     z-index: 2;
 
-    height: $range-thumb-dimension;
-    width: $range-thumb-dimension;
-    transform: translate(-50%, -50%);
+    display: block;
+    transform: translate(-50%, 0);
 
-    margin: 0;
-    padding: 0;
-
-    display: inline-flex;
-    align-items: center;
-    vertical-align: middle;
-    justify-content: center;
-
-    cursor: pointer;
-    user-select: none;
-    outline: none;
-
-    color: inherit;
-    border: 1px solid $range-thumb-border-color;
+    // Becaus of the DropShadow
     border-radius: 50%;
 
-    text-decoration: none;
-    appearance: none;
-
-    background-color: $range-thumb-background;
-
-    box-shadow: 1px 1px 2px rgba(0, 135, 137, 0.25),
-      0 0 1px rgba(0, 160, 163, 0.25);
-
-    &:focus {
-      @include fakeFocus();
+    &,
+    .dnb-button {
+      height: var(--slider-thumb-size);
+      width: var(--slider-thumb-size);
     }
   }
-  .slider__state--disabled .slider__thumb {
-    border: none;
-    box-shadow: none;
-    background-color: var(--color-black-30);
-    height: $range-thumb-dimension/3;
-    width: $range-thumb-dimension/3;
+  &--vertical &__thumb {
+    transform: translate(0, -50%);
   }
 
-  .slider__state--jumped .slider__thumb,
-  .slider__state--jumped .slider__line {
+  &__state--jumped &__thumb,
+  &__state--jumped &__line {
     transition: width 250ms ease 0ms, height 250ms ease 0ms,
       left 250ms ease 0ms, top 250ms ease 0ms, box-shadow 250ms ease 0ms;
   }
-  // cubic-bezier(0, 0, 0.2, 1)
 
-  .slider__state--activated .slider__thumb {
-    border-width: 2px;
+  &__state--disabled#{&}__shell,
+  &__state--disabled &__thumb {
+    cursor: not-allowed;
   }
 
-  .slider__state--disabled.slider__root,
-  .slider__state--disabled .slider__thumb {
-    cursor: not-allowed;
+  > .dnb-form-label {
+    margin-right: 1rem;
+  }
+
+  > .dnb-form-status {
+    margin-top: 0.5rem;
   }
 }

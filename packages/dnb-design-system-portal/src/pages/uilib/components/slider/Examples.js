@@ -5,17 +5,7 @@
 
 import React, { PureComponent, Fragment } from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import styled from '@emotion/styled'
-
-const Wrapper = styled.div`
-  .dnb-slider.slider__vertical {
-    height: 10rem;
-  }
-  .dnb-input {
-    width: 4rem;
-    margin-top: 2rem;
-  }
-`
+// import styled from '@emotion/styled'
 
 // import the native range slider as well
 import 'dnb-ui-lib/src/components/slider/style/dnb-range.scss'
@@ -42,26 +32,34 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox
-          caption="Vertical slider with steps"
+          caption="Vertical slider with steps of 10"
           data-dnb-test="slider-vertical"
+          useRender
         >
           {/* @jsx */ `
-<Slider
-  min="0"
-  max="100"
-  value="20"
-  step="10"
-  vertical="true"
-  on_change={({ value }) => console.log('on_change:', value)}
-/>
+const VerticalWrapper = styled.div\`
+  display: inline-flex;
+  flex-direction: column;
+  min-height: 12rem;
+\`
+render(<VerticalWrapper>
+  <Slider
+    min="0"
+    max="100"
+    value="20"
+    step="10"
+    vertical="true"
+    on_change={({ value }) => console.log('on_change:', value)}
+  />
+</VerticalWrapper>)
           `}
         </ComponentBox>
         <ComponentBox
-          caption="Horizontal and vertical slider with input field"
-          noFragments={false}
+          caption="Horizontal and vertical slider in sync with input field"
+          useRender
         >
           {/* @jsx */ `
-() => {
+const Component = () => {
   const [value, setValue] = useState(70)
   return (<>
     <Slider
@@ -69,18 +67,34 @@ class Example extends PureComponent {
       step={10}
       on_change={({ value }) => setValue(value)}
     />
-    <Slider
-      value={value}
-      vertical
-      on_change={({ value }) => setValue(value)}
-    />
-    <Input
-      align="center"
-      value={String(value)}
-      on_change={({ value }) => setValue(parseFloat(value))}
-    />
+    <VerticalWrapper>
+      <Slider
+        value={value}
+        vertical={true}
+        step={1}
+        on_change={({ value }) => setValue(value)}
+      />
+      <Input
+        align="center"
+        selectall
+        value={String(value)}
+        on_change={({ value }) => setValue(parseFloat(value))}
+      />
+    </VerticalWrapper>
   </>)
 }
+const VerticalWrapper = styled.div\`
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 20rem;
+
+  .dnb-input {
+    width: 4rem;
+    margin-top: 1rem;
+  }
+\`
+render(<Component />)
           `}
         </ComponentBox>
         <ComponentBox caption="Native Range Slider">
@@ -107,8 +121,4 @@ class Example extends PureComponent {
 }
 
 export { Example }
-export default () => (
-  <Wrapper>
-    <Example />
-  </Wrapper>
-)
+export default () => <Example />
