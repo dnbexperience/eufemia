@@ -65,7 +65,7 @@ class Example extends PureComponent {
   size="large"
   type="search"
   stretch="true"
-  placeholder="Large search placeholder"
+  value="Large search value"
   on_change={({ value }) => {
     console.log('on_change', value)
   }}

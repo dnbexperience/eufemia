@@ -1026,10 +1026,13 @@ a.dnb-button .dnb-button__text {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis; }
+  .dnb-input__input::-webkit-search-cancel-button {
+    display: none; }
+  .dnb-input__input::-ms-clear {
+    display: none; }
   .dnb-input--has-submit-button .dnb-input__placeholder,
   .dnb-input--has-submit-button .dnb-input__input {
-    padding-right: 2rem;
-    margin-right: -1rem; }
+    padding-right: calc(var(--input-padding) * 2.5); }
   .dnb-input__description {
     color: inherit;
     padding-left: 0.5rem; }

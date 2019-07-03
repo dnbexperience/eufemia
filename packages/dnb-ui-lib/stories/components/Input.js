@@ -40,6 +40,7 @@ export default [
           <Input
             label="Search:"
             type="search"
+            align="right"
             stretch
             submit_button_title="Search"
             placeholder="Search text placeholder"
@@ -54,6 +55,7 @@ export default [
           <Input
             size="medium"
             type="search"
+            align="right"
             stretch
             placeholder="Large input with right aligned text"
           />
