@@ -2,6 +2,7 @@
 
 exports[`Slider component have to match snapshot 1`] = `
 <Slider
+  add_title="add_title"
   class="class"
   className="className"
   disabled="disabled"
@@ -20,6 +21,7 @@ exports[`Slider component have to match snapshot 1`] = `
   status_animation="status_animation"
   status_state="status_state"
   step={10}
+  subtract_title="subtract_title"
   thump_title="thump_title"
   value={70}
   vertical="vertical"
@@ -67,14 +69,16 @@ exports[`Slider component have to match snapshot 1`] = `
         on_click={[Function]}
         size={null}
         text={null}
-        title={null}
+        title="subtract_title"
         type="button"
         variant="secondary"
       >
         <button
+          aria-label="subtract_title"
           className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon dnb-slider__button dnb-slider__button--subtract"
           onClick={[Function]}
           onMouseOut={[Function]}
+          title="subtract_title"
           type="button"
         >
           <Content
@@ -96,12 +100,12 @@ exports[`Slider component have to match snapshot 1`] = `
             on_click={[Function]}
             size={null}
             text={null}
-            title={null}
+            title="subtract_title"
             type="button"
             variant="secondary"
           >
             <IconPrimary
-              alt={null}
+              alt="subtract_title"
               aria-hidden={false}
               attributes={null}
               class={null}
@@ -116,9 +120,9 @@ exports[`Slider component have to match snapshot 1`] = `
               width={null}
             >
               <span
-                alt="subtract"
+                alt="subtract_title"
                 aria-hidden={false}
-                aria-label="subtract"
+                aria-label="subtract_title"
                 className="dnb-icon dnb-icon--default dnb-button__icon"
                 role="img"
               >
@@ -206,7 +210,7 @@ exports[`Slider component have to match snapshot 1`] = `
                 bounding={false}
                 class={null}
                 className={null}
-                content={null}
+                content="children"
                 custom_element={null}
                 custom_method={null}
                 disabled={null}
@@ -229,7 +233,9 @@ exports[`Slider component have to match snapshot 1`] = `
                 title="thump_title"
                 type="button"
                 variant="secondary"
-              />
+              >
+                children
+              </Content>
             </button>
           </Button>
         </span>
@@ -262,14 +268,16 @@ exports[`Slider component have to match snapshot 1`] = `
         on_click={[Function]}
         size={null}
         text={null}
-        title={null}
+        title="add_title"
         type="button"
         variant="secondary"
       >
         <button
+          aria-label="add_title"
           className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon dnb-slider__button dnb-slider__button--add"
           onClick={[Function]}
           onMouseOut={[Function]}
+          title="add_title"
           type="button"
         >
           <Content
@@ -291,12 +299,12 @@ exports[`Slider component have to match snapshot 1`] = `
             on_click={[Function]}
             size={null}
             text={null}
-            title={null}
+            title="add_title"
             type="button"
             variant="secondary"
           >
             <IconPrimary
-              alt={null}
+              alt="add_title"
               aria-hidden={false}
               attributes={null}
               class={null}
@@ -311,9 +319,9 @@ exports[`Slider component have to match snapshot 1`] = `
               width={null}
             >
               <span
-                alt="add"
+                alt="add_title"
                 aria-hidden={false}
-                aria-label="add"
+                aria-label="add_title"
                 className="dnb-icon dnb-icon--default dnb-button__icon"
                 role="img"
               >

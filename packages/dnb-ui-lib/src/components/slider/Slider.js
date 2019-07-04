@@ -33,6 +33,8 @@ export const propTypes = {
   status_state: PropTypes.string,
   status_animation: PropTypes.string,
   thump_title: PropTypes.string,
+  add_title: PropTypes.string,
+  subtract_title: PropTypes.string,
   min: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   max: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -62,6 +64,8 @@ export const defaultProps = {
   status_state: 'error',
   status_animation: null,
   thump_title: null,
+  add_title: null,
+  subtract_title: null,
   min: 0,
   max: 100,
   value: null,
@@ -116,9 +120,8 @@ export default class Slider extends PureComponent {
         state.max = parseFloat(props.max)
       }
 
-      // if (state.default_value !== props.value) {
       if (state.value !== props.value) {
-        state.value = props.value
+        state.value = Slider.getValue(props)
         if (typeof props.on_state_update === 'function') {
           dispatchCustomElementEvent({ ...props }, 'on_state_update', {
             value: state.value
@@ -145,11 +148,9 @@ export default class Slider extends PureComponent {
     super(props)
     this._id = props.id || `dnb-slider-${Math.round(Math.random() * 999)}` // cause we need an id anyway
     this._trackRef = React.createRef()
-    const value = Slider.getValue(props)
     this.state = {
       _listenForPropChanges: true,
-      default_value: value,
-      value
+      value: Slider.getValue(props) // so on_state_update not gets called
     }
   }
 
@@ -190,9 +191,8 @@ export default class Slider extends PureComponent {
         break
     }
 
-    event.preventDefault()
-
     if (value !== -1) {
+      event.preventDefault()
       value = clamp(value, min, max)
       this.emitChange(event, value)
     }
@@ -367,7 +367,7 @@ export default class Slider extends PureComponent {
       const { min, max, reverse, vertical } = this.state
       this._trackRef.current.addEventListener('wheel', event => {
         event.preventDefault()
-        // Math.sign(event.deltaY)
+        // Could be handy to use: Math.sign(event.deltaY)
         this.emitChange(
           event,
           clamp(
@@ -417,6 +417,8 @@ export default class Slider extends PureComponent {
       status_state,
       status_animation,
       thump_title: title,
+      subtract_title,
+      add_title,
       hide_buttons,
       className,
       class: _className,
@@ -467,16 +469,15 @@ export default class Slider extends PureComponent {
         'dnb-slider__track',
         currentState && `dnb-slider__state--${currentState}`
       ),
-      disabled,
-      ...attributes,
       onClick: this.onClickHandler,
       onMouseDown: this.onMouseDownHandler,
       onTouchStartCapture: this.onTouchStartHandler,
       onTouchMove: this.onMouseMoveHandler
     }
     const thumbParams = {
-      disabled,
       title,
+      disabled,
+      ...attributes,
       onBlur: this.onBlurHandler,
       onKeyDown: this.onKeyDownHandler,
       onTouchStart: this.onTouchStartHandler,
@@ -488,8 +489,8 @@ export default class Slider extends PureComponent {
     }
 
     // also used for code markup simulation
-    validateDOMAttributes(this.props, trackParams)
-    validateDOMAttributes(null, thumbParams)
+    validateDOMAttributes(this.props, thumbParams)
+    validateDOMAttributes(null, trackParams)
     validateDOMAttributes(null, buttonParams)
 
     const subtractButton = (
@@ -497,6 +498,7 @@ export default class Slider extends PureComponent {
         className="dnb-slider__button dnb-slider__button--subtract"
         variant="secondary"
         icon="subtract"
+        title={subtract_title}
         on_click={this.onSubtractClickHandler}
         {...buttonParams}
       />
@@ -507,6 +509,7 @@ export default class Slider extends PureComponent {
         className="dnb-slider__button dnb-slider__button--add"
         variant="secondary"
         icon="add"
+        title={add_title}
         on_click={this.onAddClickHandler}
         {...buttonParams}
       />
