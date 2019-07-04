@@ -32,7 +32,7 @@ export default [
             <FormRow vertical>
               <Input
                 label="Vertical 1:"
-                value="Placeholder 1 ..."
+                placeholder="Placeholder 1 Nullam cubilia primis pulvinar sed nunc semper habitasse rhoncus aptent orci class tempus quisque sociis"
                 stretch
               />
               <Input

@@ -7,7 +7,7 @@ import React /* , { useState, useEffect } */ from 'react'
 import { Wrapper, Box } from '../helpers'
 // import styled from '@emotion/styled'
 
-import { Textarea } from '../../src/components'
+import { Textarea, FormRow } from '../../src/components'
 
 export default [
   'Textarea',
@@ -71,6 +71,36 @@ export default [
           status="Message to the user"
         />
         <p className="dnb-p">I have still to be on the grid!</p>
+      </Box>
+      <Box>
+        <Textarea
+          stretch
+          label="Stretched label:"
+          // label_direction="vertical"
+          value="Nec litora inceptos vestibulum id interdum donec gravida nostra
+              lacinia bibendum hendrerit porttitor volutpat nam duis nisl
+              scelerisque sapien erat"
+        />
+      </Box>
+      <Box>
+        <Textarea
+          stretch
+          label="Stretched label:"
+          label_direction="vertical"
+          value="Nec litora inceptos vestibulum id interdum donec gravida nostra
+              lacinia bibendum hendrerit porttitor volutpat nam duis nisl
+              scelerisque sapien erat"
+        />
+      </Box>
+      <Box>
+        <FormRow disabled vertical>
+          <Textarea
+            label="Vertical label:"
+            value="Nec litora inceptos vestibulum id interdum donec gravida nostra
+            lacinia bibendum hendrerit porttitor volutpat nam duis nisl
+            scelerisque sapien erat"
+          />
+        </FormRow>
       </Box>
       <Box>
         <Textarea

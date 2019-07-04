@@ -36,6 +36,7 @@
       var(--color-sea-green-alt);
 
   @include textareaStyleCommon();
+  @include numberFeature(lining-nums, lnum);
 }
 
 .dnb-textarea {
@@ -84,8 +85,38 @@
     opacity: 0.5;
   }
 
-  &__form-status .dnb-form-status {
+  &__wrapper[class*='__status'] .dnb-form-status {
     margin: 1rem 0 0 calc(1px - 1px - var(--textarea-padding-width));
+  }
+
+  // make the input full width
+  &--stretch & {
+    flex: 1;
+    &,
+    &__shell,
+    &__textarea {
+      width: 100%;
+    }
+  }
+
+  // Wrapper layout handling
+  &__wrapper {
+    display: inline-flex;
+    align-items: baseline;
+  }
+  &__wrapper#{&}--vertical {
+    display: inline-flex;
+    flex-direction: column;
+  }
+  &__wrapper#{&}--stretch {
+    display: flex;
+  }
+  &__wrapper[class*='__status'] {
+    align-items: flex-start;
+    > .dnb-form-label {
+      // vertical align the current font
+      margin-top: 0.25rem;
+    }
   }
 }
 
@@ -95,10 +126,6 @@ textarea.dnb-textarea {
 
   @include textareaStyle();
   @include textareaTheme();
-
-  label + &[class*='__form-status'] {
-    vertical-align: baseline;
-  }
 }
 
 // enhance "FormRow" components styles

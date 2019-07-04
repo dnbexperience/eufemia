@@ -192,9 +192,11 @@
   // make the input full width
   &--stretch & {
     flex: 1;
-  }
-  &--stretch &__shell {
-    width: 100%;
+    &,
+    &__shell,
+    &__input {
+      width: 100%;
+    }
   }
 
   // Wrapper layout handling
@@ -205,9 +207,6 @@
   &__wrapper#{&}--vertical {
     align-items: flex-start;
     flex-direction: column;
-  }
-  &__wrapper#{&}--vertical#{&}--stretch .dnb-input {
-    width: 100%;
   }
   &__wrapper#{&}--stretch {
     display: flex;

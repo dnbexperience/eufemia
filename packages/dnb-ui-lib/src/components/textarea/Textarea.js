@@ -18,6 +18,8 @@ import {
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
 
+import Context from '../../shared/Context'
+
 const renderProps = {
   on_change: null,
   on_focus: null,
@@ -28,12 +30,14 @@ export const propTypes = {
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   id: PropTypes.string,
   label: PropTypes.string,
+  label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
   status: PropTypes.string,
   textarea_state: PropTypes.string,
   status_state: PropTypes.string,
   status_animation: PropTypes.string,
   placeholder: PropTypes.string,
   align: PropTypes.oneOf(['left', 'right']),
+  stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   class: PropTypes.string,
   textarea_class: PropTypes.string,
@@ -63,12 +67,14 @@ export const defaultProps = {
   value: null,
   id: null,
   label: null,
+  label_direction: null,
   status: null,
   textarea_state: null,
   status_state: 'error',
   status_animation: null,
   placeholder: null,
   align: null,
+  stretch: null,
   disabled: null,
   textarea_class: null,
   class: null,
@@ -96,6 +102,7 @@ export default class Textarea extends PureComponent {
   static propTypes = propTypes
   static defaultProps = defaultProps
   static renderProps = renderProps
+  static contextType = Context
 
   static enableWebComponent() {
     registerElement(Textarea.tagName, Textarea, defaultProps)
@@ -176,10 +183,12 @@ export default class Textarea extends PureComponent {
 
     const {
       label,
+      label_direction,
       status,
       status_state,
       status_animation,
       disabled,
+      stretch,
       placeholder,
       align,
       textarea_class,
@@ -205,8 +214,6 @@ export default class Textarea extends PureComponent {
       `dnb-textarea--${textareaState}`,
       String(value || '').length > 0 && 'dnb-textarea--has-content',
       align && `dnb-textarea__align--${align}`,
-      showStatus && 'dnb-textarea__form-status',
-      status && `dnb-textarea__status--${status_state}`,
       _className,
       className
     )
@@ -246,6 +253,15 @@ export default class Textarea extends PureComponent {
       shellParams['aria-disabled'] = true
     }
 
+    const wrapperParams = {
+      className: classnames(
+        'dnb-textarea__wrapper',
+        status && `dnb-textarea__status--${status_state}`,
+        label_direction && `dnb-textarea--${label_direction}`,
+        isTrue(stretch) && `dnb-textarea--stretch`
+      )
+    }
+
     // to show the ending dots on a placeholder, if the text is longer
     const placeholderStyle =
       parseFloat(this.props.rows) > 0
@@ -266,13 +282,14 @@ export default class Textarea extends PureComponent {
     }
 
     return (
-      <>
+      <span {...wrapperParams}>
         {label && (
           <FormLabel
             id={id + '-label'}
             for_id={id}
             text={label}
             disabled={disabled}
+            direction={label_direction}
           />
         )}
         <span role="textbox" className={classes}>
@@ -304,7 +321,7 @@ export default class Textarea extends PureComponent {
             />
           )}
         </span>
-      </>
+      </span>
     )
   }
 }

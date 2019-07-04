@@ -698,16 +698,14 @@ legend.dnb-form-label {
     margin-top: 0.5rem; }
   .dnb-input--stretch .dnb-input {
     flex: 1; }
-  .dnb-input--stretch .dnb-input__shell {
-    width: 100%; }
+    .dnb-input--stretch .dnb-input, .dnb-input--stretch .dnb-input__shell, .dnb-input--stretch .dnb-input__input {
+      width: 100%; }
   .dnb-input__wrapper {
     display: inline-flex;
     align-items: center; }
   .dnb-input__wrapper.dnb-input--vertical {
     align-items: flex-start;
     flex-direction: column; }
-  .dnb-input__wrapper.dnb-input--vertical.dnb-input--stretch .dnb-input {
-    width: 100%; }
   .dnb-input__wrapper.dnb-input--stretch {
     display: flex; }
   .dnb-input__wrapper[class*='__status'] {

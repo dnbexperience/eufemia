@@ -73,7 +73,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
     className="dnb-date-picker__wrapper dnb-date-picker__status--error"
   >
     <span
-      className="dnb-date-picker dnb-date-picker--hidden dnb-date-picker--show-input dnb-date-picker__status--error dnb-date-picker--show-footer"
+      className="dnb-date-picker dnb-date-picker--hidden dnb-date-picker--show-input dnb-date-picker--show-footer"
       date="2019-01-01T00:00:00.000Z"
     >
       <span
@@ -1508,16 +1508,14 @@ legend.dnb-form-label {
     margin-top: 0.5rem; }
   .dnb-input--stretch .dnb-input {
     flex: 1; }
-  .dnb-input--stretch .dnb-input__shell {
-    width: 100%; }
+    .dnb-input--stretch .dnb-input, .dnb-input--stretch .dnb-input__shell, .dnb-input--stretch .dnb-input__input {
+      width: 100%; }
   .dnb-input__wrapper {
     display: inline-flex;
     align-items: center; }
   .dnb-input__wrapper.dnb-input--vertical {
     align-items: flex-start;
     flex-direction: column; }
-  .dnb-input__wrapper.dnb-input--vertical.dnb-input--stretch .dnb-input {
-    width: 100%; }
   .dnb-input__wrapper.dnb-input--stretch {
     display: flex; }
   .dnb-input__wrapper[class*='__status'] {
