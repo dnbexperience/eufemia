@@ -116,6 +116,16 @@ class Example extends PureComponent {
 />
           `}
         </ComponentBox>
+        <ComponentBox caption="Stretched `Input` with `FormRow` and a long label">
+          {/* @jsx */ `
+<FormRow
+  size={true}
+  label="Long label labwl Adipiscing mauris dis proin nec:"
+>
+  <Input value="Placeholder ..." stretch />
+</FormRow>
+          `}
+        </ComponentBox>
         <ComponentBox caption="Numbers are ligned by using Proportional Lining">
           {/* @jsx */ `
 <Input
@@ -143,6 +153,7 @@ class Example extends PureComponent {
   <Input
     label="Label:"
     value="Input ..."
+    selectall="true"
     on_submit={event => {
       console.log('on_submit')
     }}

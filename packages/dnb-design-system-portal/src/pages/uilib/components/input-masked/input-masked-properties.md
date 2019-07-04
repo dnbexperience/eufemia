@@ -2,7 +2,7 @@
 draft: true
 ---
 
-For more details, se the [Input](/uilib/components/input) component.
+For more details and **properties**, se the [Input](/uilib/components/input) component.
 
 | Properties  | Description                                                                                                                                                                                                                     |
 | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

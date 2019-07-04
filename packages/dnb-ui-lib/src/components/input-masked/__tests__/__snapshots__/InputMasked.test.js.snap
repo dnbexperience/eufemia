@@ -38,6 +38,7 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
     input_class={null}
     input_state={null}
     label={null}
+    label_direction={null}
     on_blur={null}
     on_change={null}
     on_focus={null}
@@ -60,49 +61,53 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
     value="test"
   >
     <span
-      className="dnb-input dnb-input--text dnb-input-masked"
+      className="dnb-input__wrapper"
     >
       <span
-        className="dnb-input__shell"
-        data-has-content="true"
-        data-input-state="virgin"
+        className="dnb-input dnb-input--text dnb-input-masked"
       >
-        <t
-          autoComplete="off"
-          className="dnb-input__input"
-          guide={true}
-          id="input-masked"
-          keepCharPositions={true}
-          mask={
-            Array [
-              /\\[a-z\\]/,
-            ]
-          }
-          name="input-masked"
-          onBlur={[Function]}
-          onChange={[Function]}
-          onFocus={[Function]}
-          onKeyDown={[Function]}
-          pipe={null}
-          placeholderChar="placeholder_char"
-          render={[Function]}
-          showMask={true}
-          type="text"
-          value="test"
+        <span
+          className="dnb-input__shell"
+          data-has-content="true"
+          data-input-state="virgin"
         >
-          <input
+          <t
             autoComplete="off"
             className="dnb-input__input"
-            defaultValue="test"
+            guide={true}
             id="input-masked"
+            keepCharPositions={true}
+            mask={
+              Array [
+                /\\[a-z\\]/,
+              ]
+            }
             name="input-masked"
             onBlur={[Function]}
             onChange={[Function]}
             onFocus={[Function]}
             onKeyDown={[Function]}
+            pipe={null}
+            placeholderChar="placeholder_char"
+            render={[Function]}
+            showMask={true}
             type="text"
-          />
-        </t>
+            value="test"
+          >
+            <input
+              autoComplete="off"
+              className="dnb-input__input"
+              defaultValue="test"
+              id="input-masked"
+              name="input-masked"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              type="text"
+            />
+          </t>
+        </span>
       </span>
     </span>
   </Input>
@@ -587,8 +592,6 @@ a.dnb-button .dnb-button__text {
 .dnb-input {
   display: inline-flex;
   flex-direction: column;
-  align-items: flex-start;
-  vertical-align: middle;
   width: auto;
   font-size: var(--input-font-size); }
   .dnb-input__shell {
@@ -597,8 +600,6 @@ a.dnb-button .dnb-button__text {
     align-items: center;
     overflow: hidden;
     border: var(--input-border-width) solid var(--color-sea-green-alt); }
-  label + .dnb-input[class*='__form-status'] {
-    vertical-align: baseline; }
   .dnb-input__input {
     border: none;
     outline: none;
@@ -617,7 +618,9 @@ a.dnb-button .dnb-button__text {
     font-size: inherit;
     line-height: 1em;
     background-color: transparent;
-    transform: translateY(var(--input-border-width)); }
+    transform: translateY(var(--input-border-width));
+    font-variant-numeric: lining-nums;
+    font-feature-settings: \\"lnum\\"; }
   .dnb-input__placeholder {
     pointer-events: none;
     position: absolute;
@@ -683,14 +686,29 @@ a.dnb-button .dnb-button__text {
   .dnb-input__align--right .dnb-input__placeholder,
   .dnb-input__align--right .dnb-input__input {
     text-align: right; }
-  .dnb-input--stretch,
-  .dnb-input--stretch .dnb-input__shell {
-    width: 100%; }
   .dnb-input__shell[data-has-content='true'] .dnb-input__placeholder,
   .dnb-input__shell[data-has-content='true'][data-input-state='focus'] .dnb-input__placeholder {
     display: none; }
   .dnb-input > .dnb-form-status {
     margin-top: 0.5rem; }
+  .dnb-input--stretch .dnb-input {
+    flex: 1; }
+  .dnb-input--stretch .dnb-input__shell {
+    width: 100%; }
+  .dnb-input__wrapper {
+    display: inline-flex;
+    align-items: center; }
+  .dnb-input__wrapper.dnb-input--vertical {
+    align-items: flex-start;
+    flex-direction: column; }
+  .dnb-input__wrapper.dnb-input--vertical.dnb-input--stretch .dnb-input {
+    width: 100%; }
+  .dnb-input__wrapper.dnb-input--stretch {
+    display: flex; }
+  .dnb-input__wrapper[class*='__status'] {
+    align-items: flex-start; }
+    .dnb-input__wrapper[class*='__status'] > .dnb-form-label {
+      margin-top: 0.25rem; }
 
 .dnb-input-masked {
   font-family: var(--font-family-default);

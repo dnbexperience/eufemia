@@ -40,6 +40,7 @@ describe('Input screenshot', () => {
         width: '600px' // make sure our input gets an explicit width, because of mac/linux rendering differences
       },
       selector: '[data-dnb-test="input-large"] .dnb-input',
+      simulateSelector: '[data-dnb-test="input-large"] .dnb-input__input',
       simulate: 'hover'
     })
     expect(screenshot).toMatchImageSnapshot()

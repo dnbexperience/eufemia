@@ -22,8 +22,6 @@
 .dnb-input {
   display: inline-flex;
   flex-direction: column;
-  align-items: flex-start;
-  vertical-align: middle;
 
   width: auto;
 
@@ -37,9 +35,6 @@
     overflow: hidden;
 
     border: var(--input-border-width) solid var(--color-sea-green-alt);
-  }
-  label + &[class*='__form-status'] {
-    vertical-align: baseline;
   }
 
   &__input {
@@ -71,8 +66,10 @@
     line-height: 1em; // because when ::selected is kikking in
     background-color: transparent;
 
-    // because of vertical centering
+    // because of vertical centering and the current font
     transform: translateY(var(--input-border-width));
+
+    @include numberFeature(lining-nums, lnum);
   }
 
   &__placeholder {
@@ -177,11 +174,6 @@
     text-align: right;
   }
 
-  &--stretch,
-  &--stretch &__shell {
-    width: 100%;
-  }
-
   // Hide placeholder when: 1. input has content or 2: input is in focus
   &__shell[data-has-content='true'] .dnb-input__placeholder,
   &__shell[data-has-content='true'][data-input-state='focus']
@@ -195,5 +187,36 @@
 
   > .dnb-form-status {
     margin-top: 0.5rem;
+  }
+
+  // make the input full width
+  &--stretch & {
+    flex: 1;
+  }
+  &--stretch &__shell {
+    width: 100%;
+  }
+
+  // Wrapper layout handling
+  &__wrapper {
+    display: inline-flex;
+    align-items: center;
+  }
+  &__wrapper#{&}--vertical {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  &__wrapper#{&}--vertical#{&}--stretch .dnb-input {
+    width: 100%;
+  }
+  &__wrapper#{&}--stretch {
+    display: flex;
+  }
+  &__wrapper[class*='__status'] {
+    align-items: flex-start;
+    > .dnb-form-label {
+      // vertical align the current font
+      margin-top: 0.25rem;
+    }
   }
 }

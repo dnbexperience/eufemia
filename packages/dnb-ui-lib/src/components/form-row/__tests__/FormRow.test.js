@@ -21,6 +21,7 @@ import dnb_form_row_theme_ui from '../style/themes/dnb-form-row-theme-ui.scss' /
 const props = fakeProps(require.resolve('../FormRow'), {
   optional: true
 })
+props.id = 'form-row'
 props.direction = 'horizontal'
 
 describe('FormRow component', () => {

@@ -19,8 +19,6 @@
       flex: none;
       align-items: flex-start; // make sure we have the label on top
 
-      // height: 100%;
-
       min-width: inherit;
       min-height: inherit;
     }
@@ -115,12 +113,9 @@
     left: 0;
     top: 50%;
 
-    // margin: 0 calc(1px - 1px - var(--slider-space));
-
     height: var(--slider-line-height);
     transform: translate3d(0, -50%, 0);
 
-    // border-radius: calc(var(--slider-line-height) / 2);
     background-color: grey;
   }
   &--vertical &__line {
@@ -130,17 +125,11 @@
     left: 50%;
     top: 0;
 
-    // margin: calc(1px - 1px - var(--slider-space)) 0;
-
     transform: translate3d(-50%, 0, 0);
   }
 
   &__line__before {
     z-index: 2;
-    // left: 1rem; // to get the
-    // margin-left: 1rem;
-    // right: -1rem;
-    // opacity: 0.2;
   }
   &__line__after {
     z-index: 1;

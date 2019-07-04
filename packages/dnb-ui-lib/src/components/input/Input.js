@@ -20,6 +20,8 @@ import {
 } from '../../shared/component-helper'
 import { isIE11 } from '../../shared/helpers'
 
+import Context from '../../shared/Context'
+
 const renderProps = {
   on_change: null,
   on_submit: null,
@@ -35,6 +37,7 @@ export const propTypes = {
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   id: PropTypes.string,
   label: PropTypes.string,
+  label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
   status: PropTypes.string,
   input_state: PropTypes.string,
   status_state: PropTypes.string,
@@ -87,6 +90,7 @@ export const defaultProps = {
   value: null,
   id: null,
   label: null,
+  label_direction: null,
   status: null,
   input_state: null,
   status_state: 'error',
@@ -128,6 +132,7 @@ export default class Input extends PureComponent {
   static propTypes = propTypes
   static defaultProps = defaultProps
   static renderProps = renderProps
+  static contextType = Context
 
   static enableWebComponent() {
     registerElement(Input.tagName, Input, defaultProps)
@@ -141,9 +146,6 @@ export default class Input extends PureComponent {
       value !== state.value
     ) {
       state.value = value
-    }
-    if (props.disabled) {
-      state.inputState = 'disabled'
     }
     if (props.input_state) {
       state.inputState = props.input_state
@@ -159,11 +161,14 @@ export default class Input extends PureComponent {
 
   state = { inputState: 'virgin', value: null }
 
-  constructor(props) {
+  constructor(props, context) {
     super(props)
 
     this._ref = React.createRef()
-    this._id = props.id || `dnb-input-${Math.round(Math.random() * 999)}` // cause we need an id anyway
+    this._id =
+      props.id ||
+      (context.formRow && context.formRow.useId()) ||
+      `dnb-input-${Math.round(Math.random() * 999)}` // cause we need an id anyway
 
     // make sure we dont trigger getDerivedStateFromProps on startup
     this.state._listenForPropChanges = true
@@ -223,6 +228,7 @@ export default class Input extends PureComponent {
       type,
       size,
       label,
+      label_direction,
       status,
       status_state,
       status_animation,
@@ -251,7 +257,11 @@ export default class Input extends PureComponent {
       ...attributes
     } = props
 
-    const { value, inputState } = this.state
+    let { value, inputState } = this.state
+
+    if (disabled) {
+      inputState = 'disabled'
+    }
 
     const id = this._id
     const showStatus = status && status !== 'error'
@@ -263,9 +273,6 @@ export default class Input extends PureComponent {
       size && `dnb-input--${size}`,
       hasSubmitButton && 'dnb-input--has-submit-button',
       align && `dnb-input__align--${align}`,
-      showStatus && 'dnb-input__form-status',
-      status && `dnb-input__status--${status_state}`,
-      isTrue(stretch) && `dnb-input--stretch`,
       _className,
       className
     )
@@ -283,13 +290,22 @@ export default class Input extends PureComponent {
       value: value || '',
       type,
       id,
-      disabled,
+      disabled: isTrue(disabled),
       name: id,
       ...attributes,
       onChange: this.onChangeHandler,
       onKeyDown: this.onKeyDownHandler,
       onFocus: this.onFocusHandler,
       onBlur: this.onBlurHandler
+    }
+
+    const wrapperParams = {
+      className: classnames(
+        'dnb-input__wrapper',
+        status && `dnb-input__status--${status_state}`,
+        label_direction && `dnb-input--${label_direction}`,
+        isTrue(stretch) && `dnb-input--stretch`
+      )
     }
 
     // we may considder using: aria-details
@@ -312,7 +328,7 @@ export default class Input extends PureComponent {
       'data-input-state': inputState,
       'data-has-content': String(value || '').length > 0 ? 'true' : 'false'
     }
-    if (disabled) {
+    if (isTrue(disabled)) {
       shellParams['aria-disabled'] = true
     }
 
@@ -327,13 +343,14 @@ export default class Input extends PureComponent {
     }
 
     return (
-      <>
+      <span {...wrapperParams}>
         {label && (
           <FormLabel
             id={id + '-label'}
             for_id={id}
             text={label}
             disabled={disabled}
+            direction={label_direction}
           />
         )}
         <span className={classes}>
@@ -387,7 +404,7 @@ export default class Input extends PureComponent {
             {this.props.description}
           </span>
         )}
-      </>
+      </span>
     )
   }
 }

@@ -7,7 +7,14 @@ import React /* , { useState, useEffect } */ from 'react'
 import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
 
-import { Input, InputMasked, Button } from '../../src/components'
+import {
+  Input,
+  InputMasked,
+  Button,
+  FormSet,
+  FormRow
+  // FormLabel
+} from '../../src/components'
 
 const CustomStyle = styled.div`
   p {
@@ -21,6 +28,33 @@ export default [
     <CustomStyle>
       <Wrapper>
         <Box>
+          <FormRow vertical disabled>
+            <Input label="Vertical 1:" value="Placeholder 1 ..." stretch />
+            <Input label="Vertical 2:" value="Placeholder 2 ..." stretch />
+          </FormRow>
+        </Box>
+        <Box>
+          <FormSet>
+            <FormRow
+              size
+              label="Long label labwl Adipiscing mauris dis proin nec:"
+              use_for_id
+            >
+              <Input value="Placeholder 1 ..." stretch />
+              <Input value="Placeholder 2 ..." stretch />
+            </FormRow>
+          </FormSet>
+        </Box>
+        <Box>
+          <Input
+            label="Vertical:"
+            value="Placeholder ..."
+            stretch
+            label_direction="vertical"
+          />
+        </Box>
+        <Box>
+          Text
           <Input
             selectall
             label="Label:"
@@ -30,6 +64,7 @@ export default [
           >
             Input ...
           </Input>
+          Text
         </Box>
         <Box>
           <p className="dnb-p">

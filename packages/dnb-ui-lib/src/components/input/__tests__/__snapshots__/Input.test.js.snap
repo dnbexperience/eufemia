@@ -21,6 +21,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
         "input_class": "input_class",
         "input_state": "input_state",
         "label": "label",
+        "label_direction": "'horizontal'",
         "on_blur": [Function],
         "on_change": [Function],
         "on_focus": [Function],
@@ -75,6 +76,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
   input_class={null}
   input_state={null}
   label={null}
+  label_direction={null}
   on_blur={null}
   on_change={null}
   on_focus={null}
@@ -97,228 +99,233 @@ exports[`Input component have to match type="search" snapshot 1`] = `
   value="test"
 >
   <span
-    className="dnb-input dnb-input--search dnb-input--has-submit-button"
+    className="dnb-input__wrapper"
   >
     <span
-      className="dnb-input__shell"
-      data-has-content="true"
-      data-input-state="virgin"
-    >
-      <input
-        autoComplete="off"
-        className="dnb-input__input"
-        id="input"
-        name="input"
-        onBlur={[Function]}
-        onChange={[Function]}
-        onFocus={[Function]}
-        onKeyDown={[Function]}
-        type="search"
-        value="test"
-      />
-    </span>
-    <SubmitButton
-      0={
-        Object {
-          "displayName": "Input",
-          "props": Object {
-            "align": "align",
-            "attributes": "attributes",
-            "autocomplete": "'on'",
-            "children": "children",
-            "class": "class",
-            "className": "className",
-            "custom_element": Object {},
-            "custom_method": [Function],
-            "description": "description",
-            "disabled": "disabled",
-            "id": "id",
-            "inputElement": [Function],
-            "input_class": "input_class",
-            "input_state": "input_state",
-            "label": "label",
-            "on_blur": [Function],
-            "on_change": [Function],
-            "on_focus": [Function],
-            "on_submit": [Function],
-            "on_submit_blur": [Function],
-            "on_submit_focus": [Function],
-            "placeholder": "placeholder",
-            "readOnly": "readOnly",
-            "selectall": "selectall",
-            "size": "size",
-            "status": "status",
-            "status_animation": "status_animation",
-            "status_state": "status_state",
-            "stretch": "stretch",
-            "submitButton": [Function],
-            "submit_button_icon": "submit_button_icon",
-            "submit_button_title": "submit_button_title",
-            "submit_button_variant": "custom type not supported, please set the correct value for submit_button_variant prop",
-            "type": "type",
-            "value": "value",
-          },
-        }
-      }
-      1={
-        Object {
-          "displayName": "SubmitButton",
-          "props": Object {
-            "disabled": "disabled",
-            "icon": "icon",
-            "icon_size": "icon_size",
-            "id": "id",
-            "on_submit": [Function],
-            "on_submit_blur": [Function],
-            "on_submit_focus": [Function],
-            "title": "title",
-            "value": "value",
-            "variant": "custom type not supported, please set the correct value for variant prop",
-          },
-        }
-      }
-      attributes={null}
-      custom_element={null}
-      custom_method={null}
-      disabled={false}
-      icon="search"
-      icon_size={null}
-      id={null}
-      input_state={null}
-      on_blur={null}
-      on_change={null}
-      on_focus={null}
-      on_submit={null}
-      on_submit_blur={null}
-      on_submit_focus={null}
-      size={null}
-      title={null}
-      value="test"
-      variant="secondary"
+      className="dnb-input dnb-input--search dnb-input--has-submit-button"
     >
       <span
-        className="dnb-input__submit-button"
+        className="dnb-input__shell"
+        data-has-content="true"
         data-input-state="virgin"
       >
-        <Button
-          bounding={false}
-          class={null}
-          className="dnb-input__submit-button__button"
-          custom_element={null}
-          custom_method={null}
-          disabled={null}
-          href={null}
-          icon="search"
-          icon_position="right"
-          icon_size={null}
-          id={null}
-          innerRef={null}
+        <input
+          autoComplete="off"
+          className="dnb-input__input"
+          id="input"
+          name="input"
           onBlur={[Function]}
-          onClick={[Function]}
+          onChange={[Function]}
           onFocus={[Function]}
-          on_click={null}
-          size={null}
-          text={null}
-          title={null}
-          type="submit"
+          onKeyDown={[Function]}
+          type="search"
           value="test"
-          variant="secondary"
+        />
+      </span>
+      <SubmitButton
+        0={
+          Object {
+            "displayName": "Input",
+            "props": Object {
+              "align": "align",
+              "attributes": "attributes",
+              "autocomplete": "'on'",
+              "children": "children",
+              "class": "class",
+              "className": "className",
+              "custom_element": Object {},
+              "custom_method": [Function],
+              "description": "description",
+              "disabled": "disabled",
+              "id": "id",
+              "inputElement": [Function],
+              "input_class": "input_class",
+              "input_state": "input_state",
+              "label": "label",
+              "label_direction": "'horizontal'",
+              "on_blur": [Function],
+              "on_change": [Function],
+              "on_focus": [Function],
+              "on_submit": [Function],
+              "on_submit_blur": [Function],
+              "on_submit_focus": [Function],
+              "placeholder": "placeholder",
+              "readOnly": "readOnly",
+              "selectall": "selectall",
+              "size": "size",
+              "status": "status",
+              "status_animation": "status_animation",
+              "status_state": "status_state",
+              "stretch": "stretch",
+              "submitButton": [Function],
+              "submit_button_icon": "submit_button_icon",
+              "submit_button_title": "submit_button_title",
+              "submit_button_variant": "custom type not supported, please set the correct value for submit_button_variant prop",
+              "type": "type",
+              "value": "value",
+            },
+          }
+        }
+        1={
+          Object {
+            "displayName": "SubmitButton",
+            "props": Object {
+              "disabled": "disabled",
+              "icon": "icon",
+              "icon_size": "icon_size",
+              "id": "id",
+              "on_submit": [Function],
+              "on_submit_blur": [Function],
+              "on_submit_focus": [Function],
+              "title": "title",
+              "value": "value",
+              "variant": "custom type not supported, please set the correct value for variant prop",
+            },
+          }
+        }
+        attributes={null}
+        custom_element={null}
+        custom_method={null}
+        disabled={false}
+        icon="search"
+        icon_size={null}
+        id={null}
+        input_state={null}
+        on_blur={null}
+        on_change={null}
+        on_focus={null}
+        on_submit={null}
+        on_submit_blur={null}
+        on_submit_focus={null}
+        size={null}
+        title={null}
+        value="test"
+        variant="secondary"
+      >
+        <span
+          className="dnb-input__submit-button"
+          data-input-state="virgin"
         >
-          <button
-            className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon dnb-input__submit-button__button"
+          <Button
+            bounding={false}
+            class={null}
+            className="dnb-input__submit-button__button"
+            custom_element={null}
+            custom_method={null}
+            disabled={null}
+            href={null}
+            icon="search"
+            icon_position="right"
+            icon_size={null}
+            id={null}
+            innerRef={null}
             onBlur={[Function]}
             onClick={[Function]}
             onFocus={[Function]}
-            onMouseOut={[Function]}
+            on_click={null}
+            size={null}
+            text={null}
+            title={null}
             type="submit"
             value="test"
+            variant="secondary"
           >
-            <Content
-              bounding={false}
-              class={null}
-              className="dnb-input__submit-button__button"
-              content={null}
-              custom_element={null}
-              custom_method={null}
-              disabled={null}
-              href={null}
-              icon="search"
-              icon_position="right"
-              icon_size={null}
-              id={null}
-              innerRef={null}
-              isIconOnly={true}
+            <button
+              className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon dnb-input__submit-button__button"
               onBlur={[Function]}
               onClick={[Function]}
               onFocus={[Function]}
-              on_click={null}
-              size={null}
-              text={null}
-              title={null}
+              onMouseOut={[Function]}
               type="submit"
               value="test"
-              variant="secondary"
             >
-              <IconPrimary
-                alt={null}
-                aria-hidden={false}
-                attributes={null}
+              <Content
+                bounding={false}
                 class={null}
-                className="dnb-button__icon"
-                color={null}
-                height={null}
+                className="dnb-input__submit-button__button"
+                content={null}
+                custom_element={null}
+                custom_method={null}
+                disabled={null}
+                href={null}
                 icon="search"
-                key="button-icon"
-                modifier={null}
+                icon_position="right"
+                icon_size={null}
+                id={null}
+                innerRef={null}
+                isIconOnly={true}
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                on_click={null}
                 size={null}
+                text={null}
                 title={null}
-                width={null}
+                type="submit"
+                value="test"
+                variant="secondary"
               >
-                <span
-                  alt="search"
+                <IconPrimary
+                  alt={null}
                   aria-hidden={false}
-                  aria-label="search"
-                  className="dnb-icon dnb-button__icon"
-                  role="img"
+                  attributes={null}
+                  class={null}
+                  className="dnb-button__icon"
+                  color={null}
+                  height={null}
+                  icon="search"
+                  key="button-icon"
+                  modifier={null}
+                  size={null}
+                  title={null}
+                  width={null}
                 >
-                  <search>
-                    <svg
-                      fill="none"
-                      height={17}
-                      viewBox="0 0 17 17"
-                      width={17}
-                    >
-                      <g
-                        clipPath="url(#clip-06a943)"
-                        stroke="#000"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={1.5}
+                  <span
+                    alt="search"
+                    aria-hidden={false}
+                    aria-label="search"
+                    className="dnb-icon dnb-button__icon"
+                    role="img"
+                  >
+                    <search>
+                      <svg
+                        fill="none"
+                        height={17}
+                        viewBox="0 0 17 17"
+                        width={17}
                       >
-                        <path
-                          d="M9.055 11.937a5.445 5.445 0 1 0-4.26-10.023 5.445 5.445 0 0 0 4.26 10.023zm1.72-1.162L15 14.999"
-                        />
-                      </g>
-                      <defs>
-                        <clipPath
-                          id="clip-06a943"
+                        <g
+                          clipPath="url(#clip-06a943)"
+                          stroke="#000"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={1.5}
                         >
                           <path
-                            d="M0 0h16v16H0z"
-                            fill="#fff"
-                            transform="scale(1.02995)"
+                            d="M9.055 11.937a5.445 5.445 0 1 0-4.26-10.023 5.445 5.445 0 0 0 4.26 10.023zm1.72-1.162L15 14.999"
                           />
-                        </clipPath>
-                      </defs>
-                    </svg>
-                  </search>
-                </span>
-              </IconPrimary>
-            </Content>
-          </button>
-        </Button>
-      </span>
-    </SubmitButton>
+                        </g>
+                        <defs>
+                          <clipPath
+                            id="clip-06a943"
+                          >
+                            <path
+                              d="M0 0h16v16H0z"
+                              fill="#fff"
+                              transform="scale(1.02995)"
+                            />
+                          </clipPath>
+                        </defs>
+                      </svg>
+                    </search>
+                  </span>
+                </IconPrimary>
+              </Content>
+            </button>
+          </Button>
+        </span>
+      </SubmitButton>
+    </span>
   </span>
 </Input>
 `;
@@ -344,6 +351,7 @@ exports[`Input component have to match type="text" snapshot 1`] = `
         "input_class": "input_class",
         "input_state": "input_state",
         "label": "label",
+        "label_direction": "'horizontal'",
         "on_blur": [Function],
         "on_change": [Function],
         "on_focus": [Function],
@@ -398,6 +406,7 @@ exports[`Input component have to match type="text" snapshot 1`] = `
   input_class={null}
   input_state={null}
   label={null}
+  label_direction={null}
   on_blur={null}
   on_change={null}
   on_focus={null}
@@ -420,25 +429,29 @@ exports[`Input component have to match type="text" snapshot 1`] = `
   value="test"
 >
   <span
-    className="dnb-input dnb-input--text"
+    className="dnb-input__wrapper"
   >
     <span
-      className="dnb-input__shell"
-      data-has-content="true"
-      data-input-state="virgin"
+      className="dnb-input dnb-input--text"
     >
-      <input
-        autoComplete="off"
-        className="dnb-input__input"
-        id="input"
-        name="input"
-        onBlur={[Function]}
-        onChange={[Function]}
-        onFocus={[Function]}
-        onKeyDown={[Function]}
-        type="text"
-        value="test"
-      />
+      <span
+        className="dnb-input__shell"
+        data-has-content="true"
+        data-input-state="virgin"
+      >
+        <input
+          autoComplete="off"
+          className="dnb-input__input"
+          id="input"
+          name="input"
+          onBlur={[Function]}
+          onChange={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          type="text"
+          value="test"
+        />
+      </span>
     </span>
   </span>
 </Input>
@@ -987,8 +1000,6 @@ a.dnb-button .dnb-button__text {
 .dnb-input {
   display: inline-flex;
   flex-direction: column;
-  align-items: flex-start;
-  vertical-align: middle;
   width: auto;
   font-size: var(--input-font-size); }
   .dnb-input__shell {
@@ -997,8 +1008,6 @@ a.dnb-button .dnb-button__text {
     align-items: center;
     overflow: hidden;
     border: var(--input-border-width) solid var(--color-sea-green-alt); }
-  label + .dnb-input[class*='__form-status'] {
-    vertical-align: baseline; }
   .dnb-input__input {
     border: none;
     outline: none;
@@ -1017,7 +1026,9 @@ a.dnb-button .dnb-button__text {
     font-size: inherit;
     line-height: 1em;
     background-color: transparent;
-    transform: translateY(var(--input-border-width)); }
+    transform: translateY(var(--input-border-width));
+    font-variant-numeric: lining-nums;
+    font-feature-settings: \\"lnum\\"; }
   .dnb-input__placeholder {
     pointer-events: none;
     position: absolute;
@@ -1083,13 +1094,28 @@ a.dnb-button .dnb-button__text {
   .dnb-input__align--right .dnb-input__placeholder,
   .dnb-input__align--right .dnb-input__input {
     text-align: right; }
-  .dnb-input--stretch,
-  .dnb-input--stretch .dnb-input__shell {
-    width: 100%; }
   .dnb-input__shell[data-has-content='true'] .dnb-input__placeholder,
   .dnb-input__shell[data-has-content='true'][data-input-state='focus'] .dnb-input__placeholder {
     display: none; }
   .dnb-input > .dnb-form-status {
     margin-top: 0.5rem; }
+  .dnb-input--stretch .dnb-input {
+    flex: 1; }
+  .dnb-input--stretch .dnb-input__shell {
+    width: 100%; }
+  .dnb-input__wrapper {
+    display: inline-flex;
+    align-items: center; }
+  .dnb-input__wrapper.dnb-input--vertical {
+    align-items: flex-start;
+    flex-direction: column; }
+  .dnb-input__wrapper.dnb-input--vertical.dnb-input--stretch .dnb-input {
+    width: 100%; }
+  .dnb-input__wrapper.dnb-input--stretch {
+    display: flex; }
+  .dnb-input__wrapper[class*='__status'] {
+    align-items: flex-start; }
+    .dnb-input__wrapper[class*='__status'] > .dnb-form-label {
+      margin-top: 0.25rem; }
 "
 `;

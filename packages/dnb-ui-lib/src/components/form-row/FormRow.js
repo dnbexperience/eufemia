@@ -165,11 +165,20 @@ export default class FormRow extends PureComponent {
 
     const context = extend(this.context, {
       formRow: {
+        useId: () => {
+          if (this.isIsUsed) {
+            // make a new ID, as we used one
+            return `dnb-form-row-${Math.round(Math.random() * 999)}` // cause we need an id anyway
+          }
+          this.isIsUsed = true
+          return id
+        },
         itsMeAgain: true,
         hasLabel: label,
         size,
         direction,
         vertical,
+        label_direction: vertical ? 'vertical' : direction,
         disabled
       }
     })
@@ -180,7 +189,7 @@ export default class FormRow extends PureComponent {
           {label && (
             <FormLabel
               id={(label_id ? label_id : id) + '-label'}
-              // for_id={id} // we don't use for_id, because we don't have a single element to target to
+              for_id={id} // we don't use for_id, because we don't have a single element to target to
               text={label}
               disabled={isTrue(disabled)}
               className="dnb-form-row__label"
