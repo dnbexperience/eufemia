@@ -338,4 +338,27 @@
   .dnb-form-status {
     margin-top: 0.375rem;
   }
+
+  // Wrapper layout handling
+  &__wrapper {
+    display: inline-flex;
+    align-items: center;
+  }
+  &__wrapper#{&}--vertical {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  &__wrapper#{&}--vertical#{&}--stretch .dnb-input {
+    width: 100%;
+  }
+  &__wrapper#{&}--stretch {
+    display: flex;
+  }
+  &__wrapper[class*='__status'] {
+    align-items: flex-start;
+    > .dnb-form-label {
+      // vertical align the current font
+      margin-top: 0.25rem;
+    }
+  }
 }

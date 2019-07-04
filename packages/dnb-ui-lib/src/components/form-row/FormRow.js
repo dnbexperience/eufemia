@@ -183,7 +183,7 @@ export default class FormRow extends PureComponent {
         size,
         direction,
         vertical,
-        label_direction: vertical ? 'vertical' : direction,
+        label_direction: isTrue(vertical) ? 'vertical' : direction,
         disabled
       }
     })

@@ -18,6 +18,7 @@ import {
 import { format, parse, differenceInCalendarDays } from 'date-fns'
 import nbLocale from 'date-fns/locale/nb'
 
+import Context from '../../shared/Context'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 import DatePickerRange from './DatePickerRange'
@@ -92,6 +93,7 @@ export const propTypes = {
   link: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   sync: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   label: PropTypes.string,
+  label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   status: PropTypes.string,
   status_state: PropTypes.string,
@@ -137,6 +139,7 @@ export const defaultProps = {
   link: false,
   sync: true,
   label: null,
+  label_direction: null,
   disabled: null,
   status: null,
   status_state: 'error',
@@ -156,6 +159,7 @@ export default class DatePicker extends PureComponent {
   static propTypes = propTypes
   static defaultProps = defaultProps
   static renderProps = renderProps
+  static contextType = Context
 
   static blurDelay = 201 // some ms more than "dropdownSlideDown 200ms"
 
@@ -458,6 +462,7 @@ export default class DatePicker extends PureComponent {
 
     const {
       label,
+      label_direction,
       only_month,
       hide_navigation_buttons,
       show_input /* eslint-disable-line */,
@@ -521,16 +526,25 @@ export default class DatePicker extends PureComponent {
 
     const inputParams = { ['aria-expanded']: opened }
 
+    const wrapperParams = {
+      className: classnames(
+        'dnb-date-picker__wrapper',
+        status && `dnb-date-picker__status--${status_state}`,
+        label_direction && `dnb-date-picker--${label_direction}`
+      )
+    }
+
     validateDOMAttributes(this.props, pickerParams)
     validateDOMAttributes(null, inputParams)
 
     return (
-      <>
+      <span {...wrapperParams}>
         {label && (
           <FormLabel
             id={id + '-label'}
             for_id={id}
             text={label}
+            direction={label_direction}
             disabled={isTrue(disabled)}
           />
         )}
@@ -626,7 +640,7 @@ export default class DatePicker extends PureComponent {
             </span>
           </span>
         </span>
-      </>
+      </span>
     )
   }
 }
