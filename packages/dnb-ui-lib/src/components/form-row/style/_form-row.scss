@@ -28,6 +28,7 @@
     margin: 0.5rem 0;
   }
   > .dnb-form-label {
+    padding: 0;
     margin: 0;
   }
 
@@ -55,10 +56,8 @@
       grid-column: column2-start / column2-end;
       grid-row: row2-start / row2-end;
       justify-self: start;
-      // align-self: end;
     }
 
-    > label,
     > .dnb-form-label {
       @supports (display: grid) {
         // put the label in the first column
@@ -90,7 +89,6 @@
     width: auto;
 
     /* stylelint-disable */
-    > label,
     > .dnb-form-label {
       margin-bottom: 0.5rem;
     }
@@ -125,5 +123,13 @@
     //     width: 30rem;
     //   }
     // }
+  }
+
+  // reset the fieldset
+  &__wrapper,
+  .dnb-core-style &__wrapper {
+    margin: 0;
+    padding: 0;
+    border: none;
   }
 }

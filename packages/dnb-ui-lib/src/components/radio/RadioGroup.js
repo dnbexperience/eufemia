@@ -24,6 +24,7 @@ const renderProps = {
 export const propTypes = {
   label: PropTypes.string,
   title: PropTypes.string,
+  use_label: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   id: PropTypes.string,
   name: PropTypes.string,
@@ -54,6 +55,7 @@ export const propTypes = {
 export const defaultProps = {
   label: null,
   title: null,
+  use_label: null,
   disabled: null,
   id: null,
   name: null,
@@ -139,6 +141,7 @@ export default class RadioGroup extends PureComponent {
       vertical,
       layout_direction,
       label,
+      use_label,
       disabled,
       className,
       class: _className,
@@ -190,11 +193,13 @@ export default class RadioGroup extends PureComponent {
     }
 
     const formRowParams = {
+      id,
       label,
       label_id: id, // send the id along, so the FormRow component can use it
       direction,
       vertical,
-      disabled
+      disabled,
+      use_label
       // status,
       // status_state
     }

@@ -111,6 +111,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
   status_animation={null}
   status_state="error"
   title={null}
+  use_label={true}
   value={null}
   vertical={null}
 >
@@ -130,229 +131,232 @@ exports[`Radio group component have to match group snapshot 1`] = `
       section_spacing={null}
       section_style={null}
       size={null}
+      use_label={true}
       vertical={null}
     >
-      <div
-        className="dnb-form-row dnb-form-row--horizontal"
-      >
-        <FormLabel
-          class={null}
-          className="dnb-form-row__label"
-          direction={null}
-          disabled={false}
-          element="label"
-          for_id="group"
-          id="group-label"
-          render_content={null}
-          text="Label"
-          title={null}
-          vertical={null}
+      <Wrapper>
+        <div
+          className="dnb-form-row dnb-form-row--horizontal"
         >
-          <Element
-            className="dnb-form-label dnb-form-label--horizontal dnb-form-row__label"
-            htmlFor="group"
+          <FormLabel
+            class={null}
+            className="dnb-form-row__label"
+            direction={null}
+            disabled={false}
+            element="label"
+            for_id="group"
             id="group-label"
-            is="label"
+            render_content={null}
+            text="Label"
+            title={null}
+            vertical={null}
           >
-            <label
+            <Element
               className="dnb-form-label dnb-form-label--horizontal dnb-form-row__label"
               htmlFor="group"
               id="group-label"
+              is="label"
             >
-              Label
-            </label>
-          </Element>
-        </FormLabel>
-        <div
-          className="dnb-form-row__content"
-        >
-          <span
-            aria-labelledby="group-label"
-            className="dnb-radio-group__shell"
-            id="group"
-            role="radiogroup"
-          >
-            <Radio
-              attributes={null}
-              checked={null}
-              class={null}
-              className={null}
-              custom_element={null}
-              custom_method={null}
-              disabled={false}
-              group={null}
-              id="radio-1"
-              label="Radio 1"
-              label_position="right"
-              on_change={null}
-              on_state_update={null}
-              readOnly={false}
-              status={null}
-              status_animation={null}
-              status_state="error"
-              title={null}
-              value=""
-            >
-              <span
-                className="dnb-radio dnb-radio--label-position-right"
+              <label
+                className="dnb-form-label dnb-form-label--horizontal dnb-form-row__label"
+                htmlFor="group"
+                id="group-label"
               >
-                <FormLabel
-                  aria-hidden={true}
-                  class={null}
-                  className={null}
-                  direction={null}
-                  disabled={false}
-                  element="label"
-                  for_id="radio-1"
-                  id="radio-1-label"
-                  render_content={null}
-                  text="Radio 1"
-                  title={null}
-                  vertical={null}
+                Label
+              </label>
+            </Element>
+          </FormLabel>
+          <div
+            className="dnb-form-row__content"
+          >
+            <span
+              aria-labelledby="group-label"
+              className="dnb-radio-group__shell"
+              id="group"
+              role="radiogroup"
+            >
+              <Radio
+                attributes={null}
+                checked={null}
+                class={null}
+                className={null}
+                custom_element={null}
+                custom_method={null}
+                disabled={false}
+                group={null}
+                id="radio-1"
+                label="Radio 1"
+                label_position="right"
+                on_change={null}
+                on_state_update={null}
+                readOnly={false}
+                status={null}
+                status_animation={null}
+                status_state="error"
+                title={null}
+                value=""
+              >
+                <span
+                  className="dnb-radio dnb-radio--label-position-right"
                 >
-                  <Element
+                  <FormLabel
                     aria-hidden={true}
-                    className="dnb-form-label dnb-form-label--horizontal"
-                    htmlFor="radio-1"
+                    class={null}
+                    className={null}
+                    direction={null}
+                    disabled={false}
+                    element="label"
+                    for_id="radio-1"
                     id="radio-1-label"
-                    is="label"
+                    render_content={null}
+                    text="Radio 1"
+                    title={null}
+                    vertical={null}
                   >
-                    <label
+                    <Element
                       aria-hidden={true}
                       className="dnb-form-label dnb-form-label--horizontal"
                       htmlFor="radio-1"
                       id="radio-1-label"
+                      is="label"
                     >
-                      Radio 1
-                    </label>
-                  </Element>
-                </FormLabel>
-                <span
-                  className="dnb-radio__shell"
-                >
-                  <input
-                    aria-checked={false}
-                    aria-label={null}
-                    aria-labelledby="radio-1-label"
-                    checked={false}
-                    className="dnb-radio__input"
-                    disabled={false}
-                    id="radio-1"
-                    name="group"
-                    onChange={[Function]}
-                    onClick={[Function]}
-                    onKeyDown={[Function]}
-                    onMouseOut={[Function]}
-                    role="radio"
-                    title={null}
-                    type="radio"
-                    value=""
-                  />
+                      <label
+                        aria-hidden={true}
+                        className="dnb-form-label dnb-form-label--horizontal"
+                        htmlFor="radio-1"
+                        id="radio-1-label"
+                      >
+                        Radio 1
+                      </label>
+                    </Element>
+                  </FormLabel>
                   <span
-                    aria-hidden={true}
-                    className="dnb-radio__button"
-                  />
-                  <span
-                    className="dnb-radio__focus"
-                  />
-                  <span
-                    className="dnb-radio__dot"
-                  />
-                </span>
-              </span>
-            </Radio>
-            <Radio
-              attributes={null}
-              checked={true}
-              class={null}
-              className={null}
-              custom_element={null}
-              custom_method={null}
-              disabled={false}
-              group={null}
-              id="radio-2"
-              label="Radio 2"
-              label_position="right"
-              on_change={null}
-              on_state_update={null}
-              readOnly={false}
-              status={null}
-              status_animation={null}
-              status_state="error"
-              title={null}
-              value=""
-            >
-              <span
-                className="dnb-radio dnb-radio--label-position-right"
-              >
-                <FormLabel
-                  aria-hidden={true}
-                  class={null}
-                  className={null}
-                  direction={null}
-                  disabled={false}
-                  element="label"
-                  for_id="radio-2"
-                  id="radio-2-label"
-                  render_content={null}
-                  text="Radio 2"
-                  title={null}
-                  vertical={null}
-                >
-                  <Element
-                    aria-hidden={true}
-                    className="dnb-form-label dnb-form-label--horizontal"
-                    htmlFor="radio-2"
-                    id="radio-2-label"
-                    is="label"
+                    className="dnb-radio__shell"
                   >
-                    <label
+                    <input
+                      aria-checked={false}
+                      aria-label={null}
+                      aria-labelledby="radio-1-label"
+                      checked={false}
+                      className="dnb-radio__input"
+                      disabled={false}
+                      id="radio-1"
+                      name="group"
+                      onChange={[Function]}
+                      onClick={[Function]}
+                      onKeyDown={[Function]}
+                      onMouseOut={[Function]}
+                      role="radio"
+                      title={null}
+                      type="radio"
+                      value=""
+                    />
+                    <span
+                      aria-hidden={true}
+                      className="dnb-radio__button"
+                    />
+                    <span
+                      className="dnb-radio__focus"
+                    />
+                    <span
+                      className="dnb-radio__dot"
+                    />
+                  </span>
+                </span>
+              </Radio>
+              <Radio
+                attributes={null}
+                checked={true}
+                class={null}
+                className={null}
+                custom_element={null}
+                custom_method={null}
+                disabled={false}
+                group={null}
+                id="radio-2"
+                label="Radio 2"
+                label_position="right"
+                on_change={null}
+                on_state_update={null}
+                readOnly={false}
+                status={null}
+                status_animation={null}
+                status_state="error"
+                title={null}
+                value=""
+              >
+                <span
+                  className="dnb-radio dnb-radio--label-position-right"
+                >
+                  <FormLabel
+                    aria-hidden={true}
+                    class={null}
+                    className={null}
+                    direction={null}
+                    disabled={false}
+                    element="label"
+                    for_id="radio-2"
+                    id="radio-2-label"
+                    render_content={null}
+                    text="Radio 2"
+                    title={null}
+                    vertical={null}
+                  >
+                    <Element
                       aria-hidden={true}
                       className="dnb-form-label dnb-form-label--horizontal"
                       htmlFor="radio-2"
                       id="radio-2-label"
+                      is="label"
                     >
-                      Radio 2
-                    </label>
-                  </Element>
-                </FormLabel>
-                <span
-                  className="dnb-radio__shell"
-                >
-                  <input
-                    aria-checked={true}
-                    aria-label={null}
-                    aria-labelledby="radio-2-label"
-                    checked={true}
-                    className="dnb-radio__input"
-                    disabled={false}
-                    id="radio-2"
-                    name="group"
-                    onChange={[Function]}
-                    onClick={[Function]}
-                    onKeyDown={[Function]}
-                    onMouseOut={[Function]}
-                    role="radio"
-                    title={null}
-                    type="radio"
-                    value=""
-                  />
+                      <label
+                        aria-hidden={true}
+                        className="dnb-form-label dnb-form-label--horizontal"
+                        htmlFor="radio-2"
+                        id="radio-2-label"
+                      >
+                        Radio 2
+                      </label>
+                    </Element>
+                  </FormLabel>
                   <span
-                    aria-hidden={true}
-                    className="dnb-radio__button"
-                  />
-                  <span
-                    className="dnb-radio__focus"
-                  />
-                  <span
-                    className="dnb-radio__dot"
-                  />
+                    className="dnb-radio__shell"
+                  >
+                    <input
+                      aria-checked={true}
+                      aria-label={null}
+                      aria-labelledby="radio-2-label"
+                      checked={true}
+                      className="dnb-radio__input"
+                      disabled={false}
+                      id="radio-2"
+                      name="group"
+                      onChange={[Function]}
+                      onClick={[Function]}
+                      onKeyDown={[Function]}
+                      onMouseOut={[Function]}
+                      role="radio"
+                      title={null}
+                      type="radio"
+                      value=""
+                    />
+                    <span
+                      aria-hidden={true}
+                      className="dnb-radio__button"
+                    />
+                    <span
+                      className="dnb-radio__focus"
+                    />
+                    <span
+                      className="dnb-radio__dot"
+                    />
+                  </span>
                 </span>
-              </span>
-            </Radio>
-          </span>
+              </Radio>
+            </span>
+          </div>
         </div>
-      </div>
+      </Wrapper>
     </FormRow>
   </span>
 </RadioGroup>
@@ -535,8 +539,10 @@ exports[`Radio scss have to match snapshot 1`] = `
 .dnb-form-label {
   display: inline-block;
   width: auto;
+  padding: 0;
   margin: 0;
   margin-right: 1rem;
+  text-align: left;
   vertical-align: baseline;
   color: inherit; }
   .dnb-form-label--vertical {
@@ -752,6 +758,8 @@ exports[`Radio scss have to match snapshot 1`] = `
   .dnb-radio--label-position-left ~ .dnb-form-status,
   .dnb-radio--label-position-right ~ .dnb-form-status {
     margin-bottom: 1rem; }
+  .dnb-radio .dnb-form-label {
+    margin-bottom: 0; }
   .dnb-radio-group {
     display: inline-flex;
     flex-direction: row; }

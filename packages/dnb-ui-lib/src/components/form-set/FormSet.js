@@ -129,7 +129,13 @@ export default class FormSet extends PureComponent {
     validateDOMAttributes(this.props, params)
 
     const context = extend(this.context, {
-      formRow: { size, direction, vertical, disabled }
+      formRow: {
+        size,
+        direction,
+        vertical,
+        disabled,
+        isInsideFormSet: true
+      }
     })
 
     return (

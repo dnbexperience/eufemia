@@ -10,3 +10,4 @@ draft: true
 | `title`     | _(optional)_ the `title` attribute of the label.                                                                                                                     |
 | `text`      | _(optional)_ the `text` of the label.                                                                                                                                |
 | `element`   | _(optional)_ defines the HTML element used. Defaults to `label`.                                                                                                     |
+| `use_label` | _(optional)_ if set to `true`, then the internal legend will be a `label` instead. Defaults to `false`.                                                              |

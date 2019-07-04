@@ -28,20 +28,30 @@ export default [
     <CustomStyle>
       <Wrapper>
         <Box>
-          <FormRow vertical disabled>
-            <Input label="Vertical 1:" value="Placeholder 1 ..." stretch />
-            <Input label="Vertical 2:" value="Placeholder 2 ..." stretch />
-          </FormRow>
+          <FormSet>
+            <FormRow vertical>
+              <Input
+                label="Vertical 1:"
+                value="Placeholder 1 ..."
+                stretch
+              />
+              <Input
+                label="Vertical 2:"
+                value="Placeholder 2 ..."
+                stretch
+              />
+            </FormRow>
+          </FormSet>
         </Box>
         <Box>
           <FormSet>
             <FormRow
               size
               label="Long label labwl Adipiscing mauris dis proin nec:"
-              use_for_id
+              use_label
             >
               <Input value="Placeholder 1 ..." stretch />
-              <Input value="Placeholder 2 ..." stretch />
+              <Input label="Input:" value="Placeholder 2 ..." stretch />
             </FormRow>
           </FormSet>
         </Box>

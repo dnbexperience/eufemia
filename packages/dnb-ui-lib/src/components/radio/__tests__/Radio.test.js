@@ -21,6 +21,7 @@ import dnb_radio_theme_ui from '../style/themes/dnb-radio-theme-ui.scss' // esli
 const props = fakeProps(require.resolve('../Radio'), {
   optional: true
 })
+props.id = 'radio'
 props.group = null
 props.status = null
 props.readOnly = false
@@ -94,7 +95,7 @@ describe('Radio component', () => {
 describe('Radio group component', () => {
   // then test the state management
   const Comp = mount(
-    <Component.Group label="Label" name="group" id="group">
+    <Component.Group label="Label" name="group" id="group" use_label>
       <Component id="radio-1" label="Radio 1" />
       <Component id="radio-2" label="Radio 2" checked />
     </Component.Group>

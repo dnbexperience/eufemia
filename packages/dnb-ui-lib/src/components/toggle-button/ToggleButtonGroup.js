@@ -247,6 +247,7 @@ export default class ToggleButtonGroup extends PureComponent {
     }
 
     const formRowParams = {
+      id,
       label,
       label_id: id, // send the id along, so the FormRow component can use it
       direction,

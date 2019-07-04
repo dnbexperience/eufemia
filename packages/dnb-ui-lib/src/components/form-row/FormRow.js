@@ -26,6 +26,7 @@ export const propTypes = {
   label: PropTypes.string,
   label_id: PropTypes.string,
   no_label: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  use_label: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   size: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   direction: PropTypes.oneOf(['vertical', 'horizontal']),
   vertical: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -51,6 +52,7 @@ export const defaultProps = {
   label: null,
   label_id: null,
   no_label: false,
+  use_label: null,
   size: null,
   direction: null,
   vertical: null,
@@ -101,8 +103,10 @@ export default class FormRow extends PureComponent {
     return { label, children }
   }
 
-  constructor(props) {
+  constructor(props, context) {
     super(props)
+    this.isInsideFormSet =
+      context.formRow && context.formRow.isInsideFormSet
     this._id =
       props.id || `dnb-form-row-${Math.round(Math.random() * 999)}` // cause we need an id anyway
   }
@@ -117,6 +121,7 @@ export default class FormRow extends PureComponent {
     let {
       label,
       label_id,
+      use_label,
       no_label,
       size,
       direction,
@@ -183,30 +188,43 @@ export default class FormRow extends PureComponent {
       }
     })
 
+    const Wrapper = ({ children }) => {
+      // if (this.isInsideFormSet) {
+      if (!isTrue(use_label)) {
+        return (
+          <fieldset className="dnb-form-row__wrapper">{children}</fieldset>
+        )
+      }
+      return children
+    }
+
     return (
       <Context.Provider value={context}>
-        <div {...params}>
-          {label && (
-            <FormLabel
-              id={(label_id ? label_id : id) + '-label'}
-              for_id={id} // we don't use for_id, because we don't have a single element to target to
-              text={label}
-              disabled={isTrue(disabled)}
-              className="dnb-form-row__label"
-            />
-          )}
-          {isTrue(no_label) && (
-            <span
-              className="dnb-form-label dnb-form-row__label-dummy"
-              aria-hidden
-            />
-          )}
-          {isNested ? (
-            children
-          ) : (
-            <div className="dnb-form-row__content">{children}</div>
-          )}
-        </div>
+        <Wrapper>
+          <div {...params}>
+            {label && (
+              <FormLabel
+                className="dnb-form-row__label"
+                id={(label_id ? label_id : id) + '-label'}
+                for_id={isTrue(use_label) ? id : null} // we don't use for_id, because we don't have a single element to target to
+                text={label}
+                element={isTrue(use_label) ? 'label' : 'legend'}
+                disabled={isTrue(disabled)}
+              />
+            )}
+            {isTrue(no_label) && (
+              <span
+                className="dnb-form-label dnb-form-row__label-dummy"
+                aria-hidden
+              />
+            )}
+            {isNested ? (
+              children
+            ) : (
+              <div className="dnb-form-row__content">{children}</div>
+            )}
+          </div>
+        </Wrapper>
       </Context.Provider>
     )
   }
