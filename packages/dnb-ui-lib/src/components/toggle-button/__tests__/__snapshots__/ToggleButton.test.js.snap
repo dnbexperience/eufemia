@@ -295,15 +295,15 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
       id="group"
       label="Label"
       label_id="group"
+      no_fieldset={null}
       no_label={false}
       render_content={null}
       section_spacing={null}
       section_style={null}
       size={null}
-      use_label={null}
       vertical={null}
     >
-      <Wrapper>
+      <Fieldset>
         <fieldset
           className="dnb-form-row__wrapper"
         >
@@ -555,7 +555,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
             </div>
           </div>
         </fieldset>
-      </Wrapper>
+      </Fieldset>
     </FormRow>
   </span>
 </ToggleButtonGroup>
@@ -742,6 +742,9 @@ exports[`ToggleButton scss have to match snapshot 1`] = `
     cursor: pointer; }
   .dnb-form-label[disabled] {
     cursor: not-allowed; }
+
+legend.dnb-form-label {
+  display: inline-block; }
 
 /*
 * DNB Button

@@ -1263,6 +1263,9 @@ a.dnb-button .dnb-button__text {
   .dnb-form-label[disabled] {
     cursor: not-allowed; }
 
+legend.dnb-form-label {
+  display: inline-block; }
+
 /*
 * DNB FormStatus
 *
@@ -1583,7 +1586,8 @@ a.dnb-button .dnb-button__text {
   .dnb-date-picker__shell {
     position: relative;
     top: 0;
-    display: inline-block; }
+    display: inline-flex;
+    flex-direction: column; }
   .dnb-date-picker__container {
     position: absolute;
     display: block;
@@ -1647,7 +1651,8 @@ a.dnb-button .dnb-button__text {
   .dnb-date-picker__input__wrapper {
     display: none; }
   .dnb-date-picker--show-input .dnb-date-picker__input__wrapper {
-    display: block; }
+    display: inline-flex;
+    align-items: center; }
   .dnb-date-picker:not(.dnb-date-picker--show-input) .dnb-input__status--error .dnb-input__shell {
     box-shadow: none; }
   .dnb-input__submit-button button:focus ~ .dnb-date-picker__input__wrapper {
@@ -1766,7 +1771,7 @@ a.dnb-button .dnb-button__text {
     .dnb-date-picker .rtl .dnb-date-picker__next::before {
       transform: scaleX(-1); }
   .dnb-date-picker .dnb-form-status {
-    margin-top: 0.375rem; }
+    margin-top: 0.5rem; }
   .dnb-date-picker__wrapper {
     display: inline-flex;
     align-items: center; }

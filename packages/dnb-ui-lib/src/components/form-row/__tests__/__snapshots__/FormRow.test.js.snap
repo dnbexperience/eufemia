@@ -9,15 +9,15 @@ exports[`FormRow component have to match snapshot 1`] = `
   id="form-row"
   label="label"
   label_id="label_id"
+  no_fieldset="no_fieldset"
   no_label="no_label"
   render_content={[Function]}
   section_spacing="section_spacing"
   section_style="section_style"
   size="size"
-  use_label="use_label"
   vertical="vertical"
 >
-  <Wrapper>
+  <Fieldset>
     <fieldset
       className="dnb-form-row__wrapper"
     >
@@ -57,7 +57,7 @@ exports[`FormRow component have to match snapshot 1`] = `
         </div>
       </div>
     </fieldset>
-  </Wrapper>
+  </Fieldset>
 </FormRow>
 `;
 
@@ -150,6 +150,9 @@ exports[`FormRow scss have to match snapshot 1`] = `
     cursor: pointer; }
   .dnb-form-label[disabled] {
     cursor: not-allowed; }
+
+legend.dnb-form-label {
+  display: inline-block; }
 
 .dnb-form-row {
   font-family: var(--font-family-default);

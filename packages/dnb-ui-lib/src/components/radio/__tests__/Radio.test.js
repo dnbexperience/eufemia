@@ -95,7 +95,7 @@ describe('Radio component', () => {
 describe('Radio group component', () => {
   // then test the state management
   const Comp = mount(
-    <Component.Group label="Label" name="group" id="group" use_label>
+    <Component.Group label="Label" name="group" id="group" no_fieldset>
       <Component id="radio-1" label="Radio 1" />
       <Component id="radio-2" label="Radio 2" checked />
     </Component.Group>

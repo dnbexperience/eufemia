@@ -122,5 +122,8 @@ exports[`FormLabel scss have to match snapshot 1`] = `
     cursor: pointer; }
   .dnb-form-label[disabled] {
     cursor: not-allowed; }
+
+legend.dnb-form-label {
+  display: inline-block; }
 "
 `;

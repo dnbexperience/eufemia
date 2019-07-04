@@ -14,6 +14,8 @@ import {
   validateDOMAttributes,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
+
+import Context from '../../shared/Context'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 
@@ -83,6 +85,7 @@ export default class Checkbox extends Component {
   static propTypes = propTypes
   static defaultProps = defaultProps
   static renderProps = renderProps
+  static contextType = Context
 
   static enableWebComponent() {
     registerElement(Checkbox.tagName, Checkbox, defaultProps)

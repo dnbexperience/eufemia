@@ -10,3 +10,4 @@ draft: true
 | ~~`size`~~        | _(optional)_ the `width` of the **FormLabel** (`.dnb-form-label`). Use `small`, `medium` and `large`. Defaults to `null`. If set to `true`, then `medium` is used.                |
 | `section_style`   | _(optional)_ to enable the visual helper `.dnb-section` class. Use a supported modifier from the [Section component](/uilib/components/section#tab-properties). Defaults to null. |
 | `section_spacing` | _(optional)_ to modify the `spacing`. Use a supported modifier from the [Section component](/uilib/components/section#tab-properties). Defaults to null.                          |
+| `no_fieldset`     | _(optional)_ if set to `true`, then the internal `legend` will be a `label` instead, and no `fieldset` is used. Defaults to `false`.                                              |

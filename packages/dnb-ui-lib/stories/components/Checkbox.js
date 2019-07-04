@@ -12,7 +12,6 @@ import { Checkbox, FormLabel, FormRow } from '../../src/components'
 
 const CustomRow = styled(FormRow)`
   > .dnb-form-label {
-    ${'' /* max-width: 12rem; */}
     color: blue;
   }
 `
@@ -21,6 +20,14 @@ export default [
   'Checkbox',
   () => (
     <Wrapper>
+      <Box>
+        <FormRow vertical disabled label="Without for_id (select me)">
+          <Checkbox label="Checkbox" />
+        </FormRow>
+      </Box>
+      <Box>
+        <Checkbox label="Checkbox" />
+      </Box>
       <Box>
         <p className="dnb-p">
           Text: <FormLabel for_id="checkbox">Unchecked:</FormLabel>

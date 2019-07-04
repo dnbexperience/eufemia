@@ -26,7 +26,7 @@ export const propTypes = {
   label: PropTypes.string,
   label_id: PropTypes.string,
   no_label: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  use_label: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  no_fieldset: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   size: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   direction: PropTypes.oneOf(['vertical', 'horizontal']),
   vertical: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -52,7 +52,7 @@ export const defaultProps = {
   label: null,
   label_id: null,
   no_label: false,
-  use_label: null,
+  no_fieldset: null,
   size: null,
   direction: null,
   vertical: null,
@@ -121,7 +121,7 @@ export default class FormRow extends PureComponent {
     let {
       label,
       label_id,
-      use_label,
+      no_fieldset,
       no_label,
       size,
       direction,
@@ -188,9 +188,11 @@ export default class FormRow extends PureComponent {
       }
     })
 
-    const Wrapper = ({ children }) => {
+    const useFieldset = !isTrue(no_fieldset)
+
+    const Fieldset = ({ children }) => {
       // if (this.isInsideFormSet) {
-      if (!isTrue(use_label)) {
+      if (label && useFieldset) {
         return (
           <fieldset className="dnb-form-row__wrapper">{children}</fieldset>
         )
@@ -200,15 +202,15 @@ export default class FormRow extends PureComponent {
 
     return (
       <Context.Provider value={context}>
-        <Wrapper>
+        <Fieldset>
           <div {...params}>
             {label && (
               <FormLabel
                 className="dnb-form-row__label"
                 id={(label_id ? label_id : id) + '-label'}
-                for_id={isTrue(use_label) ? id : null} // we don't use for_id, because we don't have a single element to target to
+                for_id={!useFieldset ? id : null} // we don't use for_id, because we don't have a single element to target to
                 text={label}
-                element={isTrue(use_label) ? 'label' : 'legend'}
+                element={!useFieldset ? 'label' : 'legend'}
                 disabled={isTrue(disabled)}
               />
             )}
@@ -224,7 +226,7 @@ export default class FormRow extends PureComponent {
               <div className="dnb-form-row__content">{children}</div>
             )}
           </div>
-        </Wrapper>
+        </Fieldset>
       </Context.Provider>
     )
   }

@@ -47,8 +47,8 @@ export default [
           <FormSet>
             <FormRow
               size
-              label="Long label labwl Adipiscing mauris dis proin nec:"
-              use_label
+              legend="Long label labwl Adipiscing mauris dis proin nec:"
+              no_fieldset
             >
               <Input value="Placeholder 1 ..." stretch />
               <Input label="Input:" value="Placeholder 2 ..." stretch />

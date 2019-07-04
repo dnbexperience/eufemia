@@ -106,12 +106,12 @@ exports[`Radio group component have to match group snapshot 1`] = `
   label="Label"
   layout_direction="row"
   name="group"
+  no_fieldset={true}
   on_change={null}
   status={null}
   status_animation={null}
   status_state="error"
   title={null}
-  use_label={true}
   value={null}
   vertical={null}
 >
@@ -126,15 +126,15 @@ exports[`Radio group component have to match group snapshot 1`] = `
       id="group"
       label="Label"
       label_id="group"
+      no_fieldset={true}
       no_label={false}
       render_content={null}
       section_spacing={null}
       section_style={null}
       size={null}
-      use_label={true}
       vertical={null}
     >
-      <Wrapper>
+      <Fieldset>
         <div
           className="dnb-form-row dnb-form-row--horizontal"
         >
@@ -356,7 +356,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
             </span>
           </div>
         </div>
-      </Wrapper>
+      </Fieldset>
     </FormRow>
   </span>
 </RadioGroup>
@@ -554,6 +554,9 @@ exports[`Radio scss have to match snapshot 1`] = `
     cursor: pointer; }
   .dnb-form-label[disabled] {
     cursor: not-allowed; }
+
+legend.dnb-form-label {
+  display: inline-block; }
 
 /*
 * DNB FormStatus

@@ -284,6 +284,9 @@ exports[`Textarea scss have to match snapshot 1`] = `
   .dnb-form-label[disabled] {
     cursor: not-allowed; }
 
+legend.dnb-form-label {
+  display: inline-block; }
+
 /*
 * DNB FormStatus
 *
