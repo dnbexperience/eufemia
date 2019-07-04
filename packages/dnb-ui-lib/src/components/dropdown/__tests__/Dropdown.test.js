@@ -25,6 +25,7 @@ props.id = 'dropdown-id'
 props.status = 'status'
 props.status_state = 'error'
 props.direction = 'bottom'
+props.label_direction = 'horizontal'
 props.selected_item = 2
 
 const mockData = [

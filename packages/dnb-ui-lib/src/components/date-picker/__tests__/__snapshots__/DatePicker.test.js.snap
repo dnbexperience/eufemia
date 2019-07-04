@@ -1778,10 +1778,6 @@ legend.dnb-form-label {
   .dnb-date-picker__wrapper.dnb-date-picker--vertical {
     align-items: flex-start;
     flex-direction: column; }
-  .dnb-date-picker__wrapper.dnb-date-picker--vertical.dnb-date-picker--stretch .dnb-input {
-    width: 100%; }
-  .dnb-date-picker__wrapper.dnb-date-picker--stretch {
-    display: flex; }
   .dnb-date-picker__wrapper[class*='__status'] {
     align-items: flex-start; }
     .dnb-date-picker__wrapper[class*='__status'] > .dnb-form-label {

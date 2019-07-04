@@ -16,6 +16,8 @@ import {
   detectOutsideClick,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
+
+import Context from '../../shared/Context'
 import Icon from '../icon-primary/IconPrimary'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
@@ -34,6 +36,7 @@ export const propTypes = {
   icon: PropTypes.string,
   icon_position: PropTypes.string,
   label: PropTypes.string,
+  label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
   status: PropTypes.string,
   status_state: PropTypes.string,
   status_animation: PropTypes.string,
@@ -90,6 +93,7 @@ export const defaultProps = {
   icon: 'chevron-left',
   icon_position: null,
   label: null,
+  label_direction: null,
   status: null,
   status_state: 'error',
   status_animation: null,
@@ -123,6 +127,7 @@ export default class Dropdown extends PureComponent {
   static propTypes = propTypes
   static defaultProps = defaultProps
   static renderProps = renderProps
+  static contextType = Context
 
   static blurDelay = 201 // some ms more than "dropdownSlideDown 200ms"
 
@@ -667,6 +672,7 @@ export default class Dropdown extends PureComponent {
     const {
       title,
       label,
+      label_direction,
       icon,
       icon_position,
       status,
@@ -725,6 +731,7 @@ export default class Dropdown extends PureComponent {
     const selectedId = `dropdown-${id}-value`
     const triggerParams = {
       className: 'dnb-dropdown__trigger',
+      id,
       title,
       ['aria-label']: title,
       ['aria-haspopup']: 'listbox',
@@ -759,18 +766,27 @@ export default class Dropdown extends PureComponent {
       }
     }
 
+    const wrapperParams = {
+      className: classnames(
+        'dnb-dropdown__wrapper',
+        status && `dnb-dropdown__status--${status_state}`,
+        label_direction && `dnb-dropdown--${label_direction}`
+      )
+    }
+
     // also used for code markup simulation
     validateDOMAttributes(this.props, triggerParams)
     validateDOMAttributes(null, listParams)
     validateDOMAttributes(null, ulParams)
 
     return (
-      <>
+      <span {...wrapperParams}>
         {label && (
           <FormLabel
             id={id + '-label'}
             for_id={id}
             text={label}
+            direction={label_direction}
             disabled={disabled}
           />
         )}
@@ -875,7 +891,7 @@ export default class Dropdown extends PureComponent {
             />
           )}
         </span>
-      </>
+      </span>
     )
   }
 }

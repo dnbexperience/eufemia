@@ -363,4 +363,21 @@
       transform: rotate(-90deg);
     }
   }
+
+  // Wrapper layout handling
+  &__wrapper {
+    display: inline-flex;
+    align-items: center;
+  }
+  &__wrapper#{&}--vertical {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  &__wrapper[class*='__status'] {
+    align-items: flex-start;
+    > .dnb-form-label {
+      // vertical align the current font
+      margin-top: 0.25rem;
+    }
+  }
 }

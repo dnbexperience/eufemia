@@ -349,12 +349,6 @@
     align-items: flex-start;
     flex-direction: column;
   }
-  &__wrapper#{&}--vertical#{&}--stretch .dnb-input {
-    width: 100%;
-  }
-  &__wrapper#{&}--stretch {
-    display: flex;
-  }
   &__wrapper[class*='__status'] {
     align-items: flex-start;
     > .dnb-form-label {

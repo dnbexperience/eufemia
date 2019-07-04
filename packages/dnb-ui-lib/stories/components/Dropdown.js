@@ -7,7 +7,13 @@ import React, { useState, Fragment } from 'react'
 import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
 
-import { Dropdown, Button, FormLabel } from '../../src/components'
+import {
+  Dropdown,
+  Button,
+  FormLabel,
+  FormRow,
+  Checkbox
+} from '../../src/components'
 
 const CustomStyle = styled.div`
   [data-dnb-test='dropdown-list'] .dnb-dropdown__options {
@@ -68,7 +74,8 @@ const DropdownStory = () => {
       </Box>
       <Box>
         <Dropdown
-          label="Label:"
+          label="Label vertical:"
+          label_direction="vertical"
           title={<>Custom title {'🔥'}</>}
           data={dropdownData}
           // selected_item={3}
@@ -78,6 +85,11 @@ const DropdownStory = () => {
           Eros semper blandit tellus mollis primis quisque platea
           sollicitudin ipsum
         </p>
+      </Box>
+      <Box>
+        <FormRow vertical>
+          <Dropdown label="Label vertical:" data={dropdownData} />
+        </FormRow>
       </Box>
       <Box>
         <Dropdown
@@ -162,7 +174,11 @@ export default [
 let dropdownData = [
   {
     selected_value: 'Brukskonto - Kari Nordmann',
-    content: 'Brukskonto - Kari Nordmann'
+    content: (
+      <>
+        <Checkbox checked /> Brukskonto - Kari Nordmann
+      </>
+    )
   },
   {
     content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']

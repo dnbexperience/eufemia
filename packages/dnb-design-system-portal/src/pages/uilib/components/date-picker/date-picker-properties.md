@@ -29,5 +29,6 @@ draft: true
 | `first_day`          | _(optional)_ to define the first day of the week. Defaults to `monday`.                                                                                              |
 | `locale`             | _(optional)_ to define the locale used in the calendar. Needs to be an `date-fns` locale object, like `import nbLocale from 'date-fns/locale/nb'`. Defaults to `nb`. |
 | `label`              | _(optional)_ a prepending label in sync with the date input field.                                                                                                   |
+| `label_direction`    | _(optional)_ use `label_direction="vertical"` to change the label layout direction. Defaults to `horizontal`                                                         |
 | `status`             | _(optional)_ text with a status message. The style defaults to an error message.                                                                                     |
-| `status_state`       | _(optional)_ defines the state of the status. Currently there are two statuses `[error, info]`. Defaults to `error`.                                                       |
+| `status_state`       | _(optional)_ defines the state of the status. Currently there are two statuses `[error, info]`. Defaults to `error`.                                                 |

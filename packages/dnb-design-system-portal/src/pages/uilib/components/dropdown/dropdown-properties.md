@@ -19,6 +19,8 @@ import { Data } from 'Pages/uilib/components/dropdown/Examples'
 | `status`              | _(optional)_ text with a status message. The style defaults to an error message.                                                      |
 | `status_state`        | _(optional)_ defines the state of the status. Currently there are two statuses `[error, info]`. Defaults to `error`.                  |
 | `label`               | _(optional)_ prepends the Form Label component. If no ID is provided, a random ID is created.                                         |
+| `label_direction`     | _(optional)_ use `label_direction="vertical"` to change the label layout direction. Defaults to `horizontal`                          |
+|                       |                                                                                                                                       |
 
 ## Data structure
 
