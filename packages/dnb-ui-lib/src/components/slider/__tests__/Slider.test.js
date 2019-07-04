@@ -7,6 +7,7 @@ import React from 'react'
 import {
   mount,
   fakeProps,
+  axeComponent,
   toJson,
   loadScss
 } from '../../../core/jest/jestSetup'
@@ -19,35 +20,44 @@ import dnb_slider from '../style/dnb-slider.scss' // eslint-disable-line
 const props = fakeProps(require.resolve('../Slider'), {
   optional: true
 })
+props.status = null
+props.min = 0
+props.max = 100
+props.value = 70
+props.step = 10
 
 describe('Slider component', () => {
+  const Comp = mount(<Component {...props} />)
+
   // compare the snapshot
   it('have to match snapshot', () => {
-    const ComponentWrap = mount(<Component {...props} href={null} />)
-    expect(toJson(ComponentWrap)).toMatchSnapshot()
+    expect(toJson(Comp)).toMatchSnapshot()
   })
 
-  // then test the state management
-  // const Comp = mount(<Component {...props} href={null} />)
+  it('has correct value after mouse move', () => {
+    expect(Comp.state().value).toBe(props.value)
 
-  // it('has correct state after "change" trigger', () => {
-  //   // default value value has to be false
-  //   expect(Comp.state().value).toBe(false)
-  //
-  //   Comp.find('input').simulate('change') // we could send inn the event data structure like this: , { target: { value: true } }
-  //   expect(Comp.state().value).toBe(true)
-  //
-  //   Comp.find('input').simulate('change')
-  //   expect(Comp.state().value).toBe(false)
-  //
-  //   // also check if getDerivedStateFromProps sets the state as expected
-  //   Comp.setProps({ value: true })
-  //   expect(Comp.state().value).toBe(true)
-  //
-  //   const value = 'new value'
-  //   Comp.setProps({ value })
-  //   expect(Comp.find('input').props().value).toBe(value)
-  // })
+    Comp.find('[role="slider"]').simulate('mousedown')
+    simulateMouseMove({ pageX: 80, width: 100, height: 10 })
+
+    expect(Comp.state().value).toBe(props.value + 10)
+  })
+
+  it('has correct value after mouse move in vertical mode', () => {
+    const Comp = mount(<Component {...props} vertical />)
+
+    expect(Comp.state().value).toBe(props.value)
+
+    Comp.find('[role="slider"]').simulate('mousedown')
+    simulateMouseMove({ pageY: 80, width: 10, height: 100 })
+
+    // sice we use reverse in vertical mode
+    expect(Comp.state().value).toBe(20)
+  })
+
+  it('should validate with ARIA rules', async () => {
+    expect(await axeComponent(Comp)).toHaveNoViolations()
+  })
 })
 
 describe('Slider scss', () => {
@@ -56,3 +66,10 @@ describe('Slider scss', () => {
     expect(scss).toMatchSnapshot()
   })
 })
+
+const simulateMouseMove = props => {
+  const mouseMove = new CustomEvent('mousemove', {
+    detail: props
+  })
+  document.body.dispatchEvent(mouseMove)
+}

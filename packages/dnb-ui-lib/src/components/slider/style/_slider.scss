@@ -3,129 +3,204 @@
 *
 */
 
-$range-line-background: var(--color-sea-green);
-$range-line-height: 0.25rem;
-$range-line-border-radius: 0.25rem;
-
-$range-thumb-background: white;
-$range-thumb-border-color: var(--color-mint-green-50);
-$range-thumb-dimension: 1.5rem;
+:root {
+  --slider-line-height: 0.25rem;
+  --slider-thumb-size: 2rem;
+  --slider-button-size: 1.5rem;
+  --slider-space: 1rem;
+}
 
 .dnb-slider {
-  display: flex;
+  &__wrapper {
+    display: flex;
+    align-items: center; // to center the label vertical
 
-  .slider__root {
-    width: 100%;
-    cursor: pointer;
-    padding: 1rem 0.5rem;
-    position: relative;
-    // -webkit-tap-highlight-color: transparent;
-  }
-  &.slider__vertical {
-    height: 100%;
-    padding: 0.5rem 1rem;
+    &--vertical {
+      flex: none;
+      align-items: flex-start; // make sure we have the label on top
 
-    .slider__root {
-      width: inherit;
-      height: inherit;
+      // height: 100%;
+
+      min-width: inherit;
+      min-height: inherit;
     }
   }
-  &.slider__reverse .slider__root {
+
+  display: inline-flex;
+  &:not(#{&}--vertical) {
+    flex: 1;
+  }
+
+  // set a height so it's easier to click on the track
+  height: var(--slider-thumb-size);
+  width: auto;
+
+  &__track {
+    position: relative;
+    flex: 1;
+
+    // makre room again for the negative line manipulation
+    margin: 0 calc(var(--slider-space) * 1.5);
+
+    cursor: pointer;
+
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      z-index: 2;
+      left: 0;
+      top: 50%;
+
+      width: var(--slider-thumb-size);
+      height: var(--slider-line-height);
+
+      transform: translate3d(0, -50%, 0);
+
+      border-radius: calc(var(--slider-line-height) / 2);
+      background-color: inherit;
+    }
+
+    &::before {
+      background-color: red;
+      left: calc(1px - 1px - var(--slider-space));
+      right: auto;
+    }
+    &::after {
+      background-color: blue;
+      left: auto;
+      right: calc(1px - 1px - var(--slider-space));
+    }
+  }
+  &--vertical &__track {
+    margin: calc(var(--slider-space) * 1.5) 0;
+
+    &::before,
+    &::after {
+      left: 50%;
+      transform: translate3d(-50%, 0, 0);
+      width: var(--slider-line-height);
+      height: var(--slider-thumb-size);
+    }
+    &::before {
+      top: calc(1px - 1px - var(--slider-space));
+      bottom: auto;
+    }
+    &::after {
+      top: auto;
+      bottom: calc(1px - 1px - var(--slider-space));
+    }
+  }
+
+  &--vertical {
+    flex-direction: column;
+
+    // set a width so it's easier to click on the track
+    width: var(--slider-thumb-size);
+    height: inherit;
+
+    min-width: inherit;
+    min-height: inherit;
+  }
+  &--reverse &__track {
     transform: scaleX(-1);
   }
-  &.slider__reverse.slider__vertical .slider__root {
+  &--reverse#{&}--vertical &__track {
     transform: scaleY(-1);
   }
 
-  .slider__line {
+  &__line {
     position: absolute;
+
+    left: 0;
     top: 50%;
-    height: 2px;
-    transform: translate(0, -50%);
-    background-color: $range-line-background;
+
+    // margin: 0 calc(1px - 1px - var(--slider-space));
+
+    height: var(--slider-line-height);
+    transform: translate3d(0, -50%, 0);
+
+    // border-radius: calc(var(--slider-line-height) / 2);
+    background-color: grey;
   }
-  .slider__state--disabled .slider__line {
-    background-color: var(--color-black-30);
-  }
-  &.slider__vertical .slider__line {
-    transform: translate(-50%, 0);
+  &--vertical &__line {
+    width: var(--slider-line-height);
+    height: auto;
+
     left: 50%;
-    top: initial;
-    width: 2px;
+    top: 0;
+
+    // margin: calc(1px - 1px - var(--slider-space)) 0;
+
+    transform: translate3d(-50%, 0, 0);
   }
 
-  .slider__line__before {
-    left: 0;
+  &__line__before {
+    z-index: 2;
+    // left: 1rem; // to get the
+    // margin-left: 1rem;
+    // right: -1rem;
+    // opacity: 0.2;
+  }
+  &__line__after {
     z-index: 1;
-  }
-  .slider__line__after {
     right: 0;
-    opacity: 0.24;
+    background-color: #ddd;
   }
-  &.slider__vertical .slider__line__before {
+  &--vertical &__line__before {
     top: 0;
   }
-  &.slider__vertical .slider__line__after {
+  &--vertical &__line__after {
     bottom: 0;
   }
 
-  .slider__thumb {
+  &__thumb {
     position: absolute;
-    z-index: 2;
+    left: 0;
+    top: 0;
+    z-index: 3;
 
-    height: $range-thumb-dimension;
-    width: $range-thumb-dimension;
-    transform: translate(-50%, -50%);
+    display: block;
+    transform: translate3d(-50%, 0, 0);
 
-    margin: 0;
-    padding: 0;
-
-    display: inline-flex;
-    align-items: center;
-    vertical-align: middle;
-    justify-content: center;
-
-    cursor: pointer;
-    user-select: none;
-    outline: none;
-
-    color: inherit;
-    border: 1px solid $range-thumb-border-color;
+    // Becaus of the DropShadow
     border-radius: 50%;
 
-    text-decoration: none;
-    appearance: none;
-
-    background-color: $range-thumb-background;
-
-    box-shadow: 1px 1px 2px rgba(0, 135, 137, 0.25),
-      0 0 1px rgba(0, 160, 163, 0.25);
-
-    &:focus {
-      @include fakeFocus();
+    &,
+    .dnb-button {
+      height: var(--slider-thumb-size);
+      width: var(--slider-thumb-size);
     }
   }
-  .slider__state--disabled .slider__thumb {
-    border: none;
-    box-shadow: none;
-    background-color: var(--color-black-30);
-    height: $range-thumb-dimension/3;
-    width: $range-thumb-dimension/3;
+  &--vertical &__thumb {
+    transform: translate3d(0, -50%, 0);
   }
 
-  .slider__state--jumped .slider__thumb,
-  .slider__state--jumped .slider__line {
+  &__button {
+    transform: translateY(0.25rem);
+    height: var(--slider-button-size);
+    width: var(--slider-button-size);
+  }
+  &--vertical &__button {
+    transform: translateX(0.25rem);
+  }
+
+  &__state--jumped &__thumb,
+  &__state--jumped &__line {
     transition: width 250ms ease 0ms, height 250ms ease 0ms,
       left 250ms ease 0ms, top 250ms ease 0ms, box-shadow 250ms ease 0ms;
   }
-  // cubic-bezier(0, 0, 0.2, 1)
 
-  .slider__state--activated .slider__thumb {
-    border-width: 2px;
+  &__state--disabled#{&}__track,
+  &__state--disabled &__thumb {
+    cursor: not-allowed;
   }
 
-  .slider__state--disabled.slider__root,
-  .slider__state--disabled .slider__thumb {
-    cursor: not-allowed;
+  > .dnb-form-label {
+    margin-right: 1rem;
+  }
+
+  > .dnb-form-status {
+    margin-top: 0.5rem;
   }
 }

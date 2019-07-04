@@ -1,6 +1,10 @@
+## July, 4. 2019
+
+- New component in the `dnb-ui-lib`: [Slider](/uilib/components/slider) with add/subtract buttons
+
 ## June, 26. 2019
 
-- The `dnb-ui-lib` got new helpers for [Spacing](/uilib/usage/layout/spacing#spacing-helpers) and [Layout](/uilib/usage/layout).
+- The `dnb-ui-lib` got new helpers for [Spacing](/uilib/usage/layout/spacing#spacing-helpers) and [Layout](/uilib/usage/layout)
 - Added first [Demo App](/uilib/getting-started/demos)
 
 ## June, 19. 2019
@@ -13,7 +17,7 @@
 
 ## June, 3. 2019
 
-- New component in the `dnb-ui-lib`: [Textarea](/uilib/components/textarea). Got also a wider corner radius by `16px (1rem)`.
+- New component in the `dnb-ui-lib`: [Textarea](/uilib/components/textarea). Got also a wider corner radius by `16px (1rem)`
 
 ## May, 27. 2019
 
