@@ -100,10 +100,10 @@ exports[`Radio group component have to match group snapshot 1`] = `
   className={null}
   custom_element={null}
   custom_method={null}
-  direction="horizontal"
   disabled={null}
   id="group"
   label="Label"
+  label_direction={null}
   layout_direction="row"
   name="group"
   no_fieldset={true}
@@ -121,7 +121,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
     <FormRow
       class={null}
       className={null}
-      direction="horizontal"
+      direction={null}
       disabled={null}
       id="group"
       label="Label"
@@ -136,7 +136,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
     >
       <Fieldset>
         <div
-          className="dnb-form-row dnb-form-row--horizontal"
+          className="dnb-form-row"
         >
           <FormLabel
             class={null}
@@ -152,13 +152,13 @@ exports[`Radio group component have to match group snapshot 1`] = `
             vertical={null}
           >
             <Element
-              className="dnb-form-label dnb-form-label--horizontal dnb-form-row__label"
+              className="dnb-form-label dnb-form-row__label"
               htmlFor="group"
               id="group-label"
               is="label"
             >
               <label
-                className="dnb-form-label dnb-form-label--horizontal dnb-form-row__label"
+                className="dnb-form-label dnb-form-row__label"
                 htmlFor="group"
                 id="group-label"
               >
@@ -215,14 +215,14 @@ exports[`Radio group component have to match group snapshot 1`] = `
                   >
                     <Element
                       aria-hidden={true}
-                      className="dnb-form-label dnb-form-label--horizontal"
+                      className="dnb-form-label"
                       htmlFor="radio-1"
                       id="radio-1-label"
                       is="label"
                     >
                       <label
                         aria-hidden={true}
-                        className="dnb-form-label dnb-form-label--horizontal"
+                        className="dnb-form-label"
                         htmlFor="radio-1"
                         id="radio-1-label"
                       >
@@ -304,14 +304,14 @@ exports[`Radio group component have to match group snapshot 1`] = `
                   >
                     <Element
                       aria-hidden={true}
-                      className="dnb-form-label dnb-form-label--horizontal"
+                      className="dnb-form-label"
                       htmlFor="radio-2"
                       id="radio-2-label"
                       is="label"
                     >
                       <label
                         aria-hidden={true}
-                        className="dnb-form-label dnb-form-label--horizontal"
+                        className="dnb-form-label"
                         htmlFor="radio-2"
                         id="radio-2-label"
                       >

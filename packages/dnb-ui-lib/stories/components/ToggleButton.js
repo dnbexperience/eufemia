@@ -164,7 +164,8 @@ export default [
         <ToggleButton.Group
           label="Vertical group with error:"
           layout_direction="column"
-          vertical="true"
+          label_direction="vertical"
+          // vertical="true"
           status="Error message Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
         >
           <ToggleButton text="First" value="first" />

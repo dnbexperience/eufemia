@@ -134,9 +134,26 @@ export default [
         <Radio.Group
           label="Vertical group with error:"
           layout_direction="column"
-          vertical="true"
+          label_direction="vertical"
+          // vertical="true"
           status="Error message Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
         >
+          <Radio label="First" value="first" />
+          <Radio label="Second" value="second" />
+          <Radio label="Third" value="third" checked />
+        </Radio.Group>
+      </Box>
+      <Box>
+        <FormRow direction="vertical">
+          <Radio.Group label="Vertical with FormRow:">
+            <Radio label="First" value="first" />
+            <Radio label="Second" value="second" />
+            <Radio label="Third" value="third" checked />
+          </Radio.Group>
+        </FormRow>
+      </Box>
+      <Box>
+        <Radio.Group label="Vertical label:" label_direction="vertical">
           <Radio label="First" value="first" />
           <Radio label="Second" value="second" />
           <Radio label="Third" value="third" checked />

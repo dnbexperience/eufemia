@@ -266,10 +266,10 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
   className={null}
   custom_element={null}
   custom_method={null}
-  direction="horizontal"
   disabled={null}
   id="group"
   label="Label"
+  label_direction={null}
   layout_direction="row"
   left_component={null}
   multiselect={null}
@@ -290,7 +290,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
     <FormRow
       class={null}
       className={null}
-      direction="horizontal"
+      direction={null}
       disabled={null}
       id="group"
       label="Label"
@@ -308,7 +308,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
           className="dnb-form-row__wrapper"
         >
           <div
-            className="dnb-form-row dnb-form-row--horizontal"
+            className="dnb-form-row"
           >
             <FormLabel
               class={null}
@@ -324,12 +324,12 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
               vertical={null}
             >
               <Element
-                className="dnb-form-label dnb-form-label--horizontal dnb-form-row__label"
+                className="dnb-form-label dnb-form-row__label"
                 id="group-label"
                 is="legend"
               >
                 <legend
-                  className="dnb-form-label dnb-form-label--horizontal dnb-form-row__label"
+                  className="dnb-form-label dnb-form-row__label"
                   id="group-label"
                 >
                   Label

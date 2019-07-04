@@ -27,5 +27,5 @@ draft: true
 | `status`           | _(optional)_ uses the `form-status` component to show failure messages.                                                                                              |
 | `status_state`     | _(optional)_ defines the state of the status. Currently there are two statuses `[error, info]`. Defaults to `error`.                                                 |
 | `label`            | _(optional)_ use either the `label` property or provide custom one.                                                                                                  |
-| `direction`        | _(optional)_ to define the `label` layout direction on how the next element should be placed on. Can be either `vertical` or `horizontal`. Defaults to `horizontal`. |
+| `label_direction`  | _(optional)_ to define the `label` layout direction on how the next element should be placed on. Can be either `vertical` or `horizontal`. Defaults to `horizontal`. |
 | `vertical`         | _(optional)_ is a short hand to define a `vertical` direction if set to `true`.                                                                                      |
