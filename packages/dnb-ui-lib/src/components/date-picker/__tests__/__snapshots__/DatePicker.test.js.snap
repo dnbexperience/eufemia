@@ -1431,7 +1431,9 @@ a.dnb-button .dnb-button__text {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis; }
-  .dnb-input__input::-ms-clear, .dnb-input__input::-webkit-search-cancel-button {
+  .dnb-input__input::-webkit-search-cancel-button {
+    display: none; }
+  .dnb-input__input::-ms-clear {
     display: none; }
   .dnb-input--has-submit-button .dnb-input__placeholder,
   .dnb-input--has-submit-button .dnb-input__input {
