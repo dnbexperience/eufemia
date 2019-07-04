@@ -9,3 +9,4 @@ draft: true
 | `vertical`  | _(optional)_ is a short hand to define a `vertical` direction if set to `true`.                                                                                      |
 | `title`     | _(optional)_ the `title` attribute of the label.                                                                                                                     |
 | `text`      | _(optional)_ the `text` of the label.                                                                                                                                |
+| `element`   | _(optional)_ defines the HTML element used. Defaults to `label`.                                                                                                     |

@@ -24,6 +24,7 @@ exports[`FormRow component have to match snapshot 1`] = `
       className="dnb-form-row__label"
       direction={null}
       disabled={false}
+      element="label"
       for_id="form-row"
       id="label_id-label"
       render_content={null}
@@ -31,13 +32,20 @@ exports[`FormRow component have to match snapshot 1`] = `
       title={null}
       vertical={null}
     >
-      <label
+      <Element
         className="dnb-form-label dnb-form-label--horizontal dnb-form-row__label"
         htmlFor="form-row"
         id="label_id-label"
+        is="label"
       >
-        label
-      </label>
+        <label
+          className="dnb-form-label dnb-form-label--horizontal dnb-form-row__label"
+          htmlFor="form-row"
+          id="label_id-label"
+        >
+          label
+        </label>
+      </Element>
     </FormLabel>
     <div
       className="dnb-form-row__content"

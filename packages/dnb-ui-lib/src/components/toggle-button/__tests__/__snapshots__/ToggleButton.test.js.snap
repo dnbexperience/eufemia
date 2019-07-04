@@ -34,6 +34,7 @@ exports[`ToggleButton component have to match snapshot 1`] = `
       className={null}
       direction={null}
       disabled="disabled"
+      element="label"
       for_id="toggle-button"
       id="toggle-button-label"
       render_content={null}
@@ -41,13 +42,20 @@ exports[`ToggleButton component have to match snapshot 1`] = `
       title={null}
       vertical={null}
     >
-      <label
+      <Element
         className="dnb-form-label"
         htmlFor="toggle-button"
         id="toggle-button-label"
+        is="label"
       >
-        label
-      </label>
+        <label
+          className="dnb-form-label"
+          htmlFor="toggle-button"
+          id="toggle-button-label"
+        >
+          label
+        </label>
+      </Element>
     </FormLabel>
     <span
       className="dnb-toggle-button__shell"
@@ -302,6 +310,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
           className="dnb-form-row__label"
           direction={null}
           disabled={false}
+          element="label"
           for_id="group"
           id="group-label"
           render_content={null}
@@ -309,13 +318,20 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
           title={null}
           vertical={null}
         >
-          <label
+          <Element
             className="dnb-form-label dnb-form-label--horizontal dnb-form-row__label"
             htmlFor="group"
             id="group-label"
+            is="label"
           >
-            Label
-          </label>
+            <label
+              className="dnb-form-label dnb-form-label--horizontal dnb-form-row__label"
+              htmlFor="group"
+              id="group-label"
+            >
+              Label
+            </label>
+          </Element>
         </FormLabel>
         <div
           className="dnb-form-row__content"

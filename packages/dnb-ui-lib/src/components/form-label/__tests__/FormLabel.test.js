@@ -22,6 +22,7 @@ import dnb_form_label_theme_ui from '../style/themes/dnb-form-label-theme-ui.scs
 const props = fakeProps(require.resolve('../FormLabel'), {
   optional: true
 })
+props.element = 'label'
 props.direction = 'horizontal'
 
 describe('FormLabel component', () => {

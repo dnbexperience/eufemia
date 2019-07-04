@@ -21,6 +21,7 @@ const renderProps = {
 
 export const propTypes = {
   for_id: PropTypes.string,
+  element: PropTypes.string,
   title: PropTypes.string,
   text: PropTypes.string,
   id: PropTypes.string,
@@ -43,6 +44,7 @@ export const propTypes = {
 
 export const defaultProps = {
   for_id: null,
+  element: 'label',
   title: null,
   text: null,
   id: null,
@@ -85,6 +87,7 @@ export default class FormLabel extends PureComponent {
 
     const {
       for_id,
+      element,
       title,
       className,
       id,
@@ -118,6 +121,18 @@ export default class FormLabel extends PureComponent {
     // also used for code markup simulation
     validateDOMAttributes(this.props, params)
 
-    return <label {...params}>{content}</label>
+    return (
+      <Element is={element} {...params}>
+        {content}
+      </Element>
+    )
   }
+}
+
+const Element = ({ is: Element, children, ...rest }) => (
+  <Element {...rest}>{children}</Element>
+)
+Element.propTypes = {
+  is: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired
 }

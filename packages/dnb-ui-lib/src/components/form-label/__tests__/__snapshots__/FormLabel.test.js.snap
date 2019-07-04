@@ -6,6 +6,7 @@ exports[`FormLabel component have to match snapshot 1`] = `
   className="className"
   direction="horizontal"
   disabled="disabled"
+  element="label"
   for_id="for_id"
   id="id"
   render_content={[Function]}
@@ -13,14 +14,22 @@ exports[`FormLabel component have to match snapshot 1`] = `
   title="title"
   vertical="vertical"
 >
-  <label
+  <Element
     className="dnb-form-label dnb-form-label--horizontal className class"
     htmlFor="for_id"
     id="id"
+    is="label"
     title="title"
   >
-    text
-  </label>
+    <label
+      className="dnb-form-label dnb-form-label--horizontal className class"
+      htmlFor="for_id"
+      id="id"
+      title="title"
+    >
+      text
+    </label>
+  </Element>
 </FormLabel>
 `;
 
