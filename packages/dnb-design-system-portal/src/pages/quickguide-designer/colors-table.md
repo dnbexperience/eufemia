@@ -5,7 +5,7 @@ draft: true
 import Table from 'Tags/Table'
 
 <!-- This is the Source of the Colors Table -->
-<Table>
+<Table selectable>
   <thead>
     <tr>
       <th>Sample</th>

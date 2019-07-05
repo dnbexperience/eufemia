@@ -19,7 +19,7 @@ class Example extends PureComponent {
           hideCode
           hideSyntaxButton
         >
-          {`
+          {/* @jsx */ `
 const scrollableData = [
   {
     content: 'A'
@@ -48,7 +48,7 @@ const scrollableData = [
   {
     content: 'H'
   }
-]
+];
 render(
   <Dropdown
     data={scrollableData}
@@ -65,7 +65,7 @@ render(
           hideSyntaxButton
           scope={{ no_animation, no_scroll_animation: no_animation }}
         >
-          {`
+          {/* @jsx */ `
 const data = [
   {
     selected_value: 'Item 1 Value',
@@ -86,7 +86,7 @@ const data = [
     selected_value: 'Item 4 Value',
     content: ['Item 4 Content A', <>Custom Component</>]
   }
-]
+];
 render(
   <Dropdown
     data={data}
@@ -101,7 +101,7 @@ render(
           caption="Default dropdown, icon on left side"
           scope={{ data }}
         >
-          {`
+          {/* @jsx */ `
 <FormLabel for_id="text-dropdown-1" text="Label:" />
 <Dropdown
   icon_position="left"
@@ -118,13 +118,21 @@ render(
           `}
         </ComponentBox>
         <ComponentBox caption="Disabled dropdown" scope={{ data }}>
-          {`
+          {/* @jsx */ `
 <Dropdown disabled data={['Disabled Dropdown']} label="Label:" />
           `}
         </ComponentBox>
-        <ComponentBox caption="Dropdown with status" scope={{ data }}>
-          {`
-<Dropdown data={data} label="Label:" status="Message to the user" />
+        <ComponentBox
+          caption="Dropdown with status and vertical label layout"
+          scope={{ data }}
+        >
+          {/* @jsx */ `
+<Dropdown
+  data={data}
+  label="Label:"
+  label_direction="vertical"
+  status="Message to the user"
+/>
           `}
         </ComponentBox>
         <ComponentBox
@@ -133,7 +141,7 @@ render(
           data-dnb-test="dropdown-list"
           hideCode
         >
-          {`
+          {/* @jsx */ `
 <span className="dnb-dropdown__list">
   <ul className="dnb-dropdown__options">
     <li className="dnb-dropdown__option">

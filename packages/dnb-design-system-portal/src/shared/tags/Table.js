@@ -9,7 +9,11 @@ import PropTypes from 'prop-types'
 
 export default class Table extends PureComponent {
   static propTypes = {
-    children: PropTypes.node.isRequired
+    children: PropTypes.node.isRequired,
+    selectable: PropTypes.bool
+  }
+  static defaultProps = {
+    selectable: false
   }
   render() {
     // make sure we get the table children
@@ -59,7 +63,7 @@ export default class Table extends PureComponent {
               {hex}
             </td>
           )
-        } else {
+        } else if (this.props.selectable) {
           return (
             <td className="selectable">
               {recursiveMap(child.props.children, child => child)}
