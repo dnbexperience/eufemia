@@ -52,7 +52,7 @@ export default css`
   table td.selectable:hover,
   table td.selectable:active {
     z-index: 2;
-    transform: scale(1.3);
+    transform: scale(1.2);
     user-select: all;
   }
   table td em {

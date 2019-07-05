@@ -5,9 +5,10 @@ draft: true
 import Table from 'Tags/Table'
 
 <!-- This is the Source of the Colors Table -->
-<table>
+<Table>
   <thead>
     <tr>
+      <th>Sample</th>
       <th>Type</th>
       <th>Name</th>
       <th>Hex</th>
@@ -18,6 +19,7 @@ import Table from 'Tags/Table'
   </thead>
   <tbody>
     <tr>
+      <td color="#00343E"></td>
       <td>Profile</td>
       <td>Ocean green</td>
       <td>#00343E</td>
@@ -26,6 +28,7 @@ import Table from 'Tags/Table'
       <td>--color-ocean-green</td>
     </tr>
     <tr>
+      <td color="#14555A"></td>
       <td>Profile</td>
       <td>Emerald green</td>
       <td>#14555A</td>
@@ -34,6 +37,7 @@ import Table from 'Tags/Table'
       <td>--color-emerald-green</td>
     </tr>
     <tr>
+      <td color="#007272"></td>
       <td>Profile</td>
       <td>Sea green</td>
       <td>#007272</td>
@@ -42,6 +46,7 @@ import Table from 'Tags/Table'
       <td>--color-sea-green</td>
     </tr>
     <tr>
+      <td color="#A5E1D2"></td>
       <td>Profile</td>
       <td>Mint green</td>
       <td>#A5E1D2</td>
@@ -50,6 +55,7 @@ import Table from 'Tags/Table'
       <td>--color-mint-green</td>
     </tr>
     <tr>
+      <td color="#28B482"></td>
       <td>Profile</td>
       <td>Summer green</td>
       <td>#28B482</td>
@@ -58,6 +64,7 @@ import Table from 'Tags/Table'
       <td>--color-summer-green</td>
     </tr>
     <tr>
+      <td color="#FF5400"></td>
       <td>Profile</td>
       <td>Signal orange</td>
       <td>#FF5400</td>
@@ -66,6 +73,7 @@ import Table from 'Tags/Table'
       <td>--color-signal-orange</td>
     </tr>
     <tr>
+      <td color="#FFFF7A"></td>
       <td>Profile</td>
       <td>Signal yellow</td>
       <td>#FFFF7A</td>
@@ -74,6 +82,7 @@ import Table from 'Tags/Table'
       <td>--color-signal-yellow</td>
     </tr>
     <tr>
+      <td color="#23195A"></td>
       <td>Profile</td>
       <td>Indigo</td>
       <td>#23195A</td>
@@ -82,6 +91,7 @@ import Table from 'Tags/Table'
       <td>--color-indigo</td>
     </tr>
     <tr>
+      <td color="#6E2382"></td>
       <td>Profile</td>
       <td>Violet</td>
       <td>#6E2382</td>
@@ -90,6 +100,7 @@ import Table from 'Tags/Table'
       <td>--color-violet</td>
     </tr>
     <tr>
+      <td color="#4BBED2"></td>
       <td>Profile</td>
       <td>Sky blue</td>
       <td>#4BBED2</td>
@@ -98,6 +109,7 @@ import Table from 'Tags/Table'
       <td>--color-sky-blue</td>
     </tr>
     <tr>
+      <td color="#008484"></td>
       <td>UX</td>
       <td>Sea green alt</td>
       <td>#008484</td>
@@ -106,6 +118,7 @@ import Table from 'Tags/Table'
       <td>--color-sea-green-alt</td>
     </tr>
     <tr>
+      <td color="#B3DADA"></td>
       <td>UX</td>
       <td>Sea green alt 30%</td>
       <td>#B3DADA</td>
@@ -114,6 +127,7 @@ import Table from 'Tags/Table'
       <td>--color-sea-green-alt-30</td>
     </tr>
     <tr>
+      <td color="#D2F0E9"></td>
       <td>UX</td>
       <td>Mint green 50%</td>
       <td>#D2F0E9</td>
@@ -122,6 +136,7 @@ import Table from 'Tags/Table'
       <td>--color-mint-green-50</td>
     </tr>
     <tr>
+      <td color="#E9F8F4"></td>
       <td>UX</td>
       <td>Mint green 25%</td>
       <td>#E9F8F4</td>
@@ -130,6 +145,7 @@ import Table from 'Tags/Table'
       <td>--color-mint-green-25</td>
     </tr>
     <tr>
+      <td color="#F4FBF9"></td>
       <td>UX</td>
       <td>Mint green 12%</td>
       <td>#F4FBF9</td>
@@ -138,6 +154,7 @@ import Table from 'Tags/Table'
       <td>--color-mint-green-12</td>
     </tr>
     <tr>
+      <td color="#FFFFD7"></td>
       <td>UX</td>
       <td>Signal yellow 30%</td>
       <td>#FFFFD7</td>
@@ -146,6 +163,7 @@ import Table from 'Tags/Table'
       <td>--color-signal-yellow-30</td>
     </tr>
     <tr>
+      <td color="#E10076"></td>
       <td>UX</td>
       <td>Cherry red</td>
       <td>#E10076</td>
@@ -154,6 +172,7 @@ import Table from 'Tags/Table'
       <td>--color-cherry-red</td>
     </tr>
     <tr>
+      <td color="#FDEBF4"></td>
       <td>UX</td>
       <td>Cherry red 8%</td>
       <td>#FDEBF4</td>
@@ -162,6 +181,7 @@ import Table from 'Tags/Table'
       <td>--color-cherry-red-8</td>
     </tr>
     <tr>
+      <td color="#000000"></td>
       <td>UX</td>
       <td>Black</td>
       <td>#000000</td>
@@ -170,6 +190,7 @@ import Table from 'Tags/Table'
       <td>--color-black</td>
     </tr>
     <tr>
+      <td color="#333333"></td>
       <td>UX</td>
       <td>Black 80%</td>
       <td>#333333</td>
@@ -178,6 +199,7 @@ import Table from 'Tags/Table'
       <td>--color-black-80</td>
     </tr>
     <tr>
+      <td color="#B3B3B3"></td>
       <td>UX</td>
       <td>Black 30%</td>
       <td>#B3B3B3</td>
@@ -186,6 +208,7 @@ import Table from 'Tags/Table'
       <td>--color-black-30</td>
     </tr>
     <tr>
+      <td color="#ffffff"></td>
       <td>UX</td>
       <td>White</td>
       <td>#ffffff</td>
@@ -194,4 +217,4 @@ import Table from 'Tags/Table'
       <td>--color-white</td>
     </tr>
   </tbody>
-</table>
+</Table>
