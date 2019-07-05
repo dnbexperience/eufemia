@@ -190,19 +190,14 @@ export default class FormRow extends PureComponent {
 
     const useFieldset = !isTrue(no_fieldset)
 
-    const Fieldset = ({ children }) => {
-      // if (this.isInsideFormSet) {
-      if (label && useFieldset) {
-        return (
-          <fieldset className="dnb-form-row__wrapper">{children}</fieldset>
-        )
-      }
-      return children
-    }
-
     return (
       <Context.Provider value={context}>
-        <Fieldset>
+        <Fieldset
+          useFieldset={
+            // this.isInsideFormSet
+            label && useFieldset
+          }
+        >
           <div {...params}>
             {label && (
               <FormLabel
@@ -230,4 +225,33 @@ export default class FormRow extends PureComponent {
       </Context.Provider>
     )
   }
+}
+
+const Fieldset = ({ useFieldset, className, children, ...props }) => {
+  if (useFieldset) {
+    return (
+      <fieldset
+        className={classnames('dnb-form-row__wrapper', className)}
+        {...props}
+      >
+        {children}
+      </fieldset>
+    )
+  }
+  return (
+    <div className={className} {...props}>
+      {children}
+    </div>
+  )
+}
+
+// docs (or use ptd): https://github.com/facebook/prop-types#usage
+Fieldset.propTypes = {
+  children: PropTypes.node.isRequired,
+  useFieldset: PropTypes.bool,
+  className: PropTypes.string
+}
+Fieldset.defaultProps = {
+  useFieldset: false,
+  className: null
 }

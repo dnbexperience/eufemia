@@ -17,7 +17,10 @@ exports[`FormRow component have to match snapshot 1`] = `
   size="size"
   vertical="vertical"
 >
-  <Fieldset>
+  <Fieldset
+    className={null}
+    useFieldset={true}
+  >
     <fieldset
       className="dnb-form-row__wrapper"
     >

@@ -45,6 +45,18 @@ describe('FormRow component', () => {
     ).toBe(true)
   })
 
+  it('should using formset and legend by default', () => {
+    expect(Comp.find('fieldset').exists()).toBe(true)
+    expect(Comp.find('legend').exists()).toBe(true)
+  })
+
+  it('should using formset and legend by default', () => {
+    const Comp = mount(<Component {...props} no_fieldset />)
+    expect(Comp.find('label').exists()).toBe(true)
+    expect(Comp.find('fieldset').exists()).toBe(false)
+    expect(Comp.find('legend').exists()).toBe(false)
+  })
+
   it('should validate with ARIA rules', async () => {
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })

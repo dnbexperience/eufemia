@@ -303,7 +303,10 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
       size={null}
       vertical={null}
     >
-      <Fieldset>
+      <Fieldset
+        className={null}
+        useFieldset={true}
+      >
         <fieldset
           className="dnb-form-row__wrapper"
         >
