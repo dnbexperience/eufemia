@@ -2,25 +2,58 @@
 
 exports[`Checkbox component have to match snapshot 1`] = `
 <Checkbox
-  attributes="attributes"
-  checked="checked"
-  class="class"
-  className="className"
-  custom_element={Object {}}
-  custom_method={[Function]}
-  default_state="default_state"
-  disabled="disabled"
-  id="id"
-  label="label"
+  0={
+    Object {
+      "displayName": "Checkbox",
+      "props": Object {
+        "attributes": "attributes",
+        "checked": "checked",
+        "children": "children",
+        "class": "class",
+        "className": "className",
+        "custom_element": Object {},
+        "custom_method": [Function],
+        "default_state": "default_state",
+        "disabled": "disabled",
+        "id": "id",
+        "label": "label",
+        "label_position": "'left'",
+        "on_change": [Function],
+        "on_state_update": [Function],
+        "readOnly": "readOnly",
+        "status": "status",
+        "status_animation": "status_animation",
+        "status_state": "status_state",
+        "title": "title",
+        "value": "value",
+      },
+    }
+  }
+  1={
+    Object {
+      "displayName": "CheckSVG",
+      "props": Object {},
+    }
+  }
+  attributes={null}
+  checked="default"
+  class={null}
+  className={null}
+  custom_element={null}
+  custom_method={null}
+  default_state={null}
+  disabled={null}
+  id="checkbox"
+  label="checkbox"
   label_position="left"
-  on_change={[Function]}
-  on_state_update={[Function]}
+  on_change={null}
+  on_state_update={null}
   readOnly={false}
   status={null}
-  status_animation="status_animation"
-  status_state="status_state"
-  title="title"
-  value="value"
+  status_animation={null}
+  status_state="error"
+  title={null}
+  value={null}
 >
   <span
     className="dnb-checkbox--modifier dnb-checkbox--label-position-left"
@@ -29,49 +62,48 @@ exports[`Checkbox component have to match snapshot 1`] = `
       class={null}
       className={null}
       direction={null}
-      disabled="disabled"
+      disabled={null}
       element="label"
-      for_id="id"
-      id="id-label"
+      for_id="checkbox"
+      id="checkbox-label"
       render_content={null}
-      text="label"
+      text="checkbox"
       title={null}
       vertical={null}
     >
       <Element
         className="dnb-form-label"
-        htmlFor="id"
-        id="id-label"
+        htmlFor="checkbox"
+        id="checkbox-label"
         is="label"
       >
         <label
           className="dnb-form-label"
-          htmlFor="id"
-          id="id-label"
+          htmlFor="checkbox"
+          id="checkbox-label"
         >
-          label
+          checkbox
         </label>
       </Element>
     </FormLabel>
     <span
-      className="dnb-checkbox className class"
+      className="dnb-checkbox"
     >
       <span
         className="dnb-checkbox__shell"
       >
         <input
           aria-checked={false}
-          aria-disabled={true}
-          aria-labelledby="id-label"
+          aria-labelledby="checkbox-label"
           checked={false}
           className="dnb-checkbox__input"
-          disabled="disabled"
-          id="id"
-          name="id"
+          disabled={false}
+          id="checkbox"
+          name="checkbox"
           onChange={[Function]}
           onKeyDown={[Function]}
           onMouseOut={[Function]}
-          title="title"
+          title={null}
           type="checkbox"
           value=""
         />
@@ -83,22 +115,20 @@ exports[`Checkbox component have to match snapshot 1`] = `
             className="dnb-checkbox__focus"
           />
         </span>
-        <CheckGfx
-          className="dnb-checkbox__gfx"
-        >
+        <CheckSVG>
           <svg
+            aria-hidden={true}
             className="dnb-checkbox__gfx"
             fill="none"
             height="24"
             viewBox="0 0 24 24"
             width="24"
-            xmlns="http://www.w3.org/2000/svg"
           >
             <path
               d="M5.86 12.95a.75.75 0 1 0-1.22.86l1.22-.86zm2.15 4.34l.62-.42-.01-.01-.61.43zm.94.52l.02-.75-.02.75zm.98-.46l-.6-.47v.01l.6.46zm9.4-10.7a.75.75 0 0 0-1.17-.93l1.18.93zm-14.7 7.16l2.76 3.91 1.23-.86-2.76-3.91-1.22.86zm2.75 3.9c.35.52.93.84 1.55.85l.04-1.5a.43.43 0 0 1-.34-.19l-1.25.84zm1.55.85c.62.02 1.22-.26 1.6-.76l-1.2-.9a.43.43 0 0 1-.36.16l-.04 1.5zm1.59-.75l8.82-11.16-1.18-.93-8.82 11.16 1.18.93z"
             />
           </svg>
-        </CheckGfx>
+        </CheckSVG>
       </span>
     </span>
   </span>

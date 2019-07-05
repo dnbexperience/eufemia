@@ -19,10 +19,13 @@ import dnb_checkbox from '../style/dnb-checkbox.scss' // eslint-disable-line
 import dnb_checkbox_theme_ui from '../style/themes/dnb-checkbox-theme-ui.scss' // eslint-disable-line
 
 const props = fakeProps(require.resolve('../Checkbox'), {
+  all: true,
   optional: true
 })
+props.id = 'checkbox'
 props.status = null
 props.readOnly = false
+props.label = 'checkbox'
 props.label_position = 'left'
 
 describe('Checkbox component', () => {
