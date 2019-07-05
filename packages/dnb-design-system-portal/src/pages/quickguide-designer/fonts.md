@@ -16,3 +16,4 @@ import FontFamilies from 'Pages/quickguide-designer/font-families.md'
 <TypographicElements />
 <FontWeights />
 <LineHeight />
+<FontFamilies />

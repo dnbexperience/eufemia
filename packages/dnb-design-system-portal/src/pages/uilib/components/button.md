@@ -1,5 +1,6 @@
 ---
 title: 'Button'
+description: 'The Button component should be used as the primary'
 draft: false
 order: 2
 ---
