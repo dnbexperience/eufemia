@@ -13,7 +13,7 @@
     "build": "webpack --mode=production --display-modules && cp index.html dist/index.html && cp src/favicon.ico dist/favicon.ico"
   },
   "dependencies": {
-    "core-js": "2",
+    "core-js": "^2",
     "dnb-ui-lib": "*",
     "react": "^16.8.4",
     "react-dom": "^16.8.4"
