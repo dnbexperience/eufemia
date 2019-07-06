@@ -1149,6 +1149,8 @@ a.dnb-button .dnb-button__text {
     transform: translateY(-0.0625rem); }
   .dnb-checkbox__focus, .dnb-checkbox__button, .dnb-checkbox__gfx {
     position: absolute;
+    top: auto;
+    left: auto;
     z-index: 4;
     border-radius: 0.25rem; }
   .dnb-checkbox__button {
@@ -1164,6 +1166,8 @@ a.dnb-button .dnb-button__text {
     height: calc(var(--checkbox-height) - 0.25rem); }
   .dnb-checkbox__gfx {
     position: absolute;
+    top: auto;
+    left: auto;
     width: var(--checkbox-height);
     height: var(--checkbox-height);
     fill: currentColor;
@@ -1171,7 +1175,8 @@ a.dnb-button .dnb-button__text {
   .dnb-checkbox__input {
     opacity: 0;
     position: absolute;
-    left: 0;
+    top: auto;
+    left: auto;
     z-index: 5;
     width: var(--checkbox-width);
     height: var(--checkbox-height);
@@ -1200,6 +1205,13 @@ a.dnb-button .dnb-button__text {
   .dnb-checkbox--label-position-right + .dnb-form-status {
     vertical-align: top;
     margin-top: 0.5rem; }
+  @media all and (-ms-high-contrast: none) {
+    .dnb-checkbox__shell, .dnb-checkbox__input, .dnb-checkbox__button {
+      top: 0.125rem;
+      left: 0.125rem; }
+    .dnb-checkbox__gfx, .dnb-checkbox__focus {
+      top: 0;
+      left: 0; } }
 
 /*
 * DNB Radio
