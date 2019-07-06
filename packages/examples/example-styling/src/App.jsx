@@ -43,7 +43,7 @@ const Legacy = () => {
 
       <h4 className="dnb-h4">
         I have a Eufemia Style (<code>.dnb-h4</code>) without a correct CSS
-        reset, I'm only <b>20px</b> (1.25rem) high!
+        reset. I don't have the correct hight!
       </h4>
 
       <Button text="Crying Button 😢" />
