@@ -79,7 +79,7 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox
-          caption="Plain Radio group. Without **<Radio.Group>**"
+          caption="Plain Radio group without `<Radio.Group>`. It is recomended to use the `<Radio.Group>` if You are using **React**."
           data-dnb-test="radio-group-plain"
         >
           {/* @jsx */ `

@@ -3,15 +3,16 @@
  *
  */
 
-import React /* , { useState, useEffect } */ from 'react'
+import React, { useState } from 'react'
 import { Wrapper, Box } from '../helpers'
 // import styled from '@emotion/styled'
 
 import {
   Radio,
-  // FormSet,
+  FormSet,
   FormRow,
-  FormLabel
+  FormLabel,
+  Button
 } from '../../src/components'
 
 import { H2 } from '../../src/elements'
@@ -20,6 +21,9 @@ export default [
   'Radio',
   () => (
     <Wrapper>
+      <Box>
+        <RadioGroupsWithStatus />
+      </Box>
       <Box>
         <p className="dnb-p">
           Text: <FormLabel for_id="alone">Single Radio button:</FormLabel>
@@ -196,3 +200,56 @@ export default [
     </Wrapper>
   )
 ]
+
+const RadioGroupsWithStatus = () => {
+  const [currentValueForGorupA, setValueForGorupA] = useState('first')
+  const [currentValueForGorupB, setValueForGorupB] = useState('second')
+
+  return (
+    <FormSet>
+      <FormRow>
+        <Radio.Group
+          label="Group A label:"
+          // label_direction="vertical"
+          value={currentValueForGorupA}
+          on_change={({ value }) => {
+            console.log('on_change A', value)
+            setValueForGorupA(value)
+          }}
+        >
+          <Radio label="First" value="first" />
+          <Radio label="Second" value="second" />
+          <Radio label="Third" value="third" />
+        </Radio.Group>
+      </FormRow>
+
+      <FormRow>
+        <Radio.Group
+          label="Group B label:"
+          // label_direction="vertical"
+          value={currentValueForGorupB}
+          on_change={({ value }) => {
+            console.log('on_change B', value)
+          }}
+        >
+          <Radio label="First" value="first" />
+          <Radio label="Second" value="second" />
+          <Radio label="Third" value="third" />
+        </Radio.Group>
+        <Button
+          on_click={() => {
+            setValueForGorupB(
+              shuffleArray(['first', 'second', 'third'])[0]
+            )
+          }}
+          text="Set New State"
+        />
+      </FormRow>
+    </FormSet>
+  )
+}
+const shuffleArray = arr =>
+  arr
+    .map(a => [Math.random(), a])
+    .sort((a, b) => a[0] - b[0])
+    .map(a => a[1])
