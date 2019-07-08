@@ -124,14 +124,15 @@ exports[`Radio group component have to match group snapshot 1`] = `
       direction={null}
       disabled={null}
       id="group"
+      indent={null}
       label="Label"
+      label_direction={null}
       label_id="group"
       no_fieldset={true}
       no_label={false}
       render_content={null}
       section_spacing={null}
       section_style={null}
-      size={null}
       vertical={null}
     >
       <Fieldset
@@ -742,9 +743,6 @@ legend.dnb-form-label {
     cursor: pointer; }
   .dnb-radio .dnb-form-status {
     margin-bottom: 0.5rem; }
-  .dnb-radio--modifier {
-    display: inline-flex;
-    flex-direction: row; }
   .dnb-radio--label-position-left .dnb-radio {
     order: 2; }
   .dnb-radio--label-position-left .dnb-form-label {
@@ -773,5 +771,7 @@ legend.dnb-form-label {
   .dnb-radio-group {
     display: inline-flex;
     flex-direction: row; }
+    .dnb-form-row--vertical .dnb-radio-group {
+      display: flex; }
 "
 `;

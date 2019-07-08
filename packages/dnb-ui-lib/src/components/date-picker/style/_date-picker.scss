@@ -346,6 +346,7 @@
     align-items: center;
   }
   &__wrapper#{&}--vertical {
+    display: flex;
     align-items: flex-start;
     flex-direction: column;
   }

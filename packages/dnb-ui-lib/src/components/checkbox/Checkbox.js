@@ -240,7 +240,7 @@ export default class Checkbox extends Component {
       <>
         <span
           className={classnames(
-            'dnb-checkbox--modifier',
+            'dnb-checkbox__wrapper',
             label &&
               label_position &&
               `dnb-checkbox--label-position-${label_position}`

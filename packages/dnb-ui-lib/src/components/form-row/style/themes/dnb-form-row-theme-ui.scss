@@ -3,5 +3,34 @@
  *
  */
 
-// .dnb-form-row {
-// }
+.dnb-form-row {
+  // TODO: indent has to be defined
+  // the width of label
+  &:not(#{&}--vertical)#{&}__indent {
+    // &--small {
+    //   > .dnb-form-label {
+    //     width: 10rem;
+    //   }
+    // }
+    &--default,
+    &--medium {
+      > .dnb-form-label {
+        // because the browser screen is different
+        width: 30vw; // 30vw is very close to 20rem if the wrapper is 60rem
+        max-width: 20rem;
+
+        // a fixed with is not the best sollution
+        // width: 20rem;
+
+        @media (max-width: 40em) {
+          width: auto;
+        }
+      }
+    }
+    // &--large {
+    //   > .dnb-form-label {
+    //     width: 30rem;
+    //   }
+    // }
+  }
+}

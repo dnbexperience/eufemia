@@ -128,6 +128,10 @@
       margin-bottom: -1rem;
     }
 
+    .dnb-form-row--vertical & {
+      display: flex;
+    }
+
     @media (min-width: 40em) {
       .dnb-form-row__label:not(.dnb-form-label--vertical)
         + .dnb-form-row__content

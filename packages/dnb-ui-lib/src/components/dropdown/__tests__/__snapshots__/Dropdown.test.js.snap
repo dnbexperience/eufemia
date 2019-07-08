@@ -877,6 +877,7 @@ legend.dnb-form-label {
     display: inline-flex;
     align-items: center; }
   .dnb-dropdown__wrapper.dnb-dropdown--vertical {
+    display: flex;
     align-items: flex-start;
     flex-direction: column; }
   .dnb-dropdown__wrapper[class*='__status'] {

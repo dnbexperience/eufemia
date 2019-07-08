@@ -18,20 +18,6 @@
     width: 100%;
   }
 
-  // TODO: we may considder this to be included with a prop later on
-  // default spacing
-  // &:not(#{&}--nested) {
-  //   margin-bottom: 1.5rem;
-  // }
-
-  > .dnb-form-status {
-    margin: 0.5rem 0;
-  }
-  > .dnb-form-label {
-    padding: 0;
-    margin: 0;
-  }
-
   // for hoizontal direction
   &:not(#{&}--vertical),
   &--horizontal {
@@ -95,34 +81,32 @@
     /* stylelint-enable */
   }
 
-  // TODO: size has to be defined
-  // the width of label
-  &:not(#{&}--vertical)#{&}__size {
-    // &--small {
-    //   > .dnb-form-label {
-    //     width: 10rem;
-    //   }
-    // }
-    &--default,
-    &--medium {
-      > .dnb-form-label {
-        // because the browser screen is different
-        width: 30vw; // 30vw is very close to 20rem if the wrapper is 60rem
-        max-width: 20rem;
+  // TODO: we may considder this to be included with a prop later on
+  // default spacing
+  // &:not(#{&}--nested) {
+  //   margin-bottom: 1.5rem;
+  // }
 
-        // a fixed with is not the best sollution
-        // width: 20rem;
+  &--vertical-label {
+    row-gap: 2rem;
+    flex-direction: column;
+  }
 
-        @media (max-width: 40em) {
-          width: auto;
-        }
-      }
+  > .dnb-form-status {
+    margin: 0.5rem 0;
+  }
+  > .dnb-form-label {
+    // padding: 0;
+    // margin: 0;
+
+    &--vertical {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
     }
-    // &--large {
-    //   > .dnb-form-label {
-    //     width: 30rem;
-    //   }
-    // }
+    &--vertical ~ .dnb-form-row__content {
+      grid-column: column1-start / column1-end;
+    }
   }
 
   // reset the fieldset

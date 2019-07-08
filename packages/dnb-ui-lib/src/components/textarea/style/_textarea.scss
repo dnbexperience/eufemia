@@ -105,6 +105,7 @@
     align-items: baseline;
   }
   &__wrapper#{&}--vertical {
+    display: flex;
     display: inline-flex;
     flex-direction: column;
   }

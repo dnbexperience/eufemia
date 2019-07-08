@@ -56,7 +56,7 @@ exports[`Checkbox component have to match snapshot 1`] = `
   value={null}
 >
   <span
-    className="dnb-checkbox--modifier dnb-checkbox--label-position-left"
+    className="dnb-checkbox__wrapper dnb-checkbox--label-position-left"
   >
     <FormLabel
       class={null}
@@ -517,7 +517,7 @@ legend.dnb-form-label {
     border: 0; }
   .dnb-checkbox__input:not([disabled]) {
     cursor: pointer; }
-  .dnb-checkbox--modifier {
+  .dnb-checkbox__wrapper {
     display: inline-flex;
     flex-direction: row;
     vertical-align: top; }

@@ -85,14 +85,6 @@
     margin-bottom: 0.5rem;
   }
 
-  &--modifier {
-    display: inline-flex;
-    flex-direction: row;
-
-    // in case we have text before, or after, make sure we are aligned
-    // vertical-align: top;
-  }
-
   &--label-position-left {
     .dnb-radio {
       order: 2;
@@ -148,5 +140,8 @@
   &-group {
     display: inline-flex;
     flex-direction: row;
+    .dnb-form-row--vertical & {
+      display: flex;
+    }
   }
 }

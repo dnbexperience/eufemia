@@ -593,6 +593,7 @@ textarea.dnb-textarea {
     display: inline-flex;
     align-items: baseline; }
   .dnb-textarea__wrapper.dnb-textarea--vertical {
+    display: flex;
     display: inline-flex;
     flex-direction: column; }
   .dnb-textarea__wrapper.dnb-textarea--stretch {

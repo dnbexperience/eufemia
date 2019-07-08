@@ -10,7 +10,7 @@ import styled from '@emotion/styled'
 const IS_TEST = typeof window !== 'undefined' && window.IS_TEST
 const TestStyles = IS_TEST
   ? styled.div`
-      .dnb-form-row:not(.dnb-form-row--vertical).dnb-form-row__size--default
+      .dnb-form-row:not(.dnb-form-row--vertical).dnb-form-row__indent--default
         > .dnb-form-label {
         width: 20rem;
         max-width: none;
@@ -24,10 +24,36 @@ class Example extends PureComponent {
       <TestStyles>
         <ComponentBox
           caption="The label should align the bottom"
+          data-dnb-test="form-row-vertical-label"
+          useRender
+        >
+          {/* @jsx */ `
+const CustomRow = styled(FormRow)\`
+  .dnb-input {
+    width: 4rem;
+    color:red;
+    & + .dnb-input {
+      margin-left: 2rem;
+    }
+  }
+\`
+render(
+  <CustomRow
+      label="Vertical legend label:"
+      label_direction="vertical"
+  >
+    <Input label="A:" />
+    <Input label="B:" />
+  </CustomRow>
+)
+          `}
+        </ComponentBox>
+        <ComponentBox
+          caption="The label should align the bottom"
           data-dnb-test="form-row-default"
         >
           {/* @jsx */ `
-<FormRow size="default" label="A long horizontal FormLabel with a lot of informative text and a default size:">
+<FormRow indent="default" label="A long horizontal FormLabel with a lot of informative text and a default indent:">
   <Checkbox id="alone-1" label="Checkbox" />
 </FormRow>
           `}
@@ -37,8 +63,8 @@ class Example extends PureComponent {
 <FormRow
   section_style="mint-green"
   section_spacing="default"
-  size={true}
-  label="A long horizontal FormLabel with a lot of informative text and a default size:"
+  indent={true}
+  label="A long horizontal FormLabel with a lot of informative text and a default indent:"
 >
   <Checkbox label="Checkbox" />
 </FormRow>
