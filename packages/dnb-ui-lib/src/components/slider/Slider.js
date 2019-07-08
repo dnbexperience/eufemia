@@ -29,6 +29,7 @@ const renderProps = {
 export const propTypes = {
   id: PropTypes.string,
   label: PropTypes.string,
+  label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
   status: PropTypes.string,
   status_state: PropTypes.string,
   status_animation: PropTypes.string,
@@ -60,6 +61,7 @@ export const propTypes = {
 export const defaultProps = {
   id: null,
   label: null,
+  label_direction: null,
   status: null,
   status_state: 'error',
   status_animation: null,
@@ -413,6 +415,7 @@ export default class Slider extends PureComponent {
 
     const {
       label,
+      label_direction,
       status,
       status_state,
       status_animation,
@@ -440,19 +443,18 @@ export default class Slider extends PureComponent {
     const showButtons = !isTrue(hide_buttons)
 
     const id = this._id
-    const wrapperClasses = classnames(
-      'dnb-slider__wrapper',
-      vertical && 'dnb-slider__wrapper--vertical'
-    )
-    const classes = classnames(
-      'dnb-slider',
-      className,
-      _className,
-      reverse && 'dnb-slider--reverse',
-      vertical && 'dnb-slider--vertical',
-      showStatus && 'dnb-slider__form-status',
-      status && `dnb-slider__status--${status_state}`
-    )
+    const mainParams = {
+      className: classnames(
+        'dnb-slider',
+        reverse && 'dnb-slider--reverse',
+        vertical && 'dnb-slider--vertical',
+        label_direction && `dnb-slider__label--${label_direction}`,
+        showStatus && 'dnb-slider__form-status',
+        status && `dnb-slider__status--${status_state}`,
+        className,
+        _className
+      )
+    }
 
     const percent = clamp(((value - min) * 100) / (max - min))
 
@@ -516,7 +518,7 @@ export default class Slider extends PureComponent {
     )
 
     return (
-      <span className={wrapperClasses}>
+      <span {...mainParams}>
         {label && (
           <FormLabel
             id={id + '-label'}
@@ -525,7 +527,7 @@ export default class Slider extends PureComponent {
             disabled={disabled}
           />
         )}
-        <span className={classes}>
+        <span className="dnb-slider__clamp">
           {showButtons && (reverse ? addButton : subtractButton)}
           <span
             id={this._id}

@@ -11,27 +11,27 @@
 }
 
 .dnb-slider {
-  &__wrapper {
-    display: flex;
-    align-items: center; // to center the label vertical
+  display: flex;
+  align-items: center; // to center the label vertical
 
-    &--vertical {
-      flex: none;
-      align-items: flex-start; // make sure we have the label on top
+  &--vertical {
+    flex: none;
+    align-items: flex-start; // make sure we have the label on top
 
-      min-width: inherit;
-      min-height: inherit;
+    min-width: inherit;
+    min-height: inherit;
+  }
+
+  &__clamp {
+    display: inline-flex;
+    &:not(#{&}--vertical) {
+      flex: 1;
     }
-  }
 
-  display: inline-flex;
-  &:not(#{&}--vertical) {
-    flex: 1;
+    // set a height so it's easier to click on the track
+    height: var(--slider-thumb-size);
+    width: auto;
   }
-
-  // set a height so it's easier to click on the track
-  height: var(--slider-thumb-size);
-  width: auto;
 
   &__track {
     position: relative;
@@ -90,7 +90,7 @@
     }
   }
 
-  &--vertical {
+  &--vertical &__clamp {
     flex-direction: column;
 
     // set a width so it's easier to click on the track
@@ -187,6 +187,18 @@
 
   > .dnb-form-label {
     margin-right: 1rem;
+  }
+  &__label--vertical {
+    flex-direction: column;
+  }
+  &__label--vertical#{&}--vertical {
+    align-items: center;
+    .dnb-form-label {
+      text-align: center;
+      width: 100%;
+      margin-right: 0;
+      margin-bottom: 1rem;
+    }
   }
 
   > .dnb-form-status {
