@@ -711,19 +711,23 @@ export default class Dropdown extends PureComponent {
 
     const currentOptionData = Dropdown.getOptionData(selected_item, data)
 
-    const classes = classnames(
-      'dnb-dropdown',
-      icon_position && `dnb-dropdown--icon-position-${icon_position}`,
-      `dnb-dropdown--direction-${direction}`,
-      scrollable && 'dnb-dropdown--scroll',
-      isTrue(no_scroll_animation) && 'dnb-dropdown--no-scroll-animation',
-      opened && 'dnb-dropdown--opened',
-      hidden && 'dnb-dropdown--hidden',
-      showStatus && 'dnb-dropdown__form-status',
-      status && `dnb-dropdown__status--${status_state}`,
-      _className,
-      className
-    )
+    const mainParams = {
+      className: classnames(
+        'dnb-dropdown',
+        opened && 'dnb-dropdown--opened',
+        hidden && 'dnb-dropdown--hidden',
+        `dnb-dropdown--direction-${direction}`,
+        label_direction && `dnb-dropdown--${label_direction}`,
+        'dnb-dropdown',
+        icon_position && `dnb-dropdown--icon-position-${icon_position}`,
+        scrollable && 'dnb-dropdown--scroll',
+        isTrue(no_scroll_animation) && 'dnb-dropdown--no-scroll-animation',
+        status && `dnb-dropdown__status--${status_state}`,
+        showStatus && 'dnb-dropdown__form-status',
+        _className,
+        className
+      )
+    }
 
     // To link the selected item with the aria-labelledby, use this:
     // const selectedId = `option-${id}-${selected_item}`
@@ -766,21 +770,13 @@ export default class Dropdown extends PureComponent {
       }
     }
 
-    const wrapperParams = {
-      className: classnames(
-        'dnb-dropdown__wrapper',
-        status && `dnb-dropdown__status--${status_state}`,
-        label_direction && `dnb-dropdown--${label_direction}`
-      )
-    }
-
     // also used for code markup simulation
     validateDOMAttributes(this.props, triggerParams)
     validateDOMAttributes(null, listParams)
     validateDOMAttributes(null, ulParams)
 
     return (
-      <span {...wrapperParams}>
+      <span {...mainParams}>
         {label && (
           <FormLabel
             id={id + '-label'}
@@ -790,7 +786,7 @@ export default class Dropdown extends PureComponent {
             disabled={disabled}
           />
         )}
-        <span className={classes} ref={this._ref}>
+        <span className="dnb-dropdown__clamp" ref={this._ref}>
           <span className="dnb-dropdown__shell">
             <button {...triggerParams}>
               <span className="dnb-dropdown__text">

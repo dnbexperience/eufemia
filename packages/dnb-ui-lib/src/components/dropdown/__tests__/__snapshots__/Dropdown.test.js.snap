@@ -79,7 +79,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
   title="title"
 >
   <span
-    className="dnb-dropdown__wrapper dnb-dropdown__status--error dnb-dropdown--horizontal"
+    className="dnb-dropdown dnb-dropdown--hidden dnb-dropdown--direction-bottom dnb-dropdown--horizontal dnb-dropdown dnb-dropdown--icon-position-icon_position dnb-dropdown--scroll dnb-dropdown__status--error dnb-dropdown__form-status class className"
   >
     <FormLabel
       class={null}
@@ -110,7 +110,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
       </Element>
     </FormLabel>
     <span
-      className="dnb-dropdown dnb-dropdown--icon-position-icon_position dnb-dropdown--direction-bottom dnb-dropdown--scroll dnb-dropdown--hidden dnb-dropdown__form-status dnb-dropdown__status--error class className"
+      className="dnb-dropdown__clamp"
     >
       <span
         className="dnb-dropdown__shell"
@@ -692,15 +692,18 @@ legend.dnb-form-label {
 
 .dnb-dropdown {
   display: inline-flex;
-  flex-direction: column;
-  align-items: flex-start;
-  vertical-align: middle;
-  margin: 0;
-  padding: 0;
-  width: auto;
-  font-size: var(--font-size-default);
-  font-weight: var(--font-weight-default);
-  color: inherit; }
+  align-items: center; }
+  .dnb-dropdown__clamp {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    vertical-align: middle;
+    margin: 0;
+    padding: 0;
+    width: auto;
+    font-size: var(--font-size-default);
+    font-weight: var(--font-weight-default);
+    color: inherit; }
   .dnb-dropdown__shell {
     position: relative;
     top: -0.0625rem;
@@ -873,16 +876,13 @@ legend.dnb-form-label {
     margin-top: 0.5rem; }
   .dnb-dropdown .icon-chevron-left .dnb-icon svg {
     transform: rotate(-90deg); }
-  .dnb-dropdown__wrapper {
-    display: inline-flex;
-    align-items: center; }
-  .dnb-dropdown__wrapper.dnb-dropdown--vertical {
+  .dnb-dropdown--vertical {
     display: flex;
     align-items: flex-start;
     flex-direction: column; }
-  .dnb-dropdown__wrapper[class*='__status'] {
+  .dnb-dropdown[class*='__status'] {
     align-items: flex-start; }
-    .dnb-dropdown__wrapper[class*='__status'] > .dnb-form-label {
+    .dnb-dropdown[class*='__status'] > .dnb-form-label {
       margin-top: 0.25rem; }
 "
 `;
