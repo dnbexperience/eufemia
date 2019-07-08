@@ -267,15 +267,24 @@ export default class Input extends PureComponent {
     const showStatus = status && status !== 'error'
     const hasSubmitButton = submitButton || type === 'search'
 
-    const classes = classnames(
-      'dnb-input',
-      `dnb-input--${type}`, //type_modifier
-      size && `dnb-input--${size}`,
-      hasSubmitButton && 'dnb-input--has-submit-button',
-      align && `dnb-input__align--${align}`,
-      _className,
-      className
-    )
+    const mainParams = {
+      className: classnames(
+        'dnb-input',
+        `dnb-input--${type}`, //type_modifier
+        size && `dnb-input--${size}`,
+        hasSubmitButton && 'dnb-input--has-submit-button',
+        align && `dnb-input__align--${align}`,
+        status && `dnb-input__status--${status_state}`,
+        label_direction && `dnb-input--${label_direction}`,
+        isTrue(stretch) && `dnb-input--stretch`,
+        _className,
+        className
+      )
+    }
+
+    const clampParams = {
+      className: 'dnb-input__clamp'
+    }
 
     // pass along all props we wish to have as params
     let { inputElement: InputElement, ...renderProps } = pickRenderProps(
@@ -297,15 +306,6 @@ export default class Input extends PureComponent {
       onKeyDown: this.onKeyDownHandler,
       onFocus: this.onFocusHandler,
       onBlur: this.onBlurHandler
-    }
-
-    const wrapperParams = {
-      className: classnames(
-        'dnb-input__wrapper',
-        status && `dnb-input__status--${status_state}`,
-        label_direction && `dnb-input--${label_direction}`,
-        isTrue(stretch) && `dnb-input--stretch`
-      )
     }
 
     // we may considder using: aria-details
@@ -343,7 +343,7 @@ export default class Input extends PureComponent {
     }
 
     return (
-      <span {...wrapperParams}>
+      <span {...mainParams}>
         {label && (
           <FormLabel
             id={id + '-label'}
@@ -353,7 +353,7 @@ export default class Input extends PureComponent {
             direction={label_direction}
           />
         )}
-        <span className={classes}>
+        <span {...clampParams}>
           <span className="dnb-input__shell" {...shellParams}>
             {InputElement || <input ref={this._ref} {...inputParams} />}
 

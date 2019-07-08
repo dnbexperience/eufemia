@@ -22,8 +22,12 @@
 
 .dnb-input {
   color: var(--input-text-color);
+  &__clamp {
+    color: inherit;
+  }
 
   &__shell {
+    color: inherit;
     background-color: var(--input-background-color);
     border: none;
 
@@ -81,7 +85,7 @@
     }
   }
 
-  ::selection {
+  &__input::selection {
     background-color: var(--color-mint-green);
     color: var(--input-text-color--focus);
     text-shadow: none;

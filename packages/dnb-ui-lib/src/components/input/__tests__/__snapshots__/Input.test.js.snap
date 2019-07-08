@@ -99,10 +99,10 @@ exports[`Input component have to match type="search" snapshot 1`] = `
   value="test"
 >
   <span
-    className="dnb-input__wrapper"
+    className="dnb-input dnb-input--search dnb-input--has-submit-button"
   >
     <span
-      className="dnb-input dnb-input--search dnb-input--has-submit-button"
+      className="dnb-input__clamp"
     >
       <span
         className="dnb-input__shell"
@@ -429,10 +429,10 @@ exports[`Input component have to match type="text" snapshot 1`] = `
   value="test"
 >
   <span
-    className="dnb-input__wrapper"
+    className="dnb-input dnb-input--text"
   >
     <span
-      className="dnb-input dnb-input--text"
+      className="dnb-input__clamp"
     >
       <span
         className="dnb-input__shell"
@@ -486,7 +486,10 @@ exports[`Input scss have to match default theme snapshot 1`] = `
 
 .dnb-input {
   color: var(--input-text-color); }
+  .dnb-input__clamp {
+    color: inherit; }
   .dnb-input__shell {
+    color: inherit;
     background-color: var(--input-background-color);
     border: none;
     box-shadow: inset 0 0 0 var(--input-border-width) var(--input-border-color);
@@ -515,7 +518,7 @@ exports[`Input scss have to match default theme snapshot 1`] = `
   .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']) ~ .dnb-input__submit-button .dnb-button {
     box-shadow: 0 0 0 0.125rem var(--color-cherry-red);
     border-color: transparent; }
-  .dnb-input ::selection {
+  .dnb-input__input::selection {
     background-color: var(--color-mint-green);
     color: var(--input-text-color--focus);
     text-shadow: none; }
@@ -1004,9 +1007,26 @@ legend.dnb-form-label {
 
 .dnb-input {
   display: inline-flex;
-  flex-direction: column;
-  width: auto;
-  font-size: var(--input-font-size); }
+  align-items: center; }
+  .dnb-input--vertical {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column; }
+  .dnb-input--stretch {
+    display: flex; }
+  .dnb-input[class*='__status'] {
+    align-items: flex-start; }
+    .dnb-input[class*='__status'] > .dnb-form-label {
+      margin-top: 0.25rem; }
+  .dnb-input__clamp {
+    display: inline-flex;
+    flex-direction: column;
+    width: auto;
+    font-size: var(--input-font-size); }
+  .dnb-input--stretch .dnb-input__clamp {
+    flex: 1; }
+    .dnb-input--stretch .dnb-input__clamp, .dnb-input--stretch .dnb-input__clamp__shell, .dnb-input--stretch .dnb-input__clamp__input {
+      width: 100%; }
   .dnb-input__shell {
     position: relative;
     display: flex;
@@ -1102,24 +1122,7 @@ legend.dnb-form-label {
   .dnb-input__shell[data-has-content='true'] .dnb-input__placeholder,
   .dnb-input__shell[data-has-content='true'][data-input-state='focus'] .dnb-input__placeholder {
     display: none; }
-  .dnb-input > .dnb-form-status {
+  .dnb-input__clamp > .dnb-form-status {
     margin-top: 0.5rem; }
-  .dnb-input--stretch .dnb-input {
-    flex: 1; }
-    .dnb-input--stretch .dnb-input, .dnb-input--stretch .dnb-input__shell, .dnb-input--stretch .dnb-input__input {
-      width: 100%; }
-  .dnb-input__wrapper {
-    display: inline-flex;
-    align-items: center; }
-  .dnb-input__wrapper.dnb-input--vertical {
-    display: flex;
-    align-items: flex-start;
-    flex-direction: column; }
-  .dnb-input__wrapper.dnb-input--stretch {
-    display: flex; }
-  .dnb-input__wrapper[class*='__status'] {
-    align-items: flex-start; }
-    .dnb-input__wrapper[class*='__status'] > .dnb-form-label {
-      margin-top: 0.25rem; }
 "
 `;

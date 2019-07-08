@@ -16,21 +16,21 @@ describe('Input screenshot', () => {
   it('have to match input with placeholder', async () => {
     const screenshot = await testPageScreenshot({
       style,
-      selector: '[data-dnb-test="input-placeholder"] .dnb-input'
+      selector: '[data-dnb-test="input-placeholder"] .dnb-input__clamp'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match disabled input', async () => {
     const screenshot = await testPageScreenshot({
       style,
-      selector: '[data-dnb-test="input-disabled"] .dnb-input'
+      selector: '[data-dnb-test="input-disabled"] .dnb-input__clamp'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match search type', async () => {
     const screenshot = await testPageScreenshot({
       style,
-      selector: '[data-dnb-test="input-search"] .dnb-input'
+      selector: '[data-dnb-test="input-search"] .dnb-input__clamp'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -39,7 +39,7 @@ describe('Input screenshot', () => {
       style: {
         width: '600px' // make sure our input gets an explicit width, because of mac/linux rendering differences
       },
-      selector: '[data-dnb-test="input-large"] .dnb-input',
+      selector: '[data-dnb-test="input-large"] .dnb-input__clamp',
       simulateSelector: '[data-dnb-test="input-large"] .dnb-input__input',
       simulate: 'hover'
     })
@@ -48,7 +48,7 @@ describe('Input screenshot', () => {
   it('have to match search type with focus state', async () => {
     const screenshot = await testPageScreenshot({
       style,
-      selector: '[data-dnb-test="input-search"] .dnb-input',
+      selector: '[data-dnb-test="input-search"] .dnb-input__clamp',
       simulateSelector: '[data-dnb-test="input-search"] input',
       simulate: 'focus'
     })
