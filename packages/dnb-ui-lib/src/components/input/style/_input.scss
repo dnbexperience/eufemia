@@ -23,22 +23,6 @@
   display: inline-flex;
   align-items: center;
 
-  &--vertical {
-    display: flex;
-    align-items: flex-start;
-    flex-direction: column;
-  }
-  &--stretch {
-    display: flex;
-  }
-  &[class*='__status'] {
-    align-items: flex-start;
-    > .dnb-form-label {
-      // vertical align the current font
-      margin-top: 0.25rem;
-    }
-  }
-
   &__clamp {
     display: inline-flex;
     flex-direction: column;
@@ -46,15 +30,6 @@
     width: auto;
 
     font-size: var(--input-font-size);
-  }
-  // make the input full width
-  &--stretch &__clamp {
-    flex: 1;
-    &,
-    &__shell,
-    &__input {
-      width: 100%;
-    }
   }
 
   &__shell {
@@ -217,5 +192,32 @@
 
   &__clamp > .dnb-form-status {
     margin-top: 0.5rem;
+  }
+
+  &--vertical {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  // make the input full width
+  &--stretch {
+    display: flex;
+  }
+  &--stretch & {
+    &__clamp {
+      flex: 1;
+    }
+    &__shell {
+      width: 100%;
+    }
+  }
+
+  &[class*='__status'] {
+    align-items: flex-start;
+    > .dnb-form-label {
+      // vertical align the current font
+      margin-top: 0.25rem;
+    }
   }
 }
