@@ -41,9 +41,14 @@
 
 .dnb-textarea {
   display: inline-flex;
-  flex-direction: column;
+  align-items: baseline;
 
-  margin: var(--textarea-padding-width);
+  &__clamp {
+    display: inline-flex;
+    flex-direction: column;
+
+    margin: var(--textarea-padding-width);
+  }
 
   &__shell {
     display: inline-flex;
@@ -85,38 +90,35 @@
     opacity: 0.5;
   }
 
-  &__wrapper[class*='__status'] .dnb-form-status {
+  &[class*='__status'] .dnb-form-status {
     margin: 1rem 0 0 calc(1px - 1px - var(--textarea-padding-width));
   }
 
-  // make the input full width
-  &--stretch & {
-    flex: 1;
-    &,
-    &__shell,
-    &__textarea {
-      width: 100%;
-    }
-  }
-
-  // Wrapper layout handling
-  &__wrapper {
-    display: inline-flex;
-    align-items: baseline;
-  }
-  &__wrapper#{&}--vertical {
-    display: flex;
-    display: inline-flex;
-    flex-direction: column;
-  }
-  &__wrapper#{&}--stretch {
-    display: flex;
-  }
-  &__wrapper[class*='__status'] {
+  &[class*='__status'] {
     align-items: flex-start;
     > .dnb-form-label {
       // vertical align the current font
       margin-top: 0.25rem;
+    }
+  }
+
+  &--vertical {
+    display: flex;
+    display: inline-flex;
+    flex-direction: column;
+  }
+
+  // make the input full width
+  &--stretch {
+    display: flex;
+  }
+  &--stretch & {
+    &__clamp {
+      flex: 1;
+    }
+    &__shell,
+    &__textarea {
+      width: 100%;
     }
   }
 }

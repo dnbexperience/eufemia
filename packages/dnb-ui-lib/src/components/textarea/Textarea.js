@@ -209,15 +209,6 @@ export default class Textarea extends PureComponent {
     const id = this._id
     const showStatus = status && status !== 'error'
 
-    const classes = classnames(
-      'dnb-textarea',
-      `dnb-textarea--${textareaState}`,
-      String(value || '').length > 0 && 'dnb-textarea--has-content',
-      align && `dnb-textarea__align--${align}`,
-      _className,
-      className
-    )
-
     // pass along all props we wish to have as params
     let {
       textareaElement: TextareaElement,
@@ -253,13 +244,23 @@ export default class Textarea extends PureComponent {
       shellParams['aria-disabled'] = true
     }
 
-    const wrapperParams = {
+    const mainParams = {
       className: classnames(
-        'dnb-textarea__wrapper',
+        'dnb-textarea',
+        `dnb-textarea--${textareaState}`,
+        String(value || '').length > 0 && 'dnb-textarea--has-content',
+        align && `dnb-textarea__align--${align}`,
         status && `dnb-textarea__status--${status_state}`,
         label_direction && `dnb-textarea--${label_direction}`,
-        isTrue(stretch) && `dnb-textarea--stretch`
+        isTrue(stretch) && `dnb-textarea--stretch`,
+        _className,
+        className
       )
+    }
+
+    const clampParams = {
+      role: 'textbox',
+      className: 'dnb-textarea__clamp'
     }
 
     // to show the ending dots on a placeholder, if the text is longer
@@ -282,7 +283,7 @@ export default class Textarea extends PureComponent {
     }
 
     return (
-      <span {...wrapperParams}>
+      <span {...mainParams}>
         {label && (
           <FormLabel
             id={id + '-label'}
@@ -292,7 +293,7 @@ export default class Textarea extends PureComponent {
             direction={label_direction}
           />
         )}
-        <span role="textbox" className={classes}>
+        <span {...clampParams}>
           <span className="dnb-textarea__shell" {...shellParams}>
             {TextareaElement || (
               <textarea ref={this._ref} {...textareaParams} />
