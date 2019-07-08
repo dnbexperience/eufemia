@@ -12,6 +12,7 @@ exports[`Switch component have to match snapshot 1`] = `
   disabled="disabled"
   id="id"
   label="label"
+  label_direction="horizontal"
   label_position="left"
   on_change={[Function]}
   on_state_update={[Function]}
@@ -23,74 +24,78 @@ exports[`Switch component have to match snapshot 1`] = `
   value="value"
 >
   <span
-    className="dnb-switch--label-position-left"
+    className="dnb-switch dnb-switch--label-position-left className class"
   >
-    <FormLabel
-      class={null}
-      className={null}
-      direction={null}
-      disabled="disabled"
-      element="label"
-      for_id="id"
-      id="id-label"
-      render_content={null}
-      text="label"
-      title={null}
-      vertical={null}
+    <span
+      className="dnb-switch__order"
     >
-      <Element
-        className="dnb-form-label"
-        htmlFor="id"
+      <FormLabel
+        class={null}
+        className={null}
+        direction={null}
+        disabled="disabled"
+        element="label"
+        for_id="id"
         id="id-label"
-        is="label"
+        render_content={null}
+        text="label"
+        title={null}
+        vertical={null}
       >
-        <label
+        <Element
           className="dnb-form-label"
           htmlFor="id"
           id="id-label"
+          is="label"
         >
-          label
-        </label>
-      </Element>
-    </FormLabel>
-    <span
-      className="dnb-switch className class"
-    >
+          <label
+            className="dnb-form-label"
+            htmlFor="id"
+            id="id-label"
+          >
+            label
+          </label>
+        </Element>
+      </FormLabel>
       <span
-        className="dnb-switch__shell"
+        className="dnb-switch__clamp"
       >
-        <input
-          aria-checked={false}
-          aria-labelledby="id-label"
-          checked={false}
-          className="dnb-switch__input"
-          id="id"
-          name="id"
-          onChange={[Function]}
-          onKeyDown={[Function]}
-          onMouseOut={[Function]}
-          role="switch"
-          title="title"
-          type="checkbox"
-          value=""
-        />
         <span
-          aria-hidden={true}
-          className="dnb-switch__background"
-          draggable={true}
-          onDragStart={[Function]}
-          onMouseDown={[Function]}
-        />
-        <span
-          aria-hidden={true}
-          className="dnb-switch__button"
+          className="dnb-switch__shell"
         >
+          <input
+            aria-checked={false}
+            aria-labelledby="id-label"
+            checked={false}
+            className="dnb-switch__input"
+            id="id"
+            name="id"
+            onChange={[Function]}
+            onKeyDown={[Function]}
+            onMouseOut={[Function]}
+            role="switch"
+            title="title"
+            type="checkbox"
+            value=""
+          />
           <span
-            className="dnb-switch__focus"
+            aria-hidden={true}
+            className="dnb-switch__background"
+            draggable={true}
+            onDragStart={[Function]}
+            onMouseDown={[Function]}
+          />
+          <span
+            aria-hidden={true}
+            className="dnb-switch__button"
           >
             <span
-              className="dnb-switch__focus__inner"
-            />
+              className="dnb-switch__focus"
+            >
+              <span
+                className="dnb-switch__focus__inner"
+              />
+            </span>
           </span>
         </span>
       </span>
@@ -457,12 +462,6 @@ legend.dnb-form-label {
   --switch-border-width: 0.0625rem; }
 
 .dnb-switch {
-  display: inline-flex;
-  flex-direction: column;
-  vertical-align: middle;
-  width: auto;
-  margin: 0;
-  padding: 0;
   /*
     * When switched OFF
     * aka when the switch is not :checked
@@ -471,6 +470,13 @@ legend.dnb-form-label {
     * When switched ON
     * aka when the switch is :checked
     */ }
+  .dnb-switch__clamp {
+    display: inline-flex;
+    flex-direction: column;
+    vertical-align: middle;
+    width: auto;
+    margin: 0;
+    padding: 0; }
   .dnb-switch__shell {
     user-select: none;
     position: relative;
@@ -526,30 +532,31 @@ legend.dnb-form-label {
     border: 0; }
   .dnb-switch__input:not([disabled]) {
     cursor: pointer; }
-  .dnb-switch--label-position-left, .dnb-switch--label-position-right {
+  .dnb-switch--label-position-left .dnb-switch__order,
+  .dnb-switch--label-position-right .dnb-switch__order {
     display: inline-flex;
     flex-direction: row;
     align-items: center; }
-  .dnb-switch--label-position-left .dnb-switch {
+  .dnb-switch--label-position-left .dnb-switch__order .dnb-switch__clamp {
     order: 2; }
-  .dnb-switch--label-position-left .dnb-form-label {
+  .dnb-switch--label-position-left .dnb-switch__order .dnb-form-label {
     order: 1;
     align-self: flex-start; }
-  .dnb-switch--label-position-left .dnb-form-status {
+  .dnb-switch--label-position-left .dnb-switch__order .dnb-form-status {
     margin-top: 0.5rem; }
-  .dnb-switch__status--message.dnb-switch--label-position-left .dnb-form-label {
-    transform: translateY(-0.25rem); }
-  .dnb-switch--label-position-right {
+  .dnb-switch--label-position-right .dnb-switch__order {
     vertical-align: middle; }
-    .dnb-switch--label-position-right .dnb-switch {
+    .dnb-switch--label-position-right .dnb-switch__order .dnb-switch__clamp {
       order: 1; }
-    .dnb-switch--label-position-right .dnb-form-label {
+    .dnb-switch--label-position-right .dnb-switch__order .dnb-form-label {
       order: 2;
       margin-left: 1rem;
       margin-right: 0.5rem;
       line-height: 1rem; }
-    .dnb-switch--label-position-right + .dnb-form-status {
+    .dnb-switch--label-position-right .dnb-switch__order .dnb-form-status {
       vertical-align: bottom;
       margin-top: 0.5rem; }
+  .dnb-switch[class*='__status'].dnb-switch--label-position-left .dnb-form-label {
+    transform: translateY(-0.25rem); }
 "
 `;

@@ -196,14 +196,18 @@ export default class Switch extends Component {
 
     const id = this._id
     const showStatus = status && status !== 'error'
-    const hasStatusMessage = showStatus && status !== 'info'
 
-    const classes = classnames(
-      'dnb-switch',
-      status && `dnb-switch__status--${status_state}`,
-      className,
-      _className
-    )
+    const mainParams = {
+      className: classnames(
+        'dnb-switch',
+        status && `dnb-switch__status--${status_state}`,
+        label &&
+          label_position &&
+          `dnb-switch--label-position-${label_position}`,
+        className,
+        _className
+      )
+    }
 
     const inputParams = {
       disabled: isTrue(disabled),
@@ -235,15 +239,8 @@ export default class Switch extends Component {
     )
 
     return (
-      <>
-        <span
-          className={classnames(
-            label &&
-              label_position &&
-              `dnb-switch--label-position-${label_position}`,
-            hasStatusMessage && `dnb-switch__status--message`
-          )}
-        >
+      <span {...mainParams}>
+        <span className="dnb-switch__order">
           {label && (
             <FormLabel
               id={id + '-label'}
@@ -252,7 +249,7 @@ export default class Switch extends Component {
               disabled={disabled}
             />
           )}
-          <span className={classes}>
+          <span className="dnb-switch__clamp">
             <span className="dnb-switch__shell">
               <input
                 id={id}
@@ -285,7 +282,7 @@ export default class Switch extends Component {
           </span>
         </span>
         {label_position === 'right' && statusComp}
-      </>
+      </span>
     )
   }
 }
