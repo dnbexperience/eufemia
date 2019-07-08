@@ -70,17 +70,17 @@ exports[`DatePicker component have to match snapshot 1`] = `
   sync={true}
 >
   <span
-    className="dnb-date-picker__wrapper dnb-date-picker__status--error"
+    className="dnb-date-picker dnb-date-picker__status--error dnb-date-picker--hidden dnb-date-picker--show-input dnb-date-picker--show-footer"
   >
     <span
-      className="dnb-date-picker dnb-date-picker--hidden dnb-date-picker--show-input dnb-date-picker--show-footer"
-      date="2019-01-01T00:00:00.000Z"
+      className="'dnb-date-picker__clamp"
     >
       <span
         className="dnb-date-picker__shell"
       >
         <DatePickerInput
           aria-expanded={false}
+          date="2019-01-01T00:00:00.000Z"
           disabled={false}
           endDate={2019-02-15T00:00:00.000Z}
           id="date-picker-id"
@@ -1581,7 +1581,10 @@ legend.dnb-form-label {
 
 .dnb-date-picker {
   display: inline-flex;
-  flex-direction: column; }
+  align-items: center; }
+  .dnb-date-picker__clamp {
+    display: inline-flex;
+    flex-direction: column; }
   .dnb-date-picker__shell {
     position: relative;
     top: 0;
@@ -1771,16 +1774,13 @@ legend.dnb-form-label {
       transform: scaleX(-1); }
   .dnb-date-picker .dnb-form-status {
     margin-top: 0.5rem; }
-  .dnb-date-picker__wrapper {
-    display: inline-flex;
-    align-items: center; }
-  .dnb-date-picker__wrapper.dnb-date-picker--vertical {
+  .dnb-date-picker--vertical {
     display: flex;
     align-items: flex-start;
     flex-direction: column; }
-  .dnb-date-picker__wrapper[class*='__status'] {
+  .dnb-date-picker[class*='__status'] {
     align-items: flex-start; }
-    .dnb-date-picker__wrapper[class*='__status'] > .dnb-form-label {
+    .dnb-date-picker[class*='__status'] > .dnb-form-label {
       margin-top: 0.25rem; }
 "
 `;

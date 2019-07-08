@@ -56,7 +56,12 @@
 
 .dnb-date-picker {
   display: inline-flex;
-  flex-direction: column;
+  align-items: center;
+
+  &__clamp {
+    display: inline-flex;
+    flex-direction: column;
+  }
 
   &__shell {
     position: relative;
@@ -340,17 +345,12 @@
     margin-top: 0.5rem;
   }
 
-  // Wrapper layout handling
-  &__wrapper {
-    display: inline-flex;
-    align-items: center;
-  }
-  &__wrapper#{&}--vertical {
+  &--vertical {
     display: flex;
     align-items: flex-start;
     flex-direction: column;
   }
-  &__wrapper[class*='__status'] {
+  &[class*='__status'] {
     align-items: flex-start;
     > .dnb-form-label {
       // vertical align the current font
