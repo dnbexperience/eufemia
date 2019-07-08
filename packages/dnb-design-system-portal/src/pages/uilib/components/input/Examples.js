@@ -46,7 +46,7 @@ class Example extends PureComponent {
           {/* @jsx */ `
 <Input
   label="Medium input:"
-  size="medium"
+  indent="medium"
   align="right"
   stretch="true"
   placeholder="Medium input placeholder"
@@ -62,7 +62,7 @@ class Example extends PureComponent {
         >
           {/* @jsx */ `
 <Input
-  size="large"
+  indent="large"
   type="search"
   stretch="true"
   value="Large search value"
@@ -119,7 +119,7 @@ class Example extends PureComponent {
         <ComponentBox caption="Stretched `Input` with `FormRow` and a long label">
           {/* @jsx */ `
 <FormRow
-  size={true}
+  indent={true}
   label="Long label labwl Adipiscing mauris dis proin nec:"
 >
   <Input value="Placeholder ..." stretch />

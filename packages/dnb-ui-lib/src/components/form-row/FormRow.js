@@ -24,10 +24,11 @@ const renderProps = {
 export const propTypes = {
   id: PropTypes.string,
   label: PropTypes.string,
+  label_direction: PropTypes.oneOf(['vertical', 'horizontal']),
   label_id: PropTypes.string,
   no_label: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   no_fieldset: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  size: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  indent: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   direction: PropTypes.oneOf(['vertical', 'horizontal']),
   vertical: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   section_style: PropTypes.string,
@@ -50,10 +51,11 @@ export const propTypes = {
 export const defaultProps = {
   id: null,
   label: null,
+  label_direction: null,
   label_id: null,
   no_label: false,
   no_fieldset: null,
-  size: null,
+  indent: null,
   direction: null,
   vertical: null,
   section_style: null,
@@ -120,10 +122,11 @@ export default class FormRow extends PureComponent {
 
     let {
       label,
+      label_direction,
       label_id,
       no_fieldset,
       no_label,
-      size,
+      indent,
       direction,
       vertical,
       section_style,
@@ -151,7 +154,10 @@ export default class FormRow extends PureComponent {
         'dnb-form-row',
         (isTrue(vertical) || direction) &&
           `dnb-form-row--${isTrue(vertical) ? 'vertical' : direction}`,
-        size && `dnb-form-row__size--${isTrue(size) ? 'default' : size}`,
+        (isTrue(label_direction) || label_direction) &&
+          `dnb-form-row--${label_direction}-label`,
+        indent &&
+          `dnb-form-row__indent--${isTrue(indent) ? 'default' : indent}`,
         isNested && `dnb-form-row--nested`,
         section_style ? `dnb-section dnb-section--${section_style}` : null,
         section_spacing
@@ -180,7 +186,7 @@ export default class FormRow extends PureComponent {
         },
         itsMeAgain: true,
         hasLabel: label,
-        size,
+        indent,
         direction,
         vertical,
         label_direction: isTrue(vertical) ? 'vertical' : direction,
@@ -206,6 +212,7 @@ export default class FormRow extends PureComponent {
                 for_id={!useFieldset ? id : null} // we don't use for_id, because we don't have a single element to target to
                 text={label}
                 element={!useFieldset ? 'label' : 'legend'}
+                direction={label_direction}
                 disabled={isTrue(disabled)}
               />
             )}

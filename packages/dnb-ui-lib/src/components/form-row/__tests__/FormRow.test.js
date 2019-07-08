@@ -23,6 +23,7 @@ const props = fakeProps(require.resolve('../FormRow'), {
 })
 props.id = 'form-row'
 props.direction = 'horizontal'
+props.label_direction = 'horizontal'
 
 describe('FormRow component', () => {
   const Comp = mount(<Component {...props} />)
@@ -38,10 +39,10 @@ describe('FormRow component', () => {
     ).toBe(true)
   })
 
-  it('should have correct size class', () => {
-    const Comp = mount(<Component {...props} size="large" />)
+  it('should have correct indent class', () => {
+    const Comp = mount(<Component {...props} indent="large" />)
     expect(
-      Comp.find('.dnb-form-row').hasClass('dnb-form-row__size--large')
+      Comp.find('.dnb-form-row').hasClass('dnb-form-row__indent--large')
     ).toBe(true)
   })
 

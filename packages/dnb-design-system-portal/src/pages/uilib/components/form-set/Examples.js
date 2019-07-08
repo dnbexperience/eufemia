@@ -15,7 +15,7 @@ class Example extends PureComponent {
           data-dnb-test="form-set-default"
         >
           {/* @jsx */ `
-<FormSet size direction="horizontal">
+<FormSet indent="true" direction="horizontal">
   <FormRow no_label>
     <H2>A h2 in a FormRow without a label</H2>
   </FormRow>

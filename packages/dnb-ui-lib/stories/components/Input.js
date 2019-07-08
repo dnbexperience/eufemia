@@ -28,8 +28,18 @@ export default [
     <CustomStyle>
       <Wrapper>
         <Box>
-          <FormSet>
-            <FormRow vertical>
+          <FormRow
+            label="Legend label asd asd asdad:"
+            label_direction="vertical"
+            // vertical
+          >
+            <Input label="Input label A:" />
+            <Input label="Input label B:" />
+          </FormRow>
+        </Box>
+        <Box>
+          <FormSet vertical direction="vertical">
+            <FormRow>
               <Input
                 label="Vertical 1:"
                 placeholder="Placeholder 1 Nullam cubilia primis pulvinar sed nunc semper habitasse rhoncus aptent orci class tempus quisque sociis"
@@ -46,7 +56,7 @@ export default [
         <Box>
           <FormSet>
             <FormRow
-              size
+              indent
               legend="Long label labwl Adipiscing mauris dis proin nec:"
               no_fieldset
             >

@@ -176,7 +176,7 @@ exports[`ToggleButton component have to match snapshot 1`] = `
                 value={null}
               >
                 <span
-                  className="dnb-checkbox--modifier"
+                  className="dnb-checkbox__wrapper"
                 >
                   <span
                     className="dnb-checkbox"
@@ -291,14 +291,15 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
       direction={null}
       disabled={null}
       id="group"
+      indent={null}
       label="Label"
+      label_direction={null}
       label_id="group"
       no_fieldset={null}
       no_label={false}
       render_content={null}
       section_spacing={null}
       section_style={null}
-      size={null}
       vertical={null}
     >
       <Fieldset
@@ -1185,7 +1186,7 @@ a.dnb-button .dnb-button__text {
     border: 0; }
   .dnb-checkbox__input:not([disabled]) {
     cursor: pointer; }
-  .dnb-checkbox--modifier {
+  .dnb-checkbox__wrapper {
     display: inline-flex;
     flex-direction: row;
     vertical-align: top; }
@@ -1309,9 +1310,6 @@ a.dnb-button .dnb-button__text {
     cursor: pointer; }
   .dnb-radio .dnb-form-status {
     margin-bottom: 0.5rem; }
-  .dnb-radio--modifier {
-    display: inline-flex;
-    flex-direction: row; }
   .dnb-radio--label-position-left .dnb-radio {
     order: 2; }
   .dnb-radio--label-position-left .dnb-form-label {
@@ -1340,6 +1338,8 @@ a.dnb-button .dnb-button__text {
   .dnb-radio-group {
     display: inline-flex;
     flex-direction: row; }
+    .dnb-form-row--vertical .dnb-radio-group {
+      display: flex; }
 
 .dnb-toggle-button {
   font-family: var(--font-family-default);
@@ -1454,6 +1454,8 @@ a.dnb-button .dnb-button__text {
     .dnb-toggle-button-group .dnb-toggle-button-group__shell {
       display: block;
       margin-bottom: -1rem; }
+    .dnb-form-row--vertical .dnb-toggle-button-group {
+      display: flex; }
     @media (min-width: 40em) {
       .dnb-form-row__label:not(.dnb-form-label--vertical)
 + .dnb-form-row__content

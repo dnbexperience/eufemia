@@ -71,10 +71,10 @@ export default [
         </p>
       </Box>
       <Box>
-        <FormRow size no_label>
+        <FormRow indent no_label>
           <H2>A h2 in a FormRow without a label</H2>
         </FormRow>
-        <FormRow size>
+        <FormRow indent>
           <Radio.Group
             label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:"
             // label="Group:"
@@ -99,7 +99,7 @@ export default [
       </Box>
       <Box>
         <FormRow
-          size
+          indent
           label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:"
         >
           <Radio.Group
@@ -207,7 +207,7 @@ const RadioGroupsWithStatus = () => {
 
   return (
     <FormSet>
-      <FormRow>
+      <FormRow vertical>
         <Radio.Group
           label="Group A label:"
           // label_direction="vertical"
@@ -221,9 +221,6 @@ const RadioGroupsWithStatus = () => {
           <Radio label="Second" value="second" />
           <Radio label="Third" value="third" />
         </Radio.Group>
-      </FormRow>
-
-      <FormRow>
         <Radio.Group
           label="Group B label:"
           // label_direction="vertical"

@@ -22,6 +22,21 @@ export default [
   () => (
     <Wrapper>
       <Box>
+        <FormRow vertical>
+          <ToggleButton.Group label="Group A label:">
+            <ToggleButton text="First" value="first" />
+            <ToggleButton text="Second" value="second" />
+            <ToggleButton text="Third" value="third" />
+          </ToggleButton.Group>
+          <ToggleButton.Group label="Group B label:">
+            <ToggleButton text="First" value="first" />
+            <ToggleButton text="Second" value="second" />
+            <ToggleButton text="Third" value="third" />
+          </ToggleButton.Group>
+          <ToggleButton text="Set New State" />
+        </FormRow>
+      </Box>
+      <Box>
         <p className="dnb-p">
           Text:{' '}
           <ToggleButton
@@ -96,7 +111,7 @@ export default [
         </p>
       </Box> */}
       <Box>
-        <FormRow size no_label>
+        <FormRow indent no_label>
           <H2>A h2 in a FormRow without a label</H2>
         </FormRow>
         <FormRow

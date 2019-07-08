@@ -23,7 +23,7 @@ export default [
     <Center>
       <Wrapper>
         <Box>
-          <FormRow direction="horizontal" size="default">
+          <FormRow direction="horizontal" indent="default">
             <FormLabel for_id="alone-1">
               A long horizontal FormLabel with a lot of informative text
               and a default size:
