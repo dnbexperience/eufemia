@@ -22,7 +22,7 @@ describe('DatePicker screenshot', () => {
 
   it('have to match the calendar', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="date-picker-calendar"]'
+      selector: '[data-dnb-test="date-picker-calendar"] .dnb-date-picker'
     })
     expect(screenshot).toMatchImageSnapshot()
   })

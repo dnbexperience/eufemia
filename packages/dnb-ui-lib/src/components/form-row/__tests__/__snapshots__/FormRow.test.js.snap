@@ -212,6 +212,7 @@ legend.dnb-form-label {
   display: flex;
   flex-direction: row; }
   .dnb-form-row__content {
+    display: inline-flex;
     width: 100%; }
   @supports (display: grid) {
     .dnb-form-row:not(.dnb-form-row--vertical), .dnb-form-row--horizontal {

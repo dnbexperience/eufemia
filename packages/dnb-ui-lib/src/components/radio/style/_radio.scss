@@ -140,8 +140,11 @@
     display: inline-flex;
     flex-direction: row;
 
+    &__shell {
+      display: inline-flex;
+      flex-direction: row;
+    }
     &--column &__shell {
-      display: flex;
       flex-direction: column;
     }
 

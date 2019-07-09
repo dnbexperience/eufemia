@@ -797,8 +797,10 @@ legend.dnb-form-label {
   .dnb-radio-group {
     display: inline-flex;
     flex-direction: row; }
+    .dnb-radio-group__shell {
+      display: inline-flex;
+      flex-direction: row; }
     .dnb-radio-group--column .dnb-radio-group__shell {
-      display: flex;
       flex-direction: column; }
     .dnb-radio-group .dnb-form-status {
       margin-top: 0.5rem; }
