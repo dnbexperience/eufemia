@@ -282,7 +282,7 @@ export default class Input extends PureComponent {
     }
 
     const clampParams = {
-      className: 'dnb-input__clamp'
+      className: 'dnb-input__inner'
     }
 
     // pass along all props we wish to have as params

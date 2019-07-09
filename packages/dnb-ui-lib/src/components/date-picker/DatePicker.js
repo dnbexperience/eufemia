@@ -555,7 +555,7 @@ export default class DatePicker extends PureComponent {
         )}
 
         <span
-          className="'dnb-date-picker__clamp"
+          className="'dnb-date-picker__inner"
           ref={this._clampRef}
           {...pickerParams}
         >

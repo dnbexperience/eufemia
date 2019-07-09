@@ -13,14 +13,14 @@ describe('Slider screenshot', () => {
   it('have to match default slider', async () => {
     const screenshot = await testPageScreenshot({
       style: { width: '20rem' },
-      selector: '[data-dnb-test="slider-default"] .dnb-slider__clamp'
+      selector: '[data-dnb-test="slider-default"] .dnb-slider__inner'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match the focus state', async () => {
     const screenshot = await testPageScreenshot({
       style: { width: '20rem' },
-      selector: '[data-dnb-test="slider-default"] .dnb-slider__clamp',
+      selector: '[data-dnb-test="slider-default"] .dnb-slider__inner',
       simulateSelector:
         '[data-dnb-test="slider-default"] .dnb-slider__thumb button',
       simulate: 'focus'
@@ -30,7 +30,7 @@ describe('Slider screenshot', () => {
   it('have to match the hover state', async () => {
     const screenshot = await testPageScreenshot({
       style: { width: '20rem' },
-      selector: '[data-dnb-test="slider-default"] .dnb-slider__clamp',
+      selector: '[data-dnb-test="slider-default"] .dnb-slider__inner',
       simulateSelector:
         '[data-dnb-test="slider-default"] .dnb-slider__thumb button',
       simulate: 'hover'

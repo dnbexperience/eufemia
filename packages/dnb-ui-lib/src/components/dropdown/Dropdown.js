@@ -786,7 +786,7 @@ export default class Dropdown extends PureComponent {
             disabled={disabled}
           />
         )}
-        <span className="dnb-dropdown__clamp" ref={this._ref}>
+        <span className="dnb-dropdown__inner" ref={this._ref}>
           <span className="dnb-dropdown__shell">
             <button {...triggerParams}>
               <span className="dnb-dropdown__text">

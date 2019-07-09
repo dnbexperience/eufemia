@@ -59,7 +59,7 @@ exports[`Slider component have to match snapshot 1`] = `
       </Element>
     </FormLabel>
     <span
-      className="dnb-slider__clamp"
+      className="dnb-slider__inner"
     >
       <Button
         bounding={false}
@@ -834,11 +834,11 @@ legend.dnb-form-label {
     align-items: flex-start;
     min-width: inherit;
     min-height: inherit; }
-  .dnb-slider__clamp {
+  .dnb-slider__inner {
     display: inline-flex;
     height: var(--slider-thumb-size);
     width: auto; }
-    .dnb-slider__clamp:not(.dnb-slider__clamp--vertical) {
+    .dnb-slider__inner:not(.dnb-slider__inner--vertical) {
       flex: 1; }
   .dnb-slider__track {
     position: relative;
@@ -877,7 +877,7 @@ legend.dnb-form-label {
     .dnb-slider--vertical .dnb-slider__track::after {
       top: auto;
       bottom: calc(1px - 1px - var(--slider-space)); }
-  .dnb-slider--vertical .dnb-slider__clamp {
+  .dnb-slider--vertical .dnb-slider__inner {
     flex-direction: column;
     width: var(--slider-thumb-size);
     height: inherit;

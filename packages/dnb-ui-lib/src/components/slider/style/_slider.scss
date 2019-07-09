@@ -22,7 +22,7 @@
     min-height: inherit;
   }
 
-  &__clamp {
+  &__inner {
     display: inline-flex;
     &:not(#{&}--vertical) {
       flex: 1;
@@ -90,7 +90,7 @@
     }
   }
 
-  &--vertical &__clamp {
+  &--vertical &__inner {
     flex-direction: column;
 
     // set a width so it's easier to click on the track

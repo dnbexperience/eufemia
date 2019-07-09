@@ -527,7 +527,7 @@ export default class Slider extends PureComponent {
             disabled={disabled}
           />
         )}
-        <span className="dnb-slider__clamp">
+        <span className="dnb-slider__inner">
           {showButtons && (reverse ? addButton : subtractButton)}
           <span
             id={this._id}

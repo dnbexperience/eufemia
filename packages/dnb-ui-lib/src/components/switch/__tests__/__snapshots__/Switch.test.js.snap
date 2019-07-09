@@ -58,7 +58,7 @@ exports[`Switch component have to match snapshot 1`] = `
         </Element>
       </FormLabel>
       <span
-        className="dnb-switch__clamp"
+        className="dnb-switch__inner"
       >
         <span
           className="dnb-switch__shell"
@@ -470,7 +470,7 @@ legend.dnb-form-label {
     * When switched ON
     * aka when the switch is :checked
     */ }
-  .dnb-switch__clamp {
+  .dnb-switch__inner {
     display: inline-flex;
     flex-direction: column;
     vertical-align: middle;
@@ -537,7 +537,7 @@ legend.dnb-form-label {
     display: inline-flex;
     flex-direction: row;
     align-items: center; }
-  .dnb-switch--label-position-left .dnb-switch__order .dnb-switch__clamp {
+  .dnb-switch--label-position-left .dnb-switch__order .dnb-switch__inner {
     order: 2; }
   .dnb-switch--label-position-left .dnb-switch__order .dnb-form-label {
     order: 1;
@@ -546,7 +546,7 @@ legend.dnb-form-label {
     margin-top: 0.5rem; }
   .dnb-switch--label-position-right .dnb-switch__order {
     vertical-align: middle; }
-    .dnb-switch--label-position-right .dnb-switch__order .dnb-switch__clamp {
+    .dnb-switch--label-position-right .dnb-switch__order .dnb-switch__inner {
       order: 1; }
     .dnb-switch--label-position-right .dnb-switch__order .dnb-form-label {
       order: 2;

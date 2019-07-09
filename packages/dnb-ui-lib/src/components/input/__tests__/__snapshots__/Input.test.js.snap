@@ -102,7 +102,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
     className="dnb-input dnb-input--search dnb-input--has-submit-button"
   >
     <span
-      className="dnb-input__clamp"
+      className="dnb-input__inner"
     >
       <span
         className="dnb-input__shell"
@@ -432,7 +432,7 @@ exports[`Input component have to match type="text" snapshot 1`] = `
     className="dnb-input dnb-input--text"
   >
     <span
-      className="dnb-input__clamp"
+      className="dnb-input__inner"
     >
       <span
         className="dnb-input__shell"
@@ -486,7 +486,7 @@ exports[`Input scss have to match default theme snapshot 1`] = `
 
 .dnb-input {
   color: var(--input-text-color); }
-  .dnb-input__clamp {
+  .dnb-input__inner {
     color: inherit; }
   .dnb-input__shell {
     color: inherit;
@@ -1008,7 +1008,7 @@ legend.dnb-form-label {
 .dnb-input {
   display: inline-flex;
   align-items: center; }
-  .dnb-input__clamp {
+  .dnb-input__inner {
     display: inline-flex;
     flex-direction: column;
     width: auto;
@@ -1112,7 +1112,7 @@ legend.dnb-form-label {
   .dnb-input__shell[data-has-content='true'] .dnb-input__placeholder,
   .dnb-input__shell[data-has-content='true'][data-input-state='focus'] .dnb-input__placeholder {
     display: none; }
-  .dnb-input__clamp > .dnb-form-status {
+  .dnb-input__inner > .dnb-form-status {
     margin-top: 0.5rem; }
   .dnb-input--vertical {
     display: flex;
@@ -1120,7 +1120,7 @@ legend.dnb-form-label {
     flex-direction: column; }
   .dnb-input--stretch {
     display: flex; }
-  .dnb-input--stretch .dnb-input__clamp {
+  .dnb-input--stretch .dnb-input__inner {
     flex: 1; }
   .dnb-input--stretch .dnb-input__shell {
     width: 100%; }

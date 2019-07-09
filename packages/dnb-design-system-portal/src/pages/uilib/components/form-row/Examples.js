@@ -33,7 +33,7 @@ const CustomRow = styled(FormRow)\`
     & + .dnb-input {
       margin-left: 1rem;
     }
-    &__clamp {
+    &__inner {
       width: 8rem;
     }
   }

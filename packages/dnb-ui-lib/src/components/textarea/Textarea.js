@@ -260,7 +260,7 @@ export default class Textarea extends PureComponent {
 
     const clampParams = {
       role: 'textbox',
-      className: 'dnb-textarea__clamp'
+      className: 'dnb-textarea__inner'
     }
 
     // to show the ending dots on a placeholder, if the text is longer

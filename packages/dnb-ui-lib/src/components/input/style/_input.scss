@@ -23,7 +23,7 @@
   display: inline-flex;
   align-items: center;
 
-  &__clamp {
+  &__inner {
     display: inline-flex;
     flex-direction: column;
 
@@ -194,7 +194,7 @@
   // &__input--search {
   // }
 
-  &__clamp > .dnb-form-status {
+  &__inner > .dnb-form-status {
     margin-top: 0.5rem;
   }
 
@@ -209,7 +209,7 @@
     display: flex;
   }
   &--stretch & {
-    &__clamp {
+    &__inner {
       flex: 1;
     }
     &__shell {

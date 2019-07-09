@@ -73,7 +73,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
     className="dnb-date-picker dnb-date-picker__status--error dnb-date-picker--hidden dnb-date-picker--show-input dnb-date-picker--show-footer"
   >
     <span
-      className="'dnb-date-picker__clamp"
+      className="'dnb-date-picker__inner"
     >
       <span
         className="dnb-date-picker__shell"
@@ -158,7 +158,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
               className="dnb-input dnb-input--text dnb-input--has-submit-button dnb-input__status--error"
             >
               <span
-                className="dnb-input__clamp"
+                className="dnb-input__inner"
               >
                 <span
                   className="dnb-input__shell"
@@ -1407,7 +1407,7 @@ legend.dnb-form-label {
 .dnb-input {
   display: inline-flex;
   align-items: center; }
-  .dnb-input__clamp {
+  .dnb-input__inner {
     display: inline-flex;
     flex-direction: column;
     width: auto;
@@ -1511,7 +1511,7 @@ legend.dnb-form-label {
   .dnb-input__shell[data-has-content='true'] .dnb-input__placeholder,
   .dnb-input__shell[data-has-content='true'][data-input-state='focus'] .dnb-input__placeholder {
     display: none; }
-  .dnb-input__clamp > .dnb-form-status {
+  .dnb-input__inner > .dnb-form-status {
     margin-top: 0.5rem; }
   .dnb-input--vertical {
     display: flex;
@@ -1519,7 +1519,7 @@ legend.dnb-form-label {
     flex-direction: column; }
   .dnb-input--stretch {
     display: flex; }
-  .dnb-input--stretch .dnb-input__clamp {
+  .dnb-input--stretch .dnb-input__inner {
     flex: 1; }
   .dnb-input--stretch .dnb-input__shell {
     width: 100%; }
@@ -1586,7 +1586,7 @@ legend.dnb-form-label {
 .dnb-date-picker {
   display: inline-flex;
   align-items: center; }
-  .dnb-date-picker__clamp {
+  .dnb-date-picker__inner {
     display: inline-flex;
     flex-direction: column; }
   .dnb-date-picker__shell {

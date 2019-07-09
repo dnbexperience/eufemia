@@ -10,7 +10,7 @@
 }
 
 .dnb-switch {
-  &__clamp {
+  &__inner {
     display: inline-flex;
     flex-direction: column;
     vertical-align: middle; // just to center, in case we dont have provided a internal label
@@ -137,7 +137,7 @@
   }
 
   &--label-position-left &__order {
-    .dnb-switch__clamp {
+    .dnb-switch__inner {
       order: 2;
     }
     .dnb-form-label {
@@ -153,7 +153,7 @@
     // in case we have text before, or after, make sure we are aligned
     vertical-align: middle;
 
-    .dnb-switch__clamp {
+    .dnb-switch__inner {
       order: 1;
     }
     .dnb-form-label {

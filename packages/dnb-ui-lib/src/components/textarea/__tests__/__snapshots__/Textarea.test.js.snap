@@ -65,7 +65,7 @@ exports[`Textarea component have to match snapshot 1`] = `
     className="dnb-textarea dnb-textarea--virgin dnb-textarea--has-content"
   >
     <span
-      className="dnb-textarea__clamp"
+      className="dnb-textarea__inner"
       role="textbox"
     >
       <span
@@ -545,7 +545,7 @@ textarea.dnb-textarea {
 .dnb-textarea {
   display: inline-flex;
   align-items: baseline; }
-  .dnb-textarea__clamp {
+  .dnb-textarea__inner {
     display: inline-flex;
     flex-direction: column;
     margin: var(--textarea-padding-width); }
@@ -598,7 +598,7 @@ textarea.dnb-textarea {
     flex-direction: column; }
   .dnb-textarea--stretch {
     display: flex; }
-  .dnb-textarea--stretch .dnb-textarea__clamp {
+  .dnb-textarea--stretch .dnb-textarea__inner {
     flex: 1; }
   .dnb-textarea--stretch .dnb-textarea__shell, .dnb-textarea--stretch .dnb-textarea__textarea {
     width: 100%; }

@@ -110,7 +110,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
       </Element>
     </FormLabel>
     <span
-      className="dnb-dropdown__clamp"
+      className="dnb-dropdown__inner"
     >
       <span
         className="dnb-dropdown__shell"
@@ -693,7 +693,7 @@ legend.dnb-form-label {
 .dnb-dropdown {
   display: inline-flex;
   align-items: center; }
-  .dnb-dropdown__clamp {
+  .dnb-dropdown__inner {
     display: inline-flex;
     flex-direction: column;
     align-items: flex-start;

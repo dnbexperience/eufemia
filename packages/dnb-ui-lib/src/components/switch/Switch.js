@@ -249,7 +249,7 @@ export default class Switch extends Component {
               disabled={disabled}
             />
           )}
-          <span className="dnb-switch__clamp">
+          <span className="dnb-switch__inner">
             <span className="dnb-switch__shell">
               <input
                 id={id}
