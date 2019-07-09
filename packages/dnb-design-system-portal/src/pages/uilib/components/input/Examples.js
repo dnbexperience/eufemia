@@ -16,9 +16,8 @@ class Example extends PureComponent {
           data-dnb-test="input-placeholder"
         >
           {/* @jsx */ `
-<FormLabel for_id="text-input-1" text="Label:" />
 <Input
-  id="text-input-1"
+  label="Label:"
   placeholder="Placeholder text"
 />
           `}

@@ -1027,6 +1027,7 @@ legend.dnb-form-label {
     user-select: none; }
   .dnb-input__shell, .dnb-input__input {
     height: var(--input-height);
+    line-height: var(--input-height);
     border-radius: var(--input-border-radius); }
   .dnb-input__placeholder, .dnb-input__input {
     width: 100%;
@@ -1035,7 +1036,7 @@ legend.dnb-form-label {
     text-align: left;
     color: inherit;
     font-size: inherit;
-    line-height: 1em;
+    line-height: inherit;
     background-color: transparent;
     transform: translateY(var(--input-border-width));
     font-variant-numeric: lining-nums;
@@ -1044,6 +1045,7 @@ legend.dnb-form-label {
     pointer-events: none;
     position: absolute;
     z-index: 1;
+    top: 0;
     left: 0;
     overflow: hidden;
     white-space: nowrap;
@@ -1068,6 +1070,7 @@ legend.dnb-form-label {
   .dnb-input--medium .dnb-input__shell,
   .dnb-input--medium .dnb-input__input {
     height: var(--input-height--medium);
+    line-height: var(--input-height--medium);
     border-radius: var(--input-border-radius--medium); }
   .dnb-input--medium .dnb-input__placeholder,
   .dnb-input--medium .dnb-input__input {
@@ -1085,6 +1088,7 @@ legend.dnb-form-label {
   .dnb-input--large .dnb-input__shell,
   .dnb-input--large .dnb-input__input {
     height: var(--input-height--large);
+    line-height: var(--input-height--large);
     border-radius: var(--input-border-radius--large); }
   .dnb-input--large .dnb-input__placeholder,
   .dnb-input--large .dnb-input__input {

@@ -55,6 +55,7 @@
   &__shell,
   &__input {
     height: var(--input-height);
+    line-height: var(--input-height);
     border-radius: var(--input-border-radius);
   }
 
@@ -68,7 +69,7 @@
 
     color: inherit;
     font-size: inherit;
-    line-height: 1em; // because when ::selected is kikking in
+    line-height: inherit;
     background-color: transparent;
 
     // because of vertical centering and the current font
@@ -82,6 +83,7 @@
 
     position: absolute;
     z-index: 1;
+    top: 0;
     left: 0;
     overflow: hidden;
 
@@ -124,6 +126,7 @@
     .dnb-input__shell,
     .dnb-input__input {
       height: var(--input-height--medium);
+      line-height: var(--input-height--medium);
       border-radius: var(--input-border-radius--medium);
     }
     .dnb-input__placeholder,
@@ -149,6 +152,7 @@
     .dnb-input__shell,
     .dnb-input__input {
       height: var(--input-height--large);
+      line-height: var(--input-height--large);
       border-radius: var(--input-border-radius--large);
     }
     .dnb-input__placeholder,

@@ -18,7 +18,6 @@ import {
   pickRenderProps,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
-import { isIE11 } from '../../shared/helpers'
 
 import Context from '../../shared/Context'
 
@@ -357,7 +356,7 @@ export default class Input extends PureComponent {
           <span className="dnb-input__shell" {...shellParams}>
             {InputElement || <input ref={this._ref} {...inputParams} />}
 
-            {placeholder && !isIE11 && (
+            {placeholder && (
               <span
                 aria-hidden
                 className={classnames(
