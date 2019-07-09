@@ -200,12 +200,17 @@ export default class Checkbox extends Component {
     const id = this._id
     const showStatus = status && status !== 'error'
 
-    const classes = classnames(
-      'dnb-checkbox',
-      status && `dnb-checkbox__status--${status_state}`,
-      className,
-      _className
-    )
+    const mainParams = {
+      className: classnames(
+        'dnb-checkbox',
+        status && `dnb-checkbox__status--${status_state}`,
+        label &&
+          label_position &&
+          `dnb-checkbox--label-position-${label_position}`,
+        className,
+        _className
+      )
+    }
 
     const inputParams = {
       disabled,
@@ -237,15 +242,8 @@ export default class Checkbox extends Component {
     )
 
     return (
-      <>
-        <span
-          className={classnames(
-            'dnb-checkbox__wrapper',
-            label &&
-              label_position &&
-              `dnb-checkbox--label-position-${label_position}`
-          )}
-        >
+      <span {...mainParams}>
+        <span className="dnb-checkbox__order">
           {label && (
             <FormLabel
               id={id + '-label'}
@@ -254,7 +252,7 @@ export default class Checkbox extends Component {
               disabled={disabled}
             />
           )}
-          <span className={classes}>
+          <span className="dnb-checkbox__inner">
             <span className="dnb-checkbox__shell">
               <input
                 id={id}
@@ -279,7 +277,7 @@ export default class Checkbox extends Component {
           </span>
         </span>
         {label_position === 'right' && statusComp}
-      </>
+      </span>
     )
   }
 }
