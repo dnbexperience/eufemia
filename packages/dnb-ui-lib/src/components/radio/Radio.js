@@ -261,13 +261,17 @@ export default class Radio extends Component {
     const id = this._id
     const showStatus = status && status !== 'error'
 
-    const classes = classnames(
-      'dnb-radio',
-      status && `dnb-radio__status--${status_state}`,
-      label_position && `dnb-radio--label-position-${label_position}`,
-      className,
-      _className
-    )
+    const mainParams = {
+      className: classnames(
+        'dnb-radio',
+        status && `dnb-radio__status--${status_state}`,
+        label &&
+          label_position &&
+          `dnb-radio--label-position-${label_position}`,
+        className,
+        _className
+      )
+    }
 
     const inputParams = {
       role: hasContext || group ? 'radio' : null,
@@ -289,50 +293,55 @@ export default class Radio extends Component {
     // also used for code markup simulation
     validateDOMAttributes(this.props, inputParams)
 
+    const statusComp = showStatus && (
+      <FormStatus
+        text={status}
+        status={status_state}
+        text_id={id + '-status'} // used for "aria-describedby"
+        animation={status_animation}
+      />
+    )
+
     return (
-      <>
-        <span className={classes}>
+      <span {...mainParams}>
+        <span className="dnb-radio__order">
           {label && (
             <FormLabel
               id={id + '-label'}
               for_id={id}
               aria-hidden={!this.isInNoGroup()}
               text={label}
-              disabled={isTrue(disabled)}
+              disabled={disabled}
             />
           )}
-          <span className="dnb-radio__shell">
-            <input
-              type="checkbox"
-              value={value}
-              id={id}
-              name={group}
-              className="dnb-radio__input"
-              checked={checked}
-              aria-checked={checked}
-              title={title}
-              aria-label={title}
-              disabled={isTrue(disabled)}
-              ref={this._refInput}
-              {...inputParams}
-              onChange={this.onChangeHandler}
-              onClick={this.onClickHandler}
-              onKeyDown={this.onKeyDownHandler}
-            />
-            <span aria-hidden className="dnb-radio__button" />
-            <span className="dnb-radio__focus" />
-            <span className="dnb-radio__dot" />
+          <span className="dnb-radio__inner">
+            <span className="dnb-radio__shell">
+              <input
+                type="checkbox"
+                value={value}
+                id={id}
+                name={group}
+                className="dnb-radio__input"
+                checked={checked}
+                aria-checked={checked}
+                title={title}
+                aria-label={title}
+                disabled={isTrue(disabled)}
+                ref={this._refInput}
+                {...inputParams}
+                onChange={this.onChangeHandler}
+                onClick={this.onClickHandler}
+                onKeyDown={this.onKeyDownHandler}
+              />
+              <span aria-hidden className="dnb-radio__button" />
+              <span className="dnb-radio__focus" />
+              <span className="dnb-radio__dot" />
+            </span>
+            {label_position === 'left' && statusComp}
           </span>
         </span>
-        {showStatus && (
-          <FormStatus
-            text={status}
-            status={status_state}
-            text_id={id + '-status'} // used for "aria-describedby"
-            animation={status_animation}
-          />
-        )}
-      </>
+        {label_position === 'right' && statusComp}
+      </span>
     )
   }
 }

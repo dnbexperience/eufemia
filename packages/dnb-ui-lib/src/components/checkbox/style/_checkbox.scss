@@ -10,14 +10,13 @@
 }
 
 .dnb-checkbox {
+  display: inline-flex;
+  flex-direction: column;
+  vertical-align: middle; // just to center, in case we dont have provided a internal label
+
   &__inner {
     display: inline-flex;
     flex-direction: column;
-
-    width: auto;
-
-    margin: 0;
-    padding: 0;
   }
 
   &__shell {
@@ -91,8 +90,6 @@
     cursor: pointer;
   }
 
-  // &--label-position-left &__order,
-  // &--label-position-right
   &__order {
     display: inline-flex;
     flex-direction: row;

@@ -22,7 +22,7 @@ export default [
   () => (
     <Wrapper>
       <Box>
-        <FormRow vertical>
+        <FormRow label="Legend:">
           <ToggleButton.Group label="Group A label:">
             <ToggleButton text="First" value="first" />
             <ToggleButton text="Second" value="second" />
@@ -33,7 +33,7 @@ export default [
             <ToggleButton text="Second" value="second" />
             <ToggleButton text="Third" value="third" />
           </ToggleButton.Group>
-          <ToggleButton text="Set New State" />
+          {/* <ToggleButton text="Set New State" /> */}
         </FormRow>
       </Box>
       <Box>
@@ -115,7 +115,7 @@ export default [
           <H2>A h2 in a FormRow without a label</H2>
         </FormRow>
         <FormRow
-          size
+          indent
           label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:"
         >
           <ToggleButton.Group
@@ -140,7 +140,7 @@ export default [
       </Box>
       <Box>
         <FormRow
-          size
+          indent
           label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:"
         >
           <ToggleButton.Group

@@ -103,6 +103,7 @@ export default [
           label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:"
         >
           <Radio.Group
+            // direction="vertical"
             label="Group label:"
             title="Give me a Title"
             on_change={({ value }) => {
@@ -166,6 +167,7 @@ export default [
       <Box>
         <Radio.Group
           label="Group with error:"
+          label_direction="vertical"
           status="Error message Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
         >
           <Radio label_position="left" label="First" value="first" />

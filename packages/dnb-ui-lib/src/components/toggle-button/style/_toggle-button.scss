@@ -7,11 +7,12 @@
   display: inline-flex;
   flex-direction: row;
   align-items: center;
+  vertical-align: middle; // just to center, in case we dont have provided a internal label
 
-  // width: auto;
-
-  margin: 0;
-  padding: 0;
+  &__inner {
+    display: inline-flex;
+    flex-direction: column;
+  }
 
   &__shell {
     position: relative;

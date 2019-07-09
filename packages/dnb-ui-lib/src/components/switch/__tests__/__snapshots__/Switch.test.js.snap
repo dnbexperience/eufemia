@@ -462,6 +462,9 @@ legend.dnb-form-label {
   --switch-border-width: 0.0625rem; }
 
 .dnb-switch {
+  display: inline-flex;
+  flex-direction: column;
+  vertical-align: middle;
   /*
     * When switched OFF
     * aka when the switch is not :checked
@@ -472,11 +475,7 @@ legend.dnb-form-label {
     */ }
   .dnb-switch__inner {
     display: inline-flex;
-    flex-direction: column;
-    vertical-align: middle;
-    width: auto;
-    margin: 0;
-    padding: 0; }
+    flex-direction: column; }
   .dnb-switch__shell {
     user-select: none;
     position: relative;
@@ -532,8 +531,7 @@ legend.dnb-form-label {
     border: 0; }
   .dnb-switch__input:not([disabled]) {
     cursor: pointer; }
-  .dnb-switch--label-position-left .dnb-switch__order,
-  .dnb-switch--label-position-right .dnb-switch__order {
+  .dnb-switch__order {
     display: inline-flex;
     flex-direction: row;
     align-items: center; }
@@ -541,7 +539,8 @@ legend.dnb-form-label {
     order: 2; }
   .dnb-switch--label-position-left .dnb-switch__order .dnb-form-label {
     order: 1;
-    align-self: flex-start; }
+    align-self: flex-start;
+    line-height: 1rem; }
   .dnb-switch--label-position-left .dnb-switch__order .dnb-form-status {
     margin-top: 0.5rem; }
   .dnb-switch--label-position-right .dnb-switch__order {
@@ -553,10 +552,8 @@ legend.dnb-form-label {
       margin-left: 1rem;
       margin-right: 0.5rem;
       line-height: 1rem; }
-    .dnb-switch--label-position-right .dnb-switch__order .dnb-form-status {
+    .dnb-switch--label-position-right .dnb-switch__order + .dnb-form-status {
       vertical-align: bottom;
       margin-top: 0.5rem; }
-  .dnb-switch[class*='__status'].dnb-switch--label-position-left .dnb-form-label {
-    transform: translateY(-0.25rem); }
 "
 `;
