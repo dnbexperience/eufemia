@@ -383,6 +383,7 @@ export default class Input extends PureComponent {
                 variant={submit_button_variant}
                 disabled={disabled}
                 size={size}
+                on_submit={on_submit}
               />
             ))}
 

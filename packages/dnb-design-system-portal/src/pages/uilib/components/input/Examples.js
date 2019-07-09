@@ -144,28 +144,31 @@ class Example extends PureComponent {
         </ComponentBox>
         <ComponentBox caption="Submit Form with Input. Pressing the enter key will trigger a submit.">
           {/* @jsx */ `
-<form
-  onSubmit={event => {
-    console.log('onSubmit')
-    event.preventDefault()
+<FormSet
+  prevent_submit={true}
+  on_submit={(event) => {
+    console.log('FormRow.on_submit', event)
   }}
 >
-  <Input
-    label="Label:"
-    value="Input ..."
-    selectall="true"
-    on_submit={event => {
-      console.log('on_submit')
-    }}
-    on_change={({ value }) => {
-      console.log('on_change:', value)
-    }}
-    onChange={({ value }) => {
-      console.log('onChange:', value)
-    }}
-  />
-  <Button text="Submit" type="submit" />
-</form>
+  <FormRow>
+    <Input
+      type="search"
+      label="Label:"
+      value="Input ..."
+      selectall="true"
+      on_submit={event => {
+        console.log('Input.on_submit', event)
+      }}
+      on_change={({ value }) => {
+        console.log('on_change:', value)
+      }}
+      onChange={({ value }) => {
+        console.log('onChange:', value)
+      }}
+    />
+    <Button text="Submit" type="submit" />
+  </FormRow>
+</FormSet>
           `}
         </ComponentBox>
       </Fragment>
