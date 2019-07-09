@@ -773,5 +773,7 @@ legend.dnb-form-label {
     flex-direction: row; }
     .dnb-form-row--vertical .dnb-radio-group {
       display: flex; }
+    .dnb-radio-group .dnb-form-row--vertical-label {
+      row-gap: normal; }
 "
 `;

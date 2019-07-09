@@ -131,6 +131,9 @@
     .dnb-form-row--vertical & {
       display: flex;
     }
+    .dnb-form-row--vertical-label {
+      row-gap: normal;
+    }
 
     @media (min-width: 40em) {
       .dnb-form-row__label:not(.dnb-form-label--vertical)

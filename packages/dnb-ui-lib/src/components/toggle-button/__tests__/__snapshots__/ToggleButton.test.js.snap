@@ -1361,6 +1361,8 @@ a.dnb-button .dnb-button__text {
     flex-direction: row; }
     .dnb-form-row--vertical .dnb-radio-group {
       display: flex; }
+    .dnb-radio-group .dnb-form-row--vertical-label {
+      row-gap: normal; }
 
 .dnb-toggle-button {
   font-family: var(--font-family-default);
@@ -1477,6 +1479,8 @@ a.dnb-button .dnb-button__text {
       margin-bottom: -1rem; }
     .dnb-form-row--vertical .dnb-toggle-button-group {
       display: flex; }
+    .dnb-toggle-button-group .dnb-form-row--vertical-label {
+      row-gap: normal; }
     @media (min-width: 40em) {
       .dnb-form-row__label:not(.dnb-form-label--vertical)
 + .dnb-form-row__content

@@ -143,5 +143,8 @@
     .dnb-form-row--vertical & {
       display: flex;
     }
+    .dnb-form-row--vertical-label {
+      row-gap: normal;
+    }
   }
 }
