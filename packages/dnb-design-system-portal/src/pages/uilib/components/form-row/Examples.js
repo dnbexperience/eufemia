@@ -23,17 +23,18 @@ class Example extends PureComponent {
     return (
       <TestStyles>
         <ComponentBox
-          caption="The label should align the bottom"
+          caption="Vertical aligned `FormRow` label (legend) - while the input labels are still horizontal."
           data-dnb-test="form-row-vertical-label"
           useRender
         >
           {/* @jsx */ `
 const CustomRow = styled(FormRow)\`
   .dnb-input {
-    width: 4rem;
-    color:red;
     & + .dnb-input {
-      margin-left: 2rem;
+      margin-left: 1rem;
+    }
+    &__clamp {
+      width: 8rem;
     }
   }
 \`
@@ -42,8 +43,8 @@ render(
       label="Vertical legend label:"
       label_direction="vertical"
   >
-    <Input label="A:" />
-    <Input label="B:" />
+    <Input label="A:" value="Value A" />
+    <Input label="B:" value="Value B" />
   </CustomRow>
 )
           `}
@@ -92,7 +93,7 @@ render(
 )
           `}
         </ComponentBox>
-        <ComponentBox caption="Default form-row">
+        <ComponentBox caption="Default `FormRow`">
           {/* @jsx */ `
 <FormRow>
   <Input label="Default horizontal FormRow:" value="Input value ..." />
@@ -100,13 +101,26 @@ render(
           `}
         </ComponentBox>
         <ComponentBox
-          caption="Vertical form-row"
+          caption="Vertical `FormRow`"
           data-dnb-test="form-row-vertical"
         >
           {/* @jsx */ `
 <FormRow direction="vertical">
   <Input label="Default vertical FormRow:" value="Input value ..." />
 </FormRow>
+          `}
+        </ComponentBox>
+        <ComponentBox caption="FormRow with `label` (legend)">
+          {/* @jsx */ `
+<FormSet label_direction="vertical">
+  <FormRow label="Label legend for the inputs:" >
+    <Input placeholder="Input A ..." />
+    <Input placeholder="Input B ..." />
+  </FormRow>
+  <FormRow label="Checkbox legend:" top="medium">
+    <Checkbox label="Checkbox" />
+  </FormRow>
+</FormSet>
           `}
         </ComponentBox>
         <ComponentBox caption="Vertical, and disabled, form-row without a `for_id`">
