@@ -314,7 +314,7 @@ export default class Modal extends PureComponent {
             title={trigger_title}
             disabled={isTrue(disabled) || isTrue(trigger_disabled)}
             icon={
-              trigger_icon
+              trigger_icon !== 'question'
                 ? trigger_icon
                 : (!trigger_text || trigger_variant === 'tertiary') &&
                   trigger_icon

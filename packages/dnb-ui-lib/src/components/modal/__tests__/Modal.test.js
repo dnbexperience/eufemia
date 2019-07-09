@@ -86,6 +86,28 @@ describe('Modal component', () => {
       ]
     ).toBe(props.close_title)
   })
+  it('has to have no icon', () => {
+    const Comp1 = mount(<Component trigger_text="Open Modal" />)
+    expect(Comp1.find(`.dnb-icon`).exists()).toBe(false)
+    const Comp2 = mount(
+      <Component
+        trigger_text="Open Modal"
+        trigger_variant="tertiary"
+        trigger_icon={null}
+      />
+    )
+    expect(Comp2.find(`.dnb-icon`).exists()).toBe(false)
+  })
+  it('has to have an icon', () => {
+    const Comp1 = mount(
+      <Component trigger_text="Open Modal" trigger_variant="tertiary" />
+    )
+    expect(Comp1.find(`.dnb-icon`).exists()).toBe(true)
+    const Comp2 = mount(
+      <Component trigger_text="Open Modal" trigger_icon="add" />
+    )
+    expect(Comp2.find(`.dnb-icon`).exists()).toBe(true)
+  })
   it('should validate with ARIA rules as a dialog', async () => {
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
