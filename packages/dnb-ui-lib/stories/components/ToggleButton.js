@@ -27,13 +27,20 @@ export default [
             <ToggleButton text="First" value="first" />
             <ToggleButton text="Second" value="second" />
             <ToggleButton text="Third" value="third" />
+            <ToggleButton text="Third" value="third" />
+            <ToggleButton text="Third" value="third" />
+            <ToggleButton text="Third" value="third" />
+            <ToggleButton text="Third" value="third" />
           </ToggleButton.Group>
           <ToggleButton.Group label="Group B label:">
             <ToggleButton text="First" value="first" />
             <ToggleButton text="Second" value="second" />
             <ToggleButton text="Third" value="third" />
+            <ToggleButton text="Third" value="third" />
+            <ToggleButton text="Third" value="third" />
+            <ToggleButton text="Third" value="third" />
+            <ToggleButton text="Third" value="third" />
           </ToggleButton.Group>
-          {/* <ToggleButton text="Set New State" /> */}
         </FormRow>
       </Box>
       <Box>
@@ -135,6 +142,9 @@ export default [
             <ToggleButton text="First" value="first" />
             <ToggleButton text="Second" value="second" checked />
             <ToggleButton text="Third" value="third" checked />
+            <ToggleButton text="Third" value="third" checked />
+            <ToggleButton text="Third" value="third" checked />
+            <ToggleButton text="Third" value="third" checked />
           </ToggleButton.Group>
         </FormRow>
       </Box>
@@ -167,7 +177,7 @@ export default [
       </Box>
       <Box>
         <ToggleButton.Group
-          label="Vertical group:"
+          label="Column group:"
           layout_direction="column"
         >
           <ToggleButton text="First" value="first" />

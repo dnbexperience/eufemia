@@ -1475,35 +1475,30 @@ a.dnb-button .dnb-button__text {
     .dnb-toggle-button-group .dnb-toggle-button-group__shell {
       display: block;
       margin-bottom: -1rem; }
-    .dnb-form-row--vertical .dnb-toggle-button-group {
-      display: flex; }
+    .dnb-toggle-button-group .dnb-form-row > .dnb-form-label {
+      transform: translateY(0.5rem); }
     .dnb-toggle-button-group .dnb-form-row--vertical-label {
       row-gap: normal; }
+    .dnb-toggle-button-group .dnb-form-row--vertical-label > .dnb-form-label {
+      transform: translateY(0); }
+    .dnb-toggle-button-group .dnb-form-row--nested {
+      align-items: flex-start; }
+    .dnb-form-row--vertical .dnb-toggle-button-group {
+      display: flex; }
     @media (min-width: 40em) {
       .dnb-form-row__label:not(.dnb-form-label--vertical)
 + .dnb-form-row__content
 > .dnb-toggle-button-group {
-        margin-top: -0.5rem; }
-      .dnb-form-row__label:not(.dnb-form-label--vertical)
-+ .dnb-form-row__content
-> .dnb-toggle-button-group__shell {
-        display: block;
         margin-top: -0.5rem; } }
   @media (min-width: 40em) {
     .dnb-form-label + .dnb-toggle-button {
       margin-top: -0.5rem; } }
-  .dnb-toggle-button + .dnb-form-status,
-  .dnb-toggle-button-group .dnb-toggle-button-group__shell > .dnb-form-status {
+  .dnb-toggle-button + .dnb-form-status {
     margin-top: 0.5rem;
     margin-bottom: 1rem; }
-  .dnb-toggle-button-group .dnb-toggle-button-group__shell .dnb-toggle-button + .dnb-form-status {
-    margin-top: 0; }
-  .dnb-toggle-button--label-position-right {
-    vertical-align: middle; }
-    .dnb-toggle-button--label-position-right .dnb-form-label {
-      order: 2;
-      margin-left: 1rem; }
-    .dnb-toggle-button--label-position-right .dnb-toggle-button__shell {
-      order: 1; }
+  .dnb-toggle-button-group__shell > .dnb-form-status {
+    transform: translateY(-0.5rem);
+    margin-top: 0;
+    margin-bottom: 0; }
 "
 `;

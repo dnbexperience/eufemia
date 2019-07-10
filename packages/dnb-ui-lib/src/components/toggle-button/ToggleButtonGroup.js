@@ -250,6 +250,7 @@ export default class ToggleButtonGroup extends PureComponent {
       id,
       label,
       label_id: id, // send the id along, so the FormRow component can use it
+      label_direction,
       direction: label_direction,
       vertical,
       disabled
