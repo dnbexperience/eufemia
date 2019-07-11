@@ -33,12 +33,18 @@ const DropdownStory = () => {
           <option value="b">B</option>
         </select>
         <Dropdown
+          label="Label:"
           data={data}
           selected_item={selected_item}
           on_state_update={event => {
             console.log('on_state_update', event)
           }}
-          label="Label:"
+          on_change={({ data }) => {
+            console.log('on_change', data)
+          }}
+          on_select={({ data }) => {
+            console.log('on_select', data)
+          }}
         />
         <Button
           text="Add"
@@ -78,6 +84,12 @@ const DropdownStory = () => {
           label_direction="vertical"
           title={<>Custom title {'🔥'}</>}
           data={dropdownData}
+          on_change={({ data }) => {
+            console.log('on_change', data)
+          }}
+          on_select={({ data }) => {
+            console.log('on_select', data)
+          }}
           // selected_item={3}
           // disabled
         />

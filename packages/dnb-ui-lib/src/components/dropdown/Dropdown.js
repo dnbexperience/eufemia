@@ -232,7 +232,8 @@ export default class Dropdown extends PureComponent {
       max_height: props.max_height,
       active_item: props.selected_item,
       // send selected_item in here, so we dont trigger on_state_update
-      selected_item: props.selected_item
+      selected_item: props.selected_item,
+      selectedItemHasChanged: false
     }
 
     this._ref = React.createRef()
@@ -371,7 +372,10 @@ export default class Dropdown extends PureComponent {
     return index
   }
 
-  scrollToItem(active_item, { scrollTo = true } = {}) {
+  scrollToItem(
+    active_item,
+    { fireSelectEvent = false, scrollTo = true, event = null } = {}
+  ) {
     if (!(active_item > -1)) {
       return
     }
@@ -381,6 +385,13 @@ export default class Dropdown extends PureComponent {
         _listenForPropChanges: false
       },
       () => {
+        if (fireSelectEvent) {
+          const ret = dispatchCustomElementEvent(this, 'on_select', {
+            data: Dropdown.getOptionData(active_item, this.state.data),
+            event
+          })
+          if (ret === false) return
+        }
         // try to scroll to item
         if (!this._refUl.current) return
         try {
@@ -481,11 +492,8 @@ export default class Dropdown extends PureComponent {
       case 'enter':
       case 'space':
         e.preventDefault()
-        this.selectItem(active_item, { event: e })
+        this.selectItem(active_item, { fireSelectEvent: true, event: e })
         this.setHidden()
-        dispatchCustomElementEvent(this, 'on_select', {
-          data: Dropdown.getOptionData(active_item, this.state.data)
-        })
         break
       case 'esc':
         e.preventDefault()
@@ -505,7 +513,7 @@ export default class Dropdown extends PureComponent {
     }
 
     if (active_item !== this.state.active_item) {
-      this.scrollToItem(active_item)
+      this.scrollToItem(active_item, { fireSelectEvent: true, event: e })
     }
   }
 
@@ -518,15 +526,35 @@ export default class Dropdown extends PureComponent {
     }
   }
 
-  selectItem = (selected_item, { fireSelectEvent, event = null } = {}) => {
+  selectItem = (
+    selected_item,
+    { fireSelectEvent = false, event = null } = {}
+  ) => {
+    if (
+      this.state.selected_item !== selected_item ||
+      // to make sure we call "on_change" on startup
+      this.state.selectedItemHasChanged === false
+    ) {
+      dispatchCustomElementEvent(this, 'on_change', {
+        data: Dropdown.getOptionData(selected_item, this.state.data),
+        event
+      })
+    }
     this.setState(
       {
         // Do not set "_listenForPropChanges" to false here, as it will block instant component rerender
         _isNewActiveItem: true,
+        selectedItemHasChanged: true,
         selected_item,
         active_item: selected_item
       },
       () => {
+        if (fireSelectEvent) {
+          dispatchCustomElementEvent(this, 'on_select', {
+            data: Dropdown.getOptionData(selected_item, this.state.data),
+            event
+          })
+        }
         if (this._selectTimeout) {
           clearTimeout(this._selectTimeout)
         }
@@ -538,18 +566,6 @@ export default class Dropdown extends PureComponent {
         }, 150) // only for the user experience
       }
     )
-    if (this.state.selected_item !== selected_item) {
-      dispatchCustomElementEvent(this, 'on_change', {
-        data: Dropdown.getOptionData(selected_item, this.state.data),
-        event
-      })
-    }
-    if (fireSelectEvent) {
-      dispatchCustomElementEvent(this, 'on_select', {
-        data: Dropdown.getOptionData(selected_item, this.state.data),
-        event
-      })
-    }
   }
 
   setScrollObserver() {
