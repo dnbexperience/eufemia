@@ -109,6 +109,12 @@
     vertical-align: top;
   }
 
+  // status
+  & + .dnb-form-status {
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
   &-group {
     display: inline-flex;
     flex-direction: row;
@@ -121,12 +127,17 @@
     &--column .dnb-toggle-button {
       display: flex;
       margin-right: 0;
-      margin-bottom: 1rem;
     }
     // correct the bottom on the last row
-    & &__shell {
+    &__shell {
       display: block;
       margin-bottom: -1rem;
+
+      & > .dnb-form-status {
+        transform: translateY(-0.5rem);
+        margin-top: 0;
+        margin-bottom: 0;
+      }
     }
 
     .dnb-form-row {
@@ -161,17 +172,5 @@
     .dnb-form-label + & {
       margin-top: -0.5rem;
     }
-  }
-
-  // status
-  & + .dnb-form-status {
-    margin-top: 0.5rem;
-    margin-bottom: 1rem;
-  }
-
-  &-group__shell > .dnb-form-status {
-    transform: translateY(-0.5rem);
-    margin-top: 0;
-    margin-bottom: 0;
   }
 }

@@ -28,6 +28,7 @@ export const propTypes = {
   multiselect: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   variant: PropTypes.oneOf(['default', 'checkbox', 'radio']),
   left_component: PropTypes.node,
+  no_fieldset: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   id: PropTypes.string,
   name: PropTypes.string,
@@ -62,6 +63,7 @@ export const defaultProps = {
   multiselect: null,
   variant: null,
   left_component: null,
+  no_fieldset: null,
   disabled: null,
   id: null,
   name: null,
@@ -178,6 +180,7 @@ export default class ToggleButtonGroup extends PureComponent {
       label,
       variant,
       left_component,
+      no_fieldset,
       disabled,
       className,
       class: _className,
@@ -253,7 +256,8 @@ export default class ToggleButtonGroup extends PureComponent {
       label_direction,
       direction: label_direction,
       vertical,
-      disabled
+      disabled,
+      no_fieldset
       // status,
       // status_state
     }

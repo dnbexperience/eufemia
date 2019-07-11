@@ -68,7 +68,6 @@ export default [
           <ToggleButton
             checked
             label="Label"
-            label_position="right"
             variant="radio"
             icon_position="right"
             // icon="bell"
@@ -203,22 +202,9 @@ export default [
           label="Group with error:"
           status="Error message Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
         >
-          <ToggleButton
-            // label_position="left"
-            text="First"
-            value="first"
-          />
-          <ToggleButton
-            // label_position="left"
-            text="Second"
-            value="second"
-          />
-          <ToggleButton
-            // label_position="left"
-            text="Third"
-            value="third"
-            checked
-          />
+          <ToggleButton text="First" value="first" />
+          <ToggleButton text="Second" value="second" />
+          <ToggleButton text="Third" value="third" checked />
         </ToggleButton.Group>
       </Box>
       <Box>

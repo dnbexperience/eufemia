@@ -13,7 +13,6 @@ exports[`ToggleButton component have to match snapshot 1`] = `
   icon_position="left"
   id="toggle-button"
   label="label"
-  label_position="left"
   left_component="left_component"
   on_change={[Function]}
   on_state_update={[Function]}
@@ -27,7 +26,7 @@ exports[`ToggleButton component have to match snapshot 1`] = `
   variant="checkbox"
 >
   <span
-    className="dnb-toggle-button dnb-toggle-button--label-position-left className class"
+    className="dnb-toggle-button className class"
   >
     <FormLabel
       class={null}
@@ -276,6 +275,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
   left_component={null}
   multiselect={null}
   name={null}
+  no_fieldset={null}
   on_change={null}
   status={null}
   status_animation={null}
@@ -363,7 +363,6 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                   icon_position="right"
                   id="toggle-button-1"
                   label={null}
-                  label_position="left"
                   left_component={null}
                   on_change={null}
                   on_state_update={null}
@@ -466,7 +465,6 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                   icon_position="right"
                   id="toggle-button-2"
                   label={null}
-                  label_position="left"
                   left_component={null}
                   on_change={null}
                   on_state_update={null}
@@ -1314,19 +1312,13 @@ a.dnb-button .dnb-button__text {
     border: 0; }
   .dnb-radio__input:not([disabled]) {
     cursor: pointer; }
-  .dnb-radio .dnb-form-status {
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem; }
   .dnb-radio .dnb-form-label {
     margin-bottom: 0; }
   .dnb-radio__order {
     display: inline-flex;
     flex-direction: row; }
     .dnb-radio-group--column .dnb-radio__order {
-      display: flex;
-      margin-bottom: 0.5rem; }
-  .dnb-radio__order ~ .dnb-form-status {
-    margin-bottom: 1rem; }
+      display: flex; }
   .dnb-radio--label-position-left .dnb-radio__order .dnb-radio__inner {
     order: 2; }
   .dnb-radio--label-position-left .dnb-radio__order .dnb-form-label {
@@ -1343,22 +1335,35 @@ a.dnb-button .dnb-button__text {
     margin-left: 0; }
   :not(.dnb-radio-group) > .dnb-form-label + .dnb-radio {
     vertical-align: top; }
+  .dnb-radio .dnb-form-status {
+    margin-top: 0;
+    margin-bottom: 0.5rem; }
+  .dnb-radio + .dnb-form-status {
+    margin-top: 0.5rem;
+    margin-bottom: 1rem; }
   .dnb-radio-group {
     display: inline-flex;
     flex-direction: row; }
-    .dnb-radio-group__shell {
-      display: inline-flex;
-      flex-direction: row; }
+    .dnb-radio-group .dnb-radio {
+      margin-right: 0.5rem;
+      margin-bottom: 0.5rem; }
+    .dnb-radio-group--column .dnb-radio {
+      display: flex;
+      margin-right: 0; }
+    .dnb-radio-group [role='radiogroup'], .dnb-radio-group__shell {
+      display: block;
+      margin-bottom: -1rem; }
+    .dnb-radio-group__shell > .dnb-form-status {
+      margin-top: 0;
+      margin-bottom: 0; }
     .dnb-radio-group--column .dnb-radio-group__shell {
       flex-direction: column; }
-    .dnb-radio-group .dnb-form-status {
-      margin-top: 0.5rem; }
-    .dnb-radio-group--column .dnb-form-status {
-      margin-top: 0; }
-    .dnb-form-row--vertical .dnb-radio-group {
-      display: flex; }
     .dnb-radio-group .dnb-form-row--vertical-label {
       row-gap: normal; }
+    .dnb-radio-group .dnb-form-row--nested {
+      align-items: flex-start; }
+    .dnb-form-row--vertical .dnb-radio-group {
+      display: flex; }
 
 .dnb-toggle-button {
   font-family: var(--font-family-default);
@@ -1462,6 +1467,9 @@ a.dnb-button .dnb-button__text {
     color: var(--color-mint-green); }
   :not(.dnb-toggle-button-group) > .dnb-form-label + .dnb-toggle-button {
     vertical-align: top; }
+  .dnb-toggle-button + .dnb-form-status {
+    margin-top: 0.5rem;
+    margin-bottom: 1rem; }
   .dnb-toggle-button-group {
     display: inline-flex;
     flex-direction: row; }
@@ -1470,11 +1478,14 @@ a.dnb-button .dnb-button__text {
       margin-bottom: 1rem; }
     .dnb-toggle-button-group--column .dnb-toggle-button {
       display: flex;
-      margin-right: 0;
-      margin-bottom: 1rem; }
-    .dnb-toggle-button-group .dnb-toggle-button-group__shell {
+      margin-right: 0; }
+    .dnb-toggle-button-group__shell {
       display: block;
       margin-bottom: -1rem; }
+      .dnb-toggle-button-group__shell > .dnb-form-status {
+        transform: translateY(-0.5rem);
+        margin-top: 0;
+        margin-bottom: 0; }
     .dnb-toggle-button-group .dnb-form-row > .dnb-form-label {
       transform: translateY(0.5rem); }
     .dnb-toggle-button-group .dnb-form-row--vertical-label {
@@ -1493,12 +1504,5 @@ a.dnb-button .dnb-button__text {
   @media (min-width: 40em) {
     .dnb-form-label + .dnb-toggle-button {
       margin-top: -0.5rem; } }
-  .dnb-toggle-button + .dnb-form-status {
-    margin-top: 0.5rem;
-    margin-bottom: 1rem; }
-  .dnb-toggle-button-group__shell > .dnb-form-status {
-    transform: translateY(-0.5rem);
-    margin-top: 0;
-    margin-bottom: 0; }
 "
 `;
