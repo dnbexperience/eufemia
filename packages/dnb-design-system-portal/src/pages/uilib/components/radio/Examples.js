@@ -112,13 +112,14 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox
-          caption="Disabled Radio group"
+          caption="Disabled Radio group with `label_position` set to left"
           data-dnb-test="radio-group-disabled"
         >
           {/* @jsx */ `
 <Radio.Group
   label="Disabled Group:"
   disabled
+  label_position="left"
   name="MyGroup"
 >
   <Radio label="First" value="first" />
