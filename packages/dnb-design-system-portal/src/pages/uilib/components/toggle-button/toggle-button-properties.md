@@ -28,3 +28,7 @@ draft: true
 | `label`            | _(optional)_ use either the `label` property or provide custom one.                                                                                                                             |
 | `label_direction`  | _(optional)_ to define the `label` layout direction on how the next element should be placed on. Can be either `vertical` or `horizontal`. Defaults to `horizontal`.                            |
 | `vertical`         | _(optional)_ is a short hand to define a `vertical` direction if set to `true`.                                                                                                                 |
+
+### ToggleButton group Context
+
+You can also pass through `label_position` and some more **ToggleButton** properties to the Group. This way all nested ToggleButton's will get the properties.

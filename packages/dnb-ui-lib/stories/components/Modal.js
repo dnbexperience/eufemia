@@ -18,7 +18,7 @@ export default [
         <Modal
           title="Modal Title"
           trigger_variant="tertiary"
-          // trigger_icon={null}
+          trigger_icon={null}
           trigger_text="Click me"
           modal_content="This is the modal text. Triggered by a tertiary button."
         />
