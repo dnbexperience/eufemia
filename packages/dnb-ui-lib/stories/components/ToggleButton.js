@@ -22,18 +22,25 @@ export default [
   () => (
     <Wrapper>
       <Box>
-        <FormRow vertical>
+        <FormRow label="Legend:">
           <ToggleButton.Group label="Group A label:">
             <ToggleButton text="First" value="first" />
             <ToggleButton text="Second" value="second" />
+            <ToggleButton text="Third" value="third" />
+            <ToggleButton text="Third" value="third" />
+            <ToggleButton text="Third" value="third" />
+            <ToggleButton text="Third" value="third" />
             <ToggleButton text="Third" value="third" />
           </ToggleButton.Group>
           <ToggleButton.Group label="Group B label:">
             <ToggleButton text="First" value="first" />
             <ToggleButton text="Second" value="second" />
             <ToggleButton text="Third" value="third" />
+            <ToggleButton text="Third" value="third" />
+            <ToggleButton text="Third" value="third" />
+            <ToggleButton text="Third" value="third" />
+            <ToggleButton text="Third" value="third" />
           </ToggleButton.Group>
-          <ToggleButton text="Set New State" />
         </FormRow>
       </Box>
       <Box>
@@ -61,7 +68,6 @@ export default [
           <ToggleButton
             checked
             label="Label"
-            label_position="right"
             variant="radio"
             icon_position="right"
             // icon="bell"
@@ -115,7 +121,7 @@ export default [
           <H2>A h2 in a FormRow without a label</H2>
         </FormRow>
         <FormRow
-          size
+          indent
           label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:"
         >
           <ToggleButton.Group
@@ -135,12 +141,15 @@ export default [
             <ToggleButton text="First" value="first" />
             <ToggleButton text="Second" value="second" checked />
             <ToggleButton text="Third" value="third" checked />
+            <ToggleButton text="Third" value="third" checked />
+            <ToggleButton text="Third" value="third" checked />
+            <ToggleButton text="Third" value="third" checked />
           </ToggleButton.Group>
         </FormRow>
       </Box>
       <Box>
         <FormRow
-          size
+          indent
           label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:"
         >
           <ToggleButton.Group
@@ -167,7 +176,7 @@ export default [
       </Box>
       <Box>
         <ToggleButton.Group
-          label="Vertical group:"
+          label="Column group:"
           layout_direction="column"
         >
           <ToggleButton text="First" value="first" />
@@ -193,22 +202,9 @@ export default [
           label="Group with error:"
           status="Error message Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
         >
-          <ToggleButton
-            // label_position="left"
-            text="First"
-            value="first"
-          />
-          <ToggleButton
-            // label_position="left"
-            text="Second"
-            value="second"
-          />
-          <ToggleButton
-            // label_position="left"
-            text="Third"
-            value="third"
-            checked
-          />
+          <ToggleButton text="First" value="first" />
+          <ToggleButton text="Second" value="second" />
+          <ToggleButton text="Third" value="third" checked />
         </ToggleButton.Group>
       </Box>
       <Box>

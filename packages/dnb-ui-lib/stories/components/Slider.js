@@ -45,7 +45,8 @@ const SliderStory = () => {
       <Box>
         <VerticalWrapper>
           <Slider
-            // label="Label:"
+            label="Label:"
+            label_direction="vertical"
             min={0}
             max={100}
             value={value}

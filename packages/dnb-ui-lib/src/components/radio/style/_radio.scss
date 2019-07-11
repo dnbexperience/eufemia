@@ -11,12 +11,12 @@
 
 .dnb-radio {
   display: inline-flex;
-  flex-direction: row;
+  flex-direction: column;
 
-  width: auto;
-
-  margin: 0;
-  padding: 0;
+  &__inner {
+    display: inline-flex;
+    flex-direction: row;
+  }
 
   &__shell {
     position: relative;
@@ -81,12 +81,26 @@
     cursor: pointer;
   }
 
-  .dnb-form-status {
-    margin-bottom: 0.5rem;
+  // .dnb-form-status {
+  //   margin-top: 0.5rem;
+  //   margin-bottom: 0.5rem;
+  // }
+  .dnb-form-label {
+    margin-bottom: 0;
   }
 
-  &--label-position-left {
-    .dnb-radio {
+  &__order {
+    display: inline-flex;
+    flex-direction: row;
+
+    .dnb-radio-group--column & {
+      display: flex;
+      // margin-bottom: 0.5rem;
+    }
+  }
+
+  &--label-position-left &__order {
+    .dnb-radio__inner {
       order: 2;
     }
     .dnb-form-label {
@@ -94,14 +108,10 @@
       margin-right: 0.5rem;
       margin-left: 1rem;
     }
-    .dnb-radio-group--column & {
-      display: flex;
-      margin-bottom: 0.5rem;
-    }
   }
 
-  &--label-position-right {
-    .dnb-radio {
+  &--label-position-right &__order {
+    .dnb-radio__inner {
       order: 1;
     }
     .dnb-form-label {
@@ -109,18 +119,12 @@
       margin-right: 1rem;
       margin-left: 0.5rem;
     }
-    .dnb-radio-group--column & {
-      display: flex;
-      margin-bottom: 0.5rem;
-    }
   }
 
   // reset left position of label
-  // &--label-position-left:first-of-type {
-  //   .dnb-form-label {
-  //     margin-left: 0;
-  //   }
-  // }
+  &--label-position-left:first-of-type .dnb-form-label {
+    margin-left: 0;
+  }
 
   // in case we don't define a wrapping group
   // and have a custom label component before the radio (and not inside)
@@ -128,18 +132,54 @@
     vertical-align: top;
   }
 
-  &--label-position-left ~ .dnb-form-status,
-  &--label-position-right ~ .dnb-form-status {
-    margin-bottom: 1rem;
+  // status
+  .dnb-form-status {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
   }
-
-  .dnb-form-label {
-    margin-bottom: 0;
+  & + .dnb-form-status {
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
   }
 
   &-group {
     display: inline-flex;
     flex-direction: row;
+
+    // defualt spacing
+    .dnb-radio {
+      margin-right: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+    &--column .dnb-radio {
+      display: flex;
+      margin-right: 0;
+    }
+
+    & [role='radiogroup'],
+    &__shell {
+      display: block;
+      // correct the bottom on the last row
+      margin-bottom: -1rem;
+    }
+    &__shell {
+      & > .dnb-form-status {
+        margin-top: 0;
+        margin-bottom: 0;
+      }
+    }
+    &--column &__shell {
+      flex-direction: column;
+    }
+
+    .dnb-form-row {
+      &--vertical-label {
+        row-gap: normal;
+      }
+      &--nested {
+        align-items: flex-start;
+      }
+    }
     .dnb-form-row--vertical & {
       display: flex;
     }

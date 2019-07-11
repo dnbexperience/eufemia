@@ -12,7 +12,6 @@ export const gridStyle = GridStyle
 let testWrapperStyle = ''
 if (typeof window !== 'undefined' && window.IS_TEST) {
   testWrapperStyle = css`
-    ${'' /* [data-dnb-test] { */}
     [data-dnb-test-wrapper] {
       position: relative;
       z-index: 9999;

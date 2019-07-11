@@ -15,6 +15,15 @@ export default [
   () => (
     <Wrapper>
       <Box>
+        <Modal
+          title="Modal Title"
+          trigger_variant="tertiary"
+          // trigger_icon={null}
+          trigger_text="Click me"
+          modal_content="This is the modal text. Triggered by a tertiary button."
+        />
+      </Box>
+      <Box>
         <Modal trigger_text="Open Modal" title="Modal Title">
           <Hr />
           <Box>

@@ -13,13 +13,33 @@ describe('Slider screenshot', () => {
   it('have to match default slider', async () => {
     const screenshot = await testPageScreenshot({
       style: { width: '20rem' },
-      selector: '[data-dnb-test="slider-default"]'
+      selector: '[data-dnb-test="slider-default"] .dnb-slider__inner'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+  it('have to match the focus state', async () => {
+    const screenshot = await testPageScreenshot({
+      style: { width: '20rem' },
+      selector: '[data-dnb-test="slider-default"] .dnb-slider__inner',
+      simulateSelector:
+        '[data-dnb-test="slider-default"] .dnb-slider__thumb button',
+      simulate: 'focus'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+  it('have to match the hover state', async () => {
+    const screenshot = await testPageScreenshot({
+      style: { width: '20rem' },
+      selector: '[data-dnb-test="slider-default"] .dnb-slider__inner',
+      simulateSelector:
+        '[data-dnb-test="slider-default"] .dnb-slider__thumb button',
+      simulate: 'hover'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match vertical slider', async () => {
     const screenshot = await testPageScreenshot({
-      style: { height: '12rem' },
+      style: { height: '16rem' },
       selector: '[data-dnb-test="slider-vertical"]'
     })
     expect(screenshot).toMatchImageSnapshot()

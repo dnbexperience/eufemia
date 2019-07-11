@@ -157,6 +157,11 @@ export default class FormRow extends PureComponent {
         (isTrue(label_direction) || label_direction) &&
           `dnb-form-row--${label_direction}-label`,
         indent &&
+          !(
+            isNested &&
+            this.context.formRow.hasLabel &&
+            this.context.formRow.indent
+          ) &&
           `dnb-form-row__indent--${isTrue(indent) ? 'default' : indent}`,
         isNested && `dnb-form-row--nested`,
         section_style ? `dnb-section dnb-section--${section_style}` : null,

@@ -33,6 +33,7 @@ export const propTypes = {
   status_animation: PropTypes.string,
   layout_direction: PropTypes.oneOf(['column', 'row']),
   label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
+  label_position: PropTypes.oneOf(['left', 'right']),
   vertical: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   value: PropTypes.string,
   attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
@@ -63,6 +64,7 @@ export const defaultProps = {
   status_state: 'error',
   status_animation: null,
   label_direction: null,
+  label_position: 'right',
   vertical: null,
   layout_direction: 'row',
   value: null,
@@ -138,6 +140,7 @@ export default class RadioGroup extends PureComponent {
       status_state,
       status_animation,
       label_direction,
+      label_position,
       vertical,
       layout_direction,
       label,
@@ -189,6 +192,7 @@ export default class RadioGroup extends PureComponent {
       name: this._name,
       value,
       disabled,
+      label_position,
       onChange: this.onChangeHandler
     }
 
@@ -196,6 +200,7 @@ export default class RadioGroup extends PureComponent {
       id,
       label,
       label_id: id, // send the id along, so the FormRow component can use it
+      label_direction,
       direction: label_direction,
       vertical,
       disabled,

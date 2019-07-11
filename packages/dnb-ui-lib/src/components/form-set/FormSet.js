@@ -101,7 +101,12 @@ export default class FormSet extends PureComponent {
     } = this.props
 
     const formRowProps = Object.entries(rest).reduce((acc, [k, v]) => {
-      if (typeof availableFormRowProps[k] !== 'undefined' && k !== 'id') {
+      if (
+        typeof availableFormRowProps[k] !== 'undefined' &&
+        k !== 'id' &&
+        k !== 'children' &&
+        k !== 'render_content'
+      ) {
         acc[k] = v
       }
       return acc

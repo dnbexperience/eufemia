@@ -65,6 +65,7 @@ render(<InputMasked
   size="large"
   mask={numberMask}
   align="right"
+  stretch="true"
   placeholder="Enter a number"
   on_change={handleInputChange}
 />)

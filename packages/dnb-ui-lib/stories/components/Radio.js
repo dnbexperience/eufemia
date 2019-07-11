@@ -22,6 +22,28 @@ export default [
   () => (
     <Wrapper>
       <Box>
+        <FormRow label="Legend:">
+          <Radio.Group label="Group A label:">
+            <Radio label="first" value="first" />
+            <Radio label="second" value="second" />
+            <Radio label="third" value="third" />
+            <Radio label="third-1" value="third-1" />
+            <Radio label="third-2" value="third-2" />
+            <Radio label="third-3" value="third-3" />
+            <Radio label="third-4" value="third-4" />
+          </Radio.Group>
+          <Radio.Group label="Group B label:">
+            <Radio label="first" value="first" />
+            <Radio label="second" value="second" />
+            <Radio label="third" value="third" />
+            <Radio label="third-1" value="third-1" />
+            <Radio label="third-2" value="third-2" />
+            <Radio label="third-3" value="third-3" />
+            <Radio label="third-4" value="third-4" />
+          </Radio.Group>
+        </FormRow>
+      </Box>
+      <Box>
         <RadioGroupsWithStatus />
       </Box>
       <Box>
@@ -74,9 +96,11 @@ export default [
         <FormRow indent no_label>
           <H2>A h2 in a FormRow without a label</H2>
         </FormRow>
-        <FormRow indent>
+        <FormRow
+          indent
+          label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:"
+        >
           <Radio.Group
-            label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:"
             // label="Group:"
             // label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:"
             title="Give me a Title"
@@ -84,6 +108,7 @@ export default [
               console.log('on_change', value)
             }}
             value="first"
+            status="Error message"
             // disabled
             // name="MyGroup" // The Group Name
           >
@@ -103,11 +128,13 @@ export default [
           label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:"
         >
           <Radio.Group
+            // direction="vertical"
             label="Group label:"
             title="Give me a Title"
             on_change={({ value }) => {
               console.log('on_change', value)
             }}
+            status="Error message"
             // disabled
             // name="First" // Custom Group Name
           >
@@ -166,16 +193,13 @@ export default [
       <Box>
         <Radio.Group
           label="Group with error:"
+          label_direction="vertical"
+          label_position="left" // for every radio button
           status="Error message Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
         >
-          <Radio label_position="left" label="First" value="first" />
-          <Radio label_position="left" label="Second" value="second" />
-          <Radio
-            label_position="left"
-            label="Third"
-            value="third"
-            checked
-          />
+          <Radio label="First" value="first" />
+          <Radio label="Second" value="second" />
+          <Radio label="Third" value="third" checked />
         </Radio.Group>
       </Box>
       <Box>

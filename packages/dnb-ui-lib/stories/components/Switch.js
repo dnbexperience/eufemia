@@ -53,9 +53,9 @@ export default [
       <Box>
         <Switch
           label="Label"
+          label_position="right"
           checked
           status="Error message Vulputate consequat pellentesque senectus conubia proin sapien felis inceptos eu"
-          label_position="right"
         />
       </Box>
     </Wrapper>

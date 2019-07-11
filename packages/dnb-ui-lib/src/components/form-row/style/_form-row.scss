@@ -15,27 +15,28 @@
   flex-direction: row;
 
   &__content {
+    display: inline-flex;
     width: 100%;
   }
 
   // for hoizontal direction
   &:not(#{&}--vertical),
   &--horizontal {
-    @supports (display: grid) {
-      display: grid;
-      grid-template-columns:
-        [column1-start] var(--form-row-column1-start)
-        [column1-end column2-start] var(--form-row-column2-start)
-        [column2-end];
-      grid-template-rows:
-        [row1-start] var(--form-row-row1-start) [row1-end row2-start] var(
-          --form-row-row2-start
-        )
-        [row2-end];
-    }
-    @supports not (display: grid) {
-      align-items: flex-end;
-    }
+    // @supports (display: grid) {
+    display: grid;
+    grid-template-columns:
+      [column1-start] var(--form-row-column1-start)
+      [column1-end column2-start] var(--form-row-column2-start)
+      [column2-end];
+    grid-template-rows:
+      [row1-start] var(--form-row-row1-start) [row1-end row2-start] var(
+        --form-row-row2-start
+      )
+      [row2-end];
+    // }
+    // @supports not (display: grid) {
+    align-items: flex-end;
+    // }
 
     // > * { // <-- we used this before
     > .dnb-form-row__content {
@@ -45,18 +46,18 @@
     }
 
     > .dnb-form-label {
-      @supports (display: grid) {
-        // put the label in the first column
-        grid-column: column1-start / column1-end;
-        grid-row: row1-start / row1-end;
+      // @supports (display: grid) {
+      // put the label in the first column
+      grid-column: column1-start / column1-end;
+      grid-row: row1-start / row1-end;
 
-        // move the label up in case we have several lines (use the line-height)
-        margin-bottom: -1.5rem;
+      // move the label up in case we have several lines (use the line-height)
+      margin-bottom: -1.5rem;
 
-        @media (min-width: 40em) {
-          text-align: right;
-        }
+      @media (min-width: 40em) {
+        text-align: right;
       }
+      // }
 
       margin-right: 1rem;
     }

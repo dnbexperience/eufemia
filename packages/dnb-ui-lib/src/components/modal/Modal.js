@@ -98,7 +98,7 @@ export const defaultProps = {
   trigger_variant: 'secondary',
   trigger_text: null,
   trigger_title: 'Open Modal',
-  trigger_icon: null,
+  trigger_icon: 'question',
   trigger_icon_position: 'left',
   trigger_class: null,
   content_id: null,
@@ -314,10 +314,10 @@ export default class Modal extends PureComponent {
             title={trigger_title}
             disabled={isTrue(disabled) || isTrue(trigger_disabled)}
             icon={
-              trigger_icon
+              trigger_icon !== 'question'
                 ? trigger_icon
                 : (!trigger_text || trigger_variant === 'tertiary') &&
-                  'question'
+                  trigger_icon
             }
             icon_position={trigger_icon_position}
             on_click={this.toggleOpenClose}

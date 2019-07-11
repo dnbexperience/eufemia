@@ -25,6 +25,7 @@ props.min = 0
 props.max = 100
 props.value = 70
 props.step = 10
+props.label_direction = 'horizontal'
 
 describe('Slider component', () => {
   const Comp = mount(<Component {...props} />)

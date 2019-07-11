@@ -51,7 +51,7 @@ export default [
           </p>
         </Box>
         <Box>
-          <CustomRow size>
+          <CustomRow indent>
             <FormLabel for_id="checkbox-2">
               Vertical FormLabel for a Checkbox component Sapien rhoncus
               sagittis pharetra ornare platea feugiat cras senectus
@@ -86,6 +86,16 @@ export default [
             // label="Unchecked status error:"
             label="Unchecked:"
             label_position="left"
+            // status="Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
+            status="Potenti viverra facilisi blandit sodales lorem est fusce"
+            status_state="info"
+          />
+        </Box>
+        <Box>
+          <Checkbox
+            // label="Unchecked status error:"
+            label="Unchecked:"
+            label_position="right"
             // status="Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
             status="Potenti viverra facilisi blandit sodales lorem est fusce"
             status_state="info"

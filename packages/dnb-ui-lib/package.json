@@ -26,7 +26,7 @@
     "prebuildOnly:disabled": "yarn prebuild:update && jest --ci",
     "cdn": "live-server --no-browser --cors --port=8081",
     "precommit": "yarn lint-staged",
-    "dev": "nodemon --exec 'babel-node ./scripts/prepub/dev.js' --watch 'rollup.config.js' --ext js,html,json,css,scss --watch './src/style/**/*' --watch './scripts/**/*' --ignore '*.json'",
+    "dev": "nodemon --exec 'babel-node ./scripts/prepub/dev.js' --watch 'rollup.config.js' --ext js,html,json,css,scss --watch './src/components/**/*' --watch './src/style/**/*' --watch './scripts/**/*' --ignore '*.json'",
     "dev:convertIcons": "nodemon --exec 'babel-node ./scripts/tools/convertIcons' --ignore '/icons/**' --ignore '*.json'",
     "dev:prepareTemplates": "nodemon --exec 'yarn babel-node ./scripts/prepub/tasks/prepareTemplates.js' --ext js --watch './scripts/prepub/tasks/prepareTemplates.js'  --watch '**/index_template.js'",
     "dev:styleFactory": "nodemon --exec 'babel-node ./scripts/prepub/tasks/styleFactory.js' --ext js --watch './scripts/prepub/tasks/styleFactory.js'",

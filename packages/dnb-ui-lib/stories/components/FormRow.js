@@ -7,7 +7,13 @@ import React /* , { useState, useEffect } */ from 'react'
 import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
 
-import { Checkbox, Radio, FormLabel, FormRow } from '../../src/components'
+import {
+  Checkbox,
+  Radio,
+  Input,
+  FormLabel,
+  FormRow
+} from '../../src/components'
 
 const Center = styled.div`
   display: flex;
@@ -22,6 +28,12 @@ export default [
   () => (
     <Center>
       <Wrapper>
+        <Box>
+          <FormRow label="Inputs legend:">
+            <Input value="Input value A ..." />
+            <Input value="Input value B ..." />
+          </FormRow>
+        </Box>
         <Box>
           <FormRow direction="horizontal" indent="default">
             <FormLabel for_id="alone-1">

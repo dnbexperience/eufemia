@@ -16,9 +16,8 @@ class Example extends PureComponent {
           data-dnb-test="input-placeholder"
         >
           {/* @jsx */ `
-<FormLabel for_id="text-input-1" text="Label:" />
 <Input
-  id="text-input-1"
+  label="Label:"
   placeholder="Placeholder text"
 />
           `}
@@ -42,11 +41,11 @@ class Example extends PureComponent {
 />
           `}
         </ComponentBox>
-        <ComponentBox caption="Medium input with right aligned text">
+        <ComponentBox caption="Medium input with right aligned text and stretched search input">
           {/* @jsx */ `
 <Input
   label="Medium input:"
-  indent="medium"
+  size="medium"
   align="right"
   stretch="true"
   placeholder="Medium input placeholder"
@@ -62,7 +61,7 @@ class Example extends PureComponent {
         >
           {/* @jsx */ `
 <Input
-  indent="large"
+  size="large"
   type="search"
   stretch="true"
   value="Large search value"
@@ -144,28 +143,31 @@ class Example extends PureComponent {
         </ComponentBox>
         <ComponentBox caption="Submit Form with Input. Pressing the enter key will trigger a submit.">
           {/* @jsx */ `
-<form
-  onSubmit={event => {
-    console.log('onSubmit')
-    event.preventDefault()
+<FormSet
+  prevent_submit={true}
+  on_submit={(event) => {
+    console.log('FormRow.on_submit', event)
   }}
 >
-  <Input
-    label="Label:"
-    value="Input ..."
-    selectall="true"
-    on_submit={event => {
-      console.log('on_submit')
-    }}
-    on_change={({ value }) => {
-      console.log('on_change:', value)
-    }}
-    onChange={({ value }) => {
-      console.log('onChange:', value)
-    }}
-  />
-  <Button text="Submit" type="submit" />
-</form>
+  <FormRow>
+    <Input
+      type="search"
+      label="Label:"
+      value="Input ..."
+      selectall="true"
+      on_submit={event => {
+        console.log('Input.on_submit', event)
+      }}
+      on_change={({ value }) => {
+        console.log('on_change:', value)
+      }}
+      onChange={({ value }) => {
+        console.log('onChange:', value)
+      }}
+    />
+    <Button text="Submit" type="submit" />
+  </FormRow>
+</FormSet>
           `}
         </ComponentBox>
       </Fragment>

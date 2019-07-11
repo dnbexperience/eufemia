@@ -9,6 +9,7 @@ exports[`Slider component have to match snapshot 1`] = `
   hide_buttons="hide_buttons"
   id="id"
   label="label"
+  label_direction="horizontal"
   max={100}
   min={0}
   on_change={[Function]}
@@ -27,7 +28,7 @@ exports[`Slider component have to match snapshot 1`] = `
   vertical="vertical"
 >
   <span
-    className="dnb-slider__wrapper"
+    className="dnb-slider dnb-slider__label--horizontal className class"
   >
     <FormLabel
       class={null}
@@ -58,7 +59,7 @@ exports[`Slider component have to match snapshot 1`] = `
       </Element>
     </FormLabel>
     <span
-      className="dnb-slider className class"
+      className="dnb-slider__inner"
     >
       <Button
         bounding={false}
@@ -826,19 +827,19 @@ legend.dnb-form-label {
   --slider-space: 1rem; }
 
 .dnb-slider {
-  display: inline-flex;
-  height: var(--slider-thumb-size);
-  width: auto; }
-  .dnb-slider__wrapper {
-    display: flex;
-    align-items: center; }
-    .dnb-slider__wrapper--vertical {
-      flex: none;
-      align-items: flex-start;
-      min-width: inherit;
-      min-height: inherit; }
-  .dnb-slider:not(.dnb-slider--vertical) {
-    flex: 1; }
+  display: flex;
+  align-items: center; }
+  .dnb-slider--vertical {
+    flex: none;
+    align-items: flex-start;
+    min-width: inherit;
+    min-height: inherit; }
+  .dnb-slider__inner {
+    display: inline-flex;
+    height: var(--slider-thumb-size);
+    width: auto; }
+    .dnb-slider__inner:not(.dnb-slider__inner--vertical) {
+      flex: 1; }
   .dnb-slider__track {
     position: relative;
     flex: 1;
@@ -876,7 +877,7 @@ legend.dnb-form-label {
     .dnb-slider--vertical .dnb-slider__track::after {
       top: auto;
       bottom: calc(1px - 1px - var(--slider-space)); }
-  .dnb-slider--vertical {
+  .dnb-slider--vertical .dnb-slider__inner {
     flex-direction: column;
     width: var(--slider-thumb-size);
     height: inherit;
@@ -937,6 +938,15 @@ legend.dnb-form-label {
     cursor: not-allowed; }
   .dnb-slider > .dnb-form-label {
     margin-right: 1rem; }
+  .dnb-slider__label--vertical {
+    flex-direction: column; }
+  .dnb-slider__label--vertical.dnb-slider--vertical {
+    align-items: center; }
+    .dnb-slider__label--vertical.dnb-slider--vertical .dnb-form-label {
+      text-align: center;
+      width: 100%;
+      margin-right: 0;
+      margin-bottom: 1rem; }
   .dnb-slider > .dnb-form-status {
     margin-top: 0.5rem; }
 "

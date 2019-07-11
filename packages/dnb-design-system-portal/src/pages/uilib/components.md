@@ -50,10 +50,6 @@ The input component is an umbrella component for all inputs which share the same
 
 The `InputMasked` component uses the DNB Eufemia normal input component, but with some additional masking functionality. Read more about the details on the open source project.
 
-## [LineTitle (deprecated)](/uilib/components/line-title)
-
-The `LineTitle` component is a heading variant with borders on both sides. It is commonly used as a legend in form fieldsets.
-
 ## [Logo](/uilib/components/logo)
 
 A ready to use DNB logo in SVG format.

@@ -61,10 +61,10 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
     value="test"
   >
     <span
-      className="dnb-input__wrapper"
+      className="dnb-input dnb-input--text dnb-input-masked"
     >
       <span
-        className="dnb-input dnb-input--text dnb-input-masked"
+        className="dnb-input__inner"
       >
         <span
           className="dnb-input__shell"
@@ -596,9 +596,12 @@ legend.dnb-form-label {
 
 .dnb-input {
   display: inline-flex;
-  flex-direction: column;
-  width: auto;
-  font-size: var(--input-font-size); }
+  align-items: center; }
+  .dnb-input__inner {
+    display: inline-flex;
+    flex-direction: column;
+    width: auto;
+    font-size: var(--input-font-size); }
   .dnb-input__shell {
     position: relative;
     display: flex;
@@ -613,6 +616,7 @@ legend.dnb-form-label {
     user-select: none; }
   .dnb-input__shell, .dnb-input__input {
     height: var(--input-height);
+    line-height: var(--input-height);
     border-radius: var(--input-border-radius); }
   .dnb-input__placeholder, .dnb-input__input {
     width: 100%;
@@ -621,7 +625,7 @@ legend.dnb-form-label {
     text-align: left;
     color: inherit;
     font-size: inherit;
-    line-height: 1em;
+    line-height: inherit;
     background-color: transparent;
     transform: translateY(var(--input-border-width));
     font-variant-numeric: lining-nums;
@@ -630,6 +634,7 @@ legend.dnb-form-label {
     pointer-events: none;
     position: absolute;
     z-index: 1;
+    top: 0;
     left: 0;
     overflow: hidden;
     white-space: nowrap;
@@ -654,6 +659,7 @@ legend.dnb-form-label {
   .dnb-input--medium .dnb-input__shell,
   .dnb-input--medium .dnb-input__input {
     height: var(--input-height--medium);
+    line-height: var(--input-height--medium);
     border-radius: var(--input-border-radius--medium); }
   .dnb-input--medium .dnb-input__placeholder,
   .dnb-input--medium .dnb-input__input {
@@ -671,6 +677,7 @@ legend.dnb-form-label {
   .dnb-input--large .dnb-input__shell,
   .dnb-input--large .dnb-input__input {
     height: var(--input-height--large);
+    line-height: var(--input-height--large);
     border-radius: var(--input-border-radius--large); }
   .dnb-input--large .dnb-input__placeholder,
   .dnb-input--large .dnb-input__input {
@@ -694,24 +701,21 @@ legend.dnb-form-label {
   .dnb-input__shell[data-has-content='true'] .dnb-input__placeholder,
   .dnb-input__shell[data-has-content='true'][data-input-state='focus'] .dnb-input__placeholder {
     display: none; }
-  .dnb-input > .dnb-form-status {
+  .dnb-input__inner > .dnb-form-status {
     margin-top: 0.5rem; }
-  .dnb-input--stretch .dnb-input {
-    flex: 1; }
-    .dnb-input--stretch .dnb-input, .dnb-input--stretch .dnb-input__shell, .dnb-input--stretch .dnb-input__input {
-      width: 100%; }
-  .dnb-input__wrapper {
-    display: inline-flex;
-    align-items: center; }
-  .dnb-input__wrapper.dnb-input--vertical {
+  .dnb-input--vertical {
     display: flex;
     align-items: flex-start;
     flex-direction: column; }
-  .dnb-input__wrapper.dnb-input--stretch {
+  .dnb-input--stretch {
     display: flex; }
-  .dnb-input__wrapper[class*='__status'] {
+  .dnb-input--stretch .dnb-input__inner {
+    flex: 1; }
+  .dnb-input--stretch .dnb-input__shell {
+    width: 100%; }
+  .dnb-input[class*='__status'] {
     align-items: flex-start; }
-    .dnb-input__wrapper[class*='__status'] > .dnb-form-label {
+    .dnb-input[class*='__status'] > .dnb-form-label {
       margin-top: 0.25rem; }
 
 .dnb-input-masked {

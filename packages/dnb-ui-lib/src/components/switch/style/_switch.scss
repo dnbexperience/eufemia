@@ -14,10 +14,10 @@
   flex-direction: column;
   vertical-align: middle; // just to center, in case we dont have provided a internal label
 
-  width: auto;
-
-  margin: 0;
-  padding: 0;
+  &__inner {
+    display: inline-flex;
+    flex-direction: column;
+  }
 
   &__shell {
     user-select: none;
@@ -127,35 +127,32 @@
     cursor: pointer;
   }
 
-  &--label-position-left,
-  &--label-position-right {
+  &__order {
     display: inline-flex;
     flex-direction: row;
     align-items: center;
   }
 
-  &--label-position-left {
-    .dnb-switch {
+  &--label-position-left &__order {
+    .dnb-switch__inner {
       order: 2;
     }
     .dnb-form-label {
       order: 1;
       align-self: flex-start;
+
+      line-height: 1rem; // to center the label
     }
     .dnb-form-status {
       margin-top: 0.5rem;
     }
   }
-  // correct the label
-  &__status--message#{&}--label-position-left .dnb-form-label {
-    transform: translateY(-0.25rem); // 4px
-  }
 
-  &--label-position-right {
+  &--label-position-right &__order {
     // in case we have text before, or after, make sure we are aligned
     vertical-align: middle;
 
-    .dnb-switch {
+    .dnb-switch__inner {
       order: 1;
     }
     .dnb-form-label {
@@ -174,4 +171,9 @@
       margin-top: 0.5rem;
     }
   }
+
+  // correct the label
+  // &[class*='__status']#{&}--label-position-left .dnb-form-label {
+  //   transform: translateY(-0.25rem); // 4px
+  // }
 }

@@ -47,7 +47,10 @@ class Example extends PureComponent {
 />
           `}
         </ComponentBox>
-        <ComponentBox caption="Stretched horizontal placed label">
+        <ComponentBox
+          caption="Stretched horizontal placed label"
+          data-dnb-test="textarea-stretch"
+        >
           {/* @jsx */ `
 <Textarea
   label="Horizontal:"

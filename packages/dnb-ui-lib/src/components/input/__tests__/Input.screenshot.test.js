@@ -9,47 +9,48 @@ import {
 } from '../../../core/jest/jestSetupScreenshots'
 
 describe('Input screenshot', () => {
-  const style = {
-    width: '200px' // make sure our input gets an explicit width, because of mac/linux rendering differences
-  }
+  const extend = selector => ({
+    style: {
+      width: '200px' // make sure our input gets an explicit width, because of mac/linux rendering differences
+    },
+    styleSelector: `[data-dnb-test="${selector}"] .dnb-input__input`,
+    simulateSelector: `[data-dnb-test="${selector}"] .dnb-input__input`
+  })
   setupPageScreenshot({ url: '/uilib/components/input' })
   it('have to match input with placeholder', async () => {
     const screenshot = await testPageScreenshot({
-      style,
-      selector: '[data-dnb-test="input-placeholder"] .dnb-input'
+      ...extend('input-placeholder'),
+      selector: '[data-dnb-test="input-placeholder"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match disabled input', async () => {
     const screenshot = await testPageScreenshot({
-      style,
-      selector: '[data-dnb-test="input-disabled"] .dnb-input'
+      ...extend('input-disabled'),
+      selector: '[data-dnb-test="input-disabled"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match search type', async () => {
     const screenshot = await testPageScreenshot({
-      style,
-      selector: '[data-dnb-test="input-search"] .dnb-input'
+      ...extend('input-search'),
+      selector: '[data-dnb-test="input-search"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match stretched and large size', async () => {
     const screenshot = await testPageScreenshot({
-      style: {
-        width: '600px' // make sure our input gets an explicit width, because of mac/linux rendering differences
-      },
-      selector: '[data-dnb-test="input-large"] .dnb-input',
-      simulateSelector: '[data-dnb-test="input-large"] .dnb-input__input',
+      // make sure our input gets an explicit width, because of mac/linux rendering differences
+      ...{ ...extend('input-large'), style: { width: '600px' } },
+      selector: '[data-dnb-test="input-large"]',
       simulate: 'hover'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match search type with focus state', async () => {
     const screenshot = await testPageScreenshot({
-      style,
-      selector: '[data-dnb-test="input-search"] .dnb-input',
-      simulateSelector: '[data-dnb-test="input-search"] input',
+      ...extend('input-search'),
+      selector: '[data-dnb-test="input-search"]',
       simulate: 'focus'
     })
     expect(screenshot).toMatchImageSnapshot()

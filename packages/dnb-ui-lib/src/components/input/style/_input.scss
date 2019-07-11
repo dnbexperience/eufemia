@@ -21,11 +21,16 @@
 
 .dnb-input {
   display: inline-flex;
-  flex-direction: column;
+  align-items: center;
 
-  width: auto;
+  &__inner {
+    display: inline-flex;
+    flex-direction: column;
 
-  font-size: var(--input-font-size);
+    width: auto;
+
+    font-size: var(--input-font-size);
+  }
 
   &__shell {
     position: relative;
@@ -50,6 +55,7 @@
   &__shell,
   &__input {
     height: var(--input-height);
+    line-height: var(--input-height);
     border-radius: var(--input-border-radius);
   }
 
@@ -63,7 +69,7 @@
 
     color: inherit;
     font-size: inherit;
-    line-height: 1em; // because when ::selected is kikking in
+    line-height: inherit;
     background-color: transparent;
 
     // because of vertical centering and the current font
@@ -77,6 +83,7 @@
 
     position: absolute;
     z-index: 1;
+    top: 0;
     left: 0;
     overflow: hidden;
 
@@ -119,6 +126,7 @@
     .dnb-input__shell,
     .dnb-input__input {
       height: var(--input-height--medium);
+      line-height: var(--input-height--medium);
       border-radius: var(--input-border-radius--medium);
     }
     .dnb-input__placeholder,
@@ -144,6 +152,7 @@
     .dnb-input__shell,
     .dnb-input__input {
       height: var(--input-height--large);
+      line-height: var(--input-height--large);
       border-radius: var(--input-border-radius--large);
     }
     .dnb-input__placeholder,
@@ -185,34 +194,30 @@
   // &__input--search {
   // }
 
-  > .dnb-form-status {
+  &__inner > .dnb-form-status {
     margin-top: 0.5rem;
   }
 
-  // make the input full width
-  &--stretch & {
-    flex: 1;
-    &,
-    &__shell,
-    &__input {
-      width: 100%;
-    }
-  }
-
-  // Wrapper layout handling
-  &__wrapper {
-    display: inline-flex;
-    align-items: center;
-  }
-  &__wrapper#{&}--vertical {
+  &--vertical {
     display: flex;
     align-items: flex-start;
     flex-direction: column;
   }
-  &__wrapper#{&}--stretch {
+
+  // make the input full width
+  &--stretch {
     display: flex;
   }
-  &__wrapper[class*='__status'] {
+  &--stretch & {
+    &__inner {
+      flex: 1;
+    }
+    &__shell {
+      width: 100%;
+    }
+  }
+
+  &[class*='__status'] {
     align-items: flex-start;
     > .dnb-form-label {
       // vertical align the current font

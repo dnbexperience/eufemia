@@ -24,6 +24,7 @@ const props = fakeProps(require.resolve('../Switch'), {
 props.status = null
 props.label_position = 'left'
 props.readOnly = false
+props.label_direction = 'horizontal'
 
 describe('Switch component', () => {
   // then test the state management

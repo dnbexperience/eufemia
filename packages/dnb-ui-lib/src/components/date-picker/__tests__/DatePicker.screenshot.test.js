@@ -22,21 +22,21 @@ describe('DatePicker screenshot', () => {
 
   it('have to match the calendar', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="date-picker-calendar"]'
+      selector: '[data-dnb-test="date-picker-calendar"] .dnb-date-picker'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match the date-picker trigger button', async () => {
     const screenshot = await testPageScreenshot({
       selector:
-        '[data-dnb-test="date-picker-trigger-default"] .dnb-date-picker'
+        '[data-dnb-test="date-picker-trigger-default"] .dnb-date-picker__shell'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match the date-picker trigger button in error state', async () => {
     const screenshot = await testPageScreenshot({
       selector:
-        '[data-dnb-test="date-picker-trigger-error"] .dnb-date-picker'
+        '[data-dnb-test="date-picker-trigger-error"] .dnb-date-picker__shell'
     })
     expect(screenshot).toMatchImageSnapshot()
   })

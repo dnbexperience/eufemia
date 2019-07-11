@@ -27,6 +27,7 @@ class Example extends PureComponent {
   min={0}
   max={100}
   value={70}
+  label="Default Slider:"
   on_change={({ value }) => console.log('on_change:', value)}
 />
           `}
@@ -49,6 +50,8 @@ render(<VerticalWrapper>
     value="20"
     step="10"
     vertical="true"
+    label="Vertical slider:"
+    label_direction="vertical"
     on_change={({ value }) => console.log('on_change:', value)}
   />
 </VerticalWrapper>)
@@ -66,6 +69,7 @@ const Component = () => {
       value={value}
       step={10}
       hide_buttons="true"
+      label="Slider A:"
       on_change={({ value }) => setValue(value)}
     />
     <VerticalWrapper>
@@ -74,6 +78,8 @@ const Component = () => {
         vertical={true}
         hide_buttons={true}
         step={1}
+        label="Slider B:"
+        label_direction="vertical"
         on_change={({ value }) => setValue(value)}
       />
       <Input
@@ -90,7 +96,9 @@ const VerticalWrapper = styled.div\`
   flex-direction: column;
   align-items: center;
   min-height: 20rem;
-
+  margin-top: 1rem;
+  background: rgba(0,0,0,0.1);
+  
   .dnb-input {
     width: 4rem;
     margin-top: 1rem;
@@ -99,7 +107,7 @@ const VerticalWrapper = styled.div\`
 render(<Component />)
           `}
         </ComponentBox>
-        <ComponentBox caption="Native Range Slider">
+        <ComponentBox caption="Native Range Slider. In order to get the styles, import also: `dnb-ui-lib/components/slider/style/dnb-range.min.css`">
           {/* @jsx */ `
 <FormRow>
   <FormLabel for_id="range-slider">

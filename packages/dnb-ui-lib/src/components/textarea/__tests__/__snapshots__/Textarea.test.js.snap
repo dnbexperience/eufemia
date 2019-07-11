@@ -62,10 +62,10 @@ exports[`Textarea component have to match snapshot 1`] = `
   value="test"
 >
   <span
-    className="dnb-textarea__wrapper"
+    className="dnb-textarea dnb-textarea--virgin dnb-textarea--has-content"
   >
     <span
-      className="dnb-textarea dnb-textarea--virgin dnb-textarea--has-content"
+      className="dnb-textarea__inner"
       role="textbox"
     >
       <span
@@ -544,8 +544,11 @@ textarea.dnb-textarea {
 
 .dnb-textarea {
   display: inline-flex;
-  flex-direction: column;
-  margin: var(--textarea-padding-width); }
+  align-items: baseline; }
+  .dnb-textarea__inner {
+    display: inline-flex;
+    flex-direction: column;
+    margin: var(--textarea-padding-width); }
   .dnb-textarea__shell {
     display: inline-flex;
     position: relative; }
@@ -583,25 +586,22 @@ textarea.dnb-textarea {
   .dnb-textarea--has-content .dnb-textarea__textarea ~ .dnb-textarea__placeholder,
   .dnb-textarea--focus .dnb-textarea__textarea:not([disabled]):not([readonly]) ~ .dnb-textarea__placeholder {
     opacity: 0.5; }
-  .dnb-textarea__wrapper[class*='__status'] .dnb-form-status {
+  .dnb-textarea[class*='__status'] .dnb-form-status {
     margin: 1rem 0 0 calc(1px - 1px - var(--textarea-padding-width)); }
-  .dnb-textarea--stretch .dnb-textarea {
-    flex: 1; }
-    .dnb-textarea--stretch .dnb-textarea, .dnb-textarea--stretch .dnb-textarea__shell, .dnb-textarea--stretch .dnb-textarea__textarea {
-      width: 100%; }
-  .dnb-textarea__wrapper {
-    display: inline-flex;
-    align-items: baseline; }
-  .dnb-textarea__wrapper.dnb-textarea--vertical {
+  .dnb-textarea[class*='__status'] {
+    align-items: flex-start; }
+    .dnb-textarea[class*='__status'] > .dnb-form-label {
+      margin-top: 0.25rem; }
+  .dnb-textarea--vertical {
     display: flex;
     display: inline-flex;
     flex-direction: column; }
-  .dnb-textarea__wrapper.dnb-textarea--stretch {
+  .dnb-textarea--stretch {
     display: flex; }
-  .dnb-textarea__wrapper[class*='__status'] {
-    align-items: flex-start; }
-    .dnb-textarea__wrapper[class*='__status'] > .dnb-form-label {
-      margin-top: 0.25rem; }
+  .dnb-textarea--stretch .dnb-textarea__inner {
+    flex: 1; }
+  .dnb-textarea--stretch .dnb-textarea__shell, .dnb-textarea--stretch .dnb-textarea__textarea {
+    width: 100%; }
 
 textarea.dnb-textarea {
   display: inline-block;

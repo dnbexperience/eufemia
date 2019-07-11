@@ -30,7 +30,6 @@ const renderProps = {
 export const propTypes = {
   text: PropTypes.string,
   label: PropTypes.string,
-  label_position: PropTypes.oneOf(['left', 'right']),
   title: PropTypes.string,
   checked: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   variant: PropTypes.oneOf(['default', 'checkbox', 'radio']),
@@ -62,7 +61,6 @@ export const propTypes = {
 export const defaultProps = {
   text: null,
   label: null,
-  label_position: 'left',
   title: null,
   checked: null,
   variant: null,
@@ -256,7 +254,6 @@ export default class ToggleButton extends Component {
             status_state,
             status_animation,
             label,
-            label_position,
             text,
             title,
             readOnly,
@@ -296,9 +293,6 @@ export default class ToggleButton extends Component {
             'dnb-toggle-button',
             status && `dnb-toggle-button__status--${status_state}`,
             checked && `dnb-toggle-button--checked`,
-            label &&
-              label_position &&
-              `dnb-toggle-button--label-position-${label_position}`,
             className,
             _className
           )
