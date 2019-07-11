@@ -112,6 +112,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
   id="group"
   label="Label"
   label_direction={null}
+  label_position="right"
   layout_direction="row"
   name="group"
   no_fieldset={true}
@@ -201,7 +202,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
                   group={null}
                   id="radio-1"
                   label="Radio 1"
-                  label_position="right"
+                  label_position={null}
                   on_change={null}
                   on_state_update={null}
                   readOnly={false}
@@ -256,7 +257,6 @@ exports[`Radio group component have to match group snapshot 1`] = `
                         >
                           <input
                             aria-checked={false}
-                            aria-label={null}
                             aria-labelledby="radio-1-label"
                             checked={false}
                             className="dnb-radio__input"
@@ -268,7 +268,6 @@ exports[`Radio group component have to match group snapshot 1`] = `
                             onKeyDown={[Function]}
                             onMouseOut={[Function]}
                             role="radio"
-                            title={null}
                             type="radio"
                             value=""
                           />
@@ -298,7 +297,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
                   group={null}
                   id="radio-2"
                   label="Radio 2"
-                  label_position="right"
+                  label_position={null}
                   on_change={null}
                   on_state_update={null}
                   readOnly={false}
@@ -353,7 +352,6 @@ exports[`Radio group component have to match group snapshot 1`] = `
                         >
                           <input
                             aria-checked={true}
-                            aria-label={null}
                             aria-labelledby="radio-2-label"
                             checked={true}
                             className="dnb-radio__input"
@@ -365,7 +363,6 @@ exports[`Radio group component have to match group snapshot 1`] = `
                             onKeyDown={[Function]}
                             onMouseOut={[Function]}
                             role="radio"
-                            title={null}
                             type="radio"
                             value=""
                           />
@@ -765,19 +762,13 @@ legend.dnb-form-label {
     border: 0; }
   .dnb-radio__input:not([disabled]) {
     cursor: pointer; }
-  .dnb-radio .dnb-form-status {
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem; }
   .dnb-radio .dnb-form-label {
     margin-bottom: 0; }
   .dnb-radio__order {
     display: inline-flex;
     flex-direction: row; }
     .dnb-radio-group--column .dnb-radio__order {
-      display: flex;
-      margin-bottom: 0.5rem; }
-  .dnb-radio__order ~ .dnb-form-status {
-    margin-bottom: 1rem; }
+      display: flex; }
   .dnb-radio--label-position-left .dnb-radio__order .dnb-radio__inner {
     order: 2; }
   .dnb-radio--label-position-left .dnb-radio__order .dnb-form-label {
@@ -794,21 +785,34 @@ legend.dnb-form-label {
     margin-left: 0; }
   :not(.dnb-radio-group) > .dnb-form-label + .dnb-radio {
     vertical-align: top; }
+  .dnb-radio .dnb-form-status {
+    margin-top: 0;
+    margin-bottom: 0.5rem; }
+  .dnb-radio + .dnb-form-status {
+    margin-top: 0.5rem;
+    margin-bottom: 1rem; }
   .dnb-radio-group {
     display: inline-flex;
     flex-direction: row; }
-    .dnb-radio-group__shell {
-      display: inline-flex;
-      flex-direction: row; }
+    .dnb-radio-group .dnb-radio {
+      margin-right: 0.5rem;
+      margin-bottom: 0.5rem; }
+    .dnb-radio-group--column .dnb-radio {
+      display: flex;
+      margin-right: 0; }
+    .dnb-radio-group [role='radiogroup'], .dnb-radio-group__shell {
+      display: block;
+      margin-bottom: -1rem; }
+    .dnb-radio-group__shell > .dnb-form-status {
+      margin-top: 0;
+      margin-bottom: 0; }
     .dnb-radio-group--column .dnb-radio-group__shell {
       flex-direction: column; }
-    .dnb-radio-group .dnb-form-status {
-      margin-top: 0.5rem; }
-    .dnb-radio-group--column .dnb-form-status {
-      margin-top: 0; }
-    .dnb-form-row--vertical .dnb-radio-group {
-      display: flex; }
     .dnb-radio-group .dnb-form-row--vertical-label {
       row-gap: normal; }
+    .dnb-radio-group .dnb-form-row--nested {
+      align-items: flex-start; }
+    .dnb-form-row--vertical .dnb-radio-group {
+      display: flex; }
 "
 `;

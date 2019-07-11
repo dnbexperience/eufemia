@@ -12,13 +12,13 @@ describe('Radio unchecked screenshot', () => {
   setupPageScreenshot({ url: '/uilib/components/radio' })
   it('have to match radio in unchecked state', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="radio-default"] .dnb-radio__inner'
+      selector: '[data-dnb-test="radio-default"] .dnb-radio'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match radio in unchecked state with focus', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="radio-default"] .dnb-radio__inner',
+      selector: '[data-dnb-test="radio-default"] .dnb-radio',
       simulateSelector:
         '[data-dnb-test="radio-default"] .dnb-radio__input',
       simulate: 'focus'
@@ -27,7 +27,7 @@ describe('Radio unchecked screenshot', () => {
   })
   it('have to match radio in unchecked state with hover', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="radio-default"] .dnb-radio__inner',
+      selector: '[data-dnb-test="radio-default"] .dnb-radio',
       simulateSelector:
         '[data-dnb-test="radio-default"] .dnb-radio__input',
       simulate: 'hover'
@@ -42,13 +42,13 @@ describe('Radio checked screenshot', () => {
   setupPageScreenshot({ url: '/uilib/components/radio' })
   it('have to match radio in checked state', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="radio-checked"] .dnb-radio__inner'
+      selector: '[data-dnb-test="radio-checked"] .dnb-radio'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match radio in checked state with focus', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="radio-checked"] .dnb-radio__inner',
+      selector: '[data-dnb-test="radio-checked"] .dnb-radio',
       simulateSelector:
         '[data-dnb-test="radio-checked"] .dnb-radio__input',
       simulate: 'focus'
@@ -57,7 +57,7 @@ describe('Radio checked screenshot', () => {
   })
   it('have to match radio in checked state with hover', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="radio-checked"] .dnb-radio__inner',
+      selector: '[data-dnb-test="radio-checked"] .dnb-radio',
       simulateSelector:
         '[data-dnb-test="radio-checked"] .dnb-radio__input',
       simulate: 'hover'

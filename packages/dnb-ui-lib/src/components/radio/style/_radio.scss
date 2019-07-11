@@ -81,10 +81,10 @@
     cursor: pointer;
   }
 
-  .dnb-form-status {
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
-  }
+  // .dnb-form-status {
+  //   margin-top: 0.5rem;
+  //   margin-bottom: 0.5rem;
+  // }
   .dnb-form-label {
     margin-bottom: 0;
   }
@@ -95,12 +95,8 @@
 
     .dnb-radio-group--column & {
       display: flex;
-      margin-bottom: 0.5rem;
+      // margin-bottom: 0.5rem;
     }
-  }
-
-  &__order ~ .dnb-form-status {
-    margin-bottom: 1rem;
   }
 
   &--label-position-left &__order {
@@ -136,30 +132,56 @@
     vertical-align: top;
   }
 
+  // status
+  .dnb-form-status {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+  }
+  & + .dnb-form-status {
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
   &-group {
     display: inline-flex;
     flex-direction: row;
 
+    // defualt spacing
+    .dnb-radio {
+      margin-right: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+    &--column .dnb-radio {
+      display: flex;
+      margin-right: 0;
+    }
+
+    & [role='radiogroup'],
     &__shell {
-      display: inline-flex;
-      flex-direction: row;
+      display: block;
+      // correct the bottom on the last row
+      margin-bottom: -1rem;
+    }
+    &__shell {
+      & > .dnb-form-status {
+        margin-top: 0;
+        margin-bottom: 0;
+      }
     }
     &--column &__shell {
       flex-direction: column;
     }
 
-    .dnb-form-status {
-      margin-top: 0.5rem;
+    .dnb-form-row {
+      &--vertical-label {
+        row-gap: normal;
+      }
+      &--nested {
+        align-items: flex-start;
+      }
     }
-    &--column .dnb-form-status {
-      margin-top: 0;
-    }
-
     .dnb-form-row--vertical & {
       display: flex;
-    }
-    .dnb-form-row--vertical-label {
-      row-gap: normal;
     }
   }
 }

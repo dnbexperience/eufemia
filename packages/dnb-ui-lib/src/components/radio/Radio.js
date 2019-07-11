@@ -9,6 +9,7 @@ import classnames from 'classnames'
 import keycode from 'keycode'
 import {
   isTrue,
+  extendPropsWithContext,
   registerElement,
   validateDOMAttributes,
   dispatchCustomElementEvent
@@ -17,6 +18,7 @@ import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 import RadioGroup from './RadioGroup'
 import RadioGroupContext from './RadioGroupContext'
+import Context from '../../shared/Context'
 
 const renderProps = {
   on_change: null,
@@ -52,7 +54,7 @@ export const propTypes = {
 
 export const defaultProps = {
   label: null,
-  label_position: 'right',
+  label_position: null,
   title: null,
   checked: null,
   disabled: false,
@@ -220,128 +222,145 @@ export default class Radio extends Component {
   }
 
   render() {
-    const {
-      status,
-      status_state,
-      status_animation,
-      label,
-      label_position,
-      title,
-      readOnly,
-      className,
-      class: _className,
-
-      id: _id, // eslint-disable-line
-      group: _group, // eslint-disable-line
-      value: _value, // eslint-disable-line
-      checked: _checked, // eslint-disable-line
-      disabled: _disabled, // eslint-disable-line
-      attributes, // eslint-disable-line
-      children, // eslint-disable-line
-      on_change, // eslint-disable-line
-      on_state_update, // eslint-disable-line
-      custom_method, // eslint-disable-line
-      custom_element, // eslint-disable-line
-
-      ...rest
-    } = this.props
-
-    let { checked } = this.state
-    let { value, group, disabled } = this.props
-
-    const hasContext = typeof this.context.value !== 'undefined'
-    if (hasContext) {
-      if (this.context.value !== null) {
-        checked = this.context.value === value
-      }
-      group = this.context.name
-      disabled = isTrue(this.context.disabled)
-    }
-
-    const id = this._id
-    const showStatus = status && status !== 'error'
-
-    const mainParams = {
-      className: classnames(
-        'dnb-radio',
-        status && `dnb-radio__status--${status_state}`,
-        label &&
-          label_position &&
-          `dnb-radio--label-position-${label_position}`,
-        className,
-        _className
-      )
-    }
-
-    const inputParams = {
-      role: hasContext || group ? 'radio' : null,
-      type: hasContext || group ? 'radio' : 'checkbox', // overwriting the type
-      ...rest,
-      onMouseOut: this.onMouseOutHandler // for resetting the button to the default state
-    }
-
-    if (showStatus) {
-      inputParams['aria-describedby'] = id + '-status'
-    }
-    if (label) {
-      inputParams['aria-labelledby'] = id + '-label'
-    }
-    if (readOnly) {
-      inputParams['aria-readonly'] = inputParams.readOnly = true
-    }
-
-    // also used for code markup simulation
-    validateDOMAttributes(this.props, inputParams)
-
-    const statusComp = showStatus && (
-      <FormStatus
-        text={status}
-        status={status_state}
-        text_id={id + '-status'} // used for "aria-describedby"
-        animation={status_animation}
-      />
-    )
-
     return (
-      <span {...mainParams}>
-        <span className="dnb-radio__order">
-          {label && (
-            <FormLabel
-              id={id + '-label'}
-              for_id={id}
-              aria-hidden={!this.isInNoGroup()}
-              text={label}
-              disabled={disabled}
+      <Context.Consumer>
+        {({ formRow }) => {
+          // consume the formRow context
+          let props = formRow
+            ? // use only the props from context, who are available here anyway
+              extendPropsWithContext(this.props, formRow)
+            : this.props
+
+          // consume the toggleButton context
+          props = this.context.name
+            ? // use only the props from context, who are available here anyway
+              extendPropsWithContext(this.props, this.context)
+            : props
+
+          const {
+            status,
+            status_state,
+            status_animation,
+            label,
+            label_position,
+            title,
+            readOnly,
+            className,
+            class: _className,
+
+            id: _id, // eslint-disable-line
+            group: _group, // eslint-disable-line
+            value: _value, // eslint-disable-line
+            checked: _checked, // eslint-disable-line
+            disabled: _disabled, // eslint-disable-line
+            attributes, // eslint-disable-line
+            children, // eslint-disable-line
+            on_change, // eslint-disable-line
+            on_state_update, // eslint-disable-line
+            custom_method, // eslint-disable-line
+            custom_element, // eslint-disable-line
+
+            ...rest
+          } = props
+
+          let { checked } = this.state
+          let { value, group, disabled } = this.props
+
+          const hasContext = typeof this.context.value !== 'undefined'
+          if (hasContext) {
+            if (this.context.value !== null) {
+              checked = this.context.value === value
+            }
+            group = this.context.name
+            disabled = isTrue(this.context.disabled)
+          }
+
+          const id = this._id
+          const showStatus = status && status !== 'error'
+
+          const mainParams = {
+            className: classnames(
+              'dnb-radio',
+              status && `dnb-radio__status--${status_state}`,
+              label &&
+                `dnb-radio--label-position-${label_position || 'right'}`,
+              className,
+              _className
+            )
+          }
+
+          const inputParams = {
+            role: hasContext || group ? 'radio' : null,
+            type: hasContext || group ? 'radio' : 'checkbox', // overwriting the type
+            ...rest,
+            onMouseOut: this.onMouseOutHandler // for resetting the button to the default state
+          }
+
+          if (showStatus) {
+            inputParams['aria-describedby'] = id + '-status'
+          }
+          if (label) {
+            inputParams['aria-labelledby'] = id + '-label'
+          }
+          if (readOnly) {
+            inputParams['aria-readonly'] = inputParams.readOnly = true
+          }
+
+          // also used for code markup simulation
+          validateDOMAttributes(this.props, inputParams)
+
+          const statusComp = showStatus && (
+            <FormStatus
+              text={status}
+              status={status_state}
+              text_id={id + '-status'} // used for "aria-describedby"
+              animation={status_animation}
             />
-          )}
-          <span className="dnb-radio__inner">
-            <span className="dnb-radio__shell">
-              <input
-                type="checkbox"
-                value={value}
-                id={id}
-                name={group}
-                className="dnb-radio__input"
-                checked={checked}
-                aria-checked={checked}
-                title={title}
-                aria-label={title}
-                disabled={isTrue(disabled)}
-                ref={this._refInput}
-                {...inputParams}
-                onChange={this.onChangeHandler}
-                onClick={this.onClickHandler}
-                onKeyDown={this.onKeyDownHandler}
-              />
-              <span aria-hidden className="dnb-radio__button" />
-              <span className="dnb-radio__focus" />
-              <span className="dnb-radio__dot" />
+          )
+
+          return (
+            <span {...mainParams}>
+              <span className="dnb-radio__order">
+                {label && (
+                  <FormLabel
+                    id={id + '-label'}
+                    for_id={id}
+                    aria-hidden={!this.isInNoGroup()}
+                    text={label}
+                    disabled={disabled}
+                  />
+                )}
+                <span className="dnb-radio__inner">
+                  <span className="dnb-radio__shell">
+                    <input
+                      type="checkbox"
+                      value={value}
+                      id={id}
+                      name={group}
+                      className="dnb-radio__input"
+                      checked={checked}
+                      aria-checked={checked}
+                      title={title}
+                      aria-label={title}
+                      disabled={isTrue(disabled)}
+                      ref={this._refInput}
+                      {...inputParams}
+                      onChange={this.onChangeHandler}
+                      onClick={this.onClickHandler}
+                      onKeyDown={this.onKeyDownHandler}
+                    />
+                    <span aria-hidden className="dnb-radio__button" />
+                    <span className="dnb-radio__focus" />
+                    <span className="dnb-radio__dot" />
+                  </span>
+                  {label_position === 'left' && statusComp}
+                </span>
+              </span>
+              {label_position === 'right' && statusComp}
             </span>
-            {label_position === 'left' && statusComp}
-          </span>
-        </span>
-        {label_position === 'right' && statusComp}
-      </span>
+          )
+        }}
+      </Context.Consumer>
     )
   }
 }

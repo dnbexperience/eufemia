@@ -147,7 +147,7 @@ class UseOnTests extends PureComponent {
         >
           {/* @jsx */ `
       <Radio
-      label="Single Radio:"
+      label="Single Radio"
       />
         `}
         </ComponentBox>
@@ -157,7 +157,7 @@ class UseOnTests extends PureComponent {
         >
           {/* @jsx */ `
       <Radio
-      label="Checked Radio:"
+      label="Checked Radio"
       title="Ths is the title"
       checked
       on_change={({ checked }) => console.log(checked)}
