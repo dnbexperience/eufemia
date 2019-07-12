@@ -30,28 +30,25 @@ exports.createPages = ({ graphql, actions }) =>
     const { createPage } = actions
     const { edges } = mdxResult.data.allMdx
 
-    createPages(createPage, edges)
+    // createPages(createPage, edges)
+    edges.forEach(({ node }, i) => {
+      const prev = i === 0 ? null : edges[i - 1].node
+      const next = i === edges.length - 1 ? null : edges[i + 1].node
+      const slug = node.fields.slug
+
+      createPage({
+        path: slug,
+        component: path.resolve('./src/templates/mdx.js'),
+        context: {
+          id: node.id,
+          prev,
+          next
+        }
+      })
+    })
 
     resolve()
   })
-
-const createPages = (createPage, edges) => {
-  edges.forEach(({ node }, i) => {
-    const prev = i === 0 ? null : edges[i - 1].node
-    const next = i === edges.length - 1 ? null : edges[i + 1].node
-    const slug = node.fields.slug
-
-    createPage({
-      path: slug,
-      component: path.resolve('./src/templates/mdx.js'),
-      context: {
-        id: node.id,
-        prev,
-        next
-      }
-    })
-  })
-}
 
 exports.onCreateWebpackConfig = ({ actions }) => {
   actions.setWebpackConfig({
@@ -60,7 +57,7 @@ exports.onCreateWebpackConfig = ({ actions }) => {
       alias: {
         Root: path.resolve(__dirname),
         Src: path.resolve(__dirname, 'src'),
-        Pages: path.resolve(__dirname, 'src/pages'),
+        Pages: path.resolve(__dirname, 'content/pages'),
         Tags: path.resolve(__dirname, 'src/shared/tags'),
         Parts: path.resolve(__dirname, 'src/shared/parts')
       }
