@@ -10,7 +10,7 @@ if (require.main === module) {
     requiredBranch: 'develop',
     what: 'pages',
     skipCI: files => files.length === 1, // in case we only update the "version.lock"
-    filePathsWhitelist: ['version.json', '/src/pages/', '/src/uilib/'],
+    filePathsWhitelist: ['version.json', '/src/docs/', '/src/uilib/'],
     // isNotAFeature: ['version.json'],
     isFeature: false
   })

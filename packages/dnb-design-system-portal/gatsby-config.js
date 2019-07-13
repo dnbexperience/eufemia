@@ -36,19 +36,27 @@ module.exports = {
     'gatsby-plugin-react-helmet',
     'gatsby-plugin-sharp', // is used by gatsby-remark-images
     {
+      resolve: 'gatsby-plugin-page-creator',
+      options: {
+        ignore: ['**/*.md', '**/Examples.js'],
+        path: `${__dirname}/src/docs`, // for .js files
+        name: 'docs'
+      }
+    },
+    {
       resolve: 'gatsby-source-filesystem',
       options: {
-        path: `${__dirname}/src/pages`,
-        name: 'pages'
+        path: `${__dirname}/src/docs`, //for .md (mdx) files
+        name: 'docs'
       }
     },
     {
       resolve: 'gatsby-mdx',
       options: {
-        extensions: ['.mdx', '.md'],
+        extensions: ['.md'],
         // More info of using plugins: https://github.com/mdx-js/mdx/blob/d4154b8c4a546d0b675826826f85014cc04098c2/docs/plugins.md
-        rehypePlugins: [], // hastPlugins
-        remarkPlugins: [], // mdPlugins
+        // rehypePlugins: [], // hastPlugins
+        // remarkPlugins: [], // mdPlugins
         gatsbyRemarkPlugins: [
           {
             resolve: 'gatsby-remark-images',

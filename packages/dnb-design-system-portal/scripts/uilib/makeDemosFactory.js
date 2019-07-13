@@ -55,7 +55,7 @@ if (0 && require.main === module && process.env.NODE_ENV !== 'test') {
     templateNameToRename: 'Template',
     tempalteFilePath: path.resolve(
       packpath.self(),
-      // './src/pages/uilib/components/template.md' // we can not have a template inside here, else it will be a valid page
+      // './src/docs/uilib/components/template.md' // we can not have a template inside here, else it will be a valid page
       './src/uilib/components/page-template.md'
     ),
     processDestFileExt: '.md',
@@ -72,7 +72,7 @@ if (0 && require.main === module && process.env.NODE_ENV !== 'test') {
     processToNamesListByUsingFolders: true,
     processDestFilePath: path.resolve(
       packpath.self(),
-      './src/pages/uilib/components'
+      './src/docs/uilib/components'
     ),
     preprocessContent: ({ file, content }) => {
       if (
@@ -120,7 +120,7 @@ if (0 && require.main === module && process.env.NODE_ENV !== 'test') {
     templateNameToRename: 'Template',
     tempalteFilePath: path.resolve(
       packpath.self(),
-      // './src/pages/uilib/patterns/template.md' // we can not have a template inside here, else it will be a valid page
+      // './src/docs/uilib/patterns/template.md' // we can not have a template inside here, else it will be a valid page
       './src/uilib/patterns/page-template.md'
     ),
     processDestFileExt: '.md',
@@ -137,7 +137,7 @@ if (0 && require.main === module && process.env.NODE_ENV !== 'test') {
     processToNamesListByUsingFolders: true,
     processDestFilePath: path.resolve(
       packpath.self(),
-      './src/pages/uilib/patterns'
+      './src/docs/uilib/patterns'
     ),
     prepareDestFileCallback: file => file.toLowerCase()
   })
