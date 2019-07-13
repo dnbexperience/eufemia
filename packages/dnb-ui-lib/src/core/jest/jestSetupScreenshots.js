@@ -302,12 +302,13 @@ const setupBeforeAll = async ({
   }
 
   // just to make sure we get the latest version
-  if (isCI) {
-    await page.waitFor(1e3)
-    await page.reload({
-      waitUntil: 'domcontentloaded'
-    })
-  }
+  // Try the new Gatsby setup without this hack
+  // if (isCI) {
+  // await page.waitFor(1e3)
+  // await page.reload({
+  //   waitUntil: 'domcontentloaded'
+  // })
+  // }
 
   global.__PAGE__ = page
 }
