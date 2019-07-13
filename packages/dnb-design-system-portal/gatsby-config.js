@@ -38,16 +38,16 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-page-creator',
       options: {
-        ignore: ['**/*.md'],
-        path: `${__dirname}/content/pages`, // for .js files
-        name: 'pages'
+        ignore: ['**/*.md', '**/Examples.js'],
+        path: `${__dirname}/src/docs`, // for .js files
+        name: 'docs'
       }
     },
     {
       resolve: 'gatsby-source-filesystem',
       options: {
-        path: `${__dirname}/content/pages`, //for .md (mdx) files
-        name: 'pages'
+        path: `${__dirname}/src/docs`, //for .md (mdx) files
+        name: 'docs'
       }
     },
     {

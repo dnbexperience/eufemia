@@ -57,7 +57,7 @@ exports.onCreateWebpackConfig = ({ actions }) => {
       alias: {
         Root: path.resolve(__dirname),
         Src: path.resolve(__dirname, 'src'),
-        Pages: path.resolve(__dirname, 'content/pages'),
+        Pages: path.resolve(__dirname, 'src/docs'),
         Tags: path.resolve(__dirname, 'src/shared/tags'),
         Parts: path.resolve(__dirname, 'src/shared/parts')
       }
