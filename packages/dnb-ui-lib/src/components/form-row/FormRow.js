@@ -16,6 +16,7 @@ import {
 } from '../../shared/component-helper'
 import Context from '../../shared/Context'
 import FormLabel from '../form-label/FormLabel'
+import { createSpacingClasses } from '../space/SpacingHelper'
 
 const renderProps = {
   render_content: null
@@ -170,6 +171,7 @@ export default class FormRow extends PureComponent {
               isTrue(section_spacing) ? 'default' : section_spacing
             }`
           : null,
+        createSpacingClasses(props),
         className,
         _className
       ),

@@ -23,6 +23,7 @@ import FormLabelStory from './components/FormLabel'
 import FormRowStory from './components/FormRow'
 import FormSetStory from './components/FormSet'
 import Dropdown from './components/Dropdown'
+import Space from './components/Space'
 import {
   Button,
   Tabs,
@@ -52,6 +53,7 @@ stories.push(FormLabelStory)
 stories.push(FormRowStory)
 stories.push(FormSetStory)
 stories.push(Dropdown)
+stories.push(Space)
 
 stories.push([
   'Logo',

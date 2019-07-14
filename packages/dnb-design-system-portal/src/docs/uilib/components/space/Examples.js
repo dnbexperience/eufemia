@@ -11,8 +11,8 @@ class Example extends PureComponent {
     return (
       <Fragment>
         <ComponentBox
-          caption="Default spacing"
-          data-dnb-test="spacing-default"
+          caption="Default space"
+          data-dnb-test="space-default"
         >
           {/* @jsx */ `
 <FormLabel for_id="alone-1">

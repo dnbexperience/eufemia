@@ -30,6 +30,7 @@ import ProgressIndicator from './progress-indicator/ProgressIndicator'
 import Radio from './radio/Radio'
 import Section from './section/Section'
 import Slider from './slider/Slider'
+import Space from './space/Space'
 import StepIndicator from './step-indicator/StepIndicator'
 import Switch from './switch/Switch'
 import Tabs from './tabs/Tabs'
@@ -58,6 +59,7 @@ export {
   Radio,
   Section,
   Slider,
+  Space,
   StepIndicator,
   Switch,
   Tabs,

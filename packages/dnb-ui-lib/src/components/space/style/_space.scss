@@ -1,0 +1,55 @@
+/*
+ * Space component
+ *
+ */
+
+.dnb-space {
+  // 0.5rem
+  &__top--x-small {
+    margin-top: var(--spacing-x-small);
+  }
+  // 1rem
+  &__top--small {
+    margin-top: var(--spacing-small);
+  }
+  // 1.5rem
+  &__top--medium {
+    margin-top: var(--spacing-medium);
+  }
+  // 2rem
+  &__top--large {
+    margin-top: var(--spacing-large);
+    // 2.5rem
+    & + &__top--x-small {
+      margin-top: calc(var(--spacing-large) + var(--spacing-x-small));
+    }
+  }
+  // 3rem
+  &__top--x-large {
+    margin-top: var(--spacing-x-large);
+  }
+  // 3.5rem
+  &__top--xx-large {
+    margin-top: var(--spacing-xx-large);
+    // 4rem
+    & + &__top--x-small {
+      margin-top: calc(var(--spacing-xx-large) + var(--spacing-x-small));
+    }
+    // 4.5rem
+    & + &__top--small {
+      margin-top: calc(var(--spacing-xx-large) + var(--spacing-small));
+    }
+    // 5rem
+    & + &__top--medium {
+      margin-top: calc(var(--spacing-xx-large) + var(--spacing-medium));
+    }
+    // 5.5rem
+    & + &__top--large {
+      margin-top: calc(var(--spacing-xx-large) + var(--spacing-large));
+    }
+    // 6rem
+    & + &__top--x-large {
+      margin-top: calc(var(--spacing-xx-large) + var(--spacing-x-large));
+    }
+  }
+}

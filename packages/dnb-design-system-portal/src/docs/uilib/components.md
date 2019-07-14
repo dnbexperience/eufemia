@@ -34,6 +34,14 @@ The form-label element represents a caption for an item in a user interface.
 
 The form-status is a simple component meant for displaying the status of a form ( displaying form errors, messages etc. ) The form-status component should be positioned relative to the form or form input to which it referring to.
 
+## [FormRow](/uilib/components/form-row)
+
+The `FormRow` component is a helper to archive more easily often used DNB form layout setups. By default a `FormRow` is using the `<formset>` and `<legend>` HTML elements - if a label property is provided.
+
+## [FormSet](/uilib/components/form-set)
+
+The `FormSet` component gives You both a HTML form element `<form>` by default and also a React provider for [FormRow](/uilib/components/form-row). This way You can define more globally e.g. if all the rows should be displayed **vertically**.
+
 ## [Icon](/uilib/components/icon)
 
 The main `Icon` component is basically a wrapper for whatever icon you place within it. This means a span wrapping an inline svg.
@@ -77,6 +85,10 @@ Radio buttons lets a user select one option / value of a limited number of choic
 ## [Slider](/uilib/components/slider)
 
 Sliders provide a visual indication of adjustable content. A value can be adjusted (increased or decreased) by moving the drag handle along a track (usually horizontal or vertical). Remember to inform users that they can also adjust the value directly in the value input field (if it exists).
+
+## [Space](/uilib/components/space)
+
+The `Space` component provides `margins` within the [provided spacing patterns](/uilib/usage/layout/spacing#spacing-helpers).
 
 ## [Switch](/uilib/components/switch)
 

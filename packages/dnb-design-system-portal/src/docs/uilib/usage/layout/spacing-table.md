@@ -1,13 +1,14 @@
 ---
-title: 'Spacing'
-draft: false
+draft: true
 ---
 
-| Custom Property      | Size       |
-| -------------------- | ---------- |
-| `--spacing-x-small`  | **0.5rem** |
-| `--spacing-small`    | **1rem**   |
-| `--spacing-medium`   | **1.5rem** |
-| `--spacing-large`    | **2rem**   |
-| `--spacing-x-large`  | **3rem**   |
-| `--spacing-xx-large` | **3.5rem** |
+| Pixel | Type       | Rem     | Custom Property      |
+| ----- | ---------- | ------- | -------------------- |
+| 8     | `x-small`  | **0.5** | `--spacing-x-small`  |
+| 16    | `small`    | **1**   | `--spacing-small`    |
+| 24    | `medium`   | **1.5** | `--spacing-medium`   |
+| 32    | `large`    | **2**   | `--spacing-large`    |
+| 48    | `x-large`  | **3**   | `--spacing-x-large`  |
+| 56    | `xx-large` | **3.5** | `--spacing-xx-large` |
+
+To get a spacing of e.g. **2.5rem** (40px)- You may combine `large` + `x-small`.

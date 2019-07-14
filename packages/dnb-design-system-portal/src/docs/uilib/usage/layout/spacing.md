@@ -22,7 +22,7 @@ Spacing follows a specific pattern:
 ## Using a Spacing helper
 
 The **SpacingHelper** can be used for all kinds of systems.
-The idea is, You send in `SpacingHelper({ top: 'large' })` and will get `{ marginTop: 2rem }` in return.
+The idea is, You send in `createStyleObject({ top: 'large' })` and will get `{ marginTop: 2rem }` in return.
 
 ### Styled Components (Emotion)
 
