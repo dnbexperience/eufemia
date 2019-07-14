@@ -10,5 +10,3 @@ draft: true
 | 32    | `large`    | **2**   | `--spacing-large`    |
 | 48    | `x-large`  | **3**   | `--spacing-x-large`  |
 | 56    | `xx-large` | **3.5** | `--spacing-xx-large` |
-
-To get a spacing of e.g. **2.5rem** (40px)- You may combine `large` + `x-small`.

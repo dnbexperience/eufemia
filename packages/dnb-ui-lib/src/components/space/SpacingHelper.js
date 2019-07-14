@@ -6,24 +6,27 @@
 // IMPORTANT: Keep the shorthand after the long type names
 export const spacePatterns = {
   'x-small': 0.5,
-  xs: 0.5,
   small: 1,
-  s: 1,
   medium: 1.5,
-  m: 1.5,
   large: 2,
-  l: 2,
   'x-large': 3,
-  'x-l': 3,
   'xx-large': 3.5,
-  'xx-l': 3.5
+  'xx-large-x2': 7
 }
 
-export const translateSpace = type => spacePatterns[type] || 0
+export const translateSpace = type => {
+  if (/-x2$/.test(type)) {
+    return spacePatterns[type.replace(/-x2$/, '')] * 2
+  }
+  return spacePatterns[type] || 0
+}
 
 // Splits a string of: "large x-small" into an array of the same
 export const splitTypes = types => {
-  return types.split(/ /g).filter(r => {
+  if (typeof types === 'string') {
+    types = types.split(/ /g)
+  }
+  return types.filter(r => {
     return r && r.length > 0
   })
 }
@@ -46,15 +49,15 @@ export const sumTypes = types => {
 
 // Returns an array with modifyers e.g. ["--large" + "--x-small"]
 export const createTypeModifyers = types => {
-  return splitTypes(types).reduce((acc, cur) => {
-    if (cur) {
-      const firstLetter = cur[0]
+  return splitTypes(types).reduce((acc, type) => {
+    if (type) {
+      const firstLetter = type[0]
       if (parseFloat(firstLetter) > -1) {
         // can be "2rem" or "32px" - but we want only a number
-        let num = parseFloat(cur)
+        let num = parseFloat(type)
 
         // check if we got pixels
-        if (num >= 8 && /[0-9]px/.test(cur)) {
+        if (num >= 8 && /[0-9]px/.test(type)) {
           num = num / 16
         }
 
@@ -63,18 +66,18 @@ export const createTypeModifyers = types => {
 
         // get the type
         if (foundType) {
-          cur = foundType
+          type = foundType
         } else {
           findNearestTypes(num).forEach(type => {
             if (type) {
-              acc.push(`--${type}`)
+              acc.push(type)
             }
           })
         }
       }
 
-      if (cur) {
-        acc.push(`--${cur}`)
+      if (!(parseFloat(type) > 0)) {
+        acc.push(type)
       }
     }
     return acc
@@ -104,36 +107,58 @@ export const findNearestTypes = num => {
 
   const near = Object.entries(spacePatterns)
     .reverse()
-    .find(([k, v]) => k && num > v)
-
+    .find(([k, v]) => k && num >= v)
   const nearNum = (near && near[1]) || num
 
-  const types = findType(nearNum, { returnObject: true })
+  const typeObject = findType(nearNum, { returnObject: true })
 
-  if (types) {
-    const nearType = types[0]
+  if (typeObject) {
+    const nearType = typeObject[0]
     res.push(nearType)
-    const leftOver = num - parseFloat(types[1])
+    const leftOver = num - parseFloat(typeObject[1])
     const foundMoreTypes = findNearestTypes(leftOver)
+
+    // if the value already exists, then replace it with an x2
+    foundMoreTypes.forEach(type => {
+      const index = res.indexOf(type)
+      if (index !== -1) {
+        res[index] = `${type}-x2`
+      }
+    })
+
     res = [...res, ...foundMoreTypes]
   }
 
   return res
 }
 
-// Checks if a space prop is valid
-export const isValidType = type =>
-  ['top', 'right', 'bottom', 'left'].includes(type)
+// Checks if a space prop is a valid string like "top"
+export const isValidSpaceProp = prop =>
+  prop && ['top', 'right', 'bottom', 'left'].includes(prop)
 
 // Creates a valid space CSS class out from given space types
-export const createSpacingClasses = types =>
-  Object.entries(types).reduce((acc, [type, cur]) => {
-    if (cur && isValidType(type)) {
-      acc.push(
-        createTypeModifyers(cur).map(
-          modifyer => `dnb-space__${type}${modifyer}`
+export const createSpacingClasses = props =>
+  Object.entries(props).reduce((acc, [direction, cur]) => {
+    if (cur && isValidSpaceProp(direction)) {
+      const typeModifyers = createTypeModifyers(cur)
+
+      // get the total sum
+      const sum = sumTypes(typeModifyers)
+      if (sum > 10) {
+        console.warn(
+          `Spacing of more than 10rem is not supported! You used ${sum} / (${typeModifyers.join(
+            ','
+          )})`
         )
-      )
+      } else {
+        // auto combine classes
+        const nearestTypes = findNearestTypes(sum)
+        // console.log('nearestTypes', typeModifyers, sum, nearestTypes)
+
+        acc.push(
+          nearestTypes.map(type => `dnb-space__${direction}--${type}`)
+        )
+      }
     }
 
     return acc

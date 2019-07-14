@@ -30,12 +30,12 @@ describe('Space component', () => {
     expect(toJson(Comp)).toMatchSnapshot()
   })
 
-  // it('should have vertical direction class', () => {
-  //   const Comp = mount(<Component {...props} direction="vertical" />)
-  //   expect(
-  //     Comp.find('.dnb-space').hasClass('dnb-space--vertical')
-  //   ).toBe(true)
-  // })
+  it('should have correct CSS classes', () => {
+    const Comp = mount(<Component {...props} element="span" top="large" />)
+    expect(
+      Comp.find('span.dnb-space').hasClass('dnb-space__top--large')
+    ).toBe(true)
+  })
 })
 
 describe('Space scss', () => {
