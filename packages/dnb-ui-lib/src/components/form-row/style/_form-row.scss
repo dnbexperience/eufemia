@@ -18,6 +18,7 @@
   &__content {
     display: inline-flex;
     width: 100%;
+    flex: 1; // to help #input stretch
   }
 
   // for hoizontal direction
@@ -84,7 +85,6 @@
   }
   &--vertical &__content {
     flex-direction: column;
-    flex-shrink: 0;
   }
 
   // TODO: we may considder this to be included with a prop later on

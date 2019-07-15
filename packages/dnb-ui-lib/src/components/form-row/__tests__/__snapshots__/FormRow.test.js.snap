@@ -215,7 +215,8 @@ legend.dnb-form-label {
   align-items: baseline; }
   .dnb-form-row__content {
     display: inline-flex;
-    width: 100%; }
+    width: 100%;
+    flex: 1; }
   .dnb-form-row:not(.dnb-form-row--vertical), .dnb-form-row--horizontal {
     display: grid;
     grid-template-columns: [column1-start] var(--form-row-column1-start) [column1-end column2-start] var(--form-row-column2-start) [column2-end];
@@ -243,8 +244,7 @@ legend.dnb-form-label {
   .dnb-form-row--vertical > .dnb-form-label {
     margin-bottom: 0.5rem; }
   .dnb-form-row--vertical .dnb-form-row__content {
-    flex-direction: column;
-    flex-shrink: 0; }
+    flex-direction: column; }
   .dnb-form-row--vertical-label {
     flex-direction: column; }
   .dnb-form-row:not(.dnb-form-row--vertical).dnb-form-row--vertical-label {
