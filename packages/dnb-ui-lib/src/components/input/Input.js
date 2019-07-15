@@ -18,6 +18,7 @@ import {
   pickRenderProps,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
+import { createSpacingClasses } from '../space/SpacingHelper'
 
 import Context from '../../shared/Context'
 
@@ -166,7 +167,9 @@ export default class Input extends PureComponent {
     this._ref = React.createRef()
     this._id =
       props.id ||
-      (context.formRow && context.formRow.useId()) ||
+      (context.formRow &&
+        typeof context.formRow.useId === 'function' &&
+        context.formRow.useId()) ||
       `dnb-input-${Math.round(Math.random() * 999)}` // cause we need an id anyway
 
     // make sure we dont trigger getDerivedStateFromProps on startup
@@ -276,6 +279,7 @@ export default class Input extends PureComponent {
         status && `dnb-input__status--${status_state}`,
         label_direction && `dnb-input--${label_direction}`,
         isTrue(stretch) && `dnb-input--stretch`,
+        createSpacingClasses(props),
         _className,
         className
       )
