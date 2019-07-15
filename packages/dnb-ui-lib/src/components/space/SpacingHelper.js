@@ -26,17 +26,16 @@ export const splitTypes = types => {
   if (typeof types === 'string') {
     types = types.split(/ /g)
   }
-  return types.filter(r => {
-    return r && r.length > 0
-  })
+  if (typeof types === 'boolean') {
+    types = ['small']
+  }
+  return types.filter(r => r && r.length > 0)
 }
 
 // Sums e.g. "large" + "x-small" to be = 2.5rem
 export const sumTypes = types => {
   return splitTypes(types)
-    .map(type => {
-      return translateSpace(type)
-    })
+    .map(type => translateSpace(type))
     .reduce((acc, cur) => {
       if (cur > 0) {
         acc += cur
