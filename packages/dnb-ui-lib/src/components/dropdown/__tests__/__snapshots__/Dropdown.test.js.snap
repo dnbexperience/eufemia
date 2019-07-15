@@ -89,6 +89,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
       element="label"
       for_id="dropdown-id"
       id="dropdown-id-label"
+      label_direction={null}
       render_content={null}
       text="label"
       title={null}

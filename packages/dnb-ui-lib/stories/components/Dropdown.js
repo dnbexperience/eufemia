@@ -28,6 +28,18 @@ const DropdownStory = () => {
   return (
     <Wrapper>
       <Box>
+        <FormRow label="Vertical label:" label_direction="vertical">
+          <Dropdown label="Vertical label:" data={dropdownData} />
+          <Dropdown label="Vertical label:" data={dropdownData} />
+        </FormRow>
+      </Box>
+      <Box>
+        <FormRow label="Vertical:" vertical>
+          <Dropdown label="Vertical:" data={dropdownData} />
+          <Dropdown label="Vertical:" data={dropdownData} top="small" />
+        </FormRow>
+      </Box>
+      <Box>
         <select name="x" id="y">
           <option value="a">A</option>
           <option value="b">B</option>
@@ -100,7 +112,7 @@ const DropdownStory = () => {
       </Box>
       <Box>
         <FormRow vertical>
-          <Dropdown label="Label vertical:" data={dropdownData} />
+          <Dropdown label="Vertical:" data={dropdownData} />
         </FormRow>
       </Box>
       <Box>
