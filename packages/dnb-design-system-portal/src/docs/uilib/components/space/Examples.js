@@ -4,8 +4,7 @@
  */
 
 import React, {
-  PureComponent,
-  Fragment
+  PureComponent
   // , useEffect, useState
 } from 'react'
 import PropTypes from 'prop-types'
@@ -17,10 +16,23 @@ import {
   VisualSpace
 } from '../../../../../../dnb-ui-lib/stories/components/Space'
 
+// const IS_TEST = typeof window !== 'undefined' && window.IS_TEST
+const TestStyles = styled.div`
+  /* // make sure our input gets an explicit width, because of mac/linux rendering differences */
+  .dnb-input {
+    &__inner {
+      width: 8rem;
+    }
+  }
+  [data-dnb-test] {
+    display: flex;
+  }
+`
+
 class Example extends PureComponent {
   render() {
     return (
-      <Fragment>
+      <TestStyles>
         <ComponentBox
           caption="Spacing method #1 - `Space` component"
           data-dnb-test="spacing-method-1"
@@ -33,6 +45,21 @@ class Example extends PureComponent {
     <Input label="Input:" />
   </Space>
 </RedBox>
+          `}
+        </ComponentBox>
+        <ComponentBox
+          caption="All four values will result in a equivalent margin"
+          data-dnb-test="spacing-margins"
+        >
+          {/* @jsx */ `
+<Space top="large x-small" right="2.5" bottom="2.5rem" left="40px" >
+  <details>
+    <summary>
+      I have four <code className="dnb-code">2.5rem</code> margins!
+    </summary>
+    And this are my CSS classes: <code className="dnb-code">dnb-space dnb-space__top--large dnb-space__top--x-small dnb-space__right--large dnb-space__right--x-small dnb-space__bottom--large dnb-space__bottom--x-small dnb-space__left--large dnb-space__left--x-small</code>
+  </details>
+</Space>
           `}
         </ComponentBox>
         <ComponentBox
@@ -49,12 +76,14 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox
-          caption="Spacing method #2 - `FormRow` component"
+          caption="Spacing method #3 - `FormRow` component"
           data-dnb-test="spacing-method-1"
         >
           {/* @jsx */ `
-<Input label="Input:" />
-<Input top="medium" label="Input:" />
+<FormRow direction="vertical">
+  <Input label="Input:" />
+  <Input label="Input:" top="medium" />
+</FormRow>
           `}
         </ComponentBox>
         <ComponentBox
@@ -128,7 +157,7 @@ class Example extends PureComponent {
 </CustomStyle>
           `}
         </ComponentBox>
-      </Fragment>
+      </TestStyles>
     )
   }
 }

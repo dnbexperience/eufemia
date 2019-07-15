@@ -1,6 +1,6 @@
 # Release of `dnb-ui-lib` v4
 
-There are **no** significant changes due to breaking changes, but a few major cases are listed below.
+There are **no** significant changes due to breaking changes, but a few major cases are listed below:
 
 - [Component wrappers](#component-wrappers) **(major change)**
 - [Dropdown event handling](#dropdown-event-handling) **(major change)**

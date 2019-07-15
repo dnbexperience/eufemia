@@ -19,4 +19,10 @@ describe('Space screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+  it('have to match the 2.5 spacing margins', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-dnb-test="spacing-margins"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })
