@@ -64,7 +64,7 @@ class Example extends PureComponent {
           hideCode
         >
           {/* @jsx */ `
-<CustomStyle>
+<CustomStyle className="spacing-patterns">
   <Space top="0.5">
     <MagicBox />
   </Space>
