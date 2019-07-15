@@ -28,7 +28,7 @@ draft: true
 | `status_state`     | _(optional)_ defines the state of the status. Currently there are two statuses `[error, info]`. Defaults to `error`.                                                 |
 | `label`            | _(optional)_ use either the `label` property or provide custom one.                                                                                                  |
 | `label_direction`  | _(optional)_ to define the `label` layout direction on how the next element should be placed on. Can be either `vertical` or `horizontal`. Defaults to `horizontal`. |
-| `vertical`         | _(optional)_ is a short hand to define a `vertical` direction if set to `true`.                                                                                      |
+| `vertical`         | _(optional)_ will force both `direction` and `label_diretion` to be **vertical** if set to `true`.                                                                                      |
 
 ### Radio group Context
 
