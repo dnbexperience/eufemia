@@ -4,8 +4,10 @@
  */
 
 @mixin headingsStyle() {
-  margin: 0;
   padding: 0;
+  &:not([class*='dnb-space']) {
+    margin: 0;
+  }
 
   font-family: var(--font-family-demi);
   font-weight: var(--font-weight-demi);

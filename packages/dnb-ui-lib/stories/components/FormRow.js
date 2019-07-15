@@ -7,6 +7,8 @@ import React /* , { useState, useEffect } */ from 'react'
 import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
 
+import { H2 } from '../../src/elements'
+
 import {
   Checkbox,
   Radio,
@@ -74,6 +76,24 @@ export default [
                 // checked
               />
             </Radio.Group>
+          </FormRow>
+        </Box>
+
+        <H2 bottom="small">Direction Vertical</H2>
+        <Box>
+          <FormRow
+            label="Vertical label:"
+            label_direction="vertical"
+            // vertical
+          >
+            <Input label="Input label A:" />
+            <Input label="Input label B:" left="small" />
+          </FormRow>
+        </Box>
+        <Box>
+          <FormRow label="Legend:" direction="vertical">
+            <Input label="Vertical 1:" />
+            <Input label="Vertical 2:" stretch top="small" />
           </FormRow>
         </Box>
       </Wrapper>
