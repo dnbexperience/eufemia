@@ -15,6 +15,7 @@ import {
   detectOutsideClick,
   validateDOMAttributes
 } from '../../shared/component-helper'
+import { createSpacingClasses } from '../space/SpacingHelper'
 import { format, parse, differenceInCalendarDays } from 'date-fns'
 import nbLocale from 'date-fns/locale/nb'
 
@@ -535,7 +536,8 @@ export default class DatePicker extends PureComponent {
         hidden && 'dnb-date-picker--hidden',
         showInput && 'dnb-date-picker--show-input',
         (isTrue(show_submit_button) || isTrue(show_cancel_button)) &&
-          'dnb-date-picker--show-footer'
+          'dnb-date-picker--show-footer',
+        createSpacingClasses(props)
       )
     }
 

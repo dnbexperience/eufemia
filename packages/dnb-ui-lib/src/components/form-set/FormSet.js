@@ -14,6 +14,7 @@ import {
   processChildren,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
+import { createSpacingClasses } from '../space/SpacingHelper'
 import Context from '../../shared/Context'
 import { propTypes as availableFormRowProps } from '../form-row/FormRow'
 
@@ -119,7 +120,12 @@ export default class FormSet extends PureComponent {
     }, {})
 
     const params = {
-      className: classnames('dnb-form-set', className, _className),
+      className: classnames(
+        'dnb-form-set',
+        createSpacingClasses(this.props),
+        className,
+        _className
+      ),
       ...attributes
     }
 

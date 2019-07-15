@@ -12,6 +12,8 @@ import {
   validateDOMAttributes,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
+import { createSpacingClasses } from '../space/SpacingHelper'
+
 import FormRow from '../form-row/FormRow'
 import FormStatus from '../form-status/FormStatus'
 import Context from '../../shared/Context'
@@ -170,6 +172,7 @@ export default class RadioGroup extends PureComponent {
       'dnb-radio-group',
       status && `dnb-radio-group__status--${status_state}`,
       `dnb-radio-group--${layout_direction}`,
+      createSpacingClasses(props),
       className,
       _className
     )

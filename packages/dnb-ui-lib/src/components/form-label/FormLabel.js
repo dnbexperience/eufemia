@@ -13,6 +13,7 @@ import {
   validateDOMAttributes,
   processChildren
 } from '../../shared/component-helper'
+import { createSpacingClasses } from '../space/SpacingHelper'
 import Context from '../../shared/Context'
 
 const renderProps = {
@@ -118,6 +119,7 @@ export default class FormLabel extends PureComponent {
               ? 'vertical'
               : this.props.direction || label_direction
           }`,
+        createSpacingClasses(props),
         className,
         _className
       ),

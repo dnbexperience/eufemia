@@ -7,6 +7,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import keycode from 'keycode'
+import Context from '../../shared/Context'
 import {
   isTrue,
   extendPropsWithContext,
@@ -14,6 +15,8 @@ import {
   validateDOMAttributes,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
+import { createSpacingClasses } from '../space/SpacingHelper'
+
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 
@@ -83,6 +86,7 @@ export default class Switch extends Component {
   static propTypes = propTypes
   static defaultProps = defaultProps
   static renderProps = renderProps
+  static contextType = Context
 
   static enableWebComponent() {
     registerElement(Switch.tagName, Switch, defaultProps)
@@ -204,6 +208,7 @@ export default class Switch extends Component {
         label &&
           label_position &&
           `dnb-switch--label-position-${label_position}`,
+        createSpacingClasses(props),
         className,
         _className
       )

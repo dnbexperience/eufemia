@@ -14,6 +14,7 @@ import {
   validateDOMAttributes,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
+import { createSpacingClasses } from '../space/SpacingHelper'
 
 import Context from '../../shared/Context'
 import FormLabel from '../form-label/FormLabel'
@@ -207,6 +208,7 @@ export default class Checkbox extends Component {
         label &&
           label_position &&
           `dnb-checkbox--label-position-${label_position}`,
+        createSpacingClasses(props),
         className,
         _className
       )

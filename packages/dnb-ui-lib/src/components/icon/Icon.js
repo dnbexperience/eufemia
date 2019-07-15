@@ -10,8 +10,11 @@ import { ErrorHandler } from '../../shared/error-helper'
 import {
   registerElement,
   validateDOMAttributes,
-  processChildren
+  processChildren,
+  extendPropsWithContext
 } from '../../shared/component-helper'
+import { createSpacingClasses } from '../space/SpacingHelper'
+import Context from '../../shared/Context'
 
 export const DefaultIconSize = 16
 export const DefaultIconSizes = {
@@ -81,6 +84,7 @@ export default class Icon extends PureComponent {
   static tagName = 'dnb-icon'
   static propTypes = propTypes
   static defaultProps = defaultProps
+  static contextType = Context
 
   static enableWebComponent(
     tag = Icon.tagName,
@@ -98,8 +102,14 @@ export default class Icon extends PureComponent {
   }
 
   render() {
+    // consume the formRow context
+    const props = this.context.formRow
+      ? // use only the props from context, who are available here anyway
+        extendPropsWithContext(this.props, this.context.formRow)
+      : this.props
+
     const { icon, size, wrapperParams, iconParams, alt } = prepareIcon(
-      this.props
+      props
     )
 
     const IconContainer = prerenderIcon({ icon, size, alt })
@@ -323,6 +333,7 @@ export const prepareIcon = props => {
     'dnb-icon',
     modifier ? `dnb-icon--${modifier}` : null,
     sizeAsString ? `dnb-icon--${sizeAsString}` : null,
+    createSpacingClasses(props),
     _className,
     className
   )

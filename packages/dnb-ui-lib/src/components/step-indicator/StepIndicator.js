@@ -6,12 +6,16 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
+import Context from '../../shared/Context'
 import {
   // isTrue,
   registerElement,
   validateDOMAttributes,
-  processChildren
+  processChildren,
+  extendPropsWithContext
 } from '../../shared/component-helper'
+import { createSpacingClasses } from '../space/SpacingHelper'
+
 import StepItem from './StepIndicatorItem'
 
 const renderProps = {
@@ -77,6 +81,7 @@ export default class StepIndicator extends PureComponent {
   static tagName = 'dnb-step-indicator'
   static propTypes = propTypes
   static defaultProps = defaultProps
+  static contextType = Context
 
   static enableWebComponent() {
     registerElement(StepIndicator.tagName, StepIndicator, defaultProps)
@@ -149,6 +154,12 @@ export default class StepIndicator extends PureComponent {
   }
 
   render() {
+    // consume the formRow context
+    const props = this.context.formRow
+      ? // use only the props from context, who are available here anyway
+        extendPropsWithContext(this.props, this.context.formRow)
+      : this.props
+
     const {
       active_item, //eslint-disable-line
       active_url, //eslint-disable-line
@@ -161,13 +172,18 @@ export default class StepIndicator extends PureComponent {
       data: _data, //eslint-disable-line
       children, //eslint-disable-line
       ...attributes
-    } = this.props
+    } = props
 
     const data = StepIndicator.getData(this.props)
     const { activeItem } = this.state
 
     const params = {
-      className: classnames('dnb-step-indicator', className, _className),
+      className: classnames(
+        'dnb-step-indicator',
+        createSpacingClasses(props),
+        className,
+        _className
+      ),
       ...attributes
     }
 

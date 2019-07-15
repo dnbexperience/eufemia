@@ -14,6 +14,24 @@ export default [
   () => (
     <Wrapper>
       <Box>
+        <FormRow label_direction="vertical" label="Legend:">
+          <DatePicker label="Date Picker 1:" />
+          <DatePicker label="Date Picker 2:" left="small" />
+        </FormRow>
+      </Box>
+      <Box>
+        <FormRow direction="vertical" label="Legend:">
+          <DatePicker label="Date Picker 1:" />
+          <DatePicker label="Date Picker 2:" top="small" />
+        </FormRow>
+      </Box>
+      <Box>
+        <FormRow vertical label="Legend:">
+          <DatePicker label="Date Picker 1:" />
+          <DatePicker label="Date Picker 2:" top="small" />
+        </FormRow>
+      </Box>
+      <Box>
         <CustomDate />
       </Box>
       <Box>

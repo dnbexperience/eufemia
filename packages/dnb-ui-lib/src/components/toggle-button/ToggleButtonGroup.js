@@ -13,6 +13,8 @@ import {
   validateDOMAttributes,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
+import { createSpacingClasses } from '../space/SpacingHelper'
+
 import FormRow from '../form-row/FormRow'
 import FormStatus from '../form-status/FormStatus'
 import Context from '../../shared/Context'
@@ -208,6 +210,7 @@ export default class ToggleButtonGroup extends PureComponent {
       'dnb-toggle-button-group',
       status && `dnb-toggle-button-group__status--${status_state}`,
       `dnb-toggle-button-group--${layout_direction}`,
+      createSpacingClasses(props),
       className,
       _className
     )
