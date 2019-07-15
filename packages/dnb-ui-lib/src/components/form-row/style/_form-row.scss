@@ -13,6 +13,7 @@
 .dnb-form-row {
   display: flex;
   flex-direction: row;
+  align-items: baseline;
 
   &__content {
     display: inline-flex;
@@ -53,33 +54,37 @@
 
       // move the label up in case we have several lines (use the line-height)
       margin-bottom: -1.5rem;
+      margin-right: 1rem;
 
       @media (min-width: 40em) {
         text-align: right;
       }
-      // }
-
-      margin-right: 1rem;
     }
 
     // overwrite display to be block on small screens
     @media (max-width: 40em) {
       display: block;
     }
+
+    #{&}--nested {
+      > .dnb-form-label {
+        @media (max-width: 40em) {
+          margin-bottom: 1rem;
+          margin-right: 0;
+        }
+      }
+    }
   }
 
   // for vertical direction
   &--vertical {
-    flex-direction: column;
-    align-items: flex-start;
-
-    width: auto;
-
-    /* stylelint-disable */
     > .dnb-form-label {
       margin-bottom: 0.5rem;
     }
-    /* stylelint-enable */
+  }
+  &--vertical &__content {
+    flex-direction: column;
+    flex-shrink: 0;
   }
 
   // TODO: we may considder this to be included with a prop later on
@@ -89,17 +94,16 @@
   // }
 
   &--vertical-label {
-    row-gap: 2rem;
     flex-direction: column;
+  }
+  &:not(#{&}--vertical)#{&}--vertical-label {
+    row-gap: 2rem;
   }
 
   > .dnb-form-status {
     margin: 0.5rem 0;
   }
   > .dnb-form-label {
-    // padding: 0;
-    // margin: 0;
-
     &--vertical {
       display: flex;
       flex-direction: column;
@@ -111,8 +115,8 @@
   }
 
   // reset the fieldset
-  &__wrapper,
-  .dnb-core-style &__wrapper {
+  &__fieldset,
+  .dnb-core-style &__fieldset {
     margin: 0;
     padding: 0;
     border: none;

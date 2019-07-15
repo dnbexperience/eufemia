@@ -23,7 +23,7 @@ exports[`FormRow component have to match snapshot 1`] = `
     useFieldset={true}
   >
     <fieldset
-      className="dnb-form-row__wrapper"
+      className="dnb-form-row__fieldset"
     >
       <div
         className="dnb-form-row dnb-form-row--horizontal dnb-form-row--horizontal-label dnb-form-row__indent--indent dnb-section dnb-section--section_style dnb-section--spacing-section_spacing className class"
@@ -36,6 +36,7 @@ exports[`FormRow component have to match snapshot 1`] = `
           element="legend"
           for_id={null}
           id="label_id-label"
+          label_direction={null}
           render_content={null}
           text="label"
           title={null}
@@ -210,7 +211,8 @@ legend.dnb-form-label {
 
 .dnb-form-row {
   display: flex;
-  flex-direction: row; }
+  flex-direction: row;
+  align-items: baseline; }
   .dnb-form-row__content {
     display: inline-flex;
     width: 100%; }
@@ -234,17 +236,19 @@ legend.dnb-form-label {
     @media (max-width: 40em) {
       .dnb-form-row:not(.dnb-form-row--vertical), .dnb-form-row--horizontal {
         display: block; } }
-  .dnb-form-row--vertical {
+    @media (max-width: 40em) {
+      .dnb-form-row:not(.dnb-form-row--vertical) .dnb-form-row:not(.dnb-form-row--vertical) > .dnb-form-label, .dnb-form-row:not(.dnb-form-row--vertical) .dnb-form-row--horizontal--nested > .dnb-form-label, .dnb-form-row--horizontal .dnb-form-row:not(.dnb-form-row--vertical) > .dnb-form-label, .dnb-form-row--horizontal .dnb-form-row--horizontal--nested > .dnb-form-label {
+        margin-bottom: 1rem;
+        margin-right: 0; } }
+  .dnb-form-row--vertical > .dnb-form-label {
+    margin-bottom: 0.5rem; }
+  .dnb-form-row--vertical .dnb-form-row__content {
     flex-direction: column;
-    align-items: flex-start;
-    width: auto;
-    /* stylelint-disable */
-    /* stylelint-enable */ }
-    .dnb-form-row--vertical > .dnb-form-label {
-      margin-bottom: 0.5rem; }
+    flex-shrink: 0; }
   .dnb-form-row--vertical-label {
-    row-gap: 2rem;
     flex-direction: column; }
+  .dnb-form-row:not(.dnb-form-row--vertical).dnb-form-row--vertical-label {
+    row-gap: 2rem; }
   .dnb-form-row > .dnb-form-status {
     margin: 0.5rem 0; }
   .dnb-form-row > .dnb-form-label--vertical {
@@ -253,8 +257,8 @@ legend.dnb-form-label {
     align-items: flex-start; }
   .dnb-form-row > .dnb-form-label--vertical ~ .dnb-form-row__content {
     grid-column: column1-start / column1-end; }
-  .dnb-form-row__wrapper,
-  .dnb-core-style .dnb-form-row__wrapper {
+  .dnb-form-row__fieldset,
+  .dnb-core-style .dnb-form-row__fieldset {
     margin: 0;
     padding: 0;
     border: none; }

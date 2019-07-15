@@ -155,8 +155,10 @@ export default class FormRow extends PureComponent {
         'dnb-form-row',
         (isTrue(vertical) || direction) &&
           `dnb-form-row--${isTrue(vertical) ? 'vertical' : direction}`,
-        (isTrue(label_direction) || label_direction) &&
-          `dnb-form-row--${label_direction}-label`,
+        (isTrue(vertical) || label_direction) &&
+          `dnb-form-row--${
+            isTrue(vertical) ? 'vertical' : label_direction
+          }-label`,
         indent &&
           !(
             isNested &&
@@ -196,7 +198,8 @@ export default class FormRow extends PureComponent {
         indent,
         direction,
         vertical,
-        label_direction: isTrue(vertical) ? 'vertical' : direction,
+        // label_direction,
+        label_direction: isTrue(vertical) ? 'vertical' : label_direction,
         disabled
       }
     })
@@ -245,7 +248,7 @@ const Fieldset = ({ useFieldset, className, children, ...props }) => {
   if (useFieldset) {
     return (
       <fieldset
-        className={classnames('dnb-form-row__wrapper', className)}
+        className={classnames('dnb-form-row__fieldset', className)}
         {...props}
       >
         {children}
