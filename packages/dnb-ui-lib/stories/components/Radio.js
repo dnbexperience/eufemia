@@ -175,7 +175,7 @@ export default [
         </Radio.Group>
       </Box>
       <Box>
-        <FormRow direction="vertical">
+        <FormRow vertical>
           <Radio.Group label="Vertical with FormRow:">
             <Radio label="First" value="first" />
             <Radio label="Second" value="second" />

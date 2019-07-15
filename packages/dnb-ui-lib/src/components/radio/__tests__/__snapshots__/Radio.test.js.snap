@@ -38,6 +38,7 @@ exports[`Radio component have to match snapshot 1`] = `
         element="label"
         for_id="radio"
         id="radio-label"
+        label_direction={null}
         render_content={null}
         text="label"
         title={null}
@@ -162,6 +163,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
               element="label"
               for_id="group"
               id="group-label"
+              label_direction={null}
               render_content={null}
               text="Label"
               title={null}
@@ -227,6 +229,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
                         element="label"
                         for_id="radio-1"
                         id="radio-1-label"
+                        label_direction={null}
                         render_content={null}
                         text="Radio 1"
                         title={null}
@@ -322,6 +325,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
                         element="label"
                         for_id="radio-2"
                         id="radio-2-label"
+                        label_direction={null}
                         render_content={null}
                         text="Radio 2"
                         title={null}
@@ -801,8 +805,7 @@ legend.dnb-form-label {
       display: flex;
       margin-right: 0; }
     .dnb-radio-group [role='radiogroup'], .dnb-radio-group__shell {
-      display: block;
-      margin-bottom: -1rem; }
+      display: block; }
     .dnb-radio-group__shell > .dnb-form-status {
       margin-top: 0;
       margin-bottom: 0; }

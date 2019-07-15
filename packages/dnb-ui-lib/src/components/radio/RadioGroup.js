@@ -23,6 +23,8 @@ const renderProps = {
 
 export const propTypes = {
   label: PropTypes.string,
+  label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
+  label_position: PropTypes.oneOf(['left', 'right']),
   title: PropTypes.string,
   no_fieldset: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -32,8 +34,6 @@ export const propTypes = {
   status_state: PropTypes.string,
   status_animation: PropTypes.string,
   layout_direction: PropTypes.oneOf(['column', 'row']),
-  label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
-  label_position: PropTypes.oneOf(['left', 'right']),
   vertical: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   value: PropTypes.string,
   attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
@@ -55,6 +55,8 @@ export const propTypes = {
 
 export const defaultProps = {
   label: null,
+  label_direction: null,
+  label_position: 'right',
   title: null,
   no_fieldset: null,
   disabled: null,
@@ -63,8 +65,6 @@ export const defaultProps = {
   status: null,
   status_state: 'error',
   status_animation: null,
-  label_direction: null,
-  label_position: 'right',
   vertical: null,
   layout_direction: 'row',
   value: null,
@@ -139,11 +139,11 @@ export default class RadioGroup extends PureComponent {
       status,
       status_state,
       status_animation,
+      label,
       label_direction,
       label_position,
       vertical,
       layout_direction,
-      label,
       no_fieldset,
       disabled,
       className,
