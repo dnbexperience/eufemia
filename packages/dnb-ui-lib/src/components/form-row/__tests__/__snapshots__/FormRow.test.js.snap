@@ -257,6 +257,8 @@ legend.dnb-form-label {
     align-items: flex-start; }
   .dnb-form-row > .dnb-form-label--vertical ~ .dnb-form-row__content {
     grid-column: column1-start / column1-end; }
+  .dnb-form-row__label-dummy {
+    margin: 0; }
   .dnb-form-row__fieldset,
   .dnb-core-style .dnb-form-row__fieldset {
     margin: 0;

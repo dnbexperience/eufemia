@@ -113,6 +113,11 @@
       grid-column: column1-start / column1-end;
     }
   }
+  &__label {
+    &-dummy {
+      margin: 0;
+    }
+  }
 
   // reset the fieldset
   &__fieldset,

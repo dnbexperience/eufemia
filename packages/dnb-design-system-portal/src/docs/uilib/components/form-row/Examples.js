@@ -96,7 +96,7 @@ render(
         <ComponentBox caption="Default `FormRow`">
           {/* @jsx */ `
 <FormRow>
-  <Input label="Default horizontal FormRow:" value="Input value ..." />
+  <Input label="Default horizontal FormRow:" placeholder="Input ..." />
 </FormRow>
           `}
         </ComponentBox>
@@ -106,7 +106,8 @@ render(
         >
           {/* @jsx */ `
 <FormRow direction="vertical">
-  <Input label="Default vertical FormRow:" value="Input value ..." />
+  <Input label="Vertical direction:" placeholder="Input A ..." />
+  <Input label="Vertical direction:" placeholder="Input B ..." />
 </FormRow>
           `}
         </ComponentBox>
@@ -114,8 +115,8 @@ render(
           {/* @jsx */ `
 <FormSet label_direction="vertical">
   <FormRow label="Label legend for the inputs:" >
-    <Input placeholder="Input A ..." />
-    <Input placeholder="Input B ..." />
+    <Input label="Vertical label direction:" placeholder="Input A ..." />
+    <Input label="Vertical label direction:" placeholder="Input B ..." />
   </FormRow>
   <FormRow label="Checkbox legend:" top="medium">
     <Checkbox label="Checkbox" />

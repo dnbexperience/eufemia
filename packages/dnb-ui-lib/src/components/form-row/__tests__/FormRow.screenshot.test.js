@@ -35,7 +35,7 @@ describe('FormRow screenshot', () => {
   it('have to match vertical form-row', async () => {
     const screenshot = await testPageScreenshot({
       style: {
-        width: '15rem' // make sure our input gets an explicit width, because of mac/linux rendering differences
+        width: '25rem' // make sure our input gets an explicit width, because of mac/linux rendering differences
       },
       selector: '[data-dnb-test="form-row-vertical"]'
     })
