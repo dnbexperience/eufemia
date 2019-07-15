@@ -14,7 +14,7 @@ export default [
   () => (
     <Wrapper className="dnb-spacing">
       <Box>
-        <FormRow label_direction="vertical">
+        <FormRow label_direction="vertical" label="Legend:">
           <Textarea
             label="Vertical label:"
             value="Nec litora inceptos vestibulum id interdum donec gravida nostra
@@ -31,7 +31,7 @@ export default [
         </FormRow>
       </Box>
       <Box>
-        <FormRow vertical>
+        <FormRow vertical label="Legend:">
           <Textarea
             label="Vertical:"
             value="Nec litora inceptos vestibulum id interdum donec gravida nostra
