@@ -1,10 +1,11 @@
 {
-  "advisories": [],
-  "moderate": true,
-  "package-manager": "npm",
+  "hight": true,
+  "moderate": false,
   "whitelist": [
     "js-yaml",
     "lodash",
+    "lodash.merge",
+    "mixin-deep",
     "tar",
     "fstream",
     "handlebars"
