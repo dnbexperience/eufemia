@@ -17,6 +17,7 @@ import {
   pickRenderProps,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
+import { createSpacingClasses } from '../space/SpacingHelper'
 
 const renderProps = { on_click: null }
 
@@ -200,6 +201,7 @@ export default class Button extends PureComponent {
         : null,
       text ? 'dnb-button--has-text' : null,
       icon ? 'dnb-button--has-icon' : null,
+      createSpacingClasses(props),
       class_name,
       className,
       href ? '' : null // dnb-anchor--no-underline dnb-anchor--no-hover
