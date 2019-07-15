@@ -14,7 +14,42 @@ export default [
   () => (
     <Wrapper className="dnb-spacing">
       <Box>
+        <FormRow label_direction="vertical">
+          <Textarea
+            label="Vertical label:"
+            value="Nec litora inceptos vestibulum id interdum donec gravida nostra
+            lacinia bibendum hendrerit porttitor volutpat nam duis nisl
+            scelerisque sapien erat"
+          />
+          <Textarea
+            left="small"
+            label="Vertical label:"
+            value="Nec litora inceptos vestibulum id interdum donec gravida nostra
+            lacinia bibendum hendrerit porttitor volutpat nam duis nisl
+            scelerisque sapien erat"
+          />
+        </FormRow>
+      </Box>
+      <Box>
+        <FormRow vertical>
+          <Textarea
+            label="Vertical:"
+            value="Nec litora inceptos vestibulum id interdum donec gravida nostra
+            lacinia bibendum hendrerit porttitor volutpat nam duis nisl
+            scelerisque sapien erat"
+          />
+          <Textarea
+            top="small"
+            label="Vertical:"
+            value="Nec litora inceptos vestibulum id interdum donec gravida nostra
+            lacinia bibendum hendrerit porttitor volutpat nam duis nisl
+            scelerisque sapien erat"
+          />
+        </FormRow>
+      </Box>
+      <Box>
         <Textarea
+          bottom="4"
           label="Label:"
           rows="5"
           cols="33"
@@ -91,16 +126,6 @@ export default [
               lacinia bibendum hendrerit porttitor volutpat nam duis nisl
               scelerisque sapien erat"
         />
-      </Box>
-      <Box>
-        <FormRow disabled vertical>
-          <Textarea
-            label="Vertical label:"
-            value="Nec litora inceptos vestibulum id interdum donec gravida nostra
-            lacinia bibendum hendrerit porttitor volutpat nam duis nisl
-            scelerisque sapien erat"
-          />
-        </FormRow>
       </Box>
       <Box>
         <Textarea
