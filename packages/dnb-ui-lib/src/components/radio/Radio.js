@@ -14,6 +14,8 @@ import {
   validateDOMAttributes,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
+import { createSpacingClasses } from '../space/SpacingHelper'
+
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 import RadioGroup from './RadioGroup'
@@ -284,6 +286,7 @@ export default class Radio extends Component {
               status && `dnb-radio__status--${status_state}`,
               label &&
                 `dnb-radio--label-position-${label_position || 'right'}`,
+              createSpacingClasses(props),
               className,
               _className
             )

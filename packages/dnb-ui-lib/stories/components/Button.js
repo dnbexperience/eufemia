@@ -27,6 +27,7 @@ export default [
           href="?no-cache=1"
           icon="add"
           onClick={e => e.preventDefault()}
+          left="small"
         />
       </Box>
       <Box>

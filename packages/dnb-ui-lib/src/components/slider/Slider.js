@@ -7,13 +7,17 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import keycode from 'keycode'
+import Context from '../../shared/Context'
 import {
   isTrue,
   registerElement,
   validateDOMAttributes,
   processChildren,
+  extendPropsWithContext,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
+import { createSpacingClasses } from '../space/SpacingHelper'
+
 import Button from '../button/Button'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
@@ -94,6 +98,7 @@ export default class Slider extends PureComponent {
   static propTypes = propTypes
   static defaultProps = defaultProps
   static renderProps = renderProps
+  static contextType = Context
 
   state = { currentState: 'initial', value: null }
 
@@ -413,6 +418,12 @@ export default class Slider extends PureComponent {
   render() {
     const { currentState, value } = this.state
 
+    // consume the formRow context
+    const props = this.context.formRow
+      ? // use only the props from context, who are available here anyway
+        extendPropsWithContext(this.props, this.context.formRow)
+      : this.props
+
     const {
       label,
       label_direction,
@@ -436,7 +447,7 @@ export default class Slider extends PureComponent {
       value: _value, // eslint-disable-line
 
       ...attributes
-    } = this.props
+    } = props
 
     const { min, max, reverse, vertical, disabled } = this.state
     const showStatus = status && status !== 'error'
@@ -451,6 +462,7 @@ export default class Slider extends PureComponent {
         label_direction && `dnb-slider__label--${label_direction}`,
         showStatus && 'dnb-slider__form-status',
         status && `dnb-slider__status--${status_state}`,
+        createSpacingClasses(props),
         className,
         _className
       )

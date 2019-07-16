@@ -13,6 +13,7 @@ import {
   validateDOMAttributes,
   processChildren
 } from '../../shared/component-helper'
+import { createSpacingClasses } from '../space/SpacingHelper'
 import Context from '../../shared/Context'
 
 const renderProps = {
@@ -27,6 +28,7 @@ export const propTypes = {
   id: PropTypes.string,
   class: PropTypes.string,
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  label_direction: PropTypes.oneOf(['vertical', 'horizontal']),
   direction: PropTypes.oneOf(['vertical', 'horizontal']),
   vertical: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 
@@ -50,6 +52,7 @@ export const defaultProps = {
   id: null,
   class: null,
   disabled: null,
+  label_direction: null,
   direction: null,
   vertical: null,
 
@@ -92,8 +95,9 @@ export default class FormLabel extends PureComponent {
       className,
       id,
       disabled,
-      direction,
-      vertical,
+      label_direction,
+      direction, // eslint-disable-line
+      vertical, // eslint-disable-line
       class: _className,
 
       text: _text, // eslint-disable-line
@@ -106,8 +110,16 @@ export default class FormLabel extends PureComponent {
     const params = {
       className: classnames(
         'dnb-form-label',
-        (isTrue(vertical) || direction) &&
-          `dnb-form-label--${isTrue(vertical) ? 'vertical' : direction}`,
+        // label_direction && `dnb-form-label--${label_direction}`,
+        (isTrue(this.props.vertical) ||
+          this.props.direction ||
+          label_direction) &&
+          `dnb-form-label--${
+            isTrue(this.props.vertical)
+              ? 'vertical'
+              : this.props.direction || label_direction
+          }`,
+        createSpacingClasses(props),
         className,
         _className
       ),

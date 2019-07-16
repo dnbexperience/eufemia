@@ -19,9 +19,6 @@ describe('FormRow screenshot', () => {
   })
   it('have to match default form-row', async () => {
     const screenshot = await testPageScreenshot({
-      style: {
-        width: '35rem' // make sure our input gets an explicit width, because of mac/linux rendering differences
-      },
       selector: '[data-dnb-test="form-row-default"]'
     })
     expect(screenshot).toMatchImageSnapshot()
@@ -34,9 +31,6 @@ describe('FormRow screenshot', () => {
   })
   it('have to match vertical form-row', async () => {
     const screenshot = await testPageScreenshot({
-      style: {
-        width: '15rem' // make sure our input gets an explicit width, because of mac/linux rendering differences
-      },
       selector: '[data-dnb-test="form-row-vertical"]'
     })
     expect(screenshot).toMatchImageSnapshot()

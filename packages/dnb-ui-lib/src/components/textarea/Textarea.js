@@ -17,6 +17,7 @@ import {
   pickRenderProps,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
+import { createSpacingClasses } from '../space/SpacingHelper'
 
 import Context from '../../shared/Context'
 
@@ -253,6 +254,7 @@ export default class Textarea extends PureComponent {
         status && `dnb-textarea__status--${status_state}`,
         label_direction && `dnb-textarea--${label_direction}`,
         isTrue(stretch) && `dnb-textarea--stretch`,
+        createSpacingClasses(props),
         _className,
         className
       )

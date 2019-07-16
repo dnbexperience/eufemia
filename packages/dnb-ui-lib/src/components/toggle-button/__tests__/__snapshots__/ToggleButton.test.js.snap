@@ -36,6 +36,7 @@ exports[`ToggleButton component have to match snapshot 1`] = `
       element="label"
       for_id="toggle-button"
       id="toggle-button-label"
+      label_direction={null}
       render_content={null}
       text="label"
       title={null}
@@ -311,7 +312,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
         useFieldset={true}
       >
         <fieldset
-          className="dnb-form-row__wrapper"
+          className="dnb-form-row__fieldset"
         >
           <div
             className="dnb-form-row"
@@ -324,6 +325,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
               element="legend"
               for_id={null}
               id="group-label"
+              label_direction={null}
               render_content={null}
               text="Label"
               title={null}
@@ -1351,8 +1353,7 @@ a.dnb-button .dnb-button__text {
       display: flex;
       margin-right: 0; }
     .dnb-radio-group [role='radiogroup'], .dnb-radio-group__shell {
-      display: block;
-      margin-bottom: -1rem; }
+      display: block; }
     .dnb-radio-group__shell > .dnb-form-status {
       margin-top: 0;
       margin-bottom: 0; }

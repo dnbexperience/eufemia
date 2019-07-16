@@ -1,6 +1,6 @@
 # Release of `dnb-ui-lib` v4
 
-There are **no** significant changes due to breaking changes, but a few major cases are listed below.
+There are **no** significant changes due to breaking changes, but a few major cases are listed below:
 
 - [Component wrappers](#component-wrappers) **(major change)**
 - [Dropdown event handling](#dropdown-event-handling) **(major change)**
@@ -53,7 +53,7 @@ Spacing is an important part of Eufemia, thats why there are now tree new helper
 
 - [FormSet](/uilib/components/form-set) provides by default the `<form>` tag and sends some `FormRow` properties along down.
 - [FormRow](/uilib/components/form-row) provides by default the `<formset>` tag and `<legend>` tag. `FormRow` is meant to help You achieve easily common DNB layout patterns and setups. Also, `FormRow` is supporting the `Spacing` component.
-- [Spacing](/uilib/components/spacing) is made to achieve the Eufemia [spacing patterns](/uilib/usage/layout/spacing#spacing-helpers). In other words; _margin_ within the provided spacing blocks.
+- [Space](/uilib/components/space) is made to achieve the Eufemia [spacing patterns](/uilib/usage/layout/spacing#spacing-helpers). In other words; _margin_ within the provided spacing blocks.
 
 ## Install
 

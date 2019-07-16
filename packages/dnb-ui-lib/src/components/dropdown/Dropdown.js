@@ -16,6 +16,7 @@ import {
   detectOutsideClick,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
+import { createSpacingClasses } from '../space/SpacingHelper'
 
 import Context from '../../shared/Context'
 import Icon from '../icon-primary/IconPrimary'
@@ -740,6 +741,7 @@ export default class Dropdown extends PureComponent {
         isTrue(no_scroll_animation) && 'dnb-dropdown--no-scroll-animation',
         status && `dnb-dropdown__status--${status_state}`,
         showStatus && 'dnb-dropdown__form-status',
+        createSpacingClasses(props),
         _className,
         className
       )

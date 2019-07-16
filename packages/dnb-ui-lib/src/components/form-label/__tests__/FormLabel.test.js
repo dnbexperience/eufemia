@@ -24,6 +24,7 @@ const props = fakeProps(require.resolve('../FormLabel'), {
 })
 props.element = 'label'
 props.direction = 'horizontal'
+props.label_direction = 'horizontal'
 
 describe('FormLabel component', () => {
   const Comp = mount(<Component {...props} />)

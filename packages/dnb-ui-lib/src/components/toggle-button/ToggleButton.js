@@ -13,6 +13,8 @@ import {
   extendPropsWithContext,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
+import { createSpacingClasses } from '../space/SpacingHelper'
+
 import Radio from '../radio/Radio'
 import Checkbox from '../checkbox/Checkbox'
 import Button from '../button/Button'
@@ -293,6 +295,7 @@ export default class ToggleButton extends Component {
             'dnb-toggle-button',
             status && `dnb-toggle-button__status--${status_state}`,
             checked && `dnb-toggle-button--checked`,
+            createSpacingClasses(props),
             className,
             _className
           )

@@ -3,6 +3,8 @@ title: 'Spacing'
 draft: false
 ---
 
+import SpacingTable from 'Pages/uilib/usage/layout/spacing-table.md'
+
 # Spacing
 
 ## Spatial System
@@ -15,19 +17,12 @@ Eufemia has a [Spatial System](/quickguide-designer/spatial-system) with a grid 
 
 Spacing follows a specific pattern:
 
-| Custom Property      | Size       |
-| -------------------- | ---------- |
-| `--spacing-x-small`  | **0.5rem** |
-| `--spacing-small`    | **1rem**   |
-| `--spacing-medium`   | **1.5rem** |
-| `--spacing-large`    | **2rem**   |
-| `--spacing-x-large`  | **3rem**   |
-| `--spacing-xx-large` | **3.5rem** |
+<SpacingTable />
 
 ## Using a Spacing helper
 
 The **SpacingHelper** can be used for all kinds of systems.
-The idea is, You send in `SpacingHelper({ top: 'large' })` and will get `{ marginTop: 2rem }` in return.
+The idea is, You send in `createStyleObject({ top: 'large' })` and will get `{ marginTop: 2rem }` in return.
 
 ### Styled Components (Emotion)
 

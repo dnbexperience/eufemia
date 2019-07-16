@@ -6,6 +6,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
+import { validateDOMAttributes } from '../shared/component-helper'
+import { createSpacingClasses } from '../components/space/SpacingHelper'
 
 export default function E({
   className,
@@ -15,17 +17,15 @@ export default function E({
   is: Tag,
   ...rest
 }) {
-  return (
-    <Tag
-      className={classnames(
-        useClass ? useClass : `dnb-${Tag}`,
-        className,
-        _className,
-        css
-      )}
-      {...rest}
-    />
+  rest.className = classnames(
+    useClass ? useClass : `dnb-${Tag}`,
+    createSpacingClasses(rest),
+    className,
+    _className,
+    css
   )
+  validateDOMAttributes(null, rest)
+  return <Tag {...rest} />
 }
 E.propTypes = {
   is: PropTypes.string.isRequired,

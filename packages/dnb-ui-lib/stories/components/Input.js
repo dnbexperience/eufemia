@@ -29,27 +29,27 @@ export default [
       <Wrapper>
         <Box>
           <FormRow
-            label="Legend label asd asd asdad:"
+            label="Vertical label:"
             label_direction="vertical"
             // vertical
           >
             <Input label="Input label A:" />
-            <Input label="Input label B:" />
+            <Input label="Input label B:" left="small" />
           </FormRow>
         </Box>
         <Box>
-          <FormSet vertical direction="vertical">
-            <FormRow>
-              <Input
-                label="Vertical 1:"
-                placeholder="Placeholder 1 Nullam cubilia primis pulvinar sed nunc semper habitasse rhoncus aptent orci class tempus quisque sociis"
-                stretch
-              />
-              <Input
-                label="Vertical 2:"
-                value="Placeholder 2 ..."
-                stretch
-              />
+          <FormSet direction="vertical">
+            <FormRow label="Legend:">
+              <Input label="Vertical 1:" />
+              <Input label="Vertical 2:" stretch top="small" />
+            </FormRow>
+          </FormSet>
+        </Box>
+        <Box>
+          <FormSet vertical>
+            <FormRow label="Legend:">
+              <Input label="Vertical 1:" />
+              <Input label="Vertical 2:" stretch top="small" />
             </FormRow>
           </FormSet>
         </Box>
@@ -57,18 +57,22 @@ export default [
           <FormSet>
             <FormRow
               indent
-              legend="Long label labwl Adipiscing mauris dis proin nec:"
-              no_fieldset
+              label="Long label labwl Adipiscing mauris dis proin nec Condimentum egestas class blandit netus non a suscipit id urna:"
+              // no_fieldset
             >
-              <Input value="Placeholder 1 ..." stretch />
-              <Input label="Input:" value="Placeholder 2 ..." stretch />
+              <Input label="Input:" value="Stretch me ..." stretch />
+              <Input
+                left="small"
+                label="Input:"
+                placeholder="Placeholder 2 ..."
+              />
             </FormRow>
           </FormSet>
         </Box>
         <Box>
           <Input
-            label="Vertical:"
-            value="Placeholder ..."
+            label="Vertical label:"
+            value="Stretch me ..."
             stretch
             label_direction="vertical"
           />
@@ -88,7 +92,11 @@ export default [
         </Box>
         <Box>
           <p className="dnb-p">
-            <Input label="ReadOnly:" value="Placeholder ..." readOnly />
+            <Input
+              label="ReadOnly:"
+              placeholder="Placeholder ..."
+              readOnly
+            />
           </p>
         </Box>
         <Box>

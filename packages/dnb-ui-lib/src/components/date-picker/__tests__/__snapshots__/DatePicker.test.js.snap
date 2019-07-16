@@ -1402,7 +1402,8 @@ legend.dnb-form-label {
   --input-border-width: 0.0625rem;
   --input-border-radius: calc(var(--input-height) / 2);
   --input-border-radius--medium: calc(var(--input-height--medium) / 2);
-  --input-border-radius--large: calc(var(--input-height--large) / 2); }
+  --input-border-radius--large: calc(var(--input-height--large) / 2);
+  --form-row-label-offset: -0.1875rem; }
 
 .dnb-input {
   display: inline-flex;
@@ -1520,9 +1521,13 @@ legend.dnb-form-label {
   .dnb-input--stretch {
     display: flex; }
   .dnb-input--stretch .dnb-input__inner {
-    flex: 1; }
+    flex-grow: 1; }
   .dnb-input--stretch .dnb-input__shell {
     width: 100%; }
+  .dnb-input--vertical.dnb-input--stretch .dnb-input__inner {
+    width: 100%; }
+  .dnb-form-row:not(.dnb-form-row--vertical) .dnb-input {
+    transform: translateY(var(--form-row-label-offset)); }
   .dnb-input[class*='__status'] {
     align-items: flex-start; }
     .dnb-input[class*='__status'] > .dnb-form-label {

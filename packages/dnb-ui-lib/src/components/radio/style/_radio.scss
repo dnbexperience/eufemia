@@ -159,8 +159,6 @@
     & [role='radiogroup'],
     &__shell {
       display: block;
-      // correct the bottom on the last row
-      margin-bottom: -1rem;
     }
     &__shell {
       & > .dnb-form-status {

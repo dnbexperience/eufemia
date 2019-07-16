@@ -10,11 +10,17 @@ import styled from '@emotion/styled'
 const IS_TEST = typeof window !== 'undefined' && window.IS_TEST
 const TestStyles = IS_TEST
   ? styled.div`
-      .dnb-form-row:not(.dnb-form-row--vertical).dnb-form-row__indent--default
+      /* // make sure our input gets an explicit width, because of mac/linux rendering differences */
+      .dnb-input {
+        &__inner {
+          width: 8rem;
+        }
+      }
+      ${'' /* .dnb-form-row:not(.dnb-form-row--vertical).dnb-form-row__indent--default
         > .dnb-form-label {
         width: 20rem;
         max-width: none;
-      }
+      } */}
     `
   : styled.div``
 
@@ -23,16 +29,13 @@ class Example extends PureComponent {
     return (
       <TestStyles>
         <ComponentBox
-          caption="Vertical aligned `FormRow` label (legend) - while the input labels are still horizontal."
+          caption="Only the labels are vertical aligned - while the input labels are still horizontal."
           data-dnb-test="form-row-vertical-label"
           useRender
         >
           {/* @jsx */ `
 const CustomRow = styled(FormRow)\`
   .dnb-input {
-    & + .dnb-input {
-      margin-left: 1rem;
-    }
     &__inner {
       width: 8rem;
     }
@@ -43,8 +46,8 @@ render(
       label="Vertical legend label:"
       label_direction="vertical"
   >
-    <Input label="A:" value="Value A" />
-    <Input label="B:" value="Value B" />
+    <Input label="Label A:" value="Input A" />
+    <Input label="Label B:" value="Input B" left="small" />
   </CustomRow>
 )
           `}
@@ -59,7 +62,7 @@ render(
 </FormRow>
           `}
         </ComponentBox>
-        <ComponentBox caption="The `label` property can be used to set a row label">
+        <ComponentBox caption="The `label` property can be used to set a row label as well as the `section_style` is supported">
           {/* @jsx */ `
 <FormRow
   section_style="mint-green"
@@ -72,7 +75,7 @@ render(
           `}
         </ComponentBox>
         <ComponentBox
-          caption="Customize the `.dnb-form-row` class"
+          caption="Customize the `.dnb-form-row` styles. Instead of using the build in `indent` property."
           useRender
         >
           {/* @jsx */ `
@@ -96,7 +99,7 @@ render(
         <ComponentBox caption="Default `FormRow`">
           {/* @jsx */ `
 <FormRow>
-  <Input label="Default horizontal FormRow:" value="Input value ..." />
+  <Input label="Default horizontal FormRow:" placeholder="Input ..." />
 </FormRow>
           `}
         </ComponentBox>
@@ -105,8 +108,9 @@ render(
           data-dnb-test="form-row-vertical"
         >
           {/* @jsx */ `
-<FormRow direction="vertical">
-  <Input label="Default vertical FormRow:" value="Input value ..." />
+<FormRow direction="vertical" label="Label legend for the inputs:">
+  <Input label="Vertical direction:" placeholder="Input A ..." />
+  <Input label="Vertical direction:" placeholder="Input B ..." top="small" />
 </FormRow>
           `}
         </ComponentBox>
@@ -114,8 +118,8 @@ render(
           {/* @jsx */ `
 <FormSet label_direction="vertical">
   <FormRow label="Label legend for the inputs:" >
-    <Input placeholder="Input A ..." />
-    <Input placeholder="Input B ..." />
+    <Input label="Vertical label direction:" placeholder="Input A ..." />
+    <Input label="Vertical label direction:" placeholder="Input B ..." left="small" />
   </FormRow>
   <FormRow label="Checkbox legend:" top="medium">
     <Checkbox label="Checkbox" />
@@ -123,11 +127,11 @@ render(
 </FormSet>
           `}
         </ComponentBox>
-        <ComponentBox caption="Vertical, and disabled, form-row without a `for_id`">
+        <ComponentBox caption="Vertical direction and disabled">
           {/* @jsx */ `
 <FormRow vertical={true} disabled={true}>
-  <FormLabel>Without for_id (select me):</FormLabel>
-  <Checkbox label="Checkbox" />
+  <Input label="Vertical input A:" placeholder="Input A ..." />
+  <Input label="Vertical input B:" placeholder="Input B ..." top="medium" />
 </FormRow>
           `}
         </ComponentBox>

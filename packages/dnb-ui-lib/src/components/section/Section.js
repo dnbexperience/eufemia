@@ -6,12 +6,15 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
+import Context from '../../shared/Context'
 import {
   isTrue,
   registerElement,
   validateDOMAttributes,
-  processChildren
+  processChildren,
+  extendPropsWithContext
 } from '../../shared/component-helper'
+import { createSpacingClasses } from '../space/SpacingHelper'
 
 const renderProps = {
   render_content: null
@@ -54,6 +57,7 @@ export default class Section extends PureComponent {
   static tagName = 'dnb-section'
   static propTypes = propTypes
   static defaultProps = defaultProps
+  static contextType = Context
 
   static enableWebComponent() {
     registerElement(Section.tagName, Section, defaultProps)
@@ -67,6 +71,12 @@ export default class Section extends PureComponent {
   }
 
   render() {
+    // consume the formRow context
+    const props = this.context.formRow
+      ? // use only the props from context, who are available here anyway
+        extendPropsWithContext(this.props, this.context.formRow)
+      : this.props
+
     const {
       element,
       style,
@@ -76,7 +86,7 @@ export default class Section extends PureComponent {
       class: _className,
 
       ...attributes
-    } = this.props
+    } = props
 
     const content = Section.getContent(this.props)
 
@@ -88,6 +98,7 @@ export default class Section extends PureComponent {
           `dnb-section--spacing${
             !/true|false/.test(String(spacing)) ? '-' + spacing : ''
           }`,
+        createSpacingClasses(props),
         className,
         _className
       ),

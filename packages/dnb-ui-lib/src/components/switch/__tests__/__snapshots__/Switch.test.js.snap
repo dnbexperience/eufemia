@@ -37,6 +37,7 @@ exports[`Switch component have to match snapshot 1`] = `
         element="label"
         for_id="id"
         id="id-label"
+        label_direction={null}
         render_content={null}
         text="label"
         title={null}

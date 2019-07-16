@@ -6,7 +6,13 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import { registerElement } from '../../shared/component-helper'
+import Context from '../../shared/Context'
+import {
+  validateDOMAttributes,
+  registerElement,
+  extendPropsWithContext
+} from '../../shared/component-helper'
+import { createSpacingClasses } from '../space/SpacingHelper'
 // import './style/dnb-logo.scss' // no good solution to import the style here
 
 const renderProps = {}
@@ -40,12 +46,19 @@ export default class Logo extends PureComponent {
   static tagName = 'dnb-logo'
   static propTypes = propTypes
   static defaultProps = defaultProps
+  static contextType = Context
 
   static enableWebComponent() {
     registerElement(Logo.tagName, Logo, defaultProps)
   }
 
   render() {
+    // consume the formRow context
+    const props = this.context.formRow
+      ? // use only the props from context, who are available here anyway
+        extendPropsWithContext(this.props, this.context.formRow)
+      : this.props
+
     let {
       ratio,
       size,
@@ -55,7 +68,7 @@ export default class Logo extends PureComponent {
       className,
       class: _className,
       ...rest
-    } = this.props
+    } = props
 
     if (parseFloat(size) > -1 && width === null && height === null) {
       width = size * ratio
@@ -71,6 +84,7 @@ export default class Logo extends PureComponent {
         'dnb-logo',
         className,
         _className,
+        createSpacingClasses(props),
         (width > 0 || height > 0) && `dnb-logo--has-size`,
         size === 'inherit' && `dnb-logo--inherit-size`
       ),
@@ -88,6 +102,9 @@ export default class Logo extends PureComponent {
     if (parseFloat(width) > -1) svgParams['width'] = width
     if (parseFloat(height) > -1) svgParams['height'] = height
     if (color) svgParams['color'] = color
+
+    validateDOMAttributes(this.props, rootParams)
+    validateDOMAttributes(null, svgParams)
 
     return (
       <span {...rootParams}>
