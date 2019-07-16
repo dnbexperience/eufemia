@@ -16,7 +16,7 @@ import {
   VisualSpace
 } from '../../../../../../dnb-ui-lib/stories/components/Space'
 
-// const IS_TEST = typeof window !== 'undefined' && window.IS_TEST
+const IS_TEST = typeof window !== 'undefined' && window.IS_TEST
 const TestStyles = styled.div`
   /* // make sure our input gets an explicit width, because of mac/linux rendering differences */
   .dnb-input {
@@ -24,7 +24,7 @@ const TestStyles = styled.div`
       width: 8rem;
     }
   }
-  [data-dnb-test] {
+  [data-dnb-test='spacing-margins'] {
     display: flex;
   }
 `
@@ -86,13 +86,14 @@ class Example extends PureComponent {
 </FormRow>
           `}
         </ComponentBox>
-        <ComponentBox
-          caption="All spacing patterns listed (screenshot tests)"
-          data-dnb-test="spacing-patterns"
-          scope={{ MagicBox, CustomStyle }}
-          hideCode
-        >
-          {/* @jsx */ `
+        {!IS_TEST && (
+          <ComponentBox
+            caption="All spacing patterns listed (screenshot tests)"
+            data-dnb-test="spacing-patterns"
+            scope={{ MagicBox, CustomStyle }}
+            hideCode
+          >
+            {/* @jsx */ `
 <CustomStyle className="spacing-patterns">
   <Space top="0.5">
     <MagicBox />
@@ -156,7 +157,8 @@ class Example extends PureComponent {
   </Space>
 </CustomStyle>
           `}
-        </ComponentBox>
+          </ComponentBox>
+        )}
       </TestStyles>
     )
   }

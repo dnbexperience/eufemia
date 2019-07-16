@@ -12,7 +12,7 @@ describe('Space screenshot', () => {
   setupPageScreenshot({
     url: '/uilib/components/space'
   })
-  it('have to match the spacing patterns', async () => {
+  it.skip('have to match the spacing patterns', async () => {
     const screenshot = await testPageScreenshot({
       waitFor: 200,
       selector: '[data-dnb-test="spacing-patterns"] .spacing-patterns'
