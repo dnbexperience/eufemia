@@ -114,6 +114,25 @@ render(
 </FormRow>
           `}
         </ComponentBox>
+        <ComponentBox
+          caption="Several components inside a horizontal `FormRow` with a couple of words inside their labels and `no_wrap`"
+          data-dnb-test="form-row-horizontal-no_wrap"
+        >
+          {/* @jsx */ `
+<FormRow
+  label="A long horizontal FormLabel with a lot of informative text:"
+  indent="true"
+  no_wrap="true"
+  direction="horizontal"
+>
+  <Input label="Input label A:" />
+  <Input
+    label="Input label B:"
+    left="small"
+  />
+</FormRow>
+          `}
+        </ComponentBox>
         <ComponentBox caption="FormRow with `label` (legend)">
           {/* @jsx */ `
 <FormSet label_direction="vertical">

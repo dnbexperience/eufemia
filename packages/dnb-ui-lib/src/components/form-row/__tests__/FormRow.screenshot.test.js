@@ -35,4 +35,10 @@ describe('FormRow screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+  it('have to match vertical form-row', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-dnb-test="form-row-horizontal-no_wrap"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })

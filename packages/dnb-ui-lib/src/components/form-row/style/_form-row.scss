@@ -22,9 +22,7 @@
   }
 
   // for hoizontal direction
-  &:not(#{&}--vertical),
-  &--horizontal {
-    // @supports (display: grid) {
+  &:not(#{&}--vertical) {
     display: grid;
     grid-template-columns:
       [column1-start] var(--form-row-column1-start)
@@ -35,10 +33,9 @@
         --form-row-row2-start
       )
       [row2-end];
-    // }
-    // @supports not (display: grid) {
+
+    // to align the label on the bottom
     align-items: flex-end;
-    // }
 
     // > * { // <-- we used this before
     > .dnb-form-row__content {
@@ -48,7 +45,6 @@
     }
 
     > .dnb-form-label {
-      // @supports (display: grid) {
       // put the label in the first column
       grid-column: column1-start / column1-end;
       grid-row: row1-start / row1-end;
@@ -66,14 +62,18 @@
     @media (max-width: 40em) {
       display: block;
     }
-
-    #{&}--nested {
-      > .dnb-form-label {
-        @media (max-width: 40em) {
-          margin-bottom: 1rem;
-          margin-right: 0;
-        }
+  }
+  &:not(#{&}--vertical)#{&}--nested {
+    > .dnb-form-label {
+      @media (max-width: 40em) {
+        margin-bottom: 1rem;
+        margin-right: 0;
       }
+    }
+  }
+  &:not(#{&}--vertical)#{&}--no_wrap &__content {
+    .dnb-form-label {
+      white-space: nowrap;
     }
   }
 

@@ -4,6 +4,7 @@
  */
 
 import React /* , { useState, useEffect } */ from 'react'
+import PropTypes from 'prop-types'
 import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
 
@@ -30,6 +31,32 @@ export default [
   () => (
     <Center>
       <Wrapper>
+        <H2 bottom="small">Horizontal label</H2>
+        <Box>
+          <FormRow
+            indent
+            label="Horizontal Legend Aptent maecenas non pharetra libero massa auctor pretium vulputate vivamus:"
+            no_wrap="true"
+            direction="horizontal"
+          >
+            <AllComponents horizontal />
+          </FormRow>
+        </Box>
+
+        <H2 bottom="small">Vertical label</H2>
+        <Box>
+          <FormRow label="Vertical Legend:" direction="vertical">
+            <AllComponents />
+          </FormRow>
+        </Box>
+
+        <H2 bottom="small">Vertical everything</H2>
+        <Box>
+          <FormRow label="Vertical Legend:" vertical="true">
+            <AllComponents />
+          </FormRow>
+        </Box>
+
         <Box>
           <FormRow label="Inputs legend:">
             <Input value="Input value A ..." />
@@ -78,25 +105,26 @@ export default [
             </Radio.Group>
           </FormRow>
         </Box>
-
-        <H2 bottom="small">Direction Vertical</H2>
-        <Box>
-          <FormRow
-            label="Vertical label:"
-            label_direction="vertical"
-            // vertical
-          >
-            <Input label="Input label A:" />
-            <Input label="Input label B:" left="small" />
-          </FormRow>
-        </Box>
-        <Box>
-          <FormRow label="Legend:" direction="vertical">
-            <Input label="Vertical 1:" />
-            <Input label="Vertical 2:" stretch top="small" />
-          </FormRow>
-        </Box>
       </Wrapper>
     </Center>
   )
 ]
+
+const AllComponents = ({ horizontal }) => {
+  return (
+    <>
+      <Input label="Input label A:" />
+      <Input
+        label="Input label B:"
+        left={horizontal ? 'small' : null}
+        top={!horizontal ? 'small' : null}
+      />
+    </>
+  )
+}
+AllComponents.propTypes = {
+  horizontal: PropTypes.bool
+}
+AllComponents.defaultProps = {
+  horizontal: null
+}

@@ -140,6 +140,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
       label_id="group"
       no_fieldset={true}
       no_label={false}
+      no_wrap={null}
       render_content={null}
       section_spacing={null}
       section_style={null}

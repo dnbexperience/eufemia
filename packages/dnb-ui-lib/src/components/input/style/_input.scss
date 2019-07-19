@@ -17,7 +17,7 @@
   --input-border-radius: calc(var(--input-height) / 2);
   --input-border-radius--medium: calc(var(--input-height--medium) / 2);
   --input-border-radius--large: calc(var(--input-height--large) / 2);
-  --form-row-label-offset: -0.1875rem; // 3ox
+  --form-row-label-offset: -0.25rem; // 5px
 }
 
 .dnb-input {

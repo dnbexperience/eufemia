@@ -30,6 +30,7 @@ export const propTypes = {
   no_label: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   no_fieldset: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   indent: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  no_wrap: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   direction: PropTypes.oneOf(['vertical', 'horizontal']),
   vertical: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   section_style: PropTypes.string,
@@ -57,6 +58,7 @@ export const defaultProps = {
   no_label: false,
   no_fieldset: null,
   indent: null,
+  no_wrap: null,
   direction: null,
   vertical: null,
   section_style: null,
@@ -133,6 +135,7 @@ export default class FormRow extends PureComponent {
       section_style,
       section_spacing,
       disabled,
+      no_wrap,
       id: _id, // eslint-disable-line
       className,
       class: _className,
@@ -166,7 +169,8 @@ export default class FormRow extends PureComponent {
             this.context.formRow.indent
           ) &&
           `dnb-form-row__indent--${isTrue(indent) ? 'default' : indent}`,
-        isNested && `dnb-form-row--nested`,
+        isNested && 'dnb-form-row--nested',
+        isTrue(no_wrap) && 'dnb-form-row--no_wrap',
         section_style ? `dnb-section dnb-section--${section_style}` : null,
         section_spacing
           ? `dnb-section--spacing-${
