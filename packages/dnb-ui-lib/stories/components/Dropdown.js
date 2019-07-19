@@ -11,6 +11,7 @@ import {
   Dropdown,
   Button,
   FormLabel,
+  FormSet,
   FormRow,
   Checkbox
 } from '../../src/components'
@@ -28,67 +29,80 @@ const DropdownStory = () => {
   return (
     <Wrapper>
       <Box>
-        <FormRow label="Vertical label:" label_direction="vertical">
-          <Dropdown label="Vertical label:" data={dropdownData} />
-          <Dropdown label="Vertical label:" data={dropdownData} />
+        <FormRow
+          label="Vertical label_direction:"
+          label_direction="vertical"
+        >
+          <Dropdown label="Vertical A:" data={dropdownData} />
+          <Dropdown label="Vertical B:" data={dropdownData} />
         </FormRow>
       </Box>
       <Box>
-        <FormRow label="Vertical:" vertical>
-          <Dropdown label="Vertical:" data={dropdownData} />
-          <Dropdown label="Vertical:" data={dropdownData} top="small" />
+        <FormRow label="Vertical only:" vertical>
+          <Dropdown label="Vertical A:" data={dropdownData} />
+          <Dropdown label="Vertical B:" data={dropdownData} top="small" />
         </FormRow>
       </Box>
       <Box>
-        <select name="x" id="y">
-          <option value="a">A</option>
-          <option value="b">B</option>
-        </select>
-        <Dropdown
-          label="Label:"
-          data={data}
-          selected_item={selected_item}
-          on_state_update={event => {
-            console.log('on_state_update', event)
+        <FormSet
+          onSubmit={event => {
+            console.log('onSubmit', event)
           }}
-          on_change={({ data }) => {
-            console.log('on_change', data)
+          on_submit={event => {
+            console.log('on_submit', event)
           }}
-          on_select={({ data }) => {
-            console.log('on_select', data)
-          }}
-        />
-        <Button
-          text="Add"
-          onClick={() => {
-            const id = Math.random()
-            dropdownData.unshift({
-              selected_value: `I'm New ${id}`,
-              content: `New content ${id}`
-            })
-            // setData(dropdownData)
-            setData([...dropdownData])
-          }}
-        />
-        <Button
-          text="Remove"
-          variant="secondary"
-          onClick={() => {
-            dropdownData = dropdownData.slice(1)
-            console.log('dropdownData', dropdownData)
-            setData(dropdownData)
-            // setData([...dropdownData])
-          }}
-        />
-        <Button
-          text="Randomize"
-          variant="tertiary"
-          onClick={() => {
-            const random = (min, max) =>
-              Math.floor(Math.random() * (max - min + 1)) + min
-            setSelectedItem(random(0, dropdownData.length - 1))
-          }}
-        />
+          prevent_submit
+        >
+          <select name="x" id="y">
+            <option value="a">A</option>
+            <option value="b">B</option>
+          </select>
+          <Dropdown
+            label="Label:"
+            data={data}
+            selected_item={selected_item}
+            on_state_update={event => {
+              console.log('on_state_update', event)
+            }}
+            on_change={({ data }) => {
+              console.log('on_change', data)
+            }}
+            on_select={({ data }) => {
+              console.log('on_select', data)
+            }}
+          />
+          <Button
+            text="Add"
+            onClick={() => {
+              const id = Math.random()
+              dropdownData.unshift({
+                selected_value: `I'm New ${id}`,
+                content: `New content ${id}`
+              })
+              // setData(dropdownData)
+              setData([...dropdownData])
+            }}
+          />
+          <Button
+            text="Remove"
+            variant="secondary"
+            onClick={() => {
+              dropdownData = dropdownData.slice(1)
+              console.log('dropdownData', dropdownData)
+              setData(dropdownData)
+              // setData([...dropdownData])
+            }}
+          />
+          <Button
+            text="Randomize"
+            variant="tertiary"
+            onClick={() => {
+              const random = (min, max) =>
+                Math.floor(Math.random() * (max - min + 1)) + min
+              setSelectedItem(random(0, dropdownData.length - 1))
+            }}
+          />
+        </FormSet>
       </Box>
       <Box>
         <Dropdown

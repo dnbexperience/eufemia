@@ -93,7 +93,11 @@ export default class Notification extends PureComponent {
 
     return (
       <div {...params}>
-        <button className="dnb-notification__button" {...buttonParams}>
+        <button
+          type="button"
+          className="dnb-notification__button"
+          {...buttonParams}
+        >
           <span className="dnb-notification__inner">
             <span className="dnb-notification__icon">
               <Icon className="dnb-notification__icon" icon="bell" />

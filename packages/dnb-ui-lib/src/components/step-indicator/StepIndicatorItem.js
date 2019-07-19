@@ -181,6 +181,7 @@ export default class StepItem extends PureComponent {
     if (hasPassedAndIsCurrent && isTrue(use_navigation)) {
       child = (
         <button
+          type="button"
           className="dnb-anchor dnb-step-indicator__item-content dnb-step-indicator__item-content--link"
           onClick={event =>
             this.onClickHandler({ event, item: this.props, currentItem })

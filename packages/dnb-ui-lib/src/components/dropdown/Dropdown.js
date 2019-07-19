@@ -752,6 +752,7 @@ export default class Dropdown extends PureComponent {
     // But for now we use
     const selectedId = `dropdown-${id}-value`
     const triggerParams = {
+      type: 'button',
       className: 'dnb-dropdown__trigger',
       id,
       title,

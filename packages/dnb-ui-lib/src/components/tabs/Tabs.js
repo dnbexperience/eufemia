@@ -412,6 +412,7 @@ export default class Tabs extends PureComponent {
           }
           return (
             <button
+              type="button"
               key={`tab--${key}`}
               role="tab"
               tabIndex="-1"

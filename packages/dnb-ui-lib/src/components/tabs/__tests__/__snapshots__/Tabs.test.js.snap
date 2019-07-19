@@ -102,6 +102,7 @@ exports[`Tabs component have to match snapshot 1`] = `
                 onClick={[Function]}
                 role="tab"
                 tabIndex="-1"
+                type="button"
               >
                 <span
                   className="dnb-tablink-title"
@@ -126,6 +127,7 @@ exports[`Tabs component have to match snapshot 1`] = `
                 onClick={[Function]}
                 role="tab"
                 tabIndex="-1"
+                type="button"
               >
                 <span
                   className="dnb-tablink-title"
@@ -149,6 +151,7 @@ exports[`Tabs component have to match snapshot 1`] = `
                 onClick={[Function]}
                 role="tab"
                 tabIndex="-1"
+                type="button"
               >
                 <span
                   className="dnb-tablink-title"

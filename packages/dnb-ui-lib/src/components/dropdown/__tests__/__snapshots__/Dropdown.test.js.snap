@@ -128,6 +128,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
           onKeyDown={[Function]}
           onMouseDown={[Function]}
           title="title"
+          type="button"
         >
           <span
             className="dnb-dropdown__text"
