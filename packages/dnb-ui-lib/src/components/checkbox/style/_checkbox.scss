@@ -132,16 +132,13 @@
 
   // IE fix
   @media all and (-ms-high-contrast: none) {
-    &__shell,
-    &__input,
-    &__button {
-      position: absolute;
-      top: 0.125rem;
-      left: 0.125rem;
+    &__inner {
+      position: relative;
+      top: -0.25rem;
     }
+
     &__gfx,
-    &__focus {
-      position: absolute;
+    &__input {
       top: 0;
       left: 0;
     }
