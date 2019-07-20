@@ -389,4 +389,13 @@
       margin-top: 0.25rem;
     }
   }
+
+  // IE fix
+  @media all and (-ms-high-contrast: none) {
+    &__option {
+      &__inner {
+        min-height: 5rem;
+      }
+    }
+  }
 }

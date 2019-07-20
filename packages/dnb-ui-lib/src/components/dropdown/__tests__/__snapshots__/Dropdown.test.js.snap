@@ -891,5 +891,8 @@ legend.dnb-form-label {
     align-items: flex-start; }
     .dnb-dropdown[class*='__status'] > .dnb-form-label {
       margin-top: 0.25rem; }
+  @media all and (-ms-high-contrast: none) {
+    .dnb-dropdown__option__inner {
+      min-height: 5rem; } }
 "
 `;
