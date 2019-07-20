@@ -71,6 +71,7 @@
     opacity: 0;
 
     position: absolute;
+    top: 0;
     left: 0;
     z-index: 5;
 
@@ -176,6 +177,31 @@
     }
     .dnb-form-row--vertical & {
       display: flex;
+    }
+  }
+
+  // IE fix
+  @media all and (-ms-high-contrast: none) {
+    &__focus,
+    &__button,
+    &__dot {
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      margin: auto;
+    }
+    &__order {
+      align-items: center;
+    }
+
+    &-group {
+      & [role='radiogroup'],
+      &__shell {
+        // this is a dirty fix, and there may be a better sollution
+        display: flex;
+        flex-direction: column;
+      }
     }
   }
 }

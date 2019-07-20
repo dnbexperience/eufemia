@@ -22,24 +22,25 @@
 
   // for hoizontal direction
   &:not(#{&}--vertical) {
-    display: grid;
-    grid-template-columns:
-      [column1-start] var(--form-row-column1-start)
-      [column1-end column2-start] var(--form-row-column2-start)
-      [column2-end];
-    grid-template-rows:
-      [row1-start] var(--form-row-row1-start) [row1-end row2-start] var(
-        --form-row-row2-start
-      )
-      [row2-end];
-
-    // to align the label on the bottom
-    align-items: flex-end;
+    @supports (display: grid) {
+      display: grid;
+      grid-template-columns:
+        [column1-start] var(--form-row-column1-start)
+        [column1-end column2-start] var(--form-row-column2-start)
+        [column2-end];
+      grid-template-rows:
+        [row1-start] var(--form-row-row1-start) [row1-end row2-start] var(
+          --form-row-row2-start
+        )
+        [row2-end];
+    }
 
     // > * { // <-- we used this before
     > .dnb-form-row__content {
-      grid-column: column2-start / column2-end;
-      grid-row: row2-start / row2-end;
+      @supports (display: grid) {
+        grid-column: column2-start / column2-end;
+        grid-row: row2-start / row2-end;
+      }
 
       justify-self: start;
       align-items: baseline;
@@ -47,8 +48,10 @@
 
     > .dnb-form-label {
       // put the label in the first column
-      grid-column: column1-start / column1-end;
-      grid-row: row1-start / row1-end;
+      @supports (display: grid) {
+        grid-column: column1-start / column1-end;
+        grid-row: row1-start / row1-end;
+      }
 
       margin-right: 1rem;
 
@@ -110,9 +113,6 @@
   &--vertical-label {
     flex-direction: column;
   }
-  // &:not(#{&}--vertical)#{&}--vertical-label {
-  //   row-gap: 2rem;
-  // }
 
   > .dnb-form-status {
     margin: 0.5rem 0;
@@ -124,7 +124,9 @@
       align-items: flex-start;
     }
     &--vertical ~ .dnb-form-row__content {
-      grid-column: column1-start / column1-end;
+      @supports (display: grid) {
+        grid-column: column1-start / column1-end;
+      }
     }
   }
   &__label {
@@ -139,5 +141,13 @@
     margin: 0;
     padding: 0;
     border: none;
+  }
+
+  // IE fix
+  @media all and (-ms-high-contrast: none) {
+    align-items: flex-start;
+    &__content {
+      flex: auto;
+    }
   }
 }
