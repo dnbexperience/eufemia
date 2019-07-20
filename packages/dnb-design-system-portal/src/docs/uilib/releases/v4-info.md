@@ -1,9 +1,10 @@
 # Release of `dnb-ui-lib` v4
 
-There are **no** significant changes due to breaking changes, but a few major cases are listed below:
+All the major edge cases as listed below:
 
 - [Component wrappers](#component-wrappers) **(major change)**
 - [Dropdown event handling](#dropdown-event-handling) **(major change)**
+- [Switch label position](#switch-label-position) **(minor change)**
 - [Layout/Spacing components](#layout-and-spacing) **(new)**
 - [How to Install](#install)
 
@@ -46,6 +47,10 @@ To select and change the component **inside** with CSS, You can use now the `*__
 ## Dropdown event handling
 
 Did You use `on_select` before? Then make sure You double check that You really want `on_select`. In most cases You will only need `on_change`. [Read more about the difference](/uilib/components/dropdown#tab-events) between `on_change` and `on_select`.
+
+## Switch label position
+
+Now the [Switch](/uilib/components/switch) component has `right` as the default `label_position` in contrast to what it was in v3. The reason is to make it consistent with both the [Radio](/uilib/components/radio) button and the [Checkbox](/uilib/components/checkbox).
 
 ## Layout and Spacing
 
