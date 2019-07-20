@@ -14,7 +14,7 @@ Every component that provides a `label` property is now wrapping the `FormLabel`
 
 > **Note:** This is not a breaking change, but if You has made CSS styling to the component, then this can cause some issues.
 
-To select and change the component **inside** with CSS, You can use now the `*__inner` wrapper. But - for sure, it depends on Your use case.
+To select and change the component **inside** with CSS, You can use now the `*__inner` wrapper. But - for sure, it depends on Your customization made with v3.
 
 **Before** (v3):
 
@@ -59,6 +59,14 @@ Spacing is an important part of Eufemia, thats why there are now tree new helper
 - [FormSet](/uilib/components/form-set) provides by default the `<form>` tag and sends some `FormRow` properties along down.
 - [FormRow](/uilib/components/form-row) provides by default the `<formset>` tag and `<legend>` tag. `FormRow` is meant to help You achieve easily common DNB layout patterns and setups. Also, `FormRow` is supporting the `Spacing` component.
 - [Space](/uilib/components/space) is made to achieve the Eufemia [spacing patterns](/uilib/usage/layout/spacing#spacing-helpers). In other words; _margin_ within the provided spacing blocks.
+
+In v4, all components have the properties `top`, `right`, `bottom` and `left` available to define a spacing directly.
+
+E.g. this `left="small"` will give You a spacing of `8rem` to the left side.
+
+```jsx
+<Input label="My Input" left="small" />
+```
 
 ## Install
 
