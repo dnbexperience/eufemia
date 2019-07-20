@@ -4,7 +4,7 @@
  */
 
 import {
-  // isCI,
+  isCI,
   testPageScreenshot,
   setupPageScreenshot
 } from '../../../core/jest/jestSetupScreenshots'
@@ -41,28 +41,31 @@ describe('FormRow screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
-  it('have to match "horizontal direction" with all components', async () => {
-    const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="form-row-all-horizontal-direction"]'
+
+  if (!isCI) {
+    it('have to match "horizontal direction" with all components', async () => {
+      const screenshot = await testPageScreenshot({
+        selector: '[data-dnb-test="form-row-all-horizontal-direction"]'
+      })
+      expect(screenshot).toMatchImageSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-  it('have to match "vertical direction" with all components', async () => {
-    const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="form-row-all-vertical-direction"]'
+    it('have to match "vertical direction" with all components', async () => {
+      const screenshot = await testPageScreenshot({
+        selector: '[data-dnb-test="form-row-all-vertical-direction"]'
+      })
+      expect(screenshot).toMatchImageSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-  it('have to match "vertical everything" with all components', async () => {
-    const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="form-row-all-vertical-everything"]'
+    it('have to match "vertical everything" with all components', async () => {
+      const screenshot = await testPageScreenshot({
+        selector: '[data-dnb-test="form-row-all-vertical-everything"]'
+      })
+      expect(screenshot).toMatchImageSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-  it('have to match "vertical label direction" with all components', async () => {
-    const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="form-row-all-vertical-label-direction"]'
+    it('have to match "vertical label direction" with all components', async () => {
+      const screenshot = await testPageScreenshot({
+        selector: '[data-dnb-test="form-row-all-vertical-label-direction"]'
+      })
+      expect(screenshot).toMatchImageSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
+  }
 })
