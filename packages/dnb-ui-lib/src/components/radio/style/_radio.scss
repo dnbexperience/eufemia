@@ -7,6 +7,8 @@
   --radio-height: 1.5rem;
   --radio-width: 1.5rem;
   --radio-border-width: 0.125rem;
+  --radio-margin-right: 1rem;
+  --radio-margin-bottom: 0.5rem;
 }
 
 .dnb-radio {
@@ -145,11 +147,14 @@
 
     // defualt spacing
     .dnb-radio {
-      margin-right: 1rem;
-      margin-bottom: 0.5rem;
+      margin-right: var(--radio-margin-right);
+      margin-bottom: var(--radio-margin-bottom);
     }
     &--column .dnb-radio {
       display: flex;
+      margin-right: 0;
+    }
+    .dnb-radio:last-of-type {
       margin-right: 0;
     }
 
@@ -168,9 +173,12 @@
     }
 
     .dnb-form-row {
-      &--vertical-label {
-        row-gap: normal;
-      }
+      // because of our bottom margins we have on the componens
+      margin-bottom: calc(1px - 1px - var(--radio-margin-bottom));
+
+      // &--vertical-label {
+      //   row-gap: normal;
+      // }
       &--nested {
         align-items: flex-start;
       }

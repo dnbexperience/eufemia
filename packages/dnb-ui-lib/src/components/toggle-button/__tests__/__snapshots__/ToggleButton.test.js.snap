@@ -1226,6 +1226,8 @@ a.dnb-button .dnb-button__text {
     border: 0; }
   .dnb-checkbox__input:not([disabled]) {
     cursor: pointer; }
+  .dnb-checkbox .dnb-form-label {
+    margin-bottom: 0; }
   .dnb-checkbox__order {
     display: inline-flex;
     align-items: baseline; }
@@ -1303,7 +1305,9 @@ a.dnb-button .dnb-button__text {
 :root {
   --radio-height: 1.5rem;
   --radio-width: 1.5rem;
-  --radio-border-width: 0.125rem; }
+  --radio-border-width: 0.125rem;
+  --radio-margin-right: 1rem;
+  --radio-margin-bottom: 0.5rem; }
 
 .dnb-radio {
   display: inline-flex;
@@ -1389,10 +1393,12 @@ a.dnb-button .dnb-button__text {
     display: inline-flex;
     flex-direction: row; }
     .dnb-radio-group .dnb-radio {
-      margin-right: 1rem;
-      margin-bottom: 0.5rem; }
+      margin-right: var(--radio-margin-right);
+      margin-bottom: var(--radio-margin-bottom); }
     .dnb-radio-group--column .dnb-radio {
       display: flex;
+      margin-right: 0; }
+    .dnb-radio-group .dnb-radio:last-of-type {
       margin-right: 0; }
     .dnb-radio-group [role='radiogroup'], .dnb-radio-group__shell {
       display: block; }
@@ -1401,10 +1407,10 @@ a.dnb-button .dnb-button__text {
       margin-bottom: 0; }
     .dnb-radio-group--column .dnb-radio-group__shell {
       flex-direction: column; }
-    .dnb-radio-group .dnb-form-row--vertical-label {
-      row-gap: normal; }
-    .dnb-radio-group .dnb-form-row--nested {
-      align-items: flex-start; }
+    .dnb-radio-group .dnb-form-row {
+      margin-bottom: calc(1px - 1px - var(--radio-margin-bottom)); }
+      .dnb-radio-group .dnb-form-row--nested {
+        align-items: flex-start; }
     .dnb-form-row--vertical .dnb-radio-group {
       display: flex; }
   @media all and (-ms-high-contrast: none) {
@@ -1458,6 +1464,10 @@ a.dnb-button .dnb-button__text {
 * ToggleButton component
 *
 */
+:root {
+  --toggle-button-margin-right: 1rem;
+  --toggle-button-margin-bottom: 1rem; }
+
 .dnb-toggle-button {
   display: inline-flex;
   align-items: baseline; }
@@ -1529,33 +1539,35 @@ a.dnb-button .dnb-button__text {
   .dnb-toggle-button-group {
     display: inline-flex; }
     .dnb-toggle-button-group .dnb-toggle-button {
-      margin-right: 1rem;
-      margin-bottom: 1rem; }
+      margin-right: var(--toggle-button-margin-right);
+      margin-bottom: var(--toggle-button-margin-bottom); }
     .dnb-toggle-button-group--column .dnb-toggle-button {
       display: flex;
       margin-right: 0; }
+    .dnb-toggle-button-group .dnb-toggle-button:last-of-type {
+      margin-right: 0; }
     .dnb-toggle-button-group__shell {
-      display: block;
-      margin-bottom: -1rem; }
+      display: block; }
       .dnb-toggle-button-group__shell > .dnb-form-status {
         transform: translateY(-0.5rem);
         margin-top: 0;
         margin-bottom: 0; }
-    .dnb-toggle-button-group .dnb-form-row > .dnb-form-label {
-      transform: translateY(0.5rem); }
-    .dnb-toggle-button-group .dnb-form-row--vertical-label {
-      row-gap: normal; }
-    .dnb-toggle-button-group .dnb-form-row--vertical-label > .dnb-form-label {
-      transform: translateY(0); }
-    .dnb-toggle-button-group .dnb-form-row--nested {
-      align-items: flex-start; }
+    .dnb-toggle-button-group--row .dnb-form-row {
+      transform: translateY(-0.5rem); }
+      .dnb-toggle-button-group--row .dnb-form-row--nested {
+        transform: translateY(0); }
+      @media (max-width: 40em) {
+        .dnb-toggle-button-group--row .dnb-form-row {
+          transform: translateY(0); } }
+    .dnb-toggle-button-group .dnb-form-row {
+      margin-bottom: calc(1px - 1px - var(--toggle-button-margin-bottom)); }
+      .dnb-toggle-button-group .dnb-form-row > .dnb-form-label {
+        transform: translateY(0.5rem); }
+      .dnb-toggle-button-group .dnb-form-row--nested > .dnb-form-label,
+      .dnb-toggle-button-group .dnb-form-row--vertical-label > .dnb-form-label {
+        transform: translateY(0); }
     .dnb-form-row--vertical .dnb-toggle-button-group {
       display: flex; }
-    @media (min-width: 40em) {
-      .dnb-form-row__label:not(.dnb-form-label--vertical)
-+ .dnb-form-row__content
-> .dnb-toggle-button-group {
-        transform: translateY(-0.5rem); } }
   @media (min-width: 40em) {
     .dnb-form-label + .dnb-toggle-button {
       transform: translateY(-0.5rem); } }

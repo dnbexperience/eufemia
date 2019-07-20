@@ -93,6 +93,10 @@
     cursor: pointer;
   }
 
+  .dnb-form-label {
+    margin-bottom: 0;
+  }
+
   &__order {
     display: inline-flex;
     align-items: baseline;

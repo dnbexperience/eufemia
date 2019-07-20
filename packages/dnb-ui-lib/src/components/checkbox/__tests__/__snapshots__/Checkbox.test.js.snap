@@ -531,6 +531,8 @@ legend.dnb-form-label {
     border: 0; }
   .dnb-checkbox__input:not([disabled]) {
     cursor: pointer; }
+  .dnb-checkbox .dnb-form-label {
+    margin-bottom: 0; }
   .dnb-checkbox__order {
     display: inline-flex;
     align-items: baseline; }

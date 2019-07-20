@@ -743,7 +743,9 @@ legend.dnb-form-label {
 :root {
   --radio-height: 1.5rem;
   --radio-width: 1.5rem;
-  --radio-border-width: 0.125rem; }
+  --radio-border-width: 0.125rem;
+  --radio-margin-right: 1rem;
+  --radio-margin-bottom: 0.5rem; }
 
 .dnb-radio {
   display: inline-flex;
@@ -829,10 +831,12 @@ legend.dnb-form-label {
     display: inline-flex;
     flex-direction: row; }
     .dnb-radio-group .dnb-radio {
-      margin-right: 1rem;
-      margin-bottom: 0.5rem; }
+      margin-right: var(--radio-margin-right);
+      margin-bottom: var(--radio-margin-bottom); }
     .dnb-radio-group--column .dnb-radio {
       display: flex;
+      margin-right: 0; }
+    .dnb-radio-group .dnb-radio:last-of-type {
       margin-right: 0; }
     .dnb-radio-group [role='radiogroup'], .dnb-radio-group__shell {
       display: block; }
@@ -841,10 +845,10 @@ legend.dnb-form-label {
       margin-bottom: 0; }
     .dnb-radio-group--column .dnb-radio-group__shell {
       flex-direction: column; }
-    .dnb-radio-group .dnb-form-row--vertical-label {
-      row-gap: normal; }
-    .dnb-radio-group .dnb-form-row--nested {
-      align-items: flex-start; }
+    .dnb-radio-group .dnb-form-row {
+      margin-bottom: calc(1px - 1px - var(--radio-margin-bottom)); }
+      .dnb-radio-group .dnb-form-row--nested {
+        align-items: flex-start; }
     .dnb-form-row--vertical .dnb-radio-group {
       display: flex; }
   @media all and (-ms-high-contrast: none) {

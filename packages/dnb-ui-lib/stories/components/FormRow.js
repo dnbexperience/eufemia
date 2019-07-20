@@ -31,6 +31,11 @@ export default [
   () => (
     // <Center>
     <Wrapper showOverflow>
+      <H2 bottom="small">Plain</H2>
+      <Box>
+        <AllComponents horizontal vertical />
+      </Box>
+
       <H2 bottom="small">Horizontal label</H2>
       <Box>
         <FormRow

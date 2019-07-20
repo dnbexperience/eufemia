@@ -32,6 +32,11 @@ To give a FormRow space, properties from [Space](/uilib/components/space#tab-pro
 <FormRow top="large x-small" ... >
   ...
 </FormRow>
+
+/** ... or go crazy */
+<FormRow top="large medium small" ... >
+  ...
+</FormRow>
 ```
 
 ## Demos

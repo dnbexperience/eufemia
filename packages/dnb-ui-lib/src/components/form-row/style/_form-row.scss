@@ -55,11 +55,6 @@
 
       margin-right: 1rem;
 
-      // if not mobile
-      @media (max-width: 40em) {
-        margin-bottom: 0.5rem;
-      }
-
       @media (min-width: 40em) {
         text-align: right;
       }
@@ -70,28 +65,38 @@
       display: block;
     }
   }
-  &:not(#{&}--vertical)#{&}--nested {
-    > .dnb-form-label {
-      @media (max-width: 40em) {
-        margin-bottom: 1rem;
-        margin-right: 0;
-      }
-    }
-  }
-  &:not(#{&}--vertical)#{&}--no_wrap &__content {
-    .dnb-form-label {
-      white-space: nowrap;
-    }
-  }
 
   // move the content up in case we have several lines
   &__content--medium#{&}:not(#{&}--vertical)#{&}:not(#{&}--vertical-label)
     > .dnb-form-label {
     margin-bottom: -1.5rem;
+    // if not mobile
+    @media (max-width: 40em) {
+      margin-bottom: 0.5rem;
+    }
   }
   &__content--large#{&}:not(#{&}--vertical)#{&}:not(#{&}--vertical-label)
     > .dnb-form-label {
     margin-bottom: -2rem;
+    // if not mobile
+    @media (max-width: 40em) {
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  // This is currently not needed
+  // &--nested#{&}:not(#{&}--vertical)#{&}:not(#{&}--vertical-label)
+  //   > .dnb-form-label {
+  //   @media (max-width: 40em) {
+  //     margin-bottom: 1rem;
+  //     margin-right: 0;
+  //   }
+  // }
+
+  &--no_wrap#{&}:not(#{&}--vertical)#{&}:not(#{&}--vertical-label)
+    &__content
+    .dnb-form-label {
+    white-space: nowrap;
   }
 
   // for vertical direction
