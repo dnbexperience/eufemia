@@ -33,6 +33,7 @@ export const propTypes = {
   no_wrap: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   direction: PropTypes.oneOf(['vertical', 'horizontal']),
   vertical: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  content_size: PropTypes.string,
   section_style: PropTypes.string,
   section_spacing: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -61,6 +62,7 @@ export const defaultProps = {
   no_wrap: null,
   direction: null,
   vertical: null,
+  content_size: null,
   section_style: null,
   section_spacing: null,
   disabled: null,
@@ -132,6 +134,7 @@ export default class FormRow extends PureComponent {
       indent,
       direction,
       vertical,
+      content_size,
       section_style,
       section_spacing,
       disabled,
@@ -158,6 +161,9 @@ export default class FormRow extends PureComponent {
         'dnb-form-row',
         (isTrue(vertical) || direction) &&
           `dnb-form-row--${isTrue(vertical) ? 'vertical' : direction}`,
+        !isTrue(vertical) &&
+          direction !== 'vertical' &&
+          `dnb-form-row__content--${content_size || 'medium'}`,
         (isTrue(vertical) || label_direction) &&
           `dnb-form-row--${
             isTrue(vertical) ? 'vertical' : label_direction

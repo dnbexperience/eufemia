@@ -68,6 +68,7 @@ render(
   section_style="mint-green"
   section_spacing="default"
   indent={true}
+
   label="A long horizontal FormLabel with a lot of informative text and a default indent:"
 >
   <Checkbox label="Checkbox" />
@@ -122,6 +123,7 @@ render(
 <FormRow
   label="A long horizontal FormLabel with a lot of informative text:"
   indent="true"
+  content_size="large"
   no_wrap="true"
   direction="horizontal"
 >
