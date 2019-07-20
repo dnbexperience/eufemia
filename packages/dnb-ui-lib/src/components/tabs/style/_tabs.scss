@@ -30,7 +30,8 @@
       justify-content: center;
     }
 
-    .dnb-tablink {
+    .dnb-tablink,
+    .dnb-core-style & .dnb-tablink {
       position: relative;
       z-index: 1;
 

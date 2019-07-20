@@ -355,7 +355,8 @@ exports[`Tabs scss have to match snapshot 1`] = `
     justify-content: flex-end; }
   .dnb-tabs__tabs--center .dnb-tabs__tabs__tablist {
     justify-content: center; }
-  .dnb-tabs__tabs .dnb-tablink {
+  .dnb-tabs__tabs .dnb-tablink,
+  .dnb-core-style .dnb-tabs__tabs .dnb-tablink {
     position: relative;
     z-index: 1;
     margin: 0;
@@ -367,16 +368,19 @@ exports[`Tabs scss have to match snapshot 1`] = `
     cursor: pointer;
     outline: none;
     border: none; }
-    .dnb-tabs__tabs .dnb-tablink-title {
+    .dnb-tabs__tabs .dnb-tablink-title,
+    .dnb-core-style .dnb-tabs__tabs .dnb-tablink-title {
       font-size: var(--font-size-default);
       white-space: nowrap; }
-    .dnb-tabs__tabs .dnb-tablink > span[hidden] {
+    .dnb-tabs__tabs .dnb-tablink > span[hidden],
+    .dnb-core-style .dnb-tabs__tabs .dnb-tablink > span[hidden] {
       display: flex;
       flex-direction: column;
       height: 0;
       visibility: hidden;
       overflow: hidden; }
-    .dnb-tabs__tabs .dnb-tablink::after {
+    .dnb-tabs__tabs .dnb-tablink::after,
+    .dnb-core-style .dnb-tabs__tabs .dnb-tablink::after {
       content: '';
       position: absolute;
       z-index: -1;
