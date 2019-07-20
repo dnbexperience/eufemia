@@ -178,4 +178,25 @@
       transform: translateY(-0.5rem);
     }
   }
+
+  // IE fix
+  @media all and (-ms-high-contrast: none) {
+    align-items: center;
+
+    &__shell {
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      margin: auto;
+    }
+
+    &-group {
+      &__shell {
+        // this is a dirty fix, and there may be a better sollution
+        display: flex;
+        flex-direction: column;
+      }
+    }
+  }
 }

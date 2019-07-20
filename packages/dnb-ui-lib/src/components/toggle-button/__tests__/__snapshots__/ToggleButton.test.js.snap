@@ -1253,7 +1253,10 @@ a.dnb-button .dnb-button__text {
         align-items: flex-start; }
       .dnb-checkbox__gfx, .dnb-checkbox__input {
         top: 0;
-        left: 0; } }
+        right: 0;
+        bottom: 0;
+        left: 0;
+        margin: auto; } }
 
 /*
 * DNB Radio
@@ -1556,5 +1559,17 @@ a.dnb-button .dnb-button__text {
   @media (min-width: 40em) {
     .dnb-form-label + .dnb-toggle-button {
       transform: translateY(-0.5rem); } }
+  @media all and (-ms-high-contrast: none) {
+    .dnb-toggle-button {
+      align-items: center; }
+      .dnb-toggle-button__shell {
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        margin: auto; }
+      .dnb-toggle-button-group__shell {
+        display: flex;
+        flex-direction: column; } }
 "
 `;
