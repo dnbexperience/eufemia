@@ -9,15 +9,26 @@ const WrapperDiv = styled.div`
   min-height: 100vh;
   margin: 0;
 
-  overflow: hidden;
+  :not(.show-overflow) {
+    overflow: hidden;
+  }
 `
 const Grid = styled.div`
   padding: 1rem;
   ${gridStyle({ rgb: '220, 220, 220', a: 0.8 })};
 `
-export const Wrapper = ({ children, className, ...rest }) => (
+export const Wrapper = ({
+  showOverflow,
+  children,
+  className,
+  ...rest
+}) => (
   <WrapperDiv
-    className={classnames('dnb-core-style', className)}
+    className={classnames(
+      'dnb-core-style',
+      showOverflow && 'show-overflow',
+      className
+    )}
     {...rest}
   >
     <Grid>{children}</Grid>
@@ -25,10 +36,12 @@ export const Wrapper = ({ children, className, ...rest }) => (
 )
 Wrapper.propTypes = {
   children: PropTypes.node.isRequired,
-  className: PropTypes.string
+  className: PropTypes.string,
+  showOverflow: PropTypes.bool
 }
 Wrapper.defaultProps = {
-  className: null
+  className: null,
+  showOverflow: null
 }
 
 export const Box = styled.div`

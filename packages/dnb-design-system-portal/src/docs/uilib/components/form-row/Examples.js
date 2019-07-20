@@ -5,7 +5,11 @@
 
 import React, { PureComponent } from 'react'
 import ComponentBox from 'Src/shared/tags/ComponentBox'
+import { Global, css } from '@emotion/core'
 import styled from '@emotion/styled'
+import AllComponents from 'dnb-ui-lib/src/components/form-row/AllComponents'
+// import { FormRow } from 'dnb-ui-lib/src/components'
+// import AllComponents from './AllComponents'
 
 const IS_TEST = typeof window !== 'undefined' && window.IS_TEST
 const TestStyles = IS_TEST
@@ -16,16 +20,15 @@ const TestStyles = IS_TEST
           width: 8rem;
         }
       }
-      ${'' /* .dnb-form-row:not(.dnb-form-row--vertical).dnb-form-row__indent--default
-        > .dnb-form-label {
-        width: 20rem;
-        max-width: none;
-      } */}
     `
   : styled.div``
+const WidthLimit = styled.div`
+  width: 40rem;
+`
 
 class Example extends PureComponent {
   render() {
+    const IS_TEST = typeof window !== 'undefined' && window.IS_TEST
     return (
       <TestStyles>
         <ComponentBox
@@ -156,6 +159,74 @@ render(
 </FormRow>
           `}
         </ComponentBox>
+        {IS_TEST && (
+          <>
+            <Global
+              styles={css`
+                #___gatsby {
+                  display: flex;
+                }
+                .dnb-app-content-inner {
+                  overflow: visible;
+                }
+              `}
+            ></Global>
+            <ComponentBox
+              caption="Horizontal direction"
+              scope={{ AllComponents }}
+              data-dnb-test="form-row-all-horizontal-direction"
+            >
+              {/* @jsx */ `
+<FormRow
+  // label="Horizontal:"
+  // indent="true"
+  no_wrap="true"
+  direction="horizontal"
+  content_size="large"
+>
+  <AllComponents horizontal />
+</FormRow>
+          `}
+            </ComponentBox>
+            <ComponentBox
+              caption="Vertical direction"
+              scope={{ AllComponents, WidthLimit }}
+              data-dnb-test="form-row-all-vertical-direction"
+            >
+              {/* @jsx */ `
+<WidthLimit>
+  <FormRow label="Vertical direction:" direction="vertical">
+    <AllComponents />
+  </FormRow>
+</WidthLimit>
+          `}
+            </ComponentBox>
+            <ComponentBox
+              caption="Vertical everything"
+              scope={{ AllComponents, WidthLimit }}
+              data-dnb-test="form-row-all-vertical-everything"
+            >
+              {/* @jsx */ `
+<WidthLimit>
+  <FormRow label="Vertical everything:" vertical="true">
+    <AllComponents />
+  </FormRow>
+</WidthLimit>
+          `}
+            </ComponentBox>
+            <ComponentBox
+              caption="Vertical label direction"
+              scope={{ AllComponents }}
+              data-dnb-test="form-row-all-vertical-label-direction"
+            >
+              {/* @jsx */ `
+<FormRow label="Vertical label direction:" label_direction="vertical">
+  <AllComponents horizontal />
+</FormRow>
+          `}
+            </ComponentBox>
+          </>
+        )}
       </TestStyles>
     )
   }

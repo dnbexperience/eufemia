@@ -22,7 +22,7 @@ class Example extends PureComponent {
         >
           {/* @jsx */ `
 <Checkbox
-  label="Label"
+  label="Checkbox"
   on_change={onChange}
 />
           `}
@@ -49,7 +49,7 @@ class Example extends PureComponent {
         >
           {/* @jsx */ `
 <Checkbox
-  label="Label"
+  label="Checkbox"
   checked
   status="Error message"
 />

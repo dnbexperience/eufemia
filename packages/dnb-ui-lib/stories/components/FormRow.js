@@ -4,22 +4,15 @@
  */
 
 import React /* , { useState, useEffect } */ from 'react'
-import PropTypes from 'prop-types'
 import { Wrapper, Box } from '../helpers'
 // import styled from '@emotion/styled'
 
 import { H2 } from '../../src/elements'
+import AllComponents from '../../src/components/form-row/AllComponents'
 
 import {
-  Button,
-  DatePicker,
-  Textarea,
-  Dropdown,
-  Slider,
   Checkbox,
   Radio,
-  ToggleButton,
-  Switch,
   Input,
   FormLabel,
   FormRow
@@ -47,28 +40,28 @@ export default [
           direction="horizontal"
           content_size="large"
         >
-          <AllComponents horizontal />
+          <AllComponents showText horizontal />
         </FormRow>
       </Box>
 
       <H2 bottom="small">Vertical direction</H2>
       <Box>
-        <FormRow label="Vertical Legend:" direction="vertical">
-          <AllComponents />
+        <FormRow label="Vertical direction:" direction="vertical">
+          <AllComponents showText />
         </FormRow>
       </Box>
 
       <H2 bottom="small">Vertical everything</H2>
       <Box>
-        <FormRow label="Vertical Legend:" vertical="true">
-          <AllComponents />
+        <FormRow label="Vertical everything:" vertical="true">
+          <AllComponents showText />
         </FormRow>
       </Box>
 
       <H2 bottom="small">Vertical label</H2>
       <Box>
         <FormRow label="Vertical Legend:" label_direction="vertical">
-          <AllComponents horizontal />
+          <AllComponents showText horizontal />
         </FormRow>
       </Box>
 
@@ -124,111 +117,3 @@ export default [
     // </Center>
   )
 ]
-
-const dropdownData = [
-  {
-    selected_value: 'Brukskonto - Kari Nordmann',
-    content: (
-      <>
-        <Checkbox checked /> Brukskonto - Kari Nordmann
-      </>
-    )
-  },
-  {
-    content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
-  },
-  {
-    selected_value:
-      'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen',
-    content: [
-      '1134.56.78962',
-      'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen'
-    ]
-  },
-  {
-    selected_value: <>Custom selected {'🔥'}</>,
-    content: ['1534.96.48901', <>Custom content {'🔥'}</>]
-  }
-]
-
-const AllComponents = ({ horizontal }) => {
-  return (
-    <>
-      text
-      <p className="dnb-p">paragraph</p>
-      <Button
-        text="Button"
-        left={horizontal ? 'small' : null}
-        top={!horizontal ? 'small' : null}
-      />
-      <Input
-        label="Input label A:"
-        stretch
-        left={horizontal ? 'small' : null}
-        top={!horizontal ? 'small' : null}
-      />
-      <Input
-        label="Input label B:"
-        left={horizontal ? 'small' : null}
-        top={!horizontal ? 'small' : null}
-      />
-      <DatePicker
-        label="DatePicker:"
-        left={horizontal ? 'small' : null}
-        top={!horizontal ? 'small' : null}
-      />
-      <Dropdown
-        label="Dropdown:"
-        data={dropdownData}
-        left={horizontal ? 'small' : null}
-        top={!horizontal ? 'small' : null}
-      />
-      <Slider
-        label="Slider:"
-        value={50}
-        left={horizontal ? 'small' : null}
-        top={!horizontal ? 'small' : null}
-      />
-      <Textarea
-        label="Textarea:"
-        rows="10"
-        left={horizontal ? 'small' : null}
-        top={!horizontal ? 'small' : null}
-      />
-      <Textarea
-        label="Textarea:"
-        stretch
-        rows="5"
-        left={horizontal ? 'small' : null}
-        top={!horizontal ? 'small' : null}
-      />
-      <ToggleButton
-        label="Toggle:"
-        text="Toggle"
-        left={horizontal ? 'small' : null}
-        top={!horizontal ? 'small' : null}
-      />
-      <Checkbox
-        label="Checkbox"
-        left={horizontal ? 'small' : null}
-        top={!horizontal ? 'small' : null}
-      />
-      <Radio
-        label="Radio"
-        left={horizontal ? 'small' : null}
-        top={!horizontal ? 'small' : null}
-      />
-      <Switch
-        label="Switch"
-        left={horizontal ? 'small' : null}
-        top={!horizontal ? 'small' : null}
-      />
-    </>
-  )
-}
-AllComponents.propTypes = {
-  horizontal: PropTypes.bool
-}
-AllComponents.defaultProps = {
-  horizontal: null
-}

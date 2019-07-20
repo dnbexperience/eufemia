@@ -81,6 +81,14 @@
     color: inherit;
   }
 
+  // if no label is provided, then make sure we have some text to align the button
+  &__helper {
+    clip: rect(0, 0, 0, 0);
+    width: 0;
+    overflow: hidden;
+    opacity: 0;
+  }
+
   &__shell {
     position: relative;
 

@@ -384,12 +384,12 @@ legend.dnb-form-label {
  */
 .dnb-form-status {
   width: auto;
-  display: flex;
-  min-height: var(--input-height); }
+  display: flex; }
   .dnb-form-status__shell {
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    min-height: var(--input-height);
     border-radius: var(--input-border-radius); }
   .dnb-form-status--text {
     padding: calc(0.5rem / 2) 1rem;

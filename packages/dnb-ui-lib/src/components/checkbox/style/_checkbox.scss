@@ -12,11 +12,16 @@
 .dnb-checkbox {
   display: inline-flex;
   flex-direction: column;
-  vertical-align: middle; // just to center, in case we dont have provided a internal label
 
   &__inner {
     display: inline-flex;
     flex-direction: column;
+  }
+  &__helper {
+    clip: rect(0, 0, 0, 0);
+    width: 0;
+    overflow: hidden;
+    opacity: 0;
   }
 
   &__shell {
@@ -37,12 +42,12 @@
   }
 
   &__focus,
-  &__button,
-  &__gfx {
-    position: absolute;
-    top: auto;
-    left: auto;
+  &__button {
+    position: relative;
     z-index: 4;
+
+    width: calc(var(--checkbox-width) - 0.25rem);
+    height: calc(var(--checkbox-height) - 0.25rem);
 
     border-radius: 0.25rem;
   }
@@ -53,15 +58,13 @@
     display: none;
     @include fakeFocus();
   }
-  &__focus,
-  &__button {
-    width: calc(var(--checkbox-width) - 0.25rem);
-    height: calc(var(--checkbox-height) - 0.25rem);
-  }
   &__gfx {
     position: absolute;
+    z-index: 5;
+
     top: auto;
     left: auto;
+
     width: var(--checkbox-height);
     height: var(--checkbox-height);
 
@@ -75,7 +78,7 @@
     position: absolute;
     top: auto;
     left: auto;
-    z-index: 5;
+    z-index: 6;
 
     width: var(--checkbox-width);
     height: var(--checkbox-height);
@@ -92,11 +95,7 @@
 
   &__order {
     display: inline-flex;
-    flex-direction: row;
-    align-items: flex-start;
-
-    // in case we have text before, or after, make sure we are aligned
-    vertical-align: top;
+    align-items: baseline;
   }
 
   &--label-position-left &__order {
@@ -105,8 +104,9 @@
     }
     .dnb-form-label {
       order: 1;
-      // margin-right: 1rem;
-      align-self: flex-start;
+      // align-self: flex-start;// Do we need this?
+      margin-right: 0.5rem;
+      margin-left: 0;
     }
     .dnb-form-status {
       margin-top: 0.5rem;
@@ -119,8 +119,8 @@
     }
     .dnb-form-label {
       order: 2;
-      margin-left: 1rem;
-      margin-right: 0.5rem; // because of the possible status
+      margin-right: 0;
+      margin-left: 0.5rem;
     }
     & + .dnb-form-status {
       // in case the status did not wrap, we want to have the status on the same line
@@ -135,11 +135,13 @@
     &__shell,
     &__input,
     &__button {
+      position: absolute;
       top: 0.125rem;
       left: 0.125rem;
     }
     &__gfx,
     &__focus {
+      position: absolute;
       top: 0;
       left: 0;
     }

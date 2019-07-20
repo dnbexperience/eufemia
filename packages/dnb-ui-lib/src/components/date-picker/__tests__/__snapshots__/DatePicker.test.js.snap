@@ -73,7 +73,13 @@ exports[`DatePicker component have to match snapshot 1`] = `
     className="dnb-date-picker dnb-date-picker__status--error dnb-date-picker--hidden dnb-date-picker--show-input dnb-date-picker--show-footer"
   >
     <span
-      className="'dnb-date-picker__inner"
+      aria-hidden={true}
+      className="dnb-date-picker__helper"
+    >
+      -
+    </span>
+    <span
+      className="dnb-date-picker__inner"
     >
       <span
         className="dnb-date-picker__shell"
@@ -1190,6 +1196,8 @@ exports[`DatePicker scss have to match snapshot 1`] = `
     cursor: not-allowed; }
   button.dnb-button::-moz-focus-inner .dnb-button {
     border: none; }
+  .dnb-form-row--vertical .dnb-form-row__content > .dnb-button {
+    align-self: flex-start; }
 
 a.dnb-button[type='button'] {
   appearance: none;
@@ -1310,12 +1318,12 @@ legend.dnb-form-label {
  */
 .dnb-form-status {
   width: auto;
-  display: flex;
-  min-height: var(--input-height); }
+  display: flex; }
   .dnb-form-status__shell {
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    min-height: var(--input-height);
     border-radius: var(--input-border-radius); }
   .dnb-form-status--text {
     padding: calc(0.5rem / 2) 1rem;
@@ -1402,8 +1410,7 @@ legend.dnb-form-label {
   --input-border-width: 0.0625rem;
   --input-border-radius: calc(var(--input-height) / 2);
   --input-border-radius--medium: calc(var(--input-height--medium) / 2);
-  --input-border-radius--large: calc(var(--input-height--large) / 2);
-  --form-row-label-offset: -0.25rem; }
+  --input-border-radius--large: calc(var(--input-height--large) / 2); }
 
 .dnb-input {
   display: inline-flex;
@@ -1515,9 +1522,8 @@ legend.dnb-form-label {
   .dnb-input__inner > .dnb-form-status {
     margin-top: 0.5rem; }
   .dnb-input--vertical {
-    display: flex;
-    align-items: flex-start;
-    flex-direction: column; }
+    flex-direction: column;
+    align-items: flex-start; }
   .dnb-input--stretch {
     display: flex; }
   .dnb-input--stretch .dnb-input__inner {
@@ -1526,8 +1532,6 @@ legend.dnb-form-label {
     width: 100%; }
   .dnb-input--vertical.dnb-input--stretch .dnb-input__inner {
     width: 100%; }
-  .dnb-form-row:not(.dnb-form-row--vertical) .dnb-input {
-    transform: translateY(var(--form-row-label-offset)); }
   .dnb-input[class*='__status'] {
     align-items: flex-start; }
     .dnb-input[class*='__status'] > .dnb-form-label {
@@ -1594,6 +1598,11 @@ legend.dnb-form-label {
   .dnb-date-picker__inner {
     display: inline-flex;
     flex-direction: column; }
+  .dnb-date-picker__helper {
+    clip: rect(0, 0, 0, 0);
+    width: 0;
+    overflow: hidden;
+    opacity: 0; }
   .dnb-date-picker__shell {
     position: relative;
     top: 0;

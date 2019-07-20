@@ -586,12 +586,12 @@ legend.dnb-form-label {
  */
 .dnb-form-status {
   width: auto;
-  display: flex;
-  min-height: var(--input-height); }
+  display: flex; }
   .dnb-form-status__shell {
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    min-height: var(--input-height);
     border-radius: var(--input-border-radius); }
   .dnb-form-status--text {
     padding: calc(0.5rem / 2) 1rem;
@@ -706,6 +706,11 @@ legend.dnb-form-label {
     font-size: var(--font-size-default);
     font-weight: var(--font-weight-default);
     color: inherit; }
+  .dnb-dropdown__helper {
+    clip: rect(0, 0, 0, 0);
+    width: 0;
+    overflow: hidden;
+    opacity: 0; }
   .dnb-dropdown__shell {
     position: relative;
     top: -0.0625rem;

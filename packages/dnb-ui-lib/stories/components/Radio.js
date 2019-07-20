@@ -195,7 +195,7 @@ export default [
           label="Group with error:"
           label_direction="vertical"
           label_position="left" // for every radio button
-          status="Error message Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
+          status="Error message left position Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
         >
           <Radio label="First" value="first" />
           <Radio label="Second" value="second" />

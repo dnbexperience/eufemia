@@ -12,8 +12,8 @@ import {
   InputMasked,
   Button,
   FormSet,
-  FormRow
-  // FormLabel
+  FormRow,
+  FormLabel
 } from '../../src/components'
 
 const CustomStyle = styled.div`
@@ -91,6 +91,12 @@ export default [
           Text
         </Box>
         <Box>
+          Text
+          <FormLabel>FormLabel:</FormLabel>
+          <Input>Input ...</Input>
+          Text
+        </Box>
+        <Box>
           <p className="dnb-p">
             <Input
               label="ReadOnly:"
@@ -109,6 +115,7 @@ export default [
             placeholder="Search text placeholder"
           />
           <Input
+            label="Search:"
             size="large"
             type="search"
             align="right"
@@ -116,6 +123,7 @@ export default [
             placeholder="Large input with right aligned text"
           />
           <Input
+            label="Search:"
             size="medium"
             type="search"
             align="right"

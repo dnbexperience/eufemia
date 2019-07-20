@@ -87,12 +87,20 @@ exports[`Radio component have to match snapshot 1`] = `
           />
           <span
             aria-hidden={true}
+            className="dnb-radio__helper"
+          >
+            -
+          </span>
+          <span
+            aria-hidden={true}
             className="dnb-radio__button"
           />
           <span
+            aria-hidden={true}
             className="dnb-radio__focus"
           />
           <span
+            aria-hidden={true}
             className="dnb-radio__dot"
           />
         </span>
@@ -113,7 +121,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
   id="group"
   label="Label"
   label_direction={null}
-  label_position="right"
+  label_position={null}
   layout_direction="row"
   name="group"
   no_fieldset={true}
@@ -131,6 +139,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
     <FormRow
       class={null}
       className={null}
+      content_size={null}
       direction={null}
       disabled={null}
       id="group"
@@ -154,7 +163,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
           className={null}
         >
           <div
-            className="dnb-form-row"
+            className="dnb-form-row dnb-form-row__content--medium"
           >
             <FormLabel
               class={null}
@@ -277,12 +286,20 @@ exports[`Radio group component have to match group snapshot 1`] = `
                           />
                           <span
                             aria-hidden={true}
+                            className="dnb-radio__helper"
+                          >
+                            -
+                          </span>
+                          <span
+                            aria-hidden={true}
                             className="dnb-radio__button"
                           />
                           <span
+                            aria-hidden={true}
                             className="dnb-radio__focus"
                           />
                           <span
+                            aria-hidden={true}
                             className="dnb-radio__dot"
                           />
                         </span>
@@ -373,12 +390,20 @@ exports[`Radio group component have to match group snapshot 1`] = `
                           />
                           <span
                             aria-hidden={true}
+                            className="dnb-radio__helper"
+                          >
+                            -
+                          </span>
+                          <span
+                            aria-hidden={true}
                             className="dnb-radio__button"
                           />
                           <span
+                            aria-hidden={true}
                             className="dnb-radio__focus"
                           />
                           <span
+                            aria-hidden={true}
                             className="dnb-radio__dot"
                           />
                         </span>
@@ -636,12 +661,12 @@ legend.dnb-form-label {
  */
 .dnb-form-status {
   width: auto;
-  display: flex;
-  min-height: var(--input-height); }
+  display: flex; }
   .dnb-form-status__shell {
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    min-height: var(--input-height);
     border-radius: var(--input-border-radius); }
   .dnb-form-status--text {
     padding: calc(0.5rem / 2) 1rem;
@@ -725,7 +750,12 @@ legend.dnb-form-label {
   flex-direction: column; }
   .dnb-radio__inner {
     display: inline-flex;
-    flex-direction: row; }
+    flex-direction: column; }
+  .dnb-radio__helper {
+    clip: rect(0, 0, 0, 0);
+    width: 0;
+    overflow: hidden;
+    opacity: 0; }
   .dnb-radio__shell {
     position: relative;
     user-select: none;
@@ -771,7 +801,7 @@ legend.dnb-form-label {
     margin-bottom: 0; }
   .dnb-radio__order {
     display: inline-flex;
-    flex-direction: row; }
+    align-items: baseline; }
     .dnb-radio-group--column .dnb-radio__order {
       display: flex; }
   .dnb-radio--label-position-left .dnb-radio__order .dnb-radio__inner {
@@ -779,15 +809,13 @@ legend.dnb-form-label {
   .dnb-radio--label-position-left .dnb-radio__order .dnb-form-label {
     order: 1;
     margin-right: 0.5rem;
-    margin-left: 1rem; }
+    margin-left: 0; }
   .dnb-radio--label-position-right .dnb-radio__order .dnb-radio__inner {
     order: 1; }
   .dnb-radio--label-position-right .dnb-radio__order .dnb-form-label {
     order: 2;
-    margin-right: 1rem;
+    margin-right: 0;
     margin-left: 0.5rem; }
-  .dnb-radio--label-position-left:first-of-type .dnb-form-label {
-    margin-left: 0; }
   :not(.dnb-radio-group) > .dnb-form-label + .dnb-radio {
     vertical-align: top; }
   .dnb-radio .dnb-form-status {
@@ -800,7 +828,7 @@ legend.dnb-form-label {
     display: inline-flex;
     flex-direction: row; }
     .dnb-radio-group .dnb-radio {
-      margin-right: 0.5rem;
+      margin-right: 1rem;
       margin-bottom: 0.5rem; }
     .dnb-radio-group--column .dnb-radio {
       display: flex;

@@ -7,15 +7,14 @@
   width: auto;
 
   display: flex;
-  min-height: var(--input-height);
 
   &__shell {
     display: flex;
     justify-content: flex-start;
     align-items: center; // could be flex-start to have the icon on top
 
+    min-height: var(--input-height);
     border-radius: var(--input-border-radius);
-    // line-height: 0.5rem;
   }
 
   &--text {

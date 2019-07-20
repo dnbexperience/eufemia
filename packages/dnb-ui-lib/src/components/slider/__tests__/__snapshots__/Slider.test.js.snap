@@ -60,301 +60,305 @@ exports[`Slider component have to match snapshot 1`] = `
       </Element>
     </FormLabel>
     <span
-      className="dnb-slider__inner"
+      className="dnb-slider__wrapper"
     >
-      <Button
-        bounding={false}
-        class={null}
-        className="dnb-slider__button dnb-slider__button--subtract"
-        custom_element={null}
-        custom_method={null}
-        disabled={null}
-        href={null}
-        icon="subtract"
-        icon_position="right"
-        icon_size="default"
-        id={null}
-        innerRef={null}
-        onClick={null}
-        on_click={[Function]}
-        size={null}
-        text={null}
-        title="subtract_title"
-        type="button"
-        variant="secondary"
+      <span
+        className="dnb-slider__inner"
       >
-        <button
-          aria-label="subtract_title"
-          className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon dnb-slider__button dnb-slider__button--subtract"
-          onClick={[Function]}
-          onMouseOut={[Function]}
+        <Button
+          bounding={false}
+          class={null}
+          className="dnb-slider__button dnb-slider__button--subtract"
+          custom_element={null}
+          custom_method={null}
+          disabled={null}
+          href={null}
+          icon="subtract"
+          icon_position="right"
+          icon_size="default"
+          id={null}
+          innerRef={null}
+          onClick={null}
+          on_click={[Function]}
+          size={null}
+          text={null}
           title="subtract_title"
           type="button"
+          variant="secondary"
         >
-          <Content
-            bounding={false}
-            class={null}
-            className="dnb-slider__button dnb-slider__button--subtract"
-            content={null}
-            custom_element={null}
-            custom_method={null}
-            disabled={null}
-            href={null}
-            icon="subtract"
-            icon_position="right"
-            icon_size="default"
-            id={null}
-            innerRef={null}
-            isIconOnly={true}
-            onClick={null}
-            on_click={[Function]}
-            size={null}
-            text={null}
+          <button
+            aria-label="subtract_title"
+            className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon dnb-slider__button dnb-slider__button--subtract"
+            onClick={[Function]}
+            onMouseOut={[Function]}
             title="subtract_title"
             type="button"
-            variant="secondary"
           >
-            <IconPrimary
-              alt="subtract_title"
-              aria-hidden={false}
-              attributes={null}
+            <Content
+              bounding={false}
               class={null}
-              className="dnb-button__icon"
-              color={null}
-              height={null}
+              className="dnb-slider__button dnb-slider__button--subtract"
+              content={null}
+              custom_element={null}
+              custom_method={null}
+              disabled={null}
+              href={null}
               icon="subtract"
-              key="button-icon"
-              modifier={null}
-              size="default"
-              title={null}
-              width={null}
+              icon_position="right"
+              icon_size="default"
+              id={null}
+              innerRef={null}
+              isIconOnly={true}
+              onClick={null}
+              on_click={[Function]}
+              size={null}
+              text={null}
+              title="subtract_title"
+              type="button"
+              variant="secondary"
             >
-              <span
+              <IconPrimary
                 alt="subtract_title"
                 aria-hidden={false}
-                aria-label="subtract_title"
-                className="dnb-icon dnb-icon--default dnb-button__icon"
-                role="img"
+                attributes={null}
+                class={null}
+                className="dnb-button__icon"
+                color={null}
+                height={null}
+                icon="subtract"
+                key="button-icon"
+                modifier={null}
+                size="default"
+                title={null}
+                width={null}
               >
-                <subtract>
-                  <svg
-                    fill="none"
-                    height={16}
-                    viewBox="0 0 16 16"
-                    width={16}
-                  >
-                    <path
-                      clipRule="evenodd"
-                      d="M1 8a.75.75 0 0 1 .75-.75h12.5a.75.75 0 0 1 0 1.5H1.75A.75.75 0 0 1 1 8z"
-                      fill="#000"
-                      fillRule="evenodd"
-                    />
-                  </svg>
-                </subtract>
-              </span>
-            </IconPrimary>
-          </Content>
-        </button>
-      </Button>
-      <span
-        aria-orientation="horizontal"
-        aria-valuemax={100}
-        aria-valuemin={0}
-        aria-valuenow={70}
-        className="dnb-slider__track"
-        id="id"
-        onClick={[Function]}
-        onMouseDown={[Function]}
-        onTouchMove={[Function]}
-        onTouchStartCapture={[Function]}
-        role="slider"
-      >
+                <span
+                  alt="subtract_title"
+                  aria-hidden={false}
+                  aria-label="subtract_title"
+                  className="dnb-icon dnb-icon--default dnb-button__icon"
+                  role="img"
+                >
+                  <subtract>
+                    <svg
+                      fill="none"
+                      height={16}
+                      viewBox="0 0 16 16"
+                      width={16}
+                    >
+                      <path
+                        clipRule="evenodd"
+                        d="M1 8a.75.75 0 0 1 .75-.75h12.5a.75.75 0 0 1 0 1.5H1.75A.75.75 0 0 1 1 8z"
+                        fill="#000"
+                        fillRule="evenodd"
+                      />
+                    </svg>
+                  </subtract>
+                </span>
+              </IconPrimary>
+            </Content>
+          </button>
+        </Button>
         <span
-          className="dnb-slider__thumb"
-          style={
-            Object {
-              "left": "70%",
-            }
-          }
+          aria-orientation="horizontal"
+          aria-valuemax={100}
+          aria-valuemin={0}
+          aria-valuenow={70}
+          className="dnb-slider__track"
+          id="id"
+          onClick={[Function]}
+          onMouseDown={[Function]}
+          onTouchMove={[Function]}
+          onTouchStartCapture={[Function]}
+          role="slider"
         >
-          <Button
-            bounding={false}
-            class={null}
-            className={null}
-            custom_element={null}
-            custom_method={null}
-            disabled={null}
-            href={null}
-            icon={null}
-            icon_position="right"
-            icon_size="default"
-            id={null}
-            innerRef={null}
-            onBlur={[Function]}
-            onClick={null}
-            onFocus={[Function]}
-            onKeyDown={[Function]}
-            onTouchMove={[Function]}
-            onTouchStart={[Function]}
-            on_click={null}
-            size={null}
-            text={null}
-            title="thump_title"
-            type="button"
-            variant="secondary"
+          <span
+            className="dnb-slider__thumb"
+            style={
+              Object {
+                "left": "70%",
+              }
+            }
           >
-            <button
-              aria-label="thump_title"
-              className="dnb-button dnb-button--secondary"
+            <Button
+              bounding={false}
+              class={null}
+              className={null}
+              custom_element={null}
+              custom_method={null}
+              disabled={null}
+              href={null}
+              icon={null}
+              icon_position="right"
+              icon_size="default"
+              id={null}
+              innerRef={null}
               onBlur={[Function]}
-              onClick={[Function]}
+              onClick={null}
               onFocus={[Function]}
               onKeyDown={[Function]}
-              onMouseOut={[Function]}
               onTouchMove={[Function]}
               onTouchStart={[Function]}
+              on_click={null}
+              size={null}
+              text={null}
               title="thump_title"
               type="button"
+              variant="secondary"
             >
-              <Content
-                bounding={false}
-                class={null}
-                className={null}
-                content="children"
-                custom_element={null}
-                custom_method={null}
-                disabled={null}
-                href={null}
-                icon={null}
-                icon_position="right"
-                icon_size="default"
-                id={null}
-                innerRef={null}
-                isIconOnly={false}
+              <button
+                aria-label="thump_title"
+                className="dnb-button dnb-button--secondary"
                 onBlur={[Function]}
-                onClick={null}
+                onClick={[Function]}
                 onFocus={[Function]}
                 onKeyDown={[Function]}
+                onMouseOut={[Function]}
                 onTouchMove={[Function]}
                 onTouchStart={[Function]}
-                on_click={null}
-                size={null}
-                text={null}
                 title="thump_title"
                 type="button"
-                variant="secondary"
               >
-                children
-              </Content>
-            </button>
-          </Button>
-        </span>
-        <span
-          className="dnb-slider__line dnb-slider__line__before"
-          style={
-            Object {
-              "width": "70%",
+                <Content
+                  bounding={false}
+                  class={null}
+                  className={null}
+                  content="children"
+                  custom_element={null}
+                  custom_method={null}
+                  disabled={null}
+                  href={null}
+                  icon={null}
+                  icon_position="right"
+                  icon_size="default"
+                  id={null}
+                  innerRef={null}
+                  isIconOnly={false}
+                  onBlur={[Function]}
+                  onClick={null}
+                  onFocus={[Function]}
+                  onKeyDown={[Function]}
+                  onTouchMove={[Function]}
+                  onTouchStart={[Function]}
+                  on_click={null}
+                  size={null}
+                  text={null}
+                  title="thump_title"
+                  type="button"
+                  variant="secondary"
+                >
+                  children
+                </Content>
+              </button>
+            </Button>
+          </span>
+          <span
+            className="dnb-slider__line dnb-slider__line__before"
+            style={
+              Object {
+                "width": "70%",
+              }
             }
-          }
-        />
-        <span
-          className="dnb-slider__line dnb-slider__line__after"
-        />
-      </span>
-      <Button
-        bounding={false}
-        class={null}
-        className="dnb-slider__button dnb-slider__button--add"
-        custom_element={null}
-        custom_method={null}
-        disabled={null}
-        href={null}
-        icon="add"
-        icon_position="right"
-        icon_size="default"
-        id={null}
-        innerRef={null}
-        onClick={null}
-        on_click={[Function]}
-        size={null}
-        text={null}
-        title="add_title"
-        type="button"
-        variant="secondary"
-      >
-        <button
-          aria-label="add_title"
-          className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon dnb-slider__button dnb-slider__button--add"
-          onClick={[Function]}
-          onMouseOut={[Function]}
+          />
+          <span
+            className="dnb-slider__line dnb-slider__line__after"
+          />
+        </span>
+        <Button
+          bounding={false}
+          class={null}
+          className="dnb-slider__button dnb-slider__button--add"
+          custom_element={null}
+          custom_method={null}
+          disabled={null}
+          href={null}
+          icon="add"
+          icon_position="right"
+          icon_size="default"
+          id={null}
+          innerRef={null}
+          onClick={null}
+          on_click={[Function]}
+          size={null}
+          text={null}
           title="add_title"
           type="button"
+          variant="secondary"
         >
-          <Content
-            bounding={false}
-            class={null}
-            className="dnb-slider__button dnb-slider__button--add"
-            content={null}
-            custom_element={null}
-            custom_method={null}
-            disabled={null}
-            href={null}
-            icon="add"
-            icon_position="right"
-            icon_size="default"
-            id={null}
-            innerRef={null}
-            isIconOnly={true}
-            onClick={null}
-            on_click={[Function]}
-            size={null}
-            text={null}
+          <button
+            aria-label="add_title"
+            className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon dnb-slider__button dnb-slider__button--add"
+            onClick={[Function]}
+            onMouseOut={[Function]}
             title="add_title"
             type="button"
-            variant="secondary"
           >
-            <IconPrimary
-              alt="add_title"
-              aria-hidden={false}
-              attributes={null}
+            <Content
+              bounding={false}
               class={null}
-              className="dnb-button__icon"
-              color={null}
-              height={null}
+              className="dnb-slider__button dnb-slider__button--add"
+              content={null}
+              custom_element={null}
+              custom_method={null}
+              disabled={null}
+              href={null}
               icon="add"
-              key="button-icon"
-              modifier={null}
-              size="default"
-              title={null}
-              width={null}
+              icon_position="right"
+              icon_size="default"
+              id={null}
+              innerRef={null}
+              isIconOnly={true}
+              onClick={null}
+              on_click={[Function]}
+              size={null}
+              text={null}
+              title="add_title"
+              type="button"
+              variant="secondary"
             >
-              <span
+              <IconPrimary
                 alt="add_title"
                 aria-hidden={false}
-                aria-label="add_title"
-                className="dnb-icon dnb-icon--default dnb-button__icon"
-                role="img"
+                attributes={null}
+                class={null}
+                className="dnb-button__icon"
+                color={null}
+                height={null}
+                icon="add"
+                key="button-icon"
+                modifier={null}
+                size="default"
+                title={null}
+                width={null}
               >
-                <add>
-                  <svg
-                    fill="none"
-                    height={16}
-                    viewBox="0 0 16 16"
-                    width={16}
-                  >
-                    <path
-                      clipRule="evenodd"
-                      d="M8.75 1.75a.75.75 0 0 0-1.5 0v5.5h-5.5a.75.75 0 0 0 0 1.5h5.5v5.5a.75.75 0 0 0 1.5 0v-5.5h5.5a.75.75 0 0 0 0-1.5h-5.5v-5.5z"
-                      fill="#000"
-                      fillRule="evenodd"
-                    />
-                  </svg>
-                </add>
-              </span>
-            </IconPrimary>
-          </Content>
-        </button>
-      </Button>
+                <span
+                  alt="add_title"
+                  aria-hidden={false}
+                  aria-label="add_title"
+                  className="dnb-icon dnb-icon--default dnb-button__icon"
+                  role="img"
+                >
+                  <add>
+                    <svg
+                      fill="none"
+                      height={16}
+                      viewBox="0 0 16 16"
+                      width={16}
+                    >
+                      <path
+                        clipRule="evenodd"
+                        d="M8.75 1.75a.75.75 0 0 0-1.5 0v5.5h-5.5a.75.75 0 0 0 0 1.5h5.5v5.5a.75.75 0 0 0 1.5 0v-5.5h5.5a.75.75 0 0 0 0-1.5h-5.5v-5.5z"
+                        fill="#000"
+                        fillRule="evenodd"
+                      />
+                    </svg>
+                  </add>
+                </span>
+              </IconPrimary>
+            </Content>
+          </button>
+        </Button>
+      </span>
     </span>
   </span>
 </Slider>
@@ -622,6 +626,8 @@ exports[`Slider scss have to match snapshot 1`] = `
     cursor: not-allowed; }
   button.dnb-button::-moz-focus-inner .dnb-button {
     border: none; }
+  .dnb-form-row--vertical .dnb-form-row__content > .dnb-button {
+    align-self: flex-start; }
 
 a.dnb-button[type='button'] {
   appearance: none;
@@ -742,12 +748,12 @@ legend.dnb-form-label {
  */
 .dnb-form-status {
   width: auto;
-  display: flex;
-  min-height: var(--input-height); }
+  display: flex; }
   .dnb-form-status__shell {
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    min-height: var(--input-height);
     border-radius: var(--input-border-radius); }
   .dnb-form-status--text {
     padding: calc(0.5rem / 2) 1rem;
@@ -828,19 +834,26 @@ legend.dnb-form-label {
   --slider-space: 1rem; }
 
 .dnb-slider {
-  display: flex;
-  align-items: center; }
+  display: flex; }
   .dnb-slider--vertical {
-    flex: none;
-    align-items: flex-start;
+    width: auto;
+    height: 100%;
     min-width: inherit;
     min-height: inherit; }
+  .dnb-slider__wrapper {
+    display: inline-flex;
+    flex-direction: column;
+    flex: 1;
+    width: 100%;
+    transform: translateY(-0.25rem); }
+  .dnb-slider--vertical .dnb-slider__wrapper {
+    align-items: center;
+    width: auto;
+    height: 100%;
+    transform: translateY(0); }
   .dnb-slider__inner {
     display: inline-flex;
-    height: var(--slider-thumb-size);
-    width: auto; }
-    .dnb-slider__inner:not(.dnb-slider__inner--vertical) {
-      flex: 1; }
+    height: var(--slider-thumb-size); }
   .dnb-slider__track {
     position: relative;
     flex: 1;
@@ -947,8 +960,10 @@ legend.dnb-form-label {
       text-align: center;
       width: 100%;
       margin-right: 0;
-      margin-bottom: 1rem; }
-  .dnb-slider > .dnb-form-status {
+      margin-bottom: 0.5rem; }
+  .dnb-slider .dnb-form-status {
     margin-top: 0.5rem; }
+  .dnb-slider--vertical .dnb-form-status {
+    margin-top: 1rem; }
 "
 `;

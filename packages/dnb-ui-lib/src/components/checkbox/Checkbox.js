@@ -54,7 +54,7 @@ export const propTypes = {
 
 export const defaultProps = {
   label: null,
-  label_position: 'right',
+  label_position: null,
   title: null,
   default_state: null,
   checked: 'default', //we have to send this as a string
@@ -206,8 +206,7 @@ export default class Checkbox extends Component {
         'dnb-checkbox',
         status && `dnb-checkbox__status--${status_state}`,
         label &&
-          label_position &&
-          `dnb-checkbox--label-position-${label_position}`,
+          `dnb-checkbox--label-position-${label_position || 'right'}`,
         createSpacingClasses(props),
         className,
         _className
@@ -270,7 +269,10 @@ export default class Checkbox extends Component {
                 onKeyDown={this.onKeyDownHandler}
                 ref={this._refInput}
               />
-              <span aria-hidden className="dnb-checkbox__button">
+              <span className="dnb-checkbox__helper" aria-hidden>
+                {'-'}
+              </span>
+              <span className="dnb-checkbox__button" aria-hidden>
                 <span className="dnb-checkbox__focus" />
               </span>
               <CheckSVG />
@@ -278,7 +280,7 @@ export default class Checkbox extends Component {
             {label_position === 'left' && statusComp}
           </span>
         </span>
-        {label_position === 'right' && statusComp}
+        {(label_position === 'right' || !label_position) && statusComp}
       </span>
     )
   }

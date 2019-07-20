@@ -165,7 +165,7 @@ class Example extends PureComponent {
         console.log('onChange:', value)
       }}
     />
-    <Button text="Submit" type="submit" />
+    <Button text="Submit" type="submit" left="small" />
   </FormRow>
 </FormSet>
           `}
