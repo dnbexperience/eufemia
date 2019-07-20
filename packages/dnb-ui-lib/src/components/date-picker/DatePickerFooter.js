@@ -23,17 +23,17 @@ export default class DatePickerFooter extends PureComponent {
   static propTypes = propTypes
   static defaultProps = defaultProps
 
-  onSubmitHandler = () => {
+  onSubmitHandler = args => {
     const { onSubmit } = this.props
     if (onSubmit) {
-      onSubmit()
+      onSubmit(args)
     }
   }
 
-  onCancelHandler = () => {
+  onCancelHandler = args => {
     const { onCancel } = this.props
     if (onCancel) {
-      onCancel()
+      onCancel(args)
     }
   }
 

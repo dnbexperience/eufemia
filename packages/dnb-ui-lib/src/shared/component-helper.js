@@ -289,7 +289,7 @@ export const detectOutsideClick = (element, ignoreElement, onSuccess) => {
           currentElement: event.target,
           ignoreElement
         },
-        onSuccess
+        () => typeof onSuccess === 'function' && onSuccess({ event })
       )
     }
     document.addEventListener('mousedown', element.handleClickOutside)
@@ -300,7 +300,7 @@ export const detectOutsideClick = (element, ignoreElement, onSuccess) => {
       if (keyCode === 'esc') {
         window.removeEventListener('keydown', element.keydownCallback)
         if (typeof onSuccess === 'function') {
-          onSuccess()
+          onSuccess({ event })
         }
       }
     }

@@ -300,7 +300,7 @@ export default class DatePicker extends PureComponent {
     })
   }
 
-  onInputChange = ({ startDate, endDate }) => {
+  onInputChange = ({ startDate, endDate, ...args }) => {
     // make sure endDate is same as startDate if we don't use range
     if (!isTrue(this.props.range)) {
       endDate = startDate
@@ -311,7 +311,7 @@ export default class DatePicker extends PureComponent {
           startDate,
           _listenForPropChanges: false
         },
-        this.callOnChangeHandler
+        () => this.callOnChangeHandler(args)
       )
     }
     if (typeof endDate !== 'undefined') {
@@ -320,17 +320,17 @@ export default class DatePicker extends PureComponent {
           endDate,
           _listenForPropChanges: false
         },
-        () => !startDate && this.callOnChangeHandler()
+        () => !startDate && this.callOnChangeHandler(args)
       )
     }
   }
 
   onPickerChange = (
-    { startDate, endDate },
+    { startDate, endDate, ...args },
     { hidePicker = true, callOnlyOnChangeHandler = false } = {}
   ) => {
     if (callOnlyOnChangeHandler) {
-      return this.callOnChangeHandler()
+      return this.callOnChangeHandler(args)
     }
     this.setState(
       {
@@ -338,23 +338,27 @@ export default class DatePicker extends PureComponent {
         endDate,
         _listenForPropChanges: false
       },
-      this.callOnChangeHandler
+      () => this.callOnChangeHandler(args)
     )
     if (
       (!isTrue(this.state.show_submit_button) ||
         !isTrue(this.state.show_cancel_button)) &&
       hidePicker
     ) {
-      this.hidePicker()
+      this.hidePicker(args)
     }
   }
 
-  onSubmitHandler = () => {
-    this.hidePicker()
-    dispatchCustomElementEvent(this, 'on_submit', this.getReturnObject())
+  onSubmitHandler = args => {
+    this.hidePicker(args)
+    dispatchCustomElementEvent(
+      this,
+      'on_submit',
+      this.getReturnObject(args)
+    )
   }
 
-  onCancelHandler = () => {
+  onCancelHandler = args => {
     this.setState(
       {
         startDate: this.state._startDate
@@ -365,17 +369,17 @@ export default class DatePicker extends PureComponent {
           : null
       },
       () => {
-        this.hidePicker()
+        this.hidePicker(args)
         dispatchCustomElementEvent(
           this,
           'on_cancel',
-          this.getReturnObject()
+          this.getReturnObject(args)
         )
       }
     )
   }
 
-  showPicker = () => {
+  showPicker = args => {
     if (this._hideTimeout) {
       clearTimeout(this._hideTimeout)
     }
@@ -384,13 +388,13 @@ export default class DatePicker extends PureComponent {
       hidden: false,
       _listenForPropChanges: false
     })
-    dispatchCustomElementEvent(this, 'on_show', this.getReturnObject())
+    dispatchCustomElementEvent(this, 'on_show', this.getReturnObject(args))
 
     this.setTrianglePosition()
     this.setOutsideClickHandler()
   }
 
-  hidePicker = () => {
+  hidePicker = args => {
     this.setState({
       opened: false,
       _listenForPropChanges: false
@@ -405,16 +409,18 @@ export default class DatePicker extends PureComponent {
       },
       this.props.no_animation ? 1 : DatePicker.blurDelay
     ) // wait until animation is over
-    dispatchCustomElementEvent(this, 'on_hide', this.getReturnObject())
+    dispatchCustomElementEvent(this, 'on_hide', this.getReturnObject(args))
     this.removeOutsideClickHandler()
   }
 
-  togglePicker = () => {
-    !this.state.opened ? this.showPicker() : this.hidePicker()
+  togglePicker = args => {
+    !this.state.opened
+      ? this.showPicker((args && args.event) || args)
+      : this.hidePicker((args && args.event) || args)
   }
 
-  callOnChangeHandler = () => {
-    const returnObject = this.getReturnObject()
+  callOnChangeHandler = args => {
+    const returnObject = this.getReturnObject(args)
 
     if (this.returnObject) {
       if (isTrue(this.props.range)) {
@@ -434,13 +440,12 @@ export default class DatePicker extends PureComponent {
     dispatchCustomElementEvent(this, 'on_change', returnObject)
   }
 
-  getReturnObject() {
+  getReturnObject({ event = null } = {}) {
     const { startDate, endDate } = this.state
 
     return isTrue(this.props.range)
       ? {
-          // startDate,
-          // endDate,
+          event,
           days_between: endDate
             ? differenceInCalendarDays(endDate, startDate)
             : null,
@@ -451,7 +456,7 @@ export default class DatePicker extends PureComponent {
             ? format(endDate, this.props.return_format)
             : null
         }
-      : { date: format(startDate, this.props.return_format) }
+      : { event, date: format(startDate, this.props.return_format) }
   }
 
   render() {

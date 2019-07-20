@@ -14,11 +14,14 @@ draft: true
 
 ## Returned Object
 
+The type of native event will depend on the interaction.
+
 ```js
 {
-  date: "return_format", /* Gets returned if range is true. Same as start_date and startDate */
-  start_date: "return_format",
-  end_date: "return_format",
-  days_between: number
+  date: null|"return_format", /* Gets returned if range is true */
+  start_date: null|"return_format",
+  end_date: null|"return_format",
+  days_between: number,
+  event: null|{ native event }
 }
 ```

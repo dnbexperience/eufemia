@@ -48,6 +48,12 @@ export default [
             // sync={false}
             opened={false}
             show_input={true}
+            on_show={props => {
+              console.log('on_show', props)
+            }}
+            on_hide={props => {
+              console.log('on_hide', props)
+            }}
             on_change={props => {
               console.log('on_change', props)
             }}

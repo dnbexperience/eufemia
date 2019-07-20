@@ -289,7 +289,7 @@ export default class DatePickerCalendar extends PureComponent {
                       aria-label={title}
                       aria-disabled={isDisabled}
                       {...paramsButton}
-                      onClick={() =>
+                      onClick={({ event }) =>
                         !day.isLastMonth &&
                         !day.isNextMonth &&
                         !day.isDisabled &&
@@ -299,7 +299,8 @@ export default class DatePickerCalendar extends PureComponent {
                           startDate,
                           endDate,
                           onSelect,
-                          resetDate
+                          resetDate,
+                          event
                         })
                       }
                       onMouseOver={() =>
@@ -414,14 +415,16 @@ const onSelectRange = ({
   startDate,
   endDate,
   onSelect,
-  resetDate
+  resetDate,
+  event
 }) => {
   if (onSelect) {
     if (!range) {
       // set only date
       onSelect({
         startDate: startOfDay(day.date),
-        endDate: endOfDay(day.date)
+        endDate: endOfDay(day.date),
+        event
       })
 
       // for setting date new on every selection, do this here
@@ -430,7 +433,8 @@ const onSelectRange = ({
       // user is selecting startDate
       onSelect({
         startDate: startOfDay(day.date),
-        endDate: null
+        endDate: null,
+        event
       })
     } else {
       const hasEndDate = endDate
@@ -448,7 +452,8 @@ const onSelectRange = ({
       }
       onSelect({
         startDate: startOfDay(range.startDate),
-        endDate: endOfDay(range.endDate)
+        endDate: endOfDay(range.endDate),
+        event
       })
     }
   }

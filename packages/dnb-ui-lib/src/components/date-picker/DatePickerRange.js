@@ -145,16 +145,17 @@ export default class DatePickerRange extends PureComponent {
     return state.startMonth || state.startDate || new Date()
   }
 
-  callOnChange(opts = {}) {
+  callOnChange({ event = null, ...args } = {}) {
     const { startDate, endDate, views } = this.state
     this.props.onChange &&
       this.props.onChange(
         {
           startDate,
           endDate,
-          views
+          views,
+          event
         },
-        { hidePicker: false, callOnlyOnChangeHandler: false, ...opts }
+        { hidePicker: false, callOnlyOnChangeHandler: false, ...args }
       )
   }
 
@@ -162,15 +163,16 @@ export default class DatePickerRange extends PureComponent {
     this.props.onNav && this.props.onNav(this.state.views)
   }
 
-  onSelect = change => {
-    this.setState({ ...change, _listenForPropChanges: false }, () => {
+  onSelect = ({ event = null, ...args } = {}) => {
+    this.setState({ ...args, _listenForPropChanges: false }, () => {
       const { startDate, endDate } = this.state
       this.props.onSelect &&
         this.props.onSelect({
           startDate,
-          endDate
+          endDate,
+          event
         })
-      this.callOnChange({ hidePicker: true })
+      this.callOnChange({ hidePicker: true, event })
     })
   }
 
@@ -323,7 +325,7 @@ export default class DatePickerRange extends PureComponent {
 
       this.setState(state)
       setTimeout(() => {
-        this.callOnChange()
+        this.callOnChange({ event })
         if (ref && ref.current) {
           ref.current.focus()
         }
