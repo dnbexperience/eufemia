@@ -54,7 +54,7 @@ export const propTypes = {
 
 export const defaultProps = {
   label: null,
-  label_position: 'left',
+  label_position: null,
   title: null,
   default_state: null,
   checked: 'default', //we have to send this as a string
@@ -205,9 +205,7 @@ export default class Switch extends Component {
       className: classnames(
         'dnb-switch',
         status && `dnb-switch__status--${status_state}`,
-        label &&
-          label_position &&
-          `dnb-switch--label-position-${label_position}`,
+        label && `dnb-switch--label-position-${label_position || 'right'}`,
         createSpacingClasses(props),
         className,
         _className
@@ -270,6 +268,9 @@ export default class Switch extends Component {
                 onChange={this.onChangeHandler}
                 onKeyDown={this.onKeyDownHandler}
               />
+              <span className="dnb-switch__helper" aria-hidden>
+                {'-'}
+              </span>
               <span
                 draggable
                 aria-hidden
@@ -277,7 +278,7 @@ export default class Switch extends Component {
                 onDragStart={this.onChangeHandler}
                 {...this.helperParams}
               />
-              <span aria-hidden className="dnb-switch__button">
+              <span className="dnb-switch__button" aria-hidden>
                 <span className="dnb-switch__focus">
                   <span className="dnb-switch__focus__inner" />
                 </span>
@@ -286,7 +287,7 @@ export default class Switch extends Component {
             {label_position === 'left' && statusComp}
           </span>
         </span>
-        {label_position === 'right' && statusComp}
+        {(label_position === 'right' || !label_position) && statusComp}
       </span>
     )
   }

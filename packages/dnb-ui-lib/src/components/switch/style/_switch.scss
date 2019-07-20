@@ -12,11 +12,16 @@
 .dnb-switch {
   display: inline-flex;
   flex-direction: column;
-  vertical-align: middle; // just to center, in case we dont have provided a internal label
 
   &__inner {
     display: inline-flex;
     flex-direction: column;
+  }
+  &__helper {
+    clip: rect(0, 0, 0, 0);
+    width: 0;
+    overflow: hidden;
+    opacity: 0;
   }
 
   &__shell {
@@ -127,10 +132,14 @@
     cursor: pointer;
   }
 
+  // label
+  .dnb-form-label {
+    margin-right: 0.5rem;
+  }
+
   &__order {
     display: inline-flex;
-    flex-direction: row;
-    align-items: center;
+    align-items: baseline;
   }
 
   &--label-position-left &__order {
@@ -140,8 +149,6 @@
     .dnb-form-label {
       order: 1;
       align-self: flex-start;
-
-      line-height: 1rem; // to center the label
     }
     .dnb-form-status {
       margin-top: 0.5rem;
@@ -158,11 +165,6 @@
     .dnb-form-label {
       order: 2;
       margin-left: 1rem;
-      margin-right: 0.5rem; // because of the possible status
-
-      // to make sure we dont interupt the total height
-      // else the label will push down and increase the total height
-      line-height: 1rem;
     }
     & + .dnb-form-status {
       // in case the status did not wrap, we want to have the status on the same line

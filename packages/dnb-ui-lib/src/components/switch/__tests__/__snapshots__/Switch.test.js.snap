@@ -81,6 +81,12 @@ exports[`Switch component have to match snapshot 1`] = `
           />
           <span
             aria-hidden={true}
+            className="dnb-switch__helper"
+          >
+            -
+          </span>
+          <span
+            aria-hidden={true}
             className="dnb-switch__background"
             draggable={true}
             onDragStart={[Function]}
@@ -465,7 +471,6 @@ legend.dnb-form-label {
 .dnb-switch {
   display: inline-flex;
   flex-direction: column;
-  vertical-align: middle;
   /*
     * When switched OFF
     * aka when the switch is not :checked
@@ -477,6 +482,11 @@ legend.dnb-form-label {
   .dnb-switch__inner {
     display: inline-flex;
     flex-direction: column; }
+  .dnb-switch__helper {
+    clip: rect(0, 0, 0, 0);
+    width: 0;
+    overflow: hidden;
+    opacity: 0; }
   .dnb-switch__shell {
     user-select: none;
     position: relative;
@@ -532,16 +542,16 @@ legend.dnb-form-label {
     border: 0; }
   .dnb-switch__input:not([disabled]) {
     cursor: pointer; }
+  .dnb-switch .dnb-form-label {
+    margin-right: 0.5rem; }
   .dnb-switch__order {
     display: inline-flex;
-    flex-direction: row;
-    align-items: center; }
+    align-items: baseline; }
   .dnb-switch--label-position-left .dnb-switch__order .dnb-switch__inner {
     order: 2; }
   .dnb-switch--label-position-left .dnb-switch__order .dnb-form-label {
     order: 1;
-    align-self: flex-start;
-    line-height: 1rem; }
+    align-self: flex-start; }
   .dnb-switch--label-position-left .dnb-switch__order .dnb-form-status {
     margin-top: 0.5rem; }
   .dnb-switch--label-position-right .dnb-switch__order {
@@ -550,9 +560,7 @@ legend.dnb-form-label {
       order: 1; }
     .dnb-switch--label-position-right .dnb-switch__order .dnb-form-label {
       order: 2;
-      margin-left: 1rem;
-      margin-right: 0.5rem;
-      line-height: 1rem; }
+      margin-left: 1rem; }
     .dnb-switch--label-position-right .dnb-switch__order + .dnb-form-status {
       vertical-align: bottom;
       margin-top: 0.5rem; }
