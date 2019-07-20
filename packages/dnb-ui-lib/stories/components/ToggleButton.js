@@ -22,7 +22,10 @@ export default [
   () => (
     <Wrapper>
       <Box>
-        <FormRow label="Legend:">
+        <FormRow
+          indent
+          label="Horizontal Legend Aptent maecenas non pharetra libero massa auctor pretium vulputate vivamus:"
+        >
           <ToggleButton.Group label="Group A label:">
             <ToggleButton text="First" value="first" />
             <ToggleButton text="Second" value="second" />
@@ -234,6 +237,7 @@ export default [
           status="Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
           variant="checkbox"
           checked
+          top="small"
         />
       </Box>
       <Box>
@@ -247,6 +251,7 @@ export default [
           checked
           variant="radio"
           status="Error message Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
+          top="small"
         />
       </Box>
       <Box>
@@ -262,6 +267,7 @@ export default [
           variant="checkbox"
           status="Error message Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
           status_state="info"
+          top="small"
         />
       </Box>
     </Wrapper>
