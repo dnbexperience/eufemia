@@ -15,7 +15,12 @@ const VerticalWrapper = styled.div`
   display: inline-flex;
   align-items: center;
   flex-direction: column;
-  min-height: 20rem;
+
+  max-width: 10rem;
+
+  .dnb-slider__inner {
+    min-height: 20rem;
+  }
 
   .dnb-input {
     width: 4rem;
@@ -28,6 +33,7 @@ const SliderStory = () => {
   return (
     <Wrapper>
       <Box>
+        Text
         <Slider
           // hide_buttons
           label="Label:"
@@ -40,12 +46,13 @@ const SliderStory = () => {
             console.log('on_change:', value, raw_value)
             setValue(value)
           }}
+          status="Long status message Lobortis lacus ac ligula vehicula Metus nullam ut at pellentesque"
         />
       </Box>
       <Box>
         <VerticalWrapper>
           <Slider
-            label="Label:"
+            label="Label Lobortis lacus ac ligula vehicula Metus nullam ut at pellentesque:"
             label_direction="vertical"
             min={0}
             max={100}
@@ -57,6 +64,7 @@ const SliderStory = () => {
               console.log('on_change:', value, raw_value)
               setValue(value)
             }}
+            status="Long status message Lobortis lacus ac ligula vehicula"
             // on_state_update={({ value }) => {
             //   console.log('on_state_update:', value)
             // }}

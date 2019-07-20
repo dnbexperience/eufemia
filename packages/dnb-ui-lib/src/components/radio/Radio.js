@@ -352,14 +352,18 @@ export default class Radio extends Component {
                       onClick={this.onClickHandler}
                       onKeyDown={this.onKeyDownHandler}
                     />
-                    <span aria-hidden className="dnb-radio__button" />
-                    <span className="dnb-radio__focus" />
-                    <span className="dnb-radio__dot" />
+                    <span className="dnb-radio__helper" aria-hidden>
+                      {'-'}
+                    </span>
+                    <span className="dnb-radio__button" aria-hidden />
+                    <span className="dnb-radio__focus" aria-hidden />
+                    <span className="dnb-radio__dot" aria-hidden />
                   </span>
                   {label_position === 'left' && statusComp}
                 </span>
               </span>
-              {label_position === 'right' && statusComp}
+              {(label_position === 'right' || !label_position) &&
+                statusComp}
             </span>
           )
         }}

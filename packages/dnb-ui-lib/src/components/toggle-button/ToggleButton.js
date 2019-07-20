@@ -11,6 +11,7 @@ import {
   isTrue,
   registerElement,
   extendPropsWithContext,
+  validateDOMAttributes,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
@@ -32,6 +33,7 @@ const renderProps = {
 export const propTypes = {
   text: PropTypes.string,
   label: PropTypes.string,
+  label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
   title: PropTypes.string,
   checked: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   variant: PropTypes.oneOf(['default', 'checkbox', 'radio']),
@@ -63,6 +65,7 @@ export const propTypes = {
 export const defaultProps = {
   text: null,
   label: null,
+  label_direction: null,
   title: null,
   checked: null,
   variant: null,
@@ -256,6 +259,7 @@ export default class ToggleButton extends Component {
             status_state,
             status_animation,
             label,
+            label_direction,
             text,
             title,
             readOnly,
@@ -291,14 +295,17 @@ export default class ToggleButton extends Component {
           const id = this._id
           const showStatus = status && status !== 'error'
 
-          const classes = classnames(
-            'dnb-toggle-button',
-            status && `dnb-toggle-button__status--${status_state}`,
-            checked && `dnb-toggle-button--checked`,
-            createSpacingClasses(props),
-            className,
-            _className
-          )
+          const mainParams = {
+            className: classnames(
+              'dnb-toggle-button',
+              status && `dnb-toggle-button__status--${status_state}`,
+              checked && `dnb-toggle-button--checked`,
+              label_direction && `dnb-toggle-button--${label_direction}`,
+              createSpacingClasses(props),
+              className,
+              _className
+            )
+          }
 
           const buttonParams = {
             id,
@@ -308,6 +315,9 @@ export default class ToggleButton extends Component {
             ['aria-pressed']: String(checked),
             ...rest
           }
+
+          // to remove spacing props
+          validateDOMAttributes(this.props, buttonParams)
 
           const componentParams = {
             checked,
@@ -353,16 +363,17 @@ export default class ToggleButton extends Component {
           }
 
           return (
-            <>
-              <span className={classes}>
-                {label && (
-                  <FormLabel
-                    id={id + '-label'}
-                    for_id={id}
-                    text={label}
-                    disabled={disabled}
-                  />
-                )}
+            <span {...mainParams}>
+              {label && (
+                <FormLabel
+                  id={id + '-label'}
+                  for_id={id}
+                  text={label}
+                  disabled={disabled}
+                  direction={label_direction}
+                />
+              )}
+              <span className="dnb-toggle-button__inner">
                 <span className="dnb-toggle-button__shell">
                   <Button
                     variant="secondary"
@@ -380,16 +391,16 @@ export default class ToggleButton extends Component {
                     )}
                   </Button>
                 </span>
+                {showStatus && (
+                  <FormStatus
+                    text={status}
+                    status={status_state}
+                    text_id={id + '-status'} // used for "aria-describedby"
+                    animation={status_animation}
+                  />
+                )}
               </span>
-              {showStatus && (
-                <FormStatus
-                  text={status}
-                  status={status_state}
-                  text_id={id + '-status'} // used for "aria-describedby"
-                  animation={status_animation}
-                />
-              )}
-            </>
+            </span>
           )
         }}
       </Context.Consumer>

@@ -58,7 +58,7 @@ class Example extends PureComponent {
   >
   <FormRow>
     <Input label="Search Input:" type="search" value="Search text ..." />
-    <Button type="submit" text="Trigger submit" />
+    <Button type="submit" text="Trigger submit" left="small" />
   </FormRow>
 </FormSet>
           `}

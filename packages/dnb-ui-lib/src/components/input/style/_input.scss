@@ -17,7 +17,6 @@
   --input-border-radius: calc(var(--input-height) / 2);
   --input-border-radius--medium: calc(var(--input-height--medium) / 2);
   --input-border-radius--large: calc(var(--input-height--large) / 2);
-  --form-row-label-offset: -0.1875rem; // 3ox
 }
 
 .dnb-input {
@@ -200,9 +199,8 @@
   }
 
   &--vertical {
-    display: flex;
-    align-items: flex-start;
     flex-direction: column;
+    align-items: flex-start;
   }
 
   // make the input full width
@@ -219,11 +217,6 @@
   }
   &--vertical#{&}--stretch &__inner {
     width: 100%;
-  }
-
-  .dnb-form-row:not(.dnb-form-row--vertical) & {
-    // to align the text box to the legend/label
-    transform: translateY(var(--form-row-label-offset));
   }
 
   &[class*='__status'] {

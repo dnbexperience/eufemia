@@ -546,7 +546,7 @@ export default class DatePicker extends PureComponent {
 
     return (
       <span {...mainParams}>
-        {label && (
+        {(label && (
           <FormLabel
             id={id + '-label'}
             for_id={id}
@@ -554,10 +554,14 @@ export default class DatePicker extends PureComponent {
             direction={label_direction}
             disabled={isTrue(disabled)}
           />
+        )) || (
+          <span className="dnb-date-picker__helper" aria-hidden>
+            {'-'}
+          </span>
         )}
 
         <span
-          className="'dnb-date-picker__inner"
+          className="dnb-date-picker__inner"
           ref={this._clampRef}
           {...pickerParams}
         >
@@ -583,7 +587,6 @@ export default class DatePicker extends PureComponent {
               onSubmit={this.togglePicker}
               onSubmitButtonFocus={this.onSubmitButtonFocus}
             />
-
             {showStatus && (
               <FormStatus
                 text={status}
@@ -592,7 +595,6 @@ export default class DatePicker extends PureComponent {
                 animation={status_animation}
               />
             )}
-
             <span className="dnb-date-picker__container">
               <span
                 className="dnb-date-picker__triangle"

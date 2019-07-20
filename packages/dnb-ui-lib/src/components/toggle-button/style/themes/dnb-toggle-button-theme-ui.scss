@@ -19,12 +19,10 @@
     }
 
     // chrome has focus after click, firefox/safari not
-    &:focus:hover {
-      box-shadow: none;
-    }
-
-    // do not hide the box-shadow, due to the focus ring
-    // box-shadow: none;
+    // TODO: The hover will anyway show up, so this makes the experiance worse
+    // &:focus:hover {
+    //   box-shadow: none;
+    // }
 
     &:not([disabled]) {
       // radio button
@@ -55,6 +53,11 @@
       .dnb-checkbox__button {
         box-shadow: none;
       }
+    }
+
+    // TODO: This are styles witch are not aligned with Jens yet
+    &:not([disabled]):not(:active):not(:hover):focus {
+      @include fakeFocus(null, var(--color-mint-green));
     }
   }
 

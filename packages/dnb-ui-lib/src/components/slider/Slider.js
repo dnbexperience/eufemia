@@ -539,28 +539,33 @@ export default class Slider extends PureComponent {
             disabled={disabled}
           />
         )}
-        <span className="dnb-slider__inner">
-          {showButtons && (reverse ? addButton : subtractButton)}
-          <span
-            id={this._id}
-            role="slider"
-            aria-valuenow={this.roundValue(value)}
-            aria-valuemin={min}
-            aria-valuemax={max}
-            aria-orientation={vertical ? 'vertical' : 'horizontal'}
-            ref={this._trackRef}
-            {...trackParams}
-          >
-            <span className="dnb-slider__thumb" style={inlineThumbStyles}>
-              <Button variant="secondary" {...thumbParams} />
-            </span>
+        <span className="dnb-slider__wrapper">
+          <span className="dnb-slider__inner">
+            {showButtons && (reverse ? addButton : subtractButton)}
             <span
-              className="dnb-slider__line dnb-slider__line__before"
-              style={inlineStyleBefore}
-            />
-            <span className="dnb-slider__line dnb-slider__line__after" />
+              id={this._id}
+              role="slider"
+              aria-valuenow={this.roundValue(value)}
+              aria-valuemin={min}
+              aria-valuemax={max}
+              aria-orientation={vertical ? 'vertical' : 'horizontal'}
+              ref={this._trackRef}
+              {...trackParams}
+            >
+              <span
+                className="dnb-slider__thumb"
+                style={inlineThumbStyles}
+              >
+                <Button variant="secondary" {...thumbParams} />
+              </span>
+              <span
+                className="dnb-slider__line dnb-slider__line__before"
+                style={inlineStyleBefore}
+              />
+              <span className="dnb-slider__line dnb-slider__line__after" />
+            </span>
+            {showButtons && (reverse ? subtractButton : addButton)}
           </span>
-          {showButtons && (reverse ? subtractButton : addButton)}
           {showStatus && (
             <FormStatus
               text={status}

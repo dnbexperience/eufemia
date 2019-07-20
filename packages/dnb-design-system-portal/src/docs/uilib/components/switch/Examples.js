@@ -22,7 +22,7 @@ class Example extends PureComponent {
         >
           {/* @jsx */ `
 <Switch
-  label="Label:"
+  label="Switch"
   on_change={onChange}
 />
           `}
@@ -34,8 +34,8 @@ class Example extends PureComponent {
         >
           {/* @jsx */ `
 <Switch
-  label="Label"
-  label_position="right"
+  label="Label:"
+  label_position="left"
   title="Ths is the title"
   checked
   on_change={({ checked }) => console.log(checked)}
@@ -49,7 +49,7 @@ class Example extends PureComponent {
         >
           {/* @jsx */ `
 <Switch
-  label="Label:"
+  label="Switch"
   checked
   status="Error message"
 />
@@ -69,7 +69,7 @@ class StateDemo extends PureComponent {
 <Switch
   checked
   disabled
-  label="Disabled:"
+  label="Disabled"
 />
 `}
       </ComponentBox>

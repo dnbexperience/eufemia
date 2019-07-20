@@ -5,9 +5,10 @@
 
 import React /* , { useState, useEffect } */ from 'react'
 import { Wrapper, Box } from '../helpers'
-import styled from '@emotion/styled'
+// import styled from '@emotion/styled'
 
 import { H2 } from '../../src/elements'
+import AllComponents from '../../src/components/form-row/AllComponents'
 
 import {
   Checkbox,
@@ -17,86 +18,102 @@ import {
   FormRow
 } from '../../src/components'
 
-const Center = styled.div`
-  display: flex;
-  justify-content: center;
-  > div {
-    max-width: 60rem;
-  }
-`
+// const Center = styled.div`
+//   display: flex;
+//   justify-content: center;
+//   > div {
+//     max-width: 60rem;
+//   }
+// `
 
 export default [
   'FormRow',
   () => (
-    <Center>
-      <Wrapper>
-        <Box>
-          <FormRow label="Inputs legend:">
-            <Input value="Input value A ..." />
-            <Input value="Input value B ..." />
-          </FormRow>
-        </Box>
-        <Box>
-          <FormRow direction="horizontal" indent="default">
-            <FormLabel for_id="alone-1">
-              A long horizontal FormLabel with a lot of informative text
-              and a default size:
-            </FormLabel>
-            <Checkbox id="alone-1" label="Checkbox" />
-          </FormRow>
-        </Box>
-        <Box>
-          <FormRow
-            direction="horizontal"
-            size="default"
-            section_style="mint-green"
-            section_spacing="large"
-          >
-            <FormLabel for_id="alone-2">
-              A long horizontal FormLabel with a lot of informative text
-              and a default size:
-            </FormLabel>
-            <Radio.Group
-              id="alone-2"
-              // label="Group:"
-              // label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:"
-              title="Give me a Title"
-              on_change={({ value }) => {
-                console.log('on_change', value)
-              }}
-              value="first"
-              // disabled
-              // name="MyGroup" // The Group Name
-            >
-              <Radio label="First" value="first" />
-              <Radio label="Second" value="second" />
-              <Radio
-                label="Third"
-                value="third"
-                // checked
-              />
-            </Radio.Group>
-          </FormRow>
-        </Box>
+    // <Center>
+    <Wrapper showOverflow>
+      <H2 bottom="small">Horizontal label</H2>
+      <Box>
+        <FormRow
+          // indent
+          label="Horizontal Legend Aptent maecenas non pharetra libero massa auctor pretium vulputate vivamus:"
+          no_wrap="true"
+          direction="horizontal"
+          content_size="large"
+        >
+          <AllComponents showText horizontal />
+        </FormRow>
+      </Box>
 
-        <H2 bottom="small">Direction Vertical</H2>
-        <Box>
-          <FormRow
-            label="Vertical label:"
-            label_direction="vertical"
-            // vertical
+      <H2 bottom="small">Vertical direction</H2>
+      <Box>
+        <FormRow label="Vertical direction:" direction="vertical">
+          <AllComponents showText />
+        </FormRow>
+      </Box>
+
+      <H2 bottom="small">Vertical everything</H2>
+      <Box>
+        <FormRow label="Vertical everything:" vertical="true">
+          <AllComponents showText />
+        </FormRow>
+      </Box>
+
+      <H2 bottom="small">Vertical label</H2>
+      <Box>
+        <FormRow label="Vertical Legend:" label_direction="vertical">
+          <AllComponents showText horizontal />
+        </FormRow>
+      </Box>
+
+      <Box>
+        <FormRow label="Inputs legend:">
+          <Input value="Input value A ..." />
+          <Input value="Input value B ..." left="small" />
+        </FormRow>
+      </Box>
+      <Box>
+        <FormRow direction="horizontal" indent="default">
+          <FormLabel for_id="alone-1">
+            A long horizontal FormLabel with a lot of informative text and
+            a default size:
+          </FormLabel>
+          <Checkbox id="alone-1" label="Checkbox" />
+        </FormRow>
+      </Box>
+      <Box>
+        <FormRow
+          direction="horizontal"
+          size="default"
+          section_style="mint-green"
+          section_spacing="large"
+        >
+          <FormLabel for_id="alone-2">
+            A long horizontal FormLabel with a lot of informative text and
+            a default size:
+          </FormLabel>
+          <Radio.Group
+            id="alone-2"
+            // label="Group:"
+            // label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:"
+            title="Give me a Title"
+            on_change={({ value }) => {
+              console.log('on_change', value)
+            }}
+            value="first"
+            // disabled
+            // name="MyGroup" // The Group Name
           >
-            <Input label="Input label A:" />
-            <Input label="Input label B:" left="small" />
-          </FormRow>
-        </Box>
-        <Box>
-          <FormRow label="Legend:" direction="vertical">
-            <Input label="Vertical 1:" />
-            <Input label="Vertical 2:" stretch top="small" />
-          </FormRow>
-        </Box>
-      </Wrapper>
-    </Center>
+            <Radio label="First" value="first" />
+            <Radio label="Second" value="second" />
+            <Radio
+              label="Third"
+              value="third"
+              // checked
+            />
+          </Radio.Group>
+        </FormRow>
+      </Box>
+    </Wrapper>
+    // </Center>
   )
 ]

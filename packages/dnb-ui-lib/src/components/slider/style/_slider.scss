@@ -11,26 +11,40 @@
 }
 
 .dnb-slider {
+  // use flex to make sure we have the whole space available
   display: flex;
-  align-items: center; // to center the label vertical
 
   &--vertical {
-    flex: none;
-    align-items: flex-start; // make sure we have the label on top
+    width: auto;
+    height: 100%;
 
     min-width: inherit;
     min-height: inherit;
   }
 
+  &__wrapper {
+    display: inline-flex;
+    flex-direction: column;
+
+    flex: 1;
+    width: 100%;
+
+    transform: translateY(-0.25rem);
+  }
+  &--vertical &__wrapper {
+    align-items: center;
+
+    width: auto;
+    height: 100%;
+
+    transform: translateY(0);
+  }
+
   &__inner {
     display: inline-flex;
-    &:not(#{&}--vertical) {
-      flex: 1;
-    }
 
     // set a height so it's easier to click on the track
     height: var(--slider-thumb-size);
-    width: auto;
   }
 
   &__track {
@@ -197,11 +211,15 @@
       text-align: center;
       width: 100%;
       margin-right: 0;
-      margin-bottom: 1rem;
+      margin-bottom: 0.5rem;
     }
   }
 
-  > .dnb-form-status {
+  // status
+  .dnb-form-status {
     margin-top: 0.5rem;
+  }
+  &--vertical .dnb-form-status {
+    margin-top: 1rem;
   }
 }

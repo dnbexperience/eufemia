@@ -4,6 +4,7 @@ exports[`FormRow component have to match snapshot 1`] = `
 <FormRow
   class="class"
   className="className"
+  content_size="content_size"
   direction="horizontal"
   disabled="disabled"
   id="form-row"
@@ -13,6 +14,7 @@ exports[`FormRow component have to match snapshot 1`] = `
   label_id="label_id"
   no_fieldset="no_fieldset"
   no_label="no_label"
+  no_wrap="no_wrap"
   render_content={[Function]}
   section_spacing="section_spacing"
   section_style="section_style"
@@ -26,7 +28,7 @@ exports[`FormRow component have to match snapshot 1`] = `
       className="dnb-form-row__fieldset"
     >
       <div
-        className="dnb-form-row dnb-form-row--horizontal dnb-form-row--horizontal-label dnb-form-row__indent--indent dnb-section dnb-section--section_style dnb-section--spacing-section_spacing className class"
+        className="dnb-form-row dnb-form-row--horizontal dnb-form-row__content--content_size dnb-form-row--horizontal-label dnb-form-row__indent--indent dnb-section dnb-section--section_style dnb-section--spacing-section_spacing className class"
       >
         <FormLabel
           class={null}
@@ -211,44 +213,50 @@ legend.dnb-form-label {
 
 .dnb-form-row {
   display: flex;
-  flex-direction: row;
   align-items: baseline; }
   .dnb-form-row__content {
     display: inline-flex;
-    width: 100%;
-    flex: 1; }
-  .dnb-form-row:not(.dnb-form-row--vertical), .dnb-form-row--horizontal {
+    flex: 1;
+    width: 100%; }
+  .dnb-form-row:not(.dnb-form-row--vertical) {
     display: grid;
     grid-template-columns: [column1-start] var(--form-row-column1-start) [column1-end column2-start] var(--form-row-column2-start) [column2-end];
     grid-template-rows: [row1-start] var(--form-row-row1-start) [row1-end row2-start] var(--form-row-row2-start) [row2-end];
     align-items: flex-end; }
-    .dnb-form-row:not(.dnb-form-row--vertical) > .dnb-form-row__content, .dnb-form-row--horizontal > .dnb-form-row__content {
+    .dnb-form-row:not(.dnb-form-row--vertical) > .dnb-form-row__content {
       grid-column: column2-start / column2-end;
       grid-row: row2-start / row2-end;
-      justify-self: start; }
-    .dnb-form-row:not(.dnb-form-row--vertical) > .dnb-form-label, .dnb-form-row--horizontal > .dnb-form-label {
+      justify-self: start;
+      align-items: baseline; }
+    .dnb-form-row:not(.dnb-form-row--vertical) > .dnb-form-label {
       grid-column: column1-start / column1-end;
       grid-row: row1-start / row1-end;
-      margin-bottom: -1.5rem;
       margin-right: 1rem; }
+      @media (max-width: 40em) {
+        .dnb-form-row:not(.dnb-form-row--vertical) > .dnb-form-label {
+          margin-bottom: 0.5rem; } }
       @media (min-width: 40em) {
-        .dnb-form-row:not(.dnb-form-row--vertical) > .dnb-form-label, .dnb-form-row--horizontal > .dnb-form-label {
+        .dnb-form-row:not(.dnb-form-row--vertical) > .dnb-form-label {
           text-align: right; } }
     @media (max-width: 40em) {
-      .dnb-form-row:not(.dnb-form-row--vertical), .dnb-form-row--horizontal {
+      .dnb-form-row:not(.dnb-form-row--vertical) {
         display: block; } }
-    @media (max-width: 40em) {
-      .dnb-form-row:not(.dnb-form-row--vertical) .dnb-form-row:not(.dnb-form-row--vertical) > .dnb-form-label, .dnb-form-row:not(.dnb-form-row--vertical) .dnb-form-row--horizontal--nested > .dnb-form-label, .dnb-form-row--horizontal .dnb-form-row:not(.dnb-form-row--vertical) > .dnb-form-label, .dnb-form-row--horizontal .dnb-form-row--horizontal--nested > .dnb-form-label {
-        margin-bottom: 1rem;
-        margin-right: 0; } }
+  @media (max-width: 40em) {
+    .dnb-form-row:not(.dnb-form-row--vertical).dnb-form-row--nested > .dnb-form-label {
+      margin-bottom: 1rem;
+      margin-right: 0; } }
+  .dnb-form-row:not(.dnb-form-row--vertical).dnb-form-row--no_wrap .dnb-form-row__content .dnb-form-label {
+    white-space: nowrap; }
+  .dnb-form-row__content--medium.dnb-form-row:not(.dnb-form-row--vertical).dnb-form-row:not(.dnb-form-row--vertical-label) > .dnb-form-label {
+    margin-bottom: -1.5rem; }
+  .dnb-form-row__content--large.dnb-form-row:not(.dnb-form-row--vertical).dnb-form-row:not(.dnb-form-row--vertical-label) > .dnb-form-label {
+    margin-bottom: -2rem; }
   .dnb-form-row--vertical > .dnb-form-label {
     margin-bottom: 0.5rem; }
   .dnb-form-row--vertical .dnb-form-row__content {
     flex-direction: column; }
   .dnb-form-row--vertical-label {
     flex-direction: column; }
-  .dnb-form-row:not(.dnb-form-row--vertical).dnb-form-row--vertical-label {
-    row-gap: 2rem; }
   .dnb-form-row > .dnb-form-status {
     margin: 0.5rem 0; }
   .dnb-form-row > .dnb-form-label--vertical {

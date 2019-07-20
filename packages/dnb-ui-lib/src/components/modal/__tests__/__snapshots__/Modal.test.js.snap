@@ -781,6 +781,8 @@ exports[`Modal scss have to match snapshot 1`] = `
     cursor: not-allowed; }
   button.dnb-button::-moz-focus-inner .dnb-button {
     border: none; }
+  .dnb-form-row--vertical .dnb-form-row__content > .dnb-button {
+    align-self: flex-start; }
 
 a.dnb-button[type='button'] {
   appearance: none;

@@ -58,7 +58,7 @@ export const propTypes = {
 export const defaultProps = {
   label: null,
   label_direction: null,
-  label_position: 'right',
+  label_position: null,
   title: null,
   no_fieldset: null,
   disabled: null,

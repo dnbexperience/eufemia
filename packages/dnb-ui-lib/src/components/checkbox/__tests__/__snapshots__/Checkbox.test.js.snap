@@ -113,6 +113,12 @@ exports[`Checkbox component have to match snapshot 1`] = `
           />
           <span
             aria-hidden={true}
+            className="dnb-checkbox__helper"
+          >
+            -
+          </span>
+          <span
+            aria-hidden={true}
             className="dnb-checkbox__button"
           >
             <span
@@ -385,12 +391,12 @@ legend.dnb-form-label {
  */
 .dnb-form-status {
   width: auto;
-  display: flex;
-  min-height: var(--input-height); }
+  display: flex; }
   .dnb-form-status__shell {
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    min-height: var(--input-height);
     border-radius: var(--input-border-radius); }
   .dnb-form-status--text {
     padding: calc(0.5rem / 2) 1rem;
@@ -471,11 +477,15 @@ legend.dnb-form-label {
 
 .dnb-checkbox {
   display: inline-flex;
-  flex-direction: column;
-  vertical-align: middle; }
+  flex-direction: column; }
   .dnb-checkbox__inner {
     display: inline-flex;
     flex-direction: column; }
+  .dnb-checkbox__helper {
+    clip: rect(0, 0, 0, 0);
+    width: 0;
+    overflow: hidden;
+    opacity: 0; }
   .dnb-checkbox__shell {
     user-select: none;
     position: relative;
@@ -485,11 +495,11 @@ legend.dnb-form-label {
     width: var(--checkbox-height);
     height: var(--checkbox-height);
     transform: translateY(-0.0625rem); }
-  .dnb-checkbox__focus, .dnb-checkbox__button, .dnb-checkbox__gfx {
-    position: absolute;
-    top: auto;
-    left: auto;
+  .dnb-checkbox__focus, .dnb-checkbox__button {
+    position: relative;
     z-index: 4;
+    width: calc(var(--checkbox-width) - 0.25rem);
+    height: calc(var(--checkbox-height) - 0.25rem);
     border-radius: 0.25rem; }
   .dnb-checkbox__button {
     border: var(--checkbox-border-width) solid transparent; }
@@ -499,11 +509,9 @@ legend.dnb-form-label {
     html[data-whatinput='keyboard'] .dnb-checkbox__focus {
       box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
       border-color: transparent; }
-  .dnb-checkbox__focus, .dnb-checkbox__button {
-    width: calc(var(--checkbox-width) - 0.25rem);
-    height: calc(var(--checkbox-height) - 0.25rem); }
   .dnb-checkbox__gfx {
     position: absolute;
+    z-index: 5;
     top: auto;
     left: auto;
     width: var(--checkbox-height);
@@ -515,7 +523,7 @@ legend.dnb-form-label {
     position: absolute;
     top: auto;
     left: auto;
-    z-index: 5;
+    z-index: 6;
     width: var(--checkbox-width);
     height: var(--checkbox-height);
     margin: 0;
@@ -525,30 +533,31 @@ legend.dnb-form-label {
     cursor: pointer; }
   .dnb-checkbox__order {
     display: inline-flex;
-    flex-direction: row;
-    align-items: flex-start;
-    vertical-align: top; }
+    align-items: baseline; }
   .dnb-checkbox--label-position-left .dnb-checkbox__order .dnb-checkbox__inner {
     order: 2; }
   .dnb-checkbox--label-position-left .dnb-checkbox__order .dnb-form-label {
     order: 1;
-    align-self: flex-start; }
+    margin-right: 0.5rem;
+    margin-left: 0; }
   .dnb-checkbox--label-position-left .dnb-checkbox__order .dnb-form-status {
     margin-top: 0.5rem; }
   .dnb-checkbox--label-position-right .dnb-checkbox__order .dnb-checkbox__inner {
     order: 1; }
   .dnb-checkbox--label-position-right .dnb-checkbox__order .dnb-form-label {
     order: 2;
-    margin-left: 1rem;
-    margin-right: 0.5rem; }
+    margin-right: 0;
+    margin-left: 0.5rem; }
   .dnb-checkbox--label-position-right .dnb-checkbox__order + .dnb-form-status {
     vertical-align: top;
     margin-top: 0.5rem; }
   @media all and (-ms-high-contrast: none) {
     .dnb-checkbox__shell, .dnb-checkbox__input, .dnb-checkbox__button {
+      position: absolute;
       top: 0.125rem;
       left: 0.125rem; }
     .dnb-checkbox__gfx, .dnb-checkbox__focus {
+      position: absolute;
       top: 0;
       left: 0; } }
 "

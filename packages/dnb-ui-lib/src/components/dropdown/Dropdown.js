@@ -796,7 +796,7 @@ export default class Dropdown extends PureComponent {
 
     return (
       <span {...mainParams}>
-        {label && (
+        {(label && (
           <FormLabel
             id={id + '-label'}
             for_id={id}
@@ -804,6 +804,10 @@ export default class Dropdown extends PureComponent {
             direction={label_direction}
             disabled={disabled}
           />
+        )) || (
+          <span className="dnb-dropdown__helper" aria-hidden>
+            {'-'}
+          </span>
         )}
         <span className="dnb-dropdown__inner" ref={this._ref}>
           <span className="dnb-dropdown__shell">

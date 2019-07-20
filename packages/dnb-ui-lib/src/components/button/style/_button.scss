@@ -214,6 +214,10 @@
   @at-root button#{&}::-moz-focus-inner & {
     border: none;
   }
+
+  .dnb-form-row--vertical .dnb-form-row__content > & {
+    align-self: flex-start;
+  }
 }
 
 // make sure we style an Anchor like a button

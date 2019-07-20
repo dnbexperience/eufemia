@@ -5,9 +5,7 @@
 
 .dnb-toggle-button {
   display: inline-flex;
-  flex-direction: row;
-  align-items: center;
-  vertical-align: middle; // just to center, in case we dont have provided a internal label
+  align-items: baseline;
 
   &__inner {
     display: inline-flex;
@@ -18,6 +16,10 @@
     position: relative;
     left: 0;
     user-select: none;
+  }
+
+  &--vertical {
+    flex-direction: column;
   }
 
   &__component {
@@ -110,14 +112,17 @@
   }
 
   // status
-  & + .dnb-form-status {
+  .dnb-form-status {
     margin-top: 0.5rem;
-    margin-bottom: 1rem;
+  }
+
+  // label
+  .dnb-form-label {
+    margin-right: 0.5rem;
   }
 
   &-group {
     display: inline-flex;
-    flex-direction: row;
 
     // defualt spacing
     .dnb-toggle-button {
@@ -162,7 +167,7 @@
       .dnb-form-row__label:not(.dnb-form-label--vertical)
         + .dnb-form-row__content
         > & {
-        margin-top: -0.5rem;
+        transform: translateY(-0.5rem);
       }
     }
   }
@@ -170,7 +175,7 @@
   // defualt spacing for a single toggle button
   @media (min-width: 40em) {
     .dnb-form-label + & {
-      margin-top: -0.5rem;
+      transform: translateY(-0.5rem);
     }
   }
 }
