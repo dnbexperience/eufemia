@@ -552,11 +552,12 @@ legend.dnb-form-label {
     vertical-align: top;
     margin-top: 0.5rem; }
   @media all and (-ms-high-contrast: none) {
-    .dnb-checkbox__inner {
-      position: relative;
-      top: -0.25rem; }
-    .dnb-checkbox__gfx, .dnb-checkbox__input {
-      top: 0;
-      left: 0; } }
+    .dnb-checkbox {
+      vertical-align: middle; }
+      .dnb-checkbox__order {
+        align-items: flex-start; }
+      .dnb-checkbox__gfx, .dnb-checkbox__input {
+        top: 0;
+        left: 0; } }
 "
 `;

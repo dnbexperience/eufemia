@@ -564,5 +564,14 @@ legend.dnb-form-label {
     .dnb-switch--label-position-right .dnb-switch__order + .dnb-form-status {
       vertical-align: bottom;
       margin-top: 0.5rem; }
+  @media all and (-ms-high-contrast: none) {
+    .dnb-switch {
+      vertical-align: middle; }
+      .dnb-switch__order {
+        align-items: flex-start; }
+      .dnb-switch__focus, .dnb-switch__button {
+        top: 0;
+        bottom: 0;
+        margin: auto 0; } }
 "
 `;

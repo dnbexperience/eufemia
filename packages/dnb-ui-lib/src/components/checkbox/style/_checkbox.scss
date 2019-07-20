@@ -132,11 +132,10 @@
 
   // IE fix
   @media all and (-ms-high-contrast: none) {
-    &__inner {
-      position: relative;
-      top: -0.25rem;
+    vertical-align: middle;
+    &__order {
+      align-items: flex-start;
     }
-
     &__gfx,
     &__input {
       top: 0;

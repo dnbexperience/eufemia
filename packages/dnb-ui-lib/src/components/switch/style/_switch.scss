@@ -174,8 +174,17 @@
     }
   }
 
-  // correct the label
-  // &[class*='__status']#{&}--label-position-left .dnb-form-label {
-  //   transform: translateY(-0.25rem); // 4px
-  // }
+  // IE fix
+  @media all and (-ms-high-contrast: none) {
+    vertical-align: middle;
+    &__order {
+      align-items: flex-start;
+    }
+    &__focus,
+    &__button {
+      top: 0;
+      bottom: 0;
+      margin: auto 0;
+    }
+  }
 }
