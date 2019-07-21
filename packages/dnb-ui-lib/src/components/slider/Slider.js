@@ -48,6 +48,7 @@ export const propTypes = {
   reverse: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   hide_buttons: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  use_scrollwheel: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   class: PropTypes.string,
 
   /// React props
@@ -80,6 +81,7 @@ export const defaultProps = {
   reverse: false,
   disabled: false,
   hide_buttons: false,
+  use_scrollwheel: false,
   class: null,
 
   // React props
@@ -364,7 +366,7 @@ export default class Slider extends PureComponent {
   }
 
   componentDidMount() {
-    if (this._trackRef.current) {
+    if (isTrue(this.props.use_scrollwheel) && this._trackRef.current) {
       this._trackRef.current.addEventListener(
         'touchstart',
         preventPageScrolling,
@@ -445,6 +447,7 @@ export default class Slider extends PureComponent {
       id: _id, // eslint-disable-line
       step: _step, // eslint-disable-line
       value: _value, // eslint-disable-line
+      use_scrollwheel: _use_scrollwheel, // eslint-disable-line
 
       ...attributes
     } = props

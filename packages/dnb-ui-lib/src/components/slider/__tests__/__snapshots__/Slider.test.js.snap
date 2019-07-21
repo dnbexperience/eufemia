@@ -24,6 +24,7 @@ exports[`Slider component have to match snapshot 1`] = `
   step={10}
   subtract_title="subtract_title"
   thump_title="thump_title"
+  use_scrollwheel="use_scrollwheel"
   value={70}
   vertical="vertical"
 >

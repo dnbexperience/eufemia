@@ -13,6 +13,7 @@ draft: true
 | `vertical`                                      | _(optional)_ show the slider vertically. Defaults to `false`.                                                        |
 | `reverse`                                       | _(optional)_ show the slider reversed. Defaults to `false`.                                                          |
 | `hide_buttons`                                  | _(optional)_ removes the helper buttons. Defaults to `false`.                                                        |
+| `use_scrollwheel`                               | _(optional)_ enable mouse scroll-wheel support. Defaults to `false`.                                                 |
 | `thump_title`                                   | _(optional)_ give the slider thump button a title for accessibility reason. Defaults to `null`.                      |
 | `subtract_title`                                | _(optional)_ give the subtract button a title for accessibility reason. Defaults to `null`.                          |
 | `add_title`                                     | _(optional)_ give the add button a title for accessibility reason. Defaults to `null`.                               |

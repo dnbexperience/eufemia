@@ -77,6 +77,7 @@ const Component = () => {
         value={value}
         vertical={true}
         hide_buttons={true}
+        use_scrollwheel={true}
         step={1}
         label="Slider B:"
         label_direction="vertical"
@@ -98,7 +99,7 @@ const VerticalWrapper = styled.div\`
   min-height: 20rem;
   margin-top: 1rem;
   background: rgba(0,0,0,0.1);
-  
+
   .dnb-input {
     width: 4rem;
     margin-top: 1rem;
