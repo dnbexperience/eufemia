@@ -14,19 +14,19 @@ import styled from '@emotion/styled'
 import Layout from '../layout/Layout'
 
 // Get Eufemia in
-import { SpacingHelper } from 'dnb-ui-lib/src/shared'
 import { H1, H2, P } from 'dnb-ui-lib/src/elements'
 import {
   FormSet,
   FormRow,
   Input,
   Textarea,
-  Section as _Section,
+  Section,
   StepIndicator,
   ToggleButton,
   Icon,
   Button,
-  Switch
+  Switch,
+  Space
 } from 'dnb-ui-lib/src/components'
 import {
   save_alt_01 as SaveIcon,
@@ -34,16 +34,10 @@ import {
   attachment as AttachmentIcon
 } from 'dnb-ui-lib/src/icons'
 
-// Spacing helper for styled components
-const Spacing = styled.div(SpacingHelper)
-
-// Section's combined with Spacing
-const Section = styled(_Section)(SpacingHelper)
-
 // Visual helper to limit the width inside of our layout
 const WidthLimit = styled.div`
   max-width: 42rem;
-  .dnb-input__shell {
+  .dnb-input__input {
     max-width: 10rem;
   }
   @media (max-width: 40em) {
@@ -61,30 +55,24 @@ const HeaderSection = styled(Section)`
   height: 16rem;
 `
 // center the h1 vertically
-const HeaderTitleWrapper = styled.div`
+const HeaderTitleWrapper = styled(Space)`
   display: flex;
   flex-direction: row;
   align-items: center;
   height: 100%;
-  margin-top: 3rem;
 `
 
-// Paragraph with spacing
-const Paragraph = styled(styled(P)`
-  margin-top: 0.5rem;
-  margin-bottom: 1rem;
-`)(SpacingHelper)
-
 // Custom paragraph
-const Ingress = styled(Paragraph)`
+const IngressRaw = styled(P)`
   font-weight: var(--font-weight-demi);
   color: var(--color-emerald-green);
 `
+const Ingress = props => (
+  <IngressRaw top="x-small" bottom="small" {...props} />
+)
 
 // Attachment area
-const Attachment = styled(Spacing)`
-  margin-top: 0.5rem;
-
+const Attachment = styled(Space)`
   .dnb-button {
     margin-left: 1.5rem;
   }
@@ -94,7 +82,7 @@ Attachment.FileRow = styled.span`
     margin-right: 0.5rem;
   }
 `
-Attachment.Add = styled(Spacing)`
+Attachment.Add = styled(Space)`
   .dnb-button {
     margin-left: -1rem;
   }
@@ -136,7 +124,7 @@ const FormDemo = () => {
       </Head>
 
       <HeaderSection style="mint-green">
-        <HeaderTitleWrapper>
+        <HeaderTitleWrapper top="x-large">
           <H1 style_type="small">Card complaint</H1>
         </HeaderTitleWrapper>
 
@@ -212,7 +200,7 @@ const FormDemo = () => {
               do eiusmod tempor incididunt ut labore.
             </Ingress>
 
-            <Spacing top="small">
+            <Space top="small">
               <FormRow label="Did you receive some money from the ATM?">
                 <ToggleButton.Group
                   value={currentValues.yesNoQuestionValue}
@@ -227,9 +215,9 @@ const FormDemo = () => {
                   <ToggleButton text="No" value="no" />
                 </ToggleButton.Group>
               </FormRow>
-            </Spacing>
+            </Space>
 
-            <Spacing top="medium">
+            <Space top="medium">
               <FormRow>
                 <Input
                   label="How much money did you withdraw?"
@@ -243,9 +231,9 @@ const FormDemo = () => {
                   }
                 />
               </FormRow>
-            </Spacing>
+            </Space>
 
-            <Spacing top="medium">
+            <Space top="medium">
               <FormRow>
                 <Input
                   label="How much money did you receive?"
@@ -259,9 +247,9 @@ const FormDemo = () => {
                   }
                 />
               </FormRow>
-            </Spacing>
+            </Space>
 
-            <Spacing top="medium">
+            <Space top="medium">
               <FormRow>
                 <Textarea
                   rows="6"
@@ -276,13 +264,13 @@ const FormDemo = () => {
                   }
                 />
               </FormRow>
-            </Spacing>
+            </Space>
           </Section>
 
           <Section spacing="x-large" style="white">
             <H2>Attachment</H2>
 
-            <Ingress bottom="xs">
+            <Ingress bottom="x-small">
               If you have a receipt of the ATM transaction showing that
               money was not dispensed, then please upload the copy as this
               would strengthen your case.
@@ -366,7 +354,7 @@ const FormDemo = () => {
           </div>
         </DividerSection>
 
-        <Spacing bottom="medium" />
+        <Space bottom="medium" />
       </FormSet>
     </Layout>
   )
