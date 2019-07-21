@@ -20,14 +20,18 @@ export default [
         <Button text="Primary" icon="add" disabled />
       </Box>
       <Box>
-        <Button text="Secondary" variant="secondary" icon="add" />
+        <Button
+          text="Secondary"
+          variant="secondary"
+          icon="add"
+          right="small"
+        />
         <Button
           variant="secondary"
           text="Secondary button with href"
           href="?no-cache=1"
           icon="add"
           onClick={e => e.preventDefault()}
-          left="small"
         />
       </Box>
       <Box>

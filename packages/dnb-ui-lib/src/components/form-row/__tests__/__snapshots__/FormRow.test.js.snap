@@ -8,18 +8,18 @@ exports[`FormRow component have to match snapshot 1`] = `
   disabled="disabled"
   id="form-row"
   indent="indent"
+  indent_offset="indent_offset"
   label="label"
   label_direction="horizontal"
   label_id="label_id"
-  label_offset="label_offset"
   no_fieldset="no_fieldset"
   no_label="no_label"
-  no_wrap="no_wrap"
   render_content={[Function]}
   section_spacing="section_spacing"
   section_style="section_style"
   skipContentWrapperIfNested={true}
   vertical="vertical"
+  wrap="wrap"
 >
   <Fieldset
     className={null}
@@ -59,7 +59,7 @@ exports[`FormRow component have to match snapshot 1`] = `
           </Element>
         </FormLabel>
         <div
-          className="dnb-form-row__content dnb-form-row__content--label_offset"
+          className="dnb-form-row__content dnb-form-row__content--indent_offset"
         >
           children
         </div>
@@ -210,7 +210,8 @@ legend.dnb-form-label {
   --form-row-column1-start: auto;
   --form-row-column2-start: 1fr;
   --form-row-row1-start: auto;
-  --form-row-row2-start: auto; }
+  --form-row-row2-start: auto;
+  --form-bounding-height: 0.25rem; }
 
 .dnb-form-row {
   display: flex;
@@ -221,6 +222,10 @@ legend.dnb-form-label {
     width: 100%; }
   .dnb-form-row:not(.dnb-form-row--vertical) > .dnb-form-row__content {
     align-items: baseline; }
+    .dnb-form-row:not(.dnb-form-row--vertical) > .dnb-form-row__content .dnb-form-label {
+      white-space: nowrap; }
+    .dnb-form-row:not(.dnb-form-row--vertical) > .dnb-form-row__content--wrap {
+      display: block; }
   @supports (display: grid) {
     .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] {
       display: grid;
@@ -231,14 +236,22 @@ legend.dnb-form-label {
       grid-column: column2-start / column2-end;
       grid-row: row2-start / row2-end; } }
   @media (min-width: 40em) {
-    .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] > .dnb-form-row__content--medium {
+    .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] > .dnb-form-row__content--default {
       margin-top: -1.5rem; }
-    .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] > .dnb-form-row__content--x-medium {
-      margin-top: -1.75rem; }
+    .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] > .dnb-form-row__content--x-small {
+      margin-top: calc(-0.5rem + var(--form-bounding-height)); }
+    .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] > .dnb-form-row__content--small {
+      margin-top: calc(-1rem + var(--form-bounding-height)); }
+    .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] > .dnb-form-row__content--medium {
+      margin-top: calc(-1.5rem + var(--form-bounding-height)); }
     .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] > .dnb-form-row__content--large {
-      margin-top: -2rem; }
+      margin-top: calc(-2rem + var(--form-bounding-height)); }
+    .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] > .dnb-form-row__content--m-large {
+      margin-top: calc(-2.5rem + 0.625rem); }
     .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] > .dnb-form-row__content--x-large {
-      margin-top: -2.25rem; } }
+      margin-top: calc(-3rem + var(--form-bounding-height)); }
+    .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] > .dnb-form-row__content--xx-large {
+      margin-top: calc(-3.5rem + var(--form-bounding-height)); } }
   @media (max-width: 40em) {
     .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] > .dnb-form-row__content {
       margin-top: 0.5rem !important; } }
@@ -254,8 +267,6 @@ legend.dnb-form-label {
   @media (max-width: 40em) {
     .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] {
       display: block; } }
-  .dnb-form-row--no_wrap.dnb-form-row:not([class*='__indent']).dnb-form-row:not(.dnb-form-row--vertical).dnb-form-row:not(.dnb-form-row--vertical-label) .dnb-form-label {
-    white-space: nowrap; }
   .dnb-form-row--vertical > .dnb-form-label {
     margin-bottom: 0.5rem; }
   .dnb-form-row--vertical > .dnb-form-row__content {

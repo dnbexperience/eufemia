@@ -21,11 +21,11 @@ export default [
   'ToggleButton',
   () => (
     <Wrapper>
-      {/* <Box>
+      <Box>
         <FormRow
           indent
           label="Horizontal Legend Aptent maecenas non pharetra libero massa auctor pretium vulputate vivamus:"
-          label_offset="large"
+          indent_offset="m-large"
         >
           <ToggleButton.Group label="Group A label:">
             <ToggleButton text="First" value="first" />
@@ -46,7 +46,7 @@ export default [
             <ToggleButton text="Third" value="third" />
           </ToggleButton.Group>
         </FormRow>
-      </Box> */}
+      </Box>
       <Box>
         <p className="dnb-p">
           Text:{' '}
@@ -129,7 +129,7 @@ export default [
         </FormRow>
         <FormRow
           indent
-          label_offset="large"
+          indent_offset="m-large"
           label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:"
         >
           <ToggleButton.Group
@@ -158,7 +158,7 @@ export default [
       <Box>
         <FormRow
           indent
-          label_offset="large"
+          indent_offset="m-large"
           label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:"
         >
           <ToggleButton.Group

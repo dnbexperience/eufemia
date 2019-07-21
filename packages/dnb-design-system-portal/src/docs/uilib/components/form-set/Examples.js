@@ -57,8 +57,8 @@ class Example extends PureComponent {
     prevent_submit={true}
   >
   <FormRow>
-    <Input label="Search Input:" type="search" value="Search text ..." />
-    <Button type="submit" text="Trigger submit" left="small" />
+    <Input label="Search Input:" type="search" value="Search text ..." right="small" />
+    <Button type="submit" text="Trigger submit" />
   </FormRow>
 </FormSet>
           `}

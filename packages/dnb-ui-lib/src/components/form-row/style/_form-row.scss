@@ -8,6 +8,8 @@
   --form-row-column2-start: 1fr;
   --form-row-row1-start: auto;
   --form-row-row2-start: auto; //minmax(max-content, auto)
+  --form-bounding-height: 0.25rem;
+  // --form-bounding-height: 0.625rem;
 }
 
 .dnb-form-row {
@@ -24,6 +26,15 @@
   &:not(#{&}--vertical) {
     & > .dnb-form-row__content {
       align-items: baseline;
+
+      .dnb-form-label {
+        white-space: nowrap;
+      }
+
+      &--wrap {
+        // so components gets wrapper on overflow, we use block here
+        display: block;
+      }
 
       // TODO: We may considder to wrap horizontal direction to vertical
       // overwrite display to be block on small screens
@@ -54,18 +65,29 @@
 
         // if not mobile
         @media (min-width: 40em) {
-          // move the content up in case we have several lines
-          &--medium {
+          &--default {
             margin-top: -1.5rem;
           }
-          &--x-medium {
-            margin-top: -1.75rem;
+          &--x-small {
+            margin-top: calc(-0.5rem + var(--form-bounding-height));
+          }
+          &--small {
+            margin-top: calc(-1rem + var(--form-bounding-height));
+          }
+          &--medium {
+            margin-top: calc(-1.5rem + var(--form-bounding-height));
           }
           &--large {
-            margin-top: -2rem;
+            margin-top: calc(-2rem + var(--form-bounding-height));
+          }
+          &--m-large {
+            margin-top: calc(-2.5rem + 0.625rem);
           }
           &--x-large {
-            margin-top: -2.25rem;
+            margin-top: calc(-3rem + var(--form-bounding-height));
+          }
+          &--xx-large {
+            margin-top: calc(-3.5rem + var(--form-bounding-height));
           }
         }
 
@@ -106,11 +128,6 @@
   //   }
   // }
 
-  &--no_wrap#{&}:not([class*='__indent'])#{&}:not(#{&}--vertical)#{&}:not(#{&}--vertical-label)
-    .dnb-form-label {
-    white-space: nowrap;
-  }
-
   // for vertical direction
   &--vertical {
     > .dnb-form-label {
@@ -146,6 +163,7 @@
       }
     }
   }
+
   &__label {
     &-dummy {
       margin: 0;

@@ -115,13 +115,15 @@ class Example extends PureComponent {
 />
           `}
         </ComponentBox>
-        <ComponentBox caption="Stretched `Input` with `FormRow` and a long label">
+        <ComponentBox caption="Stretched `Input` in horizontal wrapping `FormRow` and a long label">
           {/* @jsx */ `
 <FormRow
-  indent={true}
   label="Long label labwl Adipiscing mauris dis proin nec:"
+  indent="true"
+  indent_offset="large"
+  wrap
 >
-  <Input value="Placeholder ..." stretch />
+  <Input value="I stretch ..." stretch />
 </FormRow>
           `}
         </ComponentBox>
@@ -164,8 +166,9 @@ class Example extends PureComponent {
       onChange={({ value }) => {
         console.log('onChange:', value)
       }}
+      right="small"
     />
-    <Button text="Submit" type="submit" left="small" />
+    <Button text="Submit" type="submit" />
   </FormRow>
 </FormSet>
           `}

@@ -28,13 +28,27 @@ export default [
     <CustomStyle>
       <Wrapper>
         <Box>
+          <FormSet>
+            <FormRow
+              indent
+              indent_offset="x-large"
+              wrap
+              label="Long label labwl Adipiscing mauris dis proin nec Condimentum egestas class blandit netus non a suscipit id urna:"
+            >
+              <Input label="Input A:" top="small" right="small" />
+              <Input label="Input B:" top="small" right="small" />
+              <Input label="Input C:" top="small" right="small" />
+            </FormRow>
+          </FormSet>
+        </Box>
+        <Box>
           <FormRow
             label="Vertical label:"
             label_direction="vertical"
             // vertical
           >
-            <Input label="Input label A:" />
-            <Input label="Input label B:" left="small" />
+            <Input label="Input label A:" right="small" />
+            <Input label="Input label B:" />
           </FormRow>
         </Box>
         <Box>
@@ -50,22 +64,6 @@ export default [
             <FormRow label="Legend:">
               <Input label="Vertical 1:" />
               <Input label="Vertical 2:" stretch top="small" />
-            </FormRow>
-          </FormSet>
-        </Box>
-        <Box>
-          <FormSet>
-            <FormRow
-              indent
-              label="Long label labwl Adipiscing mauris dis proin nec Condimentum egestas class blandit netus non a suscipit id urna:"
-              // no_fieldset
-            >
-              <Input label="Input:" value="Stretch me ..." stretch />
-              <Input
-                left="small"
-                label="Input:"
-                placeholder="Placeholder 2 ..."
-              />
             </FormRow>
           </FormSet>
         </Box>

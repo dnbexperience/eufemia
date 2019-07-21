@@ -311,18 +311,18 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
       disabled={null}
       id="group"
       indent={null}
+      indent_offset={null}
       label="Label"
       label_direction={null}
       label_id="group"
-      label_offset={null}
       no_fieldset={null}
       no_label={false}
-      no_wrap={null}
       render_content={null}
       section_spacing={null}
       section_style={null}
       skipContentWrapperIfNested={true}
       vertical={null}
+      wrap={null}
     >
       <Fieldset
         className={null}
@@ -362,7 +362,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
               </Element>
             </FormLabel>
             <div
-              className="dnb-form-row__content dnb-form-row__content--medium"
+              className="dnb-form-row__content dnb-form-row__content--default"
             >
               <span
                 aria-labelledby="group-label"

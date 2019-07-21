@@ -20,9 +20,9 @@ export default [
             value="Nec litora inceptos vestibulum id interdum donec gravida nostra
             lacinia bibendum hendrerit porttitor volutpat nam duis nisl
             scelerisque sapien erat"
+            right="small"
           />
           <Textarea
-            left="small"
             label="Vertical label:"
             value="Nec litora inceptos vestibulum id interdum donec gravida nostra
             lacinia bibendum hendrerit porttitor volutpat nam duis nisl

@@ -7,7 +7,7 @@ import React, { PureComponent } from 'react'
 import ComponentBox from 'Src/shared/tags/ComponentBox'
 import { Global, css } from '@emotion/core'
 import styled from '@emotion/styled'
-import { isCI } from 'ci-info'
+// import { isCI } from 'ci-info'
 import AllComponents from 'dnb-ui-lib/src/components/form-row/AllComponents'
 // import { FormRow } from 'dnb-ui-lib/src/components'
 // import AllComponents from './AllComponents'
@@ -24,8 +24,7 @@ const WidthLimit = styled.div`
 
 class Example extends PureComponent {
   render() {
-    const IS_TEST =
-      (typeof window !== 'undefined' && window.IS_TEST) || !isCI
+    const IS_TEST = typeof window !== 'undefined' && window.IS_TEST
     return (
       <TestStyles>
         <ComponentBox
@@ -37,8 +36,8 @@ class Example extends PureComponent {
     label="Vertical legend label:"
     label_direction="vertical"
 >
-  <Input label="Label A:" value="Input A" />
-  <Input label="Label B:" value="Input B" left="small" />
+  <Input label="Label A:" value="Input A" right="small" />
+  <Input label="Label B:" value="Input B" />
 </FormRow>
           `}
         </ComponentBox>
@@ -77,12 +76,10 @@ class Example extends PureComponent {
     vertical="false"
     /** additionally we use a horizontal label_diretion */
     label_direction="horizontal"
-    /** and no_wrap to make sure we have all in one line */
-    no_wrap="true"
     top="medium"
   >
-    <Input label="Horizontal input A" />
-    <Input label="Horizontal input B" left="small" />
+    <Input label="Horizontal input A" right="small" />
+    <Input label="Horizontal input B" />
   </FormRow>
   <Input label="Vertical input C" top="medium" />
 </FormRow>
@@ -130,22 +127,36 @@ render(
           `}
         </ComponentBox>
         <ComponentBox
-          caption="Several components inside a horizontal `FormRow` with a couple of words inside their labels and `no_wrap`"
+          caption="Several components inside a horizontal `FormRow` - not wrapping"
           data-dnb-test="form-row-horizontal-no_wrap"
         >
           {/* @jsx */ `
 <FormRow
   label="A long horizontal FormLabel with a lot of informative text:"
   indent="true"
-  label_offset="large"
-  no_wrap="true"
+  indent_offset="large"
   direction="horizontal"
 >
-  <Input label="Input label A:" />
-  <Input
-    label="Input label B:"
-    left="small"
-  />
+  <Input label="Input label A:" right="small"  />
+  <Input label="Input label B:"  />
+</FormRow>
+          `}
+        </ComponentBox>
+        <ComponentBox
+          caption="Several components inside a wrapping (`wrap`) horizontal `FormRow`"
+          data-dnb-test="form-row-horizontal-wrap"
+        >
+          {/* @jsx */ `
+<FormRow
+  label="Long label labwl Adipiscing mauris dis proin nec Condimentum egestas class blandit netus non a suscipit id urna:"
+  indent
+  indent_offset="x-large"
+  wrap
+  direction="horizontal"
+>
+  <Input label="Input A:" top="small" right="small" />
+  <Input label="Input B:" top="small" right="small" />
+  <Input label="Input C:" top="small" right="small" />
 </FormRow>
           `}
         </ComponentBox>
@@ -153,8 +164,8 @@ render(
           {/* @jsx */ `
 <FormSet label_direction="vertical">
   <FormRow label="Label legend for the inputs:" >
-    <Input label="Vertical label direction:" placeholder="Input A ..." />
-    <Input label="Vertical label direction:" placeholder="Input B ..." left="small" />
+    <Input label="Vertical label direction:" placeholder="Input A ..." right="small" />
+    <Input label="Vertical label direction:" placeholder="Input B ..." />
   </FormRow>
   <FormRow label="Checkbox legend:" top="medium">
     <Checkbox label="Checkbox" />
@@ -191,9 +202,8 @@ render(
 <FormRow
   // label="Horizontal:"
   // indent="true"
-  no_wrap="true"
+  // indent_offset="large"
   direction="horizontal"
-  label_offset="large"
 >
   <AllComponents horizontal />
 </FormRow>

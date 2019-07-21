@@ -64,10 +64,10 @@ Spacing is an important part of Eufemia, thats why there are now tree new helper
 
 In v4, all components have the properties `top`, `right`, `bottom` and `left` available to define [spacing directly](/uilib/components/space#components-and-spacing).
 
-E.g. this `left="small"` will give You a spacing of `8rem` to the left side.
+E.g. this `right="small"` will give You a spacing of `8rem` to the left side.
 
 ```jsx
-<Input label="My Input" left="small" />
+<Input label="My Input" right="small" />
 ```
 
 ## Install

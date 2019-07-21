@@ -81,8 +81,8 @@ class Example extends PureComponent {
         >
           {/* @jsx */ `
 <FormRow>
-  <Input label="Input A:" />
-  <Input label="Input B:" left="small" />
+  <Input label="Input A:" right="small" />
+  <Input label="Input B:" />
 </FormRow>
           `}
         </ComponentBox>

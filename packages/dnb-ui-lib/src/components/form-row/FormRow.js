@@ -30,10 +30,10 @@ export const propTypes = {
   no_label: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   no_fieldset: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   indent: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  no_wrap: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  wrap: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   direction: PropTypes.oneOf(['vertical', 'horizontal']),
   vertical: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  label_offset: PropTypes.string,
+  indent_offset: PropTypes.string,
   section_style: PropTypes.string,
   section_spacing: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -60,10 +60,10 @@ export const defaultProps = {
   no_label: false,
   no_fieldset: null,
   indent: null,
-  no_wrap: null,
+  wrap: null,
   direction: null,
   vertical: null,
-  label_offset: null,
+  indent_offset: null,
   section_style: null,
   section_spacing: null,
   disabled: null,
@@ -118,48 +118,48 @@ export default class FormRow extends PureComponent {
       context.formRow && context.formRow.isInsideFormSet
     this._id =
       props.id || `dnb-form-row-${Math.round(Math.random() * 999)}` // cause we need an id anyway
-
-    this._contentRef = React.createRef()
   }
 
-  componentDidMount() {
-    this.setLabelOffset()
-  }
-  componentWillUnmount() {
-    clearTimeout(this.contentSizeDelay)
-  }
-
-  setLabelOffset() {
-    clearTimeout(this.contentSizeDelay)
-    this.contentSizeDelay = setTimeout(() => {
-      const { label, vertical, direction, label_offset } = this.props
-      if (
-        (label,
-        !isTrue(vertical) &&
-          direction !== 'vertical' &&
-          label_offset === 'auto' &&
-          this._contentRef.current)
-      ) {
-        try {
-          const height = this._contentRef.current.offsetHeight
-          const restBoundingBoxHeight = 12
-          const pixelsToMove =
-            height - (height / 2 - restBoundingBoxHeight)
-          let rem = pixelsToMove / 16
-
-          // beaucse we don't have components witch needs heigher than that
-          // e.g. <Input size="large" has a label centered to that value
-          if (rem > 2.25) {
-            rem = 2.25
-          }
-          this._contentRef.current.style.marginTop = `-${rem}rem`
-          // console.warn('setLabelOffset', rem)
-        } catch (e) {
-          console.log('Error on setLabelOffset', e)
-        }
-      }
-    }, 1)
-  }
+  // TODO: remove the auto indent offset detection
+  // this._contentRef = React.createRef()
+  // componentDidMount() {
+  //   this.setLabelOffset()
+  // }
+  // componentWillUnmount() {
+  //   clearTimeout(this.contentSizeDelay)
+  // }
+  // setLabelOffset() {
+  //   clearTimeout(this.contentSizeDelay)
+  //   this.contentSizeDelay = setTimeout(() => {
+  //     const { label, vertical, direction, indent_offset } = this.props
+  //     if (
+  //       (label,
+  //       !isTrue(vertical) &&
+  //         direction !== 'vertical' &&
+  //         indent_offset === 'auto' &&
+  //         this._contentRef.current)
+  //     ) {
+  //       try {
+  //         const height = this._contentRef.current.offsetHeight
+  //         const restBoundingBoxHeight = 12
+  //         const pixelsToMove =
+  //           height - (height / 2 - restBoundingBoxHeight)
+  //         let rem = pixelsToMove / 16
+  //
+  //         // // beaucse we don't have components witch needs heigher than that
+  //         // // e.g. <Input size="large" has a label centered to that value
+  //         // if (rem > 2.25) {
+  //         //   rem = 2.25
+  //         // }
+  //
+  //         this._contentRef.current.style.marginTop = `-${rem}rem`
+  //         // console.warn('setLabelOffset', rem)
+  //       } catch (e) {
+  //         console.log('Error on setLabelOffset', e)
+  //       }
+  //     }
+  //   }, 1)
+  // }
 
   render() {
     // consume the formRow context
@@ -177,11 +177,11 @@ export default class FormRow extends PureComponent {
       indent,
       direction,
       vertical,
-      label_offset,
+      indent_offset,
       section_style,
       section_spacing,
       disabled,
-      no_wrap,
+      wrap,
       id: _id, // eslint-disable-line
       className,
       class: _className,
@@ -217,7 +217,6 @@ export default class FormRow extends PureComponent {
           ) &&
           `dnb-form-row__indent--${isTrue(indent) ? 'default' : indent}`,
         isNested && 'dnb-form-row--nested',
-        isTrue(no_wrap) && 'dnb-form-row--no_wrap',
         section_style ? `dnb-section dnb-section--${section_style}` : null,
         section_spacing
           ? `dnb-section--spacing-${
@@ -257,7 +256,8 @@ export default class FormRow extends PureComponent {
 
     const useFieldset = !isTrue(no_fieldset)
 
-    this.setLabelOffset()
+    // TODO: remove the auto indent offset detection
+    // this.setLabelOffset()
 
     return (
       <Context.Provider value={context}>
@@ -286,10 +286,11 @@ export default class FormRow extends PureComponent {
               <div
                 className={classnames(
                   'dnb-form-row__content',
+                  isTrue(wrap) && 'dnb-form-row__content--wrap',
                   label &&
                     !isTrue(vertical) &&
                     direction !== 'vertical' &&
-                    `dnb-form-row__content--${label_offset || 'medium'}`
+                    `dnb-form-row__content--${indent_offset || 'default'}`
                 )}
                 ref={this._contentRef}
               >
