@@ -86,7 +86,7 @@ class Example extends PureComponent {
 </FormRow>
           `}
         </ComponentBox>
-        {!IS_TEST && (
+        {false && IS_TEST && (
           <ComponentBox
             caption="All spacing patterns listed (screenshot tests)"
             data-dnb-test="spacing-patterns"
