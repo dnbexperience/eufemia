@@ -68,21 +68,21 @@ class Example extends PureComponent {
         >
           {/* @jsx */ `
 <FormRow>
-  <Input label="Input:" />
+  <Input label="Input A:" />
 </FormRow>
 <FormRow top="medium">
-  <Input label="Input:" />
+  <Input label="Input B:" />
 </FormRow>
           `}
         </ComponentBox>
         <ComponentBox
-          caption="Spacing method #3 - `FormRow` component"
+          caption="Spacing method #3 - Define the space directly"
           data-dnb-test="spacing-method-1"
         >
           {/* @jsx */ `
-<FormRow direction="vertical">
-  <Input label="Input:" />
-  <Input label="Input:" top="medium" />
+<FormRow>
+  <Input label="Input A:" />
+  <Input label="Input B:" left="small" />
 </FormRow>
           `}
         </ComponentBox>

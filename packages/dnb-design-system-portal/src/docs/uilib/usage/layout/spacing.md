@@ -19,6 +19,10 @@ Spacing follows a specific pattern:
 
 <SpacingTable />
 
+## Components and Spacing
+
+Also, have a look at the [Space](/uilib/components/space) component and the fact that every component supports [spacing out of the box](/uilib/components/space#components-and-spacing).
+
 ## Using a Spacing helper
 
 The **SpacingHelper** can be used for all kinds of systems.

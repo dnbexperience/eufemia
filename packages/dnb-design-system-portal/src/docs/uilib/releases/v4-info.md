@@ -60,7 +60,9 @@ Spacing is an important part of Eufemia, thats why there are now tree new helper
 - [FormRow](/uilib/components/form-row) provides by default the `<formset>` tag and `<legend>` tag. `FormRow` is meant to help You achieve easily common DNB layout patterns and setups. Also, `FormRow` is supporting the `Spacing` component.
 - [Space](/uilib/components/space) is made to achieve the Eufemia [spacing patterns](/uilib/usage/layout/spacing#spacing-helpers). In other words; _margin_ within the provided spacing blocks.
 
-In v4, all components have the properties `top`, `right`, `bottom` and `left` available to define a spacing directly.
+### Components and Spacing
+
+In v4, all components have the properties `top`, `right`, `bottom` and `left` available to define [spacing directly](/uilib/components/space#components-and-spacing).
 
 E.g. this `left="small"` will give You a spacing of `8rem` to the left side.
 

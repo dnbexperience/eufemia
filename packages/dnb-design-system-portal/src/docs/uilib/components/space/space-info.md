@@ -18,13 +18,26 @@ This way You see directly in words what the spacing is for every effected compon
 
 ### Value Format
 
-There are a couple different ways You can define the spacing types and values.
+There are a couple different ways You can define the spacing types and values:
+
+- **Types:** `small small x-small` (combine types up to _10rem_)
+- **number:** `2.5` (equivalent to `rem`)
+- **rem:** `2.5rem`
+- **px:** `40px` (gets converted to `rem`)
 
 To get a spacing of e.g. **2.5rem** (40px)- You may combine types `large` and `x-small`.
 
 ```jsx
 /** All of these methods will result in the same spacing */
 <Space top="large x-small" right="2.5" bottom="2.5rem" left="40px" />
+```
+
+### Components and Spacing
+
+Every component supports the spacing patterns, so it's possible to send in the `top`, `right`, `bottom` and `left` properties directly, like:
+
+```jsx
+<Button top="large x-small medium" />
 ```
 
 ## Demos
