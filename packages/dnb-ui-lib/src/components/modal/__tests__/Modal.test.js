@@ -74,7 +74,7 @@ describe('Modal component', () => {
   it('has to have the correct aria-describedby', () => {
     expect(
       Comp.find('[aria-describedby]').props()['aria-describedby']
-    ).toBe(props.content_id)
+    ).toBe(props.id)
   })
   it('has to have the correct role on aria-modal', () => {
     expect(Comp.find('[aria-modal]').props().role).toBe('dialog')

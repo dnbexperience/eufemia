@@ -99,7 +99,7 @@ exports[`Modal component have to match snapshot 1`] = `
   trigger_icon="question"
   trigger_icon_position="left"
   trigger_text={null}
-  trigger_title="Open Modal"
+  trigger_title="Modal"
   trigger_variant="secondary"
 >
   <div
@@ -122,17 +122,17 @@ exports[`Modal component have to match snapshot 1`] = `
       on_click={[Function]}
       size={null}
       text={null}
-      title="Open Modal"
+      title="Modal"
       type="button"
       variant="secondary"
     >
       <button
-        aria-label="Open Modal"
+        aria-label="Modal"
         className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-left dnb-button--has-icon dnb-modal__trigger"
         id="modal_id"
         onClick={[Function]}
         onMouseOut={[Function]}
-        title="Open Modal"
+        title="Modal"
         type="button"
       >
         <Content
@@ -154,12 +154,12 @@ exports[`Modal component have to match snapshot 1`] = `
           on_click={[Function]}
           size={null}
           text={null}
-          title="Open Modal"
+          title="Modal"
           type="button"
           variant="secondary"
         >
           <IconPrimary
-            alt="Open Modal"
+            alt="Modal"
             aria-hidden={false}
             attributes={null}
             class={null}
@@ -174,9 +174,9 @@ exports[`Modal component have to match snapshot 1`] = `
             width={null}
           >
             <span
-              alt="Open Modal"
+              alt="Modal"
               aria-hidden={false}
-              aria-label="Open Modal"
+              aria-label="Modal"
               className="dnb-icon dnb-icon--default dnb-button__icon"
               role="img"
             >
@@ -382,7 +382,7 @@ exports[`Modal component have to match snapshot 1`] = `
         toggleOpenClose={[Function]}
       >
         <div
-          aria-describedby="modal_content_id"
+          aria-describedby="modal_id"
           aria-labelledby="modal_id"
           aria-modal="true"
           className="dnb-modal__content"
