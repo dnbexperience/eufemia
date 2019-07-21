@@ -40,6 +40,7 @@ export const propTypes = {
   class: PropTypes.string,
 
   /** React props */
+  skipContentWrapperIfNested: PropTypes.bool,
   className: PropTypes.string,
   children: PropTypes.oneOfType([
     PropTypes.string,
@@ -69,6 +70,7 @@ export const defaultProps = {
   class: null,
 
   /** React props */
+  skipContentWrapperIfNested: false,
   className: null,
   children: null,
 
@@ -183,6 +185,7 @@ export default class FormRow extends PureComponent {
       id: _id, // eslint-disable-line
       className,
       class: _className,
+      skipContentWrapperIfNested,
 
       ...attributes
     } = props
@@ -202,10 +205,6 @@ export default class FormRow extends PureComponent {
         'dnb-form-row',
         (isTrue(vertical) || direction) &&
           `dnb-form-row--${isTrue(vertical) ? 'vertical' : direction}`,
-        label &&
-          !isTrue(vertical) &&
-          direction !== 'vertical' &&
-          `dnb-form-row__content--${label_offset || 'medium'}`,
         (isTrue(vertical) || label_direction) &&
           `dnb-form-row--${
             isTrue(vertical) ? 'vertical' : label_direction
@@ -281,11 +280,17 @@ export default class FormRow extends PureComponent {
                 aria-hidden
               />
             )}
-            {isNested ? (
+            {isNested && skipContentWrapperIfNested ? (
               children
             ) : (
               <div
-                className="dnb-form-row__content"
+                className={classnames(
+                  'dnb-form-row__content',
+                  label &&
+                    !isTrue(vertical) &&
+                    direction !== 'vertical' &&
+                    `dnb-form-row__content--${label_offset || 'medium'}`
+                )}
                 ref={this._contentRef}
               >
                 {children}

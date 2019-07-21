@@ -41,6 +41,12 @@ describe('FormRow screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+  it('have to match a combined form-row', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-dnb-test="form-row-combined"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 
   if (!isCI) {
     it('have to match "horizontal direction" with all components', async () => {

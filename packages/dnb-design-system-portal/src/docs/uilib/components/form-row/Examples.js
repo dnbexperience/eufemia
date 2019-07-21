@@ -34,25 +34,15 @@ class Example extends PureComponent {
         <ComponentBox
           caption="Only the labels are vertical aligned - while the input labels are still horizontal."
           data-dnb-test="form-row-vertical-label"
-          useRender
         >
           {/* @jsx */ `
-const CustomRow = styled(FormRow)\`
-  .dnb-input {
-    &__inner {
-      width: 8rem;
-    }
-  }
-\`
-render(
-  <CustomRow
-      label="Vertical legend label:"
-      label_direction="vertical"
-  >
-    <Input label="Label A:" value="Input A" />
-    <Input label="Label B:" value="Input B" left="small" />
-  </CustomRow>
-)
+<FormRow
+    label="Vertical legend label:"
+    label_direction="vertical"
+>
+  <Input label="Label A:" value="Input A" />
+  <Input label="Label B:" value="Input B" left="small" />
+</FormRow>
           `}
         </ComponentBox>
         <ComponentBox
@@ -71,10 +61,33 @@ render(
   section_style="mint-green"
   section_spacing="default"
   indent={true}
-
   label="A long horizontal FormLabel with a lot of informative text and a default indent:"
 >
   <Checkbox label="Checkbox" />
+</FormRow>
+          `}
+        </ComponentBox>
+        <ComponentBox
+          caption="Combine both vertical and horizontal FormRow's"
+          data-dnb-test="form-row-combined"
+        >
+          {/* @jsx */ `
+<FormRow label="Vertical legend:" vertical>
+  <Input label="Vertical input A" />
+  <Input label="Vertical input B" top="medium" />
+  <FormRow
+    /** reset the layout to not be vertical */
+    vertical="false"
+    /** additionally we use a horizontal label_diretion */
+    label_direction="horizontal"
+    /** and no_wrap to make sure we have all in one line */
+    no_wrap="true"
+    top="medium"
+  >
+    <Input label="Horizontal input A" />
+    <Input label="Horizontal input B" left="small" />
+  </FormRow>
+  <Input label="Vertical input C" top="medium" />
 </FormRow>
           `}
         </ComponentBox>

@@ -314,13 +314,14 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
       label="Label"
       label_direction={null}
       label_id="group"
-      label_offset="medium"
+      label_offset={null}
       no_fieldset={null}
       no_label={false}
       no_wrap={null}
       render_content={null}
       section_spacing={null}
       section_style={null}
+      skipContentWrapperIfNested={true}
       vertical={null}
     >
       <Fieldset
@@ -331,7 +332,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
           className="dnb-form-row__fieldset"
         >
           <div
-            className="dnb-form-row dnb-form-row__content--medium"
+            className="dnb-form-row"
           >
             <FormLabel
               class={null}
@@ -361,7 +362,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
               </Element>
             </FormLabel>
             <div
-              className="dnb-form-row__content"
+              className="dnb-form-row__content dnb-form-row__content--medium"
             >
               <span
                 aria-labelledby="group-label"
@@ -1422,8 +1423,6 @@ a.dnb-button .dnb-button__text {
       flex-direction: column; }
     .dnb-radio-group .dnb-form-row {
       margin-bottom: calc(1px - 1px - var(--radio-margin-bottom)); }
-      .dnb-radio-group .dnb-form-row--nested {
-        align-items: flex-start; }
     .dnb-form-row--vertical .dnb-radio-group {
       display: flex; }
   @media all and (-ms-high-contrast: none) {
@@ -1569,20 +1568,8 @@ a.dnb-button .dnb-button__text {
         transform: translateY(-0.5rem);
         margin-top: 0;
         margin-bottom: 0; }
-    .dnb-toggle-button-group--row .dnb-form-row {
-      transform: translateY(-0.5rem); }
-      .dnb-toggle-button-group--row .dnb-form-row--nested {
-        transform: translateY(0); }
-      @media (max-width: 40em) {
-        .dnb-toggle-button-group--row .dnb-form-row {
-          transform: translateY(0); } }
     .dnb-toggle-button-group .dnb-form-row {
       margin-bottom: calc(1px - 1px - var(--toggle-button-margin-bottom)); }
-      .dnb-toggle-button-group .dnb-form-row > .dnb-form-label {
-        transform: translateY(0.5rem); }
-      .dnb-toggle-button-group .dnb-form-row--nested > .dnb-form-label,
-      .dnb-toggle-button-group .dnb-form-row--vertical-label > .dnb-form-label {
-        transform: translateY(0); }
     .dnb-form-row--vertical .dnb-toggle-button-group {
       display: flex; }
   @media (min-width: 40em) {

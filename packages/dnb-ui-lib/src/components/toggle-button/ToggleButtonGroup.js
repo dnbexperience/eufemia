@@ -261,7 +261,7 @@ export default class ToggleButtonGroup extends PureComponent {
       vertical,
       disabled,
       no_fieldset,
-      label_offset: 'medium'
+      skipContentWrapperIfNested: true
       // status,
       // status_state
     }

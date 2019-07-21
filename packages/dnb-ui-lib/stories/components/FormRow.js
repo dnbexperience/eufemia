@@ -37,20 +37,25 @@ export default [
         <FormRow label="Vertical legend:" vertical>
           <Input label="Vertical input A" />
           <Input label="Vertical input B" top="medium" />
-        </FormRow>
-        <FormRow
-          label="Horizontal legend:"
-          direction="horizontal"
-          label_direction="horizontal"
-          vertical={false}
-          // indent
-          no_wrap
-          label_offset="auto"
-          // label_offset="x-medium"
-          top="medium"
-        >
-          <Input label="Horizontal input A" />
-          <Input label="Horizontal input B" left="small" />
+          <FormRow
+            // label="Horizontal legend:"
+            // direction="horizontal"
+            // indent
+            // label_offset="x-medium"
+            // label_offset="auto"
+
+            // reset the layout to not be vertical
+            vertical="false"
+            // additionally we use a horizontal label_diretion
+            label_direction="horizontal"
+            // and no_wrap to make sure we have all in one line
+            no_wrap
+            top="medium"
+          >
+            <Input label="Horizontal input A" />
+            <Input label="Horizontal input B" left="small" />
+          </FormRow>
+          <Input label="Vertical input C" top="medium" />
         </FormRow>
       </Box>
 

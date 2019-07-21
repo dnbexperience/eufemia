@@ -146,13 +146,14 @@ exports[`Radio group component have to match group snapshot 1`] = `
       label="Label"
       label_direction={null}
       label_id="group"
-      label_offset="medium"
+      label_offset={null}
       no_fieldset={true}
       no_label={false}
       no_wrap={null}
       render_content={null}
       section_spacing={null}
       section_style={null}
+      skipContentWrapperIfNested={true}
       vertical={null}
     >
       <Fieldset
@@ -163,7 +164,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
           className={null}
         >
           <div
-            className="dnb-form-row dnb-form-row__content--medium"
+            className="dnb-form-row"
           >
             <FormLabel
               class={null}
@@ -195,7 +196,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
               </Element>
             </FormLabel>
             <div
-              className="dnb-form-row__content"
+              className="dnb-form-row__content dnb-form-row__content--medium"
             >
               <span
                 aria-labelledby="group-label"
@@ -848,8 +849,6 @@ legend.dnb-form-label {
       flex-direction: column; }
     .dnb-radio-group .dnb-form-row {
       margin-bottom: calc(1px - 1px - var(--radio-margin-bottom)); }
-      .dnb-radio-group .dnb-form-row--nested {
-        align-items: flex-start; }
     .dnb-form-row--vertical .dnb-radio-group {
       display: flex; }
   @media all and (-ms-high-contrast: none) {

@@ -22,75 +22,78 @@
 
   // for hoizontal direction
   &:not(#{&}--vertical) {
-    @supports (display: grid) {
-      display: grid;
-      grid-template-columns:
-        [column1-start] var(--form-row-column1-start)
-        [column1-end column2-start] var(--form-row-column2-start)
-        [column2-end];
-      grid-template-rows:
-        [row1-start] var(--form-row-row1-start) [row1-end row2-start] var(
-          --form-row-row2-start
-        )
-        [row2-end];
-    }
-
-    > .dnb-form-row__content {
-      @supports (display: grid) {
-        grid-column: column2-start / column2-end;
-        grid-row: row2-start / row2-end;
-      }
-
-      justify-self: start;
-      align-items: baseline;
-    }
-
-    > .dnb-form-label {
-      // put the label in the first column
-      @supports (display: grid) {
-        grid-column: column1-start / column1-end;
-        grid-row: row1-start / row1-end;
-      }
-
-      margin-right: 1rem;
-
-      @media (min-width: 40em) {
-        text-align: right;
-      }
-    }
-
-    // overwrite display to be block on small screens
-    @media (max-width: 40em) {
-      display: block;
-    }
-  }
-
-  // if not mobile
-  @media (min-width: 40em) {
-    // move the content up in case we have several lines
-    &:not(#{&}--vertical)#{&}:not(#{&}--vertical-label)#{&}__content--medium
-      > .dnb-form-row__content {
-      margin-top: -1.5rem;
-    }
-    &:not(#{&}--vertical)#{&}:not(#{&}--vertical-label)#{&}__content--x-medium
-      > .dnb-form-row__content {
-      margin-top: -1.75rem;
-    }
-    &:not(#{&}--vertical)#{&}:not(#{&}--vertical-label)#{&}__content--large
-      > .dnb-form-row__content {
-      margin-top: -2rem;
-    }
-    &:not(#{&}--vertical)#{&}:not(#{&}--vertical-label)#{&}__content--x-large
-      > .dnb-form-row__content {
-      margin-top: -2.25rem;
-    }
-  }
-
-  // if mobile
-  @media (max-width: 40em) {
     & > .dnb-form-row__content {
-      // use important, sice we want to overwrite the inline style "marginTop" set by "setLabelOffset"
-      margin-top: 0.5rem !important;
+      align-items: baseline;
+
+      // TODO: We may considder to wrap horizontal direction to vertical
+      // overwrite display to be block on small screens
+      // @media (max-width: 40em) {
+      //   flex-direction: column;
+      // }
+      // justify-self: start;
+    }
+
+    &[class*='__indent'] {
+      @supports (display: grid) {
+        display: grid;
+        grid-template-columns:
+          [column1-start] var(--form-row-column1-start)
+          [column1-end column2-start] var(--form-row-column2-start)
+          [column2-end];
+        grid-template-rows:
+          [row1-start] var(--form-row-row1-start)
+          [row1-end row2-start] var(--form-row-row2-start)
+          [row2-end];
+      }
+
+      & > .dnb-form-row__content {
+        @supports (display: grid) {
+          grid-column: column2-start / column2-end;
+          grid-row: row2-start / row2-end;
+        }
+
+        // if not mobile
+        @media (min-width: 40em) {
+          // move the content up in case we have several lines
+          &--medium {
+            margin-top: -1.5rem;
+          }
+          &--x-medium {
+            margin-top: -1.75rem;
+          }
+          &--large {
+            margin-top: -2rem;
+          }
+          &--x-large {
+            margin-top: -2.25rem;
+          }
+        }
+
+        // if mobile
+        @media (max-width: 40em) {
+          // use important, sice we want to overwrite the inline style "marginTop" set by "setLabelOffset"
+          margin-top: 0.5rem !important;
+        }
+      }
+
+      & > .dnb-form-label {
+        // put the label in the first column
+        @supports (display: grid) {
+          grid-column: column1-start / column1-end;
+          grid-row: row1-start / row1-end;
+        }
+
+        margin-right: 1rem;
+
+        @media (min-width: 40em) {
+          text-align: right;
+        }
+      }
+
+      // overwrite display to be block on small screens
+      @media (max-width: 40em) {
+        display: block;
+      }
     }
   }
 
@@ -103,8 +106,7 @@
   //   }
   // }
 
-  &--no_wrap#{&}:not(#{&}--vertical)#{&}:not(#{&}--vertical-label)
-    &__content
+  &--no_wrap#{&}:not([class*='__indent'])#{&}:not(#{&}--vertical)#{&}:not(#{&}--vertical-label)
     .dnb-form-label {
     white-space: nowrap;
   }
@@ -115,7 +117,7 @@
       margin-bottom: 0.5rem;
     }
   }
-  &--vertical &__content {
+  &--vertical > &__content {
     flex-direction: column;
   }
 

@@ -152,34 +152,19 @@
       }
     }
 
-    &--row .dnb-form-row {
-      transform: translateY(-0.5rem);
-      &--nested {
-        transform: translateY(0);
-      }
-      @media (max-width: 40em) {
-        transform: translateY(0);
-      }
-    }
+    // Can be deleted in future
+    // &--row .dnb-form-row {
+    //   // transform: translateY(-0.5rem);
+    //   // &--nested {
+    //   //   transform: translateY(0);
+    //   // }
+    //   // @media (max-width: 40em) {
+    //   //   transform: translateY(0);
+    //   // }
+    // }
+
     .dnb-form-row {
       margin-bottom: calc(1px - 1px - var(--toggle-button-margin-bottom));
-
-      & > .dnb-form-label {
-        transform: translateY(0.5rem);
-      }
-      &--nested > .dnb-form-label,
-      &--vertical-label > .dnb-form-label {
-        transform: translateY(0);
-      }
-      // &--vertical-label {
-      //   row-gap: normal;
-      // }
-      // &--vertical {
-      //   transform: translateY(0);
-      // }
-      // &--nested {
-      //   align-items: flex-start;
-      // }
     }
     .dnb-form-row--vertical & {
       display: flex;

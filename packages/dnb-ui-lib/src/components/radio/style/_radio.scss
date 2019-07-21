@@ -174,13 +174,6 @@
     .dnb-form-row {
       // because of our bottom margins we have on the componens
       margin-bottom: calc(1px - 1px - var(--radio-margin-bottom));
-
-      // &--vertical-label {
-      //   row-gap: normal;
-      // }
-      &--nested {
-        align-items: flex-start;
-      }
     }
     .dnb-form-row--vertical & {
       display: flex;
