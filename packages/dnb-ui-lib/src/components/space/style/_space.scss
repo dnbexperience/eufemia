@@ -122,6 +122,9 @@
 }
 
 .dnb-space {
+  &--inline {
+    display: inline-block;
+  }
   &__top {
     @include direction(top);
   }
