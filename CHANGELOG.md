@@ -1,6 +1,7 @@
-## July, 14. 2019
+## July, 21. 2019
 
 - Major Release of `dnb-ui-lib`: Read more about the [v4 release](/uilib/releases/v4-info)
+- New component in the `dnb-ui-lib`: [Space](/uilib/components/space) for easy spacing capabilities
 - New component in the `dnb-ui-lib`: [Slider](/uilib/components/slider) with add/subtract buttons
 
 ## June, 26. 2019
