@@ -25,7 +25,7 @@ export default [
         <CustomStyle>
           <VisualSpace>
             {/* <MagicBox top="medium" /> */}
-            <Space top="medium">
+            <Space top="large x-small">
               <Input label="Input:" />
             </Space>
           </VisualSpace>
