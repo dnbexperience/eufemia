@@ -25,9 +25,12 @@ import { Logo } from 'dnb-ui-lib/src'
 
 class Layout extends PureComponent {
   static propTypes = {
-    data: PropTypes.object.isRequired,
+    fullscreen: PropTypes.bool,
     children: PropTypes.node.isRequired,
     location: PropTypes.object.isRequired
+  }
+  static defaultProps = {
+    fullscreen: false
   }
   componentDidMount() {
     // gets aplyed on "onRouteUpdate"
@@ -37,12 +40,9 @@ class Layout extends PureComponent {
     scrollToLocationHashId({ offset: 100 })
   }
   render() {
-    const { children, location } = this.props
+    const { children, location, fullscreen } = this.props
 
-    if (
-      this.props.data.mdx.fields.fullscreen ||
-      /fullscreen/.test(location.search)
-    ) {
+    if (fullscreen || /fullscreen/.test(location.search)) {
       return (
         <>
           <Content className="fullscreen-page">

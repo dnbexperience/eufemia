@@ -1,0 +1,8 @@
+{
+  "reject": [
+    "gatsby",
+    "gatsby-*",
+    "eslint",
+    "@babel/plugin-proposal-object-rest-spread"
+  ]
+}

@@ -55,4 +55,15 @@ describe('Textarea screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+  it('have to match stretched textarea style', async () => {
+    const screenshot = await testPageScreenshot({
+      style: {
+        width: '30rem' // make sure our textarea gets an explicit width, because of mac/linux rendering differences
+      },
+      // Only for screenshot testing - make textarea having same width on linux chromium
+      // styleSelector: '[data-dnb-test="textarea-stretch"]',
+      selector: '[data-dnb-test="textarea-stretch"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })

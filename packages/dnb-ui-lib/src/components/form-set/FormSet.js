@@ -14,7 +14,9 @@ import {
   processChildren,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
+import { createSpacingClasses } from '../space/SpacingHelper'
 import Context from '../../shared/Context'
+import { propTypes as availableFormRowProps } from '../form-row/FormRow'
 
 const renderProps = {
   render_content: null
@@ -25,9 +27,6 @@ export const propTypes = {
   element: PropTypes.string,
   no_form: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   prevent_submit: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  size: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  direction: PropTypes.oneOf(['vertical', 'horizontal']),
-  vertical: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   class: PropTypes.string,
 
@@ -48,9 +47,6 @@ export const defaultProps = {
   element: 'form',
   no_form: false,
   prevent_submit: false,
-  size: null,
-  direction: 'horizontal',
-  vertical: null,
   disabled: null,
   class: null,
 
@@ -95,9 +91,6 @@ export default class FormSet extends PureComponent {
   render() {
     const {
       element,
-      size,
-      direction,
-      vertical,
       no_form,
       prevent_submit, // eslint-disable-line
       disabled, // eslint-disable-line
@@ -105,16 +98,31 @@ export default class FormSet extends PureComponent {
       className,
       class: _className,
 
-      ...attributes
+      ...rest
     } = this.props
 
-    const content = FormSet.getContent(this.props)
+    const formRowProps = Object.entries(rest).reduce((acc, [k, v]) => {
+      if (
+        typeof availableFormRowProps[k] !== 'undefined' &&
+        k !== 'id' &&
+        k !== 'children' &&
+        k !== 'render_content'
+      ) {
+        acc[k] = v
+      }
+      return acc
+    }, {})
+    const attributes = Object.entries(rest).reduce((acc, [k, v]) => {
+      if (typeof formRowProps[k] === 'undefined') {
+        acc[k] = v
+      }
+      return acc
+    }, {})
 
     const params = {
       className: classnames(
         'dnb-form-set',
-        // (isTrue(vertical) || direction) && `dnb-form-set--${isTrue(vertical) ? 'vertical' : direction}`,
-        // size && `dnb-form-set__size--${isTrue(size) ? 'default' : size}`,
+        createSpacingClasses(this.props),
         className,
         _className
       ),
@@ -128,8 +136,14 @@ export default class FormSet extends PureComponent {
     // also used for code markup simulation
     validateDOMAttributes(this.props, params)
 
+    const content = FormSet.getContent(this.props)
+
     const context = extend(this.context, {
-      formRow: { size, direction, vertical, disabled }
+      formRow: {
+        ...formRowProps,
+        disabled,
+        isInsideFormSet: true
+      }
     })
 
     return (

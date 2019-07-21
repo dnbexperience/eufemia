@@ -21,7 +21,9 @@ import dnb_form_row_theme_ui from '../style/themes/dnb-form-row-theme-ui.scss' /
 const props = fakeProps(require.resolve('../FormRow'), {
   optional: true
 })
+props.id = 'form-row'
 props.direction = 'horizontal'
+props.label_direction = 'horizontal'
 
 describe('FormRow component', () => {
   const Comp = mount(<Component {...props} />)
@@ -37,11 +39,23 @@ describe('FormRow component', () => {
     ).toBe(true)
   })
 
-  it('should have correct size class', () => {
-    const Comp = mount(<Component {...props} size="large" />)
+  it('should have correct indent class', () => {
+    const Comp = mount(<Component {...props} indent="large" />)
     expect(
-      Comp.find('.dnb-form-row').hasClass('dnb-form-row__size--large')
+      Comp.find('.dnb-form-row').hasClass('dnb-form-row__indent--large')
     ).toBe(true)
+  })
+
+  it('should using formset and legend by default', () => {
+    expect(Comp.find('fieldset').exists()).toBe(true)
+    expect(Comp.find('legend').exists()).toBe(true)
+  })
+
+  it('should using formset and legend by default', () => {
+    const Comp = mount(<Component {...props} no_fieldset />)
+    expect(Comp.find('label').exists()).toBe(true)
+    expect(Comp.find('fieldset').exists()).toBe(false)
+    expect(Comp.find('legend').exists()).toBe(false)
   })
 
   it('should validate with ARIA rules', async () => {

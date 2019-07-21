@@ -7,7 +7,16 @@ import React /* , { useState, useEffect } */ from 'react'
 import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
 
-import { Checkbox, Radio, FormLabel, FormRow } from '../../src/components'
+import { H2 } from '../../src/elements'
+import AllComponents from '../../src/components/form-row/AllComponents'
+
+import {
+  Checkbox,
+  Radio,
+  Input,
+  FormLabel,
+  FormRow
+} from '../../src/components'
 
 const Center = styled.div`
   display: flex;
@@ -21,9 +30,75 @@ export default [
   'FormRow',
   () => (
     <Center>
-      <Wrapper>
+      <Wrapper showOverflow>
+        <H2 bottom="small">Combine vertical and horizontal</H2>
         <Box>
-          <FormRow direction="horizontal" size="default">
+          <FormRow label="Vertical legend:" vertical>
+            <Input label="Vertical input A" />
+            <Input label="Vertical input B" top="medium" />
+            <FormRow
+              // label="Horizontal legend:"
+              // direction="horizontal"
+              // indent
+              // indent_offset="medium"
+
+              vertical="false"
+              label_direction="horizontal"
+              top="medium"
+            >
+              <Input label="Horizontal input A" right="small" />
+              <Input label="Horizontal input B" />
+            </FormRow>
+            <Input label="Vertical input C" top="medium" />
+          </FormRow>
+        </Box>
+
+        <H2 bottom="small">Plain</H2>
+        <Box>
+          <AllComponents showText horizontal vertical />
+        </Box>
+
+        <H2 bottom="small">Horizontal label</H2>
+        <Box>
+          <FormRow
+            // indent
+            // indent_offset="large"
+            label="Horizontal Legend Aptent maecenas non pharetra libero massa auctor pretium vulputate vivamus:"
+            direction="horizontal"
+          >
+            <AllComponents showText horizontal />
+          </FormRow>
+        </Box>
+
+        <H2 bottom="small">Vertical direction</H2>
+        <Box>
+          <FormRow label="Vertical direction:" direction="vertical">
+            <AllComponents showText />
+          </FormRow>
+        </Box>
+
+        <H2 bottom="small">Vertical everything</H2>
+        <Box>
+          <FormRow label="Vertical everything:" vertical="true">
+            <AllComponents showText />
+          </FormRow>
+        </Box>
+
+        <H2 bottom="small">Vertical label</H2>
+        <Box>
+          <FormRow label="Vertical Legend:" label_direction="vertical">
+            <AllComponents showText horizontal />
+          </FormRow>
+        </Box>
+
+        <Box>
+          <FormRow label="Inputs legend:">
+            <Input value="Input value A ..." right="small" />
+            <Input value="Input value B ..." />
+          </FormRow>
+        </Box>
+        <Box>
+          <FormRow direction="horizontal" indent="default">
             <FormLabel for_id="alone-1">
               A long horizontal FormLabel with a lot of informative text
               and a default size:

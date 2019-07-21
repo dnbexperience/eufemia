@@ -152,7 +152,7 @@ export default class DatePickerInput extends PureComponent {
     this.onKeyUpHandler = null
   }
 
-  callOnChange = ({ startDate, endDate }, onState = null) => {
+  callOnChange = ({ startDate, endDate, event }, onState = null) => {
     if (
       typeof startDate !== 'undefined' &&
       DatePickerInput.isValidDate(startDate)
@@ -166,7 +166,8 @@ export default class DatePickerInput extends PureComponent {
       )
       if (typeof this.props.onChange === 'function') {
         this.props.onChange({
-          startDate
+          startDate,
+          event
         })
       }
     }
@@ -183,7 +184,8 @@ export default class DatePickerInput extends PureComponent {
       )
       if (typeof this.props.onChange === 'function') {
         this.props.onChange({
-          endDate
+          endDate,
+          event
         })
       }
     }
@@ -222,7 +224,8 @@ export default class DatePickerInput extends PureComponent {
     }
 
     this.callOnChange({
-      [isInRange === 'start' ? 'startDate' : 'endDate']: date
+      [isInRange === 'start' ? 'startDate' : 'endDate']: date,
+      event
     })
 
     await wait(1) // to get the correct position afterwards
@@ -352,7 +355,8 @@ export default class DatePickerInput extends PureComponent {
 
         // update the date
         this.callOnChange({
-          [`${mode}Date`]: date
+          [`${mode}Date`]: date,
+          event
         })
       }
     } catch (e) {

@@ -6,11 +6,14 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
+import Context from '../../shared/Context'
 import {
   registerElement,
   validateDOMAttributes,
-  processChildren
+  processChildren,
+  extendPropsWithContext
 } from '../../shared/component-helper'
+import { createSpacingClasses } from '../space/SpacingHelper'
 import IconPrimary from '../icon-primary/IconPrimary'
 
 const renderProps = {
@@ -67,6 +70,7 @@ export default class FormStatus extends PureComponent {
   static tagName = 'dnb-form-status'
   static propTypes = propTypes
   static defaultProps = defaultProps
+  static contextType = Context
 
   static enableWebComponent() {
     registerElement(FormStatus.tagName, FormStatus, defaultProps)
@@ -109,6 +113,12 @@ export default class FormStatus extends PureComponent {
   }
 
   render() {
+    // consume the formRow context
+    const props = this.context.formRow
+      ? // use only the props from context, who are available here anyway
+        extendPropsWithContext(this.props, this.context.formRow)
+      : this.props
+
     const {
       title,
       status: rawStatus,
@@ -122,7 +132,7 @@ export default class FormStatus extends PureComponent {
       icon_size /* eslint-disable-line */,
       children /* eslint-disable-line */,
       ...attributes
-    } = this.props
+    } = props
 
     const status = this.correctStatus(rawStatus)
     const iconToRender = FormStatus.getIcon({
@@ -141,6 +151,7 @@ export default class FormStatus extends PureComponent {
         `dnb-form-status--${status}`,
         animation ? `dnb-form-status--${animation}` : null,
         hasStringContent ? 'dnb-form-status--has-content' : null,
+        createSpacingClasses(props),
         className,
         _className
       ),

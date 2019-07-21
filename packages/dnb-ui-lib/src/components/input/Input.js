@@ -18,7 +18,9 @@ import {
   pickRenderProps,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
-import { isIE11 } from '../../shared/helpers'
+import { createSpacingClasses } from '../space/SpacingHelper'
+
+import Context from '../../shared/Context'
 
 const renderProps = {
   on_change: null,
@@ -35,6 +37,7 @@ export const propTypes = {
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   id: PropTypes.string,
   label: PropTypes.string,
+  label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
   status: PropTypes.string,
   input_state: PropTypes.string,
   status_state: PropTypes.string,
@@ -87,6 +90,7 @@ export const defaultProps = {
   value: null,
   id: null,
   label: null,
+  label_direction: null,
   status: null,
   input_state: null,
   status_state: 'error',
@@ -128,6 +132,7 @@ export default class Input extends PureComponent {
   static propTypes = propTypes
   static defaultProps = defaultProps
   static renderProps = renderProps
+  static contextType = Context
 
   static enableWebComponent() {
     registerElement(Input.tagName, Input, defaultProps)
@@ -141,9 +146,6 @@ export default class Input extends PureComponent {
       value !== state.value
     ) {
       state.value = value
-    }
-    if (props.disabled) {
-      state.inputState = 'disabled'
     }
     if (props.input_state) {
       state.inputState = props.input_state
@@ -159,11 +161,16 @@ export default class Input extends PureComponent {
 
   state = { inputState: 'virgin', value: null }
 
-  constructor(props) {
+  constructor(props, context) {
     super(props)
 
     this._ref = React.createRef()
-    this._id = props.id || `dnb-input-${Math.round(Math.random() * 999)}` // cause we need an id anyway
+    this._id =
+      props.id ||
+      (context.formRow &&
+        typeof context.formRow.useId === 'function' &&
+        context.formRow.useId()) ||
+      `dnb-input-${Math.round(Math.random() * 999)}` // cause we need an id anyway
 
     // make sure we dont trigger getDerivedStateFromProps on startup
     this.state._listenForPropChanges = true
@@ -223,6 +230,7 @@ export default class Input extends PureComponent {
       type,
       size,
       label,
+      label_direction,
       status,
       status_state,
       status_animation,
@@ -251,24 +259,35 @@ export default class Input extends PureComponent {
       ...attributes
     } = props
 
-    const { value, inputState } = this.state
+    let { value, inputState } = this.state
+
+    if (disabled) {
+      inputState = 'disabled'
+    }
 
     const id = this._id
     const showStatus = status && status !== 'error'
     const hasSubmitButton = submitButton || type === 'search'
 
-    const classes = classnames(
-      'dnb-input',
-      `dnb-input--${type}`, //type_modifier
-      size && `dnb-input--${size}`,
-      hasSubmitButton && 'dnb-input--has-submit-button',
-      align && `dnb-input__align--${align}`,
-      showStatus && 'dnb-input__form-status',
-      status && `dnb-input__status--${status_state}`,
-      isTrue(stretch) && `dnb-input--stretch`,
-      _className,
-      className
-    )
+    const mainParams = {
+      className: classnames(
+        'dnb-input',
+        `dnb-input--${type}`, //type_modifier
+        size && `dnb-input--${size}`,
+        hasSubmitButton && 'dnb-input--has-submit-button',
+        align && `dnb-input__align--${align}`,
+        status && `dnb-input__status--${status_state}`,
+        label_direction && `dnb-input--${label_direction}`,
+        isTrue(stretch) && `dnb-input--stretch`,
+        createSpacingClasses(props),
+        _className,
+        className
+      )
+    }
+
+    const clampParams = {
+      className: 'dnb-input__inner'
+    }
 
     // pass along all props we wish to have as params
     let { inputElement: InputElement, ...renderProps } = pickRenderProps(
@@ -283,7 +302,7 @@ export default class Input extends PureComponent {
       value: value || '',
       type,
       id,
-      disabled,
+      disabled: isTrue(disabled),
       name: id,
       ...attributes,
       onChange: this.onChangeHandler,
@@ -312,7 +331,7 @@ export default class Input extends PureComponent {
       'data-input-state': inputState,
       'data-has-content': String(value || '').length > 0 ? 'true' : 'false'
     }
-    if (disabled) {
+    if (isTrue(disabled)) {
       shellParams['aria-disabled'] = true
     }
 
@@ -327,47 +346,60 @@ export default class Input extends PureComponent {
     }
 
     return (
-      <>
+      <span {...mainParams}>
         {label && (
           <FormLabel
             id={id + '-label'}
             for_id={id}
             text={label}
             disabled={disabled}
+            direction={label_direction}
           />
         )}
-        <span className={classes}>
-          <span className="dnb-input__shell" {...shellParams}>
-            {InputElement || <input ref={this._ref} {...inputParams} />}
+        <span {...clampParams}>
+          <span className="dnb-input__row">
+            <span className="dnb-input__shell" {...shellParams}>
+              {InputElement || <input ref={this._ref} {...inputParams} />}
 
-            {placeholder && !isIE11 && (
+              {placeholder && (
+                <span
+                  aria-hidden
+                  className={classnames(
+                    'dnb-input__placeholder',
+                    align ? `dnb-input__align--${align}` : null
+                  )}
+                >
+                  {placeholder}
+                </span>
+              )}
+            </span>
+
+            {hasSubmitButton &&
+              (submitButton ? (
+                submitButton
+              ) : (
+                <SubmitButton
+                  {...attributes}
+                  value={inputParams.value}
+                  icon={submit_button_icon}
+                  icon_size={size === 'large' ? 'medium' : size}
+                  title={submit_button_title}
+                  variant={submit_button_variant}
+                  disabled={disabled}
+                  size={size}
+                  on_submit={on_submit}
+                />
+              ))}
+
+            {this.props.description && (
               <span
-                aria-hidden
-                className={classnames(
-                  'dnb-input__placeholder',
-                  align ? `dnb-input__align--${align}` : null
-                )}
+                className="dnb-input__description"
+                id={id + '-description'} // used for "aria-describedby"
               >
-                {placeholder}
+                {this.props.description}
               </span>
             )}
           </span>
-
-          {hasSubmitButton &&
-            (submitButton ? (
-              submitButton
-            ) : (
-              <SubmitButton
-                {...attributes}
-                value={inputParams.value}
-                icon={submit_button_icon}
-                icon_size={size === 'large' ? 'medium' : size}
-                title={submit_button_title}
-                variant={submit_button_variant}
-                disabled={disabled}
-                size={size}
-              />
-            ))}
 
           {showStatus && (
             <FormStatus
@@ -378,16 +410,7 @@ export default class Input extends PureComponent {
             />
           )}
         </span>
-
-        {this.props.description && (
-          <span
-            className="dnb-input__description"
-            id={id + '-description'} // used for "aria-describedby"
-          >
-            {this.props.description}
-          </span>
-        )}
-      </>
+      </span>
     )
   }
 }

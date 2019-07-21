@@ -7,14 +7,49 @@ import React /* , { useState, useEffect } */ from 'react'
 import { Wrapper, Box } from '../helpers'
 // import styled from '@emotion/styled'
 
-import { Textarea } from '../../src/components'
+import { Textarea, FormRow } from '../../src/components'
 
 export default [
   'Textarea',
   () => (
     <Wrapper className="dnb-spacing">
       <Box>
+        <FormRow label_direction="vertical" label="Legend:">
+          <Textarea
+            label="Vertical label:"
+            value="Nec litora inceptos vestibulum id interdum donec gravida nostra
+            lacinia bibendum hendrerit porttitor volutpat nam duis nisl
+            scelerisque sapien erat"
+            right="small"
+          />
+          <Textarea
+            label="Vertical label:"
+            value="Nec litora inceptos vestibulum id interdum donec gravida nostra
+            lacinia bibendum hendrerit porttitor volutpat nam duis nisl
+            scelerisque sapien erat"
+          />
+        </FormRow>
+      </Box>
+      <Box>
+        <FormRow vertical label="Legend:">
+          <Textarea
+            label="Vertical:"
+            value="Nec litora inceptos vestibulum id interdum donec gravida nostra
+            lacinia bibendum hendrerit porttitor volutpat nam duis nisl
+            scelerisque sapien erat"
+          />
+          <Textarea
+            top="small"
+            label="Vertical:"
+            value="Nec litora inceptos vestibulum id interdum donec gravida nostra
+            lacinia bibendum hendrerit porttitor volutpat nam duis nisl
+            scelerisque sapien erat"
+          />
+        </FormRow>
+      </Box>
+      <Box>
         <Textarea
+          bottom="4"
           label="Label:"
           rows="5"
           cols="33"
@@ -71,6 +106,26 @@ export default [
           status="Message to the user"
         />
         <p className="dnb-p">I have still to be on the grid!</p>
+      </Box>
+      <Box>
+        <Textarea
+          stretch
+          label="Stretched label:"
+          // label_direction="vertical"
+          value="Nec litora inceptos vestibulum id interdum donec gravida nostra
+              lacinia bibendum hendrerit porttitor volutpat nam duis nisl
+              scelerisque sapien erat"
+        />
+      </Box>
+      <Box>
+        <Textarea
+          stretch
+          label="Stretched label:"
+          label_direction="vertical"
+          value="Nec litora inceptos vestibulum id interdum donec gravida nostra
+              lacinia bibendum hendrerit porttitor volutpat nam duis nisl
+              scelerisque sapien erat"
+        />
       </Box>
       <Box>
         <Textarea

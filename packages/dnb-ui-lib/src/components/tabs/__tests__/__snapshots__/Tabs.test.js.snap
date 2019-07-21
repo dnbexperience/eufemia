@@ -102,6 +102,7 @@ exports[`Tabs component have to match snapshot 1`] = `
                 onClick={[Function]}
                 role="tab"
                 tabIndex="-1"
+                type="button"
               >
                 <span
                   className="dnb-tablink-title"
@@ -126,6 +127,7 @@ exports[`Tabs component have to match snapshot 1`] = `
                 onClick={[Function]}
                 role="tab"
                 tabIndex="-1"
+                type="button"
               >
                 <span
                   className="dnb-tablink-title"
@@ -149,6 +151,7 @@ exports[`Tabs component have to match snapshot 1`] = `
                 onClick={[Function]}
                 role="tab"
                 tabIndex="-1"
+                type="button"
               >
                 <span
                   className="dnb-tablink-title"
@@ -345,6 +348,7 @@ exports[`Tabs scss have to match snapshot 1`] = `
       outline: none; }
       html[data-whatinput='keyboard'] .dnb-tabs__tabs__tablist:focus {
         box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
+        /* IE11 fix */
         border-color: transparent; }
   .dnb-tabs__tabs--left .dnb-tabs__tabs__tablist {
     justify-content: flex-start; }
@@ -352,7 +356,8 @@ exports[`Tabs scss have to match snapshot 1`] = `
     justify-content: flex-end; }
   .dnb-tabs__tabs--center .dnb-tabs__tabs__tablist {
     justify-content: center; }
-  .dnb-tabs__tabs .dnb-tablink {
+  .dnb-tabs__tabs .dnb-tablink,
+  .dnb-core-style .dnb-tabs__tabs .dnb-tablink {
     position: relative;
     z-index: 1;
     margin: 0;
@@ -364,16 +369,19 @@ exports[`Tabs scss have to match snapshot 1`] = `
     cursor: pointer;
     outline: none;
     border: none; }
-    .dnb-tabs__tabs .dnb-tablink-title {
+    .dnb-tabs__tabs .dnb-tablink-title,
+    .dnb-core-style .dnb-tabs__tabs .dnb-tablink-title {
       font-size: var(--font-size-default);
       white-space: nowrap; }
-    .dnb-tabs__tabs .dnb-tablink > span[hidden] {
+    .dnb-tabs__tabs .dnb-tablink > span[hidden],
+    .dnb-core-style .dnb-tabs__tabs .dnb-tablink > span[hidden] {
       display: flex;
       flex-direction: column;
       height: 0;
       visibility: hidden;
       overflow: hidden; }
-    .dnb-tabs__tabs .dnb-tablink::after {
+    .dnb-tabs__tabs .dnb-tablink::after,
+    .dnb-core-style .dnb-tabs__tabs .dnb-tablink::after {
       content: '';
       position: absolute;
       z-index: -1;

@@ -7,11 +7,13 @@ module.exports = {
         targets: {
           browsers: ['last 2 versions', 'explorer >= 11']
         },
-        useBuiltIns: 'entry'
+        useBuiltIns: 'usage',
+        corejs: 2
       }
     ],
     '@babel/preset-react'
   ],
+  sourceType: 'unambiguous', // we need to set this, once we define: "useBuiltIns: 'usage'"
   sourceMaps: true,
   ignore: ['node_modules/**'],
   plugins: [

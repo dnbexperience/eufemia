@@ -11,8 +11,8 @@ import {
   ToggleButton,
   // Button,
   // FormSet,
-  FormRow
-  // FormLabel
+  FormRow,
+  FormLabel
 } from '../../src/components'
 
 import { H2 } from '../../src/elements'
@@ -21,6 +21,32 @@ export default [
   'ToggleButton',
   () => (
     <Wrapper>
+      <Box>
+        <FormRow
+          indent
+          label="Horizontal Legend Aptent maecenas non pharetra libero massa auctor pretium vulputate vivamus:"
+          indent_offset="m-large"
+        >
+          <ToggleButton.Group label="Group A label:">
+            <ToggleButton text="First" value="first" />
+            <ToggleButton text="Second" value="second" />
+            <ToggleButton text="Third" value="third" />
+            <ToggleButton text="Third" value="third" />
+            <ToggleButton text="Third" value="third" />
+            <ToggleButton text="Third" value="third" />
+            <ToggleButton text="Third" value="third" />
+          </ToggleButton.Group>
+          <ToggleButton.Group label="Group B label:">
+            <ToggleButton text="First" value="first" />
+            <ToggleButton text="Second" value="second" />
+            <ToggleButton text="Third" value="third" />
+            <ToggleButton text="Third" value="third" />
+            <ToggleButton text="Third" value="third" />
+            <ToggleButton text="Third" value="third" />
+            <ToggleButton text="Third" value="third" />
+          </ToggleButton.Group>
+        </FormRow>
+      </Box>
       <Box>
         <p className="dnb-p">
           Text:{' '}
@@ -46,7 +72,6 @@ export default [
           <ToggleButton
             checked
             label="Label"
-            label_position="right"
             variant="radio"
             icon_position="right"
             // icon="bell"
@@ -60,12 +85,15 @@ export default [
           />
         </p>
       </Box>
-      {/* <Box>
-        <p className="dnb-p dnb-toggle-button-group">
+      <Box>
+        <p className="dnb-p">
           <FormLabel id="MyToggleButtonGroup">
             Without ToggleButton.Group:
           </FormLabel>
-          <span role="radiogroup" aria-labelledby="MyToggleButtonGroup">
+          <span
+            className="dnb-toggle-button-group"
+            aria-labelledby="MyToggleButtonGroup"
+          >
             <ToggleButton
               value="first"
               text="First"
@@ -94,13 +122,14 @@ export default [
             />
           </span>
         </p>
-      </Box> */}
+      </Box>
       <Box>
-        <FormRow size no_label>
+        <FormRow indent no_label>
           <H2>A h2 in a FormRow without a label</H2>
         </FormRow>
         <FormRow
-          size
+          indent
+          indent_offset="m-large"
           label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:"
         >
           <ToggleButton.Group
@@ -120,12 +149,16 @@ export default [
             <ToggleButton text="First" value="first" />
             <ToggleButton text="Second" value="second" checked />
             <ToggleButton text="Third" value="third" checked />
+            <ToggleButton text="Third" value="third" checked />
+            <ToggleButton text="Third" value="third" checked />
+            <ToggleButton text="Third" value="third" checked />
           </ToggleButton.Group>
         </FormRow>
       </Box>
       <Box>
         <FormRow
-          size
+          indent
+          indent_offset="m-large"
           label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:"
         >
           <ToggleButton.Group
@@ -152,7 +185,7 @@ export default [
       </Box>
       <Box>
         <ToggleButton.Group
-          label="Vertical group:"
+          label="Column group:"
           layout_direction="column"
         >
           <ToggleButton text="First" value="first" />
@@ -164,7 +197,8 @@ export default [
         <ToggleButton.Group
           label="Vertical group with error:"
           layout_direction="column"
-          vertical="true"
+          label_direction="vertical"
+          // vertical="true"
           status="Error message Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
         >
           <ToggleButton text="First" value="first" />
@@ -177,22 +211,9 @@ export default [
           label="Group with error:"
           status="Error message Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
         >
-          <ToggleButton
-            // label_position="left"
-            text="First"
-            value="first"
-          />
-          <ToggleButton
-            // label_position="left"
-            text="Second"
-            value="second"
-          />
-          <ToggleButton
-            // label_position="left"
-            text="Third"
-            value="third"
-            checked
-          />
+          <ToggleButton text="First" value="first" />
+          <ToggleButton text="Second" value="second" />
+          <ToggleButton text="Third" value="third" checked />
         </ToggleButton.Group>
       </Box>
       <Box>
@@ -222,6 +243,7 @@ export default [
           status="Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
           variant="checkbox"
           checked
+          top="small"
         />
       </Box>
       <Box>
@@ -235,6 +257,7 @@ export default [
           checked
           variant="radio"
           status="Error message Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
+          top="small"
         />
       </Box>
       <Box>
@@ -250,6 +273,7 @@ export default [
           variant="checkbox"
           status="Error message Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
           status_state="info"
+          top="small"
         />
       </Box>
     </Wrapper>

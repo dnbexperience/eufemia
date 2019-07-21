@@ -25,6 +25,7 @@ props.id = 'dropdown-id'
 props.status = 'status'
 props.status_state = 'error'
 props.direction = 'bottom'
+props.label_direction = 'horizontal'
 props.selected_item = 2
 
 const mockData = [
@@ -94,8 +95,8 @@ describe('Dropdown component', () => {
 
   it('has correct selected_item on key search', () => {
     Comp.find('button').simulate('mousedown')
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 66 }))
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 70 }))
+    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 66 })) // B
+    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 70 })) // F
     // Comp.find('button').simulate('keyDown', {
     //   key: 'B',
     //   keyCode: 66
@@ -106,6 +107,53 @@ describe('Dropdown component', () => {
     //   keyCode: 70
     // })
     expect(Comp.state().active_item).toBe(2)
+  })
+
+  it('has valid on_select callback', () => {
+    const on_select = jest.fn()
+    const on_change = jest.fn()
+
+    const Comp = mount(
+      <Component
+        {...props}
+        data={mockData}
+        on_select={on_select}
+        on_change={on_change}
+      />
+    )
+
+    // open first
+    Comp.find('button').simulate('keydown', { key: 'Enter', keyCode: 13 })
+
+    // then simulate changes
+    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 32 })) // space
+    const notChangedItem = mockData[props.selected_item]
+    expect(on_change.mock.calls[0][0].data).toBe(notChangedItem)
+
+    // open again
+    Comp.find('button').simulate('mousedown')
+
+    // then simulate changes
+    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 40 })) // down
+    const selectedItem = mockData[props.selected_item + 1]
+    expect(on_select.mock.calls[1][0].data).toBe(selectedItem) // second call!
+  })
+
+  it('has valid on_change callback', () => {
+    const on_change = jest.fn()
+    const Comp = mount(
+      <Component {...props} data={mockData} on_change={on_change} />
+    )
+
+    // open first
+    Comp.find('button').simulate('keydown', { key: 'Space', keyCode: 32 })
+
+    // then simulate changes
+    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 40 })) // down
+    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 13 })) // enter
+
+    const selectedItem = mockData[props.selected_item + 1]
+    expect(on_change.mock.calls[0][0].data).toBe(selectedItem)
   })
 
   it('has correct state after "esc" key', () => {

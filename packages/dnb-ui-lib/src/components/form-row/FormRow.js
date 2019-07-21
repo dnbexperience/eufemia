@@ -16,6 +16,7 @@ import {
 } from '../../shared/component-helper'
 import Context from '../../shared/Context'
 import FormLabel from '../form-label/FormLabel'
+import { createSpacingClasses } from '../space/SpacingHelper'
 
 const renderProps = {
   render_content: null
@@ -24,17 +25,22 @@ const renderProps = {
 export const propTypes = {
   id: PropTypes.string,
   label: PropTypes.string,
+  label_direction: PropTypes.oneOf(['vertical', 'horizontal']),
   label_id: PropTypes.string,
   no_label: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  size: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  no_fieldset: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  indent: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  wrap: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   direction: PropTypes.oneOf(['vertical', 'horizontal']),
   vertical: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  indent_offset: PropTypes.string,
   section_style: PropTypes.string,
   section_spacing: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   class: PropTypes.string,
 
   /** React props */
+  skipContentWrapperIfNested: PropTypes.bool,
   className: PropTypes.string,
   children: PropTypes.oneOfType([
     PropTypes.string,
@@ -49,17 +55,22 @@ export const propTypes = {
 export const defaultProps = {
   id: null,
   label: null,
+  label_direction: null,
   label_id: null,
   no_label: false,
-  size: null,
+  no_fieldset: null,
+  indent: null,
+  wrap: null,
   direction: null,
   vertical: null,
+  indent_offset: null,
   section_style: null,
   section_spacing: null,
   disabled: null,
   class: null,
 
   /** React props */
+  skipContentWrapperIfNested: false,
   className: null,
   children: null,
 
@@ -101,11 +112,54 @@ export default class FormRow extends PureComponent {
     return { label, children }
   }
 
-  constructor(props) {
+  constructor(props, context) {
     super(props)
+    this.isInsideFormSet =
+      context.formRow && context.formRow.isInsideFormSet
     this._id =
       props.id || `dnb-form-row-${Math.round(Math.random() * 999)}` // cause we need an id anyway
   }
+
+  // TODO: remove the auto indent offset detection
+  // this._contentRef = React.createRef()
+  // componentDidMount() {
+  //   this.setLabelOffset()
+  // }
+  // componentWillUnmount() {
+  //   clearTimeout(this.contentSizeDelay)
+  // }
+  // setLabelOffset() {
+  //   clearTimeout(this.contentSizeDelay)
+  //   this.contentSizeDelay = setTimeout(() => {
+  //     const { label, vertical, direction, indent_offset } = this.props
+  //     if (
+  //       (label,
+  //       !isTrue(vertical) &&
+  //         direction !== 'vertical' &&
+  //         indent_offset === 'auto' &&
+  //         this._contentRef.current)
+  //     ) {
+  //       try {
+  //         const height = this._contentRef.current.offsetHeight
+  //         const restBoundingBoxHeight = 12
+  //         const pixelsToMove =
+  //           height - (height / 2 - restBoundingBoxHeight)
+  //         let rem = pixelsToMove / 16
+  //
+  //         // // beaucse we don't have components witch needs heigher than that
+  //         // // e.g. <Input size="large" has a label centered to that value
+  //         // if (rem > 2.25) {
+  //         //   rem = 2.25
+  //         // }
+  //
+  //         this._contentRef.current.style.marginTop = `-${rem}rem`
+  //         // console.warn('setLabelOffset', rem)
+  //       } catch (e) {
+  //         console.log('Error on setLabelOffset', e)
+  //       }
+  //     }
+  //   }, 1)
+  // }
 
   render() {
     // consume the formRow context
@@ -116,17 +170,22 @@ export default class FormRow extends PureComponent {
 
     let {
       label,
+      label_direction,
       label_id,
+      no_fieldset,
       no_label,
-      size,
+      indent,
       direction,
       vertical,
+      indent_offset,
       section_style,
       section_spacing,
       disabled,
+      wrap,
       id: _id, // eslint-disable-line
       className,
       class: _className,
+      skipContentWrapperIfNested,
 
       ...attributes
     } = props
@@ -146,14 +205,25 @@ export default class FormRow extends PureComponent {
         'dnb-form-row',
         (isTrue(vertical) || direction) &&
           `dnb-form-row--${isTrue(vertical) ? 'vertical' : direction}`,
-        size && `dnb-form-row__size--${isTrue(size) ? 'default' : size}`,
-        isNested && `dnb-form-row--nested`,
+        (isTrue(vertical) || label_direction) &&
+          `dnb-form-row--${
+            isTrue(vertical) ? 'vertical' : label_direction
+          }-label`,
+        indent &&
+          !(
+            isNested &&
+            this.context.formRow.hasLabel &&
+            this.context.formRow.indent
+          ) &&
+          `dnb-form-row__indent--${isTrue(indent) ? 'default' : indent}`,
+        isNested && 'dnb-form-row--nested',
         section_style ? `dnb-section dnb-section--${section_style}` : null,
         section_spacing
           ? `dnb-section--spacing-${
               isTrue(section_spacing) ? 'default' : section_spacing
             }`
           : null,
+        createSpacingClasses(props),
         className,
         _className
       ),
@@ -165,40 +235,100 @@ export default class FormRow extends PureComponent {
 
     const context = extend(this.context, {
       formRow: {
+        useId: () => {
+          if (this.isIsUsed) {
+            // make a new ID, as we used one
+            return `dnb-form-row-${Math.round(Math.random() * 999)}` // cause we need an id anyway
+          }
+          this.isIsUsed = true
+          return id
+        },
         itsMeAgain: true,
         hasLabel: label,
-        size,
+        indent,
         direction,
         vertical,
+        // label_direction,
+        label_direction: isTrue(vertical) ? 'vertical' : label_direction,
         disabled
       }
     })
 
+    const useFieldset = !isTrue(no_fieldset)
+
+    // TODO: remove the auto indent offset detection
+    // this.setLabelOffset()
+
     return (
       <Context.Provider value={context}>
-        <div {...params}>
-          {label && (
-            <FormLabel
-              id={(label_id ? label_id : id) + '-label'}
-              // for_id={id} // we don't use for_id, because we don't have a single element to target to
-              text={label}
-              disabled={isTrue(disabled)}
-              className="dnb-form-row__label"
-            />
-          )}
-          {isTrue(no_label) && (
-            <span
-              className="dnb-form-label dnb-form-row__label-dummy"
-              aria-hidden
-            />
-          )}
-          {isNested ? (
-            children
-          ) : (
-            <div className="dnb-form-row__content">{children}</div>
-          )}
-        </div>
+        <Fieldset useFieldset={label && useFieldset}>
+          <div {...params}>
+            {label && (
+              <FormLabel
+                className="dnb-form-row__label"
+                id={(label_id ? label_id : id) + '-label'}
+                for_id={!useFieldset ? id : null} // we don't use for_id, because we don't have a single element to target to
+                text={label}
+                element={!useFieldset ? 'label' : 'legend'}
+                direction={label_direction}
+                disabled={isTrue(disabled)}
+              />
+            )}
+            {isTrue(no_label) && (
+              <span
+                className="dnb-form-label dnb-form-row__label-dummy"
+                aria-hidden
+              />
+            )}
+            {isNested && skipContentWrapperIfNested ? (
+              children
+            ) : (
+              <div
+                className={classnames(
+                  'dnb-form-row__content',
+                  isTrue(wrap) && 'dnb-form-row__content--wrap',
+                  label &&
+                    !isTrue(vertical) &&
+                    direction !== 'vertical' &&
+                    `dnb-form-row__content--${indent_offset || 'default'}`
+                )}
+                ref={this._contentRef}
+              >
+                {children}
+              </div>
+            )}
+          </div>
+        </Fieldset>
       </Context.Provider>
     )
   }
+}
+
+const Fieldset = ({ useFieldset, className, children, ...props }) => {
+  if (useFieldset) {
+    return (
+      <fieldset
+        className={classnames('dnb-form-row__fieldset', className)}
+        {...props}
+      >
+        {children}
+      </fieldset>
+    )
+  }
+  return (
+    <div className={className} {...props}>
+      {children}
+    </div>
+  )
+}
+
+// docs (or use ptd): https://github.com/facebook/prop-types#usage
+Fieldset.propTypes = {
+  children: PropTypes.node.isRequired,
+  useFieldset: PropTypes.bool,
+  className: PropTypes.string
+}
+Fieldset.defaultProps = {
+  useFieldset: false,
+  className: null
 }

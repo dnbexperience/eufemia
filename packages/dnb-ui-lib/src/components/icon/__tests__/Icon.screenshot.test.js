@@ -17,8 +17,14 @@ describe('Icon screenshot', () => {
       pixelThresholdRelative: isCI ? 0.1 : 0
     }
   })
+  const style = {
+    // Flex makes the pixel height 100% correct
+    display: 'flex',
+    'align-items': 'center'
+  }
   it('have to match responsive icons', async () => {
     const screenshot = await testPageScreenshot({
+      style,
       selector: '[data-dnb-test="icon-medium"]'
     })
     expect(screenshot).toMatchImageSnapshot()

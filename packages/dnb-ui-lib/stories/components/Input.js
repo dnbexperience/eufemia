@@ -7,7 +7,14 @@ import React /* , { useState, useEffect } */ from 'react'
 import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
 
-import { Input, InputMasked, Button } from '../../src/components'
+import {
+  Input,
+  InputMasked,
+  Button,
+  FormSet,
+  FormRow,
+  FormLabel
+} from '../../src/components'
 
 const CustomStyle = styled.div`
   p {
@@ -21,6 +28,55 @@ export default [
     <CustomStyle>
       <Wrapper>
         <Box>
+          <FormSet>
+            <FormRow
+              indent
+              indent_offset="x-large"
+              wrap
+              label="Long label labwl Adipiscing mauris dis proin nec Condimentum egestas class blandit netus non a suscipit id urna:"
+            >
+              <Input label="Input A:" top="small" right="small" />
+              <Input label="Input B:" top="small" right="small" />
+              <Input label="Input C:" top="small" right="small" />
+            </FormRow>
+          </FormSet>
+        </Box>
+        <Box>
+          <FormRow
+            label="Vertical label:"
+            label_direction="vertical"
+            // vertical
+          >
+            <Input label="Input label A:" right="small" />
+            <Input label="Input label B:" />
+          </FormRow>
+        </Box>
+        <Box>
+          <FormSet direction="vertical">
+            <FormRow label="Legend:">
+              <Input label="Vertical 1:" />
+              <Input label="Vertical 2:" stretch top="small" />
+            </FormRow>
+          </FormSet>
+        </Box>
+        <Box>
+          <FormSet vertical>
+            <FormRow label="Legend:">
+              <Input label="Vertical 1:" />
+              <Input label="Vertical 2:" stretch top="small" />
+            </FormRow>
+          </FormSet>
+        </Box>
+        <Box>
+          <Input
+            label="Vertical label:"
+            value="Stretch me ..."
+            stretch
+            label_direction="vertical"
+          />
+        </Box>
+        <Box>
+          Text
           <Input
             selectall
             label="Label:"
@@ -30,21 +86,34 @@ export default [
           >
             Input ...
           </Input>
+          Text
+        </Box>
+        <Box>
+          Text
+          <FormLabel>FormLabel:</FormLabel>
+          <Input>Input ...</Input>
+          Text
         </Box>
         <Box>
           <p className="dnb-p">
-            <Input label="ReadOnly:" value="Placeholder ..." readOnly />
+            <Input
+              label="ReadOnly:"
+              placeholder="Placeholder ..."
+              readOnly
+            />
           </p>
         </Box>
         <Box>
           <Input
             label="Search:"
             type="search"
+            align="right"
             stretch
             submit_button_title="Search"
             placeholder="Search text placeholder"
           />
           <Input
+            label="Search:"
             size="large"
             type="search"
             align="right"
@@ -52,8 +121,10 @@ export default [
             placeholder="Large input with right aligned text"
           />
           <Input
+            label="Search:"
             size="medium"
             type="search"
+            align="right"
             stretch
             placeholder="Large input with right aligned text"
           />

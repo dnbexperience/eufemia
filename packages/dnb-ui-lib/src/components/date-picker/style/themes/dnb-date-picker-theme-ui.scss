@@ -146,10 +146,12 @@
   }
 
   /* stylelint-disable */
-  &:not(#{&}--opened)#{&}__status--error
+  &__status--error
+    &:not(#{&}--opened)
     .dnb-input__shell:not([data-input-state='focus'])
     &__input,
-  &:not(#{&}--opened)#{&}__status--error
+  &__status--error
+    &:not(#{&}--opened)
     .dnb-input__shell:not([data-input-state='focus'])
     &__input
     ~ &--separator {

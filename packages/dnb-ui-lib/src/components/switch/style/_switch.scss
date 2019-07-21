@@ -12,12 +12,17 @@
 .dnb-switch {
   display: inline-flex;
   flex-direction: column;
-  vertical-align: middle; // just to center, in case we dont have provided a internal label
 
-  width: auto;
-
-  margin: 0;
-  padding: 0;
+  &__inner {
+    display: inline-flex;
+    flex-direction: column;
+  }
+  &__helper {
+    clip: rect(0, 0, 0, 0);
+    width: 0;
+    overflow: hidden;
+    opacity: 0;
+  }
 
   &__shell {
     user-select: none;
@@ -49,11 +54,6 @@
     transform: translateX(0);
     transition: transform 160ms ease-out 125ms;
     border: var(--switch-border-width) solid transparent;
-
-    // IE fix
-    @media all and (-ms-high-contrast: none) {
-      top: -0.25rem; // because IE is not using flex to center here
-    }
   }
 
   /*
@@ -127,15 +127,19 @@
     cursor: pointer;
   }
 
-  &--label-position-left,
-  &--label-position-right {
-    display: inline-flex;
-    flex-direction: row;
-    align-items: center;
+  // label
+  .dnb-form-label {
+    margin-right: 0.5rem;
+    margin-bottom: 0;
   }
 
-  &--label-position-left {
-    .dnb-switch {
+  &__order {
+    display: inline-flex;
+    align-items: baseline;
+  }
+
+  &--label-position-left &__order {
+    .dnb-switch__inner {
       order: 2;
     }
     .dnb-form-label {
@@ -146,32 +150,36 @@
       margin-top: 0.5rem;
     }
   }
-  // correct the label
-  &__status--message#{&}--label-position-left .dnb-form-label {
-    transform: translateY(-0.25rem); // 4px
-  }
 
-  &--label-position-right {
-    // in case we have text before, or after, make sure we are aligned
-    vertical-align: middle;
-
-    .dnb-switch {
+  &--label-position-right &__order {
+    .dnb-switch__inner {
       order: 1;
     }
     .dnb-form-label {
       order: 2;
       margin-left: 1rem;
-      margin-right: 0.5rem; // because of the possible status
-
-      // to make sure we dont interupt the total height
-      // else the label will push down and increase the total height
-      line-height: 1rem;
     }
     & + .dnb-form-status {
       // in case the status did not wrap, we want to have the status on the same line
       vertical-align: bottom;
 
       margin-top: 0.5rem;
+    }
+  }
+
+  // IE fix
+  @media all and (-ms-high-contrast: none) {
+    vertical-align: text-bottom;
+
+    &__order {
+      align-items: flex-start;
+    }
+    &__input,
+    &__focus,
+    &__button {
+      top: 0;
+      bottom: 0;
+      margin: auto 0;
     }
   }
 }

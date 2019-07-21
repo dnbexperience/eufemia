@@ -21,39 +21,34 @@
     box-shadow: 100vw 0 0 0 currentColor;
   }
 
-  &--spacing-s,
   &--spacing-small {
-    padding-top: var(--spacing-s);
-    padding-bottom: var(--spacing-s);
+    padding-top: var(--spacing-small);
+    padding-bottom: var(--spacing-small);
   }
 
-  &--spacing-m,
   &--spacing-medium {
-    padding-top: var(--spacing-m);
-    padding-bottom: var(--spacing-m);
+    padding-top: var(--spacing-medium);
+    padding-bottom: var(--spacing-medium);
   }
 
   // spacing-default
   &--spacing,
   &--spacing-default,
-  &--spacing-l,
   &--spacing-large {
-    padding-top: var(--spacing-l);
-    padding-bottom: var(--spacing-l);
+    padding-top: var(--spacing-large);
+    padding-bottom: var(--spacing-large);
   }
 
-  &--spacing-xl,
   &--spacing-x-large {
-    padding-top: var(--spacing-xl);
+    padding-top: var(--spacing-x-large);
     // larger than top
-    padding-bottom: var(--spacing-xxl);
+    padding-bottom: var(--spacing-xx-large);
   }
 
-  &--spacing-xxl,
   &--spacing-xx-large {
-    padding-top: var(--spacing-xxl);
+    padding-top: var(--spacing-xx-large);
     // larger than top
-    padding-bottom: calc(var(--spacing-xxl) + var(--spacing-s));
+    padding-bottom: calc(var(--spacing-xx-large) + var(--spacing-small));
   }
 }
 

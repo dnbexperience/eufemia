@@ -36,13 +36,19 @@
       var(--color-sea-green-alt);
 
   @include textareaStyleCommon();
+  @include numberFeature(lining-nums, lnum);
 }
 
 .dnb-textarea {
   display: inline-flex;
-  flex-direction: column;
+  align-items: baseline;
 
-  margin: var(--textarea-padding-width);
+  &__inner {
+    display: inline-flex;
+    flex-direction: column;
+
+    margin: var(--textarea-padding-width);
+  }
 
   &__shell {
     display: inline-flex;
@@ -84,8 +90,36 @@
     opacity: 0.5;
   }
 
-  &__form-status .dnb-form-status {
+  &[class*='__status'] .dnb-form-status {
     margin: 1rem 0 0 calc(1px - 1px - var(--textarea-padding-width));
+  }
+
+  &[class*='__status'] {
+    align-items: flex-start;
+    > .dnb-form-label {
+      // vertical align the current font
+      margin-top: 0.25rem;
+    }
+  }
+
+  &--vertical {
+    display: flex;
+    display: inline-flex;
+    flex-direction: column;
+  }
+
+  // make the input full width
+  &--stretch {
+    display: flex;
+  }
+  &--stretch & {
+    &__inner {
+      flex: 1;
+    }
+    &__shell,
+    &__textarea {
+      width: 100%;
+    }
   }
 }
 
@@ -95,33 +129,4 @@ textarea.dnb-textarea {
 
   @include textareaStyle();
   @include textareaTheme();
-
-  label + &[class*='__form-status'] {
-    vertical-align: baseline;
-  }
-}
-
-// enhance "FormRow" components styles
-.dnb-form-row {
-  // for vertical labeling
-  &--vertical {
-    // To fake, that we actuallyhave 8px between
-    > .dnb-textarea {
-      transform: translateY(2px);
-    }
-  }
-
-  // for hoizontal labeling
-  &:not(#{&}--vertical),
-  &--horizontal {
-    // To fake, that the first line is aligned with the label
-    &:not(.dnb-form-row--vertical) {
-      > .dnb-textarea {
-        transform: translateY(
-          calc(1px - 1px - var(--textarea-vertical-correction))
-        );
-        margin-top: 0;
-      }
-    }
-  }
 }

@@ -7,12 +7,15 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import keycode from 'keycode'
+import Context from '../../shared/Context'
 import {
   isTrue,
   registerElement,
   validateDOMAttributes,
-  dispatchCustomElementEvent
+  dispatchCustomElementEvent,
+  extendPropsWithContext
 } from '../../shared/component-helper'
+import { createSpacingClasses } from '../space/SpacingHelper'
 
 const renderProps = {
   render: null
@@ -80,6 +83,7 @@ export default class Tabs extends PureComponent {
   static tagName = 'dnb-tabs'
   static propTypes = propTypes
   static defaultProps = defaultProps
+  static contextType = Context
 
   static enableWebComponent() {
     registerElement(Tabs.tagName, Tabs, defaultProps)
@@ -369,6 +373,12 @@ export default class Tabs extends PureComponent {
   }
 
   render() {
+    // consume the formRow context
+    const props = this.context.formRow
+      ? // use only the props from context, who are available here anyway
+        extendPropsWithContext(this.props, this.context.formRow)
+      : this.props
+
     const {
       render: customRenderer,
       label,
@@ -383,8 +393,8 @@ export default class Tabs extends PureComponent {
       use_hash, //eslint-disable-line
       children, //eslint-disable-line
       on_change, //eslint-disable-line
-      ...props
-    } = this.props
+      ...attributes
+    } = props
 
     const { selected_key } = this.state
 
@@ -402,6 +412,7 @@ export default class Tabs extends PureComponent {
           }
           return (
             <button
+              type="button"
               key={`tab--${key}`}
               role="tab"
               tabIndex="-1"
@@ -462,8 +473,13 @@ export default class Tabs extends PureComponent {
     // To have a reusable Component laster, do this like that
     const Wrapper = ({ children, ...rest }) => {
       const params = {
-        ...props,
-        className: classnames('dnb-tabs', className, _className)
+        ...attributes,
+        className: classnames(
+          'dnb-tabs',
+          createSpacingClasses(props),
+          className,
+          _className
+        )
       }
 
       // also used for code markup simulation

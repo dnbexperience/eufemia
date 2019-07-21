@@ -16,6 +16,9 @@ import {
   detectOutsideClick,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
+import { createSpacingClasses } from '../space/SpacingHelper'
+
+import Context from '../../shared/Context'
 import Icon from '../icon-primary/IconPrimary'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
@@ -34,6 +37,7 @@ export const propTypes = {
   icon: PropTypes.string,
   icon_position: PropTypes.string,
   label: PropTypes.string,
+  label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
   status: PropTypes.string,
   status_state: PropTypes.string,
   status_animation: PropTypes.string,
@@ -90,6 +94,7 @@ export const defaultProps = {
   icon: 'chevron-left',
   icon_position: null,
   label: null,
+  label_direction: null,
   status: null,
   status_state: 'error',
   status_animation: null,
@@ -123,6 +128,7 @@ export default class Dropdown extends PureComponent {
   static propTypes = propTypes
   static defaultProps = defaultProps
   static renderProps = renderProps
+  static contextType = Context
 
   static blurDelay = 201 // some ms more than "dropdownSlideDown 200ms"
 
@@ -227,7 +233,8 @@ export default class Dropdown extends PureComponent {
       max_height: props.max_height,
       active_item: props.selected_item,
       // send selected_item in here, so we dont trigger on_state_update
-      selected_item: props.selected_item
+      selected_item: props.selected_item,
+      selectedItemHasChanged: false
     }
 
     this._ref = React.createRef()
@@ -366,7 +373,10 @@ export default class Dropdown extends PureComponent {
     return index
   }
 
-  scrollToItem(active_item, { scrollTo = true } = {}) {
+  scrollToItem(
+    active_item,
+    { fireSelectEvent = false, scrollTo = true, event = null } = {}
+  ) {
     if (!(active_item > -1)) {
       return
     }
@@ -376,6 +386,13 @@ export default class Dropdown extends PureComponent {
         _listenForPropChanges: false
       },
       () => {
+        if (fireSelectEvent) {
+          const ret = dispatchCustomElementEvent(this, 'on_select', {
+            data: Dropdown.getOptionData(active_item, this.state.data),
+            event
+          })
+          if (ret === false) return
+        }
         // try to scroll to item
         if (!this._refUl.current) return
         try {
@@ -476,11 +493,8 @@ export default class Dropdown extends PureComponent {
       case 'enter':
       case 'space':
         e.preventDefault()
-        this.selectItem(active_item, { event: e })
+        this.selectItem(active_item, { fireSelectEvent: true, event: e })
         this.setHidden()
-        dispatchCustomElementEvent(this, 'on_select', {
-          data: Dropdown.getOptionData(active_item, this.state.data)
-        })
         break
       case 'esc':
         e.preventDefault()
@@ -500,7 +514,7 @@ export default class Dropdown extends PureComponent {
     }
 
     if (active_item !== this.state.active_item) {
-      this.scrollToItem(active_item)
+      this.scrollToItem(active_item, { fireSelectEvent: true, event: e })
     }
   }
 
@@ -513,15 +527,35 @@ export default class Dropdown extends PureComponent {
     }
   }
 
-  selectItem = (selected_item, { fireSelectEvent, event = null } = {}) => {
+  selectItem = (
+    selected_item,
+    { fireSelectEvent = false, event = null } = {}
+  ) => {
+    if (
+      this.state.selected_item !== selected_item ||
+      // to make sure we call "on_change" on startup
+      this.state.selectedItemHasChanged === false
+    ) {
+      dispatchCustomElementEvent(this, 'on_change', {
+        data: Dropdown.getOptionData(selected_item, this.state.data),
+        event
+      })
+    }
     this.setState(
       {
         // Do not set "_listenForPropChanges" to false here, as it will block instant component rerender
         _isNewActiveItem: true,
+        selectedItemHasChanged: true,
         selected_item,
         active_item: selected_item
       },
       () => {
+        if (fireSelectEvent) {
+          dispatchCustomElementEvent(this, 'on_select', {
+            data: Dropdown.getOptionData(selected_item, this.state.data),
+            event
+          })
+        }
         if (this._selectTimeout) {
           clearTimeout(this._selectTimeout)
         }
@@ -533,18 +567,6 @@ export default class Dropdown extends PureComponent {
         }, 150) // only for the user experience
       }
     )
-    if (this.state.selected_item !== selected_item) {
-      dispatchCustomElementEvent(this, 'on_change', {
-        data: Dropdown.getOptionData(selected_item, this.state.data),
-        event
-      })
-    }
-    if (fireSelectEvent) {
-      dispatchCustomElementEvent(this, 'on_select', {
-        data: Dropdown.getOptionData(selected_item, this.state.data),
-        event
-      })
-    }
   }
 
   setScrollObserver() {
@@ -667,6 +689,7 @@ export default class Dropdown extends PureComponent {
     const {
       title,
       label,
+      label_direction,
       icon,
       icon_position,
       status,
@@ -705,26 +728,33 @@ export default class Dropdown extends PureComponent {
 
     const currentOptionData = Dropdown.getOptionData(selected_item, data)
 
-    const classes = classnames(
-      'dnb-dropdown',
-      icon_position && `dnb-dropdown--icon-position-${icon_position}`,
-      `dnb-dropdown--direction-${direction}`,
-      scrollable && 'dnb-dropdown--scroll',
-      isTrue(no_scroll_animation) && 'dnb-dropdown--no-scroll-animation',
-      opened && 'dnb-dropdown--opened',
-      hidden && 'dnb-dropdown--hidden',
-      showStatus && 'dnb-dropdown__form-status',
-      status && `dnb-dropdown__status--${status_state}`,
-      _className,
-      className
-    )
+    const mainParams = {
+      className: classnames(
+        'dnb-dropdown',
+        opened && 'dnb-dropdown--opened',
+        hidden && 'dnb-dropdown--hidden',
+        `dnb-dropdown--direction-${direction}`,
+        label_direction && `dnb-dropdown--${label_direction}`,
+        'dnb-dropdown',
+        icon_position && `dnb-dropdown--icon-position-${icon_position}`,
+        scrollable && 'dnb-dropdown--scroll',
+        isTrue(no_scroll_animation) && 'dnb-dropdown--no-scroll-animation',
+        status && `dnb-dropdown__status--${status_state}`,
+        showStatus && 'dnb-dropdown__form-status',
+        createSpacingClasses(props),
+        _className,
+        className
+      )
+    }
 
     // To link the selected item with the aria-labelledby, use this:
     // const selectedId = `option-${id}-${selected_item}`
     // But for now we use
     const selectedId = `dropdown-${id}-value`
     const triggerParams = {
+      type: 'button',
       className: 'dnb-dropdown__trigger',
+      id,
       title,
       ['aria-label']: title,
       ['aria-haspopup']: 'listbox',
@@ -765,16 +795,21 @@ export default class Dropdown extends PureComponent {
     validateDOMAttributes(null, ulParams)
 
     return (
-      <>
-        {label && (
+      <span {...mainParams}>
+        {(label && (
           <FormLabel
             id={id + '-label'}
             for_id={id}
             text={label}
+            direction={label_direction}
             disabled={disabled}
           />
+        )) || (
+          <span className="dnb-dropdown__helper" aria-hidden>
+            {'-'}
+          </span>
         )}
-        <span className={classes} ref={this._ref}>
+        <span className="dnb-dropdown__inner" ref={this._ref}>
           <span className="dnb-dropdown__shell">
             <button {...triggerParams}>
               <span className="dnb-dropdown__text">
@@ -875,7 +910,7 @@ export default class Dropdown extends PureComponent {
             />
           )}
         </span>
-      </>
+      </span>
     )
   }
 }

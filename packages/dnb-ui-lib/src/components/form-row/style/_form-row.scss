@@ -8,11 +8,135 @@
   --form-row-column2-start: 1fr;
   --form-row-row1-start: auto;
   --form-row-row2-start: auto; //minmax(max-content, auto)
+  --form-bounding-height: 0.25rem;
+  // --form-bounding-height: 0.625rem;
 }
 
 .dnb-form-row {
   display: flex;
-  flex-direction: row;
+  align-items: baseline;
+
+  &__content {
+    display: inline-flex;
+    flex: 1; // to help #input stretch
+    width: 100%; // to help #input stretch
+  }
+
+  // for hoizontal direction
+  &:not(#{&}--vertical) {
+    & > .dnb-form-row__content {
+      align-items: baseline;
+
+      .dnb-form-label {
+        white-space: nowrap;
+      }
+
+      &--wrap {
+        // so components gets wrapper on overflow, we use block here
+        display: block;
+      }
+
+      // TODO: We may considder to wrap horizontal direction to vertical
+      // overwrite display to be block on small screens
+      // @media (max-width: 40em) {
+      //   flex-direction: column;
+      // }
+      // justify-self: start;
+    }
+
+    &[class*='__indent'] {
+      @supports (display: grid) {
+        display: grid;
+        grid-template-columns:
+          [column1-start] var(--form-row-column1-start)
+          [column1-end column2-start] var(--form-row-column2-start)
+          [column2-end];
+        grid-template-rows:
+          [row1-start] var(--form-row-row1-start)
+          [row1-end row2-start] var(--form-row-row2-start)
+          [row2-end];
+      }
+
+      & > .dnb-form-row__content {
+        @supports (display: grid) {
+          grid-column: column2-start / column2-end;
+          grid-row: row2-start / row2-end;
+        }
+
+        // if not mobile
+        @media (min-width: 40em) {
+          &--default {
+            margin-top: -1.5rem;
+          }
+          &--x-small {
+            margin-top: calc(-0.5rem + var(--form-bounding-height));
+          }
+          &--small {
+            margin-top: calc(-1rem + var(--form-bounding-height));
+          }
+          &--medium {
+            margin-top: calc(-1.5rem + var(--form-bounding-height));
+          }
+          &--large {
+            margin-top: calc(-2rem + var(--form-bounding-height));
+          }
+          &--m-large {
+            margin-top: calc(-2.5rem + 0.625rem);
+          }
+          &--x-large {
+            margin-top: calc(-3rem + var(--form-bounding-height));
+          }
+          &--xx-large {
+            margin-top: calc(-3.5rem + var(--form-bounding-height));
+          }
+        }
+
+        // if mobile
+        @media (max-width: 40em) {
+          // use important, sice we want to overwrite the inline style "marginTop" set by "setLabelOffset"
+          margin-top: 0.5rem !important;
+        }
+      }
+
+      & > .dnb-form-label {
+        // put the label in the first column
+        @supports (display: grid) {
+          grid-column: column1-start / column1-end;
+          grid-row: row1-start / row1-end;
+        }
+
+        margin-right: 1rem;
+
+        @media (min-width: 40em) {
+          text-align: right;
+        }
+      }
+
+      // overwrite display to be block on small screens
+      @media (max-width: 40em) {
+        display: block;
+      }
+    }
+  }
+
+  // This is currently not needed
+  // &--nested#{&}:not(#{&}--vertical)#{&}:not(#{&}--vertical-label)
+  //   > .dnb-form-label {
+  //   @media (max-width: 40em) {
+  //     margin-bottom: 1rem;
+  //     margin-right: 0;
+  //   }
+  // }
+
+  // for vertical direction
+  &--vertical {
+    > .dnb-form-label {
+      margin-bottom: 0.5rem;
+    }
+  }
+  &--vertical > &__content {
+    flex-direction: column;
+  }
 
   // TODO: we may considder this to be included with a prop later on
   // default spacing
@@ -20,106 +144,45 @@
   //   margin-bottom: 1.5rem;
   // }
 
+  &--vertical-label {
+    flex-direction: column;
+  }
+
   > .dnb-form-status {
     margin: 0.5rem 0;
   }
   > .dnb-form-label {
-    margin: 0;
-  }
-
-  // for hoizontal direction
-  &:not(#{&}--vertical),
-  &--horizontal {
-    @supports (display: grid) {
-      display: grid;
-      grid-template-columns:
-        [column1-start] var(--form-row-column1-start)
-        [column1-end column2-start] var(--form-row-column2-start)
-        [column2-end];
-      grid-template-rows:
-        [row1-start] var(--form-row-row1-start) [row1-end row2-start] var(
-          --form-row-row2-start
-        )
-        [row2-end];
+    &--vertical {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
     }
-    @supports not (display: grid) {
-      align-items: flex-end;
-    }
-
-    // > * { // <-- we used this before
-    > .dnb-form-row__content {
-      grid-column: column2-start / column2-end;
-      grid-row: row2-start / row2-end;
-      justify-self: start;
-      // align-self: end;
-    }
-
-    > label,
-    > .dnb-form-label {
+    &--vertical ~ .dnb-form-row__content {
       @supports (display: grid) {
-        // put the label in the first column
         grid-column: column1-start / column1-end;
-        grid-row: row1-start / row1-end;
-
-        // move the label up in case we have several lines (use the line-height)
-        margin-bottom: -1.5rem;
-
-        @media (min-width: 40em) {
-          text-align: right;
-        }
       }
-
-      margin-right: 1rem;
-    }
-
-    // overwrite display to be block on small screens
-    @media (max-width: 40em) {
-      display: block;
     }
   }
 
-  // for vertical direction
-  &--vertical {
-    flex-direction: column;
+  &__label {
+    &-dummy {
+      margin: 0;
+    }
+  }
+
+  // reset the fieldset
+  &__fieldset,
+  .dnb-core-style &__fieldset {
+    margin: 0;
+    padding: 0;
+    border: none;
+  }
+
+  // IE fix
+  @media all and (-ms-high-contrast: none) {
     align-items: flex-start;
-
-    width: auto;
-
-    /* stylelint-disable */
-    > label,
-    > .dnb-form-label {
-      margin-bottom: 0.5rem;
+    &__content {
+      flex: auto;
     }
-    /* stylelint-enable */
-  }
-
-  // TODO: size has to be defined
-  // the width of label
-  &:not(#{&}--vertical)#{&}__size {
-    // &--small {
-    //   > .dnb-form-label {
-    //     width: 10rem;
-    //   }
-    // }
-    &--default,
-    &--medium {
-      > .dnb-form-label {
-        // because the browser screen is different
-        width: 30vw; // 30vw is very close to 20rem if the wrapper is 60rem
-        max-width: 20rem;
-
-        // a fixed with is not the best sollution
-        // width: 20rem;
-
-        @media (max-width: 40em) {
-          width: auto;
-        }
-      }
-    }
-    // &--large {
-    //   > .dnb-form-label {
-    //     width: 30rem;
-    //   }
-    // }
   }
 }

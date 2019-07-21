@@ -96,10 +96,10 @@ exports[`Modal component have to match snapshot 1`] = `
   trigger_class={null}
   trigger_disabled={null}
   trigger_hidden={false}
-  trigger_icon={null}
+  trigger_icon="question"
   trigger_icon_position="left"
   trigger_text={null}
-  trigger_title="Open Modal"
+  trigger_title="Modal"
   trigger_variant="secondary"
 >
   <div
@@ -122,17 +122,17 @@ exports[`Modal component have to match snapshot 1`] = `
       on_click={[Function]}
       size={null}
       text={null}
-      title="Open Modal"
+      title="Modal"
       type="button"
       variant="secondary"
     >
       <button
-        aria-label="Open Modal"
+        aria-label="Modal"
         className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-left dnb-button--has-icon dnb-modal__trigger"
         id="modal_id"
         onClick={[Function]}
         onMouseOut={[Function]}
-        title="Open Modal"
+        title="Modal"
         type="button"
       >
         <Content
@@ -154,12 +154,12 @@ exports[`Modal component have to match snapshot 1`] = `
           on_click={[Function]}
           size={null}
           text={null}
-          title="Open Modal"
+          title="Modal"
           type="button"
           variant="secondary"
         >
           <IconPrimary
-            alt="Open Modal"
+            alt="Modal"
             aria-hidden={false}
             attributes={null}
             class={null}
@@ -174,9 +174,9 @@ exports[`Modal component have to match snapshot 1`] = `
             width={null}
           >
             <span
-              alt="Open Modal"
+              alt="Modal"
               aria-hidden={false}
-              aria-label="Open Modal"
+              aria-label="Modal"
               className="dnb-icon dnb-icon--default dnb-button__icon"
               role="img"
             >
@@ -382,7 +382,7 @@ exports[`Modal component have to match snapshot 1`] = `
         toggleOpenClose={[Function]}
       >
         <div
-          aria-describedby="modal_content_id"
+          aria-describedby="modal_id"
           aria-labelledby="modal_id"
           aria-modal="true"
           className="dnb-modal__content"
@@ -771,6 +771,7 @@ exports[`Modal scss have to match snapshot 1`] = `
       outline: none; }
       html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
         box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
+        /* IE11 fix */
         border-color: transparent; }
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):focus,
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):active {
@@ -781,6 +782,8 @@ exports[`Modal scss have to match snapshot 1`] = `
     cursor: not-allowed; }
   button.dnb-button::-moz-focus-inner .dnb-button {
     border: none; }
+  .dnb-form-row--vertical .dnb-form-row__content > .dnb-button {
+    align-self: flex-start; }
 
 a.dnb-button[type='button'] {
   appearance: none;

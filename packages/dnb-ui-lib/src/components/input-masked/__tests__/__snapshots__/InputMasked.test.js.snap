@@ -38,6 +38,7 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
     input_class={null}
     input_state={null}
     label={null}
+    label_direction={null}
     on_blur={null}
     on_change={null}
     on_focus={null}
@@ -63,46 +64,54 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
       className="dnb-input dnb-input--text dnb-input-masked"
     >
       <span
-        className="dnb-input__shell"
-        data-has-content="true"
-        data-input-state="virgin"
+        className="dnb-input__inner"
       >
-        <t
-          autoComplete="off"
-          className="dnb-input__input"
-          guide={true}
-          id="input-masked"
-          keepCharPositions={true}
-          mask={
-            Array [
-              /\\[a-z\\]/,
-            ]
-          }
-          name="input-masked"
-          onBlur={[Function]}
-          onChange={[Function]}
-          onFocus={[Function]}
-          onKeyDown={[Function]}
-          pipe={null}
-          placeholderChar="placeholder_char"
-          render={[Function]}
-          showMask={true}
-          type="text"
-          value="test"
+        <span
+          className="dnb-input__row"
         >
-          <input
-            autoComplete="off"
-            className="dnb-input__input"
-            defaultValue="test"
-            id="input-masked"
-            name="input-masked"
-            onBlur={[Function]}
-            onChange={[Function]}
-            onFocus={[Function]}
-            onKeyDown={[Function]}
-            type="text"
-          />
-        </t>
+          <span
+            className="dnb-input__shell"
+            data-has-content="true"
+            data-input-state="virgin"
+          >
+            <t
+              autoComplete="off"
+              className="dnb-input__input"
+              guide={true}
+              id="input-masked"
+              keepCharPositions={true}
+              mask={
+                Array [
+                  /\\[a-z\\]/,
+                ]
+              }
+              name="input-masked"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              pipe={null}
+              placeholderChar="placeholder_char"
+              render={[Function]}
+              showMask={true}
+              type="text"
+              value="test"
+            >
+              <input
+                autoComplete="off"
+                className="dnb-input__input"
+                defaultValue="test"
+                id="input-masked"
+                name="input-masked"
+                onBlur={[Function]}
+                onChange={[Function]}
+                onFocus={[Function]}
+                onKeyDown={[Function]}
+                type="text"
+              />
+            </t>
+          </span>
+        </span>
       </span>
     </span>
   </Input>
@@ -365,6 +374,7 @@ exports[`InputMasked scss have to match snapshot 1`] = `
       outline: none; }
       html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
         box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
+        /* IE11 fix */
         border-color: transparent; }
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):focus,
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):active {
@@ -375,6 +385,8 @@ exports[`InputMasked scss have to match snapshot 1`] = `
     cursor: not-allowed; }
   button.dnb-button::-moz-focus-inner .dnb-button {
     border: none; }
+  .dnb-form-row--vertical .dnb-form-row__content > .dnb-button {
+    align-self: flex-start; }
 
 a.dnb-button[type='button'] {
   appearance: none;
@@ -432,8 +444,10 @@ a.dnb-button .dnb-button__text {
 .dnb-form-label {
   display: inline-block;
   width: auto;
+  padding: 0;
   margin: 0;
   margin-right: 1rem;
+  text-align: left;
   vertical-align: baseline;
   color: inherit; }
   .dnb-form-label--vertical {
@@ -445,6 +459,9 @@ a.dnb-button .dnb-button__text {
     cursor: pointer; }
   .dnb-form-label[disabled] {
     cursor: not-allowed; }
+
+legend.dnb-form-label {
+  display: inline-block; }
 
 /*
 * DNB FormStatus
@@ -490,12 +507,12 @@ a.dnb-button .dnb-button__text {
  */
 .dnb-form-status {
   width: auto;
-  display: flex;
-  min-height: var(--input-height); }
+  display: flex; }
   .dnb-form-status__shell {
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    min-height: var(--input-height);
     border-radius: var(--input-border-radius); }
   .dnb-form-status--text {
     padding: calc(0.5rem / 2) 1rem;
@@ -586,19 +603,18 @@ a.dnb-button .dnb-button__text {
 
 .dnb-input {
   display: inline-flex;
-  flex-direction: column;
-  align-items: flex-start;
-  vertical-align: middle;
-  width: auto;
-  font-size: var(--input-font-size); }
+  align-items: center; }
+  .dnb-input__inner {
+    display: inline-flex;
+    flex-direction: column;
+    width: auto;
+    font-size: var(--input-font-size); }
   .dnb-input__shell {
     position: relative;
     display: flex;
     align-items: center;
     overflow: hidden;
     border: var(--input-border-width) solid var(--color-sea-green-alt); }
-  label + .dnb-input[class*='__form-status'] {
-    vertical-align: baseline; }
   .dnb-input__input {
     border: none;
     outline: none;
@@ -607,6 +623,7 @@ a.dnb-button .dnb-button__text {
     user-select: none; }
   .dnb-input__shell, .dnb-input__input {
     height: var(--input-height);
+    line-height: var(--input-height);
     border-radius: var(--input-border-radius); }
   .dnb-input__placeholder, .dnb-input__input {
     width: 100%;
@@ -615,21 +632,30 @@ a.dnb-button .dnb-button__text {
     text-align: left;
     color: inherit;
     font-size: inherit;
-    line-height: 1em;
+    line-height: inherit;
     background-color: transparent;
-    transform: translateY(var(--input-border-width)); }
+    transform: translateY(var(--input-border-width));
+    font-variant-numeric: lining-nums;
+    font-feature-settings: \\"lnum\\"; }
   .dnb-input__placeholder {
     pointer-events: none;
     position: absolute;
     z-index: 1;
+    top: 0;
     left: 0;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis; }
+  .dnb-input__input::-webkit-search-cancel-button {
+    display: none; }
+  .dnb-input__input::-ms-clear {
+    display: none; }
   .dnb-input--has-submit-button .dnb-input__placeholder,
   .dnb-input--has-submit-button .dnb-input__input {
-    padding-right: 2rem;
-    margin-right: -1rem; }
+    padding-right: calc(var(--input-padding) * 2.5); }
+  .dnb-input__row {
+    display: inline-flex;
+    align-items: baseline; }
   .dnb-input__description {
     color: inherit;
     padding-left: 0.5rem; }
@@ -637,12 +663,13 @@ a.dnb-button .dnb-button__text {
     position: relative;
     z-index: 2;
     align-self: flex-end;
-    margin-top: calc(1px - 1px - var(--input-height)); }
+    margin-left: calc(1px - 1px - var(--input-height)); }
     .dnb-input__submit-button__button {
       border-radius: 50%; }
   .dnb-input--medium .dnb-input__shell,
   .dnb-input--medium .dnb-input__input {
     height: var(--input-height--medium);
+    line-height: var(--input-height--medium);
     border-radius: var(--input-border-radius--medium); }
   .dnb-input--medium .dnb-input__placeholder,
   .dnb-input--medium .dnb-input__input {
@@ -650,7 +677,7 @@ a.dnb-button .dnb-button__text {
     padding-right: var(--input-padding--medium);
     font-size: var(--input-font-size--medium); }
   .dnb-input--medium .dnb-input__submit-button {
-    margin-top: calc(1px - 1px - var(--input-height--medium)); }
+    margin-left: calc(1px - 1px - var(--input-height--medium)); }
     .dnb-input--medium .dnb-input__submit-button__button {
       width: var(--input-height--medium);
       height: var(--input-height--medium); }
@@ -660,6 +687,7 @@ a.dnb-button .dnb-button__text {
   .dnb-input--large .dnb-input__shell,
   .dnb-input--large .dnb-input__input {
     height: var(--input-height--large);
+    line-height: var(--input-height--large);
     border-radius: var(--input-border-radius--large); }
   .dnb-input--large .dnb-input__placeholder,
   .dnb-input--large .dnb-input__input {
@@ -667,7 +695,7 @@ a.dnb-button .dnb-button__text {
     padding-right: var(--input-padding--large);
     font-size: var(--input-font-size--large); }
   .dnb-input--large .dnb-input__submit-button {
-    margin-top: calc(1px - 1px - var(--input-height--large)); }
+    margin-left: calc(1px - 1px - var(--input-height--large)); }
     .dnb-input--large .dnb-input__submit-button__button {
       width: var(--input-height--large);
       height: var(--input-height--large); }
@@ -680,14 +708,29 @@ a.dnb-button .dnb-button__text {
   .dnb-input__align--right .dnb-input__placeholder,
   .dnb-input__align--right .dnb-input__input {
     text-align: right; }
-  .dnb-input--stretch,
-  .dnb-input--stretch .dnb-input__shell {
-    width: 100%; }
   .dnb-input__shell[data-has-content='true'] .dnb-input__placeholder,
   .dnb-input__shell[data-has-content='true'][data-input-state='focus'] .dnb-input__placeholder {
     display: none; }
-  .dnb-input > .dnb-form-status {
+  .dnb-input__inner > .dnb-form-status {
     margin-top: 0.5rem; }
+  .dnb-input--vertical {
+    flex-direction: column;
+    align-items: flex-start; }
+  .dnb-input--stretch {
+    display: flex; }
+  .dnb-input--stretch .dnb-input__inner {
+    flex-grow: 1; }
+  .dnb-input--stretch .dnb-input__shell {
+    width: 100%; }
+  .dnb-input--vertical.dnb-input--stretch .dnb-input__inner {
+    width: 100%; }
+  .dnb-input[class*='__status'] {
+    align-items: flex-start; }
+    .dnb-input[class*='__status'] > .dnb-form-label {
+      margin-top: 0.25rem; }
+  @media all and (-ms-high-contrast: none) {
+    .dnb-input {
+      vertical-align: baseline; } }
 
 .dnb-input-masked {
   font-family: var(--font-family-default);

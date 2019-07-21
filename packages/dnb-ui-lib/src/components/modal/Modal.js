@@ -97,8 +97,8 @@ export const defaultProps = {
   trigger_disabled: null,
   trigger_variant: 'secondary',
   trigger_text: null,
-  trigger_title: 'Open Modal',
-  trigger_icon: null,
+  trigger_title: 'Modal',
+  trigger_icon: 'question',
   trigger_icon_position: 'left',
   trigger_class: null,
   content_id: null,
@@ -314,10 +314,10 @@ export default class Modal extends PureComponent {
             title={trigger_title}
             disabled={isTrue(disabled) || isTrue(trigger_disabled)}
             icon={
-              trigger_icon
+              trigger_icon !== 'question'
                 ? trigger_icon
                 : (!trigger_text || trigger_variant === 'tertiary') &&
-                  'question'
+                  trigger_icon
             }
             icon_position={trigger_icon_position}
             on_click={this.toggleOpenClose}
@@ -470,11 +470,11 @@ class ModalContent extends PureComponent {
       this.focusTimeout = setTimeout(() => {
         try {
           this._contentRef.current.focus() // in case the button is disabled
-          const closeElement = this._contentRef.current.querySelector(
-            '.dnb-modal__close-button'
+          const focusElement = this._contentRef.current.querySelector(
+            'h1:first-of-type, h2:first-of-type, .dnb-modal__close-button'
           )
-          if (closeElement) {
-            closeElement.focus()
+          if (focusElement) {
+            focusElement.focus()
           }
         } catch (e) {
           console.log(e)
@@ -603,7 +603,6 @@ class ModalContent extends PureComponent {
     const contentParams = {
       role: 'dialog',
       'aria-modal': 'true',
-      'aria-describedby': id,
       className: 'dnb-modal__content',
       onClick: closeModal
     }
@@ -625,6 +624,7 @@ class ModalContent extends PureComponent {
 
     if (labelled_by) {
       contentParams['aria-labelledby'] = labelled_by
+      contentParams['aria-describedby'] = labelled_by
     }
 
     // also used for code markup simulation

@@ -21,9 +21,10 @@ import dnb_toggle_button_theme_ui from '../style/themes/dnb-toggle-button-theme-
 const props = fakeProps(require.resolve('../ToggleButton'), {
   optional: true
 })
-props.label_position = 'left'
+props.id = 'toggle-button'
 props.status = null
 props.icon_position = 'left'
+props.label_direction = 'horizontal'
 props.variant = 'checkbox'
 props.readOnly = false
 

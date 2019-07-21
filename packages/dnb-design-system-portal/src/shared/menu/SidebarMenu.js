@@ -422,6 +422,8 @@ export default class SidebarLayout extends PureComponent {
                 node {
                   fields {
                     slug
+                  }
+                  frontmatter {
                     title
                     menuTitle
                     order
@@ -732,7 +734,8 @@ const prepareNav = ({ location, allMdx, showAll, pathPrefix }) => {
     .map(slugPath => {
       const {
         node: {
-          fields: { slug, title, order, ...rest }
+          fields: { slug },
+          frontmatter: { title, order, ...rest }
         }
       } = allMdx.edges.find(
         ({

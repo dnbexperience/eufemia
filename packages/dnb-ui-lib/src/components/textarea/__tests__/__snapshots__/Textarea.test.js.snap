@@ -17,6 +17,7 @@ exports[`Textarea component have to match snapshot 1`] = `
         "disabled": "disabled",
         "id": "id",
         "label": "label",
+        "label_direction": "'horizontal'",
         "on_blur": [Function],
         "on_change": [Function],
         "on_focus": [Function],
@@ -26,6 +27,7 @@ exports[`Textarea component have to match snapshot 1`] = `
         "status": "status",
         "status_animation": "status_animation",
         "status_state": "status_state",
+        "stretch": "stretch",
         "textareaElement": [Function],
         "textarea_class": "textarea_class",
         "textarea_state": "textarea_state",
@@ -43,6 +45,7 @@ exports[`Textarea component have to match snapshot 1`] = `
   disabled={false}
   id="textarea"
   label={null}
+  label_direction={null}
   on_blur={null}
   on_change={null}
   on_focus={null}
@@ -52,6 +55,7 @@ exports[`Textarea component have to match snapshot 1`] = `
   status={null}
   status_animation={null}
   status_state="error"
+  stretch={null}
   textareaElement={null}
   textarea_class={null}
   textarea_state={null}
@@ -59,20 +63,24 @@ exports[`Textarea component have to match snapshot 1`] = `
 >
   <span
     className="dnb-textarea dnb-textarea--virgin dnb-textarea--has-content"
-    role="textbox"
   >
     <span
-      className="dnb-textarea__shell"
+      className="dnb-textarea__inner"
+      role="textbox"
     >
-      <textarea
-        className="dnb-textarea__textarea"
-        id="textarea"
-        name="textarea"
-        onBlur={[Function]}
-        onChange={[Function]}
-        onFocus={[Function]}
-        value="test"
-      />
+      <span
+        className="dnb-textarea__shell"
+      >
+        <textarea
+          className="dnb-textarea__textarea"
+          id="textarea"
+          name="textarea"
+          onBlur={[Function]}
+          onChange={[Function]}
+          onFocus={[Function]}
+          value="test"
+        />
+      </span>
     </span>
   </span>
 </Textarea>
@@ -268,8 +276,10 @@ exports[`Textarea scss have to match snapshot 1`] = `
 .dnb-form-label {
   display: inline-block;
   width: auto;
+  padding: 0;
   margin: 0;
   margin-right: 1rem;
+  text-align: left;
   vertical-align: baseline;
   color: inherit; }
   .dnb-form-label--vertical {
@@ -281,6 +291,9 @@ exports[`Textarea scss have to match snapshot 1`] = `
     cursor: pointer; }
   .dnb-form-label[disabled] {
     cursor: not-allowed; }
+
+legend.dnb-form-label {
+  display: inline-block; }
 
 /*
 * DNB FormStatus
@@ -326,12 +339,12 @@ exports[`Textarea scss have to match snapshot 1`] = `
  */
 .dnb-form-status {
   width: auto;
-  display: flex;
-  min-height: var(--input-height); }
+  display: flex; }
   .dnb-form-status__shell {
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    min-height: var(--input-height);
     border-radius: var(--input-border-radius); }
   .dnb-form-status--text {
     padding: calc(0.5rem / 2) 1rem;
@@ -531,8 +544,11 @@ textarea.dnb-textarea {
 
 .dnb-textarea {
   display: inline-flex;
-  flex-direction: column;
-  margin: var(--textarea-padding-width); }
+  align-items: baseline; }
+  .dnb-textarea__inner {
+    display: inline-flex;
+    flex-direction: column;
+    margin: var(--textarea-padding-width); }
   .dnb-textarea__shell {
     display: inline-flex;
     position: relative; }
@@ -556,7 +572,9 @@ textarea.dnb-textarea {
     padding: var(--textarea-padding-width);
     padding-top: calc( var(--textarea-padding-width) - var(--textarea-vertical-correction));
     padding-bottom: var(--textarea-vertical-correction);
-    line-height: 1.5rem; }
+    line-height: 1.5rem;
+    font-variant-numeric: lining-nums;
+    font-feature-settings: \\"lnum\\"; }
     .dnb-textarea__textarea,
     .dnb-textarea__textarea textarea {
       margin: 0; }
@@ -568,8 +586,22 @@ textarea.dnb-textarea {
   .dnb-textarea--has-content .dnb-textarea__textarea ~ .dnb-textarea__placeholder,
   .dnb-textarea--focus .dnb-textarea__textarea:not([disabled]):not([readonly]) ~ .dnb-textarea__placeholder {
     opacity: 0.5; }
-  .dnb-textarea__form-status .dnb-form-status {
+  .dnb-textarea[class*='__status'] .dnb-form-status {
     margin: 1rem 0 0 calc(1px - 1px - var(--textarea-padding-width)); }
+  .dnb-textarea[class*='__status'] {
+    align-items: flex-start; }
+    .dnb-textarea[class*='__status'] > .dnb-form-label {
+      margin-top: 0.25rem; }
+  .dnb-textarea--vertical {
+    display: flex;
+    display: inline-flex;
+    flex-direction: column; }
+  .dnb-textarea--stretch {
+    display: flex; }
+  .dnb-textarea--stretch .dnb-textarea__inner {
+    flex: 1; }
+  .dnb-textarea--stretch .dnb-textarea__shell, .dnb-textarea--stretch .dnb-textarea__textarea {
+    width: 100%; }
 
 textarea.dnb-textarea {
   display: inline-block;
@@ -581,6 +613,8 @@ textarea.dnb-textarea {
   padding-top: calc( var(--textarea-padding-width) - var(--textarea-vertical-correction));
   padding-bottom: var(--textarea-vertical-correction);
   line-height: 1.5rem;
+  font-variant-numeric: lining-nums;
+  font-feature-settings: \\"lnum\\";
   border-radius: 0.5rem;
   /* IE11 fix */ }
   textarea.dnb-textarea,
@@ -625,14 +659,5 @@ textarea.dnb-textarea {
     textarea.dnb-textarea {
       -ms-overflow-style: -ms-autohiding-scrollba;
       box-shadow: 0 0 0 0.0625rem var(--color-sea-green-alt); } }
-  label + textarea.dnb-textarea[class*='__form-status'] {
-    vertical-align: baseline; }
-
-.dnb-form-row--vertical > .dnb-textarea {
-  transform: translateY(2px); }
-
-.dnb-form-row:not(.dnb-form-row--vertical):not(.dnb-form-row--vertical) > .dnb-textarea, .dnb-form-row--horizontal:not(.dnb-form-row--vertical) > .dnb-textarea {
-  transform: translateY(calc(1px - 1px - var(--textarea-vertical-correction)));
-  margin-top: 0; }
 "
 `;

@@ -15,9 +15,11 @@ import {
   detectOutsideClick,
   validateDOMAttributes
 } from '../../shared/component-helper'
+import { createSpacingClasses } from '../space/SpacingHelper'
 import { format, parse, differenceInCalendarDays } from 'date-fns'
 import nbLocale from 'date-fns/locale/nb'
 
+import Context from '../../shared/Context'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 import DatePickerRange from './DatePickerRange'
@@ -92,6 +94,7 @@ export const propTypes = {
   link: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   sync: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   label: PropTypes.string,
+  label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   status: PropTypes.string,
   status_state: PropTypes.string,
@@ -137,6 +140,7 @@ export const defaultProps = {
   link: false,
   sync: true,
   label: null,
+  label_direction: null,
   disabled: null,
   status: null,
   status_state: 'error',
@@ -156,6 +160,7 @@ export default class DatePicker extends PureComponent {
   static propTypes = propTypes
   static defaultProps = defaultProps
   static renderProps = renderProps
+  static contextType = Context
 
   static blurDelay = 201 // some ms more than "dropdownSlideDown 200ms"
 
@@ -251,7 +256,7 @@ export default class DatePicker extends PureComponent {
       )
     }
 
-    this._wrapperRef = React.createRef()
+    this._clampRef = React.createRef()
     this._triangleRef = React.createRef()
   }
 
@@ -259,13 +264,13 @@ export default class DatePicker extends PureComponent {
     if (
       isTrue(this.props.show_input) &&
       this._triangleRef.current &&
-      this._wrapperRef.current
+      this._clampRef.current
     ) {
       try {
-        const shellWidth = this._wrapperRef.current
+        const shellWidth = this._clampRef.current
           .querySelector('.dnb-input__shell')
           .getBoundingClientRect().width
-        const buttonWidth = this._wrapperRef.current
+        const buttonWidth = this._clampRef.current
           .querySelector('.dnb-input__submit-button__button')
           .getBoundingClientRect().width
         const left = shellWidth - buttonWidth / 2 - 8
@@ -277,7 +282,7 @@ export default class DatePicker extends PureComponent {
   }
 
   setOutsideClickHandler = () => {
-    detectOutsideClick(this, this._wrapperRef.current, this.hidePicker)
+    detectOutsideClick(this, this._clampRef.current, this.hidePicker)
   }
 
   removeOutsideClickHandler() {
@@ -295,7 +300,7 @@ export default class DatePicker extends PureComponent {
     })
   }
 
-  onInputChange = ({ startDate, endDate }) => {
+  onInputChange = ({ startDate, endDate, ...args }) => {
     // make sure endDate is same as startDate if we don't use range
     if (!isTrue(this.props.range)) {
       endDate = startDate
@@ -306,7 +311,7 @@ export default class DatePicker extends PureComponent {
           startDate,
           _listenForPropChanges: false
         },
-        this.callOnChangeHandler
+        () => this.callOnChangeHandler(args)
       )
     }
     if (typeof endDate !== 'undefined') {
@@ -315,17 +320,17 @@ export default class DatePicker extends PureComponent {
           endDate,
           _listenForPropChanges: false
         },
-        () => !startDate && this.callOnChangeHandler()
+        () => !startDate && this.callOnChangeHandler(args)
       )
     }
   }
 
   onPickerChange = (
-    { startDate, endDate },
+    { startDate, endDate, ...args },
     { hidePicker = true, callOnlyOnChangeHandler = false } = {}
   ) => {
     if (callOnlyOnChangeHandler) {
-      return this.callOnChangeHandler()
+      return this.callOnChangeHandler(args)
     }
     this.setState(
       {
@@ -333,23 +338,27 @@ export default class DatePicker extends PureComponent {
         endDate,
         _listenForPropChanges: false
       },
-      this.callOnChangeHandler
+      () => this.callOnChangeHandler(args)
     )
     if (
       (!isTrue(this.state.show_submit_button) ||
         !isTrue(this.state.show_cancel_button)) &&
       hidePicker
     ) {
-      this.hidePicker()
+      this.hidePicker(args)
     }
   }
 
-  onSubmitHandler = () => {
-    this.hidePicker()
-    dispatchCustomElementEvent(this, 'on_submit', this.getReturnObject())
+  onSubmitHandler = args => {
+    this.hidePicker(args)
+    dispatchCustomElementEvent(
+      this,
+      'on_submit',
+      this.getReturnObject(args)
+    )
   }
 
-  onCancelHandler = () => {
+  onCancelHandler = args => {
     this.setState(
       {
         startDate: this.state._startDate
@@ -360,17 +369,17 @@ export default class DatePicker extends PureComponent {
           : null
       },
       () => {
-        this.hidePicker()
+        this.hidePicker(args)
         dispatchCustomElementEvent(
           this,
           'on_cancel',
-          this.getReturnObject()
+          this.getReturnObject(args)
         )
       }
     )
   }
 
-  showPicker = () => {
+  showPicker = args => {
     if (this._hideTimeout) {
       clearTimeout(this._hideTimeout)
     }
@@ -379,13 +388,13 @@ export default class DatePicker extends PureComponent {
       hidden: false,
       _listenForPropChanges: false
     })
-    dispatchCustomElementEvent(this, 'on_show', this.getReturnObject())
+    dispatchCustomElementEvent(this, 'on_show', this.getReturnObject(args))
 
     this.setTrianglePosition()
     this.setOutsideClickHandler()
   }
 
-  hidePicker = () => {
+  hidePicker = args => {
     this.setState({
       opened: false,
       _listenForPropChanges: false
@@ -400,16 +409,18 @@ export default class DatePicker extends PureComponent {
       },
       this.props.no_animation ? 1 : DatePicker.blurDelay
     ) // wait until animation is over
-    dispatchCustomElementEvent(this, 'on_hide', this.getReturnObject())
+    dispatchCustomElementEvent(this, 'on_hide', this.getReturnObject(args))
     this.removeOutsideClickHandler()
   }
 
-  togglePicker = () => {
-    !this.state.opened ? this.showPicker() : this.hidePicker()
+  togglePicker = args => {
+    !this.state.opened
+      ? this.showPicker((args && args.event) || args)
+      : this.hidePicker((args && args.event) || args)
   }
 
-  callOnChangeHandler = () => {
-    const returnObject = this.getReturnObject()
+  callOnChangeHandler = args => {
+    const returnObject = this.getReturnObject(args)
 
     if (this.returnObject) {
       if (isTrue(this.props.range)) {
@@ -429,13 +440,12 @@ export default class DatePicker extends PureComponent {
     dispatchCustomElementEvent(this, 'on_change', returnObject)
   }
 
-  getReturnObject() {
+  getReturnObject({ event = null } = {}) {
     const { startDate, endDate } = this.state
 
     return isTrue(this.props.range)
       ? {
-          // startDate,
-          // endDate,
+          event,
           days_between: endDate
             ? differenceInCalendarDays(endDate, startDate)
             : null,
@@ -446,7 +456,7 @@ export default class DatePicker extends PureComponent {
             ? format(endDate, this.props.return_format)
             : null
         }
-      : { date: format(startDate, this.props.return_format) }
+      : { event, date: format(startDate, this.props.return_format) }
   }
 
   render() {
@@ -458,6 +468,7 @@ export default class DatePicker extends PureComponent {
 
     const {
       label,
+      label_direction,
       only_month,
       hide_navigation_buttons,
       show_input /* eslint-disable-line */,
@@ -514,38 +525,49 @@ export default class DatePicker extends PureComponent {
     const id = this._id
     const showStatus = status && status !== 'error'
 
-    const pickerParams = { ...attributes }
+    const pickerParams = {}
     if (label) {
       pickerParams['aria-labelledby'] = id + '-label'
     }
 
-    const inputParams = { ['aria-expanded']: opened }
+    const inputParams = { ['aria-expanded']: opened, ...attributes }
 
-    validateDOMAttributes(this.props, pickerParams)
-    validateDOMAttributes(null, inputParams)
+    const mainParams = {
+      className: classnames(
+        'dnb-date-picker',
+        status && `dnb-date-picker__status--${status_state}`,
+        label_direction && `dnb-date-picker--${label_direction}`,
+        opened && 'dnb-date-picker--opened',
+        hidden && 'dnb-date-picker--hidden',
+        showInput && 'dnb-date-picker--show-input',
+        (isTrue(show_submit_button) || isTrue(show_cancel_button)) &&
+          'dnb-date-picker--show-footer',
+        createSpacingClasses(props)
+      )
+    }
+
+    validateDOMAttributes(this.props, inputParams)
+    validateDOMAttributes(null, pickerParams)
 
     return (
-      <>
-        {label && (
+      <span {...mainParams}>
+        {(label && (
           <FormLabel
             id={id + '-label'}
             for_id={id}
             text={label}
+            direction={label_direction}
             disabled={isTrue(disabled)}
           />
+        )) || (
+          <span className="dnb-date-picker__helper" aria-hidden>
+            {'-'}
+          </span>
         )}
 
         <span
-          className={classnames(
-            'dnb-date-picker',
-            opened && 'dnb-date-picker--opened',
-            hidden && 'dnb-date-picker--hidden',
-            showInput && 'dnb-date-picker--show-input',
-            status && `dnb-date-picker__status--${status_state}`,
-            (isTrue(show_submit_button) || isTrue(show_cancel_button)) &&
-              'dnb-date-picker--show-footer'
-          )}
-          ref={this._wrapperRef}
+          className="dnb-date-picker__inner"
+          ref={this._clampRef}
           {...pickerParams}
         >
           <span className="dnb-date-picker__shell">
@@ -570,7 +592,6 @@ export default class DatePicker extends PureComponent {
               onSubmit={this.togglePicker}
               onSubmitButtonFocus={this.onSubmitButtonFocus}
             />
-
             {showStatus && (
               <FormStatus
                 text={status}
@@ -579,7 +600,6 @@ export default class DatePicker extends PureComponent {
                 animation={status_animation}
               />
             )}
-
             <span className="dnb-date-picker__container">
               <span
                 className="dnb-date-picker__triangle"
@@ -626,7 +646,7 @@ export default class DatePicker extends PureComponent {
             </span>
           </span>
         </span>
-      </>
+      </span>
     )
   }
 }

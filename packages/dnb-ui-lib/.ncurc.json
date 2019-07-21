@@ -1,6 +1,7 @@
 {
   "reject": [
     "core-js",
-    "eslint"
+    "eslint",
+    "@babel/plugin-proposal-object-rest-spread"
   ]
 }

@@ -6,25 +6,24 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 
 import Head from 'react-helmet'
-import Layout from '../shared/parts/Layout'
 import { MDXProvider } from '@mdx-js/react'
 import MDXRenderer from 'gatsby-mdx/mdx-renderer'
 import { graphql, withPrefix } from 'gatsby'
+
+import Layout from '../shared/parts/Layout'
 import tags from '../shared/tags'
 
 export default class MdxTemplate extends PureComponent {
   render() {
     const {
+      location,
       data: {
         mdx: {
-          code,
-          fields: { title }
+          code: { body },
+          frontmatter: { title, description, fullscreen }
         },
         site: {
-          siteMetadata: {
-            description
-            // repoUrl
-          }
+          siteMetadata: { description: descriptionFallback }
         }
       }
     } = this.props
@@ -33,17 +32,21 @@ export default class MdxTemplate extends PureComponent {
       <MDXProvider components={tags}>
         <Head>
           <title>{title}</title>
-          <meta name="description" content={description} />
+          <meta
+            name="description"
+            content={description || descriptionFallback}
+          />
           <link rel="shortcut icon" href={withPrefix('/favicon.ico')} />
         </Head>
-        <Layout {...this.props}>
-          <MDXRenderer>{code.body}</MDXRenderer>
+        <Layout location={location} fullscreen={Boolean(fullscreen)}>
+          <MDXRenderer>{body}</MDXRenderer>
         </Layout>
       </MDXProvider>
     )
   }
 }
 MdxTemplate.propTypes = {
+  location: PropTypes.object.isRequired,
   data: PropTypes.shape({
     mdx: PropTypes.shape({
       code: PropTypes.shape({
@@ -58,12 +61,12 @@ export const pageQuery = graphql`
     site {
       siteMetadata {
         description
-        # repoUrl
       }
     }
-    mdx(fields: { id: { eq: $id } }) {
-      fields {
+    mdx(id: { eq: $id }) {
+      frontmatter {
         title
+        description
         fullscreen
       }
       code {

@@ -6,21 +6,31 @@ exports[`FormLabel component have to match snapshot 1`] = `
   className="className"
   direction="horizontal"
   disabled="disabled"
+  element="label"
   for_id="for_id"
   id="id"
+  label_direction="horizontal"
   render_content={[Function]}
   text="text"
   title="title"
   vertical="vertical"
 >
-  <label
+  <Element
     className="dnb-form-label dnb-form-label--horizontal className class"
     htmlFor="for_id"
     id="id"
+    is="label"
     title="title"
   >
-    text
-  </label>
+    <label
+      className="dnb-form-label dnb-form-label--horizontal className class"
+      htmlFor="for_id"
+      id="id"
+      title="title"
+    >
+      text
+    </label>
+  </Element>
 </FormLabel>
 `;
 
@@ -98,8 +108,10 @@ exports[`FormLabel scss have to match snapshot 1`] = `
 .dnb-form-label {
   display: inline-block;
   width: auto;
+  padding: 0;
   margin: 0;
   margin-right: 1rem;
+  text-align: left;
   vertical-align: baseline;
   color: inherit; }
   .dnb-form-label--vertical {
@@ -111,5 +123,8 @@ exports[`FormLabel scss have to match snapshot 1`] = `
     cursor: pointer; }
   .dnb-form-label[disabled] {
     cursor: not-allowed; }
+
+legend.dnb-form-label {
+  display: inline-block; }
 "
 `;

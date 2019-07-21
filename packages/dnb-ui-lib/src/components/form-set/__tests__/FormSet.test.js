@@ -47,14 +47,14 @@ describe('FormSet component', () => {
     ).toBe(true)
   })
 
-  it('should have working provider have correct size classs on form-row', () => {
+  it('should have working provider have correct indent classs on form-row', () => {
     const Comp = mount(
-      <Component {...props} size="large">
+      <Component {...props} indent="large">
         <FormRow />
       </Component>
     )
     expect(
-      Comp.find('.dnb-form-row').hasClass('dnb-form-row__size--large')
+      Comp.find('.dnb-form-row').hasClass('dnb-form-row__indent--large')
     ).toBe(true)
   })
 

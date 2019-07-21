@@ -7,6 +7,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import keycode from 'keycode'
+import Context from '../../shared/Context'
 import {
   isTrue,
   extendPropsWithContext,
@@ -14,6 +15,8 @@ import {
   validateDOMAttributes,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
+import { createSpacingClasses } from '../space/SpacingHelper'
+
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 
@@ -51,7 +54,7 @@ export const propTypes = {
 
 export const defaultProps = {
   label: null,
-  label_position: 'left',
+  label_position: null,
   title: null,
   default_state: null,
   checked: 'default', //we have to send this as a string
@@ -83,6 +86,7 @@ export default class Switch extends Component {
   static propTypes = propTypes
   static defaultProps = defaultProps
   static renderProps = renderProps
+  static contextType = Context
 
   static enableWebComponent() {
     registerElement(Switch.tagName, Switch, defaultProps)
@@ -196,14 +200,17 @@ export default class Switch extends Component {
 
     const id = this._id
     const showStatus = status && status !== 'error'
-    const hasStatusMessage = showStatus && status !== 'info'
 
-    const classes = classnames(
-      'dnb-switch',
-      status && `dnb-switch__status--${status_state}`,
-      className,
-      _className
-    )
+    const mainParams = {
+      className: classnames(
+        'dnb-switch',
+        status && `dnb-switch__status--${status_state}`,
+        label && `dnb-switch--label-position-${label_position || 'right'}`,
+        createSpacingClasses(props),
+        className,
+        _className
+      )
+    }
 
     const inputParams = {
       disabled: isTrue(disabled),
@@ -235,15 +242,8 @@ export default class Switch extends Component {
     )
 
     return (
-      <>
-        <span
-          className={classnames(
-            label &&
-              label_position &&
-              `dnb-switch--label-position-${label_position}`,
-            hasStatusMessage && `dnb-switch__status--message`
-          )}
-        >
+      <span {...mainParams}>
+        <span className="dnb-switch__order">
           {label && (
             <FormLabel
               id={id + '-label'}
@@ -252,7 +252,7 @@ export default class Switch extends Component {
               disabled={disabled}
             />
           )}
-          <span className={classes}>
+          <span className="dnb-switch__inner">
             <span className="dnb-switch__shell">
               <input
                 id={id}
@@ -268,6 +268,9 @@ export default class Switch extends Component {
                 onChange={this.onChangeHandler}
                 onKeyDown={this.onKeyDownHandler}
               />
+              <span className="dnb-switch__helper" aria-hidden>
+                {'-'}
+              </span>
               <span
                 draggable
                 aria-hidden
@@ -275,7 +278,7 @@ export default class Switch extends Component {
                 onDragStart={this.onChangeHandler}
                 {...this.helperParams}
               />
-              <span aria-hidden className="dnb-switch__button">
+              <span className="dnb-switch__button" aria-hidden>
                 <span className="dnb-switch__focus">
                   <span className="dnb-switch__focus__inner" />
                 </span>
@@ -284,8 +287,8 @@ export default class Switch extends Component {
             {label_position === 'left' && statusComp}
           </span>
         </span>
-        {label_position === 'right' && statusComp}
-      </>
+        {(label_position === 'right' || !label_position) && statusComp}
+      </span>
     )
   }
 }

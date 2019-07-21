@@ -6,12 +6,15 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
+import Context from '../../shared/Context'
 import {
   isTrue,
   registerElement,
   validateDOMAttributes,
-  dispatchCustomElementEvent
+  dispatchCustomElementEvent,
+  extendPropsWithContext
 } from '../../shared/component-helper'
+import { createSpacingClasses } from '../space/SpacingHelper'
 import ProgressIndicatorCircular from './ProgressIndicatorCircular'
 
 const renderProps = { on_complete: null }
@@ -42,6 +45,7 @@ export default class ProgressIndicator extends PureComponent {
   static tagName = 'dnb-progress-indicator'
   static propTypes = propTypes
   static defaultProps = defaultProps
+  static contextType = Context
 
   static enableWebComponent() {
     registerElement(
@@ -88,6 +92,12 @@ export default class ProgressIndicator extends PureComponent {
   }
 
   render() {
+    // consume the formRow context
+    const props = this.context.formRow
+      ? // use only the props from context, who are available here anyway
+        extendPropsWithContext(this.props, this.context.formRow)
+      : this.props
+
     const {
       type,
       size,
@@ -96,12 +106,12 @@ export default class ProgressIndicator extends PureComponent {
       progress: _progress, //eslint-disable-line
       visible: _visible, //eslint-disable-line
       complete: _complete, //eslint-disable-line
-      ...props
-    } = this.props
+      ...attributes
+    } = props
 
     const { progress, visible, complete } = this.state
 
-    const params = { ...props }
+    const params = { ...attributes }
     const hasProgressIndicator = parseFloat(progress) > -1
 
     if (visible && !hasProgressIndicator) {
@@ -117,7 +127,8 @@ export default class ProgressIndicator extends PureComponent {
           'dnb-progress-indicator',
           visible && 'dnb-progress-indicator--visible',
           complete && 'dnb-progress-indicator--complete',
-          isTrue(no_animation) && 'dnb-progress-indicator--no-animation'
+          isTrue(no_animation) && 'dnb-progress-indicator--no-animation',
+          createSpacingClasses(props)
         )}
         {...params}
       >

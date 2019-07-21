@@ -12,6 +12,8 @@ import {
   validateDOMAttributes,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
+import { createSpacingClasses } from '../space/SpacingHelper'
+
 import FormRow from '../form-row/FormRow'
 import FormStatus from '../form-status/FormStatus'
 import Context from '../../shared/Context'
@@ -23,7 +25,10 @@ const renderProps = {
 
 export const propTypes = {
   label: PropTypes.string,
+  label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
+  label_position: PropTypes.oneOf(['left', 'right']),
   title: PropTypes.string,
+  no_fieldset: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   id: PropTypes.string,
   name: PropTypes.string,
@@ -31,7 +36,6 @@ export const propTypes = {
   status_state: PropTypes.string,
   status_animation: PropTypes.string,
   layout_direction: PropTypes.oneOf(['column', 'row']),
-  direction: PropTypes.oneOf(['horizontal', 'vertical']),
   vertical: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   value: PropTypes.string,
   attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
@@ -53,14 +57,16 @@ export const propTypes = {
 
 export const defaultProps = {
   label: null,
+  label_direction: null,
+  label_position: null,
   title: null,
+  no_fieldset: null,
   disabled: null,
   id: null,
   name: null,
   status: null,
   status_state: 'error',
   status_animation: null,
-  direction: 'horizontal',
   vertical: null,
   layout_direction: 'row',
   value: null,
@@ -135,10 +141,12 @@ export default class RadioGroup extends PureComponent {
       status,
       status_state,
       status_animation,
-      direction,
+      label,
+      label_direction,
+      label_position,
       vertical,
       layout_direction,
-      label,
+      no_fieldset,
       disabled,
       className,
       class: _className,
@@ -164,6 +172,7 @@ export default class RadioGroup extends PureComponent {
       'dnb-radio-group',
       status && `dnb-radio-group__status--${status_state}`,
       `dnb-radio-group--${layout_direction}`,
+      createSpacingClasses(props),
       className,
       _className
     )
@@ -186,15 +195,20 @@ export default class RadioGroup extends PureComponent {
       name: this._name,
       value,
       disabled,
+      label_position,
       onChange: this.onChangeHandler
     }
 
     const formRowParams = {
+      id,
       label,
       label_id: id, // send the id along, so the FormRow component can use it
-      direction,
+      label_direction,
+      direction: label_direction,
       vertical,
-      disabled
+      disabled,
+      no_fieldset,
+      skipContentWrapperIfNested: true
       // status,
       // status_state
     }

@@ -14,6 +14,9 @@ import {
   validateDOMAttributes,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
+import { createSpacingClasses } from '../space/SpacingHelper'
+
+import Context from '../../shared/Context'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 
@@ -51,7 +54,7 @@ export const propTypes = {
 
 export const defaultProps = {
   label: null,
-  label_position: 'right',
+  label_position: null,
   title: null,
   default_state: null,
   checked: 'default', //we have to send this as a string
@@ -83,6 +86,7 @@ export default class Checkbox extends Component {
   static propTypes = propTypes
   static defaultProps = defaultProps
   static renderProps = renderProps
+  static contextType = Context
 
   static enableWebComponent() {
     registerElement(Checkbox.tagName, Checkbox, defaultProps)
@@ -197,12 +201,17 @@ export default class Checkbox extends Component {
     const id = this._id
     const showStatus = status && status !== 'error'
 
-    const classes = classnames(
-      'dnb-checkbox',
-      status && `dnb-checkbox__status--${status_state}`,
-      className,
-      _className
-    )
+    const mainParams = {
+      className: classnames(
+        'dnb-checkbox',
+        status && `dnb-checkbox__status--${status_state}`,
+        label &&
+          `dnb-checkbox--label-position-${label_position || 'right'}`,
+        createSpacingClasses(props),
+        className,
+        _className
+      )
+    }
 
     const inputParams = {
       disabled,
@@ -234,15 +243,8 @@ export default class Checkbox extends Component {
     )
 
     return (
-      <>
-        <span
-          className={classnames(
-            'dnb-checkbox--modifier',
-            label &&
-              label_position &&
-              `dnb-checkbox--label-position-${label_position}`
-          )}
-        >
+      <span {...mainParams}>
+        <span className="dnb-checkbox__order">
           {label && (
             <FormLabel
               id={id + '-label'}
@@ -251,7 +253,7 @@ export default class Checkbox extends Component {
               disabled={disabled}
             />
           )}
-          <span className={classes}>
+          <span className="dnb-checkbox__inner">
             <span className="dnb-checkbox__shell">
               <input
                 id={id}
@@ -267,27 +269,31 @@ export default class Checkbox extends Component {
                 onKeyDown={this.onKeyDownHandler}
                 ref={this._refInput}
               />
-              <span aria-hidden className="dnb-checkbox__button">
+              <span className="dnb-checkbox__helper" aria-hidden>
+                {'-'}
+              </span>
+              <span className="dnb-checkbox__button" aria-hidden>
                 <span className="dnb-checkbox__focus" />
               </span>
-              <CheckGfx className="dnb-checkbox__gfx" />
+              <CheckSVG />
             </span>
             {label_position === 'left' && statusComp}
           </span>
         </span>
-        {label_position === 'right' && statusComp}
-      </>
+        {(label_position === 'right' || !label_position) && statusComp}
+      </span>
     )
   }
 }
 
-const CheckGfx = props => (
+export const CheckSVG = props => (
   <svg
-    xmlns="http://www.w3.org/2000/svg"
     width="24"
     height="24"
     viewBox="0 0 24 24"
     fill="none"
+    className="dnb-checkbox__gfx"
+    aria-hidden
     {...props}
   >
     <path d="M5.86 12.95a.75.75 0 1 0-1.22.86l1.22-.86zm2.15 4.34l.62-.42-.01-.01-.61.43zm.94.52l.02-.75-.02.75zm.98-.46l-.6-.47v.01l.6.46zm9.4-10.7a.75.75 0 0 0-1.17-.93l1.18.93zm-14.7 7.16l2.76 3.91 1.23-.86-2.76-3.91-1.22.86zm2.75 3.9c.35.52.93.84 1.55.85l.04-1.5a.43.43 0 0 1-.34-.19l-1.25.84zm1.55.85c.62.02 1.22-.26 1.6-.76l-1.2-.9a.43.43 0 0 1-.36.16l-.04 1.5zm1.59-.75l8.82-11.16-1.18-.93-8.82 11.16 1.18.93z" />

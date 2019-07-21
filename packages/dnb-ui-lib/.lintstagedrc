@@ -1,22 +1,20 @@
 {
-  "linters": {
-    "*.js": [
-      "yarn prettier:js:staged",
-      "yarn lint:js:staged",
-      "git add"
-    ],
-    "*.scss": [
-      "yarn prettier:styles:staged",
-      "git add"
-    ],
-    "*.{js,scss}": [
-      "yarn lint:styles:staged",
-      "git add",
-      "yarn test:staged"
-    ],
-    "*.{json,md}": [
-      "yarn prettier:other",
-      "git add"
-    ]
-  }
+  "*.js": [
+    "yarn prettier:js:staged",
+    "yarn lint:js:staged",
+    "git add"
+  ],
+  "*.scss": [
+    "yarn prettier:styles:staged",
+    "git add"
+  ],
+  "*.{js,scss}": [
+    "yarn lint:styles:staged",
+    "git add",
+    "yarn test:staged"
+  ],
+  "*.{json,md}": [
+    "yarn prettier:other",
+    "git add"
+  ]
 }

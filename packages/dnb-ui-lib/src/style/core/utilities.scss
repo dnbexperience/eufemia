@@ -142,6 +142,16 @@ $focusRingColor: var(--color-emerald-green);
   // but with important, we take care of that we actually can use use it
   box-shadow: $inset 0 0 0 $width $color $important;
 
+  /* IE11 fix */
+  @if $width == 0.0625rem {
+    @media screen and (-ms-high-contrast: active),
+      (-ms-high-contrast: none) {
+      // Since 0.0625rem gets not rendered correctly
+      // and gives an artifact, we do use px instead
+      box-shadow: $inset 0 0 0 1px $color $important;
+    }
+  }
+
   @if $color != null {
     border-color: transparent;
   }

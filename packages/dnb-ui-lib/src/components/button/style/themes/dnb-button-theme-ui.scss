@@ -43,6 +43,7 @@
   background-color: var(--color-white);
 
   @include fakeBorder(var(--color-sea-green-alt), 0.0625rem, inset);
+
   @include buttonHover(var(--color-sea-green), var(--color-white));
   @include buttonFocus(var(--color-sea-green), var(--color-white));
   @include buttonActive(
