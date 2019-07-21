@@ -237,6 +237,16 @@
   }
 
   /**
+   * Remove the margin in Safari.
+   */
+
+  button,
+  input,
+  select {
+    margin: 0;
+  }
+
+  /**
    * 1. Show the overflow in IE.
    * 2. Remove the inheritance of text transform in Edge, Firefox, and IE.
    */
@@ -485,17 +495,5 @@
     clip: rect(0, 0, 0, 0);
     display: inherit;
     position: absolute;
-  }
-
-  /**
-     * Remove the margin in Safari.
-     */
-
-  button,
-  input,
-  select {
-    &:not([class*='dnb-space']) {
-      margin: 0;
-    }
   }
 }

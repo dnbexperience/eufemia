@@ -357,38 +357,49 @@ export default class Input extends PureComponent {
           />
         )}
         <span {...clampParams}>
-          <span className="dnb-input__shell" {...shellParams}>
-            {InputElement || <input ref={this._ref} {...inputParams} />}
+          <span className="dnb-input__row">
+            <span className="dnb-input__shell" {...shellParams}>
+              {InputElement || <input ref={this._ref} {...inputParams} />}
 
-            {placeholder && (
+              {placeholder && (
+                <span
+                  aria-hidden
+                  className={classnames(
+                    'dnb-input__placeholder',
+                    align ? `dnb-input__align--${align}` : null
+                  )}
+                >
+                  {placeholder}
+                </span>
+              )}
+            </span>
+
+            {hasSubmitButton &&
+              (submitButton ? (
+                submitButton
+              ) : (
+                <SubmitButton
+                  {...attributes}
+                  value={inputParams.value}
+                  icon={submit_button_icon}
+                  icon_size={size === 'large' ? 'medium' : size}
+                  title={submit_button_title}
+                  variant={submit_button_variant}
+                  disabled={disabled}
+                  size={size}
+                  on_submit={on_submit}
+                />
+              ))}
+
+            {this.props.description && (
               <span
-                aria-hidden
-                className={classnames(
-                  'dnb-input__placeholder',
-                  align ? `dnb-input__align--${align}` : null
-                )}
+                className="dnb-input__description"
+                id={id + '-description'} // used for "aria-describedby"
               >
-                {placeholder}
+                {this.props.description}
               </span>
             )}
           </span>
-
-          {hasSubmitButton &&
-            (submitButton ? (
-              submitButton
-            ) : (
-              <SubmitButton
-                {...attributes}
-                value={inputParams.value}
-                icon={submit_button_icon}
-                icon_size={size === 'large' ? 'medium' : size}
-                title={submit_button_title}
-                variant={submit_button_variant}
-                disabled={disabled}
-                size={size}
-                on_submit={on_submit}
-              />
-            ))}
 
           {showStatus && (
             <FormStatus
@@ -399,15 +410,6 @@ export default class Input extends PureComponent {
             />
           )}
         </span>
-
-        {this.props.description && (
-          <span
-            className="dnb-input__description"
-            id={id + '-description'} // used for "aria-describedby"
-          >
-            {this.props.description}
-          </span>
-        )}
       </span>
     )
   }

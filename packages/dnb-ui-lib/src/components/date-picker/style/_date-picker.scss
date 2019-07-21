@@ -168,6 +168,9 @@
   .dnb-input__submit-button button:focus ~ &__input__wrapper {
     display: block;
   }
+  &:not(#{&}--show-input) .dnb-input__submit-button {
+    margin-left: 0;
+  }
 
   &--separator {
     margin: 0 -0.2rem;

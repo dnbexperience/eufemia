@@ -104,6 +104,12 @@
     padding-right: calc(var(--input-padding) * 2.5);
   }
 
+  &__row {
+    display: inline-flex;
+    // flex-direction: column;
+    align-items: baseline;
+  }
+
   &__description {
     color: inherit;
     padding-left: 0.5rem;
@@ -115,7 +121,7 @@
 
     // place the button
     align-self: flex-end;
-    margin-top: calc(1px - 1px - var(--input-height));
+    margin-left: calc(1px - 1px - var(--input-height));
 
     &__button {
       border-radius: 50%;
@@ -136,7 +142,7 @@
       font-size: var(--input-font-size--medium);
     }
     .dnb-input__submit-button {
-      margin-top: calc(1px - 1px - var(--input-height--medium));
+      margin-left: calc(1px - 1px - var(--input-height--medium));
       &__button {
         width: var(--input-height--medium);
         height: var(--input-height--medium);
@@ -162,7 +168,7 @@
       font-size: var(--input-font-size--large);
     }
     .dnb-input__submit-button {
-      margin-top: calc(1px - 1px - var(--input-height--large));
+      margin-left: calc(1px - 1px - var(--input-height--large));
       &__button {
         width: var(--input-height--large);
         height: var(--input-height--large);

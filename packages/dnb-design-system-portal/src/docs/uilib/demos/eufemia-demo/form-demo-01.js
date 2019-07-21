@@ -43,7 +43,7 @@ const Section = styled(_Section)(SpacingHelper)
 // Visual helper to limit the width inside of our layout
 const WidthLimit = styled.div`
   max-width: 42rem;
-  .dnb-input {
+  .dnb-input__shell {
     max-width: 10rem;
   }
   @media (max-width: 40em) {
@@ -83,6 +83,8 @@ const Ingress = styled(Paragraph)`
 
 // Attachment area
 const Attachment = styled(Spacing)`
+  margin-top: 0.5rem;
+
   .dnb-button {
     margin-left: 1.5rem;
   }

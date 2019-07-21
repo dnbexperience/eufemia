@@ -67,46 +67,50 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
         className="dnb-input__inner"
       >
         <span
-          className="dnb-input__shell"
-          data-has-content="true"
-          data-input-state="virgin"
+          className="dnb-input__row"
         >
-          <t
-            autoComplete="off"
-            className="dnb-input__input"
-            guide={true}
-            id="input-masked"
-            keepCharPositions={true}
-            mask={
-              Array [
-                /\\[a-z\\]/,
-              ]
-            }
-            name="input-masked"
-            onBlur={[Function]}
-            onChange={[Function]}
-            onFocus={[Function]}
-            onKeyDown={[Function]}
-            pipe={null}
-            placeholderChar="placeholder_char"
-            render={[Function]}
-            showMask={true}
-            type="text"
-            value="test"
+          <span
+            className="dnb-input__shell"
+            data-has-content="true"
+            data-input-state="virgin"
           >
-            <input
+            <t
               autoComplete="off"
               className="dnb-input__input"
-              defaultValue="test"
+              guide={true}
               id="input-masked"
+              keepCharPositions={true}
+              mask={
+                Array [
+                  /\\[a-z\\]/,
+                ]
+              }
               name="input-masked"
               onBlur={[Function]}
               onChange={[Function]}
               onFocus={[Function]}
               onKeyDown={[Function]}
+              pipe={null}
+              placeholderChar="placeholder_char"
+              render={[Function]}
+              showMask={true}
               type="text"
-            />
-          </t>
+              value="test"
+            >
+              <input
+                autoComplete="off"
+                className="dnb-input__input"
+                defaultValue="test"
+                id="input-masked"
+                name="input-masked"
+                onBlur={[Function]}
+                onChange={[Function]}
+                onFocus={[Function]}
+                onKeyDown={[Function]}
+                type="text"
+              />
+            </t>
+          </span>
         </span>
       </span>
     </span>
@@ -649,6 +653,9 @@ legend.dnb-form-label {
   .dnb-input--has-submit-button .dnb-input__placeholder,
   .dnb-input--has-submit-button .dnb-input__input {
     padding-right: calc(var(--input-padding) * 2.5); }
+  .dnb-input__row {
+    display: inline-flex;
+    align-items: baseline; }
   .dnb-input__description {
     color: inherit;
     padding-left: 0.5rem; }
@@ -656,7 +663,7 @@ legend.dnb-form-label {
     position: relative;
     z-index: 2;
     align-self: flex-end;
-    margin-top: calc(1px - 1px - var(--input-height)); }
+    margin-left: calc(1px - 1px - var(--input-height)); }
     .dnb-input__submit-button__button {
       border-radius: 50%; }
   .dnb-input--medium .dnb-input__shell,
@@ -670,7 +677,7 @@ legend.dnb-form-label {
     padding-right: var(--input-padding--medium);
     font-size: var(--input-font-size--medium); }
   .dnb-input--medium .dnb-input__submit-button {
-    margin-top: calc(1px - 1px - var(--input-height--medium)); }
+    margin-left: calc(1px - 1px - var(--input-height--medium)); }
     .dnb-input--medium .dnb-input__submit-button__button {
       width: var(--input-height--medium);
       height: var(--input-height--medium); }
@@ -688,7 +695,7 @@ legend.dnb-form-label {
     padding-right: var(--input-padding--large);
     font-size: var(--input-font-size--large); }
   .dnb-input--large .dnb-input__submit-button {
-    margin-top: calc(1px - 1px - var(--input-height--large)); }
+    margin-left: calc(1px - 1px - var(--input-height--large)); }
     .dnb-input--large .dnb-input__submit-button__button {
       width: var(--input-height--large);
       height: var(--input-height--large); }

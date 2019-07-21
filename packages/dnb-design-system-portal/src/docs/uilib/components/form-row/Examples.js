@@ -7,28 +7,25 @@ import React, { PureComponent } from 'react'
 import ComponentBox from 'Src/shared/tags/ComponentBox'
 import { Global, css } from '@emotion/core'
 import styled from '@emotion/styled'
+import { isCI } from 'ci-info'
 import AllComponents from 'dnb-ui-lib/src/components/form-row/AllComponents'
 // import { FormRow } from 'dnb-ui-lib/src/components'
 // import AllComponents from './AllComponents'
 
-const IS_TEST = typeof window !== 'undefined' && window.IS_TEST
-const TestStyles = IS_TEST
-  ? styled.div`
-      /* // make sure our input gets an explicit width, because of mac/linux rendering differences */
-      .dnb-input {
-        &__inner {
-          width: 8rem;
-        }
-      }
-    `
-  : styled.div``
+const TestStyles = styled.div`
+  /* // make sure our input gets an explicit width, because of mac/linux rendering differences */
+  :not(.dnb-input--stretch) & .dnb-input__shell {
+    width: 12rem;
+  }
+`
 const WidthLimit = styled.div`
   width: 40rem;
 `
 
 class Example extends PureComponent {
   render() {
-    const IS_TEST = typeof window !== 'undefined' && window.IS_TEST
+    const IS_TEST =
+      (typeof window !== 'undefined' && window.IS_TEST) || !isCI
     return (
       <TestStyles>
         <ComponentBox
@@ -97,6 +94,7 @@ class Example extends PureComponent {
         >
           {/* @jsx */ `
 const CustomRow = styled(FormRow)\`
+  align-items: flex-end;
   > .dnb-form-label {
     max-width: 12rem;
     background: var(--color-white);

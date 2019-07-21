@@ -121,7 +121,8 @@
   }
 }
 
-.dnb-space {
+.dnb-space,
+.dnb-core-style .dnb-space {
   &--inline {
     display: inline-block;
   }
