@@ -520,6 +520,7 @@ exports[`Radio scss have to match default theme snapshot 1`] = `
   .dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:active) ~ .dnb-radio__focus {
     display: block;
     box-shadow: 0 0 0 0.125rem var(--color-cherry-red);
+    /* IE11 fix */
     border-color: transparent; }
   .dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:checked):hover ~ .dnb-radio__button {
     background-color: var(--color-cherry-red-80); }
@@ -778,6 +779,7 @@ legend.dnb-form-label {
     outline: none; }
     html[data-whatinput='keyboard'] .dnb-radio__focus {
       box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
+      /* IE11 fix */
       border-color: transparent; }
   .dnb-radio__focus, .dnb-radio__button {
     width: calc(var(--radio-width) - 0.25rem);
@@ -852,16 +854,20 @@ legend.dnb-form-label {
     .dnb-form-row--vertical .dnb-radio-group {
       display: flex; }
   @media all and (-ms-high-contrast: none) {
-    .dnb-radio__focus, .dnb-radio__button, .dnb-radio__dot {
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      margin: auto; }
-    .dnb-radio__order {
-      align-items: center; }
-    .dnb-radio-group [role='radiogroup'], .dnb-radio-group__shell {
-      display: flex;
-      flex-direction: column; } }
+    .dnb-radio {
+      vertical-align: text-bottom; }
+      .dnb-radio__focus, .dnb-radio__button, .dnb-radio__dot {
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        margin: auto; }
+      .dnb-radio__order {
+        align-items: center; }
+      .dnb-radio-group {
+        vertical-align: middle; }
+        .dnb-radio-group [role='radiogroup'], .dnb-radio-group__shell {
+          display: flex;
+          flex-direction: column; } }
 "
 `;

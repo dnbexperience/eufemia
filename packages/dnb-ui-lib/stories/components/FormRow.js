@@ -33,7 +33,7 @@ export default [
     <Wrapper showOverflow>
       <H2 bottom="small">Plain</H2>
       <Box>
-        <AllComponents horizontal vertical />
+        <AllComponents showText horizontal vertical />
       </Box>
 
       <H2 bottom="small">Horizontal label</H2>

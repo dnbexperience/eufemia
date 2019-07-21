@@ -1186,6 +1186,7 @@ exports[`DatePicker scss have to match snapshot 1`] = `
       outline: none; }
       html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
         box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
+        /* IE11 fix */
         border-color: transparent; }
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):focus,
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):active {
@@ -1536,6 +1537,9 @@ legend.dnb-form-label {
     align-items: flex-start; }
     .dnb-input[class*='__status'] > .dnb-form-label {
       margin-top: 0.25rem; }
+  @media all and (-ms-high-contrast: none) {
+    .dnb-input {
+      vertical-align: baseline; } }
 
 .dnb-dropdown {
   font-family: var(--font-family-default);
@@ -1723,6 +1727,7 @@ legend.dnb-form-label {
     outline: none; }
     html[data-whatinput='keyboard'] .dnb-date-picker table.dnb-no-focus:focus {
       box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
+      /* IE11 fix */
       border-color: transparent; }
   .dnb-date-picker__day, .dnb-date-picker__labels__day {
     display: flex;
@@ -1800,5 +1805,15 @@ legend.dnb-form-label {
     align-items: flex-start; }
     .dnb-date-picker[class*='__status'] > .dnb-form-label {
       margin-top: 0.25rem; }
+  @media all and (-ms-high-contrast: none) {
+    .dnb-date-picker__day .dnb-button,
+    .dnb-core-style .dnb-date-picker__day .dnb-button, .dnb-date-picker__day .dnb-button__bounding {
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      margin: auto; }
+    .dnb-date-picker__day .dnb-button__text {
+      transform: translateX(-50%); } }
 "
 `;

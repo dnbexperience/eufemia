@@ -136,7 +136,8 @@
 
   // IE fix
   @media all and (-ms-high-contrast: none) {
-    vertical-align: middle;
+    vertical-align: text-bottom;
+
     &__order {
       align-items: flex-start;
     }

@@ -370,6 +370,7 @@ exports[`InputMasked scss have to match snapshot 1`] = `
       outline: none; }
       html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
         box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
+        /* IE11 fix */
         border-color: transparent; }
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):focus,
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):active {
@@ -720,6 +721,9 @@ legend.dnb-form-label {
     align-items: flex-start; }
     .dnb-input[class*='__status'] > .dnb-form-label {
       margin-top: 0.25rem; }
+  @media all and (-ms-high-contrast: none) {
+    .dnb-input {
+      vertical-align: baseline; } }
 
 .dnb-input-masked {
   font-family: var(--font-family-default);

@@ -537,6 +537,7 @@ exports[`StepIndicator scss have to match snapshot 1`] = `
     outline: none; }
     html[data-whatinput='keyboard'] :not([dnb-is-touch]) .dnb-step-indicator__item-content--link:focus:not([disabled]) {
       box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
+      /* IE11 fix */
       border-color: transparent; }
     :not([dnb-is-touch]) .dnb-step-indicator__item-content--link:focus:not([disabled])::after {
       content: none; }

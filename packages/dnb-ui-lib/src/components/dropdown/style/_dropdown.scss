@@ -392,6 +392,8 @@
 
   // IE fix
   @media all and (-ms-high-contrast: none) {
+    vertical-align: baseline;
+
     &__option {
       &__inner {
         min-height: 5rem;

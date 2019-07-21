@@ -54,11 +54,6 @@
     transform: translateX(0);
     transition: transform 160ms ease-out 125ms;
     border: var(--switch-border-width) solid transparent;
-
-    // IE fix
-    @media all and (-ms-high-contrast: none) {
-      top: -0.25rem; // because IE is not using flex to center here
-    }
   }
 
   /*
@@ -157,9 +152,6 @@
   }
 
   &--label-position-right &__order {
-    // in case we have text before, or after, make sure we are aligned
-    vertical-align: middle;
-
     .dnb-switch__inner {
       order: 1;
     }
@@ -177,10 +169,12 @@
 
   // IE fix
   @media all and (-ms-high-contrast: none) {
-    vertical-align: middle;
+    vertical-align: text-bottom;
+
     &__order {
       align-items: flex-start;
     }
+    &__input,
     &__focus,
     &__button {
       top: 0;

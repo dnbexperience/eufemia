@@ -226,4 +226,9 @@
       margin-top: 0.25rem;
     }
   }
+
+  // IE fix
+  @media all and (-ms-high-contrast: none) {
+    vertical-align: baseline;
+  }
 }

@@ -365,4 +365,24 @@
       margin-top: 0.25rem;
     }
   }
+
+  // IE fix
+  @media all and (-ms-high-contrast: none) {
+    &__day {
+      .dnb-button {
+        &,
+        .dnb-core-style &,
+        &__bounding {
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          margin: auto;
+        }
+        &__text {
+          transform: translateX(-50%);
+        }
+      }
+    }
+  }
 }

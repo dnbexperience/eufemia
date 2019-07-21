@@ -247,6 +247,7 @@ exports[`Checkbox scss have to match default theme snapshot 1`] = `
   .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:focus):not(:active) ~ .dnb-checkbox__button .dnb-checkbox__focus {
     display: block;
     box-shadow: 0 0 0 0.125rem var(--color-cherry-red);
+    /* IE11 fix */
     border-color: transparent; }
   .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:focus):hover ~ .dnb-checkbox__button {
     border-color: var(--color-cherry-red);
@@ -508,6 +509,7 @@ legend.dnb-form-label {
     outline: none; }
     html[data-whatinput='keyboard'] .dnb-checkbox__focus {
       box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
+      /* IE11 fix */
       border-color: transparent; }
   .dnb-checkbox__gfx {
     position: absolute;
@@ -555,7 +557,7 @@ legend.dnb-form-label {
     margin-top: 0.5rem; }
   @media all and (-ms-high-contrast: none) {
     .dnb-checkbox {
-      vertical-align: middle; }
+      vertical-align: text-bottom; }
       .dnb-checkbox__order {
         align-items: flex-start; }
       .dnb-checkbox__gfx, .dnb-checkbox__input {

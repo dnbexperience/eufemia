@@ -34,10 +34,10 @@ const AllComponents = ({ horizontal, vertical, showText }) => {
     <>
       {showText && (
         <>
-          text
-          <Space {...params}>
+          <Space {...params} inline>
             <p className="dnb-p">paragraph</p>
           </Space>
+          text
         </>
       )}
       <Button text="Button" {...params} />

@@ -348,6 +348,7 @@ exports[`Tabs scss have to match snapshot 1`] = `
       outline: none; }
       html[data-whatinput='keyboard'] .dnb-tabs__tabs__tablist:focus {
         box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
+        /* IE11 fix */
         border-color: transparent; }
   .dnb-tabs__tabs--left .dnb-tabs__tabs__tablist {
     justify-content: flex-start; }
