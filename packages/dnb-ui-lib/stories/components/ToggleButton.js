@@ -25,7 +25,7 @@ export default [
         <FormRow
           indent
           label="Horizontal Legend Aptent maecenas non pharetra libero massa auctor pretium vulputate vivamus:"
-          content_size="large"
+          label_offset="large"
         >
           <ToggleButton.Group label="Group A label:">
             <ToggleButton text="First" value="first" />
@@ -129,7 +129,7 @@ export default [
         </FormRow>
         <FormRow
           indent
-          content_size="large"
+          label_offset="large"
           label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:"
         >
           <ToggleButton.Group
@@ -158,7 +158,7 @@ export default [
       <Box>
         <FormRow
           indent
-          content_size="large"
+          label_offset="large"
           label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:"
         >
           <ToggleButton.Group

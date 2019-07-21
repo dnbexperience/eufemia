@@ -4,7 +4,6 @@ exports[`FormRow component have to match snapshot 1`] = `
 <FormRow
   class="class"
   className="className"
-  content_size="content_size"
   direction="horizontal"
   disabled="disabled"
   id="form-row"
@@ -12,6 +11,7 @@ exports[`FormRow component have to match snapshot 1`] = `
   label="label"
   label_direction="horizontal"
   label_id="label_id"
+  label_offset="label_offset"
   no_fieldset="no_fieldset"
   no_label="no_label"
   no_wrap="no_wrap"
@@ -28,7 +28,7 @@ exports[`FormRow component have to match snapshot 1`] = `
       className="dnb-form-row__fieldset"
     >
       <div
-        className="dnb-form-row dnb-form-row--horizontal dnb-form-row__content--content_size dnb-form-row--horizontal-label dnb-form-row__indent--indent dnb-section dnb-section--section_style dnb-section--spacing-section_spacing className class"
+        className="dnb-form-row dnb-form-row--horizontal dnb-form-row__content--label_offset dnb-form-row--horizontal-label dnb-form-row__indent--indent dnb-section dnb-section--section_style dnb-section--spacing-section_spacing className class"
       >
         <FormLabel
           class={null}
@@ -242,16 +242,18 @@ legend.dnb-form-label {
   @media (max-width: 40em) {
     .dnb-form-row:not(.dnb-form-row--vertical) {
       display: block; } }
-  .dnb-form-row__content--medium.dnb-form-row:not(.dnb-form-row--vertical).dnb-form-row:not(.dnb-form-row--vertical-label) > .dnb-form-label {
-    margin-bottom: -1.5rem; }
-    @media (max-width: 40em) {
-      .dnb-form-row__content--medium.dnb-form-row:not(.dnb-form-row--vertical).dnb-form-row:not(.dnb-form-row--vertical-label) > .dnb-form-label {
-        margin-bottom: 0.5rem; } }
-  .dnb-form-row__content--large.dnb-form-row:not(.dnb-form-row--vertical).dnb-form-row:not(.dnb-form-row--vertical-label) > .dnb-form-label {
-    margin-bottom: -2rem; }
-    @media (max-width: 40em) {
-      .dnb-form-row__content--large.dnb-form-row:not(.dnb-form-row--vertical).dnb-form-row:not(.dnb-form-row--vertical-label) > .dnb-form-label {
-        margin-bottom: 0.5rem; } }
+  @media (min-width: 40em) {
+    .dnb-form-row:not(.dnb-form-row--vertical).dnb-form-row:not(.dnb-form-row--vertical-label).dnb-form-row__content--medium > .dnb-form-row__content {
+      margin-top: -1.5rem; }
+    .dnb-form-row:not(.dnb-form-row--vertical).dnb-form-row:not(.dnb-form-row--vertical-label).dnb-form-row__content--x-medium > .dnb-form-row__content {
+      margin-top: -1.75rem; }
+    .dnb-form-row:not(.dnb-form-row--vertical).dnb-form-row:not(.dnb-form-row--vertical-label).dnb-form-row__content--large > .dnb-form-row__content {
+      margin-top: -2rem; }
+    .dnb-form-row:not(.dnb-form-row--vertical).dnb-form-row:not(.dnb-form-row--vertical-label).dnb-form-row__content--x-large > .dnb-form-row__content {
+      margin-top: -2.25rem; } }
+  @media (max-width: 40em) {
+    .dnb-form-row > .dnb-form-row__content {
+      margin-top: 0.5rem !important; } }
   .dnb-form-row--no_wrap.dnb-form-row:not(.dnb-form-row--vertical).dnb-form-row:not(.dnb-form-row--vertical-label) .dnb-form-row__content .dnb-form-label {
     white-space: nowrap; }
   .dnb-form-row--vertical > .dnb-form-label {

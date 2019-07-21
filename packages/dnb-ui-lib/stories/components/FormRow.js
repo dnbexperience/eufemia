@@ -30,7 +30,30 @@ export default [
   'FormRow',
   () => (
     // <Center>
+
     <Wrapper showOverflow>
+      <H2 bottom="small">Combine vertical and horizontal</H2>
+      <Box>
+        <FormRow label="Vertical legend:" vertical>
+          <Input label="Vertical input A" />
+          <Input label="Vertical input B" top="medium" />
+        </FormRow>
+        <FormRow
+          label="Horizontal legend:"
+          direction="horizontal"
+          label_direction="horizontal"
+          vertical={false}
+          // indent
+          no_wrap
+          label_offset="auto"
+          // label_offset="x-medium"
+          top="medium"
+        >
+          <Input label="Horizontal input A" />
+          <Input label="Horizontal input B" left="small" />
+        </FormRow>
+      </Box>
+
       <H2 bottom="small">Plain</H2>
       <Box>
         <AllComponents showText horizontal vertical />
@@ -43,7 +66,7 @@ export default [
           label="Horizontal Legend Aptent maecenas non pharetra libero massa auctor pretium vulputate vivamus:"
           no_wrap="true"
           direction="horizontal"
-          content_size="large"
+          label_offset="large"
         >
           <AllComponents showText horizontal />
         </FormRow>

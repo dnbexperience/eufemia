@@ -33,7 +33,7 @@ export const propTypes = {
   no_wrap: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   direction: PropTypes.oneOf(['vertical', 'horizontal']),
   vertical: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  content_size: PropTypes.string,
+  label_offset: PropTypes.string,
   section_style: PropTypes.string,
   section_spacing: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -62,7 +62,7 @@ export const defaultProps = {
   no_wrap: null,
   direction: null,
   vertical: null,
-  content_size: null,
+  label_offset: null,
   section_style: null,
   section_spacing: null,
   disabled: null,
@@ -116,6 +116,47 @@ export default class FormRow extends PureComponent {
       context.formRow && context.formRow.isInsideFormSet
     this._id =
       props.id || `dnb-form-row-${Math.round(Math.random() * 999)}` // cause we need an id anyway
+
+    this._contentRef = React.createRef()
+  }
+
+  componentDidMount() {
+    this.setLabelOffset()
+  }
+  componentWillUnmount() {
+    clearTimeout(this.contentSizeDelay)
+  }
+
+  setLabelOffset() {
+    clearTimeout(this.contentSizeDelay)
+    this.contentSizeDelay = setTimeout(() => {
+      const { label, vertical, direction, label_offset } = this.props
+      if (
+        (label,
+        !isTrue(vertical) &&
+          direction !== 'vertical' &&
+          label_offset === 'auto' &&
+          this._contentRef.current)
+      ) {
+        try {
+          const height = this._contentRef.current.offsetHeight
+          const restBoundingBoxHeight = 12
+          const pixelsToMove =
+            height - (height / 2 - restBoundingBoxHeight)
+          let rem = pixelsToMove / 16
+
+          // beaucse we don't have components witch needs heigher than that
+          // e.g. <Input size="large" has a label centered to that value
+          if (rem > 2.25) {
+            rem = 2.25
+          }
+          this._contentRef.current.style.marginTop = `-${rem}rem`
+          // console.warn('setLabelOffset', rem)
+        } catch (e) {
+          console.log('Error on setLabelOffset', e)
+        }
+      }
+    }, 1)
   }
 
   render() {
@@ -134,7 +175,7 @@ export default class FormRow extends PureComponent {
       indent,
       direction,
       vertical,
-      content_size,
+      label_offset,
       section_style,
       section_spacing,
       disabled,
@@ -161,9 +202,10 @@ export default class FormRow extends PureComponent {
         'dnb-form-row',
         (isTrue(vertical) || direction) &&
           `dnb-form-row--${isTrue(vertical) ? 'vertical' : direction}`,
-        !isTrue(vertical) &&
+        label &&
+          !isTrue(vertical) &&
           direction !== 'vertical' &&
-          `dnb-form-row__content--${content_size || 'medium'}`,
+          `dnb-form-row__content--${label_offset || 'medium'}`,
         (isTrue(vertical) || label_direction) &&
           `dnb-form-row--${
             isTrue(vertical) ? 'vertical' : label_direction
@@ -216,14 +258,11 @@ export default class FormRow extends PureComponent {
 
     const useFieldset = !isTrue(no_fieldset)
 
+    this.setLabelOffset()
+
     return (
       <Context.Provider value={context}>
-        <Fieldset
-          useFieldset={
-            // this.isInsideFormSet
-            label && useFieldset
-          }
-        >
+        <Fieldset useFieldset={label && useFieldset}>
           <div {...params}>
             {label && (
               <FormLabel
@@ -245,7 +284,12 @@ export default class FormRow extends PureComponent {
             {isNested ? (
               children
             ) : (
-              <div className="dnb-form-row__content">{children}</div>
+              <div
+                className="dnb-form-row__content"
+                ref={this._contentRef}
+              >
+                {children}
+              </div>
             )}
           </div>
         </Fieldset>

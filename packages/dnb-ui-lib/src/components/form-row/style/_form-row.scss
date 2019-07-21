@@ -35,7 +35,6 @@
         [row2-end];
     }
 
-    // > * { // <-- we used this before
     > .dnb-form-row__content {
       @supports (display: grid) {
         grid-column: column2-start / column2-end;
@@ -66,21 +65,32 @@
     }
   }
 
-  // move the content up in case we have several lines
-  &__content--medium#{&}:not(#{&}--vertical)#{&}:not(#{&}--vertical-label)
-    > .dnb-form-label {
-    margin-bottom: -1.5rem;
-    // if not mobile
-    @media (max-width: 40em) {
-      margin-bottom: 0.5rem;
+  // if not mobile
+  @media (min-width: 40em) {
+    // move the content up in case we have several lines
+    &:not(#{&}--vertical)#{&}:not(#{&}--vertical-label)#{&}__content--medium
+      > .dnb-form-row__content {
+      margin-top: -1.5rem;
+    }
+    &:not(#{&}--vertical)#{&}:not(#{&}--vertical-label)#{&}__content--x-medium
+      > .dnb-form-row__content {
+      margin-top: -1.75rem;
+    }
+    &:not(#{&}--vertical)#{&}:not(#{&}--vertical-label)#{&}__content--large
+      > .dnb-form-row__content {
+      margin-top: -2rem;
+    }
+    &:not(#{&}--vertical)#{&}:not(#{&}--vertical-label)#{&}__content--x-large
+      > .dnb-form-row__content {
+      margin-top: -2.25rem;
     }
   }
-  &__content--large#{&}:not(#{&}--vertical)#{&}:not(#{&}--vertical-label)
-    > .dnb-form-label {
-    margin-bottom: -2rem;
-    // if not mobile
-    @media (max-width: 40em) {
-      margin-bottom: 0.5rem;
+
+  // if mobile
+  @media (max-width: 40em) {
+    & > .dnb-form-row__content {
+      // use important, sice we want to overwrite the inline style "marginTop" set by "setLabelOffset"
+      margin-top: 0.5rem !important;
     }
   }
 

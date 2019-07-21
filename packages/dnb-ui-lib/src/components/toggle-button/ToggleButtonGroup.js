@@ -260,7 +260,8 @@ export default class ToggleButtonGroup extends PureComponent {
       direction: label_direction,
       vertical,
       disabled,
-      no_fieldset
+      no_fieldset,
+      label_offset: 'medium'
       // status,
       // status_state
     }

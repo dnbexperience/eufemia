@@ -307,7 +307,6 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
     <FormRow
       class={null}
       className={null}
-      content_size={null}
       direction={null}
       disabled={null}
       id="group"
@@ -315,6 +314,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
       label="Label"
       label_direction={null}
       label_id="group"
+      label_offset="medium"
       no_fieldset={null}
       no_label={false}
       no_wrap={null}

@@ -126,7 +126,7 @@ render(
 <FormRow
   label="A long horizontal FormLabel with a lot of informative text:"
   indent="true"
-  content_size="large"
+  label_offset="large"
   no_wrap="true"
   direction="horizontal"
 >
@@ -182,7 +182,7 @@ render(
   // indent="true"
   no_wrap="true"
   direction="horizontal"
-  content_size="large"
+  label_offset="large"
 >
   <AllComponents horizontal />
 </FormRow>
