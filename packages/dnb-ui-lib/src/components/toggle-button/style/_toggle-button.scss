@@ -123,7 +123,7 @@
 
   // label
   .dnb-form-label {
-    margin-right: 0.5rem;
+    margin-right: 1rem;
   }
 
   &-group {
@@ -184,14 +184,6 @@
     .dnb-form-row--vertical & {
       display: flex;
     }
-
-    // @media (min-width: 40em) {
-    //   .dnb-form-row__label:not(.dnb-form-label--vertical)
-    //     + .dnb-form-row__content
-    //     > & {
-    //     transform: translateY(-0.5rem);
-    //   }
-    // }
   }
 
   // defualt spacing for a single toggle button

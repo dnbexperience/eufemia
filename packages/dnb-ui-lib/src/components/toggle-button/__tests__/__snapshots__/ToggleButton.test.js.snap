@@ -1337,7 +1337,6 @@ a.dnb-button .dnb-button__text {
     position: relative;
     user-select: none;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
     width: var(--radio-height);
@@ -1366,8 +1365,8 @@ a.dnb-button .dnb-button__text {
   .dnb-radio__input {
     opacity: 0;
     position: absolute;
-    top: 0;
-    left: 0;
+    top: auto;
+    left: auto;
     z-index: 5;
     width: var(--radio-width);
     height: var(--radio-height);
@@ -1430,7 +1429,7 @@ a.dnb-button .dnb-button__text {
   @media all and (-ms-high-contrast: none) {
     .dnb-radio {
       vertical-align: text-bottom; }
-      .dnb-radio__focus, .dnb-radio__button, .dnb-radio__dot {
+      .dnb-radio__input, .dnb-radio__focus, .dnb-radio__button, .dnb-radio__dot {
         top: 0;
         right: 0;
         bottom: 0;
@@ -1553,7 +1552,7 @@ a.dnb-button .dnb-button__text {
   .dnb-toggle-button .dnb-form-status {
     margin-top: 0.5rem; }
   .dnb-toggle-button .dnb-form-label {
-    margin-right: 0.5rem; }
+    margin-right: 1rem; }
   .dnb-toggle-button-group {
     display: inline-flex; }
     .dnb-toggle-button-group .dnb-toggle-button {

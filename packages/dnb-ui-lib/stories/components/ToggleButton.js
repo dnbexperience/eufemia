@@ -11,8 +11,8 @@ import {
   ToggleButton,
   // Button,
   // FormSet,
-  FormRow
-  // FormLabel
+  FormRow,
+  FormLabel
 } from '../../src/components'
 
 import { H2 } from '../../src/elements'
@@ -21,10 +21,11 @@ export default [
   'ToggleButton',
   () => (
     <Wrapper>
-      <Box>
+      {/* <Box>
         <FormRow
           indent
           label="Horizontal Legend Aptent maecenas non pharetra libero massa auctor pretium vulputate vivamus:"
+          content_size="large"
         >
           <ToggleButton.Group label="Group A label:">
             <ToggleButton text="First" value="first" />
@@ -45,7 +46,7 @@ export default [
             <ToggleButton text="Third" value="third" />
           </ToggleButton.Group>
         </FormRow>
-      </Box>
+      </Box> */}
       <Box>
         <p className="dnb-p">
           Text:{' '}
@@ -84,12 +85,15 @@ export default [
           />
         </p>
       </Box>
-      {/* <Box>
-        <p className="dnb-p dnb-toggle-button-group">
+      <Box>
+        <p className="dnb-p">
           <FormLabel id="MyToggleButtonGroup">
             Without ToggleButton.Group:
           </FormLabel>
-          <span role="radiogroup" aria-labelledby="MyToggleButtonGroup">
+          <span
+            className="dnb-toggle-button-group"
+            aria-labelledby="MyToggleButtonGroup"
+          >
             <ToggleButton
               value="first"
               text="First"
@@ -118,13 +122,14 @@ export default [
             />
           </span>
         </p>
-      </Box> */}
+      </Box>
       <Box>
         <FormRow indent no_label>
           <H2>A h2 in a FormRow without a label</H2>
         </FormRow>
         <FormRow
           indent
+          content_size="large"
           label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:"
         >
           <ToggleButton.Group
@@ -153,6 +158,7 @@ export default [
       <Box>
         <FormRow
           indent
+          content_size="large"
           label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:"
         >
           <ToggleButton.Group

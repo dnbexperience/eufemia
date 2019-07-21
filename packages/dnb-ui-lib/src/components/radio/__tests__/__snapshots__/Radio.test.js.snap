@@ -763,7 +763,6 @@ legend.dnb-form-label {
     position: relative;
     user-select: none;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
     width: var(--radio-height);
@@ -792,8 +791,8 @@ legend.dnb-form-label {
   .dnb-radio__input {
     opacity: 0;
     position: absolute;
-    top: 0;
-    left: 0;
+    top: auto;
+    left: auto;
     z-index: 5;
     width: var(--radio-width);
     height: var(--radio-height);
@@ -856,7 +855,7 @@ legend.dnb-form-label {
   @media all and (-ms-high-contrast: none) {
     .dnb-radio {
       vertical-align: text-bottom; }
-      .dnb-radio__focus, .dnb-radio__button, .dnb-radio__dot {
+      .dnb-radio__input, .dnb-radio__focus, .dnb-radio__button, .dnb-radio__dot {
         top: 0;
         right: 0;
         bottom: 0;
