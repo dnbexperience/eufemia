@@ -3,18 +3,12 @@
  *
  */
 
-import React, {
-  PureComponent
-  // , useEffect, useState
-} from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 // import { Space } from 'dnb-ui-lib/src/components'
 import styled from '@emotion/styled'
-import {
-  MagicBox,
-  VisualSpace
-} from '../../../../../../dnb-ui-lib/stories/components/Space'
+import { MagicBox, VisualSpace } from './VisualHelpers'
 
 const IS_TEST = typeof window !== 'undefined' && window.IS_TEST
 const TestStyles = styled.div`
