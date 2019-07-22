@@ -95,6 +95,11 @@ const DividerSection = styled(Section)`
   .dnb-button + .dnb-button {
     margin-left: 1rem;
   }
+  @media (max-width: 40em) {
+    .dnb-button + .dnb-button {
+      margin-left: 0.5rem;
+    }
+  }
 `
 
 // Default local states/values
