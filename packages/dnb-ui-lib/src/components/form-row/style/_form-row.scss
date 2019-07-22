@@ -91,6 +91,11 @@
           }
         }
 
+        // IE fix
+        @media all and (-ms-high-contrast: none) {
+          margin-top: 0;
+        }
+
         // if mobile
         @media (max-width: 40em) {
           // use important, sice we want to overwrite the inline style "marginTop" set by "setLabelOffset"
