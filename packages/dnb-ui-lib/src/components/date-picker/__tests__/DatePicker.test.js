@@ -175,6 +175,15 @@ describe('DatePicker component', () => {
     })
   })
 
+  it('has to return all additional attributes the event return', () => {
+    const my_event = jest.fn()
+    const params = { 'data-attr': 'value' }
+    const Comp = mount(<Component on_show={my_event} {...params} />)
+    Comp.find('button').simulate('click')
+    expect(my_event.mock.calls.length).toBe(1)
+    expect(my_event.mock.calls[0][0].attributes).toMatchObject(params)
+  })
+
   it('is displaying correct month', () => {
     expect(
       Comp.find('.dnb-date-picker__header__title')
