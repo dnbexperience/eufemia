@@ -6,7 +6,8 @@
 @import '../../components/button/style/button-mixins.scss';
 
 @mixin tableStyle() {
-  display: block;
+  display: table;
+  table-layout: auto;
   width: 100%;
 
   overflow: auto;

@@ -9,6 +9,8 @@ import ComponentBox from 'Tags/ComponentBox'
 
 The following table has a default style. But in future, there will be several patterns and styles to choose from.
 
+You may consider using `table-layout: fixed;`.
+
 <ComponentBox reactLive hideCode data-dnb-test="table-default">
 {`
 <table className="dnb-table">
