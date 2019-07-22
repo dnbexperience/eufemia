@@ -14,10 +14,10 @@ The following table has a default style. But in future, there will be several pa
 <table className="dnb-table">
   <thead>
     <tr>
-      <th colSpan="2" className="dnb-table--no-wrap">
-        Only text
+      <th scope="col" colSpan="2" className="dnb-table--no-wrap">
+        Header
       </th>
-      <th className="dnb-table--sortable dnb-table--reversed">
+      <th scope="col" className="dnb-table--sortable dnb-table--reversed">
         {/* <a href="#sort">
           Sortable
           <IconPrimary icon="chevron-down" />
@@ -29,7 +29,7 @@ The following table has a default style. But in future, there will be several pa
           title="Sort table row"
         />
       </th>
-      <th className="dnb-table--sortable dnb-table--active">
+      <th scope="col" className="dnb-table--sortable dnb-table--active">
         {/* <a href="#sort">
           Active
           <IconPrimary icon="chevron-down" />
@@ -43,6 +43,12 @@ The following table has a default style. But in future, there will be several pa
       </th>
     </tr>
   </thead>
+  <tfoot>
+    <tr>
+      <td colSpan="3">Footer</td>
+      <td>Sum</td>
+    </tr>
+  </tfoot>
   <tbody>
     <tr>
       <td>
@@ -59,8 +65,7 @@ The following table has a default style. But in future, there will be several pa
       <td>Column 4</td>
     </tr>
     <tr>
-      <td>Column 1</td>
-      <td>Column 2</td>
+      <td colSpan="2">Column witch spans over two columns</td>
       <td>Column 3</td>
       <td>Column 4</td>
     </tr>
