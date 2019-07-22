@@ -200,12 +200,6 @@
 
     &-group {
       vertical-align: middle;
-      & [role='radiogroup'],
-      &__shell {
-        // this is a dirty fix, and there may be a better sollution
-        display: flex;
-        flex-direction: column;
-      }
     }
   }
 }

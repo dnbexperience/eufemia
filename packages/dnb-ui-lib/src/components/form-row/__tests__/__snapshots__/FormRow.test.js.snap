@@ -288,7 +288,8 @@ legend.dnb-form-label {
   .dnb-core-style .dnb-form-row__fieldset {
     margin: 0;
     padding: 0;
-    border: none; }
+    border: none;
+    width: 100%; }
   @media all and (-ms-high-contrast: none) {
     .dnb-form-row {
       align-items: flex-start; }
