@@ -7,6 +7,7 @@ exports[`Space component have to match snapshot 1`] = `
   className="className"
   element="div"
   id="space"
+  inline="inline"
   left="left"
   render_content={[Function]}
   right="right"

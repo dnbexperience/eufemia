@@ -90,6 +90,16 @@
     left: 0;
   }
 
+  // alignment
+  &--right &__container {
+    left: auto;
+    right: -1rem;
+  }
+  &--show-input#{&}--right &__container {
+    left: auto;
+    right: 0;
+  }
+
   &--opened &__container {
     @include openDatePicker();
   }
@@ -336,8 +346,9 @@
       background-color: var(--color-white);
     }
   }
-  &--show-input &__triangle {
-    left: 0;
+  &--right &__triangle {
+    left: auto;
+    right: 0;
   }
 
   .rtl {

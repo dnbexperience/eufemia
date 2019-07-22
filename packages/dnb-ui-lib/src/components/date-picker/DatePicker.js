@@ -102,6 +102,7 @@ export const propTypes = {
   opened: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   direction: PropTypes.oneOf(['auto', 'top', 'bottom']),
+  align_picker: PropTypes.oneOf(['auto', 'left', 'right']),
 
   // Web Component props
   custom_element: PropTypes.object,
@@ -147,6 +148,7 @@ export const defaultProps = {
   status_animation: null,
   opened: false,
   no_animation: false,
+  align_picker: null,
   direction: 'auto',
 
   // Web Component props
@@ -261,8 +263,9 @@ export default class DatePicker extends PureComponent {
   }
 
   setTrianglePosition = () => {
+    const { show_input, align_picker } = this.props
     if (
-      isTrue(this.props.show_input) &&
+      isTrue(show_input) &&
       this._triangleRef.current &&
       this._clampRef.current
     ) {
@@ -273,8 +276,15 @@ export default class DatePicker extends PureComponent {
         const buttonWidth = this._clampRef.current
           .querySelector('.dnb-input__submit-button__button')
           .getBoundingClientRect().width
-        const left = shellWidth - buttonWidth / 2 - 8
-        this._triangleRef.current.style.marginLeft = `${left / 16}rem`
+        if (align_picker === 'right') {
+          const distance = buttonWidth / 2 - 8
+          this._triangleRef.current.style.marginRight = `${distance /
+            16}rem`
+        } else {
+          const distance = shellWidth - buttonWidth / 2 - 8
+          this._triangleRef.current.style.marginLeft = `${distance /
+            16}rem`
+        }
       } catch (e) {
         console.log(e)
       }
@@ -484,6 +494,7 @@ export default class DatePicker extends PureComponent {
       status_animation,
       mask_order,
       mask_placeholder,
+      align_picker,
 
       hide_navigation: _hide_navigation /* eslint-disable-line */,
       hide_days: _hide_days /* eslint-disable-line */,
@@ -542,6 +553,7 @@ export default class DatePicker extends PureComponent {
         showInput && 'dnb-date-picker--show-input',
         (isTrue(show_submit_button) || isTrue(show_cancel_button)) &&
           'dnb-date-picker--show-footer',
+        align_picker && `dnb-date-picker--${align_picker}`,
         createSpacingClasses(props)
       )
     }

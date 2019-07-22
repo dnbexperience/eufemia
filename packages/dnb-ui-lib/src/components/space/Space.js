@@ -7,6 +7,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
+  isTrue,
   extend,
   extendPropsWithContext,
   registerElement,
@@ -22,6 +23,7 @@ const renderProps = {
 export const propTypes = {
   id: PropTypes.string,
   element: PropTypes.string,
+  inline: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   top: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   right: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   bottom: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -43,6 +45,7 @@ export const propTypes = {
 export const defaultProps = {
   id: null,
   element: 'div',
+  inline: false,
   top: null,
   right: null,
   bottom: null,
@@ -90,6 +93,7 @@ export default class Space extends PureComponent {
 
     let {
       element,
+      inline,
       top,
       right,
       bottom,
@@ -108,6 +112,7 @@ export default class Space extends PureComponent {
     const params = {
       className: classnames(
         'dnb-space',
+        isTrue(inline) && 'dnb-space--inline',
         createSpacingClasses({ top, right, bottom, left }),
         className,
         _className
@@ -134,8 +139,6 @@ export default class Space extends PureComponent {
         left
       }
     })
-
-    // const Element = element
 
     return (
       <Context.Provider value={context}>
