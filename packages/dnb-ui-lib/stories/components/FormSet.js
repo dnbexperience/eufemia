@@ -31,8 +31,8 @@ export default [
   () => (
     <Center>
       <Wrapper>
-        <Provider formRow={{ size: false, vertical: true }}>
-          <FormSet size vertical="false">
+        <Provider formRow={{ indent: false, vertical: true }}>
+          <FormSet indent="true" vertical="false">
             <Box>
               <FormRow no_label>
                 <H2>A h2 in a FormRow without a label</H2>
@@ -44,12 +44,12 @@ export default [
               </FormRow>
             </Box>
             <Box>
-              <FormRow label="Button:">
+              <FormRow label="Button:" indent_offset="m-large">
                 <Button text="Button" />
               </FormRow>
             </Box>
             <Box>
-              <FormRow label="Input:">
+              <FormRow label="Input:" indent_offset="large">
                 <Input value="Value" />
               </FormRow>
             </Box>
@@ -119,11 +119,8 @@ export default [
               </FormRow>
             </Box>
             <Box>
-              <FormRow>
-                <Radio.Group
-                  label="Group with error Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:"
-                  status="Error message Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
-                >
+              <FormRow label="Group with error Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:">
+                <Radio.Group status="Error message Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum">
                   <Radio
                     label_position="left"
                     label="First"

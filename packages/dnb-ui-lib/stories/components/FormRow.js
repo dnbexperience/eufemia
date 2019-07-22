@@ -10,6 +10,7 @@ import styled from '@emotion/styled'
 import { H2 } from '../../src/elements'
 import AllComponents from '../../src/components/form-row/AllComponents'
 
+import Provider from '../../src/shared/Provider'
 import {
   Checkbox,
   Radio,
@@ -33,7 +34,22 @@ export default [
       <Wrapper showOverflow>
         <H2 bottom="small">Combine vertical and horizontal</H2>
         <Box>
-          <FormRow label="Vertical legend:" vertical>
+          <Provider
+            formRow={{
+              vertical: true,
+
+              label: 'Vertical input B'
+            }}
+          >
+            <Input />
+          </Provider>
+
+          <FormRow
+            label="Vertical legend:"
+            vertical
+            top="medium"
+            // no_fieldset
+          >
             <Input label="Vertical input A" />
             <Input label="Vertical input B" top="medium" />
             <FormRow
@@ -101,7 +117,7 @@ export default [
           <FormRow direction="horizontal" indent="default">
             <FormLabel for_id="alone-1">
               A long horizontal FormLabel with a lot of informative text
-              and a default size:
+              and a default indent:
             </FormLabel>
             <Checkbox id="alone-1" label="Checkbox" />
           </FormRow>
@@ -109,13 +125,13 @@ export default [
         <Box>
           <FormRow
             direction="horizontal"
-            size="default"
+            indent
             section_style="mint-green"
             section_spacing="large"
           >
             <FormLabel for_id="alone-2">
               A long horizontal FormLabel with a lot of informative text
-              and a default size:
+              and a default indent:
             </FormLabel>
             <Radio.Group
               id="alone-2"

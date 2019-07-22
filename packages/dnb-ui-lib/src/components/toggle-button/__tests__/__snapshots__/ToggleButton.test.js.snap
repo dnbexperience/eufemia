@@ -1437,10 +1437,7 @@ a.dnb-button .dnb-button__text {
       .dnb-radio__order {
         align-items: center; }
       .dnb-radio-group {
-        vertical-align: middle; }
-        .dnb-radio-group [role='radiogroup'], .dnb-radio-group__shell {
-          display: flex;
-          flex-direction: column; } }
+        vertical-align: middle; } }
 
 .dnb-toggle-button {
   font-family: var(--font-family-default);
@@ -1583,9 +1580,6 @@ a.dnb-button .dnb-button__text {
         right: 0;
         bottom: 0;
         left: 0;
-        margin: auto; }
-      .dnb-toggle-button-group__shell {
-        display: flex;
-        flex-direction: column; } }
+        margin: auto; } }
 "
 `;

@@ -120,47 +120,6 @@ export default class FormRow extends PureComponent {
       props.id || `dnb-form-row-${Math.round(Math.random() * 999)}` // cause we need an id anyway
   }
 
-  // TODO: remove the auto indent offset detection
-  // this._contentRef = React.createRef()
-  // componentDidMount() {
-  //   this.setLabelOffset()
-  // }
-  // componentWillUnmount() {
-  //   clearTimeout(this.contentSizeDelay)
-  // }
-  // setLabelOffset() {
-  //   clearTimeout(this.contentSizeDelay)
-  //   this.contentSizeDelay = setTimeout(() => {
-  //     const { label, vertical, direction, indent_offset } = this.props
-  //     if (
-  //       (label,
-  //       !isTrue(vertical) &&
-  //         direction !== 'vertical' &&
-  //         indent_offset === 'auto' &&
-  //         this._contentRef.current)
-  //     ) {
-  //       try {
-  //         const height = this._contentRef.current.offsetHeight
-  //         const restBoundingBoxHeight = 12
-  //         const pixelsToMove =
-  //           height - (height / 2 - restBoundingBoxHeight)
-  //         let rem = pixelsToMove / 16
-  //
-  //         // // beaucse we don't have components witch needs heigher than that
-  //         // // e.g. <Input size="large" has a label centered to that value
-  //         // if (rem > 2.25) {
-  //         //   rem = 2.25
-  //         // }
-  //
-  //         this._contentRef.current.style.marginTop = `-${rem}rem`
-  //         // console.warn('setLabelOffset', rem)
-  //       } catch (e) {
-  //         console.log('Error on setLabelOffset', e)
-  //       }
-  //     }
-  //   }, 1)
-  // }
-
   render() {
     // consume the formRow context
     const props = this.context.formRow
@@ -198,6 +157,8 @@ export default class FormRow extends PureComponent {
     if (!label && nestedLabel) {
       label = nestedLabel
     }
+    const hasLabel =
+      typeof label === 'string' && label.length > 0 ? true : false
 
     const id = this._id
     const params = {
@@ -244,32 +205,28 @@ export default class FormRow extends PureComponent {
           return id
         },
         itsMeAgain: true,
-        hasLabel: label,
+        hasLabel,
         indent,
         direction,
         vertical,
-        // label_direction,
         label_direction: isTrue(vertical) ? 'vertical' : label_direction,
         disabled
       }
     })
 
-    const useFieldset = !isTrue(no_fieldset)
-
-    // TODO: remove the auto indent offset detection
-    // this.setLabelOffset()
+    const useFieldset = !isTrue(no_fieldset) && hasLabel
 
     return (
       <Context.Provider value={context}>
-        <Fieldset useFieldset={label && useFieldset}>
+        <Fieldset useFieldset={useFieldset}>
           <div {...params}>
             {label && (
               <FormLabel
                 className="dnb-form-row__label"
                 id={(label_id ? label_id : id) + '-label'}
-                for_id={!useFieldset ? id : null} // we don't use for_id, because we don't have a single element to target to
+                for_id={useFieldset ? null : id} // we don't use for_id, because we don't have a single element to target to
                 text={label}
-                element={!useFieldset ? 'label' : 'legend'}
+                element={useFieldset ? 'legend' : 'label'}
                 direction={label_direction}
                 disabled={isTrue(disabled)}
               />
@@ -331,4 +288,13 @@ Fieldset.propTypes = {
 Fieldset.defaultProps = {
   useFieldset: false,
   className: null
+}
+
+export const prepareFormRowContext = (props = {}) => {
+  if (typeof props.label_direction === 'undefined') {
+    props.label_direction = isTrue(props.vertical)
+      ? 'vertical'
+      : props.label_direction
+  }
+  return props
 }
