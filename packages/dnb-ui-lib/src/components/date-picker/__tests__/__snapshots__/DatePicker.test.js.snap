@@ -2,6 +2,7 @@
 
 exports[`DatePicker component have to match snapshot 1`] = `
 <DatePicker
+  align_picker={null}
   custom_element={null}
   custom_method={null}
   date="2019-01-01T00:00:00.000Z"
@@ -1627,6 +1628,12 @@ legend.dnb-form-label {
     top: var(--date-picker-input-height); }
   .dnb-date-picker--show-input .dnb-date-picker__container {
     left: 0; }
+  .dnb-date-picker--right .dnb-date-picker__container {
+    left: auto;
+    right: -1rem; }
+  .dnb-date-picker--show-input.dnb-date-picker--right .dnb-date-picker__container {
+    left: auto;
+    right: 0; }
   .dnb-date-picker--opened .dnb-date-picker__container {
     z-index: 4; }
     .dnb-date-picker--opened .dnb-date-picker__container {
@@ -1796,8 +1803,9 @@ legend.dnb-form-label {
       transform: translateY(60%) rotate(45deg);
       border: 1px solid var(--color-black-border);
       background-color: var(--color-white); }
-  .dnb-date-picker--show-input .dnb-date-picker__triangle {
-    left: 0; }
+  .dnb-date-picker--right .dnb-date-picker__triangle {
+    left: auto;
+    right: 0; }
   .dnb-date-picker .rtl {
     direction: rtl; }
     .dnb-date-picker .rtl .dnb-date-picker__prev::before {
