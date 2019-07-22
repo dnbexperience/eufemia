@@ -26,6 +26,7 @@ steps:
       branch:
         exclude:
           - ftr/*
+          - fix/*
 
   - name: test
     image: tujoworker/docker-node-puppeteer
@@ -136,8 +137,8 @@ steps:
     image: plugins/slack
     settings:
       webhook:
-        from_secret: SLACK_WEBHOOK
-      channel: dnb-design-system
+        from_secret: SLACK_WEBHOOK_TUJO
+      channel: eufemia
       username: DroneCI
       icon_url: https://github.com/drone/brand/blob/master/logos/png/drone-logo_256.png?raw=true
     when:
