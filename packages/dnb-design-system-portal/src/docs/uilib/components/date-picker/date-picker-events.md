@@ -15,6 +15,7 @@ draft: true
 ## Returned Object
 
 The type of native event will depend on the interaction.
+All additional HTML attributes will be returned as well.
 
 ```js
 {
@@ -22,6 +23,7 @@ The type of native event will depend on the interaction.
   start_date: null|"return_format",
   end_date: null|"return_format",
   days_between: number,
+  attributes: { attributes },
   event: null|{ native event }
 }
 ```

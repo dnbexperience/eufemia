@@ -29,6 +29,7 @@ export const propTypes = {
   separatorRexExp: PropTypes.instanceOf(RegExp),
   minDate: PropTypes.instanceOf(Date),
   maxDate: PropTypes.instanceOf(Date),
+  submitAttributes: PropTypes.object,
   range: PropTypes.bool,
   status: PropTypes.string,
   status_state: PropTypes.string,
@@ -47,6 +48,7 @@ export const defaultProps = {
   maskOrder: 'dd/mm/yyyy',
   maskPlaceholder: 'dd/mm/åååå',
   separatorRexExp: /[-/ ]/g,
+  submitAttributes: null,
   range: null,
   status: null,
   status_state: 'error',
@@ -486,6 +488,7 @@ export default class DatePickerInput extends PureComponent {
     const {
       id,
 
+      submitAttributes,
       range /* eslint-disable-line */,
       maskOrder /* eslint-disable-line */,
       maskPlaceholder /* eslint-disable-line */,
@@ -506,12 +509,13 @@ export default class DatePickerInput extends PureComponent {
       status_state,
       status_animation,
 
-      ...rest
+      ...attributes
     } = this.props
 
     const { focusState } = this.state
 
-    validateDOMAttributes(this.props, rest)
+    validateDOMAttributes(this.props, attributes)
+    validateDOMAttributes(null, submitAttributes)
 
     return (
       <Input
@@ -532,9 +536,10 @@ export default class DatePickerInput extends PureComponent {
             variant="secondary"
             on_submit={onSubmit}
             onKeyUp={this.onKeyUpHandler}
-            {...rest}
+            {...submitAttributes}
           />
         }
+        {...attributes}
       />
     )
   }

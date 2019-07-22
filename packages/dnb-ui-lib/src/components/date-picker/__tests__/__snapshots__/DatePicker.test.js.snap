@@ -86,7 +86,6 @@ exports[`DatePicker component have to match snapshot 1`] = `
         className="dnb-date-picker__shell"
       >
         <DatePickerInput
-          aria-expanded={false}
           date="2019-01-01T00:00:00.000Z"
           disabled={false}
           endDate={2019-02-15T00:00:00.000Z}
@@ -107,6 +106,11 @@ exports[`DatePicker component have to match snapshot 1`] = `
           status="error"
           status_animation={null}
           status_state="error"
+          submitAttributes={
+            Object {
+              "aria-expanded": false,
+            }
+          }
         >
           <Input
             align={null}

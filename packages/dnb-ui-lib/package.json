@@ -133,7 +133,6 @@
     "figma-js": "^1.7.0",
     "files-exist": "^1.1.0",
     "fs-extra": "^8.1.0",
-    "github-post-release": "^1.13.1",
     "globby": "^10.0.1",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
@@ -213,7 +212,6 @@
         "prerelease": true
       }
     ],
-    "analyzeCommits": "simple-commit-message",
-    "generateNotes": "github-post-release"
+    "analyzeCommits": "simple-commit-message"
   }
 }

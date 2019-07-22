@@ -453,9 +453,12 @@ export default class DatePicker extends PureComponent {
   getReturnObject({ event = null } = {}) {
     const { startDate, endDate } = this.state
 
+    const attributes = this.attributes || {}
+
     return isTrue(this.props.range)
       ? {
           event,
+          attributes,
           days_between: endDate
             ? differenceInCalendarDays(endDate, startDate)
             : null,
@@ -466,7 +469,11 @@ export default class DatePicker extends PureComponent {
             ? format(endDate, this.props.return_format)
             : null
         }
-      : { event, date: format(startDate, this.props.return_format) }
+      : {
+          event,
+          attributes,
+          date: format(startDate, this.props.return_format)
+        }
   }
 
   render() {
@@ -541,7 +548,8 @@ export default class DatePicker extends PureComponent {
       pickerParams['aria-labelledby'] = id + '-label'
     }
 
-    const inputParams = { ['aria-expanded']: opened, ...attributes }
+    const inputParams = { ...attributes }
+    const submitParams = { ['aria-expanded']: opened }
 
     const mainParams = {
       className: classnames(
@@ -559,7 +567,11 @@ export default class DatePicker extends PureComponent {
     }
 
     validateDOMAttributes(this.props, inputParams)
+    validateDOMAttributes(null, submitParams)
     validateDOMAttributes(null, pickerParams)
+
+    // make it pissible to grapt the rest attributes and return it with all events
+    this.attributes = inputParams
 
     return (
       <span {...mainParams}>
@@ -599,6 +611,7 @@ export default class DatePicker extends PureComponent {
               status_state={status_state}
               // status_animation={status_animation}
               {...inputParams}
+              submitAttributes={submitParams}
               onChange={this.onInputChange}
               onFocus={this.showPicker}
               onSubmit={this.togglePicker}
