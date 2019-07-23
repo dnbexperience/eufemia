@@ -16,4 +16,16 @@ describe('FormStatus screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+  it('have to match the info state', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-dnb-test="form-status-info"] .dnb-form-status'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+  it('have to match custom content', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-dnb-test="form-status-custom"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })

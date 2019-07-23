@@ -38,7 +38,11 @@ export const propTypes = {
   icon_position: PropTypes.string,
   label: PropTypes.string,
   label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
-  status: PropTypes.string,
+  status: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node
+  ]),
   status_state: PropTypes.string,
   status_animation: PropTypes.string,
   scrollable: PropTypes.bool,

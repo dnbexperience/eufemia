@@ -749,7 +749,6 @@ legend.dnb-form-label {
  *
  */
 .dnb-form-status {
-  width: auto;
   display: flex; }
   .dnb-form-status__shell {
     display: flex;

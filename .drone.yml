@@ -13,21 +13,26 @@ steps:
   #     - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.16.0
   #     - export PATH="$HOME/.yarn/bin:$PATH"
 
-  - name: dependencies audit
+  - name: install dependencies
     image: tujoworker/docker-node-puppeteer
     commands:
       - yarn install
+
+  - name: dependencies audit
+    image: tujoworker/docker-node-puppeteer
+    commands:
       - yarn audit-ci
+    when:
+      branch:
+        exclude:
+          - ftr/*
+          - fix/*
 
   - name: test
     image: tujoworker/docker-node-puppeteer
     commands:
       - yarn lint-ci
       - yarn test-ci
-    when:
-      event:
-        - push
-        - pull-request
 
   - name: prebuild
     image: tujoworker/docker-node-puppeteer
@@ -45,9 +50,6 @@ steps:
     commands:
       - yarn prebuild-ci
     when:
-      event:
-        - push
-        - pull-request
       branch:
         include:
           - release
@@ -76,9 +78,6 @@ steps:
       - yarn build-ci
       - yarn test-ci-screenshots
     when:
-      event:
-        - push
-        - pull-request
       branch:
         include:
           - release
@@ -138,8 +137,8 @@ steps:
     image: plugins/slack
     settings:
       webhook:
-        from_secret: SLACK_WEBHOOK
-      channel: dnb-design-system
+        from_secret: SLACK_WEBHOOK_TUJO
+      channel: eufemia
       username: DroneCI
       icon_url: https://github.com/drone/brand/blob/master/logos/png/drone-logo_256.png?raw=true
     when:
