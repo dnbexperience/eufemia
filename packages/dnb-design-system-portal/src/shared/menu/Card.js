@@ -81,8 +81,7 @@ const CardWrapper = styled.div`
   }
 
   /* IE11 fix */
-  @media screen and (-ms-high-contrast: active),
-    (-ms-high-contrast: none) {
+  @media screen and (-ms-high-contrast: none) {
     &.show-cards {
       opacity: 1;
     }

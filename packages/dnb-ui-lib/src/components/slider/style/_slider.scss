@@ -222,4 +222,11 @@
   &--vertical .dnb-form-status {
     margin-top: 1rem;
   }
+
+  // IE fix
+  @media screen and (-ms-high-contrast: none) {
+    &__wrapper {
+      flex: none;
+    }
+  }
 }

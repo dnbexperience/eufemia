@@ -23,26 +23,30 @@ export default [
   () => (
     <Wrapper>
       <Box>
-        <Provider formRow={{ label: 'ToggleButton label?' }}>
-          <ToggleButton.Group label="Group B label:">
-            <ToggleButton text="First" value="first" />
-            <ToggleButton text="Second" value="second" />
-            <ToggleButton text="Third A" value="thirdA" />
-            <ToggleButton text="Third B" value="thirdB" />
-            <ToggleButton text="Third C" value="thirdC" />
-            <ToggleButton text="Third D" value="thirdD" />
-            <ToggleButton text="Third E" value="thirdE" />
-            <ToggleButton text="Third F" value="thirdF" />
-            <ToggleButton text="Third G" value="thirdG" />
-            <ToggleButton text="Third H" value="thirdH" />
-            <ToggleButton text="Third I" value="thirdI" />
-            <ToggleButton text="Third J" value="thirdJ" />
-            <ToggleButton text="Third K" value="thirdK" />
-            <ToggleButton text="Third L" value="thirdL" />
-            <ToggleButton text="Third M" value="thirdM" />
-            <ToggleButton text="Third N" value="thirdN" />
-            <ToggleButton text="Last" value="last" />
-          </ToggleButton.Group>
+        <Provider
+          formRow={{ vertical: true, label: 'ToggleButton label?' }}
+        >
+          <FormRow label="">
+            <ToggleButton.Group label="Group B label:">
+              <ToggleButton text="First" value="first" />
+              <ToggleButton text="Second" value="second" />
+              <ToggleButton text="Third A" value="thirdA" />
+              <ToggleButton text="Third B" value="thirdB" />
+              <ToggleButton text="Third C" value="thirdC" />
+              <ToggleButton text="Third D" value="thirdD" />
+              <ToggleButton text="Third E" value="thirdE" />
+              <ToggleButton text="Third F" value="thirdF" />
+              <ToggleButton text="Third G" value="thirdG" />
+              <ToggleButton text="Third H" value="thirdH" />
+              <ToggleButton text="Third I" value="thirdI" />
+              <ToggleButton text="Third J" value="thirdJ" />
+              <ToggleButton text="Third K" value="thirdK" />
+              <ToggleButton text="Third L" value="thirdL" />
+              <ToggleButton text="Third M" value="thirdM" />
+              <ToggleButton text="Third N" value="thirdN" />
+              <ToggleButton text="Last" value="last" />
+            </ToggleButton.Group>
+          </FormRow>
         </Provider>
       </Box>
       <Box>

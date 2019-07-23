@@ -252,7 +252,7 @@ legend.dnb-form-label {
       margin-top: calc(-3rem + var(--form-bounding-height)); }
     .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] > .dnb-form-row__content--xx-large {
       margin-top: calc(-3.5rem + var(--form-bounding-height)); } }
-  @media all and (-ms-high-contrast: none) {
+  @media screen and (-ms-high-contrast: none) {
     .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] > .dnb-form-row__content {
       margin-top: 0; } }
   @media (max-width: 40em) {
@@ -293,7 +293,7 @@ legend.dnb-form-label {
     padding: 0;
     border: none;
     width: 100%; }
-  @media all and (-ms-high-contrast: none) {
+  @media screen and (-ms-high-contrast: none) {
     .dnb-form-row {
       align-items: flex-start; }
       .dnb-form-row__content {

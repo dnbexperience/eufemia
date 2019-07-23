@@ -34,7 +34,8 @@
     @include fakeBorder(
       var(--input-border-color),
       var(--input-border-width),
-      inset
+      inset,
+      true
     );
 
     &[data-input-state='dirty'] {
@@ -48,7 +49,8 @@
       @include fakeBorder(
         var(--input-border-color--disabled),
         var(--input-border-width),
-        inset
+        inset,
+        true
       );
       background-color: var(--input-background-color--disabled);
     }

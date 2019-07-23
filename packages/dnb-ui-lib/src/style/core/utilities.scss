@@ -133,19 +133,26 @@ $focusRingColor: var(--color-emerald-green);
 
 @mixin fakeBorder(
   $color: null,
-  $width: 0.0625rem /*1px*/,
+  $width: null /* 1px */,
   $inset: null,
+  $is1px: false /* IE11 fix */,
   $important: null
 ) {
+  @if $color == null {
+    $color: $focusRingColor;
+  }
+  @if $width == null {
+    $width: 0.0625rem;
+  }
+
   // we use !important, cause we have no changes to select the selctor right
   // in some cases we have another state where we use box-shadow
   // but with important, we take care of that we actually can use use it
   box-shadow: $inset 0 0 0 $width $color $important;
 
   /* IE11 fix */
-  @if $width == 0.0625rem {
-    @media screen and (-ms-high-contrast: active),
-      (-ms-high-contrast: none) {
+  @if $is1px {
+    @media screen and (-ms-high-contrast: none) {
       // Since 0.0625rem gets not rendered correctly
       // and gives an artifact, we do use px instead
       box-shadow: $inset 0 0 0 1px $color $important;
@@ -166,8 +173,7 @@ $focusRingColor: var(--color-emerald-green);
   box-shadow: 0 0 0 $width $first-color, $second;
 
   /* IE11 fix */
-  @media screen and (-ms-high-contrast: active),
-    (-ms-high-contrast: none) {
+  @media screen and (-ms-high-contrast: none) {
     border: 0 solid transparent; // only to trigger the renderering correctly in IE11
   }
 }

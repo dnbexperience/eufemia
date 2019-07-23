@@ -87,8 +87,7 @@ const MainWrapperStyled = styled.div`
   }
 
   /* IE11 fix */
-  @media screen and (-ms-high-contrast: active),
-    (-ms-high-contrast: none) {
+  @media screen and (-ms-high-contrast: none) {
     background-color: #14555a;
   }
 `
@@ -112,8 +111,7 @@ const LogoWrapper = styled.div`
   }
 
   /* IE11 fix */
-  @media screen and (-ms-high-contrast: active),
-    (-ms-high-contrast: none) {
+  @media screen and (-ms-high-contrast: none) {
     width: auto;
     left: 48%;
     color: #fff;

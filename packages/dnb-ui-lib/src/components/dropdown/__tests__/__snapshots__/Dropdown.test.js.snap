@@ -366,35 +366,43 @@ exports[`Dropdown scss have to match default theme snapshot 1`] = `
     background-color: var(--color-white);
     border-color: var(--dropdown-border-color); }
     .dnb-dropdown__trigger:not(:disabled):focus, .dnb-dropdown__trigger:not(:disabled):hover {
-      border-color: var(--dropdown-border-color--selected);
-      box-shadow: 0 0 0 0.0625rem;
-      /* IE11 fix */ }
-      @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+      box-shadow: 0 0 0 0.0625rem var(--dropdown-border-color--selected);
+      /* IE11 fix */
+      border-color: transparent;
+      border-color: var(--dropdown-border-color--selected); }
+      @media screen and (-ms-high-contrast: none) {
         .dnb-dropdown__trigger:not(:disabled):focus, .dnb-dropdown__trigger:not(:disabled):hover {
-          box-shadow: 0 0 0 1px; } }
+          box-shadow: 0 0 0 1px var(--dropdown-border-color--selected); } }
       .dnb-dropdown__trigger:not(:disabled):focus .dnb-dropdown__text,
       .dnb-dropdown__trigger:not(:disabled):focus .dnb-dropdown__icon .dnb-icon, .dnb-dropdown__trigger:not(:disabled):hover .dnb-dropdown__text,
       .dnb-dropdown__trigger:not(:disabled):hover .dnb-dropdown__icon .dnb-icon {
         color: var(--dropdown-text-color); }
   .dnb-dropdown--opened .dnb-dropdown__trigger {
-    box-shadow: 0 0 0 0.0625rem;
+    box-shadow: 0 0 0 0.0625rem var(--dropdown-border-color--selected);
     /* IE11 fix */
+    border-color: transparent;
     border-color: var(--dropdown-border-color--selected); }
-    @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    @media screen and (-ms-high-contrast: none) {
       .dnb-dropdown--opened .dnb-dropdown__trigger {
-        box-shadow: 0 0 0 1px; } }
+        box-shadow: 0 0 0 1px var(--dropdown-border-color--selected); } }
   .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger {
-    box-shadow: 0 0 0 1px var(--color-cherry-red) !important;
+    box-shadow: 0 0 0 0.0625rem var(--color-cherry-red) !important;
     /* IE11 fix */
     border-color: transparent;
     border-color: var(--color-cherry-red); }
+    @media screen and (-ms-high-contrast: none) {
+      .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger {
+        box-shadow: 0 0 0 1px var(--color-cherry-red) !important; } }
     :not([dnb-is-touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover[disabled] {
       cursor: not-allowed; }
     :not([dnb-is-touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover:not([disabled]) {
-      box-shadow: 0 0 0 1px var(--color-cherry-red) !important;
+      box-shadow: 0 0 0 0.0625rem var(--color-cherry-red) !important;
       /* IE11 fix */
       border-color: transparent;
       border-color: var(--color-cherry-red); }
+      @media screen and (-ms-high-contrast: none) {
+        :not([dnb-is-touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover:not([disabled]) {
+          box-shadow: 0 0 0 1px var(--color-cherry-red) !important; } }
       :not([dnb-is-touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover:not([disabled]) .dnb-dropdown__icon .dnb-icon {
         color: var(--color-cherry-red); }
   .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__icon {
@@ -489,6 +497,9 @@ exports[`Dropdown scss have to match snapshot 1`] = `
   .dnb-icon--custom-size {
     width: auto;
     height: auto; }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-icon {
+      flex: none; } }
 
 /*
 * DNB FormLabel
@@ -902,10 +913,13 @@ legend.dnb-form-label {
     align-items: flex-start; }
     .dnb-dropdown[class*='__status'] > .dnb-form-label {
       margin-top: 0.25rem; }
-  @media all and (-ms-high-contrast: none) {
+  @media screen and (-ms-high-contrast: none) {
     .dnb-dropdown {
+      flex: none;
       vertical-align: baseline; }
       .dnb-dropdown__option__inner {
-        min-height: 5rem; } }
+        min-height: 5rem; }
+      .dnb-dropdown__shell {
+        top: 0; } }
 "
 `;

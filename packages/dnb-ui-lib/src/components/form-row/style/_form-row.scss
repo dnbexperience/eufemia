@@ -92,7 +92,7 @@
         }
 
         // IE fix
-        @media all and (-ms-high-contrast: none) {
+        @media screen and (-ms-high-contrast: none) {
           margin-top: 0;
         }
 
@@ -187,7 +187,7 @@
   }
 
   // IE fix
-  @media all and (-ms-high-contrast: none) {
+  @media screen and (-ms-high-contrast: none) {
     align-items: flex-start;
     &__content {
       flex: auto;

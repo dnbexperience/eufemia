@@ -23,7 +23,7 @@
       transition: transform 0.3s ease-out, position 0.3s ease-out;
 
       // IE fix
-      @media all and (-ms-high-contrast: none) {
+      @media screen and (-ms-high-contrast: none) {
         top: 0.25rem; // because IE is not using flex to center here
       }
     }

@@ -119,8 +119,8 @@
     position: relative;
     z-index: 2; // over placeholder
 
-    // place the button
-    align-self: flex-end;
+    // place the button vertically
+    align-self: flex-start;
     margin-left: calc(1px - 1px - var(--input-height));
 
     &__button {
@@ -234,7 +234,15 @@
   }
 
   // IE fix
-  @media all and (-ms-high-contrast: none) {
+  @media screen and (-ms-high-contrast: none) {
     vertical-align: baseline;
+    .dnb-form-row--horizontal &,
+    &:not(#{&}--stretch) {
+      flex: none;
+    }
+    &__placeholder,
+    &__input {
+      transform: translateY(-0.125rem);
+    }
   }
 }

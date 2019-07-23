@@ -67,4 +67,9 @@
     width: auto; // only to feed the svg
     height: auto; // only to feed the svg
   }
+
+  // IE fix
+  @media screen and (-ms-high-contrast: none) {
+    flex: none;
+  }
 }
