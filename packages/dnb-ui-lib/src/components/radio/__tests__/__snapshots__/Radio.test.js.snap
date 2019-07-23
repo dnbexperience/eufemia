@@ -850,7 +850,7 @@ legend.dnb-form-label {
       margin-bottom: calc(1px - 1px - var(--radio-margin-bottom)); }
     .dnb-form-row--vertical .dnb-radio-group {
       display: flex; }
-  @media all and (-ms-high-contrast: none) {
+  @media screen and (-ms-high-contrast: none) {
     .dnb-radio {
       vertical-align: text-bottom; }
       .dnb-radio__input, .dnb-radio__focus, .dnb-radio__button, .dnb-radio__dot {
@@ -861,6 +861,10 @@ legend.dnb-form-label {
         margin: auto; }
       .dnb-radio__order {
         align-items: center; }
+      .dnb-radio__shell {
+        transform: translateY(0); }
+      .dnb-radio, .dnb-radio-group {
+        flex: none; }
       .dnb-radio-group {
         vertical-align: middle; } }
 "

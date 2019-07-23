@@ -22,7 +22,7 @@
 }
 
 @mixin dropdownBorderColor($color) {
-  @include fakeBorder($color, 1px, null, !important);
+  @include fakeBorder($color, 0.0625rem, null, true, !important);
   border-color: $color;
 }
 
@@ -202,8 +202,13 @@
     &:not(:disabled) {
       &:focus,
       &:hover {
+        @include fakeBorder(
+          var(--dropdown-border-color--selected),
+          null,
+          null,
+          true
+        );
         border-color: var(--dropdown-border-color--selected);
-        @include fakeBorder();
         & .dnb-dropdown__text,
         & .dnb-dropdown__icon .dnb-icon {
           color: var(--dropdown-text-color);
@@ -213,7 +218,12 @@
   }
   /* stylelint-disable-next-line */
   &--opened &__trigger {
-    @include fakeBorder();
+    @include fakeBorder(
+      var(--dropdown-border-color--selected),
+      null,
+      null,
+      true
+    );
     border-color: var(--dropdown-border-color--selected);
   }
 

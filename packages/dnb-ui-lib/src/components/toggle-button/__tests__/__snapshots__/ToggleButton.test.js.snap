@@ -627,7 +627,7 @@ exports[`ToggleButton scss have to match default theme snapshot 1`] = `
       box-shadow: inset 0 0 0 0.0625rem var(--color-emerald-green);
       /* IE11 fix */
       border-color: transparent; }
-      @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+      @media screen and (-ms-high-contrast: none) {
         .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:hover),
         .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:active):not(:hover),
         .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:active):not(:hover) {
@@ -689,7 +689,7 @@ exports[`ToggleButton scss have to match default theme snapshot 1`] = `
     box-shadow: inset 0 0 0 0.0625rem var(--color-cherry-red);
     /* IE11 fix */
     border-color: transparent; }
-    @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    @media screen and (-ms-high-contrast: none) {
       .dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]):not(:focus):not(:active) {
         box-shadow: inset 0 0 0 1px var(--color-cherry-red); } }
     .dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]):not(:focus):not(:active):hover {
@@ -850,6 +850,9 @@ legend.dnb-form-label {
   .dnb-icon--custom-size {
     width: auto;
     height: auto; }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-icon {
+      flex: none; } }
 
 .dnb-button {
   font-family: var(--font-family-default);
@@ -902,7 +905,7 @@ legend.dnb-form-label {
   --button-height--large: 3rem;
   --button-icon-size: 1rem;
   --button-border-width: 0.0625rem;
-  --button-border-width--hover: 3px;
+  --button-border-width--hover: 0.1875rem;
   --button-border-radius: calc(var(--button-height) / 2);
   --button-border-radius--small: calc(var(--button-height--small) / 2);
   --button-border-radius--medium: calc(var(--button-height--medium) / 2);
@@ -919,27 +922,22 @@ legend.dnb-form-label {
   padding: 0;
   border: var(--button-border-width) solid transparent;
   border-radius: var(--button-border-radius);
-  text-decoration: none;
-  /* Firefox includes a hidden border which messes up button dimensions */ }
+  text-decoration: none; }
   .dnb-button,
   .dnb-core-style .dnb-button {
     font-size: var(--button-font-size);
     line-height: var(--button-height); }
   .dnb-button__icon {
-    line-height: 1em; }
+    line-height: 1em;
+    transform: translateY(calc(1px - 1px - var(--button-border-width))); }
     .dnb-button__icon:not(.dnb-icon) svg:not([width]):not([height]) {
       width: var(--button-icon-size);
       height: var(--button-icon-size); }
-    @supports not (-ms-ime-align: auto) {
-      .dnb-button__icon {
-        transform: translateY(calc(1px - 1px - var(--button-border-width))); } }
   .dnb-button__text {
     line-height: 1em;
     color: inherit;
-    background-color: inherit; }
-    @supports not (-ms-ime-align: auto) {
-      .dnb-button__text {
-        transform: translateY(calc(1px - var(--button-border-width))); } }
+    background-color: inherit;
+    transform: translateY(calc(1px - var(--button-border-width))); }
   .dnb-button__bounding {
     position: absolute;
     background-color: transparent;
@@ -1035,10 +1033,17 @@ legend.dnb-form-label {
       border: none; }
   .dnb-button[disabled] {
     cursor: not-allowed; }
-  button.dnb-button::-moz-focus-inner .dnb-button {
-    border: none; }
   .dnb-form-row--vertical .dnb-form-row__content > .dnb-button {
     align-self: flex-start; }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-button {
+      flex: none; }
+      .dnb-button__icon, .dnb-button__text {
+        transform: translateY(-0.0625rem) !important; } }
+
+/* Firefox includes a hidden border which messes up button dimensions */
+button.dnb-button::-moz-focus-inner {
+  border: none; }
 
 a.dnb-button[type='button'] {
   appearance: none;
@@ -1049,7 +1054,7 @@ a.dnb-button .dnb-button__icon {
   transform: translateY(0); }
 
 a.dnb-button .dnb-button__text {
-  transform: translateY(1px); }
+  transform: translateY(0.0625rem); }
 
 /*
 * DNB Checkbox
@@ -1261,7 +1266,7 @@ a.dnb-button .dnb-button__text {
   .dnb-checkbox--label-position-right .dnb-checkbox__order + .dnb-form-status {
     vertical-align: top;
     margin-top: 0.5rem; }
-  @media all and (-ms-high-contrast: none) {
+  @media screen and (-ms-high-contrast: none) {
     .dnb-checkbox {
       vertical-align: text-bottom; }
       .dnb-checkbox__order {
@@ -1271,7 +1276,9 @@ a.dnb-button .dnb-button__text {
         right: 0;
         bottom: 0;
         left: 0;
-        margin: auto; } }
+        margin: auto; }
+      .dnb-checkbox__shell {
+        transform: translateY(0); } }
 
 /*
 * DNB Radio
@@ -1424,7 +1431,7 @@ a.dnb-button .dnb-button__text {
       margin-bottom: calc(1px - 1px - var(--radio-margin-bottom)); }
     .dnb-form-row--vertical .dnb-radio-group {
       display: flex; }
-  @media all and (-ms-high-contrast: none) {
+  @media screen and (-ms-high-contrast: none) {
     .dnb-radio {
       vertical-align: text-bottom; }
       .dnb-radio__input, .dnb-radio__focus, .dnb-radio__button, .dnb-radio__dot {
@@ -1435,6 +1442,10 @@ a.dnb-button .dnb-button__text {
         margin: auto; }
       .dnb-radio__order {
         align-items: center; }
+      .dnb-radio__shell {
+        transform: translateY(0); }
+      .dnb-radio, .dnb-radio-group {
+        flex: none; }
       .dnb-radio-group {
         vertical-align: middle; } }
 
@@ -1491,7 +1502,8 @@ a.dnb-button .dnb-button__text {
     left: 0;
     user-select: none; }
   .dnb-toggle-button--vertical {
-    flex-direction: column; }
+    flex-direction: column;
+    align-items: flex-start; }
   .dnb-toggle-button__component {
     padding-right: 0.25rem;
     display: inline-flex;
@@ -1571,14 +1583,22 @@ a.dnb-button .dnb-button__text {
   @media (min-width: 40em) {
     .dnb-form-label + .dnb-toggle-button {
       transform: translateY(-0.5rem); } }
-  @media all and (-ms-high-contrast: none) {
+  @media screen and (-ms-high-contrast: none) {
     .dnb-toggle-button {
-      align-items: center; }
+      flex: none; }
+      .dnb-toggle-button:not(.dnb-toggle-button--vertical) {
+        align-items: center; }
       .dnb-toggle-button__shell {
         top: 0;
         right: 0;
         bottom: 0;
         left: 0;
-        margin: auto; } }
+        margin: auto; }
+      .dnb-toggle-button-group {
+        flex: none; }
+        .dnb-toggle-button-group, .dnb-toggle-button-group__shell {
+          width: 100%; }
+        .dnb-form-row__indent--default .dnb-toggle-button-group {
+          flex: 1; } }
 "
 `;

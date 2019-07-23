@@ -16,7 +16,7 @@
   --button-height--large: 3rem;
   --button-icon-size: 1rem;
   --button-border-width: 0.0625rem;
-  --button-border-width--hover: 3px;
+  --button-border-width--hover: 0.1875rem;
   --button-border-radius: calc(var(--button-height) / 2);
   --button-border-radius--small: calc(var(--button-height--small) / 2);
   --button-border-radius--medium: calc(var(--button-height--medium) / 2);
@@ -52,19 +52,13 @@
       width: var(--button-icon-size);
       height: var(--button-icon-size);
     }
-    // if not IE11
-    @supports not (-ms-ime-align: auto) {
-      transform: translateY(calc(1px - 1px - var(--button-border-width)));
-    }
+    transform: translateY(calc(1px - 1px - var(--button-border-width)));
   }
   &__text {
     line-height: 1em;
     color: inherit;
     background-color: inherit;
-    // if not IE11
-    @supports not (-ms-ime-align: auto) {
-      transform: translateY(calc(1px - var(--button-border-width)));
-    }
+    transform: translateY(calc(1px - var(--button-border-width)));
   }
 
   &__bounding {
@@ -210,14 +204,23 @@
     cursor: not-allowed;
   }
 
-  /* Firefox includes a hidden border which messes up button dimensions */
-  @at-root button#{&}::-moz-focus-inner & {
-    border: none;
-  }
-
   .dnb-form-row--vertical .dnb-form-row__content > & {
     align-self: flex-start;
   }
+
+  // IE fix
+  @media screen and (-ms-high-contrast: none) {
+    flex: none;
+    &__icon,
+    &__text {
+      transform: translateY(-0.0625rem) !important;
+    }
+  }
+}
+
+/* Firefox includes a hidden border which messes up button dimensions */
+button.dnb-button::-moz-focus-inner {
+  border: none;
 }
 
 // make sure we style an Anchor like a button
@@ -233,6 +236,6 @@ a.dnb-button {
     transform: translateY(0);
   }
   .dnb-button__text {
-    transform: translateY(1px);
+    transform: translateY(0.0625rem);
   }
 }

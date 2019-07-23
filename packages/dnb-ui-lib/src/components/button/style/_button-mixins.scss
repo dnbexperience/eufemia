@@ -15,6 +15,12 @@
 
     @include fakeBorder(var(--color-emerald-green), 0.125rem /*2px*/);
 
+    // IE fix
+    @media screen and (-ms-high-contrast: none) {
+      // by setting opacity to 1, we make sure we don't get the artifact of a cutted border on top and bottom
+      opacity: 1;
+    }
+
     @content;
   }
 }

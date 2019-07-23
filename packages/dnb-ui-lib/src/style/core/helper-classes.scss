@@ -20,7 +20,13 @@
   }
 }
 .dnb-focus-ring {
-  @include fakeBorder($focusRingColor, $focusRingWidth, null, !important);
+  @include fakeBorder(
+    $focusRingColor,
+    $focusRingWidth,
+    null,
+    null,
+    !important
+  );
 }
 @import './helper-classes/skip-link.scss';
 

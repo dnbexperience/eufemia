@@ -554,7 +554,7 @@ legend.dnb-form-label {
   .dnb-checkbox--label-position-right .dnb-checkbox__order + .dnb-form-status {
     vertical-align: top;
     margin-top: 0.5rem; }
-  @media all and (-ms-high-contrast: none) {
+  @media screen and (-ms-high-contrast: none) {
     .dnb-checkbox {
       vertical-align: text-bottom; }
       .dnb-checkbox__order {
@@ -564,6 +564,8 @@ legend.dnb-form-label {
         right: 0;
         bottom: 0;
         left: 0;
-        margin: auto; } }
+        margin: auto; }
+      .dnb-checkbox__shell {
+        transform: translateY(0); } }
 "
 `;

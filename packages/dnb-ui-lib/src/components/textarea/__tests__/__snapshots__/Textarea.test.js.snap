@@ -128,7 +128,7 @@ exports[`Textarea scss have to match default theme snapshot 1`] = `
       .dnb-textarea--focus .dnb-textarea__textarea:not([disabled]):not(.status--error), .dnb-textarea__textarea:focus:not([disabled]):not(.status--error), .dnb-textarea__textarea:hover:not([disabled]):not(.status--error) {
         box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.125rem) var(--color-emerald-green);
         /* IE11 fix */ }
-        @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+        @media screen and (-ms-high-contrast: none) {
           .dnb-textarea--focus .dnb-textarea__textarea:not([disabled]):not(.status--error), .dnb-textarea__textarea:focus:not([disabled]):not(.status--error), .dnb-textarea__textarea:hover:not([disabled]):not(.status--error) {
             box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
   .dnb-textarea__textarea[disabled],
@@ -147,10 +147,10 @@ exports[`Textarea scss have to match default theme snapshot 1`] = `
     background-color: var(--color-mint-green);
     color: var(--textarea-text-color--focus);
     text-shadow: none; }
-  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+  @media screen and (-ms-high-contrast: none) {
     .dnb-textarea__textarea {
       -ms-overflow-style: -ms-autohiding-scrollba;
-      box-shadow: 0 0 0 0.0625rem var(--color-sea-green-alt); } }
+      box-shadow: 0 0 0 1px var(--color-sea-green-alt); } }
 
 .dnb-textarea__placeholder {
   color: var(--textarea-text-color);
@@ -184,7 +184,7 @@ textarea.dnb-textarea {
       .dnb-textarea--focus textarea.dnb-textarea:not([disabled]):not(.status--error), textarea.dnb-textarea:focus:not([disabled]):not(.status--error), textarea.dnb-textarea:hover:not([disabled]):not(.status--error) {
         box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.125rem) var(--color-emerald-green);
         /* IE11 fix */ }
-        @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+        @media screen and (-ms-high-contrast: none) {
           .dnb-textarea--focus textarea.dnb-textarea:not([disabled]):not(.status--error), textarea.dnb-textarea:focus:not([disabled]):not(.status--error), textarea.dnb-textarea:hover:not([disabled]):not(.status--error) {
             box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
   textarea.dnb-textarea[disabled],
@@ -203,10 +203,10 @@ textarea.dnb-textarea {
     background-color: var(--color-mint-green);
     color: var(--textarea-text-color--focus);
     text-shadow: none; }
-  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+  @media screen and (-ms-high-contrast: none) {
     textarea.dnb-textarea {
       -ms-overflow-style: -ms-autohiding-scrollba;
-      box-shadow: 0 0 0 0.0625rem var(--color-sea-green-alt); } }
+      box-shadow: 0 0 0 1px var(--color-sea-green-alt); } }
 "
 `;
 
@@ -455,7 +455,7 @@ legend.dnb-form-label {
       .dnb-textarea--focus .dnb-textarea__textarea:not([disabled]):not(.status--error), .dnb-textarea__textarea:focus:not([disabled]):not(.status--error), .dnb-textarea__textarea:hover:not([disabled]):not(.status--error) {
         box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.125rem) var(--color-emerald-green);
         /* IE11 fix */ }
-        @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+        @media screen and (-ms-high-contrast: none) {
           .dnb-textarea--focus .dnb-textarea__textarea:not([disabled]):not(.status--error), .dnb-textarea__textarea:focus:not([disabled]):not(.status--error), .dnb-textarea__textarea:hover:not([disabled]):not(.status--error) {
             box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
   .dnb-textarea__textarea[disabled],
@@ -474,10 +474,10 @@ legend.dnb-form-label {
     background-color: var(--color-mint-green);
     color: var(--textarea-text-color--focus);
     text-shadow: none; }
-  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+  @media screen and (-ms-high-contrast: none) {
     .dnb-textarea__textarea {
       -ms-overflow-style: -ms-autohiding-scrollba;
-      box-shadow: 0 0 0 0.0625rem var(--color-sea-green-alt); } }
+      box-shadow: 0 0 0 1px var(--color-sea-green-alt); } }
 
 .dnb-textarea__placeholder {
   color: var(--textarea-text-color);
@@ -511,7 +511,7 @@ textarea.dnb-textarea {
       .dnb-textarea--focus textarea.dnb-textarea:not([disabled]):not(.status--error), textarea.dnb-textarea:focus:not([disabled]):not(.status--error), textarea.dnb-textarea:hover:not([disabled]):not(.status--error) {
         box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.125rem) var(--color-emerald-green);
         /* IE11 fix */ }
-        @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+        @media screen and (-ms-high-contrast: none) {
           .dnb-textarea--focus textarea.dnb-textarea:not([disabled]):not(.status--error), textarea.dnb-textarea:focus:not([disabled]):not(.status--error), textarea.dnb-textarea:hover:not([disabled]):not(.status--error) {
             box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
   textarea.dnb-textarea[disabled],
@@ -530,10 +530,10 @@ textarea.dnb-textarea {
     background-color: var(--color-mint-green);
     color: var(--textarea-text-color--focus);
     text-shadow: none; }
-  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+  @media screen and (-ms-high-contrast: none) {
     textarea.dnb-textarea {
       -ms-overflow-style: -ms-autohiding-scrollba;
-      box-shadow: 0 0 0 0.0625rem var(--color-sea-green-alt); } }
+      box-shadow: 0 0 0 1px var(--color-sea-green-alt); } }
 
 :root {
   --textarea-vertical-correction: 0;
@@ -592,15 +592,20 @@ textarea.dnb-textarea {
     .dnb-textarea[class*='__status'] > .dnb-form-label {
       margin-top: 0.25rem; }
   .dnb-textarea--vertical {
-    display: flex;
-    display: inline-flex;
-    flex-direction: column; }
+    flex-direction: column;
+    align-items: flex-start; }
   .dnb-textarea--stretch {
     display: flex; }
   .dnb-textarea--stretch .dnb-textarea__inner {
     flex: 1; }
   .dnb-textarea--stretch .dnb-textarea__shell, .dnb-textarea--stretch .dnb-textarea__textarea {
     width: 100%; }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-textarea__inner {
+      margin: 0; }
+    .dnb-form-row--horizontal .dnb-textarea,
+    .dnb-textarea--vertical .dnb-textarea__inner, .dnb-textarea:not(.dnb-textarea--stretch) {
+      flex: none; } }
 
 textarea.dnb-textarea {
   display: inline-block;
@@ -635,7 +640,7 @@ textarea.dnb-textarea {
       .dnb-textarea--focus textarea.dnb-textarea:not([disabled]):not(.status--error), textarea.dnb-textarea:focus:not([disabled]):not(.status--error), textarea.dnb-textarea:hover:not([disabled]):not(.status--error) {
         box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.125rem) var(--color-emerald-green);
         /* IE11 fix */ }
-        @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+        @media screen and (-ms-high-contrast: none) {
           .dnb-textarea--focus textarea.dnb-textarea:not([disabled]):not(.status--error), textarea.dnb-textarea:focus:not([disabled]):not(.status--error), textarea.dnb-textarea:hover:not([disabled]):not(.status--error) {
             box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
   textarea.dnb-textarea[disabled],
@@ -654,9 +659,9 @@ textarea.dnb-textarea {
     background-color: var(--color-mint-green);
     color: var(--textarea-text-color--focus);
     text-shadow: none; }
-  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+  @media screen and (-ms-high-contrast: none) {
     textarea.dnb-textarea {
       -ms-overflow-style: -ms-autohiding-scrollba;
-      box-shadow: 0 0 0 0.0625rem var(--color-sea-green-alt); } }
+      box-shadow: 0 0 0 1px var(--color-sea-green-alt); } }
 "
 `;

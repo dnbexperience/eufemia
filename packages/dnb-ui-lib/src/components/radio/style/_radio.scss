@@ -181,7 +181,7 @@
   }
 
   // IE fix
-  @media all and (-ms-high-contrast: none) {
+  @media screen and (-ms-high-contrast: none) {
     vertical-align: text-bottom;
 
     &__input,
@@ -197,7 +197,14 @@
     &__order {
       align-items: center;
     }
+    &__shell {
+      transform: translateY(0);
+    }
 
+    &,
+    &-group {
+      flex: none;
+    }
     &-group {
       vertical-align: middle;
     }

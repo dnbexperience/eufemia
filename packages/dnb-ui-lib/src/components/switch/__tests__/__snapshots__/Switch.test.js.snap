@@ -174,7 +174,7 @@ exports[`Switch scss have to match default theme snapshot 1`] = `
       content: '';
       position: absolute;
       transition: transform 0.3s ease-out, position 0.3s ease-out; }
-      @media all and (-ms-high-contrast: none) {
+      @media screen and (-ms-high-contrast: none) {
         .dnb-switch__background::after {
           top: 0.25rem; } }
   .dnb-switch__input:not(:checked) ~ .dnb-switch__button {
@@ -563,11 +563,13 @@ legend.dnb-form-label {
   .dnb-switch--label-position-right .dnb-switch__order + .dnb-form-status {
     vertical-align: bottom;
     margin-top: 0.5rem; }
-  @media all and (-ms-high-contrast: none) {
+  @media screen and (-ms-high-contrast: none) {
     .dnb-switch {
       vertical-align: text-bottom; }
       .dnb-switch__order {
         align-items: flex-start; }
+      .dnb-switch__shell {
+        transform: translateY(0); }
       .dnb-switch__input, .dnb-switch__focus, .dnb-switch__button {
         top: 0;
         bottom: 0;

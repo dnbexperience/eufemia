@@ -381,7 +381,8 @@
   }
 
   // IE fix
-  @media all and (-ms-high-contrast: none) {
+  @media screen and (-ms-high-contrast: none) {
+    flex: none;
     &__day {
       .dnb-button {
         &,

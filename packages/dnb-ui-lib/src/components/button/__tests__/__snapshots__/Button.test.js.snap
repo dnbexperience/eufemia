@@ -253,6 +253,9 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
     /* IE11 fix */
     border-color: transparent; }
+    @media screen and (-ms-high-contrast: none) {
+      :not([dnb-is-touch]) .dnb-button--primary:hover:not([disabled]) {
+        opacity: 1; } }
   :not([dnb-is-touch]) .dnb-button--primary:focus[disabled] {
     cursor: not-allowed; }
   :not([dnb-is-touch]) .dnb-button--primary:focus:not([disabled]) {
@@ -271,9 +274,6 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     box-shadow: 0 0 0 0.0625rem transparent;
     /* IE11 fix */
     border-color: transparent; }
-    @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
-      :not([dnb-is-touch]) .dnb-button--primary:active:not([disabled]) {
-        box-shadow: 0 0 0 1px transparent; } }
   .dnb-button--primary[disabled] {
     color: var(--color-white);
     background-color: var(--color-sea-green-alt-30); }
@@ -284,7 +284,7 @@ exports[`Button scss have to match default theme snapshot 1`] = `
   box-shadow: inset 0 0 0 0.0625rem var(--color-sea-green-alt);
   /* IE11 fix */
   border-color: transparent; }
-  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+  @media screen and (-ms-high-contrast: none) {
     .dnb-button--secondary {
       box-shadow: inset 0 0 0 1px var(--color-sea-green-alt); } }
   :not([dnb-is-touch]) .dnb-button--secondary:hover[disabled] {
@@ -295,6 +295,9 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
     /* IE11 fix */
     border-color: transparent; }
+    @media screen and (-ms-high-contrast: none) {
+      :not([dnb-is-touch]) .dnb-button--secondary:hover:not([disabled]) {
+        opacity: 1; } }
   :not([dnb-is-touch]) .dnb-button--secondary:focus[disabled] {
     cursor: not-allowed; }
   :not([dnb-is-touch]) .dnb-button--secondary:focus:not([disabled]) {
@@ -313,16 +316,13 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     box-shadow: 0 0 0 0.0625rem transparent;
     /* IE11 fix */
     border-color: transparent; }
-    @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
-      :not([dnb-is-touch]) .dnb-button--secondary:active:not([disabled]) {
-        box-shadow: 0 0 0 1px transparent; } }
   .dnb-button--secondary[disabled], .dnb-button--secondary[disabled]:focus {
     color: var(--color-sea-green-alt-30);
     background-color: var(--color-white);
     box-shadow: inset 0 0 0 0.0625rem var(--color-sea-green-alt-30);
     /* IE11 fix */
     border-color: transparent; }
-    @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    @media screen and (-ms-high-contrast: none) {
       .dnb-button--secondary[disabled], .dnb-button--secondary[disabled]:focus {
         box-shadow: inset 0 0 0 1px var(--color-sea-green-alt-30); } }
 
@@ -393,6 +393,9 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
     /* IE11 fix */
     border-color: transparent; }
+    @media screen and (-ms-high-contrast: none) {
+      :not([dnb-is-touch]) .dnb-button--signal:hover:not([disabled]) {
+        opacity: 1; } }
   :not([dnb-is-touch]) .dnb-button--signal:focus[disabled] {
     cursor: not-allowed; }
   :not([dnb-is-touch]) .dnb-button--signal:focus:not([disabled]) {
@@ -411,9 +414,6 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     box-shadow: 0 0 0 0.0625rem transparent;
     /* IE11 fix */
     border-color: transparent; }
-    @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
-      :not([dnb-is-touch]) .dnb-button--signal:active:not([disabled]) {
-        box-shadow: 0 0 0 1px transparent; } }
   .dnb-button--signal[disabled] {
     color: var(--color-black-30);
     background-color: var(--color-signal-yellow-30); }
@@ -492,6 +492,9 @@ exports[`Button scss have to match snapshot 1`] = `
   .dnb-icon--custom-size {
     width: auto;
     height: auto; }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-icon {
+      flex: none; } }
 
 .dnb-button {
   font-family: var(--font-family-default);
@@ -544,7 +547,7 @@ exports[`Button scss have to match snapshot 1`] = `
   --button-height--large: 3rem;
   --button-icon-size: 1rem;
   --button-border-width: 0.0625rem;
-  --button-border-width--hover: 3px;
+  --button-border-width--hover: 0.1875rem;
   --button-border-radius: calc(var(--button-height) / 2);
   --button-border-radius--small: calc(var(--button-height--small) / 2);
   --button-border-radius--medium: calc(var(--button-height--medium) / 2);
@@ -561,27 +564,22 @@ exports[`Button scss have to match snapshot 1`] = `
   padding: 0;
   border: var(--button-border-width) solid transparent;
   border-radius: var(--button-border-radius);
-  text-decoration: none;
-  /* Firefox includes a hidden border which messes up button dimensions */ }
+  text-decoration: none; }
   .dnb-button,
   .dnb-core-style .dnb-button {
     font-size: var(--button-font-size);
     line-height: var(--button-height); }
   .dnb-button__icon {
-    line-height: 1em; }
+    line-height: 1em;
+    transform: translateY(calc(1px - 1px - var(--button-border-width))); }
     .dnb-button__icon:not(.dnb-icon) svg:not([width]):not([height]) {
       width: var(--button-icon-size);
       height: var(--button-icon-size); }
-    @supports not (-ms-ime-align: auto) {
-      .dnb-button__icon {
-        transform: translateY(calc(1px - 1px - var(--button-border-width))); } }
   .dnb-button__text {
     line-height: 1em;
     color: inherit;
-    background-color: inherit; }
-    @supports not (-ms-ime-align: auto) {
-      .dnb-button__text {
-        transform: translateY(calc(1px - var(--button-border-width))); } }
+    background-color: inherit;
+    transform: translateY(calc(1px - var(--button-border-width))); }
   .dnb-button__bounding {
     position: absolute;
     background-color: transparent;
@@ -677,10 +675,17 @@ exports[`Button scss have to match snapshot 1`] = `
       border: none; }
   .dnb-button[disabled] {
     cursor: not-allowed; }
-  button.dnb-button::-moz-focus-inner .dnb-button {
-    border: none; }
   .dnb-form-row--vertical .dnb-form-row__content > .dnb-button {
     align-self: flex-start; }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-button {
+      flex: none; }
+      .dnb-button__icon, .dnb-button__text {
+        transform: translateY(-0.0625rem) !important; } }
+
+/* Firefox includes a hidden border which messes up button dimensions */
+button.dnb-button::-moz-focus-inner {
+  border: none; }
 
 a.dnb-button[type='button'] {
   appearance: none;
@@ -691,6 +696,6 @@ a.dnb-button .dnb-button__icon {
   transform: translateY(0); }
 
 a.dnb-button .dnb-button__text {
-  transform: translateY(1px); }
+  transform: translateY(0.0625rem); }
 "
 `;

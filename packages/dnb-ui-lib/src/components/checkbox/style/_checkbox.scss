@@ -135,7 +135,7 @@
   }
 
   // IE fix
-  @media all and (-ms-high-contrast: none) {
+  @media screen and (-ms-high-contrast: none) {
     vertical-align: text-bottom;
 
     &__order {
@@ -148,6 +148,9 @@
       bottom: 0;
       left: 0;
       margin: auto;
+    }
+    &__shell {
+      transform: translateY(0);
     }
   }
 }

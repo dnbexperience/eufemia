@@ -103,9 +103,8 @@
   }
 
   &--vertical {
-    display: flex;
-    display: inline-flex;
     flex-direction: column;
+    align-items: flex-start;
   }
 
   // make the input full width
@@ -119,6 +118,18 @@
     &__shell,
     &__textarea {
       width: 100%;
+    }
+  }
+
+  // IE fix
+  @media screen and (-ms-high-contrast: none) {
+    &__inner {
+      margin: 0;
+    }
+    .dnb-form-row--horizontal &,
+    &--vertical &__inner,
+    &:not(#{&}--stretch) {
+      flex: none;
     }
   }
 }
