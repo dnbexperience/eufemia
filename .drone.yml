@@ -28,7 +28,7 @@ steps:
           - ftr/*
           - fix/*
 
-  - name: test
+  - name: run integration tests
     image: tujoworker/docker-node-puppeteer
     commands:
       - yarn lint-ci
@@ -61,7 +61,7 @@ steps:
           - rc/*
           - ftr/*
 
-  - name: make build and run screenshot tests
+  - name: make build of portal
     image: tujoworker/docker-node-puppeteer
     environment:
       FIGMA_MAIN_FILE:
@@ -76,6 +76,32 @@ steps:
         from_secret: GH_TOKEN
     commands:
       - yarn build-ci
+    when:
+      branch:
+        include:
+          - release
+          - portal
+          - beta
+          - alpha
+          - next
+          - develop
+          - rc/*
+          - ftr/*
+
+  - name: run screenshot tests
+    image: tujoworker/docker-node-puppeteer
+    environment:
+      FIGMA_MAIN_FILE:
+        from_secret: FIGMA_MAIN_FILE
+      FIGMA_TOKEN:
+        from_secret: FIGMA_TOKEN
+      GH_EMAIL:
+        from_secret: GH_EMAIL
+      GH_NAME:
+        from_secret: GH_NAME
+      GH_TOKEN:
+        from_secret: GH_TOKEN
+    commands:
       - yarn test-ci-screenshots
     when:
       branch:
@@ -139,7 +165,13 @@ steps:
       webhook:
         from_secret: SLACK_WEBHOOK_TUJO
       channel: eufemia
+      link_names: true
+      template: >
+        {{#success build.status}}
+          <@channel> *success* <{{build.link}}> ({{build.branch}} {{build.number}}{{build.tag}}) by <@{{build.author}}>.
+        {{else}}
+          <@channel> *failure* <{{build.link}}> ({{build.branch}} {{build.number}}{{build.tag}}) by <@{{build.author}}>.
+        {{/success}}
       username: DroneCI
-      icon_url: https://github.com/drone/brand/blob/master/logos/png/drone-logo_256.png?raw=true
     when:
       status: [success, failure]
