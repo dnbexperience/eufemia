@@ -25,6 +25,7 @@ import FormSetStory from './components/FormSet'
 import Dropdown from './components/Dropdown'
 import Space from './components/Space'
 import Tabs from './components/Tabs'
+import FormStatus from './components/FormStatus'
 import { Button, Icon, IconPrimary, Logo } from '../src/components'
 
 const stories = []
@@ -48,6 +49,7 @@ stories.push(FormSetStory)
 stories.push(Dropdown)
 stories.push(Space)
 stories.push(Tabs)
+stories.push(FormStatus)
 
 stories.push([
   'Logo',

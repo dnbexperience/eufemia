@@ -149,7 +149,6 @@ exports[`FormStatus scss have to match snapshot 1`] = `
  *
  */
 .dnb-form-status {
-  width: auto;
   display: flex; }
   .dnb-form-status__shell {
     display: flex;

@@ -96,7 +96,11 @@ export const propTypes = {
   label: PropTypes.string,
   label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  status: PropTypes.string,
+  status: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node
+  ]),
   status_state: PropTypes.string,
   status_animation: PropTypes.string,
   opened: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),

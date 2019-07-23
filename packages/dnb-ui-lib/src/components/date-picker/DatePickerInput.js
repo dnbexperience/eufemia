@@ -31,7 +31,11 @@ export const propTypes = {
   maxDate: PropTypes.instanceOf(Date),
   submitAttributes: PropTypes.object,
   range: PropTypes.bool,
-  status: PropTypes.string,
+  status: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node
+  ]),
   status_state: PropTypes.string,
   status_animation: PropTypes.string,
   disabled: PropTypes.bool,

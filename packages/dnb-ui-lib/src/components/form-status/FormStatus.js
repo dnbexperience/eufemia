@@ -22,7 +22,11 @@ const renderProps = {
 
 export const propTypes = {
   title: PropTypes.string,
-  text: PropTypes.string,
+  text: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node
+  ]),
   icon: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.func,

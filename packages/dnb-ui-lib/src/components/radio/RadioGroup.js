@@ -32,7 +32,11 @@ export const propTypes = {
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   id: PropTypes.string,
   name: PropTypes.string,
-  status: PropTypes.string,
+  status: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node
+  ]),
   status_state: PropTypes.string,
   status_animation: PropTypes.string,
   layout_direction: PropTypes.oneOf(['column', 'row']),
