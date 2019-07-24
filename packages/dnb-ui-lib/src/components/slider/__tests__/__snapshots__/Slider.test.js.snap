@@ -971,6 +971,12 @@ legend.dnb-form-label {
     margin-top: 0.5rem; }
   .dnb-slider--vertical .dnb-form-status {
     margin-top: 1rem; }
+  @media (max-width: 40em) {
+    .dnb-slider {
+      flex-direction: column;
+      align-items: flex-start; }
+      .dnb-slider > .dnb-form-label {
+        margin-bottom: 0.5rem; } }
   @media screen and (-ms-high-contrast: none) {
     .dnb-slider__wrapper {
       flex: none; } }

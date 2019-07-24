@@ -600,6 +600,12 @@ textarea.dnb-textarea {
     flex: 1; }
   .dnb-textarea--stretch .dnb-textarea__shell, .dnb-textarea--stretch .dnb-textarea__textarea {
     width: 100%; }
+  @media (max-width: 40em) {
+    .dnb-textarea {
+      flex-direction: column;
+      align-items: flex-start; }
+      .dnb-textarea > .dnb-form-label {
+        margin-bottom: 0.5rem; } }
   @media screen and (-ms-high-contrast: none) {
     .dnb-textarea__inner {
       margin: 0; }

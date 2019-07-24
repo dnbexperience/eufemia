@@ -1557,6 +1557,12 @@ legend.dnb-form-label {
     align-items: flex-start; }
     .dnb-input[class*='__status'] > .dnb-form-label {
       margin-top: 0.25rem; }
+  @media (max-width: 40em) {
+    .dnb-input {
+      flex-direction: column;
+      align-items: flex-start; }
+      .dnb-input > .dnb-form-label {
+        margin-bottom: 0.5rem; } }
   @media screen and (-ms-high-contrast: none) {
     .dnb-input {
       vertical-align: baseline; }
@@ -1838,6 +1844,12 @@ legend.dnb-form-label {
     align-items: flex-start; }
     .dnb-date-picker[class*='__status'] > .dnb-form-label {
       margin-top: 0.25rem; }
+  @media (max-width: 40em) {
+    .dnb-date-picker {
+      flex-direction: column;
+      align-items: flex-start; }
+      .dnb-date-picker > .dnb-form-label {
+        margin-bottom: 0.5rem; } }
   @media screen and (-ms-high-contrast: none) {
     .dnb-date-picker {
       flex: none; }

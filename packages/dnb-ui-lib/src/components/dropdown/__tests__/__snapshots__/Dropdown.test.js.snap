@@ -913,6 +913,12 @@ legend.dnb-form-label {
     align-items: flex-start; }
     .dnb-dropdown[class*='__status'] > .dnb-form-label {
       margin-top: 0.25rem; }
+  @media (max-width: 40em) {
+    .dnb-dropdown {
+      flex-direction: column;
+      align-items: flex-start; }
+      .dnb-dropdown > .dnb-form-label {
+        margin-bottom: 0.5rem; } }
   @media screen and (-ms-high-contrast: none) {
     .dnb-dropdown {
       flex: none;

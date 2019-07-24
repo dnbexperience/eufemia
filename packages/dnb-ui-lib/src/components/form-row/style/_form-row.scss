@@ -122,6 +122,20 @@
         display: block;
       }
     }
+
+    @media (max-width: 40em) {
+      flex-direction: column;
+      align-items: flex-start;
+      & > .dnb-form-label {
+        margin-bottom: 0.5rem;
+      }
+      & > .dnb-form-row__content {
+        flex-direction: column;
+        .dnb-form-label {
+          margin-top: 1rem;
+        }
+      }
+    }
   }
 
   // This is currently not needed

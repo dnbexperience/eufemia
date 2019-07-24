@@ -32,7 +32,6 @@ export default [
   () => (
     <Center>
       <Wrapper showOverflow>
-        <H2 bottom="small">Combine vertical and horizontal</H2>
         <Box>
           <Provider
             formRow={{
@@ -42,7 +41,10 @@ export default [
           >
             <Input />
           </Provider>
+        </Box>
 
+        <Box>
+          <H2 bottom="large">Combine vertical and horizontal</H2>
           <FormRow
             label={
               <H2 top={false} bottom="large">
@@ -72,13 +74,13 @@ export default [
           </FormRow>
         </Box>
 
-        <H2 bottom="small">Plain</H2>
         <Box>
+          <H2 bottom="large">Plain</H2>
           <AllComponents showText horizontal vertical />
         </Box>
 
-        <H2 bottom="small">Horizontal label</H2>
         <Box>
+          <H2 bottom="large">Horizontal label</H2>
           <FormRow
             // indent
             // indent_offset="large"
@@ -89,22 +91,22 @@ export default [
           </FormRow>
         </Box>
 
-        <H2 bottom="small">Vertical direction</H2>
         <Box>
+          <H2 bottom="large">Vertical direction</H2>
           <FormRow label="Vertical direction:" direction="vertical">
             <AllComponents showText />
           </FormRow>
         </Box>
 
-        <H2 bottom="small">Vertical everything</H2>
         <Box>
+          <H2 bottom="large">Vertical everything</H2>
           <FormRow label="Vertical everything:" vertical="true">
             <AllComponents showText />
           </FormRow>
         </Box>
 
-        <H2 bottom="small">Vertical label</H2>
         <Box>
+          <H2 bottom="large">Vertical label</H2>
           <FormRow label="Vertical Legend:" label_direction="vertical">
             <AllComponents showText horizontal />
           </FormRow>
