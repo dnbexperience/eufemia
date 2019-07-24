@@ -71,7 +71,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
   sync={true}
 >
   <span
-    className="dnb-date-picker dnb-date-picker__status--error dnb-date-picker--hidden dnb-date-picker--show-input dnb-date-picker--show-footer"
+    className="dnb-date-picker dnb-date-picker__status--error dnb-date-picker--hidden dnb-date-picker--show-input dnb-date-picker--show-footer dnb-space__hide_navigation--zero dnb-space__hide_navigation_buttons--zero dnb-space__hide_days--zero dnb-space__only_month--zero dnb-space__link--zero dnb-space__opened--zero dnb-space__no_animation--zero"
   >
     <span
       aria-hidden={true}
@@ -166,7 +166,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
             value={null}
           >
             <span
-              className="dnb-input dnb-input--text dnb-input--has-submit-button dnb-input__status--error"
+              className="dnb-input dnb-input--text dnb-input--has-submit-button dnb-input__status--error dnb-space__disabled--zero dnb-space__readOnly--zero"
             >
               <span
                 className="dnb-input__inner"
@@ -668,7 +668,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                       >
                         <button
                           aria-expanded={false}
-                          className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon dnb-input__submit-button__button"
+                          className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon dnb-space__aria-expanded--zero dnb-space__bounding--zero dnb-input__submit-button__button"
                           id="date-picker-id"
                           onBlur={[Function]}
                           onClick={[Function]}
@@ -723,7 +723,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                 alt="calendar"
                                 aria-hidden={false}
                                 aria-label="calendar"
-                                className="dnb-icon dnb-button__icon"
+                                className="dnb-icon dnb-space__aria-hidden--zero dnb-button__icon"
                                 role="img"
                               >
                                 <calendar>
@@ -768,7 +768,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
         >
           <span
             aria-live="assertive"
-            className="dnb-form-status dnb-form-status--error dnb-form-status--has-content"
+            className="dnb-form-status dnb-form-status--error dnb-form-status--has-content dnb-space__hidden--zero"
             hidden={false}
           >
             <span

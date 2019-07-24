@@ -16,7 +16,7 @@ exports[`FormStatus component have to match snapshot 1`] = `
 >
   <span
     aria-live="assertive"
-    className="dnb-form-status dnb-form-status--error dnb-form-status--animation dnb-form-status--has-content className class"
+    className="dnb-form-status dnb-form-status--error dnb-form-status--animation dnb-form-status--has-content dnb-space__hidden--zero className class"
     hidden={false}
     title="title"
   >

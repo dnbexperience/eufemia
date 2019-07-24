@@ -37,7 +37,6 @@ export default [
           <Provider
             formRow={{
               vertical: true,
-
               label: 'Vertical input B'
             }}
           >
@@ -45,7 +44,11 @@ export default [
           </Provider>
 
           <FormRow
-            label="Vertical legend:"
+            label={
+              <H2 top={false} bottom="large">
+                Custom vertical legend:
+              </H2>
+            }
             vertical
             top="medium"
             // no_fieldset

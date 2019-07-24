@@ -206,7 +206,11 @@ const MagicBox = ({ label, ...rest }) => {
   )
 }
 MagicBox.propTypes = {
-  label: PropTypes.string
+  label: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node
+  ])
 }
 MagicBox.defaultProps = {
   label: null
@@ -243,7 +247,11 @@ const VisualSpace = ({ label, children, ...rest }) => {
   )
 }
 VisualSpace.propTypes = {
-  label: PropTypes.string,
+  label: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node
+  ]),
   children: PropTypes.node
 }
 VisualSpace.defaultProps = {

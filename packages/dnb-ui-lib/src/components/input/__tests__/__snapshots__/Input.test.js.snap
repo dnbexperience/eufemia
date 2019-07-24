@@ -99,7 +99,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
   value="test"
 >
   <span
-    className="dnb-input dnb-input--search dnb-input--has-submit-button"
+    className="dnb-input dnb-input--search dnb-input--has-submit-button dnb-space__disabled--zero dnb-space__readOnly--zero"
   >
     <span
       className="dnb-input__inner"
@@ -234,7 +234,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
               variant="secondary"
             >
               <button
-                className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon dnb-input__submit-button__button"
+                className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon dnb-space__bounding--zero dnb-input__submit-button__button"
                 onBlur={[Function]}
                 onClick={[Function]}
                 onFocus={[Function]}
@@ -287,7 +287,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                       alt="search"
                       aria-hidden={false}
                       aria-label="search"
-                      className="dnb-icon dnb-button__icon"
+                      className="dnb-icon dnb-space__aria-hidden--zero dnb-button__icon"
                       role="img"
                     >
                       <search>
@@ -433,7 +433,7 @@ exports[`Input component have to match type="text" snapshot 1`] = `
   value="test"
 >
   <span
-    className="dnb-input dnb-input--text"
+    className="dnb-input dnb-input--text dnb-space__disabled--zero dnb-space__readOnly--zero"
   >
     <span
       className="dnb-input__inner"
