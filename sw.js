@@ -26,23 +26,23 @@ workbox.clientsClaim();
  */
 self.__precacheManifest = [
   {
-    "url": "webpack-runtime-179c199388a3d625f58b.js"
+    "url": "webpack-runtime-a399da15a4356394c1f0.js"
   },
   {
-    "url": "styles.29a5e3c22d8f483cac6e.css"
+    "url": "styles.a37c47a3fe7d631da114.css"
   },
   {
     "url": "styles-79ecdc1b7081ee27f9a8.js"
   },
   {
-    "url": "app-2432a420ffb0c4267fcc.js"
+    "url": "app-3d487649c117daa2432a.js"
   },
   {
     "url": "component---node-modules-gatsby-plugin-offline-app-shell-js-244674bf60a19a0d8a54.js"
   },
   {
     "url": "offline-plugin-app-shell-fallback/index.html",
-    "revision": "fcdd995b529b9983f0a5b92c5edf6b45"
+    "revision": "6c881019059c4f02c9b1985ce51716cc"
   },
   {
     "url": "static/FedraSansStd-Book-72defec4eb362f240076656e7778176a.woff2"
@@ -54,11 +54,11 @@ self.__precacheManifest = [
     "url": "static/FedraSansStd-Medium-685da93af520e23fb5571838a4af40bd.woff2"
   },
   {
-    "url": "component---src-docs-404-js-0c4f1957d8b580689ed8.js"
+    "url": "component---src-docs-404-js-b042e92615d587fa5d72.js"
   },
   {
     "url": "page-data/404.html/page-data.json",
-    "revision": "87ca6e3fd2ce29657cd465f4e9a0db55"
+    "revision": "7dd17ea763c23aeb396259b22556d6c3"
   },
   {
     "url": "manifest.webmanifest",
