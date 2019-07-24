@@ -22,6 +22,7 @@ const props = fakeProps(require.resolve('../Space'), {
 })
 props.id = 'space'
 props.element = 'div'
+props.collapse = false
 
 describe('Space component', () => {
   const Comp = mount(<Component {...props} />)
@@ -35,6 +36,13 @@ describe('Space component', () => {
     expect(
       Comp.find('span.dnb-space').hasClass('dnb-space__top--large')
     ).toBe(true)
+  })
+
+  it('should have collapse CSS classe', () => {
+    const Comp = mount(
+      <Component {...props} top="large" collapse={false} />
+    )
+    expect(Comp.find('.dnb-space--no-collapse').exists()).toBe(true)
   })
 })
 

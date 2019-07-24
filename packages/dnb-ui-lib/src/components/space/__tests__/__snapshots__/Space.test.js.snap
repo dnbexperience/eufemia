@@ -5,6 +5,7 @@ exports[`Space component have to match snapshot 1`] = `
   bottom="bottom"
   class="class"
   className="className"
+  collapse={false}
   element="div"
   id="space"
   inline="inline"
@@ -15,12 +16,17 @@ exports[`Space component have to match snapshot 1`] = `
 >
   <Element
     className="dnb-space className class"
+    collapse={false}
     element="div"
   >
     <div
-      className="dnb-space className class"
+      className="dnb-space--no-collapse"
     >
-      children
+      <div
+        className="dnb-space className class"
+      >
+        children
+      </div>
     </div>
   </Element>
 </Space>
@@ -95,9 +101,6 @@ exports[`Space scss have to match snapshot 1`] = `
  * TODO: Set spacing in the theme file, as theme comes later in the stack
  *
  */
-.dnb-core-style .dnb-space--inline {
-  display: inline-block; }
-
 .dnb-core-style .dnb-space__top--zero {
   margin-top: 0; }
 
@@ -353,6 +356,12 @@ exports[`Space scss have to match snapshot 1`] = `
 /* stylelint-disable */
 .dnb-space--inline {
   display: inline-block; }
+
+.dnb-space--no-collapse {
+  display: flow-root; }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-space--no-collapse {
+      overflow: auto; } }
 
 .dnb-space__top--zero {
   margin-top: 0; }

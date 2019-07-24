@@ -13,7 +13,7 @@ import AllComponents from 'dnb-ui-lib/src/components/form-row/AllComponents'
 // import AllComponents from './AllComponents'
 
 const TestStyles = styled.div`
-  /* // make sure our input gets an explicit width, because of mac/linux rendering differences */
+  /* make sure our input gets an explicit width, because of mac/linux rendering differences */
   :not(.dnb-input--stretch) .dnb-input__input {
     width: 12rem;
   }

@@ -10,11 +10,10 @@ import ComponentBox from '../../../../shared/tags/ComponentBox'
 import styled from '@emotion/styled'
 import { Space } from 'dnb-ui-lib/src/components'
 
-const IS_TEST = typeof window !== 'undefined' && window.IS_TEST
 const TestStyles = styled.div`
-  /* // make sure our input gets an explicit width, because of mac/linux rendering differences */
+  /* make sure our input gets an explicit width, because of mac/linux rendering differences */
   .dnb-input {
-    &__inner {
+    &__input {
       width: 8rem;
     }
   }
@@ -25,11 +24,12 @@ const TestStyles = styled.div`
 
 class Example extends PureComponent {
   render() {
+    const IS_TEST = typeof window !== 'undefined' && window.IS_TEST
     return (
       <TestStyles>
         <ComponentBox
           caption="Spacing method #1 - `Space` component"
-          data-dnb-test="spacing-method-1"
+          data-dnb-test="spacing-method-space"
           scope={{ VisualSpace, RedBox }}
         >
           {/* @jsx */ `
@@ -42,23 +42,8 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox
-          caption="All four values will result in a equivalent margin"
-          data-dnb-test="spacing-margins"
-        >
-          {/* @jsx */ `
-<Space top="large x-small" right="2.5" bottom="2.5rem" left="40px" >
-  <details>
-    <summary>
-      I have four <code className="dnb-code">2.5rem</code> margins!
-    </summary>
-    And this are my CSS classes: <code className="dnb-code">dnb-space dnb-space__top--large dnb-space__top--x-small dnb-space__right--large dnb-space__right--x-small dnb-space__bottom--large dnb-space__bottom--x-small dnb-space__left--large dnb-space__left--x-small</code>
-  </details>
-</Space>
-          `}
-        </ComponentBox>
-        <ComponentBox
           caption="Spacing method #2 - `FormRow` component"
-          data-dnb-test="spacing-method-1"
+          data-dnb-test="spacing-method-form-row"
         >
           {/* @jsx */ `
 <FormRow>
@@ -71,13 +56,42 @@ class Example extends PureComponent {
         </ComponentBox>
         <ComponentBox
           caption="Spacing method #3 - Define the space directly"
-          data-dnb-test="spacing-method-1"
+          data-dnb-test="spacing-method-component"
         >
           {/* @jsx */ `
 <FormRow>
   <Input label="Input A:" right="small" />
   <Input label="Input B:" />
 </FormRow>
+          `}
+        </ComponentBox>
+        <ComponentBox
+          caption="Spacing with `collapse` set to false"
+          hideCode
+        >
+          {/* @jsx */ `
+<Space bottom="small" collapse={false}>
+  <div>I have <code className="dnb-code">bottom="small"</code></div>
+</Space>
+<Space top="large">
+  <div>I have <code className="dnb-code">top="large"</code></div>
+</Space>
+          `}
+        </ComponentBox>
+        <ComponentBox
+          caption="All four values will result in a equivalent margin"
+          data-dnb-test="spacing-margins"
+          hideCode
+        >
+          {/* @jsx */ `
+<Space top="large x-small" right="2.5" bottom="2.5rem" left="40px" >
+  <details>
+    <summary>
+      I have four <code className="dnb-code">2.5rem</code> margins!
+    </summary>
+    And this are my CSS classes: <code className="dnb-code">dnb-space dnb-space__top--large dnb-space__top--x-small dnb-space__right--large dnb-space__right--x-small dnb-space__bottom--large dnb-space__bottom--x-small dnb-space__left--large dnb-space__left--x-small</code>
+  </details>
+</Space>
           `}
         </ComponentBox>
         {false && IS_TEST && (
