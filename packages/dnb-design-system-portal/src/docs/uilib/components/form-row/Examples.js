@@ -13,7 +13,7 @@ import AllComponents from 'dnb-ui-lib/src/components/form-row/AllComponents'
 // import AllComponents from './AllComponents'
 
 const TestStyles = styled.div`
-  /* // make sure our input gets an explicit width, because of mac/linux rendering differences */
+  /* make sure our input gets an explicit width, because of mac/linux rendering differences */
   :not(.dnb-input--stretch) .dnb-input__input {
     width: 12rem;
   }
@@ -33,7 +33,11 @@ class Example extends PureComponent {
         >
           {/* @jsx */ `
 <FormRow
-    label="Vertical legend label:"
+    label={
+      <Ingress top="0" bottom="small">
+        Custom legend:
+      </Ingress>
+    }
     label_direction="vertical"
 >
   <Input label="Label A:" value="Input A" right="small" />
@@ -68,7 +72,14 @@ class Example extends PureComponent {
           data-dnb-test="form-row-combined"
         >
           {/* @jsx */ `
-<FormRow label="Vertical legend:" vertical>
+<FormRow
+  label={
+    <H2 top={false} bottom="large">
+      Custom vertical legend:
+    </H2>
+  }
+  vertical
+>
   <Input label="Vertical input A" />
   <Input label="Vertical input B" top="medium" />
   <FormRow
@@ -124,6 +135,29 @@ render(
   <Input label="Vertical direction:" placeholder="Input A ..." />
   <Input label="Vertical direction:" placeholder="Input B ..." top="small" />
 </FormRow>
+          `}
+        </ComponentBox>
+        <ComponentBox
+          caption="Vertical label direction in combination with a button"
+          data-dnb-test="form-row-vertical-label-button"
+          useRender
+        >
+          {/* @jsx */ `
+const CustomRow = styled(FormRow)\`
+  .dnb-form-row__content .dnb-button {
+    align-self: flex-end;
+    transform: translateY(0.25rem); /* 4px down */
+  }
+\`
+render(
+<CustomRow
+  label={ <H2 top="0">Legend</H2> }
+  label_direction="vertical"
+>
+  <Input label="Vertical input label" value="Input" right="small" />
+  <Button text="Button" />
+</CustomRow>
+)
           `}
         </ComponentBox>
         <ComponentBox

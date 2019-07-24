@@ -1,9 +1,15 @@
 /*
  * Space component
  *
+ * TODO: Set spacing in the theme file, as theme comes later in the stack
+ *
  */
 
 @mixin direction($direction) {
+  // 0rem
+  &--zero {
+    margin-#{$direction}: 0;
+  }
   // 0.5rem
   &--x-small {
     margin-#{$direction}: 0.5rem;
@@ -142,9 +148,6 @@
 }
 
 .dnb-core-style .dnb-space {
-  &--inline {
-    display: inline-block;
-  }
   &__top {
     @include direction(top);
   }
@@ -163,6 +166,13 @@
 .dnb-space {
   &--inline {
     display: inline-block;
+  }
+  &--no-collapse {
+    display: flow-root;
+    // IE fix
+    @media screen and (-ms-high-contrast: none) {
+      overflow: auto;
+    }
   }
   &__top {
     @include direction(top);

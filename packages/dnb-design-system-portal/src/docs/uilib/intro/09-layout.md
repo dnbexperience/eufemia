@@ -4,6 +4,8 @@ draft: true
 order: 9
 ---
 
+import ComponentBox from 'Tags/ComponentBox'
+
 <Intro>
 
 # Layout
@@ -20,13 +22,18 @@ Remember, everything should be in the **8px grid** (0.5rem) spacing - even it th
 
 ![UX layout spacing](../usage/assets/ux-layout-spacing.png)
 
-You may have a [look at the layout docs](!/uilib/usage/layout) as well as [the spacing helpers](!/uilib/usage/layout/spacing).
+You may have a [look at the layout docs](!/uilib/usage/layout) as well as [the spacing helpers](!/uilib/usage/layout/spacing) and the [Space](/uilib/components/space) component.
+
+But there is also support for basic spacing in every component:
 
 ### Example
 
-```css
-margin-top: var(--spacing-large);
-```
+<ComponentBox>
+{`
+<Input label="My Input" value="Input" right="small" />
+<Button text="Button" />
+`}
+</ComponentBox>
 
 ---
 

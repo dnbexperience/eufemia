@@ -390,6 +390,14 @@
     }
   }
 
+  @media (max-width: 40em) {
+    flex-direction: column;
+    align-items: flex-start;
+    > .dnb-form-label {
+      margin-bottom: 0.5rem;
+    }
+  }
+
   // IE fix
   @media screen and (-ms-high-contrast: none) {
     flex: none;

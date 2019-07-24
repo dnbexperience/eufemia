@@ -30,6 +30,9 @@ module.exports = async function() {
 
   // commit a tar of the reports if we are on a CI
   if (isCi) {
+    console.log(
+      chalk.yellow('Will commit "jest-screenshot-report" to git.')
+    )
     const reportPath = path.resolve(
       packpath.self(),
       './jest-screenshot-report'
@@ -59,6 +62,10 @@ module.exports = async function() {
         filePathsWhitelist: [file],
         isNotAFeature: [file]
       })
+    } else {
+      console.log(
+        chalk.red(`reportPath did not exists commit: ${reportPath}`)
+      )
     }
   }
 

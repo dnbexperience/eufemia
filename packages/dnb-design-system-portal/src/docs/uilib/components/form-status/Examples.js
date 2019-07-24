@@ -49,16 +49,36 @@ class Example extends PureComponent {
           {/* @jsx */ `
 const CustomStatus = () => (
   <>
-    My info <Link href="/">with a link</Link> and more text
+    My info
+    <Link href="/">with a link</Link>
+    and more text
   </>
 )
 render(
   <Input
-    label="Input with custom content:"
+    label="Input with custom status:"
     status={ <CustomStatus /> }
     status_state="info"
     value="Input value"
   />
+)
+          `}
+        </ComponentBox>
+        <ComponentBox
+          caption="A form status with plain text/HTML"
+          useRender
+        >
+          {/* @jsx */ `
+const myHTML = \`
+  My HTML
+  <a class="dnb-anchor" href="/" target="_blank">with a link</a>
+  and more text
+\`
+const CustomStatus = () => <span dangerouslySetInnerHTML={{ __html: myHTML }} />
+render(
+  <FormStatus status="info">
+    <CustomStatus />
+  </FormStatus>
 )
           `}
         </ComponentBox>

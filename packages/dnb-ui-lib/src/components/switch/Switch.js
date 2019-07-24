@@ -26,7 +26,11 @@ const renderProps = {
 }
 
 export const propTypes = {
-  label: PropTypes.string,
+  label: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node
+  ]),
   label_position: PropTypes.oneOf(['left', 'right']),
   title: PropTypes.string,
   default_state: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),

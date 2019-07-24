@@ -252,6 +252,10 @@ export default css`
     line-height: 2rem;
   }
 
+  .gatsby-resp-image-background-image {
+    padding-bottom: 0 !important;
+  }
+
   /* Do not delete, this is used for screenshot testing */
   ${testWrapperStyle};
 `

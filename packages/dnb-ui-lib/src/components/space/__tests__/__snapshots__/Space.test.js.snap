@@ -5,6 +5,7 @@ exports[`Space component have to match snapshot 1`] = `
   bottom="bottom"
   class="class"
   className="className"
+  collapse={false}
   element="div"
   id="space"
   inline="inline"
@@ -15,12 +16,17 @@ exports[`Space component have to match snapshot 1`] = `
 >
   <Element
     className="dnb-space className class"
+    collapse={false}
     element="div"
   >
     <div
-      className="dnb-space className class"
+      className="dnb-space--no-collapse"
     >
-      children
+      <div
+        className="dnb-space className class"
+      >
+        children
+      </div>
     </div>
   </Element>
 </Space>
@@ -92,9 +98,11 @@ exports[`Space scss have to match snapshot 1`] = `
 /*
  * Space component
  *
+ * TODO: Set spacing in the theme file, as theme comes later in the stack
+ *
  */
-.dnb-core-style .dnb-space--inline {
-  display: inline-block; }
+.dnb-core-style .dnb-space__top--zero {
+  margin-top: 0; }
 
 .dnb-core-style .dnb-space__top--x-small {
   margin-top: 0.5rem; }
@@ -156,6 +164,9 @@ exports[`Space scss have to match snapshot 1`] = `
 .dnb-core-style .dnb-space__top--xx-large-x2.dnb-core-style .dnb-space__top--x-large {
   margin-top: 10rem; }
 
+.dnb-core-style .dnb-space__right--zero {
+  margin-right: 0; }
+
 .dnb-core-style .dnb-space__right--x-small {
   margin-right: 0.5rem; }
 
@@ -216,6 +227,9 @@ exports[`Space scss have to match snapshot 1`] = `
 .dnb-core-style .dnb-space__right--xx-large-x2.dnb-core-style .dnb-space__right--x-large {
   margin-right: 10rem; }
 
+.dnb-core-style .dnb-space__bottom--zero {
+  margin-bottom: 0; }
+
 .dnb-core-style .dnb-space__bottom--x-small {
   margin-bottom: 0.5rem; }
 
@@ -275,6 +289,9 @@ exports[`Space scss have to match snapshot 1`] = `
 
 .dnb-core-style .dnb-space__bottom--xx-large-x2.dnb-core-style .dnb-space__bottom--x-large {
   margin-bottom: 10rem; }
+
+.dnb-core-style .dnb-space__left--zero {
+  margin-left: 0; }
 
 .dnb-core-style .dnb-space__left--x-small {
   margin-left: 0.5rem; }
@@ -340,6 +357,15 @@ exports[`Space scss have to match snapshot 1`] = `
 .dnb-space--inline {
   display: inline-block; }
 
+.dnb-space--no-collapse {
+  display: flow-root; }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-space--no-collapse {
+      overflow: auto; } }
+
+.dnb-space__top--zero {
+  margin-top: 0; }
+
 .dnb-space__top--x-small {
   margin-top: 0.5rem; }
 
@@ -399,6 +425,9 @@ exports[`Space scss have to match snapshot 1`] = `
 
 .dnb-space__top--xx-large-x2.dnb-space__top--x-large {
   margin-top: 10rem; }
+
+.dnb-space__right--zero {
+  margin-right: 0; }
 
 .dnb-space__right--x-small {
   margin-right: 0.5rem; }
@@ -460,6 +489,9 @@ exports[`Space scss have to match snapshot 1`] = `
 .dnb-space__right--xx-large-x2.dnb-space__right--x-large {
   margin-right: 10rem; }
 
+.dnb-space__bottom--zero {
+  margin-bottom: 0; }
+
 .dnb-space__bottom--x-small {
   margin-bottom: 0.5rem; }
 
@@ -519,6 +551,9 @@ exports[`Space scss have to match snapshot 1`] = `
 
 .dnb-space__bottom--xx-large-x2.dnb-space__bottom--x-large {
   margin-bottom: 10rem; }
+
+.dnb-space__left--zero {
+  margin-left: 0; }
 
 .dnb-space__left--x-small {
   margin-left: 0.5rem; }

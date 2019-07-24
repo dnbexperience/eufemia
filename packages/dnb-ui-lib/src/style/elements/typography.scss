@@ -109,13 +109,28 @@
   }
 }
 @mixin h1Spacing() {
-  margin: 3rem 0 2.5rem;
+  &:not([class*='space__top']) {
+    margin-top: 3rem;
+  }
+  &:not([class*='space__bottom']) {
+    margin-bottom: 2.5rem;
+  }
 }
 @mixin h2Spacing() {
-  margin: 3rem 0 1rem;
+  &:not([class*='space__top']) {
+    margin-top: 3rem;
+  }
+  &:not([class*='space__bottom']) {
+    margin-bottom: 1rem;
+  }
 }
 @mixin headingSpacing() {
-  margin: 2rem 0 1rem;
+  &:not([class*='space__top']) {
+    margin-top: 2rem;
+  }
+  &:not([class*='space__bottom']) {
+    margin-bottom: 1rem;
+  }
 }
 @mixin typographyTags() {
   h1,
@@ -163,25 +178,25 @@
   }
   .dnb-spacing {
     .dnb-h1,
-    .dnb-core-style .dnb-h1 {
+    .dnb-core-style & .dnb-h1 {
       @include h1Spacing();
     }
     .dnb-h2,
-    .dnb-core-style .dnb-h2 {
+    .dnb-core-style & .dnb-h2 {
       @include h2Spacing();
     }
     .dnb-h3,
     .dnb-h4,
     .dnb-h5,
     .dnb-h6,
-    .dnb-core-style .dnb-h3,
-    .dnb-core-style .dnb-h4,
-    .dnb-core-style .dnb-h5,
-    .dnb-core-style .dnb-h6 {
+    .dnb-core-style & .dnb-h3,
+    .dnb-core-style & .dnb-h4,
+    .dnb-core-style & .dnb-h5,
+    .dnb-core-style & .dnb-h6 {
       @include headingSpacing();
     }
     .dnb-p,
-    .dnb-core-style .dnb-p {
+    .dnb-core-style & .dnb-p {
       @include defaultSpacing();
     }
   }

@@ -25,7 +25,11 @@ const renderProps = {
 }
 
 export const propTypes = {
-  label: PropTypes.string,
+  label: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node
+  ]),
   label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
   title: PropTypes.string,
   multiselect: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),

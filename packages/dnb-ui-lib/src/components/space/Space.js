@@ -8,7 +8,6 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
   isTrue,
-  extend,
   extendPropsWithContext,
   registerElement,
   validateDOMAttributes
@@ -24,10 +23,27 @@ export const propTypes = {
   id: PropTypes.string,
   element: PropTypes.string,
   inline: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  top: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  right: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  bottom: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  left: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  collapse: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  top: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+    PropTypes.bool
+  ]),
+  right: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+    PropTypes.bool
+  ]),
+  bottom: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+    PropTypes.bool
+  ]),
+  left: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+    PropTypes.bool
+  ]),
   class: PropTypes.string,
 
   /** React props */
@@ -45,7 +61,8 @@ export const propTypes = {
 export const defaultProps = {
   id: null,
   element: 'div',
-  inline: false,
+  inline: null,
+  collapse: null,
   top: null,
   right: null,
   bottom: null,
@@ -79,21 +96,17 @@ export default class Space extends PureComponent {
       : props.children
   }
 
-  constructor(props) {
-    super(props)
-    this._id = props.id || `dnb-space-${Math.round(Math.random() * 999)}` // cause we need an id anyway
-  }
-
   render() {
-    // consume the formRow context
-    const props = this.context.formRow
+    // consume the space context
+    const props = this.context.space
       ? // use only the props from context, who are available here anyway
-        extendPropsWithContext(this.props, this.context.formRow)
+        extendPropsWithContext(this.props, this.context.space)
       : this.props
 
     let {
       element,
       inline,
+      collapse,
       top,
       right,
       bottom,
@@ -108,7 +121,6 @@ export default class Space extends PureComponent {
     // in case we have a label already, we split this out and use this one instead
     const children = Space.getContent(this.props)
 
-    const id = this._id
     const params = {
       className: classnames(
         'dnb-space',
@@ -123,41 +135,30 @@ export default class Space extends PureComponent {
     // also used for code markup simulation
     validateDOMAttributes(this.props, params)
 
-    const context = extend(this.context, {
-      formRow: {
-        useId: () => {
-          if (this.isIsUsed) {
-            // make a new ID, as we used one
-            return `dnb-space-${Math.round(Math.random() * 999)}` // cause we need an id anyway
-          }
-          this.isIsUsed = true
-          return id
-        },
-        top,
-        right,
-        bottom,
-        left
-      }
-    })
-
     return (
-      <Context.Provider value={context}>
-        <Element element={element} {...params}>
-          {children}
-        </Element>
-      </Context.Provider>
+      <Element element={element} collapse={collapse} {...params}>
+        {children}
+      </Element>
     )
   }
 }
 
-const Element = ({ element: E, children, ...props }) => {
-  return <E {...props}>{children}</E>
+const Element = ({ element: E, collapse, children, ...props }) => {
+  return collapse === false || collapse === 'false' ? (
+    <E className="dnb-space--no-collapse">
+      <E {...props}>{children}</E>
+    </E>
+  ) : (
+    <E {...props}>{children}</E>
+  )
 }
 Element.propTypes = {
   children: PropTypes.node,
-  element: PropTypes.string
+  element: PropTypes.string,
+  collapse: PropTypes.bool
 }
 Element.defaultProps = {
   children: null,
-  element: 'div'
+  element: 'div',
+  collapse: true
 }

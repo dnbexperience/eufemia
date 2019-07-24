@@ -99,7 +99,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
   value="test"
 >
   <span
-    className="dnb-input dnb-input--search dnb-input--has-submit-button"
+    className="dnb-input dnb-input--search dnb-input--has-submit-button dnb-space__disabled--zero dnb-space__readOnly--zero"
   >
     <span
       className="dnb-input__inner"
@@ -234,7 +234,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
               variant="secondary"
             >
               <button
-                className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon dnb-input__submit-button__button"
+                className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon dnb-space__bounding--zero dnb-input__submit-button__button"
                 onBlur={[Function]}
                 onClick={[Function]}
                 onFocus={[Function]}
@@ -287,7 +287,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                       alt="search"
                       aria-hidden={false}
                       aria-label="search"
-                      className="dnb-icon dnb-button__icon"
+                      className="dnb-icon dnb-space__aria-hidden--zero dnb-button__icon"
                       role="img"
                     >
                       <search>
@@ -433,7 +433,7 @@ exports[`Input component have to match type="text" snapshot 1`] = `
   value="test"
 >
   <span
-    className="dnb-input dnb-input--text"
+    className="dnb-input dnb-input--text dnb-space__disabled--zero dnb-space__readOnly--zero"
   >
     <span
       className="dnb-input__inner"
@@ -1044,7 +1044,8 @@ legend.dnb-form-label {
     display: flex;
     align-items: center;
     overflow: hidden;
-    border: var(--input-border-width) solid var(--color-sea-green-alt); }
+    border: var(--input-border-width) solid var(--color-sea-green-alt);
+    line-height: var(--input-height); }
   .dnb-input__input {
     border: none;
     outline: none;
@@ -1053,7 +1054,6 @@ legend.dnb-form-label {
     user-select: none; }
   .dnb-input__shell, .dnb-input__input {
     height: var(--input-height);
-    line-height: var(--input-height);
     border-radius: var(--input-border-radius); }
   .dnb-input__placeholder, .dnb-input__input {
     width: 100%;
@@ -1062,7 +1062,6 @@ legend.dnb-form-label {
     text-align: left;
     color: inherit;
     font-size: inherit;
-    line-height: inherit;
     background-color: transparent;
     transform: translateY(var(--input-border-width));
     font-variant-numeric: lining-nums;
@@ -1075,11 +1074,14 @@ legend.dnb-form-label {
     left: 0;
     overflow: hidden;
     white-space: nowrap;
-    text-overflow: ellipsis; }
+    text-overflow: ellipsis;
+    line-height: inherit; }
   .dnb-input__input::-webkit-search-cancel-button {
     display: none; }
   .dnb-input__input::-ms-clear {
     display: none; }
+  .dnb-core-style .dnb-input__input {
+    line-height: 1em; }
   .dnb-input--has-submit-button .dnb-input__placeholder,
   .dnb-input--has-submit-button .dnb-input__input {
     padding-right: calc(var(--input-padding) * 2.5); }
@@ -1096,10 +1098,11 @@ legend.dnb-form-label {
     margin-left: calc(1px - 1px - var(--input-height)); }
     .dnb-input__submit-button__button {
       border-radius: 50%; }
+  .dnb-input--medium .dnb-input__shell {
+    line-height: var(--input-height--medium); }
   .dnb-input--medium .dnb-input__shell,
   .dnb-input--medium .dnb-input__input {
     height: var(--input-height--medium);
-    line-height: var(--input-height--medium);
     border-radius: var(--input-border-radius--medium); }
   .dnb-input--medium .dnb-input__placeholder,
   .dnb-input--medium .dnb-input__input {
@@ -1114,10 +1117,11 @@ legend.dnb-form-label {
   .dnb-input--medium.dnb-input--has-submit-button .dnb-input__placeholder,
   .dnb-input--medium.dnb-input--has-submit-button .dnb-input__input {
     padding-right: calc(var(--input-padding--medium) * 2.5); }
+  .dnb-input--large .dnb-input__shell {
+    line-height: var(--input-height--large); }
   .dnb-input--large .dnb-input__shell,
   .dnb-input--large .dnb-input__input {
     height: var(--input-height--large);
-    line-height: var(--input-height--large);
     border-radius: var(--input-border-radius--large); }
   .dnb-input--large .dnb-input__placeholder,
   .dnb-input--large .dnb-input__input {
@@ -1158,12 +1162,18 @@ legend.dnb-form-label {
     align-items: flex-start; }
     .dnb-input[class*='__status'] > .dnb-form-label {
       margin-top: 0.25rem; }
+  @media (max-width: 40em) {
+    .dnb-input {
+      flex-direction: column;
+      align-items: flex-start; }
+      .dnb-input > .dnb-form-label {
+        margin-bottom: 0.5rem; } }
   @media screen and (-ms-high-contrast: none) {
     .dnb-input {
       vertical-align: baseline; }
       .dnb-form-row--horizontal .dnb-input, .dnb-input:not(.dnb-input--stretch) {
         flex: none; }
-      .dnb-input__placeholder, .dnb-input__input {
-        transform: translateY(-0.125rem); } }
+      .dnb-input__input, .dnb-input__placeholder {
+        transform: translateY(-0.0625rem); } }
 "
 `;

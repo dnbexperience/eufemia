@@ -93,7 +93,11 @@ export const propTypes = {
   range: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   link: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   sync: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  label: PropTypes.string,
+  label: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node
+  ]),
   label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   status: PropTypes.oneOfType([

@@ -81,16 +81,16 @@ export const validateDOMAttributes = (props, params) => {
   if (params.disabled === null || String(params.disabled) === 'false') {
     delete params.disabled
   }
-  if (params.top) {
+  if (typeof params.top !== 'undefined') {
     delete params.top
   }
-  if (params.right) {
+  if (typeof params.right !== 'undefined') {
     delete params.right
   }
-  if (params.bottom) {
+  if (typeof params.bottom !== 'undefined') {
     delete params.bottom
   }
-  if (params.left) {
+  if (typeof params.left !== 'undefined') {
     delete params.left
   }
 
