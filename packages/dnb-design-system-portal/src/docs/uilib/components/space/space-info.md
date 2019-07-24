@@ -50,9 +50,6 @@ Is `margin` not giving the expected spacing? That may be the reason due to **Mar
 
 The best solution is to only use once direction of margins e.g. `bottom`. Or You can set the [collapse property](/uilib/components/space#tab-properties) to `false`.
 
-```
-
 ## Demos
 
 <Examples />
-```

@@ -10,9 +10,8 @@ import ComponentBox from '../../../../shared/tags/ComponentBox'
 import styled from '@emotion/styled'
 import { Space } from 'dnb-ui-lib/src/components'
 
-const IS_TEST = typeof window !== 'undefined' && window.IS_TEST
 const TestStyles = styled.div`
-  /* // make sure our input gets an explicit width, because of mac/linux rendering differences */
+  /* make sure our input gets an explicit width, because of mac/linux rendering differences */
   .dnb-input {
     &__input {
       width: 8rem;
@@ -25,11 +24,12 @@ const TestStyles = styled.div`
 
 class Example extends PureComponent {
   render() {
+    const IS_TEST = typeof window !== 'undefined' && window.IS_TEST
     return (
       <TestStyles>
         <ComponentBox
           caption="Spacing method #1 - `Space` component"
-          data-dnb-test="spacing-method-1"
+          data-dnb-test="spacing-method-space"
           scope={{ VisualSpace, RedBox }}
         >
           {/* @jsx */ `
@@ -43,7 +43,7 @@ class Example extends PureComponent {
         </ComponentBox>
         <ComponentBox
           caption="Spacing method #2 - `FormRow` component"
-          data-dnb-test="spacing-method-2"
+          data-dnb-test="spacing-method-form-row"
         >
           {/* @jsx */ `
 <FormRow>
@@ -56,7 +56,7 @@ class Example extends PureComponent {
         </ComponentBox>
         <ComponentBox
           caption="Spacing method #3 - Define the space directly"
-          data-dnb-test="spacing-method-3"
+          data-dnb-test="spacing-method-component"
         >
           {/* @jsx */ `
 <FormRow>
