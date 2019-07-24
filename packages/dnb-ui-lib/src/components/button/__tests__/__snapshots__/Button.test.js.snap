@@ -675,6 +675,8 @@ exports[`Button scss have to match snapshot 1`] = `
       border: none; }
   .dnb-button[disabled] {
     cursor: not-allowed; }
+  :not(.dnb-form-row--vertical) .dnb-form-row__content > .dnb-button {
+    align-self: flex-end; }
   .dnb-form-row--vertical .dnb-form-row__content > .dnb-button {
     align-self: flex-start; }
   @media screen and (-ms-high-contrast: none) {

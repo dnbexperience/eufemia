@@ -137,6 +137,17 @@ render(
 </FormRow>
           `}
         </ComponentBox>
+        <ComponentBox caption="Vertical label direction in combination with a button">
+          {/* @jsx */ `
+<FormRow
+  label={ <H2 top="0">Legend</H2> }
+  label_direction="vertical"
+>
+  <Input label="My Input" value="Input" right="small" />
+  <Button text="Button" />
+</FormRow>
+          `}
+        </ComponentBox>
         <ComponentBox
           caption="Several components inside a horizontal `FormRow` - not wrapping"
           data-dnb-test="form-row-horizontal-no_wrap"
