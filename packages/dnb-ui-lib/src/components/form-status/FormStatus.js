@@ -33,7 +33,8 @@ export const propTypes = {
     PropTypes.node
   ]),
   icon_size: PropTypes.string,
-  status: PropTypes.oneOf(['error', 'info']),
+  state: PropTypes.oneOf(['error', 'info']),
+  status: PropTypes.oneOf(['error', 'info']), // Deprecated
   hidden: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   text_id: PropTypes.string,
   class: PropTypes.string,
@@ -56,7 +57,8 @@ export const defaultProps = {
   text: null,
   icon: 'exclamation',
   icon_size: 'medium',
-  status: 'error',
+  state: 'error',
+  status: null, // Deprecated
   hidden: false,
   text_id: null,
   class: null,
@@ -87,11 +89,11 @@ export default class FormStatus extends PureComponent {
     return processChildren(props)
   }
 
-  static getIcon({ status, icon, icon_size }) {
+  static getIcon({ state, icon, icon_size }) {
     if (typeof icon === 'string') {
       let iconToLoad = icon
 
-      switch (status) {
+      switch (state) {
         case 'info':
         case 'information':
           iconToLoad = 'information'
@@ -107,13 +109,13 @@ export default class FormStatus extends PureComponent {
     return icon
   }
 
-  correctStatus(status) {
-    switch (status) {
+  correctStatus(state) {
+    switch (state) {
       case 'information':
-        status = 'info'
+        state = 'info'
         break
     }
-    return status
+    return state
   }
 
   render() {
@@ -126,6 +128,7 @@ export default class FormStatus extends PureComponent {
     const {
       title,
       status: rawStatus,
+      state: rawState,
       hidden,
       className,
       animation,
@@ -138,9 +141,9 @@ export default class FormStatus extends PureComponent {
       ...attributes
     } = props
 
-    const status = this.correctStatus(rawStatus)
+    const state = this.correctStatus(rawStatus || rawState)
     const iconToRender = FormStatus.getIcon({
-      status,
+      state,
       icon,
       icon_size
     })
@@ -152,7 +155,7 @@ export default class FormStatus extends PureComponent {
       hidden,
       className: classnames(
         'dnb-form-status',
-        `dnb-form-status--${status}`,
+        `dnb-form-status--${state}`,
         animation ? `dnb-form-status--${animation}` : null,
         hasStringContent ? 'dnb-form-status--has-content' : null,
         createSpacingClasses(props),

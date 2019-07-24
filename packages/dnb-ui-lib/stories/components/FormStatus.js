@@ -24,7 +24,7 @@ export default [
         <FormStatus>Status</FormStatus>
       </Box>
       <Box>
-        <FormStatus status="info">
+        <FormStatus state="info">
           Long info text Ipsum habitant enim ullamcorper elit sit elementum
           platea rutrum eu condimentum erat risus lacinia viverra magnis
           lobortis nibh mollis suspendisse

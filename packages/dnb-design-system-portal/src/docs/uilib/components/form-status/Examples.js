@@ -28,7 +28,7 @@ class Example extends PureComponent {
 <FormStatus
   title="Hover title"
   text="Long info nisl tempus hendrerit tortor dapibus nascetur taciti porta risus cursus fusce platea enim curabitur proin nibh ut luctus magnis metus"
-  status="info"
+  state="info"
 />
           `}
         </ComponentBox>
@@ -76,7 +76,7 @@ const myHTML = \`
 \`
 const CustomStatus = () => <span dangerouslySetInnerHTML={{ __html: myHTML }} />
 render(
-  <FormStatus status="info">
+  <FormStatus state="info">
     <CustomStatus />
   </FormStatus>
 )
