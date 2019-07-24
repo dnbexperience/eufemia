@@ -137,15 +137,27 @@ render(
 </FormRow>
           `}
         </ComponentBox>
-        <ComponentBox caption="Vertical label direction in combination with a button">
+        <ComponentBox
+          caption="Vertical label direction in combination with a button"
+          data-dnb-test="form-row-vertical-label-button"
+          useRender
+        >
           {/* @jsx */ `
-<FormRow
+const CustomRow = styled(FormRow)\`
+  .dnb-form-row__content .dnb-button {
+    align-self: flex-end;
+    transform: translateY(0.25rem); /* 4px down */
+  }
+\`
+render(
+<CustomRow
   label={ <H2 top="0">Legend</H2> }
   label_direction="vertical"
 >
-  <Input label="My Input" value="Input" right="small" />
+  <Input label="Vertical input label" value="Input" right="small" />
   <Button text="Button" />
-</FormRow>
+</CustomRow>
+)
           `}
         </ComponentBox>
         <ComponentBox

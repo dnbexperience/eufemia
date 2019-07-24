@@ -204,9 +204,6 @@
     cursor: not-allowed;
   }
 
-  :not(.dnb-form-row--vertical) .dnb-form-row__content > & {
-    align-self: flex-end;
-  }
   .dnb-form-row--vertical .dnb-form-row__content > & {
     align-self: flex-start;
   }
