@@ -10,7 +10,7 @@ import SpacingTable from 'Pages/uilib/usage/layout/spacing-table.md'
 The `Space` component provides `margins` within the [provided spacing patterns](/uilib/usage/layout/spacing#spacing-helpers).
 
 The reason why this exists is to make Your Syntax as clean as possible.
-This way You see directly in words what the spacing is for every effected component.
+This way You see directly in words what the spacing is for every effected component
 
 ### Spacing Table
 
@@ -40,6 +40,19 @@ Every component supports the spacing patterns, so it's possible to send in the `
 <Button top="large x-small medium" />
 ```
 
+### Does it not work as expected?
+
+Is `margin` not giving the expected spacing? That may be the reason due to **Margin Collapsing**. Margins collapse in the following situations:
+
+- Adjacent siblings
+- Completely empty boxes
+- Parent and first or last child element
+
+The best solution is to only use once direction of margins e.g. `bottom`. Or You can set the [collapse property](/uilib/components/space#tab-properties) to `false`.
+
+```
+
 ## Demos
 
 <Examples />
+```

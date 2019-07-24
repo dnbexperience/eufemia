@@ -168,9 +168,9 @@ steps:
       link_names: true
       template: >
         {{#success build.status}}
-          <@channel> *success* <{{build.link}}> ({{build.branch}} {{build.number}}{{build.tag}}) by <@{{build.author}}>.
+          <@channel> *success* <{{build.link}}> ({{build.branch}} {{build.number}}{{build.tag}}) by <@{{build.author}}>
         {{else}}
-          <@channel> *failure* <{{build.link}}> ({{build.branch}} {{build.number}}{{build.tag}}) by <@{{build.author}}>.
+          <@channel> *failure* <{{build.link}}> ({{build.branch}} {{build.number}}{{build.tag}}) by <@{{build.author}}>
         {{/success}}
       username: DroneCI
     when:

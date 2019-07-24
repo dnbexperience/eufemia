@@ -16,6 +16,8 @@ import {
   // FormLabel,
   // FormRow
 } from '../../src/components'
+import { H1, H2 } from '../../src/elements'
+import Provider from '../../src/shared/Provider'
 
 export default [
   'Space',
@@ -30,6 +32,32 @@ export default [
             </Space>
           </VisualSpace>
         </CustomStyle>
+      </Box>
+      <Box>
+        <Provider
+          space={{
+            collapse: false
+          }}
+        >
+          <Collapsing bottom="small">
+            <H1>H1</H1>
+          </Collapsing>
+          <Collapsing top="large">
+            <H2>H2</H2>
+          </Collapsing>
+        </Provider>
+      </Box>
+      <Box>
+        <Collapsing bottom="small" collapse={false}>
+          <div>
+            I have <code className="dnb-code">bottom="small"</code>
+          </div>
+        </Collapsing>
+        <Collapsing top="large">
+          <div>
+            I have <code className="dnb-code">top="large"</code>
+          </div>
+        </Collapsing>
       </Box>
       <Box>
         <CustomStyle>
@@ -258,5 +286,9 @@ VisualSpace.defaultProps = {
   label: null,
   children: null
 }
+
+const Collapsing = styled(Space)`
+  border: 1px solid;
+`
 
 export { MagicBox, VisualSpace }

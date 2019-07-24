@@ -25,4 +25,22 @@ describe('Space screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+  it('have to match the spacing method 1', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-dnb-test="spacing-method-1"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+  it('have to match the spacing method 2', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-dnb-test="spacing-method-2"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+  it('have to match the spacing method 3', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-dnb-test="spacing-method-3"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })

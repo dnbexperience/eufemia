@@ -148,9 +148,6 @@
 }
 
 .dnb-core-style .dnb-space {
-  &--inline {
-    display: inline-block;
-  }
   &__top {
     @include direction(top);
   }
@@ -169,6 +166,13 @@
 .dnb-space {
   &--inline {
     display: inline-block;
+  }
+  &--no-collapse {
+    display: flow-root;
+    // IE fix
+    @media screen and (-ms-high-contrast: none) {
+      overflow: auto;
+    }
   }
   &__top {
     @include direction(top);
