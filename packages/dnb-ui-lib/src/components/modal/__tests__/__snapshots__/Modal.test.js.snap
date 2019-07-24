@@ -128,7 +128,7 @@ exports[`Modal component have to match snapshot 1`] = `
     >
       <button
         aria-label="Modal"
-        className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-left dnb-button--has-icon dnb-modal__trigger"
+        className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-left dnb-button--has-icon dnb-space__disabled--zero dnb-space__bounding--zero dnb-modal__trigger"
         id="modal_id"
         onClick={[Function]}
         onMouseOut={[Function]}
@@ -177,7 +177,7 @@ exports[`Modal component have to match snapshot 1`] = `
               alt="Modal"
               aria-hidden={false}
               aria-label="Modal"
-              className="dnb-icon dnb-icon--default dnb-button__icon"
+              className="dnb-icon dnb-icon--default dnb-space__aria-hidden--zero dnb-button__icon"
               role="img"
             >
               <question>
@@ -430,7 +430,7 @@ exports[`Modal component have to match snapshot 1`] = `
               >
                 <button
                   aria-label="close_title"
-                  className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon dnb-modal__close-button"
+                  className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon dnb-space__bounding--zero dnb-modal__close-button"
                   onClick={[Function]}
                   onMouseOut={[Function]}
                   title="close_title"
@@ -478,7 +478,7 @@ exports[`Modal component have to match snapshot 1`] = `
                         alt="close_title"
                         aria-hidden={false}
                         aria-label="close_title"
-                        className="dnb-icon dnb-icon--medium dnb-button__icon"
+                        className="dnb-icon dnb-icon--medium dnb-space__aria-hidden--zero dnb-button__icon"
                         role="img"
                       >
                         <close_medium>

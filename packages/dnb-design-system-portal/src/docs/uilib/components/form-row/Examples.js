@@ -33,7 +33,11 @@ class Example extends PureComponent {
         >
           {/* @jsx */ `
 <FormRow
-    label="Vertical legend label:"
+    label={
+      <Ingress top="0" bottom="small">
+        Custom legend:
+      </Ingress>
+    }
     label_direction="vertical"
 >
   <Input label="Label A:" value="Input A" right="small" />
@@ -68,7 +72,14 @@ class Example extends PureComponent {
           data-dnb-test="form-row-combined"
         >
           {/* @jsx */ `
-<FormRow label="Vertical legend:" vertical>
+<FormRow
+  label={
+    <H2 top={false} bottom="large">
+      Custom vertical legend:
+    </H2>
+  }
+  vertical
+>
   <Input label="Vertical input A" />
   <Input label="Vertical input B" top="medium" />
   <FormRow

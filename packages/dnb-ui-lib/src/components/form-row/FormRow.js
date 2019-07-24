@@ -24,9 +24,14 @@ const renderProps = {
 
 export const propTypes = {
   id: PropTypes.string,
-  label: PropTypes.string,
+  label: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node
+  ]),
   label_direction: PropTypes.oneOf(['vertical', 'horizontal']),
   label_id: PropTypes.string,
+  label_class: PropTypes.string,
   no_label: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   no_fieldset: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   indent: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -57,6 +62,7 @@ export const defaultProps = {
   label: null,
   label_direction: null,
   label_id: null,
+  label_class: null,
   no_label: false,
   no_fieldset: null,
   indent: null,
@@ -131,6 +137,7 @@ export default class FormRow extends PureComponent {
       label,
       label_direction,
       label_id,
+      label_class,
       no_fieldset,
       no_label,
       indent,
@@ -158,7 +165,9 @@ export default class FormRow extends PureComponent {
       label = nestedLabel
     }
     const hasLabel =
-      typeof label === 'string' && label.length > 0 ? true : false
+      (typeof label === 'string' && label.length > 0) || label
+        ? true
+        : false
 
     const id = this._id
     const params = {
@@ -222,7 +231,7 @@ export default class FormRow extends PureComponent {
           <div {...params}>
             {label && (
               <FormLabel
-                className="dnb-form-row__label"
+                className={classnames('dnb-form-row__label', label_class)}
                 id={(label_id ? label_id : id) + '-label'}
                 for_id={useFieldset ? null : id} // we don't use for_id, because we don't have a single element to target to
                 text={label}

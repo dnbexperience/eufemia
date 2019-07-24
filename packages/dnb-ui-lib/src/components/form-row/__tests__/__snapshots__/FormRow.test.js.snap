@@ -10,6 +10,7 @@ exports[`FormRow component have to match snapshot 1`] = `
   indent="indent"
   indent_offset="indent_offset"
   label="label"
+  label_class="label_class"
   label_direction="horizontal"
   label_id="label_id"
   no_fieldset="no_fieldset"
@@ -33,7 +34,7 @@ exports[`FormRow component have to match snapshot 1`] = `
       >
         <FormLabel
           class={null}
-          className="dnb-form-row__label"
+          className="dnb-form-row__label label_class"
           direction="horizontal"
           disabled={false}
           element="legend"
@@ -46,12 +47,12 @@ exports[`FormRow component have to match snapshot 1`] = `
           vertical={null}
         >
           <Element
-            className="dnb-form-label dnb-form-label--horizontal dnb-form-row__label"
+            className="dnb-form-label dnb-form-label--horizontal dnb-space__disabled--zero dnb-form-row__label label_class"
             id="label_id-label"
             is="legend"
           >
             <legend
-              className="dnb-form-label dnb-form-label--horizontal dnb-form-row__label"
+              className="dnb-form-label dnb-form-label--horizontal dnb-space__disabled--zero dnb-form-row__label label_class"
               id="label_id-label"
             >
               label

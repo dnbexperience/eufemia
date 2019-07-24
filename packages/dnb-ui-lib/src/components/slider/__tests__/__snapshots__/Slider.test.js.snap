@@ -29,7 +29,7 @@ exports[`Slider component have to match snapshot 1`] = `
   vertical="vertical"
 >
   <span
-    className="dnb-slider dnb-slider__label--horizontal className class"
+    className="dnb-slider dnb-slider__label--horizontal dnb-space__min--zero className class"
   >
     <FormLabel
       class={null}
@@ -46,13 +46,13 @@ exports[`Slider component have to match snapshot 1`] = `
       vertical={null}
     >
       <Element
-        className="dnb-form-label"
+        className="dnb-form-label dnb-space__disabled--zero"
         htmlFor="id"
         id="id-label"
         is="label"
       >
         <label
-          className="dnb-form-label"
+          className="dnb-form-label dnb-space__disabled--zero"
           htmlFor="id"
           id="id-label"
         >
@@ -89,7 +89,7 @@ exports[`Slider component have to match snapshot 1`] = `
         >
           <button
             aria-label="subtract_title"
-            className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon dnb-slider__button dnb-slider__button--subtract"
+            className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon dnb-space__bounding--zero dnb-slider__button dnb-slider__button--subtract"
             onClick={[Function]}
             onMouseOut={[Function]}
             title="subtract_title"
@@ -137,7 +137,7 @@ exports[`Slider component have to match snapshot 1`] = `
                   alt="subtract_title"
                   aria-hidden={false}
                   aria-label="subtract_title"
-                  className="dnb-icon dnb-icon--default dnb-button__icon"
+                  className="dnb-icon dnb-icon--default dnb-space__aria-hidden--zero dnb-button__icon"
                   role="img"
                 >
                   <subtract>
@@ -209,7 +209,7 @@ exports[`Slider component have to match snapshot 1`] = `
             >
               <button
                 aria-label="thump_title"
-                className="dnb-button dnb-button--secondary"
+                className="dnb-button dnb-button--secondary dnb-space__bounding--zero"
                 onBlur={[Function]}
                 onClick={[Function]}
                 onFocus={[Function]}
@@ -288,7 +288,7 @@ exports[`Slider component have to match snapshot 1`] = `
         >
           <button
             aria-label="add_title"
-            className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon dnb-slider__button dnb-slider__button--add"
+            className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon dnb-space__bounding--zero dnb-slider__button dnb-slider__button--add"
             onClick={[Function]}
             onMouseOut={[Function]}
             title="add_title"
@@ -336,7 +336,7 @@ exports[`Slider component have to match snapshot 1`] = `
                   alt="add_title"
                   aria-hidden={false}
                   aria-label="add_title"
-                  className="dnb-icon dnb-icon--default dnb-button__icon"
+                  className="dnb-icon dnb-icon--default dnb-space__aria-hidden--zero dnb-button__icon"
                   role="img"
                 >
                   <add>

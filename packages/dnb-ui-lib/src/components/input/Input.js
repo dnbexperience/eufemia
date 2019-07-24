@@ -36,7 +36,11 @@ export const propTypes = {
   size: PropTypes.string,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   id: PropTypes.string,
-  label: PropTypes.string,
+  label: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node
+  ]),
   label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
   status: PropTypes.oneOfType([
     PropTypes.string,

@@ -24,7 +24,11 @@ export const propTypes = {
   for_id: PropTypes.string,
   element: PropTypes.string,
   title: PropTypes.string,
-  text: PropTypes.string,
+  text: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node
+  ]),
   id: PropTypes.string,
   class: PropTypes.string,
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
