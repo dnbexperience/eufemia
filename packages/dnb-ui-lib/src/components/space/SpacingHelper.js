@@ -138,7 +138,9 @@ export const isValidSpaceProp = prop =>
 // Creates a valid space CSS class out from given space types
 export const createSpacingClasses = props =>
   Object.entries(props).reduce((acc, [direction, cur]) => {
-    if (cur && isValidSpaceProp(direction)) {
+    if (String(cur) === '0' || String(cur) === 'false') {
+      acc.push(`dnb-space__${direction}--zero`)
+    } else if (cur && isValidSpaceProp(direction)) {
       const typeModifyers = createTypeModifyers(cur)
 
       // get the total sum

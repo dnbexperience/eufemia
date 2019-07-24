@@ -24,10 +24,26 @@ export const propTypes = {
   id: PropTypes.string,
   element: PropTypes.string,
   inline: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  top: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  right: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  bottom: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  left: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  top: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+    PropTypes.bool
+  ]),
+  right: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+    PropTypes.bool
+  ]),
+  bottom: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+    PropTypes.bool
+  ]),
+  left: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+    PropTypes.bool
+  ]),
   class: PropTypes.string,
 
   /** React props */
