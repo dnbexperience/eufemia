@@ -16,6 +16,7 @@ __tests__
 /stories
 dnb-ui-lib-*.tgz
 README.md
+.ncurc.json
 
 # dev
 .storybook
