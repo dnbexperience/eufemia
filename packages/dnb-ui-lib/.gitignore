@@ -19,12 +19,11 @@
 /icons
 **/test-files/dist
 /docs
-/dist
 /vue.*
 /index.*
 /web-components.*
 /web-components
-dnb-ui-lib-*.tgz
+/dnb-ui-lib-*.tgz
 
 # misc
 package-lock.json

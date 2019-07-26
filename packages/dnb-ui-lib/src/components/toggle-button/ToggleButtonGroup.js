@@ -276,7 +276,7 @@ export default class ToggleButtonGroup extends PureComponent {
 
     return (
       <ToggleButtonGroupContext.Provider value={context}>
-        <span className={classes}>
+        <div className={classes}>
           <FormRow {...formRowParams}>
             <span
               id={id}
@@ -295,7 +295,7 @@ export default class ToggleButtonGroup extends PureComponent {
               )}
             </span>
           </FormRow>
-        </span>
+        </div>
       </ToggleButtonGroupContext.Provider>
     )
   }

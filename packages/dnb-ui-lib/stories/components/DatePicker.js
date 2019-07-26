@@ -15,7 +15,11 @@ export default [
     <Wrapper>
       <Box>
         <FormRow label_direction="vertical" label="Legend:">
-          <DatePicker label="Date Picker 1:" right="small" />
+          <DatePicker
+            label="Date Picker 1:"
+            right="small"
+            date="1981-01-15"
+          />
           <DatePicker label="Date Picker 2:" align_picker="right" />
           <DatePicker
             label="Date Picker 3:"

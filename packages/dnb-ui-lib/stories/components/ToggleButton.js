@@ -23,11 +23,9 @@ export default [
   () => (
     <Wrapper>
       <Box>
-        <Provider
-          formRow={{ vertical: true, label: 'ToggleButton label?' }}
-        >
-          <FormRow label="">
-            <ToggleButton.Group label="Group B label:">
+        <Provider formRow={{ vertical: true }}>
+          <FormRow>
+            <ToggleButton.Group>
               <ToggleButton text="First" value="first" />
               <ToggleButton text="Second" value="second" />
               <ToggleButton text="Third A" value="thirdA" />

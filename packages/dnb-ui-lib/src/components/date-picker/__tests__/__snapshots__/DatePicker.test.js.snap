@@ -761,6 +761,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
           icon="exclamation"
           icon_size="medium"
           render_content={null}
+          state="error"
           status="error"
           text="status"
           text_id="date-picker-id-status"
@@ -1861,6 +1862,6 @@ legend.dnb-form-label {
         left: 0;
         margin: auto; }
       .dnb-date-picker__day .dnb-button__text {
-        transform: translateX(-50%); } }
+        transform: translateX(-50%) !important; } }
 "
 `;

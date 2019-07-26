@@ -301,7 +301,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
   variant={null}
   vertical={null}
 >
-  <span
+  <div
     className="dnb-toggle-button-group dnb-toggle-button-group--row"
   >
     <FormRow
@@ -591,7 +591,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
         </fieldset>
       </Fieldset>
     </FormRow>
-  </span>
+  </div>
 </ToggleButtonGroup>
 `;
 

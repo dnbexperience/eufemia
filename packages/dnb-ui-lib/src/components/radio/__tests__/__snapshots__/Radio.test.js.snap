@@ -133,7 +133,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
   value={null}
   vertical={null}
 >
-  <span
+  <div
     className="dnb-radio-group dnb-radio-group--row"
   >
     <FormRow
@@ -162,7 +162,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
         useFieldset={false}
       >
         <div
-          className={null}
+          className="dnb-form-row__fieldset"
         >
           <div
             className="dnb-form-row dnb-space__no_label--zero"
@@ -419,7 +419,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
         </div>
       </Fieldset>
     </FormRow>
-  </span>
+  </div>
 </RadioGroup>
 `;
 

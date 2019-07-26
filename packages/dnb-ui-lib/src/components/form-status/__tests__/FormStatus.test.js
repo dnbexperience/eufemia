@@ -21,7 +21,8 @@ import dnb_form_status_theme_ui from '../style/themes/dnb-form-status-theme-ui.s
 const props = fakeProps(require.resolve('../FormStatus'), {
   optional: true
 })
-props.status = 'error'
+props.state = 'error'
+props.status = null
 props.hidden = false
 props.icon = 'exclamation'
 

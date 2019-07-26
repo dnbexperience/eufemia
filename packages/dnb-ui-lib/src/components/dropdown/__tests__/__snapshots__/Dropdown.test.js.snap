@@ -167,6 +167,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
         icon="exclamation"
         icon_size="medium"
         render_content={null}
+        state="error"
         status="error"
         text="status"
         text_id="dropdown-id-status"
