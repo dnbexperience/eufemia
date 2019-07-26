@@ -223,7 +223,7 @@ export default class RadioGroup extends PureComponent {
 
     return (
       <RadioGroupContext.Provider value={context}>
-        <span className={classes}>
+        <div className={classes}>
           <FormRow {...formRowParams}>
             <span
               id={id}
@@ -242,7 +242,7 @@ export default class RadioGroup extends PureComponent {
               )}
             </span>
           </FormRow>
-        </span>
+        </div>
       </RadioGroupContext.Provider>
     )
   }

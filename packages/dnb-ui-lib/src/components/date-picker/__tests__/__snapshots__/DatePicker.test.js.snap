@@ -1862,6 +1862,6 @@ legend.dnb-form-label {
         left: 0;
         margin: auto; }
       .dnb-date-picker__day .dnb-button__text {
-        transform: translateX(-50%); } }
+        transform: translateX(-50%) !important; } }
 "
 `;

@@ -403,7 +403,7 @@
           margin: auto;
         }
         &__text {
-          transform: translateX(-50%);
+          transform: translateX(-50%) !important;
         }
       }
     }

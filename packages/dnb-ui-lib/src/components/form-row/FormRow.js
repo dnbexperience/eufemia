@@ -282,7 +282,10 @@ const Fieldset = ({ useFieldset, className, children, ...props }) => {
     )
   }
   return (
-    <div className={className} {...props}>
+    <div
+      className={classnames('dnb-form-row__fieldset', className)}
+      {...props}
+    >
       {children}
     </div>
   )

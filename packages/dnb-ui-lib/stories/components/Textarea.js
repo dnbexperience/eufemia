@@ -7,12 +7,20 @@ import React /* , { useState, useEffect } */ from 'react'
 import { Wrapper, Box } from '../helpers'
 // import styled from '@emotion/styled'
 
+import Provider from '../../src/shared/Provider'
 import { Textarea, FormRow } from '../../src/components'
 
 export default [
   'Textarea',
   () => (
     <Wrapper className="dnb-spacing">
+      <Box>
+        <Provider formRow={{ vertical: true }}>
+          <FormRow>
+            <Textarea value="Text" />
+          </FormRow>
+        </Provider>
+      </Box>
       <Box>
         <FormRow label_direction="vertical" label="Legend:">
           <Textarea
