@@ -12,6 +12,7 @@ __tests__
 /package
 /scripts
 /src
+/dist
 /stories
 dnb-ui-lib-*.tgz
 README.md
