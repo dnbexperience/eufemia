@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
 
 import Head from 'react-helmet'
 import { MDXProvider } from '@mdx-js/react'
-import MDXRenderer from 'gatsby-mdx/mdx-renderer'
+import { MDXRenderer } from 'gatsby-plugin-mdx'
 import { graphql, withPrefix } from 'gatsby'
 
 import Layout from '../shared/parts/Layout'
@@ -19,7 +19,7 @@ export default class MdxTemplate extends PureComponent {
       location,
       data: {
         mdx: {
-          code: { body },
+          body,
           frontmatter: { title, description, fullscreen }
         },
         site: {
@@ -49,15 +49,13 @@ MdxTemplate.propTypes = {
   location: PropTypes.object.isRequired,
   data: PropTypes.shape({
     mdx: PropTypes.shape({
-      code: PropTypes.shape({
-        body: PropTypes.string.isRequired
-      }).isRequired
+      body: PropTypes.string.isRequired
     }).isRequired
   }).isRequired
 }
 
 export const pageQuery = graphql`
-  query($id: String!) {
+  query MDXQuery($id: String!) {
     site {
       siteMetadata {
         description
@@ -69,9 +67,7 @@ export const pageQuery = graphql`
         description
         fullscreen
       }
-      code {
-        body
-      }
+      body
     }
   }
 `
