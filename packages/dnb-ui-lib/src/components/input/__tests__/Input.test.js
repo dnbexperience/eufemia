@@ -66,23 +66,64 @@ describe('Input component', () => {
       'false'
     )
 
-    const value = 'new value'
-    Comp.find('input').simulate('change', { target: { value } })
+    const newValue = 'new value'
+    Comp.find('input').simulate('change', { target: { value: newValue } })
 
     expect(Comp.find('.dnb-input__shell').prop('data-has-content')).toBe(
       'true'
     )
 
-    expect(Comp.state().value).toBe(value)
+    expect(Comp.state().value).toBe(newValue)
+  })
+
+  it('events gets emmited correctly: "on_change" and "onKeyDown"', () => {
+    const initValue = 'init value'
+    const newValue = 'new value'
+    const emptyValue = null // gets emmited also on values as null
+
+    const on_change = jest.fn()
+    const onKeyDown = jest.fn() // additional native event test
+
+    const Comp = mount(
+      <Component
+        {...props}
+        value={initValue}
+        on_change={on_change}
+        onKeyDown={onKeyDown} // additional native event test
+      />
+    )
+
+    expect(Comp.state().value).toBe(initValue)
+
+    Comp.find('input').simulate('change', {
+      target: { value: newValue }
+    })
+    expect(on_change.mock.calls.length).toBe(1)
+    expect(Comp.state().value).toBe(newValue)
+
+    Comp.find('input').simulate('change', {
+      target: { value: emptyValue }
+    })
+    expect(on_change.mock.calls.length).toBe(2)
+    expect(Comp.state().value).toBe(emptyValue)
+
+    // additional native event test
+    Comp.find('input').simulate('keydown', { key: 'Space', keyCode: 84 }) // space
+    expect(onKeyDown.mock.calls.length).toBe(1)
   })
 
   // make sure getDerivedStateFromProps works
   it('has correct state after changeing "value" prop (set by getDerivedStateFromProps)', () => {
-    const value = 'new prop value'
+    const initValue = 'new prop value'
+    const emptyValue = null
+
     Comp.setProps({
-      value
+      value: initValue
     })
-    expect(Comp.state().value).toBe(value)
+    expect(Comp.state().value).toBe(initValue)
+
+    Comp.setProps({ value: emptyValue })
+    expect(Comp.state().value).toBe(emptyValue)
 
     // get dom node
     // console.log('domNode', Comp.find('input').getDOMNode().value)

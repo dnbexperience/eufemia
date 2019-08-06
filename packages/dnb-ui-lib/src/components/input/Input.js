@@ -148,11 +148,7 @@ export default class Input extends PureComponent {
 
   static getDerivedStateFromProps(props, state) {
     const value = Input.getValue(props)
-    if (
-      state._listenForPropChanges &&
-      value !== null &&
-      value !== state.value
-    ) {
+    if (state._listenForPropChanges && value !== state.value) {
       state.value = value
     }
     if (props.input_state) {
@@ -222,8 +218,9 @@ export default class Input extends PureComponent {
     dispatchCustomElementEvent(this, 'on_change', { value, event })
   }
   onKeyDownHandler = event => {
+    const value = event.target.value
+    dispatchCustomElementEvent(this, 'on_key_down', { value, event })
     if (event.key === 'Enter') {
-      const { value } = event.target
       dispatchCustomElementEvent(this, 'on_submit', { value, event })
     }
   }

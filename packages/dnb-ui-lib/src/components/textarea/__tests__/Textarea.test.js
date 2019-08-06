@@ -69,11 +69,16 @@ describe('Textarea component', () => {
 
   // // make sure getDerivedStateFromProps works
   it('has correct state after changeing "value" prop (set by getDerivedStateFromProps)', () => {
-    const value = 'new prop value'
+    const initValue = 'new prop value'
+    const emptyValue = null
+
     Comp.setProps({
-      value
+      value: initValue
     })
-    expect(Comp.state().value).toBe(value)
+    expect(Comp.state().value).toBe(initValue)
+
+    Comp.setProps({ value: emptyValue })
+    expect(Comp.state().value).toBe(emptyValue)
   })
 
   it('has to to have a prop value like value', () => {
