@@ -236,13 +236,13 @@
 
   &__labels {
     &__day {
-      padding: 1.5rem 0 0.5rem;
+      padding-top: 1.5rem;
+      padding-bottom: 0.5rem;
     }
   }
 
   &__labels,
   &__days {
-    // min-width: 12rem;
     min-width: 18rem;
     max-width: 18rem;
 
@@ -391,6 +391,12 @@
   // IE fix
   @media screen and (-ms-high-contrast: none) {
     flex: none;
+
+    &__day,
+    &__labels__day {
+      flex-basis: percentage(1 / 7) - 0.8;
+    }
+
     &__day {
       .dnb-button {
         &,

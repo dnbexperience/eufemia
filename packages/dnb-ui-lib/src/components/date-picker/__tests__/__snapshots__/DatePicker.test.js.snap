@@ -1753,7 +1753,8 @@ legend.dnb-form-label {
     justify-content: space-between;
     padding: 1rem; }
   .dnb-date-picker__labels__day {
-    padding: 1.5rem 0 0.5rem; }
+    padding-top: 1.5rem;
+    padding-bottom: 0.5rem; }
   .dnb-date-picker__labels, .dnb-date-picker__days {
     min-width: 18rem;
     max-width: 18rem;
@@ -1854,6 +1855,8 @@ legend.dnb-form-label {
   @media screen and (-ms-high-contrast: none) {
     .dnb-date-picker {
       flex: none; }
+      .dnb-date-picker__day, .dnb-date-picker__labels__day {
+        flex-basis: 13.48571%; }
       .dnb-date-picker__day .dnb-button,
       .dnb-core-style .dnb-date-picker__day .dnb-button, .dnb-date-picker__day .dnb-button__bounding {
         top: 0;
