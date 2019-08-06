@@ -31,10 +31,10 @@ export const propTypes = {
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   id: PropTypes.string,
   label: PropTypes.oneOfType([
-  PropTypes.string,
-  PropTypes.func,
-  PropTypes.node
-]),
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node
+  ]),
   label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
   status: PropTypes.oneOfType([
     PropTypes.string,
@@ -119,11 +119,7 @@ export default class Textarea extends PureComponent {
 
   static getDerivedStateFromProps(props, state) {
     const value = Textarea.getValue(props)
-    if (
-      state._listenForPropChanges &&
-      value !== null &&
-      value !== state.value
-    ) {
+    if (state._listenForPropChanges && value !== state.value) {
       state.value = value
     }
     if (isTrue(props.disabled)) {
