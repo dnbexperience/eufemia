@@ -27,6 +27,8 @@ props.status_state = 'error'
 props.direction = 'bottom'
 props.label_direction = 'horizontal'
 props.selected_item = 2
+props.popup_menu = null
+props.trigger_component = null
 
 const mockData = [
   {

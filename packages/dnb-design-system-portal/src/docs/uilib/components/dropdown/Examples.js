@@ -117,6 +117,24 @@ render(
 />
           `}
         </ComponentBox>
+        <ComponentBox
+          caption="As **Popup Menu** - no lasting selection will be made"
+          data-dnb-test="dropdown-popup"
+        >
+          {/* @jsx */ `
+  <Dropdown
+    popup_menu
+    title="Choose an item"
+    data={['Go this this Link', 'Or press on me', <>Custom component</>]}
+    on_change={({ selected_item }) => {
+      console.log('on_change', selected_item)
+    }}
+    on_select={({ active_item }) => {
+      console.log('on_select', active_item)
+    }}
+  />
+          `}
+        </ComponentBox>
         <ComponentBox caption="Disabled dropdown" scope={{ data }}>
           {/* @jsx */ `
 <Dropdown disabled data={['Disabled Dropdown']} label="Label:" />
@@ -180,10 +198,14 @@ const Wrapper = styled.div`
     margin-right: 1rem;
   }
   [data-dnb-test] {
-    .dnb-dropdown__shell,
-    .dnb-dropdown__text__inner {
+    > :not(.dnb-dropdown--is-popup) .dnb-dropdown__shell,
+    > :not(.dnb-dropdown--is-popup) .dnb-dropdown__text__inner {
       width: var(--dropdown-width);
     }
+  }
+  [data-dnb-test-wrapper='dropdown-popup'] {
+    width: 20rem;
+    height: 15rem !important;
   }
   [data-dnb-test='dropdown-list'] .dnb-dropdown__list {
     display: block;

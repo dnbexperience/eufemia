@@ -6,8 +6,8 @@
 :root {
   // --dropdown--maxwidth will be used by a max-width
   --dropdown-width: 16rem;
-  --dropdown-min-width: 10rem;
-  --dropdown-max-width: 20rem;
+  // --dropdown-min-width: 10rem;
+  // --dropdown-max-width: 20rem;
   --dropdown-height: 2rem;
   --dropdown-padding-horizontal: 1rem;
   --dropdown-border-width: 0.0625rem;
@@ -124,7 +124,7 @@
     left: 0;
     right: 0;
 
-    width: 100%;
+    width: var(--dropdown-width);
     margin: 0;
     padding: 0;
 
@@ -292,6 +292,36 @@
   &__trigger {
     line-height: var(--dropdown-height);
   }
+
+  // Is popup menu
+  &--is-popup &__trigger {
+    padding: 0 calc(var(--dropdown-padding-horizontal) / 2 - 1px);
+  }
+  &--is-popup &__icon {
+    width: 100%;
+  }
+  &--is-popup &__list {
+    left: calc(1px - 1px - var(--dropdown-padding-horizontal) / 2);
+  }
+  &--scroll#{&}--is-popup &__options {
+    min-height: 1rem;
+  }
+  &__popup--small &__trigger {
+    height: calc(var(--dropdown-height) / 1.33333333333);
+    width: calc(var(--dropdown-height) / 1.33333333333);
+    padding: 0;
+  }
+  &__popup--small &__list {
+    top: calc(var(--dropdown-height) / 1.33333333333);
+    left: calc(
+      1px - 1px - var(--dropdown-padding-horizontal) / 1.33333333333
+    );
+  }
+  &__popup--small#{&}--direction-top &__list {
+    top: auto;
+    bottom: var(--dropdown-height);
+  }
+
   &__text {
     order: 1;
     position: relative;
@@ -318,6 +348,7 @@
       //   var(--dropdown-max-width) -
       //     calc(var(--dropdown-padding-horizontal) * 3 + 10px)
       // );
+
       width: calc(
         var(--dropdown-width) -
           calc(var(--dropdown-padding-horizontal) * 3 + 10px)
@@ -333,6 +364,9 @@
       text-decoration: none;
       text-overflow: inherit;
       text-align: inherit;
+
+      // because of vertical centering and the current font
+      transform: translateY(var(--dropdown-border-width));
     }
   }
 
@@ -367,7 +401,7 @@
     margin-right: 1rem;
   }
 
-  > .dnb-form-status {
+  &__inner > .dnb-form-status {
     margin-top: 0.5rem;
   }
 

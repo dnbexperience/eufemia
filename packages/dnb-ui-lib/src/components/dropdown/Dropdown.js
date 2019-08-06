@@ -28,13 +28,14 @@ const renderProps = {
   on_hide: null,
   on_change: null,
   on_select: null,
-  on_state_update: null
+  on_state_update: null,
+  trigger_component: null
 }
 
 export const propTypes = {
   id: PropTypes.string,
   title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-  icon: PropTypes.string,
+  icon: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   icon_position: PropTypes.string,
   label: PropTypes.oneOfType([
     PropTypes.string,
@@ -57,6 +58,12 @@ export const propTypes = {
     PropTypes.string,
     PropTypes.bool
   ]),
+  prevent_selection: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool
+  ]),
+  popup_menu: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  trigger_component: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
   data: PropTypes.oneOfType([
     PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
     PropTypes.arrayOf(
@@ -99,7 +106,7 @@ export const propTypes = {
 export const defaultProps = {
   id: null,
   title: 'Option Menu',
-  icon: 'chevron-left',
+  icon: null,
   icon_position: null,
   label: null,
   label_direction: null,
@@ -111,6 +118,8 @@ export const defaultProps = {
   direction: 'auto',
   no_animation: false,
   no_scroll_animation: false,
+  prevent_selection: false,
+  popup_menu: false,
   data: null,
   selected_item: null,
   open_on_focus: false,
@@ -394,8 +403,11 @@ export default class Dropdown extends PureComponent {
         _listenForPropChanges: false
       },
       () => {
+        const { selected_item } = this.state
         if (fireSelectEvent) {
           const ret = dispatchCustomElementEvent(this, 'on_select', {
+            selected_item,
+            active_item,
             data: Dropdown.getOptionData(active_item, this.state.data),
             event
           })
@@ -545,36 +557,49 @@ export default class Dropdown extends PureComponent {
       this.state.selectedItemHasChanged === false
     ) {
       dispatchCustomElementEvent(this, 'on_change', {
+        selected_item,
         data: Dropdown.getOptionData(selected_item, this.state.data),
         event
       })
     }
-    this.setState(
-      {
-        // Do not set "_listenForPropChanges" to false here, as it will block instant component rerender
-        _isNewActiveItem: true,
-        selectedItemHasChanged: true,
-        selected_item,
-        active_item: selected_item
-      },
-      () => {
-        if (fireSelectEvent) {
-          dispatchCustomElementEvent(this, 'on_select', {
-            data: Dropdown.getOptionData(selected_item, this.state.data),
-            event
-          })
-        }
-        if (this._selectTimeout) {
-          clearTimeout(this._selectTimeout)
-        }
-        this._selectTimeout = setTimeout(() => {
-          this.setHidden()
-          if (this._refButton.current) {
-            this._refButton.current.focus()
-          }
-        }, 150) // only for the user experience
+
+    const onSelectionIsComplete = () => {
+      if (fireSelectEvent) {
+        dispatchCustomElementEvent(this, 'on_select', {
+          selected_item,
+          active_item: selected_item,
+          data: Dropdown.getOptionData(selected_item, this.state.data),
+          event
+        })
       }
-    )
+      if (this._selectTimeout) {
+        clearTimeout(this._selectTimeout)
+      }
+      this._selectTimeout = setTimeout(() => {
+        this.setHidden()
+        if (this._refButton.current) {
+          this._refButton.current.focus()
+        }
+      }, 150) // only for the user experience
+    }
+
+    if (
+      isTrue(this.props.prevent_selection) ||
+      (this.props.popup_menu !== false && this.props.popup_menu !== null)
+    ) {
+      onSelectionIsComplete()
+    } else {
+      this.setState(
+        {
+          // Do not set "_listenForPropChanges" to false here, as it will block instant component rerender
+          _isNewActiveItem: true,
+          selectedItemHasChanged: true,
+          selected_item,
+          active_item: selected_item
+        },
+        onSelectionIsComplete
+      )
+    }
   }
 
   setScrollObserver() {
@@ -694,34 +719,49 @@ export default class Dropdown extends PureComponent {
         extendPropsWithContext(this.props, this.context.formRow)
       : this.props
 
+    let { icon, icon_position } = props
+
     const {
       title,
       label,
       label_direction,
-      icon,
-      icon_position,
+      icon: _icon, // eslint-disable-line
+      icon_position: _icon_position, // eslint-disable-line
       status,
       status_state,
       status_animation,
       scrollable,
       no_animation,
       no_scroll_animation,
+      trigger_component: CustomTrigger,
+      popup_menu,
       className,
       class: _className,
       disabled,
 
-      direction: _direction /* eslint-disable-line */,
-      max_height: _max_height /* eslint-disable-line */,
-      id: _id /* eslint-disable-line */,
-      data: _data /* eslint-disable-line */,
-      opened: _opened /* eslint-disable-line */,
-      selected_item: _selected_item /* eslint-disable-line */,
+      prevent_selection: _prevent_selection, // eslint-disable-line
+      direction: _direction, // eslint-disable-line
+      max_height: _max_height, // eslint-disable-line
+      id: _id, // eslint-disable-line
+      data: _data, // eslint-disable-line
+      opened: _opened, // eslint-disable-line
+      selected_item: _selected_item, // eslint-disable-line
       children,
 
       ...attributes
     } = props
 
     const id = this._id
+
+    const isPopupMenu = popup_menu !== false && popup_menu !== null
+    if (isPopupMenu) {
+      if (icon === null) {
+        icon = 'more'
+      }
+      if (icon_position === null) {
+        icon_position = 'left'
+      }
+    }
 
     const {
       data,
@@ -745,6 +785,10 @@ export default class Dropdown extends PureComponent {
         label_direction && `dnb-dropdown--${label_direction}`,
         'dnb-dropdown',
         icon_position && `dnb-dropdown--icon-position-${icon_position}`,
+        isPopupMenu && 'dnb-dropdown--is-popup',
+        isPopupMenu &&
+          typeof popup_menu === 'string' &&
+          `dnb-dropdown__popup--${popup_menu}`,
         scrollable && 'dnb-dropdown--scroll',
         isTrue(no_scroll_animation) && 'dnb-dropdown--no-scroll-animation',
         status && `dnb-dropdown__status--${status_state}`,
@@ -761,7 +805,6 @@ export default class Dropdown extends PureComponent {
     const selectedId = `dropdown-${id}-value`
     const triggerParams = {
       type: 'button',
-      className: 'dnb-dropdown__trigger',
       id,
       title,
       ['aria-label']: title,
@@ -772,7 +815,6 @@ export default class Dropdown extends PureComponent {
       onBlur: this.onBlurHandler,
       onMouseDown: this.onMouseDownHandler,
       onKeyDown: this.onTriggerKeyDownHandler,
-      ref: this._refButton,
       disabled: isTrue(disabled),
       ...attributes
     }
@@ -819,30 +861,42 @@ export default class Dropdown extends PureComponent {
         )}
         <span className="dnb-dropdown__inner" ref={this._ref}>
           <span className="dnb-dropdown__shell">
-            <button {...triggerParams}>
-              <span className="dnb-dropdown__text">
-                <span
-                  id={`dropdown-${id}-value`}
-                  className="dnb-dropdown__text__inner"
-                >
-                  {data && data.length > 0
-                    ? currentOptionData.selected_value ||
-                      Dropdown.parseContentTitle(currentOptionData) ||
-                      title
-                    : title}
-                </span>
-              </span>
-              <span
-                className={classnames(
-                  'dnb-dropdown__icon',
-                  `icon-${icon}`,
-                  parseFloat(selected_item) === 0 &&
-                    'dnb-dropdown__icon--first'
-                )}
+            {CustomTrigger ? (
+              <CustomTrigger {...triggerParams} />
+            ) : (
+              <button
+                className="dnb-dropdown__trigger"
+                ref={this._refButton}
+                {...triggerParams}
               >
-                {icon && <Icon icon={icon} />}
-              </span>
-            </button>
+                {!isPopupMenu && (
+                  <span className="dnb-dropdown__text">
+                    <span
+                      id={`dropdown-${id}-value`}
+                      className="dnb-dropdown__text__inner"
+                    >
+                      {data && data.length > 0
+                        ? currentOptionData.selected_value ||
+                          Dropdown.parseContentTitle(currentOptionData) ||
+                          title
+                        : title}
+                    </span>
+                  </span>
+                )}
+                <span
+                  className={classnames(
+                    'dnb-dropdown__icon',
+                    `icon-${icon}`,
+                    parseFloat(selected_item) === 0 &&
+                      'dnb-dropdown__icon--first'
+                  )}
+                >
+                  {icon !== false && (
+                    <Icon icon={icon || 'chevron-down'} />
+                  )}
+                </span>
+              </button>
+            )}
 
             {!hidden && (
               <span {...listParams}>
