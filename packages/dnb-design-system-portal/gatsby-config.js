@@ -38,7 +38,7 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-page-creator',
       options: {
-        ignore: ['**/*.md', '**/Examples.js'],
+        ignore: ['**/*.md', '**/Examples.js', '**/*_not_in_use*'],
         path: `${__dirname}/src/docs`, // for .js files
         name: 'docs'
       }
@@ -51,7 +51,7 @@ module.exports = {
       }
     },
     {
-      resolve: 'gatsby-mdx',
+      resolve: 'gatsby-plugin-mdx',
       options: {
         extensions: ['.md'],
         // More info of using plugins: https://github.com/mdx-js/mdx/blob/d4154b8c4a546d0b675826826f85014cc04098c2/docs/plugins.md
