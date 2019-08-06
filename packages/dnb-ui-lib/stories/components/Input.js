@@ -3,7 +3,7 @@
  *
  */
 
-import React /* , { useState, useEffect } */ from 'react'
+import React, { useState, useEffect } from 'react'
 import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
 
@@ -181,27 +181,12 @@ export default [
         <Box>
           <form
             onSubmit={event => {
-              console.log('onSubmit', event)
+              // console.log('onSubmit', event)
               event.preventDefault()
               // event.persist()
             }}
           >
-            <Input
-              label="Label:"
-              on_change={event => {
-                console.log('on_change', event)
-              }}
-              onChange={event => {
-                console.log('onChange', event)
-              }}
-              on_submit={event => {
-                console.log('on_submit', event)
-              }}
-              onSubmit={event => {
-                console.log('on_submit', event)
-              }}
-              value="Input ..."
-            />
+            <InputUpdate />
             <Button
               text="Submit"
               type="submit"
@@ -218,3 +203,33 @@ export default [
     </CustomStyle>
   )
 ]
+
+const InputUpdate = () => {
+  const [initValue, setNewValue] = useState('Input ...')
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setNewValue('')
+    }, 1e3)
+    return () => clearTimeout(timeoutId)
+  })
+
+  return (
+    <Input
+      label="Label:"
+      on_change={({ value }) => {
+        console.log('on_change', value)
+      }}
+      onChange={({ value }) => {
+        console.log('onChange', value)
+      }}
+      on_submit={({ value }) => {
+        console.log('on_submit', value)
+      }}
+      onSubmit={({ value }) => {
+        console.log('onSubmit', value)
+      }}
+      value={initValue}
+    />
+  )
+}
