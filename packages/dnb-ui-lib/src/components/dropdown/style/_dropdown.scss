@@ -4,7 +4,7 @@
 */
 
 :root {
-  // --dropdown--maxwidth will be used by a max-width
+  // --dropdown-width will be used by a max-width
   --dropdown-width: 16rem;
   // --dropdown-min-width: 10rem;
   // --dropdown-max-width: 20rem;
@@ -68,7 +68,6 @@
     display: inline-flex;
     flex-direction: column;
     align-items: flex-start;
-    vertical-align: middle;
 
     margin: 0;
     padding: 0;
@@ -92,6 +91,7 @@
   &__shell {
     position: relative;
 
+    // make the dropdown appear vertical centered to the label and body text
     // do not use transform: translateY because of z-index¨
     // we use therefore top
     top: -0.0625rem;
@@ -102,12 +102,6 @@
     padding: 0;
 
     color: inherit;
-  }
-  label + &[class*='__form-status'] {
-    vertical-align: top;
-    .dnb-dropdown__shell {
-      top: -0.375rem;
-    }
   }
 
   &__content {
@@ -225,6 +219,9 @@
     );
     left: auto;
     right: 0;
+
+    pointer-events: none;
+
     margin: 0
       calc(
         var(--dropdown-padding-horizontal) + var(--dropdown-border-width)
@@ -293,29 +290,32 @@
     line-height: var(--dropdown-height);
   }
 
-  // Is popup menu
+  // Popup menu
   &--is-popup &__trigger {
     padding: 0 calc(var(--dropdown-padding-horizontal) / 2 - 1px);
   }
+  // &--is-popup#{&}--opened &__trigger {
+  //   background-color: var(--color-mint-green-50);
+  // }
   &--is-popup &__icon {
     width: 100%;
   }
   &--is-popup &__list {
-    left: calc(1px - 1px - var(--dropdown-padding-horizontal) / 2);
+    left: calc(1px - 2px - var(--dropdown-padding-horizontal) / 2);
   }
   &--scroll#{&}--is-popup &__options {
     min-height: 1rem;
   }
+  &__popup--small &__shell,
   &__popup--small &__trigger {
-    height: calc(var(--dropdown-height) / 1.33333333333);
-    width: calc(var(--dropdown-height) / 1.33333333333);
+    width: calc(var(--dropdown-height) / 1.333);
+    height: calc(var(--dropdown-height) / 1.333);
+    line-height: calc(var(--dropdown-height) / 1.333);
     padding: 0;
   }
   &__popup--small &__list {
-    top: calc(var(--dropdown-height) / 1.33333333333);
-    left: calc(
-      1px - 1px - var(--dropdown-padding-horizontal) / 1.33333333333
-    );
+    top: calc(var(--dropdown-height) / 1.333);
+    left: calc(1px - 2px - var(--dropdown-padding-horizontal) / 1.333);
   }
   &__popup--small#{&}--direction-top &__list {
     top: auto;
@@ -383,7 +383,9 @@
   &--icon-position-left {
     .dnb-dropdown__icon {
       order: 1;
-      margin-top: -1px;
+      transform: translateY(
+        calc(1px - 1px - var(--dropdown-border-width))
+      );
     }
     .dnb-dropdown__text {
       order: 2;
@@ -401,6 +403,12 @@
     margin-right: 1rem;
   }
 
+  label + &[class*='__form-status'] {
+    vertical-align: top;
+    .dnb-dropdown__shell {
+      top: -0.375rem;
+    }
+  }
   &__inner > .dnb-form-status {
     margin-top: 0.5rem;
   }

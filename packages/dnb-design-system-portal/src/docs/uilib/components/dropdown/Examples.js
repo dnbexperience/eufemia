@@ -67,22 +67,31 @@ render(
         >
           {/* @jsx */ `
 const data = [
+  // Every data item can, beside "content" - contain what ever
   {
+    // (optional) can be what ever
+    selected_key: 'key_0',
+
+    // (optional) is show insted of "content", once selected
     selected_value: 'Item 1 Value',
+
+    // Item content as a string or array
     content: 'Item 1 Content'
   },
   {
+    selected_key: 'key_1',
     content: ['Item 2 Value', 'Item 2 Content']
   },
   {
-    selected_value:
-      'Item 3 Value',
+    selected_key: 'key_2',
+    selected_value: 'Item 3 Value',
     content: [
       'Item 3 Content A',
       'Item 3 Content B'
     ]
   },
   {
+    selected_key: 'key_3',
     selected_value: 'Item 4 Value',
     content: ['Item 4 Content A', <>Custom Component</>]
   }
@@ -93,6 +102,9 @@ render(
     label="Label:"
     title="Please select a value"
     no_animation={no_animation}
+    on_change={({ data: { selected_key } }) => {
+      console.log('on_change', selected_key)
+    }}
   />
 )
           `}
@@ -107,8 +119,8 @@ render(
   icon_position="left"
   data={data}
   selected_item={3}
-  on_change={(e, data) => {
-    console.log('on_change', e, data)
+  on_change={({ data: selectedDataItem }) => {
+    console.log('on_change', selectedDataItem)
   }}
   on_show={() => {
     console.log('on_show')
@@ -123,7 +135,7 @@ render(
         >
           {/* @jsx */ `
   <Dropdown
-    popup_menu
+    popup_menu="small"
     title="Choose an item"
     data={['Go this this Link', 'Or press on me', <>Custom component</>]}
     on_change={({ selected_item }) => {
@@ -224,32 +236,65 @@ export default () => (
 
 export const Data = () => {
   return (
-    <CodeBlock language="js">{`const data = ${JSON.stringify(
-      data,
-      null,
-      2
-    )}`}</CodeBlock>
+    <CodeBlock language="js">{/* @jsx */ `
+const data = [
+  // Every data item can, beside "content" - contain what ever
+  {
+    // (optional) can be what ever
+    selected_key: 'key_0',
+
+    // (optional) is show insted of "content", once selected
+    selected_value: 'Item 1 Value',
+
+    // Item content as a string or array
+    content: 'Item 1 Content'
+  },
+
+  // more items ...
+  {
+    selected_key: 'key_1',
+    content: ['Item 2 Value', 'Item 2 Content']
+  },
+  {
+    selected_key: 'key_2',
+    selected_value: 'Item 3 Value',
+    content: ['Item 3 Content A', 'Item 3 Content B']
+  },
+  {
+    selected_key: 'key_3',
+    selected_value: 'Item 4 Value',
+    content: ['Item 4 Content A', <>Custom Component</>]
+  }
+]
+
+    `}</CodeBlock>
   )
 }
 
 const data = [
+  // Every data item can, beside "content" - contain what ever
   {
-    selected_value: 'Brukskonto - Kari Nordmann',
-    content: 'Brukskonto - Kari Nordmann'
+    // (optional) can be what ever
+    selected_key: 'key_0',
+
+    // (optional) is show insted of "content", once selected
+    selected_value: 'Item 1 Value',
+
+    // Item content as a string or array
+    content: 'Item 1 Content'
   },
   {
-    content: ['1234.56.78902', 'Sparekonto - Ole Nordmann']
+    selected_key: 'key_1',
+    content: ['Item 2 Value', 'Item 2 Content']
   },
   {
-    selected_value:
-      'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen',
-    content: [
-      '1134.56.78962',
-      'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen'
-    ]
+    selected_key: 'key_2',
+    selected_value: 'Item 3 Value',
+    content: ['Item 3 Content A', 'Item 3 Content B']
   },
   {
-    selected_value: 'Oppussing - Ole Nordmann',
-    content: ['1534.96.48901', 'Oppussing - Ole Nordmann']
+    selected_key: 'key_3',
+    selected_value: 'Item 4 Value',
+    content: ['Item 4 Content A', <>Custom Component</>]
   }
 ]

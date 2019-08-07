@@ -130,9 +130,20 @@ const DropdownStory = () => {
         </FormRow>
       </Box>
       <Box>
-        Popup Menu
+        Popup Menu{' '}
         <Dropdown
-          // popup_menu="small"
+          popup_menu="small"
+          // popup_menu="true"
+          title="Choose an item"
+          data={['Go this this Link', 'Or to this one']}
+          on_change={({ selected_item }) => {
+            console.log('on_change', selected_item)
+          }}
+          on_select={({ active_item }) => {
+            console.log('on_select', active_item)
+          }}
+        />
+        <Dropdown
           popup_menu="true"
           title="Choose an item"
           data={['Go this this Link', 'Or to this one']}
