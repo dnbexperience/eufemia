@@ -86,10 +86,12 @@ module.exports.testPageScreenshot = ({
         await page.$eval(
           selector,
           (node, { id, style }) => {
+            const attrValue = node.getAttribute('data-dnb-test')
             const elem = document.createElement('div')
 
             // NB: The styles for [data-dnb-test-wrapper] have to be set in the CSS main file
-            elem.setAttribute('data-dnb-test-wrapper', id)
+            elem.setAttribute('data-dnb-test-id', id)
+            elem.setAttribute('data-dnb-test-wrapper', attrValue)
             elem.style = style
             node.parentNode.appendChild(elem)
             return elem.appendChild(node)
@@ -103,8 +105,8 @@ module.exports.testPageScreenshot = ({
           }
         )
 
-        await page.waitForSelector(`[data-dnb-test-wrapper="${id}"]`)
-        screenshotElement = await page.$(`[data-dnb-test-wrapper="${id}"]`)
+        await page.waitForSelector(`[data-dnb-test-id="${id}"]`)
+        screenshotElement = await page.$(`[data-dnb-test-id="${id}"]`)
       } else {
         screenshotElement = element
       }

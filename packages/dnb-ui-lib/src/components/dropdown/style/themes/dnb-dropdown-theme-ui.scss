@@ -199,6 +199,11 @@
     background-color: var(--color-white);
     border-color: var(--dropdown-border-color);
 
+    &:disabled {
+      color: var(--dropdown-text-color--disabled);
+      border-color: var(--dropdown-text-color--disabled);
+    }
+
     &:not(:disabled) {
       &:focus,
       &:hover {

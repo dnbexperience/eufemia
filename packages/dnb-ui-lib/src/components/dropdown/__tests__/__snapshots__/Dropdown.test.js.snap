@@ -71,12 +71,15 @@ exports[`Dropdown component have to match snapshot 1`] = `
   on_state_update={[Function]}
   open_on_focus="open_on_focus"
   opened="opened"
+  popup_menu={null}
+  prevent_selection="prevent_selection"
   scrollable={true}
   selected_item={2}
   status="status"
   status_animation="status_animation"
   status_state="error"
   title="title"
+  trigger_component={null}
 >
   <span
     className="dnb-dropdown dnb-dropdown--hidden dnb-dropdown--direction-bottom dnb-dropdown--horizontal dnb-dropdown dnb-dropdown--icon-position-icon_position dnb-dropdown--scroll dnb-dropdown__status--error dnb-dropdown__form-status class className"
@@ -366,6 +369,9 @@ exports[`Dropdown scss have to match default theme snapshot 1`] = `
   .dnb-dropdown__trigger {
     background-color: var(--color-white);
     border-color: var(--dropdown-border-color); }
+    .dnb-dropdown__trigger:disabled {
+      color: var(--dropdown-text-color--disabled);
+      border-color: var(--dropdown-text-color--disabled); }
     .dnb-dropdown__trigger:not(:disabled):focus, .dnb-dropdown__trigger:not(:disabled):hover {
       box-shadow: 0 0 0 0.0625rem var(--dropdown-border-color--selected);
       /* IE11 fix */
@@ -690,8 +696,6 @@ legend.dnb-form-label {
 */
 :root {
   --dropdown-width: 16rem;
-  --dropdown-min-width: 10rem;
-  --dropdown-max-width: 20rem;
   --dropdown-height: 2rem;
   --dropdown-padding-horizontal: 1rem;
   --dropdown-border-width: 0.0625rem;
@@ -722,7 +726,6 @@ legend.dnb-form-label {
     display: inline-flex;
     flex-direction: column;
     align-items: flex-start;
-    vertical-align: middle;
     margin: 0;
     padding: 0;
     width: auto;
@@ -741,10 +744,6 @@ legend.dnb-form-label {
     margin: 0;
     padding: 0;
     color: inherit; }
-  label + .dnb-dropdown[class*='__form-status'] {
-    vertical-align: top; }
-    label + .dnb-dropdown[class*='__form-status'] .dnb-dropdown__shell {
-      top: -0.375rem; }
   .dnb-dropdown__content {
     padding: 0; }
   .dnb-dropdown__list {
@@ -754,7 +753,7 @@ legend.dnb-form-label {
     bottom: auto;
     left: 0;
     right: 0;
-    width: 100%;
+    width: var(--dropdown-width);
     margin: 0;
     padding: 0;
     background-color: transparent;
@@ -816,6 +815,7 @@ legend.dnb-form-label {
     top: calc( var(--dropdown-focus-border-width) - var(--dropdown-height) / 2);
     left: auto;
     right: 0;
+    pointer-events: none;
     margin: 0 calc( var(--dropdown-padding-horizontal) + var(--dropdown-border-width));
     width: calc(var(--dropdown-height) / 2);
     height: calc(var(--dropdown-height) / 2);
@@ -856,6 +856,26 @@ legend.dnb-form-label {
     border-radius: var(--dropdown-border-radius); }
   .dnb-dropdown button, .dnb-dropdown__trigger {
     line-height: var(--dropdown-height); }
+  .dnb-dropdown--is-popup .dnb-dropdown__trigger {
+    padding: 0 calc(var(--dropdown-padding-horizontal) / 2 - 1px); }
+  .dnb-dropdown--is-popup .dnb-dropdown__icon {
+    width: 100%; }
+  .dnb-dropdown--is-popup .dnb-dropdown__list {
+    left: calc(1px - 2px - var(--dropdown-padding-horizontal) / 2); }
+  .dnb-dropdown--scroll.dnb-dropdown--is-popup .dnb-dropdown__options {
+    min-height: 1rem; }
+  .dnb-dropdown__popup--small .dnb-dropdown__shell,
+  .dnb-dropdown__popup--small .dnb-dropdown__trigger {
+    width: calc(var(--dropdown-height) / 1.333);
+    height: calc(var(--dropdown-height) / 1.333);
+    line-height: calc(var(--dropdown-height) / 1.333);
+    padding: 0; }
+  .dnb-dropdown__popup--small .dnb-dropdown__list {
+    top: calc(var(--dropdown-height) / 1.333);
+    left: calc(1px - 2px - var(--dropdown-padding-horizontal) / 1.333); }
+  .dnb-dropdown__popup--small.dnb-dropdown--direction-top .dnb-dropdown__list {
+    top: auto;
+    bottom: var(--dropdown-height); }
   .dnb-dropdown__text {
     order: 1;
     position: relative;
@@ -876,7 +896,8 @@ legend.dnb-form-label {
       color: inherit;
       text-decoration: none;
       text-overflow: inherit;
-      text-align: inherit; }
+      text-align: inherit;
+      transform: translateY(var(--dropdown-border-width)); }
   .dnb-dropdown--opened .dnb-dropdown__list {
     z-index: 9;
     display: flex; }
@@ -892,7 +913,7 @@ legend.dnb-form-label {
     animation: dropdownSlideUp 1ms ease-out 1 forwards; }
   .dnb-dropdown--icon-position-left .dnb-dropdown__icon {
     order: 1;
-    margin-top: -1px; }
+    transform: translateY(calc(1px - 1px - var(--dropdown-border-width))); }
   .dnb-dropdown--icon-position-left .dnb-dropdown__text {
     order: 2;
     padding-right: 0;
@@ -902,7 +923,11 @@ legend.dnb-form-label {
     padding: 0.5rem 0 1rem var(--dropdown-padding-horizontal); }
   .dnb-dropdown > .dnb-form-label {
     margin-right: 1rem; }
-  .dnb-dropdown > .dnb-form-status {
+  label + .dnb-dropdown[class*='__form-status'] {
+    vertical-align: top; }
+    label + .dnb-dropdown[class*='__form-status'] .dnb-dropdown__shell {
+      top: -0.375rem; }
+  .dnb-dropdown__inner > .dnb-form-status {
     margin-top: 0.5rem; }
   .dnb-dropdown .icon-chevron-left .dnb-icon svg {
     transform: rotate(-90deg); }
