@@ -6,11 +6,6 @@
 @import '../../../../style/themes/imports.scss';
 @import '../_button-mixins.scss';
 
-:root {
-  // we don't need a border
-  --button-border-width: 0px; /* stylelint-disable-line */
-}
-
 .dnb-button {
   border: none;
   box-shadow: none;

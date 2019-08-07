@@ -40,7 +40,7 @@ describe('Dropdown screenshot', () => {
       simulateSelector:
         '[data-dnb-test="dropdown-closed"] .dnb-dropdown__trigger',
       simulate: 'click',
-      waitFor: 10 // to make sure we make the screenshot afte the animation is show
+      waitFor: 100 // to make sure we make the screenshot afte the animation is show
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -54,7 +54,7 @@ describe('Dropdown screenshot', () => {
       simulateSelector:
         '[data-dnb-test="dropdown-popup"] .dnb-dropdown__trigger',
       simulate: 'click',
-      waitFor: 10 // to make sure we make the screenshot afte the animation is show
+      waitFor: 100 // to make sure we make the screenshot afte the animation is show
     })
     expect(screenshot).toMatchImageSnapshot()
   })

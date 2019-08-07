@@ -72,9 +72,6 @@
     font-size: inherit;
     background-color: transparent;
 
-    // because of vertical centering and the current font
-    transform: translateY(var(--input-border-width));
-
     @include numberFeature(lining-nums, lnum);
   }
 
@@ -99,6 +96,12 @@
   }
   &__input::-ms-clear {
     display: none;
+  }
+
+  // vertical alignment
+  [os='mac'] &__placeholder,
+  [os='mac'] &__input {
+    transform: translateY(0.0625rem);
   }
 
   // to make Safari selection not appear all to the top
@@ -182,6 +185,9 @@
       &__button {
         width: var(--input-height--large);
         height: var(--input-height--large);
+        .dnb-button__icon {
+          transform: scale(1.33333);
+        }
       }
     }
   }

@@ -1098,16 +1098,18 @@ exports[`DatePicker scss have to match snapshot 1`] = `
     font-size: var(--button-font-size);
     line-height: var(--button-height); }
   .dnb-button__icon {
-    line-height: 1em;
-    transform: translateY(calc(1px - 1px - var(--button-border-width))); }
+    line-height: 1em; }
     .dnb-button__icon:not(.dnb-icon) svg:not([width]):not([height]) {
       width: var(--button-icon-size);
       height: var(--button-icon-size); }
+    [os='win'] .dnb-button__icon {
+      transform: translateY(-0.0625rem); }
   .dnb-button__text {
     line-height: 1em;
     color: inherit;
-    background-color: inherit;
-    transform: translateY(calc(1px - var(--button-border-width))); }
+    background-color: inherit; }
+    [os='mac'] .dnb-button__text {
+      transform: translateY(0.0625rem); }
   .dnb-button__bounding {
     position: absolute;
     background-color: transparent;
@@ -1119,7 +1121,7 @@ exports[`DatePicker scss have to match snapshot 1`] = `
     width: var(--button-width--small);
     height: var(--button-height--small);
     font-size: var(--button-font-size-small);
-    line-height: var(--button-font-size-small);
+    line-height: var(--button-height--small);
     border-radius: var(--button-border-radius--small); }
   .dnb-button--has-text.dnb-button--size-small {
     padding-left: 1rem;
@@ -1459,7 +1461,6 @@ legend.dnb-form-label {
     color: inherit;
     font-size: inherit;
     background-color: transparent;
-    transform: translateY(var(--input-border-width));
     font-variant-numeric: lining-nums;
     font-feature-settings: \\"lnum\\"; }
   .dnb-input__placeholder {
@@ -1476,6 +1477,9 @@ legend.dnb-form-label {
     display: none; }
   .dnb-input__input::-ms-clear {
     display: none; }
+  [os='mac'] .dnb-input__placeholder,
+  [os='mac'] .dnb-input__input {
+    transform: translateY(0.0625rem); }
   .dnb-core-style .dnb-input__input {
     line-height: 1em; }
   .dnb-input--has-submit-button .dnb-input__placeholder,
@@ -1529,6 +1533,8 @@ legend.dnb-form-label {
     .dnb-input--large .dnb-input__submit-button__button {
       width: var(--input-height--large);
       height: var(--input-height--large); }
+      .dnb-input--large .dnb-input__submit-button__button .dnb-button__icon {
+        transform: scale(1.33333); }
   .dnb-input--large.dnb-input--has-submit-button .dnb-input__placeholder,
   .dnb-input--large.dnb-input--has-submit-button .dnb-input__input {
     padding-right: calc(var(--input-padding--large) * 2.5); }
