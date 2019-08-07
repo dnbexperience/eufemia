@@ -138,27 +138,29 @@ export const isValidSpaceProp = prop =>
 // Creates a valid space CSS class out from given space types
 export const createSpacingClasses = props =>
   Object.entries(props).reduce((acc, [direction, cur]) => {
-    if (String(cur) === '0' || String(cur) === 'false') {
-      acc.push(`dnb-space__${direction}--zero`)
-    } else if (cur && isValidSpaceProp(direction)) {
-      const typeModifyers = createTypeModifyers(cur)
-
-      // get the total sum
-      const sum = sumTypes(typeModifyers)
-      if (sum > 10) {
-        console.warn(
-          `Spacing of more than 10rem is not supported! You used ${sum} / (${typeModifyers.join(
-            ','
-          )})`
-        )
+    if (isValidSpaceProp(direction)) {
+      if (String(cur) === '0' || String(cur) === 'false') {
+        acc.push(`dnb-space__${direction}--zero`)
       } else {
-        // auto combine classes
-        const nearestTypes = findNearestTypes(sum)
-        // console.log('nearestTypes', typeModifyers, sum, nearestTypes)
+        const typeModifyers = createTypeModifyers(cur)
 
-        acc.push(
-          nearestTypes.map(type => `dnb-space__${direction}--${type}`)
-        )
+        // get the total sum
+        const sum = sumTypes(typeModifyers)
+        if (sum > 10) {
+          console.warn(
+            `Spacing of more than 10rem is not supported! You used ${sum} / (${typeModifyers.join(
+              ','
+            )})`
+          )
+        } else {
+          // auto combine classes
+          const nearestTypes = findNearestTypes(sum)
+
+          acc = [
+            ...acc,
+            ...nearestTypes.map(type => `dnb-space__${direction}--${type}`)
+          ]
+        }
       }
     }
 
@@ -172,6 +174,12 @@ export const createStyleObject = props => {
   }
   if (props.bottom && !(parseFloat(props.bottom) > 0)) {
     props.bottom = sumTypes(props.bottom)
+  }
+  if (props.left && !(parseFloat(props.left) > 0)) {
+    props.left = sumTypes(props.left)
+  }
+  if (props.right && !(parseFloat(props.right) > 0)) {
+    props.right = sumTypes(props.right)
   }
   return Object.entries({
     marginTop: props.top && `${props.top}rem`,

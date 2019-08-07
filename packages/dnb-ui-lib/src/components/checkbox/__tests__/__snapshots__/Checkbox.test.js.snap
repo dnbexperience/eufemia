@@ -56,7 +56,7 @@ exports[`Checkbox component have to match snapshot 1`] = `
   value={null}
 >
   <span
-    className="dnb-checkbox dnb-checkbox--label-position-left dnb-space__readOnly--zero"
+    className="dnb-checkbox dnb-checkbox--label-position-left"
   >
     <span
       className="dnb-checkbox__order"

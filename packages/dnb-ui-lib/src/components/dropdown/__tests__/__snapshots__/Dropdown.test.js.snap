@@ -154,7 +154,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
             aria-haspopup="listbox"
             aria-label="title"
             aria-labelledby="dropdown-dropdown-id-value"
-            className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-space__aria-expanded--zero dnb-space__bounding--zero dnb-dropdown__trigger"
+            className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-dropdown__trigger"
             id="dropdown-id"
             onBlur={[Function]}
             onClick={[Function]}
@@ -273,7 +273,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
       >
         <span
           aria-live="assertive"
-          className="dnb-form-status dnb-form-status--error dnb-form-status--status_animation dnb-form-status--has-content dnb-space__hidden--zero"
+          className="dnb-form-status dnb-form-status--error dnb-form-status--status_animation dnb-form-status--has-content"
           hidden={false}
         >
           <span

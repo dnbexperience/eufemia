@@ -62,7 +62,7 @@ exports[`Textarea component have to match snapshot 1`] = `
   value="test"
 >
   <span
-    className="dnb-textarea dnb-textarea--virgin dnb-textarea--has-content dnb-space__disabled--zero dnb-space__readOnly--zero"
+    className="dnb-textarea dnb-textarea--virgin dnb-textarea--has-content"
   >
     <span
       className="dnb-textarea__inner"
