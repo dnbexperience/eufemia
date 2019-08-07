@@ -14,21 +14,6 @@ export default [
   () => (
     <Wrapper>
       <Box>
-        <DatePicker
-          date="1971-02-01"
-          show_input={true}
-          max_date={'1981-02-01'}
-          show_cancel_button={true}
-          return_format="YYYYMMDD"
-          on_change={({ date }) => {
-            console.log('on_change', date)
-          }}
-          on_cancel={({ date }) => {
-            console.log('on_cancel', date)
-          }}
-        />
-      </Box>
-      <Box>
         <FormRow label_direction="vertical" label="Legend:">
           <DatePicker
             label="Date Picker 1:"

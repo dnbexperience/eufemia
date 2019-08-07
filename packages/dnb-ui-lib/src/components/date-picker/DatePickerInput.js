@@ -12,7 +12,6 @@ import {
   setDate,
   setMonth,
   setYear,
-  isAfter,
   format
 } from 'date-fns'
 import classnames from 'classnames'
@@ -102,7 +101,10 @@ export default class DatePickerInput extends PureComponent {
   }
 
   static isValidDate(date) {
-    return date && isAfter(date, new Date(1971, 1, 1))
+    return (
+      date &&
+      (date instanceof Date ? date : new Date(date)).getFullYear() !== 1111
+    )
   }
 
   static getDerivedStateFromProps(props, state) {
