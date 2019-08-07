@@ -31,22 +31,18 @@
 @keyframes datePickerSlideDown {
   from {
     opacity: 0;
-    // transform: translateY(calc(1px - var(--date-picker-input-height)));
   }
   to {
     opacity: 1;
-    // transform: translateY(0);
   }
 }
 
 @keyframes datePickerSlideUp {
   from {
     opacity: 1;
-    // transform: translateY(0);
   }
   to {
     opacity: 0;
-    // transform: translateY(calc(1px - var(--date-picker-input-height)));
   }
 }
 

@@ -8,6 +8,7 @@ import {
   extend,
   extendPropsWithContext,
   defineIsTouch,
+  defineNavigator,
   validateDOMAttributes,
   processChildren,
   dispatchCustomElementEvent,
@@ -19,6 +20,7 @@ import {
 beforeAll(() => {
   navigator.maxTouchPoints = 2 // mocking touch
   defineIsTouch(true)
+  defineNavigator(true)
 })
 
 describe('"defineIsTouch" should', () => {
@@ -26,6 +28,12 @@ describe('"defineIsTouch" should', () => {
     expect(document.documentElement.getAttribute('dnb-is-touch')).toBe(
       'true'
     )
+  })
+})
+
+describe('"defineNavigator" should', () => {
+  it('add "os" as an attribute to the HTML tag', () => {
+    expect(document.documentElement.getAttribute('os')).toBe('other')
   })
 })
 

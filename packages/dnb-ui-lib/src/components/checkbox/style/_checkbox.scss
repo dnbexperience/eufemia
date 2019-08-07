@@ -36,9 +36,9 @@
     height: var(--checkbox-height);
 
     // vertical alignment
-    transform: translateY(
-      -0.0625rem
-    ); // ajust (for 1px) the shell because of line-height of fedra font
+    [os='mac'] & {
+      transform: translateY(-0.0625rem);
+    }
   }
 
   &__focus,

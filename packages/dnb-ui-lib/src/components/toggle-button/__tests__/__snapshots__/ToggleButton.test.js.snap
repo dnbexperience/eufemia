@@ -638,7 +638,7 @@ exports[`ToggleButton scss have to match default theme snapshot 1`] = `
   .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]) .dnb-radio__button {
     background-color: transparent;
     border-color: var(--color-mint-green);
-    box-shadow: 0 0 0 0.03125rem var(--color-mint-green); }
+    box-shadow: 0 0 0 0.0318rem var(--color-mint-green); }
   .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]) .dnb-radio__dot,
   .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]) .dnb-radio__dot,
   .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]) .dnb-radio__dot {
@@ -672,7 +672,7 @@ exports[`ToggleButton scss have to match default theme snapshot 1`] = `
   .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):active .dnb-radio__button {
     background-color: transparent;
     border-color: var(--color-sea-green-alt);
-    box-shadow: 0 0 0 0.03125rem var(--color-sea-green-alt); }
+    box-shadow: 0 0 0 0.0318rem var(--color-sea-green-alt); }
   .dnb-toggle-button__button:not([disabled]):active .dnb-radio__dot,
   .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):active .dnb-radio__dot {
     background-color: var(--color-sea-green-alt); }
@@ -680,7 +680,7 @@ exports[`ToggleButton scss have to match default theme snapshot 1`] = `
   .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):active .dnb-checkbox__button {
     background-color: transparent;
     border-color: var(--color-sea-green-alt);
-    box-shadow: 0 0 0 0.03125rem var(--color-sea-green-alt); }
+    box-shadow: 0 0 0 0.0318rem var(--color-sea-green-alt); }
   .dnb-toggle-button__button:not([disabled]):active .dnb-checkbox__gfx,
   .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):active .dnb-checkbox__gfx {
     color: var(--color-sea-green-alt); }
@@ -929,16 +929,18 @@ legend.dnb-form-label {
     font-size: var(--button-font-size);
     line-height: var(--button-height); }
   .dnb-button__icon {
-    line-height: 1em;
-    transform: translateY(calc(1px - 1px - var(--button-border-width))); }
+    line-height: 1em; }
     .dnb-button__icon:not(.dnb-icon) svg:not([width]):not([height]) {
       width: var(--button-icon-size);
       height: var(--button-icon-size); }
+    [os='win'] .dnb-button__icon {
+      transform: translateY(-0.0625rem); }
   .dnb-button__text {
     line-height: 1em;
     color: inherit;
-    background-color: inherit;
-    transform: translateY(calc(1px - var(--button-border-width))); }
+    background-color: inherit; }
+    [os='mac'] .dnb-button__text {
+      transform: translateY(0.0625rem); }
   .dnb-button__bounding {
     position: absolute;
     background-color: transparent;
@@ -950,7 +952,7 @@ legend.dnb-form-label {
     width: var(--button-width--small);
     height: var(--button-height--small);
     font-size: var(--button-font-size-small);
-    line-height: var(--button-font-size-small);
+    line-height: var(--button-height--small);
     border-radius: var(--button-border-radius--small); }
   .dnb-button--has-text.dnb-button--size-small {
     padding-left: 1rem;
@@ -1206,8 +1208,9 @@ a.dnb-button .dnb-button__text {
     align-items: center;
     justify-content: center;
     width: var(--checkbox-height);
-    height: var(--checkbox-height);
-    transform: translateY(-0.0625rem); }
+    height: var(--checkbox-height); }
+    [os='mac'] .dnb-checkbox__shell {
+      transform: translateY(-0.0625rem); }
   .dnb-checkbox__focus, .dnb-checkbox__button {
     position: relative;
     z-index: 4;
@@ -1348,8 +1351,9 @@ a.dnb-button .dnb-button__text {
     align-items: center;
     justify-content: center;
     width: var(--radio-height);
-    height: var(--radio-height);
-    transform: translateY(-0.0625rem); }
+    height: var(--radio-height); }
+    [os='mac'] .dnb-radio__shell {
+      transform: translateY(-0.0625rem); }
   .dnb-radio__focus, .dnb-radio__button, .dnb-radio__dot {
     position: absolute;
     z-index: 4; }
@@ -1523,7 +1527,7 @@ a.dnb-button .dnb-button__text {
         width: calc(var(--checkbox-width) - 0.5rem);
         height: calc(var(--checkbox-width) - 0.5rem);
         border-width: 0.0625rem;
-        box-shadow: 0 0 0 0.03125rem var(--color-sea-green-alt); }
+        box-shadow: 0 0 0 0.0318rem var(--color-sea-green-alt); }
       .dnb-toggle-button__button .dnb-checkbox__dot {
         width: calc(var(--checkbox-width) - 1rem);
         height: calc(var(--checkbox-width) - 1rem); }
@@ -1538,7 +1542,7 @@ a.dnb-button .dnb-button__text {
         width: calc(var(--radio-width) - 0.5rem);
         height: calc(var(--radio-width) - 0.5rem);
         border-width: 0.0625rem;
-        box-shadow: 0 0 0 0.03125rem var(--color-sea-green-alt); }
+        box-shadow: 0 0 0 0.0318rem var(--color-sea-green-alt); }
       .dnb-toggle-button__button .dnb-radio__dot {
         width: calc(var(--radio-width) - 1rem);
         height: calc(var(--radio-width) - 1rem); }

@@ -886,7 +886,7 @@ export default class Dropdown extends PureComponent {
                 <span
                   className={classnames(
                     'dnb-dropdown__icon',
-                    `icon-${icon}`,
+                    // icon && `icon-${icon}`,// not used anymore for now
                     parseFloat(selected_item) === 0 &&
                       'dnb-dropdown__icon--first'
                   )}

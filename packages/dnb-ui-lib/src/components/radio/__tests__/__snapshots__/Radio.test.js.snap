@@ -767,8 +767,9 @@ legend.dnb-form-label {
     align-items: center;
     justify-content: center;
     width: var(--radio-height);
-    height: var(--radio-height);
-    transform: translateY(-0.0625rem); }
+    height: var(--radio-height); }
+    [os='mac'] .dnb-radio__shell {
+      transform: translateY(-0.0625rem); }
   .dnb-radio__focus, .dnb-radio__button, .dnb-radio__dot {
     position: absolute;
     z-index: 4; }

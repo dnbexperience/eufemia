@@ -294,9 +294,6 @@
   &--is-popup &__trigger {
     padding: 0 calc(var(--dropdown-padding-horizontal) / 2 - 1px);
   }
-  // &--is-popup#{&}--opened &__trigger {
-  //   background-color: var(--color-mint-green-50);
-  // }
   &--is-popup &__icon {
     width: 100%;
   }
@@ -310,8 +307,10 @@
   &__popup--small &__trigger {
     width: calc(var(--dropdown-height) / 1.333);
     height: calc(var(--dropdown-height) / 1.333);
-    line-height: calc(var(--dropdown-height) / 1.333);
     padding: 0;
+  }
+  &__popup--small &__trigger {
+    line-height: calc(var(--dropdown-height) / 1.333 - 0.0625rem);
   }
   &__popup--small &__list {
     top: calc(var(--dropdown-height) / 1.333);
@@ -319,7 +318,7 @@
   }
   &__popup--small#{&}--direction-top &__list {
     top: auto;
-    bottom: var(--dropdown-height);
+    bottom: calc(var(--dropdown-height) / 1.333);
   }
 
   &__text {
@@ -336,6 +335,8 @@
     color: inherit;
     text-align: left;
     text-overflow: ellipsis;
+
+    @include numberFeature(lining-nums, lnum);
 
     &__inner {
       display: inline-block;
@@ -365,8 +366,10 @@
       text-overflow: inherit;
       text-align: inherit;
 
-      // because of vertical centering and the current font
-      transform: translateY(var(--dropdown-border-width));
+      // vertical alignment
+      [os='mac'] & {
+        transform: translateY(0.0625rem);
+      }
     }
   }
 
@@ -380,18 +383,17 @@
     @include closeDropdown();
   }
 
-  &--icon-position-left {
-    .dnb-dropdown__icon {
-      order: 1;
-      transform: translateY(
-        calc(1px - 1px - var(--dropdown-border-width))
-      );
-    }
-    .dnb-dropdown__text {
-      order: 2;
-      padding-right: 0;
-      padding-left: var(--dropdown-text-padding);
-    }
+  &--icon-position-left &__icon {
+    order: 1;
+    // vertical alignment
+    // [os='mac'] & {
+    //   transform: translateY(-0.0625rem);
+    // }
+  }
+  &--icon-position-left &__text {
+    order: 2;
+    padding-right: 0;
+    padding-left: var(--dropdown-text-padding);
   }
 
   &__outside-value {
@@ -411,12 +413,6 @@
   }
   &__inner > .dnb-form-status {
     margin-top: 0.5rem;
-  }
-
-  .icon-chevron-left .dnb-icon {
-    svg {
-      transform: rotate(-90deg);
-    }
   }
 
   &--vertical {

@@ -232,10 +232,6 @@ exports[`Button scss have to match default theme snapshot 1`] = `
 * Button mixins
 *
 */
-:root {
-  --button-border-width: 0px;
-  /* stylelint-disable-line */ }
-
 .dnb-button {
   border: none;
   box-shadow: none; }
@@ -570,16 +566,18 @@ exports[`Button scss have to match snapshot 1`] = `
     font-size: var(--button-font-size);
     line-height: var(--button-height); }
   .dnb-button__icon {
-    line-height: 1em;
-    transform: translateY(calc(1px - 1px - var(--button-border-width))); }
+    line-height: 1em; }
     .dnb-button__icon:not(.dnb-icon) svg:not([width]):not([height]) {
       width: var(--button-icon-size);
       height: var(--button-icon-size); }
+    [os='win'] .dnb-button__icon {
+      transform: translateY(-0.0625rem); }
   .dnb-button__text {
     line-height: 1em;
     color: inherit;
-    background-color: inherit;
-    transform: translateY(calc(1px - var(--button-border-width))); }
+    background-color: inherit; }
+    [os='mac'] .dnb-button__text {
+      transform: translateY(0.0625rem); }
   .dnb-button__bounding {
     position: absolute;
     background-color: transparent;
@@ -591,7 +589,7 @@ exports[`Button scss have to match snapshot 1`] = `
     width: var(--button-width--small);
     height: var(--button-height--small);
     font-size: var(--button-font-size-small);
-    line-height: var(--button-font-size-small);
+    line-height: var(--button-height--small);
     border-radius: var(--button-border-radius--small); }
   .dnb-button--has-text.dnb-button--size-small {
     padding-left: 1rem;

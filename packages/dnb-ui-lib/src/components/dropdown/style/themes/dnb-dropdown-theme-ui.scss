@@ -219,6 +219,11 @@
           color: var(--dropdown-text-color);
         }
       }
+      &:active {
+        background-color: var(--color-mint-green-50);
+        border-color: transparent;
+        box-shadow: none;
+      }
     }
   }
   /* stylelint-disable-next-line */
