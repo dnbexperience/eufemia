@@ -534,6 +534,7 @@ export default class DatePickerInput extends PureComponent {
           <SubmitButton
             id={id}
             disabled={disabled}
+            className={opened ? 'dnb-button--active' : null}
             // title={submit_button_title} // Not implemented yet
             type="button"
             icon="calendar"

@@ -145,6 +145,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
             submitButton={
               <SubmitButton
                 aria-expanded={false}
+                className={null}
                 disabled={false}
                 icon="calendar"
                 icon_size={null}
@@ -624,6 +625,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                   </span>
                   <SubmitButton
                     aria-expanded={false}
+                    className={null}
                     disabled={false}
                     icon="calendar"
                     icon_size={null}
