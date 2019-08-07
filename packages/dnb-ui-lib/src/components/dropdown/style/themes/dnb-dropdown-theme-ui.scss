@@ -22,8 +22,7 @@
 }
 
 @mixin dropdownBorderColor($color) {
-  @include fakeBorder($color, 0.0625rem, null, true, !important);
-  border-color: $color;
+  @include fakeBorder($color, 0.125rem, null, true, !important);
 }
 
 .dnb-dropdown {
@@ -196,45 +195,10 @@
 
   // button
   &__trigger {
-    background-color: var(--color-white);
-    border-color: var(--dropdown-border-color);
-
-    &:disabled {
-      color: var(--dropdown-text-color--disabled);
-      border-color: var(--dropdown-text-color--disabled);
+    color: var(--dropdown-text-color);
+    @include hover() {
+      color: var(--dropdown-text-color);
     }
-
-    &:not(:disabled) {
-      &:focus,
-      &:hover {
-        @include fakeBorder(
-          var(--dropdown-border-color--selected),
-          null,
-          null,
-          true
-        );
-        border-color: var(--dropdown-border-color--selected);
-        & .dnb-dropdown__text,
-        & .dnb-dropdown__icon .dnb-icon {
-          color: var(--dropdown-text-color);
-        }
-      }
-      &:active {
-        background-color: var(--color-mint-green-50);
-        border-color: transparent;
-        box-shadow: none;
-      }
-    }
-  }
-  /* stylelint-disable-next-line */
-  &--opened &__trigger {
-    @include fakeBorder(
-      var(--dropdown-border-color--selected),
-      null,
-      null,
-      true
-    );
-    border-color: var(--dropdown-border-color--selected);
   }
 
   // error status

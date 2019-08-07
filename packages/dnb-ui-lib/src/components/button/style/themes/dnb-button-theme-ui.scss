@@ -14,131 +14,139 @@
   }
   // no animation yet
   // transition: background-color 100ms ease-out, box-shadow 100ms ease-out;
-}
 
-.dnb-button--primary {
-  color: var(--color-white);
-  background-color: var(--color-sea-green-alt);
-
-  @include buttonHover(var(--color-sea-green), var(--color-white));
-  @include buttonFocus(var(--color-sea-green), var(--color-white));
-  @include buttonActive(
-    var(--color-sea-green),
-    var(--color-mint-green-50)
-  );
-
-  &[disabled] {
+  &--primary {
     color: var(--color-white);
-    background-color: var(--color-sea-green-alt-30);
+    background-color: var(--color-sea-green-alt);
+
+    @include buttonHover(var(--color-sea-green), var(--color-white));
+    @include buttonFocus(var(--color-sea-green), var(--color-white));
+    @include buttonActive(
+      var(--color-sea-green),
+      var(--color-mint-green-50)
+    );
+
+    &[disabled] {
+      color: var(--color-white);
+      background-color: var(--color-sea-green-alt-30);
+    }
   }
-}
 
-.dnb-button--secondary {
-  color: var(--color-sea-green);
-  background-color: var(--color-white);
-
-  @include fakeBorder(var(--color-sea-green-alt), 0.0625rem, inset, true);
-
-  @include buttonHover(var(--color-sea-green), var(--color-white));
-  @include buttonFocus(var(--color-sea-green), var(--color-white));
-  @include buttonActive(
-    var(--color-sea-green),
-    var(--color-mint-green-50)
-  );
-
-  &[disabled],
-  &[disabled]:focus // only because of href/anchor button
- {
-    color: var(--color-sea-green-alt-30);
+  &--secondary {
+    color: var(--color-sea-green);
     background-color: var(--color-white);
 
-    // only because of href/anchor button
     @include fakeBorder(
-      var(--color-sea-green-alt-30),
+      var(--color-sea-green-alt),
       0.0625rem,
       inset,
       true
     );
+
+    @include buttonHover(var(--color-sea-green), var(--color-white));
+    @include buttonFocus(var(--color-sea-green), var(--color-white));
+    @include buttonActive(
+      var(--color-sea-green),
+      var(--color-mint-green-50)
+    );
+
+    &[disabled],
+    &[disabled]:focus // only because of href/anchor button
+ {
+      color: var(--color-sea-green-alt-30);
+      background-color: var(--color-white);
+
+      // only because of href/anchor button
+      @include fakeBorder(
+        var(--color-sea-green-alt-30),
+        0.0625rem,
+        inset,
+        true
+      );
+    }
   }
-}
-
-.dnb-button--tertiary {
-  position: relative;
-  z-index: 1;
-  color: var(--color-sea-green);
-  background-color: transparent;
-
-  .dnb-button__text {
-    line-height: inherit;
+  &--active {
+    @include fakeBorder(var(--color-emerald-green), 0.125rem /*2px*/);
   }
 
-  &.dnb-button--has-text {
-    padding: 0 0.5rem;
-  }
+  &--tertiary {
+    position: relative;
+    z-index: 1;
+    color: var(--color-sea-green);
+    background-color: transparent;
 
-  &.dnb-button--has-text:not(:focus):not([disabled]) {
-    @include hover(true) {
-      .dnb-button__text {
-        @include drawUnderlineBorder() {
-          left: 0;
-          right: 0;
-          bottom: 0.5rem;
+    .dnb-button__text {
+      line-height: inherit;
+    }
+
+    &.dnb-button--has-text {
+      padding: 0 0.5rem;
+    }
+
+    &.dnb-button--has-text:not(:focus):not([disabled]) {
+      @include hover(true) {
+        .dnb-button__text {
+          @include drawUnderlineBorder() {
+            left: 0;
+            right: 0;
+            bottom: 0.5rem;
+          }
+        }
+        &.dnb-button--icon-position-left .dnb-button__text::after {
+          left: calc(-0.5rem - var(--button-icon-size));
+        }
+        &.dnb-button--icon-position-right .dnb-button__text::after {
+          right: calc(-0.5rem - var(--button-icon-size));
         }
       }
-      &.dnb-button--icon-position-left .dnb-button__text::after {
-        left: calc(-0.5rem - var(--button-icon-size));
+    }
+
+    // icon only tertiary
+    &.dnb-button--has-icon:not(.dnb-button--has-text) {
+      @include hover(true) {
+        .dnb-button__icon {
+          color: var(--color-sea-green-alt-30);
+        }
       }
-      &.dnb-button--icon-position-right .dnb-button__text::after {
-        right: calc(-0.5rem - var(--button-icon-size));
+    }
+
+    &.dnb-button--has-text:not([disabled]):active::after {
+      border-bottom: none;
+    }
+
+    &:focus {
+      @include removeFakeFocus();
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: -0.5rem;
+        height: inherit;
+        border-radius: inherit;
+
+        @include fakeFocus();
       }
+    }
+
+    &[disabled] {
+      color: var(--color-sea-green-alt-30);
     }
   }
 
-  // icon only tertiary
-  &.dnb-button--has-icon:not(.dnb-button--has-text) {
-    @include hover(true) {
-      .dnb-button__icon {
-        color: var(--color-sea-green-alt-30);
-      }
+  &--signal {
+    color: var(--color-black);
+    background-color: var(--color-signal-yellow);
+
+    @include buttonHover(var(--color-black), var(--color-signal-yellow));
+    @include buttonFocus(var(--color-black), var(--color-signal-yellow));
+    @include buttonActive(var(--color-black), var(--color-signal-yellow));
+
+    &[disabled] {
+      color: var(--color-black-30);
+      background-color: var(--color-signal-yellow-30);
     }
-  }
-
-  &.dnb-button--has-text:not([disabled]):active::after {
-    border-bottom: none;
-  }
-
-  &:focus {
-    @include removeFakeFocus();
-
-    &::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      bottom: 0;
-      right: -0.5rem;
-      height: inherit;
-      border-radius: inherit;
-
-      @include fakeFocus();
-    }
-  }
-
-  &[disabled] {
-    color: var(--color-sea-green-alt-30);
-  }
-}
-
-.dnb-button--signal {
-  color: var(--color-black);
-  background-color: var(--color-signal-yellow);
-
-  @include buttonHover(var(--color-black), var(--color-signal-yellow));
-  @include buttonFocus(var(--color-black), var(--color-signal-yellow));
-  @include buttonActive(var(--color-black), var(--color-signal-yellow));
-
-  &[disabled] {
-    color: var(--color-black-30);
-    background-color: var(--color-signal-yellow-30);
   }
 }

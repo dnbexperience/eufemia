@@ -49,6 +49,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
     Object {
       "displayName": "SubmitButton",
       "props": Object {
+        "className": "className",
         "disabled": "disabled",
         "icon": "icon",
         "icon_size": "icon_size",
@@ -173,6 +174,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
             Object {
               "displayName": "SubmitButton",
               "props": Object {
+                "className": "className",
                 "disabled": "disabled",
                 "icon": "icon",
                 "icon_size": "icon_size",
@@ -187,6 +189,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
             }
           }
           attributes={null}
+          className={null}
           custom_element={null}
           custom_method={null}
           disabled={false}
@@ -383,6 +386,7 @@ exports[`Input component have to match type="text" snapshot 1`] = `
     Object {
       "displayName": "SubmitButton",
       "props": Object {
+        "className": "className",
         "disabled": "disabled",
         "icon": "icon",
         "icon_size": "icon_size",

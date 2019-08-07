@@ -33,7 +33,12 @@ const DropdownStory = () => {
           label="Vertical label_direction:"
           label_direction="vertical"
         >
-          <Dropdown label="Vertical A:" data={dropdownData} />
+          <Dropdown
+            label="Vertical A:"
+            data={dropdownData}
+            right="small"
+            status="Status message"
+          />
           <Dropdown label="Vertical B:" data={dropdownData} />
         </FormRow>
       </Box>
@@ -132,6 +137,7 @@ const DropdownStory = () => {
       <Box>
         Popup Menu{' '}
         <Dropdown
+          right="small"
           popup_menu="small"
           // popup_menu="true"
           title="Choose an item"

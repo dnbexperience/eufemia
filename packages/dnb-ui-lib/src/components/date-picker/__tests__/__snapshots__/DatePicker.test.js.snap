@@ -5,7 +5,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
   align_picker={null}
   custom_element={null}
   custom_method={null}
-  date="2019-01-01T00:00:00.000Z"
+  date="1970-01-01T00:00:00.000Z"
   direction="auto"
   disabled={null}
   end_date="2019-02-15T00:00:00.000Z"
@@ -86,7 +86,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
         className="dnb-date-picker__shell"
       >
         <DatePickerInput
-          date="2019-01-01T00:00:00.000Z"
+          date="1970-01-01T00:00:00.000Z"
           disabled={false}
           endDate={2019-02-15T00:00:00.000Z}
           id="date-picker-id"
@@ -145,6 +145,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
             submitButton={
               <SubmitButton
                 aria-expanded={false}
+                className={null}
                 disabled={false}
                 icon="calendar"
                 icon_size={null}
@@ -624,6 +625,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                   </span>
                   <SubmitButton
                     aria-expanded={false}
+                    className={null}
                     disabled={false}
                     icon="calendar"
                     icon_size={null}
