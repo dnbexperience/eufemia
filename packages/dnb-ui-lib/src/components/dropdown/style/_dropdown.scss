@@ -263,8 +263,6 @@
 
   // button
   &__trigger {
-    cursor: pointer;
-
     position: relative;
     z-index: 1;
 
@@ -276,23 +274,19 @@
     outline: none;
 
     width: 100%;
-    height: var(--dropdown-height);
     padding: 0 var(--dropdown-padding-horizontal);
 
-    font-size: inherit;
-    color: inherit;
-    border: var(--dropdown-border-width) solid transparent;
-
-    border-radius: var(--dropdown-border-radius);
-  }
-  button,
-  &__trigger {
-    line-height: var(--dropdown-height);
+    &.dnb-button {
+      line-height: var(--dropdown-height);
+    }
   }
 
   // Popup menu
+  &--is-popup &__shell,
   &--is-popup &__trigger {
-    padding: 0 calc(var(--dropdown-padding-horizontal) / 2 - 1px);
+    padding: 0;
+    width: var(--dropdown-height);
+    height: var(--dropdown-height);
   }
   &--is-popup &__icon {
     width: 100%;
@@ -307,10 +301,9 @@
   &__popup--small &__trigger {
     width: calc(var(--dropdown-height) / 1.333);
     height: calc(var(--dropdown-height) / 1.333);
-    padding: 0;
   }
-  &__popup--small &__trigger {
-    line-height: calc(var(--dropdown-height) / 1.333 - 0.0625rem);
+  &__popup--small &__trigger.dnb-button {
+    line-height: calc(var(--dropdown-height) / 1.333);
   }
   &__popup--small &__list {
     top: calc(var(--dropdown-height) / 1.333);
@@ -327,6 +320,7 @@
     z-index: 4;
 
     height: inherit;
+    line-height: inherit;
 
     padding: 0 var(--dropdown-text-padding) 0 0;
 

@@ -22,6 +22,7 @@ import Context from '../../shared/Context'
 import Icon from '../icon-primary/IconPrimary'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
+import Button from '../button/Button'
 
 const renderProps = {
   on_show: null,
@@ -577,8 +578,14 @@ export default class Dropdown extends PureComponent {
       }
       this._selectTimeout = setTimeout(() => {
         this.setHidden()
-        if (this._refButton.current) {
-          this._refButton.current.focus()
+        let elem = this._refButton.current
+        try {
+          elem = this._refButton.current._ref.current
+        } catch (e) {
+          // do noting
+        }
+        if (elem && elem.focus) {
+          elem.focus()
         }
       }, 150) // only for the user experience
     }
@@ -804,22 +811,23 @@ export default class Dropdown extends PureComponent {
     // But for now we use
     const selectedId = `dropdown-${id}-value`
     const triggerParams = {
-      type: 'button',
+      className: classnames(
+        'dnb-dropdown__trigger',
+        opened && 'dnb-button--active'
+      ),
       id,
-      title,
-      ['aria-label']: title,
+      disabled,
       ['aria-haspopup']: 'listbox',
       ['aria-labelledby']: selectedId,
       ['aria-expanded']: opened,
+      ...attributes,
       onFocus: this.onFocusHandler,
       onBlur: this.onBlurHandler,
       onMouseDown: this.onMouseDownHandler,
-      onKeyDown: this.onTriggerKeyDownHandler,
-      disabled: isTrue(disabled),
-      ...attributes
+      onKeyDown: this.onTriggerKeyDownHandler
     }
-    if (isTrue(disabled)) {
-      triggerParams['aria-disabled'] = true
+    if (typeof title === 'string') {
+      triggerParams.title = title
     }
     const listParams = {
       className: classnames(
@@ -864,15 +872,16 @@ export default class Dropdown extends PureComponent {
             {CustomTrigger ? (
               <CustomTrigger {...triggerParams} />
             ) : (
-              <button
-                className="dnb-dropdown__trigger"
+              <Button
+                variant="secondary"
+                size="medium"
                 ref={this._refButton}
                 {...triggerParams}
               >
                 {!isPopupMenu && (
                   <span className="dnb-dropdown__text">
                     <span
-                      id={`dropdown-${id}-value`}
+                      id={selectedId}
                       className="dnb-dropdown__text__inner"
                     >
                       {data && data.length > 0
@@ -895,7 +904,7 @@ export default class Dropdown extends PureComponent {
                     <Icon icon={icon || 'chevron-down'} />
                   )}
                 </span>
-              </button>
+              </Button>
             )}
 
             {!hidden && (
