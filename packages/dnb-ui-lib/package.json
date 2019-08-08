@@ -106,6 +106,7 @@
     "@emotion/styled": "^10.0.15",
     "@semantic-release/changelog": "^3.0.4",
     "@semantic-release/commit-analyzer": "^6.2.0",
+    "@semantic-release/git": "^7.0.16",
     "@semantic-release/github": "^5.4.2",
     "@semantic-release/npm": "^5.1.13",
     "@semantic-release/release-notes-generator": "^7.2.1",
@@ -236,6 +237,12 @@
         "@semantic-release/github",
         {
           "assets": "dist/dnb-ui-lib-${nextRelease.version}.tgz"
+        }
+      ],
+      [
+        "@semantic-release/git",
+        {
+          "message": "chore(release): ${nextRelease.version} [skip ci]"
         }
       ]
     ]
