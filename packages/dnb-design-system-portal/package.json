@@ -3,7 +3,7 @@
   "name": "dnb-design-system-portal",
   "description": "DNB Design System Portal",
   "license": "SEE LICENSE IN LICENSE FILE",
-  "author": "Tobias Høegh",
+  "author": "DNB Team & Tobias Høegh",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
