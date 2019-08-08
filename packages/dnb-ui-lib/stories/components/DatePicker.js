@@ -7,6 +7,10 @@ import React, { useState } from 'react'
 import { Wrapper, Box } from '../helpers'
 // import styled from '@emotion/styled'
 
+import enLocale from 'date-fns/locale/en-US'
+
+// console.log('enLocale', enLocale)
+
 import { DatePicker, FormRow } from '../../src/components'
 
 export default [
@@ -25,6 +29,8 @@ export default [
             label="Date Picker 3:"
             show_input
             align_picker="right"
+            mask_placeholder="dd/mm/yyyy"
+            locale={enLocale}
           />
         </FormRow>
       </Box>

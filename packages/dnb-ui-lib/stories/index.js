@@ -11,17 +11,17 @@ import elements from './elementsStories'
 import helpers from './helperStories'
 
 // for .dnb-core-style usage
-import 'dnb-ui-lib/src/style/basis'
-import 'dnb-ui-lib/src/style/components'
-import 'dnb-ui-lib/src/style/themes/ui'
+// import 'dnb-ui-lib/src/style/basis'
+// import 'dnb-ui-lib/src/style/components'
+// import 'dnb-ui-lib/src/style/themes/ui'
 
 /* ATTENTION: for testing with IE11, we have to use the build version - make sure to run `yarn build` first */
-// import 'dnb-ui-lib/style/dnb-ui-basis.css'
-// import 'dnb-ui-lib/style/dnb-ui-components.css'
-// // import 'dnb-ui-lib/style/theme-ui/dnb-theme-ui.css'
-// // import 'dnb-ui-lib/style/basis'
-// // import 'dnb-ui-lib/style/components'
-// import 'dnb-ui-lib/style/themes/ui'
+import 'dnb-ui-lib/style/dnb-ui-basis.css'
+import 'dnb-ui-lib/style/dnb-ui-components.css'
+// import 'dnb-ui-lib/style/theme-ui/dnb-theme-ui.css'
+// import 'dnb-ui-lib/style/basis'
+// import 'dnb-ui-lib/style/components'
+import 'dnb-ui-lib/style/themes/ui'
 
 /* UI style + theme */
 // import '../src/style'

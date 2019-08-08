@@ -16,7 +16,13 @@ import {
   validateDOMAttributes
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
-import { format, parse, differenceInCalendarDays } from 'date-fns'
+
+// date-fns
+import format from 'date-fns/format'
+import toDate from 'date-fns/toDate'
+// import parseISO from 'date-fns/parseISO'
+import parseISO from 'date-fns/parse'
+import differenceInCalendarDays from 'date-fns/differenceInCalendarDays'
 import nbLocale from 'date-fns/locale/nb'
 
 import Context from '../../shared/Context'
@@ -221,7 +227,9 @@ export default class DatePicker extends PureComponent {
   }
 
   static convertStringToDate(date) {
-    return typeof date === Date ? date : parse(date)
+    return typeof date === Date
+      ? toDate(date)
+      : parseISO(date, 'yyyy-MM-dd', new Date())
   }
 
   constructor(props) {
@@ -496,7 +504,7 @@ export default class DatePicker extends PureComponent {
       label_direction,
       only_month,
       hide_navigation_buttons,
-      show_input /* eslint-disable-line */,
+      show_input, // eslint-disable-line
       range,
       first_day,
       reset_date,
@@ -511,16 +519,16 @@ export default class DatePicker extends PureComponent {
       mask_placeholder,
       align_picker,
 
-      hide_navigation: _hide_navigation /* eslint-disable-line */,
-      hide_days: _hide_days /* eslint-disable-line */,
-      month: _month /* eslint-disable-line */,
-      start_date: _start_date /* eslint-disable-line */,
-      end_date: _end_date /* eslint-disable-line */,
-      min_date: _min_date /* eslint-disable-line */,
-      max_date: _max_date /* eslint-disable-line */,
-      opened: _opened /* eslint-disable-line */,
-      direction: _direction /* eslint-disable-line */,
-      id: _id /* eslint-disable-line */,
+      hide_navigation: _hide_navigation, // eslint-disable-line
+      hide_days: _hide_days, // eslint-disable-line
+      month: _month, // eslint-disable-line
+      start_date: _start_date, // eslint-disable-line
+      end_date: _end_date, // eslint-disable-line
+      min_date: _min_date, // eslint-disable-line
+      max_date: _max_date, // eslint-disable-line
+      opened: _opened, // eslint-disable-line
+      direction: _direction, // eslint-disable-line
+      id: _id, // eslint-disable-line
 
       ...attributes
     } = props
@@ -666,6 +674,7 @@ export default class DatePicker extends PureComponent {
                     endDate={endDate}
                   />
                   <DatePickerFooter
+                    {...props}
                     range={isTrue(range)}
                     onSubmit={
                       isTrue(show_submit_button) && this.onSubmitHandler
