@@ -104,7 +104,12 @@
     "@emotion/babel-plugin-core": "^0.6.9",
     "@emotion/core": "^10.0.15",
     "@emotion/styled": "^10.0.15",
-    "@jedmao/semantic-release-npm-github-config": "^1.0.6",
+    "@semantic-release/changelog": "^3.0.4",
+    "@semantic-release/commit-analyzer": "^6.2.0",
+    "@semantic-release/git": "^7.0.16",
+    "@semantic-release/github": "^5.4.2",
+    "@semantic-release/npm": "^5.1.13",
+    "@semantic-release/release-notes-generator": "^7.2.1",
     "@storybook/react": "^5.1.10",
     "@svgr/core": "^4.3.2",
     "audit-ci": "^2.3.0",
@@ -204,7 +209,6 @@
       "+([1-9])?(.{+([1-9]),x}).x",
       "release",
       "next",
-      "next-major",
       {
         "name": "beta",
         "prerelease": true
@@ -214,7 +218,28 @@
         "prerelease": true
       }
     ],
-    "extends": "@jedmao/semantic-release-npm-github-config",
-    "analyzeCommits": "simple-commit-message"
+    "analyzeCommits": "simple-commit-message",
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      [
+        "@semantic-release/changelog",
+        {
+          "changelogTitle": "# Changelog\n\nAll notable changes to this project will be documented in this file. See\n[Conventional Commits](https://conventionalcommits.org) for commit guidelines."
+        }
+      ],
+      [
+        "@semantic-release/npm",
+        {
+          "tarballDir": "dist"
+        }
+      ],
+      [
+        "@semantic-release/github",
+        {
+          "assets": "dist/*.tgz"
+        }
+      ]
+    ]
   }
 }
