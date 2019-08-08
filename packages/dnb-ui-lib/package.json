@@ -213,7 +213,6 @@
         "prerelease": true
       }
     ],
-    "extends": "@jedmao/semantic-release-npm-github-config",
     "analyzeCommits": "simple-commit-message"
   }
 }
