@@ -25,16 +25,17 @@ export const translateSpace = type => {
 export const splitTypes = types => {
   if (typeof types === 'string') {
     types = types.split(/ /g)
+  } else if (typeof types === 'boolean') {
+    return ['small']
+  } else if (typeof types === 'number') {
+    return [types]
   }
-  if (typeof types === 'boolean') {
-    types = ['small']
-  }
-  return types.filter(r => r && r.length > 0)
+  return types ? types.filter(r => r && r.length > 0) : null
 }
 
 // Sums e.g. "large" + "x-small" to be = 2.5rem
-export const sumTypes = types => {
-  return splitTypes(types)
+export const sumTypes = types =>
+  splitTypes(types)
     .map(type => translateSpace(type))
     .reduce((acc, cur) => {
       if (cur > 0) {
@@ -44,7 +45,6 @@ export const sumTypes = types => {
       }
       return acc
     }, 0)
-}
 
 // Returns an array with modifyers e.g. ["--large" + "--x-small"]
 export const createTypeModifyers = types => {
@@ -141,7 +141,7 @@ export const createSpacingClasses = props =>
     if (isValidSpaceProp(direction)) {
       if (String(cur) === '0' || String(cur) === 'false') {
         acc.push(`dnb-space__${direction}--zero`)
-      } else {
+      } else if (cur) {
         const typeModifyers = createTypeModifyers(cur)
 
         // get the total sum

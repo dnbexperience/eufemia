@@ -46,6 +46,10 @@ describe('translateSpace', () => {
 describe('splitTypes', () => {
   it('should split types correcttly', () => {
     expect(splitTypes('large medium')).toEqual(['large', 'medium'])
+    expect(splitTypes(['large', 'medium'])).toEqual(['large', 'medium'])
+    expect(splitTypes(2)).toEqual([2])
+    expect(splitTypes(true)).toEqual(['small'])
+    expect(splitTypes(null)).toBeNull()
   })
 })
 
@@ -95,6 +99,7 @@ describe('createSpacingClasses', () => {
     expect(createSpacingClasses({ right: 0 })).toEqual([
       'dnb-space__right--zero'
     ])
+    expect(createSpacingClasses({ right: null })).toEqual([])
   })
 })
 
