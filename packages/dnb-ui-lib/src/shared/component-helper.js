@@ -11,6 +11,7 @@ import whatInput from 'what-input'
 // run component helper functions
 whatInput.specificKeys([9])
 defineIsTouch()
+defineNavigator()
 
 /**
  * Check if device is touch device or not
@@ -45,7 +46,7 @@ export function defineIsTouch(runInstantly = true) {
         document.documentElement.setAttribute('dnb-is-touch', true)
       }
     } catch (e) {
-      console.log('Could not apply "touch class"', e)
+      console.log('Could not apply "touch attribute"', e)
     }
 
     window.removeEventListener('load', handleDefineTouch)
@@ -56,6 +57,40 @@ export function defineIsTouch(runInstantly = true) {
   } else if (typeof window !== 'undefined') {
     try {
       window.addEventListener('load', handleDefineTouch)
+    } catch (e) {
+      console.log('Could not add "load" event listener', e)
+    }
+  }
+}
+
+export function defineNavigator(runInstantly = true) {
+  const handleNavigator = () => {
+    if (
+      typeof document === 'undefined' ||
+      typeof window === 'undefined' ||
+      typeof navigator === 'undefined'
+    )
+      return
+    try {
+      if (navigator.platform.match('Mac') !== null) {
+        document.documentElement.setAttribute('os', 'mac')
+      } else if (navigator.platform.match('Win') !== null) {
+        document.documentElement.setAttribute('os', 'win')
+      } else {
+        document.documentElement.setAttribute('os', 'other')
+      }
+    } catch (e) {
+      console.log('Could not apply "os attribute"', e)
+    }
+
+    window.removeEventListener('load', handleNavigator)
+  }
+
+  if (runInstantly) {
+    handleNavigator()
+  } else if (typeof window !== 'undefined') {
+    try {
+      window.addEventListener('load', handleNavigator)
     } catch (e) {
       console.log('Could not add "load" event listener', e)
     }

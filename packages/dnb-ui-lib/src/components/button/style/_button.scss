@@ -47,18 +47,26 @@
   text-decoration: none;
 
   &__icon {
-    line-height: 1em; // for vertical alignment, we have to have no line-height
+    line-height: 1em; // vertical alignment, if we have no line-height
     &:not(.dnb-icon) svg:not([width]):not([height]) {
       width: var(--button-icon-size);
       height: var(--button-icon-size);
     }
-    transform: translateY(calc(1px - 1px - var(--button-border-width)));
+
+    // vertical alignment
+    [os='win'] & {
+      transform: translateY(-0.0625rem);
+    }
   }
   &__text {
     line-height: 1em;
     color: inherit;
     background-color: inherit;
-    transform: translateY(calc(1px - var(--button-border-width)));
+
+    // vertical alignment
+    [os='mac'] & {
+      transform: translateY(0.0625rem);
+    }
   }
 
   &__bounding {
@@ -75,7 +83,7 @@
     width: var(--button-width--small);
     height: var(--button-height--small);
     font-size: var(--button-font-size-small);
-    line-height: var(--button-font-size-small);
+    line-height: var(--button-height--small);
     border-radius: var(--button-border-radius--small);
   }
   &--has-text#{&}--size-small {

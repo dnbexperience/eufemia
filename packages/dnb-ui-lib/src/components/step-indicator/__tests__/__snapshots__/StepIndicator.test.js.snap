@@ -25,7 +25,7 @@ exports[`StepIndicator component with buttons have to match snapshot 1`] = `
   use_navigation={true}
 >
   <div
-    className="dnb-step-indicator dnb-space__hide_numbers--zero"
+    className="dnb-step-indicator"
   >
     <ul
       className="dnb-step-indicator__list"

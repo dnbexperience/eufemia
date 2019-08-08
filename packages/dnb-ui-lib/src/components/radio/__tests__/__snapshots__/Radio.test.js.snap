@@ -24,7 +24,7 @@ exports[`Radio component have to match snapshot 1`] = `
   value="value"
 >
   <span
-    className="dnb-radio dnb-radio--label-position-left dnb-space__readOnly--zero className class"
+    className="dnb-radio dnb-radio--label-position-left className class"
   >
     <span
       className="dnb-radio__order"
@@ -46,14 +46,14 @@ exports[`Radio component have to match snapshot 1`] = `
       >
         <Element
           aria-hidden={false}
-          className="dnb-form-label dnb-space__aria-hidden--zero"
+          className="dnb-form-label"
           htmlFor="radio"
           id="radio-label"
           is="label"
         >
           <label
             aria-hidden={false}
-            className="dnb-form-label dnb-space__aria-hidden--zero"
+            className="dnb-form-label"
             htmlFor="radio"
             id="radio-label"
           >
@@ -165,7 +165,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
           className="dnb-form-row__fieldset"
         >
           <div
-            className="dnb-form-row dnb-space__no_label--zero"
+            className="dnb-form-row"
           >
             <FormLabel
               class={null}
@@ -182,13 +182,13 @@ exports[`Radio group component have to match group snapshot 1`] = `
               vertical={null}
             >
               <Element
-                className="dnb-form-label dnb-space__disabled--zero dnb-form-row__label"
+                className="dnb-form-label dnb-form-row__label"
                 htmlFor="group"
                 id="group-label"
                 is="label"
               >
                 <label
-                  className="dnb-form-label dnb-space__disabled--zero dnb-form-row__label"
+                  className="dnb-form-label dnb-form-row__label"
                   htmlFor="group"
                   id="group-label"
                 >
@@ -227,7 +227,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
                   value=""
                 >
                   <span
-                    className="dnb-radio dnb-radio--label-position-right dnb-space__disabled--zero dnb-space__readOnly--zero"
+                    className="dnb-radio dnb-radio--label-position-right"
                   >
                     <span
                       className="dnb-radio__order"
@@ -249,14 +249,14 @@ exports[`Radio group component have to match group snapshot 1`] = `
                       >
                         <Element
                           aria-hidden={true}
-                          className="dnb-form-label dnb-space__disabled--zero"
+                          className="dnb-form-label"
                           htmlFor="radio-1"
                           id="radio-1-label"
                           is="label"
                         >
                           <label
                             aria-hidden={true}
-                            className="dnb-form-label dnb-space__disabled--zero"
+                            className="dnb-form-label"
                             htmlFor="radio-1"
                             id="radio-1-label"
                           >
@@ -331,7 +331,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
                   value=""
                 >
                   <span
-                    className="dnb-radio dnb-radio--label-position-right dnb-space__disabled--zero dnb-space__readOnly--zero"
+                    className="dnb-radio dnb-radio--label-position-right"
                   >
                     <span
                       className="dnb-radio__order"
@@ -353,14 +353,14 @@ exports[`Radio group component have to match group snapshot 1`] = `
                       >
                         <Element
                           aria-hidden={true}
-                          className="dnb-form-label dnb-space__disabled--zero"
+                          className="dnb-form-label"
                           htmlFor="radio-2"
                           id="radio-2-label"
                           is="label"
                         >
                           <label
                             aria-hidden={true}
-                            className="dnb-form-label dnb-space__disabled--zero"
+                            className="dnb-form-label"
                             htmlFor="radio-2"
                             id="radio-2-label"
                           >
@@ -767,8 +767,9 @@ legend.dnb-form-label {
     align-items: center;
     justify-content: center;
     width: var(--radio-height);
-    height: var(--radio-height);
-    transform: translateY(-0.0625rem); }
+    height: var(--radio-height); }
+    [os='mac'] .dnb-radio__shell {
+      transform: translateY(-0.0625rem); }
   .dnb-radio__focus, .dnb-radio__button, .dnb-radio__dot {
     position: absolute;
     z-index: 4; }

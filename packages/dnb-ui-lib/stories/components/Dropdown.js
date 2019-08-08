@@ -33,7 +33,12 @@ const DropdownStory = () => {
           label="Vertical label_direction:"
           label_direction="vertical"
         >
-          <Dropdown label="Vertical A:" data={dropdownData} />
+          <Dropdown
+            label="Vertical A:"
+            data={dropdownData}
+            right="small"
+            status="Status message"
+          />
           <Dropdown label="Vertical B:" data={dropdownData} />
         </FormRow>
       </Box>
@@ -128,6 +133,33 @@ const DropdownStory = () => {
         <FormRow vertical>
           <Dropdown label="Vertical:" data={dropdownData} />
         </FormRow>
+      </Box>
+      <Box>
+        Popup Menu{' '}
+        <Dropdown
+          right="small"
+          popup_menu="small"
+          // popup_menu="true"
+          title="Choose an item"
+          data={['Go this this Link', 'Or to this one']}
+          on_change={({ selected_item }) => {
+            console.log('on_change', selected_item)
+          }}
+          on_select={({ active_item }) => {
+            console.log('on_select', active_item)
+          }}
+        />
+        <Dropdown
+          popup_menu="true"
+          title="Choose an item"
+          data={['Go this this Link', 'Or to this one']}
+          on_change={({ selected_item }) => {
+            console.log('on_change', selected_item)
+          }}
+          on_select={({ active_item }) => {
+            console.log('on_select', active_item)
+          }}
+        />
       </Box>
       <Box>
         <Dropdown

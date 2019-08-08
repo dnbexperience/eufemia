@@ -5,7 +5,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
   align_picker={null}
   custom_element={null}
   custom_method={null}
-  date="2019-01-01T00:00:00.000Z"
+  date="1970-01-01T00:00:00.000Z"
   direction="auto"
   disabled={null}
   end_date="2019-02-15T00:00:00.000Z"
@@ -71,7 +71,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
   sync={true}
 >
   <span
-    className="dnb-date-picker dnb-date-picker__status--error dnb-date-picker--hidden dnb-date-picker--show-input dnb-date-picker--show-footer dnb-space__hide_navigation--zero dnb-space__hide_navigation_buttons--zero dnb-space__hide_days--zero dnb-space__only_month--zero dnb-space__link--zero dnb-space__opened--zero dnb-space__no_animation--zero"
+    className="dnb-date-picker dnb-date-picker__status--error dnb-date-picker--hidden dnb-date-picker--show-input dnb-date-picker--show-footer"
   >
     <span
       aria-hidden={true}
@@ -86,7 +86,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
         className="dnb-date-picker__shell"
       >
         <DatePickerInput
-          date="2019-01-01T00:00:00.000Z"
+          date="1970-01-01T00:00:00.000Z"
           disabled={false}
           endDate={2019-02-15T00:00:00.000Z}
           id="date-picker-id"
@@ -145,6 +145,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
             submitButton={
               <SubmitButton
                 aria-expanded={false}
+                className={null}
                 disabled={false}
                 icon="calendar"
                 icon_size={null}
@@ -166,7 +167,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
             value={null}
           >
             <span
-              className="dnb-input dnb-input--text dnb-input--has-submit-button dnb-input__status--error dnb-space__disabled--zero dnb-space__readOnly--zero"
+              className="dnb-input dnb-input--text dnb-input--has-submit-button dnb-input__status--error"
             >
               <span
                 className="dnb-input__inner"
@@ -624,6 +625,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                   </span>
                   <SubmitButton
                     aria-expanded={false}
+                    className={null}
                     disabled={false}
                     icon="calendar"
                     icon_size={null}
@@ -668,7 +670,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                       >
                         <button
                           aria-expanded={false}
-                          className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon dnb-space__aria-expanded--zero dnb-space__bounding--zero dnb-input__submit-button__button"
+                          className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon dnb-input__submit-button__button"
                           id="date-picker-id"
                           onBlur={[Function]}
                           onClick={[Function]}
@@ -723,7 +725,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                 alt="calendar"
                                 aria-hidden={false}
                                 aria-label="calendar"
-                                className="dnb-icon dnb-space__aria-hidden--zero dnb-button__icon"
+                                className="dnb-icon dnb-button__icon"
                                 role="img"
                               >
                                 <calendar>
@@ -769,7 +771,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
         >
           <span
             aria-live="assertive"
-            className="dnb-form-status dnb-form-status--error dnb-form-status--has-content dnb-space__hidden--zero"
+            className="dnb-form-status dnb-form-status--error dnb-form-status--has-content"
             hidden={false}
           >
             <span
@@ -1098,16 +1100,18 @@ exports[`DatePicker scss have to match snapshot 1`] = `
     font-size: var(--button-font-size);
     line-height: var(--button-height); }
   .dnb-button__icon {
-    line-height: 1em;
-    transform: translateY(calc(1px - 1px - var(--button-border-width))); }
+    line-height: 1em; }
     .dnb-button__icon:not(.dnb-icon) svg:not([width]):not([height]) {
       width: var(--button-icon-size);
       height: var(--button-icon-size); }
+    [os='win'] .dnb-button__icon {
+      transform: translateY(-0.0625rem); }
   .dnb-button__text {
     line-height: 1em;
     color: inherit;
-    background-color: inherit;
-    transform: translateY(calc(1px - var(--button-border-width))); }
+    background-color: inherit; }
+    [os='mac'] .dnb-button__text {
+      transform: translateY(0.0625rem); }
   .dnb-button__bounding {
     position: absolute;
     background-color: transparent;
@@ -1119,7 +1123,7 @@ exports[`DatePicker scss have to match snapshot 1`] = `
     width: var(--button-width--small);
     height: var(--button-height--small);
     font-size: var(--button-font-size-small);
-    line-height: var(--button-font-size-small);
+    line-height: var(--button-height--small);
     border-radius: var(--button-border-radius--small); }
   .dnb-button--has-text.dnb-button--size-small {
     padding-left: 1rem;
@@ -1459,7 +1463,6 @@ legend.dnb-form-label {
     color: inherit;
     font-size: inherit;
     background-color: transparent;
-    transform: translateY(var(--input-border-width));
     font-variant-numeric: lining-nums;
     font-feature-settings: \\"lnum\\"; }
   .dnb-input__placeholder {
@@ -1476,6 +1479,9 @@ legend.dnb-form-label {
     display: none; }
   .dnb-input__input::-ms-clear {
     display: none; }
+  [os='mac'] .dnb-input__placeholder,
+  [os='mac'] .dnb-input__input {
+    transform: translateY(0.0625rem); }
   .dnb-core-style .dnb-input__input {
     line-height: 1em; }
   .dnb-input--has-submit-button .dnb-input__placeholder,
@@ -1529,6 +1535,8 @@ legend.dnb-form-label {
     .dnb-input--large .dnb-input__submit-button__button {
       width: var(--input-height--large);
       height: var(--input-height--large); }
+      .dnb-input--large .dnb-input__submit-button__button .dnb-button__icon {
+        transform: scale(1.33333); }
   .dnb-input--large.dnb-input--has-submit-button .dnb-input__placeholder,
   .dnb-input--large.dnb-input--has-submit-button .dnb-input__input {
     padding-right: calc(var(--input-padding--large) * 2.5); }

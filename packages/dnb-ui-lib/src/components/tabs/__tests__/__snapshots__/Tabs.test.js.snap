@@ -81,7 +81,7 @@ exports[`Tabs component have to match snapshot 1`] = `
 >
   <TabsWrapper>
     <div
-      className="dnb-tabs dnb-space__use_hash--zero"
+      className="dnb-tabs"
     >
       <TabsList>
         <div

@@ -56,7 +56,7 @@ exports[`Checkbox component have to match snapshot 1`] = `
   value={null}
 >
   <span
-    className="dnb-checkbox dnb-checkbox--label-position-left dnb-space__readOnly--zero"
+    className="dnb-checkbox dnb-checkbox--label-position-left"
   >
     <span
       className="dnb-checkbox__order"
@@ -493,8 +493,9 @@ legend.dnb-form-label {
     align-items: center;
     justify-content: center;
     width: var(--checkbox-height);
-    height: var(--checkbox-height);
-    transform: translateY(-0.0625rem); }
+    height: var(--checkbox-height); }
+    [os='mac'] .dnb-checkbox__shell {
+      transform: translateY(-0.0625rem); }
   .dnb-checkbox__focus, .dnb-checkbox__button {
     position: relative;
     z-index: 4;

@@ -37,8 +37,24 @@ describe('Dropdown screenshot', () => {
   it('have to match the dropdown with click', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-dnb-test="dropdown-closed"] .dnb-dropdown__inner',
+      simulateSelector:
+        '[data-dnb-test="dropdown-closed"] .dnb-dropdown__trigger',
       simulate: 'click',
-      waitFor: 10 // to make sure we make the screenshot afte the animation is show
+      waitFor: 100 // to make sure we make the screenshot afte the animation is show
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+  it('have to match the dropdown as small popup_menu', async () => {
+    const screenshot = await testPageScreenshot({
+      style: {
+        width: '2rem',
+        height: '2rem'
+      },
+      selector: '[data-dnb-test="dropdown-popup"]',
+      simulateSelector:
+        '[data-dnb-test="dropdown-popup"] .dnb-dropdown__trigger',
+      simulate: 'click',
+      waitFor: 100 // to make sure we make the screenshot afte the animation is show
     })
     expect(screenshot).toMatchImageSnapshot()
   })

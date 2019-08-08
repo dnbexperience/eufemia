@@ -47,12 +47,12 @@ exports[`FormRow component have to match snapshot 1`] = `
           vertical={null}
         >
           <Element
-            className="dnb-form-label dnb-form-label--horizontal dnb-space__disabled--zero dnb-form-row__label label_class"
+            className="dnb-form-label dnb-form-label--horizontal dnb-form-row__label label_class"
             id="label_id-label"
             is="legend"
           >
             <legend
-              className="dnb-form-label dnb-form-label--horizontal dnb-space__disabled--zero dnb-form-row__label label_class"
+              className="dnb-form-label dnb-form-label--horizontal dnb-form-row__label label_class"
               id="label_id-label"
             >
               label

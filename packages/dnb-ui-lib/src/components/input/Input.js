@@ -433,6 +433,7 @@ class SubmitButton extends PureComponent {
       PropTypes.func
     ]),
     icon_size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    className: PropTypes.string,
 
     // Web Component props
     on_submit: PropTypes.func,
@@ -448,6 +449,7 @@ class SubmitButton extends PureComponent {
     variant: 'secondary',
     icon: 'search',
     icon_size: null,
+    className: null,
 
     // Web Component props
     on_submit: null,
@@ -483,6 +485,7 @@ class SubmitButton extends PureComponent {
       variant,
       icon,
       icon_size,
+      className,
       ...rest
     } = this.props
 
@@ -503,7 +506,10 @@ class SubmitButton extends PureComponent {
         data-input-state={this.state.focusState}
       >
         <Button
-          className="dnb-input__submit-button__button"
+          className={classnames(
+            'dnb-input__submit-button__button',
+            className
+          )}
           variant={variant}
           icon={icon}
           icon_size={icon_size}

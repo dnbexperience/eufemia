@@ -29,7 +29,7 @@ exports[`Slider component have to match snapshot 1`] = `
   vertical="vertical"
 >
   <span
-    className="dnb-slider dnb-slider__label--horizontal dnb-space__min--zero className class"
+    className="dnb-slider dnb-slider__label--horizontal className class"
   >
     <FormLabel
       class={null}
@@ -46,13 +46,13 @@ exports[`Slider component have to match snapshot 1`] = `
       vertical={null}
     >
       <Element
-        className="dnb-form-label dnb-space__disabled--zero"
+        className="dnb-form-label"
         htmlFor="id"
         id="id-label"
         is="label"
       >
         <label
-          className="dnb-form-label dnb-space__disabled--zero"
+          className="dnb-form-label"
           htmlFor="id"
           id="id-label"
         >
@@ -89,7 +89,7 @@ exports[`Slider component have to match snapshot 1`] = `
         >
           <button
             aria-label="subtract_title"
-            className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon dnb-space__bounding--zero dnb-slider__button dnb-slider__button--subtract"
+            className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon dnb-slider__button dnb-slider__button--subtract"
             onClick={[Function]}
             onMouseOut={[Function]}
             title="subtract_title"
@@ -137,7 +137,7 @@ exports[`Slider component have to match snapshot 1`] = `
                   alt="subtract_title"
                   aria-hidden={false}
                   aria-label="subtract_title"
-                  className="dnb-icon dnb-icon--default dnb-space__aria-hidden--zero dnb-button__icon"
+                  className="dnb-icon dnb-icon--default dnb-button__icon"
                   role="img"
                 >
                   <subtract>
@@ -209,7 +209,7 @@ exports[`Slider component have to match snapshot 1`] = `
             >
               <button
                 aria-label="thump_title"
-                className="dnb-button dnb-button--secondary dnb-space__bounding--zero"
+                className="dnb-button dnb-button--secondary"
                 onBlur={[Function]}
                 onClick={[Function]}
                 onFocus={[Function]}
@@ -288,7 +288,7 @@ exports[`Slider component have to match snapshot 1`] = `
         >
           <button
             aria-label="add_title"
-            className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon dnb-space__bounding--zero dnb-slider__button dnb-slider__button--add"
+            className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon dnb-slider__button dnb-slider__button--add"
             onClick={[Function]}
             onMouseOut={[Function]}
             title="add_title"
@@ -336,7 +336,7 @@ exports[`Slider component have to match snapshot 1`] = `
                   alt="add_title"
                   aria-hidden={false}
                   aria-label="add_title"
-                  className="dnb-icon dnb-icon--default dnb-space__aria-hidden--zero dnb-button__icon"
+                  className="dnb-icon dnb-icon--default dnb-button__icon"
                   role="img"
                 >
                   <add>
@@ -519,16 +519,18 @@ exports[`Slider scss have to match snapshot 1`] = `
     font-size: var(--button-font-size);
     line-height: var(--button-height); }
   .dnb-button__icon {
-    line-height: 1em;
-    transform: translateY(calc(1px - 1px - var(--button-border-width))); }
+    line-height: 1em; }
     .dnb-button__icon:not(.dnb-icon) svg:not([width]):not([height]) {
       width: var(--button-icon-size);
       height: var(--button-icon-size); }
+    [os='win'] .dnb-button__icon {
+      transform: translateY(-0.0625rem); }
   .dnb-button__text {
     line-height: 1em;
     color: inherit;
-    background-color: inherit;
-    transform: translateY(calc(1px - var(--button-border-width))); }
+    background-color: inherit; }
+    [os='mac'] .dnb-button__text {
+      transform: translateY(0.0625rem); }
   .dnb-button__bounding {
     position: absolute;
     background-color: transparent;
@@ -540,7 +542,7 @@ exports[`Slider scss have to match snapshot 1`] = `
     width: var(--button-width--small);
     height: var(--button-height--small);
     font-size: var(--button-font-size-small);
-    line-height: var(--button-font-size-small);
+    line-height: var(--button-height--small);
     border-radius: var(--button-border-radius--small); }
   .dnb-button--has-text.dnb-button--size-small {
     padding-left: 1rem;

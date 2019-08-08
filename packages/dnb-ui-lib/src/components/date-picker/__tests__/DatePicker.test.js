@@ -11,6 +11,7 @@ import {
   loadScss
 } from '../../../core/jest/jestSetup'
 import Component from '../DatePicker'
+import DatePickerInput from '../DatePickerInput'
 
 // for the unit calc tests
 import { addDays, addMonths, getDaysInMonth } from 'date-fns'
@@ -33,7 +34,7 @@ describe('DatePicker component', () => {
     id: 'date-picker-id',
     range: true,
     show_input: true,
-    date: '2019-01-01T00:00:00.000Z',
+    date: '1970-01-01T00:00:00.000Z',
     start_date: '2019-01-01T00:00:00.000Z',
     end_date: '2019-02-15T00:00:00.000Z',
     status: 'status',
@@ -219,6 +220,14 @@ describe('DatePicker component', () => {
 
   it('should validate with ARIA rules as a tabs', async () => {
     expect(await axeComponent(Comp)).toHaveNoViolations()
+  })
+})
+
+describe('DatePicker input', () => {
+  it('has correct working date check', () => {
+    expect(DatePickerInput.isValidDate(1971)).toBe(true)
+    expect(DatePickerInput.isValidDate(new Date(1971, 1, 1))).toBe(true)
+    expect(DatePickerInput.isValidDate(new Date(1111, 1, 1))).toBe(false)
   })
 })
 

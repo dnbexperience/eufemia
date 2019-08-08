@@ -23,7 +23,7 @@ exports[`Circular ProgressIndicator component have to match snapshot 1`] = `
   visible={true}
 >
   <div
-    className="dnb-progress-indicator dnb-progress-indicator--visible dnb-space__no_animation--zero"
+    className="dnb-progress-indicator dnb-progress-indicator--visible"
   >
     <ProgressIndicatorCircular
       callOnCompleteHandler={[Function]}

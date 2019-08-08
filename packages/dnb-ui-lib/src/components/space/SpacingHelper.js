@@ -25,16 +25,17 @@ export const translateSpace = type => {
 export const splitTypes = types => {
   if (typeof types === 'string') {
     types = types.split(/ /g)
+  } else if (typeof types === 'boolean') {
+    return ['small']
+  } else if (typeof types === 'number') {
+    return [types]
   }
-  if (typeof types === 'boolean') {
-    types = ['small']
-  }
-  return types.filter(r => r && r.length > 0)
+  return types ? types.filter(r => r && r.length > 0) : null
 }
 
 // Sums e.g. "large" + "x-small" to be = 2.5rem
-export const sumTypes = types => {
-  return splitTypes(types)
+export const sumTypes = types =>
+  splitTypes(types)
     .map(type => translateSpace(type))
     .reduce((acc, cur) => {
       if (cur > 0) {
@@ -44,7 +45,6 @@ export const sumTypes = types => {
       }
       return acc
     }, 0)
-}
 
 // Returns an array with modifyers e.g. ["--large" + "--x-small"]
 export const createTypeModifyers = types => {
@@ -138,27 +138,29 @@ export const isValidSpaceProp = prop =>
 // Creates a valid space CSS class out from given space types
 export const createSpacingClasses = props =>
   Object.entries(props).reduce((acc, [direction, cur]) => {
-    if (String(cur) === '0' || String(cur) === 'false') {
-      acc.push(`dnb-space__${direction}--zero`)
-    } else if (cur && isValidSpaceProp(direction)) {
-      const typeModifyers = createTypeModifyers(cur)
+    if (isValidSpaceProp(direction)) {
+      if (String(cur) === '0' || String(cur) === 'false') {
+        acc.push(`dnb-space__${direction}--zero`)
+      } else if (cur) {
+        const typeModifyers = createTypeModifyers(cur)
 
-      // get the total sum
-      const sum = sumTypes(typeModifyers)
-      if (sum > 10) {
-        console.warn(
-          `Spacing of more than 10rem is not supported! You used ${sum} / (${typeModifyers.join(
-            ','
-          )})`
-        )
-      } else {
-        // auto combine classes
-        const nearestTypes = findNearestTypes(sum)
-        // console.log('nearestTypes', typeModifyers, sum, nearestTypes)
+        // get the total sum
+        const sum = sumTypes(typeModifyers)
+        if (sum > 10) {
+          console.warn(
+            `Spacing of more than 10rem is not supported! You used ${sum} / (${typeModifyers.join(
+              ','
+            )})`
+          )
+        } else {
+          // auto combine classes
+          const nearestTypes = findNearestTypes(sum)
 
-        acc.push(
-          nearestTypes.map(type => `dnb-space__${direction}--${type}`)
-        )
+          acc = [
+            ...acc,
+            ...nearestTypes.map(type => `dnb-space__${direction}--${type}`)
+          ]
+        }
       }
     }
 
@@ -172,6 +174,12 @@ export const createStyleObject = props => {
   }
   if (props.bottom && !(parseFloat(props.bottom) > 0)) {
     props.bottom = sumTypes(props.bottom)
+  }
+  if (props.left && !(parseFloat(props.left) > 0)) {
+    props.left = sumTypes(props.left)
+  }
+  if (props.right && !(parseFloat(props.right) > 0)) {
+    props.right = sumTypes(props.right)
   }
   return Object.entries({
     marginTop: props.top && `${props.top}rem`,
