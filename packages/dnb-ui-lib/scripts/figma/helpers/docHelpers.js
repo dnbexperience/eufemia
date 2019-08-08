@@ -20,7 +20,6 @@ import packpath from 'packpath'
 // import .env variables
 dotenv.config()
 
-// process.env.ROOT_DIR = `${__dirname}/../../`
 process.env.ROOT_DIR = packpath.self()
 
 export const defaultFigmaToken = process.env.FIGMA_TOKEN
@@ -140,9 +139,10 @@ export const findNode = (doc, find, ignore = null) =>
 export const findAllNodes = (doc, find, ignore = null) =>
   findAll(doc, 'children', find, ignore)
 
-export const getLiveVersionOfFigmaDoc = async ({
-  figmaFile = defaultFigmaFile
-}) => {
+export const getLiveVersionOfFigmaDoc = async ({ figmaFile = null }) => {
+  if (!figmaFile) {
+    figmaFile = defaultFigmaFile
+  }
   try {
     const {
       data: { versions }
@@ -156,9 +156,12 @@ export const getLiveVersionOfFigmaDoc = async ({
 }
 
 const saveLiveVersionOfFigmaDoc = async ({
-  figmaFile = defaultFigmaFile,
+  figmaFile = null,
   version
 }) => {
+  if (!figmaFile) {
+    figmaFile = defaultFigmaFile
+  }
   if (!version) {
     return null
   }
@@ -185,8 +188,11 @@ const saveLiveVersionOfFigmaDoc = async ({
 }
 
 export const getLocalVersionFromLockFile = async ({
-  figmaFile = defaultFigmaFile
+  figmaFile = null
 }) => {
+  if (!figmaFile) {
+    figmaFile = defaultFigmaFile
+  }
   const lockFile = path.resolve(__dirname, `../version.lock`)
   try {
     if (fs.existsSync(lockFile)) {
@@ -200,11 +206,15 @@ export const getLocalVersionFromLockFile = async ({
 }
 
 export const getFigmaDoc = async ({
-  figmaFile = defaultFigmaFile,
+  figmaFile = null,
   localFile = null,
   forceRefetch = null,
   preventUpdate = null
 } = {}) => {
+  if (!figmaFile) {
+    figmaFile = defaultFigmaFile
+  }
+
   if (
     !(typeof figmaFile === 'string' && figmaFile.length > 0) &&
     !localFile
