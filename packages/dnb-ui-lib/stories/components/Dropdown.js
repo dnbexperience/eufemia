@@ -38,6 +38,14 @@ const DropdownStory = () => {
             data={dropdownData}
             right="small"
             status="Status message"
+            on_change={({ attributes }) => {
+              console.log(
+                'on_change',
+                // event.currentTarget.dataset,
+                attributes
+              )
+            }}
+            data-attr={123}
           />
           <Dropdown label="Vertical B:" data={dropdownData} />
         </FormRow>
