@@ -409,5 +409,20 @@
         }
       }
     }
+
+    &__header {
+      &__nav:nth-of-type(2) {
+        order: 2;
+      }
+
+      &__title {
+        width: 100%;
+      }
+
+      // border
+      &::after {
+        left: 0;
+      }
+    }
   }
 }

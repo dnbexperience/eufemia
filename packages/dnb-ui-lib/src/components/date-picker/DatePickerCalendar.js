@@ -6,16 +6,17 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import {
-  format,
-  isSameDay,
-  startOfDay,
-  endOfDay,
-  isSameMonth,
-  subMonths,
-  addMonths,
-  differenceInCalendarDays
-} from 'date-fns'
+
+// date-fns
+import format from 'date-fns/format'
+import subMonths from 'date-fns/subMonths'
+import addMonths from 'date-fns/addMonths'
+import isSameDay from 'date-fns/isSameDay'
+import isSameMonth from 'date-fns/isSameMonth'
+import startOfDay from 'date-fns/startOfDay'
+import endOfDay from 'date-fns/endOfDay'
+import differenceInCalendarDays from 'date-fns/differenceInCalendarDays'
+
 import nbLocale from 'date-fns/locale/nb'
 import {
   makeDayObject,
@@ -63,8 +64,8 @@ export const defaultProps = {
   month: null,
   prevBtn: true,
   nextBtn: true,
-  titleFormat: 'MMMM YYYY',
-  dayOfWeekFormat: 'dd',
+  titleFormat: 'MMMM yyyy',
+  dayOfWeekFormat: 'EEEEEE',
   firstDayOfWeek: 'monday',
   hideNav: false,
   hideDays: false,
@@ -156,6 +157,7 @@ export default class DatePickerCalendar extends PureComponent {
       minDate,
       hoverDate
     } = this.props
+
     const { startDate, endDate } = this.props
 
     this.days = getCalendar(
@@ -240,7 +242,7 @@ export default class DatePickerCalendar extends PureComponent {
           <tbody>
             <tr role="row" className="dnb-date-picker__days">
               {this.days.map((day, i) => {
-                const title = format(day.date, 'dddd, Do MMMM YYYY', {
+                const title = format(day.date, 'PPPP', {
                   locale
                 })
                 const isDisabled =
@@ -280,7 +282,7 @@ export default class DatePickerCalendar extends PureComponent {
                     <Button
                       size="medium"
                       variant="secondary"
-                      text={format(day.date, 'D', { locale })}
+                      text={format(day.date, 'd', { locale })}
                       title={title}
                       bounding={true}
                       disabled={isDisabled}
@@ -335,7 +337,7 @@ const PrevButton = ({
   }
   const disabled = minDate && isSameMonth(month, minDate)
   const onClick = () => onPrev && !disabled && onPrev({ nr })
-  const title = format(subMonths(month, 1), 'MMMM YYYY', {
+  const title = format(subMonths(month, 1), 'MMMM yyyy', {
     locale
   })
   return (
@@ -378,7 +380,7 @@ const NextButton = ({
   }
   const disabled = maxDate && isSameMonth(month, maxDate)
   const onClick = () => onNext && !disabled && onNext({ nr })
-  const title = format(addMonths(month, 1), 'MMMM YYYY', {
+  const title = format(addMonths(month, 1), 'MMMM yyyy', {
     locale
   })
   return (

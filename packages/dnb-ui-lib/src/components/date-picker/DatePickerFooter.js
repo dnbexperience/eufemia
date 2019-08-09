@@ -5,15 +5,19 @@
 
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-// import classnames from 'classnames'
 import Button from '../button/Button'
 
 export const propTypes = {
+  submit_button_text: PropTypes.string,
+  cancel_button_text: PropTypes.string,
   onSubmit: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
   onCancel: PropTypes.oneOfType([PropTypes.bool, PropTypes.func])
 }
 
 export const defaultProps = {
+  submit_button_text: 'Ok',
+  cancel_button_text: 'Cancel',
+
   // events
   onSubmit: null,
   onCancel: null
@@ -38,7 +42,12 @@ export default class DatePickerFooter extends PureComponent {
   }
 
   render() {
-    const { onSubmit, onCancel } = this.props
+    const {
+      onSubmit,
+      onCancel,
+      cancel_button_text,
+      submit_button_text
+    } = this.props
     if (!onSubmit && !onCancel) {
       return <></>
     }
@@ -46,7 +55,7 @@ export default class DatePickerFooter extends PureComponent {
       <div className="dnb-date-picker__footer">
         {(onSubmit && (
           <Button
-            text="Ok"
+            text={submit_button_text}
             variant="secondary"
             onClick={this.onSubmitHandler}
           />
@@ -54,7 +63,7 @@ export default class DatePickerFooter extends PureComponent {
 
         {(onCancel && (
           <Button
-            text="Cancel"
+            text={cancel_button_text}
             icon="close"
             icon_position="left"
             variant="tertiary"

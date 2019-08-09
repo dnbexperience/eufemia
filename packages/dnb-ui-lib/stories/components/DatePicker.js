@@ -7,6 +7,8 @@ import React, { useState } from 'react'
 import { Wrapper, Box } from '../helpers'
 // import styled from '@emotion/styled'
 
+import enLocale from 'date-fns/locale/en-US'
+
 import { DatePicker, FormRow } from '../../src/components'
 
 export default [
@@ -20,11 +22,43 @@ export default [
             right="small"
             date="1981-01-15"
           />
-          <DatePicker label="Date Picker 2:" align_picker="right" />
+          <DatePicker
+            label="Date Picker 2:"
+            align_picker="right"
+            date={new Date()}
+          />
           <DatePicker
             label="Date Picker 3:"
             show_input
             align_picker="right"
+            mask_placeholder="dd/mm/yyyy"
+            locale={enLocale}
+            first_day="sunday"
+            return_format="DD/MM/YYYY"
+            date="1981-01-15"
+            on_change={props => {
+              console.log('on_show', props)
+            }}
+          />
+          <DatePicker
+            label="Hidden Nav:"
+            show_input
+            // date="2019/05/05"
+            // start_date="05/05/2019"
+            // hide_navigation={true}
+            // hide_days={true}
+            submit_button_text="OK"
+            cancel_button_text="Cancel"
+            date_format="dd/MM/yyyy"
+            range={true}
+            // return_format="DD/MM/YYYY"
+            return_format="YYYY/MM/DD"
+            on_change={({ date }) => {
+              console.log('on_change', date)
+            }}
+            // on_hide={({ date }) => {
+            //   console.log('on_hide', date)
+            // }}
           />
         </FormRow>
       </Box>

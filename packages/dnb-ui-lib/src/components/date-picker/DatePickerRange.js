@@ -6,17 +6,29 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import keycode from 'keycode'
-import {
-  subMonths,
-  addDays,
-  addWeeks,
-  addMonths,
-  isSameMonth,
-  isSameYear,
-  setDate,
-  lastDayOfMonth,
-  differenceInMonths
-} from 'date-fns'
+
+// import {
+//   subMonths,
+//   addDays,
+//   addWeeks,
+//   addMonths,
+//   isSameMonth,
+//   isSameYear,
+//   setDate,
+//   lastDayOfMonth,
+//   differenceInMonths
+// } from 'date-fns'
+
+import subMonths from 'date-fns/subMonths'
+import addDays from 'date-fns/addDays'
+import addWeeks from 'date-fns/addWeeks'
+import addMonths from 'date-fns/addMonths'
+import isSameMonth from 'date-fns/isSameMonth'
+import isSameYear from 'date-fns/isSameYear'
+import setDate from 'date-fns/setDate'
+import lastDayOfMonth from 'date-fns/lastDayOfMonth'
+import differenceInMonths from 'date-fns/differenceInMonths'
+
 import DatePickerCalendar from './DatePickerCalendar'
 
 export const propTypes = {
