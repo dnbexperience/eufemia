@@ -3,22 +3,22 @@
  *
  */
 
-import {
-  subMonths,
-  addMonths,
-  isWithinRange,
-  isAfter,
-  isBefore,
-  isSameDay,
-  isToday,
-  isWeekend,
-  isSameMonth,
-  addDays,
-  startOfWeek,
-  getDay,
-  startOfMonth,
-  getDaysInMonth
-} from 'date-fns'
+// date-fns
+import subMonths from 'date-fns/subMonths'
+import addMonths from 'date-fns/addMonths'
+import isWithinInterval from 'date-fns/isWithinInterval'
+import isValid from 'date-fns/isValid'
+import isAfter from 'date-fns/isAfter'
+import isBefore from 'date-fns/isBefore'
+import isSameDay from 'date-fns/isSameDay'
+import isToday from 'date-fns/isToday'
+import isWeekend from 'date-fns/isWeekend'
+import isSameMonth from 'date-fns/isSameMonth'
+import addDays from 'date-fns/addDays'
+import startOfWeek from 'date-fns/startOfWeek'
+import getDay from 'date-fns/getDay'
+import startOfMonth from 'date-fns/startOfMonth'
+import getDaysInMonth from 'date-fns/getDaysInMonth'
 
 // Is used as DatePickerCalc
 export const makeDayObject = (
@@ -139,9 +139,14 @@ export const getMonth = (month, skip = 0, limit) => {
 
 // date is between selection range
 const isWithinSelection = (date, startDate, endDate) => {
-  const range = toRange(startDate, endDate)
+  const { startDate: start, endDate: end } = toRange(startDate, endDate)
   return startDate && endDate
-    ? isWithinRange(date, range.startDate, range.endDate)
+    ? isValid(start) &&
+        isValid(end) &&
+        isWithinInterval(date, {
+          start,
+          end
+        })
     : false
 }
 
@@ -166,13 +171,18 @@ const isEndDate = (date, range) => {
 
 // date is between startDate (exclusive) and hoverDate (inclusive)
 const isPreview = (date, startDate, endDate, hoverDate) => {
-  const previewRange = toRange(startDate, hoverDate)
+  const { startDate: start, endDate: end } = toRange(startDate, hoverDate)
   return (
     startDate &&
     !endDate &&
     // To exlude "isPreview" from startDate/endDate, we have to enable theese two lines
     // !isStartDate(date, previewRange) &&
     // !isEndDate(date, previewRange) &&
-    isWithinRange(date, previewRange.startDate, previewRange.endDate)
+    isValid(start) &&
+    isValid(end) &&
+    isWithinInterval(date, {
+      start,
+      end
+    })
   )
 }

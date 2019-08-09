@@ -5,15 +5,17 @@
 
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import {
-  addDays,
-  addMonths,
-  addYears,
-  setDate,
-  setMonth,
-  setYear,
-  format
-} from 'date-fns'
+
+// date-fns
+import addDays from 'date-fns/addDays'
+import addMonths from 'date-fns/addMonths'
+import addYears from 'date-fns/addYears'
+import setDate from 'date-fns/setDate'
+import setMonth from 'date-fns/setMonth'
+import setYear from 'date-fns/setYear'
+import format from 'date-fns/format'
+import isValid from 'date-fns/isValid'
+
 import classnames from 'classnames'
 import MaskedInput from 'react-text-mask' // https://github.com/text-mask/text-mask
 import Input, { SubmitButton } from '../input/Input'
@@ -103,6 +105,7 @@ export default class DatePickerInput extends PureComponent {
   static isValidDate(date) {
     return (
       date &&
+      isValid(date) &&
       (date instanceof Date ? date : new Date(date)).getFullYear() !== 1111
     )
   }
@@ -127,14 +130,14 @@ export default class DatePickerInput extends PureComponent {
     state._listenForPropChanges = true
     // set the input values
     if (DatePickerInput.isValidDate(state.startDate)) {
-      state._startDay = pad(format(state.startDate, 'D'), 2)
-      state._startMonth = pad(format(state.startDate, 'M'), 2)
-      state._startYear = format(state.startDate, 'YYYY')
+      state._startDay = pad(format(state.startDate, 'dd'), 2)
+      state._startMonth = pad(format(state.startDate, 'MM'), 2)
+      state._startYear = format(state.startDate, 'yyyy')
     }
     if (DatePickerInput.isValidDate(state.endDate)) {
-      state._endDay = pad(format(state.endDate, 'D'), 2)
-      state._endMonth = pad(format(state.endDate, 'M'), 2)
-      state._endYear = format(state.endDate, 'YYYY')
+      state._endDay = pad(format(state.endDate, 'dd'), 2)
+      state._endMonth = pad(format(state.endDate, 'MM'), 2)
+      state._endYear = format(state.endDate, 'yyyy')
     }
     return state
   }

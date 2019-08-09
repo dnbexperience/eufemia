@@ -15,8 +15,8 @@
   "dependencies": {
     "core-js": "^2",
     "dnb-ui-lib": "*",
-    "react": "^16.8.4",
-    "react-dom": "^16.8.4"
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
   },
   "devDependencies": {
     "@babel/core": "^7.4.3",

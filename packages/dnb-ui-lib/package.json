@@ -25,7 +25,7 @@
     "prebuild:update": "babel-node ./scripts/prepub/updateAndPrepub.js",
     "prebuildOnly:disabled": "yarn prebuild:update && jest --ci",
     "cdn": "live-server --no-browser --cors --port=8081",
-    "precommit": "if git-branch-is release; then yarn -v; else yarn lint-staged; fi",
+    "precommit": "yarn lint-staged",
     "dev": "nodemon --exec 'babel-node ./scripts/prepub/dev.js' --watch 'rollup.config.js' --ext js,html,json,css,scss --watch './src/components/**/*' --watch './src/style/**/*' --watch './scripts/**/*' --ignore '*.json'",
     "dev:convertIcons": "nodemon --exec 'babel-node ./scripts/tools/convertIcons' --ignore '/icons/**' --ignore '*.json'",
     "dev:prepareTemplates": "nodemon --exec 'yarn babel-node ./scripts/prepub/tasks/prepareTemplates.js' --ext js --watch './scripts/prepub/tasks/prepareTemplates.js'  --watch '**/index_template.js'",
@@ -79,7 +79,7 @@
     "body-scroll-lock": "^2.6.4",
     "classnames": "^2.2.6",
     "core-js": "^2",
-    "date-fns": "^1.30.1",
+    "date-fns": "^2.0.0-beta.4",
     "keycode": "^2.2.0",
     "react-text-mask": "^5.4.3",
     "what-input": "^5.2.3"
@@ -93,7 +93,7 @@
     "@babel/node": "^7.5.5",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
     "@babel/plugin-proposal-export-default-from": "^7.5.2",
-    "@babel/plugin-proposal-object-rest-spread": "^7.4.4",
+    "@babel/plugin-proposal-object-rest-spread": "^7.5.5",
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@babel/plugin-transform-object-assign": "^7.2.0",
     "@babel/plugin-transform-react-constant-elements": "^7.5.0",
@@ -139,7 +139,6 @@
     "figma-js": "^1.7.0",
     "files-exist": "^1.1.0",
     "fs-extra": "^8.1.0",
-    "git-branch-is": "^2.1.0",
     "globby": "^10.0.1",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
@@ -175,8 +174,8 @@
     "prop-types": "^15.7.2",
     "puppeteer": "^1.19.0",
     "raw-loader": "^3.1.0",
-    "react": "^16.8.4",
-    "react-dom": "^16.8.4",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
     "react-fake-props": "^0.3.2",
     "rollup": "^1.19.4",
     "rollup-plugin-babel": "^4.3.3",
@@ -184,11 +183,11 @@
     "rollup-plugin-node-globals": "^1.4.0",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-scss": "^1.0.2",
-    "sass-loader": "^7.1.0",
+    "sass-loader": "^7.2.0",
     "sass-variable-parser": "^1.2.2",
     "scss-to-json": "^2.0.0",
     "semantic-release": "^16.0.0-beta.19",
-    "simple-commit-message": "^4.0.5",
+    "simple-commit-message": "^4.0.7",
     "simple-git": "^1.124.0",
     "stream-buffers": "^3.0.2",
     "style-loader": "^1.0.0",
@@ -237,7 +236,13 @@
       [
         "@semantic-release/github",
         {
-          "assets": "dist/*.tgz"
+          "assets": "dist/dnb-ui-lib-${nextRelease.version}.tgz"
+        }
+      ],
+      [
+        "@semantic-release/git",
+        {
+          "message": "chore(release): ${nextRelease.version} [skip ci]"
         }
       ]
     ]

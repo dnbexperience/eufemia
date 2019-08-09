@@ -14,7 +14,10 @@ import Component from '../DatePicker'
 import DatePickerInput from '../DatePickerInput'
 
 // for the unit calc tests
-import { addDays, addMonths, getDaysInMonth } from 'date-fns'
+// import { addDays, addMonths, getDaysInMonth } from 'date-fns'
+import addDays from 'date-fns/addDays'
+import addMonths from 'date-fns/addMonths'
+import getDaysInMonth from 'date-fns/getDaysInMonth'
 import {
   toRange,
   dayOffset,

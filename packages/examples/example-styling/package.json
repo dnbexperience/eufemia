@@ -18,13 +18,13 @@
     "core-js": "^2"
   },
   "devDependencies": {
-    "@babel/core": "^7.4.5",
-    "@babel/plugin-proposal-class-properties": "^7.4.4",
+    "@babel/core": "^7.5.5",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
-    "@babel/preset-env": "^7.4.5",
+    "@babel/preset-env": "^7.5.5",
     "@babel/preset-react": "^7.0.0",
-    "@emotion/core": "^10.0.14",
-    "@emotion/styled": "^10.0.14",
+    "@emotion/core": "^10.0.15",
+    "@emotion/styled": "^10.0.15",
     "parcel-bundler": "^1.12.3"
   }
 }
