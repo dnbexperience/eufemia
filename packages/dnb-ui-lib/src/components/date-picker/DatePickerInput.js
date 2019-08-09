@@ -130,7 +130,6 @@ export default class DatePickerInput extends PureComponent {
     state._listenForPropChanges = true
     // set the input values
     if (DatePickerInput.isValidDate(state.startDate)) {
-      console.log('state.startDate', state.startDate)
       state._startDay = pad(format(state.startDate, 'dd'), 2)
       state._startMonth = pad(format(state.startDate, 'MM'), 2)
       state._startYear = format(state.startDate, 'yyyy')

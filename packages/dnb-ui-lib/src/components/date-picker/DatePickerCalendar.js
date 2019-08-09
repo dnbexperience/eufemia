@@ -157,6 +157,7 @@ export default class DatePickerCalendar extends PureComponent {
       minDate,
       hoverDate
     } = this.props
+
     const { startDate, endDate } = this.props
 
     this.days = getCalendar(
@@ -241,7 +242,7 @@ export default class DatePickerCalendar extends PureComponent {
           <tbody>
             <tr role="row" className="dnb-date-picker__days">
               {this.days.map((day, i) => {
-                const title = format(day.date, 'dddd, Do MMMM yyyy', {
+                const title = format(day.date, 'PPPP', {
                   locale
                 })
                 const isDisabled =

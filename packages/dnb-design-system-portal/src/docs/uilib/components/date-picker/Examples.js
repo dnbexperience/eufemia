@@ -56,9 +56,10 @@ class Example extends PureComponent {
 <DatePicker
   label="Hidden Nav:"
   date="2019/05/05"
+  date_format="yyyy/MM/dd"
+  return_format="dd/MM/yyyy"
   hide_navigation={true}
   hide_days={true}
-  return_format="DD/MM/YYYY"
   on_change={({ date }) => {
     console.log('on_change', date)
   }}
@@ -72,7 +73,8 @@ class Example extends PureComponent {
           {/* @jsx */ `
 <DatePicker
   label="Show month only:"
-  date="2019/02/05"
+  date="05/02/2019"
+  date_format="MM/dd/yyyy"
   only_month={true}
 />
           `}
@@ -127,7 +129,7 @@ const ScreenshotTests = () => {
 <DatePicker
   label="Default DatePicker:"
   date="2019-05-05"
-  return_format="DD-MM-YYYY"
+  return_format="dd-MM-yyyy"
   on_change={({ date }) => {
     console.log('on_change', date)
   }}

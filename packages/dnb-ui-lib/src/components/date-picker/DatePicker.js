@@ -20,8 +20,9 @@ import { createSpacingClasses } from '../space/SpacingHelper'
 // date-fns
 import format from 'date-fns/format'
 import toDate from 'date-fns/toDate'
-// import parseISO from 'date-fns/parseISO'
-import parseISO from 'date-fns/parse'
+import isValid from 'date-fns/isValid'
+import parseISO from 'date-fns/parseISO'
+import parse from 'date-fns/parse'
 import differenceInCalendarDays from 'date-fns/differenceInCalendarDays'
 import nbLocale from 'date-fns/locale/nb'
 
@@ -76,6 +77,7 @@ export const propTypes = {
   ]),
   mask_order: PropTypes.string,
   mask_placeholder: PropTypes.string,
+  date_format: PropTypes.string,
   return_format: PropTypes.string,
   hide_navigation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   hide_navigation_buttons: PropTypes.oneOfType([
@@ -138,7 +140,8 @@ export const defaultProps = {
   end_month: null,
   mask_order: 'dd/mm/yyyy',
   mask_placeholder: 'dd/mm/åååå', // have to be same setup as "mask" - but can be like: dd/mm/åååå
-  return_format: 'YYYY-MM-DD',
+  date_format: 'yyyy-MM-dd', // in v1 of date-fns we where more flexible in terms of the format
+  return_format: 'yyyy-MM-dd', // used in date-fns v1: YYYY-MM-DD
   hide_navigation: false,
   hide_navigation_buttons: false,
   hide_days: false,
@@ -189,6 +192,7 @@ export default class DatePicker extends PureComponent {
   static getDerivedStateFromProps(props, state) {
     if (state._listenForPropChanges) {
       let startDate = null
+      const date_format = props.date_format
       if (props.date) {
         startDate = props.date
       }
@@ -196,40 +200,76 @@ export default class DatePicker extends PureComponent {
         startDate = props.start_date
       }
       if (startDate) {
-        state.startDate = DatePicker.convertStringToDate(startDate)
+        state.startDate = DatePicker.convertStringToDate(startDate, {
+          date_format
+        })
         if (!isTrue(props.range)) {
           state.endDate = state.startDate
         }
       }
       if (props.end_date) {
-        state.endDate = DatePicker.convertStringToDate(props.end_date)
+        state.endDate = DatePicker.convertStringToDate(props.end_date, {
+          date_format
+        })
       }
       if (props.month) {
-        state.month = DatePicker.convertStringToDate(props.month)
+        state.month = DatePicker.convertStringToDate(props.month, {
+          date_format
+        })
       }
       if (props.start_month) {
         state.startMonth = DatePicker.convertStringToDate(
-          props.start_month
+          props.start_month,
+          {
+            date_format
+          }
         )
       }
       if (props.end_month) {
-        state.endMonth = DatePicker.convertStringToDate(props.end_month)
+        state.endMonth = DatePicker.convertStringToDate(props.end_month, {
+          date_format
+        })
       }
       if (props.min_date) {
-        state.minDate = DatePicker.convertStringToDate(props.min_date)
+        state.minDate = DatePicker.convertStringToDate(props.min_date, {
+          date_format
+        })
       }
       if (props.max_date) {
-        state.maxDate = DatePicker.convertStringToDate(props.max_date)
+        state.maxDate = DatePicker.convertStringToDate(props.max_date, {
+          date_format
+        })
       }
     }
     state._listenForPropChanges = true
     return state
   }
 
-  static convertStringToDate(date) {
-    return typeof date === Date
-      ? toDate(date)
-      : parseISO(date, 'yyyy-MM-dd', new Date())
+  static convertStringToDate(date, { date_format = null } = {}) {
+    let dateObject
+    dateObject = typeof date === 'string' ? parseISO(date) : toDate(date)
+
+    if (typeof date === 'string' && date_format && !isValid(dateObject)) {
+      date_format = DatePicker.correctV1Format(date_format)
+      dateObject = parse(date, date_format, new Date())
+    }
+
+    return dateObject
+  }
+
+  static correctV1Format(return_format) {
+    // for backwords compatibility
+    // TODO: Remvoe this in next major version
+    if (/YYYY/.test(return_format) && /DD/.test(return_format)) {
+      console.warn(
+        'You are using "YYYY-MM-DD" as the return_format? Please use "yyyy-MM-dd" instead!'
+      )
+      return_format = return_format
+        .replace(/DD/, 'dd')
+        .replace(/YYYY/, 'yyyy')
+    }
+
+    return return_format
   }
 
   constructor(props) {
@@ -385,13 +425,18 @@ export default class DatePicker extends PureComponent {
   }
 
   onCancelHandler = args => {
+    const { date_format } = this.props
     this.setState(
       {
         startDate: this.state._startDate
-          ? DatePicker.convertStringToDate(this.state._startDate)
+          ? DatePicker.convertStringToDate(this.state._startDate, {
+              date_format
+            })
           : null,
         endDate: this.state._endDate
-          ? DatePicker.convertStringToDate(this.state._endDate)
+          ? DatePicker.convertStringToDate(this.state._endDate, {
+              date_format
+            })
           : null
       },
       () => {
@@ -468,27 +513,26 @@ export default class DatePicker extends PureComponent {
 
   getReturnObject({ event = null } = {}) {
     const { startDate, endDate } = this.state
-
     const attributes = this.attributes || {}
+    const return_format = DatePicker.correctV1Format(
+      this.props.return_format
+    )
 
     return isTrue(this.props.range)
       ? {
           event,
           attributes,
-          days_between: endDate
-            ? differenceInCalendarDays(endDate, startDate)
-            : null,
-          start_date: startDate
-            ? format(startDate, this.props.return_format)
-            : null,
-          end_date: endDate
-            ? format(endDate, this.props.return_format)
-            : null
+          days_between:
+            startDate && endDate
+              ? differenceInCalendarDays(endDate, startDate)
+              : null,
+          start_date: startDate ? format(startDate, return_format) : null,
+          end_date: endDate ? format(endDate, return_format) : null
         }
       : {
           event,
           attributes,
-          date: format(startDate, this.props.return_format)
+          date: (startDate && format(startDate, return_format)) || null
         }
   }
 
@@ -520,6 +564,8 @@ export default class DatePicker extends PureComponent {
       align_picker,
 
       hide_navigation: _hide_navigation, // eslint-disable-line
+      return_format: _return_format, // eslint-disable-line
+      date_format: _date_format, // eslint-disable-line
       hide_days: _hide_days, // eslint-disable-line
       month: _month, // eslint-disable-line
       start_date: _start_date, // eslint-disable-line

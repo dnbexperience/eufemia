@@ -6,6 +6,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
   custom_element={null}
   custom_method={null}
   date="1970-01-01T00:00:00.000Z"
+  date_format="yyyy-MM-dd"
   direction="auto"
   disabled={null}
   end_date="2019-02-15T00:00:00.000Z"
@@ -20,27 +21,32 @@ exports[`DatePicker component have to match snapshot 1`] = `
   link={false}
   locale={
     Object {
-      "distanceInWords": Object {
-        "localize": [Function],
+      "formatDistance": [Function],
+      "formatLong": Object {
+        "date": [Function],
+        "dateTime": [Function],
+        "time": [Function],
       },
-      "format": Object {
-        "formatters": Object {
-          "A": [Function],
-          "DDDo": [Function],
-          "Do": [Function],
-          "MMM": [Function],
-          "MMMM": [Function],
-          "Mo": [Function],
-          "Qo": [Function],
-          "Wo": [Function],
-          "a": [Function],
-          "aa": [Function],
-          "dd": [Function],
-          "ddd": [Function],
-          "dddd": [Function],
-          "do": [Function],
-        },
-        "formattingTokensRegExp": /\\(\\\\\\[\\[\\^\\\\\\[\\]\\*\\\\\\]\\)\\|\\(\\\\\\\\\\)\\?\\(x\\|ss\\|s\\|mm\\|m\\|hh\\|h\\|do\\|dddd\\|ddd\\|dd\\|d\\|aa\\|a\\|ZZ\\|Z\\|YYYY\\|YY\\|X\\|Wo\\|WW\\|W\\|SSS\\|SS\\|S\\|Qo\\|Q\\|Mo\\|MMMM\\|MMM\\|MM\\|M\\|HH\\|H\\|GGGG\\|GG\\|E\\|Do\\|DDDo\\|DDDD\\|DDD\\|DD\\|D\\|A\\|\\.\\)/g,
+      "formatRelative": [Function],
+      "localize": Object {
+        "day": [Function],
+        "dayPeriod": [Function],
+        "era": [Function],
+        "month": [Function],
+        "ordinalNumber": [Function],
+        "quarter": [Function],
+      },
+      "match": Object {
+        "day": [Function],
+        "dayPeriod": [Function],
+        "era": [Function],
+        "month": [Function],
+        "ordinalNumber": [Function],
+        "quarter": [Function],
+      },
+      "options": Object {
+        "firstWeekContainsDate": 4,
+        "weekStartsOn": 1,
       },
     }
   }
@@ -59,7 +65,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
   opened={false}
   range={true}
   reset_date={true}
-  return_format="YYYY-MM-DD"
+  return_format="yyyy-MM-dd"
   show_cancel_button={null}
   show_input={true}
   show_submit_button={null}
