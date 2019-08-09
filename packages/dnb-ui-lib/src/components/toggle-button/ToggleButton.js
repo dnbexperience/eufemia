@@ -198,9 +198,9 @@ export default class ToggleButton extends Component {
     }
   }
 
-  onClickHandler = event => {
+  onClickHandler = ({ event }) => {
     if (isTrue(this.props.readOnly)) {
-      return event.preventDefault && event.preventDefault()
+      return event.preventDefault()
     }
 
     // only select a value once

@@ -106,7 +106,6 @@
     "@emotion/styled": "^10.0.15",
     "@semantic-release/changelog": "^3.0.4",
     "@semantic-release/commit-analyzer": "^6.2.0",
-    "@semantic-release/git": "^7.0.16",
     "@semantic-release/github": "^5.4.2",
     "@semantic-release/npm": "^5.1.13",
     "@semantic-release/release-notes-generator": "^7.2.1",
@@ -199,52 +198,5 @@
     "tar": "^4.4.10",
     "text-mask-addons": "^3.8.0",
     "traverse": "^0.6.6"
-  },
-  "release": {
-    "ci": true,
-    "debug": false,
-    "dryRun": false,
-    "branches": [
-      "+([1-9])?(.{+([1-9]),x}).x",
-      "release",
-      "next",
-      {
-        "name": "beta",
-        "prerelease": true
-      },
-      {
-        "name": "alpha",
-        "prerelease": true
-      }
-    ],
-    "analyzeCommits": "simple-commit-message",
-    "plugins": [
-      "@semantic-release/commit-analyzer",
-      "@semantic-release/release-notes-generator",
-      [
-        "@semantic-release/changelog",
-        {
-          "changelogTitle": "# Changelog\n\nAll notable changes to this project will be documented in this file. See\n[Conventional Commits](https://conventionalcommits.org) for commit guidelines."
-        }
-      ],
-      [
-        "@semantic-release/npm",
-        {
-          "tarballDir": "dist"
-        }
-      ],
-      [
-        "@semantic-release/github",
-        {
-          "assets": "dist/dnb-ui-lib-${nextRelease.version}.tgz"
-        }
-      ],
-      [
-        "@semantic-release/git",
-        {
-          "message": "chore(release): ${nextRelease.version} [skip ci]"
-        }
-      ]
-    ]
   }
 }
