@@ -9,8 +9,6 @@ import { Wrapper, Box } from '../helpers'
 
 import enLocale from 'date-fns/locale/en-US'
 
-// console.log('enLocale', enLocale)
-
 import { DatePicker, FormRow } from '../../src/components'
 
 export default [
@@ -44,11 +42,15 @@ export default [
           />
           <DatePicker
             label="Hidden Nav:"
+            show_input
             // date="2019/05/05"
-            date="05/05/2019"
+            // start_date="05/05/2019"
             // hide_navigation={true}
             // hide_days={true}
+            submit_button_text="OK"
+            cancel_button_text="Cancel"
             date_format="dd/MM/yyyy"
+            range={true}
             // return_format="DD/MM/YYYY"
             return_format="YYYY/MM/DD"
             on_change={({ date }) => {

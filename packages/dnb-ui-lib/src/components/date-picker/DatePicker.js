@@ -95,6 +95,8 @@ export const propTypes = {
     PropTypes.string,
     PropTypes.bool
   ]),
+  submit_button_text: PropTypes.string,
+  cancel_button_text: PropTypes.string,
   reset_date: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   first_day: PropTypes.string,
   locale: PropTypes.object,
@@ -149,6 +151,8 @@ export const defaultProps = {
   show_input: false,
   show_submit_button: null,
   show_cancel_button: null,
+  submit_button_text: 'Ok',
+  cancel_button_text: 'Lukk',
   reset_date: true,
   first_day: 'monday',
   min_date: null,
@@ -257,19 +261,17 @@ export default class DatePicker extends PureComponent {
     return dateObject
   }
 
-  static correctV1Format(return_format) {
+  static correctV1Format(date) {
     // for backwords compatibility
     // TODO: Remvoe this in next major version
-    if (/YYYY/.test(return_format) && /DD/.test(return_format)) {
+    if (/YYYY/.test(date) && /DD/.test(date)) {
       console.warn(
-        'You are using "YYYY-MM-DD" as the return_format? Please use "yyyy-MM-dd" instead!'
+        'You are using "YYYY-MM-DD" as the date_format or return_format? Please use "yyyy-MM-dd" instead!'
       )
-      return_format = return_format
-        .replace(/DD/, 'dd')
-        .replace(/YYYY/, 'yyyy')
+      date = date.replace(/DD/, 'dd').replace(/YYYY/, 'yyyy')
     }
 
-    return return_format
+    return date
   }
 
   constructor(props) {
