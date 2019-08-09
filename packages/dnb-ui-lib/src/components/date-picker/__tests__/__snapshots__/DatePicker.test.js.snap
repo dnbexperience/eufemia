@@ -904,6 +904,7 @@ exports[`DatePicker scss have to match default theme snapshot 1`] = `
     box-shadow: none; }
   .dnb-date-picker__header__title {
     text-transform: capitalize;
+    text-align: center;
     color: var(--date-picker-header-color); }
   .dnb-date-picker__labels__day {
     text-transform: capitalize;
@@ -1881,6 +1882,12 @@ legend.dnb-form-label {
         left: 0;
         margin: auto; }
       .dnb-date-picker__day .dnb-button__text {
-        transform: translateX(-50%) !important; } }
+        transform: translateX(-50%) !important; }
+      .dnb-date-picker__header__nav:nth-of-type(2) {
+        order: 2; }
+      .dnb-date-picker__header__title {
+        width: 100%; }
+      .dnb-date-picker__header::after {
+        left: 0; } }
 "
 `;
