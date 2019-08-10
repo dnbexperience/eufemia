@@ -193,6 +193,17 @@ describe('Dropdown component', () => {
     )
   })
 
+  it('has to return all additional attributes the event return', () => {
+    const my_event = jest.fn()
+    const params = { 'data-attr': 'value' }
+    const Comp = mount(
+      <Component {...props} on_show={my_event} {...params} />
+    )
+    Comp.find('button').simulate('mousedown')
+    expect(my_event.mock.calls.length).toBe(1)
+    expect(my_event.mock.calls[0][0].attributes).toMatchObject(params)
+  })
+
   it('has correct selected value', () => {
     const Comp = mount(<Component {...props} data={mockData} />)
     expect(Comp.find('.dnb-dropdown__text__inner').text()).toBe(

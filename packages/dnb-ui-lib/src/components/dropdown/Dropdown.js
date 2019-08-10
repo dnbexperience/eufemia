@@ -312,8 +312,10 @@ export default class Dropdown extends PureComponent {
         })
       }
     )
+    const attributes = this.attributes || {}
     dispatchCustomElementEvent(this, 'on_show', {
-      data: Dropdown.getOptionData(selected_item, this.state.data)
+      data: Dropdown.getOptionData(selected_item, this.state.data),
+      attributes
     })
   }
   setHidden = () => {
@@ -337,11 +339,13 @@ export default class Dropdown extends PureComponent {
     this.removeDirectionObserver()
     this.removeScrollObserver()
     this.removeOutsideClickObserver()
+    const attributes = this.attributes || {}
     dispatchCustomElementEvent(this, 'on_hide', {
       data: Dropdown.getOptionData(
         this.state.selected_item,
         this.state.data
-      )
+      ),
+      attributes
     })
     this.blockDoubleClick = false
   }
@@ -406,11 +410,13 @@ export default class Dropdown extends PureComponent {
       () => {
         const { selected_item } = this.state
         if (fireSelectEvent) {
+          const attributes = this.attributes || {}
           const ret = dispatchCustomElementEvent(this, 'on_select', {
             selected_item,
             active_item,
             data: Dropdown.getOptionData(active_item, this.state.data),
-            event
+            event,
+            attributes
           })
           if (ret === false) return
         }
@@ -557,20 +563,24 @@ export default class Dropdown extends PureComponent {
       // to make sure we call "on_change" on startup
       this.state.selectedItemHasChanged === false
     ) {
+      const attributes = this.attributes || {}
       dispatchCustomElementEvent(this, 'on_change', {
         selected_item,
         data: Dropdown.getOptionData(selected_item, this.state.data),
-        event
+        event,
+        attributes
       })
     }
 
     const onSelectionIsComplete = () => {
       if (fireSelectEvent) {
+        const attributes = this.attributes || {}
         dispatchCustomElementEvent(this, 'on_select', {
           selected_item,
           active_item: selected_item,
           data: Dropdown.getOptionData(selected_item, this.state.data),
-          event
+          event,
+          attributes
         })
       }
       if (this._selectTimeout) {
@@ -851,6 +861,9 @@ export default class Dropdown extends PureComponent {
     validateDOMAttributes(this.props, triggerParams)
     validateDOMAttributes(null, listParams)
     validateDOMAttributes(null, ulParams)
+
+    // make it pissible to grab the rest attributes and return it with all events
+    this.attributes = validateDOMAttributes(null, attributes)
 
     return (
       <span {...mainParams}>
