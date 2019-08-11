@@ -223,6 +223,7 @@ export default class Textarea extends PureComponent {
     const textareaParams = {
       ...renderProps,
       className: classnames('dnb-textarea__textarea', textarea_class),
+      role: 'textbox',
       value: value || '',
       id,
       disabled,
@@ -244,7 +245,9 @@ export default class Textarea extends PureComponent {
       textareaParams['aria-labelledby'] = id + '-label'
     }
 
-    const shellParams = {}
+    const shellParams = {
+      className: 'dnb-textarea__shell'
+    }
     if (isTrue(disabled)) {
       shellParams['aria-disabled'] = true
     }
@@ -264,8 +267,7 @@ export default class Textarea extends PureComponent {
       )
     }
 
-    const clampParams = {
-      role: 'textbox',
+    const innerParams = {
       className: 'dnb-textarea__inner'
     }
 
@@ -299,8 +301,8 @@ export default class Textarea extends PureComponent {
             direction={label_direction}
           />
         )}
-        <span {...clampParams}>
-          <span className="dnb-textarea__shell" {...shellParams}>
+        <span {...innerParams}>
+          <span {...shellParams}>
             {TextareaElement || (
               <textarea ref={this._ref} {...textareaParams} />
             )}

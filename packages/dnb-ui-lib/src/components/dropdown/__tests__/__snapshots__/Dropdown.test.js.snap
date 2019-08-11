@@ -2,6 +2,7 @@
 
 exports[`Dropdown component have to match snapshot 1`] = `
 <Dropdown
+  align_dropdown={null}
   class="class"
   className="className"
   custom_element={Object {}}
@@ -62,6 +63,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
   label="label"
   label_direction="horizontal"
   max_height={1}
+  more_menu={null}
   no_animation={true}
   no_scroll_animation="no_scroll_animation"
   on_change={[Function]}
@@ -71,10 +73,10 @@ exports[`Dropdown component have to match snapshot 1`] = `
   on_state_update={[Function]}
   open_on_focus="open_on_focus"
   opened="opened"
-  popup_menu={null}
-  prevent_selection="prevent_selection"
+  prevent_selection={null}
   scrollable={true}
   selected_item={2}
+  size={null}
   status="status"
   status_animation="status_animation"
   status_state="error"
@@ -197,7 +199,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
                       height={null}
                       icon="icon"
                       modifier={null}
-                      size={null}
+                      size="default"
                       title={null}
                       width={null}
                     />
@@ -248,7 +250,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
                   height={null}
                   icon="icon"
                   modifier={null}
-                  size={null}
+                  size="default"
                   title={null}
                   width={null}
                 />
@@ -977,11 +979,13 @@ legend.dnb-form-label {
 :root {
   --dropdown-width: 16rem;
   --dropdown-height: 2rem;
+  --dropdown-height--small: 1.5rem;
+  --dropdown-height--medium: 2.5rem;
+  --dropdown-height--large: 3rem;
   --dropdown-padding-horizontal: 1rem;
   --dropdown-border-width: 0.0625rem;
   --dropdown-focus-border-width: 0.125rem;
-  --dropdown-text-padding: 0.5rem;
-  --dropdown-border-radius: calc(var(--dropdown-height) / 2); }
+  --dropdown-text-padding: 0.5rem; }
 
 @keyframes dropdownSlideDown {
   from {
@@ -1139,20 +1143,50 @@ legend.dnb-form-label {
     width: 100%; }
   .dnb-dropdown--is-popup .dnb-dropdown__list {
     left: calc(1px - 2px - var(--dropdown-padding-horizontal) / 2); }
-  .dnb-dropdown--scroll.dnb-dropdown--is-popup .dnb-dropdown__options {
+  .dnb-dropdown--is-popup.dnb-dropdown--scroll .dnb-dropdown__options {
     min-height: 1rem; }
-  .dnb-dropdown__popup--small .dnb-dropdown__shell,
-  .dnb-dropdown__popup--small .dnb-dropdown__trigger {
-    width: calc(var(--dropdown-height) / 1.333);
-    height: calc(var(--dropdown-height) / 1.333); }
-  .dnb-dropdown__popup--small .dnb-dropdown__trigger.dnb-button {
-    line-height: calc(var(--dropdown-height) / 1.333); }
-  .dnb-dropdown__popup--small .dnb-dropdown__list {
-    top: calc(var(--dropdown-height) / 1.333);
-    left: calc(1px - 2px - var(--dropdown-padding-horizontal) / 1.333); }
-  .dnb-dropdown__popup--small.dnb-dropdown--direction-top .dnb-dropdown__list {
+  .dnb-dropdown--is-popup.dnb-dropdown__size--small .dnb-dropdown__shell,
+  .dnb-dropdown--is-popup.dnb-dropdown__size--small .dnb-dropdown__trigger {
+    width: var(--dropdown-height--small); }
+  .dnb-dropdown--is-popup.dnb-dropdown__size--small .dnb-dropdown__list {
+    left: calc(1px - 2px - var(--dropdown-height--small) / 2); }
+  .dnb-dropdown--is-popup.dnb-dropdown__align--right .dnb-dropdown__list {
+    left: auto;
+    right: calc(1px - 2px - var(--dropdown-padding-horizontal) / 2); }
+  .dnb-dropdown--is-popup.dnb-dropdown__align--right.dnb-dropdown__size--small .dnb-dropdown__list {
+    right: calc(1px - 2px - var(--dropdown-height--small) / 2); }
+  .dnb-dropdown__size--small .dnb-dropdown__shell,
+  .dnb-dropdown__size--small .dnb-dropdown__trigger {
+    height: var(--dropdown-height--small); }
+  .dnb-dropdown__size--small .dnb-dropdown__trigger.dnb-button {
+    line-height: var(--dropdown-height--small); }
+  .dnb-dropdown__size--small .dnb-dropdown__list {
+    top: var(--dropdown-height--small); }
+  .dnb-dropdown__size--small.dnb-dropdown--direction-top .dnb-dropdown__list {
     top: auto;
-    bottom: calc(var(--dropdown-height) / 1.333); }
+    bottom: var(--dropdown-height--small); }
+  .dnb-dropdown__size--medium .dnb-dropdown__shell,
+  .dnb-dropdown__size--medium .dnb-dropdown__trigger {
+    height: var(--dropdown-height--medium);
+    border-radius: var(--dropdown-height--medium); }
+  .dnb-dropdown__size--medium .dnb-dropdown__trigger.dnb-button {
+    line-height: var(--dropdown-height--medium); }
+  .dnb-dropdown__size--medium .dnb-dropdown__list {
+    top: var(--dropdown-height--medium); }
+  .dnb-dropdown__size--medium.dnb-dropdown--direction-top .dnb-dropdown__list {
+    top: auto;
+    bottom: var(--dropdown-height--medium); }
+  .dnb-dropdown__size--large .dnb-dropdown__shell,
+  .dnb-dropdown__size--large .dnb-dropdown__trigger {
+    height: var(--dropdown-height--large);
+    border-radius: var(--dropdown-height--large); }
+  .dnb-dropdown__size--large .dnb-dropdown__trigger.dnb-button {
+    line-height: var(--dropdown-height--large); }
+  .dnb-dropdown__size--large .dnb-dropdown__list {
+    top: var(--dropdown-height--large); }
+  .dnb-dropdown__size--large.dnb-dropdown--direction-top .dnb-dropdown__list {
+    top: auto;
+    bottom: var(--dropdown-height--large); }
   .dnb-dropdown__text {
     order: 1;
     position: relative;

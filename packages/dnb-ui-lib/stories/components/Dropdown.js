@@ -143,11 +143,12 @@ const DropdownStory = () => {
         </FormRow>
       </Box>
       <Box>
-        Popup Menu{' '}
+        Popup Menu
         <Dropdown
+          left="small"
           right="small"
-          popup_menu="small"
-          // popup_menu="true"
+          size="small"
+          more_menu={true}
           title="Choose an item"
           data={['Go this this Link', 'Or to this one']}
           on_change={({ selected_item }) => {
@@ -158,7 +159,20 @@ const DropdownStory = () => {
           }}
         />
         <Dropdown
-          popup_menu="true"
+          right="small"
+          more_menu="true"
+          title="Choose an item"
+          data={['Go this this Link', 'Or to this one']}
+          on_change={({ selected_item }) => {
+            console.log('on_change', selected_item)
+          }}
+          on_select={({ active_item }) => {
+            console.log('on_select', active_item)
+          }}
+        />
+        <Dropdown
+          prevent_selection="true"
+          align_dropdown="right"
           title="Choose an item"
           data={['Go this this Link', 'Or to this one']}
           on_change={({ selected_item }) => {
@@ -188,6 +202,21 @@ const DropdownStory = () => {
         <Dropdown
           data={dropdownData}
           id="text-dropdown-1"
+          size="small"
+          icon_position="left"
+          selected_item={2}
+        />
+        <Dropdown
+          data={dropdownData}
+          id="text-dropdown-1"
+          size="medium"
+          icon_position="left"
+          selected_item={2}
+        />
+        <Dropdown
+          data={dropdownData}
+          id="text-dropdown-1"
+          size="large"
           icon_position="left"
           selected_item={2}
         />

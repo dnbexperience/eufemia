@@ -17,7 +17,7 @@ export default [
       <Box>
         <Provider formRow={{ vertical: true }}>
           <FormRow>
-            <Textarea value="Text" />
+            <Textarea value="Text" label="Label:" />
           </FormRow>
         </Provider>
       </Box>
