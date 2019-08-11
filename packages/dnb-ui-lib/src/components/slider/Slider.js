@@ -499,6 +499,10 @@ export default class Slider extends PureComponent {
       onTouchStartCapture: this.onTouchStartHandler,
       onTouchMove: this.onMouseMoveHandler
     }
+    if (label) {
+      trackParams['aria-labelledby'] = id + '-label'
+    }
+
     const thumbParams = {
       title,
       disabled,
