@@ -10,14 +10,6 @@ import { ErrorHandler } from './error-helper'
 // import "custom-element-polyfill" - insted of import 'document-register-element' // https://github.com/WebReflection/document-register-element
 // This way we can controll the execution of the polyfill with customElementPolyfill()
 import customElementPolyfill from './custom-element-polyfill'
-if (
-  typeof window !== 'undefined'
-  // && (typeof window.customElements === 'undefined' ||
-  //   typeof window.customElements.define === 'undefined')
-) {
-  //always run the customElementPolyfill unlress we are in the build process
-  customElementPolyfill(window)
-}
 
 export const registeredElements = (global.registeredElements =
   global.registeredElements || [])
@@ -37,6 +29,12 @@ export const registerElement = (
 
   if (typeof document === 'undefined' || typeof window === 'undefined') {
     return null
+  }
+
+  //always run the customElementPolyfill unlress we are in the build process
+  if (!global.registeredElements.hasPolyfill) {
+    global.registeredElements.hasPolyfill = true
+    customElementPolyfill(window)
   }
 
   if (propNames) {
