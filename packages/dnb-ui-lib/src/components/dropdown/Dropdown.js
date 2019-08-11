@@ -63,7 +63,9 @@ export const propTypes = {
     PropTypes.string,
     PropTypes.bool
   ]),
-  popup_menu: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  more_menu: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  size: PropTypes.oneOf(['default', 'small']),
+  align_dropdown: PropTypes.oneOf(['left', 'right']),
   trigger_component: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
   data: PropTypes.oneOfType([
     PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
@@ -120,7 +122,9 @@ export const defaultProps = {
   no_animation: false,
   no_scroll_animation: false,
   prevent_selection: false,
-  popup_menu: false,
+  more_menu: false,
+  size: null,
+  align_dropdown: null,
   data: null,
   selected_item: null,
   open_on_focus: false,
@@ -602,7 +606,7 @@ export default class Dropdown extends PureComponent {
 
     if (
       isTrue(this.props.prevent_selection) ||
-      (this.props.popup_menu !== false && this.props.popup_menu !== null)
+      isTrue(this.props.more_menu)
     ) {
       onSelectionIsComplete()
     } else {
@@ -744,6 +748,8 @@ export default class Dropdown extends PureComponent {
       label_direction,
       icon: _icon, // eslint-disable-line
       icon_position: _icon_position, // eslint-disable-line
+      size,
+      align_dropdown,
       status,
       status_state,
       status_animation,
@@ -751,12 +757,12 @@ export default class Dropdown extends PureComponent {
       no_animation,
       no_scroll_animation,
       trigger_component: CustomTrigger,
-      popup_menu,
+      more_menu,
+      prevent_selection,
       className,
       class: _className,
       disabled,
 
-      prevent_selection: _prevent_selection, // eslint-disable-line
       direction: _direction, // eslint-disable-line
       max_height: _max_height, // eslint-disable-line
       id: _id, // eslint-disable-line
@@ -770,12 +776,12 @@ export default class Dropdown extends PureComponent {
 
     const id = this._id
 
-    const isPopupMenu = popup_menu !== false && popup_menu !== null
+    const isPopupMenu = isTrue(more_menu) || isTrue(prevent_selection)
     if (isPopupMenu) {
-      if (icon === null) {
+      if (icon === null && isTrue(more_menu)) {
         icon = 'more'
       }
-      if (icon_position === null) {
+      if (icon_position === null && align_dropdown !== 'right') {
         icon_position = 'left'
       }
     }
@@ -804,8 +810,10 @@ export default class Dropdown extends PureComponent {
         icon_position && `dnb-dropdown--icon-position-${icon_position}`,
         isPopupMenu && 'dnb-dropdown--is-popup',
         isPopupMenu &&
-          typeof popup_menu === 'string' &&
-          `dnb-dropdown__popup--${popup_menu}`,
+          typeof more_menu === 'string' &&
+          `dnb-dropdown__more_menu`,
+        size && `dnb-dropdown__size--${size}`,
+        align_dropdown && `dnb-dropdown__align--${align_dropdown}`,
         scrollable && 'dnb-dropdown--scroll',
         isTrue(no_scroll_animation) && 'dnb-dropdown--no-scroll-animation',
         status && `dnb-dropdown__status--${status_state}`,
@@ -914,7 +922,10 @@ export default class Dropdown extends PureComponent {
                   )}
                 >
                   {icon !== false && (
-                    <Icon icon={icon || 'chevron-down'} />
+                    <Icon
+                      icon={icon || 'chevron-down'}
+                      size={size === 'large' ? 'medium' : 'default'}
+                    />
                   )}
                 </span>
               </Button>

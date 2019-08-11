@@ -27,7 +27,10 @@ props.status_state = 'error'
 props.direction = 'bottom'
 props.label_direction = 'horizontal'
 props.selected_item = 2
-props.popup_menu = null
+props.more_menu = null
+props.prevent_selection = null
+props.align_dropdown = null
+props.size = null
 props.trigger_component = null
 
 const mockData = [
