@@ -25,6 +25,7 @@ import { isDisabled } from './DatePickerCalc'
 
 export const propTypes = {
   id: PropTypes.string,
+  title: PropTypes.string,
   maskOrder: PropTypes.string,
   maskPlaceholder: PropTypes.string,
   separatorRexExp: PropTypes.instanceOf(RegExp),
@@ -50,6 +51,7 @@ export const propTypes = {
 
 export const defaultProps = {
   id: null,
+  title: null,
   maskOrder: 'dd/mm/yyyy',
   maskPlaceholder: 'dd/mm/åååå',
   separatorRexExp: /[-/ ]/g,
@@ -496,6 +498,7 @@ export default class DatePickerInput extends PureComponent {
   render() {
     const {
       id,
+      title,
 
       submitAttributes,
       range /* eslint-disable-line */,
@@ -540,7 +543,7 @@ export default class DatePickerInput extends PureComponent {
             id={id}
             disabled={disabled}
             className={opened ? 'dnb-button--active' : null}
-            // title={submit_button_title} // Not implemented yet
+            title={title}
             type="button"
             icon="calendar"
             variant="secondary"

@@ -21,6 +21,7 @@ export default [
             label="Date Picker 1:"
             right="small"
             date="1981-01-15"
+            title="My Button"
           />
           <DatePicker
             label="Date Picker 2:"
