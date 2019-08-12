@@ -43,6 +43,7 @@ const renderProps = {
 
 export const propTypes = {
   id: PropTypes.string,
+  title: PropTypes.string,
   date: PropTypes.oneOfType([
     PropTypes.instanceOf(Date),
     PropTypes.string
@@ -134,6 +135,7 @@ export const propTypes = {
 
 export const defaultProps = {
   id: null,
+  title: null,
   date: null,
   start_date: null,
   end_date: null,
@@ -547,6 +549,7 @@ export default class DatePicker extends PureComponent {
 
     const {
       label,
+      title,
       label_direction,
       only_month,
       hide_navigation_buttons,
@@ -661,6 +664,7 @@ export default class DatePicker extends PureComponent {
           <span className="dnb-date-picker__shell">
             <DatePickerInput
               id={id}
+              title={title}
               disabled={isTrue(disabled)}
               maskOrder={mask_order}
               maskPlaceholder={mask_placeholder}

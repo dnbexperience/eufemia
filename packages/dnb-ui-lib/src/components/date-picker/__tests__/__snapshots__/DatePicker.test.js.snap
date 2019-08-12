@@ -77,6 +77,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
   status_state="error"
   submit_button_text="Ok"
   sync={true}
+  title={null}
 >
   <span
     className="dnb-date-picker dnb-date-picker__status--error dnb-date-picker--hidden dnb-date-picker--show-input dnb-date-picker--show-footer"
@@ -98,6 +99,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
           disabled={false}
           endDate={2019-02-15T00:00:00.000Z}
           id="date-picker-id"
+          inputElement={null}
           maskOrder="dd/mm/yyyy"
           maskPlaceholder="dd/mm/åååå"
           maxDate={null}
@@ -119,6 +121,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
               "aria-expanded": false,
             }
           }
+          title={null}
         >
           <Input
             align={null}

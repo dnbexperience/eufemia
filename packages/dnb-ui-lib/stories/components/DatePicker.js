@@ -21,6 +21,7 @@ export default [
             label="Date Picker 1:"
             right="small"
             date="1981-01-15"
+            title="My Button"
           />
           <DatePicker
             label="Date Picker 2:"
@@ -33,6 +34,7 @@ export default [
             align_picker="right"
             mask_placeholder="dd/mm/yyyy"
             locale={enLocale}
+            inputElement="input"
             first_day="sunday"
             return_format="DD/MM/YYYY"
             date="1981-01-15"

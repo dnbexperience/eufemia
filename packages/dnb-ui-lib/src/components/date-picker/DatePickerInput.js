@@ -25,6 +25,7 @@ import { isDisabled } from './DatePickerCalc'
 
 export const propTypes = {
   id: PropTypes.string,
+  title: PropTypes.string,
   maskOrder: PropTypes.string,
   maskPlaceholder: PropTypes.string,
   separatorRexExp: PropTypes.instanceOf(RegExp),
@@ -39,6 +40,11 @@ export const propTypes = {
   ]),
   status_state: PropTypes.string,
   status_animation: PropTypes.string,
+  inputElement: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node
+  ]),
   disabled: PropTypes.bool,
   opened: PropTypes.bool,
   showInput: PropTypes.bool,
@@ -50,6 +56,7 @@ export const propTypes = {
 
 export const defaultProps = {
   id: null,
+  title: null,
   maskOrder: 'dd/mm/yyyy',
   maskPlaceholder: 'dd/mm/åååå',
   separatorRexExp: /[-/ ]/g,
@@ -60,6 +67,7 @@ export const defaultProps = {
   status_animation: null,
   minDate: null,
   maxDate: null,
+  inputElement: null,
   disabled: null,
   opened: false,
   showInput: null,
@@ -418,12 +426,16 @@ export default class DatePickerInput extends PureComponent {
           },
           placeholderChar
         }
+
+        // this makes it possible to use a vanilla <input /> like: inputElement="input"
+        const Input = this.props.inputElement || InputElement
+
         switch (state) {
           case 'd':
             this.refList.push(this[`_${mode}DayRef`])
 
             return (
-              <InputElement
+              <Input
                 {...params}
                 id={`${this.props.id}-${mode}-day`}
                 key={'d' + i}
@@ -443,7 +455,7 @@ export default class DatePickerInput extends PureComponent {
             this.refList.push(this[`_${mode}MonthRef`])
 
             return (
-              <InputElement
+              <Input
                 {...params}
                 id={`${this.props.id}-${mode}-month`}
                 key={'m' + i}
@@ -463,7 +475,7 @@ export default class DatePickerInput extends PureComponent {
             this.refList.push(this[`_${mode}YearRef`])
 
             return (
-              <InputElement
+              <Input
                 {...params}
                 id={`${this.props.id}-${mode}-year`}
                 key={'y' + i}
@@ -496,6 +508,7 @@ export default class DatePickerInput extends PureComponent {
   render() {
     const {
       id,
+      title,
 
       submitAttributes,
       range /* eslint-disable-line */,
@@ -512,6 +525,7 @@ export default class DatePickerInput extends PureComponent {
       onSubmit /* eslint-disable-line */,
       onSubmitButtonFocus /* eslint-disable-line */,
       showInput /* eslint-disable-line */,
+      inputElement /* eslint-disable-line */,
       disabled,
       opened,
       status,
@@ -540,7 +554,7 @@ export default class DatePickerInput extends PureComponent {
             id={id}
             disabled={disabled}
             className={opened ? 'dnb-button--active' : null}
-            // title={submit_button_title} // Not implemented yet
+            title={title}
             type="button"
             icon="calendar"
             variant="secondary"
