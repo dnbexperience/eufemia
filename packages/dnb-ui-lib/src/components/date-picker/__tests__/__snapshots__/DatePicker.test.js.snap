@@ -99,6 +99,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
           disabled={false}
           endDate={2019-02-15T00:00:00.000Z}
           id="date-picker-id"
+          inputElement={null}
           maskOrder="dd/mm/yyyy"
           maskPlaceholder="dd/mm/åååå"
           maxDate={null}
