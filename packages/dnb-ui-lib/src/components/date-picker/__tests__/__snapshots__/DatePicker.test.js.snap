@@ -17,6 +17,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
   hide_navigation={false}
   hide_navigation_buttons={false}
   id="date-picker-id"
+  input_element={null}
   label={null}
   label_direction={null}
   link={false}
