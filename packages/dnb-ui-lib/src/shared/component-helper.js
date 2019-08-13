@@ -285,7 +285,7 @@ export const dispatchCustomElementEvent = (
           }
         }
       } catch (e) {
-        console.log('Error on handling dataset:', e)
+        console.warn('Error on handling dataset:', e)
       }
     }
   }
