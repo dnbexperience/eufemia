@@ -3,6 +3,8 @@
  *
  */
 
+import React from 'react'
+import { mount } from '../../core/jest/jestSetup'
 import {
   isTrue,
   extend,
@@ -194,20 +196,21 @@ describe('"dispatchCustomElementEvent" should', () => {
   it('call a custom event function, set as a property in props', () => {
     const my_event = jest.fn()
     const myEvent = jest.fn()
-    const element = {
+    const instance = {
       props: {
         my_event,
         myEvent
       }
     }
     const event = {}
-    dispatchCustomElementEvent(element, 'my_event', event)
+    dispatchCustomElementEvent(instance, 'my_event', event)
     expect(my_event.mock.calls.length).toBe(1)
     expect(myEvent.mock.calls.length).toBe(1)
   })
+
   it('call a custom event function, set as a property in props', () => {
     const fireEvent = jest.fn()
-    const element = {
+    const instance = {
       props: {
         custom_element: {
           fireEvent
@@ -215,9 +218,32 @@ describe('"dispatchCustomElementEvent" should', () => {
       }
     }
     const event = {}
-    dispatchCustomElementEvent(element, 'eventName', event)
+    dispatchCustomElementEvent(instance, 'eventName', event)
     expect(fireEvent.mock.calls.length).toBe(1)
     expect(fireEvent.mock.calls[0][0]).toBe('eventName')
+  })
+
+  it('call an event and return dataset properties as well "data-*" attributes', () => {
+    const my_event = jest.fn()
+    const instance = {
+      props: {
+        my_event
+      }
+    }
+    const renderedButton = mount(<button data-prop="value">Button</button>)
+    const currentTarget = renderedButton.find('button').getDOMNode()
+    const event = { currentTarget }
+    const attributes = {
+      'data-attr': 'value'
+    }
+    dispatchCustomElementEvent(instance, 'my_event', { event, attributes })
+    expect(my_event.mock.calls.length).toBe(1)
+    expect(
+      my_event.mock.calls[0][0].event.currentTarget.dataset
+    ).toMatchObject({
+      attr: 'value',
+      prop: 'value'
+    })
   })
 })
 

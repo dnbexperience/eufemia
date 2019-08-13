@@ -102,7 +102,7 @@ export const defaultProps = {
   trigger_icon_position: 'left',
   trigger_class: null,
   content_id: null,
-  close_title: 'Close Modal Window',
+  close_title: 'Lukk', // Close Modal Window
   hide_close_button: false,
   prevent_close: false,
   open_state: null,

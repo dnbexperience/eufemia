@@ -40,11 +40,7 @@ export const propTypes = {
   ]),
   status_state: PropTypes.string,
   status_animation: PropTypes.string,
-  inputElement: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
+  inputElement: PropTypes.string,
   disabled: PropTypes.bool,
   opened: PropTypes.bool,
   showInput: PropTypes.bool,

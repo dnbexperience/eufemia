@@ -872,7 +872,8 @@ a.dnb-button .dnb-button__text {
       max-height: 100vh;
       width: auto;
       height: auto;
-      overflow-y: scroll;
+      overflow-x: hidden;
+      overflow-y: auto;
       user-select: text;
       border: none;
       background: var(--color-white); }

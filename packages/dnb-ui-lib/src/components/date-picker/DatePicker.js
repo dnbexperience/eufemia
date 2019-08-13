@@ -110,6 +110,7 @@ export const propTypes = {
     PropTypes.node
   ]),
   label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
+  input_element: PropTypes.string,
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   status: PropTypes.oneOfType([
     PropTypes.string,
@@ -165,6 +166,7 @@ export const defaultProps = {
   sync: true,
   label: null,
   label_direction: null,
+  input_element: null,
   disabled: null,
   status: null,
   status_state: 'error',
@@ -560,6 +562,7 @@ export default class DatePicker extends PureComponent {
       locale,
       link,
       sync,
+      input_element,
       disabled,
       status,
       status_state,
@@ -573,6 +576,7 @@ export default class DatePicker extends PureComponent {
       date_format: _date_format, // eslint-disable-line
       hide_days: _hide_days, // eslint-disable-line
       month: _month, // eslint-disable-line
+      date: _date, // eslint-disable-line
       start_date: _start_date, // eslint-disable-line
       end_date: _end_date, // eslint-disable-line
       min_date: _min_date, // eslint-disable-line
@@ -674,6 +678,7 @@ export default class DatePicker extends PureComponent {
               minDate={minDate}
               maxDate={maxDate}
               showInput={showInput}
+              inputElement={input_element}
               opened={opened}
               status={status ? 'error' : null}
               status_state={status_state}

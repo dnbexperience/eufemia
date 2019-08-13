@@ -249,22 +249,63 @@ export const isTrue = value => {
   return false
 }
 
-export const dispatchCustomElementEvent = (element, eventName, event) => {
+export const dispatchCustomElementEvent = (
+  element,
+  eventName,
+  eventObject
+) => {
   let ret = null
 
-  if (element && element.props && element.props.custom_element) {
-    if (typeof element.props.custom_element.fireEvent === 'function') {
-      ret = element.props.custom_element.fireEvent(eventName, event)
+  // distribute dataset like "data-*" to both currentTarget and target
+  if (eventObject && eventObject.attributes && eventObject.event) {
+    const currentTarget = eventObject.event.currentTarget
+    if (currentTarget) {
+      try {
+        // 1. create new dataset, and copy if exists
+        const dataset = { ...(currentTarget.dataset || {}) }
+
+        // 2. copy in our attributes if they are of "data-" type
+        const attributes = { ...eventObject.attributes }
+        for (const i in attributes) {
+          if (/^data-/.test(i)) {
+            dataset[String(i).replace(/^data-/, '')] = attributes[i]
+          }
+        }
+
+        // 3. and distribute them to the targets. Use the for method because of immutability
+        for (const i in dataset) {
+          if (eventObject.event.currentTarget.dataset) {
+            eventObject.event.currentTarget.dataset[i] = dataset[i]
+          }
+          if (
+            eventObject.event.target &&
+            eventObject.event.target.dataset
+          ) {
+            eventObject.event.target.dataset[i] = dataset[i]
+          }
+        }
+      } catch (e) {
+        console.warn('Error on handling dataset:', e)
+      }
     }
   }
 
-  if (element && typeof element.props[eventName] === 'function') {
-    ret = element.props[eventName].apply(element, [event])
+  // call Web Component events
+  if (element && element.props && element.props.custom_element) {
+    if (typeof element.props.custom_element.fireEvent === 'function') {
+      ret = element.props.custom_element.fireEvent(eventName, eventObject)
+    }
   }
 
+  // call the default snail case event
+  if (element && typeof element.props[eventName] === 'function') {
+    ret = element.props[eventName].apply(element, [eventObject])
+  }
+
+  // call Syntetic React event camelCase naming events
   eventName = transformToReactEventCase(eventName)
   if (element && typeof element.props[eventName] === 'function') {
-    ret = element.props[eventName].apply(element, [event])
+    ret = element.props[eventName].apply(element, [eventObject])
   }
 
   return ret
