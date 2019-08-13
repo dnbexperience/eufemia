@@ -7,18 +7,6 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import keycode from 'keycode'
 
-// import {
-//   subMonths,
-//   addDays,
-//   addWeeks,
-//   addMonths,
-//   isSameMonth,
-//   isSameYear,
-//   setDate,
-//   lastDayOfMonth,
-//   differenceInMonths
-// } from 'date-fns'
-
 import subMonths from 'date-fns/subMonths'
 import addDays from 'date-fns/addDays'
 import addWeeks from 'date-fns/addWeeks'
@@ -175,7 +163,8 @@ export default class DatePickerRange extends PureComponent {
     this.props.onNav && this.props.onNav(this.state.views)
   }
 
-  onSelect = ({ event = null, ...args } = {}) => {
+  onSelect = ({ event: e, ...args } = {}) => {
+    const event = { ...e } // to make sure we have currentTarget later on
     this.setState({ ...args, _listenForPropChanges: false }, () => {
       const { startDate, endDate } = this.state
       this.props.onSelect &&
@@ -335,13 +324,18 @@ export default class DatePickerRange extends PureComponent {
         )[nr]
       }
 
-      this.setState(state)
-      setTimeout(() => {
+      this.setState(state, () => {
         this.callOnChange({ event })
         if (ref && ref.current) {
           ref.current.focus()
         }
-      }, 1)
+      })
+      // setTimeout(() => {
+      //   this.callOnChange({ event })
+      //   if (ref && ref.current) {
+      //     ref.current.focus()
+      //   }
+      // }, 1) // delay because of state update
     }
   }
 

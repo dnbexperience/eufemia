@@ -38,8 +38,27 @@ export default [
             first_day="sunday"
             return_format="DD/MM/YYYY"
             date="1981-01-15"
+            data-foo="bar"
+            on_show={props => {
+              console.log(
+                'on_show',
+                // props,
+                props.event.currentTarget.dataset
+              )
+            }}
+            on_hide={props => {
+              console.log(
+                'on_hide',
+                // props,
+                props.event.currentTarget.dataset
+              )
+            }}
             on_change={props => {
-              console.log('on_show', props)
+              console.log(
+                'on_change',
+                // props,
+                props.event.currentTarget.dataset
+              )
             }}
           />
           <DatePicker

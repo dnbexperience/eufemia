@@ -573,6 +573,7 @@ export default class DatePicker extends PureComponent {
       date_format: _date_format, // eslint-disable-line
       hide_days: _hide_days, // eslint-disable-line
       month: _month, // eslint-disable-line
+      date: _date, // eslint-disable-line
       start_date: _start_date, // eslint-disable-line
       end_date: _end_date, // eslint-disable-line
       min_date: _min_date, // eslint-disable-line
