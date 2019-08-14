@@ -1,0 +1,661 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlobalStatus component have to match snapshot 1`] = `
+<GlobalStatus
+  animation="animation"
+  class="class"
+  className="className"
+  default_title="default_title"
+  hidden={false}
+  icon="exclamation"
+  icon_size="icon_size"
+  render_content={[Function]}
+  show="show"
+  state="error"
+  status={null}
+  text="text"
+  text_id="text_id"
+  title="title"
+>
+  <Section
+    aria-hidden={true}
+    class={null}
+    className="dnb-global-status dnb-global-status--error dnb-global-status--animation dnb-global-status--has-content className class"
+    element="div"
+    hidden={false}
+    render_content={null}
+    style={null}
+    style_type="cherry-red"
+  >
+    <Element
+      aria-hidden={true}
+      className="dnb-section dnb-section--cherry-red dnb-global-status dnb-global-status--error dnb-global-status--animation dnb-global-status--has-content className class"
+      hidden={false}
+      is="div"
+    >
+      <div
+        aria-hidden={true}
+        className="dnb-section dnb-section--cherry-red dnb-global-status dnb-global-status--error dnb-global-status--animation dnb-global-status--has-content className class"
+        hidden={false}
+      >
+        <div
+          className="dnb-global-status__shell"
+        >
+          <IconPrimary
+            alt={null}
+            aria-hidden={true}
+            attributes={null}
+            class={null}
+            className={null}
+            color={null}
+            height={null}
+            icon="exclamation"
+            modifier={null}
+            size="icon_size"
+            title={null}
+            width={null}
+          >
+            <span
+              alt="exclamation"
+              aria-hidden={true}
+              className="dnb-icon"
+              role="img"
+            >
+              <exclamation>
+                <svg
+                  fill="none"
+                  height={16}
+                  viewBox="0 0 16 16"
+                  width={16}
+                >
+                  <path
+                    clipRule="evenodd"
+                    d="M8 1.75a.75.75 0 0 1 .75.75v7a.75.75 0 0 1-1.5 0v-7A.75.75 0 0 1 8 1.75zm-.893 10.357A1.25 1.25 0 0 1 8 11.75c.32 0 .646.11.893.357s.357.573.357.893c0 .32-.11.646-.357.893A1.249 1.249 0 0 1 8 14.25c-.32 0-.646-.11-.893-.357A1.249 1.249 0 0 1 6.75 13c0-.32.11-.646.357-.893z"
+                    fill="#000"
+                    fillRule="evenodd"
+                  />
+                </svg>
+              </exclamation>
+            </span>
+          </IconPrimary>
+          <div
+            className="dnb-global-status__content"
+          >
+            <p
+              className="dnb-global-status__title"
+            >
+              title
+            </p>
+            <p
+              className="dnb-global-status__message"
+              id="text_id"
+            >
+              text
+              <ul
+                className="dnb-ul"
+              >
+                <li>
+                  list item
+                   
+                  <Button
+                    bounding={false}
+                    class={null}
+                    className={null}
+                    custom_element={null}
+                    custom_method={null}
+                    disabled={null}
+                    href="#id"
+                    icon={null}
+                    icon_position="right"
+                    icon_size="default"
+                    id={null}
+                    innerRef={null}
+                    onClick={null}
+                    on_click={null}
+                    size={null}
+                    text="Gå til"
+                    title={null}
+                    type="button"
+                    variant="tertiary"
+                  >
+                    <a
+                      className="dnb-button dnb-button--tertiary dnb-button--has-text"
+                      href="#id"
+                      onClick={[Function]}
+                      onMouseOut={[Function]}
+                      type="button"
+                    >
+                      <Content
+                        bounding={false}
+                        class={null}
+                        className={null}
+                        content={null}
+                        custom_element={null}
+                        custom_method={null}
+                        disabled={null}
+                        href="#id"
+                        icon={null}
+                        icon_position="right"
+                        icon_size="default"
+                        id={null}
+                        innerRef={null}
+                        isIconOnly={false}
+                        onClick={null}
+                        on_click={null}
+                        size={null}
+                        text="Gå til"
+                        title={null}
+                        type="button"
+                        variant="tertiary"
+                      >
+                        <span
+                          className="dnb-button__text"
+                          key="button-text"
+                        >
+                          Gå til
+                        </span>
+                      </Content>
+                    </a>
+                  </Button>
+                </li>
+              </ul>
+            </p>
+          </div>
+        </div>
+      </div>
+    </Element>
+  </Section>
+</GlobalStatus>
+`;
+
+exports[`GlobalStatus scss have to match default theme snapshot 1`] = `
+"/*
+ * GlobalStatus theme
+ *
+ */
+.dnb-global-status--error .dnb-global-status__content {
+  color: var(--color-white); }
+
+.dnb-global-status--error .dnb-global-status__content .dnb-button {
+  color: var(--color-white); }
+
+:not([dnb-is-touch])
+.dnb-global-status--error .dnb-button--tertiary.dnb-button--has-text:not(:focus):not([disabled]):hover:not([disabled])
+.dnb-button__text::after {
+  border-bottom-color: var(--color-white); }
+
+.dnb-global-status--info .dnb-global-status__title {
+  background-color: inherit; }
+"
+`;
+
+exports[`GlobalStatus scss have to match snapshot 1`] = `
+"/*
+* DNB GlobalStatus
+*
+*/
+/**
+ * This file is only used to make components independent
+ * so that they can get imported individually, without the core styles
+ *
+ */
+/*
+ * Utilities
+ */
+/*
+ * Scopes
+ *
+ */
+/*
+ * Document Reset
+ *
+ */
+/*
+* DNB Button
+*
+*/
+/*
+* DNB icon
+*
+*/
+/*
+* Icon component
+*
+*/
+.dnb-icon {
+  display: inline-block;
+  vertical-align: baseline;
+  font-size: inherit;
+  line-height: 1em;
+  width: 1em;
+  height: 1em; }
+  .dnb-icon img,
+  .dnb-icon svg {
+    width: inherit;
+    height: inherit;
+    vertical-align: middle;
+    shape-rendering: geometricPrecision; }
+  .dnb-icon svg[width='100%'] {
+    width: inherit; }
+  .dnb-icon svg[height='100%'] {
+    height: inherit; }
+  .dnb-icon svg:not([fill]),
+  .dnb-icon svg [fill] {
+    fill: currentColor; }
+  .dnb-icon svg [stroke] {
+    stroke: currentColor; }
+  .dnb-icon--small {
+    width: 0.75rem;
+    height: 0.75rem; }
+  .dnb-icon--default {
+    width: 1rem;
+    height: 1rem; }
+  .dnb-icon--medium {
+    width: 1.5rem;
+    height: 1.5rem; }
+  .dnb-icon--large {
+    width: 2rem;
+    height: 2rem; }
+  .dnb-icon--x-large {
+    width: 2.5rem;
+    height: 2.5rem; }
+  .dnb-icon--xx-large {
+    width: 3rem;
+    height: 3rem; }
+  .dnb-icon--custom-size {
+    width: auto;
+    height: auto; }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-icon {
+      flex: none; } }
+
+.dnb-button {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-default);
+  font-size: 1rem;
+  font-style: normal;
+  line-height: 1.5rem;
+  color: var(--color-black-80, #333);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  font-variant-numeric: lining-nums;
+  font-feature-settings: \\"lnum\\";
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-button *,
+  .dnb-button ::before,
+  .dnb-button ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-button ::before,
+  .dnb-button ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+* Button component
+*
+*/
+:root {
+  --button-font-size: var(--font-size-default);
+  --button-font-size-small: var(--font-size-small);
+  --button-width: 2.5rem;
+  --button-height: 2.5rem;
+  --button-width--small: 1.5rem;
+  --button-height--small: 1.5rem;
+  --button-width--medium: 2rem;
+  --button-height--medium: 2rem;
+  --button-width--large: 3rem;
+  --button-height--large: 3rem;
+  --button-icon-size: 1rem;
+  --button-border-width: 0.0625rem;
+  --button-border-width--hover: 0.1875rem;
+  --button-border-radius: calc(var(--button-height) / 2);
+  --button-border-radius--small: calc(var(--button-height--small) / 2);
+  --button-border-radius--medium: calc(var(--button-height--medium) / 2);
+  --button-border-radius--large: calc(var(--button-height--large) / 2); }
+
+.dnb-button {
+  cursor: pointer;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--button-width);
+  height: var(--button-height);
+  padding: 0;
+  border: var(--button-border-width) solid transparent;
+  border-radius: var(--button-border-radius);
+  text-decoration: none; }
+  .dnb-button,
+  .dnb-core-style .dnb-button {
+    font-size: var(--button-font-size);
+    line-height: var(--button-height); }
+  .dnb-button__icon {
+    line-height: 1em; }
+    .dnb-button__icon:not(.dnb-icon) svg:not([width]):not([height]) {
+      width: var(--button-icon-size);
+      height: var(--button-icon-size); }
+    [os='win'] .dnb-button__icon {
+      transform: translateY(-0.0625rem); }
+  .dnb-button__text {
+    line-height: 1em;
+    color: inherit;
+    background-color: inherit; }
+    [os='mac'] .dnb-button__text {
+      transform: translateY(0.0625rem); }
+  .dnb-button__bounding {
+    position: absolute;
+    background-color: transparent;
+    width: var(--button-width);
+    height: var(--button-height);
+    border-radius: var(--button-border-radius);
+    transform: scale(1.2); }
+  .dnb-button--size-small {
+    width: var(--button-width--small);
+    height: var(--button-height--small);
+    font-size: var(--button-font-size-small);
+    line-height: var(--button-height--small);
+    border-radius: var(--button-border-radius--small); }
+  .dnb-button--has-text.dnb-button--size-small {
+    padding-left: 1rem;
+    padding-right: 1rem; }
+  .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-small {
+    padding-left: 0.5rem; }
+  .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-small {
+    padding-right: 0.5rem; }
+  .dnb-button--size-medium {
+    width: var(--button-width--medium);
+    height: var(--button-height--medium);
+    line-height: var(--button-height--medium);
+    border-radius: var(--button-border-radius--medium); }
+  .dnb-button--has-text.dnb-button--size-medium {
+    padding-left: 1rem;
+    padding-right: 1rem; }
+  .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-medium {
+    padding-left: 0.5rem; }
+  .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-medium {
+    padding-right: 0.5rem; }
+  .dnb-button--size-large {
+    width: var(--button-width--large);
+    height: var(--button-height--large);
+    line-height: var(--button-height--large);
+    border-radius: var(--button-border-radius--large); }
+  .dnb-button--has-text.dnb-button--size-large {
+    padding-left: 2rem;
+    padding-right: 2rem; }
+  .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-large {
+    padding-left: 1rem; }
+  .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-large {
+    padding-right: 1rem; }
+  .dnb-button--has-text {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    width: auto; }
+  .dnb-button--has-text .dnb-button__icon {
+    margin: 0 calc(var(--button-icon-size) / 2); }
+  .dnb-button--has-text.dnb-button--icon-position-left {
+    padding-left: 0.5rem; }
+  .dnb-button--has-text.dnb-button--icon-position-right {
+    padding-right: 0.5rem; }
+  .dnb-button--has-text.dnb-button--has-icon .dnb-button__icon {
+    order: 2; }
+  .dnb-button--has-text.dnb-button--has-icon .dnb-button__text {
+    order: 1; }
+  .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__icon {
+    order: 1; }
+  .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__text {
+    order: 2; }
+  .dnb-button--reset {
+    margin: 0;
+    padding: 0;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    border: none;
+    border-radius: 0;
+    background-color: transparent;
+    appearance: none;
+    box-shadow: none;
+    color: inherit;
+    font: inherit;
+    text-align: inherit;
+    line-height: inherit; }
+    :not([dnb-is-touch]) .dnb-button--reset:hover[disabled] {
+      cursor: not-allowed; }
+    :not([dnb-is-touch]) .dnb-button--reset:hover:not([disabled]) {
+      box-shadow: none;
+      border: none; }
+    .dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
+      outline: none; }
+      html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
+        box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
+        /* IE11 fix */
+        border-color: transparent; }
+    html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):focus,
+    html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):active {
+      box-shadow: none;
+      color: inherit;
+      border: none; }
+  .dnb-button[disabled] {
+    cursor: not-allowed; }
+  .dnb-form-row--vertical .dnb-form-row__content > .dnb-button {
+    align-self: flex-start; }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-button {
+      flex: none; }
+      .dnb-button__icon, .dnb-button__text {
+        transform: translateY(-0.0625rem) !important; } }
+
+/* Firefox includes a hidden border which messes up button dimensions */
+button.dnb-button::-moz-focus-inner {
+  border: none; }
+
+a.dnb-button[type='button'] {
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none; }
+
+a.dnb-button .dnb-button__icon {
+  transform: translateY(0); }
+
+a.dnb-button .dnb-button__text {
+  transform: translateY(0.0625rem); }
+
+/*
+* DNB Section
+*
+*/
+.dnb-section {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-default);
+  font-size: 1rem;
+  font-style: normal;
+  line-height: 1.5rem;
+  color: var(--color-black-80, #333);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  font-variant-numeric: lining-nums;
+  font-feature-settings: \\"lnum\\";
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-section *,
+  .dnb-section ::before,
+  .dnb-section ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-section ::before,
+  .dnb-section ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+ * Section component
+ *
+ */
+.dnb-section {
+  position: relative; }
+  .dnb-section::after {
+    content: '';
+    position: absolute;
+    z-index: -3;
+    left: -50vw;
+    top: 0;
+    width: 100vw;
+    height: 100%;
+    color: var(--color-mint-green-12);
+    background-color: currentColor;
+    box-shadow: 100vw 0 0 0 currentColor; }
+  .dnb-section > .dnb-section::after {
+    z-index: -2; }
+  .dnb-section > .dnb-section > .dnb-section::after {
+    z-index: -1; }
+  .dnb-section--spacing-small {
+    padding-top: var(--spacing-small);
+    padding-bottom: var(--spacing-small); }
+  .dnb-section--spacing-medium {
+    padding-top: var(--spacing-medium);
+    padding-bottom: var(--spacing-medium); }
+  .dnb-section--spacing, .dnb-section--spacing-default, .dnb-section--spacing-large {
+    padding-top: var(--spacing-large);
+    padding-bottom: var(--spacing-large); }
+  .dnb-section--spacing-x-large {
+    padding-top: var(--spacing-x-large);
+    padding-bottom: var(--spacing-xx-large); }
+  .dnb-section--spacing-xx-large {
+    padding-top: var(--spacing-xx-large);
+    padding-bottom: calc(var(--spacing-xx-large) + var(--spacing-small)); }
+
+.dnb-global-status {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-default);
+  font-size: 1rem;
+  font-style: normal;
+  line-height: 1.5rem;
+  color: var(--color-black-80, #333);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  font-variant-numeric: lining-nums;
+  font-feature-settings: \\"lnum\\";
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-global-status *,
+  .dnb-global-status ::before,
+  .dnb-global-status ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-global-status ::before,
+  .dnb-global-status ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+ * GlobalStatus component
+ *
+ */
+.dnb-global-status {
+  display: flex; }
+  .dnb-global-status--visible.dnb-global-status.dnb-section::after {
+    box-shadow: 100vw 0 0 0 currentColor, 0 0.0625rem 0 0 var(--color-black-80), 100vw 0.0625rem 0 0 var(--color-black-80); }
+  .dnb-global-status__shell {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    min-height: var(--input-height); }
+  .dnb-global-status--visible .dnb-global-status__shell {
+    padding-top: 2rem;
+    padding-bottom: 2rem; }
+  .dnb-global-status__message {
+    margin: 0;
+    padding: 0;
+    cursor: text;
+    line-height: 1.5rem; }
+  .dnb-global-status__title {
+    font-weight: var(--font-weight-demi);
+    font-size: var(--font-size-x-default);
+    padding: 0;
+    margin: 0;
+    margin-bottom: 1rem; }
+  .dnb-global-status__content .dnb-ul,
+  .dnb-spacing .dnb-global-status__content .dnb-ul {
+    margin: 0;
+    margin-top: 0.5rem;
+    padding-left: 1rem; }
+    .dnb-global-status__content .dnb-ul > li,
+    .dnb-spacing .dnb-global-status__content .dnb-ul > li {
+      padding-left: 0;
+      /* stylelint-disable */
+      /* stylelint-enable */ }
+      .dnb-global-status__content .dnb-ul > li:first-of-type,
+      .dnb-spacing .dnb-global-status__content .dnb-ul > li:first-of-type {
+        margin-top: 0; }
+      .dnb-global-status__content .dnb-ul > li:last-of-type,
+      .dnb-spacing .dnb-global-status__content .dnb-ul > li:last-of-type {
+        margin-bottom: 0; }
+  .dnb-icon + .dnb-global-status__content {
+    padding-left: 1rem; }
+  .dnb-global-status__shell > .dnb-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 2em;
+    height: 2em;
+    padding: 0.25em;
+    transform: translateY(-0.25em);
+    color: inherit;
+    font-size: 1rem;
+    border-radius: 50%;
+    border: 0.0625rem solid;
+    border-color: currentColor; }
+  .dnb-global-status[hidden] {
+    display: none; }
+  .dnb-global-status--fade-in {
+    height: 0;
+    opacity: 0;
+    animation: fade-in 600ms ease-out 1 200ms forwards; }
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    height: 0; }
+  to {
+    opacity: 1;
+    height: var(--input-height); } }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-global-status__shell > .dnb-icon {
+      border-width: 1px; } }
+"
+`;

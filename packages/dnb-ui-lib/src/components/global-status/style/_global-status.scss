@@ -1,0 +1,114 @@
+/*
+ * GlobalStatus component
+ *
+ */
+
+.dnb-global-status {
+  display: flex;
+
+  &--visible#{&}.dnb-section::after {
+    box-shadow: 100vw 0 0 0 currentColor,
+      0 0.0625rem 0 0 var(--color-black-80),
+      100vw 0.0625rem 0 0 var(--color-black-80);
+    // 0 -0.0625rem 0 0 var(--color-black-80),
+    // 100vw -0.0625rem 0 0 var(--color-black-80);
+  }
+
+  &__shell {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+
+    min-height: var(--input-height);
+  }
+
+  &--visible &__shell {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+
+  &__message {
+    margin: 0;
+    padding: 0;
+
+    cursor: text;
+    line-height: 1.5rem;
+  }
+
+  &__title {
+    font-weight: var(--font-weight-demi);
+    font-size: var(--font-size-x-default);
+
+    padding: 0;
+    margin: 0;
+    margin-bottom: 1rem;
+  }
+  &__content {
+    .dnb-ul,
+    .dnb-spacing & .dnb-ul {
+      margin: 0;
+      margin-top: 0.5rem;
+      padding-left: 1rem;
+      & > li {
+        padding-left: 0;
+        &:first-of-type {
+          margin-top: 0;
+        }
+        /* stylelint-disable */
+        &:last-of-type {
+          margin-bottom: 0;
+        }
+        /* stylelint-enable */
+      }
+    }
+  }
+  .dnb-icon + &__content {
+    padding-left: 1rem;
+  }
+
+  &__shell > .dnb-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 2em;
+    height: 2em;
+    padding: 0.25em;
+    transform: translateY(-0.25em);
+
+    color: inherit;
+
+    font-size: 1rem;
+    border-radius: 50%;
+    border: 0.0625rem solid;
+    border-color: currentColor;
+  }
+
+  &[hidden] {
+    display: none;
+  }
+
+  &--fade-in {
+    @keyframes fade-in {
+      from {
+        opacity: 0;
+        height: 0;
+      }
+      to {
+        opacity: 1;
+        height: var(--input-height);
+      }
+    }
+
+    height: 0;
+    opacity: 0;
+    animation: fade-in 600ms ease-out 1 200ms forwards;
+  }
+
+  // IE fix
+  @media screen and (-ms-high-contrast: none) {
+    &__shell > .dnb-icon {
+      border-width: 1px;
+    }
+  }
+}

@@ -1,0 +1,22 @@
+/*
+ * GlobalStatus theme
+ *
+ */
+
+.dnb-global-status {
+  &--error &__content {
+    color: var(--color-white);
+  }
+  &--error &__content .dnb-button {
+    color: var(--color-white);
+  }
+  :not([dnb-is-touch])
+    &--error
+    .dnb-button--tertiary.dnb-button--has-text:not(:focus):not([disabled]):hover:not([disabled])
+    .dnb-button__text::after {
+    border-bottom-color: var(--color-white);
+  }
+  &--info &__title {
+    background-color: inherit;
+  }
+}
