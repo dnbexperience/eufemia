@@ -687,7 +687,7 @@ legend.dnb-form-label {
     color: inherit;
     font-size: 1rem;
     border-radius: 50%;
-    border: 1px solid;
+    border: 0.0625rem solid;
     border-color: currentColor; }
   .dnb-form-status[hidden] {
     display: none; }
@@ -703,6 +703,9 @@ legend.dnb-form-label {
   to {
     opacity: 1;
     height: var(--input-height); } }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-form-status__shell > .dnb-icon {
+      border-width: 1px; } }
 
 .dnb-radio {
   font-family: var(--font-family-default);
