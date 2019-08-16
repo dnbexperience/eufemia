@@ -51,6 +51,15 @@
     &::after {
       color: var(--color-cherry-red);
     }
+    .dnb-anchor {
+      &,
+      &:focus {
+        color: var(--color-white);
+      }
+      &:hover {
+        background-color: var(--color-black-80);
+      }
+    }
   }
 }
 

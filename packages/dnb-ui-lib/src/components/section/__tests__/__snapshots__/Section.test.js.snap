@@ -63,6 +63,10 @@ exports[`Section scss have to match default theme snapshot 1`] = `
   color: var(--color-white); }
   .dnb-section--cherry-red::after {
     color: var(--color-cherry-red); }
+  .dnb-section--cherry-red .dnb-anchor, .dnb-section--cherry-red .dnb-anchor:focus {
+    color: var(--color-white); }
+  .dnb-section--cherry-red .dnb-anchor:hover {
+    background-color: var(--color-black-80); }
 "
 `;
 
