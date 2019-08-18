@@ -244,7 +244,8 @@ export default class Dropdown extends PureComponent {
   constructor(props) {
     super(props)
 
-    this._id = props.id || `dropdown-${Math.round(Math.random() * 999)}`
+    this._id =
+      props.id || `dnb-dropdown-${Math.round(Math.random() * 999)}`
 
     const opened = Dropdown.parseOpened(props.opened)
     this.state = {

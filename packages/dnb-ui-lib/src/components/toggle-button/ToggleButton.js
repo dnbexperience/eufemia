@@ -318,8 +318,8 @@ export default class ToggleButton extends Component {
           const buttonParams = {
             id,
             disabled,
-            text: text,
-            title: title,
+            text,
+            title,
             ['aria-pressed']: String(checked),
             ...rest
           }
