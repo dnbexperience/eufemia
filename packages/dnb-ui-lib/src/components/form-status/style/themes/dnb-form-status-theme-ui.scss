@@ -15,4 +15,14 @@
     color: var(--color-emerald-green);
     background-color: var(--color-mint-green-25);
   }
+  &:not(#{&}--attention-focus)#{&}--text {
+    color: var(--color-emerald-green);
+  }
+
+  &--error#{&}--attention-focus &__shell,
+  &--error#{&}:focus &__shell {
+    transition: color 5s ease;
+    animation: attention-focus 1.6s ease infinite;
+    opacity: 1;
+  }
 }
