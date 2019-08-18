@@ -39,7 +39,6 @@ export const propTypes = {
     PropTypes.node
   ]),
   status_state: PropTypes.string,
-  status_animation: PropTypes.string,
   inputElement: PropTypes.string,
   disabled: PropTypes.bool,
   opened: PropTypes.bool,
@@ -60,7 +59,6 @@ export const defaultProps = {
   range: null,
   status: null,
   status_state: 'error',
-  status_animation: null,
   minDate: null,
   maxDate: null,
   inputElement: null,
@@ -526,7 +524,6 @@ export default class DatePickerInput extends PureComponent {
       opened,
       status,
       status_state,
-      status_animation,
 
       ...attributes
     } = this.props
@@ -544,7 +541,6 @@ export default class DatePickerInput extends PureComponent {
         disabled={disabled}
         status={!opened ? status : null}
         status_state={status_state}
-        status_animation={status_animation}
         submitButton={
           <SubmitButton
             id={id}

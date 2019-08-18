@@ -13,6 +13,7 @@ draft: true
 | `label`                                         | _(optional)_ use either the `label` property or provide custom one.                                                                                 |
 | `status`                                        | _(optional)_ text with a status message. The style defaults to an error message.                                                                    |
 | `status_state`                                  | _(optional)_ defines the state of the status. Currently there are two statuses `[error, info]`. Defaults to `error`.                                |
+| `global_status_id`                              | _(optional)_ the `status_id` used for the target [GlobalStatus](/uilib/components/global-status).                                                   |
 | [Space](/uilib/components/space#tab-properties) | _(optional)_ spacing properties like `top` or `bottom` are supported.                                                                               |
 |                                                 |                                                                                                                                                     |
 
@@ -27,6 +28,7 @@ draft: true
 | `title`            | _(optional)_ the `title` of group, describing it a bit further for accessibility reasons.                                                                                                       |
 | `status`           | _(optional)_ uses the `form-status` component to show failure messages.                                                                                                                         |
 | `status_state`     | _(optional)_ defines the state of the status. Currently there are two statuses `[error, info]`. Defaults to `error`.                                                                            |
+| `global_status_id` | _(optional)_ the `status_id` used for the target [GlobalStatus](/uilib/components/global-status).                                                                                               |
 | `label`            | _(optional)_ use either the `label` property or provide custom one.                                                                                                                             |
 | `label_direction`  | _(optional)_ to define the `label` layout direction on how the next element should be placed on. Can be either `vertical` or `horizontal`. Defaults to `horizontal`.                            |
 | `vertical`         | _(optional)_ will force both `direction` and `label_diretion` to be **vertical** if set to `true`.                                                                                              |

@@ -15,6 +15,7 @@ exports[`Textarea component have to match snapshot 1`] = `
         "custom_element": Object {},
         "custom_method": [Function],
         "disabled": "disabled",
+        "global_status_id": "global_status_id",
         "id": "id",
         "label": "label",
         "label_direction": "'horizontal'",
@@ -43,6 +44,7 @@ exports[`Textarea component have to match snapshot 1`] = `
   custom_element={null}
   custom_method={null}
   disabled={false}
+  global_status_id={null}
   id="textarea"
   label={null}
   label_direction={null}

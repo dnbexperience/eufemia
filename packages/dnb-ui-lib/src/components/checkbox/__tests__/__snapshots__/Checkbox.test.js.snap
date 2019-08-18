@@ -15,6 +15,7 @@ exports[`Checkbox component have to match snapshot 1`] = `
         "custom_method": [Function],
         "default_state": "default_state",
         "disabled": "disabled",
+        "global_status_id": "global_status_id",
         "id": "id",
         "label": "label",
         "label_position": "'left'",
@@ -43,6 +44,7 @@ exports[`Checkbox component have to match snapshot 1`] = `
   custom_method={null}
   default_state={null}
   disabled={null}
+  global_status_id={null}
   id="checkbox"
   label="checkbox"
   label_position="left"

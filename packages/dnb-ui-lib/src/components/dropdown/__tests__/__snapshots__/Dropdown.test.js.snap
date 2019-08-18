@@ -57,6 +57,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
   }
   direction="bottom"
   disabled="disabled"
+  global_status_id="global_status_id"
   icon="icon"
   icon_position="icon_position"
   id="dropdown-id"
@@ -263,11 +264,11 @@ exports[`Dropdown component have to match snapshot 1`] = `
         animation="status_animation"
         class={null}
         className={null}
-        global_status_id={null}
+        global_status_id="global_status_id"
         hidden={false}
         icon="exclamation"
         icon_size="medium"
-        id={null}
+        id="dropdown-id-form-status"
         render_content={null}
         state="error"
         status="error"
@@ -278,6 +279,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
         <span
           className="dnb-form-status dnb-form-status--error dnb-form-status--status_animation dnb-form-status--has-content"
           hidden={false}
+          id="dropdown-id-form-status"
         >
           <span
             className="dnb-form-status__shell"

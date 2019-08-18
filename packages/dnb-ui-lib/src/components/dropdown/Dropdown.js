@@ -51,6 +51,7 @@ export const propTypes = {
   ]),
   status_state: PropTypes.string,
   status_animation: PropTypes.string,
+  global_status_id: PropTypes.string,
   scrollable: PropTypes.bool,
   direction: PropTypes.oneOf(['auto', 'top', 'bottom']),
   max_height: PropTypes.number,
@@ -116,6 +117,7 @@ export const defaultProps = {
   status: null,
   status_state: 'error',
   status_animation: null,
+  global_status_id: null,
   scrollable: true,
   max_height: null,
   direction: 'auto',
@@ -754,6 +756,7 @@ export default class Dropdown extends PureComponent {
       status,
       status_state,
       status_animation,
+      global_status_id,
       scrollable,
       no_animation,
       no_scroll_animation,
@@ -999,9 +1002,11 @@ export default class Dropdown extends PureComponent {
 
           {showStatus && (
             <FormStatus
+              id={id + '-form-status'}
+              global_status_id={global_status_id}
+              text_id={id + '-status'} // used for "aria-describedby"
               text={status}
               status={status_state}
-              text_id={id + '-status'} // used for "aria-describedby"
               animation={status_animation}
             />
           )}

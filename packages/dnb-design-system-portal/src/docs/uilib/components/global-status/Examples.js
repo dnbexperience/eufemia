@@ -16,7 +16,12 @@ class Example extends PureComponent {
         >
           {/* @jsx */ `
 <GlobalStatus
+  title="Custom Title"
   text="Failure text"
+  show="true"
+  no_animation="true"
+  autoscroll="false"
+  id="demo-1"
 />
           `}
         </ComponentBox>
@@ -26,60 +31,132 @@ class Example extends PureComponent {
         >
           {/* @jsx */ `
 <GlobalStatus
-  title="Hover title"
+  title="Custom Title"
   text="Long info nisl tempus hendrerit tortor dapibus nascetur taciti porta risus cursus fusce platea enim curabitur proin nibh ut luctus magnis metus"
+  items={[
+      'Item text #1',
+      <>Item text #2</>,
+      {
+        text:'Item text #3',
+        status_id: '123',
+        // status_anchor_text: ...,
+        // status_anchor_url: ...,
+      }
+  ]}
   state="info"
-/>
-          `}
-        </ComponentBox>
-        <ComponentBox caption="A form status, used by the Input Component">
-          {/* @jsx */ `
-<Input
-  label="Input with status:"
-  status="You have to fill in this field"
-  value="Input value"
+  show="true"
+  no_animation="true"
+  autoscroll="false"
+  id="demo-2"
 />
           `}
         </ComponentBox>
         <ComponentBox
-          caption="A form status, with a custom styled content"
-          data-dnb-test="global-status-custom"
+          caption="To showcase the automated coupling between **FormStatus** and **GlobalStatus**"
           useRender
         >
           {/* @jsx */ `
-const CustomStatus = () => (
-  <>
-    My info
-    <Link href="/">with a link</Link>
-    and more text
-  </>
-)
+const InputWithError = () => {
+  const [errorMessage, setErrorMessage] = useState(null)
+  return (
+    <Input
+      placeholder="Write more than 2 chars to show the GlobalStatus ..."
+      stretch
+      status={errorMessage}
+      on_change={({ value }) => {
+        setErrorMessage(value.length >= 3 ? 'With a message shown' : null)
+      }}
+      status_id="main-status"
+    />
+  )
+}
 render(
-  <Input
-    label="Input with custom status:"
-    status={ <CustomStatus /> }
-    status_state="info"
-    value="Input value"
-  />
+  <InputWithError />
 )
           `}
         </ComponentBox>
         <ComponentBox
-          caption="A form status with plain text/HTML"
-          useRender
+          caption="To showcase the grow and shrink (height) animation"
+          noFragments={false}
         >
           {/* @jsx */ `
-const myHTML = \`
-  My HTML
-  <a class="dnb-anchor" href="/" target="_blank">with a link</a>
-  and more text
-\`
-const CustomStatus = () => <span dangerouslySetInnerHTML={{ __html: myHTML }} />
-render(
-  <GlobalStatus state="info">
-    <CustomStatus />
-  </GlobalStatus>
-)
+() => {
+  const [showDemo, toggleShowDemo] = useState(false)
+  return (
+    <>
+      <ToggleButton
+        text={showDemo? 'Stop Demo': 'Show animation Demo'}
+        checked={showDemo}
+        variant="checkbox"
+        on_change={({ checked }) => toggleShowDemo(checked)}
+        bottom="small"
+      />
+      <GlobalStatus
+        title="Custom Title"
+        text="Long info nisl tempus hendrerit tortor dapibus nascetur taciti porta risus cursus fusce platea enim curabitur proin nibh ut luctus magnis metus"
+        demo={showDemo}
+        show={showDemo}
+        autoscroll={false}
+        delay={0}
+        id="demo-3"
+      />
+    </>
+  )
+}
+          `}
+        </ComponentBox>
+        <ComponentBox
+          caption="To showcase the custom **Update** and **Remove** posibility"
+          noFragments={false}
+        >
+          {/* @jsx */ `
+() => {
+  const [count, toggleUpdateStatus] = useState(0)
+  return (
+    <>
+      <GlobalStatus id="custom-status" />
+      <Button
+        text={'Show step #' + count}
+        on_click={() => {
+          toggleUpdateStatus(count + 1)
+          if (count > 1) {
+            toggleUpdateStatus(0)
+          }
+        }}
+        top="small"
+      />
+      {count === 1 && (
+        <>
+          <GlobalStatus.Update
+            id="custom-status"
+            status_id="custom-id-1"
+            title="New title"
+            text="First long info text ..."
+            item="Item from status #1"
+            on_close={({ status_id }) => {
+              console.log('on_close 1', status_id)
+            }}
+          />
+          <GlobalStatus.Update
+            id="custom-status"
+            status_id="custom-id-2"
+            text="Second long info text ..."
+            item="Item from status #2"
+            on_close={({ status_id }) => {
+              console.log('on_close 2', status_id)
+            }}
+          />
+        </>
+      )}
+      {count === 2 && (
+        <GlobalStatus.Remove id="custom-status" status_id="custom-id-2" />
+      )}
+      {count === 3 && (
+        <GlobalStatus.Remove id="custom-status" status_id="custom-id-1" />
+      )}
+    </>
+  )
+}
           `}
         </ComponentBox>
       </Fragment>

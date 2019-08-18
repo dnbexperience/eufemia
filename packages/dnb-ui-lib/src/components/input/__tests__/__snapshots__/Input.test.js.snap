@@ -16,6 +16,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
         "custom_method": [Function],
         "description": "description",
         "disabled": "disabled",
+        "global_status_id": "global_status_id",
         "id": "id",
         "inputElement": [Function],
         "input_class": "input_class",
@@ -34,7 +35,6 @@ exports[`Input component have to match type="search" snapshot 1`] = `
         "size": "size",
         "status": "status",
         "status_animation": "status_animation",
-        "status_id": "status_id",
         "status_state": "status_state",
         "stretch": "stretch",
         "submitButton": [Function],
@@ -73,6 +73,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
   custom_method={null}
   description={null}
   disabled={false}
+  global_status_id={null}
   id="input"
   inputElement={null}
   input_class={null}
@@ -91,7 +92,6 @@ exports[`Input component have to match type="search" snapshot 1`] = `
   size={null}
   status={null}
   status_animation={null}
-  status_id={null}
   status_state="error"
   stretch={null}
   submitButton={null}
@@ -143,6 +143,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                 "custom_method": [Function],
                 "description": "description",
                 "disabled": "disabled",
+                "global_status_id": "global_status_id",
                 "id": "id",
                 "inputElement": [Function],
                 "input_class": "input_class",
@@ -161,7 +162,6 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                 "size": "size",
                 "status": "status",
                 "status_animation": "status_animation",
-                "status_id": "status_id",
                 "status_state": "status_state",
                 "stretch": "stretch",
                 "submitButton": [Function],
@@ -356,6 +356,7 @@ exports[`Input component have to match type="text" snapshot 1`] = `
         "custom_method": [Function],
         "description": "description",
         "disabled": "disabled",
+        "global_status_id": "global_status_id",
         "id": "id",
         "inputElement": [Function],
         "input_class": "input_class",
@@ -374,7 +375,6 @@ exports[`Input component have to match type="text" snapshot 1`] = `
         "size": "size",
         "status": "status",
         "status_animation": "status_animation",
-        "status_id": "status_id",
         "status_state": "status_state",
         "stretch": "stretch",
         "submitButton": [Function],
@@ -413,6 +413,7 @@ exports[`Input component have to match type="text" snapshot 1`] = `
   custom_method={null}
   description={null}
   disabled={false}
+  global_status_id={null}
   id="input"
   inputElement={null}
   input_class={null}
@@ -431,7 +432,6 @@ exports[`Input component have to match type="text" snapshot 1`] = `
   size={null}
   status={null}
   status_animation={null}
-  status_id={null}
   status_state="error"
   stretch={null}
   submitButton={null}
