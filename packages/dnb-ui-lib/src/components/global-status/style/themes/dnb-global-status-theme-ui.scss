@@ -4,19 +4,18 @@
  */
 
 .dnb-global-status {
-  &--error &__content {
+  &:not(#{&}--no-animation)#{&}--fade-in#{&}.dnb-section::after {
+    box-shadow: 100vw 0 0 0 currentColor,
+      0 0.0625rem 0 0 var(--color-black-80),
+      100vw 0.0625rem 0 0 var(--color-black-80);
+  }
+
+  &__title {
+    font-weight: var(--font-weight-demi);
+    font-size: var(--font-size-x-default);
+  }
+
+  &__close-button {
     color: var(--color-white);
-  }
-  &--error &__content .dnb-button {
-    color: var(--color-white);
-  }
-  :not([dnb-is-touch])
-    &--error
-    .dnb-button--tertiary.dnb-button--has-text:not(:focus):not([disabled]):hover:not([disabled])
-    .dnb-button__text::after {
-    border-bottom-color: var(--color-white);
-  }
-  &--info &__title {
-    background-color: inherit;
   }
 }
