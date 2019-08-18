@@ -40,6 +40,9 @@ if (typeof window !== 'undefined' && window.IS_TEST) {
 }
 
 export default css`
+  main > .dnb-global-status {
+    transform: translateY(-2rem);
+  }
   table td.selectable {
     position: relative;
     z-index: 1;

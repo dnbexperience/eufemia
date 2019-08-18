@@ -21,7 +21,7 @@ import {
   setPageFocusElement,
   scrollToLocationHashId
 } from 'dnb-ui-lib/src/shared/helpers'
-import { Logo } from 'dnb-ui-lib/src'
+import { Logo, GlobalStatus } from 'dnb-ui-lib/src'
 
 class Layout extends PureComponent {
   static propTypes = {
@@ -47,6 +47,7 @@ class Layout extends PureComponent {
         <>
           <Content className="fullscreen-page">
             <ContentInner className="dnb-app-content-inner">
+              <GlobalStatus id="main-status" />
               <div className="dev-grid">{children}</div>
             </ContentInner>
           </Content>
@@ -68,6 +69,7 @@ class Layout extends PureComponent {
             <Sidebar location={location} showAll={false} />
             <Content>
               <ContentInner className="dnb-app-content-inner">
+                <GlobalStatus id="main-status" />
                 <div className="dev-grid">{children}</div>
               </ContentInner>
               <Footer />
