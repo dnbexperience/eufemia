@@ -34,6 +34,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
         "size": "size",
         "status": "status",
         "status_animation": "status_animation",
+        "status_id": "status_id",
         "status_state": "status_state",
         "stretch": "stretch",
         "submitButton": [Function],
@@ -90,6 +91,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
   size={null}
   status={null}
   status_animation={null}
+  status_id={null}
   status_state="error"
   stretch={null}
   submitButton={null}
@@ -159,6 +161,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                 "size": "size",
                 "status": "status",
                 "status_animation": "status_animation",
+                "status_id": "status_id",
                 "status_state": "status_state",
                 "stretch": "stretch",
                 "submitButton": [Function],
@@ -371,6 +374,7 @@ exports[`Input component have to match type="text" snapshot 1`] = `
         "size": "size",
         "status": "status",
         "status_animation": "status_animation",
+        "status_id": "status_id",
         "status_state": "status_state",
         "stretch": "stretch",
         "submitButton": [Function],
@@ -427,6 +431,7 @@ exports[`Input component have to match type="text" snapshot 1`] = `
   size={null}
   status={null}
   status_animation={null}
+  status_id={null}
   status_state="error"
   stretch={null}
   submitButton={null}
@@ -953,8 +958,10 @@ legend.dnb-form-label {
   .dnb-form-status--text {
     padding: calc(0.5rem / 2) 1rem;
     cursor: text;
-    color: var(--color-emerald-green);
+    color: inherit;
     line-height: 1.5rem; }
+    [os='mac'] .dnb-form-status--text {
+      transform: translateY(0.0625rem); }
   .dnb-icon + .dnb-form-status--text {
     padding-left: 0.5rem; }
   .dnb-form-status__shell > .dnb-icon {
@@ -983,6 +990,16 @@ legend.dnb-form-label {
   to {
     opacity: 1;
     height: var(--input-height); } }
+
+@keyframes attention-focus {
+  0%,
+  100% {
+    color: var(--color-white);
+    background-color: var(--color-cherry-red); }
+  45%,
+  55% {
+    color: var(--color-cherry-red);
+    background-color: var(--color-cherry-red-80); } }
   @media screen and (-ms-high-contrast: none) {
     .dnb-form-status__shell > .dnb-icon {
       border-width: 1px; } }

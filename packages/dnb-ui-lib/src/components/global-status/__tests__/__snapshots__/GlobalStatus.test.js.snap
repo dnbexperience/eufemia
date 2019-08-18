@@ -2,164 +2,229 @@
 
 exports[`GlobalStatus component have to match snapshot 1`] = `
 <GlobalStatus
-  animation="animation"
+  autoclose="autoclose"
+  autoscroll="autoscroll"
   class="class"
   className="className"
+  close_text="close_text"
   default_title="default_title"
-  hidden={false}
+  delay="delay"
+  demo={true}
+  hide_close_button="hide_close_button"
   icon="exclamation"
   icon_size="icon_size"
+  id="main"
+  items={
+    Array [
+      "item #1",
+      "item #2",
+    ]
+  }
+  no_animation={true}
+  on_close={[Function]}
+  on_hide={[Function]}
+  on_open={[Function]}
   render_content={[Function]}
-  show="show"
+  show={true}
   state="error"
-  status={null}
+  status_anchor_text="status_anchor_text"
   text="text"
-  text_id="text_id"
   title="title"
 >
   <Section
-    aria-hidden={true}
     class={null}
-    className="dnb-global-status dnb-global-status--error dnb-global-status--animation dnb-global-status--has-content className class"
+    className="dnb-global-status dnb-global-status--error dnb-global-status--no-animation dnb-global-status--visible className class"
     element="div"
-    hidden={false}
     render_content={null}
-    style={null}
     style_type="cherry-red"
   >
     <Element
-      aria-hidden={true}
-      className="dnb-section dnb-section--cherry-red dnb-global-status dnb-global-status--error dnb-global-status--animation dnb-global-status--has-content className class"
-      hidden={false}
+      className="dnb-section dnb-section--cherry-red dnb-global-status dnb-global-status--error dnb-global-status--no-animation dnb-global-status--visible className class"
       is="div"
     >
       <div
-        aria-hidden={true}
-        className="dnb-section dnb-section--cherry-red dnb-global-status dnb-global-status--error dnb-global-status--animation dnb-global-status--has-content className class"
-        hidden={false}
+        className="dnb-section dnb-section--cherry-red dnb-global-status dnb-global-status--error dnb-global-status--no-animation dnb-global-status--visible className class"
       >
         <div
           className="dnb-global-status__shell"
         >
-          <IconPrimary
-            alt={null}
-            aria-hidden={true}
-            attributes={null}
-            class={null}
-            className={null}
-            color={null}
-            height={null}
-            icon="exclamation"
-            modifier={null}
-            size="icon_size"
-            title={null}
-            width={null}
-          >
-            <span
-              alt="exclamation"
-              aria-hidden={true}
-              className="dnb-icon"
-              role="img"
-            >
-              <exclamation>
-                <svg
-                  fill="none"
-                  height={16}
-                  viewBox="0 0 16 16"
-                  width={16}
-                >
-                  <path
-                    clipRule="evenodd"
-                    d="M8 1.75a.75.75 0 0 1 .75.75v7a.75.75 0 0 1-1.5 0v-7A.75.75 0 0 1 8 1.75zm-.893 10.357A1.25 1.25 0 0 1 8 11.75c.32 0 .646.11.893.357s.357.573.357.893c0 .32-.11.646-.357.893A1.249 1.249 0 0 1 8 14.25c-.32 0-.646-.11-.893-.357A1.249 1.249 0 0 1 6.75 13c0-.32.11-.646.357-.893z"
-                    fill="#000"
-                    fillRule="evenodd"
-                  />
-                </svg>
-              </exclamation>
-            </span>
-          </IconPrimary>
           <div
             className="dnb-global-status__content"
           >
             <p
               className="dnb-global-status__title"
             >
+              <span
+                className="dnb-global-status__icon"
+              >
+                <IconPrimary
+                  alt={null}
+                  aria-hidden={true}
+                  attributes={null}
+                  class={null}
+                  className={null}
+                  color={null}
+                  height={null}
+                  icon="exclamation"
+                  modifier={null}
+                  size="icon_size"
+                  title={null}
+                  width={null}
+                >
+                  <span
+                    alt="exclamation"
+                    aria-hidden={true}
+                    className="dnb-icon"
+                    role="img"
+                  >
+                    <exclamation>
+                      <svg
+                        fill="none"
+                        height={16}
+                        viewBox="0 0 16 16"
+                        width={16}
+                      >
+                        <path
+                          clipRule="evenodd"
+                          d="M8 1.75a.75.75 0 0 1 .75.75v7a.75.75 0 0 1-1.5 0v-7A.75.75 0 0 1 8 1.75zm-.893 10.357A1.25 1.25 0 0 1 8 11.75c.32 0 .646.11.893.357s.357.573.357.893c0 .32-.11.646-.357.893A1.249 1.249 0 0 1 8 14.25c-.32 0-.646-.11-.893-.357A1.249 1.249 0 0 1 6.75 13c0-.32.11-.646.357-.893z"
+                          fill="#000"
+                          fillRule="evenodd"
+                        />
+                      </svg>
+                    </exclamation>
+                  </span>
+                </IconPrimary>
+              </span>
               title
+              <CloseButton
+                className={null}
+                on_click={[Function]}
+                text="Lukk"
+                title="close_text"
+              >
+                <Button
+                  bounding={false}
+                  class={null}
+                  className="dnb-global-status__close-button"
+                  custom_element={null}
+                  custom_method={null}
+                  disabled={null}
+                  href={null}
+                  icon="close"
+                  icon_position="left"
+                  icon_size="medium"
+                  id={null}
+                  innerRef={null}
+                  onClick={null}
+                  on_click={[Function]}
+                  size="medium"
+                  text="Lukk"
+                  title="Lukk"
+                  type="button"
+                  variant="tertiary"
+                >
+                  <button
+                    className="dnb-button dnb-button--tertiary dnb-button--size-medium dnb-button--icon-position-left dnb-button--has-text dnb-button--has-icon dnb-global-status__close-button"
+                    onClick={[Function]}
+                    onMouseOut={[Function]}
+                    title="Lukk"
+                    type="button"
+                  >
+                    <Content
+                      bounding={false}
+                      class={null}
+                      className="dnb-global-status__close-button"
+                      content={null}
+                      custom_element={null}
+                      custom_method={null}
+                      disabled={null}
+                      href={null}
+                      icon="close"
+                      icon_position="left"
+                      icon_size="medium"
+                      id={null}
+                      innerRef={null}
+                      isIconOnly={false}
+                      onClick={null}
+                      on_click={[Function]}
+                      size="medium"
+                      text="Lukk"
+                      title="Lukk"
+                      type="button"
+                      variant="tertiary"
+                    >
+                      <span
+                        className="dnb-button__text"
+                        key="button-text"
+                      >
+                        Lukk
+                      </span>
+                      <IconPrimary
+                        alt="Lukk"
+                        aria-hidden={true}
+                        attributes={null}
+                        class={null}
+                        className="dnb-button__icon"
+                        color={null}
+                        height={null}
+                        icon="close"
+                        key="button-icon"
+                        modifier={null}
+                        size="medium"
+                        title={null}
+                        width={null}
+                      >
+                        <span
+                          alt="Lukk"
+                          aria-hidden={true}
+                          className="dnb-icon dnb-icon--medium dnb-button__icon"
+                          role="img"
+                        >
+                          <close_medium>
+                            <svg
+                              fill="none"
+                              height={24}
+                              viewBox="0 0 24 24"
+                              width={24}
+                            >
+                              <path
+                                clipRule="evenodd"
+                                d="M4.78 3.914a.75.75 0 0 0-1.06 1.061l7.22 7.22-7.22 7.22a.75.75 0 0 0 1.06 1.06l7.22-7.22 7.22 7.22a.75.75 0 0 0 1.06-1.06l-7.22-7.22 7.22-7.22a.75.75 0 0 0-1.06-1.06L12 11.134l-7.22-7.22z"
+                                fill="#000"
+                                fillRule="evenodd"
+                              />
+                            </svg>
+                          </close_medium>
+                        </span>
+                      </IconPrimary>
+                    </Content>
+                  </button>
+                </Button>
+              </CloseButton>
             </p>
-            <p
+            <div
               className="dnb-global-status__message"
-              id="text_id"
             >
-              text
+              <p
+                className="dnb-p"
+              >
+                text
+              </p>
               <ul
                 className="dnb-ul"
               >
-                <li>
-                  list item
-                   
-                  <Button
-                    bounding={false}
-                    class={null}
-                    className={null}
-                    custom_element={null}
-                    custom_method={null}
-                    disabled={null}
-                    href="#id"
-                    icon={null}
-                    icon_position="right"
-                    icon_size="default"
-                    id={null}
-                    innerRef={null}
-                    onClick={null}
-                    on_click={null}
-                    size={null}
-                    text="Gå til"
-                    title={null}
-                    type="button"
-                    variant="tertiary"
-                  >
-                    <a
-                      className="dnb-button dnb-button--tertiary dnb-button--has-text"
-                      href="#id"
-                      onClick={[Function]}
-                      onMouseOut={[Function]}
-                      type="button"
-                    >
-                      <Content
-                        bounding={false}
-                        class={null}
-                        className={null}
-                        content={null}
-                        custom_element={null}
-                        custom_method={null}
-                        disabled={null}
-                        href="#id"
-                        icon={null}
-                        icon_position="right"
-                        icon_size="default"
-                        id={null}
-                        innerRef={null}
-                        isIconOnly={false}
-                        onClick={null}
-                        on_click={null}
-                        size={null}
-                        text="Gå til"
-                        title={null}
-                        type="button"
-                        variant="tertiary"
-                      >
-                        <span
-                          className="dnb-button__text"
-                          key="button-text"
-                        >
-                          Gå til
-                        </span>
-                      </Content>
-                    </a>
-                  </Button>
+                <li
+                  key="0"
+                >
+                  item #1
+                </li>
+                <li
+                  key="1"
+                >
+                  item #2
                 </li>
               </ul>
-            </p>
+            </div>
           </div>
         </div>
       </div>
@@ -173,19 +238,15 @@ exports[`GlobalStatus scss have to match default theme snapshot 1`] = `
  * GlobalStatus theme
  *
  */
-.dnb-global-status--error .dnb-global-status__content {
+.dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-in.dnb-global-status.dnb-section::after {
+  box-shadow: 100vw 0 0 0 currentColor, 0 0.0625rem 0 0 var(--color-black-80), 100vw 0.0625rem 0 0 var(--color-black-80); }
+
+.dnb-global-status__title {
+  font-weight: var(--font-weight-demi);
+  font-size: var(--font-size-x-default); }
+
+.dnb-global-status__close-button {
   color: var(--color-white); }
-
-.dnb-global-status--error .dnb-global-status__content .dnb-button {
-  color: var(--color-white); }
-
-:not([dnb-is-touch])
-.dnb-global-status--error .dnb-button--tertiary.dnb-button--has-text:not(:focus):not([disabled]):hover:not([disabled])
-.dnb-button__text::after {
-  border-bottom-color: var(--color-white); }
-
-.dnb-global-status--info .dnb-global-status__title {
-  background-color: inherit; }
 "
 `;
 
@@ -586,76 +647,205 @@ a.dnb-button .dnb-button__text {
  * GlobalStatus component
  *
  */
+:root {
+  --global-status-max-height: 20rem;
+  --global-status-delay: 1000ms; }
+
 .dnb-global-status {
-  display: flex; }
-  .dnb-global-status--visible.dnb-global-status.dnb-section::after {
-    box-shadow: 100vw 0 0 0 currentColor, 0 0.0625rem 0 0 var(--color-black-80), 100vw 0.0625rem 0 0 var(--color-black-80); }
+  /* for small screesn */ }
+  .dnb-global-status, .dnb-global-status--no-animation.dnb-global-status--visible {
+    display: flex; }
+  .dnb-global-status--no-animation.dnb-global-status--hidden {
+    display: none; }
   .dnb-global-status__shell {
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-    min-height: var(--input-height); }
-  .dnb-global-status--visible .dnb-global-status__shell {
-    padding-top: 2rem;
-    padding-bottom: 2rem; }
-  .dnb-global-status__message {
-    margin: 0;
-    padding: 0;
-    cursor: text;
-    line-height: 1.5rem; }
+    width: 100%;
+    overflow: hidden; }
   .dnb-global-status__title {
-    font-weight: var(--font-weight-demi);
-    font-size: var(--font-size-x-default);
+    position: relative;
+    display: flex;
+    cursor: text;
     padding: 0;
+    padding-right: 6rem;
     margin: 0;
     margin-bottom: 1rem; }
-  .dnb-global-status__content .dnb-ul,
-  .dnb-spacing .dnb-global-status__content .dnb-ul {
-    margin: 0;
-    margin-top: 0.5rem;
-    padding-left: 1rem; }
-    .dnb-global-status__content .dnb-ul > li,
-    .dnb-spacing .dnb-global-status__content .dnb-ul > li {
-      padding-left: 0;
-      /* stylelint-disable */
-      /* stylelint-enable */ }
-      .dnb-global-status__content .dnb-ul > li:first-of-type,
-      .dnb-spacing .dnb-global-status__content .dnb-ul > li:first-of-type {
-        margin-top: 0; }
-      .dnb-global-status__content .dnb-ul > li:last-of-type,
-      .dnb-spacing .dnb-global-status__content .dnb-ul > li:last-of-type {
-        margin-bottom: 0; }
-  .dnb-icon + .dnb-global-status__content {
-    padding-left: 1rem; }
-  .dnb-global-status__shell > .dnb-icon {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 2em;
-    height: 2em;
-    padding: 0.25em;
-    transform: translateY(-0.25em);
-    color: inherit;
-    font-size: 1rem;
-    border-radius: 50%;
-    border: 0.0625rem solid;
-    border-color: currentColor; }
-  .dnb-global-status[hidden] {
-    display: none; }
-  .dnb-global-status--fade-in {
-    height: 0;
+  .dnb-global-status__icon {
+    margin-right: 1rem; }
+    .dnb-global-status__icon > .dnb-icon {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 2em;
+      height: 2em;
+      padding: 0.25em;
+      transform: translate3d(0, -0.25em, 0);
+      color: inherit;
+      font-size: 1rem;
+      border-radius: 50%;
+      border: 0.0625rem solid;
+      border-color: currentColor; }
+  .dnb-global-status__close-button {
+    position: absolute;
+    top: -0.25rem;
+    right: 0.5rem; }
+  @media (max-width: 40em) {
+    .dnb-global-status__icon {
+      display: block;
+      margin-bottom: 1rem; }
+    .dnb-global-status__title {
+      display: block; } }
+  .dnb-global-status__message {
+    cursor: text; }
+    .dnb-global-status__message,
+    .dnb-global-status__message > .dnb-p,
+    .dnb-spacing .dnb-global-status__message .dnb-p {
+      margin: 0;
+      padding: 0; }
+  .dnb-global-status__content {
+    width: 100%;
+    padding: 2rem 0; }
+    .dnb-global-status__content .dnb-ul,
+    .dnb-spacing .dnb-global-status__content .dnb-ul {
+      margin: 0;
+      margin-top: 0.5rem;
+      padding-left: 1rem; }
+      .dnb-global-status__content .dnb-ul > li,
+      .dnb-spacing .dnb-global-status__content .dnb-ul > li {
+        margin: 0;
+        padding-left: 0; }
+        .dnb-global-status__content .dnb-ul > li .dnb-anchor:last-of-type,
+        .dnb-spacing .dnb-global-status__content .dnb-ul > li .dnb-anchor:last-of-type {
+          margin-left: 0.5rem; }
+  .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-in .dnb-global-status__title {
+    transform: translate3d(0, -2rem, 0);
     opacity: 0;
-    animation: fade-in 600ms ease-out 1 200ms forwards; }
+    animation-name: global-status-fade-in;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease;
+    animation-delay: calc(30ms + 100ms); }
+  .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-in .dnb-global-status__message {
+    transform: translate3d(0, -2rem, 0);
+    opacity: 0;
+    animation-name: global-status-fade-in;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease;
+    animation-delay: calc(80ms + 100ms); }
+  .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-in .dnb-global-status__message .dnb-ul {
+    /* stylelint-disable */
+    /* stylelint-enable */ }
+    .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-in .dnb-global-status__message .dnb-ul > li:nth-of-type(1) {
+      transform: translate3d(0, -2rem, 0);
+      opacity: 0;
+      animation-name: global-status-fade-in;
+      animation-duration: 1s;
+      animation-fill-mode: forwards;
+      animation-timing-function: ease;
+      animation-delay: calc(100ms + 100ms); }
+    .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-in .dnb-global-status__message .dnb-ul > li:nth-of-type(2) {
+      transform: translate3d(0, -2rem, 0);
+      opacity: 0;
+      animation-name: global-status-fade-in;
+      animation-duration: 1s;
+      animation-fill-mode: forwards;
+      animation-timing-function: ease;
+      animation-delay: calc(200ms + 100ms); }
+    .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-in .dnb-global-status__message .dnb-ul > li:nth-of-type(3) {
+      transform: translate3d(0, -2rem, 0);
+      opacity: 0;
+      animation-name: global-status-fade-in;
+      animation-duration: 1s;
+      animation-fill-mode: forwards;
+      animation-timing-function: ease;
+      animation-delay: calc(300ms + 100ms); }
+    .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-in .dnb-global-status__message .dnb-ul > li:nth-of-type(1n + 4) {
+      transform: translate3d(0, -2rem, 0);
+      opacity: 0;
+      animation-name: global-status-fade-in;
+      animation-duration: 1s;
+      animation-fill-mode: forwards;
+      animation-timing-function: ease;
+      animation-delay: calc(400ms + 100ms); }
+  .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-out .dnb-global-status__title {
+    animation-name: global-status-fade-out;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease;
+    animation-delay: 100ms; }
+  .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-out .dnb-global-status__message {
+    animation-name: global-status-fade-out;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease;
+    animation-delay: 50ms; }
+  .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-out .dnb-global-status__message .dnb-ul {
+    /* stylelint-disable */
+    /* stylelint-enable */ }
+    .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-out .dnb-global-status__message .dnb-ul > li:nth-of-type(1) {
+      animation-name: global-status-fade-out;
+      animation-duration: 1s;
+      animation-fill-mode: forwards;
+      animation-timing-function: ease;
+      animation-delay: 100ms; }
+    .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-out .dnb-global-status__message .dnb-ul > li:nth-of-type(2) {
+      animation-name: global-status-fade-out;
+      animation-duration: 1s;
+      animation-fill-mode: forwards;
+      animation-timing-function: ease;
+      animation-delay: 200ms; }
+    .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-out .dnb-global-status__message .dnb-ul > li:nth-of-type(3) {
+      animation-name: global-status-fade-out;
+      animation-duration: 1s;
+      animation-fill-mode: forwards;
+      animation-timing-function: ease;
+      animation-delay: 300ms; }
+    .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-out .dnb-global-status__message .dnb-ul > li:nth-of-type(1n + 4) {
+      animation-name: global-status-fade-out;
+      animation-duration: 1s;
+      animation-fill-mode: forwards;
+      animation-timing-function: ease;
+      animation-delay: 400ms; }
+  .dnb-global-status:not(.dnb-global-status--no-animation):not(.dnb-global-status--zero-height) {
+    max-height: 0; }
+  .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--max-height {
+    animation-name: global-status-max-height;
+    animation-duration: 1.5s;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease;
+    animation-delay: 0ms; }
+  .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--zero-height {
+    animation-name: global-status-zero-height;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease;
+    animation-delay: 140ms; }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-global-status__icon > .dnb-icon {
+      border-width: 1px; } }
 
-@keyframes fade-in {
-  from {
-    opacity: 0;
-    height: 0; }
+@keyframes global-status-fade-in {
   to {
     opacity: 1;
-    height: var(--input-height); } }
-  @media screen and (-ms-high-contrast: none) {
-    .dnb-global-status__shell > .dnb-icon {
-      border-width: 1px; } }
+    transform: translate3d(0, 0, 0); } }
+
+@keyframes global-status-fade-out {
+  from {
+    opacity: 1;
+    transform: translate3d(0, 0, 0); }
+  to {
+    opacity: 0;
+    transform: translate3d(0, -2rem, 0); } }
+
+@keyframes global-status-max-height {
+  from {
+    max-height: 0; }
+  to {
+    max-height: var(--global-status-max-height); } }
+
+@keyframes global-status-zero-height {
+  from {
+    max-height: var(--global-status-max-height); }
+  to {
+    max-height: 0; } }
 "
 `;

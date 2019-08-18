@@ -324,8 +324,6 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     /* IE11 fix */
     border-color: transparent; }
   .dnb-button--tertiary {
-    position: relative;
-    z-index: 1;
     color: var(--color-sea-green);
     background-color: transparent; }
     .dnb-button--tertiary .dnb-button__text {
@@ -350,8 +348,15 @@ exports[`Button scss have to match default theme snapshot 1`] = `
       bottom: 0.5rem; }
     :not([dnb-is-touch]) .dnb-button--tertiary.dnb-button--has-text:not(:focus):not([disabled]):hover:not([disabled]).dnb-button--icon-position-left .dnb-button__text::after {
       left: calc(-0.5rem - var(--button-icon-size)); }
-    :not([dnb-is-touch]) .dnb-button--tertiary.dnb-button--has-text:not(:focus):not([disabled]):hover:not([disabled]).dnb-button--icon-position-right .dnb-button__text::after {
-      right: calc(-0.5rem - var(--button-icon-size)); }
+    :not([dnb-is-touch]) .dnb-button--tertiary.dnb-button--has-text:not(:focus):not([disabled]):hover:not([disabled]).dnb-button--icon-position-left.dnb-button--size-medium .dnb-button__text::after {
+      left: calc(-1rem - var(--button-icon-size)); }
+    :not([dnb-is-touch]) .dnb-button--tertiary.dnb-button--has-text:not(:focus):not([disabled]):hover:not([disabled]).dnb-button--icon-position-right {
+      /* stylelint-disable */
+      /* stylelint-enable */ }
+      :not([dnb-is-touch]) .dnb-button--tertiary.dnb-button--has-text:not(:focus):not([disabled]):hover:not([disabled]).dnb-button--icon-position-right .dnb-button__text::after {
+        right: calc(-0.5rem - var(--button-icon-size)); }
+      :not([dnb-is-touch]) .dnb-button--tertiary.dnb-button--has-text:not(:focus):not([disabled]):hover:not([disabled]).dnb-button--icon-position-right.dnb-button--size-medium .dnb-button__text::after {
+        right: calc(-1rem - var(--button-icon-size)); }
     :not([dnb-is-touch]) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):hover[disabled] {
       cursor: not-allowed; }
     :not([dnb-is-touch]) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):hover:not([disabled]) .dnb-button__icon {

@@ -72,13 +72,14 @@ export function defineNavigator(runInstantly = true) {
     )
       return
     try {
-      if (navigator.platform.match('Mac') !== null) {
-        document.documentElement.setAttribute('os', 'mac')
-      } else if (navigator.platform.match('Win') !== null) {
-        document.documentElement.setAttribute('os', 'win')
-      } else {
-        document.documentElement.setAttribute('os', 'other')
+      if (!window.IS_TEST) {
+        if (navigator.platform.match(/Mac|iPad|iPhone|iPod/) !== null) {
+          document.documentElement.setAttribute('os', 'mac')
+        } else if (navigator.platform.match('Win') !== null) {
+          document.documentElement.setAttribute('os', 'win')
+        }
       }
+      document.documentElement.setAttribute('os', 'other')
     } catch (e) {
       console.log('Could not apply "os attribute"', e)
     }
@@ -250,7 +251,7 @@ export const isTrue = value => {
 }
 
 export const dispatchCustomElementEvent = (
-  element,
+  src,
   eventName,
   eventObject
 ) => {
@@ -290,22 +291,24 @@ export const dispatchCustomElementEvent = (
     }
   }
 
+  const props = (src && src.props) || src
+
   // call Web Component events
-  if (element && element.props && element.props.custom_element) {
-    if (typeof element.props.custom_element.fireEvent === 'function') {
-      ret = element.props.custom_element.fireEvent(eventName, eventObject)
+  if (props.custom_element) {
+    if (typeof props.custom_element.fireEvent === 'function') {
+      ret = props.custom_element.fireEvent(eventName, eventObject)
     }
   }
 
   // call the default snail case event
-  if (element && typeof element.props[eventName] === 'function') {
-    ret = element.props[eventName].apply(element, [eventObject])
+  if (typeof props[eventName] === 'function') {
+    ret = props[eventName].apply(src, [eventObject])
   }
 
   // call Syntetic React event camelCase naming events
   eventName = transformToReactEventCase(eventName)
-  if (element && typeof element.props[eventName] === 'function') {
-    ret = element.props[eventName].apply(element, [eventObject])
+  if (typeof props[eventName] === 'function') {
+    ret = props[eventName].apply(src, [eventObject])
   }
 
   return ret
@@ -326,16 +329,6 @@ export const transformToReactEventCase = s =>
             )),
       ''
     )
-
-export const setCustomElementMethod = (
-  element,
-  methodName,
-  methodFunc
-) => {
-  if (element && typeof element.props.custom_method === 'function') {
-    element.props.custom_method.apply(element, [methodName, methodFunc])
-  }
-}
 
 export const pickRenderProps = (props, renderProps) =>
   Object.entries(props)

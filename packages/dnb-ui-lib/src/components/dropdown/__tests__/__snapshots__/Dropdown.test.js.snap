@@ -263,9 +263,11 @@ exports[`Dropdown component have to match snapshot 1`] = `
         animation="status_animation"
         class={null}
         className={null}
+        global_status_id={null}
         hidden={false}
         icon="exclamation"
         icon_size="medium"
+        id={null}
         render_content={null}
         state="error"
         status="error"
@@ -274,7 +276,6 @@ exports[`Dropdown component have to match snapshot 1`] = `
         title={null}
       >
         <span
-          aria-live="assertive"
           className="dnb-form-status dnb-form-status--error dnb-form-status--status_animation dnb-form-status--has-content"
           hidden={false}
         >
@@ -907,8 +908,10 @@ legend.dnb-form-label {
   .dnb-form-status--text {
     padding: calc(0.5rem / 2) 1rem;
     cursor: text;
-    color: var(--color-emerald-green);
+    color: inherit;
     line-height: 1.5rem; }
+    [os='mac'] .dnb-form-status--text {
+      transform: translateY(0.0625rem); }
   .dnb-icon + .dnb-form-status--text {
     padding-left: 0.5rem; }
   .dnb-form-status__shell > .dnb-icon {
@@ -937,6 +940,16 @@ legend.dnb-form-label {
   to {
     opacity: 1;
     height: var(--input-height); } }
+
+@keyframes attention-focus {
+  0%,
+  100% {
+    color: var(--color-white);
+    background-color: var(--color-cherry-red); }
+  45%,
+  55% {
+    color: var(--color-cherry-red);
+    background-color: var(--color-cherry-red-80); } }
   @media screen and (-ms-high-contrast: none) {
     .dnb-form-status__shell > .dnb-icon {
       border-width: 1px; } }

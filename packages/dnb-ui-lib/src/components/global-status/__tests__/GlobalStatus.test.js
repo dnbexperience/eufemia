@@ -21,46 +21,85 @@ import dnb_form_status_theme_ui from '../style/themes/dnb-global-status-theme-ui
 const props = fakeProps(require.resolve('../GlobalStatus'), {
   optional: true
 })
+props.id = 'main'
 props.state = 'error'
-props.status = null
-props.hidden = false
+props.text = 'text'
+props.items = ['item #1', 'item #2']
+props.show = true
+props.no_animation = true
 props.icon = 'exclamation'
 
 describe('GlobalStatus component', () => {
   const Comp = mount(<Component {...props} />)
 
-  it.skip('have to match snapshot', () => {
+  it('have to match snapshot', () => {
     expect(toJson(Comp)).toMatchSnapshot()
   })
 
-  it.skip('should validate with ARIA rules', async () => {
+  it('should validate with ARIA rules', async () => {
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 
-  it.skip('should have correact attributes once the "hidden" prop changes', async () => {
-    const Comp = mount(<Component {...props} hidden />)
-    expect(Comp.exists('[aria-hidden]')).toBe(true)
-    expect(Comp.exists('[aria-live="assertive"]')).toBe(false)
-    Comp.setProps({
-      hidden: false
+  it.skip('should have correact attributes like "aria-live"', async () => {
+    const Comp = mount(<Component {...props} />)
+    Comp.setState({
+      isVisible: true
     })
     expect(Comp.exists('[aria-live="assertive"]')).toBe(true)
     expect(await axeComponent(Comp)).toHaveNoViolations()
+    Comp.setProps({
+      show: false
+    })
+    expect(Comp.exists('[aria-live="assertive"]')).toBe(false)
   })
 
-  it.skip('has to to have a text value as defined in the prop', () => {
-    expect(Comp.find('.dnb-global-status--text').text()).toBe('text')
+  it('has to to have a text value as defined in the prop', () => {
+    expect(
+      Comp.find('.dnb-global-status__message')
+        .find('.dnb-p')
+        .text()
+    ).toBe(props.text)
+  })
+
+  it('has to to have list items as defined in the prop', () => {
+    expect(Comp.find('.dnb-ul').text()).toBe(props.items.join(''))
+  })
+
+  it('has to to have correct content after a controller update and remove', () => {
+    const text = 'new text'
+
+    // Add new content to the main GlobalStatus
+    mount(
+      <Component.Update
+        id="main"
+        status_id="status-update-1"
+        text={text}
+      />
+    )
+    expect(
+      Comp.find('.dnb-global-status__message')
+        .find('.dnb-p')
+        .text()
+    ).toBe(text)
+
+    // Remvoe content again from the target GlobalStatus
+    mount(<Component.Remove id="main" status_id="status-update-1" />)
+    expect(
+      Comp.find('.dnb-global-status__message')
+        .find('.dnb-p')
+        .text()
+    ).toBe(props.text)
   })
 })
 
 describe('GlobalStatus scss', () => {
-  it.skip('have to match snapshot', () => {
+  it('have to match snapshot', () => {
     const scss = loadScss(
       require.resolve('../style/dnb-global-status.scss')
     )
     expect(scss).toMatchSnapshot()
   })
-  it.skip('have to match default theme snapshot', () => {
+  it('have to match default theme snapshot', () => {
     const scss = loadScss(
       require.resolve('../style/themes/dnb-global-status-theme-ui.scss')
     )
