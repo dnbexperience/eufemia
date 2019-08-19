@@ -72,14 +72,15 @@ export function defineNavigator(runInstantly = true) {
     )
       return
     try {
-      if (!window.IS_TEST) {
+      if (window.IS_TEST) {
+        document.documentElement.setAttribute('os', 'other')
+      } else {
         if (navigator.platform.match(/Mac|iPad|iPhone|iPod/) !== null) {
           document.documentElement.setAttribute('os', 'mac')
         } else if (navigator.platform.match('Win') !== null) {
           document.documentElement.setAttribute('os', 'win')
         }
       }
-      document.documentElement.setAttribute('os', 'other')
     } catch (e) {
       console.log('Could not apply "os attribute"', e)
     }
