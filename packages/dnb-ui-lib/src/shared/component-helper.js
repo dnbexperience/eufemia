@@ -8,6 +8,14 @@ export { registerElement }
 import keycode from 'keycode'
 import whatInput from 'what-input'
 
+if (
+  typeof process !== 'undefined' &&
+  process.env.NODE_ENV === 'test' &&
+  typeof window !== 'undefined'
+) {
+  window.IS_TEST = true
+}
+
 // run component helper functions
 whatInput.specificKeys([9])
 defineIsTouch()
@@ -32,12 +40,12 @@ export function isTouchDevice() {
       )
     )
   } catch (e) {
-    console.log('Could not determine the touch situation:', e)
+    console.warn('Could not determine the touch situation:', e)
     return null
   }
 }
 
-export function defineIsTouch(runInstantly = true) {
+export function defineIsTouch(runInstantly = false) {
   const handleDefineTouch = () => {
     if (typeof document === 'undefined' || typeof window === 'undefined')
       return
@@ -46,24 +54,24 @@ export function defineIsTouch(runInstantly = true) {
         document.documentElement.setAttribute('dnb-is-touch', true)
       }
     } catch (e) {
-      console.log('Could not apply "touch attribute"', e)
+      console.warn('Could not apply "touch attribute"', e)
     }
 
-    window.removeEventListener('load', handleDefineTouch)
+    window.removeEventListener('DOMContentLoaded', handleDefineTouch)
   }
 
   if (runInstantly) {
     handleDefineTouch()
   } else if (typeof window !== 'undefined') {
     try {
-      window.addEventListener('load', handleDefineTouch)
+      window.addEventListener('DOMContentLoaded', handleDefineTouch)
     } catch (e) {
-      console.log('Could not add "load" event listener', e)
+      console.warn('Could not add "DOMContentLoaded" event listener', e)
     }
   }
 }
 
-export function defineNavigator(runInstantly = true) {
+export function defineNavigator(runInstantly = false) {
   const handleNavigator = () => {
     if (
       typeof document === 'undefined' ||
@@ -82,19 +90,19 @@ export function defineNavigator(runInstantly = true) {
         }
       }
     } catch (e) {
-      console.log('Could not apply "os attribute"', e)
+      console.warn('Could not apply "os attribute"', e)
     }
 
-    window.removeEventListener('load', handleNavigator)
+    window.removeEventListener('DOMContentLoaded', handleNavigator)
   }
 
   if (runInstantly) {
     handleNavigator()
   } else if (typeof window !== 'undefined') {
     try {
-      window.addEventListener('load', handleNavigator)
+      window.addEventListener('DOMContentLoaded', handleNavigator)
     } catch (e) {
-      console.log('Could not add "load" event listener', e)
+      console.warn('Could not add "DOMContentLoaded" event listener', e)
     }
   }
 }
