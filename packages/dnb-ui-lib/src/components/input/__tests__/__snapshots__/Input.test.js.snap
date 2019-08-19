@@ -224,7 +224,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
               disabled={null}
               href={null}
               icon="search"
-              icon_position="right"
+              icon_position={null}
               icon_size={null}
               id={null}
               innerRef={null}
@@ -258,7 +258,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                   disabled={null}
                   href={null}
                   icon="search"
-                  icon_position="right"
+                  icon_position={null}
                   icon_size={null}
                   id={null}
                   innerRef={null}

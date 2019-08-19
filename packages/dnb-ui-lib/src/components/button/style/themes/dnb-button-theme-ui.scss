@@ -70,64 +70,104 @@
   }
 
   &--tertiary {
-    position: relative;
-    z-index: 1;
+    position: relative; // because  of the focus ring
+    // z-index: 1;
+
     color: var(--color-sea-green);
     background-color: transparent;
-
-    .dnb-button__text {
-      line-height: inherit;
-    }
 
     &.dnb-button--has-text {
       padding: 0 0.5rem;
     }
 
-    &.dnb-button--has-text:not(:focus):not([disabled]) {
-      @include hover(true) {
-        .dnb-button__text {
-          @include drawUnderlineBorder() {
-            left: 0;
-            right: 0;
-            bottom: 0.5rem;
-          }
-        }
-        &.dnb-button--icon-position-left .dnb-button__text::after {
-          left: calc(-0.5rem - var(--button-icon-size));
-        }
-        &.dnb-button--icon-position-right .dnb-button__text::after {
-          right: calc(-0.5rem - var(--button-icon-size));
-        }
-      }
+    .dnb-button__text {
+      line-height: 1rem;
+      padding: 0.125rem 0;
+      border-bottom: 0.0625rem solid transparent;
     }
 
-    // icon only tertiary
-    &.dnb-button--has-icon:not(.dnb-button--has-text) {
-      @include hover(true) {
-        .dnb-button__icon {
-          color: var(--color-sea-green-alt-30);
-        }
-      }
-    }
-
-    &.dnb-button--has-text:not([disabled]):active::after {
-      border-bottom: none;
-    }
-
+    // Create focus-ring
     &:focus {
       @include removeFakeFocus();
 
       &::before {
         content: '';
         position: absolute;
-        top: 0;
-        left: 0;
+        top: -0.0625rem;
+        left: -0.5rem;
         bottom: 0;
         right: -0.5rem;
         height: inherit;
         border-radius: inherit;
 
         @include fakeFocus();
+      }
+    }
+
+    &:not(:focus):hover {
+      border-radius: 0;
+
+      .dnb-button__text {
+        border-bottom-color: var(--color-emerald-green);
+      }
+    }
+
+    // icon only tertiary
+    &.dnb-button--has-icon {
+      /* stylelint-disable */
+      .dnb-button__icon {
+        position: absolute;
+        top: 0;
+        bottom: 0.0625rem;
+        margin: auto 0;
+      }
+      /* stylelint-enable */
+
+      &:not(.dnb-button--has-text) {
+        @include hover(true) {
+          .dnb-button__icon {
+            color: var(--color-sea-green-alt-30);
+          }
+        }
+      }
+
+      &.dnb-button--icon-position-left {
+        .dnb-button__text {
+          padding-left: 1.25rem;
+        }
+        .dnb-button__icon {
+          left: 0.25rem;
+          right: auto;
+        }
+        &.dnb-button--icon-size-medium {
+          .dnb-button__text {
+            padding-left: 0;
+            margin-left: 1.5rem;
+          }
+        }
+      }
+      &.dnb-button--icon-position-right {
+        /* stylelint-disable */
+        .dnb-button__text {
+          padding-right: 1.25rem;
+        }
+        /* stylelint-enable */
+        .dnb-button__icon {
+          right: 0.25rem;
+          left: auto;
+        }
+        &.dnb-button--icon-size-medium {
+          .dnb-button__text {
+            padding-right: 0;
+            margin-right: 1.5rem;
+          }
+        }
+      }
+      // correct medium icon offset
+      &.dnb-button--icon-size-medium {
+        .dnb-button__icon {
+          bottom: 0.125rem;
+        }
       }
     }
 
