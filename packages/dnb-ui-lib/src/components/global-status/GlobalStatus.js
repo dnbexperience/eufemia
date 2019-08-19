@@ -20,6 +20,7 @@ import GlobalStatusProvider from './GlobalStatusProvider'
 import IconPrimary from '../icon-primary/IconPrimary'
 import Button from '../button/Button'
 import Section from '../section/Section'
+import Animation from './AnimationHelper'
 
 const renderProps = {
   on_open: null,
@@ -87,13 +88,13 @@ const defaultProps = {
   icon: 'exclamation',
   icon_size: 'medium',
   state: 'error',
-  show: false,
+  show: null,
   autoscroll: true,
   autoclose: true,
   no_animation: false,
   close_text: 'Lukk', // Close Modal Window
   hide_close_button: false,
-  delay: 100,
+  delay: 200,
   status_anchor_text: 'Gå til',
   class: null,
   demo: false,
@@ -143,16 +144,29 @@ export default class GlobalStatus extends React.Component {
   }
 
   static getDerivedStateFromProps(props, state) {
-    if (state._listenForPropChanges && isTrue(props.show)) {
+    // set isActive to true, so the rerender can start showing the status
+    // this will also be done by the onUpdate rerender in te constructor
+    if (
+      state._listenForPropChanges &&
+      !state.isVisible &&
+      isTrue(props.show)
+    ) {
       state.isActive = true
+      state.startShowing = true
+      if (isTrue(props.no_animation)) {
+        state.isVisible = true
+      }
+    } else if (
+      state._listenForPropChanges &&
+      state.isVisible &&
+      props.show !== null &&
+      !isTrue(props.show)
+    ) {
+      state.startHiding = true
+      if (isTrue(props.no_animation)) {
+        state.isVisible = false
+      }
     }
-    // if (
-    //   state._listenForPropChanges &&
-    //   state.isVisible &&
-    //   !isTrue(props.show)
-    // ) {
-    //   state.isActive = false
-    // }
     state._listenForPropChanges = true
     return state
   }
@@ -197,12 +211,19 @@ export default class GlobalStatus extends React.Component {
 
     // force rerender
     this.provider.onUpdate(globalStatus => {
+      // grap that provider only state: globalStatus
+      // before we actually set our new state
       const isEmptyNow = globalStatus.isEmptyNow
       delete globalStatus.isEmptyNow
 
+      if (globalStatus.show) {
+        const isActive = globalStatus.show
+        this.setState({ isActive })
+      }
+
       this.setState({ globalStatus })
 
-      if (isEmptyNow && isTrue(this.props.autoclose)) {
+      if (isEmptyNow && isTrue(this._props.autoclose)) {
         this.setHidden()
       }
 
@@ -211,6 +232,8 @@ export default class GlobalStatus extends React.Component {
         this.setVisible()
       }
     })
+
+    this.animation = new Animation()
   }
 
   correctStatus(state) {
@@ -223,91 +246,121 @@ export default class GlobalStatus extends React.Component {
   }
 
   componentWillUnmount() {
-    this._props = null
-    clearTimeout(this.delayId)
-    clearTimeout(this.setVisibleId)
-    clearTimeout(this.setHiddenId)
+    this.animation.unbind()
   }
 
-  setVisible = () => {
-    const delay = parseFloat(this.props.delay) || 10
-
-    const run = () => {
+  setVisible = ({ isInRender = false } = {}) => {
+    const { demo: isDemo, autoscroll, no_animation } = this.props
+    const noAnimation = isTrue(no_animation)
+    if (isInRender && noAnimation) {
+      return
+    }
+    const delay = noAnimation ? 0 : parseFloat(this.props.delay) || 200
+    const duration = noAnimation ? 0 : 1e3
+    const onStart = () => {
       this.setState({
+        isActive: true,
         startShowing: true,
         startHiding: false,
-        isActive: true,
         _listenForPropChanges: false
       })
-
-      clearTimeout(this.setVisibleId)
-      clearTimeout(this.setHiddenId)
-
-      this.setVisibleId = setTimeout(() => {
-        this.setState(
-          {
-            startShowing: false,
-            isVisible: true,
-            _listenForPropChanges: false
-          },
-          () => {
-            dispatchCustomElementEvent(this._props, 'on_open', this._props)
-            if (!this.props.demo && isTrue(this.props.autoscroll)) {
-              this.scrollToStatus()
-            }
-            if (this.props.demo) {
-              this.setHiddenId = setTimeout(() => {
-                this.setHidden()
-              }, 2e3)
-            }
-          }
-        )
-      }, 200)
     }
-
-    if (delay > 0) {
-      clearTimeout(this.delayId)
-      this.delayId = setTimeout(run, delay)
-    } else {
-      run()
-    }
-  }
-  setHidden = () => {
-    if (isTrue(this.props.no_animation)) {
+    const onComplete = () => {
       this.setState({
-        visible: false,
+        startShowing: false,
+        isVisible: true,
         _listenForPropChanges: false
       })
-    } else {
+      dispatchCustomElementEvent(this._props, 'on_open', this._props)
+      if (!isDemo && isTrue(autoscroll)) {
+        this.scrollToStatus()
+      }
+      if (isDemo) {
+        this.setHiddenId = setTimeout(() => {
+          this.setHidden()
+        }, 2e3)
+      }
+    }
+
+    this.animation.add({
+      type: 'show',
+      onComplete,
+      onStart,
+      duration,
+      delay
+    })
+  }
+  setHidden = ({ isInRender = false } = {}) => {
+    const { demo: isDemo, no_animation } = this.props
+    const noAnimation = isTrue(no_animation)
+    if (isInRender && noAnimation) {
+      return
+    }
+    const delay = noAnimation ? 0 : 200
+    const duration = noAnimation ? 0 : isDemo ? 2e3 : 1e3
+    const onStart = () => {
       this.setState({
         startHiding: true,
         startShowing: false,
         _listenForPropChanges: false
       })
     }
+    const onComplete = () => {
+      this.setState({
+        startHiding: false, // do not reset startHiding
+        isActive: false,
+        isVisible: false,
+        _listenForPropChanges: false
+      })
+      dispatchCustomElementEvent(this._props, 'on_hide', this._props)
+      if (isDemo) {
+        this.setVisible()
+      }
+    }
 
-    clearTimeout(this.setVisibleId)
-    clearTimeout(this.setHiddenId)
-    clearTimeout(this.delayId)
+    this.animation.add({
+      type: 'hide',
+      onComplete,
+      onStart,
+      duration,
+      delay
+    })
+  }
 
-    this.setHiddenId = setTimeout(
-      () => {
-        this.setState(
-          {
-            startHiding: false, // do not reset startHiding
-            isActive: false,
-            isVisible: false,
-            _listenForPropChanges: false
-          },
-          () => {
-            dispatchCustomElementEvent(this._props, 'on_hide', this._props)
-            if (this.props.demo) {
-              this.setVisible()
-            }
-          }
-        )
-      },
-      this.props.demo ? 2e3 : 1200
+  isBeforeVisibleState() {
+    const { show, demo } = this.props
+    const { isActive, startShowing, startHiding, isVisible } = this.state
+    return (
+      startShowing &&
+      !startHiding &&
+      ((isActive && !isVisible) || (demo && (!isActive, !isVisible))) &&
+      isTrue(show)
+    )
+  }
+  isAfterVisibleState() {
+    const { show, demo } = this.props
+    const { isActive, startShowing, startHiding, isVisible } = this.state
+    return (
+      !startShowing &&
+      startHiding &&
+      isActive &&
+      isVisible &&
+      !demo &&
+      !isTrue(show)
+    )
+  }
+
+  isBeforeAnimationState() {
+    const { isActive, startShowing, startHiding, isVisible } = this.state
+    return isActive && (startShowing || isVisible) && !startHiding
+  }
+  isAfterAnimationState() {
+    const { isActive, startShowing, startHiding, isVisible } = this.state
+    return (
+      isActive &&
+      startHiding &&
+      !startShowing && // was not used before!
+      isVisible
     )
   }
 
@@ -341,6 +394,12 @@ export default class GlobalStatus extends React.Component {
   }
 
   render() {
+    const { isActive, isVisible } = this.state
+
+    if (!isActive) {
+      return <></>
+    }
+
     // consume the globalStatus context (considdering of using extendPropsWithContext)
     const props = Object.assign(
       {},
@@ -358,12 +417,12 @@ export default class GlobalStatus extends React.Component {
       no_animation,
       hide_close_button,
       close_text,
-      demo,
       class: _className,
       status_anchor_text,
 
       id, // eslint-disable-line
       ids, // eslint-disable-line
+      demo, // eslint-disable-line
       item, // eslint-disable-line
       items, // eslint-disable-line
       autoclose, // eslint-disable-line
@@ -378,30 +437,11 @@ export default class GlobalStatus extends React.Component {
       ...attributes
     } = props
 
-    const { isActive, startShowing, startHiding, isVisible } = this.state
-
-    if (
-      ((isActive && !isVisible) || (demo && (!isActive, !isVisible))) &&
-      !startShowing &&
-      !startHiding &&
-      !isTrue(no_animation) &&
-      isTrue(show)
-    ) {
-      this.setVisible()
-      // this.setVisibleId = setTimeout(() => {
-      // }, 10) // avoid React warning
+    if (this.isBeforeVisibleState()) {
+      this.setVisible({ isInRender: true })
+    } else if (this.isAfterVisibleState()) {
+      this.setHidden({ isInRender: true })
     }
-    // if (
-    //   ((isActive && isVisible) || (demo && (isActive, isVisible))) &&
-    //   !startShowing &&
-    //   !startHiding &&
-    //   !isTrue(no_animation)
-    //   // !isTrue(show)
-    // ) {
-    //   // this.setVisibleId = setTimeout(() => {
-    //   // }, 10) // avoid React warning
-    //   this.setHidden()
-    // }
 
     const state = this.correctStatus(rawState)
     const iconToRender = GlobalStatus.getIcon({
@@ -418,14 +458,10 @@ export default class GlobalStatus extends React.Component {
       className: classnames(
         'dnb-global-status',
         `dnb-global-status--${state}`,
-        (startShowing || isVisible) &&
-          !startHiding &&
-          'dnb-global-status--max-height',
-        startHiding && isVisible && 'dnb-global-status--zero-height',
-        (startShowing || isVisible) &&
-          !startHiding &&
-          'dnb-global-status--fade-in',
-        startHiding && isVisible && 'dnb-global-status--fade-out',
+        this.isBeforeAnimationState() && 'dnb-global-status--max-height',
+        this.isAfterAnimationState() && 'dnb-global-status--zero-height',
+        this.isBeforeAnimationState() && 'dnb-global-status--fade-in',
+        this.isAfterAnimationState() && 'dnb-global-status--fade-out',
         isTrue(no_animation) && 'dnb-global-status--no-animation',
         isTrue(no_animation) &&
           (isActive
@@ -439,9 +475,7 @@ export default class GlobalStatus extends React.Component {
       ...attributes
     }
 
-    if (!isActive) {
-      params['aria-hidden'] = true
-    }
+    // check for isVisible, so we realert the user for content change
     if (isVisible && hasStringContent) {
       // in case we send in a React component, witchs has its own state, then we dont want to have aria-live all the time active
       params['aria-live'] = 'assertive'
@@ -452,10 +486,6 @@ export default class GlobalStatus extends React.Component {
     // also used for code markup simulation
     validateDOMAttributes(this.props, params)
     // validateDOMAttributes(null, textParams)
-
-    if (!isActive) {
-      return <></>
-    }
 
     return (
       <Section element="div" style_type={style} {...params}>
@@ -487,11 +517,13 @@ export default class GlobalStatus extends React.Component {
                       <li key={i}>
                         {(item && item.text) || item}
                         {item &&
-                          (item.status_id || item.status_anchor_url) && (
+                          ((item.status_id &&
+                            isTrue(item.status_anchor_url)) ||
+                            item.status_anchor_url) && (
                             <a
                               className="dnb-anchor"
                               href={
-                                item.status_id
+                                isTrue(item.status_anchor_url)
                                   ? `#${item.status_id}`
                                   : item.status_anchor_url
                               }

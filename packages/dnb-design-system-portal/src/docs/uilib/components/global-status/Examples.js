@@ -66,7 +66,7 @@ const InputWithError = () => {
       on_change={({ value }) => {
         setErrorMessage(value.length >= 3 ? 'With a message shown' : null)
       }}
-      status_id="main-status"
+      global_status_id="main-status"
     />
   )
 }
@@ -114,12 +114,12 @@ render(
   const [count, toggleUpdateStatus] = useState(0)
   return (
     <>
-      <GlobalStatus id="custom-status" />
+      <GlobalStatus id="custom-status" autoscroll={false} />
       <Button
         text={'Show step #' + count}
         on_click={() => {
           toggleUpdateStatus(count + 1)
-          if (count > 1) {
+          if (count >= 3) {
             toggleUpdateStatus(0)
           }
         }}

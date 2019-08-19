@@ -63,28 +63,19 @@ class GlobalStatusProviderItem {
           acc.ids.push(cur.status_id)
         }
         if (cur.item) {
-          acc.items.push({ text: cur.item, status_id: cur.status_id })
+          if (typeof cur.item === 'string') {
+            acc.items.push({ text: cur.item, status_id: cur.status_id })
+          } else {
+            acc.items.push(cur.item)
+          }
         }
         Object.assign(acc, cur)
         return acc
       },
       { ids: [], items: [] }
     )
-    // console.log('globalStatus', globalStatus)
     return globalStatus
   }
-
-  // NB: This is currently not used, as we use the stacking methode
-  // and internal mergin
-  // setGlobalStatus(props) {
-  //   const newProps = Object.assign(this.globalStatus, props)
-  //   if (newProps.children) {
-  //     newProps.text = newProps.children
-  //     delete newProps.children
-  //   }
-  //   this.globalStatus = newProps
-  //   this.forceRerender(this.globalStatus, props)
-  // }
 
   add(props) {
     if (props.status_id) {
@@ -99,9 +90,8 @@ class GlobalStatusProviderItem {
     newProps.status_time = new Date().getTime()
     newProps.status_id =
       props.status_id || newProps.status_time + (this.count += 1)
-
     // also, set show to true
-    if (typeof newProps.show === 'undefined') {
+    if (typeof newProps.show === 'undefined' || newProps.show === null) {
       newProps.show = true
       newProps.isEmptyNow = false
     }
@@ -127,16 +117,23 @@ class GlobalStatusProviderItem {
     )
   }
 
-  remove(status_id) {
-    // console.log('this.stack', this.stack)
+  remove(status_id, { buffer_delay = 10 } = {}) {
     if (status_id) {
       this.stack = this.stack.filter(cur => cur.status_id !== status_id)
 
-      const globalStatus = this.sumItemsToSingleStatus()
-      if (this.stack && this.stack.length === 0) {
-        globalStatus.isEmptyNow = true
+      const run = () => {
+        const globalStatus = this.sumItemsToSingleStatus()
+        if (this.stack && this.stack.length === 0) {
+          globalStatus.isEmptyNow = true
+        }
+        this.forceRerender(globalStatus)
       }
-      this.forceRerender(globalStatus)
+      if (buffer_delay > 0) {
+        clearTimeout(this._removeId)
+        this._removeId = setTimeout(run, buffer_delay) // delay the sum & rerender, in case we change the state in the same frame
+      } else {
+        run()
+      }
     }
   }
 

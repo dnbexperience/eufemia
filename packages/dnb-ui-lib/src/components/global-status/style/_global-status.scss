@@ -89,10 +89,13 @@
       border-color: currentColor;
     }
   }
-  &__close-button {
+  &__close-button,
+  &__close-button.dnb-button--tertiary {
     position: absolute;
+    z-index: 1;
     top: -0.25rem;
-    right: 0.5rem;
+    right: 1rem; // also because of the focus-ring
+    left: auto;
   }
 
   /* for small screesn */
@@ -150,7 +153,7 @@
     @include showAnimation(30ms);
   }
   &:not(#{&}--no-animation)#{&}--fade-in &__message {
-    @include showAnimation(80ms);
+    @include showAnimation(100ms);
   }
   &:not(#{&}--no-animation)#{&}--fade-in &__message .dnb-ul {
     /* stylelint-disable */
@@ -171,10 +174,10 @@
 
   // Hide animation
   &:not(#{&}--no-animation)#{&}--fade-out &__title {
-    @include hideAnimation(100ms);
+    @include hideAnimation(50ms);
   }
   &:not(#{&}--no-animation)#{&}--fade-out &__message {
-    @include hideAnimation(50ms);
+    @include hideAnimation(100ms);
   }
   &:not(#{&}--no-animation)#{&}--fade-out &__message .dnb-ul {
     /* stylelint-disable */
@@ -202,7 +205,7 @@
     @include toMaxHeight(0ms);
   }
   &:not(#{&}--no-animation)#{&}--zero-height {
-    @include toZeroHeight(140ms);
+    @include toZeroHeight(0ms);
   }
 
   // IE fix

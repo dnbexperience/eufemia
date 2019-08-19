@@ -59,11 +59,13 @@ class GlobalStatusController extends PureComponent {
 class GlobalStatusRemove extends PureComponent {
   static propTypes = {
     id: PropTypes.string, // Provider id
-    status_id: PropTypes.string // Status Item id
+    status_id: PropTypes.string, // Status Item id
+    buffer_delay: PropTypes.number // Used for testing
   }
   static defaultProps = {
     id: 'main',
-    status_id: null
+    status_id: null,
+    buffer_delay: null
   }
 
   constructor(props) {
@@ -81,7 +83,9 @@ class GlobalStatusRemove extends PureComponent {
     this.provider = GSP.Factory(props.id)
 
     if (props.status_id) {
-      this.provider.remove(props.status_id)
+      this.provider.remove(props.status_id, {
+        buffer_delay: props.buffer_delay
+      })
     }
   }
 

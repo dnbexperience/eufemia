@@ -29,11 +29,13 @@ export default [
             Content 2
             <GlobalStatus
               // title={'Title 1'}
-              show
+              // show
               no_animation
               autoclose={false}
+              autoscroll="false"
               // demo
               // id="default-1"
+              // delay={300}
               on_close={props => {
                 console.log('on_close', props)
               }}
@@ -74,19 +76,19 @@ export default [
         <ToggleGlobalStatus />
       </Box>
       <Box>
+        <InputWithError />
+      </Box>
+      <Box>
         <GlobalStatus
           show
           no_animation
+          autoscroll="false"
           state="info"
           title="Custom Title"
           id="custom-id"
         >
           <CustomStatus />
         </GlobalStatus>
-      </Box>
-      <Box>
-        <GlobalStatus id="form-status" />
-        <InputWithError />
       </Box>
     </Wrapper>
   )
@@ -103,7 +105,7 @@ const InputWithError = () => {
         on_change={({ value }) => {
           setErrorMessage1(value.length >= 3)
         }}
-        status_id="form-status"
+        global_status_id="form-status"
         right="small"
       />
       <Input
@@ -112,8 +114,9 @@ const InputWithError = () => {
         on_change={({ value }) => {
           setErrorMessage2(value.length >= 3)
         }}
-        status_id="form-status"
+        global_status_id="form-status"
       />
+      <GlobalStatus id="form-status" autoscroll="false" />
     </>
   )
 }
@@ -122,10 +125,6 @@ const ToggleGlobalStatus = () => {
   const [count, toggleUpdateStatus] = useState(0)
   return (
     <>
-      <GlobalStatus
-        id="custom-status"
-        on_close={() => toggleUpdateStatus(0)}
-      />
       <Button
         text={`Step #${count}`}
         on_click={() => {
@@ -135,6 +134,13 @@ const ToggleGlobalStatus = () => {
           }
         }}
         top="small"
+      />
+      <GlobalStatus
+        id="custom-status"
+        autoscroll="false"
+        // show={count === 1}
+        // autoclose="false"
+        on_close={() => toggleUpdateStatus(0)}
       />
       {count === 1 && (
         <>

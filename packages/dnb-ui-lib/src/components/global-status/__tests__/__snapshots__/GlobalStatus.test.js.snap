@@ -32,18 +32,21 @@ exports[`GlobalStatus component have to match snapshot 1`] = `
   title="title"
 >
   <Section
+    aria-live="assertive"
     class={null}
-    className="dnb-global-status dnb-global-status--error dnb-global-status--no-animation dnb-global-status--visible className class"
+    className="dnb-global-status dnb-global-status--error dnb-global-status--max-height dnb-global-status--fade-in dnb-global-status--no-animation dnb-global-status--visible className class"
     element="div"
     render_content={null}
     style_type="cherry-red"
   >
     <Element
-      className="dnb-section dnb-section--cherry-red dnb-global-status dnb-global-status--error dnb-global-status--no-animation dnb-global-status--visible className class"
+      aria-live="assertive"
+      className="dnb-section dnb-section--cherry-red dnb-global-status dnb-global-status--error dnb-global-status--max-height dnb-global-status--fade-in dnb-global-status--no-animation dnb-global-status--visible className class"
       is="div"
     >
       <div
-        className="dnb-section dnb-section--cherry-red dnb-global-status dnb-global-status--error dnb-global-status--no-animation dnb-global-status--visible className class"
+        aria-live="assertive"
+        className="dnb-section dnb-section--cherry-red dnb-global-status dnb-global-status--error dnb-global-status--max-height dnb-global-status--fade-in dnb-global-status--no-animation dnb-global-status--visible className class"
       >
         <div
           className="dnb-global-status__shell"
@@ -124,7 +127,7 @@ exports[`GlobalStatus component have to match snapshot 1`] = `
                   variant="tertiary"
                 >
                   <button
-                    className="dnb-button dnb-button--tertiary dnb-button--size-medium dnb-button--icon-position-left dnb-button--has-text dnb-button--has-icon dnb-global-status__close-button"
+                    className="dnb-button dnb-button--tertiary dnb-button--size-medium dnb-button--icon-position-left dnb-button--icon-size-medium dnb-button--has-text dnb-button--has-icon dnb-global-status__close-button"
                     onClick={[Function]}
                     onMouseOut={[Function]}
                     title="Lukk"
@@ -245,8 +248,12 @@ exports[`GlobalStatus scss have to match default theme snapshot 1`] = `
   font-weight: var(--font-weight-demi);
   font-size: var(--font-size-x-default); }
 
-.dnb-global-status__close-button {
+.dnb-global-status__close-button, .dnb-global-status__close-button.dnb-button--tertiary {
   color: var(--color-white); }
+  .dnb-global-status__close-button:hover .dnb-button__text, .dnb-global-status__close-button.dnb-button--tertiary:hover .dnb-button__text {
+    border-color: var(--color-white); }
+  .dnb-global-status__close-button:not([disabled]):focus::before, .dnb-global-status__close-button:not([disabled]):active::before, .dnb-global-status__close-button.dnb-button--tertiary:not([disabled]):focus::before, .dnb-global-status__close-button.dnb-button--tertiary:not([disabled]):active::before {
+    box-shadow: 0 0 0 0.125rem var(--color-white); }
 "
 `;
 
@@ -683,10 +690,12 @@ a.dnb-button .dnb-button__text {
       border-radius: 50%;
       border: 0.0625rem solid;
       border-color: currentColor; }
-  .dnb-global-status__close-button {
+  .dnb-global-status__close-button, .dnb-global-status__close-button.dnb-button--tertiary {
     position: absolute;
+    z-index: 1;
     top: -0.25rem;
-    right: 0.5rem; }
+    right: 1rem;
+    left: auto; }
   @media (max-width: 40em) {
     .dnb-global-status__icon {
       display: block;
@@ -730,7 +739,7 @@ a.dnb-button .dnb-button__text {
     animation-duration: 1s;
     animation-fill-mode: forwards;
     animation-timing-function: ease;
-    animation-delay: calc(80ms + 100ms); }
+    animation-delay: calc(100ms + 100ms); }
   .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-in .dnb-global-status__message .dnb-ul {
     /* stylelint-disable */
     /* stylelint-enable */ }
@@ -771,13 +780,13 @@ a.dnb-button .dnb-button__text {
     animation-duration: 1s;
     animation-fill-mode: forwards;
     animation-timing-function: ease;
-    animation-delay: 100ms; }
+    animation-delay: 50ms; }
   .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-out .dnb-global-status__message {
     animation-name: global-status-fade-out;
     animation-duration: 1s;
     animation-fill-mode: forwards;
     animation-timing-function: ease;
-    animation-delay: 50ms; }
+    animation-delay: 100ms; }
   .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-out .dnb-global-status__message .dnb-ul {
     /* stylelint-disable */
     /* stylelint-enable */ }
@@ -818,7 +827,7 @@ a.dnb-button .dnb-button__text {
     animation-duration: 1s;
     animation-fill-mode: forwards;
     animation-timing-function: ease;
-    animation-delay: 140ms; }
+    animation-delay: 0ms; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-global-status__icon > .dnb-icon {
       border-width: 1px; } }

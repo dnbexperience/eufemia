@@ -40,11 +40,7 @@ describe('GlobalStatus component', () => {
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 
-  it.skip('should have correact attributes like "aria-live"', async () => {
-    const Comp = mount(<Component {...props} />)
-    Comp.setState({
-      isVisible: true
-    })
+  it('should have correact attributes like "aria-live"', async () => {
     expect(Comp.exists('[aria-live="assertive"]')).toBe(true)
     expect(await axeComponent(Comp)).toHaveNoViolations()
     Comp.setProps({
@@ -83,7 +79,13 @@ describe('GlobalStatus component', () => {
     ).toBe(text)
 
     // Remvoe content again from the target GlobalStatus
-    mount(<Component.Remove id="main" status_id="status-update-1" />)
+    mount(
+      <Component.Remove
+        id="main"
+        status_id="status-update-1"
+        buffer_delay={0}
+      />
+    )
     expect(
       Comp.find('.dnb-global-status__message')
         .find('.dnb-p')

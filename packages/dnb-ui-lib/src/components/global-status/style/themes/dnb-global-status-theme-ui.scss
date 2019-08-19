@@ -15,7 +15,21 @@
     font-size: var(--font-size-x-default);
   }
 
-  &__close-button {
+  &__close-button,
+  &__close-button.dnb-button--tertiary {
     color: var(--color-white);
+    &:hover {
+      .dnb-button__text {
+        border-color: var(--color-white);
+      }
+    }
+
+    &:not([disabled]):focus,
+    &:not([disabled]):active {
+      &::before {
+        box-shadow: 0 0 0 0.125rem /* same as $focusRingWidth */
+          var(--color-white);
+      }
+    }
   }
 }
