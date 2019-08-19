@@ -80,6 +80,12 @@ class Example extends PureComponent {
   icon="chevron_left"
   data-dnb-test="button-tertiary"
 />
+<Button
+  variant="tertiary"
+  text="With medium icon"
+  icon="chevron_right"
+  icon_size="medium"
+/>
           `}
         </ComponentBox>
         <ComponentBox>

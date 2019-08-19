@@ -51,15 +51,17 @@
   & .dnb-table__th#{&}--sortable {
     color: var(--color-emerald-green);
 
-    .dnb-icon {
-      visibility: hidden;
-      margin-left: 0.5rem;
-    }
-
     a,
     .dnb-anchor,
     .dnb-button,
     .dnb-button--tertiary {
+      > .dnb-icon {
+        position: absolute;
+        right: 0.25rem;
+        left: auto;
+        visibility: hidden;
+      }
+
       position: relative;
       z-index: 1;
       display: inline-block;
@@ -72,6 +74,7 @@
 
       margin: 0;
       padding: 0;
+      padding-right: 0.5rem;
 
       color: inherit;
       font-weight: var(--font-weight-medium);
@@ -79,7 +82,6 @@
 
       &:not(:focus),
       &:not(:focus).dnb-button--has-text {
-        padding: 0;
         @include drawUnderlineBorder() {
           left: 0;
           right: 1.5rem;
