@@ -127,7 +127,7 @@ export default class FormStatus extends PureComponent {
     this.provider.add({
       state,
       status_id,
-      item: text
+      item: { text, status_id, status_anchor_url: true }
     })
   }
 
