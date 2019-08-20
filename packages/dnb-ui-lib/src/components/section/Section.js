@@ -68,6 +68,11 @@ export default class Section extends PureComponent {
     return processChildren(props)
   }
 
+  constructor(props) {
+    super(props)
+    this._ref = React.createRef()
+  }
+
   render() {
     // consume the formRow context
     const props = this.context.formRow
@@ -106,15 +111,19 @@ export default class Section extends PureComponent {
     validateDOMAttributes(this.props, params)
 
     return (
-      <Element is={element || 'section'} {...params}>
+      <Element is={element || 'section'} {...params} ref={this._ref}>
         {content}
       </Element>
     )
   }
 }
 
-const Element = ({ is: Element, children, ...rest }) => (
-  <Element {...rest}>{children}</Element>
+const Element = React.forwardRef(
+  ({ is: Element, children, ...rest }, ref) => (
+    <Element {...rest} ref={ref}>
+      {children}
+    </Element>
+  )
 )
 Element.propTypes = {
   is: PropTypes.string.isRequired,

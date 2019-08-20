@@ -10,7 +10,7 @@ exports[`Section component have to match snapshot 1`] = `
   style={null}
   style_type="mint-green-12"
 >
-  <Element
+  <ForwardRef
     className="dnb-section dnb-section--mint-green-12 dnb-section--spacing-spacing className class"
     is="section"
   >
@@ -19,7 +19,7 @@ exports[`Section component have to match snapshot 1`] = `
     >
       children
     </section>
-  </Element>
+  </ForwardRef>
 </Section>
 `;
 
@@ -66,7 +66,8 @@ exports[`Section scss have to match default theme snapshot 1`] = `
   .dnb-section--cherry-red .dnb-anchor, .dnb-section--cherry-red .dnb-anchor:focus {
     color: var(--color-white); }
   .dnb-section--cherry-red .dnb-anchor:hover {
-    background-color: var(--color-black-80); }
+    color: var(--color-cherry-red);
+    background-color: var(--color-white); }
 "
 `;
 

@@ -94,7 +94,7 @@ const defaultProps = {
   no_animation: false,
   close_text: 'Lukk', // Close Modal Window
   hide_close_button: false,
-  delay: 200,
+  delay: 10,
   status_anchor_text: 'Gå til',
   class: null,
   demo: false,
@@ -195,6 +195,7 @@ export default class GlobalStatus extends React.Component {
 
   state = {
     globalStatus: null,
+    hasHeight: false,
     isActive: false,
     isVisible: false,
     startShowing: false,
@@ -206,7 +207,9 @@ export default class GlobalStatus extends React.Component {
     super(props)
 
     this._props = props
-    this._ref = React.createRef()
+    this._mainRef = React.createRef()
+    this._shellRef = React.createRef()
+    this._fakeRef = React.createRef()
     this.provider = GlobalStatusProvider.Factory(props.id)
 
     // force rerender
@@ -247,24 +250,88 @@ export default class GlobalStatus extends React.Component {
 
   componentWillUnmount() {
     this.animation.unbind()
+    clearTimeout(this._isDoneId)
+    clearTimeout(this._setHiddenId)
+    clearTimeout(this._setHeightId)
   }
 
   setVisible = ({ isInRender = false } = {}) => {
     const { demo: isDemo, autoscroll, no_animation } = this.props
     const noAnimation = isTrue(no_animation)
+
     if (isInRender && noAnimation) {
       return
     }
-    const delay = noAnimation ? 0 : parseFloat(this.props.delay) || 200
+
+    // use always a delay, because of the "show" and "rerender"
+    const delay = noAnimation ? 0 : parseFloat(this.props.delay) || 10
     const duration = noAnimation ? 0 : 1e3
+
     const onStart = () => {
-      this.setState({
-        isActive: true,
-        startShowing: true,
-        startHiding: false,
-        _listenForPropChanges: false
-      })
+      const startShowing = () => {
+        clearTimeout(this._setHeightId)
+        let height = 0
+        try {
+          const elem = this._fakeRef.current
+          if (elem) {
+            height = parseFloat(elem.scrollHeight)
+          }
+        } catch (e) {
+          console.warn('GlobalStatus: Could not calculate height!')
+        }
+
+        this.setState(
+          {
+            hasHeight: true,
+            startShowing: true,
+            startHiding: false,
+            _listenForPropChanges: false
+          },
+          () => {
+            if (!noAnimation && height > 0) {
+              try {
+                const _mainRef = this._mainRef.current._ref.current
+                if (_mainRef) {
+                  const currentHeight = parseFloat(_mainRef.style.height)
+                  if (!(currentHeight > 0)) {
+                    _mainRef.style.height = 0
+                    _mainRef.style.transition = `height ${height *
+                      3}ms ease-in-out`
+                  } else {
+                    const speed =
+                      height * 3 - Math.abs(currentHeight - height)
+                    _mainRef.style.transition = `height ${speed}ms ease-in-out`
+                  }
+                  this._setHeightId = setTimeout(() => {
+                    if (_mainRef) {
+                      _mainRef.style.height = `${height}px`
+                    }
+                  }, 20) // delay to make the change visible to CSS
+                }
+              } catch (e) {
+                console.warn('GlobalStatus: Could not set height!')
+              }
+            }
+          }
+        )
+      }
+
+      // in order to get the this._shellRef.current
+      // we have to make a rerender. scrollToStatus needs the element
+      this.setState(
+        {
+          isActive: true
+        },
+        () => {
+          if (!isDemo && isTrue(autoscroll)) {
+            this.scrollToStatus(startShowing)
+          } else {
+            startShowing()
+          }
+        }
+      )
     }
+
     const onComplete = () => {
       this.setState({
         startShowing: false,
@@ -272,14 +339,19 @@ export default class GlobalStatus extends React.Component {
         _listenForPropChanges: false
       })
       dispatchCustomElementEvent(this._props, 'on_open', this._props)
-      if (!isDemo && isTrue(autoscroll)) {
-        this.scrollToStatus()
-      }
       if (isDemo) {
-        this.setHiddenId = setTimeout(() => {
-          this.setHidden()
-        }, 2e3)
+        this._setHiddenId = setTimeout(this.setHidden, 800)
       }
+
+      // now, set minHeight, so we only will animate back to zero, but not to just one line less
+      // try {
+      //   const elem = this._shellRef.current
+      //   const height = elem.scrollHeight + 'px'
+      //   elem.style.minHeight = height
+      //   elem.style.maxHeight = 'auto'
+      // } catch (e) {
+      //   // do nowting, as this is only an UX helper
+      // }
     }
 
     this.animation.add({
@@ -296,20 +368,32 @@ export default class GlobalStatus extends React.Component {
     if (isInRender && noAnimation) {
       return
     }
-    const delay = noAnimation ? 0 : 200
-    const duration = noAnimation ? 0 : isDemo ? 2e3 : 1e3
+    const delay = noAnimation ? 0 : 50
+    const duration = noAnimation ? 0 : isDemo ? 1200 : 1e3
+
     const onStart = () => {
+      clearTimeout(this._setHeightId)
+      try {
+        const _mainRef = this._mainRef.current._ref.current
+        if (_mainRef) {
+          _mainRef.style.height = 0
+        }
+      } catch (e) {
+        console.warn('GlobalStatus: Could not reset height to zero!')
+      }
       this.setState({
         startHiding: true,
         startShowing: false,
         _listenForPropChanges: false
       })
     }
+
     const onComplete = () => {
       this.setState({
-        startHiding: false, // do not reset startHiding
+        startHiding: false,
         isActive: false,
         isVisible: false,
+        hasHeight: false,
         _listenForPropChanges: false
       })
       dispatchCustomElementEvent(this._props, 'on_hide', this._props)
@@ -369,18 +453,35 @@ export default class GlobalStatus extends React.Component {
     this.setHidden()
   }
 
-  scrollToStatus() {
-    if (typeof window === 'undefined') {
-      return
-    }
+  scrollToStatus(isDone = null) {
     try {
       // dispatchCustomElementEvent(this._props, 'on_scroll_to')
-      if (this._ref.current) {
-        this._ref.current.scrollIntoView({
+      const elem = this._shellRef.current
+      if (elem) {
+        if (typeof IntersectionObserver !== 'undefined') {
+          const intersectionObserver = new IntersectionObserver(
+            entries => {
+              const [entry] = entries
+              if (entry.isIntersecting) {
+                intersectionObserver.unobserve(elem)
+                if (typeof isDone === 'function') {
+                  isDone()
+                }
+              }
+            }
+          )
+          // start observing
+          intersectionObserver.observe(elem)
+        } else {
+          if (typeof isDone === 'function') {
+            this._isDoneId = setTimeout(isDone, 1e3)
+          }
+        }
+        elem.scrollIntoView({
           block: 'center',
           behavior: 'smooth'
         })
-      } else {
+      } else if (typeof window !== 'undefined') {
         const top = 0
         window.scrollTop = top
         window.scrollTo({
@@ -394,7 +495,7 @@ export default class GlobalStatus extends React.Component {
   }
 
   render() {
-    const { isActive, isVisible } = this.state
+    const { hasHeight, isActive, isVisible } = this.state
 
     if (!isActive) {
       return <></>
@@ -439,6 +540,8 @@ export default class GlobalStatus extends React.Component {
 
     if (this.isBeforeVisibleState()) {
       this.setVisible({ isInRender: true })
+      // setTimeout(() => {
+      // }, 10)
     } else if (this.isAfterVisibleState()) {
       this.setHidden({ isInRender: true })
     }
@@ -449,6 +552,7 @@ export default class GlobalStatus extends React.Component {
       icon,
       icon_size
     })
+    const noAnimation = isTrue(no_animation)
     const itemsToRender = GlobalStatus.getItems(props)
     const contentToRender = GlobalStatus.getContent(props)
     const hasStringContent =
@@ -458,12 +562,12 @@ export default class GlobalStatus extends React.Component {
       className: classnames(
         'dnb-global-status',
         `dnb-global-status--${state}`,
-        this.isBeforeAnimationState() && 'dnb-global-status--max-height',
-        this.isAfterAnimationState() && 'dnb-global-status--zero-height',
+        // this.isBeforeAnimationState() && 'dnb-global-status--max-height',
+        // this.isAfterAnimationState() && 'dnb-global-status--zero-height',
         this.isBeforeAnimationState() && 'dnb-global-status--fade-in',
         this.isAfterAnimationState() && 'dnb-global-status--fade-out',
-        isTrue(no_animation) && 'dnb-global-status--no-animation',
-        isTrue(no_animation) &&
+        noAnimation && 'dnb-global-status--no-animation',
+        noAnimation &&
           (isActive
             ? 'dnb-global-status--visible'
             : 'dnb-global-status--hidden'),
@@ -486,103 +590,120 @@ export default class GlobalStatus extends React.Component {
     // also used for code markup simulation
     validateDOMAttributes(this.props, params)
 
-    return (
-      <Section element="div" style_type={style} {...params}>
-        <div className="dnb-global-status__shell" ref={this._ref}>
-          <div className="dnb-global-status__content">
-            <p className="dnb-global-status__title">
-              <span className="dnb-global-status__icon">
-                {iconToRender}
-              </span>
-              {title || default_title}
-              {!isTrue(hide_close_button) && (
-                <CloseButton
-                  on_click={this.closeHandler}
-                  title={close_text}
-                />
-              )}
-            </p>
-            <div className="dnb-global-status__message">
-              {typeof contentToRender === 'string' ? (
-                <p className="dnb-p">{contentToRender}</p>
-              ) : (
-                contentToRender
-              )}
+    const Content = (
+      <div className="dnb-global-status__shell" ref={this._shellRef}>
+        <div className="dnb-global-status__content">
+          <p className="dnb-global-status__title">
+            <span className="dnb-global-status__icon">{iconToRender}</span>
+            {title || default_title}
+            {!isTrue(hide_close_button) && (
+              <CloseButton
+                on_click={this.closeHandler}
+                title={close_text}
+              />
+            )}
+          </p>
+          <div className="dnb-global-status__message">
+            {typeof contentToRender === 'string' ? (
+              <p className="dnb-p">{contentToRender}</p>
+            ) : (
+              contentToRender
+            )}
 
-              {itemsToRender.length > 0 && (
-                <ul className="dnb-ul">
-                  {itemsToRender.map((item, i) => {
-                    return (
-                      <li key={i}>
-                        {(item && item.text) || item}
-                        {item &&
-                          ((item.status_id &&
-                            isTrue(item.status_anchor_url)) ||
-                            item.status_anchor_url) && (
-                            <a
-                              className="dnb-anchor"
-                              href={
-                                isTrue(item.status_anchor_url)
-                                  ? `#${item.status_id}`
-                                  : item.status_anchor_url
-                              }
-                              onClick={e => {
-                                if (
-                                  item.status_id &&
-                                  typeof document !== 'undefined'
-                                ) {
-                                  e.preventDefault()
-                                  try {
-                                    // find the element
-                                    const element = document.getElementById(
-                                      item.status_id
-                                    )
+            {itemsToRender.length > 0 && (
+              <ul className="dnb-ul">
+                {itemsToRender.map((item, i) => {
+                  return (
+                    <li key={i}>
+                      {(item && item.text) || item}
+                      {item &&
+                        ((item.status_id &&
+                          isTrue(item.status_anchor_url)) ||
+                          item.status_anchor_url) && (
+                          <a
+                            className="dnb-anchor"
+                            href={
+                              isTrue(item.status_anchor_url)
+                                ? `#${item.status_id}`
+                                : item.status_anchor_url
+                            }
+                            onClick={e => {
+                              if (
+                                item.status_id &&
+                                typeof document !== 'undefined'
+                              ) {
+                                e.preventDefault()
+                                try {
+                                  // find the element
+                                  const element = document.getElementById(
+                                    item.status_id
+                                  )
 
-                                    if (!element) {
-                                      return
-                                    }
-
-                                    // remove the blink animation again
-                                    element.addEventListener('blur', e => {
-                                      if (e.target.classList) {
-                                        e.target.removeAttribute(
-                                          'tabindex'
-                                        )
-                                      }
-                                    })
-
-                                    // we don't want a visual focus style, we have our own
-                                    element.classList.add('dnb-no-focus')
-
-                                    // in order to use the blur event
-                                    element.setAttribute('tabindex', '-1')
-                                    element.focus({ preventScroll: true })
-
-                                    // then go there
-                                    element.scrollIntoView({
-                                      block: 'center', // center of page
-                                      behavior: 'smooth'
-                                    })
-                                  } catch (e) {
-                                    console.warn(e)
+                                  if (!element) {
+                                    return
                                   }
-                                  return false
+
+                                  // remove the blink animation again
+                                  element.addEventListener('blur', e => {
+                                    if (e.target.classList) {
+                                      e.target.removeAttribute('tabindex')
+                                    }
+                                  })
+
+                                  // we don't want a visual focus style, we have our own
+                                  element.classList.add('dnb-no-focus')
+
+                                  // in order to use the blur event
+                                  element.setAttribute('tabindex', '-1')
+                                  element.focus({ preventScroll: true })
+
+                                  // then go there
+                                  element.scrollIntoView({
+                                    block: 'center', // center of page
+                                    behavior: 'smooth'
+                                  })
+                                } catch (e) {
+                                  console.warn(e)
                                 }
-                              }}
-                            >
-                              {status_anchor_text ||
-                                item.status_anchor_text}
-                            </a>
-                          )}
-                      </li>
-                    )
-                  })}
-                </ul>
-              )}
-            </div>
+                                return false
+                              }
+                            }}
+                          >
+                            {status_anchor_text || item.status_anchor_text}
+                          </a>
+                        )}
+                    </li>
+                  )
+                })}
+              </ul>
+            )}
           </div>
         </div>
-      </Section>
+      </div>
+    )
+
+    return (
+      <>
+        {(hasHeight || noAnimation) && (
+          <Section
+            element="div"
+            style_type={style}
+            {...params}
+            ref={this._mainRef}
+          >
+            {Content}
+          </Section>
+        )}
+        {!noAnimation && (
+          <div
+            className="dnb-global-status dnb-global-status__fake"
+            aria-hidden="true"
+            ref={this._fakeRef}
+          >
+            {Content}
+          </div>
+        )}
+      </>
     )
   }
 }

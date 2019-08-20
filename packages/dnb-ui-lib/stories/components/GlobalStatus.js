@@ -29,11 +29,11 @@ export default [
             Content 2
             <GlobalStatus
               // title={'Title 1'}
+              // demo
               // show
               no_animation
               autoclose={false}
               autoscroll="false"
-              // demo
               // id="default-1"
               // delay={300}
               on_close={props => {

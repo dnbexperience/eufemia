@@ -15,31 +15,33 @@
 @mixin showAnimation($delay: 0ms, $y: -2rem) {
   @include beforeShowAnimation($y);
   animation-name: global-status-fade-in;
-  animation-duration: 1s;
+  animation-duration: 800ms;
   animation-fill-mode: forwards;
   animation-timing-function: ease;
   animation-delay: calc(#{$delay} + 100ms);
 }
 @mixin hideAnimation($delay: 0ms) {
   animation-name: global-status-fade-out;
-  animation-duration: 1s;
+  animation-duration: 800ms;
   animation-fill-mode: forwards;
   animation-timing-function: ease;
   animation-delay: #{$delay};
 }
-@mixin toMaxHeight($delay: 0ms) {
-  animation-name: global-status-max-height;
-  animation-duration: 1.5s;
-  animation-fill-mode: forwards;
-  animation-timing-function: ease;
-  animation-delay: #{$delay};
+@keyframes global-status-fade-in {
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
 }
-@mixin toZeroHeight($delay: 0ms) {
-  animation-name: global-status-zero-height;
-  animation-duration: 1s;
-  animation-fill-mode: forwards;
-  animation-timing-function: ease;
-  animation-delay: #{$delay};
+@keyframes global-status-fade-out {
+  from {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    opacity: 0;
+    transform: translate3d(0, -2rem, 0);
+  }
 }
 
 .dnb-global-status {
@@ -52,6 +54,8 @@
   }
 
   &__shell {
+    // position: relative;
+    // z-index: 2;
     width: 100%;
     overflow: hidden;
   }
@@ -196,16 +200,18 @@
     /* stylelint-enable */
   }
 
-  // Handle height animation
-  &:not(#{&}--no-animation):not(#{&}--zero-height) {
-    max-height: 0;
+  &:not(#{&}--no-animation)#{&}.dnb-section {
+    height: 0;
+    transition: height 800ms ease-in-out;
   }
-
-  &:not(#{&}--no-animation)#{&}--max-height {
-    @include toMaxHeight(0ms);
-  }
-  &:not(#{&}--no-animation)#{&}--zero-height {
-    @include toZeroHeight(0ms);
+  &__fake {
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
   }
 
   // IE fix
@@ -213,38 +219,5 @@
     &__icon > .dnb-icon {
       border-width: 1px;
     }
-  }
-}
-
-@keyframes global-status-fade-in {
-  to {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-  }
-}
-@keyframes global-status-fade-out {
-  from {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-  }
-  to {
-    opacity: 0;
-    transform: translate3d(0, -2rem, 0);
-  }
-}
-@keyframes global-status-max-height {
-  from {
-    max-height: 0;
-  }
-  to {
-    max-height: var(--global-status-max-height);
-  }
-}
-@keyframes global-status-zero-height {
-  from {
-    max-height: var(--global-status-max-height);
-  }
-  to {
-    max-height: 0;
   }
 }

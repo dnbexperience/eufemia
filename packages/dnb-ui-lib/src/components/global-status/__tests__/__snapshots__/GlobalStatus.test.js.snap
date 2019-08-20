@@ -34,19 +34,19 @@ exports[`GlobalStatus component have to match snapshot 1`] = `
   <Section
     aria-live="assertive"
     class={null}
-    className="dnb-global-status dnb-global-status--error dnb-global-status--max-height dnb-global-status--fade-in dnb-global-status--no-animation dnb-global-status--visible className class"
+    className="dnb-global-status dnb-global-status--error dnb-global-status--fade-in dnb-global-status--no-animation dnb-global-status--visible className class"
     element="div"
     render_content={null}
     style_type="cherry-red"
   >
-    <Element
+    <ForwardRef
       aria-live="assertive"
-      className="dnb-section dnb-section--cherry-red dnb-global-status dnb-global-status--error dnb-global-status--max-height dnb-global-status--fade-in dnb-global-status--no-animation dnb-global-status--visible className class"
+      className="dnb-section dnb-section--cherry-red dnb-global-status dnb-global-status--error dnb-global-status--fade-in dnb-global-status--no-animation dnb-global-status--visible className class"
       is="div"
     >
       <div
         aria-live="assertive"
-        className="dnb-section dnb-section--cherry-red dnb-global-status dnb-global-status--error dnb-global-status--max-height dnb-global-status--fade-in dnb-global-status--no-animation dnb-global-status--visible className class"
+        className="dnb-section dnb-section--cherry-red dnb-global-status dnb-global-status--error dnb-global-status--fade-in dnb-global-status--no-animation dnb-global-status--visible className class"
       >
         <div
           className="dnb-global-status__shell"
@@ -231,7 +231,7 @@ exports[`GlobalStatus component have to match snapshot 1`] = `
           </div>
         </div>
       </div>
-    </Element>
+    </ForwardRef>
   </Section>
 </GlobalStatus>
 `;
@@ -659,6 +659,19 @@ a.dnb-button .dnb-button__text {
   --global-status-max-height: 20rem;
   --global-status-delay: 1000ms; }
 
+@keyframes global-status-fade-in {
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0); } }
+
+@keyframes global-status-fade-out {
+  from {
+    opacity: 1;
+    transform: translate3d(0, 0, 0); }
+  to {
+    opacity: 0;
+    transform: translate3d(0, -2rem, 0); } }
+
 .dnb-global-status {
   /* for small screesn */ }
   .dnb-global-status, .dnb-global-status--no-animation.dnb-global-status--visible {
@@ -729,7 +742,7 @@ a.dnb-button .dnb-button__text {
     transform: translate3d(0, -2rem, 0);
     opacity: 0;
     animation-name: global-status-fade-in;
-    animation-duration: 1s;
+    animation-duration: 800ms;
     animation-fill-mode: forwards;
     animation-timing-function: ease;
     animation-delay: calc(30ms + 100ms); }
@@ -737,7 +750,7 @@ a.dnb-button .dnb-button__text {
     transform: translate3d(0, -2rem, 0);
     opacity: 0;
     animation-name: global-status-fade-in;
-    animation-duration: 1s;
+    animation-duration: 800ms;
     animation-fill-mode: forwards;
     animation-timing-function: ease;
     animation-delay: calc(100ms + 100ms); }
@@ -748,7 +761,7 @@ a.dnb-button .dnb-button__text {
       transform: translate3d(0, -2rem, 0);
       opacity: 0;
       animation-name: global-status-fade-in;
-      animation-duration: 1s;
+      animation-duration: 800ms;
       animation-fill-mode: forwards;
       animation-timing-function: ease;
       animation-delay: calc(100ms + 100ms); }
@@ -756,7 +769,7 @@ a.dnb-button .dnb-button__text {
       transform: translate3d(0, -2rem, 0);
       opacity: 0;
       animation-name: global-status-fade-in;
-      animation-duration: 1s;
+      animation-duration: 800ms;
       animation-fill-mode: forwards;
       animation-timing-function: ease;
       animation-delay: calc(200ms + 100ms); }
@@ -764,7 +777,7 @@ a.dnb-button .dnb-button__text {
       transform: translate3d(0, -2rem, 0);
       opacity: 0;
       animation-name: global-status-fade-in;
-      animation-duration: 1s;
+      animation-duration: 800ms;
       animation-fill-mode: forwards;
       animation-timing-function: ease;
       animation-delay: calc(300ms + 100ms); }
@@ -772,19 +785,19 @@ a.dnb-button .dnb-button__text {
       transform: translate3d(0, -2rem, 0);
       opacity: 0;
       animation-name: global-status-fade-in;
-      animation-duration: 1s;
+      animation-duration: 800ms;
       animation-fill-mode: forwards;
       animation-timing-function: ease;
       animation-delay: calc(400ms + 100ms); }
   .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-out .dnb-global-status__title {
     animation-name: global-status-fade-out;
-    animation-duration: 1s;
+    animation-duration: 800ms;
     animation-fill-mode: forwards;
     animation-timing-function: ease;
     animation-delay: 50ms; }
   .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-out .dnb-global-status__message {
     animation-name: global-status-fade-out;
-    animation-duration: 1s;
+    animation-duration: 800ms;
     animation-fill-mode: forwards;
     animation-timing-function: ease;
     animation-delay: 100ms; }
@@ -793,69 +806,41 @@ a.dnb-button .dnb-button__text {
     /* stylelint-enable */ }
     .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-out .dnb-global-status__message .dnb-ul > li:nth-of-type(1) {
       animation-name: global-status-fade-out;
-      animation-duration: 1s;
+      animation-duration: 800ms;
       animation-fill-mode: forwards;
       animation-timing-function: ease;
       animation-delay: 100ms; }
     .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-out .dnb-global-status__message .dnb-ul > li:nth-of-type(2) {
       animation-name: global-status-fade-out;
-      animation-duration: 1s;
+      animation-duration: 800ms;
       animation-fill-mode: forwards;
       animation-timing-function: ease;
       animation-delay: 200ms; }
     .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-out .dnb-global-status__message .dnb-ul > li:nth-of-type(3) {
       animation-name: global-status-fade-out;
-      animation-duration: 1s;
+      animation-duration: 800ms;
       animation-fill-mode: forwards;
       animation-timing-function: ease;
       animation-delay: 300ms; }
     .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-out .dnb-global-status__message .dnb-ul > li:nth-of-type(1n + 4) {
       animation-name: global-status-fade-out;
-      animation-duration: 1s;
+      animation-duration: 800ms;
       animation-fill-mode: forwards;
       animation-timing-function: ease;
       animation-delay: 400ms; }
-  .dnb-global-status:not(.dnb-global-status--no-animation):not(.dnb-global-status--zero-height) {
-    max-height: 0; }
-  .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--max-height {
-    animation-name: global-status-max-height;
-    animation-duration: 1.5s;
-    animation-fill-mode: forwards;
-    animation-timing-function: ease;
-    animation-delay: 0ms; }
-  .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--zero-height {
-    animation-name: global-status-zero-height;
-    animation-duration: 1s;
-    animation-fill-mode: forwards;
-    animation-timing-function: ease;
-    animation-delay: 0ms; }
+  .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status.dnb-section {
+    height: 0;
+    transition: height 800ms ease-in-out; }
+  .dnb-global-status__fake {
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+    right: 0; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-global-status__icon > .dnb-icon {
       border-width: 1px; } }
-
-@keyframes global-status-fade-in {
-  to {
-    opacity: 1;
-    transform: translate3d(0, 0, 0); } }
-
-@keyframes global-status-fade-out {
-  from {
-    opacity: 1;
-    transform: translate3d(0, 0, 0); }
-  to {
-    opacity: 0;
-    transform: translate3d(0, -2rem, 0); } }
-
-@keyframes global-status-max-height {
-  from {
-    max-height: 0; }
-  to {
-    max-height: var(--global-status-max-height); } }
-
-@keyframes global-status-zero-height {
-  from {
-    max-height: var(--global-status-max-height); }
-  to {
-    max-height: 0; } }
 "
 `;
