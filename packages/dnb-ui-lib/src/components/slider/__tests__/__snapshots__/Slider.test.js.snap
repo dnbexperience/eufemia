@@ -150,7 +150,7 @@ exports[`Slider component have to match snapshot 1`] = `
                     >
                       <path
                         clipRule="evenodd"
-                        d="M1 8a.75.75 0 0 1 .75-.75h12.5a.75.75 0 0 1 0 1.5H1.75A.75.75 0 0 1 1 8z"
+                        d="M1 8a.75.75 0 01.75-.75h12.5a.75.75 0 010 1.5H1.75A.75.75 0 011 8z"
                         fill="#000"
                         fillRule="evenodd"
                       />
@@ -350,7 +350,7 @@ exports[`Slider component have to match snapshot 1`] = `
                     >
                       <path
                         clipRule="evenodd"
-                        d="M8.75 1.75a.75.75 0 0 0-1.5 0v5.5h-5.5a.75.75 0 0 0 0 1.5h5.5v5.5a.75.75 0 0 0 1.5 0v-5.5h5.5a.75.75 0 0 0 0-1.5h-5.5v-5.5z"
+                        d="M8.75 1.75a.75.75 0 00-1.5 0v5.5h-5.5a.75.75 0 000 1.5h5.5v5.5a.75.75 0 001.5 0v-5.5h5.5a.75.75 0 000-1.5h-5.5v-5.5z"
                         fill="#000"
                         fillRule="evenodd"
                       />
