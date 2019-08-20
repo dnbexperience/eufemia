@@ -57,16 +57,16 @@ export function defineIsTouch(runInstantly = false) {
       console.warn('Could not apply "touch attribute"', e)
     }
 
-    window.removeEventListener('DOMContentLoaded', handleDefineTouch)
+    window.removeEventListener('load', handleDefineTouch)
   }
 
   if (runInstantly) {
     handleDefineTouch()
   } else if (typeof window !== 'undefined') {
     try {
-      window.addEventListener('DOMContentLoaded', handleDefineTouch)
+      window.addEventListener('load', handleDefineTouch)
     } catch (e) {
-      console.warn('Could not add "DOMContentLoaded" event listener', e)
+      console.warn('Could not add "load" event listener', e)
     }
   }
 }
@@ -80,29 +80,29 @@ export function defineNavigator(runInstantly = false) {
     )
       return
     try {
-      if (window.IS_TEST) {
-        document.documentElement.setAttribute('os', 'other')
-      } else {
+      if (!window.IS_TEST) {
         if (navigator.platform.match(/Mac|iPad|iPhone|iPod/) !== null) {
           document.documentElement.setAttribute('os', 'mac')
         } else if (navigator.platform.match('Win') !== null) {
           document.documentElement.setAttribute('os', 'win')
         }
+      } else {
+        document.documentElement.setAttribute('os', 'other')
       }
     } catch (e) {
       console.warn('Could not apply "os attribute"', e)
     }
 
-    window.removeEventListener('DOMContentLoaded', handleNavigator)
+    window.removeEventListener('load', handleNavigator)
   }
 
   if (runInstantly) {
     handleNavigator()
   } else if (typeof window !== 'undefined') {
     try {
-      window.addEventListener('DOMContentLoaded', handleNavigator)
+      window.addEventListener('load', handleNavigator)
     } catch (e) {
-      console.warn('Could not add "DOMContentLoaded" event listener', e)
+      console.warn('Could not add "load" event listener', e)
     }
   }
 }
