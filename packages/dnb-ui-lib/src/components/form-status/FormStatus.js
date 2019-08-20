@@ -15,12 +15,14 @@ import {
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import IconPrimary from '../icon-primary/IconPrimary'
+import GlobalStatusProvider from '../global-status/GlobalStatusProvider'
 
 const renderProps = {
   render_content: null
 }
 
 export const propTypes = {
+  id: PropTypes.string,
   title: PropTypes.string,
   text: PropTypes.oneOfType([
     PropTypes.string,
@@ -35,6 +37,7 @@ export const propTypes = {
   icon_size: PropTypes.string,
   state: PropTypes.oneOf(['error', 'info']),
   status: PropTypes.oneOf(['error', 'info']), // Deprecated
+  global_status_id: PropTypes.string,
   hidden: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   text_id: PropTypes.string,
   class: PropTypes.string,
@@ -53,12 +56,14 @@ export const propTypes = {
 }
 
 export const defaultProps = {
+  id: null,
   title: null,
   text: null,
   icon: 'exclamation',
   icon_size: 'medium',
   state: 'error',
   status: null, // Deprecated
+  global_status_id: null,
   hidden: false,
   text_id: null,
   class: null,
@@ -109,6 +114,23 @@ export default class FormStatus extends PureComponent {
     return icon
   }
 
+  constructor(props) {
+    super(props)
+
+    // we do not use a random ID here, as we don't need it for now
+    this._id = props.id
+    this.provider = GlobalStatusProvider.Factory(
+      props.global_status_id || 'main'
+    )
+    const { text, state } = props
+    const status_id = this._id
+    this.provider.add({
+      state,
+      status_id,
+      item: { text, status_id, status_anchor_url: true }
+    })
+  }
+
   correctStatus(state) {
     switch (state) {
       case 'information':
@@ -116,6 +138,14 @@ export default class FormStatus extends PureComponent {
         break
     }
     return state
+  }
+
+  componentWillUnmount() {
+    if (this.provider) {
+      this.provider.remove(this._id)
+      // this.provider.unbind()
+      // this.provider = null
+    }
   }
 
   render() {
@@ -134,10 +164,14 @@ export default class FormStatus extends PureComponent {
       animation,
       class: _className,
       text_id,
-      text /* eslint-disable-line */,
-      icon /* eslint-disable-line */,
-      icon_size /* eslint-disable-line */,
-      children /* eslint-disable-line */,
+
+      status_id, // eslint-disable-line
+      id, // eslint-disable-line
+      text, // eslint-disable-line
+      icon, // eslint-disable-line
+      icon_size, // eslint-disable-line
+      children, // eslint-disable-line
+
       ...attributes
     } = props
 
@@ -152,6 +186,7 @@ export default class FormStatus extends PureComponent {
       typeof contentToRender === 'string' && contentToRender.length > 0
 
     const params = {
+      id: this._id,
       hidden,
       className: classnames(
         'dnb-form-status',
@@ -173,9 +208,10 @@ export default class FormStatus extends PureComponent {
 
     if (hidden) {
       params['aria-hidden'] = hidden
-    } else if (hasStringContent) {
-      // in case we send in a React component, witchs has its own state, then we dont want to have aria-live all the time active
-      params['aria-live'] = 'assertive'
+      // Deprecated: use the GlobalStatus and aria-live
+      // } else if (hasStringContent) {
+      //   // in case we send in a React component, witchs has its own state, then we dont want to have aria-live all the time active
+      //   params['aria-live'] = 'assertive'
     }
 
     // also used for code markup simulation

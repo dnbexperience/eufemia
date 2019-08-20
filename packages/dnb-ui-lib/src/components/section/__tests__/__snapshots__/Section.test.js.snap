@@ -35,6 +35,9 @@ exports[`Section scss have to match default theme snapshot 1`] = `
 .dnb-section--mint-green-12::after {
   color: var(--color-mint-green-12); }
 
+.dnb-section--mint-green-12 ::selection {
+  background-color: var(--color-white); }
+
 .dnb-section--white::after {
   color: var(--color-white); }
 
@@ -55,6 +58,15 @@ exports[`Section scss have to match default theme snapshot 1`] = `
   color: var(--color-ocean-green); }
   .dnb-section--signal-orange::after {
     color: var(--color-signal-orange); }
+
+.dnb-section--cherry-red {
+  color: var(--color-white); }
+  .dnb-section--cherry-red::after {
+    color: var(--color-cherry-red); }
+  .dnb-section--cherry-red .dnb-anchor, .dnb-section--cherry-red .dnb-anchor:focus {
+    color: var(--color-white); }
+  .dnb-section--cherry-red .dnb-anchor:hover {
+    background-color: var(--color-black-80); }
 "
 `;
 
@@ -122,7 +134,7 @@ exports[`Section scss have to match snapshot 1`] = `
   .dnb-section::after {
     content: '';
     position: absolute;
-    z-index: -1;
+    z-index: -3;
     left: -50vw;
     top: 0;
     width: 100vw;
@@ -130,6 +142,10 @@ exports[`Section scss have to match snapshot 1`] = `
     color: var(--color-mint-green-12);
     background-color: currentColor;
     box-shadow: 100vw 0 0 0 currentColor; }
+  .dnb-section > .dnb-section::after {
+    z-index: -2; }
+  .dnb-section > .dnb-section > .dnb-section::after {
+    z-index: -1; }
   .dnb-section--spacing-small {
     padding-top: var(--spacing-small);
     padding-bottom: var(--spacing-small); }

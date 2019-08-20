@@ -12,6 +12,7 @@ draft: true
 | `label_direction`                               | _(optional)_ use `label_direction="vertical"` to change the label layout direction. Defaults to `horizontal`         |
 | `status`                                        | _(optional)_ text with a status message. The style defaults to an error message.                                     |
 | `status_state`                                  | _(optional)_ defines the state of the status. Currently there are two statuses `[error, info]`. Defaults to `error`. |
+| `global_status_id`                              | _(optional)_ the `status_id` used for the target [GlobalStatus](/uilib/components/global-status).                    |
 | `textarea_state`                                | _(optional)_ to control the visual focus state as a prop, like `focus` or `blur`.                                    |
 | `textarea_class`                                | _(optional)_ in case we have to set a custom textarea class.                                                         |
 | [Space](/uilib/components/space#tab-properties) | _(optional)_ spacing properties like `top` or `bottom` are supported.                                                |

@@ -39,10 +39,28 @@ export default [
       </Box>
       <Box>
         <Button
-          text="Tertiary"
+          text="Button text"
           variant="tertiary"
           icon_position="left"
-          icon="add"
+          icon="chevron_left"
+        />
+        <Button
+          text="Button text"
+          variant="tertiary"
+          icon="chevron_right"
+        />
+        <Button
+          text="Button text"
+          variant="tertiary"
+          icon_position="left"
+          icon="chevron_left"
+          icon_size="medium"
+        />
+        <Button
+          text="Button text"
+          variant="tertiary"
+          icon="chevron_right"
+          icon_size="medium"
         />
       </Box>
     </Wrapper>

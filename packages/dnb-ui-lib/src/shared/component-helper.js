@@ -8,6 +8,14 @@ export { registerElement }
 import keycode from 'keycode'
 import whatInput from 'what-input'
 
+if (
+  typeof process !== 'undefined' &&
+  process.env.NODE_ENV === 'test' &&
+  typeof window !== 'undefined'
+) {
+  window.IS_TEST = true
+}
+
 // run component helper functions
 whatInput.specificKeys([9])
 defineIsTouch()
@@ -32,12 +40,12 @@ export function isTouchDevice() {
       )
     )
   } catch (e) {
-    console.log('Could not determine the touch situation:', e)
+    console.warn('Could not determine the touch situation:', e)
     return null
   }
 }
 
-export function defineIsTouch(runInstantly = true) {
+export function defineIsTouch(runInstantly = false) {
   const handleDefineTouch = () => {
     if (typeof document === 'undefined' || typeof window === 'undefined')
       return
@@ -46,24 +54,24 @@ export function defineIsTouch(runInstantly = true) {
         document.documentElement.setAttribute('dnb-is-touch', true)
       }
     } catch (e) {
-      console.log('Could not apply "touch attribute"', e)
+      console.warn('Could not apply "touch attribute"', e)
     }
 
-    window.removeEventListener('load', handleDefineTouch)
+    window.removeEventListener('DOMContentLoaded', handleDefineTouch)
   }
 
   if (runInstantly) {
     handleDefineTouch()
   } else if (typeof window !== 'undefined') {
     try {
-      window.addEventListener('load', handleDefineTouch)
+      window.addEventListener('DOMContentLoaded', handleDefineTouch)
     } catch (e) {
-      console.log('Could not add "load" event listener', e)
+      console.warn('Could not add "DOMContentLoaded" event listener', e)
     }
   }
 }
 
-export function defineNavigator(runInstantly = true) {
+export function defineNavigator(runInstantly = false) {
   const handleNavigator = () => {
     if (
       typeof document === 'undefined' ||
@@ -72,27 +80,29 @@ export function defineNavigator(runInstantly = true) {
     )
       return
     try {
-      if (navigator.platform.match('Mac') !== null) {
-        document.documentElement.setAttribute('os', 'mac')
-      } else if (navigator.platform.match('Win') !== null) {
-        document.documentElement.setAttribute('os', 'win')
-      } else {
+      if (window.IS_TEST) {
         document.documentElement.setAttribute('os', 'other')
+      } else {
+        if (navigator.platform.match(/Mac|iPad|iPhone|iPod/) !== null) {
+          document.documentElement.setAttribute('os', 'mac')
+        } else if (navigator.platform.match('Win') !== null) {
+          document.documentElement.setAttribute('os', 'win')
+        }
       }
     } catch (e) {
-      console.log('Could not apply "os attribute"', e)
+      console.warn('Could not apply "os attribute"', e)
     }
 
-    window.removeEventListener('load', handleNavigator)
+    window.removeEventListener('DOMContentLoaded', handleNavigator)
   }
 
   if (runInstantly) {
     handleNavigator()
   } else if (typeof window !== 'undefined') {
     try {
-      window.addEventListener('load', handleNavigator)
+      window.addEventListener('DOMContentLoaded', handleNavigator)
     } catch (e) {
-      console.log('Could not add "load" event listener', e)
+      console.warn('Could not add "DOMContentLoaded" event listener', e)
     }
   }
 }
@@ -250,7 +260,7 @@ export const isTrue = value => {
 }
 
 export const dispatchCustomElementEvent = (
-  element,
+  src,
   eventName,
   eventObject
 ) => {
@@ -290,22 +300,24 @@ export const dispatchCustomElementEvent = (
     }
   }
 
+  const props = (src && src.props) || src
+
   // call Web Component events
-  if (element && element.props && element.props.custom_element) {
-    if (typeof element.props.custom_element.fireEvent === 'function') {
-      ret = element.props.custom_element.fireEvent(eventName, eventObject)
+  if (props.custom_element) {
+    if (typeof props.custom_element.fireEvent === 'function') {
+      ret = props.custom_element.fireEvent(eventName, eventObject)
     }
   }
 
   // call the default snail case event
-  if (element && typeof element.props[eventName] === 'function') {
-    ret = element.props[eventName].apply(element, [eventObject])
+  if (typeof props[eventName] === 'function') {
+    ret = props[eventName].apply(src, [eventObject])
   }
 
   // call Syntetic React event camelCase naming events
   eventName = transformToReactEventCase(eventName)
-  if (element && typeof element.props[eventName] === 'function') {
-    ret = element.props[eventName].apply(element, [eventObject])
+  if (typeof props[eventName] === 'function') {
+    ret = props[eventName].apply(src, [eventObject])
   }
 
   return ret
@@ -326,16 +338,6 @@ export const transformToReactEventCase = s =>
             )),
       ''
     )
-
-export const setCustomElementMethod = (
-  element,
-  methodName,
-  methodFunc
-) => {
-  if (element && typeof element.props.custom_method === 'function') {
-    element.props.custom_method.apply(element, [methodName, methodFunc])
-  }
-}
 
 export const pickRenderProps = (props, renderProps) =>
   Object.entries(props)

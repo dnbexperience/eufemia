@@ -10,6 +10,7 @@ exports[`Radio component have to match snapshot 1`] = `
   custom_method={[Function]}
   direction="horizontal"
   disabled="disabled"
+  global_status_id="global_status_id"
   group={null}
   id="radio"
   label="label"
@@ -118,6 +119,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
   custom_element={null}
   custom_method={null}
   disabled={null}
+  global_status_id={null}
   id="group"
   label="Label"
   label_direction={null}
@@ -213,6 +215,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
                   custom_element={null}
                   custom_method={null}
                   disabled={false}
+                  global_status_id={null}
                   group={null}
                   id="radio-1"
                   label="Radio 1"
@@ -317,6 +320,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
                   custom_element={null}
                   custom_method={null}
                   disabled={false}
+                  global_status_id={null}
                   group={null}
                   id="radio-2"
                   label="Radio 2"
@@ -673,8 +677,10 @@ legend.dnb-form-label {
   .dnb-form-status--text {
     padding: calc(0.5rem / 2) 1rem;
     cursor: text;
-    color: var(--color-emerald-green);
+    color: inherit;
     line-height: 1.5rem; }
+    [os='mac'] .dnb-form-status--text {
+      transform: translateY(0.0625rem); }
   .dnb-icon + .dnb-form-status--text {
     padding-left: 0.5rem; }
   .dnb-form-status__shell > .dnb-icon {
@@ -687,7 +693,7 @@ legend.dnb-form-label {
     color: inherit;
     font-size: 1rem;
     border-radius: 50%;
-    border: 1px solid;
+    border: 0.0625rem solid;
     border-color: currentColor; }
   .dnb-form-status[hidden] {
     display: none; }
@@ -703,6 +709,19 @@ legend.dnb-form-label {
   to {
     opacity: 1;
     height: var(--input-height); } }
+
+@keyframes attention-focus {
+  0%,
+  100% {
+    color: var(--color-white);
+    background-color: var(--color-cherry-red); }
+  45%,
+  55% {
+    color: var(--color-cherry-red);
+    background-color: var(--color-cherry-red-80); } }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-form-status__shell > .dnb-icon {
+      border-width: 1px; } }
 
 .dnb-radio {
   font-family: var(--font-family-default);

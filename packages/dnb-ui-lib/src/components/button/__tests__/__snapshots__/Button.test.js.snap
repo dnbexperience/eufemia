@@ -23,7 +23,7 @@ exports[`Button component have to match default button snapshot 1`] = `
   variant="primary"
 >
   <button
-    className="dnb-button dnb-button--primary dnb-button--icon-position-right dnb-button--has-text dnb-button--has-icon class className"
+    className="dnb-button dnb-button--primary dnb-button--icon-position-right dnb-button--icon-size-icon_size dnb-button--has-text dnb-button--has-icon class className"
     id="id"
     onClick={[Function]}
     onMouseOut={[Function]}
@@ -130,7 +130,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
   variant="primary"
 >
   <a
-    className="dnb-button dnb-button--primary dnb-button--icon-position-right dnb-button--has-text dnb-button--has-icon class className"
+    className="dnb-button dnb-button--primary dnb-button--icon-position-right dnb-button--icon-size-icon_size dnb-button--has-text dnb-button--has-icon class className"
     href="https://url"
     id="id"
     onClick={[Function]}
@@ -325,39 +325,14 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     border-color: transparent; }
   .dnb-button--tertiary {
     position: relative;
-    z-index: 1;
     color: var(--color-sea-green);
     background-color: transparent; }
-    .dnb-button--tertiary .dnb-button__text {
-      line-height: inherit; }
     .dnb-button--tertiary.dnb-button--has-text {
       padding: 0 0.5rem; }
-    :not([dnb-is-touch]) .dnb-button--tertiary.dnb-button--has-text:not(:focus):not([disabled]):hover[disabled] {
-      cursor: not-allowed; }
-    :not([dnb-is-touch]) .dnb-button--tertiary.dnb-button--has-text:not(:focus):not([disabled]):hover:not([disabled]) .dnb-button__text::after {
-      content: '';
-      position: absolute;
-      z-index: 1;
-      left: 0.05rem;
-      right: 0.05rem;
-      bottom: 0;
-      width: auto;
-      height: 1px;
-      border-radius: 0.5px;
-      border-bottom: 1px solid var(--color-sea-green);
-      left: 0;
-      right: 0;
-      bottom: 0.5rem; }
-    :not([dnb-is-touch]) .dnb-button--tertiary.dnb-button--has-text:not(:focus):not([disabled]):hover:not([disabled]).dnb-button--icon-position-left .dnb-button__text::after {
-      left: calc(-0.5rem - var(--button-icon-size)); }
-    :not([dnb-is-touch]) .dnb-button--tertiary.dnb-button--has-text:not(:focus):not([disabled]):hover:not([disabled]).dnb-button--icon-position-right .dnb-button__text::after {
-      right: calc(-0.5rem - var(--button-icon-size)); }
-    :not([dnb-is-touch]) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):hover[disabled] {
-      cursor: not-allowed; }
-    :not([dnb-is-touch]) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):hover:not([disabled]) .dnb-button__icon {
-      color: var(--color-sea-green-alt-30); }
-    .dnb-button--tertiary.dnb-button--has-text:not([disabled]):active::after {
-      border-bottom: none; }
+    .dnb-button--tertiary .dnb-button__text {
+      padding: 0.125rem 0;
+      line-height: 1rem;
+      border-bottom: 0.09375rem solid transparent; }
     .dnb-button--tertiary:focus {
       outline: initial; }
       html[data-whatinput='keyboard'] .dnb-button--tertiary:focus {
@@ -365,8 +340,8 @@ exports[`Button scss have to match default theme snapshot 1`] = `
       .dnb-button--tertiary:focus::before {
         content: '';
         position: absolute;
-        top: 0;
-        left: 0;
+        top: -0.0625rem;
+        left: -0.5rem;
         bottom: 0;
         right: -0.5rem;
         height: inherit;
@@ -376,6 +351,43 @@ exports[`Button scss have to match default theme snapshot 1`] = `
           box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
           /* IE11 fix */
           border-color: transparent; }
+    .dnb-button--tertiary:not(:focus):hover {
+      border-radius: 0; }
+      .dnb-button--tertiary:not(:focus):hover .dnb-button__text {
+        border-bottom-color: var(--color-emerald-green); }
+    .dnb-button--tertiary.dnb-button--has-icon {
+      /* stylelint-disable */
+      /* stylelint-enable */ }
+      .dnb-button--tertiary.dnb-button--has-icon .dnb-button__icon {
+        position: absolute;
+        top: 0;
+        bottom: 0.0625rem;
+        margin: auto 0; }
+      :not([dnb-is-touch]) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):hover[disabled] {
+        cursor: not-allowed; }
+      :not([dnb-is-touch]) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):hover:not([disabled]) .dnb-button__icon {
+        color: var(--color-sea-green-alt-30); }
+      .dnb-button--tertiary.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__text {
+        padding-left: 1.5rem; }
+      .dnb-button--tertiary.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__icon {
+        left: 0.5rem;
+        right: auto; }
+      .dnb-button--tertiary.dnb-button--has-icon.dnb-button--icon-position-left.dnb-button--icon-size-medium .dnb-button__text {
+        padding-left: 0;
+        margin-left: 2rem; }
+      .dnb-button--tertiary.dnb-button--has-icon.dnb-button--icon-position-right {
+        /* stylelint-disable */
+        /* stylelint-enable */ }
+        .dnb-button--tertiary.dnb-button--has-icon.dnb-button--icon-position-right .dnb-button__text {
+          padding-right: 1.5rem; }
+        .dnb-button--tertiary.dnb-button--has-icon.dnb-button--icon-position-right .dnb-button__icon {
+          right: 0.5rem;
+          left: auto; }
+        .dnb-button--tertiary.dnb-button--has-icon.dnb-button--icon-position-right.dnb-button--icon-size-medium .dnb-button__text {
+          padding-right: 0;
+          margin-right: 2rem; }
+      .dnb-button--tertiary.dnb-button--has-icon.dnb-button--icon-size-medium .dnb-button__icon {
+        bottom: 0.125rem; }
     .dnb-button--tertiary[disabled] {
       color: var(--color-sea-green-alt-30); }
   .dnb-button--signal {

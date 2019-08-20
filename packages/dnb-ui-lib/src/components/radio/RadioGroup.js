@@ -43,6 +43,7 @@ export const propTypes = {
   ]),
   status_state: PropTypes.string,
   status_animation: PropTypes.string,
+  global_status_id: PropTypes.string,
   layout_direction: PropTypes.oneOf(['column', 'row']),
   vertical: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   value: PropTypes.string,
@@ -75,6 +76,7 @@ export const defaultProps = {
   status: null,
   status_state: 'error',
   status_animation: null,
+  global_status_id: null,
   vertical: null,
   layout_direction: 'row',
   value: null,
@@ -149,6 +151,7 @@ export default class RadioGroup extends PureComponent {
       status,
       status_state,
       status_animation,
+      global_status_id,
       label,
       label_direction,
       label_position,
@@ -234,6 +237,8 @@ export default class RadioGroup extends PureComponent {
               {children}
               {showStatus && (
                 <FormStatus
+                  id={id + '-form-status'}
+                  global_status_id={global_status_id}
                   text={status}
                   status={status_state}
                   text_id={id + '-status'} // used for "aria-describedby"

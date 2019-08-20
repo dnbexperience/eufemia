@@ -50,6 +50,7 @@ export const propTypes = {
   input_state: PropTypes.string,
   status_state: PropTypes.string,
   status_animation: PropTypes.string,
+  global_status_id: PropTypes.string,
   autocomplete: PropTypes.oneOf(['on', 'off']),
   submit_button_title: PropTypes.string,
   placeholder: PropTypes.string,
@@ -103,6 +104,7 @@ export const defaultProps = {
   input_state: null,
   status_state: 'error',
   status_animation: null,
+  global_status_id: null,
   autocomplete: 'off',
   placeholder: null,
   description: null,
@@ -239,6 +241,7 @@ export default class Input extends PureComponent {
       status,
       status_state,
       status_animation,
+      global_status_id,
       disabled,
       placeholder,
       description,
@@ -408,6 +411,8 @@ export default class Input extends PureComponent {
 
           {showStatus && (
             <FormStatus
+              id={id + '-form-status'}
+              global_status_id={global_status_id}
               text={status}
               status={status_state}
               text_id={id + '-status'} // used for "aria-describedby"

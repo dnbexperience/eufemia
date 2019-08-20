@@ -19,9 +19,13 @@
     padding: calc(0.5rem / 2) 1rem;
 
     cursor: text;
-    color: var(--color-emerald-green);
-
+    color: inherit;
     line-height: 1.5rem;
+
+    // vertical alignment
+    [os='mac'] & {
+      transform: translateY(0.0625rem);
+    }
   }
 
   .dnb-icon + &--text {
@@ -42,7 +46,7 @@
 
     font-size: 1rem;
     border-radius: 50%;
-    border: 1px solid;
+    border: 0.0625rem solid;
     border-color: currentColor;
   }
 
@@ -65,5 +69,25 @@
     height: 0;
     opacity: 0;
     animation: fade-in 600ms ease-out 1 200ms forwards;
+  }
+
+  @keyframes attention-focus {
+    0%,
+    100% {
+      color: var(--color-white);
+      background-color: var(--color-cherry-red);
+    }
+    45%,
+    55% {
+      color: var(--color-cherry-red);
+      background-color: var(--color-cherry-red-80);
+    }
+  }
+
+  // IE fix
+  @media screen and (-ms-high-contrast: none) {
+    &__shell > .dnb-icon {
+      border-width: 1px;
+    }
   }
 }

@@ -12,8 +12,13 @@
       0 -0.0625rem 0 0 var(--color-mint-green-50),
       100vw -0.0625rem 0 0 var(--color-mint-green-50);
   }
-  &--mint-green-12::after {
-    color: var(--color-mint-green-12);
+  &--mint-green-12 {
+    &::after {
+      color: var(--color-mint-green-12);
+    }
+    ::selection {
+      background-color: var(--color-white);
+    }
   }
   &--white::after {
     color: var(--color-white);
@@ -39,6 +44,21 @@
     color: var(--color-ocean-green);
     &::after {
       color: var(--color-signal-orange);
+    }
+  }
+  &--cherry-red {
+    color: var(--color-white);
+    &::after {
+      color: var(--color-cherry-red);
+    }
+    .dnb-anchor {
+      &,
+      &:focus {
+        color: var(--color-white);
+      }
+      &:hover {
+        background-color: var(--color-black-80);
+      }
     }
   }
 }

@@ -2,24 +2,47 @@
 
 exports[`FormStatus component have to match snapshot 1`] = `
 <FormStatus
-  animation="animation"
-  class="class"
-  className="className"
+  0={
+    Object {
+      "displayName": "FormStatus",
+      "props": Object {
+        "animation": "animation",
+        "children": "children",
+        "class": "class",
+        "className": "className",
+        "global_status_id": "global_status_id",
+        "hidden": "hidden",
+        "icon": "icon",
+        "icon_size": "icon_size",
+        "id": "id",
+        "render_content": [Function],
+        "state": "'error'",
+        "status": "'error'",
+        "text": "text",
+        "text_id": "text_id",
+        "title": "title",
+      },
+    }
+  }
+  animation={null}
+  class={null}
+  className={null}
+  global_status_id="main"
   hidden={false}
   icon="exclamation"
-  icon_size="icon_size"
-  render_content={[Function]}
+  icon_size="medium"
+  id="form-status"
+  render_content={null}
   state="error"
   status={null}
   text="text"
-  text_id="text_id"
-  title="title"
+  text_id={null}
+  title={null}
 >
   <span
-    aria-live="assertive"
-    className="dnb-form-status dnb-form-status--error dnb-form-status--animation dnb-form-status--has-content className class"
+    className="dnb-form-status dnb-form-status--error dnb-form-status--has-content"
     hidden={false}
-    title="title"
+    id="form-status"
   >
     <span
       className="dnb-form-status__shell"
@@ -34,36 +57,35 @@ exports[`FormStatus component have to match snapshot 1`] = `
         height={null}
         icon="exclamation"
         modifier={null}
-        size="icon_size"
+        size="medium"
         title={null}
         width={null}
       >
         <span
           alt="exclamation"
           aria-hidden={true}
-          className="dnb-icon"
+          className="dnb-icon dnb-icon--medium"
           role="img"
         >
-          <exclamation>
+          <exclamation_medium>
             <svg
               fill="none"
-              height={16}
-              viewBox="0 0 16 16"
-              width={16}
+              height={24}
+              viewBox="0 0 24 24"
+              width={24}
             >
               <path
                 clipRule="evenodd"
-                d="M8 1.75a.75.75 0 0 1 .75.75v7a.75.75 0 0 1-1.5 0v-7A.75.75 0 0 1 8 1.75zm-.893 10.357A1.25 1.25 0 0 1 8 11.75c.32 0 .646.11.893.357s.357.573.357.893c0 .32-.11.646-.357.893A1.249 1.249 0 0 1 8 14.25c-.32 0-.646-.11-.893-.357A1.249 1.249 0 0 1 6.75 13c0-.32.11-.646.357-.893z"
+                d="M12 3a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-1.5 0V3.75A.75.75 0 0 1 12 3zm-1.074 15.426c.29-.29.679-.426 1.074-.426s.783.135 1.074.426c.29.29.426.679.426 1.074s-.135.783-.426 1.074c-.29.29-.679.426-1.074.426s-.783-.135-1.074-.426A1.499 1.499 0 0 1 10.5 19.5c0-.395.135-.783.426-1.074z"
                 fill="#000"
                 fillRule="evenodd"
               />
             </svg>
-          </exclamation>
+          </exclamation_medium>
         </span>
       </IconPrimary>
       <span
         className="dnb-form-status--text"
-        id="text_id"
       >
         text
       </span>
@@ -87,6 +109,15 @@ exports[`FormStatus scss have to match default theme snapshot 1`] = `
 .dnb-form-status--info .dnb-form-status__shell {
   color: var(--color-emerald-green);
   background-color: var(--color-mint-green-25); }
+
+.dnb-form-status:not(.dnb-form-status--attention-focus).dnb-form-status--text {
+  color: var(--color-emerald-green); }
+
+.dnb-form-status--error.dnb-form-status--attention-focus .dnb-form-status__shell,
+.dnb-form-status--error.dnb-form-status:focus .dnb-form-status__shell {
+  transition: color 5s ease;
+  animation: attention-focus 1.6s ease infinite;
+  opacity: 1; }
 "
 `;
 
@@ -160,8 +191,10 @@ exports[`FormStatus scss have to match snapshot 1`] = `
   .dnb-form-status--text {
     padding: calc(0.5rem / 2) 1rem;
     cursor: text;
-    color: var(--color-emerald-green);
+    color: inherit;
     line-height: 1.5rem; }
+    [os='mac'] .dnb-form-status--text {
+      transform: translateY(0.0625rem); }
   .dnb-icon + .dnb-form-status--text {
     padding-left: 0.5rem; }
   .dnb-form-status__shell > .dnb-icon {
@@ -174,7 +207,7 @@ exports[`FormStatus scss have to match snapshot 1`] = `
     color: inherit;
     font-size: 1rem;
     border-radius: 50%;
-    border: 1px solid;
+    border: 0.0625rem solid;
     border-color: currentColor; }
   .dnb-form-status[hidden] {
     display: none; }
@@ -190,5 +223,18 @@ exports[`FormStatus scss have to match snapshot 1`] = `
   to {
     opacity: 1;
     height: var(--input-height); } }
+
+@keyframes attention-focus {
+  0%,
+  100% {
+    color: var(--color-white);
+    background-color: var(--color-cherry-red); }
+  45%,
+  55% {
+    color: var(--color-cherry-red);
+    background-color: var(--color-cherry-red-80); } }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-form-status__shell > .dnb-icon {
+      border-width: 1px; } }
 "
 `;

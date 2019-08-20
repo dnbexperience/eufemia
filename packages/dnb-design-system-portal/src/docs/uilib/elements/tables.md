@@ -11,6 +11,12 @@ The following table has a default style. But in future, there will be several pa
 
 You may consider using `table-layout: fixed;`.
 
+### Working Demo
+
+Check out a [working example on CodeSandbox](https://codesandbox.io/embed/eufemia-react-table-x4cwc), using `react-table`.
+
+### Styled Demo
+
 <ComponentBox reactLive hideCode data-dnb-test="table-default">
 {`
 <table className="dnb-table">
@@ -45,12 +51,12 @@ You may consider using `table-layout: fixed;`.
       </th>
     </tr>
   </thead>
-  <tfoot>
+  {/* <tfoot>
     <tr>
       <td colSpan="3">Footer</td>
       <td>Sum</td>
     </tr>
-  </tfoot>
+  </tfoot> */}
   <tbody>
     <tr>
       <td>

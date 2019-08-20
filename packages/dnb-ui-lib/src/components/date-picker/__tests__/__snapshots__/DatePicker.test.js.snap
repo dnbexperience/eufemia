@@ -13,6 +13,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
   end_date="2019-02-15T00:00:00.000Z"
   end_month={null}
   first_day="monday"
+  global_status_id={null}
   hide_days={false}
   hide_navigation={false}
   hide_navigation_buttons={false}
@@ -114,7 +115,6 @@ exports[`DatePicker component have to match snapshot 1`] = `
           showInput={true}
           startDate={2019-01-01T00:00:00.000Z}
           status="error"
-          status_animation={null}
           status_state="error"
           submitAttributes={
             Object {
@@ -133,6 +133,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
             custom_method={null}
             description={null}
             disabled={false}
+            global_status_id={null}
             id="date-picker-id__input"
             inputElement={[Function]}
             input_class={null}
@@ -664,7 +665,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                         disabled={null}
                         href={null}
                         icon="calendar"
-                        icon_position="right"
+                        icon_position={null}
                         icon_size={null}
                         id="date-picker-id"
                         innerRef={null}
@@ -701,7 +702,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                             disabled={null}
                             href={null}
                             icon="calendar"
-                            icon_position="right"
+                            icon_position={null}
                             icon_size={null}
                             id="date-picker-id"
                             innerRef={null}
@@ -770,9 +771,11 @@ exports[`DatePicker component have to match snapshot 1`] = `
           animation={null}
           class={null}
           className={null}
+          global_status_id={null}
           hidden={false}
           icon="exclamation"
           icon_size="medium"
+          id="date-picker-id-form-status"
           render_content={null}
           state="error"
           status="error"
@@ -781,9 +784,9 @@ exports[`DatePicker component have to match snapshot 1`] = `
           title={null}
         >
           <span
-            aria-live="assertive"
             className="dnb-form-status dnb-form-status--error dnb-form-status--has-content"
             hidden={false}
+            id="date-picker-id-form-status"
           >
             <span
               className="dnb-form-status__shell"
@@ -1359,8 +1362,10 @@ legend.dnb-form-label {
   .dnb-form-status--text {
     padding: calc(0.5rem / 2) 1rem;
     cursor: text;
-    color: var(--color-emerald-green);
+    color: inherit;
     line-height: 1.5rem; }
+    [os='mac'] .dnb-form-status--text {
+      transform: translateY(0.0625rem); }
   .dnb-icon + .dnb-form-status--text {
     padding-left: 0.5rem; }
   .dnb-form-status__shell > .dnb-icon {
@@ -1373,7 +1378,7 @@ legend.dnb-form-label {
     color: inherit;
     font-size: 1rem;
     border-radius: 50%;
-    border: 1px solid;
+    border: 0.0625rem solid;
     border-color: currentColor; }
   .dnb-form-status[hidden] {
     display: none; }
@@ -1389,6 +1394,19 @@ legend.dnb-form-label {
   to {
     opacity: 1;
     height: var(--input-height); } }
+
+@keyframes attention-focus {
+  0%,
+  100% {
+    color: var(--color-white);
+    background-color: var(--color-cherry-red); }
+  45%,
+  55% {
+    color: var(--color-cherry-red);
+    background-color: var(--color-cherry-red-80); } }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-form-status__shell > .dnb-icon {
+      border-width: 1px; } }
 
 .dnb-input {
   font-family: var(--font-family-default);

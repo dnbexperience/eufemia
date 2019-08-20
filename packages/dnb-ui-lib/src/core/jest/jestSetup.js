@@ -23,6 +23,10 @@ export {
   toHaveNoViolations
 }
 
+if (typeof window !== 'undefined') {
+  window.IS_TEST = true
+}
+
 expect.extend({ toBeType })
 expect.extend(toHaveNoViolations)
 

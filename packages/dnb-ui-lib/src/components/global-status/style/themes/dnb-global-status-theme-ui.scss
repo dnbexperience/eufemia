@@ -1,0 +1,36 @@
+/*
+ * GlobalStatus theme
+ *
+ */
+
+.dnb-global-status {
+  &:not(#{&}--no-animation)#{&}--fade-in#{&}.dnb-section::after {
+    box-shadow: 100vw 0 0 0 currentColor,
+      0 0.0625rem 0 0 var(--color-black-80),
+      100vw 0.0625rem 0 0 var(--color-black-80);
+  }
+
+  &__title {
+    font-weight: var(--font-weight-demi);
+    font-size: var(--font-size-x-default);
+  }
+
+  &__close-button,
+  &__close-button.dnb-button--tertiary {
+    color: var(--color-white);
+    &:hover {
+      .dnb-button__text {
+        color: inherit;
+        border-color: var(--color-white);
+      }
+    }
+
+    &:not([disabled]):focus,
+    &:not([disabled]):active {
+      &::before {
+        box-shadow: 0 0 0 0.125rem /* same as $focusRingWidth */
+          var(--color-white);
+      }
+    }
+  }
+}

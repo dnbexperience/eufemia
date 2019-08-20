@@ -46,6 +46,7 @@ export const propTypes = {
   ]),
   status_state: PropTypes.string,
   status_animation: PropTypes.string,
+  global_status_id: PropTypes.string,
   vertical: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   layout_direction: PropTypes.oneOf(['column', 'row']),
   value: PropTypes.string,
@@ -81,6 +82,7 @@ export const defaultProps = {
   status: null,
   status_state: 'error',
   status_animation: null,
+  global_status_id: null,
   vertical: null,
   layout_direction: 'row',
   value: null,
@@ -184,6 +186,7 @@ export default class ToggleButtonGroup extends PureComponent {
       status,
       status_state,
       status_animation,
+      global_status_id,
       label_direction,
       vertical,
       layout_direction,
@@ -287,9 +290,11 @@ export default class ToggleButtonGroup extends PureComponent {
               {children}
               {showStatus && (
                 <FormStatus
+                  id={id + '-form-status'}
+                  global_status_id={global_status_id}
+                  text_id={id + '-status'} // used for "aria-describedby"
                   text={status}
                   status={status_state}
-                  text_id={id + '-status'} // used for "aria-describedby"
                   animation={status_animation}
                 />
               )}
