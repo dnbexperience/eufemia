@@ -39,7 +39,7 @@ export const propTypes = {
 }
 
 export const defaultProps = {
-  style_type: 'mint-green-12',
+  style_type: null,
   element: 'section',
   class: null,
 
@@ -90,7 +90,7 @@ export default class Section extends PureComponent {
     const params = {
       className: classnames(
         'dnb-section',
-        `dnb-section--${style_type}`,
+        `dnb-section--${style_type || 'mint-green-12'}`,
         (isTrue(spacing) || spacing) &&
           `dnb-section--spacing${
             !/true|false/.test(String(spacing)) ? '-' + spacing : ''
