@@ -24,18 +24,6 @@ describe('Table screenshot', () => {
     width: '40rem'
   }
   const styleSelector = '[data-dnb-test="table-default"] .dnb-table'
-  it('have to match a sortable table header on hover', async () => {
-    const selector =
-      '[data-dnb-test="table-default"] th.dnb-table--sortable:not(.dnb-table--active)'
-    const screenshot = await testPageScreenshot({
-      style,
-      styleSelector,
-      selector,
-      simulateSelector: `${selector} button.dnb-button`,
-      simulate: 'hover'
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
   it('have to match a sortable table header on focus', async () => {
     const selector =
       '[data-dnb-test="table-default"] th.dnb-table--sortable:not(.dnb-table--active)'
@@ -45,6 +33,18 @@ describe('Table screenshot', () => {
       selector,
       simulateSelector: `${selector} button.dnb-button`,
       simulate: 'focus'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+  it('have to match a sortable table header on hover', async () => {
+    const selector =
+      '[data-dnb-test="table-default"] th.dnb-table--sortable:not(.dnb-table--active)'
+    const screenshot = await testPageScreenshot({
+      style,
+      styleSelector,
+      selector,
+      simulateSelector: `${selector} button.dnb-button`,
+      simulate: 'hover'
     })
     expect(screenshot).toMatchImageSnapshot()
   })

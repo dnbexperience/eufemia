@@ -80,25 +80,28 @@
       font-weight: var(--font-weight-medium);
       white-space: nowrap;
 
+      .dnb-button__text {
+        padding-right: 1rem;
+      }
+
       &:not(:focus),
       &:not(:focus).dnb-button--has-text {
         @include drawUnderlineBorder() {
           left: 0;
           right: 1.5rem;
           bottom: 0;
-          height: 2px;
-          border-radius: 1px;
+          height: 0.125rem;
+          border-radius: 0.0625rem;
           background-color: var(--color-emerald-green);
-        }
-        // only for the css specificity
-        &:not(:focus):hover:not([disabled]) .dnb-button__text::after,
-        .dnb-button__text::after {
-          border-bottom: none;
         }
       }
 
       @include hover() {
         color: var(--color-sea-green);
+
+        .dnb-button__text {
+          border-bottom-color: transparent;
+        }
 
         &:not(:focus) .dnb-icon {
           visibility: visible;
@@ -119,8 +122,18 @@
           position: absolute;
           top: -0.6rem;
           left: -1rem;
-          right: 1rem;
+          right: 0.5rem;
           height: 2.5rem;
+        }
+      }
+
+      @include active() {
+        color: var(--color-emerald-green);
+        .dnb-button__text {
+          border-bottom-color: transparent;
+        }
+        &::after {
+          visibility: hidden;
         }
       }
     }

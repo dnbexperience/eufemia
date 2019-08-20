@@ -71,7 +71,6 @@
 
   &--tertiary {
     position: relative; // because  of the focus ring
-    // z-index: 1;
 
     color: var(--color-sea-green);
     background-color: transparent;
@@ -81,9 +80,9 @@
     }
 
     .dnb-button__text {
-      line-height: 1rem;
       padding: 0.125rem 0;
-      border-bottom: 0.0625rem solid transparent;
+      line-height: 1rem;
+      border-bottom: 0.09375rem solid transparent;
     }
 
     // Create focus-ring
@@ -109,6 +108,19 @@
 
       .dnb-button__text {
         border-bottom-color: var(--color-emerald-green);
+
+        // In order to get 1.5px with box-shadow
+        // we do use the box-shadow methode, and not the border one
+        // NB: This has to be changed in table as well
+        // &::after {
+        //   content: '';
+        //   position: absolute;
+        //   bottom: 0;
+        //   left: -0.0625rem;
+        //   right: -0.0625rem;
+        //   height: 0;
+        //   box-shadow: 0 0 0 0.046875rem currentColor;
+        // }
       }
     }
 
@@ -133,33 +145,33 @@
 
       &.dnb-button--icon-position-left {
         .dnb-button__text {
-          padding-left: 1.25rem;
+          padding-left: 1.5rem;
         }
         .dnb-button__icon {
-          left: 0.25rem;
+          left: 0.5rem;
           right: auto;
         }
         &.dnb-button--icon-size-medium {
           .dnb-button__text {
             padding-left: 0;
-            margin-left: 1.5rem;
+            margin-left: 2rem;
           }
         }
       }
       &.dnb-button--icon-position-right {
         /* stylelint-disable */
         .dnb-button__text {
-          padding-right: 1.25rem;
+          padding-right: 1.5rem;
         }
         /* stylelint-enable */
         .dnb-button__icon {
-          right: 0.25rem;
+          right: 0.5rem;
           left: auto;
         }
         &.dnb-button--icon-size-medium {
           .dnb-button__text {
             padding-right: 0;
-            margin-right: 1.5rem;
+            margin-right: 2rem;
           }
         }
       }

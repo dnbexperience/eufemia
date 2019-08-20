@@ -330,9 +330,9 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     .dnb-button--tertiary.dnb-button--has-text {
       padding: 0 0.5rem; }
     .dnb-button--tertiary .dnb-button__text {
-      line-height: 1rem;
       padding: 0.125rem 0;
-      border-bottom: 0.0625rem solid transparent; }
+      line-height: 1rem;
+      border-bottom: 0.09375rem solid transparent; }
     .dnb-button--tertiary:focus {
       outline: initial; }
       html[data-whatinput='keyboard'] .dnb-button--tertiary:focus {
@@ -368,24 +368,24 @@ exports[`Button scss have to match default theme snapshot 1`] = `
       :not([dnb-is-touch]) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):hover:not([disabled]) .dnb-button__icon {
         color: var(--color-sea-green-alt-30); }
       .dnb-button--tertiary.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__text {
-        padding-left: 1.25rem; }
+        padding-left: 1.5rem; }
       .dnb-button--tertiary.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__icon {
-        left: 0.25rem;
+        left: 0.5rem;
         right: auto; }
       .dnb-button--tertiary.dnb-button--has-icon.dnb-button--icon-position-left.dnb-button--icon-size-medium .dnb-button__text {
         padding-left: 0;
-        margin-left: 1.5rem; }
+        margin-left: 2rem; }
       .dnb-button--tertiary.dnb-button--has-icon.dnb-button--icon-position-right {
         /* stylelint-disable */
         /* stylelint-enable */ }
         .dnb-button--tertiary.dnb-button--has-icon.dnb-button--icon-position-right .dnb-button__text {
-          padding-right: 1.25rem; }
+          padding-right: 1.5rem; }
         .dnb-button--tertiary.dnb-button--has-icon.dnb-button--icon-position-right .dnb-button__icon {
-          right: 0.25rem;
+          right: 0.5rem;
           left: auto; }
         .dnb-button--tertiary.dnb-button--has-icon.dnb-button--icon-position-right.dnb-button--icon-size-medium .dnb-button__text {
           padding-right: 0;
-          margin-right: 1.5rem; }
+          margin-right: 2rem; }
       .dnb-button--tertiary.dnb-button--has-icon.dnb-button--icon-size-medium .dnb-button__icon {
         bottom: 0.125rem; }
     .dnb-button--tertiary[disabled] {
