@@ -3,6 +3,7 @@
 import attachment_medium from './attachment_medium.js'
 import bubble_medium from './bubble_medium.js'
 import check_alt_01_medium from './check_alt_01_medium.js'
+import error_medium from './error_medium.js'
 import file_medium from './file_medium.js'
 import fullscreen_medium from './fullscreen_medium.js'
 import hamburger_medium from './hamburger_medium.js'
@@ -18,6 +19,7 @@ export {
   attachment_medium,
   bubble_medium,
   check_alt_01_medium,
+  error_medium,
   file_medium,
   fullscreen_medium,
   hamburger_medium,

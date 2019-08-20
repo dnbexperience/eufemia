@@ -3,6 +3,7 @@
 import attachment from './attachment.js'
 import bubble from './bubble.js'
 import check_alt_01 from './check_alt_01.js'
+import error from './error.js'
 import file from './file.js'
 import fullscreen from './fullscreen.js'
 import hamburger from './hamburger.js'
@@ -18,6 +19,7 @@ export {
   attachment,
   bubble,
   check_alt_01,
+  error,
   file,
   fullscreen,
   hamburger,
