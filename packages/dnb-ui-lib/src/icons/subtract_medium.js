@@ -7,7 +7,7 @@ const subtract_medium = props => (
     <path
       fillRule="evenodd"
       clipRule="evenodd"
-      d="M3 12.375a.75.75 0 0 1 .75-.75h16.5a.75.75 0 0 1 0 1.5H3.75a.75.75 0 0 1-.75-.75z"
+      d="M3 12.375a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75a.75.75 0 01-.75-.75z"
       fill="#000"
     />
   </svg>

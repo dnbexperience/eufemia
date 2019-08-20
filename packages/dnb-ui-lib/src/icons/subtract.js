@@ -7,7 +7,7 @@ const subtract = props => (
     <path
       fillRule="evenodd"
       clipRule="evenodd"
-      d="M1 8a.75.75 0 0 1 .75-.75h12.5a.75.75 0 0 1 0 1.5H1.75A.75.75 0 0 1 1 8z"
+      d="M1 8a.75.75 0 01.75-.75h12.5a.75.75 0 010 1.5H1.75A.75.75 0 011 8z"
       fill="#000"
     />
   </svg>
