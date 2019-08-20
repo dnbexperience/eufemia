@@ -251,6 +251,7 @@ exports[`GlobalStatus scss have to match default theme snapshot 1`] = `
 .dnb-global-status__close-button, .dnb-global-status__close-button.dnb-button--tertiary {
   color: var(--color-white); }
   .dnb-global-status__close-button:hover .dnb-button__text, .dnb-global-status__close-button.dnb-button--tertiary:hover .dnb-button__text {
+    color: inherit;
     border-color: var(--color-white); }
   .dnb-global-status__close-button:not([disabled]):focus::before, .dnb-global-status__close-button:not([disabled]):active::before, .dnb-global-status__close-button.dnb-button--tertiary:not([disabled]):focus::before, .dnb-global-status__close-button.dnb-button--tertiary:not([disabled]):active::before {
     box-shadow: 0 0 0 0.125rem var(--color-white); }

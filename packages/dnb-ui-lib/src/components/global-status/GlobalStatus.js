@@ -485,7 +485,6 @@ export default class GlobalStatus extends React.Component {
 
     // also used for code markup simulation
     validateDOMAttributes(this.props, params)
-    // validateDOMAttributes(null, textParams)
 
     return (
       <Section element="div" style_type={style} {...params}>

@@ -1,3 +1,8 @@
+## August, 20. 2019
+
+- New component in the `dnb-ui-lib`: [GlobalStatus](/uilib/components/global-status)
+- Added link to example usage of a [Table](/uilib/elements/tables#working-demo) styles using `react-table`
+
 ## July, 21. 2019
 
 - Major Release of `dnb-ui-lib`: Read more about the [v4 release](/uilib/releases/v4-info)

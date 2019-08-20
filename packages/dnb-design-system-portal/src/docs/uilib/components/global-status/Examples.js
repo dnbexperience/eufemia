@@ -18,6 +18,12 @@ class Example extends PureComponent {
 <GlobalStatus
   title="Custom Title"
   text="Failure text"
+  items={[
+      {
+        text:'List item',
+        status_anchor_url: '/',
+      }
+  ]}
   show="true"
   no_animation="true"
   autoscroll="false"
