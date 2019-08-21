@@ -25,7 +25,6 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
 >
   <Input
     align={null}
-    attributes={null}
     autocomplete="off"
     class={null}
     className="dnb-input-masked"
@@ -36,6 +35,7 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
     global_status_id={null}
     id="input-masked"
     inputElement={[Function]}
+    input_attributes={null}
     input_class={null}
     input_state={null}
     label={null}

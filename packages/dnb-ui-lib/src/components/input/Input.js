@@ -33,7 +33,7 @@ const renderProps = {
 
 export const propTypes = {
   type: PropTypes.string,
-  size: PropTypes.string,
+  size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   id: PropTypes.string,
   label: PropTypes.oneOfType([
@@ -61,7 +61,10 @@ export const propTypes = {
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   class: PropTypes.string,
   input_class: PropTypes.string,
-  attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  input_attributes: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object
+  ]),
   readOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 
   // Submit button
@@ -114,7 +117,7 @@ export const defaultProps = {
   disabled: null,
   input_class: null,
   class: null,
-  attributes: null,
+  input_attributes: null,
   readOnly: false,
 
   // Submit button
@@ -257,6 +260,7 @@ export default class Input extends PureComponent {
       autocomplete,
       readOnly,
       stretch,
+      input_attributes,
       class: _className,
       className,
 
@@ -275,6 +279,7 @@ export default class Input extends PureComponent {
     if (disabled) {
       inputState = 'disabled'
     }
+    const sizeIsNumber = parseFloat(size) > 0
 
     const id = this._id
     const showStatus = status && status !== 'error'
@@ -284,7 +289,7 @@ export default class Input extends PureComponent {
       className: classnames(
         'dnb-input',
         `dnb-input--${type}`, //type_modifier
-        size && `dnb-input--${size}`,
+        size && !sizeIsNumber && `dnb-input--${size}`,
         hasSubmitButton && 'dnb-input--has-submit-button',
         align && `dnb-input__align--${align}`,
         status && `dnb-input__status--${status_state}`,
@@ -306,6 +311,12 @@ export default class Input extends PureComponent {
       Input.renderProps
     )
 
+    const inputAttributes = input_attributes
+      ? typeof input_attributes === 'string'
+        ? JSON.parse(input_attributes)
+        : input_attributes
+      : {}
+
     const inputParams = {
       ...renderProps,
       className: classnames('dnb-input__input', input_class),
@@ -316,10 +327,15 @@ export default class Input extends PureComponent {
       disabled: isTrue(disabled),
       name: id,
       ...attributes,
+      ...inputAttributes,
       onChange: this.onChangeHandler,
       onKeyDown: this.onKeyDownHandler,
       onFocus: this.onFocusHandler,
       onBlur: this.onBlurHandler
+    }
+
+    if (sizeIsNumber) {
+      inputParams.size = size
     }
 
     // we may considder using: aria-details

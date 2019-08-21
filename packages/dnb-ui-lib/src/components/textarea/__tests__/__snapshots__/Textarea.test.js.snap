@@ -7,7 +7,6 @@ exports[`Textarea component have to match snapshot 1`] = `
       "displayName": "Textarea",
       "props": Object {
         "align": "'left'",
-        "attributes": "attributes",
         "children": "children",
         "class": "class",
         "className": "className",
@@ -30,6 +29,7 @@ exports[`Textarea component have to match snapshot 1`] = `
         "status_state": "status_state",
         "stretch": "stretch",
         "textareaElement": [Function],
+        "textarea_attributes": "textarea_attributes",
         "textarea_class": "textarea_class",
         "textarea_state": "textarea_state",
         "value": "value",
@@ -37,7 +37,6 @@ exports[`Textarea component have to match snapshot 1`] = `
     }
   }
   align={null}
-  attributes={null}
   class={null}
   className={null}
   cols={null}
@@ -59,6 +58,7 @@ exports[`Textarea component have to match snapshot 1`] = `
   status_state="error"
   stretch={null}
   textareaElement={null}
+  textarea_attributes={null}
   textarea_class={null}
   textarea_state={null}
   value="test"

@@ -125,7 +125,6 @@ exports[`DatePicker component have to match snapshot 1`] = `
         >
           <Input
             align={null}
-            attributes={null}
             autocomplete="off"
             class={null}
             className={null}
@@ -136,6 +135,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
             global_status_id={null}
             id="date-picker-id__input"
             inputElement={[Function]}
+            input_attributes={null}
             input_class={null}
             input_state="virgin"
             label={null}

@@ -96,6 +96,15 @@ describe('Textarea component', () => {
     expect(Comp.state().value).toBe(emptyValue)
   })
 
+  it('has correct size attribute (chars length) on input by using textarea_attributes', () => {
+    const Comp = mount(<Component textarea_attributes={{ size: 2 }} />)
+    expect(
+      Comp.find('textarea')
+        .instance()
+        .getAttribute('size')
+    ).toBe('2')
+  })
+
   it('has to to have a prop value like value', () => {
     const value = 'new value'
     Comp.setProps({

@@ -144,6 +144,38 @@ describe('Input component', () => {
     expect(Comp.state().value).toBe(emptyValue)
   })
 
+  it('has correct medium input size', () => {
+    const Comp = mount(<Component size="medium" />)
+    expect(Comp.find('.dnb-input--medium').exists()).toBe(true)
+  })
+
+  it('has correct size attribute (chars length) on input by int number', () => {
+    const Comp = mount(<Component size={2} />)
+    expect(
+      Comp.find('input')
+        .instance()
+        .getAttribute('size')
+    ).toBe('2')
+  })
+
+  it('has correct size attribute (chars length) on input by using input_attributes', () => {
+    const Comp = mount(<Component input_attributes={{ size: 2 }} />)
+    expect(
+      Comp.find('input')
+        .instance()
+        .getAttribute('size')
+    ).toBe('2')
+  })
+
+  it('has correct size attribute (chars length) on input by using input_attributes and a JSON object', () => {
+    const Comp = mount(<Component input_attributes='{"size": "2"}' />)
+    expect(
+      Comp.find('input')
+        .instance()
+        .getAttribute('size')
+    ).toBe('2')
+  })
+
   it('has to to have a prop value like value', () => {
     const value = 'new value'
     Comp.setProps({

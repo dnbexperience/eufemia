@@ -51,7 +51,10 @@ export const propTypes = {
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   class: PropTypes.string,
   textarea_class: PropTypes.string,
-  attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  textarea_attributes: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object
+  ]),
   readOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   rows: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   cols: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
@@ -89,7 +92,7 @@ export const defaultProps = {
   disabled: null,
   textarea_class: null,
   class: null,
-  attributes: null,
+  textarea_attributes: null,
   readOnly: false,
   rows: null,
   cols: null,
@@ -204,6 +207,7 @@ export default class Textarea extends PureComponent {
       align,
       textarea_class,
       readOnly,
+      textarea_attributes,
       class: _className,
       className,
 
@@ -226,6 +230,12 @@ export default class Textarea extends PureComponent {
       ...renderProps
     } = pickRenderProps(this.props, Textarea.renderProps)
 
+    const textareaAttributes = textarea_attributes
+      ? typeof textarea_attributes === 'string'
+        ? JSON.parse(textarea_attributes)
+        : textarea_attributes
+      : {}
+
     const textareaParams = {
       ...renderProps,
       className: classnames('dnb-textarea__textarea', textarea_class),
@@ -235,6 +245,7 @@ export default class Textarea extends PureComponent {
       disabled,
       name: id,
       ...attributes,
+      ...textareaAttributes,
       onChange: this.onChangeHandler,
       onFocus: this.onFocusHandler,
       onBlur: this.onBlurHandler
