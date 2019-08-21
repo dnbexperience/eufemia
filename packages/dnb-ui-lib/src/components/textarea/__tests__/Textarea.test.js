@@ -81,6 +81,21 @@ describe('Textarea component', () => {
     expect(Comp.state().value).toBe(emptyValue)
   })
 
+  it('has correct state after setting "value" prop (set by getDerivedStateFromProps)', () => {
+    const Comp = mount(<Component placeholder="Placeholder" />)
+
+    const newValue = 'new value'
+    const emptyValue = null
+
+    Comp.setProps({
+      value: newValue
+    })
+    expect(Comp.state().value).toBe(newValue)
+
+    Comp.setProps({ value: emptyValue })
+    expect(Comp.state().value).toBe(emptyValue)
+  })
+
   it('has to to have a prop value like value', () => {
     const value = 'new value'
     Comp.setProps({

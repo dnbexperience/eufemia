@@ -176,7 +176,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
             submit_button_title={null}
             submit_button_variant="secondary"
             type="text"
-            value={null}
+            value="initval"
           >
             <span
               className="dnb-input dnb-input--text dnb-input--has-submit-button dnb-input__status--error"

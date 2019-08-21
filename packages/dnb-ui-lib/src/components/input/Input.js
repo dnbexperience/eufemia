@@ -96,7 +96,7 @@ export const propTypes = {
 export const defaultProps = {
   type: 'text',
   size: null,
-  value: null,
+  value: 'initval',
   id: null,
   label: null,
   label_direction: null,
@@ -150,7 +150,11 @@ export default class Input extends PureComponent {
 
   static getDerivedStateFromProps(props, state) {
     const value = Input.getValue(props)
-    if (state._listenForPropChanges && value !== state.value) {
+    if (
+      state._listenForPropChanges &&
+      value !== 'initval' &&
+      value !== state.value
+    ) {
       state.value = value
     }
     if (props.input_state) {
@@ -165,7 +169,7 @@ export default class Input extends PureComponent {
     return processChildren(props)
   }
 
-  state = { inputState: 'virgin', value: null }
+  state = { inputState: 'virgin', value: null, _value: null }
 
   constructor(props, context) {
     super(props)
@@ -180,7 +184,6 @@ export default class Input extends PureComponent {
 
     // make sure we dont trigger getDerivedStateFromProps on startup
     this.state._listenForPropChanges = true
-    this.state.value = Input.getValue(props)
     if (props.input_state) {
       this.state.inputState = props.input_state
     }

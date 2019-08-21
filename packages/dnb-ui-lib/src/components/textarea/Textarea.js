@@ -74,7 +74,7 @@ export const propTypes = {
 }
 
 export const defaultProps = {
-  value: null,
+  value: 'initval',
   id: null,
   label: null,
   label_direction: null,
@@ -121,7 +121,11 @@ export default class Textarea extends PureComponent {
 
   static getDerivedStateFromProps(props, state) {
     const value = Textarea.getValue(props)
-    if (state._listenForPropChanges && value !== state.value) {
+    if (
+      state._listenForPropChanges &&
+      value !== 'initval' &&
+      value !== state.value
+    ) {
       state.value = value
     }
     if (isTrue(props.disabled)) {
@@ -153,7 +157,6 @@ export default class Textarea extends PureComponent {
 
     // make sure we dont trigger getDerivedStateFromProps on startup
     this.state._listenForPropChanges = true
-    this.state.value = Textarea.getValue(props)
     if (props.textarea_state) {
       this.state.textareaState = props.textarea_state
     }
