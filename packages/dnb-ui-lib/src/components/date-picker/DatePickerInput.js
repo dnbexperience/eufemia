@@ -400,25 +400,33 @@ export default class DatePickerInput extends PureComponent {
       const state = value.slice(0, 1)
       const index = this.props.maskOrder.indexOf(value)
       const placeholderChar = this.props.maskPlaceholder[index]
+
       if (!this.props.separatorRexExp.test(value)) {
-        params = {
-          ...params,
-          'aria-labelledby': this.props.id,
-          onKeyDown: this.onKeyDownHandler,
-          onMouseUp: selectInput,
-          onFocus: () => {
-            this.setState({
-              focusState: 'focus',
-              _listenForPropChanges: false
-            })
-          },
-          onBlur: () => {
-            this.setState({
-              focusState: 'blur',
-              _listenForPropChanges: false
-            })
-          },
-          placeholderChar
+        if (!this.props.inputElement) {
+          params = {
+            ...params,
+            'aria-labelledby': this.props.id,
+            onKeyDown: this.onKeyDownHandler,
+            onMouseUp: selectInput,
+            onFocus: () => {
+              this.setState({
+                focusState: 'focus',
+                _listenForPropChanges: false
+              })
+            },
+            onBlur: () => {
+              this.setState({
+                focusState: 'blur',
+                _listenForPropChanges: false
+              })
+            },
+            placeholderChar: placeholderChar
+          }
+        } else {
+          params = {
+            ...params,
+            'aria-labelledby': this.props.id
+          }
         }
 
         // this makes it possible to use a vanilla <input /> like: inputElement="input"
