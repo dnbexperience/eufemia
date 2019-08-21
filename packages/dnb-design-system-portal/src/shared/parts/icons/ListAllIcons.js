@@ -7,6 +7,8 @@ import PropTypes from 'prop-types'
 import Icon from 'dnb-ui-lib/src/components/icon/Icon'
 import * as PrimaryIcons from 'dnb-ui-lib/src/icons/primary_icons'
 import * as SecondaryIcons from 'dnb-ui-lib/src/icons/secondary_icons'
+import * as PrimaryIconsMedium from 'dnb-ui-lib/src/icons/primary_icons_medium'
+import * as SecondaryIconsMedium from 'dnb-ui-lib/src/icons/secondary_icons_medium'
 import styled from '@emotion/styled'
 
 export default class Icons extends PureComponent {
@@ -27,17 +29,24 @@ export default class Icons extends PureComponent {
       return <></>
     }
     const icons = Object.entries(this.state.iconsToRender).map(
-      ([name, Svg]) => (
-        <ListItem key={`icon${name}`}>
-          <ListItemInner>
-            <span aria-labelledby={`id${name}`}>
-              <Icon icon={Svg} size="medium" />
-            </span>
-            <h3 id={`id${name}`}>{humanFormat(name)}</h3>
-            <p>({name})</p>
-          </ListItemInner>
-        </ListItem>
-      )
+      ([name, Svg]) => {
+        const SvgMedium = (this.props.type === 'secondary'
+          ? SecondaryIconsMedium
+          : PrimaryIconsMedium)[`${name}_medium`]
+        return (
+          <ListItem key={`icon${name}`}>
+            <ListItemInner>
+              <span aria-labelledby={`id${name}`}>
+                {(SvgMedium && (
+                  <Icon icon={SvgMedium} size="medium" />
+                )) || <Icon icon={Svg} />}
+              </span>
+              <h3 id={`id${name}`}>{humanFormat(name)}</h3>
+              <p>({name})</p>
+            </ListItemInner>
+          </ListItem>
+        )
+      }
     )
     return <List>{icons}</List>
   }
