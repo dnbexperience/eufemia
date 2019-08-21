@@ -6,6 +6,13 @@
 import React, { PureComponent, Fragment } from 'react'
 import ComponentBox from '../../../../dnb-design-system-portal/src/shared/tags/ComponentBox'
 import { bell_medium as BellMedium, bell as Bell } from './lib'
+import * as PrimaryIconsMedium from 'dnb-ui-lib/src/icons/primary_icons_medium'
+import * as SecondaryIconsMedium from 'dnb-ui-lib/src/icons/secondary_icons_medium'
+
+const allIcons = Object.entries({
+  ...PrimaryIconsMedium,
+  ...SecondaryIconsMedium
+})
 
 class Example extends PureComponent {
   static AdditionalCallback = {
@@ -46,14 +53,13 @@ import Bell from 'dnb-ui-lib/icons/bell'
 </h1>
           `}
         </ComponentBox>
-
-        {typeof window !== 'undefined' && window.IS_TEST && (
-          <ComponentBox
-            data-dnb-test="icon-medium"
-            scope={{ Bell, BellMedium }}
-            caption="Explicit defined size: medium"
-          >
-            {/* @jsx */ `
+        {typeof window !== 'undefined' && window.IS_TEST && ''}
+        <ComponentBox
+          data-dnb-test="icon-medium"
+          scope={{ Bell, BellMedium }}
+          caption="Explicit defined size: medium"
+        >
+          {/* @jsx */ `
 <Icon icon={BellMedium} size="16" title="force default size" />
 <Icon icon={BellMedium} title="is medium anyway" />
 <Icon icon={Bell} size="medium" title="force medium size" />
@@ -64,9 +70,32 @@ import Bell from 'dnb-ui-lib/icons/bell'
   height="24"
   title="not responsive"
 />
+              `}
+        </ComponentBox>
+        <ComponentBox
+          data-dnb-test="icon-all-icons"
+          scope={{ allIcons }}
+          caption="All icons listed as medium sized icons"
+          noFragments={false}
+        >
+          {/* @jsx */ `
+() => {
+  const AllIcons = () => allIcons.map(
+    ([name, SvgMedium]) => (
+      <Icon
+        title={name}
+        key={name}
+        icon={SvgMedium}
+        size="medium"
+        right="small"
+        bottom="small"
+      />
+    )
+  )
+  return <AllIcons />
+}
           `}
-          </ComponentBox>
-        )}
+        </ComponentBox>
       </Fragment>
     )
   }

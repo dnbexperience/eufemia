@@ -29,4 +29,11 @@ describe('Icon screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+  it('have to match all icons', async () => {
+    const screenshot = await testPageScreenshot({
+      style: { width: '30rem' },
+      selector: '[data-dnb-test="icon-all-icons"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })
