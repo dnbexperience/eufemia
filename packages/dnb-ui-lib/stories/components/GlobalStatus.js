@@ -7,7 +7,14 @@ import React, { useState } from 'react'
 import { Wrapper, Box } from '../helpers'
 // import styled from '@emotion/styled'
 
-import { Input, GlobalStatus, Section, Button } from '../../src/components'
+import {
+  Input,
+  GlobalStatus,
+  Section,
+  Button,
+  FormRow,
+  FormSet
+} from '../../src/components'
 import { H2, Link } from '../../src/elements'
 // import { GlobalStatusProvider } from '../../src/components/global-status/GlobalStatusContext'
 
@@ -99,24 +106,30 @@ const InputWithError = () => {
   const [haveAnErrorMessage2, setErrorMessage2] = useState(false)
   return (
     <>
-      <Input
-        placeholder="Enter #1 ..."
-        status={haveAnErrorMessage1 ? 'Error Message #1' : null}
-        on_change={({ value }) => {
-          setErrorMessage1(value.length >= 3)
-        }}
-        global_status_id="form-status"
-        right="small"
-      />
-      <Input
-        placeholder="Enter #2 ..."
-        status={haveAnErrorMessage2 ? 'Error Message #2' : null}
-        on_change={({ value }) => {
-          setErrorMessage2(value.length >= 3)
-        }}
-        global_status_id="form-status"
-      />
-      <GlobalStatus id="form-status" autoscroll="false" />
+      <FormSet global_status_id="form-status">
+        <FormRow label="Caption:" global_status_id="form-status">
+          <Input
+            placeholder="Enter #1 ..."
+            status={haveAnErrorMessage1 ? 'Error Message #1' : null}
+            on_change={({ value }) => {
+              setErrorMessage1(value.length >= 3)
+            }}
+            // global_status_id="form-status"
+            right="small"
+            status_animation="fade-in"
+          />
+          <Input
+            placeholder="Enter #2 ..."
+            status={haveAnErrorMessage2 ? 'Error Message #2' : null}
+            on_change={({ value }) => {
+              setErrorMessage2(value.length >= 3)
+            }}
+            // global_status_id="form-status"
+            status_animation="fade-in"
+          />
+        </FormRow>
+      </FormSet>
+      <GlobalStatus id="form-status" autoscroll="false" top="small" />
     </>
   )
 }

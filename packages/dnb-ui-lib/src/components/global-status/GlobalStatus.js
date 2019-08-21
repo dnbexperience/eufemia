@@ -293,13 +293,16 @@ export default class GlobalStatus extends React.Component {
                 const _mainRef = this._mainRef.current._ref.current
                 if (_mainRef) {
                   const currentHeight = parseFloat(_mainRef.style.height)
+                  const origTransition = _mainRef.style.transition
+                  console.log('origTransition', origTransition)
                   if (!(currentHeight > 0)) {
                     _mainRef.style.height = 0
                     _mainRef.style.transition = `height ${height *
                       3}ms ease-in-out`
                   } else {
-                    const speed =
-                      height * 3 - Math.abs(currentHeight - height)
+                    const diff = Math.abs(currentHeight - height)
+                    console.log('diff', diff)
+                    const speed = height * 3 - diff
                     _mainRef.style.transition = `height ${speed}ms ease-in-out`
                   }
                   this._setHeightId = setTimeout(() => {
@@ -376,6 +379,8 @@ export default class GlobalStatus extends React.Component {
       try {
         const _mainRef = this._mainRef.current._ref.current
         if (_mainRef) {
+          // reset transition time
+          _mainRef.style.transition = `height 800ms ease-in-out`
           _mainRef.style.height = 0
         }
       } catch (e) {
@@ -540,8 +545,6 @@ export default class GlobalStatus extends React.Component {
 
     if (this.isBeforeVisibleState()) {
       this.setVisible({ isInRender: true })
-      // setTimeout(() => {
-      // }, 10)
     } else if (this.isAfterVisibleState()) {
       this.setHidden({ isInRender: true })
     }

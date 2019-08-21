@@ -200,9 +200,9 @@
     /* stylelint-enable */
   }
 
-  &:not(#{&}--no-animation)#{&}.dnb-section {
+  // The transition of height is set in JS
+  &:not(#{&}--no-animation)#{&}--fade-in#{&}.dnb-section {
     height: 0;
-    transition: height 800ms ease-in-out;
   }
   &__fake {
     opacity: 0;
