@@ -21,6 +21,7 @@ const error = props => (
       clipRule="evenodd"
       d="M13.441 2.898a1.605 1.605 0 00-2.882 0L2.14 20.052A1.352 1.352 0 003.353 22h17.294a1.352 1.352 0 001.215-1.948L13.44 2.898z"
       stroke="#000"
+      strokeWidth={1.2}
       strokeLinecap="round"
       strokeLinejoin="round"
     />

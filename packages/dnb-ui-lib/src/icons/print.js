@@ -3,43 +3,12 @@
 import React from 'react'
 
 const print = props => (
-  <svg width={17} height={17} viewBox="0 0 17 17" fill="none" {...props}>
+  <svg width={17} height={16} viewBox="0 0 17 16" fill="none" {...props}>
     <path
-      d="M3.348 12.106H1.803a1.03 1.03 0 01-1.03-1.03V5.924c0-.569.461-1.03 1.03-1.03h13.394c.569 0 1.03.461 1.03 1.03v5.152a1.03 1.03 0 01-1.03 1.03h-1.545"
-      stroke="#000"
-      strokeWidth={1.5}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <path
-      d="M3.348 6.955h1.03"
-      stroke="#000"
-      strokeWidth={1.2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <path
+      fillRule="evenodd"
       clipRule="evenodd"
-      d="M3.864 9.015h9.272v7.212H3.864V9.015z"
-      stroke="#000"
-      strokeWidth={1.2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <path
-      clipRule="evenodd"
-      d="M13.136 4.894H3.864V1.803c0-.569.46-1.03 1.03-1.03h7.212c.57 0 1.03.461 1.03 1.03v3.09z"
-      stroke="#000"
-      strokeWidth={1.5}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <path
-      d="M5.924 11.592h5.152m-5.152 2.06H9.53"
-      stroke="#000"
-      strokeWidth={1.2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
+      d="M4.41 1.72a.22.22 0 01.219-.22h6.788a.22.22 0 01.22.22v2.159H4.408v-2.16zm-1.5 2.159v-2.16C2.91.77 3.678 0 4.628 0h6.788c.95 0 1.72.77 1.72 1.72v2.159h1.189c.95 0 1.72.77 1.72 1.72v4.848c0 .95-.77 1.72-1.72 1.72h-1.34v3.129a.6.6 0 01-.6.6H3.66a.6.6 0 01-.6-.6v-3.13H1.72c-.95 0-1.719-.77-1.719-1.719V5.598c0-.95.77-1.72 1.72-1.72h1.19zm.75 1.5H1.72a.22.22 0 00-.22.22v4.848c0 .121.098.22.22.22h1.34v-2.16a.6.6 0 01.6-.6h8.726a.6.6 0 01.6.6v2.16h1.34a.22.22 0 00.22-.22V5.598a.22.22 0 00-.22-.22H3.659zm-.486.69a.5.5 0 000 1h.97a.5.5 0 000-1h-.97zM4.26 9.107v5.587h7.527V9.108H4.26zm.84 1.824a.5.5 0 01.5-.5h4.848a.5.5 0 010 1H5.598a.5.5 0 01-.5-.5zm.5 1.44a.5.5 0 000 1h3.393a.5.5 0 100-1H5.598z"
+      fill="#000"
     />
   </svg>
 )
