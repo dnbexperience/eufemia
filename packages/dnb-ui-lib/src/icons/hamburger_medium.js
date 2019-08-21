@@ -12,11 +12,7 @@ const hamburger_medium = props => (
         fill="#000"
       />
     </g>
-    <defs>
-      <clipPath id="clip-235c48">
-        <path fill="#fff" d="M0 0h24v24H0z" />
-      </clipPath>
-    </defs>
+    <defs />
   </svg>
 )
 

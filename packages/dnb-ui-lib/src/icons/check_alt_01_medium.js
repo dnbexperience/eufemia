@@ -12,11 +12,7 @@ const check_alt_01_medium = props => (
         fill="#000"
       />
     </g>
-    <defs>
-      <clipPath id="clip-a0b25c">
-        <path fill="#fff" d="M0 0h24v24H0z" />
-      </clipPath>
-    </defs>
+    <defs />
   </svg>
 )
 

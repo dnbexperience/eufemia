@@ -12,11 +12,7 @@ const logout = props => (
         fill="#000"
       />
     </g>
-    <defs>
-      <clipPath id="clip-4236a4">
-        <path fill="#fff" d="M0 0h16v16H0z" />
-      </clipPath>
-    </defs>
+    <defs />
   </svg>
 )
 

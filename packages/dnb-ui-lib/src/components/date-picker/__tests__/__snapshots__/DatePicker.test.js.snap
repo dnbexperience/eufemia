@@ -813,9 +813,9 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                 <calendar>
                                   <svg
                                     fill="none"
-                                    height={17}
+                                    height={16}
                                     viewBox="0 0 17 17"
-                                    width={17}
+                                    width={16}
                                   >
                                     <path
                                       clipRule="evenodd"

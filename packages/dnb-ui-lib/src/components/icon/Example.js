@@ -54,12 +54,13 @@ import Bell from 'dnb-ui-lib/icons/bell'
 </h1>
           `}
         </ComponentBox>
-        <ComponentBox
-          data-dnb-test="icon-medium"
-          scope={{ Bell, BellMedium }}
-          caption="Explicit defined size: medium"
-        >
-          {/* @jsx */ `
+        {typeof window !== 'undefined' && window.IS_TEST && (
+          <ComponentBox
+            data-dnb-test="icon-medium"
+            scope={{ Bell, BellMedium }}
+            caption="Explicit defined size: medium"
+          >
+            {/* @jsx */ `
 <Icon icon={BellMedium} size="16" title="force default size" />
 <Icon icon={BellMedium} title="is medium anyway" />
 <Icon icon={Bell} size="medium" title="force medium size" />
@@ -71,7 +72,8 @@ import Bell from 'dnb-ui-lib/icons/bell'
   title="not responsive"
 />
               `}
-        </ComponentBox>
+          </ComponentBox>
+        )}
         {typeof window !== 'undefined' && window.IS_TEST && (
           <ComponentBox
             data-dnb-test="icon-all-primary"

@@ -10,11 +10,7 @@ const link_out_medium = props => (
         fill="#000"
       />
     </g>
-    <defs>
-      <clipPath id="clip-07438e">
-        <path fill="#fff" d="M0 0h24v24H0z" />
-      </clipPath>
-    </defs>
+    <defs />
   </svg>
 )
 

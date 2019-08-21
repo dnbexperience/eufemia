@@ -197,16 +197,7 @@ exports[`Modal component have to match snapshot 1`] = `
                       fillRule="evenodd"
                     />
                   </g>
-                  <defs>
-                    <clipPath
-                      id="clip-5494af"
-                    >
-                      <path
-                        d="M0 0h16v16H0z"
-                        fill="#fff"
-                      />
-                    </clipPath>
-                  </defs>
+                  <defs />
                 </svg>
               </question>
             </span>

@@ -3,7 +3,7 @@
 import React from 'react'
 
 const search_medium = props => (
-  <svg width={25} height={25} viewBox="0 0 25 25" fill="none" {...props}>
+  <svg width={24} height={24} viewBox="0 0 25 25" fill="none" {...props}>
     <path
       fillRule="evenodd"
       clipRule="evenodd"

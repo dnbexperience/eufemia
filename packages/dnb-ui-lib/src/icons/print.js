@@ -3,7 +3,7 @@
 import React from 'react'
 
 const print = props => (
-  <svg width={17} height={16} viewBox="0 0 17 16" fill="none" {...props}>
+  <svg width={16} height={16} viewBox="0 0 17 16" fill="none" {...props}>
     <path
       fillRule="evenodd"
       clipRule="evenodd"

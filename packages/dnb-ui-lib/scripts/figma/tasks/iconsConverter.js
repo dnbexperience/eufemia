@@ -151,9 +151,7 @@ const runFrameIconsFactory = async ({
   )
 
   log.start(
-    `> Figma: Starting to fetch ${
-      iconIdsToFetchFrom.length
-    } icons from the "${originalFrameName}" Canvas`
+    `> Figma: Starting to fetch ${iconIdsToFetchFrom.length} icons from the "${originalFrameName}" Canvas`
   )
 
   // go and load additional images
@@ -171,9 +169,7 @@ const runFrameIconsFactory = async ({
     .filter(([id]) => frameDocChildren.find(({ id: i }) => i === id))
 
   log.start(
-    `> Figma: Starting to fetch process ${
-      listOfIconsToProcess.length
-    } icons`
+    `> Figma: Starting to fetch process ${listOfIconsToProcess.length} icons`
   )
 
   const listOfProcessedIcons = await asyncForEach(
@@ -280,6 +276,18 @@ const prerenderIconName = (name, iconNameAdditions = []) => {
 
 const optimizeSVG = ({ file }) => {
   const transformSvg = async content => {
+    // Figma has an issue where 16px icons gets exported as 17px
+    // This is a fix for that issue
+    content = content.replace(/="17"/g, '="16"')
+    content = content.replace(/="25"/g, '="24"')
+
+    // If we cahnge the viewBox, then we change the possition of the icons slightly
+    // content = content.replace(/ (17)("| )/g, ' 16$2')
+    // content = content.replace(/ (25)("| )/g, ' 24$2')
+
+    // find an id, and remove the element containing it, as we don't want IDs in our markups!
+    const id = (/id="(.*)"/g.exec(content) || [0, null])[1]
+
     const plugins = [
       // {
       //   removeAttrs: {
@@ -297,8 +305,13 @@ const optimizeSVG = ({ file }) => {
       //     ]
       //   }
       // },
+      {
+        removeElementsByAttr: {
+          id
+        }
+      },
       // { convertPathData: false }, // if we prefere to not transform any data paths, we have to disable this
-      { cleanupIDs: false },
+      { cleanupIDs: true },
       { removeViewBox: false },
       { removeDimensions: false }
     ]
