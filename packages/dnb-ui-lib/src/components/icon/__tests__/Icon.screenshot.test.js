@@ -29,10 +29,17 @@ describe('Icon screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
-  it('have to match all icons', async () => {
+  it('have to match all primary icons', async () => {
     const screenshot = await testPageScreenshot({
       style: { width: '30rem' },
-      selector: '[data-dnb-test="icon-all-icons"]'
+      selector: '[data-dnb-test="icon-all-primary"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+  it('have to match all secondary icons', async () => {
+    const screenshot = await testPageScreenshot({
+      style: { width: '30rem' },
+      selector: '[data-dnb-test="icon-all-secondary"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })

@@ -37,7 +37,7 @@
     "figma:dev:commit": "nodemon --exec 'babel-node ./scripts/figma/tasks/commitChanges'",
     "figma:dev:icons": "nodemon --exec 'babel-node ./scripts/figma/updateIcons' --ignore '*.svg' --ignore '*.json'",
     "figma:refetch": "yarn figma -u",
-    "figma:reset": "babel-node ./scripts/figma/reset",
+    "figma:reset": "babel-node ./scripts/figma/reset && babel-node ./scripts/tools/convertIcons && yarn ts icon && jest test -u",
     "lint": "eslint --quiet ./src ./scripts ./stories",
     "lint-ci": "yarn lint:js && yarn lint:styles",
     "lint-staged": "lint-staged -d",

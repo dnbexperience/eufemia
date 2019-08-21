@@ -9,10 +9,11 @@ import { bell_medium as BellMedium, bell as Bell } from './lib'
 import * as PrimaryIconsMedium from 'dnb-ui-lib/src/icons/primary_icons_medium'
 import * as SecondaryIconsMedium from 'dnb-ui-lib/src/icons/secondary_icons_medium'
 
-const allIcons = Object.entries({
-  ...PrimaryIconsMedium,
-  ...SecondaryIconsMedium
-})
+// const allIcons = Object.entries({
+//   ...PrimaryIconsMedium,
+//   ...SecondaryIconsMedium
+// })
+// .sort(([a], [b]) => (a > b ? 1 : -1))
 
 class Example extends PureComponent {
   static AdditionalCallback = {
@@ -53,7 +54,6 @@ import Bell from 'dnb-ui-lib/icons/bell'
 </h1>
           `}
         </ComponentBox>
-        {typeof window !== 'undefined' && window.IS_TEST && ''}
         <ComponentBox
           data-dnb-test="icon-medium"
           scope={{ Bell, BellMedium }}
@@ -72,15 +72,16 @@ import Bell from 'dnb-ui-lib/icons/bell'
 />
               `}
         </ComponentBox>
-        <ComponentBox
-          data-dnb-test="icon-all-icons"
-          scope={{ allIcons }}
-          caption="All icons listed as medium sized icons"
-          noFragments={false}
-        >
-          {/* @jsx */ `
+        {typeof window !== 'undefined' && window.IS_TEST && (
+          <ComponentBox
+            data-dnb-test="icon-all-primary"
+            scope={{ PrimaryIconsMedium }}
+            caption="All **primary** icons listed as medium sized icons"
+            noFragments={false}
+          >
+            {/* @jsx */ `
 () => {
-  const AllIcons = () => allIcons.map(
+  const Icons = () => Object.entries(PrimaryIconsMedium).map(
     ([name, SvgMedium]) => (
       <Icon
         title={name}
@@ -92,10 +93,37 @@ import Bell from 'dnb-ui-lib/icons/bell'
       />
     )
   )
-  return <AllIcons />
+  return <Icons />
 }
           `}
-        </ComponentBox>
+          </ComponentBox>
+        )}
+        {typeof window !== 'undefined' && window.IS_TEST && (
+          <ComponentBox
+            data-dnb-test="icon-all-secondary"
+            scope={{ SecondaryIconsMedium }}
+            caption="All **secondary** icons listed as medium sized icons"
+            noFragments={false}
+          >
+            {/* @jsx */ `
+() => {
+  const Icons = () => Object.entries(SecondaryIconsMedium).map(
+    ([name, SvgMedium]) => (
+      <Icon
+        title={name}
+        key={name}
+        icon={SvgMedium}
+        size="medium"
+        right="small"
+        bottom="small"
+      />
+    )
+  )
+  return <Icons />
+}
+          `}
+          </ComponentBox>
+        )}
       </Fragment>
     )
   }
