@@ -385,6 +385,17 @@ export default class ToggleButton extends Component {
                 />
               )}
               <span className="dnb-toggle-button__inner">
+                {showStatus && (
+                  <FormStatus
+                    id={id + '-form-status'}
+                    global_status_id={global_status_id}
+                    text_id={id + '-status'} // used for "aria-describedby"
+                    text={status}
+                    status={status_state}
+                    animation={status_animation}
+                  />
+                )}
+
                 <span className="dnb-toggle-button__shell">
                   <Button
                     variant="secondary"
@@ -402,16 +413,6 @@ export default class ToggleButton extends Component {
                     )}
                   </Button>
                 </span>
-                {showStatus && (
-                  <FormStatus
-                    id={id + '-form-status'}
-                    global_status_id={global_status_id}
-                    text_id={id + '-status'} // used for "aria-describedby"
-                    text={status}
-                    status={status_state}
-                    animation={status_animation}
-                  />
-                )}
               </span>
             </span>
           )

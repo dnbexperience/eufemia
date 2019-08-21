@@ -11,7 +11,6 @@
     justify-content: flex-start;
     align-items: center; // could be flex-start to have the icon on top
 
-    min-height: var(--input-height);
     border-radius: var(--input-border-radius);
   }
 
@@ -55,33 +54,17 @@
   }
 
   &--fade-in {
-    @keyframes fade-in {
+    @keyframes form-status-fade-in {
       from {
-        opacity: 0;
-        height: 0;
+        max-height: 0;
       }
       to {
-        opacity: 1;
-        height: var(--input-height);
+        max-height: calc(var(--input-height) * 8);
       }
     }
-
-    height: 0;
-    opacity: 0;
-    animation: fade-in 600ms ease-out 1 200ms forwards;
-  }
-
-  @keyframes attention-focus {
-    0%,
-    100% {
-      color: var(--color-white);
-      background-color: var(--color-cherry-red);
-    }
-    45%,
-    55% {
-      color: var(--color-cherry-red);
-      background-color: var(--color-cherry-red-80);
-    }
+    overflow: hidden;
+    max-height: 0;
+    animation: form-status-fade-in 2s ease-out 400ms forwards;
   }
 
   // IE fix

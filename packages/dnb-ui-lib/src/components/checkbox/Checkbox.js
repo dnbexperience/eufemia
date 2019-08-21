@@ -267,6 +267,7 @@ export default class Checkbox extends Component {
             />
           )}
           <span className="dnb-checkbox__inner">
+            {label_position === 'left' && statusComp}
             <span className="dnb-checkbox__shell">
               <input
                 id={id}
@@ -290,7 +291,6 @@ export default class Checkbox extends Component {
               </span>
               <CheckSVG />
             </span>
-            {label_position === 'left' && statusComp}
           </span>
         </span>
         {(label_position === 'right' || !label_position) && statusComp}

@@ -893,6 +893,17 @@ export default class Dropdown extends PureComponent {
           </span>
         )}
         <span className="dnb-dropdown__inner" ref={this._ref}>
+          {showStatus && (
+            <FormStatus
+              id={id + '-form-status'}
+              global_status_id={global_status_id}
+              text_id={id + '-status'} // used for "aria-describedby"
+              text={status}
+              status={status_state}
+              animation={status_animation}
+            />
+          )}
+
           <span className="dnb-dropdown__shell">
             {CustomTrigger ? (
               <CustomTrigger {...triggerParams} />
@@ -999,17 +1010,6 @@ export default class Dropdown extends PureComponent {
               </span>
             )}
           </span>
-
-          {showStatus && (
-            <FormStatus
-              id={id + '-form-status'}
-              global_status_id={global_status_id}
-              text_id={id + '-status'} // used for "aria-describedby"
-              text={status}
-              status={status_state}
-              animation={status_animation}
-            />
-          )}
         </span>
       </span>
     )

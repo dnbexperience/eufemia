@@ -319,6 +319,17 @@ export default class Textarea extends PureComponent {
           />
         )}
         <span {...innerParams}>
+          {showStatus && (
+            <FormStatus
+              id={id + '-form-status'}
+              global_status_id={global_status_id}
+              text_id={id + '-status'} // used for "aria-describedby"
+              text={status}
+              status={status_state}
+              animation={status_animation}
+            />
+          )}
+
           <span {...shellParams}>
             {TextareaElement || (
               <textarea ref={this._ref} {...textareaParams} />
@@ -337,17 +348,6 @@ export default class Textarea extends PureComponent {
               </span>
             )}
           </span>
-
-          {showStatus && (
-            <FormStatus
-              id={id + '-form-status'}
-              global_status_id={global_status_id}
-              text_id={id + '-status'} // used for "aria-describedby"
-              text={status}
-              status={status_state}
-              animation={status_animation}
-            />
-          )}
         </span>
       </span>
     )

@@ -347,6 +347,8 @@ export default class Radio extends Component {
                   />
                 )}
                 <span className="dnb-radio__inner">
+                  {label_position === 'left' && statusComp}
+
                   <span className="dnb-radio__shell">
                     <input
                       type="checkbox"
@@ -372,7 +374,6 @@ export default class Radio extends Component {
                     <span className="dnb-radio__focus" aria-hidden />
                     <span className="dnb-radio__dot" aria-hidden />
                   </span>
-                  {label_position === 'left' && statusComp}
                 </span>
               </span>
               {(label_position === 'right' || !label_position) &&

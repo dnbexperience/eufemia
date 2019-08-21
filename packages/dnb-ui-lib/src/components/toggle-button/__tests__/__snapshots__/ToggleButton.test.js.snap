@@ -313,6 +313,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
       className={null}
       direction={null}
       disabled={null}
+      global_status_id={null}
       id="group"
       indent={null}
       indent_offset={null}
@@ -1117,7 +1118,6 @@ a.dnb-button .dnb-button__text {
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    min-height: var(--input-height);
     border-radius: var(--input-border-radius); }
   .dnb-form-status--text {
     padding: calc(0.5rem / 2) 1rem;
@@ -1143,27 +1143,15 @@ a.dnb-button .dnb-button__text {
   .dnb-form-status[hidden] {
     display: none; }
   .dnb-form-status--fade-in {
-    height: 0;
-    opacity: 0;
-    animation: fade-in 600ms ease-out 1 200ms forwards; }
+    overflow: hidden;
+    max-height: 0;
+    animation: form-status-fade-in 2s ease-out 400ms forwards; }
 
-@keyframes fade-in {
+@keyframes form-status-fade-in {
   from {
-    opacity: 0;
-    height: 0; }
+    max-height: 0; }
   to {
-    opacity: 1;
-    height: var(--input-height); } }
-
-@keyframes attention-focus {
-  0%,
-  100% {
-    color: var(--color-white);
-    background-color: var(--color-cherry-red); }
-  45%,
-  55% {
-    color: var(--color-cherry-red);
-    background-color: var(--color-cherry-red-80); } }
+    max-height: calc(var(--input-height) * 8); } }
   @media screen and (-ms-high-contrast: none) {
     .dnb-form-status__shell > .dnb-icon {
       border-width: 1px; } }
@@ -1281,6 +1269,7 @@ a.dnb-button .dnb-button__text {
     margin-right: 0.5rem;
     margin-left: 0; }
   .dnb-checkbox--label-position-left .dnb-checkbox__order .dnb-form-status {
+    order: 3;
     margin-top: 0.5rem; }
   .dnb-checkbox--label-position-right .dnb-checkbox__order .dnb-checkbox__inner {
     order: 1; }
@@ -1289,6 +1278,7 @@ a.dnb-button .dnb-button__text {
     margin-right: 0;
     margin-left: 0.5rem; }
   .dnb-checkbox--label-position-right .dnb-checkbox__order + .dnb-form-status {
+    order: 3;
     vertical-align: top;
     margin-top: 0.5rem; }
   @media screen and (-ms-high-contrast: none) {
@@ -1430,6 +1420,7 @@ a.dnb-button .dnb-button__text {
   :not(.dnb-radio-group) > .dnb-form-label + .dnb-radio {
     vertical-align: top; }
   .dnb-radio .dnb-form-status {
+    order: 2;
     margin-top: 0;
     margin-bottom: 0.5rem; }
   .dnb-radio + .dnb-form-status {
@@ -1583,6 +1574,7 @@ a.dnb-button .dnb-button__text {
   :not(.dnb-toggle-button-group) > .dnb-form-label + .dnb-toggle-button {
     vertical-align: top; }
   .dnb-toggle-button .dnb-form-status {
+    order: 2;
     margin-top: 0.5rem; }
   .dnb-toggle-button .dnb-form-label {
     margin-right: 1rem; }

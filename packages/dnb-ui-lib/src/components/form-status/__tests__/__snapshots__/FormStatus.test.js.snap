@@ -113,11 +113,21 @@ exports[`FormStatus scss have to match default theme snapshot 1`] = `
 .dnb-form-status:not(.dnb-form-status--attention-focus).dnb-form-status--text {
   color: var(--color-emerald-green); }
 
-.dnb-form-status--error.dnb-form-status--attention-focus .dnb-form-status__shell,
-.dnb-form-status--error.dnb-form-status:focus .dnb-form-status__shell {
-  transition: color 5s ease;
-  animation: attention-focus 1.6s ease infinite;
-  opacity: 1; }
+.dnb-form-status--error.dnb-form-status--attention-focus .dnb-form-status__shell .dnb-icon,
+.dnb-form-status--error.dnb-form-status:focus .dnb-form-status__shell .dnb-icon {
+  animation: attention-focus 2s ease-in-out infinite; }
+
+@keyframes attention-focus {
+  0%,
+  100% {
+    color: var(--color-white);
+    background-color: var(--color-cherry-red);
+    border-color: var(--color-cherry-red); }
+  50%,
+  70% {
+    color: var(--color-cherry-red);
+    background-color: var(--color-cherry-red-80);
+    border-color: var(--color-cherry-red); } }
 "
 `;
 
@@ -186,7 +196,6 @@ exports[`FormStatus scss have to match snapshot 1`] = `
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    min-height: var(--input-height);
     border-radius: var(--input-border-radius); }
   .dnb-form-status--text {
     padding: calc(0.5rem / 2) 1rem;
@@ -212,27 +221,15 @@ exports[`FormStatus scss have to match snapshot 1`] = `
   .dnb-form-status[hidden] {
     display: none; }
   .dnb-form-status--fade-in {
-    height: 0;
-    opacity: 0;
-    animation: fade-in 600ms ease-out 1 200ms forwards; }
+    overflow: hidden;
+    max-height: 0;
+    animation: form-status-fade-in 2s ease-out 400ms forwards; }
 
-@keyframes fade-in {
+@keyframes form-status-fade-in {
   from {
-    opacity: 0;
-    height: 0; }
+    max-height: 0; }
   to {
-    opacity: 1;
-    height: var(--input-height); } }
-
-@keyframes attention-focus {
-  0%,
-  100% {
-    color: var(--color-white);
-    background-color: var(--color-cherry-red); }
-  45%,
-  55% {
-    color: var(--color-cherry-red);
-    background-color: var(--color-cherry-red-80); } }
+    max-height: calc(var(--input-height) * 8); } }
   @media screen and (-ms-high-contrast: none) {
     .dnb-form-status__shell > .dnb-icon {
       border-width: 1px; } }

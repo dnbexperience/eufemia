@@ -226,6 +226,20 @@ describe('Input component', () => {
     ).toBe('focus')
   })
 
+  it('should validate with ARIA rules as a search input with a label', async () => {
+    const LabelComp = mount(<label htmlFor="input">text</label>)
+    const InputComp = mount(
+      <Component
+        {...props}
+        id="input"
+        type="search"
+        autocomplete="off"
+        value="some value"
+      />
+    )
+    expect(await axeComponent(LabelComp, InputComp)).toHaveNoViolations()
+  })
+
   it('should validate with ARIA rules as a input with a label', async () => {
     const LabelComp = mount(<label htmlFor="input">text</label>)
     const InputComp = mount(

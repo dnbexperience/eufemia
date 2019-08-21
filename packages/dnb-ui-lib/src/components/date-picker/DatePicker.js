@@ -668,6 +668,16 @@ export default class DatePicker extends PureComponent {
           ref={this._clampRef}
           {...pickerParams}
         >
+          {showStatus && (
+            <FormStatus
+              id={id + '-form-status'}
+              global_status_id={global_status_id}
+              text_id={id + '-status'} // used for "aria-describedby"
+              text={status}
+              status={status_state}
+              animation={status_animation}
+            />
+          )}
           <span className="dnb-date-picker__shell">
             <DatePickerInput
               id={id}
@@ -693,16 +703,6 @@ export default class DatePicker extends PureComponent {
               onSubmit={this.togglePicker}
               onSubmitButtonFocus={this.onSubmitButtonFocus}
             />
-            {showStatus && (
-              <FormStatus
-                id={id + '-form-status'}
-                global_status_id={global_status_id}
-                text_id={id + '-status'} // used for "aria-describedby"
-                text={status}
-                status={status_state}
-                animation={status_animation}
-              />
-            )}
             <span className="dnb-date-picker__container">
               <span
                 className="dnb-date-picker__triangle"

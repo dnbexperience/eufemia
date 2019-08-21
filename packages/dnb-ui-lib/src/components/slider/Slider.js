@@ -558,6 +558,17 @@ export default class Slider extends PureComponent {
           />
         )}
         <span className="dnb-slider__wrapper">
+          {showStatus && (
+            <FormStatus
+              id={id + '-form-status'}
+              global_status_id={global_status_id}
+              text_id={id + '-status'} // used for "aria-describedby"
+              text={status}
+              status={status_state}
+              animation={status_animation}
+            />
+          )}
+
           <span className="dnb-slider__inner">
             {showButtons && (reverse ? addButton : subtractButton)}
             <span
@@ -584,16 +595,6 @@ export default class Slider extends PureComponent {
             </span>
             {showButtons && (reverse ? subtractButton : addButton)}
           </span>
-          {showStatus && (
-            <FormStatus
-              id={id + '-form-status'}
-              global_status_id={global_status_id}
-              text_id={id + '-status'} // used for "aria-describedby"
-              text={status}
-              status={status_state}
-              animation={status_animation}
-            />
-          )}
         </span>
       </span>
     )

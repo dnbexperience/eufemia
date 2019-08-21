@@ -266,6 +266,8 @@ export default class Switch extends Component {
             />
           )}
           <span className="dnb-switch__inner">
+            {label_position === 'left' && statusComp}
+
             <span className="dnb-switch__shell">
               <input
                 id={id}
@@ -297,7 +299,6 @@ export default class Switch extends Component {
                 </span>
               </span>
             </span>
-            {label_position === 'left' && statusComp}
           </span>
         </span>
         {(label_position === 'right' || !label_position) && statusComp}

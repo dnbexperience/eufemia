@@ -384,6 +384,17 @@ export default class Input extends PureComponent {
           />
         )}
         <span {...clampParams}>
+          {showStatus && (
+            <FormStatus
+              id={id + '-form-status'}
+              global_status_id={global_status_id}
+              text={status}
+              status={status_state}
+              text_id={id + '-status'} // used for "aria-describedby"
+              animation={status_animation}
+            />
+          )}
+
           <span className="dnb-input__row">
             <span className="dnb-input__shell" {...shellParams}>
               {InputElement || <input ref={this._ref} {...inputParams} />}
@@ -427,17 +438,6 @@ export default class Input extends PureComponent {
               </span>
             )}
           </span>
-
-          {showStatus && (
-            <FormStatus
-              id={id + '-form-status'}
-              global_status_id={global_status_id}
-              text={status}
-              status={status_state}
-              text_id={id + '-status'} // used for "aria-describedby"
-              animation={status_animation}
-            />
-          )}
         </span>
       </span>
     )

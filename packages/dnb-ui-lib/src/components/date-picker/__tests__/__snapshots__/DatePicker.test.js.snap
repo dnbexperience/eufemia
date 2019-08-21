@@ -93,6 +93,76 @@ exports[`DatePicker component have to match snapshot 1`] = `
     <span
       className="dnb-date-picker__inner"
     >
+      <FormStatus
+        animation={null}
+        class={null}
+        className={null}
+        global_status_id={null}
+        hidden={false}
+        icon="exclamation"
+        icon_size="medium"
+        id="date-picker-id-form-status"
+        render_content={null}
+        state="error"
+        status="error"
+        text="status"
+        text_id="date-picker-id-status"
+        title={null}
+      >
+        <span
+          className="dnb-form-status dnb-form-status--error dnb-form-status--has-content"
+          hidden={false}
+          id="date-picker-id-form-status"
+        >
+          <span
+            className="dnb-form-status__shell"
+          >
+            <IconPrimary
+              alt={null}
+              aria-hidden={true}
+              attributes={null}
+              class={null}
+              className={null}
+              color={null}
+              height={null}
+              icon="exclamation"
+              modifier={null}
+              size="medium"
+              title={null}
+              width={null}
+            >
+              <span
+                alt="exclamation"
+                aria-hidden={true}
+                className="dnb-icon dnb-icon--medium"
+                role="img"
+              >
+                <exclamation_medium>
+                  <svg
+                    fill="none"
+                    height={24}
+                    viewBox="0 0 24 24"
+                    width={24}
+                  >
+                    <path
+                      clipRule="evenodd"
+                      d="M12 3a.75.75 0 01.75.75v10.5a.75.75 0 01-1.5 0V3.75A.75.75 0 0112 3zm-1.074 15.426c.29-.29.679-.426 1.074-.426s.783.135 1.074.426c.29.29.426.679.426 1.074s-.135.783-.426 1.074c-.29.29-.679.426-1.074.426s-.783-.135-1.074-.426A1.499 1.499 0 0110.5 19.5c0-.395.135-.783.426-1.074z"
+                      fill="#000"
+                      fillRule="evenodd"
+                    />
+                  </svg>
+                </exclamation_medium>
+              </span>
+            </IconPrimary>
+            <span
+              className="dnb-form-status--text"
+              id="date-picker-id-status"
+            >
+              status
+            </span>
+          </span>
+        </span>
+      </FormStatus>
       <span
         className="dnb-date-picker__shell"
       >
@@ -767,76 +837,6 @@ exports[`DatePicker component have to match snapshot 1`] = `
             </span>
           </Input>
         </DatePickerInput>
-        <FormStatus
-          animation={null}
-          class={null}
-          className={null}
-          global_status_id={null}
-          hidden={false}
-          icon="exclamation"
-          icon_size="medium"
-          id="date-picker-id-form-status"
-          render_content={null}
-          state="error"
-          status="error"
-          text="status"
-          text_id="date-picker-id-status"
-          title={null}
-        >
-          <span
-            className="dnb-form-status dnb-form-status--error dnb-form-status--has-content"
-            hidden={false}
-            id="date-picker-id-form-status"
-          >
-            <span
-              className="dnb-form-status__shell"
-            >
-              <IconPrimary
-                alt={null}
-                aria-hidden={true}
-                attributes={null}
-                class={null}
-                className={null}
-                color={null}
-                height={null}
-                icon="exclamation"
-                modifier={null}
-                size="medium"
-                title={null}
-                width={null}
-              >
-                <span
-                  alt="exclamation"
-                  aria-hidden={true}
-                  className="dnb-icon dnb-icon--medium"
-                  role="img"
-                >
-                  <exclamation_medium>
-                    <svg
-                      fill="none"
-                      height={24}
-                      viewBox="0 0 24 24"
-                      width={24}
-                    >
-                      <path
-                        clipRule="evenodd"
-                        d="M12 3a.75.75 0 01.75.75v10.5a.75.75 0 01-1.5 0V3.75A.75.75 0 0112 3zm-1.074 15.426c.29-.29.679-.426 1.074-.426s.783.135 1.074.426c.29.29.426.679.426 1.074s-.135.783-.426 1.074c-.29.29-.679.426-1.074.426s-.783-.135-1.074-.426A1.499 1.499 0 0110.5 19.5c0-.395.135-.783.426-1.074z"
-                        fill="#000"
-                        fillRule="evenodd"
-                      />
-                    </svg>
-                  </exclamation_medium>
-                </span>
-              </IconPrimary>
-              <span
-                className="dnb-form-status--text"
-                id="date-picker-id-status"
-              >
-                status
-              </span>
-            </span>
-          </span>
-        </FormStatus>
         <span
           className="dnb-date-picker__container"
         >
@@ -1357,7 +1357,6 @@ legend.dnb-form-label {
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    min-height: var(--input-height);
     border-radius: var(--input-border-radius); }
   .dnb-form-status--text {
     padding: calc(0.5rem / 2) 1rem;
@@ -1383,27 +1382,15 @@ legend.dnb-form-label {
   .dnb-form-status[hidden] {
     display: none; }
   .dnb-form-status--fade-in {
-    height: 0;
-    opacity: 0;
-    animation: fade-in 600ms ease-out 1 200ms forwards; }
+    overflow: hidden;
+    max-height: 0;
+    animation: form-status-fade-in 2s ease-out 400ms forwards; }
 
-@keyframes fade-in {
+@keyframes form-status-fade-in {
   from {
-    opacity: 0;
-    height: 0; }
+    max-height: 0; }
   to {
-    opacity: 1;
-    height: var(--input-height); } }
-
-@keyframes attention-focus {
-  0%,
-  100% {
-    color: var(--color-white);
-    background-color: var(--color-cherry-red); }
-  45%,
-  55% {
-    color: var(--color-cherry-red);
-    background-color: var(--color-cherry-red-80); } }
+    max-height: calc(var(--input-height) * 8); } }
   @media screen and (-ms-high-contrast: none) {
     .dnb-form-status__shell > .dnb-icon {
       border-width: 1px; } }
@@ -1580,6 +1567,7 @@ legend.dnb-form-label {
   .dnb-input__shell[data-has-content='true'][data-input-state='focus'] .dnb-input__placeholder {
     display: none; }
   .dnb-input__inner > .dnb-form-status {
+    order: 2;
     margin-top: 0.5rem; }
   .dnb-input--vertical {
     flex-direction: column;
@@ -1874,7 +1862,8 @@ legend.dnb-form-label {
       transform: scaleX(-1); }
     .dnb-date-picker .rtl .dnb-date-picker__next::before {
       transform: scaleX(-1); }
-  .dnb-date-picker .dnb-form-status {
+  .dnb-date-picker__inner > .dnb-form-status {
+    order: 2;
     margin-top: 0.5rem; }
   .dnb-date-picker--vertical {
     display: flex;
