@@ -828,9 +828,8 @@ a.dnb-button .dnb-button__text {
       animation-fill-mode: forwards;
       animation-timing-function: ease;
       animation-delay: 400ms; }
-  .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status.dnb-section {
-    height: 0;
-    transition: height 800ms ease-in-out; }
+  .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-in.dnb-global-status.dnb-section {
+    height: 0; }
   .dnb-global-status__fake {
     opacity: 0;
     visibility: hidden;
