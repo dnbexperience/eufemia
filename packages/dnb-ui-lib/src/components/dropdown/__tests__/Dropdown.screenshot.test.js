@@ -40,7 +40,9 @@ describe('Dropdown screenshot', () => {
       simulateSelector:
         '[data-dnb-test="dropdown-closed"] .dnb-dropdown__trigger',
       simulate: 'click',
-      waitFor: 100 // to make sure we make the screenshot afte the animation is show
+      // waitAfterSimulateSelector:
+      //   '[data-dnb-test="dropdown-closed"] .dnb-dropdown__options',
+      waitAfterSimulate: 300 // to make sure we make the screenshot afte the animation is show
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -60,7 +62,9 @@ describe('Dropdown screenshot', () => {
       simulateSelector:
         '[data-dnb-test="dropdown-more_menu"] .dnb-dropdown:nth-of-type(1) .dnb-dropdown__trigger',
       simulate: 'click',
-      waitFor: 100 // to make sure we make the screenshot afte the animation is show
+      // waitAfterSimulateSelector:
+      //   '[data-dnb-test="dropdown-more_menu"] .dnb-dropdown:nth-of-type(1) .dnb-dropdown__options',
+      waitAfterSimulate: 300 // to make sure we make the screenshot afte the animation is show
     })
     expect(screenshot).toMatchImageSnapshot()
   })

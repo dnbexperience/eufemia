@@ -186,31 +186,33 @@ render(
           hideCode
         >
           {/* @jsx */ `
-<span className="dnb-dropdown__list">
-  <ul className="dnb-dropdown__options">
-    <li className="dnb-dropdown__option">
-      <span className="dnb-dropdown__option__inner">Brukskonto - Kari Nordmann</span>
-    </li>
-    <li className="dnb-dropdown__option dnb-dropdown__option--selected">
-      <span className="dnb-dropdown__option__inner">
-        <span className="dnb-dropdown__option__item">1234.56.78902</span>
-        <span className="dnb-dropdown__option__item">Sparekonto - Ole Nordmann</span>
-      </span>
-    </li>
-    <li className="dnb-dropdown__option">
-      <span className="dnb-dropdown__option__inner">
-        <span className="dnb-dropdown__option__item">1134.56.78962</span>
-        <span className="dnb-dropdown__option__item">Feriekonto - Kari Nordmann med et kjempelangt etternavnsen</span>
-      </span>
-    </li>
-    <li className="dnb-dropdown__option last-of-type">
-      <span className="dnb-dropdown__option__inner">
-        <span className="dnb-dropdown__option__item">1534.96.48901</span>
-        <span className="dnb-dropdown__option__item">Oppussing - Ole Nordmann</span>
-      </span>
-    </li>
-    <li className="dnb-dropdown__triangle" />
-  </ul>
+<span className="dnb-dropdown--opened">
+  <span className="dnb-dropdown__list">
+    <ul className="dnb-dropdown__options">
+      <li className="dnb-dropdown__option">
+        <span className="dnb-dropdown__option__inner">Brukskonto - Kari Nordmann</span>
+      </li>
+      <li className="dnb-dropdown__option dnb-dropdown__option--selected">
+        <span className="dnb-dropdown__option__inner">
+          <span className="dnb-dropdown__option__item">1234.56.78902</span>
+          <span className="dnb-dropdown__option__item">Sparekonto - Ole Nordmann</span>
+        </span>
+      </li>
+      <li className="dnb-dropdown__option">
+        <span className="dnb-dropdown__option__inner">
+          <span className="dnb-dropdown__option__item">1134.56.78962</span>
+          <span className="dnb-dropdown__option__item">Feriekonto - Kari Nordmann med et kjempelangt etternavnsen</span>
+        </span>
+      </li>
+      <li className="dnb-dropdown__option last-of-type">
+        <span className="dnb-dropdown__option__inner">
+          <span className="dnb-dropdown__option__item">1534.96.48901</span>
+          <span className="dnb-dropdown__option__item">Oppussing - Ole Nordmann</span>
+        </span>
+      </li>
+      <li className="dnb-dropdown__triangle" />
+    </ul>
+  </span>
 </span>
           `}
         </ComponentBox>

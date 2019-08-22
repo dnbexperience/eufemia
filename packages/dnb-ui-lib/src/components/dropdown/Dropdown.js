@@ -861,12 +861,14 @@ export default class Dropdown extends PureComponent {
       className: 'dnb-dropdown__options',
       role: 'listbox',
       tabIndex: '0',
-      ['aria-activedescendant']: `option-${id}-${selected_item}`,
       ['aria-labelledby']: id,
       ref: this._refUl,
       style: {
         maxHeight: max_height > 0 ? `${max_height}rem` : null
       }
+    }
+    if (selected_item > -1) {
+      ulParams['aria-activedescendant'] = `option-${id}-${selected_item}`
     }
 
     // also used for code markup simulation

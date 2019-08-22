@@ -40,8 +40,9 @@ module.exports.testPageScreenshot = ({
   padding = true,
   text = null,
   simulate = null,
-  waitFor = null,
   waitBeforeFinish = null,
+  waitAfterSimulate = null,
+  waitAfterSimulateSelector = null,
   secreenshotSelector = null,
   styleSelector = null,
   simulateSelector = null,
@@ -164,14 +165,24 @@ module.exports.testPageScreenshot = ({
       }
 
       // wait before taking screenshot
-      if (waitFor > 0) {
-        await page.waitFor(waitFor)
+      if (waitAfterSimulateSelector) {
+        await page.waitForSelector(waitAfterSimulateSelector, {
+          visible: true
+        })
+      }
+      if (parseFloat(waitAfterSimulate) > 0) {
+        await page.waitFor(waitAfterSimulate)
+      }
+
+      if (secreenshotSelector) {
+        await page.waitForSelector(secreenshotSelector, { visible: true })
+        screenshotElement = await page.$(secreenshotSelector)
       }
 
       // with this, we get a warning (console)
       // if an element is not in the pixel grid
       if (!measureElement) {
-        measureElement = selector
+        measureElement = secreenshotSelector || selector
       }
       if (!isCI && measureElement) {
         const pixelGrid = config.pixelGrid
@@ -201,11 +212,6 @@ module.exports.testPageScreenshot = ({
               off}rem (${heightInPixels}) witch corresponds to a rem value of ${inRem}rem.`
           )
         }
-      }
-
-      if (secreenshotSelector) {
-        await page.waitForSelector(secreenshotSelector)
-        screenshotElement = await page.$(secreenshotSelector)
       }
 
       const screenshot = await screenshotElement.screenshot()
