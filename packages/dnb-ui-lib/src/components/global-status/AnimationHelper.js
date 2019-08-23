@@ -15,12 +15,18 @@ export default class Animation {
     if (!animation.type) {
       console.warn('You should define an animation type.')
     }
-    if (this.isInProgress() && animation.type === this.stack[0].type) {
-      return
+
+    // same animation in process, so do nothing
+    if (this.isInProgress(animation)) {
+      if (typeof animation.onPartial === 'function') {
+        animation.onPartial()
+      }
+      return animation
     }
+
     this.stack.push(animation)
 
-    this.runNext()
+    return this.runNext()
   }
   unbind() {
     clearTimeout(this._durationId)
@@ -30,46 +36,49 @@ export default class Animation {
   }
 
   // Helpers
-  getCurrent() {
-    return this.isInProgress() ? this.stack[0] : null
-  }
-  isEmpty() {
-    return this.stack.length === 0
-  }
-  isInProgress() {
-    return this.stack.length > 0
+  isInProgress(animation) {
+    return (
+      this.stack.length > 0 &&
+      this.stack[0].running &&
+      animation.type === this.stack[0].type
+    ) // ok, we depend on mutability here
   }
 
   // Internals
   runNext() {
-    if (this.stack.length > 1) {
-      return
-    }
     const animation = this.stack[0]
 
-    if (!animation) {
-      return
+    // ok, we depend on mutability here
+    if (!animation || animation.running) {
+      return null
     }
+    animation.running = true // use mutability here
+
     const run = () => {
       if (typeof animation.onStart === 'function') {
         animation.onStart(animation)
       }
       this.runGlobalEvents(animation, 'onStart')
       const next = () => {
-        // now, remove the one we have processed
-        this.stack = this.stack.filter(a => a !== animation)
+        animation.running = false // use mutability here
+
         if (typeof animation.onComplete === 'function') {
           animation.onComplete(animation)
         }
         this.runGlobalEvents(animation, 'onComplete')
+
+        // now, remove the one we have processed
+        this.stack = this.stack.filter(a => a !== animation)
         this.runNext()
       }
+      clearTimeout(this._durationId)
       if (animation.duration > 0) {
         this._durationId = setTimeout(next, animation.duration)
       } else {
         next()
       }
     }
+    clearTimeout(this._delayId)
     if (animation.delay > 0) {
       this._delayId = setTimeout(run, animation.delay)
     } else {

@@ -49,12 +49,20 @@ class GlobalStatusProviderItem {
   }
 
   // force rerender of the given GlobalStatus component
-  forceRerender(globalStatus, props) {
-    this.listeners.forEach(event => {
-      if (typeof event === 'function') {
-        event(globalStatus, props)
-      }
-    })
+  forceRerender(globalStatus, props, { buffer_delay = 0 } = {}) {
+    const run = () => {
+      this.listeners.forEach(event => {
+        if (typeof event === 'function') {
+          event(globalStatus, props)
+        }
+      })
+    }
+    if (buffer_delay > 0) {
+      clearTimeout(this._bufferDelayId)
+      this._bufferDelayId = setTimeout(run, buffer_delay) // delay the sum & rerender, in case we change the state in the same frame
+    } else {
+      run()
+    }
   }
   sumItemsToSingleStatus() {
     const globalStatus = this.stack.reduce(
@@ -121,19 +129,11 @@ class GlobalStatusProviderItem {
     if (status_id) {
       this.stack = this.stack.filter(cur => cur.status_id !== status_id)
 
-      const run = () => {
-        const globalStatus = this.sumItemsToSingleStatus()
-        if (this.stack && this.stack.length === 0) {
-          globalStatus.isEmptyNow = true
-        }
-        this.forceRerender(globalStatus)
+      const globalStatus = this.sumItemsToSingleStatus()
+      if (this.stack && this.stack.length === 0) {
+        globalStatus.isEmptyNow = true
       }
-      if (buffer_delay > 0) {
-        clearTimeout(this._removeId)
-        this._removeId = setTimeout(run, buffer_delay) // delay the sum & rerender, in case we change the state in the same frame
-      } else {
-        run()
-      }
+      this.forceRerender(globalStatus, null, { buffer_delay })
     }
   }
 

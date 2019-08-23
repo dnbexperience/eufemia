@@ -19,8 +19,8 @@
     color: var(--color-emerald-green);
   }
 
-  &--error#{&}--attention-focus &__shell .dnb-icon,
-  &--error#{&}:focus &__shell .dnb-icon {
+  &--error#{&}--attention-focus &__shell,
+  &--error#{&}:focus &__shell {
     animation: attention-focus 2s ease-in-out 1 200ms;
   }
 }

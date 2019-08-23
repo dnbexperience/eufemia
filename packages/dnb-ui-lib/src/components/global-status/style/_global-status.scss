@@ -3,11 +3,6 @@
  *
  */
 
-:root {
-  --global-status-max-height: 20rem;
-  --global-status-delay: 1000ms;
-}
-
 @mixin beforeShowAnimation($y: -100%) {
   transform: translate3d(0, #{$y}, 0);
   opacity: 0;
@@ -54,8 +49,6 @@
   }
 
   &__shell {
-    // position: relative;
-    // z-index: 2;
     width: 100%;
     overflow: hidden;
   }

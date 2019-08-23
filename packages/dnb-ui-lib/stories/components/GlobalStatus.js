@@ -9,6 +9,7 @@ import { Wrapper, Box } from '../helpers'
 
 import {
   Input,
+  Switch,
   GlobalStatus,
   Section,
   Button,
@@ -104,6 +105,8 @@ export default [
 const InputWithError = () => {
   const [haveAnErrorMessage1, setErrorMessage1] = useState(false)
   const [haveAnErrorMessage2, setErrorMessage2] = useState(false)
+  const [haveAnErrorMessage3, setErrorMessage3] = useState(false)
+  const [haveAnErrorMessage4, setErrorMessage4] = useState(false)
   return (
     <>
       <FormSet global_status_id="form-status">
@@ -124,9 +127,29 @@ const InputWithError = () => {
             on_change={({ value }) => {
               setErrorMessage2(value.length >= 3)
             }}
+            right="small"
             // global_status_id="form-status"
             status_animation="fade-in"
           />
+          <FormRow vertical>
+            <Switch
+              status={haveAnErrorMessage3 ? 'Error Message #3' : null}
+              on_change={({ checked }) => {
+                setErrorMessage3(checked)
+              }}
+              bottom="small"
+              // global_status_id="form-status"
+              status_animation="fade-in"
+            />
+            <Switch
+              status={haveAnErrorMessage4 ? 'Error Message #4' : null}
+              on_change={({ checked }) => {
+                setErrorMessage4(checked)
+              }}
+              // global_status_id="form-status"
+              status_animation="fade-in"
+            />
+          </FormRow>
         </FormRow>
       </FormSet>
       <GlobalStatus id="form-status" autoscroll="false" top="small" />

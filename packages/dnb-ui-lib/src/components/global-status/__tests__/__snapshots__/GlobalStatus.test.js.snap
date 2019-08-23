@@ -34,19 +34,19 @@ exports[`GlobalStatus component have to match snapshot 1`] = `
   <Section
     aria-live="assertive"
     class={null}
-    className="dnb-global-status dnb-global-status--error dnb-global-status--fade-in dnb-global-status--no-animation dnb-global-status--visible className class"
+    className="dnb-global-status dnb-global-status--error dnb-global-status--no-animation dnb-global-status--visible className class"
     element="div"
     render_content={null}
     style_type="cherry-red"
   >
     <ForwardRef
       aria-live="assertive"
-      className="dnb-section dnb-section--cherry-red dnb-global-status dnb-global-status--error dnb-global-status--fade-in dnb-global-status--no-animation dnb-global-status--visible className class"
+      className="dnb-section dnb-section--cherry-red dnb-global-status dnb-global-status--error dnb-global-status--no-animation dnb-global-status--visible className class"
       is="div"
     >
       <div
         aria-live="assertive"
-        className="dnb-section dnb-section--cherry-red dnb-global-status dnb-global-status--error dnb-global-status--fade-in dnb-global-status--no-animation dnb-global-status--visible className class"
+        className="dnb-section dnb-section--cherry-red dnb-global-status dnb-global-status--error dnb-global-status--no-animation dnb-global-status--visible className class"
       >
         <div
           className="dnb-global-status__shell"
@@ -655,10 +655,6 @@ a.dnb-button .dnb-button__text {
  * GlobalStatus component
  *
  */
-:root {
-  --global-status-max-height: 20rem;
-  --global-status-delay: 1000ms; }
-
 @keyframes global-status-fade-in {
   to {
     opacity: 1;

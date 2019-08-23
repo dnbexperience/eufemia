@@ -152,7 +152,7 @@ export default class GlobalStatus extends React.Component {
       isTrue(props.show)
     ) {
       state.isActive = true
-      state.startShowing = true
+      state.makeMeVisible = true
       if (isTrue(props.no_animation)) {
         state.isVisible = true
       }
@@ -162,7 +162,7 @@ export default class GlobalStatus extends React.Component {
       props.show !== null &&
       !isTrue(props.show)
     ) {
-      state.startHiding = true
+      state.makeMeVisible = false
       if (isTrue(props.no_animation)) {
         state.isVisible = false
       }
@@ -195,11 +195,9 @@ export default class GlobalStatus extends React.Component {
 
   state = {
     globalStatus: null,
-    hasHeight: false,
     isActive: false,
     isVisible: false,
-    startShowing: false,
-    startHiding: false,
+    makeMeVisible: false,
     _listenForPropChanges: true
   }
 
@@ -210,6 +208,10 @@ export default class GlobalStatus extends React.Component {
     this._mainRef = React.createRef()
     this._shellRef = React.createRef()
     this._fakeRef = React.createRef()
+
+    this._visibility = new Animation()
+    this._height = new Animation()
+
     this.provider = GlobalStatusProvider.Factory(props.id)
 
     // force rerender
@@ -235,8 +237,6 @@ export default class GlobalStatus extends React.Component {
         this.setVisible()
       }
     })
-
-    this.animation = new Animation()
   }
 
   correctStatus(state) {
@@ -249,17 +249,21 @@ export default class GlobalStatus extends React.Component {
   }
 
   componentWillUnmount() {
-    this.animation.unbind()
-    clearTimeout(this._isDoneId)
-    clearTimeout(this._setHiddenId)
-    clearTimeout(this._setHeightId)
+    this._visibility.unbind()
+    this._height.unbind()
+    clearTimeout(this._scrollToStatusId)
+    clearTimeout(this._isDemoHiddenId)
   }
 
-  setVisible = ({ isInRender = false } = {}) => {
+  setVisible = () => {
     const { demo: isDemo, autoscroll, no_animation } = this.props
     const noAnimation = isTrue(no_animation)
 
-    if (isInRender && noAnimation) {
+    if (noAnimation) {
+      this.setState({
+        isActive: true,
+        _listenForPropChanges: false
+      })
       return
     }
 
@@ -268,51 +272,13 @@ export default class GlobalStatus extends React.Component {
     const duration = noAnimation ? 0 : 1e3
 
     const onStart = () => {
-      const startShowing = () => {
-        clearTimeout(this._setHeightId)
-        let height = 0
-        try {
-          const elem = this._fakeRef.current
-          if (elem) {
-            height = parseFloat(elem.scrollHeight)
-          }
-        } catch (e) {
-          console.warn('GlobalStatus: Could not calculate height!')
-        }
-
+      const makeMeVisible = () => {
         this.setState(
           {
-            hasHeight: true,
-            startShowing: true,
-            startHiding: false,
+            makeMeVisible: true,
             _listenForPropChanges: false
           },
-          () => {
-            if (!noAnimation && height > 0) {
-              try {
-                const _mainRef = this._mainRef.current._ref.current
-                if (_mainRef) {
-                  const currentHeight = parseFloat(_mainRef.style.height)
-                  if (!(currentHeight > 0)) {
-                    _mainRef.style.height = 0
-                    _mainRef.style.transition = `height ${height *
-                      3}ms ease-in-out`
-                  } else {
-                    const diff = Math.abs(currentHeight - height)
-                    const speed = height * 3 - diff
-                    _mainRef.style.transition = `height ${speed}ms ease-in-out`
-                  }
-                  this._setHeightId = setTimeout(() => {
-                    if (_mainRef) {
-                      _mainRef.style.height = `${height}px`
-                    }
-                  }, 20) // delay to make the change visible to CSS
-                }
-              } catch (e) {
-                console.warn('GlobalStatus: Could not set height!')
-              }
-            }
-          }
+          setHeight
         )
       }
 
@@ -324,9 +290,9 @@ export default class GlobalStatus extends React.Component {
         },
         () => {
           if (!isDemo && isTrue(autoscroll)) {
-            this.scrollToStatus(startShowing)
+            this.scrollToStatus(makeMeVisible)
           } else {
-            startShowing()
+            makeMeVisible()
           }
         }
       )
@@ -334,125 +300,167 @@ export default class GlobalStatus extends React.Component {
 
     const onComplete = () => {
       this.setState({
-        startShowing: false,
         isVisible: true,
         _listenForPropChanges: false
       })
       dispatchCustomElementEvent(this._props, 'on_open', this._props)
       if (isDemo) {
-        this._setHiddenId = setTimeout(this.setHidden, 800)
+        this._isDemoHiddenId = setTimeout(this.setHidden, 800)
       }
-
-      // now, set minHeight, so we only will animate back to zero, but not to just one line less
-      // try {
-      //   const elem = this._shellRef.current
-      //   const height = elem.scrollHeight + 'px'
-      //   elem.style.minHeight = height
-      //   elem.style.maxHeight = 'auto'
-      // } catch (e) {
-      //   // do nowting, as this is only an UX helper
-      // }
     }
 
-    this.animation.add({
+    const setHeight = () => {
+      const _mainRef =
+        this._mainRef.current && this._mainRef.current._ref.current
+
+      const onComplete = () => {
+        try {
+          if (_mainRef) {
+            let height = 0
+            const elem = this._fakeRef.current
+            if (elem) {
+              height = parseFloat(elem.scrollHeight)
+            }
+            if (height > 0) {
+              const currentHeight = parseFloat(_mainRef.style.height)
+              if (!(currentHeight > 0)) {
+                _mainRef.style.height = 0
+                _mainRef.style.transition = `height ${height *
+                  3}ms ease-in-out`
+              } else {
+                const diff = Math.abs(currentHeight - height)
+                const speed = height * 3 - diff
+                _mainRef.style.transition = `height ${speed}ms ease-in-out`
+              }
+
+              _mainRef.style.height = `${height}px`
+            }
+          }
+        } catch (e) {
+          console.warn('GlobalStatus: Could not set height!')
+        }
+      }
+
+      this._height.add({
+        type: 'full',
+        onComplete,
+        delay: 20 // delay to make the change visible to CSS
+      })
+    }
+
+    this._visibility.add({
       type: 'show',
       onComplete,
       onStart,
+      onPartial: () => this.state.isVisible && setHeight(),
       duration,
       delay
     })
   }
-  setHidden = ({ isInRender = false } = {}) => {
+  setHidden = ({ delay = null } = {}) => {
     const { demo: isDemo, no_animation } = this.props
     const noAnimation = isTrue(no_animation)
-    if (isInRender && noAnimation) {
+
+    if (noAnimation) {
+      this.setState({
+        isActive: false,
+        _listenForPropChanges: false
+      })
       return
     }
-    const delay = noAnimation ? 0 : 50
+
+    if (delay === null) {
+      delay = noAnimation ? 0 : 50
+    }
     const duration = noAnimation ? 0 : isDemo ? 1200 : 1e3
 
     const onStart = () => {
-      clearTimeout(this._setHeightId)
-      try {
-        const _mainRef = this._mainRef.current._ref.current
-        if (_mainRef) {
-          // reset transition time
-          _mainRef.style.transition = `height 800ms ease-in-out`
-          _mainRef.style.height = 0
-        }
-      } catch (e) {
-        console.warn('GlobalStatus: Could not reset height to zero!')
-      }
-      this.setState({
-        startHiding: true,
-        startShowing: false,
-        _listenForPropChanges: false
-      })
+      this.setState(
+        {
+          makeMeVisible: false,
+          _listenForPropChanges: false
+        },
+        setHeight
+      )
     }
 
     const onComplete = () => {
-      this.setState({
-        startHiding: false,
-        isActive: false,
-        isVisible: false,
-        hasHeight: false,
-        _listenForPropChanges: false
-      })
-      dispatchCustomElementEvent(this._props, 'on_hide', this._props)
-      if (isDemo) {
-        this.setVisible()
-      }
+      this.setState(
+        {
+          isActive: false,
+          isVisible: false,
+          _listenForPropChanges: false
+        },
+        () => {
+          dispatchCustomElementEvent(this._props, 'on_hide', this._props)
+          if (isDemo) {
+            this.setVisible()
+          }
+        }
+      )
     }
 
-    this.animation.add({
+    const setHeight = () => {
+      const _mainRef =
+        this._mainRef.current && this._mainRef.current._ref.current
+
+      const onComplete = () => {
+        try {
+          if (_mainRef) {
+            // reset transition time to default
+            _mainRef.style.transition = `height 800ms ease-in-out`
+            _mainRef.style.height = 0
+          }
+        } catch (e) {
+          console.warn('GlobalStatus: Could not reset height to zero!')
+        }
+      }
+
+      this._height.add({
+        type: 'zero',
+        onComplete,
+        delay: 20 // delay to make the change visible to CSS
+      })
+    }
+
+    this._visibility.add({
       type: 'hide',
-      onComplete,
       onStart,
+      onComplete,
       duration,
       delay
     })
   }
 
-  isBeforeVisibleState() {
+  isReadyToBeVisible() {
     const { show, demo } = this.props
-    const { isActive, startShowing, startHiding, isVisible } = this.state
+    const { isActive, makeMeVisible, isVisible } = this.state
     return (
-      startShowing &&
-      !startHiding &&
+      makeMeVisible &&
       ((isActive && !isVisible) || (demo && (!isActive, !isVisible))) &&
       isTrue(show)
     )
   }
-  isAfterVisibleState() {
+  isReadyToBeHidden() {
     const { show, demo } = this.props
-    const { isActive, startShowing, startHiding, isVisible } = this.state
+    const { isActive, makeMeVisible, isVisible } = this.state
     return (
-      !startShowing &&
-      startHiding &&
-      isActive &&
-      isVisible &&
-      !demo &&
-      !isTrue(show)
+      !makeMeVisible && isActive && isVisible && !demo && !isTrue(show)
     )
   }
 
-  isBeforeAnimationState() {
-    const { isActive, startShowing, startHiding, isVisible } = this.state
-    return isActive && (startShowing || isVisible) && !startHiding
+  showingHasStarted() {
+    const { isActive, makeMeVisible, isVisible } = this.state
+    return isActive && makeMeVisible && !isVisible
   }
-  isAfterAnimationState() {
-    const { isActive, startShowing, startHiding, isVisible } = this.state
-    return (
-      isActive &&
-      startHiding &&
-      !startShowing && // was not used before!
-      isVisible
-    )
+  hidingHasStarted() {
+    const { isActive, makeMeVisible, isVisible } = this.state
+    return isActive && !makeMeVisible && isVisible
   }
 
   closeHandler = () => {
+    this.setHidden({ delay: 0 })
     dispatchCustomElementEvent(this._props, 'on_close', this._props)
-    this.setHidden()
   }
 
   scrollToStatus(isDone = null) {
@@ -460,7 +468,7 @@ export default class GlobalStatus extends React.Component {
       // dispatchCustomElementEvent(this._props, 'on_scroll_to')
       const element = this._shellRef.current
       if (element) {
-        this._isDoneId = isElementVisible(element, isDone)
+        this._scrollToStatusId = isElementVisible(element, isDone)
         element.scrollIntoView({
           block: 'center',
           behavior: 'smooth'
@@ -479,7 +487,7 @@ export default class GlobalStatus extends React.Component {
   }
 
   render() {
-    const { hasHeight, isActive, isVisible } = this.state
+    const { makeMeVisible, isActive, isVisible } = this.state
 
     if (!isActive) {
       return <></>
@@ -522,9 +530,9 @@ export default class GlobalStatus extends React.Component {
       ...attributes
     } = props
 
-    if (this.isBeforeVisibleState()) {
+    if (this.isReadyToBeVisible()) {
       this.setVisible({ isInRender: true })
-    } else if (this.isAfterVisibleState()) {
+    } else if (this.isReadyToBeHidden()) {
       this.setHidden({ isInRender: true })
     }
 
@@ -544,10 +552,8 @@ export default class GlobalStatus extends React.Component {
       className: classnames(
         'dnb-global-status',
         `dnb-global-status--${state}`,
-        // this.isBeforeAnimationState() && 'dnb-global-status--max-height',
-        // this.isAfterAnimationState() && 'dnb-global-status--zero-height',
-        this.isBeforeAnimationState() && 'dnb-global-status--fade-in',
-        this.isAfterAnimationState() && 'dnb-global-status--fade-out',
+        this.showingHasStarted() && 'dnb-global-status--fade-in',
+        this.hidingHasStarted() && 'dnb-global-status--fade-out',
         noAnimation && 'dnb-global-status--no-animation',
         noAnimation &&
           (isActive
@@ -677,7 +683,7 @@ export default class GlobalStatus extends React.Component {
 
     return (
       <>
-        {(hasHeight || noAnimation) && (
+        {(makeMeVisible || isVisible || noAnimation) && (
           <Section
             element="div"
             style_type={style}
