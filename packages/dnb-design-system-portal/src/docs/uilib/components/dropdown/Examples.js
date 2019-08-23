@@ -101,17 +101,15 @@ const data = [
   }
 ];
 render(
-  <TestWrapper>
-    <Dropdown
-      data={data}
-      label="Label:"
-      title="Please select a value"
-      on_change={({ data: { selected_key } }) => {
-        console.log('on_change', selected_key)
-      }}
-      {...props}
-    />
-  </TestWrapper>
+  <Dropdown
+    data={data}
+    label="Label:"
+    title="Please select a value"
+    on_change={({ data: { selected_key } }) => {
+      console.log('on_change', selected_key)
+    }}
+    {...props}
+  />
 )
           `}
         </ComponentBox>
