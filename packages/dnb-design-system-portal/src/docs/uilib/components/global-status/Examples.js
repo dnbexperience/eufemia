@@ -21,7 +21,7 @@ class Example extends PureComponent {
   items={[
       {
         text:'List item',
-        status_anchor_url: '/',
+        status_anchor_url: '/uilib/components/global-status',
       }
   ]}
   show="true"
