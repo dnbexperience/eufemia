@@ -34,6 +34,15 @@ describe('Dropdown screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+  it('have to match the dropdown items', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-dnb-test="dropdown-list"] .dnb-dropdown__list',
+      simulateSelector:
+        '[data-dnb-test="dropdown-list"] .dnb-dropdown__option:nth-of-type(1)',
+      simulate: 'hover'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
   it('have to match the dropdown with click', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-dnb-test="dropdown-closed"] .dnb-dropdown__inner',
@@ -42,7 +51,20 @@ describe('Dropdown screenshot', () => {
       simulate: 'click',
       // waitAfterSimulateSelector:
       //   '[data-dnb-test="dropdown-closed"] .dnb-dropdown__options',
-      waitAfterSimulate: 300 // to make sure we make the screenshot afte the animation is show
+      waitAfterSimulate: 100 // to make sure we make the screenshot afte the animation is show
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+  it('have to match the dropdown with icon on left side', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-dnb-test="dropdown-left-icon"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+  it('have to match the dropdown with status: error', async () => {
+    const screenshot = await testPageScreenshot({
+      selector:
+        '[data-dnb-test="dropdown-status-error"] .dnb-dropdown__inner'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -64,16 +86,7 @@ describe('Dropdown screenshot', () => {
       simulate: 'click',
       // waitAfterSimulateSelector:
       //   '[data-dnb-test="dropdown-more_menu"] .dnb-dropdown:nth-of-type(1) .dnb-dropdown__options',
-      waitAfterSimulate: 300 // to make sure we make the screenshot afte the animation is show
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-  it('have to match the dropdown items', async () => {
-    const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="dropdown-list"] .dnb-dropdown__list',
-      simulateSelector:
-        '[data-dnb-test="dropdown-list"] li.dnb-dropdown__option:nth-of-type(1)',
-      simulate: 'hover'
+      waitAfterSimulate: 100 // to make sure we make the screenshot afte the animation is show
     })
     expect(screenshot).toMatchImageSnapshot()
   })

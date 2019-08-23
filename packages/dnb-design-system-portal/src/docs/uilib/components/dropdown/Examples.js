@@ -10,7 +10,11 @@ import styled from '@emotion/styled'
 
 class Example extends PureComponent {
   render() {
-    const no_animation = typeof window !== 'undefined' && window.IS_TEST
+    const props =
+      typeof window !== 'undefined' && window.IS_TEST
+        ? { no_animation: true, no_scroll_animation: true }
+        : {}
+    console.log('props', props)
     return (
       <Fragment>
         <ComponentBox
@@ -63,7 +67,7 @@ render(
           data-dnb-test="dropdown-closed"
           useRender
           hideSyntaxButton
-          scope={{ no_animation, no_scroll_animation: no_animation }}
+          scope={{ props }}
         >
           {/* @jsx */ `
 const data = [
@@ -97,21 +101,24 @@ const data = [
   }
 ];
 render(
-  <Dropdown
-    data={data}
-    label="Label:"
-    title="Please select a value"
-    no_animation={no_animation}
-    on_change={({ data: { selected_key } }) => {
-      console.log('on_change', selected_key)
-    }}
-  />
+  <TestWrapper>
+    <Dropdown
+      data={data}
+      label="Label:"
+      title="Please select a value"
+      on_change={({ data: { selected_key } }) => {
+        console.log('on_change', selected_key)
+      }}
+      {...props}
+    />
+  </TestWrapper>
 )
           `}
         </ComponentBox>
         <ComponentBox
           caption="Default dropdown, icon on left side"
-          scope={{ data }}
+          scope={{ data, props }}
+          data-dnb-test="dropdown-left-icon"
         >
           {/* @jsx */ `
 <FormLabel for_id="text-dropdown-1" text="Label:" />
@@ -126,12 +133,14 @@ render(
     console.log('on_show')
   }}
   id="text-dropdown-1"
+  {...props}
 />
           `}
         </ComponentBox>
         <ComponentBox
           caption="As **Popup Menu** - no lasting selection will be made"
           data-dnb-test="dropdown-more_menu"
+          scope={{ props }}
         >
           {/* @jsx */ `
 <Dropdown
@@ -140,6 +149,7 @@ render(
   title="Choose an item"
   data={['Go this this Link', 'Or press on me', <>Custom component</>]}
   right="small"
+  {...props}
 />
 <Dropdown
   more_menu="true"
@@ -168,7 +178,8 @@ render(
         </ComponentBox>
         <ComponentBox
           caption="Dropdown with status and vertical label layout"
-          scope={{ data }}
+          data-dnb-test="dropdown-status-error"
+          scope={{ data, props }}
         >
           {/* @jsx */ `
 <Dropdown
@@ -176,43 +187,42 @@ render(
   label="Label:"
   label_direction="vertical"
   status="Message to the user"
+  {...props}
 />
           `}
         </ComponentBox>
         <ComponentBox
           caption="Dropdown list - only to vissualize"
-          scope={{ data }}
           data-dnb-test="dropdown-list"
+          scope={{ data }}
           hideCode
         >
           {/* @jsx */ `
-<span className="dnb-dropdown--opened">
-  <span className="dnb-dropdown__list">
-    <ul className="dnb-dropdown__options">
-      <li className="dnb-dropdown__option">
-        <span className="dnb-dropdown__option__inner">Brukskonto - Kari Nordmann</span>
-      </li>
-      <li className="dnb-dropdown__option dnb-dropdown__option--selected">
-        <span className="dnb-dropdown__option__inner">
-          <span className="dnb-dropdown__option__item">1234.56.78902</span>
-          <span className="dnb-dropdown__option__item">Sparekonto - Ole Nordmann</span>
-        </span>
-      </li>
-      <li className="dnb-dropdown__option">
-        <span className="dnb-dropdown__option__inner">
-          <span className="dnb-dropdown__option__item">1134.56.78962</span>
-          <span className="dnb-dropdown__option__item">Feriekonto - Kari Nordmann med et kjempelangt etternavnsen</span>
-        </span>
-      </li>
-      <li className="dnb-dropdown__option last-of-type">
-        <span className="dnb-dropdown__option__inner">
-          <span className="dnb-dropdown__option__item">1534.96.48901</span>
-          <span className="dnb-dropdown__option__item">Oppussing - Ole Nordmann</span>
-        </span>
-      </li>
-      <li className="dnb-dropdown__triangle" />
-    </ul>
-  </span>
+<span className="dnb-dropdown__list">
+  <ul className="dnb-dropdown__options">
+    <li className="dnb-dropdown__option">
+      <span className="dnb-dropdown__option__inner">Brukskonto - Kari Nordmann</span>
+    </li>
+    <li className="dnb-dropdown__option dnb-dropdown__option--selected">
+      <span className="dnb-dropdown__option__inner">
+        <span className="dnb-dropdown__option__item">1234.56.78902</span>
+        <span className="dnb-dropdown__option__item">Sparekonto - Ole Nordmann</span>
+      </span>
+    </li>
+    <li className="dnb-dropdown__option">
+      <span className="dnb-dropdown__option__inner">
+        <span className="dnb-dropdown__option__item">1134.56.78962</span>
+        <span className="dnb-dropdown__option__item">Feriekonto - Kari Nordmann med et kjempelangt etternavnsen</span>
+      </span>
+    </li>
+    <li className="dnb-dropdown__option last-of-type">
+      <span className="dnb-dropdown__option__inner">
+        <span className="dnb-dropdown__option__item">1534.96.48901</span>
+        <span className="dnb-dropdown__option__item">Oppussing - Ole Nordmann</span>
+      </span>
+    </li>
+    <li className="dnb-dropdown__triangle" />
+  </ul>
 </span>
           `}
         </ComponentBox>
@@ -234,9 +244,13 @@ const Wrapper = styled.div`
   [data-dnb-test-wrapper='dropdown-more_menu'] {
     width: 20rem;
     height: 15rem !important;
+    ${'' /* .dnb-dropdown:nth-of-type(1n + 2) {
+      display: none;
+    } */}
   }
   [data-dnb-test='dropdown-list'] .dnb-dropdown__list {
     display: block;
+    visibility: visible;
     position: relative;
     top: 0;
     width: var(--dropdown-width);
