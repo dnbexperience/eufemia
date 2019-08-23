@@ -458,28 +458,10 @@ export default class GlobalStatus extends React.Component {
   scrollToStatus(isDone = null) {
     try {
       // dispatchCustomElementEvent(this._props, 'on_scroll_to')
-      const elem = this._shellRef.current
-      if (elem) {
-        if (typeof IntersectionObserver !== 'undefined') {
-          const intersectionObserver = new IntersectionObserver(
-            entries => {
-              const [entry] = entries
-              if (entry.isIntersecting) {
-                intersectionObserver.unobserve(elem)
-                if (typeof isDone === 'function') {
-                  isDone()
-                }
-              }
-            }
-          )
-          // start observing
-          intersectionObserver.observe(elem)
-        } else {
-          if (typeof isDone === 'function') {
-            this._isDoneId = setTimeout(isDone, 1e3)
-          }
-        }
-        elem.scrollIntoView({
+      const element = this._shellRef.current
+      if (element) {
+        this._isDoneId = isElementVisible(element, isDone)
+        element.scrollIntoView({
           block: 'center',
           behavior: 'smooth'
         })
@@ -643,19 +625,30 @@ export default class GlobalStatus extends React.Component {
                                     return
                                   }
 
-                                  // remove the blink animation again
-                                  element.addEventListener('blur', e => {
-                                    if (e.target.classList) {
-                                      e.target.removeAttribute('tabindex')
+                                  isElementVisible(element, elem => {
+                                    try {
+                                      // remove the blink animation again
+                                      elem.addEventListener('blur', e => {
+                                        if (e.target.classList) {
+                                          e.target.removeAttribute(
+                                            'tabindex'
+                                          )
+                                        }
+                                      })
+
+                                      // we don't want a visual focus style, we have our own
+                                      elem.classList.add('dnb-no-focus')
+
+                                      // in order to use the blur event
+                                      elem.setAttribute('tabindex', '-1')
+
+                                      // now show the animation
+                                      // we use "attention-focus" in #form-status theme
+                                      elem.focus({ preventScroll: true })
+                                    } catch (e) {
+                                      console.warn(e)
                                     }
                                   })
-
-                                  // we don't want a visual focus style, we have our own
-                                  element.classList.add('dnb-no-focus')
-
-                                  // in order to use the blur event
-                                  element.setAttribute('tabindex', '-1')
-                                  element.focus({ preventScroll: true })
 
                                   // then go there
                                   element.scrollIntoView({
@@ -738,3 +731,24 @@ CloseButton.defaultProps = {
 // Extend with update handler
 GlobalStatus.Update = GlobalStatusController
 GlobalStatus.Remove = GlobalStatusController.Remove
+
+const isElementVisible = (elem, callback, delayFallback = 1e3) => {
+  if (typeof IntersectionObserver !== 'undefined') {
+    const intersectionObserver = new IntersectionObserver(entries => {
+      const [entry] = entries
+      if (entry.isIntersecting) {
+        intersectionObserver.unobserve(elem)
+        if (typeof callback === 'function') {
+          callback(elem)
+        }
+      }
+    })
+    // start observing
+    intersectionObserver.observe(elem)
+  } else {
+    if (typeof callback === 'function') {
+      return setTimeout(() => callback(elem), delayFallback)
+    }
+  }
+  return null
+}
