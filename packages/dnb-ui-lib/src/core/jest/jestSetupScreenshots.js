@@ -188,7 +188,7 @@ module.exports.testPageScreenshot = ({
       if (!measureElement) {
         measureElement = secreenshotSelector || selector
       }
-      if (isCI && measureElement) {
+      if (!isCI && measureElement) {
         const pixelGrid = config.pixelGrid
         if (selector !== measureElement) {
           await page.waitForSelector(measureElement)
