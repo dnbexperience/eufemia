@@ -1,7 +1,7 @@
 ---
 title: 'GlobalStatus'
 draft: false
-status: 'imp'
+status: 'new'
 order: 4
 ---
 

@@ -1,6 +1,7 @@
 ---
 title: 'Space'
 draft: false
+status: 'new'
 order: 13
 ---
 

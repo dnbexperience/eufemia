@@ -206,6 +206,14 @@ const StyledListItem = styled.li`
     color: var(--color-black-80);
     background-color: var(--color-cherry-red-80);
   }
+  &.status-new .status-badge {
+    color: var(--color-sea-green-alt);
+    background-color: transparent;
+  }
+  &.status-beta .status-badge {
+    color: var(--color-cherry-red);
+    background-color: transparent;
+  }
   &.status-imp .status-badge {
     background-color: var(--color-black);
     color: var(--color-white);
@@ -612,7 +620,10 @@ class ListItem extends PureComponent {
     const statusTitle =
       status &&
       {
+        new: 'New',
+        beta: 'Beta',
         wip: 'Work in Progress',
+        cs: 'Comming soon',
         dep: 'Deprecated',
         imp: 'Needs improvement'
       }[status]
