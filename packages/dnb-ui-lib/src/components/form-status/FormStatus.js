@@ -59,7 +59,7 @@ export const defaultProps = {
   id: null,
   title: null,
   text: null,
-  icon: 'exclamation',
+  icon: 'error',
   icon_size: 'medium',
   state: 'error',
   status: null, // Deprecated
@@ -105,7 +105,7 @@ export default class FormStatus extends PureComponent {
           break
         case 'error':
         default:
-          iconToLoad = 'exclamation'
+          iconToLoad = 'error'
       }
 
       icon = <IconPrimary aria-hidden icon={iconToLoad} size={icon_size} />

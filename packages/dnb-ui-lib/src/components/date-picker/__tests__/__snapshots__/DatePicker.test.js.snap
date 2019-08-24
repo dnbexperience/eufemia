@@ -99,7 +99,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
         className={null}
         global_status_id={null}
         hidden={false}
-        icon="exclamation"
+        icon="error"
         icon_size="medium"
         id="date-picker-id-form-status"
         render_content={null}
@@ -125,33 +125,48 @@ exports[`DatePicker component have to match snapshot 1`] = `
               className={null}
               color={null}
               height={null}
-              icon="exclamation"
+              icon="error"
               modifier={null}
               size="medium"
               title={null}
               width={null}
             >
               <span
-                alt="exclamation"
+                alt="error"
                 aria-hidden={true}
                 className="dnb-icon dnb-icon--medium"
                 role="img"
               >
-                <exclamation_medium>
+                <error_medium>
                   <svg
                     fill="none"
-                    height={24}
-                    viewBox="0 0 24 24"
-                    width={24}
+                    height={32}
+                    viewBox="0 0 32 32"
+                    width={32}
                   >
                     <path
+                      d="M16 25a.5.5 0 100 1 .5.5 0 000-1v0"
+                      stroke="#000"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={1.5}
+                    />
+                    <path
+                      d="M16 21V11"
+                      stroke="#000"
+                      strokeLinecap="round"
+                      strokeWidth={1.5}
+                    />
+                    <path
                       clipRule="evenodd"
-                      d="M12 3a.75.75 0 01.75.75v10.5a.75.75 0 01-1.5 0V3.75A.75.75 0 0112 3zm-1.074 15.426c.29-.29.679-.426 1.074-.426s.783.135 1.074.426c.29.29.426.679.426 1.074s-.135.783-.426 1.074c-.29.29-.679.426-1.074.426s-.783-.135-1.074-.426A1.499 1.499 0 0110.5 19.5c0-.395.135-.783.426-1.074z"
-                      fill="#000"
-                      fillRule="evenodd"
+                      d="M18.161 2.347a2.408 2.408 0 00-4.322 0L1.208 28.077A2.028 2.028 0 003.029 31h25.942a2.028 2.028 0 001.821-2.923l-12.63-25.73z"
+                      stroke="#000"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={1.5}
                     />
                   </svg>
-                </exclamation_medium>
+                </error_medium>
               </span>
             </IconPrimary>
             <span
