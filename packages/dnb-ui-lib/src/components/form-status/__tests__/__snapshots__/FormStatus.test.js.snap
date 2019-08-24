@@ -104,7 +104,7 @@ exports[`FormStatus scss have to match default theme snapshot 1`] = `
 
 .dnb-form-status--error .dnb-form-status__shell {
   color: var(--color-cherry-red);
-  background-color: var(--color-cherry-red-80); }
+  background-color: var(--color-cherry-red-8); }
 
 .dnb-form-status--info .dnb-form-status__shell {
   color: var(--color-emerald-green);
@@ -121,7 +121,7 @@ exports[`FormStatus scss have to match default theme snapshot 1`] = `
   0%,
   100% {
     color: var(--color-cherry-red);
-    background-color: var(--color-cherry-red-80);
+    background-color: var(--color-cherry-red-8);
     border-color: var(--color-cherry-red); }
   35% {
     color: var(--color-white);

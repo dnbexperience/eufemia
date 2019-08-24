@@ -204,7 +204,7 @@ const StyledListItem = styled.li`
   }
   &.status-dep .status-badge {
     color: var(--color-black-80);
-    background-color: var(--color-cherry-red-80);
+    background-color: var(--color-cherry-red-8);
   }
   &.status-new .status-badge {
     color: var(--color-sea-green-alt);

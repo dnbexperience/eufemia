@@ -9,7 +9,7 @@
   }
   &--error &__shell {
     color: var(--color-cherry-red);
-    background-color: var(--color-cherry-red-80);
+    background-color: var(--color-cherry-red-8);
   }
   &--info &__shell {
     color: var(--color-emerald-green);
@@ -29,7 +29,7 @@
   0%,
   100% {
     color: var(--color-cherry-red);
-    background-color: var(--color-cherry-red-80);
+    background-color: var(--color-cherry-red-8);
     border-color: var(--color-cherry-red);
   }
   35% {

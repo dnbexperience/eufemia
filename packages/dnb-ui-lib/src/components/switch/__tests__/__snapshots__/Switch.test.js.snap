@@ -233,13 +233,13 @@ exports[`Switch scss have to match default theme snapshot 1`] = `
     background-color: var(--color-mint-green-50); }
   .dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):hover ~ .dnb-switch__button {
     border-color: var(--color-cherry-red);
-    background-color: var(--color-cherry-red-80); }
+    background-color: var(--color-cherry-red-8); }
   .dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):not(:active):not(:hover) ~ .dnb-switch__button {
-    border-color: var(--color-cherry-red-80); }
+    border-color: var(--color-cherry-red-8); }
   .dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):not(:active):not(:hover):checked ~ .dnb-switch__button {
     background-color: var(--color-cherry-red); }
   .dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):not(:active) ~ .dnb-switch__background {
-    background-color: var(--color-cherry-red-80);
+    background-color: var(--color-cherry-red-8);
     box-shadow: 0 0 0 0.125rem var(--color-cherry-red);
     /* IE11 fix */
     border-color: transparent; }

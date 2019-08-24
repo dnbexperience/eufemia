@@ -131,7 +131,7 @@
   &__status--error
     &__input:not([disabled]):not(:focus):not(:checked):hover
     ~ &__button {
-    background-color: var(--color-cherry-red-80);
+    background-color: var(--color-cherry-red-8);
   }
   &__status--error
     &__input:not([disabled]):not(:focus):not(:active):not(:hover):checked
@@ -141,7 +141,7 @@
   &__status--error
     &__input:not([disabled]):not(:focus):not(:active):checked:hover
     ~ &__dot {
-    background-color: var(--color-cherry-red-80);
+    background-color: var(--color-cherry-red-8);
   }
 
   // ajust the form-status to the inner border for 3px

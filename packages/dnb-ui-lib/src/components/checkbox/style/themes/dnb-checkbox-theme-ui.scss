@@ -133,12 +133,12 @@
   }
   &__status--error &__input:not([disabled]):not(:focus):hover ~ &__button {
     border-color: var(--color-cherry-red);
-    background-color: var(--color-cherry-red-80);
+    background-color: var(--color-cherry-red-8);
   }
   &__status--error
     &__input:not([disabled]):not(:focus):not(:active):not(:hover)
     ~ &__button {
-    border-color: var(--color-cherry-red-80);
+    border-color: var(--color-cherry-red-8);
   }
   &__status--error
     &__input:not([disabled]):not(:focus):not(:active):not(:hover):checked
@@ -152,6 +152,6 @@
   &__status--error
     &__input:not([disabled]):not(:focus):not(:active):not(:hover)
     ~ &__gfx {
-    color: var(--color-cherry-red-80);
+    color: var(--color-cherry-red-8);
   }
 }

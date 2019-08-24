@@ -530,11 +530,11 @@ exports[`Radio scss have to match default theme snapshot 1`] = `
     /* IE11 fix */
     border-color: transparent; }
   .dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:checked):hover ~ .dnb-radio__button {
-    background-color: var(--color-cherry-red-80); }
+    background-color: var(--color-cherry-red-8); }
   .dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:active):not(:hover):checked ~ .dnb-radio__dot {
     background-color: var(--color-cherry-red); }
   .dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:active):checked:hover ~ .dnb-radio__dot {
-    background-color: var(--color-cherry-red-80); }
+    background-color: var(--color-cherry-red-8); }
   .dnb-radio > .dnb-form-status {
     transform: translateY(0.1875rem); }
 "

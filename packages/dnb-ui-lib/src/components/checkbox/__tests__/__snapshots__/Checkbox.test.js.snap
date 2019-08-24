@@ -253,15 +253,15 @@ exports[`Checkbox scss have to match default theme snapshot 1`] = `
     border-color: transparent; }
   .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:focus):hover ~ .dnb-checkbox__button {
     border-color: var(--color-cherry-red);
-    background-color: var(--color-cherry-red-80); }
+    background-color: var(--color-cherry-red-8); }
   .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:focus):not(:active):not(:hover) ~ .dnb-checkbox__button {
-    border-color: var(--color-cherry-red-80); }
+    border-color: var(--color-cherry-red-8); }
   .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:focus):not(:active):not(:hover):checked ~ .dnb-checkbox__button {
     background-color: var(--color-cherry-red); }
   .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:focus):hover ~ .dnb-checkbox__gfx {
     color: var(--color-cherry-red); }
   .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:focus):not(:active):not(:hover) ~ .dnb-checkbox__gfx {
-    color: var(--color-cherry-red-80); }
+    color: var(--color-cherry-red-8); }
 "
 `;
 
