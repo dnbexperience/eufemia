@@ -37,6 +37,49 @@ But You can also make use of the [FormSet](/uilib/components/form-set) or [FormR
 <FormSet global_status_id="other-global-status">...</FormSet>
 ```
 
+### Manually updates
+
+Beside the automated connection between the error states of form components ([FormStatus](/uilib/components/form-status)), You can update messages from everywhere in Your application on any time:
+
+```jsx
+import { GlobalStatus } from 'dnb-ui-lib/components'
+
+// 1. Place it under the header bar
+<GlobalStatus text="Optional default text" />
+
+// 2. later on, You can show a message
+<GlobalStatus.Update
+  status_id="custom-id-1"
+  title="New title"
+  text="First long info text ..."
+  item="Item from status #1"
+/>
+
+// 3. and remove it again
+<GlobalStatus.Remove status_id="custom-id-1" />
+```
+
+If You need an additional `GlobalStatus`, define a custom ID (custom-status):
+
+```jsx
+import { GlobalStatus } from 'dnb-ui-lib/components'
+
+// 1. Place it somewhere in Your application
+<GlobalStatus id="custom-status" />
+
+// 2. later on, You can show a message
+<GlobalStatus.Update
+  id="custom-status"
+  status_id="custom-id-1"
+  title="New title"
+  text="First long info text ..."
+  item="Item from status #1"
+/>
+
+// 3. and remove it again
+<GlobalStatus.Remove id="custom-status" status_id="custom-id-1" />
+```
+
 ## Demos
 
 <Examples />

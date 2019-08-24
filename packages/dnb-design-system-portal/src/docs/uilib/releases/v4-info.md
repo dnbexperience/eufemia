@@ -77,3 +77,5 @@ To upgrade to v4 with NPM, use:
 ```bash
 $ npm i dnb-ui-lib@4
 ```
+
+_July, 21. 2019_
