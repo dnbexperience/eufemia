@@ -36,5 +36,9 @@
   },
   "release": {
     "analyzeCommits": "simple-commit-message"
+  },
+  "volta": {
+    "node": "10.6.0",
+    "yarn": "1.17.3"
   }
 }

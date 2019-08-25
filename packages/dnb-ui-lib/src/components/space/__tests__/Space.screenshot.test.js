@@ -15,7 +15,7 @@ describe('Space screenshot', () => {
   // looks like this is not working well
   it.skip('have to match the spacing patterns', async () => {
     const screenshot = await testPageScreenshot({
-      waitFor: 200,
+      waitAfterSimulate: 200,
       selector: '[data-dnb-test="spacing-patterns"] .spacing-patterns'
     })
     expect(screenshot).toMatchImageSnapshot()

@@ -80,6 +80,12 @@ class Example extends PureComponent {
   icon="chevron_left"
   data-dnb-test="button-tertiary"
 />
+<Button
+  variant="tertiary"
+  text="With medium icon"
+  icon="chevron_right"
+  icon_size="medium"
+/>
           `}
         </ComponentBox>
         <ComponentBox>
@@ -115,7 +121,7 @@ class Example extends PureComponent {
         </ComponentBox>
         <ComponentBox
           scope={{ Bell }}
-          caption="Medium is equalent to 24, but responsive"
+          caption="Medium is equalent to 24, but responsive. To import custom icons, use: `import { bell_medium as Bell } from 'dnb-ui-lib/icons'`"
         >
           {/* @jsx */ `
 <Button
@@ -126,7 +132,10 @@ class Example extends PureComponent {
 />
           `}
         </ComponentBox>
-        <ComponentBox scope={{ Bell }}>
+        <ComponentBox
+          scope={{ Bell }}
+          caption="Large Signal button with medium sized icon. To import custom icons, use: `import { bell_medium as Bell } from 'dnb-ui-lib/icons'`"
+        >
           {/* @jsx */ `
 <Button
   variant="signal"

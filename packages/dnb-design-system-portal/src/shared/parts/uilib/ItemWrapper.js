@@ -105,7 +105,7 @@ class ItemWrapper extends PureComponent {
   isActive(tabKey) {
     return this.state.activeTabKey === tabKey
   }
-  componentWillMount() {
+  componentDidMount() {
     const location = getLocation()
     if (location)
       this.setState({

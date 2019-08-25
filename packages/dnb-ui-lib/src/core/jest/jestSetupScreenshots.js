@@ -37,11 +37,12 @@ module.exports.testPageScreenshot = ({
   page = global.__PAGE__,
   selector,
   style = null,
-  padding = true,
+  addWrapper = true,
   text = null,
   simulate = null,
-  waitFor = null,
   waitBeforeFinish = null,
+  waitAfterSimulate = null,
+  waitAfterSimulateSelector = null,
   secreenshotSelector = null,
   styleSelector = null,
   simulateSelector = null,
@@ -76,13 +77,17 @@ module.exports.testPageScreenshot = ({
         await transformElement(element)
       }
 
-      let screenshotElement = null
       const element = await page.$(selector)
+      let screenshotElement = element
 
-      // to archieve a padding, we wrap the element and apply a padding to it
-      if (padding) {
+      // now we wrap the element and apply a padding to it
+      // the reason is because on some styles we have a shadow arround,
+      // and we want to have this also in the screenshot
+      // With the wrapper, we center the are we take a screnshot
+      let wrapperId
+      if (addWrapper) {
+        wrapperId = `id-${Math.round(Math.random() * 9999)}`
         const { height } = await element.boundingBox()
-        const id = `id-${Math.round(Math.random() * 9999)}`
         await page.$eval(
           selector,
           (node, { id, style }) => {
@@ -90,6 +95,7 @@ module.exports.testPageScreenshot = ({
             const elem = document.createElement('div')
 
             // NB: The styles for [data-dnb-test-wrapper] have to be set in the CSS main file
+            // elem.classList.add('is-test')
             elem.setAttribute('data-dnb-test-id', id)
             elem.setAttribute('data-dnb-test-wrapper', attrValue)
             elem.style = style
@@ -97,7 +103,7 @@ module.exports.testPageScreenshot = ({
             return elem.appendChild(node)
           },
           {
-            id,
+            id: wrapperId,
             style: makeStyles({
               height: `${height + 32}px`, // because we use "inline-block" - we have to make the height absolute
               ...(wrapperStyle ? wrapperStyle : {})
@@ -105,10 +111,10 @@ module.exports.testPageScreenshot = ({
           }
         )
 
-        await page.waitForSelector(`[data-dnb-test-id="${id}"]`)
-        screenshotElement = await page.$(`[data-dnb-test-id="${id}"]`)
-      } else {
-        screenshotElement = element
+        await page.waitForSelector(`[data-dnb-test-id="${wrapperId}"]`)
+        screenshotElement = await page.$(
+          `[data-dnb-test-id="${wrapperId}"]`
+        )
       }
 
       if (text) {
@@ -119,8 +125,8 @@ module.exports.testPageScreenshot = ({
         )
       }
 
+      let elementToSimulate = null
       if (simulate) {
-        let elementToSimulate = null
         if (simulateSelector) {
           await page.waitForSelector(simulateSelector)
           elementToSimulate = await page.$(simulateSelector)
@@ -160,18 +166,27 @@ module.exports.testPageScreenshot = ({
 
           default:
         }
-        elementToSimulate = null
       }
 
       // wait before taking screenshot
-      if (waitFor > 0) {
-        await page.waitFor(waitFor)
+      if (waitAfterSimulateSelector) {
+        await page.waitForSelector(waitAfterSimulateSelector, {
+          visible: true
+        })
+      }
+      if (parseFloat(waitAfterSimulate) > 0) {
+        await page.waitFor(waitAfterSimulate)
+      }
+
+      if (secreenshotSelector) {
+        await page.waitForSelector(secreenshotSelector, { visible: true })
+        screenshotElement = await page.$(secreenshotSelector)
       }
 
       // with this, we get a warning (console)
       // if an element is not in the pixel grid
       if (!measureElement) {
-        measureElement = selector
+        measureElement = secreenshotSelector || selector
       }
       if (!isCI && measureElement) {
         const pixelGrid = config.pixelGrid
@@ -203,22 +218,30 @@ module.exports.testPageScreenshot = ({
         }
       }
 
-      if (secreenshotSelector) {
-        await page.waitForSelector(secreenshotSelector)
-        screenshotElement = await page.$(secreenshotSelector)
-      }
-
       const screenshot = await screenshotElement.screenshot()
       screenshotElement = null
+
+      if (elementToSimulate) {
+        await elementToSimulate.dispose()
+        elementToSimulate = null
+      }
+
+      // revert the wrapper attribute
+      if (wrapperId) {
+        await page.$eval(`[data-dnb-test-id="${wrapperId}"]`, node => {
+          node.removeAttribute('data-dnb-test-wrapper')
+          return node
+        })
+      }
+
+      if (!config.headless) {
+        waitBeforeFinish = 10e3
+      }
 
       // before we had: just to make sure we dont resolve, before the delayed click happened
       // so the next interation on the same url will have a reset state
       if (waitBeforeFinish > 0) {
         await page.waitFor(waitBeforeFinish)
-      }
-
-      if (!config.headless) {
-        await page.waitFor(10e3)
       }
 
       resolve(screenshot)

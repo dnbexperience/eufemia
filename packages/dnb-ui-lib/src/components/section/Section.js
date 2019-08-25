@@ -21,7 +21,6 @@ const renderProps = {
 }
 
 export const propTypes = {
-  style: PropTypes.string,
   style_type: PropTypes.string,
   spacing: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   element: PropTypes.string,
@@ -40,8 +39,7 @@ export const propTypes = {
 }
 
 export const defaultProps = {
-  style: null,
-  style_type: 'mint-green-12',
+  style_type: null,
   element: 'section',
   class: null,
 
@@ -70,6 +68,11 @@ export default class Section extends PureComponent {
     return processChildren(props)
   }
 
+  constructor(props) {
+    super(props)
+    this._ref = React.createRef()
+  }
+
   render() {
     // consume the formRow context
     const props = this.context.formRow
@@ -79,7 +82,6 @@ export default class Section extends PureComponent {
 
     const {
       element,
-      style,
       style_type,
       spacing,
       className,
@@ -93,7 +95,7 @@ export default class Section extends PureComponent {
     const params = {
       className: classnames(
         'dnb-section',
-        `dnb-section--${typeof style === 'string' ? style : style_type}`,
+        `dnb-section--${style_type || 'mint-green-12'}`,
         (isTrue(spacing) || spacing) &&
           `dnb-section--spacing${
             !/true|false/.test(String(spacing)) ? '-' + spacing : ''
@@ -109,15 +111,19 @@ export default class Section extends PureComponent {
     validateDOMAttributes(this.props, params)
 
     return (
-      <Element is={element || 'section'} {...params}>
+      <Element is={element || 'section'} {...params} ref={this._ref}>
         {content}
       </Element>
     )
   }
 }
 
-const Element = ({ is: Element, children, ...rest }) => (
-  <Element {...rest}>{children}</Element>
+const Element = React.forwardRef(
+  ({ is: Element, children, ...rest }, ref) => (
+    <Element {...rest} ref={ref}>
+      {children}
+    </Element>
+  )
 )
 Element.propTypes = {
   is: PropTypes.string.isRequired,

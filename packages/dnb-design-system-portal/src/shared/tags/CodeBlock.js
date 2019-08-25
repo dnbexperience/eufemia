@@ -232,6 +232,7 @@ class LiveCode extends PureComponent {
               ref={this._refEditor}
             >
               <LiveEditor
+                aria-label="Code Editor"
                 ignoreTabKey
                 padding={0}
                 style={{

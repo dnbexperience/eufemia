@@ -41,6 +41,7 @@ export const propTypes = {
   indent_offset: PropTypes.string,
   section_style: PropTypes.string,
   section_spacing: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  global_status_id: PropTypes.string,
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   class: PropTypes.string,
 
@@ -72,6 +73,7 @@ export const defaultProps = {
   indent_offset: null,
   section_style: null,
   section_spacing: null,
+  global_status_id: null,
   disabled: null,
   class: null,
 
@@ -146,6 +148,7 @@ export default class FormRow extends PureComponent {
       indent_offset,
       section_style,
       section_spacing,
+      global_status_id,
       disabled,
       wrap,
       id: _id, // eslint-disable-line
@@ -216,6 +219,7 @@ export default class FormRow extends PureComponent {
         itsMeAgain: true,
         hasLabel,
         indent,
+        global_status_id,
         direction,
         vertical,
         label_direction: isTrue(vertical) ? 'vertical' : label_direction,

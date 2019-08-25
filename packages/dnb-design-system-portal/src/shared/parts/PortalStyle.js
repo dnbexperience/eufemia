@@ -16,18 +16,22 @@ if (typeof window !== 'undefined' && window.IS_TEST) {
       position: relative;
       z-index: 9999;
 
-      display: inline-block; /* to get smaller width to the right (no white space) */
+      /* to get smaller width to the right (no white space) */
+      display: inline-block;
 
-      overflow: hidden;
-
+      /* to get a space arround the element,
+      so we can include a box-shadow in the screenshot */
       padding: 1rem;
       margin: -1rem;
 
       background: #fff;
     }
 
-    --font-weight-demi: 600;
-    --font-weight-medium: 700;
+    /* because the font-weight is differently on Arial, we have to redefine it to be bold */
+    :root {
+      --font-weight-demi: 600;
+      --font-weight-medium: 700;
+    }
 
     body * {
       font-family: Arial, Helvetica, sans-serif !important;
@@ -40,6 +44,9 @@ if (typeof window !== 'undefined' && window.IS_TEST) {
 }
 
 export default css`
+  main > .dnb-global-status {
+    transform: translateY(-2rem);
+  }
   table td.selectable {
     position: relative;
     z-index: 1;

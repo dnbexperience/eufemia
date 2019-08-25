@@ -113,6 +113,7 @@
       margin-left: 0;
     }
     .dnb-form-status {
+      order: 3;
       margin-top: 0.5rem;
     }
   }
@@ -127,6 +128,7 @@
       margin-left: 0.5rem;
     }
     & + .dnb-form-status {
+      order: 3;
       // in case the status did not wrap, we want to have the status on the same line
       vertical-align: top;
 

@@ -1,0 +1,177 @@
+/**
+ * UI lib Component Example
+ *
+ */
+
+import React, { PureComponent, Fragment } from 'react'
+import ComponentBox from 'Src/shared/tags/ComponentBox'
+
+class Example extends PureComponent {
+  render() {
+    return (
+      <Fragment>
+        <ComponentBox
+          caption="GlobalStatus displaying error status"
+          data-dnb-test="global-status"
+        >
+          {/* @jsx */ `
+<GlobalStatus
+  title="Custom Title"
+  text="Failure text"
+  items={[
+      {
+        text:'List item',
+        status_anchor_url: '/uilib/components/global-status',
+      }
+  ]}
+  show="true"
+  no_animation="true"
+  autoscroll="false"
+  id="demo-1"
+/>
+          `}
+        </ComponentBox>
+        <ComponentBox
+          caption="To showcase the automated coupling between **FormStatus** and **GlobalStatus**"
+          useRender
+        >
+          {/* @jsx */ `
+const InputWithError = () => {
+  const [errorMessage, setErrorMessage] = useState(null)
+  return (
+    <Input
+      label="Input:"
+      placeholder="Write more than 2 chars to show the GlobalStatus ..."
+      stretch
+      status={errorMessage}
+      on_change={({ value }) => {
+        setErrorMessage(value.length >= 3 ? 'With a message shown' : null)
+      }}
+      global_status_id="main-status"
+    />
+  )
+}
+render(
+  <InputWithError />
+)
+          `}
+        </ComponentBox>
+        <ComponentBox
+          caption="To showcase the custom **Update** and **Remove** posibility"
+          noFragments={false}
+        >
+          {/* @jsx */ `
+() => {
+  const [count, toggleUpdateStatus] = useState(0)
+  return (
+    <>
+      <GlobalStatus id="custom-status" autoscroll={false} />
+      <Button
+        text={'Show step #' + count}
+        on_click={() => {
+          toggleUpdateStatus(count + 1)
+          if (count >= 3) {
+            toggleUpdateStatus(0)
+          }
+        }}
+        top="small"
+      />
+      {count === 1 && (
+        <>
+          <GlobalStatus.Update
+            id="custom-status"
+            status_id="custom-id-1"
+            title="New title"
+            text="First long info text ..."
+            item="Item from status #1"
+            on_close={({ status_id }) => {
+              console.log('on_close 1', status_id)
+            }}
+          />
+          <GlobalStatus.Update
+            id="custom-status"
+            status_id="custom-id-2"
+            text="Second long info text ..."
+            item="Item from status #2"
+            on_close={({ status_id }) => {
+              console.log('on_close 2', status_id)
+            }}
+          />
+        </>
+      )}
+      {count === 2 && (
+        <GlobalStatus.Remove id="custom-status" status_id="custom-id-2" />
+      )}
+      {count === 3 && (
+        <GlobalStatus.Remove id="custom-status" status_id="custom-id-1" />
+      )}
+    </>
+  )
+}
+          `}
+        </ComponentBox>
+        <ComponentBox
+          caption="To showcase the grow and shrink (height) animation"
+          noFragments={false}
+        >
+          {/* @jsx */ `
+() => {
+  const [showDemo, toggleShowDemo] = useState(false)
+  return (
+    <>
+      <ToggleButton
+        text={showDemo? 'Stop Demo': 'Show animation Demo'}
+        checked={showDemo}
+        variant="checkbox"
+        on_change={({ checked }) => toggleShowDemo(checked)}
+        bottom="small"
+      />
+      <GlobalStatus
+        title="Demo Animation"
+        text="Long info nisl tempus hendrerit tortor dapibus nascetur taciti porta risus cursus fusce platea enim curabitur proin nibh ut luctus magnis metus"
+        items='["Status text 1", "Status text 2"]'
+        demo={showDemo}
+        show={showDemo}
+        autoscroll={false}
+        delay={0}
+        id="demo-3"
+      />
+    </>
+  )
+}
+          `}
+        </ComponentBox>
+      </Fragment>
+    )
+  }
+}
+
+export { Example }
+export default () => <Example />
+
+// <ComponentBox
+//   caption="GlobalStatus displaying info status"
+//   data-dnb-test="global-status-info"
+// >
+//   {`
+// <GlobalStatus
+// title="Custom Title"
+// text="Long info nisl tempus hendrerit tortor dapibus nascetur taciti porta risus cursus fusce platea enim curabitur proin nibh ut luctus magnis metus"
+// items={[
+// 'Item text #1',
+// <>Item text #2</>,
+// {
+// text:'Item text #3',
+// status_id: '123',
+// // status_anchor_text: ...,
+// // status_anchor_url: ...,
+// }
+// ]}
+// state="info"
+// show="true"
+// no_animation="true"
+// autoscroll="false"
+// id="demo-2"
+// />
+//   `}
+// </ComponentBox>

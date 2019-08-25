@@ -44,13 +44,17 @@ export const propTypes = {
   textarea_state: PropTypes.string,
   status_state: PropTypes.string,
   status_animation: PropTypes.string,
+  global_status_id: PropTypes.string,
   placeholder: PropTypes.string,
   align: PropTypes.oneOf(['left', 'right']),
   stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   class: PropTypes.string,
   textarea_class: PropTypes.string,
-  attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  textarea_attributes: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object
+  ]),
   readOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   rows: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   cols: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
@@ -73,7 +77,7 @@ export const propTypes = {
 }
 
 export const defaultProps = {
-  value: null,
+  value: 'initval',
   id: null,
   label: null,
   label_direction: null,
@@ -81,13 +85,14 @@ export const defaultProps = {
   textarea_state: null,
   status_state: 'error',
   status_animation: null,
+  global_status_id: null,
   placeholder: null,
   align: null,
   stretch: null,
   disabled: null,
   textarea_class: null,
   class: null,
-  attributes: null,
+  textarea_attributes: null,
   readOnly: false,
   rows: null,
   cols: null,
@@ -119,7 +124,11 @@ export default class Textarea extends PureComponent {
 
   static getDerivedStateFromProps(props, state) {
     const value = Textarea.getValue(props)
-    if (state._listenForPropChanges && value !== state.value) {
+    if (
+      state._listenForPropChanges &&
+      value !== 'initval' &&
+      value !== state.value
+    ) {
       state.value = value
     }
     if (isTrue(props.disabled)) {
@@ -151,7 +160,6 @@ export default class Textarea extends PureComponent {
 
     // make sure we dont trigger getDerivedStateFromProps on startup
     this.state._listenForPropChanges = true
-    this.state.value = Textarea.getValue(props)
     if (props.textarea_state) {
       this.state.textareaState = props.textarea_state
     }
@@ -192,12 +200,14 @@ export default class Textarea extends PureComponent {
       status,
       status_state,
       status_animation,
+      global_status_id,
       disabled,
       stretch,
       placeholder,
       align,
       textarea_class,
       readOnly,
+      textarea_attributes,
       class: _className,
       className,
 
@@ -220,6 +230,12 @@ export default class Textarea extends PureComponent {
       ...renderProps
     } = pickRenderProps(this.props, Textarea.renderProps)
 
+    const textareaAttributes = textarea_attributes
+      ? typeof textarea_attributes === 'string'
+        ? JSON.parse(textarea_attributes)
+        : textarea_attributes
+      : {}
+
     const textareaParams = {
       ...renderProps,
       className: classnames('dnb-textarea__textarea', textarea_class),
@@ -229,6 +245,7 @@ export default class Textarea extends PureComponent {
       disabled,
       name: id,
       ...attributes,
+      ...textareaAttributes,
       onChange: this.onChangeHandler,
       onFocus: this.onFocusHandler,
       onBlur: this.onBlurHandler
@@ -302,6 +319,17 @@ export default class Textarea extends PureComponent {
           />
         )}
         <span {...innerParams}>
+          {showStatus && (
+            <FormStatus
+              id={id + '-form-status'}
+              global_status_id={global_status_id}
+              text_id={id + '-status'} // used for "aria-describedby"
+              text={status}
+              status={status_state}
+              animation={status_animation}
+            />
+          )}
+
           <span {...shellParams}>
             {TextareaElement || (
               <textarea ref={this._ref} {...textareaParams} />
@@ -320,15 +348,6 @@ export default class Textarea extends PureComponent {
               </span>
             )}
           </span>
-
-          {showStatus && (
-            <FormStatus
-              text={status}
-              status={status_state}
-              text_id={id + '-status'} // used for "aria-describedby"
-              animation={status_animation}
-            />
-          )}
         </span>
       </span>
     )

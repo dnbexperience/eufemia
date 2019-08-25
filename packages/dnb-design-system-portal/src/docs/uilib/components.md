@@ -30,10 +30,6 @@ The `Dropdown` component is a fully custom-made component. This allows us to cha
 
 The form-label element represents a caption for an item in a user interface.
 
-## [FormStatus](/uilib/components/form-status)
-
-The form-status is a simple component meant for displaying the status of a form ( displaying form errors, messages etc. ) The form-status component should be positioned relative to the form or form input to which it referring to.
-
 ## [FormRow](/uilib/components/form-row)
 
 The `FormRow` component is a helper to archive more easily often used DNB form layout setups. By default a `FormRow` is using the `<formset>` and `<legend>` HTML elements - if a label property is provided.
@@ -41,6 +37,14 @@ The `FormRow` component is a helper to archive more easily often used DNB form l
 ## [FormSet](/uilib/components/form-set)
 
 The `FormSet` component gives You both a HTML form element `<form>` by default and also a React provider for [FormRow](/uilib/components/form-row). This way You can define more globally e.g. if all the rows should be displayed **vertically**.
+
+## [FormStatus](/uilib/components/form-status)
+
+The `FormStatus` is a simple component meant for displaying the status of a form ( displaying form errors, messages etc. ) The form-status component should be positioned relative to the form or form input to which it referring to.
+
+## [GlobalStatus](/uilib/components/global-status)
+
+The `GlobalStatus` is a complex component meant for displaying a global Application notifications or a summary of a form ( displaying form errors, messages etc. ).
 
 ## [Icon](/uilib/components/icon)
 

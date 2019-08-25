@@ -15,7 +15,6 @@ import {
   processChildren,
   dispatchCustomElementEvent,
   transformToReactEventCase,
-  setCustomElementMethod,
   pickRenderProps
 } from '../component-helper'
 
@@ -252,22 +251,6 @@ describe('"transformToReactEventCase" should', () => {
     expect(transformToReactEventCase('my_event_is_long')).toBe(
       'myEventIsLong'
     )
-  })
-})
-
-describe('"setCustomElementMethod" should', () => {
-  it('call a custom event function, set as a property in props called "custom_method"', () => {
-    const custom_method = jest.fn()
-    const element = {
-      props: {
-        custom_method
-      }
-    }
-    const methodFunc = jest.fn()
-    setCustomElementMethod(element, 'methodName', methodFunc)
-    expect(custom_method.mock.calls.length).toBe(1)
-    expect(custom_method.mock.calls[0][0]).toBe('methodName')
-    expect(custom_method.mock.calls[0][1]).toBe(methodFunc)
   })
 })
 

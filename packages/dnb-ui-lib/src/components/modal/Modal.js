@@ -176,7 +176,7 @@ export default class Modal extends PureComponent {
 
   constructor(props) {
     super(props)
-    this._id = props.id || `modal-${Math.round(Math.random() * 999)}`
+    this._id = props.id || `dnb-modal-${Math.round(Math.random() * 999)}`
 
     if (!props.preventSetTriggerRef) {
       this._triggerRef = React.createRef()
@@ -666,5 +666,5 @@ CloseButton.propTypes = {
 }
 CloseButton.defaultProps = {
   className: null,
-  title: 'Close'
+  title: 'Lukk'
 }

@@ -6,6 +6,7 @@ exports[`FormRow component have to match snapshot 1`] = `
   className="className"
   direction="horizontal"
   disabled="disabled"
+  global_status_id="global_status_id"
   id="form-row"
   indent="indent"
   indent_offset="indent_offset"

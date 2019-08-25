@@ -19,25 +19,25 @@ export default [
       </Box>
       <Box>
         <p className="dnb-p">
-          <Switch label="Checked:" checked />
+          <Switch label="Checked:" checked label_position="left" />
         </p>
       </Box>
       <Box>
         Text:{' '}
-        <Switch label="Unchecked disabled:" checked={false} disabled />
+        <Switch
+          label="Unchecked disabled:"
+          checked={false}
+          disabled
+          label_position="left"
+        />
       </Box>
       <Box>
-        Text:{' '}
-        <Switch
-          label="Checked disabled"
-          label_position="right"
-          checked
-          disabled
-        />
+        Text: <Switch label="Checked disabled" checked disabled />
       </Box>
       <Box>
         <Switch
           label="Unchecked status error:"
+          label_position="left"
           checked={false}
           status="error"
         />
@@ -45,6 +45,7 @@ export default [
       <Box>
         <Switch
           label="Label:"
+          label_position="left"
           checked
           status="Error message Vulputate consequat pellentesque senectus conubia proin sapien felis inceptos eu"
           status_state="info"
@@ -53,7 +54,6 @@ export default [
       <Box>
         <Switch
           label="Label"
-          label_position="right"
           checked
           status="Error message Vulputate consequat pellentesque senectus conubia proin sapien felis inceptos eu"
         />

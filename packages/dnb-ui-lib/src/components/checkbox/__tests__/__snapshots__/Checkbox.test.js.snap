@@ -15,6 +15,7 @@ exports[`Checkbox component have to match snapshot 1`] = `
         "custom_method": [Function],
         "default_state": "default_state",
         "disabled": "disabled",
+        "global_status_id": "global_status_id",
         "id": "id",
         "label": "label",
         "label_position": "'left'",
@@ -43,6 +44,7 @@ exports[`Checkbox component have to match snapshot 1`] = `
   custom_method={null}
   default_state={null}
   disabled={null}
+  global_status_id={null}
   id="checkbox"
   label="checkbox"
   label_position="left"
@@ -251,15 +253,15 @@ exports[`Checkbox scss have to match default theme snapshot 1`] = `
     border-color: transparent; }
   .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:focus):hover ~ .dnb-checkbox__button {
     border-color: var(--color-cherry-red);
-    background-color: var(--color-cherry-red-80); }
+    background-color: var(--color-cherry-red-8); }
   .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:focus):not(:active):not(:hover) ~ .dnb-checkbox__button {
-    border-color: var(--color-cherry-red-80); }
+    border-color: var(--color-cherry-red-8); }
   .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:focus):not(:active):not(:hover):checked ~ .dnb-checkbox__button {
     background-color: var(--color-cherry-red); }
   .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:focus):hover ~ .dnb-checkbox__gfx {
     color: var(--color-cherry-red); }
   .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:focus):not(:active):not(:hover) ~ .dnb-checkbox__gfx {
-    color: var(--color-cherry-red-80); }
+    color: var(--color-cherry-red-8); }
 "
 `;
 
@@ -396,13 +398,14 @@ legend.dnb-form-label {
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    min-height: var(--input-height);
     border-radius: var(--input-border-radius); }
   .dnb-form-status--text {
     padding: calc(0.5rem / 2) 1rem;
     cursor: text;
-    color: var(--color-emerald-green);
+    color: inherit;
     line-height: 1.5rem; }
+    [os='mac'] .dnb-form-status--text {
+      transform: translateY(0.0625rem); }
   .dnb-icon + .dnb-form-status--text {
     padding-left: 0.5rem; }
   .dnb-form-status__shell > .dnb-icon {
@@ -415,22 +418,23 @@ legend.dnb-form-label {
     color: inherit;
     font-size: 1rem;
     border-radius: 50%;
-    border: 1px solid;
+    border: 0.0625rem solid;
     border-color: currentColor; }
   .dnb-form-status[hidden] {
     display: none; }
   .dnb-form-status--fade-in {
-    height: 0;
-    opacity: 0;
-    animation: fade-in 600ms ease-out 1 200ms forwards; }
+    overflow: hidden;
+    max-height: 0;
+    animation: form-status-fade-in 2s ease-out 400ms forwards; }
 
-@keyframes fade-in {
+@keyframes form-status-fade-in {
   from {
-    opacity: 0;
-    height: 0; }
+    max-height: 0; }
   to {
-    opacity: 1;
-    height: var(--input-height); } }
+    max-height: calc(var(--input-height) * 8); } }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-form-status__shell > .dnb-icon {
+      border-width: 1px; } }
 
 .dnb-checkbox {
   font-family: var(--font-family-default);
@@ -545,6 +549,7 @@ legend.dnb-form-label {
     margin-right: 0.5rem;
     margin-left: 0; }
   .dnb-checkbox--label-position-left .dnb-checkbox__order .dnb-form-status {
+    order: 3;
     margin-top: 0.5rem; }
   .dnb-checkbox--label-position-right .dnb-checkbox__order .dnb-checkbox__inner {
     order: 1; }
@@ -553,6 +558,7 @@ legend.dnb-form-label {
     margin-right: 0;
     margin-left: 0.5rem; }
   .dnb-checkbox--label-position-right .dnb-checkbox__order + .dnb-form-status {
+    order: 3;
     vertical-align: top;
     margin-top: 0.5rem; }
   @media screen and (-ms-high-contrast: none) {

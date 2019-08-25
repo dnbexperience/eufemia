@@ -119,6 +119,7 @@ export const propTypes = {
   ]),
   status_state: PropTypes.string,
   status_animation: PropTypes.string,
+  global_status_id: PropTypes.string,
   opened: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   direction: PropTypes.oneOf(['auto', 'top', 'bottom']),
@@ -171,6 +172,7 @@ export const defaultProps = {
   status: null,
   status_state: 'error',
   status_animation: null,
+  global_status_id: null,
   opened: false,
   no_animation: false,
   align_picker: null,
@@ -567,6 +569,7 @@ export default class DatePicker extends PureComponent {
       status,
       status_state,
       status_animation,
+      global_status_id,
       mask_order,
       mask_placeholder,
       align_picker,
@@ -665,6 +668,16 @@ export default class DatePicker extends PureComponent {
           ref={this._clampRef}
           {...pickerParams}
         >
+          {showStatus && (
+            <FormStatus
+              id={id + '-form-status'}
+              global_status_id={global_status_id}
+              text_id={id + '-status'} // used for "aria-describedby"
+              text={status}
+              status={status_state}
+              animation={status_animation}
+            />
+          )}
           <span className="dnb-date-picker__shell">
             <DatePickerInput
               id={id}
@@ -690,14 +703,6 @@ export default class DatePicker extends PureComponent {
               onSubmit={this.togglePicker}
               onSubmitButtonFocus={this.onSubmitButtonFocus}
             />
-            {showStatus && (
-              <FormStatus
-                text={status}
-                status={status_state}
-                text_id={id + '-status'} // used for "aria-describedby"
-                animation={status_animation}
-              />
-            )}
             <span className="dnb-date-picker__container">
               <span
                 className="dnb-date-picker__triangle"

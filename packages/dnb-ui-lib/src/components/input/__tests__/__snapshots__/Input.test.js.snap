@@ -7,7 +7,6 @@ exports[`Input component have to match type="search" snapshot 1`] = `
       "displayName": "Input",
       "props": Object {
         "align": "align",
-        "attributes": "attributes",
         "autocomplete": "'on'",
         "children": "children",
         "class": "class",
@@ -16,8 +15,10 @@ exports[`Input component have to match type="search" snapshot 1`] = `
         "custom_method": [Function],
         "description": "description",
         "disabled": "disabled",
+        "global_status_id": "global_status_id",
         "id": "id",
         "inputElement": [Function],
+        "input_attributes": "input_attributes",
         "input_class": "input_class",
         "input_state": "input_state",
         "label": "label",
@@ -64,7 +65,6 @@ exports[`Input component have to match type="search" snapshot 1`] = `
     }
   }
   align={null}
-  attributes={null}
   autocomplete="off"
   class={null}
   className={null}
@@ -72,8 +72,10 @@ exports[`Input component have to match type="search" snapshot 1`] = `
   custom_method={null}
   description={null}
   disabled={false}
+  global_status_id={null}
   id="input"
   inputElement={null}
+  input_attributes={null}
   input_class={null}
   input_state={null}
   label={null}
@@ -132,7 +134,6 @@ exports[`Input component have to match type="search" snapshot 1`] = `
               "displayName": "Input",
               "props": Object {
                 "align": "align",
-                "attributes": "attributes",
                 "autocomplete": "'on'",
                 "children": "children",
                 "class": "class",
@@ -141,8 +142,10 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                 "custom_method": [Function],
                 "description": "description",
                 "disabled": "disabled",
+                "global_status_id": "global_status_id",
                 "id": "id",
                 "inputElement": [Function],
+                "input_attributes": "input_attributes",
                 "input_class": "input_class",
                 "input_state": "input_state",
                 "label": "label",
@@ -188,7 +191,6 @@ exports[`Input component have to match type="search" snapshot 1`] = `
               },
             }
           }
-          attributes={null}
           className={null}
           custom_element={null}
           custom_method={null}
@@ -221,7 +223,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
               disabled={null}
               href={null}
               icon="search"
-              icon_position="right"
+              icon_position={null}
               icon_size={null}
               id={null}
               innerRef={null}
@@ -255,7 +257,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                   disabled={null}
                   href={null}
                   icon="search"
-                  icon_position="right"
+                  icon_position={null}
                   icon_size={null}
                   id={null}
                   innerRef={null}
@@ -296,9 +298,9 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                       <search>
                         <svg
                           fill="none"
-                          height={17}
+                          height={16}
                           viewBox="0 0 17 17"
-                          width={17}
+                          width={16}
                         >
                           <g
                             clipPath="url(#clip-06a943)"
@@ -308,20 +310,10 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                             strokeWidth={1.5}
                           >
                             <path
-                              d="M9.055 11.937a5.445 5.445 0 1 0-4.26-10.023 5.445 5.445 0 0 0 4.26 10.023zm1.72-1.162L15 14.999"
+                              d="M9.055 11.937a5.445 5.445 0 10-4.26-10.023 5.445 5.445 0 004.26 10.023zM10.775 10.775L15 14.999"
                             />
                           </g>
-                          <defs>
-                            <clipPath
-                              id="clip-06a943"
-                            >
-                              <path
-                                d="M0 0h16v16H0z"
-                                fill="#fff"
-                                transform="scale(1.02995)"
-                              />
-                            </clipPath>
-                          </defs>
+                          <defs />
                         </svg>
                       </search>
                     </span>
@@ -344,7 +336,6 @@ exports[`Input component have to match type="text" snapshot 1`] = `
       "displayName": "Input",
       "props": Object {
         "align": "align",
-        "attributes": "attributes",
         "autocomplete": "'on'",
         "children": "children",
         "class": "class",
@@ -353,8 +344,10 @@ exports[`Input component have to match type="text" snapshot 1`] = `
         "custom_method": [Function],
         "description": "description",
         "disabled": "disabled",
+        "global_status_id": "global_status_id",
         "id": "id",
         "inputElement": [Function],
+        "input_attributes": "input_attributes",
         "input_class": "input_class",
         "input_state": "input_state",
         "label": "label",
@@ -401,7 +394,6 @@ exports[`Input component have to match type="text" snapshot 1`] = `
     }
   }
   align={null}
-  attributes={null}
   autocomplete="off"
   class={null}
   className={null}
@@ -409,8 +401,10 @@ exports[`Input component have to match type="text" snapshot 1`] = `
   custom_method={null}
   description={null}
   disabled={false}
+  global_status_id={null}
   id="input"
   inputElement={null}
+  input_attributes={null}
   input_class={null}
   input_state={null}
   label={null}
@@ -948,13 +942,14 @@ legend.dnb-form-label {
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    min-height: var(--input-height);
     border-radius: var(--input-border-radius); }
   .dnb-form-status--text {
     padding: calc(0.5rem / 2) 1rem;
     cursor: text;
-    color: var(--color-emerald-green);
+    color: inherit;
     line-height: 1.5rem; }
+    [os='mac'] .dnb-form-status--text {
+      transform: translateY(0.0625rem); }
   .dnb-icon + .dnb-form-status--text {
     padding-left: 0.5rem; }
   .dnb-form-status__shell > .dnb-icon {
@@ -967,22 +962,23 @@ legend.dnb-form-label {
     color: inherit;
     font-size: 1rem;
     border-radius: 50%;
-    border: 1px solid;
+    border: 0.0625rem solid;
     border-color: currentColor; }
   .dnb-form-status[hidden] {
     display: none; }
   .dnb-form-status--fade-in {
-    height: 0;
-    opacity: 0;
-    animation: fade-in 600ms ease-out 1 200ms forwards; }
+    overflow: hidden;
+    max-height: 0;
+    animation: form-status-fade-in 2s ease-out 400ms forwards; }
 
-@keyframes fade-in {
+@keyframes form-status-fade-in {
   from {
-    opacity: 0;
-    height: 0; }
+    max-height: 0; }
   to {
-    opacity: 1;
-    height: var(--input-height); } }
+    max-height: calc(var(--input-height) * 8); } }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-form-status__shell > .dnb-icon {
+      border-width: 1px; } }
 
 .dnb-input {
   font-family: var(--font-family-default);
@@ -1156,6 +1152,7 @@ legend.dnb-form-label {
   .dnb-input__shell[data-has-content='true'][data-input-state='focus'] .dnb-input__placeholder {
     display: none; }
   .dnb-input__inner > .dnb-form-status {
+    order: 2;
     margin-top: 0.5rem; }
   .dnb-input--vertical {
     flex-direction: column;

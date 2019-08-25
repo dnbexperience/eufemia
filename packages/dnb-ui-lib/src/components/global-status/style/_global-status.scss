@@ -1,0 +1,216 @@
+/*
+ * GlobalStatus component
+ *
+ */
+
+@mixin beforeShowAnimation($y: -100%) {
+  transform: translate3d(0, #{$y}, 0);
+  opacity: 0;
+}
+@mixin showAnimation($delay: 0ms, $y: -2rem) {
+  @include beforeShowAnimation($y);
+  animation-name: global-status-fade-in;
+  animation-duration: 800ms;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease;
+  animation-delay: calc(#{$delay} + 100ms);
+}
+@mixin hideAnimation($delay: 0ms) {
+  animation-name: global-status-fade-out;
+  animation-duration: 800ms;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease;
+  animation-delay: #{$delay};
+}
+@keyframes global-status-fade-in {
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+@keyframes global-status-fade-out {
+  from {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    opacity: 0;
+    transform: translate3d(0, -2rem, 0);
+  }
+}
+
+.dnb-global-status {
+  &,
+  &--no-animation#{&}--visible {
+    display: flex;
+  }
+  &--no-animation#{&}--hidden {
+    display: none;
+  }
+
+  &__shell {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  &__title {
+    position: relative; // because of the close button
+
+    display: flex;
+    cursor: text;
+
+    padding: 0;
+    padding-right: 6rem;
+
+    margin: 0;
+    margin-bottom: 1rem;
+  }
+  &__icon {
+    margin-right: 1rem;
+
+    & > .dnb-icon {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      width: 2em;
+      height: 2em;
+      padding: 0.25em;
+      transform: translate3d(0, -0.25em, 0);
+
+      color: inherit;
+
+      font-size: 1rem;
+      border-radius: 50%;
+      border: 0.0625rem solid;
+      border-color: currentColor;
+    }
+  }
+  &__close-button,
+  &__close-button.dnb-button--tertiary {
+    position: absolute;
+    z-index: 1;
+    top: -0.25rem;
+    right: 1rem; // also because of the focus-ring
+    left: auto;
+  }
+
+  /* for small screesn */
+  @media (max-width: 40em) {
+    &__icon {
+      display: block;
+      margin-bottom: 1rem;
+    }
+    &__title {
+      display: block;
+    }
+  }
+
+  &__message {
+    cursor: text;
+
+    &,
+    & > .dnb-p,
+    .dnb-spacing & .dnb-p {
+      margin: 0;
+      padding: 0;
+    }
+  }
+
+  &__content {
+    width: 100%;
+
+    padding: 2rem 0;
+
+    .dnb-ul,
+    .dnb-spacing & .dnb-ul {
+      margin: 0;
+      margin-top: 0.5rem;
+      padding-left: 1rem;
+      & > li {
+        margin: 0;
+        padding-left: 0;
+        .dnb-anchor:last-of-type {
+          margin-left: 0.5rem;
+        }
+        // &:first-of-type {
+        //   margin-top: 0;
+        // }
+        // /* stylelint-disable */
+        // &:last-of-type {
+        //   margin-bottom: 0;
+        // }
+        // /* stylelint-enable */
+      }
+    }
+  }
+
+  // Show animation
+  &:not(#{&}--no-animation)#{&}--fade-in &__title {
+    @include showAnimation(30ms);
+  }
+  &:not(#{&}--no-animation)#{&}--fade-in &__message {
+    @include showAnimation(100ms);
+  }
+  &:not(#{&}--no-animation)#{&}--fade-in &__message .dnb-ul {
+    /* stylelint-disable */
+    & > li:nth-of-type(1) {
+      @include showAnimation(100ms);
+    }
+    & > li:nth-of-type(2) {
+      @include showAnimation(200ms);
+    }
+    & > li:nth-of-type(3) {
+      @include showAnimation(300ms);
+    }
+    & > li:nth-of-type(1n + 4) {
+      @include showAnimation(400ms);
+    }
+    /* stylelint-enable */
+  }
+
+  // Hide animation
+  &:not(#{&}--no-animation)#{&}--fade-out &__title {
+    @include hideAnimation(50ms);
+  }
+  &:not(#{&}--no-animation)#{&}--fade-out &__message {
+    @include hideAnimation(100ms);
+  }
+  &:not(#{&}--no-animation)#{&}--fade-out &__message .dnb-ul {
+    /* stylelint-disable */
+    & > li:nth-of-type(1) {
+      @include hideAnimation(100ms);
+    }
+    & > li:nth-of-type(2) {
+      @include hideAnimation(200ms);
+    }
+    & > li:nth-of-type(3) {
+      @include hideAnimation(300ms);
+    }
+    & > li:nth-of-type(1n + 4) {
+      @include hideAnimation(400ms);
+    }
+    /* stylelint-enable */
+  }
+
+  // The transition of height is set in JS
+  &:not(#{&}--no-animation)#{&}--fade-in#{&}.dnb-section {
+    height: 0;
+  }
+  &__fake {
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+
+  // IE fix
+  @media screen and (-ms-high-contrast: none) {
+    &__icon > .dnb-icon {
+      border-width: 1px;
+    }
+  }
+}

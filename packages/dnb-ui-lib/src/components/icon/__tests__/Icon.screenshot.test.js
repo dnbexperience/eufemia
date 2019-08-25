@@ -17,15 +17,36 @@ describe('Icon screenshot', () => {
       pixelThresholdRelative: isCI ? 0.1 : 0
     }
   })
-  const style = {
-    // Flex makes the pixel height 100% correct
-    display: 'flex',
-    'align-items': 'center'
-  }
   it('have to match responsive icons', async () => {
     const screenshot = await testPageScreenshot({
-      style,
+      style: {
+        // Flex makes the pixel height 100% correct
+        display: 'flex',
+        'align-items': 'center'
+      },
       selector: '[data-dnb-test="icon-medium"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+  it('have to match all primary icons', async () => {
+    const screenshot = await testPageScreenshot({
+      style: {
+        display: 'inline-flex',
+        'flex-wrap': 'wrap',
+        width: '30rem'
+      },
+      selector: '[data-dnb-test="icon-all-primary"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+  it('have to match all secondary icons', async () => {
+    const screenshot = await testPageScreenshot({
+      style: {
+        display: 'inline-flex',
+        'flex-wrap': 'wrap',
+        width: '30rem'
+      },
+      selector: '[data-dnb-test="icon-all-secondary"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })

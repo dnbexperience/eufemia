@@ -8,7 +8,7 @@ draft: false
 
 The following is a set of interface design resources to get you up and running with all the basic tools and libraries. The Quickstart files are to ensure that you are using the official and most up-to-date versions more than as a time saving action.
 
-#### Figma UI files
+## Figma UI files
 
 Quickstart file contains:
 
@@ -19,5 +19,4 @@ Quickstart file contains:
 5.  DNB Fonts
 6.  DNB symbol library
 
-Also make sure you have the correct DNB fonts. You can download them from here:
-Download the DNB fonts package
+Also make sure you have the correct DNB fonts.

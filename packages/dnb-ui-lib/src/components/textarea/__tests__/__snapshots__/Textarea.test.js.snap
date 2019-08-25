@@ -7,7 +7,6 @@ exports[`Textarea component have to match snapshot 1`] = `
       "displayName": "Textarea",
       "props": Object {
         "align": "'left'",
-        "attributes": "attributes",
         "children": "children",
         "class": "class",
         "className": "className",
@@ -15,6 +14,7 @@ exports[`Textarea component have to match snapshot 1`] = `
         "custom_element": Object {},
         "custom_method": [Function],
         "disabled": "disabled",
+        "global_status_id": "global_status_id",
         "id": "id",
         "label": "label",
         "label_direction": "'horizontal'",
@@ -29,6 +29,7 @@ exports[`Textarea component have to match snapshot 1`] = `
         "status_state": "status_state",
         "stretch": "stretch",
         "textareaElement": [Function],
+        "textarea_attributes": "textarea_attributes",
         "textarea_class": "textarea_class",
         "textarea_state": "textarea_state",
         "value": "value",
@@ -36,13 +37,13 @@ exports[`Textarea component have to match snapshot 1`] = `
     }
   }
   align={null}
-  attributes={null}
   class={null}
   className={null}
   cols={null}
   custom_element={null}
   custom_method={null}
   disabled={false}
+  global_status_id={null}
   id="textarea"
   label={null}
   label_direction={null}
@@ -57,6 +58,7 @@ exports[`Textarea component have to match snapshot 1`] = `
   status_state="error"
   stretch={null}
   textareaElement={null}
+  textarea_attributes={null}
   textarea_class={null}
   textarea_state={null}
   value="test"
@@ -343,13 +345,14 @@ legend.dnb-form-label {
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    min-height: var(--input-height);
     border-radius: var(--input-border-radius); }
   .dnb-form-status--text {
     padding: calc(0.5rem / 2) 1rem;
     cursor: text;
-    color: var(--color-emerald-green);
+    color: inherit;
     line-height: 1.5rem; }
+    [os='mac'] .dnb-form-status--text {
+      transform: translateY(0.0625rem); }
   .dnb-icon + .dnb-form-status--text {
     padding-left: 0.5rem; }
   .dnb-form-status__shell > .dnb-icon {
@@ -362,22 +365,23 @@ legend.dnb-form-label {
     color: inherit;
     font-size: 1rem;
     border-radius: 50%;
-    border: 1px solid;
+    border: 0.0625rem solid;
     border-color: currentColor; }
   .dnb-form-status[hidden] {
     display: none; }
   .dnb-form-status--fade-in {
-    height: 0;
-    opacity: 0;
-    animation: fade-in 600ms ease-out 1 200ms forwards; }
+    overflow: hidden;
+    max-height: 0;
+    animation: form-status-fade-in 2s ease-out 400ms forwards; }
 
-@keyframes fade-in {
+@keyframes form-status-fade-in {
   from {
-    opacity: 0;
-    height: 0; }
+    max-height: 0; }
   to {
-    opacity: 1;
-    height: var(--input-height); } }
+    max-height: calc(var(--input-height) * 8); } }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-form-status__shell > .dnb-icon {
+      border-width: 1px; } }
 
 .dnb-textarea {
   font-family: var(--font-family-default);
@@ -585,7 +589,8 @@ textarea.dnb-textarea {
   .dnb-textarea--has-content .dnb-textarea__textarea ~ .dnb-textarea__placeholder,
   .dnb-textarea--focus .dnb-textarea__textarea:not([disabled]):not([readonly]) ~ .dnb-textarea__placeholder {
     opacity: 0.5; }
-  .dnb-textarea[class*='__status'] .dnb-form-status {
+  .dnb-textarea__inner > .dnb-form-status {
+    order: 2;
     margin: 1rem 0 0 calc(1px - 1px - var(--textarea-padding-width)); }
   .dnb-textarea[class*='__status'] {
     align-items: flex-start; }

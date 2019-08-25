@@ -67,8 +67,8 @@ export const defaultProps = {
   size: null,
   title: null,
   icon: null,
-  icon_position: 'right',
-  icon_size: 'default',
+  icon_position: null,
+  icon_size: null,
   href: null,
   id: null,
   class: null,
@@ -161,6 +161,7 @@ export default class Button extends PureComponent {
       text,
       icon,
       icon_position,
+      icon_size,
       href,
       bounding, // eslint-disable-line
       innerRef, // eslint-disable-line
@@ -193,14 +194,11 @@ export default class Button extends PureComponent {
     const classes = classnames(
       'dnb-button',
       `dnb-button--${usedVariant || 'primary'}`,
-      usedSize && usedSize !== 'default'
-        ? `dnb-button--size-${usedSize}`
-        : null,
-      icon && icon_position
-        ? `dnb-button--icon-position-${icon_position}`
-        : null,
-      text ? 'dnb-button--has-text' : null,
-      icon ? 'dnb-button--has-icon' : null,
+      usedSize && usedSize !== 'default' && `dnb-button--size-${usedSize}`,
+      icon && `dnb-button--icon-position-${icon_position || 'right'}`,
+      icon && icon_size && `dnb-button--icon-size-${icon_size}`,
+      text && 'dnb-button--has-text',
+      icon && 'dnb-button--has-icon',
       createSpacingClasses(props),
       class_name,
       className,

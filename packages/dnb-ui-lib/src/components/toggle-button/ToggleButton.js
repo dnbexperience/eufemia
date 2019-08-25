@@ -52,6 +52,7 @@ export const propTypes = {
   ]),
   status_state: PropTypes.string,
   status_animation: PropTypes.string,
+  global_status_id: PropTypes.string,
   value: PropTypes.string,
   icon: PropTypes.string,
   icon_position: PropTypes.string,
@@ -84,6 +85,7 @@ export const defaultProps = {
   status: null,
   status_state: 'error',
   status_animation: null,
+  global_status_id: null,
   value: '',
   icon: null,
   icon_position: 'right',
@@ -266,6 +268,7 @@ export default class ToggleButton extends Component {
             status,
             status_state,
             status_animation,
+            global_status_id,
             label,
             label_direction,
             text,
@@ -318,8 +321,8 @@ export default class ToggleButton extends Component {
           const buttonParams = {
             id,
             disabled,
-            text: text,
-            title: title,
+            text,
+            title,
             ['aria-pressed']: String(checked),
             ...rest
           }
@@ -382,6 +385,17 @@ export default class ToggleButton extends Component {
                 />
               )}
               <span className="dnb-toggle-button__inner">
+                {showStatus && (
+                  <FormStatus
+                    id={id + '-form-status'}
+                    global_status_id={global_status_id}
+                    text_id={id + '-status'} // used for "aria-describedby"
+                    text={status}
+                    status={status_state}
+                    animation={status_animation}
+                  />
+                )}
+
                 <span className="dnb-toggle-button__shell">
                   <Button
                     variant="secondary"
@@ -399,14 +413,6 @@ export default class ToggleButton extends Component {
                     )}
                   </Button>
                 </span>
-                {showStatus && (
-                  <FormStatus
-                    text={status}
-                    status={status_state}
-                    text_id={id + '-status'} // used for "aria-describedby"
-                    animation={status_animation}
-                  />
-                )}
               </span>
             </span>
           )

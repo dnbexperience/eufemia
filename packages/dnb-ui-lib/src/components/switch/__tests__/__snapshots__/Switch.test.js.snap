@@ -10,6 +10,7 @@ exports[`Switch component have to match snapshot 1`] = `
   custom_method={[Function]}
   default_state="default_state"
   disabled="disabled"
+  global_status_id="global_status_id"
   id="id"
   label="label"
   label_direction="horizontal"
@@ -232,13 +233,13 @@ exports[`Switch scss have to match default theme snapshot 1`] = `
     background-color: var(--color-mint-green-50); }
   .dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):hover ~ .dnb-switch__button {
     border-color: var(--color-cherry-red);
-    background-color: var(--color-cherry-red-80); }
+    background-color: var(--color-cherry-red-8); }
   .dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):not(:active):not(:hover) ~ .dnb-switch__button {
-    border-color: var(--color-cherry-red-80); }
+    border-color: var(--color-cherry-red-8); }
   .dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):not(:active):not(:hover):checked ~ .dnb-switch__button {
     background-color: var(--color-cherry-red); }
   .dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):not(:active) ~ .dnb-switch__background {
-    background-color: var(--color-cherry-red-80);
+    background-color: var(--color-cherry-red-8);
     box-shadow: 0 0 0 0.125rem var(--color-cherry-red);
     /* IE11 fix */
     border-color: transparent; }
@@ -391,13 +392,14 @@ legend.dnb-form-label {
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    min-height: var(--input-height);
     border-radius: var(--input-border-radius); }
   .dnb-form-status--text {
     padding: calc(0.5rem / 2) 1rem;
     cursor: text;
-    color: var(--color-emerald-green);
+    color: inherit;
     line-height: 1.5rem; }
+    [os='mac'] .dnb-form-status--text {
+      transform: translateY(0.0625rem); }
   .dnb-icon + .dnb-form-status--text {
     padding-left: 0.5rem; }
   .dnb-form-status__shell > .dnb-icon {
@@ -410,22 +412,23 @@ legend.dnb-form-label {
     color: inherit;
     font-size: 1rem;
     border-radius: 50%;
-    border: 1px solid;
+    border: 0.0625rem solid;
     border-color: currentColor; }
   .dnb-form-status[hidden] {
     display: none; }
   .dnb-form-status--fade-in {
-    height: 0;
-    opacity: 0;
-    animation: fade-in 600ms ease-out 1 200ms forwards; }
+    overflow: hidden;
+    max-height: 0;
+    animation: form-status-fade-in 2s ease-out 400ms forwards; }
 
-@keyframes fade-in {
+@keyframes form-status-fade-in {
   from {
-    opacity: 0;
-    height: 0; }
+    max-height: 0; }
   to {
-    opacity: 1;
-    height: var(--input-height); } }
+    max-height: calc(var(--input-height) * 8); } }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-form-status__shell > .dnb-icon {
+      border-width: 1px; } }
 
 .dnb-switch {
   font-family: var(--font-family-default);
@@ -555,6 +558,7 @@ legend.dnb-form-label {
     order: 1;
     align-self: flex-start; }
   .dnb-switch--label-position-left .dnb-switch__order .dnb-form-status {
+    order: 3;
     margin-top: 0.5rem; }
   .dnb-switch--label-position-right .dnb-switch__order .dnb-switch__inner {
     order: 1; }
@@ -562,6 +566,7 @@ legend.dnb-form-label {
     order: 2;
     margin-left: 1rem; }
   .dnb-switch--label-position-right .dnb-switch__order + .dnb-form-status {
+    order: 3;
     vertical-align: bottom;
     margin-top: 0.5rem; }
   @media screen and (-ms-high-contrast: none) {

@@ -45,6 +45,7 @@ export const propTypes = {
   ]),
   status_state: PropTypes.string,
   status_animation: PropTypes.string,
+  global_status_id: PropTypes.string,
   thump_title: PropTypes.string,
   add_title: PropTypes.string,
   subtract_title: PropTypes.string,
@@ -78,6 +79,7 @@ export const defaultProps = {
   status: null,
   status_state: 'error',
   status_animation: null,
+  global_status_id: null,
   thump_title: null,
   add_title: null,
   subtract_title: null,
@@ -440,6 +442,7 @@ export default class Slider extends PureComponent {
       status,
       status_state,
       status_animation,
+      global_status_id,
       thump_title: title,
       subtract_title,
       add_title,
@@ -555,6 +558,17 @@ export default class Slider extends PureComponent {
           />
         )}
         <span className="dnb-slider__wrapper">
+          {showStatus && (
+            <FormStatus
+              id={id + '-form-status'}
+              global_status_id={global_status_id}
+              text_id={id + '-status'} // used for "aria-describedby"
+              text={status}
+              status={status_state}
+              animation={status_animation}
+            />
+          )}
+
           <span className="dnb-slider__inner">
             {showButtons && (reverse ? addButton : subtractButton)}
             <span
@@ -581,14 +595,6 @@ export default class Slider extends PureComponent {
             </span>
             {showButtons && (reverse ? subtractButton : addButton)}
           </span>
-          {showStatus && (
-            <FormStatus
-              text={status}
-              status={status_state}
-              text_id={id + '-status'} // used for "aria-describedby"
-              animation={status_animation}
-            />
-          )}
         </span>
       </span>
     )

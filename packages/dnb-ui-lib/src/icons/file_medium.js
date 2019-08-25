@@ -5,19 +5,10 @@ import React from 'react'
 const file_medium = props => (
   <svg width={24} height={24} viewBox="0 0 24 24" fill="none" {...props}>
     <path
+      fillRule="evenodd"
       clipRule="evenodd"
-      d="M22.5 21.75a1.5 1.5 0 0 1-1.5 1.5H3a1.5 1.5 0 0 1-1.5-1.5V2.25A1.5 1.5 0 0 1 3 .75h15.045a1.5 1.5 0 0 1 1.048.426l2.954 2.883c.29.282.453.67.453 1.074V21.75z"
-      stroke="#000"
-      strokeWidth={1.5}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <path
-      d="M6.045 8.25h12m-12 4.5h12m-12 4.5h6"
-      stroke="#000"
-      strokeWidth={1.5}
-      strokeLinecap="round"
-      strokeLinejoin="round"
+      d="M18.045 1.5a.75.75 0 01.524.213l2.954 2.883a.75.75 0 01.227.537V21.75a.75.75 0 01-.75.75H3a.75.75 0 01-.75-.75V2.25A.75.75 0 013 1.5h15.045zm1.572-.861A2.25 2.25 0 0018.045 0H3A2.25 2.25 0 00.75 2.25v19.5A2.25 2.25 0 003 24h18a2.25 2.25 0 002.25-2.25V5.133a2.25 2.25 0 00-.68-1.611L19.617.639zM6.045 7.5a.75.75 0 000 1.5h12a.75.75 0 000-1.5h-12zm-.75 5.25a.75.75 0 01.75-.75h12a.75.75 0 010 1.5h-12a.75.75 0 01-.75-.75zm.75 3.75a.75.75 0 000 1.5h6a.75.75 0 000-1.5h-6z"
+      fill="#000"
     />
   </svg>
 )

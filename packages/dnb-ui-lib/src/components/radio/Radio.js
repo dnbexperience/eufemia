@@ -46,6 +46,7 @@ export const propTypes = {
   ]),
   status_state: PropTypes.string,
   status_animation: PropTypes.string,
+  global_status_id: PropTypes.string,
   value: PropTypes.string,
   attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   readOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -73,6 +74,7 @@ export const defaultProps = {
   status: null,
   status_state: 'error',
   status_animation: null,
+  global_status_id: null,
   value: '',
   attributes: null,
   readOnly: false,
@@ -251,6 +253,7 @@ export default class Radio extends Component {
             status,
             status_state,
             status_animation,
+            global_status_id,
             label,
             label_position,
             title,
@@ -322,9 +325,11 @@ export default class Radio extends Component {
 
           const statusComp = showStatus && (
             <FormStatus
+              id={id + '-form-status'}
+              global_status_id={global_status_id}
+              text_id={id + '-status'} // used for "aria-describedby"
               text={status}
               status={status_state}
-              text_id={id + '-status'} // used for "aria-describedby"
               animation={status_animation}
             />
           )
@@ -342,6 +347,8 @@ export default class Radio extends Component {
                   />
                 )}
                 <span className="dnb-radio__inner">
+                  {label_position === 'left' && statusComp}
+
                   <span className="dnb-radio__shell">
                     <input
                       type="checkbox"
@@ -367,7 +374,6 @@ export default class Radio extends Component {
                     <span className="dnb-radio__focus" aria-hidden />
                     <span className="dnb-radio__dot" aria-hidden />
                   </span>
-                  {label_position === 'left' && statusComp}
                 </span>
               </span>
               {(label_position === 'right' || !label_position) &&

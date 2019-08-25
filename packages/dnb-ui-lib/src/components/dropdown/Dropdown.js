@@ -51,6 +51,7 @@ export const propTypes = {
   ]),
   status_state: PropTypes.string,
   status_animation: PropTypes.string,
+  global_status_id: PropTypes.string,
   scrollable: PropTypes.bool,
   direction: PropTypes.oneOf(['auto', 'top', 'bottom']),
   max_height: PropTypes.number,
@@ -116,6 +117,7 @@ export const defaultProps = {
   status: null,
   status_state: 'error',
   status_animation: null,
+  global_status_id: null,
   scrollable: true,
   max_height: null,
   direction: 'auto',
@@ -244,7 +246,8 @@ export default class Dropdown extends PureComponent {
   constructor(props) {
     super(props)
 
-    this._id = props.id || `dropdown-${Math.round(Math.random() * 999)}`
+    this._id =
+      props.id || `dnb-dropdown-${Math.round(Math.random() * 999)}`
 
     const opened = Dropdown.parseOpened(props.opened)
     this.state = {
@@ -753,6 +756,7 @@ export default class Dropdown extends PureComponent {
       status,
       status_state,
       status_animation,
+      global_status_id,
       scrollable,
       no_animation,
       no_scroll_animation,
@@ -857,12 +861,14 @@ export default class Dropdown extends PureComponent {
       className: 'dnb-dropdown__options',
       role: 'listbox',
       tabIndex: '0',
-      ['aria-activedescendant']: `option-${id}-${selected_item}`,
       ['aria-labelledby']: id,
       ref: this._refUl,
       style: {
         maxHeight: max_height > 0 ? `${max_height}rem` : null
       }
+    }
+    if (selected_item > -1) {
+      ulParams['aria-activedescendant'] = `option-${id}-${selected_item}`
     }
 
     // also used for code markup simulation
@@ -889,6 +895,17 @@ export default class Dropdown extends PureComponent {
           </span>
         )}
         <span className="dnb-dropdown__inner" ref={this._ref}>
+          {showStatus && (
+            <FormStatus
+              id={id + '-form-status'}
+              global_status_id={global_status_id}
+              text_id={id + '-status'} // used for "aria-describedby"
+              text={status}
+              status={status_state}
+              animation={status_animation}
+            />
+          )}
+
           <span className="dnb-dropdown__shell">
             {CustomTrigger ? (
               <CustomTrigger {...triggerParams} />
@@ -995,15 +1012,6 @@ export default class Dropdown extends PureComponent {
               </span>
             )}
           </span>
-
-          {showStatus && (
-            <FormStatus
-              text={status}
-              status={status_state}
-              text_id={id + '-status'} // used for "aria-describedby"
-              animation={status_animation}
-            />
-          )}
         </span>
       </span>
     )

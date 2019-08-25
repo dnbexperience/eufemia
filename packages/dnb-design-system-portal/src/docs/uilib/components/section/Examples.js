@@ -87,6 +87,16 @@ class Example extends PureComponent {
 </Section>
         `}
         </ComponentBox>
+        <ComponentBox
+          caption="Cherry-Red Section"
+          data-dnb-test="section-cherry-red"
+        >
+          {/* @html */ `
+<Section spacing="true" style_type="cherry-red">
+  Visual DNB Section: <code className="dnb-code">cherry-red</code>
+</Section>
+        `}
+        </ComponentBox>
       </Fragment>
     )
   }

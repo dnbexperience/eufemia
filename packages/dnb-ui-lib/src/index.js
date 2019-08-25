@@ -18,6 +18,7 @@ import FormLabel from './components/form-label/FormLabel'
 import FormRow from './components/form-row/FormRow'
 import FormSet from './components/form-set/FormSet'
 import FormStatus from './components/form-status/FormStatus'
+import GlobalStatus from './components/global-status/GlobalStatus'
 import Icon from './components/icon/Icon'
 import IconPrimary from './components/icon-primary/IconPrimary'
 import Input from './components/input/Input'
@@ -67,6 +68,7 @@ export {
   FormRow,
   FormSet,
   FormStatus,
+  GlobalStatus,
   Icon,
   IconPrimary,
   Input,

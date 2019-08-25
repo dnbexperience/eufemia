@@ -22,6 +22,7 @@ const ComponentBox = ({ children, hideOnTest, scope = {}, ...rest }) => {
         useEffect,
         useState,
         styled,
+        TestWrapper,
         ...scope
       }}
       {...rest}
@@ -41,3 +42,12 @@ ComponentBox.defaultProps = {
 }
 
 export default ComponentBox
+
+export const TestWrapper = ({ children, ...props }) => (
+  <div data-dnb-test-wrapper {...props}>
+    {children}
+  </div>
+)
+TestWrapper.propTypes = {
+  children: PropTypes.node.isRequired
+}

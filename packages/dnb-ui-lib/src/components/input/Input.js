@@ -33,7 +33,7 @@ const renderProps = {
 
 export const propTypes = {
   type: PropTypes.string,
-  size: PropTypes.string,
+  size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   id: PropTypes.string,
   label: PropTypes.oneOfType([
@@ -50,6 +50,7 @@ export const propTypes = {
   input_state: PropTypes.string,
   status_state: PropTypes.string,
   status_animation: PropTypes.string,
+  global_status_id: PropTypes.string,
   autocomplete: PropTypes.oneOf(['on', 'off']),
   submit_button_title: PropTypes.string,
   placeholder: PropTypes.string,
@@ -60,7 +61,10 @@ export const propTypes = {
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   class: PropTypes.string,
   input_class: PropTypes.string,
-  attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  input_attributes: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object
+  ]),
   readOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 
   // Submit button
@@ -95,7 +99,7 @@ export const propTypes = {
 export const defaultProps = {
   type: 'text',
   size: null,
-  value: null,
+  value: 'initval',
   id: null,
   label: null,
   label_direction: null,
@@ -103,6 +107,7 @@ export const defaultProps = {
   input_state: null,
   status_state: 'error',
   status_animation: null,
+  global_status_id: null,
   autocomplete: 'off',
   placeholder: null,
   description: null,
@@ -112,7 +117,7 @@ export const defaultProps = {
   disabled: null,
   input_class: null,
   class: null,
-  attributes: null,
+  input_attributes: null,
   readOnly: false,
 
   // Submit button
@@ -148,7 +153,11 @@ export default class Input extends PureComponent {
 
   static getDerivedStateFromProps(props, state) {
     const value = Input.getValue(props)
-    if (state._listenForPropChanges && value !== state.value) {
+    if (
+      state._listenForPropChanges &&
+      value !== 'initval' &&
+      value !== state.value
+    ) {
       state.value = value
     }
     if (props.input_state) {
@@ -163,7 +172,7 @@ export default class Input extends PureComponent {
     return processChildren(props)
   }
 
-  state = { inputState: 'virgin', value: null }
+  state = { inputState: 'virgin', value: null, _value: null }
 
   constructor(props, context) {
     super(props)
@@ -178,7 +187,6 @@ export default class Input extends PureComponent {
 
     // make sure we dont trigger getDerivedStateFromProps on startup
     this.state._listenForPropChanges = true
-    this.state.value = Input.getValue(props)
     if (props.input_state) {
       this.state.inputState = props.input_state
     }
@@ -239,6 +247,7 @@ export default class Input extends PureComponent {
       status,
       status_state,
       status_animation,
+      global_status_id,
       disabled,
       placeholder,
       description,
@@ -251,6 +260,7 @@ export default class Input extends PureComponent {
       autocomplete,
       readOnly,
       stretch,
+      input_attributes,
       class: _className,
       className,
 
@@ -269,6 +279,7 @@ export default class Input extends PureComponent {
     if (disabled) {
       inputState = 'disabled'
     }
+    const sizeIsNumber = parseFloat(size) > 0
 
     const id = this._id
     const showStatus = status && status !== 'error'
@@ -278,7 +289,7 @@ export default class Input extends PureComponent {
       className: classnames(
         'dnb-input',
         `dnb-input--${type}`, //type_modifier
-        size && `dnb-input--${size}`,
+        size && !sizeIsNumber && `dnb-input--${size}`,
         hasSubmitButton && 'dnb-input--has-submit-button',
         align && `dnb-input__align--${align}`,
         status && `dnb-input__status--${status_state}`,
@@ -300,6 +311,12 @@ export default class Input extends PureComponent {
       Input.renderProps
     )
 
+    const inputAttributes = input_attributes
+      ? typeof input_attributes === 'string'
+        ? JSON.parse(input_attributes)
+        : input_attributes
+      : {}
+
     const inputParams = {
       ...renderProps,
       className: classnames('dnb-input__input', input_class),
@@ -310,10 +327,15 @@ export default class Input extends PureComponent {
       disabled: isTrue(disabled),
       name: id,
       ...attributes,
+      ...inputAttributes,
       onChange: this.onChangeHandler,
       onKeyDown: this.onKeyDownHandler,
       onFocus: this.onFocusHandler,
       onBlur: this.onBlurHandler
+    }
+
+    if (sizeIsNumber) {
+      inputParams.size = size
     }
 
     // we may considder using: aria-details
@@ -362,6 +384,17 @@ export default class Input extends PureComponent {
           />
         )}
         <span {...clampParams}>
+          {showStatus && (
+            <FormStatus
+              id={id + '-form-status'}
+              global_status_id={global_status_id}
+              text={status}
+              status={status_state}
+              text_id={id + '-status'} // used for "aria-describedby"
+              animation={status_animation}
+            />
+          )}
+
           <span className="dnb-input__row">
             <span className="dnb-input__shell" {...shellParams}>
               {InputElement || <input ref={this._ref} {...inputParams} />}
@@ -405,15 +438,6 @@ export default class Input extends PureComponent {
               </span>
             )}
           </span>
-
-          {showStatus && (
-            <FormStatus
-              text={status}
-              status={status_state}
-              text_id={id + '-status'} // used for "aria-describedby"
-              animation={status_animation}
-            />
-          )}
         </span>
       </span>
     )

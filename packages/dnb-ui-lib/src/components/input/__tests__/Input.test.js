@@ -129,6 +129,53 @@ describe('Input component', () => {
     // console.log('domNode', Comp.find('input').getDOMNode().value)
   })
 
+  it('has correct state after setting "value" prop (set by getDerivedStateFromProps)', () => {
+    const Comp = mount(<Component placeholder="Placeholder" />)
+
+    const newValue = 'new value'
+    const emptyValue = null
+
+    Comp.setProps({
+      value: newValue
+    })
+    expect(Comp.state().value).toBe(newValue)
+
+    Comp.setProps({ value: emptyValue })
+    expect(Comp.state().value).toBe(emptyValue)
+  })
+
+  it('has correct medium input size', () => {
+    const Comp = mount(<Component size="medium" />)
+    expect(Comp.find('.dnb-input--medium').exists()).toBe(true)
+  })
+
+  it('has correct size attribute (chars length) on input by int number', () => {
+    const Comp = mount(<Component size={2} />)
+    expect(
+      Comp.find('input')
+        .instance()
+        .getAttribute('size')
+    ).toBe('2')
+  })
+
+  it('has correct size attribute (chars length) on input by using input_attributes', () => {
+    const Comp = mount(<Component input_attributes={{ size: 2 }} />)
+    expect(
+      Comp.find('input')
+        .instance()
+        .getAttribute('size')
+    ).toBe('2')
+  })
+
+  it('has correct size attribute (chars length) on input by using input_attributes and a JSON object', () => {
+    const Comp = mount(<Component input_attributes='{"size": "2"}' />)
+    expect(
+      Comp.find('input')
+        .instance()
+        .getAttribute('size')
+    ).toBe('2')
+  })
+
   it('has to to have a prop value like value', () => {
     const value = 'new value'
     Comp.setProps({
@@ -177,6 +224,20 @@ describe('Input component', () => {
         .find('.dnb-input__submit-button')
         .prop('data-input-state')
     ).toBe('focus')
+  })
+
+  it('should validate with ARIA rules as a search input with a label', async () => {
+    const LabelComp = mount(<label htmlFor="input">text</label>)
+    const InputComp = mount(
+      <Component
+        {...props}
+        id="input"
+        type="search"
+        autocomplete="off"
+        value="some value"
+      />
+    )
+    expect(await axeComponent(LabelComp, InputComp)).toHaveNoViolations()
   })
 
   it('should validate with ARIA rules as a input with a label', async () => {

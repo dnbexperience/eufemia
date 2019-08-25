@@ -19,10 +19,14 @@ import dnb_form_status from '../style/dnb-form-status.scss' // eslint-disable-li
 import dnb_form_status_theme_ui from '../style/themes/dnb-form-status-theme-ui.scss' // eslint-disable-line
 
 const props = fakeProps(require.resolve('../FormStatus'), {
-  optional: true
+  optional: true,
+  all: true
 })
+props.id = 'form-status'
+props.text = 'text'
 props.state = 'error'
 props.status = null
+props.global_status_id = 'main'
 props.hidden = false
 props.icon = 'exclamation'
 
@@ -40,16 +44,18 @@ describe('FormStatus component', () => {
   it('should have correact attributes once the "hidden" prop changes', async () => {
     const Comp = mount(<Component {...props} hidden />)
     expect(Comp.exists('[aria-hidden]')).toBe(true)
-    expect(Comp.exists('[aria-live="assertive"]')).toBe(false)
+    // Deprecated: use the GlobalStatus and aria-live
+    // expect(Comp.exists('[aria-live="assertive"]')).toBe(false)
     Comp.setProps({
       hidden: false
     })
-    expect(Comp.exists('[aria-live="assertive"]')).toBe(true)
+    // Deprecated: use the GlobalStatus and aria-live
+    // expect(Comp.exists('[aria-live="assertive"]')).toBe(true)
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 
   it('has to to have a text value as defined in the prop', () => {
-    expect(Comp.find('.dnb-form-status--text').text()).toBe('text')
+    expect(Comp.find('.dnb-form-status--text').text()).toBe(props.text)
   })
 })
 

@@ -90,7 +90,8 @@
     opacity: 0.5;
   }
 
-  &[class*='__status'] .dnb-form-status {
+  &__inner > .dnb-form-status {
+    order: 2;
     margin: 1rem 0 0 calc(1px - 1px - var(--textarea-padding-width));
   }
 

@@ -4,10 +4,7 @@
 */
 
 :root {
-  // --dropdown-width will be used by a max-width
   --dropdown-width: 16rem;
-  // --dropdown-min-width: 10rem;
-  // --dropdown-max-width: 20rem;
   --dropdown-height: 2rem;
   --dropdown-height--small: 1.5rem;
   --dropdown-height--medium: 2.5rem;
@@ -16,7 +13,6 @@
   --dropdown-border-width: 0.0625rem;
   --dropdown-focus-border-width: 0.125rem;
   --dropdown-text-padding: 0.5rem;
-  // --dropdown-border-radius: calc(var(--dropdown-height) / 2);
 }
 
 @mixin openDropdown($state: 'animation') {
@@ -386,15 +382,6 @@
     &__inner {
       display: inline-block;
 
-      // min-width: calc(
-      //   var(--dropdown-min-width) -
-      //     calc(var(--dropdown-padding-horizontal) * 3 + 10px)
-      // );
-      // max-width: calc(
-      //   var(--dropdown-max-width) -
-      //     calc(var(--dropdown-padding-horizontal) * 3 + 10px)
-      // );
-
       width: calc(
         var(--dropdown-width) -
           calc(var(--dropdown-padding-horizontal) * 3 + 10px)
@@ -430,10 +417,6 @@
 
   &--icon-position-left &__icon {
     order: 1;
-    // vertical alignment
-    // [os='mac'] & {
-    //   transform: translateY(-0.0625rem);
-    // }
   }
   &--icon-position-left &__text {
     order: 2;
@@ -457,6 +440,7 @@
     }
   }
   &__inner > .dnb-form-status {
+    order: 2;
     margin-top: 0.5rem;
   }
 

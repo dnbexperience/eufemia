@@ -6,7 +6,7 @@ const pencil_medium = props => (
   <svg width={24} height={24} viewBox="0 0 24 24" fill="none" {...props}>
     <path
       clipRule="evenodd"
-      d="M22.19 1.81a3.639 3.639 0 0 0-5.17.035l-14.5 14.5L.75 23.25l6.905-1.771 14.5-14.5a3.637 3.637 0 0 0 .034-5.169z"
+      d="M22.19 1.81a3.639 3.639 0 00-5.17.035l-14.5 14.5L.75 23.25l6.905-1.771 14.5-14.5a3.637 3.637 0 00.034-5.169z"
       stroke="#000"
       strokeWidth={1.5}
       strokeLinecap="round"

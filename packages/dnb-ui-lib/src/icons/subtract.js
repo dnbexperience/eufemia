@@ -5,10 +5,10 @@ import React from 'react'
 const subtract = props => (
   <svg width={16} height={16} viewBox="0 0 16 16" fill="none" {...props}>
     <path
-      fillRule="evenodd"
-      clipRule="evenodd"
-      d="M1 8a.75.75 0 0 1 .75-.75h12.5a.75.75 0 0 1 0 1.5H1.75A.75.75 0 0 1 1 8z"
-      fill="#000"
+      stroke="#000"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      d="M1.75 8h12.5"
     />
   </svg>
 )

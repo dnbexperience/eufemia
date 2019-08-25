@@ -6,6 +6,7 @@ exports[`Slider component have to match snapshot 1`] = `
   class="class"
   className="className"
   disabled="disabled"
+  global_status_id="global_status_id"
   hide_buttons="hide_buttons"
   id="id"
   label="label"
@@ -75,8 +76,8 @@ exports[`Slider component have to match snapshot 1`] = `
           disabled={null}
           href={null}
           icon="subtract"
-          icon_position="right"
-          icon_size="default"
+          icon_position={null}
+          icon_size={null}
           id={null}
           innerRef={null}
           onClick={null}
@@ -105,8 +106,8 @@ exports[`Slider component have to match snapshot 1`] = `
               disabled={null}
               href={null}
               icon="subtract"
-              icon_position="right"
-              icon_size="default"
+              icon_position={null}
+              icon_size={null}
               id={null}
               innerRef={null}
               isIconOnly={true}
@@ -129,7 +130,7 @@ exports[`Slider component have to match snapshot 1`] = `
                 icon="subtract"
                 key="button-icon"
                 modifier={null}
-                size="default"
+                size={null}
                 title={null}
                 width={null}
               >
@@ -137,7 +138,7 @@ exports[`Slider component have to match snapshot 1`] = `
                   alt="subtract_title"
                   aria-hidden={false}
                   aria-label="subtract_title"
-                  className="dnb-icon dnb-icon--default dnb-button__icon"
+                  className="dnb-icon dnb-button__icon"
                   role="img"
                 >
                   <subtract>
@@ -148,10 +149,10 @@ exports[`Slider component have to match snapshot 1`] = `
                       width={16}
                     >
                       <path
-                        clipRule="evenodd"
-                        d="M1 8a.75.75 0 0 1 .75-.75h12.5a.75.75 0 0 1 0 1.5H1.75A.75.75 0 0 1 1 8z"
-                        fill="#000"
-                        fillRule="evenodd"
+                        d="M1.75 8h12.5"
+                        stroke="#000"
+                        strokeLinecap="round"
+                        strokeWidth={1.5}
                       />
                     </svg>
                   </subtract>
@@ -191,8 +192,8 @@ exports[`Slider component have to match snapshot 1`] = `
               disabled={null}
               href={null}
               icon={null}
-              icon_position="right"
-              icon_size="default"
+              icon_position={null}
+              icon_size={null}
               id={null}
               innerRef={null}
               onBlur={[Function]}
@@ -231,8 +232,8 @@ exports[`Slider component have to match snapshot 1`] = `
                   disabled={null}
                   href={null}
                   icon={null}
-                  icon_position="right"
-                  icon_size="default"
+                  icon_position={null}
+                  icon_size={null}
                   id={null}
                   innerRef={null}
                   isIconOnly={false}
@@ -275,8 +276,8 @@ exports[`Slider component have to match snapshot 1`] = `
           disabled={null}
           href={null}
           icon="add"
-          icon_position="right"
-          icon_size="default"
+          icon_position={null}
+          icon_size={null}
           id={null}
           innerRef={null}
           onClick={null}
@@ -305,8 +306,8 @@ exports[`Slider component have to match snapshot 1`] = `
               disabled={null}
               href={null}
               icon="add"
-              icon_position="right"
-              icon_size="default"
+              icon_position={null}
+              icon_size={null}
               id={null}
               innerRef={null}
               isIconOnly={true}
@@ -329,7 +330,7 @@ exports[`Slider component have to match snapshot 1`] = `
                 icon="add"
                 key="button-icon"
                 modifier={null}
-                size="default"
+                size={null}
                 title={null}
                 width={null}
               >
@@ -337,7 +338,7 @@ exports[`Slider component have to match snapshot 1`] = `
                   alt="add_title"
                   aria-hidden={false}
                   aria-label="add_title"
-                  className="dnb-icon dnb-icon--default dnb-button__icon"
+                  className="dnb-icon dnb-button__icon"
                   role="img"
                 >
                   <add>
@@ -349,7 +350,7 @@ exports[`Slider component have to match snapshot 1`] = `
                     >
                       <path
                         clipRule="evenodd"
-                        d="M8.75 1.75a.75.75 0 0 0-1.5 0v5.5h-5.5a.75.75 0 0 0 0 1.5h5.5v5.5a.75.75 0 0 0 1.5 0v-5.5h5.5a.75.75 0 0 0 0-1.5h-5.5v-5.5z"
+                        d="M8.75 1.75a.75.75 0 00-1.5 0v5.5h-5.5a.75.75 0 000 1.5h5.5v5.5a.75.75 0 001.5 0v-5.5h5.5a.75.75 0 000-1.5h-5.5v-5.5z"
                         fill="#000"
                         fillRule="evenodd"
                       />
@@ -762,13 +763,14 @@ legend.dnb-form-label {
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    min-height: var(--input-height);
     border-radius: var(--input-border-radius); }
   .dnb-form-status--text {
     padding: calc(0.5rem / 2) 1rem;
     cursor: text;
-    color: var(--color-emerald-green);
+    color: inherit;
     line-height: 1.5rem; }
+    [os='mac'] .dnb-form-status--text {
+      transform: translateY(0.0625rem); }
   .dnb-icon + .dnb-form-status--text {
     padding-left: 0.5rem; }
   .dnb-form-status__shell > .dnb-icon {
@@ -781,22 +783,23 @@ legend.dnb-form-label {
     color: inherit;
     font-size: 1rem;
     border-radius: 50%;
-    border: 1px solid;
+    border: 0.0625rem solid;
     border-color: currentColor; }
   .dnb-form-status[hidden] {
     display: none; }
   .dnb-form-status--fade-in {
-    height: 0;
-    opacity: 0;
-    animation: fade-in 600ms ease-out 1 200ms forwards; }
+    overflow: hidden;
+    max-height: 0;
+    animation: form-status-fade-in 2s ease-out 400ms forwards; }
 
-@keyframes fade-in {
+@keyframes form-status-fade-in {
   from {
-    opacity: 0;
-    height: 0; }
+    max-height: 0; }
   to {
-    opacity: 1;
-    height: var(--input-height); } }
+    max-height: calc(var(--input-height) * 8); } }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-form-status__shell > .dnb-icon {
+      border-width: 1px; } }
 
 .dnb-slider {
   font-family: var(--font-family-default);
@@ -971,6 +974,7 @@ legend.dnb-form-label {
       margin-right: 0;
       margin-bottom: 0.5rem; }
   .dnb-slider .dnb-form-status {
+    order: 2;
     margin-top: 0.5rem; }
   .dnb-slider--vertical .dnb-form-status {
     margin-top: 1rem; }
