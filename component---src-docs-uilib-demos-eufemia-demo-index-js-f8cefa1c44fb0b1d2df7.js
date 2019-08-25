@@ -1,2 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[8],{1166:function(n,w,a){"use strict";a.r(w);var e=a(1164);w.default=e.default}}]);
-//# sourceMappingURL=component---src-docs-uilib-demos-eufemia-demo-index-js-f8cefa1c44fb0b1d2df7.js.map
