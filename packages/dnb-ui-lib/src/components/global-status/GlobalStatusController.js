@@ -8,6 +8,7 @@ import PropTypes from 'prop-types'
 import GlobalStatusProvider from './GlobalStatusProvider'
 import { isTrue } from '../../shared/component-helper'
 
+// This is the Update controller
 class GlobalStatusController extends PureComponent {
   static propTypes = {
     id: PropTypes.string, // Provider id

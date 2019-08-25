@@ -48,11 +48,7 @@ class Example extends PureComponent {
         >
           {/* @jsx */ `
 const CustomStatus = () => (
-  <>
-    My info
-    <Link href="/">with a link</Link>
-    and more text
-  </>
+  <>My info <Link href="/">with a link</Link> and more text</>
 )
 render(
   <Input

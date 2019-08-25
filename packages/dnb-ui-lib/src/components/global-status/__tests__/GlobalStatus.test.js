@@ -40,15 +40,6 @@ describe('GlobalStatus component', () => {
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 
-  it('should have correact attributes like "aria-live"', async () => {
-    expect(Comp.exists('[aria-live="assertive"]')).toBe(true)
-    expect(await axeComponent(Comp)).toHaveNoViolations()
-    Comp.setProps({
-      show: false
-    })
-    expect(Comp.exists('[aria-live="assertive"]')).toBe(false)
-  })
-
   it('has to to have a text value as defined in the prop', () => {
     expect(
       Comp.find('.dnb-global-status__message')
@@ -61,36 +52,71 @@ describe('GlobalStatus component', () => {
     expect(Comp.find('.dnb-ul').text()).toBe(props.items.join(''))
   })
 
-  it('has to to have correct content after a controller update and remove', () => {
-    const text = 'new text'
+  it('should have correact attributes like "aria-live"', async () => {
+    const Comp = mount(<Component no_animation={true} />)
+    expect(Comp.exists('[aria-live]')).toBe(false)
+    Comp.setProps({
+      show: true
+    })
+    expect(Comp.exists('[aria-live="assertive"]')).toBe(true)
+    expect(await axeComponent(Comp)).toHaveNoViolations()
+  })
 
-    // Add new content to the main GlobalStatus
-    mount(
-      <Component.Update
-        id="main"
-        status_id="status-update-1"
-        text={text}
-      />
-    )
-    expect(
-      Comp.find('.dnb-global-status__message')
-        .find('.dnb-p')
-        .text()
-    ).toBe(text)
+  it('has to to have correct content after a controller update', () => {
+    const startupText = 'text'
+    const newText = 'new text'
 
-    // Remvoe content again from the target GlobalStatus
-    mount(
-      <Component.Remove
-        id="main"
-        status_id="status-update-1"
-        buffer_delay={0}
-      />
+    const Comp = mount(
+      <>
+        <Component
+          no_animation={true}
+          autoclose={false}
+          id="custom-status-update"
+          text={startupText}
+        />
+        <Component.Update
+          id="custom-status-update"
+          status_id="status-update-1"
+          text="will be overwritten"
+        />
+        <Component.Update
+          id="custom-status-update"
+          status_id="status-update-1"
+          text={newText}
+        />
+      </>
     )
-    expect(
-      Comp.find('.dnb-global-status__message')
-        .find('.dnb-p')
-        .text()
-    ).toBe(props.text)
+
+    expect(Comp.find('.dnb-global-status__message').text()).toBe(newText)
+  })
+  it('has to to have correct content after a controller remove', () => {
+    const startupText = 'text'
+    const newText = 'new text'
+
+    const Comp = mount(
+      <>
+        <Component
+          no_animation={true}
+          autoclose={false}
+          id="custom-status-remove"
+          text={startupText}
+        />
+        <Component.Update
+          id="custom-status-remove"
+          status_id="status-remove-1"
+          text={newText}
+        />
+        <Component.Remove
+          id="custom-status-remove"
+          status_id="status-remove-1"
+          buffer_delay={0}
+        />
+      </>
+    )
+
+    expect(Comp.find('.dnb-global-status__message').text()).toBe(
+      startupText
+    )
   })
 })
 

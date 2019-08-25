@@ -262,6 +262,8 @@ export default class GlobalStatus extends React.Component {
     if (noAnimation) {
       this.setState({
         isActive: true,
+        makeMeVisible: true,
+        isVisible: true,
         _listenForPropChanges: false
       })
       return
@@ -289,6 +291,7 @@ export default class GlobalStatus extends React.Component {
           isActive: true
         },
         () => {
+          // then scroll to the content
           if (!isDemo && isTrue(autoscroll)) {
             this.scrollToStatus(makeMeVisible)
           } else {
@@ -337,7 +340,7 @@ export default class GlobalStatus extends React.Component {
             }
           }
         } catch (e) {
-          console.warn('GlobalStatus: Could not set height!')
+          console.warn('GlobalStatus: Could not set height!', e)
         }
       }
 
@@ -364,6 +367,8 @@ export default class GlobalStatus extends React.Component {
     if (noAnimation) {
       this.setState({
         isActive: false,
+        makeMeVisible: false,
+        isVisible: false,
         _listenForPropChanges: false
       })
       return
@@ -408,11 +413,11 @@ export default class GlobalStatus extends React.Component {
         try {
           if (_mainRef) {
             // reset transition time to default
-            _mainRef.style.transition = `height 800ms ease-in-out`
+            _mainRef.style.transition = 'height 800ms ease-in-out'
             _mainRef.style.height = 0
           }
         } catch (e) {
-          console.warn('GlobalStatus: Could not reset height to zero!')
+          console.warn('GlobalStatus: Could not reset height to zero!', e)
         }
       }
 
@@ -482,7 +487,7 @@ export default class GlobalStatus extends React.Component {
         })
       }
     } catch (e) {
-      console.warn('Could not scroll to top', e)
+      console.warn('GlobalStatus: Could not scroll into view!', e)
     }
   }
 
@@ -490,6 +495,10 @@ export default class GlobalStatus extends React.Component {
     const { makeMeVisible, isActive, isVisible } = this.state
 
     if (!isActive) {
+      // because of screen readers will else read the content on page load, if:
+      // 1. "show" is true from beginning, then we never come here
+      // to make sure we double check that situation
+      this.wasHiddenBefore = true
       return <></>
     }
 
@@ -545,32 +554,29 @@ export default class GlobalStatus extends React.Component {
     const noAnimation = isTrue(no_animation)
     const itemsToRender = GlobalStatus.getItems(props)
     const contentToRender = GlobalStatus.getContent(props)
-    const hasStringContent =
-      typeof contentToRender === 'string' && contentToRender.length > 0
 
     const params = {
+      element: 'div',
+      'aria-live':
+        this.hidingHasStarted() || (!this.wasHiddenBefore && isTrue(show))
+          ? 'off'
+          : 'assertive',
+      role: 'status',
       className: classnames(
         'dnb-global-status',
         `dnb-global-status--${state}`,
         this.showingHasStarted() && 'dnb-global-status--fade-in',
         this.hidingHasStarted() && 'dnb-global-status--fade-out',
         noAnimation && 'dnb-global-status--no-animation',
-        noAnimation &&
-          (isActive
-            ? 'dnb-global-status--visible'
-            : 'dnb-global-status--hidden'),
+        // noAnimation &&
+        //   (isActive
+        //     ? 'dnb-global-status--visible'
+        //     : 'dnb-global-status--hidden'),
         createSpacingClasses(props),
         className,
         _className
       ),
-
       ...attributes
-    }
-
-    // check for isVisible, so we realert the user for content change
-    if (isVisible && hasStringContent) {
-      // in case we send in a React component, witchs has its own state, then we dont want to have aria-live all the time active
-      params['aria-live'] = 'assertive'
     }
 
     const style = state === 'info' ? null : 'cherry-red'
@@ -683,16 +689,9 @@ export default class GlobalStatus extends React.Component {
 
     return (
       <>
-        {(makeMeVisible || isVisible || noAnimation) && (
-          <Section
-            element="div"
-            style_type={style}
-            {...params}
-            ref={this._mainRef}
-          >
-            {Content}
-          </Section>
-        )}
+        <Section style_type={style} {...params} ref={this._mainRef}>
+          {(makeMeVisible || isVisible || noAnimation) && Content}
+        </Section>
         {!noAnimation && (
           <div
             className="dnb-global-status dnb-global-status__fake"

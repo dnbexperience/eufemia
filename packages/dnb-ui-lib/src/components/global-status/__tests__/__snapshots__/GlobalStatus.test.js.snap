@@ -32,21 +32,24 @@ exports[`GlobalStatus component have to match snapshot 1`] = `
   title="title"
 >
   <Section
-    aria-live="assertive"
+    aria-live="off"
     class={null}
-    className="dnb-global-status dnb-global-status--error dnb-global-status--no-animation dnb-global-status--visible className class"
+    className="dnb-global-status dnb-global-status--error dnb-global-status--no-animation className class"
     element="div"
     render_content={null}
+    role="status"
     style_type="cherry-red"
   >
     <ForwardRef
-      aria-live="assertive"
-      className="dnb-section dnb-section--cherry-red dnb-global-status dnb-global-status--error dnb-global-status--no-animation dnb-global-status--visible className class"
+      aria-live="off"
+      className="dnb-section dnb-section--cherry-red dnb-global-status dnb-global-status--error dnb-global-status--no-animation className class"
       is="div"
+      role="status"
     >
       <div
-        aria-live="assertive"
-        className="dnb-section dnb-section--cherry-red dnb-global-status dnb-global-status--error dnb-global-status--no-animation dnb-global-status--visible className class"
+        aria-live="off"
+        className="dnb-section dnb-section--cherry-red dnb-global-status dnb-global-status--error dnb-global-status--no-animation className class"
+        role="status"
       >
         <div
           className="dnb-global-status__shell"

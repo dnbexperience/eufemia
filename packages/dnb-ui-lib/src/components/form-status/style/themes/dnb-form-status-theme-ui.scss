@@ -27,6 +27,10 @@
   &--error#{&}:focus &__shell {
     animation: attention-focus 2s ease-in-out 1 200ms;
   }
+  &--error#{&}--attention-focus &__shell > .dnb-icon,
+  &--error#{&}:focus &__shell > .dnb-icon {
+    animation: attention-focus 2s ease-in-out 1 200ms;
+  }
 }
 
 @keyframes attention-focus {

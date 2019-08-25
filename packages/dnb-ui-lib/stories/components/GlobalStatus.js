@@ -61,7 +61,12 @@ export default [
               text="Third Text"
               item="Third Item"
             />
-            <GlobalStatus.Remove status_id="custom-id-2" />
+            <GlobalStatus.Update
+              status_id="custom-id-2"
+              text="Third Text bøø"
+              item="Third Item bøø"
+            />
+            {/* <GlobalStatus.Remove status_id="custom-id-2" /> */}
           </Section>
         </Section>
       </Box>

@@ -85,8 +85,8 @@ class GlobalStatusProviderItem {
     return globalStatus
   }
 
-  add(props) {
-    if (props.status_id) {
+  add(props, { checkIfExists = false } = {}) {
+    if (checkIfExists && props.status_id) {
       const exists = this.get(props.status_id)
       if (exists) {
         return exists

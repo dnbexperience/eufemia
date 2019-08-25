@@ -134,6 +134,10 @@ exports[`FormStatus scss have to match default theme snapshot 1`] = `
 .dnb-form-status--error.dnb-form-status:focus .dnb-form-status__shell {
   animation: attention-focus 2s ease-in-out 1 200ms; }
 
+.dnb-form-status--error.dnb-form-status--attention-focus .dnb-form-status__shell > .dnb-icon,
+.dnb-form-status--error.dnb-form-status:focus .dnb-form-status__shell > .dnb-icon {
+  animation: attention-focus 2s ease-in-out 1 200ms; }
+
 @keyframes attention-focus {
   0%,
   100% {
