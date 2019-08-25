@@ -87,8 +87,13 @@ describe('GlobalStatus component', () => {
       </>
     )
 
-    expect(Comp.find('.dnb-global-status__message').text()).toBe(newText)
+    expect(
+      Comp.first()
+        .find('.dnb-global-status__message')
+        .text()
+    ).toBe(newText)
   })
+
   it('has to to have correct content after a controller remove', () => {
     const startupText = 'text'
     const newText = 'new text'
@@ -114,9 +119,44 @@ describe('GlobalStatus component', () => {
       </>
     )
 
-    expect(Comp.find('.dnb-global-status__message').text()).toBe(
-      startupText
+    expect(
+      Comp.first()
+        .find('.dnb-global-status__message')
+        .text()
+    ).toBe(startupText)
+  })
+
+  it('has to to have a working auto close', () => {
+    const on_open = jest.fn()
+    const on_close = jest.fn()
+
+    const Comp = mount(
+      <>
+        <Component
+          no_animation={true}
+          autoclose={true}
+          id="custom-status-autoclose"
+          text="text"
+          on_open={on_open}
+          on_close={on_close}
+        />
+        <Component.Update
+          id="custom-status-autoclose"
+          status_id="status-autoclose-1"
+        />
+        <Component.Remove
+          id="custom-status-autoclose"
+          status_id="status-autoclose-1"
+          buffer_delay={0}
+        />
+      </>
     )
+
+    expect(on_open.mock.calls.length).toBe(1)
+    expect(on_close.mock.calls.length).toBe(1)
+
+    expect(Comp.first().exists('.dnb-global-status__message')).toBe(false)
+    expect(Comp.first().state().isActive).toBe(false)
   })
 })
 

@@ -226,16 +226,16 @@ export default class GlobalStatus extends React.Component {
         this.setState({ isActive })
       }
 
-      this.setState({ globalStatus })
+      this.setState({ globalStatus }, () => {
+        if (isEmptyNow && isTrue(this._props.autoclose)) {
+          this.setHidden()
+        }
 
-      if (isEmptyNow && isTrue(this._props.autoclose)) {
-        this.setHidden()
-      }
-
-      // make sure to show the new status, inc. scroll
-      else if (isTrue(globalStatus.show)) {
-        this.setVisible()
-      }
+        // make sure to show the new status, inc. scroll
+        else if (isTrue(globalStatus.show)) {
+          this.setVisible()
+        }
+      })
     })
   }
 
@@ -266,6 +266,7 @@ export default class GlobalStatus extends React.Component {
         isVisible: true,
         _listenForPropChanges: false
       })
+      dispatchCustomElementEvent(this._props, 'on_open', this._props)
       return
     }
 
@@ -371,6 +372,7 @@ export default class GlobalStatus extends React.Component {
         isVisible: false,
         _listenForPropChanges: false
       })
+      dispatchCustomElementEvent(this._props, 'on_close', this._props)
       return
     }
 

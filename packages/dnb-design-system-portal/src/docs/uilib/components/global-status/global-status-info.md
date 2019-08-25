@@ -7,12 +7,14 @@ import Examples from 'Pages/uilib/components/global-status/Examples'
 ## Description
 
 The `GlobalStatus` is a complex component meant for displaying a global Application notifications or a summary of a form ( displaying form errors, messages etc. ).
-By default, the `GlobalStatus` is automatically working together with the [FormStatus](/uilib/components/form-status) component.
+By default, the `GlobalStatus` is automatically connected together with the [FormStatus](/uilib/components/form-status) component. This means, that every form component showing a status, will send the status message along to the `GlobalStatus`.
 
 ### FormStatus default behavior
 
 1. Once a **FormStatus** is show, the `main` **GlobalStatus** will show up.
-2. The page will scroll to the dedicated **GlobalStatus**.
+1. The page will scroll (if needed) to the dedicated **GlobalStatus**.
+1. But the focus will stay on the current place.
+1. Screen reader uses will automatically hear the whole content of the `GlobalStatus` once it shows up.
 
 ### Several Global statuses
 
