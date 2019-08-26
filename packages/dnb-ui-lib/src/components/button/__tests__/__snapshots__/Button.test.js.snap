@@ -102,7 +102,6 @@ exports[`Button component have to match default button snapshot 1`] = `
                   fillRule="evenodd"
                 />
               </g>
-              <defs />
             </svg>
           </question>
         </span>
@@ -215,7 +214,6 @@ exports[`Button component have to match href="..." snapshot 1`] = `
                   fillRule="evenodd"
                 />
               </g>
-              <defs />
             </svg>
           </question>
         </span>
