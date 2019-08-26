@@ -7,6 +7,18 @@ const path = require('path')
 
 exports.createPages = ({ graphql, actions }) =>
   new Promise(async (resolve, reject) => {
+    try {
+      await createPages({ graphql, actions })
+      await createRedirects({ graphql, actions })
+    } catch (e) {
+      reject(e)
+    }
+
+    resolve()
+  })
+
+const createPages = ({ graphql, actions }) =>
+  new Promise(async (resolve, reject) => {
     const mdxResult = await graphql(/* GraphQL */ `
       {
         allMdx {
@@ -44,6 +56,60 @@ exports.createPages = ({ graphql, actions }) =>
           prev,
           next
         }
+      })
+    })
+
+    resolve()
+  })
+
+const createRedirects = ({ graphql, actions }) =>
+  new Promise(async (resolve, reject) => {
+    const mdxResult = await graphql(/* GraphQL */ `
+      {
+        allMdx(filter: { frontmatter: { redirect_from: { ne: null } } }) {
+          edges {
+            node {
+              fields {
+                slug
+              }
+              frontmatter {
+                redirect_from
+              }
+            }
+          }
+        }
+      }
+    `)
+
+    if (mdxResult.errors) {
+      console.log(mdxResult.errors)
+      return reject(mdxResult.errors)
+    }
+
+    const { createRedirect } = actions
+    const { edges } = mdxResult.data.allMdx
+
+    // For all posts with redirect_from frontmatter,
+    // extract all values and push to redirects array
+    const redirects = edges.reduce((acc, { node }) => {
+      acc.push({
+        fromItems: node.frontmatter.redirect_from,
+        toPath: node.fields.slug
+      })
+      return acc
+    }, [])
+
+    // Create redirects from the constructed array
+    redirects.forEach(({ fromItems, toPath }) => {
+      fromItems.forEach(fromPath => {
+        const config = {
+          fromPath,
+          toPath: `/${toPath}`,
+          isPermanent: true,
+          redirectInBrowser: true
+        }
+        createRedirect(config)
+        createRedirect({ ...config, fromPath: `${fromPath}/` })
       })
     })
 
