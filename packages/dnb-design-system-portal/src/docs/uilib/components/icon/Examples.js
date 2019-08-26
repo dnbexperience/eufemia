@@ -31,6 +31,7 @@ class Example extends PureComponent {
           {/* @jsx */ `
 <Icon icon={Bell} title="Give Icons a Title, or ..." />
 <Icon icon={BellMedium} aria-hidden />
+<Bell title="I'm not responsive!" />{/* <- Not responsive! */}
           `}
         </ComponentBox>
 
