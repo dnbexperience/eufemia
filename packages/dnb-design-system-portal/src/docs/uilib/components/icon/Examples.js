@@ -4,11 +4,15 @@
  */
 
 import React, { PureComponent, Fragment } from 'react'
-import ComponentBox from '../../../../dnb-design-system-portal/src/shared/tags/ComponentBox'
-import { bell_medium as BellMedium, bell as Bell } from './lib'
+import ComponentBox from 'Src/shared/tags/ComponentBox'
+import {
+  bell_medium as BellMedium,
+  bell as Bell
+} from 'dnb-ui-lib/src/icons'
 import * as PrimaryIconsMedium from 'dnb-ui-lib/src/icons/primary_icons_medium'
 import * as SecondaryIconsMedium from 'dnb-ui-lib/src/icons/secondary_icons_medium'
 
+// In case we want so sort the icons
 // const allIcons = Object.entries({
 //   ...PrimaryIconsMedium,
 //   ...SecondaryIconsMedium
@@ -16,20 +20,6 @@ import * as SecondaryIconsMedium from 'dnb-ui-lib/src/icons/secondary_icons_medi
 // .sort(([a], [b]) => (a > b ? 1 : -1))
 
 class Example extends PureComponent {
-  static AdditionalCallback = {
-    info: ({ CodeRenderer }) => (
-      <Fragment>
-        <h3>Importing Icons</h3>
-        <CodeRenderer language="jsx">{`
-// Named import example
-import { bell as Bell } from 'dnb-ui-lib/icons'
-
-// In case your environment doesn't support tree-shaking, import the icons this way
-import Bell from 'dnb-ui-lib/icons/bell'
-        `}</CodeRenderer>
-      </Fragment>
-    )
-  }
   render() {
     return (
       <Fragment>
@@ -46,7 +36,7 @@ import Bell from 'dnb-ui-lib/icons/bell'
 
         <ComponentBox
           scope={{ Bell, BellMedium }}
-          caption="Responsive to its inherited font-size"
+          caption="Responsive to its inherited `font-size`"
         >
           {/* @jsx */ `
 <h1 className="dnb-h1">
