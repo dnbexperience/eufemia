@@ -85,44 +85,31 @@
       border-bottom: 0.09375rem solid transparent;
     }
 
-    // Create focus-ring
-    &:focus {
-      @include removeFakeFocus();
-
-      &::before {
-        content: '';
-        position: absolute;
-        top: -0.0625rem;
-        left: -0.5rem;
-        bottom: 0;
-        right: -0.5rem;
-        height: inherit;
-        border-radius: inherit;
-
-        @include fakeFocus();
-      }
-    }
-
     &:not(:focus):hover {
-      border-radius: 0;
-
       .dnb-button__text {
         border-bottom-color: var(--color-emerald-green);
-
-        // In order to get 1.5px with box-shadow
-        // we do use the box-shadow methode, and not the border one
-        // NB: This has to be changed in table as well
-        // &::after {
-        //   content: '';
-        //   position: absolute;
-        //   bottom: 0;
-        //   left: -0.0625rem;
-        //   right: -0.0625rem;
-        //   height: 0;
-        //   box-shadow: 0 0 0 0.046875rem currentColor;
-        // }
       }
     }
+
+    @include active(true) {
+      @include removeFakeFocus();
+      @include buttonFocusRing();
+
+      .dnb-button__text {
+        border-bottom-color: transparent;
+      }
+    }
+
+    /* stylelint-disable */
+    &:focus {
+      @include removeFakeFocus();
+      @include buttonFocusRing();
+
+      .dnb-button__text {
+        border-bottom-color: transparent;
+      }
+    }
+    /* stylelint-enable */
 
     // icon only tertiary
     &.dnb-button--has-icon {

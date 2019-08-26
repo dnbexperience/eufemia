@@ -86,13 +86,16 @@ class GlobalStatusProviderItem {
   }
 
   add(props, { checkIfExists = false } = {}) {
-    if (checkIfExists && props.status_id) {
-      const exists = this.get(props.status_id)
-      if (exists) {
+    let exists = false
+    if (props.status_id) {
+      exists = this.get(props.status_id)
+      if (checkIfExists && exists) {
         return exists
       }
     }
 
+    // if(props.item){
+    // }
     const newProps = Object.assign({}, props)
 
     newProps.status_time = new Date().getTime()

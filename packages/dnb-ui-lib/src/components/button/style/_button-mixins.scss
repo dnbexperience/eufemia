@@ -49,6 +49,23 @@
   }
 }
 
+// Used in tertiary button variant
+@mixin buttonFocusRing() {
+  // Create focus-ring
+  &::before {
+    content: '';
+    position: absolute;
+    top: -0.0625rem;
+    left: -0.5rem;
+    bottom: 0;
+    right: -0.5rem;
+    height: inherit;
+    border-radius: inherit;
+
+    @include fakeFocus();
+  }
+}
+
 @mixin drawUnderlineBorder() {
   // border
   &::after {
