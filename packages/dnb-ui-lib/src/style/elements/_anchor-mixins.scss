@@ -1,0 +1,137 @@
+/*
+ * Anchor mixins
+ *
+ */
+
+@import '../core/utilities.scss';
+
+$anchorBorderBottomWidth: 1.5px; // we can use 1.5px incase we use box-shadow instead of border-bottom
+$anchorBorderRadius: 0.25rem;
+
+@mixin anchorDefaultStyle($theme: null) {
+  // make sure we have always `display: inline;` as inline-block is breaking the border-bottom
+  display: inline;
+
+  // top has 1px less, cause we now has 2px on border bottom hover
+  // the calculations are based on 24px line-height
+
+  // 1px = 0,0625
+  // 2px = 0,125
+  // 4px = 0,25
+
+  // on padding-top we have 4px
+  // on padding-bottom we have 2px, cause run a border-bottom with 2px
+  // this makes a total of 8px
+  // 24px line-height - 8px = 16px (font-size)
+  padding: 0.25rem 0.125rem 0.125rem;
+
+  // margins are not needed as long as we go for "inline"
+  // margin: -0.25rem 0 -0.125rem;
+
+  color: inherit;
+  color: var(--color-sea-green);
+
+  text-decoration: none;
+  box-shadow: 0 $anchorBorderBottomWidth 0 0 currentColor;
+  border-radius: 0;
+
+  @if $theme == 'highlighted' {
+    color: var(--color-emerald-green);
+    box-shadow: 0 $anchorBorderBottomWidth 0 0 currentColor;
+  }
+}
+
+// reset methodes
+@mixin resetUnderlineStyle() {
+  box-shadow: none;
+}
+@mixin resetBorderRadius() {
+  &,
+  &:hover,
+  &:active,
+  &:focus {
+    border-radius: 0;
+  }
+}
+@mixin resetanchorHoverStyle() {
+  &:hover {
+    color: inherit;
+    // in case we dont want to change the color to the body color
+    background-color: transparent;
+  }
+}
+@mixin resetAnimationStyle() {
+  transition: none;
+}
+
+// states
+@mixin anchorHoverStyle() {
+  color: var(--color-sea-green);
+  background-color: var(--color-mint-green-50);
+  border-radius: $anchorBorderRadius;
+  @include resetUnderlineStyle();
+}
+@mixin anchorActiveStyle() {
+  color: var(--color-mint-green);
+  background-color: var(--color-emerald-green);
+  border-radius: $anchorBorderRadius;
+  @include resetUnderlineStyle();
+}
+@mixin anchorFocusStyle($whatinput: null) {
+  &:not(:active) {
+    color: var(--color-sea-green);
+    background-color: transparent;
+    @include resetAnimationStyle();
+    @include resetUnderlineStyle();
+  }
+  @if $whatinput {
+    @include fakeFocus($whatinput);
+  } @else {
+    @include fakeFocus();
+  }
+  border-radius: $anchorBorderRadius;
+}
+
+// oterh styles
+@mixin useAnchorContrastStyle($contrastColor: var(--color-emerald-green)) {
+  color: var(--color-white);
+  box-shadow: 0 $anchorBorderBottomWidth 0 0 var(--color-white);
+  &:focus {
+    color: var(--color-white);
+    @include fakeFocus(null, var(--color-white));
+  }
+  &:hover,
+  &:active {
+    color: $contrastColor;
+    background-color: var(--color-white);
+    box-shadow: none;
+  }
+  &:active {
+    color: $contrastColor;
+    background-color: var(--color-white);
+  }
+}
+@mixin anchorStyle() {
+  @include anchorDefaultStyle();
+
+  // have focus before :active, because of border-radius
+  &:focus {
+    @include anchorFocusStyle();
+  }
+  &:hover,
+  &:active {
+    @include anchorHoverStyle();
+  }
+  &:active {
+    @include anchorActiveStyle();
+  }
+
+  transition: background-color 0.2s ease;
+
+  // other stuff, not related to the Anchor directly
+  .dnb-icon {
+    display: inline-block;
+    // -1px to center the icons agains large chars
+    transform: translateY(-0.0625rem);
+  }
+}
