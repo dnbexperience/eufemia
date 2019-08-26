@@ -18,7 +18,7 @@ draft: true
 | `delay`               | _(optional)_ defines the delay on how long the automated visibility should wait, before it appears to the user. Defaults to `200ms`.                                                                  |
 | `hide_close_button`   | _(optional)_ set to `true` if the close button should be hidden for the user. Defaults to `false`.                                                                                                    |
 | `close_text`          | _(optional)_ text of the close button. Defaults to `Lukk`.                                                                                                                                            |
-| `status_anchor_texts` | _(optional)_ defines the anchor text showing up after every item, in case there is a `status_id` defined. Defaults to `Gå til`.                                                                       |
+| `status_anchor_text` | _(optional)_ defines the anchor text showing up after every item, in case there is a `status_id` defined. Defaults to `Gå til`.                                                                       |
 
 ## Item Object
 
@@ -38,7 +38,7 @@ const items = [
 | `text`                   | _(required)_ the text appears as the status content. Beside plain text, You can send in a React component as well.                                                                   |
 | `status_id`              | _(required)_ defines an unique ID so the message can be either updated or removed individual.                                                                                        |
 | `status_anchor_url`      | _(optional)_ Use `status_anchor_url="true"` to enable the go to link, defined as a url hash using the `status_id`. Or provide it with an actual url: `status_anchor_url="https://"`. |
-| `status_anchor_texts`    | _(optional)_ defines the anchor text showing up after every item. Defaults to `Gå til`.                                                                                              |
+| `status_anchor_text`    | _(optional)_ defines the anchor text showing up after every item. Defaults to `Gå til`.                                                                                              |
 
 ## Controllers
 

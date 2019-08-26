@@ -3,6 +3,8 @@
  *
  */
 
+@import '../../../../style/elements/_anchor-mixins.scss';
+
 @mixin SectionTheme() {
   &--divider::after {
     color: var(--color-white);
@@ -16,9 +18,6 @@
     &::after {
       color: var(--color-mint-green-12);
     }
-    ::selection {
-      background-color: var(--color-white);
-    }
   }
   &--white::after {
     color: var(--color-white);
@@ -26,9 +25,6 @@
   &--mint-green {
     &::after {
       color: var(--color-mint-green);
-    }
-    ::selection {
-      background-color: var(--color-white);
     }
   }
   &--emerald-green {
@@ -51,15 +47,19 @@
     &::after {
       color: var(--color-cherry-red);
     }
+
+    // TODO: This has to be implemented as a contrast version
+    // NB: This is used only in the GlobalStatus for now
     .dnb-anchor {
-      &,
-      &:focus {
-        color: var(--color-white);
-      }
-      &:hover {
-        color: var(--color-cherry-red);
-        background-color: var(--color-white);
-      }
+      @include useAnchorContrastStyle(var(--color-cherry-red));
+    }
+  }
+  &--signal-orange,
+  &--cherry-red,
+  &--mint-green,
+  &--mint-green-12 {
+    ::selection {
+      background-color: var(--color-white);
     }
   }
 }

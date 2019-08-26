@@ -85,7 +85,7 @@ const defaultProps = {
   default_title: 'En feil har skjedd',
   text: null,
   items: [],
-  icon: 'exclamation',
+  icon: 'error',
   icon_size: 'medium',
   state: 'error',
   show: null,
@@ -182,7 +182,7 @@ export default class GlobalStatus extends React.Component {
           break
         case 'error':
         default:
-          iconToLoad = 'exclamation'
+          iconToLoad = 'error'
       }
 
       icon = <IconPrimary aria-hidden icon={iconToLoad} size={icon_size} />

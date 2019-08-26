@@ -64,7 +64,7 @@ export default [
             <GlobalStatus.Update
               status_id="custom-id-2"
               text="Third Text bøø"
-              item="Third Item bøø"
+              item={{ text: 'Third Item bøø', status_anchor_url: '/' }}
             />
             {/* <GlobalStatus.Remove status_id="custom-id-2" /> */}
           </Section>

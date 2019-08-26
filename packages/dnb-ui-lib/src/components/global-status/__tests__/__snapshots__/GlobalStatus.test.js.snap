@@ -71,33 +71,48 @@ exports[`GlobalStatus component have to match snapshot 1`] = `
                   className={null}
                   color={null}
                   height={null}
-                  icon="exclamation"
+                  icon="error"
                   modifier={null}
                   size="icon_size"
                   title={null}
                   width={null}
                 >
                   <span
-                    alt="exclamation"
+                    alt="error"
                     aria-hidden={true}
                     className="dnb-icon"
                     role="img"
                   >
-                    <exclamation>
+                    <error>
                       <svg
                         fill="none"
-                        height={16}
-                        viewBox="0 0 16 16"
-                        width={16}
+                        height={24}
+                        viewBox="0 0 24 24"
+                        width={24}
                       >
                         <path
+                          d="M12 18a.333.333 0 100 .667.333.333 0 000-.667v0"
+                          stroke="#000"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={1.5}
+                        />
+                        <path
+                          d="M12 15.333V8.666"
+                          stroke="#000"
+                          strokeLinecap="round"
+                          strokeWidth={1.5}
+                        />
+                        <path
                           clipRule="evenodd"
-                          d="M8 1.75a.75.75 0 01.75.75v7a.75.75 0 01-1.5 0v-7A.75.75 0 018 1.75zm-.893 10.357c.247-.247.573-.357.893-.357.32 0 .646.11.893.357s.357.573.357.893c0 .32-.11.646-.357.893A1.249 1.249 0 018 14.25c-.32 0-.646-.11-.893-.357A1.249 1.249 0 016.75 13c0-.32.11-.646.357-.893z"
-                          fill="#000"
-                          fillRule="evenodd"
+                          d="M13.441 2.898a1.605 1.605 0 00-2.882 0L2.14 20.052A1.352 1.352 0 003.353 22h17.294a1.352 1.352 0 001.215-1.948L13.44 2.898z"
+                          stroke="#000"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={1.2}
                         />
                       </svg>
-                    </exclamation>
+                    </error>
                   </span>
                 </IconPrimary>
               </span>
@@ -246,6 +261,9 @@ exports[`GlobalStatus scss have to match default theme snapshot 1`] = `
  */
 .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-in.dnb-global-status.dnb-section::after {
   box-shadow: 100vw 0 0 0 currentColor, 0 0.0625rem 0 0 var(--color-black-80), 100vw 0.0625rem 0 0 var(--color-black-80); }
+
+.dnb-global-status--error .dnb-global-status__icon > .dnb-icon {
+  border: none; }
 
 .dnb-global-status__title {
   font-weight: var(--font-weight-demi);
