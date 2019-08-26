@@ -102,6 +102,6 @@
 - Hover on Tabs looks more like an anchor
 - Color change: Sea Green 4% -> Mint Green 12%
 
-More in the [Releases section on GitHub](https://github.com/dnbexperience/eufemia/releases)
+Get more [details about releases](/uilib/releases) or have a look on all [release notes on GitHub](https://github.com/dnbexperience/eufemia/releases)
 
 ---

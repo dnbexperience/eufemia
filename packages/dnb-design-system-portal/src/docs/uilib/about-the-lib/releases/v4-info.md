@@ -1,4 +1,9 @@
-# Release of `dnb-ui-lib` v4
+---
+redirect_from:
+  - /uilib/releases/v4-info
+---
+
+# v4
 
 All the major edge cases as listed below:
 
