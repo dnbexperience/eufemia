@@ -91,15 +91,6 @@
       }
     }
 
-    @include active(true) {
-      @include removeFakeFocus();
-      @include buttonFocusRing('mouse');
-
-      .dnb-button__text {
-        border-bottom-color: transparent;
-      }
-    }
-
     /* stylelint-disable */
     &:focus {
       @include removeFakeFocus();
@@ -110,6 +101,15 @@
       }
     }
     /* stylelint-enable */
+
+    @include active(true) {
+      @include removeFakeFocus();
+      @include buttonFocusRing('mouse');
+
+      .dnb-button__text {
+        border-bottom-color: transparent;
+      }
+    }
 
     // icon only tertiary
     &.dnb-button--has-icon {

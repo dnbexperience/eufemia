@@ -345,6 +345,26 @@ exports[`Button scss have to match default theme snapshot 1`] = `
       border-bottom: 0.09375rem solid transparent; }
     .dnb-button--tertiary:not(:focus):hover .dnb-button__text {
       border-bottom-color: var(--color-emerald-green); }
+    .dnb-button--tertiary:focus {
+      outline: initial; }
+      html[data-whatinput='keyboard'] .dnb-button--tertiary:focus {
+        box-shadow: none; }
+      .dnb-button--tertiary:focus::before {
+        content: '';
+        position: absolute;
+        top: -0.0625rem;
+        left: -0.5rem;
+        bottom: 0;
+        right: -0.5rem;
+        height: inherit;
+        border-radius: inherit;
+        outline: none; }
+        html[data-whatinput='keyboard'] .dnb-button--tertiary:focus::before {
+          box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
+          /* IE11 fix */
+          border-color: transparent; }
+      .dnb-button--tertiary:focus .dnb-button__text {
+        border-bottom-color: transparent; }
     :not([dnb-is-touch]) .dnb-button--tertiary:active[disabled] {
       cursor: not-allowed; }
     :not([dnb-is-touch]) .dnb-button--tertiary:active:not([disabled]) {
@@ -366,26 +386,6 @@ exports[`Button scss have to match default theme snapshot 1`] = `
           /* IE11 fix */
           border-color: transparent; }
       :not([dnb-is-touch]) .dnb-button--tertiary:active:not([disabled]) .dnb-button__text {
-        border-bottom-color: transparent; }
-    .dnb-button--tertiary:focus {
-      outline: initial; }
-      html[data-whatinput='keyboard'] .dnb-button--tertiary:focus {
-        box-shadow: none; }
-      .dnb-button--tertiary:focus::before {
-        content: '';
-        position: absolute;
-        top: -0.0625rem;
-        left: -0.5rem;
-        bottom: 0;
-        right: -0.5rem;
-        height: inherit;
-        border-radius: inherit;
-        outline: none; }
-        html[data-whatinput='keyboard'] .dnb-button--tertiary:focus::before {
-          box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
-          /* IE11 fix */
-          border-color: transparent; }
-      .dnb-button--tertiary:focus .dnb-button__text {
         border-bottom-color: transparent; }
     .dnb-button--tertiary.dnb-button--has-icon {
       /* stylelint-disable */
