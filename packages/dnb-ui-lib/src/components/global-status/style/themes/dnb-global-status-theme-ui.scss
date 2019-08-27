@@ -3,6 +3,8 @@
  *
  */
 
+@import '../../../../style/themes/imports.scss';
+
 .dnb-global-status {
   &:not(#{&}--no-animation)#{&}--fade-in#{&}.dnb-section::after {
     box-shadow: 100vw 0 0 0 currentColor,
@@ -31,12 +33,11 @@
       }
     }
 
-    &:not([disabled]):focus,
-    &:not([disabled]):active {
-      &::before {
-        box-shadow: 0 0 0 0.125rem /* same as $focusRingWidth */
-          var(--color-white);
-      }
+    &:not([disabled]):focus::before {
+      @include fakeFocus(null, var(--color-white));
+    }
+    &:not([disabled]):active::before {
+      @include fakeFocus('mouse', var(--color-white));
     }
   }
 }

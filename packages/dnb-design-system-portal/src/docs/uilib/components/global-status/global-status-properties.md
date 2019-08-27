@@ -50,9 +50,9 @@ The goal is to update the content (properties/events) of the target GlobalStatus
 <GlobalStatus id="custom-id" />
 
 // Update the status later on. Every property is optional
-<GlobalStatus.Update id="custom-id" status_id="status-1" item="Item #1" text="New Text" />
-<GlobalStatus.Update id="custom-id" status_id="status-2" item="Item #2" title="New Titel" />
-<GlobalStatus.Update id="custom-id" status_id="status-3" item="Item #3" />
+<GlobalStatus.Add id="custom-id" status_id="status-1" item="Item #1" text="New Text" />
+<GlobalStatus.Add id="custom-id" status_id="status-2" item="Item #2" title="New Titel" />
+<GlobalStatus.Add id="custom-id" status_id="status-3" item="Item #3" />
 
 // Later You can remove a resolved item
 <GlobalStatus.Remove id="custom-id" status_id="status-3" />
@@ -62,4 +62,4 @@ The goal is to update the content (properties/events) of the target GlobalStatus
 | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `id`                  | _(optional)_ the main ID. Defaults to the prop `main`.                                                                                                                                                                                      |
 | `status_id`           | _(optional)_ define a new stack ID so You can remove it with the same ID later on. Defualts to `null`.                                                                                                                                      |
-| `remove_on_unmount`   | _(optional)_ set to `true` if You want that the component `<GlobalStatus.Update remove_on_unmount="true" ... />` should automatically remove the stacked status from the target **GlobalStatus** on component unmount. Defualts to `false`. |
+| `remove_on_unmount`   | _(optional)_ set to `true` if You want that the component `<GlobalStatus.Add remove_on_unmount="true" ... />` should automatically remove the stacked status from the target **GlobalStatus** on component unmount. Defualts to `false`. |

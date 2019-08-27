@@ -43,6 +43,26 @@ But You can also make use of the [FormSet](/uilib/components/form-set) or [FormR
 
 Beside the automated connection between the error states of form components ([FormStatus](/uilib/components/form-status)), You can update messages from everywhere in Your application on any time:
 
+**NB:** The GlobalStatus will `autoclose` by default, once all messages are removed.
+
+### JavaScript (interceptor situation)
+
+```js
+import { GlobalStatus } from 'dnb-ui-lib/components'
+
+// Update the the status like so:
+const status = GlobalStatus.Set({
+  status_id: 'custom-id-1',
+  text: 'New Text',
+  item: 'Item from status #1'
+})
+
+// 2. and remove it again if needed
+status.remove()
+```
+
+### JSX
+
 ```jsx
 import { GlobalStatus } from 'dnb-ui-lib/components'
 
@@ -50,7 +70,7 @@ import { GlobalStatus } from 'dnb-ui-lib/components'
 <GlobalStatus text="Optional default text" />
 
 // 2. later on, You can show a message
-<GlobalStatus.Update
+<GlobalStatus.Add
   status_id="custom-id-1"
   title="New title"
   text="First long info text ..."
@@ -70,7 +90,7 @@ import { GlobalStatus } from 'dnb-ui-lib/components'
 <GlobalStatus id="custom-status" />
 
 // 2. later on, You can show a message
-<GlobalStatus.Update
+<GlobalStatus.Add
   id="custom-status"
   status_id="custom-id-1"
   title="New title"

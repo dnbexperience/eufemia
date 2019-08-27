@@ -11,7 +11,7 @@ exports[`GlobalStatus component have to match snapshot 1`] = `
   delay="delay"
   demo={true}
   hide_close_button="hide_close_button"
-  icon="exclamation"
+  icon="error"
   icon_size="icon_size"
   id="main"
   items={
@@ -28,6 +28,7 @@ exports[`GlobalStatus component have to match snapshot 1`] = `
   show={true}
   state="error"
   status_anchor_text="status_anchor_text"
+  status_id="status_id"
   text="text"
   title="title"
 >
@@ -259,6 +260,14 @@ exports[`GlobalStatus scss have to match default theme snapshot 1`] = `
  * GlobalStatus theme
  *
  */
+/**
+ * This file is only used to make themes independent
+ * so that they can get imported individually, without the core styles
+ *
+ */
+/*
+ * Utilities
+ */
 .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-in.dnb-global-status.dnb-section::after {
   box-shadow: 100vw 0 0 0 currentColor, 0 0.0625rem 0 0 var(--color-black-80), 100vw 0.0625rem 0 0 var(--color-black-80); }
 
@@ -274,8 +283,18 @@ exports[`GlobalStatus scss have to match default theme snapshot 1`] = `
   .dnb-global-status__close-button:hover .dnb-button__text, .dnb-global-status__close-button.dnb-button--tertiary:hover .dnb-button__text {
     color: inherit;
     border-color: var(--color-white); }
-  .dnb-global-status__close-button:not([disabled]):focus::before, .dnb-global-status__close-button:not([disabled]):active::before, .dnb-global-status__close-button.dnb-button--tertiary:not([disabled]):focus::before, .dnb-global-status__close-button.dnb-button--tertiary:not([disabled]):active::before {
-    box-shadow: 0 0 0 0.125rem var(--color-white); }
+  .dnb-global-status__close-button:not([disabled]):focus::before, .dnb-global-status__close-button.dnb-button--tertiary:not([disabled]):focus::before {
+    outline: none; }
+    html[data-whatinput='keyboard'] .dnb-global-status__close-button:not([disabled]):focus::before, html[data-whatinput='keyboard'] .dnb-global-status__close-button.dnb-button--tertiary:not([disabled]):focus::before {
+      box-shadow: 0 0 0 0.125rem var(--color-white);
+      /* IE11 fix */
+      border-color: transparent; }
+  .dnb-global-status__close-button:not([disabled]):active::before, .dnb-global-status__close-button.dnb-button--tertiary:not([disabled]):active::before {
+    outline: none; }
+    html[data-whatinput='mouse'] .dnb-global-status__close-button:not([disabled]):active::before, html[data-whatinput='mouse'] .dnb-global-status__close-button.dnb-button--tertiary:not([disabled]):active::before {
+      box-shadow: 0 0 0 0.125rem var(--color-white);
+      /* IE11 fix */
+      border-color: transparent; }
 "
 `;
 
@@ -696,8 +715,7 @@ a.dnb-button .dnb-button__text {
   .dnb-global-status--no-animation.dnb-global-status--hidden {
     display: none; }
   .dnb-global-status__shell {
-    width: 100%;
-    overflow: hidden; }
+    width: 100%; }
   .dnb-global-status__title {
     position: relative;
     display: flex;
@@ -727,6 +745,11 @@ a.dnb-button .dnb-button__text {
     top: -0.25rem;
     right: 1rem;
     left: auto; }
+  .dnb-modal__content__inner .dnb-global-status__close-button {
+    right: 0; }
+    @media screen and (min-width: 50em) {
+      .dnb-modal__content__inner .dnb-global-status__close-button {
+        right: -2rem; } }
   @media (max-width: 40em) {
     .dnb-global-status__icon {
       display: block;

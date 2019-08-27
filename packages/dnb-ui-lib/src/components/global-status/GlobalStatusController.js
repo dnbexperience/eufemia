@@ -42,12 +42,18 @@ class GlobalStatusController extends PureComponent {
 
     // current status id
     this.internal_status_id = props.status_id || status_id
+
+    return this
+  }
+
+  remove(props) {
+    this.provider.remove(this.internal_status_id, props)
   }
 
   componentWillUnmount() {
     if (this.provider && isTrue(this.props.remove_on_unmount)) {
       this.provider.remove(this.internal_status_id)
-      // this.provider.unbind()
+      // this.provider.unbind() // For now, do not unbind, because of rerender issues
       // this.provider = null
     }
   }

@@ -8,6 +8,7 @@ import { Wrapper, Box } from '../helpers'
 // import styled from '@emotion/styled'
 
 import {
+  Modal,
   Input,
   Switch,
   GlobalStatus,
@@ -26,6 +27,23 @@ const CustomStatus = () => (
   </>
 )
 
+// setTimeout(() => {
+// const status = GlobalStatus.Set({
+//   status_id: 'custom-id-1',
+//   text: 'Second Text',
+//   item: 'Second Item'
+// })
+// status.remove()
+// const status = new GlobalStatus.Add({
+//   status_id: 'custom-id-1',
+//   text: 'Second Text',
+//   item: 'Second Item'
+// })
+// new GlobalStatus.Remove({
+//   status_id: 'custom-id-1'
+// })
+// }, 1e3)
+
 export default [
   'GlobalStatus',
   () => (
@@ -38,7 +56,7 @@ export default [
             <GlobalStatus
               // title={'Title 1'}
               // demo
-              // show
+              show
               no_animation
               autoclose={false}
               autoscroll="false"
@@ -47,33 +65,81 @@ export default [
               on_close={props => {
                 console.log('on_close', props)
               }}
+              items={['123']}
             >
               Defualt Text
             </GlobalStatus>
-            <GlobalStatus.Update
+            <GlobalStatus.Add
               status_id="custom-id-1"
               text="Second Text"
+              // items={['xxx']}
               item="Second Item"
             />
-            <GlobalStatus.Remove status_id="custom-id-1" />
-            <GlobalStatus.Update
+            {/* <GlobalStatus.Add
               status_id="custom-id-2"
               text="Third Text"
               item="Third Item"
             />
-            <GlobalStatus.Update
+            <GlobalStatus.Add
               status_id="custom-id-2"
               text="Third Text bøø"
               item={{ text: 'Third Item bøø', status_anchor_url: '/' }}
-            />
+            /> */}
+            {/* <GlobalStatus.Remove status_id="custom-id-1" /> */}
             {/* <GlobalStatus.Remove status_id="custom-id-2" /> */}
           </Section>
         </Section>
       </Box>
+      <Box>
+        <Modal
+          trigger_text="Open Modal"
+          title="Modal Title"
+          // width="80vw"
+          on_open={() => {
+            const status = GlobalStatus.Set({
+              id: 'modal',
+              status_id: 'custom-id-1',
+              text: 'Second Text',
+              item: 'Second Item'
+            })
+            setTimeout(() => {
+              status.remove()
+            }, 2e3)
+            // const status = new GlobalStatus.Add({
+            //   status_id: 'custom-id-1',
+            //   text: 'Second Text',
+            //   item: 'Second Item'
+            // })
+            // new GlobalStatus.Remove({
+            //   status_id: 'custom-id-1'
+            // })
+          }}
+        >
+          <div className="dnb-core-style">
+            <GlobalStatus
+              id="modal"
+              // title={'Title 1'}
+              // demo
+              // show
+              // no_animation
+              // autoclose={false}
+              autoscroll="false"
+              // id="default-1"
+              // delay={300}
+              on_close={props => {
+                console.log('on_close', props)
+              }}
+              // items={['123']}
+            >
+              Defualt Text
+            </GlobalStatus>
+          </div>
+        </Modal>
+      </Box>
       {/* <Box>
         {false && <UpdateGlobalStatus />}
         {true && (
-          <GlobalStatus.Update
+          <GlobalStatus.Add
             title="New title"
             on_close={props => {
               console.log('on_close', props)
@@ -82,7 +148,7 @@ export default [
             Long info text Ipsum habitant enim ullamcorper elit sit
             elementum platea rutrum eu condimentum erat risus lacinia
             viverra magnis lobortis nibh mollis suspendisse
-          </GlobalStatus.Update>
+          </GlobalStatus.Add>
         )}
       </Box> */}
       <Box>
@@ -185,7 +251,7 @@ const ToggleGlobalStatus = () => {
       />
       {count === 1 && (
         <>
-          <GlobalStatus.Update
+          <GlobalStatus.Add
             id="custom-status"
             status_id="custom-id-1"
             title="New title"
@@ -195,7 +261,7 @@ const ToggleGlobalStatus = () => {
               console.log('on_close 1', status_id)
             }}
           />
-          <GlobalStatus.Update
+          <GlobalStatus.Add
             id="custom-status"
             status_id="custom-id-2"
             text="Second long info text ..."
@@ -235,20 +301,20 @@ const ToggleGlobalStatus = () => {
 //     <>
 //       {count === 1 && (
 //         <>
-//           <GlobalStatus.Update
+//           <GlobalStatus.Add
 //             key="a"
 //             title="Title 2"
 //             item="List item 2"
 //             persist_unmount={false}
 //           >
 //             Sem 2 montes dictum suscipit eget aliquam a ante curabitur diam
-//           </GlobalStatus.Update>
-//           <GlobalStatus.Update
+//           </GlobalStatus.Add>
+//           <GlobalStatus.Add
 //             key="b"
 //             title="Title 3"
 //             item="List item 3"
 //           />
-//           <GlobalStatus.Update
+//           <GlobalStatus.Add
 //             key="c"
 //             title="Title 4"
 //             item="List item 4"
@@ -257,13 +323,13 @@ const ToggleGlobalStatus = () => {
 //       )}
 //       {(count === 2 || count === 3) && (
 //         <>
-//           <GlobalStatus.Update
+//           <GlobalStatus.Add
 //             key="e"
 //             // title="Title 5"
 //             item="List item 5"
 //             status_id="123"
 //           />
-//           <GlobalStatus.Update key="f" item="List item 5" id="other-id" />
+//           <GlobalStatus.Add key="f" item="List item 5" id="other-id" />
 //         </>
 //       )}
 //       {count === 3 && (
