@@ -93,7 +93,7 @@
 
     @include active(true) {
       @include removeFakeFocus();
-      @include buttonFocusRing();
+      @include buttonFocusRing('mouse');
 
       .dnb-button__text {
         border-bottom-color: transparent;

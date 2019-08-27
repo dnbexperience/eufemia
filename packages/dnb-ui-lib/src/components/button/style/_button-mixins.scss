@@ -50,7 +50,7 @@
 }
 
 // Used in tertiary button variant
-@mixin buttonFocusRing() {
+@mixin buttonFocusRing($whatinput: null) {
   // Create focus-ring
   &::before {
     content: '';
@@ -62,7 +62,7 @@
     height: inherit;
     border-radius: inherit;
 
-    @include fakeFocus();
+    @include fakeFocus($whatinput);
   }
 }
 

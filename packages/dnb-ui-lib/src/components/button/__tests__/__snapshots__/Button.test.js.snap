@@ -361,7 +361,7 @@ exports[`Button scss have to match default theme snapshot 1`] = `
         height: inherit;
         border-radius: inherit;
         outline: none; }
-        html[data-whatinput='keyboard'] :not([dnb-is-touch]) .dnb-button--tertiary:active:not([disabled])::before {
+        html[data-whatinput='mouse'] :not([dnb-is-touch]) .dnb-button--tertiary:active:not([disabled])::before {
           box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
           /* IE11 fix */
           border-color: transparent; }
