@@ -1,1 +1,0 @@
-{"version":3,"sources":["webpack:///./src/docs/uilib/demos/eufemia-demo/index.js"],"names":["def"],"mappings":"2FAAA,qBAMeA,YAAf","file":"component---src-docs-uilib-demos-eufemia-demo-index-js-046f93fd637a87ad7153.js","sourcesContent":["/**\n * Page\n *\n */\n\nimport def from './form-demo-01'\nexport default def\n"],"sourceRoot":""}
