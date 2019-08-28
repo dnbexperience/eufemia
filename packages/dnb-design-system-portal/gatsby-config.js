@@ -32,6 +32,7 @@ module.exports = {
         // ],
       }
     },
+    'gatsby-plugin-meta-redirect',
     'gatsby-plugin-catch-links',
     'gatsby-plugin-react-helmet',
     'gatsby-plugin-sharp', // is used by gatsby-remark-images

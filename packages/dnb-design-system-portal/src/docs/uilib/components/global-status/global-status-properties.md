@@ -18,7 +18,7 @@ draft: true
 | `delay`               | _(optional)_ defines the delay on how long the automated visibility should wait, before it appears to the user. Defaults to `200ms`.                                                                  |
 | `hide_close_button`   | _(optional)_ set to `true` if the close button should be hidden for the user. Defaults to `false`.                                                                                                    |
 | `close_text`          | _(optional)_ text of the close button. Defaults to `Lukk`.                                                                                                                                            |
-| `status_anchor_texts` | _(optional)_ defines the anchor text showing up after every item, in case there is a `status_id` defined. Defaults to `Gå til`.                                                                       |
+| `status_anchor_text` | _(optional)_ defines the anchor text showing up after every item, in case there is a `status_id` defined. Defaults to `Gå til`.                                                                       |
 
 ## Item Object
 
@@ -38,7 +38,7 @@ const items = [
 | `text`                   | _(required)_ the text appears as the status content. Beside plain text, You can send in a React component as well.                                                                   |
 | `status_id`              | _(required)_ defines an unique ID so the message can be either updated or removed individual.                                                                                        |
 | `status_anchor_url`      | _(optional)_ Use `status_anchor_url="true"` to enable the go to link, defined as a url hash using the `status_id`. Or provide it with an actual url: `status_anchor_url="https://"`. |
-| `status_anchor_texts`    | _(optional)_ defines the anchor text showing up after every item. Defaults to `Gå til`.                                                                                              |
+| `status_anchor_text`    | _(optional)_ defines the anchor text showing up after every item. Defaults to `Gå til`.                                                                                              |
 
 ## Controllers
 
@@ -50,9 +50,9 @@ The goal is to update the content (properties/events) of the target GlobalStatus
 <GlobalStatus id="custom-id" />
 
 // Update the status later on. Every property is optional
-<GlobalStatus.Update id="custom-id" status_id="status-1" item="Item #1" text="New Text" />
-<GlobalStatus.Update id="custom-id" status_id="status-2" item="Item #2" title="New Titel" />
-<GlobalStatus.Update id="custom-id" status_id="status-3" item="Item #3" />
+<GlobalStatus.Add id="custom-id" status_id="status-1" item="Item #1" text="New Text" />
+<GlobalStatus.Add id="custom-id" status_id="status-2" item="Item #2" title="New Titel" />
+<GlobalStatus.Add id="custom-id" status_id="status-3" item="Item #3" />
 
 // Later You can remove a resolved item
 <GlobalStatus.Remove id="custom-id" status_id="status-3" />
@@ -62,4 +62,4 @@ The goal is to update the content (properties/events) of the target GlobalStatus
 | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `id`                  | _(optional)_ the main ID. Defaults to the prop `main`.                                                                                                                                                                                      |
 | `status_id`           | _(optional)_ define a new stack ID so You can remove it with the same ID later on. Defualts to `null`.                                                                                                                                      |
-| `remove_on_unmount`   | _(optional)_ set to `true` if You want that the component `<GlobalStatus.Update remove_on_unmount="true" ... />` should automatically remove the stacked status from the target **GlobalStatus** on component unmount. Defualts to `false`. |
+| `remove_on_unmount`   | _(optional)_ set to `true` if You want that the component `<GlobalStatus.Add remove_on_unmount="true" ... />` should automatically remove the stacked status from the target **GlobalStatus** on component unmount. Defualts to `false`. |

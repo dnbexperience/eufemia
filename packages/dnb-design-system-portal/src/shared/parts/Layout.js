@@ -179,13 +179,10 @@ const FooterWrapper = styled.footer`
 
   border-top: 1px solid var(--color-black-border);
   background-color: var(--color-emerald-green);
+  color: var(--color-white);
 
-  &,
   a {
-    color: var(--color-white);
-  }
-  a {
-    margin-left: 1rem;
+    margin-left: 0.5rem;
   }
   small {
     padding: 0 2rem;
@@ -200,7 +197,10 @@ const Footer = () => (
     <Logo height="40" color="white" />
     <small>
       Last Portal update: {buildVersion}
-      <Link to="/license" className="dnb-anchor--no-underline">
+      <Link
+        to="/license"
+        className="dnb-anchor dnb-anchor--contrast dnb-anchor--no-underline"
+      >
         Copyright (c) 2018-present DNB.no
       </Link>
     </small>

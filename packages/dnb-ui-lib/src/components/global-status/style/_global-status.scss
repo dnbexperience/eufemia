@@ -50,7 +50,6 @@
 
   &__shell {
     width: 100%;
-    overflow: hidden;
   }
 
   &__title {
@@ -93,6 +92,12 @@
     top: -0.25rem;
     right: 1rem; // also because of the focus-ring
     left: auto;
+  }
+  .dnb-modal__content__inner &__close-button {
+    right: 0;
+    @include allAbove(medium) {
+      right: -2rem;
+    }
   }
 
   /* for small screesn */

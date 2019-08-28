@@ -11,7 +11,6 @@ if (require.main === module) {
     what: 'pages',
     skipCI: files => files.length === 1, // in case we only update the "version.lock"
     filePathsWhitelist: ['version.json', '/src/docs/', '/src/uilib/'],
-    // isNotAFeature: ['version.json'],
     isFeature: false
   })
 }

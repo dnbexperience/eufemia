@@ -28,6 +28,13 @@ exports[`Section scss have to match default theme snapshot 1`] = `
  * Section theme
  *
  */
+/*
+ * Anchor mixins
+ *
+ */
+/*
+ * Utilities
+ */
 .dnb-section--divider::after {
   color: var(--color-white);
   box-shadow: 100vw 0 0 0 currentColor, 0 0.0625rem 0 0 var(--color-mint-green-50), 100vw 0.0625rem 0 0 var(--color-mint-green-50), 0 -0.0625rem 0 0 var(--color-mint-green-50), 100vw -0.0625rem 0 0 var(--color-mint-green-50); }
@@ -35,17 +42,11 @@ exports[`Section scss have to match default theme snapshot 1`] = `
 .dnb-section--mint-green-12::after {
   color: var(--color-mint-green-12); }
 
-.dnb-section--mint-green-12 ::selection {
-  background-color: var(--color-white); }
-
 .dnb-section--white::after {
   color: var(--color-white); }
 
 .dnb-section--mint-green::after {
   color: var(--color-mint-green); }
-
-.dnb-section--mint-green ::selection {
-  background-color: var(--color-white); }
 
 .dnb-section--emerald-green {
   color: var(--color-mint-green); }
@@ -63,11 +64,26 @@ exports[`Section scss have to match default theme snapshot 1`] = `
   color: var(--color-white); }
   .dnb-section--cherry-red::after {
     color: var(--color-cherry-red); }
-  .dnb-section--cherry-red .dnb-anchor, .dnb-section--cherry-red .dnb-anchor:focus {
-    color: var(--color-white); }
-  .dnb-section--cherry-red .dnb-anchor:hover {
-    color: var(--color-cherry-red);
-    background-color: var(--color-white); }
+  .dnb-section--cherry-red .dnb-anchor {
+    color: var(--color-white);
+    box-shadow: 0 1.5px 0 0 var(--color-white); }
+    .dnb-section--cherry-red .dnb-anchor:focus {
+      color: var(--color-white);
+      outline: none; }
+      html[data-whatinput='keyboard'] .dnb-section--cherry-red .dnb-anchor:focus {
+        box-shadow: 0 0 0 0.125rem var(--color-white);
+        /* IE11 fix */
+        border-color: transparent; }
+    .dnb-section--cherry-red .dnb-anchor:hover, .dnb-section--cherry-red .dnb-anchor:active {
+      color: var(--color-cherry-red);
+      background-color: var(--color-white);
+      box-shadow: none; }
+    .dnb-section--cherry-red .dnb-anchor:active {
+      color: var(--color-cherry-red);
+      background-color: var(--color-white); }
+
+.dnb-section--signal-orange ::selection, .dnb-section--cherry-red ::selection, .dnb-section--mint-green ::selection, .dnb-section--mint-green-12 ::selection {
+  background-color: var(--color-white); }
 "
 `;
 

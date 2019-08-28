@@ -27,6 +27,74 @@ class GlobalStatusProvider {
       delete GlobalStatusProvider.providers[id]
     }
   }
+
+  static autoAddStatusId(
+    item,
+    status_id = GlobalStatusProvider.makeStatusId()
+  ) {
+    if (typeof item === 'string') {
+      item = { text: item }
+    }
+    if (!item.status_id) {
+      item.status_id = status_id
+    }
+    return item
+  }
+
+  static makeStatusId() {
+    return new Date().getTime() + Math.round(Math.random() * 999)
+  }
+
+  static combineMessages(stack) {
+    const globalStatus = stack.reduce((acc, _cur) => {
+      // make a copy, because items are read-only
+      const cur = { ..._cur }
+
+      if (!cur.status_id) {
+        cur.status_id = GlobalStatusProvider.makeStatusId()
+      }
+
+      if (typeof cur.items === 'string') {
+        cur.items = JSON.parse(cur.items)
+      } else {
+        // make sure we have an array of items
+        cur.items = cur.items || []
+      }
+
+      // if there is only one item, put it into the array
+      if (cur.item) {
+        cur.items.push(cur.item)
+      }
+
+      // merge items from prev stack into the current
+      cur.items = cur.items.reduce((acc, item) => {
+        item = GlobalStatusProvider.autoAddStatusId(item, cur.status_id)
+
+        const foundAtIndex = acc.findIndex(
+          ({ status_id }) => status_id === item.status_id
+        )
+        if (foundAtIndex > -1) {
+          acc[foundAtIndex] = item
+        } else {
+          acc.push(item)
+        }
+
+        return acc
+      }, acc.items || []) // here we use the items from the prev stack
+
+      // merge the prev stack with the current
+      Object.assign(acc, cur)
+
+      return acc
+    }, {})
+
+    // no items? remove them then
+    if (globalStatus.items && globalStatus.items.length === 0) {
+      delete globalStatus.items
+    }
+
+    return globalStatus
+  }
 }
 
 class GlobalStatusProviderItem {
@@ -36,7 +104,7 @@ class GlobalStatusProviderItem {
       this.add(props)
     }
   }
-  count = 0
+
   globalStatus = {}
   listeners = []
   stack = []
@@ -49,11 +117,15 @@ class GlobalStatusProviderItem {
   }
 
   // force rerender of the given GlobalStatus component
-  forceRerender(globalStatus, props, { buffer_delay = 0 } = {}) {
+  forceRerender(
+    globalStatus,
+    props,
+    { buffer_delay = 0, isEmpty = false } = {}
+  ) {
     const run = () => {
       this.listeners.forEach(event => {
         if (typeof event === 'function') {
-          event(globalStatus, props)
+          event(globalStatus, props, { isEmpty })
         }
       })
     }
@@ -64,44 +136,22 @@ class GlobalStatusProviderItem {
       run()
     }
   }
-  sumItemsToSingleStatus() {
-    const globalStatus = this.stack.reduce(
-      (acc, cur) => {
-        if (cur.status_id) {
-          acc.ids.push(cur.status_id)
-        }
-        if (cur.item) {
-          if (typeof cur.item === 'string') {
-            acc.items.push({ text: cur.item, status_id: cur.status_id })
-          } else {
-            acc.items.push(cur.item)
-          }
-        }
-        Object.assign(acc, cur)
-        return acc
-      },
-      { ids: [], items: [] }
-    )
-    return globalStatus
-  }
 
-  add(props, { checkIfExists = false } = {}) {
-    if (checkIfExists && props.status_id) {
-      const exists = this.get(props.status_id)
-      if (exists) {
-        return exists
-      }
+  add(props) {
+    if (!props.status_id) {
+      console.warn('status_id is required!')
     }
 
+    // make copy
     const newProps = Object.assign({}, props)
 
-    newProps.status_time = new Date().getTime()
+    // make sure we have a status id
     newProps.status_id =
-      props.status_id || newProps.status_time + (this.count += 1)
+      props.status_id || GlobalStatusProvider.makeStatusId()
+
     // also, set show to true
     if (typeof newProps.show === 'undefined' || newProps.show === null) {
       newProps.show = true
-      newProps.isEmptyNow = false
     }
 
     // make it possible to send in children as the text
@@ -110,30 +160,37 @@ class GlobalStatusProviderItem {
       delete newProps.children
     }
 
-    // add the new props
-    this.stack.push(newProps)
+    // replace the props if exists
+    const stackIndex = this.stack.findIndex(
+      cur => cur.status_id === props.status_id
+    )
+    if (stackIndex > -1) {
+      this.stack[stackIndex] = newProps
+    } else {
+      // add the new props
+      this.stack.push(newProps)
+    }
 
-    const globalStatus = this.sumItemsToSingleStatus()
+    const globalStatus = GlobalStatusProvider.combineMessages(this.stack)
     this.forceRerender(globalStatus, props)
 
     return newProps
   }
 
   get(status_id) {
-    return this.stack.find(
-      cur => cur.status_id && cur.status_id === status_id
-    )
+    return this.stack.find(cur => cur.status_id === status_id)
   }
 
-  remove(status_id, { buffer_delay = 10 } = {}) {
+  remove(status_id, { buffer_delay = 10, empty_offset = 1 } = {}) {
     if (status_id) {
       this.stack = this.stack.filter(cur => cur.status_id !== status_id)
 
-      const globalStatus = this.sumItemsToSingleStatus()
-      if (this.stack && this.stack.length === 0) {
-        globalStatus.isEmptyNow = true
-      }
-      this.forceRerender(globalStatus, null, { buffer_delay })
+      const globalStatus = GlobalStatusProvider.combineMessages(this.stack)
+
+      this.forceRerender(globalStatus, null, {
+        buffer_delay,
+        isEmpty: this.stack && this.stack.length - empty_offset === 0 // because we have by default a main, we
+      })
     }
   }
 

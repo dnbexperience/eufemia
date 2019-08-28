@@ -22,9 +22,7 @@ dotenv.config()
 const log = ora()
 
 const config = {
-  remote: `https://${
-    process.env.GH_TOKEN
-  }@github.com/dnbexperience/eufemia.git`,
+  remote: `https://${process.env.GH_TOKEN}@github.com/dnbexperience/eufemia.git`,
   user: {
     name: process.env.GH_NAME,
     email: process.env.GH_EMAIL
@@ -116,9 +114,7 @@ const commitToBranch = async ({
 
     if (hasChanges) {
       if (config.user && config.user.name && config.user.email) {
-        log.text = `> Commit: Add Git user: ${config.user.name}, ${
-          config.user.email
-        }`
+        log.text = `> Commit: Add Git user: ${config.user.name}, ${config.user.email}`
         await repo.addConfig('user.name', config.user.name)
         await repo.addConfig('user.email', config.user.email)
         log.text = '> Commit: Added user details to the repo'
@@ -132,9 +128,10 @@ const commitToBranch = async ({
       // as there is too ofter only a "version.lock" update, we filter out this
       if (
         Array.isArray(isNotAFeature) &&
-        files.every(i => isNotAFeature.includes(i))
-      )
+        files.some(i => isNotAFeature.includes(i))
+      ) {
         isFeature = false
+      }
 
       if (typeof skipCI === 'function') {
         const skipCIResult = skipCI(files)

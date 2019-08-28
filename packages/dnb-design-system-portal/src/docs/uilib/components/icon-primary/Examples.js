@@ -4,7 +4,7 @@
  */
 
 import React, { PureComponent, Fragment } from 'react'
-import ComponentBox from '../../../../dnb-design-system-portal/src/shared/tags/ComponentBox'
+import ComponentBox from 'Src/shared/tags/ComponentBox'
 
 class Example extends PureComponent {
   render() {

@@ -3,6 +3,8 @@
  *
  */
 
+@import '../../../../style/themes/imports.scss';
+
 .dnb-global-status {
   &:not(#{&}--no-animation)#{&}--fade-in#{&}.dnb-section::after {
     box-shadow: 100vw 0 0 0 currentColor,
@@ -10,14 +12,20 @@
       100vw 0.0625rem 0 0 var(--color-black-80);
   }
 
+  &--error &__icon > .dnb-icon {
+    border: none;
+  }
+
   &__title {
     font-weight: var(--font-weight-demi);
     font-size: var(--font-size-x-default);
   }
 
+  // TODO: This has to be implemented as a contrast version
   &__close-button,
   &__close-button.dnb-button--tertiary {
     color: var(--color-white);
+
     &:hover {
       .dnb-button__text {
         color: inherit;
@@ -25,12 +33,11 @@
       }
     }
 
-    &:not([disabled]):focus,
-    &:not([disabled]):active {
-      &::before {
-        box-shadow: 0 0 0 0.125rem /* same as $focusRingWidth */
-          var(--color-white);
-      }
+    &:not([disabled]):focus::before {
+      @include fakeFocus(null, var(--color-white));
+    }
+    &:not([disabled]):active::before {
+      @include fakeFocus('mouse', var(--color-white));
     }
   }
 }

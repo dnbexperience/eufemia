@@ -197,7 +197,6 @@ exports[`Modal component have to match snapshot 1`] = `
                       fillRule="evenodd"
                     />
                   </g>
-                  <defs />
                 </svg>
               </question>
             </span>

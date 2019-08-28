@@ -1,9 +1,10 @@
 ## August, 24. 2019
 
-- Updated [FormStatus](/uilib/components/form-status) with new text color and new icon
-- New component in the `dnb-ui-lib`: [GlobalStatus](/uilib/components/global-status)
-- Added link to example usage of a [Table](/uilib/elements/tables#working-demo) styles using `react-table`
 - Read more about the `dnb-ui-lib` [v4.10 release](/uilib/releases/v4.10-info)
+- New component in the `dnb-ui-lib`: [GlobalStatus](/uilib/components/global-status)
+- Updated [FormStatus](/uilib/components/form-status) with new text color and new icon
+- Added link to example usage of a [Table](/uilib/elements/tables#working-demo) styles using `react-table`
+- Added info about [Custom project Icons](/uilib/components/icon#custom-project-icons)
 
 ## July, 21. 2019
 
@@ -102,6 +103,6 @@
 - Hover on Tabs looks more like an anchor
 - Color change: Sea Green 4% -> Mint Green 12%
 
-More in the [Releases section on GitHub](https://github.com/dnbexperience/eufemia/releases)
+Get more [details about releases](/uilib/releases) or have a look on all [release notes on GitHub](https://github.com/dnbexperience/eufemia/releases)
 
 ---

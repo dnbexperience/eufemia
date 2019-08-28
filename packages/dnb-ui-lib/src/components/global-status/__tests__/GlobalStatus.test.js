@@ -27,17 +27,13 @@ props.text = 'text'
 props.items = ['item #1', 'item #2']
 props.show = true
 props.no_animation = true
-props.icon = 'exclamation'
+props.icon = 'error'
 
 describe('GlobalStatus component', () => {
   const Comp = mount(<Component {...props} />)
 
   it('have to match snapshot', () => {
     expect(toJson(Comp)).toMatchSnapshot()
-  })
-
-  it('should validate with ARIA rules', async () => {
-    expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 
   it('has to to have a text value as defined in the prop', () => {
@@ -73,25 +69,34 @@ describe('GlobalStatus component', () => {
           autoclose={false}
           id="custom-status-update"
           text={startupText}
+          items={['item#1']}
         />
         <Component.Update
           id="custom-status-update"
           status_id="status-update-1"
           text="will be overwritten"
+          item={{ text: 'item#2' }}
         />
         <Component.Update
           id="custom-status-update"
           status_id="status-update-1"
           text={newText}
+          item={{ text: 'item#3' }}
         />
       </>
     )
 
     expect(
       Comp.first()
-        .find('.dnb-global-status__message')
+        .find('.dnb-global-status__message > .dnb-p')
         .text()
     ).toBe(newText)
+
+    expect(
+      Comp.first()
+        .find('.dnb-global-status__message > .dnb-ul')
+        .text()
+    ).toBe('item#1item#3')
   })
 
   it('has to to have correct content after a controller remove', () => {
@@ -157,6 +162,10 @@ describe('GlobalStatus component', () => {
 
     expect(Comp.first().exists('.dnb-global-status__message')).toBe(false)
     expect(Comp.first().state().isActive).toBe(false)
+  })
+
+  it('should validate with ARIA rules', async () => {
+    expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })
 

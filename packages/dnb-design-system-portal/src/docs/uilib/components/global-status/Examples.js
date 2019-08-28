@@ -78,7 +78,7 @@ render(
       />
       {count === 1 && (
         <>
-          <GlobalStatus.Update
+          <GlobalStatus.Add
             id="custom-status"
             status_id="custom-id-1"
             title="New title"
@@ -88,7 +88,7 @@ render(
               console.log('on_close 1', status_id)
             }}
           />
-          <GlobalStatus.Update
+          <GlobalStatus.Add
             id="custom-status"
             status_id="custom-id-2"
             text="Second long info text ..."
