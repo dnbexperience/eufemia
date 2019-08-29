@@ -65,7 +65,7 @@ export const propTypes = {
     PropTypes.bool
   ]),
   more_menu: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  size: PropTypes.oneOf(['default', 'small']),
+  size: PropTypes.oneOf(['default', 'small', 'medium', 'large']),
   align_dropdown: PropTypes.oneOf(['left', 'right']),
   trigger_component: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
   data: PropTypes.oneOfType([
