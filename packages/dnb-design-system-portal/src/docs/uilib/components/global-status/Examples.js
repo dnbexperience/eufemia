@@ -65,7 +65,11 @@ render(
   const [count, toggleUpdateStatus] = useState(0)
   return (
     <>
-      <GlobalStatus id="custom-status" autoscroll={false} />
+      <GlobalStatus
+        id="custom-status"
+        autoscroll={false}
+        on_hide={() => toggleUpdateStatus(0)}
+      />
       <Button
         text={'Show step #' + count}
         on_click={() => {
@@ -127,14 +131,17 @@ render(
         bottom="small"
       />
       <GlobalStatus
+        id="demo-3"
         title="Demo Animation"
         text="Long info nisl tempus hendrerit tortor dapibus nascetur taciti porta risus cursus fusce platea enim curabitur proin nibh ut luctus magnis metus"
-        items='["Status text 1", "Status text 2"]'
+        items={['Status text 1', 'Status text 2']}
         demo={showDemo}
         show={showDemo}
         autoscroll={false}
         delay={0}
-        id="demo-3"
+        on_close={() => {
+          toggleShowDemo(false)
+        }}
       />
     </>
   )

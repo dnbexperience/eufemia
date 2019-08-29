@@ -56,6 +56,7 @@ const propTypes = {
   autoclose: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   delay: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  duration: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   close_text: PropTypes.string,
   hide_close_button: PropTypes.oneOfType([
     PropTypes.string,
@@ -80,7 +81,7 @@ const propTypes = {
   render_content: PropTypes.func
 }
 
-const defaultProps = {
+export const defaultProps = {
   id: 'main',
   status_id: 'status-main',
   title: null,
@@ -97,6 +98,7 @@ const defaultProps = {
   close_text: 'Lukk', // Close Modal Window
   hide_close_button: false,
   delay: 10,
+  duration: 1e3,
   status_anchor_text: 'Gå til',
   class: null,
   demo: false,
@@ -126,51 +128,6 @@ export default class GlobalStatus extends React.Component {
     return processChildren(props)
   }
 
-  static getItems(props) {
-    let items = []
-    if (typeof props.items === 'string' && props.items[0] === '[') {
-      items = JSON.parse(props.items)
-    }
-    if (Array.isArray(props.items)) {
-      items = props.items
-    }
-    if (typeof props.items === 'function') {
-      items = props.items()
-    }
-    return items
-  }
-
-  static getDerivedStateFromProps(props, state) {
-    if (state._listenForPropChanges) {
-      // set isActive to true, so the rerender can start showing the status
-      // this will also be done by the onUpdate rerender in te constructor
-      if (!state.isVisible && isTrue(props.show)) {
-        state.isActive = true
-        state.makeMeVisible = true
-        if (isTrue(props.no_animation)) {
-          state.isVisible = true
-        }
-      } else if (
-        state.isVisible &&
-        props.show !== null &&
-        !isTrue(props.show)
-      ) {
-        state.makeMeVisible = false
-        if (isTrue(props.no_animation)) {
-          state.isVisible = false
-        }
-      }
-
-      // set our basis props
-      state.globalStatus = state.globalStatus
-        ? GlobalStatusProvider.combineMessages([state.globalStatus, props])
-        : props
-    }
-
-    state._listenForPropChanges = true
-    return state
-  }
-
   static getIcon({ state, icon, icon_size }) {
     if (typeof icon === 'string') {
       let iconToLoad = icon
@@ -191,18 +148,34 @@ export default class GlobalStatus extends React.Component {
     return icon
   }
 
+  static getDerivedStateFromProps(props, state) {
+    if (state._listenForPropChanges) {
+      if (isTrue(props.show)) {
+        state.makeMeVisible = true
+      } else if (props.show !== null && !isTrue(props.show)) {
+        state.makeMeHidden = true
+      }
+      state.globalStatus = GlobalStatusProvider.combineMessages([
+        state.globalStatus,
+        props
+      ])
+    }
+
+    state._listenForPropChanges = true
+    return state
+  }
+
   state = {
     globalStatus: null,
     isActive: false,
     isVisible: false,
     makeMeVisible: false,
-    _listenForPropChanges: true
+    makeMeHidden: false,
+    _listenForPropChanges: false
   }
 
   constructor(props) {
     super(props)
-
-    // this.state.globalStatus = props
 
     this._mainRef = React.createRef()
     this._shellRef = React.createRef()
@@ -212,26 +185,41 @@ export default class GlobalStatus extends React.Component {
     this._height = new Animation()
 
     this.provider = GlobalStatusProvider.Factory(props.id)
-    this.provider.add(props)
+
+    // add the props as the first stack
+    this.state.globalStatus = this._globalStatus = this.provider.add(props)
+
+    // and make it visible from start, if needed
+    if (isTrue(props.show)) {
+      if (isTrue(props.no_animation)) {
+        this.state.isActive = true
+      } else {
+        this.state.makeMeVisible = true
+      }
+    }
 
     // force rerender
     this.provider.onUpdate((globalStatus, props, { isEmpty = false }) => {
-      this.setState({ globalStatus, _listenForPropChanges: false }, () => {
-        // we may put the other setStats in here?
-      })
+      // we need the on_close later during the close process
+      // so we set this here, because it gets removed from the stack
+      if (globalStatus.on_close) {
+        this._globalStatus = globalStatus
+      }
+
+      this.setState({ globalStatus, _listenForPropChanges: false })
 
       const isActive = isTrue(globalStatus.show)
       if (isActive) {
         this.setState({ isActive, _listenForPropChanges: false })
       }
 
-      if (isEmpty && isTrue(this.state.globalStatus.autoclose)) {
-        this.setHidden()
+      if (isEmpty && isTrue(globalStatus.autoclose)) {
+        this.setHidden({ delay: 0 })
       }
 
       // make sure to show the new status, inc. scroll
       else if (isTrue(globalStatus.show)) {
-        this.setVisible()
+        this.setVisible({ delay: 0 })
       }
     })
   }
@@ -248,32 +236,31 @@ export default class GlobalStatus extends React.Component {
   componentWillUnmount() {
     this._visibility.unbind()
     this._height.unbind()
+    this.provider.unbind()
     clearTimeout(this._scrollToStatusId)
     clearTimeout(this._isDemoHiddenId)
   }
 
-  setVisible = () => {
+  setVisible = ({
+    delay = parseFloat(this.props.delay),
+    duration = parseFloat(this.props.duration)
+  } = {}) => {
     const { demo: isDemo, autoscroll, no_animation } = this.props
     const noAnimation = isTrue(no_animation)
 
     if (noAnimation) {
       this.setState({
         isActive: true,
-        makeMeVisible: true,
         isVisible: true,
         _listenForPropChanges: false
       })
       dispatchCustomElementEvent(
-        this.state.globalStatus,
+        this._globalStatus,
         'on_open',
-        this.state.globalStatus
+        this._globalStatus
       )
       return
     }
-
-    // use always a delay, because of the "show" and "rerender"
-    const delay = noAnimation ? 0 : parseFloat(this.props.delay) || 10
-    const duration = noAnimation ? 0 : 1e3
 
     const onStart = () => {
       const makeMeVisible = () => {
@@ -282,7 +269,7 @@ export default class GlobalStatus extends React.Component {
             makeMeVisible: true,
             _listenForPropChanges: false
           },
-          setHeight
+          () => this.setHeight('full')
         )
       }
 
@@ -291,11 +278,12 @@ export default class GlobalStatus extends React.Component {
       this.setState(
         {
           isActive: true,
+          makeMeHidden: false,
           _listenForPropChanges: false
         },
         () => {
           // then scroll to the content
-          if (!isDemo && isTrue(autoscroll)) {
+          if (isTrue(autoscroll) && !isDemo) {
             this.scrollToStatus(makeMeVisible)
           } else {
             makeMeVisible()
@@ -304,144 +292,90 @@ export default class GlobalStatus extends React.Component {
       )
     }
 
+    const wasVisibleFromBefore = this.state.isVisible
+
     const onComplete = () => {
+      this._setVisibleId = null
       this.setState({
+        makeMeVisible: false,
         isVisible: true,
         _listenForPropChanges: false
       })
-      dispatchCustomElementEvent(
-        this.state.globalStatus,
-        'on_open',
-        this.state.globalStatus
-      )
+      if (!wasVisibleFromBefore) {
+        dispatchCustomElementEvent(
+          this._globalStatus,
+          'on_open',
+          this._globalStatus
+        )
+      }
       if (isDemo) {
         this._isDemoHiddenId = setTimeout(this.setHidden, 800)
       }
     }
 
-    const setHeight = () => {
-      const _mainRef =
-        this._mainRef.current && this._mainRef.current._ref.current
-
-      const onComplete = () => {
-        try {
-          if (_mainRef) {
-            let height = 0
-            const elem = this._fakeRef.current
-            if (elem) {
-              height = parseFloat(elem.scrollHeight)
-            }
-            if (height > 0) {
-              const currentHeight = parseFloat(_mainRef.style.height)
-              if (!(currentHeight > 0)) {
-                _mainRef.style.height = 0
-                _mainRef.style.transition = `height ${height *
-                  3}ms ease-in-out`
-              } else {
-                const diff = Math.abs(currentHeight - height)
-                const speed = height * 3 - diff
-                _mainRef.style.transition = `height ${speed}ms ease-in-out`
-              }
-
-              _mainRef.style.height = `${height}px`
-            }
-          }
-        } catch (e) {
-          console.warn('GlobalStatus: Could not set height!', e)
-        }
-      }
-
-      this._height.add({
-        type: 'full',
-        onComplete,
-        delay: 20 // delay to make the change visible to CSS
-      })
-    }
-
     this._visibility.add({
       type: 'show',
-      onComplete,
       onStart,
-      onPartial: () => this.state.isVisible && setHeight(),
+      onComplete,
+      onPartial: () => this.state.makeMeVisible && this.setHeight('full'),
       duration,
       delay
     })
   }
-  setHidden = ({ delay = null } = {}) => {
+  setHidden = ({
+    delay = parseFloat(this.props.delay),
+    duration = parseFloat(this.props.duration)
+  } = {}) => {
     const { demo: isDemo, no_animation } = this.props
     const noAnimation = isTrue(no_animation)
 
     if (noAnimation) {
       this.setState({
         isActive: false,
-        makeMeVisible: false,
         isVisible: false,
         _listenForPropChanges: false
       })
       dispatchCustomElementEvent(
-        this.state.globalStatus,
+        this._globalStatus,
         'on_close',
-        this.state.globalStatus
+        this._globalStatus
       )
       return
     }
-
-    if (delay === null) {
-      delay = noAnimation ? 0 : 50
-    }
-    const duration = noAnimation ? 0 : isDemo ? 1200 : 1e3
 
     const onStart = () => {
       this.setState(
         {
           makeMeVisible: false,
+          makeMeHidden: true,
           _listenForPropChanges: false
         },
-        setHeight
+        () => this.setHeight('zero')
       )
     }
 
     const onComplete = () => {
+      this._setHiddenId = null
       this.setState(
         {
           isActive: false,
           isVisible: false,
+          makeMeHidden: false,
           _listenForPropChanges: false
         },
         () => {
-          dispatchCustomElementEvent(
-            this.state.globalStatus,
-            'on_hide',
-            this.state.globalStatus
-          )
+          if (this._globalStatus) {
+            dispatchCustomElementEvent(
+              this._globalStatus,
+              'on_close',
+              this._globalStatus
+            )
+          }
           if (isDemo) {
-            this.setVisible()
+            this._isDemoHiddenId = setTimeout(this.setVisible, 800)
           }
         }
       )
-    }
-
-    const setHeight = () => {
-      const _mainRef =
-        this._mainRef.current && this._mainRef.current._ref.current
-
-      const onComplete = () => {
-        try {
-          if (_mainRef) {
-            // reset transition time to default
-            _mainRef.style.transition = 'height 800ms ease-in-out'
-            _mainRef.style.height = 0
-          }
-        } catch (e) {
-          console.warn('GlobalStatus: Could not reset height to zero!', e)
-        }
-      }
-
-      this._height.add({
-        type: 'zero',
-        onComplete,
-        delay: 20 // delay to make the change visible to CSS
-      })
     }
 
     this._visibility.add({
@@ -453,21 +387,68 @@ export default class GlobalStatus extends React.Component {
     })
   }
 
+  setHeight = (mode = 'full') => {
+    let _mainRef
+
+    const onStart = () => {
+      _mainRef =
+        this._mainRef.current && this._mainRef.current._ref.current
+    }
+
+    const setHeight = () => {
+      try {
+        if (_mainRef) {
+          switch (mode) {
+            case 'full':
+              {
+                const elem = this._fakeRef.current
+                const height = elem ? parseFloat(elem.scrollHeight) : 0
+                if (height > 0) {
+                  const currentHeight = parseFloat(_mainRef.style.height)
+                  if (!(currentHeight > 0)) {
+                    _mainRef.style.height = 0
+                    _mainRef.style.transition = `height ${height *
+                      3}ms ease-in-out`
+                  } else {
+                    const diff = Math.abs(currentHeight - height)
+                    const speed = height * 3 - diff
+                    _mainRef.style.transition = `height ${speed}ms ease-in-out`
+                  }
+
+                  _mainRef.style.height = `${height}px`
+                }
+              }
+              break
+
+            case 'zero': {
+              // reset transition time to default
+              _mainRef.style.transition = 'height 800ms ease-in-out'
+              _mainRef.style.height = '0'
+            }
+          }
+        }
+      } catch (e) {
+        console.warn('GlobalStatus: Could not set height!', e)
+      }
+    }
+
+    this._height.add({
+      type: mode,
+      onStart,
+      onComplete: setHeight,
+      delay: 20 // isReadyToBeHiddendelay to make the change visible to CSS
+    })
+  }
+
   isReadyToBeVisible() {
-    const { show, demo } = this.props
+    const { show } = this.props
     const { isActive, makeMeVisible, isVisible } = this.state
-    return (
-      makeMeVisible &&
-      ((isActive && !isVisible) || (demo && (!isActive, !isVisible))) &&
-      isTrue(show)
-    )
+    return makeMeVisible && !isActive && !isVisible && isTrue(show)
   }
   isReadyToBeHidden() {
-    const { show, demo } = this.props
-    const { isActive, makeMeVisible, isVisible } = this.state
-    return (
-      !makeMeVisible && isActive && isVisible && !demo && !isTrue(show)
-    )
+    const { show } = this.props
+    const { isActive, makeMeHidden, isVisible } = this.state
+    return makeMeHidden && isActive && isVisible && !isTrue(show)
   }
 
   showingHasStarted() {
@@ -475,16 +456,16 @@ export default class GlobalStatus extends React.Component {
     return isActive && makeMeVisible && !isVisible
   }
   hidingHasStarted() {
-    const { isActive, makeMeVisible, isVisible } = this.state
-    return isActive && !makeMeVisible && isVisible
+    const { isActive, makeMeHidden, isVisible } = this.state
+    return isActive && makeMeHidden && isVisible
   }
 
   closeHandler = () => {
     this.setHidden({ delay: 0 })
     dispatchCustomElementEvent(
-      this.state.globalStatus,
-      'on_close',
-      this.state.globalStatus
+      this._globalStatus,
+      'on_hide',
+      this._globalStatus
     )
   }
 
@@ -512,11 +493,19 @@ export default class GlobalStatus extends React.Component {
   }
 
   render() {
-    const { makeMeVisible, isActive, isVisible } = this.state
+    if (!this._setVisibleId && this.isReadyToBeVisible()) {
+      clearTimeout(this._setVisibleId)
+      this._setVisibleId = setTimeout(() => this.setVisible(), 1) // because of render reconciliation
+    } else if (!this._setHiddenId && this.isReadyToBeHidden()) {
+      clearTimeout(this._setHiddenId)
+      this._setHiddenId = setTimeout(() => this.setHidden(), 1) // because of render reconciliation
+    }
+
+    const { isActive, makeMeVisible, makeMeHidden, isVisible } = this.state
 
     if (!isActive) {
       // because of screen readers will else read the content on page load, if:
-      // 1. "show" is true from beginning, then we never come here
+      // 1. if "show" is true from beginning, then we never come here
       // to make sure we double check that situation
       this.wasHiddenBefore = true
       return <></>
@@ -547,6 +536,7 @@ export default class GlobalStatus extends React.Component {
       autoclose, // eslint-disable-line
       show, // eslint-disable-line
       delay, // eslint-disable-line
+      duration, // eslint-disable-line
       autoscroll, // eslint-disable-line
       text, // eslint-disable-line
       icon, // eslint-disable-line
@@ -556,12 +546,6 @@ export default class GlobalStatus extends React.Component {
       ...attributes
     } = props
 
-    if (this.isReadyToBeVisible()) {
-      this.setVisible({ isInRender: true })
-    } else if (this.isReadyToBeHidden()) {
-      this.setHidden({ isInRender: true })
-    }
-
     const state = this.correctStatus(rawState)
     const iconToRender = GlobalStatus.getIcon({
       state,
@@ -569,8 +553,23 @@ export default class GlobalStatus extends React.Component {
       icon_size
     })
     const noAnimation = isTrue(no_animation)
-    const itemsToRender = GlobalStatus.getItems(props)
+    const itemsToRender = props.items || []
     const contentToRender = GlobalStatus.getContent(props)
+    const style = state === 'info' ? null : 'cherry-red'
+
+    /**
+     * Show aria-live="assertive" when:
+     * 1. once "show" is true and before content is aplyed
+     * so "isActive" has to have been false on first render
+     */
+
+    /**
+     * Show aria-live="off" when:
+     * 1. start hiding
+     * 2. "show" is true from beginning+
+     * + and "isActive" is also true from beginning
+     * NB: This is to avoid SR reading the content once it's appearing
+     */
 
     const params = {
       element: 'div',
@@ -592,12 +591,86 @@ export default class GlobalStatus extends React.Component {
       ...attributes
     }
 
-    const style = state === 'info' ? null : 'cherry-red'
-
     // also used for code markup simulation
     validateDOMAttributes(this.props, params)
 
-    const Content = (
+    const renderedItems = itemsToRender.length > 0 && (
+      <ul className="dnb-ul">
+        {itemsToRender.map((item, i) => {
+          return (
+            <li key={i}>
+              {(item && item.text) || item}
+              {item &&
+                ((item.status_id && isTrue(item.status_anchor_url)) ||
+                  item.status_anchor_url) && (
+                  <a
+                    className="dnb-anchor"
+                    href={
+                      isTrue(item.status_anchor_url)
+                        ? `#${item.status_id}`
+                        : item.status_anchor_url
+                    }
+                    onClick={e => {
+                      if (
+                        item.status_id &&
+                        typeof document !== 'undefined'
+                      ) {
+                        e.preventDefault()
+                        try {
+                          // find the element
+                          const element = document.getElementById(
+                            item.status_id
+                          )
+
+                          if (!element) {
+                            return
+                          }
+
+                          isElementVisible(element, elem => {
+                            try {
+                              // remove the blink animation again
+                              elem.addEventListener('blur', e => {
+                                if (e.target.classList) {
+                                  e.target.removeAttribute('tabindex')
+                                }
+                              })
+
+                              // we don't want a visual focus style, we have our own
+                              elem.classList.add('dnb-no-focus')
+
+                              // in order to use the blur event
+                              elem.setAttribute('tabindex', '-1')
+
+                              // now show the animation
+                              // we use "attention-focus" in #form-status theme
+                              elem.focus({ preventScroll: true })
+                            } catch (e) {
+                              console.warn(e)
+                            }
+                          })
+
+                          // then go there
+                          element.scrollIntoView({
+                            block: 'center', // center of page
+                            behavior: 'smooth'
+                          })
+                        } catch (e) {
+                          console.warn(e)
+                        }
+                        return false
+                      }
+                    }}
+                  >
+                    {status_anchor_text || item.status_anchor_text}
+                  </a>
+                )}
+            </li>
+          )
+        })}
+      </ul>
+    )
+
+    const renderedContent = (
       <div className="dnb-global-status__shell" ref={this._shellRef}>
         <div className="dnb-global-status__content">
           <p className="dnb-global-status__title">
@@ -616,85 +689,7 @@ export default class GlobalStatus extends React.Component {
             ) : (
               contentToRender
             )}
-
-            {itemsToRender.length > 0 && (
-              <ul className="dnb-ul">
-                {itemsToRender.map((item, i) => {
-                  return (
-                    <li key={i}>
-                      {(item && item.text) || item}
-                      {item &&
-                        ((item.status_id &&
-                          isTrue(item.status_anchor_url)) ||
-                          item.status_anchor_url) && (
-                          <a
-                            className="dnb-anchor"
-                            href={
-                              isTrue(item.status_anchor_url)
-                                ? `#${item.status_id}`
-                                : item.status_anchor_url
-                            }
-                            onClick={e => {
-                              if (
-                                item.status_id &&
-                                typeof document !== 'undefined'
-                              ) {
-                                e.preventDefault()
-                                try {
-                                  // find the element
-                                  const element = document.getElementById(
-                                    item.status_id
-                                  )
-
-                                  if (!element) {
-                                    return
-                                  }
-
-                                  isElementVisible(element, elem => {
-                                    try {
-                                      // remove the blink animation again
-                                      elem.addEventListener('blur', e => {
-                                        if (e.target.classList) {
-                                          e.target.removeAttribute(
-                                            'tabindex'
-                                          )
-                                        }
-                                      })
-
-                                      // we don't want a visual focus style, we have our own
-                                      elem.classList.add('dnb-no-focus')
-
-                                      // in order to use the blur event
-                                      elem.setAttribute('tabindex', '-1')
-
-                                      // now show the animation
-                                      // we use "attention-focus" in #form-status theme
-                                      elem.focus({ preventScroll: true })
-                                    } catch (e) {
-                                      console.warn(e)
-                                    }
-                                  })
-
-                                  // then go there
-                                  element.scrollIntoView({
-                                    block: 'center', // center of page
-                                    behavior: 'smooth'
-                                  })
-                                } catch (e) {
-                                  console.warn(e)
-                                }
-                                return false
-                              }
-                            }}
-                          >
-                            {status_anchor_text || item.status_anchor_text}
-                          </a>
-                        )}
-                    </li>
-                  )
-                })}
-              </ul>
-            )}
+            {renderedItems}
           </div>
         </div>
       </div>
@@ -703,7 +698,8 @@ export default class GlobalStatus extends React.Component {
     return (
       <>
         <Section style_type={style} {...params} ref={this._mainRef}>
-          {(makeMeVisible || isVisible || noAnimation) && Content}
+          {(makeMeVisible || makeMeHidden || isVisible || noAnimation) &&
+            renderedContent}
         </Section>
         {!noAnimation && (
           <div
@@ -711,7 +707,7 @@ export default class GlobalStatus extends React.Component {
             aria-hidden="true"
             ref={this._fakeRef}
           >
-            {Content}
+            {renderedContent}
           </div>
         )}
       </>
