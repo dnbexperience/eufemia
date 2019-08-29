@@ -12,6 +12,7 @@ import {
   Input,
   Switch,
   GlobalStatus,
+  ToggleButton,
   Section,
   Button,
   FormRow,
@@ -49,110 +50,32 @@ export default [
   () => (
     <Wrapper>
       <Box>
-        <Section spacing>
-          Content 1
-          <Section spacing style_type="mint-green">
-            Content 2
-            <GlobalStatus
-              // title={'Title 1'}
-              // demo
-              show
-              no_animation
-              autoclose={false}
-              autoscroll="false"
-              // id="default-1"
-              // delay={300}
-              on_close={props => {
-                console.log('on_close', props)
-              }}
-              items={['123']}
-            >
-              Defualt Text
-            </GlobalStatus>
-            <GlobalStatus.Add
-              status_id="custom-id-1"
-              text="Second Text"
-              // items={['xxx']}
-              item="Second Item"
-            />
-            {/* <GlobalStatus.Add
-              status_id="custom-id-2"
-              text="Third Text"
-              item="Third Item"
-            />
-            <GlobalStatus.Add
-              status_id="custom-id-2"
-              text="Third Text bøø"
-              item={{ text: 'Third Item bøø', status_anchor_url: '/' }}
-            /> */}
-            {/* <GlobalStatus.Remove status_id="custom-id-1" /> */}
-            {/* <GlobalStatus.Remove status_id="custom-id-2" /> */}
-          </Section>
-        </Section>
+        <GlobalStatus
+          title="Custom Title"
+          text="Failure text"
+          items={[
+            {
+              text: 'List item',
+              status_anchor_url: '/uilib/components/global-status'
+            }
+          ]}
+          show="true"
+          no_animation="true"
+          autoscroll="false"
+          id="demo-1"
+        />
       </Box>
       <Box>
-        <Modal
-          trigger_text="Open Modal"
-          title="Modal Title"
-          // width="80vw"
-          on_open={() => {
-            const status = GlobalStatus.Set({
-              id: 'modal',
-              status_id: 'custom-id-1',
-              text: 'Second Text',
-              item: 'Second Item'
-            })
-            setTimeout(() => {
-              status.remove()
-            }, 2e3)
-            // const status = new GlobalStatus.Add({
-            //   status_id: 'custom-id-1',
-            //   text: 'Second Text',
-            //   item: 'Second Item'
-            // })
-            // new GlobalStatus.Remove({
-            //   status_id: 'custom-id-1'
-            // })
-          }}
-        >
-          <div className="dnb-core-style">
-            <GlobalStatus
-              id="modal"
-              // title={'Title 1'}
-              // demo
-              // show
-              // no_animation
-              // autoclose={false}
-              autoscroll="false"
-              // id="default-1"
-              // delay={300}
-              on_close={props => {
-                console.log('on_close', props)
-              }}
-              // items={['123']}
-            >
-              Defualt Text
-            </GlobalStatus>
-          </div>
-        </Modal>
+        <DemoAnimation />
       </Box>
-      {/* <Box>
-        {false && <UpdateGlobalStatus />}
-        {true && (
-          <GlobalStatus.Add
-            title="New title"
-            on_close={props => {
-              console.log('on_close', props)
-            }}
-          >
-            Long info text Ipsum habitant enim ullamcorper elit sit
-            elementum platea rutrum eu condimentum erat risus lacinia
-            viverra magnis lobortis nibh mollis suspendisse
-          </GlobalStatus.Add>
-        )}
-      </Box> */}
       <Box>
-        <ToggleGlobalStatus />
+        <NestedSections />
+      </Box>
+      <Box>
+        <ModalExample />
+      </Box>
+      <Box>
+        <SimulateSteps />
       </Box>
       <Box>
         <InputWithError />
@@ -169,6 +92,21 @@ export default [
           <CustomStatus />
         </GlobalStatus>
       </Box>
+      {/* <Box>
+        {false && <UpdateGlobalStatus />}
+        {true && (
+        <GlobalStatus.Add
+        title="New title"
+        on_close={props => {
+        console.log('on_close', props)
+      }}
+      >
+      Long info text Ipsum habitant enim ullamcorper elit sit
+      elementum platea rutrum eu condimentum erat risus lacinia
+      viverra magnis lobortis nibh mollis suspendisse
+    </GlobalStatus.Add>
+  )}
+</Box> */}
     </Wrapper>
   )
 ]
@@ -228,7 +166,56 @@ const InputWithError = () => {
   )
 }
 
-const ToggleGlobalStatus = () => {
+const ModalExample = () => (
+  <Modal
+    trigger_text="Open Modal"
+    title="Modal Title"
+    // width="80vw"
+    on_open={() => {
+      setTimeout(() => {
+        const status = GlobalStatus.Set({
+          id: 'modal',
+          status_id: 'custom-id-1',
+          text: 'Second Text',
+          item: 'Second Item'
+        })
+        setTimeout(() => {
+          status.remove()
+        }, 2e3)
+        // const status = new GlobalStatus.Add({
+        //   status_id: 'custom-id-1',
+        //   text: 'Second Text',
+        //   item: 'Second Item'
+        // })
+        // new GlobalStatus.Remove({
+        //   status_id: 'custom-id-1'
+        // })
+      }, 1)
+    }}
+  >
+    <div className="dnb-core-style">
+      <GlobalStatus
+        id="modal"
+        // title={'Title 1'}
+        // demo
+        // show
+        // no_animation
+        // autoclose={false}
+        autoscroll="false"
+        // id="default-1"
+        // delay={300}
+        on_close={props => {
+          console.log('on_close', props)
+        }}
+        // items={['123']}
+      >
+        Defualt Text
+      </GlobalStatus>
+    </div>
+  </Modal>
+)
+
+const SimulateSteps = () => {
   const [count, toggleUpdateStatus] = useState(0)
   return (
     <>
@@ -247,7 +234,16 @@ const ToggleGlobalStatus = () => {
         autoscroll="false"
         // show={count === 1}
         // autoclose="false"
-        on_close={() => toggleUpdateStatus(0)}
+        on_open={() => {
+          console.log('on_open')
+        }}
+        on_close={() => {
+          console.log('on_close')
+        }}
+        on_hide={() => {
+          console.log('on_hide')
+          toggleUpdateStatus(0)
+        }}
       />
       {count === 1 && (
         <>
@@ -341,3 +337,81 @@ const ToggleGlobalStatus = () => {
 //     </>
 //   )
 // }
+
+const NestedSections = () => (
+  <Section spacing>
+    Content 1
+    <Section spacing style_type="mint-green">
+      Content 2
+      <GlobalStatus
+        // title={'Title 1'}
+        // demo
+        show
+        no_animation
+        // autoclose={false}
+        autoscroll="false"
+        // id="default-1"
+        // delay={300}
+        on_close={props => {
+          console.log('on_close', props)
+        }}
+        items={['123']}
+      >
+        Defualt Text
+      </GlobalStatus>
+      <GlobalStatus.Add
+        status_id="custom-id-1"
+        text="Second Text"
+        // items={['xxx']}
+        item="Second Item"
+      />
+      {/* <GlobalStatus.Add
+      status_id="custom-id-2"
+      text="Third Text"
+      item="Third Item"
+    />
+    <GlobalStatus.Add
+      status_id="custom-id-2"
+      text="Third Text bøø"
+      item={{ text: 'Third Item bøø', status_anchor_url: '/' }}
+    /> */}
+      {/* <GlobalStatus.Remove status_id="custom-id-1" /> */}
+      {/* <GlobalStatus.Remove status_id="custom-id-2" /> */}
+    </Section>
+  </Section>
+)
+
+// const items = ['Status text 1', 'Status text 2']
+const DemoAnimation = () => {
+  const [showDemo, toggleShowDemo] = useState(false)
+  setTimeout(() => {
+    // toggleShowDemo(true)
+  }, 30)
+  return (
+    <>
+      <ToggleButton
+        text={showDemo ? 'Stop Demo' : 'Show animation Demo'}
+        checked={showDemo}
+        variant="checkbox"
+        on_change={({ checked }) => toggleShowDemo(checked)}
+        bottom="small"
+      />
+      <GlobalStatus
+        title="Demo Animation"
+        text="Long info nisl tempus hendrerit tortor dapibus nascetur taciti porta risus cursus fusce platea enim curabitur proin nibh ut luctus magnis metus"
+        items='["Status text 1", "Status text 2"]'
+        // items={['Status text 1', 'Status text 2']}
+        // items={items}
+        // demo={showDemo}
+        show={showDemo}
+        // autoscroll={false}
+        // no_animation={true}
+        // delay={0}
+        id="demo-3"
+        on_close={() => {
+          toggleShowDemo(false)
+        }}
+      />
+    </>
+  )
+}

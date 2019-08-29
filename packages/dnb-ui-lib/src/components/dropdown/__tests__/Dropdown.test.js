@@ -18,20 +18,24 @@ import _dropdown from '../style/_dropdown.scss' // eslint-disable-line
 import dnb_dropdown from '../style/dnb-dropdown.scss' // eslint-disable-line
 import dnb_dropdown_theme_ui from '../style/themes/dnb-dropdown-theme-ui.scss' // eslint-disable-line
 
-const props = fakeProps(require.resolve('../Dropdown'), {
-  optional: true
-})
-props.id = 'dropdown-id'
-props.status = 'status'
-props.status_state = 'error'
-props.direction = 'bottom'
-props.label_direction = 'horizontal'
-props.selected_item = 2
-props.more_menu = null
-props.prevent_selection = null
-props.align_dropdown = null
-props.size = null
-props.trigger_component = null
+const snapshotProps = {
+  ...fakeProps(require.resolve('../Dropdown'), {
+    optional: true
+  }),
+  id: 'dropdown-id',
+  status: 'status',
+  status_state: 'error',
+  direction: 'bottom',
+  label_direction: 'horizontal',
+  selected_item: 2,
+  more_menu: null,
+  prevent_selection: null,
+  align_dropdown: null,
+  trigger_component: null,
+  size: null
+}
+
+const props = { id: 'dropdown-id', selected_item: 2 }
 
 const mockData = [
   {
@@ -63,11 +67,6 @@ const mockData = [
 
 describe('Dropdown component', () => {
   const Comp = mount(<Component {...props} data={mockData} />)
-
-  // compare the snapshot
-  it('have to match snapshot', () => {
-    expect(toJson(Comp)).toMatchSnapshot()
-  })
 
   it('has correct state at startup', () => {
     expect(Comp.state().opened).toBe(false)
@@ -200,7 +199,12 @@ describe('Dropdown component', () => {
     const my_event = jest.fn()
     const params = { 'data-attr': 'value' }
     const Comp = mount(
-      <Component {...props} on_show={my_event} {...params} />
+      <Component
+        {...props}
+        on_show={my_event}
+        {...params}
+        data={mockData}
+      />
     )
     Comp.find('button').simulate('mousedown')
     expect(my_event.mock.calls.length).toBe(1)
@@ -261,8 +265,17 @@ describe('Dropdown component', () => {
     ).toBe(true)
   })
 
+  const CheckComponent = mount(
+    <Component {...snapshotProps} data={mockData} />
+  )
+
+  // compare the snapshot
+  it('have to match snapshot', () => {
+    expect(toJson(CheckComponent)).toMatchSnapshot()
+  })
+
   it('should validate with ARIA rules as a tabs', async () => {
-    expect(await axeComponent(Comp)).toHaveNoViolations()
+    expect(await axeComponent(CheckComponent)).toHaveNoViolations()
   })
 })
 

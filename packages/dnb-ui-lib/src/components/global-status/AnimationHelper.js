@@ -17,9 +17,10 @@ export default class Animation {
     }
 
     // same animation in process, so do nothing
-    if (this.isInProgress(animation)) {
+    const isInProgress = this.isInProgress(animation)
+    if (isInProgress) {
       if (typeof animation.onPartial === 'function') {
-        animation.onPartial()
+        animation.onPartial(isInProgress)
       }
       return animation
     }
@@ -29,10 +30,23 @@ export default class Animation {
     return this.runNext()
   }
   unbind() {
-    clearTimeout(this._durationId)
-    clearTimeout(this._delayId)
+    this.stack.forEach(animation => {
+      animation.onReset = null
+      this.reset(animation)
+    })
     this.stack = []
     this.events = []
+  }
+  reset(animation) {
+    if (!animation) {
+      return
+    }
+    clearTimeout(animation._durationId)
+    clearTimeout(animation._delayId)
+    if (typeof animation.onReset === 'function') {
+      animation.onReset(animation)
+    }
+    this.stack = this.stack.filter(a => a !== animation)
   }
 
   // Helpers
@@ -40,7 +54,8 @@ export default class Animation {
     return (
       this.stack.length > 0 &&
       this.stack[0].running &&
-      animation.type === this.stack[0].type
+      animation.type === this.stack[0].type &&
+      this.stack[0]
     ) // ok, we depend on mutability here
   }
 
@@ -71,16 +86,16 @@ export default class Animation {
         this.stack = this.stack.filter(a => a !== animation)
         this.runNext()
       }
-      clearTimeout(this._durationId)
+      clearTimeout(animation._durationId)
       if (animation.duration > 0) {
-        this._durationId = setTimeout(next, animation.duration)
+        animation._durationId = setTimeout(next, animation.duration)
       } else {
         next()
       }
     }
-    clearTimeout(this._delayId)
+    clearTimeout(animation._delayId)
     if (animation.delay > 0) {
-      this._delayId = setTimeout(run, animation.delay)
+      animation._delayId = setTimeout(run, animation.delay)
     } else {
       run()
     }

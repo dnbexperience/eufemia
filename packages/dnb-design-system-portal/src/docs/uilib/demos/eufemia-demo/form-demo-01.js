@@ -7,7 +7,6 @@
 
 import React, { useState } from 'react'
 import Head from 'react-helmet'
-import { navigateTo } from 'gatsby'
 import styled from '@emotion/styled'
 
 // App layout
@@ -26,7 +25,8 @@ import {
   Icon,
   Button,
   Switch,
-  Space
+  Space,
+  GlobalStatus
 } from 'dnb-ui-lib/src/components'
 import {
   save_alt_01 as SaveIcon,
@@ -110,16 +110,24 @@ const defaultValues = {
   secondInputValue: 200,
   textareValue:
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis.',
-  switchIsChecked: true
+  switchIsChecked: false
 }
 const defaultErrors = {
-  switchErrorMessage: 'Sorry, this has to be unchecked.'
+  switchErrorMessage: 'Sorry, this has to be checked.'
 }
 
 const FormDemo = () => {
   // Event handling
   const [currentValues, updateValues] = useState(defaultValues)
   const [currentErrors, updateErrors] = useState({})
+
+  const submitHandler = () => {
+    // remove errors
+    updateErrors({})
+
+    // reset the values
+    updateValues(defaultValues)
+  }
 
   return (
     <Layout>
@@ -150,19 +158,19 @@ const FormDemo = () => {
         />
       </HeaderSection>
 
+      <GlobalStatus />
+
       <FormSet
         vertical
         prevent_submit
         on_submit={() => {
-          // console.log('FormSet.on_submit', object)
-          console.log('Show me my values:', currentValues)
-
-          // remove errors for a bit
-          updateErrors({})
-
           // simulate error
-          if (currentValues.switchIsChecked) {
+          if (!currentValues.switchIsChecked) {
             updateErrors(defaultErrors)
+          } else {
+            // remove errors, in case we had some
+            updateErrors({})
+            console.log('Show me my values:', currentValues)
           }
         }}
       >
@@ -309,32 +317,18 @@ const FormDemo = () => {
             label="I hereby declare that all information given is correct and to the best of my knowledge."
             label_position="right"
             checked={currentValues.switchIsChecked}
-            on_change={({ checked }) => {
+            on_change={({ checked }) =>
               updateValues({
                 ...currentValues,
                 switchIsChecked: checked
               })
-            }}
-            on_change_ends={({ checked }) => {
-              if (!checked) {
-                // remove errors
-                updateErrors({
-                  ...currentErrors,
-                  switchErrorMessage: null
-                })
-              }
-            }}
+            }
             status={currentErrors.switchErrorMessage}
-            // status_animation
           />
         </Section>
 
         <DividerSection spacing="small" style_type="divider">
-          <Button
-            text="Next"
-            icon="chevron_right"
-            on_click={goToNextPage}
-          />
+          <Button type="submit" text="Next" icon="chevron_right" />
           <div>
             <Button
               text="Save"
@@ -348,13 +342,7 @@ const FormDemo = () => {
               variant="secondary"
               icon="close"
               icon_position="left"
-              on_click={() => {
-                // remove errors
-                updateErrors({})
-
-                // reset the values
-                updateValues(defaultValues)
-              }}
+              on_click={() => submitHandler()}
             />
           </div>
         </DividerSection>
@@ -367,4 +355,8 @@ const FormDemo = () => {
 
 export default FormDemo
 
-const goToNextPage = () => navigateTo('/form-demo-02')
+// NB: In case we wan't to navigate to a new page
+// on_click={goToNextPage}
+// import { navigateTo } from 'gatsby'
+// const goToNextPage = () =>
+//   navigateTo('/uilib/demos/eufemia-demo/form-demo-02')

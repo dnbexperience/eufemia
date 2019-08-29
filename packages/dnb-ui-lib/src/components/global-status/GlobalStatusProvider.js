@@ -3,6 +3,8 @@
  *
  */
 
+import { defaultProps } from './GlobalStatus'
+
 // The meaning with this is that we can force a rerender without sharing the same context
 class GlobalStatusProvider {
   static providers = {}
@@ -28,15 +30,15 @@ class GlobalStatusProvider {
     }
   }
 
-  static autoAddStatusId(
-    item,
-    status_id = GlobalStatusProvider.makeStatusId()
-  ) {
+  static prepareItemWithStatusId(item, status_id = null) {
     if (typeof item === 'string') {
       item = { text: item }
     }
     if (!item.status_id) {
-      item.status_id = status_id
+      item.status_id =
+        status_id && status_id !== defaultProps.status_id
+          ? status_id
+          : slugify(JSON.stringify(item))
     }
     return item
   }
@@ -46,41 +48,49 @@ class GlobalStatusProvider {
   }
 
   static combineMessages(stack) {
-    const globalStatus = stack.reduce((acc, _cur) => {
+    const globalStatus = stack.reduce((
+      acc,
+      _cur
+      // , i, arr
+    ) => {
       // make a copy, because items are read-only
       const cur = { ..._cur }
 
-      if (!cur.status_id) {
-        cur.status_id = GlobalStatusProvider.makeStatusId()
-      }
-
-      if (typeof cur.items === 'string') {
+      if (typeof cur.items === 'string' && cur.items[0] === '[') {
         cur.items = JSON.parse(cur.items)
-      } else {
-        // make sure we have an array of items
-        cur.items = cur.items || []
       }
 
       // if there is only one item, put it into the array
       if (cur.item) {
+        if (typeof cur.item === 'string' && cur.item[0] === '{') {
+          cur.item = JSON.parse(cur.item)
+        }
+        // make sure we have an array of items
+        cur.items = cur.items || []
         cur.items.push(cur.item)
       }
 
       // merge items from prev stack into the current
-      cur.items = cur.items.reduce((acc, item) => {
-        item = GlobalStatusProvider.autoAddStatusId(item, cur.status_id)
+      if (cur.items) {
+        cur.items = cur.items.reduce((acc, item) => {
+          // only a fallback and to make sure we have
+          item = GlobalStatusProvider.prepareItemWithStatusId(
+            item,
+            cur.status_id || null
+          )
 
-        const foundAtIndex = acc.findIndex(
-          ({ status_id }) => status_id === item.status_id
-        )
-        if (foundAtIndex > -1) {
-          acc[foundAtIndex] = item
-        } else {
-          acc.push(item)
-        }
+          const foundAtIndex = acc.findIndex(
+            ({ status_id }) => status_id === item.status_id
+          )
+          if (foundAtIndex > -1) {
+            acc[foundAtIndex] = item
+          } else {
+            acc.push(item)
+          }
 
-        return acc
-      }, acc.items || []) // here we use the items from the prev stack
+          return acc
+        }, acc.items || []) // here we use the items from the prev stack
+      }
 
       // merge the prev stack with the current
       Object.assign(acc, cur)
@@ -137,13 +147,13 @@ class GlobalStatusProviderItem {
     }
   }
 
-  add(props) {
+  add(props, opts = {}) {
     if (!props.status_id) {
       console.warn('status_id is required!')
     }
 
     // make copy
-    const newProps = Object.assign({}, props)
+    const newProps = { ...props }
 
     // make sure we have a status id
     newProps.status_id =
@@ -171,10 +181,13 @@ class GlobalStatusProviderItem {
       this.stack.push(newProps)
     }
 
-    const globalStatus = GlobalStatusProvider.combineMessages(this.stack)
+    const globalStatus = GlobalStatusProvider.combineMessages(
+      this.stack,
+      opts
+    )
     this.forceRerender(globalStatus, props)
 
-    return newProps
+    return globalStatus
   }
 
   get(status_id) {
@@ -209,3 +222,10 @@ if (typeof window !== 'undefined') {
 }
 
 export default GlobalStatusProvider
+
+const slugify = s =>
+  s
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, '')
+    .replace(/[\s_-]+/g, '-')
+    .replace(/^-+|-+$/g, '')

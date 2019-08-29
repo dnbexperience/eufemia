@@ -145,7 +145,7 @@ render(
   more_menu="true"
   size="small"
   title="Choose an item"
-  data={['Go this this Link', 'Or press on me', <>Custom component</>]}
+  data={() => ['Go this this Link', 'Or press on me', <>Custom component</>]}
   right="small"
   {...props}
 />

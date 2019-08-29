@@ -18,23 +18,41 @@ import _form_status from '../style/_global-status.scss' // eslint-disable-line
 import dnb_form_status from '../style/dnb-global-status.scss' // eslint-disable-line
 import dnb_form_status_theme_ui from '../style/themes/dnb-global-status-theme-ui.scss' // eslint-disable-line
 
-const props = fakeProps(require.resolve('../GlobalStatus'), {
-  optional: true
-})
-props.id = 'main'
-props.state = 'error'
-props.text = 'text'
-props.items = ['item #1', 'item #2']
-props.show = true
-props.no_animation = true
-props.icon = 'error'
+const id = 'main'
+const state = 'error'
+const text = 'text'
+const children = null
+const items = ['item #1', 'item #2']
+const show = true
+const no_animation = true
+const autoscroll = false
+const icon = 'error'
+
+const snapshotProps = {
+  ...fakeProps(require.resolve('../GlobalStatus'), {
+    optional: true
+  }),
+
+  id,
+  state,
+  children,
+  show,
+  no_animation,
+  items,
+  text,
+  icon
+}
+
+const props = {
+  show,
+  no_animation,
+  autoscroll,
+  items,
+  text
+}
 
 describe('GlobalStatus component', () => {
   const Comp = mount(<Component {...props} />)
-
-  it('have to match snapshot', () => {
-    expect(toJson(Comp)).toMatchSnapshot()
-  })
 
   it('has to to have a text value as defined in the prop', () => {
     expect(
@@ -49,13 +67,25 @@ describe('GlobalStatus component', () => {
   })
 
   it('should have correact attributes like "aria-live"', async () => {
-    const Comp = mount(<Component no_animation={true} />)
+    const Comp = mount(
+      <Component autoscroll={false} delay={0} duration={0} />
+    )
     expect(Comp.exists('[aria-live]')).toBe(false)
+
     Comp.setProps({
       show: true
     })
+    Comp.setState({
+      isActive: true,
+      isVisible: true
+    })
+
     expect(Comp.exists('[aria-live="assertive"]')).toBe(true)
-    expect(await axeComponent(Comp)).toHaveNoViolations()
+
+    Comp.setProps({
+      show: false
+    })
+    expect(Comp.exists('[aria-live="off"]')).toBe(true)
   })
 
   it('has to to have correct content after a controller update', () => {
@@ -71,13 +101,13 @@ describe('GlobalStatus component', () => {
           text={startupText}
           items={['item#1']}
         />
-        <Component.Update
+        <Component.Add
           id="custom-status-update"
           status_id="status-update-1"
           text="will be overwritten"
           item={{ text: 'item#2' }}
         />
-        <Component.Update
+        <Component.Add
           id="custom-status-update"
           status_id="status-update-1"
           text={newText}
@@ -111,7 +141,7 @@ describe('GlobalStatus component', () => {
           id="custom-status-remove"
           text={startupText}
         />
-        <Component.Update
+        <Component.Add
           id="custom-status-remove"
           status_id="status-remove-1"
           text={newText}
@@ -134,6 +164,7 @@ describe('GlobalStatus component', () => {
   it('has to to have a working auto close', () => {
     const on_open = jest.fn()
     const on_close = jest.fn()
+    const on_hide = jest.fn()
 
     const Comp = mount(
       <>
@@ -144,8 +175,9 @@ describe('GlobalStatus component', () => {
           text="text"
           on_open={on_open}
           on_close={on_close}
+          on_hide={on_hide}
         />
-        <Component.Update
+        <Component.Add
           id="custom-status-autoclose"
           status_id="status-autoclose-1"
         />
@@ -159,6 +191,7 @@ describe('GlobalStatus component', () => {
 
     expect(on_open.mock.calls.length).toBe(1)
     expect(on_close.mock.calls.length).toBe(1)
+    expect(on_hide.mock.calls.length).toBe(0)
 
     expect(Comp.first().exists('.dnb-global-status__message')).toBe(false)
     expect(Comp.first().state().isActive).toBe(false)
@@ -166,6 +199,13 @@ describe('GlobalStatus component', () => {
 
   it('should validate with ARIA rules', async () => {
     expect(await axeComponent(Comp)).toHaveNoViolations()
+  })
+})
+
+describe('GlobalStatus snapshot', () => {
+  it('have to match component snapshot', () => {
+    const Comp = mount(<Component {...snapshotProps} />)
+    expect(toJson(Comp)).toMatchSnapshot()
   })
 })
 

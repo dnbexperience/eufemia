@@ -37,6 +37,12 @@ Read more about [best practices for typography](/uilib/usage/best-practices/for-
 
 ### Headings in React
 
+```jsx
+import { H1, H2, Lead, P, Link, ... } from 'dnb-ui-lib/elements'
+
+<H1>Title</H1>
+```
+
 <ComponentBox hideOnTest caption="Default Heading typography using React JSX">
 {`
 <H1 style_type="small">H1 small</H1>
