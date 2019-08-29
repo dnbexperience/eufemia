@@ -245,7 +245,7 @@ export default class GlobalStatus extends React.Component {
     delay = parseFloat(this.props.delay),
     duration = parseFloat(this.props.duration)
   } = {}) => {
-    const { demo: isDemo, autoscroll, no_animation } = this.props
+    const { demo: isDemo, no_animation } = this.props
     const noAnimation = isTrue(no_animation)
 
     if (noAnimation) {
@@ -263,30 +263,23 @@ export default class GlobalStatus extends React.Component {
     }
 
     const onStart = () => {
-      const makeMeVisible = () => {
-        this.setState(
-          {
-            makeMeVisible: true,
-            _listenForPropChanges: false
-          },
-          () => this.setHeight('full')
-        )
-      }
-
       // in order to get the this._shellRef.current
       // we have to make a rerender. scrollToStatus needs the element
       this.setState(
         {
           isActive: true,
+          makeMeVisible: true,
           makeMeHidden: false,
           _listenForPropChanges: false
         },
         () => {
           // then scroll to the content
-          if (isTrue(autoscroll) && !isDemo) {
-            this.scrollToStatus(makeMeVisible)
+          if (isTrue(this.state.globalStatus.autoscroll) && !isDemo) {
+            setTimeout(() => {
+              this.scrollToStatus(() => this.setHeight('full'))
+            }, 1) // because we have to wait for the element to be visible to the dom (chrome)
           } else {
-            makeMeVisible()
+            this.setHeight('full')
           }
         }
       )
