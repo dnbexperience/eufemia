@@ -35,7 +35,10 @@ const DropdownStory = () => {
         >
           <Dropdown
             label="Vertical A:"
-            data={dropdownData}
+            data={() => {
+              console.log('dropdownData', dropdownData)
+              return dropdownData
+            }}
             right="small"
             status="Status message"
             on_change={({ attributes }) => {

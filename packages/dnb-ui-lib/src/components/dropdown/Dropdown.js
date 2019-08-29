@@ -69,7 +69,11 @@ export const propTypes = {
   align_dropdown: PropTypes.oneOf(['left', 'right']),
   trigger_component: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
   data: PropTypes.oneOfType([
-    PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+    PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ]),
     PropTypes.arrayOf(
       PropTypes.oneOfType([
         PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
@@ -207,14 +211,23 @@ export default class Dropdown extends PureComponent {
 
   static getData(props) {
     let res = []
-    if (props.data) res = props.data
-    else res = processChildren(props)
-    if (typeof res === 'string')
+    if (typeof props.data === 'function') {
+      res = props.data()
+    } else if (props.data) {
+      res = props.data
+    } else {
+      res = processChildren(props)
+    }
+    if (typeof res === 'string') {
       return res[0] === '[' ? JSON.parse(res) : []
+    }
     return res || []
   }
 
   static getOptionData(selected_item, data) {
+    if (typeof data === 'function') {
+      data = data()
+    }
     return (
       (data &&
         data.filter((data, i) => i === parseFloat(selected_item))[0]) ||
@@ -223,8 +236,11 @@ export default class Dropdown extends PureComponent {
   }
 
   static getDerivedStateFromProps(props, state) {
+    if (state.opened && !state.data && typeof props.data === 'function') {
+      state.data = Dropdown.getData(props)
+    }
     if (state._listenForPropChanges) {
-      if (props.data) {
+      if (props.data && typeof props.data !== 'function') {
         state.data = Dropdown.getData(props)
       }
       if (
@@ -234,7 +250,7 @@ export default class Dropdown extends PureComponent {
         state.selected_item = props.selected_item
         if (typeof props.on_state_update === 'function') {
           dispatchCustomElementEvent({ props }, 'on_state_update', {
-            data: Dropdown.getOptionData(props.selected_item, props.data)
+            data: Dropdown.getOptionData(props.selected_item, state.data)
           })
         }
       }
@@ -253,6 +269,7 @@ export default class Dropdown extends PureComponent {
     this.state = {
       _listenForPropChanges: true,
       opened,
+      // data: null,
       hidden: !opened,
       direction: props.direction,
       max_height: props.max_height,
@@ -552,11 +569,12 @@ export default class Dropdown extends PureComponent {
     }
   }
 
-  selectItemHandler = event => {
+  selectItemHandler = e => {
     const selected_item = parseFloat(
-      event.currentTarget.getAttribute('data-item')
+      e.currentTarget.getAttribute('data-item')
     )
     if (selected_item > -1) {
+      const event = { ...e }
       this.selectItem(selected_item, { fireSelectEvent: true, event })
     }
   }
