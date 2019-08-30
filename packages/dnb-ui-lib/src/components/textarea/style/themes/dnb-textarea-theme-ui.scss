@@ -6,6 +6,7 @@
 @import '../../../../style/themes/imports.scss';
 
 :root {
+  --textarea-rows: 2;
   --textarea-text-color: var(--color-sea-green);
   --textarea-text-color--focus: var(--color-sea-green);
   --textarea-text-color--changed: var(--color-emerald-green);
