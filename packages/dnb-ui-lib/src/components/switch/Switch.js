@@ -22,6 +22,7 @@ import FormStatus from '../form-status/FormStatus'
 
 const renderProps = {
   on_change: null,
+  on_change_end: null,
   on_state_update: null
 }
 
@@ -58,6 +59,7 @@ export const propTypes = {
   custom_element: PropTypes.object,
   custom_method: PropTypes.func,
   on_change: PropTypes.func,
+  on_change_end: PropTypes.func,
   on_state_update: PropTypes.func
 }
 
@@ -141,6 +143,10 @@ export default class Switch extends Component {
     return true
   }
 
+  componentWillUnmount() {
+    clearTimeout(this._onChangeEndId)
+  }
+
   onKeyDownHandler = event => {
     switch (keycode(event)) {
       case 'enter':
@@ -156,6 +162,19 @@ export default class Switch extends Component {
     const checked = !this.state.checked
     this.setState({ checked, _listenForPropChanges: false })
     dispatchCustomElementEvent(this, 'on_change', { checked, event })
+
+    if (this.props.on_change_end) {
+      clearTimeout(this._onChangeEndId)
+      const e = { ...event }
+      this._onChangeEndId = setTimeout(
+        () =>
+          dispatchCustomElementEvent(this, 'on_change_end', {
+            checked,
+            event: e
+          }),
+        500
+      )
+    }
 
     // help firefox and safari to have an correct state after a click
     if (this._refInput.current) {

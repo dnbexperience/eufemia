@@ -16,6 +16,7 @@ exports[`Switch component have to match snapshot 1`] = `
   label_direction="horizontal"
   label_position="left"
   on_change={[Function]}
+  on_change_end={[Function]}
   on_state_update={[Function]}
   readOnly={false}
   status={null}
