@@ -187,4 +187,17 @@
       margin: auto 0;
     }
   }
+
+  // Edge fix
+  @supports (-webkit-appearance: none) {
+    // fix are a problem with transition and complex transforms
+    &__input:not(:checked) ~ &__button {
+      transform: translateX(0);
+    }
+
+    // fix are a problem with transition and complex transforms
+    &__input:checked ~ &__button {
+      transform: translateX(1rem);
+    }
+  }
 }
