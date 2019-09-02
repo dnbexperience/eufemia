@@ -6,7 +6,7 @@ import Examples from 'Pages/uilib/components/section/Examples'
 
 ## Description
 
-The `Section` component is a visual helper. It wraps content inside a visual section banner. Use additionally `spacing` to get the default padding inside
+The Section component is a visual helper. It wraps content inside a visual section banner. Use additionally `spacing` to get the default padding inside
 
 ## Usage
 

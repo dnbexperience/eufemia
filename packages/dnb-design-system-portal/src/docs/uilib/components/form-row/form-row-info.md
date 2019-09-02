@@ -6,7 +6,7 @@ import Examples from 'Pages/uilib/components/form-row/Examples'
 
 ## Description
 
-The `FormRow` component is a helper to archive more easily often used DNB form layout setups. By default a `FormRow` is using the `<formset>` and `<legend>` HTML elements - if a label property is provided.
+The FormRow component is a helper to archive more easily often used DNB form layout setups. By default a `FormRow` is using the `<formset>` and `<legend>` HTML elements - if a label property is provided.
 
 ### Layout direction
 

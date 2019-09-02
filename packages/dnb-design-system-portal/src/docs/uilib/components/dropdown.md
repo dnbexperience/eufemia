@@ -1,5 +1,6 @@
 ---
 title: 'Dropdown'
+description: 'The Dropdown component is a custom-made data selection component.'
 draft: false
 order: 2
 ---
