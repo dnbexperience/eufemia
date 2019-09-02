@@ -1,5 +1,6 @@
 ---
 title: 'InputMasked'
+description: 'The InputMasked component uses the basic input component, but with some additional masking functionality.'
 draft: false
 status: null
 order: 7

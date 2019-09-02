@@ -10,7 +10,7 @@ module.exports = {
     name: 'Eufemia',
     description:
       'Eufemia Design System is the go to place for all who has to design, develop and make digital WEB applications for DNB.',
-    repoUrl: 'https://github.com/dnbexperience/eufemia/tree/release/'
+    repoUrl: 'https://github.com/dnbexperience/eufemia/'
   },
   plugins: [
     {

@@ -1,5 +1,6 @@
 ---
 title: 'FormStatus'
+description: 'The FormStatus is a simple component meant for displaying the status of a form.'
 draft: false
 status: null
 order: 4

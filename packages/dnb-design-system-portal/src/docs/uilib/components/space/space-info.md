@@ -7,7 +7,7 @@ import SpacingTable from 'Pages/uilib/usage/layout/spacing-table.md'
 
 ## Description
 
-The `Space` component provides `margins` within the [provided spacing patterns](/uilib/usage/layout/spacing#spacing-helpers).
+The Space component provides `margins` within the [provided spacing patterns](/uilib/usage/layout/spacing#spacing-helpers).
 
 The reason why this exists is to make Your Syntax as clean as possible.
 This way You see directly in words what the spacing is for every effected component

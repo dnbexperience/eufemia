@@ -9,7 +9,9 @@ order: 2
 
 ## Slack Channel on [DNB IT](https://dnb-it.slack.com)
 
-- `eufemia-design-system`
+- `eufemia-web` (Web development)
+- `eufemia-native` (Native mobile development)
+- `eufemia-design-system` (UX designers)
 
 ### Related channels
 
@@ -25,14 +27,14 @@ order: 2
 ### Administrators
 
 - **Jens Thuland** (_jens.thuland@dnb.no_)
-- **Tobias Høegh** (mob. 450 16 473 or _tobias.hoegh@dnb.no_)
+- **Tobias Høegh** (_tobias.hoegh@dnb.no_)
 
 ### Designers
 
 - **Jens Thuland** (Figma, Web)
 - **Sindre Marken** (Figma, Typography)
-- **Casper Brekke** (Figma, Native Mobile)
+- **Casper Brekke** (Figma, Native mobile)
 
 ### Developers
 
-- **Tobias Høegh** (GitHub, dnb-ui-lib)
+- **Tobias Høegh** (GitHub, `dnb-ui-lib`)

@@ -1,5 +1,6 @@
 ---
 title: 'Slider'
+description: 'The Slider component provides a visual indication of adjustable value.'
 draft: false
 order: 13
 ---

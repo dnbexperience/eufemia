@@ -3,6 +3,11 @@
  *
  */
 
+:root {
+  --dnb-logo-ratio: 1.453690625;
+  --dnb-logo-ratio: attr(data-ratio);
+}
+
 .dnb-logo {
   display: inline-block;
   vertical-align: baseline;
@@ -16,8 +21,8 @@
   }
 
   // experimental, but we have a fallback in place
-  --ratio: attr(data-ratio);
-  width: calc(1em * var(--ratio, 1.453690625));
+
+  width: calc(1em * var(--dnb-logo-ratio, 1.453690625));
   height: 1em;
 
   &--has-size {

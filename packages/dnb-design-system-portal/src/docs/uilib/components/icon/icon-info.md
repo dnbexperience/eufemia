@@ -6,7 +6,7 @@ import Examples from 'Pages/uilib/components/icon/Examples'
 
 ## Description
 
-The main `Icon` component is basically a wrapper for whatever icon you place within it. This means a `span` wrapping an inline `svg`.
+The main Icon component is basically a wrapper for whatever icon you place within it. This means a `span` wrapping an inline `svg`.
 
 You can basically use whatever you like inside this `Icon` component.
 

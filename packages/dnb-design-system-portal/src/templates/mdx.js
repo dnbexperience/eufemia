@@ -49,7 +49,11 @@ MdxTemplate.propTypes = {
   location: PropTypes.object.isRequired,
   data: PropTypes.shape({
     mdx: PropTypes.shape({
-      body: PropTypes.string.isRequired
+      body: PropTypes.string.isRequired,
+      frontmatter: PropTypes.object.isRequired
+    }).isRequired,
+    site: PropTypes.shape({
+      siteMetadata: PropTypes.object.isRequired
     }).isRequired
   }).isRequired
 }

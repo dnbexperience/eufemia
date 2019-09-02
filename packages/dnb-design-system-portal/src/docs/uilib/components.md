@@ -11,20 +11,20 @@ DNB Eufemia components are ready to use, styled and custom build HTML elements.
 
 ## [Button](/uilib/components/button)
 
-The `Button` component should be used as the primary call-to-action in a form, or as a user interaction mechanism.
+The Button component should be used as the primary call-to-action in a form, or as a user interaction mechanism.
 
 ## [Checkbox](/uilib/components/checkbox)
 
-The `Checkbox` component is shown as a square box that is ticked (checked) when activated.
+The Checkbox component is shown as a square box that is ticked (checked) when activated.
 Checkboxes are used to let a user select one or more options of a limited number of choices.
 
 ## [DatePicker](/uilib/components/date-picker)
 
-The `DatePicker` component should be used whenever there is to enter a single date or a date range/period with a start and end date.
+The DatePicker component should be used whenever there is to enter a single date or a date range/period with a start and end date.
 
 ## [Dropdown](/uilib/components/dropdown)
 
-The `Dropdown` component is a fully custom-made component. This allows us to change it's form based on context (small screens, touch devices etc.)
+The Dropdown component is a fully custom-made component. This allows us to change it's form based on context (small screens, touch devices etc.)
 
 ## [FormLabel](/uilib/components/form-label)
 
@@ -32,27 +32,27 @@ The form-label element represents a caption for an item in a user interface.
 
 ## [FormRow](/uilib/components/form-row)
 
-The `FormRow` component is a helper to archive more easily often used DNB form layout setups. By default a `FormRow` is using the `<formset>` and `<legend>` HTML elements - if a label property is provided.
+The FormRow component is a helper to archive more easily often used DNB form layout setups. By default a `FormRow` is using the `<formset>` and `<legend>` HTML elements - if a label property is provided.
 
 ## [FormSet](/uilib/components/form-set)
 
-The `FormSet` component gives You both a HTML form element `<form>` by default and also a React provider for [FormRow](/uilib/components/form-row). This way You can define more globally e.g. if all the rows should be displayed **vertically**.
+The FormSet component gives You both a HTML form element `<form>` by default and also a React provider for [FormRow](/uilib/components/form-row). This way You can define more globally e.g. if all the rows should be displayed **vertically**.
 
 ## [FormStatus](/uilib/components/form-status)
 
-The `FormStatus` is a simple component meant for displaying the status of a form ( displaying form errors, messages etc. ) The form-status component should be positioned relative to the form or form input to which it referring to.
+The FormStatus is a simple component meant for displaying the status of a form ( displaying form errors, messages etc. ) The form-status component should be positioned relative to the form or form input to which it referring to.
 
 ## [GlobalStatus](/uilib/components/global-status)
 
-The `GlobalStatus` is a complex component meant for displaying a global Application notifications or a summary of a form ( displaying form errors, messages etc. ).
+The GlobalStatus is a complex component meant for displaying a global Application notifications or a summary of a form ( displaying form errors, messages etc. ).
 
 ## [Icon](/uilib/components/icon)
 
-The main `Icon` component is basically a wrapper for whatever icon you place within it. This means a span wrapping an inline svg.
+The main Icon component is basically a wrapper for whatever icon you place within it. This means a span wrapping an inline svg.
 
 ## [IconPrimary](/uilib/components/icon-primary)
 
-The `IconPrimary` component loads by default all Primary Icons so they can easily be included and used without additionally importing every icon.
+The IconPrimary component loads by default all Primary Icons so they can easily be included and used without additionally importing every icon.
 
 ## [Input](/uilib/components/input)
 
@@ -60,7 +60,7 @@ The input component is an umbrella component for all inputs which share the same
 
 ## [InputMasked](/uilib/components/input-masked)
 
-The `InputMasked` component uses the DNB Eufemia normal input component, but with some additional masking functionality. Read more about the details on the open source project.
+The InputMasked component uses the DNB Eufemia normal input component, but with some additional masking functionality. Read more about the details on the open source project.
 
 ## [Logo](/uilib/components/logo)
 
@@ -72,7 +72,7 @@ Modal dialogs appear on top of the main content changing the mode of the system 
 
 ## [ProgressIndicator](/uilib/components/progress-indicator)
 
-Use a `ProgressIndicator` whenever the user has to wait for more than _150ms_.
+Use a ProgressIndicator whenever the user has to wait for more than _150ms_.
 
 ## [StepIndicator](/uilib/components/step-indicator)
 
@@ -92,11 +92,11 @@ Sliders provide a visual indication of adjustable content. A value can be adjust
 
 ## [Space](/uilib/components/space)
 
-The `Space` component provides `margins` within the [provided spacing patterns](/uilib/usage/layout/spacing#spacing-helpers).
+The Space component provides `margins` within the [provided spacing patterns](/uilib/usage/layout/spacing#spacing-helpers).
 
 ## [Switch](/uilib/components/switch)
 
-The `Switch` component (toggle) is a digital on/off switch. Toggle switches are best used for changing the state of system functionalities and preferences.
+The Switch component (toggle) is a digital on/off switch. Toggle switches are best used for changing the state of system functionalities and preferences.
 
 ## [Tabs](/uilib/components/tabs)
 
@@ -104,8 +104,8 @@ Tabs are a set of buttons which allow navigation between content that is related
 
 ## [Textarea](/uilib/components/textarea)
 
-The `Textarea` component has to be used as a multi-line text input control with an unlimited number of characters possible.
+The Textarea component has to be used as a multi-line text input control with an unlimited number of characters possible.
 
 ## [ToggleButton](/uilib/components/toggle-button)
 
-The `ToggleButton` component should be used to toggle on or off a limited number of choices.
+The ToggleButton component should be used to toggle on or off a limited number of choices.

@@ -16,6 +16,7 @@ exports[`Switch component have to match snapshot 1`] = `
   label_direction="horizontal"
   label_position="left"
   on_change={[Function]}
+  on_change_end={[Function]}
   on_state_update={[Function]}
   readOnly={false}
   status={null}
@@ -580,5 +581,10 @@ legend.dnb-form-label {
         top: 0;
         bottom: 0;
         margin: auto 0; } }
+  @supports (-ms-accelerator: true) {
+    .dnb-switch__input:not(:checked) ~ .dnb-switch__button {
+      transform: translateX(0); }
+    .dnb-switch__input:checked ~ .dnb-switch__button {
+      transform: translateX(1rem); } }
 "
 `;

@@ -6,7 +6,7 @@ import Examples from 'Pages/uilib/components/dropdown/Examples'
 
 ## Description
 
-The `Dropdown` component is a fully custom-made component. This allows us to change it's form based on context (small screens, touch devices etc.)
+The Dropdown component is a fully custom-made component. This allows us to change it's form based on context (small screens, touch devices etc.)
 
 ### When to use it:
 
