@@ -10,10 +10,12 @@ draft: true
 | `labelled_by`       | _(optional)_ the ID of the trigger component, describing the modal content. Defaults to the internal `trigger`, so make sure You define the `trigger_title`! |
 | `modal_content`     | _(optional)_ the content which will appear when triggering the modal.                                                                                        |
 | `content_id`        | _(optional)_ defines an unique identifier to a modal. Use it in case you have to refer in some way to the modal content wrapper.                             |
+| `min_width`         | _(optional)_ the minimum Modal content width, defined by a CSS width value like `50vw` (50% of the viewport). Defualts to auto width.                        |
+| `fullscreen`        | _(optional)_ if set to `true` then the modal content will be shown as fullscreen, without showing the original content behind. Defaults to `false`.          |
+| `open_state`        | _(optional)_ use this prop to control the open/close state by setting either: `opened` or `closed`                                                           |
 | `close_title`       | _(optional)_ the title of the close button. Defaults to _Close Modal Window_                                                                                 |
 | `hide_close_button` | _(optional)_ if truthy, the close button will now be shown                                                                                                   |
 | `prevent_close`     | _(optional)_ if set to `true` (boolean or string), then the user can't close the modal.                                                                      |
-| `open_state`        | _(optional)_ use this prop to control the open/close state by setting either: `opened` or `closed`                                                           |
 | `open_modal`        | _(optional)_ set a function to call the callback function, once the modal should open: `open_modal={(open) => open()}`                                       |
 | `close_modal`       | _(optional)_ set a function to call the callback function, once the modal should close: `close_modal={(close) => close()}`                                   |
 

@@ -60,16 +60,60 @@ describe('Modal component', () => {
         .hasAttribute('disabled')
     ).toBe(true)
   })
+  it('has working open event and close event if "Esc" key gets pressed', async () => {
+    const on_close = jest.fn()
+    const on_open = jest.fn()
+    const Comp = mount(
+      <Component {...props} on_close={on_close} on_open={on_open} />
+    )
+    Comp.find('button').simulate('click')
+
+    await wait(11) // wait for the render to be finished
+
+    Comp.find('div.dnb-modal__content__inner').simulate('keyDown', {
+      key: 'Esc',
+      keyCode: 27
+    })
+
+    expect(on_open).toHaveBeenCalled()
+    expect(on_close).toHaveBeenCalled()
+  })
+  it('runs expected side effects', async () => {
+    const Comp = mount(<Component {...props} />)
+    const elem = Comp.find('button')
+    elem.simulate('click')
+
+    await wait(10) // wait for the render to be finished
+
+    const body = document.querySelector('[data-dnb-modal-active]')
+    expect(body.nodeName).toBe('BODY')
+    expect(body.style.overflow).toBe('hidden')
+
+    elem.simulate('click')
+    await wait(10) // wait for the render to be finished
+
+    expect(body.style.overflow).not.toBe('hidden')
+  })
+  it('has expected open and close states', () => {
+    const Comp = mount(<Component {...props} />)
+    Comp.setProps({ open_state: 'opened' })
+
+    expect(Comp.state().modalActive).toBe(true)
+
+    Comp.setProps({ open_state: 'closed' })
+
+    expect(Comp.state().modalActive).toBe(false)
+  })
   it('has an opened modal if open_state is set to "opened"', () => {
     const Comp = mount(<Component {...props} />)
     Comp.setProps({
       open_state: 'opened'
     })
-    expect(Comp.find('div.dnb-modal__content').exists()).toBe(true)
+    expect(Comp.exists('div.dnb-modal__content')).toBe(true)
     Comp.setProps({
       open_state: 'closed'
     })
-    expect(Comp.find('div.dnb-modal__content').exists()).toBe(false)
+    expect(Comp.exists('div.dnb-modal__content')).toBe(false)
   })
   it('has to have the correct aria-describedby', () => {
     expect(
@@ -119,3 +163,5 @@ describe('Modal scss', () => {
     expect(scss).toMatchSnapshot()
   })
 })
+
+const wait = t => new Promise(r => setTimeout(r, t))
