@@ -197,10 +197,7 @@ export default class StepIndicator extends PureComponent {
     return (
       <div {...params}>
         {data.length > 0 && (
-          <ul
-            // role="tablist"
-            className="dnb-step-indicator__list"
-          >
+          <ul className="dnb-step-indicator__list">
             {data.map((props, i) => {
               const params = {
                 currentItem: i,

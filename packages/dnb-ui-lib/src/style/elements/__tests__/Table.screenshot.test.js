@@ -48,4 +48,16 @@ describe('Table screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+  it('have to match a sortable table header on active', async () => {
+    const selector =
+      '[data-dnb-test="table-default"] th.dnb-table--sortable:not(.dnb-table--active)'
+    const screenshot = await testPageScreenshot({
+      style,
+      styleSelector,
+      selector,
+      simulateSelector: `${selector} button.dnb-button`,
+      simulate: 'active'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })
