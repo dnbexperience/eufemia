@@ -32,7 +32,7 @@ const renderProps = {
 const propTypes = {
   id: PropTypes.string,
   status_id: PropTypes.string,
-  title: PropTypes.string,
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   default_title: PropTypes.string,
   text: PropTypes.oneOfType([
     PropTypes.string,
@@ -666,16 +666,20 @@ export default class GlobalStatus extends React.Component {
     const renderedContent = (
       <div className="dnb-global-status__shell" ref={this._shellRef}>
         <div className="dnb-global-status__content">
-          <p className="dnb-global-status__title">
-            <span className="dnb-global-status__icon">{iconToRender}</span>
-            {title || default_title}
-            {!isTrue(hide_close_button) && (
-              <CloseButton
-                on_click={this.closeHandler}
-                title={close_text}
-              />
-            )}
-          </p>
+          {title !== false && (
+            <p className="dnb-global-status__title">
+              <span className="dnb-global-status__icon">
+                {iconToRender}
+              </span>
+              {title || default_title}
+              {!isTrue(hide_close_button) && (
+                <CloseButton
+                  on_click={this.closeHandler}
+                  title={close_text}
+                />
+              )}
+            </p>
+          )}
           <div className="dnb-global-status__message">
             {typeof contentToRender === 'string' ? (
               <p className="dnb-p">{contentToRender}</p>

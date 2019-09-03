@@ -14,6 +14,7 @@ exports[`Modal component have to match snapshot 1`] = `
         "content_id": "content_id",
         "direct_dom_return": "direct_dom_return",
         "disabled": "disabled",
+        "fullscreen": "fullscreen",
         "hide_close_button": "hide_close_button",
         "id": "id",
         "labelled_by": "labelled_by",
@@ -56,8 +57,10 @@ exports[`Modal component have to match snapshot 1`] = `
         "closeModal": [Function],
         "close_title": "close_title",
         "content_id": "content_id",
+        "fullscreen": "fullscreen",
         "hide_close_button": "hide_close_button",
         "labelled_by": "labelled_by",
+        "min_width": "min_width",
         "modal_content": "modal_content",
         "prevent_close": "prevent_close",
         "title": "title",
@@ -81,6 +84,7 @@ exports[`Modal component have to match snapshot 1`] = `
   content_id="modal_content_id"
   direct_dom_return={true}
   disabled={null}
+  fullscreen={false}
   hide_close_button={false}
   id="modal_id"
   labelled_by={null}
@@ -217,6 +221,7 @@ exports[`Modal component have to match snapshot 1`] = `
             "content_id": "content_id",
             "direct_dom_return": "direct_dom_return",
             "disabled": "disabled",
+            "fullscreen": "fullscreen",
             "hide_close_button": "hide_close_button",
             "id": "id",
             "labelled_by": "labelled_by",
@@ -259,8 +264,10 @@ exports[`Modal component have to match snapshot 1`] = `
             "closeModal": [Function],
             "close_title": "close_title",
             "content_id": "content_id",
+            "fullscreen": "fullscreen",
             "hide_close_button": "hide_close_button",
             "labelled_by": "labelled_by",
+            "min_width": "min_width",
             "modal_content": "modal_content",
             "prevent_close": "prevent_close",
             "title": "title",
@@ -284,6 +291,7 @@ exports[`Modal component have to match snapshot 1`] = `
       close_title="close_title"
       content_id="modal_content_id"
       direct_dom_return={true}
+      fullscreen={false}
       hide_close_button={false}
       labelled_by="modal_id"
       modal_content="unique_modal_content"
@@ -308,6 +316,7 @@ exports[`Modal component have to match snapshot 1`] = `
               "content_id": "content_id",
               "direct_dom_return": "direct_dom_return",
               "disabled": "disabled",
+              "fullscreen": "fullscreen",
               "hide_close_button": "hide_close_button",
               "id": "id",
               "labelled_by": "labelled_by",
@@ -350,8 +359,10 @@ exports[`Modal component have to match snapshot 1`] = `
               "closeModal": [Function],
               "close_title": "close_title",
               "content_id": "content_id",
+              "fullscreen": "fullscreen",
               "hide_close_button": "hide_close_button",
               "labelled_by": "labelled_by",
+              "min_width": "min_width",
               "modal_content": "modal_content",
               "prevent_close": "prevent_close",
               "title": "title",
@@ -374,8 +385,10 @@ exports[`Modal component have to match snapshot 1`] = `
         close_modal={null}
         close_title="close_title"
         content_id="modal_content_id"
+        fullscreen={false}
         hide_close_button={false}
         labelled_by="modal_id"
+        min_width={null}
         modal_content="unique_modal_content"
         on_close={null}
         on_close_prevent={null}
@@ -871,7 +884,7 @@ a.dnb-button .dnb-button__text {
     user-select: none; }
     .dnb-modal__content__inner {
       position: relative;
-      padding: 2rem;
+      padding: 2rem 2rem 0;
       max-width: calc(100vw - 1rem);
       max-height: 100vh;
       width: auto;
@@ -883,24 +896,32 @@ a.dnb-button .dnb-button__text {
       background: var(--color-white); }
       @media screen and (min-width: 50em) {
         .dnb-modal__content__inner {
-          padding: 2rem 2rem 3rem;
+          padding: 2rem 2rem 1rem;
           padding-right: 4rem;
           box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16); } }
       @media screen and (max-width: 50em) {
         .dnb-modal__content__inner {
           max-width: 100%;
-          width: 100%;
-          height: 100%; } }
+          width: 100vw;
+          height: 100vh; } }
       @media screen and (max-width: 40em) {
         .dnb-modal__content__inner {
-          padding: 2rem 1rem; } }
+          padding: 2rem 1rem 0; } }
+    .dnb-modal__content--fullscreen {
+      align-items: flex-start;
+      justify-content: flex-start; }
+    .dnb-modal__content--fullscreen .dnb-modal__content__inner {
+      max-width: 100%;
+      width: 100vw;
+      height: 100vh; }
   .dnb-modal__title.dnb-h2,
   .dnb-core-style .dnb-modal__title.dnb-h2 {
     margin: 0; }
   .dnb-modal__wrapper {
     position: relative;
     z-index: 1;
-    margin-top: 1.5rem; }
+    margin-top: 1.5rem;
+    margin-bottom: 2rem; }
   .dnb-modal__close-button {
     position: absolute;
     top: 1rem;

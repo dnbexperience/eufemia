@@ -150,12 +150,6 @@ export default class StickyMenuBar extends PureComponent {
                     <HeaderInner>
                       <MainMenuToggleButton />
                       <CenterWrapper aria-hidden>
-                        {isIE11 && (
-                          <Advice>
-                            Please use other methods to check IE 11
-                            compatibility.
-                          </Advice>
-                        )}
                         {!isIE11 && (
                           <>
                             <Icon
@@ -195,13 +189,3 @@ export default class StickyMenuBar extends PureComponent {
     )
   }
 }
-
-const Advice = styled.div`
-  height: 2rem;
-  padding: 0 0.5rem;
-  background-color: #e10076;
-  line-height: 2rem;
-  color: black;
-  text-align: center;
-  border-radius: 0.125rem;
-`

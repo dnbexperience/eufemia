@@ -28,10 +28,11 @@ class Example extends PureComponent {
 />
           `}
         </ComponentBox>
-        <ComponentBox caption="Triggered by a tertiary button">
+        <ComponentBox caption="Fullscreen Modal, triggered by a tertiary button">
           {/* @jsx */ `
 <Modal
   title="Modal Title"
+  fullscreen="true"
   trigger_variant="tertiary"
   trigger_text="Click me"
   modal_content="This is the modal text. Triggered by a tertiary button."

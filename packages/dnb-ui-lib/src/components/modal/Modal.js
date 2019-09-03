@@ -57,6 +57,7 @@ export const propTypes = {
     PropTypes.bool
   ]),
   prevent_close: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  fullscreen: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   open_state: PropTypes.oneOf(['opened', 'closed']),
   direct_dom_return: PropTypes.oneOfType([
     PropTypes.string,
@@ -105,6 +106,7 @@ export const defaultProps = {
   close_title: 'Lukk', // Close Modal Window
   hide_close_button: false,
   prevent_close: false,
+  fullscreen: false,
   open_state: null,
   direct_dom_return: false,
   class: null,
@@ -147,7 +149,7 @@ export default class Modal extends PureComponent {
           document.body.appendChild(Modal.modalRoot)
         }
       } catch (e) {
-        console.log('Could not insert dnb-modal-root', e)
+        console.warn('Modal: Could not insert dnb-modal-root', e)
       }
     }
 
@@ -189,9 +191,9 @@ export default class Modal extends PureComponent {
       this.handleSideEffects(this.state.modalActive)
     }
     if (typeof open_modal === 'function') {
-      open_modal(() => {
-        this.toggleOpenClose(null, true)
-      }, this)
+      // open_modal(() => {
+      //   this.toggleOpenClose(null, true)
+      // }, this)
     }
   }
   componentWillUnmount() {
@@ -225,8 +227,8 @@ export default class Modal extends PureComponent {
           modalActive ? 'true' : 'false'
         )
       } catch (e) {
-        console.log(
-          'Error on set "data-dnb-modal-active" by using element.setAttribute()',
+        console.warn(
+          'Modal: Error on set "data-dnb-modal-active" by using element.setAttribute()',
           e
         )
       }
@@ -243,14 +245,18 @@ export default class Modal extends PureComponent {
 
     const id = this._id
     if (modalActive) {
-      dispatchCustomElementEvent(this, 'on_open', { id })
+      // to make sure we are after the render cyclus
+      // this way have the content insted by the time we call this event
+      this.delayEventDispatch = setTimeout(() => {
+        dispatchCustomElementEvent(this, 'on_open', { id })
+      }, 10)
     } else if (this.wasActive) {
       dispatchCustomElementEvent(this, 'on_close', { id })
     }
     this.wasActive = modalActive
 
     if (modalActive === false) {
-      if (this._triggerRef.current) {
+      if (this._triggerRef && this._triggerRef.current) {
         this._triggerRef.current.focus()
       }
     }
@@ -374,7 +380,7 @@ class ModalRoot extends PureComponent {
           Modal.modalRoot.appendChild(this.node)
         }
       } catch (e) {
-        console.log(e)
+        console.warn(e)
       }
       this.setState({ isMonted: true })
     }
@@ -414,6 +420,8 @@ class ModalContent extends PureComponent {
       PropTypes.bool
     ]),
     prevent_close: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    min_width: PropTypes.string,
+    fullscreen: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     class: PropTypes.string,
 
     // React props
@@ -433,6 +441,8 @@ class ModalContent extends PureComponent {
     close_title: null,
     hide_close_button: false,
     prevent_close: null,
+    min_width: null,
+    fullscreen: null,
     class: null,
 
     // React props
@@ -477,7 +487,7 @@ class ModalContent extends PureComponent {
             focusElement.focus()
           }
         } catch (e) {
-          console.log(e)
+          console.warn(e)
         }
       }, 300) // with this delay, the user can  press esc without an focus action first
     }
@@ -539,7 +549,7 @@ class ModalContent extends PureComponent {
         // @see https://www.sitepoint.com/when-do-elements-take-the-focus/
         node.style.outline = 'none'
       } catch (e) {
-        console.log(e)
+        console.warn(e)
       }
     })
   }
@@ -560,7 +570,7 @@ class ModalContent extends PureComponent {
         }
         node.style.outline = null
       } catch (e) {
-        console.log(e)
+        console.warn(e)
       }
     })
     this.nonModalNodes = null
@@ -589,6 +599,8 @@ class ModalContent extends PureComponent {
       close_title,
       hide_close_button,
       prevent_close, // eslint-disable-line
+      min_width,
+      fullscreen, // eslint-disable-line
       closeModal,
       className,
       class: _className,
@@ -603,7 +615,10 @@ class ModalContent extends PureComponent {
     const contentParams = {
       role: 'dialog',
       'aria-modal': 'true',
-      className: 'dnb-modal__content',
+      className: classnames(
+        'dnb-modal__content',
+        fullscreen && 'dnb-modal__content--fullscreen'
+      ),
       onClick: closeModal
     }
 
@@ -616,6 +631,7 @@ class ModalContent extends PureComponent {
         className,
         _className
       ),
+      style: min_width && { minWidth: min_width },
       onClick: this.preventClick,
       onTouchStart: this.preventClick,
       onKeyDown: this.onKeyDownHandler,
@@ -633,7 +649,7 @@ class ModalContent extends PureComponent {
     return (
       <Fragment>
         <div {...contentParams}>
-          <div ref={this._contentRef} {...innerParams}>
+          <div {...innerParams} ref={this._contentRef}>
             {title && <h1 className="dnb-modal__title dnb-h2">{title}</h1>}
             {isTrue(hide_close_button) !== true && (
               <CloseButton on_click={closeModal} title={close_title} />

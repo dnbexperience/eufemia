@@ -160,6 +160,25 @@ describe('Dropdown component', () => {
     expect(on_change.mock.calls[0][0].data).toBe(selectedItem)
   })
 
+  it('has working direction observer', () => {
+    // open first
+    Comp.find('button').simulate('keydown', { key: 'Space', keyCode: 32 })
+
+    expect(Comp.props().direction).toBe('auto')
+    expect(Comp.state().max_height).toBeGreaterThan(0)
+  })
+
+  it('has correct direction prop', () => {
+    const Comp = mount(
+      <Component {...props} data={mockData} direction="top" />
+    )
+
+    // open first
+    Comp.find('button').simulate('keydown', { key: 'Space', keyCode: 32 })
+
+    expect(Comp.state().max_height).toBe(null)
+  })
+
   it('has correct state after "esc" key', () => {
     // document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
     Comp.find('button').simulate('keyDown', {
