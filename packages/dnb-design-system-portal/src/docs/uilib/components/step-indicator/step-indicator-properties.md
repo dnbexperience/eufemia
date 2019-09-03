@@ -8,7 +8,7 @@ draft: true
 | ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `data`                                          | _(mandatory)_ defines the data/steps showing up in a JavaScript Array or JSON format like `[{title,url}]`.                                             |
 | `use_navigation`                                | _(optional)_ then every achieved (and the current) step has an item with a [Button](/uilib/components/button) so the user can navigate back and forth. |
-| `active_item`                                   | _(optional)_ defines the active number marked step. Defaults to `0`.                                                                                   |
+| `active_item`                                   | _(optional)_ defines the active number marked step starting by 0. Defaults to `0`.                                                                     |
 | `active_url`                                    | _(optional)_ defines the active url marked step.                                                                                                       |
 | `hide_numbers`                                  | _(optional)_ define whether to show automatically counted numbers or not. Defaults to `false`.                                                         |
 | `on_item_render`                                | _(optional)_ callback function to manipulate or wrap every item. Has to return a React Node.                                                           |

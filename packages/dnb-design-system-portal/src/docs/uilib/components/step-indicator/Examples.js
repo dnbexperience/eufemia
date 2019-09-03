@@ -105,7 +105,7 @@ class Example extends PureComponent {
         >
           {/* @jsx */ `
 <StepIndicator
-  active_item="3"
+  active_item="2"
   data={[
     {
       title: 'Om din nye bolig'

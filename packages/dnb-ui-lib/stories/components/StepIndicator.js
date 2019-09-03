@@ -16,7 +16,7 @@ export default [
       <Box>
         <StepIndicator
           use_navigation
-          active_item={1}
+          active_item={0}
           on_change={({ currentItem }) => {
             console.log('on_change', currentItem)
           }}
@@ -31,7 +31,7 @@ export default [
           }}
           data={[
             {
-              title: 'Om din nye bolig',
+              title: 'First',
               on_click: ({ currentItem }) =>
                 console.log('on_click', currentItem)
               // on_render: ({ StepItem }) => (
@@ -43,14 +43,14 @@ export default [
               // )
             },
             {
-              title: 'Ditt lån og egenkapital',
+              title: 'Second',
               on_click: ({ currentItem }) =>
                 console.log('on_click', currentItem)
               // is_active: true
               // is_current: true
             },
             {
-              title: 'Oppsummering',
+              title: 'Third',
               on_click: ({ currentItem }) =>
                 console.log('on_click', currentItem)
             }
@@ -63,17 +63,17 @@ export default [
           active_url="?path=/story/components--stepindicator&current"
           data={[
             {
-              title: 'Om din nye bolig',
+              title: 'First',
               url_passed: '?path=/story/components--stepindicator&passed',
               url: '?path=/story/components--stepindicator'
             },
             {
-              title: 'Ditt lån og egenkapital',
+              title: 'Second',
               // url_passed: '?path=/story/components--stepindicator&passed',
               url: '?path=/story/components--stepindicator&current'
             },
             {
-              title: 'Oppsummering',
+              title: 'Third',
               url: '?path=/story/components--stepindicator'
               // url_future: '?path=/story/components--stepindicator&future'
             }
@@ -82,16 +82,16 @@ export default [
       </Box>
       <Box>
         <StepIndicator
-          active_item="3"
+          active_item="2"
           data={[
             {
-              title: 'Om din nye bolig'
+              title: 'First'
             },
             {
-              title: 'Ditt lån og egenkapital'
+              title: 'Second'
             },
             {
-              title: 'Oppsummering'
+              title: 'Third'
             }
           ]}
         />
