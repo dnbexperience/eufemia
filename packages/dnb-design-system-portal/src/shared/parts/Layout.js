@@ -21,7 +21,8 @@ import {
   setPageFocusElement,
   scrollToLocationHashId
 } from 'dnb-ui-lib/src/shared/helpers'
-import { Logo, GlobalStatus } from 'dnb-ui-lib/src'
+import { Logo, GlobalStatus } from 'dnb-ui-lib/src/components'
+import { isIE11 } from 'dnb-ui-lib/src/shared/helpers'
 
 class Layout extends PureComponent {
   static propTypes = {
@@ -100,6 +101,11 @@ const Content = ({ className, children }) => (
     id="dnb-app-content"
     className={classnames('dnb-spacing', 'dnb-app-content', className)}
   >
+    {isIE11 && (
+      <GlobalStatus show no_animation title={false}>
+        Please use other methods to check IE 11 compatibility.
+      </GlobalStatus>
+    )}
     <Global styles={markdownStyle} />
     {children}
   </ContentWrapper>
