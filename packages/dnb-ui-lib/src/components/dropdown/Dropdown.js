@@ -269,7 +269,6 @@ export default class Dropdown extends PureComponent {
     this.state = {
       _listenForPropChanges: true,
       opened,
-      // data: null,
       hidden: !opened,
       direction: props.direction,
       max_height: props.max_height,
@@ -328,6 +327,7 @@ export default class Dropdown extends PureComponent {
         this._showTimeout = setTimeout(() => {
           this.blockDoubleClick = false
         }, 1e3) // wait until animation is over
+
         this.setDirectionObserver()
         this.setScrollObserver()
         this.setOutsideClickObserver()
@@ -707,6 +707,9 @@ export default class Dropdown extends PureComponent {
 
   setDirectionObserver() {
     if (typeof window === 'undefined' || !this._ref.current) {
+      return
+    }
+    if (this.props.direction !== 'auto') {
       return
     }
     this.removeDirectionObserver()

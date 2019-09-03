@@ -7,7 +7,14 @@ import React /* , { useState, useEffect } */ from 'react'
 import { Wrapper, Box } from '../helpers'
 // import styled from '@emotion/styled'
 
-import { Modal, Switch, Button, Input } from '../../src/components'
+import {
+  Modal,
+  Switch,
+  Button,
+  Input,
+  Dropdown,
+  DatePicker
+} from '../../src/components'
 import { H2, P, Hr } from '../../src/elements'
 
 export default [
@@ -89,26 +96,64 @@ class ModalRerenderExample extends React.PureComponent {
   render() {
     return (
       <Modal
+        // open_state="opened"
         className="dnb-core-style"
         trigger_text={this.state.trigger_text}
         title={this.state.title}
         // trigger_disabled
         // trigger_hidden
       >
-        <Hr />
-        <Box>
+        {/* <Hr /> */}
+        {/* <Box>
           <H2>Some content</H2>
           <Input>Focus me with Tab key</Input>
-        </Box>
-        <Box>
-          <P>
-            <Switch label="Checked:" checked />
-          </P>
-        </Box>
+        </Box> */}
+        <DatePicker label="DatePicker" right />
+        <Dropdown
+          label="Dropdown"
+          data={dropdownData}
+          right
+          direction="top"
+        />
+        {/* <Switch label="Checked:" checked right /> */}
       </Modal>
     )
   }
 }
+
+let dropdownData = [
+  {
+    selected_value: 'Brukskonto - Kari Nordmann',
+    content: <>Brukskonto - Kari Nordmann</>
+  },
+  {
+    content: ['4444.56.78902', 'Sparekonto - Ole Nordmann A']
+  },
+  {
+    content: ['1234.56.23902', 'Sparekonto - Ole Nordmann B']
+  },
+  {
+    content: ['5555.56.72302', 'Sparekonto - Ole Nordmann C']
+  },
+  {
+    content: ['7777.56.72302', 'Sparekonto - Ole Nordmann D']
+  },
+  {
+    content: ['9999.56.72302', 'Sparekonto - Ole Nordmann E']
+  },
+  {
+    selected_value:
+      'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen',
+    content: [
+      '1134.56.78962',
+      'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen'
+    ]
+  },
+  {
+    selected_value: <>Custom selected {'🔥'}</>,
+    content: ['1534.96.48901', <>Custom content {'🔥'}</>]
+  }
+]
 
 class ModalCloseExample extends React.PureComponent {
   state = {
