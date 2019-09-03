@@ -5,6 +5,17 @@
 
 @import '../../components/button/style/button-mixins.scss';
 
+@mixin tableFocusRing() {
+  &::before {
+    content: '';
+    position: absolute;
+    top: -0.6rem;
+    left: -1rem;
+    right: 0.5rem;
+    height: 2.5rem;
+  }
+}
+
 @mixin tableStyle() {
   display: table;
   table-layout: auto;
@@ -115,19 +126,15 @@
       }
 
       &:focus {
-        @include removeFakeFocus();
-
-        &::before {
-          content: '';
-          position: absolute;
-          top: -0.6rem;
-          left: -1rem;
-          right: 0.5rem;
-          height: 2.5rem;
-        }
+        @include tableFocusRing();
       }
 
       @include active() {
+        @include tableFocusRing();
+        &::before {
+          right: -0.5rem;
+        }
+
         color: var(--color-emerald-green);
         .dnb-button__text {
           border-bottom-color: transparent;
