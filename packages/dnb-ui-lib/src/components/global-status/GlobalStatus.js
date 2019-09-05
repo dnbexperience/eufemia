@@ -184,10 +184,12 @@ export default class GlobalStatus extends React.Component {
     this._visibility = new Animation()
     this._height = new Animation()
 
-    this.provider = GlobalStatusProvider.Factory(props.id)
+    this.provider = GlobalStatusProvider.create(props.id)
 
     // add the props as the first stack
-    this.state.globalStatus = this._globalStatus = this.provider.add(props)
+    this.state.globalStatus = this._globalStatus = this.provider.init(
+      props
+    )
 
     // and make it visible from start, if needed
     if (isTrue(props.show)) {
@@ -236,9 +238,17 @@ export default class GlobalStatus extends React.Component {
   componentWillUnmount() {
     this._visibility.unbind()
     this._height.unbind()
-    this.provider.unbind()
     clearTimeout(this._scrollToStatusId)
     clearTimeout(this._isDemoHiddenId)
+
+    // NB: Never unbind the provider,
+    // as a new provider else will be set BEFORE thi unmount is called
+    // on the other hand; setting up the provider
+    // at the stage of componentDidMount is too late
+    // this.provider.unbind()
+
+    // so we inly empty the events
+    this.provider.empty()
   }
 
   setVisible = ({
@@ -733,7 +743,7 @@ CloseButton.propTypes = {
 }
 CloseButton.defaultProps = {
   className: null,
-  text: 'Lukk'
+  text: defaultProps.close_text
 }
 
 // Extend our component with controllers
