@@ -280,7 +280,6 @@ exports[`Textarea scss have to match snapshot 1`] = `
   display: inline-block;
   width: auto;
   padding: 0;
-  margin: 0;
   margin-right: 1rem;
   text-align: left;
   vertical-align: baseline;
@@ -580,7 +579,6 @@ textarea.dnb-textarea {
     line-height: 1.5rem;
     font-variant-numeric: lining-nums;
     font-feature-settings: \\"lnum\\"; }
-    .dnb-textarea__textarea,
     .dnb-textarea__textarea textarea {
       margin: 0; }
   .dnb-textarea__placeholder, .dnb-textarea__textarea {
@@ -634,7 +632,6 @@ textarea.dnb-textarea {
   font-feature-settings: \\"lnum\\";
   border-radius: 0.5rem;
   /* IE11 fix */ }
-  textarea.dnb-textarea,
   textarea.dnb-textarea textarea {
     margin: 0; }
   textarea.dnb-textarea,
