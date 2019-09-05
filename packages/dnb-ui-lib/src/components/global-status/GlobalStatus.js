@@ -24,6 +24,7 @@ import Animation from './AnimationHelper'
 
 const renderProps = {
   on_open: null,
+  on_show: null,
   on_close: null,
   on_hide: null,
   render_content: null
@@ -76,6 +77,7 @@ const propTypes = {
 
   // Web Component props
   on_open: PropTypes.func,
+  on_show: PropTypes.func,
   on_close: PropTypes.func,
   on_hide: PropTypes.func,
   render_content: PropTypes.func
@@ -266,6 +268,11 @@ export default class GlobalStatus extends React.Component {
       })
       dispatchCustomElementEvent(
         this._globalStatus,
+        'on_show',
+        this._globalStatus
+      )
+      dispatchCustomElementEvent(
+        this._globalStatus,
         'on_open',
         this._globalStatus
       )
@@ -304,6 +311,11 @@ export default class GlobalStatus extends React.Component {
         isVisible: true,
         _listenForPropChanges: false
       })
+      dispatchCustomElementEvent(
+        this._globalStatus,
+        'on_show',
+        this._globalStatus
+      )
       if (!wasVisibleFromBefore) {
         dispatchCustomElementEvent(
           this._globalStatus,

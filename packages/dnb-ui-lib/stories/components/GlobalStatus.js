@@ -3,7 +3,10 @@
  *
  */
 
-import React, { useState } from 'react'
+import React, {
+  useState
+  // , useEffect
+} from 'react'
 import { Wrapper, Box } from '../helpers'
 // import styled from '@emotion/styled'
 
@@ -13,12 +16,17 @@ import {
   Switch,
   GlobalStatus,
   ToggleButton,
+  // StepIndicator,
   Section,
   Button,
   FormRow,
   FormSet
 } from '../../src/components'
-import { H2, Link } from '../../src/elements'
+import {
+  H2,
+  // P,
+  Link
+} from '../../src/elements'
 // import { GlobalStatusProvider } from '../../src/components/global-status/GlobalStatusContext'
 
 const CustomStatus = () => (
@@ -50,18 +58,22 @@ export default [
   () => (
     <Wrapper>
       <Box>
+        {/* <UpdateWithSet_GlobalStatus />
+        <UpdateWithSet /> */}
+      </Box>
+      <Box>
         <GlobalStatus
-          title="Custom Title"
-          text="Failure text"
-          items={[
-            {
-              text: 'List item',
-              status_anchor_url: '/uilib/components/global-status'
-            }
-          ]}
-          show="true"
-          no_animation="true"
-          autoscroll="false"
+          // title="Custom Title"
+          // text="Failure text"
+          // items={[
+          //   {
+          //     text: 'List item',
+          //     status_anchor_url: '/uilib/components/global-status'
+          //   }
+          // ]}
+          // show="true"
+          // no_animation="true"
+          // autoscroll="false"
           id="demo-1"
         />
       </Box>
@@ -384,9 +396,9 @@ const NestedSections = () => (
 // const items = ['Status text 1', 'Status text 2']
 const DemoAnimation = () => {
   const [showDemo, toggleShowDemo] = useState(false)
-  setTimeout(() => {
-    // toggleShowDemo(true)
-  }, 30)
+  // setTimeout(() => {
+  //   // toggleShowDemo(true)
+  // }, 30)
   return (
     <>
       <ToggleButton
@@ -402,16 +414,102 @@ const DemoAnimation = () => {
         items='["Status text 1", "Status text 2"]'
         // items={['Status text 1', 'Status text 2']}
         // items={items}
-        // demo={showDemo}
+        demo={showDemo}
         show={showDemo}
-        // autoscroll={false}
+        autoscroll={false}
         // no_animation={true}
         // delay={0}
         id="demo-3"
-        on_close={() => {
-          toggleShowDemo(false)
-        }}
+        // on_close={() => {
+        //   toggleShowDemo(false)
+        // }}
       />
     </>
   )
 }
+
+// const UpdateWithSet = () => {
+//   const [count, setCount] = useState(0)
+//
+//   useEffect(() => {
+//     let id = setTimeout(() => {
+//       const status = GlobalStatus.Set({
+//         id: 'my-status',
+//         status_id: 'custom-id-1',
+//         text: 'Hello'
+//       })
+//       id = setTimeout(() => {
+//         status.remove()
+//         setCount(count + 1)
+//       }, 2e3)
+//     }, 1e3)
+//     return () => clearTimeout(id)
+//   })
+//
+//   useEffect(() => {
+//     let id = setTimeout(() => {
+//       const status = GlobalStatus.Set({
+//         id: 'second-status',
+//         status_id: 'custom-id-1',
+//         text: 'Hello form second'
+//       })
+//       id = setTimeout(() => {
+//         status.remove()
+//       }, 1e3)
+//     }, 2e3)
+//     return () => clearTimeout(id)
+//   })
+//
+//   return (
+//     <>
+//       <Section>
+//         <StepIndicator
+//           top="large"
+//           use_navigation
+//           section_style
+//           data={[
+//             {
+//               title: 'First'
+//             },
+//             {
+//               title: 'Second'
+//             },
+//             {
+//               title: 'Last'
+//             }
+//           ]}
+//         />
+//         <P top="large">Count: {count}</P>
+//       </Section>
+//     </>
+//   )
+// }
+//
+// const UpdateWithSet_GlobalStatus = () => {
+//   const [count, setCount] = useState(0)
+//
+//   useEffect(() => {
+//     let id = setTimeout(() => {
+//       setCount(count + 1)
+//     }, 1e3)
+//     return () => clearTimeout(id)
+//   })
+//
+//   return (
+//     <>
+//       <GlobalStatus
+//         id="my-status"
+//         on_show={() => {
+//           console.log('Hi there!')
+//         }}
+//       />
+//       <GlobalStatus
+//         id="second-status"
+//         on_show={() => {
+//           console.log('Hi there from second!')
+//         }}
+//       />
+//       <P top="4">Global Count: {count}</P>
+//     </>
+//   )
+// }
