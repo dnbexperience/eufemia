@@ -527,7 +527,7 @@ class ContentWrapper extends PureComponent {
     children: PropTypes.node.isRequired
   }
   render() {
-    const { id, children, selected_key: key } = this.props
+    const { id, children, selected_key: key, ...rest } = this.props
     if (!children) {
       return <></>
     }
@@ -535,7 +535,10 @@ class ContentWrapper extends PureComponent {
       <div
         role="tabpanel"
         id={`${id}-content-${key}`}
-        className="dnb-tabs__content"
+        className={classnames(
+          'dnb-tabs__content',
+          createSpacingClasses(rest)
+        )}
         aria-labelledby={`${id}-tab-${key}`}
       >
         {children}
@@ -554,23 +557,48 @@ class ContentWrapper extends PureComponent {
  */
 class CustomContent extends PureComponent {
   static propTypes = {
-    displayName: PropTypes.string, // eslint-disable-line
+    displayName: PropTypes.string,
     title: PropTypes.string, // eslint-disable-line
     hash: PropTypes.string, // eslint-disable-line
     selected: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]), // eslint-disable-line
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]), // eslint-disable-line
-    children: PropTypes.node.isRequired
+    children: PropTypes.node.isRequired,
+    className: PropTypes.string,
+    class: PropTypes.string
   }
   static defaultProps = {
-    displayName: 'CustomContent',
+    displayName: 'CustomContent' /** React props */,
     title: null,
     hash: null,
     selected: null,
-    disabled: null
+    disabled: null,
+    className: null,
+    class: null
   }
   render() {
-    const { children } = this.props
-    return children
+    const {
+      children,
+      displayName, // eslint-disable-line
+      title, // eslint-disable-line
+      hash, // eslint-disable-line
+      selected, // eslint-disable-line
+      disabled, // eslint-disable-line
+      className,
+      class: _className,
+      ...rest
+    } = this.props
+    return (
+      <div
+        className={classnames(
+          'dnb-tabs__content__inner',
+          createSpacingClasses(rest),
+          className,
+          _className
+        )}
+      >
+        {children}
+      </div>
+    )
   }
 }
 

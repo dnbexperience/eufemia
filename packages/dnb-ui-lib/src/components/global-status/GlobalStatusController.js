@@ -37,11 +37,12 @@ class GlobalStatusController extends PureComponent {
       GSP = window.GlobalStatusProvider
     }
 
-    this.provider = GSP.Factory(props.id)
-    const { status_id } = this.provider.add(props)
+    this.provider = GSP.init(props.id, provider => {
+      const { status_id } = provider.add(props)
 
-    // current status id
-    this.internal_status_id = props.status_id || status_id
+      // current status id
+      this.internal_status_id = props.status_id || status_id
+    })
 
     return this
   }
@@ -87,13 +88,13 @@ class GlobalStatusRemove extends PureComponent {
     if (!GSP && typeof window !== 'undefined') {
       GSP = window.GlobalStatusProvider
     }
-    this.provider = GSP.Factory(props.id)
-
-    if (props.status_id) {
-      this.provider.remove(props.status_id, {
-        buffer_delay: props.buffer_delay
-      })
-    }
+    this.provider = GSP.init(props.id, provider => {
+      if (props.status_id) {
+        provider.remove(props.status_id, {
+          buffer_delay: props.buffer_delay
+        })
+      }
+    })
   }
 
   render() {

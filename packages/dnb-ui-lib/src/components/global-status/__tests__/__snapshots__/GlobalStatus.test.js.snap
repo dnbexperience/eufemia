@@ -654,11 +654,12 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
   on_close={[Function]}
   on_hide={[Function]}
   on_open={[Function]}
+  on_show={[Function]}
   render_content={[Function]}
   show={true}
   state="error"
   status_anchor_text="status_anchor_text"
-  status_id="status_id"
+  status_id={null}
   text="text"
   title="title"
 >
@@ -872,11 +873,6 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
                 </li>
                 <li
                   key="1"
-                >
-                  item #2
-                </li>
-                <li
-                  key="2"
                 >
                   item #2
                 </li>

@@ -19,6 +19,7 @@ import dnb_form_status from '../style/dnb-global-status.scss' // eslint-disable-
 import dnb_form_status_theme_ui from '../style/themes/dnb-global-status-theme-ui.scss' // eslint-disable-line
 
 const id = 'main'
+const status_id = null
 const state = 'error'
 const text = 'text'
 const children = null
@@ -34,6 +35,7 @@ const snapshotProps = {
   }),
 
   id,
+  status_id,
   state,
   children,
   show,

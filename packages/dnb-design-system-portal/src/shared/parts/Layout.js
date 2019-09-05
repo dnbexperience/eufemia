@@ -43,15 +43,17 @@ class Layout extends PureComponent {
   render() {
     const { children, location, fullscreen } = this.props
 
+    const contentInner = (
+      <ContentInner className="dnb-app-content-inner">
+        <GlobalStatus id="main-status" />
+        <div className="dev-grid">{children}</div>
+      </ContentInner>
+    )
+
     if (fullscreen || /fullscreen/.test(location.search)) {
       return (
         <>
-          <Content className="fullscreen-page">
-            <ContentInner className="dnb-app-content-inner">
-              <GlobalStatus id="main-status" />
-              <div className="dev-grid">{children}</div>
-            </ContentInner>
-          </Content>
+          <Content className="fullscreen-page">{contentInner}</Content>
           <ToggleGrid hidden />
           <Footer />
         </>
@@ -69,10 +71,7 @@ class Layout extends PureComponent {
           <Wrapper className="content-wrapper">
             <Sidebar location={location} showAll={false} />
             <Content>
-              <ContentInner className="dnb-app-content-inner">
-                <GlobalStatus id="main-status" />
-                <div className="dev-grid">{children}</div>
-              </ContentInner>
+              {contentInner}
               <Footer />
             </Content>
           </Wrapper>

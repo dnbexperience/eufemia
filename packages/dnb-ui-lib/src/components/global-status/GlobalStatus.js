@@ -24,6 +24,7 @@ import Animation from './AnimationHelper'
 
 const renderProps = {
   on_open: null,
+  on_show: null,
   on_close: null,
   on_hide: null,
   render_content: null
@@ -76,6 +77,7 @@ const propTypes = {
 
   // Web Component props
   on_open: PropTypes.func,
+  on_show: PropTypes.func,
   on_close: PropTypes.func,
   on_hide: PropTypes.func,
   render_content: PropTypes.func
@@ -184,10 +186,12 @@ export default class GlobalStatus extends React.Component {
     this._visibility = new Animation()
     this._height = new Animation()
 
-    this.provider = GlobalStatusProvider.Factory(props.id)
+    this.provider = GlobalStatusProvider.create(props.id)
 
     // add the props as the first stack
-    this.state.globalStatus = this._globalStatus = this.provider.add(props)
+    this.state.globalStatus = this._globalStatus = this.provider.init(
+      props
+    )
 
     // and make it visible from start, if needed
     if (isTrue(props.show)) {
@@ -236,9 +240,17 @@ export default class GlobalStatus extends React.Component {
   componentWillUnmount() {
     this._visibility.unbind()
     this._height.unbind()
-    this.provider.unbind()
     clearTimeout(this._scrollToStatusId)
     clearTimeout(this._isDemoHiddenId)
+
+    // NB: Never unbind the provider,
+    // as a new provider else will be set BEFORE thi unmount is called
+    // on the other hand; setting up the provider
+    // at the stage of componentDidMount is too late
+    // this.provider.unbind()
+
+    // so we inly empty the events
+    this.provider.empty()
   }
 
   setVisible = ({
@@ -254,6 +266,11 @@ export default class GlobalStatus extends React.Component {
         isVisible: true,
         _listenForPropChanges: false
       })
+      dispatchCustomElementEvent(
+        this._globalStatus,
+        'on_show',
+        this._globalStatus
+      )
       dispatchCustomElementEvent(
         this._globalStatus,
         'on_open',
@@ -294,6 +311,11 @@ export default class GlobalStatus extends React.Component {
         isVisible: true,
         _listenForPropChanges: false
       })
+      dispatchCustomElementEvent(
+        this._globalStatus,
+        'on_show',
+        this._globalStatus
+      )
       if (!wasVisibleFromBefore) {
         dispatchCustomElementEvent(
           this._globalStatus,
@@ -733,7 +755,7 @@ CloseButton.propTypes = {
 }
 CloseButton.defaultProps = {
   className: null,
-  text: 'Lukk'
+  text: defaultProps.close_text
 }
 
 // Extend our component with controllers

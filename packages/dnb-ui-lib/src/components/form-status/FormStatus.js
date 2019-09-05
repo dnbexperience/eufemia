@@ -118,17 +118,21 @@ export default class FormStatus extends PureComponent {
     super(props)
 
     // we do not use a random ID here, as we don't need it for now
-    this._id = props.id
-    this.provider = GlobalStatusProvider.Factory(
-      props.global_status_id || 'main'
+    this._id =
+      props.id || `dnb-form-status-${Math.round(Math.random() * 999)}`
+    this.gsProvider = GlobalStatusProvider.init(
+      props.global_status_id || 'main',
+      provider => {
+        // gets called once ready
+        const { text, state } = this.props
+        const status_id = this._id
+        provider.add({
+          state,
+          status_id,
+          item: { text, status_id, status_anchor_url: true }
+        })
+      }
     )
-    const { text, state } = props
-    const status_id = this._id
-    this.provider.add({
-      state,
-      status_id,
-      item: { text, status_id, status_anchor_url: true }
-    })
   }
 
   correctStatus(state) {
@@ -140,11 +144,15 @@ export default class FormStatus extends PureComponent {
     return state
   }
 
+  componentDidMount() {
+    if (this.gsProvider) {
+      this.gsProvider.isReady()
+    }
+  }
+
   componentWillUnmount() {
-    if (this.provider) {
-      this.provider.remove(this._id)
-      // this.provider.unbind()
-      // this.provider = null
+    if (this.gsProvider) {
+      this.gsProvider.remove(this._id)
     }
   }
 

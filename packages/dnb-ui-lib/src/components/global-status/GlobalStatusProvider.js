@@ -8,22 +8,39 @@ import { defaultProps } from './GlobalStatus'
 // The meaning with this is that we can force a rerender without sharing the same context
 class GlobalStatusProvider {
   static providers = {}
-  static Factory = (id = 'main', props = null) => {
-    return GlobalStatusProvider.providers[id] || this.set(id, props)
+
+  static create = (id = 'main', props = null) => {
+    return (GlobalStatusProvider.providers[
+      id
+    ] = new GlobalStatusProviderItem(id, props))
   }
 
-  static set(id = 'main', props = null) {
-    return (
-      GlobalStatusProvider.providers[id] ||
-      (GlobalStatusProvider.providers[id] = new GlobalStatusProviderItem(
-        id,
-        props
-      ))
-    )
+  static init(id = 'main', onReady = null, props = null) {
+    const existingStatus = GlobalStatusProvider.get(id)
+
+    if (existingStatus) {
+      if (props) {
+        existingStatus.add(props)
+      }
+      if (typeof onReady === 'function') {
+        onReady(existingStatus)
+      }
+      return existingStatus
+    }
+
+    const newStatus = GlobalStatusProvider.create(id, props)
+
+    if (onReady) {
+      newStatus.addOnReady(newStatus)
+    }
+
+    return newStatus
   }
+
   static get(id = 'main') {
     return GlobalStatusProvider.providers[id] || null
   }
+
   static remove(id = 'main') {
     if (GlobalStatusProvider.providers[id]) {
       delete GlobalStatusProvider.providers[id]
@@ -48,11 +65,7 @@ class GlobalStatusProvider {
   }
 
   static combineMessages(stack) {
-    const globalStatus = stack.reduce((
-      acc,
-      _cur
-      // , i, arr
-    ) => {
+    const globalStatus = stack.reduce((acc, _cur) => {
       // make a copy, because items are read-only
       const cur = { ..._cur }
 
@@ -74,10 +87,7 @@ class GlobalStatusProvider {
       if (cur.items) {
         cur.items = cur.items.reduce((acc, item) => {
           // only a fallback and to make sure we have
-          item = GlobalStatusProvider.prepareItemWithStatusId(
-            item,
-            cur.status_id || null
-          )
+          item = GlobalStatusProvider.prepareItemWithStatusId(item)
 
           const foundAtIndex = acc.findIndex(
             ({ status_id }) => status_id === item.status_id
@@ -115,14 +125,10 @@ class GlobalStatusProviderItem {
     }
   }
 
-  globalStatus = {}
-  listeners = []
-  stack = []
-
   onUpdate(event) {
     // check for duplication first
-    if (this.listeners.filter(cb => cb === event).length === 0) {
-      this.listeners.push(event)
+    if (this._onUpdateEvents.filter(cb => cb === event).length === 0) {
+      this._onUpdateEvents.push(event)
     }
   }
 
@@ -133,7 +139,7 @@ class GlobalStatusProviderItem {
     { buffer_delay = 0, isEmpty = false } = {}
   ) {
     const run = () => {
-      this.listeners.forEach(event => {
+      this._onUpdateEvents.forEach(event => {
         if (typeof event === 'function') {
           event(globalStatus, props, { isEmpty })
         }
@@ -147,17 +153,18 @@ class GlobalStatusProviderItem {
     }
   }
 
-  add(props, opts = {}) {
-    if (!props.status_id) {
-      console.warn('status_id is required!')
-    }
+  init(props) {
+    return this.add(props, { preventRerender: true })
+  }
 
+  add(props, opts = {}) {
     // make copy
     const newProps = { ...props }
 
     // make sure we have a status id
-    newProps.status_id =
-      props.status_id || GlobalStatusProvider.makeStatusId()
+    if (!newProps.status_id) {
+      newProps.status_id = GlobalStatusProvider.makeStatusId()
+    }
 
     // also, set show to true
     if (typeof newProps.show === 'undefined' || newProps.show === null) {
@@ -185,7 +192,9 @@ class GlobalStatusProviderItem {
       this.stack,
       opts
     )
-    this.forceRerender(globalStatus, props)
+    if (!opts.preventRerender) {
+      this.forceRerender(globalStatus, props)
+    }
 
     return globalStatus
   }
@@ -207,13 +216,41 @@ class GlobalStatusProviderItem {
     }
   }
 
+  empty() {
+    this._onUpdateEvents.forEach((cb, i) => {
+      this._onUpdateEvents[i] = null
+    })
+    this._onUpdateEvents = []
+    this._onReadyEvents.forEach((cb, i) => {
+      this._onReadyEvents[i] = null
+    })
+    this._onReadyEvents = []
+  }
+
   // to remove this provider item
   unbind() {
-    this.listeners.forEach((cb, i) => {
-      this.listeners[i] = null
-    })
+    this.empty()
     GlobalStatusProvider.remove(this.internal_id)
   }
+
+  isReady() {
+    this._onReadyEvents = this._onReadyEvents.filter((cb, i) => {
+      if (typeof cb === 'function') [cb()]
+      this._onReadyEvents[i] = null
+      return false
+    })
+
+    return true
+  }
+
+  addOnReady(cb) {
+    this._onReadyEvents.push(cb)
+  }
+
+  stack = [] // the "layers" with
+  globalStatus = {} // summary of all stacks
+  _onUpdateEvents = [] // for the "onUpdate" events
+  _onReadyEvents = [] // for startup events
 }
 
 // add a fallback, in case we don't run this inside the same React instance

@@ -36,6 +36,8 @@ exports[`Tabs component have to match snapshot 1`] = `
       "displayName": "CustomContent",
       "props": Object {
         "children": "children",
+        "class": "class",
+        "className": "className",
         "disabled": "disabled",
         "displayName": "displayName",
         "hash": "hash",
