@@ -83,7 +83,7 @@ describe('TabList component', () => {
   })
 
   it('has to have the right content on a "click event"', () => {
-    Comp.find('button.tab--third').simulate('click')
+    Comp.find('button[data-tab-key="third"]').simulate('click')
     expect(Comp.state().selected_key).toBe(tablistData[2].key) // get the third key
     expect(
       Comp.find('div[role="tabpanel"]')
@@ -104,18 +104,20 @@ describe('A single Tab component', () => {
     </Component>
   )
 
-  it('has to have a role="tab" attribute and a class="selcted"', () => {
+  it('has to have a role="tab" attribute and a selcted class', () => {
     expect(
-      Comp.find('button.tab--second')
+      Comp.find('button[data-tab-key="second"]')
         .instance()
         .getAttribute('role')
     ).toBe('tab')
-    expect(Comp.find('button.tab--second').hasClass('selected')).toBe(true)
+    expect(
+      Comp.find('button[data-tab-key="second"]').hasClass('selected')
+    ).toBe(true)
   })
 
   it('has to have the right content on a keydown "ArrowRight"', () => {
     // reset the state
-    Comp.find('button.tab--second').simulate('click')
+    Comp.find('button[data-tab-key="second"]').simulate('click')
     Comp.find('div[role="tablist"]').simulate('keyDown', {
       key: 'ArrowRight',
       keyCode: 39
@@ -129,7 +131,11 @@ describe('A single Tab component', () => {
 
   it('has to work with "data only" property containing a "content"', () => {
     const Comp = mount(<Component data={tablistDataWithContent} />)
-    expect(Comp.find('button.selected').exists()).toBe(true)
+    expect(
+      Comp.find('button')
+        .first()
+        .hasClass('selected')
+    ).toBe(true)
     expect(Comp.find('div.dnb-tabs__content').text()).toBe('First')
   })
 
@@ -142,10 +148,22 @@ describe('A single Tab component', () => {
         </Component.Content>
       </Component>
     )
-    expect(Comp.find('button.selected').exists()).toBe(true)
+    expect(
+      Comp.find('button.selected')
+        .instance()
+        .getAttribute('data-tab-key')
+    ).toBe('second-title')
+    expect(
+      Comp.find('button')
+        .at(1)
+        .instance()
+        .getAttribute('data-tab-key')
+    ).toBe('second-title')
     expect(Comp.find('div.dnb-tabs__content').text()).toBe('second')
     expect(
-      Comp.find('button[aria-selected=true] span.dnb-tablink-title').text()
+      Comp.find(
+        'button[aria-selected=true] span.dnb-tabs__button__title'
+      ).text()
     ).toBe('second title')
   })
 })

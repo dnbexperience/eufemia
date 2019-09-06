@@ -89,6 +89,30 @@ export default class Tabs extends PureComponent {
     registerElement(Tabs.tagName, Tabs, defaultProps)
   }
 
+  static getSelectedKeyOrFallback(selected_key, data) {
+    let useKey = selected_key
+
+    // 1. if selected_key is null/undefined then try to get it from data
+    if (!useKey) {
+      useKey =
+        data.reduce(
+          (acc, { selected, key }) => (selected ? key : acc),
+          null
+        ) ||
+        (data[0] && data[0].key)
+    } else {
+      // 2. check if the key is valid
+      // just to make sure we never get an empty content
+      const keyExists = data.findIndex(({ key }) => key === selected_key)
+      if (keyExists === -1) {
+        // key did not exists, so we get the first one
+        useKey = data[0] && data[0].key
+      }
+    }
+
+    return useKey
+  }
+
   static getDerivedStateFromProps(props, state) {
     if (state._listenForPropChanges) {
       if (props.data) {
@@ -101,7 +125,10 @@ export default class Tabs extends PureComponent {
         props.selected_key &&
         state._selected_key !== props.selected_key
       ) {
-        state.selected_key = state._selected_key = props.selected_key
+        state.selected_key = state._selected_key = Tabs.getSelectedKeyOrFallback(
+          props.selected_key,
+          state.data
+        )
       }
     }
     state._listenForPropChanges = true
@@ -145,7 +172,7 @@ export default class Tabs extends PureComponent {
 
           acc.push({
             title,
-            key: (!_key && hash ? hash : _key) || generateKey(title),
+            key: (!_key && hash ? hash : _key) || slugify(title),
             content, // can be a Node or a Function
             ...rest
           })
@@ -185,26 +212,20 @@ export default class Tabs extends PureComponent {
     this._id = props.id || `dnb-tabs-${Math.round(Math.random() * 999)}` // cause we need an id anyway
     const data = Tabs.getData(props)
 
-    let selected_key =
-      props.selected_key ||
-      data.reduce(
-        (acc, { selected, key }) => (selected ? key : acc),
-        null
-      ) ||
-      (data[0] && data[0].key)
+    let selected_key = Tabs.getSelectedKeyOrFallback(
+      props.selected_key,
+      data
+    )
 
     // check if we have to open a diffrent tab
     if (props.use_hash && typeof window !== 'undefined') {
       try {
-        const use_this_key = String(window.location.hash).replace('#', '')
-        if (use_this_key && String(use_this_key).length > 0) {
-          const keyExists = data.some(({ key }) => key === use_this_key)
-          if (keyExists) {
-            selected_key = use_this_key
-          }
+        const useHashKey = String(window.location.hash).replace('#', '')
+        if (useHashKey && String(useHashKey).length > 0) {
+          selected_key = Tabs.getSelectedKeyOrFallback(useHashKey, data)
         }
       } catch (e) {
-        console.log('Tabs Error:', e)
+        // do nothing
       }
     }
 
@@ -252,15 +273,14 @@ export default class Tabs extends PureComponent {
   openTabByDOM = e => {
     const target =
       e.target.nodeName === 'SPAN' ? e.target.parentElement : e.target
-    const selected_key = String(target.className).match(
-      /tab--([-_a-z0-9]+)/i
-    )[1]
+    const selected_key = target.getAttribute('data-tab-key')
 
     this.openTab(selected_key, e)
     this.setFocusOnTablist()
   }
 
   openTab = (selected_key, event = null) => {
+    // for handling prevTab and nextTab
     if (parseFloat(selected_key)) {
       const currentData = this.state.data.filter(
         ({ disabled }) => !disabled
@@ -284,7 +304,8 @@ export default class Tabs extends PureComponent {
 
     if (selected_key) {
       this.setState({
-        selected_key
+        selected_key,
+        _listenForPropChanges: false
       })
     }
 
@@ -301,7 +322,7 @@ export default class Tabs extends PureComponent {
           `#${selected_key}`
         )
       } catch (e) {
-        console.log('Tabs Error:', e)
+        console.warn('Tabs Error:', e)
       }
     }
   }
@@ -310,36 +331,19 @@ export default class Tabs extends PureComponent {
     return this.state.selected_key === tabKey
   }
 
-  renderSelectedTab(tabKey) {
-    return `dnb-tablink tab--${tabKey} ${
-      this.isSelected(tabKey) ? 'selected' : ''
-    }`
-  }
-
-  renderContent(useKey = null) {
+  renderContent() {
     const { children } = this.props
+    const { selected_key } = this.state
 
-    if (!useKey) {
-      const { selected_key, data } = this.state
-
-      // just to make sure we never get an empty content
-      const keyExists = data.some(({ key }) => key === selected_key)
-      if (keyExists) {
-        useKey = selected_key
-      } else {
-        // key did not exists, so we get the first one
-        useKey = data[0].key
-      }
-    }
     let content = null
 
     if (children) {
-      if (typeof children === 'object' && children[useKey]) {
+      if (typeof children === 'object' && children[selected_key]) {
         // if content is provided as an object
-        content = children[useKey]
+        content = children[selected_key]
       } else if (typeof children === 'function') {
         // if content is provided as a render prop
-        content = children.apply(this, [useKey])
+        content = children.apply(this, [selected_key])
       } else if (React.isValidElement(children)) {
         content = children
       }
@@ -359,7 +363,7 @@ export default class Tabs extends PureComponent {
       // - or the content was provided as a content prop i data
       if (items) {
         content = items
-          .filter(({ key }) => key && useKey && key === useKey)
+          .filter(({ key }) => key && selected_key && key === selected_key)
           .reduce((acc, { content }) => content || acc, null)
       }
     }
@@ -413,16 +417,20 @@ export default class Tabs extends PureComponent {
           return (
             <button
               type="button"
-              key={`tab--${key}`}
               role="tab"
               tabIndex="-1"
               id={`${this._id}-tab-${key}`}
               aria-selected={this.isSelected(key)}
-              className={this.renderSelectedTab(key)}
+              className={classnames(
+                'dnb-tabs__button',
+                this.isSelected(key) && 'selected'
+              )}
               onClick={this.openTabByDOM}
+              key={`tab-${key}`}
+              data-tab-key={key}
               {...params}
             >
-              <span className="dnb-tablink-title">{title}</span>
+              <span className="dnb-tabs__button__title">{title}</span>
               <Dummy>{title}</Dummy>
             </button>
           )
@@ -602,17 +610,14 @@ class CustomContent extends PureComponent {
   }
 }
 
-const generateKey = title => {
-  const key = String(title)
-    .trim()
+const slugify = s =>
+  s
     .toLowerCase()
-    .replace(/[^a-z0-9]/g, '-')
-    .replace(/-{1,}/g, '-')
-  return key
-}
+    .replace(/[^\w\s-]/g, '')
+    .replace(/[\s_-]+/g, '-')
+    .replace(/^-+|-+$/g, '')
 
 Tabs.Content = CustomContent
-Tabs.generateKey = generateKey
 Tabs.ContentWrapper = ContentWrapper
 
 export const Dummy = ({ children }) => {

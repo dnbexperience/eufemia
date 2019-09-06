@@ -10,11 +10,15 @@ import { Wrapper, Box } from '../helpers'
 import { Input, Tabs } from '../../src/components'
 
 import { H2 } from '../../src/elements'
+import TabsNavigation from './TabsNavigation'
 
 export default [
   'Tabs',
   () => (
     <Wrapper>
+      <Box>
+        <TabsNavigation />
+      </Box>
       <Box>
         <Tabs data={tabsData}>{exampleTabsContent}</Tabs>
       </Box>
