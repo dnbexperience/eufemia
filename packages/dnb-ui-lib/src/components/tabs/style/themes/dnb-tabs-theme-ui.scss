@@ -11,9 +11,6 @@
       background-color: var(--color-mint-green-50);
       box-shadow: 100vw 0 0 0 var(--color-mint-green-50);
     }
-    &.dnb-section::before {
-      z-index: 0;
-    }
     @include allBelow(small) {
       &:not(.dnb-section)::after {
         content: '';

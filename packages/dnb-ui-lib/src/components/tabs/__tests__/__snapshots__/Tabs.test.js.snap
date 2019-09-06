@@ -216,9 +216,6 @@ exports[`Tabs scss have to match default theme snapshot 1`] = `
   background-color: var(--color-mint-green-50);
   box-shadow: 100vw 0 0 0 var(--color-mint-green-50); }
 
-.dnb-tabs__tabs.dnb-section::before {
-  z-index: 0; }
-
 @media screen and (max-width: 40em) {
   .dnb-tabs__tabs:not(.dnb-section)::after {
     content: '';
