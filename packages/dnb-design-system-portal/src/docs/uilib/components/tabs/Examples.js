@@ -8,7 +8,7 @@ import ComponentBox from 'Src/shared/tags/ComponentBox'
 
 import Input from 'dnb-ui-lib/src/components/input/Input'
 import styled from '@emotion/styled'
-// import { Location, createHistory } from '@reach/router'
+import { Location, Router, navigate } from '@reach/router'
 import { BrowserRouter, Route, withRouter } from 'react-router-dom'
 
 class Example extends PureComponent {
@@ -71,10 +71,10 @@ render(<Tabs data={data}>
           {/* @jsx */ `
 <Tabs section_style="mint-green">
   <Tabs.Content title="First">
-    <h2 className="dnb-h2">First</h2>
+    <H2>First</H2>
   </Tabs.Content>
   <Tabs.Content title="Second">
-    <h2 className="dnb-h2">Second</h2>
+    <H2>Second</H2>
   </Tabs.Content>
 </Tabs>
           `}
@@ -109,13 +109,14 @@ render(<Tabs data={data}>
           `}
         </ComponentBox>
         {typeof window !== 'undefined' && (
-          <ComponentBox
-            caption="Router navigation example. More [examples on CodeSandbox](https://codesandbox.io/embed/8z8xov7xyj)"
-            scope={{ BrowserRouter, Route, withRouter }}
-            useRender
-            hideSyntaxButton
-          >
-            {/* @jsx */ `
+          <>
+            <ComponentBox
+              caption="Router navigation example using `react-router-dom`. More [examples on CodeSandbox](https://codesandbox.io/embed/8z8xov7xyj)"
+              scope={{ BrowserRouter, Route, withRouter }}
+              useRender
+              hideSyntaxButton
+            >
+              {/* @jsx */ `
 // import { Router, Route, withRouter } from 'react-router-dom'
 const tabsData = [
   { title: 'Home', key: 'home' },
@@ -123,9 +124,9 @@ const tabsData = [
   { title: 'Topics', key: 'topics' }
 ]
 const tabsContent = {
-  home: () => <h2 className="dnb-h2">Home</h2>,
-  about: () => <h2 className="dnb-h2">About</h2>,
-  topics: () => <h2 className="dnb-h2">Topics</h2>
+  home: () => <H2>Home</H2>,
+  about: () => <H2>About</H2>,
+  topics: () => <H2>Topics</H2>
 }
 const TabsNav = withRouter(({ history, location }) => (
     <Tabs
@@ -139,16 +140,56 @@ const TabsNav = withRouter(({ history, location }) => (
 
       {/* 2. Or the Router method */}
       {/* <>
-        <Route path="(/|/home)" component={() => <h2 className="dnb-h2">Home</h2>} />
-        <Route path="/about" component={() => <h2 className="dnb-h2">About</h2>} />
-        <Route path="/topics" component={() => <h2 className="dnb-h2">Topics</h2>} />
+        <Route path="(/|/home)" component={() => <H2>Home</H2>} />
+        <Route path="/about" component={() => <H2>About</H2>} />
+        <Route path="/topics" component={() => <H2>Topics</H2>} />
       </> */}
     </Tabs>
   )
 )
 render(<BrowserRouter><TabsNav /></BrowserRouter>)
           `}
-          </ComponentBox>
+            </ComponentBox>
+            <ComponentBox
+              caption="Router navigation example using `@reach/router`. More [examples on CodeSandbox](https://codesandbox.io/embed/8z8xov7xyj)"
+              scope={{ Location, Router, navigate }}
+              useRender
+              hideSyntaxButton
+            >
+              {/* @jsx */ `
+// import { Location, Router, navigate } from '@reach/router'
+const Home = () => <H2>Home</H2>
+const About = () => <H2>About</H2>
+const Topics = () => <H2>Topics</H2>
+render(
+  <Location>
+    {({ location: { pathname } }) => {
+      return (
+        <Tabs
+          data={[
+            { title: 'Home', key: '/' },
+            { title: 'About', key: '/about' },
+            { title: 'Topics', key: '/topics' },
+          ]}
+          selected_key={pathname}
+          on_change={({ key }) => navigate(key)}
+          section_style="mint-green"
+        >
+          <React.Suspense fallback={<em>Loading ...</em>}>
+            <Router>
+              <Home path="/" default />
+              <About path="/about" />
+              <Topics path="/topics" />
+            </Router>
+          </React.Suspense>
+        </Tabs>
+      )
+    }}
+  </Location>
+)
+          `}
+            </ComponentBox>
+          </>
         )}
       </Fragment>
     )
