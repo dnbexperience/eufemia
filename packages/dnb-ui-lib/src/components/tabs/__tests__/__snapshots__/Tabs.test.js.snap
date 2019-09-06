@@ -237,43 +237,44 @@ exports[`Tabs scss have to match default theme snapshot 1`] = `
   .dnb-tabs__tabs__tablist:focus {
     border-radius: 0.5rem; }
 
-.dnb-tabs__tabs .dnb-tabs__button__title {
+.dnb-tabs__button__title {
   font-weight: var(--font-weight-book);
   font-size: var(--font-size-default);
   text-align: center;
   color: var(--color-sea-green); }
 
 @media screen and (max-width: 40em) {
-  .dnb-tabs__tabs .dnb-tabs__button {
+  .dnb-tabs__button {
     text-align: left;
     padding: 0.5rem 1rem; } }
 
-:not([dnb-is-touch]) .dnb-tabs__tabs .dnb-tabs__button:hover[disabled] {
+:not([dnb-is-touch]) .dnb-tabs__button:hover[disabled] {
   cursor: not-allowed; }
 
-:not([dnb-is-touch]) .dnb-tabs__tabs .dnb-tabs__button:hover:not([disabled]) {
+:not([dnb-is-touch]) .dnb-tabs__button:hover:not([disabled]) {
   background-color: var(--color-mint-green-50); }
-  :not([dnb-is-touch]) .dnb-tabs__tabs .dnb-tabs__button:hover:not([disabled])::after {
+  :not([dnb-is-touch]) .dnb-tabs__button:hover:not([disabled])::after {
     height: 3px;
     border-radius: 1.5px;
     background-color: var(--color-sea-green); }
 
-.dnb-tabs__tabs .dnb-tabs__button[disabled] .dnb-tabs__tabs .dnb-tabs__button__title {
+.dnb-tabs__button[disabled] .dnb-tabs__button__title {
   color: var(--color-sea-green-alt-30); }
 
-.dnb-tabs__tabs .dnb-tabs__button:not([disabled]):active .dnb-tabs__button__title, .dnb-tabs__tabs .dnb-tabs__button:not([disabled]).selected .dnb-tabs__button__title {
-  color: var(--color-emerald-green); }
-
-.dnb-tabs__tabs .dnb-tabs__button:not([disabled]):active::after, .dnb-tabs__tabs .dnb-tabs__button:not([disabled]).selected::after {
+.dnb-tabs__button:not([disabled]):active::after, .dnb-tabs__button:not([disabled]).selected::after {
   height: 3px;
   border-radius: 1.5px;
   background-color: var(--color-sea-green); }
 
-.dnb-tabs__tabs .dnb-tabs__button:not([disabled]).selected .dnb-tabs__button__title {
+.dnb-tabs__button:not([disabled]):active .dnb-tabs__button__title,
+.dnb-tabs__button:not([disabled]).selected .dnb-tabs__button__title {
+  color: var(--color-emerald-green); }
+
+.dnb-tabs__button:not([disabled]).selected .dnb-tabs__button__title {
   font-family: var(--font-family-demi);
   font-weight: var(--font-weight-demi); }
 
-.dnb-tabs__tabs .dnb-tabs__button span[hidden] {
+.dnb-tabs__button span[hidden] {
   font-family: var(--font-family-demi);
   font-weight: var(--font-weight-demi); }
 "
