@@ -35,9 +35,9 @@
       }
     }
 
-    .dnb-tablink {
+    .dnb-tabs__button {
       // should be same as .lead small
-      &-title {
+      &__title {
         font-weight: var(--font-weight-book);
         font-size: var(--font-size-default);
         text-align: center;
@@ -60,16 +60,14 @@
       }
 
       // disabled
-      &[disabled] {
-        .dnb-tablink-title {
-          color: var(--color-sea-green-alt-30);
-        }
+      &[disabled] &__title {
+        color: var(--color-sea-green-alt-30);
       }
 
       // active + selected
       &:not([disabled]):active,
       &:not([disabled]).selected {
-        .dnb-tablink-title {
+        .dnb-tabs__button__title {
           color: var(--color-emerald-green);
         }
         &::after {
@@ -81,7 +79,7 @@
 
       // selected only
       &:not([disabled]).selected {
-        .dnb-tablink-title {
+        .dnb-tabs__button__title {
           font-family: var(--font-family-demi);
           font-weight: var(--font-weight-demi);
         }

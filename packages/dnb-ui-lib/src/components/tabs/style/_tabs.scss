@@ -30,8 +30,8 @@
       justify-content: center;
     }
 
-    .dnb-tablink,
-    .dnb-core-style & .dnb-tablink {
+    .dnb-tabs__button,
+    .dnb-core-style & .dnb-tabs__button {
       position: relative;
       z-index: 1;
 
@@ -65,7 +65,7 @@
         height: 1px;
       }
     }
-    .dnb-tablink:first-child {
+    .dnb-tabs__button:first-child {
       margin-left: 0;
     }
 
@@ -80,7 +80,7 @@
     }
 
     @include allBelow(medium) {
-      .dnb-tablink {
+      .dnb-tabs__button {
         margin-left: 2.5rem;
       }
     }
@@ -91,7 +91,7 @@
         flex-grow: 1;
         margin: 0;
       }
-      .dnb-tablink {
+      .dnb-tabs__button {
         margin-left: 0;
       }
     }
