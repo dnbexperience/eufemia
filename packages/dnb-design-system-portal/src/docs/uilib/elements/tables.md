@@ -20,6 +20,7 @@ Check out a [working example on CodeSandbox](https://codesandbox.io/embed/eufemi
 <ComponentBox reactLive hideCode data-dnb-test="table-default">
 {`
 <table className="dnb-table">
+  <caption>A Table Caption</caption>
   <thead>
     <tr>
       <th scope="col" colSpan="2" className="dnb-table--no-wrap">
@@ -100,7 +101,7 @@ There are a couple helper classes to style tables:
 - `.dnb-table--no-wrap` Use this on a `th`
 - `.dnb-table--active` Use this on a `th`
 - `.dnb-table--sortable` Use this on a `th`
-- `.dnb-table--reversed` Use this on a `th`
+- `.dnb-tablednb-table--reversed` Use this on a `th`
 - `.dnb-table--tabular` Use this on the `table` root
 
 <ComponentBox reactLive hideCode data-dnb-test="table-classes" caption="Example usage of class helpers">
@@ -108,17 +109,33 @@ There are a couple helper classes to style tables:
 <table className="dnb-table">
   <thead>
     <tr className="dnb-table__tr">
-      <th colSpan="2" className="dnb-table__th">
+      <th className="dnb-table__th">
         .dnb-table__th
+      </th>
+      <th scope="col" className="dnb-table__th dnb-table--sortable dnb-table--reversed">
+        <Button
+          variant="tertiary"
+          icon="chevron-down"
+          text="dnb-table--reversed"
+          title="dnb-table__th dnb-table--sortable dnb-table--reversed"
+        />
+      </th>
+      <th scope="col" className="dnb-table__th dnb-table--sortable dnb-table--active">
+        <Button
+          variant="tertiary"
+          icon="chevron-down"
+          text="dnb-table--active"
+          title="dnb-table__th dnb-table--sortable dnb-table--active"
+        />
       </th>
     </tr>
   </thead>
   <tbody>
     <tr className="dnb-table__tr dnb-table__tr--even">
-      <td className="dnb-table__td">.dnb-table__td .dnb-table__tr--even</td>
+      <td colSpan="3" className="dnb-table__td">.dnb-table__tr--even > .dnb-table__td</td>
     </tr>
     <tr className="dnb-table__tr dnb-table__tr--odd">
-      <td className="dnb-table__td">.dnb-table__td .dnb-table__tr--odd</td>
+      <td colSpan="3" className="dnb-table__td">.dnb-table__tr--odd > .dnb-table__td</td>
     </tr>
   </tbody>
 </table>
@@ -129,7 +146,7 @@ There are a couple helper classes to style tables:
 
 Set [Tabular Lining](/uilib/typography/numbers) on tables by using this CSS class: `.dnb-table--tabular`
 
-<ComponentBox reactLive hideCode data-dnb-test="table-default">
+<ComponentBox reactLive hideCode data-dnb-test="table-tabular">
 {`
 <table className="dnb-table dnb-table--tabular">
   <thead>

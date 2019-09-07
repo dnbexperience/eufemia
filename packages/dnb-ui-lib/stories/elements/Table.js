@@ -5,14 +5,23 @@
 
 import React /* , { useState, useEffect } */ from 'react'
 import { Wrapper, Box } from '../helpers'
-// import styled from '@emotion/styled'
+import styled from '@emotion/styled'
 
 import { Button, DatePicker } from '../../src/components'
+
+const CustomWrapper = styled(Wrapper)`
+  .mint_col {
+    background-color: var(--color-mint-green-12);
+  }
+  .white_col {
+    background-color: var(--color-white);
+  }
+`
 
 export default [
   'Table',
   () => (
-    <Wrapper className="dnb-spacing">
+    <CustomWrapper className="dnb-spacing">
       <Box>
         <table className="dnb-table">
           <thead>
@@ -76,11 +85,82 @@ export default [
             </tr>
           </tbody>
         </table>
-
-        <p className="dnb-p">
-          Lorem in morbi euismod id lectus varius imperdiet proin dui
-        </p>
       </Box>
-    </Wrapper>
+      <Box>
+        <table className="dnb-table">
+          <caption>A Table Caption</caption>
+          <thead>
+            <tr className="dnb-table__tr">
+              <th className="dnb-table__th">.dnb-table__th</th>
+              <th
+                scope="col"
+                className="dnb-table__th dnb-table--sortable dnb-table--reversed"
+              >
+                <Button
+                  variant="tertiary"
+                  icon="chevron-down"
+                  text="dnb-table--reversed"
+                  title="dnb-table__th dnb-table--sortable dnb-table--reversed"
+                />
+              </th>
+              <th
+                scope="col"
+                className="dnb-table__th dnb-table--sortable dnb-table--active"
+              >
+                <Button
+                  variant="tertiary"
+                  icon="chevron-down"
+                  text="dnb-table--active"
+                  title="dnb-table__th dnb-table--sortable dnb-table--active"
+                />
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr className="dnb-table__tr dnb-table__tr--even">
+              <td colSpan="3" className="dnb-table__td">
+                {'.dnb-table__tr--even > .dnb-table__td'}
+              </td>
+            </tr>
+            <tr className="dnb-table__tr dnb-table__tr--odd">
+              <td colSpan="3" className="dnb-table__td">
+                {'.dnb-table__tr--odd > .dnb-table__td'}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </Box>
+      <Box>
+        <table className="dnb-table">
+          <caption>Superheros and sidekicks</caption>
+          <colgroup>
+            <col />
+            <col span="2" className="mint_col" />
+            <col span="2" className="white_col" />
+          </colgroup>
+          <tr>
+            <td> </td>
+            <th scope="col">Batman</th>
+            <th scope="col">Robin</th>
+            <th scope="col">The Flash</th>
+            <th scope="col">Kid Flash</th>
+          </tr>
+          <tr>
+            <th scope="row">Skill</th>
+            <td>Smarts</td>
+            <td>Dex, acrobat</td>
+            <td>Super speed</td>
+            <td>Super speed</td>
+          </tr>
+          <tr>
+            <th scope="row">Skill</th>
+            <td>Smarts</td>
+            <td>Dex, acrobat</td>
+            <td>Super speed</td>
+            <td>Super speed</td>
+          </tr>
+        </table>
+      </Box>
+    </CustomWrapper>
   )
 ]
