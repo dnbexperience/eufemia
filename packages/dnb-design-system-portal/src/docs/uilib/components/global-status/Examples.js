@@ -41,11 +41,11 @@ const InputWithError = () => {
   return (
     <Input
       label="Input:"
-      placeholder="Write more than 2 chars to show the GlobalStatus ..."
+      placeholder="Write less than 5 chars and dismiss the focus to show the GlobalStatus ..."
       stretch
       status={errorMessage}
-      on_change={({ value }) => {
-        setErrorMessage(value.length >= 3 ? 'With a message shown' : null)
+      on_blur={({ value }) => {
+        setErrorMessage(value.length <= 4 ? 'With a message shown' : null)
       }}
       global_status_id="main-status"
     />

@@ -134,6 +134,7 @@
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.14.3",
+    "eslint-plugin-react-hooks": "^2.0.1",
     "eslint-plugin-security": "^1.4.0",
     "figma-js": "^1.8.3",
     "files-exist": "^1.1.0",

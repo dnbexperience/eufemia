@@ -28,10 +28,12 @@
   border-spacing: 0;
   border-collapse: collapse;
 
-  & th,
-  & td,
-  & .dnb-table__th,
-  & .dnb-table__td {
+  & > tr > th,
+  & > tr > td,
+  & > thead > tr > th,
+  & > tbody > tr > td,
+  & &__th,
+  & &__td {
     // to make sure we have the ability to have a border where ever we want
     border-bottom: 1px solid transparent;
 
@@ -42,27 +44,30 @@
     word-break: keep-all;
     text-align: left;
   }
-  & th,
-  & .dnb-table__th {
+  /* stylelint-disable-next-line */
+  & > tr > th,
+  & > thead > tr > th,
+  & &__th {
     padding: 3rem 1rem 0.5rem;
 
     font-weight: var(--font-weight-medium);
     color: var(--color-emerald-green);
-
+  }
+  & > thead > tr > th,
+  & &__th {
     background-color: var(--color-mint-green-50);
     border-bottom: 1px solid var(--color-mint-green);
   }
-  &--tabular td,
-  &--tabular .dnb-table__th {
+  &--tabular > tbody > tr > td,
+  &--tabular &__th {
     @include numberFeature(tabular-nums, lnum);
   }
 
   // sortable
-  & th#{&}--sortable,
-  & .dnb-table__th#{&}--sortable {
+  & > thead > tr > th#{&}--sortable,
+  & &__th#{&}--sortable {
     color: var(--color-emerald-green);
 
-    a,
     .dnb-anchor,
     .dnb-button,
     .dnb-button--tertiary {
@@ -145,8 +150,8 @@
       }
     }
   }
-  & th#{&}--active,
-  & .dnb-table__th#{&}--active {
+  & > thead > tr > th#{&}--active,
+  & &__th#{&}--active {
     a,
     .dnb-anchor,
     .dnb-button,
@@ -168,8 +173,8 @@
       }
     }
   }
-  & th#{&}--reversed,
-  & .dnb-table__td#{&}--reversed {
+  & > thead > tr > th#{&}--reversed,
+  & &__th#{&}--reversed {
     a,
     .dnb-anchor,
     .dnb-button,
@@ -179,36 +184,46 @@
       }
     }
   }
-
-  & th#{&}--no-wrap,
-  & .dnb-table__th#{&}--no-wrap {
+  & > thead > tr > th#{&}--no-wrap,
+  & > tbody > tr > th#{&}--no-wrap,
+  & &__th#{&}--no-wrap {
     white-space: nowrap;
   }
-  & td,
-  & .dnb-table__td {
+
+  // Body part
+  /* stylelint-disable-next-line */
+  & > tr > td,
+  & > tbody > tr > td,
+  & &__td,
+  & > tr > th[scope='row'] {
     padding: 1rem;
     padding-top: 1.25rem;
     padding-bottom: 1.1875rem;
   }
-  & tr,
-  & .dnb-table__tr,
-  & .dnb-table__tr--odd {
+  & > tbody > tr,
+  & &__tr,
+  & &--odd {
     background-color: var(--color-white);
   }
-  & tr:not(.dnb-table__tr--odd):nth-of-type(2n),
-  & .dnb-table__tr:not(.dnb-table__tr--odd):nth-of-type(2n),
-  & .dnb-table__tr--even {
+  & > tbody > tr:not(#{&}--odd):nth-of-type(2n),
+  & &__tr:not(#{&}--odd):nth-of-type(2n),
+  & &--even {
     background-color: var(--color-mint-green-12);
   }
-  & tr:last-of-type td,
-  & .dnb-table__tr:last-of-type .dnb-table__td {
+  & > tbody > tr:last-of-type > td,
+  & &__tr:last-of-type &__td {
     // to get the perfect height of pixles, to this:
     padding-bottom: calc(1.1875rem - 1px);
     border-bottom: 1px solid var(--color-mint-green-50);
   }
+
+  & > caption {
+    margin-top: 0.5rem;
+    caption-side: bottom;
+  }
 }
+
 @mixin resetTableSpacing() {
-  /* stylelint-disable-next-line */
   p,
   ul,
   ol,
@@ -218,6 +233,7 @@
     margin-bottom: 0;
   }
 }
+
 @mixin tableTag() {
   table {
     @include tableStyle();

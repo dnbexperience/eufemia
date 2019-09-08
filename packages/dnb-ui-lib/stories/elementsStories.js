@@ -7,13 +7,17 @@ import React from 'react'
 import { Wrapper, Box } from './helpers'
 import { css } from '@emotion/core'
 import styled from '@emotion/styled'
-import { Button, IconPrimary } from 'dnb-ui-lib/src'
+import { IconPrimary } from 'dnb-ui-lib/src'
 import { FormStatus, FormRow } from '../src/components'
 import { H1, H2, P, Link } from '../src/elements'
 // import Link from '../src/elements/Link'
 
+import Table from './elements/Table'
+
 const stories = []
 export default stories
+
+stories.push(Table)
 
 const CustomStyles = styled.div`
   a {
@@ -83,80 +87,6 @@ stories.push([
             euismod non
           </P>
           <Link href="/">Link</Link>
-        </CustomStyles>
-      </Box>
-    </Wrapper>
-  )
-])
-stories.push([
-  'Table',
-  () => (
-    <Wrapper className="dnb-spacing">
-      <Box>
-        <CustomStyles>
-          <table className="dnb-table">
-            <thead>
-              <tr>
-                <th colSpan="2" className="dnb-table--no-wrap">
-                  Only text
-                </th>
-                <th className="dnb-table--sortable dnb-table--reversed">
-                  {/* <a className="dnb-anchor" href="#sort">
-                    Sortable
-                    <IconPrimary icon="chevron-down" />
-                  </a> */}
-                  <Button
-                    variant="tertiary"
-                    icon="chevron-down"
-                    text="Sortable"
-                  />
-                </th>
-                <th className="dnb-table--sortable dnb-table--active">
-                  {/* <a className="dnb-anchor" href="#sort">
-                    Active
-                    <IconPrimary icon="chevron-down" />
-                  </a> */}
-                  <Button
-                    variant="tertiary"
-                    icon="chevron-down"
-                    text="Active"
-                  />
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>
-                  <p className="dnb-p">
-                    Column 1 <b>width p</b>
-                  </p>
-                </td>
-                <td>
-                  <code>Column 2 with code</code>
-                </td>
-                <td>
-                  <span>Column 3 with span</span>
-                </td>
-                <td>Column 4</td>
-              </tr>
-              <tr>
-                <td>Column 1</td>
-                <td>Column 2</td>
-                <td>Column 3</td>
-                <td>Column 4</td>
-              </tr>
-              <tr>
-                <td>Column 1</td>
-                <td>Column 2</td>
-                <td>Column 3</td>
-                <td>Column 4</td>
-              </tr>
-            </tbody>
-          </table>
-
-          <p className="dnb-p">
-            Lorem in morbi euismod id lectus varius imperdiet proin dui
-          </p>
         </CustomStyles>
       </Box>
     </Wrapper>

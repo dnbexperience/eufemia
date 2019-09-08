@@ -11,9 +11,6 @@
       background-color: var(--color-mint-green-50);
       box-shadow: 100vw 0 0 0 var(--color-mint-green-50);
     }
-    &.dnb-section::before {
-      z-index: 0;
-    }
     @include allBelow(small) {
       &:not(.dnb-section)::after {
         content: '';
@@ -37,73 +34,70 @@
         border-radius: 0.5rem;
       }
     }
+  }
 
-    .dnb-tablink {
-      // should be same as .lead small
-      &-title {
-        font-weight: var(--font-weight-book);
-        font-size: var(--font-size-default);
-        text-align: center;
+  &__button {
+    // should be same as .lead small
+    &__title {
+      font-weight: var(--font-weight-book);
+      font-size: var(--font-size-default);
+      text-align: center;
 
-        color: var(--color-sea-green);
-      }
-      @include allBelow(small) {
-        text-align: left;
-        padding: 0.5rem 1rem;
-      }
-
-      // hover
-      @include hover() {
-        background-color: var(--color-mint-green-50);
-        &::after {
-          height: 3px;
-          border-radius: 1.5px;
-          background-color: var(--color-sea-green);
-        }
-      }
-
-      // disabled
-      &[disabled] {
-        .dnb-tablink-title {
-          color: var(--color-sea-green-alt-30);
-        }
-      }
-
-      // active + selected
-      &:not([disabled]):active,
-      &:not([disabled]).selected {
-        .dnb-tablink-title {
-          color: var(--color-emerald-green);
-        }
-        &::after {
-          height: 3px;
-          border-radius: 1.5px;
-          background-color: var(--color-sea-green);
-        }
-      }
-
-      // selected only
-      &:not([disabled]).selected {
-        .dnb-tablink-title {
-          font-family: var(--font-family-demi);
-          font-weight: var(--font-weight-demi);
-        }
-      }
-
-      // To make sure we have the wider width on every item
-      // Have to be same as &:not([disabled]).selected
-      span[hidden] {
-        font-family: var(--font-family-demi);
-        font-weight: var(--font-weight-demi);
-      }
-
-      // focus helper, for positioning
-      // &:not([disabled]):not(:active):not(.selected):focus {
-      //   @include fakeFocus();
-      //   &::after {
-      //     border-bottom: 3px solid transparent;
-      //   }
-      // }
+      color: var(--color-sea-green);
     }
+    @include allBelow(small) {
+      text-align: left;
+      padding: 0.5rem 1rem;
+    }
+
+    // hover
+    @include hover() {
+      background-color: var(--color-mint-green-50);
+      &::after {
+        height: 3px;
+        border-radius: 1.5px;
+        background-color: var(--color-sea-green);
+      }
+    }
+
+    // disabled
+    &[disabled] &__title {
+      color: var(--color-sea-green-alt-30);
+    }
+
+    // active + selected
+    &:not([disabled]):active,
+    &:not([disabled]).selected {
+      &::after {
+        height: 3px;
+        border-radius: 1.5px;
+        background-color: var(--color-sea-green);
+      }
+    }
+    &:not([disabled]):active &__title,
+    &:not([disabled]).selected &__title {
+      color: var(--color-emerald-green);
+    }
+
+    // selected only
+    &:not([disabled]).selected &__title {
+      font-family: var(--font-family-demi);
+      font-weight: var(--font-weight-demi);
+    }
+
+    // To make sure we have the wider width on every item
+    // Have to be same as &:not([disabled]).selected
+    span[hidden] {
+      font-family: var(--font-family-demi);
+      font-weight: var(--font-weight-demi);
+    }
+
+    // focus helper, for positioning
+    // &:not([disabled]):not(:active):not(.selected):focus {
+    //   @include fakeFocus();
+    //   &::after {
+    //     border-bottom: 3px solid transparent;
+    //   }
+    // }
   }
 }

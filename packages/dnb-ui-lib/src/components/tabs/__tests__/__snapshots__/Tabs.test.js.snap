@@ -98,16 +98,17 @@ exports[`Tabs component have to match snapshot 1`] = `
             >
               <button
                 aria-selected={false}
-                className="dnb-tablink tab--first "
+                className="dnb-tabs__button"
+                data-tab-key="first"
                 id="id-tab-first"
-                key="tab--first"
+                key="tab-first"
                 onClick={[Function]}
                 role="tab"
                 tabIndex="-1"
                 type="button"
               >
                 <span
-                  className="dnb-tablink-title"
+                  className="dnb-tabs__button__title"
                 >
                   First
                 </span>
@@ -123,16 +124,17 @@ exports[`Tabs component have to match snapshot 1`] = `
               <button
                 aria-controls="id-content-second"
                 aria-selected={true}
-                className="dnb-tablink tab--second selected"
+                className="dnb-tabs__button selected"
+                data-tab-key="second"
                 id="id-tab-second"
-                key="tab--second"
+                key="tab-second"
                 onClick={[Function]}
                 role="tab"
                 tabIndex="-1"
                 type="button"
               >
                 <span
-                  className="dnb-tablink-title"
+                  className="dnb-tabs__button__title"
                 >
                   Second
                 </span>
@@ -147,16 +149,17 @@ exports[`Tabs component have to match snapshot 1`] = `
               </button>
               <button
                 aria-selected={false}
-                className="dnb-tablink tab--third "
+                className="dnb-tabs__button"
+                data-tab-key="third"
                 id="id-tab-third"
-                key="tab--third"
+                key="tab-third"
                 onClick={[Function]}
                 role="tab"
                 tabIndex="-1"
                 type="button"
               >
                 <span
-                  className="dnb-tablink-title"
+                  className="dnb-tabs__button__title"
                 >
                   Third
                 </span>
@@ -216,9 +219,6 @@ exports[`Tabs scss have to match default theme snapshot 1`] = `
   background-color: var(--color-mint-green-50);
   box-shadow: 100vw 0 0 0 var(--color-mint-green-50); }
 
-.dnb-tabs__tabs.dnb-section::before {
-  z-index: 0; }
-
 @media screen and (max-width: 40em) {
   .dnb-tabs__tabs:not(.dnb-section)::after {
     content: '';
@@ -237,43 +237,44 @@ exports[`Tabs scss have to match default theme snapshot 1`] = `
   .dnb-tabs__tabs__tablist:focus {
     border-radius: 0.5rem; }
 
-.dnb-tabs__tabs .dnb-tablink-title {
+.dnb-tabs__button__title {
   font-weight: var(--font-weight-book);
   font-size: var(--font-size-default);
   text-align: center;
   color: var(--color-sea-green); }
 
 @media screen and (max-width: 40em) {
-  .dnb-tabs__tabs .dnb-tablink {
+  .dnb-tabs__button {
     text-align: left;
     padding: 0.5rem 1rem; } }
 
-:not([dnb-is-touch]) .dnb-tabs__tabs .dnb-tablink:hover[disabled] {
+:not([dnb-is-touch]) .dnb-tabs__button:hover[disabled] {
   cursor: not-allowed; }
 
-:not([dnb-is-touch]) .dnb-tabs__tabs .dnb-tablink:hover:not([disabled]) {
+:not([dnb-is-touch]) .dnb-tabs__button:hover:not([disabled]) {
   background-color: var(--color-mint-green-50); }
-  :not([dnb-is-touch]) .dnb-tabs__tabs .dnb-tablink:hover:not([disabled])::after {
+  :not([dnb-is-touch]) .dnb-tabs__button:hover:not([disabled])::after {
     height: 3px;
     border-radius: 1.5px;
     background-color: var(--color-sea-green); }
 
-.dnb-tabs__tabs .dnb-tablink[disabled] .dnb-tablink-title {
+.dnb-tabs__button[disabled] .dnb-tabs__button__title {
   color: var(--color-sea-green-alt-30); }
 
-.dnb-tabs__tabs .dnb-tablink:not([disabled]):active .dnb-tablink-title, .dnb-tabs__tabs .dnb-tablink:not([disabled]).selected .dnb-tablink-title {
-  color: var(--color-emerald-green); }
-
-.dnb-tabs__tabs .dnb-tablink:not([disabled]):active::after, .dnb-tabs__tabs .dnb-tablink:not([disabled]).selected::after {
+.dnb-tabs__button:not([disabled]):active::after, .dnb-tabs__button:not([disabled]).selected::after {
   height: 3px;
   border-radius: 1.5px;
   background-color: var(--color-sea-green); }
 
-.dnb-tabs__tabs .dnb-tablink:not([disabled]).selected .dnb-tablink-title {
+.dnb-tabs__button:not([disabled]):active .dnb-tabs__button__title,
+.dnb-tabs__button:not([disabled]).selected .dnb-tabs__button__title {
+  color: var(--color-emerald-green); }
+
+.dnb-tabs__button:not([disabled]).selected .dnb-tabs__button__title {
   font-family: var(--font-family-demi);
   font-weight: var(--font-weight-demi); }
 
-.dnb-tabs__tabs .dnb-tablink span[hidden] {
+.dnb-tabs__button span[hidden] {
   font-family: var(--font-family-demi);
   font-weight: var(--font-weight-demi); }
 "
@@ -358,8 +359,8 @@ exports[`Tabs scss have to match snapshot 1`] = `
     justify-content: flex-end; }
   .dnb-tabs__tabs--center .dnb-tabs__tabs__tablist {
     justify-content: center; }
-  .dnb-tabs__tabs .dnb-tablink,
-  .dnb-core-style .dnb-tabs__tabs .dnb-tablink {
+  .dnb-tabs__tabs .dnb-tabs__button,
+  .dnb-core-style .dnb-tabs__tabs .dnb-tabs__button {
     position: relative;
     z-index: 1;
     margin: 0;
@@ -371,19 +372,19 @@ exports[`Tabs scss have to match snapshot 1`] = `
     cursor: pointer;
     outline: none;
     border: none; }
-    .dnb-tabs__tabs .dnb-tablink-title,
-    .dnb-core-style .dnb-tabs__tabs .dnb-tablink-title {
+    .dnb-tabs__tabs .dnb-tabs__button-title,
+    .dnb-core-style .dnb-tabs__tabs .dnb-tabs__button-title {
       font-size: var(--font-size-default);
       white-space: nowrap; }
-    .dnb-tabs__tabs .dnb-tablink > span[hidden],
-    .dnb-core-style .dnb-tabs__tabs .dnb-tablink > span[hidden] {
+    .dnb-tabs__tabs .dnb-tabs__button > span[hidden],
+    .dnb-core-style .dnb-tabs__tabs .dnb-tabs__button > span[hidden] {
       display: flex;
       flex-direction: column;
       height: 0;
       visibility: hidden;
       overflow: hidden; }
-    .dnb-tabs__tabs .dnb-tablink::after,
-    .dnb-core-style .dnb-tabs__tabs .dnb-tablink::after {
+    .dnb-tabs__tabs .dnb-tabs__button::after,
+    .dnb-core-style .dnb-tabs__tabs .dnb-tabs__button::after {
       content: '';
       position: absolute;
       z-index: -1;
@@ -392,7 +393,7 @@ exports[`Tabs scss have to match snapshot 1`] = `
       bottom: 0;
       width: 100%;
       height: 1px; }
-  .dnb-tabs__tabs .dnb-tablink:first-child {
+  .dnb-tabs__tabs .dnb-tabs__button:first-child {
     margin-left: 0; }
   .dnb-tabs__tabs::before {
     content: '';
@@ -403,14 +404,14 @@ exports[`Tabs scss have to match snapshot 1`] = `
     width: 100vw;
     height: 1px; }
   @media screen and (max-width: 50em) {
-    .dnb-tabs__tabs .dnb-tablink {
+    .dnb-tabs__tabs .dnb-tabs__button {
       margin-left: 2.5rem; } }
   @media screen and (max-width: 40em) {
     .dnb-tabs__tabs__tablist {
       flex-direction: column;
       flex-grow: 1;
       margin: 0; }
-    .dnb-tabs__tabs .dnb-tablink {
+    .dnb-tabs__tabs .dnb-tabs__button {
       margin-left: 0; } }
 
 .dnb-tabs__content {
