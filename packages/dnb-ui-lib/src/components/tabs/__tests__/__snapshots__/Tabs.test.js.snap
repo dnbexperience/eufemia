@@ -224,7 +224,7 @@ exports[`Tabs scss have to match default theme snapshot 1`] = `
     content: '';
     position: absolute;
     z-index: -1;
-    left: -50vw;
+    left: -100vw;
     top: 0;
     width: 100vw;
     height: 1px;
@@ -399,7 +399,7 @@ exports[`Tabs scss have to match snapshot 1`] = `
     content: '';
     position: absolute;
     z-index: -1;
-    left: -50vw;
+    left: -100vw;
     bottom: 0;
     width: 100vw;
     height: 1px; }
