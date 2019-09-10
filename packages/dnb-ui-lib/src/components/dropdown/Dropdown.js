@@ -569,12 +569,11 @@ export default class Dropdown extends PureComponent {
     }
   }
 
-  selectItemHandler = e => {
+  selectItemHandler = event => {
     const selected_item = parseFloat(
-      e.currentTarget.getAttribute('data-item')
+      event.currentTarget.getAttribute('data-item')
     )
     if (selected_item > -1) {
-      const event = { ...e }
       this.selectItem(selected_item, { fireSelectEvent: true, event })
     }
   }
@@ -583,6 +582,12 @@ export default class Dropdown extends PureComponent {
     selected_item,
     { fireSelectEvent = false, event = null } = {}
   ) => {
+    // because of our delay on despatching the event
+    // make a copy of it, so we don't break the syntetic event
+    if (event && event.persist) {
+      event.persist()
+    }
+
     if (
       this.state.selected_item !== selected_item ||
       // to make sure we call "on_change" on startup
