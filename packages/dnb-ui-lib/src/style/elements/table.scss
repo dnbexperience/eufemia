@@ -69,13 +69,13 @@
     color: var(--color-emerald-green);
 
     .dnb-anchor,
-    .dnb-button,
-    .dnb-button--tertiary {
+    .dnb-button {
       > .dnb-icon {
         position: absolute;
         right: 0.25rem;
         left: auto;
-        visibility: hidden;
+        opacity: 0;
+        transition: opacity 200ms ease-out;
       }
 
       position: relative;
@@ -100,8 +100,7 @@
         padding-right: 1rem;
       }
 
-      &:not(:focus),
-      &:not(:focus).dnb-button--has-text {
+      &:not(:focus) .dnb-button__text {
         @include drawUnderlineBorder() {
           left: 0;
           right: 1.5rem;
@@ -109,6 +108,7 @@
           height: 0.125rem;
           border-radius: 0.0625rem;
           background-color: var(--color-emerald-green);
+          transition: opacity 200ms ease-out;
         }
       }
 
@@ -120,18 +120,22 @@
         }
 
         &:not(:focus) .dnb-icon {
-          visibility: visible;
+          opacity: 1;
         }
 
-        &::after {
-          right: 0;
-          background-color: var(--color-sea-green);
-          visibility: visible;
+        .dnb-button__text::after {
+          opacity: 0;
         }
       }
 
       &:focus {
         @include tableFocusRing();
+        &::before {
+          right: -0.5rem;
+        }
+        .dnb-icon {
+          opacity: 1;
+        }
       }
 
       @include active() {
@@ -140,45 +144,53 @@
           right: -0.5rem;
         }
 
-        color: var(--color-emerald-green);
         .dnb-button__text {
           border-bottom-color: transparent;
         }
-        &::after {
+        .dnb-button__text::after {
           visibility: hidden;
         }
+        .dnb-icon {
+          opacity: 1;
+        }
+
+        color: var(--color-emerald-green);
       }
     }
   }
   & > thead > tr > th#{&}--active,
   & &__th#{&}--active {
-    a,
     .dnb-anchor,
-    .dnb-button,
-    .dnb-button--tertiary {
-      &,
-      &.dnb-button--has-text {
-        &::after {
-          visibility: hidden;
-        }
+    .dnb-button {
+      // hide underline
+      .dnb-button__text::after {
+        right: 0 !important; // force the line to be under the icon
+        opacity: 0;
       }
       .dnb-icon {
-        visibility: visible;
+        opacity: 1;
       }
 
-      &:focus {
-        &::before {
-          right: -0.5rem;
+      // and underline on hover
+      @include hover() {
+        .dnb-button__text::after {
+          right: 0;
+          background-color: var(--color-sea-green-alt);
+          border-bottom-color: var(--color-sea-green-alt);
+          opacity: 1;
         }
+      }
+
+      // focus ring
+      &:focus::before {
+        right: -0.5rem;
       }
     }
   }
   & > thead > tr > th#{&}--reversed,
   & &__th#{&}--reversed {
-    a,
     .dnb-anchor,
-    .dnb-button,
-    .dnb-button--tertiary {
+    .dnb-button {
       .dnb-icon {
         transform: scaleY(-1);
       }
