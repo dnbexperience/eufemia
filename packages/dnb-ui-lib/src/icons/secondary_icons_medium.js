@@ -13,6 +13,7 @@ import pencil_medium from './pencil_medium.js'
 import print_medium from './print_medium.js'
 import save_alt_01_medium from './save_alt_01_medium.js'
 import trash_medium from './trash_medium.js'
+import upload_medium from './upload_medium.js'
 
 export {
   attachment_medium,
@@ -27,5 +28,6 @@ export {
   pencil_medium,
   print_medium,
   save_alt_01_medium,
-  trash_medium
+  trash_medium,
+  upload_medium
 }
