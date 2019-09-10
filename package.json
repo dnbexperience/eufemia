@@ -37,6 +37,10 @@
   "release": {
     "analyzeCommits": "simple-commit-message"
   },
+  "engines": {
+    "node": ">=10.6.0",
+    "yarn": ">=1.17.3"
+  },
   "volta": {
     "node": "10.6.0",
     "yarn": "1.17.3"
