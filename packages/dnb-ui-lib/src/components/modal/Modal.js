@@ -173,6 +173,7 @@ export default class Modal extends PureComponent {
 
   state = {
     _listenForPropChanges: true,
+    currentActiveState: false,
     modalActive: false
   }
 
@@ -186,14 +187,12 @@ export default class Modal extends PureComponent {
   }
 
   componentDidMount() {
-    const { open_modal, open_state } = this.props
-    if (open_state) {
-      this.handleSideEffects(this.state.modalActive)
-    }
+    const { open_modal } = this.props
+
     if (typeof open_modal === 'function') {
-      // open_modal(() => {
-      //   this.toggleOpenClose(null, true)
-      // }, this)
+      open_modal(() => {
+        this.toggleOpenClose(null, true)
+      }, this)
     }
   }
   componentWillUnmount() {
@@ -211,55 +210,63 @@ export default class Modal extends PureComponent {
       modalActive,
       _listenForPropChanges: false
     })
-
-    this.handleSideEffects(modalActive)
   }
-  handleSideEffects = modalActive => {
+  handleSideEffects = () => {
     if (!isTrue(this.props.direct_dom_return)) {
       Modal.insertModalRoot()
     }
 
-    // prevent scrolling on the background
-    if (typeof document !== 'undefined') {
-      try {
-        document.body.setAttribute(
-          'data-dnb-modal-active',
-          modalActive ? 'true' : 'false'
-        )
-      } catch (e) {
-        console.warn(
-          'Modal: Error on set "data-dnb-modal-active" by using element.setAttribute()',
-          e
-        )
-      }
-    }
+    const modalActive = this.state.modalActive
+    const currentActiveState = modalActive
 
-    if (modalActive) {
-      if (typeof this.props.close_modal === 'function') {
-        this.props.close_modal(() => {
-          this.isClosing = false
-          this.toggleOpenClose(null, false)
-        }, this)
+    const runSideEffect = () => {
+      // prevent scrolling on the background
+      if (typeof document !== 'undefined') {
+        try {
+          document.body.setAttribute(
+            'data-dnb-modal-active',
+            modalActive ? 'true' : 'false'
+          )
+        } catch (e) {
+          console.warn(
+            'Modal: Error on set "data-dnb-modal-active" by using element.setAttribute()',
+            e
+          )
+        }
       }
-    }
 
-    const id = this._id
-    if (modalActive) {
-      // to make sure we are after the render cyclus
-      // this way have the content insted by the time we call this event
-      this.delayEventDispatch = setTimeout(() => {
+      if (modalActive) {
+        if (typeof this.props.close_modal === 'function') {
+          this.props.close_modal(() => {
+            this.isClosing = false
+            this.toggleOpenClose(null, false)
+          }, this)
+        }
+      }
+
+      const id = this._id
+      if (modalActive) {
         dispatchCustomElementEvent(this, 'on_open', { id })
-      }, 10)
-    } else if (this.wasActive) {
-      dispatchCustomElementEvent(this, 'on_close', { id })
-    }
-    this.wasActive = modalActive
+      } else if (this.wasActive) {
+        dispatchCustomElementEvent(this, 'on_close', { id })
+      }
 
-    if (modalActive === false) {
-      if (this._triggerRef && this._triggerRef.current) {
-        this._triggerRef.current.focus()
+      this.wasActive = modalActive
+
+      if (modalActive === false) {
+        if (this._triggerRef && this._triggerRef.current) {
+          this._triggerRef.current.focus()
+        }
       }
     }
+
+    this.setState(
+      {
+        currentActiveState,
+        _listenForPropChanges: false
+      },
+      runSideEffect
+    )
   }
   open = e => {
     this.toggleOpenClose(e, true)
@@ -306,8 +313,14 @@ export default class Modal extends PureComponent {
       ...rest
     } = props
 
-    const { modalActive } = this.state
+    const { modalActive, currentActiveState } = this.state
     const modal_content = Modal.getContent(this.props)
+
+    if (modalActive !== currentActiveState) {
+      setTimeout(this.handleSideEffects, 1)
+      // delay the dispatch to make sure we are after the render cyclus
+      // this way have the content insted by the time we call this event
+    }
 
     return (
       <div className="dnb-modal">

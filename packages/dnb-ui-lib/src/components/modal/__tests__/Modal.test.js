@@ -68,14 +68,30 @@ describe('Modal component', () => {
     )
     Comp.find('button').simulate('click')
 
-    await wait(11) // wait for the render to be finished
+    await wait(15) // wait for the event to be called
 
     Comp.find('div.dnb-modal__content__inner').simulate('keyDown', {
       key: 'Esc',
       keyCode: 27
     })
 
+    await wait(15) // wait for the event to be called
+
     expect(on_open).toHaveBeenCalled()
+    expect(on_close).toHaveBeenCalled()
+  })
+  it('has working open event and close event on changing the "open_state"', async () => {
+    const on_close = jest.fn()
+    const on_open = jest.fn()
+    const Comp = mount(
+      <Component {...props} on_close={on_close} on_open={on_open} />
+    )
+    Comp.setProps({ open_state: 'opened' })
+    await wait(10) // wait for the render to be finished
+    expect(on_open).toHaveBeenCalled()
+
+    Comp.setProps({ open_state: 'closed' })
+    await wait(10) // wait for the render to be finished
     expect(on_close).toHaveBeenCalled()
   })
   it('runs expected side effects', async () => {
