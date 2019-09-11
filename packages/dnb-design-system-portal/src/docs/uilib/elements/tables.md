@@ -101,7 +101,7 @@ There are a couple helper classes to style tables:
 - `.dnb-table--no-wrap` Use this on a `th`
 - `.dnb-table--active` Use this on a `th`
 - `.dnb-table--sortable` Use this on a `th`
-- `.dnb-tablednb-table--reversed` Use this on a `th`
+- `.dnb-table--reversed` Use this on a `th`
 - `.dnb-table--tabular` Use this on the `table` root
 
 <ComponentBox reactLive hideCode data-dnb-test="table-classes" caption="Example usage of class helpers">
