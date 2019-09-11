@@ -67,28 +67,31 @@
 }
 
 @mixin drawUnderlineBorder() {
-  // border
+  // underline border
   &::after {
     content: '';
     position: absolute;
     z-index: 1;
 
-    left: 0.05rem;
-    right: 0.05rem;
+    left: 0;
+    right: 0;
     bottom: 0;
 
     width: auto;
-    height: 0.0625rem;
+    height: 0.095rem; //1.5 - because of webkit, we round to .095
+    border-radius: calc(0.095rem / 2);
 
-    border-radius: calc(0.0625rem / 2);
-    border-bottom: 0.0625rem solid var(--color-sea-green);
+    color: var(--color-sea-green); // border color
+    background-color: currentColor;
+
+    // using box-shadow works well to get 1.5px
+    // but not for the transition to opacity
+    // box-shadow: 0 0 0 calc(0.0625rem / 2) currentColor;
 
     // IE fix
     @media screen and (-ms-high-contrast: none) {
       height: 1px;
-
       border-radius: 0.5px;
-      border-bottom-width: 1px;
     }
 
     @content;

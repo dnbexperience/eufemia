@@ -339,12 +339,37 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     /* stylelint-enable */ }
     .dnb-button--tertiary.dnb-button--has-text {
       padding: 0 0.5rem; }
+      [os='mac'] .dnb-button--tertiary.dnb-button--has-text {
+        transform: translateY(-0.0625rem); }
     .dnb-button--tertiary .dnb-button__text {
+      position: relative;
       padding: 0.125rem 0;
-      line-height: 1rem;
-      border-bottom: 0.09375rem solid transparent; }
-    .dnb-button--tertiary:not(:focus):hover .dnb-button__text {
-      border-bottom-color: var(--color-emerald-green); }
+      line-height: 1rem; }
+      .dnb-button--tertiary .dnb-button__text::after {
+        content: '';
+        position: absolute;
+        z-index: 1;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: auto;
+        height: 0.095rem;
+        border-radius: calc(0.095rem / 2);
+        color: var(--color-sea-green);
+        background-color: currentColor;
+        bottom: -0.125rem;
+        color: transparent;
+        opacity: 0;
+        transition: opacity 200ms ease-out, color 200ms ease-out; }
+        @media screen and (-ms-high-contrast: none) {
+          .dnb-button--tertiary .dnb-button__text::after {
+            height: 1px;
+            border-radius: 0.5px; } }
+        [data-dnb-test-wrapper] .dnb-button--tertiary .dnb-button__text::after {
+          transition: none; }
+    .dnb-button--tertiary:not(:focus):hover .dnb-button__text::after {
+      color: var(--color-emerald-green);
+      opacity: 1; }
     .dnb-button--tertiary:focus {
       outline: initial; }
       html[data-whatinput='keyboard'] .dnb-button--tertiary:focus {
@@ -363,8 +388,8 @@ exports[`Button scss have to match default theme snapshot 1`] = `
           box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
           /* IE11 fix */
           border-color: transparent; }
-      .dnb-button--tertiary:focus .dnb-button__text {
-        border-bottom-color: transparent; }
+      .dnb-button--tertiary:focus .dnb-button__text::after {
+        visibility: hidden; }
     :not([dnb-is-touch]) .dnb-button--tertiary:active[disabled] {
       cursor: not-allowed; }
     :not([dnb-is-touch]) .dnb-button--tertiary:active:not([disabled]) {
@@ -385,20 +410,16 @@ exports[`Button scss have to match default theme snapshot 1`] = `
           box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
           /* IE11 fix */
           border-color: transparent; }
-      :not([dnb-is-touch]) .dnb-button--tertiary:active:not([disabled]) .dnb-button__text {
-        border-bottom-color: transparent; }
+      :not([dnb-is-touch]) .dnb-button--tertiary:active:not([disabled]) .dnb-button__text::after {
+        visibility: hidden; }
     .dnb-button--tertiary.dnb-button--has-icon {
       /* stylelint-disable */
       /* stylelint-enable */ }
-      .dnb-button--tertiary.dnb-button--has-icon .dnb-button__icon {
+      .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text .dnb-button__icon {
         position: absolute;
         top: 0;
         bottom: 0.0625rem;
         margin: auto 0; }
-      :not([dnb-is-touch]) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):hover[disabled] {
-        cursor: not-allowed; }
-      :not([dnb-is-touch]) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):hover:not([disabled]) .dnb-button__icon {
-        color: var(--color-sea-green-alt-30); }
       .dnb-button--tertiary.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__text {
         padding-left: 1.5rem; }
       .dnb-button--tertiary.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__icon {
@@ -420,6 +441,35 @@ exports[`Button scss have to match default theme snapshot 1`] = `
           margin-right: 2rem; }
       .dnb-button--tertiary.dnb-button--has-icon.dnb-button--icon-size-medium .dnb-button__icon {
         bottom: 0.125rem; }
+      .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):focus::before {
+        left: 0;
+        right: 0; }
+      :not([dnb-is-touch]) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):active[disabled] {
+        cursor: not-allowed; }
+      :not([dnb-is-touch]) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):active:not([disabled])::before {
+        left: 0;
+        right: 0; }
+      :not([dnb-is-touch]) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):not(:active):not(:focus):hover[disabled] {
+        cursor: not-allowed; }
+      :not([dnb-is-touch]) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):not(:active):not(:focus):hover:not([disabled]) .dnb-button__icon::after {
+        content: '';
+        position: absolute;
+        z-index: 1;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: auto;
+        height: 0.095rem;
+        border-radius: calc(0.095rem / 2);
+        color: var(--color-sea-green);
+        background-color: currentColor;
+        left: 0.5rem;
+        right: 0.5rem;
+        bottom: 0.25rem; }
+        @media screen and (-ms-high-contrast: none) {
+          :not([dnb-is-touch]) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):not(:active):not(:focus):hover:not([disabled]) .dnb-button__icon::after {
+            height: 1px;
+            border-radius: 0.5px; } }
     .dnb-button--tertiary[disabled] {
       color: var(--color-sea-green-alt-30); }
   .dnb-button--signal {

@@ -76,6 +76,9 @@
         left: auto;
         opacity: 0;
         transition: opacity 200ms ease-out;
+        [data-dnb-test-wrapper] & {
+          transition: none;
+        }
       }
 
       position: relative;
@@ -98,31 +101,27 @@
 
       .dnb-button__text {
         padding-right: 1rem;
+
+        // underline
+        &::after {
+          right: 1rem;
+        }
       }
 
-      &:not(:focus) .dnb-button__text {
-        @include drawUnderlineBorder() {
-          left: 0;
-          right: 1.5rem;
-          bottom: 0;
-          height: 0.125rem;
-          border-radius: 0.0625rem;
-          background-color: var(--color-emerald-green);
-          transition: opacity 200ms ease-out;
-        }
+      // underline
+      &:not(:focus) .dnb-button__text::after {
+        opacity: 1;
+        color: var(--color-emerald-green);
       }
 
       @include hover() {
         color: var(--color-sea-green);
 
-        .dnb-button__text {
-          border-bottom-color: transparent;
-        }
-
         &:not(:focus) .dnb-icon {
           opacity: 1;
         }
 
+        // hide underline
         .dnb-button__text::after {
           opacity: 0;
         }
@@ -130,6 +129,8 @@
 
       &:focus {
         @include tableFocusRing();
+
+        // focus ring
         &::before {
           right: -0.5rem;
         }
@@ -140,13 +141,13 @@
 
       @include active() {
         @include tableFocusRing();
+
+        // focus ring
         &::before {
           right: -0.5rem;
         }
 
-        .dnb-button__text {
-          border-bottom-color: transparent;
-        }
+        // hide underline instant
         .dnb-button__text::after {
           visibility: hidden;
         }
@@ -163,8 +164,8 @@
     .dnb-anchor,
     .dnb-button {
       // hide underline
-      .dnb-button__text::after {
-        right: 0 !important; // force the line to be under the icon
+      &:not(:hover) .dnb-button__text::after {
+        right: 0;
         opacity: 0;
       }
       .dnb-icon {
@@ -175,8 +176,7 @@
       @include hover() {
         .dnb-button__text::after {
           right: 0;
-          background-color: var(--color-sea-green-alt);
-          border-bottom-color: var(--color-sea-green-alt);
+          color: var(--color-sea-green-alt);
           opacity: 1;
         }
       }

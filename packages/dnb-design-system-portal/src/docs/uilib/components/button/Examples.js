@@ -91,17 +91,6 @@ class Example extends PureComponent {
         <ComponentBox>
           {/* @jsx */ `
 <Button
-  variant="tertiary"
-  text="Tertiary button with icon on left"
-  icon_position="left"
-  icon="chevron_left"
-  disabled
-/>
-          `}
-        </ComponentBox>
-        <ComponentBox>
-          {/* @jsx */ `
-<Button
   text="Primary button with href"
   href="?no-cache=1"
   title="This is a link"

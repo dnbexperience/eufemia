@@ -108,9 +108,20 @@ export default [
               <td>
                 Col <DatePicker label="Date:" show_input />
               </td>
-              <td>Column 2</td>
-              <td>Column 3</td>
-              <td>Column 4</td>
+              <td>
+                Column 2 <Button icon="close" variant="secondary" />
+              </td>
+              <td>
+                Column 3 <Button icon="chevron_down" variant="tertiary" />
+              </td>
+              <td>
+                Column 4
+                <Button
+                  text="Button"
+                  icon="chevron_down"
+                  variant="tertiary"
+                />
+              </td>
             </tr>
             <tr>
               <td>Column 1</td>
