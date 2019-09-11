@@ -96,6 +96,11 @@ describe('Textarea component', () => {
     expect(Comp.state().value).toBe(emptyValue)
   })
 
+  it('uses children as the value', () => {
+    const Comp = mount(<Component>children</Component>)
+    expect(Comp.find('textarea').props().value).toBe('children')
+  })
+
   it('has correct size attribute (chars length) on input by using textarea_attributes', () => {
     const Comp = mount(<Component textarea_attributes={{ size: 2 }} />)
     expect(
