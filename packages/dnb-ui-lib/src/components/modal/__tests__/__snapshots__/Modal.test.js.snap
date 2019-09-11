@@ -897,7 +897,6 @@ a.dnb-button .dnb-button__text {
       @media screen and (min-width: 50em) {
         .dnb-modal__content__inner {
           padding: 2rem 2rem 1rem;
-          padding-right: 4rem;
           box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16); } }
       @media screen and (max-width: 50em) {
         .dnb-modal__content__inner {
