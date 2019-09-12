@@ -5,6 +5,7 @@
 
 // IMPORTANT: Keep the shorthand after the long type names
 export const spacePatterns = {
+  'xx-small': 0.25,
   'x-small': 0.5,
   small: 1,
   medium: 1.5,
