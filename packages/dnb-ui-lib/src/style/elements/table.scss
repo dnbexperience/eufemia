@@ -75,7 +75,7 @@
         right: 0.25rem;
         left: auto;
         opacity: 0;
-        transition: opacity 200ms ease-out;
+        transition: opacity 200ms ease-out, transform 500ms ease-out;
         [data-dnb-test-wrapper] & {
           transition: none;
         }
@@ -147,11 +147,6 @@
           right: -0.5rem;
         }
 
-        // show underline
-        .dnb-button__text::after {
-          opacity: 1;
-        }
-
         color: var(--color-emerald-green);
       }
 
@@ -204,7 +199,8 @@
     .dnb-anchor,
     .dnb-button {
       .dnb-icon {
-        transform: scaleY(-1);
+        transform: rotate(180deg);
+        transform-origin: 50% 50%;
       }
     }
   }
