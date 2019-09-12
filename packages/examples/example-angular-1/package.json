@@ -14,8 +14,8 @@
   "dependencies": {
     "angular": "1.7.8",
     "dnb-ui-lib": "*",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
     "react2angular": "4.0.6"
   },
   "devDependencies": {

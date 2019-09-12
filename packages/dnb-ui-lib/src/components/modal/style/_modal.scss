@@ -60,7 +60,6 @@
 
       @include allAbove(medium) {
         padding: 2rem 2rem 1rem;
-        padding-right: 4rem;
         @include defaultDropShadow();
       }
 

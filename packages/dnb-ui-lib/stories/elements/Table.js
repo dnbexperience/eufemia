@@ -3,11 +3,18 @@
  *
  */
 
-import React /* , { useState, useEffect } */ from 'react'
+import React, { Fragment } from 'react'
 import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
 
-import { Button, DatePicker } from '../../src/components'
+import {
+  Button,
+  Switch,
+  Checkbox,
+  Dropdown,
+  Input,
+  DatePicker
+} from '../../src/components'
 
 const CustomWrapper = styled(Wrapper)`
   .mint_col {
@@ -30,10 +37,6 @@ export default [
                 Only text
               </th>
               <th className="dnb-table--sortable dnb-table--reversed">
-                {/* <a className="dnb-anchor" href="#sort">
-                    Sortable
-                    <IconPrimary icon="chevron-down" />
-                  </a> */}
                 <Button
                   variant="tertiary"
                   icon="chevron-down"
@@ -41,10 +44,6 @@ export default [
                 />
               </th>
               <th className="dnb-table--sortable dnb-table--active">
-                {/* <a className="dnb-anchor" href="#sort">
-                    Active
-                    <IconPrimary icon="chevron-down" />
-                  </a> */}
                 <Button
                   variant="tertiary"
                   icon="chevron-down"
@@ -55,27 +54,74 @@ export default [
           </thead>
           <tbody>
             <tr>
+              {/* <td>
+                <Button variant="secondary" icon="close" />
+              </td> */}
+              <td>
+                <Dropdown
+                  data={data}
+                  selected_index={0}
+                  title="Please select a value"
+                  on_change={({ data: { selected_key } }) => {
+                    //eslint-disable-line
+                    console.log('on_change', selected_key) //eslint-disable-line
+                  }}
+                />
+              </td>
+              <td>
+                <Input placeholder="Placeholder text" />
+              </td>
+              <td>
+                <DatePicker
+                  date={new Date()}
+                  show_input
+                  show_cancel_button
+                  on_change={({ date }) => {
+                    console.log('on_change', date) //eslint-disable-line
+                  }}
+                  on_cancel={({ date }) => {
+                    console.log('on_cancel', date) //eslint-disable-line
+                  }}
+                />
+              </td>
+              <td>
+                <Checkbox label="12345" />
+              </td>
+            </tr>
+            <tr>
               <td>
                 <p className="dnb-p">
                   Column 1 <b>width p</b>
                 </p>
               </td>
               <td>
-                <code>Column 2 with code</code>{' '}
-                <DatePicker label="Date:" range />
+                <code>Col</code> <DatePicker label="Date:" range />
               </td>
               <td>
-                <span>Column 3 with span</span>
+                <span>
+                  Col <Switch />
+                </span>
               </td>
               <td>Column 4</td>
             </tr>
             <tr>
               <td>
-                Column 1 <DatePicker label="Date:" range show_input />
+                Col <DatePicker label="Date:" show_input />
               </td>
-              <td>Column 2</td>
-              <td>Column 3</td>
-              <td>Column 4</td>
+              <td>
+                Column 2 <Button icon="close" variant="secondary" />
+              </td>
+              <td>
+                Column 3 <Button icon="chevron_down" variant="tertiary" />
+              </td>
+              <td>
+                Column 4
+                <Button
+                  text="Button"
+                  icon="chevron_down"
+                  variant="tertiary"
+                />
+              </td>
             </tr>
             <tr>
               <td>Column 1</td>
@@ -163,4 +209,42 @@ export default [
       </Box>
     </CustomWrapper>
   )
+]
+
+const data = [
+  {
+    selected_value: 'AA',
+    content: 'A'
+  },
+  {
+    content: ['1234.56.78902', 'B']
+  },
+  {
+    selected_value: 'CC',
+    content: ['1134.56.78962', 'C']
+  },
+  {
+    selected_value: 'DD',
+    content: ['1534.96.48901', 'D']
+  },
+  {
+    content: <Fragment>E</Fragment>
+  },
+  <Fragment key="key1">Custom content {'🔥'}</Fragment>,
+  [<Fragment key="key2">Custom content X {'🔥'}</Fragment>],
+  {
+    content: 'EE'
+  },
+  {
+    content: 'EEE'
+  },
+  {
+    content: ['F', 'F', 'F', 'F', 'F']
+  },
+  {
+    content: 'G'
+  },
+  {
+    content: 'H'
+  }
 ]

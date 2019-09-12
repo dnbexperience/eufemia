@@ -3,7 +3,7 @@
  *
  */
 
-import React /* , { useState, useEffect } */ from 'react'
+import React, { useState, useEffect } from 'react'
 import { Wrapper, Box } from '../helpers'
 // import styled from '@emotion/styled'
 
@@ -38,6 +38,9 @@ export default [
           trigger_text="Open Modal"
           title="Modal Title"
           className="dnb-core-style"
+          on_close={e => {
+            console.log('on_close', e)
+          }}
         >
           <Hr />
           <Box>
@@ -68,6 +71,12 @@ export default [
               open_state="opened"
               labelled_by="custom-triggerer"
               className="dnb-core-style"
+              on_open={e => {
+                console.log('on_open', e)
+              }}
+              on_close={e => {
+                console.log('on_close', e)
+              }}
             >
               <p className="dnb-p">
                 This Modal was opened by a custom trigger button.
@@ -155,45 +164,55 @@ let dropdownData = [
   }
 ]
 
-class ModalCloseExample extends React.PureComponent {
-  state = {
-    open_state: null
-  }
+const ModalCloseExample = () => {
+  const [open_state, setOpenState] = useState(null)
+  const [count, setCount] = useState(0)
 
-  // constructor(props) {
-  //   super(props)
-  //
-  //   setTimeout(() => {
-  //     this.setState({
-  //       open_state: 'opened'
-  //     })
-  //     setTimeout(() => {
-  //       this.setState({
-  //         open_state: 'closed'
-  //       })
-  //     }, 3e3)
-  //   }, 1e3)
-  // }
+  useEffect(() => {
+    if (open_state === 'opened') {
+      // setTimeout(() => {
+      setTimeout(() => {
+        console.log('count:', count)
+        setCount(count + 1)
+      }, 1e3)
+      // setOpenState('opened')
+      // setTimeout(() => {
+      //   setOpenState('closed')
+      // }, 3e3)
+      // }, 1e3)
+    }
+  })
 
-  render() {
-    return (
+  return (
+    <>
+      <Button text="Open" on_click={() => setOpenState('opened')} />
       <Modal
         className="dnb-core-style"
         trigger_text="Open Modal and auto close"
         title="Modal Title"
-        // open_state={this.state.open_state}
+        open_state={open_state}
         // open_modal={open => {
         //   setTimeout(open, 3e3)
         // }}
-        hide_close_button
+        // hide_close_button
         close_modal={close => {
-          console.log('Modal was opened')
-          setTimeout(close, 3e3)
+          if (open_state !== 'opened') {
+            console.log('Modal was opened')
+            setTimeout(close, 1e3)
+          }
+        }}
+        on_open={e => {
+          console.log('on_open', e)
+        }}
+        on_close={e => {
+          console.log('on_close', e)
+          // clearTimeout(timeoutId)
+          setOpenState('closed')
         }}
       >
         <Hr />
         <Box>
-          <H2>Some content</H2>
+          <H2>Some content {count}</H2>
           <Input>Focus me with Tab key</Input>
         </Box>
         <Box>
@@ -202,6 +221,6 @@ class ModalCloseExample extends React.PureComponent {
           </P>
         </Box>
       </Modal>
-    )
-  }
+    </>
+  )
 }

@@ -149,6 +149,15 @@ describe('Input component', () => {
     expect(Comp.find('.dnb-input--medium').exists()).toBe(true)
   })
 
+  it('uses children as the value', () => {
+    const Comp = mount(<Component>children</Component>)
+    expect(
+      Comp.find('input')
+        .instance()
+        .getAttribute('value')
+    ).toBe('children')
+  })
+
   it('has correct size attribute (chars length) on input by int number', () => {
     const Comp = mount(<Component size={2} />)
     expect(

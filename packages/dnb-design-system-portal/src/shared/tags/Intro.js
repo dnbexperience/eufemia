@@ -13,24 +13,26 @@ import {
 } from 'dnb-ui-lib/src/elements'
 import { Button } from 'dnb-ui-lib/src/components'
 
-const onKeyDownHandler = e => {
-  try {
-    if (e.key === 'ArrowRight' && ref && ref.current) {
-      const elem = ref.current.querySelector('a[href*="/intro"]')
-      const href = elem.getAttribute('href')
-      navigate(href)
-    }
-    if (e.key === 'ArrowLeft') {
-      window.history.back()
-    }
-  } catch (e) {
-    console.log(e)
-  }
-}
-
 const ref = React.createRef()
 const Intro = ({ children }) => {
   useEffect(() => {
+    const onKeyDownHandler = e => {
+      if (/textarea|input/i.test(document.activeElement.tagName)) {
+        return
+      }
+      try {
+        if (e.key === 'ArrowRight' && ref && ref.current) {
+          const elem = ref.current.querySelector('a[href*="/intro"]')
+          const href = elem.getAttribute('href')
+          navigate(href)
+        }
+        if (e.key === 'ArrowLeft') {
+          window.history.back()
+        }
+      } catch (e) {
+        console.log(e)
+      }
+    }
     try {
       document.addEventListener('keydown', onKeyDownHandler)
     } catch (e) {

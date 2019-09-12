@@ -165,12 +165,14 @@ export default class Switch extends Component {
 
     if (this.props.on_change_end) {
       clearTimeout(this._onChangeEndId)
-      const e = { ...event }
+      if (event && event.persist) {
+        event.persist()
+      }
       this._onChangeEndId = setTimeout(
         () =>
           dispatchCustomElementEvent(this, 'on_change_end', {
             checked,
-            event: e
+            event
           }),
         500
       )

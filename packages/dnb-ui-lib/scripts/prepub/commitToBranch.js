@@ -81,9 +81,8 @@ const commitToBranch = async ({
   requiredBranch = 'develop',
   what = 'files',
   filePathsWhitelist = [],
-  isNotAFeature = null,
   skipCI = false,
-  isFeature = true
+  isFeature = false
 } = {}) => {
   try {
     const repo = await makeRepo()
@@ -125,25 +124,17 @@ const commitToBranch = async ({
       const files = filesToCommit.map(f => path.basename(f))
       log.text = `> Commit: Add ${files.length} new ${what}`
 
-      // as there is too ofter only a "version.lock" update, we filter out this
-      if (
-        Array.isArray(isNotAFeature) &&
-        files.some(i => isNotAFeature.includes(i))
-      ) {
-        isFeature = false
+      if (typeof isFeature === 'function') {
+        isFeature = isFeature(files)
       }
-
       if (typeof skipCI === 'function') {
-        const skipCIResult = skipCI(files)
-        if (typeof skipCIResult === 'boolean') {
-          skipCI = skipCIResult
-        }
+        skipCI = skipCI(files)
       }
 
       const commitMessage = String(
         `${
-          isFeature ? 'feat:' : ''
-        } some ${what} where updated/added | ${files.join(', ')}${
+          isFeature ? 'feat:' : 'chore:'
+        } some ${what} got added/changed during CI | ${files.join(', ')}${
           skipCI ? ' [CI SKIP]' : ''
         }`
       ).trim()

@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "dnb-ui-lib": "*",
-    "react": "^16.8.6",
+    "react": "^16.9.0",
     "react-dom": "^16.8.6"
   },
   "devDependencies": {

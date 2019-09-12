@@ -60,6 +60,8 @@ import subtract from './subtract.js'
 import subtract_medium from './subtract_medium.js'
 import trash from './trash.js'
 import trash_medium from './trash_medium.js'
+import upload from './upload.js'
+import upload_medium from './upload_medium.js'
 
 export {
   add,
@@ -121,5 +123,7 @@ export {
   subtract,
   subtract_medium,
   trash,
-  trash_medium
+  trash_medium,
+  upload,
+  upload_medium
 }

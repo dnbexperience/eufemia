@@ -29,7 +29,9 @@
     &:hover {
       .dnb-button__text {
         color: inherit;
-        border-color: var(--color-white);
+        &::after {
+          color: inherit;
+        }
       }
     }
 

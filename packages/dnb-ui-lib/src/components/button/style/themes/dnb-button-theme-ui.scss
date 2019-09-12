@@ -77,17 +77,34 @@
 
     &.dnb-button--has-text {
       padding: 0 0.5rem;
+
+      // since we don't have a visula alignment
+      [os='mac'] & {
+        transform: translateY(-0.0625rem);
+      }
     }
 
     .dnb-button__text {
+      position: relative; // because of the underline
+
       padding: 0.125rem 0;
       line-height: 1rem;
-      border-bottom: 0.09375rem solid transparent;
+
+      @include drawUnderlineBorder() {
+        bottom: -0.125rem;
+        color: transparent;
+        opacity: 0;
+        transition: opacity 200ms ease-out, color 200ms ease-out;
+        [data-dnb-test-wrapper] & {
+          transition: none;
+        }
+      }
     }
 
     &:not(:focus):hover {
-      .dnb-button__text {
-        border-bottom-color: var(--color-emerald-green);
+      .dnb-button__text::after {
+        color: var(--color-emerald-green);
+        opacity: 1;
       }
     }
 
@@ -96,8 +113,8 @@
       @include removeFakeFocus();
       @include buttonFocusRing();
 
-      .dnb-button__text {
-        border-bottom-color: transparent;
+      .dnb-button__text::after {
+        visibility: hidden;
       }
     }
     /* stylelint-enable */
@@ -106,29 +123,20 @@
       @include removeFakeFocus();
       @include buttonFocusRing('mouse');
 
-      .dnb-button__text {
-        border-bottom-color: transparent;
+      .dnb-button__text::after {
+        visibility: hidden;
       }
     }
 
-    // icon only tertiary
     &.dnb-button--has-icon {
       /* stylelint-disable */
-      .dnb-button__icon {
+      &.dnb-button--has-text .dnb-button__icon {
         position: absolute;
         top: 0;
         bottom: 0.0625rem;
         margin: auto 0;
       }
       /* stylelint-enable */
-
-      &:not(.dnb-button--has-text) {
-        @include hover(true) {
-          .dnb-button__icon {
-            color: var(--color-sea-green-alt-30);
-          }
-        }
-      }
 
       &.dnb-button--icon-position-left {
         .dnb-button__text {
@@ -166,6 +174,37 @@
       &.dnb-button--icon-size-medium {
         .dnb-button__icon {
           bottom: 0.125rem;
+        }
+      }
+
+      // icon only tertiary
+      &:not(.dnb-button--has-text) {
+        &:focus {
+          // focus ring
+          &::before {
+            left: 0;
+            right: 0;
+          }
+        }
+
+        @include active(true) {
+          // focus ring
+          &::before {
+            left: 0;
+            right: 0;
+          }
+        }
+
+        &:not(:active):not(:focus) {
+          @include hover(true) {
+            .dnb-button__icon {
+              @include drawUnderlineBorder() {
+                left: 0.5rem;
+                right: 0.5rem;
+                bottom: 0.25rem;
+              }
+            }
+          }
         }
       }
     }

@@ -26,8 +26,9 @@ exports[`GlobalStatus scss have to match default theme snapshot 1`] = `
 .dnb-global-status__close-button, .dnb-global-status__close-button.dnb-button--tertiary {
   color: var(--color-white); }
   .dnb-global-status__close-button:hover .dnb-button__text, .dnb-global-status__close-button.dnb-button--tertiary:hover .dnb-button__text {
-    color: inherit;
-    border-color: var(--color-white); }
+    color: inherit; }
+    .dnb-global-status__close-button:hover .dnb-button__text::after, .dnb-global-status__close-button.dnb-button--tertiary:hover .dnb-button__text::after {
+      color: inherit; }
   .dnb-global-status__close-button:not([disabled]):focus::before, .dnb-global-status__close-button.dnb-button--tertiary:not([disabled]):focus::before {
     outline: none; }
     html[data-whatinput='keyboard'] .dnb-global-status__close-button:not([disabled]):focus::before, html[data-whatinput='keyboard'] .dnb-global-status__close-button.dnb-button--tertiary:not([disabled]):focus::before {
@@ -375,7 +376,7 @@ a.dnb-button .dnb-button__text {
     content: '';
     position: absolute;
     z-index: -3;
-    left: -50vw;
+    left: -100vw;
     top: 0;
     width: 100vw;
     height: 100%;
