@@ -53,6 +53,9 @@
     .dnb-anchor {
       @include useAnchorContrastStyle(var(--color-cherry-red));
     }
+    .dnb-code {
+      color: var(--color-emerald-green);
+    }
   }
   &--signal-orange,
   &--cherry-red,

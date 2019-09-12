@@ -1,5 +1,6 @@
 ---
 title: 'Secondary'
+description: 'The secondary icons will be extended over time to include all the often used Eufemia icons.'
 icon: 'secondary'
 draft: false
 order: 1

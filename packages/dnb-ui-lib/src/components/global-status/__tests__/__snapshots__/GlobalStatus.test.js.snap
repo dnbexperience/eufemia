@@ -25,9 +25,11 @@ exports[`GlobalStatus scss have to match default theme snapshot 1`] = `
 
 .dnb-global-status__close-button, .dnb-global-status__close-button.dnb-button--tertiary {
   color: var(--color-white); }
-  .dnb-global-status__close-button:hover .dnb-button__text, .dnb-global-status__close-button.dnb-button--tertiary:hover .dnb-button__text {
+  :not([dnb-is-touch]) .dnb-global-status__close-button:hover[disabled], :not([dnb-is-touch]) .dnb-global-status__close-button.dnb-button--tertiary:hover[disabled] {
+    cursor: not-allowed; }
+  :not([dnb-is-touch]) .dnb-global-status__close-button:hover:not([disabled]) .dnb-button__text, :not([dnb-is-touch]) .dnb-global-status__close-button.dnb-button--tertiary:hover:not([disabled]) .dnb-button__text {
     color: inherit; }
-    .dnb-global-status__close-button:hover .dnb-button__text::after, .dnb-global-status__close-button.dnb-button--tertiary:hover .dnb-button__text::after {
+    :not([dnb-is-touch]) .dnb-global-status__close-button:hover:not([disabled]) .dnb-button__text::after, :not([dnb-is-touch]) .dnb-global-status__close-button.dnb-button--tertiary:hover:not([disabled]) .dnb-button__text::after {
       color: inherit; }
   .dnb-global-status__close-button:not([disabled]):focus::before, .dnb-global-status__close-button.dnb-button--tertiary:not([disabled]):focus::before {
     outline: none; }

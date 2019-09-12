@@ -62,6 +62,13 @@ export default [
           icon="chevron_right"
           icon_size="medium"
         />
+        <Button
+          text="Button text"
+          variant="tertiary"
+          icon="chevron_right"
+          icon_size="medium"
+          disabled
+        />
       </Box>
     </Wrapper>
   )

@@ -434,6 +434,7 @@ class ModalContent extends PureComponent {
     ]),
     prevent_close: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     min_width: PropTypes.string,
+    max_width: PropTypes.string,
     fullscreen: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     class: PropTypes.string,
 
@@ -455,6 +456,7 @@ class ModalContent extends PureComponent {
     hide_close_button: false,
     prevent_close: null,
     min_width: null,
+    max_width: null,
     fullscreen: null,
     class: null,
 
@@ -612,7 +614,8 @@ class ModalContent extends PureComponent {
       close_title,
       hide_close_button,
       prevent_close, // eslint-disable-line
-      min_width,
+      min_width: minWidth,
+      max_width: maxWidth,
       fullscreen, // eslint-disable-line
       closeModal,
       className,
@@ -644,7 +647,7 @@ class ModalContent extends PureComponent {
         className,
         _className
       ),
-      style: min_width && { minWidth: min_width },
+      style: (minWidth || maxWidth) && { minWidth, maxWidth },
       onClick: this.preventClick,
       onTouchStart: this.preventClick,
       onKeyDown: this.onKeyDownHandler,

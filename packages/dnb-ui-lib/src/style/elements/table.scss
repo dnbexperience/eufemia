@@ -127,7 +127,7 @@
         }
       }
 
-      &:focus {
+      @include focus() {
         @include tableFocusRing();
 
         // focus ring
@@ -147,15 +147,17 @@
           right: -0.5rem;
         }
 
-        // hide underline instant
+        // show underline
         .dnb-button__text::after {
-          visibility: hidden;
-        }
-        .dnb-icon {
           opacity: 1;
         }
 
         color: var(--color-emerald-green);
+      }
+
+      // webkit fix
+      &:hover:focus:not(:active) .dnb-button__text::after {
+        visibility: hidden;
       }
     }
   }
@@ -184,6 +186,16 @@
       // focus ring
       &:focus::before {
         right: -0.5rem;
+      }
+
+      // webkit fix
+      &:hover:focus:not(:active) .dnb-button__text::after {
+        visibility: visible;
+      }
+      html[data-whatinput='keyboard']
+        &:hover:focus
+        .dnb-button__text::after {
+        visibility: hidden;
       }
     }
   }

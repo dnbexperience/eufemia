@@ -334,9 +334,7 @@ exports[`Button scss have to match default theme snapshot 1`] = `
   .dnb-button--tertiary {
     position: relative;
     color: var(--color-sea-green);
-    background-color: transparent;
-    /* stylelint-disable */
-    /* stylelint-enable */ }
+    background-color: transparent; }
     .dnb-button--tertiary.dnb-button--has-text {
       padding: 0 0.5rem; }
       [os='mac'] .dnb-button--tertiary.dnb-button--has-text {
@@ -367,14 +365,13 @@ exports[`Button scss have to match default theme snapshot 1`] = `
             border-radius: 0.5px; } }
         [data-dnb-test-wrapper] .dnb-button--tertiary .dnb-button__text::after {
           transition: none; }
-    .dnb-button--tertiary:not(:focus):hover .dnb-button__text::after {
-      color: var(--color-emerald-green);
-      opacity: 1; }
-    .dnb-button--tertiary:focus {
+    :not([dnb-is-touch]) .dnb-button--tertiary:focus[disabled] {
+      cursor: not-allowed; }
+    :not([dnb-is-touch]) .dnb-button--tertiary:focus:not([disabled]) {
       outline: initial; }
-      html[data-whatinput='keyboard'] .dnb-button--tertiary:focus {
+      html[data-whatinput='keyboard'] :not([dnb-is-touch]) .dnb-button--tertiary:focus:not([disabled]) {
         box-shadow: none; }
-      .dnb-button--tertiary:focus::before {
+      :not([dnb-is-touch]) .dnb-button--tertiary:focus:not([disabled])::before {
         content: '';
         position: absolute;
         top: -0.0625rem;
@@ -384,12 +381,18 @@ exports[`Button scss have to match default theme snapshot 1`] = `
         height: inherit;
         border-radius: inherit;
         outline: none; }
-        html[data-whatinput='keyboard'] .dnb-button--tertiary:focus::before {
+        html[data-whatinput='keyboard'] :not([dnb-is-touch]) .dnb-button--tertiary:focus:not([disabled])::before {
           box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
           /* IE11 fix */
           border-color: transparent; }
-      .dnb-button--tertiary:focus .dnb-button__text::after {
+      :not([dnb-is-touch]) .dnb-button--tertiary:focus:not([disabled]) .dnb-button__text::after {
         visibility: hidden; }
+    :not([dnb-is-touch]) .dnb-button--tertiary:hover[disabled] {
+      cursor: not-allowed; }
+    :not([dnb-is-touch]) .dnb-button--tertiary:hover:not([disabled]) .dnb-button__text::after {
+      visibility: visible;
+      opacity: 1;
+      color: var(--color-emerald-green); }
     :not([dnb-is-touch]) .dnb-button--tertiary:active[disabled] {
       cursor: not-allowed; }
     :not([dnb-is-touch]) .dnb-button--tertiary:active:not([disabled]) {
@@ -412,6 +415,9 @@ exports[`Button scss have to match default theme snapshot 1`] = `
           border-color: transparent; }
       :not([dnb-is-touch]) .dnb-button--tertiary:active:not([disabled]) .dnb-button__text::after {
         visibility: hidden; }
+    html[data-whatinput='keyboard']
+.dnb-button--tertiary:hover:focus .dnb-button__text::after {
+      visibility: hidden; }
     .dnb-button--tertiary.dnb-button--has-icon {
       /* stylelint-disable */
       /* stylelint-enable */ }

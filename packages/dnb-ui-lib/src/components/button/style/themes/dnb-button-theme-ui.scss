@@ -101,31 +101,40 @@
       }
     }
 
-    &:not(:focus):hover {
-      .dnb-button__text::after {
-        color: var(--color-emerald-green);
-        opacity: 1;
-      }
-    }
-
-    /* stylelint-disable */
-    &:focus {
+    @include focus(true) {
       @include removeFakeFocus();
       @include buttonFocusRing();
 
+      // underline
       .dnb-button__text::after {
         visibility: hidden;
       }
     }
-    /* stylelint-enable */
+
+    @include hover(true) {
+      // underline
+      .dnb-button__text::after {
+        visibility: visible;
+        opacity: 1;
+        color: var(--color-emerald-green);
+      }
+    }
 
     @include active(true) {
       @include removeFakeFocus();
       @include buttonFocusRing('mouse');
 
+      // underline
       .dnb-button__text::after {
         visibility: hidden;
       }
+    }
+
+    // webkit fix
+    html[data-whatinput='keyboard']
+      &:hover:focus
+      .dnb-button__text::after {
+      visibility: hidden;
     }
 
     &.dnb-button--has-icon {

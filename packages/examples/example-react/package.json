@@ -15,17 +15,17 @@
     "css-vars-ponyfill": "^2.0.2",
     "dnb-ui-lib": "*",
     "react": "^16.9.0",
-    "react-dom": "^16.8.6"
+    "react-dom": "^16.9.0"
   },
   "devDependencies": {
     "@babel/core": "^7.4.5",
     "@babel/plugin-proposal-class-properties": "^7.4.4",
     "@babel/preset-env": "^7.4.5",
     "@babel/preset-react": "^7.0.0",
-    "@emotion/core": "^10.0.14",
-    "@emotion/styled": "^10.0.14",
+    "@emotion/core": "^10.0.17",
+    "@emotion/styled": "^10.0.17",
     "babel-loader": "8.0.6",
-    "babel-plugin-emotion": "^10.0.14",
+    "babel-plugin-emotion": "^10.0.17",
     "css-loader": "^3.0.0",
     "file-loader": "^4.0.0",
     "mini-css-extract-plugin": "^0.7.0",
