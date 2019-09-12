@@ -81,6 +81,8 @@ exports[`Section scss have to match default theme snapshot 1`] = `
     .dnb-section--cherry-red .dnb-anchor:active {
       color: var(--color-cherry-red);
       background-color: var(--color-white); }
+  .dnb-section--cherry-red .dnb-code {
+    color: var(--color-emerald-green); }
 
 .dnb-section--signal-orange ::selection, .dnb-section--cherry-red ::selection, .dnb-section--mint-green ::selection, .dnb-section--mint-green-12 ::selection {
   background-color: var(--color-white); }
