@@ -23,8 +23,9 @@ export default [
     <Wrapper>
       <Box>
         <Modal
+          max_width="20rem"
           // open_state="opened"
-          fullscreen
+          // fullscreen
           className="dnb-core-style"
           title="Modal Title"
           trigger_variant="tertiary"
@@ -35,6 +36,7 @@ export default [
       </Box>
       <Box>
         <Modal
+          min_width="60rem"
           trigger_text="Open Modal"
           title="Modal Title"
           className="dnb-core-style"

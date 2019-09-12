@@ -13,7 +13,7 @@ NB! Modal dialogs interrupt users and demand an action. They are appropriate whe
 
 ### Behavior
 
-The modal can be triggered from either a text element or a button. Triggering a modal will activate the opaque overlay and display the contents.
+The modal can be triggered from either a button or by using the `open_state` property. Triggering a modal will activate the opaque overlay and display the contents.
 
 ### Structure and content
 
@@ -46,7 +46,7 @@ Modal dialogs appear on top of the main content changing the _mode_ of the syste
 
 **NB:** If the wrapper is not set manually, a wrapper is inserted automatically as a child node to the body.
 
-To make sure the HTML structure is decoupled from all the page content, You can optionally define a wrapper div like `<div class="dnb-modal-root" className="dnb-core-style" />`.
+To make sure the HTML structure is decoupled from all the page content, You can optionally define a wrapper div like `<div class="dnb-modal-root" />`.
 
 Just place this as a sibling of Your App root HTML element. This ensures that we always can stack the modal content above the App Content.
 
@@ -65,6 +65,38 @@ The Modal component is using **3000** as the `z-index`.
 :root {
   --modal-z-index: 3000;
 }
+```
+
+## Sizing and spacing
+
+You have the properties `min_width` and `max_width`. But by using these, the width styles get injected inline, witch normal circumstances works fine. But in case you want to set it by CSS, you can do so:
+
+```css
+/* Change the Modal size  */
+.dnb-modal__content__inner {
+  min-width: 20vw;
+  max-width: 40rem;
+}
+/* Change the Modal spacing  */
+:root {
+  /* Defaults to --spacing-large */
+  --modal-spacing: var(--spacing-small);
+}
+```
+
+## Styles and `dnb-core-style`
+
+In case you don't use the CSS package `dnb-ui-core` - you have to make sure you assign the HTML class `dnb-core-style`:
+
+```jsx
+/* Either to the Modal */
+<Modal className="dnb-core-style">...</Modal>
+
+/* - or to the root element */
+<body>
+  <div id="app" />
+  <div id="dnb-modal-root" class="dnb-core-style" />
+</body>
 ```
 
 ## Demos
