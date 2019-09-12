@@ -9,13 +9,16 @@ if (require.main === module) {
   commitToBranch({
     requiredBranch: 'develop',
     what: 'icons/assets',
-    skipCI: files => files.length === 1, // in case we only update the "version.lock"
     filePathsWhitelist: [
       '/src/icons/',
       '/assets/icons/',
       'version.lock',
       'icons.lock'
     ],
-    isNotAFeature: ['version.lock', 'icons.lock'] // of there are other files than theese, mark it as a feature
+    // Skip CI if files are only one or both
+    skipCI: files => files.length < 4, // in case we only update the "version.lock"
+    // is feature if there are more than 4 files
+    isFeature: false
+    // isFeature: files => files.length >= 4 // of there are other files than theese, mark it as a feature
   })
 }

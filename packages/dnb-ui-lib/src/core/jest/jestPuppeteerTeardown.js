@@ -50,6 +50,7 @@ module.exports = async function() {
       )
       await commitToBranch({
         skipCI: true,
+        isFeature: false,
         requiredBranch: [
           'develop',
           'release',
@@ -59,8 +60,7 @@ module.exports = async function() {
           'ftr/*'
         ],
         what: 'reports',
-        filePathsWhitelist: [file],
-        isNotAFeature: [file]
+        filePathsWhitelist: [file]
       })
     } else {
       console.log(
