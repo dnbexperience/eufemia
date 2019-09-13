@@ -131,7 +131,7 @@
       }
       & > .dnb-form-row__content {
         flex-direction: column;
-        .dnb-form-label {
+        & > .dnb-form-label {
           margin-top: 1rem;
         }
       }
