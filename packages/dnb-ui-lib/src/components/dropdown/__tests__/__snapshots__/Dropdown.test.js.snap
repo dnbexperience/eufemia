@@ -1006,7 +1006,7 @@ legend.dnb-form-label {
   --dropdown-focus-border-width: 0.125rem;
   --dropdown-text-padding: 0.5rem; }
 
-@keyframes dropdownSlideDown {
+@keyframes dropdown-slide-down {
   from {
     opacity: 0;
     transform: translateY(calc(1px - var(--dropdown-height))); }
@@ -1014,7 +1014,7 @@ legend.dnb-form-label {
     opacity: 1;
     transform: translateY(0); } }
 
-@keyframes dropdownSlideUp {
+@keyframes dropdown-slide-ip {
   from {
     opacity: 1;
     transform: translateY(0); }
@@ -1236,15 +1236,15 @@ legend.dnb-form-label {
     z-index: 9;
     display: flex; }
     .dnb-dropdown--opened .dnb-dropdown__list {
-      animation: dropdownSlideDown 200ms ease-out 1 forwards; }
+      animation: dropdown-slide-down 200ms ease-out 1 forwards; }
     .dnb-dropdown--opened .dnb-dropdown__list--no-animation {
-      animation: dropdownSlideDown 1ms ease-out 1 forwards; }
+      animation: dropdown-slide-down 1ms ease-out 1 forwards; }
   .dnb-dropdown--hidden .dnb-dropdown__list {
     display: none; }
   .dnb-dropdown:not(.dnb-dropdown--opened) .dnb-dropdown__list {
-    animation: dropdownSlideUp 150ms ease-out 1 forwards; }
+    animation: dropdown-slide-ip 150ms ease-out 1 forwards; }
   .dnb-dropdown:not(.dnb-dropdown--opened) .dnb-dropdown__list--no-animation {
-    animation: dropdownSlideUp 1ms ease-out 1 forwards; }
+    animation: dropdown-slide-ip 1ms ease-out 1 forwards; }
   .dnb-dropdown--icon-position-left .dnb-dropdown__icon {
     order: 1; }
   .dnb-dropdown--icon-position-left .dnb-dropdown__text {

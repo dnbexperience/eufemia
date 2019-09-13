@@ -20,24 +20,24 @@
   display: flex;
 
   &:not(#{&}--no-animation) {
-    animation: dropdownSlideDown 200ms ease-out 1 forwards;
+    animation: dropdown-slide-down 200ms ease-out 1 forwards;
   }
   &--no-animation {
-    animation: dropdownSlideDown 1ms ease-out 1 forwards;
+    animation: dropdown-slide-down 1ms ease-out 1 forwards;
   }
 }
 @mixin closeDropdown($state: 'animation') {
   &:not(#{&}--no-animation) {
-    animation: dropdownSlideUp 150ms ease-out 1 forwards;
+    animation: dropdown-slide-ip 150ms ease-out 1 forwards;
   }
   &--no-animation {
-    animation: dropdownSlideUp 1ms ease-out 1 forwards;
+    animation: dropdown-slide-ip 1ms ease-out 1 forwards;
   }
 }
 @mixin dropdownClosed() {
   display: none;
 }
-@keyframes dropdownSlideDown {
+@keyframes dropdown-slide-down {
   from {
     opacity: 0;
     transform: translateY(calc(1px - var(--dropdown-height)));
@@ -48,7 +48,7 @@
   }
 }
 
-@keyframes dropdownSlideUp {
+@keyframes dropdown-slide-ip {
   from {
     opacity: 1;
     transform: translateY(0);
