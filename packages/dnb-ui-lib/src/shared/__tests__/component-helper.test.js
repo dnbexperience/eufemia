@@ -15,7 +15,8 @@ import {
   processChildren,
   dispatchCustomElementEvent,
   transformToReactEventCase,
-  pickRenderProps
+  pickRenderProps,
+  makeUniqueId
 } from '../component-helper'
 
 beforeAll(() => {
@@ -280,5 +281,24 @@ describe('"pickRenderProps" should', () => {
     ])
     expect(res).toHaveProperty(['renderProp'])
     expect(res.renderProp).toBe(renderProp)
+  })
+})
+
+describe('"makeUniqueId" should', () => {
+  it('make unique ids', () => {
+    const ids = {}
+    for (let i = 1, l = 10; i <= l; ++i) {
+      ids[makeUniqueId()] = i
+    }
+
+    const flatten = Object.values(ids)
+    expect(flatten.length).toBe(10)
+    expect(flatten[flatten.length - 1]).toBe(10)
+  })
+
+  it('have a prepended string', () => {
+    expect(makeUniqueId('string')).toEqual(
+      expect.stringMatching(/^string[0-9]{5}/g)
+    )
   })
 })

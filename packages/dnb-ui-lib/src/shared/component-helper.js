@@ -436,3 +436,13 @@ export const checkOutsideClick = (
     console.log(e)
   }
 }
+
+let idIncrement = 0,
+  idDate = null
+export const makeUniqueId = (pendix = '') => {
+  idIncrement++
+  if (!idDate) {
+    idDate = new Date()
+  }
+  return pendix + String(idDate.getTime() + idIncrement).slice(-5)
+}

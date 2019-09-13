@@ -5,6 +5,8 @@
 
 import { defaultProps } from './GlobalStatus'
 
+import { makeUniqueId } from '../../shared/component-helper'
+
 // The meaning with this is that we can force a rerender without sharing the same context
 class GlobalStatusProvider {
   static providers = {}
@@ -58,10 +60,6 @@ class GlobalStatusProvider {
           : slugify(JSON.stringify(item))
     }
     return item
-  }
-
-  static makeStatusId() {
-    return new Date().getTime() + Math.round(Math.random() * 999)
   }
 
   static combineMessages(stack) {
@@ -163,7 +161,7 @@ class GlobalStatusProviderItem {
 
     // make sure we have a status id
     if (!newProps.status_id) {
-      newProps.status_id = GlobalStatusProvider.makeStatusId()
+      newProps.status_id = makeUniqueId()
     }
 
     // also, set show to true
