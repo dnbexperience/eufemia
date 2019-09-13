@@ -10,6 +10,7 @@ import keycode from 'keycode'
 import Context from '../../shared/Context'
 import {
   isTrue,
+  makeUniqueId,
   registerElement,
   validateDOMAttributes,
   dispatchCustomElementEvent,
@@ -209,7 +210,7 @@ export default class Tabs extends PureComponent {
   constructor(props) {
     super(props)
 
-    this._id = props.id || `dnb-tabs-${Math.round(Math.random() * 999)}` // cause we need an id anyway
+    this._id = props.id || makeUniqueId() // cause we need an id anyway
     const data = Tabs.getData(props)
 
     let selected_key = Tabs.getSelectedKeyOrFallback(

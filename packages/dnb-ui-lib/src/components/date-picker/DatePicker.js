@@ -9,6 +9,7 @@ import classnames from 'classnames'
 
 import {
   isTrue,
+  makeUniqueId,
   extendPropsWithContext,
   registerElement,
   dispatchCustomElementEvent,
@@ -283,8 +284,7 @@ export default class DatePicker extends PureComponent {
   constructor(props) {
     super(props)
 
-    this._id =
-      props.id || `dnb-date-picker-${Math.round(Math.random() * 999)}` // cause we need an id anyway
+    this._id = props.id || makeUniqueId() // cause we need an id anyway
 
     const opened = DatePicker.parseOpened(props.opened)
     this.state = {

@@ -10,6 +10,7 @@ import {
   extend,
   extendPropsWithContext,
   isTrue,
+  makeUniqueId,
   registerElement,
   validateDOMAttributes
   // processChildren
@@ -124,8 +125,7 @@ export default class FormRow extends PureComponent {
     super(props)
     this.isInsideFormSet =
       context.formRow && context.formRow.isInsideFormSet
-    this._id =
-      props.id || `dnb-form-row-${Math.round(Math.random() * 999)}` // cause we need an id anyway
+    this._id = props.id || makeUniqueId() // cause we need an id anyway
   }
 
   render() {

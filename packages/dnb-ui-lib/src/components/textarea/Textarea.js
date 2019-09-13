@@ -10,6 +10,7 @@ import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 import {
   isTrue,
+  makeUniqueId,
   extendPropsWithContext,
   registerElement,
   validateDOMAttributes,
@@ -157,8 +158,7 @@ export default class Textarea extends PureComponent {
     super(props)
 
     this._ref = React.createRef()
-    this._id =
-      props.id || `dnb-textarea-${Math.round(Math.random() * 999)}` // cause we need an id anyway
+    this._id = props.id || makeUniqueId() // cause we need an id anyway
 
     // make sure we dont trigger getDerivedStateFromProps on startup
     this.state._listenForPropChanges = true

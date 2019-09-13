@@ -9,6 +9,7 @@ import classnames from 'classnames'
 import keycode from 'keycode'
 import {
   isTrue,
+  makeUniqueId,
   extendPropsWithContext,
   registerElement,
   validateDOMAttributes,
@@ -121,8 +122,7 @@ export default class Checkbox extends Component {
   constructor(props) {
     super(props)
     this._refInput = React.createRef()
-    this._id =
-      props.id || `dnb-checkbox-${Math.round(Math.random() * 999)}` // cause we need an id anyway
+    this._id = props.id || makeUniqueId() // cause we need an id anyway
     this.state = {
       _listenForPropChanges: true,
       hasDefaultState: props.default_state !== null,

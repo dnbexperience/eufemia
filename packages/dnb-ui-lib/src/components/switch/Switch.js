@@ -10,6 +10,7 @@ import keycode from 'keycode'
 import Context from '../../shared/Context'
 import {
   isTrue,
+  makeUniqueId,
   extendPropsWithContext,
   registerElement,
   validateDOMAttributes,
@@ -123,7 +124,7 @@ export default class Switch extends Component {
   constructor(props) {
     super(props)
     this._refInput = React.createRef()
-    this._id = props.id || `dnb-switch-${Math.round(Math.random() * 999)}` // cause we need an id anyway
+    this._id = props.id || makeUniqueId() // cause we need an id anyway
     this.state = {
       _listenForPropChanges: true,
       hasDefaultState: props.default_state !== null,

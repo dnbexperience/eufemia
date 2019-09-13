@@ -10,6 +10,7 @@ import keycode from 'keycode'
 import Context from '../../shared/Context'
 import {
   isTrue,
+  makeUniqueId,
   registerElement,
   validateDOMAttributes,
   processChildren,
@@ -165,7 +166,7 @@ export default class Slider extends PureComponent {
 
   constructor(props) {
     super(props)
-    this._id = props.id || `dnb-slider-${Math.round(Math.random() * 999)}` // cause we need an id anyway
+    this._id = props.id || makeUniqueId() // cause we need an id anyway
     this._trackRef = React.createRef()
     this.state = {
       _listenForPropChanges: true,

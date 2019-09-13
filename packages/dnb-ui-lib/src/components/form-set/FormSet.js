@@ -8,6 +8,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
   isTrue,
+  makeUniqueId,
   extend,
   registerElement,
   validateDOMAttributes,
@@ -76,8 +77,7 @@ export default class FormSet extends PureComponent {
 
   constructor(props) {
     super(props)
-    this._id =
-      props.id || `dnb-form-set-${Math.round(Math.random() * 999)}` // cause we need an id anyway
+    this._id = props.id || makeUniqueId() // cause we need an id anyway
   }
 
   onSubmitHandler = event => {

@@ -11,6 +11,7 @@ import keycode from 'keycode'
 import * as bodyScrollLock from 'body-scroll-lock'
 import {
   isTrue,
+  makeUniqueId,
   extendPropsWithContext,
   isTouchDevice,
   registerElement,
@@ -179,7 +180,7 @@ export default class Modal extends PureComponent {
 
   constructor(props) {
     super(props)
-    this._id = props.id || `dnb-modal-${Math.round(Math.random() * 999)}`
+    this._id = props.id || makeUniqueId()
 
     if (!props.preventSetTriggerRef) {
       this._triggerRef = React.createRef()

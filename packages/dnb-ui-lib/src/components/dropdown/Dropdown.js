@@ -9,6 +9,7 @@ import classnames from 'classnames'
 import keycode from 'keycode'
 import {
   isTrue,
+  makeUniqueId,
   extendPropsWithContext,
   registerElement,
   validateDOMAttributes,
@@ -262,8 +263,7 @@ export default class Dropdown extends PureComponent {
   constructor(props) {
     super(props)
 
-    this._id =
-      props.id || `dnb-dropdown-${Math.round(Math.random() * 999)}`
+    this._id = props.id || makeUniqueId()
 
     const opened = Dropdown.parseOpened(props.opened)
     this.state = {
