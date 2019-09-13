@@ -437,12 +437,11 @@ export const checkOutsideClick = (
   }
 }
 
-let idIncrement = 0,
-  idDate = null
-export const makeUniqueId = (pendix = '') => {
-  idIncrement++
-  if (!idDate) {
-    idDate = new Date()
-  }
-  return pendix + String(idDate.getTime() + idIncrement).slice(-5)
-}
+let idIncrement = 0
+export const makeUniqueId = (pendix = '', length = 8) =>
+  pendix +
+  String(
+    Math.random()
+      .toString(36)
+      .substr(2, length) + idIncrement++
+  ).slice(-length)

@@ -297,8 +297,8 @@ describe('"makeUniqueId" should', () => {
   })
 
   it('have a prepended string', () => {
-    expect(makeUniqueId('string')).toEqual(
-      expect.stringMatching(/^string[0-9]{5}/g)
+    expect(makeUniqueId('string-', 12)).toEqual(
+      expect.stringMatching(/^string-[a-z0-9]{12}/g)
     )
   })
 })
