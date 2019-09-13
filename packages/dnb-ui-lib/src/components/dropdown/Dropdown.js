@@ -893,7 +893,7 @@ export default class Dropdown extends PureComponent {
         maxHeight: max_height > 0 ? `${max_height}rem` : null
       }
     }
-    if (selected_item > -1) {
+    if (selected_item !== null && selected_item > -1) {
       ulParams['aria-activedescendant'] = `option-${id}-${selected_item}`
     }
 
