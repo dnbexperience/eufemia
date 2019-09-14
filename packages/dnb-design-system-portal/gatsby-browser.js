@@ -5,6 +5,9 @@
 
 import { applyPageFocus } from 'dnb-ui-lib/src/shared/helpers'
 
+import smoothscroll from 'smoothscroll-polyfill'
+smoothscroll.polyfill()
+
 if (process.env.NODE_ENV === 'development') {
   loadDevStyles()
 } else if (process.env.NODE_ENV === 'production') {
