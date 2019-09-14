@@ -5,16 +5,35 @@
 
 import React, { useState } from 'react'
 import { Wrapper, Box } from '../helpers'
-// import styled from '@emotion/styled'
+import styled from '@emotion/styled'
 
 import enLocale from 'date-fns/locale/en-US'
 
 import { DatePicker, FormRow } from '../../src/components'
 
+const Scrollbar = styled.div`
+  height: 10rem;
+  padding: 1rem;
+  overflow-x: scroll;
+
+  background: yellow;
+`
+const ScrollbarInner = styled.div`
+  width: 110%;
+  height: 100%;
+`
+
 export default [
   'DatePicker',
   () => (
     <Wrapper>
+      <Box>
+        <Scrollbar>
+          <ScrollbarInner>
+            <DatePicker label="Date Picker 1:" show_input />
+          </ScrollbarInner>
+        </Scrollbar>
+      </Box>
       <Box>
         <FormRow label_direction="vertical" label="Legend:">
           <DatePicker

@@ -296,14 +296,19 @@ export default class Dropdown extends PureComponent {
   }
 
   setOutsideClickObserver = () => {
-    detectOutsideClick(this, this._ref.current, this.setHidden)
+    this.outsideClick = detectOutsideClick(
+      this._ref.current,
+      this.setHidden
+    )
     if (typeof document !== 'undefined') {
       document.addEventListener('keydown', this.onKeyDownHandler)
     }
   }
 
   removeOutsideClickObserver() {
-    detectOutsideClick.remove(this)
+    if (this.outsideClick) {
+      this.outsideClick.remove()
+    }
     if (typeof document !== 'undefined') {
       document.removeEventListener('keydown', this.onKeyDownHandler)
     }

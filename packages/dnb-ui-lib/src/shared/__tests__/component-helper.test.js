@@ -16,6 +16,7 @@ import {
   dispatchCustomElementEvent,
   transformToReactEventCase,
   pickRenderProps,
+  detectOutsideClick,
   makeUniqueId
 } from '../component-helper'
 
@@ -36,6 +37,66 @@ describe('"defineIsTouch" should', () => {
 describe('"defineNavigator" should', () => {
   it('add "os" as an attribute to the HTML tag', () => {
     expect(document.documentElement.getAttribute('os')).toBe('other')
+  })
+})
+
+describe('"detectOutsideClick" should', () => {
+  it('detect a click outside of our scope element', () => {
+    // create some DOM elements
+    const inside = document.createElement('BUTTON')
+    const outside = document.createElement('DIV')
+    const wrapperWithScrollbar = document.createElement('DIV')
+    outside.appendChild(inside)
+    wrapperWithScrollbar.appendChild(outside)
+    document.body.appendChild(wrapperWithScrollbar)
+
+    // give the scroll wrapper some styles and mock the offset- and scroll width
+    wrapperWithScrollbar.style = 'overflow: auto scroll;'
+    Object.defineProperty(wrapperWithScrollbar, 'scrollWidth', {
+      configurable: true,
+      value: 200
+    })
+    Object.defineProperty(wrapperWithScrollbar, 'offsetWidth', {
+      configurable: true,
+      value: 100
+    })
+
+    const testEvent = ({ mockedEvent, event, calledTimes }) => {
+      const outsideClick = detectOutsideClick(inside, mockedEvent)
+
+      // and dispatch it 3 time
+      document.childNodes[1].dispatchEvent(event) // ignore
+      document.body.dispatchEvent(event) // count
+      outside.dispatchEvent(event) // count
+      wrapperWithScrollbar.dispatchEvent(event) // ignore
+      inside.dispatchEvent(event) // ignore
+
+      // but since "inside" is pritected, it should not call the callback
+      expect(mockedEvent).toHaveBeenCalledTimes(calledTimes)
+
+      // remove the detection
+      outsideClick.remove()
+
+      // call again outside
+      outside.dispatchEvent(event)
+
+      // but we dont expet more event calls
+      expect(mockedEvent).toHaveBeenCalledTimes(calledTimes)
+    }
+
+    // test mousedown
+    testEvent({
+      mockedEvent: jest.fn(),
+      event: new CustomEvent('mousedown', { bubbles: true }),
+      calledTimes: 2
+    })
+
+    // test touchstart
+    testEvent({
+      mockedEvent: jest.fn(),
+      event: new CustomEvent('touchstart', { bubbles: true }),
+      calledTimes: 2
+    })
   })
 })
 

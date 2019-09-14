@@ -355,89 +355,128 @@ export const pickRenderProps = (props, renderProps) =>
       return obj
     }, {})
 
-export const detectOutsideClick = (element, ignoreElement, onSuccess) => {
-  if (
-    !element.handleClickOutside &&
-    typeof document !== 'undefined' &&
-    typeof window !== 'undefined'
-  ) {
-    element.handleClickOutside = event => {
-      checkOutsideClick(
-        {
-          currentElement: event.target,
-          ignoreElement
-        },
-        () => typeof onSuccess === 'function' && onSuccess({ event })
-      )
-    }
-    document.addEventListener('mousedown', element.handleClickOutside)
-    document.addEventListener('touchstart', element.handleClickOutside)
+/**
+ * [detectOutsideClick Detects a click outside a given DOM element]
+ * @param  {[type]} ignoreElement [The element we want to protect from a click]
+ * @param  {[type]} onSuccess     [Will be called on outside click]
+ * @return {[type]}               [void]
+ */
+export const detectOutsideClick = (ignoreElement, onSuccess) =>
+  new DetectOutsideClickClass(ignoreElement, onSuccess)
 
-    element.keydownCallback = event => {
-      const keyCode = keycode(event)
-      if (keyCode === 'esc') {
-        window.removeEventListener('keydown', element.keydownCallback)
-        if (typeof onSuccess === 'function') {
-          onSuccess({ event })
+// Used by detectOutsideClick
+export class DetectOutsideClickClass {
+  constructor(ignoreElement, onSuccess) {
+    if (
+      !this.handleClickOutside &&
+      typeof document !== 'undefined' &&
+      typeof window !== 'undefined'
+    ) {
+      this.handleClickOutside = event => {
+        this.checkOutsideClick(
+          {
+            currentElement: event.target,
+            ignoreElement
+          },
+          () => typeof onSuccess === 'function' && onSuccess({ event })
+        )
+      }
+      document.addEventListener('mousedown', this.handleClickOutside)
+      document.addEventListener('touchstart', this.handleClickOutside)
+
+      this.keydownCallback = event => {
+        const keyCode = keycode(event)
+        if (keyCode === 'esc') {
+          window.removeEventListener('keydown', this.keydownCallback)
+          if (typeof onSuccess === 'function') {
+            onSuccess({ event })
+          }
         }
       }
-    }
-    window.addEventListener('keydown', element.keydownCallback)
+      window.addEventListener('keydown', this.keydownCallback)
 
-    // use keyup so we get the correct new target
-    element.keyupCallback = event => {
-      const keyCode = keycode(event)
-      if (
-        keyCode === 'tab' &&
-        typeof element.handleClickOutside === 'function'
-      ) {
-        element.handleClickOutside(event, () => {
-          if (element.keyupCallback)
-            window.removeEventListener('keyup', element.keyupCallback)
-        })
+      // use keyup so we get the correct new target
+      this.keyupCallback = event => {
+        const keyCode = keycode(event)
+        if (
+          keyCode === 'tab' &&
+          typeof this.handleClickOutside === 'function'
+        ) {
+          this.handleClickOutside(event, () => {
+            if (this.keyupCallback)
+              window.removeEventListener('keyup', this.keyupCallback)
+          })
+        }
       }
+      window.addEventListener('keyup', this.keyupCallback)
     }
-    window.addEventListener('keyup', element.keyupCallback)
   }
-}
-detectOutsideClick.remove = element => {
-  if (element.handleClickOutside && typeof document !== 'undefined') {
-    document.removeEventListener('mousedown', element.handleClickOutside)
-    document.removeEventListener('touchstart', element.handleClickOutside)
-    element.handleClickOutside = null
-  }
-  if (element.keydownCallback && typeof window !== 'undefined') {
-    window.removeEventListener('keydown', element.keydownCallback)
-    element.keydownCallback = null
-  }
-  if (element.keyupCallback && typeof window !== 'undefined') {
-    window.removeEventListener('keyup', element.keyupCallback)
-    element.keyupCallback = null
-  }
-}
 
-export const checkOutsideClick = (
-  { currentElement, ignoreElement },
-  onSuccess = null
-) => {
-  try {
-    let targetElement = currentElement
-    do {
-      if (targetElement == ignoreElement) {
+  remove() {
+    if (this.handleClickOutside && typeof document !== 'undefined') {
+      document.removeEventListener('mousedown', this.handleClickOutside)
+      document.removeEventListener('touchstart', this.handleClickOutside)
+      this.handleClickOutside = null
+    }
+    if (this.keydownCallback && typeof window !== 'undefined') {
+      window.removeEventListener('keydown', this.keydownCallback)
+      this.keydownCallback = null
+    }
+    if (this.keyupCallback && typeof window !== 'undefined') {
+      window.removeEventListener('keyup', this.keyupCallback)
+      this.keyupCallback = null
+    }
+  }
+
+  checkOutsideClick = (
+    { currentElement, ignoreElement },
+    onSuccess = null
+  ) => {
+    try {
+      // scrollbars are on HTML, therefore we ignroe the click
+      if (
+        // typeof currentElement.tagName === 'undefined' ||
+        /html/i.test(currentElement.tagName) // we may also ignore |body
+      ) {
         return // stop here
       }
-      targetElement = targetElement.parentNode
-    } while (targetElement)
 
-    if (typeof onSuccess === 'function') {
-      onSuccess()
+      // check if element has like "overflow: scroll"
+      if (this.checkIfHasScrollbar(currentElement)) {
+        return // stop here
+      }
+
+      // check the rest
+      do {
+        if (currentElement === ignoreElement) {
+          return // stop here
+        }
+        currentElement = currentElement.parentNode
+      } while (currentElement)
+
+      if (typeof onSuccess === 'function') {
+        onSuccess()
+      }
+    } catch (e) {
+      console.warn(e)
     }
-  } catch (e) {
-    console.log(e)
+  }
+
+  overflowIsScrollable = elem => {
+    const style = getComputedStyle(elem)
+    return /scroll|auto/i.test(style.overflow)
+  }
+
+  checkIfHasScrollbar = elem => {
+    return (
+      elem &&
+      (elem.scrollHeight > elem.offsetHeight ||
+        elem.scrollWidth > elem.offsetWidth) &&
+      this.overflowIsScrollable(elem)
+    )
   }
 }
 
-let idIncrement = 0
 export const makeUniqueId = (pendix = '', length = 8) =>
   pendix +
   String(
@@ -445,3 +484,4 @@ export const makeUniqueId = (pendix = '', length = 8) =>
       .toString(36)
       .substr(2, length) + idIncrement++
   ).slice(-length)
+let idIncrement = 0
