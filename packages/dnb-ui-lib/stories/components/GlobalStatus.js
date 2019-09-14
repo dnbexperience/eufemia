@@ -16,7 +16,6 @@ import {
   Switch,
   GlobalStatus,
   ToggleButton,
-  // StepIndicator,
   Section,
   Button,
   FormRow,
@@ -36,47 +35,24 @@ const CustomStatus = () => (
   </>
 )
 
-// setTimeout(() => {
-// const status = GlobalStatus.Set({
-//   status_id: 'custom-id-1',
-//   text: 'Second Text',
-//   item: 'Second Item'
-// })
-// status.remove()
-// const status = new GlobalStatus.Add({
-//   status_id: 'custom-id-1',
-//   text: 'Second Text',
-//   item: 'Second Item'
-// })
-// new GlobalStatus.Remove({
-//   status_id: 'custom-id-1'
-// })
-// }, 1e3)
-
 export default [
   'GlobalStatus',
   () => (
     <Wrapper>
-      <Box>
-        {/* <UpdateWithSet_GlobalStatus />
-        <UpdateWithSet /> */}
-      </Box>
-      <Box>
-        <GlobalStatus
-          // title="Custom Title"
-          // text="Failure text"
-          // items={[
-          //   {
-          //     text: 'List item',
-          //     status_anchor_url: '/uilib/components/global-status'
-          //   }
-          // ]}
-          // show="true"
-          // no_animation="true"
-          // autoscroll="false"
-          id="demo-1"
-        />
-      </Box>
+      <GlobalStatus
+        // title="Custom Title"
+        // text="Failure text"
+        // items={[
+        //   {
+        //     text: 'List item',
+        //     status_anchor_url: '/uilib/components/global-status'
+        //   }
+        // ]}
+        // show="true"
+        // no_animation="true"
+        // autoscroll="false"
+        id="demo-1"
+      />
       <Box>
         <DemoAnimation />
       </Box>
@@ -104,6 +80,22 @@ export default [
           <CustomStatus />
         </GlobalStatus>
       </Box>
+      <Box>
+        <Button
+          ref={scrollto_element}
+          text="Scroll To"
+          on_click={() => {
+            GlobalStatus.Set({
+              id: 'demo-1',
+              // id: 'custom-status',
+              text:
+                'This is aDui consectetur viverra aenean vestibulum ac tristique sem ligula condimentum',
+              scrollto_element
+            })
+          }}
+          top="small"
+        />
+      </Box>
       {/* <Box>
         {false && <UpdateGlobalStatus />}
         {true && (
@@ -122,6 +114,8 @@ export default [
     </Wrapper>
   )
 ]
+
+const scrollto_element = React.createRef()
 
 const InputWithError = () => {
   const [haveAnErrorMessage1, setErrorMessage1] = useState(false)
@@ -243,7 +237,7 @@ const SimulateSteps = () => {
       />
       <GlobalStatus
         id="custom-status"
-        autoscroll="false"
+        // autoscroll="false"
         // show={count === 1}
         // autoclose="false"
         on_open={() => {
@@ -427,89 +421,3 @@ const DemoAnimation = () => {
     </>
   )
 }
-
-// const UpdateWithSet = () => {
-//   const [count, setCount] = useState(0)
-//
-//   useEffect(() => {
-//     let id = setTimeout(() => {
-//       const status = GlobalStatus.Set({
-//         id: 'my-status',
-//         status_id: 'custom-id-1',
-//         text: 'Hello'
-//       })
-//       id = setTimeout(() => {
-//         status.remove()
-//         setCount(count + 1)
-//       }, 2e3)
-//     }, 1e3)
-//     return () => clearTimeout(id)
-//   })
-//
-//   useEffect(() => {
-//     let id = setTimeout(() => {
-//       const status = GlobalStatus.Set({
-//         id: 'second-status',
-//         status_id: 'custom-id-1',
-//         text: 'Hello form second'
-//       })
-//       id = setTimeout(() => {
-//         status.remove()
-//       }, 1e3)
-//     }, 2e3)
-//     return () => clearTimeout(id)
-//   })
-//
-//   return (
-//     <>
-//       <Section>
-//         <StepIndicator
-//           top="large"
-//           use_navigation
-//           section_style
-//           data={[
-//             {
-//               title: 'First'
-//             },
-//             {
-//               title: 'Second'
-//             },
-//             {
-//               title: 'Last'
-//             }
-//           ]}
-//         />
-//         <P top="large">Count: {count}</P>
-//       </Section>
-//     </>
-//   )
-// }
-//
-// const UpdateWithSet_GlobalStatus = () => {
-//   const [count, setCount] = useState(0)
-//
-//   useEffect(() => {
-//     let id = setTimeout(() => {
-//       setCount(count + 1)
-//     }, 1e3)
-//     return () => clearTimeout(id)
-//   })
-//
-//   return (
-//     <>
-//       <GlobalStatus
-//         id="my-status"
-//         on_show={() => {
-//           console.log('Hi there!')
-//         }}
-//       />
-//       <GlobalStatus
-//         id="second-status"
-//         on_show={() => {
-//           console.log('Hi there from second!')
-//         }}
-//       />
-//       <P top="4">Global Count: {count}</P>
-//     </>
-//   )
-// }

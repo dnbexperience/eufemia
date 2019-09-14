@@ -39,6 +39,17 @@ But You can also make use of the [FormSet](/uilib/components/form-set) or [FormR
 <FormSet global_status_id="other-global-status">...</FormSet>
 ```
 
+### Smooth scrolling
+
+Not every browser (e.g. Safari, Edge and IE) supports smooth scrolling. Therefore, add the [smoothscroll-polyfill](https://github.com/iamdustan/smoothscroll) to your project:
+
+```js
+import smoothscroll from 'smoothscroll-polyfill'
+
+// kick off the polyfill!
+smoothscroll.polyfill()
+```
+
 ### Manually updates
 
 Beside the automated connection between the error states of form components ([FormStatus](/uilib/components/form-status)), You can update messages from everywhere in Your application on any time:
