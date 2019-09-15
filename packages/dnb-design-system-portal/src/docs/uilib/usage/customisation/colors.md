@@ -1,7 +1,7 @@
 ---
 title: 'Colors'
 draft: false
-order: 3
+order: 5
 ---
 
 import ComponentBox from 'Tags/ComponentBox'

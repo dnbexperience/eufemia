@@ -22,7 +22,7 @@ The most basic way to use the `dnb-ui-lib` is like this:
 
 ### Importing the Components
 
-To make the [Button](/uilib/components/button) Component work, we have to import it as well:
+To make the [Button](/uilib/components/button) component work, we have to import it as well:
 
 ```js
 import { Button } from 'dnb-ui-lib'
@@ -36,4 +36,14 @@ import { H1, P, Link } from 'dnb-ui-lib/elements'
 import { hamburger as hamburgerIcon } from 'dnb-ui-lib/icons/secondary_icons'
 ```
 
-You may have a look at a [Example for React on GitHub](https://github.com/dnbexperience/eufemia/tree/develop/packages/examples/example-react).
+### Events
+
+<ComponentBox>
+{`
+<Button text="Button" on_click={() => console.log('click')} />
+`}
+</ComponentBox>
+
+Now, let's jump to the [Button Docs](/uilib/components/button) for more details.
+
+Also, you may be interested in more code examples? Have a look at the [Demo App on GitHub](https://github.com/dnbexperience/eufemia-demo/blob/master/src/pages/form-demo-01.js) or [Example for React](https://github.com/dnbexperience/eufemia-examples/tree/master/packages/example-react).

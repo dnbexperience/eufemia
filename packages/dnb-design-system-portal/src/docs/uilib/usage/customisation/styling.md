@@ -1,7 +1,7 @@
 ---
 title: 'CSS Styles'
 draft: false
-order: 1
+order: 3
 ---
 
 import Img from 'Tags/Img'

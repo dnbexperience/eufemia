@@ -1,7 +1,7 @@
 ---
 title: 'Component Properties'
 draft: false
-order: 6
+order: 1
 ---
 
 import 'dnb-ui-lib/src/web-components'
@@ -13,6 +13,10 @@ import { hamburger as hamburgerIcon } from 'dnb-ui-lib/src/icons/secondary_icons
 Every [Component](/uilib/components) has its own `properties` to make them work for a variety of cases. You may have a look at the table describing all the possibilities. Check out for example the [Button Properties](/uilib/components/button#info).
 
 Below are some examples. You can even modify them right away in the Browser.
+
+## Naming
+
+Both the properties- and event names are using **snake case** to support a universal [naming convention](/uilib/development/naming), with a background and requirement on supporting [Web Components](/uilib/usage/first-steps/web-components).
 
 ## Large Buttons & Icons
 
