@@ -9,6 +9,7 @@ import classnames from 'classnames'
 import keycode from 'keycode'
 import {
   isTrue,
+  makeUniqueId,
   extendPropsWithContext,
   registerElement,
   validateDOMAttributes,
@@ -262,8 +263,7 @@ export default class Dropdown extends PureComponent {
   constructor(props) {
     super(props)
 
-    this._id =
-      props.id || `dnb-dropdown-${Math.round(Math.random() * 999)}`
+    this._id = props.id || makeUniqueId()
 
     const opened = Dropdown.parseOpened(props.opened)
     this.state = {
@@ -296,14 +296,19 @@ export default class Dropdown extends PureComponent {
   }
 
   setOutsideClickObserver = () => {
-    detectOutsideClick(this, this._ref.current, this.setHidden)
+    this.outsideClick = detectOutsideClick(
+      this._ref.current,
+      this.setHidden
+    )
     if (typeof document !== 'undefined') {
       document.addEventListener('keydown', this.onKeyDownHandler)
     }
   }
 
   removeOutsideClickObserver() {
-    detectOutsideClick.remove(this)
+    if (this.outsideClick) {
+      this.outsideClick.remove()
+    }
     if (typeof document !== 'undefined') {
       document.removeEventListener('keydown', this.onKeyDownHandler)
     }
@@ -893,7 +898,7 @@ export default class Dropdown extends PureComponent {
         maxHeight: max_height > 0 ? `${max_height}rem` : null
       }
     }
-    if (selected_item > -1) {
+    if (selected_item !== null && selected_item > -1) {
       ulParams['aria-activedescendant'] = `option-${id}-${selected_item}`
     }
 

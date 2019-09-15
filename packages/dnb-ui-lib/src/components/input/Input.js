@@ -11,6 +11,7 @@ import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 import {
   isTrue,
+  makeUniqueId,
   extendPropsWithContext,
   registerElement,
   validateDOMAttributes,
@@ -185,7 +186,7 @@ export default class Input extends PureComponent {
       (context.formRow &&
         typeof context.formRow.useId === 'function' &&
         context.formRow.useId()) ||
-      `dnb-input-${Math.round(Math.random() * 999)}` // cause we need an id anyway
+      makeUniqueId() // cause we need an id anyway
 
     // make sure we dont trigger getDerivedStateFromProps on startup
     this.state._listenForPropChanges = true

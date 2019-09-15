@@ -10,8 +10,7 @@
   },
   "version": "1.0.0",
   "workspaces": [
-    "packages/*",
-    "packages/examples/*"
+    "packages/*"
   ],
   "main": "./packages/dnb-ui-lib/index.js",
   "scripts": {

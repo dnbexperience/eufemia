@@ -9,6 +9,7 @@ import classnames from 'classnames'
 
 import {
   isTrue,
+  makeUniqueId,
   extendPropsWithContext,
   registerElement,
   dispatchCustomElementEvent,
@@ -283,8 +284,7 @@ export default class DatePicker extends PureComponent {
   constructor(props) {
     super(props)
 
-    this._id =
-      props.id || `dnb-date-picker-${Math.round(Math.random() * 999)}` // cause we need an id anyway
+    this._id = props.id || makeUniqueId() // cause we need an id anyway
 
     const opened = DatePicker.parseOpened(props.opened)
     this.state = {
@@ -322,7 +322,7 @@ export default class DatePicker extends PureComponent {
       )
     }
 
-    this._clampRef = React.createRef()
+    this._innerRef = React.createRef()
     this._triangleRef = React.createRef()
   }
 
@@ -331,13 +331,13 @@ export default class DatePicker extends PureComponent {
     if (
       isTrue(show_input) &&
       this._triangleRef.current &&
-      this._clampRef.current
+      this._innerRef.current
     ) {
       try {
-        const shellWidth = this._clampRef.current
+        const shellWidth = this._innerRef.current
           .querySelector('.dnb-input__shell')
           .getBoundingClientRect().width
-        const buttonWidth = this._clampRef.current
+        const buttonWidth = this._innerRef.current
           .querySelector('.dnb-input__submit-button__button')
           .getBoundingClientRect().width
         if (align_picker === 'right') {
@@ -356,11 +356,16 @@ export default class DatePicker extends PureComponent {
   }
 
   setOutsideClickHandler = () => {
-    detectOutsideClick(this, this._clampRef.current, this.hidePicker)
+    this.outsideClick = detectOutsideClick(
+      this._innerRef.current,
+      this.hidePicker
+    )
   }
 
   removeOutsideClickHandler() {
-    detectOutsideClick.remove(this)
+    if (this.outsideClick) {
+      this.outsideClick.remove()
+    }
   }
 
   componentWillUnmount() {
@@ -665,7 +670,7 @@ export default class DatePicker extends PureComponent {
 
         <span
           className="dnb-date-picker__inner"
-          ref={this._clampRef}
+          ref={this._innerRef}
           {...pickerParams}
         >
           {showStatus && (

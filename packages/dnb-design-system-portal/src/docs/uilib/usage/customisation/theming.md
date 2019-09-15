@@ -1,7 +1,7 @@
 ---
 title: 'Theming'
 draft: false
-order: 5
+order: 7
 ---
 
 # Theming
@@ -14,6 +14,19 @@ This section is about how theming works and how to actually create a custom them
 By default, all the HTML Elements (components) are built by separating the "visual styling" parts from the "functional layout" parts. This way we can create new custom visual styles.
 
 Of course, we can still overwrite the functional layout properties to customize our theme even further.
+
+## The easy way
+
+Simply do not import **dnb-theme-ui** and create your own visual styles for every component you use in your App.
+
+## The hard way
+
+Maybe the most common ways would be:
+
+- Make a Fork of Eufemia and go from there
+- Submit a request of creating a theme inside the main Eufemia repository so everyone can get access to it.
+
+### Technical aspects
 
 The included themes are built using SASS. Simply because we can reuse the _@mixin_'s and variables from SASS.
 
@@ -29,12 +42,12 @@ All the additional sub theming files (for every component) are automatically add
 
 If we need a custom theming file for one or more components, we can do so by creating `dnb-ui-lib/src/components/[COMPONENT]/style/dnb-button-theme-[THEME].scss`.
 
-## Local Theming setup
+### Local Theming setup
 
 There are several solutions to **create a new theme**.
 One of which is by using the [linking feature of Yarn](https://yarnpkg.com/lang/en/docs/cli/link/).
 
-### _Method:_ yarn link and SASS
+#### _Method:_ yarn link and SASS
 
 Make sure Your project can handle **\*.scss** files.
 

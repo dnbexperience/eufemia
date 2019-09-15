@@ -37,6 +37,7 @@
     @supports (font: -apple-system-body) {
       font: -apple-system-body; /* stylelint-disable-line */
     }
+    scroll-behavior: smooth;
   }
 }
 

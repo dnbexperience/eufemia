@@ -6,7 +6,7 @@ import Examples from 'Pages/uilib/components/global-status/Examples'
 
 ## Description
 
-The GlobalStatus is a complex component meant for displaying a global Application notifications or a summary of a form ( displaying form errors, messages etc. ).
+The GlobalStatus is a complex component meant for displaying global Application notifications or a summary of a form ( displaying form errors, messages etc. ).
 By default, the `GlobalStatus` is automatically connected together with the [FormStatus](/uilib/components/form-status) component. This means, that every form component showing a status, will send the status message along to the `GlobalStatus`.
 
 ### FormStatus default behavior
@@ -37,6 +37,17 @@ But You can also make use of the [FormSet](/uilib/components/form-set) or [FormR
 
 ```jsx
 <FormSet global_status_id="other-global-status">...</FormSet>
+```
+
+### Smooth scrolling
+
+Not every browser (e.g. Safari, Edge and IE) supports smooth scrolling. Therefore, add the [smoothscroll-polyfill](https://github.com/iamdustan/smoothscroll) to your project:
+
+```js
+import smoothscroll from 'smoothscroll-polyfill'
+
+// kick off the polyfill!
+smoothscroll.polyfill()
 ```
 
 ### Manually updates

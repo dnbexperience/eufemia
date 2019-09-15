@@ -1,6 +1,6 @@
 ---
 title: 'GlobalStatus'
-description: 'The GlobalStatus is a complex component meant for displaying a global Application notifications or a summary of a form.'
+description: 'The GlobalStatus is a complex component meant for displaying global Application notifications or a summary of a form.'
 draft: false
 status: 'new'
 order: 4

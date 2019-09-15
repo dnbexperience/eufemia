@@ -44,7 +44,7 @@ The FormStatus is a simple component meant for displaying the status of a form (
 
 ## [GlobalStatus](/uilib/components/global-status)
 
-The GlobalStatus is a complex component meant for displaying a global Application notifications or a summary of a form ( displaying form errors, messages etc. ).
+The GlobalStatus is a complex component meant for displaying global Application notifications or a summary of a form ( displaying form errors, messages etc. ).
 
 ## [Icon](/uilib/components/icon)
 

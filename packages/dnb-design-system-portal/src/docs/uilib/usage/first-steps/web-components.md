@@ -9,7 +9,15 @@ import ComponentBox from 'Tags/ComponentBox'
 
 # Web Components
 
-So called [Custom Elements](https://www.w3.org/TR/custom-elements/), running as a [Web Component](https://github.com/w3c/webcomponents/) can be used to run the `dnb-ui-lib` components in all other frameworks like Dojo, Vue and Angular.
+So called [Custom Elements](https://www.w3.org/TR/custom-elements/), running as a [Web Component](https://github.com/w3c/webcomponents/) can be used to run the `dnb-ui-lib` components in all other frameworks like Dojo.
+
+## Web Components and their negative trade offs
+
+The usage of the UMD version in combination with Web Components is **not recommended** because:
+
+- Accessibility and screen reader support due to ID referencing
+- Lack of native HTML support, like submit inside a form
+- Will involve too much imperative code
 
 ## Example usage
 
@@ -40,8 +48,9 @@ Now we can use our web components right away in our markup.
 <ComponentBox>
 {`
 <form>
-  <dnb-form-label for_id="form-input" >Label for this Input</dnb-form-label>
+  <dnb-form-label for_id="form-input">Label for this Input</dnb-form-label>
   <dnb-input id="form-input" placeholder="My Placeholder">My Value</dnb-input>
+  <dnb-button type="submit" text="Submit" />
 </form>
 `}
 </ComponentBox>

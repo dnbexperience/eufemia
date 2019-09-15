@@ -33,6 +33,10 @@ if (typeof window !== 'undefined' && window.IS_TEST) {
       --font-weight-medium: 700;
     }
 
+    html {
+      scroll-behavior: auto !important;
+    }
+
     body * {
       font-family: Arial, Helvetica, sans-serif !important;
       font-variant-numeric: normal;

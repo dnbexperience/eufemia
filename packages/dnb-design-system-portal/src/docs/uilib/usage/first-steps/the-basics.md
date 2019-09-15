@@ -99,7 +99,7 @@ And finally bind an [event listener](/uilib/usage/customisation/event-handling):
 
 ## UMD
 
-In case you don't have a compiling/build process, You can use the UMD packed version of the `dnb-ui-lib`. Take a look here how to use it `REPOSITORY/packages/examples/example-html` (src/umd). But this will not optimize your code for the best user experience. So, to use UMD is **not recommended**.
+In case you don't have a compiling/build process, You can use the UMD packed version of the `dnb-ui-lib`. Take a look into this repo and the [UMD example usage](https://github.com/dnbexperience/eufemia-examples/tree/master/packages/example-html/static). But this will not optimize your code for the best user experience.
 
 ```html
 <html>

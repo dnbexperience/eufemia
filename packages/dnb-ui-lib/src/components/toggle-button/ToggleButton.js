@@ -9,6 +9,7 @@ import classnames from 'classnames'
 import keycode from 'keycode'
 import {
   isTrue,
+  makeUniqueId,
   registerElement,
   extendPropsWithContext,
   validateDOMAttributes,
@@ -131,8 +132,7 @@ export default class ToggleButton extends Component {
 
   constructor(props, context) {
     super(props)
-    this._id =
-      props.id || `dnb-toggle-button-${Math.round(Math.random() * 999)}` // cause we need an id anyway
+    this._id = props.id || makeUniqueId() // cause we need an id anyway
     this._refButton = React.createRef()
 
     this.state = {

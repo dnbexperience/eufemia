@@ -148,6 +148,23 @@ render(
 }
           `}
         </ComponentBox>
+        <ComponentBox
+          caption="To showcase the scrolling. Some browsers (Safari, Edge) will need a polyfill like ``"
+          noFragments={false}
+        >
+          {/* @jsx */ `
+<Button
+  text="Scroll to main GlobalStatus"
+  on_click={() => {
+    GlobalStatus.Set({
+      id: 'main-status',
+      text:
+        'Dui consectetur viverra aenean vestibulum ac tristique sem ligula condimentum',
+    })
+  }}
+/>
+           `}
+        </ComponentBox>
       </Fragment>
     )
   }

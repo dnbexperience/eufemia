@@ -279,7 +279,7 @@ legend.dnb-form-label {
         margin-bottom: 0.5rem; }
       .dnb-form-row:not(.dnb-form-row--vertical) > .dnb-form-row__content {
         flex-direction: column; }
-        .dnb-form-row:not(.dnb-form-row--vertical) > .dnb-form-row__content .dnb-form-label {
+        .dnb-form-row:not(.dnb-form-row--vertical) > .dnb-form-row__content > .dnb-form-label {
           margin-top: 1rem; } }
   .dnb-form-row--vertical > .dnb-form-label {
     margin-bottom: 0.5rem; }

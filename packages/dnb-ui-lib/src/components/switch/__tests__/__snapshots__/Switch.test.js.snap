@@ -580,7 +580,7 @@ legend.dnb-form-label {
         top: 0;
         bottom: 0;
         margin: auto 0; } }
-  @supports (-ms-accelerator: true) {
+  @supports (-ms-ime-align: auto) {
     .dnb-switch__input:not(:checked) ~ .dnb-switch__button {
       transform: translateX(0); }
     .dnb-switch__input:checked ~ .dnb-switch__button {

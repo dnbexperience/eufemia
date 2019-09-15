@@ -1,5 +1,0 @@
-/* will be polyfilled by "postcss-preset-env" */
-.dnb-core-style .dnb-h2 {
-  color: blue;
-  color: var(--color-mint-green);
-}

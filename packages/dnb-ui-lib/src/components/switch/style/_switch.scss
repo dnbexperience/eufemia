@@ -189,7 +189,7 @@
   }
 
   // Edge fix
-  @supports (-ms-accelerator: true) {
+  @supports (-ms-ime-align: auto) {
     // fix are a problem with transition and complex transforms
     &__input:not(:checked) ~ &__button {
       transform: translateX(0);
