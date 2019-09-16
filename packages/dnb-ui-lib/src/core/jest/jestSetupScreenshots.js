@@ -8,6 +8,7 @@ const path = require('path')
 const isCI = require('is-ci')
 const os = require('os')
 const { setupJestScreenshot } = require('jest-screenshot')
+const { makeUniqueId } = require('../../shared/component-helper')
 
 const config = {
   DIR: path.join(os.tmpdir(), 'jest_puppeteer_global_setup'),
@@ -86,8 +87,42 @@ module.exports.testPageScreenshot = ({
       // With the wrapper, we center the are we take a screnshot
       let wrapperId
       if (addWrapper) {
-        wrapperId = `id-${Math.round(Math.random() * 9999)}`
+        wrapperId = makeUniqueId()
+
+        // because of getComputedStyle we have to use evaluate
+        const background = await page.evaluate(
+          ({ selector }) => {
+            const node = document.querySelector(selector).parentNode
+            if (!node) {
+              return null
+            }
+
+            const backgroundColor = window
+              .getComputedStyle(node)
+              .getPropertyValue('background-color')
+
+            // if transparent, do nothing
+            if (backgroundColor === 'rgba(0, 0, 0, 0)') {
+              return null
+            }
+            return backgroundColor
+          },
+          {
+            selector
+          }
+        )
+
+        // get the height we want to have on the wrapper
         const { height } = await element.boundingBox()
+
+        // build the styles
+        const style = makeStyles({
+          background,
+          height: `${height + 32}px`, // because we use "inline-block" - we have to make the height absolute
+          ...(wrapperStyle ? wrapperStyle : {})
+        })
+
+        // wrapp the element/selector and give the wrapper also a style
         await page.$eval(
           selector,
           (node, { id, style }) => {
@@ -104,10 +139,7 @@ module.exports.testPageScreenshot = ({
           },
           {
             id: wrapperId,
-            style: makeStyles({
-              height: `${height + 32}px`, // because we use "inline-block" - we have to make the height absolute
-              ...(wrapperStyle ? wrapperStyle : {})
-            })
+            style
           }
         )
 
@@ -353,5 +385,6 @@ const createUrl = (url, fullscreen = true) =>
 
 const makeStyles = style =>
   Object.entries(style)
+    .filter(([k, v]) => k && v)
     .map(([k, v]) => `${k}: ${v}`)
     .join(';')

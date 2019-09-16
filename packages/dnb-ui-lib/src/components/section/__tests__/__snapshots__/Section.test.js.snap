@@ -67,13 +67,6 @@ exports[`Section scss have to match default theme snapshot 1`] = `
   .dnb-section--cherry-red .dnb-anchor {
     color: var(--color-white);
     box-shadow: 0 1.5px 0 0 var(--color-white); }
-    .dnb-section--cherry-red .dnb-anchor:focus {
-      color: var(--color-white);
-      outline: none; }
-      html[data-whatinput='keyboard'] .dnb-section--cherry-red .dnb-anchor:focus {
-        box-shadow: 0 0 0 0.125rem var(--color-white);
-        /* IE11 fix */
-        border-color: transparent; }
     .dnb-section--cherry-red .dnb-anchor:hover, .dnb-section--cherry-red .dnb-anchor:active {
       color: var(--color-cherry-red);
       background-color: var(--color-white);
@@ -81,6 +74,14 @@ exports[`Section scss have to match default theme snapshot 1`] = `
     .dnb-section--cherry-red .dnb-anchor:active {
       color: var(--color-cherry-red);
       background-color: var(--color-white); }
+    .dnb-section--cherry-red .dnb-anchor:not(:disabled):focus {
+      color: var(--color-white);
+      background-color: transparent;
+      outline: none; }
+      html[data-whatinput='keyboard'] .dnb-section--cherry-red .dnb-anchor:not(:disabled):focus {
+        box-shadow: 0 0 0 0.125rem var(--color-white);
+        /* IE11 fix */
+        border-color: transparent; }
   .dnb-section--cherry-red .dnb-code {
     color: var(--color-emerald-green); }
 
