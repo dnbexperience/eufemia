@@ -211,7 +211,7 @@ export default class FormRow extends PureComponent {
         useId: () => {
           if (this.isIsUsed) {
             // make a new ID, as we used one
-            return `dnb-form-row-${Math.round(Math.random() * 999)}` // cause we need an id anyway
+            return makeUniqueId() // cause we need an id anyway
           }
           this.isIsUsed = true
           return id
