@@ -9,6 +9,7 @@ import classnames from 'classnames'
 import Context from '../../shared/Context'
 import {
   registerElement,
+  makeUniqueId,
   validateDOMAttributes,
   processChildren,
   extendPropsWithContext
@@ -118,8 +119,7 @@ export default class FormStatus extends PureComponent {
     super(props)
 
     // we do not use a random ID here, as we don't need it for now
-    this._id =
-      props.id || `dnb-form-status-${Math.round(Math.random() * 999)}`
+    this._id = props.id || makeUniqueId()
     this.gsProvider = GlobalStatusProvider.init(
       props.global_status_id || 'main',
       provider => {

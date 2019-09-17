@@ -43,4 +43,31 @@ describe('Anchor screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+  it('have to match the anchor-contrast "default" state', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-dnb-test="anchor-contrast"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+  it('have to match the anchor-contrast "focus" state', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-dnb-test="anchor-contrast"]',
+      simulate: 'focus'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+  it('have to match the anchor-contrast "hover" state', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-dnb-test="anchor-contrast"]',
+      simulate: 'hover'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+  it('have to match the anchor-contrast "active" state', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-dnb-test="anchor-contrast"]',
+      simulate: 'active'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })

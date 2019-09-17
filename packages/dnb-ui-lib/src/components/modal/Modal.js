@@ -470,9 +470,7 @@ class ModalContent extends PureComponent {
   constructor(props) {
     super(props)
     this._contentRef = React.createRef()
-    this._id =
-      props.content_id ||
-      `modal-content-${Math.round(Math.random() * 999)}`
+    this._id = props.content_id || makeUniqueId()
   }
   componentDidMount() {
     // since touch devices works diffrent, and we also use preventScreenReaderPossibility

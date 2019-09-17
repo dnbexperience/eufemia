@@ -3,7 +3,6 @@ title: 'Anchor (Text Link)'
 draft: false
 ---
 
-import CodeBlock from 'Tags/CodeBlock'
 import ComponentBox from 'Tags/ComponentBox'
 import { IconPrimary } from 'dnb-ui-lib/src'
 
@@ -13,7 +12,7 @@ The Anchor, also knows as `Link` is used to navigate from one linked content to 
 
 You would normally just decorate your anchor class withe this CSS class: `.dnb-anchor`.
 
-<CodeBlock reactLive hideCode>
+<ComponentBox hideCode>
 {`
 <ul className="dnb-ul dnb-unstyled-list">
   <li>
@@ -38,11 +37,11 @@ You would normally just decorate your anchor class withe this CSS class: `.dnb-a
   </li>
 </ul>
 `}
-</CodeBlock>
+</ComponentBox>
 
 ### React JSX
 
-<ComponentBox reactLive useRender>
+<ComponentBox useRender>
 {`
 // import { Link, Anchor } from 'dnb-ui-lib/elements'
 render(<Anchor href="/uilib/elements/anchor">My Link</Anchor>)
@@ -53,11 +52,11 @@ render(<Anchor href="/uilib/elements/anchor">My Link</Anchor>)
 
 To force a specific state of style, use the following classes to do so:
 
-<CodeBlock reactLive hideCode>
+<ComponentBox hideCode>
 {`
 <ul className="dnb-ul dnb-unstyled-list">
   <li style={{display: 'inline-block', padding: '0.5rem', margin: '-0.5rem', backgroundColor: 'var(--color-ocean-green)'}}>
-    <a href="/" className="dnb-anchor dnb-anchor--contrast">
+    <a href="/" data-dnb-test="anchor-contrast" className="dnb-anchor dnb-anchor--contrast">
       Contrast Style
     </a>
   </li>
@@ -93,7 +92,7 @@ To force a specific state of style, use the following classes to do so:
   </li>
 </ul>
 `}
-</CodeBlock>
+</ComponentBox>
 
 ### With icon
 

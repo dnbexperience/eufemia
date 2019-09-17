@@ -96,10 +96,7 @@ $anchorBorderRadius: 0.25rem;
 @mixin useAnchorContrastStyle($contrastColor: var(--color-emerald-green)) {
   color: var(--color-white);
   box-shadow: 0 $anchorBorderBottomWidth 0 0 var(--color-white);
-  &:focus {
-    color: var(--color-white);
-    @include fakeFocus(null, var(--color-white));
-  }
+
   &:hover,
   &:active {
     color: $contrastColor;
@@ -109,6 +106,11 @@ $anchorBorderRadius: 0.25rem;
   &:active {
     color: $contrastColor;
     background-color: var(--color-white);
+  }
+  &:not(:disabled):focus {
+    color: var(--color-white);
+    background-color: transparent;
+    @include fakeFocus(null, var(--color-white));
   }
 }
 @mixin anchorStyle() {
@@ -127,6 +129,9 @@ $anchorBorderRadius: 0.25rem;
   }
 
   transition: background-color 0.2s ease;
+  [data-dnb-test-wrapper] & {
+    transition: none;
+  }
 
   // other stuff, not related to the Anchor directly
   .dnb-icon {

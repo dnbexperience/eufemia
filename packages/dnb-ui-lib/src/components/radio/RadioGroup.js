@@ -8,6 +8,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
   extendPropsWithContext,
+  makeUniqueId,
   registerElement,
   validateDOMAttributes,
   dispatchCustomElementEvent
@@ -123,10 +124,8 @@ export default class RadioGroup extends PureComponent {
   constructor(props) {
     super(props)
     this._refInput = React.createRef()
-    this._id =
-      props.id || `dnb-radio-group-${Math.round(Math.random() * 999)}` // cause we need an id anyway
-    this._name =
-      props.name || `dnb-radio-group-${Math.round(Math.random() * 999)}` // cause we need an id anyway
+    this._id = props.id || makeUniqueId() // cause we need an id anyway
+    this._name = props.name || makeUniqueId() // cause we need an id anyway
     this.state = {
       _listenForPropChanges: true
     }

@@ -113,7 +113,7 @@ describe('Input component', () => {
   })
 
   // make sure getDerivedStateFromProps works
-  it('has correct state after changeing "value" prop (set by getDerivedStateFromProps)', () => {
+  it('has correct state after changing "value" prop (set by getDerivedStateFromProps)', () => {
     const initValue = 'new prop value'
     const emptyValue = null
 
@@ -129,7 +129,7 @@ describe('Input component', () => {
     // console.log('domNode', Comp.find('input').getDOMNode().value)
   })
 
-  it('has correct state after setting "value" prop (set by getDerivedStateFromProps)', () => {
+  it('has correct state after setting "value" prop using placeholder (set by getDerivedStateFromProps)', () => {
     const Comp = mount(<Component placeholder="Placeholder" />)
 
     const newValue = 'new value'
