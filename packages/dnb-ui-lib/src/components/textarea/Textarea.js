@@ -143,10 +143,11 @@ export default class Textarea extends PureComponent {
   }
 
   static getValue(props) {
-    if (props.value && props.value !== 'initval') {
-      return props.value
+    const value = processChildren(props)
+    if (value === '' || value) {
+      return value
     }
-    return processChildren(props)
+    return props.value
   }
 
   state = {

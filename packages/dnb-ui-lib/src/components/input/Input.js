@@ -169,10 +169,11 @@ export default class Input extends PureComponent {
   }
 
   static getValue(props) {
-    if (props.value && props.value !== 'initval') {
-      return props.value
+    const value = processChildren(props)
+    if (value === '' || value) {
+      return value
     }
-    return processChildren(props)
+    return props.value
   }
 
   state = { inputState: 'virgin', value: null, _value: null }
@@ -431,13 +432,12 @@ export default class Input extends PureComponent {
                   on_submit={on_submit}
                 />
               ))}
-
-            {this.props.description && (
+            {description && (
               <span
                 className="dnb-input__description"
                 id={id + '-description'} // used for "aria-describedby"
               >
-                {this.props.description}
+                {description}
               </span>
             )}
           </span>

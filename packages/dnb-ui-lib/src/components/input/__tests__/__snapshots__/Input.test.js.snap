@@ -1093,6 +1093,10 @@ legend.dnb-form-label {
   .dnb-input__description {
     color: inherit;
     padding-left: 0.5rem; }
+    @media (max-width: 40em) {
+      .dnb-input__description {
+        margin-top: 0.5rem;
+        padding-left: 0; } }
   .dnb-input__submit-button {
     position: relative;
     z-index: 2;
