@@ -129,6 +129,9 @@ $anchorBorderRadius: 0.25rem;
   }
 
   transition: background-color 0.2s ease;
+  [data-dnb-test-wrapper] & {
+    transition: none;
+  }
 
   // other stuff, not related to the Anchor directly
   .dnb-icon {
