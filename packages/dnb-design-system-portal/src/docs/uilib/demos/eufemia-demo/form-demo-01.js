@@ -211,7 +211,8 @@ const MainForm = () => {
 
           <Attachment>
             <Attachment.FileRow>
-              <Icon icon={AttachmentIcon} /> <span>filname_01.jpg</span>
+              <Icon icon={AttachmentIcon} aria-hidden />
+              {' filname_01.jpg'}
             </Attachment.FileRow>
             <Button
               text="Delete"
@@ -221,7 +222,7 @@ const MainForm = () => {
             />
           </Attachment>
 
-          <Attachment.Add top="x-small">
+          <Attachment.Add>
             <Button
               text="Upload attachment"
               variant="tertiary"
@@ -312,15 +313,17 @@ const Ingress = props => (
 // Attachment area
 const Attachment = styled(Space)`
   .dnb-button {
-    margin-left: 1.75rem;
+    margin-left: 1rem;
   }
 `
 Attachment.FileRow = styled.span`
+  margin-right: 0.75rem;
   .dnb-icon {
     margin-right: 0.5rem;
   }
 `
 Attachment.Add = styled(Space)`
+  margin-top: 0.5rem;
   .dnb-button {
     margin-left: -0.5rem;
   }
@@ -333,9 +336,14 @@ const DividerSection = styled(Section)`
   .dnb-button + .dnb-button {
     margin-left: 1rem;
   }
-  @media (max-width: 40em) {
-    .dnb-button + .dnb-button {
-      margin-left: 0.5rem;
+  @media (max-width: 30rem) {
+    display: block;
+    .dnb-button {
+      display: flex;
+      margin-top: 0.5rem;
+      & + .dnb-button {
+        margin-left: 0;
+      }
     }
   }
 `
