@@ -36,7 +36,30 @@ export default class MdxTemplate extends PureComponent {
             name="description"
             content={description || descriptionFallback}
           />
-          <link rel="shortcut icon" href={withPrefix('/favicon.ico')} />
+          <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href={withPrefix('/apple-touch-icon.png')}
+          />
+          <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href={withPrefix('/favicon-32x32.png')}
+          />
+          <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href={withPrefix('/favicon-16x16.png')}
+          />
+          <link
+            rel="mask-icon"
+            href={withPrefix('/safari-pinned-tab.svg')}
+            color="#007272"
+          />
+          <meta name="msapplication-TileColor" content="#007272" />
+          <meta name="theme-color" content="#ffffff" />
         </Head>
         <Layout location={location} fullscreen={Boolean(fullscreen)}>
           <MDXRenderer>{body}</MDXRenderer>
