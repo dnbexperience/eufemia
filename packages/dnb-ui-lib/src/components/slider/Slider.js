@@ -314,8 +314,13 @@ export default class Slider extends PureComponent {
 
   onMouseMoveHandler = event => {
     let elem = this._trackRef.current
-    if (event.detail) {
-      // we have to mock this for jsdom.
+
+    // we have to mock this for jsdom.
+    if (
+      event &&
+      event.detail &&
+      typeof event.detail.height !== 'undefined'
+    ) {
       elem = createMockDiv(event.detail)
       event = event.detail
     }
