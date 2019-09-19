@@ -243,11 +243,15 @@ export default class Tabs extends PureComponent {
 
   onKeyDownHandler = e => {
     switch (keycode(e)) {
+      case 'up':
+      case 'page up':
       case 'left':
         e.preventDefault()
         this.prevTab(e)
         this.setFocusOnTablist()
         break
+      case 'down':
+      case 'page down':
       case 'right':
         e.preventDefault()
         this.nextTab(e)
@@ -263,12 +267,26 @@ export default class Tabs extends PureComponent {
     this.openTab(+1, e)
   }
 
+  componentWillUnmount() {
+    clearTimeout(this._setFocusOnTablistId)
+  }
+
   setFocusOnTablist = () => {
-    setTimeout(() => {
-      if (this._tablistRef.current) {
-        this._tablistRef.current.focus()
-      }
-    }, 1)
+    if (typeof document !== 'undefined') {
+      setTimeout(() => {
+        if (this._tablistRef.current) {
+          this._tablistRef.current.focus()
+        }
+      }, 1) // to make sure we don't "flicker"
+      clearTimeout(this._setFocusOnTablistId)
+      this._setFocusOnTablistId = setTimeout(() => {
+        if (this._tablistRef.current) {
+          this._tablistRef.current.focus()
+        }
+      }, 50)
+      // makes it possible to navigate with left/right key
+      // also, if tabs are used with @reach/router we have to be after the focus handling of this one
+    }
   }
 
   openTabByDOM = e => {
@@ -278,6 +296,14 @@ export default class Tabs extends PureComponent {
 
     this.openTab(selected_key, e)
     this.setFocusOnTablist()
+  }
+
+  getCurrentTitle = () => {
+    const { selected_key } = this.state
+    const current = this.state.data.filter(
+      ({ key }) => key === selected_key
+    )[0]
+    return (current && current.title) || null
   }
 
   openTab = (selected_key, event = null) => {
@@ -407,13 +433,18 @@ export default class Tabs extends PureComponent {
     const Tabs = () => {
       const tabs = this.state.data.map(
         ({ title, key, disabled = false }) => {
-          const params = {}
-          if (this.isSelected(key)) {
-            params['aria-controls'] = `${this._id}-content-${key}`
+          const itemParams = {}
+          const isSelected = this.isSelected(key)
+          if (isSelected) {
+            itemParams['aria-controls'] = `${this._id}-content-${key}`
           }
+
+          // itemParams['aria-current'] = isSelected // has best support on NVDA
+          // itemParams['aria-selected'] = isSelected // has best support on VO
+
           if (isTrue(disabled)) {
-            params.disabled = true
-            params['aria-disabled'] = true
+            itemParams.disabled = true
+            itemParams['aria-disabled'] = true
           }
           return (
             <button
@@ -421,15 +452,15 @@ export default class Tabs extends PureComponent {
               role="tab"
               tabIndex="-1"
               id={`${this._id}-tab-${key}`}
-              aria-selected={this.isSelected(key)}
+              aria-selected={isSelected}
               className={classnames(
                 'dnb-tabs__button',
-                this.isSelected(key) && 'selected'
+                isSelected && 'selected'
               )}
               onClick={this.openTabByDOM}
               key={`tab-${key}`}
               data-tab-key={key}
-              {...params}
+              {...itemParams}
             >
               <span className="dnb-tabs__button__title">{title}</span>
               <Dummy>{title}</Dummy>
@@ -437,9 +468,13 @@ export default class Tabs extends PureComponent {
           )
         }
       )
+
       const params = {}
       if (label) {
         params['aria-label'] = label
+      }
+      if (selected_key) {
+        params['aria-labelledby'] = `${this._id}-tab-${selected_key}`
       }
       return (
         <div

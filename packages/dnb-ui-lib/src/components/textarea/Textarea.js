@@ -261,9 +261,6 @@ export default class Textarea extends PureComponent {
     if (readOnly) {
       textareaParams['aria-readonly'] = textareaParams.readOnly = true
     }
-    if (label) {
-      textareaParams['aria-labelledby'] = id + '-label'
-    }
 
     const shellParams = {
       className: 'dnb-textarea__shell'

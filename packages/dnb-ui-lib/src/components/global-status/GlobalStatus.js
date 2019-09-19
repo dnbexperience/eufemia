@@ -518,14 +518,6 @@ export default class GlobalStatus extends React.Component {
 
     const { isActive, makeMeVisible, makeMeHidden, isVisible } = this.state
 
-    if (!isActive) {
-      // because of screen readers will else read the content on page load, if:
-      // 1. if "show" is true from beginning, then we never come here
-      // to make sure we double check that situation
-      this.wasHiddenBefore = true
-      return <></>
-    }
-
     const props = this.context.globalStatus
       ? GlobalStatusProvider.combineMessages([
           this.context.globalStatus,
@@ -561,6 +553,24 @@ export default class GlobalStatus extends React.Component {
       ...attributes
     } = props
 
+    const wrapperParams = {
+      key: 'global-status',
+      className: classnames(
+        'dnb-global-status__wrapper',
+        createSpacingClasses(props),
+        className,
+        _className
+      ),
+      'aria-live': this.hidingHasStarted() ? 'off' : 'assertive'
+    }
+
+    if (!isActive) {
+      // because of screen readers will else read the content on page load, if:
+      // 1. if "show" is true from beginning, then we never come here
+      // to make sure we double check that situation
+      return <div {...wrapperParams}></div>
+    }
+
     const state = this.correctStatus(rawState)
     const iconToRender = GlobalStatus.getIcon({
       state,
@@ -588,20 +598,12 @@ export default class GlobalStatus extends React.Component {
 
     const params = {
       element: 'div',
-      'aria-live':
-        this.hidingHasStarted() || (!this.wasHiddenBefore && isTrue(show))
-          ? 'off'
-          : 'assertive',
-      role: 'status',
       className: classnames(
         'dnb-global-status',
         `dnb-global-status--${state}`,
         this.showingHasStarted() && 'dnb-global-status--fade-in',
         this.hidingHasStarted() && 'dnb-global-status--fade-out',
-        noAnimation && 'dnb-global-status--no-animation',
-        createSpacingClasses(props),
-        className,
-        _className
+        noAnimation && 'dnb-global-status--no-animation'
       ),
       ...attributes
     }
@@ -715,7 +717,7 @@ export default class GlobalStatus extends React.Component {
     )
 
     return (
-      <>
+      <div {...wrapperParams}>
         <Section style_type={style} {...params} ref={this._mainRef}>
           {(makeMeVisible || makeMeHidden || isVisible || noAnimation) &&
             renderedContent}
@@ -729,7 +731,7 @@ export default class GlobalStatus extends React.Component {
             {renderedContent}
           </div>
         )}
-      </>
+      </div>
     )
   }
 }
@@ -743,7 +745,7 @@ const CloseButton = ({ on_click, text, className = null }) => (
     icon="close"
     icon_size="medium"
     icon_position="left"
-    title={text}
+    aria-label={text}
     text={text}
     on_click={on_click}
   />

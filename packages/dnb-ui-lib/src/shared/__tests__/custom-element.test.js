@@ -64,7 +64,7 @@ describe('"registerElement" should', () => {
     )
   })
 
-  it('have a "custom-element" with the correct element content value, even after changeing the attribute value', () => {
+  it('have a "custom-element" with the correct element content value, even after changing the attribute value', () => {
     const newAttributeValue = 'new-value'
     customElement[0].setAttribute('observed-attribute', newAttributeValue)
     expect(customElement[0].textContent).toBe(newAttributeValue)

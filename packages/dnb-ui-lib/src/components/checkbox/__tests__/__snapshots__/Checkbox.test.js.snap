@@ -100,7 +100,6 @@ exports[`Checkbox component have to match snapshot 1`] = `
         >
           <input
             aria-checked={false}
-            aria-labelledby="checkbox-label"
             checked={false}
             className="dnb-checkbox__input"
             disabled={false}

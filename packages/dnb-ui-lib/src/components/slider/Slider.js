@@ -82,8 +82,8 @@ export const defaultProps = {
   status_animation: null,
   global_status_id: null,
   thump_title: null,
-  add_title: null,
-  subtract_title: null,
+  add_title: '+',
+  subtract_title: '−',
   min: 0,
   max: 100,
   value: null,
@@ -199,10 +199,12 @@ export default class Slider extends PureComponent {
           ? currentValue + onePercent
           : currentValue - onePercent * 10
         break
+      case 'numpad +':
       case 'right':
       case 'up':
         value = isReverse ? currentValue - step : currentValue + step
         break
+      case 'numpad -':
       case 'left':
       case 'down':
         value = isReverse ? currentValue + step : currentValue - step
@@ -506,6 +508,9 @@ export default class Slider extends PureComponent {
     if (label) {
       trackParams['aria-labelledby'] = id + '-label'
     }
+    if (showStatus) {
+      trackParams['aria-describedby'] = id + '-status'
+    }
 
     const thumbParams = {
       title,
@@ -531,7 +536,7 @@ export default class Slider extends PureComponent {
         className="dnb-slider__button dnb-slider__button--subtract"
         variant="secondary"
         icon="subtract"
-        title={subtract_title}
+        aria-label={subtract_title}
         on_click={this.onSubtractClickHandler}
         {...buttonParams}
       />
@@ -542,7 +547,7 @@ export default class Slider extends PureComponent {
         className="dnb-slider__button dnb-slider__button--add"
         variant="secondary"
         icon="add"
-        title={add_title}
+        aria-label={add_title}
         on_click={this.onAddClickHandler}
         {...buttonParams}
       />
@@ -551,12 +556,8 @@ export default class Slider extends PureComponent {
     return (
       <span {...mainParams}>
         {label && (
-          <FormLabel
-            id={id + '-label'}
-            for_id={id}
-            text={label}
-            disabled={disabled}
-          />
+          // do not use "for_id" as the ID element is not a fo
+          <FormLabel id={id + '-label'} text={label} disabled={disabled} />
         )}
         <span className="dnb-slider__wrapper">
           {showStatus && (

@@ -167,6 +167,7 @@ class Example extends PureComponent {
         console.log('onChange:', value)
       }}
       right="small"
+      bottom="x-small"
     />
     <Button text="Submit" type="submit" />
   </FormRow>

@@ -19,17 +19,22 @@ module.exports = {
         name: 'Eufemia - DNB Design System',
         short_name: 'Eufemia',
         start_url: '/',
-        background_color: '#fff',
+        icon: './static/apple-touch-icon.png', // This path is relative to the root of the site.
+        icons: [
+          {
+            src: './android-chrome-192x192.png',
+            sizes: '192x192',
+            type: 'image/png'
+          },
+          {
+            src: './android-chrome-512x512.png',
+            sizes: '512x512',
+            type: 'image/png'
+          }
+        ],
         theme_color: '#007272',
-        display: 'minimal-ui',
-        icon: '../dnb-ui-lib/assets/images/dnb-icon.png' // This path is relative to the root of the site.
-        // icons: [
-        //   {
-        //     src: '/assets/....png',
-        //     sizes: '192x192',
-        //     type: 'image/png',
-        //   },
-        // ],
+        background_color: '#007272',
+        display: 'standalone'
       }
     },
     'gatsby-plugin-meta-redirect',

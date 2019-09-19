@@ -283,13 +283,12 @@ export default class DatePickerCalendar extends PureComponent {
                       size="medium"
                       variant="secondary"
                       text={format(day.date, 'd', { locale })}
-                      title={title}
                       bounding={true}
                       disabled={isDisabled}
-                      tabIndex="-1"
+                      tabIndex={isDisabled ? '0' : '-1'} // fix for NVDA
                       aria-hidden={isInactive}
-                      aria-label={title}
                       aria-disabled={isDisabled}
+                      aria-label={title}
                       {...paramsButton}
                       onClick={({ event }) =>
                         !day.isLastMonth &&
@@ -346,7 +345,6 @@ const PrevButton = ({
       icon="chevron-left"
       size="small"
       aria-label={title}
-      title={title}
       onClick={onClick}
       onKeyDown={onKeyDown}
     />
@@ -390,7 +388,6 @@ const NextButton = ({
         icon="chevron-right"
         size="small"
         aria-label={title}
-        title={title}
         onClick={onClick}
         onKeyDown={onKeyDown}
       />

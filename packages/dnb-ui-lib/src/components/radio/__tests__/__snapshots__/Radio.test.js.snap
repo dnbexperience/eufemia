@@ -31,7 +31,6 @@ exports[`Radio component have to match snapshot 1`] = `
       className="dnb-radio__order"
     >
       <FormLabel
-        aria-hidden={false}
         class={null}
         className={null}
         direction={null}
@@ -46,14 +45,12 @@ exports[`Radio component have to match snapshot 1`] = `
         vertical={null}
       >
         <Element
-          aria-hidden={false}
           className="dnb-form-label"
           htmlFor="radio"
           id="radio-label"
           is="label"
         >
           <label
-            aria-hidden={false}
             className="dnb-form-label"
             htmlFor="radio"
             id="radio-label"
@@ -71,7 +68,6 @@ exports[`Radio component have to match snapshot 1`] = `
           <input
             aria-checked={false}
             aria-label="title"
-            aria-labelledby="radio-label"
             checked={false}
             className="dnb-radio__input"
             direction="horizontal"
@@ -150,7 +146,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
       label="Label"
       label_class={null}
       label_direction={null}
-      label_id="group"
+      label_id="group-label"
       no_fieldset={true}
       no_label={false}
       render_content={null}
@@ -237,7 +233,6 @@ exports[`Radio group component have to match group snapshot 1`] = `
                       className="dnb-radio__order"
                     >
                       <FormLabel
-                        aria-hidden={true}
                         class={null}
                         className={null}
                         direction={null}
@@ -252,14 +247,12 @@ exports[`Radio group component have to match group snapshot 1`] = `
                         vertical={null}
                       >
                         <Element
-                          aria-hidden={true}
                           className="dnb-form-label"
                           htmlFor="radio-1"
                           id="radio-1-label"
                           is="label"
                         >
                           <label
-                            aria-hidden={true}
                             className="dnb-form-label"
                             htmlFor="radio-1"
                             id="radio-1-label"
@@ -276,7 +269,6 @@ exports[`Radio group component have to match group snapshot 1`] = `
                         >
                           <input
                             aria-checked={false}
-                            aria-labelledby="radio-1-label"
                             checked={false}
                             className="dnb-radio__input"
                             disabled={false}
@@ -342,7 +334,6 @@ exports[`Radio group component have to match group snapshot 1`] = `
                       className="dnb-radio__order"
                     >
                       <FormLabel
-                        aria-hidden={true}
                         class={null}
                         className={null}
                         direction={null}
@@ -357,14 +348,12 @@ exports[`Radio group component have to match group snapshot 1`] = `
                         vertical={null}
                       >
                         <Element
-                          aria-hidden={true}
                           className="dnb-form-label"
                           htmlFor="radio-2"
                           id="radio-2-label"
                           is="label"
                         >
                           <label
-                            aria-hidden={true}
                             className="dnb-form-label"
                             htmlFor="radio-2"
                             id="radio-2-label"
@@ -381,7 +370,6 @@ exports[`Radio group component have to match group snapshot 1`] = `
                         >
                           <input
                             aria-checked={true}
-                            aria-labelledby="radio-2-label"
                             checked={true}
                             className="dnb-radio__input"
                             disabled={false}

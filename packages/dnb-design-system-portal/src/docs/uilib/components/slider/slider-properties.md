@@ -15,8 +15,8 @@ draft: true
 | `hide_buttons`                                  | _(optional)_ removes the helper buttons. Defaults to `false`.                                                        |
 | `use_scrollwheel`                               | _(optional)_ enable mouse scroll-wheel support. Defaults to `false`.                                                 |
 | `thump_title`                                   | _(optional)_ give the slider thump button a title for accessibility reason. Defaults to `null`.                      |
-| `subtract_title`                                | _(optional)_ give the subtract button a title for accessibility reason. Defaults to `null`.                          |
-| `add_title`                                     | _(optional)_ give the add button a title for accessibility reason. Defaults to `null`.                               |
+| `subtract_title`                                | _(optional)_ give the subtract button a title for accessibility reason. Defaults to `−`.                             |
+| `add_title`                                     | _(optional)_ give the add button a title for accessibility reason. Defaults to `+`.                                  |
 | `label`                                         | _(optional)_ prepends the Form Label component. If no ID is provided, a random ID is created.                        |
 | `status`                                        | _(optional)_ text with a status message. The style defaults to an error message.                                     |
 | `status_state`                                  | _(optional)_ defines the state of the status. Currently there are two statuses `[error, info]`. Defaults to `error`. |

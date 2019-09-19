@@ -125,7 +125,7 @@ export default class RadioGroup extends PureComponent {
     super(props)
     this._refInput = React.createRef()
     this._id = props.id || makeUniqueId() // cause we need an id anyway
-    this._name = props.name || makeUniqueId() // cause we need an id anyway
+    this._name = props.name || this._id
     this.state = {
       _listenForPropChanges: true
     }
@@ -212,15 +212,13 @@ export default class RadioGroup extends PureComponent {
     const formRowParams = {
       id,
       label,
-      label_id: id, // send the id along, so the FormRow component can use it
+      label_id: id + '-label', // send the id along, so the FormRow component can use it
       label_direction,
       direction: label_direction,
       vertical,
       disabled,
       no_fieldset,
       skipContentWrapperIfNested: true
-      // status,
-      // status_state
     }
 
     return (

@@ -36,7 +36,7 @@ export function isTouchDevice() {
       ) ||
       !!(
         typeof navigator !== 'undefined' &&
-        (navigator.maxTouchPoints || navigator.msMaxTouchPoints)
+        (navigator.maxTouchPoints > 1 || navigator.msMaxTouchPoints > 1)
       )
     )
   } catch (e) {

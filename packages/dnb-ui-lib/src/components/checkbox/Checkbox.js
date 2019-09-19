@@ -234,9 +234,6 @@ export default class Checkbox extends Component {
     if (showStatus) {
       inputParams['aria-describedby'] = id + '-status'
     }
-    if (label) {
-      inputParams['aria-labelledby'] = id + '-label'
-    }
     if (readOnly) {
       inputParams['aria-readonly'] = inputParams.readOnly = true
     }

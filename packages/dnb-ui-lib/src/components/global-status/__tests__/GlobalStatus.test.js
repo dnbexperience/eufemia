@@ -72,7 +72,7 @@ describe('GlobalStatus component', () => {
     const Comp = mount(
       <Component autoscroll={false} delay={0} duration={0} />
     )
-    expect(Comp.exists('[aria-live]')).toBe(false)
+    expect(Comp.exists('[aria-live]')).toBe(true)
 
     Comp.setProps({
       show: true
