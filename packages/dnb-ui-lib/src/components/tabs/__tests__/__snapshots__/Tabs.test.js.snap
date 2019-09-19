@@ -91,6 +91,7 @@ exports[`Tabs component have to match snapshot 1`] = `
         >
           <Tabs>
             <div
+              aria-labelledby="id-tab-second"
               className="dnb-tabs__tabs__tablist"
               onKeyDown={[Function]}
               role="tablist"

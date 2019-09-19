@@ -65,7 +65,7 @@ exports[`Button component have to match default button snapshot 1`] = `
         text
       </span>
       <IconPrimary
-        alt="This is a button title"
+        alt={null}
         aria-hidden={true}
         attributes={null}
         class={null}
@@ -80,7 +80,7 @@ exports[`Button component have to match default button snapshot 1`] = `
         width={null}
       >
         <span
-          alt="This is a button title"
+          alt="question"
           aria-hidden={true}
           className="dnb-icon dnb-button__icon"
           role="img"
@@ -177,7 +177,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
         text
       </span>
       <IconPrimary
-        alt="This is a button title"
+        alt={null}
         aria-hidden={true}
         attributes={null}
         class={null}
@@ -192,7 +192,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
         width={null}
       >
         <span
-          alt="This is a button title"
+          alt="question"
           aria-hidden={true}
           className="dnb-icon dnb-button__icon"
           role="img"

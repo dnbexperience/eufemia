@@ -38,7 +38,7 @@ exports[`Slider component have to match snapshot 1`] = `
       direction={null}
       disabled={false}
       element="label"
-      for_id="id"
+      for_id={null}
       id="id-label"
       label_direction={null}
       render_content={null}
@@ -48,13 +48,11 @@ exports[`Slider component have to match snapshot 1`] = `
     >
       <Element
         className="dnb-form-label"
-        htmlFor="id"
         id="id-label"
         is="label"
       >
         <label
           className="dnb-form-label"
-          htmlFor="id"
           id="id-label"
         >
           label
@@ -68,6 +66,7 @@ exports[`Slider component have to match snapshot 1`] = `
         className="dnb-slider__inner"
       >
         <Button
+          aria-label="subtract_title"
           bounding={false}
           class={null}
           className="dnb-slider__button dnb-slider__button--subtract"
@@ -84,7 +83,7 @@ exports[`Slider component have to match snapshot 1`] = `
           on_click={[Function]}
           size={null}
           text={null}
-          title="subtract_title"
+          title={null}
           type="button"
           variant="secondary"
         >
@@ -93,10 +92,10 @@ exports[`Slider component have to match snapshot 1`] = `
             className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon dnb-slider__button dnb-slider__button--subtract"
             onClick={[Function]}
             onMouseOut={[Function]}
-            title="subtract_title"
             type="button"
           >
             <Content
+              aria-label="subtract_title"
               bounding={false}
               class={null}
               className="dnb-slider__button dnb-slider__button--subtract"
@@ -115,12 +114,12 @@ exports[`Slider component have to match snapshot 1`] = `
               on_click={[Function]}
               size={null}
               text={null}
-              title="subtract_title"
+              title={null}
               type="button"
               variant="secondary"
             >
               <IconPrimary
-                alt="subtract_title"
+                alt={null}
                 aria-hidden={false}
                 attributes={null}
                 class={null}
@@ -135,9 +134,9 @@ exports[`Slider component have to match snapshot 1`] = `
                 width={null}
               >
                 <span
-                  alt="subtract_title"
+                  alt="subtract"
                   aria-hidden={false}
-                  aria-label="subtract_title"
+                  aria-label="subtract"
                   className="dnb-icon dnb-button__icon"
                   role="img"
                 >
@@ -210,7 +209,6 @@ exports[`Slider component have to match snapshot 1`] = `
               variant="secondary"
             >
               <button
-                aria-label="thump_title"
                 className="dnb-button dnb-button--secondary"
                 onBlur={[Function]}
                 onClick={[Function]}
@@ -268,6 +266,7 @@ exports[`Slider component have to match snapshot 1`] = `
           />
         </span>
         <Button
+          aria-label="add_title"
           bounding={false}
           class={null}
           className="dnb-slider__button dnb-slider__button--add"
@@ -284,7 +283,7 @@ exports[`Slider component have to match snapshot 1`] = `
           on_click={[Function]}
           size={null}
           text={null}
-          title="add_title"
+          title={null}
           type="button"
           variant="secondary"
         >
@@ -293,10 +292,10 @@ exports[`Slider component have to match snapshot 1`] = `
             className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon dnb-slider__button dnb-slider__button--add"
             onClick={[Function]}
             onMouseOut={[Function]}
-            title="add_title"
             type="button"
           >
             <Content
+              aria-label="add_title"
               bounding={false}
               class={null}
               className="dnb-slider__button dnb-slider__button--add"
@@ -315,12 +314,12 @@ exports[`Slider component have to match snapshot 1`] = `
               on_click={[Function]}
               size={null}
               text={null}
-              title="add_title"
+              title={null}
               type="button"
               variant="secondary"
             >
               <IconPrimary
-                alt="add_title"
+                alt={null}
                 aria-hidden={false}
                 attributes={null}
                 class={null}
@@ -335,9 +334,9 @@ exports[`Slider component have to match snapshot 1`] = `
                 width={null}
               >
                 <span
-                  alt="add_title"
+                  alt="add"
                   aria-hidden={false}
-                  aria-label="add_title"
+                  aria-label="add"
                   className="dnb-icon dnb-button__icon"
                   role="img"
                 >

@@ -68,7 +68,6 @@ exports[`Switch component have to match snapshot 1`] = `
         >
           <input
             aria-checked={false}
-            aria-labelledby="id-label"
             checked={false}
             className="dnb-switch__input"
             id="id"

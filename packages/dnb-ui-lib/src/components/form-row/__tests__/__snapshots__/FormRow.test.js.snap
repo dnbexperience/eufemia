@@ -40,7 +40,7 @@ exports[`FormRow component have to match snapshot 1`] = `
           disabled={false}
           element="legend"
           for_id={null}
-          id="label_id-label"
+          id="label_id"
           label_direction={null}
           render_content={null}
           text="label"
@@ -49,12 +49,12 @@ exports[`FormRow component have to match snapshot 1`] = `
         >
           <Element
             className="dnb-form-label dnb-form-label--horizontal dnb-form-row__label label_class"
-            id="label_id-label"
+            id="label_id"
             is="legend"
           >
             <legend
               className="dnb-form-label dnb-form-label--horizontal dnb-form-row__label label_class"
-              id="label_id-label"
+              id="label_id"
             >
               label
             </legend>

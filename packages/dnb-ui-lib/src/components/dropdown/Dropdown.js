@@ -347,7 +347,7 @@ export default class Dropdown extends PureComponent {
       attributes
     })
   }
-  setHidden = () => {
+  setHidden = ({ setFocus = false } = {}) => {
     this.setState(
       {
         opened: false,
@@ -356,10 +356,25 @@ export default class Dropdown extends PureComponent {
       () => {
         this._hideTimeout = setTimeout(
           () => {
-            this.setState({
-              hidden: true,
-              _listenForPropChanges: false
-            })
+            this.setState(
+              {
+                hidden: true,
+                _listenForPropChanges: false
+              },
+              () => {
+                if (setFocus) {
+                  let elem = this._refButton.current
+                  try {
+                    elem = this._refButton.current._ref.current
+                  } catch (e) {
+                    // do noting
+                  }
+                  if (elem && elem.focus) {
+                    elem.focus()
+                  }
+                }
+              }
+            )
           },
           this.props.no_animation ? 1 : Dropdown.blurDelay
         ) // wait until animation is over
@@ -418,7 +433,7 @@ export default class Dropdown extends PureComponent {
         this.changedOrderFor = value
       }
     } catch (e) {
-      console.log('Dropdown could not findItemByValue:', e)
+      console.warn('Dropdown could not findItemByValue:', e)
     }
 
     return index
@@ -447,17 +462,26 @@ export default class Dropdown extends PureComponent {
             event,
             attributes
           })
-          if (ret === false) return
+          if (ret === false) {
+            return
+          }
         }
+
+        if (!selected_item) {
+          return
+        }
+
         // try to scroll to item
-        if (!this._refUl.current) return
+        if (!this._refUl.current) {
+          return
+        }
+
         try {
           const ulElement = this._refUl.current
           const liElement = ulElement.querySelector(
             `li.dnb-dropdown__option:nth-of-type(${active_item + 1})`
           )
           const top = liElement.offsetTop
-          // const { parentNode } = liElement
           if (ulElement.scrollTo) {
             const params = {
               top
@@ -473,7 +497,7 @@ export default class Dropdown extends PureComponent {
             liElement.focus()
           }
         } catch (e) {
-          console.log('Dropdown could not scroll into element:', e)
+          console.warn('Dropdown could not scroll into element:', e)
         }
       }
     )
@@ -525,35 +549,61 @@ export default class Dropdown extends PureComponent {
     }
   }
 
+  preventTab = e => {
+    switch (keycode(e)) {
+      case 'tab':
+        this.setHidden()
+        break
+    }
+  }
+
   onKeyDownHandler = e => {
-    let active_item = this.state.active_item
+    let active_item = parseFloat(this.state.active_item)
     const total = this.state.data.length - 1
 
     switch (keycode(e)) {
+      case 'shift':
+        e.preventDefault()
+        break
+
       case 'up':
         e.preventDefault()
-        active_item--
+        if (active_item > -1) {
+          active_item--
+        } else {
+          active_item = total
+        }
         break
+
       case 'down':
         e.preventDefault()
-        active_item++
+        if (active_item > -1) {
+          active_item++
+        } else {
+          active_item = 0
+        }
         break
+
       case 'home':
         e.preventDefault()
         active_item = 0
         break
+
       case 'end':
         e.preventDefault()
         active_item = total
         break
+
       case 'enter':
       case 'space':
         e.preventDefault()
         this.selectItem(active_item, { fireSelectEvent: true, event: e })
         this.setHidden()
         break
+
       case 'esc':
-        e.preventDefault()
+      case 'tab':
+        e.preventDefault() // on edge, we need this prevent to not loose focus after close
         this.setHidden()
         break
 
@@ -621,18 +671,10 @@ export default class Dropdown extends PureComponent {
       if (this._selectTimeout) {
         clearTimeout(this._selectTimeout)
       }
-      this._selectTimeout = setTimeout(() => {
-        this.setHidden()
-        let elem = this._refButton.current
-        try {
-          elem = this._refButton.current._ref.current
-        } catch (e) {
-          // do noting
-        }
-        if (elem && elem.focus) {
-          elem.focus()
-        }
-      }, 150) // only for the user experience
+      this._selectTimeout = setTimeout(
+        () => this.setHidden({ setFocus: true }),
+        150
+      ) // only for the user experience
     }
 
     if (
@@ -685,7 +727,7 @@ export default class Dropdown extends PureComponent {
           this._refUl.current.scrollTop + this._refUl.current.offsetHeight
         )
         closestToTop = findClosest(counts, this._refUl.current.scrollTop)
-        if (closestToTop !== tmpToTop) {
+        if (itemSpots[closestToTop] && closestToTop !== tmpToTop) {
           this.setState({
             closestToTop: itemSpots[closestToTop].i,
             _listenForPropChanges: false
@@ -705,7 +747,7 @@ export default class Dropdown extends PureComponent {
       this._refUl.current.addEventListener('scroll', this.setOnScroll)
       this.setOnScroll()
     } catch (e) {
-      console.log('Dropdown could not set onScroll:', e)
+      console.warn('Dropdown could not set onScroll:', e)
     }
   }
 
@@ -757,7 +799,7 @@ export default class Dropdown extends PureComponent {
       window.addEventListener('resize', this.setDirection)
       this.setDirection()
     } catch (e) {
-      console.log('Dropdown could not set onResize:', e)
+      console.warn('Dropdown could not set onResize:', e)
     }
   }
 
@@ -777,7 +819,7 @@ export default class Dropdown extends PureComponent {
     let { icon, icon_position } = props
 
     const {
-      title,
+      title: titleProp,
       label,
       label_direction,
       icon: _icon, // eslint-disable-line
@@ -833,6 +875,12 @@ export default class Dropdown extends PureComponent {
     const showStatus = status && status !== 'error'
 
     const currentOptionData = Dropdown.getOptionData(selected_item, data)
+    const title =
+      data && data.length > 0
+        ? currentOptionData.selected_value ||
+          Dropdown.parseContentTitle(currentOptionData) ||
+          titleProp
+        : titleProp
 
     const mainParams = {
       className: classnames(
@@ -859,10 +907,6 @@ export default class Dropdown extends PureComponent {
       )
     }
 
-    // To link the selected item with the aria-labelledby, use this:
-    // const selectedId = `option-${id}-${selected_item}`
-    // But for now we use
-    const selectedId = `dropdown-${id}-value`
     const triggerParams = {
       className: classnames(
         'dnb-dropdown__trigger',
@@ -870,8 +914,7 @@ export default class Dropdown extends PureComponent {
       ),
       id,
       disabled,
-      ['aria-haspopup']: 'listbox',
-      ['aria-labelledby']: selectedId,
+      ['aria-haspopup']: true, //listbox
       ['aria-expanded']: opened,
       ...attributes,
       onFocus: this.onFocusHandler,
@@ -880,7 +923,10 @@ export default class Dropdown extends PureComponent {
       onKeyDown: this.onTriggerKeyDownHandler
     }
     if (typeof title === 'string') {
-      triggerParams.title = title
+      triggerParams['title'] = title
+    }
+    if (hidden && label) {
+      triggerParams['aria-labelledby'] = id + '-label'
     }
     const listParams = {
       className: classnames(
@@ -889,16 +935,20 @@ export default class Dropdown extends PureComponent {
       )
     }
     const ulParams = {
-      className: 'dnb-dropdown__options',
+      className: 'dnb-dropdown__options', // dnb-no-focus
       role: 'listbox',
-      tabIndex: '0',
       ['aria-labelledby']: id,
       ref: this._refUl,
       style: {
         maxHeight: max_height > 0 ? `${max_height}rem` : null
       }
     }
-    if (selected_item !== null && selected_item > -1) {
+    if (
+      !isPopupMenu &&
+      !hidden &&
+      selected_item !== null &&
+      selected_item > -1
+    ) {
       ulParams['aria-activedescendant'] = `option-${id}-${selected_item}`
     }
 
@@ -919,6 +969,7 @@ export default class Dropdown extends PureComponent {
             text={label}
             direction={label_direction}
             disabled={disabled}
+            onMouseDown={this.toggleVisible}
           />
         )) || (
           <span className="dnb-dropdown__helper" aria-hidden>
@@ -949,15 +1000,8 @@ export default class Dropdown extends PureComponent {
               >
                 {!isPopupMenu && (
                   <span className="dnb-dropdown__text">
-                    <span
-                      id={selectedId}
-                      className="dnb-dropdown__text__inner"
-                    >
-                      {data && data.length > 0
-                        ? currentOptionData.selected_value ||
-                          Dropdown.parseContentTitle(currentOptionData) ||
-                          title
-                        : title}
+                    <span className="dnb-dropdown__text__inner">
+                      {title}
                     </span>
                   </span>
                 )}
@@ -987,9 +1031,9 @@ export default class Dropdown extends PureComponent {
                       const isCurrent = i === parseFloat(selected_item)
                       const liParams = {
                         id: `option-${id}-${i}`,
-                        role: 'option', // here we could use "menuitem"
+                        role: 'option',
                         tabIndex: '-1',
-                        title: Dropdown.parseContentTitle(dataItem),
+                        // title: Dropdown.parseContentTitle(dataItem),// freaks out NVDA
                         className: classnames(
                           'dnb-dropdown__option',
                           isCurrent && 'dnb-dropdown__option--selected',
@@ -1003,13 +1047,12 @@ export default class Dropdown extends PureComponent {
                           i === data.length - 1 && 'last-of-type' // because of the triangle element
                         ),
                         onMouseDown: this.selectItemHandler,
+                        onKeyDown: this.preventTab,
                         'data-item': i
                       }
                       if (isCurrent) {
-                        liParams['aria-selected'] = true
-
-                        // use checked if we use role="menuitem"
-                        // liParams['aria-checked'] = true
+                        liParams['aria-current'] = true // has best support on NVDA
+                        liParams['aria-selected'] = true // has best support on VO
                       }
                       return (
                         <li key={id + i} {...liParams}>

@@ -255,7 +255,7 @@ exports[`ToggleButton component have to match snapshot 1`] = `
                 text
               </span>
               <IconPrimary
-                alt="title"
+                alt={null}
                 aria-hidden={true}
                 attributes={null}
                 class={null}
@@ -320,7 +320,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
       label="Label"
       label_class={null}
       label_direction={null}
-      label_id="group"
+      label_id="group-label"
       no_fieldset={null}
       no_label={false}
       render_content={null}

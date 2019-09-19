@@ -104,7 +104,7 @@ exports[`Modal component have to match snapshot 1`] = `
   trigger_icon="question"
   trigger_icon_position="left"
   trigger_text={null}
-  trigger_title="Modal"
+  trigger_title={null}
   trigger_variant="secondary"
 >
   <div
@@ -127,17 +127,16 @@ exports[`Modal component have to match snapshot 1`] = `
       on_click={[Function]}
       size={null}
       text={null}
-      title="Modal"
+      title="modal_title"
       type="button"
       variant="secondary"
     >
       <button
-        aria-label="Modal"
         className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-left dnb-button--has-icon dnb-modal__trigger"
         id="modal_id"
         onClick={[Function]}
         onMouseOut={[Function]}
-        title="Modal"
+        title="modal_title"
         type="button"
       >
         <Content
@@ -159,13 +158,13 @@ exports[`Modal component have to match snapshot 1`] = `
           on_click={[Function]}
           size={null}
           text={null}
-          title="Modal"
+          title="modal_title"
           type="button"
           variant="secondary"
         >
           <IconPrimary
-            alt="Modal"
-            aria-hidden={false}
+            alt={null}
+            aria-hidden={true}
             attributes={null}
             class={null}
             className="dnb-button__icon"
@@ -179,9 +178,8 @@ exports[`Modal component have to match snapshot 1`] = `
             width={null}
           >
             <span
-              alt="Modal"
-              aria-hidden={false}
-              aria-label="Modal"
+              alt="question"
+              aria-hidden={true}
               className="dnb-icon dnb-button__icon"
               role="img"
             >
@@ -429,6 +427,7 @@ exports[`Modal component have to match snapshot 1`] = `
               title="close_title"
             >
               <Button
+                aria-label="close_title"
                 bounding={false}
                 class={null}
                 className="dnb-modal__close-button"
@@ -445,7 +444,7 @@ exports[`Modal component have to match snapshot 1`] = `
                 on_click={[Function]}
                 size="medium"
                 text={null}
-                title="close_title"
+                title={null}
                 type="button"
                 variant="secondary"
               >
@@ -454,10 +453,10 @@ exports[`Modal component have to match snapshot 1`] = `
                   className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--icon-size-medium dnb-button--has-icon dnb-modal__close-button"
                   onClick={[Function]}
                   onMouseOut={[Function]}
-                  title="close_title"
                   type="button"
                 >
                   <Content
+                    aria-label="close_title"
                     bounding={false}
                     class={null}
                     className="dnb-modal__close-button"
@@ -476,12 +475,12 @@ exports[`Modal component have to match snapshot 1`] = `
                     on_click={[Function]}
                     size="medium"
                     text={null}
-                    title="close_title"
+                    title={null}
                     type="button"
                     variant="secondary"
                   >
                     <IconPrimary
-                      alt="close_title"
+                      alt={null}
                       aria-hidden={false}
                       attributes={null}
                       class={null}
@@ -496,9 +495,9 @@ exports[`Modal component have to match snapshot 1`] = `
                       width={null}
                     >
                       <span
-                        alt="close_title"
+                        alt="close"
                         aria-hidden={false}
-                        aria-label="close_title"
+                        aria-label="close"
                         className="dnb-icon dnb-icon--medium dnb-button__icon"
                         role="img"
                       >

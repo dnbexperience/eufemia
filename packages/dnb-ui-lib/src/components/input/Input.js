@@ -343,19 +343,16 @@ export default class Input extends PureComponent {
     }
 
     // we may considder using: aria-details
-    if (showStatus) {
-      inputParams['aria-describedby'] = id + '-status'
-    } else if (description) {
-      inputParams['aria-describedby'] = id + '-description'
+    if (showStatus || description) {
+      inputParams['aria-describedby'] = `${
+        showStatus ? id + '-status' : ''
+      } ${description ? id + '-description' : ''}`
     }
     if (type === 'search') {
       inputParams.autoComplete = 'off'
     }
     if (readOnly) {
       inputParams['aria-readonly'] = inputParams.readOnly = true
-    }
-    if (label) {
-      inputParams['aria-labelledby'] = id + '-label'
     }
 
     const shellParams = {
@@ -380,7 +377,7 @@ export default class Input extends PureComponent {
       <span {...mainParams}>
         {label && (
           <FormLabel
-            id={id + '-label'}
+            id={id + '-label'} // used for "aria-describedby"
             for_id={id}
             text={label}
             disabled={disabled}

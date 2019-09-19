@@ -12,8 +12,8 @@ import {
   Button,
   FormLabel,
   FormSet,
-  FormRow,
-  Checkbox
+  FormRow
+  // Checkbox
 } from '../../src/components'
 
 const CustomStyle = styled.div`
@@ -35,6 +35,7 @@ const DropdownStory = () => {
         >
           <Dropdown
             label="Vertical A:"
+            title="Default option"
             data={() => {
               console.log('dropdownData', dropdownData)
               return dropdownData
@@ -50,7 +51,11 @@ const DropdownStory = () => {
             }}
             data-attr={123}
           />
-          <Dropdown label="Vertical B:" data={dropdownData} />
+          <Dropdown
+            title="Default option"
+            label="Vertical B:"
+            data={dropdownData}
+          />
         </FormRow>
       </Box>
       <Box>
@@ -286,7 +291,8 @@ let dropdownData = [
     selected_value: 'Brukskonto - Kari Nordmann',
     content: (
       <>
-        <Checkbox checked /> Brukskonto - Kari Nordmann
+        {/* <Checkbox checked aria-hidden />  */}
+        Brukskonto - Kari Nordmann
       </>
     )
   },

@@ -216,9 +216,6 @@ export default class Button extends PureComponent {
       onMouseOut: this.onMouseOutHandler, // for resetting the button to the default state
       onClick: this.onClickHandler
     }
-    if (!params['aria-label'] && !text && title) {
-      params['aria-label'] = title
-    }
 
     // also used for code markup simulation
     validateDOMAttributes(this.props, params)
@@ -303,15 +300,13 @@ class Content extends PureComponent {
     }
 
     if (icon) {
-      const alt = title || text
       ret.push(
         <IconPrimary
           key="button-icon"
           className="dnb-button__icon"
           icon={icon}
           size={icon_size}
-          alt={alt}
-          aria-hidden={isIconOnly ? false : Boolean(alt)}
+          aria-hidden={isIconOnly && !title ? false : true}
         />
       )
     }

@@ -138,20 +138,37 @@ export default class Radio extends Component {
   }
 
   onKeyDownHandler = event => {
+    const key = keycode(event)
     // only have key support if there is only a single radio
     if (this.isInNoGroup()) {
-      switch (keycode(event)) {
+      switch (key) {
         case 'enter':
           this.onChangeHandler(event)
           break
       }
+    } else if (this.isContextGroupOrSingle()) {
+      switch (key) {
+        case 'space':
+        case 'enter': {
+          const { value } = this.context
+          if (value !== null && typeof value !== 'undefined') {
+            event.preventDefault()
+          }
+          if (key === 'enter') {
+            const checked = !this.state.checked
+            this.setState({ checked, _listenForPropChanges: false })
+          }
+          break
+        }
+      }
     } else {
       // else we only use the native support, and don't want space support
       // because only arrow keys has to be used
-      switch (keycode(event)) {
-        case 'space':
+      switch (key) {
+        case 'space': {
           event.preventDefault()
           break
+        }
       }
     }
     dispatchCustomElementEvent(this, 'on_key_down', { event })
@@ -314,9 +331,6 @@ export default class Radio extends Component {
           if (showStatus) {
             inputParams['aria-describedby'] = id + '-status'
           }
-          if (label) {
-            inputParams['aria-labelledby'] = id + '-label'
-          }
           if (readOnly) {
             inputParams['aria-readonly'] = inputParams.readOnly = true
           }
@@ -342,7 +356,7 @@ export default class Radio extends Component {
                   <FormLabel
                     id={id + '-label'}
                     for_id={id}
-                    aria-hidden={!this.isInNoGroup()}
+                    // aria-hidden={!this.isInNoGroup()} // for VO it's fine, but not for NVDA
                     text={label}
                     disabled={disabled}
                   />

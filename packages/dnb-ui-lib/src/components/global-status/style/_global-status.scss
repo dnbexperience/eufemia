@@ -40,6 +40,10 @@
 }
 
 .dnb-global-status {
+  &__wrapper {
+    position: relative;
+    z-index: 1;
+  }
   &,
   &--no-animation#{&}--visible {
     display: flex;

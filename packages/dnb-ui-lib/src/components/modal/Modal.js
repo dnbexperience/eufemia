@@ -99,7 +99,7 @@ export const defaultProps = {
   trigger_disabled: null,
   trigger_variant: 'secondary',
   trigger_text: null,
-  trigger_title: 'Modal',
+  trigger_title: null,
   trigger_icon: 'question',
   trigger_icon_position: 'left',
   trigger_class: null,
@@ -331,7 +331,7 @@ export default class Modal extends PureComponent {
             type="button"
             variant={trigger_variant}
             text={trigger_text}
-            title={trigger_title}
+            title={trigger_title || props.title}
             disabled={isTrue(disabled) || isTrue(trigger_disabled)}
             icon={
               trigger_icon !== 'question'
@@ -482,7 +482,7 @@ class ModalContent extends PureComponent {
     this.setFocus()
   }
   componentWillUnmount() {
-    clearTimeout(this.focusTimeout)
+    clearTimeout(this._setFocusId)
     this.revertScrollPossibility()
     this.revertScreenReaderPossibility()
     this.revertFocusPossibility()
@@ -490,8 +490,8 @@ class ModalContent extends PureComponent {
 
   setFocus() {
     if (this._contentRef.current) {
-      clearTimeout(this.focusTimeout)
-      this.focusTimeout = setTimeout(() => {
+      clearTimeout(this._setFocusId)
+      this._setFocusId = setTimeout(() => {
         try {
           this._contentRef.current.focus() // in case the button is disabled
           const focusElement = this._contentRef.current.querySelector(
@@ -686,7 +686,7 @@ export const CloseButton = ({ on_click, title, className = null }) => (
     className={classnames('dnb-modal__close-button', className)}
     icon="close"
     icon_size="medium"
-    title={title}
+    aria-label={title}
     on_click={on_click}
   />
 )
