@@ -35,11 +35,26 @@ There is, however a simple [Grid Pattern with CSS helpers](/uilib/patterns/grid)
 
 Although, it will probably be removed in a future major release.
 
+## Sizing
+
+UX designers are using a 12 column system during their design processes. But we as developers have to make our layouts responsive to give users the best experience and meet WCAG requirements.
+
+| Pixel | Type      | Rem      | Custom Property    | Comments    |
+| ----- | --------- | -------- | ------------------ | ----------- |
+| 640   | `small`   | **40em** | `--layout-small`   |             |
+| 800   | `medium`  | **50em** | `--layout-medium`  |             |
+| 960   | `large`   | **60em** | `--layout-large`   | DNB default |
+| 1120  | `x-large` | **72em** | `--layout-x-large` |             |
+
+<!-- --layout-xx-large: 80em; // 1280
+--layout-xxx-large: 90em; // 1440 -->
+
+```css
+@media (max-width: 40em) {
+  /* mobile selectors */
+}
+```
+
 ## Media Queries and Breakpoints
 
 Use `em` for media query sizing for best overall browser support. Read [more abouts units](/uilib/usage/best-practices/for-styling#units)
-
-- `40em` **small**
-- `50em` **medium**
-- `60em` **large** (is the DNB default width by 960px)
-- `90em` **x-large**

@@ -87,6 +87,14 @@
   --spacing-large: 2rem;
   --spacing-x-large: 3rem;
   --spacing-xx-large: 3.5rem;
+
+  // Layout
+  --layout-small: 40em; // 640
+  --layout-medium: 50em; // 800
+  --layout-large: 60em; // 960
+  --layout-x-large: 72em; // 1152
+  --layout-xx-large: 80em; // 1280
+  --layout-xxx-large: 90em; // 1440
 }
 
 @mixin setProperties() {
