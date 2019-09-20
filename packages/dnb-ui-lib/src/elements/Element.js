@@ -32,13 +32,11 @@ E.propTypes = {
   className: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   class: PropTypes.string,
   useClass: PropTypes.string,
-  css: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  children: PropTypes.node
+  css: PropTypes.oneOfType([PropTypes.string, PropTypes.object])
 }
 E.defaultProps = {
   className: null,
   class: null,
   useClass: null,
-  css: null,
-  children: null
+  css: null
 }
