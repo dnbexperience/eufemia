@@ -148,10 +148,7 @@ render(
 }
           `}
         </ComponentBox>
-        <ComponentBox
-          caption="To showcase the scrolling. Some browsers (Safari, Edge) will need a polyfill like ``"
-          noFragments={false}
-        >
+        <ComponentBox caption="To showcase the scrolling. Some browsers (Safari, Edge) will need a polyfill like `smoothscroll-polyfill`">
           {/* @jsx */ `
 <Button
   text="Scroll to main GlobalStatus"
