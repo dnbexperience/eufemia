@@ -462,17 +462,19 @@ export class DetectOutsideClickClass {
     }
   }
 
-  overflowIsScrollable = elem => {
-    const style = getComputedStyle(elem)
-    return /scroll|auto/i.test(style.overflow)
-  }
-
   checkIfHasScrollbar = elem => {
     return (
       elem &&
       (elem.scrollHeight > elem.offsetHeight ||
         elem.scrollWidth > elem.offsetWidth) &&
       this.overflowIsScrollable(elem)
+    )
+  }
+
+  overflowIsScrollable = elem => {
+    const style = getComputedStyle(elem)
+    return /scroll|auto/i.test(
+      style.overflow + (style.overflowX || '') + (style.overflowY || '')
     )
   }
 }
