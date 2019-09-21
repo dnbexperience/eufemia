@@ -25,6 +25,7 @@ class Example extends PureComponent {
       </p>
     </div>
   )}
+  className="dnb-core-style"
 />
           `}
         </ComponentBox>
@@ -36,6 +37,7 @@ class Example extends PureComponent {
   trigger_variant="tertiary"
   trigger_text="Click me"
   modal_content="This is the modal text. Triggered by a tertiary button."
+  className="dnb-core-style"
 />
           `}
         </ComponentBox>
@@ -49,6 +51,7 @@ class Example extends PureComponent {
   on_open={(e) => console.log('on_open', e)}
   on_close={(e) => console.log('on_close', e)}
   on_close_prevent={({ close }) => setTimeout(close, 1e3)}
+  className="dnb-core-style"
 >
   <p className="dnb-p">
     This is a Modal Window with no close button.
@@ -73,6 +76,7 @@ class Example extends PureComponent {
       trigger_hidden="true"
       open_state="opened"
       labelled_by="custom-triggerer"
+      className="dnb-core-style"
     >
       <div className="dnb-section dnb-section--spacing dnb-section--divider">
         <p className="dnb-p">
@@ -93,6 +97,7 @@ class Example extends PureComponent {
   close_modal={close => {
     setTimeout(close, 3e3)
   }}
+  className="dnb-core-style"
 >
   <div className="dnb-section dnb-section--spacing dnb-section--signal-orange">
     <p className="dnb-p">

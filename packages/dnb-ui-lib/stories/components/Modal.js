@@ -13,6 +13,7 @@ import {
   Button,
   Input,
   Dropdown,
+  Section,
   DatePicker
 } from '../../src/components'
 import { H2, P, Hr } from '../../src/elements'
@@ -21,6 +22,19 @@ export default [
   'Modal',
   () => (
     <Wrapper>
+      <Box>
+        <Button variant="tertiary" text="Button" />
+        <Modal
+          title="Tertiary test"
+          min_width="20rem"
+          className="dnb-core-style"
+        >
+          <Button variant="tertiary" text="Button" />
+          <Section>
+            <Button variant="tertiary" text="Button" />
+          </Section>
+        </Modal>
+      </Box>
       <Box>
         <Modal
           max_width="20rem"

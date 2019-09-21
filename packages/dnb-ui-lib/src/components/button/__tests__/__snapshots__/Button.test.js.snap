@@ -374,6 +374,7 @@ exports[`Button scss have to match default theme snapshot 1`] = `
       :not([dnb-is-touch]) .dnb-button--tertiary:focus:not([disabled])::before {
         content: '';
         position: absolute;
+        z-index: 1;
         top: -0.0625rem;
         left: -0.5rem;
         bottom: 0;
@@ -402,6 +403,7 @@ exports[`Button scss have to match default theme snapshot 1`] = `
       :not([dnb-is-touch]) .dnb-button--tertiary:active:not([disabled])::before {
         content: '';
         position: absolute;
+        z-index: 1;
         top: -0.0625rem;
         left: -0.5rem;
         bottom: 0;
