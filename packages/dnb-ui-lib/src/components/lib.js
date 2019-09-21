@@ -20,6 +20,7 @@ import FormLabel from './form-label/FormLabel'
 import FormRow from './form-row/FormRow'
 import FormSet from './form-set/FormSet'
 import FormStatus from './form-status/FormStatus'
+import GlobalError from './global-error/GlobalError'
 import GlobalStatus from './global-status/GlobalStatus'
 import Icon from './icon/Icon'
 import IconPrimary from './icon-primary/IconPrimary'
@@ -50,6 +51,7 @@ export {
   FormRow,
   FormSet,
   FormStatus,
+  GlobalError,
   GlobalStatus,
   Icon,
   IconPrimary,
@@ -81,6 +83,7 @@ export const getComponents = () => {
     FormRow,
     FormSet,
     FormStatus,
+    GlobalError,
     GlobalStatus,
     Icon,
     IconPrimary,

@@ -1,6 +1,6 @@
 /**
  * Web Slider Component
- * stylelint-disable
+ *
  */
 
 import React, { PureComponent } from 'react'

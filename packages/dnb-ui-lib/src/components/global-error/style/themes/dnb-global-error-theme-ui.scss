@@ -1,0 +1,17 @@
+/*
+ * GlobalError theme
+ *
+ */
+
+@import '../../../../style/themes/imports.scss';
+
+.dnb-global-error {
+  background-color: var(--color-white);
+
+  .dnb-h1 {
+    color: var(--color-fire-red);
+  }
+  .dnb-p {
+    color: var(--color-ocean-green);
+  }
+}
