@@ -435,7 +435,7 @@ export class DetectOutsideClickClass {
     try {
       // scrollbars are on HTML, therefore we ignroe the click
       if (
-        // typeof currentElement.tagName === 'undefined' ||
+        typeof currentElement.tagName === 'undefined' ||
         /html/i.test(currentElement.tagName) // we may also ignore |body
       ) {
         return // stop here
