@@ -1698,7 +1698,7 @@ legend.dnb-form-label {
     left: auto;
     right: 0; }
   .dnb-date-picker--opened .dnb-date-picker__container {
-    z-index: 4; }
+    z-index: 100; }
     .dnb-date-picker--opened .dnb-date-picker__container {
       animation: datePickerSlideDown 200ms ease-out 1 forwards; }
     .dnb-date-picker--opened .dnb-date-picker__container--no-animation {

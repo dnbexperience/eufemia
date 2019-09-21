@@ -10,7 +10,7 @@
 }
 
 @mixin openDatePicker($state: 'animation') {
-  z-index: 4;
+  z-index: 100; // make sure we are over e.g. switch
 
   &:not(#{&}--no-animation) {
     animation: datePickerSlideDown 200ms ease-out 1 forwards;

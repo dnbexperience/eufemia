@@ -73,8 +73,10 @@ export default [
               </td>
               <td>
                 <DatePicker
+                  range
                   date={new Date()}
                   show_input
+                  align_picker="right"
                   show_cancel_button
                   on_change={({ date }) => {
                     console.log('on_change', date) //eslint-disable-line
@@ -95,7 +97,8 @@ export default [
                 </p>
               </td>
               <td>
-                <code>Col</code> <DatePicker label="Date:" range />
+                <code>Col</code>{' '}
+                <DatePicker label="Date:" range align_picker="right" />
               </td>
               <td>
                 <span>
@@ -106,7 +109,7 @@ export default [
             </tr>
             <tr>
               <td>
-                Col <DatePicker label="Date:" show_input />
+                Col <DatePicker label="Date:" show_input range />
               </td>
               <td>
                 Column 2 <Button icon="close" variant="secondary" />

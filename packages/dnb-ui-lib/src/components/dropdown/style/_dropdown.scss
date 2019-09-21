@@ -16,7 +16,7 @@
 }
 
 @mixin openDropdown($state: 'animation') {
-  z-index: 9;
+  z-index: 100; // make sure we are over e.g. switch
   display: flex;
 
   &:not(#{&}--no-animation) {

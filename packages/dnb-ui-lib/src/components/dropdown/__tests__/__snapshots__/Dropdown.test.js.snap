@@ -1233,7 +1233,7 @@ legend.dnb-form-label {
       [os='mac'] .dnb-dropdown__text__inner {
         transform: translateY(0.0625rem); }
   .dnb-dropdown--opened .dnb-dropdown__list {
-    z-index: 9;
+    z-index: 100;
     display: flex; }
     .dnb-dropdown--opened .dnb-dropdown__list {
       animation: dropdown-slide-down 200ms ease-out 1 forwards; }
