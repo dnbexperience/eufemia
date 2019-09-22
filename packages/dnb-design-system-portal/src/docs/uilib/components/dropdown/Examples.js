@@ -119,8 +119,8 @@ render(
           data-dnb-test="dropdown-left-icon"
         >
           {/* @jsx */ `
-<FormLabel for_id="text-dropdown-1" text="Label:" />
 <Dropdown
+  label="Label:"
   icon_position="left"
   data={data}
   selected_item={3}
@@ -130,7 +130,6 @@ render(
   on_show={() => {
     console.log('on_show')
   }}
-  id="text-dropdown-1"
   {...props}
 />
           `}

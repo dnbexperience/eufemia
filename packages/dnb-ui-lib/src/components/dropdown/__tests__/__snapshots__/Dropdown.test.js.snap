@@ -1265,18 +1265,23 @@ legend.dnb-form-label {
     margin-top: 0.5rem; }
   .dnb-dropdown--vertical {
     display: flex;
-    align-items: flex-start;
-    flex-direction: column; }
+    flex-direction: column;
+    align-items: flex-start; }
+  .dnb-dropdown--vertical .dnb-dropdown__helper {
+    display: none; }
   .dnb-dropdown[class*='__status'] {
     align-items: flex-start; }
     .dnb-dropdown[class*='__status'] > .dnb-form-label {
       margin-top: 0.25rem; }
   @media (max-width: 40em) {
     .dnb-dropdown {
+      display: flex;
       flex-direction: column;
       align-items: flex-start; }
       .dnb-dropdown > .dnb-form-label {
-        margin-bottom: 0.5rem; } }
+        margin-bottom: 0.5rem; }
+      .dnb-dropdown__helper {
+        display: none; } }
   @media screen and (-ms-high-contrast: none) {
     .dnb-dropdown {
       flex: none;

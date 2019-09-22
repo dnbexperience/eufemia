@@ -29,9 +29,8 @@ class Example extends PureComponent {
         </ComponentBox>
         <ComponentBox caption="Placeholder text">
           {/* @jsx */ `
-<FormLabel for_id="text-textarea-1" text="Placeholder:" />
 <Textarea
-  id="text-textarea-1"
+  label="Placeholder:"
   placeholder="Placeholder text"
 />
           `}
