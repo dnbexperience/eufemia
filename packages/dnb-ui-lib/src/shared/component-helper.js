@@ -435,7 +435,7 @@ export class DetectOutsideClickClass {
     try {
       // scrollbars are on HTML, therefore we ignroe the click
       if (
-        // typeof currentElement.tagName === 'undefined' ||
+        typeof currentElement.tagName === 'undefined' ||
         /html/i.test(currentElement.tagName) // we may also ignore |body
       ) {
         return // stop here
@@ -462,17 +462,19 @@ export class DetectOutsideClickClass {
     }
   }
 
-  overflowIsScrollable = elem => {
-    const style = getComputedStyle(elem)
-    return /scroll|auto/i.test(style.overflow)
-  }
-
   checkIfHasScrollbar = elem => {
     return (
       elem &&
       (elem.scrollHeight > elem.offsetHeight ||
         elem.scrollWidth > elem.offsetWidth) &&
       this.overflowIsScrollable(elem)
+    )
+  }
+
+  overflowIsScrollable = elem => {
+    const style = getComputedStyle(elem)
+    return /scroll|auto/i.test(
+      style.overflow + (style.overflowX || '') + (style.overflowY || '')
     )
   }
 }

@@ -16,7 +16,7 @@
 }
 
 @mixin openDropdown($state: 'animation') {
-  z-index: 9;
+  z-index: 100; // make sure we are over e.g. switch
   display: flex;
 
   &:not(#{&}--no-animation) {
@@ -446,8 +446,11 @@
 
   &--vertical {
     display: flex;
-    align-items: flex-start;
     flex-direction: column;
+    align-items: flex-start;
+  }
+  &--vertical &__helper {
+    display: none;
   }
   &[class*='__status'] {
     align-items: flex-start;
@@ -458,10 +461,14 @@
   }
 
   @media (max-width: 40em) {
+    display: flex;
     flex-direction: column;
     align-items: flex-start;
     > .dnb-form-label {
       margin-bottom: 0.5rem;
+    }
+    &__helper {
+      display: none;
     }
   }
 

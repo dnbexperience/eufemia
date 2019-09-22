@@ -43,7 +43,7 @@ export const propTypes = {
 
 export const defaultProps = {
   data: [],
-  baseurl: '/uilib/demos/example-app-1/',
+  baseurl: '/uilib/demos',
   // baseurl: null,
   notification_amount: 0,
   class: null,

@@ -42,6 +42,10 @@ The FormSet component gives You both a HTML form element `<form>` by default and
 
 The FormStatus is a simple component meant for displaying the status of a form ( displaying form errors, messages etc. ) The form-status component should be positioned relative to the form or form input to which it referring to.
 
+## [GlobalError](/uilib/components/global-error)
+
+The GlobalError is a simple component to integrate where a `404` or `500` message has to be shown.
+
 ## [GlobalStatus](/uilib/components/global-status)
 
 The GlobalStatus is a complex component meant for displaying global Application notifications or a summary of a form ( displaying form errors, messages etc. ).

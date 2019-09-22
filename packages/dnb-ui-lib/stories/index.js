@@ -10,6 +10,10 @@ import typography from './typographyStories'
 import elements from './elementsStories'
 import helpers from './helperStories'
 
+// import './legacy/reset.css'
+// import './legacy/dnb.css'
+// import './legacy/style_print.css'
+
 // for .dnb-core-style usage
 import 'dnb-ui-lib/src/style/basis'
 import 'dnb-ui-lib/src/style/components'

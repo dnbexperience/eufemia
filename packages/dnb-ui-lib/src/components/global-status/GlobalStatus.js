@@ -113,7 +113,7 @@ export const defaultProps = {
   ...renderProps
 }
 
-export default class GlobalStatus extends React.Component {
+export default class GlobalStatus extends React.PureComponent {
   static tagName = 'dnb-global-status'
   static propTypes = propTypes
   static defaultProps = defaultProps

@@ -10,7 +10,7 @@
 }
 
 @mixin openDatePicker($state: 'animation') {
-  z-index: 4;
+  z-index: 100; // make sure we are over e.g. switch
 
   &:not(#{&}--no-animation) {
     animation: datePickerSlideDown 200ms ease-out 1 forwards;
@@ -369,6 +369,9 @@
     align-items: flex-start;
     flex-direction: column;
   }
+  &--vertical &__helper {
+    display: none;
+  }
   &[class*='__status'] {
     align-items: flex-start;
     > .dnb-form-label {
@@ -378,10 +381,14 @@
   }
 
   @media (max-width: 40em) {
+    display: flex;
     flex-direction: column;
     align-items: flex-start;
     > .dnb-form-label {
       margin-bottom: 0.5rem;
+    }
+    &__helper {
+      display: none;
     }
   }
 

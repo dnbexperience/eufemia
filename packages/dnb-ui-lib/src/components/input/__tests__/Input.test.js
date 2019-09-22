@@ -134,6 +134,7 @@ describe('Input component', () => {
 
     const newValue = 'new value'
     const emptyValue = null
+    const zeroValue = 0
 
     Comp.setProps({
       value: newValue
@@ -142,6 +143,13 @@ describe('Input component', () => {
 
     Comp.setProps({ value: emptyValue })
     expect(Comp.state().value).toBe(emptyValue)
+
+    Comp.setProps({ value: zeroValue })
+    expect(
+      Comp.find('input')
+        .instance()
+        .getAttribute('value')
+    ).toBe(String(zeroValue))
   })
 
   it('has correct medium input size', () => {

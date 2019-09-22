@@ -1,3 +1,7 @@
+## September, 23. 2019
+
+- New component to show `404` and `500` status: [GlobalError](/uilib/components/global-error)
+
 ## August, 24. 2019
 
 - Read more about the `dnb-ui-lib` [v4.10 release](/uilib/releases/v4.10-info)
