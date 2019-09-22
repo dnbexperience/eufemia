@@ -168,9 +168,17 @@ export default class Input extends PureComponent {
     return state
   }
 
+  static hasValue(value) {
+    return (
+      ((typeof value === 'string' || typeof value === 'number') &&
+        String(value).length > 0) ||
+      false
+    )
+  }
+
   static getValue(props) {
     const value = processChildren(props)
-    if (value === '' || value) {
+    if (value === '' || Input.hasValue(value)) {
       return value
     }
     return props.value
@@ -210,7 +218,7 @@ export default class Input extends PureComponent {
         } catch (e) {
           console.log(e)
         }
-      }, 1) // safari need a delay
+      }, 1) // safari needs a delay
     }
 
     dispatchCustomElementEvent(this, 'on_focus', { value, event })
@@ -220,7 +228,7 @@ export default class Input extends PureComponent {
     this.setState({
       value,
       _listenForPropChanges: false,
-      inputState: String(value || '').length > 0 ? 'dirty' : 'initial'
+      inputState: Input.hasValue(value) ? 'dirty' : 'initial'
     })
     dispatchCustomElementEvent(this, 'on_blur', { value, event })
   }
@@ -288,6 +296,7 @@ export default class Input extends PureComponent {
     const id = this._id
     const showStatus = status && status !== 'error'
     const hasSubmitButton = submitButton || type === 'search'
+    const hasValue = Input.hasValue(value)
 
     const mainParams = {
       className: classnames(
@@ -325,7 +334,7 @@ export default class Input extends PureComponent {
       ...renderProps,
       className: classnames('dnb-input__input', input_class),
       autoComplete: autocomplete,
-      value: value || '',
+      value: hasValue ? value : '',
       type,
       id,
       disabled: isTrue(disabled),
@@ -357,7 +366,7 @@ export default class Input extends PureComponent {
 
     const shellParams = {
       'data-input-state': inputState,
-      'data-has-content': String(value || '').length > 0 ? 'true' : 'false'
+      'data-has-content': hasValue ? 'true' : 'false'
     }
     if (isTrue(disabled)) {
       shellParams['aria-disabled'] = true

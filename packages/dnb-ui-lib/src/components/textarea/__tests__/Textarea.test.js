@@ -86,6 +86,7 @@ describe('Textarea component', () => {
 
     const newValue = 'new value'
     const emptyValue = null
+    const zeroValue = 0
 
     Comp.setProps({
       value: newValue
@@ -94,6 +95,9 @@ describe('Textarea component', () => {
 
     Comp.setProps({ value: emptyValue })
     expect(Comp.state().value).toBe(emptyValue)
+
+    Comp.setProps({ value: zeroValue })
+    expect(Comp.find('textarea').instance().value).toBe(String(zeroValue))
   })
 
   it('uses children as the value', () => {
@@ -101,7 +105,7 @@ describe('Textarea component', () => {
     expect(Comp.find('textarea').props().value).toBe('children')
   })
 
-  it('has correct size attribute (chars length) on input by using textarea_attributes', () => {
+  it('has correct size attribute (chars length) on textarea by using textarea_attributes', () => {
     const Comp = mount(<Component textarea_attributes={{ size: 2 }} />)
     expect(
       Comp.find('textarea')

@@ -132,9 +132,6 @@ export default class Textarea extends PureComponent {
     ) {
       state.value = value
     }
-    if (isTrue(props.disabled)) {
-      state.textareaState = 'disabled'
-    }
     if (props.textarea_state) {
       state.textareaState = props.textarea_state
     }
@@ -142,9 +139,17 @@ export default class Textarea extends PureComponent {
     return state
   }
 
+  static hasValue(value) {
+    return (
+      ((typeof value === 'string' || typeof value === 'number') &&
+        String(value).length > 0) ||
+      false
+    )
+  }
+
   static getValue(props) {
     const value = processChildren(props)
-    if (value === '' || value) {
+    if (value === '' || Textarea.hasValue(value)) {
       return value
     }
     return props.value
@@ -181,7 +186,7 @@ export default class Textarea extends PureComponent {
     this.setState({
       value,
       _listenForPropChanges: false,
-      textareaState: String(value || '').length > 0 ? 'dirty' : 'initial'
+      textareaState: Textarea.hasValue(value) ? 'dirty' : 'initial'
     })
     dispatchCustomElementEvent(this, 'on_blur', { value, event })
   }
@@ -226,6 +231,7 @@ export default class Textarea extends PureComponent {
 
     const id = this._id
     const showStatus = status && status !== 'error'
+    const hasValue = Textarea.hasValue(value)
 
     // pass along all props we wish to have as params
     let {
@@ -243,7 +249,7 @@ export default class Textarea extends PureComponent {
       ...renderProps,
       className: classnames('dnb-textarea__textarea', textarea_class),
       role: 'textbox',
-      value: value || '',
+      value: hasValue ? value : '',
       id,
       disabled,
       name: id,
@@ -273,7 +279,7 @@ export default class Textarea extends PureComponent {
       className: classnames(
         'dnb-textarea',
         `dnb-textarea--${textareaState}`,
-        String(value || '').length > 0 && 'dnb-textarea--has-content',
+        hasValue && 'dnb-textarea--has-content',
         align && `dnb-textarea__align--${align}`,
         status && `dnb-textarea__status--${status_state}`,
         label_direction && `dnb-textarea--${label_direction}`,
