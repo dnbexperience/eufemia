@@ -976,6 +976,7 @@ export default class Dropdown extends PureComponent {
             {'-'}
           </span>
         )}
+
         <span className="dnb-dropdown__inner" ref={this._ref}>
           {showStatus && (
             <FormStatus

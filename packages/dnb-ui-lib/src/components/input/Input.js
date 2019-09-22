@@ -314,7 +314,7 @@ export default class Input extends PureComponent {
       )
     }
 
-    const clampParams = {
+    const innerParams = {
       className: 'dnb-input__inner'
     }
 
@@ -393,7 +393,8 @@ export default class Input extends PureComponent {
             direction={label_direction}
           />
         )}
-        <span {...clampParams}>
+
+        <span {...innerParams}>
           {showStatus && (
             <FormStatus
               id={id + '-form-status'}
