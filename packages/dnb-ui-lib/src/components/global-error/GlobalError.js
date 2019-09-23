@@ -55,7 +55,7 @@ const defaultProps = {
         'Sikker på at du har skrevet riktig adresse? Eller har vi rotet med lenkene? Prøv på nytt, eller [gå tilbake der du kom fra](/back).'
     },
     500: {
-      title: 'Oops, here was a technical error!',
+      title: 'Oops, her ble det en teknisk feil!',
       text:
         'Tjenesten fungerer ikke slik den skal for øyeblikket, men prøv igjen senere.'
     }
