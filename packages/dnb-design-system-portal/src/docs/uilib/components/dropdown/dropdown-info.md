@@ -24,6 +24,27 @@ When you need to provide a considerable amount of options to the user and do not
 
 _This pattern can be constructed in a number of ways to achieve a similar effect - from using the HTML 'select' element to custom building with divs, spans and javascript._
 
+## Custom size
+
+Changing the **width** of the Dropdown component by CSS is easiest done by doing:
+
+```css
+.dnb-dropdown {
+  --dropdown-width: 20rem; /* custom width */
+}
+```
+
+You may else end up having to calculation the correct width to get the arrows aligned:
+
+```css
+.dnb-dropdown__list {
+  width: 8rem;
+}
+.dnb-dropdown__text__inner {
+  width: 4.5rem; /* has to be calculated */
+}
+```
+
 ## Demos
 
 <Examples />
