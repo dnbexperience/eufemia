@@ -386,7 +386,7 @@ exports[`Dropdown scss have to match default theme snapshot 1`] = `
     background-color: var(--dropdown-option-background-color); }
   .dnb-dropdown__options {
     border: none;
-    background-color: transparent;
+    background-color: var(--dropdown-option-background-color);
     border-radius: var(--dropdown-options-border-radius); }
     .dnb-dropdown__options:focus {
       outline: none; }
@@ -1076,7 +1076,7 @@ legend.dnb-form-label {
     .dnb-spacing .dnb-dropdown__options li.dnb-dropdown__option {
       margin: 0; }
   .dnb-dropdown--scroll .dnb-dropdown__options {
-    min-height: 8rem;
+    min-height: 2rem;
     max-height: 50vh;
     overflow-y: scroll;
     overscroll-behavior: contain;

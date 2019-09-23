@@ -3,7 +3,8 @@
  *
  */
 
-import React, { useState, Fragment } from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
+import PropTypes from 'prop-types'
 import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
 
@@ -28,6 +29,9 @@ const DropdownStory = () => {
   const [selected_item, setSelectedItem] = useState(0)
   return (
     <Wrapper>
+      <Box>
+        <CurrencyDropdown />
+      </Box>
       <Box>
         <FormRow
           label="Vertical label_direction:"
@@ -349,3 +353,88 @@ const dropdownDataScrollable = [
     content: 'H'
   }
 ]
+
+const Flag = () => <>COUNTRY FLAG</> // These <> are Fragments, like React.Fragment
+
+// This component populates the dropdown and handles the reset if, and only if, the value is undefined
+function CurrencySelector({ currencies, onChange, value, ...props }) {
+  let itemIndex = currencies.indexOf(value)
+  itemIndex = itemIndex > -1 ? itemIndex : null
+  // console.log('props', props)
+  // console.log('itemIndex:', itemIndex)
+  return (
+    <Dropdown
+      {...props}
+      selected_item={itemIndex}
+      title={strings.currencyBlankLabel}
+      // eslint-disable-next-line camelcase
+      on_change={({ data: { selected_value }, event }) => {
+        event.persist()
+        onChange(selected_value)
+      }}
+      data={currencies.map(currency => ({
+        selected_value: currency,
+        content: (
+          <>
+            {currency} <Flag currency={currency} />
+          </>
+        )
+      }))}
+    />
+  )
+}
+CurrencySelector.propTypes = {
+  value: PropTypes.string,
+  currencies: PropTypes.array.isRequired,
+  onChange: PropTypes.func.isRequired
+}
+CurrencySelector.defaultProps = {
+  value: null
+}
+
+function CurrencyDropdown() {
+  // You can regard this as part of a state object that we eventually push to the backend iot conduct a Request for Quote in a Foreign Exchange (FX) transaction
+  // The string reps of the currencies are pulled from an API that provides valid currency pairs for specific FX instruments
+  const [ccyPair, setCcyPair] = useState({ base: 'EUR', terms: 'SEK' })
+
+  useEffect(() => {
+    console.log('ccyPair:', ccyPair)
+  }, [ccyPair])
+
+  // Whenever a user selects a new base currency, the termscurrency select should be forced to reset.
+  const handleBaseCurrencyChange = base =>
+    setCcyPair(prev => ({ ...prev, base, terms: undefined }))
+  const handleTermsCurrencyChange = terms =>
+    setCcyPair(prev => ({ ...prev, terms }))
+
+  return (
+    <>
+      <CurrencySelector
+        value={ccyPair.base}
+        currencies={baseCurrencies}
+        onChange={handleBaseCurrencyChange}
+      />
+      <CurrencySelector
+        value={ccyPair.terms}
+        currencies={termsCurrencies}
+        onChange={handleTermsCurrencyChange}
+      />
+      <Button
+        text="New base"
+        onClick={() => {
+          const base = 'USD'
+          setCcyPair(prev => ({ ...prev, base, terms: undefined }))
+        }}
+      />
+    </>
+  )
+}
+
+// Mock currency data somewhat simplified
+const baseCurrencies = ['EUR', 'USD']
+
+const termsCurrencies = ['SEK', 'NOK']
+
+const strings = {
+  currencyBlankLabel: '-- Choose Currency --'
+}

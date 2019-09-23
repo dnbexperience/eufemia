@@ -37,7 +37,7 @@
   // ul element
   &__options {
     border: none;
-    background-color: transparent;
+    background-color: var(--dropdown-option-background-color);
     border-radius: var(--dropdown-options-border-radius);
     &:focus {
       @include fakeFocus();

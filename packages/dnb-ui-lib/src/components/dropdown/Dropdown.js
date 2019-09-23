@@ -105,6 +105,7 @@ export const propTypes = {
   // Web Component props
   custom_element: PropTypes.object,
   custom_method: PropTypes.func,
+
   on_show: PropTypes.func,
   on_hide: PropTypes.func,
   on_change: PropTypes.func,
@@ -257,6 +258,7 @@ export default class Dropdown extends PureComponent {
       }
     }
     state._listenForPropChanges = true
+    state._isNewActiveItem = false
     return state
   }
 
