@@ -152,8 +152,9 @@
   }
 
   &--scroll &__options {
-    min-height: 8rem;
+    min-height: 2rem;
     max-height: 50vh;
+
     overflow-y: scroll;
     overscroll-behavior: contain;
     scroll-behavior: smooth;
