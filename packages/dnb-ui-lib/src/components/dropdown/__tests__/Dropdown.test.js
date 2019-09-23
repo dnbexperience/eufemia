@@ -83,33 +83,41 @@ describe('Dropdown component', () => {
     expect(Comp.state().selected_item).toBe(props.selected_item)
     Comp.find('button').simulate('mousedown')
     expect(Comp.state().active_item).toBe(props.selected_item)
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 40 }))
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 13 }))
-    // Comp.find('button').simulate('keyDown', {
-    //   key: 'ArrowDown',
-    //   keyCode: 40
-    // })
-    // Comp.find('button').simulate('keyDown', {
-    //   key: 'Enter',
-    //   keyCode: 13
-    // })
+    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 40 })) // down
+    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 13 })) // enter
     expect(Comp.state().active_item).toBe(props.selected_item + 1)
     expect(Comp.state().selected_item).toBe(props.selected_item + 1)
+  })
+
+  it('has correct selected_item after forcing rerender with null as value', () => {
+    const title = 'Make a selection'
+    const Comp = mount(
+      <Component {...props} data={mockData} title={title} />
+    )
+
+    expect(Comp.state().selected_item).toBe(props.selected_item)
+
+    // open
+    Comp.find('button').simulate('mousedown')
+
+    // make first selection
+    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 40 })) // down
+    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 13 })) // enter
+    expect(Comp.state().selected_item).toBe(props.selected_item + 1)
+
+    // force rerender by prop change
+    Comp.setProps({
+      selected_item: null
+    })
+
+    expect(Comp.state().selected_item).toBe(null)
+    expect(Comp.find('.dnb-dropdown__text__inner').text()).toBe(title)
   })
 
   it('has correct selected_item on key search', () => {
     Comp.find('button').simulate('mousedown')
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 66 })) // B
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 70 })) // F
-    // Comp.find('button').simulate('keyDown', {
-    //   key: 'B',
-    //   keyCode: 66
-    // })
-    // expect(Comp.state().active_item).toBe(0)
-    // Comp.find('button').simulate('keyDown', {
-    //   key: 'F',
-    //   keyCode: 70
-    // })
     expect(Comp.state().active_item).toBe(2)
   })
 
@@ -180,7 +188,6 @@ describe('Dropdown component', () => {
   })
 
   it('has correct state after "esc" key', () => {
-    // document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
     Comp.find('button').simulate('keyDown', {
       key: 'esc',
       keyCode: 27
