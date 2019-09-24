@@ -57,10 +57,11 @@
       color: var(--color-emerald-green);
     }
   }
+
+  // contrast color
   &--signal-orange,
   &--cherry-red,
-  &--mint-green,
-  &--mint-green-12 {
+  &--mint-green {
     ::selection {
       background-color: var(--color-white);
     }
