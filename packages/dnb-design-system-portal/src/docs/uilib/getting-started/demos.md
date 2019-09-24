@@ -1,5 +1,6 @@
 ---
 title: 'Demos'
+description: 'The purpose of having Eufemia Demos is that You as a developer can see the code and understand Eufemia and be inspired and give You a good start.'
 draft: false
 order: 2
 ---

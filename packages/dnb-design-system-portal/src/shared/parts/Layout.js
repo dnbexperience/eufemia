@@ -136,7 +136,7 @@ const ContentWrapper = styled.div`
   .dnb-app-content-inner {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
 
     min-height: calc(100vh - 4rem); /* height of StickyMenuBar */
     padding: 2rem 5vw 2rem;

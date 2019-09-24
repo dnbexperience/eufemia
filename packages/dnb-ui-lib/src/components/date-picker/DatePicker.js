@@ -88,6 +88,10 @@ export const propTypes = {
   ]),
   hide_days: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   only_month: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  disable_autofocus: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool
+  ]),
   show_input: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   show_submit_button: PropTypes.oneOfType([
     PropTypes.string,
@@ -153,6 +157,7 @@ export const defaultProps = {
   hide_navigation_buttons: false,
   hide_days: false,
   only_month: false,
+  disable_autofocus: false,
   show_input: false,
   show_submit_button: null,
   show_cancel_button: null,
@@ -561,6 +566,7 @@ export default class DatePicker extends PureComponent {
       title,
       label_direction,
       only_month,
+      disable_autofocus,
       hide_navigation_buttons,
       show_input, // eslint-disable-line
       range,
@@ -733,6 +739,7 @@ export default class DatePicker extends PureComponent {
                         : null
                     }
                     onlyMonth={isTrue(only_month)}
+                    noAutofocus={isTrue(disable_autofocus)}
                     onChange={this.onPickerChange}
                     month={month}
                     startMonth={startMonth}

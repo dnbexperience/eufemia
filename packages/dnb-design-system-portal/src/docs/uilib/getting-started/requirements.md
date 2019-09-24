@@ -1,27 +1,28 @@
 ---
 title: 'Requirements'
+description: 'Eufemia can be used within an UMD, ES5, ES6 or TypeScript environment. The purpose is to use it on top (or inside) of modern JavaScript frontend framework and setups.'
 draft: false
 order: 1
 ---
 
-# Requirements checklist
+# Requirements
 
-## Usage only
+Beside the peer dependencies, there are no specific technical requirements only that it is highly recommended to use a compiling process with proper tree shaking in place.
 
-### To use the components
+## Usage
 
-There are no specific technical requirements only that it is highly recommended to use a compiling process with proper tree shaking in place.
+Eufemia (`dnb-ui-lib`) can be used with an UMD, ES5, ES6 or TypeScript environment. The purpose is to use it on top (or inside) of modern JavaScript frontend framework and setups. But we strongly recommend to use Eufemia with a **React stack**, as this makes including the Eufemia tools and components most productive. All the components internal states are handled with React to only keep the most necessary in the DOM (HTML elements and event bindings).
 
-This library can be used on top of modern JavaScript frontend libraries like React or a framework like Vue.js.
+## React
+
+Why is React a good choice:
+
+- Declarative and functional
+- Immutable structure
+- Can be used both with a JAM stack, CSR and SSR (SPA) with same code base (App)
+- Flexible frontend stack to create the best user experience, depending on the solution and their needs
+- Can be tailored to different conventions and guidelines
 
 ### To use the styles
 
-This library works perfectly together with any styling techniques, like **Styled Components** ([Emotion](https://emotion.sh)), CSS Modules or SASS/LESS. You simply consume **ready to use CSS files**.
-
-## Contribution
-
-**To run the portal (docs) locally - or to make changes to the `dnb-ui-lib`**
-
-- [Git](https://git-scm.com)
-- [Node.js 64-bit](https://nodejs.org) (=> v10)
-- [Yarn](https://yarnpkg.com) (=> v1.12)
+This library works perfectly together with any styling techniques, like **Styled Components** ([Emotion](https://emotion.sh)), CSS Modules or SASS/LESS. You simply consume **ready to use CSS files** and CSS Custom Properties (CSS variables).
