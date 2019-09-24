@@ -1,6 +1,6 @@
 ---
 title: 'Customization'
-description: 'Customization and tools is a section dedicated to how to use Eufemia in various situations.'
+description: 'Customization and tools is a section dedicated to how to use and customize Eufemia in various situations.'
 status: null
 draft: false
 order: 4
@@ -11,7 +11,7 @@ import { Icon } from 'dnb-ui-lib/src'
 
 # Customization
 
-For details a look at the submenu for all the customization:
+For details, have a look at the submenu for all the customizations topics:
 
 - [Component Properties](/uilib/usage/customisation/component-properties)
 - [Event Handling](/uilib/usage/customisation/event-handling)
