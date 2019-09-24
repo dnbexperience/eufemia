@@ -39,6 +39,7 @@ export const propTypes = {
   hideNav: PropTypes.bool,
   hideDays: PropTypes.bool,
   onlyMonth: PropTypes.bool,
+  noAutofocus: PropTypes.bool,
 
   onHover: PropTypes.func,
   onSelect: PropTypes.func,
@@ -70,6 +71,7 @@ export const defaultProps = {
   hideNav: false,
   hideDays: false,
   onlyMonth: false,
+  noAutofocus: false,
 
   // locale
   locale: nbLocale,
@@ -104,7 +106,11 @@ export default class DatePickerCalendar extends PureComponent {
   }
 
   componentDidMount() {
-    if (this.props.nr === 0 && this._listRef.current) {
+    if (
+      this.props.nr === 0 &&
+      this._listRef.current &&
+      !this.props.noAutofocus
+    ) {
       this._listRef.current.focus()
     }
   }
