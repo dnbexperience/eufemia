@@ -59,7 +59,7 @@ export default class MdxTemplate extends PureComponent {
             color="#007272"
           />
           <meta name="msapplication-TileColor" content="#007272" />
-          <meta name="theme-color" content="#ffffff" />
+          <meta name="theme-color" content="#007272" />
         </Head>
         <Layout location={location} fullscreen={Boolean(fullscreen)}>
           <MDXRenderer>{body}</MDXRenderer>

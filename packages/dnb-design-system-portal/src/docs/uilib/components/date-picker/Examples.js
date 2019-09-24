@@ -165,6 +165,7 @@ const ScreenshotTests = () => {
         {/* @jsx */ `
 <DatePicker
   opened="true"
+  disable_autofocus="true"
   range="true"
   start_date="2019-05-05"
   end_date="2019-06-05"

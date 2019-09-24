@@ -9,7 +9,13 @@ import { Icon } from 'dnb-ui-lib/src'
 
 # Development
 
-The `dnb-ui-lib` uses a [Node.js](https://nodejs.org) based setup with a lot of auto generated code to make the [React](https://reactjs.org) based components and patterns.
+The `dnb-ui-lib` uses a [Node.js](https://nodejs.org) based setup with a lot of auto generated code to make the [React](https://reactjs.org) based components, elements and patterns.
+
+To run the portal (docs) locally - or to make changes to the `dnb-ui-lib`, you need:
+
+- [Git](https://git-scm.com)
+- [Node.js 64-bit](https://nodejs.org) (=> v10.16)
+- [Yarn](https://yarnpkg.com) (=> v1.12)
 
 ## Repository
 
