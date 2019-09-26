@@ -39,7 +39,7 @@ export default [
           <Tabs.Content title="First">
             <H2>First</H2>
           </Tabs.Content>
-          <Tabs.Content title="Second" selected>
+          <Tabs.Content title={<>Second as component</>} selected>
             <H2>Second</H2>
           </Tabs.Content>
         </Tabs>

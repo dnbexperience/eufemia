@@ -17,7 +17,8 @@ import {
   transformToReactEventCase,
   pickRenderProps,
   detectOutsideClick,
-  makeUniqueId
+  makeUniqueId,
+  slugify
 } from '../component-helper'
 
 beforeAll(() => {
@@ -361,5 +362,17 @@ describe('"makeUniqueId" should', () => {
     expect(makeUniqueId('string-', 12)).toEqual(
       expect.stringMatching(/^string-[a-z0-9]{12}/g)
     )
+  })
+})
+
+describe('"slugify" should', () => {
+  it('have a correctly slugifyed string', () => {
+    expect(slugify('What ever !#.- 0123')).toEqual('what-ever-0123')
+  })
+  it('also if we send in only a number a correctly slugifyed string', () => {
+    expect(slugify(123)).toEqual('123')
+  })
+  it('or other types', () => {
+    expect(slugify({ foo: 'bar' })).toEqual('object-object')
   })
 })

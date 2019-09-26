@@ -487,3 +487,10 @@ export const makeUniqueId = (pendix = '', length = 8) =>
       .substr(2, length) + idIncrement++
   ).slice(-length)
 let idIncrement = 0
+
+export const slugify = s =>
+  String(s)
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, '')
+    .replace(/[\s_-]+/g, '-')
+    .replace(/^-+|-+$/g, '')
