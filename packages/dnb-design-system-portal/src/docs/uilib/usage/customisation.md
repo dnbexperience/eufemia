@@ -22,16 +22,16 @@ For details, have a look at the submenu for all the customizations topics:
 
 ## Favicon and manifest
 
-To make a good looking browser icon, you need more than just one `favicon.ico` file. To get the default DNB brand look, you can use the following setup and [optimized files on <Icon icon={GithubLogo} size="default" /> GitHub](https://github.com/dnbexperience/eufemia/tree/develop/packages/dnb-ui-lib/assets/browser):
+To make a good looking browser icon, you need more than just one `favicon.ico` file. To get the default DNB brand look, you can use the following setup.
+
+You find the [optimized files on <Icon icon={GithubLogo} size="default" /> GitHub](https://github.com/dnbexperience/eufemia/tree/develop/packages/dnb-ui-lib/assets/browser).
+
+The `favicon.ico` file you don't need to specify, as long as it is placed in the server root.
+The other tags you place inside the head tag. But make sure to customize it, depending on your setup.
+
+### Good to have
 
 ```html
-<!-- Place this inside the head tag -->
-<!-- Make sure to customize it, depending on your setup. -->
-<link
-  rel="apple-touch-icon"
-  sizes="180x180"
-  href="/apple-touch-icon.png"
-/>
 <link
   rel="icon"
   type="image/png"
@@ -44,8 +44,27 @@ To make a good looking browser icon, you need more than just one `favicon.ico` f
   sizes="16x16"
   href="/favicon-16x16.png"
 />
+
+<!-- More often used Safari feature -->
+<link
+  rel="apple-touch-icon"
+  sizes="180x180"
+  href="/apple-touch-icon.png"
+/>
+
+<!-- How to define the manifest, depends on your setup -->
 <link rel="manifest" href="/site.webmanifest" />
+```
+
+### Nice to have
+
+```html
+<!-- Safari feature -->
 <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#007272" />
+
+<!-- Microsoft feature -->
 <meta name="msapplication-TileColor" content="#007272" />
+
+<!-- Chrome feature -->
 <meta name="theme-color" content="#007272" />
 ```
