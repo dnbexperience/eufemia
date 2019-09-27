@@ -56,6 +56,6 @@ Example usage of HTML5 `landmarks`.
 
 ---
 
-<IntroFooter href="/uilib/intro/14-helper-classes" text="Next - Helper Classes" />
+<IntroFooter href="/uilib/intro/04-ux-handover" text="Next - UX handover" />
 
 </Intro>

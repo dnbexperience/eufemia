@@ -37,6 +37,6 @@ But there is also support for basic spacing in every component:
 
 ---
 
-<IntroFooter href="/uilib/intro/10-components-elements-patterns" text="Next - Components, Elements and Patterns" />
+<IntroFooter href="/uilib/intro/11-components-elements-patterns" text="Next - Components, Elements and Patterns" />
 
 </Intro>

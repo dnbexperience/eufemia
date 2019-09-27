@@ -29,6 +29,6 @@ It is recommended to use the [Icon Component](!/uilib/components/icon) to displa
 
 ---
 
-<IntroFooter href="/uilib/intro/09-layout" text="Next - Components, Elements and Patterns" />
+<IntroFooter href="/uilib/intro/10-layout" text="Next - Components, Elements and Patterns" />
 
 </Intro>

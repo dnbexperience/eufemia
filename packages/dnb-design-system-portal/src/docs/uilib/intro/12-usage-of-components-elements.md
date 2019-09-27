@@ -53,6 +53,6 @@ Read more about using elements as [React JSX](!/uilib/elements#react-jsx)
 
 ---
 
-<IntroFooter href="/uilib/intro/12-quality-and-tests" text="Next - Quality and Tests" />
+<IntroFooter href="/uilib/intro/13-quality-and-tests" text="Next - Quality and Tests" />
 
 </Intro>
