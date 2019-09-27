@@ -26,7 +26,7 @@ _This pattern can be constructed in a number of ways to achieve a similar effect
 
 ## Custom size
 
-Changing the **width** of the Dropdown component by CSS is easiest done by doing:
+Changing the **width** of the Dropdown component by CSS is easy done by doing:
 
 ```css
 .dnb-dropdown {
@@ -34,14 +34,14 @@ Changing the **width** of the Dropdown component by CSS is easiest done by doing
 }
 ```
 
-You may else end up having to calculation the correct width to get the arrows aligned:
+You can also set the width directly, but then it has to be defined like so (including `min-width`):
 
 ```css
-.dnb-dropdown__list {
-  width: 8rem;
+.dnb-dropdown__shell {
+  width: 20rem; /* custom width */
 }
-.dnb-dropdown__text__inner {
-  width: 4.5rem; /* has to be calculated */
+.dnb-dropdown__list {
+  min-width: 20rem; /* custom width */
 }
 ```
 

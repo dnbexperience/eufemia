@@ -1007,7 +1007,6 @@ legend.dnb-form-label {
   --dropdown-height--medium: 2.5rem;
   --dropdown-height--large: 3rem;
   --dropdown-padding-horizontal: 1rem;
-  --dropdown-border-width: 0.0625rem;
   --dropdown-focus-border-width: 0.125rem;
   --dropdown-text-padding: 0.5rem; }
 
@@ -1048,6 +1047,7 @@ legend.dnb-form-label {
   .dnb-dropdown__shell {
     position: relative;
     top: -0.0625rem;
+    width: var(--dropdown-width);
     height: var(--dropdown-height);
     margin: 0;
     padding: 0;
@@ -1061,7 +1061,8 @@ legend.dnb-form-label {
     bottom: auto;
     left: 0;
     right: 0;
-    width: var(--dropdown-width);
+    width: 100%;
+    min-width: var(--dropdown-width);
     margin: 0;
     padding: 0;
     background-color: transparent;
@@ -1124,7 +1125,7 @@ legend.dnb-form-label {
     left: auto;
     right: 0;
     pointer-events: none;
-    margin: 0 calc( var(--dropdown-padding-horizontal) + var(--dropdown-border-width));
+    margin: 0 var(--dropdown-padding-horizontal);
     width: calc(var(--dropdown-height) / 2);
     height: calc(var(--dropdown-height) / 2);
     overflow: hidden; }
@@ -1138,6 +1139,8 @@ legend.dnb-form-label {
       transform: translateY(60%) rotate(45deg);
       border: 1px solid var(--color-black-border);
       background-color: var(--color-white); }
+  .dnb-dropdown__size--large .dnb-dropdown__triangle {
+    margin: 0 calc(var(--dropdown-padding-horizontal) + 0.25rem); }
   .dnb-dropdown--icon-position-left .dnb-dropdown__triangle {
     left: 0;
     right: auto; }
@@ -1215,6 +1218,7 @@ legend.dnb-form-label {
     order: 1;
     position: relative;
     z-index: 4;
+    width: 100%;
     height: inherit;
     line-height: inherit;
     padding: 0 var(--dropdown-text-padding) 0 0;
@@ -1226,7 +1230,7 @@ legend.dnb-form-label {
     font-feature-settings: \\"lnum\\"; }
     .dnb-dropdown__text__inner {
       display: inline-block;
-      width: calc( var(--dropdown-width) - calc(var(--dropdown-padding-horizontal) * 3 + 10px));
+      width: 100%;
       height: inherit;
       padding: 0;
       overflow: hidden;
