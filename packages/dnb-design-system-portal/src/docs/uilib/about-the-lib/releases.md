@@ -14,7 +14,7 @@ Here you find small articles and notes giving you a periodically overview of the
 
 You may also have a look at the [<Icon icon={GithubLogo} size="default" /> **GitHub Releases**](https://github.com/dnbexperience/eufemia/releases) for versioning of the [dnb-ui-lib](/uilib/).
 
-- [**v4.17**](/uilib/about-the-lib/releases/v4.17-info) _September, 26. 2019_
+- [**v4.18**](/uilib/about-the-lib/releases/v4.18-info) _September, 28. 2019_
 - [**v4.10**](/uilib/about-the-lib/releases/v4.10-info) _August, 24. 2019_
 - [**v4.0**](/uilib/about-the-lib/releases/v4-info) _July, 21. 2019_
 
