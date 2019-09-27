@@ -13,13 +13,19 @@ Beside the peer dependencies, there are no specific technical requirements only 
 
 Eufemia (`dnb-ui-lib`) can be used with an UMD, ES5, ES6 or TypeScript environment. The purpose is to use it on top (or inside) of modern JavaScript frontend framework and setups. But we strongly recommend to use Eufemia with a **React stack**, as this makes including the Eufemia tools and components most productive. All the components internal states are handled with React to only keep the most necessary in the DOM (HTML elements and event bindings).
 
+## The hard part of a living design system
+
+The hard part of a living design system, like Eufemia, is not to create black holes and choosing ways to make **maintainability of user experience** hard and complex. To address this challenge and give more insight and thoughts, read the [**article about maintainability**](/uilib/getting-started/maintainability).
+
 ## React
 
 Why is React a good choice:
 
 - Declarative and functional
 - Immutable structure
-- Can be used both with a JAM stack, CSR and SSR (SPA) with same code base (App)
+- Lightweight
+- Centralization of code that should work in context (Concepts like, write code like **reading a book**)
+- Can be used both with a JAM stack, CSR and SSR (SPA) with the same code base (App)
 - Flexible frontend stack to create the best user experience, depending on the solution and their needs
 - Can be tailored to different conventions and guidelines
 

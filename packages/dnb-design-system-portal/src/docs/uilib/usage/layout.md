@@ -49,12 +49,12 @@ UX designers are using a 12 column system during their design processes. But we 
 <!-- --layout-xx-large: 80em; // 1280
 --layout-xxx-large: 90em; // 1440 -->
 
+## Media Queries and Breakpoints
+
+Use `em` for media query sizing for best overall browser support. Read [more abouts units](/uilib/usage/best-practices/for-styling#units)
+
 ```css
 @media (max-width: 40em) {
   /* mobile selectors */
 }
 ```
-
-## Media Queries and Breakpoints
-
-Use `em` for media query sizing for best overall browser support. Read [more abouts units](/uilib/usage/best-practices/for-styling#units)
