@@ -26,15 +26,24 @@ $ git checkout -b ftr/my-feature
 $ git checkout -b wip/working-on-it
 ```
 
-### What happens on calling `yarn build`?
+### Create a local build
 
-There are a lot of different things going on, like:
+In case You have to create a local build of the package (for various reasons) you can do so:
+
+```bash
+# In the `dnb-ui-lib` directory, run:
+$ yarn build
+```
+
+#### What happens then
+
+During the package build are a lot of different things going on, like:
 
 - Assets are getting generated
-- All the lib code gets compiled down to ECMAScript 5.1
+- All the lib code gets compiled (ECMAScript 6 and ECMAScript 5.1)
 - UMD bundle gets created
-- All SASS styles are validated and compiled
-- Code gets minified
+- All SASS styles are validated and compiled (to support IE)
+- All bundles gets minified
 - Icons are getting converted
 
-A couple of folders and files are generated in the `dnb-ui-lib` root. They are ignored in the .gitignore file, so they not get a part of the git repo.
+A couple of folders and files will be generated in the `dnb-ui-lib` directory. They are ignored in the `.gitignore` file, so they not get a part of the git repo.

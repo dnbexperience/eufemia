@@ -38,7 +38,7 @@ The DNB Design System Eufemia uses the following naming conventions.
 - `Classes` use **pascal case**.
 - Other Javascript files use **lisp case**.
 
-## Events
+## Events and Properties
 
 - Event names use **snake case**.
 - They have to describe what they are aiming to do. Like: `on_click`
@@ -55,4 +55,16 @@ The DNB Design System Eufemia uses the following naming conventions.
 
 ---
 
-More info about the cases can be found at [Wikipedia Special case styles](https://en.wikipedia.org/wiki/Letter_case#Special_case_styles)
+## Why `snake_case`
+
+The decision to use `snake_case` was made to not just adopt React terms (`PascalCase`), because we wanted to be open for future changes in the front end world.
+
+But also the technical limitation that **Web Components** do not support `PascalCase` made us more confident to use another case style.
+
+HTML attributes uses `lisp-case`, so we needed something between.
+
+The aspect to distinguish between case styles will also make code easier to read and support future code changes and refactoring we assume.
+
+```jsx
+<Component aria-hidden="true" myReactProp={...} on_click={} />
+```
