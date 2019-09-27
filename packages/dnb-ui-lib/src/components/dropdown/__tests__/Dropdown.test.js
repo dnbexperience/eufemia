@@ -27,7 +27,7 @@ const snapshotProps = {
   status_state: 'error',
   direction: 'bottom',
   label_direction: 'horizontal',
-  selected_item: 2,
+  value: 2,
   more_menu: null,
   prevent_selection: null,
   align_dropdown: null,
@@ -35,7 +35,7 @@ const snapshotProps = {
   size: null
 }
 
-const props = { id: 'dropdown-id', selected_item: 2 }
+const props = { id: 'dropdown-id', value: 2 }
 
 const mockData = [
   {
@@ -79,23 +79,36 @@ describe('Dropdown component', () => {
     expect(Comp.state().hidden).toBe(false)
   })
 
-  it('has correct selected_item on keydown "ArrowDown" and "Enter"', () => {
-    expect(Comp.state().selected_item).toBe(props.selected_item)
-    Comp.find('button').simulate('mousedown')
-    expect(Comp.state().active_item).toBe(props.selected_item)
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 40 })) // down
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 13 })) // enter
-    expect(Comp.state().active_item).toBe(props.selected_item + 1)
-    expect(Comp.state().selected_item).toBe(props.selected_item + 1)
-  })
+  it('has correct value on keydown "ArrowDown" and "Enter"', async () => {
+    expect(Comp.state().selected_item).toBe(props.value)
 
-  it('has correct selected_item after forcing rerender with null as value', () => {
-    const title = 'Make a selection'
-    const Comp = mount(
-      <Component {...props} data={mockData} title={title} />
+    expect(Comp.find('.dnb-dropdown__text__inner').text()).toBe(
+      mockData[props.value].selected_value
     )
 
-    expect(Comp.state().selected_item).toBe(props.selected_item)
+    // open
+    Comp.find('button').simulate('mousedown')
+
+    expect(Comp.state().active_item).toBe(props.value)
+
+    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 40 })) // down
+    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 13 })) // enter
+
+    expect(Comp.state().active_item).toBe(props.value + 1)
+    expect(Comp.state().selected_item).toBe(props.value + 1)
+
+    expect(Comp.find('.dnb-dropdown__text__inner').text()).toBe(
+      mockData[props.value + 1].selected_value
+    )
+  })
+
+  it('has correct value after forcing rerender', async () => {
+    const title = 'Make a selection'
+    const Comp = mount(
+      <Component data={mockData} default_value={props.value} />
+    )
+
+    expect(Comp.state().selected_item).toBe(props.value)
 
     // open
     Comp.find('button').simulate('mousedown')
@@ -103,18 +116,29 @@ describe('Dropdown component', () => {
     // make first selection
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 40 })) // down
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 13 })) // enter
-    expect(Comp.state().selected_item).toBe(props.selected_item + 1)
+
+    expect(Comp.state().selected_item).toBe(props.value + 1)
 
     // force rerender by prop change
     Comp.setProps({
-      selected_item: null
+      title
+    })
+
+    expect(Comp.state().selected_item).toBe(props.value + 1)
+    expect(Comp.find('.dnb-dropdown__text__inner').text()).toBe(
+      mockData[props.value + 1].selected_value
+    )
+
+    // force rerender with null as value by prop change
+    Comp.setProps({
+      value: null
     })
 
     expect(Comp.state().selected_item).toBe(null)
     expect(Comp.find('.dnb-dropdown__text__inner').text()).toBe(title)
   })
 
-  it('has correct selected_item on key search', () => {
+  it('has correct value on key search', () => {
     Comp.find('button').simulate('mousedown')
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 66 })) // B
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 70 })) // F
@@ -139,7 +163,7 @@ describe('Dropdown component', () => {
 
     // then simulate changes
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 32 })) // space
-    const notChangedItem = mockData[props.selected_item]
+    const notChangedItem = mockData[props.value]
     expect(on_change.mock.calls[0][0].data).toBe(notChangedItem)
 
     // open again
@@ -147,7 +171,7 @@ describe('Dropdown component', () => {
 
     // then simulate changes
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 40 })) // down
-    const selectedItem = mockData[props.selected_item + 1]
+    const selectedItem = mockData[props.value + 1]
     expect(on_select.mock.calls[1][0].data).toBe(selectedItem) // second call!
   })
 
@@ -164,7 +188,7 @@ describe('Dropdown component', () => {
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 40 })) // down
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 13 })) // enter
 
-    const selectedItem = mockData[props.selected_item + 1]
+    const selectedItem = mockData[props.value + 1]
     expect(on_change.mock.calls[0][0].data).toBe(selectedItem)
   })
 
@@ -240,7 +264,7 @@ describe('Dropdown component', () => {
   it('has correct selected value', () => {
     const Comp = mount(<Component {...props} data={mockData} />)
     expect(Comp.find('.dnb-dropdown__text__inner').text()).toBe(
-      mockData[props.selected_item].selected_value
+      mockData[props.value].selected_value
     )
   })
 
@@ -248,14 +272,14 @@ describe('Dropdown component', () => {
     Comp.find('button').simulate('mousedown')
     Comp.find('li.dnb-dropdown__option')
       .find('.dnb-dropdown__option__inner')
-      .at(props.selected_item)
+      .at(props.value)
       .simulate('mousedown')
     expect(Comp.find('.dnb-dropdown__text__inner').text()).toBe(
-      mockData[props.selected_item].selected_value
+      mockData[props.value].selected_value
     )
   })
 
-  it('has a default title if no selected_item is given', () => {
+  it('has a default title if no value is given', () => {
     const title = 'Make a selection'
     const Comp = mount(<Component data={mockData} title={title} />)
     expect(
@@ -263,11 +287,11 @@ describe('Dropdown component', () => {
     ).toBe(title)
   })
 
-  it('has a corret selected_item content if we send in a React component', () => {
+  it('has a corret value content if we send in a React component', () => {
     const aStringOf = 'Custom content 123'
-    const Comp1 = mount(<Component data={mockData} selected_item={4} />)
-    const Comp2 = mount(<Component data={mockData} selected_item={5} />)
-    const Comp3 = mount(<Component data={mockData} selected_item={6} />)
+    const Comp1 = mount(<Component data={mockData} value={4} />)
+    const Comp2 = mount(<Component data={mockData} value={5} />)
+    const Comp3 = mount(<Component data={mockData} value={6} />)
     expect(
       Comp1.find('.dnb-dropdown__text__inner').instance().innerHTML
     ).toBe(aStringOf)

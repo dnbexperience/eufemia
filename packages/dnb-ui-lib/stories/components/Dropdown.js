@@ -26,11 +26,17 @@ const CustomStyle = styled.div`
 
 const DropdownStory = () => {
   const [data, setData] = useState(dropdownData)
-  const [selected_item, setSelectedItem] = useState(0)
+  const [value, setSelectedItem] = useState(0)
   return (
     <Wrapper>
       <Box>
         <CurrencyDropdown />
+      </Box>
+      <Box>
+        <DropdownStates />
+      </Box>
+      <Box>
+        <DropdownStatesSync />
       </Box>
       <Box>
         <FormRow
@@ -85,7 +91,7 @@ const DropdownStory = () => {
           <Dropdown
             label="Label:"
             data={data}
-            selected_item={selected_item}
+            value={value}
             on_state_update={event => {
               console.log('on_state_update', event)
             }}
@@ -141,7 +147,7 @@ const DropdownStory = () => {
           on_select={({ data }) => {
             console.log('on_select', data)
           }}
-          // selected_item={3}
+          // value={3}
           // disabled
         />
         <p className="dnb-p">
@@ -163,8 +169,8 @@ const DropdownStory = () => {
           more_menu={true}
           title="Choose an item"
           data={['Go this this Link', 'Or to this one']}
-          on_change={({ selected_item }) => {
-            console.log('on_change', selected_item)
+          on_change={({ value }) => {
+            console.log('on_change', value)
           }}
           on_select={({ active_item }) => {
             console.log('on_select', active_item)
@@ -175,8 +181,8 @@ const DropdownStory = () => {
           more_menu="true"
           title="Choose an item"
           data={['Go this this Link', 'Or to this one']}
-          on_change={({ selected_item }) => {
-            console.log('on_change', selected_item)
+          on_change={({ value }) => {
+            console.log('on_change', value)
           }}
           on_select={({ active_item }) => {
             console.log('on_select', active_item)
@@ -187,8 +193,8 @@ const DropdownStory = () => {
           align_dropdown="right"
           title="Choose an item"
           data={['Go this this Link', 'Or to this one']}
-          on_change={({ selected_item }) => {
-            console.log('on_change', selected_item)
+          on_change={({ value }) => {
+            console.log('on_change', value)
           }}
           on_select={({ active_item }) => {
             console.log('on_select', active_item)
@@ -200,7 +206,7 @@ const DropdownStory = () => {
           label="Label:"
           // direction="top"
           data={dropdownDataScrollable}
-          selected_item={4}
+          value={4}
           no_scroll_animation="true"
           // status="Message to the user"
         />
@@ -216,21 +222,21 @@ const DropdownStory = () => {
           id="text-dropdown-1"
           size="small"
           icon_position="left"
-          selected_item={2}
+          value={2}
         />
         <Dropdown
           data={dropdownData}
           id="text-dropdown-1"
           size="medium"
           icon_position="left"
-          selected_item={2}
+          value={2}
         />
         <Dropdown
           data={dropdownData}
           id="text-dropdown-1"
           size="large"
           icon_position="left"
-          selected_item={2}
+          value={2}
         />
         <p className="dnb-p">
           Eros semper blandit tellus mollis primis quisque platea
@@ -365,7 +371,7 @@ function CurrencySelector({ currencies, onChange, value, ...props }) {
   return (
     <Dropdown
       {...props}
-      selected_item={itemIndex}
+      value={itemIndex}
       title={strings.currencyBlankLabel}
       // eslint-disable-next-line camelcase
       on_change={({ data: { selected_value }, event }) => {
@@ -390,6 +396,62 @@ CurrencySelector.propTypes = {
 }
 CurrencySelector.defaultProps = {
   value: null
+}
+
+function DropdownStates() {
+  const [state, setState] = useState({})
+
+  const handleOnChange = props => {
+    console.log('DropdownStates', props)
+    setState({ state: Math.random() })
+  }
+
+  return (
+    <FormRow vertical>
+      <>{JSON.stringify(state)}</>
+      <Dropdown
+        data={dropdownDataScrollable}
+        title="Dropdown 1"
+        on_change={handleOnChange}
+      />
+      <Dropdown
+        top
+        data={dropdownDataScrollable}
+        title="Dropdown 2"
+        on_change={handleOnChange}
+      />
+    </FormRow>
+  )
+}
+
+function DropdownStatesSync() {
+  const [state, setState] = useState({})
+
+  const handleOnChange = props => {
+    console.log('DropdownStates', props)
+    setState({ state: Math.random() })
+  }
+
+  return (
+    <FormRow vertical>
+      <>{JSON.stringify(state)}</>
+      <Dropdown
+        data={dropdownDataScrollable}
+        // value={0}
+        default_value={0}
+        title="Dropdown 1"
+        on_change={handleOnChange}
+      />
+      <Dropdown
+        top
+        data={dropdownDataScrollable}
+        // value={1}
+        default_value={1}
+        title="Dropdown 2"
+        on_change={handleOnChange}
+      />
+    </FormRow>
+  )
 }
 
 function CurrencyDropdown() {
