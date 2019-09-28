@@ -179,6 +179,12 @@ describe('"processChildren" should', () => {
     const res = processChildren(props)
     expect(res).toMatch(children.join(''))
   })
+  it('return a joined string, even with only one child', () => {
+    const children = ['foo']
+    const props = { children: () => children }
+    const res = processChildren(props)
+    expect(res).toMatch(children.join(''))
+  })
 })
 
 describe('"extend" should', () => {

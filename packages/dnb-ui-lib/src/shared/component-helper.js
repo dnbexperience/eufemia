@@ -197,8 +197,8 @@ export const processChildren = props => {
       return pV
     }, [])
 
-    // if there was more than one text elements
-    if (onlyTexts.length > 1) {
+    // if there was one or more text elements
+    if (onlyTexts.length > 0) {
       return onlyTexts.join('')
     }
   }
