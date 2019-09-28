@@ -6,7 +6,7 @@ import Examples from 'Pages/uilib/components/button/Examples'
 
 ## Description
 
-The Button component should be used as the primary call-to-action in a form, or as a user interaction mechanism. Generally speaking, a button should not be used when a link would suffice. Exceptions are made at times when it is used as a navigation element in the `action-nav` element.
+The Button component should be used as the **primary call-to-action** in a form, or as a user interaction mechanism. There should never be more than one primary button in a given context (e.g. a [action-nav](/uilib/patterns/action-nav)); `secondary` and `tertiary` button variants does not have this constraint. Generally speaking, a button should not be used when a link would suffice.
 
 ## Demos
 

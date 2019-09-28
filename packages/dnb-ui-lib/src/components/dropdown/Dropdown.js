@@ -92,7 +92,9 @@ export const propTypes = {
       ])
     )
   ]).isRequired,
-  selected_item: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  default_value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  selected_item: PropTypes.oneOfType([PropTypes.string, PropTypes.number]), // deprecated
   open_on_focus: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   opened: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -134,7 +136,9 @@ export const defaultProps = {
   size: null,
   align_dropdown: null,
   data: null,
-  selected_item: null,
+  default_value: null,
+  value: 'initval',
+  selected_item: 'initval', // deprecated
   open_on_focus: false,
   opened: false,
   disabled: null,
@@ -226,14 +230,12 @@ export default class Dropdown extends PureComponent {
     return res || []
   }
 
-  static getOptionData(selected_item, data) {
+  static getOptionData(value, data) {
     if (typeof data === 'function') {
       data = data()
     }
     return (
-      (data &&
-        data.filter((data, i) => i === parseFloat(selected_item))[0]) ||
-      []
+      (data && data.filter((data, i) => i === parseFloat(value))[0]) || []
     )
   }
 
@@ -245,20 +247,40 @@ export default class Dropdown extends PureComponent {
       if (props.data && typeof props.data !== 'function') {
         state.data = Dropdown.getData(props)
       }
+
+      let hasChanged = false
+
+      // deprecated, use value instad
       if (
-        !state._isNewActiveItem &&
+        props.selected_item !== 'initval' &&
         state.selected_item !== props.selected_item
       ) {
-        state.selected_item = props.selected_item
-        if (typeof props.on_state_update === 'function') {
-          dispatchCustomElementEvent({ props }, 'on_state_update', {
-            data: Dropdown.getOptionData(props.selected_item, state.data)
-          })
-        }
+        state.selected_item =
+          parseFloat(props.selected_item) > -1
+            ? parseFloat(props.selected_item)
+            : props.selected_item
+        hasChanged = true
+      }
+
+      if (
+        props.value !== 'initval' &&
+        state.selected_item !== props.value
+      ) {
+        state.selected_item =
+          parseFloat(props.value) > -1
+            ? parseFloat(props.value)
+            : props.value
+        hasChanged = true
+      }
+      if (hasChanged && typeof props.on_state_update === 'function') {
+        dispatchCustomElementEvent({ props }, 'on_state_update', {
+          data: Dropdown.getOptionData(state.selected_item, state.data),
+          value: state.selected_item,
+          selected_item: state.selected_item // deprecated
+        })
       }
     }
     state._listenForPropChanges = true
-    state._isNewActiveItem = false
     return state
   }
 
@@ -276,7 +298,12 @@ export default class Dropdown extends PureComponent {
       max_height: props.max_height,
       active_item: props.selected_item,
       // send selected_item in here, so we dont trigger on_state_update
-      selected_item: props.selected_item,
+      selected_item:
+        parseFloat(props.default_value) > -1
+          ? parseFloat(props.default_value)
+          : parseFloat(props.value) > -1
+          ? parseFloat(props.value)
+          : props.selected_item,
       selectedItemHasChanged: false
     }
 
@@ -320,7 +347,7 @@ export default class Dropdown extends PureComponent {
     clearTimeout(this._hideTimeout)
     clearTimeout(this._showTimeout)
     this.searchCache = null
-    const { selected_item, opened, hidden } = this.state
+    const { selected_item, active_item, opened, hidden } = this.state
     if (!opened && hidden) {
       this.blockDoubleClick = true
     }
@@ -331,14 +358,16 @@ export default class Dropdown extends PureComponent {
         _listenForPropChanges: false
       },
       () => {
-        this._showTimeout = setTimeout(() => {
-          this.blockDoubleClick = false
-        }, 1e3) // wait until animation is over
+        this._showTimeout = setTimeout(
+          () => (this.blockDoubleClick = false),
+          1e3
+        ) // wait until animation is over
 
         this.setDirectionObserver()
         this.setScrollObserver()
         this.setOutsideClickObserver()
-        this.scrollToItem(selected_item, {
+
+        this.scrollToItem(active_item > -1 ? active_item : selected_item, {
           scrollTo: false
         })
       }
@@ -458,7 +487,8 @@ export default class Dropdown extends PureComponent {
         if (fireSelectEvent) {
           const attributes = this.attributes || {}
           const ret = dispatchCustomElementEvent(this, 'on_select', {
-            selected_item,
+            value: selected_item,
+            selected_item, // deprecated
             active_item,
             data: Dropdown.getOptionData(active_item, this.state.data),
             event,
@@ -469,7 +499,7 @@ export default class Dropdown extends PureComponent {
           }
         }
 
-        if (!selected_item) {
+        if (!(selected_item > -1)) {
           return
         }
 
@@ -636,7 +666,7 @@ export default class Dropdown extends PureComponent {
   }
 
   selectItem = (
-    selected_item,
+    itemToSelect,
     { fireSelectEvent = false, event = null } = {}
   ) => {
     // because of our delay on despatching the event
@@ -645,27 +675,28 @@ export default class Dropdown extends PureComponent {
       event.persist()
     }
 
-    if (
-      this.state.selected_item !== selected_item ||
+    const doCallOnChange =
+      this.state.selected_item !== itemToSelect ||
       // to make sure we call "on_change" on startup
       this.state.selectedItemHasChanged === false
-    ) {
-      const attributes = this.attributes || {}
-      dispatchCustomElementEvent(this, 'on_change', {
-        selected_item,
-        data: Dropdown.getOptionData(selected_item, this.state.data),
-        event,
-        attributes
-      })
-    }
 
     const onSelectionIsComplete = () => {
+      const attributes = this.attributes || {}
+      if (doCallOnChange) {
+        dispatchCustomElementEvent(this, 'on_change', {
+          value: itemToSelect,
+          selected_item: itemToSelect, // deprecated
+          data: Dropdown.getOptionData(itemToSelect, this.state.data),
+          event,
+          attributes
+        })
+      }
       if (fireSelectEvent) {
-        const attributes = this.attributes || {}
         dispatchCustomElementEvent(this, 'on_select', {
-          selected_item,
-          active_item: selected_item,
-          data: Dropdown.getOptionData(selected_item, this.state.data),
+          value: itemToSelect,
+          selected_item: itemToSelect, // deprecated
+          active_item: itemToSelect,
+          data: Dropdown.getOptionData(itemToSelect, this.state.data),
           event,
           attributes
         })
@@ -687,11 +718,10 @@ export default class Dropdown extends PureComponent {
     } else {
       this.setState(
         {
-          // Do not set "_listenForPropChanges" to false here, as it will block instant component rerender
-          _isNewActiveItem: true,
+          _listenForPropChanges: false,
           selectedItemHasChanged: true,
-          selected_item,
-          active_item: selected_item
+          selected_item: itemToSelect,
+          active_item: itemToSelect
         },
         onSelectionIsComplete
       )
@@ -794,7 +824,8 @@ export default class Dropdown extends PureComponent {
 
         this.setState({
           direction,
-          max_height
+          max_height,
+          _listenForPropChanges: false
         })
       }
 

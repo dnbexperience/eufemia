@@ -28,6 +28,6 @@ Read [more about Typography](!/uilib/typography)
 
 ---
 
-<IntroFooter href="/uilib/intro/07-color-usage" text="Next - Color usage" />
+<IntroFooter href="/uilib/intro/08-color-usage" text="Next - Color usage" />
 
 </Intro>

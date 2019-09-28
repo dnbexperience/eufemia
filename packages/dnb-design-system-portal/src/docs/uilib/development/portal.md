@@ -18,22 +18,22 @@ You can either do changes directly on GitHub with a fork of the Repository, or Y
 $ yarn start
 ```
 
-This will start the Portal. You can view the website by visiting [localhost:8000](http://localhost:8000/).
+This will start the Portal. You can view the portal website by visiting [localhost:8000](http://localhost:8000/).
 
 Content changes to both Markdown files and styles (SCSS) and code changes will be reflected immediately.
 
-### Build Pages
+### Local build
 
-In case You make changes witch effects the content of the [/uilib](/uilib) pages, You have to **regenerate** the Portal pages by running:
+In case You have to create a local static build of the portal website (for various reasons), you can do so by:
 
 ```bash
 # In the `dnb-design-system-portal` directory, run:
 $ yarn build
-
-# You can also start a "watch" mode with:
-$ yarn build:dev
 ```
 
-This will update/create all the needed [pages](/uilib).
+The build will be exported to the `/public` directory. You can now also run a local static server to view it at the given port [localhost:8000](http://localhost:8000/):
 
-Fore sure, this applies to change to Markdown files in the `dnb-ui-lib` - but also changes to the Component Code Examples.
+```bash
+# In the `dnb-design-system-portal` directory, run:
+$ yarn serve
+```

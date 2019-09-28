@@ -107,6 +107,11 @@ const linkStyle = css`
 
   background-color: var(--color-white);
   transition: background-color 0.5s ease;
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 0.125rem var(--color-mint-green);
+  }
 `
 const LinkInner = styled.span`
   display: flex;

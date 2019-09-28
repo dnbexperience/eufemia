@@ -9,6 +9,7 @@ import classnames from 'classnames'
 import keycode from 'keycode'
 import Context from '../../shared/Context'
 import {
+  slugify,
   isTrue,
   makeUniqueId,
   registerElement,
@@ -602,7 +603,11 @@ class ContentWrapper extends PureComponent {
 class CustomContent extends PureComponent {
   static propTypes = {
     displayName: PropTypes.string,
-    title: PropTypes.string, // eslint-disable-line
+    title: PropTypes.oneOfType([
+      PropTypes.object,
+      PropTypes.node,
+      PropTypes.func
+    ]), // eslint-disable-line
     hash: PropTypes.string, // eslint-disable-line
     selected: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]), // eslint-disable-line
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]), // eslint-disable-line
@@ -645,13 +650,6 @@ class CustomContent extends PureComponent {
     )
   }
 }
-
-const slugify = s =>
-  s
-    .toLowerCase()
-    .replace(/[^\w\s-]/g, '')
-    .replace(/[\s_-]+/g, '-')
-    .replace(/^-+|-+$/g, '')
 
 Tabs.Content = CustomContent
 Tabs.ContentWrapper = ContentWrapper

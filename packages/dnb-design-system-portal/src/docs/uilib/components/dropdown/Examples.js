@@ -56,14 +56,14 @@ const scrollableData = [
 render(
   <Dropdown
     data={scrollableData}
-    selected_item={5}
+    value={5}
     label="Label:"
   />
 )
           `}
         </ComponentBox>
         <ComponentBox
-          caption="Default dropdown - no `selected_item` is defined, but a `title` is given."
+          caption="Default dropdown - no `value` is defined, but a `title` is given."
           data-dnb-test="dropdown-closed"
           useRender
           hideSyntaxButton
@@ -123,7 +123,7 @@ render(
   label="Label:"
   icon_position="left"
   data={data}
-  selected_item={3}
+  value={3}
   on_change={({ data: selectedDataItem }) => {
     console.log('on_change', selectedDataItem)
   }}
@@ -159,8 +159,8 @@ render(
   align_dropdown="right"
   title="Choose an item"
   data={['Go this this Link', 'Or press on me', <>Custom component</>]}
-  on_change={({ selected_item }) => {
-    console.log('on_change', selected_item)
+  on_change={({ value }) => {
+    console.log('on_change', value)
   }}
   on_select={({ active_item }) => {
     console.log('on_select', active_item)

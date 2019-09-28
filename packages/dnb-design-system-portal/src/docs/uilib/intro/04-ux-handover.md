@@ -42,6 +42,6 @@ Remember, everything should be in the **8px grid** (0.5rem) spacing - even it th
 
 ![What color is uses](./assets/ux-handover-color.png)
 
-<IntroFooter href="/uilib/intro/04-eufemia-for-developers" text="Next - Eufemia for Developers" />
+<IntroFooter href="/uilib/intro/05-eufemia-for-developers" text="Next - Eufemia for Developers" />
 
 </Intro>

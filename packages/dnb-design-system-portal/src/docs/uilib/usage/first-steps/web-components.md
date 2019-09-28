@@ -11,14 +11,6 @@ import ComponentBox from 'Tags/ComponentBox'
 
 So called [Custom Elements](https://www.w3.org/TR/custom-elements/), running as a [Web Component](https://github.com/w3c/webcomponents/) can be used to run the `dnb-ui-lib` components in all other frameworks like Dojo.
 
-## Web Components and their negative trade offs
-
-The usage of the UMD version in combination with Web Components is **not recommended** because:
-
-- Accessibility and screen reader support due to ID referencing
-- Lack of native HTML support, like submit inside a form
-- Will involve too much imperative code
-
 ## Example usage
 
 ```jsx

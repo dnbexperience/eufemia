@@ -32,6 +32,6 @@ Patterns are larger components, less strictly defined, but with a more flexible 
 
 ---
 
-<IntroFooter href="/uilib/intro/11-usage-of-components-elements" text="Next - Usage of Components and Patterns" />
+<IntroFooter href="/uilib/intro/12-usage-of-components-elements" text="Next - Usage of Components and Patterns" />
 
 </Intro>

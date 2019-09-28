@@ -147,6 +147,14 @@ const StyledListItem = styled.li`
     }
   }
 
+  a:focus:not(:active) {
+    color: var(--color-white);
+    svg {
+      color: var(--color-white);
+    }
+    background-color: var(--color-emerald-green);
+  }
+
   @keyframes show-mobile-menu {
     0% {
       opacity: 0;

@@ -29,6 +29,6 @@ On [legacy code projects](!/uilib/usage/customisation/styling#how-to-deal-with-e
 
 ---
 
-<IntroFooter href="/uilib/intro/06-typography" text="Next - Typography" />
+<IntroFooter href="/uilib/intro/07-typography" text="Next - Typography" />
 
 </Intro>

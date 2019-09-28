@@ -10,7 +10,7 @@
   --dropdown-height--medium: 2.5rem;
   --dropdown-height--large: 3rem;
   --dropdown-padding-horizontal: 1rem;
-  --dropdown-border-width: 0.0625rem;
+  // --dropdown-border-width: 0.0625rem;
   --dropdown-focus-border-width: 0.125rem;
   --dropdown-text-padding: 0.5rem;
 }
@@ -95,6 +95,7 @@
     // we use therefore top
     top: -0.0625rem;
 
+    width: var(--dropdown-width);
     height: var(--dropdown-height);
 
     margin: 0;
@@ -117,7 +118,9 @@
     left: 0;
     right: 0;
 
-    width: var(--dropdown-width);
+    width: 100%;
+    min-width: var(--dropdown-width);
+
     margin: 0;
     padding: 0;
 
@@ -222,10 +225,7 @@
 
     pointer-events: none;
 
-    margin: 0
-      calc(
-        var(--dropdown-padding-horizontal) + var(--dropdown-border-width)
-      );
+    margin: 0 var(--dropdown-padding-horizontal);
 
     width: calc(var(--dropdown-height) / 2);
     height: calc(var(--dropdown-height) / 2);
@@ -245,6 +245,9 @@
       border: 1px solid var(--color-black-border);
       background-color: var(--color-white);
     }
+  }
+  &__size--large &__triangle {
+    margin: 0 calc(var(--dropdown-padding-horizontal) + 0.25rem);
   }
   &--icon-position-left &__triangle {
     left: 0;
@@ -367,6 +370,7 @@
     position: relative;
     z-index: 4;
 
+    width: 100%;
     height: inherit;
     line-height: inherit;
 
@@ -383,10 +387,11 @@
     &__inner {
       display: inline-block;
 
-      width: calc(
-        var(--dropdown-width) -
-          calc(var(--dropdown-padding-horizontal) * 3 + 10px)
-      );
+      // width: calc(
+      //   var(--dropdown-width) -
+      //     calc(var(--dropdown-padding-horizontal) * 3 + 10px)
+      // );
+      width: 100%;
 
       height: inherit;
       padding: 0;

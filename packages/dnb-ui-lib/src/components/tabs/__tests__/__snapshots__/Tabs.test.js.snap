@@ -42,7 +42,7 @@ exports[`Tabs component have to match snapshot 1`] = `
         "displayName": "displayName",
         "hash": "hash",
         "selected": "selected",
-        "title": "title",
+        "title": Object {},
       },
     }
   }

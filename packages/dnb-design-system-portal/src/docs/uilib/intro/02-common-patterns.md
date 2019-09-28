@@ -22,6 +22,6 @@ Both UX designers and frontend web developers will have a huge benefit of **"tal
 
 ---
 
-<IntroFooter href="/uilib/intro/03-ux-handover" text="Next - UX handover" />
+<IntroFooter href="/uilib/intro/03-accessibility" text="Next - Accessibility" />
 
 </Intro>
