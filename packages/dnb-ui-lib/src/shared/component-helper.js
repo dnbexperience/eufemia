@@ -191,14 +191,14 @@ export const processChildren = props => {
   // if we get several react children witch representates only a text
   if (Array.isArray(res)) {
     const onlyTexts = res.reduce((pV, cV) => {
-      if (typeof cV === 'string') {
+      if (typeof cV === 'string' || typeof cV === 'number') {
         pV.push(cV)
       }
       return pV
     }, [])
 
     // if there was one or more text elements
-    if (onlyTexts.length > 0) {
+    if (onlyTexts.length === res.length && onlyTexts.length > 0) {
       return onlyTexts.join('')
     }
   }

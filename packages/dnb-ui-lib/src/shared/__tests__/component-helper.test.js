@@ -168,20 +168,20 @@ describe('"validateDOMAttributes" should', () => {
 
 describe('"processChildren" should', () => {
   it('return a joined string if we send in a children property with an array', () => {
-    const children = ['foo', 'bar']
+    const children = ['foo', 'bar', 123]
     const props = { children }
     const res = processChildren(props)
     expect(res).toMatch(children.join(''))
   })
   it('return a joined string if we send in a children property with as a function returning an array', () => {
-    const children = ['foo', 'bar']
+    const children = ['foo', 'bar', 123]
     const props = { children: () => children }
     const res = processChildren(props)
     expect(res).toMatch(children.join(''))
   })
   it('return a joined string, even with only one child', () => {
     const children = ['foo']
-    const props = { children: () => children }
+    const props = { children }
     const res = processChildren(props)
     expect(res).toMatch(children.join(''))
   })
