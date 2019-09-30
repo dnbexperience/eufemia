@@ -41,7 +41,7 @@ class Example extends PureComponent {
 const VerticalWrapper = styled.div\`
   display: inline-flex;
   flex-direction: column;
-  min-height: 12rem;
+  height: 12rem;/* max-height works fine except in Safari */
 \`
 render(<VerticalWrapper>
   <Slider
@@ -96,7 +96,7 @@ const VerticalWrapper = styled.div\`
   display: inline-flex;
   flex-direction: column;
   align-items: center;
-  min-height: 20rem;
+  height: 20rem;/* max-height works fine except in Safari */
   margin-top: 1rem;
   background: rgba(0,0,0,0.1);
 

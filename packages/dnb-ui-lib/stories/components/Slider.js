@@ -19,7 +19,7 @@ const VerticalWrapper = styled.div`
   max-width: 10rem;
 
   .dnb-slider__inner {
-    min-height: 20rem;
+    height: 20rem; /* max-height works fine except in Safari */
   }
 
   .dnb-input {
