@@ -22,12 +22,21 @@ draft: true
 
 ## Trigger Properties
 
-| Properties              | Description                                                                                                                                               |
-| ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `trigger_hidden`        | _(optional)_ if truthy, no trigger button will be show. This can be used in combination with `open_state="opened"`.                                       |
-| `trigger_variant`       | _(optional)_ the modal triggering button variant. Defaults to `secondary`.                                                                                |
-| `trigger_text`          | _(optional)_ if type is set to `text`, this will be the text which triggers the modal. If set to `button` it will be the `title` attribute of the button. |
-| `trigger_title`         | _(optional)_ the modal triggering button title.                                                                                                           |
-| `trigger_icon`          | _(optional)_ the modal triggering button icon. Can be used instead of a `trigger_text`. Defaults to `question` .                                          |
-| `trigger_icon_position` | _(optional)_ defines the modal triggering icon position. Defaults to `left` because of the tertiary button variant.                                       |
-| `trigger_disabled`      | _(optional)_ if truthy, then the trigger button can't be opened.                                                                                          |
+Properties targeting the trigger component (Button), but they will be set the same way as the all the other properties:
+
+```jsx
+<Modal trigger_icon="primary_icon" right="small">
+  ... content ...
+</Modal>
+```
+
+| Properties                                      | Description                                                                                                                                               |
+| ----------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `trigger_hidden`                                | _(optional)_ if truthy, no trigger button will be show. This can be used in combination with `open_state="opened"`.                                       |
+| `trigger_variant`                               | _(optional)_ the modal triggering button variant. Defaults to `secondary`.                                                                                |
+| `trigger_text`                                  | _(optional)_ if type is set to `text`, this will be the text which triggers the modal. If set to `button` it will be the `title` attribute of the button. |
+| `trigger_title`                                 | _(optional)_ the modal triggering button title.                                                                                                           |
+| `trigger_icon`                                  | _(optional)_ the modal triggering button icon. Can be used instead of a `trigger_text`. Defaults to `question` .                                          |
+| `trigger_icon_position`                         | _(optional)_ defines the modal triggering icon position. Defaults to `left` because of the tertiary button variant.                                       |
+| `trigger_disabled`                              | _(optional)_ if truthy, then the trigger button can't be opened.                                                                                          |
+| [Space](/uilib/components/space#tab-properties) | _(optional)_ spacing properties like `top` or `bottom` are supported.                                                                                     |
