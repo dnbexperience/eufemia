@@ -157,6 +157,7 @@
     bottom: 0;
   }
 
+  &__range,
   &__thumb {
     position: absolute;
     left: 0;
@@ -197,6 +198,16 @@
   &__state--disabled#{&}__track,
   &__state--disabled &__thumb {
     cursor: not-allowed;
+  }
+
+  &__range {
+    z-index: 4;
+    opacity: 0;
+
+    transform: translate3d(0.0625rem, 0, 0);
+  }
+  &__range:not(:disabled):focus ~ .dnb-button {
+    @include fakeFocus();
   }
 
   > .dnb-form-label {

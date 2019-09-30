@@ -15,7 +15,8 @@ import {
   validateDOMAttributes,
   processChildren,
   extendPropsWithContext,
-  dispatchCustomElementEvent
+  dispatchCustomElementEvent,
+  isTouchDevice
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 
@@ -86,7 +87,7 @@ export const defaultProps = {
   subtract_title: '−',
   min: 0,
   max: 100,
-  value: null,
+  value: -1,
   step: null,
   vertical: false,
   reverse: false,
@@ -140,12 +141,15 @@ export default class Slider extends PureComponent {
         state.max = parseFloat(props.max)
       }
 
-      if (state.value !== props.value) {
-        state.value = Slider.getValue(props)
-        if (typeof props.on_state_update === 'function') {
-          dispatchCustomElementEvent({ ...props }, 'on_state_update', {
-            value: state.value
-          })
+      if (props.value !== -1 && state.value !== props.value) {
+        const value = Slider.getValue(props)
+        if (value >= -1) {
+          state.value = value
+          if (typeof props.on_state_update === 'function') {
+            dispatchCustomElementEvent({ ...props }, 'on_state_update', {
+              value
+            })
+          }
         }
       }
     }
@@ -160,7 +164,9 @@ export default class Slider extends PureComponent {
   }
 
   static getValue(props) {
-    if (props.value) return props.value
+    if (props.value >= -1) {
+      return props.value
+    }
     return processChildren(props)
   }
 
@@ -312,6 +318,14 @@ export default class Slider extends PureComponent {
     }
   }
 
+  onRangeChangeHandler = event => {
+    const value = event.currentTarget.value
+    this.setState({
+      value,
+      _listenForPropChanges: false
+    })
+  }
+
   onMouseMoveHandler = event => {
     let elem = this._trackRef.current
 
@@ -327,6 +341,7 @@ export default class Slider extends PureComponent {
 
     const { min, max, vertical, reverse } = this.state
     const percent = calculatePercent(elem, event, vertical, reverse)
+
     const value = percentToValue(percent, min, max)
 
     this.emitChange(event, value)
@@ -349,22 +364,24 @@ export default class Slider extends PureComponent {
 
     const value = this.roundValue(rawValue)
 
-    if (
-      typeof this.props.on_change === 'function' &&
-      value !== this.roundValue(previousValue)
-    ) {
-      dispatchCustomElementEvent(this, 'on_change', {
-        value,
-        raw_value: rawValue,
-        event
-      })
+    if (value > -1) {
+      if (
+        typeof this.props.on_change === 'function' &&
+        value !== this.roundValue(previousValue)
+      ) {
+        dispatchCustomElementEvent(this, 'on_change', {
+          value,
+          raw_value: rawValue,
+          event
+        })
 
-      if (typeof callback === 'function') {
-        callback()
+        if (typeof callback === 'function') {
+          callback()
+        }
       }
-    }
 
-    this.setState({ value: rawValue, _listenForPropChanges: false })
+      this.setState({ value: rawValue, _listenForPropChanges: false })
+    }
   }
 
   resetStateTimeoutId = -1
@@ -384,7 +401,12 @@ export default class Slider extends PureComponent {
   }
 
   componentDidMount() {
-    if (isTrue(this.props.use_scrollwheel) && this._trackRef.current) {
+    this.isTouch = isTouchDevice()
+
+    if (
+      (this.isTouch || isTrue(this.props.use_scrollwheel)) &&
+      this._trackRef.current
+    ) {
       this._trackRef.current.addEventListener(
         'touchstart',
         preventPageScrolling,
@@ -466,6 +488,7 @@ export default class Slider extends PureComponent {
       id: _id, // eslint-disable-line
       step: _step, // eslint-disable-line
       value: _value, // eslint-disable-line
+      children: _children, // eslint-disable-line
       use_scrollwheel: _use_scrollwheel, // eslint-disable-line
 
       ...attributes
@@ -506,18 +529,13 @@ export default class Slider extends PureComponent {
         currentState && `dnb-slider__state--${currentState}`
       ),
       onClick: this.onClickHandler,
+      onTouchStart: this.onClickHandler,
       onMouseDown: this.onMouseDownHandler,
       onTouchStartCapture: this.onTouchStartHandler,
       onTouchMove: this.onMouseMoveHandler
     }
-    if (label) {
-      trackParams['aria-labelledby'] = id + '-label'
-    }
-    if (showStatus) {
-      trackParams['aria-describedby'] = id + '-status'
-    }
 
-    const thumbParams = {
+    const rangeParams = {
       title,
       disabled,
       ...attributes,
@@ -527,12 +545,20 @@ export default class Slider extends PureComponent {
       onTouchMove: this.onMouseMoveHandler,
       onFocus: this.onFocusHandler
     }
+
+    if (label) {
+      rangeParams['aria-labelledby'] = id + '-label'
+    }
+    if (showStatus) {
+      rangeParams['aria-describedby'] = id + '-status'
+    }
+
     const buttonParams = {
       disabled
     }
 
     // also used for code markup simulation
-    validateDOMAttributes(this.props, thumbParams)
+    validateDOMAttributes(this.props, rangeParams)
     validateDOMAttributes(null, trackParams)
     validateDOMAttributes(null, buttonParams)
 
@@ -580,7 +606,8 @@ export default class Slider extends PureComponent {
             {showButtons && (reverse ? addButton : subtractButton)}
             <span
               id={this._id}
-              role="slider"
+              // role="slider"
+              // tabIndex="-1"
               aria-valuenow={this.roundValue(value)}
               aria-valuemin={min}
               aria-valuemax={max}
@@ -592,7 +619,26 @@ export default class Slider extends PureComponent {
                 className="dnb-slider__thumb"
                 style={inlineThumbStyles}
               >
-                <Button variant="secondary" {...thumbParams} />
+                {/* Keep the possibility open to use a native slider inside */}
+                {!this.isTouch && (
+                  <input
+                    type="range"
+                    id={id + '-range'}
+                    className="dnb-slider__range"
+                    min={min}
+                    max={max}
+                    step={_step}
+                    value={value}
+                    {...rangeParams}
+                    onChange={this.onRangeChangeHandler}
+                  />
+                )}
+                <Button
+                  variant="secondary"
+                  tabIndex="-1"
+                  aria-hidden
+                  {...(this.isTouch ? rangeParams : {})}
+                />
               </span>
               <span
                 className="dnb-slider__line dnb-slider__line__before"
