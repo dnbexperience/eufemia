@@ -12,6 +12,7 @@ import logout from './logout.js'
 import pencil from './pencil.js'
 import print from './print.js'
 import save_alt_01 from './save_alt_01.js'
+import send from './send.js'
 import trash from './trash.js'
 import upload from './upload.js'
 
@@ -28,6 +29,7 @@ export {
   pencil,
   print,
   save_alt_01,
+  send,
   trash,
   upload
 }

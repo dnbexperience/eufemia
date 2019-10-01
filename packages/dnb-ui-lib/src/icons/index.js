@@ -56,6 +56,8 @@ import save_alt_01_medium from './save_alt_01_medium.js'
 import save_medium from './save_medium.js'
 import search from './search.js'
 import search_medium from './search_medium.js'
+import send from './send.js'
+import send_medium from './send_medium.js'
 import subtract from './subtract.js'
 import subtract_medium from './subtract_medium.js'
 import trash from './trash.js'
@@ -120,6 +122,8 @@ export {
   save_medium,
   search,
   search_medium,
+  send,
+  send_medium,
   subtract,
   subtract_medium,
   trash,
