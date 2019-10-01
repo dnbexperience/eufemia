@@ -262,6 +262,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
             submit_button_icon="search"
             submit_button_title={null}
             submit_button_variant="secondary"
+            suffix={null}
             type="text"
             value="initval"
           >
@@ -1527,7 +1528,7 @@ legend.dnb-form-label {
     padding-right: calc(var(--input-padding) * 2.5); }
   .dnb-input__row {
     display: inline-flex;
-    align-items: baseline; }
+    align-items: center; }
   .dnb-input__description {
     color: inherit;
     padding-left: 0.5rem; }

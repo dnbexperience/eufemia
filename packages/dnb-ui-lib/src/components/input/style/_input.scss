@@ -117,7 +117,7 @@
 
   &__row {
     display: inline-flex;
-    align-items: baseline;
+    align-items: center; // Safari gets wired if we use "baseline"
   }
 
   &__description {
