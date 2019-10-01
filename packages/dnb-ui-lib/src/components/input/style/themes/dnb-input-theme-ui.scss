@@ -46,6 +46,7 @@
 
     &[data-input-state='disabled'] {
       color: var(--input-text-color--disabled);
+      -webkit-text-fill-color: var(--input-text-color--disabled);
       @include fakeBorder(
         var(--input-border-color--disabled),
         var(--input-border-width),

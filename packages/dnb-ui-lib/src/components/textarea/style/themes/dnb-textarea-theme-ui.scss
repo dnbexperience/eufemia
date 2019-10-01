@@ -64,6 +64,7 @@
   &[disabled] /* for the HTML element */,
   .dnb-textarea--disabled & {
     user-select: none;
+    -webkit-user-select: none; // Safari / Touch fix
 
     color: var(--textarea-text-color--disabled);
     background-color: var(--textarea-background-color--disabled);

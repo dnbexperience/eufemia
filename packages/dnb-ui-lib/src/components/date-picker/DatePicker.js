@@ -684,6 +684,7 @@ export default class DatePicker extends PureComponent {
               id={id + '-form-status'}
               global_status_id={global_status_id}
               text_id={id + '-status'} // used for "aria-describedby"
+              width_selector={id + '-input'}
               text={status}
               status={status_state}
               animation={status_animation}

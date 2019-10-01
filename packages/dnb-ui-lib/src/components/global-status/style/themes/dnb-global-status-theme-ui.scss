@@ -26,7 +26,7 @@
   &__close-button.dnb-button--tertiary {
     color: var(--color-white);
 
-    @include hover(true) {
+    @include hover() {
       .dnb-button__text {
         color: inherit;
 

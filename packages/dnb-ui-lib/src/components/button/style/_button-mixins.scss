@@ -2,18 +2,21 @@
 * Button mixins
 *
 */
+@mixin buttonHoverStyle($color, $background-color) {
+  // NB: to get "over" sibling, because of the extendFakeFocus
+  // But if we would use it,
+  // then then we have to take care of places we use position="absolute", like the Modal Close button
+  // position: relative;
 
-@mixin buttonHover($color, $background-color) {
-  @include hover(true) {
-    // NB: to get "over" sibling, because of the extendFakeFocus
-    // But if we would use it,
-    // then then we have to take care of places we use position="absolute", like the Modal Close button
-    // position: relative;
+  color: $color;
+  background-color: $background-color;
 
-    color: $color;
-    background-color: $background-color;
+  @include fakeBorder(var(--color-emerald-green), 0.125rem /*2px*/);
+}
 
-    @include fakeBorder(var(--color-emerald-green), 0.125rem /*2px*/);
+@mixin buttonHover($color, $background-color, $enable-touch: null) {
+  @include hover() {
+    @include buttonHoverStyle($color, $background-color);
 
     // IE fix
     @media screen and (-ms-high-contrast: none) {
@@ -23,15 +26,22 @@
 
     @content;
   }
+
+  @if $enable-touch == 'touch' {
+    html[data-is-touch] & {
+      @include active() {
+        @include buttonHoverStyle($color, $background-color);
+      }
+    }
+  }
 }
 
 @mixin buttonActive($color, $background-color) {
-  @include active(true) {
+  @include active() {
     color: $color;
     background-color: $background-color;
 
     // no animation yet
-    // transition: none;
     @include fakeBorder(transparent);
 
     @content;
@@ -39,7 +49,7 @@
 }
 
 @mixin buttonFocus($color, $background-color, $focus-color: null) {
-  @include focus(true) {
+  @include focus() {
     color: $color;
     background-color: $background-color;
 

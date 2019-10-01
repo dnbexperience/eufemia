@@ -19,6 +19,7 @@ import {
   dispatchCustomElementEvent,
   validateDOMAttributes
 } from '../../shared/component-helper'
+import { createSpacingClasses } from '../space/SpacingHelper'
 import Button, { propTypes as ButtonPropTypes } from '../button/Button'
 
 const { disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks } =
@@ -341,7 +342,11 @@ export default class Modal extends PureComponent {
             }
             icon_position={trigger_icon_position}
             on_click={this.toggleOpenClose}
-            className={classnames('dnb-modal__trigger', trigger_class)}
+            className={classnames(
+              'dnb-modal__trigger',
+              createSpacingClasses(props),
+              trigger_class
+            )}
             innerRef={this._triggerRef}
           />
         )}

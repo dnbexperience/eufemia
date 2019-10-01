@@ -41,6 +41,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
         "submit_button_icon": "submit_button_icon",
         "submit_button_title": "submit_button_title",
         "submit_button_variant": "custom type not supported, please set the correct value for submit_button_variant prop",
+        "suffix": "suffix",
         "type": "type",
         "value": "value",
       },
@@ -98,6 +99,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
   submit_button_icon="search"
   submit_button_title={null}
   submit_button_variant="secondary"
+  suffix={null}
   type="search"
   value="test"
 >
@@ -168,6 +170,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                 "submit_button_icon": "submit_button_icon",
                 "submit_button_title": "submit_button_title",
                 "submit_button_variant": "custom type not supported, please set the correct value for submit_button_variant prop",
+                "suffix": "suffix",
                 "type": "type",
                 "value": "value",
               },
@@ -369,6 +372,7 @@ exports[`Input component have to match type="text" snapshot 1`] = `
         "submit_button_icon": "submit_button_icon",
         "submit_button_title": "submit_button_title",
         "submit_button_variant": "custom type not supported, please set the correct value for submit_button_variant prop",
+        "suffix": "suffix",
         "type": "type",
         "value": "value",
       },
@@ -426,6 +430,7 @@ exports[`Input component have to match type="text" snapshot 1`] = `
   submit_button_icon="search"
   submit_button_title={null}
   submit_button_variant="secondary"
+  suffix={null}
   type="text"
   value="test"
 >
@@ -508,6 +513,7 @@ exports[`Input scss have to match default theme snapshot 1`] = `
       background-color: var(--input-background-color--changed); }
     .dnb-input__shell[data-input-state='disabled'] {
       color: var(--input-text-color--disabled);
+      -webkit-text-fill-color: var(--input-text-color--disabled);
       box-shadow: inset 0 0 0 var(--input-border-width) var(--input-border-color--disabled);
       /* IE11 fix */
       border-color: transparent;
@@ -683,6 +689,8 @@ exports[`Input scss have to match snapshot 1`] = `
   --button-border-radius--large: calc(var(--button-height--large) / 2); }
 
 .dnb-button {
+  user-select: none;
+  -webkit-user-select: none;
   cursor: pointer;
   white-space: nowrap;
   display: inline-flex;
@@ -703,13 +711,13 @@ exports[`Input scss have to match snapshot 1`] = `
     .dnb-button__icon:not(.dnb-icon) svg:not([width]):not([height]) {
       width: var(--button-icon-size);
       height: var(--button-icon-size); }
-    [os='win'] .dnb-button__icon {
+    [data-os='win'] .dnb-button__icon {
       transform: translateY(-0.0625rem); }
   .dnb-button__text {
     line-height: 1em;
     color: inherit;
     background-color: inherit; }
-    [os='mac'] .dnb-button__text {
+    [data-os='mac'] .dnb-button__text {
       transform: translateY(0.0625rem); }
   .dnb-button__bounding {
     position: absolute;
@@ -788,9 +796,9 @@ exports[`Input scss have to match snapshot 1`] = `
     font: inherit;
     text-align: inherit;
     line-height: inherit; }
-    :not([dnb-is-touch]) .dnb-button--reset:hover[disabled] {
+    html:not([data-is-touch]) .dnb-button--reset:hover[disabled] {
       cursor: not-allowed; }
-    :not([dnb-is-touch]) .dnb-button--reset:hover:not([disabled]) {
+    html:not([data-is-touch]) .dnb-button--reset:hover:not([disabled]) {
       box-shadow: none;
       border: none; }
     .dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
@@ -885,6 +893,7 @@ a.dnb-button .dnb-button__text {
     margin-bottom: 0.5rem; }
   .dnb-form-label[for]:not([disabled]) {
     user-select: none;
+    -webkit-user-select: none;
     cursor: pointer; }
   .dnb-form-label[disabled] {
     cursor: not-allowed; }
@@ -939,14 +948,14 @@ legend.dnb-form-label {
   .dnb-form-status__shell {
     display: flex;
     justify-content: flex-start;
-    align-items: center;
+    align-items: flex-start;
     border-radius: var(--input-border-radius); }
   .dnb-form-status--text {
     padding: calc(0.5rem / 2) 1rem;
     cursor: text;
     color: inherit;
     line-height: 1.5rem; }
-    [os='mac'] .dnb-form-status--text {
+    [data-os='mac'] .dnb-form-status--text {
       transform: translateY(0.0625rem); }
   .dnb-icon + .dnb-form-status--text {
     padding-left: 0.5rem; }
@@ -956,7 +965,8 @@ legend.dnb-form-label {
     align-items: center;
     width: 1.5em;
     height: 1.5em;
-    margin-left: 0.5rem;
+    margin-top: 0.25em;
+    margin-left: 0.5em;
     color: inherit;
     font-size: 1rem;
     border-radius: 50%;
@@ -1051,7 +1061,9 @@ legend.dnb-form-label {
     outline: none;
     word-break: normal; }
   .dnb-input__input[disabled] {
-    user-select: none; }
+    user-select: none;
+    -webkit-user-select: none;
+    opacity: 1; }
   .dnb-input__shell, .dnb-input__input {
     height: var(--input-height);
     border-radius: var(--input-border-radius); }
@@ -1079,8 +1091,8 @@ legend.dnb-form-label {
     display: none; }
   .dnb-input__input::-ms-clear {
     display: none; }
-  [os='mac'] .dnb-input__placeholder,
-  [os='mac'] .dnb-input__input {
+  [data-os='mac'] .dnb-input__placeholder,
+  [data-os='mac'] .dnb-input__input {
     transform: translateY(0.0625rem); }
   .dnb-core-style .dnb-input__input {
     line-height: 1em; }
@@ -1089,7 +1101,7 @@ legend.dnb-form-label {
     padding-right: calc(var(--input-padding) * 2.5); }
   .dnb-input__row {
     display: inline-flex;
-    align-items: baseline; }
+    align-items: center; }
   .dnb-input__description {
     color: inherit;
     padding-left: 0.5rem; }

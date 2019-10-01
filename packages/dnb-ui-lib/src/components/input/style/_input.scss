@@ -52,6 +52,8 @@
 
   &__input[disabled] {
     user-select: none;
+    -webkit-user-select: none; // Safari / Touch fix
+    opacity: 1; // iOS fix
   }
 
   &__shell,
@@ -99,8 +101,8 @@
   }
 
   // vertical alignment
-  [os='mac'] &__placeholder,
-  [os='mac'] &__input {
+  [data-os='mac'] &__placeholder,
+  [data-os='mac'] &__input {
     transform: translateY(0.0625rem);
   }
 
@@ -116,7 +118,7 @@
 
   &__row {
     display: inline-flex;
-    align-items: baseline;
+    align-items: center; // Safari gets wired if we use "baseline"
   }
 
   &__description {

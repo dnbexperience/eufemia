@@ -161,18 +161,13 @@ exports[`Slider component have to match snapshot 1`] = `
           </button>
         </Button>
         <span
-          aria-labelledby="id-label"
-          aria-orientation="horizontal"
-          aria-valuemax={100}
-          aria-valuemin={0}
-          aria-valuenow={70}
           className="dnb-slider__track"
           id="id"
-          onClick={[Function]}
           onMouseDown={[Function]}
+          onMouseDownCapture={[Function]}
           onTouchMove={[Function]}
+          onTouchStart={[Function]}
           onTouchStartCapture={[Function]}
-          role="slider"
         >
           <span
             className="dnb-slider__thumb"
@@ -182,7 +177,25 @@ exports[`Slider component have to match snapshot 1`] = `
               }
             }
           >
+            <input
+              aria-labelledby="id-label"
+              className="dnb-slider__helper"
+              max={100}
+              min={0}
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              orientation="horizontal"
+              step={10}
+              title="thump_title"
+              type="range"
+              value={70}
+            />
             <Button
+              aria-hidden={true}
               bounding={false}
               class={null}
               className={null}
@@ -195,36 +208,29 @@ exports[`Slider component have to match snapshot 1`] = `
               icon_size={null}
               id={null}
               innerRef={null}
-              onBlur={[Function]}
               onClick={null}
-              onFocus={[Function]}
-              onKeyDown={[Function]}
-              onTouchMove={[Function]}
-              onTouchStart={[Function]}
               on_click={null}
               size={null}
+              tabIndex="-1"
               text={null}
-              title="thump_title"
+              title={null}
               type="button"
               variant="secondary"
             >
               <button
+                aria-hidden={true}
                 className="dnb-button dnb-button--secondary"
-                onBlur={[Function]}
                 onClick={[Function]}
-                onFocus={[Function]}
-                onKeyDown={[Function]}
                 onMouseOut={[Function]}
-                onTouchMove={[Function]}
-                onTouchStart={[Function]}
-                title="thump_title"
+                tabIndex="-1"
                 type="button"
               >
                 <Content
+                  aria-hidden={true}
                   bounding={false}
                   class={null}
                   className={null}
-                  content="children"
+                  content={null}
                   custom_element={null}
                   custom_method={null}
                   disabled={null}
@@ -235,21 +241,15 @@ exports[`Slider component have to match snapshot 1`] = `
                   id={null}
                   innerRef={null}
                   isIconOnly={false}
-                  onBlur={[Function]}
                   onClick={null}
-                  onFocus={[Function]}
-                  onKeyDown={[Function]}
-                  onTouchMove={[Function]}
-                  onTouchStart={[Function]}
                   on_click={null}
                   size={null}
+                  tabIndex="-1"
                   text={null}
-                  title="thump_title"
+                  title={null}
                   type="button"
                   variant="secondary"
-                >
-                  children
-                </Content>
+                />
               </button>
             </Button>
           </span>
@@ -504,6 +504,8 @@ exports[`Slider scss have to match snapshot 1`] = `
   --button-border-radius--large: calc(var(--button-height--large) / 2); }
 
 .dnb-button {
+  user-select: none;
+  -webkit-user-select: none;
   cursor: pointer;
   white-space: nowrap;
   display: inline-flex;
@@ -524,13 +526,13 @@ exports[`Slider scss have to match snapshot 1`] = `
     .dnb-button__icon:not(.dnb-icon) svg:not([width]):not([height]) {
       width: var(--button-icon-size);
       height: var(--button-icon-size); }
-    [os='win'] .dnb-button__icon {
+    [data-os='win'] .dnb-button__icon {
       transform: translateY(-0.0625rem); }
   .dnb-button__text {
     line-height: 1em;
     color: inherit;
     background-color: inherit; }
-    [os='mac'] .dnb-button__text {
+    [data-os='mac'] .dnb-button__text {
       transform: translateY(0.0625rem); }
   .dnb-button__bounding {
     position: absolute;
@@ -609,9 +611,9 @@ exports[`Slider scss have to match snapshot 1`] = `
     font: inherit;
     text-align: inherit;
     line-height: inherit; }
-    :not([dnb-is-touch]) .dnb-button--reset:hover[disabled] {
+    html:not([data-is-touch]) .dnb-button--reset:hover[disabled] {
       cursor: not-allowed; }
-    :not([dnb-is-touch]) .dnb-button--reset:hover:not([disabled]) {
+    html:not([data-is-touch]) .dnb-button--reset:hover:not([disabled]) {
       box-shadow: none;
       border: none; }
     .dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
@@ -706,6 +708,7 @@ a.dnb-button .dnb-button__text {
     margin-bottom: 0.5rem; }
   .dnb-form-label[for]:not([disabled]) {
     user-select: none;
+    -webkit-user-select: none;
     cursor: pointer; }
   .dnb-form-label[disabled] {
     cursor: not-allowed; }
@@ -760,14 +763,14 @@ legend.dnb-form-label {
   .dnb-form-status__shell {
     display: flex;
     justify-content: flex-start;
-    align-items: center;
+    align-items: flex-start;
     border-radius: var(--input-border-radius); }
   .dnb-form-status--text {
     padding: calc(0.5rem / 2) 1rem;
     cursor: text;
     color: inherit;
     line-height: 1.5rem; }
-    [os='mac'] .dnb-form-status--text {
+    [data-os='mac'] .dnb-form-status--text {
       transform: translateY(0.0625rem); }
   .dnb-icon + .dnb-form-status--text {
     padding-left: 0.5rem; }
@@ -777,7 +780,8 @@ legend.dnb-form-label {
     align-items: center;
     width: 1.5em;
     height: 1.5em;
-    margin-left: 0.5rem;
+    margin-top: 0.25em;
+    margin-left: 0.5em;
     color: inherit;
     font-size: 1rem;
     border-radius: 50%;
@@ -844,6 +848,8 @@ legend.dnb-form-label {
   --slider-space: 1rem; }
 
 .dnb-slider {
+  user-select: none;
+  -webkit-user-select: none;
   display: flex; }
   .dnb-slider--vertical {
     width: auto;
@@ -934,7 +940,7 @@ legend.dnb-form-label {
     top: 0; }
   .dnb-slider--vertical .dnb-slider__line__after {
     bottom: 0; }
-  .dnb-slider__thumb {
+  .dnb-slider__helper, .dnb-slider__thumb {
     position: absolute;
     left: 0;
     top: 0;
@@ -942,7 +948,8 @@ legend.dnb-form-label {
     display: block;
     transform: translate3d(-50%, 0, 0);
     border-radius: 50%; }
-    .dnb-slider__thumb,
+    .dnb-slider__helper,
+    .dnb-slider__helper .dnb-button, .dnb-slider__thumb,
     .dnb-slider__thumb .dnb-button {
       height: var(--slider-thumb-size);
       width: var(--slider-thumb-size); }
@@ -960,6 +967,17 @@ legend.dnb-form-label {
   .dnb-slider__state--disabled.dnb-slider__track,
   .dnb-slider__state--disabled .dnb-slider__thumb {
     cursor: not-allowed; }
+  .dnb-slider__helper {
+    pointer-events: none;
+    z-index: 2;
+    opacity: 0;
+    transform: translate3d(0.0625rem, 0, 0); }
+  .dnb-slider__helper:not(:disabled):focus ~ .dnb-button {
+    outline: none; }
+    html[data-whatinput='keyboard'] .dnb-slider__helper:not(:disabled):focus ~ .dnb-button {
+      box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
+      /* IE11 fix */
+      border-color: transparent; }
   .dnb-slider > .dnb-form-label {
     margin-right: 1rem; }
   .dnb-slider__label--vertical {

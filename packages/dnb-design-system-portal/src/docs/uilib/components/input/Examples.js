@@ -102,13 +102,13 @@ class Example extends PureComponent {
 />
           `}
         </ComponentBox>
-        <ComponentBox caption="Input wigth additional description">
+        <ComponentBox caption="Input with suffix (additional description)">
           {/* @jsx */ `
 <Input
   label="Short Label:"
   autocomplete="on"
   placeholder="Placeholder text"
-  description="Additional description"
+  suffix={<Modal title="Info">Some content</Modal>}
   on_change={({ value }) => {
     console.log('on_change', value)
   }}

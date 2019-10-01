@@ -29,10 +29,6 @@
     & ~ .dnb-date-picker--separator {
       color: var(--color-emerald-green);
     }
-    &[disabled],
-    &[disabled] ~ .dnb-date-picker--separator {
-      color: var(--input-text-color--disabled);
-    }
   }
 
   &__container {
@@ -118,10 +114,10 @@
       }
     }
 
-    :not([dnb-is-touch])
+    html:not([data-is-touch])
       &--start-date#{&}--within-selection
       .dnb-button:hover:not([disabled]),
-    :not([dnb-is-touch])
+    html:not([data-is-touch])
       &--end-date#{&}--within-selection
       .dnb-button:hover:not([disabled]) {
       color: var(--date-picker-selected-color);
@@ -135,7 +131,7 @@
       }
     }
 
-    :not([dnb-is-touch]) &--inactive .dnb-button[disabled] {
+    html:not([data-is-touch]) &--inactive .dnb-button[disabled] {
       cursor: default;
     }
   }

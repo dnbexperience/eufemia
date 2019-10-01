@@ -55,7 +55,12 @@ export const propTypes = {
   autocomplete: PropTypes.oneOf(['on', 'off']),
   submit_button_title: PropTypes.string,
   placeholder: PropTypes.string,
-  description: PropTypes.string,
+  description: PropTypes.string, // deprecated
+  suffix: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node
+  ]),
   align: PropTypes.string,
   selectall: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -111,7 +116,8 @@ export const defaultProps = {
   global_status_id: null,
   autocomplete: 'off',
   placeholder: null,
-  description: null,
+  description: null, // deprecated
+  suffix: null,
   align: null,
   selectall: null,
   stretch: null,
@@ -262,7 +268,8 @@ export default class Input extends PureComponent {
       global_status_id,
       disabled,
       placeholder,
-      description,
+      description, // deprecated
+      suffix,
       align,
       input_class,
       submit_button_title,
@@ -352,10 +359,10 @@ export default class Input extends PureComponent {
     }
 
     // we may considder using: aria-details
-    if (showStatus || description) {
+    if (showStatus || (suffix || description)) {
       inputParams['aria-describedby'] = `${
         showStatus ? id + '-status' : ''
-      } ${description ? id + '-description' : ''}`
+      } ${suffix || description ? id + '-description' : ''}`
     }
     if (type === 'search') {
       inputParams.autoComplete = 'off'
@@ -439,12 +446,12 @@ export default class Input extends PureComponent {
                   on_submit={on_submit}
                 />
               ))}
-            {description && (
+            {(suffix || description) && (
               <span
                 className="dnb-input__description"
                 id={id + '-description'} // used for "aria-describedby"
               >
-                {description}
+                {suffix || description}
               </span>
             )}
           </span>

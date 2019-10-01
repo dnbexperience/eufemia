@@ -11,6 +11,9 @@
 }
 
 .dnb-slider {
+  user-select: none;
+  -webkit-user-select: none; // Safari / Touch fix
+
   // use flex to make sure we have the whole space available
   display: flex;
 
@@ -157,6 +160,7 @@
     bottom: 0;
   }
 
+  &__helper,
   &__thumb {
     position: absolute;
     left: 0;
@@ -197,6 +201,18 @@
   &__state--disabled#{&}__track,
   &__state--disabled &__thumb {
     cursor: not-allowed;
+  }
+
+  // make sure the helper is not click able
+  &__helper {
+    pointer-events: none;
+    z-index: 2;
+    opacity: 0;
+
+    transform: translate3d(0.0625rem, 0, 0);
+  }
+  &__helper:not(:disabled):focus ~ .dnb-button {
+    @include fakeFocus();
   }
 
   > .dnb-form-label {

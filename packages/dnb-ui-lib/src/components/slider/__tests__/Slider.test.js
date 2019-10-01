@@ -38,7 +38,8 @@ describe('Slider component', () => {
   it('has correct value after mouse move', () => {
     expect(Comp.state().value).toBe(props.value)
 
-    Comp.find('[role="slider"]').simulate('mousedown')
+    // Comp.find('[role="slider"]').simulate('mousedown')
+    Comp.find('[type="range"]').simulate('mousedown')
     simulateMouseMove({ pageX: 80, width: 100, height: 10 })
 
     expect(Comp.state().value).toBe(props.value + 10)
@@ -49,8 +50,9 @@ describe('Slider component', () => {
 
     expect(Comp.state().value).toBe(props.value)
 
-    Comp.find('[role="slider"]').simulate('mousedown')
-    simulateMouseMove({ pageY: 80, width: 10, height: 100 })
+    // Comp.find('[role="slider"]').simulate('mousedown')
+    Comp.find('[type="range"]').simulate('mousedown')
+    simulateMouseMove({ pageX: 80, pageY: 80, width: 10, height: 100 })
 
     // sice we use reverse in vertical mode
     expect(Comp.state().value).toBe(20)

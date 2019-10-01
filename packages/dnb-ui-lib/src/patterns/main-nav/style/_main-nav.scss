@@ -20,7 +20,7 @@
 @include allAbove(large) {
   //Nav bar becomes fixed on large screens
   //so .main needs to push content a bit down
-  :not([dnb-is-touch]) .main {
+  html:not([data-is-touch]) .main {
     padding-top: 3rem;
   }
 }

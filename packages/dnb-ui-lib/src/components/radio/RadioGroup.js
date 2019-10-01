@@ -239,6 +239,7 @@ export default class RadioGroup extends PureComponent {
                   text={status}
                   status={status_state}
                   text_id={id + '-status'} // used for "aria-describedby"
+                  width_selector={id + ', ' + id + '-label'}
                   animation={status_animation}
                 />
               )}

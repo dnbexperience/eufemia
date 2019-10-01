@@ -15,6 +15,8 @@
   text-align: center;
 
   user-select: none;
+  -webkit-user-select: none; // Safari / Touch fix
+
   outline: none;
 
   background-color: transparent;
@@ -97,6 +99,6 @@ a.dnb-skip-link-demo,
 a.dnb-skip-link:focus {
   @include skipLink();
 }
-[dnb-is-touch] a.dnb-skip-link {
+[data-is-touch] a.dnb-skip-link {
   display: none;
 }

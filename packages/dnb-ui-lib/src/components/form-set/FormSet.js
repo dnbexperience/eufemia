@@ -106,6 +106,7 @@ export default class FormSet extends PureComponent {
         typeof availableFormRowProps[k] !== 'undefined' &&
         k !== 'id' &&
         k !== 'children' &&
+        k !== 'label' &&
         k !== 'render_content'
       ) {
         acc[k] = v

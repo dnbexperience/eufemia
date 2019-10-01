@@ -139,6 +139,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
         text="status"
         text_id="dropdown-id-status"
         title={null}
+        width_selector={null}
       >
         <span
           className="dnb-form-status dnb-form-status--error dnb-form-status--status_animation dnb-form-status--has-content"
@@ -419,11 +420,11 @@ exports[`Dropdown scss have to match default theme snapshot 1`] = `
     .dnb-dropdown__option__inner {
       padding-right: 2rem;
       background-color: var(--dropdown-option-background-color); }
-    :not([dnb-is-touch]) .dnb-dropdown__option:hover[disabled] {
+    html:not([data-is-touch]) .dnb-dropdown__option:hover[disabled] {
       cursor: not-allowed; }
-    :not([dnb-is-touch]) .dnb-dropdown__option:hover:not([disabled]) {
+    html:not([data-is-touch]) .dnb-dropdown__option:hover:not([disabled]) {
       background-color: var(--dropdown-option-background-color--hover); }
-      :not([dnb-is-touch]) .dnb-dropdown__option:hover:not([disabled]) .dnb-dropdown__option__inner {
+      html:not([data-is-touch]) .dnb-dropdown__option:hover:not([disabled]) .dnb-dropdown__option__inner {
         color: var(--dropdown-option-color--hover);
         background-color: var(--dropdown-option-background-color--hover); }
     .dnb-dropdown__option--focus::before {
@@ -443,12 +444,12 @@ exports[`Dropdown scss have to match default theme snapshot 1`] = `
       .dnb-dropdown__option--selected .dnb-dropdown__option__inner {
         color: inherit;
         background-color: inherit; }
-      :not([dnb-is-touch]) .dnb-dropdown__option--selected:hover[disabled] {
+      html:not([data-is-touch]) .dnb-dropdown__option--selected:hover[disabled] {
         cursor: not-allowed; }
-      :not([dnb-is-touch]) .dnb-dropdown__option--selected:hover:not([disabled]) {
+      html:not([data-is-touch]) .dnb-dropdown__option--selected:hover:not([disabled]) {
         color: var(--dropdown-option-color--selected);
         background-color: var(--dropdown-option-background-color--selected); }
-        :not([dnb-is-touch]) .dnb-dropdown__option--selected:hover:not([disabled]) .dnb-dropdown__option__inner {
+        html:not([data-is-touch]) .dnb-dropdown__option--selected:hover:not([disabled]) .dnb-dropdown__option__inner {
           color: inherit;
           background-color: inherit; }
       .dnb-dropdown__option--selected::after {
@@ -487,9 +488,9 @@ exports[`Dropdown scss have to match default theme snapshot 1`] = `
     border-radius: var(--dropdown-options-border-radius) var(--dropdown-options-border-radius) 0 0; }
   .dnb-dropdown__trigger {
     color: var(--dropdown-text-color); }
-    :not([dnb-is-touch]) .dnb-dropdown__trigger:hover[disabled] {
+    html:not([data-is-touch]) .dnb-dropdown__trigger:hover[disabled] {
       cursor: not-allowed; }
-    :not([dnb-is-touch]) .dnb-dropdown__trigger:hover:not([disabled]) {
+    html:not([data-is-touch]) .dnb-dropdown__trigger:hover:not([disabled]) {
       color: var(--dropdown-text-color); }
   .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger {
     box-shadow: 0 0 0 0.125rem var(--color-cherry-red) !important;
@@ -498,16 +499,16 @@ exports[`Dropdown scss have to match default theme snapshot 1`] = `
     @media screen and (-ms-high-contrast: none) {
       .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger {
         box-shadow: 0 0 0 1px var(--color-cherry-red) !important; } }
-    :not([dnb-is-touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover[disabled] {
+    html:not([data-is-touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover[disabled] {
       cursor: not-allowed; }
-    :not([dnb-is-touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover:not([disabled]) {
+    html:not([data-is-touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover:not([disabled]) {
       box-shadow: 0 0 0 0.125rem var(--color-cherry-red) !important;
       /* IE11 fix */
       border-color: transparent; }
       @media screen and (-ms-high-contrast: none) {
-        :not([dnb-is-touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover:not([disabled]) {
+        html:not([data-is-touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover:not([disabled]) {
           box-shadow: 0 0 0 1px var(--color-cherry-red) !important; } }
-      :not([dnb-is-touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover:not([disabled]) .dnb-dropdown__icon .dnb-icon {
+      html:not([data-is-touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover:not([disabled]) .dnb-dropdown__icon .dnb-icon {
         color: var(--color-cherry-red); }
   .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__icon {
     color: var(--color-cherry-red); }
@@ -667,6 +668,8 @@ exports[`Dropdown scss have to match snapshot 1`] = `
   --button-border-radius--large: calc(var(--button-height--large) / 2); }
 
 .dnb-button {
+  user-select: none;
+  -webkit-user-select: none;
   cursor: pointer;
   white-space: nowrap;
   display: inline-flex;
@@ -687,13 +690,13 @@ exports[`Dropdown scss have to match snapshot 1`] = `
     .dnb-button__icon:not(.dnb-icon) svg:not([width]):not([height]) {
       width: var(--button-icon-size);
       height: var(--button-icon-size); }
-    [os='win'] .dnb-button__icon {
+    [data-os='win'] .dnb-button__icon {
       transform: translateY(-0.0625rem); }
   .dnb-button__text {
     line-height: 1em;
     color: inherit;
     background-color: inherit; }
-    [os='mac'] .dnb-button__text {
+    [data-os='mac'] .dnb-button__text {
       transform: translateY(0.0625rem); }
   .dnb-button__bounding {
     position: absolute;
@@ -772,9 +775,9 @@ exports[`Dropdown scss have to match snapshot 1`] = `
     font: inherit;
     text-align: inherit;
     line-height: inherit; }
-    :not([dnb-is-touch]) .dnb-button--reset:hover[disabled] {
+    html:not([data-is-touch]) .dnb-button--reset:hover[disabled] {
       cursor: not-allowed; }
-    :not([dnb-is-touch]) .dnb-button--reset:hover:not([disabled]) {
+    html:not([data-is-touch]) .dnb-button--reset:hover:not([disabled]) {
       box-shadow: none;
       border: none; }
     .dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
@@ -869,6 +872,7 @@ a.dnb-button .dnb-button__text {
     margin-bottom: 0.5rem; }
   .dnb-form-label[for]:not([disabled]) {
     user-select: none;
+    -webkit-user-select: none;
     cursor: pointer; }
   .dnb-form-label[disabled] {
     cursor: not-allowed; }
@@ -923,14 +927,14 @@ legend.dnb-form-label {
   .dnb-form-status__shell {
     display: flex;
     justify-content: flex-start;
-    align-items: center;
+    align-items: flex-start;
     border-radius: var(--input-border-radius); }
   .dnb-form-status--text {
     padding: calc(0.5rem / 2) 1rem;
     cursor: text;
     color: inherit;
     line-height: 1.5rem; }
-    [os='mac'] .dnb-form-status--text {
+    [data-os='mac'] .dnb-form-status--text {
       transform: translateY(0.0625rem); }
   .dnb-icon + .dnb-form-status--text {
     padding-left: 0.5rem; }
@@ -940,7 +944,8 @@ legend.dnb-form-label {
     align-items: center;
     width: 1.5em;
     height: 1.5em;
-    margin-left: 0.5rem;
+    margin-top: 0.25em;
+    margin-left: 0.5em;
     color: inherit;
     font-size: 1rem;
     border-radius: 50%;
@@ -1154,6 +1159,7 @@ legend.dnb-form-label {
     position: relative;
     z-index: 1;
     user-select: none;
+    -webkit-user-select: none;
     display: inline-flex;
     align-items: center;
     outline: none;
@@ -1239,7 +1245,7 @@ legend.dnb-form-label {
       text-decoration: none;
       text-overflow: inherit;
       text-align: inherit; }
-      [os='mac'] .dnb-dropdown__text__inner {
+      [data-os='mac'] .dnb-dropdown__text__inner {
         transform: translateY(0.0625rem); }
   .dnb-dropdown--opened .dnb-dropdown__list {
     z-index: 100;

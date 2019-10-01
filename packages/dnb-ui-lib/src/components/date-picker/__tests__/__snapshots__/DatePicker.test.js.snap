@@ -109,6 +109,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
         text="status"
         text_id="date-picker-id-status"
         title={null}
+        width_selector="date-picker-id-input"
       >
         <span
           className="dnb-form-status dnb-form-status--error dnb-form-status--has-content"
@@ -261,6 +262,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
             submit_button_icon="search"
             submit_button_title={null}
             submit_button_variant="secondary"
+            suffix={null}
             type="text"
             value="initval"
           >
@@ -280,6 +282,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                   >
                     <span
                       className="dnb-date-picker__input__wrapper"
+                      id="date-picker-id-input"
                     >
                       <ForwardRef
                         aria-labelledby="date-picker-id"
@@ -902,18 +905,6 @@ exports[`DatePicker scss have to match default theme snapshot 1`] = `
   .dnb-date-picker__input[value*='8'] ~ .dnb-date-picker--separator, .dnb-date-picker__input[value*='9'],
   .dnb-date-picker__input[value*='9'] ~ .dnb-date-picker--separator {
     color: var(--color-emerald-green); }
-  .dnb-date-picker__input[value*='0'][disabled],
-  .dnb-date-picker__input[value*='0'][disabled] ~ .dnb-date-picker--separator, .dnb-date-picker__input[value*='1'][disabled],
-  .dnb-date-picker__input[value*='1'][disabled] ~ .dnb-date-picker--separator, .dnb-date-picker__input[value*='2'][disabled],
-  .dnb-date-picker__input[value*='2'][disabled] ~ .dnb-date-picker--separator, .dnb-date-picker__input[value*='3'][disabled],
-  .dnb-date-picker__input[value*='3'][disabled] ~ .dnb-date-picker--separator, .dnb-date-picker__input[value*='4'][disabled],
-  .dnb-date-picker__input[value*='4'][disabled] ~ .dnb-date-picker--separator, .dnb-date-picker__input[value*='5'][disabled],
-  .dnb-date-picker__input[value*='5'][disabled] ~ .dnb-date-picker--separator, .dnb-date-picker__input[value*='6'][disabled],
-  .dnb-date-picker__input[value*='6'][disabled] ~ .dnb-date-picker--separator, .dnb-date-picker__input[value*='7'][disabled],
-  .dnb-date-picker__input[value*='7'][disabled] ~ .dnb-date-picker--separator, .dnb-date-picker__input[value*='8'][disabled],
-  .dnb-date-picker__input[value*='8'][disabled] ~ .dnb-date-picker--separator, .dnb-date-picker__input[value*='9'][disabled],
-  .dnb-date-picker__input[value*='9'][disabled] ~ .dnb-date-picker--separator {
-    color: var(--input-text-color--disabled); }
   .dnb-date-picker__container {
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16);
     border-radius: 0.25rem;
@@ -950,16 +941,16 @@ exports[`DatePicker scss have to match default theme snapshot 1`] = `
     background-color: var(--date-picker-selected-bg-color); }
   .dnb-date-picker__day--start-date:not(.dnb-date-picker__day--inactive):not(.dnb-date-picker__day--preview) .dnb-button:hover, .dnb-date-picker__day--end-date:not(.dnb-date-picker__day--inactive):not(.dnb-date-picker__day--preview) .dnb-button:hover {
     box-shadow: none; }
-  :not([dnb-is-touch])
+  html:not([data-is-touch])
 .dnb-date-picker__day--start-date.dnb-date-picker__day--within-selection .dnb-button:hover:not([disabled]),
-  :not([dnb-is-touch])
+  html:not([data-is-touch])
 .dnb-date-picker__day--end-date.dnb-date-picker__day--within-selection .dnb-button:hover:not([disabled]) {
     color: var(--date-picker-selected-color);
     background-color: var(--date-picker-selected-bg-color-hover); }
   .dnb-date-picker__day--inactive .dnb-button[disabled],
   .dnb-date-picker__day--disabled .dnb-button[disabled] {
     box-shadow: none; }
-  :not([dnb-is-touch]) .dnb-date-picker__day--inactive .dnb-button[disabled] {
+  html:not([data-is-touch]) .dnb-date-picker__day--inactive .dnb-button[disabled] {
     cursor: default; }
   .dnb-date-picker__triangle::before {
     border: none;
@@ -1115,6 +1106,8 @@ exports[`DatePicker scss have to match snapshot 1`] = `
   --button-border-radius--large: calc(var(--button-height--large) / 2); }
 
 .dnb-button {
+  user-select: none;
+  -webkit-user-select: none;
   cursor: pointer;
   white-space: nowrap;
   display: inline-flex;
@@ -1135,13 +1128,13 @@ exports[`DatePicker scss have to match snapshot 1`] = `
     .dnb-button__icon:not(.dnb-icon) svg:not([width]):not([height]) {
       width: var(--button-icon-size);
       height: var(--button-icon-size); }
-    [os='win'] .dnb-button__icon {
+    [data-os='win'] .dnb-button__icon {
       transform: translateY(-0.0625rem); }
   .dnb-button__text {
     line-height: 1em;
     color: inherit;
     background-color: inherit; }
-    [os='mac'] .dnb-button__text {
+    [data-os='mac'] .dnb-button__text {
       transform: translateY(0.0625rem); }
   .dnb-button__bounding {
     position: absolute;
@@ -1220,9 +1213,9 @@ exports[`DatePicker scss have to match snapshot 1`] = `
     font: inherit;
     text-align: inherit;
     line-height: inherit; }
-    :not([dnb-is-touch]) .dnb-button--reset:hover[disabled] {
+    html:not([data-is-touch]) .dnb-button--reset:hover[disabled] {
       cursor: not-allowed; }
-    :not([dnb-is-touch]) .dnb-button--reset:hover:not([disabled]) {
+    html:not([data-is-touch]) .dnb-button--reset:hover:not([disabled]) {
       box-shadow: none;
       border: none; }
     .dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
@@ -1317,6 +1310,7 @@ a.dnb-button .dnb-button__text {
     margin-bottom: 0.5rem; }
   .dnb-form-label[for]:not([disabled]) {
     user-select: none;
+    -webkit-user-select: none;
     cursor: pointer; }
   .dnb-form-label[disabled] {
     cursor: not-allowed; }
@@ -1371,14 +1365,14 @@ legend.dnb-form-label {
   .dnb-form-status__shell {
     display: flex;
     justify-content: flex-start;
-    align-items: center;
+    align-items: flex-start;
     border-radius: var(--input-border-radius); }
   .dnb-form-status--text {
     padding: calc(0.5rem / 2) 1rem;
     cursor: text;
     color: inherit;
     line-height: 1.5rem; }
-    [os='mac'] .dnb-form-status--text {
+    [data-os='mac'] .dnb-form-status--text {
       transform: translateY(0.0625rem); }
   .dnb-icon + .dnb-form-status--text {
     padding-left: 0.5rem; }
@@ -1388,7 +1382,8 @@ legend.dnb-form-label {
     align-items: center;
     width: 1.5em;
     height: 1.5em;
-    margin-left: 0.5rem;
+    margin-top: 0.25em;
+    margin-left: 0.5em;
     color: inherit;
     font-size: 1rem;
     border-radius: 50%;
@@ -1483,7 +1478,9 @@ legend.dnb-form-label {
     outline: none;
     word-break: normal; }
   .dnb-input__input[disabled] {
-    user-select: none; }
+    user-select: none;
+    -webkit-user-select: none;
+    opacity: 1; }
   .dnb-input__shell, .dnb-input__input {
     height: var(--input-height);
     border-radius: var(--input-border-radius); }
@@ -1511,8 +1508,8 @@ legend.dnb-form-label {
     display: none; }
   .dnb-input__input::-ms-clear {
     display: none; }
-  [os='mac'] .dnb-input__placeholder,
-  [os='mac'] .dnb-input__input {
+  [data-os='mac'] .dnb-input__placeholder,
+  [data-os='mac'] .dnb-input__input {
     transform: translateY(0.0625rem); }
   .dnb-core-style .dnb-input__input {
     line-height: 1em; }
@@ -1521,7 +1518,7 @@ legend.dnb-form-label {
     padding-right: calc(var(--input-padding) * 2.5); }
   .dnb-input__row {
     display: inline-flex;
-    align-items: baseline; }
+    align-items: center; }
   .dnb-input__description {
     color: inherit;
     padding-left: 0.5rem; }
@@ -1765,7 +1762,8 @@ legend.dnb-form-label {
     margin: 0 -0.2rem; }
   .dnb-date-picker__views {
     display: flex;
-    user-select: none; }
+    user-select: none;
+    -webkit-user-select: none; }
   .dnb-date-picker__calendar {
     position: relative;
     padding: 1rem; }

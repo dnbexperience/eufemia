@@ -22,6 +22,7 @@
 
   &[for]:not([disabled]) {
     user-select: none;
+    -webkit-user-select: none; // Safari / Touch fix
     cursor: pointer;
   }
   &[disabled] {

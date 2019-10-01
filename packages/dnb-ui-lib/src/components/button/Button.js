@@ -125,6 +125,23 @@ export default class Button extends PureComponent {
     ) {
       this.props.innerRef.current = this._ref.current
     }
+    if (this._ref.current) {
+      this._ref.current.addEventListener(
+        'touchstart',
+        this.preventPageScrolling,
+        { passive: false }
+      )
+    }
+  }
+
+  componentWillUnmount() {
+    if (this._ref.current) {
+      this._ref.current.removeEventListener(
+        'touchstart',
+        this.preventPageScrolling,
+        { passive: false }
+      )
+    }
   }
 
   onMouseOutHandler = () => {
@@ -142,6 +159,7 @@ export default class Button extends PureComponent {
       })
     }
   }
+  preventPageScrolling = event => event.preventDefault()
   render() {
     // consume the formRow context
     const props = this.context.formRow
@@ -214,6 +232,7 @@ export default class Button extends PureComponent {
       disabled: isTrue(disabled),
       ...attributes,
       onMouseOut: this.onMouseOutHandler, // for resetting the button to the default state
+      // onTouchStart: this.preventPageScrolling,
       onClick: this.onClickHandler
     }
 
