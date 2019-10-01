@@ -9,7 +9,7 @@
   &__shell {
     display: flex;
     justify-content: flex-start;
-    align-items: center; // could be flex-start to have the icon on top
+    align-items: flex-start;
 
     border-radius: var(--input-border-radius);
   }
@@ -39,7 +39,8 @@
     width: 1.5em;
     height: 1.5em;
 
-    margin-left: 0.5rem;
+    margin-top: 0.25em;
+    margin-left: 0.5em;
 
     color: inherit;
 

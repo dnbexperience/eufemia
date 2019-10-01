@@ -660,7 +660,7 @@ legend.dnb-form-label {
   .dnb-form-status__shell {
     display: flex;
     justify-content: flex-start;
-    align-items: center;
+    align-items: flex-start;
     border-radius: var(--input-border-radius); }
   .dnb-form-status--text {
     padding: calc(0.5rem / 2) 1rem;
@@ -677,7 +677,8 @@ legend.dnb-form-label {
     align-items: center;
     width: 1.5em;
     height: 1.5em;
-    margin-left: 0.5rem;
+    margin-top: 0.25em;
+    margin-left: 0.5em;
     color: inherit;
     font-size: 1rem;
     border-radius: 50%;
