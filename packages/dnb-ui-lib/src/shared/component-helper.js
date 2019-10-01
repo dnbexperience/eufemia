@@ -45,7 +45,7 @@ export function isTouchDevice() {
   }
 }
 
-export function defineIsTouch(runInstantly = false) {
+export function defineIsTouch() {
   const handleDefineTouch = () => {
     if (typeof document === 'undefined' || typeof window === 'undefined')
       return
@@ -57,28 +57,29 @@ export function defineIsTouch(runInstantly = false) {
       console.warn('Could not apply "touch attribute"', e)
     }
 
-    window.removeEventListener('load', handleDefineTouch)
+    document.removeEventListener('DOMContentLoaded', handleDefineTouch)
   }
 
-  if (runInstantly) {
+  if (
+    typeof document !== 'undefined' &&
+    document.readyState === 'loading'
+  ) {
+    document.addEventListener('DOMContentLoaded', handleDefineTouch)
+  } else {
     handleDefineTouch()
-  } else if (typeof window !== 'undefined') {
-    try {
-      window.addEventListener('load', handleDefineTouch)
-    } catch (e) {
-      console.warn('Could not add "load" event listener', e)
-    }
   }
 }
 
-export function defineNavigator(runInstantly = false) {
+export function defineNavigator() {
   const handleNavigator = () => {
     if (
       typeof document === 'undefined' ||
       typeof window === 'undefined' ||
       typeof navigator === 'undefined'
-    )
+    ) {
       return
+    }
+
     try {
       if (!window.IS_TEST) {
         if (navigator.platform.match(/Mac|iPad|iPhone|iPod/) !== null) {
@@ -93,17 +94,16 @@ export function defineNavigator(runInstantly = false) {
       console.warn('Could not apply "os attribute"', e)
     }
 
-    window.removeEventListener('load', handleNavigator)
+    document.removeEventListener('DOMContentLoaded', handleNavigator)
   }
 
-  if (runInstantly) {
+  if (
+    typeof document !== 'undefined' &&
+    document.readyState === 'loading'
+  ) {
+    document.addEventListener('DOMContentLoaded', handleNavigator)
+  } else {
     handleNavigator()
-  } else if (typeof window !== 'undefined') {
-    try {
-      window.addEventListener('load', handleNavigator)
-    } catch (e) {
-      console.warn('Could not add "load" event listener', e)
-    }
   }
 }
 
