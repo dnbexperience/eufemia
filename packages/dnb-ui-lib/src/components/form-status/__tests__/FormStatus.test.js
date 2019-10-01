@@ -58,7 +58,7 @@ describe('FormStatus component', () => {
       Comp.find('.dnb-form-status')
         .instance()
         .getAttribute('style')
-    ).toBe('max-width: 4rem;')
+    ).toBe('max-width: 6rem;') // 4rem + 2rem
   })
 
   it('should have correact attributes once the "hidden" prop changes', async () => {
