@@ -157,7 +157,7 @@
     bottom: 0;
   }
 
-  &__range,
+  &__helper,
   &__thumb {
     position: absolute;
     left: 0;
@@ -200,13 +200,15 @@
     cursor: not-allowed;
   }
 
-  &__range {
-    z-index: 4;
+  // make sure the helper is not click able
+  &__helper {
+    pointer-events: none;
+    z-index: 2;
     opacity: 0;
 
     transform: translate3d(0.0625rem, 0, 0);
   }
-  &__range:not(:disabled):focus ~ .dnb-button {
+  &__helper:not(:disabled):focus ~ .dnb-button {
     @include fakeFocus();
   }
 

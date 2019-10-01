@@ -174,6 +174,7 @@ export default class Slider extends PureComponent {
     super(props)
     this._id = props.id || makeUniqueId() // cause we need an id anyway
     this._trackRef = React.createRef()
+    this.isTouch = isTouchDevice()
     this.state = {
       _listenForPropChanges: true,
       value: Slider.getValue(props) // so on_state_update not gets called
@@ -264,7 +265,6 @@ export default class Slider extends PureComponent {
   }
 
   onTouchStartHandler = event => {
-    event.preventDefault()
     this.setState({
       _listenForPropChanges: false,
       currentState: 'activated'
@@ -282,7 +282,6 @@ export default class Slider extends PureComponent {
   }
 
   onMouseDownHandler = event => {
-    event.preventDefault()
     this.setState({
       _listenForPropChanges: false,
       currentState: 'activated'
@@ -401,8 +400,6 @@ export default class Slider extends PureComponent {
   }
 
   componentDidMount() {
-    this.isTouch = isTouchDevice()
-
     if (
       (this.isTouch || isTrue(this.props.use_scrollwheel)) &&
       this._trackRef.current
@@ -528,9 +525,9 @@ export default class Slider extends PureComponent {
         'dnb-slider__track',
         currentState && `dnb-slider__state--${currentState}`
       ),
-      onClick: this.onClickHandler,
+      onMouseDown: this.onClickHandler,
+      onMouseDownCapture: this.onMouseDownHandler,
       onTouchStart: this.onClickHandler,
-      onMouseDown: this.onMouseDownHandler,
       onTouchStartCapture: this.onTouchStartHandler,
       onTouchMove: this.onMouseMoveHandler
     }
@@ -548,9 +545,25 @@ export default class Slider extends PureComponent {
 
     if (label) {
       rangeParams['aria-labelledby'] = id + '-label'
+      if (this.isTouch) {
+        trackParams['aria-labelledby'] = id + '-label'
+      }
     }
     if (showStatus) {
       rangeParams['aria-describedby'] = id + '-status'
+      if (this.isTouch) {
+        trackParams['aria-describedby'] = id + '-status'
+      }
+    }
+
+    if (this.isTouch) {
+      trackParams.role = 'slider'
+      trackParams['aria-valuenow'] = this.roundValue(value)
+      trackParams['aria-valuemin'] = min
+      trackParams['aria-valuemax'] = max
+      trackParams['aria-orientation'] = vertical
+        ? 'vertical'
+        : 'horizontal'
     }
 
     const buttonParams = {
@@ -559,7 +572,7 @@ export default class Slider extends PureComponent {
 
     // also used for code markup simulation
     validateDOMAttributes(this.props, rangeParams)
-    validateDOMAttributes(null, trackParams)
+    // validateDOMAttributes(null, trackParams)
     validateDOMAttributes(null, buttonParams)
 
     const subtractButton = (
@@ -604,17 +617,7 @@ export default class Slider extends PureComponent {
 
           <span className="dnb-slider__inner">
             {showButtons && (reverse ? addButton : subtractButton)}
-            <span
-              id={this._id}
-              // role="slider"
-              // tabIndex="-1"
-              aria-valuenow={this.roundValue(value)}
-              aria-valuemin={min}
-              aria-valuemax={max}
-              aria-orientation={vertical ? 'vertical' : 'horizontal'}
-              ref={this._trackRef}
-              {...trackParams}
-            >
+            <span id={this._id} ref={this._trackRef} {...trackParams}>
               <span
                 className="dnb-slider__thumb"
                 style={inlineThumbStyles}
@@ -623,12 +626,12 @@ export default class Slider extends PureComponent {
                 {!this.isTouch && (
                   <input
                     type="range"
-                    id={id + '-range'}
-                    className="dnb-slider__range"
+                    className="dnb-slider__helper"
                     min={min}
                     max={max}
                     step={_step}
                     value={value}
+                    orientation={vertical ? 'vertical' : 'horizontal'}
                     {...rangeParams}
                     onChange={this.onRangeChangeHandler}
                   />
@@ -636,8 +639,9 @@ export default class Slider extends PureComponent {
                 <Button
                   variant="secondary"
                   tabIndex="-1"
-                  aria-hidden
-                  {...(this.isTouch ? rangeParams : {})}
+                  {...(this.isTouch
+                    ? rangeParams
+                    : { 'aria-hidden': true })}
                 />
               </span>
               <span
