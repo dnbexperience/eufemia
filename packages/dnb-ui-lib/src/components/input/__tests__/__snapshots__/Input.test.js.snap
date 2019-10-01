@@ -41,6 +41,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
         "submit_button_icon": "submit_button_icon",
         "submit_button_title": "submit_button_title",
         "submit_button_variant": "custom type not supported, please set the correct value for submit_button_variant prop",
+        "suffix": "suffix",
         "type": "type",
         "value": "value",
       },
@@ -98,6 +99,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
   submit_button_icon="search"
   submit_button_title={null}
   submit_button_variant="secondary"
+  suffix={null}
   type="search"
   value="test"
 >
@@ -168,6 +170,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                 "submit_button_icon": "submit_button_icon",
                 "submit_button_title": "submit_button_title",
                 "submit_button_variant": "custom type not supported, please set the correct value for submit_button_variant prop",
+                "suffix": "suffix",
                 "type": "type",
                 "value": "value",
               },
@@ -369,6 +372,7 @@ exports[`Input component have to match type="text" snapshot 1`] = `
         "submit_button_icon": "submit_button_icon",
         "submit_button_title": "submit_button_title",
         "submit_button_variant": "custom type not supported, please set the correct value for submit_button_variant prop",
+        "suffix": "suffix",
         "type": "type",
         "value": "value",
       },
@@ -426,6 +430,7 @@ exports[`Input component have to match type="text" snapshot 1`] = `
   submit_button_icon="search"
   submit_button_title={null}
   submit_button_variant="secondary"
+  suffix={null}
   type="text"
   value="test"
 >
@@ -1093,7 +1098,7 @@ legend.dnb-form-label {
     padding-right: calc(var(--input-padding) * 2.5); }
   .dnb-input__row {
     display: inline-flex;
-    align-items: baseline; }
+    align-items: center; }
   .dnb-input__description {
     color: inherit;
     padding-left: 0.5rem; }
