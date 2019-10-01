@@ -53,6 +53,7 @@
   &__input[disabled] {
     user-select: none;
     -webkit-user-select: none; // Safari / Touch fix
+    opacity: 1; // iOS fix
   }
 
   &__shell,

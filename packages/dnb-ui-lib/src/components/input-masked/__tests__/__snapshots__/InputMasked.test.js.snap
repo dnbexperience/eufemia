@@ -634,7 +634,8 @@ legend.dnb-form-label {
     word-break: normal; }
   .dnb-input__input[disabled] {
     user-select: none;
-    -webkit-user-select: none; }
+    -webkit-user-select: none;
+    opacity: 1; }
   .dnb-input__shell, .dnb-input__input {
     height: var(--input-height);
     border-radius: var(--input-border-radius); }
