@@ -378,12 +378,12 @@ export default class DatePickerInput extends PureComponent {
   }
 
   renderInputElement = params => {
-    const { range } = this.props
+    const { id, range } = this.props
     this.refList = []
     const startDateList = this.generateDateList(params, 'start')
     const endDateList = this.generateDateList(params, 'end')
     return (
-      <span className="dnb-date-picker__input__wrapper">
+      <span id={`${id}-input`} className="dnb-date-picker__input__wrapper">
         {startDateList}
         {range && (
           <span className="dnb-date-picker--separator" aria-hidden>

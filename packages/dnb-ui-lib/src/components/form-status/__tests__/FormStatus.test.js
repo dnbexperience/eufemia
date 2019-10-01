@@ -12,6 +12,7 @@ import {
   loadScss
 } from '../../../core/jest/jestSetup'
 import Component from '../FormStatus'
+import Input from '../../Input'
 
 // just to make sure we re-run the test in watch mode due to changes in theese files
 import _form_status from '../style/_form-status.scss' // eslint-disable-line
@@ -39,6 +40,25 @@ describe('FormStatus component', () => {
 
   it('should validate with ARIA rules', async () => {
     expect(await axeComponent(Comp)).toHaveNoViolations()
+  })
+
+  it('should set correact max-width', () => {
+    const Comp = mount(
+      <Input status="Long status pulvinar per ad varius nostra faucibus enim ante posuere in" />
+    )
+
+    // mock call the setMaxWidth since document.getElementById is not an option
+    const instance = Comp.find('FormStatus').instance()
+    instance.setMaxWidth({
+      offsetWidth: 64 // pixels
+    })
+
+    // now, setMaxWidth should have set an inline style with an "max-width as rem"
+    expect(
+      Comp.find('.dnb-form-status')
+        .instance()
+        .getAttribute('style')
+    ).toBe('max-width: 4rem;')
   })
 
   it('should have correact attributes once the "hidden" prop changes', async () => {

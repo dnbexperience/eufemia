@@ -21,6 +21,7 @@ exports[`FormStatus component have to match snapshot 1`] = `
         "text": "text",
         "text_id": "text_id",
         "title": "title",
+        "width_selector": "width_selector",
       },
     }
   }
@@ -38,6 +39,7 @@ exports[`FormStatus component have to match snapshot 1`] = `
   text="text"
   text_id={null}
   title={null}
+  width_selector={null}
 >
   <span
     className="dnb-form-status dnb-form-status--error dnb-form-status--has-content"

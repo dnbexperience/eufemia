@@ -41,6 +41,7 @@ export const propTypes = {
   global_status_id: PropTypes.string,
   hidden: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   text_id: PropTypes.string,
+  width_selector: PropTypes.string,
   class: PropTypes.string,
   animation: PropTypes.string,
 
@@ -67,6 +68,7 @@ export const defaultProps = {
   global_status_id: null,
   hidden: false,
   text_id: null,
+  width_selector: null,
   class: null,
   animation: null, // could be 'fade-in'
 
@@ -133,6 +135,8 @@ export default class FormStatus extends PureComponent {
         })
       }
     )
+
+    this._ref = React.createRef()
   }
 
   correctStatus(state) {
@@ -148,11 +152,32 @@ export default class FormStatus extends PureComponent {
     if (this.gsProvider) {
       this.gsProvider.isReady()
     }
+
+    // set max-width to this form-status, using the "linked mother"
+    this.setMaxWidth()
   }
 
   componentWillUnmount() {
     if (this.gsProvider) {
       this.gsProvider.remove(this._id)
+    }
+  }
+
+  setMaxWidth(elem = null) {
+    const { text_id, width_selector } = this.props
+    if (text_id && this._ref.current && typeof document !== 'undefined') {
+      try {
+        const width = sumElementWidth(
+          elem ||
+            width_selector ||
+            (text_id.match(/^([a-z0-9]+)/) || [])[1]
+        )
+        if (width >= 64) {
+          this._ref.current.style.maxWidth = `${width / 16}rem`
+        }
+      } catch (e) {
+        console.warn(e)
+      }
     }
   }
 
@@ -227,7 +252,7 @@ export default class FormStatus extends PureComponent {
     validateDOMAttributes(null, textParams)
 
     return (
-      <span {...params}>
+      <span {...params} ref={this._ref}>
         <span className="dnb-form-status__shell">
           {iconToRender}
           <span {...textParams}>{contentToRender}</span>
@@ -235,4 +260,39 @@ export default class FormStatus extends PureComponent {
       </span>
     )
   }
+}
+
+const sumElementWidth = selector => {
+  let width = 0
+  try {
+    if (selector && selector.offsetWidth) {
+      width = selector.offsetWidth
+    } else {
+      // beside "width_selector" - witch is straight forward, we
+      // also check if we can get an ID given by text_id
+      const ids = /,/.test(selector) ? selector.split(', ') : [selector]
+
+      width = ids.reduce((acc, cur) => {
+        const elem =
+          cur[0] === '.'
+            ? document.querySelector(cur)
+            : document.getElementById(cur)
+
+        if (elem && elem.offsetWidth > 0) {
+          // add additional one more spacing unit
+          // to make it more correct for small elements
+          if (acc > 0) {
+            acc += 16
+          }
+          acc += elem.offsetWidth
+        }
+
+        return acc
+      }, width)
+    }
+  } catch (e) {
+    console.warn(e)
+  }
+
+  return width
 }

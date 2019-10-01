@@ -246,6 +246,7 @@ export default class Checkbox extends Component {
         id={id + '-form-status'}
         global_status_id={global_status_id}
         text_id={id + '-status'} // used for "aria-describedby"
+        width_selector={id + ', ' + id + '-label'}
         text={status}
         status={status_state}
         animation={status_animation}

@@ -139,6 +139,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
         text="status"
         text_id="dropdown-id-status"
         title={null}
+        width_selector={null}
       >
         <span
           className="dnb-form-status dnb-form-status--error dnb-form-status--status_animation dnb-form-status--has-content"
