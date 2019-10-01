@@ -26,13 +26,14 @@
 
   &__shell {
     user-select: none;
+    -webkit-user-select: none; // Safari / Touch fix
     position: relative;
 
     display: flex;
     align-items: center;
 
     // vertical alignment
-    [os='mac'] & {
+    [data-os='mac'] & {
       transform: translateY(-0.0625rem);
     }
   }

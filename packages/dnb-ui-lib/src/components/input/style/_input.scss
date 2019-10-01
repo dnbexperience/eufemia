@@ -52,6 +52,7 @@
 
   &__input[disabled] {
     user-select: none;
+    -webkit-user-select: none; // Safari / Touch fix
   }
 
   &__shell,
@@ -99,8 +100,8 @@
   }
 
   // vertical alignment
-  [os='mac'] &__placeholder,
-  [os='mac'] &__input {
+  [data-os='mac'] &__placeholder,
+  [data-os='mac'] &__input {
     transform: translateY(0.0625rem);
   }
 

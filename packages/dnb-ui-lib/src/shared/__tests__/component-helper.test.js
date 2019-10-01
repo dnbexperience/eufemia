@@ -28,8 +28,8 @@ beforeAll(() => {
 })
 
 describe('"defineIsTouch" should', () => {
-  it('add "dnb-is-touch" as an attribute to the HTML tag', () => {
-    expect(document.documentElement.getAttribute('dnb-is-touch')).toBe(
+  it('add "data-is-touch" as an attribute to the HTML tag', () => {
+    expect(document.documentElement.getAttribute('data-is-touch')).toBe(
       'true'
     )
   })
@@ -37,7 +37,7 @@ describe('"defineIsTouch" should', () => {
 
 describe('"defineNavigator" should', () => {
   it('add "os" as an attribute to the HTML tag', () => {
-    expect(document.documentElement.getAttribute('os')).toBe('other')
+    expect(document.documentElement.getAttribute('data-os')).toBe('other')
   })
 })
 

@@ -185,6 +185,7 @@
   &__views {
     display: flex;
     user-select: none;
+    -webkit-user-select: none; // Safari / Touch fix
   }
 
   &__calendar {

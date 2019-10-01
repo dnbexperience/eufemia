@@ -24,6 +24,9 @@
 }
 
 .dnb-button {
+  user-select: none;
+  -webkit-user-select: none; // Safari / Touch fix
+
   cursor: pointer;
   white-space: nowrap;
 
@@ -54,7 +57,7 @@
     }
 
     // vertical alignment
-    [os='win'] & {
+    [data-os='win'] & {
       transform: translateY(-0.0625rem);
     }
   }
@@ -64,7 +67,7 @@
     background-color: inherit;
 
     // vertical alignment
-    [os='mac'] & {
+    [data-os='mac'] & {
       transform: translateY(0.0625rem);
     }
   }
@@ -190,7 +193,7 @@
     text-align: inherit;
     line-height: inherit;
 
-    @include hover(true) {
+    @include hover() {
       box-shadow: none;
       border: none;
     }

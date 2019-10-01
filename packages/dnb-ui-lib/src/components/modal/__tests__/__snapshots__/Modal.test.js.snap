@@ -677,6 +677,8 @@ exports[`Modal scss have to match snapshot 1`] = `
   --button-border-radius--large: calc(var(--button-height--large) / 2); }
 
 .dnb-button {
+  user-select: none;
+  -webkit-user-select: none;
   cursor: pointer;
   white-space: nowrap;
   display: inline-flex;
@@ -697,13 +699,13 @@ exports[`Modal scss have to match snapshot 1`] = `
     .dnb-button__icon:not(.dnb-icon) svg:not([width]):not([height]) {
       width: var(--button-icon-size);
       height: var(--button-icon-size); }
-    [os='win'] .dnb-button__icon {
+    [data-os='win'] .dnb-button__icon {
       transform: translateY(-0.0625rem); }
   .dnb-button__text {
     line-height: 1em;
     color: inherit;
     background-color: inherit; }
-    [os='mac'] .dnb-button__text {
+    [data-os='mac'] .dnb-button__text {
       transform: translateY(0.0625rem); }
   .dnb-button__bounding {
     position: absolute;
@@ -782,9 +784,9 @@ exports[`Modal scss have to match snapshot 1`] = `
     font: inherit;
     text-align: inherit;
     line-height: inherit; }
-    :not([dnb-is-touch]) .dnb-button--reset:hover[disabled] {
+    html:not([data-is-touch]) .dnb-button--reset:hover[disabled] {
       cursor: not-allowed; }
-    :not([dnb-is-touch]) .dnb-button--reset:hover:not([disabled]) {
+    html:not([data-is-touch]) .dnb-button--reset:hover:not([disabled]) {
       box-shadow: none;
       border: none; }
     .dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
@@ -867,7 +869,8 @@ a.dnb-button .dnb-button__text {
   --modal-max-width: 60rem; }
 
 [data-dnb-modal-active='true'] {
-  user-select: none; }
+  user-select: none;
+  -webkit-user-select: none; }
 
 #dnb-modal-root {
   position: absolute;
@@ -886,7 +889,8 @@ a.dnb-button .dnb-button__text {
     justify-content: center;
     width: 100%;
     height: 100%;
-    user-select: none; }
+    user-select: none;
+    -webkit-user-select: none; }
     .dnb-modal__content__inner {
       position: relative;
       padding: var(--modal-spacing) var(--modal-spacing) 0;
@@ -897,6 +901,7 @@ a.dnb-button .dnb-button__text {
       overflow-x: hidden;
       overflow-y: auto;
       user-select: text;
+      -webkit-user-select: text;
       border: none;
       background: var(--color-white); }
       @media screen and (max-width: 50em) {

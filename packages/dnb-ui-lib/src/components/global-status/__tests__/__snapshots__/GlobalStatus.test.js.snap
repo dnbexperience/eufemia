@@ -25,11 +25,11 @@ exports[`GlobalStatus scss have to match default theme snapshot 1`] = `
 
 .dnb-global-status__close-button, .dnb-global-status__close-button.dnb-button--tertiary {
   color: var(--color-white); }
-  :not([dnb-is-touch]) .dnb-global-status__close-button:hover[disabled], :not([dnb-is-touch]) .dnb-global-status__close-button.dnb-button--tertiary:hover[disabled] {
+  html:not([data-is-touch]) .dnb-global-status__close-button:hover[disabled], html:not([data-is-touch]) .dnb-global-status__close-button.dnb-button--tertiary:hover[disabled] {
     cursor: not-allowed; }
-  :not([dnb-is-touch]) .dnb-global-status__close-button:hover:not([disabled]) .dnb-button__text, :not([dnb-is-touch]) .dnb-global-status__close-button.dnb-button--tertiary:hover:not([disabled]) .dnb-button__text {
+  html:not([data-is-touch]) .dnb-global-status__close-button:hover:not([disabled]) .dnb-button__text, html:not([data-is-touch]) .dnb-global-status__close-button.dnb-button--tertiary:hover:not([disabled]) .dnb-button__text {
     color: inherit; }
-    :not([dnb-is-touch]) .dnb-global-status__close-button:hover:not([disabled]) .dnb-button__text::after, :not([dnb-is-touch]) .dnb-global-status__close-button.dnb-button--tertiary:hover:not([disabled]) .dnb-button__text::after {
+    html:not([data-is-touch]) .dnb-global-status__close-button:hover:not([disabled]) .dnb-button__text::after, html:not([data-is-touch]) .dnb-global-status__close-button.dnb-button--tertiary:hover:not([disabled]) .dnb-button__text::after {
       color: inherit; }
   .dnb-global-status__close-button:not([disabled]):focus::before, .dnb-global-status__close-button.dnb-button--tertiary:not([disabled]):focus::before {
     outline: none; }
@@ -184,6 +184,8 @@ exports[`GlobalStatus scss have to match snapshot 1`] = `
   --button-border-radius--large: calc(var(--button-height--large) / 2); }
 
 .dnb-button {
+  user-select: none;
+  -webkit-user-select: none;
   cursor: pointer;
   white-space: nowrap;
   display: inline-flex;
@@ -204,13 +206,13 @@ exports[`GlobalStatus scss have to match snapshot 1`] = `
     .dnb-button__icon:not(.dnb-icon) svg:not([width]):not([height]) {
       width: var(--button-icon-size);
       height: var(--button-icon-size); }
-    [os='win'] .dnb-button__icon {
+    [data-os='win'] .dnb-button__icon {
       transform: translateY(-0.0625rem); }
   .dnb-button__text {
     line-height: 1em;
     color: inherit;
     background-color: inherit; }
-    [os='mac'] .dnb-button__text {
+    [data-os='mac'] .dnb-button__text {
       transform: translateY(0.0625rem); }
   .dnb-button__bounding {
     position: absolute;
@@ -289,9 +291,9 @@ exports[`GlobalStatus scss have to match snapshot 1`] = `
     font: inherit;
     text-align: inherit;
     line-height: inherit; }
-    :not([dnb-is-touch]) .dnb-button--reset:hover[disabled] {
+    html:not([data-is-touch]) .dnb-button--reset:hover[disabled] {
       cursor: not-allowed; }
-    :not([dnb-is-touch]) .dnb-button--reset:hover:not([disabled]) {
+    html:not([data-is-touch]) .dnb-button--reset:hover:not([disabled]) {
       box-shadow: none;
       border: none; }
     .dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {

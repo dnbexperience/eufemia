@@ -11,6 +11,9 @@
 }
 
 .dnb-slider {
+  user-select: none;
+  -webkit-user-select: none; // Safari / Touch fix
+
   // use flex to make sure we have the whole space available
   display: flex;
 

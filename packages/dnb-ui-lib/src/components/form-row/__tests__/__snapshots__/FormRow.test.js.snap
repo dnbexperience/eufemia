@@ -162,6 +162,7 @@ exports[`FormRow scss have to match snapshot 1`] = `
     margin-bottom: 0.5rem; }
   .dnb-form-label[for]:not([disabled]) {
     user-select: none;
+    -webkit-user-select: none;
     cursor: pointer; }
   .dnb-form-label[disabled] {
     cursor: not-allowed; }

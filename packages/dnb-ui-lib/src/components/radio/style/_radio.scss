@@ -28,7 +28,9 @@
 
   &__shell {
     position: relative;
+
     user-select: none;
+    -webkit-user-select: none; // Safari / Touch fix
 
     display: flex;
     align-items: center;
@@ -38,7 +40,7 @@
     height: var(--radio-height);
 
     // vertical alignment
-    [os='mac'] & {
+    [data-os='mac'] & {
       transform: translateY(-0.0625rem);
     }
   }

@@ -19,7 +19,7 @@
     @include fakeFocus();
   }
 
-  @include hover(true) {
+  @include hover() {
     text-decoration: underline;
   }
 

@@ -336,6 +336,7 @@ exports[`Switch scss have to match snapshot 1`] = `
     margin-bottom: 0.5rem; }
   .dnb-form-label[for]:not([disabled]) {
     user-select: none;
+    -webkit-user-select: none;
     cursor: pointer; }
   .dnb-form-label[disabled] {
     cursor: not-allowed; }
@@ -397,7 +398,7 @@ legend.dnb-form-label {
     cursor: text;
     color: inherit;
     line-height: 1.5rem; }
-    [os='mac'] .dnb-form-status--text {
+    [data-os='mac'] .dnb-form-status--text {
       transform: translateY(0.0625rem); }
   .dnb-icon + .dnb-form-status--text {
     padding-left: 0.5rem; }
@@ -493,10 +494,11 @@ legend.dnb-form-label {
     opacity: 0; }
   .dnb-switch__shell {
     user-select: none;
+    -webkit-user-select: none;
     position: relative;
     display: flex;
     align-items: center; }
-    [os='mac'] .dnb-switch__shell {
+    [data-os='mac'] .dnb-switch__shell {
       transform: translateY(-0.0625rem); }
   .dnb-switch__focus, .dnb-switch__button {
     position: absolute;

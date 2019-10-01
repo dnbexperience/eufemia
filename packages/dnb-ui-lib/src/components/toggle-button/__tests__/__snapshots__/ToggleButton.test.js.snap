@@ -795,6 +795,7 @@ exports[`ToggleButton scss have to match snapshot 1`] = `
     margin-bottom: 0.5rem; }
   .dnb-form-label[for]:not([disabled]) {
     user-select: none;
+    -webkit-user-select: none;
     cursor: pointer; }
   .dnb-form-label[disabled] {
     cursor: not-allowed; }
@@ -919,6 +920,8 @@ legend.dnb-form-label {
   --button-border-radius--large: calc(var(--button-height--large) / 2); }
 
 .dnb-button {
+  user-select: none;
+  -webkit-user-select: none;
   cursor: pointer;
   white-space: nowrap;
   display: inline-flex;
@@ -939,13 +942,13 @@ legend.dnb-form-label {
     .dnb-button__icon:not(.dnb-icon) svg:not([width]):not([height]) {
       width: var(--button-icon-size);
       height: var(--button-icon-size); }
-    [os='win'] .dnb-button__icon {
+    [data-os='win'] .dnb-button__icon {
       transform: translateY(-0.0625rem); }
   .dnb-button__text {
     line-height: 1em;
     color: inherit;
     background-color: inherit; }
-    [os='mac'] .dnb-button__text {
+    [data-os='mac'] .dnb-button__text {
       transform: translateY(0.0625rem); }
   .dnb-button__bounding {
     position: absolute;
@@ -1024,9 +1027,9 @@ legend.dnb-form-label {
     font: inherit;
     text-align: inherit;
     line-height: inherit; }
-    :not([dnb-is-touch]) .dnb-button--reset:hover[disabled] {
+    html:not([data-is-touch]) .dnb-button--reset:hover[disabled] {
       cursor: not-allowed; }
-    :not([dnb-is-touch]) .dnb-button--reset:hover:not([disabled]) {
+    html:not([data-is-touch]) .dnb-button--reset:hover:not([disabled]) {
       box-shadow: none;
       border: none; }
     .dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
@@ -1123,7 +1126,7 @@ a.dnb-button .dnb-button__text {
     cursor: text;
     color: inherit;
     line-height: 1.5rem; }
-    [os='mac'] .dnb-form-status--text {
+    [data-os='mac'] .dnb-form-status--text {
       transform: translateY(0.0625rem); }
   .dnb-icon + .dnb-form-status--text {
     padding-left: 0.5rem; }
@@ -1211,13 +1214,14 @@ a.dnb-button .dnb-button__text {
     opacity: 0; }
   .dnb-checkbox__shell {
     user-select: none;
+    -webkit-user-select: none;
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     width: var(--checkbox-height);
     height: var(--checkbox-height); }
-    [os='mac'] .dnb-checkbox__shell {
+    [data-os='mac'] .dnb-checkbox__shell {
       transform: translateY(-0.0625rem); }
   .dnb-checkbox__focus, .dnb-checkbox__button {
     position: relative;
@@ -1357,12 +1361,13 @@ a.dnb-button .dnb-button__text {
   .dnb-radio__shell {
     position: relative;
     user-select: none;
+    -webkit-user-select: none;
     display: flex;
     align-items: center;
     justify-content: center;
     width: var(--radio-height);
     height: var(--radio-height); }
-    [os='mac'] .dnb-radio__shell {
+    [data-os='mac'] .dnb-radio__shell {
       transform: translateY(-0.0625rem); }
   .dnb-radio__focus, .dnb-radio__button, .dnb-radio__dot {
     position: absolute;
@@ -1516,7 +1521,8 @@ a.dnb-button .dnb-button__text {
   .dnb-toggle-button__shell {
     position: relative;
     left: 0;
-    user-select: none; }
+    user-select: none;
+    -webkit-user-select: none; }
   .dnb-toggle-button--vertical {
     flex-direction: column;
     align-items: flex-start; }

@@ -118,10 +118,10 @@
       }
     }
 
-    :not([dnb-is-touch])
+    html:not([data-is-touch])
       &--start-date#{&}--within-selection
       .dnb-button:hover:not([disabled]),
-    :not([dnb-is-touch])
+    html:not([data-is-touch])
       &--end-date#{&}--within-selection
       .dnb-button:hover:not([disabled]) {
       color: var(--date-picker-selected-color);
@@ -135,7 +135,7 @@
       }
     }
 
-    :not([dnb-is-touch]) &--inactive .dnb-button[disabled] {
+    html:not([data-is-touch]) &--inactive .dnb-button[disabled] {
       cursor: default;
     }
   }

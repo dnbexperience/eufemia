@@ -140,6 +140,7 @@ exports[`Textarea scss have to match default theme snapshot 1`] = `
   .dnb-textarea__textarea[disabled],
   .dnb-textarea--disabled .dnb-textarea__textarea {
     user-select: none;
+    -webkit-user-select: none;
     color: var(--textarea-text-color--disabled);
     background-color: var(--textarea-background-color--disabled);
     box-shadow: 0 0 0 var(--textarea-padding-width) var(--color-mint-green-12), 0 0 0 calc(var(--textarea-padding-width) + 0.0625rem) var(--color-sea-green-alt-30); }
@@ -219,6 +220,7 @@ textarea.dnb-textarea {
   textarea.dnb-textarea[disabled],
   .dnb-textarea--disabled textarea.dnb-textarea {
     user-select: none;
+    -webkit-user-select: none;
     color: var(--textarea-text-color--disabled);
     background-color: var(--textarea-background-color--disabled);
     box-shadow: 0 0 0 var(--textarea-padding-width) var(--color-mint-green-12), 0 0 0 calc(var(--textarea-padding-width) + 0.0625rem) var(--color-sea-green-alt-30); }
@@ -329,6 +331,7 @@ exports[`Textarea scss have to match snapshot 1`] = `
     margin-bottom: 0.5rem; }
   .dnb-form-label[for]:not([disabled]) {
     user-select: none;
+    -webkit-user-select: none;
     cursor: pointer; }
   .dnb-form-label[disabled] {
     cursor: not-allowed; }
@@ -390,7 +393,7 @@ legend.dnb-form-label {
     cursor: text;
     color: inherit;
     line-height: 1.5rem; }
-    [os='mac'] .dnb-form-status--text {
+    [data-os='mac'] .dnb-form-status--text {
       transform: translateY(0.0625rem); }
   .dnb-icon + .dnb-form-status--text {
     padding-left: 0.5rem; }
@@ -508,6 +511,7 @@ legend.dnb-form-label {
   .dnb-textarea__textarea[disabled],
   .dnb-textarea--disabled .dnb-textarea__textarea {
     user-select: none;
+    -webkit-user-select: none;
     color: var(--textarea-text-color--disabled);
     background-color: var(--textarea-background-color--disabled);
     box-shadow: 0 0 0 var(--textarea-padding-width) var(--color-mint-green-12), 0 0 0 calc(var(--textarea-padding-width) + 0.0625rem) var(--color-sea-green-alt-30); }
@@ -587,6 +591,7 @@ textarea.dnb-textarea {
   textarea.dnb-textarea[disabled],
   .dnb-textarea--disabled textarea.dnb-textarea {
     user-select: none;
+    -webkit-user-select: none;
     color: var(--textarea-text-color--disabled);
     background-color: var(--textarea-background-color--disabled);
     box-shadow: 0 0 0 var(--textarea-padding-width) var(--color-mint-green-12), 0 0 0 calc(var(--textarea-padding-width) + 0.0625rem) var(--color-sea-green-alt-30); }
@@ -751,6 +756,7 @@ textarea.dnb-textarea {
   textarea.dnb-textarea[disabled],
   .dnb-textarea--disabled textarea.dnb-textarea {
     user-select: none;
+    -webkit-user-select: none;
     color: var(--textarea-text-color--disabled);
     background-color: var(--textarea-background-color--disabled);
     box-shadow: 0 0 0 var(--textarea-padding-width) var(--color-mint-green-12), 0 0 0 calc(var(--textarea-padding-width) + 0.0625rem) var(--color-sea-green-alt-30); }

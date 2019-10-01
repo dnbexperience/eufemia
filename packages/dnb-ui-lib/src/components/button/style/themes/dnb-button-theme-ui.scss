@@ -79,7 +79,7 @@
       padding: 0 0.5rem;
 
       // since we don't have a visula alignment
-      [os='mac'] & {
+      [data-os='mac'] & {
         transform: translateY(-0.0625rem);
       }
     }
@@ -101,7 +101,7 @@
       }
     }
 
-    @include focus(true) {
+    @include focus() {
       @include removeFakeFocus();
       @include buttonFocusRing();
 
@@ -111,7 +111,7 @@
       }
     }
 
-    @include hover(true) {
+    @include hover() {
       // underline
       .dnb-button__text::after {
         visibility: visible;
@@ -120,9 +120,10 @@
       }
     }
 
-    @include active(true) {
+    @include active() {
       @include removeFakeFocus();
-      @include buttonFocusRing('mouse');
+      @include buttonFocusRing('mouse'); // make a mouse over ring
+      @include buttonFocusRing('touch'); // also, make a touch ring
 
       // underline
       .dnb-button__text::after {
@@ -196,7 +197,7 @@
           }
         }
 
-        @include active(true) {
+        @include active() {
           // focus ring
           &::before {
             left: 0;
@@ -205,7 +206,7 @@
         }
 
         &:not(:active):not(:focus) {
-          @include hover(true) {
+          @include hover() {
             .dnb-button__icon {
               @include drawUnderlineBorder() {
                 left: 0.5rem;
@@ -227,9 +228,18 @@
     color: var(--color-black);
     background-color: var(--color-signal-yellow);
 
-    @include buttonHover(var(--color-black), var(--color-signal-yellow));
+    @include buttonHover(
+      var(--color-black),
+      var(--color-signal-yellow),
+      'touch'
+    );
     @include buttonFocus(var(--color-black), var(--color-signal-yellow));
     @include buttonActive(var(--color-black), var(--color-signal-yellow));
+
+    // touch helper
+    // html[data-is-touch] &:active {
+    //   @include fakeBorder(var(--color-emerald-green), 0.125rem /*2px*/);
+    // }
 
     &[disabled] {
       color: var(--color-black-30);

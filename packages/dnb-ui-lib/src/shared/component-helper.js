@@ -51,7 +51,7 @@ export function defineIsTouch(runInstantly = false) {
       return
     try {
       if (isTouchDevice()) {
-        document.documentElement.setAttribute('dnb-is-touch', true)
+        document.documentElement.setAttribute('data-is-touch', true)
       }
     } catch (e) {
       console.warn('Could not apply "touch attribute"', e)
@@ -82,12 +82,12 @@ export function defineNavigator(runInstantly = false) {
     try {
       if (!window.IS_TEST) {
         if (navigator.platform.match(/Mac|iPad|iPhone|iPod/) !== null) {
-          document.documentElement.setAttribute('os', 'mac')
+          document.documentElement.setAttribute('data-os', 'mac')
         } else if (navigator.platform.match('Win') !== null) {
-          document.documentElement.setAttribute('os', 'win')
+          document.documentElement.setAttribute('data-os', 'win')
         }
       } else {
-        document.documentElement.setAttribute('os', 'other')
+        document.documentElement.setAttribute('data-os', 'other')
       }
     } catch (e) {
       console.warn('Could not apply "os attribute"', e)

@@ -406,7 +406,7 @@ export default class Slider extends PureComponent {
     ) {
       this._trackRef.current.addEventListener(
         'touchstart',
-        preventPageScrolling,
+        this.preventPageScrolling,
         { passive: false }
       )
 
@@ -440,7 +440,7 @@ export default class Slider extends PureComponent {
     if (this._trackRef.current) {
       this._trackRef.current.removeEventListener(
         'touchstart',
-        preventPageScrolling,
+        this.preventPageScrolling,
         { passive: false }
       )
     }
@@ -453,6 +453,8 @@ export default class Slider extends PureComponent {
     }
     clearTimeout(this.resetStateTimeoutId)
   }
+
+  preventPageScrolling = event => event.preventDefault()
 
   render() {
     const { currentState, value } = this.state
@@ -699,8 +701,6 @@ const calculatePercent = (node, event, isVertical, isReverted) => {
     ? 100 - clamp(value / onePercent)
     : clamp(value / onePercent)
 }
-
-const preventPageScrolling = event => event.preventDefault()
 
 const clamp = (value, min = 0, max = 100) =>
   Math.min(Math.max(value, min), max)

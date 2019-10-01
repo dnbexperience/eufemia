@@ -25,81 +25,40 @@
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16);
 }
 
-//Uses :not([dnb-is-touch]) and .touch
-//classes on <body> element
-//based on js touch device test
-@mixin hover($nested: true) {
-  @if $nested {
-    :not([dnb-is-touch]) & {
-      &:hover {
-        &[disabled] {
-          cursor: not-allowed;
-        }
-        &:not([disabled]) {
-          @content;
-        }
-      }
+// Uses html:not([data-is-touch])
+// classes on <html> element
+// based on js touch device test
+@mixin hover() {
+  html:not([data-is-touch]) &:hover {
+    &[disabled] {
+      cursor: not-allowed;
     }
-  } @else {
-    :not([dnb-is-touch]) {
-      &:hover {
-        &[disabled] {
-          cursor: not-allowed;
-        }
-        &:not([disabled]) {
-          @content;
-        }
-      }
+    &:not([disabled]) {
+      @content;
     }
   }
 }
-@mixin active($nested: true) {
-  @if $nested {
-    :not([dnb-is-touch]) & {
-      &:active {
-        &[disabled] {
-          cursor: not-allowed;
-        }
-        &:not([disabled]) {
-          @content;
-        }
-      }
+@mixin active() {
+  &:active,
+  html:not([data-is-touch]) &:active {
+    &[disabled] {
+      cursor: not-allowed;
     }
-  } @else {
-    :not([dnb-is-touch]) {
-      &:active {
-        &[disabled] {
-          cursor: not-allowed;
-        }
-        &:not([disabled]) {
-          @content;
-        }
-      }
+    // stylelint-disable-next-line
+    &:not([disabled]) {
+      @content;
     }
   }
 }
-@mixin focus($nested: true) {
-  @if $nested {
-    :not([dnb-is-touch]) & {
-      &:focus {
-        &[disabled] {
-          cursor: not-allowed;
-        }
-        &:not([disabled]) {
-          @content;
-        }
-      }
+@mixin focus() {
+  &:focus,
+  html:not([data-is-touch]) &:focus {
+    &[disabled] {
+      cursor: not-allowed;
     }
-  } @else {
-    :not([dnb-is-touch]) {
-      &:focus {
-        &[disabled] {
-          cursor: not-allowed;
-        }
-        &:not([disabled]) {
-          @content;
-        }
-      }
+    // stylelint-disable-next-line
+    &:not([disabled]) {
+      @content;
     }
   }
 }

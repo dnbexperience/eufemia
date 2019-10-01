@@ -605,6 +605,7 @@ exports[`Radio scss have to match snapshot 1`] = `
     margin-bottom: 0.5rem; }
   .dnb-form-label[for]:not([disabled]) {
     user-select: none;
+    -webkit-user-select: none;
     cursor: pointer; }
   .dnb-form-label[disabled] {
     cursor: not-allowed; }
@@ -666,7 +667,7 @@ legend.dnb-form-label {
     cursor: text;
     color: inherit;
     line-height: 1.5rem; }
-    [os='mac'] .dnb-form-status--text {
+    [data-os='mac'] .dnb-form-status--text {
       transform: translateY(0.0625rem); }
   .dnb-icon + .dnb-form-status--text {
     padding-left: 0.5rem; }
@@ -757,12 +758,13 @@ legend.dnb-form-label {
   .dnb-radio__shell {
     position: relative;
     user-select: none;
+    -webkit-user-select: none;
     display: flex;
     align-items: center;
     justify-content: center;
     width: var(--radio-height);
     height: var(--radio-height); }
-    [os='mac'] .dnb-radio__shell {
+    [data-os='mac'] .dnb-radio__shell {
       transform: translateY(-0.0625rem); }
   .dnb-radio__focus, .dnb-radio__button, .dnb-radio__dot {
     position: absolute;

@@ -530,15 +530,19 @@ exports[`StepIndicator scss have to match snapshot 1`] = `
     box-shadow: none; }
   .dnb-step-indicator__item-content--link.dnb-anchor {
     line-height: 1.5rem; }
-  :not([dnb-is-touch]) .dnb-step-indicator__item-content--link:focus[disabled] {
+  .dnb-step-indicator__item-content--link:focus[disabled],
+  html:not([data-is-touch]) .dnb-step-indicator__item-content--link:focus[disabled] {
     cursor: not-allowed; }
-  :not([dnb-is-touch]) .dnb-step-indicator__item-content--link:focus:not([disabled]) {
+  .dnb-step-indicator__item-content--link:focus:not([disabled]),
+  html:not([data-is-touch]) .dnb-step-indicator__item-content--link:focus:not([disabled]) {
     outline: none; }
-    html[data-whatinput='keyboard'] :not([dnb-is-touch]) .dnb-step-indicator__item-content--link:focus:not([disabled]) {
+    html[data-whatinput='keyboard'] .dnb-step-indicator__item-content--link:focus:not([disabled]), html[data-whatinput='keyboard']
+    html:not([data-is-touch]) .dnb-step-indicator__item-content--link:focus:not([disabled]) {
       box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
       /* IE11 fix */
       border-color: transparent; }
-    :not([dnb-is-touch]) .dnb-step-indicator__item-content--link:focus:not([disabled])::after {
+    .dnb-step-indicator__item-content--link:focus:not([disabled])::after,
+    html:not([data-is-touch]) .dnb-step-indicator__item-content--link:focus:not([disabled])::after {
       content: none; }
   .dnb-step-indicator__item-content--number {
     padding-right: 0.25rem;

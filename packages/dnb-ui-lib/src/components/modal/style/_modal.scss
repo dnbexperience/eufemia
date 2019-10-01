@@ -19,6 +19,7 @@
 
 [data-dnb-modal-active='true'] {
   user-select: none;
+  -webkit-user-select: none; // Safari / Touch fix
 }
 
 #dnb-modal-root {
@@ -44,6 +45,7 @@
     height: 100%;
 
     user-select: none;
+    -webkit-user-select: none; // Safari / Touch fix
 
     &__inner {
       position: relative;
@@ -66,6 +68,7 @@
       overflow-y: auto;
 
       user-select: text;
+      -webkit-user-select: text; // Safari / Touch fix
       border: none;
 
       background: var(--color-white);
@@ -122,7 +125,7 @@
   }
 
   &__close-button {
-    // NB: as the specificity is several levels deep: :not([dnb-is-touch]) .dnb-button--secondary:hover:not([disabled])
+    // NB: as the specificity is several levels deep: html:not([data-is-touch]) .dnb-button--secondary:hover:not([disabled])
     // we use !important in case we define position="relative" on hover
     position: absolute;
     top: var(--modal-spacing);

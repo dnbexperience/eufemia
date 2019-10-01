@@ -20,7 +20,9 @@
   &__shell {
     position: relative;
     left: 0;
+
     user-select: none;
+    -webkit-user-select: none; // Safari / Touch fix
   }
 
   &--vertical {

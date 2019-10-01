@@ -270,6 +270,7 @@
     z-index: 1;
 
     user-select: none;
+    -webkit-user-select: none; // Safari / Touch fix
 
     display: inline-flex;
     align-items: center;
@@ -405,7 +406,7 @@
       text-align: inherit;
 
       // vertical alignment
-      [os='mac'] & {
+      [data-os='mac'] & {
         transform: translateY(0.0625rem);
       }
     }
