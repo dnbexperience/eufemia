@@ -30,8 +30,8 @@
     "test-ci-screenshots": "yarn workspace dnb-ui-lib test-ci-screenshots"
   },
   "devDependencies": {
-    "git-branch-is": "^2.1.0",
-    "husky": "^3.0.3"
+    "git-branch-is": "^3.0.0",
+    "husky": "^3.0.8"
   },
   "release": {
     "analyzeCommits": "simple-commit-message"
