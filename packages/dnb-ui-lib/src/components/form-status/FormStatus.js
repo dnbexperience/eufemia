@@ -167,18 +167,63 @@ export default class FormStatus extends PureComponent {
     const { text_id, width_selector } = this.props
     if (text_id && this._ref.current && typeof document !== 'undefined') {
       try {
-        const width = sumElementWidth(
+        const width = this.sumElementWidth(
           elem ||
             width_selector ||
-            (text_id.match(/^([a-z0-9]+)/) || [])[1]
+            (text_id.match(/^([a-z0-9]+)/) || [])[1],
+          this._ref.current
         )
         if (width >= 64) {
-          this._ref.current.style.maxWidth = `${width / 16}rem`
+          this._ref.current.style.maxWidth = `${(width +
+            (width < 128 ? 32 : 0)) /
+            16}rem`
         }
       } catch (e) {
         console.warn(e)
       }
     }
+  }
+
+  sumElementWidth = (selector, targetElement) => {
+    let width = 0
+    try {
+      // hide and show the target, so it don't distract the calculation
+      const display = targetElement.style.display
+      targetElement.style.display = 'none'
+
+      if (selector && selector.offsetWidth) {
+        width = selector.offsetWidth
+      } else {
+        // beside "width_selector" - witch is straight forward, we
+        // also check if we can get an ID given by text_id
+        const ids = /,/.test(selector) ? selector.split(', ') : [selector]
+
+        width = ids.reduce((acc, cur) => {
+          const elem =
+            cur[0] === '.'
+              ? document.querySelector(cur)
+              : document.getElementById(cur)
+
+          if (elem && elem.offsetWidth > 0) {
+            // add additional one more spacing unit
+            // to make it more correct for small elements
+            if (acc > 0) {
+              acc += 16
+            }
+            acc += elem.offsetWidth
+          }
+
+          return acc
+        }, width)
+      }
+
+      // and show it again
+      targetElement.style.display = display
+    } catch (e) {
+      console.warn(e)
+    }
+
+    return width
   }
 
   render() {
@@ -260,39 +305,4 @@ export default class FormStatus extends PureComponent {
       </span>
     )
   }
-}
-
-const sumElementWidth = selector => {
-  let width = 0
-  try {
-    if (selector && selector.offsetWidth) {
-      width = selector.offsetWidth
-    } else {
-      // beside "width_selector" - witch is straight forward, we
-      // also check if we can get an ID given by text_id
-      const ids = /,/.test(selector) ? selector.split(', ') : [selector]
-
-      width = ids.reduce((acc, cur) => {
-        const elem =
-          cur[0] === '.'
-            ? document.querySelector(cur)
-            : document.getElementById(cur)
-
-        if (elem && elem.offsetWidth > 0) {
-          // add additional one more spacing unit
-          // to make it more correct for small elements
-          if (acc > 0) {
-            acc += 16
-          }
-          acc += elem.offsetWidth
-        }
-
-        return acc
-      }, width)
-    }
-  } catch (e) {
-    console.warn(e)
-  }
-
-  return width
 }

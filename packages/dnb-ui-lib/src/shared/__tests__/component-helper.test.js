@@ -23,8 +23,8 @@ import {
 
 beforeAll(() => {
   navigator.maxTouchPoints = 2 // mocking touch
-  defineIsTouch(true)
-  defineNavigator(true)
+  defineIsTouch()
+  defineNavigator()
 })
 
 describe('"defineIsTouch" should', () => {

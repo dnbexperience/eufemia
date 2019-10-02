@@ -28,6 +28,11 @@
   &[disabled] {
     cursor: not-allowed;
   }
+
+  // IE fix
+  @media screen and (-ms-high-contrast: none) {
+    max-width: 60vw;
+  }
 }
 legend.dnb-form-label {
   display: inline-block;

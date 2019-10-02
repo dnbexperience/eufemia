@@ -712,6 +712,9 @@ a.dnb-button .dnb-button__text {
     cursor: pointer; }
   .dnb-form-label[disabled] {
     cursor: not-allowed; }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-form-label {
+      max-width: 60vw; } }
 
 legend.dnb-form-label {
   display: inline-block; }
