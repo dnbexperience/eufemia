@@ -22775,10 +22775,10 @@ websocket-extensions@>=0.1.1:
   resolved "https://registry.yarnpkg.com/websocket-extensions/-/websocket-extensions-0.1.3.tgz#5d2ff22977003ec687a4b87073dfbbac146ccf29"
   integrity sha512-nqHUnMXmBzT0w570r2JpJxfiSD1IzoI+HGVdd3aZ0yNi3ngvQ4jv1dtHt5VGxfI2yj5yqImPhOK4vmIh2xMbGg==
 
-what-input@^5.2.4:
-  version "5.2.4"
-  resolved "https://registry.yarnpkg.com/what-input/-/what-input-5.2.4.tgz#1edd0786614d9017ba657c87dd0219efe14a9103"
-  integrity sha512-syqVipJYgBCAZaDLRr0WEA7qJhsMmTBzxXxBLEDmfRWKT+WcXUPdVcZGpaToLGx2I0r7J8kbt+nCo1/Za7d4EA==
+what-input@^5.2.5:
+  version "5.2.5"
+  resolved "https://registry.yarnpkg.com/what-input/-/what-input-5.2.5.tgz#9b2fb0d7a00ace2f6c98686821a26d2a86e4551a"
+  integrity sha512-8h9UXZc1BBle1YkBmKlR366k3lxR8h/I871q80mjOrKBkMPTMeWK2dbkpsILUL9y2tJNfp2K1MgN60Q10qqXBg==
 
 whatwg-encoding@^1.0.1, whatwg-encoding@^1.0.3:
   version "1.0.5"
