@@ -50,7 +50,7 @@ const data = [
   { title: 'Fourth', key: 'fourth' }
 ];
 render(<Tabs data={data}>
-  {exampleContent}
+  { exampleContent /* See Example Content below */ }
 </Tabs>)
           `}
         </ComponentBox>
@@ -61,8 +61,14 @@ render(<Tabs data={data}>
           {/* @jsx */ `
 <Tabs
   data={{
-    first2: { title: 'First', content: exampleContent.first },
-    second2: { title: 'Second', content: exampleContent.second }
+    first2: {
+      title: 'First',
+      content: exampleContent.first /* See Example Content below */
+    },
+    second2: {
+      title: 'Second',
+      content: exampleContent.second /* See Example Content below */
+    }
   }}
 />
           `}
@@ -104,7 +110,7 @@ render(<Tabs data={data}>
     )
   }}
 >
-  {exampleContent}
+  { exampleContent /* See Example Content below */ }
 </Tabs>
           `}
         </ComponentBox>
@@ -200,12 +206,12 @@ const exampleContent = {
   first: () => <h2 className="dnb-h2">First</h2>,
   second: () => <Input label="Label:">Focus me with next Tab key</Input>,
   third: () => (
-    <p>
-      Eros semper blandit tellus mollis primis quisque platea sollicitudin
-      ipsum
-    </p>
+    <>
+      <p>Paragraph 1</p>
+      <p>Paragraph 2</p>
+    </>
   ),
-  fourth: () => <h2 className="dnb-h2">Fourth</h2>
+  fourth: 'Fourth as a string only'
 }
 
 const data = [
