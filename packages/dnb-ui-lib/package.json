@@ -74,6 +74,9 @@
     "prettier:styles:staged": "prettier --loglevel warn --parser scss",
     "umd:dev": "nodemon -x 'yarn umd' --ext js,html,json,css,scss --watch './src/components/**/*' --watch './src/patterns/**/*' --watch './src/style/**/*' --watch './scripts/**/*' --ignore '*.json'"
   },
+  "resolutions": {
+    "eslint": "^5"
+  },
   "dependencies": {
     "@babel/runtime": "^7.6.2",
     "body-scroll-lock": "^2.6.4",
@@ -200,8 +203,5 @@
     "tar": "^5.0.2",
     "text-mask-addons": "^3.8.0",
     "traverse": "^0.6.6"
-  },
-  "resolutions": {
-    "eslint": "^5"
   }
 }
