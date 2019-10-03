@@ -1,3 +1,7 @@
+## October, 2. 2019
+
+- New [secondary icons](/icons/secondary): send and upload
+
 ## September, 23. 2019
 
 - New component to show `404` and `500` status: [GlobalError](/uilib/components/global-error)
