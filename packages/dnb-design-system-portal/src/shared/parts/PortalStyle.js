@@ -174,6 +174,10 @@ export default css`
     img {
       margin-bottom: 2rem;
     }
+
+    &.mint-green-12 {
+      background-color: var(--color-mint-green-12);
+    }
   }
 
   .typography-box {
