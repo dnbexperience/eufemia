@@ -13,7 +13,7 @@ import ComponentBox from 'Tags/ComponentBox'
 To get a good user experience and a professional looking result, perfect layouting is crucial.
 
 - Use the **8 Pixel Grid** everywhere, both on spacing and sizes.
-- Use `rem` units for layouts and spacing.
+- Use either `em` or `rem` (root em) units for layouts and spacing.
 - Use **CSS Flexbox** or **CSS Grid** as layout systems.
 
 ## Spacing

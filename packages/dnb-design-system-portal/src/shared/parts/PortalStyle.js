@@ -178,6 +178,13 @@ export default css`
     &.mint-green-12 {
       background-color: var(--color-mint-green-12);
     }
+    &.blank {
+      background-color: transparent;
+    }
+    &.blank::after {
+      background-image: none;
+      border-color: transparent;
+    }
   }
 
   .typography-box {

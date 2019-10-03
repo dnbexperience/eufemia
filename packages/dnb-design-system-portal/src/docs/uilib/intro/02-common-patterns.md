@@ -4,6 +4,9 @@ draft: true
 order: 2
 ---
 
+import Img from 'Tags/Img'
+import WhatIsEufemia from 'Docs/uilib/intro/assets/what-is-a-design-system.svg'
+
 <Intro>
 
 # Common Design Patterns
@@ -19,6 +22,9 @@ Both UX designers and frontend web developers will have a huge benefit of **"tal
 - Ready to use components, elements and icons
 - UU/WCAG Accessibility
 - Best practices for DNB UX/UI
+
+<!-- <WhatIsEufemia /> -->
+<Img src={WhatIsEufemia} caption="Illustration about What is Eufemia" className="blank" />
 
 ---
 
