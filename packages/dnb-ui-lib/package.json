@@ -187,7 +187,7 @@
     "sass-loader": "^8.0.0",
     "sass-variable-parser": "^1.2.2",
     "scss-to-json": "^2.0.0",
-    "semantic-release": "^16.0.0-beta.22",
+    "semantic-release": "^16.0.0-beta.24",
     "simple-commit-message": "^4.0.13",
     "simple-git": "^1.126.0",
     "stream-buffers": "^3.0.2",
@@ -200,8 +200,5 @@
     "tar": "^5.0.2",
     "text-mask-addons": "^3.8.0",
     "traverse": "^0.6.6"
-  },
-  "resolutions": {
-    "eslint": "^5"
   }
 }
