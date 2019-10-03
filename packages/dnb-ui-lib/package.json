@@ -74,9 +74,6 @@
     "prettier:styles:staged": "prettier --loglevel warn --parser scss",
     "umd:dev": "nodemon -x 'yarn umd' --ext js,html,json,css,scss --watch './src/components/**/*' --watch './src/patterns/**/*' --watch './src/style/**/*' --watch './scripts/**/*' --ignore '*.json'"
   },
-  "resolutions": {
-    "eslint": "^5"
-  },
   "dependencies": {
     "@babel/runtime": "^7.6.2",
     "body-scroll-lock": "^2.6.4",
@@ -85,7 +82,7 @@
     "date-fns": "^2.4.1",
     "keycode": "^2.2.0",
     "react-text-mask": "^5.4.3",
-    "what-input": "^5.2.5"
+    "what-input": "^5.2.6"
   },
   "peerDependencies": {
     "react": ">=16.8",
@@ -105,11 +102,11 @@
     "@babel/preset-react": "^7.0.0",
     "@babel/register": "^7.6.2",
     "@emotion/babel-plugin-core": "^0.6.9",
-    "@emotion/core": "^10.0.17",
+    "@emotion/core": "^10.0.20",
     "@emotion/styled": "^10.0.17",
     "@semantic-release/changelog": "^3.0.4",
     "@semantic-release/commit-analyzer": "^7.0.0-beta.1",
-    "@semantic-release/github": "^5.4.3",
+    "@semantic-release/github": "^5.5.0",
     "@semantic-release/npm": "^5.2.0-beta.5",
     "@semantic-release/release-notes-generator": "^7.3.0",
     "@storybook/react": "^5.2.1",
@@ -118,7 +115,7 @@
     "babel-eslint": "^10.0.3",
     "babel-jest": "^24.9.0",
     "babel-loader": "^8.0.6",
-    "babel-plugin-emotion": "^10.0.19",
+    "babel-plugin-emotion": "^10.0.20",
     "babel-plugin-react-remove-properties": "^0.3.0",
     "babel-plugin-transform-dev-warning": "^0.1.1",
     "babel-plugin-transform-dynamic-import": "^2.1.0",
@@ -133,7 +130,7 @@
     "dotenv": "^8.1.0",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
-    "enzyme-to-json": "^3.4.0",
+    "enzyme-to-json": "^3.4.1",
     "eslint": "^5.16.0",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",
@@ -203,5 +200,8 @@
     "tar": "^5.0.2",
     "text-mask-addons": "^3.8.0",
     "traverse": "^0.6.6"
+  },
+  "resolutions": {
+    "eslint": "^5"
   }
 }
