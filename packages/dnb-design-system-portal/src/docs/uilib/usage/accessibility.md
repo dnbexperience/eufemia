@@ -10,9 +10,7 @@ import AboutAccessibility from 'Docs/uilib/usage/accessibility/about-accessibili
 
 <AboutAccessibility />
 
-## WCAG 2.1 and Universal design (UU)
-
-Make sure your applications are [**universally designed**](https://uu.difi.no) and [**WCAG 2.1**](https://www.w3.org/TR/WCAG21/) compliant. This means, You as a developer has to:
+## Checklist of best practices
 
 - follow **semantics** properly, use **landmarks** ([landmark and semantic example](/uilib/usage/accessibility#semantic-elements)) and ensure correct [heading levels](/uilib/usage/best-practices/for-typography#headings-and-styling)
 - use different **screen readers** and test [regularly](/uilib/usage/accessibility/screenreader)
@@ -34,21 +32,14 @@ Make sure your applications are [**universally designed**](https://uu.difi.no) a
 
 ## Tooling tips
 
-Use [ESLint](https://eslint.org) with [eslint-plugin-jsx-a11y](https://www.npmjs.com/package/eslint-plugin-jsx-a11y) in Your Code Editor setup.
+- Use [ESLint](https://eslint.org) with [eslint-plugin-jsx-a11y](https://www.npmjs.com/package/eslint-plugin-jsx-a11y) in Your Code Editor setup.
+- Use **axe** in [integration tests](/uilib/usage/best-practices/for-testing#integration-tests)
+- There are several integrations for Developer Tools, including [axe-core](https://www.deque.com/axe/)
+- Testing semantics is never enough, use actually [screen readers](/uilib/usage/accessibility/screenreader)
 
-Use **axe** in [integration tests](/uilib/usage/best-practices/for-testing#integration-tests)
+### Landmark- and semantics example
 
-There are several integrations for Developer Tools, including [axe-core](https://www.deque.com/axe/)
-
-Testing semantics is never enough, use actually [screen readers](/uilib/usage/accessibility/screenreader)
-
-## HTML Accessibility
-
-There are many good Articles about accessibility for web standards out there. Start with the one from [Mozilla Documentation](https://developer.mozilla.org/en-US/docs/Learn/Accessibility/HTML)
-
-### Landmark and semantics example
-
-Example usage of HTML5 `landmarks` (e.g. `<nav>` or `<section>` etc.).
+Example usage of HTML5 `landmarks` (e.g. `<nav>` or `<section>` etc.):
 
 ```html
 <body>

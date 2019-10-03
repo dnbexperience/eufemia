@@ -24,7 +24,7 @@ Both UX designers and frontend web developers will have a huge benefit of **"tal
 - Best practices for DNB UX/UI
 
 <!-- <WhatIsEufemia /> -->
-<Img src={WhatIsEufemia} caption="Illustration about What is Eufemia" className="blank" />
+<Img src={WhatIsEufemia} caption="Illustration about, what is the Eufemia Design System" className="blank" />
 
 ---
 

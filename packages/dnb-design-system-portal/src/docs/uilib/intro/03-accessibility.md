@@ -12,7 +12,7 @@ import AboutAccessibility from 'Docs/uilib/usage/accessibility/about-accessibili
 
 <AboutAccessibility />
 
-## How it not should be
+### How it not should be
 
 ---
 

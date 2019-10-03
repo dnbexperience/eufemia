@@ -1,12 +1,11 @@
 ---
 title: 'Best Practices for testing'
 menuTitle: 'for testing'
-status: 'wip'
 draft: false
 order: 3
 ---
 
-# Testing Frontend Code
+# Testing frontend Code
 
 It is a good idea to include some tips and tricks for frontend testing
 Since accessibility and user experience are major factors in any design system, it may be sensible to include some tips and tricks for frontend testing.
@@ -26,7 +25,7 @@ Frontend code is changing and moving fast. So 100% code coverage should never be
 ### Integration tests
 
 Do not write unit tests in frontend code. But make integration tests.
-Think as a user. Think how the user will interact with your application. Do not shallow test, but test components like a user would get it (use mount or render to also test their children, cause a user would do have these as well).
+Think as a user. Think how the user will interact with your application. Do not shallow test, but test components like a user would interact (use mount or render to also test their children).
 
 There are several packages you can integrate in your test, so your can test your code for accessibility e.g. `axe` and `pa11y`.
 
