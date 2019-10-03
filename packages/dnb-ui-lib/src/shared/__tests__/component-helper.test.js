@@ -91,13 +91,6 @@ describe('"detectOutsideClick" should', () => {
       event: new CustomEvent('mousedown', { bubbles: true }),
       calledTimes: 2
     })
-
-    // test touchstart
-    testEvent({
-      mockedEvent: jest.fn(),
-      event: new CustomEvent('touchstart', { bubbles: true }),
-      calledTimes: 2
-    })
   })
 })
 
