@@ -35,6 +35,9 @@
       position: relative;
       z-index: 1;
 
+      user-select: none;
+      -webkit-user-select: none; // Safari / Touch fix
+
       margin: 0;
       margin-left: 4.5rem;
       padding: 0.25rem 0.125rem; /* 1/16*4 */
@@ -80,7 +83,8 @@
     }
 
     @include allBelow(medium) {
-      .dnb-tabs__button {
+      .dnb-tabs__button,
+      .dnb-core-style & .dnb-tabs__button {
         margin-left: 2.5rem;
       }
     }
@@ -91,7 +95,8 @@
         flex-grow: 1;
         margin: 0;
       }
-      .dnb-tabs__button {
+      .dnb-tabs__button,
+      .dnb-core-style & .dnb-tabs__button {
         margin-left: 0;
       }
     }

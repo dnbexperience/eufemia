@@ -382,7 +382,6 @@ export class DetectOutsideClickClass {
         )
       }
       document.addEventListener('mousedown', this.handleClickOutside)
-      document.addEventListener('touchstart', this.handleClickOutside)
 
       this.keydownCallback = event => {
         const keyCode = keycode(event)
@@ -415,7 +414,6 @@ export class DetectOutsideClickClass {
   remove() {
     if (this.handleClickOutside && typeof document !== 'undefined') {
       document.removeEventListener('mousedown', this.handleClickOutside)
-      document.removeEventListener('touchstart', this.handleClickOutside)
       this.handleClickOutside = null
     }
     if (this.keydownCallback && typeof window !== 'undefined') {

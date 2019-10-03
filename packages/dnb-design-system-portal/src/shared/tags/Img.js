@@ -1,7 +1,17 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
+import classnames from 'classnames'
 
-const Img = ({ alt, src, children, size, width, height, caption }) => {
+const Img = ({
+  className,
+  alt,
+  src,
+  children,
+  size,
+  width,
+  height,
+  caption
+}) => {
   if (size === 'auto') {
     width = '100%'
     height = '100%'
@@ -9,7 +19,7 @@ const Img = ({ alt, src, children, size, width, height, caption }) => {
   const props = { width, height }
   return (
     <Fragment>
-      <figure className="image-box">
+      <figure className={classnames('image-box', className)}>
         <img alt={alt || caption} src={src || children} {...props} />
         {caption && <figcaption>{caption}</figcaption>}
       </figure>
@@ -18,6 +28,7 @@ const Img = ({ alt, src, children, size, width, height, caption }) => {
 }
 
 Img.propTypes = {
+  className: PropTypes.string,
   alt: PropTypes.string,
   children: PropTypes.node,
   src: PropTypes.string,
@@ -27,6 +38,7 @@ Img.propTypes = {
   caption: PropTypes.string
 }
 Img.defaultProps = {
+  className: null,
   caption: null,
   alt: null,
   src: null,

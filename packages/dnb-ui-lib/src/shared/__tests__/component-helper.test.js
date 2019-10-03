@@ -91,13 +91,6 @@ describe('"detectOutsideClick" should', () => {
       event: new CustomEvent('mousedown', { bubbles: true }),
       calledTimes: 2
     })
-
-    // test touchstart
-    testEvent({
-      mockedEvent: jest.fn(),
-      event: new CustomEvent('touchstart', { bubbles: true }),
-      calledTimes: 2
-    })
   })
 })
 
@@ -365,8 +358,8 @@ describe('"makeUniqueId" should', () => {
   })
 
   it('have a prepended string', () => {
-    expect(makeUniqueId('string-', 12)).toEqual(
-      expect.stringMatching(/^string-[a-z0-9]{12}/g)
+    expect(makeUniqueId('string-', 10)).toEqual(
+      expect.stringMatching(/^string-[a-z0-9]{10}/g)
     )
   })
 })

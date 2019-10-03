@@ -248,9 +248,7 @@ export default class Slider extends PureComponent {
     )
     const value = percentToValue(percent, min, max)
 
-    this.emitChange(event, value, () => {
-      this.setToResetState()
-    })
+    this.emitChange(event, value, () => this.setToResetState())
   }
 
   onSubtractClickHandler = event => {
@@ -389,12 +387,14 @@ export default class Slider extends PureComponent {
       { _listenForPropChanges: false, currentState: 'jumped' },
       () => {
         clearTimeout(this.resetStateTimeoutId)
-        this.resetStateTimeoutId = setTimeout(() => {
-          this.setState({
-            _listenForPropChanges: false,
-            currentState: 'normal'
-          })
-        }, 1e3)
+        this.resetStateTimeoutId = setTimeout(
+          () =>
+            this.setState({
+              _listenForPropChanges: false,
+              currentState: 'normal'
+            }),
+          10
+        )
       }
     )
   }
@@ -540,8 +540,6 @@ export default class Slider extends PureComponent {
       ...attributes,
       onBlur: this.onBlurHandler,
       onKeyDown: this.onKeyDownHandler,
-      onTouchStart: this.onTouchStartHandler,
-      onTouchMove: this.onMouseMoveHandler,
       onFocus: this.onFocusHandler
     }
 
@@ -573,8 +571,8 @@ export default class Slider extends PureComponent {
     }
 
     // also used for code markup simulation
-    validateDOMAttributes(this.props, rangeParams)
-    // validateDOMAttributes(null, trackParams)
+    validateDOMAttributes(this.props, trackParams)
+    validateDOMAttributes(null, rangeParams)
     validateDOMAttributes(null, buttonParams)
 
     const subtractButton = (
@@ -641,6 +639,7 @@ export default class Slider extends PureComponent {
                 <Button
                   variant="secondary"
                   tabIndex="-1"
+                  onMouseDown={this.onMouseDownHandler}
                   {...(this.isTouch
                     ? rangeParams
                     : { 'aria-hidden': true })}

@@ -364,6 +364,8 @@ exports[`Tabs scss have to match snapshot 1`] = `
   .dnb-core-style .dnb-tabs__tabs .dnb-tabs__button {
     position: relative;
     z-index: 1;
+    user-select: none;
+    -webkit-user-select: none;
     margin: 0;
     margin-left: 4.5rem;
     padding: 0.25rem 0.125rem;
@@ -405,14 +407,16 @@ exports[`Tabs scss have to match snapshot 1`] = `
     width: 100vw;
     height: 1px; }
   @media screen and (max-width: 50em) {
-    .dnb-tabs__tabs .dnb-tabs__button {
+    .dnb-tabs__tabs .dnb-tabs__button,
+    .dnb-core-style .dnb-tabs__tabs .dnb-tabs__button {
       margin-left: 2.5rem; } }
   @media screen and (max-width: 40em) {
     .dnb-tabs__tabs__tablist {
       flex-direction: column;
       flex-grow: 1;
       margin: 0; }
-    .dnb-tabs__tabs .dnb-tabs__button {
+    .dnb-tabs__tabs .dnb-tabs__button,
+    .dnb-core-style .dnb-tabs__tabs .dnb-tabs__button {
       margin-left: 0; } }
 
 .dnb-tabs__content {
