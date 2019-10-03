@@ -45,7 +45,7 @@ const StyledListItem = styled.li`
   }
 
   .show-mobile-menu & {
-    opacity: 0;
+    opacity: 0.3;
     animation: show-mobile-menu 600ms cubic-bezier(0.19, 1, 0.22, 1) 1
       var(--delay) forwards;
   }
@@ -157,7 +157,7 @@ const StyledListItem = styled.li`
 
   @keyframes show-mobile-menu {
     0% {
-      opacity: 0;
+      opacity: 0.3;
       transform: translate3d(0, -20%, 0);
     }
     40% {
@@ -171,15 +171,15 @@ const StyledListItem = styled.li`
 
   @keyframes hide-mobile-menu {
     0% {
-      opacity: 100;
+      opacity: 1;
       transform: translate3d(0, 0, 0);
     }
     60% {
-      opacity: 0.4;
+      opacity: 0.5;
       transform: translate3d(0, 0, 0);
     }
     100% {
-      opacity: 0;
+      opacity: 0.3;
       transform: translate3d(0, -20%, 0);
     }
   }
@@ -652,7 +652,9 @@ class ListItem extends PureComponent {
         )}
         ref={this.ref}
         style={{
-          '--delay': `${nr !== null ? nr * 12 : random(1, 160)}ms`
+          '--delay': `${
+            nr !== null && nr < 20 ? nr * 12 : 0 // random(1, 160)
+          }ms`
         }}
       >
         <Link
@@ -803,5 +805,5 @@ const prepareNav = ({ location, allMdx, showAll, pathPrefix }) => {
   return list
 }
 
-const random = (min, max) =>
-  Math.floor(Math.random() * (max - min + 1) + min)
+// const random = (min, max) =>
+//   Math.floor(Math.random() * (max - min + 1) + min)
