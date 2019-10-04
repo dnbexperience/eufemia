@@ -26,6 +26,6 @@ Should be able to navigate the application by their keyboard only. For those it 
 
 The [WCAG 2.1](https://www.w3.org/TR/WCAG21/) document is describing it clearly:
 
-> **1.4.4 Resize text:** Text can be resized without assistive technology _up to 200 percent without loss of content or functionality_.<br /><br /> And in future we may also meed this criteria;<br /> **1.4.8 Visual Presentation:** Text can be resized without assistive technology up to 200 percent in a way that _does not require the user to scroll horizontally_ to read a line of text.
+> **1.4.4 Resize text:** Text can be resized without assistive technology _up to 200 percent without loss of content or functionality_.<br /><br /> **1.4.8 Visual Presentation:** Text can be resized without assistive technology up to 200 percent in a way that _does not require the user to scroll horizontally_ to read a line of text.
 
 This means, every application **has to be made responsive**. Even if the application lives in a static sized container (960px). Use your browser or system settings to change the `font-size` for testing purposes.
