@@ -8,6 +8,8 @@ HTML elements are by default good at accessibility. Eufemia components and its b
 
 But - you as a developer has the responsibility to have the technical knowledge about accessibility. You have to implement and [use best practices](!/uilib/usage/accessibility) to make applications accessible for every user. We talk about all kinds of users, people who have temporary or permanent disabilities, so they depend on what you put into the application - as code.
 
+## WCAG 2.1 and Universal design (UU)
+
 [From year 2021](https://uu.difi.no/krav-og-regelverk/webdirektivet-og-wcag-21), all new and existing web solutions has to follow [WCAG 2.1](https://www.w3.org/TR/WCAG21/). On _uu.difi.no_ you find a [very good and easy to read WCAG guide (Norwegian)](https://uu.difi.no/krav-og-regelverk/wcag-20-standarden).
 
 ## Screen reader users
@@ -29,3 +31,7 @@ The [WCAG 2.1](https://www.w3.org/TR/WCAG21/) document is describing it clearly:
 > **1.4.4 Resize text:** Text can be resized without assistive technology _up to 200 percent without loss of content or functionality_.<br /><br /> **1.4.8 Visual Presentation:** Text can be resized without assistive technology up to 200 percent in a way that _does not require the user to scroll horizontally_ to read a line of text.
 
 This means, every application **has to be made responsive**. Even if the application lives in a static sized container (960px). Use your browser or system settings to change the `font-size` for testing purposes.
+
+### Demos
+
+You find examples of how to make responsive application layouts in the [demos section](/uilib/getting-started/demos).
