@@ -21,11 +21,12 @@ const Anchor = ({ children, className, href, ...rest }) => {
       </AnchorLink>
     )
   }
-  if (/^http/.test(href)) {
+  if (/^http/.test(href) || href[0] === '!') {
     rest.target = '_blank'
-  } else if (/^!/.test(href)) {
-    rest.target = '_blank'
-    href = href.substr(1)
+    rest.rel = 'noreferrer'
+    if (href[0] === '!') {
+      href = href.substr(1)
+    }
   }
   return (
     <a
