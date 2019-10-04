@@ -58,12 +58,17 @@ describe('ToggleButton component', () => {
     const Comp = mount(
       <Component on_change={my_event} onChange={myEvent} checked={false} />
     )
+
+    // first click
     Comp.find('button').simulate('click')
-    expect(my_event.mock.calls.length).toBe(1)
+    expect(my_event).toHaveBeenCalled()
+    expect(my_event.mock.calls[0][0].checked).toBe(true)
+
     expect(myEvent.mock.calls.length).toBe(1)
     expect(myEvent.mock.calls[0][0]).toHaveProperty('checked')
     expect(myEvent.mock.calls[0][0].checked).toBe(true)
-    expect(my_event.mock.calls[0][0].checked).toBe(true)
+
+    // second click
     Comp.find('button').simulate('click')
     expect(my_event.mock.calls[1][0].checked).toBe(false)
   })
@@ -111,27 +116,45 @@ describe('ToggleButton group component', () => {
         on_change={my_event}
         onChange={myEvent}
         value="second"
+        data-prop="group-value"
       >
         <Component
           id="toggle-button-1"
           text="ToggleButton 1"
           value="first"
+          data-prop="value-1"
+          attributes={{ 'data-attr': 'value' }}
         />
         <Component
           id="toggle-button-2"
           text="ToggleButton 2"
           value="second"
+          data-prop="value-2"
+          attributes={{ 'data-attr': 'value' }}
         />
       </Component.Group>
     )
+
+    // first click
     Comp.find('button#toggle-button-1').simulate('click')
-    expect(my_event.mock.calls.length).toBe(1)
+    expect(my_event).toHaveBeenCalled()
+    expect(my_event.mock.calls[0][0].value).toBe('first')
+
     expect(myEvent.mock.calls.length).toBe(1)
     expect(myEvent.mock.calls[0][0]).toHaveProperty('value')
     expect(myEvent.mock.calls[0][0].value).toBe('first')
-    expect(my_event.mock.calls[0][0].value).toBe('first')
+    expect(myEvent.mock.calls[0][0].event).toBeType('object')
+    expect(myEvent.mock.calls[0][0].event.target.dataset).toMatchObject({
+      attr: 'value',
+      prop: 'value-1'
+    })
+
     Comp.find('button#toggle-button-2').simulate('click')
     expect(my_event.mock.calls[1][0].value).toBe('second')
+    expect(my_event.mock.calls[1][0].event.target.dataset).toMatchObject({
+      attr: 'value',
+      prop: 'value-2'
+    })
   })
 
   it('has multiselect "on_change" event witch will trigger on a button click', () => {
@@ -157,12 +180,17 @@ describe('ToggleButton group component', () => {
         />
       </Component.Group>
     )
+
+    // first click
     Comp.find('button#toggle-button-1').simulate('click')
     expect(my_event.mock.calls.length).toBe(1)
-    expect(myEvent.mock.calls.length).toBe(1)
+    expect(my_event.mock.calls[0][0].values).toEqual(['second', 'first'])
+
+    expect(myEvent).toHaveBeenCalled()
     expect(myEvent.mock.calls[0][0]).toHaveProperty('values')
     expect(myEvent.mock.calls[0][0].values).toEqual(['second', 'first'])
-    expect(my_event.mock.calls[0][0].values).toEqual(['second', 'first'])
+
+    // second click
     Comp.find('button#toggle-button-1').simulate('click')
     expect(my_event.mock.calls[1][0].values).toEqual(['second'])
   })

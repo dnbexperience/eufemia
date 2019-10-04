@@ -75,7 +75,7 @@ export default [
       </Box>
       <Box>
         <p className="dnb-p">
-          Text:{' '}
+          Text:
           <ToggleButton
             checked
             label="Label:"
@@ -156,14 +156,14 @@ export default [
         <FormRow
           indent
           indent_offset="m-large"
-          label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:"
+          label="Long Group name with on_change dapibus eros viverra torquent euismod at dignissim vel mattis:"
         >
           <ToggleButton.Group
             // label="Group:"
             // label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:"
             title="Give me a Title"
-            on_change={({ value, values }) => {
-              console.log('on_change', value, values)
+            on_change={({ value, values, event }) => {
+              console.log('on_change', value, values, event)
             }}
             // value="first"
             status="Error message"

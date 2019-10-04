@@ -11,6 +11,6 @@ draft: true
 
 ## ToggleButton group
 
-| Events      | Description                                                                                                             |
-| ----------- | ----------------------------------------------------------------------------------------------------------------------- |
-| `on_change` | _(optional)_ will be called once a ToggleButton button changes the state. Returns an object `{ value, values, event }`. |
+| Events      | Description                                                                                                                                                                                              |
+| ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `on_change` | _(optional)_ will be called once a ToggleButton button changes the state. Returns an object `{ value, values, event }`. <br /><br /> **NB**: `values` is only available if `multiselect` is used / true. |
