@@ -28,6 +28,9 @@ export default [
     <CustomStyle>
       <Wrapper>
         <Box>
+          <CustomInput />
+        </Box>
+        <Box>
           <FormSet>
             <FormRow
               indent
@@ -231,5 +234,31 @@ const InputUpdate = () => {
       }}
       value={initValue}
     />
+  )
+}
+
+const CustomInput = () => {
+  const [value, setValue] = useState('2019-02-15')
+  return (
+    <>
+      <Input
+        value={value}
+        on_change={({ value }) => {
+          console.log('on_change', value)
+          setValue(value)
+        }}
+        on_state_update={({ value }) => {
+          console.warn('on_state_update', value)
+          setValue(value)
+        }}
+        right
+      />
+      <Button
+        text="Reset"
+        on_click={() => {
+          setValue('123')
+        }}
+      />
+    </>
   )
 }

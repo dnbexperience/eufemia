@@ -25,7 +25,8 @@ import Context from '../../shared/Context'
 const renderProps = {
   on_change: null,
   on_focus: null,
-  on_blur: null
+  on_blur: null,
+  on_state_update: null
 }
 
 export const propTypes = {
@@ -74,7 +75,8 @@ export const propTypes = {
   custom_method: PropTypes.func,
   on_change: PropTypes.func,
   on_focus: PropTypes.func,
-  on_blur: PropTypes.func
+  on_blur: PropTypes.func,
+  on_state_update: PropTypes.func
 }
 
 export const defaultProps = {
@@ -130,6 +132,13 @@ export default class Textarea extends PureComponent {
       value !== 'initval' &&
       value !== state.value
     ) {
+      if (
+        value !== state.value &&
+        value !== state._value &&
+        typeof props.on_state_update === 'function'
+      ) {
+        dispatchCustomElementEvent({ props }, 'on_state_update', { value })
+      }
       state.value = value
     }
     if (props.textarea_state) {
@@ -157,7 +166,8 @@ export default class Textarea extends PureComponent {
 
   state = {
     textareaState: 'virgin',
-    value: null
+    value: null,
+    _value: null
   }
 
   constructor(props) {
@@ -171,6 +181,7 @@ export default class Textarea extends PureComponent {
     if (props.textarea_state) {
       this.state.textareaState = props.textarea_state
     }
+    this.state._value = props.value
   }
   onFocusHandler = event => {
     const { value } = event.target
