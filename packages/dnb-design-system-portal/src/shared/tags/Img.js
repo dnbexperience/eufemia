@@ -20,7 +20,12 @@ const Img = ({
   return (
     <Fragment>
       <figure className={classnames('image-box', className)}>
-        <img alt={alt || caption} src={src || children} {...props} />
+        <img
+          aria-hidden
+          alt={alt || caption}
+          src={src || children}
+          {...props}
+        />
         {caption && <figcaption>{caption}</figcaption>}
       </figure>
     </Fragment>
