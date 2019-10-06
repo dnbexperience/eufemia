@@ -230,6 +230,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
             on_blur={null}
             on_change={null}
             on_focus={null}
+            on_state_update={null}
             on_submit={null}
             on_submit_blur={null}
             on_submit_focus={null}

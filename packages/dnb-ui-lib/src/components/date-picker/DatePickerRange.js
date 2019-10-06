@@ -216,6 +216,7 @@ export default class DatePickerRange extends PureComponent {
   }
 
   onKeyDownHandler = (event, ref, nr) => {
+    event.persist() // since we use the event after setState
     const keyCode = keycode(event)
 
     switch (keyCode) {
@@ -330,12 +331,6 @@ export default class DatePickerRange extends PureComponent {
           ref.current.focus()
         }
       })
-      // setTimeout(() => {
-      //   this.callOnChange({ event })
-      //   if (ref && ref.current) {
-      //     ref.current.focus()
-      //   }
-      // }, 1) // delay because of state update
     }
   }
 

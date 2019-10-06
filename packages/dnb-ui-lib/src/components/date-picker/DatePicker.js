@@ -209,13 +209,22 @@ export default class DatePicker extends PureComponent {
     if (state._listenForPropChanges) {
       let startDate = null
       const date_format = props.date_format
-      if (props.date) {
+      if (
+        typeof props.date !== 'undefined' &&
+        props.date !== state.startDate
+      ) {
         startDate = props.date
       }
-      if (props.start_date) {
+      if (
+        typeof props.start_date !== 'undefined' &&
+        props.start_date !== state.startDate
+      ) {
         startDate = props.start_date
       }
-      if (startDate) {
+      if (
+        typeof startDate !== 'undefined' &&
+        startDate !== state.startDate
+      ) {
         state.startDate = DatePicker.convertStringToDate(startDate, {
           date_format
         })
@@ -223,7 +232,10 @@ export default class DatePicker extends PureComponent {
           state.endDate = state.startDate
         }
       }
-      if (props.end_date) {
+      if (
+        typeof props.end_date !== 'undefined' &&
+        props.end_date !== state.endDate
+      ) {
         state.endDate = DatePicker.convertStringToDate(props.end_date, {
           date_format
         })
@@ -265,9 +277,15 @@ export default class DatePicker extends PureComponent {
     let dateObject
     dateObject = typeof date === 'string' ? parseISO(date) : toDate(date)
 
+    // check one more time if we can generate a valid date
     if (typeof date === 'string' && date_format && !isValid(dateObject)) {
       date_format = DatePicker.correctV1Format(date_format)
       dateObject = parse(date, date_format, new Date())
+    }
+
+    // rather return null than an invalid date
+    if (!isValid(dateObject)) {
+      return null
     }
 
     return dateObject
