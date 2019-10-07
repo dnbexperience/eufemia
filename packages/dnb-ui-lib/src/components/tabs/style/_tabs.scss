@@ -87,6 +87,10 @@
       .dnb-core-style & .dnb-tabs__button {
         margin-left: 2.5rem;
       }
+      .dnb-tabs__button:first-child,
+      .dnb-core-style & .dnb-tabs__button:first-child {
+        margin-left: 0;
+      }
     }
 
     @include allBelow(small) {
