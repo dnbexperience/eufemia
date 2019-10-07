@@ -5,7 +5,7 @@ draft: false
 
 # Screen readers
 
-In order for screen reader users to be able to properly navigate and access content, you need to plan navigation and contentent presentation with screen readers in mind.
+In order for screen reader users to be able to properly navigate and access content, you need to architect and develop navigation and content presentation with screen readers in mind.
 
 To avoid much work afterwards, make sure you actually check your application with a screen reader **regularly during development**.
 
@@ -13,21 +13,35 @@ To avoid much work afterwards, make sure you actually check your application wit
 
 Also, screen readers **behave differently** on mobile phones than desktop browsers. So, use both in your frontend tooling.
 
-## ARIA Examples
+## Images and illustrations
 
-Example usage of `role`, `aria-label`, `aria-labelledby` and `aria-hidden`.
+Example usage of `role`, `aria-label`, `aria-labelledby` and `aria-hidden`. There is no one fits all. It depends on the situation what accessibility features you have to prefer over others. But in general:
+
+> Try to use HTML 5 first, and use ARIA as sugar on top.
+
+Some random examples of image and illustration usage:
 
 ```html
-<a aria-label="Describe the action" href="/action" className="dnb-anchor">
-  <svg aria-hidden="true" ... />
+<a class="dnb-anchor" aria-label="descriptive text" href="/action">
+  <svg aria-hidden="true">icon only ...</svg>
 </a>
 
-<div role="alert">Dynamic content alert message</div>
+<a class="dnb-anchor" href="/action">
+  <svg>
+    <title>descriptive text</title>
+    icon only ...
+  </svg>
+</a>
 
-<img role="presentation" alt="image alt" src="..." />
+<img role="presentation" alt="descriptive text" src="..." />
 
-<figure aria-labelledby="figure-id" role="group">
-  <img alt="image alt" src="..." />
-  <figcaption id="figure-id">Description <cite>Name</cite> ...</figcaption>
+<svg role="img" alt="descriptive text" src="..." />
+
+<figure role="group">
+  <img alt="image alt" src="..." aria-hidden="true" />
+  <figcaption>Descriptive text <cite>reference etc.</cite></figcaption>
 </figure>
+
+<object data="..." aria-labelledby="figure-id" />
+<label id="figure-id">descriptive text</label>
 ```
