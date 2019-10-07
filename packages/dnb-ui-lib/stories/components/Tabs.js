@@ -5,9 +5,10 @@
 
 import React from 'react'
 import { Wrapper, Box } from '../helpers'
-// import styled from '@emotion/styled'
+import styled from '@emotion/styled'
 
-import { Input, Tabs } from '../../src/components'
+import { Input, Tabs, Icon } from '../../src/components'
+import { bell as Bell } from '../../src/icons'
 
 import { H2 } from '../../src/elements'
 import TabsNavigation from './TabsNavigation'
@@ -16,6 +17,9 @@ export default [
   'Tabs',
   () => (
     <Wrapper>
+      <Box>
+        <CustomTabs />
+      </Box>
       <Box>
         <TabsNavigation />
       </Box>
@@ -90,3 +94,35 @@ const tabsData = [
   { title: 'Third', key: 'third', disabled: true },
   { title: 'Fourth', key: 'fourth' }
 ]
+
+const TabStyle = styled.div`
+  .dnb-tabs__button__title:active {
+    opacity: 0.2;
+  }
+  ${'' /* .dnb-icon--default:active {
+    opacity: 0.2;
+  } */}
+`
+
+const CustomTabs = () => (
+  <TabStyle>
+    <Tabs
+      section_style="mint-green"
+      data={[
+        { title: 'One', key: 'one' },
+        { title: 'Two', key: 'two' },
+        {
+          title: (
+            <>
+              <Icon right="x-small" icon={Bell} />
+              Three
+            </>
+          ),
+          key: 'three'
+        }
+      ]}
+    >
+      {{ one: 'Content one', two: 'Content two', three: 'Content three' }}
+    </Tabs>
+  </TabStyle>
+)

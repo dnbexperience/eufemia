@@ -28,7 +28,11 @@ export const propTypes = {
     PropTypes.string,
     PropTypes.arrayOf(
       PropTypes.shape({
-        title: PropTypes.string.isRequired,
+        title: PropTypes.oneOfType([
+          PropTypes.string,
+          PropTypes.node,
+          PropTypes.func
+        ]).isRequired,
         key: PropTypes.string.isRequired,
         selected: PropTypes.bool,
         disabled: PropTypes.bool
@@ -50,7 +54,8 @@ export const propTypes = {
   use_hash: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   id: PropTypes.string,
   class: PropTypes.string,
-  /** React props */
+
+  // React props
   className: PropTypes.string,
   children: PropTypes.oneOfType([
     PropTypes.object,
@@ -73,7 +78,7 @@ export const defaultProps = {
   id: null,
   class: null,
 
-  /** React props */
+  // React props
   className: null,
   children: null,
 
@@ -291,12 +296,23 @@ export default class Tabs extends PureComponent {
   }
 
   openTabByDOM = e => {
-    const target =
-      e.target.nodeName === 'SPAN' ? e.target.parentElement : e.target
-    const selected_key = target.getAttribute('data-tab-key')
+    try {
+      const selected_key = (function(elem) {
+        const contains = elem =>
+          elem.classList.contains('dnb-tabs__button')
+        if (contains(elem)) {
+          return elem
+        }
 
-    this.openTab(selected_key, e)
-    this.setFocusOnTablist()
+        while ((elem = elem.parentElement) && !contains(elem));
+        return elem || { dataset: {} }
+      })(e.target).dataset.tabKey
+
+      this.openTab(selected_key, e)
+      this.setFocusOnTablist()
+    } catch (e) {
+      console.warn('Tabs Error:', e)
+    }
   }
 
   getCurrentTitle = () => {

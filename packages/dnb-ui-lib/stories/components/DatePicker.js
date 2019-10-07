@@ -9,7 +9,7 @@ import styled from '@emotion/styled'
 
 import enLocale from 'date-fns/locale/en-US'
 
-import { DatePicker, FormRow } from '../../src/components'
+import { DatePicker, Button, FormRow } from '../../src/components'
 
 const Scrollbar = styled.div`
   height: 10rem;
@@ -27,6 +27,9 @@ export default [
   'DatePicker',
   () => (
     <Wrapper>
+      <Box>
+        <CustomDate />
+      </Box>
       <Box>
         <Scrollbar>
           <ScrollbarInner>
@@ -55,7 +58,7 @@ export default [
             locale={enLocale}
             // inputElement="input"
             first_day="sunday"
-            return_format="DD/MM/YYYY"
+            return_format="dd/MM/yyyy"
             date="1981-01-15"
             data-foo="bar"
             on_show={props => {
@@ -91,8 +94,8 @@ export default [
             cancel_button_text="Cancel"
             date_format="dd/MM/yyyy"
             range={true}
-            // return_format="DD/MM/YYYY"
-            return_format="YYYY/MM/DD"
+            // return_format="dd/MM/yyyy"
+            return_format="yyyy/MM/dd"
             on_change={({ date }) => {
               console.log('on_change', date)
             }}
@@ -113,9 +116,6 @@ export default [
           <DatePicker label="Date Picker 1:" />
           <DatePicker label="Date Picker 2:" top="small" />
         </FormRow>
-      </Box>
-      <Box>
-        <CustomDate />
       </Box>
       <Box>
         <FormRow vertical>
@@ -204,18 +204,34 @@ export default [
 ]
 
 const CustomDate = () => {
-  const [date, setDate] = useState('2019-02-15')
-  console.log('date', date)
+  const [start_date, setStartDate] = useState('2019-02-15')
+  const [end_date, setEndDate] = useState('2019-03-15')
   return (
-    <DatePicker
-      label="Default DatePicker:"
-      date={date}
-      return_format="YYYY-MM-DD"
-      on_change={({ date }) => {
-        console.log('on_change', date)
-        setDate(date)
-      }}
-      status="Please select a valid date"
-    />
+    <>
+      <DatePicker
+        label="Default DatePicker:"
+        show_input
+        range
+        start_date={start_date}
+        end_date={end_date}
+        return_format="yyyy-MM-dd"
+        on_change={({ start_date, end_date }) => {
+          console.log('on_change', start_date, end_date)
+          setStartDate(start_date)
+          setEndDate(end_date)
+        }}
+        status="Please select a valid date"
+        right
+      />
+      <Button
+        text="Reset"
+        on_click={() => {
+          // setDate('2020-02-15')
+          setStartDate(null)
+          setEndDate(null)
+          // setDate(undefined)
+        }}
+      />
+    </>
   )
 }

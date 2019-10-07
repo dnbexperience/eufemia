@@ -135,11 +135,19 @@ export default class DatePickerInput extends PureComponent {
       state._startDay = pad(format(state.startDate, 'dd'), 2)
       state._startMonth = pad(format(state.startDate, 'MM'), 2)
       state._startYear = format(state.startDate, 'yyyy')
+    } else {
+      state._startDay = null
+      state._startMonth = null
+      state._startYear = null
     }
     if (DatePickerInput.isValidDate(state.endDate)) {
       state._endDay = pad(format(state.endDate, 'dd'), 2)
       state._endMonth = pad(format(state.endDate, 'MM'), 2)
       state._endYear = format(state.endDate, 'yyyy')
+    } else {
+      state._endDay = null
+      state._endMonth = null
+      state._endYear = null
     }
     return state
   }
@@ -342,6 +350,7 @@ export default class DatePickerInput extends PureComponent {
   }
 
   setDate = (event, count, mode, type, fn) => {
+    event.persist()
     try {
       let value = event.target.value
       if (

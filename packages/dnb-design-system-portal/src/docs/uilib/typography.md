@@ -26,7 +26,11 @@ The DNB default Font Family is `Fedra Sans Std`. This font, together with it's w
 
 The DNB UX team has currently only defined tree levels of heading styles (h1, h2 and h3). But level 4, 5 and 6 are also supported by the `dnb-ui-lib`.
 
-If you wish to have a header **look like** a heading, you can use these classes:
+### Think semantics first
+
+You should [think semantics first](/uilib/usage/best-practices/for-typography#headings-and-styling) once you choose what level of heading you use. Always try to start with an `<h1>`. Later on you can style them properly.
+
+If you have to use a paragraph or a arbitrary heading, and it has to **look like** a specific heading, you can use these classes:
 
 - `.dnb-h1`
 - `.dnb-h1--small`

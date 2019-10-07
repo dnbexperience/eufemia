@@ -138,6 +138,38 @@ describe('DatePicker component', () => {
     })
   })
 
+  it('will reset on setting value to null', () => {
+    const Comp = mount(
+      <Component
+        show_input
+        range
+        start_date={defaultProps.start_date}
+        end_date={defaultProps.end_date}
+      />
+    )
+    Comp.setProps({
+      start_date: null
+    })
+    expect(
+      Comp.find('input')
+        .first()
+        .instance().value
+    ).toBe('dd')
+    expect(Comp.state().startDate).toBe(null)
+    expect(Comp.state().endDate).not.toBe(null) // dirty check
+
+    Comp.setProps({
+      end_date: null
+    })
+    expect(
+      Comp.find('input')
+        .last()
+        .instance().value
+    ).toBe('åååå')
+
+    expect(Comp.state().endDate).toBe(null)
+  })
+
   it('has a reacting end date input with valid value', () => {
     const elem = Comp.find('input.dnb-date-picker__input--day').at(1)
 

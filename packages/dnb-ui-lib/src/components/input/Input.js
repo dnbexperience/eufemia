@@ -29,7 +29,8 @@ const renderProps = {
   on_focus: null,
   on_blur: null,
   on_submit_focus: null,
-  on_submit_blur: null
+  on_submit_blur: null,
+  on_state_update: null
 }
 
 export const propTypes = {
@@ -99,7 +100,8 @@ export const propTypes = {
   on_focus: PropTypes.func,
   on_blur: PropTypes.func,
   on_submit_focus: PropTypes.func,
-  on_submit_blur: PropTypes.func
+  on_submit_blur: PropTypes.func,
+  on_state_update: PropTypes.func
 }
 
 export const defaultProps = {
@@ -165,6 +167,13 @@ export default class Input extends PureComponent {
       value !== 'initval' &&
       value !== state.value
     ) {
+      if (
+        value !== state.value &&
+        value !== state._value &&
+        typeof props.on_state_update === 'function'
+      ) {
+        dispatchCustomElementEvent({ props }, 'on_state_update', { value })
+      }
       state.value = value
     }
     if (props.input_state) {
@@ -208,6 +217,7 @@ export default class Input extends PureComponent {
     if (props.input_state) {
       this.state.inputState = props.input_state
     }
+    this.state._value = props.value
   }
   onFocusHandler = event => {
     const { value } = event.target

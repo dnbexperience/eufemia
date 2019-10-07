@@ -1,15 +1,15 @@
 ---
 title: 'Best Practices for styling'
-menuTitle: 'for styling'
+menuTitle: 'for css'
 draft: false
 order: 1
 ---
 
-# Styling
+# CSS and Styling
 
 One can be forgiven for assuming that CSS is easy. After all, your stylesheets will probably work still work even when there are mistakes in them. However, this 'freedom' can be a trap.
 
-> It is VERY important to do CSS right from the very beginning.
+> It is crucial to do CSS right from the very beginning.
 
 Otherwise you will find yourself making a fix of a fix, and so on. Also, refactoring and enhancements will often effect code deeper down as well.
 

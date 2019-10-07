@@ -7,15 +7,17 @@ order: 2
 
 # Typography
 
-### Headings and styling
+## Headings and styling
 
 Never use headings (like `<h3>`) for purely styling purposes. Headings have a defined purpose and place in a web document. Using them correctly benefits all users.
 
-For styling purposes only, use these classes `.dnb-h1` , `.dnb-h2` or `.dnb-lead` or style your typography according to the prototypes.
+Use headings where you think that someone with a **screen reader** would have the benefit of finding and reading a title.
 
-Use headings where you think that someone with a screen reader would have the benefit of finding and reading a title.
+### Think semantics first
 
-Heading levels should only **increase by one**: `<h1>` followed by `<h2>` followed by `<h3>` and so on.
+Heading levels should have their logical hierarchy and only **increase by one**: `<h1>` followed by `<h2>` followed by `<h3>` and so on.
+
+For styling purposes only, use these classes `.dnb-h1` , `.dnb-h2` or `.dnb-lead` or style your typography according to the UX prototypes.
 
 ## Disable local fonts
 

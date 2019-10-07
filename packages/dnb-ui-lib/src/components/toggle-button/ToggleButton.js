@@ -238,7 +238,8 @@ export default class ToggleButton extends Component {
     const { value } = this.props
     if (this.context.onChange) {
       this.context.onChange({
-        value
+        value,
+        event
       })
     }
     dispatchCustomElementEvent(this, 'on_change', {

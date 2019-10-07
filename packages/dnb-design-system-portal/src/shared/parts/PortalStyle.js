@@ -172,11 +172,23 @@ export default css`
     }
 
     img {
+      width: 100%;
       margin-bottom: 2rem;
+    }
+    /* SVG illustration helper for increasing font-size */
+    &.x-10 img {
+      width: calc(50% + 10rem);
     }
 
     &.mint-green-12 {
       background-color: var(--color-mint-green-12);
+    }
+    &.blank {
+      background-color: transparent;
+    }
+    &.blank::after {
+      background-image: none;
+      border-color: transparent;
     }
   }
 

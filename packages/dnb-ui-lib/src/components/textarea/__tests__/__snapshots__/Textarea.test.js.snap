@@ -21,6 +21,7 @@ exports[`Textarea component have to match snapshot 1`] = `
         "on_blur": [Function],
         "on_change": [Function],
         "on_focus": [Function],
+        "on_state_update": [Function],
         "placeholder": "placeholder",
         "readOnly": "readOnly",
         "rows": 1,
@@ -50,6 +51,7 @@ exports[`Textarea component have to match snapshot 1`] = `
   on_blur={null}
   on_change={null}
   on_focus={null}
+  on_state_update={null}
   placeholder={null}
   readOnly={false}
   rows={null}
