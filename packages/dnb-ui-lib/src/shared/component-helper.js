@@ -477,6 +477,27 @@ export class DetectOutsideClickClass {
   }
 }
 
+export const filterProps = (props, remove = null, allowed = null) => {
+  if (Array.isArray(remove)) {
+    remove = remove.reduce((acc, key) => {
+      acc[key] = true
+      return acc
+    }, {})
+  }
+  if (Array.isArray(allowed)) {
+    allowed = allowed.reduce((acc, key) => {
+      acc[key] = true
+      return acc
+    }, {})
+  }
+  return Object.entries(props).reduce((acc, [k, v]) => {
+    if ((remove && !remove[k]) || (allowed && allowed[k])) {
+      acc[k] = v
+    }
+    return acc
+  }, {})
+}
+
 export const makeUniqueId = (pendix = '', length = 8) =>
   pendix +
   String(

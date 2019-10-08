@@ -15,7 +15,8 @@ import {
   registerElement,
   validateDOMAttributes,
   dispatchCustomElementEvent,
-  extendPropsWithContext
+  // extendPropsWithContext,
+  filterProps
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 
@@ -46,12 +47,21 @@ export const propTypes = {
       })
     )
   ]),
+  content: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.node,
+    PropTypes.func
+  ]),
   label: PropTypes.string,
   selected_key: PropTypes.string,
   align: PropTypes.oneOf(['left', 'center', 'right']),
   section_style: PropTypes.string,
   section_spacing: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   use_hash: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  prevent_rerender: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool
+  ]),
   id: PropTypes.string,
   class: PropTypes.string,
 
@@ -69,12 +79,14 @@ export const propTypes = {
 
 export const defaultProps = {
   data: null,
+  content: null,
   label: null,
   selected_key: null,
   align: 'left',
   section_style: null,
   section_spacing: null,
   use_hash: false,
+  prevent_rerender: false,
   id: null,
   class: null,
 
@@ -201,10 +213,12 @@ export default class Tabs extends PureComponent {
         // but it may also be an object
       } else if (data && typeof data === 'object') {
         res = Object.entries(data).reduce((acc, [key, obj]) => {
-          acc.push({
-            key,
-            ...obj
-          })
+          if (obj) {
+            acc.push({
+              key,
+              ...obj
+            })
+          }
           return acc
         }, [])
       }
@@ -375,21 +389,51 @@ export default class Tabs extends PureComponent {
     return this.state.selected_key === tabKey
   }
 
+  renderCachedContent(selected_key, content = null) {
+    if (content) {
+      this._cache = { ...(this._cache || {}), [selected_key]: { content } }
+    }
+    return Object.entries(this._cache).map(([key, { content }]) => {
+      const params = {}
+      if (key !== selected_key) {
+        params.hidden = true
+        params['aria-hidden'] = true
+      }
+      return (
+        <div key={key} className="dnb-tabs__cached" {...params}>
+          {content}
+        </div>
+      )
+    })
+  }
+
   renderContent() {
-    const { children } = this.props
+    const { children, content: _content, prevent_rerender } = this.props
+    const contentToRender = children || _content
     const { selected_key } = this.state
+
+    if (
+      isTrue(prevent_rerender) &&
+      this._cache &&
+      this._cache[selected_key]
+    ) {
+      return this.renderCachedContent(selected_key)
+    }
 
     let content = null
 
-    if (children) {
-      if (typeof children === 'object' && children[selected_key]) {
+    if (contentToRender) {
+      if (
+        typeof contentToRender === 'object' &&
+        contentToRender[selected_key]
+      ) {
         // if content is provided as an object
-        content = children[selected_key]
-      } else if (typeof children === 'function') {
+        content = contentToRender[selected_key]
+      } else if (typeof contentToRender === 'function') {
         // if content is provided as a render prop
-        content = children.apply(this, [selected_key])
-      } else if (React.isValidElement(children)) {
-        content = children
+        content = contentToRender.apply(this, [selected_key])
+      } else if (React.isValidElement(contentToRender)) {
+        content = contentToRender
       }
     }
 
@@ -399,8 +443,8 @@ export default class Tabs extends PureComponent {
 
       if (Array.isArray(this.state.data)) {
         items = this.state.data
-      } else if (Array.isArray(children)) {
-        items = children
+      } else if (Array.isArray(contentToRender)) {
+        items = contentToRender
       }
 
       // if content was provided as a React Component like "Tabs.Content"
@@ -417,99 +461,41 @@ export default class Tabs extends PureComponent {
       content = <Component />
     }
 
+    if (isTrue(prevent_rerender)) {
+      return this.renderCachedContent(selected_key, content)
+    }
+
     return content
   }
 
-  render() {
-    // consume the formRow context
-    const props = this.context.formRow
-      ? // use only the props from context, who are available here anyway
-        extendPropsWithContext(this.props, this.context.formRow)
-      : this.props
+  TabsWrapperHandler = ({ children, ...rest }) => {
+    const { className, class: _className } = this.props
+    const { ...attributes } = filterProps(this.props, propTypes)
 
-    const {
-      render: customRenderer,
-      label,
-      align,
-      section_style,
-      section_spacing,
-      className,
-      class: _className,
-      selected_key: _selected_key, //eslint-disable-line
-      id, //eslint-disable-line
-      data, //eslint-disable-line
-      use_hash, //eslint-disable-line
-      children, //eslint-disable-line
-      on_change, //eslint-disable-line
-      ...attributes
-    } = props
-
-    const { selected_key } = this.state
-
-    // To have a reusable Component laster, do this like that
-    const Tabs = () => {
-      const tabs = this.state.data.map(
-        ({ title, key, disabled = false }) => {
-          const itemParams = {}
-          const isSelected = this.isSelected(key)
-          if (isSelected) {
-            itemParams['aria-controls'] = `${this._id}-content-${key}`
-          }
-
-          // itemParams['aria-current'] = isSelected // has best support on NVDA
-          // itemParams['aria-selected'] = isSelected // has best support on VO
-
-          if (isTrue(disabled)) {
-            itemParams.disabled = true
-            itemParams['aria-disabled'] = true
-          }
-          return (
-            <button
-              type="button"
-              role="tab"
-              tabIndex="-1"
-              id={`${this._id}-tab-${key}`}
-              aria-selected={isSelected}
-              className={classnames(
-                'dnb-tabs__button',
-                isSelected && 'selected'
-              )}
-              onClick={this.openTabByDOM}
-              key={`tab-${key}`}
-              data-tab-key={key}
-              {...itemParams}
-            >
-              <span className="dnb-tabs__button__title">{title}</span>
-              <Dummy>{title}</Dummy>
-            </button>
-          )
-        }
-      )
-
-      const params = {}
-      if (label) {
-        params['aria-label'] = label
-      }
-      if (selected_key) {
-        params['aria-labelledby'] = `${this._id}-tab-${selected_key}`
-      }
-      return (
-        <div
-          role="tablist"
-          className="dnb-tabs__tabs__tablist"
-          tabIndex="0"
-          onKeyDown={this.onKeyDownHandler}
-          ref={this._tablistRef}
-          {...params}
-        >
-          {tabs}
-        </div>
+    const params = {
+      ...attributes,
+      className: classnames(
+        'dnb-tabs',
+        createSpacingClasses(this.props),
+        className,
+        _className
       )
     }
-    Tabs.displayName = 'Tabs'
 
-    // To have a reusable Component laster, do this like that
-    const TabsList = ({ children, className }) => (
+    // also used for code markup simulation
+    validateDOMAttributes(this.props, params)
+
+    return (
+      <div {...params} {...rest}>
+        {children}
+      </div>
+    )
+  }
+
+  TabsListHandler = ({ children, className }) => {
+    const { align, section_style, section_spacing } = this.props
+
+    return (
       <div
         className={classnames(
           'dnb-tabs__tabs',
@@ -528,41 +514,96 @@ export default class Tabs extends PureComponent {
         {children}
       </div>
     )
+  }
 
-    TabsList.displayName = 'TabsList'
+  TabContentHandler = ({ showEmptyMessage = false } = {}) => {
+    const { selected_key } = this.state
 
-    // To have a reusable Component laster, do this like that
-    const Wrapper = ({ children, ...rest }) => {
-      const params = {
-        ...attributes,
-        className: classnames(
-          'dnb-tabs',
-          createSpacingClasses(props),
-          className,
-          _className
+    const content = this.renderContent()
+    return (
+      <ContentWrapper id={this._id} selected_key={selected_key}>
+        {content ||
+          (showEmptyMessage && <span>Tab content not found</span>)}
+      </ContentWrapper>
+    )
+  }
+
+  TabsHandler = () => {
+    const { label } = this.props
+    const { selected_key } = this.state
+
+    const tabs = this.state.data.map(
+      ({ title, key, disabled = false }) => {
+        const itemParams = {}
+        const isSelected = this.isSelected(key)
+        if (isSelected) {
+          itemParams['aria-controls'] = `${this._id}-content-${key}`
+        }
+
+        // itemParams['aria-current'] = isSelected // has best support on NVDA
+        // itemParams['aria-selected'] = isSelected // has best support on VO
+
+        if (isTrue(disabled)) {
+          itemParams.disabled = true
+          itemParams['aria-disabled'] = true
+        }
+        return (
+          <button
+            type="button"
+            role="tab"
+            tabIndex="-1"
+            id={`${this._id}-tab-${key}`}
+            aria-selected={isSelected}
+            className={classnames(
+              'dnb-tabs__button',
+              isSelected && 'selected'
+            )}
+            onClick={this.openTabByDOM}
+            key={`tab-${key}`}
+            data-tab-key={key}
+            {...itemParams}
+          >
+            <span className="dnb-tabs__button__title">{title}</span>
+            <Dummy>{title}</Dummy>
+          </button>
         )
       }
+    )
 
-      // also used for code markup simulation
-      validateDOMAttributes(this.props, params)
-
-      return (
-        <div {...params} {...rest}>
-          {children}
-        </div>
-      )
+    const params = {}
+    if (label) {
+      params['aria-label'] = label
     }
+    if (selected_key) {
+      params['aria-labelledby'] = `${this._id}-tab-${selected_key}`
+    }
+    return (
+      <div
+        role="tablist"
+        className="dnb-tabs__tabs__tablist"
+        tabIndex="0"
+        onKeyDown={this.onKeyDownHandler}
+        ref={this._tablistRef}
+        {...params}
+      >
+        {tabs}
+      </div>
+    )
+  }
+
+  render() {
+    const { render: customRenderer } = this.props
+
+    const Tabs = this.TabsHandler
+    Tabs.displayName = 'Tabs'
+
+    const TabsList = this.TabsListHandler
+    TabsList.displayName = 'TabsList'
+
+    const Wrapper = this.TabsWrapperHandler
     Wrapper.displayName = 'TabsWrapper'
 
-    const Content = ({ showEmptyMessage = false } = {}) => {
-      const content = this.renderContent()
-      return (
-        <ContentWrapper id={this._id} selected_key={selected_key}>
-          {content ||
-            (showEmptyMessage && <span>Tab content not found</span>)}
-        </ContentWrapper>
-      )
-    }
+    const Content = this.TabContentHandler
     Content.displayName = 'TabContent'
 
     // here we reuse the component, if it has a custom renderer

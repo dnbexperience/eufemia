@@ -10,9 +10,11 @@ exports[`Tabs component have to match snapshot 1`] = `
         "children": Object {},
         "class": "class",
         "className": "className",
+        "content": Object {},
         "data": "data",
         "id": "id",
         "label": "label",
+        "prevent_rerender": "prevent_rerender",
         "render": [Function],
         "section_spacing": "section_spacing",
         "section_style": "section_style",
@@ -57,6 +59,7 @@ exports[`Tabs component have to match snapshot 1`] = `
   align="left"
   class={null}
   className={null}
+  content={null}
   data={
     Array [
       Object {
@@ -75,6 +78,7 @@ exports[`Tabs component have to match snapshot 1`] = `
   }
   id="id"
   label={null}
+  prevent_rerender={false}
   render={null}
   section_spacing={null}
   section_style={null}
@@ -409,7 +413,10 @@ exports[`Tabs scss have to match snapshot 1`] = `
   @media screen and (max-width: 50em) {
     .dnb-tabs__tabs .dnb-tabs__button,
     .dnb-core-style .dnb-tabs__tabs .dnb-tabs__button {
-      margin-left: 2.5rem; } }
+      margin-left: 2.5rem; }
+    .dnb-tabs__tabs .dnb-tabs__button:first-child,
+    .dnb-core-style .dnb-tabs__tabs .dnb-tabs__button:first-child {
+      margin-left: 0; } }
   @media screen and (max-width: 40em) {
     .dnb-tabs__tabs__tablist {
       flex-direction: column;

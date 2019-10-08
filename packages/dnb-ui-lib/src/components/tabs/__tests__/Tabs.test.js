@@ -12,6 +12,7 @@ import {
   loadScss
 } from '../../../core/jest/jestSetup'
 import Component from '../Tabs'
+import Input from '../../Input'
 
 // just to make sure we re-run the test in watch mode due to changes in theese files
 import _tabs from '../style/_tabs.scss' // eslint-disable-line
@@ -137,6 +138,62 @@ describe('A single Tab component', () => {
         .hasClass('selected')
     ).toBe(true)
     expect(Comp.find('div.dnb-tabs__content').text()).toBe('First')
+  })
+
+  it('has to run "prevent_rerender" as supposed', () => {
+    const Comp = mount(
+      <Component
+        prevent_rerender
+        data={[
+          {
+            title: 'One',
+            key: 'one',
+            content: () => (
+              <Input label="Content one" placeholder="Edit me" />
+            )
+          },
+          { title: 'Two', key: 'two', content: 'Content two' }
+        ]}
+      />
+    )
+
+    expect(Comp.find('div.dnb-tabs__cached').exists()).toBe(true)
+
+    // also check a real live rerender senario
+    const value = 'value'
+    Comp.find('.dnb-input__input').simulate('change', {
+      target: { value }
+    })
+
+    // then click on tab two
+    Comp.find('button[data-tab-key="two"]').simulate('click')
+
+    // the first cache should now be hidden
+    expect(
+      Comp.find('div.dnb-tabs__cached')
+        .at(0)
+        .instance()
+        .getAttribute('aria-hidden')
+    ).toBe('true')
+
+    // and on tab one again
+    Comp.find('button[data-tab-key="one"]').simulate('click')
+
+    // the entered value should still be the same
+    expect(Comp.find('.dnb-input__input').instance().value).toBe(value)
+
+    expect(
+      Comp.find('div.dnb-tabs__cached')
+        .at(0)
+        .instance()
+        .getAttribute('aria-hidden')
+    ).not.toBe('true')
+    expect(
+      Comp.find('div.dnb-tabs__cached')
+        .at(1)
+        .instance()
+        .getAttribute('aria-hidden')
+    ).toBe('true')
   })
 
   it('has to work with "Tabs.Content" as children Components', () => {
