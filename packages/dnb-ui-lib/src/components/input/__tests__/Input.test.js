@@ -99,7 +99,7 @@ describe('Input component', () => {
       target: { value: newValue }
     })
     expect(on_change.mock.calls.length).toBe(1)
-    expect(Comp.state().value).toBe(newValue)
+    expect(Comp.find('input').instance().value).toBe(newValue)
 
     Comp.find('input').simulate('change', {
       target: { value: emptyValue }
