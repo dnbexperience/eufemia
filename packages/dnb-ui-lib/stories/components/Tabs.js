@@ -18,7 +18,7 @@ export default [
   () => (
     <Wrapper>
       <Box>
-        <CustomTabs />
+        <TabsAndRerender />
       </Box>
       <Box>
         <TabsNavigation />
@@ -104,13 +104,19 @@ const TabStyle = styled.div`
   } */}
 `
 
-const CustomTabs = () => (
+const TabsAndRerender = () => (
   <TabStyle>
     <Tabs
       section_style="mint-green"
+      prevent_rerender
+      // content={{
+      //   one: ContentOne,
+      //   two: ContentTwo,
+      //   three: 'Content three'
+      // }}
       data={[
-        { title: 'One', key: 'one' },
-        { title: 'Two', key: 'two' },
+        { title: 'One', key: 'one', content: ContentOne },
+        { title: 'Two', key: 'two', content: ContentTwo },
         {
           title: (
             <>
@@ -118,11 +124,22 @@ const CustomTabs = () => (
               Three
             </>
           ),
-          key: 'three'
+          key: 'three',
+          content: 'Content three'
         }
       ]}
-    >
-      {{ one: 'Content one', two: 'Content two', three: 'Content three' }}
-    </Tabs>
+    />
   </TabStyle>
 )
+const ContentOne = () => {
+  console.log('Content one')
+  return (
+    <>
+      <Input label="Content one" placeholder="Edit me" />
+    </>
+  )
+}
+const ContentTwo = () => {
+  console.log('Content two')
+  return <>Content two</>
+}

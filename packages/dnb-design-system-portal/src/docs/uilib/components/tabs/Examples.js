@@ -61,11 +61,11 @@ render(<Tabs data={data}>
           {/* @jsx */ `
 <Tabs
   data={{
-    first2: {
+    first: {
       title: 'First',
       content: exampleContent.first /* See Example Content below */
     },
-    second2: {
+    second: {
       title: 'Second',
       content: exampleContent.second /* See Example Content below */
     }
