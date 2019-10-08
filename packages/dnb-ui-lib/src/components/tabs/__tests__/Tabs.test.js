@@ -168,11 +168,32 @@ describe('A single Tab component', () => {
     // then click on tab two
     Comp.find('button[data-tab-key="two"]').simulate('click')
 
+    // the first cache should now be hidden
+    expect(
+      Comp.find('div.dnb-tabs__cached')
+        .at(0)
+        .instance()
+        .getAttribute('aria-hidden')
+    ).toBe('true')
+
     // and on tab one again
     Comp.find('button[data-tab-key="one"]').simulate('click')
 
     // the entered value should still be the same
     expect(Comp.find('.dnb-input__input').instance().value).toBe(value)
+
+    expect(
+      Comp.find('div.dnb-tabs__cached')
+        .at(0)
+        .instance()
+        .getAttribute('aria-hidden')
+    ).not.toBe('true')
+    expect(
+      Comp.find('div.dnb-tabs__cached')
+        .at(1)
+        .instance()
+        .getAttribute('aria-hidden')
+    ).toBe('true')
   })
 
   it('has to work with "Tabs.Content" as children Components', () => {
