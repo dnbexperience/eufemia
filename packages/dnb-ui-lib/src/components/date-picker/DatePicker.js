@@ -233,6 +233,7 @@ export default class DatePicker extends PureComponent {
         }
       }
       if (
+        isTrue(props.range) &&
         typeof props.end_date !== 'undefined' &&
         props.end_date !== state.endDate
       ) {
