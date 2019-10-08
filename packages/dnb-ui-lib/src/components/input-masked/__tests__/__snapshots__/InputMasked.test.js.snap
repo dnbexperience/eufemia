@@ -11,6 +11,7 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
       /\\[a-z\\]/,
     ]
   }
+  number_mask={Object {}}
   on_blur={null}
   on_change={null}
   on_focus={null}
@@ -83,11 +84,7 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
               guide={true}
               id="input-masked"
               keepCharPositions={true}
-              mask={
-                Array [
-                  /\\[a-z\\]/,
-                ]
-              }
+              mask={[Function]}
               name="input-masked"
               onBlur={[Function]}
               onChange={[Function]}

@@ -33,6 +33,20 @@ describe('InputMasked component', () => {
     const Comp = mount(<Component {...props} type="text" value="test" />)
     expect(toJson(Comp)).toMatchSnapshot()
   })
+
+  it('should format "number_mask" accordingly the defined properties', () => {
+    const Comp = mount(
+      <Component
+        value="1000000"
+        number_mask={{
+          prefix: 'NOK ',
+          suffix: ',- kr.'
+        }}
+      />
+    )
+
+    expect(Comp.find('input').instance().value).toBe('NOK 1 000 000,- kr.')
+  })
 })
 
 describe('InputMasked scss', () => {

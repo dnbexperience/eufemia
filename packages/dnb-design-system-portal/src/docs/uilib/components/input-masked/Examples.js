@@ -9,7 +9,7 @@ import styled from '@emotion/styled'
 
 // https://github.com/text-mask/text-mask
 // How to use masks: https://github.com/text-mask/text-mask/blob/master/componentDocumentation.md#readme
-import createNumberMask from 'text-mask-addons/dist/createNumberMask'
+// import createNumberMask from 'dnb-ui-lib/src/components/input-masked/addons/createNumberMask'
 
 class Example extends PureComponent {
   handleInputChange = ({ value }) => {
@@ -21,54 +21,42 @@ class Example extends PureComponent {
       <Fragment>
         <ComponentBox
           caption="Only numbers"
-          useRender
           scope={{
-            createNumberMask,
             handleInputChange
           }}
         >
           {/* @jsx */ `
-const numberMask = createNumberMask({
-  allowDecimal: false,
-  thousandsSeparatorSymbol: ' ',
-  prefix: '',
-  suffix: ',- kr.'
-});
-render(<InputMasked
-  label="Amount"
+<InputMasked
+  label="Masked input:"
   autocomplete="off"
   value="1000000"
-  mask={numberMask}
-  show_mask="false"
+  number_mask={{
+    suffix: ',- kr.'
+  }}
   align="right"
   on_change={handleInputChange}
-/>)
+/>
           `}
         </ComponentBox>
         <ComponentBox
           caption="Only numbers, right aligned and large sized input"
-          useRender
           scope={{
-            createNumberMask,
             handleInputChange: this.handleInputChange
           }}
         >
           {/* @jsx */ `
-const numberMask = createNumberMask({
-  allowDecimal: false,
-  thousandsSeparatorSymbol: ' ',
-  prefix: 'NOK '
-});
-render(<InputMasked
-  label="Amount"
+<InputMasked
+  label="Masked input:"
   autocomplete="off"
   size="large"
-  mask={numberMask}
+  number_mask={{
+    prefix: 'NOK '
+  }}
   align="right"
   stretch="true"
   placeholder="Enter a number"
   on_change={handleInputChange}
-/>)
+/>
           `}
         </ComponentBox>
         <ComponentBox
@@ -78,7 +66,7 @@ render(<InputMasked
         >
           {/* @jsx */ `
 <InputMasked
-  label="With Mask"
+  label="Masked input:"
   mask={[
     '+',
     /[4]/, // have to start with 4
