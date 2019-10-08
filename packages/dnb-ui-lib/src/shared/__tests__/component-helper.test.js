@@ -18,6 +18,7 @@ import {
   pickRenderProps,
   detectOutsideClick,
   makeUniqueId,
+  filterProps,
   slugify
 } from '../component-helper'
 
@@ -342,6 +343,32 @@ describe('"pickRenderProps" should', () => {
     ])
     expect(res).toHaveProperty(['renderProp'])
     expect(res.renderProp).toBe(renderProp)
+  })
+})
+
+describe('"filterProps" should', () => {
+  const attributes = {
+    key1: 'value1',
+    key2: 'value2',
+    attr1: 'value1',
+    attr2: 'value2'
+  }
+  const propTypes = {
+    key1: 'value1',
+    key2: 'value2'
+  }
+  it('remove all unwanted properties', () => {
+    expect(filterProps(attributes, propTypes)).toEqual({
+      attr1: 'value1',
+      attr2: 'value2'
+    })
+  })
+  it('remove all unwanted properties except "allowed"', () => {
+    expect(filterProps(attributes, propTypes, ['key1'])).toEqual({
+      key1: 'value1',
+      attr1: 'value1',
+      attr2: 'value2'
+    })
   })
 })
 
