@@ -254,6 +254,15 @@ describe('DatePicker component', () => {
   })
 
   it('should validate with ARIA rules as a tabs', async () => {
+    const Comp = mount(
+      <Component
+        range="true"
+        opened="true"
+        disable_autofocus="true"
+        start_date="2019-05-05"
+        end_date="2019-06-05"
+      />
+    )
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })
