@@ -20,6 +20,7 @@ import differenceInMonths from 'date-fns/differenceInMonths'
 import DatePickerCalendar from './DatePickerCalendar'
 
 export const propTypes = {
+  id: PropTypes.string,
   month: PropTypes.instanceOf(Date),
   startMonth: PropTypes.instanceOf(Date),
   endMonth: PropTypes.instanceOf(Date),
@@ -41,6 +42,8 @@ export const propTypes = {
 }
 
 export const defaultProps = {
+  id: null,
+
   // formats
   month: null, // What month will be displayed in the first calendar
   startMonth: null, // What month will be displayed in the first calendar
@@ -336,12 +339,14 @@ export default class DatePickerRange extends PureComponent {
 
   render() {
     const { views, startDate, endDate, hoverDate } = this.state
+    const { id, ...props } = this.props
     return (
       <div className="dnb-date-picker__views">
-        {views.map(calendar => (
+        {views.map((calendar, i) => (
           <DatePickerCalendar
             key={calendar.nr}
-            {...this.props}
+            id={`${id}-${i}-`}
+            {...props}
             {...calendar}
             startDate={startDate}
             endDate={endDate}
