@@ -33,8 +33,12 @@ export default [
         <table className="dnb-table">
           <thead>
             <tr>
-              <th colSpan="2" className="dnb-table--no-wrap">
-                Only text
+              <th colSpan="2" className="dnb-table--no-wrap-2">
+                Only text In nam at lacinia blandit risus turpis cras
+                sagittis et Id adipiscing per diam quam volutpat sed turpis
+                odio donec Phasellus odio magnis sit neque commodo nisl
+                hendrerit viverra consectetur tortor risus faucibus lacus
+                erat egestas felis rhoncus lobortis dis
               </th>
               <th className="dnb-table--sortable dnb-table--reversed">
                 <Button
