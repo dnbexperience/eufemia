@@ -3,13 +3,14 @@
  *
  */
 
-import React, { useState } from 'react'
+import React from 'react'
 import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
 
 import enLocale from 'date-fns/locale/en-US'
 
-import { DatePicker, Button, FormRow } from '../../src/components'
+import { DatePicker, Button, FormRow, Section } from '../../src/components'
+import { H2 } from '../../src/elements'
 
 const Scrollbar = styled.div`
   height: 10rem;
@@ -204,34 +205,132 @@ export default [
 ]
 
 const CustomDate = () => {
-  const [start_date, setStartDate] = useState('2019-02-15')
-  const [end_date, setEndDate] = useState('2019-03-15')
+  // const [startDate, setStartDate] = React.useState('2019-02-15')
+  // const [endDate, setEndDate] = React.useState('2019-03-15')
+  const [startDate, setStartDate] = React.useState(null)
+  const [endDate, setEndDate] = React.useState(null)
+  const [errorStatus, setErrorStatus] = React.useState(false)
+
+  const [count, incement] = React.useState(0)
+
+  React.useEffect(() => {
+    const id = setInterval(() => {
+      incement(count + 1)
+    }, 1e3)
+
+    return () => clearInterval(id)
+  }, [count])
+
   return (
-    <>
+    <Section spacing>
+      <H2>{count}</H2>
       <DatePicker
+        right
+        range
         label="Default DatePicker:"
         show_input
-        range
-        start_date={start_date}
-        end_date={end_date}
-        return_format="yyyy-MM-dd"
+        start_date={startDate}
+        end_date={endDate}
         on_change={({ start_date, end_date }) => {
           console.log('on_change', start_date, end_date)
           setStartDate(start_date)
           setEndDate(end_date)
         }}
-        status="Please select a valid date"
-        right
+        // return_format="yyyy-MM-dd"
+        status={errorStatus}
       />
       <Button
-        text="Reset"
+        right
+        text="Change"
+        variant="secondary"
         on_click={() => {
-          // setDate('2020-02-15')
-          setStartDate(null)
-          setEndDate(null)
-          // setDate(undefined)
+          setStartDate('2019-03-15')
+          setEndDate('2019-04-15')
         }}
       />
-    </>
+      <Button
+        right
+        text="Reset"
+        on_click={() => {
+          // setStartDate(undefined)
+          // setEndDate(undefined)
+          setStartDate(null)
+          setEndDate(null)
+        }}
+      />
+      <Button
+        right
+        text="Error"
+        on_click={() => {
+          errorStatus
+            ? setErrorStatus('')
+            : setErrorStatus('Please select a valid date')
+        }}
+      />
+    </Section>
   )
 }
+
+// const CustomDate = () => {
+//   // const [startDate, setStartDate] = React.useState('2019-02-15')
+//   // const [endDate, setEndDate] = React.useState('2019-03-15')
+//   const [startDate, setStartDate] = React.useState(null)
+//   const [endDate, setEndDate] = React.useState(null)
+//   const [errorStatus, setErrorStatus] = React.useState(false)
+//
+//   const [count, incement] = React.useState(0)
+//
+//   React.useEffect(() => {
+//     console.log('count', count)
+//     const id = setInterval(() => {
+//       incement(count + 1)
+//     }, 1e3)
+//
+//     return () => clearInterval(id)
+//   }, [])
+//
+//   return (
+//     <Section spacing>
+//       <H2>{count}</H2>
+//       <DatePicker
+//         right
+//         range
+//         label="Default DatePicker:"
+//         show_input
+//         start_date={startDate}
+//         end_date={endDate}
+//         on_change={({ start_date, end_date }) => {
+//           console.log('on_change', start_date, end_date)
+//           setStartDate(start_date)
+//           setEndDate(end_date)
+//         }}
+//         // return_format="yyyy-MM-dd"
+//         status={errorStatus}
+//       />
+//       <Button
+//         right
+//         text="Change"
+//         variant="secondary"
+//         on_click={() => {
+//           setStartDate('2019-03-15')
+//           setEndDate('2019-04-15')
+//         }}
+//       />
+//       <Button
+//         right
+//         text="Reset"
+//         on_click={() => {
+//           setStartDate(null)
+//           setEndDate(null)
+//         }}
+//       />
+//       <Button
+//         right
+//         text="Error"
+//         on_click={() => {
+//           setErrorStatus('Please select a valid date')
+//         }}
+//       />
+//     </Section>
+//   )
+// }
