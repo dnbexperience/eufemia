@@ -9,7 +9,11 @@ import AngularAppScreenshot from 'Pages/uilib/usage/first-steps/assets/example-a
 
 # Angular
 
-## How to
+## Angular v2 and above
+
+Eufemia may have an example code soon of using this [React adapter solution, used by Microsoft](https://microsoft.github.io/angular-react/).
+
+## Angular v1
 
 Take a look at the [Example App on GitHub](https://github.com/dnbexperience/eufemia-examples/tree/master/packages/example-angular-1) using the `dnb-ui-lib` React Components.
 This is an Example App to demo the usage of `dnb-ui-lib` in Angular _version 1.7.9_. To power the React usage, You could use [react2angular on NPM](https://www.npmjs.com/package/react2angular).
@@ -38,9 +42,9 @@ ngEufemiaButton.directive('eufemiaButtonDirective', () => {
 })
 ```
 
-## Build
+## Example
 
-If You run this app inside the mono repo Eufemia, then make sure You build the `dnb-ui-lib` first. To do so, go to the `dnb-ui-lib` directory and run `yarn build`. This is because we consume the package content directly like: import `dnb-ui-lib/components` and not from the `src` folder, like: `dnb-ui-lib/src/components`.
+Have a look at [this Angular 1 example app](https://github.com/dnbexperience/eufemia-examples/tree/master/packages/example-angular-1).
 
 ## Screenshot
 
