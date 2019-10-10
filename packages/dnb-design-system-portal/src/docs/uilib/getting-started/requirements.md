@@ -15,7 +15,7 @@ Eufemia (`dnb-ui-lib`) can be used with an UMD, ES5, ES6 or TypeScript environme
 
 ## The hard part of a living design system
 
-The hard part of a living design system, like Eufemia, is not to create black holes and choosing ways to make **maintainability of user experience** hard and complex. To address this challenge and give more insight and thoughts, read the [**article about maintainability**](/uilib/getting-started/maintainability).
+The hard part of a [living design system](/uilib/getting-started/living-system), like Eufemia, is not to create black holes and choosing ways to make **maintainability of user experience** hard and complex. To address this challenge and give more insight and thoughts, read on about [**maintainability**](/uilib/getting-started/maintainability).
 
 ## React
 
