@@ -131,7 +131,8 @@
     z-index: 2; // over placeholder
 
     // place the button vertically
-    align-self: flex-start;
+    align-self: center; /* IE needs this to stay centered */
+
     margin-left: calc(1px - 1px - var(--input-height));
 
     &__button {

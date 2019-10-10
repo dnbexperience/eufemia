@@ -1117,7 +1117,8 @@ legend.dnb-form-label {
   .dnb-input__submit-button {
     position: relative;
     z-index: 2;
-    align-self: flex-start;
+    align-self: center;
+    /* IE needs this to stay centered */
     margin-left: calc(1px - 1px - var(--input-height)); }
     .dnb-input__submit-button__button {
       border-radius: 50%; }
