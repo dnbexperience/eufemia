@@ -5,15 +5,21 @@ draft: true
 import { check_alt_01 as CheckIcon } from 'dnb-ui-lib/icons'
 import { Icon } from 'dnb-ui-lib/components'
 
-## Eufemia aims to be [WCAG 2.1](https://www.w3.org/TR/WCAG21/) compliant <Icon icon={CheckIcon} aria-hidden />
+## Eufemia aims to be [WCAG 2.1](https://www.w3.org/TR/WCAG21/) compliant
 
 HTML elements are by default good at accessibility. Eufemia components and its building blocks are also made to include all the needed features to make them accessible.
 
-But - you as a developer has the responsibility to have the technical knowledge about accessibility. You have to implement and [use best practices](!/uilib/usage/accessibility) to make applications accessible for every user. We talk about all kinds of users, people who have temporary or permanent disabilities, so they depend on what you put into the application - as code.
+But - you as a developer has the responsibility to have the technical knowledge about accessibility. You have to implement and [use best practices](!/uilib/usage/accessibility) to make applications accessible for every user. We talk about all kinds of users, people who have temporary or permanent disabilities, so they depend on what you put into the application - as code. Therefore, you have to:
+
+- Test **keyboard navigation** during development <Icon icon={CheckIcon} aria-hidden />
+- Test with **screen readers** during development <Icon icon={CheckIcon} aria-hidden />
+- Test with **200%** in `font-size` during development <Icon icon={CheckIcon} aria-hidden />
 
 ## WCAG 2.1 and Universal design (UU)
 
-[From year 2021](https://uu.difi.no/krav-og-regelverk/webdirektivet-og-wcag-21), all new and existing web solutions has to follow [WCAG 2.1](https://www.w3.org/TR/WCAG21/). On _uu.difi.no_ you find a [very good and easy to read WCAG guide (Norwegian)](https://uu.difi.no/krav-og-regelverk/wcag-20-standarden).
+[From year 2021](https://uu.difi.no/krav-og-regelverk/webdirektivet-og-wcag-21), all new and existing web solutions has to follow [WCAG 2.1](https://www.w3.org/TR/WCAG21/).
+
+On _difi.no_ you find an easy to read [ WCAG guide (Norwegian)](https://uu.difi.no/krav-og-regelverk/wcag-20-standarden).
 
 ## Keyboard users
 

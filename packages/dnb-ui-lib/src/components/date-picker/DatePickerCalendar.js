@@ -272,7 +272,7 @@ export default class DatePickerCalendar extends PureComponent {
                 const paramsButton = {}
                 if (nr === 0 ? day.isStartDate : day.isEndDate) {
                   paramsButton['aria-current'] = 'date'
-                  paramsButton['aria-selected'] = true
+                  paramsCell['aria-selected'] = true // aria-selected is not allowed on buttons
                 }
                 return (
                   <td

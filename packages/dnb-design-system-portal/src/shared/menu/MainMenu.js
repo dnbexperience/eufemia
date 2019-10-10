@@ -8,7 +8,7 @@ import PropTypes from 'prop-types'
 import { css, Global } from '@emotion/core'
 import styled from '@emotion/styled'
 import classnames from 'classnames'
-import Card from './Card'
+import Card, { focusRing } from './Card'
 import keycode from 'keycode'
 import {
   UilibSvg,
@@ -76,6 +76,10 @@ const MainWrapperStyled = styled.div`
       position: fixed;
       height: 100%;
     }
+  }
+
+  html[data-whatinput='keyboard'] & .close-button:focus {
+    ${focusRing}
   }
 
   background-color: transparent;
@@ -187,7 +191,7 @@ export default class MainMenu extends PureComponent {
   static contextType = MainMenuContext
   constructor(props) {
     super(props)
-    setPageFocusElement('.close-button', 'mainmenu')
+    setPageFocusElement('a.current-card', 'mainmenu')
   }
   componentDidMount() {
     if (typeof document !== 'undefined') {

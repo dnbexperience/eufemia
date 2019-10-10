@@ -93,6 +93,10 @@ const CardWrapper = styled.div`
   }
 `
 
+export const focusRing = css`
+  box-shadow: 0 0 0 0.125rem var(--color-signal-yellow);
+`
+
 const linkStyle = css`
   display: flex;
   flex-direction: column;
@@ -110,7 +114,9 @@ const linkStyle = css`
 
   &:focus {
     outline: none;
-    box-shadow: 0 0 0 0.125rem var(--color-mint-green);
+  }
+  html[data-whatinput='keyboard'] &:focus {
+    ${focusRing}
   }
 `
 const LinkInner = styled.span`
@@ -191,7 +197,10 @@ export default class Card extends PureComponent {
           >
             <Link
               css={[linkStyle, customStyle]}
-              className="dnb-anchor--no-style"
+              className={classnames(
+                'dnb-anchor--no-style',
+                this.isSelected() && 'current-card'
+              )}
               to={url}
               aria-current={this.isSelected()}
               onClick={closeMenu}

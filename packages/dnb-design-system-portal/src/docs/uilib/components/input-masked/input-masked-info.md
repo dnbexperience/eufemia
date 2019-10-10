@@ -14,8 +14,6 @@ You may read more about the [properties you can use](/uilib/components/input-mas
 
 **NB:** If the property `show_mask` is `true`, screen readers will read the mask once the user is entering the text field. Also the user will hear the mask during typing. This behavior can both have positive and negative side effects to the user.
 
-**NB:** Also, Web Component support is not ready yet.
-
 ## Demos
 
 <Examples />
