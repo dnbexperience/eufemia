@@ -1304,8 +1304,6 @@ legend.dnb-form-label {
     .dnb-dropdown {
       flex: none;
       vertical-align: baseline; }
-      .dnb-dropdown__option__inner {
-        min-height: 5rem; }
       .dnb-dropdown__shell {
         top: 0; } }
 "
