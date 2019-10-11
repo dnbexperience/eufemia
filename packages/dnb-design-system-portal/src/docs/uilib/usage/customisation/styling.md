@@ -25,7 +25,7 @@ There are several packages you can use and combine.
 ## Sub Packages
 
 - **dnb-ui-body** - includes the default body style and a CSS reset (normalize).
-- **dnb-ui-basis** - includes everything from `dnb-ui-core`, except `dnb-ui-body`.
+- **dnb-ui-basis** - includes everything from `dnb-ui-core`, except `dnb-ui-body` (needs a [wrapper class](/uilib/usage/customisation/styling#core-style)).
 - **dnb-ui-elements** - includes only the styles for [HTML Elements](/uilib/elements) CSS classes, like `.dnb-h1`.
 
 ## Additional Packages
@@ -57,6 +57,7 @@ You may have a look at some [code examples of dealing with legacy code](/uilib/u
 ### Example import
 
 ```js
+// Remember to add the wrapper class: ".dnb-core-style"
 import 'dnb-ui-lib/style/basis'
 import 'dnb-ui-lib/style/components'
 import 'dnb-ui-lib/style/themes/ui'
