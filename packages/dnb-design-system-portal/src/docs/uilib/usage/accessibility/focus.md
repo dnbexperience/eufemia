@@ -1,5 +1,6 @@
 ---
 title: 'Focus'
+description: 'Accessibility helpers to handle focus management and Skip Link usage.'
 draft: false
 ---
 
@@ -59,30 +60,29 @@ applyPageFocus('MyCustomName')
 The `dnb-ui-lib` also has a small setup for a [skip link](https://www.w3.org/TR/WCAG20-TECHS/G1.html)
 
 Our solution is CSS only and should work for all kinds of App setups.
-Place an Anchor like this one blow, on the very top of Your App content:
+
+1. Place an Anchor like this one blow, on the very top of Your App content:
 
 <SkipLinkExample />
 
-<!-- prettier-ignore-start -->
 ```html
 <a class="dnb-skip-link" href="#dnb-app-content">Skip to content</a>
 ```
-<!-- prettier-ignore-end -->
 
-Also, place a `id="dnb-app-content"` on your content wrapper:
+2. Place a unique element id, like `id="dnb-app-content"` on your content wrapper:
 
-<!-- prettier-ignore-start -->
 ```html
 <body>
-    <a class="dnb-skip-link" href="#dnb-app-content">Skip to content</a>
-    <header>
-        <nav>
-            <!-- Nav links to skip -->
-        </nav>
-    </header>
-    <main id="dnb-app-content">
-        <!-- Content goes here -->
-    </main>
+  <a class="dnb-skip-link" href="#dnb-app-content">Skip to content</a>
+  <header>
+    <nav>
+      <!-- Nav links to skip -->
+    </nav>
+  </header>
+  <main id="dnb-app-content">
+    <!-- Content goes here -->
+  </main>
 </body>
 ```
-<!-- prettier-ignore-end -->
+
+Thanks it. The styles are included in both the **dnb-ui-basis** and **dnb-ui-core** styling packages.
