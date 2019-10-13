@@ -57,7 +57,7 @@ const StyledListItem = styled.li`
 
   &:first-of-type {
     margin-bottom: 1rem;
-    font-size: 1.5rem;
+    font-size: var(--font-size-x-medium);
     background-color: transparent;
   }
 
@@ -71,7 +71,7 @@ const StyledListItem = styled.li`
     height: 4rem;
     color: var(--color-ocean-green);
     font-weight: var(--font-weight-demi);
-    font-size: var(--font-size-medium);
+    font-size: var(--font-size-x-medium);
   }
   &.l-2 {
     a {

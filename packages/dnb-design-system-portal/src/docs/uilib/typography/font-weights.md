@@ -1,7 +1,7 @@
 ---
 title: 'Font Weights'
 draft: false
-order: 1
+order: 3
 ---
 
 import TypographyExamples from 'Pages/uilib/typography/TypographyExamples'

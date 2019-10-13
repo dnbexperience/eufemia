@@ -211,7 +211,7 @@ export default css`
       margin: 0;
       padding: 0;
 
-      line-height: 1rem;
+      line-height: var(--line-height-default);
       list-style: none;
       /*
       border-top: 1px solid rgba(219, 0, 255, 0.25);
@@ -223,9 +223,9 @@ export default css`
       margin: 0;
       padding: 0;
 
-      font-size: 1rem;
+      font-size: var(--font-size-default);
       font-family: monospace;
-      line-height: 1rem;
+      line-height: var(--line-height-default);
     }
   }
 
@@ -269,13 +269,13 @@ export default css`
     line-height: 0.75rem;
   }
   .lh-16 {
-    line-height: 1rem;
+    line-height: var(--line-height-default);
   }
   .lh-20 {
     line-height: 1.25rem;
   }
   .lh-24 {
-    line-height: 1.5rem;
+    line-height: var(--line-height-default);
   }
   .lh-28 {
     line-height: 1.75rem;
