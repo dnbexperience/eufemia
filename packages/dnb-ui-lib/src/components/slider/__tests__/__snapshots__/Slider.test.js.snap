@@ -404,7 +404,7 @@ exports[`Slider scss have to match snapshot 1`] = `
   display: inline-block;
   vertical-align: baseline;
   font-size: inherit;
-  line-height: 1em;
+  line-height: var(--line-height-x-small--em);
   width: 1em;
   height: 1em; }
   .dnb-icon img,
@@ -450,9 +450,9 @@ exports[`Slider scss have to match snapshot 1`] = `
 .dnb-button {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
-  font-size: 1rem;
+  font-size: var(--font-size-default);
   font-style: normal;
-  line-height: 1.5rem;
+  line-height: var(--line-height-default);
   color: var(--color-black-80, #333);
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   font-variant-numeric: lining-nums;
@@ -523,14 +523,14 @@ exports[`Slider scss have to match snapshot 1`] = `
     font-size: var(--button-font-size);
     line-height: var(--button-height); }
   .dnb-button__icon {
-    line-height: 1em; }
+    line-height: var(--line-height-x-small--em); }
     .dnb-button__icon:not(.dnb-icon) svg:not([width]):not([height]) {
       width: var(--button-icon-size);
       height: var(--button-icon-size); }
     [data-os='win'] .dnb-button__icon {
       transform: translateY(-0.0625rem); }
   .dnb-button__text {
-    line-height: 1em;
+    line-height: var(--line-height-x-small--em);
     color: inherit;
     background-color: inherit; }
     [data-os='mac'] .dnb-button__text {
@@ -660,9 +660,9 @@ a.dnb-button .dnb-button__text {
 .dnb-form-label {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
-  font-size: 1rem;
+  font-size: var(--font-size-default);
   font-style: normal;
-  line-height: 1.5rem;
+  line-height: var(--line-height-default);
   color: var(--color-black-80, #333);
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   font-variant-numeric: lining-nums;
@@ -727,9 +727,9 @@ legend.dnb-form-label {
 .dnb-form-status {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
-  font-size: 1rem;
+  font-size: var(--font-size-default);
   font-style: normal;
-  line-height: 1.5rem;
+  line-height: var(--line-height-default);
   color: var(--color-black-80, #333);
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   font-variant-numeric: lining-nums;
@@ -773,7 +773,7 @@ legend.dnb-form-label {
     padding: calc(0.5rem / 2) 1rem;
     cursor: text;
     color: inherit;
-    line-height: 1.5rem; }
+    line-height: var(--line-height-default); }
     [data-os='mac'] .dnb-form-status--text {
       transform: translateY(0.0625rem); }
   .dnb-icon + .dnb-form-status--text {
@@ -787,7 +787,7 @@ legend.dnb-form-label {
     margin-top: 0.25em;
     margin-left: 0.5em;
     color: inherit;
-    font-size: 1rem;
+    font-size: var(--font-size-default);
     border-radius: 50%;
     border: 0.0625rem solid;
     border-color: currentColor; }
@@ -810,9 +810,9 @@ legend.dnb-form-label {
 .dnb-slider {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
-  font-size: 1rem;
+  font-size: var(--font-size-default);
   font-style: normal;
-  line-height: 1.5rem;
+  line-height: var(--line-height-default);
   color: var(--color-black-80, #333);
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   font-variant-numeric: lining-nums;
@@ -846,7 +846,7 @@ legend.dnb-form-label {
 *
 */
 :root {
-  --slider-line-height: 0.25rem;
+  --slider-track-height: 0.25rem;
   --slider-thumb-size: 2rem;
   --slider-button-size: 1.5rem;
   --slider-space: 1rem; }
@@ -886,9 +886,9 @@ legend.dnb-form-label {
       left: 0;
       top: 50%;
       width: var(--slider-thumb-size);
-      height: var(--slider-line-height);
+      height: var(--slider-track-height);
       transform: translate3d(0, -50%, 0);
-      border-radius: calc(var(--slider-line-height) / 2);
+      border-radius: calc(var(--slider-track-height) / 2);
       background-color: inherit; }
     .dnb-slider__track::before {
       background-color: red;
@@ -903,7 +903,7 @@ legend.dnb-form-label {
     .dnb-slider--vertical .dnb-slider__track::before, .dnb-slider--vertical .dnb-slider__track::after {
       left: 50%;
       transform: translate3d(-50%, 0, 0);
-      width: var(--slider-line-height);
+      width: var(--slider-track-height);
       height: var(--slider-thumb-size); }
     .dnb-slider--vertical .dnb-slider__track::before {
       top: calc(1px - 1px - var(--slider-space));
@@ -925,11 +925,11 @@ legend.dnb-form-label {
     position: absolute;
     left: 0;
     top: 50%;
-    height: var(--slider-line-height);
+    height: var(--slider-track-height);
     transform: translate3d(0, -50%, 0);
     background-color: grey; }
   .dnb-slider--vertical .dnb-slider__line {
-    width: var(--slider-line-height);
+    width: var(--slider-track-height);
     height: auto;
     left: 50%;
     top: 0;

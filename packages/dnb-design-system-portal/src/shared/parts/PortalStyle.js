@@ -266,22 +266,22 @@ export default css`
 
   /* used in the designers guide */
   .lh-12 {
-    line-height: 0.75rem;
+    line-height: calc(var(--line-height-default) - 0.25rem); /* 0.75rem */
   }
   .lh-16 {
-    line-height: var(--line-height-default);
+    line-height: var(--line-height-default); /* 1rem */
   }
   .lh-20 {
-    line-height: 1.25rem;
+    line-height: calc(var(--line-height-default) + 0.25rem); /* 1.25rem */
   }
   .lh-24 {
-    line-height: var(--line-height-default);
+    line-height: var(--line-height-default); /* 1rem */
   }
   .lh-28 {
-    line-height: 1.75rem;
+    line-height: calc(var(--line-height-default) + 0.75rem); /* 1.75rem */
   }
   .lh-32 {
-    line-height: 2rem;
+    line-height: calc(var(--line-height-default) + 1rem); /* 2rem */
   }
 
   .gatsby-resp-image-background-image {

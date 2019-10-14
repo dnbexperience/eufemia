@@ -93,7 +93,7 @@ const StyledListItem = styled.li`
   }
 
   &.l-3 {
-    font-size: 0.875rem; /* small size */
+    font-size: var(--font-size-small); /* small size */
     a {
       padding-left: calc(var(--level-offset) + var(--level) * 3);
     }
@@ -118,7 +118,7 @@ const StyledListItem = styled.li`
   &.l-4,
   &.l-5,
   &.l-6 {
-    font-size: 0.875rem; /* small size */
+    font-size: var(--font-size-small); /* small size */
     &.is-inside {
       html:not([dev-grid]) & {
         background-color: var(--color-mint-green-12);

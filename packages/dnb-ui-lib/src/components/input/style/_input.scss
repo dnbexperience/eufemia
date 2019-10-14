@@ -4,7 +4,7 @@
 */
 
 :root {
-  --input-font-size: 1rem;
+  --input-font-size: var(--font-size-default);
   --input-font-size--medium: 1.5rem;
   --input-font-size--large: 2rem;
   --input-padding: 1rem;
@@ -107,7 +107,7 @@
 
   // to make Safari selection not appear all to the top
   .dnb-core-style &__input {
-    line-height: 1em;
+    line-height: var(--line-height-x-small--em);
   }
 
   &--has-submit-element &__placeholder,

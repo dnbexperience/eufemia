@@ -10,7 +10,7 @@
 
   font-size: inherit;
   text-decoration: inherit;
-  line-height: 1em; // 1.5rem - 0.25em - 0.25em
+  line-height: var(--line-height-x-small--em); // 1.5rem - 0.25em - 0.25em
 
   color: inherit;
   background-color: var(--color-mint-green-25);
