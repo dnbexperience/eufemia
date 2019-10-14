@@ -1,3 +1,7 @@
+## October, 14. 2019
+
+- New [secondary icons](/icons/secondary): undo and redo
+
 ## October, 2. 2019
 
 - New [secondary icons](/icons/secondary): send and upload
