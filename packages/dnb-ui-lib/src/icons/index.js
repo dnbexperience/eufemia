@@ -50,6 +50,8 @@ import print from './print.js'
 import print_medium from './print_medium.js'
 import question from './question.js'
 import question_medium from './question_medium.js'
+import redo from './redo.js'
+import redo_medium from './redo_medium.js'
 import save from './save.js'
 import save_alt_01 from './save_alt_01.js'
 import save_alt_01_medium from './save_alt_01_medium.js'
@@ -62,6 +64,8 @@ import subtract from './subtract.js'
 import subtract_medium from './subtract_medium.js'
 import trash from './trash.js'
 import trash_medium from './trash_medium.js'
+import undo from './undo.js'
+import undo_medium from './undo_medium.js'
 import upload from './upload.js'
 import upload_medium from './upload_medium.js'
 
@@ -116,6 +120,8 @@ export {
   print_medium,
   question,
   question_medium,
+  redo,
+  redo_medium,
   save,
   save_alt_01,
   save_alt_01_medium,
@@ -128,6 +134,8 @@ export {
   subtract_medium,
   trash,
   trash_medium,
+  undo,
+  undo_medium,
   upload,
   upload_medium
 }

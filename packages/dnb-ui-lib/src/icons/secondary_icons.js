@@ -11,9 +11,11 @@ import list from './list.js'
 import logout from './logout.js'
 import pencil from './pencil.js'
 import print from './print.js'
+import redo from './redo.js'
 import save_alt_01 from './save_alt_01.js'
 import send from './send.js'
 import trash from './trash.js'
+import undo from './undo.js'
 import upload from './upload.js'
 
 export {
@@ -28,8 +30,10 @@ export {
   logout,
   pencil,
   print,
+  redo,
   save_alt_01,
   send,
   trash,
+  undo,
   upload
 }
