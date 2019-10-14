@@ -27,23 +27,23 @@ workbox.core.clientsClaim();
  */
 self.__precacheManifest = [
   {
-    "url": "webpack-runtime-9ffa69b0fd152b29d97b.js"
+    "url": "webpack-runtime-578bf04475b192e24bbb.js"
   },
   {
-    "url": "styles.d6681f3bb9e50d61c199.css"
+    "url": "styles.9f38f87906f7a688f94e.css"
   },
   {
-    "url": "styles-3f658775a3d7eda85fc7.js"
+    "url": "styles-e7667e9b7bc14a6ee947.js"
   },
   {
-    "url": "commons-89c8ce394cb390ff4d6a.js"
+    "url": "commons-1ce9eecd93238d2e5b1f.js"
   },
   {
     "url": "component---node-modules-gatsby-plugin-offline-app-shell-js-10c81acf083cd4e66e96.js"
   },
   {
     "url": "offline-plugin-app-shell-fallback/index.html",
-    "revision": "64aa15c7560f3c6396d41b073ea0fe3e"
+    "revision": "470340a85893ff9d699ff4bdf40b1b65"
   },
   {
     "url": "static/FedraSansStd-Book-72defec4eb362f240076656e7778176a.woff2"
@@ -84,7 +84,7 @@ const navigationRoute = new NavigationRoute(async ({ event }) => {
   // Check for resources + the app bundle
   // The latter may not exist if the SW is updating to a new version
   const resources = await idbKeyval.get(`resources:${pathname}`)
-  if (!resources || !(await caches.match(`/app-0e5427d7f9917a8b35e7.js`))) {
+  if (!resources || !(await caches.match(`/app-6256d491a99154bbfb31.js`))) {
     return await fetch(event.request)
   }
 
