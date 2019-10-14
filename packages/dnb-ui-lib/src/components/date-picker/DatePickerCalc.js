@@ -44,16 +44,16 @@ export const makeDayObject = (
 export const getCalendar = (
   month,
   weekStartsOn = 0,
-  { onlyMonth = false } = {}
+  { onlyMonth = false, hideNextMonthWeek = false } = {}
 ) => {
-  if (calendarCache[month]) {
-    return calendarCache[month]
-  }
-
   // Get the main month
   const thisMonth = getMonth(month)
   if (onlyMonth) {
     return (calendarCache[month] = [...thisMonth])
+  }
+
+  if (calendarCache[month]) {
+    return calendarCache[month]
   }
 
   // Get day of the week of the first day of month, eg => 3
@@ -63,12 +63,14 @@ export const getCalendar = (
     subMonths(month, 1),
     getDaysInMonth(subMonths(month, 1)) - firstDay
   )
-  // use this variant if it is OK with empty slots at the bottom
-  // let fillCount = 35 - (thisMonth.length + firstDay)
-  // if (fillCount < 0) {
-  //   fillCount = 42 - (thisMonth.length + firstDay)
-  // }
-  const fillCount = 42 - (thisMonth.length + firstDay)
+  let fillCount = -1
+  if (hideNextMonthWeek) {
+    // use this variant if it is OK with empty slots at the bottom
+    fillCount = 35 - (thisMonth.length + firstDay)
+  }
+  if (fillCount < 0) {
+    fillCount = 42 - (thisMonth.length + firstDay)
+  }
   const nextMonth = getMonth(
     addMonths(month, 1),
     0,
@@ -99,7 +101,9 @@ export const dayOffset = dayName => {
 // creates a date range object and automatically swaps startDate and endDate if endDate is before startDate
 export const toRange = (startDate, endDate) => {
   if (isBefore(endDate, startDate)) {
-    [startDate, endDate] = [endDate, startDate]
+    const _startDate = startDate
+    startDate = endDate
+    endDate = _startDate
   }
   return { startDate, endDate }
 }
