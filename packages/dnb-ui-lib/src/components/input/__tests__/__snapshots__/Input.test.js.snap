@@ -1200,6 +1200,8 @@ legend.dnb-form-label {
       vertical-align: baseline; }
       .dnb-form-row--horizontal .dnb-input, .dnb-input:not(.dnb-input--stretch) {
         flex: none; }
+      .dnb-input__inner {
+        width: 100%; }
       .dnb-input__input, .dnb-input__placeholder {
         transform: translateY(-0.0625rem); } }
 "
