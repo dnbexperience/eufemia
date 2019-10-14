@@ -5,8 +5,12 @@
 
 import { applyPageFocus } from 'dnb-ui-lib/src/shared/helpers'
 
+import cssVars from 'css-vars-ponyfill'
 import smoothscroll from 'smoothscroll-polyfill'
+
+// run the polifills
 smoothscroll.polyfill()
+cssVars()
 
 if (process.env.NODE_ENV === 'development') {
   loadDevStyles()

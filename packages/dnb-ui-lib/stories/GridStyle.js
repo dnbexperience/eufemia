@@ -3,18 +3,24 @@
  *
  */
 
+import { isIE11 } from 'dnb-ui-lib/src/shared/helpers'
 import { css } from '@emotion/core'
 
-const gridStyle = ({
+export const gridStyle = ({
   rgb = null,
   hsl = '204, 80%, 72%',
-  a = 0.8
+  a = 0.8,
+  returnOnlyVars = false
 } = {}) => {
+  // sorry IE user, here is nothing funn to get
+  if (isIE11) {
+    return ''
+  }
+
   const color = c =>
     rgb ? `rgba(${rgb}, ${a - c})` : `hsla(${hsl}, ${a - c})`
-  return css`
-    position: relative;
 
+  const vars = /* @css */ `
     --grid-gutter: 0.5rem;
     --grid-gutter-bold: 2rem;
     --grid-color: ${color(0.5)};
@@ -49,6 +55,16 @@ const gridStyle = ({
       transparent var(--grid-line-thickness),
       transparent var(--grid-gutter-bold)
     );
+  `
+
+  if (returnOnlyVars) {
+    return vars
+  }
+
+  return css`
+    position: relative;
+
+    ${vars};
 
     &::after {
       content: '';
@@ -70,4 +86,3 @@ const gridStyle = ({
     }
   `
 }
-export default gridStyle
