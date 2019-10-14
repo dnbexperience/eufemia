@@ -24,25 +24,36 @@ defineNavigator()
 /**
  * Check if device is touch device or not
  */
+
 export function isTouchDevice() {
-  try {
-    return (
-      !!(
-        typeof window !== 'undefined' &&
-        ('ontouchstart' in window ||
-          (window.DocumentTouch &&
-            typeof document !== 'undefined' &&
-            document instanceof window.DocumentTouch))
-      ) ||
-      !!(
-        typeof navigator !== 'undefined' &&
-        (navigator.maxTouchPoints > 1 || navigator.msMaxTouchPoints > 1)
-      )
-    )
-  } catch (e) {
-    console.warn('Could not determine the touch situation:', e)
-    return null
+  if (typeof isTouchDevice.result !== 'undefined') {
+    return isTouchDevice.result
   }
+  let result = undefined
+
+  try {
+    if (window.PointerEvent && 'maxTouchPoints' in navigator) {
+      if (navigator.maxTouchPoints > 0) {
+        result = true
+      }
+    } else {
+      if (
+        window.matchMedia &&
+        window.matchMedia('(any-pointer: coarse)').matches
+      ) {
+        result = true
+      } else if (
+        'ontouchstart' in window &&
+        document.createEvent('TouchEvent')
+      ) {
+        result = true
+      }
+    }
+  } catch (e) {
+    result = false
+  }
+
+  return (isTouchDevice.result = result)
 }
 
 export function defineIsTouch() {

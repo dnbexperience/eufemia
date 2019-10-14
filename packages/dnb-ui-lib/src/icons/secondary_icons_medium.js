@@ -11,9 +11,11 @@ import list_medium from './list_medium.js'
 import logout_medium from './logout_medium.js'
 import pencil_medium from './pencil_medium.js'
 import print_medium from './print_medium.js'
+import redo_medium from './redo_medium.js'
 import save_alt_01_medium from './save_alt_01_medium.js'
 import send_medium from './send_medium.js'
 import trash_medium from './trash_medium.js'
+import undo_medium from './undo_medium.js'
 import upload_medium from './upload_medium.js'
 
 export {
@@ -28,8 +30,10 @@ export {
   logout_medium,
   pencil_medium,
   print_medium,
+  redo_medium,
   save_alt_01_medium,
   send_medium,
   trash_medium,
+  undo_medium,
   upload_medium
 }

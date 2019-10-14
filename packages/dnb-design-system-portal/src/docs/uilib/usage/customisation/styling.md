@@ -1,5 +1,6 @@
 ---
 title: 'CSS Styles'
+description: 'To ensure flexibility and the possibility of theming, the DNB CSS Styles area built as flexible packages you can import and combine.'
 draft: false
 order: 3
 ---
@@ -25,7 +26,7 @@ There are several packages you can use and combine.
 ## Sub Packages
 
 - **dnb-ui-body** - includes the default body style and a CSS reset (normalize).
-- **dnb-ui-basis** - includes everything from `dnb-ui-core`, except `dnb-ui-body`.
+- **dnb-ui-basis** - includes everything from `dnb-ui-core`, except `dnb-ui-body` (**NB:** needs a [wrapper class](/uilib/usage/customisation/styling#core-style)).
 - **dnb-ui-elements** - includes only the styles for [HTML Elements](/uilib/elements) CSS classes, like `.dnb-h1`.
 
 ## Additional Packages
@@ -57,6 +58,7 @@ You may have a look at some [code examples of dealing with legacy code](/uilib/u
 ### Example import
 
 ```js
+// NB: needs a wrapper class: ".dnb-core-style"
 import 'dnb-ui-lib/style/basis'
 import 'dnb-ui-lib/style/components'
 import 'dnb-ui-lib/style/themes/ui'
@@ -65,16 +67,19 @@ import 'dnb-ui-lib/style/themes/ui'
 /* import 'dnb-ui-lib/style' */
 ```
 
-### Use Eufemia Styles elsewhere {#core-style}
+### Wrapper class {#core-style}
 
 If You neither include the **dnb-ui-core** nor the **dnb-ui-body** package, then You ending up having no Eufemia styles for the Document `<body>`. To have the Eufemia Core styles inside a wrapper anyway, simply use the following helper class: `.dnb-core-style`
 
 ```html
-<div class="dnb-core-style">
-  <!-- Wrapper to have correct Eufemia styles inside -->
-  <h1 class="dnb-h1">I have now the Eufemia Style</h1>
-  <p class="dnb-p">👉 Me as well</p>
-</div>
+<body>
+  <p>I'm not Eufemia</p>
+  <!-- Wrapper to have correct Eufemia css reset and styles -->
+  <div id="app" class="dnb-core-style">
+    <h1 class="dnb-h1">I have an Eufemia Style</h1>
+    <p class="dnb-p">👉 Me as well</p>
+  </div>
+</body>
 ```
 
 #### CSS Specificity

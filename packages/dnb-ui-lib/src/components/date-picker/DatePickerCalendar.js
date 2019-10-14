@@ -39,6 +39,7 @@ export const propTypes = {
   hideNav: PropTypes.bool,
   hideDays: PropTypes.bool,
   onlyMonth: PropTypes.bool,
+  hideNextMonthWeek: PropTypes.bool,
   noAutofocus: PropTypes.bool,
 
   onHover: PropTypes.func,
@@ -71,6 +72,7 @@ export const defaultProps = {
   hideNav: false,
   hideDays: false,
   onlyMonth: false,
+  hideNextMonthWeek: false,
   noAutofocus: false,
 
   // locale
@@ -152,6 +154,7 @@ export default class DatePickerCalendar extends PureComponent {
       hideNav,
       hideDays,
       onlyMonth,
+      hideNextMonthWeek,
       onPrev,
       onNext,
       onSelect,
@@ -169,7 +172,7 @@ export default class DatePickerCalendar extends PureComponent {
     this.days = getCalendar(
       month || new Date(),
       dayOffset(firstDayOfWeek),
-      { onlyMonth }
+      { onlyMonth, hideNextMonthWeek }
     ).map(date =>
       makeDayObject(date, {
         startDate,

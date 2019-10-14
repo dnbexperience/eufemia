@@ -4,18 +4,8 @@ title: 'Brand'
 
 # Brand
 
-Colors, fonts and logo guidelines are set in the DNB Brandbook. Please make sure to familiarise yourself with them.
+Colors, fonts and logo guidelines are set in the DNB Brandbook and the digital version, Brand Center. Please make sure to familiarise yourself with them.
 
-## Logos
+## Brand Center and Brandbook
 
-Guidelines for using DNB logo for digital media.
-
-## Brandbook
-
-Download the PDF
-
-## Colors
-
-Sketch library file
-
-Figma library file
+[bc.dnb.no](https://bc.dnb.no/)

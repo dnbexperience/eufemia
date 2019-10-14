@@ -23,9 +23,15 @@ import {
 } from '../component-helper'
 
 beforeAll(() => {
+  window.PointerEvent = new CustomEvent('ontouchstart')
   navigator.maxTouchPoints = 2 // mocking touch
   defineIsTouch()
   defineNavigator()
+})
+afterAll(() => {
+  document.documentElement.removeAttribute('data-is-touch')
+  window.PointerEvent = undefined
+  navigator.maxTouchPoints = 0
 })
 
 describe('"defineIsTouch" should', () => {

@@ -31,6 +31,7 @@ export const propTypes = {
   link: PropTypes.bool,
   sync: PropTypes.bool,
   onlyMonth: PropTypes.bool,
+  hideNav: PropTypes.bool,
   views: PropTypes.oneOfType([
     PropTypes.number,
     PropTypes.arrayOf(PropTypes.object)
@@ -56,6 +57,7 @@ export const defaultProps = {
   link: null,
   sync: null,
   onlyMonth: null,
+  hideNav: null,
   views: null,
   // views: [{ nextBtn: false }, { prevBtn: false }],
 
@@ -310,7 +312,7 @@ export default class DatePickerRange extends PureComponent {
       }
 
       // make sure we stay on the same month
-      if (this.props.onlyMonth) {
+      if (this.props.onlyMonth || this.props.hideNav) {
         if (
           !isSameMonth(state.startDate, this.state.startDate) ||
           !isSameMonth(state.endDate, this.state.startDate)

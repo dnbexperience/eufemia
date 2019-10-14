@@ -15,6 +15,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
   first_day="monday"
   global_status_id={null}
   hide_days={false}
+  hide_last_week={false}
   hide_navigation={false}
   hide_navigation_buttons={false}
   id="date-picker-id"
