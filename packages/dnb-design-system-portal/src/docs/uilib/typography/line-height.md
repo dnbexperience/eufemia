@@ -22,7 +22,7 @@ order: 2
 
 | Pixel | Type          | Em        | Custom Property             | Info |
 | ----- | ------------- | --------- | --------------------------- | ---- |
-| 16px  | `x-small--em` | **1.5em** | `--line-height-x-small--em` |      |
+| 16px  | `x-small--em` | **1em**   | `--line-height-x-small--em` |      |
 | 24px  | `default--em` | **1.5em** | `--line-height-default--em` |      |
 |       |               |           |                             |      |
 
