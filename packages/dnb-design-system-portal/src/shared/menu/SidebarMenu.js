@@ -12,7 +12,7 @@ import { css, Global } from '@emotion/core'
 import styled from '@emotion/styled'
 import { SidebarMenuContext } from './SidebarMenuContext'
 // import { MainMenuToggleButton } from './ToggleMainMenu'
-import { Icon } from 'dnb-ui-lib/src'
+import { Icon } from 'dnb-ui-lib/src/components'
 import graphics from './SidebarGraphics'
 import keycode from 'keycode'
 import {
@@ -63,14 +63,6 @@ const StyledListItem = styled.li`
 
   html:not([dev-grid]) & {
     background-color: var(--color-white);
-  }
-
-  /* 2.5rem - but we dont want it to be responsive */
-  --level-icon-adjust: -40px;
-  --level: 2vw;
-
-  @media (max-width: 50em) {
-    --level: 1.3rem;
   }
 
   &.l-1 a {
@@ -262,11 +254,6 @@ const Navigation = styled.nav`
     width: var(--aside-width);
   }
 
-  --level-offset: 3vw;
-  @media (max-width: 50em) {
-    --level-offset: 2rem;
-  }
-
   /*
     God for a mobile menu insted
     make sure that Content main "styled.main" gets the same max-width
@@ -422,158 +409,176 @@ export default class SidebarLayout extends PureComponent {
 
   render() {
     const { location, showAll = false } = this.props
+
     return (
-      <StaticQuery
-        query={graphql`
-          query {
-            site {
+      <>
+        <Global
+          styles={css`
+            :root {
+              --level-offset: 3vw;
+              @media (max-width: 50em) {
+                --level-offset: 2rem;
+              }
+
+              --delay: 0; /* polyfill fallback */
+              --aside-width: 30vw; /* IE fix */
+              --aside-width: calc(25vw + 5rem);
+
+              /* 2.5rem - but we dont want it to be responsive */
+              --level-icon-adjust: -40px;
+              --level: 2vw;
+
+              @media (max-width: 50em) {
+                --level: 1.3rem;
+              }
+            }
+          `}
+        />
+        <StaticQuery
+          query={graphql`
+            query {
+              site {
+                pathPrefix
+              }
+              allMdx(
+                # limit: 2
+                # sort: { fields: [frontmatter___order], order: ASC }
+                filter: { frontmatter: { draft: { ne: true } } }
+              ) {
+                edges {
+                  node {
+                    fields {
+                      slug
+                    }
+                    frontmatter {
+                      title
+                      menuTitle
+                      order
+                      status
+                      icon
+                    }
+                  }
+                }
+              }
+            }
+          `}
+          render={({ allMdx, site: { pathPrefix } }) => {
+            const currentPathname = location.pathname.replace(/(\/)$/, '')
+            const currentPathnameList = currentPathname
+              .split('/')
+              .filter(i => i)
+
+            const nav = prepareNav({
+              location,
+              allMdx,
+              showAll,
               pathPrefix
-            }
-            allMdx(
-              # limit: 2
-              # sort: { fields: [frontmatter___order], order: ASC }
-              filter: { frontmatter: { draft: { ne: true } } }
-            ) {
-              edges {
-                node {
-                  fields {
-                    slug
-                  }
-                  frontmatter {
-                    title
-                    menuTitle
-                    order
-                    status
-                    icon
-                  }
-                }
-              }
-            }
-          }
-        `}
-        render={({ allMdx, site: { pathPrefix } }) => {
-          const currentPathname = location.pathname.replace(/(\/)$/, '')
-          const currentPathnameList = currentPathname
-            .split('/')
-            .filter(i => i)
-
-          const nav = prepareNav({
-            location,
-            allMdx,
-            showAll,
-            pathPrefix
-          })
-            .filter(({ title, menuTitle }) => title || menuTitle)
-
-            .map(props => {
-              const path = `/${props.path}`
-
-              // get the active item
-              const active =
-                currentPathname === path ||
-                currentPathname === path.replace(/(\/)$/, '')
-
-              // check if a item path is inside another
-              const inside = path
-                .split('/')
-                .filter(i => i)
-                .every(i => currentPathnameList.includes(i))
-
-              return { ...props, active, inside }
             })
+              .filter(({ title, menuTitle }) => title || menuTitle)
 
-            // mark also the rest of the same level as inside
-            .map((curr, i, arr) => {
-              const prev = arr[i - 1] ? arr[i - 1] : null
-              if (prev && curr.level >= 4) {
-                if (prev.inside && curr.level >= prev.level) {
-                  curr.inside = true
-                }
-              }
-              return curr
-            })
-            .map(
-              (
-                {
-                  title,
-                  menuTitle,
-                  status,
-                  icon,
-                  path,
-                  level,
-                  active,
-                  inside
-                },
-                nr
-              ) => {
-                const props = {
-                  level,
-                  nr,
-                  status,
-                  icon,
-                  active,
-                  inside,
-                  to: path,
-                  onOffsetTop: offsetTop => (this.offsetTop = offsetTop)
-                }
+              .map(props => {
+                const path = `/${props.path}`
 
-                return (
-                  <ListItem key={path} {...props}>
-                    {menuTitle || title}
-                  </ListItem>
-                )
-              }
+                // get the active item
+                const active =
+                  currentPathname === path ||
+                  currentPathname === path.replace(/(\/)$/, '')
+
+                // check if a item path is inside another
+                const inside = path
+                  .split('/')
+                  .filter(i => i)
+                  .every(i => currentPathnameList.includes(i))
+
+                return { ...props, active, inside }
+              })
+
+              // mark also the rest of the same level as inside
+              .map((curr, i, arr) => {
+                const prev = arr[i - 1] ? arr[i - 1] : null
+                if (prev && curr.level >= 4) {
+                  if (prev.inside && curr.level >= prev.level) {
+                    curr.inside = true
+                  }
+                }
+                return curr
+              })
+              .map(
+                (
+                  {
+                    title,
+                    menuTitle,
+                    status,
+                    icon,
+                    path,
+                    level,
+                    active,
+                    inside
+                  },
+                  nr
+                ) => {
+                  const props = {
+                    level,
+                    nr,
+                    status,
+                    icon,
+                    active,
+                    inside,
+                    to: path,
+                    onOffsetTop: offsetTop => (this.offsetTop = offsetTop)
+                  }
+
+                  return (
+                    <ListItem key={path} {...props}>
+                      {menuTitle || title}
+                    </ListItem>
+                  )
+                }
+              )
+
+            const { isOpen, isClosing, toggleMenu } = this.context
+
+            this.isOpen = isOpen
+            this.toggleMenu = toggleMenu
+            if (isOpen && !isClosing) {
+              setTimeout(() => {
+                this.scrollToActiveItem()
+                applyPageFocus('sidebar')
+              }, 300) // after animation is done
+            } else if (isClosing) {
+              setTimeout(() => {
+                applyPageFocus('content')
+              }, 300) // after animation is done - to make sure we can get the focus on h1
+            }
+
+            return (
+              <>
+                <Navigation
+                  id="portal-sidebar-menu"
+                  aria-labelledby="toggle-sidebar-menu"
+                  className={classnames(
+                    // 'dnb-core-style',
+                    isOpen && 'show-mobile-menu',
+                    isClosing && 'hide-mobile-menu'
+                  )}
+                  ref={this._scrollRef}
+                >
+                  <ul className="dev-grid">{nav}</ul>
+                  {isOpen && (
+                    <Global
+                      styles={css`
+                        .dnb-app-content {
+                          display: none !important;
+                        }
+                      `}
+                    />
+                  )}
+                </Navigation>
+              </>
             )
-
-          const { isOpen, isClosing, toggleMenu } = this.context
-
-          this.isOpen = isOpen
-          this.toggleMenu = toggleMenu
-          if (isOpen && !isClosing) {
-            setTimeout(() => {
-              this.scrollToActiveItem()
-              applyPageFocus('sidebar')
-            }, 300) // after animation is done
-          } else if (isClosing) {
-            setTimeout(() => {
-              applyPageFocus('content')
-            }, 300) // after animation is done - to make sure we can get the focus on h1
-          }
-
-          return (
-            <>
-              <Global
-                styles={css`
-                  :root {
-                    --aside-width: calc(25vw + 5rem);
-                  }
-                `}
-              />
-              <Navigation
-                id="portal-sidebar-menu"
-                aria-labelledby="toggle-sidebar-menu"
-                className={classnames(
-                  // 'dnb-core-style',
-                  isOpen && 'show-mobile-menu',
-                  isClosing && 'hide-mobile-menu'
-                )}
-                ref={this._scrollRef}
-              >
-                <ul className="dev-grid">{nav}</ul>
-                {isOpen && (
-                  <Global
-                    styles={css`
-                      .dnb-app-content {
-                        display: none !important;
-                      }
-                    `}
-                  />
-                )}
-              </Navigation>
-            </>
-          )
-        }}
-      />
+          }}
+        />
+      </>
     )
   }
 }

@@ -33,7 +33,8 @@ export function isTouchDevice() {
 
   try {
     if (window.PointerEvent && 'maxTouchPoints' in navigator) {
-      if (navigator.maxTouchPoints > 0) {
+      // IE gives 1, even on no touch systems, therefore we check for 1 or more
+      if (navigator.maxTouchPoints > 1) {
         result = true
       }
     } else {

@@ -13,7 +13,18 @@ To include the packages `dnb-ui-core`, `dnb-ui-components` and `dnb-theme-ui` in
 import 'dnb-ui-lib/style'
 ```
 
-### No Theme
+## Legacy import
+
+Read more about [how to deal with existing styles](/uilib/usage/customisation/styling#how-to-deal-with-existing-styles).
+
+```js
+// NB: needs a wrapper class: ".dnb-core-style"
+import 'dnb-ui-lib/style/basis'
+import 'dnb-ui-lib/style/components'
+import 'dnb-ui-lib/style/themes/ui'
+```
+
+## No Theme
 
 If You want to import the styles of all components only - without **dnb-theme-ui**:
 
@@ -22,7 +33,7 @@ If You want to import the styles of all components only - without **dnb-theme-ui
 import 'dnb-ui-lib/style/components'
 ```
 
-### Custom Theme
+## Custom Theme
 
 You may want to import a theme as well:
 
@@ -42,7 +53,7 @@ import 'dnb-ui-lib/style/themes/ui'
 import 'dnb-ui-lib/style/themes/[NAME].css'
 ```
 
-### Single Component only
+## Single Component only
 
 It is possible to import a single CSS Style of a single component at once:
 

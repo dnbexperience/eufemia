@@ -4,9 +4,9 @@
  */
 
 import { css } from '@emotion/core'
-import GridStyle from 'dnb-ui-lib/stories/GridStyle'
+import { gridStyle } from 'dnb-ui-lib/stories/GridStyle'
 
-export const gridStyle = GridStyle
+export { gridStyle }
 
 // Screenshot Tests Setup
 let testWrapperStyle = ''

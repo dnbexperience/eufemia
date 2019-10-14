@@ -13,7 +13,6 @@ import Tag from './Tag'
 import renderers from './index'
 import Code from '../parts/uilib/Code'
 import { Button } from 'dnb-ui-lib/src/components'
-import { isIE11 } from 'dnb-ui-lib/src/shared/helpers'
 import { makeUniqueId } from 'dnb-ui-lib/src/shared/component-helper'
 
 import {
@@ -184,10 +183,6 @@ class LiveCode extends PureComponent {
       showSyntax,
       hideSyntaxButton
     } = this.state
-
-    if (isIE11) {
-      return <b>Sorry, You use IE 11</b>
-    }
 
     const codeToUse =
       typeof code === 'string' ? this.prepareCode(code) : null

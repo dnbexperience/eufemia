@@ -1,6 +1,6 @@
 ---
 title: 'Make Changes'
-draft: false
+draft: true
 order: 1
 ---
 

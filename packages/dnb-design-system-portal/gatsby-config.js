@@ -100,7 +100,7 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-offline',
       options: {
-        maximumFileSizeToCacheInBytes: 8 * 1024 * 1024
+        maximumFileSizeToCacheInBytes: 4 * 1024 * 1024
       }
     }
   ]

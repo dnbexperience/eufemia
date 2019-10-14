@@ -44,6 +44,7 @@
     "prettier:package": "prettier-package-json --write ./package.json"
   },
   "dependencies": {
+    "css-vars-ponyfill": "^2.1.2",
     "dnb-ui-lib": "*",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
