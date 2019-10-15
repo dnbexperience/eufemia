@@ -25,6 +25,11 @@ Spacing follows a specific pattern:
 
 Also, have a look at the [Space](/uilib/components/space) component and the fact that every component supports [spacing out of the box](/uilib/components/space#components-and-spacing).
 
+```jsx
+<Button top="small" text="Title" />
+<Input right="large x-small medium" placeholder="Title" />
+```
+
 ### CSS Custom Property
 
 ```css
@@ -36,8 +41,8 @@ margin-top: var(--spacing-large);
 ```js
 import { Space } from 'dnb-ui-lib/components'
 
-// A div with a margin-top of 2rem
-<Space top="large">
+// A div with a margin-top of 2.5rem
+<Space top="large x-small">
   ...
 </Space>
 
@@ -45,7 +50,7 @@ import { Space } from 'dnb-ui-lib/components'
 const Custom = styled(Space)`
   /* additional css */
 `
-<Custom top="large">
+<Custom top="large x-small">
   ...
 </Custom>
 ```

@@ -2,7 +2,6 @@
 title: 'Space'
 description: 'The Space component provides margins within the provided spacing patterns.'
 draft: false
-status: 'new'
 order: 13
 ---
 
