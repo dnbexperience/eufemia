@@ -174,7 +174,8 @@
   .dnb-input__submit-button button:focus ~ &__input__wrapper {
     display: block;
   }
-  &:not(#{&}--show-input) .dnb-input__submit-button {
+  &:not(#{&}--show-input) .dnb-input__submit-element,
+  .dnb-input__submit-element > & .dnb-input__submit-element {
     margin-left: 0;
   }
 

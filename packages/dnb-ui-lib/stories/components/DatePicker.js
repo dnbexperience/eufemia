@@ -9,7 +9,13 @@ import styled from '@emotion/styled'
 
 import enLocale from 'date-fns/locale/en-US'
 
-import { DatePicker, Button, FormRow, Section } from '../../src/components'
+import {
+  DatePicker,
+  Button,
+  FormRow,
+  Input,
+  Section
+} from '../../src/components'
 import { H2 } from '../../src/elements'
 
 const Scrollbar = styled.div`
@@ -28,6 +34,9 @@ export default [
   'DatePicker',
   () => (
     <Wrapper>
+      <Box>
+        <Input value="custom value" submit_element={<DatePicker />} />
+      </Box>
       <Box>
         <CustomDate />
       </Box>

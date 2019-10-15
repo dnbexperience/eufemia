@@ -238,7 +238,10 @@ exports[`DatePicker component have to match snapshot 1`] = `
             status_animation={null}
             status_state="error"
             stretch={null}
-            submitButton={
+            submit_button_icon="search"
+            submit_button_title={null}
+            submit_button_variant="secondary"
+            submit_element={
               <SubmitButton
                 aria-expanded={false}
                 className={null}
@@ -256,15 +259,12 @@ exports[`DatePicker component have to match snapshot 1`] = `
                 variant="secondary"
               />
             }
-            submit_button_icon="search"
-            submit_button_title={null}
-            submit_button_variant="secondary"
             suffix={null}
             type="text"
             value="initval"
           >
             <span
-              className="dnb-input dnb-input--text dnb-input--has-submit-button dnb-input__status--error"
+              className="dnb-input dnb-input--text dnb-input--has-submit-element dnb-input__status--error"
             >
               <span
                 className="dnb-input__inner"
@@ -721,133 +721,137 @@ exports[`DatePicker component have to match snapshot 1`] = `
                       </ForwardRef>
                     </span>
                   </span>
-                  <SubmitButton
-                    aria-expanded={false}
-                    className={null}
-                    disabled={false}
-                    icon="calendar"
-                    icon_size={null}
-                    id="date-picker-id"
-                    onKeyUp={[Function]}
-                    on_submit={[Function]}
-                    on_submit_blur={null}
-                    on_submit_focus={null}
-                    title={null}
-                    type="button"
-                    value={null}
-                    variant="secondary"
+                  <span
+                    className="dnb-input__submit-element"
                   >
-                    <span
-                      className="dnb-input__submit-button"
-                      data-input-state="virgin"
+                    <SubmitButton
+                      aria-expanded={false}
+                      className={null}
+                      disabled={false}
+                      icon="calendar"
+                      icon_size={null}
+                      id="date-picker-id"
+                      onKeyUp={[Function]}
+                      on_submit={[Function]}
+                      on_submit_blur={null}
+                      on_submit_focus={null}
+                      title={null}
+                      type="button"
+                      value={null}
+                      variant="secondary"
                     >
-                      <Button
-                        aria-expanded={false}
-                        bounding={false}
-                        class={null}
-                        className="dnb-input__submit-button__button"
-                        custom_element={null}
-                        custom_method={null}
-                        disabled={null}
-                        href={null}
-                        icon="calendar"
-                        icon_position={null}
-                        icon_size={null}
-                        id="date-picker-id"
-                        innerRef={null}
-                        onBlur={[Function]}
-                        onClick={[Function]}
-                        onFocus={[Function]}
-                        onKeyUp={[Function]}
-                        on_click={null}
-                        size={null}
-                        text={null}
-                        title={null}
-                        type="button"
-                        variant="secondary"
+                      <span
+                        className="dnb-input__submit-button"
+                        data-input-state="virgin"
                       >
-                        <button
+                        <Button
                           aria-expanded={false}
-                          className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon dnb-input__submit-button__button"
+                          bounding={false}
+                          class={null}
+                          className="dnb-input__submit-button__button"
+                          custom_element={null}
+                          custom_method={null}
+                          disabled={null}
+                          href={null}
+                          icon="calendar"
+                          icon_position={null}
+                          icon_size={null}
                           id="date-picker-id"
+                          innerRef={null}
                           onBlur={[Function]}
                           onClick={[Function]}
                           onFocus={[Function]}
                           onKeyUp={[Function]}
-                          onMouseOut={[Function]}
+                          on_click={null}
+                          size={null}
+                          text={null}
+                          title={null}
                           type="button"
+                          variant="secondary"
                         >
-                          <Content
+                          <button
                             aria-expanded={false}
-                            bounding={false}
-                            class={null}
-                            className="dnb-input__submit-button__button"
-                            content={null}
-                            custom_element={null}
-                            custom_method={null}
-                            disabled={null}
-                            href={null}
-                            icon="calendar"
-                            icon_position={null}
-                            icon_size={null}
+                            className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon dnb-input__submit-button__button"
                             id="date-picker-id"
-                            innerRef={null}
-                            isIconOnly={true}
                             onBlur={[Function]}
                             onClick={[Function]}
                             onFocus={[Function]}
                             onKeyUp={[Function]}
-                            on_click={null}
-                            size={null}
-                            text={null}
-                            title={null}
+                            onMouseOut={[Function]}
                             type="button"
-                            variant="secondary"
                           >
-                            <IconPrimary
-                              alt={null}
-                              aria-hidden={false}
-                              attributes={null}
+                            <Content
+                              aria-expanded={false}
+                              bounding={false}
                               class={null}
-                              className="dnb-button__icon"
-                              color={null}
-                              height={null}
+                              className="dnb-input__submit-button__button"
+                              content={null}
+                              custom_element={null}
+                              custom_method={null}
+                              disabled={null}
+                              href={null}
                               icon="calendar"
-                              key="button-icon"
-                              modifier={null}
+                              icon_position={null}
+                              icon_size={null}
+                              id="date-picker-id"
+                              innerRef={null}
+                              isIconOnly={true}
+                              onBlur={[Function]}
+                              onClick={[Function]}
+                              onFocus={[Function]}
+                              onKeyUp={[Function]}
+                              on_click={null}
                               size={null}
+                              text={null}
                               title={null}
-                              width={null}
+                              type="button"
+                              variant="secondary"
                             >
-                              <span
-                                alt="calendar"
+                              <IconPrimary
+                                alt={null}
                                 aria-hidden={false}
-                                aria-label="calendar"
-                                className="dnb-icon dnb-button__icon"
-                                role="img"
+                                attributes={null}
+                                class={null}
+                                className="dnb-button__icon"
+                                color={null}
+                                height={null}
+                                icon="calendar"
+                                key="button-icon"
+                                modifier={null}
+                                size={null}
+                                title={null}
+                                width={null}
                               >
-                                <calendar>
-                                  <svg
-                                    fill="none"
-                                    height={16}
-                                    viewBox="0 0 17 17"
-                                    width={16}
-                                  >
-                                    <path
-                                      clipRule="evenodd"
-                                      d="M4.905 0c.44 0 .797.357.797.797v1.257h5.596V.797a.797.797 0 111.594 0v1.257h1.718A2.39 2.39 0 0117 4.444V14.61A2.39 2.39 0 0114.61 17H2.39A2.39 2.39 0 010 14.61V4.444a2.39 2.39 0 012.39-2.39h1.719V.797c0-.44.356-.797.796-.797zm6.393 3.648v.744a.797.797 0 101.594 0v-.744h1.718c.44 0 .797.356.797.796v1.719H1.593V4.444c0-.44.357-.796.797-.796h1.719v.744a.797.797 0 001.593 0v-.744h5.596zM1.593 7.756h13.814v6.854c0 .44-.357.797-.797.797H2.39a.797.797 0 01-.797-.797V7.756z"
-                                      fill="#000"
-                                      fillRule="evenodd"
-                                    />
-                                  </svg>
-                                </calendar>
-                              </span>
-                            </IconPrimary>
-                          </Content>
-                        </button>
-                      </Button>
-                    </span>
-                  </SubmitButton>
+                                <span
+                                  alt="calendar"
+                                  aria-hidden={false}
+                                  aria-label="calendar"
+                                  className="dnb-icon dnb-button__icon"
+                                  role="img"
+                                >
+                                  <calendar>
+                                    <svg
+                                      fill="none"
+                                      height={16}
+                                      viewBox="0 0 17 17"
+                                      width={16}
+                                    >
+                                      <path
+                                        clipRule="evenodd"
+                                        d="M4.905 0c.44 0 .797.357.797.797v1.257h5.596V.797a.797.797 0 111.594 0v1.257h1.718A2.39 2.39 0 0117 4.444V14.61A2.39 2.39 0 0114.61 17H2.39A2.39 2.39 0 010 14.61V4.444a2.39 2.39 0 012.39-2.39h1.719V.797c0-.44.356-.797.796-.797zm6.393 3.648v.744a.797.797 0 101.594 0v-.744h1.718c.44 0 .797.356.797.796v1.719H1.593V4.444c0-.44.357-.796.797-.796h1.719v.744a.797.797 0 001.593 0v-.744h5.596zM1.593 7.756h13.814v6.854c0 .44-.357.797-.797.797H2.39a.797.797 0 01-.797-.797V7.756z"
+                                        fill="#000"
+                                        fillRule="evenodd"
+                                      />
+                                    </svg>
+                                  </calendar>
+                                </span>
+                              </IconPrimary>
+                            </Content>
+                          </button>
+                        </Button>
+                      </span>
+                    </SubmitButton>
+                  </span>
                 </span>
               </span>
             </span>
@@ -1513,8 +1517,8 @@ legend.dnb-form-label {
     transform: translateY(0.0625rem); }
   .dnb-core-style .dnb-input__input {
     line-height: 1em; }
-  .dnb-input--has-submit-button .dnb-input__placeholder,
-  .dnb-input--has-submit-button .dnb-input__input {
+  .dnb-input--has-submit-element .dnb-input__placeholder,
+  .dnb-input--has-submit-element .dnb-input__input {
     padding-right: calc(var(--input-padding) * 2.5); }
   .dnb-input__row {
     display: inline-flex;
@@ -1522,12 +1526,13 @@ legend.dnb-form-label {
   .dnb-input__description {
     color: inherit;
     padding-left: 0.5rem; }
+  .dnb-input__submit-element {
+    margin-left: calc(1px - 1px - var(--input-height)); }
   .dnb-input__submit-button {
     position: relative;
     z-index: 2;
     align-self: center;
-    /* IE needs this to stay centered */
-    margin-left: calc(1px - 1px - var(--input-height)); }
+    /* IE needs this to stay centered */ }
     .dnb-input__submit-button__button {
       border-radius: 50%; }
   .dnb-input--medium .dnb-input__shell {
@@ -1541,13 +1546,13 @@ legend.dnb-form-label {
     padding-left: var(--input-padding--medium);
     padding-right: var(--input-padding--medium);
     font-size: var(--input-font-size--medium); }
-  .dnb-input--medium .dnb-input__submit-button {
+  .dnb-input--medium .dnb-input__submit-element {
     margin-left: calc(1px - 1px - var(--input-height--medium)); }
-    .dnb-input--medium .dnb-input__submit-button__button {
+    .dnb-input--medium .dnb-input__submit-element .dnb-button {
       width: var(--input-height--medium);
       height: var(--input-height--medium); }
-  .dnb-input--medium.dnb-input--has-submit-button .dnb-input__placeholder,
-  .dnb-input--medium.dnb-input--has-submit-button .dnb-input__input {
+  .dnb-input--medium.dnb-input--has-submit-element .dnb-input__placeholder,
+  .dnb-input--medium.dnb-input--has-submit-element .dnb-input__input {
     padding-right: calc(var(--input-padding--medium) * 2.5); }
   .dnb-input--large .dnb-input__shell {
     line-height: var(--input-height--large); }
@@ -1560,15 +1565,15 @@ legend.dnb-form-label {
     padding-left: var(--input-padding--large);
     padding-right: var(--input-padding--large);
     font-size: var(--input-font-size--large); }
-  .dnb-input--large .dnb-input__submit-button {
+  .dnb-input--large .dnb-input__submit-element {
     margin-left: calc(1px - 1px - var(--input-height--large)); }
-    .dnb-input--large .dnb-input__submit-button__button {
+    .dnb-input--large .dnb-input__submit-element .dnb-button {
       width: var(--input-height--large);
       height: var(--input-height--large); }
-      .dnb-input--large .dnb-input__submit-button__button .dnb-button__icon {
+      .dnb-input--large .dnb-input__submit-element .dnb-button .dnb-button__icon {
         transform: scale(1.33333); }
-  .dnb-input--large.dnb-input--has-submit-button .dnb-input__placeholder,
-  .dnb-input--large.dnb-input--has-submit-button .dnb-input__input {
+  .dnb-input--large.dnb-input--has-submit-element .dnb-input__placeholder,
+  .dnb-input--large.dnb-input--has-submit-element .dnb-input__input {
     padding-right: calc(var(--input-padding--large) * 2.5); }
   .dnb-input__align--center .dnb-input__placeholder,
   .dnb-input__align--center .dnb-input__input {
@@ -1759,7 +1764,8 @@ legend.dnb-form-label {
     box-shadow: none; }
   .dnb-input__submit-button button:focus ~ .dnb-date-picker__input__wrapper {
     display: block; }
-  .dnb-date-picker:not(.dnb-date-picker--show-input) .dnb-input__submit-button {
+  .dnb-date-picker:not(.dnb-date-picker--show-input) .dnb-input__submit-element,
+  .dnb-input__submit-element > .dnb-date-picker .dnb-input__submit-element {
     margin-left: 0; }
   .dnb-date-picker--separator {
     margin: 0 -0.2rem; }

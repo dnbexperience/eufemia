@@ -558,7 +558,7 @@ export default class DatePickerInput extends PureComponent {
         disabled={disabled}
         status={!opened ? status : null}
         status_state={status_state}
-        submitButton={
+        submit_element={
           <SubmitButton
             id={id}
             disabled={disabled}
