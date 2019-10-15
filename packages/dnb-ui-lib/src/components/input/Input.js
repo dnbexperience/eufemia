@@ -214,9 +214,6 @@ export default class Input extends PureComponent {
 
     // make sure we dont trigger getDerivedStateFromProps on startup
     this.state._listenForPropChanges = true
-    if (props.input_state) {
-      this.state.inputState = props.input_state
-    }
     this.state._value = props.value
   }
   onFocusHandler = event => {

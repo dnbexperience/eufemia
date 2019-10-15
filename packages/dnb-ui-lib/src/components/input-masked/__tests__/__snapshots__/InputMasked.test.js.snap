@@ -627,7 +627,6 @@ legend.dnb-form-label {
     position: relative;
     display: flex;
     align-items: center;
-    overflow: hidden;
     border: var(--input-border-width) solid var(--color-sea-green-alt);
     line-height: var(--input-height); }
   .dnb-input__input {
