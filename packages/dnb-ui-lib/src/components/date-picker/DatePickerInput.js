@@ -39,7 +39,11 @@ export const propTypes = {
     PropTypes.node
   ]),
   status_state: PropTypes.string,
-  inputElement: PropTypes.string,
+  inputElement: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node
+  ]),
   disabled: PropTypes.bool,
   opened: PropTypes.bool,
   showInput: PropTypes.bool,
@@ -409,9 +413,10 @@ export default class DatePickerInput extends PureComponent {
       const state = value.slice(0, 1)
       const index = this.props.maskOrder.indexOf(value)
       const placeholderChar = this.props.maskPlaceholder[index]
+      const { inputElement, separatorRexExp } = this.props
 
-      if (!this.props.separatorRexExp.test(value)) {
-        if (!this.props.inputElement) {
+      if (!separatorRexExp.test(value)) {
+        if (!inputElement) {
           params = {
             ...params,
             'aria-labelledby': this.props.id,
@@ -439,7 +444,8 @@ export default class DatePickerInput extends PureComponent {
         }
 
         // this makes it possible to use a vanilla <input /> like: inputElement="input"
-        const Input = this.props.inputElement || InputElement
+        const Input =
+          typeof inputElement === 'string' ? inputElement : InputElement
 
         switch (state) {
           case 'd':
@@ -522,21 +528,21 @@ export default class DatePickerInput extends PureComponent {
       title,
 
       submitAttributes,
-      range /* eslint-disable-line */,
-      maskOrder /* eslint-disable-line */,
-      maskPlaceholder /* eslint-disable-line */,
-      separatorRexExp /* eslint-disable-line */,
-      date /* eslint-disable-line */,
-      endDate /* eslint-disable-line */,
-      startDate /* eslint-disable-line */,
-      minDate /* eslint-disable-line */,
-      maxDate /* eslint-disable-line */,
-      onChange /* eslint-disable-line */,
-      onFocus /* eslint-disable-line */,
-      onSubmit /* eslint-disable-line */,
-      onSubmitButtonFocus /* eslint-disable-line */,
-      showInput /* eslint-disable-line */,
-      inputElement /* eslint-disable-line */,
+      range, // eslint-disable-line
+      maskOrder, // eslint-disable-line
+      maskPlaceholder, // eslint-disable-line
+      separatorRexExp, // eslint-disable-line
+      date, // eslint-disable-line
+      endDate, // eslint-disable-line
+      startDate, // eslint-disable-line
+      minDate, // eslint-disable-line
+      maxDate, // eslint-disable-line
+      onChange, // eslint-disable-line
+      onFocus, // eslint-disable-line
+      onSubmit, // eslint-disable-line
+      onSubmitButtonFocus, // eslint-disable-line
+      showInput, // eslint-disable-line
+      inputElement,
       disabled,
       opened,
       status,
@@ -554,7 +560,11 @@ export default class DatePickerInput extends PureComponent {
       <Input
         id={`${id}__input`}
         input_state={disabled ? 'disabled' : focusState}
-        inputElement={this.renderInputElement}
+        inputElement={
+          inputElement && typeof inputElement !== 'string'
+            ? inputElement
+            : this.renderInputElement
+        }
         disabled={disabled}
         status={!opened ? status : null}
         status_state={status_state}
