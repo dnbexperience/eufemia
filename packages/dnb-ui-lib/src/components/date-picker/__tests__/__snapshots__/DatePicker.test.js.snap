@@ -4,7 +4,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
 <DatePicker
   addon_element={null}
   align_picker={null}
-  cancel_button_text="Lukk"
+  cancel_button_text="Avbryt"
   custom_element={null}
   custom_method={null}
   date="1970-01-01T00:00:00.000Z"

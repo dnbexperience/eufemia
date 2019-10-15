@@ -170,7 +170,7 @@ export const defaultProps = {
   show_submit_button: null,
   show_cancel_button: null,
   submit_button_text: 'Ok',
-  cancel_button_text: 'Lukk',
+  cancel_button_text: 'Avbryt',
   reset_date: true,
   first_day: 'monday',
   min_date: undefined,
