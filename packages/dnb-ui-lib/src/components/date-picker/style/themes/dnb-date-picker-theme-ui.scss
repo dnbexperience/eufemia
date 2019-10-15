@@ -37,6 +37,7 @@
     background-color: var(--color-white);
   }
 
+  &__addon,
   &__calendar {
     // border
     &::after {

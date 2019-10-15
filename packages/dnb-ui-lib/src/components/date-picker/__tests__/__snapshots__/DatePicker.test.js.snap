@@ -2,6 +2,7 @@
 
 exports[`DatePicker component have to match snapshot 1`] = `
 <DatePicker
+  addon_element={null}
   align_picker={null}
   cancel_button_text="Lukk"
   custom_element={null}
@@ -910,7 +911,7 @@ exports[`DatePicker scss have to match default theme snapshot 1`] = `
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16);
     border-radius: 0.25rem;
     background-color: var(--color-white); }
-  .dnb-date-picker__calendar::after {
+  .dnb-date-picker__addon::after, .dnb-date-picker__calendar::after {
     background-color: var(--color-mint-green-50); }
   .dnb-date-picker__header::after {
     background-color: var(--color-mint-green-50); }
@@ -1474,7 +1475,6 @@ legend.dnb-form-label {
     position: relative;
     display: flex;
     align-items: center;
-    overflow: hidden;
     border: var(--input-border-width) solid var(--color-sea-green-alt);
     line-height: var(--input-height); }
   .dnb-input__input {
@@ -1784,17 +1784,19 @@ legend.dnb-form-label {
       height: 1px; }
   .dnb-date-picker:not(.dnb-date-picker--show-footer) .dnb-date-picker__calendar::after {
     content: none; }
-  .dnb-date-picker__header {
+  .dnb-date-picker__addon, .dnb-date-picker__header {
     position: relative;
     display: flex;
     justify-content: space-between;
     padding-bottom: 1rem; }
-    .dnb-date-picker__header::after {
+    .dnb-date-picker__addon::after, .dnb-date-picker__header::after {
       content: '';
       position: absolute;
       bottom: 0;
       width: 100%;
       height: 1px; }
+  .dnb-date-picker__addon {
+    padding: 1rem; }
   .dnb-date-picker__footer {
     position: relative;
     display: flex;

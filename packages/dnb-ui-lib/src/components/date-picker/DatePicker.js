@@ -32,6 +32,7 @@ import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 import DatePickerRange from './DatePickerRange'
 import DatePickerInput from './DatePickerInput'
+import DatePickerAddon from './DatePickerAddon'
 import DatePickerFooter from './DatePickerFooter'
 
 const renderProps = {
@@ -121,6 +122,7 @@ export const propTypes = {
     PropTypes.func,
     PropTypes.node
   ]),
+  addon_element: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   status: PropTypes.oneOfType([
     PropTypes.string,
@@ -180,6 +182,7 @@ export const defaultProps = {
   label: null,
   label_direction: null,
   input_element: null,
+  addon_element: null,
   disabled: null,
   status: null,
   status_state: 'error',
@@ -593,6 +596,7 @@ export default class DatePicker extends PureComponent {
       link,
       sync,
       input_element,
+      addon_element,
       disabled,
       status,
       status_state,
@@ -765,6 +769,10 @@ export default class DatePicker extends PureComponent {
                     endMonth={endMonth}
                     startDate={startDate}
                     endDate={endDate}
+                  />
+                  <DatePickerAddon
+                    {...props}
+                    renderElement={addon_element}
                   />
                   <DatePickerFooter
                     {...props}
