@@ -30,15 +30,6 @@
 }
 @import './helper-classes/skip-link.scss';
 
-// Layout management
-// Use this class where components are trying to add background boxes/borders/lines
-// to the very outer sides of the page
-// e.g. Tabs are using this technique
-// In some cases we dont want to have that effect.
-// E.g. if we have a menu to the left or right side
-.dnb-app-content-inner {
-  overflow: hidden;
-}
 .dnb-hide-on-mobile {
   @include allBelow(medium) {
     display: none;

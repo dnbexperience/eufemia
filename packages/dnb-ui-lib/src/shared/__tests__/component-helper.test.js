@@ -14,7 +14,7 @@ import {
   validateDOMAttributes,
   processChildren,
   dispatchCustomElementEvent,
-  transformToReactEventCase,
+  toPascalCase,
   pickRenderProps,
   detectOutsideClick,
   makeUniqueId,
@@ -315,9 +315,9 @@ describe('"dispatchCustomElementEvent" should', () => {
   })
 })
 
-describe('"transformToReactEventCase" should', () => {
+describe('"toPascalCase" should', () => {
   it('transform a snail case event name to a React event case', () => {
-    expect(transformToReactEventCase('my_event_is_long')).toBe(
+    expect(toPascalCase('my_event_is_long')).toBe(
       'myEventIsLong'
     )
   })

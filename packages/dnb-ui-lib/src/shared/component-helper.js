@@ -327,7 +327,7 @@ export const dispatchCustomElementEvent = (
   }
 
   // call Syntetic React event camelCase naming events
-  eventName = transformToReactEventCase(eventName)
+  eventName = toPascalCase(eventName)
   if (typeof props[eventName] === 'function') {
     ret = props[eventName].apply(src, [eventObject])
   }
@@ -336,7 +336,7 @@ export const dispatchCustomElementEvent = (
 }
 
 // transform on_click to onClick
-export const transformToReactEventCase = s =>
+export const toPascalCase = s =>
   s
     .split(/_/g)
     .reduce(
@@ -510,8 +510,8 @@ export const filterProps = (props, remove = null, allowed = null) => {
   }, {})
 }
 
-export const makeUniqueId = (pendix = '', length = 8) =>
-  pendix +
+export const makeUniqueId = (prefix = '', length = 8) =>
+  prefix +
   String(
     Math.random()
       .toString(36)
