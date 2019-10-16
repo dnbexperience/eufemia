@@ -910,7 +910,8 @@ a.dnb-button .dnb-button__text {
       @media screen and (min-width: 50em) {
         .dnb-modal__content__inner {
           padding: var(--modal-spacing) var(--modal-spacing) calc(var(--modal-spacing) / 2);
-          box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16); } }
+          box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16);
+          border-radius: 0.5rem; } }
       @media screen and (max-width: 50em) {
         .dnb-modal__content__inner {
           width: 100vw;
