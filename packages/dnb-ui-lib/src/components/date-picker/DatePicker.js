@@ -231,17 +231,20 @@ export default class DatePicker extends PureComponent {
         typeof startDate !== 'undefined' &&
         startDate !== state.startDate
       ) {
-        state.startDate = DatePicker.convertStringToDate(startDate, {
-          date_format
-        })
+        state.startDate =
+          DatePicker.convertStringToDate(startDate, {
+            date_format
+          }) || undefined
+
         if (!isTrue(props.range)) {
           state.endDate = state.startDate
         }
       }
       if (typeof props.end_date !== 'undefined' && isTrue(props.range)) {
-        state.endDate = DatePicker.convertStringToDate(props.end_date, {
-          date_format
-        })
+        state.endDate =
+          DatePicker.convertStringToDate(props.end_date, {
+            date_format
+          }) || undefined
       }
       if (typeof props.month !== 'undefined') {
         state.month = DatePicker.convertStringToDate(props.month, {
@@ -412,7 +415,8 @@ export default class DatePicker extends PureComponent {
     })
   }
 
-  onInputChange = ({ startDate, endDate, ...args }) => {
+  onInputChange = args => {
+    let { startDate, endDate } = args
     // make sure endDate is same as startDate if we don't use range
     if (!isTrue(this.props.range)) {
       endDate = startDate

@@ -19,7 +19,7 @@ import {
   Input,
   Section
 } from '../../src/components'
-import { H2 } from '../../src/elements'
+// import { H2 } from '../../src/elements'
 
 const Scrollbar = styled.div`
   height: 10rem;
@@ -37,6 +37,14 @@ export default [
   'DatePicker',
   () => (
     <Wrapper>
+      {/* <Box>
+        <DatePicker
+          show_input
+          on_change={props => {
+            console.log('on_change', props)
+          }}
+        />
+      </Box> */}
       <Box>
         {/* <Input
           value="custom value"
@@ -54,7 +62,7 @@ export default [
           right
         /> */}
         <DatePicker
-          opened
+          // opened
           show_input
           show_submit_button
           show_cancel_button
@@ -283,28 +291,28 @@ const CustomDate = () => {
   const [endDate, setEndDate] = React.useState(null)
   const [errorStatus, setErrorStatus] = React.useState(false)
 
-  const [count, incement] = React.useState(0)
-
-  React.useEffect(() => {
-    const id = setInterval(() => {
-      incement(count + 1)
-    }, 1e3)
-
-    return () => clearInterval(id)
-  }, [count])
+  // const [count, incement] = React.useState(0)
+  //
+  // React.useEffect(() => {
+  //   const id = setInterval(() => {
+  //     incement(count + 1)
+  //   }, 1e3)
+  //
+  //   return () => clearInterval(id)
+  // }, [count])
 
   return (
     <Section spacing>
-      <H2>{count}</H2>
+      {/* <H2>{count}</H2> */}
       <DatePicker
         right
-        range
+        // range
         label="Default DatePicker:"
         show_input
         start_date={startDate}
         end_date={endDate}
-        on_change={({ start_date, end_date }) => {
-          console.log('on_change', start_date, end_date)
+        on_change={({ date, start_date, end_date }) => {
+          console.log('on_change', date, start_date, end_date)
           setStartDate(start_date)
           setEndDate(end_date)
         }}

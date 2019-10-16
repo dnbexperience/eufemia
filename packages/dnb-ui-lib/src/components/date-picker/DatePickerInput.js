@@ -83,7 +83,13 @@ export default class DatePickerInput extends PureComponent {
     _listenForPropChanges: true,
     focusState: 'virgin',
     startDate: null,
-    endDate: null
+    endDate: null,
+    _startDay: null,
+    _startMonth: null,
+    _startYear: null,
+    _endDay: null,
+    _endMonth: null,
+    _endYear: null
   }
 
   constructor(props) {
@@ -132,26 +138,36 @@ export default class DatePickerInput extends PureComponent {
       if (isDisabled(state.endDate, props.minDate, props.maxDate)) {
         state.endDate = props.maxDate
       }
+
+      if (
+        typeof props.startDate === 'undefined' &&
+        state.startDate !== null
+      ) {
+        state.startDate = null
+        state._startDay = null
+        state._startMonth = null
+        state._startYear = null
+      }
+
+      if (typeof props.endDate === 'undefined' && state.endDate !== null) {
+        state.endDate = null
+        state._endDay = null
+        state._endMonth = null
+        state._endYear = null
+      }
     }
     state._listenForPropChanges = true
-    // set the input values
+
     if (DatePickerInput.isValidDate(state.startDate)) {
       state._startDay = pad(format(state.startDate, 'dd'), 2)
       state._startMonth = pad(format(state.startDate, 'MM'), 2)
       state._startYear = format(state.startDate, 'yyyy')
-    } else {
-      state._startDay = null
-      state._startMonth = null
-      state._startYear = null
     }
+
     if (DatePickerInput.isValidDate(state.endDate)) {
       state._endDay = pad(format(state.endDate, 'dd'), 2)
       state._endMonth = pad(format(state.endDate, 'MM'), 2)
       state._endYear = format(state.endDate, 'yyyy')
-    } else {
-      state._endDay = null
-      state._endMonth = null
-      state._endYear = null
     }
     return state
   }
@@ -216,7 +232,7 @@ export default class DatePickerInput extends PureComponent {
     }
   }
 
-  prepareCounting = async ({ keyCode, target }) => {
+  prepareCounting = async ({ keyCode, target, event }) => {
     const isDate = target
       .getAttribute('class')
       .match(/__input--([day|month|year]+)($|\s)/)[1]
@@ -260,16 +276,17 @@ export default class DatePickerInput extends PureComponent {
     target.setSelectionRange(0, endPos)
   }
 
-  onKeyDownHandler = async e => {
-    const keyCode = keycode(e)
-    const target = e.target
+  onKeyDownHandler = async event => {
+    const keyCode = keycode(event)
+    const target = event.target
 
     // only to process key up and down press
     switch (keyCode) {
       case 'up':
       case 'down':
-        this.prepareCounting({ keyCode, target })
-        e.preventDefault()
+        event.persist()
+        this.prepareCounting({ event, keyCode, target })
+        event.preventDefault()
         return false
       case 'tab':
         return false
@@ -354,18 +371,20 @@ export default class DatePickerInput extends PureComponent {
   }
 
   setDate = (event, count, mode, type, fn) => {
-    event.persist()
+    event.persist() // since we have later a state update and afterwards the callback
     try {
       let value = event.target.value
+
+      // update internal state
+      this.setState({
+        [`_${mode}${type}`]: value,
+        _listenForPropChanges: false
+      })
+
       if (
         parseFloat(value) > 0 &&
         new RegExp(`[0-9]{${count}}`).test(value)
       ) {
-        //  define a reset date
-        if (!this[`_${mode}Date`]) {
-          this[`_${mode}Date`] = new Date(1111, 1, 1)
-        }
-
         value = parseFloat(value)
 
         // months have to be decented
@@ -373,11 +392,17 @@ export default class DatePickerInput extends PureComponent {
           value--
         }
 
+        // provide fallbacks to create a temp date
+        const year = parseFloat(this.state[`_${mode}Year`])
+        const month = parseFloat(this.state[`_${mode}Month`])
+        const day = parseFloat(this.state[`_${mode}Day`])
+
         // calculate new date
-        const date = (this[`_${mode}Date`] = fn(
-          this.state[`${mode}Date`] || this[`_${mode}Date`],
+        const date = fn(
+          this.state[`${mode}Date`] ||
+            new Date(year || 1111, month > 1 ? month - 1 : 1, day || 1),
           value
-        ))
+        )
 
         // update the date
         this.callOnChange({

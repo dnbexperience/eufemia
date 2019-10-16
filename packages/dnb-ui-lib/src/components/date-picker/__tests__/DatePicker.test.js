@@ -155,8 +155,8 @@ describe('DatePicker component', () => {
         .first()
         .instance().value
     ).toBe('dd')
-    expect(Comp.state().startDate).toBe(null)
-    expect(Comp.state().endDate).not.toBe(null) // dirty check
+    expect(Comp.state().startDate).toBe(undefined)
+    expect(Comp.state().endDate).not.toBe(undefined) // dirty check
 
     Comp.setProps({
       end_date: null
@@ -167,7 +167,7 @@ describe('DatePicker component', () => {
         .instance().value
     ).toBe('åååå')
 
-    expect(Comp.state().endDate).toBe(null)
+    expect(Comp.state().endDate).toBe(undefined)
   })
 
   it('has a reacting end date input with valid value', () => {
