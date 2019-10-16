@@ -54,7 +54,12 @@ export const propTypes = {
   status_state: PropTypes.string,
   status_animation: PropTypes.string,
   global_status_id: PropTypes.string,
-  value: PropTypes.string,
+  value: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+    PropTypes.object,
+    PropTypes.array
+  ]),
   icon: PropTypes.string,
   icon_position: PropTypes.string,
   attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
@@ -204,6 +209,7 @@ export default class ToggleButton extends Component {
     if (isTrue(this.props.readOnly)) {
       return event.preventDefault()
     }
+    event.persist()
 
     // only select a value once
     if (
@@ -229,7 +235,7 @@ export default class ToggleButton extends Component {
       try {
         this._refButton.current._ref.current.focus()
       } catch (e) {
-        console.log(e)
+        console.warn(e)
       }
     }
   }
@@ -280,10 +286,10 @@ export default class ToggleButton extends Component {
             disabled,
             variant,
             left_component,
+            value: propValue,
 
             id: _id, // eslint-disable-line
             // group: _group, // eslint-disable-line
-            value: _value, // eslint-disable-line
             checked: _checked, // eslint-disable-line
             attributes, // eslint-disable-line
             children, // eslint-disable-line
@@ -301,7 +307,16 @@ export default class ToggleButton extends Component {
             !isTrue(this.context.multiselect) &&
             typeof this.context.value !== 'undefined'
           ) {
-            checked = _value === this.context.value
+            const contextValue = this.context.value
+            if (
+              typeof propValue === 'string' ||
+              typeof propValue === 'number'
+            ) {
+              checked = propValue === contextValue
+            } else if (typeof JSON !== 'undefined') {
+              checked =
+                JSON.stringify(propValue) === JSON.stringify(contextValue)
+            }
           }
 
           const id = this._id

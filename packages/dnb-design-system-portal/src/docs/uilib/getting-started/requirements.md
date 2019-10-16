@@ -7,7 +7,7 @@ order: 1
 
 # Requirements
 
-Beside the peer dependencies, there are no specific technical requirements only that it is highly recommended to use a compiling process with proper tree shaking in place.
+Beside the peer dependencies, there are no specific technical requirements only that it is highly recommended to use a compiling process with [tree shaking]() in place.
 
 ## Usage
 
@@ -29,6 +29,6 @@ Why is React a good choice:
 - Flexible frontend stack to create the best user experience, depending on the solution and their needs
 - Can be tailored to different conventions and guidelines
 
-### To use the styles
+## To use the styles
 
 This library works perfectly together with any styling techniques, like **Styled Components** ([Emotion](https://emotion.sh)), CSS Modules or SASS/LESS. You simply consume **ready to use CSS files** and CSS Custom Properties (CSS variables).

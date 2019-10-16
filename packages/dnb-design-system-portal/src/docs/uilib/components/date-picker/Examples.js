@@ -6,6 +6,9 @@
 import React, { PureComponent, Fragment } from 'react'
 import ComponentBox from 'Src/shared/tags/ComponentBox'
 import styled from '@emotion/styled'
+import addDays from 'date-fns/addDays'
+import startOfMonth from 'date-fns/startOfMonth'
+import lastDayOfMonth from 'date-fns/lastDayOfMonth'
 
 class Example extends PureComponent {
   render() {
@@ -15,11 +18,11 @@ class Example extends PureComponent {
     }
     return (
       <Fragment>
-        <ComponentBox>
+        <ComponentBox scope={{ addDays, startOfMonth, lastDayOfMonth }}>
           {/* @jsx */ `
 <DatePicker
   label="Range DatePicker:"
-  start_date="2019-05-01"
+  start_date="2019-04-01"
   end_date="2019-05-17"
   range={true}
   show_input={true}
@@ -32,6 +35,23 @@ class Example extends PureComponent {
   on_cancel={({ start_date, end_date }) => {
     console.log('on_cancel', start_date, end_date)
   }}
+  shortcuts={[
+    {
+      title: 'Set date period',
+      start_date: '1969-07-15',
+      end_date: '1969-08-15'
+    },
+    {
+      title: 'This month',
+      start_date: startOfMonth(new Date()),
+      end_date: lastDayOfMonth(new Date())
+    },
+    {
+      title: 'Relative +3 days',
+      start_date: ({ start_date }) => start_date || new Date(),
+      end_date: ({ end_date }) => addDays(end_date || new Date(), 3)
+    }
+  ]}
 />
           `}
         </ComponentBox>

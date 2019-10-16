@@ -134,7 +134,8 @@ export default [
         </Box>
         <Box>
           <Input
-            disabled
+            // disabled
+            status="Error"
             label="Disabled search:"
             type="search"
             submit_button_title="Search"

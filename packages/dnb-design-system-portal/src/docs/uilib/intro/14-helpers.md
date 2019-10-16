@@ -2,6 +2,8 @@
 fullscreen: true
 draft: true
 order: 14
+redirect_from:
+  - /uilib/intro/14-helper-classes
 ---
 
 <Intro>
@@ -12,7 +14,7 @@ A commonly used visual style is the DNB section divider. To make it easy to achi
 
 ## React:
 
-```js
+```jsx
 import { Section } from 'dnb-ui-lib'
 
 render(
@@ -35,6 +37,10 @@ render(
 <div className="dnb-section dnb-section--spacing dnb-section--mint-green">
   Visual DNB Section
 </div>
+
+## More helpers
+
+You may have a look on all the CSS and JavaScript [helpers](!/uilib/helpers) witch comes included in the package.
 
 ---
 

@@ -38,10 +38,10 @@ exports[`Input component have to match type="search" snapshot 1`] = `
         "status_animation": "status_animation",
         "status_state": "status_state",
         "stretch": "stretch",
-        "submitButton": [Function],
         "submit_button_icon": "submit_button_icon",
         "submit_button_title": "submit_button_title",
         "submit_button_variant": "custom type not supported, please set the correct value for submit_button_variant prop",
+        "submit_element": [Function],
         "suffix": "suffix",
         "type": "type",
         "value": "value",
@@ -97,16 +97,16 @@ exports[`Input component have to match type="search" snapshot 1`] = `
   status_animation={null}
   status_state="error"
   stretch={null}
-  submitButton={null}
   submit_button_icon="search"
   submit_button_title={null}
   submit_button_variant="secondary"
+  submit_element={null}
   suffix={null}
   type="search"
   value="test"
 >
   <span
-    className="dnb-input dnb-input--search dnb-input--has-submit-button"
+    className="dnb-input dnb-input--search dnb-input--has-submit-element"
   >
     <span
       className="dnb-input__inner"
@@ -132,203 +132,207 @@ exports[`Input component have to match type="search" snapshot 1`] = `
             value="test"
           />
         </span>
-        <SubmitButton
-          0={
-            Object {
-              "displayName": "Input",
-              "props": Object {
-                "align": "align",
-                "autocomplete": "'on'",
-                "children": "children",
-                "class": "class",
-                "className": "className",
-                "custom_element": Object {},
-                "custom_method": [Function],
-                "description": "description",
-                "disabled": "disabled",
-                "global_status_id": "global_status_id",
-                "id": "id",
-                "inputElement": [Function],
-                "input_attributes": "input_attributes",
-                "input_class": "input_class",
-                "input_state": "input_state",
-                "label": "label",
-                "label_direction": "'horizontal'",
-                "on_blur": [Function],
-                "on_change": [Function],
-                "on_focus": [Function],
-                "on_state_update": [Function],
-                "on_submit": [Function],
-                "on_submit_blur": [Function],
-                "on_submit_focus": [Function],
-                "placeholder": "placeholder",
-                "readOnly": "readOnly",
-                "selectall": "selectall",
-                "size": "size",
-                "status": "status",
-                "status_animation": "status_animation",
-                "status_state": "status_state",
-                "stretch": "stretch",
-                "submitButton": [Function],
-                "submit_button_icon": "submit_button_icon",
-                "submit_button_title": "submit_button_title",
-                "submit_button_variant": "custom type not supported, please set the correct value for submit_button_variant prop",
-                "suffix": "suffix",
-                "type": "type",
-                "value": "value",
-              },
-            }
-          }
-          1={
-            Object {
-              "displayName": "SubmitButton",
-              "props": Object {
-                "className": "className",
-                "disabled": "disabled",
-                "icon": "icon",
-                "icon_size": "icon_size",
-                "id": "id",
-                "on_submit": [Function],
-                "on_submit_blur": [Function],
-                "on_submit_focus": [Function],
-                "title": "title",
-                "value": "value",
-                "variant": "custom type not supported, please set the correct value for variant prop",
-              },
-            }
-          }
-          className={null}
-          custom_element={null}
-          custom_method={null}
-          disabled={false}
-          icon="search"
-          icon_size={null}
-          id={null}
-          input_state={null}
-          on_blur={null}
-          on_change={null}
-          on_focus={null}
-          on_state_update={null}
-          on_submit={null}
-          on_submit_blur={null}
-          on_submit_focus={null}
-          size={null}
-          title={null}
-          value="test"
-          variant="secondary"
+        <span
+          className="dnb-input__submit-element"
         >
-          <span
-            className="dnb-input__submit-button"
-            data-input-state="virgin"
+          <SubmitButton
+            0={
+              Object {
+                "displayName": "Input",
+                "props": Object {
+                  "align": "align",
+                  "autocomplete": "'on'",
+                  "children": "children",
+                  "class": "class",
+                  "className": "className",
+                  "custom_element": Object {},
+                  "custom_method": [Function],
+                  "description": "description",
+                  "disabled": "disabled",
+                  "global_status_id": "global_status_id",
+                  "id": "id",
+                  "inputElement": [Function],
+                  "input_attributes": "input_attributes",
+                  "input_class": "input_class",
+                  "input_state": "input_state",
+                  "label": "label",
+                  "label_direction": "'horizontal'",
+                  "on_blur": [Function],
+                  "on_change": [Function],
+                  "on_focus": [Function],
+                  "on_state_update": [Function],
+                  "on_submit": [Function],
+                  "on_submit_blur": [Function],
+                  "on_submit_focus": [Function],
+                  "placeholder": "placeholder",
+                  "readOnly": "readOnly",
+                  "selectall": "selectall",
+                  "size": "size",
+                  "status": "status",
+                  "status_animation": "status_animation",
+                  "status_state": "status_state",
+                  "stretch": "stretch",
+                  "submit_button_icon": "submit_button_icon",
+                  "submit_button_title": "submit_button_title",
+                  "submit_button_variant": "custom type not supported, please set the correct value for submit_button_variant prop",
+                  "submit_element": [Function],
+                  "suffix": "suffix",
+                  "type": "type",
+                  "value": "value",
+                },
+              }
+            }
+            1={
+              Object {
+                "displayName": "SubmitButton",
+                "props": Object {
+                  "className": "className",
+                  "disabled": "disabled",
+                  "icon": "icon",
+                  "icon_size": "icon_size",
+                  "id": "id",
+                  "on_submit": [Function],
+                  "on_submit_blur": [Function],
+                  "on_submit_focus": [Function],
+                  "title": "title",
+                  "value": "value",
+                  "variant": "custom type not supported, please set the correct value for variant prop",
+                },
+              }
+            }
+            className={null}
+            custom_element={null}
+            custom_method={null}
+            disabled={false}
+            icon="search"
+            icon_size={null}
+            id={null}
+            input_state={null}
+            on_blur={null}
+            on_change={null}
+            on_focus={null}
+            on_state_update={null}
+            on_submit={null}
+            on_submit_blur={null}
+            on_submit_focus={null}
+            size={null}
+            title={null}
+            value="test"
+            variant="secondary"
           >
-            <Button
-              bounding={false}
-              class={null}
-              className="dnb-input__submit-button__button"
-              custom_element={null}
-              custom_method={null}
-              disabled={null}
-              href={null}
-              icon="search"
-              icon_position={null}
-              icon_size={null}
-              id={null}
-              innerRef={null}
-              onBlur={[Function]}
-              onClick={[Function]}
-              onFocus={[Function]}
-              on_click={null}
-              size={null}
-              text={null}
-              title={null}
-              type="submit"
-              value="test"
-              variant="secondary"
+            <span
+              className="dnb-input__submit-button"
+              data-input-state="virgin"
             >
-              <button
-                className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon dnb-input__submit-button__button"
+              <Button
+                bounding={false}
+                class={null}
+                className="dnb-input__submit-button__button"
+                custom_element={null}
+                custom_method={null}
+                disabled={null}
+                href={null}
+                icon="search"
+                icon_position={null}
+                icon_size={null}
+                id={null}
+                innerRef={null}
                 onBlur={[Function]}
                 onClick={[Function]}
                 onFocus={[Function]}
-                onMouseOut={[Function]}
+                on_click={null}
+                size={null}
+                text={null}
+                title={null}
                 type="submit"
                 value="test"
+                variant="secondary"
               >
-                <Content
-                  bounding={false}
-                  class={null}
-                  className="dnb-input__submit-button__button"
-                  content={null}
-                  custom_element={null}
-                  custom_method={null}
-                  disabled={null}
-                  href={null}
-                  icon="search"
-                  icon_position={null}
-                  icon_size={null}
-                  id={null}
-                  innerRef={null}
-                  isIconOnly={true}
+                <button
+                  className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon dnb-input__submit-button__button"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
-                  on_click={null}
-                  size={null}
-                  text={null}
-                  title={null}
+                  onMouseOut={[Function]}
                   type="submit"
                   value="test"
-                  variant="secondary"
                 >
-                  <IconPrimary
-                    alt={null}
-                    aria-hidden={false}
-                    attributes={null}
+                  <Content
+                    bounding={false}
                     class={null}
-                    className="dnb-button__icon"
-                    color={null}
-                    height={null}
+                    className="dnb-input__submit-button__button"
+                    content={null}
+                    custom_element={null}
+                    custom_method={null}
+                    disabled={null}
+                    href={null}
                     icon="search"
-                    key="button-icon"
-                    modifier={null}
+                    icon_position={null}
+                    icon_size={null}
+                    id={null}
+                    innerRef={null}
+                    isIconOnly={true}
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    on_click={null}
                     size={null}
+                    text={null}
                     title={null}
-                    width={null}
+                    type="submit"
+                    value="test"
+                    variant="secondary"
                   >
-                    <span
-                      alt="search"
+                    <IconPrimary
+                      alt={null}
                       aria-hidden={false}
-                      aria-label="search"
-                      className="dnb-icon dnb-button__icon"
-                      role="img"
+                      attributes={null}
+                      class={null}
+                      className="dnb-button__icon"
+                      color={null}
+                      height={null}
+                      icon="search"
+                      key="button-icon"
+                      modifier={null}
+                      size={null}
+                      title={null}
+                      width={null}
                     >
-                      <search>
-                        <svg
-                          fill="none"
-                          height={16}
-                          viewBox="0 0 17 17"
-                          width={16}
-                        >
-                          <g
-                            clipPath="url(#clip-06a943)"
-                            stroke="#000"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={1.5}
+                      <span
+                        alt="search"
+                        aria-hidden={false}
+                        aria-label="search"
+                        className="dnb-icon dnb-button__icon"
+                        role="img"
+                      >
+                        <search>
+                          <svg
+                            fill="none"
+                            height={16}
+                            viewBox="0 0 17 17"
+                            width={16}
                           >
-                            <path
-                              d="M9.055 11.937a5.445 5.445 0 10-4.26-10.023 5.445 5.445 0 004.26 10.023zm1.72-1.162L15 14.999"
-                            />
-                          </g>
-                        </svg>
-                      </search>
-                    </span>
-                  </IconPrimary>
-                </Content>
-              </button>
-            </Button>
-          </span>
-        </SubmitButton>
+                            <g
+                              clipPath="url(#clip-06a943)"
+                              stroke="#000"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={1.5}
+                            >
+                              <path
+                                d="M9.055 11.937a5.445 5.445 0 10-4.26-10.023 5.445 5.445 0 004.26 10.023zm1.72-1.162L15 14.999"
+                              />
+                            </g>
+                          </svg>
+                        </search>
+                      </span>
+                    </IconPrimary>
+                  </Content>
+                </button>
+              </Button>
+            </span>
+          </SubmitButton>
+        </span>
       </span>
     </span>
   </span>
@@ -373,10 +377,10 @@ exports[`Input component have to match type="text" snapshot 1`] = `
         "status_animation": "status_animation",
         "status_state": "status_state",
         "stretch": "stretch",
-        "submitButton": [Function],
         "submit_button_icon": "submit_button_icon",
         "submit_button_title": "submit_button_title",
         "submit_button_variant": "custom type not supported, please set the correct value for submit_button_variant prop",
+        "submit_element": [Function],
         "suffix": "suffix",
         "type": "type",
         "value": "value",
@@ -432,10 +436,10 @@ exports[`Input component have to match type="text" snapshot 1`] = `
   status_animation={null}
   status_state="error"
   stretch={null}
-  submitButton={null}
   submit_button_icon="search"
   submit_button_title={null}
   submit_button_variant="secondary"
+  submit_element={null}
   suffix={null}
   type="text"
   value="test"
@@ -539,10 +543,10 @@ exports[`Input scss have to match default theme snapshot 1`] = `
     box-shadow: 0 0 0 0.125rem var(--color-cherry-red);
     /* IE11 fix */
     border-color: transparent; }
-  .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']) ~ .dnb-input__submit-button .dnb-button__icon,
-  .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']) ~ .dnb-input__submit-button .dnb-button--secondary .dnb-button__icon {
+  .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']) ~ .dnb-input__submit-element .dnb-button__icon,
+  .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']) ~ .dnb-input__submit-element .dnb-button--secondary .dnb-button__icon {
     color: var(--color-cherry-red); }
-  .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']) ~ .dnb-input__submit-button .dnb-button {
+  .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']) ~ .dnb-input__submit-element .dnb-button {
     box-shadow: 0 0 0 0.125rem var(--color-cherry-red);
     /* IE11 fix */
     border-color: transparent; }
@@ -1062,7 +1066,6 @@ legend.dnb-form-label {
     position: relative;
     display: flex;
     align-items: center;
-    overflow: hidden;
     border: var(--input-border-width) solid var(--color-sea-green-alt);
     line-height: var(--input-height); }
   .dnb-input__input {
@@ -1105,8 +1108,8 @@ legend.dnb-form-label {
     transform: translateY(0.0625rem); }
   .dnb-core-style .dnb-input__input {
     line-height: 1em; }
-  .dnb-input--has-submit-button .dnb-input__placeholder,
-  .dnb-input--has-submit-button .dnb-input__input {
+  .dnb-input--has-submit-element .dnb-input__placeholder,
+  .dnb-input--has-submit-element .dnb-input__input {
     padding-right: calc(var(--input-padding) * 2.5); }
   .dnb-input__row {
     display: inline-flex;
@@ -1114,12 +1117,13 @@ legend.dnb-form-label {
   .dnb-input__description {
     color: inherit;
     padding-left: 0.5rem; }
+  .dnb-input__submit-element {
+    margin-left: calc(1px - 1px - var(--input-height)); }
   .dnb-input__submit-button {
     position: relative;
     z-index: 2;
     align-self: center;
-    /* IE needs this to stay centered */
-    margin-left: calc(1px - 1px - var(--input-height)); }
+    /* IE needs this to stay centered */ }
     .dnb-input__submit-button__button {
       border-radius: 50%; }
   .dnb-input--medium .dnb-input__shell {
@@ -1133,13 +1137,13 @@ legend.dnb-form-label {
     padding-left: var(--input-padding--medium);
     padding-right: var(--input-padding--medium);
     font-size: var(--input-font-size--medium); }
-  .dnb-input--medium .dnb-input__submit-button {
+  .dnb-input--medium .dnb-input__submit-element {
     margin-left: calc(1px - 1px - var(--input-height--medium)); }
-    .dnb-input--medium .dnb-input__submit-button__button {
+    .dnb-input--medium .dnb-input__submit-element .dnb-button {
       width: var(--input-height--medium);
       height: var(--input-height--medium); }
-  .dnb-input--medium.dnb-input--has-submit-button .dnb-input__placeholder,
-  .dnb-input--medium.dnb-input--has-submit-button .dnb-input__input {
+  .dnb-input--medium.dnb-input--has-submit-element .dnb-input__placeholder,
+  .dnb-input--medium.dnb-input--has-submit-element .dnb-input__input {
     padding-right: calc(var(--input-padding--medium) * 2.5); }
   .dnb-input--large .dnb-input__shell {
     line-height: var(--input-height--large); }
@@ -1152,15 +1156,15 @@ legend.dnb-form-label {
     padding-left: var(--input-padding--large);
     padding-right: var(--input-padding--large);
     font-size: var(--input-font-size--large); }
-  .dnb-input--large .dnb-input__submit-button {
+  .dnb-input--large .dnb-input__submit-element {
     margin-left: calc(1px - 1px - var(--input-height--large)); }
-    .dnb-input--large .dnb-input__submit-button__button {
+    .dnb-input--large .dnb-input__submit-element .dnb-button {
       width: var(--input-height--large);
       height: var(--input-height--large); }
-      .dnb-input--large .dnb-input__submit-button__button .dnb-button__icon {
+      .dnb-input--large .dnb-input__submit-element .dnb-button .dnb-button__icon {
         transform: scale(1.33333); }
-  .dnb-input--large.dnb-input--has-submit-button .dnb-input__placeholder,
-  .dnb-input--large.dnb-input--has-submit-button .dnb-input__input {
+  .dnb-input--large.dnb-input--has-submit-element .dnb-input__placeholder,
+  .dnb-input--large.dnb-input--has-submit-element .dnb-input__input {
     padding-right: calc(var(--input-padding--large) * 2.5); }
   .dnb-input__align--center .dnb-input__placeholder,
   .dnb-input__align--center .dnb-input__input {

@@ -1,8 +1,7 @@
 ---
 title: 'Living system'
-description: 'Eufemia, as a design system, includes a lot of different pieces. All of these pieces, or sub systems are not set in stone.'
+description: 'Eufemia is DNBs design system. It is constantly evolving and improving and is our single source of truth for UI design and front end code.'
 draft: false
-# status: 'wip'
 order: 2
 ---
 
@@ -10,24 +9,24 @@ order: 2
 
 ## What is a living design system
 
-Eufemia, as a design system, includes a lot of [different pieces](!/uilib/intro/02-common-patterns). All of these pieces, or sub systems are not set in stone. They will change over time. These changes will go into the production of the reusable pieces, like components, patterns and styles - both for designers and developers. And as all of these reusable pieces changes over time, Eufemia has to be conformable.
+Eufemia, DNB's design system, is a UI collection of components, rules, principles, constraints and best practices for UI design and front end code, and is subject for continuous improvement over time.
 
 ### In a practical manner
 
-Many developers think of a design system as a pattern library. During development, it may also look like such one-way consumption. But it is important to remember that Eufemia is about taking and giving. The giving part could be contribution or feedback about how to make integration better.
+Many developers think of a design system as a pattern library, however it is important to remember that Eufemia is a living design system. Suggestions, improvements, new integrations and new additions to the system will form Eufemia continuous.
 
 ## Consistency
 
 One of the main goals for Eufemia is to give the user consistency during the user journey.
-Consistency will be experienced in many ways, like spacing on receptive patterns, state interactions, color usage and accessibility.
+Consistency will be experienced in many ways, like receptive patterns, state interactions, navigation logics, color usage and accessibility.
 
 ## Single source of truth
 
-A design system like Eufemia has to act as the true source of resources, the original parts you as a developer will use and implement. And for the most often parts used - Eufemia will include them as the core foundation on future evolution. These are the components and patterns.
+A design system like Eufemia is the single source of truth for UI assets and components. This includes ready to use UI-elements in code for developers and graphic libraries for UX-designers.
 
 ## Knowledge pool
 
-One of our main goals at DNB is, _Do less, do better_ and _Increase user experience_. To meet these goals, Eufemia has at its core value to increase the knowledge on front end development, user experience design and accessibility. And along this path, new innovation will go into Eufemia as better guidelines, best practices and development of the system.
+We at DNB UX embraces the DNB core vision and main goals; _Do less, do better_ and _Increase user experience_. To meet these goals, Eufemia has at its core value to increase the knowledge on front end development, UX design and accessibility. This means that Eufemia will always be under continuous improvement and QA.
 
 ## Maintainability
 

@@ -56,7 +56,6 @@ export default class DatePickerFooter extends PureComponent {
         {(onSubmit && (
           <Button
             text={submit_button_text}
-            variant="secondary"
             onClick={this.onSubmitHandler}
           />
         )) || <span />}

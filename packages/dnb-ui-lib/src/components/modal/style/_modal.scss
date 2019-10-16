@@ -77,6 +77,7 @@
         padding: var(--modal-spacing) var(--modal-spacing)
           calc(var(--modal-spacing) / 2);
         @include defaultDropShadow();
+        border-radius: 0.5rem;
       }
 
       @include allBelow(medium) {

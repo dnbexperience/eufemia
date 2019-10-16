@@ -12,6 +12,9 @@
       -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 
       background: var(--color-white);
+      html:not([data-dnb-test]) & {
+        animation: showModal 300ms ease-out forwards;
+      }
     }
   }
 
@@ -31,5 +34,29 @@
   &__overlay {
     background: rgba(255, 255, 255, 0.85);
     box-shadow: 0 100vh 0 0 rgba(255, 255, 255, 0.85);
+    animation: showModalOverlay 400ms ease-out forwards;
+    html:not([data-dnb-test]) & {
+      animation-duration: 0;
+    }
+  }
+}
+
+@keyframes showModal {
+  from {
+    transform: translate3d(0, -1rem, 0);
+    opacity: 0.2;
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+
+@keyframes showModalOverlay {
+  from {
+    background: transparent;
+  }
+  to {
+    background: rgba(255, 255, 255, 0.85);
   }
 }

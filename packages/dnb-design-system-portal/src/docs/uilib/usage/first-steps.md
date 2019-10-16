@@ -9,6 +9,10 @@ import { Icon } from 'dnb-ui-lib/src'
 
 # First Steps
 
+## Good to know
+
+To give you an overall picture of the Design System, you may read [Getting Started](/uilib/getting-started) as a first introduction.
+
 ## Installation
 
 Check out the `dnb-ui-lib` **[Installation documentation](/uilib/usage/#installation)**.

@@ -1,6 +1,6 @@
 ---
 title: 'Story'
-icon: 'story'
+# icon: 'story'
 draft: false
 order: 4
 ---

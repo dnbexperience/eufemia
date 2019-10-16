@@ -90,7 +90,7 @@ export const propTypes = {
     PropTypes.node,
     PropTypes.func
   ]),
-  submitButton: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
+  submit_element: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
 
   // Web Component props
   custom_element: PropTypes.object,
@@ -138,7 +138,7 @@ export const defaultProps = {
   className: null,
   inputElement: null,
   children: null,
-  submitButton: null,
+  submit_element: null,
 
   // Web Component props
   custom_element: null,
@@ -214,9 +214,6 @@ export default class Input extends PureComponent {
 
     // make sure we dont trigger getDerivedStateFromProps on startup
     this.state._listenForPropChanges = true
-    if (props.input_state) {
-      this.state.inputState = props.input_state
-    }
     this.state._value = props.value
   }
   onFocusHandler = event => {
@@ -285,7 +282,7 @@ export default class Input extends PureComponent {
       submit_button_title,
       submit_button_variant,
       submit_button_icon,
-      submitButton,
+      submit_element,
       autocomplete,
       readOnly,
       stretch,
@@ -312,7 +309,7 @@ export default class Input extends PureComponent {
 
     const id = this._id
     const showStatus = status && status !== 'error'
-    const hasSubmitButton = submitButton || type === 'search'
+    const hasSubmitButton = submit_element || type === 'search'
     const hasValue = Input.hasValue(value)
 
     const mainParams = {
@@ -320,7 +317,7 @@ export default class Input extends PureComponent {
         'dnb-input',
         `dnb-input--${type}`, //type_modifier
         size && !sizeIsNumber && `dnb-input--${size}`,
-        hasSubmitButton && 'dnb-input--has-submit-button',
+        hasSubmitButton && 'dnb-input--has-submit-element',
         align && `dnb-input__align--${align}`,
         status && `dnb-input__status--${status_state}`,
         label_direction && `dnb-input--${label_direction}`,
@@ -440,22 +437,25 @@ export default class Input extends PureComponent {
               )}
             </span>
 
-            {hasSubmitButton &&
-              (submitButton ? (
-                submitButton
-              ) : (
-                <SubmitButton
-                  {...attributes}
-                  value={inputParams.value}
-                  icon={submit_button_icon}
-                  icon_size={size === 'large' ? 'medium' : size}
-                  title={submit_button_title}
-                  variant={submit_button_variant}
-                  disabled={disabled}
-                  size={size}
-                  on_submit={on_submit}
-                />
-              ))}
+            {hasSubmitButton && (
+              <span className="dnb-input__submit-element">
+                {submit_element ? (
+                  submit_element
+                ) : (
+                  <SubmitButton
+                    {...attributes}
+                    value={inputParams.value}
+                    icon={submit_button_icon}
+                    icon_size={size === 'large' ? 'medium' : size}
+                    title={submit_button_title}
+                    variant={submit_button_variant}
+                    disabled={disabled}
+                    size={size}
+                    on_submit={on_submit}
+                  />
+                )}
+              </span>
+            )}
             {(suffix || description) && (
               <span
                 className="dnb-input__description"

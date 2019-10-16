@@ -37,7 +37,6 @@
 
     display: flex;
     align-items: center;
-    overflow: hidden;
 
     border: var(--input-border-width) solid var(--color-sea-green-alt);
 
@@ -111,8 +110,8 @@
     line-height: 1em;
   }
 
-  &--has-submit-button &__placeholder,
-  &--has-submit-button &__input {
+  &--has-submit-element &__placeholder,
+  &--has-submit-element &__input {
     padding-right: calc(var(--input-padding) * 2.5);
   }
 
@@ -126,14 +125,16 @@
     padding-left: 0.5rem;
   }
 
+  &__submit-element {
+    margin-left: calc(1px - 1px - var(--input-height));
+  }
+
   &__submit-button {
     position: relative;
     z-index: 2; // over placeholder
 
     // place the button vertically
     align-self: center; /* IE needs this to stay centered */
-
-    margin-left: calc(1px - 1px - var(--input-height));
 
     &__button {
       border-radius: 50%;
@@ -155,16 +156,16 @@
       padding-right: var(--input-padding--medium);
       font-size: var(--input-font-size--medium);
     }
-    .dnb-input__submit-button {
+    .dnb-input__submit-element {
       margin-left: calc(1px - 1px - var(--input-height--medium));
-      &__button {
+      .dnb-button {
         width: var(--input-height--medium);
         height: var(--input-height--medium);
       }
     }
   }
-  &--medium#{&}--has-submit-button &__placeholder,
-  &--medium#{&}--has-submit-button &__input {
+  &--medium#{&}--has-submit-element &__placeholder,
+  &--medium#{&}--has-submit-element &__input {
     padding-right: calc(var(--input-padding--medium) * 2.5);
   }
 
@@ -183,9 +184,9 @@
       padding-right: var(--input-padding--large);
       font-size: var(--input-font-size--large);
     }
-    .dnb-input__submit-button {
+    .dnb-input__submit-element {
       margin-left: calc(1px - 1px - var(--input-height--large));
-      &__button {
+      .dnb-button {
         width: var(--input-height--large);
         height: var(--input-height--large);
         .dnb-button__icon {
@@ -194,8 +195,8 @@
       }
     }
   }
-  &--large#{&}--has-submit-button &__placeholder,
-  &--large#{&}--has-submit-button &__input {
+  &--large#{&}--has-submit-element &__placeholder,
+  &--large#{&}--has-submit-element &__input {
     padding-right: calc(var(--input-padding--large) * 2.5);
   }
 

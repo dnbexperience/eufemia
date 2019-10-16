@@ -18,7 +18,7 @@ There are several packages you can use and combine.
 
 ## Main Packages
 
-- **dnb-ui-core** - Includes the _DNB Main Styles_ like [helper classes](/uilib/helper-classes), font loader, colors and a over-all reset (normalize).
+- **dnb-ui-core** - Includes the _DNB Main Styles_ like [helper classes](/uilib/helpers), font loader, colors and a over-all reset (normalize).
 - **dnb-theme-ui** - Includes [optional class selectors for elements](/uilib/elements), [optional default spacing](#spacing), [default typography](/uilib/typography) as well as a theme for every [component](/uilib/components).
 - **dnb-ui-components** - Includes all the basic layout styles for the [components](/uilib/components).
 - **dnb-ui-patterns** - Includes all the styles (and themes) for [patterns](/uilib/patterns) (not shown in the [Diagram](#css-structure-diagram)).

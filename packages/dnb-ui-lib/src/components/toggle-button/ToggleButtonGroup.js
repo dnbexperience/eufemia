@@ -50,7 +50,12 @@ export const propTypes = {
   global_status_id: PropTypes.string,
   vertical: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   layout_direction: PropTypes.oneOf(['column', 'row']),
-  value: PropTypes.string,
+  value: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+    PropTypes.object,
+    PropTypes.array
+  ]),
   values: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   class: PropTypes.string,
@@ -86,8 +91,8 @@ export const defaultProps = {
   global_status_id: null,
   vertical: null,
   layout_direction: 'row',
-  value: null,
-  values: null,
+  value: undefined,
+  values: undefined,
   attributes: null,
   class: null,
 
@@ -120,10 +125,10 @@ export default class ToggleButtonGroup extends PureComponent {
 
   static getDerivedStateFromProps(props, state) {
     if (state._listenForPropChanges) {
-      if (props.value && typeof props.value !== 'undefined') {
+      if (typeof props.value !== 'undefined') {
         state.value = props.value
       }
-      if (props.values && typeof props.values !== 'undefined') {
+      if (typeof props.values !== 'undefined') {
         state.values = ToggleButtonGroup.getValues(props)
       }
     }

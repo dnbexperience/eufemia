@@ -56,10 +56,10 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
     status_animation={null}
     status_state="error"
     stretch={null}
-    submitButton={null}
     submit_button_icon="search"
     submit_button_title={null}
     submit_button_variant="secondary"
+    submit_element={null}
     suffix={null}
     type="text"
     value="test"
@@ -627,7 +627,6 @@ legend.dnb-form-label {
     position: relative;
     display: flex;
     align-items: center;
-    overflow: hidden;
     border: var(--input-border-width) solid var(--color-sea-green-alt);
     line-height: var(--input-height); }
   .dnb-input__input {
@@ -670,8 +669,8 @@ legend.dnb-form-label {
     transform: translateY(0.0625rem); }
   .dnb-core-style .dnb-input__input {
     line-height: 1em; }
-  .dnb-input--has-submit-button .dnb-input__placeholder,
-  .dnb-input--has-submit-button .dnb-input__input {
+  .dnb-input--has-submit-element .dnb-input__placeholder,
+  .dnb-input--has-submit-element .dnb-input__input {
     padding-right: calc(var(--input-padding) * 2.5); }
   .dnb-input__row {
     display: inline-flex;
@@ -679,12 +678,13 @@ legend.dnb-form-label {
   .dnb-input__description {
     color: inherit;
     padding-left: 0.5rem; }
+  .dnb-input__submit-element {
+    margin-left: calc(1px - 1px - var(--input-height)); }
   .dnb-input__submit-button {
     position: relative;
     z-index: 2;
     align-self: center;
-    /* IE needs this to stay centered */
-    margin-left: calc(1px - 1px - var(--input-height)); }
+    /* IE needs this to stay centered */ }
     .dnb-input__submit-button__button {
       border-radius: 50%; }
   .dnb-input--medium .dnb-input__shell {
@@ -698,13 +698,13 @@ legend.dnb-form-label {
     padding-left: var(--input-padding--medium);
     padding-right: var(--input-padding--medium);
     font-size: var(--input-font-size--medium); }
-  .dnb-input--medium .dnb-input__submit-button {
+  .dnb-input--medium .dnb-input__submit-element {
     margin-left: calc(1px - 1px - var(--input-height--medium)); }
-    .dnb-input--medium .dnb-input__submit-button__button {
+    .dnb-input--medium .dnb-input__submit-element .dnb-button {
       width: var(--input-height--medium);
       height: var(--input-height--medium); }
-  .dnb-input--medium.dnb-input--has-submit-button .dnb-input__placeholder,
-  .dnb-input--medium.dnb-input--has-submit-button .dnb-input__input {
+  .dnb-input--medium.dnb-input--has-submit-element .dnb-input__placeholder,
+  .dnb-input--medium.dnb-input--has-submit-element .dnb-input__input {
     padding-right: calc(var(--input-padding--medium) * 2.5); }
   .dnb-input--large .dnb-input__shell {
     line-height: var(--input-height--large); }
@@ -717,15 +717,15 @@ legend.dnb-form-label {
     padding-left: var(--input-padding--large);
     padding-right: var(--input-padding--large);
     font-size: var(--input-font-size--large); }
-  .dnb-input--large .dnb-input__submit-button {
+  .dnb-input--large .dnb-input__submit-element {
     margin-left: calc(1px - 1px - var(--input-height--large)); }
-    .dnb-input--large .dnb-input__submit-button__button {
+    .dnb-input--large .dnb-input__submit-element .dnb-button {
       width: var(--input-height--large);
       height: var(--input-height--large); }
-      .dnb-input--large .dnb-input__submit-button__button .dnb-button__icon {
+      .dnb-input--large .dnb-input__submit-element .dnb-button .dnb-button__icon {
         transform: scale(1.33333); }
-  .dnb-input--large.dnb-input--has-submit-button .dnb-input__placeholder,
-  .dnb-input--large.dnb-input--has-submit-button .dnb-input__input {
+  .dnb-input--large.dnb-input--has-submit-element .dnb-input__placeholder,
+  .dnb-input--large.dnb-input--has-submit-element .dnb-input__input {
     padding-right: calc(var(--input-padding--large) * 2.5); }
   .dnb-input__align--center .dnb-input__placeholder,
   .dnb-input__align--center .dnb-input__input {

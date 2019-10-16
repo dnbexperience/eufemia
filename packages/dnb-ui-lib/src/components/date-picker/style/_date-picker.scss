@@ -174,7 +174,8 @@
   .dnb-input__submit-button button:focus ~ &__input__wrapper {
     display: block;
   }
-  &:not(#{&}--show-input) .dnb-input__submit-button {
+  &:not(#{&}--show-input) .dnb-input__submit-element,
+  .dnb-input__submit-element > & .dnb-input__submit-element {
     margin-left: 0;
   }
 
@@ -206,6 +207,7 @@
     content: none;
   }
 
+  &__addon,
   &__header {
     position: relative;
 
@@ -221,6 +223,10 @@
       width: 100%;
       height: 1px;
     }
+  }
+
+  &__addon {
+    padding: 1rem;
   }
 
   &__footer {

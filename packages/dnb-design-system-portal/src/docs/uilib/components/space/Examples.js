@@ -28,12 +28,11 @@ class Example extends PureComponent {
     return (
       <TestStyles>
         <ComponentBox
-          caption="Spacing method #1 - `Space` component"
+          caption="Spacing method #1 - `Space` component. The RedBox is only to visualize the result."
           data-dnb-test="spacing-method-space"
-          scope={{ VisualSpace, RedBox }}
+          scope={{ RedBox }}
         >
           {/* @jsx */ `
-{/* The RedBox is only to visualize */}
 <RedBox>
   <Space top="large x-small">
     <Input label="Input:" />
@@ -66,16 +65,23 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox
-          caption="Spacing with `collapse` set to false"
+          caption="Spacing with no margin collapse, due to the flex usage"
           hideCode
+          scope={{ RedBox, Vertical }}
         >
           {/* @jsx */ `
-<Space bottom="small" collapse={false}>
-  <div>I have <code className="dnb-code">bottom="small"</code></div>
-</Space>
-<Space top="large">
-  <div>I have <code className="dnb-code">top="large"</code></div>
-</Space>
+<Vertical>
+  <RedBox>
+    <Space bottom="small">
+      <>I have <code className="dnb-code">bottom="small"</code></>
+    </Space>
+  </RedBox>
+  <RedBox>
+    <Space top="large">
+      <>I have <code className="dnb-code">top="large"</code></>
+    </Space>
+  </RedBox>
+</Vertical>
           `}
         </ComponentBox>
         <ComponentBox
@@ -183,6 +189,10 @@ const CustomStyle = styled.div`
     width: 10rem;
   }
 `
+const Vertical = styled.div`
+  display: inline-flex;
+  flex-direction: column;
+`
 
 const RedBox = ({ children }) => {
   return (
@@ -228,6 +238,11 @@ const MarginContainer = styled.div`
 const Margin = styled.div`
   position: absolute;
   bottom: 100%;
+
+  &.bottom {
+    top: 100%;
+    bottom: 0;
+  }
 
   display: flex;
   align-items: center;
@@ -288,19 +303,31 @@ MagicBox.defaultProps = {
 const VisualSpace = ({ label, children, ...rest }) => {
   const ref = React.createRef()
 
+  const [direction, setDirection] = useState('top')
   const [spaceInRem, setLabel] = useState(label)
   const [title, setTitle] = useState(null)
 
   if (!label) {
     useEffect(() => {
-      const spaceInPixels = window
-        .getComputedStyle(ref.current.children[0])
-        .getPropertyValue('margin-top')
-      const spaceInRem = `${parseFloat(spaceInPixels) / 16}`
-      setLabel(spaceInRem)
+      try {
+        const style = window.getComputedStyle(ref.current.children[0])
+        const top = parseFloat(style.getPropertyValue('margin-top'))
+        const bottom = parseFloat(style.getPropertyValue('margin-bottom'))
+        let spaceInPixels = top
 
-      const title = ref.current.parentElement.getAttribute('class')
-      setTitle(title)
+        if (bottom > 0) {
+          spaceInPixels = bottom
+          setDirection('bottom')
+        }
+
+        const spaceInRem = `${spaceInPixels / 16}`
+        setLabel(spaceInRem)
+
+        const title = ref.current.parentElement.getAttribute('class')
+        setTitle(title)
+      } catch (e) {
+        console.warn(e)
+      }
     })
   }
 
@@ -308,7 +335,10 @@ const VisualSpace = ({ label, children, ...rest }) => {
     <Space {...rest} title={title}>
       <MarginContainer ref={ref}>
         {children}
-        <Margin style={{ height: `${spaceInRem}rem` }}>
+        <Margin
+          style={{ height: `${spaceInRem}rem` }}
+          className={direction}
+        >
           <Label>{spaceInRem}</Label>
         </Margin>
       </MarginContainer>

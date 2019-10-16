@@ -18,6 +18,6 @@ Read [more about tests](!/uilib/usage/best-practices/for-testing).
 
 ---
 
-<IntroFooter href="/uilib/intro/14-helper-classes" text="Next - Helper Classes" />
+<IntroFooter href="/uilib/intro/14-helpers" text="Next - Helpers" />
 
 </Intro>

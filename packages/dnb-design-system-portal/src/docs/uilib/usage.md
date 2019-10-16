@@ -37,7 +37,7 @@ $ npm i dnb-ui-lib react react-dom
 
 Read more in the [First Steps](/uilib/usage/first-steps/) section.
 
-## Supported Platforms
+## Supported Browsers and Platforms
 
 | Inter Explorer       | Edge                 | Firefox              | Chrome               | Safari               | Node                 |
 | -------------------- | -------------------- | -------------------- | -------------------- | -------------------- | -------------------- |
