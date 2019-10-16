@@ -194,6 +194,10 @@ class LiveCode extends PureComponent {
     const IS_TEST = typeof window !== 'undefined' && window.IS_TEST
     const id = makeUniqueId()
 
+    if (IS_TEST && typeof document !== 'undefined') {
+      document.documentElement.setAttribute('data-dnb-test', true)
+    }
+
     return (
       <LiveCodeEditor>
         <LiveProvider

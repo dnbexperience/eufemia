@@ -43,11 +43,14 @@ ComponentBox.defaultProps = {
 
 export default ComponentBox
 
-export const TestWrapper = ({ children, ...props }) => (
-  <div data-dnb-test-wrapper {...props}>
-    {children}
-  </div>
-)
+export const TestWrapper = ({ children, ...props }) => {
+  document.documentElement.setAttribute('data-dnb-test', true)
+  return (
+    <div data-dnb-test-wrapper {...props}>
+      {children}
+    </div>
+  )
+}
 TestWrapper.propTypes = {
   children: PropTypes.node.isRequired
 }
