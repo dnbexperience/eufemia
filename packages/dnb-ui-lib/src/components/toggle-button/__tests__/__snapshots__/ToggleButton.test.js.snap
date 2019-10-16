@@ -300,8 +300,6 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
   status_animation={null}
   status_state="error"
   title={null}
-  value={null}
-  values={null}
   variant={null}
   vertical={null}
 >
