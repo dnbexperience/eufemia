@@ -123,6 +123,7 @@ export const propTypes = {
     PropTypes.node
   ]),
   addon_element: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+  shortcuts: PropTypes.oneOfType([PropTypes.array, PropTypes.func]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   status: PropTypes.oneOfType([
     PropTypes.string,
@@ -183,6 +184,7 @@ export const defaultProps = {
   label_direction: null,
   input_element: null,
   addon_element: null,
+  shortcuts: null,
   disabled: null,
   status: null,
   status_state: 'error',
@@ -275,6 +277,9 @@ export default class DatePicker extends PureComponent {
   }
 
   static convertStringToDate(date, { date_format = null } = {}) {
+    if (date === null) {
+      return null
+    }
     let dateObject
     dateObject = typeof date === 'string' ? parseISO(date) : toDate(date)
 
@@ -286,6 +291,10 @@ export default class DatePicker extends PureComponent {
 
     // rather return null than an invalid date
     if (!isValid(dateObject)) {
+      console.warn(
+        'DatePicker.convertStringToDate got invalid date:',
+        date
+      )
       return null
     }
 
@@ -463,6 +472,9 @@ export default class DatePicker extends PureComponent {
 
   onCancelHandler = args => {
     const { date_format } = this.props
+    if (args && args.event) {
+      args.event.persist()
+    }
     this.setState(
       {
         startDate: this.state._startDate
@@ -597,6 +609,7 @@ export default class DatePicker extends PureComponent {
       sync,
       input_element,
       addon_element,
+      shortcuts,
       disabled,
       status,
       status_state,
@@ -770,10 +783,16 @@ export default class DatePicker extends PureComponent {
                     startDate={startDate}
                     endDate={endDate}
                   />
-                  <DatePickerAddon
-                    {...props}
-                    renderElement={addon_element}
-                  />
+                  {(addon_element || shortcuts) && (
+                    <DatePickerAddon
+                      {...props}
+                      startDate={startDate}
+                      endDate={endDate}
+                      onChange={this.onPickerChange}
+                      renderElement={addon_element}
+                      shortcuts={shortcuts}
+                    />
+                  )}
                   <DatePickerFooter
                     {...props}
                     range={isTrue(range)}

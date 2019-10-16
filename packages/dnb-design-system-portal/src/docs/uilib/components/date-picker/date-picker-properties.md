@@ -34,6 +34,7 @@ draft: true
 | `hide_last_week`                                | _(optional)_ use `true` to only show the last week in the current month, if it needs to be shows. The result is that there will mainly be shows five (5) weeks (rows) instead of six (6). Defaults to `false`.                                                                                                                                                                       |
 | `label`                                         | _(optional)_ a prepending label in sync with the date input field.                                                                                                                                                                                                                                                                                                                   |
 | `label_direction`                               | _(optional)_ use `label_direction="vertical"` to change the label layout direction. Defaults to `horizontal`.                                                                                                                                                                                                                                                                        |
+| `shortcuts`                                     | _(optional)_ gives you the possibility to set predefined dates and date ranges so the user can select these by one click. Define either a JSON or an object with the defiend shortcuts. More info below.                                                                                                                                                                             |
 | `addon_element`                                 | _(optional)_ gives you the possibility to inject a React element showing up over the footer. Use it to customize `shortcuts`.                                                                                                                                                                                                                                                        |
 | `input_element`                                 | _(optional)_ gives you the possibility to use a plain/vanilla `<input />` HTML element by defining it as a string `input_element="input"`, a React element, or a render function `input_element={(internalProps) => (<Return />)}`. Can also be used in circumstances where the `react-text-mask` not should be used, e.g. in testing environments. Defaults to custom masked input. |
 | `status`                                        | _(optional)_ text with a status message. The style defaults to an error message.                                                                                                                                                                                                                                                                                                     |
@@ -41,3 +42,43 @@ draft: true
 | `disable_autofocus`                             | _(optional)_ once the date picker gets opened, there is a focus handling to ensure good accessibility. This can be disabled with this property. Defaults to `false`.                                                                                                                                                                                                                 |
 | `global_status_id`                              | _(optional)_ the `status_id` used for the target [GlobalStatus](/uilib/components/global-status).                                                                                                                                                                                                                                                                                    |
 | [Space](/uilib/components/space#tab-properties) | _(optional)_ spacing properties like `top` or `bottom` are supported.                                                                                                                                                                                                                                                                                                                |
+
+## Shortcuts
+
+You may use [date-fns](https://date-fns.org) to make date calculations.
+
+```jsx
+import addDays from 'date-fns/addDays'
+
+const shortcuts = [
+  { title: 'Set date', date: '1969-07-15' },
+  {
+    title: 'Relative +3 days',
+    date: ({ date }) => date && addDays(date, 3)
+  }
+]
+
+<DatePicker shortcuts={shortcuts} />
+```
+
+With range enabled.
+
+```jsx
+import startOfMonth from 'date-fns/startOfMonth'
+import lastDayOfMonth from 'date-fns/lastDayOfMonth'
+
+const shortcuts = [
+  {
+    title: 'Set date period',
+    start_date: '1969-07-15',
+    end_date: '1969-07-15'
+  },
+  {
+    title: 'This month',
+    start_date: startOfMonth(new Date()),
+    end_date: lastDayOfMonth(new Date())
+  }
+]
+
+<DatePicker shortcuts={shortcuts} />
+```

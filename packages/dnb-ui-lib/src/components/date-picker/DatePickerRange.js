@@ -74,17 +74,20 @@ export default class DatePickerRange extends PureComponent {
   static getDerivedStateFromProps(props, state) {
     if (state._listenForPropChanges) {
       if (
-        props.sync &&
-        ((props.startDate &&
-          state.startDate &&
-          (!isSameMonth(props.startDate, state.startDate) ||
-            !isSameYear(props.startDate, state.startDate))) ||
-          (props.endDate &&
-            state.endDate &&
-            (!isSameMonth(props.endDate, state.endDate) ||
-              !isSameYear(props.endDate, state.endDate))))
+        !state.views ||
+        (props.sync &&
+          // 1. check if current start state matches with the new start date
+          ((props.startDate &&
+            state.startDate &&
+            (!isSameMonth(props.startDate, state.startDate) ||
+              !isSameYear(props.startDate, state.startDate))) ||
+            // 2. check if current end state matches with the new end date
+            (props.endDate &&
+              state.endDate &&
+              (!isSameMonth(props.endDate, state.endDate) ||
+                !isSameYear(props.endDate, state.endDate)))))
       ) {
-        state.views = DatePickerRange.getViews(props)
+        state.views = DatePickerRange.getViews(props, props.range)
       }
       if (props.startDate) {
         state.startDate = props.startDate
@@ -117,7 +120,15 @@ export default class DatePickerRange extends PureComponent {
 
   constructor(props) {
     super(props)
-    this.state.views = DatePickerRange.getViews(props, props.range)
+
+    // we need startMonth/endMonth to compare in getDerivedStateFromProps
+    if (!props.startMonth) {
+      this.state.startMonth = DatePickerRange.getFallbackMonth(props)
+    }
+    if (!props.endMonth) {
+      this.state.endDate =
+        this.state.startMonth || DatePickerRange.getFallbackMonth(props)
+    }
   }
 
   static getViews(state, isRange) {

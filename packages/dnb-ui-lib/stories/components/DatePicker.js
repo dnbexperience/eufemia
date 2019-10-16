@@ -8,6 +8,9 @@ import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
 
 import enLocale from 'date-fns/locale/en-US'
+import startOfMonth from 'date-fns/startOfMonth'
+import lastDayOfMonth from 'date-fns/lastDayOfMonth'
+import addDays from 'date-fns/addDays'
 
 import {
   DatePicker,
@@ -35,7 +38,55 @@ export default [
   () => (
     <Wrapper>
       <Box>
-        <Input value="custom value" submit_element={<DatePicker />} />
+        {/* <Input
+          value="custom value"
+          submit_element={
+            <DatePicker
+              opened
+              range
+              shortcuts={[
+                { title: 'Set this date', date: '1981-01-15' },
+                { title: 'Relative', date: '+3 days' }
+              ]}
+              addon_element={<>Bla</>}
+            />
+          }
+          right
+        /> */}
+        <DatePicker
+          opened
+          show_input
+          show_submit_button
+          show_cancel_button
+          input_element={<Input value="custom value" />}
+          shortcuts={[
+            { title: 'Set date', date: '2019-11-15' },
+            {
+              title: 'Relative +3 days',
+              date: ({ date }) => date && addDays(date, 3)
+            }
+          ]}
+          right
+        />
+        <DatePicker
+          show_input
+          input_element={() => <Input value="custom value" />}
+          range
+          shortcuts={[
+            {
+              title: 'Set date period',
+              start_date: '1981-01-15',
+              end_date: '1981-02-15'
+            },
+            {
+              title: 'This month',
+              start_date: startOfMonth(new Date()),
+              end_date: lastDayOfMonth(new Date())
+            }
+          ]}
+          // addon_element={ToggleButtons}
+          // addon_element={<>Bla</>}
+        />
       </Box>
       <Box>
         <CustomDate />
@@ -98,8 +149,8 @@ export default [
             show_input
             // date="2019/05/05"
             // start_date="05/05/2019"
-            // hide_navigation={true}
-            // hide_days={true}
+            hide_navigation={true}
+            hide_days={true}
             submit_button_text="OK"
             cancel_button_text="Cancel"
             date_format="dd/MM/yyyy"
@@ -112,6 +163,18 @@ export default [
             // on_hide={({ date }) => {
             //   console.log('on_hide', date)
             // }}
+            shortcuts={[
+              {
+                title: 'Set date period',
+                start_date: '1981-01-15',
+                end_date: '1981-02-15'
+              },
+              {
+                title: 'This month',
+                start_date: startOfMonth(new Date()),
+                end_date: lastDayOfMonth(new Date())
+              }
+            ]}
           />
         </FormRow>
       </Box>

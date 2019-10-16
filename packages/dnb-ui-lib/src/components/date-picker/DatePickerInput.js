@@ -167,7 +167,7 @@ export default class DatePickerInput extends PureComponent {
           elem.focus()
           elem.select()
         } catch (e) {
-          console.log(e)
+          console.warn(e)
         }
       }, 100)
     }
@@ -307,7 +307,7 @@ export default class DatePickerInput extends PureComponent {
           nextSibling.setSelectionRange(0, 0)
         }
       } catch (e) {
-        console.log(e)
+        console.warn(e)
       }
     } else if (firstSelectionStart === 0 && index > 0) {
       switch (keyCode) {
@@ -322,7 +322,7 @@ export default class DatePickerInput extends PureComponent {
               prevSibling.setSelectionRange(endPos, endPos)
             }
           } catch (e) {
-            console.log(e)
+            console.warn(e)
           }
           break
       }
@@ -386,7 +386,7 @@ export default class DatePickerInput extends PureComponent {
         })
       }
     } catch (e) {
-      console.log(e)
+      console.warn(e)
     }
   }
 

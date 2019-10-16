@@ -68,6 +68,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
   range={true}
   reset_date={true}
   return_format="yyyy-MM-dd"
+  shortcuts={null}
   show_cancel_button={null}
   show_input={true}
   show_submit_button={null}
@@ -1617,6 +1618,480 @@ legend.dnb-form-label {
         width: 100%; }
       .dnb-input__input, .dnb-input__placeholder {
         transform: translateY(-0.0625rem); } }
+
+/*
+* DNB ToggleButton
+*
+*/
+/*
+* DNB Checkbox
+*
+*/
+.dnb-checkbox {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-default);
+  font-size: 1rem;
+  font-style: normal;
+  line-height: 1.5rem;
+  color: var(--color-black-80, #333);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  font-variant-numeric: lining-nums;
+  font-feature-settings: \\"lnum\\";
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-checkbox *,
+  .dnb-checkbox ::before,
+  .dnb-checkbox ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-checkbox ::before,
+  .dnb-checkbox ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+* Checkbox component
+*
+*/
+:root {
+  --checkbox-height: 1.5rem;
+  --checkbox-width: 1.5rem;
+  --checkbox-border-width: 0.125rem; }
+
+.dnb-checkbox {
+  display: inline-flex;
+  flex-direction: column; }
+  .dnb-checkbox__inner {
+    display: inline-flex;
+    flex-direction: column; }
+  .dnb-checkbox__helper {
+    clip: rect(0, 0, 0, 0);
+    width: 0;
+    overflow: hidden;
+    opacity: 0; }
+  .dnb-checkbox__shell {
+    user-select: none;
+    -webkit-user-select: none;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--checkbox-height);
+    height: var(--checkbox-height); }
+    [data-os='mac'] .dnb-checkbox__shell {
+      transform: translateY(-0.0625rem); }
+  .dnb-checkbox__focus, .dnb-checkbox__button {
+    position: relative;
+    z-index: 4;
+    width: calc(var(--checkbox-width) - 0.25rem);
+    height: calc(var(--checkbox-height) - 0.25rem);
+    border-radius: 0.25rem; }
+  .dnb-checkbox__button {
+    border: var(--checkbox-border-width) solid transparent; }
+  .dnb-checkbox__focus {
+    display: none;
+    outline: none; }
+    html[data-whatinput='keyboard'] .dnb-checkbox__focus {
+      box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
+      /* IE11 fix */
+      border-color: transparent; }
+  .dnb-checkbox__gfx {
+    position: absolute;
+    z-index: 5;
+    top: auto;
+    left: auto;
+    width: var(--checkbox-height);
+    height: var(--checkbox-height);
+    fill: currentColor;
+    shape-rendering: geometricPrecision; }
+  .dnb-checkbox__input {
+    opacity: 0;
+    position: absolute;
+    top: auto;
+    left: auto;
+    z-index: 6;
+    width: var(--checkbox-width);
+    height: var(--checkbox-height);
+    margin: 0;
+    padding: 0;
+    border: 0; }
+  .dnb-checkbox__input:not([disabled]) {
+    cursor: pointer; }
+  .dnb-checkbox .dnb-form-label {
+    margin-bottom: 0; }
+  .dnb-checkbox__order {
+    display: inline-flex;
+    align-items: baseline; }
+  .dnb-checkbox--label-position-left .dnb-checkbox__order .dnb-checkbox__inner {
+    order: 2; }
+  .dnb-checkbox--label-position-left .dnb-checkbox__order .dnb-form-label {
+    order: 1;
+    margin-right: 0.5rem;
+    margin-left: 0; }
+  .dnb-checkbox--label-position-left .dnb-checkbox__order .dnb-form-status {
+    order: 3;
+    margin-top: 0.5rem; }
+  .dnb-checkbox--label-position-right .dnb-checkbox__order .dnb-checkbox__inner {
+    order: 1; }
+  .dnb-checkbox--label-position-right .dnb-checkbox__order .dnb-form-label {
+    order: 2;
+    margin-right: 0;
+    margin-left: 0.5rem; }
+  .dnb-checkbox--label-position-right .dnb-checkbox__order + .dnb-form-status {
+    order: 3;
+    vertical-align: top;
+    margin-top: 0.5rem; }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-checkbox {
+      vertical-align: text-bottom; }
+      .dnb-checkbox__order {
+        align-items: flex-start; }
+      .dnb-checkbox__gfx, .dnb-checkbox__input {
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        margin: auto; }
+      .dnb-checkbox__shell {
+        transform: translateY(0); } }
+
+/*
+* DNB Radio
+*
+*/
+.dnb-radio {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-default);
+  font-size: 1rem;
+  font-style: normal;
+  line-height: 1.5rem;
+  color: var(--color-black-80, #333);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  font-variant-numeric: lining-nums;
+  font-feature-settings: \\"lnum\\";
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-radio *,
+  .dnb-radio ::before,
+  .dnb-radio ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-radio ::before,
+  .dnb-radio ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+* Radio component
+*
+*/
+:root {
+  --radio-height: 1.5rem;
+  --radio-width: 1.5rem;
+  --radio-border-width: 0.125rem;
+  --radio-margin-right: 1rem;
+  --radio-margin-bottom: 0.5rem; }
+
+.dnb-radio {
+  display: inline-flex;
+  flex-direction: column; }
+  .dnb-radio__inner {
+    display: inline-flex;
+    flex-direction: column; }
+  .dnb-radio__helper {
+    clip: rect(0, 0, 0, 0);
+    width: 0;
+    overflow: hidden;
+    opacity: 0; }
+  .dnb-radio__shell {
+    position: relative;
+    user-select: none;
+    -webkit-user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--radio-height);
+    height: var(--radio-height); }
+    [data-os='mac'] .dnb-radio__shell {
+      transform: translateY(-0.0625rem); }
+  .dnb-radio__focus, .dnb-radio__button, .dnb-radio__dot {
+    position: absolute;
+    z-index: 4; }
+  .dnb-radio__button {
+    border: var(--radio-border-width) solid transparent; }
+  .dnb-radio__focus {
+    display: none;
+    outline: none; }
+    html[data-whatinput='keyboard'] .dnb-radio__focus {
+      box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
+      /* IE11 fix */
+      border-color: transparent; }
+  .dnb-radio__focus, .dnb-radio__button {
+    width: calc(var(--radio-width) - 0.25rem);
+    height: calc(var(--radio-height) - 0.25rem);
+    border-radius: 50%; }
+  .dnb-radio__dot {
+    width: calc(var(--radio-width) - 0.75rem);
+    height: calc(var(--radio-height) - 0.75rem);
+    border-radius: 50%; }
+  .dnb-radio__input {
+    opacity: 0;
+    position: absolute;
+    top: auto;
+    left: auto;
+    z-index: 5;
+    width: var(--radio-width);
+    height: var(--radio-height);
+    margin: 0;
+    padding: 0;
+    border: 0; }
+  .dnb-radio__input:not([disabled]) {
+    cursor: pointer; }
+  .dnb-radio .dnb-form-label {
+    margin-bottom: 0; }
+  .dnb-radio__order {
+    display: inline-flex;
+    align-items: baseline; }
+    .dnb-radio-group--column .dnb-radio__order {
+      display: flex; }
+  .dnb-radio--label-position-left .dnb-radio__order .dnb-radio__inner {
+    order: 2; }
+  .dnb-radio--label-position-left .dnb-radio__order .dnb-form-label {
+    order: 1;
+    margin-right: 0.5rem;
+    margin-left: 0; }
+  .dnb-radio--label-position-right .dnb-radio__order .dnb-radio__inner {
+    order: 1; }
+  .dnb-radio--label-position-right .dnb-radio__order .dnb-form-label {
+    order: 2;
+    margin-right: 0;
+    margin-left: 0.5rem; }
+  :not(.dnb-radio-group) > .dnb-form-label + .dnb-radio {
+    vertical-align: top; }
+  .dnb-radio .dnb-form-status {
+    order: 2;
+    margin-top: 0;
+    margin-bottom: 0.5rem; }
+  .dnb-radio + .dnb-form-status {
+    margin-top: 0.5rem;
+    margin-bottom: 1rem; }
+  .dnb-radio-group {
+    display: inline-flex;
+    flex-direction: row; }
+    .dnb-radio-group .dnb-radio {
+      margin-right: var(--radio-margin-right);
+      margin-bottom: var(--radio-margin-bottom); }
+    .dnb-radio-group--column .dnb-radio {
+      display: flex;
+      margin-right: 0; }
+    .dnb-radio-group .dnb-radio:last-of-type {
+      margin-right: 0; }
+    .dnb-radio-group [role='radiogroup'], .dnb-radio-group__shell {
+      display: block; }
+    .dnb-radio-group__shell > .dnb-form-status {
+      margin-top: 0;
+      margin-bottom: 0; }
+    .dnb-radio-group--column .dnb-radio-group__shell {
+      flex-direction: column; }
+    .dnb-radio-group .dnb-form-row {
+      margin-bottom: calc(1px - 1px - var(--radio-margin-bottom)); }
+    .dnb-form-row--vertical .dnb-radio-group {
+      display: flex; }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-radio {
+      vertical-align: text-bottom; }
+      .dnb-radio__input, .dnb-radio__focus, .dnb-radio__button, .dnb-radio__dot {
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        margin: auto; }
+      .dnb-radio__order {
+        align-items: center; }
+      .dnb-radio__shell {
+        transform: translateY(0); }
+      .dnb-radio, .dnb-radio-group {
+        flex: none; }
+      .dnb-radio-group {
+        vertical-align: middle; } }
+
+.dnb-toggle-button {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-default);
+  font-size: 1rem;
+  font-style: normal;
+  line-height: 1.5rem;
+  color: var(--color-black-80, #333);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  font-variant-numeric: lining-nums;
+  font-feature-settings: \\"lnum\\";
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-toggle-button *,
+  .dnb-toggle-button ::before,
+  .dnb-toggle-button ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-toggle-button ::before,
+  .dnb-toggle-button ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+* ToggleButton component
+*
+*/
+:root {
+  --toggle-button-margin-right: 1rem;
+  --toggle-button-margin-bottom: 1rem; }
+
+.dnb-toggle-button {
+  display: inline-flex;
+  align-items: baseline; }
+  .dnb-toggle-button__inner {
+    display: inline-flex;
+    flex-direction: column; }
+  .dnb-toggle-button__shell {
+    position: relative;
+    left: 0;
+    user-select: none;
+    -webkit-user-select: none; }
+  .dnb-toggle-button--vertical {
+    flex-direction: column;
+    align-items: flex-start; }
+  .dnb-toggle-button__component {
+    padding-right: 0.25rem;
+    display: inline-flex;
+    align-items: center; }
+  .dnb-toggle-button__button {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem; }
+    .dnb-toggle-button__button .dnb-checkbox__shell,
+    .dnb-toggle-button__button .dnb-radio__shell {
+      transform: translateY(0); }
+    .dnb-toggle-button__button .dnb-checkbox {
+      margin-left: -0.75rem; }
+      .dnb-toggle-button__button .dnb-checkbox__input {
+        pointer-events: none; }
+      .dnb-toggle-button__button .dnb-checkbox__focus, .dnb-toggle-button__button .dnb-checkbox__button {
+        width: calc(var(--checkbox-width) - 0.5rem);
+        height: calc(var(--checkbox-width) - 0.5rem);
+        border-width: 0.0625rem;
+        box-shadow: 0 0 0 0.0318rem var(--color-sea-green-alt); }
+      .dnb-toggle-button__button .dnb-checkbox__dot {
+        width: calc(var(--checkbox-width) - 1rem);
+        height: calc(var(--checkbox-width) - 1rem); }
+      .dnb-toggle-button__button .dnb-checkbox__gfx {
+        width: calc(var(--checkbox-width) - 0.25rem);
+        height: calc(var(--checkbox-width) - 0.25rem); }
+    .dnb-toggle-button__button .dnb-radio {
+      margin-left: -0.75rem; }
+      .dnb-toggle-button__button .dnb-radio__input {
+        pointer-events: none; }
+      .dnb-toggle-button__button .dnb-radio__focus, .dnb-toggle-button__button .dnb-radio__button {
+        width: calc(var(--radio-width) - 0.5rem);
+        height: calc(var(--radio-width) - 0.5rem);
+        border-width: 0.0625rem;
+        box-shadow: 0 0 0 0.0318rem var(--color-sea-green-alt); }
+      .dnb-toggle-button__button .dnb-radio__dot {
+        width: calc(var(--radio-width) - 1rem);
+        height: calc(var(--radio-width) - 1rem); }
+  .dnb-toggle-button__button.dnb-button--has-icon.dnb-button--icon-position-right {
+    padding-right: 0.5rem; }
+  .dnb-toggle-button__button.dnb-button--has-icon.dnb-button--icon-position-left {
+    padding-left: 0.5rem; }
+    .dnb-toggle-button__button.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__icon {
+      margin-left: 0.25rem;
+      margin-right: 0.25rem; }
+  .dnb-toggle-button__button.dnb-button--has-icon.dnb-button--icon-position-left > .dnb-toggle-button__component {
+    padding-left: 0.5rem;
+    padding-right: 0; }
+  .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active) {
+    background-color: var(--color-emerald-green);
+    color: var(--color-mint-green); }
+  :not(.dnb-toggle-button-group) > .dnb-form-label + .dnb-toggle-button {
+    vertical-align: top; }
+  .dnb-toggle-button .dnb-form-status {
+    order: 2;
+    margin-top: 0.5rem; }
+  .dnb-toggle-button .dnb-form-label {
+    margin-right: 1rem; }
+  .dnb-toggle-button-group {
+    display: inline-flex; }
+    .dnb-toggle-button-group .dnb-toggle-button {
+      margin-right: var(--toggle-button-margin-right);
+      margin-bottom: var(--toggle-button-margin-bottom); }
+    .dnb-toggle-button-group--column .dnb-toggle-button {
+      display: flex;
+      margin-right: 0; }
+    .dnb-toggle-button-group .dnb-toggle-button:last-of-type {
+      margin-right: 0; }
+    .dnb-toggle-button-group__shell {
+      display: block; }
+      .dnb-toggle-button-group__shell > .dnb-form-status {
+        transform: translateY(-0.5rem);
+        margin-top: 0;
+        margin-bottom: 0; }
+    .dnb-toggle-button-group .dnb-form-row {
+      margin-bottom: calc(1px - 1px - var(--toggle-button-margin-bottom)); }
+    .dnb-form-row--vertical .dnb-toggle-button-group {
+      display: flex; }
+  @media (min-width: 40em) {
+    .dnb-form-label + .dnb-toggle-button {
+      transform: translateY(-0.5rem); } }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-toggle-button {
+      flex: none; }
+      .dnb-toggle-button:not(.dnb-toggle-button--vertical) {
+        align-items: center; }
+      .dnb-toggle-button__shell {
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        margin: auto; }
+      .dnb-toggle-button-group {
+        flex: none; }
+        .dnb-toggle-button-group, .dnb-toggle-button-group__shell {
+          width: 100%; }
+        .dnb-form-row__indent--default .dnb-toggle-button-group {
+          flex: 1; } }
 
 .dnb-dropdown {
   font-family: var(--font-family-default);
