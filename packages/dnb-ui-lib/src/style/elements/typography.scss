@@ -46,14 +46,14 @@
 
   &--small,
   & > small {
-    font-size: var(--font-size-default); // 16px
+    font-size: var(--font-size-basis); // 16px
   }
   & > small {
     line-height: var(--line-height-large); // 28px
   }
 }
 @mixin h4Style() {
-  font-size: var(--font-size-default); // 16px
+  font-size: var(--font-size-basis); // 16px
   & > small {
     line-height: var(--line-height-medium); // 22px
   }
@@ -81,8 +81,8 @@
   }
   padding: 0;
 
-  font-size: var(--font-size-default--em); // 16px
-  line-height: var(--line-height-default--em); // 24px
+  font-size: var(--font-size-basis--em); // 16px
+  line-height: var(--line-height-basis--em); // 24px
 
   @include numberFeature(lining-nums, lnum);
 
@@ -104,7 +104,7 @@
 
     // shold be 22px - but we force it to the pixel grid!
     // - sorry Sindre
-    line-height: var(--line-height-default);
+    line-height: var(--line-height-basis);
   }
 
   & > cite {

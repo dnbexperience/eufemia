@@ -19,7 +19,7 @@
 
     cursor: text;
     color: inherit;
-    line-height: var(--line-height-default);
+    line-height: var(--line-height-basis);
 
     // vertical alignment
     [data-os='mac'] & {
@@ -44,7 +44,7 @@
 
     color: inherit;
 
-    font-size: var(--font-size-default);
+    font-size: var(--font-size-basis);
     border-radius: 50%;
     border: 0.0625rem solid;
     border-color: currentColor;

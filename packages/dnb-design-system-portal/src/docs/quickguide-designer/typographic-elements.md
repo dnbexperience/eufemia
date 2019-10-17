@@ -127,7 +127,7 @@ You wish to.....
 
 <ul>
   <li>font-size: 1em (16px)</li>
-  <li>line-height: var(--line-height-default) (24px)</li>
+  <li>line-height: var(--line-height-basis) (24px)</li>
   <li>margin-bottom: 1rem (16px)</li>
 </ul>
 

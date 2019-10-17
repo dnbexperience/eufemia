@@ -4,8 +4,8 @@
  */
 
 @mixin formStyle() {
-  font-size: var(--font-size-default); // 16px
-  line-height: var(--line-height-default);
+  font-size: var(--font-size-basis); // 16px
+  line-height: var(--line-height-basis);
 }
 @mixin formTag() {
   // label,

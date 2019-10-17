@@ -744,9 +744,9 @@ exports[`ToggleButton scss have to match snapshot 1`] = `
 .dnb-form-label {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
-  font-size: var(--font-size-default);
+  font-size: var(--font-size-basis);
   font-style: normal;
-  line-height: var(--line-height-default);
+  line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   font-variant-numeric: lining-nums;
@@ -866,9 +866,9 @@ legend.dnb-form-label {
 .dnb-button {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
-  font-size: var(--font-size-default);
+  font-size: var(--font-size-basis);
   font-style: normal;
-  line-height: var(--line-height-default);
+  line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   font-variant-numeric: lining-nums;
@@ -902,7 +902,7 @@ legend.dnb-form-label {
 *
 */
 :root {
-  --button-font-size: var(--font-size-default);
+  --button-font-size: var(--font-size-basis);
   --button-font-size-small: var(--font-size-small);
   --button-width: 2.5rem;
   --button-height: 2.5rem;
@@ -1080,9 +1080,9 @@ a.dnb-button .dnb-button__text {
 .dnb-form-status {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
-  font-size: var(--font-size-default);
+  font-size: var(--font-size-basis);
   font-style: normal;
-  line-height: var(--line-height-default);
+  line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   font-variant-numeric: lining-nums;
@@ -1126,7 +1126,7 @@ a.dnb-button .dnb-button__text {
     padding: calc(0.5rem / 2) 1rem;
     cursor: text;
     color: inherit;
-    line-height: var(--line-height-default); }
+    line-height: var(--line-height-basis); }
     [data-os='mac'] .dnb-form-status--text {
       transform: translateY(0.0625rem); }
   .dnb-icon + .dnb-form-status--text {
@@ -1140,7 +1140,7 @@ a.dnb-button .dnb-button__text {
     margin-top: 0.25em;
     margin-left: 0.5em;
     color: inherit;
-    font-size: var(--font-size-default);
+    font-size: var(--font-size-basis);
     border-radius: 50%;
     border: 0.0625rem solid;
     border-color: currentColor; }
@@ -1163,9 +1163,9 @@ a.dnb-button .dnb-button__text {
 .dnb-checkbox {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
-  font-size: var(--font-size-default);
+  font-size: var(--font-size-basis);
   font-style: normal;
-  line-height: var(--line-height-default);
+  line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   font-variant-numeric: lining-nums;
@@ -1307,9 +1307,9 @@ a.dnb-button .dnb-button__text {
 .dnb-radio {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
-  font-size: var(--font-size-default);
+  font-size: var(--font-size-basis);
   font-style: normal;
-  line-height: var(--line-height-default);
+  line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   font-variant-numeric: lining-nums;
@@ -1475,9 +1475,9 @@ a.dnb-button .dnb-button__text {
 .dnb-toggle-button {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
-  font-size: var(--font-size-default);
+  font-size: var(--font-size-basis);
   font-style: normal;
-  line-height: var(--line-height-default);
+  line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   font-variant-numeric: lining-nums;

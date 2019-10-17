@@ -211,7 +211,7 @@ export default css`
       margin: 0;
       padding: 0;
 
-      line-height: var(--line-height-default);
+      line-height: var(--line-height-basis);
       list-style: none;
       /*
       border-top: 1px solid rgba(219, 0, 255, 0.25);
@@ -223,9 +223,9 @@ export default css`
       margin: 0;
       padding: 0;
 
-      font-size: var(--font-size-default);
+      font-size: var(--font-size-basis);
       font-family: monospace;
-      line-height: var(--line-height-default);
+      line-height: var(--line-height-basis);
     }
   }
 
@@ -266,22 +266,22 @@ export default css`
 
   /* used in the designers guide */
   .lh-12 {
-    line-height: calc(var(--line-height-default) - 0.25rem); /* 0.75rem */
+    line-height: calc(var(--line-height-basis) - 0.25rem); /* 0.75rem */
   }
   .lh-16 {
-    line-height: var(--line-height-default); /* 1rem */
+    line-height: var(--line-height-basis); /* 1rem */
   }
   .lh-20 {
-    line-height: calc(var(--line-height-default) + 0.25rem); /* 1.25rem */
+    line-height: calc(var(--line-height-basis) + 0.25rem); /* 1.25rem */
   }
   .lh-24 {
-    line-height: var(--line-height-default); /* 1rem */
+    line-height: var(--line-height-basis); /* 1rem */
   }
   .lh-28 {
-    line-height: calc(var(--line-height-default) + 0.75rem); /* 1.75rem */
+    line-height: calc(var(--line-height-basis) + 0.75rem); /* 1.75rem */
   }
   .lh-32 {
-    line-height: calc(var(--line-height-default) + 1rem); /* 2rem */
+    line-height: calc(var(--line-height-basis) + 1rem); /* 2rem */
   }
 
   .gatsby-resp-image-background-image {
