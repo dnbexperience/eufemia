@@ -6,7 +6,7 @@ order: 1
 
 # Font Size
 
-Default `font-size` **rem** table
+## Default `font-size` **rem** table
 
 | Pixel | Type       | Rem          | Custom Property        | Info   |
 | ----- | ---------- | ------------ | ---------------------- | ------ |

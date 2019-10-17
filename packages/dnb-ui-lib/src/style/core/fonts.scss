@@ -8,7 +8,8 @@
 
 // Font usage
 .dnb-typo-std,
-.dnb-typo-book {
+.dnb-typo-regular,
+.dnb-typo-book /* deprecated */ {
   font-family: var(--font-family-default);
   font-weight: normal;
   font-style: normal;
@@ -18,7 +19,8 @@
   font-weight: var(--font-weight-medium);
   font-style: normal;
 }
-.dnb-typo-demi {
+.dnb-typo-bold,
+.dnb-typo-demi /* deprecated */ {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-demi);
   font-style: normal;
@@ -47,24 +49,13 @@
 
 $fonts-path: '../../assets/fonts/' !default;
 
-// Std and Book
+// Std and Regular
 @font-face {
   font-family: 'Fedra Sans Std';
   src: url('#{$fonts-path}/FedraSansStd-Book.woff2') format('woff2'),
     url('#{$fonts-path}/FedraSansStd-Book.woff') format('woff'),
     url('#{$fonts-path}/FedraSansStd-Book.ttf') format('truetype');
-  font-weight: normal; // have to be the same as: --font-weight-book
-  font-style: normal;
-  font-display: fallback;
-}
-
-// Demi
-@font-face {
-  font-family: 'Fedra Sans Std';
-  src: url('#{$fonts-path}/FedraSansStd-Demi.woff2') format('woff2'),
-    url('#{$fonts-path}/FedraSansStd-Demi.woff') format('woff'),
-    url('#{$fonts-path}/FedraSansStd-Demi.ttf') format('truetype');
-  font-weight: 500; // have to be the same as: --font-weight-demi
+  font-weight: normal; // have to be the same as: --font-weight-regular
   font-style: normal;
   font-display: fallback;
 }
@@ -72,10 +63,21 @@ $fonts-path: '../../assets/fonts/' !default;
 // Medium
 @font-face {
   font-family: 'Fedra Sans Std';
+  src: url('#{$fonts-path}/FedraSansStd-Demi.woff2') format('woff2'),
+    url('#{$fonts-path}/FedraSansStd-Demi.woff') format('woff'),
+    url('#{$fonts-path}/FedraSansStd-Demi.ttf') format('truetype');
+  font-weight: 500; // have to be the same as: --font-weight-medium
+  font-style: normal;
+  font-display: fallback;
+}
+
+// Bold
+@font-face {
+  font-family: 'Fedra Sans Std';
   src: url('#{$fonts-path}/FedraSansStd-Medium.woff2') format('woff2'),
     url('#{$fonts-path}/FedraSansStd-Medium.woff') format('woff'),
     url('#{$fonts-path}/FedraSansStd-Medium.ttf') format('truetype');
-  font-weight: 600; // have to be the same as: --font-weight-medium
+  font-weight: 600; // have to be the same as: --font-weight-bold
   font-style: normal;
   font-display: fallback;
 }
