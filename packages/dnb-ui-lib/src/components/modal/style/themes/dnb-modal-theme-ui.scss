@@ -34,9 +34,8 @@
   &__overlay {
     background: rgba(255, 255, 255, 0.85);
     box-shadow: 0 100vh 0 0 rgba(255, 255, 255, 0.85);
-    animation: showModalOverlay 400ms ease-out forwards;
     html:not([data-dnb-test]) & {
-      animation-duration: 0;
+      animation: showModalOverlay 300ms ease-out forwards;
     }
   }
 }
@@ -44,7 +43,7 @@
 @keyframes showModal {
   from {
     transform: translate3d(0, -1rem, 0);
-    opacity: 0.2;
+    opacity: 0.1;
   }
   to {
     transform: translate3d(0, 0, 0);
