@@ -388,7 +388,7 @@ a.dnb-button .dnb-button__text {
   @media (max-width: 40em) {
     .dnb-global-error .dnb-h1.dnb-space__top--xx-large.dnb-space__top--x-small {
       margin-top: 0;
-      font-size: var(--font-size-large); } }
+      font-size: var(--font-size-x-large); } }
 "
 `;
 

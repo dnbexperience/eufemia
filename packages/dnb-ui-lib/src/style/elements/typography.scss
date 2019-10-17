@@ -16,18 +16,18 @@
 }
 @mixin h1Style() {
   font-size: var(--font-size-xx-large); // 48px
-  line-height: var(--line-height-xx-large); // 56px
+  line-height: var(--line-height-xxx-large); // 56px
   font-weight: var(--font-weight-demi);
 
   &--small,
   & > small {
     display: block;
-    font-size: var(--font-size-large); // 32px
-    line-height: calc(var(--line-height-xx-large) - 0.5rem); // 48px
+    font-size: var(--font-size-x-large); // 32px
+    line-height: var(--line-height-xx-large); // 48px
   }
 }
 @mixin h2Style() {
-  font-size: var(--font-size-x-medium); // 24px
+  font-size: var(--font-size-large); // 24px
   line-height: var(--line-height-x-large); // 32px
 
   &--small,
@@ -35,7 +35,7 @@
     font-size: var(--font-size-medium); // 20px
   }
   & > small {
-    line-height: calc(var(--line-height-large) + 0.125rem); // 30px
+    line-height: calc(var(--line-height-x-large) - 0.125rem); // 30px
   }
 }
 @mixin h3Style() {
@@ -49,7 +49,7 @@
     font-size: var(--font-size-basis); // 16px
   }
   & > small {
-    line-height: var(--line-height-large); // 28px
+    line-height: calc(var(--line-height-x-large) - 0.25rem); // 28px
   }
 }
 @mixin h4Style() {

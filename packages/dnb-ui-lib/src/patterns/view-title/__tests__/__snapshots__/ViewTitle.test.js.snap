@@ -76,7 +76,7 @@ exports[`ViewTitle scss have to match snapshot 1`] = `
  */
 .dnb-view-title {
   margin: 1.5rem 0 1rem 0;
-  font-size: var(--font-size-large);
+  font-size: var(--font-size-x-large);
   color: var(--color-sea-green); }
   @media screen and (min-width: 50em) {
     .dnb-view-title {

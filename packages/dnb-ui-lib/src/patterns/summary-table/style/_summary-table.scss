@@ -15,7 +15,7 @@
   }
 
   &__title__text {
-    font-size: var(--font-size-x-medium);
+    font-size: var(--font-size-large);
     color: var(--color-sea-green);
     padding-left: 0.5rem;
   }
@@ -58,7 +58,7 @@
   }
   &__operation,
   &__value {
-    font-size: var(--font-size-large);
+    font-size: var(--font-size-x-large);
   }
   &__operation {
     flex: 0 0 2rem;
