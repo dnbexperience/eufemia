@@ -8,7 +8,7 @@ Achieved with HTML classes: `.dnb-typo-regular`, `.dnb-typo-medium`, `.dnb-typo-
 
 ## Body Regular
 
-**NB!** body text is automatically set to use **regular** (formerly, _book_) weight so there is
+**NB!** body text is automatically set to use **regular** (as for now also: _book_) weight so there is
 no need to use a class.
 
 <div className="typography-box">
