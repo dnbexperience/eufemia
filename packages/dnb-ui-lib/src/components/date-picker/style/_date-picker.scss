@@ -226,7 +226,12 @@
   }
 
   &__addon {
+    display: block;
     padding: 1rem;
+    &::after {
+      left: 1rem;
+      width: calc(100% - 2rem);
+    }
   }
 
   &__footer {

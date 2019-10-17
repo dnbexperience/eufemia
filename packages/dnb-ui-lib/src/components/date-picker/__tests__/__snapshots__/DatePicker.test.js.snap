@@ -2271,7 +2271,11 @@ legend.dnb-form-label {
       width: 100%;
       height: 1px; }
   .dnb-date-picker__addon {
+    display: block;
     padding: 1rem; }
+    .dnb-date-picker__addon::after {
+      left: 1rem;
+      width: calc(100% - 2rem); }
   .dnb-date-picker__footer {
     position: relative;
     display: flex;
