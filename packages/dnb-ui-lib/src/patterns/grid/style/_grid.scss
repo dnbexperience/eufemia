@@ -20,8 +20,8 @@ $grid-gutter-xl: 2rem;
 
 .dnb-grid__cell {
   flex: 1;
-  font-size: 1em;
-  line-height: 1rem;
+  font-size: var(--font-size-basis--em);
+  line-height: var(--line-height-x-small--em);
   padding: 0;
   margin: 9;
 }

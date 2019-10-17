@@ -25,7 +25,7 @@
       /* Windows emoji */ 'Segoe UI Symbol',
       /* Linux emoji */ 'Noto Color Emoji'; /* 2 */
 
-    line-height: 1.5rem; /* 3 */
+    line-height: var(--line-height-basis); /* 3 */
     -moz-tab-size: 4; /* 4 */
     tab-size: 4; /* 4 */
     -ms-text-size-adjust: 100%; /* 5 */
@@ -136,7 +136,7 @@
   samp {
     font-family: var(--font-family-monospace); /* 1 */
 
-    font-size: 1em; /* 2 */
+    font-size: var(--font-size-basis--em); /* 2 */
   }
 
   /*

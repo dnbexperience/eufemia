@@ -37,8 +37,8 @@
     // to make sure we have the ability to have a border where ever we want
     border-bottom: 1px solid transparent;
 
-    font-size: 1em;
-    line-height: 1.5em;
+    font-size: var(--font-size-basis--em);
+    line-height: var(--line-height-basis--em);
     border-spacing: 0;
 
     word-break: keep-all;
@@ -91,7 +91,7 @@
       box-shadow: none;
 
       height: 1.5rem;
-      line-height: 1.5rem;
+      line-height: var(--line-height-basis);
 
       margin: 0;
       padding: 0;

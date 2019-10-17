@@ -8,8 +8,8 @@
   padding: 0;
   padding-left: 2rem;
 
-  font-size: 1em;
-  line-height: 1.5em;
+  font-size: var(--font-size-basis--em);
+  line-height: var(--line-height-basis--em);
 
   &ul ul,
   &ul ol,
@@ -30,8 +30,8 @@
   margin: 0;
   padding: 0;
 
-  font-size: 1em;
-  line-height: 1.5em;
+  font-size: var(--font-size-basis--em);
+  line-height: var(--line-height-basis--em);
 
   & > dt {
     padding: 0;

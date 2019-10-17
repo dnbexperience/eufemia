@@ -16,59 +16,59 @@
 }
 @mixin h1Style() {
   font-size: var(--font-size-xx-large); // 48px
-  line-height: 3.5rem; // 56px
+  line-height: var(--line-height-x-large); // 56px
   font-weight: var(--font-weight-demi);
 
   &--small,
   & > small {
     display: block;
-    font-size: var(--font-size-large); // 32px
-    line-height: 3rem; // 48px
+    font-size: var(--font-size-x-large); // 32px
+    line-height: var(--line-height-large); // 48px
   }
 }
 @mixin h2Style() {
-  font-size: var(--font-size-medium); // 24px
-  line-height: 2rem; // 32px
+  font-size: var(--font-size-large); // 24px
+  line-height: var(--line-height-medium); // 32px
 
   &--small,
   & > small {
-    font-size: var(--font-size-x-default); // 20px
+    font-size: var(--font-size-medium); // 20px
   }
   & > small {
-    line-height: 1.875rem; // 30px
+    line-height: calc(var(--line-height-medium) - 0.125rem); // 30px
   }
 }
 @mixin h3Style() {
   font-family: var(--font-family-demi);
   font-weight: var(--font-weight-demi);
-  font-size: var(--font-size-x-default); // 20px
-  line-height: 2rem; // 32px
+  font-size: var(--font-size-medium); // 20px
+  line-height: var(--line-height-medium); // 32px
 
   &--small,
   & > small {
-    font-size: var(--font-size-default); // 16px
+    font-size: var(--font-size-basis); // 16px
   }
   & > small {
-    line-height: 1.75rem; // 28px
+    line-height: calc(var(--line-height-medium) - 0.25rem); // 28px
   }
 }
 @mixin h4Style() {
-  font-size: var(--font-size-default); // 16px
+  font-size: var(--font-size-basis); // 16px
   & > small {
-    line-height: 1.375rem; // 22px
+    line-height: var(--line-height-small); // 22px
   }
 }
 @mixin h5Style() {
   font-size: var(--font-size-small); // 14px
   & > small {
-    line-height: 1.25rem; // 20px
+    line-height: var(--line-height-small); // 20px
   }
 }
 @mixin h6Style() {
   font-size: var(--font-size-small); // 14px
   font-weight: var(--font-weight-book);
   & > small {
-    line-height: 1.25rem; // 20px
+    line-height: var(--line-height-small); // 20px
   }
 }
 @mixin paragraphStyle() {
@@ -81,8 +81,8 @@
   }
   padding: 0;
 
-  font-size: 1em; // 16px
-  line-height: 1.5em; // 24px
+  font-size: var(--font-size-basis--em); // 16px
+  line-height: var(--line-height-basis--em); // 24px
 
   @include numberFeature(lining-nums, lnum);
 
@@ -104,7 +104,7 @@
 
     // shold be 22px - but we force it to the pixel grid!
     // - sorry Sindre
-    line-height: 1.5rem;
+    line-height: var(--line-height-basis);
   }
 
   & > cite {
@@ -178,7 +178,9 @@
   h4 > small,
   h5 > small,
   h6 > small {
-    line-height: 1em; // for vertical alignment, we have to have no line-height
+    line-height: var(
+      --line-height-x-small--em
+    ); // for vertical alignment, we have to have no line-height
   }
   .dnb-spacing {
     .dnb-h1,
@@ -256,7 +258,7 @@
 // // Small: do not set this for h1, like ".dnb-h1 > .dnb-small"
 // .dnb-p > small,
 // .dnb-p > .dnb-small {
-//   line-height: 1em; // for vertical alignment, we have to have no line-height
+//   line-height: var(--line-height-x-small--em); // for vertical alignment, we have to have no line-height
 // }
 
 // Paragraphs

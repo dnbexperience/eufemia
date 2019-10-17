@@ -88,7 +88,7 @@
       position: relative; // because of the underline
 
       padding: 0.125rem 0;
-      line-height: 1rem;
+      line-height: var(--line-height-x-small--em);
 
       @include drawUnderlineBorder() {
         bottom: -0.125rem;

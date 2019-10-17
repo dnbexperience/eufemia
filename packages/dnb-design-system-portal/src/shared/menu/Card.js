@@ -129,7 +129,7 @@ const Header = styled.span`
   margin: 0;
 
   text-align: center;
-  font-size: 1rem;
+  font-size: var(--font-size-basis);
   color: var(--color-black-80);
 `
 
@@ -137,7 +137,7 @@ const About = styled.p`
   margin: 0.5rem 0 0;
   padding: 0 1rem;
 
-  font-size: 1rem;
+  font-size: var(--font-size-basis);
   color: var(--color-black);
 `
 

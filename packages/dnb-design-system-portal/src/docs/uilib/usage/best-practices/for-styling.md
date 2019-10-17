@@ -40,7 +40,7 @@ This helps coworkers quickly find and understand the sentence and meaning of the
   /* -- 3. Fonts & Typography -- */
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
-  font-size: 1.5rem;
+  font-size: var(--font-size-large);
   color: var(--color-sea-green);
 
   /* -- 4. Styling -- */

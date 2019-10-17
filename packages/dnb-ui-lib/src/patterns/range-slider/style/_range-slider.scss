@@ -15,7 +15,7 @@ $labelWidth: percentage(1/3);
   }
 
   &__label {
-    font-size: 1rem;
+    font-size: var(--font-size-basis);
 
     @include allAbove(medium) {
       flex: 0 0 $labelWidth;

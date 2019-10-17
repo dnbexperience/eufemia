@@ -22,8 +22,8 @@ $large-right-padding: (100 - $large-title-width);
     position: relative;
     z-index: 1;
 
-    font-size: var(--font-size-medium);
-    line-height: 2rem;
+    font-size: var(--font-size-large);
+    line-height: var(--line-height-medium);
   }
 
   &__mask {
@@ -46,7 +46,7 @@ $large-right-padding: (100 - $large-title-width);
 
   &--small {
     &__title {
-      font-size: 0.875rem;
+      font-size: var(--font-size-small);
     }
   }
 }
