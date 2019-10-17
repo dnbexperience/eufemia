@@ -501,7 +501,7 @@
 }
 #josteinWrapper .moduleContact .moduleHeadline {
   color: #585959;
-  font-size: 1rem;
+  font-size: var(--font-size-basis);
   border-bottom: 1px solid #dedede;
   margin: 5px 10px 10px;
   padding: 5px 0;

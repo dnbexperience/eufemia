@@ -50,7 +50,7 @@
     &--link {
       // to reset the anchor button
       &.dnb-anchor {
-        line-height: 1.5rem;
+        line-height: var(--line-height-basis);
       }
 
       @include focus() {

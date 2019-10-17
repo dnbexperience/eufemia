@@ -36,22 +36,22 @@ FontUsageExample.defaultProps = {
 
 export default () => (
   <Wrapper>
-    {/* Book */}
+    {/* Regular */}
     <FontUsageExample
-      font_family="Fedra Sans Book"
-      typo_class="dnb-typo-book"
+      font_family="(Fedra Sans Book) Sans Regular"
+      typo_class="dnb-typo-regular"
     />
 
-    {/* Demi */}
+    {/* Medium */}
     <FontUsageExample
-      font_family="Fedra Sans Demi"
-      typo_class="dnb-typo-demi"
-    />
-
-    {/* Standard Medium */}
-    <FontUsageExample
-      font_family="Fedra Sans Medium"
+      font_family="(Fedra Sans Demi) Sans Medium"
       typo_class="dnb-typo-medium"
+    />
+
+    {/* Bold */}
+    <FontUsageExample
+      font_family="(Fedra Sans Medium) Sans Bold"
+      typo_class="dnb-typo-bold"
     />
   </Wrapper>
 )

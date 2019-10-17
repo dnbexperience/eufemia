@@ -35,7 +35,7 @@ Note, the following have a 16px (1 rem) default bottom margin. This can be adjus
 ##### Specs:
 
 <ul>
-    <li>font-size: 2rem (32px)</li>
+    <li>font-size: var(--font-size-x-large) (32px)</li>
     <li>line-height: 3rem (48px)</li>
     <li>margin-bottom: 1rem (16px)</li>
 </ul>
@@ -127,7 +127,7 @@ You wish to.....
 
 <ul>
   <li>font-size: 1em (16px)</li>
-  <li>line-height: 1.5rem (24px)</li>
+  <li>line-height: var(--line-height-basis) (24px)</li>
   <li>margin-bottom: 1rem (16px)</li>
 </ul>
 

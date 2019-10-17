@@ -7,7 +7,7 @@
   &__dl {
     display: flex;
     flex-wrap: wrap;
-    font-size: 1rem;
+    font-size: var(--font-size-basis);
   }
   &__dt {
     text-align: left;
@@ -31,6 +31,6 @@
   }
 
   &__info {
-    font-size: 0.75rem;
+    font-size: var(--font-size-small);
   }
 }

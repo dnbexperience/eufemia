@@ -31,7 +31,7 @@
     padding: var(--textarea-padding-width);
   }
 
-  line-height: 1.5rem;
+  line-height: var(--line-height-basis);
 }
 @mixin textareaStyle() {
   border: none;
