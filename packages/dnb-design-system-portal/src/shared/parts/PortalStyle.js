@@ -145,16 +145,18 @@ export default css`
     padding-left: 40px !important;
   } */}
 
+  .contains-task-list {
+    padding-left: 0;
+  }
   .task-list-item {
     list-style-type: none;
   }
   .task-list-item + .task-list-item {
     margin-top: 0.5rem;
   }
-  .task-list-item input {
+  .task-list-item .dnb-checkbox {
     margin-right: 0.5rem;
     margin-bottom: 0.25em;
-    vertical-align: middle;
   }
 
   .image-box {
