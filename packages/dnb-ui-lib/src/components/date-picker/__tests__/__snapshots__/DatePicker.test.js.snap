@@ -2136,18 +2136,6 @@ legend.dnb-form-label {
   --date-picker-day-width: 2rem;
   --date-picker-day-horizontal-spacing: 4px; }
 
-@keyframes datePickerSlideDown {
-  from {
-    opacity: 0; }
-  to {
-    opacity: 1; } }
-
-@keyframes datePickerSlideUp {
-  from {
-    opacity: 1; }
-  to {
-    opacity: 0; } }
-
 .dnb-date-picker {
   display: inline-flex;
   align-items: center; }
@@ -2181,15 +2169,15 @@ legend.dnb-form-label {
   .dnb-date-picker--opened .dnb-date-picker__container {
     z-index: 100; }
     .dnb-date-picker--opened .dnb-date-picker__container {
-      animation: datePickerSlideDown 200ms ease-out 1 forwards; }
+      animation: date-picker-slide-down 200ms ease-out 1 forwards; }
     .dnb-date-picker--opened .dnb-date-picker__container--no-animation {
-      animation: datePickerSlideDown 1ms ease-out 1 forwards; }
+      animation: date-picker-slide-down 1ms ease-out 1 forwards; }
   .dnb-date-picker--hidden .dnb-date-picker__container {
     display: none; }
   .dnb-date-picker:not(.dnb-date-picker--opened) .dnb-date-picker__container {
-    animation: datePickerSlideUp 150ms ease-out 1 forwards; }
+    animation: date-picker-slide-up 150ms ease-out 1 forwards; }
   .dnb-date-picker:not(.dnb-date-picker--opened) .dnb-date-picker__container--no-animation {
-    animation: datePickerSlideUp 1ms ease-out 1 forwards; }
+    animation: date-picker-slide-up 1ms ease-out 1 forwards; }
   .dnb-date-picker__input,
   .dnb-date-picker .dnb-input__input.dnb-date-picker__input,
   .dnb-core-style .dnb-date-picker__input {
@@ -2407,5 +2395,17 @@ legend.dnb-form-label {
         width: 100%; }
       .dnb-date-picker__header::after {
         left: 0; } }
+
+@keyframes date-picker-slide-down {
+  from {
+    opacity: 0; }
+  to {
+    opacity: 1; } }
+
+@keyframes date-picker-slide-up {
+  from {
+    opacity: 1; }
+  to {
+    opacity: 0; } }
 "
 `;

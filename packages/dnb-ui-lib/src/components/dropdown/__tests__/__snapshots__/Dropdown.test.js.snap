@@ -1018,22 +1018,6 @@ legend.dnb-form-label {
   --dropdown-focus-border-width: 0.125rem;
   --dropdown-text-padding: 0.5rem; }
 
-@keyframes dropdown-slide-down {
-  from {
-    opacity: 0;
-    transform: translateY(calc(1px - var(--dropdown-height))); }
-  to {
-    opacity: 1;
-    transform: translateY(0); } }
-
-@keyframes dropdown-slide-ip {
-  from {
-    opacity: 1;
-    transform: translateY(0); }
-  to {
-    opacity: 0;
-    transform: translateY(calc(1px - var(--dropdown-height))); } }
-
 .dnb-dropdown {
   display: inline-flex;
   align-items: center; }
@@ -1306,5 +1290,21 @@ legend.dnb-form-label {
       vertical-align: baseline; }
       .dnb-dropdown__shell {
         top: 0; } }
+
+@keyframes dropdown-slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(calc(1px - var(--dropdown-height))); }
+  to {
+    opacity: 1;
+    transform: translateY(0); } }
+
+@keyframes dropdown-slide-ip {
+  from {
+    opacity: 1;
+    transform: translateY(0); }
+  to {
+    opacity: 0;
+    transform: translateY(calc(1px - var(--dropdown-height))); } }
 "
 `;

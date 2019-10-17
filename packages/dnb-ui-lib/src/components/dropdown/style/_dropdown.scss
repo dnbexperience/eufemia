@@ -37,27 +37,6 @@
 @mixin dropdownClosed() {
   display: none;
 }
-@keyframes dropdown-slide-down {
-  from {
-    opacity: 0;
-    transform: translateY(calc(1px - var(--dropdown-height)));
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes dropdown-slide-ip {
-  from {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  to {
-    opacity: 0;
-    transform: translateY(calc(1px - var(--dropdown-height)));
-  }
-}
 
 .dnb-dropdown {
   display: inline-flex;
@@ -487,5 +466,27 @@
     &__shell {
       top: 0;
     }
+  }
+}
+
+@keyframes dropdown-slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(calc(1px - var(--dropdown-height)));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes dropdown-slide-ip {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(calc(1px - var(--dropdown-height)));
   }
 }
