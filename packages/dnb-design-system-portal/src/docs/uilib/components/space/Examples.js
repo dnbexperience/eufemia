@@ -258,7 +258,7 @@ const Label = styled.label`
   display: block;
   width: 1rem;
   margin-left: 0.25rem;
-  font-size: calc(var(--font-size-basis) - 0.5rem);
+  font-size: 0.5rem;
   text-align: center;
   color: var(--color-black-80);
 `

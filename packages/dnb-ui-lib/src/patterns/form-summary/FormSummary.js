@@ -83,7 +83,7 @@ export default class FormSummary extends PureComponent {
                   <h2 className="dnb-form-summary__title typo-light">
                     {title}
                   </h2>
-                  <p className="dnb-form-summary__info dnb-typo-regular">
+                  <p className="dnb-form-summary__info dnb-typo-book">
                     {text}
                   </p>
                 </div>

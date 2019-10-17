@@ -81,7 +81,7 @@ const ListItemInner = styled.div`
   }
 
   .dnb-icon {
-    font-size: var(--font-size-large);
+    font-size: 1.5rem;
     :hover {
       color: var(--color-cherry-red);
     }

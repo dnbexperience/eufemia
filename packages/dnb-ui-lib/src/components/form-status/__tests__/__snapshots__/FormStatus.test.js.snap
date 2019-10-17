@@ -177,9 +177,9 @@ exports[`FormStatus scss have to match snapshot 1`] = `
 .dnb-form-status {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
-  font-size: var(--font-size-basis);
+  font-size: 1rem;
   font-style: normal;
-  line-height: var(--line-height-basis);
+  line-height: 1.5rem;
   color: var(--color-black-80, #333);
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   font-variant-numeric: lining-nums;
@@ -223,7 +223,7 @@ exports[`FormStatus scss have to match snapshot 1`] = `
     padding: calc(0.5rem / 2) 1rem;
     cursor: text;
     color: inherit;
-    line-height: var(--line-height-basis); }
+    line-height: 1.5rem; }
     [data-os='mac'] .dnb-form-status--text {
       transform: translateY(0.0625rem); }
   .dnb-icon + .dnb-form-status--text {
@@ -237,7 +237,7 @@ exports[`FormStatus scss have to match snapshot 1`] = `
     margin-top: 0.25em;
     margin-left: 0.5em;
     color: inherit;
-    font-size: var(--font-size-basis);
+    font-size: 1rem;
     border-radius: 50%;
     border: 0.0625rem solid;
     border-color: currentColor; }
