@@ -15,7 +15,8 @@ import {
   // runStyleFactory,
   // convertSvgToJsx,
   // makeLibStyles
-  makeMainStyle
+  // makeMainStyle,
+  makePropertiesFile
   // prepareTemplates
   // makeLibModules,
   // makeMainUMDBundle
@@ -33,7 +34,8 @@ const dev = async () => {
   // await runStyleFactory()
   // await convertSvgToJsx({ preventDelete })
   // await makeLibStyles()
-  await makeMainStyle()
+  // await makeMainStyle()
+  await makePropertiesFile()
   // await prepareTemplates()
   // await makeLibModules()
   // await makeMainUMDBundle()
