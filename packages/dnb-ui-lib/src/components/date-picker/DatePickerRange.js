@@ -7,6 +7,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import keycode from 'keycode'
 
+// date-fns
 import subMonths from 'date-fns/subMonths'
 import addDays from 'date-fns/addDays'
 import addWeeks from 'date-fns/addWeeks'
@@ -18,6 +19,7 @@ import lastDayOfMonth from 'date-fns/lastDayOfMonth'
 import differenceInMonths from 'date-fns/differenceInMonths'
 
 import DatePickerCalendar from './DatePickerCalendar'
+import { isDisabled } from './DatePickerCalc'
 
 export const propTypes = {
   id: PropTypes.string,
@@ -26,6 +28,8 @@ export const propTypes = {
   endMonth: PropTypes.instanceOf(Date),
   startDate: PropTypes.instanceOf(Date),
   endDate: PropTypes.instanceOf(Date),
+  minDate: PropTypes.instanceOf(Date),
+  maxDate: PropTypes.instanceOf(Date),
 
   range: PropTypes.bool,
   link: PropTypes.bool,
@@ -51,6 +55,8 @@ export const defaultProps = {
   endMonth: null, // What month will be displayed in the first calendar
   startDate: null,
   endDate: null,
+  minDate: null,
+  maxDate: null,
 
   // apperance
   range: null,
@@ -297,9 +303,6 @@ export default class DatePickerRange extends PureComponent {
               ? setDate(currentMonth, 1)
               : lastDayOfMonth(currentMonth)
         }
-        // if (nr === 1) {
-        //   newDate = addMonths(newDate, 1)
-        // }
         // only to make sure we navigate the calendar to the new date
       } else if (
         currentMonth &&
@@ -331,9 +334,22 @@ export default class DatePickerRange extends PureComponent {
           return
         }
       }
+      if (
+        isDisabled(
+          state.startDate,
+          this.props.minDate,
+          this.props.maxDate
+        ) ||
+        isDisabled(state.endDate, this.props.minDate, this.props.maxDate)
+      ) {
+        return
+      }
 
       // make sure we also navigate the view
       if (this.props.sync) {
+        state.startMonth = state.startDate
+        state.endMonth = state.endDate
+
         state.views = this.state.views
         state.views[nr] = DatePickerRange.getViews(
           { ...this.state, ...state },
@@ -342,7 +358,10 @@ export default class DatePickerRange extends PureComponent {
       }
 
       this.setState(state, () => {
+        // call after state update, so the input get's the latest state as well
         this.callOnChange({ event })
+
+        // and set the focus back again
         if (ref && ref.current) {
           ref.current.focus()
         }
