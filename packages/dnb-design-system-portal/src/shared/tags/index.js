@@ -4,6 +4,7 @@
 
 import React from 'react'
 import CodeBlock from './CodeBlock'
+import { Checkbox, Input } from 'dnb-ui-lib/components'
 import Table from './Table'
 // import Img from './Img'
 import Tag from './Tag'
@@ -24,6 +25,15 @@ export default {
   h6: props => <Header is="h6" {...props} />,
   a: Anchor,
   link: Anchor,
+  // eslint-disable-next-line
+  input: ({ type, ...rest }) => {
+    switch (type) {
+      case 'checkbox':
+        return <Checkbox {...rest} disabled={false} />
+      default:
+        return <Input {...rest} />
+    }
+  },
   table: Table,
   code: (...args) => CodeBlock(...args),
   inlineCode: props => <Tag is="code" {...props} />,

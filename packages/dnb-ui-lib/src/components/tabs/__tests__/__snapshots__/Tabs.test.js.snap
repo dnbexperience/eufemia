@@ -244,7 +244,7 @@ exports[`Tabs scss have to match default theme snapshot 1`] = `
 
 .dnb-tabs__button__title {
   font-weight: var(--font-weight-book);
-  font-size: var(--font-size-default);
+  font-size: var(--font-size-basis);
   text-align: center;
   color: var(--color-sea-green); }
 
@@ -309,9 +309,9 @@ exports[`Tabs scss have to match snapshot 1`] = `
 .dnb-tabs {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
-  font-size: 1rem;
+  font-size: var(--font-size-basis);
   font-style: normal;
-  line-height: 1.5rem;
+  line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   font-variant-numeric: lining-nums;
@@ -381,7 +381,7 @@ exports[`Tabs scss have to match snapshot 1`] = `
     border: none; }
     .dnb-tabs__tabs .dnb-tabs__button-title,
     .dnb-core-style .dnb-tabs__tabs .dnb-tabs__button-title {
-      font-size: var(--font-size-default);
+      font-size: var(--font-size-basis);
       white-space: nowrap; }
     .dnb-tabs__tabs .dnb-tabs__button > span[hidden],
     .dnb-core-style .dnb-tabs__tabs .dnb-tabs__button > span[hidden] {

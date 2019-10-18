@@ -4,7 +4,7 @@
 */
 
 :root {
-  --button-font-size: var(--font-size-default);
+  --button-font-size: var(--font-size-basis);
   --button-font-size-small: var(--font-size-small);
   --button-width: 2.5rem;
   --button-height: 2.5rem;
@@ -50,7 +50,7 @@
   text-decoration: none;
 
   &__icon {
-    line-height: 1em; // vertical alignment, if we have no line-height
+    line-height: var(--line-height-x-small--em); // vertical alignment, if we have no line-height
     &:not(.dnb-icon) svg:not([width]):not([height]) {
       width: var(--button-icon-size);
       height: var(--button-icon-size);
@@ -62,7 +62,7 @@
     }
   }
   &__text {
-    line-height: 1em;
+    line-height: var(--line-height-x-small--em);
     color: inherit;
     background-color: inherit;
 

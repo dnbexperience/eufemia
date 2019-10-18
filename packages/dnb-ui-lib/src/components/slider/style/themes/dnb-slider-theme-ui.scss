@@ -6,17 +6,17 @@
 @import '../../../../style/themes/imports.scss';
 
 :root {
-  --slider-line-background: var(--color-sea-green-alt);
-  --slider-line-background--after: var(--color-mint-green-50);
+  --slider-track-background: var(--color-sea-green-alt);
+  --slider-track-background--after: var(--color-mint-green-50);
   --slider-thumb-background: var(--color-white);
   --slider-thumb-border-color: var(--color-mint-green-50);
 }
 
 .dnb-slider {
   &__line {
-    background-color: var(--slider-line-background);
+    background-color: var(--slider-track-background);
     &__after {
-      background-color: var(--slider-line-background--after);
+      background-color: var(--slider-track-background--after);
     }
   }
   &__state--disabled &__line {
@@ -28,10 +28,10 @@
 
   &__track {
     &::before {
-      background-color: var(--slider-line-background);
+      background-color: var(--slider-track-background);
     }
     &::after {
-      background-color: var(--slider-line-background--after);
+      background-color: var(--slider-track-background--after);
     }
   }
   &__state--disabled#{&}__track {

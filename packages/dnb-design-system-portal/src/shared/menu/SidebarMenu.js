@@ -57,7 +57,7 @@ const StyledListItem = styled.li`
 
   &:first-of-type {
     margin-bottom: 1rem;
-    font-size: 1.5rem;
+    font-size: var(--font-size-large);
     background-color: transparent;
   }
 
@@ -71,7 +71,7 @@ const StyledListItem = styled.li`
     height: 4rem;
     color: var(--color-ocean-green);
     font-weight: var(--font-weight-demi);
-    font-size: var(--font-size-medium);
+    font-size: var(--font-size-large);
   }
   &.l-2 {
     a {
@@ -93,7 +93,7 @@ const StyledListItem = styled.li`
   }
 
   &.l-3 {
-    font-size: 0.875rem; /* small size */
+    font-size: var(--font-size-small); /* small size */
     a {
       padding-left: calc(var(--level-offset) + var(--level) * 3);
     }
@@ -118,7 +118,7 @@ const StyledListItem = styled.li`
   &.l-4,
   &.l-5,
   &.l-6 {
-    font-size: 0.875rem; /* small size */
+    font-size: var(--font-size-small); /* small size */
     &.is-inside {
       html:not([dev-grid]) & {
         background-color: var(--color-mint-green-12);

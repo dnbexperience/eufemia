@@ -37,8 +37,11 @@ A more complex focus management is build in already to the [Modal Component](/ui
 
 ## Helper tool
 
-The `dnb-ui-lib` has an build in helper, to manage basic focus handling.
-This helper also handles both the `tabindex="-1"` and the `class="dnb-no-focus"` situation.
+The `dnb-ui-lib` has a build-in helper, to manage basic focus handling.
+This helper also handles both the `tabindex="-1"` and the `class="dnb-no-focus"` situation. So what does it do?
+
+1. You define on beforehand what should get focus with a css selector (_class or id_). This (**setPageFocusElement**) can be set on the very first application start.
+1. Later one, once the focus should be set, you call a second function **_applyPageFocus_**. This function will use the beforehand defined selector and execute `domNode.focus()`.
 
 ### Focus helper
 
@@ -59,30 +62,30 @@ applyPageFocus('MyCustomName')
 
 The `dnb-ui-lib` also has a small setup for a [skip link](https://www.w3.org/TR/WCAG20-TECHS/G1.html)
 
-Our solution is CSS only and should work for all kinds of App setups.
-
-1. Place an Anchor like this one blow, on the very top of Your App content:
+Our solution is CSS only and should work for all kinds of application setups. Demo example below:
 
 <SkipLinkExample />
 
+1. Place an Anchor with a HTML class `.dnb-skip-link` like blow, as the very **first HTML element** tag:
+
 ```html
-<a class="dnb-skip-link" href="#dnb-app-content">Skip to content</a>
+<a class="dnb-skip-link" href="#content-id">Skip to content</a>
 ```
 
-2. Place a unique element id, like `id="dnb-app-content"` on your content wrapper:
+2. Define an unique element **id**, like `id="content-id"`, on your content wrapper:
 
 ```html
 <body>
-  <a class="dnb-skip-link" href="#dnb-app-content">Skip to content</a>
+  <a class="dnb-skip-link" href="#content-id">Skip to content</a>
   <header>
     <nav>
-      <!-- Nav links to skip -->
+      <!-- Nav links or content to skip -->
     </nav>
   </header>
-  <main id="dnb-app-content">
+  <main id="content-id">
     <!-- Content goes here -->
   </main>
 </body>
 ```
 
-Thanks it. The styles are included in both the **dnb-ui-basis** and **dnb-ui-core** styling packages.
+That's it. The styles are included in both the **dnb-ui-basis** and **dnb-ui-core** styling packages.

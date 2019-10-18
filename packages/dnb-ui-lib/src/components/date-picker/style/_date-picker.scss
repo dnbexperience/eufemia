@@ -13,36 +13,18 @@
   z-index: 100; // make sure we are over e.g. switch
 
   &:not(#{&}--no-animation) {
-    animation: datePickerSlideDown 200ms ease-out 1 forwards;
+    animation: date-picker-slide-down 200ms ease-out 1 forwards;
   }
   &--no-animation {
-    animation: datePickerSlideDown 1ms ease-out 1 forwards;
+    animation: date-picker-slide-down 1ms ease-out 1 forwards;
   }
 }
 @mixin closeDatePicker($state: 'animation') {
   &:not(#{&}--no-animation) {
-    animation: datePickerSlideUp 150ms ease-out 1 forwards;
+    animation: date-picker-slide-up 150ms ease-out 1 forwards;
   }
   &--no-animation {
-    animation: datePickerSlideUp 1ms ease-out 1 forwards;
-  }
-}
-
-@keyframes datePickerSlideDown {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes datePickerSlideUp {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
+    animation: date-picker-slide-up 1ms ease-out 1 forwards;
   }
 }
 
@@ -226,7 +208,12 @@
   }
 
   &__addon {
+    display: block;
     padding: 1rem;
+    &::after {
+      left: 1rem;
+      width: calc(100% - 2rem);
+    }
   }
 
   &__footer {
@@ -439,5 +426,23 @@
         left: 0;
       }
     }
+  }
+}
+
+@keyframes date-picker-slide-down {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes date-picker-slide-up {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
   }
 }

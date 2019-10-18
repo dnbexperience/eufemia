@@ -310,6 +310,7 @@ export default class Dropdown extends PureComponent {
     this._ref = React.createRef()
     this._refUl = React.createRef()
     this._refButton = React.createRef()
+    this._refTriangle = React.createRef()
   }
 
   componentDidMount() {
@@ -322,6 +323,40 @@ export default class Dropdown extends PureComponent {
     this.setHidden()
     clearTimeout(this._hideTimeout)
     clearTimeout(this._selectTimeout)
+  }
+
+  setTrianglePosition = () => {
+    // do not change the triangle on popup mode
+    if (
+      isTrue(this.props.prevent_selection) ||
+      isTrue(this.props.more_menu)
+    ) {
+      return
+    }
+
+    try {
+      const width = this._ref.current.offsetWidth
+      if (parseFloat(width) > 0) {
+        const { icon_position, align_dropdown } = this.props
+        switch (align_dropdown) {
+          case 'left':
+          default:
+            if (icon_position !== 'left') {
+              this._refTriangle.current.style.left = `${width / 16 - 3}rem` // -3rem
+            }
+            break
+          case 'right':
+            if (icon_position === 'left') {
+              this._refTriangle.current.style.left = 'auto'
+              this._refTriangle.current.style.right = `${width / 16 -
+                3}rem` // -3rem
+            }
+            break
+        }
+      }
+    } catch (e) {
+      console.warn(e)
+    }
   }
 
   setOutsideClickObserver = () => {
@@ -363,6 +398,7 @@ export default class Dropdown extends PureComponent {
           1e3
         ) // wait until animation is over
 
+        this.setTrianglePosition()
         this.setDirectionObserver()
         this.setScrollObserver()
         this.setOutsideClickObserver()
@@ -372,10 +408,9 @@ export default class Dropdown extends PureComponent {
         })
       }
     )
-    const attributes = this.attributes || {}
     dispatchCustomElementEvent(this, 'on_show', {
       data: Dropdown.getOptionData(selected_item, this.state.data),
-      attributes
+      attributes: this.attributes || {}
     })
   }
   setHidden = ({ setFocus = false } = {}) => {
@@ -1108,7 +1143,11 @@ export default class Dropdown extends PureComponent {
                         </li>
                       )
                     })}
-                    <li className="dnb-dropdown__triangle" aria-hidden />
+                    <li
+                      className="dnb-dropdown__triangle"
+                      aria-hidden
+                      ref={this._refTriangle}
+                    />
                   </ul>
                 ) : (
                   children && (

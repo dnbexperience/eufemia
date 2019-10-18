@@ -75,7 +75,9 @@ class Example extends PureComponent {
           {/* @jsx */ `
 <DatePicker
   label="Hidden Nav:"
-  date="2019/05/05"
+  date="2022/05/05"
+  min_date="2022/05/01"
+  max_date="2022/05/17"
   date_format="yyyy/MM/dd"
   return_format="dd/MM/yyyy"
   hide_navigation={true}

@@ -196,7 +196,9 @@ export default class DatePickerInput extends PureComponent {
   callOnChange = ({ startDate, endDate, event }, onState = null) => {
     if (
       typeof startDate !== 'undefined' &&
-      DatePickerInput.isValidDate(startDate)
+      DatePickerInput.isValidDate(startDate) &&
+      !isDisabled(startDate, this.props.minDate, this.props.maxDate) &&
+      !isDisabled(endDate, this.props.minDate, this.props.maxDate)
     ) {
       this.setState(
         {
@@ -243,7 +245,7 @@ export default class DatePickerInput extends PureComponent {
     let date =
       isInRange === 'start' ? this.state.startDate : this.state.endDate
 
-    // do nowting if date is not set yet
+    // do nothing if date is not set yet
     if (!date) {
       return
     }
@@ -285,8 +287,8 @@ export default class DatePickerInput extends PureComponent {
       case 'up':
       case 'down':
         event.persist()
-        this.prepareCounting({ event, keyCode, target })
         event.preventDefault()
+        this.prepareCounting({ event, keyCode, target })
         return false
       case 'tab':
         return false

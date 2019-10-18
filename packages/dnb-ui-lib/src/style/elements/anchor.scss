@@ -9,7 +9,7 @@ button.dnb-anchor {
   cursor: pointer;
 
   // to get the buton to 32px
-  line-height: 1.625rem;
+  line-height: calc(var(--line-height-basis) + 0.125rem); //26px
 
   border: none;
   background: none;

@@ -129,7 +129,7 @@ const Header = styled.span`
   margin: 0;
 
   text-align: center;
-  font-size: 1rem;
+  font-size: var(--font-size-basis);
   color: var(--color-black-80);
 `
 
@@ -137,7 +137,7 @@ const About = styled.p`
   margin: 0.5rem 0 0;
   padding: 0 1rem;
 
-  font-size: 1rem;
+  font-size: var(--font-size-basis);
   color: var(--color-black);
 `
 
@@ -182,6 +182,14 @@ export default class Card extends PureComponent {
     // size is else defined in css
     const svgParams = isIE11 ? { width: '48', height: '48' } : null
 
+    const Anchor = isIE11
+      ? ({ children, ...rest }) => (
+          <a {...rest} href={url}>
+            {children}
+          </a>
+        )
+      : Link
+
     return (
       <MainMenuContext.Consumer>
         {({ isActive, isClosing, closeMenu }) => (
@@ -195,7 +203,7 @@ export default class Card extends PureComponent {
               '--delay': `${isClosing ? random(1, 400) : random(1, 200)}ms`
             }}
           >
-            <Link
+            <Anchor
               css={[linkStyle, customStyle]}
               className={classnames(
                 'dnb-anchor--no-style',
@@ -221,7 +229,7 @@ export default class Card extends PureComponent {
                   />
                 </BottomWrapper>
               </LinkInner>
-            </Link>
+            </Anchor>
           </CardWrapper>
         )}
       </MainMenuContext.Consumer>

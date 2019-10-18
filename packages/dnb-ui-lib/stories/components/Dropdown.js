@@ -22,6 +22,12 @@ const CustomStyle = styled.div`
     position: relative;
     max-width: var(--dropdown-width);
   }
+  .dnb-dropdown__shell {
+    width: 10rem;
+  }
+  .dnb-dropdown__list {
+    min-width: 20rem;
+  }
 `
 
 const DropdownStory = () => {
@@ -60,10 +66,13 @@ const DropdownStory = () => {
               )
             }}
             data-attr={123}
+            icon_position="left"
           />
           <Dropdown
             title="Default option"
             label="Vertical B:"
+            align_dropdown="right"
+            icon_position="left"
             data={dropdownData}
           />
         </FormRow>

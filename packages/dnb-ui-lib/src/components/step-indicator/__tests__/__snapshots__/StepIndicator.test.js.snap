@@ -466,9 +466,9 @@ exports[`StepIndicator scss have to match snapshot 1`] = `
 .dnb-step-indicator {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
-  font-size: 1rem;
+  font-size: var(--font-size-basis);
   font-style: normal;
-  line-height: 1.5rem;
+  line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   font-variant-numeric: lining-nums;
@@ -529,7 +529,7 @@ exports[`StepIndicator scss have to match snapshot 1`] = `
     text-decoration: none;
     box-shadow: none; }
   .dnb-step-indicator__item-content--link.dnb-anchor {
-    line-height: 1.5rem; }
+    line-height: var(--line-height-basis); }
   .dnb-step-indicator__item-content--link:focus[disabled],
   html:not([data-is-touch]) .dnb-step-indicator__item-content--link:focus[disabled] {
     cursor: not-allowed; }

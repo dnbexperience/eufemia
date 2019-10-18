@@ -1,5 +1,5 @@
 ---
-title: 'Icon'
+title: 'Icons'
 draft: false
 ---
 

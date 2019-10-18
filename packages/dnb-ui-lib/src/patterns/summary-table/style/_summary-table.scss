@@ -15,7 +15,7 @@
   }
 
   &__title__text {
-    font-size: 1.5rem;
+    font-size: var(--font-size-large);
     color: var(--color-sea-green);
     padding-left: 0.5rem;
   }
@@ -54,15 +54,15 @@
   }
 
   &__key {
-    font-size: 1.125rem;
+    font-size: var(--font-size-medium);
   }
   &__operation,
   &__value {
-    font-size: 2rem;
+    font-size: var(--font-size-x-large);
   }
   &__operation {
     flex: 0 0 2rem;
-    line-height: 1.5rem;
+    line-height: var(--line-height-basis);
     text-align: center;
   }
   &__value {

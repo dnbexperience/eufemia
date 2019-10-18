@@ -284,9 +284,9 @@ exports[`Textarea scss have to match snapshot 1`] = `
 .dnb-form-label {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
-  font-size: 1rem;
+  font-size: var(--font-size-basis);
   font-style: normal;
-  line-height: 1.5rem;
+  line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   font-variant-numeric: lining-nums;
@@ -351,9 +351,9 @@ legend.dnb-form-label {
 .dnb-form-status {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
-  font-size: 1rem;
+  font-size: var(--font-size-basis);
   font-style: normal;
-  line-height: 1.5rem;
+  line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   font-variant-numeric: lining-nums;
@@ -397,7 +397,7 @@ legend.dnb-form-label {
     padding: calc(0.5rem / 2) 1rem;
     cursor: text;
     color: inherit;
-    line-height: 1.5rem; }
+    line-height: var(--line-height-basis); }
     [data-os='mac'] .dnb-form-status--text {
       transform: translateY(0.0625rem); }
   .dnb-icon + .dnb-form-status--text {
@@ -411,7 +411,7 @@ legend.dnb-form-label {
     margin-top: 0.25em;
     margin-left: 0.5em;
     color: inherit;
-    font-size: 1rem;
+    font-size: var(--font-size-basis);
     border-radius: 50%;
     border: 0.0625rem solid;
     border-color: currentColor; }
@@ -434,9 +434,9 @@ legend.dnb-form-label {
 .dnb-textarea {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
-  font-size: 1rem;
+  font-size: var(--font-size-basis);
   font-style: normal;
-  line-height: 1.5rem;
+  line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   font-variant-numeric: lining-nums;
@@ -655,7 +655,7 @@ textarea.dnb-textarea {
     height: 100%;
     padding: 0 var(--textarea-padding-width);
     /* IE11 fix */
-    line-height: 1.5rem; }
+    line-height: var(--line-height-basis); }
     @media screen and (-ms-high-contrast: none) {
       .dnb-textarea__placeholder {
         padding: var(--textarea-padding-width); } }
@@ -668,7 +668,7 @@ textarea.dnb-textarea {
     box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.0625rem) var(--color-sea-green-alt);
     padding: 0 var(--textarea-padding-width);
     /* IE11 fix */
-    line-height: 1.5rem;
+    line-height: var(--line-height-basis);
     font-variant-numeric: lining-nums;
     font-feature-settings: \\"lnum\\"; }
     .dnb-textarea__textarea textarea {
@@ -724,7 +724,7 @@ textarea.dnb-textarea {
   box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.0625rem) var(--color-sea-green-alt);
   padding: 0 var(--textarea-padding-width);
   /* IE11 fix */
-  line-height: 1.5rem;
+  line-height: var(--line-height-basis);
   font-variant-numeric: lining-nums;
   font-feature-settings: \\"lnum\\";
   border-radius: 0.5rem;

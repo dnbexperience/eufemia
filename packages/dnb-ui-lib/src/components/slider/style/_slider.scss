@@ -4,7 +4,7 @@
 */
 
 :root {
-  --slider-line-height: 0.25rem;
+  --slider-track-height: 0.25rem;
   --slider-thumb-size: 2rem;
   --slider-button-size: 1.5rem;
   --slider-space: 1rem;
@@ -68,11 +68,11 @@
       top: 50%;
 
       width: var(--slider-thumb-size);
-      height: var(--slider-line-height);
+      height: var(--slider-track-height);
 
       transform: translate3d(0, -50%, 0);
 
-      border-radius: calc(var(--slider-line-height) / 2);
+      border-radius: calc(var(--slider-track-height) / 2);
       background-color: inherit;
     }
 
@@ -94,7 +94,7 @@
     &::after {
       left: 50%;
       transform: translate3d(-50%, 0, 0);
-      width: var(--slider-line-height);
+      width: var(--slider-track-height);
       height: var(--slider-thumb-size);
     }
     &::before {
@@ -130,13 +130,13 @@
     left: 0;
     top: 50%;
 
-    height: var(--slider-line-height);
+    height: var(--slider-track-height);
     transform: translate3d(0, -50%, 0);
 
     background-color: grey;
   }
   &--vertical &__line {
-    width: var(--slider-line-height);
+    width: var(--slider-track-height);
     height: auto;
 
     left: 50%;
