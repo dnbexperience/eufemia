@@ -108,6 +108,9 @@
     transform: translateY(0);
     transition: transform 200ms, opacity 160ms ease-out;
   }
+  &__align--right &__list {
+    left: auto;
+  }
 
   &--direction-top &__list {
     top: auto;
@@ -194,6 +197,7 @@
     }
   }
 
+  // arrow
   &__triangle {
     position: absolute;
     top: calc(
