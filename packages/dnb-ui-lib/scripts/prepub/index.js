@@ -25,6 +25,7 @@ import makeLibStyles from './tasks/makeLibStyles'
 import makeLibModules from './tasks/makeLibModules'
 import makeIconLib from './tasks/makeIconLib'
 import makeMainStyle from './tasks/makeMainStyle'
+import makePropertiesFile from './tasks/makePropertiesFile'
 import makeIconsUMDBundle from './tasks/makeIconsUMDBundle'
 import makeMainUMDBundle from './tasks/makeMainUMDBundle'
 
@@ -38,6 +39,7 @@ export {
   makeLibModules,
   makeIconLib,
   makeMainStyle,
+  makePropertiesFile,
   makeIconsUMDBundle,
   makeMainUMDBundle
 }
@@ -59,6 +61,7 @@ export const runPrepublishTasks = async ({
     await runThemeFactory()
     await makeLibStyles() // have to run after "makeLibModules"
     await makeMainStyle()
+    await makePropertiesFile()
 
     await prepareTemplates()
     await makeLibModules()
