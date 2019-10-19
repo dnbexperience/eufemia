@@ -8,6 +8,7 @@ import sass from 'gulp-sass'
 import postcss from 'gulp-postcss'
 import onceImporter from 'node-sass-once-importer'
 import babel from 'gulp-babel'
+import uglify from 'gulp-uglify'
 import sourcemaps from 'gulp-sourcemaps'
 import cssnano from 'gulp-cssnano'
 import clone from 'gulp-clone'
@@ -72,8 +73,9 @@ const transformStyleModules = () =>
           }
         )
         .pipe(sourcemaps.init())
-        .pipe(babel())
         .pipe(transform('utf8', transformModulesContent))
+        .pipe(babel())
+        .pipe(uglify())
         .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest('./style', { cwd: process.env.ROOT_DIR }))
         .on('end', resolve)

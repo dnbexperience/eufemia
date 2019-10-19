@@ -525,3 +525,13 @@ export const slugify = s =>
     .replace(/[^\w\s-]/g, '')
     .replace(/[\s_-]+/g, '-')
     .replace(/^-+|-+$/g, '')
+
+// NB: in future we can use String.matchAll() instead
+export const matchAll = (string, regex) => {
+  const matches = []
+  let match
+  while ((match = regex.exec(string))) {
+    matches.push(match)
+  }
+  return matches
+}
