@@ -171,6 +171,14 @@ describe('DatePicker component', () => {
   })
 
   it('has a reacting end date input with valid value', () => {
+    const Comp = mount(
+      <Component
+        show_input
+        range
+        start_date={defaultProps.start_date}
+        end_date={defaultProps.end_date}
+      />
+    )
     const elem = Comp.find('input.dnb-date-picker__input--day').at(1)
 
     // by default we have the start day
@@ -183,6 +191,16 @@ describe('DatePicker component', () => {
         changedStartDate = end_date
       }
     })
+
+    // also, check the null situation
+    Comp.setProps({
+      start_date: null
+    })
+    expect(
+      Comp.find('input')
+        .first()
+        .instance().value
+    ).toBe('dd')
 
     // change the date
     const value = '16'
