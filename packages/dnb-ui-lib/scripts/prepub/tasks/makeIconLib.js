@@ -26,7 +26,7 @@ export default opts =>
 const runFactory = ({ preventDelete = false } = {}) =>
   new Promise(async (resolve, reject) => {
     if (!preventDelete) {
-      await del([`./icons/**`])
+      await del([`./icons/**`, `./es/icons/**`])
     }
     try {
       await Promise.all([
