@@ -137,6 +137,8 @@ exports[`Radio group component have to match group snapshot 1`] = `
     <FormRow
       class={null}
       className={null}
+      custom_element={null}
+      custom_method={null}
       direction={null}
       disabled={null}
       global_status_id={null}
