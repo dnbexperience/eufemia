@@ -46,14 +46,12 @@ if (typeof process.env.BABEL_ENV !== 'undefined') {
   plugins.push([
     'babel-plugin-search-and-replace',
     {
-      rules: ['es', 'esm'].includes(process.env.BABEL_ENV)
-        ? [
-            {
-              search: /\/(.*)\.scss/g,
-              replace: '/$1.min.css'
-            }
-          ]
-        : []
+      rules: [
+        {
+          search: /\/(.*)\.scss/g,
+          replace: '/$1.min.css'
+        }
+      ]
     }
   ])
 }
