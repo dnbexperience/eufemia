@@ -56,7 +56,7 @@ All the UI Components (and some HTML Elements) have individual interaction state
 
 ## CSS Styles
 
-Read about [how the styles are setup](/uilib/usage/customisation/styling) and [how to import the CSS](/uilib/usage/customisation/consume-styles).
+Read about [how the styles are setup](/uilib/usage/customisation/styling) and [how to import the CSS](/uilib/usage/customisation/styling/consume-styles).
 
 ## Compiler
 
@@ -76,7 +76,7 @@ import { Button } from 'dnb-ui-lib'
 render(<Button text="Primary Button" />)
 ```
 
-You also may [import the styles](/uilib/usage/customisation/consume-styles) on a higher lever in Your application:
+You also may [import the styles](/uilib/usage/customisation/styling/consume-styles) on a higher lever in Your application:
 
 ```js
 // e.g. in the App root

@@ -26,19 +26,57 @@ export default opts =>
 const runFactory = ({ preventDelete = false } = {}) =>
   new Promise(async (resolve, reject) => {
     if (!preventDelete) {
-      await del([`./icons/**`])
+      await del([`./icons/**`, `./es/icons/**`])
     }
     try {
-      gulp
-        .src(filesExist([`./src/icons/**/*.js`, '!**/*_not_in_use*']), {
-          cwd: process.env.ROOT_DIR
+      await Promise.all([
+        new Promise((resolve, reject) => {
+          gulp
+            .src(
+              filesExist([`./src/icons/**/*.js`, '!**/*_not_in_use*']),
+              {
+                cwd: process.env.ROOT_DIR
+              }
+            )
+            .pipe(transform('utf8', transformContent))
+            .pipe(babel())
+            .pipe(uglify())
+            .pipe(gulp.dest(`./icons`, { cwd: process.env.ROOT_DIR }))
+            .on('end', resolve)
+            .on('error', reject)
+        }),
+        new Promise((resolve, reject) => {
+          gulp
+            .src(
+              filesExist([`./src/icons/**/*.js`, '!**/*_not_in_use*']),
+              {
+                cwd: process.env.ROOT_DIR
+              }
+            )
+            .pipe(transform('utf8', transformContent))
+            .pipe(
+              babel({
+                presets: [
+                  [
+                    '@babel/preset-env',
+                    {
+                      targets: {
+                        esmodules: true
+                      },
+                      modules: false,
+                      useBuiltIns: false // no polyfill
+                    }
+                  ]
+                ]
+              })
+            )
+            .pipe(gulp.dest(`./es/icons`, { cwd: process.env.ROOT_DIR }))
+            .on('end', resolve)
+            .on('error', reject)
         })
-        .pipe(transform('utf8', transformContent))
-        .pipe(babel())
-        .pipe(uglify())
-        .pipe(gulp.dest(`./icons`, { cwd: process.env.ROOT_DIR }))
-        .on('end', resolve)
-        .on('error', reject)
+      ])
+
+      resolve()
     } catch (e) {
       reject(e)
     }

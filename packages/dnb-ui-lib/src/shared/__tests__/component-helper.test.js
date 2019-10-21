@@ -19,7 +19,8 @@ import {
   detectOutsideClick,
   makeUniqueId,
   filterProps,
-  slugify
+  slugify,
+  matchAll
 } from '../component-helper'
 
 beforeAll(() => {
@@ -317,9 +318,7 @@ describe('"dispatchCustomElementEvent" should', () => {
 
 describe('"toPascalCase" should', () => {
   it('transform a snail case event name to a React event case', () => {
-    expect(toPascalCase('my_event_is_long')).toBe(
-      'myEventIsLong'
-    )
+    expect(toPascalCase('my_event_is_long')).toBe('myEventIsLong')
   })
 })
 
@@ -406,5 +405,20 @@ describe('"slugify" should', () => {
   })
   it('or other types', () => {
     expect(slugify({ foo: 'bar' })).toEqual('object-object')
+  })
+})
+
+describe('"matchAll" should', () => {
+  it('match correct parts from a string', () => {
+    const content = `
+      color: var(--color-one);
+      background-color: var(--color-two);
+    `
+    expect(matchAll(content, /var\(([^)]*)\)/g)).toEqual(
+      expect.arrayContaining([
+        expect.arrayContaining(['var(--color-one)', '--color-one']),
+        expect.arrayContaining(['var(--color-two)', '--color-two'])
+      ])
+    )
   })
 })
