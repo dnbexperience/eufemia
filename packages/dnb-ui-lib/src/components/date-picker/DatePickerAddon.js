@@ -6,7 +6,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import isSameDay from 'date-fns/isSameDay'
-import DatePicker from './DatePicker'
+import { convertStringToDate } from './DatePickerCalc'
 import ToggleButton from '../toggle-button/ToggleButton'
 
 export const propTypes = {
@@ -64,13 +64,13 @@ export default class DatePickerAddon extends PureComponent {
       typeof start_date === 'function'
         ? start_date(this.getCurrentDates())
         : start_date
-        ? DatePicker.convertStringToDate(start_date)
+        ? convertStringToDate(start_date)
         : null
     const endDate =
       typeof end_date === 'function'
         ? end_date(this.getCurrentDates())
         : end_date
-        ? DatePicker.convertStringToDate(end_date)
+        ? convertStringToDate(end_date)
         : null
 
     this.setState({
