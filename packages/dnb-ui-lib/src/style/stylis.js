@@ -5,9 +5,13 @@
  */
 
 import { matchAll } from '../shared/component-helper'
-import properties from 'dnb-ui-lib/style/properties'
+import properties from './properties'
+import { isIE11 } from '../shared/helpers'
 
 const stylisPlugin = (context, content) => {
+  if (!isIE11) {
+    return false
+  }
   switch (context) {
     // Only use the property context
     case 1: {
