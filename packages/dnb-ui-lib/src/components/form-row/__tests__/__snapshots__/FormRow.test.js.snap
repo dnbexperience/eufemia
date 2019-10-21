@@ -31,7 +31,7 @@ exports[`FormRow component have to match snapshot 1`] = `
       className="dnb-form-row__fieldset"
     >
       <div
-        className="dnb-form-row dnb-form-row--horizontal dnb-form-row--horizontal-label dnb-form-row__indent--indent dnb-section dnb-section--section_style dnb-section--spacing-section_spacing className class"
+        className="dnb-form-row dnb-form-row--horizontal dnb-form-row--horizontal-label className class dnb-form-row__indent--indent dnb-section dnb-section--section_style dnb-section--spacing-section_spacing"
       >
         <FormLabel
           class={null}

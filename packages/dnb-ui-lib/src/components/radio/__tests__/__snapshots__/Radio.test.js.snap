@@ -25,7 +25,7 @@ exports[`Radio component have to match snapshot 1`] = `
   value="value"
 >
   <span
-    className="dnb-radio dnb-radio--label-position-left className class"
+    className="dnb-radio className class dnb-radio--label-position-left"
   >
     <span
       className="dnb-radio__order"

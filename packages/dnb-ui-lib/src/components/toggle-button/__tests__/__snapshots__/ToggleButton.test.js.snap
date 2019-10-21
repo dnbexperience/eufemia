@@ -28,7 +28,7 @@ exports[`ToggleButton component have to match snapshot 1`] = `
   variant="checkbox"
 >
   <span
-    className="dnb-toggle-button dnb-toggle-button--horizontal className class"
+    className="dnb-toggle-button className class dnb-toggle-button--horizontal"
   >
     <FormLabel
       class={null}
@@ -93,7 +93,7 @@ exports[`ToggleButton component have to match snapshot 1`] = `
           <button
             aria-disabled={true}
             aria-pressed="false"
-            className="dnb-button dnb-button--secondary dnb-button--icon-position-right dnb-button--has-text dnb-button--has-icon dnb-toggle-button__button"
+            className="dnb-button dnb-button--secondary dnb-toggle-button__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--has-text"
             id="toggle-button"
             onClick={[Function]}
             onKeyDown={[Function]}
@@ -435,7 +435,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                         >
                           <button
                             aria-pressed="true"
-                            className="dnb-button dnb-button--secondary dnb-button--has-text dnb-toggle-button__button"
+                            className="dnb-button dnb-button--secondary dnb-toggle-button__button dnb-button--has-text"
                             id="toggle-button-1"
                             onClick={[Function]}
                             onKeyDown={[Function]}
@@ -543,7 +543,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                         >
                           <button
                             aria-pressed="true"
-                            className="dnb-button dnb-button--secondary dnb-button--has-text dnb-toggle-button__button"
+                            className="dnb-button dnb-button--secondary dnb-toggle-button__button dnb-button--has-text"
                             id="toggle-button-2"
                             onClick={[Function]}
                             onKeyDown={[Function]}

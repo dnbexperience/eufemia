@@ -59,7 +59,7 @@ if (typeof process.env.BABEL_ENV !== 'undefined') {
 module.exports = {
   presets: presets.concat(['@babel/preset-react']),
   plugins: [
-    // 'babel-plugin-optimize-clsx',
+    'babel-plugin-optimize-clsx',
     '@babel/plugin-proposal-export-default-from',
     ['@babel/plugin-proposal-object-rest-spread', { loose: true }],
     ['@babel/plugin-proposal-class-properties', { loose: true }],
