@@ -20,7 +20,7 @@
     "audit-ci:npm": "audit-ci --config ./audit-ci.json --report-type summary",
     "audit-ci:yarn": "babel-node ./scripts/prepub/audit/toOpt && audit-ci --config ./audit-ci.json --package-manager=yarn --report-type full && babel-node ./scripts/prepub/audit/toDev",
     "build": "yarn build:clean && yarn build:prebuild && yarn build:cjs && yarn build:esm && yarn build:es && yarn build:umd && yarn build:copy && yarn post-build",
-    "prebuild-ci": "yarn figma-ci-build && yarn build:prebuild && yarn test:update && yarn figma-ci-commit",
+    "prebuild-ci": "yarn figma-ci-build && yarn build && yarn test:update && yarn figma-ci-commit",
     "build:cjs": "cross-env NODE_ENV=production BABEL_ENV=cjs babel --config-file ./babel.config.js ./src --out-dir ./build --ignore \"./src/umd\" --ignore \"./src/core\" --ignore \"**/*.test.js\"",
     "build:clean": "rm -rf build/**",
     "build:copy": "cp -R build/* ./ && rm -rf build",
