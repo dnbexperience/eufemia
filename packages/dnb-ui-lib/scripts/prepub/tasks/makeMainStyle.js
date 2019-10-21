@@ -47,41 +47,73 @@ export default async () => {
   )
 }
 
-const transformMainStyleContent = content =>
-  content.replace(new RegExp('../../assets/', 'g'), '../assets/')
-
 export const runFactory = (
   src,
   { returnResult = false, importOnce = true } = {}
 ) =>
-  new Promise((resolve, reject) => {
+  new Promise(async (resolve, reject) => {
     log.start('> PrePublish: transforming main style')
     try {
-      const stream = sass({
-        importer: importOnce ? [onceImporter()] : []
-      }).on('error', sass.logError)
-
-      const cloneSink = clone.sink()
-
-      gulp
-        .src(src, {
-          cwd: process.env.ROOT_DIR
+      const result = await Promise.all([
+        new Promise((resolve, reject) => {
+          const sassStream = sass({
+            importer: importOnce ? [onceImporter()] : []
+          }).on('error', sass.logError)
+          const cloneSink = clone.sink()
+          gulp
+            .src(src, {
+              cwd: process.env.ROOT_DIR
+            })
+            .pipe(sassStream)
+            .pipe(transform('utf8', transformPaths('../assets/')))
+            .pipe(postcss(postcssConfig({ IE11: true })))
+            .pipe(cloneSink)
+            .pipe(cssnano())
+            .pipe(rename({ suffix: '.min' }))
+            .pipe(cloneSink.tap())
+            .pipe(
+              returnResult
+                ? transform('utf8', result => resolve(result))
+                : gulp.dest('./style', { cwd: process.env.ROOT_DIR })
+            )
+            .on('end', resolve)
+            .on('error', reject)
+        }),
+        new Promise((resolve, reject) => {
+          if (returnResult) {
+            return resolve('')
+          }
+          const sassStream = sass({
+            importer: importOnce ? [onceImporter()] : []
+          }).on('error', sass.logError)
+          const cloneSink = clone.sink()
+          gulp
+            .src(src, {
+              cwd: process.env.ROOT_DIR
+            })
+            .pipe(sassStream)
+            .pipe(transform('utf8', transformPaths('../../assets/')))
+            .pipe(postcss(postcssConfig({ IE11: true })))
+            .pipe(cloneSink)
+            .pipe(cssnano())
+            .pipe(rename({ suffix: '.min' }))
+            .pipe(cloneSink.tap())
+            .pipe(gulp.dest('./es/style', { cwd: process.env.ROOT_DIR }))
+            .pipe(
+              gulp.dest('./esm/style', {
+                cwd: process.env.ROOT_DIR
+              })
+            )
+            .on('end', resolve)
+            .on('error', reject)
         })
-        .pipe(stream)
-        .pipe(transform('utf8', transformMainStyleContent))
-        .pipe(postcss(postcssConfig({ IE11: true })))
-        .pipe(cloneSink)
-        .pipe(cssnano())
-        .pipe(rename({ suffix: '.min' }))
-        .pipe(cloneSink.tap())
-        .pipe(
-          returnResult
-            ? transform('utf8', result => resolve(result))
-            : gulp.dest('./style', { cwd: process.env.ROOT_DIR })
-        )
-        .on('end', resolve)
-        .on('error', reject)
+      ])
+
+      resolve(result.join(''))
     } catch (e) {
       reject(e)
     }
   })
+
+const transformPaths = path => content =>
+  content.replace(new RegExp('../../assets/', 'g'), path)

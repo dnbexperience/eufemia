@@ -96,26 +96,7 @@ module.exports = {
         ['@babel/plugin-transform-runtime', { useESModules: true }]
       ]
     },
-    development: {
-      // presets
-      // presets: [
-      //   [
-      //     '@babel/preset-env',
-      //     {
-      //       targets: {
-      //         browsers: 'last 1 versions'
-      //       }
-      //     }
-      //   ],
-      //   '@babel/preset-react'
-      // ],
-      // ignore: ['node_modules/**', '**/*.test.js'],
-      // plugins: [
-      //   '@babel/plugin-proposal-export-default-from',
-      //   '@babel/plugin-proposal-object-rest-spread',
-      //   '@babel/plugin-proposal-class-properties'
-      // ]
-    },
+    development: {},
     test: {
       presets: [
         [

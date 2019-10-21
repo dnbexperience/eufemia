@@ -6,7 +6,6 @@
 import gulp from 'gulp'
 import sass from 'gulp-sass'
 import postcss from 'gulp-postcss'
-// import jsonImpo rter from 'node-sass-json-importer'
 import cssnano from 'gulp-cssnano'
 import clone from 'gulp-clone'
 import rename from 'gulp-rename'
@@ -48,7 +47,7 @@ export const runFactory = (src, { returnResult = false } = {}) =>
           cwd: process.env.ROOT_DIR
         })
         .pipe(sassStream)
-        .pipe(transform('utf8', transformContent))
+        .pipe(transform('utf8', transformAssets))
         .pipe(postcss(postcssConfig({ IE11: true })))
         .pipe(cloneSink)
         .pipe(cssnano())
@@ -62,9 +61,7 @@ export const runFactory = (src, { returnResult = false } = {}) =>
         .on('end', resolve)
         .on('error', reject)
 
-      if (returnResult) {
-        stream.pipe(transform('utf8', result => resolve(result)))
-      } else {
+      if (!returnResult) {
         stream
           .pipe(gulp.dest(`./es/${dest}/`, { cwd: process.env.ROOT_DIR }))
           .pipe(gulp.dest(`./esm/${dest}/`, { cwd: process.env.ROOT_DIR }))
@@ -75,7 +72,7 @@ export const runFactory = (src, { returnResult = false } = {}) =>
     }
   })
 
-const transformContent = (content, file) => {
+const transformAssets = (content, file) => {
   log.text = `> PrePublish: converting sass to css | ${file.path}`
   return content.replace(
     new RegExp('../../../../assets/', 'g'),
