@@ -7,9 +7,6 @@ import gulp from 'gulp'
 import sass from 'gulp-sass'
 import postcss from 'gulp-postcss'
 import onceImporter from 'node-sass-once-importer'
-import babel from 'gulp-babel'
-import uglify from 'gulp-uglify'
-import sourcemaps from 'gulp-sourcemaps'
 import cssnano from 'gulp-cssnano'
 import clone from 'gulp-clone'
 import rename from 'gulp-rename'
@@ -22,8 +19,6 @@ import { asyncForEach } from '../../tools/index'
 import postcssConfig from '../config/postcssConfig'
 
 export default async () => {
-  await transformStyleModules()
-
   // info: use this aproach to process files because:
   // this way we avoid cross "includePaths" and the result is:
   // Now a custom theme can overwrite existing CSS Custom Properties
@@ -52,38 +47,8 @@ export default async () => {
   )
 }
 
-const transformModulesContent = content =>
-  content.replace(/\.scss/g, '.min.css')
 const transformMainStyleContent = content =>
   content.replace(new RegExp('../../assets/', 'g'), '../assets/')
-
-const transformStyleModules = () =>
-  new Promise((resolve, reject) => {
-    log.start('> PrePublish: transforming style modules')
-    try {
-      gulp
-        .src(
-          [
-            './src/style/**/*.js',
-            '!**/__tests__/**',
-            '!**/*_not_in_use*/**/*'
-          ],
-          {
-            cwd: process.env.ROOT_DIR
-          }
-        )
-        .pipe(sourcemaps.init())
-        .pipe(transform('utf8', transformModulesContent))
-        .pipe(babel())
-        .pipe(uglify())
-        .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest('./style', { cwd: process.env.ROOT_DIR }))
-        .on('end', resolve)
-        .on('error', reject)
-    } catch (e) {
-      reject(e)
-    }
-  })
 
 export const runFactory = (
   src,

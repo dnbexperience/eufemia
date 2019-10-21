@@ -62,10 +62,13 @@ export const runFactory = (src, { returnResult = false } = {}) =>
         .on('end', resolve)
         .on('error', reject)
 
-      if (!returnResult)
-        stream.pipe(
-          gulp.dest(`./es/${dest}/`, { cwd: process.env.ROOT_DIR })
-        )
+      if (returnResult) {
+        stream.pipe(transform('utf8', result => resolve(result)))
+      } else {
+        stream
+          .pipe(gulp.dest(`./es/${dest}/`, { cwd: process.env.ROOT_DIR }))
+          .pipe(gulp.dest(`./esm/${dest}/`, { cwd: process.env.ROOT_DIR }))
+      }
     } catch (e) {
       console.debug('reject', e)
       reject(e)

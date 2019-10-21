@@ -5,8 +5,6 @@
 
 import gulp from 'gulp'
 import babel from 'gulp-babel'
-import sourcemaps from 'gulp-sourcemaps'
-import uglify from 'gulp-uglify'
 import rename from 'gulp-rename'
 import transform from 'gulp-transform'
 import { log } from '../../lib'
@@ -37,7 +35,6 @@ const transformModulesContent = content => {
 
   export default ${JSON.stringify(variables, null, 2)}
   `
-  // console.log('result', result)
 
   return result
 }
@@ -65,10 +62,7 @@ export const runFactory = ({ returnResult = false } = {}) =>
             extname: '.js'
           })
         ) // rename
-        .pipe(sourcemaps.init())
         .pipe(babel())
-        .pipe(uglify())
-        .pipe(sourcemaps.write('./'))
         .pipe(
           returnResult
             ? transform('utf8', result => resolve(result))

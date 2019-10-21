@@ -18,7 +18,7 @@ import {
   // makeMainStyle,
   makePropertiesFile
   // prepareTemplates
-  // makeLibModules,
+  // makeLibModules
   // makeMainUMDBundle
 } from './index'
 

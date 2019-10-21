@@ -235,16 +235,12 @@ export const registerElement = (
       if (this._elementRef) {
         props.ref = this._elementRef
       }
-      if (ReactComponent.propTypes) {
-        if (ReactComponent.propTypes.custom_element) {
-          props.custom_element = this
-        }
-        if (ReactComponent.propTypes.custom_method) {
-          props.custom_method = (methodName, methodFunc) => {
-            this[methodName] = this._customMethodes[
-              methodName
-            ] = methodFunc
-          }
+      if (!props.custom_element) {
+        props.custom_element = this
+      }
+      if (!props.custom_method) {
+        props.custom_method = (methodName, methodFunc) => {
+          this[methodName] = this._customMethodes[methodName] = methodFunc
         }
       }
 

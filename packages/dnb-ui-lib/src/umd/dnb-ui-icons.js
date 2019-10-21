@@ -1,5 +1,5 @@
 /**
- * umd icons bundle
+ * UMD icons bundle
  *
  */
 
