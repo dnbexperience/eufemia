@@ -3,7 +3,9 @@
  *
  */
 
-export * from './index'
-import { enableWebComponents } from '../index'
+import { registerElement } from '../../shared/custom-element'
+import ViewTitle from './ViewTitle'
+export default ViewTitle
+export * from './ViewTitle'
 
-enableWebComponents()
+registerElement(ViewTitle.tagName, ViewTitle, ViewTitle.defaultProps)

@@ -3,7 +3,9 @@
  *
  */
 
-export * from './index'
-import { enableWebComponents } from '../index'
+import { registerElement } from '../../shared/custom-element'
+import RangeSlider from './RangeSlider'
+export default RangeSlider
+export * from './RangeSlider'
 
-enableWebComponents()
+registerElement(RangeSlider.tagName, RangeSlider, RangeSlider.defaultProps)
