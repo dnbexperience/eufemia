@@ -18,7 +18,7 @@ import FormLabel from '../../components/form-label/FormLabel'
 
 const renderProps = {}
 
-export const propTypes = {
+const propTypes = {
   label_text: PropTypes.string.isRequired,
   range_min: PropTypes.number.isRequired,
   range_max: PropTypes.number.isRequired,
@@ -39,7 +39,7 @@ export const propTypes = {
   // Web Component props
 }
 
-export const defaultProps = {
+const defaultProps = {
   title: null,
   text: null,
   descriptionListData: null,

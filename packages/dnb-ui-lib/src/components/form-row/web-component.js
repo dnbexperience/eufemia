@@ -3,7 +3,9 @@
  *
  */
 
-export * from './index'
-import { enableWebComponents } from '../index'
+import { registerElement } from '../../shared/custom-element'
+import FormRow from './FormRow'
+export default FormRow
+export * from './FormRow'
 
-enableWebComponents()
+registerElement(FormRow.tagName, FormRow, FormRow.defaultProps)

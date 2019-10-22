@@ -34,7 +34,7 @@ export const ValidIconSizes = [
   'xx-large' // 48px 3rem
 ]
 
-export const propTypes = {
+const propTypes = {
   icon: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.node,
@@ -61,7 +61,7 @@ export const propTypes = {
   ])
 }
 
-export const defaultProps = {
+const defaultProps = {
   icon: null,
   modifier: null,
   size: null,

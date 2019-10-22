@@ -31,7 +31,7 @@ export default class MdxTemplate extends PureComponent {
     return (
       <MDXProvider components={tags}>
         <Head>
-          <title>{title}</title>
+          {title && title.length > 1 && <title>{title}</title>}
           <meta
             name="description"
             content={description || descriptionFallback}

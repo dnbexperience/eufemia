@@ -22,7 +22,7 @@ const renderProps = {
   on_change: null
 }
 
-export const propTypes = {
+const propTypes = {
   data: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.arrayOf(
@@ -60,7 +60,7 @@ export const propTypes = {
   on_change: PropTypes.func
 }
 
-export const defaultProps = {
+const defaultProps = {
   data: [],
   active_item: 0,
   active_url: null,

@@ -16,7 +16,7 @@ import * as primary_icons_medium from '../../icons/primary_icons_medium'
 const icons = { ...primary_icons, ...primary_icons_medium }
 
 export { DefaultIconSize }
-export const propTypes = {
+const propTypes = {
   ...DefaultIcon.propTypes,
   ...{
     icon: PropTypes.oneOfType([
@@ -27,7 +27,7 @@ export const propTypes = {
   }
 }
 
-export const defaultProps = { ...DefaultIcon.defaultProps }
+const defaultProps = { ...DefaultIcon.defaultProps }
 
 export default class IconPrimary extends PureComponent {
   static tagName = 'dnb-icon-primary'

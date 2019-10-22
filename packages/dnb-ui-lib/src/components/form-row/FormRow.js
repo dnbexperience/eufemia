@@ -23,7 +23,7 @@ const renderProps = {
   render_content: null
 }
 
-export const propTypes = {
+const propTypes = {
   id: PropTypes.string,
   label: PropTypes.oneOfType([
     PropTypes.string,
@@ -59,7 +59,7 @@ export const propTypes = {
   render_content: PropTypes.func
 }
 
-export const defaultProps = {
+const defaultProps = {
   id: null,
   label: null,
   label_direction: null,

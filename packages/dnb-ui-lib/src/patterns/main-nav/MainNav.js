@@ -22,7 +22,7 @@ const renderProps = {
   // render_data: null,
 }
 
-export const propTypes = {
+const propTypes = {
   data: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   baseurl: PropTypes.string,
   notification_amount: PropTypes.oneOfType([
@@ -41,7 +41,7 @@ export const propTypes = {
   // render_data: PropTypes.func,
 }
 
-export const defaultProps = {
+const defaultProps = {
   data: [],
   baseurl: '/uilib/demos',
   // baseurl: null,

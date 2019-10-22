@@ -40,7 +40,7 @@ const renderProps = {
   on_cancel: null
 }
 
-export const propTypes = {
+const propTypes = {
   id: PropTypes.string,
   title: PropTypes.string,
   date: PropTypes.oneOfType([
@@ -145,7 +145,7 @@ export const propTypes = {
   on_cancel: PropTypes.func
 }
 
-export const defaultProps = {
+const defaultProps = {
   id: null,
   title: null,
   date: undefined,

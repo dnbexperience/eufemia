@@ -15,7 +15,7 @@ import Button from '../../components/button/Button'
 
 const renderProps = {}
 
-export const propTypes = {
+const propTypes = {
   prev_href: PropTypes.string,
   next_href: PropTypes.string,
   prev_text: PropTypes.string,
@@ -35,7 +35,7 @@ export const propTypes = {
   // render_right_content: PropTypes.func
 }
 
-export const defaultProps = {
+const defaultProps = {
   prev_href: null,
   next_href: null,
   prev_text: 'Back',

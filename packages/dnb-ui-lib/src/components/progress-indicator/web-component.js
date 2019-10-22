@@ -3,7 +3,13 @@
  *
  */
 
-export * from './index'
-import { enableWebComponents } from '../index'
+import { registerElement } from '../../shared/custom-element'
+import ProgressIndicator from './ProgressIndicator'
+export default ProgressIndicator
+export * from './ProgressIndicator'
 
-enableWebComponents()
+registerElement(
+  ProgressIndicator.tagName,
+  ProgressIndicator,
+  ProgressIndicator.defaultProps
+)

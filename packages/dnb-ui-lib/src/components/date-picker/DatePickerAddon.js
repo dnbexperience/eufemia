@@ -9,7 +9,7 @@ import isSameDay from 'date-fns/isSameDay'
 import { convertStringToDate } from './DatePickerCalc'
 import ToggleButton from '../toggle-button/ToggleButton'
 
-export const propTypes = {
+const propTypes = {
   shortcuts: PropTypes.oneOfType([PropTypes.array, PropTypes.func]),
   renderElement: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   startDate: PropTypes.instanceOf(Date),
@@ -17,7 +17,7 @@ export const propTypes = {
   onChange: PropTypes.func
 }
 
-export const defaultProps = {
+const defaultProps = {
   shortcuts: null,
   renderElement: null,
   startDate: null,

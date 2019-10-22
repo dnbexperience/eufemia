@@ -29,7 +29,7 @@ const renderProps = {
   on_state_update: null
 }
 
-export const propTypes = {
+const propTypes = {
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   id: PropTypes.string,
   label: PropTypes.oneOfType([
@@ -79,7 +79,7 @@ export const propTypes = {
   on_state_update: PropTypes.func
 }
 
-export const defaultProps = {
+const defaultProps = {
   value: 'initval',
   id: null,
   label: null,

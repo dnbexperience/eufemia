@@ -3,7 +3,9 @@
  *
  */
 
-export * from './index'
-import { enableWebComponents } from '../index'
+import { registerElement } from '../../shared/custom-element'
+import Space from './Space'
+export default Space
+export * from './Space'
 
-enableWebComponents()
+registerElement(Space.tagName, Space, Space.defaultProps)
