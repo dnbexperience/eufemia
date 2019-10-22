@@ -3,26 +3,38 @@
  *
  */
 
-// General presets
-const presets =
-  process.env.BABEL_ENV === 'es'
-    ? []
-    : [
-        [
-          '@babel/preset-env',
-          {
-            useBuiltIns: 'usage',
-            corejs: 2, // also for IE testing with Storybook
-            // use .browserslistrc instead
-            // targets: {
-            //   browsers: 'last 1 versions'
-            // },
-            modules: ['esm', 'umd'].includes(process.env.BABEL_ENV)
-              ? false
-              : 'cjs'
-          }
-        ]
-      ]
+let presets = [],
+  legacy = []
+
+// General presets, using .browserslistrc
+if (process.env.BABEL_ENV === 'es') {
+  presets = ['@babel/preset-react']
+} else {
+  presets = [
+    [
+      '@babel/preset-env',
+      {
+        modules: ['esm', 'umd'].includes(process.env.BABEL_ENV)
+          ? false
+          : 'cjs'
+      }
+    ],
+    '@babel/preset-react'
+  ]
+
+  // also for IE testing with Storybook}
+  legacy = [
+    [
+      presets[0][0], // get preset id
+      {
+        ...presets[0][1], // get preset options
+        useBuiltIns: 'usage',
+        corejs: 2
+      }
+    ],
+    presets[1]
+  ]
+}
 
 // Produciton plugins
 const plugins = [
@@ -57,7 +69,7 @@ if (typeof process.env.BABEL_ENV !== 'undefined') {
 }
 
 module.exports = {
-  presets: presets.concat(['@babel/preset-react']),
+  presets,
   plugins: [
     'babel-plugin-optimize-clsx',
     '@babel/plugin-proposal-export-default-from',
@@ -67,12 +79,15 @@ module.exports = {
     '@babel/plugin-transform-object-assign' // for IE support
   ],
   sourceMaps: true,
+  comments: false,
   ignore: ['node_modules/**'],
   env: {
     cjs: {
+      presets: legacy,
       plugins: plugins.concat(['@babel/plugin-transform-modules-commonjs'])
     },
     esm: {
+      presets: legacy,
       plugins: [
         ...plugins,
         ['@babel/plugin-transform-runtime', { useESModules: true }]
@@ -85,18 +100,20 @@ module.exports = {
       ]
     },
     umd: {
+      presets: legacy,
       plugins: [
         ...plugins,
         ['@babel/plugin-transform-runtime', { useESModules: true }]
       ]
     },
     production: {
+      presets: legacy,
       plugins: [
         ...plugins,
         ['@babel/plugin-transform-runtime', { useESModules: true }]
       ]
     },
-    development: {},
+    development: { presets: legacy },
     test: {
       presets: [
         [
@@ -109,7 +126,6 @@ module.exports = {
         ],
         '@babel/preset-react'
       ],
-      // ignore: ['node_modules/**'],
       plugins: [...plugins, 'transform-dynamic-import']
     }
   }

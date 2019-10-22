@@ -21,9 +21,9 @@
     "audit-ci:yarn": "babel-node ./scripts/prepub/audit/toOpt && audit-ci --config ./audit-ci.json --package-manager=yarn --report-type full && babel-node ./scripts/prepub/audit/toDev",
     "build": "yarn build:clean && yarn build:prebuild && yarn build:cjs && yarn build:esm && yarn build:es && yarn build:umd && yarn build:copy && yarn post-build",
     "prebuild-ci": "yarn figma-ci-build && yarn build && yarn test:update && yarn figma-ci-commit",
-    "build:cjs": "cross-env NODE_ENV=production BABEL_ENV=cjs babel --config-file ./babel.config.js ./src --out-dir ./build --ignore \"./src/umd\" --ignore \"./src/core\" --ignore \"**/*.test.js\"",
+    "build:cjs": "cross-env NODE_ENV=production BABEL_ENV=cjs babel --config-file ./babel.config.js ./src --out-dir ./build/cjs --ignore \"./src/umd\" --ignore \"./src/core\" --ignore \"**/*.test.js\"",
     "build:clean": "rm -rf build/**",
-    "build:copy": "cp -R build/* ./ && rm -rf build",
+    "build:copy": "cp -R build/esm/* ./ && cp -R build/* ./ && rm -rf build",
     "build:es": "cross-env NODE_ENV=production BABEL_ENV=es babel --config-file ./babel.config.js ./src --out-dir ./build/es --ignore \"./src/umd\" --ignore \"./src/core\" --ignore \"**/*.test.js\"",
     "build:esm": "cross-env NODE_ENV=production BABEL_ENV=esm babel --config-file ./babel.config.js ./src --out-dir ./build/esm --ignore \"./src/umd\" --ignore \"./src/core\" --ignore \"**/*.test.js\"",
     "build:prebuild": "babel-node ./scripts/prepub/runPrepub.js",
@@ -213,5 +213,9 @@
     "traverse": "^0.6.6"
   },
   "release": {},
-  "sideEffects": false
+  "sideEffects": [
+    "./style/**/*",
+    "./es/style/**/*",
+    "./esm/style/**/*"
+  ]
 }

@@ -89,17 +89,23 @@ export const cleanupLib = async ({ preventDelete = false } = {}) => {
       [
         './es/**',
         './esm/**',
+        './cjs/**',
         './components/**',
         './elements/**',
         './patterns/**',
         './style/**',
+        './shared/**',
+        './icons/**',
         './umd/**',
         '!./es',
         '!./esm',
+        '!./cjs',
         '!./components',
         '!./elements',
         '!./patterns',
         '!./style',
+        '!./shared',
+        '!./icons',
         '!./umd'
       ],
       {
