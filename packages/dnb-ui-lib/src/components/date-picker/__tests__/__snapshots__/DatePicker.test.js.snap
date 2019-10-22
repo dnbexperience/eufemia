@@ -26,6 +26,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
   link={false}
   locale={
     Object {
+      "code": "nb",
       "formatDistance": [Function],
       "formatLong": Object {
         "date": [Function],
