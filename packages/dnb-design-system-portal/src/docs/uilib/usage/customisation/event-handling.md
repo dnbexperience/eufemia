@@ -109,12 +109,17 @@ components
 
 ## HTML & ES5
 
-You may also take a look at the example projects in the repo, called `example-html`;
+You may also take a look at the [example-html](https://github.com/dnbexperience/eufemia-examples/tree/master/packages/example-html) project:
 
 ```html
 <!-- Declarative -->
+<dnb-button text="Declarative" on_click="clickHandler" />
 <dnb-button text="Declarative" on_click="myScope.on_click" />
 <script>
+  // Global scope
+  function clickHandler() {}
+
+  // Class scope
   function MyClass() {}
   MyClass.prototype.on_click = function(event) {}
   window.myScope = new MyClass()
