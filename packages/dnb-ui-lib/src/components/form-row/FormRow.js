@@ -23,7 +23,7 @@ const renderProps = {
   render_content: null
 }
 
-const propTypes = {
+export const propTypes = {
   id: PropTypes.string,
   label: PropTypes.oneOfType([
     PropTypes.string,

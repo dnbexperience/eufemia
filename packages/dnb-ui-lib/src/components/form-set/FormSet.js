@@ -17,7 +17,7 @@ import {
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import Context from '../../shared/Context'
-import FormRow from '../form-row/FormRow'
+import { propTypes as availableFormRowProps } from '../form-row/FormRow'
 
 const renderProps = {
   render_content: null
@@ -103,7 +103,7 @@ export default class FormSet extends PureComponent {
 
     const formRowProps = Object.entries(rest).reduce((acc, [k, v]) => {
       if (
-        typeof FormRow.propTypes[k] !== 'undefined' &&
+        typeof availableFormRowProps[k] !== 'undefined' &&
         k !== 'id' &&
         k !== 'children' &&
         k !== 'label' &&
