@@ -6,6 +6,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { css, Global } from '@emotion/core'
+import Head from 'react-helmet'
 import styled from '@emotion/styled'
 import classnames from 'classnames'
 import Card, { focusRing } from './Card'
@@ -226,6 +227,10 @@ export default class MainMenu extends PureComponent {
           )}
           {...{ isOpen }}
         >
+          <Head>
+            <title>Eufemia - DNB Design System</title>
+          </Head>
+          <h1 className="dnb-sr-only">Welcome to Eufemia</h1>
           {
             <>
               <Global styles={customBodyStyle} />

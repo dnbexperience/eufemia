@@ -23,7 +23,10 @@ export default class MdxTemplate extends PureComponent {
           frontmatter: { title, description, fullscreen }
         },
         site: {
-          siteMetadata: { description: descriptionFallback }
+          siteMetadata: {
+            title: fallbackTitle,
+            description: fallbackDescription
+          }
         }
       }
     } = this.props
@@ -31,10 +34,10 @@ export default class MdxTemplate extends PureComponent {
     return (
       <MDXProvider components={tags}>
         <Head>
-          <title>{title}</title>
+          <title>{title || fallbackTitle}</title>
           <meta
             name="description"
-            content={description || descriptionFallback}
+            content={description || fallbackDescription}
           />
           <link
             rel="apple-touch-icon"
