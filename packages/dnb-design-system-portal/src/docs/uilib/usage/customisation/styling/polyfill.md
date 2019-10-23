@@ -60,14 +60,14 @@ But on large applications, the polyfill lacks in stability, therefore we made an
 
 ### Styled Components
 
+Is supported from v5 of [styled-components](https://www.styled-components.com) and above.
+
 ```jsx
 import stylisPlugin from 'dnb-ui-lib/style/stylis'
 import { StyleSheetManager } from 'styled-components'
 
-const stylisOptions = { stylisPlugins: [stylisPlugin] }
-
 render(
-  <StyleSheetManager stylisOptions={stylisOptions}>
+  <StyleSheetManager stylisPlugins={[stylisPlugin]}>
     <YourApp />
   </StyleSheetManager>
 )
