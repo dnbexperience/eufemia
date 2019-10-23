@@ -211,6 +211,9 @@
     "access": "public"
   },
   "release": {},
+  "resolutions": {
+    "eslint": "^5"
+  },
   "sideEffects": [
     "./style/**/*",
     "./es/style/**/*",
