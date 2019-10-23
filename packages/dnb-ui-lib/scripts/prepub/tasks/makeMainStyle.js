@@ -51,7 +51,7 @@ export const runFactory = (
   src,
   { returnResult = false, importOnce = true } = {}
 ) =>
-  new Promise((resolve, reject) => {
+  new Promise(async (resolve, reject) => {
     log.start('> PrePublish: transforming main style')
     try {
       const sassStream = sass({

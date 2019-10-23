@@ -4,6 +4,8 @@ exports[`FormRow component have to match snapshot 1`] = `
 <FormRow
   class="class"
   className="className"
+  custom_element={Object {}}
+  custom_method={[Function]}
   direction="horizontal"
   disabled="disabled"
   global_status_id="global_status_id"
