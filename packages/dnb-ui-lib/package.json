@@ -80,7 +80,7 @@
     "body-scroll-lock": "^2.6.4",
     "classnames": "^2.2.6",
     "core-js": "^2",
-    "date-fns": "^2.4.1",
+    "date-fns": "^2.6.0",
     "keycode": "^2.2.0",
     "react-text-mask": "^5.4.3",
     "what-input": "^5.2.6"
