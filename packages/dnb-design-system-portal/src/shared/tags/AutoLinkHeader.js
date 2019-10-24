@@ -8,18 +8,39 @@ const AutoLinkHeader = ({ is: Component, children, ...props }) => {
   slugger.reset()
   let id
   // custom id (https://www.markdownguide.org/extended-syntax/#heading-ids)
-  if (/\{#(.*)\}/.test(children)) {
-    id = /\{#([^}]*)\}/.exec(children)[1]
-    children = children.replace(/\{#(.*)\}/g, '').trim()
-  } else {
+  if (children && children.props) {
     id = slugger.slug(
       children.props && children.props.children
         ? children.props.children
         : children
     )
+  } else {
+    if (Array.isArray(children)) {
+      const { _id, _children } = children.reduce(
+        (acc, cur) => {
+          if (typeof cur === 'string' && /\{#(.*)\}/.test(cur)) {
+            acc._id = acc._id + /\{#([^}]*)\}/.exec(children)[1]
+          } else {
+            acc._children.push(cur)
+          }
+          return acc
+        },
+        { _id: '', _children: [] }
+      )
+      id = _id
+      children = _children
+    } else if (
+      typeof children === 'string' &&
+      /\{#(.*)\}/.test(children)
+    ) {
+      id = /\{#([^}]*)\}/.exec(children)[1]
+    }
+    if (typeof children === 'string') {
+      children = children.replace(/\{#(.*)\}/g, '').trim()
+    }
   }
   const clickHandler = () => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== 'undefined' && id) {
       try {
         window.history.replaceState(undefined, undefined, `#${id}`)
       } catch (e) {
@@ -27,7 +48,6 @@ const AutoLinkHeader = ({ is: Component, children, ...props }) => {
       }
     }
   }
-  // console.log('id', id)
   return (
     <Component className={`dnb-${Component}`} {...props}>
       <AnchorLink
