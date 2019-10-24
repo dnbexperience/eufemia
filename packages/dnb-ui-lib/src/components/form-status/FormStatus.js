@@ -22,7 +22,7 @@ const renderProps = {
   render_content: null
 }
 
-export const propTypes = {
+const propTypes = {
   id: PropTypes.string,
   title: PropTypes.string,
   text: PropTypes.oneOfType([
@@ -57,7 +57,7 @@ export const propTypes = {
   render_content: PropTypes.func
 }
 
-export const defaultProps = {
+const defaultProps = {
   id: null,
   title: null,
   text: null,

@@ -7,7 +7,10 @@
 /reports/jest-screenshot-report
 
 # production
+/build
 /es
+/esm
+/cjs
 /lib
 /package
 /components
@@ -19,8 +22,9 @@
 /icons
 **/test-files/dist
 /docs
-/vue.*
-/index.*
+/vue.js
+/index.js
+/lib.js
 /web-components.*
 /web-components
 /dnb-ui-lib-*.tgz

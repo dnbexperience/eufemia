@@ -3,7 +3,9 @@
  *
  */
 
-export * from './index'
-import { enableWebComponents } from '../index'
+import { registerElement } from '../../shared/custom-element'
+import LineTitle from './LineTitle'
+export default LineTitle
+export * from './LineTitle'
 
-enableWebComponents()
+registerElement(LineTitle.tagName, LineTitle, LineTitle.defaultProps)

@@ -20,16 +20,13 @@ import { createSpacingClasses } from '../space/SpacingHelper'
 
 // date-fns
 import format from 'date-fns/format'
-import toDate from 'date-fns/toDate'
-import isValid from 'date-fns/isValid'
-import parseISO from 'date-fns/parseISO'
-import parse from 'date-fns/parse'
 import differenceInCalendarDays from 'date-fns/differenceInCalendarDays'
 import nbLocale from 'date-fns/locale/nb'
 
 import Context from '../../shared/Context'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
+import { convertStringToDate, correctV1Format } from './DatePickerCalc'
 import DatePickerRange from './DatePickerRange'
 import DatePickerInput from './DatePickerInput'
 import DatePickerAddon from './DatePickerAddon'
@@ -43,7 +40,7 @@ const renderProps = {
   on_cancel: null
 }
 
-export const propTypes = {
+const propTypes = {
   id: PropTypes.string,
   title: PropTypes.string,
   date: PropTypes.oneOfType([
@@ -148,7 +145,7 @@ export const propTypes = {
   on_cancel: PropTypes.func
 }
 
-export const defaultProps = {
+const defaultProps = {
   id: null,
   title: null,
   date: undefined,
@@ -232,7 +229,7 @@ export default class DatePicker extends PureComponent {
         startDate !== state.startDate
       ) {
         state.startDate =
-          DatePicker.convertStringToDate(startDate, {
+          convertStringToDate(startDate, {
             date_format
           }) || undefined
 
@@ -242,79 +239,38 @@ export default class DatePicker extends PureComponent {
       }
       if (typeof props.end_date !== 'undefined' && isTrue(props.range)) {
         state.endDate =
-          DatePicker.convertStringToDate(props.end_date, {
+          convertStringToDate(props.end_date, {
             date_format
           }) || undefined
       }
       if (typeof props.month !== 'undefined') {
-        state.month = DatePicker.convertStringToDate(props.month, {
+        state.month = convertStringToDate(props.month, {
           date_format
         })
       }
       if (typeof props.start_month !== 'undefined') {
-        state.startMonth = DatePicker.convertStringToDate(
-          props.start_month,
-          {
-            date_format
-          }
-        )
+        state.startMonth = convertStringToDate(props.start_month, {
+          date_format
+        })
       }
       if (typeof props.end_month !== 'undefined') {
-        state.endMonth = DatePicker.convertStringToDate(props.end_month, {
+        state.endMonth = convertStringToDate(props.end_month, {
           date_format
         })
       }
       if (typeof props.min_date !== 'undefined') {
-        state.minDate = DatePicker.convertStringToDate(props.min_date, {
+        state.minDate = convertStringToDate(props.min_date, {
           date_format
         })
       }
       if (typeof props.max_date !== 'undefined') {
-        state.maxDate = DatePicker.convertStringToDate(props.max_date, {
+        state.maxDate = convertStringToDate(props.max_date, {
           date_format
         })
       }
     }
     state._listenForPropChanges = true
     return state
-  }
-
-  static convertStringToDate(date, { date_format = null } = {}) {
-    if (date === null) {
-      return null
-    }
-    let dateObject
-    dateObject = typeof date === 'string' ? parseISO(date) : toDate(date)
-
-    // check one more time if we can generate a valid date
-    if (typeof date === 'string' && date_format && !isValid(dateObject)) {
-      date_format = DatePicker.correctV1Format(date_format)
-      dateObject = parse(date, date_format, new Date())
-    }
-
-    // rather return null than an invalid date
-    if (!isValid(dateObject)) {
-      console.warn(
-        'DatePicker.convertStringToDate got invalid date:',
-        date
-      )
-      return null
-    }
-
-    return dateObject
-  }
-
-  static correctV1Format(date) {
-    // for backwords compatibility
-    // TODO: Remvoe this in next major version
-    if (/YYYY/.test(date) && /DD/.test(date)) {
-      console.warn(
-        'You are using "YYYY-MM-DD" as the date_format or return_format? Please use "yyyy-MM-dd" instead!'
-      )
-      date = date.replace(/DD/, 'dd').replace(/YYYY/, 'yyyy')
-    }
-
-    return date
   }
 
   constructor(props) {
@@ -482,12 +438,12 @@ export default class DatePicker extends PureComponent {
     this.setState(
       {
         startDate: this.state._startDate
-          ? DatePicker.convertStringToDate(this.state._startDate, {
+          ? convertStringToDate(this.state._startDate, {
               date_format
             })
           : null,
         endDate: this.state._endDate
-          ? DatePicker.convertStringToDate(this.state._endDate, {
+          ? convertStringToDate(this.state._endDate, {
               date_format
             })
           : null
@@ -567,9 +523,7 @@ export default class DatePicker extends PureComponent {
   getReturnObject({ event = null } = {}) {
     const { startDate, endDate } = this.state
     const attributes = this.attributes || {}
-    const return_format = DatePicker.correctV1Format(
-      this.props.return_format
-    )
+    const return_format = correctV1Format(this.props.return_format)
 
     return isTrue(this.props.range)
       ? {

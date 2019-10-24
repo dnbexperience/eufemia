@@ -3,7 +3,13 @@
  *
  */
 
-export * from './index'
-import { enableWebComponents } from '../index'
+import { registerElement } from '../../shared/custom-element'
+import GlobalStatus from './GlobalStatus'
+export default GlobalStatus
+export * from './GlobalStatus'
 
-enableWebComponents()
+registerElement(
+  GlobalStatus.tagName,
+  GlobalStatus,
+  GlobalStatus.defaultProps
+)

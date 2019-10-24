@@ -87,7 +87,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
   value={2}
 >
   <span
-    className="dnb-dropdown dnb-dropdown--hidden dnb-dropdown--direction-bottom dnb-dropdown--horizontal dnb-dropdown dnb-dropdown--icon-position-icon_position dnb-dropdown--scroll dnb-dropdown__status--error dnb-dropdown__form-status class className"
+    className="dnb-dropdown dnb-dropdown--direction-bottom dnb-dropdown class className dnb-dropdown--hidden dnb-dropdown--horizontal dnb-dropdown--icon-position-icon_position dnb-dropdown--scroll dnb-dropdown__status--error dnb-dropdown__form-status"
   >
     <FormLabel
       class={null}
@@ -248,7 +248,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
             aria-expanded={false}
             aria-haspopup={true}
             aria-labelledby="dropdown-id-label"
-            className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-dropdown__trigger"
+            className="dnb-button dnb-button--secondary dnb-dropdown__trigger dnb-button--size-medium"
             id="dropdown-id"
             onBlur={[Function]}
             onClick={[Function]}

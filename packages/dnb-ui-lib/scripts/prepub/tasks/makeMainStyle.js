@@ -54,66 +54,57 @@ export const runFactory = (
   new Promise(async (resolve, reject) => {
     log.start('> PrePublish: transforming main style')
     try {
-      const result = await Promise.all([
-        new Promise((resolve, reject) => {
-          const sassStream = sass({
-            importer: importOnce ? [onceImporter()] : []
-          }).on('error', sass.logError)
-          const cloneSink = clone.sink()
-          gulp
-            .src(src, {
+      const sassStream = sass({
+        importer: importOnce ? [onceImporter()] : []
+      }).on('error', sass.logError)
+
+      const cloneSink = clone.sink()
+
+      let stream = gulp
+        .src(src, {
+          cwd: process.env.ROOT_DIR
+        })
+        .pipe(sassStream)
+        .pipe(postcss(postcssConfig({ IE11: true })))
+        .pipe(cloneSink)
+        .pipe(cssnano())
+        .pipe(rename({ suffix: '.min' }))
+        .pipe(cloneSink.tap())
+
+      if (!returnResult) {
+        stream = stream
+          .pipe(
+            gulp.dest('./build/cjs/style', {
               cwd: process.env.ROOT_DIR
             })
-            .pipe(sassStream)
-            .pipe(transform('utf8', transformPaths('../assets/')))
-            .pipe(postcss(postcssConfig({ IE11: true })))
-            .pipe(cloneSink)
-            .pipe(cssnano())
-            .pipe(rename({ suffix: '.min' }))
-            .pipe(cloneSink.tap())
-            .pipe(
-              returnResult
-                ? transform('utf8', result => resolve(result))
-                : gulp.dest('./style', { cwd: process.env.ROOT_DIR })
-            )
-            .on('end', resolve)
-            .on('error', reject)
-        }),
-        new Promise((resolve, reject) => {
-          if (returnResult) {
-            return resolve('')
-          }
-          const sassStream = sass({
-            importer: importOnce ? [onceImporter()] : []
-          }).on('error', sass.logError)
-          const cloneSink = clone.sink()
-          gulp
-            .src(src, {
+          )
+          .pipe(
+            gulp.dest('./build/es/style', { cwd: process.env.ROOT_DIR })
+          )
+          .pipe(
+            gulp.dest('./build/esm/style', {
               cwd: process.env.ROOT_DIR
             })
-            .pipe(sassStream)
-            .pipe(transform('utf8', transformPaths('../../assets/')))
-            .pipe(postcss(postcssConfig({ IE11: true })))
-            .pipe(cloneSink)
-            .pipe(cssnano())
-            .pipe(rename({ suffix: '.min' }))
-            .pipe(cloneSink.tap())
-            .pipe(gulp.dest('./es/style', { cwd: process.env.ROOT_DIR }))
-            .pipe(
-              gulp.dest('./esm/style', {
+          )
+      }
+
+      stream
+        .pipe(
+          transform('utf8', transformPaths('../../assets/', '../assets/'))
+        )
+        .pipe(
+          returnResult
+            ? transform('utf8', result => resolve(result))
+            : gulp.dest('./build/style', {
                 cwd: process.env.ROOT_DIR
               })
-            )
-            .on('end', resolve)
-            .on('error', reject)
-        })
-      ])
-
-      resolve(result.join(''))
+        )
+        .on('end', resolve)
+        .on('error', reject)
     } catch (e) {
       reject(e)
     }
   })
 
-const transformPaths = path => content =>
-  content.replace(new RegExp('../../assets/', 'g'), path)
+const transformPaths = (from, to) => content =>
+  content.replace(new RegExp(from, 'g'), to)

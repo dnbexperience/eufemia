@@ -3,7 +3,9 @@
  *
  */
 
-export * from './index'
-import { enableWebComponents } from '../index'
+import { registerElement } from '../../shared/custom-element'
+import Slider from './Slider'
+export default Slider
+export * from './Slider'
 
-enableWebComponents()
+registerElement(Slider.tagName, Slider, Slider.defaultProps)

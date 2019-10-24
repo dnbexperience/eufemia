@@ -23,7 +23,7 @@ import keycode from 'keycode'
 import { validateDOMAttributes } from '../../shared/component-helper'
 import { isDisabled } from './DatePickerCalc'
 
-export const propTypes = {
+const propTypes = {
   id: PropTypes.string,
   title: PropTypes.string,
   maskOrder: PropTypes.string,
@@ -53,7 +53,7 @@ export const propTypes = {
   onFocus: PropTypes.func
 }
 
-export const defaultProps = {
+const defaultProps = {
   id: null,
   title: null,
   maskOrder: 'dd/mm/yyyy',

@@ -786,7 +786,7 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
                   >
                     <button
                       aria-label="Lukk"
-                      className="dnb-button dnb-button--tertiary dnb-button--size-medium dnb-button--icon-position-left dnb-button--icon-size-medium dnb-button--has-text dnb-button--has-icon dnb-global-status__close-button"
+                      className="dnb-button dnb-button--tertiary dnb-global-status__close-button dnb-button--icon-position-left dnb-button--has-icon dnb-button--icon-size-medium dnb-button--size-medium dnb-button--has-text"
                       onClick={[Function]}
                       onMouseOut={[Function]}
                       type="button"
@@ -839,7 +839,7 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
                           <span
                             alt="close"
                             aria-hidden={true}
-                            className="dnb-icon dnb-icon--medium dnb-button__icon"
+                            className="dnb-icon dnb-button__icon dnb-icon--medium"
                             role="img"
                           >
                             <close_medium>

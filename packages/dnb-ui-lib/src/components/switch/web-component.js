@@ -3,7 +3,9 @@
  *
  */
 
-export * from './index'
-import { enableWebComponents } from '../index'
+import { registerElement } from '../../shared/custom-element'
+import Switch from './Switch'
+export default Switch
+export * from './Switch'
 
-enableWebComponents()
+registerElement(Switch.tagName, Switch, Switch.defaultProps)

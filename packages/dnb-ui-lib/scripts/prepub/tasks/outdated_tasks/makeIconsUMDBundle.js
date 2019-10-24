@@ -35,7 +35,7 @@ const transformStyleModule = () =>
     const cloneSink = clone.sink()
     try {
       gulp
-        .src(['./src/umd/dnb-ui-lib-icons.js'], {
+        .src(['./src/umd/dnb-ui-icons.js'], {
           cwd: process.env.ROOT_DIR
         })
         .pipe(sourcemaps.init({ largeFile: true }))

@@ -19,7 +19,7 @@ class Example extends PureComponent {
     return (
       <Fragment>
         <ComponentBox
-          caption="Defualt Slider"
+          caption="Default Slider"
           data-dnb-test="slider-default"
         >
           {/* @jsx */ `

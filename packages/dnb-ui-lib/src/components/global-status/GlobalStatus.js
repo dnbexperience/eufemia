@@ -83,7 +83,7 @@ const propTypes = {
   render_content: PropTypes.func
 }
 
-export const defaultProps = {
+const defaultProps = {
   id: 'main',
   status_id: 'status-main',
   title: null,

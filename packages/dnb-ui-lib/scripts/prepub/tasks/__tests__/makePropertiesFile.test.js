@@ -17,7 +17,8 @@ beforeAll(async () => {
 describe('The properties file factory', () => {
   it('has to create a valid js object with properties', () => {
     expect(global.content).toContain(
-      `\\"--font-size-large\\": \\"1.5rem\\"`
+      '"--font-size-large": "1.5rem"'
+      // '\\"--font-size-large\\": \\"1.5rem\\"'// NB: if uglifyed
     )
   })
 })

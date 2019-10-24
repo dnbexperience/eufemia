@@ -20,7 +20,7 @@ const renderProps = {
   render_content: null
 }
 
-export const propTypes = {
+const propTypes = {
   style_type: PropTypes.string,
   spacing: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   element: PropTypes.string,
@@ -38,7 +38,7 @@ export const propTypes = {
   render_content: PropTypes.func
 }
 
-export const defaultProps = {
+const defaultProps = {
   style_type: null,
   element: 'section',
   class: null,

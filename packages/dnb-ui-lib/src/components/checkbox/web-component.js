@@ -3,7 +3,9 @@
  *
  */
 
-export * from './index'
-import { enableWebComponents } from '../index'
+import { registerElement } from '../../shared/custom-element'
+import Checkbox from './Checkbox'
+export default Checkbox
+export * from './Checkbox'
 
-enableWebComponents()
+registerElement(Checkbox.tagName, Checkbox, Checkbox.defaultProps)

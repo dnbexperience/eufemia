@@ -32,7 +32,7 @@
   },
   "devDependencies": {
     "git-branch-is": "^3.0.0",
-    "husky": "^3.0.8"
+    "husky": "^3.0.9"
   },
   "release": {
     "analyzeCommits": "simple-commit-message"

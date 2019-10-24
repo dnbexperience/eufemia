@@ -3,7 +3,9 @@
  *
  */
 
-export * from './index'
-import { enableWebComponents } from '../index'
+import { registerElement } from '../../shared/custom-element'
+import Input from './Input'
+export default Input
+export * from './Input'
 
-enableWebComponents()
+registerElement(Input.tagName, Input, Input.defaultProps)

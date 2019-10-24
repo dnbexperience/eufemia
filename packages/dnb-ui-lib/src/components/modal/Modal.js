@@ -20,7 +20,7 @@ import {
   validateDOMAttributes
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
-import Button, { propTypes as ButtonPropTypes } from '../button/Button'
+import Button from '../button/Button'
 
 const { disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks } =
   bodyScrollLock && bodyScrollLock.default
@@ -36,7 +36,7 @@ const renderProps = {
   modal_content: null
 }
 
-export const propTypes = {
+const propTypes = {
   id: PropTypes.string,
   labelled_by: PropTypes.string,
   title: PropTypes.string,
@@ -46,7 +46,7 @@ export const propTypes = {
     PropTypes.string,
     PropTypes.bool
   ]),
-  trigger_variant: ButtonPropTypes.variant,
+  trigger_variant: Button.propTypes.variant,
   trigger_text: PropTypes.string,
   trigger_title: PropTypes.string,
   trigger_icon: PropTypes.string,
@@ -91,7 +91,7 @@ export const propTypes = {
   ])
 }
 
-export const defaultProps = {
+const defaultProps = {
   id: null,
   labelled_by: null,
   title: null,
