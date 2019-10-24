@@ -47,7 +47,7 @@ const prismStyle = /* @css */ `
 
   /* &.selector,
   &.doctype {
-    color: var(--color-cherry-red);
+    color: var(--color-fire-red);
     font-style: italic;
   } */
 
@@ -92,7 +92,7 @@ const prismStyle = /* @css */ `
   }
 
   &.deleted {
-    color: var(--color-cherry-red);
+    color: var(--color-fire-red);
   }
 `
 

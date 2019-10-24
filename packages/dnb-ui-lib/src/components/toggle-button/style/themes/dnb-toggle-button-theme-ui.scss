@@ -107,20 +107,20 @@
   /* stylelint-disable */
   &__status--error &__button:not([disabled]):not(:focus):not(:active) {
     background-color: var(--color-white);
-    color: var(--color-cherry-red);
-    @include fakeBorder(var(--color-cherry-red), 0.0625rem, inset, true);
+    color: var(--color-fire-red);
+    @include fakeBorder(var(--color-fire-red), 0.0625rem, inset, true);
 
     &:hover {
-      box-shadow: 0 0 0 0.125rem var(--color-cherry-red);
+      box-shadow: 0 0 0 0.125rem var(--color-fire-red);
     }
   }
   &--checked#{&}__status--error
     &__button:not([disabled]):not(:focus):not(:active) {
-    background-color: var(--color-cherry-red);
+    background-color: var(--color-fire-red);
     color: var(--color-white);
 
     &:hover {
-      box-shadow: 0 0 0 0.125rem var(--color-cherry-red);
+      box-shadow: 0 0 0 0.125rem var(--color-fire-red);
     }
   }
 

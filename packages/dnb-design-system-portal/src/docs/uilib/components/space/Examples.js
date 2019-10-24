@@ -184,7 +184,7 @@ export default () => <Example />
 const CustomStyle = styled.div`
   display: inline-flex;
   width: auto;
-  box-shadow: 0 0 0 1px var(--color-cherry-red);
+  box-shadow: 0 0 0 1px var(--color-fire-red);
   .dnb-input__input {
     width: 10rem;
   }
@@ -229,8 +229,8 @@ const Line = styled.div`
   width: 0.0625rem;
   height: 100%;
 
-  background-color: var(--color-cherry-red);
-  ${'' /* border-left: 0.0625rem dotted var(--color-cherry-red); */}
+  background-color: var(--color-fire-red);
+  ${'' /* border-left: 0.0625rem dotted var(--color-fire-red); */}
 `
 const MarginContainer = styled.div`
   position: relative;
@@ -252,7 +252,7 @@ const Margin = styled.div`
   height: 100%;
 
   background-color: rgba(213, 30, 149, 0.25);
-  ${'' /* border-left: 0.0625rem dotted var(--color-cherry-red); */}
+  ${'' /* border-left: 0.0625rem dotted var(--color-fire-red); */}
 `
 const Label = styled.label`
   display: block;

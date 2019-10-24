@@ -63,16 +63,16 @@ exports[`Section scss have to match default theme snapshot 1`] = `
 .dnb-section--cherry-red {
   color: var(--color-white); }
   .dnb-section--cherry-red::after {
-    color: var(--color-cherry-red); }
+    color: var(--color-fire-red); }
   .dnb-section--cherry-red .dnb-anchor {
     color: var(--color-white);
     box-shadow: 0 1.5px 0 0 var(--color-white); }
     .dnb-section--cherry-red .dnb-anchor:hover, .dnb-section--cherry-red .dnb-anchor:active {
-      color: var(--color-cherry-red);
+      color: var(--color-fire-red);
       background-color: var(--color-white);
       box-shadow: none; }
     .dnb-section--cherry-red .dnb-anchor:active {
-      color: var(--color-cherry-red);
+      color: var(--color-fire-red);
       background-color: var(--color-white); }
     .dnb-section--cherry-red .dnb-anchor:not(:disabled):focus {
       color: var(--color-white);

@@ -73,7 +73,7 @@
     &,
     &:not([data-input-state='disabled']):hover {
       // In case we want to have a larger border size on the input
-      @include fakeBorder(var(--color-cherry-red), 0.125rem);
+      @include fakeBorder(var(--color-fire-red), 0.125rem);
     }
   }
   &__status--error
@@ -81,10 +81,10 @@
     ~ &__submit-element {
     .dnb-button__icon,
     .dnb-button--secondary .dnb-button__icon {
-      color: var(--color-cherry-red);
+      color: var(--color-fire-red);
     }
     .dnb-button {
-      @include fakeBorder(var(--color-cherry-red), 0.125rem);
+      @include fakeBorder(var(--color-fire-red), 0.125rem);
     }
   }
 
