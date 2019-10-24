@@ -64,7 +64,10 @@ export const runFactory = ({ returnResult = false } = {}) =>
         .pipe(
           returnResult
             ? transform('utf8', result => resolve(result))
-            : gulp.dest('./src/style', { cwd: process.env.ROOT_DIR })
+            : gulp.dest('./src/style', {
+                overwrite: true,
+                cwd: process.env.ROOT_DIR
+              })
         )
         .on('end', resolve)
         .on('error', reject)

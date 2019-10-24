@@ -121,9 +121,9 @@ exports[`FormStatus scss have to match default theme snapshot 1`] = `
   font-size: var(--font-size-small); }
 
 .dnb-form-status--error .dnb-form-status__shell {
-  background-color: var(--color-cherry-red-8); }
+  background-color: var(--color-fire-red-8); }
   .dnb-form-status--error .dnb-form-status__shell > .dnb-icon {
-    color: var(--color-cherry-red);
+    color: var(--color-fire-red);
     border: none; }
 
 .dnb-form-status--info .dnb-form-status__shell {
@@ -143,13 +143,13 @@ exports[`FormStatus scss have to match default theme snapshot 1`] = `
 @keyframes attention-focus {
   0%,
   100% {
-    color: var(--color-cherry-red);
-    background-color: var(--color-cherry-red-8);
-    border-color: var(--color-cherry-red); }
+    color: var(--color-fire-red);
+    background-color: var(--color-fire-red-8);
+    border-color: var(--color-fire-red); }
   35% {
     color: var(--color-white);
-    background-color: var(--color-cherry-red);
-    border-color: var(--color-cherry-red); } }
+    background-color: var(--color-fire-red);
+    border-color: var(--color-fire-red); } }
 "
 `;
 

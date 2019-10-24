@@ -58,6 +58,15 @@ cssVars()
 
 But on large applications, the polyfill lacks in stability, therefore we made and recommend using the approach by using the Stylis Plugin method. Se examples below.
 
+### Properties
+
+You can also import all the main properties as a JavaScript Object:
+
+```js
+import properties from 'dnb-ui-lib/style/properties'
+// properties gives you { '--color-sea-green': '#007272', ... }
+```
+
 ### Styled Components
 
 Is supported from v5 of [styled-components](https://www.styled-components.com) and above.

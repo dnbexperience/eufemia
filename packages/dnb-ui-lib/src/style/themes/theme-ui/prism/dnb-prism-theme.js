@@ -19,7 +19,7 @@ const prismTheme = {
     {
       types: ['deleted'],
       style: {
-        color: 'var(--color-cherry-red)',
+        color: 'var(--color-fire-red)',
         fontStyle: 'italic'
       }
     },

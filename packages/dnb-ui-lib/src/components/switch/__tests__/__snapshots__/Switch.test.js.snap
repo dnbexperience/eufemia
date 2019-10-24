@@ -232,24 +232,24 @@ exports[`Switch scss have to match default theme snapshot 1`] = `
   .dnb-switch__input:not([disabled]):not(:checked):active ~ .dnb-switch__button {
     background-color: var(--color-mint-green-50); }
   .dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):hover ~ .dnb-switch__button {
-    border-color: var(--color-cherry-red);
-    background-color: var(--color-cherry-red-8); }
+    border-color: var(--color-fire-red);
+    background-color: var(--color-fire-red-8); }
   .dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):not(:active):not(:hover) ~ .dnb-switch__button {
-    border-color: var(--color-cherry-red-8); }
+    border-color: var(--color-fire-red-8); }
   .dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):not(:active):not(:hover):checked ~ .dnb-switch__button {
-    background-color: var(--color-cherry-red); }
+    background-color: var(--color-fire-red); }
   .dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):not(:active) ~ .dnb-switch__background {
-    background-color: var(--color-cherry-red-8);
-    box-shadow: 0 0 0 0.125rem var(--color-cherry-red);
+    background-color: var(--color-fire-red-8);
+    box-shadow: 0 0 0 0.125rem var(--color-fire-red);
     /* IE11 fix */
     border-color: transparent; }
   .dnb-switch__status--error .dnb-switch__input:not(:focus):not([disabled]):not(:active):checked ~ .dnb-switch__background::after {
-    background-color: var(--color-cherry-red); }
+    background-color: var(--color-fire-red); }
   .dnb-switch__status--error .dnb-switch__input:not(:focus):not([disabled]):not(:active):not(:checked) ~ .dnb-switch__background::after {
-    border-color: var(--color-cherry-red); }
+    border-color: var(--color-fire-red); }
   .dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):not(:active) ~ .dnb-switch__button .dnb-switch__focus {
     display: block;
-    box-shadow: 0 0 0 0.125rem var(--color-cherry-red);
+    box-shadow: 0 0 0 0.125rem var(--color-fire-red);
     /* IE11 fix */
     border-color: transparent; }
   .dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):not(:active):checked ~ .dnb-switch__button .dnb-switch__focus {
