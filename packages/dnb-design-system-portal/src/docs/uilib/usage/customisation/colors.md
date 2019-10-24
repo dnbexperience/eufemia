@@ -22,9 +22,9 @@ Read more about why and how to [use a polyfill](/uilib/usage/customisation/styli
 <ComponentBox hideCode useRender>
 {`
 const P = styled.p\`
-  color: var(--color-cherry-red);
+  color: var(--color-sky-blue);
 \`
-render(<P>I'm Cherry Red.</P>)
+render(<P>I'm Sky blue.</P>)
 `}
 </ComponentBox>
 

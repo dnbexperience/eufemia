@@ -1,3 +1,7 @@
+## October, 24. 2019
+
+- New error [color](/uilib/usage/customisation/colors) `fire-red`, witch replaces `cherry-red`.
+
 ## October, 14. 2019
 
 - New [secondary icons](/icons/secondary): undo and redo
