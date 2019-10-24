@@ -981,10 +981,7 @@ legend.dnb-form-label {
     margin-top: 0.25em;
     margin-left: 0.5em;
     color: inherit;
-    font-size: var(--font-size-basis);
-    border-radius: 50%;
-    border: 0.0625rem solid;
-    border-color: currentColor; }
+    font-size: var(--font-size-basis); }
   .dnb-form-status[hidden] {
     display: none; }
   .dnb-form-status--fade-in {

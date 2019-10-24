@@ -702,7 +702,7 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
                 <span
                   className="dnb-global-status__icon"
                 >
-                  <IconPrimary
+                  <Icon
                     alt={null}
                     aria-hidden={true}
                     attributes={null}
@@ -710,50 +710,51 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
                     className={null}
                     color={null}
                     height={null}
-                    icon="error"
+                    icon={[Function]}
                     modifier={null}
                     size="icon_size"
                     title={null}
                     width={null}
                   >
                     <span
-                      alt="error"
+                      alt="ErrorIconLarge"
                       aria-hidden={true}
                       className="dnb-icon"
                       role="img"
                     >
-                      <error>
+                      <ErrorIconLarge>
                         <svg
                           fill="none"
-                          height={24}
-                          viewBox="0 0 24 24"
-                          width={24}
+                          height="32"
+                          viewBox="0 0 32 32"
+                          width="32"
+                          xmlns="http://www.w3.org/2000/svg"
                         >
                           <path
-                            d="M12 18a.333.333 0 100 .667.333.333 0 000-.667v0"
+                            d="M16 25a.5.5 0 100 1 .5.5 0 000-1v0"
                             stroke="#000"
                             strokeLinecap="round"
                             strokeLinejoin="round"
-                            strokeWidth={1.5}
+                            strokeWidth="1.5"
                           />
                           <path
-                            d="M12 15.333V8.666"
+                            d="M16 21V11"
                             stroke="#000"
                             strokeLinecap="round"
-                            strokeWidth={1.5}
+                            strokeWidth="1.5"
                           />
                           <path
                             clipRule="evenodd"
-                            d="M13.441 2.898a1.605 1.605 0 00-2.882 0L2.14 20.052A1.352 1.352 0 003.353 22h17.294a1.352 1.352 0 001.215-1.948L13.44 2.898z"
+                            d="M18.161 2.347a2.408 2.408 0 00-4.322 0L1.208 28.077A2.028 2.028 0 003.029 31h25.942a2.028 2.028 0 001.821-2.923l-12.63-25.73z"
                             stroke="#000"
                             strokeLinecap="round"
                             strokeLinejoin="round"
-                            strokeWidth={1.2}
+                            strokeWidth="1.5"
                           />
                         </svg>
-                      </error>
+                      </ErrorIconLarge>
                     </span>
-                  </IconPrimary>
+                  </Icon>
                 </span>
                 title
                 <CloseButton

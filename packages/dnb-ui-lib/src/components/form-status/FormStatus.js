@@ -15,7 +15,7 @@ import {
   extendPropsWithContext
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
-import IconPrimary from '../icon-primary/IconPrimary'
+import Icon from '../icon/Icon'
 import GlobalStatusProvider from '../global-status/GlobalStatusProvider'
 
 const renderProps = {
@@ -62,7 +62,7 @@ const defaultProps = {
   title: null,
   text: null,
   icon: 'error',
-  icon_size: 'medium',
+  icon_size: 'large',
   state: 'error',
   status: null, // Deprecated
   global_status_id: null,
@@ -104,14 +104,14 @@ export default class FormStatus extends PureComponent {
       switch (state) {
         case 'info':
         case 'information':
-          iconToLoad = 'information'
+          iconToLoad = InfoIconLarge
           break
         case 'error':
         default:
-          iconToLoad = 'error'
+          iconToLoad = ErrorIconLarge
       }
 
-      icon = <IconPrimary aria-hidden icon={iconToLoad} size={icon_size} />
+      icon = <Icon aria-hidden icon={iconToLoad} size={icon_size} />
     }
 
     return icon
@@ -306,3 +306,59 @@ export default class FormStatus extends PureComponent {
     )
   }
 }
+
+export const ErrorIconLarge = props => (
+  <svg
+    width="32"
+    height="32"
+    viewBox="0 0 32 32"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="M16 25a.5.5 0 100 1 .5.5 0 000-1v0"
+      stroke="#000"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M16 21V11"
+      stroke="#000"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+    />
+    <path
+      clipRule="evenodd"
+      d="M18.161 2.347a2.408 2.408 0 00-4.322 0L1.208 28.077A2.028 2.028 0 003.029 31h25.942a2.028 2.028 0 001.821-2.923l-12.63-25.73z"
+      stroke="#000"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+)
+
+export const InfoIconLarge = props => (
+  <svg
+    width="32"
+    height="32"
+    viewBox="0 0 32 32"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="M16 .75C24.422.75 31.25 7.578 31.25 16S24.422 31.25 16 31.25.75 24.422.75 16 7.578.75 16 .75z"
+      stroke="#000"
+      strokeWidth="1.5"
+    />
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M16 7a.75.75 0 01.75.75v10.5a.75.75 0 01-1.5 0V7.75A.75.75 0 0116 7zm-1.074 15.426c.29-.29.679-.426 1.074-.426s.783.135 1.074.426c.29.29.426.679.426 1.074s-.135.783-.426 1.074c-.29.29-.679.426-1.074.426s-.783-.135-1.074-.426A1.499 1.499 0 0114.5 23.5c0-.395.135-.783.426-1.074z"
+      fill="#000"
+    />
+  </svg>
+)

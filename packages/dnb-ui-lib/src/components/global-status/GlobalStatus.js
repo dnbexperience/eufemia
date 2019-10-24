@@ -17,7 +17,8 @@ import {
 import { createSpacingClasses } from '../space/SpacingHelper'
 import GlobalStatusController from './GlobalStatusController'
 import GlobalStatusProvider from './GlobalStatusProvider'
-import IconPrimary from '../icon-primary/IconPrimary'
+import Icon from '../icon/Icon'
+import { InfoIconLarge, ErrorIconLarge } from '../form-status/FormStatus'
 import Button from '../button/Button'
 import Section from '../section/Section'
 import Animation from './AnimationHelper'
@@ -91,7 +92,7 @@ const defaultProps = {
   text: null,
   items: [],
   icon: 'error',
-  icon_size: 'medium',
+  icon_size: 'large',
   state: 'error',
   show: null,
   autoscroll: true,
@@ -137,14 +138,14 @@ export default class GlobalStatus extends React.PureComponent {
       switch (state) {
         case 'info':
         case 'information':
-          iconToLoad = 'information'
+          iconToLoad = InfoIconLarge
           break
         case 'error':
         default:
-          iconToLoad = 'error'
+          iconToLoad = ErrorIconLarge
       }
 
-      icon = <IconPrimary aria-hidden icon={iconToLoad} size={icon_size} />
+      icon = <Icon aria-hidden icon={iconToLoad} size={icon_size} />
     }
 
     return icon
