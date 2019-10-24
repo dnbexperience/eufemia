@@ -35,6 +35,8 @@ import properties from 'dnb-ui-lib/style/properties
 
 **Cherry Red** will got replaced by **Fire Red**.
 
+You may check your application code and replace `cherry-red` with `fire-red`.
+
 ```css
 /* Deprecated */
 color: var(--color-cherry-red);

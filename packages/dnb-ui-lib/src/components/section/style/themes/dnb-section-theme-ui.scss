@@ -42,7 +42,7 @@
       color: var(--color-signal-orange);
     }
   }
-  &--cherry-red {
+  &--fire-red {
     color: var(--color-white);
     &::after {
       color: var(--color-fire-red);
@@ -58,9 +58,27 @@
     }
   }
 
+  // Deprecated
+  &--cherry-red {
+    color: var(--color-white);
+    &::after {
+      color: var(--color-cherry-red);
+    }
+
+    // TODO: This has to be implemented as a contrast version
+    // NB: This is used only in the GlobalStatus for now
+    .dnb-anchor {
+      @include useAnchorContrastStyle(var(--color-cherry-red));
+    }
+    .dnb-code {
+      color: var(--color-emerald-green);
+    }
+  }
+
   // contrast color
   &--signal-orange,
-  &--cherry-red,
+  &--fire-red,
+  &--cherry-red,/* Deprecated */
   &--mint-green {
     ::selection {
       background-color: var(--color-white);

@@ -163,22 +163,22 @@ import Table from 'Tags/Table'
       <td>--color-signal-yellow-30</td>
     </tr>
     <tr>
-      <td color="#E10076"></td>
+      <td color="#DC2A2A"></td>
       <td>UX</td>
-      <td>Cherry red</td>
-      <td>#E10076</td>
-      <td>225 0 118</td>
-      <td>Cherry red</td>
-      <td>--color-cherry-red</td>
+      <td>Fire red</td>
+      <td>#DC2A2A</td>
+      <td>220 42 42</td>
+      <td>Fire red</td>
+      <td>--color-fire-red</td>
     </tr>
     <tr>
-      <td color="#FDEBF4"></td>
+      <td color="#FDEEEE"></td>
       <td>UX</td>
-      <td>Cherry red 8%</td>
-      <td>#FDEBF4</td>
-      <td>253 235 244</td>
-      <td>Cherry red 8%</td>
-      <td>--color-cherry-red-8</td>
+      <td>Fire red 8%</td>
+      <td>#FDEEEE</td>
+      <td>253 238 238</td>
+      <td>Fire red 8%</td>
+      <td>--color-fire-red-8</td>
     </tr>
     <tr>
       <td color="#000000"></td>
