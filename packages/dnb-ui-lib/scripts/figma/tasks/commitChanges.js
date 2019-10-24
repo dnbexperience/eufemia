@@ -7,7 +7,7 @@ import { commitToBranch } from '../../prepub/commitToBranch'
 
 if (require.main === module) {
   commitToBranch({
-    requiredBranch: 'develop',
+    requiredBranch: 'develop|icons',
     what: 'icons/assets',
     filePathsWhitelist: [
       '/src/icons/',
