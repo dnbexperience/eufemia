@@ -21,10 +21,10 @@ Read more about why and how to [use a polyfill](/uilib/usage/customisation/styli
 
 <ComponentBox hideCode useRender>
 {`
-const P = styled.p\`
+const Paragraph = styled(P)\`
   color: var(--color-sky-blue);
 \`
-render(<P>I'm Sky blue.</P>)
+render(<Paragraph>I'm Sky blue.</Paragraph>)
 `}
 </ComponentBox>
 
