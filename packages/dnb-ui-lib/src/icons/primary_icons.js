@@ -9,7 +9,6 @@ import chevron_left from './chevron_left.js'
 import chevron_right from './chevron_right.js'
 import chevron_up from './chevron_up.js'
 import close from './close.js'
-import error from './error.js'
 import exclamation from './exclamation.js'
 import information from './information.js'
 import more from './more.js'
@@ -28,7 +27,6 @@ export {
   chevron_right,
   chevron_up,
   close,
-  error,
   exclamation,
   information,
   more,
