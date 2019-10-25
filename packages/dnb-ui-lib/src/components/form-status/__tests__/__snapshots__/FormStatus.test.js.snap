@@ -27,13 +27,13 @@ exports[`FormStatus component have to match snapshot 1`] = `
   }
   1={
     Object {
-      "displayName": "ErrorIconLarge",
+      "displayName": "ErrorIcon",
       "props": Object {},
     }
   }
   2={
     Object {
-      "displayName": "InfoIconLarge",
+      "displayName": "InfoIcon",
       "props": Object {},
     }
   }
@@ -76,12 +76,12 @@ exports[`FormStatus component have to match snapshot 1`] = `
         width={null}
       >
         <span
-          alt="ErrorIconLarge"
+          alt="ErrorIcon"
           aria-hidden={true}
           className="dnb-icon dnb-icon--large"
           role="img"
         >
-          <ErrorIconLarge>
+          <ErrorIcon>
             <svg
               fill="none"
               height="32"
@@ -111,7 +111,7 @@ exports[`FormStatus component have to match snapshot 1`] = `
                 strokeWidth="1.5"
               />
             </svg>
-          </ErrorIconLarge>
+          </ErrorIcon>
         </span>
       </Icon>
       <span

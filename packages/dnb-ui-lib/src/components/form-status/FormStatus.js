@@ -104,11 +104,11 @@ export default class FormStatus extends PureComponent {
       switch (state) {
         case 'info':
         case 'information':
-          iconToLoad = InfoIconLarge
+          iconToLoad = InfoIcon
           break
         case 'error':
         default:
-          iconToLoad = ErrorIconLarge
+          iconToLoad = ErrorIcon
       }
 
       icon = <Icon aria-hidden icon={iconToLoad} size={icon_size} />
@@ -307,7 +307,7 @@ export default class FormStatus extends PureComponent {
   }
 }
 
-export const ErrorIconLarge = props => (
+export const ErrorIcon = props => (
   <svg
     width="32"
     height="32"
@@ -340,7 +340,7 @@ export const ErrorIconLarge = props => (
   </svg>
 )
 
-export const InfoIconLarge = props => (
+export const InfoIcon = props => (
   <svg
     width="32"
     height="32"

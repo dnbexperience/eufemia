@@ -717,12 +717,12 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
                     width={null}
                   >
                     <span
-                      alt="ErrorIconLarge"
+                      alt="ErrorIcon"
                       aria-hidden={true}
                       className="dnb-icon"
                       role="img"
                     >
-                      <ErrorIconLarge>
+                      <ErrorIcon>
                         <svg
                           fill="none"
                           height="32"
@@ -752,7 +752,7 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
                             strokeWidth="1.5"
                           />
                         </svg>
-                      </ErrorIconLarge>
+                      </ErrorIcon>
                     </span>
                   </Icon>
                 </span>
