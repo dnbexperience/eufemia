@@ -8,6 +8,8 @@
 
 # production
 /es
+/esm
+/cjs
 /lib
 /package
 /components
