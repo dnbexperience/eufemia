@@ -99,6 +99,17 @@
     display: none;
   }
 
+  // change file type apperance on type="file"
+  ::-webkit-file-upload-button {
+    cursor: pointer;
+    outline: none;
+    color: var(--color-sea-green);
+    &:active,
+    &:hover {
+      color: var(--color-emerald-green);
+    }
+  }
+
   // vertical alignment
   [data-os='mac'] &__placeholder,
   [data-os='mac'] &__input {

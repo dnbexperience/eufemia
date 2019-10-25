@@ -28,6 +28,13 @@ export default [
     <CustomStyle>
       <Wrapper>
         <Box>
+          <Input
+            label="Choose file:"
+            type="file"
+            accept="image/png, image/jpeg"
+          />
+        </Box>
+        <Box>
           <CustomInput />
         </Box>
         <Box>

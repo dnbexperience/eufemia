@@ -1514,6 +1514,12 @@ legend.dnb-form-label {
     display: none; }
   .dnb-input__input::-ms-clear {
     display: none; }
+  .dnb-input ::-webkit-file-upload-button {
+    cursor: pointer;
+    outline: none;
+    color: var(--color-sea-green); }
+    .dnb-input ::-webkit-file-upload-button:active, .dnb-input ::-webkit-file-upload-button:hover {
+      color: var(--color-emerald-green); }
   [data-os='mac'] .dnb-input__placeholder,
   [data-os='mac'] .dnb-input__input {
     transform: translateY(0.0625rem); }
