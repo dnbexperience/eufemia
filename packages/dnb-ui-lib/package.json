@@ -218,5 +218,6 @@
     "./style/**/*",
     "./es/style/**/*",
     "./esm/style/**/*"
-  ]
+  ],
+  "type": "module"
 }
