@@ -31,8 +31,9 @@ class Example extends PureComponent {
   autocomplete="off"
   value="1000000"
   number_mask={{
-    suffix: ',- kr.'
+    suffix: ',-'
   }}
+  suffix="kr."
   align="right"
   on_change={handleInputChange}
 />

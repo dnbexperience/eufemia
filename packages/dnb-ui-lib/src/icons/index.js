@@ -24,6 +24,8 @@ import chevron_up from './chevron_up.js'
 import chevron_up_medium from './chevron_up_medium.js'
 import close from './close.js'
 import close_medium from './close_medium.js'
+import download from './download.js'
+import download_medium from './download_medium.js'
 import error from './error.js'
 import error_medium from './error_medium.js'
 import exclamation from './exclamation.js'
@@ -94,6 +96,8 @@ export {
   chevron_up_medium,
   close,
   close_medium,
+  download,
+  download_medium,
   error,
   error_medium,
   exclamation,
