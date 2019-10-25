@@ -4,12 +4,12 @@
  */
 
 import { registerElement } from '../../shared/custom-element'
-import notification from './notification'
-export default notification
-export * from './notification'
+import Notification from './Notification'
+export default Notification
+export * from './Notification'
 
 registerElement(
-  notification.tagName,
-  notification,
-  notification.defaultProps
+  Notification.tagName,
+  Notification,
+  Notification.defaultProps
 )

@@ -3,6 +3,7 @@
 import attachment from './attachment.js'
 import bubble from './bubble.js'
 import check_alt_01 from './check_alt_01.js'
+import download from './download.js'
 import file from './file.js'
 import fullscreen from './fullscreen.js'
 import hamburger from './hamburger.js'
@@ -12,7 +13,6 @@ import logout from './logout.js'
 import pencil from './pencil.js'
 import print from './print.js'
 import redo from './redo.js'
-import save_alt_01 from './save_alt_01.js'
 import send from './send.js'
 import trash from './trash.js'
 import undo from './undo.js'
@@ -22,6 +22,7 @@ export {
   attachment,
   bubble,
   check_alt_01,
+  download,
   file,
   fullscreen,
   hamburger,
@@ -31,7 +32,6 @@ export {
   pencil,
   print,
   redo,
-  save_alt_01,
   send,
   trash,
   undo,

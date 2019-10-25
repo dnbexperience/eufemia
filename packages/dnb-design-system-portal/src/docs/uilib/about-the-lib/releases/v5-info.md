@@ -1,7 +1,8 @@
 # v5
 
 - [Typography preparations](#typography-preparations) **(feature)**
-- [Color change](#color-change) **(major change)**
+- [Color changes](#color-change) **(major change)**
+- [Icon changes](#icon-changes) **(major change)**
 - [ESM module format](#esm-module-format) **(major change)**
 - [UMD changes](#umd-changes) **(major change)**
 - [How to Install](#install)
@@ -33,16 +34,29 @@ import properties from 'dnb-ui-lib/style/properties
 
 ## Color change
 
-**Cherry Red** will got replaced by **Fire Red**.
+- _Cherry Red 8%_ will got replaced by _Fire Red 8%_.
 
-You may check your application code and replace `cherry-red` with `fire-red`.
+You may check your application code and **replace** `cherry-red` with `fire-red`.
 
 ```css
-/* Deprecated */
-color: var(--color-cherry-red);
-
 /* New */
 color: var(--color-fire-red);
+color: var(--color-fire-red-8);
+
+/* Deprecated */
+color: var(--color-cherry-red);
+color: var(--color-cherry-red-8);
+```
+
+## Icon changes
+
+```js
+/* New */
+import { download } from 'dnb-ui-lib/icons/secondary'
+
+/* Removed */
+import { error } from 'dnb-ui-lib/icons/primary'
+import { save_alt_01 } from 'dnb-ui-lib/icons/secondary'
 ```
 
 ## ESM module format
@@ -73,4 +87,4 @@ To upgrade to v5 with NPM, use:
 $ npm i dnb-ui-lib@5
 ```
 
-_October, 24. 2019_
+_October, 25. 2019_

@@ -44,7 +44,7 @@ export const fetchFigmaAll = async ({
 } = {}) => {
   try {
     // make sure we are on the develop branch
-    const branchName = await getBranchName({ requiredBranch: 'develop' })
+    const branchName = await getBranchName({ requiredBranch: 'icons' }) // as RegExp
 
     if (ignoreBranchCheck !== true && !branchName) {
       log.fail('> Figma: Could not continue, as we require another branch')
