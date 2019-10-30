@@ -6,7 +6,7 @@ import Examples from 'Pages/uilib/components/number/Examples'
 
 ## Description
 
-A ready to use DNB number formatter. Use it where over you have to display a number showing up the the DOM.
+A ready to use DNB number formatter. Use it where over you have to display a number, a currency value, phone number etc.
 
 Good reasons for why we have this is to:
 
@@ -25,7 +25,7 @@ Good reasons for why we have this is to:
 
 It uses the browser APIs `number.toLocaleString` or `Intl.NumberFormat.format` under the hood. As well as some custom formatter. The locale defaults to:
 
-- Locale: `no`
+- Locale: `nb-NO`
 - Currency: `NOK`
 
 ### Sources

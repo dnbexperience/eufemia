@@ -34,7 +34,7 @@ import { question } from 'dnb-ui-lib/esm/icons'
 
 ### SSR
 
-In case you are using the `dnb-ui-lib` in a classic Node environment, like typical in SSR, you can import or require everything from the `/cjs` subfolder:
+In case you are using the `dnb-ui-lib` in a classic Node.js environment, like typical in SSR, you can import or require everything from the `/cjs` subfolder:
 
 ```js
 // Components
@@ -50,6 +50,18 @@ const question = require('dnb-ui-lib/cjs/icons/question')
 // Styles
 import 'dnb-ui-lib/cjs/style'
 require('dnb-ui-lib/cjs/style')
+```
+
+### Use ESM in Node.js anyway
+
+You can easily use [ESM](https://nodejs.org/api/esm.html) in Node.js environment. Have a look at the [Next.js example](https://github.com/dnbexperience/eufemia-examples/tree/master/packages/example-next).
+
+1. Install the `esm` package: `npm i esm -D`
+2. Call Node with an environment variable: `NODE_OPTIONS='-r esm' node ...`
+
+```json
+// package.json
+"start": "NODE_OPTIONS='-r esm' next start ./src"
 ```
 
 ## ES6

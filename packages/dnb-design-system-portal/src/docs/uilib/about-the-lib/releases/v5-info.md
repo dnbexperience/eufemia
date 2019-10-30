@@ -1,6 +1,7 @@
 # v5
 
 - [Typography preparations](#typography-preparations) **(feature)**
+- [Number component](#number-component) **(feature)**
 - [Color changes](#color-change) **(major change)**
 - [Icon changes](#icon-changes) **(major change)**
 - [ESM module format](#esm-module-format) **(major change)**
@@ -19,6 +20,15 @@ To get prepared for these changes, you can today already (since `v4.24`) use the
 From before we had [font-weight](/uilib/typography/font-weights).
 
 Read more on how to make CSS vars (Custom Properties) [work on IE](/uilib/usage/customisation/styling/polyfill).
+
+## Number component
+
+The new [Number component](/uilib/components/number) is a ready to use DNB number formatter. Use it where over you have to display a number, a currency value, phone number etc.
+
+Good reasons for why we have this is to:
+
+- uniform the formation of numbers for all DNB applications.
+- and make numbers accessible to screen readers.
 
 ### The benefits?
 
