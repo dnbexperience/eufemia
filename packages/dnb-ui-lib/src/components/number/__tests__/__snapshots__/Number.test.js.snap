@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Number component have to match default number snapshot 1`] = `
+<Number
+  anchor={null}
+  ban={true}
+  class="class"
+  className="className"
+  currency={true}
+  element="span"
+  locale="nb-NO"
+  nin={true}
+  options={Object {}}
+  phone={true}
+  selectable={true}
+  value={12345678.901}
+>
+  <ForwardRef
+    className="dnb-number className class dnb-number--selectable"
+    is="span"
+    lang="nb-NO"
+  >
+    <span
+      className="dnb-number className class dnb-number--selectable"
+      lang="nb-NO"
+    >
+      0012 34 56 78 90 1
+    </span>
+  </ForwardRef>
+</Number>
+`;
+
+exports[`Number scss have to match snapshot 1`] = `
+"/*
+* DNB Number
+*
+*/
+/**
+ * This file is only used to make components independent
+ * so that they can get imported individually, without the core styles
+ *
+ */
+/*
+ * Utilities
+ */
+/*
+ * Scopes
+ *
+ */
+/*
+ * Document Reset
+ *
+ */
+/*
+ * Number Component
+ *
+ */
+/*
+ * Anchor mixins
+ *
+ */
+"
+`;

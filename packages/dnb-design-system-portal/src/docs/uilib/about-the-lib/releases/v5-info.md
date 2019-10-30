@@ -88,4 +88,4 @@ To upgrade to v5 with NPM, use:
 $ npm i dnb-ui-lib@5
 ```
 
-_October, 25. 2019_
+_October, 30. 2019_
