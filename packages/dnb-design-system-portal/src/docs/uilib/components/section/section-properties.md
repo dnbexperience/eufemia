@@ -11,12 +11,12 @@ draft: true
 
 ## Styles
 
-| Style           | Description                                                                           |
-| --------------- | ------------------------------------------------------------------------------------- |
-| `mint-green-12` | _(default)_ uses `--color-mint-green-12`.                                             |
-| `white`         | uses `--color-white`.                                                                 |
-| `mint-green`    | uses `--color-mint-green`.                                                            |
-| `emerald-green` | uses `--color-emerald-green`.                                                         |
-| `signal-orange` | uses `--color-signal-orange`.                                                         |
-| `cherry-red`    | uses `--color-cherry-red`. Is used by [GlobalStatus](/uilib/components/global-status) |
-| `divider`       | uses `--color-white` as background with a border-line on top and bottom.              |
+| Style           | Description                                                                         |
+| --------------- | ----------------------------------------------------------------------------------- |
+| `mint-green-12` | _(default)_ uses `--color-mint-green-12`.                                           |
+| `white`         | uses `--color-white`.                                                               |
+| `mint-green`    | uses `--color-mint-green`.                                                          |
+| `emerald-green` | uses `--color-emerald-green`.                                                       |
+| `signal-orange` | uses `--color-signal-orange`.                                                       |
+| `fire-red`      | uses `--color-fire-red`. Is used by [GlobalStatus](/uilib/components/global-status) |
+| `divider`       | uses `--color-white` as background with a border-line on top and bottom.            |

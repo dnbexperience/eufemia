@@ -681,14 +681,14 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
       className="dnb-global-status dnb-global-status--error dnb-global-status--no-animation"
       element="div"
       render_content={null}
-      style_type="cherry-red"
+      style_type="fire-red"
     >
       <ForwardRef
-        className="dnb-section dnb-section--cherry-red dnb-global-status dnb-global-status--error dnb-global-status--no-animation"
+        className="dnb-section dnb-section--fire-red dnb-global-status dnb-global-status--error dnb-global-status--no-animation"
         is="div"
       >
         <div
-          className="dnb-section dnb-section--cherry-red dnb-global-status dnb-global-status--error dnb-global-status--no-animation"
+          className="dnb-section dnb-section--fire-red dnb-global-status dnb-global-status--error dnb-global-status--no-animation"
         >
           <div
             className="dnb-global-status__shell"

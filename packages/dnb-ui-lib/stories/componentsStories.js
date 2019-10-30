@@ -60,7 +60,7 @@ stories.push([
   () => (
     <Wrapper>
       <Box>
-        <Logo size="80" style={{ color: 'var(--color-cherry-red)' }} />
+        <Logo size="80" style={{ color: 'var(--color-fire-red)' }} />
       </Box>
       <Box>
         <h1 className="dnb-h1">

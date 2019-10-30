@@ -964,7 +964,7 @@ exports[`DatePicker scss have to match default theme snapshot 1`] = `
 .dnb-date-picker__input,
   .dnb-date-picker__status--error .dnb-date-picker:not(.dnb-date-picker--opened) .dnb-input__shell:not([data-input-state='focus'])
 .dnb-date-picker__input ~ .dnb-date-picker--separator {
-    color: var(--color-cherry-red); }
+    color: var(--color-fire-red); }
 "
 `;
 

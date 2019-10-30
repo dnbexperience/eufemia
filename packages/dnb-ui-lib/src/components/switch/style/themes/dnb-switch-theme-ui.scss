@@ -158,32 +158,32 @@
     */
   // change button color
   &__status--error &__input:not([disabled]):not(:focus):hover ~ &__button {
-    border-color: var(--color-cherry-red);
-    background-color: var(--color-cherry-red-8);
+    border-color: var(--color-fire-red);
+    background-color: var(--color-fire-red-8);
   }
   &__status--error
     &__input:not([disabled]):not(:focus):not(:active):not(:hover)
     ~ &__button {
-    border-color: var(--color-cherry-red-8);
+    border-color: var(--color-fire-red-8);
   }
   &__status--error
     &__input:not([disabled]):not(:focus):not(:active):not(:hover):checked
     ~ &__button {
-    background-color: var(--color-cherry-red);
+    background-color: var(--color-fire-red);
   }
   // change background color
   &__status--error
     &__input:not([disabled]):not(:focus):not(:active)
     ~ &__background {
-    background-color: var(--color-cherry-red-8);
-    @include fakeBorder(var(--color-cherry-red), $focusRingWidth);
+    background-color: var(--color-fire-red-8);
+    @include fakeBorder(var(--color-fire-red), $focusRingWidth);
   }
   // change gfx 1 color
   &__status--error
     &__input:not(:focus):not([disabled]):not(:active):checked
     ~ &__background {
     &::after {
-      background-color: var(--color-cherry-red);
+      background-color: var(--color-fire-red);
     }
   }
   // change gfx 0 color
@@ -191,7 +191,7 @@
     &__input:not(:focus):not([disabled]):not(:active):not(:checked)
     ~ &__background {
     &::after {
-      border-color: var(--color-cherry-red);
+      border-color: var(--color-fire-red);
     }
   }
   // fake border outside
@@ -200,7 +200,7 @@
     ~ &__button
     &__focus {
     display: block;
-    @include fakeBorder(var(--color-cherry-red), $focusRingWidth);
+    @include fakeBorder(var(--color-fire-red), $focusRingWidth);
   }
   // and rotate in checked state
   &__status--error

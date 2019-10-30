@@ -580,7 +580,7 @@ export default class GlobalStatus extends React.PureComponent {
     const noAnimation = isTrue(no_animation)
     const itemsToRender = props.items || []
     const contentToRender = GlobalStatus.getContent(props)
-    const style = state === 'info' ? null : 'cherry-red'
+    const style = state === 'info' ? null : 'fire-red'
 
     /**
      * Show aria-live="assertive" when:

@@ -31,6 +31,7 @@ export default {
   "--color-sea-green-alt-30": "#b3dada",
   "--color-signal-yellow-30": "#ffffd7",
   "--color-fire-red": "#dc2a2a",
+  "--color-fire-red-8": "#fdeeee",
   "--color-cherry-red": "#e10076",
   "--color-cherry-red-8": "#fdebf4",
   "--color-black": "#000",

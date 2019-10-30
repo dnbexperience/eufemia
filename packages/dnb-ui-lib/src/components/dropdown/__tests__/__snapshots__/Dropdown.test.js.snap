@@ -493,25 +493,25 @@ exports[`Dropdown scss have to match default theme snapshot 1`] = `
     html:not([data-is-touch]) .dnb-dropdown__trigger:hover:not([disabled]) {
       color: var(--dropdown-text-color); }
   .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger {
-    box-shadow: 0 0 0 0.125rem var(--color-cherry-red) !important;
+    box-shadow: 0 0 0 0.125rem var(--color-fire-red) !important;
     /* IE11 fix */
     border-color: transparent; }
     @media screen and (-ms-high-contrast: none) {
       .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger {
-        box-shadow: 0 0 0 1px var(--color-cherry-red) !important; } }
+        box-shadow: 0 0 0 1px var(--color-fire-red) !important; } }
     html:not([data-is-touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover[disabled] {
       cursor: not-allowed; }
     html:not([data-is-touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover:not([disabled]) {
-      box-shadow: 0 0 0 0.125rem var(--color-cherry-red) !important;
+      box-shadow: 0 0 0 0.125rem var(--color-fire-red) !important;
       /* IE11 fix */
       border-color: transparent; }
       @media screen and (-ms-high-contrast: none) {
         html:not([data-is-touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover:not([disabled]) {
-          box-shadow: 0 0 0 1px var(--color-cherry-red) !important; } }
+          box-shadow: 0 0 0 1px var(--color-fire-red) !important; } }
       html:not([data-is-touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover:not([disabled]) .dnb-dropdown__icon .dnb-icon {
-        color: var(--color-cherry-red); }
+        color: var(--color-fire-red); }
   .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__icon {
-    color: var(--color-cherry-red); }
+    color: var(--color-fire-red); }
   .dnb-dropdown__triangle::before {
     border: none;
     background-color: var(--color-white);

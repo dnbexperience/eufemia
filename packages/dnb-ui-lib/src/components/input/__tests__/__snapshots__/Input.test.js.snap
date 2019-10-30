@@ -540,14 +540,14 @@ exports[`Input scss have to match default theme snapshot 1`] = `
   .dnb-input:not([data-input-state='disabled']).dnb-input__submit-button svg {
     color: var(--color-sea-green); }
   .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']), .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']):not([data-input-state='disabled']):hover {
-    box-shadow: 0 0 0 0.125rem var(--color-cherry-red);
+    box-shadow: 0 0 0 0.125rem var(--color-fire-red);
     /* IE11 fix */
     border-color: transparent; }
   .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']) ~ .dnb-input__submit-element .dnb-button__icon,
   .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']) ~ .dnb-input__submit-element .dnb-button--secondary .dnb-button__icon {
-    color: var(--color-cherry-red); }
+    color: var(--color-fire-red); }
   .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']) ~ .dnb-input__submit-element .dnb-button {
-    box-shadow: 0 0 0 0.125rem var(--color-cherry-red);
+    box-shadow: 0 0 0 0.125rem var(--color-fire-red);
     /* IE11 fix */
     border-color: transparent; }
   .dnb-input__input::selection {

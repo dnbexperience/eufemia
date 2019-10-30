@@ -10,9 +10,9 @@
   }
 
   &--error &__shell {
-    background-color: var(--color-cherry-red-8);
+    background-color: var(--color-fire-red-8);
     & > .dnb-icon {
-      color: var(--color-cherry-red);
+      color: var(--color-fire-red);
       border: none;
     }
   }
@@ -36,13 +36,13 @@
 @keyframes attention-focus {
   0%,
   100% {
-    color: var(--color-cherry-red);
-    background-color: var(--color-cherry-red-8);
-    border-color: var(--color-cherry-red);
+    color: var(--color-fire-red);
+    background-color: var(--color-fire-red-8);
+    border-color: var(--color-fire-red);
   }
   35% {
     color: var(--color-white);
-    background-color: var(--color-cherry-red);
-    border-color: var(--color-cherry-red);
+    background-color: var(--color-fire-red);
+    border-color: var(--color-fire-red);
   }
 }
