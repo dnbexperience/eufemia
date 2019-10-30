@@ -3,6 +3,7 @@
 import attachment_medium from './attachment_medium.js'
 import bubble_medium from './bubble_medium.js'
 import check_alt_01_medium from './check_alt_01_medium.js'
+import download_medium from './download_medium.js'
 import file_medium from './file_medium.js'
 import fullscreen_medium from './fullscreen_medium.js'
 import hamburger_medium from './hamburger_medium.js'
@@ -12,7 +13,6 @@ import logout_medium from './logout_medium.js'
 import pencil_medium from './pencil_medium.js'
 import print_medium from './print_medium.js'
 import redo_medium from './redo_medium.js'
-import save_alt_01_medium from './save_alt_01_medium.js'
 import send_medium from './send_medium.js'
 import trash_medium from './trash_medium.js'
 import undo_medium from './undo_medium.js'
@@ -22,6 +22,7 @@ export {
   attachment_medium,
   bubble_medium,
   check_alt_01_medium,
+  download_medium,
   file_medium,
   fullscreen_medium,
   hamburger_medium,
@@ -31,7 +32,6 @@ export {
   pencil_medium,
   print_medium,
   redo_medium,
-  save_alt_01_medium,
   send_medium,
   trash_medium,
   undo_medium,
