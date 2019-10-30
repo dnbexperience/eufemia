@@ -1,8 +1,9 @@
 /**
- * umd entry
+ * UMD lib entry
  *
  */
 
-import '../components/web-components'
+import * as dnbLib from '../components/web-components'
 
-// we dont export something, as this file is used to convert all the components inti umd module bundle
+// we have to export
+export { dnbLib }

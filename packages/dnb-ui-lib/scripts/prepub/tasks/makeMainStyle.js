@@ -7,8 +7,6 @@ import gulp from 'gulp'
 import sass from 'gulp-sass'
 import postcss from 'gulp-postcss'
 import onceImporter from 'node-sass-once-importer'
-import babel from 'gulp-babel'
-import sourcemaps from 'gulp-sourcemaps'
 import cssnano from 'gulp-cssnano'
 import clone from 'gulp-clone'
 import rename from 'gulp-rename'
@@ -21,8 +19,6 @@ import { asyncForEach } from '../../tools/index'
 import postcssConfig from '../config/postcssConfig'
 
 export default async () => {
-  await transformStyleModules()
-
   // info: use this aproach to process files because:
   // this way we avoid cross "includePaths" and the result is:
   // Now a custom theme can overwrite existing CSS Custom Properties
@@ -51,38 +47,6 @@ export default async () => {
   )
 }
 
-const transformModulesContent = content =>
-  content.replace(/\.scss/g, '.min.css')
-const transformMainStyleContent = content =>
-  content.replace(new RegExp('../../assets/', 'g'), '../assets/')
-
-const transformStyleModules = () =>
-  new Promise((resolve, reject) => {
-    log.start('> PrePublish: transforming style modules')
-    try {
-      gulp
-        .src(
-          [
-            './src/style/**/*.js',
-            '!**/__tests__/**',
-            '!**/*_not_in_use*/**/*'
-          ],
-          {
-            cwd: process.env.ROOT_DIR
-          }
-        )
-        .pipe(sourcemaps.init())
-        .pipe(transform('utf8', transformModulesContent))
-        .pipe(babel())
-        .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest('./style', { cwd: process.env.ROOT_DIR }))
-        .on('end', resolve)
-        .on('error', reject)
-    } catch (e) {
-      reject(e)
-    }
-  })
-
 export const runFactory = (
   src,
   { returnResult = false, importOnce = true } = {}
@@ -90,27 +54,50 @@ export const runFactory = (
   new Promise((resolve, reject) => {
     log.start('> PrePublish: transforming main style')
     try {
-      const stream = sass({
+      const sassStream = sass({
         importer: importOnce ? [onceImporter()] : []
       }).on('error', sass.logError)
 
       const cloneSink = clone.sink()
 
-      gulp
+      let stream = gulp
         .src(src, {
           cwd: process.env.ROOT_DIR
         })
-        .pipe(stream)
-        .pipe(transform('utf8', transformMainStyleContent))
+        .pipe(sassStream)
         .pipe(postcss(postcssConfig({ IE11: true })))
         .pipe(cloneSink)
         .pipe(cssnano())
         .pipe(rename({ suffix: '.min' }))
         .pipe(cloneSink.tap())
+
+      if (!returnResult) {
+        stream = stream
+          .pipe(
+            gulp.dest('./build/cjs/style', {
+              cwd: process.env.ROOT_DIR
+            })
+          )
+          .pipe(
+            gulp.dest('./build/es/style', { cwd: process.env.ROOT_DIR })
+          )
+          .pipe(
+            gulp.dest('./build/esm/style', {
+              cwd: process.env.ROOT_DIR
+            })
+          )
+      }
+
+      stream
+        .pipe(
+          transform('utf8', transformPaths('../../assets/', '../assets/'))
+        )
         .pipe(
           returnResult
             ? transform('utf8', result => resolve(result))
-            : gulp.dest('./style', { cwd: process.env.ROOT_DIR })
+            : gulp.dest('./build/style', {
+                cwd: process.env.ROOT_DIR
+              })
         )
         .on('end', resolve)
         .on('error', reject)
@@ -118,3 +105,6 @@ export const runFactory = (
       reject(e)
     }
   })
+
+const transformPaths = (from, to) => content =>
+  content.replace(new RegExp(from, 'g'), to)

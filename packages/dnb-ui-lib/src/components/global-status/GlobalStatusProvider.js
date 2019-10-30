@@ -3,8 +3,6 @@
  *
  */
 
-import { defaultProps } from './GlobalStatus'
-
 import { makeUniqueId } from '../../shared/component-helper'
 
 // The meaning with this is that we can force a rerender without sharing the same context
@@ -55,7 +53,7 @@ class GlobalStatusProvider {
     }
     if (!item.status_id) {
       item.status_id =
-        status_id && status_id !== defaultProps.status_id
+        status_id && status_id !== 'status-main' // same as defaultProps.status_id
           ? status_id
           : slugify(JSON.stringify(item))
     }

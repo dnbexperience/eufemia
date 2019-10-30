@@ -18,7 +18,7 @@ const renderProps = {
   // render_content: null
 }
 
-export const propTypes = {
+const propTypes = {
   notification_amount: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number
@@ -36,7 +36,7 @@ export const propTypes = {
   // render_content: PropTypes.func
 }
 
-export const defaultProps = {
+const defaultProps = {
   notification_amount: 0,
   title_text: null,
   class: null,

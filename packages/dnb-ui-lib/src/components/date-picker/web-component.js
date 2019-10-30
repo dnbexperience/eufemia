@@ -3,7 +3,9 @@
  *
  */
 
-export * from './index'
-import { enableWebComponents } from '../index'
+import { registerElement } from '../../shared/custom-element'
+import DatePicker from './DatePicker'
+export default DatePicker
+export * from './DatePicker'
 
-enableWebComponents()
+registerElement(DatePicker.tagName, DatePicker, DatePicker.defaultProps)

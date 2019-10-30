@@ -134,7 +134,7 @@
   &-group {
     display: inline-flex;
 
-    // defualt spacing
+    // default spacing
     .dnb-toggle-button {
       margin-right: var(--toggle-button-margin-right);
       margin-bottom: var(--toggle-button-margin-bottom);
@@ -176,7 +176,7 @@
     }
   }
 
-  // defualt spacing for a single toggle button
+  // default spacing for a single toggle button
   @media (min-width: 40em) {
     .dnb-form-label + & {
       transform: translateY(-0.5rem);

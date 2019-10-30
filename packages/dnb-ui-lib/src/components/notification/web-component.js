@@ -3,7 +3,13 @@
  *
  */
 
-export * from './index'
-import { enableWebComponents } from '../index'
+import { registerElement } from '../../shared/custom-element'
+import Notification from './Notification'
+export default Notification
+export * from './Notification'
 
-enableWebComponents()
+registerElement(
+  Notification.tagName,
+  Notification,
+  Notification.defaultProps
+)

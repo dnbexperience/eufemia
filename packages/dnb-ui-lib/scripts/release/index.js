@@ -28,16 +28,14 @@ const semanicRelease = async () => {
       const { lastRelease, commits, nextRelease, releases } = result
 
       console.log(
-        `Published ${nextRelease.type} release version ${
-          nextRelease.version
-        } containing ${commits.length} commits.`
+        `Published ${nextRelease.type} release version ${nextRelease.version} containing ${commits.length} commits.`
       )
 
       if (lastRelease.version) {
         console.log(`The last release was "${lastRelease.version}".`)
       }
 
-      console.debug(releases)
+      console.log(releases)
     } else {
       console.log('No release published.')
     }

@@ -17,7 +17,7 @@ const renderProps = {
   render_content: null
 }
 
-export const propTypes = {
+const propTypes = {
   content: PropTypes.string,
   modifier: PropTypes.string,
   tag: PropTypes.string,
@@ -33,7 +33,7 @@ export const propTypes = {
   render_content: PropTypes.func
 }
 
-export const defaultProps = {
+const defaultProps = {
   content: null,
   modifier: null,
   tag: 'h2',

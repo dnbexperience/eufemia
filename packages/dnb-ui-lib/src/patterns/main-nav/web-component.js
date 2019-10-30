@@ -3,7 +3,9 @@
  *
  */
 
-export * from './index'
-import { enableWebComponents } from '../index'
+import { registerElement } from '../../shared/custom-element'
+import MainNav from './MainNav'
+export default MainNav
+export * from './MainNav'
 
-enableWebComponents()
+registerElement(MainNav.tagName, MainNav, MainNav.defaultProps)

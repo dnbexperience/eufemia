@@ -20,7 +20,7 @@ const renderProps = {
   render_content: null
 }
 
-export const propTypes = {
+const propTypes = {
   for_id: PropTypes.string,
   element: PropTypes.string,
   title: PropTypes.string,
@@ -48,7 +48,7 @@ export const propTypes = {
   render_content: PropTypes.func
 }
 
-export const defaultProps = {
+const defaultProps = {
   for_id: null,
   element: 'label',
   title: null,

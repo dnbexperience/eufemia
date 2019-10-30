@@ -3,7 +3,9 @@
  *
  */
 
-export * from './index'
-import { enableWebComponents } from '../index'
+import { registerElement } from '../../shared/custom-element'
+import Button from './Button'
+export default Button
+export * from './Button'
 
-enableWebComponents()
+registerElement(Button.tagName, Button, Button.defaultProps)

@@ -3,7 +3,13 @@
  *
  */
 
-export * from './index'
-import { enableWebComponents } from '../index'
+import { registerElement } from '../../shared/custom-element'
+import StepIndicator from './StepIndicator'
+export default StepIndicator
+export * from './StepIndicator'
 
-enableWebComponents()
+registerElement(
+  StepIndicator.tagName,
+  StepIndicator,
+  StepIndicator.defaultProps
+)

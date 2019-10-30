@@ -56,7 +56,7 @@ class MainWrapper extends PureComponent {
   }
 }
 
-const MainWrapperStyled = styled.div`
+const MainWrapperStyled = styled.nav`
   display: flex;
   align-items: center;
   justify-content: center;

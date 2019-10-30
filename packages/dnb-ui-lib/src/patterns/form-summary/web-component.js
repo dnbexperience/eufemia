@@ -3,7 +3,9 @@
  *
  */
 
-export * from './index'
-import { enableWebComponents } from '../index'
+import { registerElement } from '../../shared/custom-element'
+import FormSummary from './FormSummary'
+export default FormSummary
+export * from './FormSummary'
 
-enableWebComponents()
+registerElement(FormSummary.tagName, FormSummary, FormSummary.defaultProps)

@@ -3,7 +3,9 @@
  *
  */
 
-export * from './index'
-import { enableWebComponents } from '../index'
+import { registerElement } from '../../shared/custom-element'
+import Section from './Section'
+export default Section
+export * from './Section'
 
-enableWebComponents()
+registerElement(Section.tagName, Section, Section.defaultProps)

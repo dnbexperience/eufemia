@@ -7,14 +7,14 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import Button from '../button/Button'
 
-export const propTypes = {
+const propTypes = {
   submit_button_text: PropTypes.string,
   cancel_button_text: PropTypes.string,
   onSubmit: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
   onCancel: PropTypes.oneOfType([PropTypes.bool, PropTypes.func])
 }
 
-export const defaultProps = {
+const defaultProps = {
   submit_button_text: 'Ok',
   cancel_button_text: 'Cancel',
 
