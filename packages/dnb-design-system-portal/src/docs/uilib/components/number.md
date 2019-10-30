@@ -10,6 +10,7 @@ import Tabs from 'Tags/Tabs'
 
 import NumberInfo from 'Pages/uilib/components/number/number-info'
 import NumberProperties from 'Pages/uilib/components/number/number-properties'
+import NumberProvider from 'Pages/uilib/components/number/number-provider'
 
 # Number
 
@@ -19,5 +20,8 @@ import NumberProperties from 'Pages/uilib/components/number/number-properties'
   </Tabs.Content>
   <Tabs.Content>
     <NumberProperties />
+  </Tabs.Content>
+  <Tabs.Content title="Provider">
+    <NumberProvider />
   </Tabs.Content>
 </Tabs>

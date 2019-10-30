@@ -7,12 +7,12 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Context from '../../shared/Context'
-import { LOCALE } from '../../shared/defaults'
+import { LOCALE, CURRENCY } from '../../shared/defaults'
 import {
   isTrue,
   validateDOMAttributes,
   registerElement,
-  extendPropsWithContext
+  extend
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 
@@ -39,7 +39,8 @@ const propTypes = {
   class: PropTypes.string,
 
   // React props
-  className: PropTypes.string
+  className: PropTypes.string,
+  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
 
   // Web Component props
 }
@@ -60,6 +61,7 @@ const defaultProps = {
 
   // React props
   className: null,
+  children: null,
 
   // Web Component props
   ...renderProps
@@ -93,53 +95,71 @@ export default class Number extends PureComponent {
 
   render() {
     // consume the global context
-    const props = this.context
-      ? // use only the props from context, who are available here anyway
-        extendPropsWithContext(this.props, this.context)
-      : this.props
 
-    let {
-      value,
+    const {
+      value: _value,
       children,
       currency,
       ban,
       nin,
       phone,
-      anchor,
+      anchor: _anchor,
       options,
       locale,
       selectable,
       element,
       class: _className,
       className,
-      ...attributes
-    } = props
+      ...rest
+    } = this.props
 
-    // because we are using context comparison
-    if (!locale) {
-      locale = LOCALE
-    } else if (locale === 'auto') {
-      try {
-        locale = window.navigator.language
-      } catch (e) {
-        console.warn(e)
-      }
-    }
+    let anchor = _anchor
+    let value = _value
 
-    if (typeof children !== 'undefined') {
+    if (children !== null) {
       value = children
     }
 
-    const { number: display, aria } = format({
-      value,
+    const formatOptions = {
       locale,
       currency,
       ban,
       nin,
       phone,
-      options
-    })
+      options,
+      returnAria: true
+    }
 
+    // use only the props from context, who are available here anyway
+    if (this.context) {
+      const useContext = extend(
+        { locale: null, currency: null },
+        this.context
+      )
+
+      if (useContext) {
+        if (useContext.locale && !locale) {
+          formatOptions.locale = useContext.locale
+        }
+
+        // only replace if the prop is "true" and not actually a currency
+        if (useContext.currency && isTrue(currency)) {
+          formatOptions.options = formatOptions.options
+            ? { ...formatOptions.options }
+            : {}
+          formatOptions.options.currency = useContext.currency
+        }
+      }
+    }
+
+    const { number: display, aria, locale: lang } = format(
+      value,
+      formatOptions
+    )
+
+    let attributes = { ...rest }
+
+    // NB: possible enhancement
     // if (isTrue(selectable)) {
     //   attributes.onClick = this.onClickHandler
     //   // attributes.ref = this._ref
@@ -159,9 +179,9 @@ export default class Number extends PureComponent {
           _className,
           isTrue(selectable) && 'dnb-number--selectable',
           anchor && 'dnb-anchor',
-          createSpacingClasses(props)
+          createSpacingClasses(this.props)
         ),
-        lang: locale
+        lang
       },
       ...attributes
     }
@@ -202,17 +222,31 @@ Element.defaultProps = {
   children: null
 }
 
-export const format = ({
+export const format = (
   value,
-  locale = LOCALE,
-  phone = null,
-  ban = null,
-  nin = null,
-  currency = null,
-  options = null
-}) => {
+  {
+    locale = null, // can be "auto"
+    phone = null,
+    ban = null,
+    nin = null,
+    currency = null,
+    options = null,
+    returnAria = false
+  } = {}
+) => {
   let display = value
   let aria = null
+
+  // because we are using context comparison
+  if (!locale) {
+    locale = LOCALE
+  } else if (locale === 'auto') {
+    try {
+      locale = window.navigator.language
+    } catch (e) {
+      console.warn(e)
+    }
+  }
 
   const opts =
     (typeof options === 'string' && options[0] === '{'
@@ -234,9 +268,10 @@ export const format = ({
     aria = _aria
   } else if (isTrue(currency) || typeof currency === 'string') {
     // set currency options
-    opts.currency = isTrue(currency) ? 'NOK' : currency
-    opts.style = isTrue(currency) ? 'currency' : 'decimal'
-    opts.currencyDisplay = 'symbol' // code, name, symbol
+    opts.currency =
+      opts.currency || (isTrue(currency) ? CURRENCY : currency)
+    opts.style = opts.style || 'currency'
+    opts.currencyDisplay = opts.currencyDisplay || 'symbol' // code, name, symbol
 
     // cleanup
     let cleanedNumber = String(value).replace(/[\s,]/g, '')
@@ -271,7 +306,8 @@ export const format = ({
     aria = display
   }
 
-  return { number: display, aria }
+  // return "locale" as well, since we have to "auto" option
+  return returnAria ? { number: display, aria, locale } : display
 }
 
 export const formatNumber = (number, locale, options = {}) => {

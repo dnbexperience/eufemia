@@ -52,11 +52,38 @@ NVDA has also a hard time to read numbers with minus (-) suffix.
 
 > Screen readers requires numbers to be formatted properly in order to be read as numbers. The **Number** component will help to achieve this requirement.
 
-So, numbers are formatted differently for screen readers than the visual number. And numbers also gets assigned a `lang` attribute, so the screen reader knows what language (locale) should be used on the particular number.
+So, numbers are formatted differently for screen readers than the visual number. And numbers also gets assigned a `lang` attribute, so the screen reader knows what language (locale) should be used on the particular number, even if the text arround not corresponds to the same language.
+
+## Formatting only
+
+You can use the formatting without using the Component. Have a look at the [available properties](/uilib/components/number#tab-properties).
+
+```js
+import { format } from 'dnb-ui-lib/components/Number'
+
+const value = 12345678.9
+
+// basic formatting
+const number = format(value)
+
+// by using returnAria you get an object
+const { number, aria } = format(value, {
+  locale: 'no',
+  currency: true,
+  returnAria: true
+})
+```
+
+## Node.js and SSR usage
+
+If you run the component or `format` function in [Node.js](https://nodejs.org) you have to include [ICU](https://nodejs.org/api/intl.html) data in order to display other locales than en-US. You can do this by:
+
+- installing `npm i full-icu`
+- and call node (or jest) with an environment variable pointing to the package: `NODE_ICU_DATA=./node_modules/full-icu node ...`
 
 ## Provider
 
-You can send down the `locale` as an application wide property (Context).
+You can send down the `locale` as an application wide property (Context). More info about the [provider and locale usage](/uilib/components/number/number-provider).
 
 ```jsx
 import Provider from 'dnb-ui-lib/shared/Provider'

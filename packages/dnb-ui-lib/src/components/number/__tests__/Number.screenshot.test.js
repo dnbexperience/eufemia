@@ -9,7 +9,7 @@ import {
 } from '../../../core/jest/jestSetupScreenshots'
 
 describe('Number screenshot', () => {
-  setupPageScreenshot({ url: '/uilib/components/number' })
+  setupPageScreenshot({ url: '/uilib/components/number/number-examples' })
   it('have to match default numbers', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-dnb-test="number-default"]'
