@@ -28,7 +28,7 @@ exports[`ToggleButton component have to match snapshot 1`] = `
   variant="checkbox"
 >
   <span
-    className="dnb-toggle-button dnb-toggle-button--horizontal className class"
+    className="dnb-toggle-button className class dnb-toggle-button--horizontal"
   >
     <FormLabel
       class={null}
@@ -93,7 +93,7 @@ exports[`ToggleButton component have to match snapshot 1`] = `
           <button
             aria-disabled={true}
             aria-pressed="false"
-            className="dnb-button dnb-button--secondary dnb-button--icon-position-right dnb-button--has-text dnb-button--has-icon dnb-toggle-button__button"
+            className="dnb-button dnb-button--secondary dnb-toggle-button__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--has-text"
             id="toggle-button"
             onClick={[Function]}
             onKeyDown={[Function]}
@@ -437,7 +437,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                         >
                           <button
                             aria-pressed="true"
-                            className="dnb-button dnb-button--secondary dnb-button--has-text dnb-toggle-button__button"
+                            className="dnb-button dnb-button--secondary dnb-toggle-button__button dnb-button--has-text"
                             id="toggle-button-1"
                             onClick={[Function]}
                             onKeyDown={[Function]}
@@ -545,7 +545,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                         >
                           <button
                             aria-pressed="true"
-                            className="dnb-button dnb-button--secondary dnb-button--has-text dnb-toggle-button__button"
+                            className="dnb-button dnb-button--secondary dnb-toggle-button__button dnb-button--has-text"
                             id="toggle-button-2"
                             onClick={[Function]}
                             onKeyDown={[Function]}
@@ -693,20 +693,20 @@ exports[`ToggleButton scss have to match default theme snapshot 1`] = `
     color: var(--color-sea-green-alt); }
   .dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]):not(:focus):not(:active) {
     background-color: var(--color-white);
-    color: var(--color-cherry-red);
-    box-shadow: inset 0 0 0 0.0625rem var(--color-cherry-red);
+    color: var(--color-fire-red);
+    box-shadow: inset 0 0 0 0.0625rem var(--color-fire-red);
     /* IE11 fix */
     border-color: transparent; }
     @media screen and (-ms-high-contrast: none) {
       .dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]):not(:focus):not(:active) {
-        box-shadow: inset 0 0 0 1px var(--color-cherry-red); } }
+        box-shadow: inset 0 0 0 1px var(--color-fire-red); } }
     .dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]):not(:focus):not(:active):hover {
-      box-shadow: 0 0 0 0.125rem var(--color-cherry-red); }
+      box-shadow: 0 0 0 0.125rem var(--color-fire-red); }
   .dnb-toggle-button--checked.dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]):not(:focus):not(:active) {
-    background-color: var(--color-cherry-red);
+    background-color: var(--color-fire-red);
     color: var(--color-white); }
     .dnb-toggle-button--checked.dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]):not(:focus):not(:active):hover {
-      box-shadow: 0 0 0 0.125rem var(--color-cherry-red); }
+      box-shadow: 0 0 0 0.125rem var(--color-fire-red); }
   .dnb-toggle-button--checked.dnb-toggle-button__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:active) ~ .dnb-radio__focus {
     box-shadow: 0 0 0 0.125rem var(--color-white); }
   .dnb-toggle-button--checked.dnb-toggle-button__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:active):not(:hover) ~ .dnb-radio__dot {
@@ -1142,10 +1142,7 @@ a.dnb-button .dnb-button__text {
     margin-top: 0.25em;
     margin-left: 0.5em;
     color: inherit;
-    font-size: var(--font-size-basis);
-    border-radius: 50%;
-    border: 0.0625rem solid;
-    border-color: currentColor; }
+    font-size: var(--font-size-basis); }
   .dnb-form-status[hidden] {
     display: none; }
   .dnb-form-status--fade-in {

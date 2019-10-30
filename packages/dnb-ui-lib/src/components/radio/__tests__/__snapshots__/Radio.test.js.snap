@@ -25,7 +25,7 @@ exports[`Radio component have to match snapshot 1`] = `
   value="value"
 >
   <span
-    className="dnb-radio dnb-radio--label-position-left className class"
+    className="dnb-radio className class dnb-radio--label-position-left"
   >
     <span
       className="dnb-radio__order"
@@ -516,15 +516,15 @@ exports[`Radio scss have to match default theme snapshot 1`] = `
     border: none; }
   .dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:active) ~ .dnb-radio__focus {
     display: block;
-    box-shadow: 0 0 0 0.125rem var(--color-cherry-red);
+    box-shadow: 0 0 0 0.125rem var(--color-fire-red);
     /* IE11 fix */
     border-color: transparent; }
   .dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:checked):hover ~ .dnb-radio__button {
-    background-color: var(--color-cherry-red-8); }
+    background-color: var(--color-fire-red-8); }
   .dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:active):not(:hover):checked ~ .dnb-radio__dot {
-    background-color: var(--color-cherry-red); }
+    background-color: var(--color-fire-red); }
   .dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:active):checked:hover ~ .dnb-radio__dot {
-    background-color: var(--color-cherry-red-8); }
+    background-color: var(--color-fire-red-8); }
   .dnb-radio > .dnb-form-status {
     transform: translateY(0.1875rem); }
 "
@@ -685,10 +685,7 @@ legend.dnb-form-label {
     margin-top: 0.25em;
     margin-left: 0.5em;
     color: inherit;
-    font-size: var(--font-size-basis);
-    border-radius: 50%;
-    border: 0.0625rem solid;
-    border-color: currentColor; }
+    font-size: var(--font-size-basis); }
   .dnb-form-status[hidden] {
     display: none; }
   .dnb-form-status--fade-in {

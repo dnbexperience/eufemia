@@ -432,7 +432,7 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
         variant="tertiary"
       >
         <a
-          className="dnb-button dnb-button--tertiary dnb-button--icon-position-left dnb-button--has-text dnb-button--has-icon dnb-global-error__back"
+          className="dnb-button dnb-button--tertiary dnb-global-error__back dnb-button--icon-position-left dnb-button--has-icon dnb-button--has-text"
           href="href"
           onClick={[Function]}
           onMouseOut={[Function]}
@@ -649,7 +649,7 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
           style_type={null}
           top="4"
         >
-          <E
+          <ForwardRef
             bottom="large"
             class={null}
             className={null}
@@ -663,14 +663,14 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
             >
               title
             </h1>
-          </E>
+          </ForwardRef>
         </H1>
         <P
           bottom="large"
           className={null}
           style_type={null}
         >
-          <E
+          <ForwardRef
             bottom="large"
             class={null}
             className={null}
@@ -691,7 +691,7 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
               </a>
                text
             </p>
-          </E>
+          </ForwardRef>
         </P>
       </div>
     </div>

@@ -84,16 +84,16 @@
   .dnb-textarea__status--error/* for the HTML element */ {
     box-shadow: var(--textarea-border-inner),
       0 0 0 calc(var(--textarea-padding-width) + 0.125rem)
-        var(--color-cherry-red);
+        var(--color-fire-red);
 
     /* IE11 fix */
     @media screen and (-ms-high-contrast: none) {
-      box-shadow: 0 0 0 1px var(--color-cherry-red);
+      box-shadow: 0 0 0 1px var(--color-fire-red);
     }
 
     // Edge fix
     @supports (-ms-ime-align: auto) {
-      box-shadow: 0 0 0 1px var(--color-cherry-red);
+      box-shadow: 0 0 0 1px var(--color-fire-red);
     }
   }
 
@@ -138,16 +138,16 @@
     &:not(#{&}--disabled):hover {
       box-shadow: var(--textarea-border-inner),
         0 0 0 calc(var(--textarea-padding-width) + 0.125rem)
-          var(--color-cherry-red);
+          var(--color-fire-red);
 
       /* IE11 fix */
       @media screen and (-ms-high-contrast: none) {
-        box-shadow: 0 0 0 0.125rem var(--color-cherry-red);
+        box-shadow: 0 0 0 0.125rem var(--color-fire-red);
       }
 
       // Edge fix
       @supports (-ms-ime-align: auto) {
-        box-shadow: 0 0 0 0.125rem var(--color-cherry-red);
+        box-shadow: 0 0 0 0.125rem var(--color-fire-red);
       }
     }
   }

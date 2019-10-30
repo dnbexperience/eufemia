@@ -22,12 +22,14 @@ import { runStyleFactory } from './tasks/styleFactory'
 import { runThemeFactory } from './tasks/themeFactory'
 import convertSvgToJsx from './tasks/convertSvgToJsx'
 import makeLibStyles from './tasks/makeLibStyles'
-import makeLibModules from './tasks/makeLibModules'
-import makeIconLib from './tasks/makeIconLib'
 import makeMainStyle from './tasks/makeMainStyle'
 import makePropertiesFile from './tasks/makePropertiesFile'
-import makeIconsUMDBundle from './tasks/makeIconsUMDBundle'
-import makeMainUMDBundle from './tasks/makeMainUMDBundle'
+
+// NB: Deprecated and replaced by Babel only build
+// import makeLibModules from './tasks/makeLibModules'
+// import makeIconLib from './tasks/makeIconLib'
+// import makeIconsUMDBundle from './tasks/makeIconsUMDBundle'
+// import makeMainUMDBundle from './tasks/makeMainUMDBundle'
 
 export {
   log,
@@ -36,12 +38,14 @@ export {
   runThemeFactory,
   convertSvgToJsx,
   makeLibStyles,
-  makeLibModules,
-  makeIconLib,
   makeMainStyle,
-  makePropertiesFile,
-  makeIconsUMDBundle,
-  makeMainUMDBundle
+  makePropertiesFile
+
+  // NB: Deprecated and replaced by Babel only build
+  // makeLibModules,
+  // makeIconLib,
+  // makeIconsUMDBundle,
+  // makeMainUMDBundle
 }
 
 export const runPrepublishTasks = async ({
@@ -54,18 +58,21 @@ export const runPrepublishTasks = async ({
     await cleanupLib({ preventDelete })
     await convertSvgToJsx({ preventDelete })
 
-    await makeIconLib()
-    await makeIconsUMDBundle({ doRefetch })
+    // NB: Deprecated and replaced by Babel only build
+    // await makeIconLib()
+    // await makeIconsUMDBundle({ doRefetch })
 
     await runStyleFactory()
     await runThemeFactory()
-    await makeLibStyles() // have to run after "makeLibModules"
+    await makeLibStyles() // have to run before "makeLibModules"
     await makeMainStyle()
     await makePropertiesFile()
 
     await prepareTemplates()
-    await makeLibModules()
-    await makeMainUMDBundle()
+
+    // NB: Deprecated and replaced by Babel only build
+    // await makeLibModules()
+    // await makeMainUMDBundle()
     log.succeed('Prepublishing has Succeeded!')
   } catch (e) {
     log.fail('Failed to run prepublish!')
@@ -81,16 +88,24 @@ export const cleanupLib = async ({ preventDelete = false } = {}) => {
     await del(
       [
         './es/**',
+        './esm/**',
+        './cjs/**',
         './components/**',
         './elements/**',
         './patterns/**',
         './style/**',
+        './shared/**',
+        './icons/**',
         './umd/**',
         '!./es',
+        '!./esm',
+        '!./cjs',
         '!./components',
         '!./elements',
         '!./patterns',
         '!./style',
+        '!./shared',
+        '!./icons',
         '!./umd'
       ],
       {

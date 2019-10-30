@@ -40,13 +40,13 @@ The color name is written with spaces between words. The first word starts with 
 Example:
 
 <div class="typography-box">
-Cherry red 8%
+Fire red 8%
 </div>
 
 Whereas in CSS as a custom property this is written:
 
 <div class="typography-box">
---color-cherry-red
+--color-fire-red-8
 </div>
 
 Colors have a naming convention across all platforms and formats. Please refer to the table in 'colors' section https://eufemia.dnb.no/quickguide-designer/colors.

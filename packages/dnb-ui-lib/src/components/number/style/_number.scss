@@ -1,0 +1,34 @@
+/*
+ * Number Component
+ *
+ */
+
+@import '../../../style/elements/_anchor-mixins.scss';
+
+// .dnb-number {
+// NB: Is not  active right now
+// &--selectable {
+//   cursor: pointer;
+//
+//   @include anchorStyle();
+//
+//   &::selection {
+//     color: #fff;
+//     background-color: transparent !important;
+//   }
+//
+//   &:hover {
+//     @include anchorHoverStyle();
+//   }
+//   &:hover,
+//   &:active {
+//     user-select: all;
+//   }
+//   &:active {
+//     @include anchorActiveStyle();
+//     &::selection {
+//       color: #fff;
+//     }
+//   }
+// }
+// }

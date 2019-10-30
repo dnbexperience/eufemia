@@ -132,7 +132,7 @@ exports[`Modal component have to match snapshot 1`] = `
       variant="secondary"
     >
       <button
-        className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-left dnb-button--has-icon dnb-modal__trigger"
+        className="dnb-button dnb-button--secondary dnb-modal__trigger dnb-button--icon-position-left dnb-button--has-icon dnb-button--size-medium"
         id="modal_id"
         onClick={[Function]}
         onMouseOut={[Function]}
@@ -450,7 +450,7 @@ exports[`Modal component have to match snapshot 1`] = `
               >
                 <button
                   aria-label="close_title"
-                  className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--icon-size-medium dnb-button--has-icon dnb-modal__close-button"
+                  className="dnb-button dnb-button--secondary dnb-modal__close-button dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--size-medium"
                   onClick={[Function]}
                   onMouseOut={[Function]}
                   type="button"
@@ -498,7 +498,7 @@ exports[`Modal component have to match snapshot 1`] = `
                         alt="close"
                         aria-hidden={false}
                         aria-label="close"
-                        className="dnb-icon dnb-icon--medium dnb-button__icon"
+                        className="dnb-icon dnb-button__icon dnb-icon--medium"
                         role="img"
                       >
                         <close_medium>

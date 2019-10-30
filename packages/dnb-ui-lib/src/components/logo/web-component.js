@@ -3,7 +3,9 @@
  *
  */
 
-export * from './index'
-import { enableWebComponents } from '../index'
+import { registerElement } from '../../shared/custom-element'
+import Logo from './Logo'
+export default Logo
+export * from './Logo'
 
-enableWebComponents()
+registerElement(Logo.tagName, Logo, Logo.defaultProps)

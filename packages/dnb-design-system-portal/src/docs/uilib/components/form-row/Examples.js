@@ -106,7 +106,7 @@ const CustomRow = styled(FormRow)\`
   > .dnb-form-label {
     max-width: 12rem;
     background: var(--color-white);
-    color: var(--color-cherry-red);
+    color: var(--color-fire-red);
   }
 \`
 render(

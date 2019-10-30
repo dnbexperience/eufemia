@@ -14,14 +14,18 @@ So called [Custom Elements](https://www.w3.org/TR/custom-elements/), running as 
 ## Example usage
 
 ```jsx
-// Method #1
+// Method #1 (will import all components)
 import { enableWebComponents } from 'dnb-ui-lib/components'
 enableWebComponents()
 
-// Method #2
+// Method #2 (will import all components)
+import 'dnb-ui-lib/components/web-components'
+
+// Method #3 (will import all components)
 import 'dnb-ui-lib/web-components'
 
-// Method #3 - note, web-component without "s"
+// Method #4 - note, web-component without "s"
+// Will import only the code for the Button
 import 'dnb-ui-lib/components/button/web-component'
 ```
 

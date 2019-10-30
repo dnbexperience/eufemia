@@ -3,7 +3,9 @@
  *
  */
 
-export * from './index'
-import { enableWebComponents } from '../index'
+import { registerElement } from '../../shared/custom-element'
+import Dropdown from './Dropdown'
+export default Dropdown
+export * from './Dropdown'
 
-enableWebComponents()
+registerElement(Dropdown.tagName, Dropdown, Dropdown.defaultProps)

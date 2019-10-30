@@ -6,7 +6,6 @@
 import gulp from 'gulp'
 import sass from 'gulp-sass'
 import postcss from 'gulp-postcss'
-// import jsonImpo rter from 'node-sass-json-importer'
 import cssnano from 'gulp-cssnano'
 import clone from 'gulp-clone'
 import rename from 'gulp-rename'
@@ -33,7 +32,7 @@ export default () =>
   })
 
 export const runFactory = (src, { returnResult = false } = {}) =>
-  new Promise(async (resolve, reject) => {
+  new Promise((resolve, reject) => {
     log.start(`> PrePublish: converting sass to css | ${src}`)
 
     try {
@@ -43,39 +42,63 @@ export const runFactory = (src, { returnResult = false } = {}) =>
       const dest = src.replace('./src/', '').split('/**/')[0]
       const files = [src, '!**/__tests__/**', '!**/*_not_in_use*/**/*']
 
-      const stream = gulp
+      let stream = gulp
         .src(files, {
           cwd: process.env.ROOT_DIR
         })
         .pipe(sassStream)
-        .pipe(transform('utf8', transformContent))
+        .pipe(
+          transform(
+            'utf8',
+            transformPaths('../../../../assets/', '../../../assets/')
+          )
+        )
         .pipe(postcss(postcssConfig({ IE11: true })))
         .pipe(cloneSink)
         .pipe(cssnano())
         .pipe(rename({ suffix: '.min' }))
         .pipe(cloneSink.tap())
+
+      if (!returnResult) {
+        stream = stream
+          .pipe(
+            gulp.dest(`./build/cjs/${dest}/`, {
+              cwd: process.env.ROOT_DIR
+            })
+          )
+          .pipe(
+            gulp.dest(`./build/es/${dest}/`, { cwd: process.env.ROOT_DIR })
+          )
+          .pipe(
+            gulp.dest(`./build/esm/${dest}/`, {
+              cwd: process.env.ROOT_DIR
+            })
+          )
+      }
+
+      stream
+        .pipe(
+          transform(
+            'utf8',
+            transformPaths('../../../../assets/', '../../../assets/')
+          )
+        )
         .pipe(
           returnResult
             ? transform('utf8', result => resolve(result))
-            : gulp.dest(`./${dest}/`, { cwd: process.env.ROOT_DIR })
+            : gulp.dest(`./build/${dest}/`, {
+                cwd: process.env.ROOT_DIR
+              })
         )
         .on('end', resolve)
         .on('error', reject)
-
-      if (!returnResult)
-        stream.pipe(
-          gulp.dest(`./es/${dest}/`, { cwd: process.env.ROOT_DIR })
-        )
     } catch (e) {
       console.debug('reject', e)
       reject(e)
     }
   })
 
-const transformContent = (content, file) => {
+const transformPaths = (from, to) => (content, file) => {
   log.text = `> PrePublish: converting sass to css | ${file.path}`
-  return content.replace(
-    new RegExp('../../../../assets/', 'g'),
-    '../../../assets/'
-  )
+  return content.replace(new RegExp(from, 'g'), to)
 }

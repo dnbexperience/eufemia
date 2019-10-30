@@ -14,7 +14,7 @@ import {
 
 const renderProps = {}
 
-export const propTypes = {
+const propTypes = {
   class: PropTypes.string,
   /** React props */
   className: PropTypes.string,
@@ -26,7 +26,7 @@ export const propTypes = {
   // Web Component props
 }
 
-export const defaultProps = {
+const defaultProps = {
   class: null,
   /** React props */
   className: null,

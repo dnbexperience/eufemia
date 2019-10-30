@@ -16,7 +16,7 @@ const renderProps = {
   // render_content: null
 }
 
-export const propTypes = {
+const propTypes = {
   text: PropTypes.string,
   class: PropTypes.string,
   /** React props */
@@ -30,7 +30,7 @@ export const propTypes = {
   // render_content: PropTypes.func
 }
 
-export const defaultProps = {
+const defaultProps = {
   text: null,
   class: null,
   /** React props */

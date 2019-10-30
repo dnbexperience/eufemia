@@ -61,7 +61,7 @@ export const propTypes = {
   render_content: PropTypes.func
 }
 
-export const defaultProps = {
+const defaultProps = {
   id: null,
   label: null,
   label_direction: null,

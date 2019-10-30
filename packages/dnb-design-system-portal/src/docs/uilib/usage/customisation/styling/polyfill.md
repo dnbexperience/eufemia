@@ -58,6 +58,15 @@ cssVars()
 
 But on large applications, the polyfill lacks in stability, therefore we made and recommend using the approach by using the Stylis Plugin method. Se examples below.
 
+### Properties
+
+You can also import all the main properties as a JavaScript Object:
+
+```js
+import properties from 'dnb-ui-lib/style/properties'
+// properties gives you { '--color-sea-green': '#007272', ... }
+```
+
 ### Styled Components
 
 Is supported from v5 of [styled-components](https://www.styled-components.com) and above.
@@ -65,6 +74,23 @@ Is supported from v5 of [styled-components](https://www.styled-components.com) a
 ```jsx
 import stylisPlugin from 'dnb-ui-lib/style/stylis'
 import { StyleSheetManager } from 'styled-components'
+
+render(
+  <StyleSheetManager stylisPlugins={[stylisPlugin]}>
+    <YourApp />
+  </StyleSheetManager>
+)
+```
+
+#### Add custom properties:
+
+```jsx
+import { withProperties } from 'dnb-ui-lib/style/stylis'
+import { StyleSheetManager } from 'styled-components'
+
+const stylisPlugin = withProperties({
+  '--custom-property': 'CSS value'
+})
 
 render(
   <StyleSheetManager stylisPlugins={[stylisPlugin]}>

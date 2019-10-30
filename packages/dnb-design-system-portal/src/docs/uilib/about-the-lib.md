@@ -57,9 +57,9 @@ Collaboration between design and development is easy through use of NPM and Gith
 The HTML Elements are built based on [React](https://reactjs.org/).
 The reason for this is that React offers a robust library of tools to build deep, well tested and reusable elements.
 
-## What about other Frontend Frameworks?
+## What about other front end frameworks?
 
-To make the HTML Elements work in other environments like Vue or Angular, You can use the built-in web components support. [VueJS](https://vuejs.org/) has also integrated direct binding by using [vuera](https://github.com/akxcv/vuera).
+To make the HTML Elements work in other environments like [Vue](/uilib/usage/first-steps/vue) or [Angular](/uilib/usage/first-steps/angular), You can use the built-in web components support.
 
 The Library is hosted on [NPM](npmjs.com), so versioning and openness is secure.
 

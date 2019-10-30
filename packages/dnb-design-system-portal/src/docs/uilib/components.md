@@ -74,6 +74,10 @@ A ready to use DNB logo in SVG format.
 
 Modal dialogs appear on top of the main content changing the mode of the system into a special mode requiring user interaction. The main content is disabled until the user interacts with the modal dialog.
 
+## [Number](/uilib/components/number)
+
+The number component is a ready to use DNB number formatter. Use it where over you have to display a number, a currency value, phone number etc.
+
 ## [ProgressIndicator](/uilib/components/progress-indicator)
 
 Use a ProgressIndicator whenever the user has to wait for more than _150ms_.

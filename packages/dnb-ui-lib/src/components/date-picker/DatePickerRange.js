@@ -21,7 +21,7 @@ import differenceInMonths from 'date-fns/differenceInMonths'
 import DatePickerCalendar from './DatePickerCalendar'
 import { isDisabled } from './DatePickerCalc'
 
-export const propTypes = {
+const propTypes = {
   id: PropTypes.string,
   month: PropTypes.instanceOf(Date),
   startMonth: PropTypes.instanceOf(Date),
@@ -46,7 +46,7 @@ export const propTypes = {
   onSelect: PropTypes.func
 }
 
-export const defaultProps = {
+const defaultProps = {
   id: null,
 
   // formats

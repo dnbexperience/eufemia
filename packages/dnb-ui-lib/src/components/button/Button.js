@@ -21,7 +21,7 @@ import { createSpacingClasses } from '../space/SpacingHelper'
 
 const renderProps = { on_click: null }
 
-export const propTypes = {
+const propTypes = {
   /** the content of the button. */
   text: PropTypes.string,
   type: PropTypes.string,
@@ -60,7 +60,7 @@ export const propTypes = {
   on_click: PropTypes.oneOfType([PropTypes.string, PropTypes.func])
 }
 
-export const defaultProps = {
+const defaultProps = {
   type: 'button',
   text: null,
   variant: null,

@@ -3,7 +3,9 @@
  *
  */
 
-export * from './index'
-import { enableWebComponents } from '../index'
+import { registerElement } from '../../shared/custom-element'
+import Tabs from './Tabs'
+export default Tabs
+export * from './Tabs'
 
-enableWebComponents()
+registerElement(Tabs.tagName, Tabs, Tabs.defaultProps)

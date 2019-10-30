@@ -34,7 +34,7 @@ const renderProps = {
   trigger_component: null
 }
 
-export const propTypes = {
+const propTypes = {
   id: PropTypes.string,
   title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   icon: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -115,7 +115,7 @@ export const propTypes = {
   on_state_update: PropTypes.func
 }
 
-export const defaultProps = {
+const defaultProps = {
   id: null,
   title: 'Option Menu',
   icon: null,

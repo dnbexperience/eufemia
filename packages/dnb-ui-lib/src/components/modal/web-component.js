@@ -3,7 +3,9 @@
  *
  */
 
-export * from './index'
-import { enableWebComponents } from '../index'
+import { registerElement } from '../../shared/custom-element'
+import Modal from './Modal'
+export default Modal
+export * from './Modal'
 
-enableWebComponents()
+registerElement(Modal.tagName, Modal, Modal.defaultProps)

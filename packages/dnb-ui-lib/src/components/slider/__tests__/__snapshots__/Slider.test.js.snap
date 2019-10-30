@@ -30,7 +30,7 @@ exports[`Slider component have to match snapshot 1`] = `
   vertical="vertical"
 >
   <span
-    className="dnb-slider dnb-slider__label--horizontal className class"
+    className="dnb-slider className class dnb-slider__label--horizontal"
   >
     <FormLabel
       class={null}
@@ -89,7 +89,7 @@ exports[`Slider component have to match snapshot 1`] = `
         >
           <button
             aria-label="subtract_title"
-            className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon dnb-slider__button dnb-slider__button--subtract"
+            className="dnb-button dnb-button--secondary dnb-slider__button dnb-slider__button--subtract dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium"
             onClick={[Function]}
             onMouseOut={[Function]}
             type="button"
@@ -290,7 +290,7 @@ exports[`Slider component have to match snapshot 1`] = `
         >
           <button
             aria-label="add_title"
-            className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-button--icon-position-right dnb-button--has-icon dnb-slider__button dnb-slider__button--add"
+            className="dnb-button dnb-button--secondary dnb-slider__button dnb-slider__button--add dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium"
             onClick={[Function]}
             onMouseOut={[Function]}
             type="button"
@@ -787,10 +787,7 @@ legend.dnb-form-label {
     margin-top: 0.25em;
     margin-left: 0.5em;
     color: inherit;
-    font-size: var(--font-size-basis);
-    border-radius: 50%;
-    border: 0.0625rem solid;
-    border-color: currentColor; }
+    font-size: var(--font-size-basis); }
   .dnb-form-status[hidden] {
     display: none; }
   .dnb-form-status--fade-in {

@@ -19,7 +19,7 @@ import ProgressIndicatorCircular from './ProgressIndicatorCircular'
 
 const renderProps = { on_complete: null }
 
-export const propTypes = {
+const propTypes = {
   visible: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   type: PropTypes.oneOf(['circular']),
   no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -30,7 +30,7 @@ export const propTypes = {
   on_complete: PropTypes.func
 }
 
-export const defaultProps = {
+const defaultProps = {
   visible: true,
   type: 'circular',
   no_animation: false,

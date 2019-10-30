@@ -24,7 +24,7 @@ const renderProps = {
   render: null
 }
 
-export const propTypes = {
+const propTypes = {
   data: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.arrayOf(
@@ -77,7 +77,7 @@ export const propTypes = {
   render: PropTypes.func
 }
 
-export const defaultProps = {
+const defaultProps = {
   data: null,
   content: null,
   label: null,
