@@ -73,6 +73,23 @@ render(
 )
 ```
 
+#### Add custom properties:
+
+```jsx
+import { withProperties } from 'dnb-ui-lib/style/stylis'
+import { StyleSheetManager } from 'styled-components'
+
+const stylisPlugin = withProperties({
+  '--custom-property': 'CSS value'
+})
+
+render(
+  <StyleSheetManager stylisPlugins={[stylisPlugin]}>
+    <YourApp />
+  </StyleSheetManager>
+)
+```
+
 ### Emotion
 
 ```jsx
