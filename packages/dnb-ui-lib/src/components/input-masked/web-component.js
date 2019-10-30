@@ -3,7 +3,9 @@
  *
  */
 
-export * from './index'
-import { enableWebComponents } from '../index'
+import { registerElement } from '../../shared/custom-element'
+import InputMasked from './InputMasked'
+export default InputMasked
+export * from './InputMasked'
 
-enableWebComponents()
+registerElement(InputMasked.tagName, InputMasked, InputMasked.defaultProps)

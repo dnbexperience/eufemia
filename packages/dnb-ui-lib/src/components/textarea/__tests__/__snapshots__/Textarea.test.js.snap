@@ -151,16 +151,16 @@ exports[`Textarea scss have to match default theme snapshot 1`] = `
       width: 0; }
   .dnb-textarea__textarea.status--error,
   .dnb-textarea__textarea .dnb-textarea__status--error {
-    box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.125rem) var(--color-cherry-red);
+    box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.125rem) var(--color-fire-red);
     /* IE11 fix */ }
     @media screen and (-ms-high-contrast: none) {
       .dnb-textarea__textarea.status--error,
       .dnb-textarea__textarea .dnb-textarea__status--error {
-        box-shadow: 0 0 0 1px var(--color-cherry-red); } }
+        box-shadow: 0 0 0 1px var(--color-fire-red); } }
     @supports (-ms-ime-align: auto) {
       .dnb-textarea__textarea.status--error,
       .dnb-textarea__textarea .dnb-textarea__status--error {
-        box-shadow: 0 0 0 1px var(--color-cherry-red); } }
+        box-shadow: 0 0 0 1px var(--color-fire-red); } }
   .dnb-textarea__textarea ::selection {
     background-color: var(--color-mint-green);
     color: var(--textarea-text-color--focus);
@@ -181,14 +181,14 @@ exports[`Textarea scss have to match default theme snapshot 1`] = `
   -webkit-line-clamp: var(--textarea-rows, 2); }
 
 .dnb-textarea__status--error:not(.dnb-textarea--focus) .dnb-textarea__textarea, .dnb-textarea__status--error:not(.dnb-textarea--focus) .dnb-textarea__textarea:hover {
-  box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.125rem) var(--color-cherry-red);
+  box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.125rem) var(--color-fire-red);
   /* IE11 fix */ }
   @media screen and (-ms-high-contrast: none) {
     .dnb-textarea__status--error:not(.dnb-textarea--focus) .dnb-textarea__textarea, .dnb-textarea__status--error:not(.dnb-textarea--focus) .dnb-textarea__textarea:hover {
-      box-shadow: 0 0 0 0.125rem var(--color-cherry-red); } }
+      box-shadow: 0 0 0 0.125rem var(--color-fire-red); } }
   @supports (-ms-ime-align: auto) {
     .dnb-textarea__status--error:not(.dnb-textarea--focus) .dnb-textarea__textarea, .dnb-textarea__status--error:not(.dnb-textarea--focus) .dnb-textarea__textarea:hover {
-      box-shadow: 0 0 0 0.125rem var(--color-cherry-red); } }
+      box-shadow: 0 0 0 0.125rem var(--color-fire-red); } }
 
 .dnb-textarea--has-content .dnb-textarea__textarea ~ .dnb-textarea__placeholder,
 .dnb-textarea--focus .dnb-textarea__textarea:not([disabled]):not([readonly]) ~ .dnb-textarea__placeholder {
@@ -231,16 +231,16 @@ textarea.dnb-textarea {
       width: 0; }
   textarea.dnb-textarea.status--error,
   textarea.dnb-textarea .dnb-textarea__status--error {
-    box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.125rem) var(--color-cherry-red);
+    box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.125rem) var(--color-fire-red);
     /* IE11 fix */ }
     @media screen and (-ms-high-contrast: none) {
       textarea.dnb-textarea.status--error,
       textarea.dnb-textarea .dnb-textarea__status--error {
-        box-shadow: 0 0 0 1px var(--color-cherry-red); } }
+        box-shadow: 0 0 0 1px var(--color-fire-red); } }
     @supports (-ms-ime-align: auto) {
       textarea.dnb-textarea.status--error,
       textarea.dnb-textarea .dnb-textarea__status--error {
-        box-shadow: 0 0 0 1px var(--color-cherry-red); } }
+        box-shadow: 0 0 0 1px var(--color-fire-red); } }
   textarea.dnb-textarea ::selection {
     background-color: var(--color-mint-green);
     color: var(--textarea-text-color--focus);
@@ -411,10 +411,7 @@ legend.dnb-form-label {
     margin-top: 0.25em;
     margin-left: 0.5em;
     color: inherit;
-    font-size: var(--font-size-basis);
-    border-radius: 50%;
-    border: 0.0625rem solid;
-    border-color: currentColor; }
+    font-size: var(--font-size-basis); }
   .dnb-form-status[hidden] {
     display: none; }
   .dnb-form-status--fade-in {
@@ -526,16 +523,16 @@ legend.dnb-form-label {
       width: 0; }
   .dnb-textarea__textarea.status--error,
   .dnb-textarea__textarea .dnb-textarea__status--error {
-    box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.125rem) var(--color-cherry-red);
+    box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.125rem) var(--color-fire-red);
     /* IE11 fix */ }
     @media screen and (-ms-high-contrast: none) {
       .dnb-textarea__textarea.status--error,
       .dnb-textarea__textarea .dnb-textarea__status--error {
-        box-shadow: 0 0 0 1px var(--color-cherry-red); } }
+        box-shadow: 0 0 0 1px var(--color-fire-red); } }
     @supports (-ms-ime-align: auto) {
       .dnb-textarea__textarea.status--error,
       .dnb-textarea__textarea .dnb-textarea__status--error {
-        box-shadow: 0 0 0 1px var(--color-cherry-red); } }
+        box-shadow: 0 0 0 1px var(--color-fire-red); } }
   .dnb-textarea__textarea ::selection {
     background-color: var(--color-mint-green);
     color: var(--textarea-text-color--focus);
@@ -556,14 +553,14 @@ legend.dnb-form-label {
   -webkit-line-clamp: var(--textarea-rows, 2); }
 
 .dnb-textarea__status--error:not(.dnb-textarea--focus) .dnb-textarea__textarea, .dnb-textarea__status--error:not(.dnb-textarea--focus) .dnb-textarea__textarea:hover {
-  box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.125rem) var(--color-cherry-red);
+  box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.125rem) var(--color-fire-red);
   /* IE11 fix */ }
   @media screen and (-ms-high-contrast: none) {
     .dnb-textarea__status--error:not(.dnb-textarea--focus) .dnb-textarea__textarea, .dnb-textarea__status--error:not(.dnb-textarea--focus) .dnb-textarea__textarea:hover {
-      box-shadow: 0 0 0 0.125rem var(--color-cherry-red); } }
+      box-shadow: 0 0 0 0.125rem var(--color-fire-red); } }
   @supports (-ms-ime-align: auto) {
     .dnb-textarea__status--error:not(.dnb-textarea--focus) .dnb-textarea__textarea, .dnb-textarea__status--error:not(.dnb-textarea--focus) .dnb-textarea__textarea:hover {
-      box-shadow: 0 0 0 0.125rem var(--color-cherry-red); } }
+      box-shadow: 0 0 0 0.125rem var(--color-fire-red); } }
 
 .dnb-textarea--has-content .dnb-textarea__textarea ~ .dnb-textarea__placeholder,
 .dnb-textarea--focus .dnb-textarea__textarea:not([disabled]):not([readonly]) ~ .dnb-textarea__placeholder {
@@ -606,16 +603,16 @@ textarea.dnb-textarea {
       width: 0; }
   textarea.dnb-textarea.status--error,
   textarea.dnb-textarea .dnb-textarea__status--error {
-    box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.125rem) var(--color-cherry-red);
+    box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.125rem) var(--color-fire-red);
     /* IE11 fix */ }
     @media screen and (-ms-high-contrast: none) {
       textarea.dnb-textarea.status--error,
       textarea.dnb-textarea .dnb-textarea__status--error {
-        box-shadow: 0 0 0 1px var(--color-cherry-red); } }
+        box-shadow: 0 0 0 1px var(--color-fire-red); } }
     @supports (-ms-ime-align: auto) {
       textarea.dnb-textarea.status--error,
       textarea.dnb-textarea .dnb-textarea__status--error {
-        box-shadow: 0 0 0 1px var(--color-cherry-red); } }
+        box-shadow: 0 0 0 1px var(--color-fire-red); } }
   textarea.dnb-textarea ::selection {
     background-color: var(--color-mint-green);
     color: var(--textarea-text-color--focus);
@@ -771,16 +768,16 @@ textarea.dnb-textarea {
       width: 0; }
   textarea.dnb-textarea.status--error,
   textarea.dnb-textarea .dnb-textarea__status--error {
-    box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.125rem) var(--color-cherry-red);
+    box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.125rem) var(--color-fire-red);
     /* IE11 fix */ }
     @media screen and (-ms-high-contrast: none) {
       textarea.dnb-textarea.status--error,
       textarea.dnb-textarea .dnb-textarea__status--error {
-        box-shadow: 0 0 0 1px var(--color-cherry-red); } }
+        box-shadow: 0 0 0 1px var(--color-fire-red); } }
     @supports (-ms-ime-align: auto) {
       textarea.dnb-textarea.status--error,
       textarea.dnb-textarea .dnb-textarea__status--error {
-        box-shadow: 0 0 0 1px var(--color-cherry-red); } }
+        box-shadow: 0 0 0 1px var(--color-fire-red); } }
   textarea.dnb-textarea ::selection {
     background-color: var(--color-mint-green);
     color: var(--textarea-text-color--focus);

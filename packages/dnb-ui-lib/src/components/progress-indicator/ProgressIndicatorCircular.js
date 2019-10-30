@@ -8,7 +8,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { validateDOMAttributes } from '../../shared/component-helper'
 
-export const propTypes = {
+const propTypes = {
   size: PropTypes.string,
   visible: PropTypes.bool,
   complete: PropTypes.bool,
@@ -17,7 +17,7 @@ export const propTypes = {
   onComplete: PropTypes.func,
   callOnCompleteHandler: PropTypes.func
 }
-export const defaultProps = {
+const defaultProps = {
   size: null,
   visible: true,
   complete: false,

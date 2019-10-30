@@ -215,7 +215,7 @@ const ModalExample = () => (
         }}
         // items={['123']}
       >
-        Defualt Text
+        Default Text
       </GlobalStatus>
     </div>
   </Modal>
@@ -363,7 +363,7 @@ const NestedSections = () => (
         }}
         items={['123']}
       >
-        Defualt Text
+        Default Text
       </GlobalStatus>
       <GlobalStatus.Add
         status_id="custom-id-1"

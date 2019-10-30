@@ -31,7 +31,7 @@ const renderProps = {
   on_state_update: null
 }
 
-export const propTypes = {
+const propTypes = {
   text: PropTypes.string,
   label: PropTypes.oneOfType([
     PropTypes.string,
@@ -77,7 +77,7 @@ export const propTypes = {
   on_state_update: PropTypes.func
 }
 
-export const defaultProps = {
+const defaultProps = {
   text: null,
   label: null,
   label_direction: null,

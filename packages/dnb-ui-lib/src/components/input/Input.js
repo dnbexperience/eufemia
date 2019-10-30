@@ -6,7 +6,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import Button, { propTypes as ButtonPropTypes } from '../button/Button'
+import Button from '../button/Button'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 import {
@@ -33,7 +33,7 @@ const renderProps = {
   on_state_update: null
 }
 
-export const propTypes = {
+const propTypes = {
   type: PropTypes.string,
   size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -75,7 +75,7 @@ export const propTypes = {
   readOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 
   // Submit button
-  submit_button_variant: ButtonPropTypes.variant,
+  submit_button_variant: Button.propTypes.variant,
   submit_button_icon: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.node,
@@ -104,7 +104,7 @@ export const propTypes = {
   on_state_update: PropTypes.func
 }
 
-export const defaultProps = {
+const defaultProps = {
   type: 'text',
   size: null,
   value: 'initval',
@@ -476,7 +476,7 @@ class SubmitButton extends PureComponent {
     id: PropTypes.string,
     value: PropTypes.string,
     title: PropTypes.string,
-    variant: ButtonPropTypes.variant,
+    variant: Button.propTypes.variant,
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     icon: PropTypes.oneOfType([
       PropTypes.string,

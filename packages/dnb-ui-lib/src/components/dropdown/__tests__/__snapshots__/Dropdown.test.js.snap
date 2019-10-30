@@ -87,7 +87,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
   value={2}
 >
   <span
-    className="dnb-dropdown dnb-dropdown--hidden dnb-dropdown--direction-bottom dnb-dropdown--horizontal dnb-dropdown dnb-dropdown--icon-position-icon_position dnb-dropdown--scroll dnb-dropdown__status--error dnb-dropdown__form-status class className"
+    className="dnb-dropdown dnb-dropdown--direction-bottom dnb-dropdown class className dnb-dropdown--hidden dnb-dropdown--horizontal dnb-dropdown--icon-position-icon_position dnb-dropdown--scroll dnb-dropdown__status--error dnb-dropdown__form-status"
   >
     <FormLabel
       class={null}
@@ -131,7 +131,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
         global_status_id="global_status_id"
         hidden={false}
         icon="error"
-        icon_size="medium"
+        icon_size="large"
         id="dropdown-id-form-status"
         render_content={null}
         state="error"
@@ -149,7 +149,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
           <span
             className="dnb-form-status__shell"
           >
-            <IconPrimary
+            <Icon
               alt={null}
               aria-hidden={true}
               attributes={null}
@@ -157,37 +157,38 @@ exports[`Dropdown component have to match snapshot 1`] = `
               className={null}
               color={null}
               height={null}
-              icon="error"
+              icon={[Function]}
               modifier={null}
-              size="medium"
+              size="large"
               title={null}
               width={null}
             >
               <span
-                alt="error"
+                alt="ErrorIcon"
                 aria-hidden={true}
-                className="dnb-icon dnb-icon--medium"
+                className="dnb-icon dnb-icon--large"
                 role="img"
               >
-                <error_medium>
+                <ErrorIcon>
                   <svg
                     fill="none"
-                    height={32}
+                    height="32"
                     viewBox="0 0 32 32"
-                    width={32}
+                    width="32"
+                    xmlns="http://www.w3.org/2000/svg"
                   >
                     <path
                       d="M16 25a.5.5 0 100 1 .5.5 0 000-1v0"
                       stroke="#000"
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      strokeWidth={1.5}
+                      strokeWidth="1.5"
                     />
                     <path
                       d="M16 21V11"
                       stroke="#000"
                       strokeLinecap="round"
-                      strokeWidth={1.5}
+                      strokeWidth="1.5"
                     />
                     <path
                       clipRule="evenodd"
@@ -195,12 +196,12 @@ exports[`Dropdown component have to match snapshot 1`] = `
                       stroke="#000"
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      strokeWidth={1.5}
+                      strokeWidth="1.5"
                     />
                   </svg>
-                </error_medium>
+                </ErrorIcon>
               </span>
-            </IconPrimary>
+            </Icon>
             <span
               className="dnb-form-status--text"
               id="dropdown-id-status"
@@ -248,7 +249,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
             aria-expanded={false}
             aria-haspopup={true}
             aria-labelledby="dropdown-id-label"
-            className="dnb-button dnb-button--secondary dnb-button--size-medium dnb-dropdown__trigger"
+            className="dnb-button dnb-button--secondary dnb-dropdown__trigger dnb-button--size-medium"
             id="dropdown-id"
             onBlur={[Function]}
             onClick={[Function]}
@@ -493,25 +494,25 @@ exports[`Dropdown scss have to match default theme snapshot 1`] = `
     html:not([data-is-touch]) .dnb-dropdown__trigger:hover:not([disabled]) {
       color: var(--dropdown-text-color); }
   .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger {
-    box-shadow: 0 0 0 0.125rem var(--color-cherry-red) !important;
+    box-shadow: 0 0 0 0.125rem var(--color-fire-red) !important;
     /* IE11 fix */
     border-color: transparent; }
     @media screen and (-ms-high-contrast: none) {
       .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger {
-        box-shadow: 0 0 0 1px var(--color-cherry-red) !important; } }
+        box-shadow: 0 0 0 1px var(--color-fire-red) !important; } }
     html:not([data-is-touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover[disabled] {
       cursor: not-allowed; }
     html:not([data-is-touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover:not([disabled]) {
-      box-shadow: 0 0 0 0.125rem var(--color-cherry-red) !important;
+      box-shadow: 0 0 0 0.125rem var(--color-fire-red) !important;
       /* IE11 fix */
       border-color: transparent; }
       @media screen and (-ms-high-contrast: none) {
         html:not([data-is-touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover:not([disabled]) {
-          box-shadow: 0 0 0 1px var(--color-cherry-red) !important; } }
+          box-shadow: 0 0 0 1px var(--color-fire-red) !important; } }
       html:not([data-is-touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover:not([disabled]) .dnb-dropdown__icon .dnb-icon {
-        color: var(--color-cherry-red); }
+        color: var(--color-fire-red); }
   .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__icon {
-    color: var(--color-cherry-red); }
+    color: var(--color-fire-red); }
   .dnb-dropdown__triangle::before {
     border: none;
     background-color: var(--color-white);
@@ -950,10 +951,7 @@ legend.dnb-form-label {
     margin-top: 0.25em;
     margin-left: 0.5em;
     color: inherit;
-    font-size: var(--font-size-basis);
-    border-radius: 50%;
-    border: 0.0625rem solid;
-    border-color: currentColor; }
+    font-size: var(--font-size-basis); }
   .dnb-form-status[hidden] {
     display: none; }
   .dnb-form-status--fade-in {

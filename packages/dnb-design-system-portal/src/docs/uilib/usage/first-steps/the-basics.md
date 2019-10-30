@@ -120,6 +120,7 @@ In case you don't have a compiling/build process, You can use the UMD packed ver
   </head>
   <body>
     ...
+    <script src="https://unpkg.com/dnb-ui-lib@latest/umd/dnb-ui-icons.min.js"></script>
     <script src="https://unpkg.com/dnb-ui-lib@latest/umd/dnb-ui-lib.min.js"></script>
   </body>
 </html>

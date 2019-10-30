@@ -1,3 +1,15 @@
+## October, 25. 2019
+
+- New [colors](/uilib/usage/customisation/colors):
+  1. `fire-red`, witch replaces `cherry-red` (_default error color_).
+  1. `fire-red-8`, witch replaces `cherry-red-8`.
+- Icons changes:
+  1. primary `save` is now => secondary `download`
+  1. secondary `save_alt_01` is now => primary `save`
+  1. primary `error` got removed
+
+Get more details about the [**breaking changes**](/uilib/about-the-lib/releases/v5-info)
+
 ## October, 14. 2019
 
 - New [secondary icons](/icons/secondary): undo and redo

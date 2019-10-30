@@ -3,7 +3,9 @@
  *
  */
 
-export * from './index'
-import { enableWebComponents } from '../index'
+import { registerElement } from '../../shared/custom-element'
+import Grid from './Grid'
+export default Grid
+export * from './Grid'
 
-enableWebComponents()
+registerElement(Grid.tagName, Grid, Grid.defaultProps)

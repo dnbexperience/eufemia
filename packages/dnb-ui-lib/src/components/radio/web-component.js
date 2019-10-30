@@ -3,7 +3,9 @@
  *
  */
 
-export * from './index'
-import { enableWebComponents } from '../index'
+import { registerElement } from '../../shared/custom-element'
+import Radio from './Radio'
+export default Radio
+export * from './Radio'
 
-enableWebComponents()
+registerElement(Radio.tagName, Radio, Radio.defaultProps)

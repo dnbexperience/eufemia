@@ -203,16 +203,16 @@
 
   // error status
   &__status--error:not(#{&}--opened) &__trigger {
-    @include dropdownBorderColor(var(--color-cherry-red));
+    @include dropdownBorderColor(var(--color-fire-red));
     @include hover() {
-      @include dropdownBorderColor(var(--color-cherry-red));
+      @include dropdownBorderColor(var(--color-fire-red));
       & .dnb-dropdown__icon .dnb-icon {
-        color: var(--color-cherry-red);
+        color: var(--color-fire-red);
       }
     }
   }
   &__status--error:not(#{&}--opened) &__icon {
-    color: var(--color-cherry-red);
+    color: var(--color-fire-red);
   }
 
   &__triangle::before {

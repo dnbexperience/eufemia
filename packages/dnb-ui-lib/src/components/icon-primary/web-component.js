@@ -3,7 +3,9 @@
  *
  */
 
-export * from './index'
-import { enableWebComponents } from '../index'
+import { registerElement } from '../../shared/custom-element'
+import IconPrimary from './IconPrimary'
+export default IconPrimary
+export * from './IconPrimary'
 
-enableWebComponents()
+registerElement(IconPrimary.tagName, IconPrimary, IconPrimary.defaultProps)

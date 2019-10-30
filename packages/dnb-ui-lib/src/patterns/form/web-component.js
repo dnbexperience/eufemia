@@ -3,7 +3,9 @@
  *
  */
 
-export * from './index'
-import { enableWebComponents } from '../index'
+import { registerElement } from '../../shared/custom-element'
+import Form from './Form'
+export default Form
+export * from './Form'
 
-enableWebComponents()
+registerElement(Form.tagName, Form, Form.defaultProps)

@@ -3,7 +3,9 @@
  *
  */
 
-export * from './index'
-import { enableWebComponents } from '../index'
+import { registerElement } from '../../shared/custom-element'
+import Icon from './Icon'
+export default Icon
+export * from './Icon'
 
-enableWebComponents()
+registerElement(Icon.tagName, Icon, Icon.defaultProps)

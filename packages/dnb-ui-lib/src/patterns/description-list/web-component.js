@@ -3,7 +3,13 @@
  *
  */
 
-export * from './index'
-import { enableWebComponents } from '../index'
+import { registerElement } from '../../shared/custom-element'
+import DescriptionList from './DescriptionList'
+export default DescriptionList
+export * from './DescriptionList'
 
-enableWebComponents()
+registerElement(
+  DescriptionList.tagName,
+  DescriptionList,
+  DescriptionList.defaultProps
+)

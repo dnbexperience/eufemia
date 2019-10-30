@@ -3,7 +3,9 @@
  *
  */
 
-export * from './index'
-import { enableWebComponents } from '../index'
+import { registerElement } from '../../shared/custom-element'
+import GlobalError from './GlobalError'
+export default GlobalError
+export * from './GlobalError'
 
-enableWebComponents()
+registerElement(GlobalError.tagName, GlobalError, GlobalError.defaultProps)

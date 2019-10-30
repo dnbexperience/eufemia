@@ -27,7 +27,7 @@ import {
 } from './DatePickerCalc'
 import Button from '../button/Button'
 
-export const propTypes = {
+const propTypes = {
   id: PropTypes.string,
   nr: PropTypes.number,
   month: PropTypes.instanceOf(Date), // What month will be displayed in the first calendar. Default: new Date()
@@ -60,7 +60,7 @@ export const propTypes = {
   onKeyDown: PropTypes.func
 }
 
-export const defaultProps = {
+const defaultProps = {
   id: null,
   nr: null,
   month: null,

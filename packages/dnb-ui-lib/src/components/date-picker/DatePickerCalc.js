@@ -19,6 +19,9 @@ import startOfWeek from 'date-fns/startOfWeek'
 import getDay from 'date-fns/getDay'
 import startOfMonth from 'date-fns/startOfMonth'
 import getDaysInMonth from 'date-fns/getDaysInMonth'
+import toDate from 'date-fns/toDate'
+import parseISO from 'date-fns/parseISO'
+import parse from 'date-fns/parse'
 
 // Is used as DatePickerCalc
 export const makeDayObject = (
@@ -189,4 +192,39 @@ const isPreview = (date, startDate, endDate, hoverDate) => {
       end
     })
   )
+}
+
+export const correctV1Format = date => {
+  // for backwords compatibility
+  // TODO: Remvoe this in next major version
+  if (/YYYY/.test(date) && /DD/.test(date)) {
+    console.warn(
+      'You are using "YYYY-MM-DD" as the date_format or return_format? Please use "yyyy-MM-dd" instead!'
+    )
+    date = date.replace(/DD/, 'dd').replace(/YYYY/, 'yyyy')
+  }
+
+  return date
+}
+
+export const convertStringToDate = (date, { date_format = null } = {}) => {
+  if (date === null) {
+    return null
+  }
+  let dateObject
+  dateObject = typeof date === 'string' ? parseISO(date) : toDate(date)
+
+  // check one more time if we can generate a valid date
+  if (typeof date === 'string' && date_format && !isValid(dateObject)) {
+    date_format = correctV1Format(date_format)
+    dateObject = parse(date, date_format, new Date())
+  }
+
+  // rather return null than an invalid date
+  if (!isValid(dateObject)) {
+    console.warn('convertStringToDate got invalid date:', date)
+    return null
+  }
+
+  return dateObject
 }

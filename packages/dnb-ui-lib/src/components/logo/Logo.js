@@ -17,7 +17,7 @@ import { createSpacingClasses } from '../space/SpacingHelper'
 
 const renderProps = {}
 
-export const propTypes = {
+const propTypes = {
   size: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   ratio: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
@@ -29,7 +29,7 @@ export const propTypes = {
   // Web Component props
 }
 
-export const defaultProps = {
+const defaultProps = {
   size: null,
   ratio: 1.453690625,
   width: null,

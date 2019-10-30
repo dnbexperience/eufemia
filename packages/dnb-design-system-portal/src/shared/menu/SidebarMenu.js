@@ -204,14 +204,14 @@ const StyledListItem = styled.li`
   }
   &.status-dep .status-badge {
     color: var(--color-black-80);
-    background-color: var(--color-cherry-red-8);
+    background-color: var(--color-fire-red-8);
   }
   &.status-new .status-badge {
     color: var(--color-sea-green-alt);
     background-color: transparent;
   }
   &.status-beta .status-badge {
-    color: var(--color-cherry-red);
+    color: var(--color-fire-red);
     background-color: transparent;
   }
   &.status-imp .status-badge {

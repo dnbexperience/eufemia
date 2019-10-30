@@ -3,7 +3,9 @@
  *
  */
 
-export * from './index'
-import { enableWebComponents } from '../index'
+import { registerElement } from '../../shared/custom-element'
+import Textarea from './Textarea'
+export default Textarea
+export * from './Textarea'
 
-enableWebComponents()
+registerElement(Textarea.tagName, Textarea, Textarea.defaultProps)

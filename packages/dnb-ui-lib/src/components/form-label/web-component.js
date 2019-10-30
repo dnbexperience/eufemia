@@ -3,7 +3,9 @@
  *
  */
 
-export * from './index'
-import { enableWebComponents } from '../index'
+import { registerElement } from '../../shared/custom-element'
+import FormLabel from './FormLabel'
+export default FormLabel
+export * from './FormLabel'
 
-enableWebComponents()
+registerElement(FormLabel.tagName, FormLabel, FormLabel.defaultProps)

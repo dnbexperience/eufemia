@@ -247,13 +247,20 @@ export const extend = (...objects) => {
 
 // extends props from a given context
 // but give the context second priority only
-export const extendPropsWithContext = (props, context) =>
+export const extendPropsWithContext = (
+  props,
+  context
+  // ,{ acceptTrue = false } = {}
+) =>
   extend(
     false, // prevent recursion
     Object.entries(context).reduce((acc, [key, value]) => {
       if (typeof props[key] !== 'undefined' && value !== null) {
         acc[key] = value
       }
+      // if (acceptTrue && value !== true) {
+      //   acc[key] = value
+      // }
       return acc
     }, {}),
     props

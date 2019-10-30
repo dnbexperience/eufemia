@@ -15,7 +15,7 @@ import {
 
 const renderProps = {}
 
-export const propTypes = {
+const propTypes = {
   data: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.arrayOf(
@@ -37,7 +37,7 @@ export const propTypes = {
   // Web Component props
 }
 
-export const defaultProps = {
+const defaultProps = {
   data: [],
   info: null,
   class: null,

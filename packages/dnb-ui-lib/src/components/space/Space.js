@@ -19,7 +19,7 @@ const renderProps = {
   render_content: null
 }
 
-export const propTypes = {
+const propTypes = {
   id: PropTypes.string,
   element: PropTypes.string,
   inline: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -58,7 +58,7 @@ export const propTypes = {
   render_content: PropTypes.func
 }
 
-export const defaultProps = {
+const defaultProps = {
   id: null,
   element: 'div',
   inline: null,

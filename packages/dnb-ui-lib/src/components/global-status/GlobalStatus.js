@@ -17,7 +17,8 @@ import {
 import { createSpacingClasses } from '../space/SpacingHelper'
 import GlobalStatusController from './GlobalStatusController'
 import GlobalStatusProvider from './GlobalStatusProvider'
-import IconPrimary from '../icon-primary/IconPrimary'
+import Icon from '../icon/Icon'
+import { InfoIcon, ErrorIcon } from '../form-status/FormStatus'
 import Button from '../button/Button'
 import Section from '../section/Section'
 import Animation from './AnimationHelper'
@@ -83,7 +84,7 @@ const propTypes = {
   render_content: PropTypes.func
 }
 
-export const defaultProps = {
+const defaultProps = {
   id: 'main',
   status_id: 'status-main',
   title: null,
@@ -91,7 +92,7 @@ export const defaultProps = {
   text: null,
   items: [],
   icon: 'error',
-  icon_size: 'medium',
+  icon_size: 'large',
   state: 'error',
   show: null,
   autoscroll: true,
@@ -137,14 +138,14 @@ export default class GlobalStatus extends React.PureComponent {
       switch (state) {
         case 'info':
         case 'information':
-          iconToLoad = 'information'
+          iconToLoad = InfoIcon
           break
         case 'error':
         default:
-          iconToLoad = 'error'
+          iconToLoad = ErrorIcon
       }
 
-      icon = <IconPrimary aria-hidden icon={iconToLoad} size={icon_size} />
+      icon = <Icon aria-hidden icon={iconToLoad} size={icon_size} />
     }
 
     return icon
@@ -580,7 +581,7 @@ export default class GlobalStatus extends React.PureComponent {
     const noAnimation = isTrue(no_animation)
     const itemsToRender = props.items || []
     const contentToRender = GlobalStatus.getContent(props)
-    const style = state === 'info' ? null : 'cherry-red'
+    const style = state === 'info' ? null : 'fire-red'
 
     /**
      * Show aria-live="assertive" when:

@@ -19,7 +19,7 @@ const renderProps = {
   on_submit_blur: null
 }
 
-export const propTypes = {
+const propTypes = {
   mask: PropTypes.oneOfType([PropTypes.array, PropTypes.func]),
   number_mask: PropTypes.object,
   show_mask: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -29,7 +29,7 @@ export const propTypes = {
   placeholder_char: PropTypes.string
 }
 
-export const defaultProps = {
+const defaultProps = {
   mask: [],
   number_mask: null,
   show_mask: false,
