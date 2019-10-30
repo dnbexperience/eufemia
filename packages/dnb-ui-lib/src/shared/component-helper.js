@@ -528,6 +528,9 @@ export const slugify = s =>
 
 // NB: in future we can use String.matchAll() instead
 export const matchAll = (string, regex) => {
+  if (typeof string.matchAll === 'function') {
+    return string.matchAll(regex)
+  }
   const matches = []
   let match
   while ((match = regex.exec(string))) {

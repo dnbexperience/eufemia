@@ -28,6 +28,7 @@ import Tabs from './components/Tabs'
 import FormStatus from './components/FormStatus'
 import GlobalStatus from './components/GlobalStatus'
 import GlobalError from './components/GlobalError'
+import Number from './components/Number'
 import { Button, Icon, IconPrimary, Logo } from '../src/components'
 
 const stories = []
@@ -54,6 +55,7 @@ stories.push(Tabs)
 stories.push(FormStatus)
 stories.push(GlobalStatus)
 stories.push(GlobalError)
+stories.push(Number)
 
 stories.push([
   'Logo',

@@ -28,6 +28,7 @@ import LineTitle from './line-title/LineTitle'
 import Logo from './logo/Logo'
 import Modal from './modal/Modal'
 import Notification from './notification/Notification'
+import Number from './number/Number'
 import ProgressIndicator from './progress-indicator/ProgressIndicator'
 import Radio from './radio/Radio'
 import Section from './section/Section'
@@ -59,6 +60,7 @@ export {
   Logo,
   Modal,
   Notification,
+  Number,
   ProgressIndicator,
   Radio,
   Section,
