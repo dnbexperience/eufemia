@@ -21,15 +21,6 @@ From before we had [font-weight](/uilib/typography/font-weights).
 
 Read more on how to make CSS vars (Custom Properties) [work on IE](/uilib/usage/customisation/styling/polyfill).
 
-## Number component
-
-The new [Number component](/uilib/components/number) is a ready to use DNB number formatter. Use it where over you have to display a number, a currency value, phone number etc.
-
-Good reasons for why we have this is to:
-
-- uniform the formation of numbers for all DNB applications.
-- and make numbers accessible to screen readers.
-
 ### The benefits?
 
 If you are using only properties to change actively your application typography, then a future update with changes will "automatically" happen, so you don't need to make manual code changes later.
@@ -41,6 +32,16 @@ You can now also import all the main properties as a [JavaScript Object](/uilib/
 ```js
 import properties from 'dnb-ui-lib/style/properties
 ```
+
+## Number component
+
+The new [Number component](/uilib/components/number) is a ready to use DNB number formatter. Use it where over you have to display a number, a currency value, phone number etc.
+
+Good reasons for why we have this is to:
+
+- uniform the formation of numbers for all DNB applications.
+- and make numbers accessible to screen readers.
+-
 
 ## Color change
 
