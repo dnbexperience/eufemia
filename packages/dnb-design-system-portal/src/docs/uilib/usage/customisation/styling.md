@@ -146,3 +146,7 @@ import 'dnb-ui-lib/style/elements'
   <li>Me as well</li>
 </ul>
 ```
+
+## A list of all CSS properties
+
+Beside the portal documentation with related tables and additional information, you may have a look at the [CSS file](https://unpkg.com/browse/dnb-ui-lib@latest/style/dnb-ui-properties.css), containing the custom properties (CSS variables), as well as a[ JavaScript file](https://unpkg.com/browse/dnb-ui-lib@latest/style/properties.js), witch is auto generated from the CSS data.
