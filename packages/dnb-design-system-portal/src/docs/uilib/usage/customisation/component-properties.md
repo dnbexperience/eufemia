@@ -84,12 +84,10 @@ So, if you come over some special use cases, please contribute back and make a p
 const Component = () => {
   const time = new Date().toLocaleTimeString()
   return (
-    <>
-      <dnb-form-label for_id="form-input">
-        Web Component property updates
-      </dnb-form-label>
-      <dnb-input id="form-input" value={time} />
-    </>
+    <dnb-input
+      label="Web Component property updates:"
+      value={time}
+    ></dnb-input>
   )
 }
 const RenderHelper = () => {

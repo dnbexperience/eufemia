@@ -35,7 +35,7 @@ import {
   GlobalStatus
 } from 'dnb-ui-lib/src/components'
 import {
-  save_alt_01 as SaveIcon,
+  save as SaveIcon,
   trash as TrashIcon,
   attachment as AttachmentIcon
 } from 'dnb-ui-lib/src/icons'

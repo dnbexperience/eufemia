@@ -130,7 +130,6 @@ class Example extends PureComponent {
   show_input={true}
   status="Please select a valid date"
   status_state="info"
-  disabled
 />
           `}
         </ComponentBox>
