@@ -212,7 +212,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "release": {},
   "resolutions": {
     "eslint": "^5"
   },
