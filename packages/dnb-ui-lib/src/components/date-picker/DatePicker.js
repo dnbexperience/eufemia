@@ -404,6 +404,11 @@ export default class DatePicker extends PureComponent {
     if (callOnlyOnChangeHandler) {
       return this.callOnChangeHandler(args)
     }
+    // While the user starts changing the date range
+    // we reset the endDate also in the "DatePickerInput" end date
+    if (endDate === null) {
+      endDate = undefined
+    }
     this.setState(
       {
         startDate,

@@ -91,6 +91,21 @@ describe('DatePicker component', () => {
     ).toBe(false)
   })
 
+  it('has to reset second input fields to blank during new date selection', () => {
+    const Comp = mount(<Component {...defaultProps} />)
+    Comp.find('button.dnb-input__submit-button__button').simulate('click')
+
+    Comp.find('table tbody button.dnb-button--secondary')
+      .at(10)
+      .simulate('click')
+
+    expect(
+      Comp.find('input.dnb-date-picker__input--year')
+        .at(1)
+        .instance().value
+    ).toBe('åååå')
+  })
+
   it('has two calendar views', () => {
     Comp.find('button.dnb-input__submit-button__button').simulate('click')
     expect(Comp.find('.dnb-date-picker__views').exists()).toBe(true)
