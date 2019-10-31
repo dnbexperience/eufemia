@@ -6,9 +6,10 @@
 @mixin getDefaultProperties() {
   // Typography Family
   --font-family-default: 'Fedra Sans Std', sans-serif;
-  --font-family-book: 'Fedra Sans Std', sans-serif; /* Do not use, use --font-weight-... */
-  --font-family-demi: 'Fedra Sans Std', sans-serif; /* Do not use, use --font-weight-... */
-  --font-family-medium: 'Fedra Sans Std', sans-serif; /* Do not use, use --font-weight-... */
+  --font-family-book: 'Fedra Sans Std', sans-serif; // Deprecated
+  --font-family-demi: 'Fedra Sans Std', sans-serif; // Deprecated
+  --font-family-medium: 'Fedra Sans Std', sans-serif; // Do not use, use --font-weight-...
+  --font-family-bold: 'Fedra Sans Std', sans-serif; // Do not use, use --font-weight-...
   --font-family-monospace: /* macOS 10.10+ */ Menlo,
     /* Windows 6+ */ Consolas, /* Android 4+ */ Roboto Mono,
     /* Ubuntu 10.10+ */ Ubuntu Monospace, /* KDE Plasma 5+ */ Noto Mono,
@@ -17,10 +18,13 @@
     /* fallback */ monospace;
 
   // Typography Weights
-  --font-weight-default: normal;
-  --font-weight-book: normal;
-  --font-weight-demi: 500;
+  --font-weight-default: normal; // Deprecated
+  --font-weight-basis: normal;
+  --font-weight-book: normal; // Deprecated
+  --font-weight-regular: normal;
+  --font-weight-demi: 500; // Deprecated
   --font-weight-medium: 600;
+  --font-weight-bold: 600;
 
   // Typography Sizes
   --font-size-small: 0.875rem; // 14px
