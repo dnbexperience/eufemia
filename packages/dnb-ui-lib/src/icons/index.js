@@ -26,8 +26,6 @@ import close from './close.js'
 import close_medium from './close_medium.js'
 import download from './download.js'
 import download_medium from './download_medium.js'
-import error from './error.js'
-import error_medium from './error_medium.js'
 import exclamation from './exclamation.js'
 import exclamation_medium from './exclamation_medium.js'
 import file from './file.js'
@@ -55,8 +53,6 @@ import question_medium from './question_medium.js'
 import redo from './redo.js'
 import redo_medium from './redo_medium.js'
 import save from './save.js'
-import save_alt_01 from './save_alt_01.js'
-import save_alt_01_medium from './save_alt_01_medium.js'
 import save_medium from './save_medium.js'
 import search from './search.js'
 import search_medium from './search_medium.js'
@@ -98,8 +94,6 @@ export {
   close_medium,
   download,
   download_medium,
-  error,
-  error_medium,
   exclamation,
   exclamation_medium,
   file,
@@ -127,8 +121,6 @@ export {
   redo,
   redo_medium,
   save,
-  save_alt_01,
-  save_alt_01_medium,
   save_medium,
   search,
   search_medium,
