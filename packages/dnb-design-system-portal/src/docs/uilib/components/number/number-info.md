@@ -28,6 +28,10 @@ It uses the browser APIs `number.toLocaleString` or `Intl.NumberFormat.format` u
 - Locale: `nb-NO`
 - Currency: `NOK`
 
+### Element and style
+
+The number component is style independent, so it has no visual styles. By default a `<span>` is used. But you can easily change the element type by providing something else to `element="div"` property.
+
 ### Sources
 
 Eufemia is basing their number formats on both the [Norwegian authority](https://lovdata.no/forskrift/2004-02-16-426/§16) and [Sprakradet](https://www.sprakradet.no/sprakhjelp/Skriveregler/Dato).
