@@ -196,9 +196,7 @@ export default class DatePickerInput extends PureComponent {
   callOnChange = ({ startDate, endDate, event }, onState = null) => {
     if (
       typeof startDate !== 'undefined' &&
-      DatePickerInput.isValidDate(startDate) &&
-      !isDisabled(startDate, this.props.minDate, this.props.maxDate) &&
-      !isDisabled(endDate, this.props.minDate, this.props.maxDate)
+      DatePickerInput.isValidDate(startDate)
     ) {
       this.setState(
         {

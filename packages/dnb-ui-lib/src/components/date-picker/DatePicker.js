@@ -26,7 +26,11 @@ import nbLocale from 'date-fns/locale/nb'
 import Context from '../../shared/Context'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
-import { convertStringToDate, correctV1Format } from './DatePickerCalc'
+import {
+  convertStringToDate,
+  correctV1Format,
+  isDisabled
+} from './DatePickerCalc'
 import DatePickerRange from './DatePickerRange'
 import DatePickerInput from './DatePickerInput'
 import DatePickerAddon from './DatePickerAddon'
@@ -530,7 +534,7 @@ export default class DatePicker extends PureComponent {
     const attributes = this.attributes || {}
     const return_format = correctV1Format(this.props.return_format)
 
-    return isTrue(this.props.range)
+    const ret = isTrue(this.props.range)
       ? {
           event,
           attributes,
@@ -546,6 +550,21 @@ export default class DatePicker extends PureComponent {
           attributes,
           date: (startDate && format(startDate, return_format)) || null
         }
+
+    if (this.props.min_date || this.props.max_date) {
+      ret.is_valid_start_date = !isDisabled(
+        startDate,
+        this.state.minDate,
+        this.state.maxDate
+      )
+      ret.is_valid_end_date = !isDisabled(
+        endDate,
+        this.state.minDate,
+        this.state.maxDate
+      )
+    }
+
+    return ret
   }
 
   render() {

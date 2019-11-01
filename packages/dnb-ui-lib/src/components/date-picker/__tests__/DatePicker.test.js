@@ -153,6 +153,38 @@ describe('DatePicker component', () => {
     })
   })
 
+  it('has a working min and max date limitation', () => {
+    const on_change = jest.fn()
+
+    const Comp = mount(
+      <Component
+        {...defaultProps}
+        on_change={on_change}
+        min_date="2019-01-02"
+        max_date="2019-03-01"
+      />
+    )
+    const elem = Comp.find('input.dnb-date-picker__input--day').at(0)
+
+    // by default we have the start day
+    expect(elem.instance().value).toBe('02')
+
+    // change the date
+    elem.simulate('change', {
+      target: { value: '03' }
+    })
+
+    expect(on_change).toHaveBeenCalled()
+    expect(on_change.mock.calls[0][0].is_valid_start_date).toBe(true)
+
+    // change the date
+    elem.simulate('change', {
+      target: { value: '01' }
+    })
+
+    expect(on_change.mock.calls[1][0].is_valid_start_date).toBe(false)
+  })
+
   it('will reset on setting value to null', () => {
     const Comp = mount(
       <Component
