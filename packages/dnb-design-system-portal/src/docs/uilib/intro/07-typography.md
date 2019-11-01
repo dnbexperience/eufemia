@@ -1,7 +1,6 @@
 ---
 fullscreen: true
 draft: true
-order: 6
 ---
 
 <Intro>

@@ -1,7 +1,6 @@
 ---
 fullscreen: true
 draft: true
-order: 14
 redirect_from:
   - /uilib/intro/14-helper-classes
 ---

@@ -1,7 +1,6 @@
 ---
 fullscreen: true
 draft: true
-order: 5
 ---
 
 import { Next } from 'Tags/Intro'
