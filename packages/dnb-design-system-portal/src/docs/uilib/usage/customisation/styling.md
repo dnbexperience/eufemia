@@ -67,7 +67,7 @@ import 'dnb-ui-lib/style/themes/ui'
 /* import 'dnb-ui-lib/style' */
 ```
 
-### Wrapper class {#core-style}
+### Core Style
 
 If You neither include the **dnb-ui-core** nor the **dnb-ui-body** package, then You ending up having no Eufemia styles for the Document `<body>`. To have the Eufemia Core styles inside a wrapper anyway, simply use the following helper class: `.dnb-core-style`
 

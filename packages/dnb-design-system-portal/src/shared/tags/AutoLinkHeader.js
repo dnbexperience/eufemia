@@ -11,16 +11,22 @@ const AutoLinkHeader = ({ is: Component, children, ...props }) => {
   if (Array.isArray(children)) {
     const { _id, _children } = children.reduce(
       (acc, cur) => {
-        if (typeof cur === 'string' && /\{#(.*)\}/.test(cur)) {
-          acc._id = acc._id + /\{#([^}]*)\}/.exec(children)[1]
-        } else {
-          acc._children.push(cur)
+        if (typeof cur === 'string') {
+          if (/\{#(.*)\}/.test(cur)) {
+            acc._id = String(acc._id + /\{#([^}]*)\}/.exec(cur)[1]).trim()
+
+            // do not return the children
+            return acc
+          } else {
+            acc._id = String(acc._id + cur).trim()
+          }
         }
+        acc._children.push(cur)
         return acc
       },
       { _id: '', _children: [] }
     )
-    id = _id
+    id = slugger.slug(_id)
     children = _children
   } else if (typeof children === 'string') {
     if (/\{#(.*)\}/.test(children)) {
