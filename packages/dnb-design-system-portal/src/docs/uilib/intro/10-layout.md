@@ -1,7 +1,6 @@
 ---
 fullscreen: true
 draft: true
-order: 9
 ---
 
 import ComponentBox from 'Tags/ComponentBox'

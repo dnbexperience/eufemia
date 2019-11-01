@@ -5,34 +5,41 @@
 
 import React, { PureComponent } from 'react'
 import ComponentBox from 'Src/shared/tags/ComponentBox'
+import styled from '@emotion/styled'
+
+const Style = styled.div`
+  span.dnb-number {
+    display: block;
+  }
+`
 
 class Example extends PureComponent {
   render() {
     return (
-      <>
+      <Style>
         <ComponentBox
           caption="Defualt numbers"
           data-dnb-test="number-default"
         >
           {/* @jsx */ `
-<Number value="12345678.9" /> random text
-<Number value="-12345678.9" /> random text
+<Number value="12345678.9" />
+<Number>-12345678.9</Number>
           `}
         </ComponentBox>
         <ComponentBox caption="Currency" data-dnb-test="number-currency">
           {/* @jsx */ `
-<Number value="12345678.9" currency /> random text
-<Number value="-12345678.9" currency /> random text
+<Number currency>12345678.9</Number>
+<Number value={-12345678.9} currency />
           `}
         </ComponentBox>
         <ComponentBox caption="Phone number" data-dnb-test="number-phone">
           {/* @jsx */ `
-<Number value="99999999" phone /> random text
-<Number value="4799999999" phone /> random text
-<Number value="++4799999999" phone /> random text
-<Number value="+4780022222" phone anchor="sms" /> random text
-<Number value="+47116000" phone /> random text
-<Number value="+4702000" phone /> random text
+<Number value="99999999" phone />
+<Number value="4799999999" phone />
+<Number value="++4799999999" phone />
+<Number value="+4780022222" phone anchor="sms" />
+<Number value="+47116000" phone />
+<Number value="+4702000" phone />
           `}
         </ComponentBox>
         <ComponentBox
@@ -40,7 +47,7 @@ class Example extends PureComponent {
           data-dnb-test="number-ban"
         >
           {/* @jsx */ `
-<Number value="2000123456" ban /> bank account number
+<Number value="2000123456" ban />
           `}
         </ComponentBox>
         <ComponentBox
@@ -48,10 +55,10 @@ class Example extends PureComponent {
           data-dnb-test="number-nin"
         >
           {/* @jsx */ `
-<Number value="18089212345" nin /> national identification number
+<Number value="18089212345" nin />
           `}
         </ComponentBox>
-      </>
+      </Style>
     )
   }
 }

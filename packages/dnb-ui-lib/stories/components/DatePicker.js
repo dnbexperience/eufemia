@@ -306,16 +306,16 @@ const CustomDate = () => {
       {/* <H2>{count}</H2> */}
       <DatePicker
         right
-        // range
-        min_date="2019-9-28"
+        range
+        min_date="2019-09-28"
         max_date="2019-10-17"
         date={startDate}
-        label="Default DatePicker:"
+        label="Min max DatePicker:"
         show_input
         start_date={startDate}
         end_date={endDate}
-        on_change={({ date, start_date, end_date }) => {
-          console.log('on_change', date, start_date, end_date)
+        on_change={({ date, start_date, end_date, ...rest }) => {
+          console.log('on_change', date, start_date, end_date, rest)
           setStartDate(start_date)
           setEndDate(end_date)
         }}

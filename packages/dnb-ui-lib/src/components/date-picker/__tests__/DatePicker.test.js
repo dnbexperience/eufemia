@@ -91,6 +91,21 @@ describe('DatePicker component', () => {
     ).toBe(false)
   })
 
+  it('has to reset second input fields to blank during new date selection', () => {
+    const Comp = mount(<Component {...defaultProps} />)
+    Comp.find('button.dnb-input__submit-button__button').simulate('click')
+
+    Comp.find('table tbody button.dnb-button--secondary')
+      .at(10)
+      .simulate('click')
+
+    expect(
+      Comp.find('input.dnb-date-picker__input--year')
+        .at(1)
+        .instance().value
+    ).toBe('åååå')
+  })
+
   it('has two calendar views', () => {
     Comp.find('button.dnb-input__submit-button__button').simulate('click')
     expect(Comp.find('.dnb-date-picker__views').exists()).toBe(true)
@@ -136,6 +151,38 @@ describe('DatePicker component', () => {
     Comp.setProps({
       start_date: defaultProps.start_date
     })
+  })
+
+  it('has a working min and max date limitation', () => {
+    const on_change = jest.fn()
+
+    const Comp = mount(
+      <Component
+        {...defaultProps}
+        on_change={on_change}
+        min_date="2019-01-02"
+        max_date="2019-03-01"
+      />
+    )
+    const elem = Comp.find('input.dnb-date-picker__input--day').at(0)
+
+    // by default we have the start day
+    expect(elem.instance().value).toBe('02')
+
+    // change the date
+    elem.simulate('change', {
+      target: { value: '03' }
+    })
+
+    expect(on_change).toHaveBeenCalled()
+    expect(on_change.mock.calls[0][0].is_valid_start_date).toBe(true)
+
+    // change the date
+    elem.simulate('change', {
+      target: { value: '01' }
+    })
+
+    expect(on_change.mock.calls[1][0].is_valid_start_date).toBe(false)
   })
 
   it('will reset on setting value to null', () => {

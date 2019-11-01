@@ -19,7 +19,7 @@ draft: false
 - [ ] Have `aria-live` in place for dynamic content, like updates coming from the server.
 - [ ] Hide **invisible content** with `display: none;` or with the `hidden` attribute, or remove the markup entirely (with React States).
 - [ ] Properly use the `for="#id"` attribute on [labels](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/label#Attributes). Every [form component](/uilib/components) is supporting internal label usage, like `<Input label="Input label:" />`.
-- [ ] Allow zooming in web pages. Example below.
+- [ ] Allow viewport zooming in web pages. Example below.
 
 ## Viewport
 
