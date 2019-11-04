@@ -66,7 +66,7 @@ exports[`Section scss have to match default theme snapshot 1`] = `
     color: var(--color-fire-red); }
   .dnb-section--fire-red .dnb-anchor {
     color: var(--color-white);
-    box-shadow: 0 1.5px 0 0 var(--color-white); }
+    box-shadow: 0 0.09375rem 0 0 var(--color-white); }
     .dnb-section--fire-red .dnb-anchor:hover, .dnb-section--fire-red .dnb-anchor:active {
       color: var(--color-fire-red);
       background-color: var(--color-white);
@@ -91,7 +91,7 @@ exports[`Section scss have to match default theme snapshot 1`] = `
     color: var(--color-cherry-red); }
   .dnb-section--cherry-red .dnb-anchor {
     color: var(--color-white);
-    box-shadow: 0 1.5px 0 0 var(--color-white); }
+    box-shadow: 0 0.09375rem 0 0 var(--color-white); }
     .dnb-section--cherry-red .dnb-anchor:hover, .dnb-section--cherry-red .dnb-anchor:active {
       color: var(--color-cherry-red);
       background-color: var(--color-white);
