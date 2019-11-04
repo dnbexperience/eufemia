@@ -13,6 +13,7 @@
 }
 
 @mixin textareaStyleCommon() {
+  margin: 0;
   padding: 0 var(--textarea-padding-width);
 
   // Before v4.15 we had
@@ -36,10 +37,6 @@
 @mixin textareaStyle() {
   border: none;
   border-radius: 1px;
-
-  textarea {
-    margin: 0;
-  }
 
   box-shadow: var(--textarea-border-inner),
     0 0 0 calc(var(--textarea-padding-width) + 0.0625rem)

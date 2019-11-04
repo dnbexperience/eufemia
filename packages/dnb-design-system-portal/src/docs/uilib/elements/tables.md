@@ -61,7 +61,7 @@ Check out a [working example on CodeSandbox](https://codesandbox.io/embed/eufemi
   <tbody>
     <tr>
       <td>
-        <p>
+        <p className="dnb-p">
           Column 1 <b>width p</b>
         </p>
       </td>

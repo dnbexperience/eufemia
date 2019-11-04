@@ -39,6 +39,9 @@
     }
     scroll-behavior: smooth;
   }
+
+  // reset ePlatform css
+  @include resetLegacyStyles();
 }
 
 @mixin componentReset() {

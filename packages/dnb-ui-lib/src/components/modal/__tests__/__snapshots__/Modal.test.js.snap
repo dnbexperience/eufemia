@@ -946,7 +946,8 @@ a.dnb-button .dnb-button__text {
   .dnb-modal__close-button {
     position: absolute;
     top: var(--modal-spacing);
-    right: var(--modal-spacing); }
+    right: var(--modal-spacing);
+    z-index: calc(var(--modal-z-index) + 2); }
     @media screen and (max-width: 50em) {
       .dnb-modal__close-button {
         top: calc(var(--modal-spacing) / 2);

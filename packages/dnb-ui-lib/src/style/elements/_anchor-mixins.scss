@@ -5,7 +5,7 @@
 
 @import '../core/utilities.scss';
 
-$anchorBorderBottomWidth: 1.5px; // we can use 1.5px incase we use box-shadow instead of border-bottom
+$anchorBorderBottomWidth: 0.09375rem; // we can use 1.5px incase we use box-shadow instead of border-bottom
 $anchorBorderRadius: 0.25rem;
 
 @mixin anchorDefaultStyle($theme: null) {
@@ -44,6 +44,9 @@ $anchorBorderRadius: 0.25rem;
 // reset methodes
 @mixin resetUnderlineStyle() {
   box-shadow: none;
+
+  // legacy reset
+  text-decoration: none;
 }
 @mixin resetBorderRadius() {
   &,

@@ -2285,12 +2285,14 @@ legend.dnb-form-label {
     margin: 0;
     padding: 0;
     list-style: none; }
-  .dnb-date-picker table.dnb-no-focus:focus {
-    outline: none; }
-    html[data-whatinput='keyboard'] .dnb-date-picker table.dnb-no-focus:focus {
-      box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
-      /* IE11 fix */
-      border-color: transparent; }
+  .dnb-date-picker table {
+    margin: 0; }
+    .dnb-date-picker table.dnb-no-focus:focus {
+      outline: none; }
+      html[data-whatinput='keyboard'] .dnb-date-picker table.dnb-no-focus:focus {
+        box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
+        /* IE11 fix */
+        border-color: transparent; }
   .dnb-date-picker__day, .dnb-date-picker__labels__day {
     display: flex;
     flex-basis: 14.28571%;
