@@ -22,13 +22,13 @@ class Example extends PureComponent {
           data-dnb-test="number-default"
         >
           {/* @jsx */ `
-<Number value="12345678.9" />
+<Number value="12345" />
 <Number>-12345678.9</Number>
           `}
         </ComponentBox>
         <ComponentBox caption="Currency" data-dnb-test="number-currency">
           {/* @jsx */ `
-<Number currency>12345678.9</Number>
+<Number currency>12345</Number>
 <Number value={-12345678.9} currency />
           `}
         </ComponentBox>

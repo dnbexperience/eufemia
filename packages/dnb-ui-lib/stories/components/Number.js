@@ -24,20 +24,19 @@ const ChangeLocale = () => {
 
   React.useEffect(() => {
     setTimeout(() => {
-      update({ locale: 'en' })
-      // update({ currency: 'USD' })
+      // update({ locale: 'en' })
+      update({ currency: 'USD' })
     }, 3e3)
   }, [])
 
   return (
     <>
       {/* Can be e.g. a Dropdown */}
-      random number{' '}
       {format(12345678.9, {
         locale,
         currency: true
       })}{' '}
-      random number
+      text
     </>
   )
 }
@@ -52,12 +51,13 @@ export default [
         >
           <Wrapper>
             <Box>
-              random number <Number value="12345678.9" /> random number{' '}
-              <Number value={-12345678.9} />
+              text <Number value="12345" /> text{' '}
+              <Number value={-12345678.9} />{' '}
             </Box>
             <Box>
-              random currency <Number currency>12 345 678</Number> random
-              currency <Number currency="EUR">-12345,68</Number>
+              {/* text <Number currency>12 345 678</Number> text{' '} */}
+              text <Number currency>12 345</Number> text{' '}
+              <Number currency="EUR">-12345,68</Number> text{' '}
               <ChangeLocale />
             </Box>
             <Box>

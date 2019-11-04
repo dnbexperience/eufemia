@@ -287,18 +287,28 @@ export const format = (
     const first = display[0]
     if (first === '−' || first === '-') {
       display = display.replace(/^(−|-)([^\d]+)(.*)/g, '$2$1$3')
+
+      // NB: Here we could check if windos is used and put a minus in front, so NVDA reads it out
+      // aria = 'minus ' + aria
     }
 
     // aria options
     opts.currencyDisplay = 'name'
     aria = formatNumber(cleanedNumber, locale, opts)
+    aria = enhanceSR(cleanedNumber, aria, locale)
+
+    // get only the currency name
+    // const num = aria.replace(/([^0-9])+$/g, '')
+    // const name = aria.replace(num, '')
+    // aria = cleanedNumber + name
   } else {
-    display = formatNumber(parseFloat(value), locale, opts)
+    display = formatNumber(value, locale, opts)
 
     // fix for NDVA to make sure we read the number, we add a minium fraction digit (decimal)
     if (typeof opts.minimumFractionDigits === 'undefined') {
-      opts.minimumFractionDigits = 1
-      aria = formatNumber(parseFloat(value), locale, opts)
+      opts.minimumFractionDigits = 1 // NVDA fix
+      aria = formatNumber(value, locale, opts)
+      aria = enhanceSR(value, aria, locale)
     }
   }
 
@@ -310,9 +320,21 @@ export const format = (
   return returnAria ? { number: display, aria, locale } : display
 }
 
+const enhanceSR = (value, aria) => {
+  // Enhance VO support on mobile devices
+  // Numbers under 99.999 are read out correctly, but only if we remove the spaces
+  // Potential we could also check for locale: && /no|nb|nn/.test(locale)
+  // but leave it for now without this ectra check
+  if (Math.abs(parseFloat(value)) <= 99999) {
+    aria = String(aria).replace(/\s([0-9])/g, '$1')
+  }
+
+  return aria
+}
+
 export const formatNumber = (number, locale, options = {}) => {
-  if (typeof number.toLocaleString === 'function') {
-    return number.toLocaleString(locale, options)
+  if (typeof Number.toLocaleString === 'function') {
+    return parseFloat(number).toLocaleString(locale, options)
   } else if (
     typeof Intl !== 'undefined' &&
     typeof Intl.NumberFormat === 'function'
