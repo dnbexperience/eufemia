@@ -18,7 +18,8 @@
     background-color: currentColor;
 
     // we use box-shadow to avoid a horizontal scrollbar
-    box-shadow: 100vw 0 0 0 currentColor;
+    // The 10px fix is for Edge and FF, so the gap is sealed (could be 1px as well)
+    box-shadow: 10px 0 0 0 currentColor, 100vw 0 0 0 currentColor;
   }
   & > &::after {
     z-index: -2;
