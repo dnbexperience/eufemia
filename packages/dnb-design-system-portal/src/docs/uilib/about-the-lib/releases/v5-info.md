@@ -41,7 +41,6 @@ Good reasons for why we have this is to:
 
 - uniform the formation of numbers for all DNB applications.
 - and make numbers accessible to screen readers.
--
 
 ## Color change
 
