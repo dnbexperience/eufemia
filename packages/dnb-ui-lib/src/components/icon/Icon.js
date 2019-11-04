@@ -8,6 +8,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { ErrorHandler } from '../../shared/error-helper'
 import {
+  isTrue,
   registerElement,
   validateDOMAttributes,
   processChildren,
@@ -47,6 +48,7 @@ const propTypes = {
   size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  border: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   color: PropTypes.string,
   alt: PropTypes.string,
   title: PropTypes.string,
@@ -67,6 +69,7 @@ const defaultProps = {
   size: null,
   width: null,
   height: null,
+  border: null,
   color: null,
   alt: null,
   title: null,
@@ -290,6 +293,7 @@ export const prepareIcon = props => {
     icon,
     size, // eslint-disable-line
     height,
+    border,
     width,
     color,
     modifier,
@@ -332,6 +336,7 @@ export const prepareIcon = props => {
   wrapperParams.className = classnames(
     'dnb-icon',
     modifier ? `dnb-icon--${modifier}` : null,
+    isTrue(border) ? 'dnb-icon--border' : null,
     sizeAsString ? `dnb-icon--${sizeAsString}` : null,
     createSpacingClasses(props),
     _className,

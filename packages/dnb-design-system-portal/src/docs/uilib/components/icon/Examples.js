@@ -24,7 +24,7 @@ class Example extends PureComponent {
     return (
       <Fragment>
         <ComponentBox
-          data-dnb-test="icon-sizes"
+          data-dnb-test="icon-default"
           scope={{ Bell, BellMedium }}
           caption="Default and Medium sized icons (Responsive)"
         >
@@ -36,12 +36,33 @@ class Example extends PureComponent {
         </ComponentBox>
 
         <ComponentBox
+          data-dnb-test="icon-border"
+          scope={{ Bell, BellMedium }}
+          caption="Icons with border"
+        >
+          {/* @jsx */ `
+<Icon border="true" icon={Bell} right="x-small" />
+<Icon border="true" icon={BellMedium} size="medium" right="x-small" />
+<IconPrimary border="true" icon={"information"} right="x-small" />
+<IconPrimary border="true" icon={"information"} size="medium" />
+<h1 className="dnb-h1">
+  h1 with  <Icon icon={Bell} border /> Icon
+</h1>
+          `}
+        </ComponentBox>
+
+        <ComponentBox
+          data-dnb-test="icon-inherit-sized"
           scope={{ Bell, BellMedium }}
           caption="Responsive to its inherited `font-size`"
         >
           {/* @jsx */ `
 <h1 className="dnb-h1">
-  h1 with <Icon icon={BellMedium} size="auto" aria-hidden /> Icon
+  h1 with
+  <Icon icon={BellMedium} aria-hidden />{' '}
+  Icon and auto sized
+  <Icon icon={BellMedium} size="auto" aria-hidden />{' '}
+  Icon
 </h1>
           `}
         </ComponentBox>

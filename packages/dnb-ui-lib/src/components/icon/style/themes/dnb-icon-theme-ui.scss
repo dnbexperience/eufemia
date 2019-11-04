@@ -1,0 +1,37 @@
+/*
+ * Icon theme
+ *
+ */
+
+.dnb-icon {
+  &--border {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+    vertical-align: middle;
+
+    color: inherit;
+
+    border-radius: 50%;
+    // border: 0.0625em solid; // 1px
+    border: 0.09375em solid; // 1.5px
+    border-color: currentColor;
+
+    // default size
+    width: 1.5em;
+    height: 1.5em;
+    svg {
+      width: 1em;
+      height: 1em;
+    }
+  }
+  &--border#{&}--medium {
+    width: 2em;
+    height: 2em;
+    svg {
+      width: 1.5em;
+      height: 1.5em;
+    }
+  }
+}

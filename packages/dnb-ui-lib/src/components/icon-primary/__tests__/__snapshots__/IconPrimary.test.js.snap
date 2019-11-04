@@ -4,6 +4,7 @@ exports[`IconPrimary component have to match snapshot 1`] = `
 <IconPrimary
   alt={null}
   attributes={null}
+  border={null}
   class={null}
   className={null}
   color={null}
