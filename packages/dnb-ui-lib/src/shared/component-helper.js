@@ -82,6 +82,9 @@ export function defineIsTouch() {
   }
 }
 
+export const PLATFORM_MAC = /Mac|iPad|iPhone|iPod/
+export const PLATFORM_WIN = 'Win'
+
 export function defineNavigator() {
   const handleNavigator = () => {
     if (
@@ -94,9 +97,9 @@ export function defineNavigator() {
 
     try {
       if (!window.IS_TEST) {
-        if (navigator.platform.match(/Mac|iPad|iPhone|iPod/) !== null) {
+        if (navigator.platform.match(PLATFORM_MAC) !== null) {
           document.documentElement.setAttribute('data-os', 'mac')
-        } else if (navigator.platform.match('Win') !== null) {
+        } else if (navigator.platform.match(PLATFORM_WIN) !== null) {
           document.documentElement.setAttribute('data-os', 'win')
         }
       } else {
