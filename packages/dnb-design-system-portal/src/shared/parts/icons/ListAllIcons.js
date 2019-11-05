@@ -36,13 +36,17 @@ export default class Icons extends PureComponent {
         return (
           <ListItem key={`icon${name}`}>
             <ListItemInner>
-              <span aria-labelledby={`id${name}`}>
+              <figure aria-labelledby={`id${name}`} aria-hidden>
                 {(SvgMedium && (
                   <Icon icon={SvgMedium} size="medium" />
                 )) || <Icon icon={Svg} />}
-              </span>
-              <h3 id={`id${name}`}>{humanFormat(name)}</h3>
-              <p>({name})</p>
+              </figure>
+              <figcaption className="dnb-h3" id={`id${name}`}>
+                {humanFormat(name)}
+              </figcaption>
+              <p className="dnb-p" aria-hidden>
+                ({name})
+              </p>
             </ListItemInner>
           </ListItem>
         )
@@ -59,25 +63,34 @@ const List = styled.ul`
   flex-wrap: wrap;
   flex-direction: row;
   align-items: flex-end;
-  justify-content: center;
+  ${'' /* justify-content: center; */}
 
   padding: 0;
   margin: 0;
 `
 
-const ListItemInner = styled.div`
-  display: flex;
+const ListItemInner = styled.li`
+  ${'' /* display: flex;
   flex-direction: column;
+  align-items: center; */}
+
+  display: flex;
   align-items: center;
+  justify-content: center;
+  flex-flow: column wrap;
+  align-content: center;
 
   padding: 0.5rem 0;
 
-  span[aria-labelledby] {
-    padding: 2rem 0;
+  .dnb-h3,
+  .dnb-spacing & .dnb-h3 {
+    margin: 1rem 0 0;
+    white-space: nowrap;
   }
-
-  h3 {
+  .dnb-p,
+  .dnb-spacing & .dnb-p {
     margin: 0;
+    padding: 0;
   }
 
   .dnb-icon {
@@ -89,9 +102,17 @@ const ListItemInner = styled.div`
 `
 
 const ListItem = styled.li`
-  flex: 1 1 auto;
-  min-width: 9rem;
-  margin: 0.5rem !important; /* sice we can't define the CSS specificity to .dnb-soacing */
+  flex: 1 1 15rem;
+  margin: 0.5rem;
+
+  ${'' /* &:nth-last-child(2):nth-of-type(odd),
+  &:last-of-type {
+    flex-grow: 0;
+  } */}
+
+  ${'' /* @media (min-width: 60em) {
+    max-width: 15rem;
+  } */}
 
   border-radius: 0.25rem;
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
