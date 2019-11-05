@@ -62,40 +62,35 @@
     display: flex;
     cursor: text;
 
-    padding: 0;
-    padding-right: 6rem;
+    [data-os='mac'] & {
+      transform: translate3d(0, 0.125em, 0);
+    }
 
-    margin: 0;
-    margin-bottom: 1rem;
+    &.dnb-p {
+      padding: 1rem 6rem 1rem 0;
+    }
+    .dnb-spacing &.dnb-p {
+      margin: 0;
+    }
   }
   &__icon {
     margin-right: 1rem;
 
-    & > .dnb-icon {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-
-      width: 2em;
-      height: 2em;
-      padding: 0.25em;
-      transform: translate3d(0, -0.25em, 0);
-
-      color: inherit;
-
-      font-size: var(--font-size-basis);
-      border-radius: 50%;
-      border: 0.0625rem solid;
-      border-color: currentColor;
+    [data-os='mac'] & {
+      transform: translate3d(0, -0.125em, 0);
     }
+
+    // & > .dnb-icon {
+    // }
   }
   &__close-button,
   &__close-button.dnb-button--tertiary {
     position: absolute;
     z-index: 1;
-    top: -0.25rem;
+    top: 0;
     right: 1rem; // also because of the focus-ring
     left: auto;
+    margin-top: 1rem;
   }
   .dnb-modal__content__inner &__close-button {
     right: 0;
@@ -117,8 +112,10 @@
 
   &__message {
     cursor: text;
+    z-index: 1;
 
-    &,
+    padding: 2rem 0 2.5rem;
+
     & > .dnb-p,
     .dnb-spacing & .dnb-p {
       margin: 0;
@@ -129,7 +126,8 @@
   &__content {
     width: 100%;
 
-    padding: 2rem 0;
+    // to get the red line on the bottom
+    transform: translate3d(0, -1px, 0);
 
     .dnb-ul,
     .dnb-spacing & .dnb-ul {

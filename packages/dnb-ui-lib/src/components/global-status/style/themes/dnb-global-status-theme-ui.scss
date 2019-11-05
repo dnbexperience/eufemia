@@ -12,18 +12,45 @@
       100vw 0.0625rem 0 0 var(--color-black-80);
   }
 
-  &--error &__icon > .dnb-icon {
-    border: none;
-  }
+  // &__content {
+  // red line
+  // &::after {
+  //   content: '';
+  //   position: absolute;
+  //   z-index: 1;
+  //   left: -100vw;
+  //   top: auto;
+  //   bottom: 0;
+  //   width: 100vw;
+  //   height: 1px;
+  //   color: var(--color-fire-red);
+  //   background-color: currentColor;
+  //   box-shadow: 10px 0 0 0 currentColor, 100vw 0 0 0 currentColor;
+  // }
+  // }
 
   &__title {
     font-weight: var(--font-weight-demi);
     font-size: var(--font-size-medium);
   }
+  &--error &__title {
+    color: var(--color-white);
+  }
+  &__message {
+    color: var(--color-black-80);
+
+    .dnb-p {
+      font-weight: var(--font-weight-demi);
+    }
+
+    &.dnb-section--white ::selection {
+      background-color: var(--color-mint-green);
+    }
+  }
 
   // TODO: This has to be implemented as a contrast version
-  &__close-button,
-  &__close-button.dnb-button--tertiary {
+  &--error &__close-button,
+  &--error &__close-button.dnb-button--tertiary {
     color: var(--color-white);
 
     @include hover() {
