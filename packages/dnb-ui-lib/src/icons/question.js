@@ -12,7 +12,6 @@ const question = props => (
         fill="#000"
       />
     </g>
-    <defs />
   </svg>
 )
 
