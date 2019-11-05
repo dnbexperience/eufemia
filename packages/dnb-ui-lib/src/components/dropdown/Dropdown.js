@@ -510,6 +510,12 @@ export default class Dropdown extends PureComponent {
     { fireSelectEvent = false, scrollTo = true, event = null } = {}
   ) {
     if (!(active_item > -1)) {
+      try {
+        const ulElement = this._refUl.current
+        ulElement.focus()
+      } catch (e) {
+        console.warn(e)
+      }
       return
     }
     this.setState(
@@ -534,7 +540,7 @@ export default class Dropdown extends PureComponent {
           }
         }
 
-        if (!(selected_item > -1)) {
+        if (!(active_item > -1)) {
           return
         }
 
@@ -706,7 +712,7 @@ export default class Dropdown extends PureComponent {
   ) => {
     // because of our delay on despatching the event
     // make a copy of it, so we don't break the syntetic event
-    if (event && event.persist) {
+    if (event && typeof event.persist === 'function') {
       event.persist()
     }
 
@@ -990,9 +996,10 @@ export default class Dropdown extends PureComponent {
       onMouseDown: this.onMouseDownHandler,
       onKeyDown: this.onTriggerKeyDownHandler
     }
-    if (typeof title === 'string') {
-      triggerParams['title'] = title
-    }
+    // freaks out NVDA
+    // if (typeof title === 'string') {
+    //   triggerParams['title'] = title
+    // }
     if (hidden && label) {
       triggerParams['aria-labelledby'] = id + '-label'
     }
@@ -1018,6 +1025,8 @@ export default class Dropdown extends PureComponent {
       selected_item > -1
     ) {
       ulParams['aria-activedescendant'] = `option-${id}-${selected_item}`
+    } else {
+      ulParams.tabIndex = '-1'
     }
 
     // also used for code markup simulation

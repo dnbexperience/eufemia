@@ -1110,8 +1110,6 @@ legend.dnb-form-label {
   [data-os='mac'] .dnb-input__placeholder,
   [data-os='mac'] .dnb-input__input {
     transform: translateY(0.0625rem); }
-  .dnb-core-style .dnb-input__input {
-    line-height: var(--line-height-x-small--em); }
   .dnb-input--has-submit-element .dnb-input__placeholder,
   .dnb-input--has-submit-element .dnb-input__input {
     padding-right: calc(var(--input-padding) * 2.5); }
@@ -1179,6 +1177,8 @@ legend.dnb-form-label {
   .dnb-input__shell[data-has-content='true'] .dnb-input__placeholder,
   .dnb-input__shell[data-has-content='true'][data-input-state='focus'] .dnb-input__placeholder {
     display: none; }
+  .dnb-core-style .dnb-input__input:not([type='file']) {
+    line-height: var(--line-height-x-small--em); }
   .dnb-input__inner > .dnb-form-status {
     order: 2;
     margin-top: 0.5rem; }
