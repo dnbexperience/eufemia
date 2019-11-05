@@ -16,9 +16,11 @@ exports[`GlobalStatus scss have to match default theme snapshot 1`] = `
 .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-in.dnb-global-status.dnb-section::after {
   box-shadow: 100vw 0 0 0 currentColor, 0 0.0625rem 0 0 var(--color-black-80), 100vw 0.0625rem 0 0 var(--color-black-80); }
 
-.dnb-global-status__title {
-  font-weight: var(--font-weight-demi);
-  font-size: var(--font-size-medium); }
+.dnb-global-status__title.dnb-p {
+  font-weight: var(--font-weight-demi); }
+
+.dnb-global-status__icon {
+  font-size: 1rem; }
 
 .dnb-global-status--error .dnb-global-status__title {
   color: var(--color-white); }
@@ -486,18 +488,20 @@ a.dnb-button .dnb-button__text {
     width: 100%; }
   .dnb-global-status__title {
     position: relative;
-    display: flex;
     cursor: text; }
-    [data-os='mac'] .dnb-global-status__title {
-      transform: translate3d(0, 0.125em, 0); }
     .dnb-global-status__title.dnb-p {
-      padding: 1rem 6rem 1rem 0; }
+      font-size: var(--font-size-medium);
+      line-height: var(--line-height-medium);
+      padding: 1rem 6rem 1rem 3rem;
+      padding-top: calc(1rem - 0.125rem);
+      padding-bottom: calc(1rem - 0.25rem); }
     .dnb-spacing .dnb-global-status__title.dnb-p {
       margin: 0; }
   .dnb-global-status__icon {
-    margin-right: 1rem; }
-    [data-os='mac'] .dnb-global-status__icon {
-      transform: translate3d(0, -0.125em, 0); }
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin-top: 0.75rem; }
   .dnb-global-status__close-button, .dnb-global-status__close-button.dnb-button--tertiary {
     position: absolute;
     z-index: 1;
@@ -505,17 +509,10 @@ a.dnb-button .dnb-button__text {
     right: 1rem;
     left: auto;
     margin-top: 1rem; }
+    [data-os='mac'] .dnb-global-status__close-button, [data-os='mac'] .dnb-global-status__close-button.dnb-button--tertiary {
+      top: -0.0625rem; }
   .dnb-modal__content__inner .dnb-global-status__close-button {
     right: 0; }
-    @media screen and (min-width: 50em) {
-      .dnb-modal__content__inner .dnb-global-status__close-button {
-        right: -2rem; } }
-  @media (max-width: 40em) {
-    .dnb-global-status__icon {
-      display: block;
-      margin-bottom: 1rem; }
-    .dnb-global-status__title {
-      display: block; } }
   .dnb-global-status__message {
     cursor: text;
     z-index: 1;

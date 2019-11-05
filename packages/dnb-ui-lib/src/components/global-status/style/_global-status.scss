@@ -58,27 +58,27 @@
 
   &__title {
     position: relative; // because of the close button
-
-    display: flex;
     cursor: text;
 
-    [data-os='mac'] & {
-      transform: translate3d(0, 0.125em, 0);
+    &.dnb-p {
+      font-size: var(--font-size-medium);
+      line-height: var(--line-height-medium);
+
+      padding: 1rem 6rem 1rem 3rem; // because of the font-size
+      padding-top: calc(1rem - 0.125rem);
+      padding-bottom: calc(1rem - 0.25rem);
     }
 
-    &.dnb-p {
-      padding: 1rem 6rem 1rem 0;
-    }
     .dnb-spacing &.dnb-p {
       margin: 0;
     }
   }
   &__icon {
-    margin-right: 1rem;
+    position: absolute;
+    top: 0;
+    left: 0;
 
-    [data-os='mac'] & {
-      transform: translate3d(0, -0.125em, 0);
-    }
+    margin-top: 0.75rem;
 
     // & > .dnb-icon {
     // }
@@ -90,25 +90,38 @@
     top: 0;
     right: 1rem; // also because of the focus-ring
     left: auto;
+
     margin-top: 1rem;
+
+    // pixel correction
+    [data-os='mac'] & {
+      // transform: translate3d(0, -0.0625rem, 0);
+      top: -0.0625rem;
+    }
   }
   .dnb-modal__content__inner &__close-button {
     right: 0;
-    @include allAbove(medium) {
-      right: -2rem;
-    }
+
+    // NB: now we align with the modal close button
+    // @include allAbove(medium) {
+    //   right: -1rem;
+    // }
   }
 
   /* for small screesn */
-  @media (max-width: 40em) {
-    &__icon {
-      display: block;
-      margin-bottom: 1rem;
-    }
-    &__title {
-      display: block;
-    }
-  }
+  // @media (max-width: 40em) {
+  //   &__icon {
+  //     position: relative;
+  //     display: block;
+  //     margin-bottom: 1rem;
+  //   }
+  //   &__title {
+  //     display: block;
+  //     &.dnb-p {
+  //       padding-left: 0;
+  //     }
+  //   }
+  // }
 
   &__message {
     cursor: text;

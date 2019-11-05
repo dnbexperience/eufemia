@@ -30,8 +30,12 @@
   // }
 
   &__title {
-    font-weight: var(--font-weight-demi);
-    font-size: var(--font-size-medium);
+    &.dnb-p {
+      font-weight: var(--font-weight-demi);
+    }
+  }
+  &__icon {
+    font-size: 1rem;
   }
   &--error &__title {
     color: var(--color-white);
