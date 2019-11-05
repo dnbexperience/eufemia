@@ -116,11 +116,6 @@
     transform: translateY(0.0625rem);
   }
 
-  // to make Safari selection not appear all to the top
-  .dnb-core-style &__input {
-    line-height: var(--line-height-x-small--em);
-  }
-
   &--has-submit-element &__placeholder,
   &--has-submit-element &__input {
     padding-right: calc(var(--input-padding) * 2.5);
@@ -225,6 +220,11 @@
   &__shell[data-has-content='true'][data-input-state='focus']
     .dnb-input__placeholder {
     display: none;
+  }
+
+  // to make Safari selection not appear all to the top
+  .dnb-core-style &__input:not([type='file']) {
+    line-height: var(--line-height-x-small--em);
   }
 
   // no special style for search
