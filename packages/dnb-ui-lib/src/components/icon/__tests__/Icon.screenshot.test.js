@@ -17,6 +17,39 @@ describe('Icon screenshot', () => {
       pixelThresholdRelative: isCI ? 0.1 : 0
     }
   })
+  it('have to match default icons setup', async () => {
+    const screenshot = await testPageScreenshot({
+      style: {
+        // Flex makes the pixel height 100% correct
+        display: 'flex',
+        'align-items': 'center'
+      },
+      selector: '[data-dnb-test="icon-default"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+  it('have to match inherited sized icons', async () => {
+    const screenshot = await testPageScreenshot({
+      style: {
+        // Flex makes the pixel height 100% correct
+        display: 'flex',
+        'align-items': 'center'
+      },
+      selector: '[data-dnb-test="icon-inherit-sized"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+  it('have to match icons with border', async () => {
+    const screenshot = await testPageScreenshot({
+      style: {
+        // Flex makes the pixel height 100% correct
+        display: 'flex',
+        'align-items': 'center'
+      },
+      selector: '[data-dnb-test="icon-border"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
   it('have to match responsive icons', async () => {
     const screenshot = await testPageScreenshot({
       style: {

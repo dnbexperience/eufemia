@@ -4,6 +4,7 @@ exports[`IconPrimary component have to match snapshot 1`] = `
 <IconPrimary
   alt={null}
   attributes={null}
+  border={null}
   class={null}
   className={null}
   color={null}
@@ -37,7 +38,6 @@ exports[`IconPrimary component have to match snapshot 1`] = `
             fillRule="evenodd"
           />
         </g>
-        <defs />
       </svg>
     </question>
   </span>
