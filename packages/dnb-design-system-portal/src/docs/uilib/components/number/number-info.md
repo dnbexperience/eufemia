@@ -50,8 +50,6 @@ You can [disable this behavior](https://developer.mozilla.org/en-US/docs/Web/HTM
 
 NVDA has also [issues](https://github.com/nvaccess/nvda/issues/8874) on reconciling the `lang` attribute, this makes it hard to have a solid and good working solution for reading numbers. VoiceOver on desktop makes a perfect job there.
 
-NVDA has also a hard time to read numbers with minus (-) suffix.
-
 VoiceOver on mobile devices only supports numbers read out properly to a maximum of `99.999,00`. On amounts above this value, VO reads numbers digit by digit.
 
 ## Details

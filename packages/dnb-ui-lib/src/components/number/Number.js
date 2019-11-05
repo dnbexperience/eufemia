@@ -12,7 +12,8 @@ import {
   isTrue,
   validateDOMAttributes,
   registerElement,
-  extend
+  extend,
+  PLATFORM_MAC
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 
@@ -282,15 +283,7 @@ export const format = (
     )
 
     display = formatNumber(cleanedNumber, locale, opts)
-
-    // change the position of minus if it's first
-    const first = display[0]
-    if (first === '−' || first === '-') {
-      display = display.replace(/^(−|-)([^\d]+)(.*)/g, '$2$1$3')
-
-      // NB: Here we could check if windos is used and put a minus in front, so NVDA reads it out
-      // aria = 'minus ' + aria
-    }
+    display = cleanupMinus(display)
 
     // aria options
     opts.currencyDisplay = 'name'
@@ -303,6 +296,7 @@ export const format = (
     // aria = cleanedNumber + name
   } else {
     display = formatNumber(value, locale, opts)
+    display = cleanupMinus(display)
 
     // fix for NDVA to make sure we read the number, we add a minium fraction digit (decimal)
     if (typeof opts.minimumFractionDigits === 'undefined') {
@@ -320,14 +314,46 @@ export const format = (
   return returnAria ? { number: display, aria, locale } : display
 }
 
+const cleanupMinus = display => {
+  // change the position of minus if it's first
+  // check for two minus - −
+  // check also for hyphen ‐
+  // check also for dashes ‒  –  —  ―
+
+  const reg = '^(-|−|‐|‒|–|—|―)'
+
+  // check for first and second char
+  const first = display[0]
+  const second = display[1]
+
+  if (new RegExp(reg).test(first)) {
+    // if second is number
+    if (parseFloat(second) > 0) {
+      // then do not swap
+      display = display.replace(new RegExp(reg + '(.*)'), '-$2')
+    } else {
+      // then first has to be currency
+      display = display.replace(new RegExp(reg + '([^\\d]+)(.*)'), '$2-$3')
+    }
+  }
+
+  return display
+}
+
 const enhanceSR = (value, aria) => {
   // Enhance VO support on mobile devices
   // Numbers under 99.999 are read out correctly, but only if we remove the spaces
   // Potential we could also check for locale: && /no|nb|nn/.test(locale)
   // but leave it for now without this ectra check
-  if (Math.abs(parseFloat(value)) <= 99999) {
+  if (
+    typeof navigator !== 'undefined' &&
+    navigator.platform.match(PLATFORM_MAC) !== null &&
+    Math.abs(parseFloat(value)) <= 99999
+  ) {
     aria = String(aria).replace(/\s([0-9])/g, '$1')
   }
+
+  aria = cleanupMinus(aria)
 
   return aria
 }
