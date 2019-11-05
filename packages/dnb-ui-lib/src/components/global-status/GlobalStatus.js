@@ -692,7 +692,7 @@ export default class GlobalStatus extends React.PureComponent {
       <div className="dnb-global-status__shell" ref={this._shellRef}>
         <div className="dnb-global-status__content">
           {title !== false && (
-            <p className="dnb-global-status__title">
+            <p className="dnb-p dnb-global-status__title">
               <span className="dnb-global-status__icon">
                 {iconToRender}
               </span>
@@ -705,14 +705,18 @@ export default class GlobalStatus extends React.PureComponent {
               )}
             </p>
           )}
-          <div className="dnb-global-status__message">
+          <Section
+            element="div"
+            style_type="white"
+            className="dnb-global-status__message"
+          >
             {typeof contentToRender === 'string' ? (
               <p className="dnb-p">{contentToRender}</p>
             ) : (
               contentToRender
             )}
             {renderedItems}
-          </div>
+          </Section>
         </div>
       </div>
     )
