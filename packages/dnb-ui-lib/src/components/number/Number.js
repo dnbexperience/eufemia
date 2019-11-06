@@ -347,7 +347,7 @@ const enhanceSR = (value, aria) => {
   // but leave it for now without this ectra check
   if (
     typeof navigator !== 'undefined' &&
-    navigator.platform.match(PLATFORM_MAC) !== null &&
+    navigator.platform.match(new RegExp(PLATFORM_MAC)) !== null &&
     Math.abs(parseFloat(value)) <= 99999
   ) {
     aria = String(aria).replace(/\s([0-9])/g, '$1')
