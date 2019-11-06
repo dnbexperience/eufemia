@@ -12,7 +12,15 @@ import { release } from '../../package.json'
 // import .env variables
 dotenv.config()
 
-const semanicRelease = async () => {
+// run the release
+semanicRelease().then(({ error }) => {
+  if (error) {
+    // so we stop the CI process
+    throw new Error(error)
+  }
+})
+
+async function semanicRelease() {
   try {
     await prepareForRelease()
 
@@ -23,6 +31,17 @@ const semanicRelease = async () => {
       stdout: stdoutBuffer,
       stderr: stderrBuffer
     })
+
+    // Get stdout and stderr content
+    const logs = stdoutBuffer.getContentsAsString('utf8')
+    const errors = stderrBuffer.getContentsAsString('utf8')
+
+    if (logs) {
+      console.log(logs)
+    }
+    if (errors) {
+      console.error(errors)
+    }
 
     if (result) {
       const { lastRelease, commits, nextRelease, releases } = result
@@ -36,21 +55,16 @@ const semanicRelease = async () => {
       }
 
       console.log(releases)
+
+      console.log('NPM Package Released.')
     } else {
       console.log('No release published.')
     }
+  } catch (error) {
+    console.error('The automated release failed with %O', error)
 
-    // Get stdout and stderr content
-    const logs = stdoutBuffer.getContentsAsString('utf8')
-    const errors = stderrBuffer.getContentsAsString('utf8')
-
-    if (logs) console.log(logs)
-    if (errors) console.log(errors)
-
-    console.log('NPM Package Released')
-  } catch (err) {
-    console.error('The automated release failed with %O', err)
+    return { error }
   }
-}
 
-semanicRelease()
+  return { error: null }
+}
