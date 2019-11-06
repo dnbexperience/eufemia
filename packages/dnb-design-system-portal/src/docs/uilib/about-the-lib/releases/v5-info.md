@@ -1,12 +1,21 @@
 # v5
 
+- [Migration](#migration)
 - [Typography preparations](#typography-preparations) **(feature)**
 - [Number component](#number-component) **(feature)**
-- [Color changes](#color-change) **(major change)**
+- [Color changes](#color-changes) **(major change)**
 - [Icon changes](#icon-changes) **(major change)**
 - [ESM module format](#esm-module-format) **(major change)**
 - [UMD changes](#umd-changes) **(major change)**
 - [How to Install](#install)
+
+## Migration
+
+v5 contains a couple of braking changes. As a migration process, you can simply search your application for:
+
+- find `save_alt_01` and replace if with `save`
+- find `--color-cherry-red` or `--color-cherry-red-8` and replace it with `--color-fire-red` and `--color-fire-red-8`
+- find `dnb-ui-lib-icons.min.js` and replace it with `dnb-ui-icons.min.js`
 
 ## Typography preparations
 
@@ -42,7 +51,7 @@ Good reasons for why we have this is to:
 - uniform the formation of numbers for all DNB applications.
 - and make numbers accessible to screen readers.
 
-## Color change
+## Color changes
 
 - _Cherry Red_ will got replaced by _Fire Red_.
 - _Cherry Red 8%_ will got replaced by _Fire Red 8%_.
