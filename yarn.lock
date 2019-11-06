@@ -2293,10 +2293,10 @@
     semver "^5.5.0"
     tempy "^0.3.0"
 
-"@semantic-release/npm@^5.3.2":
-  version "5.3.2"
-  resolved "https://registry.yarnpkg.com/@semantic-release/npm/-/npm-5.3.2.tgz#87b24f7a6e441b7c75fa4e5158bdce694f06986b"
-  integrity sha512-4uE4pYvf5XEWqJPTLCrrmp5zu9XnnLqDjsn+2yrpMICNCpTq3M5g9OD7hwQoolg5v373t2ZnNgdcjsz+lqU0aA==
+"@semantic-release/npm@^5.3.4":
+  version "5.3.4"
+  resolved "https://registry.yarnpkg.com/@semantic-release/npm/-/npm-5.3.4.tgz#2998cd9455aaedf278334d4a5b56f8e0b715919d"
+  integrity sha512-XjITNRA/oOpJ7BfHk/WaOHs1WniYBszTde/bwADjjk1Luacpxg87jbDQVVt/oA3Zlx+MelxACRIEuRiPC5gu8g==
   dependencies:
     "@semantic-release/error" "^2.2.0"
     aggregate-error "^3.0.0"
@@ -20122,10 +20122,10 @@ selfsigned@^1.10.6:
   dependencies:
     node-forge "0.9.0"
 
-semantic-release@^16.0.0-beta.27:
-  version "16.0.0-beta.27"
-  resolved "https://registry.yarnpkg.com/semantic-release/-/semantic-release-16.0.0-beta.27.tgz#bc7451dcde88e580187646a495c960265a5c1542"
-  integrity sha512-DbxK0d4ysCtAFHi1ObV8+1g6HMGhhwTDnq0GAi12Na+nhFFZLuUMsya3DGqq5lt1+MQ3FKni0OfxFPmJEEKjlw==
+semantic-release@^16.0.0-beta.29:
+  version "16.0.0-beta.29"
+  resolved "https://registry.yarnpkg.com/semantic-release/-/semantic-release-16.0.0-beta.29.tgz#4aba7c4b12c6070c5bf3f27a6191f520d704a032"
+  integrity sha512-xjLU9cSUSsMcaGQcEeArqaoFRXsL508LpBgiyMUS6fooggHUDi51bs/DKjDqYyk5621nJUqFczPss9oZwUypKA==
   dependencies:
     "@semantic-release/commit-analyzer" "7.0.0-beta.4"
     "@semantic-release/error" "^2.2.0"
@@ -20146,7 +20146,7 @@ semantic-release@^16.0.0-beta.27:
     lodash "^4.17.15"
     marked "^0.7.0"
     marked-terminal "^3.2.0"
-    micromatch "^3.1.10"
+    micromatch "^4.0.2"
     p-each-series "^2.1.0"
     p-reduce "^2.0.0"
     read-pkg-up "^7.0.0"
