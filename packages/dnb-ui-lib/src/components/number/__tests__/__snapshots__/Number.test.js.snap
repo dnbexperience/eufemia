@@ -59,5 +59,7 @@ exports[`Number scss have to match snapshot 1`] = `
  * Anchor mixins
  *
  */
+.dnb-number {
+  speak-as: numbers; }
 "
 `;

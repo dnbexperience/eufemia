@@ -19,6 +19,9 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 function loadDevStyles() {
+  // Only for testing legacy CSS code
+  // require('dnb-ui-lib/stories/legacy')
+
   // Load dev styles (to use hot reloading, we do have to import the styles in here)
   // import styles
   require('dnb-ui-lib/src/style/patterns') // import ony patterns
@@ -28,10 +31,6 @@ function loadDevStyles() {
   require('dnb-ui-lib/src/style/themes/ui') // import the default theme
   // // require('dnb-ui-lib/src/style/themes/open-banking') // import the "open-banking" theme
   // require('dnb-ui-lib/src/style/elements') // import also styling for HTML elements/tags
-
-  // Only for testing legacy CSS code
-  // require('../examples/example-styling/src/legacy/reset.css')
-  // require('../examples/example-styling/src/legacy/dnb.css')
 }
 
 function loadProdStyles() {

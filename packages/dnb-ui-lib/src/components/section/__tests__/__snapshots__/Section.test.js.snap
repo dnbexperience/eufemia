@@ -64,24 +64,6 @@ exports[`Section scss have to match default theme snapshot 1`] = `
   color: var(--color-white); }
   .dnb-section--fire-red::after {
     color: var(--color-fire-red); }
-  .dnb-section--fire-red .dnb-anchor {
-    color: var(--color-white);
-    box-shadow: 0 1.5px 0 0 var(--color-white); }
-    .dnb-section--fire-red .dnb-anchor:hover, .dnb-section--fire-red .dnb-anchor:active {
-      color: var(--color-fire-red);
-      background-color: var(--color-white);
-      box-shadow: none; }
-    .dnb-section--fire-red .dnb-anchor:active {
-      color: var(--color-fire-red);
-      background-color: var(--color-white); }
-    .dnb-section--fire-red .dnb-anchor:not(:disabled):focus {
-      color: var(--color-white);
-      background-color: transparent;
-      outline: none; }
-      html[data-whatinput='keyboard'] .dnb-section--fire-red .dnb-anchor:not(:disabled):focus {
-        box-shadow: 0 0 0 0.125rem var(--color-white);
-        /* IE11 fix */
-        border-color: transparent; }
   .dnb-section--fire-red .dnb-code {
     color: var(--color-emerald-green); }
 
@@ -89,24 +71,6 @@ exports[`Section scss have to match default theme snapshot 1`] = `
   color: var(--color-white); }
   .dnb-section--cherry-red::after {
     color: var(--color-cherry-red); }
-  .dnb-section--cherry-red .dnb-anchor {
-    color: var(--color-white);
-    box-shadow: 0 1.5px 0 0 var(--color-white); }
-    .dnb-section--cherry-red .dnb-anchor:hover, .dnb-section--cherry-red .dnb-anchor:active {
-      color: var(--color-cherry-red);
-      background-color: var(--color-white);
-      box-shadow: none; }
-    .dnb-section--cherry-red .dnb-anchor:active {
-      color: var(--color-cherry-red);
-      background-color: var(--color-white); }
-    .dnb-section--cherry-red .dnb-anchor:not(:disabled):focus {
-      color: var(--color-white);
-      background-color: transparent;
-      outline: none; }
-      html[data-whatinput='keyboard'] .dnb-section--cherry-red .dnb-anchor:not(:disabled):focus {
-        box-shadow: 0 0 0 0.125rem var(--color-white);
-        /* IE11 fix */
-        border-color: transparent; }
   .dnb-section--cherry-red .dnb-code {
     color: var(--color-emerald-green); }
 
@@ -186,7 +150,7 @@ exports[`Section scss have to match snapshot 1`] = `
     height: 100%;
     color: var(--color-mint-green-12);
     background-color: currentColor;
-    box-shadow: 100vw 0 0 0 currentColor; }
+    box-shadow: 10px 0 0 0 currentColor, 100vw 0 0 0 currentColor; }
   .dnb-section > .dnb-section::after {
     z-index: -2; }
   .dnb-section > .dnb-section > .dnb-section::after {

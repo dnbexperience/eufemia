@@ -153,6 +153,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
               alt={null}
               aria-hidden={true}
               attributes={null}
+              border={null}
               class={null}
               className={null}
               color={null}
@@ -239,7 +240,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
           on_click={null}
           size="medium"
           text={null}
-          title="Feriekonto - Kari Nordmann med et kjempelangt etternavnsen"
+          title={null}
           type="button"
           value={2}
           variant="secondary"
@@ -257,7 +258,6 @@ exports[`Dropdown component have to match snapshot 1`] = `
             onKeyDown={[Function]}
             onMouseDown={[Function]}
             onMouseOut={[Function]}
-            title="Feriekonto - Kari Nordmann med et kjempelangt etternavnsen"
             type="button"
             value={2}
           >
@@ -286,6 +286,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
                     <IconPrimary
                       alt={null}
                       attributes={null}
+                      border={null}
                       class={null}
                       className={null}
                       color={null}
@@ -317,7 +318,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
               on_click={null}
               size="medium"
               text={null}
-              title="Feriekonto - Kari Nordmann med et kjempelangt etternavnsen"
+              title={null}
               type="button"
               value={2}
               variant="secondary"
@@ -337,6 +338,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
                 <IconPrimary
                   alt={null}
                   attributes={null}
+                  border={null}
                   class={null}
                   className={null}
                   color={null}
@@ -583,23 +585,23 @@ exports[`Dropdown scss have to match snapshot 1`] = `
   .dnb-icon svg [stroke] {
     stroke: currentColor; }
   .dnb-icon--small {
-    width: 0.75rem;
-    height: 0.75rem; }
+    width: 0.75em;
+    height: 0.75em; }
   .dnb-icon--default {
-    width: 1rem;
-    height: 1rem; }
+    width: 1em;
+    height: 1em; }
   .dnb-icon--medium {
-    width: 1.5rem;
-    height: 1.5rem; }
+    width: 1.5em;
+    height: 1.5em; }
   .dnb-icon--large {
-    width: 2rem;
-    height: 2rem; }
+    width: 2em;
+    height: 2em; }
   .dnb-icon--x-large {
-    width: 2.5rem;
-    height: 2.5rem; }
+    width: 2.5em;
+    height: 2.5em; }
   .dnb-icon--xx-large {
-    width: 3rem;
-    height: 3rem; }
+    width: 3em;
+    height: 3em; }
   .dnb-icon--custom-size {
     width: auto;
     height: auto; }

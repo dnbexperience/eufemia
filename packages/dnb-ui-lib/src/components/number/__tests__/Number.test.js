@@ -39,9 +39,10 @@ const snapshotProps = {
 
 // make it possible to change the navigator lang
 // because "navigator.language" defaults to en-US
-let languageGetter
+let languageGetter, platformGetter
 beforeEach(() => {
   languageGetter = jest.spyOn(window.navigator, 'language', 'get')
+  platformGetter = jest.spyOn(window.navigator, 'platform', 'get')
 })
 
 describe('Node', () => {
@@ -56,6 +57,7 @@ describe('Node', () => {
   })
   it('supports setting navigator.language (JSDOM)', () => {
     languageGetter.mockReturnValue(locale)
+
     expect(navigator.language).toBe(locale)
   })
 })
@@ -76,11 +78,36 @@ describe('Number component', () => {
   })
   it('have to match currency', () => {
     const Comp = mount(<Component value={-value} currency />)
+
     expect(
       Comp.find(slector)
         .first()
         .text()
-    ).toBe('kr −12 345 678,90')
+    ).toBe('kr -12 345 678,90')
+
+    expect(
+      Comp.find(slector)
+        .first()
+        .instance()
+        .getAttribute('aria-label')
+    ).toBe('-12 345 678,90 norske kroner')
+  })
+  it('have to match currency under 100.000', () => {
+    platformGetter.mockReturnValue('Mac')
+    const Comp = mount(<Component value={-12345} currency />)
+
+    expect(
+      Comp.find(slector)
+        .first()
+        .text()
+    ).toBe('kr -12 345,00')
+
+    expect(
+      Comp.find(slector)
+        .first()
+        .instance()
+        .getAttribute('aria-label')
+    ).toBe('-12345,00 norske kroner')
   })
   it('have to match phone number', () => {
     const Comp = mount(<Component phone>+47 99999999</Component>)

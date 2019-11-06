@@ -122,6 +122,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
               alt={null}
               aria-hidden={true}
               attributes={null}
+              border={null}
               class={null}
               className={null}
               color={null}
@@ -815,6 +816,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                 alt={null}
                                 aria-hidden={false}
                                 attributes={null}
+                                border={null}
                                 class={null}
                                 className="dnb-button__icon"
                                 color={null}
@@ -1029,23 +1031,23 @@ exports[`DatePicker scss have to match snapshot 1`] = `
   .dnb-icon svg [stroke] {
     stroke: currentColor; }
   .dnb-icon--small {
-    width: 0.75rem;
-    height: 0.75rem; }
+    width: 0.75em;
+    height: 0.75em; }
   .dnb-icon--default {
-    width: 1rem;
-    height: 1rem; }
+    width: 1em;
+    height: 1em; }
   .dnb-icon--medium {
-    width: 1.5rem;
-    height: 1.5rem; }
+    width: 1.5em;
+    height: 1.5em; }
   .dnb-icon--large {
-    width: 2rem;
-    height: 2rem; }
+    width: 2em;
+    height: 2em; }
   .dnb-icon--x-large {
-    width: 2.5rem;
-    height: 2.5rem; }
+    width: 2.5em;
+    height: 2.5em; }
   .dnb-icon--xx-large {
-    width: 3rem;
-    height: 3rem; }
+    width: 3em;
+    height: 3em; }
   .dnb-icon--custom-size {
     width: auto;
     height: auto; }
@@ -1521,8 +1523,6 @@ legend.dnb-form-label {
   [data-os='mac'] .dnb-input__placeholder,
   [data-os='mac'] .dnb-input__input {
     transform: translateY(0.0625rem); }
-  .dnb-core-style .dnb-input__input {
-    line-height: var(--line-height-x-small--em); }
   .dnb-input--has-submit-element .dnb-input__placeholder,
   .dnb-input--has-submit-element .dnb-input__input {
     padding-right: calc(var(--input-padding) * 2.5); }
@@ -1590,6 +1590,8 @@ legend.dnb-form-label {
   .dnb-input__shell[data-has-content='true'] .dnb-input__placeholder,
   .dnb-input__shell[data-has-content='true'][data-input-state='focus'] .dnb-input__placeholder {
     display: none; }
+  .dnb-core-style .dnb-input__input:not([type='file']) {
+    line-height: var(--line-height-x-small--em); }
   .dnb-input__inner > .dnb-form-status {
     order: 2;
     margin-top: 0.5rem; }
@@ -2285,12 +2287,14 @@ legend.dnb-form-label {
     margin: 0;
     padding: 0;
     list-style: none; }
-  .dnb-date-picker table.dnb-no-focus:focus {
-    outline: none; }
-    html[data-whatinput='keyboard'] .dnb-date-picker table.dnb-no-focus:focus {
-      box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
-      /* IE11 fix */
-      border-color: transparent; }
+  .dnb-date-picker table {
+    margin: 0; }
+    .dnb-date-picker table.dnb-no-focus:focus {
+      outline: none; }
+      html[data-whatinput='keyboard'] .dnb-date-picker table.dnb-no-focus:focus {
+        box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
+        /* IE11 fix */
+        border-color: transparent; }
   .dnb-date-picker__day, .dnb-date-picker__labels__day {
     display: flex;
     flex-basis: 14.28571%;

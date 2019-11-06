@@ -58,67 +58,77 @@
 
   &__title {
     position: relative; // because of the close button
-
-    display: flex;
     cursor: text;
 
-    padding: 0;
-    padding-right: 6rem;
+    &.dnb-p {
+      font-size: var(--font-size-medium);
+      line-height: var(--line-height-medium);
 
-    margin: 0;
-    margin-bottom: 1rem;
+      padding: 1rem 6rem 1rem 3rem; // because of the font-size
+      padding-top: calc(1rem - 0.125rem);
+      padding-bottom: calc(1rem - 0.25rem);
+    }
+
+    .dnb-spacing &.dnb-p {
+      margin: 0;
+    }
   }
   &__icon {
-    margin-right: 1rem;
+    position: absolute;
+    top: 0;
+    left: 0;
 
-    & > .dnb-icon {
-      display: flex;
-      justify-content: center;
-      align-items: center;
+    margin-top: 0.75rem;
 
-      width: 2em;
-      height: 2em;
-      padding: 0.25em;
-      transform: translate3d(0, -0.25em, 0);
-
-      color: inherit;
-
-      font-size: var(--font-size-basis);
-      border-radius: 50%;
-      border: 0.0625rem solid;
-      border-color: currentColor;
-    }
+    // & > .dnb-icon {
+    // }
   }
   &__close-button,
   &__close-button.dnb-button--tertiary {
     position: absolute;
     z-index: 1;
-    top: -0.25rem;
+    top: 0;
     right: 1rem; // also because of the focus-ring
     left: auto;
+
+    margin-top: 1rem;
+
+    // pixel correction
+    [data-os='mac'] & {
+      // transform: translate3d(0, -0.0625rem, 0);
+      top: -0.0625rem;
+    }
   }
   .dnb-modal__content__inner &__close-button {
     right: 0;
-    @include allAbove(medium) {
-      right: -2rem;
-    }
+
+    // NB: now we align with the modal close button
+    // @include allAbove(medium) {
+    //   right: -1rem;
+    // }
   }
 
   /* for small screesn */
-  @media (max-width: 40em) {
-    &__icon {
-      display: block;
-      margin-bottom: 1rem;
-    }
-    &__title {
-      display: block;
-    }
-  }
+  // @media (max-width: 40em) {
+  //   &__icon {
+  //     position: relative;
+  //     display: block;
+  //     margin-bottom: 1rem;
+  //   }
+  //   &__title {
+  //     display: block;
+  //     &.dnb-p {
+  //       padding-left: 0;
+  //     }
+  //   }
+  // }
 
   &__message {
     cursor: text;
+    z-index: 1;
 
-    &,
+    padding: 2rem 0 2.5rem;
+
     & > .dnb-p,
     .dnb-spacing & .dnb-p {
       margin: 0;
@@ -129,7 +139,8 @@
   &__content {
     width: 100%;
 
-    padding: 2rem 0;
+    // to get the red line on the bottom
+    transform: translate3d(0, -1px, 0);
 
     .dnb-ul,
     .dnb-spacing & .dnb-ul {

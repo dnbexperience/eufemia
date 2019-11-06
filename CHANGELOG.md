@@ -1,9 +1,15 @@
+## November, 6. 2019
+
+- [GlobalStatus](/uilib/components/global-status): modified background color
+- [Icon](/uilib/components/icon): new feature; rounded border
+- Made the `core` and `basis` CSS packages robuster on running in ePlatform environment
+
 ## October, 30. 2019
 
 - New component in the `dnb-ui-lib`: [Number](/uilib/components/number)
 - New [colors](/uilib/usage/customisation/colors):
-  1. `fire-red`, witch replaces `cherry-red` (_default error color_).
-  1. `fire-red-8`, witch replaces `cherry-red-8`.
+  1. `fire-red`, witch replaces `cherry-red` (_default error color_)
+  1. `fire-red-8`, witch replaces `cherry-red-8`
 - Icons changes:
   1. primary `save` is now => secondary `download`
   1. secondary `save_alt_01` is now => primary `save`

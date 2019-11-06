@@ -384,7 +384,10 @@ function CurrencySelector({ currencies, onChange, value, ...props }) {
       title={strings.currencyBlankLabel}
       // eslint-disable-next-line camelcase
       on_change={({ data: { selected_value }, event }) => {
-        event.persist()
+        console.log('event', event)
+        if (event && typeof event.persist === 'function') {
+          event.persist()
+        }
         onChange(selected_value)
       }}
       data={currencies.map(currency => ({

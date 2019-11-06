@@ -62,6 +62,6 @@ export const Box = styled.div`
   }
 
   p {
-    background-color: rgba(213, 30, 149, 0.25);
+    ${'' /* background-color: rgba(213, 30, 149, 0.25); */}
   }
 `

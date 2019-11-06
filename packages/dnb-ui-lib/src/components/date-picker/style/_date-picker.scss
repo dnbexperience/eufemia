@@ -244,8 +244,12 @@
     list-style: none;
   }
 
-  table.dnb-no-focus:focus {
-    @include fakeFocus();
+  table {
+    margin: 0;
+
+    &.dnb-no-focus:focus {
+      @include fakeFocus();
+    }
   }
 
   &__day,

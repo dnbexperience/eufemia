@@ -48,11 +48,6 @@
       color: var(--color-fire-red);
     }
 
-    // TODO: This has to be implemented as a contrast version
-    // NB: This is used only in the GlobalStatus for now
-    .dnb-anchor {
-      @include useAnchorContrastStyle(var(--color-fire-red));
-    }
     .dnb-code {
       color: var(--color-emerald-green);
     }
@@ -65,11 +60,6 @@
       color: var(--color-cherry-red);
     }
 
-    // TODO: This has to be implemented as a contrast version
-    // NB: This is used only in the GlobalStatus for now
-    .dnb-anchor {
-      @include useAnchorContrastStyle(var(--color-cherry-red));
-    }
     .dnb-code {
       color: var(--color-emerald-green);
     }

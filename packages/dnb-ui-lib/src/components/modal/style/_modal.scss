@@ -132,6 +132,10 @@
     top: var(--modal-spacing);
     right: var(--modal-spacing);
 
+    // set a hight z-index because when font-size is 200%+
+    // then it is possible that someting else will come in front
+    z-index: calc(var(--modal-z-index) + 2);
+
     @include allBelow(medium) {
       top: calc(var(--modal-spacing) / 2);
       right: calc(var(--modal-spacing) / 2);

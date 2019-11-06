@@ -58,7 +58,7 @@ describe('GlobalStatus component', () => {
 
   it('has to to have a text value as defined in the prop', () => {
     expect(
-      Comp.find('.dnb-global-status__message')
+      Comp.find('div.dnb-global-status__message')
         .find('.dnb-p')
         .text()
     ).toBe(props.text)
@@ -120,13 +120,13 @@ describe('GlobalStatus component', () => {
 
     expect(
       Comp.first()
-        .find('.dnb-global-status__message > .dnb-p')
+        .find('div.dnb-global-status__message > .dnb-p')
         .text()
     ).toBe(newText)
 
     expect(
       Comp.first()
-        .find('.dnb-global-status__message > .dnb-ul')
+        .find('div.dnb-global-status__message > .dnb-ul')
         .text()
     ).toBe('item#1item#3')
   })
@@ -158,7 +158,7 @@ describe('GlobalStatus component', () => {
 
     expect(
       Comp.first()
-        .find('.dnb-global-status__message')
+        .find('div.dnb-global-status__message')
         .text()
     ).toBe(startupText)
   })
@@ -195,7 +195,9 @@ describe('GlobalStatus component', () => {
     expect(on_close.mock.calls.length).toBe(1)
     expect(on_hide.mock.calls.length).toBe(0)
 
-    expect(Comp.first().exists('.dnb-global-status__message')).toBe(false)
+    expect(Comp.first().exists('div.dnb-global-status__message')).toBe(
+      false
+    )
     expect(Comp.first().state().isActive).toBe(false)
   })
 

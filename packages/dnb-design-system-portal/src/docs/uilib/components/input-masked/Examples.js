@@ -69,20 +69,20 @@ class Example extends PureComponent {
 <InputMasked
   label="Masked input:"
   mask={[
-    '+',
+    '0',
+    '0',
     /[4]/, // have to start with 4
     /[5-7]/, // can be 5,6 or 7
     ' ',
-    '/',
-    ' ',
     /[49]/, // have to start with 4 or 9
     /\\d/,
-    /\\d/,
     ' ',
     /\\d/,
     /\\d/,
     ' ',
     /\\d/,
+    /\\d/,
+    ' ',
     /\\d/,
     /\\d/
   ]}

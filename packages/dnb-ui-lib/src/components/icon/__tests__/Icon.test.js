@@ -23,6 +23,7 @@ const props = fakeProps(require.resolve('../Icon'), {
 })
 props.icon = question
 props.alt = 'question mark'
+props.border = false
 
 describe('Icon component', () => {
   it('have to match snapshot', () => {
@@ -50,6 +51,13 @@ describe('Icon component', () => {
     Comp.setProps({ size: 16 })
     expect(Comp.find('span.dnb-icon').hasClass('dnb-icon--default')).toBe(
       false
+    )
+  })
+
+  it('should have border class', () => {
+    const Comp = mount(<Component {...props} border="true" />)
+    expect(Comp.find('span.dnb-icon').hasClass('dnb-icon--border')).toBe(
+      true
     )
   })
 

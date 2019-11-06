@@ -8,6 +8,9 @@ export { registerElement }
 import keycode from 'keycode'
 import whatInput from 'what-input'
 
+export const PLATFORM_MAC = 'Mac|iPad|iPhone|iPod'
+export const PLATFORM_WIN = 'Win'
+
 if (
   typeof process !== 'undefined' &&
   process.env.NODE_ENV === 'test' &&
@@ -94,9 +97,11 @@ export function defineNavigator() {
 
     try {
       if (!window.IS_TEST) {
-        if (navigator.platform.match(/Mac|iPad|iPhone|iPod/) !== null) {
+        if (navigator.platform.match(new RegExp(PLATFORM_MAC)) !== null) {
           document.documentElement.setAttribute('data-os', 'mac')
-        } else if (navigator.platform.match('Win') !== null) {
+        } else if (
+          navigator.platform.match(new RegExp(PLATFORM_WIN)) !== null
+        ) {
           document.documentElement.setAttribute('data-os', 'win')
         }
       } else {

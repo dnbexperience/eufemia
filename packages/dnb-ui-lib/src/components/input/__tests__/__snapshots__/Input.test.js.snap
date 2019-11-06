@@ -287,6 +287,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                       alt={null}
                       aria-hidden={false}
                       attributes={null}
+                      border={null}
                       class={null}
                       className="dnb-button__icon"
                       color={null}
@@ -320,10 +321,9 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                               strokeWidth={1.5}
                             >
                               <path
-                                d="M9.055 11.937a5.445 5.445 0 10-4.26-10.023 5.445 5.445 0 004.26 10.023zM10.775 10.775L15 14.999"
+                                d="M9.055 11.937a5.445 5.445 0 10-4.26-10.023 5.445 5.445 0 004.26 10.023zm1.72-1.162L15 14.999"
                               />
                             </g>
-                            <defs />
                           </svg>
                         </search>
                       </span>
@@ -618,23 +618,23 @@ exports[`Input scss have to match snapshot 1`] = `
   .dnb-icon svg [stroke] {
     stroke: currentColor; }
   .dnb-icon--small {
-    width: 0.75rem;
-    height: 0.75rem; }
+    width: 0.75em;
+    height: 0.75em; }
   .dnb-icon--default {
-    width: 1rem;
-    height: 1rem; }
+    width: 1em;
+    height: 1em; }
   .dnb-icon--medium {
-    width: 1.5rem;
-    height: 1.5rem; }
+    width: 1.5em;
+    height: 1.5em; }
   .dnb-icon--large {
-    width: 2rem;
-    height: 2rem; }
+    width: 2em;
+    height: 2em; }
   .dnb-icon--x-large {
-    width: 2.5rem;
-    height: 2.5rem; }
+    width: 2.5em;
+    height: 2.5em; }
   .dnb-icon--xx-large {
-    width: 3rem;
-    height: 3rem; }
+    width: 3em;
+    height: 3em; }
   .dnb-icon--custom-size {
     width: auto;
     height: auto; }
@@ -1110,8 +1110,6 @@ legend.dnb-form-label {
   [data-os='mac'] .dnb-input__placeholder,
   [data-os='mac'] .dnb-input__input {
     transform: translateY(0.0625rem); }
-  .dnb-core-style .dnb-input__input {
-    line-height: var(--line-height-x-small--em); }
   .dnb-input--has-submit-element .dnb-input__placeholder,
   .dnb-input--has-submit-element .dnb-input__input {
     padding-right: calc(var(--input-padding) * 2.5); }
@@ -1179,6 +1177,8 @@ legend.dnb-form-label {
   .dnb-input__shell[data-has-content='true'] .dnb-input__placeholder,
   .dnb-input__shell[data-has-content='true'][data-input-state='focus'] .dnb-input__placeholder {
     display: none; }
+  .dnb-core-style .dnb-input__input:not([type='file']) {
+    line-height: var(--line-height-x-small--em); }
   .dnb-input__inner > .dnb-form-status {
     order: 2;
     margin-top: 0.5rem; }
