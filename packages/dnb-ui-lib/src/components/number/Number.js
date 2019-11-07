@@ -7,7 +7,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Context from '../../shared/Context'
-import { LOCALE, CURRENCY } from '../../shared/defaults'
+import { LOCALE, CURRENCY, CURRENCY_DISPLAY } from '../../shared/defaults'
 import {
   isTrue,
   validateDOMAttributes,
@@ -23,6 +23,7 @@ const propTypes = {
   value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   locale: PropTypes.string,
   currency: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+  currency_display: PropTypes.string,
 
   // bank account number
   ban: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
@@ -32,7 +33,7 @@ const propTypes = {
   phone: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
 
   // can be tel or sms
-  anchor: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+  link: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   options: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
 
   selectable: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
@@ -50,10 +51,11 @@ const defaultProps = {
   value: null,
   locale: null,
   currency: null,
+  currency_display: null, // code, name, symbol
   ban: null,
   nin: null,
   phone: null,
-  anchor: null,
+  link: null,
   options: null,
 
   selectable: null,
@@ -101,10 +103,11 @@ export default class Number extends PureComponent {
       value: _value,
       children,
       currency,
+      currency_display,
       ban,
       nin,
       phone,
-      anchor: _anchor,
+      link: _link,
       options,
       locale,
       selectable,
@@ -114,7 +117,7 @@ export default class Number extends PureComponent {
       ...rest
     } = this.props
 
-    let anchor = _anchor
+    let link = _link
     let value = _value
 
     if (children !== null) {
@@ -124,6 +127,7 @@ export default class Number extends PureComponent {
     const formatOptions = {
       locale,
       currency,
+      currency_display,
       ban,
       nin,
       phone,
@@ -179,7 +183,7 @@ export default class Number extends PureComponent {
           className,
           _className,
           isTrue(selectable) && 'dnb-number--selectable',
-          anchor && 'dnb-anchor',
+          link && 'dnb-anchor',
           createSpacingClasses(this.props)
         ),
         lang
@@ -189,12 +193,12 @@ export default class Number extends PureComponent {
 
     validateDOMAttributes(this.props, attributes)
 
-    if (anchor) {
-      if (isTrue(anchor)) {
-        anchor = 'tel'
+    if (link) {
+      if (isTrue(link)) {
+        link = 'tel'
       }
       return (
-        <a href={`${anchor}:${display}`} {...attributes}>
+        <a href={`${link}:${display}`} {...attributes}>
           {display}
         </a>
       )
@@ -231,6 +235,7 @@ export const format = (
     ban = null,
     nin = null,
     currency = null,
+    currency_display = CURRENCY_DISPLAY,
     options = null,
     returnAria = false
   } = {}
@@ -271,8 +276,9 @@ export const format = (
     // set currency options
     opts.currency =
       opts.currency || (isTrue(currency) ? CURRENCY : currency)
-    opts.style = opts.style || 'currency'
-    opts.currencyDisplay = opts.currencyDisplay || 'symbol' // code, name, symbol
+    opts.style = 'currency'
+    opts.currencyDisplay =
+      opts.currencyDisplay || currency_display || CURRENCY_DISPLAY // code, name, symbol
 
     // cleanup
     let cleanedNumber = String(value).replace(/[\s,]/g, '')
@@ -286,8 +292,10 @@ export const format = (
     display = cleanupMinus(display)
 
     // aria options
-    opts.currencyDisplay = 'name'
-    aria = formatNumber(cleanedNumber, locale, opts)
+    aria = formatNumber(cleanedNumber, locale, {
+      ...opts,
+      currencyDisplay: 'name'
+    })
     aria = enhanceSR(cleanedNumber, aria, locale)
 
     // get only the currency name

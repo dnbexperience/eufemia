@@ -7,7 +7,9 @@ exports[`Number component have to match default number snapshot 1`] = `
   class="class"
   className="className"
   currency={true}
+  currency_display="currency_display"
   element="span"
+  link={true}
   locale="nb-NO"
   nin={true}
   options={Object {}}
@@ -15,18 +17,13 @@ exports[`Number component have to match default number snapshot 1`] = `
   selectable={true}
   value={12345678.901}
 >
-  <ForwardRef
-    className="dnb-number className class dnb-number--selectable"
-    is="span"
+  <a
+    className="dnb-number className class dnb-number--selectable dnb-anchor"
+    href="tel:0012 34 56 78 90 1"
     lang="nb-NO"
   >
-    <span
-      className="dnb-number className class dnb-number--selectable"
-      lang="nb-NO"
-    >
-      0012 34 56 78 90 1
-    </span>
-  </ForwardRef>
+    0012 34 56 78 90 1
+  </a>
 </Number>
 `;
 

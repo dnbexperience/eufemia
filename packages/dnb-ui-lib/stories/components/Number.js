@@ -64,7 +64,7 @@ export default [
               random phone number <Number value="99999999" phone /> random
               phone number <Number value="4799999999" phone /> random phone
               number <Number value="++4799999999" phone /> random phone
-              number <Number value="004780022222" phone anchor="sms" />{' '}
+              number <Number value="004780022222" phone link="sms" />{' '}
               random phone number <Number value="+47116000" phone /> random
               text <Number value="+4702000" phone />
             </Box>
