@@ -445,7 +445,7 @@ export const formatBAN = (number, locale = null) => {
     default: {
       // get 2000 12 34567
       display = number
-        .split(/(\d{4})(\d{2})(\d{5})/)
+        .split(/(\d{4})(\d{2})(\d{1,})/)
         .filter(s => s)
         .join(' ')
 

@@ -124,6 +124,17 @@ describe('Number component', () => {
         .first()
         .text()
     ).toBe('2000 12 34567')
+
+    // also check the formatting with one digit less
+    Comp.setProps({
+      children: null,
+      value: 2000123456
+    })
+    expect(
+      Comp.find(slector)
+        .first()
+        .text()
+    ).toBe('2000 12 3456')
   })
   it('have to match national identification number', () => {
     const Comp = mount(<Component nin>18089212345</Component>)

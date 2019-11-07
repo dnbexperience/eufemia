@@ -47,7 +47,7 @@ class Example extends PureComponent {
           data-dnb-test="number-ban"
         >
           {/* @jsx */ `
-<Number value="2000123456" ban />
+<Number value="20001234567" ban />
           `}
         </ComponentBox>
         <ComponentBox
