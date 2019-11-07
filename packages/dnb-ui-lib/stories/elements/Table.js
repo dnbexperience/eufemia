@@ -13,7 +13,8 @@ import {
   Checkbox,
   Dropdown,
   Input,
-  DatePicker
+  DatePicker,
+  Number
 } from '../../src/components'
 
 const CustomWrapper = styled(Wrapper)`
@@ -224,15 +225,21 @@ const data = [
     content: 'A'
   },
   {
-    content: ['1234.56.78902', 'B']
+    content: [
+      <Number key={12345678902} ban>
+        12345678902
+      </Number>,
+      'B'
+    ]
   },
   {
     selected_value: 'CC',
-    content: ['1134.56.78962', 'C']
-  },
-  {
-    selected_value: 'DD',
-    content: ['1534.96.48901', 'D']
+    content: [
+      <Number key={11345678962} ban>
+        11345678962
+      </Number>,
+      'C'
+    ]
   },
   {
     content: <Fragment>E</Fragment>
