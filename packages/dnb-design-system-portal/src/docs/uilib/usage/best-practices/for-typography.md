@@ -2,7 +2,7 @@
 title: 'Best Practices for typography'
 menuTitle: 'for typography'
 draft: false
-order: 2
+order: 3
 ---
 
 # Typography
