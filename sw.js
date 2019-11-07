@@ -27,7 +27,7 @@ workbox.core.clientsClaim();
  */
 self.__precacheManifest = [
   {
-    "url": "webpack-runtime-de66f66229128ae253d9.js"
+    "url": "webpack-runtime-a86d8c76de4a16e7aba7.js"
   },
   {
     "url": "styles.b6166429d8b8390f5f68.css"
@@ -43,7 +43,7 @@ self.__precacheManifest = [
   },
   {
     "url": "offline-plugin-app-shell-fallback/index.html",
-    "revision": "3b8d7c26f7d24b297cf747be092408d2"
+    "revision": "7c8b0c3a37b60a459815b4989e7949ff"
   },
   {
     "url": "static/FedraSansStd-Book-72defec4eb362f240076656e7778176a.woff2"
@@ -149,7 +149,7 @@ const navigationRoute = new NavigationRoute(async ({ event }) => {
   // Check for resources + the app bundle
   // The latter may not exist if the SW is updating to a new version
   const resources = await idbKeyval.get(`resources:${pathname}`)
-  if (!resources || !(await caches.match(`/app-3486557fba8bbcbd67e3.js`))) {
+  if (!resources || !(await caches.match(`/app-5a35b04ee09d9a8a34de.js`))) {
     return await fetch(event.request)
   }
 
