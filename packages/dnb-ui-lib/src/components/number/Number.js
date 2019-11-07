@@ -359,14 +359,25 @@ const enhanceSR = (value, aria) => {
 }
 
 export const formatNumber = (number, locale, options = {}) => {
-  if (typeof Number.toLocaleString === 'function') {
-    return parseFloat(number).toLocaleString(locale, options)
-  } else if (
-    typeof Intl !== 'undefined' &&
-    typeof Intl.NumberFormat === 'function'
-  ) {
-    return Intl.NumberFormat(locale, options).format(number)
+  try {
+    if (typeof Number.toLocaleString === 'function') {
+      return parseFloat(number).toLocaleString(locale, options)
+    } else if (
+      typeof Intl !== 'undefined' &&
+      typeof Intl.NumberFormat === 'function'
+    ) {
+      return Intl.NumberFormat(locale, options).format(number)
+    }
+  } catch (e) {
+    console.warn(
+      `Number could not be formatted: ${JSON.stringify([
+        number,
+        locale,
+        options
+      ])}`
+    )
   }
+  return number
 }
 
 export const formatPhone = (number, locale = null) => {
