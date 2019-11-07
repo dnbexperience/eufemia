@@ -29,7 +29,8 @@ class Example extends PureComponent {
         <ComponentBox caption="Currency" data-dnb-test="number-currency">
           {/* @jsx */ `
 <Number currency>12345</Number>
-<Number value={-12345678.9} currency />
+<Number currency value={-12345678.9} />
+<Number currency value={-12345678.9} currency_display="code" />
           `}
         </ComponentBox>
         <ComponentBox caption="Phone number" data-dnb-test="number-phone">
@@ -37,7 +38,7 @@ class Example extends PureComponent {
 <Number value="99999999" phone />
 <Number value="4799999999" phone />
 <Number value="++4799999999" phone />
-<Number value="+4780022222" phone anchor="sms" />
+<Number value="+4780022222" phone link="sms" />
 <Number value="+47116000" phone />
 <Number value="+4702000" phone />
           `}

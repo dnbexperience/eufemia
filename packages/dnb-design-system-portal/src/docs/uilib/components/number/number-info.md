@@ -84,6 +84,7 @@ If you run the component or `format` function in [Node.js](https://nodejs.org) y
 
 - installing `npm i full-icu`
 - and call node (or jest) with an environment variable pointing to the package: `NODE_ICU_DATA=./node_modules/full-icu node ...`
+- after a Node.js version upgrade you may have to run `npm rebuild`
 
 ## Provider
 
@@ -93,7 +94,7 @@ You can send down the `locale` as an application wide property (Context). More i
 import Provider from 'dnb-ui-lib/shared/Provider'
 
 render(
-  <Provider locale="en">
+  <Provider locale="en" currency_display="code">
     <YourApp>
       text <Number>123</Number> table etc.
     </YourApp>
