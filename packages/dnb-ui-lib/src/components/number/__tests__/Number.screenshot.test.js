@@ -16,6 +16,12 @@ describe('Number screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+  it('have to match numbers in different locales', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-dnb-test="number-locales"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
   it('have to match currency', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-dnb-test="number-currency"]'

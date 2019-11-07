@@ -359,14 +359,25 @@ const enhanceSR = (value, aria) => {
 }
 
 export const formatNumber = (number, locale, options = {}) => {
-  if (typeof Number.toLocaleString === 'function') {
-    return parseFloat(number).toLocaleString(locale, options)
-  } else if (
-    typeof Intl !== 'undefined' &&
-    typeof Intl.NumberFormat === 'function'
-  ) {
-    return Intl.NumberFormat(locale, options).format(number)
+  try {
+    if (typeof Number.toLocaleString === 'function') {
+      return parseFloat(number).toLocaleString(locale, options)
+    } else if (
+      typeof Intl !== 'undefined' &&
+      typeof Intl.NumberFormat === 'function'
+    ) {
+      return Intl.NumberFormat(locale, options).format(number)
+    }
+  } catch (e) {
+    console.warn(
+      `Number could not be formatted: ${JSON.stringify([
+        number,
+        locale,
+        options
+      ])}`
+    )
   }
+  return number
 }
 
 export const formatPhone = (number, locale = null) => {
@@ -445,7 +456,7 @@ export const formatBAN = (number, locale = null) => {
     default: {
       // get 2000 12 34567
       display = number
-        .split(/(\d{4})(\d{2})(\d{5})/)
+        .split(/(\d{4})(\d{2})(\d{1,})/)
         .filter(s => s)
         .join(' ')
 

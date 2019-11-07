@@ -60,6 +60,10 @@ exports[`Number scss have to match snapshot 1`] = `
  *
  */
 .dnb-number {
-  speak-as: numbers; }
+  speak-as: numbers;
+  color: inherit; }
+  .dnb-number > a {
+    text-decoration: none;
+    color: inherit; }
 "
 `;

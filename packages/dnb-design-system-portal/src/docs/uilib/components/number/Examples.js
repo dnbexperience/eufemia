@@ -47,7 +47,7 @@ class Example extends PureComponent {
           data-dnb-test="number-ban"
         >
           {/* @jsx */ `
-<Number value="2000123456" ban />
+<Number value="20001234567" ban />
           `}
         </ComponentBox>
         <ComponentBox
@@ -56,6 +56,28 @@ class Example extends PureComponent {
         >
           {/* @jsx */ `
 <Number value="18089212345" nin />
+          `}
+        </ComponentBox>
+        <ComponentBox
+          caption="Numbers and currencies in different locales"
+          data-dnb-test="number-locales"
+        >
+          {/* @jsx */ `
+<H3>Numbers</H3>
+<Number locale="no-NB" value="-12345678.9" />
+<Number locale="en-US" value="-12345678.9" />
+<Number locale="de-DE" value="-12345678.9" />
+<Number locale="de-CH" value="-12345678.9" />
+<Number locale="fr-CH" value="-12345678.9" />
+
+<H3>Currencies</H3>
+<Number locale="no-NB" value="-12345.6" currency />
+<Number locale="en-US" value="-12345.6" currency />
+<Number locale="de-DE" value="-12345.6" currency />
+<Number locale="de-CH" value="-12345.6" currency />
+<Number locale="fr-CH" value="-12345.6" currency />
+
+<br/>
           `}
         </ComponentBox>
       </Style>
