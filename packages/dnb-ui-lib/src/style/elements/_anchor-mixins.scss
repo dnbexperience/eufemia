@@ -133,26 +133,20 @@ $anchorBorderRadius: 0.25rem;
 
   &[target='_blank'] {
     position: relative;
-    margin-right: 2rem;
-
-    // to make sure our gfx wraps without wrapping
-    white-space: pre;
 
     // gfx icon
     &::after {
-      content: ' ';
+      content: '';
+      position: relative;
+      top: 0.125em;
+
       display: inline-block;
-      position: absolute;
-      z-index: 10;
-      top: 0.25rem;
-      left: auto;
-      right: -1.5em;
+
       width: 1em;
       height: 1em;
 
-      // top: 0.125rem;
-      // margin-left: 0.3rem;
-      // margin-right: 0.125rem;
+      margin-left: 0.3em;
+      margin-right: 0.125em;
 
       background-size: cover;
 
@@ -160,10 +154,6 @@ $anchorBorderRadius: 0.25rem;
 
       transition: transform 0.3s ease-out, filter 1s ease-out;
       transform-origin: bottom;
-    }
-    &:hover::after {
-      transform: scale(1.1);
-      // filter: grayscale(100%);
     }
   }
 
