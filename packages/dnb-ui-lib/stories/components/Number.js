@@ -55,8 +55,9 @@ export default [
               <Number value={-12345678.9} />{' '}
             </Box>
             <Box>
-              {/* text <Number currency>12 345 678</Number> text{' '} */}
-              text <Number currency>12 345</Number> text{' '}
+              text <Number currency>12 345 678</Number> text text{' '}
+              <Number currency>12 345</Number> text{' '}
+              <Number currency>12345.0</Number> text{' '}
               <Number currency="EUR">-12345,68</Number> text{' '}
               <ChangeLocale />
             </Box>
