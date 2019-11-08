@@ -132,19 +132,27 @@ $anchorBorderRadius: 0.25rem;
   }
 
   &[target='_blank'] {
-    // margin-right: 2rem;
-    margin-left: 2rem;
+    position: relative;
+    margin-right: 2rem;
+
+    // to make sure our gfx wraps without wrapping
+    white-space: pre;
 
     // gfx icon
-    position: relative;
-    &::before {
-      content: '';
+    &::after {
+      content: ' ';
+      display: inline-block;
       position: absolute;
+      z-index: 10;
       top: 0.25rem;
-      // right: -1.5rem;
-      left: -1.5rem;
-      width: 1rem;
-      height: 1rem;
+      left: auto;
+      right: -1.5em;
+      width: 1em;
+      height: 1em;
+
+      // top: 0.125rem;
+      // margin-left: 0.3rem;
+      // margin-right: 0.125rem;
 
       background-size: cover;
 
@@ -153,7 +161,7 @@ $anchorBorderRadius: 0.25rem;
       transition: transform 0.3s ease-out, filter 1s ease-out;
       transform-origin: bottom;
     }
-    &:hover::before {
+    &:hover::after {
       transform: scale(1.1);
       // filter: grayscale(100%);
     }
