@@ -30,6 +30,13 @@ describe('Anchor screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+  it('have to match the target blank on active state', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-dnb-test="anchor-blank"]',
+      simulate: 'active'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
   it('have to match the "hover" state', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-dnb-test="anchor-hover"]'
