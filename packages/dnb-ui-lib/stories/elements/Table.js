@@ -1,5 +1,5 @@
 /**
- * dnb-ui-lib Component Story
+ * dnb-ui-lib Element Story
  *
  */
 

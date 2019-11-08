@@ -131,6 +131,32 @@ $anchorBorderRadius: 0.25rem;
     @include anchorActiveStyle();
   }
 
+  &[target='_blank'] {
+    position: relative;
+
+    // gfx icon
+    &::after {
+      content: '';
+      position: relative;
+      top: 0.125em;
+
+      display: inline-block;
+
+      width: 1em;
+      height: 1em;
+
+      margin-left: 0.3em;
+      margin-right: 0.125em;
+
+      background-size: cover;
+
+      background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMTEgMGEuNzUuNzUgMCAwMDAgMS41VjB6bTQgLjc1aC43NUEuNzUuNzUgMCAwMDE1IDB2Ljc1em0tLjc1IDRhLjc1Ljc1IDAgMDAxLjUgMGgtMS41em0xLjUgNGEuNzUuNzUgMCAwMC0xLjUgMGgxLjV6bS0uNzUgNi41VjE2YS43NS43NSAwIDAwLjc1LS43NUgxNXptLTE0IDBILjI1QS43NS43NSAwIDAwMSAxNnYtLjc1ek0xIC43NVYwYS43NS43NSAwIDAwLS43NS43NUgxem01Ljc1Ljc1YS43NS43NSAwIDAwMC0xLjV2MS41em0yLjcxOTcgMy43MTk3YS43NS43NSAwIDAwMS4wNjA2IDEuMDYwNkw5LjQ2OTcgNS4yMTk3ek0xNC4yNS43NXY0aDEuNXYtNGgtMS41em0wIDh2Ni41aDEuNXYtNi41aC0xLjV6TTE1IDE0LjVIMVYxNmgxNHYtMS41em0tMTMuMjUuNzVWLjc1SC4yNXYxNC41aDEuNXpNMSAxLjVoNS43NVYwSDF2MS41em0xMCAwaDRWMGgtNHYxLjV6bS0uNDY5NyA0Ljc4MDNsNS01TDE0LjQ2OTcuMjE5N2wtNSA1IDEuMDYwNiAxLjA2MDZ6IiBmaWxsPSIjMDA3MjcyIi8+PC9zdmc+);
+
+      transition: transform 0.3s ease-out, filter 1s ease-out;
+      transform-origin: bottom;
+    }
+  }
+
   transition: background-color 0.2s ease;
   [data-dnb-test-wrapper] & {
     transition: none;
