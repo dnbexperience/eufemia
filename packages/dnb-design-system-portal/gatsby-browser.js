@@ -25,10 +25,13 @@ function loadDevStyles() {
   // Load dev styles (to use hot reloading, we do have to import the styles in here)
   // import styles
   require('dnb-ui-lib/src/style/patterns') // import ony patterns
-  require('dnb-ui-lib/src/style/core') // import the core styles
+  require('dnb-ui-lib/src/style') // import both all components and the default ui theme
+
+  // Other imports for testing purposes
+  // require('dnb-ui-lib/src/style/core') // import the core styles
   // require('dnb-ui-lib/src/style/basis') // in case we want to test ".dnb-core-style"
-  require('dnb-ui-lib/src/style/components') // import ony components
-  require('dnb-ui-lib/src/style/themes/ui') // import the default theme
+  // require('dnb-ui-lib/src/style/components') // import ony components
+  // require('dnb-ui-lib/src/style/themes/ui') // import the default theme
   // // require('dnb-ui-lib/src/style/themes/open-banking') // import the "open-banking" theme
   // require('dnb-ui-lib/src/style/elements') // import also styling for HTML elements/tags
 }
