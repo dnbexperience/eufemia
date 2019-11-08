@@ -5,11 +5,11 @@
 
 @mixin getDefaultProperties() {
   // Typography Family
-  --font-family-default: 'Fedra Sans Std', sans-serif;
-  --font-family-book: 'Fedra Sans Std', sans-serif; // Deprecated
-  --font-family-demi: 'Fedra Sans Std', sans-serif; // Deprecated
-  --font-family-medium: 'Fedra Sans Std', sans-serif; // Do not use, use --font-weight-...
-  --font-family-bold: 'Fedra Sans Std', sans-serif; // Do not use, use --font-weight-...
+  --font-family-default: 'DNB', sans-serif;
+  --font-family-book: 'DNB', sans-serif; // Deprecated
+  --font-family-demi: 'DNB', sans-serif; // Deprecated
+  --font-family-medium: 'DNB', sans-serif; // Do not use, use --font-weight-...
+  --font-family-bold: 'DNB', sans-serif; // Do not use, use --font-weight-...
   --font-family-monospace: /* macOS 10.10+ */ Menlo,
     /* Windows 6+ */ Consolas, /* Android 4+ */ Roboto Mono,
     /* Ubuntu 10.10+ */ Ubuntu Monospace, /* KDE Plasma 5+ */ Noto Mono,

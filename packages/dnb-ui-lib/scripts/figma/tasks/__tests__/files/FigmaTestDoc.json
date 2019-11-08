@@ -1,7 +1,15 @@
 {
   "name": "dnb-ui-lib",
-  "lastModified": "2018-05-22T18:14:53.016Z",
-  "thumbnailUrl": "https://s3-alpha.figma.com/img/3bbc/97f6/3b29e7f3611dbce76b5e40b38cad1573",
+  "components": {
+    "212:2": {
+      "name": ".button--primary",
+      "description": ""
+    },
+    "256:11": {
+      "name": "icon--chevron-right",
+      "description": ""
+    }
+  },
   "document": {
     "id": "0:0",
     "name": "Document",
@@ -81,7 +89,12 @@
                           }
                         ],
                         "cornerRadius": 20,
-                        "rectangleCornerRadii": [20, 20, 20, 20]
+                        "rectangleCornerRadii": [
+                          20,
+                          20,
+                          20,
+                          20
+                        ]
                       },
                       {
                         "id": "212:4",
@@ -117,8 +130,8 @@
                         "effects": [],
                         "characters": "Ny faktura",
                         "style": {
-                          "fontFamily": "Fedra Sans Std",
-                          "fontPostScriptName": "FedraSansStd-Book",
+                          "fontFamily": "DNB",
+                          "fontPostScriptName": "DNB-Regular",
                           "fontWeight": 400,
                           "fontSize": 16,
                           "textAlignHorizontal": "CENTER",
@@ -309,7 +322,12 @@
                           }
                         ],
                         "cornerRadius": 20,
-                        "rectangleCornerRadii": [20, 20, 20, 20]
+                        "rectangleCornerRadii": [
+                          20,
+                          20,
+                          20,
+                          20
+                        ]
                       },
                       {
                         "id": "I256:3;212:4",
@@ -345,8 +363,8 @@
                         "effects": [],
                         "characters": "Ny faktura",
                         "style": {
-                          "fontFamily": "Fedra Sans Std",
-                          "fontPostScriptName": "FedraSansStd-Book",
+                          "fontFamily": "DNB",
+                          "fontPostScriptName": "DNB-Regular",
                           "fontWeight": 400,
                           "fontSize": 16,
                           "textAlignHorizontal": "CENTER",
@@ -584,8 +602,8 @@
                         "effects": [],
                         "characters": "Primary button with text only",
                         "style": {
-                          "fontFamily": "Fedra Sans Std",
-                          "fontPostScriptName": "FedraSansStd-Book",
+                          "fontFamily": "DNB",
+                          "fontPostScriptName": "DNB-Regular",
                           "fontWeight": 400,
                           "fontSize": 1,
                           "textAlignHorizontal": "CENTER",
@@ -691,8 +709,8 @@
                         "effects": [],
                         "characters": "Disabled",
                         "style": {
-                          "fontFamily": "Fedra Sans Std",
-                          "fontPostScriptName": "FedraSansStd-Book",
+                          "fontFamily": "DNB",
+                          "fontPostScriptName": "DNB-Regular",
                           "fontWeight": 400,
                           "fontSize": 16,
                           "textAlignHorizontal": "CENTER",
@@ -809,8 +827,8 @@
                         "effects": [],
                         "characters": "Secondary button with text only",
                         "style": {
-                          "fontFamily": "Fedra Sans Std",
-                          "fontPostScriptName": "FedraSansStd-Book",
+                          "fontFamily": "DNB",
+                          "fontPostScriptName": "DNB-Regular",
                           "fontWeight": 400,
                           "fontSize": 16,
                           "textAlignHorizontal": "CENTER",
@@ -916,8 +934,8 @@
                         "effects": [],
                         "characters": "Primary button with text only",
                         "style": {
-                          "fontFamily": "Fedra Sans Std",
-                          "fontPostScriptName": "FedraSansStd-Book",
+                          "fontFamily": "DNB",
+                          "fontPostScriptName": "DNB-Regular",
                           "fontWeight": 400,
                           "fontSize": 16,
                           "textAlignHorizontal": "CENTER",
@@ -1462,16 +1480,8 @@
       }
     ]
   },
-  "components": {
-    "212:2": {
-      "name": ".button--primary",
-      "description": ""
-    },
-    "256:11": {
-      "name": "icon--chevron-right",
-      "description": ""
-    }
-  },
+  "lastModified": "2018-05-22T18:14:53.016Z",
   "schemaVersion": 0,
-  "styles": {}
+  "styles": {},
+  "thumbnailUrl": "https://s3-alpha.figma.com/img/3bbc/97f6/3b29e7f3611dbce76b5e40b38cad1573"
 }
