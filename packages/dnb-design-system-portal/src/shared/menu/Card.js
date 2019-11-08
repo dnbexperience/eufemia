@@ -183,11 +183,12 @@ export default class Card extends PureComponent {
     const svgParams = isIE11 ? { width: '48', height: '48' } : null
 
     const Anchor = isIE11
-      ? ({ children, ...rest }) => (
-          <a {...rest} href={url}>
-            {children}
-          </a>
-        )
+      ? ({ children, to, ...rest }) =>
+          to && (
+            <a {...rest} href={url}>
+              {children}
+            </a>
+          )
       : Link
 
     return (

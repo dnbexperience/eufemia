@@ -32,12 +32,12 @@ const scrollableData = [
     content: 'B'
   },
   {
-    selected_value: '1134.56.78962',
-    content: ['1134.56.78962', 'C']
+    selected_value: <Number ban>11345678962</Number>,
+    content: [<Number ban>11345678962</Number>, 'C']
   },
   {
-    selected_value: '1534.96.48901',
-    content: ['1534.96.48901', 'D']
+    selected_value: <Number ban>15349648901</Number>,
+    content: [<Number ban>15349648901</Number>, 'D']
   },
   {
     content: 'E'
@@ -85,6 +85,10 @@ const data = [
   {
     selected_key: 'key_1',
     content: ['Item 2 Value', 'Item 2 Content']
+  },
+  {
+    selected_value: <Number ban>11345678962</Number>,
+    content: [<Number ban>11345678962</Number>, 'Bank account number']
   },
   {
     selected_key: 'key_2',
@@ -202,19 +206,19 @@ render(
     </li>
     <li className="dnb-dropdown__option dnb-dropdown__option--selected">
       <span className="dnb-dropdown__option__inner">
-        <span className="dnb-dropdown__option__item">1234.56.78902</span>
+        <span className="dnb-dropdown__option__item"><Number ban>12345678902</Number></span>
         <span className="dnb-dropdown__option__item">Sparekonto - Ole Nordmann</span>
       </span>
     </li>
     <li className="dnb-dropdown__option">
       <span className="dnb-dropdown__option__inner">
-        <span className="dnb-dropdown__option__item">1134.56.78962</span>
+        <span className="dnb-dropdown__option__item"><Number ban>11345678962</Number></span>
         <span className="dnb-dropdown__option__item">Feriekonto - Kari Nordmann med et kjempelangt etternavnsen</span>
       </span>
     </li>
     <li className="dnb-dropdown__option last-of-type">
       <span className="dnb-dropdown__option__inner">
-        <span className="dnb-dropdown__option__item">1534.96.48901</span>
+        <span className="dnb-dropdown__option__item"><Number ban>15349648901</Number></span>
         <span className="dnb-dropdown__option__item">Oppussing - Ole Nordmann</span>
       </span>
     </li>

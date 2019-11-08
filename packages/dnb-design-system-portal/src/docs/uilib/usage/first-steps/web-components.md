@@ -4,7 +4,6 @@ draft: false
 order: 8
 ---
 
-import 'dnb-ui-lib/src/web-components'
 import ComponentBox from 'Tags/ComponentBox'
 
 # Web Components
@@ -24,30 +23,48 @@ import 'dnb-ui-lib/components/web-components'
 // Method #3 (will import all components)
 import 'dnb-ui-lib/web-components'
 
-// Method #4 - note, web-component without "s"
+// Method #4
 // Will import only the code for the Button
+// NB: web-component without "s"
 import 'dnb-ui-lib/components/button/web-component'
+
+// Method #5
+// Will only enable the Button Web Component
+import { Button } from 'dnb-ui-lib/components/Button'
+Button.enableWebComponent()
 ```
 
 Now we can use our web components right away in our markup.
 
 ### Button
 
-<ComponentBox>
+<ComponentBox noFragments={false}>
 {`
-  <dnb-button icon="chevron_right" text="Custom Element" />
+() => {
+  React.useEffect(() => {
+    Button.enableWebComponent()
+  })
+  return (<dnb-button icon="chevron_right" text="Custom Element" />)
+}
 `}
 </ComponentBox>
 
 ### Input
 
-<ComponentBox>
+<ComponentBox noFragments={false}>
 {`
-<form>
-  <dnb-form-label for_id="form-input">Label for this Input</dnb-form-label>
-  <dnb-input id="form-input" placeholder="My Placeholder">My Value</dnb-input>
-  <dnb-button type="submit" text="Submit" />
-</form>
+() => {
+  React.useEffect(() => {
+    Button.enableWebComponent()
+    Input.enableWebComponent()
+  })
+  return (
+    <form>
+      <dnb-input label="Label for this Input" placeholder="My Placeholder">My Value</dnb-input>
+      <dnb-button type="submit" text="Submit" />
+    </form>
+  )
+}
 `}
 </ComponentBox>
 

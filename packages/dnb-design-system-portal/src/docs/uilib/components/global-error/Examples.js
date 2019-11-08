@@ -35,7 +35,7 @@ class Example extends PureComponent {
 
 // In case we want to make it interactive
 // () => {
-//   const [status, setErrorState] = useState(404)
+//   const [status, setErrorState] = React.useState(404)
 //   return (
 //     <>
 //       <GlobalError

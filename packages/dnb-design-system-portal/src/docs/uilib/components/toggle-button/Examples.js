@@ -203,8 +203,8 @@ class StateDemo extends PureComponent {
       >
         {/* @jsx */ `
 () => {
-  const [isEnabled, setState] = useState(false)
-  useEffect(() => {
+  const [isEnabled, setState] = React.useState(false)
+  React.useEffect(() => {
     const timer = setInterval(() => setState(!isEnabled), 1e3)
     return () => clearTimeout(timer)
   })

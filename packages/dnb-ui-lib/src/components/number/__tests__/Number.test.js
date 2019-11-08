@@ -91,6 +91,18 @@ describe('Number component', () => {
         .instance()
         .getAttribute('aria-label')
     ).toBe('-12 345 678,90 norske kroner')
+
+    // also check the formatting with one digit less
+    Comp.setProps({
+      children: null,
+      value: 12345
+    })
+
+    expect(
+      Comp.find(slector)
+        .first()
+        .text()
+    ).toBe('kr 12 345')
   })
   it('have to match currency under 100.000', () => {
     platformGetter.mockReturnValue('Mac')
@@ -100,7 +112,7 @@ describe('Number component', () => {
       Comp.find(slector)
         .first()
         .text()
-    ).toBe('kr -12 345,00')
+    ).toBe('kr -12 345')
 
     expect(
       Comp.find(slector)

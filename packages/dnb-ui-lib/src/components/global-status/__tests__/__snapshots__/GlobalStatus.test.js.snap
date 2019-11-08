@@ -324,6 +324,10 @@ exports[`GlobalStatus scss have to match snapshot 1`] = `
       box-shadow: none;
       color: inherit;
       border: none; }
+  .dnb-button[type='button'], .dnb-button[type='reset'], .dnb-button[type='submit'] {
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none; }
   .dnb-button[disabled] {
     cursor: not-allowed; }
   .dnb-form-row--vertical .dnb-form-row__content > .dnb-button {
@@ -337,11 +341,6 @@ exports[`GlobalStatus scss have to match snapshot 1`] = `
 /* Firefox includes a hidden border which messes up button dimensions */
 button.dnb-button::-moz-focus-inner {
   border: none; }
-
-a.dnb-button[type='button'] {
-  appearance: none;
-  -moz-appearance: none;
-  -webkit-appearance: none; }
 
 a.dnb-button .dnb-button__icon {
   transform: translateY(0); }
@@ -494,7 +493,7 @@ a.dnb-button .dnb-button__text {
       line-height: var(--line-height-medium);
       padding: 1rem 6rem 1rem 3rem;
       padding-top: calc(1rem - 0.125rem);
-      padding-bottom: calc(1rem - 0.25rem); }
+      padding-bottom: calc(1rem - 0.375rem); }
     .dnb-spacing .dnb-global-status__title.dnb-p {
       margin: 0; }
   .dnb-global-status__icon {
@@ -505,12 +504,10 @@ a.dnb-button .dnb-button__text {
   .dnb-global-status__close-button, .dnb-global-status__close-button.dnb-button--tertiary {
     position: absolute;
     z-index: 1;
-    top: 0;
+    top: -0.125rem;
     right: 1rem;
     left: auto;
     margin-top: 1rem; }
-    [data-os='mac'] .dnb-global-status__close-button, [data-os='mac'] .dnb-global-status__close-button.dnb-button--tertiary {
-      top: -0.0625rem; }
   .dnb-modal__content__inner .dnb-global-status__close-button {
     right: 0; }
   .dnb-global-status__message {

@@ -4,7 +4,6 @@ draft: false
 order: 1
 ---
 
-import 'dnb-ui-lib/src/web-components'
 import ComponentBox from 'Tags/ComponentBox'
 import { hamburger as hamburgerIcon } from 'dnb-ui-lib/src/icons/secondary_icons'
 
@@ -83,6 +82,9 @@ So, if you come over some special use cases, please contribute back and make a p
 {`
 const Component = () => {
   const time = new Date().toLocaleTimeString()
+  React.useEffect(() => {
+    Button.enableWebComponent()
+  }, [])
   return (
     <dnb-input
       label="Web Component property updates:"
@@ -91,7 +93,7 @@ const Component = () => {
   )
 }
 const RenderHelper = () => {
-  useEffect(() => {
+  React.useEffect(() => {
     const timer = setInterval(() => render(<RenderHelper />), 1e3)
     return () => clearInterval(timer)
   }, [])

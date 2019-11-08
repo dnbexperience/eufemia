@@ -273,13 +273,6 @@ export const format = (
     display = _number
     aria = _aria
   } else if (isTrue(currency) || typeof currency === 'string') {
-    // set currency options
-    opts.currency =
-      opts.currency || (isTrue(currency) ? CURRENCY : currency)
-    opts.style = 'currency'
-    opts.currencyDisplay =
-      opts.currencyDisplay || currency_display || CURRENCY_DISPLAY // code, name, symbol
-
     // cleanup
     let cleanedNumber = String(value).replace(/[\s,]/g, '')
     cleanedNumber = parseFloat(
@@ -288,12 +281,25 @@ export const format = (
         : cleanedNumber
     )
 
+    // set currency options
+    opts.currency =
+      opts.currency || (isTrue(currency) ? CURRENCY : currency)
+    opts.style = 'currency'
+    opts.currencyDisplay =
+      opts.currencyDisplay || currency_display || CURRENCY_DISPLAY // code, name, symbol
+
+    // if currency has no decimal, then go ahead and remove it
+    if (String(value).indexOf('.') === -1 && cleanedNumber % 1 === 0) {
+      opts.minimumFractionDigits = 0 // to enfoce Norwegian style
+    }
+
     display = formatNumber(cleanedNumber, locale, opts)
     display = cleanupMinus(display)
 
     // aria options
     aria = formatNumber(cleanedNumber, locale, {
       ...opts,
+      minimumFractionDigits: 2,
       currencyDisplay: 'name'
     })
     aria = enhanceSR(cleanedNumber, aria, locale)
@@ -307,11 +313,12 @@ export const format = (
     display = cleanupMinus(display)
 
     // fix for NDVA to make sure we read the number, we add a minium fraction digit (decimal)
-    if (typeof opts.minimumFractionDigits === 'undefined') {
-      opts.minimumFractionDigits = 1 // NVDA fix
-      aria = formatNumber(value, locale, opts)
-      aria = enhanceSR(value, aria, locale)
-    }
+    // NVDA fix
+    aria = formatNumber(value, locale, {
+      ...opts,
+      minimumFractionDigits: 1
+    })
+    aria = enhanceSR(value, aria, locale)
   }
 
   if (aria === null) {

@@ -3,7 +3,7 @@
  *
  */
 
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import CodeBlock from './CodeBlock'
 import styled from '@emotion/styled'
@@ -19,8 +19,6 @@ const ComponentBox = ({ children, hideOnTest, scope = {}, ...rest }) => {
       scope={{
         ...getComponents(),
         ...getElements(),
-        useEffect,
-        useState,
         styled,
         TestWrapper,
         ...scope

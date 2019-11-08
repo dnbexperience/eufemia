@@ -7,31 +7,23 @@ import React from 'react'
 import { Wrapper, Box } from './helpers'
 import { css } from '@emotion/core'
 import styled from '@emotion/styled'
-import { IconPrimary } from 'dnb-ui-lib/src'
+
 import { FormStatus, FormRow } from '../src/components'
 import { H1, H2, P, Link } from '../src/elements'
 // import Link from '../src/elements/Link'
 
 import Table from './elements/Table'
+import Anchor from './elements/Anchor'
+import Blockquote from './elements/Blockquote'
 
 const stories = []
 export default stories
 
 stories.push(Table)
+stories.push(Anchor)
+stories.push(Blockquote)
 
 const CustomStyles = styled.div`
-  a {
-    ${'' /** :has is not supported in browsers yet */}
-    &:has(> .dnb-icon) {
-      border-bottom: none;
-      color: red;
-    }
-  }
-
-  blockquote {
-    max-width: 220px;
-  }
-
   .dnb-form-row {
     background-color: rgba(200, 0, 200, 0.15);
   }
@@ -133,38 +125,6 @@ stories.push([
           <p className="dnb-p">
             Lorem in morbi euismod id lectus varius imperdiet proin dui
           </p>
-        </Box>
-      </CustomStyles>
-    </Wrapper>
-  )
-])
-
-stories.push([
-  'Blockquote',
-  () => (
-    <Wrapper className="dnb-spacing">
-      <CustomStyles>
-        <Box>
-          <blockquote className="dnb-blockquote">
-            Scaevola dissentias ne nec, praesent pertinacia te vim, velit
-            laboramus assentior ne ius. Choro vivendum tractatos ei quo. Te
-            vim enim meis conclusionemque, per ut dolorem copiosae, ea veri
-            sanctus deterruisset per
-            <footer>Footer Referance</footer>
-          </blockquote>
-          <p className="dnb-p">
-            Next line <cite>with a Cite</cite>
-          </p>
-        </Box>
-        <Box>
-          <blockquote className="dnb-blockquote dnb-blockquote--top">
-            Scaevola dissentias ne nec, praesent pertinacia te vim, velit
-            laboramus assentior ne ius. Choro vivendum tractatos ei quo. Te
-            vim enim meis conclusionemque, per ut dolorem copiosae, ea veri
-            sanctus deterruisset per
-            <cite>Cite Referance</cite>
-            <figcaption>Figcaption Referance</figcaption>
-          </blockquote>
         </Box>
       </CustomStyles>
     </Wrapper>
@@ -303,83 +263,6 @@ stories.push([
           <p className="dnb-p">I have to be on the grid!</p>
         </Box>
       </CustomStyles>
-    </Wrapper>
-  )
-])
-
-stories.push([
-  'Anchor',
-  () => (
-    <Wrapper>
-      <Box>
-        <a className="dnb-anchor" href="http://dnb.no">
-          <IconPrimary icon="chevron_left" /> Anchor
-        </a>
-      </Box>
-      <Box>
-        <a className="dnb-anchor" href="http://dnb.no">
-          Anchor <IconPrimary icon="chevron_right" />
-        </a>
-      </Box>
-      <Box>
-        <a href="/" className="dnb-anchor dnb-anchor--hover">
-          Hover Style
-        </a>
-      </Box>
-      <Box>
-        <a href="/" className="dnb-anchor dnb-anchor--active">
-          Active Style
-        </a>
-      </Box>
-      <Box>
-        <a href="/" className="dnb-anchor dnb-anchor--focus">
-          Focus Style
-        </a>
-      </Box>
-      <Box>
-        <a href="/" className="dnb-anchor dnb-anchor--animation">
-          With a special Animation (is removed from the styles)
-        </a>
-      </Box>
-      <Box>
-        <a className="dnb-anchor" href="http://dnb.no">
-          Default Anchor - Adipiscing per egestas duis feugiat dignissim
-          quam cras eget non est ante purus taciti volutpat mi phasellus
-          rhoncus ridiculus diam at proin fusce bibendum netus dapibus
-          natoque varius eros litora
-        </a>
-      </Box>
-      <Box>
-        <a
-          href="http://dnb.no"
-          className="dnb-anchor dnb-anchor--animation"
-        >
-          Anchor with Animation <IconPrimary icon="chevron_right" />
-        </a>
-      </Box>
-      <Box>
-        <a
-          href="http://dnb.no"
-          className="dnb-anchor dnb-anchor--animation"
-        >
-          Anchor with Animation - Adipiscing per egestas duis feugiat
-          dignissim quam cras eget non est ante purus taciti volutpat mi
-          phasellus rhoncus ridiculus diam at proin fusce bibendum netus
-          dapibus natoque varius eros litora
-        </a>
-      </Box>
-      <Box>
-        <a
-          href="http://dnb.no"
-          className="dnb-anchor dnb-anchor--animation"
-          style={{ whiteSpace: 'normal' }}
-        >
-          Anchor with Animation and no `white-space: pre;` - Adipiscing per
-          egestas duis feugiat dignissim quam cras eget non est ante purus
-          taciti volutpat mi phasellus rhoncus ridiculus diam at proin
-          fusce bibendum netus dapibus natoque varius eros litora
-        </a>
-      </Box>
     </Wrapper>
   )
 ])

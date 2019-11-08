@@ -34,7 +34,7 @@ The number component is style independent, so it has no visual styles. By defaul
 
 ### Sources
 
-Eufemia is basing their number formats on both the [Norwegian authority](https://lovdata.no/forskrift/2004-02-16-426/§16) and [Sprakradet](https://www.sprakradet.no/sprakhjelp/Skriveregler/Dato).
+Eufemia is basing their number formats on both the [Norwegian authority](https://lovdata.no/forskrift/2004-02-16-426/§16) and [Språkradet](https://www.sprakradet.no/sprakhjelp/Skriveregler/Dato). Wikipedia has more info on world wide [decimal separator](https://en.wikipedia.org/wiki/Decimal_separator) usage.
 
 ## Usage and known issues
 
@@ -50,7 +50,7 @@ You can [disable this behavior](https://developer.mozilla.org/en-US/docs/Web/HTM
 
 NVDA has also [issues](https://github.com/nvaccess/nvda/issues/8874) on reconciling the `lang` attribute, this makes it hard to have a solid and good working solution for reading numbers. VoiceOver on desktop makes a perfect job there.
 
-VoiceOver on mobile devices (iOS) only supports numbers read out properly to a maximum of `99.999,00`. On amounts above this value, VO reads numbers digit by digit.
+VoiceOver on mobile devices (iOS) only supports numbers read out properly to a maximum of `99,999.00`. On amounts above this value, VO reads numbers digit by digit.
 
 ## Details
 

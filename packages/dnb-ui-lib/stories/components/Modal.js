@@ -14,8 +14,10 @@ import {
   Input,
   Dropdown,
   Section,
-  DatePicker
+  DatePicker,
+  Number
 } from '../../src/components'
+// import { format } from '../../src/components/Number'
 import { H2, P, Hr } from '../../src/elements'
 
 export default [
@@ -152,31 +154,63 @@ let dropdownData = [
     content: <>Brukskonto - Kari Nordmann</>
   },
   {
-    content: ['4444.56.78902', 'Sparekonto - Ole Nordmann A']
+    content: [
+      <Number key={15349648901} ban>
+        44445678902
+      </Number>,
+      'Sparekonto - Ole Nordmann A'
+    ]
   },
   {
-    content: ['1234.56.23902', 'Sparekonto - Ole Nordmann B']
+    content: [
+      <Number key={15349648901} ban>
+        12345623902
+      </Number>,
+      'Sparekonto - Ole Nordmann B'
+    ]
   },
   {
-    content: ['5555.56.72302', 'Sparekonto - Ole Nordmann C']
+    content: [
+      <Number key={15349648901} ban>
+        55555672302
+      </Number>,
+      'Sparekonto - Ole Nordmann C'
+    ]
   },
   {
-    content: ['7777.56.72302', 'Sparekonto - Ole Nordmann D']
+    content: [
+      <Number key={15349648901} ban>
+        77775672302
+      </Number>,
+      'Sparekonto - Ole Nordmann D'
+    ]
   },
   {
-    content: ['9999.56.72302', 'Sparekonto - Ole Nordmann E']
+    content: [
+      <Number key={15349648901} ban>
+        99995672302
+      </Number>,
+      'Sparekonto - Ole Nordmann E'
+    ]
   },
   {
     selected_value:
       'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen',
     content: [
-      '1134.56.78962',
+      <Number key={15349648901} ban>
+        11345678962
+      </Number>,
       'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen'
     ]
   },
   {
     selected_value: <>Custom selected {'🔥'}</>,
-    content: ['1534.96.48901', <>Custom content {'🔥'}</>]
+    content: [
+      <Number key={15349648901} ban>
+        15349648901
+      </Number>,
+      <>Custom content {'🔥'}</>
+    ]
   }
 ]
 

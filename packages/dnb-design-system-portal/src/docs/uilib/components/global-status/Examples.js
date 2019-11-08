@@ -37,7 +37,7 @@ class Example extends PureComponent {
         >
           {/* @jsx */ `
 const InputWithError = () => {
-  const [errorMessage, setErrorMessage] = useState(null)
+  const [errorMessage, setErrorMessage] = React.useState(null)
   return (
     <Input
       label="Input:"
@@ -62,7 +62,7 @@ render(
         >
           {/* @jsx */ `
 () => {
-  const [count, toggleUpdateStatus] = useState(0)
+  const [count, toggleUpdateStatus] = React.useState(0)
   return (
     <>
       <GlobalStatus
@@ -120,7 +120,7 @@ render(
         >
           {/* @jsx */ `
 () => {
-  const [showDemo, toggleShowDemo] = useState(false)
+  const [showDemo, toggleShowDemo] = React.useState(false)
   return (
     <>
       <ToggleButton

@@ -11,28 +11,28 @@ exports[`Dropdown component have to match snapshot 1`] = `
     Array [
       Object {
         "content": Array [
-          "1234.56.78901",
+          "1234 56 78901",
           "Brukskonto - Kari Nordmann",
         ],
         "selected_value": "Brukskonto - Kari Nordmann",
       },
       Object {
         "content": Array [
-          "1234.56.78902",
+          "1234 56 78902",
           "Sparekonto - Ole Nordmann",
         ],
         "selected_value": "Sparekonto - Ole Nordmann",
       },
       Object {
         "content": Array [
-          "1134.56.78962",
+          "1134 56 78962",
           "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
         ],
         "selected_value": "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
       },
       Object {
         "content": Array [
-          "1534.96.48901",
+          "1534 96 48901",
           "Oppussing - Ole Nordmann",
         ],
         "selected_value": "Oppussing - Ole Nordmann",
@@ -794,6 +794,10 @@ exports[`Dropdown scss have to match snapshot 1`] = `
       box-shadow: none;
       color: inherit;
       border: none; }
+  .dnb-button[type='button'], .dnb-button[type='reset'], .dnb-button[type='submit'] {
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none; }
   .dnb-button[disabled] {
     cursor: not-allowed; }
   .dnb-form-row--vertical .dnb-form-row__content > .dnb-button {
@@ -807,11 +811,6 @@ exports[`Dropdown scss have to match snapshot 1`] = `
 /* Firefox includes a hidden border which messes up button dimensions */
 button.dnb-button::-moz-focus-inner {
   border: none; }
-
-a.dnb-button[type='button'] {
-  appearance: none;
-  -moz-appearance: none;
-  -webkit-appearance: none; }
 
 a.dnb-button .dnb-button__icon {
   transform: translateY(0); }
