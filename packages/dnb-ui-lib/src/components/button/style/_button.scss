@@ -50,7 +50,9 @@
   text-decoration: none;
 
   &__icon {
-    line-height: var(--line-height-x-small--em); // vertical alignment, if we have no line-height
+    line-height: var(
+      --line-height-x-small--em
+    ); // vertical alignment, if we have no line-height
     &:not(.dnb-icon) svg:not([width]):not([height]) {
       width: var(--button-icon-size);
       height: var(--button-icon-size);
@@ -211,6 +213,15 @@
     }
   }
 
+  // because we have "appearance: button" in some css resets (not our)
+  &[type='button'],
+  &[type='reset'],
+  &[type='submit'] {
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+  }
+
   &[disabled] {
     cursor: not-allowed;
   }
@@ -236,12 +247,6 @@ button.dnb-button::-moz-focus-inner {
 
 // make sure we style an Anchor like a button
 a.dnb-button {
-  &[type='button'] {
-    appearance: none; // because we have "appearance: button" in reset.scss
-    -moz-appearance: none;
-    -webkit-appearance: none; // and use prefix to make sure webkit does  a good job
-  }
-
   // some correction
   .dnb-button__icon {
     transform: translateY(0);
