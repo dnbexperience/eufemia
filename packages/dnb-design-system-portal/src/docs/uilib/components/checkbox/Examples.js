@@ -79,8 +79,8 @@ class StateDemo extends PureComponent {
       >
         {/* @jsx */ `
 () => {
-  const [checkboxIsEnabled, setState] = useState(false)
-  useEffect(() => {
+  const [checkboxIsEnabled, setState] = React.useState(false)
+  React.useEffect(() => {
     const timer = setInterval(() => setState(!checkboxIsEnabled), 1e3)
     return () => clearTimeout(timer)
   })

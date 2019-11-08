@@ -80,8 +80,8 @@ class StateDemo extends PureComponent {
       >
         {/* @jsx */ `
 () => {
-  const [switchIsEnabled, setState] = useState(false)
-  useEffect(() => {
+  const [switchIsEnabled, setState] = React.useState(false)
+  React.useEffect(() => {
     const timer = setInterval(() => setState(!switchIsEnabled), 1e3)
     return () => clearInterval(timer)
   })

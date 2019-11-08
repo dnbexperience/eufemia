@@ -63,7 +63,7 @@ render(<VerticalWrapper>
         >
           {/* @jsx */ `
 const Component = () => {
-  const [value, setValue] = useState(70)
+  const [value, setValue] = React.useState(70)
   return (<>
     <Slider
       value={value}

@@ -141,3 +141,25 @@ Besides the event handler methods, `addEvent` and `removeEvent`, there is also a
 ```js
 element.fireEvent('on_click', { value: 'Custom Value' })
 ```
+
+## Example
+
+This working example uses React to handle the setup (`useEffect`). But, keep in mind, this is only for demonstration purposes. It works for sure without React on the outer scope.
+
+<ComponentBox noFragments={false}>
+{`
+() => {
+  React.useEffect(() => {
+    Button.enableWebComponent()
+  })
+  function MyClass() {}
+  MyClass.prototype.on_click = function(event) {
+    console.log(event)
+  }
+  if(typeof window !== 'undefined'){
+    window.myScope = new MyClass()
+  }
+  return (<dnb-button icon="chevron_right" text="Click me" on_click="myScope.on_click" />)
+}
+`}
+</ComponentBox>

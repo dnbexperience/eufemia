@@ -183,8 +183,8 @@ class StateDemo extends PureComponent {
       >
         {/* @jsx */ `
 () => {
-  const [radioIsEnabled, setState] = useState(false)
-  useEffect(() => {
+  const [radioIsEnabled, setState] = React.useState(false)
+  React.useEffect(() => {
     const timer = setInterval(() => setState(!radioIsEnabled), 1e3)
     return () => clearTimeout(timer)
   })

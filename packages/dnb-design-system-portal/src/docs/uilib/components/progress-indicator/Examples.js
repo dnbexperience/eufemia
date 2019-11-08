@@ -35,8 +35,8 @@ class Example extends PureComponent {
           {/* @jsx */ `
 () => {
   const random = (min, max) => (Math.floor( Math.random () * (max - min + 1)) + min)
-  const [progress, setProgressIndicator] = useState(random(1, 100))
-  useEffect(() => {
+  const [progress, setProgressIndicator] = React.useState(random(1, 100))
+  React.useEffect(() => {
     const timer = setInterval(() => setProgressIndicator(random(1, 100)), 1e3)
     return () => clearInterval(timer)
   })
@@ -56,8 +56,8 @@ class Example extends PureComponent {
           {/* @jsx */ `
 () => {
   const random = (min, max) => (Math.floor( Math.random () * (max - min + 1)) + min)
-  const [visible, setVisibe] = useState(true)
-  useEffect(() => {
+  const [visible, setVisibe] = React.useState(true)
+  React.useEffect(() => {
     const timer = setInterval(() => setVisibe(!visible), random(2400, 4200))
     return () => clearTimeout(timer)
   })
