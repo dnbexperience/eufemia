@@ -353,12 +353,11 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     background-color: transparent; }
     .dnb-button--tertiary.dnb-button--has-text {
       padding: 0 0.5rem; }
-      [data-os='mac'] .dnb-button--tertiary.dnb-button--has-text {
-        transform: translateY(-0.0625rem); }
     .dnb-button--tertiary .dnb-button__text {
       position: relative;
       padding: 0.125rem 0;
-      line-height: var(--line-height-x-small--em); }
+      line-height: var(--line-height-x-small--em);
+      transform: translateY(0); }
       .dnb-button--tertiary .dnb-button__text::after {
         content: '';
         position: absolute;
@@ -395,7 +394,7 @@ exports[`Button scss have to match default theme snapshot 1`] = `
         content: '';
         position: absolute;
         z-index: 1;
-        top: -0.0625rem;
+        top: 0.0625rem;
         left: -0.5rem;
         bottom: 0;
         right: -0.5rem;
@@ -430,7 +429,7 @@ exports[`Button scss have to match default theme snapshot 1`] = `
         content: '';
         position: absolute;
         z-index: 1;
-        top: -0.0625rem;
+        top: 0.0625rem;
         left: -0.5rem;
         bottom: 0;
         right: -0.5rem;
@@ -447,7 +446,7 @@ exports[`Button scss have to match default theme snapshot 1`] = `
         content: '';
         position: absolute;
         z-index: 1;
-        top: -0.0625rem;
+        top: 0.0625rem;
         left: -0.5rem;
         bottom: 0;
         right: -0.5rem;
@@ -471,8 +470,10 @@ exports[`Button scss have to match default theme snapshot 1`] = `
       .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text .dnb-button__icon {
         position: absolute;
         top: 0;
-        bottom: 0.0625rem;
+        bottom: -0.125rem;
         margin: auto 0; }
+      .dnb-button--tertiary.dnb-button--has-icon.dnb-button--icon-size-medium .dnb-button__icon {
+        bottom: -0.5rem; }
       .dnb-button--tertiary.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__text {
         padding-left: 1.5rem; }
       .dnb-button--tertiary.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__icon {
@@ -492,8 +493,6 @@ exports[`Button scss have to match default theme snapshot 1`] = `
         .dnb-button--tertiary.dnb-button--has-icon.dnb-button--icon-position-right.dnb-button--icon-size-medium .dnb-button__text {
           padding-right: 0;
           margin-right: 2rem; }
-      .dnb-button--tertiary.dnb-button--has-icon.dnb-button--icon-size-medium .dnb-button__icon {
-        bottom: 0.125rem; }
       .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):focus::before {
         left: 0;
         right: 0; }
@@ -736,18 +735,16 @@ exports[`Button scss have to match snapshot 1`] = `
     font-size: var(--button-font-size);
     line-height: var(--button-height); }
   .dnb-button__icon {
-    line-height: var(--line-height-x-small--em); }
+    line-height: var(--line-height-x-small--em);
+    transform: translateY(-0.1875rem); }
     .dnb-button__icon:not(.dnb-icon) svg:not([width]):not([height]) {
       width: var(--button-icon-size);
       height: var(--button-icon-size); }
-    [data-os='win'] .dnb-button__icon {
-      transform: translateY(-0.0625rem); }
   .dnb-button__text {
     line-height: var(--line-height-x-small--em);
     color: inherit;
-    background-color: inherit; }
-    [data-os='mac'] .dnb-button__text {
-      transform: translateY(0.0625rem); }
+    background-color: inherit;
+    transform: translateY(-0.0625rem); }
   .dnb-button__bounding {
     position: absolute;
     background-color: transparent;
@@ -859,10 +856,7 @@ exports[`Button scss have to match snapshot 1`] = `
 button.dnb-button::-moz-focus-inner {
   border: none; }
 
-a.dnb-button .dnb-button__icon {
-  transform: translateY(0); }
-
 a.dnb-button .dnb-button__text {
-  transform: translateY(0.0625rem); }
+  transform: translateY(-0.0165); }
 "
 `;

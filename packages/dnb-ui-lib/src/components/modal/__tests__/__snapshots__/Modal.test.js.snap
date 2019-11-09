@@ -699,18 +699,16 @@ exports[`Modal scss have to match snapshot 1`] = `
     font-size: var(--button-font-size);
     line-height: var(--button-height); }
   .dnb-button__icon {
-    line-height: var(--line-height-x-small--em); }
+    line-height: var(--line-height-x-small--em);
+    transform: translateY(-0.1875rem); }
     .dnb-button__icon:not(.dnb-icon) svg:not([width]):not([height]) {
       width: var(--button-icon-size);
       height: var(--button-icon-size); }
-    [data-os='win'] .dnb-button__icon {
-      transform: translateY(-0.0625rem); }
   .dnb-button__text {
     line-height: var(--line-height-x-small--em);
     color: inherit;
-    background-color: inherit; }
-    [data-os='mac'] .dnb-button__text {
-      transform: translateY(0.0625rem); }
+    background-color: inherit;
+    transform: translateY(-0.0625rem); }
   .dnb-button__bounding {
     position: absolute;
     background-color: transparent;
@@ -822,11 +820,8 @@ exports[`Modal scss have to match snapshot 1`] = `
 button.dnb-button::-moz-focus-inner {
   border: none; }
 
-a.dnb-button .dnb-button__icon {
-  transform: translateY(0); }
-
 a.dnb-button .dnb-button__text {
-  transform: translateY(0.0625rem); }
+  transform: translateY(-0.0165); }
 
 .dnb-modal {
   font-family: var(--font-family-default);
