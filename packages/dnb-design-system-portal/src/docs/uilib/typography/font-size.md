@@ -13,7 +13,7 @@ order: 2
 | 14px  | `small`    | **0.875rem** | `--font-size-small`    |      |
 | 18px  | `basis`    | **1.125rem** | `--font-size-basis`    | Body |
 | 20px  | `medium`   | **1.25rem**  | `--font-size-medium`   |      |
-| 24px  | `large`    | **1.5rem**   | `--font-size-large`    |      |
+| 26px  | `large`    | **1.625rem** | `--font-size-large`    |      |
 | 34px  | `x-large`  | **2.125rem** | `--font-size-x-large`  |      |
 | 48px  | `xx-large` | **3rem**     | `--font-size-xx-large` |      |
 
