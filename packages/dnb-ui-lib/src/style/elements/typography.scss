@@ -15,60 +15,60 @@
   color: var(--color-emerald-green);
 }
 @mixin h1Style() {
-  font-size: var(--font-size-xx-large); // 48px
-  line-height: var(--line-height-x-large); // 56px
+  font-size: var(--font-size-xx-large);
+  line-height: var(--line-height-x-large);
   font-weight: var(--font-weight-demi);
 
   &--small,
   & > small {
     display: block;
-    font-size: var(--font-size-x-large); // 32px
-    line-height: var(--line-height-large); // 48px
+    font-size: var(--font-size-x-large);
+    line-height: var(--line-height-large);
   }
 }
 @mixin h2Style() {
-  font-size: var(--font-size-large); // 24px
-  line-height: var(--line-height-medium); // 32px
+  font-size: var(--font-size-large);
+  line-height: var(--line-height-medium);
 
   &--small,
   & > small {
-    font-size: var(--font-size-medium); // 20px
+    font-size: var(--font-size-medium);
   }
   & > small {
-    line-height: calc(var(--line-height-medium) - 0.125rem); // 30px
+    line-height: calc(var(--line-height-medium) - 0.125rem);
   }
 }
 @mixin h3Style() {
   font-family: var(--font-family-demi);
   font-weight: var(--font-weight-demi);
-  font-size: var(--font-size-medium); // 20px
-  line-height: var(--line-height-medium); // 32px
+  font-size: var(--font-size-medium);
+  line-height: var(--line-height-medium);
 
   &--small,
   & > small {
-    font-size: var(--font-size-basis); // 16px
+    font-size: var(--font-size-basis);
   }
   & > small {
-    line-height: calc(var(--line-height-medium) - 0.25rem); // 28px
+    line-height: calc(var(--line-height-medium) - 0.25rem);
   }
 }
 @mixin h4Style() {
-  font-size: var(--font-size-basis); // 16px
+  font-size: var(--font-size-basis);
   & > small {
-    line-height: var(--line-height-small); // 22px
+    line-height: var(--line-height-small);
   }
 }
 @mixin h5Style() {
-  font-size: var(--font-size-small); // 14px
+  font-size: var(--font-size-small);
   & > small {
-    line-height: var(--line-height-small); // 20px
+    line-height: var(--line-height-small);
   }
 }
 @mixin h6Style() {
-  font-size: var(--font-size-small); // 14px
+  font-size: var(--font-size-small);
   font-weight: var(--font-weight-book);
   & > small {
-    line-height: var(--line-height-small); // 20px
+    line-height: var(--line-height-small);
   }
 }
 @mixin paragraphStyle() {
@@ -97,7 +97,7 @@
   }
   &--small,
   & > small {
-    font-size: var(--font-size-small); // 14px
+    font-size: var(--font-size-small);
 
     // shold be 22px - but we force it to the pixel grid!
     // - sorry Sindre
@@ -168,7 +168,7 @@
     font-weight: var(--font-weight-medium);
   }
   small {
-    font-size: var(--font-size-small); // 14px
+    font-size: var(--font-size-small);
   }
   h2 > small,
   h3 > small,
@@ -206,7 +206,7 @@
 }
 
 .dnb-small {
-  font-size: var(--font-size-small); // 14px
+  font-size: var(--font-size-small);
 }
 
 .dnb-h1 {
