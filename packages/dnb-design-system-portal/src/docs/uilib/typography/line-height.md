@@ -20,11 +20,12 @@ order: 3
 
 ## Additional `line-height` **em** table
 
-| Pixel | Type          | Em        | Custom Property             | Info |
-| ----- | ------------- | --------- | --------------------------- | ---- |
-| 16px  | `x-small--em` | **1em**   | `--line-height-x-small--em` |      |
-| 24px  | `basis--em`   | **1.5em** | `--line-height-basis--em`   |      |
-|       |               |           |                             |      |
+| Pixel | Type          | Em          | Custom Property             | Info   |
+| ----- | ------------- | ----------- | --------------------------- | ------ |
+| 16px  | `x-small--em` | **1em**     | `--line-height-x-small--em` |        |
+| 24px  | `basis--em`   | **1.333em** | `--line-height-basis--em`   | **\*** |
+
+**\*** If we sum 1.33333333333\*18 we get 24. Browsers do round CSS values, so we do not need all the decimal numbers for now.
 
 ### How to use the line heights (CSS)
 
