@@ -8,13 +8,13 @@ order: 3
 
 ## Default `line-height` **rem** table
 
-| Pixel | Type      | Rem          | Custom Property         | Info |
-| ----- | --------- | ------------ | ----------------------- | ---- |
-| 22px  | `small`   | **1.375rem** | `--line-height-small`   |      |
-| 24px  | `basis`   | **1.5rem**   | `--line-height-basis`   | Body |
-| 32px  | `medium`  | **2rem**     | `--line-height-medium`  |      |
-| 40px  | `large`   | **2.5rem**   | `--line-height-large`   |      |
-| 56px  | `x-large` | **3.5rem**   | `--line-height-x-large` |      |
+| Pixel | Type      | Rem         | Custom Property         | Info |
+| ----- | --------- | ----------- | ----------------------- | ---- |
+| 20px  | `small`   | **1.25rem** | `--line-height-small`   |      |
+| 24px  | `basis`   | **1.5rem**  | `--line-height-basis`   | Body |
+| 32px  | `medium`  | **2rem**    | `--line-height-medium`  |      |
+| 40px  | `large`   | **2.5rem**  | `--line-height-large`   |      |
+| 56px  | `x-large` | **3.5rem**  | `--line-height-x-large` |      |
 
 <!-- - Used for `<h5>` and `<h6>`, who are not a part of the design sytem. -->
 
