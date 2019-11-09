@@ -42,14 +42,14 @@
   font-family: var(--font-family-demi);
   font-weight: var(--font-weight-demi);
   font-size: var(--font-size-medium);
-  line-height: var(--line-height-medium);
+  line-height: calc(var(--line-height-medium) - 0.25rem);
 
   &--small,
   & > small {
     font-size: var(--font-size-basis);
   }
   & > small {
-    line-height: calc(var(--line-height-medium) - 0.25rem);
+    line-height: var(--line-height-basis);
   }
 }
 @mixin h4Style() {
