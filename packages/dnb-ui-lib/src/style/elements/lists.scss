@@ -3,6 +3,14 @@
  *
  */
 
+@mixin listOffset() {
+  & ul,
+  & ol {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    padding-left: 2rem; // to ajust the left spacing of child lists
+  }
+}
 @mixin ulStyle() {
   margin: 0;
   padding: 0;
@@ -11,20 +19,41 @@
   font-size: var(--font-size-basis--em);
   line-height: var(--line-height-basis--em);
 
-  &ul ul,
-  &ul ol,
-  &ol ol,
-  &ol ul {
-    margin-top: 0;
-    margin-bottom: 0;
-  }
+  @include listOffset();
 
   & li {
-    word-wrap: break-all;
+    display: list-item;
+    list-style-type: disc;
+
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
   }
 }
 @mixin olStyle() {
   @include ulStyle();
+
+  @include listOffset();
+
+  // custom counter
+  &,
+  ol {
+    counter-reset: item;
+  }
+
+  & li {
+    display: block; // instead of list-item;
+    list-style-type: decimal;
+
+    &::before {
+      content: counters(item, '.') '. '; // with dot
+      counter-increment: item;
+    }
+
+    & li::before {
+      content: counters(item, '.') ' '; // no dot
+      counter-increment: item;
+    }
+  }
 }
 @mixin dlStyle() {
   margin: 0;
