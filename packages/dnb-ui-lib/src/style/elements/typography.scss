@@ -178,26 +178,26 @@
     ); // for vertical alignment, we have to have no line-height
   }
   .dnb-spacing {
-    .dnb-h1,
-    .dnb-core-style & .dnb-h1 {
+    h1,
+    .dnb-core-style & h1 {
       @include h1Spacing();
     }
-    .dnb-h2,
-    .dnb-core-style & .dnb-h2 {
+    h2,
+    .dnb-core-style & h2 {
       @include h2Spacing();
     }
-    .dnb-h3,
-    .dnb-h4,
-    .dnb-h5,
-    .dnb-h6,
-    .dnb-core-style & .dnb-h3,
-    .dnb-core-style & .dnb-h4,
-    .dnb-core-style & .dnb-h5,
-    .dnb-core-style & .dnb-h6 {
+    h3,
+    h4,
+    h5,
+    h6,
+    .dnb-core-style & h3,
+    .dnb-core-style & h4,
+    .dnb-core-style & h5,
+    .dnb-core-style & h6 {
       @include headingSpacing();
     }
-    .dnb-p,
-    .dnb-core-style & .dnb-p {
+    p,
+    .dnb-core-style & p {
       @include defaultSpacing();
     }
   }
@@ -263,20 +263,29 @@
 
 // Spacing
 .dnb-spacing {
-  .dnb-h1 {
+  .dnb-h1,
+  .dnb-core-style & .dnb-h1 {
     @include h1Spacing();
   }
-  .dnb-h2 {
+  .dnb-h2,
+  .dnb-core-style & .dnb-h2 {
     @include h2Spacing();
   }
   .dnb-h3,
   .dnb-lead,
   .dnb-h4,
   .dnb-h5,
-  .dnb-h6 {
+  .dnb-h6,
+  .dnb-core-style & .dnb-h3,
+  .dnb-core-style & .dnb-lead,
+  .dnb-core-style & .dnb-h4,
+  .dnb-core-style & .dnb-h5,
+  .dnb-core-style & .dnb-h6 {
     @include headingSpacing();
   }
-  .dnb-p {
+
+  .dnb-p,
+  .dnb-core-style & .dnb-p {
     @include defaultSpacing();
   }
 }
