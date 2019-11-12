@@ -504,9 +504,8 @@ legend.dnb-form-label {
     -webkit-user-select: none;
     position: relative;
     display: flex;
-    align-items: center; }
-    [data-os='mac'] .dnb-switch__shell {
-      transform: translateY(-0.0625rem); }
+    align-items: center;
+    transform: translateY(0.0625rem); }
   .dnb-switch__focus, .dnb-switch__button {
     position: absolute;
     z-index: 4;
