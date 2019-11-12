@@ -58,10 +58,14 @@ import CodeBlock from 'Tags/CodeBlock'
 <CodeBlock reactLive hideCode data-dnb-test="lists-dl">
 {`
 <dl className="dnb-dl">
-  <dt>Item Title 1</dt>
-  <dd>Item Description 1</dd>
-  <dt>Item Title 1</dt>
-  <dd>Item Description 1</dd>
+  <dt>Title</dt>
+  <dd>Description</dd>
+  <dt>Title</dt>
+  <dd>Description</dd>
+  <dl className="dnb-dl">
+    <dt>Sub Title</dt>
+    <dd>Sub Description</dd>
+  </dl>
 </dl>
 `}
 </CodeBlock>
@@ -71,12 +75,14 @@ import CodeBlock from 'Tags/CodeBlock'
 <CodeBlock reactLive hideCode data-dnb-test="lists-reset">
 {`
 <ul className="dnb-ul dnb-unstyled-list">
-  <li>ul Item 1</li>
-  <li>ul Item 2</li>
+  <li>ul Item</li>
 </ul>
 <ol className="dnb-ol dnb-unstyled-list">
   <li>ol Item</li>
-  <li>ol Item</li>
 </ol>
+<dl className="dnb-dl dnb-unstyled-list">
+  <dt>dl Title</dt>
+  <dd>dl Description</dd>
+</dl>
 `}
 </CodeBlock>

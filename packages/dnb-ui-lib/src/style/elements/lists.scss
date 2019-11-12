@@ -23,10 +23,12 @@
 
   & li {
     display: list-item;
-    list-style-type: disc;
 
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
+
+    // NB: If we set this, it will force other places, to do so
+    // list-style-type: inherit;
   }
 }
 @mixin olStyle() {
@@ -68,8 +70,13 @@
   }
   & > dd {
     margin: 0;
-    padding: 0 1rem;
-    padding-left: 2rem;
+    padding: 0.5rem 0;
+
+    // In case we really want / need to have a indented definotion content
+    // margin-left: 2rem;
+  }
+  & > dl {
+    margin-left: 2rem;
   }
 }
 @mixin listSpacing() {
@@ -144,6 +151,25 @@
 }
 // *:not([class^='dnb-']) > {
 // }
+
+// Unstyled list helper
+@mixin unstyledList() {
+  margin: 0;
+  list-style-type: none;
+  padding-left: 0;
+
+  > li {
+    list-style-type: none;
+
+    &::before {
+      content: none;
+    }
+  }
+  > dl,
+  > dd {
+    margin-left: 0;
+  }
+}
 
 .dnb-unstyled-list {
   @include unstyledList();

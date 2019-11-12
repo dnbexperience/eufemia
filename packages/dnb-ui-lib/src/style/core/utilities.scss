@@ -176,20 +176,6 @@ $breakpoints: (
     height: #{$nudge}rem;
   }
 }
-// Unstyled list helper
-@mixin unstyledList() {
-  margin: 0;
-  list-style-type: none;
-  padding-left: 0;
-
-  > li {
-    list-style-type: none;
-
-    &::before {
-      content: none;
-    }
-  }
-}
 
 // Screen reader only helper
 @mixin srOnly() {
