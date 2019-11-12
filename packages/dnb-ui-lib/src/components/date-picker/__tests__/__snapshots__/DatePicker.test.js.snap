@@ -1066,6 +1066,8 @@ exports[`DatePicker scss have to match snapshot 1`] = `
   font-style: normal;
   line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   font-variant-numeric: lining-nums;
   font-feature-settings: \\"lnum\\";
@@ -1135,18 +1137,16 @@ exports[`DatePicker scss have to match snapshot 1`] = `
     font-size: var(--button-font-size);
     line-height: var(--button-height); }
   .dnb-button__icon {
-    line-height: var(--line-height-x-small--em); }
+    line-height: var(--line-height-x-small--em);
+    transform: translateY(-0.125rem); }
     .dnb-button__icon:not(.dnb-icon) svg:not([width]):not([height]) {
       width: var(--button-icon-size);
       height: var(--button-icon-size); }
-    [data-os='win'] .dnb-button__icon {
-      transform: translateY(-0.0625rem); }
   .dnb-button__text {
     line-height: var(--line-height-x-small--em);
     color: inherit;
-    background-color: inherit; }
-    [data-os='mac'] .dnb-button__text {
-      transform: translateY(0.0625rem); }
+    background-color: inherit;
+    transform: translateY(-0.0625rem); }
   .dnb-button__bounding {
     position: absolute;
     background-color: transparent;
@@ -1258,11 +1258,8 @@ exports[`DatePicker scss have to match snapshot 1`] = `
 button.dnb-button::-moz-focus-inner {
   border: none; }
 
-a.dnb-button .dnb-button__icon {
-  transform: translateY(0); }
-
 a.dnb-button .dnb-button__text {
-  transform: translateY(0.0625rem); }
+  transform: translateY(-0.0165); }
 
 /*
 * DNB FormLabel
@@ -1275,6 +1272,8 @@ a.dnb-button .dnb-button__text {
   font-style: normal;
   line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   font-variant-numeric: lining-nums;
   font-feature-settings: \\"lnum\\";
@@ -1342,6 +1341,8 @@ legend.dnb-form-label {
   font-style: normal;
   line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   font-variant-numeric: lining-nums;
   font-feature-settings: \\"lnum\\";
@@ -1384,9 +1385,8 @@ legend.dnb-form-label {
     padding: calc(0.5rem / 2) 1rem;
     cursor: text;
     color: inherit;
-    line-height: var(--line-height-basis); }
-    [data-os='mac'] .dnb-form-status--text {
-      transform: translateY(0.0625rem); }
+    line-height: var(--line-height-basis);
+    transform: translateY(-0.0625rem); }
   .dnb-icon + .dnb-form-status--text {
     padding-left: 0.5rem; }
   .dnb-form-status__shell > .dnb-icon {
@@ -1398,7 +1398,8 @@ legend.dnb-form-label {
     margin-top: 0.25em;
     margin-left: 0.5em;
     color: inherit;
-    font-size: var(--font-size-basis); }
+    font-size: var(--font-size-basis);
+    transform: translateY(-0.125rem); }
   .dnb-form-status[hidden] {
     display: none; }
   .dnb-form-status--fade-in {
@@ -1422,6 +1423,8 @@ legend.dnb-form-label {
   font-style: normal;
   line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   font-variant-numeric: lining-nums;
   font-feature-settings: \\"lnum\\";
@@ -1481,7 +1484,7 @@ legend.dnb-form-label {
     display: flex;
     align-items: center;
     border: var(--input-border-width) solid var(--color-sea-green-alt);
-    line-height: var(--input-height); }
+    line-height: calc(var(--input-height) - 2px); }
   .dnb-input__input {
     border: none;
     outline: none;
@@ -1525,9 +1528,6 @@ legend.dnb-form-label {
     color: var(--color-sea-green); }
     .dnb-input ::-webkit-file-upload-button:active, .dnb-input ::-webkit-file-upload-button:hover {
       color: var(--color-emerald-green); }
-  [data-os='mac'] .dnb-input__placeholder,
-  [data-os='mac'] .dnb-input__input {
-    transform: translateY(0.0625rem); }
   .dnb-input--has-submit-element .dnb-input__placeholder,
   .dnb-input--has-submit-element .dnb-input__input {
     padding-right: calc(var(--input-padding) * 2.5); }
@@ -1643,6 +1643,8 @@ legend.dnb-form-label {
   font-style: normal;
   line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   font-variant-numeric: lining-nums;
   font-feature-settings: \\"lnum\\";
@@ -1699,8 +1701,6 @@ legend.dnb-form-label {
     justify-content: center;
     width: var(--checkbox-height);
     height: var(--checkbox-height); }
-    [data-os='mac'] .dnb-checkbox__shell {
-      transform: translateY(-0.0625rem); }
   .dnb-checkbox__focus, .dnb-checkbox__button {
     position: relative;
     z-index: 4;
@@ -1787,6 +1787,8 @@ legend.dnb-form-label {
   font-style: normal;
   line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   font-variant-numeric: lining-nums;
   font-feature-settings: \\"lnum\\";
@@ -1844,9 +1846,8 @@ legend.dnb-form-label {
     align-items: center;
     justify-content: center;
     width: var(--radio-height);
-    height: var(--radio-height); }
-    [data-os='mac'] .dnb-radio__shell {
-      transform: translateY(-0.0625rem); }
+    height: var(--radio-height);
+    transform: translateY(0.0625rem); }
   .dnb-radio__focus, .dnb-radio__button, .dnb-radio__dot {
     position: absolute;
     z-index: 4; }
@@ -1955,6 +1956,8 @@ legend.dnb-form-label {
   font-style: normal;
   line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   font-variant-numeric: lining-nums;
   font-feature-settings: \\"lnum\\";
@@ -2109,6 +2112,8 @@ legend.dnb-form-label {
   font-style: normal;
   line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   font-variant-numeric: lining-nums;
   font-feature-settings: \\"lnum\\";
@@ -2193,10 +2198,8 @@ legend.dnb-form-label {
     display: inline-block;
     width: auto;
     margin: 0;
-    padding: 0 0.1875rem;
+    padding: 0 0.125rem;
     transform: translateY(0);
-    /* Chrome fix */
-    /* Safari fix */
     outline: none;
     font-family: var(--font-family-monospace);
     text-align: center;
@@ -2204,17 +2207,28 @@ legend.dnb-form-label {
     background: transparent;
     overflow: visible;
     white-space: nowrap; }
+
+@-moz-document url-prefix() {
+  .dnb-date-picker__input,
+  .dnb-date-picker .dnb-input__input.dnb-date-picker__input,
+  .dnb-core-style .dnb-date-picker__input {
+    margin: 0 2px; } }
     @supports (-webkit-appearance: none) and (not (overflow: -webkit-marquee)) and (not (-ms-ime-align: auto)) and (not (-moz-appearance: none)) {
       .dnb-date-picker__input,
       .dnb-date-picker .dnb-input__input.dnb-date-picker__input,
       .dnb-core-style .dnb-date-picker__input {
-        margin: 0 -2px; } }
+        margin: 0 -1px; } }
+    @supports (-ms-ime-align: auto) {
+      .dnb-date-picker__input,
+      .dnb-date-picker .dnb-input__input.dnb-date-picker__input,
+      .dnb-core-style .dnb-date-picker__input {
+        margin: 0 -4px; } }
     @media not all and (min-resolution: 0.001dpcm) {
       @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-overflow-scrolling: touch)) {
         .dnb-date-picker__input:not(*:root),
         .dnb-date-picker .dnb-input__input.dnb-date-picker__input:not(*:root),
         .dnb-core-style .dnb-date-picker__input:not(*:root) {
-          margin: 0 -5px; }
+          margin: 0 -4px; }
         .dnb-date-picker__input:first-of-type:not(*:root),
         .dnb-date-picker .dnb-input__input.dnb-date-picker__input:first-of-type:not(*:root),
         .dnb-core-style .dnb-date-picker__input:first-of-type:not(*:root) {

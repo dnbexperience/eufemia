@@ -656,6 +656,8 @@ exports[`Input scss have to match snapshot 1`] = `
   font-style: normal;
   line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   font-variant-numeric: lining-nums;
   font-feature-settings: \\"lnum\\";
@@ -725,18 +727,16 @@ exports[`Input scss have to match snapshot 1`] = `
     font-size: var(--button-font-size);
     line-height: var(--button-height); }
   .dnb-button__icon {
-    line-height: var(--line-height-x-small--em); }
+    line-height: var(--line-height-x-small--em);
+    transform: translateY(-0.125rem); }
     .dnb-button__icon:not(.dnb-icon) svg:not([width]):not([height]) {
       width: var(--button-icon-size);
       height: var(--button-icon-size); }
-    [data-os='win'] .dnb-button__icon {
-      transform: translateY(-0.0625rem); }
   .dnb-button__text {
     line-height: var(--line-height-x-small--em);
     color: inherit;
-    background-color: inherit; }
-    [data-os='mac'] .dnb-button__text {
-      transform: translateY(0.0625rem); }
+    background-color: inherit;
+    transform: translateY(-0.0625rem); }
   .dnb-button__bounding {
     position: absolute;
     background-color: transparent;
@@ -848,11 +848,8 @@ exports[`Input scss have to match snapshot 1`] = `
 button.dnb-button::-moz-focus-inner {
   border: none; }
 
-a.dnb-button .dnb-button__icon {
-  transform: translateY(0); }
-
 a.dnb-button .dnb-button__text {
-  transform: translateY(0.0625rem); }
+  transform: translateY(-0.0165); }
 
 /*
 * DNB FormLabel
@@ -865,6 +862,8 @@ a.dnb-button .dnb-button__text {
   font-style: normal;
   line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   font-variant-numeric: lining-nums;
   font-feature-settings: \\"lnum\\";
@@ -932,6 +931,8 @@ legend.dnb-form-label {
   font-style: normal;
   line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   font-variant-numeric: lining-nums;
   font-feature-settings: \\"lnum\\";
@@ -974,9 +975,8 @@ legend.dnb-form-label {
     padding: calc(0.5rem / 2) 1rem;
     cursor: text;
     color: inherit;
-    line-height: var(--line-height-basis); }
-    [data-os='mac'] .dnb-form-status--text {
-      transform: translateY(0.0625rem); }
+    line-height: var(--line-height-basis);
+    transform: translateY(-0.0625rem); }
   .dnb-icon + .dnb-form-status--text {
     padding-left: 0.5rem; }
   .dnb-form-status__shell > .dnb-icon {
@@ -988,7 +988,8 @@ legend.dnb-form-label {
     margin-top: 0.25em;
     margin-left: 0.5em;
     color: inherit;
-    font-size: var(--font-size-basis); }
+    font-size: var(--font-size-basis);
+    transform: translateY(-0.125rem); }
   .dnb-form-status[hidden] {
     display: none; }
   .dnb-form-status--fade-in {
@@ -1012,6 +1013,8 @@ legend.dnb-form-label {
   font-style: normal;
   line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   font-variant-numeric: lining-nums;
   font-feature-settings: \\"lnum\\";
@@ -1071,7 +1074,7 @@ legend.dnb-form-label {
     display: flex;
     align-items: center;
     border: var(--input-border-width) solid var(--color-sea-green-alt);
-    line-height: var(--input-height); }
+    line-height: calc(var(--input-height) - 2px); }
   .dnb-input__input {
     border: none;
     outline: none;
@@ -1115,9 +1118,6 @@ legend.dnb-form-label {
     color: var(--color-sea-green); }
     .dnb-input ::-webkit-file-upload-button:active, .dnb-input ::-webkit-file-upload-button:hover {
       color: var(--color-emerald-green); }
-  [data-os='mac'] .dnb-input__placeholder,
-  [data-os='mac'] .dnb-input__input {
-    transform: translateY(0.0625rem); }
   .dnb-input--has-submit-element .dnb-input__placeholder,
   .dnb-input--has-submit-element .dnb-input__input {
     padding-right: calc(var(--input-padding) * 2.5); }

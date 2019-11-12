@@ -33,9 +33,7 @@
     align-items: center;
 
     // vertical alignment
-    [data-os='mac'] & {
-      transform: translateY(-0.0625rem);
-    }
+    transform: translateY(0.0625rem);
   }
 
   &__focus,

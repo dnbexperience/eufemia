@@ -23,7 +23,7 @@ $anchorBorderRadius: 0.25em;
   // on padding-bottom we have 2px, cause run a border-bottom with 2px
   // this makes a total of 8px
   // 24px line-height - 8px = 16px (font-size)
-  padding: 0.25em 0.125em 0.125em;
+  padding: 0 0.125em 0.056em; // the total body height will then be 24px
 
   // margins are not needed as long as we go for "inline"
   // margin: -0.25rem 0 -0.125rem;
