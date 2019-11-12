@@ -71,6 +71,11 @@ To force a specific state of style, use the following classes to do so:
     </a>
   </li>
   <li>
+    <a href="/" target="_blank" className="dnb-anchor dnb-anchor--no-icon">
+      Blank target without link_out icon
+    </a>
+  </li>
+  <li>
     <a href="/" className="dnb-anchor dnb-anchor--no-hover">
       No hover
     </a>

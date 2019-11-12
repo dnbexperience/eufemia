@@ -23,6 +23,14 @@ const dnbLib = makeRollupConfig(
     globals: { [path.resolve('./src/icons/primary_icons.js')]: 'dnbIcons' }
   }
 )
+const dnbBasis = makeRollupConfig(
+  './src/umd/dnb-ui-basis.js',
+  'build/umd/dnb-ui-basis.min.js',
+  {
+    name: 'dnbBasis',
+    globals: { [path.resolve('./src/icons/primary_icons.js')]: 'dnbIcons' }
+  }
+)
 const dnbIcons = makeRollupConfig(
   './src/umd/dnb-ui-icons.js',
   'build/umd/dnb-ui-icons.min.js',
@@ -30,7 +38,7 @@ const dnbIcons = makeRollupConfig(
 )
 
 // 2. and export them so rollup knows what to do
-export default [dnbLib, dnbIcons]
+export default [dnbLib, dnbBasis, dnbIcons]
 
 function makeRollupConfig(input, file, { name, globals = {} } = {}) {
   globals = {

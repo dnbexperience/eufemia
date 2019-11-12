@@ -9,7 +9,7 @@ import CodeBlock from 'Tags/CodeBlock'
 
 ### Unordered Lists
 
-<CodeBlock reactLive hideCode>
+<CodeBlock reactLive hideCode data-dnb-test="lists-ul">
 {`
 <ul className="dnb-ul">
   <li>Item 1</li>
@@ -31,7 +31,7 @@ import CodeBlock from 'Tags/CodeBlock'
 
 ### Ordered Lists
 
-<CodeBlock reactLive hideCode>
+<CodeBlock reactLive hideCode data-dnb-test="lists-ol">
 {`
 <ol className="dnb-ol">
   <li>Item</li>
@@ -55,13 +55,34 @@ import CodeBlock from 'Tags/CodeBlock'
 
 ### Definition Lists
 
-<CodeBlock reactLive hideCode>
+<CodeBlock reactLive hideCode data-dnb-test="lists-dl">
 {`
 <dl className="dnb-dl">
-  <dt>Item Title 1</dt>
-  <dd>Item Description 1</dd>
-  <dt>Item Title 1</dt>
-  <dd>Item Description 1</dd>
+  <dt>Title</dt>
+  <dd>Description</dd>
+  <dt>Title</dt>
+  <dd>Description</dd>
+  <dl className="dnb-dl">
+    <dt>Sub Title</dt>
+    <dd>Sub Description</dd>
+  </dl>
+</dl>
+`}
+</CodeBlock>
+
+### Remove list styles
+
+<CodeBlock reactLive hideCode data-dnb-test="lists-reset">
+{`
+<ul className="dnb-ul dnb-unstyled-list">
+  <li>ul Item</li>
+</ul>
+<ol className="dnb-ol dnb-unstyled-list">
+  <li>ol Item</li>
+</ol>
+<dl className="dnb-dl dnb-unstyled-list">
+  <dt>dl Title</dt>
+  <dd>dl Description</dd>
 </dl>
 `}
 </CodeBlock>

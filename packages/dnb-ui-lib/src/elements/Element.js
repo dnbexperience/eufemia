@@ -27,7 +27,11 @@ const Element = React.forwardRef(
 )
 Element.propTypes = {
   is: PropTypes.string.isRequired,
-  className: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  className: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object,
+    PropTypes.array
+  ]),
   class: PropTypes.string,
   useClass: PropTypes.string,
   css: PropTypes.oneOfType([PropTypes.string, PropTypes.object])

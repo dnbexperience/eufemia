@@ -251,7 +251,7 @@ export default class MainMenu extends PureComponent {
                 </Toolbar>
               )) ||
                 (!enableOverlay && (
-                  <LogoWrapper>
+                  <LogoWrapper aria-hidden>
                     <Logo size="48" />
                     Eufemia
                   </LogoWrapper>
