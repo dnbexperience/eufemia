@@ -79,9 +79,9 @@
       padding: 0 0.5rem;
 
       // since we don't have a visula alignment
-      [data-os='mac'] & {
-        transform: translateY(-0.0625rem);
-      }
+      // [data-os='mac'] & {
+      //   transform: translateY(-0.0625rem);
+      // }
     }
 
     .dnb-button__text {
@@ -89,6 +89,9 @@
 
       padding: 0.125rem 0;
       line-height: var(--line-height-x-small--em);
+
+      // reset
+      transform: translateY(0);
 
       @include drawUnderlineBorder() {
         bottom: -0.125rem;
@@ -143,8 +146,13 @@
       &.dnb-button--has-text .dnb-button__icon {
         position: absolute;
         top: 0;
-        bottom: 0.0625rem;
+        bottom: -0.125rem;
         margin: auto 0;
+      }
+      &.dnb-button--icon-size-medium {
+        .dnb-button__icon {
+          bottom: -0.5rem;
+        }
       }
       /* stylelint-enable */
 
@@ -178,12 +186,6 @@
             padding-right: 0;
             margin-right: 2rem;
           }
-        }
-      }
-      // correct medium icon offset
-      &.dnb-button--icon-size-medium {
-        .dnb-button__icon {
-          bottom: 0.125rem;
         }
       }
 

@@ -40,13 +40,17 @@
 
     border: var(--input-border-width) solid var(--color-sea-green-alt);
 
-    line-height: var(--input-height);
+    // centering type="file" - here we can actually keep it as pixels
+    line-height: calc(var(--input-height) - 2px);
   }
 
   &__input {
     border: none;
     outline: none;
     word-break: normal;
+
+    // vertical alignment
+    transform: translateY(-0.0625rem);
   }
 
   &__input[disabled] {
@@ -108,12 +112,6 @@
     &:hover {
       color: var(--color-emerald-green);
     }
-  }
-
-  // vertical alignment
-  [data-os='mac'] &__placeholder,
-  [data-os='mac'] &__input {
-    transform: translateY(0.0625rem);
   }
 
   &--has-submit-element &__placeholder,
@@ -283,8 +281,10 @@
     &__inner {
       width: 100%; // fix overflow on parent
     }
+
     &__input,
     &__placeholder {
+      // vertical alignment
       transform: translateY(-0.0625rem);
     }
   }

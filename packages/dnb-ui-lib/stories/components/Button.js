@@ -14,7 +14,7 @@ export default [
   () => (
     <Wrapper>
       <Box>
-        <Button text="Primary" icon="add" />
+        text <Button text="Primary" icon="add" />
       </Box>
       <Box>
         <Button text="Primary" icon="add" disabled />
@@ -38,6 +38,7 @@ export default [
         <Button text="Signal" variant="signal" icon="add" />
       </Box>
       <Box>
+        text
         <Button
           text="Button text"
           variant="tertiary"
@@ -68,7 +69,8 @@ export default [
           icon="chevron_right"
           icon_size="medium"
           disabled
-        />
+        />{' '}
+        text
       </Box>
     </Wrapper>
   )

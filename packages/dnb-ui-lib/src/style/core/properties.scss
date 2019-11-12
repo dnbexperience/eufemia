@@ -5,11 +5,11 @@
 
 @mixin getDefaultProperties() {
   // Typography Family
-  --font-family-default: 'Fedra Sans Std', sans-serif;
-  --font-family-book: 'Fedra Sans Std', sans-serif; // Deprecated
-  --font-family-demi: 'Fedra Sans Std', sans-serif; // Deprecated
-  --font-family-medium: 'Fedra Sans Std', sans-serif; // Do not use, use --font-weight-...
-  --font-family-bold: 'Fedra Sans Std', sans-serif; // Do not use, use --font-weight-...
+  --font-family-default: 'DNB', sans-serif;
+  --font-family-book: 'DNB', sans-serif; // Deprecated
+  --font-family-demi: 'DNB', sans-serif; // Deprecated
+  --font-family-medium: 'DNB', sans-serif; // Do not use, use --font-weight-...
+  --font-family-bold: 'DNB', sans-serif; // Do not use, use --font-weight-...
   --font-family-monospace: /* macOS 10.10+ */ Menlo,
     /* Windows 6+ */ Consolas, /* Android 4+ */ Roboto Mono,
     /* Ubuntu 10.10+ */ Ubuntu Monospace, /* KDE Plasma 5+ */ Noto Mono,
@@ -27,21 +27,21 @@
   --font-weight-bold: 600;
 
   // Typography Sizes
-  --font-size-small: 0.875rem; // 14px
-  --font-size-basis: 1rem; // 16px
+  --font-size-small: 1rem; // 16px
+  --font-size-basis: 1.125rem; // 18px
   --font-size-basis--em: 1em; // 16px
   --font-size-medium: 1.25rem; // 20px
-  --font-size-large: 1.5rem; // 24px
-  --font-size-x-large: 2rem; // 32px
+  --font-size-large: 1.625rem; // 26px
+  --font-size-x-large: 2.125rem; // 34px
   --font-size-xx-large: 3rem; // 48px
 
   // Typography Line heights
   --line-height-x-small--em: 1em; // 16px
-  --line-height-small: 1.375rem; // 22px
+  --line-height-small: 1.25rem; // 20px
   --line-height-basis: 1.5rem; // 24px
-  --line-height-basis--em: 1.5em; // 24px
+  --line-height-basis--em: 1.333em; // 1.33333333333*18 = 24
   --line-height-medium: 2rem; // 32px
-  --line-height-large: 3rem; // 48px
+  --line-height-large: 2.5rem; // 40px
   --line-height-x-large: 3.5rem; // 56px
 
   // UX colors
