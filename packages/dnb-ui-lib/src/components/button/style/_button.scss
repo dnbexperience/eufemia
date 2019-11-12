@@ -59,19 +59,17 @@
     }
 
     // vertical alignment
-    [data-os='win'] & {
-      transform: translateY(-0.0625rem);
-    }
+    transform: translateY(-0.125rem);
   }
   &__text {
-    line-height: var(--line-height-x-small--em);
+    line-height: var(
+      --line-height-x-small--em
+    ); // because of the background-color
     color: inherit;
     background-color: inherit;
 
     // vertical alignment
-    [data-os='mac'] & {
-      transform: translateY(0.0625rem);
-    }
+    transform: translateY(-0.0625rem);
   }
 
   &__bounding {
@@ -248,10 +246,7 @@ button.dnb-button::-moz-focus-inner {
 // make sure we style an Anchor like a button
 a.dnb-button {
   // some correction
-  .dnb-button__icon {
-    transform: translateY(0);
-  }
   .dnb-button__text {
-    transform: translateY(0.0625rem);
+    transform: translateY(-0.0165);
   }
 }

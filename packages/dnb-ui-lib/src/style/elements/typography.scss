@@ -11,64 +11,62 @@
 
   font-family: var(--font-family-demi);
   font-weight: var(--font-weight-demi);
-
-  color: var(--color-emerald-green);
 }
 @mixin h1Style() {
-  font-size: var(--font-size-xx-large); // 48px
-  line-height: var(--line-height-x-large); // 56px
+  font-size: var(--font-size-xx-large);
+  line-height: var(--line-height-x-large);
   font-weight: var(--font-weight-demi);
 
   &--small,
   & > small {
     display: block;
-    font-size: var(--font-size-x-large); // 32px
-    line-height: var(--line-height-large); // 48px
+    font-size: var(--font-size-x-large);
+    line-height: var(--line-height-large);
   }
 }
 @mixin h2Style() {
-  font-size: var(--font-size-large); // 24px
-  line-height: var(--line-height-medium); // 32px
+  font-size: var(--font-size-large);
+  line-height: var(--line-height-medium);
 
   &--small,
   & > small {
-    font-size: var(--font-size-medium); // 20px
+    font-size: var(--font-size-medium);
   }
   & > small {
-    line-height: calc(var(--line-height-medium) - 0.125rem); // 30px
+    line-height: calc(var(--line-height-medium) - 0.125rem);
   }
 }
 @mixin h3Style() {
   font-family: var(--font-family-demi);
   font-weight: var(--font-weight-demi);
-  font-size: var(--font-size-medium); // 20px
-  line-height: var(--line-height-medium); // 32px
+  font-size: var(--font-size-medium);
+  line-height: calc(var(--line-height-medium) - 0.25rem);
 
   &--small,
   & > small {
-    font-size: var(--font-size-basis); // 16px
+    font-size: var(--font-size-basis);
   }
   & > small {
-    line-height: calc(var(--line-height-medium) - 0.25rem); // 28px
+    line-height: var(--line-height-basis);
   }
 }
 @mixin h4Style() {
-  font-size: var(--font-size-basis); // 16px
+  font-size: var(--font-size-basis);
   & > small {
-    line-height: var(--line-height-small); // 22px
+    line-height: var(--line-height-small);
   }
 }
 @mixin h5Style() {
-  font-size: var(--font-size-small); // 14px
+  font-size: var(--font-size-small);
   & > small {
-    line-height: var(--line-height-small); // 20px
+    line-height: var(--line-height-small);
   }
 }
 @mixin h6Style() {
-  font-size: var(--font-size-small); // 14px
+  font-size: var(--font-size-small);
   font-weight: var(--font-weight-book);
   & > small {
-    line-height: var(--line-height-small); // 20px
+    line-height: var(--line-height-small);
   }
 }
 @mixin paragraphStyle() {
@@ -80,9 +78,6 @@
     margin-bottom: 0;
   }
   padding: 0;
-
-  font-size: var(--font-size-basis--em); // 16px
-  line-height: var(--line-height-basis--em); // 24px
 
   @include numberFeature(lining-nums, lnum);
 
@@ -100,7 +95,7 @@
   }
   &--small,
   & > small {
-    font-size: var(--font-size-small); // 14px
+    font-size: var(--font-size-small);
 
     // shold be 22px - but we force it to the pixel grid!
     // - sorry Sindre
@@ -171,7 +166,7 @@
     font-weight: var(--font-weight-medium);
   }
   small {
-    font-size: var(--font-size-small); // 14px
+    font-size: var(--font-size-small);
   }
   h2 > small,
   h3 > small,
@@ -183,33 +178,33 @@
     ); // for vertical alignment, we have to have no line-height
   }
   .dnb-spacing {
-    .dnb-h1,
-    .dnb-core-style & .dnb-h1 {
+    h1,
+    .dnb-core-style & h1 {
       @include h1Spacing();
     }
-    .dnb-h2,
-    .dnb-core-style & .dnb-h2 {
+    h2,
+    .dnb-core-style & h2 {
       @include h2Spacing();
     }
-    .dnb-h3,
-    .dnb-h4,
-    .dnb-h5,
-    .dnb-h6,
-    .dnb-core-style & .dnb-h3,
-    .dnb-core-style & .dnb-h4,
-    .dnb-core-style & .dnb-h5,
-    .dnb-core-style & .dnb-h6 {
+    h3,
+    h4,
+    h5,
+    h6,
+    .dnb-core-style & h3,
+    .dnb-core-style & h4,
+    .dnb-core-style & h5,
+    .dnb-core-style & h6 {
       @include headingSpacing();
     }
-    .dnb-p,
-    .dnb-core-style & .dnb-p {
+    p,
+    .dnb-core-style & p {
       @include defaultSpacing();
     }
   }
 }
 
 .dnb-small {
-  font-size: var(--font-size-small); // 14px
+  font-size: var(--font-size-small);
 }
 
 .dnb-h1 {
@@ -268,20 +263,29 @@
 
 // Spacing
 .dnb-spacing {
-  .dnb-h1 {
+  .dnb-h1,
+  .dnb-core-style & .dnb-h1 {
     @include h1Spacing();
   }
-  .dnb-h2 {
+  .dnb-h2,
+  .dnb-core-style & .dnb-h2 {
     @include h2Spacing();
   }
   .dnb-h3,
   .dnb-lead,
   .dnb-h4,
   .dnb-h5,
-  .dnb-h6 {
+  .dnb-h6,
+  .dnb-core-style & .dnb-h3,
+  .dnb-core-style & .dnb-lead,
+  .dnb-core-style & .dnb-h4,
+  .dnb-core-style & .dnb-h5,
+  .dnb-core-style & .dnb-h6 {
     @include headingSpacing();
   }
-  .dnb-p {
+
+  .dnb-p,
+  .dnb-core-style & .dnb-p {
     @include defaultSpacing();
   }
 }

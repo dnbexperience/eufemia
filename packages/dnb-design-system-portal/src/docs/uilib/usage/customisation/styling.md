@@ -26,13 +26,17 @@ There are several packages you can use and combine.
 ## Sub Packages
 
 - **dnb-ui-body** - includes the default body style and a CSS reset (normalize).
-- **dnb-ui-basis** - includes everything from `dnb-ui-core`, except `dnb-ui-body` (**NB:** needs a [wrapper class](/uilib/usage/customisation/styling#core-style)).
+- **dnb-ui-basis** - includes everything from `dnb-ui-core`, except `dnb-ui-body`
+  - **NB:** needs a `.dnb-core-style` [wrapper class](/uilib/usage/customisation/styling#core-style).
 - **dnb-ui-elements** - includes only the styles for [HTML Elements](/uilib/elements) CSS classes, like `.dnb-h1`.
 
 ## Additional Packages
 
-- **dnb-ui-tags** - this package will force styles on all the HTML Tags like `<h1>` instead of CSS classes, like `.dnb-h1`. Use it carefully - because this will effect existing styles as well.
+- **dnb-ui-tags** - this package will force styles on all the HTML Tags like `<h1>` instead of CSS classes, like `.dnb-h1`
+  - **NB:** needs a `.dnb-core-style` [wrapper class](/uilib/usage/customisation/styling#core-style).
+  - Use it carefully - because this will effect existing styles as well.
 - **dnb-ui-properties** - includes only the CSS Custom Properties.
+  - There is also a [JavaScript file containing](/uilib/usage/customisation/styling#a-list-of-all-css-properties) the same properties.
 - **dnb-ui-fonts** - includes only the `@font-face` and properties.
 
 All the CSS packages are ready to use, **minified CSS files**. You will find the main style here: `dnb-ui-lib/style/dnb-ui-core.min.css`
@@ -141,10 +145,12 @@ import 'dnb-ui-lib/style/elements'
 
 ```html
 <!-- HTML Elements in the wild -->
-<h1>I'm now Eufemia styled</h1>
-<ul>
-  <li>Me as well</li>
-</ul>
+<div class="dnb-core-style">
+  <h1>I'm now Eufemia styled</h1>
+  <ul>
+    <li>Me as well</li>
+  </ul>
+</div>
 ```
 
 ## A list of all CSS properties
