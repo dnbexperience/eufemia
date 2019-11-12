@@ -35,11 +35,6 @@
 
     width: var(--checkbox-height);
     height: var(--checkbox-height);
-
-    // vertical alignment
-    [data-os='mac'] & {
-      transform: translateY(-0.0625rem);
-    }
   }
 
   &__focus,

@@ -1225,8 +1225,6 @@ a.dnb-button .dnb-button__text {
     justify-content: center;
     width: var(--checkbox-height);
     height: var(--checkbox-height); }
-    [data-os='mac'] .dnb-checkbox__shell {
-      transform: translateY(-0.0625rem); }
   .dnb-checkbox__focus, .dnb-checkbox__button {
     position: relative;
     z-index: 4;
