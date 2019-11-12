@@ -181,7 +181,7 @@ exports[`GlobalError scss have to match snapshot 1`] = `
     line-height: var(--button-height); }
   .dnb-button__icon {
     line-height: var(--line-height-x-small--em);
-    transform: translateY(-0.1875rem); }
+    transform: translateY(-0.125rem); }
     .dnb-button__icon:not(.dnb-icon) svg:not([width]):not([height]) {
       width: var(--button-icon-size);
       height: var(--button-icon-size); }

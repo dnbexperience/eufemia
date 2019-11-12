@@ -59,9 +59,7 @@
     }
 
     // vertical alignment
-    transform: translateY(-0.1875rem);
-    // [data-os='win'] & {
-    // }
+    transform: translateY(-0.125rem);
   }
   &__text {
     line-height: var(
@@ -72,8 +70,6 @@
 
     // vertical alignment
     transform: translateY(-0.0625rem);
-    // [data-os='mac'] & {
-    // }
   }
 
   &__bounding {

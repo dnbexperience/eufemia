@@ -1134,7 +1134,7 @@ exports[`DatePicker scss have to match snapshot 1`] = `
     line-height: var(--button-height); }
   .dnb-button__icon {
     line-height: var(--line-height-x-small--em);
-    transform: translateY(-0.1875rem); }
+    transform: translateY(-0.125rem); }
     .dnb-button__icon:not(.dnb-icon) svg:not([width]):not([height]) {
       width: var(--button-icon-size);
       height: var(--button-icon-size); }
@@ -1381,9 +1381,8 @@ legend.dnb-form-label {
     padding: calc(0.5rem / 2) 1rem;
     cursor: text;
     color: inherit;
-    line-height: var(--line-height-basis); }
-    [data-os='mac'] .dnb-form-status--text {
-      transform: translateY(0.0625rem); }
+    line-height: var(--line-height-basis);
+    transform: translateY(-0.0625rem); }
   .dnb-icon + .dnb-form-status--text {
     padding-left: 0.5rem; }
   .dnb-form-status__shell > .dnb-icon {
@@ -1395,7 +1394,8 @@ legend.dnb-form-label {
     margin-top: 0.25em;
     margin-left: 0.5em;
     color: inherit;
-    font-size: var(--font-size-basis); }
+    font-size: var(--font-size-basis);
+    transform: translateY(-0.125rem); }
   .dnb-form-status[hidden] {
     display: none; }
   .dnb-form-status--fade-in {
@@ -1480,11 +1480,12 @@ legend.dnb-form-label {
     display: flex;
     align-items: center;
     border: var(--input-border-width) solid var(--color-sea-green-alt);
-    line-height: var(--input-height); }
+    line-height: calc(var(--input-height) - 2px); }
   .dnb-input__input {
     border: none;
     outline: none;
-    word-break: normal; }
+    word-break: normal;
+    transform: translateY(-0.0625rem); }
   .dnb-input__input[disabled] {
     user-select: none;
     -webkit-user-select: none;
@@ -1522,9 +1523,6 @@ legend.dnb-form-label {
     color: var(--color-sea-green); }
     .dnb-input ::-webkit-file-upload-button:active, .dnb-input ::-webkit-file-upload-button:hover {
       color: var(--color-emerald-green); }
-  [data-os='mac'] .dnb-input__placeholder,
-  [data-os='mac'] .dnb-input__input {
-    transform: translateY(0.0625rem); }
   .dnb-input--has-submit-element .dnb-input__placeholder,
   .dnb-input--has-submit-element .dnb-input__input {
     padding-right: calc(var(--input-padding) * 2.5); }
@@ -2199,10 +2197,8 @@ legend.dnb-form-label {
     display: inline-block;
     width: auto;
     margin: 0;
-    padding: 0 0.1875rem;
+    padding: 0 0.125rem;
     transform: translateY(0);
-    /* Chrome fix */
-    /* Safari fix */
     outline: none;
     font-family: var(--font-family-monospace);
     text-align: center;
@@ -2210,17 +2206,28 @@ legend.dnb-form-label {
     background: transparent;
     overflow: visible;
     white-space: nowrap; }
+
+@-moz-document url-prefix() {
+  .dnb-date-picker__input,
+  .dnb-date-picker .dnb-input__input.dnb-date-picker__input,
+  .dnb-core-style .dnb-date-picker__input {
+    margin: 0 2px; } }
     @supports (-webkit-appearance: none) and (not (overflow: -webkit-marquee)) and (not (-ms-ime-align: auto)) and (not (-moz-appearance: none)) {
       .dnb-date-picker__input,
       .dnb-date-picker .dnb-input__input.dnb-date-picker__input,
       .dnb-core-style .dnb-date-picker__input {
-        margin: 0 -2px; } }
+        margin: 0 -1px; } }
+    @supports (-ms-ime-align: auto) {
+      .dnb-date-picker__input,
+      .dnb-date-picker .dnb-input__input.dnb-date-picker__input,
+      .dnb-core-style .dnb-date-picker__input {
+        margin: 0 -4px; } }
     @media not all and (min-resolution: 0.001dpcm) {
       @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-overflow-scrolling: touch)) {
         .dnb-date-picker__input:not(*:root),
         .dnb-date-picker .dnb-input__input.dnb-date-picker__input:not(*:root),
         .dnb-core-style .dnb-date-picker__input:not(*:root) {
-          margin: 0 -5px; }
+          margin: 0 -4px; }
         .dnb-date-picker__input:first-of-type:not(*:root),
         .dnb-date-picker .dnb-input__input.dnb-date-picker__input:first-of-type:not(*:root),
         .dnb-core-style .dnb-date-picker__input:first-of-type:not(*:root) {
