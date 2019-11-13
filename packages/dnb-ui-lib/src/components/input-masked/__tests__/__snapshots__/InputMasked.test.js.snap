@@ -3,15 +3,14 @@
 exports[`InputMasked component have to match type="text" snapshot 1`] = `
 <InputMasked
   disabled={false}
-  guide={true}
   id="input-masked"
-  keep_char_positions={true}
+  keep_char_positions="keep_char_positions"
   mask={
     Array [
       /\\[a-z\\]/,
     ]
   }
-  number_mask={Object {}}
+  number_mask="number_mask"
   on_blur={null}
   on_change={null}
   on_focus={null}
@@ -20,6 +19,7 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
   on_submit_focus={null}
   pipe={null}
   placeholder_char="placeholder_char"
+  show_guide="show_guide"
   show_mask={true}
   type="text"
   value="test"
@@ -81,9 +81,9 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
             <t
               autoComplete="off"
               className="dnb-input__input"
-              guide={true}
+              guide={false}
               id="input-masked"
-              keepCharPositions={true}
+              keepCharPositions={false}
               mask={[Function]}
               name="input-masked"
               onBlur={[Function]}
