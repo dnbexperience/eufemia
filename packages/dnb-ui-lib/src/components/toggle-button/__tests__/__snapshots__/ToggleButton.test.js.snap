@@ -1368,8 +1368,7 @@ a.dnb-button .dnb-button__text {
     align-items: center;
     justify-content: center;
     width: var(--radio-height);
-    height: var(--radio-height);
-    transform: translateY(0.0625rem); }
+    height: var(--radio-height); }
   .dnb-radio__focus, .dnb-radio__button, .dnb-radio__dot {
     position: absolute;
     z-index: 4; }
@@ -1407,7 +1406,9 @@ a.dnb-button .dnb-button__text {
     margin-bottom: 0; }
   .dnb-radio__order {
     display: inline-flex;
-    align-items: baseline; }
+    align-items: baseline;
+    font-size: var(--font-size-basis);
+    line-height: var(--line-height-basis); }
     .dnb-radio-group--column .dnb-radio__order {
       display: flex; }
   .dnb-radio--label-position-left .dnb-radio__order .dnb-radio__inner {
