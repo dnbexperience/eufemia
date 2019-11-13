@@ -33,18 +33,18 @@ if (typeof window !== 'undefined' && window.IS_TEST) {
     }
 
     /* because the font-weight is differently on Arial, we have to redefine it to be bold */
-    ${'' /* :root {
+    :root {
       --font-weight-demi: 600;
       --font-weight-medium: 700;
-    } */}
+    }
 
-    ${'' /* body * {
+    body * {
       font-family: Arial, Helvetica, sans-serif !important;
       font-variant-numeric: normal;
       font-feature-settings: normal;
 
       -webkit-font-smoothing: antialiased;
-    } */}
+    }
   `
 }
 
