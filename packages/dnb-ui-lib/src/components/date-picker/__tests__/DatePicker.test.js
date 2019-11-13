@@ -153,6 +153,36 @@ describe('DatePicker component', () => {
     })
   })
 
+  it('has a warking month correction', () => {
+    const Comp = mount(<Component show_input />)
+
+    const dayElem = Comp.find('input.dnb-date-picker__input--day').at(0)
+    const monthElem = Comp.find('input.dnb-date-picker__input--month').at(
+      0
+    )
+    const yearElem = Comp.find('input.dnb-date-picker__input--year').at(0)
+
+    // change the date
+    const day = '01'
+    const month = '01' // will have to make a correction internally
+    const year = '2020'
+
+    dayElem.simulate('change', {
+      target: { value: day }
+    })
+    monthElem.simulate('change', {
+      target: { value: month }
+    })
+    yearElem.simulate('change', {
+      target: { value: year }
+    })
+
+    // then check the new input value
+    expect(dayElem.instance().value).toBe(day)
+    expect(monthElem.instance().value).toBe(month)
+    expect(yearElem.instance().value).toBe(year)
+  })
+
   it('has a working min and max date limitation', () => {
     const on_change = jest.fn()
 
