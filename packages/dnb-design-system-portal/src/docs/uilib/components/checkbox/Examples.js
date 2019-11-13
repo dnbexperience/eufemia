@@ -36,7 +36,6 @@ class Example extends PureComponent {
 <Checkbox
   label="Label:"
   label_position="left"
-  title="Ths is the title"
   checked
   on_change={({ checked }) => console.log(checked)}
 />

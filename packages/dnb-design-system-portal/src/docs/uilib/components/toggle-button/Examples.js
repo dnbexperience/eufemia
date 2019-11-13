@@ -29,7 +29,6 @@ class Example extends PureComponent {
 <ToggleButton
   label="Label:"
   text="Checked ToggleButton"
-  title="Ths is the title"
   checked
   on_change={({ checked }) => { console.log('on_change', checked) }}
 />
@@ -42,7 +41,6 @@ class Example extends PureComponent {
           {/* @jsx */ `
 <ToggleButton.Group
   label="ToggleButton Group:"
-  title="Give me a Title"
   value="first"
   on_change={({ value }) => { console.log('on_change', value) }}
 >
@@ -62,7 +60,6 @@ class Example extends PureComponent {
           {/* @jsx */ `
 <ToggleButton.Group
   label="Multi-select:"
-  title="Give me a Title"
   multiselect="true"
   values={['first', 'third']}
   on_change={({ values }) => { console.log('on_change', values) }}

@@ -85,7 +85,6 @@ export default [
             icon="chevron_right"
             text="Toggle Button"
             value="I'm alone"
-            title="Give me a Title"
             on_change={({ value, checked }) => {
               console.log('on_change', value, checked)
             }}
@@ -104,7 +103,6 @@ export default [
             icon="chevron_right"
             text="Toggle Button"
             value="I'm alone"
-            title="Give me a Title"
             on_change={({ value, checked }) => {
               console.log('on_change', value, checked)
             }}
@@ -161,7 +159,6 @@ export default [
           <ToggleButton.Group
             // label="Group:"
             // label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:"
-            title="Give me a Title"
             on_change={({ value, values, event }) => {
               console.log('on_change', value, values, event)
             }}
@@ -188,7 +185,6 @@ export default [
           label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:"
         >
           <ToggleButton.Group
-            title="Give me a Title"
             on_change={({ value }) => {
               console.log('on_change', value)
             }}

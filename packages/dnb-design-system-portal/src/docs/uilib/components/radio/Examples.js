@@ -15,7 +15,6 @@ class Example extends PureComponent {
           {/* @jsx */ `
 <Radio.Group
   label="Radio Group:"
-  title="Give me a Title"
   on_change={({ value }) => { console.log('on_change', value) }}
   value="first"
 >
@@ -159,7 +158,6 @@ class UseOnTests extends PureComponent {
           {/* @jsx */ `
       <Radio
       label="Checked Radio"
-      title="Ths is the title"
       checked
       on_change={({ checked }) => console.log(checked)}
       />

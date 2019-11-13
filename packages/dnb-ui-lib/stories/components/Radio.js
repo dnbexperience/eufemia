@@ -52,7 +52,6 @@ export default [
           <Radio
             id="alone"
             value="I'm alone"
-            title="Give me a Title"
             on_change={({ value, checked }) => {
               console.log('on_change', value, checked)
             }}
@@ -103,7 +102,6 @@ export default [
           <Radio.Group
             // label="Group:"
             // label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:"
-            title="Give me a Title"
             on_change={({ value }) => {
               console.log('on_change', value)
             }}
@@ -130,7 +128,6 @@ export default [
           <Radio.Group
             // direction="vertical"
             label="Group label:"
-            title="Give me a Title"
             on_change={({ value }) => {
               console.log('on_change', value)
             }}
