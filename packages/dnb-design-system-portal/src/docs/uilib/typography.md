@@ -20,7 +20,7 @@ Read more how to use the [different weights](/uilib/typography/font-weights/).
 
 ## Font Face
 
-The DNB default Font Family is `Fedra Sans Std`. This font, together with it's weights is loaded and imported with `@font-face` in `/css/core/fonts.scss`. The font family is included in the library package.
+The DNB default Font Family is `DNB`. This font, together with it's weights is loaded and imported with `@font-face` in `/css/core/fonts.scss`. The font family is included in the library package.
 
 ## Headings
 

@@ -24,7 +24,7 @@
     </g>
     <rect width="8" height="40" x="116" y="89" fill="#D8D8D8" opacity=".657"/>
     <rect width="8" height="68" x="116" y="89" fill="url(#f)"/>
-    <text fill="#FFFFFF" font-family="FedraSansStd-Book, Fedra Sans Std" font-size="16" font-weight="300">
+    <text fill="#FFFFFF" font-family="DNB-Regular, DNB" font-size="16" font-weight="300">
       <tspan x="123" y="115">Close</tspan>
     </text>
     <text fill="#959595" font-family="ArialMT, Arial" font-size="14">

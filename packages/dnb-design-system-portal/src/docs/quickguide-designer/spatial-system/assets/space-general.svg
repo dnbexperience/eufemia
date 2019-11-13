@@ -26,10 +26,10 @@
       <rect width="20" height="3" y="9"/>
       <rect width="20" height="2" y="14"/>
     </g>
-    <text fill="#00343E" font-family="FedraSansStd-Medium, Fedra Sans Std" font-size="14" font-weight="400">
+    <text fill="#00343E" font-family="DNB-Bold, DNB" font-size="14" font-weight="400">
       <tspan x="119.312" y="83">1</tspan>
     </text>
-    <text fill="#00343E" font-family="FedraSansStd-Medium, Fedra Sans Std" font-size="14" font-weight="400">
+    <text fill="#00343E" font-family="DNB-Bold, DNB" font-size="14" font-weight="400">
       <tspan x="214.136" y="83">2</tspan>
     </text>
   </g>
