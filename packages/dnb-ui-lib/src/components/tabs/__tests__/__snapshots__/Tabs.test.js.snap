@@ -380,11 +380,16 @@ exports[`Tabs scss have to match snapshot 1`] = `
     border-bottom: 1px solid transparent;
     cursor: pointer;
     outline: none;
-    border: none; }
-    .dnb-tabs__tabs .dnb-tabs__button-title,
-    .dnb-core-style .dnb-tabs__tabs .dnb-tabs__button-title {
-      font-size: var(--font-size-basis);
+    border: none;
+    font-size: var(--font-size-basis);
+    line-height: var(--line-height-basis); }
+    .dnb-tabs__tabs .dnb-tabs__button__title,
+    .dnb-core-style .dnb-tabs__tabs .dnb-tabs__button__title {
       white-space: nowrap; }
+      .dnb-tabs__tabs .dnb-tabs__button__title .dnb-icon,
+      .dnb-core-style .dnb-tabs__tabs .dnb-tabs__button__title .dnb-icon {
+        font-size: var(--font-size-small);
+        transform: translateY(-0.125rem); }
     .dnb-tabs__tabs .dnb-tabs__button > span[hidden],
     .dnb-core-style .dnb-tabs__tabs .dnb-tabs__button > span[hidden] {
       display: flex;
