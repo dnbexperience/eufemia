@@ -41,10 +41,12 @@
   ol {
     counter-reset: item;
   }
-
   & li {
-    display: block; // instead of list-item;
     list-style-type: decimal;
+  }
+
+  &--nested li {
+    display: block; // instead of list-item;
 
     &::before {
       content: counters(item, '.') '. '; // with dot
