@@ -57,12 +57,11 @@ exports[`Button component have to match default button snapshot 1`] = `
         className="dnb-button__bounding"
         key="button-bounding"
       />
-      children
       <span
         className="dnb-button__text"
         key="button-text"
       >
-        text
+        children
       </span>
       <IconPrimary
         alt={null}
@@ -166,12 +165,11 @@ exports[`Button component have to match href="..." snapshot 1`] = `
         className="dnb-button__bounding"
         key="button-bounding"
       />
-      children
       <span
         className="dnb-button__text"
         key="button-text"
       >
-        text
+        children
       </span>
       <IconPrimary
         alt={null}
