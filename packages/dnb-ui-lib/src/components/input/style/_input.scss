@@ -5,8 +5,8 @@
 
 :root {
   --input-font-size: var(--font-size-basis);
-  --input-font-size--medium: 1.5rem;
-  --input-font-size--large: 2rem;
+  --input-font-size--medium: var(--font-size-large);
+  --input-font-size--large: var(--font-size-x-large);
   --input-padding: 1rem;
   --input-padding--medium: 1.5rem;
   --input-padding--large: 2rem;

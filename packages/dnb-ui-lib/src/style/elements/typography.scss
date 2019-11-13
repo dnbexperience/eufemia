@@ -70,6 +70,8 @@
   }
 }
 @mixin paragraphStyle() {
+  font-size: var(--font-size-basis);
+
   // if we not reset margin, the browser is using: margin-block-end: 1rem;
   &:not([class*='space__top']) {
     margin-top: 0;

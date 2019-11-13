@@ -42,17 +42,13 @@
   border: var(--button-border-width) solid transparent;
   border-radius: var(--button-border-radius);
 
-  &,
-  .dnb-core-style & {
-    font-size: var(--button-font-size);
-    line-height: var(--button-height);
-  }
   text-decoration: none;
 
-  &__icon {
-    line-height: var(
-      --line-height-x-small--em
-    ); // vertical alignment, if we have no line-height
+  &__icon.dnb-icon {
+    font-size: var(--font-size-small); // has to be 16px
+    // line-height: var(
+    //   --line-height-x-small--em
+    // ); // vertical alignment, if we have no line-height
     &:not(.dnb-icon) svg:not([width]):not([height]) {
       width: var(--button-icon-size);
       height: var(--button-icon-size);
@@ -62,6 +58,7 @@
     transform: translateY(-0.125rem);
   }
   &__text {
+    font-size: var(--button-font-size);
     line-height: var(
       --line-height-x-small--em
     ); // because of the background-color
