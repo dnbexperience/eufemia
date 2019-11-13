@@ -173,6 +173,9 @@
       margin: 0;
       padding: 1rem;
 
+      // vertical alignment
+      transform: translateY(-0.125rem);
+
       color: inherit;
       background-color: var(--color-white);
     }
