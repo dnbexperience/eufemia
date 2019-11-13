@@ -53,7 +53,6 @@ class Example extends PureComponent {
     <div className="dnb-form__cell">
       <Switch
         id="switch-1"
-        title="Ths is the title"
         value="Value of switch"
       />
     </div>
