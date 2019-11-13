@@ -29,11 +29,11 @@ import CodeBlock from 'Tags/CodeBlock'
 `}
 </CodeBlock>
 
-### Ordered Lists
+### Ordered Lists (nested)
 
-<CodeBlock reactLive hideCode data-dnb-test="lists-ol">
+<CodeBlock reactLive hideCode data-dnb-test="lists-ol" caption="Nested ol list by using `.dnb-ol--nested`">
 {`
-<ol className="dnb-ol">
+<ol className="dnb-ol dnb-ol--nested">
   <li>Item</li>
   <li>
     Item
@@ -45,7 +45,12 @@ import CodeBlock from 'Tags/CodeBlock'
           <li>Item</li>
         </ol>
       </li>
-      <li>Item</li>
+      <li>Item
+        <ol>
+          <li>Item</li>
+          <li>Item</li>
+        </ol>
+      </li>
     </ol>
   </li>
   <li>Item</li>

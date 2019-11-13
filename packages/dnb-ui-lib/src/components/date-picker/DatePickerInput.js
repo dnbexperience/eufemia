@@ -400,7 +400,7 @@ export default class DatePickerInput extends PureComponent {
         // calculate new date
         const date = fn(
           this.state[`${mode}Date`] ||
-            new Date(year || 1111, month > 1 ? month - 1 : 1, day || 1),
+            new Date(year || 1111, month > 0 ? month - 1 : 1, day || 1),
           value
         )
 
