@@ -20,12 +20,23 @@ const renderProps = {
 }
 
 const propTypes = {
-  mask: PropTypes.oneOfType([PropTypes.array, PropTypes.func]),
-  number_mask: PropTypes.object,
+  mask: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.array,
+    PropTypes.func
+  ]),
+  number_mask: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool,
+    PropTypes.object
+  ]),
   show_mask: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  guide: PropTypes.bool,
+  show_guide: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   pipe: PropTypes.func,
-  keep_char_positions: PropTypes.bool,
+  keep_char_positions: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool
+  ]),
   placeholder_char: PropTypes.string
 }
 
@@ -33,7 +44,7 @@ const defaultProps = {
   mask: [],
   number_mask: null,
   show_mask: false,
-  guide: true,
+  show_guide: true,
   pipe: null,
   keep_char_positions: false,
   placeholder_char: '_',
@@ -55,14 +66,19 @@ export default class InputMasked extends PureComponent {
       mask,
       number_mask,
       show_mask,
-      guide,
+      show_guide,
       pipe,
       keep_char_positions,
       placeholder_char,
       ...props
     } = this.props
 
-    if (number_mask) {
+    if (isTrue(number_mask)) {
+      mask = createNumberMask({})
+    } else if (number_mask) {
+      if (typeof number_mask === 'string' && number_mask[0] === '{') {
+        number_mask = JSON.parse(number_mask)
+      }
       mask = createNumberMask(number_mask)
     }
 
@@ -70,11 +86,11 @@ export default class InputMasked extends PureComponent {
       props.inputElement = (params, innerRef) => {
         params = {
           ...params,
-          mask,
-          guide,
           pipe,
+          mask,
           showMask: isTrue(show_mask),
-          keepCharPositions: keep_char_positions,
+          guide: isTrue(show_guide),
+          keepCharPositions: isTrue(keep_char_positions),
           placeholderChar: placeholder_char
         }
         return <MaskedInput ref={innerRef} {...params} />

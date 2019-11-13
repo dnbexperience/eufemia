@@ -213,13 +213,6 @@
     text-align: right;
   }
 
-  // Hide placeholder when: 1. input has content or 2: input is in focus
-  &__shell[data-has-content='true'] .dnb-input__placeholder,
-  &__shell[data-has-content='true'][data-input-state='focus']
-    .dnb-input__placeholder {
-    display: none;
-  }
-
   // to make Safari selection not appear all to the top
   .dnb-core-style &__input:not([type='file']) {
     line-height: var(--line-height-x-small--em);

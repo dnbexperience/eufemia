@@ -226,6 +226,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
             input_attributes={null}
             input_class={null}
             input_state="virgin"
+            keep_placeholder={null}
             label={null}
             label_direction={null}
             on_blur={null}
@@ -1587,9 +1588,6 @@ legend.dnb-form-label {
   .dnb-input__align--right .dnb-input__placeholder,
   .dnb-input__align--right .dnb-input__input {
     text-align: right; }
-  .dnb-input__shell[data-has-content='true'] .dnb-input__placeholder,
-  .dnb-input__shell[data-has-content='true'][data-input-state='focus'] .dnb-input__placeholder {
-    display: none; }
   .dnb-core-style .dnb-input__input:not([type='file']) {
     line-height: var(--line-height-x-small--em); }
   .dnb-input__inner > .dnb-form-status {

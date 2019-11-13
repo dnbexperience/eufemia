@@ -21,6 +21,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
         "input_attributes": "input_attributes",
         "input_class": "input_class",
         "input_state": "input_state",
+        "keep_placeholder": "keep_placeholder",
         "label": "label",
         "label_direction": "'horizontal'",
         "on_blur": [Function],
@@ -80,6 +81,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
   input_attributes={null}
   input_class={null}
   input_state={null}
+  keep_placeholder={null}
   label={null}
   label_direction={null}
   on_blur={null}
@@ -155,6 +157,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                   "input_attributes": "input_attributes",
                   "input_class": "input_class",
                   "input_state": "input_state",
+                  "keep_placeholder": "keep_placeholder",
                   "label": "label",
                   "label_direction": "'horizontal'",
                   "on_blur": [Function],
@@ -361,6 +364,7 @@ exports[`Input component have to match type="text" snapshot 1`] = `
         "input_attributes": "input_attributes",
         "input_class": "input_class",
         "input_state": "input_state",
+        "keep_placeholder": "keep_placeholder",
         "label": "label",
         "label_direction": "'horizontal'",
         "on_blur": [Function],
@@ -420,6 +424,7 @@ exports[`Input component have to match type="text" snapshot 1`] = `
   input_attributes={null}
   input_class={null}
   input_state={null}
+  keep_placeholder={null}
   label={null}
   label_direction={null}
   on_blur={null}
@@ -557,8 +562,9 @@ exports[`Input scss have to match default theme snapshot 1`] = `
     text-shadow: none; }
   .dnb-input__input:not([disabled]):not([readonly]):focus ~ .dnb-input__placeholder {
     display: none; }
-  .dnb-input__shell[data-input-state='focus'][data-has-content='false'] .dnb-input__input:not([disabled]):not([readonly]) .dnb-input__placeholder {
-    display: none; }
+  .dnb-input--keep-placeholder .dnb-input__input:not([disabled]):not([readonly]):focus ~ .dnb-input__placeholder {
+    display: block;
+    opacity: 0.6; }
 "
 `;
 
@@ -1174,9 +1180,6 @@ legend.dnb-form-label {
   .dnb-input__align--right .dnb-input__placeholder,
   .dnb-input__align--right .dnb-input__input {
     text-align: right; }
-  .dnb-input__shell[data-has-content='true'] .dnb-input__placeholder,
-  .dnb-input__shell[data-has-content='true'][data-input-state='focus'] .dnb-input__placeholder {
-    display: none; }
   .dnb-core-style .dnb-input__input:not([type='file']) {
     line-height: var(--line-height-x-small--em); }
   .dnb-input__inner > .dnb-form-status {
