@@ -8,7 +8,7 @@
 @mixin coreDefault() {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
-  font-size: var(--font-size-basis);
+  font-size: var(--font-size-small); // has to be 16px
   font-style: normal;
   line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);

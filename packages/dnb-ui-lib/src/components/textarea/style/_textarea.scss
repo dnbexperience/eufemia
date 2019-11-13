@@ -35,6 +35,8 @@
   line-height: var(--line-height-basis);
 }
 @mixin textareaStyle() {
+  font-size: var(--font-size-basis);
+
   border: none;
   border-radius: 1px;
 
