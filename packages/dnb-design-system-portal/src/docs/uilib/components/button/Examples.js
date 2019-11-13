@@ -28,13 +28,14 @@ class Example extends PureComponent {
         <ComponentBox>
           {/* @jsx */ `
 <Button
-  text="Secondary button with text only"
   variant="secondary"
   onClick={() => {
     console.log('onClick')
   }}
   data-dnb-test="button-secondary"
-/>
+>
+  Secondary button with text only
+</Button>
           `}
         </ComponentBox>
         <ComponentBox>
