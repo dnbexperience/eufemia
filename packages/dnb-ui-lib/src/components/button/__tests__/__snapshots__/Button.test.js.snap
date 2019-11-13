@@ -650,7 +650,7 @@ exports[`Button scss have to match snapshot 1`] = `
 .dnb-button {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
-  font-size: var(--font-size-basis);
+  font-size: var(--font-size-small);
   font-style: normal;
   line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);
@@ -720,17 +720,14 @@ exports[`Button scss have to match snapshot 1`] = `
   border: var(--button-border-width) solid transparent;
   border-radius: var(--button-border-radius);
   text-decoration: none; }
-  .dnb-button,
-  .dnb-core-style .dnb-button {
-    font-size: var(--button-font-size);
-    line-height: var(--button-height); }
-  .dnb-button__icon {
-    line-height: var(--line-height-x-small--em);
+  .dnb-button__icon.dnb-icon {
+    font-size: var(--font-size-small);
     transform: translateY(-0.125rem); }
-    .dnb-button__icon:not(.dnb-icon) svg:not([width]):not([height]) {
+    .dnb-button__icon.dnb-icon:not(.dnb-icon) svg:not([width]):not([height]) {
       width: var(--button-icon-size);
       height: var(--button-icon-size); }
   .dnb-button__text {
+    font-size: var(--button-font-size);
     line-height: var(--line-height-x-small--em);
     color: inherit;
     background-color: inherit;
