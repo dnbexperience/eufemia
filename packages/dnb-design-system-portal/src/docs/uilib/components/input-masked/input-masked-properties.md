@@ -34,9 +34,21 @@ Defaults to Norwegian number format:
 
 The number mask is included and can be set with the `number_mask` property.
 
+```jsx
+
+// 1. Use the desired configurations
+const numberMask = {
+  prefix: '',
+  suffix: ',- kr.'
+}
+
+// 2. Then pass 'numberMask' to the InputMasked component as the number_mask
+<InputMasked number_mask={numberMask} ... />
+```
+
 But in case you have to create the mask by yourself, you can do so:
 
-```js
+```jsx
 import createNumberMask from 'dnb-ui-lib/components/input-masked/addons/createNumberMask'
 
 // 1. Create the 'numberMask' with your desired configurations
@@ -59,12 +71,15 @@ By now, you don't need to install `react-text-mask` as it comes with the `dnb-ui
 npm i text-mask-addons
 ```
 
-2. Create and usage the mask:
+2. Create and use the mask:
 
 ```js
 import emailMask from 'text-mask-addons/dist/emailMask'
 
-<InputMasked mask={emailMask} ... />
+// or import it from the dnb-ui-lib
+import emailMask from 'dnb-ui-lib/components/input-masked/addons/emailMask'
+
+<InputMasked mask={emailMask} placeholder="@." keep_placeholder="true" ... />
 ```
 
 Read more about the details [on the open source project](https://github.com/text-mask/text-mask)

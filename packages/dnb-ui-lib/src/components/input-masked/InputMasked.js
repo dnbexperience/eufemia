@@ -93,7 +93,6 @@ export default class InputMasked extends PureComponent {
           keepCharPositions: isTrue(keep_char_positions),
           placeholderChar: placeholder_char
         }
-        console.log('params', params)
         return <MaskedInput ref={innerRef} {...params} />
       }
 

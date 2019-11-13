@@ -56,6 +56,10 @@ const propTypes = {
   autocomplete: PropTypes.oneOf(['on', 'off']),
   submit_button_title: PropTypes.string,
   placeholder: PropTypes.string,
+  keep_placeholder: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool
+  ]),
   description: PropTypes.string, // deprecated
   suffix: PropTypes.oneOfType([
     PropTypes.string,
@@ -118,6 +122,7 @@ const defaultProps = {
   global_status_id: null,
   autocomplete: 'off',
   placeholder: null,
+  keep_placeholder: null,
   description: null, // deprecated
   suffix: null,
   align: null,
@@ -275,6 +280,7 @@ export default class Input extends PureComponent {
       global_status_id,
       disabled,
       placeholder,
+      keep_placeholder,
       description, // deprecated
       suffix,
       align,
@@ -322,6 +328,7 @@ export default class Input extends PureComponent {
         status && `dnb-input__status--${status_state}`,
         label_direction && `dnb-input--${label_direction}`,
         isTrue(stretch) && `dnb-input--stretch`,
+        isTrue(keep_placeholder) && `dnb-input--keep-placeholder`,
         createSpacingClasses(props),
         _className,
         className
@@ -424,7 +431,7 @@ export default class Input extends PureComponent {
             <span className="dnb-input__shell" {...shellParams}>
               {InputElement || <input ref={this._ref} {...inputParams} />}
 
-              {placeholder && (
+              {!hasValue && placeholder && (
                 <span
                   aria-hidden
                   className={classnames(
