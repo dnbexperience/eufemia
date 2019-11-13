@@ -203,7 +203,7 @@ export default class Button extends PureComponent {
       usedSize && usedSize !== 'default' && `dnb-button--size-${usedSize}`,
       icon && `dnb-button--icon-position-${icon_position || 'right'}`,
       icon && iconSize ? `dnb-button--icon-size-${iconSize}` : null,
-      text && 'dnb-button--has-text',
+      content && 'dnb-button--has-text',
       icon && 'dnb-button--has-icon',
       createSpacingClasses(props),
       class_name,
