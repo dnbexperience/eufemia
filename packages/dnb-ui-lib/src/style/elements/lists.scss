@@ -16,8 +16,8 @@
   padding: 0;
   padding-left: 2rem;
 
-  font-size: var(--font-size-basis--em);
-  line-height: var(--line-height-basis--em);
+  font-size: var(--font-size-basis);
+  line-height: var(--line-height-basis);
 
   @include listOffset();
 
@@ -41,10 +41,12 @@
   ol {
     counter-reset: item;
   }
-
   & li {
-    display: block; // instead of list-item;
     list-style-type: decimal;
+  }
+
+  &--nested li {
+    display: block; // instead of list-item;
 
     &::before {
       content: counters(item, '.') '. '; // with dot
@@ -61,8 +63,8 @@
   margin: 0;
   padding: 0;
 
-  font-size: var(--font-size-basis--em);
-  line-height: var(--line-height-basis--em);
+  font-size: var(--font-size-basis);
+  line-height: var(--line-height-basis);
 
   & > dt {
     padding: 0;

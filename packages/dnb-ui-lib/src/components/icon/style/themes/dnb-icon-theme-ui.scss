@@ -14,8 +14,7 @@
     color: inherit;
 
     border-radius: 50%;
-    // border: 0.0625em solid; // 1px
-    border: 0.09375em solid; // 1.5px
+    border: 0.0875em solid; // use 1.4px instead of 1.5 so webkit is rounding down
     border-color: currentColor;
 
     // default size

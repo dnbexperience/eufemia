@@ -5,8 +5,8 @@
 
 :root {
   --input-font-size: var(--font-size-basis);
-  --input-font-size--medium: 1.5rem;
-  --input-font-size--large: 2rem;
+  --input-font-size--medium: var(--font-size-large);
+  --input-font-size--large: var(--font-size-x-large);
   --input-padding: 1rem;
   --input-padding--medium: 1.5rem;
   --input-padding--large: 2rem;
@@ -211,13 +211,6 @@
   &__align--right &__placeholder,
   &__align--right &__input {
     text-align: right;
-  }
-
-  // Hide placeholder when: 1. input has content or 2: input is in focus
-  &__shell[data-has-content='true'] .dnb-input__placeholder,
-  &__shell[data-has-content='true'][data-input-state='focus']
-    .dnb-input__placeholder {
-    display: none;
   }
 
   // to make Safari selection not appear all to the top

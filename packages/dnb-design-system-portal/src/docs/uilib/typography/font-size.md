@@ -10,8 +10,8 @@ order: 2
 
 | Pixel | Type       | Rem          | Custom Property        | Info |
 | ----- | ---------- | ------------ | ---------------------- | ---- |
-| 16px  | `small`    | **1rem**     | `--font-size-small`    |      |
-| 18px  | `basis`    | **1.125rem** | `--font-size-basis`    | Body |
+| 16px  | `small`    | **1rem**     | `--font-size-small`    | Body |
+| 18px  | `basis`    | **1.125rem** | `--font-size-basis`    | Font |
 | 20px  | `medium`   | **1.25rem**  | `--font-size-medium`   |      |
 | 26px  | `large`    | **1.625rem** | `--font-size-large`    |      |
 | 34px  | `x-large`  | **2.125rem** | `--font-size-x-large`  |      |

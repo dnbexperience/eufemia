@@ -558,7 +558,7 @@ exports[`Radio scss have to match snapshot 1`] = `
 .dnb-form-label {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
-  font-size: var(--font-size-basis);
+  font-size: var(--font-size-small);
   font-style: normal;
   line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);
@@ -601,6 +601,7 @@ exports[`Radio scss have to match snapshot 1`] = `
   padding: 0;
   margin-right: 1rem;
   text-align: left;
+  font-size: var(--font-size-basis);
   vertical-align: baseline;
   color: inherit; }
   .dnb-form-label--vertical {
@@ -627,7 +628,7 @@ legend.dnb-form-label {
 .dnb-form-status {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
-  font-size: var(--font-size-basis);
+  font-size: var(--font-size-small);
   font-style: normal;
   line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);
@@ -709,7 +710,7 @@ legend.dnb-form-label {
 .dnb-radio {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
-  font-size: var(--font-size-basis);
+  font-size: var(--font-size-small);
   font-style: normal;
   line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);
@@ -772,8 +773,7 @@ legend.dnb-form-label {
     align-items: center;
     justify-content: center;
     width: var(--radio-height);
-    height: var(--radio-height);
-    transform: translateY(0.0625rem); }
+    height: var(--radio-height); }
   .dnb-radio__focus, .dnb-radio__button, .dnb-radio__dot {
     position: absolute;
     z-index: 4; }
@@ -811,7 +811,9 @@ legend.dnb-form-label {
     margin-bottom: 0; }
   .dnb-radio__order {
     display: inline-flex;
-    align-items: baseline; }
+    align-items: baseline;
+    font-size: var(--font-size-basis);
+    line-height: var(--line-height-basis); }
     .dnb-radio-group--column .dnb-radio__order {
       display: flex; }
   .dnb-radio--label-position-left .dnb-radio__order .dnb-radio__inner {

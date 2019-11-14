@@ -8,6 +8,7 @@ import { Wrapper, Box } from './helpers'
 
 // UI Components
 import Input from './components/Input'
+import InputMasked from './components/InputMasked'
 import ButtonStory from './components/Button'
 import Radio from './components/Radio'
 import ToggleButton from './components/ToggleButton'
@@ -37,6 +38,7 @@ export default stories
 
 stories.push(ButtonStory)
 stories.push(Input)
+stories.push(InputMasked)
 stories.push(Radio)
 stories.push(ToggleButton)
 stories.push(Checkbox)

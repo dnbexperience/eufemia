@@ -2,12 +2,15 @@
 draft: true
 ---
 
-| Properties                                      | Description                                                                                                                                                                                          |
-| ----------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `mask`                                          | _(optional)_ A mask can be define both as a [RegExp style of characters](https://github.com/text-mask/text-mask/blob/master/componentDocumentation.md#readme) or a callback function. Example below. |
-| `number_mask`                                   | _(optional)_ An object containing the number mask properties. More details below.                                                                                                                    |
-| `show_mask`                                     | _(optional)_ Show mask when input is empty and has no focus.                                                                                                                                         |
-| [Input](/uilib/components/input#tab-properties) | _(optional)_ all `Input` properties are supported.                                                                                                                                                   |
+| Properties                                      | Description                                                                                                                                                                                                                                     |
+| ----------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `mask`                                          | _(optional)_ A mask can be define both as a [RegExp style of characters](https://github.com/text-mask/text-mask/blob/master/componentDocumentation.md#readme) or a callback function. Example below.                                            |
+| `number_mask`                                   | _(optional)_ Set to `true` to enable the defualt numbers formatting or give an `object` containing the number mask properties. More details below. Can be a JSON string as well, containing the number mask properties. Is disabled by default. |
+| `show_mask`                                     | _(optional)_ Show mask when input is empty and has no focus. Defaults to `false`.                                                                                                                                                               |
+| `show_guide`                                    | _(optional)_ When guide is `false`, input-masked doesn't print out placeholder characters and only adds mask characters when the user reaches them as they're typing. Defaults to `true`.                                                       |
+| `placeholder_char`                              | _(optional)_ The placeholder character represents the fillable spot in the mask. Defaults to underscore `_`.                                                                                                                                    |
+| `keep_char_positions`                           | _(optional)_ When `true`, adding or deleting characters will not affect the positions of existing characters. Defaults to `false`.                                                                                                              |
+| [Input](/uilib/components/input#tab-properties) | _(optional)_ all `Input` properties are supported.                                                                                                                                                                                              |
 
 ## Number mask properties
 
@@ -31,9 +34,21 @@ Defaults to Norwegian number format:
 
 The number mask is included and can be set with the `number_mask` property.
 
+```jsx
+
+// 1. Use the desired configurations
+const numberMask = {
+  prefix: '',
+  suffix: ',- kr.'
+}
+
+// 2. Then pass 'numberMask' to the InputMasked component as the number_mask
+<InputMasked number_mask={numberMask} ... />
+```
+
 But in case you have to create the mask by yourself, you can do so:
 
-```js
+```jsx
 import createNumberMask from 'dnb-ui-lib/components/input-masked/addons/createNumberMask'
 
 // 1. Create the 'numberMask' with your desired configurations
@@ -56,12 +71,15 @@ By now, you don't need to install `react-text-mask` as it comes with the `dnb-ui
 npm i text-mask-addons
 ```
 
-2. Create and usage the mask:
+2. Create and use the mask:
 
 ```js
 import emailMask from 'text-mask-addons/dist/emailMask'
 
-<InputMasked mask={emailMask} ... />
+// or import it from the dnb-ui-lib
+import emailMask from 'dnb-ui-lib/components/input-masked/addons/emailMask'
+
+<InputMasked mask={emailMask} placeholder="@." keep_placeholder="true" ... />
 ```
 
 Read more about the details [on the open source project](https://github.com/text-mask/text-mask)

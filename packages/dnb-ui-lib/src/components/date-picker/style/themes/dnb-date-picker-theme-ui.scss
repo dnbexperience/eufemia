@@ -57,6 +57,8 @@
     &__title {
       text-transform: capitalize;
       text-align: center;
+
+      font-size: var(--font-size-basis);
       color: var(--date-picker-header-color);
     }
   }

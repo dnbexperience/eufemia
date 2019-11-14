@@ -3,15 +3,14 @@
 exports[`InputMasked component have to match type="text" snapshot 1`] = `
 <InputMasked
   disabled={false}
-  guide={true}
   id="input-masked"
-  keep_char_positions={true}
+  keep_char_positions="keep_char_positions"
   mask={
     Array [
       /\\[a-z\\]/,
     ]
   }
-  number_mask={Object {}}
+  number_mask="number_mask"
   on_blur={null}
   on_change={null}
   on_focus={null}
@@ -20,6 +19,7 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
   on_submit_focus={null}
   pipe={null}
   placeholder_char="placeholder_char"
+  show_guide="show_guide"
   show_mask={true}
   type="text"
   value="test"
@@ -39,6 +39,7 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
     input_attributes={null}
     input_class={null}
     input_state={null}
+    keep_placeholder={null}
     label={null}
     label_direction={null}
     on_blur={null}
@@ -81,9 +82,9 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
             <t
               autoComplete="off"
               className="dnb-input__input"
-              guide={true}
+              guide={false}
               id="input-masked"
-              keepCharPositions={true}
+              keepCharPositions={false}
               mask={[Function]}
               name="input-masked"
               onBlur={[Function]}
@@ -205,7 +206,7 @@ exports[`InputMasked scss have to match snapshot 1`] = `
 .dnb-button {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
-  font-size: var(--font-size-basis);
+  font-size: var(--font-size-small);
   font-style: normal;
   line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);
@@ -275,17 +276,14 @@ exports[`InputMasked scss have to match snapshot 1`] = `
   border: var(--button-border-width) solid transparent;
   border-radius: var(--button-border-radius);
   text-decoration: none; }
-  .dnb-button,
-  .dnb-core-style .dnb-button {
-    font-size: var(--button-font-size);
-    line-height: var(--button-height); }
-  .dnb-button__icon {
-    line-height: var(--line-height-x-small--em);
+  .dnb-button__icon.dnb-icon {
+    font-size: var(--font-size-small);
     transform: translateY(-0.125rem); }
-    .dnb-button__icon:not(.dnb-icon) svg:not([width]):not([height]) {
+    .dnb-button__icon.dnb-icon:not(.dnb-icon) svg:not([width]):not([height]) {
       width: var(--button-icon-size);
       height: var(--button-icon-size); }
   .dnb-button__text {
+    font-size: var(--button-font-size);
     line-height: var(--line-height-x-small--em);
     color: inherit;
     background-color: inherit;
@@ -411,7 +409,7 @@ a.dnb-button .dnb-button__text {
 .dnb-form-label {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
-  font-size: var(--font-size-basis);
+  font-size: var(--font-size-small);
   font-style: normal;
   line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);
@@ -454,6 +452,7 @@ a.dnb-button .dnb-button__text {
   padding: 0;
   margin-right: 1rem;
   text-align: left;
+  font-size: var(--font-size-basis);
   vertical-align: baseline;
   color: inherit; }
   .dnb-form-label--vertical {
@@ -480,7 +479,7 @@ legend.dnb-form-label {
 .dnb-form-status {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
-  font-size: var(--font-size-basis);
+  font-size: var(--font-size-small);
   font-style: normal;
   line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);
@@ -562,7 +561,7 @@ legend.dnb-form-label {
 .dnb-input {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
-  font-size: var(--font-size-basis);
+  font-size: var(--font-size-small);
   font-style: normal;
   line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);
@@ -601,8 +600,8 @@ legend.dnb-form-label {
 */
 :root {
   --input-font-size: var(--font-size-basis);
-  --input-font-size--medium: 1.5rem;
-  --input-font-size--large: 2rem;
+  --input-font-size--medium: var(--font-size-large);
+  --input-font-size--large: var(--font-size-x-large);
   --input-padding: 1rem;
   --input-padding--medium: 1.5rem;
   --input-padding--large: 2rem;
@@ -734,9 +733,6 @@ legend.dnb-form-label {
   .dnb-input__align--right .dnb-input__placeholder,
   .dnb-input__align--right .dnb-input__input {
     text-align: right; }
-  .dnb-input__shell[data-has-content='true'] .dnb-input__placeholder,
-  .dnb-input__shell[data-has-content='true'][data-input-state='focus'] .dnb-input__placeholder {
-    display: none; }
   .dnb-core-style .dnb-input__input:not([type='file']) {
     line-height: var(--line-height-x-small--em); }
   .dnb-input__inner > .dnb-form-status {
@@ -776,7 +772,7 @@ legend.dnb-form-label {
 .dnb-input-masked {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
-  font-size: var(--font-size-basis);
+  font-size: var(--font-size-small);
   font-style: normal;
   line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);

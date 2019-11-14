@@ -40,7 +40,7 @@
     height: var(--radio-height);
 
     // vertical alignment
-    transform: translateY(0.0625rem);
+    // transform: translateY(0.0625rem);
   }
 
   &__focus,
@@ -96,6 +96,9 @@
   &__order {
     display: inline-flex;
     align-items: baseline;
+
+    font-size: var(--font-size-basis);
+    line-height: var(--line-height-basis);
 
     .dnb-radio-group--column & {
       display: flex;

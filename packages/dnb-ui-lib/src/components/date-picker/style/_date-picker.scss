@@ -290,6 +290,11 @@
       &__bounding {
         border-radius: 0;
       }
+
+      // reset vertical alignment
+      &__text {
+        transform: translateY(0);
+      }
     }
 
     &--selectable:hover {

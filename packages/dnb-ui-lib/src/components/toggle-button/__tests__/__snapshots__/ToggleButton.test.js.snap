@@ -451,7 +451,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                               bounding={false}
                               class={null}
                               className="dnb-toggle-button__button"
-                              content={null}
+                              content="ToggleButton 1"
                               custom_element={null}
                               custom_method={null}
                               disabled={null}
@@ -559,7 +559,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                               bounding={false}
                               class={null}
                               className="dnb-toggle-button__button"
-                              content={null}
+                              content="ToggleButton 2"
                               custom_element={null}
                               custom_method={null}
                               disabled={null}
@@ -747,7 +747,7 @@ exports[`ToggleButton scss have to match snapshot 1`] = `
 .dnb-form-label {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
-  font-size: var(--font-size-basis);
+  font-size: var(--font-size-small);
   font-style: normal;
   line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);
@@ -790,6 +790,7 @@ exports[`ToggleButton scss have to match snapshot 1`] = `
   padding: 0;
   margin-right: 1rem;
   text-align: left;
+  font-size: var(--font-size-basis);
   vertical-align: baseline;
   color: inherit; }
   .dnb-form-label--vertical {
@@ -871,7 +872,7 @@ legend.dnb-form-label {
 .dnb-button {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
-  font-size: var(--font-size-basis);
+  font-size: var(--font-size-small);
   font-style: normal;
   line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);
@@ -941,17 +942,14 @@ legend.dnb-form-label {
   border: var(--button-border-width) solid transparent;
   border-radius: var(--button-border-radius);
   text-decoration: none; }
-  .dnb-button,
-  .dnb-core-style .dnb-button {
-    font-size: var(--button-font-size);
-    line-height: var(--button-height); }
-  .dnb-button__icon {
-    line-height: var(--line-height-x-small--em);
+  .dnb-button__icon.dnb-icon {
+    font-size: var(--font-size-small);
     transform: translateY(-0.125rem); }
-    .dnb-button__icon:not(.dnb-icon) svg:not([width]):not([height]) {
+    .dnb-button__icon.dnb-icon:not(.dnb-icon) svg:not([width]):not([height]) {
       width: var(--button-icon-size);
       height: var(--button-icon-size); }
   .dnb-button__text {
+    font-size: var(--button-font-size);
     line-height: var(--line-height-x-small--em);
     color: inherit;
     background-color: inherit;
@@ -1081,7 +1079,7 @@ a.dnb-button .dnb-button__text {
 .dnb-form-status {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
-  font-size: var(--font-size-basis);
+  font-size: var(--font-size-small);
   font-style: normal;
   line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);
@@ -1163,7 +1161,7 @@ a.dnb-button .dnb-button__text {
 .dnb-checkbox {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
-  font-size: var(--font-size-basis);
+  font-size: var(--font-size-small);
   font-style: normal;
   line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);
@@ -1307,7 +1305,7 @@ a.dnb-button .dnb-button__text {
 .dnb-radio {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
-  font-size: var(--font-size-basis);
+  font-size: var(--font-size-small);
   font-style: normal;
   line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);
@@ -1370,8 +1368,7 @@ a.dnb-button .dnb-button__text {
     align-items: center;
     justify-content: center;
     width: var(--radio-height);
-    height: var(--radio-height);
-    transform: translateY(0.0625rem); }
+    height: var(--radio-height); }
   .dnb-radio__focus, .dnb-radio__button, .dnb-radio__dot {
     position: absolute;
     z-index: 4; }
@@ -1409,7 +1406,9 @@ a.dnb-button .dnb-button__text {
     margin-bottom: 0; }
   .dnb-radio__order {
     display: inline-flex;
-    align-items: baseline; }
+    align-items: baseline;
+    font-size: var(--font-size-basis);
+    line-height: var(--line-height-basis); }
     .dnb-radio-group--column .dnb-radio__order {
       display: flex; }
   .dnb-radio--label-position-left .dnb-radio__order .dnb-radio__inner {
@@ -1476,7 +1475,7 @@ a.dnb-button .dnb-button__text {
 .dnb-toggle-button {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
-  font-size: var(--font-size-basis);
+  font-size: var(--font-size-small);
   font-style: normal;
   line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);

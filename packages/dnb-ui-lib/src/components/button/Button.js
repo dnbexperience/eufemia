@@ -171,9 +171,10 @@ export default class Button extends PureComponent {
 
     let usedVariant = variant
     let usedSize = size
+    const content = Button.getContent(this.props) || text
 
     // if only has Icon, then resize it and define it as secondary
-    const isIconOnly = Boolean(!text && icon)
+    const isIconOnly = Boolean(!content && icon)
     if (isIconOnly) {
       if (!usedVariant) {
         usedVariant = 'secondary'
@@ -181,7 +182,7 @@ export default class Button extends PureComponent {
       if (!usedSize) {
         usedSize = 'medium'
       }
-    } else if (text) {
+    } else if (content) {
       if (!usedVariant) {
         usedVariant = 'primary'
       }
@@ -190,15 +191,13 @@ export default class Button extends PureComponent {
       }
     }
 
-    const content = Button.getContent(this.props)
-
     const classes = classnames(
       'dnb-button',
       `dnb-button--${usedVariant || 'primary'}`,
       usedSize && usedSize !== 'default' && `dnb-button--size-${usedSize}`,
       icon && `dnb-button--icon-position-${icon_position || 'right'}`,
       icon && icon_size && `dnb-button--icon-size-${icon_size}`,
-      text && 'dnb-button--has-text',
+      content && 'dnb-button--has-text',
       icon && 'dnb-button--has-icon',
       createSpacingClasses(props),
       class_name,
@@ -215,7 +214,6 @@ export default class Button extends PureComponent {
       disabled: isTrue(disabled),
       ...attributes,
       onMouseOut: this.onMouseOutHandler, // for resetting the button to the default state
-      // onTouchStart: this.preventPageScrolling,
       onClick: this.onClickHandler
     }
 
@@ -271,8 +269,8 @@ class Content extends PureComponent {
     isIconOnly: null
   }
   render() {
+    let { text } = this.props
     const {
-      text,
       title,
       content,
       icon,
@@ -289,7 +287,9 @@ class Content extends PureComponent {
       )
     }
 
-    if (content) {
+    if (typeof content === 'string') {
+      text = content
+    } else {
       ret.push(content)
     }
 
