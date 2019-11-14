@@ -1291,7 +1291,9 @@ legend.dnb-form-label {
       flex: none;
       vertical-align: baseline; }
       .dnb-dropdown__shell {
-        top: 0; } }
+        top: 0; }
+      .dnb-dropdown__options {
+        display: block; } }
 
 @keyframes dropdown-slide-down {
   from {
