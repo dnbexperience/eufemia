@@ -142,24 +142,22 @@ export default class Modal extends PureComponent {
   }
 
   static insertModalRoot() {
-    if (
-      typeof window !== 'undefined' &&
-      typeof document !== 'undefined' &&
-      typeof window.modalRoot === 'undefined'
-    ) {
-      try {
-        window.modalRoot = document.getElementById('dnb-modal-root') // document.querySelector('.dnb-modal-root')
-        if (!window.modalRoot) {
-          window.modalRoot = document.createElement('div')
-          window.modalRoot.setAttribute('id', 'dnb-modal-root')
-          document.body.insertBefore(
-            window.modalRoot,
-            document.body.firstChild
-          )
-        }
-      } catch (e) {
-        console.warn('Modal: Could not insert dnb-modal-root', e)
+    if (typeof window === 'undefined') {
+      return false
+    }
+
+    try {
+      window.modalRoot = document.getElementById('dnb-modal-root') // document.querySelector('.dnb-modal-root')
+      if (!window.modalRoot) {
+        window.modalRoot = document.createElement('div')
+        window.modalRoot.setAttribute('id', 'dnb-modal-root')
+        document.body.insertBefore(
+          window.modalRoot,
+          document.body.firstChild
+        )
       }
+    } catch (e) {
+      console.warn('Modal: Could not insert dnb-modal-root', e)
     }
 
     return window.modalRoot
