@@ -845,12 +845,13 @@ export default class Dropdown extends PureComponent {
       const elem = this._ref.current
 
       this.setDirection = () => {
+        // use "window.pageYOffset" instead of "window.scrollY" because IE
         const spaceToTop =
-          getOffseTop(elem) + elem.offsetHeight - window.scrollY
+          getOffseTop(elem) + elem.offsetHeight - window.pageYOffset
         const spaceToBottom =
           window.innerHeight -
           (getOffseTop(elem) + elem.offsetHeight) +
-          window.scrollY
+          window.pageYOffset
         const direction =
           spaceToBottom < min_height && spaceToTop > min_height
             ? 'top'
