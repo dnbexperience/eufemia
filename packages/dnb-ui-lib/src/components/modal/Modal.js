@@ -142,20 +142,24 @@ export default class Modal extends PureComponent {
   }
 
   static insertModalRoot() {
-    if (!Modal.modalRoot && typeof document !== 'undefined') {
+    if (
+      typeof window !== 'undefined' &&
+      typeof document !== 'undefined' &&
+      typeof window.modalRoot === 'undefined'
+    ) {
       try {
-        Modal.modalRoot = document.getElementById('dnb-modal-root') // document.querySelector('.dnb-modal-root')
-        if (!Modal.modalRoot) {
-          Modal.modalRoot = document.createElement('div')
-          Modal.modalRoot.setAttribute('id', 'dnb-modal-root')
-          document.body.appendChild(Modal.modalRoot)
+        window.modalRoot = document.getElementById('dnb-modal-root') // document.querySelector('.dnb-modal-root')
+        if (!window.modalRoot) {
+          window.modalRoot = document.createElement('div')
+          window.modalRoot.setAttribute('id', 'dnb-modal-root')
+          document.body.appendChild(window.modalRoot)
         }
       } catch (e) {
         console.warn('Modal: Could not insert dnb-modal-root', e)
       }
     }
 
-    return Modal.modalRoot
+    return window.modalRoot
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -395,8 +399,8 @@ class ModalRoot extends PureComponent {
           this.node = document.createElement('div')
           this.node.className = 'dnb-modal-root__inner'
         }
-        if (Modal.modalRoot && this.node) {
-          Modal.modalRoot.appendChild(this.node)
+        if (window.modalRoot && this.node) {
+          window.modalRoot.appendChild(this.node)
         }
       } catch (e) {
         console.warn(e)
@@ -406,9 +410,9 @@ class ModalRoot extends PureComponent {
   }
 
   componentWillUnmount() {
-    if (Modal.modalRoot && this.node) {
+    if (window.modalRoot && this.node) {
       this.setState({ isMonted: false })
-      Modal.modalRoot.removeChild(this.node)
+      window.modalRoot.removeChild(this.node)
       this.node = null
     }
   }
@@ -417,7 +421,7 @@ class ModalRoot extends PureComponent {
     if (isTrue(direct_dom_return)) {
       return <ModalContent {...props}>{children}</ModalContent>
     }
-    if (this.state.isMonted && Modal.modalRoot && this.node) {
+    if (this.state.isMonted && window.modalRoot && this.node) {
       return ReactDOM.createPortal(
         <ModalContent {...props}>{children}</ModalContent>,
         this.node
