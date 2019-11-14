@@ -152,7 +152,10 @@ export default class Modal extends PureComponent {
         if (!window.modalRoot) {
           window.modalRoot = document.createElement('div')
           window.modalRoot.setAttribute('id', 'dnb-modal-root')
-          document.body.appendChild(window.modalRoot)
+          document.body.insertBefore(
+            window.modalRoot,
+            document.body.firstChild
+          )
         }
       } catch (e) {
         console.warn('Modal: Could not insert dnb-modal-root', e)
