@@ -33,7 +33,8 @@ export class SidebarMenuProvider extends PureComponent {
     // scroll to top on opening the menu, and back again
     if (!this.state.isOpen && typeof window !== 'undefined') {
       try {
-        this.lastScrollPosition = window.scrollY
+        // use "window.pageYOffset" instead of "window.scrollY" because IE
+        this.lastScrollPosition = window.pageYOffset
       } catch (e) {
         console.log('Could not get scrollY', e)
       }

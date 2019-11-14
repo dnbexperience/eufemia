@@ -69,7 +69,8 @@ export class MainMenuProvider extends PureComponent {
 
     // scroll to top on opening the menu, and back again
     if (!state && typeof window !== 'undefined') {
-      lastScrollPosition = window.scrollY
+      // use "window.pageYOffset" instead of "window.scrollY" because IE
+      lastScrollPosition = window.pageYOffset
     }
 
     this.setState({
