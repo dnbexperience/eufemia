@@ -470,6 +470,10 @@
     &__shell {
       top: 0;
     }
+    &__options {
+      // IE has bug where the height can't be calculated propery
+      display: block;
+    }
   }
 }
 
