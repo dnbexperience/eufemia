@@ -1,3 +1,7 @@
+## November, 16. 2019
+
+- New [secondary icons](/icons/secondary): `arrow_up`, `arrow_down`, `arrow_right`, `arrow_left`, `view`, `view_off`, `settings`, `refresh`, `add_file`
+
 ## November, 6. 2019
 
 - [GlobalStatus](/uilib/components/global-status): modified background color
@@ -19,11 +23,11 @@ Get more details about the `dnb-ui-lib` [v5 releas](/uilib/about-the-lib/release
 
 ## October, 14. 2019
 
-- New [secondary icons](/icons/secondary): undo and redo
+- New [secondary icons](/icons/secondary): `undo` and `redo`
 
 ## October, 2. 2019
 
-- New [secondary icons](/icons/secondary): send and upload
+- New [secondary icons](/icons/secondary): `send` and `upload`
 
 ## September, 23. 2019
 
