@@ -8,7 +8,12 @@ import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import keycode from 'keycode'
-import * as bodyScrollLock from 'body-scroll-lock'
+// import * as bodyScrollLock from 'body-scroll-lock'
+import {
+  disableBodyScroll,
+  enableBodyScroll,
+  clearAllBodyScrollLocks
+} from '../../shared/libs/bodyScrollLock'
 import {
   isTrue,
   makeUniqueId,
@@ -22,10 +27,10 @@ import {
 import { createSpacingClasses } from '../space/SpacingHelper'
 import Button from '../button/Button'
 
-const { disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks } =
-  bodyScrollLock && bodyScrollLock.default
-    ? bodyScrollLock.default
-    : bodyScrollLock
+// const { disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks } =
+//   bodyScrollLock && bodyScrollLock.default
+//     ? bodyScrollLock.default
+//     : bodyScrollLock
 
 const renderProps = {
   on_open: null,
