@@ -26,6 +26,7 @@ exports[`Modal component have to match snapshot 1`] = `
         "open_state": "'opened'",
         "preventSetTriggerRef": true,
         "prevent_close": "prevent_close",
+        "prevent_core_style": "prevent_core_style",
         "title": "title",
         "trigger_class": "trigger_class",
         "trigger_disabled": "trigger_disabled",
@@ -64,6 +65,7 @@ exports[`Modal component have to match snapshot 1`] = `
         "min_width": "min_width",
         "modal_content": "modal_content",
         "prevent_close": "prevent_close",
+        "prevent_core_style": "prevent_core_style",
         "title": "title",
       },
     }
@@ -97,6 +99,7 @@ exports[`Modal component have to match snapshot 1`] = `
   open_state={null}
   preventSetTriggerRef={true}
   prevent_close={false}
+  prevent_core_style={false}
   title="modal_title"
   trigger_class={null}
   trigger_disabled={null}
@@ -233,6 +236,7 @@ exports[`Modal component have to match snapshot 1`] = `
             "open_state": "'opened'",
             "preventSetTriggerRef": true,
             "prevent_close": "prevent_close",
+            "prevent_core_style": "prevent_core_style",
             "title": "title",
             "trigger_class": "trigger_class",
             "trigger_disabled": "trigger_disabled",
@@ -271,6 +275,7 @@ exports[`Modal component have to match snapshot 1`] = `
             "min_width": "min_width",
             "modal_content": "modal_content",
             "prevent_close": "prevent_close",
+            "prevent_core_style": "prevent_core_style",
             "title": "title",
           },
         }
@@ -301,6 +306,7 @@ exports[`Modal component have to match snapshot 1`] = `
       on_open={null}
       open_modal={null}
       prevent_close={false}
+      prevent_core_style={false}
       title="modal_title"
       toggleOpenClose={[Function]}
     >
@@ -329,6 +335,7 @@ exports[`Modal component have to match snapshot 1`] = `
               "open_state": "'opened'",
               "preventSetTriggerRef": true,
               "prevent_close": "prevent_close",
+              "prevent_core_style": "prevent_core_style",
               "title": "title",
               "trigger_class": "trigger_class",
               "trigger_disabled": "trigger_disabled",
@@ -367,6 +374,7 @@ exports[`Modal component have to match snapshot 1`] = `
               "min_width": "min_width",
               "modal_content": "modal_content",
               "prevent_close": "prevent_close",
+              "prevent_core_style": "prevent_core_style",
               "title": "title",
             },
           }
@@ -398,6 +406,7 @@ exports[`Modal component have to match snapshot 1`] = `
         on_open={null}
         open_modal={null}
         prevent_close={false}
+        prevent_core_style={false}
         title="modal_title"
         toggleOpenClose={[Function]}
       >
@@ -410,7 +419,7 @@ exports[`Modal component have to match snapshot 1`] = `
           role="dialog"
         >
           <div
-            className="dnb-modal__content__inner dnb-no-focus"
+            className="dnb-modal__content__inner dnb-no-focus dnb-core-style"
             id="modal_content_id"
             onClick={[Function]}
             onKeyDown={[Function]}

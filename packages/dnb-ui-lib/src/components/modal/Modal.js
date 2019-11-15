@@ -59,6 +59,10 @@ const propTypes = {
     PropTypes.bool
   ]),
   prevent_close: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  prevent_core_style: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool
+  ]),
   fullscreen: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   open_state: PropTypes.oneOf(['opened', 'closed']),
   direct_dom_return: PropTypes.oneOfType([
@@ -108,6 +112,7 @@ const defaultProps = {
   close_title: 'Lukk', // Close Modal Window
   hide_close_button: false,
   prevent_close: false,
+  prevent_core_style: false,
   fullscreen: false,
   open_state: null,
   direct_dom_return: false,
@@ -444,6 +449,10 @@ class ModalContent extends PureComponent {
       PropTypes.bool
     ]),
     prevent_close: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    prevent_core_style: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
     min_width: PropTypes.string,
     max_width: PropTypes.string,
     fullscreen: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -466,6 +475,7 @@ class ModalContent extends PureComponent {
     close_title: null,
     hide_close_button: false,
     prevent_close: null,
+    prevent_core_style: null,
     min_width: null,
     max_width: null,
     fullscreen: null,
@@ -623,6 +633,7 @@ class ModalContent extends PureComponent {
       close_title,
       hide_close_button,
       prevent_close, // eslint-disable-line
+      prevent_core_style,
       min_width: minWidth,
       max_width: maxWidth,
       fullscreen, // eslint-disable-line
@@ -653,6 +664,7 @@ class ModalContent extends PureComponent {
       className: classnames(
         'dnb-modal__content__inner',
         'dnb-no-focus',
+        !isTrue(prevent_core_style) && 'dnb-core-style',
         className,
         _className
       ),
