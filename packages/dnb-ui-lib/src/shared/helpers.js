@@ -52,7 +52,7 @@ export const applyPageFocus = (key = 'default') => {
       element.focus({ preventScroll: true })
     }
   } catch (e) {
-    console.log('Error on applyPageFocus:', e)
+    console.warn('Error on applyPageFocus:', e)
   }
 }
 
@@ -64,13 +64,16 @@ export const scrollToLocationHashId = ({ offset = 0 } = {}) => {
       if (elem instanceof HTMLElement) {
         const top = parseFloat(elem.offsetTop) - offset
         try {
-          window.scrollTop = top
-          window.scrollTo({
-            top,
-            behavior: 'smooth'
-          })
+          if (window.scrollTo) {
+            window.scrollTo({
+              top,
+              behavior: 'smooth'
+            })
+          } else {
+            window.scrollTop = top
+          }
         } catch (e) {
-          console.log('Error on scrollToLocationHashId:', e)
+          console.warn('Error on scrollToLocationHashId:', e)
         }
       }
     }
