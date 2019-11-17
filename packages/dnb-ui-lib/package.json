@@ -36,7 +36,7 @@
     "dev:cjs": "nodemon --exec 'yarn build:cjs && yarn build:copy' --ext js,html,json,css,scss --watch './src/**/*' --ignore './**/*'",
     "dev:components": "nodemon --exec 'yarn build:component && yarn build:shared && yarn build:copy' --ext js,html,json,css,scss --watch './src/**/*' --ignore '*.json'",
     "dev:icons": "nodemon --exec 'babel-node ./scripts/tools/convertIcons' --ignore '/icons/**' --ignore '*.json'",
-    "dev:tasks": "nodemon --exec 'babel-node ./scripts/prepub/dev.js' --watch 'rollup.config.js' --ext js,html,json,css,scss --watch './src/components/**/*' --watch './src/style/**/*' --watch './scripts/**/*' --ignore '*.json'",
+    "dev:tasks": "nodemon --exec 'babel-node ./scripts/prepub/dev.js && yarn build:copy' --watch 'rollup.config.js' --ext js,html,json,css,scss --watch './src/components/**/*' --watch './src/style/**/*' --watch './scripts/**/*' --ignore '*.json'",
     "dev:umd": "nodemon --exec 'yarn build:umd && yarn build:copy' --ext js,html,json,css,scss --watch './src/**/*' --ignore './umd/*'",
     "figma": "babel-node ./scripts/figma/updateAll",
     "figma-ci-build": "yarn figma",

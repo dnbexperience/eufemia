@@ -41,7 +41,7 @@ describe('makeMainStyle transforms "core" SASS to CSS', () => {
     expect(/^Error/.test(css)).toBe(false)
   })
   it('has to have correct core path to fonts', () => {
-    expect(global.core).toContain('"../assets/fonts/')
+    expect(global.core).toMatch(new RegExp('("|\\()../assets/fonts/'))
   })
 })
 
@@ -51,7 +51,10 @@ describe('makeMainStyle transforms "components" SASS to CSS', () => {
     expect(/^Error/.test(css)).toBe(false)
   })
   it('has to contain a button selector', () => {
-    expect(global.components).toContain('.dnb-button {')
+    expect(global.components).toMatch(new RegExp('.dnb-button\\s?{'))
+  })
+  it('has proper animation names after the cssnano transform', () => {
+    expect(global.components).not.toMatch(/animation:[a-z] /)
   })
 })
 
@@ -68,9 +71,13 @@ describe('makeMainStyle transforms "theme" SASS to CSS', () => {
     expect(/^Error/.test(css)).toBe(false)
   })
   it('has to have correct custom properties', () => {
-    expect(global.theme).toContain('--color-sea-green: #007272;')
-    expect(global.theme).toContain('color: var(--color-sea-green);')
-    expect(global.theme).toContain('color: #007272;')
+    expect(global.theme).toMatch(
+      new RegExp('--color-sea-green:\\s?#007272;')
+    )
+    expect(global.theme).toMatch(
+      new RegExp('color:\\s?var\\(--color-sea-green\\);')
+    )
+    expect(global.theme).toMatch(new RegExp('color:\\s?#007272;'))
     expect(global.theme).not.toContain('fuchsia')
   })
 })

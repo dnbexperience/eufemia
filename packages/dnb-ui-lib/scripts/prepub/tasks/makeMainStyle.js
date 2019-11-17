@@ -66,8 +66,12 @@ export const runFactory = (
         })
         .pipe(sassStream)
         .pipe(postcss(postcssConfig({ IE11: true })))
+        .pipe(
+          cssnano({
+            reduceIdents: false
+          })
+        )
         .pipe(cloneSink)
-        .pipe(cssnano())
         .pipe(rename({ suffix: '.min' }))
         .pipe(cloneSink.tap())
 
