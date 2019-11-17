@@ -490,7 +490,7 @@ export default class GlobalStatus extends React.PureComponent {
     try {
       // dispatchCustomElementEvent(this.state.globalStatus, 'on_scroll_to')
       const element = this._shellRef.current
-      if (element) {
+      if (element && !isIE11) {
         this._scrollToStatusId = isElementVisible(element, isDone)
         element.scrollIntoView({
           block: 'center',
