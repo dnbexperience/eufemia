@@ -98,7 +98,7 @@
 
   &__title {
     &.dnb-h2,
-    .dnb-core-style &.dnb-h2 {
+    .dnb-core-style &.dnb-h2:not([class*='dnb-space']) {
       margin: 0;
       padding: 0 2rem 0 0; // because of the close button
     }
@@ -134,7 +134,7 @@
 
     // set a hight z-index because when font-size is 200%+
     // then it is possible that someting else will come in front
-    z-index: calc(var(--modal-z-index) + 2);
+    z-index: 1; // below #dropdown and #date-picker
 
     @include allBelow(medium) {
       top: calc(var(--modal-spacing) / 2);

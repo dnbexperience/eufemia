@@ -3,12 +3,11 @@
  *
  */
 
-import React, { PureComponent, Fragment } from 'react'
+import React, { PureComponent } from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import keycode from 'keycode'
-// import * as bodyScrollLock from 'body-scroll-lock'
 import {
   disableBodyScroll,
   enableBodyScroll,
@@ -26,11 +25,6 @@ import {
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import Button from '../button/Button'
-
-// const { disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks } =
-//   bodyScrollLock && bodyScrollLock.default
-//     ? bodyScrollLock.default
-//     : bodyScrollLock
 
 const renderProps = {
   on_open: null,
@@ -689,7 +683,7 @@ class ModalContent extends PureComponent {
     validateDOMAttributes(this.props, innerParams)
 
     return (
-      <Fragment>
+      <>
         <div {...contentParams}>
           <div {...innerParams} ref={this._contentRef}>
             {title && <h1 className="dnb-modal__title dnb-h2">{title}</h1>}
@@ -700,7 +694,7 @@ class ModalContent extends PureComponent {
           </div>
         </div>
         <span className="dnb-modal__overlay" aria-hidden="true" />
-      </Fragment>
+      </>
     )
   }
 }
