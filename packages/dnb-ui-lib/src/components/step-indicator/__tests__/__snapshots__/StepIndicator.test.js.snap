@@ -466,10 +466,12 @@ exports[`StepIndicator scss have to match snapshot 1`] = `
 .dnb-step-indicator {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
-  font-size: var(--font-size-basis);
+  font-size: var(--font-size-small);
   font-style: normal;
   line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   font-variant-numeric: lining-nums;
   font-feature-settings: \\"lnum\\";
@@ -517,53 +519,55 @@ exports[`StepIndicator scss have to match snapshot 1`] = `
   .dnb-spacing .dnb-step-indicator__list li {
     margin-top: 0;
     margin-bottom: 0; }
-  .dnb-step-indicator__item-contenta, .dnb-step-indicator__item-content.dnb-anchor, .dnb-step-indicator__item-content--static, .dnb-step-indicator__item-content--link {
-    position: relative;
-    z-index: 2;
-    display: flex;
-    flex-direction: row;
-    margin: 0;
-    padding: 0.25rem 0.25rem;
-    height: 100%;
-    border-bottom: none;
-    text-decoration: none;
-    box-shadow: none; }
-  .dnb-step-indicator__item-content--link.dnb-anchor {
-    line-height: var(--line-height-basis); }
-  .dnb-step-indicator__item-content--link:focus[disabled],
-  html:not([data-is-touch]) .dnb-step-indicator__item-content--link:focus[disabled] {
-    cursor: not-allowed; }
-  .dnb-step-indicator__item-content--link:focus:not([disabled]),
-  html:not([data-is-touch]) .dnb-step-indicator__item-content--link:focus:not([disabled]) {
-    outline: none; }
-    html[data-whatinput='keyboard'] .dnb-step-indicator__item-content--link:focus:not([disabled]), html[data-whatinput='keyboard']
-    html:not([data-is-touch]) .dnb-step-indicator__item-content--link:focus:not([disabled]) {
-      box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
-      /* IE11 fix */
-      border-color: transparent; }
-    .dnb-step-indicator__item-content--link:focus:not([disabled])::after,
-    html:not([data-is-touch]) .dnb-step-indicator__item-content--link:focus:not([disabled])::after {
-      content: none; }
-  .dnb-step-indicator__item-content--number {
-    padding-right: 0.25rem;
-    white-space: nowrap; }
-  .dnb-step-indicator__item-content--text {
-    text-align: left; }
-    .dnb-step-indicator__item-content--text > span[hidden] {
+  .dnb-step-indicator__item-content {
+    font-size: var(--font-size-basis); }
+    .dnb-step-indicator__item-contenta, .dnb-step-indicator__item-content.dnb-anchor, .dnb-step-indicator__item-content--static, .dnb-step-indicator__item-content--link {
+      position: relative;
+      z-index: 2;
       display: flex;
-      flex-direction: column;
-      height: 0;
-      visibility: hidden;
-      overflow: hidden; }
-  .dnb-step-indicator__item-content::after {
-    content: '';
-    position: absolute;
-    z-index: 1;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 3px;
-    border-radius: 1.5px; }
+      flex-direction: row;
+      margin: 0;
+      padding: 0.25rem 0.25rem;
+      height: 100%;
+      border-bottom: none;
+      text-decoration: none;
+      box-shadow: none; }
+    .dnb-step-indicator__item-content--link.dnb-anchor {
+      line-height: var(--line-height-basis); }
+    .dnb-step-indicator__item-content--link:focus[disabled],
+    html:not([data-is-touch]) .dnb-step-indicator__item-content--link:focus[disabled] {
+      cursor: not-allowed; }
+    .dnb-step-indicator__item-content--link:focus:not([disabled]),
+    html:not([data-is-touch]) .dnb-step-indicator__item-content--link:focus:not([disabled]) {
+      outline: none; }
+      html[data-whatinput='keyboard'] .dnb-step-indicator__item-content--link:focus:not([disabled]), html[data-whatinput='keyboard']
+      html:not([data-is-touch]) .dnb-step-indicator__item-content--link:focus:not([disabled]) {
+        box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
+        /* IE11 fix */
+        border-color: transparent; }
+      .dnb-step-indicator__item-content--link:focus:not([disabled])::after,
+      html:not([data-is-touch]) .dnb-step-indicator__item-content--link:focus:not([disabled])::after {
+        content: none; }
+    .dnb-step-indicator__item-content--number {
+      padding-right: 0.25rem;
+      white-space: nowrap; }
+    .dnb-step-indicator__item-content--text {
+      text-align: left; }
+      .dnb-step-indicator__item-content--text > span[hidden] {
+        display: flex;
+        flex-direction: column;
+        height: 0;
+        visibility: hidden;
+        overflow: hidden; }
+    .dnb-step-indicator__item-content::after {
+      content: '';
+      position: absolute;
+      z-index: 1;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 3px;
+      border-radius: 1.5px; }
   .dnb-step-indicator::after {
     content: '';
     position: absolute;

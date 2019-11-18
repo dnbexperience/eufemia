@@ -171,9 +171,10 @@ export default class Button extends PureComponent {
 
     let usedVariant = variant
     let usedSize = size
+    const content = Button.getContent(this.props) || text
 
     // if only has Icon, then resize it and define it as secondary
-    const isIconOnly = Boolean(!text && icon)
+    const isIconOnly = Boolean(!content && icon)
     if (isIconOnly) {
       if (!usedVariant) {
         usedVariant = 'secondary'
@@ -181,7 +182,7 @@ export default class Button extends PureComponent {
       if (!usedSize) {
         usedSize = 'medium'
       }
-    } else if (text) {
+    } else if (content) {
       if (!usedVariant) {
         usedVariant = 'primary'
       }
@@ -195,8 +196,6 @@ export default class Button extends PureComponent {
       usedSize === 'large' && (icon_size === 'default' || !icon_size)
         ? 'medium'
         : icon_size
-
-    const content = Button.getContent(this.props)
 
     const classes = classnames(
       'dnb-button',
@@ -221,7 +220,6 @@ export default class Button extends PureComponent {
       disabled: isTrue(disabled),
       ...attributes,
       onMouseOut: this.onMouseOutHandler, // for resetting the button to the default state
-      // onTouchStart: this.preventPageScrolling,
       onClick: this.onClickHandler
     }
 
@@ -279,8 +277,8 @@ class Content extends PureComponent {
     isIconOnly: null
   }
   render() {
+    let { text } = this.props
     const {
-      text,
       title,
       content,
       icon,
@@ -297,7 +295,9 @@ class Content extends PureComponent {
       )
     }
 
-    if (content) {
+    if (typeof content === 'string') {
+      text = content
+    } else {
       ret.push(content)
     }
 

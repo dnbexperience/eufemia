@@ -5,8 +5,8 @@
 
 :root {
   --input-font-size: var(--font-size-basis);
-  --input-font-size--medium: 1.5rem;
-  --input-font-size--large: 2rem;
+  --input-font-size--medium: var(--font-size-large);
+  --input-font-size--large: var(--font-size-x-large);
   --input-padding: 1rem;
   --input-padding--medium: 1.5rem;
   --input-padding--large: 2rem;
@@ -40,7 +40,8 @@
 
     border: var(--input-border-width) solid var(--color-sea-green-alt);
 
-    line-height: var(--input-height);
+    // centering type="file" - here we can actually keep it as pixels
+    line-height: calc(var(--input-height) - 2px);
   }
 
   &__input {
@@ -50,6 +51,9 @@
 
     position: relative;
     z-index: 2; // to make sure we are over the placeholder
+
+    // vertical alignment
+    transform: translateY(-0.0625rem);
   }
 
   &__input[disabled] {
@@ -111,12 +115,6 @@
     &:hover {
       color: var(--color-emerald-green);
     }
-  }
-
-  // vertical alignment
-  [data-os='mac'] &__placeholder,
-  [data-os='mac'] &__input {
-    transform: translateY(0.0625rem);
   }
 
   &--has-submit-element &__placeholder,
@@ -279,8 +277,10 @@
     &__inner {
       width: 100%; // fix overflow on parent
     }
+
     &__input,
     &__placeholder {
+      // vertical alignment
       transform: translateY(-0.0625rem);
     }
   }

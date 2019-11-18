@@ -27,14 +27,15 @@ if (typeof window !== 'undefined' && window.IS_TEST) {
       background: #fff;
     }
 
+    /* stop scrolling */
+    html {
+      scroll-behavior: auto !important;
+    }
+
     /* because the font-weight is differently on Arial, we have to redefine it to be bold */
     :root {
       --font-weight-demi: 600;
       --font-weight-medium: 700;
-    }
-
-    html {
-      scroll-behavior: auto !important;
     }
 
     body * {

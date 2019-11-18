@@ -13,7 +13,7 @@
       </g>
       <rect width="24" height="24" fill="#FFFFFF" fill-rule="nonzero" rx="12"/>
       <rect width="23" height="23" x=".5" y=".5" stroke="#98C6C6" rx="11.5"/>
-      <text fill="#007272" transform="translate(5 9)" font-family="FedraSansStd-Book, Fedra Sans Std" font-size="8" font-weight="300">
+      <text fill="#007272" transform="translate(5 9)" font-family="DNB-Regular, DNB" font-size="8" font-weight="300">
         <tspan x="0" y="6">NEI</tspan>
       </text>
     </g>
@@ -31,7 +31,7 @@
         </g>
         <rect width="24" height="24" fill="#FFFFFF" fill-rule="nonzero" rx="12"/>
         <rect width="23" height="23" x=".5" y=".5" stroke="#98C6C6" rx="11.5"/>
-        <text fill="#007272" transform="translate(5 9)" font-family="FedraSansStd-Book, Fedra Sans Std" font-size="8" font-weight="300">
+        <text fill="#007272" transform="translate(5 9)" font-family="DNB-Regular, DNB" font-size="8" font-weight="300">
           <tspan x="0" y="6">NEI</tspan>
         </text>
       </g>

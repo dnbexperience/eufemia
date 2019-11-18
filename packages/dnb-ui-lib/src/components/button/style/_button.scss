@@ -42,36 +42,31 @@
   border: var(--button-border-width) solid transparent;
   border-radius: var(--button-border-radius);
 
-  &,
-  .dnb-core-style & {
-    font-size: var(--button-font-size);
-    line-height: var(--button-height);
-  }
   text-decoration: none;
 
-  &__icon {
-    line-height: var(
-      --line-height-x-small--em
-    ); // vertical alignment, if we have no line-height
+  &__icon.dnb-icon {
+    font-size: var(--font-size-small); // has to be 16px
+    // line-height: var(
+    //   --line-height-x-small--em
+    // ); // vertical alignment, if we have no line-height
     &:not(.dnb-icon) svg:not([width]):not([height]) {
       width: var(--button-icon-size);
       height: var(--button-icon-size);
     }
 
     // vertical alignment
-    [data-os='win'] & {
-      transform: translateY(-0.0625rem);
-    }
+    transform: translateY(-0.125rem);
   }
   &__text {
-    line-height: var(--line-height-x-small--em);
+    font-size: var(--button-font-size);
+    line-height: var(
+      --line-height-x-small--em
+    ); // because of the background-color
     color: inherit;
     background-color: inherit;
 
     // vertical alignment
-    [data-os='mac'] & {
-      transform: translateY(0.0625rem);
-    }
+    transform: translateY(-0.0625rem);
   }
 
   &__bounding {
@@ -248,10 +243,7 @@ button.dnb-button::-moz-focus-inner {
 // make sure we style an Anchor like a button
 a.dnb-button {
   // some correction
-  .dnb-button__icon {
-    transform: translateY(0);
-  }
   .dnb-button__text {
-    transform: translateY(0.0625rem);
+    transform: translateY(-0.0165);
   }
 }

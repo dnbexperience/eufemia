@@ -146,10 +146,12 @@ exports[`GlobalStatus scss have to match snapshot 1`] = `
 .dnb-button {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
-  font-size: var(--font-size-basis);
+  font-size: var(--font-size-small);
   font-style: normal;
   line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   font-variant-numeric: lining-nums;
   font-feature-settings: \\"lnum\\";
@@ -214,23 +216,18 @@ exports[`GlobalStatus scss have to match snapshot 1`] = `
   border: var(--button-border-width) solid transparent;
   border-radius: var(--button-border-radius);
   text-decoration: none; }
-  .dnb-button,
-  .dnb-core-style .dnb-button {
-    font-size: var(--button-font-size);
-    line-height: var(--button-height); }
-  .dnb-button__icon {
-    line-height: var(--line-height-x-small--em); }
-    .dnb-button__icon:not(.dnb-icon) svg:not([width]):not([height]) {
+  .dnb-button__icon.dnb-icon {
+    font-size: var(--font-size-small);
+    transform: translateY(-0.125rem); }
+    .dnb-button__icon.dnb-icon:not(.dnb-icon) svg:not([width]):not([height]) {
       width: var(--button-icon-size);
       height: var(--button-icon-size); }
-    [data-os='win'] .dnb-button__icon {
-      transform: translateY(-0.0625rem); }
   .dnb-button__text {
+    font-size: var(--button-font-size);
     line-height: var(--line-height-x-small--em);
     color: inherit;
-    background-color: inherit; }
-    [data-os='mac'] .dnb-button__text {
-      transform: translateY(0.0625rem); }
+    background-color: inherit;
+    transform: translateY(-0.0625rem); }
   .dnb-button__bounding {
     position: absolute;
     background-color: transparent;
@@ -342,11 +339,8 @@ exports[`GlobalStatus scss have to match snapshot 1`] = `
 button.dnb-button::-moz-focus-inner {
   border: none; }
 
-a.dnb-button .dnb-button__icon {
-  transform: translateY(0); }
-
 a.dnb-button .dnb-button__text {
-  transform: translateY(0.0625rem); }
+  transform: translateY(-0.0165); }
 
 /*
 * DNB Section
@@ -355,10 +349,12 @@ a.dnb-button .dnb-button__text {
 .dnb-section {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
-  font-size: var(--font-size-basis);
+  font-size: var(--font-size-small);
   font-style: normal;
   line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   font-variant-numeric: lining-nums;
   font-feature-settings: \\"lnum\\";
@@ -426,10 +422,12 @@ a.dnb-button .dnb-button__text {
 .dnb-global-status {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
-  font-size: var(--font-size-basis);
+  font-size: var(--font-size-small);
   font-style: normal;
   line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   font-variant-numeric: lining-nums;
   font-feature-settings: \\"lnum\\";
@@ -800,7 +798,7 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
                         bounding={false}
                         class={null}
                         className="dnb-global-status__close-button"
-                        content={null}
+                        content="Lukk"
                         custom_element={null}
                         custom_method={null}
                         disabled={null}

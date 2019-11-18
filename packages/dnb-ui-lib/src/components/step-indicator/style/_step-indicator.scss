@@ -28,6 +28,8 @@
   }
 
   &__item-content {
+    font-size: var(--font-size-basis);
+
     &a,
     &.dnb-anchor,
     &--static,

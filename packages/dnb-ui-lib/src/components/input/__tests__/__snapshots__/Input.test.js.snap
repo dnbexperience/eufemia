@@ -651,10 +651,12 @@ exports[`Input scss have to match snapshot 1`] = `
 .dnb-button {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
-  font-size: var(--font-size-basis);
+  font-size: var(--font-size-small);
   font-style: normal;
   line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   font-variant-numeric: lining-nums;
   font-feature-settings: \\"lnum\\";
@@ -719,23 +721,18 @@ exports[`Input scss have to match snapshot 1`] = `
   border: var(--button-border-width) solid transparent;
   border-radius: var(--button-border-radius);
   text-decoration: none; }
-  .dnb-button,
-  .dnb-core-style .dnb-button {
-    font-size: var(--button-font-size);
-    line-height: var(--button-height); }
-  .dnb-button__icon {
-    line-height: var(--line-height-x-small--em); }
-    .dnb-button__icon:not(.dnb-icon) svg:not([width]):not([height]) {
+  .dnb-button__icon.dnb-icon {
+    font-size: var(--font-size-small);
+    transform: translateY(-0.125rem); }
+    .dnb-button__icon.dnb-icon:not(.dnb-icon) svg:not([width]):not([height]) {
       width: var(--button-icon-size);
       height: var(--button-icon-size); }
-    [data-os='win'] .dnb-button__icon {
-      transform: translateY(-0.0625rem); }
   .dnb-button__text {
+    font-size: var(--button-font-size);
     line-height: var(--line-height-x-small--em);
     color: inherit;
-    background-color: inherit; }
-    [data-os='mac'] .dnb-button__text {
-      transform: translateY(0.0625rem); }
+    background-color: inherit;
+    transform: translateY(-0.0625rem); }
   .dnb-button__bounding {
     position: absolute;
     background-color: transparent;
@@ -847,11 +844,8 @@ exports[`Input scss have to match snapshot 1`] = `
 button.dnb-button::-moz-focus-inner {
   border: none; }
 
-a.dnb-button .dnb-button__icon {
-  transform: translateY(0); }
-
 a.dnb-button .dnb-button__text {
-  transform: translateY(0.0625rem); }
+  transform: translateY(-0.0165); }
 
 /*
 * DNB FormLabel
@@ -860,10 +854,12 @@ a.dnb-button .dnb-button__text {
 .dnb-form-label {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
-  font-size: var(--font-size-basis);
+  font-size: var(--font-size-small);
   font-style: normal;
   line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   font-variant-numeric: lining-nums;
   font-feature-settings: \\"lnum\\";
@@ -901,6 +897,7 @@ a.dnb-button .dnb-button__text {
   padding: 0;
   margin-right: 1rem;
   text-align: left;
+  font-size: var(--font-size-basis);
   vertical-align: baseline;
   color: inherit; }
   .dnb-form-label--vertical {
@@ -927,10 +924,12 @@ legend.dnb-form-label {
 .dnb-form-status {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
-  font-size: var(--font-size-basis);
+  font-size: var(--font-size-small);
   font-style: normal;
   line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   font-variant-numeric: lining-nums;
   font-feature-settings: \\"lnum\\";
@@ -973,9 +972,8 @@ legend.dnb-form-label {
     padding: calc(0.5rem / 2) 1rem;
     cursor: text;
     color: inherit;
-    line-height: var(--line-height-basis); }
-    [data-os='mac'] .dnb-form-status--text {
-      transform: translateY(0.0625rem); }
+    line-height: var(--line-height-basis);
+    transform: translateY(-0.0625rem); }
   .dnb-icon + .dnb-form-status--text {
     padding-left: 0.5rem; }
   .dnb-form-status__shell > .dnb-icon {
@@ -987,7 +985,8 @@ legend.dnb-form-label {
     margin-top: 0.25em;
     margin-left: 0.5em;
     color: inherit;
-    font-size: var(--font-size-basis); }
+    font-size: var(--font-size-basis);
+    transform: translateY(-0.125rem); }
   .dnb-form-status[hidden] {
     display: none; }
   .dnb-form-status--fade-in {
@@ -1007,10 +1006,12 @@ legend.dnb-form-label {
 .dnb-input {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
-  font-size: var(--font-size-basis);
+  font-size: var(--font-size-small);
   font-style: normal;
   line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   font-variant-numeric: lining-nums;
   font-feature-settings: \\"lnum\\";
@@ -1044,8 +1045,8 @@ legend.dnb-form-label {
 */
 :root {
   --input-font-size: var(--font-size-basis);
-  --input-font-size--medium: 1.5rem;
-  --input-font-size--large: 2rem;
+  --input-font-size--medium: var(--font-size-large);
+  --input-font-size--large: var(--font-size-x-large);
   --input-padding: 1rem;
   --input-padding--medium: 1.5rem;
   --input-padding--large: 2rem;
@@ -1070,13 +1071,14 @@ legend.dnb-form-label {
     display: flex;
     align-items: center;
     border: var(--input-border-width) solid var(--color-sea-green-alt);
-    line-height: var(--input-height); }
+    line-height: calc(var(--input-height) - 2px); }
   .dnb-input__input {
     border: none;
     outline: none;
     word-break: normal;
     position: relative;
-    z-index: 2; }
+    z-index: 2;
+    transform: translateY(-0.0625rem); }
   .dnb-input__input[disabled] {
     user-select: none;
     -webkit-user-select: none;
@@ -1114,9 +1116,6 @@ legend.dnb-form-label {
     color: var(--color-sea-green); }
     .dnb-input ::-webkit-file-upload-button:active, .dnb-input ::-webkit-file-upload-button:hover {
       color: var(--color-emerald-green); }
-  [data-os='mac'] .dnb-input__placeholder,
-  [data-os='mac'] .dnb-input__input {
-    transform: translateY(0.0625rem); }
   .dnb-input--has-submit-element .dnb-input__placeholder,
   .dnb-input--has-submit-element .dnb-input__input {
     padding-right: calc(var(--input-padding) * 2.5); }

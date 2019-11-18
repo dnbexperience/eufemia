@@ -56,7 +56,6 @@ export default [
             <Box>
               <FormRow label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:">
                 <Radio.Group
-                  title="Give me a Title"
                   on_change={({ value }) => {
                     console.log('on_change', value)
                   }}
@@ -72,7 +71,6 @@ export default [
               <FormRow label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:">
                 <Radio.Group
                   // label="Group label:"
-                  title="Give me a Title"
                   on_change={({ value }) => {
                     console.log('on_change', value)
                   }}
