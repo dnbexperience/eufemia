@@ -1,6 +1,8 @@
 // Copy of https://raw.githubusercontent.com/willmcpo/body-scroll-lock/master/lib/bodyScrollLock.es6.js
-// + additinal scroll fix: previousBodyPosition and previousBodyTop
-// - previousBodyOverflowSetting
+// + additinal scroll fix: position and top
+// - prevBodyOverflowSetting
+
+import { lockScrollPosition } from '../component-helper'
 
 let hasPassiveEvents = false
 if (typeof window !== 'undefined') {
@@ -27,10 +29,8 @@ const isIosDevice =
 let locks = []
 let documentListenerAdded = false
 let initialClientY = -1
-let previousBodyPosition
-let previousBodyTop
-let previousBodyScrollBehavior
-let previousBodyPaddingRight
+let scrollLock
+let prevBodyPaddingRight
 
 // returns true if `el` should be allowed to receive touchmove events.
 const allowTouchMove = el =>
@@ -66,31 +66,18 @@ const setOverflowHidden = options => {
   // the responsiveness for some reason. Setting within a setTimeout fixes this.
   setTimeout(() => {
     try {
-      // If previousBodyOverflowSetting is already set, don't set it again.
-      if (previousBodyTop === undefined) {
-        const top =
-          (window.pageYOffset || document.scrollTop) -
-          (document.clientTop || 0)
-
-        // const top = (document.documentElement && document.documentElement.scrollTop) ||
-        //       document.body.scrollTop;
-
-        previousBodyTop = top
-        document.body.style.top = `${-top}px`
+      if (scrollLock === undefined) {
+        scrollLock = lockScrollPosition(document.body)
       }
-      if (previousBodyPosition === undefined) {
-        previousBodyPosition = document.body.style.position
-        document.body.style.position = 'fixed'
-      }
-      // If previousBodyPaddingRight is already set, don't set it again.
-      if (previousBodyPaddingRight === undefined) {
+      // If prevBodyPaddingRight is already set, don't set it again.
+      if (prevBodyPaddingRight === undefined) {
         const reserveScrollBarGap =
           !!options && options.reserveScrollBarGap === true
         const scrollBarGap =
           window.innerWidth - document.documentElement.clientWidth
 
         if (reserveScrollBarGap && scrollBarGap > 0) {
-          previousBodyPaddingRight = document.body.style.paddingRight
+          prevBodyPaddingRight = document.body.style.paddingRight
           document.body.style.paddingRight = `${scrollBarGap}px`
         }
       }
@@ -105,28 +92,16 @@ const restoreOverflowSetting = () => {
   // the responsiveness for some reason. Setting within a setTimeout fixes this.
   setTimeout(() => {
     try {
-      if (previousBodyPosition !== undefined) {
-        document.body.style.position = previousBodyPosition
-        previousBodyPosition = undefined
-      }
+      if (prevBodyPaddingRight !== undefined) {
+        document.body.style.paddingRight = prevBodyPaddingRight
 
-      if (previousBodyPaddingRight !== undefined) {
-        document.body.style.paddingRight = previousBodyPaddingRight
-
-        // Restore previousBodyPaddingRight to undefined so setOverflowHidden knows it
+        // Restore prevBodyPaddingRight to undefined so setOverflowHidden knows it
         // can be set again.
-        previousBodyPaddingRight = undefined
+        prevBodyPaddingRight = undefined
       }
-      if (previousBodyTop !== undefined) {
-        const top = previousBodyTop
-        document.body.style.top = top
-        previousBodyScrollBehavior =
-          document.documentElement.style.scrollBehavior
-        document.documentElement.style.scrollBehavior = 'auto'
-        document.documentElement.scrollTop = top
-        document.documentElement.style.scrollBehavior = previousBodyScrollBehavior
-        previousBodyScrollBehavior = undefined
-        previousBodyTop = undefined
+      if (typeof scrollLock === 'function') {
+        scrollLock()
+        scrollLock = undefined
       }
     } catch (e) {
       console.error(e)

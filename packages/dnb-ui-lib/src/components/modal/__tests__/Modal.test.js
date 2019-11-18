@@ -97,18 +97,24 @@ describe('Modal component', () => {
   it('runs expected side effects', async () => {
     const Comp = mount(<Component {...props} />)
     const elem = Comp.find('button')
+
+    // open modal
     elem.simulate('click')
 
     await wait(10) // wait for the render to be finished
 
-    const body = document.querySelector('[data-dnb-modal-active]')
-    expect(body.nodeName).toBe('BODY')
-    expect(body.style.position).toBe('fixed')
+    // const body = document.querySelector('[data-dnb-modal-active]')
+    expect(document.body.nodeName).toBe('BODY')
+    expect(document.body.style.position).toBe('fixed')
+    expect(document.body.getAttribute('data-dnb-modal-active')).toBe(
+      'true'
+    )
 
+    // close modal
     elem.simulate('click')
     await wait(10) // wait for the render to be finished
 
-    expect(body.style.position).not.toBe('fixed')
+    expect(document.body.style.position).not.toBe('fixed')
   })
   it('has expected open and close states', () => {
     const Comp = mount(<Component {...props} />)

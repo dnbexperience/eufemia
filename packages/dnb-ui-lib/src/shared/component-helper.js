@@ -494,7 +494,7 @@ export class DetectOutsideClickClass {
   }
 
   overflowIsScrollable = elem => {
-    const style = getComputedStyle(elem)
+    const style = window.getComputedStyle(elem)
     return /scroll|auto/i.test(
       style.overflow + (style.overflowX || '') + (style.overflowY || '')
     )
@@ -549,4 +549,124 @@ export const matchAll = (string, regex) => {
     matches.push(match)
   }
   return matches
+}
+
+/**
+ * [getPreviousSibling traverses down the DOM tree until it finds the wanted element]
+ * @param  {[string]} className [CSS class]
+ * @param  {[HTMLElement]} elem      [starting HTMLElement]
+ * @return {[HTMLElement]}           [HTMLElement]
+ */
+export const getPreviousSibling = (className, elem) => {
+  try {
+    const contains = elem => elem && elem.classList.contains(className)
+
+    if (contains(elem)) {
+      return elem
+    }
+
+    while ((elem = elem && elem.parentElement) && !contains(elem));
+  } catch (e) {
+    console.warn(e)
+  }
+  return elem
+}
+
+export const lockScrollPosition = (
+  element,
+  {
+    scrollElement = null,
+    overflowElement = null,
+    translateElement = null
+  } = {}
+) => {
+  try {
+    if (element instanceof HTMLElement) {
+      scrollElement = element
+    }
+
+    let scrollTop = NaN
+    let prevOverflowX = null
+    let prevOverflowY = null
+    let prevPosition = null
+    let prevTop = null
+    let prevTranslateElementTop = null
+
+    if (scrollElement) {
+      // get scrollTop
+      if (scrollElement === document.body) {
+        scrollTop =
+          (window.pageYOffset || document.scrollTop) -
+          (document.clientTop || 0)
+      } else {
+        scrollTop = scrollElement.scrollTop || 0
+      }
+
+      if (scrollElement === document.body) {
+        // store tmp
+        prevPosition = scrollElement.style.position
+        prevTop = scrollElement.style.top
+
+        scrollElement.style.position = 'fixed'
+
+        if (!isNaN(scrollTop)) {
+          scrollElement.style.top = `${-scrollTop}px`
+        }
+      } else if (translateElement) {
+        prevTranslateElementTop = translateElement.style.top
+        // const elem = scrollElement.querySelector('.dnb-modal__wrapper')
+        translateElement.style.top = `${-scrollTop}px`
+        // scrollElement.scrollTop = `${scrollTop}px`
+      }
+    }
+
+    if (overflowElement) {
+      const style = window.getComputedStyle(overflowElement)
+
+      prevOverflowX = style.overflowX
+      prevOverflowY = style.overflowY
+
+      overflowElement.style.overflowX = 'visible'
+      overflowElement.style.overflowY = 'visible'
+    }
+
+    const releaseScrollPosition = () => () => {
+      try {
+        if (scrollElement && scrollElement === document.body) {
+          scrollElement.style.position = prevPosition
+          scrollElement.style.top = prevTop
+        } else if (translateElement) {
+          translateElement.style.top = prevTranslateElementTop
+        }
+
+        // reset top
+        if (!isNaN(scrollTop)) {
+          const tmpScrollElement =
+            scrollElement === document.body
+              ? document.documentElement // get the HTML root element and scroll this one
+              : scrollElement
+
+          const prevBehavior = tmpScrollElement.style.scrollBehavior
+          tmpScrollElement.style.scrollBehavior = 'auto'
+          tmpScrollElement.scrollTop = scrollTop
+          tmpScrollElement.style.scrollBehavior = prevBehavior
+        }
+
+        if (overflowElement) {
+          if (prevOverflowX) {
+            overflowElement.style.overflowX = prevOverflowX
+          }
+          if (prevOverflowY) {
+            overflowElement.style.overflowY = prevOverflowY
+          }
+        }
+      } catch (e) {
+        console.warn(e)
+      }
+    }
+
+    return releaseScrollPosition()
+  } catch (e) {
+    console.warn(e)
+  }
 }

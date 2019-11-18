@@ -21,6 +21,8 @@ import {
   registerElement,
   processChildren,
   dispatchCustomElementEvent,
+  lockScrollPosition,
+  getPreviousSibling,
   validateDOMAttributes
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
@@ -618,8 +620,8 @@ class ModalContent extends PureComponent {
   onKeyDownHandler = e => {
     switch (keycode(e)) {
       case 'esc':
-        this.props.closeModal(e)
         e.preventDefault()
+        this.props.closeModal(e)
         break
     }
   }
@@ -719,4 +721,22 @@ CloseButton.propTypes = {
 CloseButton.defaultProps = {
   className: null,
   title: 'Lukk'
+}
+
+// This can be enabled in case we want to bypass the overflow hidden on Modals
+export function addScrollLock(elem) {
+  const modalElement = getPreviousSibling(
+    'dnb-modal__content__inner',
+    elem
+  )
+  if (modalElement) {
+    const translateElement = modalElement.querySelector(
+      '.dnb-modal__wrapper'
+    )
+    return lockScrollPosition(null, {
+      scrollElement: modalElement,
+      overflowElement: modalElement,
+      translateElement
+    })
+  }
 }
