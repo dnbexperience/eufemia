@@ -73,13 +73,21 @@ npm i text-mask-addons
 
 2. Create and use the mask:
 
-```js
+```jsx
 import emailMask from 'text-mask-addons/dist/emailMask'
 
 // or import it from the dnb-ui-lib
 import emailMask from 'dnb-ui-lib/components/input-masked/addons/emailMask'
 
-<InputMasked mask={emailMask} placeholder="@." keep_placeholder="true" ... />
+render(
+  <InputMasked
+    type="email"
+    label="Email:"
+    mask={emailMask}
+    placeholder="@."
+    keep_placeholder="true"
+  />
+)
 ```
 
 Read more about the details [on the open source project](https://github.com/text-mask/text-mask)
