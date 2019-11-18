@@ -47,6 +47,9 @@
     border: none;
     outline: none;
     word-break: normal;
+
+    position: relative;
+    z-index: 2; // to make sure we are over the placeholder
   }
 
   &__input[disabled] {

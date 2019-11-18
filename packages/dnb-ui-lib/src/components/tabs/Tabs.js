@@ -15,6 +15,7 @@ import {
   registerElement,
   validateDOMAttributes,
   dispatchCustomElementEvent,
+  getPreviousSibling,
   // extendPropsWithContext,
   filterProps
 } from '../../shared/component-helper'
@@ -312,14 +313,9 @@ export default class Tabs extends PureComponent {
   openTabByDOM = e => {
     try {
       const selected_key = (function(elem) {
-        const contains = elem =>
-          elem.classList.contains('dnb-tabs__button')
-        if (contains(elem)) {
-          return elem
-        }
-
-        while ((elem = elem.parentElement) && !contains(elem));
-        return elem || { dataset: {} }
+        return (
+          getPreviousSibling('dnb-tabs__button', elem) || { dataset: {} }
+        )
       })(e.target).dataset.tabKey
 
       this.openTab(selected_key, e)

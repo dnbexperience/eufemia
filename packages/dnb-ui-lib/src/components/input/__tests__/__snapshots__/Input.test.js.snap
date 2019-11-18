@@ -560,9 +560,9 @@ exports[`Input scss have to match default theme snapshot 1`] = `
     background-color: var(--color-mint-green);
     color: var(--input-text-color--focus);
     text-shadow: none; }
-  .dnb-input__input:not([disabled]):not([readonly]):focus ~ .dnb-input__placeholder {
+  .dnb-input__shell[data-input-state='focus'] .dnb-input__placeholder {
     display: none; }
-  .dnb-input--keep-placeholder .dnb-input__input:not([disabled]):not([readonly]):focus ~ .dnb-input__placeholder {
+  .dnb-input--keep-placeholder .dnb-input__shell[data-input-state='focus'] .dnb-input__placeholder {
     display: block;
     opacity: 0.6; }
 "
@@ -1074,7 +1074,9 @@ legend.dnb-form-label {
   .dnb-input__input {
     border: none;
     outline: none;
-    word-break: normal; }
+    word-break: normal;
+    position: relative;
+    z-index: 2; }
   .dnb-input__input[disabled] {
     user-select: none;
     -webkit-user-select: none;

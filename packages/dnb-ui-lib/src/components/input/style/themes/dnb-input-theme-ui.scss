@@ -94,13 +94,12 @@
     text-shadow: none;
   }
 
-  &__input:not([disabled]):not([readonly]):focus
-    ~ .dnb-input__placeholder {
+  &__shell[data-input-state='focus'] .dnb-input__placeholder {
     display: none;
   }
   &--keep-placeholder
-    &__input:not([disabled]):not([readonly]):focus
-    ~ .dnb-input__placeholder {
+    &__shell[data-input-state='focus']
+    .dnb-input__placeholder {
     display: block;
     opacity: 0.6;
   }

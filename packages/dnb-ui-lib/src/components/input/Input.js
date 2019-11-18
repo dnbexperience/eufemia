@@ -17,7 +17,8 @@ import {
   validateDOMAttributes,
   processChildren,
   pickRenderProps,
-  dispatchCustomElementEvent
+  dispatchCustomElementEvent,
+  isMac
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 
@@ -220,6 +221,8 @@ export default class Input extends PureComponent {
     // make sure we dont trigger getDerivedStateFromProps on startup
     this.state._listenForPropChanges = true
     this.state._value = props.value
+
+    this.isMac = isMac()
   }
   onFocusHandler = event => {
     const { value } = event.target
@@ -384,6 +387,9 @@ export default class Input extends PureComponent {
     if (readOnly) {
       inputParams['aria-readonly'] = inputParams.readOnly = true
     }
+    if (!hasValue && placeholder && this.state.focusState !== 'focus') {
+      inputParams['aria-labelledby'] = id + '-placeholder'
+    }
 
     const shellParams = {
       'data-input-state': inputState,
@@ -429,19 +435,22 @@ export default class Input extends PureComponent {
 
           <span className="dnb-input__row">
             <span className="dnb-input__shell" {...shellParams}>
-              {InputElement || <input ref={this._ref} {...inputParams} />}
+              {!hasValue &&
+                placeholder &&
+                this.state.focusState !== 'focus' && (
+                  <span
+                    id={id + '-placeholder'}
+                    aria-hidden={this.isMac}
+                    className={classnames(
+                      'dnb-input__placeholder',
+                      align ? `dnb-input__align--${align}` : null
+                    )}
+                  >
+                    {placeholder}
+                  </span>
+                )}
 
-              {!hasValue && placeholder && (
-                <span
-                  aria-hidden
-                  className={classnames(
-                    'dnb-input__placeholder',
-                    align ? `dnb-input__align--${align}` : null
-                  )}
-                >
-                  {placeholder}
-                </span>
-              )}
+              {InputElement || <input ref={this._ref} {...inputParams} />}
             </span>
 
             {hasSubmitButton && (

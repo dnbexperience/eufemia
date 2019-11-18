@@ -190,6 +190,12 @@ export default class Button extends PureComponent {
       }
     }
 
+    // set icon size automatically if button size is changed
+    const iconSize =
+      usedSize === 'large' && (icon_size === 'default' || !icon_size)
+        ? 'medium'
+        : icon_size
+
     const content = Button.getContent(this.props)
 
     const classes = classnames(
@@ -197,7 +203,7 @@ export default class Button extends PureComponent {
       `dnb-button--${usedVariant || 'primary'}`,
       usedSize && usedSize !== 'default' && `dnb-button--size-${usedSize}`,
       icon && `dnb-button--icon-position-${icon_position || 'right'}`,
-      icon && icon_size && `dnb-button--icon-size-${icon_size}`,
+      icon && iconSize ? `dnb-button--icon-size-${iconSize}` : null,
       text && 'dnb-button--has-text',
       icon && 'dnb-button--has-icon',
       createSpacingClasses(props),
@@ -228,6 +234,7 @@ export default class Button extends PureComponent {
           <a href={href} ref={this._ref} {...params}>
             <Content
               {...this.props}
+              icon_size={iconSize}
               content={content}
               isIconOnly={isIconOnly}
             />
@@ -236,6 +243,7 @@ export default class Button extends PureComponent {
           <button ref={this._ref} {...params}>
             <Content
               {...this.props}
+              icon_size={iconSize}
               content={content}
               isIconOnly={isIconOnly}
             />
