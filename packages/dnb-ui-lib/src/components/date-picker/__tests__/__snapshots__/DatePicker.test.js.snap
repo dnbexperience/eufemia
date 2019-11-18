@@ -1485,6 +1485,8 @@ legend.dnb-form-label {
     border: none;
     outline: none;
     word-break: normal;
+    position: relative;
+    z-index: 2;
     transform: translateY(-0.0625rem); }
   .dnb-input__input[disabled] {
     user-select: none;

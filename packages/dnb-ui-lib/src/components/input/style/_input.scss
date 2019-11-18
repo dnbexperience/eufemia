@@ -49,6 +49,9 @@
     outline: none;
     word-break: normal;
 
+    position: relative;
+    z-index: 2; // to make sure we are over the placeholder
+
     // vertical alignment
     transform: translateY(-0.0625rem);
   }

@@ -382,11 +382,14 @@ export default class SidebarLayout extends PureComponent {
         const offset = this._scrollRef.current.getBoundingClientRect().top
         const rect = elem.getBoundingClientRect()
         const top = this._scrollRef.current.scrollTop + rect.top - offset
-        window.scrollTop = top
-        window.scrollTo({
-          top,
-          behavior: 'smooth'
-        })
+        if (window.scrollTo) {
+          window.scrollTo({
+            top,
+            behavior: 'smooth'
+          })
+        } else {
+          window.scrollTop = top
+        }
       } catch (e) {
         console.log('Could not set scrollToActiveItem', e)
       }
