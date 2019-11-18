@@ -24,6 +24,10 @@ whatInput.specificKeys([9])
 defineIsTouch()
 defineNavigator()
 
+export const isMac = () =>
+  typeof navigator !== 'undefined' &&
+  navigator.platform.match(new RegExp(PLATFORM_MAC)) !== null
+
 /**
  * Check if device is touch device or not
  */
