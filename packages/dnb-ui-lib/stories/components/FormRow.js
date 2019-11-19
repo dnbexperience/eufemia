@@ -26,6 +26,11 @@ const Center = styled.div`
   ${'' /* > div {
     max-width: 60rem;
   } */}
+  .dnb-h2,
+  .dnb-h3 {
+    margin: 0;
+    line-height: 1.5rem;
+  }
 `
 
 export default [
