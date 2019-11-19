@@ -105,7 +105,9 @@ describe('Modal component', () => {
 
     // const body = document.querySelector('[data-dnb-modal-active]')
     expect(document.body.nodeName).toBe('BODY')
-    expect(document.body.style.position).toBe('fixed')
+    expect(document.body.style.overflow).toBe('hidden')
+    expect(document.body.style.height).toBe('auto')
+    // expect(document.documentElement.style.height).toBe('auto')
     expect(document.body.getAttribute('data-dnb-modal-active')).toBe(
       'true'
     )
@@ -114,7 +116,7 @@ describe('Modal component', () => {
     elem.simulate('click')
     await wait(10) // wait for the render to be finished
 
-    expect(document.body.style.position).not.toBe('fixed')
+    expect(document.body.style.position).not.toBe('hidden')
   })
   it('has expected open and close states', () => {
     const Comp = mount(<Component {...props} />)

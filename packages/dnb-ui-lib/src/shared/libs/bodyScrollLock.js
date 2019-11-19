@@ -1,8 +1,10 @@
 // Copy of https://raw.githubusercontent.com/willmcpo/body-scroll-lock/master/lib/bodyScrollLock.es6.js
-// + additinal scroll fix: position and top
-// - prevBodyOverflowSetting
+// + Additional HTML / root handling
 
-import { lockScrollPosition } from '../component-helper'
+// Older browsers don't support event options, feature detect it.
+
+// Adopted and modified solution from Bohdan Didukh (2017)
+// https://stackoverflow.com/questions/41594997/ios-10-safari-prevent-scrolling-behind-a-fixed-overlay-and-maintain-scroll-posi
 
 let hasPassiveEvents = false
 if (typeof window !== 'undefined') {
@@ -12,12 +14,8 @@ if (typeof window !== 'undefined') {
       return undefined
     }
   }
-  try {
-    window.addEventListener('testPassive', null, passiveTestOptions)
-    window.removeEventListener('testPassive', null, passiveTestOptions)
-  } catch (e) {
-    console.error(e)
-  }
+  window.addEventListener('testPassive', null, passiveTestOptions)
+  window.removeEventListener('testPassive', null, passiveTestOptions)
 }
 
 const isIosDevice =
@@ -29,8 +27,11 @@ const isIosDevice =
 let locks = []
 let documentListenerAdded = false
 let initialClientY = -1
-let scrollLock
-let prevBodyPaddingRight
+let prevBodyOverflow
+let prevBodyHeight
+let prevRootOverflow
+let prevRootHeight
+let prevBodyMarginLeft
 
 // returns true if `el` should be allowed to receive touchmove events.
 const allowTouchMove = el =>
@@ -61,52 +62,69 @@ const preventDefault = rawEvent => {
   return false
 }
 
-const setOverflowHidden = options => {
-  // Setting overflow on body/documentElement synchronously in Desktop Safari slows down
-  // the responsiveness for some reason. Setting within a setTimeout fixes this.
-  setTimeout(() => {
-    try {
-      if (scrollLock === undefined) {
-        scrollLock = lockScrollPosition(document.body)
-      }
-      // If prevBodyPaddingRight is already set, don't set it again.
-      if (prevBodyPaddingRight === undefined) {
-        const reserveScrollBarGap =
-          !!options && options.reserveScrollBarGap === true
-        const scrollBarGap =
-          window.innerWidth - document.documentElement.clientWidth
+const setOverflowHidden = () => {
+  try {
+    // Edge and IE has a gap
+    const scrollBarGap =
+      window.innerWidth - document.documentElement.clientWidth
 
-        if (reserveScrollBarGap && scrollBarGap > 0) {
-          prevBodyPaddingRight = document.body.style.paddingRight
-          document.body.style.paddingRight = `${scrollBarGap}px`
-        }
-      }
-    } catch (e) {
-      console.error(e)
+    if (prevBodyHeight === undefined) {
+      prevBodyHeight = document.body.style.height
+      document.body.style.height = 'auto'
     }
-  })
+    if (prevRootHeight === undefined) {
+      prevRootHeight = document.documentElement.style.height
+      document.documentElement.style.height = 'auto'
+    }
+    if (prevBodyOverflow === undefined) {
+      prevBodyOverflow = document.body.style.overflow
+      document.body.style.overflow = 'hidden'
+    }
+    if (prevRootOverflow === undefined) {
+      prevRootOverflow = document.documentElement.style.overflow
+      document.documentElement.style.overflow = 'hidden'
+    }
+
+    if (prevBodyMarginLeft === undefined && scrollBarGap > 0) {
+      prevBodyMarginLeft = document.body.style.marginLeft
+      document.body.style.marginLeft = `-${scrollBarGap / 2}px`
+    }
+  } catch (e) {
+    console.error(e)
+  }
 }
 
 const restoreOverflowSetting = () => {
-  // Setting overflow on body/documentElement synchronously in Desktop Safari slows down
-  // the responsiveness for some reason. Setting within a setTimeout fixes this.
-  setTimeout(() => {
-    try {
-      if (prevBodyPaddingRight !== undefined) {
-        document.body.style.paddingRight = prevBodyPaddingRight
+  try {
+    if (prevBodyMarginLeft !== undefined) {
+      document.body.style.marginLeft = prevBodyMarginLeft
 
-        // Restore prevBodyPaddingRight to undefined so setOverflowHidden knows it
-        // can be set again.
-        prevBodyPaddingRight = undefined
-      }
-      if (typeof scrollLock === 'function') {
-        scrollLock()
-        scrollLock = undefined
-      }
-    } catch (e) {
-      console.error(e)
+      // Restore prevBodyMarginLeft to undefined so setOverflowHidden knows it
+      // can be set again.
+      prevBodyMarginLeft = undefined
     }
-  })
+
+    if (prevBodyOverflow !== undefined) {
+      document.body.style.overflow = prevBodyOverflow
+      prevBodyOverflow = undefined
+    }
+
+    if (prevRootOverflow !== undefined) {
+      document.documentElement.style.overflow = prevRootOverflow
+      prevRootOverflow = undefined
+    }
+
+    if (prevBodyHeight !== undefined) {
+      document.body.style.height = prevBodyHeight
+      prevBodyHeight = undefined
+    }
+    if (prevRootHeight !== undefined) {
+      document.documentElement.style.height = prevRootHeight
+      prevRootHeight = undefined
+    }
+  } catch (e) {
+    console.error(e)
+  }
 }
 
 // https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollHeight#Problems_and_solutions
@@ -137,7 +155,7 @@ const handleScroll = (event, targetElement) => {
   return true
 }
 
-export const disableBodyScroll = (targetElement, options) => {
+export const disableBodyScroll = (targetElement, options = {}) => {
   if (isIosDevice) {
     // targetElement must be provided, and disableBodyScroll must not have been
     // called on this targetElement before.
@@ -155,7 +173,7 @@ export const disableBodyScroll = (targetElement, options) => {
     ) {
       const lock = {
         targetElement,
-        options: options || {}
+        options
       }
 
       locks = [...locks, lock]
@@ -174,23 +192,19 @@ export const disableBodyScroll = (targetElement, options) => {
       }
 
       if (!documentListenerAdded) {
-        try {
-          document.addEventListener(
-            'touchmove',
-            preventDefault,
-            hasPassiveEvents ? { passive: false } : undefined
-          )
-          documentListenerAdded = true
-        } catch (e) {
-          console.error(e)
-        }
+        document.addEventListener(
+          'touchmove',
+          preventDefault,
+          hasPassiveEvents ? { passive: false } : undefined
+        )
+        documentListenerAdded = true
       }
     }
   } else {
     setOverflowHidden(options)
     const lock = {
       targetElement,
-      options: options || {}
+      options
     }
 
     locks = [...locks, lock]
@@ -206,16 +220,12 @@ export const clearAllBodyScrollLocks = () => {
     })
 
     if (documentListenerAdded) {
-      try {
-        document.removeEventListener(
-          'touchmove',
-          preventDefault,
-          hasPassiveEvents ? { passive: false } : undefined
-        )
-        documentListenerAdded = false
-      } catch (e) {
-        console.error(e)
-      }
+      document.removeEventListener(
+        'touchmove',
+        preventDefault,
+        hasPassiveEvents ? { passive: false } : undefined
+      )
+      documentListenerAdded = false
     }
 
     locks = []
@@ -244,17 +254,13 @@ export const enableBodyScroll = targetElement => {
     locks = locks.filter(lock => lock.targetElement !== targetElement)
 
     if (documentListenerAdded && locks.length === 0) {
-      try {
-        document.removeEventListener(
-          'touchmove',
-          preventDefault,
-          hasPassiveEvents ? { passive: false } : undefined
-        )
+      document.removeEventListener(
+        'touchmove',
+        preventDefault,
+        hasPassiveEvents ? { passive: false } : undefined
+      )
 
-        documentListenerAdded = false
-      } catch (e) {
-        console.error(e)
-      }
+      documentListenerAdded = false
     }
   } else {
     locks = locks.filter(lock => lock.targetElement !== targetElement)
