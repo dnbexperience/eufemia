@@ -14,7 +14,8 @@ export default [
   () => (
     <Wrapper>
       <Box>
-        text <Button text="Primary" icon="add" />
+        <span className="dnb-p">text</span>{' '}
+        <Button text="Primary" icon="add" />
       </Box>
       <Box>
         <Button text="Primary" icon="add" disabled />
@@ -38,7 +39,7 @@ export default [
         <Button text="Signal" variant="signal" icon="add" />
       </Box>
       <Box>
-        text
+        <span className="dnb-p">text</span>{' '}
         <Button
           text="Button text"
           variant="tertiary"
@@ -70,7 +71,7 @@ export default [
           icon_size="medium"
           disabled
         />{' '}
-        text
+        <span className="dnb-p">text</span>
       </Box>
     </Wrapper>
   )
