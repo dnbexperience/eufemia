@@ -22,7 +22,7 @@ import { InfoIcon, ErrorIcon } from '../form-status/FormStatus'
 import Button from '../button/Button'
 import Section from '../section/Section'
 import Animation from './AnimationHelper'
-import { isIE11 } from 'dnb-ui-lib/src/shared/helpers'
+import { isIE11 } from '../../shared/helpers'
 
 const renderProps = {
   on_open: null,
