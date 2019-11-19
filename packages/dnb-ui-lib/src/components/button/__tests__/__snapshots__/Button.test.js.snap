@@ -346,8 +346,7 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     .dnb-button--tertiary .dnb-button__text {
       position: relative;
       padding: 0.125rem 0;
-      line-height: var(--line-height-x-small--em);
-      transform: translateY(0); }
+      line-height: var(--line-height-x-small--em); }
       .dnb-button--tertiary .dnb-button__text::after {
         content: '';
         position: absolute;
@@ -460,10 +459,11 @@ exports[`Button scss have to match default theme snapshot 1`] = `
       .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text .dnb-button__icon {
         position: absolute;
         top: 0;
-        bottom: -0.125rem;
+        bottom: 0;
         margin: auto 0; }
       .dnb-button--tertiary.dnb-button--has-icon.dnb-button--icon-size-medium .dnb-button__icon {
-        bottom: -0.5rem; }
+        bottom: -0.125rem;
+        /* 2/16 */ }
       .dnb-button--tertiary.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__text {
         padding-left: 1.5rem; }
       .dnb-button--tertiary.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__icon {
@@ -722,7 +722,7 @@ exports[`Button scss have to match snapshot 1`] = `
   text-decoration: none; }
   .dnb-button__icon.dnb-icon {
     font-size: var(--font-size-small);
-    transform: translateY(-0.125rem); }
+    transform: translateY(-0.0625rem); }
     .dnb-button__icon.dnb-icon:not(.dnb-icon) svg:not([width]):not([height]) {
       width: var(--button-icon-size);
       height: var(--button-icon-size); }
@@ -730,8 +730,7 @@ exports[`Button scss have to match snapshot 1`] = `
     font-size: var(--button-font-size);
     line-height: var(--line-height-x-small--em);
     color: inherit;
-    background-color: inherit;
-    transform: translateY(-0.0625rem); }
+    background-color: inherit; }
   .dnb-button__bounding {
     position: absolute;
     background-color: transparent;

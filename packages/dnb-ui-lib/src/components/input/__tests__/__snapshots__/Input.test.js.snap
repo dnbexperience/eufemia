@@ -724,7 +724,7 @@ exports[`Input scss have to match snapshot 1`] = `
   text-decoration: none; }
   .dnb-button__icon.dnb-icon {
     font-size: var(--font-size-small);
-    transform: translateY(-0.125rem); }
+    transform: translateY(-0.0625rem); }
     .dnb-button__icon.dnb-icon:not(.dnb-icon) svg:not([width]):not([height]) {
       width: var(--button-icon-size);
       height: var(--button-icon-size); }
@@ -732,8 +732,7 @@ exports[`Input scss have to match snapshot 1`] = `
     font-size: var(--button-font-size);
     line-height: var(--line-height-x-small--em);
     color: inherit;
-    background-color: inherit;
-    transform: translateY(-0.0625rem); }
+    background-color: inherit; }
   .dnb-button__bounding {
     position: absolute;
     background-color: transparent;
