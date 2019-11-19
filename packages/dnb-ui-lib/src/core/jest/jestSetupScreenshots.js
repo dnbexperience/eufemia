@@ -289,7 +289,7 @@ const setupPageScreenshot = async ({
   screenshotConfig = null,
   timeout = null
 } = {}) => {
-  if (screenshotConfig && (expect && !expect.toMatchImageSnapshot)) {
+  if (screenshotConfig) {
     setupJestScreenshot(screenshotConfig)
   }
 
