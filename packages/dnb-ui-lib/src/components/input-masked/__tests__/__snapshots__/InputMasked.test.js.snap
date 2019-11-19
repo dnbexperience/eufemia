@@ -69,6 +69,12 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
       className="dnb-input dnb-input--text dnb-input-masked"
     >
       <span
+        aria-hidden={true}
+        className="dnb-input__helper"
+      >
+        -
+      </span>
+      <span
         className="dnb-input__inner"
       >
         <span
@@ -636,6 +642,12 @@ legend.dnb-form-label {
     user-select: none;
     -webkit-user-select: none;
     opacity: 1; }
+  .dnb-input__helper {
+    clip: rect(0, 0, 0, 0);
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    opacity: 0; }
   .dnb-input__shell, .dnb-input__input {
     height: var(--input-height);
     border-radius: var(--input-border-radius); }
