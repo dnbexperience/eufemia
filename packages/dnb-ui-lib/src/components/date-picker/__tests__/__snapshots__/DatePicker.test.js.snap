@@ -1698,6 +1698,7 @@ legend.dnb-form-label {
   .dnb-checkbox__helper {
     clip: rect(0, 0, 0, 0);
     width: 0;
+    height: 0;
     overflow: hidden;
     opacity: 0; }
   .dnb-checkbox__shell {
@@ -1750,7 +1751,8 @@ legend.dnb-form-label {
     margin-bottom: 0; }
   .dnb-checkbox__order {
     display: inline-flex;
-    align-items: baseline; }
+    font-size: var(--font-size-basis);
+    line-height: var(--line-height-basis); }
   .dnb-checkbox--label-position-left .dnb-checkbox__order .dnb-checkbox__inner {
     order: 2; }
   .dnb-checkbox--label-position-left .dnb-checkbox__order .dnb-form-label {
@@ -1844,6 +1846,7 @@ legend.dnb-form-label {
   .dnb-radio__helper {
     clip: rect(0, 0, 0, 0);
     width: 0;
+    height: 0;
     overflow: hidden;
     opacity: 0; }
   .dnb-radio__shell {
@@ -1892,7 +1895,6 @@ legend.dnb-form-label {
     margin-bottom: 0; }
   .dnb-radio__order {
     display: inline-flex;
-    align-items: baseline;
     font-size: var(--font-size-basis);
     line-height: var(--line-height-basis); }
     .dnb-radio-group--column .dnb-radio__order {
