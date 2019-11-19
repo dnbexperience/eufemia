@@ -22,10 +22,10 @@ import {
 
 const Center = styled.div`
   display: flex;
-  justify-content: center;
-  > div {
+  ${'' /* justify-content: center; */}
+  ${'' /* > div {
     max-width: 60rem;
-  }
+  } */}
 `
 
 export default [
