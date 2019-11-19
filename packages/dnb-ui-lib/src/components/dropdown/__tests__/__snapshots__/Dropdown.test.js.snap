@@ -1033,12 +1033,9 @@ legend.dnb-form-label {
   .dnb-dropdown__helper {
     clip: rect(0, 0, 0, 0);
     width: 0;
-    height: 0;
-    overflow: hidden;
-    opacity: 0; }
+    overflow: hidden; }
   .dnb-dropdown__shell {
     position: relative;
-    top: -0.0625rem;
     width: var(--dropdown-width);
     height: var(--dropdown-height);
     margin: 0;
@@ -1166,19 +1163,19 @@ legend.dnb-form-label {
   .dnb-dropdown--is-popup .dnb-dropdown__icon {
     width: 100%; }
   .dnb-dropdown--is-popup .dnb-dropdown__list {
-    left: calc(1px - 2px - var(--dropdown-padding-horizontal) / 2); }
+    left: calc(1px - 1px - var(--dropdown-padding-horizontal) / 2); }
   .dnb-dropdown--is-popup.dnb-dropdown--scroll .dnb-dropdown__options {
     min-height: 1rem; }
   .dnb-dropdown--is-popup.dnb-dropdown__size--small .dnb-dropdown__shell,
   .dnb-dropdown--is-popup.dnb-dropdown__size--small .dnb-dropdown__trigger {
     width: var(--dropdown-height--small); }
   .dnb-dropdown--is-popup.dnb-dropdown__size--small .dnb-dropdown__list {
-    left: calc(1px - 2px - var(--dropdown-height--small) / 2); }
+    left: calc(1px - 1px - var(--dropdown-height--small) / 2); }
   .dnb-dropdown--is-popup.dnb-dropdown__align--right .dnb-dropdown__list {
     left: auto;
-    right: calc(1px - 2px - var(--dropdown-padding-horizontal) / 2); }
+    right: calc(1px - 1px - var(--dropdown-padding-horizontal) / 2); }
   .dnb-dropdown--is-popup.dnb-dropdown__align--right.dnb-dropdown__size--small .dnb-dropdown__list {
-    right: calc(1px - 2px - var(--dropdown-height--small) / 2); }
+    right: calc(1px - 1px - var(--dropdown-height--small) / 2); }
   .dnb-dropdown__size--small .dnb-dropdown__shell,
   .dnb-dropdown__size--small .dnb-dropdown__trigger {
     height: var(--dropdown-height--small); }
@@ -1270,6 +1267,9 @@ legend.dnb-form-label {
   .dnb-dropdown--vertical {
     flex-direction: column;
     align-items: flex-start; }
+  .dnb-dropdown--vertical .dnb-dropdown__helper {
+    height: 0;
+    line-height: var(--dropdown-height); }
   .dnb-dropdown[class*='__status'] {
     align-items: flex-start; }
     .dnb-dropdown[class*='__status'] > .dnb-form-label {
