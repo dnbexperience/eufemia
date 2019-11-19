@@ -495,9 +495,7 @@ legend.dnb-form-label {
   .dnb-checkbox__helper {
     clip: rect(0, 0, 0, 0);
     width: 0;
-    height: 0;
-    overflow: hidden;
-    opacity: 0; }
+    overflow: hidden; }
   .dnb-checkbox__shell {
     user-select: none;
     -webkit-user-select: none;

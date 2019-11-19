@@ -646,9 +646,7 @@ legend.dnb-form-label {
   .dnb-input__helper {
     clip: rect(0, 0, 0, 0);
     width: 0;
-    height: 0;
-    overflow: hidden;
-    opacity: 0; }
+    overflow: hidden; }
   .dnb-input__shell, .dnb-input__input {
     height: var(--input-height);
     border-radius: var(--input-border-radius); }
@@ -754,6 +752,13 @@ legend.dnb-form-label {
   .dnb-input--vertical {
     flex-direction: column;
     align-items: flex-start; }
+  .dnb-input--vertical .dnb-input__helper {
+    height: 0;
+    line-height: var(--input-height); }
+  .dnb-input--vertical.dnb-input--medium .dnb-input__helper {
+    line-height: var(--input-height--medium); }
+  .dnb-input--vertical.dnb-input--large .dnb-input__helper {
+    line-height: var(--input-height--large); }
   .dnb-input--stretch {
     display: flex; }
   .dnb-input--stretch .dnb-input__inner {
