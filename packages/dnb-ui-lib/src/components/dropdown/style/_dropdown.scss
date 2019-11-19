@@ -62,18 +62,11 @@
   &__helper {
     clip: rect(0, 0, 0, 0);
     width: 0;
-    height: 0;
     overflow: hidden;
-    opacity: 0;
   }
 
   &__shell {
     position: relative;
-
-    // make the dropdown appear vertical centered to the label and body text
-    // do not use transform: translateY because of z-index¨
-    // we use therefore top
-    top: -0.0625rem;
 
     width: var(--dropdown-width);
     height: var(--dropdown-height);
@@ -282,7 +275,7 @@
     width: 100%;
   }
   &--is-popup &__list {
-    left: calc(1px - 2px - var(--dropdown-padding-horizontal) / 2);
+    left: calc(1px - 1px - var(--dropdown-padding-horizontal) / 2);
   }
   &--is-popup#{&}--scroll &__options {
     min-height: 1rem;
@@ -292,14 +285,14 @@
     width: var(--dropdown-height--small);
   }
   &--is-popup#{&}__size--small &__list {
-    left: calc(1px - 2px - var(--dropdown-height--small) / 2);
+    left: calc(1px - 1px - var(--dropdown-height--small) / 2);
   }
   &--is-popup#{&}__align--right &__list {
     left: auto;
-    right: calc(1px - 2px - var(--dropdown-padding-horizontal) / 2);
+    right: calc(1px - 1px - var(--dropdown-padding-horizontal) / 2);
   }
   &--is-popup#{&}__align--right#{&}__size--small &__list {
-    right: calc(1px - 2px - var(--dropdown-height--small) / 2);
+    right: calc(1px - 1px - var(--dropdown-height--small) / 2);
   }
 
   // Size--small
@@ -438,6 +431,10 @@
   &--vertical {
     flex-direction: column;
     align-items: flex-start;
+  }
+  &--vertical &__helper {
+    height: 0;
+    line-height: var(--dropdown-height);
   }
 
   &[class*='__status'] {
