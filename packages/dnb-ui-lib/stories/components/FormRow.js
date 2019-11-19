@@ -28,7 +28,7 @@ const Center = styled.div`
   } */}
   .dnb-h2,
   .dnb-h3 {
-    margin: 0;
+    margin: 0 0 2rem;
     line-height: 1.5rem;
   }
 `
