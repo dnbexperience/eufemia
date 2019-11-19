@@ -273,6 +273,12 @@ exports[`DatePicker component have to match snapshot 1`] = `
               className="dnb-input dnb-input--text dnb-input--has-submit-element dnb-input__status--error"
             >
               <span
+                aria-hidden={true}
+                className="dnb-input__helper"
+              >
+                -
+              </span>
+              <span
                 className="dnb-input__inner"
               >
                 <span
@@ -1491,6 +1497,12 @@ legend.dnb-form-label {
     user-select: none;
     -webkit-user-select: none;
     opacity: 1; }
+  .dnb-input__helper {
+    clip: rect(0, 0, 0, 0);
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    opacity: 0; }
   .dnb-input__shell, .dnb-input__input {
     height: var(--input-height);
     border-radius: var(--input-border-radius); }
@@ -2156,6 +2168,7 @@ legend.dnb-form-label {
   .dnb-date-picker__helper {
     clip: rect(0, 0, 0, 0);
     width: 0;
+    height: 0;
     overflow: hidden;
     opacity: 0; }
   .dnb-date-picker__shell {
@@ -2381,11 +2394,8 @@ legend.dnb-form-label {
     order: 2;
     margin-top: 0.5rem; }
   .dnb-date-picker--vertical {
-    display: flex;
     align-items: flex-start;
     flex-direction: column; }
-  .dnb-date-picker--vertical .dnb-date-picker__helper {
-    display: none; }
   .dnb-date-picker[class*='__status'] {
     align-items: flex-start; }
     .dnb-date-picker[class*='__status'] > .dnb-form-label {
