@@ -65,8 +65,14 @@ const preventDefault = rawEvent => {
 const setOverflowHidden = () => {
   try {
     // Edge and IE has a gap
-    const scrollBarGap =
+    let scrollBarGap =
       window.innerWidth - document.documentElement.clientWidth
+    if (scrollBarGap > 0) {
+      scrollBarGap =
+        scrollBarGap -
+        (parseFloat(window.getComputedStyle(document.body).marginLeft) ||
+          0)
+    }
 
     if (prevBodyHeight === undefined) {
       prevBodyHeight = document.body.style.height
