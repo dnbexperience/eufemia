@@ -86,5 +86,13 @@ describe('FormRow screenshot', () => {
       })
       expect(screenshot).toMatchImageSnapshot()
     })
+    it('have to match "vertical label direction" (no label) with all components', async () => {
+      const screenshot = await testPageScreenshot({
+        wrapperStyle,
+        selector:
+          '[data-dnb-test="form-row-all-vertical-label-direction-no-label"]'
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
   }
 })

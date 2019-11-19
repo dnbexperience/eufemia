@@ -25,10 +25,29 @@ import {
 
 // const IS_TEST = typeof window !== 'undefined' && window.IS_TEST
 
-const AllComponents = ({ horizontal, vertical, showText }) => {
+const AllComponents = ({ horizontal, vertical, showText, hideLabel }) => {
   const params = {
     left: horizontal ? 'small' : null,
     top: !horizontal || vertical ? 'small' : null
+  }
+  let labels = {
+    datePicker: 'DatePicker:',
+    dropdown: 'Dropdown:',
+    checkbox: 'Checkbox',
+    radio: 'Radio',
+    radioGroup: 'Radio Group:',
+    toggleButton: 'Toggle:',
+    toggleButtonGroup: 'Toggle Group:',
+    switch: 'Switch',
+    input: 'Input:',
+    textarea: 'Textarea:',
+    slider: 'Slider:'
+  }
+  if (hideLabel) {
+    labels = Object.entries(labels).reduce((acc, [k]) => {
+      acc[k] = ''
+      return acc
+    }, {})
   }
   return (
     <>
@@ -42,43 +61,49 @@ const AllComponents = ({ horizontal, vertical, showText }) => {
       )}
       <Button text="Button" {...params} />
       <IconPrimary icon="bell" size="medium" {...params} />
-      <DatePicker label="DatePicker:" {...params} />
+      <DatePicker label={labels.datePicker} {...params} />
       <Dropdown
-        label="Dropdown:"
+        label={labels.dropdown}
         data={['Item A', 'Item B', 'Item C']}
         {...params}
       />
-      <Checkbox label="Checkbox" {...params} />
-      <Radio label="Radio" {...params} />
-      <Radio.Group label="Radio Group:" {...params}>
-        <Radio label="Radio A" value="a" />
-        <Radio label="Radio B" value="b" />
+      <Checkbox label={labels.checkbox} {...params} />
+      <Radio label={labels.radio} {...params} />
+      <Radio.Group label={labels.radioGroup} {...params}>
+        <Radio label={labels.radio} value="a" />
+        <Radio label={labels.radio} value="b" />
       </Radio.Group>
-      <ToggleButton label="Toggle:" text="Toggle" {...params} />
-      <ToggleButton.Group label="Toggle Group:" {...params}>
+      <ToggleButton
+        label={labels.toggleButton}
+        text="Toggle"
+        {...params}
+      />
+      <ToggleButton.Group label={labels.toggleButtonGroup} {...params}>
         <ToggleButton text="Toggle A" value="a" />
         <ToggleButton text="Toggle B" value="b" />
       </ToggleButton.Group>
-      <Switch label="Switch" {...params} />
-      <Input label="Input A:" {...params} />
-      <Input label="Input B:" {...params} />
-      <Input label="Input C:" stretch {...params} />
-      <Textarea label="Textarea A:" rows="5" {...params} />
-      <Textarea label="Textarea B:" rows="5" {...params} />
-      <Textarea label="Textarea C:" stretch rows="3" {...params} />
-      <Slider label="Slider:" value={50} {...params} />
+      <Switch label={labels.switch} {...params} />
+      <Input label={labels.input} {...params} />
+      <Input label={labels.input} {...params} />
+      <Input label={labels.input} stretch {...params} />
+      <Textarea label={labels.textarea} rows="5" {...params} />
+      <Textarea label={labels.textarea} rows="5" {...params} />
+      <Textarea label={labels.textarea} stretch rows="3" {...params} />
+      <Slider label={labels.slider} value={50} {...params} />
     </>
   )
 }
 AllComponents.propTypes = {
   horizontal: PropTypes.bool,
   vertical: PropTypes.bool,
-  showText: PropTypes.bool
+  showText: PropTypes.bool,
+  hideLabel: PropTypes.bool
 }
 AllComponents.defaultProps = {
   horizontal: null,
   vertical: null,
-  showText: null
+  showText: null,
+  hideLabel: null
 }
 
 export default AllComponents

@@ -7,15 +7,16 @@ import React /* , { useState, useEffect } */ from 'react'
 import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
 
-import { H2 } from '../../src/elements'
+import { H2, H3 } from '../../src/elements'
 import AllComponents from '../../src/components/form-row/AllComponents'
 
-import Provider from '../../src/shared/Provider'
+// import Provider from '../../src/shared/Provider'
 import {
   Checkbox,
   Radio,
   Input,
   FormLabel,
+  // Dropdown,
   FormRow
 } from '../../src/components'
 
@@ -33,23 +34,12 @@ export default [
     <Center>
       <Wrapper showOverflow>
         <Box>
-          <Provider
-            formRow={{
-              vertical: true,
-              label: 'Vertical input B'
-            }}
-          >
-            <Input />
-          </Provider>
-        </Box>
-
-        <Box>
           <H2 bottom="large">Combine vertical and horizontal</H2>
           <FormRow
             label={
-              <H2 top={false} bottom="large">
+              <H3 top={false} bottom="large">
                 Custom vertical legend:
-              </H2>
+              </H3>
             }
             vertical
             top="medium"
@@ -75,12 +65,12 @@ export default [
         </Box>
 
         <Box>
-          <H2 bottom="large">Plain</H2>
+          <H3 bottom="large">Plain</H3>
           <AllComponents showText horizontal vertical />
         </Box>
 
         <Box>
-          <H2 bottom="large">Horizontal label</H2>
+          <H3 bottom="large">Horizontal label</H3>
           <FormRow
             // indent
             // indent_offset="large"
@@ -92,23 +82,30 @@ export default [
         </Box>
 
         <Box>
-          <H2 bottom="large">Vertical direction</H2>
+          <H3 bottom="large">Vertical direction</H3>
           <FormRow label="Vertical direction:" direction="vertical">
             <AllComponents showText />
           </FormRow>
         </Box>
 
         <Box>
-          <H2 bottom="large">Vertical everything</H2>
+          <H3 bottom="large">Vertical everything</H3>
           <FormRow label="Vertical everything:" vertical="true">
             <AllComponents showText />
           </FormRow>
         </Box>
 
         <Box>
-          <H2 bottom="large">Vertical label</H2>
+          <H3 bottom="large">Vertical label direction</H3>
           <FormRow label="Vertical Legend:" label_direction="vertical">
             <AllComponents showText horizontal />
+          </FormRow>
+        </Box>
+
+        <Box>
+          <H3 bottom="large">Vertical label direction, but no label</H3>
+          <FormRow label="Vertical Legend:" label_direction="vertical">
+            <AllComponents showText horizontal hideLabel />
           </FormRow>
         </Box>
 
