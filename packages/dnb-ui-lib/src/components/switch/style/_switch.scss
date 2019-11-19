@@ -134,7 +134,10 @@
 
   &__order {
     display: inline-flex;
-    align-items: baseline;
+
+    // is needed for vertical alignment of the whole component
+    font-size: var(--font-size-basis);
+    line-height: var(--line-height-basis);
   }
 
   &--label-position-left &__order {

@@ -264,8 +264,14 @@ export default class Checkbox extends Component {
               disabled={disabled}
             />
           )}
+
+          <span className="dnb-checkbox__helper" aria-hidden>
+            {'-'}
+          </span>
+
           <span className="dnb-checkbox__inner">
             {label_position === 'left' && statusComp}
+
             <span className="dnb-checkbox__shell">
               <input
                 id={id}
@@ -281,16 +287,16 @@ export default class Checkbox extends Component {
                 onKeyDown={this.onKeyDownHandler}
                 ref={this._refInput}
               />
-              <span className="dnb-checkbox__helper" aria-hidden>
-                {'-'}
-              </span>
+
               <span className="dnb-checkbox__button" aria-hidden>
                 <span className="dnb-checkbox__focus" />
               </span>
+
               <CheckSVG />
             </span>
           </span>
         </span>
+
         {(label_position === 'right' || !label_position) && statusComp}
       </span>
     )
