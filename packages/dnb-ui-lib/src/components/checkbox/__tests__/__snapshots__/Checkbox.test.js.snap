@@ -93,6 +93,12 @@ exports[`Checkbox component have to match snapshot 1`] = `
         </Element>
       </FormLabel>
       <span
+        aria-hidden={true}
+        className="dnb-checkbox__helper"
+      >
+        -
+      </span>
+      <span
         className="dnb-checkbox__inner"
       >
         <span
@@ -112,12 +118,6 @@ exports[`Checkbox component have to match snapshot 1`] = `
             type="checkbox"
             value=""
           />
-          <span
-            aria-hidden={true}
-            className="dnb-checkbox__helper"
-          >
-            -
-          </span>
           <span
             aria-hidden={true}
             className="dnb-checkbox__button"
@@ -495,6 +495,7 @@ legend.dnb-form-label {
   .dnb-checkbox__helper {
     clip: rect(0, 0, 0, 0);
     width: 0;
+    height: 0;
     overflow: hidden;
     opacity: 0; }
   .dnb-checkbox__shell {
@@ -547,7 +548,8 @@ legend.dnb-form-label {
     margin-bottom: 0; }
   .dnb-checkbox__order {
     display: inline-flex;
-    align-items: baseline; }
+    font-size: var(--font-size-basis);
+    line-height: var(--line-height-basis); }
   .dnb-checkbox--label-position-left .dnb-checkbox__order .dnb-checkbox__inner {
     order: 2; }
   .dnb-checkbox--label-position-left .dnb-checkbox__order .dnb-form-label {

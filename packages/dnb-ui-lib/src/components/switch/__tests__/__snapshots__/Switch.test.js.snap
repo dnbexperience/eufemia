@@ -559,7 +559,8 @@ legend.dnb-form-label {
     margin-bottom: 0; }
   .dnb-switch__order {
     display: inline-flex;
-    align-items: baseline; }
+    font-size: var(--font-size-basis);
+    line-height: var(--line-height-basis); }
   .dnb-switch--label-position-left .dnb-switch__order .dnb-switch__inner {
     order: 2; }
   .dnb-switch--label-position-left .dnb-switch__order .dnb-form-label {
