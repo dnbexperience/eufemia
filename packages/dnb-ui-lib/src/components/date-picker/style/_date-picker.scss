@@ -47,7 +47,6 @@
     width: 0;
     height: 0;
     overflow: hidden;
-    opacity: 0;
   }
 
   &__shell {
@@ -385,6 +384,10 @@
   &--vertical {
     align-items: flex-start;
     flex-direction: column;
+  }
+  &--vertical &__helper {
+    height: 0;
+    line-height: var(--date-picker-input-height);
   }
 
   &[class*='__status'] {

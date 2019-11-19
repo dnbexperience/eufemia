@@ -23,10 +23,10 @@ const CustomStyle = styled.div`
     position: relative;
     max-width: var(--dropdown-width);
   }
-  .dnb-dropdown__shell {
+  .dnb-dropdown:not(.dnb-dropdown--is-popup) .dnb-dropdown__shell {
     width: 10rem;
   }
-  .dnb-dropdown__list {
+  .dnb-dropdown:not(.dnb-dropdown--is-popup) .dnb-dropdown__list {
     min-width: 20rem;
   }
 `
@@ -157,6 +157,7 @@ const DropdownStory = () => {
           on_select={({ data }) => {
             console.log('on_select', data)
           }}
+          status="Status message"
           // value={3}
           // disabled
         />
@@ -218,7 +219,7 @@ const DropdownStory = () => {
           data={dropdownDataScrollable}
           value={4}
           no_scroll_animation="true"
-          // status="Message to the user"
+          status="Message to the user"
         />
         <p className="dnb-p">
           Eros semper blandit tellus mollis primis quisque platea
@@ -512,6 +513,7 @@ function CurrencyDropdown() {
   return (
     <>
       <CurrencySelector
+        label="a"
         value={ccyPair.base}
         currencies={baseCurrencies}
         onChange={handleBaseCurrencyChange}
