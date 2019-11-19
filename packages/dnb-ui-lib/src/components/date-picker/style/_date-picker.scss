@@ -45,6 +45,7 @@
   &__helper {
     clip: rect(0, 0, 0, 0);
     width: 0;
+    height: 0;
     overflow: hidden;
     opacity: 0;
   }
@@ -382,13 +383,10 @@
   }
 
   &--vertical {
-    display: flex;
     align-items: flex-start;
     flex-direction: column;
   }
-  &--vertical &__helper {
-    display: none;
-  }
+
   &[class*='__status'] {
     align-items: flex-start;
     > .dnb-form-label {
