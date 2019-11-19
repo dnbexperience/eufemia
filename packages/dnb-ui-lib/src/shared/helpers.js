@@ -84,3 +84,10 @@ export const isIE11 =
   typeof window !== 'undefined' && typeof document !== 'undefined'
     ? !!window.MSInputMethodContext && !!document.documentMode
     : false
+
+export const isEdge =
+  typeof navigator !== 'undefined' &&
+  navigator.userAgent &&
+  navigator.userAgent.indexOf
+    ? navigator.userAgent.indexOf('Edge') >= 0
+    : false
