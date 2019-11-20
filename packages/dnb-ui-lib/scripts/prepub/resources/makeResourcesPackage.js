@@ -6,15 +6,23 @@
 import gulp from 'gulp'
 import transform from 'gulp-transform'
 import { log } from '../../lib'
+import path from 'path'
 import fs from 'fs-extra'
+import { create } from 'tar'
 
 export default async function makeResourcesPackage() {
-  await copyStylePackages()
-  await copyFonts()
-  await copyBrowser()
-  await copyUMD()
-  await createReadMe()
-  log.succeed('> PrePublish: "makeResourcesPackage" succeed!')
+  try {
+    await copyStylePackages()
+    await copyFonts()
+    await copyBrowser()
+    await copyUMD()
+    await createReadMe()
+    await createTar()
+    await cleanup()
+    log.succeed('> PrePublish: "makeResourcesPackage" succeed!')
+  } catch (e) {
+    log.fail(e.message)
+  }
 }
 
 const copyStylePackages = (
@@ -105,8 +113,9 @@ const copyUMD = (src = ['./umd/*', '../../node_modules/react/umd/*']) =>
     }
   })
 
-const createReadMe = () => {
-  fs.writeFile(
+const createReadMe = async () => {
+  log.start('> PrePublish: write README.md to resources')
+  await fs.writeFile(
     'dnb-ui-resources/README.md',
     `# Eufemia
 
@@ -119,6 +128,28 @@ For documentation, visit: https://eufemia.dnb.no/
 
 `
   )
+}
+
+const createTar = async () => {
+  log.start('> PrePublish: create tar file in resources')
+
+  const distPath = path.resolve(__dirname, '../../../dist')
+  if (!fs.existsSync(distPath)) {
+    await fs.mkdir(distPath)
+  }
+
+  await create(
+    {
+      gzip: true,
+      file: path.resolve(__dirname, '../../../dist/dnb-ui-resources.tgz')
+    },
+    ['./dnb-ui-resources']
+  )
+}
+
+const cleanup = async () => {
+  log.start('> PrePublish: cleanup resources')
+  await fs.remove(path.resolve(__dirname, '../../../dnb-ui-resources'))
 }
 
 const transformPaths = (from, to) => content =>

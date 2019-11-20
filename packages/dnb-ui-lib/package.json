@@ -28,7 +28,7 @@
     "build:es": "cross-env NODE_ENV=production BABEL_ENV=es babel --config-file ./babel.config.js ./src --out-dir ./build/es --ignore \"./src/umd\" --ignore \"./src/core\" --ignore \"**/*.test.js\"",
     "build:esm": "cross-env NODE_ENV=production BABEL_ENV=esm babel --config-file ./babel.config.js ./src --out-dir ./build/esm --ignore \"./src/umd\" --ignore \"./src/core\" --ignore \"**/*.test.js\"",
     "build:prebuild": "babel-node ./scripts/prepub/runPrepub.js",
-    "build:resources": "babel-node ./scripts/prepub/resources/makeResourcesPackage.js && tar -czvf dist/dnb-ui-resources.tar.gz dnb-ui-resources && rm -rf dnb-ui-resources",
+    "build:resources": "babel-node ./scripts/prepub/resources/makeResourcesPackage.js",
     "build:shared": "cross-env NODE_ENV=production BABEL_ENV=esm babel --config-file ./babel.config.js ./src/shared --out-dir ./build/esm/shared --ignore \"./src/umd\" --ignore \"./src/core\" --ignore \"**/*.test.js\"",
     "build:umd": "cross-env NODE_ENV=production BABEL_ENV=umd rollup -c ./rollup.config.js",
     "build:update": "babel-node ./scripts/prepub/updateAndPrepub.js",
