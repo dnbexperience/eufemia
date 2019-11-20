@@ -20,6 +20,7 @@
 /umd
 /style
 /icons
+/dnb-ui-resources
 **/test-files/dist
 /docs
 /vue.js
