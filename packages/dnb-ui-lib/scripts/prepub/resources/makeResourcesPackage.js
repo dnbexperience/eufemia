@@ -117,7 +117,7 @@ const createReadMe = async () => {
   log.start('> PrePublish: write README.md to resources')
   await fs.writeFile(
     'dnb-ui-resources/README.md',
-    `# Eufemia
+    `# DNB Design System (Eufemia)
 
 This file contains parts of the Eufemia Design System to use in a dedicated and less flexible environment.
 Instead of using the assets folder, the path to the \`assets\` directory is called \`resources\`.
@@ -126,6 +126,7 @@ To make usage of the content, copy the \`style\`, \`umd\` and \`resources\` fold
 
 For documentation, visit: https://eufemia.dnb.no/
 
+License: Apache 2.0 with Commons Clause
 `
   )
 }
