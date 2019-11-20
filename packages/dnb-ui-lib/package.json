@@ -74,10 +74,10 @@
     "prettier:diff": "prettier --list-different '{scripts,stories,src}/**/*.{md,js}'",
     "prettier:js": "prettier --loglevel warn --write '{scripts,stories,src}/**/*.js'",
     "prettier:js:staged": "prettier --loglevel warn",
-    "prettier:other": "prettier --loglevel warn --write '{scripts,src}/**/*.{json,md}' --write '.babelrc' && yarn prettier:package",
+    "prettier:other": "prettier --loglevel warn --write './src/**/*.{json,md}' --write '.babelrc' && yarn prettier:package",
     "prettier:other:staged": "prettier --loglevel warn",
     "prettier:package": "prettier-package-json --write ./package.json",
-    "prettier:styles": "prettier --loglevel warn --parser scss --write 'src/**/*.scss'",
+    "prettier:styles": "prettier --loglevel warn --parser scss --write './src/**/*.scss'",
     "prettier:styles:staged": "prettier --loglevel warn --parser scss"
   },
   "dependencies": {
