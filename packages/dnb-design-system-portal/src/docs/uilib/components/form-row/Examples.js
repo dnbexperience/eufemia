@@ -280,6 +280,17 @@ render(
 </FormRow>
           `}
             </ComponentBox>
+            <ComponentBox
+              caption="Vertical label direction, no labels"
+              scope={{ AllComponents }}
+              data-dnb-test="form-row-all-vertical-label-direction-no-label"
+            >
+              {/* @jsx */ `
+<FormRow label="Vertical label direction, no labels:" label_direction="vertical">
+  <AllComponents horizontal hideLabel />
+</FormRow>
+          `}
+            </ComponentBox>
           </>
         )}
       </TestStyles>
