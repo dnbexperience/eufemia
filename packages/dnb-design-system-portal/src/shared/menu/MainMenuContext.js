@@ -54,11 +54,14 @@ export class MainMenuProvider extends PureComponent {
           try {
             const top =
               !isOpen && lastScrollPosition > 0 ? lastScrollPosition : 0
-            window.scrollTop = top
-            window.scrollTo({
-              top,
-              behavior: 'smooth'
-            })
+            if (window.scrollTo) {
+              window.scrollTo({
+                top,
+                behavior: 'smooth'
+              })
+            } else {
+              window.scrollTop = top
+            }
           } catch (e) {
             console.log('Could not run scrollTo', e)
           }
@@ -69,7 +72,8 @@ export class MainMenuProvider extends PureComponent {
 
     // scroll to top on opening the menu, and back again
     if (!state && typeof window !== 'undefined') {
-      lastScrollPosition = window.scrollY
+      // use "window.pageYOffset" instead of "window.scrollY" because IE
+      lastScrollPosition = window.pageYOffset
     }
 
     this.setState({

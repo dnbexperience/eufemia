@@ -192,6 +192,12 @@ exports[`ToggleButton component have to match snapshot 1`] = `
                       className="dnb-checkbox__order"
                     >
                       <span
+                        aria-hidden={true}
+                        className="dnb-checkbox__helper"
+                      >
+                        -
+                      </span>
+                      <span
                         className="dnb-checkbox__inner"
                       >
                         <span
@@ -214,12 +220,6 @@ exports[`ToggleButton component have to match snapshot 1`] = `
                             type="checkbox"
                             value=""
                           />
-                          <span
-                            aria-hidden={true}
-                            className="dnb-checkbox__helper"
-                          >
-                            -
-                          </span>
                           <span
                             aria-hidden={true}
                             className="dnb-checkbox__button"
@@ -458,7 +458,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                               href={null}
                               icon={null}
                               icon_position={null}
-                              icon_size={null}
+                              icon_size="default"
                               id="toggle-button-1"
                               innerRef={null}
                               isIconOnly={false}
@@ -566,7 +566,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                               href={null}
                               icon={null}
                               icon_position={null}
-                              icon_size={null}
+                              icon_size="default"
                               id="toggle-button-2"
                               innerRef={null}
                               isIconOnly={false}
@@ -944,7 +944,7 @@ legend.dnb-form-label {
   text-decoration: none; }
   .dnb-button__icon.dnb-icon {
     font-size: var(--font-size-small);
-    transform: translateY(-0.125rem); }
+    transform: translateY(-0.0625rem); }
     .dnb-button__icon.dnb-icon:not(.dnb-icon) svg:not([width]):not([height]) {
       width: var(--button-icon-size);
       height: var(--button-icon-size); }
@@ -952,8 +952,7 @@ legend.dnb-form-label {
     font-size: var(--button-font-size);
     line-height: var(--line-height-x-small--em);
     color: inherit;
-    background-color: inherit;
-    transform: translateY(-0.0625rem); }
+    background-color: inherit; }
   .dnb-button__bounding {
     position: absolute;
     background-color: transparent;
@@ -1212,8 +1211,7 @@ a.dnb-button .dnb-button__text {
   .dnb-checkbox__helper {
     clip: rect(0, 0, 0, 0);
     width: 0;
-    overflow: hidden;
-    opacity: 0; }
+    overflow: hidden; }
   .dnb-checkbox__shell {
     user-select: none;
     -webkit-user-select: none;
@@ -1264,7 +1262,8 @@ a.dnb-button .dnb-button__text {
     margin-bottom: 0; }
   .dnb-checkbox__order {
     display: inline-flex;
-    align-items: baseline; }
+    font-size: var(--font-size-basis);
+    line-height: var(--line-height-basis); }
   .dnb-checkbox--label-position-left .dnb-checkbox__order .dnb-checkbox__inner {
     order: 2; }
   .dnb-checkbox--label-position-left .dnb-checkbox__order .dnb-form-label {
@@ -1358,8 +1357,8 @@ a.dnb-button .dnb-button__text {
   .dnb-radio__helper {
     clip: rect(0, 0, 0, 0);
     width: 0;
-    overflow: hidden;
-    opacity: 0; }
+    height: 0;
+    overflow: hidden; }
   .dnb-radio__shell {
     position: relative;
     user-select: none;
@@ -1406,7 +1405,6 @@ a.dnb-button .dnb-button__text {
     margin-bottom: 0; }
   .dnb-radio__order {
     display: inline-flex;
-    align-items: baseline;
     font-size: var(--font-size-basis);
     line-height: var(--line-height-basis); }
     .dnb-radio-group--column .dnb-radio__order {

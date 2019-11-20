@@ -18,6 +18,7 @@ import {
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
+// import { addScrollLock } from '../modal/Modal'
 
 import Context from '../../shared/Context'
 import Icon from '../icon-primary/IconPrimary'
@@ -386,6 +387,9 @@ export default class Dropdown extends PureComponent {
     if (!opened && hidden) {
       this.blockDoubleClick = true
     }
+    // This can be enabled in case we want to bypass the overflow hidden on Modals
+    // Has to be tested more!
+    // this.modalScrollLock = addScrollLock(this._ref.current)
     this.setState(
       {
         hidden: false,
@@ -413,6 +417,7 @@ export default class Dropdown extends PureComponent {
       attributes: this.attributes || {}
     })
   }
+
   setHidden = ({ setFocus = false } = {}) => {
     this.setState(
       {
@@ -446,6 +451,9 @@ export default class Dropdown extends PureComponent {
         ) // wait until animation is over
       }
     )
+    if (typeof this.modalScrollLock === 'function') {
+      this.modalScrollLock()
+    }
     this.removeDirectionObserver()
     this.removeScrollObserver()
     this.removeOutsideClickObserver()
@@ -845,12 +853,13 @@ export default class Dropdown extends PureComponent {
       const elem = this._ref.current
 
       this.setDirection = () => {
+        // use "window.pageYOffset" instead of "window.scrollY" because IE
         const spaceToTop =
-          getOffseTop(elem) + elem.offsetHeight - window.scrollY
+          getOffsetTop(elem) + elem.offsetHeight - window.pageYOffset
         const spaceToBottom =
           window.innerHeight -
-          (getOffseTop(elem) + elem.offsetHeight) +
-          window.scrollY
+          (getOffsetTop(elem) + elem.offsetHeight) +
+          window.pageYOffset
         const direction =
           spaceToBottom < min_height && spaceToTop > min_height
             ? 'top'
@@ -1174,7 +1183,7 @@ export default class Dropdown extends PureComponent {
   }
 }
 
-function getOffseTop(elem) {
+function getOffsetTop(elem) {
   let offsetTop = 0
   do {
     if (!isNaN(elem.offsetTop)) {

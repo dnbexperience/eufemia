@@ -28,6 +28,8 @@ export default [
       <Wrapper>
         <Box>
           <InputMasked
+            label="Email:"
+            type="email"
             placeholder="@."
             keep_placeholder
             mask={emailMask}

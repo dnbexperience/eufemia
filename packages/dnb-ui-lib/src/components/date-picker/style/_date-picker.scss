@@ -45,8 +45,8 @@
   &__helper {
     clip: rect(0, 0, 0, 0);
     width: 0;
+    height: 0;
     overflow: hidden;
-    opacity: 0;
   }
 
   &__shell {
@@ -382,13 +382,14 @@
   }
 
   &--vertical {
-    display: flex;
     align-items: flex-start;
     flex-direction: column;
   }
   &--vertical &__helper {
-    display: none;
+    height: 0;
+    line-height: var(--date-picker-input-height);
   }
+
   &[class*='__status'] {
     align-items: flex-start;
     > .dnb-form-label {

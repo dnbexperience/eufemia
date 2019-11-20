@@ -49,6 +49,9 @@
     outline: none;
     word-break: normal;
 
+    position: relative;
+    z-index: 2; // to make sure we are over the placeholder
+
     // vertical alignment
     transform: translateY(-0.0625rem);
   }
@@ -57,6 +60,13 @@
     user-select: none;
     -webkit-user-select: none; // Safari / Touch fix
     opacity: 1; // iOS fix
+  }
+
+  // if no label is provided, then make sure we have some text to align the button
+  &__helper {
+    clip: rect(0, 0, 0, 0);
+    width: 0;
+    overflow: hidden;
   }
 
   &__shell,
@@ -230,6 +240,16 @@
   &--vertical {
     flex-direction: column;
     align-items: flex-start;
+  }
+  &--vertical &__helper {
+    height: 0;
+    line-height: var(--input-height);
+  }
+  &--vertical#{&}--medium &__helper {
+    line-height: var(--input-height--medium);
+  }
+  &--vertical#{&}--large &__helper {
+    line-height: var(--input-height--large);
   }
 
   // make the input full width

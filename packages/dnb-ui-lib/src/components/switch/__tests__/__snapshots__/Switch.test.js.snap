@@ -498,8 +498,7 @@ legend.dnb-form-label {
   .dnb-switch__helper {
     clip: rect(0, 0, 0, 0);
     width: 0;
-    overflow: hidden;
-    opacity: 0; }
+    overflow: hidden; }
   .dnb-switch__shell {
     user-select: none;
     -webkit-user-select: none;
@@ -559,7 +558,8 @@ legend.dnb-form-label {
     margin-bottom: 0; }
   .dnb-switch__order {
     display: inline-flex;
-    align-items: baseline; }
+    font-size: var(--font-size-basis);
+    line-height: var(--line-height-basis); }
   .dnb-switch--label-position-left .dnb-switch__order .dnb-switch__inner {
     order: 2; }
   .dnb-switch--label-position-left .dnb-switch__order .dnb-form-label {

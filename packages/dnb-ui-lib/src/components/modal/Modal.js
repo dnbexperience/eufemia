@@ -3,12 +3,16 @@
  *
  */
 
-import React, { PureComponent, Fragment } from 'react'
+import React, { PureComponent } from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import keycode from 'keycode'
-import * as bodyScrollLock from 'body-scroll-lock'
+import {
+  disableBodyScroll,
+  enableBodyScroll,
+  clearAllBodyScrollLocks
+} from '../../shared/libs/bodyScrollLock'
 import {
   isTrue,
   makeUniqueId,
@@ -21,11 +25,6 @@ import {
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import Button from '../button/Button'
-
-const { disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks } =
-  bodyScrollLock && bodyScrollLock.default
-    ? bodyScrollLock.default
-    : bodyScrollLock
 
 const renderProps = {
   on_open: null,
@@ -59,6 +58,10 @@ const propTypes = {
     PropTypes.bool
   ]),
   prevent_close: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  prevent_core_style: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool
+  ]),
   fullscreen: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   open_state: PropTypes.oneOf(['opened', 'closed']),
   direct_dom_return: PropTypes.oneOfType([
@@ -108,6 +111,7 @@ const defaultProps = {
   close_title: 'Lukk', // Close Modal Window
   hide_close_button: false,
   prevent_close: false,
+  prevent_core_style: false,
   fullscreen: false,
   open_state: null,
   direct_dom_return: false,
@@ -142,20 +146,25 @@ export default class Modal extends PureComponent {
   }
 
   static insertModalRoot() {
-    if (!Modal.modalRoot && typeof document !== 'undefined') {
-      try {
-        Modal.modalRoot = document.getElementById('dnb-modal-root') // document.querySelector('.dnb-modal-root')
-        if (!Modal.modalRoot) {
-          Modal.modalRoot = document.createElement('div')
-          Modal.modalRoot.setAttribute('id', 'dnb-modal-root')
-          document.body.appendChild(Modal.modalRoot)
-        }
-      } catch (e) {
-        console.warn('Modal: Could not insert dnb-modal-root', e)
-      }
+    if (typeof window === 'undefined') {
+      return false
     }
 
-    return Modal.modalRoot
+    try {
+      window.modalRoot = document.getElementById('dnb-modal-root') // document.querySelector('.dnb-modal-root')
+      if (!window.modalRoot) {
+        window.modalRoot = document.createElement('div')
+        window.modalRoot.setAttribute('id', 'dnb-modal-root')
+        document.body.insertBefore(
+          window.modalRoot,
+          document.body.firstChild
+        )
+      }
+    } catch (e) {
+      console.warn('Modal: Could not insert dnb-modal-root', e)
+    }
+
+    return window.modalRoot
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -395,8 +404,8 @@ class ModalRoot extends PureComponent {
           this.node = document.createElement('div')
           this.node.className = 'dnb-modal-root__inner'
         }
-        if (Modal.modalRoot && this.node) {
-          Modal.modalRoot.appendChild(this.node)
+        if (window.modalRoot && this.node) {
+          window.modalRoot.appendChild(this.node)
         }
       } catch (e) {
         console.warn(e)
@@ -406,9 +415,9 @@ class ModalRoot extends PureComponent {
   }
 
   componentWillUnmount() {
-    if (Modal.modalRoot && this.node) {
+    if (window.modalRoot && this.node) {
       this.setState({ isMonted: false })
-      Modal.modalRoot.removeChild(this.node)
+      window.modalRoot.removeChild(this.node)
       this.node = null
     }
   }
@@ -417,7 +426,7 @@ class ModalRoot extends PureComponent {
     if (isTrue(direct_dom_return)) {
       return <ModalContent {...props}>{children}</ModalContent>
     }
-    if (this.state.isMonted && Modal.modalRoot && this.node) {
+    if (this.state.isMonted && window.modalRoot && this.node) {
       return ReactDOM.createPortal(
         <ModalContent {...props}>{children}</ModalContent>,
         this.node
@@ -439,6 +448,10 @@ class ModalContent extends PureComponent {
       PropTypes.bool
     ]),
     prevent_close: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    prevent_core_style: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
     min_width: PropTypes.string,
     max_width: PropTypes.string,
     fullscreen: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -461,6 +474,7 @@ class ModalContent extends PureComponent {
     close_title: null,
     hide_close_button: false,
     prevent_close: null,
+    prevent_core_style: null,
     min_width: null,
     max_width: null,
     fullscreen: null,
@@ -604,8 +618,8 @@ class ModalContent extends PureComponent {
   onKeyDownHandler = e => {
     switch (keycode(e)) {
       case 'esc':
-        this.props.closeModal(e)
         e.preventDefault()
+        this.props.closeModal(e)
         break
     }
   }
@@ -618,6 +632,7 @@ class ModalContent extends PureComponent {
       close_title,
       hide_close_button,
       prevent_close, // eslint-disable-line
+      prevent_core_style,
       min_width: minWidth,
       max_width: maxWidth,
       fullscreen, // eslint-disable-line
@@ -648,6 +663,7 @@ class ModalContent extends PureComponent {
       className: classnames(
         'dnb-modal__content__inner',
         'dnb-no-focus',
+        !isTrue(prevent_core_style) && 'dnb-core-style',
         className,
         _className
       ),
@@ -667,7 +683,7 @@ class ModalContent extends PureComponent {
     validateDOMAttributes(this.props, innerParams)
 
     return (
-      <Fragment>
+      <>
         <div {...contentParams}>
           <div {...innerParams} ref={this._contentRef}>
             {title && <h1 className="dnb-modal__title dnb-h2">{title}</h1>}
@@ -678,7 +694,7 @@ class ModalContent extends PureComponent {
           </div>
         </div>
         <span className="dnb-modal__overlay" aria-hidden="true" />
-      </Fragment>
+      </>
     )
   }
 }

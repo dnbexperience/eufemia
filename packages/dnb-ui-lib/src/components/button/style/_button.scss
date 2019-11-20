@@ -46,16 +46,13 @@
 
   &__icon.dnb-icon {
     font-size: var(--font-size-small); // has to be 16px
-    // line-height: var(
-    //   --line-height-x-small--em
-    // ); // vertical alignment, if we have no line-height
     &:not(.dnb-icon) svg:not([width]):not([height]) {
       width: var(--button-icon-size);
       height: var(--button-icon-size);
     }
 
     // vertical alignment
-    transform: translateY(-0.125rem);
+    transform: translateY(-0.0625rem);
   }
   &__text {
     font-size: var(--button-font-size);
@@ -64,9 +61,6 @@
     ); // because of the background-color
     color: inherit;
     background-color: inherit;
-
-    // vertical alignment
-    transform: translateY(-0.0625rem);
   }
 
   &__bounding {

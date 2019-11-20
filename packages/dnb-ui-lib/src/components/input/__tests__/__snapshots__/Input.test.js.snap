@@ -111,6 +111,12 @@ exports[`Input component have to match type="search" snapshot 1`] = `
     className="dnb-input dnb-input--search dnb-input--has-submit-element"
   >
     <span
+      aria-hidden={true}
+      className="dnb-input__helper"
+    >
+      -
+    </span>
+    <span
       className="dnb-input__inner"
     >
       <span
@@ -454,6 +460,12 @@ exports[`Input component have to match type="text" snapshot 1`] = `
     className="dnb-input dnb-input--text"
   >
     <span
+      aria-hidden={true}
+      className="dnb-input__helper"
+    >
+      -
+    </span>
+    <span
       className="dnb-input__inner"
     >
       <span
@@ -560,9 +572,9 @@ exports[`Input scss have to match default theme snapshot 1`] = `
     background-color: var(--color-mint-green);
     color: var(--input-text-color--focus);
     text-shadow: none; }
-  .dnb-input__input:not([disabled]):not([readonly]):focus ~ .dnb-input__placeholder {
+  .dnb-input__shell[data-input-state='focus'] .dnb-input__placeholder {
     display: none; }
-  .dnb-input--keep-placeholder .dnb-input__input:not([disabled]):not([readonly]):focus ~ .dnb-input__placeholder {
+  .dnb-input--keep-placeholder .dnb-input__shell[data-input-state='focus'] .dnb-input__placeholder {
     display: block;
     opacity: 0.6; }
 "
@@ -723,7 +735,7 @@ exports[`Input scss have to match snapshot 1`] = `
   text-decoration: none; }
   .dnb-button__icon.dnb-icon {
     font-size: var(--font-size-small);
-    transform: translateY(-0.125rem); }
+    transform: translateY(-0.0625rem); }
     .dnb-button__icon.dnb-icon:not(.dnb-icon) svg:not([width]):not([height]) {
       width: var(--button-icon-size);
       height: var(--button-icon-size); }
@@ -731,8 +743,7 @@ exports[`Input scss have to match snapshot 1`] = `
     font-size: var(--button-font-size);
     line-height: var(--line-height-x-small--em);
     color: inherit;
-    background-color: inherit;
-    transform: translateY(-0.0625rem); }
+    background-color: inherit; }
   .dnb-button__bounding {
     position: absolute;
     background-color: transparent;
@@ -1076,11 +1087,17 @@ legend.dnb-form-label {
     border: none;
     outline: none;
     word-break: normal;
+    position: relative;
+    z-index: 2;
     transform: translateY(-0.0625rem); }
   .dnb-input__input[disabled] {
     user-select: none;
     -webkit-user-select: none;
     opacity: 1; }
+  .dnb-input__helper {
+    clip: rect(0, 0, 0, 0);
+    width: 0;
+    overflow: hidden; }
   .dnb-input__shell, .dnb-input__input {
     height: var(--input-height);
     border-radius: var(--input-border-radius); }
@@ -1186,6 +1203,13 @@ legend.dnb-form-label {
   .dnb-input--vertical {
     flex-direction: column;
     align-items: flex-start; }
+  .dnb-input--vertical .dnb-input__helper {
+    height: 0;
+    line-height: var(--input-height); }
+  .dnb-input--vertical.dnb-input--medium .dnb-input__helper {
+    line-height: var(--input-height--medium); }
+  .dnb-input--vertical.dnb-input--large .dnb-input__helper {
+    line-height: var(--input-height--large); }
   .dnb-input--stretch {
     display: flex; }
   .dnb-input--stretch .dnb-input__inner {

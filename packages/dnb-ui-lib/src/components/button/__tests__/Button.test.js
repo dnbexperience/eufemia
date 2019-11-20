@@ -48,12 +48,27 @@ describe('Button component', () => {
   it('icon only has to have some extra classes', () => {
     const Comp = mount(<Component icon="question" />)
 
-    // size "medium" (32px)
+    // size "medium"
     expect(Comp.find('.dnb-button--size-medium').exists()).toBe(true)
 
     // has icon class, but not has text
     expect(Comp.find('.dnb-button--has-icon').exists()).toBe(true)
     expect(Comp.find('.dnb-button--has-text').exists()).toBe(false)
+  })
+
+  it('has medium icon if button size is large', () => {
+    const Comp = mount(
+      <Component text="Button" size="large" icon="question" />
+    )
+
+    // size "large
+    expect(Comp.find('.dnb-button--size-large').exists()).toBe(true)
+
+    // has icon class with correct size
+    expect(
+      Comp.find('.dnb-button').hasClass('dnb-button--icon-size-medium')
+    ).toBe(true)
+    expect(Comp.find('.dnb-icon--medium').exists()).toBe(true)
   })
 
   it('has to have a bounding tag if property is set', () => {

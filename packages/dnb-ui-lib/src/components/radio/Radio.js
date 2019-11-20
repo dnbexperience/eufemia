@@ -35,7 +35,6 @@ const propTypes = {
     PropTypes.node
   ]),
   label_position: PropTypes.oneOf(['left', 'right']),
-  title: PropTypes.string,
   checked: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   id: PropTypes.string,
@@ -67,7 +66,6 @@ const propTypes = {
 const defaultProps = {
   label: null,
   label_position: null,
-  title: null,
   checked: null,
   disabled: false,
   id: null,
@@ -274,11 +272,9 @@ export default class Radio extends Component {
             global_status_id,
             label,
             label_position,
-            title,
             readOnly,
             className,
             class: _className,
-
             id: _id, // eslint-disable-line
             group: _group, // eslint-disable-line
             value: _value, // eslint-disable-line
@@ -357,11 +353,17 @@ export default class Radio extends Component {
                   <FormLabel
                     id={id + '-label'}
                     for_id={id}
-                    // aria-hidden={!this.isInNoGroup()} // for VO it's fine, but not for NVDA
+                    aria-hidden
+                    aria-label={label} // Only for NVDA and mouse over read out.
                     text={label}
                     disabled={disabled}
                   />
                 )}
+
+                <span className="dnb-radio__helper" aria-hidden>
+                  {'-'}
+                </span>
+
                 <span className="dnb-radio__inner">
                   {label_position === 'left' && statusComp}
 
@@ -374,8 +376,7 @@ export default class Radio extends Component {
                       className="dnb-radio__input"
                       checked={checked}
                       aria-checked={checked}
-                      title={title}
-                      aria-label={title}
+                      aria-label={label} // is responsible for the text/label to be read on both VO and NVDA
                       disabled={isTrue(disabled)}
                       ref={this._refInput}
                       {...inputParams}
@@ -383,9 +384,7 @@ export default class Radio extends Component {
                       onClick={this.onClickHandler}
                       onKeyDown={this.onKeyDownHandler}
                     />
-                    <span className="dnb-radio__helper" aria-hidden>
-                      {'-'}
-                    </span>
+
                     <span className="dnb-radio__button" aria-hidden />
                     <span className="dnb-radio__focus" aria-hidden />
                     <span className="dnb-radio__dot" aria-hidden />

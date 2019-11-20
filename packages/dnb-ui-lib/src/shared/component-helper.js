@@ -24,6 +24,10 @@ whatInput.specificKeys([9])
 defineIsTouch()
 defineNavigator()
 
+export const isMac = () =>
+  typeof navigator !== 'undefined' &&
+  navigator.platform.match(new RegExp(PLATFORM_MAC)) !== null
+
 /**
  * Check if device is touch device or not
  */
@@ -494,7 +498,7 @@ export class DetectOutsideClickClass {
   }
 
   overflowIsScrollable = elem => {
-    const style = getComputedStyle(elem)
+    const style = window.getComputedStyle(elem)
     return /scroll|auto/i.test(
       style.overflow + (style.overflowX || '') + (style.overflowY || '')
     )
@@ -549,4 +553,25 @@ export const matchAll = (string, regex) => {
     matches.push(match)
   }
   return matches
+}
+
+/**
+ * [getPreviousSibling traverses down the DOM tree until it finds the wanted element]
+ * @param  {[string]} className [CSS class]
+ * @param  {[HTMLElement]} elem      [starting HTMLElement]
+ * @return {[HTMLElement]}           [HTMLElement]
+ */
+export const getPreviousSibling = (className, elem) => {
+  try {
+    const contains = elem => elem && elem.classList.contains(className)
+
+    if (contains(elem)) {
+      return elem
+    }
+
+    while ((elem = elem && elem.parentElement) && !contains(elem));
+  } catch (e) {
+    console.warn(e)
+  }
+  return elem
 }

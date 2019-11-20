@@ -22,6 +22,7 @@ import { InfoIcon, ErrorIcon } from '../form-status/FormStatus'
 import Button from '../button/Button'
 import Section from '../section/Section'
 import Animation from './AnimationHelper'
+import { isIE11 } from '../../shared/helpers'
 
 const renderProps = {
   on_open: null,
@@ -489,19 +490,22 @@ export default class GlobalStatus extends React.PureComponent {
     try {
       // dispatchCustomElementEvent(this.state.globalStatus, 'on_scroll_to')
       const element = this._shellRef.current
-      if (element) {
+      if (element && !isIE11) {
         this._scrollToStatusId = isElementVisible(element, isDone)
         element.scrollIntoView({
           block: 'center',
           behavior: 'smooth'
         })
       } else if (typeof window !== 'undefined') {
-        const top = 0
-        window.scrollTop = top
-        window.scrollTo({
-          top,
-          behavior: 'smooth'
-        })
+        const top = element.offsetTop
+        if (window.scrollTo) {
+          window.scrollTo({
+            top,
+            behavior: 'smooth'
+          })
+        } else {
+          window.scrollTop = top
+        }
       }
     } catch (e) {
       console.warn('GlobalStatus: Could not scroll into view!', e)
@@ -667,11 +671,16 @@ export default class GlobalStatus extends React.PureComponent {
                             }
                           })
 
-                          // then go there
-                          element.scrollIntoView({
-                            block: 'center', // center of page
-                            behavior: 'smooth'
-                          })
+                          // block: 'center' is not suported on IE - now we se the element above
+                          if (isIE11) {
+                            window.scrollTop = element.offsetTop
+                          } else {
+                            // then go there
+                            element.scrollIntoView({
+                              block: 'center', // center of page
+                              behavior: 'smooth'
+                            })
+                          }
                         } catch (e) {
                           console.warn(e)
                         }

@@ -273,6 +273,12 @@ exports[`DatePicker component have to match snapshot 1`] = `
               className="dnb-input dnb-input--text dnb-input--has-submit-element dnb-input__status--error"
             >
               <span
+                aria-hidden={true}
+                className="dnb-input__helper"
+              >
+                -
+              </span>
+              <span
                 className="dnb-input__inner"
               >
                 <span
@@ -1132,7 +1138,7 @@ exports[`DatePicker scss have to match snapshot 1`] = `
   text-decoration: none; }
   .dnb-button__icon.dnb-icon {
     font-size: var(--font-size-small);
-    transform: translateY(-0.125rem); }
+    transform: translateY(-0.0625rem); }
     .dnb-button__icon.dnb-icon:not(.dnb-icon) svg:not([width]):not([height]) {
       width: var(--button-icon-size);
       height: var(--button-icon-size); }
@@ -1140,8 +1146,7 @@ exports[`DatePicker scss have to match snapshot 1`] = `
     font-size: var(--button-font-size);
     line-height: var(--line-height-x-small--em);
     color: inherit;
-    background-color: inherit;
-    transform: translateY(-0.0625rem); }
+    background-color: inherit; }
   .dnb-button__bounding {
     position: absolute;
     background-color: transparent;
@@ -1485,11 +1490,17 @@ legend.dnb-form-label {
     border: none;
     outline: none;
     word-break: normal;
+    position: relative;
+    z-index: 2;
     transform: translateY(-0.0625rem); }
   .dnb-input__input[disabled] {
     user-select: none;
     -webkit-user-select: none;
     opacity: 1; }
+  .dnb-input__helper {
+    clip: rect(0, 0, 0, 0);
+    width: 0;
+    overflow: hidden; }
   .dnb-input__shell, .dnb-input__input {
     height: var(--input-height);
     border-radius: var(--input-border-radius); }
@@ -1595,6 +1606,13 @@ legend.dnb-form-label {
   .dnb-input--vertical {
     flex-direction: column;
     align-items: flex-start; }
+  .dnb-input--vertical .dnb-input__helper {
+    height: 0;
+    line-height: var(--input-height); }
+  .dnb-input--vertical.dnb-input--medium .dnb-input__helper {
+    line-height: var(--input-height--medium); }
+  .dnb-input--vertical.dnb-input--large .dnb-input__helper {
+    line-height: var(--input-height--large); }
   .dnb-input--stretch {
     display: flex; }
   .dnb-input--stretch .dnb-input__inner {
@@ -1685,8 +1703,7 @@ legend.dnb-form-label {
   .dnb-checkbox__helper {
     clip: rect(0, 0, 0, 0);
     width: 0;
-    overflow: hidden;
-    opacity: 0; }
+    overflow: hidden; }
   .dnb-checkbox__shell {
     user-select: none;
     -webkit-user-select: none;
@@ -1737,7 +1754,8 @@ legend.dnb-form-label {
     margin-bottom: 0; }
   .dnb-checkbox__order {
     display: inline-flex;
-    align-items: baseline; }
+    font-size: var(--font-size-basis);
+    line-height: var(--line-height-basis); }
   .dnb-checkbox--label-position-left .dnb-checkbox__order .dnb-checkbox__inner {
     order: 2; }
   .dnb-checkbox--label-position-left .dnb-checkbox__order .dnb-form-label {
@@ -1831,8 +1849,8 @@ legend.dnb-form-label {
   .dnb-radio__helper {
     clip: rect(0, 0, 0, 0);
     width: 0;
-    overflow: hidden;
-    opacity: 0; }
+    height: 0;
+    overflow: hidden; }
   .dnb-radio__shell {
     position: relative;
     user-select: none;
@@ -1879,7 +1897,6 @@ legend.dnb-form-label {
     margin-bottom: 0; }
   .dnb-radio__order {
     display: inline-flex;
-    align-items: baseline;
     font-size: var(--font-size-basis);
     line-height: var(--line-height-basis); }
     .dnb-radio-group--column .dnb-radio__order {
@@ -2155,8 +2172,8 @@ legend.dnb-form-label {
   .dnb-date-picker__helper {
     clip: rect(0, 0, 0, 0);
     width: 0;
-    overflow: hidden;
-    opacity: 0; }
+    height: 0;
+    overflow: hidden; }
   .dnb-date-picker__shell {
     position: relative;
     top: 0;
@@ -2380,11 +2397,11 @@ legend.dnb-form-label {
     order: 2;
     margin-top: 0.5rem; }
   .dnb-date-picker--vertical {
-    display: flex;
     align-items: flex-start;
     flex-direction: column; }
   .dnb-date-picker--vertical .dnb-date-picker__helper {
-    display: none; }
+    height: 0;
+    line-height: var(--date-picker-input-height); }
   .dnb-date-picker[class*='__status'] {
     align-items: flex-start; }
     .dnb-date-picker[class*='__status'] > .dnb-form-label {

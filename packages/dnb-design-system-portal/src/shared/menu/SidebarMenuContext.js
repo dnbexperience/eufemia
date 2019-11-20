@@ -33,7 +33,8 @@ export class SidebarMenuProvider extends PureComponent {
     // scroll to top on opening the menu, and back again
     if (!this.state.isOpen && typeof window !== 'undefined') {
       try {
-        this.lastScrollPosition = window.scrollY
+        // use "window.pageYOffset" instead of "window.scrollY" because IE
+        this.lastScrollPosition = window.pageYOffset
       } catch (e) {
         console.log('Could not get scrollY', e)
       }
@@ -49,11 +50,14 @@ export class SidebarMenuProvider extends PureComponent {
           try {
             if (!isOpen && typeof window !== 'undefined') {
               const top = this.lastScrollPosition
-              window.scrollTop = top
-              window.scrollTo({
-                top,
-                behavior: 'smooth'
-              })
+              if (window.scrollTo) {
+                window.scrollTo({
+                  top,
+                  behavior: 'smooth'
+                })
+              } else {
+                window.scrollTop = top
+              }
             }
           } catch (e) {
             console.log('Could not run scrollTo', e)
@@ -68,9 +72,13 @@ export class SidebarMenuProvider extends PureComponent {
       })
     } else if (typeof window !== 'undefined') {
       try {
-        window.scrollTo({
-          top: 0
-        })
+        if (window.scrollTo) {
+          window.scrollTo({
+            top: 0
+          })
+        } else {
+          window.scrollTop = 0
+        }
       } catch (e) {
         console.log('Could not run scrollTo', e)
       }

@@ -2,6 +2,14 @@
 
 import add from './add.js'
 import add_medium from './add_medium.js'
+import arrow_down from './arrow_down.js'
+import arrow_down_medium from './arrow_down_medium.js'
+import arrow_left from './arrow_left.js'
+import arrow_left_medium from './arrow_left_medium.js'
+import arrow_right from './arrow_right.js'
+import arrow_right_medium from './arrow_right_medium.js'
+import arrow_up from './arrow_up.js'
+import arrow_up_medium from './arrow_up_medium.js'
 import attachment from './attachment.js'
 import attachment_medium from './attachment_medium.js'
 import bell from './bell.js'
@@ -29,6 +37,8 @@ import download_medium from './download_medium.js'
 import exclamation from './exclamation.js'
 import exclamation_medium from './exclamation_medium.js'
 import file from './file.js'
+import file_add from './file_add.js'
+import file_add_medium from './file_add_medium.js'
 import file_medium from './file_medium.js'
 import fullscreen from './fullscreen.js'
 import fullscreen_medium from './fullscreen_medium.js'
@@ -52,12 +62,16 @@ import question from './question.js'
 import question_medium from './question_medium.js'
 import redo from './redo.js'
 import redo_medium from './redo_medium.js'
+import refresh from './refresh.js'
+import refresh_medium from './refresh_medium.js'
 import save from './save.js'
 import save_medium from './save_medium.js'
 import search from './search.js'
 import search_medium from './search_medium.js'
 import send from './send.js'
 import send_medium from './send_medium.js'
+import settings from './settings.js'
+import settings_medium from './settings_medium.js'
 import subtract from './subtract.js'
 import subtract_medium from './subtract_medium.js'
 import trash from './trash.js'
@@ -66,10 +80,22 @@ import undo from './undo.js'
 import undo_medium from './undo_medium.js'
 import upload from './upload.js'
 import upload_medium from './upload_medium.js'
+import view from './view.js'
+import view_medium from './view_medium.js'
+import view_off from './view_off.js'
+import view_off_medium from './view_off_medium.js'
 
 export {
   add,
   add_medium,
+  arrow_down,
+  arrow_down_medium,
+  arrow_left,
+  arrow_left_medium,
+  arrow_right,
+  arrow_right_medium,
+  arrow_up,
+  arrow_up_medium,
   attachment,
   attachment_medium,
   bell,
@@ -97,6 +123,8 @@ export {
   exclamation,
   exclamation_medium,
   file,
+  file_add,
+  file_add_medium,
   file_medium,
   fullscreen,
   fullscreen_medium,
@@ -120,12 +148,16 @@ export {
   question_medium,
   redo,
   redo_medium,
+  refresh,
+  refresh_medium,
   save,
   save_medium,
   search,
   search_medium,
   send,
   send_medium,
+  settings,
+  settings_medium,
   subtract,
   subtract_medium,
   trash,
@@ -133,5 +165,9 @@ export {
   undo,
   undo_medium,
   upload,
-  upload_medium
+  upload_medium,
+  view,
+  view_medium,
+  view_off,
+  view_off_medium
 }
