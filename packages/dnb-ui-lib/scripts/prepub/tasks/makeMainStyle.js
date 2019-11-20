@@ -66,12 +66,13 @@ export const runFactory = (
         })
         .pipe(sassStream)
         .pipe(postcss(postcssConfig({ IE11: true })))
+        .pipe(cloneSink)
         .pipe(
+          // cssnano has to run after cloneSink! So we get both a non min and a min version
           cssnano({
             reduceIdents: false
           })
         )
-        .pipe(cloneSink)
         .pipe(rename({ suffix: '.min' }))
         .pipe(cloneSink.tap())
 
@@ -90,6 +91,15 @@ export const runFactory = (
               cwd: process.env.ROOT_DIR
             })
           )
+      }
+
+      // so tests can test the minifyed code
+      if (returnResult) {
+        stream.pipe(
+          cssnano({
+            reduceIdents: false
+          })
+        )
       }
 
       stream
