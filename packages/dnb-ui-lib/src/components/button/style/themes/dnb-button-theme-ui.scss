@@ -227,16 +227,22 @@
   }
 
   &--signal {
-    color: var(--color-black);
+    color: var(--color-ocean-green);
     background-color: var(--color-accent-yellow);
 
     @include buttonHover(
-      var(--color-black),
+      var(--color-ocean-green),
       var(--color-accent-yellow),
       'touch'
     );
-    @include buttonFocus(var(--color-black), var(--color-accent-yellow));
-    @include buttonActive(var(--color-black), var(--color-accent-yellow));
+    @include buttonFocus(
+      var(--color-ocean-green),
+      var(--color-accent-yellow)
+    );
+    @include buttonActive(
+      var(--color-ocean-green),
+      var(--color-accent-yellow)
+    );
 
     // touch helper
     // html[data-is-touch] &:active {
