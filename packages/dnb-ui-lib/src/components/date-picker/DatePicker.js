@@ -41,7 +41,8 @@ const renderProps = {
   on_show: null,
   on_hide: null,
   on_submit: null,
-  on_cancel: null
+  on_cancel: null,
+  on_reset: null
 }
 
 const propTypes = {
@@ -104,6 +105,10 @@ const propTypes = {
     PropTypes.string,
     PropTypes.bool
   ]),
+  show_reset_button: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool
+  ]),
   submit_button_text: PropTypes.string,
   cancel_button_text: PropTypes.string,
   reset_date: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -146,7 +151,8 @@ const propTypes = {
   on_show: PropTypes.func,
   on_hide: PropTypes.func,
   on_submit: PropTypes.func,
-  on_cancel: PropTypes.func
+  on_cancel: PropTypes.func,
+  on_reset: PropTypes.func
 }
 
 const defaultProps = {
@@ -171,8 +177,10 @@ const defaultProps = {
   show_input: false,
   show_submit_button: null,
   show_cancel_button: null,
+  show_reset_button: null,
   submit_button_text: 'Ok',
   cancel_button_text: 'Avbryt',
+  reset_button_text: 'Tilbakestill',
   reset_date: true,
   first_day: 'monday',
   min_date: undefined,
@@ -284,14 +292,6 @@ export default class DatePicker extends PureComponent {
 
     const opened = DatePicker.parseOpened(props.opened)
     this.state = {
-      show_submit_button:
-        props.show_submit_button !== null
-          ? isTrue(props.show_submit_button)
-          : isTrue(props.range),
-      show_cancel_button:
-        props.show_cancel_button !== null
-          ? isTrue(props.show_cancel_button)
-          : isTrue(props.range),
       startDate: null,
       endDate: null,
       _startDate: props.start_date,
@@ -422,9 +422,9 @@ export default class DatePicker extends PureComponent {
       () => this.callOnChangeHandler(args)
     )
     if (
-      (!isTrue(this.state.show_submit_button) ||
-        !isTrue(this.state.show_cancel_button)) &&
-      hidePicker
+      hidePicker &&
+      (!isTrue(this.props.show_submit_button) &&
+        !isTrue(this.props.show_cancel_button))
     ) {
       this.hidePicker(args)
     }
@@ -462,6 +462,28 @@ export default class DatePicker extends PureComponent {
         dispatchCustomElementEvent(
           this,
           'on_cancel',
+          this.getReturnObject(args)
+        )
+      }
+    )
+  }
+
+  onResetHandler = args => {
+    if (args && args.event) {
+      args.event.persist()
+    }
+    this.setState(
+      {
+        date: undefined,
+        startDate: undefined,
+        endDate: undefined,
+        _listenForPropChanges: false
+      },
+      () => {
+        this.callOnChangeHandler(args)
+        dispatchCustomElementEvent(
+          this,
+          'on_reset',
           this.getReturnObject(args)
         )
       }
@@ -614,6 +636,9 @@ export default class DatePicker extends PureComponent {
       opened: _opened, // eslint-disable-line
       direction: _direction, // eslint-disable-line
       id: _id, // eslint-disable-line
+      show_submit_button, // eslint-disable-line
+      show_cancel_button, // eslint-disable-line
+      show_reset_button, // eslint-disable-line
 
       ...attributes
     } = props
@@ -636,9 +661,7 @@ export default class DatePicker extends PureComponent {
       maxDate,
       opened,
       hidden,
-      showInput,
-      show_submit_button,
-      show_cancel_button
+      showInput
     } = this.state
 
     const id = this._id
@@ -660,7 +683,10 @@ export default class DatePicker extends PureComponent {
         opened && 'dnb-date-picker--opened',
         hidden && 'dnb-date-picker--hidden',
         showInput && 'dnb-date-picker--show-input',
-        (isTrue(show_submit_button) || isTrue(show_cancel_button)) &&
+        (isTrue(range) ||
+          isTrue(show_submit_button) ||
+          isTrue(show_cancel_button) ||
+          isTrue(show_reset_button)) &&
           'dnb-date-picker--show-footer',
         align_picker && `dnb-date-picker--${align_picker}`,
         createSpacingClasses(props)
@@ -779,10 +805,15 @@ export default class DatePicker extends PureComponent {
                     {...props}
                     range={isTrue(range)}
                     onSubmit={
-                      isTrue(show_submit_button) && this.onSubmitHandler
+                      (isTrue(range) || isTrue(show_submit_button)) &&
+                      this.onSubmitHandler
                     }
                     onCancel={
-                      isTrue(show_cancel_button) && this.onCancelHandler
+                      (isTrue(range) || isTrue(show_cancel_button)) &&
+                      this.onCancelHandler
+                    }
+                    onReset={
+                      isTrue(show_reset_button) && this.onResetHandler
                     }
                   />
                 </>
