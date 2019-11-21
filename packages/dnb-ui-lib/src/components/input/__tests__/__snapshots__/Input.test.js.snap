@@ -855,9 +855,6 @@ exports[`Input scss have to match snapshot 1`] = `
 button.dnb-button::-moz-focus-inner {
   border: none; }
 
-a.dnb-button .dnb-button__text {
-  transform: translateY(-0.0165); }
-
 /*
 * DNB FormLabel
 *

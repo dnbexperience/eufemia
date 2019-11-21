@@ -297,9 +297,6 @@ exports[`GlobalError scss have to match snapshot 1`] = `
 button.dnb-button::-moz-focus-inner {
   border: none; }
 
-a.dnb-button .dnb-button__text {
-  transform: translateY(-0.0165); }
-
 .dnb-global-error {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
