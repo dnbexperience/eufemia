@@ -77,11 +77,6 @@
 
     &.dnb-button--has-text {
       padding: 0 0.5rem;
-
-      // vertical alignment
-      // [data-os='mac'] & {
-      //   transform: translateY(0.0625rem);
-      // }
     }
 
     .dnb-button__text {
@@ -89,9 +84,6 @@
 
       padding: 0.125rem 0;
       line-height: var(--line-height-x-small--em);
-
-      // reset vertical alignment
-      // transform: translateY(0);
 
       @include drawUnderlineBorder() {
         bottom: -0.125rem;
@@ -125,8 +117,9 @@
 
     @include active() {
       @include removeFakeFocus();
-      @include buttonFocusRing('mouse'); // make a mouse over ring
-      @include buttonFocusRing('touch'); // also, make a touch ring
+
+      // NB: this could be interesting to have on touch
+      // @include buttonFocusRing('touch'); // also, make a touch ring
 
       // underline
       .dnb-button__text::after {

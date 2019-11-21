@@ -150,6 +150,9 @@
       }
 
       @include active() {
+        @include buttonFocusRing('mouse'); // also, make a mouse ring
+        @include buttonFocusRing('touch'); // also, make a touch ring
+
         @include tableFocusRing();
 
         // focus ring
