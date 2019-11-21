@@ -69,7 +69,7 @@ const List = styled.ul`
   margin: 0;
 `
 
-const ListItemInner = styled.li`
+const ListItemInner = styled.div`
   ${'' /* display: flex;
   flex-direction: column;
   align-items: center; */}
@@ -96,7 +96,7 @@ const ListItemInner = styled.li`
   .dnb-icon {
     font-size: var(--font-size-large);
     :hover {
-      color: var(--color-fire-red);
+      color: var(--color-sea-green);
     }
   }
 `
