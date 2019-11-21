@@ -17,7 +17,7 @@ exports[`GlobalStatus scss have to match default theme snapshot 1`] = `
   box-shadow: 100vw 0 0 0 currentColor, 0 0.0625rem 0 0 var(--color-black-80), 100vw 0.0625rem 0 0 var(--color-black-80); }
 
 .dnb-global-status__title.dnb-p {
-  font-weight: var(--font-weight-demi); }
+  font-weight: var(--font-weight-medium); }
 
 .dnb-global-status__icon {
   font-size: 1rem; }
@@ -28,7 +28,7 @@ exports[`GlobalStatus scss have to match default theme snapshot 1`] = `
 .dnb-global-status__message {
   color: var(--color-black-80); }
   .dnb-global-status__message .dnb-p {
-    font-weight: var(--font-weight-demi); }
+    font-weight: var(--font-weight-medium); }
   .dnb-global-status__message.dnb-section--white ::selection {
     background-color: var(--color-mint-green); }
 

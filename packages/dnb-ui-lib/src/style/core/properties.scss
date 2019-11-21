@@ -5,11 +5,9 @@
 
 @mixin getDefaultProperties() {
   // Typography Family
-  --font-family-default: 'DNB', sans-serif;
-  --font-family-book: 'DNB', sans-serif; // Deprecated
-  --font-family-demi: 'DNB', sans-serif; // Deprecated
-  --font-family-medium: 'DNB', sans-serif; // Do not use, use --font-weight-...
-  --font-family-bold: 'DNB', sans-serif; // Do not use, use --font-weight-...
+  --font-family-default: DNB, sans-serif;
+  --font-family-medium: DNB, sans-serif; // Do not use, use --font-weight-...
+  --font-family-bold: DNB, sans-serif; // Do not use, use --font-weight-...
   --font-family-monospace: /* macOS 10.10+ */ Menlo,
     /* Windows 6+ */ Consolas, /* Android 4+ */ Roboto Mono,
     /* Ubuntu 10.10+ */ Ubuntu Monospace, /* KDE Plasma 5+ */ Noto Mono,
@@ -17,14 +15,20 @@
     /* Linux/OpenOffice fallback */ Liberation Mono,
     /* fallback */ monospace;
 
+  // Deprecated
+  --font-family-book: DNB, sans-serif; // Deprecated
+  --font-family-demi: DNB, sans-serif; // Deprecated
+
   // Typography Weights
-  --font-weight-default: normal; // Deprecated
   --font-weight-basis: normal;
-  --font-weight-book: normal; // Deprecated
   --font-weight-regular: normal;
-  --font-weight-demi: 500; // Deprecated
-  --font-weight-medium: 600;
+  --font-weight-medium: 500;
   --font-weight-bold: 600;
+
+  // Deprecated
+  --font-weight-default: normal; // Deprecated
+  --font-weight-regular: normal; // Deprecated
+  --font-weight-medium: 500; // Deprecated
 
   // Typography Sizes
   --font-size-small: 1rem; // 16px

@@ -243,7 +243,7 @@ exports[`Tabs scss have to match default theme snapshot 1`] = `
     border-radius: 0.5rem; }
 
 .dnb-tabs__button__title {
-  font-weight: var(--font-weight-book);
+  font-weight: var(--font-weight-regular);
   font-size: var(--font-size-basis);
   text-align: center;
   color: var(--color-sea-green); }
@@ -276,12 +276,10 @@ html:not([data-is-touch]) .dnb-tabs__button:hover:not([disabled]) {
   color: var(--color-emerald-green); }
 
 .dnb-tabs__button:not([disabled]).selected .dnb-tabs__button__title {
-  font-family: var(--font-family-demi);
-  font-weight: var(--font-weight-demi); }
+  font-weight: var(--font-weight-medium); }
 
 .dnb-tabs__button span[hidden] {
-  font-family: var(--font-family-demi);
-  font-weight: var(--font-weight-demi); }
+  font-weight: var(--font-weight-medium); }
 "
 `;
 
