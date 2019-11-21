@@ -391,7 +391,7 @@ exports[`Button scss have to match default theme snapshot 1`] = `
         content: '';
         position: absolute;
         z-index: 1;
-        top: 0.0625rem;
+        top: 0;
         left: -0.5rem;
         bottom: 0;
         right: -0.5rem;
@@ -421,40 +421,6 @@ exports[`Button scss have to match default theme snapshot 1`] = `
       html[data-whatinput='keyboard'] .dnb-button--tertiary:active:not([disabled]), html[data-whatinput='keyboard']
       html:not([data-is-touch]) .dnb-button--tertiary:active:not([disabled]) {
         box-shadow: none; }
-      .dnb-button--tertiary:active:not([disabled])::before,
-      html:not([data-is-touch]) .dnb-button--tertiary:active:not([disabled])::before {
-        content: '';
-        position: absolute;
-        z-index: 1;
-        top: 0.0625rem;
-        left: -0.5rem;
-        bottom: 0;
-        right: -0.5rem;
-        height: inherit;
-        border-radius: inherit;
-        outline: none; }
-        html[data-whatinput='mouse'] .dnb-button--tertiary:active:not([disabled])::before, html[data-whatinput='mouse']
-        html:not([data-is-touch]) .dnb-button--tertiary:active:not([disabled])::before {
-          box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
-          /* IE11 fix */
-          border-color: transparent; }
-      .dnb-button--tertiary:active:not([disabled])::before,
-      html:not([data-is-touch]) .dnb-button--tertiary:active:not([disabled])::before {
-        content: '';
-        position: absolute;
-        z-index: 1;
-        top: 0.0625rem;
-        left: -0.5rem;
-        bottom: 0;
-        right: -0.5rem;
-        height: inherit;
-        border-radius: inherit;
-        outline: none; }
-        html[data-whatinput='touch'] .dnb-button--tertiary:active:not([disabled])::before, html[data-whatinput='touch']
-        html:not([data-is-touch]) .dnb-button--tertiary:active:not([disabled])::before {
-          box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
-          /* IE11 fix */
-          border-color: transparent; }
       .dnb-button--tertiary:active:not([disabled]) .dnb-button__text::after,
       html:not([data-is-touch]) .dnb-button--tertiary:active:not([disabled]) .dnb-button__text::after {
         visibility: hidden; }
