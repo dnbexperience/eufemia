@@ -1238,13 +1238,13 @@ legend.dnb-form-label {
     display: flex; }
     .dnb-dropdown--opened .dnb-dropdown__list {
       animation: dropdown-slide-down 200ms ease-out 1 forwards; }
-    .dnb-dropdown--opened .dnb-dropdown__list--no-animation {
+    html[data-dnb-test] .dnb-dropdown--opened .dnb-dropdown__list, .dnb-dropdown--opened .dnb-dropdown__list--no-animation {
       animation: dropdown-slide-down 1ms ease-out 1 forwards; }
   .dnb-dropdown--hidden .dnb-dropdown__list {
     display: none; }
   .dnb-dropdown:not(.dnb-dropdown--opened) .dnb-dropdown__list {
     animation: dropdown-slide-ip 150ms ease-out 1 forwards; }
-  .dnb-dropdown:not(.dnb-dropdown--opened) .dnb-dropdown__list--no-animation {
+  html[data-dnb-test] .dnb-dropdown:not(.dnb-dropdown--opened) .dnb-dropdown__list, .dnb-dropdown:not(.dnb-dropdown--opened) .dnb-dropdown__list--no-animation {
     animation: dropdown-slide-ip 1ms ease-out 1 forwards; }
   .dnb-dropdown--icon-position-left .dnb-dropdown__icon {
     order: 1; }
