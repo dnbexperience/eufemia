@@ -15,7 +15,7 @@ You don't need to define the `font-family` ever, but rather use CSS Custom Prope
 
 ```css
 .selector {
-  font-weight: var(--font-weight-demi);
+  font-weight: var(--font-weight-medium);
 }
 ```
 

@@ -11,9 +11,10 @@
 
 v6 contains a couple of braking changes. As a migration process, you can simply search your application for:
 
-- find `save_alt_01` and replace if with `save`
-- find `--color-signal-yellow` or `--color-signal-yellow-30` and replace it with `--color-accent-yellow` and `--color-accent-yellow-30`
-- find `dnb-ui-lib-icons.min.js` and replace it with `dnb-ui-icons.min.js`
+1. find `--color-signal-yellow` or `--color-signal-yellow-30` and replace it with `--color-accent-yellow` and `--color-accent-yellow-30`
+1. find `dnb-p--demi` replace it with `dnb-p--medium`
+1. find `weight-medium` replace it with `weight-bold`
+1. find `weight-demi` replace it with `weight-medium`
 
 ## New DNB font
 
@@ -25,6 +26,7 @@ In normal circumstances, you have to do **nothing** regarding to this change.
 
 - [font-size](/uilib/typography/font-size)
 - [line-heigh](/uilib/typography/line-height)
+- [font-weight](/uilib/typography/font-weights)
 
 ## Color changes
 

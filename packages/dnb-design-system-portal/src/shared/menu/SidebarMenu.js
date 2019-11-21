@@ -70,7 +70,7 @@ const StyledListItem = styled.li`
     padding-left: calc(var(--level-offset) + var(--level) * 2);
     height: 4rem;
     color: var(--color-ocean-green);
-    font-weight: var(--font-weight-demi);
+    font-weight: var(--font-weight-medium);
     font-size: var(--font-size-large);
   }
   &.l-2 {
@@ -88,7 +88,7 @@ const StyledListItem = styled.li`
       html:not([dev-grid]) & {
         background-color: var(--color-mint-green-12);
       }
-      font-weight: var(--font-weight-demi);
+      font-weight: var(--font-weight-medium);
     }
   }
 
@@ -101,7 +101,7 @@ const StyledListItem = styled.li`
       html:not([dev-grid]) & {
         background-color: var(--color-sea-green-alt-30);
       }
-      font-weight: var(--font-weight-demi);
+      font-weight: var(--font-weight-medium);
     }
   }
 

@@ -31,7 +31,7 @@
 
   &__title {
     &.dnb-p {
-      font-weight: var(--font-weight-demi);
+      font-weight: var(--font-weight-medium);
     }
   }
   &__icon {
@@ -44,7 +44,7 @@
     color: var(--color-black-80);
 
     .dnb-p {
-      font-weight: var(--font-weight-demi);
+      font-weight: var(--font-weight-medium);
     }
 
     &.dnb-section--white ::selection {

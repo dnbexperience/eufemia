@@ -419,7 +419,7 @@ exports[`Dropdown scss have to match default theme snapshot 1`] = `
       height: var(--dropdown-option-border-width);
       background-color: var(--dropdown-option-border-color); }
     .dnb-dropdown__option__item:nth-of-type(1) {
-      font-weight: var(--font-weight-demi); }
+      font-weight: var(--font-weight-medium); }
     .dnb-dropdown__option__inner {
       padding-right: 2rem;
       background-color: var(--dropdown-option-background-color); }
@@ -1108,7 +1108,7 @@ legend.dnb-form-label {
     .dnb-dropdown__icon .dnb-icon {
       font-size: var(--font-size-small);
       color: inherit;
-      transform: translateY(-0.125rem); }
+      transform: translateY(-0.0625rem); }
   .dnb-dropdown__triangle {
     position: absolute;
     top: calc( var(--dropdown-focus-border-width) - var(--dropdown-height) / 2);

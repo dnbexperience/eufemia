@@ -22,7 +22,7 @@
 .dnb-typo-bold,
 .dnb-typo-demi /* deprecated */ {
   font-family: var(--font-family-default);
-  font-weight: var(--font-weight-demi);
+  font-weight: var(--font-weight-medium);
   font-style: normal;
 }
 
@@ -51,7 +51,7 @@ $fonts-path: '../../assets/fonts' !default;
 
 // Std and Regular
 @font-face {
-  font-family: 'DNB';
+  font-family: DNB;
   src: url('#{$fonts-path}/DNB-Regular.woff2') format('woff2'),
     url('#{$fonts-path}/DNB-Regular.woff') format('woff'),
     url('#{$fonts-path}/DNB-Regular.ttf') format('truetype');
@@ -62,7 +62,7 @@ $fonts-path: '../../assets/fonts' !default;
 
 // Medium
 @font-face {
-  font-family: 'DNB';
+  font-family: DNB;
   src: url('#{$fonts-path}/DNB-Medium.woff2') format('woff2'),
     url('#{$fonts-path}/DNB-Medium.woff') format('woff'),
     url('#{$fonts-path}/DNB-Medium.ttf') format('truetype');
@@ -73,7 +73,7 @@ $fonts-path: '../../assets/fonts' !default;
 
 // Bold
 @font-face {
-  font-family: 'DNB';
+  font-family: DNB;
   src: url('#{$fonts-path}/DNB-Bold.woff2') format('woff2'),
     url('#{$fonts-path}/DNB-Bold.woff') format('woff'),
     url('#{$fonts-path}/DNB-Bold.ttf') format('truetype');

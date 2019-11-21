@@ -88,8 +88,8 @@ import { H1, H2, Lead, P, Link, ... } from 'dnb-ui-lib/elements'
 Paragraph comes in several variants. You can use these classes:
 
 - `.dnb-p` (Body)
-- `.dnb-p--demi`
 - `.dnb-p--medium`
+- `.dnb-p--bold`
 - `.dnb-p--ingress`
 - `.dnb-p--small`
 
@@ -98,12 +98,12 @@ Paragraph comes in several variants. You can use these classes:
   <ComponentBox hideOnTest caption="Default paragraph typography using React JSX">
   {`
   <P>Paragraph (Body)</P>
-  <P style_type="demi">Paragraph Demi</P>
   <P style_type="medium">Paragraph Medium</P>
+  <P style_type="bold">Paragraph Bold</P>
   <P style_type="ingress">Paragraph Ingress</P>
   <P style_type="small">Paragraph Small</P>
-  <P style_type="small demi">Paragraph Demi Small</P>
   <P style_type="small medium">Paragraph Medium Small</P>
+  <P style_type="small bold">Paragraph Bold Small</P>
   `}
   </ComponentBox>
 
