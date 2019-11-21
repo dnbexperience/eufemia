@@ -233,11 +233,3 @@
 button.dnb-button::-moz-focus-inner {
   border: none;
 }
-
-// make sure we style an Anchor like a button
-a.dnb-button {
-  // some correction
-  .dnb-button__text {
-    transform: translateY(-0.0165);
-  }
-}
