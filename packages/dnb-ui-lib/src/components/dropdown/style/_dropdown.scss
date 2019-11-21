@@ -65,6 +65,7 @@
     clip: rect(0, 0, 0, 0);
     width: 0;
     overflow: hidden;
+    font-size: var(--font-size-basis);
   }
 
   &__shell {
@@ -393,9 +394,6 @@
       text-decoration: none;
       text-overflow: inherit;
       text-align: inherit;
-
-      // vertical alignment
-      // transform: translateY(-0.0625rem);
     }
   }
 

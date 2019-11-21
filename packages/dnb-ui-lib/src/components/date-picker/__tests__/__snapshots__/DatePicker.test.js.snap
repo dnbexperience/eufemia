@@ -1849,7 +1849,6 @@ legend.dnb-form-label {
   .dnb-radio__helper {
     clip: rect(0, 0, 0, 0);
     width: 0;
-    height: 0;
     overflow: hidden; }
   .dnb-radio__shell {
     position: relative;
@@ -2172,7 +2171,6 @@ legend.dnb-form-label {
   .dnb-date-picker__helper {
     clip: rect(0, 0, 0, 0);
     width: 0;
-    height: 0;
     overflow: hidden; }
   .dnb-date-picker__shell {
     position: relative;
@@ -2197,13 +2195,13 @@ legend.dnb-form-label {
     z-index: 100; }
     .dnb-date-picker--opened .dnb-date-picker__container {
       animation: date-picker-slide-down 200ms ease-out 1 forwards; }
-    .dnb-date-picker--opened .dnb-date-picker__container--no-animation {
+    html[data-dnb-test] .dnb-date-picker--opened .dnb-date-picker__container, .dnb-date-picker--opened .dnb-date-picker__container--no-animation {
       animation: date-picker-slide-down 1ms ease-out 1 forwards; }
   .dnb-date-picker--hidden .dnb-date-picker__container {
     display: none; }
   .dnb-date-picker:not(.dnb-date-picker--opened) .dnb-date-picker__container {
     animation: date-picker-slide-up 150ms ease-out 1 forwards; }
-  .dnb-date-picker:not(.dnb-date-picker--opened) .dnb-date-picker__container--no-animation {
+  html[data-dnb-test] .dnb-date-picker:not(.dnb-date-picker--opened) .dnb-date-picker__container, .dnb-date-picker:not(.dnb-date-picker--opened) .dnb-date-picker__container--no-animation {
     animation: date-picker-slide-up 1ms ease-out 1 forwards; }
   .dnb-date-picker__input,
   .dnb-date-picker .dnb-input__input.dnb-date-picker__input,

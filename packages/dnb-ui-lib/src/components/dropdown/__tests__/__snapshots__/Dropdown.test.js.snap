@@ -1033,7 +1033,8 @@ legend.dnb-form-label {
   .dnb-dropdown__helper {
     clip: rect(0, 0, 0, 0);
     width: 0;
-    overflow: hidden; }
+    overflow: hidden;
+    font-size: var(--font-size-basis); }
   .dnb-dropdown__shell {
     position: relative;
     width: var(--dropdown-width);
