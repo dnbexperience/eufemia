@@ -615,7 +615,7 @@ exports[`Input scss have to match snapshot 1`] = `
 */
 .dnb-icon {
   display: inline-block;
-  vertical-align: baseline;
+  vertical-align: middle;
   font-size: inherit;
   line-height: var(--line-height-x-small--em);
   width: 1em;
@@ -624,7 +624,7 @@ exports[`Input scss have to match snapshot 1`] = `
   .dnb-icon svg {
     width: inherit;
     height: inherit;
-    vertical-align: middle;
+    vertical-align: top;
     shape-rendering: geometricPrecision; }
   .dnb-icon svg[width='100%'] {
     width: inherit; }
@@ -734,8 +734,7 @@ exports[`Input scss have to match snapshot 1`] = `
   border-radius: var(--button-border-radius);
   text-decoration: none; }
   .dnb-button__icon.dnb-icon {
-    font-size: var(--font-size-small);
-    transform: translateY(-0.0625rem); }
+    font-size: var(--font-size-small); }
     .dnb-button__icon.dnb-icon:not(.dnb-icon) svg:not([width]):not([height]) {
       width: var(--button-icon-size);
       height: var(--button-icon-size); }
