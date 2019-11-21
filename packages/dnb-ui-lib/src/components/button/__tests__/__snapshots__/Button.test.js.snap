@@ -525,12 +525,12 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     .dnb-button--tertiary[disabled] {
       color: var(--color-sea-green-alt-30); }
   .dnb-button--signal {
-    color: var(--color-black);
+    color: var(--color-ocean-green);
     background-color: var(--color-accent-yellow); }
     html:not([data-is-touch]) .dnb-button--signal:hover[disabled] {
       cursor: not-allowed; }
     html:not([data-is-touch]) .dnb-button--signal:hover:not([disabled]) {
-      color: var(--color-black);
+      color: var(--color-ocean-green);
       background-color: var(--color-accent-yellow);
       box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
       /* IE11 fix */
@@ -543,7 +543,7 @@ exports[`Button scss have to match default theme snapshot 1`] = `
       cursor: not-allowed; }
     html[data-is-touch] .dnb-button--signal:active:not([disabled]),
     html:not([data-is-touch]) html[data-is-touch] .dnb-button--signal:active:not([disabled]) {
-      color: var(--color-black);
+      color: var(--color-ocean-green);
       background-color: var(--color-accent-yellow);
       box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
       /* IE11 fix */
@@ -556,7 +556,7 @@ exports[`Button scss have to match default theme snapshot 1`] = `
       outline: none; }
       html:not(html[data-is-touch]) .dnb-button--signal:focus:not([disabled]), html:not(html[data-is-touch])
       html:not([data-is-touch]) .dnb-button--signal:focus:not([disabled]) {
-        color: var(--color-black);
+        color: var(--color-ocean-green);
         background-color: var(--color-accent-yellow); }
       html[data-whatinput='keyboard'] .dnb-button--signal:focus:not([disabled]), html[data-whatinput='keyboard']
       html:not([data-is-touch]) .dnb-button--signal:focus:not([disabled]) {
@@ -568,7 +568,7 @@ exports[`Button scss have to match default theme snapshot 1`] = `
       cursor: not-allowed; }
     .dnb-button--signal:active:not([disabled]),
     html:not([data-is-touch]) .dnb-button--signal:active:not([disabled]) {
-      color: var(--color-black);
+      color: var(--color-ocean-green);
       background-color: var(--color-accent-yellow);
       box-shadow: 0 0 0 0.0625rem transparent;
       /* IE11 fix */
