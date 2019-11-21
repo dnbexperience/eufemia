@@ -6,8 +6,6 @@
 @mixin getDefaultProperties() {
   // Typography Family
   --font-family-default: DNB, sans-serif;
-  --font-family-medium: DNB, sans-serif; // Do not use, use --font-weight-...
-  --font-family-bold: DNB, sans-serif; // Do not use, use --font-weight-...
   --font-family-monospace: /* macOS 10.10+ */ Menlo,
     /* Windows 6+ */ Consolas, /* Android 4+ */ Roboto Mono,
     /* Ubuntu 10.10+ */ Ubuntu Monospace, /* KDE Plasma 5+ */ Noto Mono,
@@ -27,8 +25,8 @@
 
   // Deprecated
   --font-weight-default: normal; // Deprecated
-  --font-weight-regular: normal; // Deprecated
-  --font-weight-medium: 500; // Deprecated
+  --font-weight-book: normal; // Deprecated
+  --font-weight-demi: 500; // Deprecated
 
   // Typography Sizes
   --font-size-small: 1rem; // 16px

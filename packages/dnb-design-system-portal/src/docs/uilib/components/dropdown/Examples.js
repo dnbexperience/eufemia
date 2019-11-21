@@ -14,7 +14,6 @@ class Example extends PureComponent {
       typeof window !== 'undefined' && window.IS_TEST
         ? { no_animation: true, no_scroll_animation: true }
         : {}
-    console.log('props', props)
     return (
       <Fragment>
         <ComponentBox

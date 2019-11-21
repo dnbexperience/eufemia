@@ -2,8 +2,6 @@
 
 export default {
   "--font-family-default": "DNB, sans-serif",
-  "--font-family-medium": "DNB, sans-serif",
-  "--font-family-bold": "DNB, sans-serif",
   "--font-family-monospace": "Menlo,",
   "--font-family-book": "DNB, sans-serif",
   "--font-family-demi": "DNB, sans-serif",
@@ -12,6 +10,8 @@ export default {
   "--font-weight-medium": "500",
   "--font-weight-bold": "600",
   "--font-weight-default": "normal",
+  "--font-weight-book": "normal",
+  "--font-weight-demi": "500",
   "--font-size-small": "1rem",
   "--font-size-basis": "1.125rem",
   "--font-size-basis--em": "1em",
