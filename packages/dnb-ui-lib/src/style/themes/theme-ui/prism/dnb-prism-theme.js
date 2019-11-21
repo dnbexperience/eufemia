@@ -12,7 +12,7 @@ const prismTheme = {
     {
       types: ['changed'],
       style: {
-        color: 'var(--color-signal-yellow-30)',
+        color: 'var(--color-accent-yellow-30)',
         fontStyle: 'italic'
       }
     },
@@ -33,7 +33,7 @@ const prismTheme = {
     {
       types: ['comment'],
       style: {
-        color: 'var(--color-signal-yellow-30)',
+        color: 'var(--color-accent-yellow-30)',
         fontStyle: 'italic',
         opacity: '0.8'
       }

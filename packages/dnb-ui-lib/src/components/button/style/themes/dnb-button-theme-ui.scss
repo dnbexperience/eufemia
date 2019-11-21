@@ -228,15 +228,15 @@
 
   &--signal {
     color: var(--color-black);
-    background-color: var(--color-signal-yellow);
+    background-color: var(--color-accent-yellow);
 
     @include buttonHover(
       var(--color-black),
-      var(--color-signal-yellow),
+      var(--color-accent-yellow),
       'touch'
     );
-    @include buttonFocus(var(--color-black), var(--color-signal-yellow));
-    @include buttonActive(var(--color-black), var(--color-signal-yellow));
+    @include buttonFocus(var(--color-black), var(--color-accent-yellow));
+    @include buttonActive(var(--color-black), var(--color-accent-yellow));
 
     // touch helper
     // html[data-is-touch] &:active {
@@ -245,7 +245,7 @@
 
     &[disabled] {
       color: var(--color-black-30);
-      background-color: var(--color-signal-yellow-30);
+      background-color: var(--color-accent-yellow-30);
     }
   }
 }

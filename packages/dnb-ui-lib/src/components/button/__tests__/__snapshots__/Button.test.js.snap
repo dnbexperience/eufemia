@@ -526,12 +526,12 @@ exports[`Button scss have to match default theme snapshot 1`] = `
       color: var(--color-sea-green-alt-30); }
   .dnb-button--signal {
     color: var(--color-black);
-    background-color: var(--color-signal-yellow); }
+    background-color: var(--color-accent-yellow); }
     html:not([data-is-touch]) .dnb-button--signal:hover[disabled] {
       cursor: not-allowed; }
     html:not([data-is-touch]) .dnb-button--signal:hover:not([disabled]) {
       color: var(--color-black);
-      background-color: var(--color-signal-yellow);
+      background-color: var(--color-accent-yellow);
       box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
       /* IE11 fix */
       border-color: transparent; }
@@ -544,7 +544,7 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     html[data-is-touch] .dnb-button--signal:active:not([disabled]),
     html:not([data-is-touch]) html[data-is-touch] .dnb-button--signal:active:not([disabled]) {
       color: var(--color-black);
-      background-color: var(--color-signal-yellow);
+      background-color: var(--color-accent-yellow);
       box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
       /* IE11 fix */
       border-color: transparent; }
@@ -557,7 +557,7 @@ exports[`Button scss have to match default theme snapshot 1`] = `
       html:not(html[data-is-touch]) .dnb-button--signal:focus:not([disabled]), html:not(html[data-is-touch])
       html:not([data-is-touch]) .dnb-button--signal:focus:not([disabled]) {
         color: var(--color-black);
-        background-color: var(--color-signal-yellow); }
+        background-color: var(--color-accent-yellow); }
       html[data-whatinput='keyboard'] .dnb-button--signal:focus:not([disabled]), html[data-whatinput='keyboard']
       html:not([data-is-touch]) .dnb-button--signal:focus:not([disabled]) {
         box-shadow: inset 0 0 0 0.125rem var(--color-emerald-green);
@@ -569,13 +569,13 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     .dnb-button--signal:active:not([disabled]),
     html:not([data-is-touch]) .dnb-button--signal:active:not([disabled]) {
       color: var(--color-black);
-      background-color: var(--color-signal-yellow);
+      background-color: var(--color-accent-yellow);
       box-shadow: 0 0 0 0.0625rem transparent;
       /* IE11 fix */
       border-color: transparent; }
     .dnb-button--signal[disabled] {
       color: var(--color-black-30);
-      background-color: var(--color-signal-yellow-30); }
+      background-color: var(--color-accent-yellow-30); }
 "
 `;
 

@@ -50,8 +50,11 @@
   --color-mint-green-25: #e9f8f4;
   --color-mint-green-12: #f4fbf9;
   --color-sea-green-alt-30: #b3dada;
-  --color-signal-yellow-30: #ffffd7;
+  --color-signal-yellow-30: #ffffd7; // Deprecated
+  --color-accent-yellow-30: #feebc1;
+  --color-signal-orange: #ff5400;
   --color-fire-red: #dc2a2a;
+  --color-success-green: #008000;
   --color-fire-red-8: #fdeeee;
   --color-cherry-red: #e10076; // Deprecated
   --color-cherry-red-8: #fdebf4; // Deprecated
@@ -70,11 +73,14 @@
   --color-summer-green: #28b482;
   --color-emerald-green: #14555a;
   --color-ocean-green: #00343e;
-  --color-signal-orange: #ff5400;
-  --color-signal-yellow: #ffff7a;
+  --color-signal-yellow: #ffff7a; // Deprecated
+  --color-accent-yellow: #fdbb31;
   --color-indigo: #23195a;
   --color-violet: #6e2382;
   --color-sky-blue: #4bbed2;
+  --color-lavender: #f2f2f5;
+  --color-sand-yellow: #fbf6ec;
+  --color-pistachio: #f2f4ec;
 
   // Unused Profile colors
   --color-mint-green-alt: #ebfffa;
