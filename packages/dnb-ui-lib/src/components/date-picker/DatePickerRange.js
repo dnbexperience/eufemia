@@ -95,19 +95,19 @@ export default class DatePickerRange extends PureComponent {
       ) {
         state.views = DatePickerRange.getViews(props, props.range)
       }
-      if (props.startDate) {
+      if (typeof props.startDate !== 'undefined') {
         state.startDate = props.startDate
       }
-      if (props.endDate) {
+      if (typeof props.endDate !== 'undefined') {
         state.endDate = props.endDate
       }
-      if (props.month) {
+      if (typeof props.month !== 'undefined') {
         state.startMonth = props.month
       }
-      if (props.startMonth) {
+      if (typeof props.startMonth !== 'undefined') {
         state.startMonth = props.startMonth
       }
-      if (props.endMonth) {
+      if (typeof props.endMonth !== 'undefined') {
         state.endMonth = props.endMonth
       }
     }
@@ -177,7 +177,11 @@ export default class DatePickerRange extends PureComponent {
           views,
           event
         },
-        { hidePicker: false, callOnlyOnChangeHandler: false, ...args }
+        {
+          hidePicker: !this.props.range,
+          callOnlyOnChangeHandler: false,
+          ...args
+        }
       )
   }
 
@@ -195,7 +199,7 @@ export default class DatePickerRange extends PureComponent {
           endDate,
           event
         })
-      this.callOnChange({ hidePicker: true, event })
+      this.callOnChange({ event })
     })
   }
 
