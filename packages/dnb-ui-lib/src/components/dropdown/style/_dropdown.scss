@@ -22,6 +22,7 @@
   &:not(#{&}--no-animation) {
     animation: dropdown-slide-down 200ms ease-out 1 forwards;
   }
+  html[data-dnb-test] &,
   &--no-animation {
     animation: dropdown-slide-down 1ms ease-out 1 forwards;
   }
@@ -30,6 +31,7 @@
   &:not(#{&}--no-animation) {
     animation: dropdown-slide-ip 150ms ease-out 1 forwards;
   }
+  html[data-dnb-test] &,
   &--no-animation {
     animation: dropdown-slide-ip 1ms ease-out 1 forwards;
   }
