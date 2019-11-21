@@ -51,9 +51,6 @@
 
     position: relative;
     z-index: 2; // to make sure we are over the placeholder
-
-    // vertical alignment
-    transform: translateY(-0.0625rem);
   }
 
   &__input[disabled] {
@@ -98,6 +95,9 @@
     top: 0;
     left: 0;
     overflow: hidden;
+
+    // vertical alignment
+    transform: translateY(0.0625rem);
 
     white-space: nowrap;
     text-overflow: ellipsis;

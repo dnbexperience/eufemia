@@ -94,7 +94,7 @@ const CardWrapper = styled.div`
 `
 
 export const focusRing = css`
-  box-shadow: 0 0 0 0.125rem var(--color-signal-yellow);
+  box-shadow: 0 0 0 0.125rem var(--color-accent-yellow);
 `
 
 const linkStyle = css`

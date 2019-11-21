@@ -36,7 +36,7 @@ Currently, **Fedra Sans** is used. But soon DNB will use a custom crated DNB fon
 
 <div className="typography-box">
   <div className="dnb-typo-medium">
-    <p className="dnb-typo-medium">
+    <p>
       Here is a paragraph with some nonsense lipsum text. Contrary to
       popular belief, Lorem Ipsum passage, and going through the cites
       of the word in classical literature, discovered the undoubtable

@@ -779,7 +779,6 @@ legend.dnb-form-label {
   .dnb-radio__helper {
     clip: rect(0, 0, 0, 0);
     width: 0;
-    height: 0;
     overflow: hidden; }
   .dnb-radio__shell {
     position: relative;

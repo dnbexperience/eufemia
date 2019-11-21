@@ -62,16 +62,19 @@ exports[`DatePicker component have to match snapshot 1`] = `
   on_cancel={null}
   on_change={null}
   on_hide={null}
+  on_reset={null}
   on_show={null}
   on_submit={null}
   only_month={false}
   opened={false}
   range={true}
+  reset_button_text="Tilbakestill"
   reset_date={true}
   return_format="yyyy-MM-dd"
   shortcuts={null}
   show_cancel_button={null}
   show_input={true}
+  show_reset_button={null}
   show_submit_button={null}
   start_date="2019-01-01T00:00:00.000Z"
   status="status"
@@ -936,7 +939,7 @@ exports[`DatePicker scss have to match default theme snapshot 1`] = `
     color: var(--date-picker-header-color); }
   .dnb-date-picker__labels__day {
     text-transform: capitalize;
-    font-weight: var(--font-weight-demi);
+    font-weight: var(--font-weight-medium);
     color: var(--date-picker-labels-day-color); }
   .dnb-date-picker__day, .dnb-date-picker__labels__day {
     text-align: center; }
@@ -1018,7 +1021,7 @@ exports[`DatePicker scss have to match snapshot 1`] = `
 */
 .dnb-icon {
   display: inline-block;
-  vertical-align: baseline;
+  vertical-align: middle;
   font-size: inherit;
   line-height: var(--line-height-x-small--em);
   width: 1em;
@@ -1027,7 +1030,7 @@ exports[`DatePicker scss have to match snapshot 1`] = `
   .dnb-icon svg {
     width: inherit;
     height: inherit;
-    vertical-align: middle;
+    vertical-align: top;
     shape-rendering: geometricPrecision; }
   .dnb-icon svg[width='100%'] {
     width: inherit; }
@@ -1137,8 +1140,7 @@ exports[`DatePicker scss have to match snapshot 1`] = `
   border-radius: var(--button-border-radius);
   text-decoration: none; }
   .dnb-button__icon.dnb-icon {
-    font-size: var(--font-size-small);
-    transform: translateY(-0.0625rem); }
+    font-size: var(--font-size-small); }
     .dnb-button__icon.dnb-icon:not(.dnb-icon) svg:not([width]):not([height]) {
       width: var(--button-icon-size);
       height: var(--button-icon-size); }
@@ -1257,9 +1259,6 @@ exports[`DatePicker scss have to match snapshot 1`] = `
 /* Firefox includes a hidden border which messes up button dimensions */
 button.dnb-button::-moz-focus-inner {
   border: none; }
-
-a.dnb-button .dnb-button__text {
-  transform: translateY(-0.0165); }
 
 /*
 * DNB FormLabel
@@ -1491,8 +1490,7 @@ legend.dnb-form-label {
     outline: none;
     word-break: normal;
     position: relative;
-    z-index: 2;
-    transform: translateY(-0.0625rem); }
+    z-index: 2; }
   .dnb-input__input[disabled] {
     user-select: none;
     -webkit-user-select: none;
@@ -1521,6 +1519,7 @@ legend.dnb-form-label {
     top: 0;
     left: 0;
     overflow: hidden;
+    transform: translateY(0.0625rem);
     white-space: nowrap;
     text-overflow: ellipsis;
     line-height: inherit; }
@@ -1849,7 +1848,6 @@ legend.dnb-form-label {
   .dnb-radio__helper {
     clip: rect(0, 0, 0, 0);
     width: 0;
-    height: 0;
     overflow: hidden; }
   .dnb-radio__shell {
     position: relative;
@@ -2172,7 +2170,6 @@ legend.dnb-form-label {
   .dnb-date-picker__helper {
     clip: rect(0, 0, 0, 0);
     width: 0;
-    height: 0;
     overflow: hidden; }
   .dnb-date-picker__shell {
     position: relative;
@@ -2197,13 +2194,13 @@ legend.dnb-form-label {
     z-index: 100; }
     .dnb-date-picker--opened .dnb-date-picker__container {
       animation: date-picker-slide-down 200ms ease-out 1 forwards; }
-    .dnb-date-picker--opened .dnb-date-picker__container--no-animation {
+    html[data-dnb-test] .dnb-date-picker--opened .dnb-date-picker__container, .dnb-date-picker--opened .dnb-date-picker__container--no-animation {
       animation: date-picker-slide-down 1ms ease-out 1 forwards; }
   .dnb-date-picker--hidden .dnb-date-picker__container {
     display: none; }
   .dnb-date-picker:not(.dnb-date-picker--opened) .dnb-date-picker__container {
     animation: date-picker-slide-up 150ms ease-out 1 forwards; }
-  .dnb-date-picker:not(.dnb-date-picker--opened) .dnb-date-picker__container--no-animation {
+  html[data-dnb-test] .dnb-date-picker:not(.dnb-date-picker--opened) .dnb-date-picker__container, .dnb-date-picker:not(.dnb-date-picker--opened) .dnb-date-picker__container--no-animation {
     animation: date-picker-slide-up 1ms ease-out 1 forwards; }
   .dnb-date-picker__input,
   .dnb-date-picker .dnb-input__input.dnb-date-picker__input,

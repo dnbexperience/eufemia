@@ -22,6 +22,7 @@
   &:not(#{&}--no-animation) {
     animation: dropdown-slide-down 200ms ease-out 1 forwards;
   }
+  html[data-dnb-test] &,
   &--no-animation {
     animation: dropdown-slide-down 1ms ease-out 1 forwards;
   }
@@ -30,6 +31,7 @@
   &:not(#{&}--no-animation) {
     animation: dropdown-slide-ip 150ms ease-out 1 forwards;
   }
+  html[data-dnb-test] &,
   &--no-animation {
     animation: dropdown-slide-ip 1ms ease-out 1 forwards;
   }
@@ -63,6 +65,7 @@
     clip: rect(0, 0, 0, 0);
     width: 0;
     overflow: hidden;
+    font-size: var(--font-size-basis);
   }
 
   &__shell {
@@ -189,7 +192,7 @@
     .dnb-icon {
       font-size: var(--font-size-small); // has to be 16px
       color: inherit;
-      transform: translateY(-0.125rem);
+      transform: translateY(-0.0625rem);
     }
   }
 
@@ -391,9 +394,6 @@
       text-decoration: none;
       text-overflow: inherit;
       text-align: inherit;
-
-      // vertical alignment
-      // transform: translateY(-0.0625rem);
     }
   }
 

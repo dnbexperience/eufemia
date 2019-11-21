@@ -5,11 +5,7 @@
 
 @mixin getDefaultProperties() {
   // Typography Family
-  --font-family-default: 'DNB', sans-serif;
-  --font-family-book: 'DNB', sans-serif; // Deprecated
-  --font-family-demi: 'DNB', sans-serif; // Deprecated
-  --font-family-medium: 'DNB', sans-serif; // Do not use, use --font-weight-...
-  --font-family-bold: 'DNB', sans-serif; // Do not use, use --font-weight-...
+  --font-family-default: DNB, sans-serif;
   --font-family-monospace: /* macOS 10.10+ */ Menlo,
     /* Windows 6+ */ Consolas, /* Android 4+ */ Roboto Mono,
     /* Ubuntu 10.10+ */ Ubuntu Monospace, /* KDE Plasma 5+ */ Noto Mono,
@@ -17,14 +13,20 @@
     /* Linux/OpenOffice fallback */ Liberation Mono,
     /* fallback */ monospace;
 
+  // Deprecated
+  --font-family-book: DNB, sans-serif; // Deprecated
+  --font-family-demi: DNB, sans-serif; // Deprecated
+
   // Typography Weights
-  --font-weight-default: normal; // Deprecated
   --font-weight-basis: normal;
-  --font-weight-book: normal; // Deprecated
   --font-weight-regular: normal;
-  --font-weight-demi: 500; // Deprecated
-  --font-weight-medium: 600;
+  --font-weight-medium: 500;
   --font-weight-bold: 600;
+
+  // Deprecated
+  --font-weight-default: normal; // Deprecated
+  --font-weight-book: normal; // Deprecated
+  --font-weight-demi: 500; // Deprecated
 
   // Typography Sizes
   --font-size-small: 1rem; // 16px
@@ -50,8 +52,11 @@
   --color-mint-green-25: #e9f8f4;
   --color-mint-green-12: #f4fbf9;
   --color-sea-green-alt-30: #b3dada;
-  --color-signal-yellow-30: #ffffd7;
+  --color-signal-yellow-30: #ffffd7; // Deprecated
+  --color-accent-yellow-30: #feebc1;
+  --color-signal-orange: #ff5400;
   --color-fire-red: #dc2a2a;
+  --color-success-green: #008000;
   --color-fire-red-8: #fdeeee;
   --color-cherry-red: #e10076; // Deprecated
   --color-cherry-red-8: #fdebf4; // Deprecated
@@ -70,11 +75,14 @@
   --color-summer-green: #28b482;
   --color-emerald-green: #14555a;
   --color-ocean-green: #00343e;
-  --color-signal-orange: #ff5400;
-  --color-signal-yellow: #ffff7a;
+  --color-signal-yellow: #ffff7a; // Deprecated
+  --color-accent-yellow: #fdbb31;
   --color-indigo: #23195a;
   --color-violet: #6e2382;
   --color-sky-blue: #4bbed2;
+  --color-lavender: #f2f2f5;
+  --color-sand-yellow: #fbf6ec;
+  --color-pistachio: #f2f4ec;
 
   // Unused Profile colors
   --color-mint-green-alt: #ebfffa;

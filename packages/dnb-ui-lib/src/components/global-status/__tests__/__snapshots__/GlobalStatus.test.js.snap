@@ -17,7 +17,7 @@ exports[`GlobalStatus scss have to match default theme snapshot 1`] = `
   box-shadow: 100vw 0 0 0 currentColor, 0 0.0625rem 0 0 var(--color-black-80), 100vw 0.0625rem 0 0 var(--color-black-80); }
 
 .dnb-global-status__title.dnb-p {
-  font-weight: var(--font-weight-demi); }
+  font-weight: var(--font-weight-medium); }
 
 .dnb-global-status__icon {
   font-size: 1rem; }
@@ -28,7 +28,7 @@ exports[`GlobalStatus scss have to match default theme snapshot 1`] = `
 .dnb-global-status__message {
   color: var(--color-black-80); }
   .dnb-global-status__message .dnb-p {
-    font-weight: var(--font-weight-demi); }
+    font-weight: var(--font-weight-medium); }
   .dnb-global-status__message.dnb-section--white ::selection {
     background-color: var(--color-mint-green); }
 
@@ -98,7 +98,7 @@ exports[`GlobalStatus scss have to match snapshot 1`] = `
 */
 .dnb-icon {
   display: inline-block;
-  vertical-align: baseline;
+  vertical-align: middle;
   font-size: inherit;
   line-height: var(--line-height-x-small--em);
   width: 1em;
@@ -107,7 +107,7 @@ exports[`GlobalStatus scss have to match snapshot 1`] = `
   .dnb-icon svg {
     width: inherit;
     height: inherit;
-    vertical-align: middle;
+    vertical-align: top;
     shape-rendering: geometricPrecision; }
   .dnb-icon svg[width='100%'] {
     width: inherit; }
@@ -217,8 +217,7 @@ exports[`GlobalStatus scss have to match snapshot 1`] = `
   border-radius: var(--button-border-radius);
   text-decoration: none; }
   .dnb-button__icon.dnb-icon {
-    font-size: var(--font-size-small);
-    transform: translateY(-0.0625rem); }
+    font-size: var(--font-size-small); }
     .dnb-button__icon.dnb-icon:not(.dnb-icon) svg:not([width]):not([height]) {
       width: var(--button-icon-size);
       height: var(--button-icon-size); }
@@ -337,9 +336,6 @@ exports[`GlobalStatus scss have to match snapshot 1`] = `
 /* Firefox includes a hidden border which messes up button dimensions */
 button.dnb-button::-moz-focus-inner {
   border: none; }
-
-a.dnb-button .dnb-button__text {
-  transform: translateY(-0.0165); }
 
 /*
 * DNB Section

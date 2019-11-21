@@ -50,9 +50,6 @@
       width: var(--button-icon-size);
       height: var(--button-icon-size);
     }
-
-    // vertical alignment
-    transform: translateY(-0.0625rem);
   }
   &__text {
     font-size: var(--button-font-size);
@@ -232,12 +229,4 @@
 /* Firefox includes a hidden border which messes up button dimensions */
 button.dnb-button::-moz-focus-inner {
   border: none;
-}
-
-// make sure we style an Anchor like a button
-a.dnb-button {
-  // some correction
-  .dnb-button__text {
-    transform: translateY(-0.0165);
-  }
 }

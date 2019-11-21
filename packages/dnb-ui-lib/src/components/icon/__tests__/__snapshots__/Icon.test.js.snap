@@ -83,7 +83,7 @@ exports[`Icon scss have to match snapshot 1`] = `
 */
 .dnb-icon {
   display: inline-block;
-  vertical-align: baseline;
+  vertical-align: middle;
   font-size: inherit;
   line-height: var(--line-height-x-small--em);
   width: 1em;
@@ -92,7 +92,7 @@ exports[`Icon scss have to match snapshot 1`] = `
   .dnb-icon svg {
     width: inherit;
     height: inherit;
-    vertical-align: middle;
+    vertical-align: top;
     shape-rendering: geometricPrecision; }
   .dnb-icon svg[width='100%'] {
     width: inherit; }

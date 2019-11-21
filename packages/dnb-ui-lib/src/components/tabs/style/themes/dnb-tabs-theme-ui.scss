@@ -39,7 +39,7 @@
   &__button {
     // should be same as .lead small
     &__title {
-      font-weight: var(--font-weight-book);
+      font-weight: var(--font-weight-regular);
       font-size: var(--font-size-basis);
       text-align: center;
 
@@ -81,15 +81,13 @@
 
     // selected only
     &:not([disabled]).selected &__title {
-      font-family: var(--font-family-demi);
-      font-weight: var(--font-weight-demi);
+      font-weight: var(--font-weight-medium);
     }
 
     // To make sure we have the wider width on every item
     // Have to be same as &:not([disabled]).selected
     span[hidden] {
-      font-family: var(--font-family-demi);
-      font-weight: var(--font-weight-demi);
+      font-weight: var(--font-weight-medium);
     }
 
     // focus helper, for positioning

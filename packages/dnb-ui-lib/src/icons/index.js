@@ -44,6 +44,8 @@ import fullscreen from './fullscreen.js'
 import fullscreen_medium from './fullscreen_medium.js'
 import hamburger from './hamburger.js'
 import hamburger_medium from './hamburger_medium.js'
+import home from './home.js'
+import home_medium from './home_medium.js'
 import information from './information.js'
 import information_medium from './information_medium.js'
 import link_out from './link_out.js'
@@ -64,6 +66,8 @@ import redo from './redo.js'
 import redo_medium from './redo_medium.js'
 import refresh from './refresh.js'
 import refresh_medium from './refresh_medium.js'
+import reset from './reset.js'
+import reset_medium from './reset_medium.js'
 import save from './save.js'
 import save_medium from './save_medium.js'
 import search from './search.js'
@@ -130,6 +134,8 @@ export {
   fullscreen_medium,
   hamburger,
   hamburger_medium,
+  home,
+  home_medium,
   information,
   information_medium,
   link_out,
@@ -150,6 +156,8 @@ export {
   redo_medium,
   refresh,
   refresh_medium,
+  reset,
+  reset_medium,
   save,
   save_medium,
   search,
