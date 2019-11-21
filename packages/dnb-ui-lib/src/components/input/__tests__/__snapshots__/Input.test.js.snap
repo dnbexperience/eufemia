@@ -1118,6 +1118,7 @@ legend.dnb-form-label {
     top: 0;
     left: 0;
     overflow: hidden;
+    transform: translateY(0.0625rem);
     white-space: nowrap;
     text-overflow: ellipsis;
     line-height: inherit; }
