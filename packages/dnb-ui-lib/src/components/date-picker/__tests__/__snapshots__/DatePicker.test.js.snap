@@ -939,7 +939,7 @@ exports[`DatePicker scss have to match default theme snapshot 1`] = `
     color: var(--date-picker-header-color); }
   .dnb-date-picker__labels__day {
     text-transform: capitalize;
-    font-weight: var(--font-weight-demi);
+    font-weight: var(--font-weight-medium);
     color: var(--date-picker-labels-day-color); }
   .dnb-date-picker__day, .dnb-date-picker__labels__day {
     text-align: center; }

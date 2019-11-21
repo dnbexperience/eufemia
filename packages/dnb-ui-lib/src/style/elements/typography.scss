@@ -9,13 +9,13 @@
     margin: 0;
   }
 
-  font-family: var(--font-family-demi);
-  font-weight: var(--font-weight-demi);
+  font-family: var(--font-family-medium);
+  font-weight: var(--font-weight-medium);
 }
 @mixin h1Style() {
   font-size: var(--font-size-xx-large);
   line-height: var(--line-height-x-large);
-  font-weight: var(--font-weight-demi);
+  font-weight: var(--font-weight-medium);
 
   &--small,
   & > small {
@@ -37,8 +37,7 @@
   }
 }
 @mixin h3Style() {
-  font-family: var(--font-family-demi);
-  font-weight: var(--font-weight-demi);
+  font-weight: var(--font-weight-medium);
   font-size: var(--font-size-medium);
   line-height: calc(var(--line-height-medium) - 0.25rem);
 
@@ -64,7 +63,7 @@
 }
 @mixin h6Style() {
   font-size: var(--font-size-small);
-  font-weight: var(--font-weight-book);
+  font-weight: var(--font-weight-regular);
   & > small {
     line-height: var(--line-height-small);
   }
@@ -83,17 +82,17 @@
 
   @include numberFeature(lining-nums, lnum);
 
-  &--demi {
-    font-weight: var(--font-weight-demi);
+  &--medium {
+    font-weight: var(--font-weight-medium);
   }
   &--ingress {
-    font-weight: var(--font-weight-demi);
+    font-weight: var(--font-weight-medium);
     color: var(--color-emerald-green);
   }
   b,
   strong,
-  &--medium {
-    font-weight: var(--font-weight-medium);
+  &--bold {
+    font-weight: var(--font-weight-bold);
   }
   &--small,
   & > small {
@@ -105,7 +104,7 @@
   }
 
   & > cite {
-    font-weight: var(--font-weight-demi);
+    font-weight: var(--font-weight-medium);
     font-style: italic;
   }
 }
@@ -165,7 +164,7 @@
   }
   b,
   strong {
-    font-weight: var(--font-weight-medium);
+    font-weight: var(--font-weight-bold);
   }
   small {
     font-size: var(--font-size-small);

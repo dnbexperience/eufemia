@@ -435,7 +435,7 @@ exports[`StepIndicator scss have to match default theme snapshot 1`] = `
 
 .dnb-step-indicator span[hidden],
 .dnb-step-indicator--active .dnb-step-indicator__item-content {
-  font-weight: var(--font-weight-demi); }
+  font-weight: var(--font-weight-medium); }
   .dnb-step-indicator span[hidden]:not(:hover),
   .dnb-step-indicator--active .dnb-step-indicator__item-content:not(:hover) {
     color: var(--color-emerald-green); }

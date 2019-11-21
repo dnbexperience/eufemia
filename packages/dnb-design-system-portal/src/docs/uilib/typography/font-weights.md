@@ -10,9 +10,9 @@ import TypographyExamples from 'Pages/uilib/typography/TypographyExamples'
 
 ## Eufemia has three (3) font-weights
 
-- <span class="dnb-typo-regular">Regular (as for now also: Book)</span> (normal)
-- <span class="dnb-typo-medium">Medium (as for now also: Demi)</span> (500)
-- <span class="dnb-typo-medium">Bold (as for now also: Medium)</span> (600)
+- <span class="dnb-typo-regular">Regular</span> (normal)
+- <span class="dnb-typo-medium">Medium</span> (500)
+- <span class="dnb-typo-bold">Bold</span> (600)
 
 ## `font-weight` table
 

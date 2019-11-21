@@ -303,7 +303,7 @@ const HeaderTitleWrapper = styled(Space)`
 
 // Custom paragraph
 const IngressRaw = styled(P)`
-  font-weight: var(--font-weight-demi);
+  font-weight: var(--font-weight-medium);
   color: var(--color-emerald-green);
 `
 const Ingress = props => (

@@ -58,7 +58,7 @@
 
   span[hidden],/* to make sure we have the wider width on every item */
   &--active &__item-content {
-    font-weight: var(--font-weight-demi);
+    font-weight: var(--font-weight-medium);
 
     &:not(:hover) {
       color: var(--color-emerald-green);
