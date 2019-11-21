@@ -17,7 +17,7 @@ const prismStyle = /* @css */ `
   &.cdata {
     opacity: 0.8;
     font-style: italic;
-    color: var(--color-signal-yellow-30);
+    color: var(--color-accent-yellow-30);
   }
 
   &.property,

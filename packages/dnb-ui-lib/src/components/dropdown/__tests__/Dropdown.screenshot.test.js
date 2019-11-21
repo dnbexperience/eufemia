@@ -83,10 +83,10 @@ describe('Dropdown screenshot', () => {
       selector: '[data-dnb-test="dropdown-more_menu"]',
       simulateSelector:
         '[data-dnb-test="dropdown-more_menu"] .dnb-dropdown:nth-of-type(1) .dnb-dropdown__trigger',
-      simulate: 'click',
+      simulate: 'click'
       // waitAfterSimulateSelector:
       //   '[data-dnb-test="dropdown-more_menu"] .dnb-dropdown:nth-of-type(1) .dnb-dropdown__options',
-      waitAfterSimulate: 100 // to make sure we make the screenshot afte the animation is show
+      // waitAfterSimulate: 100 // to make sure we make the screenshot afte the animation is show
     })
     expect(screenshot).toMatchImageSnapshot()
   })

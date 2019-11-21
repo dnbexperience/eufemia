@@ -330,9 +330,10 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                               strokeWidth={1.5}
                             >
                               <path
-                                d="M9.055 11.937a5.445 5.445 0 10-4.26-10.023 5.445 5.445 0 004.26 10.023zm1.72-1.162L15 14.999"
+                                d="M9.055 11.937a5.445 5.445 0 10-4.26-10.023 5.445 5.445 0 004.26 10.023zM10.775 10.775L15 14.999"
                               />
                             </g>
+                            <defs />
                           </svg>
                         </search>
                       </span>
@@ -615,7 +616,7 @@ exports[`Input scss have to match snapshot 1`] = `
 */
 .dnb-icon {
   display: inline-block;
-  vertical-align: baseline;
+  vertical-align: middle;
   font-size: inherit;
   line-height: var(--line-height-x-small--em);
   width: 1em;
@@ -624,7 +625,7 @@ exports[`Input scss have to match snapshot 1`] = `
   .dnb-icon svg {
     width: inherit;
     height: inherit;
-    vertical-align: middle;
+    vertical-align: top;
     shape-rendering: geometricPrecision; }
   .dnb-icon svg[width='100%'] {
     width: inherit; }
@@ -734,8 +735,7 @@ exports[`Input scss have to match snapshot 1`] = `
   border-radius: var(--button-border-radius);
   text-decoration: none; }
   .dnb-button__icon.dnb-icon {
-    font-size: var(--font-size-small);
-    transform: translateY(-0.0625rem); }
+    font-size: var(--font-size-small); }
     .dnb-button__icon.dnb-icon:not(.dnb-icon) svg:not([width]):not([height]) {
       width: var(--button-icon-size);
       height: var(--button-icon-size); }
@@ -854,9 +854,6 @@ exports[`Input scss have to match snapshot 1`] = `
 /* Firefox includes a hidden border which messes up button dimensions */
 button.dnb-button::-moz-focus-inner {
   border: none; }
-
-a.dnb-button .dnb-button__text {
-  transform: translateY(-0.0165); }
 
 /*
 * DNB FormLabel
@@ -1088,8 +1085,7 @@ legend.dnb-form-label {
     outline: none;
     word-break: normal;
     position: relative;
-    z-index: 2;
-    transform: translateY(-0.0625rem); }
+    z-index: 2; }
   .dnb-input__input[disabled] {
     user-select: none;
     -webkit-user-select: none;
@@ -1118,6 +1114,7 @@ legend.dnb-form-label {
     top: 0;
     left: 0;
     overflow: hidden;
+    transform: translateY(0.0625rem);
     white-space: nowrap;
     text-overflow: ellipsis;
     line-height: inherit; }
