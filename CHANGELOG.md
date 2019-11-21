@@ -1,3 +1,43 @@
+## November, 25. 2019
+
+### New DNB font
+
+[Typography](/uilib/typography) changes:
+
+- **h1** `DNB Sans Medium` 48px / 56px line height
+- **h1 small** `DNB Sans Medium` 34px / 40px line height
+- **h2** `DNB Sans Medium` 26px / 32px line height
+- **h3 / Lead** `DNB Sans Medium` 20px / 28px line height
+- **Body text** `DNB Sans Regular` 18px / 24px line height
+- **Body text medium** `DNB Sans Medium` 18px / 24px line height
+- **Small text** `DNB Sans Regular` 16px / 20px
+- **Small text medium** `DNB Sans Medium` 16px / 20px
+
+### Colors
+
+[Colors](/uilib/usage/customisation/colors) changes:
+
+- `accent-yellow`, witch replaces `signal-yellow`
+- `accent-yellow-30`, witch replaces `signal-yellow-30`
+- `signal-orange` is moved from Profile to UX color
+
+New [Colors](/uilib/usage/customisation/colors):
+
+- Profile color `lavender`
+- Profile color `sand-yellow`
+- Profile color `pistachio`
+- UX color `success-green`
+
+### Icons
+
+New [Icons](/icons):
+
+### Components and Elements
+
+[Components](/uilib/components) and [Elements](/uilib/elements) features and changes:
+
+Get more details about the `dnb-ui-lib` [v6 release](/uilib/about-the-lib/releases/v6-info)
+
 ## November, 16. 2019
 
 - New [secondary icons](/icons/secondary): `arrow_up`, `arrow_down`, `arrow_right`, `arrow_left`, `view`, `view_off`, `settings`, `refresh`, `add_file`
@@ -19,7 +59,7 @@
   1. secondary `save_alt_01` is now => primary `save`
   1. primary `error` got removed
 
-Get more details about the `dnb-ui-lib` [v5 releas](/uilib/about-the-lib/releases/v5-info)
+Get more details about the `dnb-ui-lib` [v5 release](/uilib/about-the-lib/releases/v5-info)
 
 ## October, 14. 2019
 
