@@ -404,8 +404,6 @@ const Flag = () => <>COUNTRY FLAG</> // These <> are Fragments, like React.Fragm
 function CurrencySelector({ currencies, onChange, value, ...props }) {
   let itemIndex = currencies.indexOf(value)
   itemIndex = itemIndex > -1 ? itemIndex : null
-  // console.log('props', props)
-  // console.log('itemIndex:', itemIndex)
   return (
     <Dropdown
       {...props}

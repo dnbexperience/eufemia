@@ -1108,7 +1108,7 @@ legend.dnb-form-label {
     .dnb-dropdown__icon .dnb-icon {
       font-size: var(--font-size-small);
       color: inherit;
-      transform: translateY(-0.125rem); }
+      transform: translateY(-0.0625rem); }
   .dnb-dropdown__triangle {
     position: absolute;
     top: calc( var(--dropdown-focus-border-width) - var(--dropdown-height) / 2);
