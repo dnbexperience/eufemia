@@ -24,6 +24,12 @@
       width: 1em;
       height: 1em;
     }
+
+    & > span {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
   }
   &--border#{&}--medium {
     width: 2em;

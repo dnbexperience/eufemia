@@ -59,6 +59,13 @@
     margin: var(--textarea-padding-width);
   }
 
+  &__helper {
+    @include helper();
+  }
+  &--vertical &__helper {
+    @include helperVertical();
+  }
+
   &__shell {
     display: inline-flex;
     position: relative;

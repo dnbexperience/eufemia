@@ -5,11 +5,8 @@
 
 .dnb-icon {
   display: inline-block;
-  vertical-align: middle; // so we center the icon vertical in text
-  font-size: inherit; // only to feed width and height em's
-  line-height: var(
-    --line-height-x-small--em
-  ); // for vertical alignment, we have to have no line-height
+  line-height: 1; // for vertical alignment, we have to have no line-height
+  color: inherit;
 
   width: 1em;
   height: 1em;
@@ -19,8 +16,12 @@
   svg {
     width: inherit;
     height: inherit;
-    vertical-align: top; // so we don't get the gap on top
     shape-rendering: geometricPrecision;
+  }
+
+  & > span {
+    width: inherit;
+    height: inherit;
   }
 
   // auto size

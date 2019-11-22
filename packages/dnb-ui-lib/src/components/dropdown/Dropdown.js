@@ -1051,7 +1051,11 @@ export default class Dropdown extends PureComponent {
 
     return (
       <span {...mainParams}>
-        {(label && (
+        <span className="dnb-dropdown__helper" aria-hidden>
+          &zwnj;
+        </span>
+
+        {label && (
           <FormLabel
             id={id + '-label'}
             for_id={id}
@@ -1061,10 +1065,6 @@ export default class Dropdown extends PureComponent {
             disabled={disabled}
             onMouseDown={this.toggleVisible}
           />
-        )) || (
-          <span className="dnb-dropdown__helper" aria-hidden>
-            {'-'}
-          </span>
         )}
 
         <span className="dnb-dropdown__inner" ref={this._ref}>

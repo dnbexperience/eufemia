@@ -122,7 +122,9 @@ export default class Icon extends PureComponent {
 
     return (
       <span {...wrapperParams}>
-        <IconContainer {...iconParams} />
+        <span>
+          <IconContainer {...iconParams} />
+        </span>
       </span>
     )
   }

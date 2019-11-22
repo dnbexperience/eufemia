@@ -177,20 +177,36 @@ $breakpoints: (
   }
 }
 
+// Vertical alignment helper
+@mixin helper() {
+  clip: rect(0, 0, 0, 0);
+  width: 1px;
+  margin-left: -1px;
+  overflow: hidden;
+}
+@mixin helperVertical() {
+  height: 1px;
+  margin-top: -1px;
+}
+
 // Screen reader only helper
 @mixin srOnly() {
-  position: absolute;
+  // since we do use it also as positioning helper
+  // we then do not want it absolute positioned
+  // position: absolute;
 
-  clip: rect(0 0 0 0);
-  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  overflow: hidden !important;
 
-  height: 1px;
-  width: 1px;
+  height: 1px !important;
+  width: 1px !important;
 
-  margin: -1px;
-  padding: 0;
+  margin: 0 !important;
+  margin-left: -1px !important; // because of 1px width
+  margin-top: -1px !important; // because of 1px height
+  padding: 0 !important;
 
-  border: 0;
+  border: 0 !important;
 }
 
 // This "negates" the srOnly() helper; useful if

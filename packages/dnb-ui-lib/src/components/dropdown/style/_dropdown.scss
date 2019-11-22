@@ -44,6 +44,9 @@
   display: inline-flex;
   align-items: center;
 
+  font-size: var(--font-size-basis);
+  line-height: var(--dropdown-height);
+
   &__inner {
     display: inline-flex;
     flex-direction: column;
@@ -54,18 +57,15 @@
 
     width: auto;
 
-    font-size: var(--font-size-basis);
-    font-weight: var(--font-weight-default);
-
     color: inherit;
   }
 
   // if no label is provided, then make sure we have some text to align the button
   &__helper {
-    clip: rect(0, 0, 0, 0);
-    width: 0;
-    overflow: hidden;
-    font-size: var(--font-size-basis);
+    @include helper();
+  }
+  &--vertical &__helper {
+    @include helperVertical();
   }
 
   &__shell {
@@ -189,10 +189,14 @@
     pointer-events: none;
     color: inherit;
 
-    .dnb-icon {
-      font-size: var(--font-size-small); // has to be 16px
-      color: inherit;
-      transform: translateY(-0.0625rem);
+    font-size: var(--font-size-small); // has to be 16px
+
+    &.dnb-icon > span {
+      display: inline-flex;
+
+      svg {
+        vertical-align: top; // so we don't get the gap on top
+      }
     }
   }
 
@@ -307,6 +311,9 @@
   }
 
   // Size--small
+  &__size--small {
+    line-height: var(--dropdown-height--small);
+  }
   &__size--small &__shell,
   &__size--small &__trigger {
     height: var(--dropdown-height--small);
@@ -323,6 +330,9 @@
   }
 
   // Size--medium
+  &__size--medium {
+    line-height: var(--dropdown-height--medium);
+  }
   &__size--medium &__shell,
   &__size--medium &__trigger {
     height: var(--dropdown-height--medium);
@@ -340,6 +350,9 @@
   }
 
   // Size--large
+  &__size--large {
+    line-height: var(--dropdown-height--large);
+  }
   &__size--large &__shell,
   &__size--large &__trigger {
     height: var(--dropdown-height--large);
@@ -439,10 +452,6 @@
   &--vertical {
     flex-direction: column;
     align-items: flex-start;
-  }
-  &--vertical &__helper {
-    height: 0;
-    line-height: var(--dropdown-height);
   }
 
   &[class*='__status'] {

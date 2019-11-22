@@ -505,7 +505,9 @@ export default class Slider extends PureComponent {
         'dnb-slider',
         reverse && 'dnb-slider--reverse',
         vertical && 'dnb-slider--vertical',
-        label_direction && `dnb-slider__label--${label_direction}`,
+        label &&
+          label_direction &&
+          `dnb-slider__label--${label_direction}`,
         showStatus && 'dnb-slider__form-status',
         status && `dnb-slider__status--${status_state}`,
         createSpacingClasses(props),
@@ -601,6 +603,10 @@ export default class Slider extends PureComponent {
 
     return (
       <span {...mainParams}>
+        <span className="dnb-slider__helper" aria-hidden>
+          &zwnj;
+        </span>
+
         {label && (
           // do not use "for_id" as the ID element is not a fo
           <FormLabel
@@ -611,6 +617,7 @@ export default class Slider extends PureComponent {
             sr_only={label_sr_only}
           />
         )}
+
         <span className="dnb-slider__wrapper">
           {showStatus && (
             <FormStatus
@@ -634,7 +641,7 @@ export default class Slider extends PureComponent {
                 {!isTouchDevice() && (
                   <input
                     type="range"
-                    className="dnb-slider__helper"
+                    className="dnb-slider__button-helper"
                     min={min}
                     max={max}
                     step={_step}

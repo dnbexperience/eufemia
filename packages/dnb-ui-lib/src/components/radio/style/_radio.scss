@@ -20,9 +20,10 @@
     flex-direction: column;
   }
   &__helper {
-    clip: rect(0, 0, 0, 0);
-    width: 0;
-    overflow: hidden;
+    @include helper();
+
+    // since we don't have a vertical state, we set it to vertical by default
+    @include helperVertical();
   }
 
   &__shell {
@@ -143,6 +144,10 @@
   &-group {
     display: inline-flex;
     flex-direction: row;
+
+    // is needed for vertical alignment of the whole component
+    font-size: var(--font-size-basis);
+    line-height: var(--line-height-basis);
 
     // default spacing
     .dnb-radio {
