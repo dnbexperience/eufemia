@@ -1630,6 +1630,8 @@ legend.dnb-form-label {
     width: 100%; }
   .dnb-input--vertical.dnb-input--stretch .dnb-input__inner {
     width: 100%; }
+  .dnb-input > .dnb-form-label {
+    line-height: var(--font-size-basis); }
   .dnb-input[class*='__status'] {
     align-items: flex-start;
     line-height: var(--line-height-basis); }
@@ -1945,8 +1947,7 @@ legend.dnb-form-label {
   .dnb-radio-group {
     display: inline-flex;
     flex-direction: row;
-    font-size: var(--font-size-basis);
-    line-height: var(--line-height-basis); }
+    line-height: var(--line-height-x-small--em); }
     .dnb-radio-group .dnb-radio {
       margin-right: var(--radio-margin-right);
       margin-bottom: var(--radio-margin-bottom); }
@@ -1977,8 +1978,6 @@ legend.dnb-form-label {
         margin: auto; }
       .dnb-radio__order {
         align-items: center; }
-      .dnb-radio__shell {
-        transform: translateY(0); }
       .dnb-radio, .dnb-radio-group {
         flex: none; }
       .dnb-radio-group {

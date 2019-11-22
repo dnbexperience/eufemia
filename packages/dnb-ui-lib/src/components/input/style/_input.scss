@@ -267,11 +267,15 @@
     width: 100%;
   }
 
+  & > .dnb-form-label {
+    line-height: var(--font-size-basis);
+  }
+
   &[class*='__status'] {
     align-items: flex-start;
     line-height: var(--line-height-basis);
 
-    > .dnb-form-label {
+    & > .dnb-form-label {
       // vertical align the current font
       margin-top: 0.25rem;
     }
@@ -290,7 +294,7 @@
         align-items: flex-start;
       }
 
-      > .dnb-form-label {
+      & > .dnb-form-label {
         margin-bottom: 0.5rem;
       }
 
