@@ -193,20 +193,20 @@ $breakpoints: (
 @mixin srOnly() {
   // since we do use it also as positioning helper
   // we then do not want it absolute positioned
-  // position: absolute;
+  position: absolute;
 
   clip: rect(0, 0, 0, 0);
-  overflow: hidden !important;
+  overflow: hidden;
 
-  height: 1px !important;
-  width: 1px !important;
+  height: 1px;
+  width: 1px;
 
-  margin: 0 !important;
-  margin-left: -1px !important; // because of 1px width
-  margin-top: -1px !important; // because of 1px height
-  padding: 0 !important;
+  margin: 0;
+  margin-left: -1px; // because of 1px width
+  margin-top: -1px; // because of 1px height
+  padding: 0;
 
-  border: 0 !important;
+  border: 0;
 }
 
 // This "negates" the srOnly() helper; useful if
@@ -215,7 +215,7 @@ $breakpoints: (
 // it to show for sighted users under more specific
 // conditions.
 @mixin notSrOnly() {
-  position: static;
+  position: relative;
 }
 
 @function str-replace($string, $search, $replace: '') {
