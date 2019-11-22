@@ -144,6 +144,7 @@
 
   &__submit-element {
     margin-left: calc(1px - 1px - var(--input-height));
+    line-height: var(--line-height-basis);
   }
 
   &__submit-button {
