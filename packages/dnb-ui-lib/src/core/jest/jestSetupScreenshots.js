@@ -167,34 +167,31 @@ module.exports.testPageScreenshot = ({
         }
 
         switch (simulate) {
-          case 'hover':
-            {
-              await elementToSimulate.hover()
-            }
+          case 'hover': {
+            await elementToSimulate.hover()
+            await elementToSimulate.dispose()
             break
+          }
 
-          case 'click':
-            {
-              await elementToSimulate.click()
-            }
+          case 'click': {
+            await elementToSimulate.click()
             break
+          }
 
-          case 'active':
-            {
-              // make a delayed click, no await. Else we get only a release state
-              waitBeforeFinish = 500
-              elementToSimulate.click({
-                delay: waitBeforeFinish // move the mouse
-              })
-            }
+          case 'active': {
+            // make a delayed click, no await. Else we get only a release state
+            waitBeforeFinish = 500 // have mouse pressed until screen shot is taken
+            elementToSimulate.click({
+              delay: waitBeforeFinish // move the mouse
+            })
             break
+          }
 
-          case 'focus':
-            {
-              await screenshotElement.press('Tab') // to simulate pressing tab key before focus
-              await elementToSimulate.focus()
-            }
+          case 'focus': {
+            await screenshotElement.press('Tab') // to simulate pressing tab key before focus
+            await elementToSimulate.focus()
             break
+          }
 
           default:
         }

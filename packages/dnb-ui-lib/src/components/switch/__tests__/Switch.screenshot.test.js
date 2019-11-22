@@ -21,7 +21,7 @@ describe('Switch unchecked screenshot', () => {
       selector: '[data-dnb-test="switch-default"] .dnb-switch',
       simulateSelector:
         '[data-dnb-test="switch-default"] .dnb-switch__input',
-      simulate: 'focus'
+      simulate: 'focus' // should be tested first
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -51,7 +51,7 @@ describe('Switch checked screenshot', () => {
       selector: '[data-dnb-test="switch-checked"] .dnb-switch',
       simulateSelector:
         '[data-dnb-test="switch-checked"] .dnb-switch__input',
-      simulate: 'focus'
+      simulate: 'focus' // should be tested first
     })
     expect(screenshot).toMatchImageSnapshot()
   })

@@ -21,7 +21,7 @@ describe('Radio unchecked screenshot', () => {
       selector: '[data-dnb-test="radio-default"] .dnb-radio',
       simulateSelector:
         '[data-dnb-test="radio-default"] .dnb-radio__input',
-      simulate: 'focus'
+      simulate: 'focus' // should be tested first
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -51,7 +51,7 @@ describe('Radio checked screenshot', () => {
       selector: '[data-dnb-test="radio-checked"] .dnb-radio',
       simulateSelector:
         '[data-dnb-test="radio-checked"] .dnb-radio__input',
-      simulate: 'focus'
+      simulate: 'focus' // should be tested first
     })
     expect(screenshot).toMatchImageSnapshot()
   })

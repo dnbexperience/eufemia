@@ -23,7 +23,7 @@ describe('Slider screenshot', () => {
       selector: '[data-dnb-test="slider-default"] .dnb-slider__wrapper',
       simulateSelector:
         '[data-dnb-test="slider-default"] .dnb-slider__thumb button',
-      simulate: 'focus'
+      simulate: 'focus' // should be tested first
     })
     expect(screenshot).toMatchImageSnapshot()
   })
