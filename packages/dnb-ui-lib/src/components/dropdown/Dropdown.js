@@ -970,6 +970,7 @@ export default class Dropdown extends PureComponent {
 
     const mainParams = {
       className: classnames(
+        'dnb-form-component',
         'dnb-dropdown',
         opened && 'dnb-dropdown--opened',
         hidden && 'dnb-dropdown--hidden',

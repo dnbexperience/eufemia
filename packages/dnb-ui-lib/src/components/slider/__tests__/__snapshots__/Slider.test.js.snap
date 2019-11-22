@@ -31,7 +31,7 @@ exports[`Slider component have to match snapshot 1`] = `
   vertical="vertical"
 >
   <span
-    className="dnb-slider className class dnb-slider__label--horizontal"
+    className="dnb-form-component dnb-slider className class dnb-slider__label--horizontal"
   >
     <span
       aria-hidden={true}
@@ -784,8 +784,7 @@ legend.dnb-form-label {
     padding: calc(0.5rem / 2) 1rem;
     cursor: text;
     color: inherit;
-    line-height: var(--line-height-basis);
-    transform: translateY(-0.0625rem); }
+    line-height: var(--line-height-basis); }
   .dnb-icon + .dnb-form-status--text {
     padding-left: 0.5rem; }
   .dnb-form-status__shell > .dnb-icon {
@@ -1017,10 +1016,12 @@ legend.dnb-form-label {
   .dnb-slider--vertical .dnb-form-status {
     margin-top: 1rem; }
   @media (max-width: 40em) {
-    .dnb-slider {
+    .dnb-responsive-component .dnb-slider {
+      display: flex;
       flex-direction: column;
-      align-items: flex-start; }
-      .dnb-slider > .dnb-form-label {
+      align-items: flex-start;
+      margin-bottom: 0.5rem; }
+      .dnb-responsive-component .dnb-slider > .dnb-form-label {
         margin-bottom: 0.5rem; } }
   @media screen and (-ms-high-contrast: none) {
     .dnb-slider__wrapper {

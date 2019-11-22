@@ -237,6 +237,7 @@ export default class Switch extends Component {
 
     const mainParams = {
       className: classnames(
+        'dnb-form-component',
         'dnb-switch',
         status && `dnb-switch__status--${status_state}`,
         label && `dnb-switch--label-position-${label_position || 'right'}`,

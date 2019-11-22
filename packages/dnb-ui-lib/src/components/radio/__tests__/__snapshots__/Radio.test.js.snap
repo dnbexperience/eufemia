@@ -139,7 +139,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
   vertical={null}
 >
   <div
-    className="dnb-radio-group dnb-radio-group--row"
+    className="dnb-form-component dnb-radio-group dnb-radio-group--row"
   >
     <FormRow
       class={null}
@@ -707,8 +707,7 @@ legend.dnb-form-label {
     padding: calc(0.5rem / 2) 1rem;
     cursor: text;
     color: inherit;
-    line-height: var(--line-height-basis);
-    transform: translateY(-0.0625rem); }
+    line-height: var(--line-height-basis); }
   .dnb-icon + .dnb-form-status--text {
     padding-left: 0.5rem; }
   .dnb-form-status__shell > .dnb-icon {

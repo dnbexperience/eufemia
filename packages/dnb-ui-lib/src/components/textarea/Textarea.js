@@ -291,6 +291,7 @@ export default class Textarea extends PureComponent {
 
     const mainParams = {
       className: classnames(
+        'dnb-form-component',
         'dnb-textarea',
         `dnb-textarea--${textareaState}`,
         hasValue && 'dnb-textarea--has-content',

@@ -248,7 +248,11 @@
   &--vertical {
     flex-direction: column;
     align-items: flex-start;
+    // line-height: var(--line-height-basis);
   }
+  // &--vertical &__row {
+  //   align-items: flex-start;
+  // }
 
   // make the input full width
   &--stretch {
@@ -268,17 +272,32 @@
 
   &[class*='__status'] {
     align-items: flex-start;
+    line-height: var(--line-height-basis);
+
     > .dnb-form-label {
       // vertical align the current font
       margin-top: 0.25rem;
     }
   }
 
-  @media (max-width: 40em) {
-    flex-direction: column;
-    align-items: flex-start;
-    > .dnb-form-label {
+  .dnb-responsive-component & {
+    @media (max-width: 40em) {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+
       margin-bottom: 0.5rem;
+
+      // helps to stay in alignment with suffix
+      &__row {
+        align-items: flex-start;
+      }
+
+      > .dnb-form-label {
+        margin-bottom: 0.5rem;
+      }
+
+      line-height: var(--line-height-basis);
     }
   }
 

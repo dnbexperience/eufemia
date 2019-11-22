@@ -215,6 +215,7 @@ export default class Checkbox extends Component {
 
     const mainParams = {
       className: classnames(
+        'dnb-form-component',
         'dnb-checkbox',
         status && `dnb-checkbox__status--${status_state}`,
         label &&

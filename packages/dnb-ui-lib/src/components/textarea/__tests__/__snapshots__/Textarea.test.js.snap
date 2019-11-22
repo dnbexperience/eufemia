@@ -68,7 +68,7 @@ exports[`Textarea component have to match snapshot 1`] = `
   value="test"
 >
   <span
-    className="dnb-textarea dnb-textarea--virgin dnb-textarea--has-content"
+    className="dnb-form-component dnb-textarea dnb-textarea--virgin dnb-textarea--has-content"
   >
     <span
       aria-hidden={true}
@@ -410,8 +410,7 @@ legend.dnb-form-label {
     padding: calc(0.5rem / 2) 1rem;
     cursor: text;
     color: inherit;
-    line-height: var(--line-height-basis);
-    transform: translateY(-0.0625rem); }
+    line-height: var(--line-height-basis); }
   .dnb-icon + .dnb-form-status--text {
     padding-left: 0.5rem; }
   .dnb-form-status__shell > .dnb-icon {
@@ -725,10 +724,12 @@ textarea.dnb-textarea {
   .dnb-textarea--stretch .dnb-textarea__shell, .dnb-textarea--stretch .dnb-textarea__textarea {
     width: 100%; }
   @media (max-width: 40em) {
-    .dnb-textarea {
+    .dnb-responsive-component .dnb-textarea {
+      display: flex;
       flex-direction: column;
-      align-items: flex-start; }
-      .dnb-textarea > .dnb-form-label {
+      align-items: flex-start;
+      margin-bottom: 0.5rem; }
+      .dnb-responsive-component .dnb-textarea > .dnb-form-label {
         margin-bottom: 0.5rem; } }
   @media screen and (-ms-high-contrast: none) {
     .dnb-textarea__inner {

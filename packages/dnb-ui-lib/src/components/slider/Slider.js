@@ -503,6 +503,7 @@ export default class Slider extends PureComponent {
     const id = this._id
     const mainParams = {
       className: classnames(
+        'dnb-form-component',
         'dnb-slider',
         reverse && 'dnb-slider--reverse',
         vertical && 'dnb-slider--vertical',

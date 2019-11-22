@@ -194,7 +194,7 @@ exports[`ToggleButton component have to match snapshot 1`] = `
                   value={null}
                 >
                   <span
-                    className="dnb-checkbox"
+                    className="dnb-form-component dnb-checkbox"
                   >
                     <span
                       className="dnb-checkbox__order"
@@ -314,7 +314,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
   vertical={null}
 >
   <div
-    className="dnb-toggle-button-group dnb-toggle-button-group--row"
+    className="dnb-form-component dnb-toggle-button-group dnb-toggle-button-group--row"
   >
     <FormRow
       class={null}
@@ -1157,8 +1157,7 @@ button.dnb-button::-moz-focus-inner {
     padding: calc(0.5rem / 2) 1rem;
     cursor: text;
     color: inherit;
-    line-height: var(--line-height-basis);
-    transform: translateY(-0.0625rem); }
+    line-height: var(--line-height-basis); }
   .dnb-icon + .dnb-form-status--text {
     padding-left: 0.5rem; }
   .dnb-form-status__shell > .dnb-icon {

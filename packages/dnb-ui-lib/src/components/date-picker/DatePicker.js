@@ -680,6 +680,7 @@ export default class DatePicker extends PureComponent {
 
     const mainParams = {
       className: classnames(
+        'dnb-form-component',
         'dnb-date-picker',
         status && `dnb-date-picker__status--${status_state}`,
         label_direction && `dnb-date-picker--${label_direction}`,

@@ -110,7 +110,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
   value="test"
 >
   <span
-    className="dnb-input dnb-input--search dnb-input--has-submit-element"
+    className="dnb-form-component dnb-input dnb-input--search dnb-input--has-submit-element"
   >
     <span
       aria-hidden={true}
@@ -465,7 +465,7 @@ exports[`Input component have to match type="text" snapshot 1`] = `
   value="test"
 >
   <span
-    className="dnb-input dnb-input--text"
+    className="dnb-form-component dnb-input dnb-input--text"
   >
     <span
       aria-hidden={true}
@@ -991,8 +991,7 @@ legend.dnb-form-label {
     padding: calc(0.5rem / 2) 1rem;
     cursor: text;
     color: inherit;
-    line-height: var(--line-height-basis);
-    transform: translateY(-0.0625rem); }
+    line-height: var(--line-height-basis); }
   .dnb-icon + .dnb-form-status--text {
     padding-left: 0.5rem; }
   .dnb-form-status__shell > .dnb-icon {
@@ -1229,14 +1228,20 @@ legend.dnb-form-label {
   .dnb-input--vertical.dnb-input--stretch .dnb-input__inner {
     width: 100%; }
   .dnb-input[class*='__status'] {
-    align-items: flex-start; }
+    align-items: flex-start;
+    line-height: var(--line-height-basis); }
     .dnb-input[class*='__status'] > .dnb-form-label {
       margin-top: 0.25rem; }
   @media (max-width: 40em) {
-    .dnb-input {
+    .dnb-responsive-component .dnb-input {
+      display: flex;
       flex-direction: column;
-      align-items: flex-start; }
-      .dnb-input > .dnb-form-label {
+      align-items: flex-start;
+      margin-bottom: 0.5rem;
+      line-height: var(--line-height-basis); }
+      .dnb-responsive-component .dnb-input__row {
+        align-items: flex-start; }
+      .dnb-responsive-component .dnb-input > .dnb-form-label {
         margin-bottom: 0.5rem; } }
   @media screen and (-ms-high-contrast: none) {
     .dnb-input {

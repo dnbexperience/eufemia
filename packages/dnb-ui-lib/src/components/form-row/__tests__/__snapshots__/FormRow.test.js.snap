@@ -314,6 +314,9 @@ legend.dnb-form-label {
     flex-direction: column; }
   .dnb-form-row--vertical-label {
     flex-direction: column; }
+    @media (max-width: 40em) {
+      .dnb-form-row--vertical-label .dnb-form-component {
+        margin-bottom: 0.5rem; } }
   .dnb-form-row > .dnb-form-status {
     margin: 0.5rem 0; }
   .dnb-form-row > .dnb-form-label--vertical {

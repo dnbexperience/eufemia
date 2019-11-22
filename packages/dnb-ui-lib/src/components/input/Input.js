@@ -312,7 +312,7 @@ export default class Input extends PureComponent {
       ...attributes
     } = props
 
-    let { value, inputState } = this.state
+    let { value, focusState, inputState } = this.state
 
     if (disabled) {
       inputState = 'disabled'
@@ -326,6 +326,7 @@ export default class Input extends PureComponent {
 
     const mainParams = {
       className: classnames(
+        'dnb-form-component',
         'dnb-input',
         `dnb-input--${type}`, //type_modifier
         size && !sizeIsNumber && `dnb-input--${size}`,
@@ -390,7 +391,7 @@ export default class Input extends PureComponent {
     if (readOnly) {
       inputParams['aria-readonly'] = inputParams.readOnly = true
     }
-    if (!hasValue && placeholder && this.state.focusState !== 'focus') {
+    if (!hasValue && placeholder && focusState !== 'focus') {
       inputParams['aria-labelledby'] = id + '-placeholder'
     }
 
@@ -443,20 +444,18 @@ export default class Input extends PureComponent {
 
           <span className="dnb-input__row">
             <span className="dnb-input__shell" {...shellParams}>
-              {!hasValue &&
-                placeholder &&
-                this.state.focusState !== 'focus' && (
-                  <span
-                    id={id + '-placeholder'}
-                    aria-hidden={this.isMac}
-                    className={classnames(
-                      'dnb-input__placeholder',
-                      align ? `dnb-input__align--${align}` : null
-                    )}
-                  >
-                    {placeholder}
-                  </span>
-                )}
+              {!hasValue && placeholder && focusState !== 'focus' && (
+                <span
+                  id={id + '-placeholder'}
+                  aria-hidden={this.isMac}
+                  className={classnames(
+                    'dnb-input__placeholder',
+                    align ? `dnb-input__align--${align}` : null
+                  )}
+                >
+                  {placeholder}
+                </span>
+              )}
 
               {InputElement || <input ref={this._ref} {...inputParams} />}
             </span>

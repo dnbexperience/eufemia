@@ -167,17 +167,6 @@
       }
     }
 
-    // Can be deleted in future
-    // &--row .dnb-form-row {
-    //   // transform: translateY(-0.5rem);
-    //   // &--nested {
-    //   //   transform: translateY(0);
-    //   // }
-    //   // @media (max-width: 40em) {
-    //   //   transform: translateY(0);
-    //   // }
-    // }
-
     .dnb-form-row {
       margin-bottom: calc(1px - 1px - var(--toggle-button-margin-bottom));
     }
