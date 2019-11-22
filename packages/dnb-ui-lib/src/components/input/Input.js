@@ -45,6 +45,7 @@ const propTypes = {
     PropTypes.node
   ]),
   label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
+  label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   status: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.func,
@@ -116,6 +117,7 @@ const defaultProps = {
   id: null,
   label: null,
   label_direction: null,
+  label_sr_only: null,
   status: null,
   input_state: null,
   status_state: 'error',
@@ -277,6 +279,7 @@ export default class Input extends PureComponent {
       size,
       label,
       label_direction,
+      label_sr_only,
       status,
       status_state,
       status_animation,
@@ -417,6 +420,7 @@ export default class Input extends PureComponent {
             for_id={id}
             text={label}
             direction={label_direction}
+            sr_only={label_sr_only}
             disabled={disabled}
           />
         )) || (

@@ -188,6 +188,7 @@ export default class Checkbox extends Component {
       global_status_id,
       label,
       label_position,
+      label_sr_only,
       title,
       disabled,
       readOnly,
@@ -262,6 +263,7 @@ export default class Checkbox extends Component {
               for_id={id}
               text={label}
               disabled={disabled}
+              sr_only={label_sr_only}
             />
           )}
 

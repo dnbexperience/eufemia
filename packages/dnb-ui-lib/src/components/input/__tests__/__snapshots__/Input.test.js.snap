@@ -24,6 +24,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
         "keep_placeholder": "keep_placeholder",
         "label": "label",
         "label_direction": "'horizontal'",
+        "label_sr_only": "label_sr_only",
         "on_blur": [Function],
         "on_change": [Function],
         "on_focus": [Function],
@@ -84,6 +85,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
   keep_placeholder={null}
   label={null}
   label_direction={null}
+  label_sr_only={null}
   on_blur={null}
   on_change={null}
   on_focus={null}
@@ -166,6 +168,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                   "keep_placeholder": "keep_placeholder",
                   "label": "label",
                   "label_direction": "'horizontal'",
+                  "label_sr_only": "label_sr_only",
                   "on_blur": [Function],
                   "on_change": [Function],
                   "on_focus": [Function],
@@ -374,6 +377,7 @@ exports[`Input component have to match type="text" snapshot 1`] = `
         "keep_placeholder": "keep_placeholder",
         "label": "label",
         "label_direction": "'horizontal'",
+        "label_sr_only": "label_sr_only",
         "on_blur": [Function],
         "on_change": [Function],
         "on_focus": [Function],
@@ -434,6 +438,7 @@ exports[`Input component have to match type="text" snapshot 1`] = `
   keep_placeholder={null}
   label={null}
   label_direction={null}
+  label_sr_only={null}
   on_blur={null}
   on_change={null}
   on_focus={null}

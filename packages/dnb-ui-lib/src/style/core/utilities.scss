@@ -179,14 +179,18 @@ $breakpoints: (
 
 // Screen reader only helper
 @mixin srOnly() {
-  border: 0;
-  clip: rect(0 0 0 0);
-  height: 1px;
-  margin: -1px;
-  overflow: hidden;
-  padding: 0;
   position: absolute;
+
+  clip: rect(0 0 0 0);
+  overflow: hidden;
+
+  height: 1px;
   width: 1px;
+
+  margin: -1px;
+  padding: 0;
+
+  border: 0;
 }
 
 // This "negates" the srOnly() helper; useful if

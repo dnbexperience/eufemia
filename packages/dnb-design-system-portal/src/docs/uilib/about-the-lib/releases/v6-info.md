@@ -52,6 +52,11 @@ color: var(--color-signal-yellow-30);
 import { settings, home } from 'dnb-ui-lib/icons/secondary'
 ```
 
+## Other features
+
+- [FormLabel](/uilib/components/form-label) got a new prop `sr_only`. This way you still can provide a **label**, but available only for screen readers.
+- [DatePicker](/uilib/components/date-picker) got a new prop `reset_button_text` to show a _Reset_ button inside the date picker.
+
 ## Resources package
 
 A new package, only containing resources needed by the DNB DCE team. This package is provided as a `tar` file.

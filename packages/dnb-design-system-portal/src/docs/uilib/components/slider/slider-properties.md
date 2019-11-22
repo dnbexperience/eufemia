@@ -18,6 +18,8 @@ draft: true
 | `subtract_title`                                | _(optional)_ give the subtract button a title for accessibility reason. Defaults to `−`.                             |
 | `add_title`                                     | _(optional)_ give the add button a title for accessibility reason. Defaults to `+`.                                  |
 | `label`                                         | _(optional)_ prepends the Form Label component. If no ID is provided, a random ID is created.                        |
+| `label_direction`                               | _(optional)_ use `label_direction="vertical"` to change the label layout direction. Defaults to `horizontal`.        |
+| `label_sr_only`                                 | _(optional)_ use `true` to make the label only readable by screen readers.                                           |
 | `status`                                        | _(optional)_ text with a status message. The style defaults to an error message.                                     |
 | `status_state`                                  | _(optional)_ defines the state of the status. Currently there are two statuses `[error, info]`. Defaults to `error`. |
 | `global_status_id`                              | _(optional)_ the `status_id` used for the target [GlobalStatus](/uilib/components/global-status).                    |

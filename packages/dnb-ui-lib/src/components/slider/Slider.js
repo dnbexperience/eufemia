@@ -40,6 +40,7 @@ const propTypes = {
     PropTypes.node
   ]),
   label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
+  label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   status: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.func,
@@ -78,6 +79,7 @@ const defaultProps = {
   id: null,
   label: null,
   label_direction: null,
+  label_sr_only: null,
   status: null,
   status_state: 'error',
   status_animation: null,
@@ -468,6 +470,7 @@ export default class Slider extends PureComponent {
     const {
       label,
       label_direction,
+      label_sr_only,
       status,
       status_state,
       status_animation,
@@ -601,7 +604,13 @@ export default class Slider extends PureComponent {
       <span {...mainParams}>
         {label && (
           // do not use "for_id" as the ID element is not a fo
-          <FormLabel id={id + '-label'} text={label} disabled={disabled} />
+          <FormLabel
+            id={id + '-label'}
+            text={label}
+            disabled={disabled}
+            direction={label_direction}
+            sr_only={label_sr_only}
+          />
         )}
         <span className="dnb-slider__wrapper">
           {showStatus && (
