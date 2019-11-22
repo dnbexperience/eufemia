@@ -20,9 +20,6 @@
     cursor: text;
     color: inherit;
     line-height: var(--line-height-basis);
-
-    // vertical alignment
-    transform: translateY(-0.0625rem);
   }
 
   .dnb-icon + &--text {
