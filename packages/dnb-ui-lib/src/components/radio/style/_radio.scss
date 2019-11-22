@@ -145,9 +145,8 @@
     display: inline-flex;
     flex-direction: row;
 
-    // is needed for vertical alignment of the whole component
-    font-size: var(--font-size-basis);
-    line-height: var(--line-height-basis);
+    // if we use --line-height-basis here, we get a total height of 33px
+    line-height: var(--line-height-x-small--em);
 
     // default spacing
     .dnb-radio {
@@ -179,6 +178,13 @@
     .dnb-form-row {
       // because of our bottom margins we have on the componens
       margin-bottom: calc(1px - 1px - var(--radio-margin-bottom));
+
+      // & > .dnb-form-label {
+      //   // opacity: 0.2;
+      //   //   font-size: var(--font-size-basis);
+      //   //   // line-height: var(--line-height-basis);
+      //   //   // line-height: var(--line-height-x-small--em);
+      // }
     }
     .dnb-form-row--vertical & {
       display: flex;
@@ -201,9 +207,6 @@
     }
     &__order {
       align-items: center;
-    }
-    &__shell {
-      transform: translateY(0);
     }
 
     &,
