@@ -25,8 +25,9 @@ steps:
     when:
       branch:
         exclude:
-          - ftr/*
           - fix/*
+          - ftr/*
+          - rc/*
 
   - name: run integration tests
     image: tujoworker/docker-node-puppeteer
@@ -58,8 +59,8 @@ steps:
           - alpha
           - next
           - develop
-          - rc/*
           - ftr/*
+          - rc/*
 
   - name: make build of portal
     image: tujoworker/docker-node-puppeteer
@@ -85,8 +86,8 @@ steps:
           - alpha
           - next
           - develop
-          - rc/*
           - ftr/*
+          - rc/*
 
   - name: run screenshot tests
     image: tujoworker/docker-node-puppeteer
@@ -112,8 +113,8 @@ steps:
           - alpha
           - next
           - develop
-          - rc/*
           - ftr/*
+          - rc/*
 
   - name: deploy portal
     image: tujoworker/docker-node-puppeteer
