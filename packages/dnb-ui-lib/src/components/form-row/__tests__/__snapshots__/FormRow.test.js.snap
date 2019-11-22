@@ -36,6 +36,12 @@ exports[`FormRow component have to match snapshot 1`] = `
       <div
         className="dnb-form-row dnb-form-row--horizontal dnb-form-row--horizontal-label className class dnb-form-row__indent--indent dnb-section dnb-section--section_style dnb-section--spacing-section_spacing"
       >
+        <span
+          aria-hidden={true}
+          className="dnb-form-row__helper"
+        >
+          ‌
+        </span>
         <FormLabel
           class={null}
           className="dnb-form-row__label label_class"
@@ -52,12 +58,12 @@ exports[`FormRow component have to match snapshot 1`] = `
           vertical={null}
         >
           <Element
-            className="dnb-form-label dnb-form-label--horizontal dnb-form-row__label label_class"
+            className="dnb-form-label dnb-form-row__label label_class"
             id="label_id"
             is="legend"
           >
             <legend
-              className="dnb-form-label dnb-form-label--horizontal dnb-form-row__label label_class"
+              className="dnb-form-label dnb-form-row__label label_class"
               id="label_id"
             >
               label
@@ -234,6 +240,14 @@ legend.dnb-form-label {
     display: inline-flex;
     flex: 1;
     width: 100%; }
+  .dnb-form-row__helper {
+    clip: rect(0, 0, 0, 0);
+    width: 1px;
+    margin-left: -1px;
+    overflow: hidden; }
+  .dnb-form-row--vertical .dnb-form-row__helper {
+    height: 1px;
+    margin-top: -1px; }
   .dnb-form-row:not(.dnb-form-row--vertical) > .dnb-form-row__content {
     align-items: baseline; }
     .dnb-form-row:not(.dnb-form-row--vertical) > .dnb-form-row__content .dnb-form-label {
