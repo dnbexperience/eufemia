@@ -58,7 +58,7 @@ exports[`Checkbox component have to match snapshot 1`] = `
   value={null}
 >
   <span
-    className="dnb-checkbox dnb-checkbox--label-position-left"
+    className="dnb-form-component dnb-checkbox dnb-checkbox--label-position-left"
   >
     <span
       className="dnb-checkbox__order"
@@ -411,8 +411,7 @@ legend.dnb-form-label {
     padding: calc(0.5rem / 2) 1rem;
     cursor: text;
     color: inherit;
-    line-height: var(--line-height-basis);
-    transform: translateY(-0.0625rem); }
+    line-height: var(--line-height-basis); }
   .dnb-icon + .dnb-form-status--text {
     padding-left: 0.5rem; }
   .dnb-form-status__shell > .dnb-icon {

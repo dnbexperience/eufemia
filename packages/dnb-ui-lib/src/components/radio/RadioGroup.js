@@ -182,6 +182,7 @@ export default class RadioGroup extends PureComponent {
     const showStatus = status && status !== 'error'
 
     const classes = classnames(
+      'dnb-form-component',
       'dnb-radio-group',
       status && `dnb-radio-group__status--${status_state}`,
       `dnb-radio-group--${layout_direction}`,

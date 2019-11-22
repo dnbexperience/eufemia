@@ -138,11 +138,17 @@
     }
   }
 
-  @media (max-width: 40em) {
-    flex-direction: column;
-    align-items: flex-start;
-    > .dnb-form-label {
+  .dnb-responsive-component & {
+    @media (max-width: 40em) {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+
       margin-bottom: 0.5rem;
+
+      > .dnb-form-label {
+        margin-bottom: 0.5rem;
+      }
     }
   }
 

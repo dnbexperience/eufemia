@@ -56,6 +56,7 @@ import { settings, home } from 'dnb-ui-lib/icons/secondary'
 
 - [FormLabel](/uilib/components/form-label) got a new prop `sr_only`. This way you still can provide a **label**, but available only for screen readers.
 - [DatePicker](/uilib/components/date-picker) got a new prop `reset_button_text` to show a _Reset_ button inside the date picker.
+- New helper class: `dnb-responsive-component` Makes some component form components, like [Input](/uilib/components/input) react to mobile sized screens. But as this can have some negative effects to have this enabled by default, you can enable this optionally by using this helper class.
 
 ## Resources package
 
