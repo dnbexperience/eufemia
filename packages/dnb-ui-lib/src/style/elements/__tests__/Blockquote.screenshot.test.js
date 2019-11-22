@@ -22,4 +22,16 @@ describe('Blockquote screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+  it('have to match "blockquote" with top aligned graphic and no background', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-dnb-test="blockquote-top-no-background"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+  it('have to match "blockquote" with no background', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-dnb-test="blockquote-no-background"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })

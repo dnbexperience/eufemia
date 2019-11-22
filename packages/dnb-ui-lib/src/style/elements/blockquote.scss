@@ -10,8 +10,8 @@
   margin: 0;
   padding: 1.5rem;
 
-  font-size: var(--font-size-basis);
-  line-height: var(--line-height-basis);
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
 
   color: var(--color-mint-green);
   background-color: var(--color-ocean-green);
@@ -46,24 +46,13 @@
     padding-bottom: 3rem;
   }
 
-  .dnb-anchor,
-  a {
-    @include useAnchorContrastStyle();
-  }
-
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6,
-  .dnb-h1,
-  .dnb-h2,
-  .dnb-h3,
-  .dnb-h4,
-  .dnb-h5,
-  .dnb-h6 {
-    color: var(--color-mint-green);
+  &.dnb-blockquote--no-background {
+    background-color: transparent;
+    color: var(--color-black);
+    &::before {
+      // simulate the color #333333 - this makes it 100% the same
+      filter: grayscale(1) brightness(24%);
+    }
   }
 
   .dnb-cite,
@@ -83,6 +72,37 @@
       display: inline-block;
       padding-right: 0.5rem;
     }
+  }
+
+  // make contrast
+  &:not(.dnb-blockquote--no-background) {
+    .dnb-anchor,
+    a {
+      @include useAnchorContrastStyle();
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    .dnb-h1,
+    .dnb-h2,
+    .dnb-h3,
+    .dnb-h4,
+    .dnb-h5,
+    .dnb-h6 {
+      color: var(--color-mint-green);
+    }
+
+    // .dnb-cite,
+    // .dnb-footer,
+    // .dnb-figcaption,
+    // cite,
+    // footer,
+    // figcaption {
+    // }
   }
 }
 @mixin blockquoteTag() {
