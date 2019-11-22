@@ -23,13 +23,24 @@
   display: inline-flex;
   align-items: center;
 
+  font-size: var(--input-font-size);
+  line-height: var(--input-height);
+
+  // if no label is provided, then make sure we have some text to align the button
+  &__helper {
+    @include helper();
+  }
+  &--vertical &__helper {
+    @include helperVertical();
+  }
+
   &__inner {
     display: inline-flex;
     flex-direction: column;
 
     width: auto;
 
-    font-size: var(--input-font-size);
+    line-height: var(--input-height);
   }
 
   &__shell {
@@ -39,9 +50,6 @@
     align-items: center;
 
     border: var(--input-border-width) solid var(--color-sea-green-alt);
-
-    // centering type="file" - here we can actually keep it as pixels
-    line-height: calc(var(--input-height) - 2px);
   }
 
   &__input {
@@ -59,11 +67,9 @@
     opacity: 1; // iOS fix
   }
 
-  // if no label is provided, then make sure we have some text to align the button
-  &__helper {
-    clip: rect(0, 0, 0, 0);
-    width: 0;
-    overflow: hidden;
+  // centering type="file" - here we can actually keep it as pixels
+  &__input[type='file'] {
+    line-height: calc(var(--input-height) - 2px);
   }
 
   &__shell,
@@ -95,9 +101,6 @@
     top: 0;
     left: 0;
     overflow: hidden;
-
-    // vertical alignment
-    transform: translateY(0.0625rem);
 
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -141,6 +144,7 @@
 
   &__submit-element {
     margin-left: calc(1px - 1px - var(--input-height));
+    line-height: var(--line-height-basis);
   }
 
   &__submit-button {
@@ -156,6 +160,7 @@
   }
 
   &--medium {
+    &,
     .dnb-input__shell {
       line-height: var(--input-height--medium);
     }
@@ -184,6 +189,7 @@
   }
 
   &--large {
+    &,
     .dnb-input__shell {
       line-height: var(--input-height--large);
     }
@@ -240,17 +246,11 @@
   &--vertical {
     flex-direction: column;
     align-items: flex-start;
+    // line-height: var(--line-height-basis);
   }
-  &--vertical &__helper {
-    height: 0;
-    line-height: var(--input-height);
-  }
-  &--vertical#{&}--medium &__helper {
-    line-height: var(--input-height--medium);
-  }
-  &--vertical#{&}--large &__helper {
-    line-height: var(--input-height--large);
-  }
+  // &--vertical &__row {
+  //   align-items: flex-start;
+  // }
 
   // make the input full width
   &--stretch {
@@ -268,19 +268,38 @@
     width: 100%;
   }
 
+  & > .dnb-form-label {
+    line-height: var(--font-size-basis);
+  }
+
   &[class*='__status'] {
     align-items: flex-start;
-    > .dnb-form-label {
+    line-height: var(--line-height-basis);
+
+    & > .dnb-form-label {
       // vertical align the current font
       margin-top: 0.25rem;
     }
   }
 
-  @media (max-width: 40em) {
-    flex-direction: column;
-    align-items: flex-start;
-    > .dnb-form-label {
+  .dnb-responsive-component & {
+    @media (max-width: 40em) {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+
       margin-bottom: 0.5rem;
+
+      // helps to stay in alignment with suffix
+      &__row {
+        align-items: flex-start;
+      }
+
+      & > .dnb-form-label {
+        margin-bottom: 0.5rem;
+      }
+
+      line-height: var(--line-height-basis);
     }
   }
 

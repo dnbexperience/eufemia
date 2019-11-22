@@ -26,11 +26,17 @@ exports[`Switch component have to match snapshot 1`] = `
   value="value"
 >
   <span
-    className="dnb-switch className class dnb-switch--label-position-left"
+    className="dnb-form-component dnb-switch className class dnb-switch--label-position-left"
   >
     <span
       className="dnb-switch__order"
     >
+      <span
+        aria-hidden={true}
+        className="dnb-switch__helper2"
+      >
+        ‌
+      </span>
       <FormLabel
         class={null}
         className={null}
@@ -41,6 +47,7 @@ exports[`Switch component have to match snapshot 1`] = `
         id="id-label"
         label_direction={null}
         render_content={null}
+        sr_only={null}
         text="label"
         title={null}
         vertical={null}
@@ -80,12 +87,6 @@ exports[`Switch component have to match snapshot 1`] = `
             type="checkbox"
             value=""
           />
-          <span
-            aria-hidden={true}
-            className="dnb-switch__helper"
-          >
-            -
-          </span>
           <span
             aria-hidden={true}
             className="dnb-switch__background"
@@ -405,8 +406,7 @@ legend.dnb-form-label {
     padding: calc(0.5rem / 2) 1rem;
     cursor: text;
     color: inherit;
-    line-height: var(--line-height-basis);
-    transform: translateY(-0.0625rem); }
+    line-height: var(--line-height-basis); }
   .dnb-icon + .dnb-form-status--text {
     padding-left: 0.5rem; }
   .dnb-form-status__shell > .dnb-icon {
@@ -494,18 +494,21 @@ legend.dnb-form-label {
     */ }
   .dnb-switch__inner {
     display: inline-flex;
-    flex-direction: column; }
+    flex-direction: column;
+    justify-content: center; }
   .dnb-switch__helper {
     clip: rect(0, 0, 0, 0);
-    width: 0;
-    overflow: hidden; }
+    width: 1px;
+    margin-left: -1px;
+    overflow: hidden;
+    height: 1px;
+    margin-top: -1px; }
   .dnb-switch__shell {
     user-select: none;
     -webkit-user-select: none;
     position: relative;
     display: flex;
-    align-items: center;
-    transform: translateY(0.0625rem); }
+    align-items: center; }
   .dnb-switch__focus, .dnb-switch__button {
     position: absolute;
     z-index: 4;
@@ -558,7 +561,7 @@ legend.dnb-form-label {
     margin-bottom: 0; }
   .dnb-switch__order {
     display: inline-flex;
-    font-size: var(--font-size-basis);
+    font-size: var(--font-size-small);
     line-height: var(--line-height-basis); }
   .dnb-switch--label-position-left .dnb-switch__order .dnb-switch__inner {
     order: 2; }
@@ -575,8 +578,8 @@ legend.dnb-form-label {
     margin-left: 1rem; }
   .dnb-switch--label-position-right .dnb-switch__order + .dnb-form-status {
     order: 3;
-    vertical-align: bottom;
-    margin-top: 0.5rem; }
+    margin-top: 0.5rem;
+    vertical-align: bottom; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-switch {
       vertical-align: text-bottom; }

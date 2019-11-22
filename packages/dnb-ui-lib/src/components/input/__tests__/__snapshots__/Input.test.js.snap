@@ -24,6 +24,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
         "keep_placeholder": "keep_placeholder",
         "label": "label",
         "label_direction": "'horizontal'",
+        "label_sr_only": "label_sr_only",
         "on_blur": [Function],
         "on_change": [Function],
         "on_focus": [Function],
@@ -84,6 +85,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
   keep_placeholder={null}
   label={null}
   label_direction={null}
+  label_sr_only={null}
   on_blur={null}
   on_change={null}
   on_focus={null}
@@ -108,13 +110,13 @@ exports[`Input component have to match type="search" snapshot 1`] = `
   value="test"
 >
   <span
-    className="dnb-input dnb-input--search dnb-input--has-submit-element"
+    className="dnb-form-component dnb-input dnb-input--search dnb-input--has-submit-element"
   >
     <span
       aria-hidden={true}
       className="dnb-input__helper"
     >
-      -
+      ‌
     </span>
     <span
       className="dnb-input__inner"
@@ -166,6 +168,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                   "keep_placeholder": "keep_placeholder",
                   "label": "label",
                   "label_direction": "'horizontal'",
+                  "label_sr_only": "label_sr_only",
                   "on_blur": [Function],
                   "on_change": [Function],
                   "on_focus": [Function],
@@ -315,27 +318,29 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                         className="dnb-icon dnb-button__icon"
                         role="img"
                       >
-                        <search>
-                          <svg
-                            fill="none"
-                            height={16}
-                            viewBox="0 0 17 17"
-                            width={16}
-                          >
-                            <g
-                              clipPath="url(#clip-06a943)"
-                              stroke="#000"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={1.5}
+                        <span>
+                          <search>
+                            <svg
+                              fill="none"
+                              height={16}
+                              viewBox="0 0 17 17"
+                              width={16}
                             >
-                              <path
-                                d="M9.055 11.937a5.445 5.445 0 10-4.26-10.023 5.445 5.445 0 004.26 10.023zM10.775 10.775L15 14.999"
-                              />
-                            </g>
-                            <defs />
-                          </svg>
-                        </search>
+                              <g
+                                clipPath="url(#clip-06a943)"
+                                stroke="#000"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={1.5}
+                              >
+                                <path
+                                  d="M9.055 11.937a5.445 5.445 0 10-4.26-10.023 5.445 5.445 0 004.26 10.023zM10.775 10.775L15 14.999"
+                                />
+                              </g>
+                              <defs />
+                            </svg>
+                          </search>
+                        </span>
                       </span>
                     </IconPrimary>
                   </Content>
@@ -374,6 +379,7 @@ exports[`Input component have to match type="text" snapshot 1`] = `
         "keep_placeholder": "keep_placeholder",
         "label": "label",
         "label_direction": "'horizontal'",
+        "label_sr_only": "label_sr_only",
         "on_blur": [Function],
         "on_change": [Function],
         "on_focus": [Function],
@@ -434,6 +440,7 @@ exports[`Input component have to match type="text" snapshot 1`] = `
   keep_placeholder={null}
   label={null}
   label_direction={null}
+  label_sr_only={null}
   on_blur={null}
   on_change={null}
   on_focus={null}
@@ -458,13 +465,13 @@ exports[`Input component have to match type="text" snapshot 1`] = `
   value="test"
 >
   <span
-    className="dnb-input dnb-input--text"
+    className="dnb-form-component dnb-input dnb-input--text"
   >
     <span
       aria-hidden={true}
       className="dnb-input__helper"
     >
-      -
+      ‌
     </span>
     <span
       className="dnb-input__inner"
@@ -616,17 +623,18 @@ exports[`Input scss have to match snapshot 1`] = `
 */
 .dnb-icon {
   display: inline-block;
-  vertical-align: middle;
-  font-size: inherit;
-  line-height: var(--line-height-x-small--em);
+  line-height: 1;
+  color: inherit;
   width: 1em;
   height: 1em; }
   .dnb-icon img,
   .dnb-icon svg {
     width: inherit;
     height: inherit;
-    vertical-align: top;
     shape-rendering: geometricPrecision; }
+  .dnb-icon > span {
+    width: inherit;
+    height: inherit; }
   .dnb-icon svg[width='100%'] {
     width: inherit; }
   .dnb-icon svg[height='100%'] {
@@ -734,11 +742,14 @@ exports[`Input scss have to match snapshot 1`] = `
   border: var(--button-border-width) solid transparent;
   border-radius: var(--button-border-radius);
   text-decoration: none; }
-  .dnb-button__icon.dnb-icon {
+  .dnb-button__icon {
     font-size: var(--font-size-small); }
-    .dnb-button__icon.dnb-icon:not(.dnb-icon) svg:not([width]):not([height]) {
+    .dnb-button__icon svg:not([width]):not([height]) {
       width: var(--button-icon-size);
       height: var(--button-icon-size); }
+    .dnb-button__icon.dnb-icon > span {
+      display: inline-flex;
+      vertical-align: top; }
   .dnb-button__text {
     font-size: var(--button-font-size);
     line-height: var(--line-height-x-small--em);
@@ -980,8 +991,7 @@ legend.dnb-form-label {
     padding: calc(0.5rem / 2) 1rem;
     cursor: text;
     color: inherit;
-    line-height: var(--line-height-basis);
-    transform: translateY(-0.0625rem); }
+    line-height: var(--line-height-basis); }
   .dnb-icon + .dnb-form-status--text {
     padding-left: 0.5rem; }
   .dnb-form-status__shell > .dnb-icon {
@@ -1068,18 +1078,27 @@ legend.dnb-form-label {
 
 .dnb-input {
   display: inline-flex;
-  align-items: center; }
+  align-items: center;
+  font-size: var(--input-font-size);
+  line-height: var(--input-height); }
+  .dnb-input__helper {
+    clip: rect(0, 0, 0, 0);
+    width: 1px;
+    margin-left: -1px;
+    overflow: hidden; }
+  .dnb-input--vertical .dnb-input__helper {
+    height: 1px;
+    margin-top: -1px; }
   .dnb-input__inner {
     display: inline-flex;
     flex-direction: column;
     width: auto;
-    font-size: var(--input-font-size); }
+    line-height: var(--input-height); }
   .dnb-input__shell {
     position: relative;
     display: flex;
     align-items: center;
-    border: var(--input-border-width) solid var(--color-sea-green-alt);
-    line-height: calc(var(--input-height) - 2px); }
+    border: var(--input-border-width) solid var(--color-sea-green-alt); }
   .dnb-input__input {
     border: none;
     outline: none;
@@ -1090,10 +1109,8 @@ legend.dnb-form-label {
     user-select: none;
     -webkit-user-select: none;
     opacity: 1; }
-  .dnb-input__helper {
-    clip: rect(0, 0, 0, 0);
-    width: 0;
-    overflow: hidden; }
+  .dnb-input__input[type='file'] {
+    line-height: calc(var(--input-height) - 2px); }
   .dnb-input__shell, .dnb-input__input {
     height: var(--input-height);
     border-radius: var(--input-border-radius); }
@@ -1114,7 +1131,6 @@ legend.dnb-form-label {
     top: 0;
     left: 0;
     overflow: hidden;
-    transform: translateY(0.0625rem);
     white-space: nowrap;
     text-overflow: ellipsis;
     line-height: inherit; }
@@ -1138,7 +1154,8 @@ legend.dnb-form-label {
     color: inherit;
     padding-left: 0.5rem; }
   .dnb-input__submit-element {
-    margin-left: calc(1px - 1px - var(--input-height)); }
+    margin-left: calc(1px - 1px - var(--input-height));
+    line-height: var(--line-height-basis); }
   .dnb-input__submit-button {
     position: relative;
     z-index: 2;
@@ -1146,6 +1163,7 @@ legend.dnb-form-label {
     /* IE needs this to stay centered */ }
     .dnb-input__submit-button__button {
       border-radius: 50%; }
+  .dnb-input--medium,
   .dnb-input--medium .dnb-input__shell {
     line-height: var(--input-height--medium); }
   .dnb-input--medium .dnb-input__shell,
@@ -1165,6 +1183,7 @@ legend.dnb-form-label {
   .dnb-input--medium.dnb-input--has-submit-element .dnb-input__placeholder,
   .dnb-input--medium.dnb-input--has-submit-element .dnb-input__input {
     padding-right: calc(var(--input-padding--medium) * 2.5); }
+  .dnb-input--large,
   .dnb-input--large .dnb-input__shell {
     line-height: var(--input-height--large); }
   .dnb-input--large .dnb-input__shell,
@@ -1200,13 +1219,6 @@ legend.dnb-form-label {
   .dnb-input--vertical {
     flex-direction: column;
     align-items: flex-start; }
-  .dnb-input--vertical .dnb-input__helper {
-    height: 0;
-    line-height: var(--input-height); }
-  .dnb-input--vertical.dnb-input--medium .dnb-input__helper {
-    line-height: var(--input-height--medium); }
-  .dnb-input--vertical.dnb-input--large .dnb-input__helper {
-    line-height: var(--input-height--large); }
   .dnb-input--stretch {
     display: flex; }
   .dnb-input--stretch .dnb-input__inner {
@@ -1215,15 +1227,23 @@ legend.dnb-form-label {
     width: 100%; }
   .dnb-input--vertical.dnb-input--stretch .dnb-input__inner {
     width: 100%; }
+  .dnb-input > .dnb-form-label {
+    line-height: var(--font-size-basis); }
   .dnb-input[class*='__status'] {
-    align-items: flex-start; }
+    align-items: flex-start;
+    line-height: var(--line-height-basis); }
     .dnb-input[class*='__status'] > .dnb-form-label {
       margin-top: 0.25rem; }
   @media (max-width: 40em) {
-    .dnb-input {
+    .dnb-responsive-component .dnb-input {
+      display: flex;
       flex-direction: column;
-      align-items: flex-start; }
-      .dnb-input > .dnb-form-label {
+      align-items: flex-start;
+      margin-bottom: 0.5rem;
+      line-height: var(--line-height-basis); }
+      .dnb-responsive-component .dnb-input__row {
+        align-items: flex-start; }
+      .dnb-responsive-component .dnb-input > .dnb-form-label {
         margin-bottom: 0.5rem; } }
   @media screen and (-ms-high-contrast: none) {
     .dnb-input {

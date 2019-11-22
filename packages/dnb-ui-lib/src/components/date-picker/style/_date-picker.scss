@@ -38,6 +38,9 @@
   display: inline-flex;
   align-items: center;
 
+  font-size: var(--font-size-basis);
+  line-height: var(--date-picker-input-height);
+
   &__inner {
     display: inline-flex;
     flex-direction: column;
@@ -45,9 +48,10 @@
 
   // if no label is provided, then make sure we have some text to align the button
   &__helper {
-    clip: rect(0, 0, 0, 0);
-    width: 0;
-    overflow: hidden;
+    @include helper();
+  }
+  &--vertical &__helper {
+    @include helperVertical();
   }
 
   &__shell {
@@ -386,10 +390,6 @@
     align-items: flex-start;
     flex-direction: column;
   }
-  &--vertical &__helper {
-    height: 0;
-    line-height: var(--date-picker-input-height);
-  }
 
   &[class*='__status'] {
     align-items: flex-start;
@@ -399,15 +399,20 @@
     }
   }
 
-  @media (max-width: 40em) {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    > .dnb-form-label {
+  .dnb-responsive-component & {
+    @media (max-width: 40em) {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+
       margin-bottom: 0.5rem;
-    }
-    &__helper {
-      display: none;
+
+      > .dnb-form-label {
+        margin-bottom: 0.5rem;
+      }
+      &__helper {
+        display: none;
+      }
     }
   }
 

@@ -46,6 +46,7 @@ const propTypes = {
     PropTypes.node
   ]),
   label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
+  label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   status: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.func,
@@ -123,6 +124,7 @@ const defaultProps = {
   icon_position: null,
   label: null,
   label_direction: null,
+  label_sr_only: null,
   status: null,
   status_state: 'error',
   status_animation: null,
@@ -905,6 +907,7 @@ export default class Dropdown extends PureComponent {
       title: titleProp,
       label,
       label_direction,
+      label_sr_only,
       icon: _icon, // eslint-disable-line
       icon_position: _icon_position, // eslint-disable-line
       size,
@@ -967,6 +970,7 @@ export default class Dropdown extends PureComponent {
 
     const mainParams = {
       className: classnames(
+        'dnb-form-component',
         'dnb-dropdown',
         opened && 'dnb-dropdown--opened',
         hidden && 'dnb-dropdown--hidden',
@@ -1048,19 +1052,20 @@ export default class Dropdown extends PureComponent {
 
     return (
       <span {...mainParams}>
-        {(label && (
+        <span className="dnb-dropdown__helper" aria-hidden>
+          &zwnj;
+        </span>
+
+        {label && (
           <FormLabel
             id={id + '-label'}
             for_id={id}
             text={label}
             direction={label_direction}
+            sr_only={label_sr_only}
             disabled={disabled}
             onMouseDown={this.toggleVisible}
           />
-        )) || (
-          <span className="dnb-dropdown__helper" aria-hidden>
-            {'-'}
-          </span>
         )}
 
         <span className="dnb-dropdown__inner" ref={this._ref}>

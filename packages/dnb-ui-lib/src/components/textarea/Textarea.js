@@ -38,6 +38,7 @@ const propTypes = {
     PropTypes.node
   ]),
   label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
+  label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   status: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.func,
@@ -84,6 +85,7 @@ const defaultProps = {
   id: null,
   label: null,
   label_direction: null,
+  label_sr_only: null,
   status: null,
   textarea_state: null,
   status_state: 'error',
@@ -216,6 +218,7 @@ export default class Textarea extends PureComponent {
     const {
       label,
       label_direction,
+      label_sr_only,
       status,
       status_state,
       status_animation,
@@ -288,6 +291,7 @@ export default class Textarea extends PureComponent {
 
     const mainParams = {
       className: classnames(
+        'dnb-form-component',
         'dnb-textarea',
         `dnb-textarea--${textareaState}`,
         hasValue && 'dnb-textarea--has-content',
@@ -326,13 +330,18 @@ export default class Textarea extends PureComponent {
 
     return (
       <span {...mainParams}>
+        <span className="dnb-textarea__helper" aria-hidden>
+          &zwnj;
+        </span>
+
         {label && (
           <FormLabel
             id={id + '-label'}
             for_id={id}
             text={label}
-            disabled={disabled}
             direction={label_direction}
+            sr_only={label_sr_only}
+            disabled={disabled}
           />
         )}
         <span {...innerParams}>

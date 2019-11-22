@@ -31,6 +31,7 @@ export const propTypes = {
     PropTypes.node
   ]),
   label_direction: PropTypes.oneOf(['vertical', 'horizontal']),
+  label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   label_id: PropTypes.string,
   label_class: PropTypes.string,
   no_label: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -65,6 +66,7 @@ const defaultProps = {
   id: null,
   label: null,
   label_direction: null,
+  label_sr_only: null,
   label_id: null,
   label_class: null,
   no_label: false,
@@ -142,6 +144,7 @@ export default class FormRow extends PureComponent {
     let {
       label,
       label_direction,
+      label_sr_only,
       label_id,
       label_class,
       no_fieldset,
@@ -185,7 +188,7 @@ export default class FormRow extends PureComponent {
         (isTrue(vertical) || label_direction) &&
           `dnb-form-row--${
             isTrue(vertical) ? 'vertical' : label_direction
-          }-label`,
+          }-label`, // <-- has label
         indent &&
           !(
             isNested &&
@@ -237,6 +240,10 @@ export default class FormRow extends PureComponent {
       <Context.Provider value={context}>
         <Fieldset useFieldset={useFieldset}>
           <div {...params}>
+            <span className="dnb-form-row__helper" aria-hidden>
+              &zwnj;
+            </span>
+
             {label && (
               <FormLabel
                 className={classnames('dnb-form-row__label', label_class)}
@@ -245,6 +252,7 @@ export default class FormRow extends PureComponent {
                 text={label}
                 element={useFieldset ? 'legend' : 'label'}
                 direction={label_direction}
+                sr_only={label_sr_only}
                 disabled={isTrue(disabled)}
               />
             )}

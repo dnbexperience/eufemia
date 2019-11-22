@@ -23,6 +23,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
   input_element={null}
   label={null}
   label_direction={null}
+  label_sr_only={null}
   link={false}
   locale={
     Object {
@@ -85,13 +86,13 @@ exports[`DatePicker component have to match snapshot 1`] = `
   title={null}
 >
   <span
-    className="dnb-date-picker dnb-date-picker--show-footer dnb-date-picker__status--error dnb-date-picker--hidden dnb-date-picker--show-input"
+    className="dnb-form-component dnb-date-picker dnb-date-picker--show-footer dnb-date-picker__status--error dnb-date-picker--hidden dnb-date-picker--show-input"
   >
     <span
       aria-hidden={true}
       className="dnb-date-picker__helper"
     >
-      -
+      ‌
     </span>
     <span
       className="dnb-date-picker__inner"
@@ -142,37 +143,39 @@ exports[`DatePicker component have to match snapshot 1`] = `
                 className="dnb-icon dnb-icon--large"
                 role="img"
               >
-                <ErrorIcon>
-                  <svg
-                    fill="none"
-                    height="32"
-                    viewBox="0 0 32 32"
-                    width="32"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M16 25a.5.5 0 100 1 .5.5 0 000-1v0"
-                      stroke="#000"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="1.5"
-                    />
-                    <path
-                      d="M16 21V11"
-                      stroke="#000"
-                      strokeLinecap="round"
-                      strokeWidth="1.5"
-                    />
-                    <path
-                      clipRule="evenodd"
-                      d="M18.161 2.347a2.408 2.408 0 00-4.322 0L1.208 28.077A2.028 2.028 0 003.029 31h25.942a2.028 2.028 0 001.821-2.923l-12.63-25.73z"
-                      stroke="#000"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="1.5"
-                    />
-                  </svg>
-                </ErrorIcon>
+                <span>
+                  <ErrorIcon>
+                    <svg
+                      fill="none"
+                      height="32"
+                      viewBox="0 0 32 32"
+                      width="32"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M16 25a.5.5 0 100 1 .5.5 0 000-1v0"
+                        stroke="#000"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="1.5"
+                      />
+                      <path
+                        d="M16 21V11"
+                        stroke="#000"
+                        strokeLinecap="round"
+                        strokeWidth="1.5"
+                      />
+                      <path
+                        clipRule="evenodd"
+                        d="M18.161 2.347a2.408 2.408 0 00-4.322 0L1.208 28.077A2.028 2.028 0 003.029 31h25.942a2.028 2.028 0 001.821-2.923l-12.63-25.73z"
+                        stroke="#000"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="1.5"
+                      />
+                    </svg>
+                  </ErrorIcon>
+                </span>
               </span>
             </Icon>
             <span
@@ -232,6 +235,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
             keep_placeholder={null}
             label={null}
             label_direction={null}
+            label_sr_only={null}
             on_blur={null}
             on_change={null}
             on_focus={null}
@@ -273,13 +277,13 @@ exports[`DatePicker component have to match snapshot 1`] = `
             value="initval"
           >
             <span
-              className="dnb-input dnb-input--text dnb-input--has-submit-element dnb-input__status--error"
+              className="dnb-form-component dnb-input dnb-input--text dnb-input--has-submit-element dnb-input__status--error"
             >
               <span
                 aria-hidden={true}
                 className="dnb-input__helper"
               >
-                -
+                ‌
               </span>
               <span
                 className="dnb-input__inner"
@@ -845,21 +849,23 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                   className="dnb-icon dnb-button__icon"
                                   role="img"
                                 >
-                                  <calendar>
-                                    <svg
-                                      fill="none"
-                                      height={16}
-                                      viewBox="0 0 17 17"
-                                      width={16}
-                                    >
-                                      <path
-                                        clipRule="evenodd"
-                                        d="M4.905 0c.44 0 .797.357.797.797v1.257h5.596V.797a.797.797 0 111.594 0v1.257h1.718A2.39 2.39 0 0117 4.444V14.61A2.39 2.39 0 0114.61 17H2.39A2.39 2.39 0 010 14.61V4.444a2.39 2.39 0 012.39-2.39h1.719V.797c0-.44.356-.797.796-.797zm6.393 3.648v.744a.797.797 0 101.594 0v-.744h1.718c.44 0 .797.356.797.796v1.719H1.593V4.444c0-.44.357-.796.797-.796h1.719v.744a.797.797 0 001.593 0v-.744h5.596zM1.593 7.756h13.814v6.854c0 .44-.357.797-.797.797H2.39a.797.797 0 01-.797-.797V7.756z"
-                                        fill="#000"
-                                        fillRule="evenodd"
-                                      />
-                                    </svg>
-                                  </calendar>
+                                  <span>
+                                    <calendar>
+                                      <svg
+                                        fill="none"
+                                        height={16}
+                                        viewBox="0 0 17 17"
+                                        width={16}
+                                      >
+                                        <path
+                                          clipRule="evenodd"
+                                          d="M4.905 0c.44 0 .797.357.797.797v1.257h5.596V.797a.797.797 0 111.594 0v1.257h1.718A2.39 2.39 0 0117 4.444V14.61A2.39 2.39 0 0114.61 17H2.39A2.39 2.39 0 010 14.61V4.444a2.39 2.39 0 012.39-2.39h1.719V.797c0-.44.356-.797.796-.797zm6.393 3.648v.744a.797.797 0 101.594 0v-.744h1.718c.44 0 .797.356.797.796v1.719H1.593V4.444c0-.44.357-.796.797-.796h1.719v.744a.797.797 0 001.593 0v-.744h5.596zM1.593 7.756h13.814v6.854c0 .44-.357.797-.797.797H2.39a.797.797 0 01-.797-.797V7.756z"
+                                          fill="#000"
+                                          fillRule="evenodd"
+                                        />
+                                      </svg>
+                                    </calendar>
+                                  </span>
                                 </span>
                               </IconPrimary>
                             </Content>
@@ -1021,17 +1027,18 @@ exports[`DatePicker scss have to match snapshot 1`] = `
 */
 .dnb-icon {
   display: inline-block;
-  vertical-align: middle;
-  font-size: inherit;
-  line-height: var(--line-height-x-small--em);
+  line-height: 1;
+  color: inherit;
   width: 1em;
   height: 1em; }
   .dnb-icon img,
   .dnb-icon svg {
     width: inherit;
     height: inherit;
-    vertical-align: top;
     shape-rendering: geometricPrecision; }
+  .dnb-icon > span {
+    width: inherit;
+    height: inherit; }
   .dnb-icon svg[width='100%'] {
     width: inherit; }
   .dnb-icon svg[height='100%'] {
@@ -1139,11 +1146,14 @@ exports[`DatePicker scss have to match snapshot 1`] = `
   border: var(--button-border-width) solid transparent;
   border-radius: var(--button-border-radius);
   text-decoration: none; }
-  .dnb-button__icon.dnb-icon {
+  .dnb-button__icon {
     font-size: var(--font-size-small); }
-    .dnb-button__icon.dnb-icon:not(.dnb-icon) svg:not([width]):not([height]) {
+    .dnb-button__icon svg:not([width]):not([height]) {
       width: var(--button-icon-size);
       height: var(--button-icon-size); }
+    .dnb-button__icon.dnb-icon > span {
+      display: inline-flex;
+      vertical-align: top; }
   .dnb-button__text {
     font-size: var(--button-font-size);
     line-height: var(--line-height-x-small--em);
@@ -1385,8 +1395,7 @@ legend.dnb-form-label {
     padding: calc(0.5rem / 2) 1rem;
     cursor: text;
     color: inherit;
-    line-height: var(--line-height-basis);
-    transform: translateY(-0.0625rem); }
+    line-height: var(--line-height-basis); }
   .dnb-icon + .dnb-form-status--text {
     padding-left: 0.5rem; }
   .dnb-form-status__shell > .dnb-icon {
@@ -1473,18 +1482,27 @@ legend.dnb-form-label {
 
 .dnb-input {
   display: inline-flex;
-  align-items: center; }
+  align-items: center;
+  font-size: var(--input-font-size);
+  line-height: var(--input-height); }
+  .dnb-input__helper {
+    clip: rect(0, 0, 0, 0);
+    width: 1px;
+    margin-left: -1px;
+    overflow: hidden; }
+  .dnb-input--vertical .dnb-input__helper {
+    height: 1px;
+    margin-top: -1px; }
   .dnb-input__inner {
     display: inline-flex;
     flex-direction: column;
     width: auto;
-    font-size: var(--input-font-size); }
+    line-height: var(--input-height); }
   .dnb-input__shell {
     position: relative;
     display: flex;
     align-items: center;
-    border: var(--input-border-width) solid var(--color-sea-green-alt);
-    line-height: calc(var(--input-height) - 2px); }
+    border: var(--input-border-width) solid var(--color-sea-green-alt); }
   .dnb-input__input {
     border: none;
     outline: none;
@@ -1495,10 +1513,8 @@ legend.dnb-form-label {
     user-select: none;
     -webkit-user-select: none;
     opacity: 1; }
-  .dnb-input__helper {
-    clip: rect(0, 0, 0, 0);
-    width: 0;
-    overflow: hidden; }
+  .dnb-input__input[type='file'] {
+    line-height: calc(var(--input-height) - 2px); }
   .dnb-input__shell, .dnb-input__input {
     height: var(--input-height);
     border-radius: var(--input-border-radius); }
@@ -1519,7 +1535,6 @@ legend.dnb-form-label {
     top: 0;
     left: 0;
     overflow: hidden;
-    transform: translateY(0.0625rem);
     white-space: nowrap;
     text-overflow: ellipsis;
     line-height: inherit; }
@@ -1543,7 +1558,8 @@ legend.dnb-form-label {
     color: inherit;
     padding-left: 0.5rem; }
   .dnb-input__submit-element {
-    margin-left: calc(1px - 1px - var(--input-height)); }
+    margin-left: calc(1px - 1px - var(--input-height));
+    line-height: var(--line-height-basis); }
   .dnb-input__submit-button {
     position: relative;
     z-index: 2;
@@ -1551,6 +1567,7 @@ legend.dnb-form-label {
     /* IE needs this to stay centered */ }
     .dnb-input__submit-button__button {
       border-radius: 50%; }
+  .dnb-input--medium,
   .dnb-input--medium .dnb-input__shell {
     line-height: var(--input-height--medium); }
   .dnb-input--medium .dnb-input__shell,
@@ -1570,6 +1587,7 @@ legend.dnb-form-label {
   .dnb-input--medium.dnb-input--has-submit-element .dnb-input__placeholder,
   .dnb-input--medium.dnb-input--has-submit-element .dnb-input__input {
     padding-right: calc(var(--input-padding--medium) * 2.5); }
+  .dnb-input--large,
   .dnb-input--large .dnb-input__shell {
     line-height: var(--input-height--large); }
   .dnb-input--large .dnb-input__shell,
@@ -1605,13 +1623,6 @@ legend.dnb-form-label {
   .dnb-input--vertical {
     flex-direction: column;
     align-items: flex-start; }
-  .dnb-input--vertical .dnb-input__helper {
-    height: 0;
-    line-height: var(--input-height); }
-  .dnb-input--vertical.dnb-input--medium .dnb-input__helper {
-    line-height: var(--input-height--medium); }
-  .dnb-input--vertical.dnb-input--large .dnb-input__helper {
-    line-height: var(--input-height--large); }
   .dnb-input--stretch {
     display: flex; }
   .dnb-input--stretch .dnb-input__inner {
@@ -1620,15 +1631,23 @@ legend.dnb-form-label {
     width: 100%; }
   .dnb-input--vertical.dnb-input--stretch .dnb-input__inner {
     width: 100%; }
+  .dnb-input > .dnb-form-label {
+    line-height: var(--font-size-basis); }
   .dnb-input[class*='__status'] {
-    align-items: flex-start; }
+    align-items: flex-start;
+    line-height: var(--line-height-basis); }
     .dnb-input[class*='__status'] > .dnb-form-label {
       margin-top: 0.25rem; }
   @media (max-width: 40em) {
-    .dnb-input {
+    .dnb-responsive-component .dnb-input {
+      display: flex;
       flex-direction: column;
-      align-items: flex-start; }
-      .dnb-input > .dnb-form-label {
+      align-items: flex-start;
+      margin-bottom: 0.5rem;
+      line-height: var(--line-height-basis); }
+      .dnb-responsive-component .dnb-input__row {
+        align-items: flex-start; }
+      .dnb-responsive-component .dnb-input > .dnb-form-label {
         margin-bottom: 0.5rem; } }
   @media screen and (-ms-high-contrast: none) {
     .dnb-input {
@@ -1701,8 +1720,11 @@ legend.dnb-form-label {
     flex-direction: column; }
   .dnb-checkbox__helper {
     clip: rect(0, 0, 0, 0);
-    width: 0;
-    overflow: hidden; }
+    width: 1px;
+    margin-left: -1px;
+    overflow: hidden;
+    height: 1px;
+    margin-top: -1px; }
   .dnb-checkbox__shell {
     user-select: none;
     -webkit-user-select: none;
@@ -1847,8 +1869,11 @@ legend.dnb-form-label {
     flex-direction: column; }
   .dnb-radio__helper {
     clip: rect(0, 0, 0, 0);
-    width: 0;
-    overflow: hidden; }
+    width: 1px;
+    margin-left: -1px;
+    overflow: hidden;
+    height: 1px;
+    margin-top: -1px; }
   .dnb-radio__shell {
     position: relative;
     user-select: none;
@@ -1922,7 +1947,8 @@ legend.dnb-form-label {
     margin-bottom: 1rem; }
   .dnb-radio-group {
     display: inline-flex;
-    flex-direction: row; }
+    flex-direction: row;
+    line-height: var(--line-height-x-small--em); }
     .dnb-radio-group .dnb-radio {
       margin-right: var(--radio-margin-right);
       margin-bottom: var(--radio-margin-bottom); }
@@ -1953,8 +1979,6 @@ legend.dnb-form-label {
         margin: auto; }
       .dnb-radio__order {
         align-items: center; }
-      .dnb-radio__shell {
-        transform: translateY(0); }
       .dnb-radio, .dnb-radio-group {
         flex: none; }
       .dnb-radio-group {
@@ -2006,7 +2030,8 @@ legend.dnb-form-label {
 
 .dnb-toggle-button {
   display: inline-flex;
-  align-items: baseline; }
+  align-items: center;
+  font-size: var(--font-size-basis); }
   .dnb-toggle-button__inner {
     display: inline-flex;
     flex-direction: column; }
@@ -2015,6 +2040,14 @@ legend.dnb-form-label {
     left: 0;
     user-select: none;
     -webkit-user-select: none; }
+  .dnb-toggle-button__helper {
+    clip: rect(0, 0, 0, 0);
+    width: 1px;
+    margin-left: -1px;
+    overflow: hidden; }
+  .dnb-toggle-button--vertical .dnb-toggle-button__helper {
+    height: 1px;
+    margin-top: -1px; }
   .dnb-toggle-button--vertical {
     flex-direction: column;
     align-items: flex-start; }
@@ -2076,7 +2109,8 @@ legend.dnb-form-label {
   .dnb-toggle-button .dnb-form-label {
     margin-right: 1rem; }
   .dnb-toggle-button-group {
-    display: inline-flex; }
+    display: inline-flex;
+    font-size: var(--font-size-basis); }
     .dnb-toggle-button-group .dnb-toggle-button {
       margin-right: var(--toggle-button-margin-right);
       margin-bottom: var(--toggle-button-margin-bottom); }
@@ -2163,14 +2197,20 @@ legend.dnb-form-label {
 
 .dnb-date-picker {
   display: inline-flex;
-  align-items: center; }
+  align-items: center;
+  font-size: var(--font-size-basis);
+  line-height: var(--date-picker-input-height); }
   .dnb-date-picker__inner {
     display: inline-flex;
     flex-direction: column; }
   .dnb-date-picker__helper {
     clip: rect(0, 0, 0, 0);
-    width: 0;
+    width: 1px;
+    margin-left: -1px;
     overflow: hidden; }
+  .dnb-date-picker--vertical .dnb-date-picker__helper {
+    height: 1px;
+    margin-top: -1px; }
   .dnb-date-picker__shell {
     position: relative;
     top: 0;
@@ -2396,21 +2436,19 @@ legend.dnb-form-label {
   .dnb-date-picker--vertical {
     align-items: flex-start;
     flex-direction: column; }
-  .dnb-date-picker--vertical .dnb-date-picker__helper {
-    height: 0;
-    line-height: var(--date-picker-input-height); }
   .dnb-date-picker[class*='__status'] {
     align-items: flex-start; }
     .dnb-date-picker[class*='__status'] > .dnb-form-label {
       margin-top: 0.25rem; }
   @media (max-width: 40em) {
-    .dnb-date-picker {
+    .dnb-responsive-component .dnb-date-picker {
       display: flex;
       flex-direction: column;
-      align-items: flex-start; }
-      .dnb-date-picker > .dnb-form-label {
+      align-items: flex-start;
+      margin-bottom: 0.5rem; }
+      .dnb-responsive-component .dnb-date-picker > .dnb-form-label {
         margin-bottom: 0.5rem; }
-      .dnb-date-picker__helper {
+      .dnb-responsive-component .dnb-date-picker__helper {
         display: none; } }
   @media screen and (-ms-high-contrast: none) {
     .dnb-date-picker {

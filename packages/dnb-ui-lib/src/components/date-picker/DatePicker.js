@@ -123,6 +123,7 @@ const propTypes = {
     PropTypes.node
   ]),
   label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
+  label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   input_element: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.func,
@@ -191,6 +192,7 @@ const defaultProps = {
   sync: true,
   label: null,
   label_direction: null,
+  label_sr_only: null,
   input_element: null,
   addon_element: null,
   shortcuts: null,
@@ -600,6 +602,7 @@ export default class DatePicker extends PureComponent {
       label,
       title,
       label_direction,
+      label_sr_only,
       only_month,
       hide_last_week,
       disable_autofocus,
@@ -677,6 +680,7 @@ export default class DatePicker extends PureComponent {
 
     const mainParams = {
       className: classnames(
+        'dnb-form-component',
         'dnb-date-picker',
         status && `dnb-date-picker__status--${status_state}`,
         label_direction && `dnb-date-picker--${label_direction}`,
@@ -702,18 +706,19 @@ export default class DatePicker extends PureComponent {
 
     return (
       <span {...mainParams}>
-        {(label && (
+        <span className="dnb-date-picker__helper" aria-hidden>
+          &zwnj;
+        </span>
+
+        {label && (
           <FormLabel
             id={id + '-label'}
             for_id={id}
             text={label}
             direction={label_direction}
+            sr_only={label_sr_only}
             disabled={isTrue(disabled)}
           />
-        )) || (
-          <span className="dnb-date-picker__helper" aria-hidden>
-            {'-'}
-          </span>
         )}
 
         <span

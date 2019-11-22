@@ -10,7 +10,9 @@
 
 .dnb-toggle-button {
   display: inline-flex;
-  align-items: baseline;
+  align-items: center; // because, with this we v align it to the label
+
+  font-size: var(--font-size-basis);
 
   &__inner {
     display: inline-flex;
@@ -25,6 +27,12 @@
     -webkit-user-select: none; // Safari / Touch fix
   }
 
+  &__helper {
+    @include helper();
+  }
+  &--vertical &__helper {
+    @include helperVertical();
+  }
   &--vertical {
     flex-direction: column;
     align-items: flex-start;
@@ -134,6 +142,8 @@
   &-group {
     display: inline-flex;
 
+    font-size: var(--font-size-basis);
+
     // default spacing
     .dnb-toggle-button {
       margin-right: var(--toggle-button-margin-right);
@@ -156,17 +166,6 @@
         margin-bottom: 0;
       }
     }
-
-    // Can be deleted in future
-    // &--row .dnb-form-row {
-    //   // transform: translateY(-0.5rem);
-    //   // &--nested {
-    //   //   transform: translateY(0);
-    //   // }
-    //   // @media (max-width: 40em) {
-    //   //   transform: translateY(0);
-    //   // }
-    // }
 
     .dnb-form-row {
       margin-bottom: calc(1px - 1px - var(--toggle-button-margin-bottom));

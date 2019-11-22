@@ -11,19 +11,20 @@ exports[`FormLabel component have to match snapshot 1`] = `
   id="id"
   label_direction="horizontal"
   render_content={[Function]}
+  sr_only="sr_only"
   text="text"
   title="title"
   vertical="vertical"
 >
   <Element
-    className="dnb-form-label dnb-form-label--horizontal className class"
+    className="dnb-form-label className class"
     htmlFor="for_id"
     id="id"
     is="label"
     title="title"
   >
     <label
-      className="dnb-form-label dnb-form-label--horizontal className class"
+      className="dnb-form-label className class"
       htmlFor="for_id"
       id="id"
       title="title"

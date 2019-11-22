@@ -210,6 +210,7 @@ export default class Switch extends Component {
       global_status_id,
       label,
       label_position,
+      label_sr_only,
       title,
       disabled,
       readOnly,
@@ -236,6 +237,7 @@ export default class Switch extends Component {
 
     const mainParams = {
       className: classnames(
+        'dnb-form-component',
         'dnb-switch',
         status && `dnb-switch__status--${status_state}`,
         label && `dnb-switch--label-position-${label_position || 'right'}`,
@@ -277,14 +279,20 @@ export default class Switch extends Component {
     return (
       <span {...mainParams}>
         <span className="dnb-switch__order">
+          <span className="dnb-switch__helper2" aria-hidden>
+            &zwnj;
+          </span>
+
           {label && (
             <FormLabel
               id={id + '-label'}
               for_id={id}
               text={label}
               disabled={disabled}
+              sr_only={label_sr_only}
             />
           )}
+
           <span className="dnb-switch__inner">
             {label_position === 'left' && statusComp}
 
@@ -303,9 +311,6 @@ export default class Switch extends Component {
                 onChange={this.onChangeHandler}
                 onKeyDown={this.onKeyDownHandler}
               />
-              <span className="dnb-switch__helper" aria-hidden>
-                {'-'}
-              </span>
               <span
                 draggable
                 aria-hidden

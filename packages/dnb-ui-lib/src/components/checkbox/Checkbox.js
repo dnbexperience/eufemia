@@ -188,6 +188,7 @@ export default class Checkbox extends Component {
       global_status_id,
       label,
       label_position,
+      label_sr_only,
       title,
       disabled,
       readOnly,
@@ -214,6 +215,7 @@ export default class Checkbox extends Component {
 
     const mainParams = {
       className: classnames(
+        'dnb-form-component',
         'dnb-checkbox',
         status && `dnb-checkbox__status--${status_state}`,
         label &&
@@ -256,18 +258,19 @@ export default class Checkbox extends Component {
     return (
       <span {...mainParams}>
         <span className="dnb-checkbox__order">
+          <span className="dnb-checkbox__helper" aria-hidden>
+            &zwnj;
+          </span>
+
           {label && (
             <FormLabel
               id={id + '-label'}
               for_id={id}
               text={label}
               disabled={disabled}
+              sr_only={label_sr_only}
             />
           )}
-
-          <span className="dnb-checkbox__helper" aria-hidden>
-            {'-'}
-          </span>
 
           <span className="dnb-checkbox__inner">
             {label_position === 'left' && statusComp}

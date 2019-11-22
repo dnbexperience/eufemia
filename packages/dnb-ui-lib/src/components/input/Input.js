@@ -45,6 +45,7 @@ const propTypes = {
     PropTypes.node
   ]),
   label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
+  label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   status: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.func,
@@ -116,6 +117,7 @@ const defaultProps = {
   id: null,
   label: null,
   label_direction: null,
+  label_sr_only: null,
   status: null,
   input_state: null,
   status_state: 'error',
@@ -277,6 +279,7 @@ export default class Input extends PureComponent {
       size,
       label,
       label_direction,
+      label_sr_only,
       status,
       status_state,
       status_animation,
@@ -309,7 +312,7 @@ export default class Input extends PureComponent {
       ...attributes
     } = props
 
-    let { value, inputState } = this.state
+    let { value, focusState, inputState } = this.state
 
     if (disabled) {
       inputState = 'disabled'
@@ -323,6 +326,7 @@ export default class Input extends PureComponent {
 
     const mainParams = {
       className: classnames(
+        'dnb-form-component',
         'dnb-input',
         `dnb-input--${type}`, //type_modifier
         size && !sizeIsNumber && `dnb-input--${size}`,
@@ -387,7 +391,7 @@ export default class Input extends PureComponent {
     if (readOnly) {
       inputParams['aria-readonly'] = inputParams.readOnly = true
     }
-    if (!hasValue && placeholder && this.state.focusState !== 'focus') {
+    if (!hasValue && placeholder && focusState !== 'focus') {
       inputParams['aria-labelledby'] = id + '-placeholder'
     }
 
@@ -411,18 +415,19 @@ export default class Input extends PureComponent {
 
     return (
       <span {...mainParams}>
-        {(label && (
+        <span className="dnb-input__helper" aria-hidden>
+          &zwnj;
+        </span>
+
+        {label && (
           <FormLabel
             id={id + '-label'}
             for_id={id}
             text={label}
-            direction={label_direction}
+            label_direction={label_direction}
+            sr_only={label_sr_only}
             disabled={disabled}
           />
-        )) || (
-          <span className="dnb-input__helper" aria-hidden>
-            {'-'}
-          </span>
         )}
 
         <span {...innerParams}>
@@ -439,20 +444,18 @@ export default class Input extends PureComponent {
 
           <span className="dnb-input__row">
             <span className="dnb-input__shell" {...shellParams}>
-              {!hasValue &&
-                placeholder &&
-                this.state.focusState !== 'focus' && (
-                  <span
-                    id={id + '-placeholder'}
-                    aria-hidden={this.isMac}
-                    className={classnames(
-                      'dnb-input__placeholder',
-                      align ? `dnb-input__align--${align}` : null
-                    )}
-                  >
-                    {placeholder}
-                  </span>
-                )}
+              {!hasValue && placeholder && focusState !== 'focus' && (
+                <span
+                  id={id + '-placeholder'}
+                  aria-hidden={this.isMac}
+                  className={classnames(
+                    'dnb-input__placeholder',
+                    align ? `dnb-input__align--${align}` : null
+                  )}
+                >
+                  {placeholder}
+                </span>
+              )}
 
               {InputElement || <input ref={this._ref} {...inputParams} />}
             </span>

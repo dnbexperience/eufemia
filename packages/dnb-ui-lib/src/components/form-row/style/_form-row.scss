@@ -22,6 +22,13 @@
     width: 100%; // to help #input stretch
   }
 
+  &__helper {
+    @include helper();
+  }
+  &--vertical &__helper {
+    @include helperVertical();
+  }
+
   // for hoizontal direction
   &:not(#{&}--vertical) {
     & > .dnb-form-row__content {
@@ -165,6 +172,12 @@
 
   &--vertical-label {
     flex-direction: column;
+  }
+
+  @media (max-width: 40em) {
+    .dnb-form-component {
+      margin-bottom: 0.5rem;
+    }
   }
 
   > .dnb-form-status {

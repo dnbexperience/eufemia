@@ -35,6 +35,7 @@ const propTypes = {
   label_direction: PropTypes.oneOf(['vertical', 'horizontal']),
   direction: PropTypes.oneOf(['vertical', 'horizontal']),
   vertical: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 
   /** React props */
   className: PropTypes.string,
@@ -59,6 +60,7 @@ const defaultProps = {
   label_direction: null,
   direction: null,
   vertical: null,
+  sr_only: null,
 
   /** React props */
   className: null,
@@ -101,7 +103,8 @@ export default class FormLabel extends PureComponent {
       disabled,
       label_direction,
       direction, // eslint-disable-line
-      vertical, // eslint-disable-line
+      vertical,
+      sr_only,
       class: _className,
 
       text: _text, // eslint-disable-line
@@ -114,15 +117,13 @@ export default class FormLabel extends PureComponent {
     const params = {
       className: classnames(
         'dnb-form-label',
-        // label_direction && `dnb-form-label--${label_direction}`,
-        (isTrue(this.props.vertical) ||
-          this.props.direction ||
-          label_direction) &&
-          `dnb-form-label--${
-            isTrue(this.props.vertical)
-              ? 'vertical'
-              : this.props.direction || label_direction
-          }`,
+        (isTrue(vertical) || label_direction === 'vertical') &&
+          `dnb-form-label--vertical`,
+        // "direction" is not in use
+        // direction && `dnb-form-label--${direction}`,
+        // we set and use "label_direction" above
+        // label_direction && `dnb-form-label--${label_direction}-label`,
+        isTrue(sr_only) && 'dnb-sr-only dnb-not-sr-only', // use also "dnb-not-sr-only" to use it as a layout helper
         createSpacingClasses(props),
         className,
         _className
@@ -136,6 +137,14 @@ export default class FormLabel extends PureComponent {
 
     // also used for code markup simulation
     validateDOMAttributes(this.props, params)
+
+    if (isTrue(sr_only)) {
+      return (
+        <Element is={element} aria-label={content} {...params}>
+          <span aria-hidden>&zwnj;</span>
+        </Element>
+      )
+    }
 
     return (
       <Element is={element} {...params}>

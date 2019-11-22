@@ -58,11 +58,17 @@ exports[`Checkbox component have to match snapshot 1`] = `
   value={null}
 >
   <span
-    className="dnb-checkbox dnb-checkbox--label-position-left"
+    className="dnb-form-component dnb-checkbox dnb-checkbox--label-position-left"
   >
     <span
       className="dnb-checkbox__order"
     >
+      <span
+        aria-hidden={true}
+        className="dnb-checkbox__helper"
+      >
+        ‌
+      </span>
       <FormLabel
         class={null}
         className={null}
@@ -73,6 +79,7 @@ exports[`Checkbox component have to match snapshot 1`] = `
         id="checkbox-label"
         label_direction={null}
         render_content={null}
+        sr_only={null}
         text="checkbox"
         title={null}
         vertical={null}
@@ -92,12 +99,6 @@ exports[`Checkbox component have to match snapshot 1`] = `
           </label>
         </Element>
       </FormLabel>
-      <span
-        aria-hidden={true}
-        className="dnb-checkbox__helper"
-      >
-        -
-      </span>
       <span
         className="dnb-checkbox__inner"
       >
@@ -410,8 +411,7 @@ legend.dnb-form-label {
     padding: calc(0.5rem / 2) 1rem;
     cursor: text;
     color: inherit;
-    line-height: var(--line-height-basis);
-    transform: translateY(-0.0625rem); }
+    line-height: var(--line-height-basis); }
   .dnb-icon + .dnb-form-status--text {
     padding-left: 0.5rem; }
   .dnb-form-status__shell > .dnb-icon {
@@ -494,8 +494,11 @@ legend.dnb-form-label {
     flex-direction: column; }
   .dnb-checkbox__helper {
     clip: rect(0, 0, 0, 0);
-    width: 0;
-    overflow: hidden; }
+    width: 1px;
+    margin-left: -1px;
+    overflow: hidden;
+    height: 1px;
+    margin-top: -1px; }
   .dnb-checkbox__shell {
     user-select: none;
     -webkit-user-select: none;

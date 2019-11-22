@@ -64,6 +64,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
   id="dropdown-id"
   label="label"
   label_direction="horizontal"
+  label_sr_only="label_sr_only"
   max_height={1}
   more_menu={null}
   no_animation={true}
@@ -87,8 +88,14 @@ exports[`Dropdown component have to match snapshot 1`] = `
   value={2}
 >
   <span
-    className="dnb-dropdown dnb-dropdown--direction-bottom dnb-dropdown class className dnb-dropdown--hidden dnb-dropdown--horizontal dnb-dropdown--icon-position-icon_position dnb-dropdown--scroll dnb-dropdown__status--error dnb-dropdown__form-status"
+    className="dnb-form-component dnb-dropdown dnb-dropdown--direction-bottom dnb-dropdown class className dnb-dropdown--hidden dnb-dropdown--horizontal dnb-dropdown--icon-position-icon_position dnb-dropdown--scroll dnb-dropdown__status--error dnb-dropdown__form-status"
   >
+    <span
+      aria-hidden={true}
+      className="dnb-dropdown__helper"
+    >
+      ‌
+    </span>
     <FormLabel
       class={null}
       className={null}
@@ -100,19 +107,20 @@ exports[`Dropdown component have to match snapshot 1`] = `
       label_direction={null}
       onMouseDown={[Function]}
       render_content={null}
+      sr_only="label_sr_only"
       text="label"
       title={null}
       vertical={null}
     >
       <Element
-        className="dnb-form-label dnb-form-label--horizontal"
+        className="dnb-form-label"
         htmlFor="dropdown-id"
         id="dropdown-id-label"
         is="label"
         onMouseDown={[Function]}
       >
         <label
-          className="dnb-form-label dnb-form-label--horizontal"
+          className="dnb-form-label"
           htmlFor="dropdown-id"
           id="dropdown-id-label"
           onMouseDown={[Function]}
@@ -170,37 +178,39 @@ exports[`Dropdown component have to match snapshot 1`] = `
                 className="dnb-icon dnb-icon--large"
                 role="img"
               >
-                <ErrorIcon>
-                  <svg
-                    fill="none"
-                    height="32"
-                    viewBox="0 0 32 32"
-                    width="32"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M16 25a.5.5 0 100 1 .5.5 0 000-1v0"
-                      stroke="#000"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="1.5"
-                    />
-                    <path
-                      d="M16 21V11"
-                      stroke="#000"
-                      strokeLinecap="round"
-                      strokeWidth="1.5"
-                    />
-                    <path
-                      clipRule="evenodd"
-                      d="M18.161 2.347a2.408 2.408 0 00-4.322 0L1.208 28.077A2.028 2.028 0 003.029 31h25.942a2.028 2.028 0 001.821-2.923l-12.63-25.73z"
-                      stroke="#000"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="1.5"
-                    />
-                  </svg>
-                </ErrorIcon>
+                <span>
+                  <ErrorIcon>
+                    <svg
+                      fill="none"
+                      height="32"
+                      viewBox="0 0 32 32"
+                      width="32"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M16 25a.5.5 0 100 1 .5.5 0 000-1v0"
+                        stroke="#000"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="1.5"
+                      />
+                      <path
+                        d="M16 21V11"
+                        stroke="#000"
+                        strokeLinecap="round"
+                        strokeWidth="1.5"
+                      />
+                      <path
+                        clipRule="evenodd"
+                        d="M18.161 2.347a2.408 2.408 0 00-4.322 0L1.208 28.077A2.028 2.028 0 003.029 31h25.942a2.028 2.028 0 001.821-2.923l-12.63-25.73z"
+                        stroke="#000"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="1.5"
+                      />
+                    </svg>
+                  </ErrorIcon>
+                </span>
               </span>
             </Icon>
             <span
@@ -564,17 +574,18 @@ exports[`Dropdown scss have to match snapshot 1`] = `
 */
 .dnb-icon {
   display: inline-block;
-  vertical-align: middle;
-  font-size: inherit;
-  line-height: var(--line-height-x-small--em);
+  line-height: 1;
+  color: inherit;
   width: 1em;
   height: 1em; }
   .dnb-icon img,
   .dnb-icon svg {
     width: inherit;
     height: inherit;
-    vertical-align: top;
     shape-rendering: geometricPrecision; }
+  .dnb-icon > span {
+    width: inherit;
+    height: inherit; }
   .dnb-icon svg[width='100%'] {
     width: inherit; }
   .dnb-icon svg[height='100%'] {
@@ -686,11 +697,14 @@ exports[`Dropdown scss have to match snapshot 1`] = `
   border: var(--button-border-width) solid transparent;
   border-radius: var(--button-border-radius);
   text-decoration: none; }
-  .dnb-button__icon.dnb-icon {
+  .dnb-button__icon {
     font-size: var(--font-size-small); }
-    .dnb-button__icon.dnb-icon:not(.dnb-icon) svg:not([width]):not([height]) {
+    .dnb-button__icon svg:not([width]):not([height]) {
       width: var(--button-icon-size);
       height: var(--button-icon-size); }
+    .dnb-button__icon.dnb-icon > span {
+      display: inline-flex;
+      vertical-align: top; }
   .dnb-button__text {
     font-size: var(--button-font-size);
     line-height: var(--line-height-x-small--em);
@@ -932,8 +946,7 @@ legend.dnb-form-label {
     padding: calc(0.5rem / 2) 1rem;
     cursor: text;
     color: inherit;
-    line-height: var(--line-height-basis);
-    transform: translateY(-0.0625rem); }
+    line-height: var(--line-height-basis); }
   .dnb-icon + .dnb-form-status--text {
     padding-left: 0.5rem; }
   .dnb-form-status__shell > .dnb-icon {
@@ -1015,7 +1028,9 @@ legend.dnb-form-label {
 
 .dnb-dropdown {
   display: inline-flex;
-  align-items: center; }
+  align-items: center;
+  font-size: var(--font-size-basis);
+  line-height: var(--dropdown-height); }
   .dnb-dropdown__inner {
     display: inline-flex;
     flex-direction: column;
@@ -1023,14 +1038,15 @@ legend.dnb-form-label {
     margin: 0;
     padding: 0;
     width: auto;
-    font-size: var(--font-size-basis);
-    font-weight: var(--font-weight-default);
     color: inherit; }
   .dnb-dropdown__helper {
     clip: rect(0, 0, 0, 0);
-    width: 0;
-    overflow: hidden;
-    font-size: var(--font-size-basis); }
+    width: 1px;
+    margin-left: -1px;
+    overflow: hidden; }
+  .dnb-dropdown--vertical .dnb-dropdown__helper {
+    height: 1px;
+    margin-top: -1px; }
   .dnb-dropdown__shell {
     position: relative;
     width: var(--dropdown-width);
@@ -1104,11 +1120,12 @@ legend.dnb-form-label {
     position: relative;
     order: 2;
     pointer-events: none;
-    color: inherit; }
-    .dnb-dropdown__icon .dnb-icon {
-      font-size: var(--font-size-small);
-      color: inherit;
-      transform: translateY(-0.0625rem); }
+    color: inherit;
+    font-size: var(--font-size-small); }
+    .dnb-dropdown__icon.dnb-icon > span {
+      display: inline-flex; }
+      .dnb-dropdown__icon.dnb-icon > span svg {
+        vertical-align: top; }
   .dnb-dropdown__triangle {
     position: absolute;
     top: calc( var(--dropdown-focus-border-width) - var(--dropdown-height) / 2);
@@ -1173,6 +1190,8 @@ legend.dnb-form-label {
     right: -0.5rem; }
   .dnb-dropdown--is-popup.dnb-dropdown__align--right.dnb-dropdown__size--small .dnb-dropdown__list {
     left: -0.75rem; }
+  .dnb-dropdown__size--small {
+    line-height: var(--dropdown-height--small); }
   .dnb-dropdown__size--small .dnb-dropdown__shell,
   .dnb-dropdown__size--small .dnb-dropdown__trigger {
     height: var(--dropdown-height--small); }
@@ -1183,6 +1202,8 @@ legend.dnb-form-label {
   .dnb-dropdown__size--small.dnb-dropdown--direction-top .dnb-dropdown__list {
     top: auto;
     bottom: var(--dropdown-height--small); }
+  .dnb-dropdown__size--medium {
+    line-height: var(--dropdown-height--medium); }
   .dnb-dropdown__size--medium .dnb-dropdown__shell,
   .dnb-dropdown__size--medium .dnb-dropdown__trigger {
     height: var(--dropdown-height--medium);
@@ -1194,6 +1215,8 @@ legend.dnb-form-label {
   .dnb-dropdown__size--medium.dnb-dropdown--direction-top .dnb-dropdown__list {
     top: auto;
     bottom: var(--dropdown-height--medium); }
+  .dnb-dropdown__size--large {
+    line-height: var(--dropdown-height--large); }
   .dnb-dropdown__size--large .dnb-dropdown__shell,
   .dnb-dropdown__size--large .dnb-dropdown__trigger {
     height: var(--dropdown-height--large);
@@ -1253,7 +1276,8 @@ legend.dnb-form-label {
     display: block;
     padding: 0.5rem 0 1rem var(--dropdown-padding-horizontal); }
   .dnb-dropdown > .dnb-form-label {
-    margin-right: 1rem; }
+    margin-right: 1rem;
+    line-height: var(--font-size-basis); }
   label + .dnb-dropdown[class*='__form-status'] {
     vertical-align: top; }
     label + .dnb-dropdown[class*='__form-status'] .dnb-dropdown__shell {
@@ -1264,21 +1288,19 @@ legend.dnb-form-label {
   .dnb-dropdown--vertical {
     flex-direction: column;
     align-items: flex-start; }
-  .dnb-dropdown--vertical .dnb-dropdown__helper {
-    height: 0;
-    line-height: var(--dropdown-height); }
   .dnb-dropdown[class*='__status'] {
     align-items: flex-start; }
     .dnb-dropdown[class*='__status'] > .dnb-form-label {
       margin-top: 0.25rem; }
   @media (max-width: 40em) {
-    .dnb-dropdown {
+    .dnb-responsive-component .dnb-dropdown {
       display: flex;
       flex-direction: column;
-      align-items: flex-start; }
-      .dnb-dropdown > .dnb-form-label {
+      align-items: flex-start;
+      margin-bottom: 0.5rem; }
+      .dnb-responsive-component .dnb-dropdown > .dnb-form-label {
         margin-bottom: 0.5rem; }
-      .dnb-dropdown__helper {
+      .dnb-responsive-component .dnb-dropdown__helper {
         display: none; } }
   @media screen and (-ms-high-contrast: none) {
     .dnb-dropdown {

@@ -15,6 +15,7 @@ exports[`Radio component have to match snapshot 1`] = `
   id="radio"
   label="label"
   label_position="left"
+  label_sr_only="label_sr_only"
   on_change={[Function]}
   on_state_update={[Function]}
   readOnly={false}
@@ -29,6 +30,12 @@ exports[`Radio component have to match snapshot 1`] = `
     <span
       className="dnb-radio__order"
     >
+      <span
+        aria-hidden={true}
+        className="dnb-radio__helper"
+      >
+        ‌
+      </span>
       <FormLabel
         aria-hidden={true}
         aria-label="label"
@@ -41,6 +48,7 @@ exports[`Radio component have to match snapshot 1`] = `
         id="radio-label"
         label_direction={null}
         render_content={null}
+        sr_only="label_sr_only"
         text="label"
         title={null}
         vertical={null}
@@ -64,12 +72,6 @@ exports[`Radio component have to match snapshot 1`] = `
           </label>
         </Element>
       </FormLabel>
-      <span
-        aria-hidden={true}
-        className="dnb-radio__helper"
-      >
-        -
-      </span>
       <span
         className="dnb-radio__inner"
       >
@@ -124,6 +126,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
   label="Label"
   label_direction={null}
   label_position={null}
+  label_sr_only={null}
   layout_direction="row"
   name="group"
   no_fieldset={true}
@@ -136,7 +139,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
   vertical={null}
 >
   <div
-    className="dnb-radio-group dnb-radio-group--row"
+    className="dnb-form-component dnb-radio-group dnb-radio-group--row"
   >
     <FormRow
       class={null}
@@ -153,6 +156,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
       label_class={null}
       label_direction={null}
       label_id="group-label"
+      label_sr_only={null}
       no_fieldset={true}
       no_label={false}
       render_content={null}
@@ -172,6 +176,12 @@ exports[`Radio group component have to match group snapshot 1`] = `
           <div
             className="dnb-form-row"
           >
+            <span
+              aria-hidden={true}
+              className="dnb-form-row__helper"
+            >
+              ‌
+            </span>
             <FormLabel
               class={null}
               className="dnb-form-row__label"
@@ -182,6 +192,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
               id="group-label"
               label_direction={null}
               render_content={null}
+              sr_only={null}
               text="Label"
               title={null}
               vertical={null}
@@ -223,6 +234,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
                   id="radio-1"
                   label="Radio 1"
                   label_position={null}
+                  label_sr_only={null}
                   on_change={null}
                   on_state_update={null}
                   readOnly={false}
@@ -237,6 +249,12 @@ exports[`Radio group component have to match group snapshot 1`] = `
                     <span
                       className="dnb-radio__order"
                     >
+                      <span
+                        aria-hidden={true}
+                        className="dnb-radio__helper"
+                      >
+                        ‌
+                      </span>
                       <FormLabel
                         aria-hidden={true}
                         aria-label="Radio 1"
@@ -249,6 +267,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
                         id="radio-1-label"
                         label_direction={null}
                         render_content={null}
+                        sr_only={null}
                         text="Radio 1"
                         title={null}
                         vertical={null}
@@ -272,12 +291,6 @@ exports[`Radio group component have to match group snapshot 1`] = `
                           </label>
                         </Element>
                       </FormLabel>
-                      <span
-                        aria-hidden={true}
-                        className="dnb-radio__helper"
-                      >
-                        -
-                      </span>
                       <span
                         className="dnb-radio__inner"
                       >
@@ -330,6 +343,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
                   id="radio-2"
                   label="Radio 2"
                   label_position={null}
+                  label_sr_only={null}
                   on_change={null}
                   on_state_update={null}
                   readOnly={false}
@@ -344,6 +358,12 @@ exports[`Radio group component have to match group snapshot 1`] = `
                     <span
                       className="dnb-radio__order"
                     >
+                      <span
+                        aria-hidden={true}
+                        className="dnb-radio__helper"
+                      >
+                        ‌
+                      </span>
                       <FormLabel
                         aria-hidden={true}
                         aria-label="Radio 2"
@@ -356,6 +376,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
                         id="radio-2-label"
                         label_direction={null}
                         render_content={null}
+                        sr_only={null}
                         text="Radio 2"
                         title={null}
                         vertical={null}
@@ -379,12 +400,6 @@ exports[`Radio group component have to match group snapshot 1`] = `
                           </label>
                         </Element>
                       </FormLabel>
-                      <span
-                        aria-hidden={true}
-                        className="dnb-radio__helper"
-                      >
-                        -
-                      </span>
                       <span
                         className="dnb-radio__inner"
                       >
@@ -542,7 +557,8 @@ exports[`Radio scss have to match default theme snapshot 1`] = `
   .dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:active):checked:hover ~ .dnb-radio__dot {
     background-color: var(--color-fire-red-8); }
   .dnb-radio > .dnb-form-status {
-    transform: translateY(0.1875rem); }
+    transform: translateY(0.25rem);
+    /* 4/16 */ }
 "
 `;
 
@@ -692,8 +708,7 @@ legend.dnb-form-label {
     padding: calc(0.5rem / 2) 1rem;
     cursor: text;
     color: inherit;
-    line-height: var(--line-height-basis);
-    transform: translateY(-0.0625rem); }
+    line-height: var(--line-height-basis); }
   .dnb-icon + .dnb-form-status--text {
     padding-left: 0.5rem; }
   .dnb-form-status__shell > .dnb-icon {
@@ -778,8 +793,11 @@ legend.dnb-form-label {
     flex-direction: column; }
   .dnb-radio__helper {
     clip: rect(0, 0, 0, 0);
-    width: 0;
-    overflow: hidden; }
+    width: 1px;
+    margin-left: -1px;
+    overflow: hidden;
+    height: 1px;
+    margin-top: -1px; }
   .dnb-radio__shell {
     position: relative;
     user-select: none;
@@ -853,7 +871,8 @@ legend.dnb-form-label {
     margin-bottom: 1rem; }
   .dnb-radio-group {
     display: inline-flex;
-    flex-direction: row; }
+    flex-direction: row;
+    line-height: var(--line-height-x-small--em); }
     .dnb-radio-group .dnb-radio {
       margin-right: var(--radio-margin-right);
       margin-bottom: var(--radio-margin-bottom); }
@@ -884,8 +903,6 @@ legend.dnb-form-label {
         margin: auto; }
       .dnb-radio__order {
         align-items: center; }
-      .dnb-radio__shell {
-        transform: translateY(0); }
       .dnb-radio, .dnb-radio-group {
         flex: none; }
       .dnb-radio-group {

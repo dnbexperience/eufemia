@@ -34,6 +34,7 @@ const propTypes = {
     PropTypes.func,
     PropTypes.node
   ]),
+  label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   label_position: PropTypes.oneOf(['left', 'right']),
   checked: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -65,6 +66,7 @@ const propTypes = {
 
 const defaultProps = {
   label: null,
+  label_sr_only: null,
   label_position: null,
   checked: null,
   disabled: false,
@@ -271,6 +273,7 @@ export default class Radio extends Component {
             status_animation,
             global_status_id,
             label,
+            label_sr_only,
             label_position,
             readOnly,
             className,
@@ -349,6 +352,10 @@ export default class Radio extends Component {
           return (
             <span {...mainParams}>
               <span className="dnb-radio__order">
+                <span className="dnb-radio__helper" aria-hidden>
+                  &zwnj;
+                </span>
+
                 {label && (
                   <FormLabel
                     id={id + '-label'}
@@ -356,13 +363,10 @@ export default class Radio extends Component {
                     aria-hidden
                     aria-label={label} // Only for NVDA and mouse over read out.
                     text={label}
+                    sr_only={label_sr_only}
                     disabled={disabled}
                   />
                 )}
-
-                <span className="dnb-radio__helper" aria-hidden>
-                  {'-'}
-                </span>
 
                 <span className="dnb-radio__inner">
                   {label_position === 'left' && statusComp}

@@ -32,6 +32,7 @@ const propTypes = {
     PropTypes.node
   ]),
   label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
+  label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   title: PropTypes.string,
   multiselect: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   variant: PropTypes.oneOf(['default', 'checkbox', 'radio']),
@@ -77,6 +78,7 @@ const propTypes = {
 const defaultProps = {
   label: null,
   label_direction: null,
+  label_sr_only: null,
   title: null,
   multiselect: null,
   variant: null,
@@ -190,6 +192,7 @@ export default class ToggleButtonGroup extends PureComponent {
       status_animation,
       global_status_id,
       label_direction,
+      label_sr_only,
       vertical,
       layout_direction,
       label,
@@ -220,6 +223,7 @@ export default class ToggleButtonGroup extends PureComponent {
     const showStatus = status && status !== 'error'
 
     const classes = classnames(
+      'dnb-form-component',
       'dnb-toggle-button-group',
       status && `dnb-toggle-button-group__status--${status_state}`,
       `dnb-toggle-button-group--${layout_direction}`,
@@ -270,6 +274,7 @@ export default class ToggleButtonGroup extends PureComponent {
       label,
       label_id: id + '-label', // send the id along, so the FormRow component can use it
       label_direction,
+      label_sr_only,
       direction: label_direction,
       vertical,
       disabled,

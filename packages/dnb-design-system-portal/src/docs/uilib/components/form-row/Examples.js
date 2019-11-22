@@ -151,7 +151,7 @@ const CustomRow = styled(FormRow)\`
 \`
 render(
 <CustomRow
-  label={ <H2 top="0">Legend</H2> }
+  label={ <H2 top="0" bottom="0">Legend</H2> }
   label_direction="vertical"
 >
   <Input label="Vertical input label" value="Input" right="small" />

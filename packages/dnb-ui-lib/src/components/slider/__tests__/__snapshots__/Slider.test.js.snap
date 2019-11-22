@@ -11,6 +11,7 @@ exports[`Slider component have to match snapshot 1`] = `
   id="id"
   label="label"
   label_direction="horizontal"
+  label_sr_only="label_sr_only"
   max={100}
   min={0}
   on_change={[Function]}
@@ -30,18 +31,25 @@ exports[`Slider component have to match snapshot 1`] = `
   vertical="vertical"
 >
   <span
-    className="dnb-slider className class dnb-slider__label--horizontal"
+    className="dnb-form-component dnb-slider className class dnb-slider__label--horizontal"
   >
+    <span
+      aria-hidden={true}
+      className="dnb-slider__helper"
+    >
+      ‌
+    </span>
     <FormLabel
       class={null}
       className={null}
-      direction={null}
+      direction="horizontal"
       disabled={false}
       element="label"
       for_id={null}
       id="id-label"
       label_direction={null}
       render_content={null}
+      sr_only="label_sr_only"
       text="label"
       title={null}
       vertical={null}
@@ -141,21 +149,23 @@ exports[`Slider component have to match snapshot 1`] = `
                   className="dnb-icon dnb-button__icon"
                   role="img"
                 >
-                  <subtract>
-                    <svg
-                      fill="none"
-                      height={16}
-                      viewBox="0 0 16 16"
-                      width={16}
-                    >
-                      <path
-                        d="M1.75 8h12.5"
-                        stroke="#000"
-                        strokeLinecap="round"
-                        strokeWidth={1.5}
-                      />
-                    </svg>
-                  </subtract>
+                  <span>
+                    <subtract>
+                      <svg
+                        fill="none"
+                        height={16}
+                        viewBox="0 0 16 16"
+                        width={16}
+                      >
+                        <path
+                          d="M1.75 8h12.5"
+                          stroke="#000"
+                          strokeLinecap="round"
+                          strokeWidth={1.5}
+                        />
+                      </svg>
+                    </subtract>
+                  </span>
                 </span>
               </IconPrimary>
             </Content>
@@ -180,7 +190,7 @@ exports[`Slider component have to match snapshot 1`] = `
           >
             <input
               aria-labelledby="id-label"
-              className="dnb-slider__helper"
+              className="dnb-slider__button-helper"
               max={100}
               min={0}
               onBlur={[Function]}
@@ -343,21 +353,23 @@ exports[`Slider component have to match snapshot 1`] = `
                   className="dnb-icon dnb-button__icon"
                   role="img"
                 >
-                  <add>
-                    <svg
-                      fill="none"
-                      height={16}
-                      viewBox="0 0 16 16"
-                      width={16}
-                    >
-                      <path
-                        clipRule="evenodd"
-                        d="M8.75 1.75a.75.75 0 00-1.5 0v5.5h-5.5a.75.75 0 000 1.5h5.5v5.5a.75.75 0 001.5 0v-5.5h5.5a.75.75 0 000-1.5h-5.5v-5.5z"
-                        fill="#000"
-                        fillRule="evenodd"
-                      />
-                    </svg>
-                  </add>
+                  <span>
+                    <add>
+                      <svg
+                        fill="none"
+                        height={16}
+                        viewBox="0 0 16 16"
+                        width={16}
+                      >
+                        <path
+                          clipRule="evenodd"
+                          d="M8.75 1.75a.75.75 0 00-1.5 0v5.5h-5.5a.75.75 0 000 1.5h5.5v5.5a.75.75 0 001.5 0v-5.5h5.5a.75.75 0 000-1.5h-5.5v-5.5z"
+                          fill="#000"
+                          fillRule="evenodd"
+                        />
+                      </svg>
+                    </add>
+                  </span>
                 </span>
               </IconPrimary>
             </Content>
@@ -404,17 +416,18 @@ exports[`Slider scss have to match snapshot 1`] = `
 */
 .dnb-icon {
   display: inline-block;
-  vertical-align: middle;
-  font-size: inherit;
-  line-height: var(--line-height-x-small--em);
+  line-height: 1;
+  color: inherit;
   width: 1em;
   height: 1em; }
   .dnb-icon img,
   .dnb-icon svg {
     width: inherit;
     height: inherit;
-    vertical-align: top;
     shape-rendering: geometricPrecision; }
+  .dnb-icon > span {
+    width: inherit;
+    height: inherit; }
   .dnb-icon svg[width='100%'] {
     width: inherit; }
   .dnb-icon svg[height='100%'] {
@@ -522,11 +535,14 @@ exports[`Slider scss have to match snapshot 1`] = `
   border: var(--button-border-width) solid transparent;
   border-radius: var(--button-border-radius);
   text-decoration: none; }
-  .dnb-button__icon.dnb-icon {
+  .dnb-button__icon {
     font-size: var(--font-size-small); }
-    .dnb-button__icon.dnb-icon:not(.dnb-icon) svg:not([width]):not([height]) {
+    .dnb-button__icon svg:not([width]):not([height]) {
       width: var(--button-icon-size);
       height: var(--button-icon-size); }
+    .dnb-button__icon.dnb-icon > span {
+      display: inline-flex;
+      vertical-align: top; }
   .dnb-button__text {
     font-size: var(--button-font-size);
     line-height: var(--line-height-x-small--em);
@@ -768,8 +784,7 @@ legend.dnb-form-label {
     padding: calc(0.5rem / 2) 1rem;
     cursor: text;
     color: inherit;
-    line-height: var(--line-height-basis);
-    transform: translateY(-0.0625rem); }
+    line-height: var(--line-height-basis); }
   .dnb-icon + .dnb-form-status--text {
     padding-left: 0.5rem; }
   .dnb-form-status__shell > .dnb-icon {
@@ -848,7 +863,17 @@ legend.dnb-form-label {
 .dnb-slider {
   user-select: none;
   -webkit-user-select: none;
-  display: flex; }
+  display: flex;
+  font-size: var(--font-size-small);
+  line-height: var(--slider-thumb-size); }
+  .dnb-slider__helper {
+    clip: rect(0, 0, 0, 0);
+    width: 1px;
+    margin-left: -1px;
+    overflow: hidden; }
+  .dnb-slider__label--vertical .dnb-slider__helper {
+    height: 1px;
+    margin-top: -1px; }
   .dnb-slider--vertical {
     width: auto;
     height: 100%;
@@ -858,13 +883,11 @@ legend.dnb-form-label {
     display: inline-flex;
     flex-direction: column;
     flex: 1;
-    width: 100%;
-    transform: translateY(-0.25rem); }
+    width: 100%; }
   .dnb-slider--vertical .dnb-slider__wrapper {
     align-items: center;
     width: auto;
-    height: 100%;
-    transform: translateY(0); }
+    height: 100%; }
   .dnb-slider__inner {
     display: inline-flex;
     height: var(--slider-thumb-size); }
@@ -938,7 +961,7 @@ legend.dnb-form-label {
     top: 0; }
   .dnb-slider--vertical .dnb-slider__line__after {
     bottom: 0; }
-  .dnb-slider__helper, .dnb-slider__thumb {
+  .dnb-slider__button-helper, .dnb-slider__thumb {
     position: absolute;
     left: 0;
     top: 0;
@@ -946,8 +969,8 @@ legend.dnb-form-label {
     display: block;
     transform: translate3d(-50%, 0, 0);
     border-radius: 50%; }
-    .dnb-slider__helper,
-    .dnb-slider__helper .dnb-button, .dnb-slider__thumb,
+    .dnb-slider__button-helper,
+    .dnb-slider__button-helper .dnb-button, .dnb-slider__thumb,
     .dnb-slider__thumb .dnb-button {
       height: var(--slider-thumb-size);
       width: var(--slider-thumb-size); }
@@ -965,14 +988,14 @@ legend.dnb-form-label {
   .dnb-slider__state--disabled.dnb-slider__track,
   .dnb-slider__state--disabled .dnb-slider__thumb {
     cursor: not-allowed; }
-  .dnb-slider__helper {
+  .dnb-slider__button-helper {
     pointer-events: none;
     z-index: 2;
     opacity: 0;
     transform: translate3d(0.0625rem, 0, 0); }
-  .dnb-slider__helper:not(:disabled):focus ~ .dnb-button {
+  .dnb-slider__button-helper:not(:disabled):focus ~ .dnb-button {
     outline: none; }
-    html[data-whatinput='keyboard'] .dnb-slider__helper:not(:disabled):focus ~ .dnb-button {
+    html[data-whatinput='keyboard'] .dnb-slider__button-helper:not(:disabled):focus ~ .dnb-button {
       box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
       /* IE11 fix */
       border-color: transparent; }
@@ -993,10 +1016,12 @@ legend.dnb-form-label {
   .dnb-slider--vertical .dnb-form-status {
     margin-top: 1rem; }
   @media (max-width: 40em) {
-    .dnb-slider {
+    .dnb-responsive-component .dnb-slider {
+      display: flex;
       flex-direction: column;
-      align-items: flex-start; }
-      .dnb-slider > .dnb-form-label {
+      align-items: flex-start;
+      margin-bottom: 0.5rem; }
+      .dnb-responsive-component .dnb-slider > .dnb-form-label {
         margin-bottom: 0.5rem; } }
   @media screen and (-ms-high-contrast: none) {
     .dnb-slider__wrapper {

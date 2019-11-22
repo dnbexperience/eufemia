@@ -20,9 +20,10 @@
     flex-direction: column;
   }
   &__helper {
-    clip: rect(0, 0, 0, 0);
-    width: 0;
-    overflow: hidden;
+    @include helper();
+
+    // since we don't have a vertical state, we set it to vertical by default
+    @include helperVertical();
   }
 
   &__shell {
@@ -144,6 +145,9 @@
     display: inline-flex;
     flex-direction: row;
 
+    // if we use --line-height-basis here, we get a total height of 33px
+    line-height: var(--line-height-x-small--em);
+
     // default spacing
     .dnb-radio {
       margin-right: var(--radio-margin-right);
@@ -174,6 +178,13 @@
     .dnb-form-row {
       // because of our bottom margins we have on the componens
       margin-bottom: calc(1px - 1px - var(--radio-margin-bottom));
+
+      // & > .dnb-form-label {
+      //   // opacity: 0.2;
+      //   //   font-size: var(--font-size-basis);
+      //   //   // line-height: var(--line-height-basis);
+      //   //   // line-height: var(--line-height-x-small--em);
+      // }
     }
     .dnb-form-row--vertical & {
       display: flex;
@@ -196,9 +207,6 @@
     }
     &__order {
       align-items: center;
-    }
-    &__shell {
-      transform: translateY(0);
     }
 
     &,
