@@ -39,6 +39,7 @@ const propTypes = {
     PropTypes.node
   ]),
   label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
+  label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   title: PropTypes.string,
   checked: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   variant: PropTypes.oneOf(['default', 'checkbox', 'radio']),
@@ -81,6 +82,7 @@ const defaultProps = {
   text: null,
   label: null,
   label_direction: null,
+  label_sr_only: null,
   title: null,
   checked: null,
   variant: null,
@@ -278,6 +280,7 @@ export default class ToggleButton extends Component {
             global_status_id,
             label,
             label_direction,
+            label_sr_only,
             text,
             title,
             readOnly,
@@ -398,6 +401,7 @@ export default class ToggleButton extends Component {
                   text={label}
                   disabled={disabled}
                   direction={label_direction}
+                  sr_only={label_sr_only}
                 />
               )}
               <span className="dnb-toggle-button__inner">

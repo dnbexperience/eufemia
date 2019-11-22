@@ -73,6 +73,7 @@ exports[`Checkbox component have to match snapshot 1`] = `
         id="checkbox-label"
         label_direction={null}
         render_content={null}
+        sr_only={null}
         text="checkbox"
         title={null}
         vertical={null}

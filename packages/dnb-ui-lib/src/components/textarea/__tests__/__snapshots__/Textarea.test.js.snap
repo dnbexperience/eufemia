@@ -18,6 +18,7 @@ exports[`Textarea component have to match snapshot 1`] = `
         "id": "id",
         "label": "label",
         "label_direction": "'horizontal'",
+        "label_sr_only": "label_sr_only",
         "on_blur": [Function],
         "on_change": [Function],
         "on_focus": [Function],
@@ -48,6 +49,7 @@ exports[`Textarea component have to match snapshot 1`] = `
   id="textarea"
   label={null}
   label_direction={null}
+  label_sr_only={null}
   on_blur={null}
   on_change={null}
   on_focus={null}

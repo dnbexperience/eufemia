@@ -23,6 +23,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
   input_element={null}
   label={null}
   label_direction={null}
+  label_sr_only={null}
   link={false}
   locale={
     Object {
@@ -232,6 +233,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
             keep_placeholder={null}
             label={null}
             label_direction={null}
+            label_sr_only={null}
             on_blur={null}
             on_change={null}
             on_focus={null}

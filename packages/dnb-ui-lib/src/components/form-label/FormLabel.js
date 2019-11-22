@@ -35,6 +35,7 @@ const propTypes = {
   label_direction: PropTypes.oneOf(['vertical', 'horizontal']),
   direction: PropTypes.oneOf(['vertical', 'horizontal']),
   vertical: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 
   /** React props */
   className: PropTypes.string,
@@ -59,6 +60,7 @@ const defaultProps = {
   label_direction: null,
   direction: null,
   vertical: null,
+  sr_only: null,
 
   /** React props */
   className: null,
@@ -100,8 +102,9 @@ export default class FormLabel extends PureComponent {
       id,
       disabled,
       label_direction,
-      direction, // eslint-disable-line
-      vertical, // eslint-disable-line
+      direction,
+      vertical,
+      sr_only,
       class: _className,
 
       text: _text, // eslint-disable-line
@@ -115,14 +118,11 @@ export default class FormLabel extends PureComponent {
       className: classnames(
         'dnb-form-label',
         // label_direction && `dnb-form-label--${label_direction}`,
-        (isTrue(this.props.vertical) ||
-          this.props.direction ||
-          label_direction) &&
+        (isTrue(vertical) || direction || label_direction) &&
           `dnb-form-label--${
-            isTrue(this.props.vertical)
-              ? 'vertical'
-              : this.props.direction || label_direction
+            isTrue(vertical) ? 'vertical' : direction || label_direction
           }`,
+        isTrue(sr_only) && 'dnb-sr-only',
         createSpacingClasses(props),
         className,
         _className

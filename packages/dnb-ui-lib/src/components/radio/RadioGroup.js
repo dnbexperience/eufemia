@@ -31,6 +31,7 @@ const propTypes = {
     PropTypes.node
   ]),
   label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
+  label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   label_position: PropTypes.oneOf(['left', 'right']),
   title: PropTypes.string,
   no_fieldset: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -68,6 +69,7 @@ const propTypes = {
 const defaultProps = {
   label: null,
   label_direction: null,
+  label_sr_only: null,
   label_position: null,
   title: null,
   no_fieldset: null,
@@ -153,6 +155,7 @@ export default class RadioGroup extends PureComponent {
       global_status_id,
       label,
       label_direction,
+      label_sr_only,
       label_position,
       vertical,
       layout_direction,
@@ -214,6 +217,7 @@ export default class RadioGroup extends PureComponent {
       label,
       label_id: id + '-label', // send the id along, so the FormRow component can use it
       label_direction,
+      label_sr_only,
       direction: label_direction,
       vertical,
       disabled,

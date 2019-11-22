@@ -11,6 +11,7 @@ exports[`Slider component have to match snapshot 1`] = `
   id="id"
   label="label"
   label_direction="horizontal"
+  label_sr_only="label_sr_only"
   max={100}
   min={0}
   on_change={[Function]}
@@ -35,24 +36,25 @@ exports[`Slider component have to match snapshot 1`] = `
     <FormLabel
       class={null}
       className={null}
-      direction={null}
+      direction="horizontal"
       disabled={false}
       element="label"
       for_id={null}
       id="id-label"
       label_direction={null}
       render_content={null}
+      sr_only="label_sr_only"
       text="label"
       title={null}
       vertical={null}
     >
       <Element
-        className="dnb-form-label"
+        className="dnb-form-label dnb-form-label--horizontal"
         id="id-label"
         is="label"
       >
         <label
-          className="dnb-form-label"
+          className="dnb-form-label dnb-form-label--horizontal"
           id="id-label"
         >
           label
