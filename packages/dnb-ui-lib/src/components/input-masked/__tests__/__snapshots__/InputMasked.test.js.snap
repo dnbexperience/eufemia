@@ -696,7 +696,8 @@ legend.dnb-form-label {
     color: inherit;
     padding-left: 0.5rem; }
   .dnb-input__submit-element {
-    margin-left: calc(1px - 1px - var(--input-height)); }
+    margin-left: calc(1px - 1px - var(--input-height));
+    line-height: var(--line-height-basis); }
   .dnb-input__submit-button {
     position: relative;
     z-index: 2;
