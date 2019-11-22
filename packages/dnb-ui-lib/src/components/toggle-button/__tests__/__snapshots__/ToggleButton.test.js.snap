@@ -31,6 +31,12 @@ exports[`ToggleButton component have to match snapshot 1`] = `
   <span
     className="dnb-toggle-button className class dnb-toggle-button--horizontal"
   >
+    <span
+      aria-hidden={true}
+      className="dnb-toggle-button__helper"
+    >
+      ‌
+    </span>
     <FormLabel
       class={null}
       className={null}
@@ -47,13 +53,13 @@ exports[`ToggleButton component have to match snapshot 1`] = `
       vertical={null}
     >
       <Element
-        className="dnb-form-label dnb-form-label--horizontal"
+        className="dnb-form-label"
         htmlFor="toggle-button"
         id="toggle-button-label"
         is="label"
       >
         <label
-          className="dnb-form-label dnb-form-label--horizontal"
+          className="dnb-form-label"
           htmlFor="toggle-button"
           id="toggle-button-label"
         >
@@ -197,7 +203,7 @@ exports[`ToggleButton component have to match snapshot 1`] = `
                         aria-hidden={true}
                         className="dnb-checkbox__helper"
                       >
-                        -
+                        ‌
                       </span>
                       <span
                         className="dnb-checkbox__inner"
@@ -345,6 +351,12 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
           <div
             className="dnb-form-row"
           >
+            <span
+              aria-hidden={true}
+              className="dnb-form-row__helper"
+            >
+              ‌
+            </span>
             <FormLabel
               class={null}
               className="dnb-form-row__label"
@@ -412,6 +424,12 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                   <span
                     className="dnb-toggle-button dnb-toggle-button--checked"
                   >
+                    <span
+                      aria-hidden={true}
+                      className="dnb-toggle-button__helper"
+                    >
+                      ‌
+                    </span>
                     <span
                       className="dnb-toggle-button__inner"
                     >
@@ -521,6 +539,12 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                   <span
                     className="dnb-toggle-button dnb-toggle-button--checked"
                   >
+                    <span
+                      aria-hidden={true}
+                      className="dnb-toggle-button__helper"
+                    >
+                      ‌
+                    </span>
                     <span
                       className="dnb-toggle-button__inner"
                     >
@@ -831,17 +855,18 @@ legend.dnb-form-label {
 */
 .dnb-icon {
   display: inline-block;
-  vertical-align: middle;
-  font-size: inherit;
-  line-height: var(--line-height-x-small--em);
+  line-height: 1;
+  color: inherit;
   width: 1em;
   height: 1em; }
   .dnb-icon img,
   .dnb-icon svg {
     width: inherit;
     height: inherit;
-    vertical-align: top;
     shape-rendering: geometricPrecision; }
+  .dnb-icon > span {
+    width: inherit;
+    height: inherit; }
   .dnb-icon svg[width='100%'] {
     width: inherit; }
   .dnb-icon svg[height='100%'] {
@@ -949,11 +974,14 @@ legend.dnb-form-label {
   border: var(--button-border-width) solid transparent;
   border-radius: var(--button-border-radius);
   text-decoration: none; }
-  .dnb-button__icon.dnb-icon {
+  .dnb-button__icon {
     font-size: var(--font-size-small); }
-    .dnb-button__icon.dnb-icon:not(.dnb-icon) svg:not([width]):not([height]) {
+    .dnb-button__icon svg:not([width]):not([height]) {
       width: var(--button-icon-size);
       height: var(--button-icon-size); }
+    .dnb-button__icon.dnb-icon > span {
+      display: inline-flex;
+      vertical-align: top; }
   .dnb-button__text {
     font-size: var(--button-font-size);
     line-height: var(--line-height-x-small--em);
@@ -1213,8 +1241,11 @@ button.dnb-button::-moz-focus-inner {
     flex-direction: column; }
   .dnb-checkbox__helper {
     clip: rect(0, 0, 0, 0);
-    width: 0;
-    overflow: hidden; }
+    width: 1px;
+    margin-left: -1px;
+    overflow: hidden;
+    height: 1px;
+    margin-top: -1px; }
   .dnb-checkbox__shell {
     user-select: none;
     -webkit-user-select: none;
@@ -1359,8 +1390,11 @@ button.dnb-button::-moz-focus-inner {
     flex-direction: column; }
   .dnb-radio__helper {
     clip: rect(0, 0, 0, 0);
-    width: 0;
-    overflow: hidden; }
+    width: 1px;
+    margin-left: -1px;
+    overflow: hidden;
+    height: 1px;
+    margin-top: -1px; }
   .dnb-radio__shell {
     position: relative;
     user-select: none;
@@ -1434,7 +1468,9 @@ button.dnb-button::-moz-focus-inner {
     margin-bottom: 1rem; }
   .dnb-radio-group {
     display: inline-flex;
-    flex-direction: row; }
+    flex-direction: row;
+    font-size: var(--font-size-basis);
+    line-height: var(--line-height-basis); }
     .dnb-radio-group .dnb-radio {
       margin-right: var(--radio-margin-right);
       margin-bottom: var(--radio-margin-bottom); }
@@ -1518,7 +1554,8 @@ button.dnb-button::-moz-focus-inner {
 
 .dnb-toggle-button {
   display: inline-flex;
-  align-items: baseline; }
+  align-items: center;
+  font-size: var(--font-size-basis); }
   .dnb-toggle-button__inner {
     display: inline-flex;
     flex-direction: column; }
@@ -1527,6 +1564,14 @@ button.dnb-button::-moz-focus-inner {
     left: 0;
     user-select: none;
     -webkit-user-select: none; }
+  .dnb-toggle-button__helper {
+    clip: rect(0, 0, 0, 0);
+    width: 1px;
+    margin-left: -1px;
+    overflow: hidden; }
+  .dnb-toggle-button--vertical .dnb-toggle-button__helper {
+    height: 1px;
+    margin-top: -1px; }
   .dnb-toggle-button--vertical {
     flex-direction: column;
     align-items: flex-start; }
@@ -1588,7 +1633,8 @@ button.dnb-button::-moz-focus-inner {
   .dnb-toggle-button .dnb-form-label {
     margin-right: 1rem; }
   .dnb-toggle-button-group {
-    display: inline-flex; }
+    display: inline-flex;
+    font-size: var(--font-size-basis); }
     .dnb-toggle-button-group .dnb-toggle-button {
       margin-right: var(--toggle-button-margin-right);
       margin-bottom: var(--toggle-button-margin-bottom); }

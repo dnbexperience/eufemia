@@ -71,6 +71,12 @@ exports[`Textarea component have to match snapshot 1`] = `
     className="dnb-textarea dnb-textarea--virgin dnb-textarea--has-content"
   >
     <span
+      aria-hidden={true}
+      className="dnb-textarea__helper"
+    >
+      ‌
+    </span>
+    <span
       className="dnb-textarea__inner"
     >
       <span
@@ -647,6 +653,14 @@ textarea.dnb-textarea {
     display: inline-flex;
     flex-direction: column;
     margin: var(--textarea-padding-width); }
+  .dnb-textarea__helper {
+    clip: rect(0, 0, 0, 0);
+    width: 1px;
+    margin-left: -1px;
+    overflow: hidden; }
+  .dnb-textarea--vertical .dnb-textarea__helper {
+    height: 1px;
+    margin-top: -1px; }
   .dnb-textarea__shell {
     display: inline-flex;
     position: relative; }
