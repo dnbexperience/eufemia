@@ -54,19 +54,26 @@ const AllComponents = ({ horizontal, vertical, showText, hideLabel }) => {
       {showText && (
         <>
           <Space {...params} inline>
-            <p className="dnb-p">paragraph</p>
+            <p className="dnb-p">
+              paragraph{' '}
+              <IconPrimary icon="bell" size="medium" {...params} />
+            </p>
           </Space>
           text
         </>
       )}
       <Button text="Button" {...params} />
-      <IconPrimary icon="bell" size="medium" {...params} />
-      <DatePicker label={labels.datePicker} {...params} />
+      <Button icon="add" {...params} />
+      <Input label={labels.input} {...params} />
+      <Input label={labels.input} {...params} />
+      <Input label={labels.input} stretch {...params} />
       <Dropdown
         label={labels.dropdown}
         data={['Item A', 'Item B', 'Item C']}
         {...params}
       />
+      <DatePicker label={labels.datePicker} {...params} />
+      <IconPrimary icon="bell" size="medium" {...params} />
       <Checkbox label={labels.checkbox} {...params} />
       <Radio label={labels.radio} {...params} />
       <Radio.Group label={labels.radioGroup} {...params}>
@@ -83,9 +90,6 @@ const AllComponents = ({ horizontal, vertical, showText, hideLabel }) => {
         <ToggleButton text="Toggle B" value="b" />
       </ToggleButton.Group>
       <Switch label={labels.switch} {...params} />
-      <Input label={labels.input} {...params} />
-      <Input label={labels.input} {...params} />
-      <Input label={labels.input} stretch {...params} />
       <Textarea label={labels.textarea} rows="5" {...params} />
       <Textarea label={labels.textarea} rows="5" {...params} />
       <Textarea label={labels.textarea} stretch rows="3" {...params} />

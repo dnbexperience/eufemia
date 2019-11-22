@@ -278,6 +278,10 @@ export default class Switch extends Component {
     return (
       <span {...mainParams}>
         <span className="dnb-switch__order">
+          <span className="dnb-switch__helper2" aria-hidden>
+            &zwnj;
+          </span>
+
           {label && (
             <FormLabel
               id={id + '-label'}
@@ -287,6 +291,7 @@ export default class Switch extends Component {
               sr_only={label_sr_only}
             />
           )}
+
           <span className="dnb-switch__inner">
             {label_position === 'left' && statusComp}
 
@@ -305,9 +310,6 @@ export default class Switch extends Component {
                 onChange={this.onChangeHandler}
                 onKeyDown={this.onKeyDownHandler}
               />
-              <span className="dnb-switch__helper" aria-hidden>
-                {'-'}
-              </span>
               <span
                 draggable
                 aria-hidden

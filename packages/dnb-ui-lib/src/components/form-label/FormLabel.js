@@ -102,7 +102,7 @@ export default class FormLabel extends PureComponent {
       id,
       disabled,
       label_direction,
-      direction,
+      direction, // eslint-disable-line
       vertical,
       sr_only,
       class: _className,
@@ -117,11 +117,12 @@ export default class FormLabel extends PureComponent {
     const params = {
       className: classnames(
         'dnb-form-label',
-        // label_direction && `dnb-form-label--${label_direction}`,
-        (isTrue(vertical) || direction || label_direction) &&
-          `dnb-form-label--${
-            isTrue(vertical) ? 'vertical' : direction || label_direction
-          }`,
+        (isTrue(vertical) || label_direction === 'vertical') &&
+          `dnb-form-label--vertical`,
+        // "direction" is not in use
+        // direction && `dnb-form-label--${direction}`,
+        // we set and use "label_direction" above
+        // label_direction && `dnb-form-label--${label_direction}-label`,
         isTrue(sr_only) && 'dnb-sr-only',
         createSpacingClasses(props),
         className,
@@ -136,6 +137,14 @@ export default class FormLabel extends PureComponent {
 
     // also used for code markup simulation
     validateDOMAttributes(this.props, params)
+
+    if (isTrue(sr_only)) {
+      return (
+        <Element is={element} aria-label={content} {...params}>
+          <span aria-hidden>&zwnj;</span>
+        </Element>
+      )
+    }
 
     return (
       <Element is={element} {...params}>

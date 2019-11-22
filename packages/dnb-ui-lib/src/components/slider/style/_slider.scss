@@ -17,6 +17,17 @@
   // use flex to make sure we have the whole space available
   display: flex;
 
+  font-size: var(--font-size-small);
+  line-height: var(--slider-thumb-size);
+
+  &__helper {
+    // NB: this is not the same kind of helper than we have for the button!
+    @include helper();
+  }
+  &__label--vertical &__helper {
+    @include helperVertical();
+  }
+
   &--vertical {
     width: auto;
     height: 100%;
@@ -31,16 +42,12 @@
 
     flex: 1;
     width: 100%;
-
-    transform: translateY(-0.25rem);
   }
   &--vertical &__wrapper {
     align-items: center;
 
     width: auto;
     height: 100%;
-
-    transform: translateY(0);
   }
 
   &__inner {
@@ -160,7 +167,7 @@
     bottom: 0;
   }
 
-  &__helper,
+  &__button-helper,
   &__thumb {
     position: absolute;
     left: 0;
@@ -204,14 +211,14 @@
   }
 
   // make sure the helper is not click able
-  &__helper {
+  &__button-helper {
     pointer-events: none;
     z-index: 2;
     opacity: 0;
 
     transform: translate3d(0.0625rem, 0, 0);
   }
-  &__helper:not(:disabled):focus ~ .dnb-button {
+  &__button-helper:not(:disabled):focus ~ .dnb-button {
     @include fakeFocus();
   }
 

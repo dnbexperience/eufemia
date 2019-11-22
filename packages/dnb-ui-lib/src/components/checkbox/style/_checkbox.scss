@@ -18,9 +18,10 @@
     flex-direction: column;
   }
   &__helper {
-    clip: rect(0, 0, 0, 0);
-    width: 0;
-    overflow: hidden;
+    @include helper();
+
+    // since we don't have a vertical state, we set it to vertical by default
+    @include helperVertical();
   }
 
   &__shell {

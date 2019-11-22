@@ -329,6 +329,10 @@ export default class Textarea extends PureComponent {
 
     return (
       <span {...mainParams}>
+        <span className="dnb-textarea__helper" aria-hidden>
+          &zwnj;
+        </span>
+
         {label && (
           <FormLabel
             id={id + '-label'}

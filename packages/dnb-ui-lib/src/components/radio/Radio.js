@@ -352,6 +352,10 @@ export default class Radio extends Component {
           return (
             <span {...mainParams}>
               <span className="dnb-radio__order">
+                <span className="dnb-radio__helper" aria-hidden>
+                  &zwnj;
+                </span>
+
                 {label && (
                   <FormLabel
                     id={id + '-label'}
@@ -363,10 +367,6 @@ export default class Radio extends Component {
                     disabled={disabled}
                   />
                 )}
-
-                <span className="dnb-radio__helper" aria-hidden>
-                  {'-'}
-                </span>
 
                 <span className="dnb-radio__inner">
                   {label_position === 'left' && statusComp}

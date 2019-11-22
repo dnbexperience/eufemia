@@ -48,11 +48,19 @@ export default [
           >
             <Dropdown
               right="small"
+              // size="large"
+              // label="Choose your code"
+              // label_sr_only
               title="Country code"
               value={0}
               data={['+47', '+48', '+49']}
             />
-            <Input placeholder="Your phone number" />
+            <Input
+              // size="medium"
+              // label="Phone number"
+              // label_sr_only
+              placeholder="Your phone number"
+            />
           </PhoneRow>
         </Box>
         <Box>

@@ -39,37 +39,6 @@ export default [
     <Center>
       <Wrapper showOverflow>
         <Box>
-          <H2 bottom="large">Combine vertical and horizontal</H2>
-          <FormRow
-            label={
-              <H3 top={false} bottom="large">
-                Custom vertical legend:
-              </H3>
-            }
-            vertical
-            top="medium"
-            // no_fieldset
-          >
-            <Input label="Vertical input A" />
-            <Input label="Vertical input B" top="medium" />
-            <FormRow
-              // label="Horizontal legend:"
-              // direction="horizontal"
-              // indent
-              // indent_offset="medium"
-
-              vertical="false"
-              label_direction="horizontal"
-              top="medium"
-            >
-              <Input label="Horizontal input A" right="small" />
-              <Input label="Horizontal input B" />
-            </FormRow>
-            <Input label="Vertical input C" top="medium" />
-          </FormRow>
-        </Box>
-
-        <Box>
           <H3 bottom="large">Plain</H3>
           <AllComponents showText horizontal vertical />
         </Box>
@@ -120,6 +89,7 @@ export default [
             <Input value="Input value B ..." />
           </FormRow>
         </Box>
+
         <Box>
           <FormRow direction="horizontal" indent="default">
             <FormLabel for_id="alone-1">
@@ -129,6 +99,7 @@ export default [
             <Checkbox id="alone-1" label="Checkbox" />
           </FormRow>
         </Box>
+
         <Box>
           <FormRow
             direction="horizontal"
@@ -159,6 +130,37 @@ export default [
                 // checked
               />
             </Radio.Group>
+          </FormRow>
+        </Box>
+
+        <Box>
+          <H2 bottom="large">Combine vertical and horizontal</H2>
+          <FormRow
+            label={
+              <H3 top={false} bottom="large">
+                Custom vertical legend:
+              </H3>
+            }
+            vertical
+            top="medium"
+            // no_fieldset
+          >
+            <Input label="Vertical input A" />
+            <Input label="Vertical input B" top="medium" />
+            <FormRow
+              // label="Horizontal legend:"
+              // direction="horizontal"
+              // indent
+              // indent_offset="medium"
+
+              vertical="false"
+              label_direction="horizontal"
+              top="medium"
+            >
+              <Input label="Horizontal input A" right="small" />
+              <Input label="Horizontal input B" />
+            </FormRow>
+            <Input label="Vertical input C" top="medium" />
           </FormRow>
         </Box>
       </Wrapper>

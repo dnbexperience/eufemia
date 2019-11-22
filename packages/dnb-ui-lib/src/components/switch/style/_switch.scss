@@ -16,11 +16,14 @@
   &__inner {
     display: inline-flex;
     flex-direction: column;
+    justify-content: center;
   }
+
   &__helper {
-    clip: rect(0, 0, 0, 0);
-    width: 0;
-    overflow: hidden;
+    @include helper();
+
+    // since we don't have a vertical state, we set it to vertical by default
+    @include helperVertical();
   }
 
   &__shell {
@@ -30,9 +33,6 @@
 
     display: flex;
     align-items: center;
-
-    // vertical alignment
-    transform: translateY(0.0625rem);
   }
 
   &__focus,
@@ -135,7 +135,7 @@
     display: inline-flex;
 
     // is needed for vertical alignment of the whole component
-    font-size: var(--font-size-basis);
+    font-size: var(--font-size-small);
     line-height: var(--line-height-basis);
   }
 
@@ -163,10 +163,10 @@
     }
     & + .dnb-form-status {
       order: 3;
+      margin-top: 0.5rem;
+
       // in case the status did not wrap, we want to have the status on the same line
       vertical-align: bottom;
-
-      margin-top: 0.5rem;
     }
   }
 

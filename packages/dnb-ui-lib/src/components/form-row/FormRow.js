@@ -188,7 +188,7 @@ export default class FormRow extends PureComponent {
         (isTrue(vertical) || label_direction) &&
           `dnb-form-row--${
             isTrue(vertical) ? 'vertical' : label_direction
-          }-label`,
+          }-label`, // <-- has label
         indent &&
           !(
             isNested &&
@@ -240,6 +240,10 @@ export default class FormRow extends PureComponent {
       <Context.Provider value={context}>
         <Fieldset useFieldset={useFieldset}>
           <div {...params}>
+            <span className="dnb-form-row__helper" aria-hidden>
+              &zwnj;
+            </span>
+
             {label && (
               <FormLabel
                 className={classnames('dnb-form-row__label', label_class)}
