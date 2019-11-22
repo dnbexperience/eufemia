@@ -1226,6 +1226,8 @@ legend.dnb-form-label {
     width: 100%; }
   .dnb-input--vertical.dnb-input--stretch .dnb-input__inner {
     width: 100%; }
+  .dnb-input > .dnb-form-label {
+    line-height: var(--font-size-basis); }
   .dnb-input[class*='__status'] {
     align-items: flex-start;
     line-height: var(--line-height-basis); }

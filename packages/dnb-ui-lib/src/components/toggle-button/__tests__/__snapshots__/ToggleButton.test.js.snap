@@ -1468,8 +1468,7 @@ button.dnb-button::-moz-focus-inner {
   .dnb-radio-group {
     display: inline-flex;
     flex-direction: row;
-    font-size: var(--font-size-basis);
-    line-height: var(--line-height-basis); }
+    line-height: var(--line-height-x-small--em); }
     .dnb-radio-group .dnb-radio {
       margin-right: var(--radio-margin-right);
       margin-bottom: var(--radio-margin-bottom); }
@@ -1500,8 +1499,6 @@ button.dnb-button::-moz-focus-inner {
         margin: auto; }
       .dnb-radio__order {
         align-items: center; }
-      .dnb-radio__shell {
-        transform: translateY(0); }
       .dnb-radio, .dnb-radio-group {
         flex: none; }
       .dnb-radio-group {

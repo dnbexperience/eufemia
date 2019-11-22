@@ -557,7 +557,8 @@ exports[`Radio scss have to match default theme snapshot 1`] = `
   .dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:active):checked:hover ~ .dnb-radio__dot {
     background-color: var(--color-fire-red-8); }
   .dnb-radio > .dnb-form-status {
-    transform: translateY(0.1875rem); }
+    transform: translateY(0.25rem);
+    /* 4/16 */ }
 "
 `;
 
@@ -871,8 +872,7 @@ legend.dnb-form-label {
   .dnb-radio-group {
     display: inline-flex;
     flex-direction: row;
-    font-size: var(--font-size-basis);
-    line-height: var(--line-height-basis); }
+    line-height: var(--line-height-x-small--em); }
     .dnb-radio-group .dnb-radio {
       margin-right: var(--radio-margin-right);
       margin-bottom: var(--radio-margin-bottom); }
@@ -903,8 +903,6 @@ legend.dnb-form-label {
         margin: auto; }
       .dnb-radio__order {
         align-items: center; }
-      .dnb-radio__shell {
-        transform: translateY(0); }
       .dnb-radio, .dnb-radio-group {
         flex: none; }
       .dnb-radio-group {
