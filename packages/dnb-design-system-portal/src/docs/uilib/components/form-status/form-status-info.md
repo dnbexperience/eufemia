@@ -11,6 +11,8 @@ The `FormStatus` component should be positioned relative to the form or form inp
 
 Also, the `FormStatus` is used inside of many other form components.
 
+The `FormStatus` component cooperates together with the [GlobalStatus](/uilib/components/global-status) component to summaries and have several status messages in once place.
+
 ## Demos
 
 <Examples />
