@@ -122,19 +122,22 @@ export default class FormStatus extends PureComponent {
 
     // we do not use a random ID here, as we don't need it for now
     this._id = props.id || makeUniqueId()
-    this.gsProvider = GlobalStatusProvider.init(
-      props.global_status_id || 'main',
-      provider => {
-        // gets called once ready
-        const { text, state } = this.props
-        const status_id = this._id
-        provider.add({
-          state,
-          status_id,
-          item: { text, status_id, status_anchor_url: true }
-        })
-      }
-    )
+
+    if (props.status !== 'info') {
+      this.gsProvider = GlobalStatusProvider.init(
+        props.global_status_id || 'main',
+        provider => {
+          // gets called once ready
+          const { text, state } = this.props
+          const status_id = this._id
+          provider.add({
+            state,
+            status_id,
+            item: { text, status_id, status_anchor_url: true }
+          })
+        }
+      )
+    }
 
     this._ref = React.createRef()
   }
