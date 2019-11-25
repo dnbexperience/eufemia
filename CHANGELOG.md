@@ -1,6 +1,8 @@
-## November, 25. 2019
+## November, 26. 2019
 
 ### New DNB font
+
+General information: All existing and new components uses the new (and slightly larger) text styles, but the existing height of the components is not affected by this and has NOT changed.
 
 [Typography](/uilib/typography) changes:
 
@@ -32,9 +34,33 @@ New [Colors](/uilib/usage/customisation/colors):
 
 New [Icons](/icons):
 
+- primary `reset`
+- primary `reset`
+- primary `arrow_top`
+- primary `arrow_right`
+- primary `arrow_bottom`
+- primary `arrow_left`
+- secondary `settings`
+- secondary `home`
+- secondary `refresh`
+- secondary `add_file`
+- secondary `view_on`
+- secondary `view_off`
+
 ### Components and Elements
 
 [Components](/uilib/components) and [Elements](/uilib/elements) features and changes:
+
+### Components changes
+
+- **Button** signal button changes:
+  - background color change (`accent-yellow`)
+  - text color change (`ocean-green`)
+  - outline color change (`ocean-green`)
+  - inactive / disabled color: `accent-yellow-30`
+- **Dropdown**
+  - dropdown text error state color: `fire-red`
+- **Table** header icon change: from `chevron` to `arrow`
 
 Get more details about the `dnb-ui-lib` [v6 release](/uilib/about-the-lib/releases/v6-info)
 
