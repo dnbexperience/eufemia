@@ -215,11 +215,11 @@ export default class Checkbox extends Component {
 
     const mainParams = {
       className: classnames(
-        'dnb-form-component',
         'dnb-checkbox',
         status && `dnb-checkbox__status--${status_state}`,
         label &&
           `dnb-checkbox--label-position-${label_position || 'right'}`,
+        'dnb-form-component',
         createSpacingClasses(props),
         className,
         _className

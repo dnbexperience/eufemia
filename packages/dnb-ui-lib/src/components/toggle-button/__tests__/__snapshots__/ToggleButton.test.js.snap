@@ -194,7 +194,7 @@ exports[`ToggleButton component have to match snapshot 1`] = `
                   value={null}
                 >
                   <span
-                    className="dnb-form-component dnb-checkbox"
+                    className="dnb-checkbox dnb-form-component"
                   >
                     <span
                       className="dnb-checkbox__order"
@@ -314,7 +314,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
   vertical={null}
 >
   <div
-    className="dnb-form-component dnb-toggle-button-group dnb-toggle-button-group--row"
+    className="dnb-toggle-button-group dnb-toggle-button-group--row dnb-form-component"
   >
     <FormRow
       class={null}

@@ -26,7 +26,7 @@ exports[`Switch component have to match snapshot 1`] = `
   value="value"
 >
   <span
-    className="dnb-form-component dnb-switch className class dnb-switch--label-position-left"
+    className="dnb-switch dnb-form-component className class dnb-switch--label-position-left"
   >
     <span
       className="dnb-switch__order"

@@ -223,10 +223,10 @@ export default class ToggleButtonGroup extends PureComponent {
     const showStatus = status && status !== 'error'
 
     const classes = classnames(
-      'dnb-form-component',
       'dnb-toggle-button-group',
       status && `dnb-toggle-button-group__status--${status_state}`,
       `dnb-toggle-button-group--${layout_direction}`,
+      'dnb-form-component',
       createSpacingClasses(props),
       className,
       _className

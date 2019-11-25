@@ -58,7 +58,7 @@ exports[`Checkbox component have to match snapshot 1`] = `
   value={null}
 >
   <span
-    className="dnb-form-component dnb-checkbox dnb-checkbox--label-position-left"
+    className="dnb-checkbox dnb-form-component dnb-checkbox--label-position-left"
   >
     <span
       className="dnb-checkbox__order"

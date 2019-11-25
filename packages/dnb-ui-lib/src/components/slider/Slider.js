@@ -503,7 +503,6 @@ export default class Slider extends PureComponent {
     const id = this._id
     const mainParams = {
       className: classnames(
-        'dnb-form-component',
         'dnb-slider',
         reverse && 'dnb-slider--reverse',
         vertical && 'dnb-slider--vertical',
@@ -512,6 +511,7 @@ export default class Slider extends PureComponent {
           `dnb-slider__label--${label_direction}`,
         showStatus && 'dnb-slider__form-status',
         status && `dnb-slider__status--${status_state}`,
+        'dnb-form-component',
         createSpacingClasses(props),
         className,
         _className
