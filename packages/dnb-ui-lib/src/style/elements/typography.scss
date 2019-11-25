@@ -97,14 +97,12 @@
   &--small,
   & > small {
     font-size: var(--font-size-small);
-
-    // shold be 22px - but we force it to the pixel grid!
-    // - sorry Sindre
-    line-height: var(--line-height-basis);
+    line-height: var(--line-height-small);
   }
 
   & > cite {
     font-weight: var(--font-weight-medium);
+    line-height: var(--line-height-basis);
     font-style: italic;
   }
 }
