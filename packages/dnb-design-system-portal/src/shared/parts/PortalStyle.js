@@ -123,6 +123,23 @@ export default css`
     clear: both;
     content: '';
   }
+  .gatsby-resp-image-wrapper {
+    a {
+      padding: 0;
+      box-shadow: none;
+      &[target='_blank']:not(:empty):not(.dnb-anchor--no-icon)::after {
+        content: none;
+      }
+
+      img {
+        width: 100%;
+      }
+    }
+    a:hover img {
+      border-radius: 0.25rem; /* 4/16 */
+      box-shadow: 0 0 0 0.125rem var(--color-mint-green-50);
+    }
+  }
 
   ${'' /* .pl-0 {
     padding-left: 0 !important;
