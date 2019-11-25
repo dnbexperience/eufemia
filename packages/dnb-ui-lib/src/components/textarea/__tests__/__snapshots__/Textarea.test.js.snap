@@ -68,7 +68,7 @@ exports[`Textarea component have to match snapshot 1`] = `
   value="test"
 >
   <span
-    className="dnb-form-component dnb-textarea dnb-textarea--virgin dnb-textarea--has-content"
+    className="dnb-textarea dnb-textarea--virgin dnb-form-component dnb-textarea--has-content"
   >
     <span
       aria-hidden={true}

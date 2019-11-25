@@ -139,7 +139,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
   vertical={null}
 >
   <div
-    className="dnb-form-component dnb-radio-group dnb-radio-group--row"
+    className="dnb-radio-group dnb-radio-group--row dnb-form-component"
   >
     <FormRow
       class={null}

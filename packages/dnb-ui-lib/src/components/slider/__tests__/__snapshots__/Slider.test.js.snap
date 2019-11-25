@@ -31,7 +31,7 @@ exports[`Slider component have to match snapshot 1`] = `
   vertical="vertical"
 >
   <span
-    className="dnb-form-component dnb-slider className class dnb-slider__label--horizontal"
+    className="dnb-slider dnb-form-component className class dnb-slider__label--horizontal"
   >
     <span
       aria-hidden={true}

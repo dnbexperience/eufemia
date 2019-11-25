@@ -970,7 +970,6 @@ export default class Dropdown extends PureComponent {
 
     const mainParams = {
       className: classnames(
-        'dnb-form-component',
         'dnb-dropdown',
         opened && 'dnb-dropdown--opened',
         hidden && 'dnb-dropdown--hidden',
@@ -988,6 +987,7 @@ export default class Dropdown extends PureComponent {
         isTrue(no_scroll_animation) && 'dnb-dropdown--no-scroll-animation',
         status && `dnb-dropdown__status--${status_state}`,
         showStatus && 'dnb-dropdown__form-status',
+        'dnb-form-component',
         createSpacingClasses(props),
         _className,
         className
