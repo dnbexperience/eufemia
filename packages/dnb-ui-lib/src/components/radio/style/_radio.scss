@@ -145,9 +145,6 @@
     display: inline-flex;
     flex-direction: row;
 
-    // if we use --line-height-basis here, we get a total height of 33px
-    line-height: var(--line-height-x-small--em);
-
     // default spacing
     .dnb-radio {
       margin-right: var(--radio-margin-right);
@@ -166,6 +163,8 @@
       display: block;
     }
     &__shell {
+      // if we use --line-height-basis here, we get a total height of 33px
+      line-height: var(--line-height-x-small--em);
       & > .dnb-form-status {
         margin-top: 0;
         margin-bottom: 0;
@@ -178,16 +177,14 @@
     .dnb-form-row {
       // because of our bottom margins we have on the componens
       margin-bottom: calc(1px - 1px - var(--radio-margin-bottom));
-
-      // & > .dnb-form-label {
-      //   // opacity: 0.2;
-      //   //   font-size: var(--font-size-basis);
-      //   //   // line-height: var(--line-height-basis);
-      //   //   // line-height: var(--line-height-x-small--em);
-      // }
     }
     .dnb-form-row--vertical & {
       display: flex;
+    }
+
+    // if no label is given
+    &__helper {
+      @include helper();
     }
   }
 

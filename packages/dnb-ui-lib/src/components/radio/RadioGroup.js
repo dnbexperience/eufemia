@@ -229,6 +229,11 @@ export default class RadioGroup extends PureComponent {
     return (
       <RadioGroupContext.Provider value={context}>
         <div className={classes}>
+          {!label && (
+            <span className="dnb-radio-group__helper" aria-hidden>
+              &zwnj;
+            </span>
+          )}
           <FormRow {...formRowParams}>
             <span
               id={id}
