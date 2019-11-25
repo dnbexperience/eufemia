@@ -50,7 +50,7 @@
 
 @mixin buttonFocus($color, $background-color, $focus-color: null) {
   @include focus() {
-    html:not(html[data-is-touch]) & {
+    html:not([data-is-touch]) & {
       color: $color;
       background-color: $background-color;
     }

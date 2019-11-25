@@ -50,7 +50,7 @@ class Example extends PureComponent {
           data-dnb-test="form-row-default"
         >
           {/* @jsx */ `
-<FormRow indent="default" label="A long horizontal FormLabel with a lot of informative text and a default indent:">
+<FormRow indent="default" label="A long horizontal legend (FormLabel) with a lot of informative text and a default indent:">
   <Checkbox id="alone-1" label="Checkbox" />
 </FormRow>
           `}
@@ -61,7 +61,7 @@ class Example extends PureComponent {
   section_style="mint-green"
   section_spacing="default"
   indent={true}
-  label="A long horizontal FormLabel with a lot of informative text and a default indent:"
+  label="A long horizontal legend (FormLabel) with a lot of informative text and a default indent:"
 >
   <Checkbox label="Checkbox" />
 </FormRow>
@@ -110,11 +110,8 @@ const CustomRow = styled(FormRow)\`
   }
 \`
 render(
-  <CustomRow>
-    <FormLabel for_id="alone-1">
-      A long horizontal FormLabel with a lot of informative text and a max-width of 12rem:
-    </FormLabel>
-    <Checkbox id="alone-1" label="Checkbox" />
+  <CustomRow label="A long horizontal legend (FormLabel) with a lot of informative text and a max-width of 12rem:">
+    <Checkbox label="Checkbox" />
   </CustomRow>
 )
           `}
@@ -166,7 +163,7 @@ render(
         >
           {/* @jsx */ `
 <FormRow
-  label="A long horizontal FormLabel with a lot of informative text:"
+  label="A long horizontal legend (FormLabel) with a lot of informative text:"
   indent="true"
   indent_offset="large"
   direction="horizontal"
@@ -289,6 +286,43 @@ render(
 <FormRow label="Vertical label direction, no labels:" label_direction="vertical">
   <AllComponents horizontal hideLabel />
 </FormRow>
+          `}
+            </ComponentBox>
+            <ComponentBox
+              caption="Combining different components and directions"
+              useRender
+            >
+              {/* @jsx */ `
+const PhoneRow = styled(FormRow)\`
+  .dnb-dropdown__shell {
+    width: 6rem; /* custom width */
+  }
+  .dnb-dropdown__list {
+    min-width: 6rem; /* custom width */
+  }
+\`
+render(
+  <FormRow vertical={true}>
+    <Input
+      label="Input"
+      placeholder="Input ..."
+      bottom
+    />
+    <PhoneRow
+      label="Phone number"
+      label_direction="vertical"
+      vertical={false}
+    >
+      <Dropdown
+        right="small"
+        title="Country code"
+        data={['+47', '+48', '+49']}
+        value={0}
+      />
+      <Input placeholder="Your phone number" />
+    </PhoneRow>
+  </FormRow>
+)
           `}
             </ComponentBox>
           </>

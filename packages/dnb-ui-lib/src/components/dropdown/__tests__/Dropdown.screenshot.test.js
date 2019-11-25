@@ -16,21 +16,21 @@ describe('Dropdown screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+  it('have to match the closed dropdown with focus', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-dnb-test="dropdown-closed"] .dnb-dropdown__inner',
+      simulateSelector:
+        '[data-dnb-test="dropdown-closed"] .dnb-dropdown__trigger',
+      simulate: 'focus' // should be tested first
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
   it('have to match the closed dropdown with hover', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-dnb-test="dropdown-closed"] .dnb-dropdown__inner',
       simulateSelector:
         '[data-dnb-test="dropdown-closed"] .dnb-dropdown__trigger',
       simulate: 'hover'
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-  it('have to match the closed dropdown with focus', async () => {
-    const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="dropdown-closed"] .dnb-dropdown__inner',
-      simulateSelector:
-        '[data-dnb-test="dropdown-closed"] .dnb-dropdown__trigger',
-      simulate: 'focus'
     })
     expect(screenshot).toMatchImageSnapshot()
   })

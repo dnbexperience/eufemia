@@ -185,7 +185,14 @@ export default class Card extends PureComponent {
     const Anchor = isIE11
       ? ({ children, to, ...rest }) =>
           to && (
-            <a {...rest} href={url}>
+            <a
+              {...rest}
+              href={url}
+              onClick={event => {
+                event.preventDefault()
+                window.location.assign(url)
+              }}
+            >
               {children}
             </a>
           )
