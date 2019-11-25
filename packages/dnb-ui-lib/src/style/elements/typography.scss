@@ -97,7 +97,7 @@
   &--small,
   & > small {
     font-size: var(--font-size-small);
-    line-height: var(--line-height-small);
+    line-height: var(--line-height-basis);
   }
 
   & > cite {
