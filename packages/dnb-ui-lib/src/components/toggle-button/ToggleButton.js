@@ -394,10 +394,6 @@ export default class ToggleButton extends Component {
 
           return (
             <span {...mainParams}>
-              <span className="dnb-toggle-button__helper" aria-hidden>
-                &zwnj;
-              </span>
-
               {label && (
                 <FormLabel
                   id={id + '-label'}
@@ -421,6 +417,10 @@ export default class ToggleButton extends Component {
                 )}
 
                 <span className="dnb-toggle-button__shell">
+                  <span className="dnb-toggle-button__helper" aria-hidden>
+                    &zwnj;
+                  </span>
+
                   <Button
                     variant="secondary"
                     className="dnb-toggle-button__button"

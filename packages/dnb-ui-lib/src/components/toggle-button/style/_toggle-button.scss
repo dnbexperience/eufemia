@@ -173,6 +173,12 @@
     .dnb-form-row--vertical & {
       display: flex;
     }
+
+    // if no label is given
+    &__helper {
+      @include helper();
+      line-height: 2.5rem;
+    }
   }
 
   // default spacing for a single toggle button

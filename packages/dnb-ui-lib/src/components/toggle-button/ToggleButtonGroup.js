@@ -287,6 +287,11 @@ export default class ToggleButtonGroup extends PureComponent {
     return (
       <ToggleButtonGroupContext.Provider value={context}>
         <div className={classes}>
+          {!label && (
+            <span className="dnb-toggle-button-group__helper" aria-hidden>
+              &zwnj;
+            </span>
+          )}
           <FormRow {...formRowParams}>
             <span
               id={id}

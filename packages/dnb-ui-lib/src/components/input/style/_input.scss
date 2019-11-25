@@ -244,13 +244,10 @@
   }
 
   &--vertical {
+    display: flex;
     flex-direction: column;
     align-items: flex-start;
-    // line-height: var(--line-height-basis);
   }
-  // &--vertical &__row {
-  //   align-items: flex-start;
-  // }
 
   // make the input full width
   &--stretch {
