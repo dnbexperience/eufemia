@@ -6,9 +6,9 @@ import { H2 } from 'dnb-ui-lib/src/elements'
 
 ## Font Families
 
-Currently, **Fedra Sans** is used. But soon DNB will use a custom crated DNB font.
+Currently, \*DNB\*\*is used. But soon DNB will use a custom crated DNB
 
-## (Fedra Sans Book) Sans Book
+## DNB Regular
 
 <div className="typography-box">
   <div className="dnb-typo-regular">
@@ -32,7 +32,7 @@ Currently, **Fedra Sans** is used. But soon DNB will use a custom crated DNB fon
   </div>
 </div>
 
-## (Fedra Sans Demi) Sans Medium
+## DNB Medium
 
 <div className="typography-box">
   <div className="dnb-typo-medium">
@@ -56,7 +56,7 @@ Currently, **Fedra Sans** is used. But soon DNB will use a custom crated DNB fon
   </div>
 </div>
 
-## (Fedra Sans Medium) Sans Bold
+## DNB Bold
 
 <div className="typography-box">
   <div className="dnb-typo-bold">

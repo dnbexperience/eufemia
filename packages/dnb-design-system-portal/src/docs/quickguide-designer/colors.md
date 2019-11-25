@@ -28,10 +28,8 @@ See the DNB Figma master guide for shadow specifications.
 
 ### Tints and Shades
 
-Tints are lighter versions of the color that are made by mixing a color with white, whereas shades are darker versions of the color that are made by mixing a color with black. If a lighter version of a primary color is required (due to accessability, contrast or for illustration), then ....
+Tints are lighter versions of the color that are made by mixing a color with white, whereas shades are darker versions of the color that are made by mixing a color with black. If a lighter version of a primary color is required (due to accessibility, contrast or for illustration), then ....
 
 ### Resources
 
-Use a calculator such as this: https://snook.ca/technical/colour_contrast/colour.html#fg=33FF33,bg=333333 or this https://webaim.org/resources/contrastchecker/
-
-to test your text color and size against background for contrast values.
+Use a calculator [such as this](https://snook.ca/technical/colour_contrast/colour.html#fg=33FF33,bg=333333) [or this](https://webaim.org/resources/contrastchecker/) to test your text color and size against background for contrast values.
