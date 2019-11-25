@@ -875,6 +875,7 @@ legend.dnb-form-label {
     height: 1px;
     margin-top: -1px; }
   .dnb-slider--vertical {
+    display: flex;
     width: auto;
     height: 100%;
     min-width: inherit;
