@@ -1217,6 +1217,7 @@ legend.dnb-form-label {
     order: 2;
     margin-top: 0.5rem; }
   .dnb-input--vertical {
+    display: flex;
     flex-direction: column;
     align-items: flex-start; }
   .dnb-input--stretch {
