@@ -168,6 +168,8 @@
     }
 
     .dnb-form-row {
+      align-items: baseline;
+
       margin-bottom: calc(1px - 1px - var(--toggle-button-margin-bottom));
     }
     .dnb-form-row--vertical & {

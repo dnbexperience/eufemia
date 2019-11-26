@@ -36,6 +36,25 @@ export default [
         />
       </Box>
       <Box>
+        <Button
+          variant="secondary"
+          text="Secondary Button"
+          icon="chevron_right_medium"
+          size="large"
+          right
+        />
+        <Button icon="chevron_right" size="large" />
+      </Box>
+      <Box>
+        <Button
+          variant="secondary"
+          text="Secondary Button"
+          icon="chevron_right_medium"
+          right
+        />
+        <Button icon="chevron_right" icon_size="medium" size="default" />
+      </Box>
+      <Box>
         <Button text="Signal" variant="signal" icon="add" />
       </Box>
       <Box>

@@ -19,7 +19,7 @@
     shape-rendering: geometricPrecision;
   }
 
-  & > span {
+  & > &--wrapper {
     width: inherit;
     height: inherit;
   }

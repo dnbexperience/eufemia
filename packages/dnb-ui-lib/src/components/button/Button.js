@@ -307,6 +307,16 @@ class Content extends PureComponent {
           {text}
         </span>
       )
+    } else {
+      ret.push(
+        <span
+          key="button-helper"
+          className="dnb-button__helper"
+          aria-hidden
+        >
+          &zwnj;
+        </span>
+      )
     }
 
     if (icon) {
