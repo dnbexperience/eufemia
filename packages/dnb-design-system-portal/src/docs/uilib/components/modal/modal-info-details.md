@@ -40,8 +40,9 @@ Modal dialogs appear on top of the main content changing the _mode_ of the syste
 
 ### Design Patterns
 
-<Img src={ModalExample} caption="Modal with header, text and close button (spacing suggestions in blue and pink)" alt="My alt" height="256" />
-<Img src={ModalExampleButtons} caption="Modal with header, text, buttons and close button" alt="My alt" height="296" />
+<Img src={ModalExample} caption="Modal with header, text and close button (spacing suggestions in blue and pink)" alt="Image showing Modal with header" />
+
+<Img src={ModalExampleButtons} caption="Modal with header, text, buttons and close button" alt="Image showing Modal with header and clsoe button" />
 
 ## Root Element
 
