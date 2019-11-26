@@ -13,9 +13,13 @@
   display: inline-flex;
   flex-direction: column;
 
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-basis);
+
   &__inner {
     display: inline-flex;
     flex-direction: column;
+    align-self: center;
   }
   &__helper {
     @include helper();
@@ -95,10 +99,11 @@
 
   &__order {
     display: inline-flex;
+    align-items: baseline;
 
     // is needed for vertical alignment of the whole component
-    font-size: var(--font-size-small);
-    line-height: var(--line-height-basis);
+    // font-size: var(--font-size-small);
+    // line-height: var(--line-height-basis);
   }
 
   &--label-position-left &__order {
@@ -107,7 +112,6 @@
     }
     .dnb-form-label {
       order: 1;
-      // align-self: flex-start;// Do we need this?
       margin-right: 0.5rem;
       margin-left: 0;
     }

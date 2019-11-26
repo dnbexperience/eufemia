@@ -256,12 +256,14 @@ export default class FormRow extends PureComponent {
                 disabled={isTrue(disabled)}
               />
             )}
+
             {isTrue(no_label) && (
               <span
                 className="dnb-form-label dnb-form-row__label-dummy"
                 aria-hidden
               />
             )}
+
             {isNested && skipContentWrapperIfNested ? (
               children
             ) : (

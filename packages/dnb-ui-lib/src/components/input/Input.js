@@ -415,10 +415,6 @@ export default class Input extends PureComponent {
 
     return (
       <span {...mainParams}>
-        <span className="dnb-input__helper" aria-hidden>
-          &zwnj;
-        </span>
-
         {label && (
           <FormLabel
             id={id + '-label'}
@@ -429,6 +425,10 @@ export default class Input extends PureComponent {
             disabled={disabled}
           />
         )}
+
+        <span className="dnb-input__helper" aria-hidden>
+          &zwnj;
+        </span>
 
         <span {...innerParams}>
           {showStatus && (

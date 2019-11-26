@@ -604,10 +604,6 @@ export default class Slider extends PureComponent {
 
     return (
       <span {...mainParams}>
-        <span className="dnb-slider__helper" aria-hidden>
-          &zwnj;
-        </span>
-
         {label && (
           // do not use "for_id" as the ID element is not a fo
           <FormLabel
@@ -618,6 +614,10 @@ export default class Slider extends PureComponent {
             sr_only={label_sr_only}
           />
         )}
+
+        <span className="dnb-slider__helper" aria-hidden>
+          &zwnj;
+        </span>
 
         <span className="dnb-slider__wrapper">
           {showStatus && (

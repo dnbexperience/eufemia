@@ -212,6 +212,44 @@ render(
 </FormRow>
           `}
         </ComponentBox>
+        <ComponentBox
+          caption="Combining different components and directions"
+          useRender
+        >
+          {/* @jsx */ `
+const PhoneRow = styled(FormRow)\`
+.dnb-dropdown__shell {
+  width: 6rem; /* custom width */
+}
+.dnb-dropdown__list {
+  min-width: 6rem; /* custom width */
+}
+\`
+render(
+<FormRow vertical={true}>
+  <Input
+    label="Input"
+    placeholder="Input ..."
+    bottom
+  />
+  <PhoneRow
+    label="Phone number"
+    label_direction="vertical"
+    vertical={false}
+  >
+    <Dropdown
+      right="small"
+      title="Country code"
+      data={['+47', '+48', '+49']}
+      value={0}
+    />
+    <Input placeholder="Your phone number" />
+  </PhoneRow>
+</FormRow>
+)
+      `}
+        </ComponentBox>
+
         {IS_TEST && (
           <>
             <Global
@@ -286,43 +324,6 @@ render(
 <FormRow label="Vertical label direction, no labels:" label_direction="vertical">
   <AllComponents horizontal hideLabel />
 </FormRow>
-          `}
-            </ComponentBox>
-            <ComponentBox
-              caption="Combining different components and directions"
-              useRender
-            >
-              {/* @jsx */ `
-const PhoneRow = styled(FormRow)\`
-  .dnb-dropdown__shell {
-    width: 6rem; /* custom width */
-  }
-  .dnb-dropdown__list {
-    min-width: 6rem; /* custom width */
-  }
-\`
-render(
-  <FormRow vertical={true}>
-    <Input
-      label="Input"
-      placeholder="Input ..."
-      bottom
-    />
-    <PhoneRow
-      label="Phone number"
-      label_direction="vertical"
-      vertical={false}
-    >
-      <Dropdown
-        right="small"
-        title="Country code"
-        data={['+47', '+48', '+49']}
-        value={0}
-      />
-      <Input placeholder="Your phone number" />
-    </PhoneRow>
-  </FormRow>
-)
           `}
             </ComponentBox>
           </>

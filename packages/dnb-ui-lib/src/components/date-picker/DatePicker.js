@@ -706,10 +706,6 @@ export default class DatePicker extends PureComponent {
 
     return (
       <span {...mainParams}>
-        <span className="dnb-date-picker__helper" aria-hidden>
-          &zwnj;
-        </span>
-
         {label && (
           <FormLabel
             id={id + '-label'}
@@ -720,6 +716,10 @@ export default class DatePicker extends PureComponent {
             disabled={isTrue(disabled)}
           />
         )}
+
+        <span className="dnb-date-picker__helper" aria-hidden>
+          &zwnj;
+        </span>
 
         <span
           className="dnb-date-picker__inner"

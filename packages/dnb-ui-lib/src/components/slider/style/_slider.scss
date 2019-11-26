@@ -18,7 +18,7 @@
   display: flex;
 
   font-size: var(--font-size-small);
-  line-height: var(--slider-thumb-size);
+  line-height: var(--line-height-basis);
 
   &__helper {
     // NB: this is not the same kind of helper than we have for the button!
@@ -227,6 +227,7 @@
 
   > .dnb-form-label {
     margin-right: 1rem;
+    line-height: var(--slider-thumb-size);
   }
   &__label--vertical {
     flex-direction: column;
