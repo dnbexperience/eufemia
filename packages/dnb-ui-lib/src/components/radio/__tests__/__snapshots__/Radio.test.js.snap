@@ -30,12 +30,6 @@ exports[`Radio component have to match snapshot 1`] = `
     <span
       className="dnb-radio__order"
     >
-      <span
-        aria-hidden={true}
-        className="dnb-radio__helper"
-      >
-        ‌
-      </span>
       <FormLabel
         aria-hidden={true}
         aria-label="label"
@@ -72,6 +66,12 @@ exports[`Radio component have to match snapshot 1`] = `
           </label>
         </Element>
       </FormLabel>
+      <span
+        aria-hidden={true}
+        className="dnb-radio__helper"
+      >
+        ‌
+      </span>
       <span
         className="dnb-radio__inner"
       >
@@ -249,12 +249,6 @@ exports[`Radio group component have to match group snapshot 1`] = `
                     <span
                       className="dnb-radio__order"
                     >
-                      <span
-                        aria-hidden={true}
-                        className="dnb-radio__helper"
-                      >
-                        ‌
-                      </span>
                       <FormLabel
                         aria-hidden={true}
                         aria-label="Radio 1"
@@ -291,6 +285,12 @@ exports[`Radio group component have to match group snapshot 1`] = `
                           </label>
                         </Element>
                       </FormLabel>
+                      <span
+                        aria-hidden={true}
+                        className="dnb-radio__helper"
+                      >
+                        ‌
+                      </span>
                       <span
                         className="dnb-radio__inner"
                       >
@@ -358,12 +358,6 @@ exports[`Radio group component have to match group snapshot 1`] = `
                     <span
                       className="dnb-radio__order"
                     >
-                      <span
-                        aria-hidden={true}
-                        className="dnb-radio__helper"
-                      >
-                        ‌
-                      </span>
                       <FormLabel
                         aria-hidden={true}
                         aria-label="Radio 2"
@@ -400,6 +394,12 @@ exports[`Radio group component have to match group snapshot 1`] = `
                           </label>
                         </Element>
                       </FormLabel>
+                      <span
+                        aria-hidden={true}
+                        className="dnb-radio__helper"
+                      >
+                        ‌
+                      </span>
                       <span
                         className="dnb-radio__inner"
                       >
@@ -781,10 +781,13 @@ legend.dnb-form-label {
 
 .dnb-radio {
   display: inline-flex;
-  flex-direction: column; }
+  flex-direction: column;
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-basis); }
   .dnb-radio__inner {
     display: inline-flex;
-    flex-direction: column; }
+    flex-direction: column;
+    align-self: center; }
   .dnb-radio__helper {
     clip: rect(0, 0, 0, 0);
     width: 1px;
@@ -838,8 +841,7 @@ legend.dnb-form-label {
     margin-bottom: 0; }
   .dnb-radio__order {
     display: inline-flex;
-    font-size: var(--font-size-small);
-    line-height: var(--line-height-basis); }
+    align-items: baseline; }
     .dnb-radio-group--column .dnb-radio__order {
       display: flex; }
   .dnb-radio--label-position-left .dnb-radio__order .dnb-radio__inner {

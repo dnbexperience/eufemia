@@ -478,6 +478,8 @@ legend.dnb-form-label {
 .dnb-switch {
   display: inline-flex;
   flex-direction: column;
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-basis);
   /*
     * When switched OFF
     * aka when the switch is not :checked
@@ -554,9 +556,7 @@ legend.dnb-form-label {
     margin-right: 0.5rem;
     margin-bottom: 0; }
   .dnb-switch__order {
-    display: inline-flex;
-    font-size: var(--font-size-small);
-    line-height: var(--line-height-basis); }
+    display: inline-flex; }
   .dnb-switch--label-position-left .dnb-switch__order .dnb-switch__inner {
     order: 2; }
   .dnb-switch--label-position-left .dnb-switch__order .dnb-form-label {

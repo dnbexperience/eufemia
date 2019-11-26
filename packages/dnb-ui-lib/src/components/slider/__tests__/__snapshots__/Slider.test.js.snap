@@ -33,12 +33,6 @@ exports[`Slider component have to match snapshot 1`] = `
   <span
     className="dnb-slider dnb-form-component className class dnb-slider__label--horizontal"
   >
-    <span
-      aria-hidden={true}
-      className="dnb-slider__helper"
-    >
-      ‌
-    </span>
     <FormLabel
       class={null}
       className={null}
@@ -67,6 +61,12 @@ exports[`Slider component have to match snapshot 1`] = `
         </label>
       </Element>
     </FormLabel>
+    <span
+      aria-hidden={true}
+      className="dnb-slider__helper"
+    >
+      ‌
+    </span>
     <span
       className="dnb-slider__wrapper"
     >
@@ -888,7 +888,7 @@ legend.dnb-form-label {
   -webkit-user-select: none;
   display: flex;
   font-size: var(--font-size-small);
-  line-height: var(--slider-thumb-size); }
+  line-height: var(--line-height-basis); }
   .dnb-slider__helper {
     clip: rect(0, 0, 0, 0);
     width: 1px;
@@ -1025,7 +1025,8 @@ legend.dnb-form-label {
       /* IE11 fix */
       border-color: transparent; }
   .dnb-slider > .dnb-form-label {
-    margin-right: 1rem; }
+    margin-right: 1rem;
+    line-height: var(--slider-thumb-size); }
   .dnb-slider__label--vertical {
     flex-direction: column; }
   .dnb-slider__label--vertical.dnb-slider--vertical {
