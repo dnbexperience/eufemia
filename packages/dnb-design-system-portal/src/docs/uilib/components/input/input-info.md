@@ -12,7 +12,7 @@ The input component is an umbrella component for all inputs which share the same
 
 **NB:** Is [InputMasked](/uilib/components/input-masked/) what you are looking for?
 
-<Img src={InputMaskedUsage} caption="Consider using input field with a mask" alt="Consider using input field with a mask" height="206" className="mint-green-12" />
+<Img src={InputMaskedUsage} caption="Consider using input field with a mask" alt="Consider using input field with a mask" className="mint-green-12" />
 
 ## Demos
 

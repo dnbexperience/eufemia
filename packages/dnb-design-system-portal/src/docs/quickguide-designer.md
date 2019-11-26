@@ -33,18 +33,18 @@ What you should read from brand guidelines before starting to design for DNB
 3. When you click on the 'You' dropdown, you should see DNB Bank ASA as a team to choose from.
 4. Choose DNB Bank ASA
 
-<Img src={FigmaTeam} caption="Join the DNB UX team" alt="Join the DNB UX team" height="224" />
+<Img src={FigmaTeam} caption="Join the DNB UX team" alt="Join the DNB UX team" />
 
 5. Create a new file
 6. Add Eufemia library to your file by selecting the 'open book' icon on the top right of the Figma interface.
 
-<Img src={FigmaLibrary} caption="Figma's library icon" alt="Library icon" height="120" />
+<Img src={FigmaLibrary} caption="Figma's library icon" alt="Library icon" />
 
 7. This opens a new dialogue window. Choose Eufemia by toggling the switch:
 
-<Img src={FigmaLibraries} caption="Add the Eufemia library" alt="Add Eufemia team" height="320" />
+<Img src={FigmaLibraries} caption="Add the Eufemia library" alt="Add Eufemia team" />
 
 8. In preferences set your nudge amount to 8px - this will snap items to the 8px grid
 9. Add a layout grid and set it to 8px:
 
-<Img src={FigmaLayoutGrid} caption="Add an 8px layout grid" alt="Add 8px layout grid" height="200" />
+<Img src={FigmaLayoutGrid} caption="Add an 8px layout grid" alt="Add 8px layout grid" />
