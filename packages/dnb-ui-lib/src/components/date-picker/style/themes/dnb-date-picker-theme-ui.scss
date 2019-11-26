@@ -77,10 +77,6 @@
   }
 
   &__day {
-    .dnb-button {
-      @include numberFeature(tabular-nums, lnum);
-    }
-
     // The DNB UX team has desiced to not show today diffrently
     // &--today .dnb-button {
     //   color: var(--color-);

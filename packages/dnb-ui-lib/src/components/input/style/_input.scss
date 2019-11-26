@@ -89,8 +89,6 @@
     color: inherit;
     font-size: inherit;
     background-color: transparent;
-
-    @include numberFeature(lining-nums, lnum);
   }
 
   &__placeholder {

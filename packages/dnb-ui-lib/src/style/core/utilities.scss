@@ -9,18 +9,6 @@
   }
 }
 
-// Font smoothing mixin
-// Only use for light text on dark background
-// @mixin fontSmoothing {
-//   -moz-osx-font-smoothing: grayscale;
-//   -webkit-font-smoothing: antialiased;
-// }
-
-@mixin numberFeature($variant, $setting) {
-  font-variant-numeric: $variant;
-  font-feature-settings: '#{$setting}';
-}
-
 @mixin defaultDropShadow() {
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16);
 }
