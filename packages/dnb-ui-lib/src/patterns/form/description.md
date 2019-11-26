@@ -19,11 +19,9 @@ import FormError from './assets/form-error.svg'
 
 ---
 
-NB! Accessibility - labels and placeholders
-
 ## Eufemia form designs
 
-Forms in Eufemia are regarded as patterns because of their unpredictable and varying content and structure. However, their individual components and elements have design guidelines, rules and behaviours.
+Forms in Eufemia are regarded as patterns because of their unpredictable and varying content and structure. However, their individual components and elements have design guidelines, rules and behaviors.
 
 Use Eufemia's spatial system to lay out forms.
 
