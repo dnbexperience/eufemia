@@ -386,8 +386,6 @@
     text-align: left;
     text-overflow: ellipsis;
 
-    @include numberFeature(lining-nums, lnum);
-
     &__inner {
       display: inline-block;
 

@@ -7,9 +7,7 @@
  */
 
 // Font usage
-.dnb-typo-std,
-.dnb-typo-regular,
-.dnb-typo-book /* deprecated */ {
+.dnb-typo-regular {
   font-family: var(--font-family-default);
   font-weight: normal;
   font-style: normal;
@@ -19,32 +17,10 @@
   font-weight: var(--font-weight-medium);
   font-style: normal;
 }
-.dnb-typo-bold,
-.dnb-typo-demi /* deprecated */ {
+.dnb-typo-bold {
   font-family: var(--font-family-default);
-  font-weight: var(--font-weight-medium);
+  font-weight: var(--font-weight-bold);
   font-style: normal;
-}
-
-// Number usage
-.dnb-typo-number {
-  // Proportional Lining (default)
-  &--lining {
-    @include numberFeature(lining-nums, lnum);
-  }
-  // Proportional Tabular
-  &--tabular {
-    @include numberFeature(tabular-nums, lnum);
-  }
-
-  // Deprecated
-  &--oldstyle {
-    @include numberFeature(oldstyle-nums, onum);
-  }
-  // Deprecated
-  &--proportional {
-    @include numberFeature(proportional-nums, pnum);
-  }
 }
 
 $fonts-path: '../../assets/fonts' !default;

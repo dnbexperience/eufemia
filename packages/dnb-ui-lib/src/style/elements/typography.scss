@@ -80,8 +80,6 @@
   }
   padding: 0;
 
-  @include numberFeature(lining-nums, lnum);
-
   &--medium {
     font-weight: var(--font-weight-medium);
   }
