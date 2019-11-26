@@ -143,7 +143,9 @@ exports[`DatePicker component have to match snapshot 1`] = `
                 className="dnb-icon dnb-icon--large"
                 role="img"
               >
-                <span>
+                <span
+                  className="dnb-icon--wrapper"
+                >
                   <ErrorIcon>
                     <svg
                       fill="none"
@@ -826,6 +828,13 @@ exports[`DatePicker component have to match snapshot 1`] = `
                               type="button"
                               variant="secondary"
                             >
+                              <span
+                                aria-hidden={true}
+                                className="dnb-button__helper"
+                                key="button-helper"
+                              >
+                                ‌
+                              </span>
                               <IconPrimary
                                 alt={null}
                                 aria-hidden={false}
@@ -849,7 +858,9 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                   className="dnb-icon dnb-button__icon"
                                   role="img"
                                 >
-                                  <span>
+                                  <span
+                                    className="dnb-icon--wrapper"
+                                  >
                                     <calendar>
                                       <svg
                                         fill="none"
@@ -1033,7 +1044,7 @@ exports[`DatePicker scss have to match snapshot 1`] = `
     width: inherit;
     height: inherit;
     shape-rendering: geometricPrecision; }
-  .dnb-icon > span {
+  .dnb-icon > .dnb-icon--wrapper {
     width: inherit;
     height: inherit; }
   .dnb-icon svg[width='100%'] {
@@ -1140,15 +1151,20 @@ exports[`DatePicker scss have to match snapshot 1`] = `
   padding: 0;
   border: var(--button-border-width) solid transparent;
   border-radius: var(--button-border-radius);
-  text-decoration: none; }
-  .dnb-button__icon {
-    font-size: var(--font-size-small); }
-    .dnb-button__icon svg:not([width]):not([height]) {
-      width: var(--button-icon-size);
-      height: var(--button-icon-size); }
-    .dnb-button__icon.dnb-icon > span {
-      display: inline-flex;
-      vertical-align: top; }
+  text-decoration: none;
+  font-size: var(--font-size-small);
+  line-height: var(--button-height--small); }
+  .dnb-button__helper {
+    clip: rect(0, 0, 0, 0);
+    width: 1px;
+    margin-left: -1px;
+    overflow: hidden; }
+  .dnb-button__icon svg:not([width]):not([height]) {
+    width: var(--button-icon-size);
+    height: var(--button-icon-size); }
+  .dnb-button .dnb-icon--wrapper {
+    display: inline-flex;
+    vertical-align: top; }
   .dnb-button__text {
     font-size: var(--button-font-size);
     line-height: var(--line-height-x-small--em);
@@ -1761,7 +1777,7 @@ legend.dnb-form-label {
     margin-bottom: 0; }
   .dnb-checkbox__order {
     display: inline-flex;
-    font-size: var(--font-size-basis);
+    font-size: var(--font-size-small);
     line-height: var(--line-height-basis); }
   .dnb-checkbox--label-position-left .dnb-checkbox__order .dnb-checkbox__inner {
     order: 2; }
@@ -1904,7 +1920,7 @@ legend.dnb-form-label {
     margin-bottom: 0; }
   .dnb-radio__order {
     display: inline-flex;
-    font-size: var(--font-size-basis);
+    font-size: var(--font-size-small);
     line-height: var(--line-height-basis); }
     .dnb-radio-group--column .dnb-radio__order {
       display: flex; }
@@ -1950,6 +1966,7 @@ legend.dnb-form-label {
     .dnb-radio-group--column .dnb-radio-group__shell {
       flex-direction: column; }
     .dnb-radio-group .dnb-form-row {
+      align-items: flex-start;
       margin-bottom: calc(1px - 1px - var(--radio-margin-bottom)); }
     .dnb-form-row--vertical .dnb-radio-group {
       display: flex; }
@@ -2114,6 +2131,7 @@ legend.dnb-form-label {
         margin-top: 0;
         margin-bottom: 0; }
     .dnb-toggle-button-group .dnb-form-row {
+      align-items: baseline;
       margin-bottom: calc(1px - 1px - var(--toggle-button-margin-bottom)); }
     .dnb-form-row--vertical .dnb-toggle-button-group {
       display: flex; }

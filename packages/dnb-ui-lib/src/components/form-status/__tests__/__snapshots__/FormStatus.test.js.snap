@@ -82,7 +82,9 @@ exports[`FormStatus component have to match snapshot 1`] = `
           className="dnb-icon dnb-icon--large"
           role="img"
         >
-          <span>
+          <span
+            className="dnb-icon--wrapper"
+          >
             <ErrorIcon>
               <svg
                 fill="none"

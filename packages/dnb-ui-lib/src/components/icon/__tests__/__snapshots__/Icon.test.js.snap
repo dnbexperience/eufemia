@@ -23,7 +23,9 @@ exports[`Icon component have to match snapshot 1`] = `
     role="img"
     title="title"
   >
-    <span>
+    <span
+      className="dnb-icon--wrapper"
+    >
       <SvgComponent
         color="color"
       >
@@ -94,7 +96,7 @@ exports[`Icon scss have to match snapshot 1`] = `
     width: inherit;
     height: inherit;
     shape-rendering: geometricPrecision; }
-  .dnb-icon > span {
+  .dnb-icon > .dnb-icon--wrapper {
     width: inherit;
     height: inherit; }
   .dnb-icon svg[width='100%'] {

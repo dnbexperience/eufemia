@@ -21,7 +21,9 @@ exports[`IconPrimary component have to match snapshot 1`] = `
     className="dnb-icon"
     role="img"
   >
-    <span>
+    <span
+      className="dnb-icon--wrapper"
+    >
       <question>
         <svg
           fill="none"
