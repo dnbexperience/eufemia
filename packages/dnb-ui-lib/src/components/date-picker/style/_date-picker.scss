@@ -38,8 +38,8 @@
   display: inline-flex;
   align-items: center;
 
-  font-size: var(--font-size-basis);
-  line-height: var(--date-picker-input-height);
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-basis);
 
   &__inner {
     display: inline-flex;
@@ -49,6 +49,7 @@
   // if no label is provided, then make sure we have some text to align the button
   &__helper {
     @include helper();
+    line-height: var(--date-picker-input-height);
   }
   &--vertical &__helper {
     @include helperVertical();
@@ -390,6 +391,10 @@
     display: flex;
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  > .dnb-form-label {
+    line-height: var(--line-height-basis);
   }
 
   &[class*='__status'] {

@@ -15,9 +15,13 @@
   display: inline-flex;
   flex-direction: column;
 
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-basis);
+
   &__inner {
     display: inline-flex;
     flex-direction: column;
+    align-self: center;
   }
   &__helper {
     @include helper();
@@ -92,10 +96,7 @@
 
   &__order {
     display: inline-flex;
-
-    // is needed for vertical alignment of the whole component
-    font-size: var(--font-size-small);
-    line-height: var(--line-height-basis);
+    align-items: baseline;
 
     .dnb-radio-group--column & {
       display: flex;

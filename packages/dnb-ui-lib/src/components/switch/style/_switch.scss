@@ -13,6 +13,9 @@
   display: inline-flex;
   flex-direction: column;
 
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-basis);
+
   &__inner {
     display: inline-flex;
     flex-direction: column;
@@ -135,8 +138,8 @@
     display: inline-flex;
 
     // is needed for vertical alignment of the whole component
-    font-size: var(--font-size-small);
-    line-height: var(--line-height-basis);
+    // font-size: var(--font-size-small);
+    // line-height: var(--line-height-basis);
   }
 
   &--label-position-left &__order {

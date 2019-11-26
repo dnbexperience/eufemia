@@ -258,10 +258,6 @@ export default class Checkbox extends Component {
     return (
       <span {...mainParams}>
         <span className="dnb-checkbox__order">
-          <span className="dnb-checkbox__helper" aria-hidden>
-            &zwnj;
-          </span>
-
           {label && (
             <FormLabel
               id={id + '-label'}
@@ -271,6 +267,10 @@ export default class Checkbox extends Component {
               sr_only={label_sr_only}
             />
           )}
+
+          <span className="dnb-checkbox__helper" aria-hidden>
+            &zwnj;
+          </span>
 
           <span className="dnb-checkbox__inner">
             {label_position === 'left' && statusComp}

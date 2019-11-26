@@ -330,10 +330,6 @@ export default class Textarea extends PureComponent {
 
     return (
       <span {...mainParams}>
-        <span className="dnb-textarea__helper" aria-hidden>
-          &zwnj;
-        </span>
-
         {label && (
           <FormLabel
             id={id + '-label'}
@@ -344,6 +340,11 @@ export default class Textarea extends PureComponent {
             disabled={disabled}
           />
         )}
+
+        <span className="dnb-textarea__helper" aria-hidden>
+          &zwnj;
+        </span>
+
         <span {...innerParams}>
           {showStatus && (
             <FormStatus

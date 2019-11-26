@@ -436,7 +436,7 @@
 
   & > .dnb-form-label {
     margin-right: 1rem;
-    line-height: var(--font-size-basis);
+    line-height: var(--line-height-basis);
   }
 
   label + &[class*='__form-status'] {
