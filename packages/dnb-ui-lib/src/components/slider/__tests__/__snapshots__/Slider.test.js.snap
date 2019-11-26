@@ -126,6 +126,13 @@ exports[`Slider component have to match snapshot 1`] = `
               type="button"
               variant="secondary"
             >
+              <span
+                aria-hidden={true}
+                className="dnb-button__helper"
+                key="button-helper"
+              >
+                ‌
+              </span>
               <IconPrimary
                 alt={null}
                 aria-hidden={false}
@@ -149,7 +156,9 @@ exports[`Slider component have to match snapshot 1`] = `
                   className="dnb-icon dnb-button__icon"
                   role="img"
                 >
-                  <span>
+                  <span
+                    className="dnb-icon--wrapper"
+                  >
                     <subtract>
                       <svg
                         fill="none"
@@ -261,7 +270,15 @@ exports[`Slider component have to match snapshot 1`] = `
                   title={null}
                   type="button"
                   variant="secondary"
-                />
+                >
+                  <span
+                    aria-hidden={true}
+                    className="dnb-button__helper"
+                    key="button-helper"
+                  >
+                    ‌
+                  </span>
+                </Content>
               </button>
             </Button>
           </span>
@@ -330,6 +347,13 @@ exports[`Slider component have to match snapshot 1`] = `
               type="button"
               variant="secondary"
             >
+              <span
+                aria-hidden={true}
+                className="dnb-button__helper"
+                key="button-helper"
+              >
+                ‌
+              </span>
               <IconPrimary
                 alt={null}
                 aria-hidden={false}
@@ -353,7 +377,9 @@ exports[`Slider component have to match snapshot 1`] = `
                   className="dnb-icon dnb-button__icon"
                   role="img"
                 >
-                  <span>
+                  <span
+                    className="dnb-icon--wrapper"
+                  >
                     <add>
                       <svg
                         fill="none"
@@ -425,7 +451,7 @@ exports[`Slider scss have to match snapshot 1`] = `
     width: inherit;
     height: inherit;
     shape-rendering: geometricPrecision; }
-  .dnb-icon > span {
+  .dnb-icon > .dnb-icon--wrapper {
     width: inherit;
     height: inherit; }
   .dnb-icon svg[width='100%'] {
@@ -532,15 +558,20 @@ exports[`Slider scss have to match snapshot 1`] = `
   padding: 0;
   border: var(--button-border-width) solid transparent;
   border-radius: var(--button-border-radius);
-  text-decoration: none; }
-  .dnb-button__icon {
-    font-size: var(--font-size-small); }
-    .dnb-button__icon svg:not([width]):not([height]) {
-      width: var(--button-icon-size);
-      height: var(--button-icon-size); }
-    .dnb-button__icon.dnb-icon > span {
-      display: inline-flex;
-      vertical-align: top; }
+  text-decoration: none;
+  font-size: var(--font-size-small);
+  line-height: var(--button-height--small); }
+  .dnb-button__helper {
+    clip: rect(0, 0, 0, 0);
+    width: 1px;
+    margin-left: -1px;
+    overflow: hidden; }
+  .dnb-button__icon svg:not([width]):not([height]) {
+    width: var(--button-icon-size);
+    height: var(--button-icon-size); }
+  .dnb-button .dnb-icon--wrapper {
+    display: inline-flex;
+    vertical-align: top; }
   .dnb-button__text {
     font-size: var(--button-font-size);
     line-height: var(--line-height-x-small--em);
@@ -970,9 +1001,10 @@ legend.dnb-form-label {
   .dnb-slider--vertical .dnb-slider__thumb {
     transform: translate3d(0, -50%, 0); }
   .dnb-slider__button {
-    transform: translateY(0.25rem);
     height: var(--slider-button-size);
-    width: var(--slider-button-size); }
+    width: var(--slider-button-size);
+    line-height: var(--slider-button-size);
+    transform: translateY(0.25rem); }
   .dnb-slider--vertical .dnb-slider__button {
     transform: translateX(0.25rem); }
   .dnb-slider__state--jumped .dnb-slider__thumb,

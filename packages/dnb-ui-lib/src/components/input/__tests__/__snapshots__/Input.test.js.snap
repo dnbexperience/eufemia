@@ -295,6 +295,13 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                     value="test"
                     variant="secondary"
                   >
+                    <span
+                      aria-hidden={true}
+                      className="dnb-button__helper"
+                      key="button-helper"
+                    >
+                      ‌
+                    </span>
                     <IconPrimary
                       alt={null}
                       aria-hidden={false}
@@ -318,7 +325,9 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                         className="dnb-icon dnb-button__icon"
                         role="img"
                       >
-                        <span>
+                        <span
+                          className="dnb-icon--wrapper"
+                        >
                           <search>
                             <svg
                               fill="none"
@@ -632,7 +641,7 @@ exports[`Input scss have to match snapshot 1`] = `
     width: inherit;
     height: inherit;
     shape-rendering: geometricPrecision; }
-  .dnb-icon > span {
+  .dnb-icon > .dnb-icon--wrapper {
     width: inherit;
     height: inherit; }
   .dnb-icon svg[width='100%'] {
@@ -739,15 +748,20 @@ exports[`Input scss have to match snapshot 1`] = `
   padding: 0;
   border: var(--button-border-width) solid transparent;
   border-radius: var(--button-border-radius);
-  text-decoration: none; }
-  .dnb-button__icon {
-    font-size: var(--font-size-small); }
-    .dnb-button__icon svg:not([width]):not([height]) {
-      width: var(--button-icon-size);
-      height: var(--button-icon-size); }
-    .dnb-button__icon.dnb-icon > span {
-      display: inline-flex;
-      vertical-align: top; }
+  text-decoration: none;
+  font-size: var(--font-size-small);
+  line-height: var(--button-height--small); }
+  .dnb-button__helper {
+    clip: rect(0, 0, 0, 0);
+    width: 1px;
+    margin-left: -1px;
+    overflow: hidden; }
+  .dnb-button__icon svg:not([width]):not([height]) {
+    width: var(--button-icon-size);
+    height: var(--button-icon-size); }
+  .dnb-button .dnb-icon--wrapper {
+    display: inline-flex;
+    vertical-align: top; }
   .dnb-button__text {
     font-size: var(--button-font-size);
     line-height: var(--line-height-x-small--em);

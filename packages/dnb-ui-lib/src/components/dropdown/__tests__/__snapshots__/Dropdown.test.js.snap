@@ -178,7 +178,9 @@ exports[`Dropdown component have to match snapshot 1`] = `
                 className="dnb-icon dnb-icon--large"
                 role="img"
               >
-                <span>
+                <span
+                  className="dnb-icon--wrapper"
+                >
                   <ErrorIcon>
                     <svg
                       fill="none"
@@ -359,6 +361,13 @@ exports[`Dropdown component have to match snapshot 1`] = `
                   title={null}
                   width={null}
                 />
+              </span>
+              <span
+                aria-hidden={true}
+                className="dnb-button__helper"
+                key="button-helper"
+              >
+                ‌
               </span>
             </Content>
           </button>
@@ -583,7 +592,7 @@ exports[`Dropdown scss have to match snapshot 1`] = `
     width: inherit;
     height: inherit;
     shape-rendering: geometricPrecision; }
-  .dnb-icon > span {
+  .dnb-icon > .dnb-icon--wrapper {
     width: inherit;
     height: inherit; }
   .dnb-icon svg[width='100%'] {
@@ -694,15 +703,20 @@ exports[`Dropdown scss have to match snapshot 1`] = `
   padding: 0;
   border: var(--button-border-width) solid transparent;
   border-radius: var(--button-border-radius);
-  text-decoration: none; }
-  .dnb-button__icon {
-    font-size: var(--font-size-small); }
-    .dnb-button__icon svg:not([width]):not([height]) {
-      width: var(--button-icon-size);
-      height: var(--button-icon-size); }
-    .dnb-button__icon.dnb-icon > span {
-      display: inline-flex;
-      vertical-align: top; }
+  text-decoration: none;
+  font-size: var(--font-size-small);
+  line-height: var(--button-height--small); }
+  .dnb-button__helper {
+    clip: rect(0, 0, 0, 0);
+    width: 1px;
+    margin-left: -1px;
+    overflow: hidden; }
+  .dnb-button__icon svg:not([width]):not([height]) {
+    width: var(--button-icon-size);
+    height: var(--button-icon-size); }
+  .dnb-button .dnb-icon--wrapper {
+    display: inline-flex;
+    vertical-align: top; }
   .dnb-button__text {
     font-size: var(--button-font-size);
     line-height: var(--line-height-x-small--em);
@@ -1021,7 +1035,7 @@ legend.dnb-form-label {
 .dnb-dropdown {
   display: inline-flex;
   align-items: center;
-  font-size: var(--font-size-basis);
+  font-size: var(--font-size-small);
   line-height: var(--dropdown-height); }
   .dnb-dropdown__inner {
     display: inline-flex;
@@ -1059,6 +1073,7 @@ legend.dnb-form-label {
     min-width: var(--dropdown-width);
     margin: 0;
     padding: 0;
+    font-size: var(--font-size-basis);
     background-color: transparent;
     transform: translateY(0);
     transition: transform 200ms, opacity 160ms ease-out; }
@@ -1231,7 +1246,8 @@ legend.dnb-form-label {
     overflow: hidden;
     color: inherit;
     text-align: left;
-    text-overflow: ellipsis; }
+    text-overflow: ellipsis;
+    font-size: var(--font-size-basis); }
     .dnb-dropdown__text__inner {
       display: inline-block;
       width: 100%;
