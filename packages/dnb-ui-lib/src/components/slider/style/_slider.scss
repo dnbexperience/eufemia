@@ -192,9 +192,11 @@
   }
 
   &__button {
-    transform: translateY(0.25rem);
     height: var(--slider-button-size);
     width: var(--slider-button-size);
+
+    line-height: var(--slider-button-size);
+    transform: translateY(0.25rem);
   }
   &--vertical &__button {
     transform: translateX(0.25rem);
