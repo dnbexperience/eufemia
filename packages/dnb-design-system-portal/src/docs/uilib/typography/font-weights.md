@@ -16,14 +16,11 @@ import TypographyExamples from 'Pages/uilib/typography/TypographyExamples'
 
 ## `font-weight` table
 
-| Type        | Custom Property         | Info       |
-| ----------- | ----------------------- | ---------- |
-| **Regular** | `--font-weight-regular` |            |
-| **Medium**  | `--font-weight-medium`  |            |
-| **Bold**    | `--font-weight-bold`    |            |
-| Book        | `--font-weight-book`    | Deprecated |
-| Demi        | `--font-weight-demi`    | Deprecated |
-| Medium      | `--font-weight-medium`  | Deprecated |
+| Type        | Custom Property         | Info          |
+| ----------- | ----------------------- | ------------- |
+| **Regular** | `--font-weight-regular` | Body (Normal) |
+| **Medium**  | `--font-weight-medium`  |               |
+| **Bold**    | `--font-weight-bold`    |               |
 
 ### How to use the weights (CSS)
 
