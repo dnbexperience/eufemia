@@ -1,10 +1,12 @@
 ---
 title: 'Numbers'
-draft: false
+draft: true
 order: 3
 ---
 
-# Numbers
+# Numbers (deprecated)
+
+Update: the number features are not needed anymore, using the DNB font.
 
 Numbers comes in three variants: `Proportional Lining`, `Tabular Lining` and `Proportional Old Style`.
 

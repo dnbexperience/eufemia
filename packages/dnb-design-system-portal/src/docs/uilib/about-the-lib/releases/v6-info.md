@@ -22,6 +22,8 @@ v6 contains a couple of braking changes. As a migration process, you can simply 
 1. find `style_type="demi` replace it with `style_type="medium`
 1. find `family-book` replace it with `family-default`
 1. find `family-medium` replace it with `family-default`
+1. find `dnb-typo-number` remvoe it
+1. find `dnb-typo-std` remvoe it
 
 ## New DNB font
 
