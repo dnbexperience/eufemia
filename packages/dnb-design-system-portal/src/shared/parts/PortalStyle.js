@@ -178,7 +178,7 @@ export default css`
   }
 
   .image-box {
-    margin: 0 0 4rem 0;
+    margin: 1rem 0 3rem 0;
     padding: 2rem 2rem 0.9375rem 2rem;
 
     text-align: center;
@@ -187,7 +187,7 @@ export default css`
     background-color: rgba(255, 255, 255, 0.6);
 
     figcaption {
-      padding-top: 1rem;
+      padding-top: 0.938rem; /* 15/16  because of the border */
 
       font-style: italic;
 
