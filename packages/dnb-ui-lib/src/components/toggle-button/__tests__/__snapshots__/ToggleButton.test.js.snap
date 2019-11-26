@@ -31,12 +31,6 @@ exports[`ToggleButton component have to match snapshot 1`] = `
   <span
     className="dnb-toggle-button className class dnb-toggle-button--horizontal"
   >
-    <span
-      aria-hidden={true}
-      className="dnb-toggle-button__helper"
-    >
-      ‌
-    </span>
     <FormLabel
       class={null}
       className={null}
@@ -73,6 +67,12 @@ exports[`ToggleButton component have to match snapshot 1`] = `
       <span
         className="dnb-toggle-button__shell"
       >
+        <span
+          aria-hidden={true}
+          className="dnb-toggle-button__helper"
+        >
+          ‌
+        </span>
         <Button
           aria-disabled={true}
           aria-pressed="false"
@@ -194,7 +194,7 @@ exports[`ToggleButton component have to match snapshot 1`] = `
                   value={null}
                 >
                   <span
-                    className="dnb-form-component dnb-checkbox"
+                    className="dnb-checkbox dnb-form-component"
                   >
                     <span
                       className="dnb-checkbox__order"
@@ -314,7 +314,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
   vertical={null}
 >
   <div
-    className="dnb-form-component dnb-toggle-button-group dnb-toggle-button-group--row"
+    className="dnb-toggle-button-group dnb-toggle-button-group--row dnb-form-component"
   >
     <FormRow
       class={null}
@@ -425,17 +425,17 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                     className="dnb-toggle-button dnb-toggle-button--checked"
                   >
                     <span
-                      aria-hidden={true}
-                      className="dnb-toggle-button__helper"
-                    >
-                      ‌
-                    </span>
-                    <span
                       className="dnb-toggle-button__inner"
                     >
                       <span
                         className="dnb-toggle-button__shell"
                       >
+                        <span
+                          aria-hidden={true}
+                          className="dnb-toggle-button__helper"
+                        >
+                          ‌
+                        </span>
                         <Button
                           aria-pressed="true"
                           bounding={false}
@@ -540,17 +540,17 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                     className="dnb-toggle-button dnb-toggle-button--checked"
                   >
                     <span
-                      aria-hidden={true}
-                      className="dnb-toggle-button__helper"
-                    >
-                      ‌
-                    </span>
-                    <span
                       className="dnb-toggle-button__inner"
                     >
                       <span
                         className="dnb-toggle-button__shell"
                       >
+                        <span
+                          aria-hidden={true}
+                          className="dnb-toggle-button__helper"
+                        >
+                          ‌
+                        </span>
                         <Button
                           aria-pressed="true"
                           bounding={false}
@@ -1467,8 +1467,7 @@ button.dnb-button::-moz-focus-inner {
     margin-bottom: 1rem; }
   .dnb-radio-group {
     display: inline-flex;
-    flex-direction: row;
-    line-height: var(--line-height-x-small--em); }
+    flex-direction: row; }
     .dnb-radio-group .dnb-radio {
       margin-right: var(--radio-margin-right);
       margin-bottom: var(--radio-margin-bottom); }
@@ -1479,15 +1478,22 @@ button.dnb-button::-moz-focus-inner {
       margin-right: 0; }
     .dnb-radio-group [role='radiogroup'], .dnb-radio-group__shell {
       display: block; }
-    .dnb-radio-group__shell > .dnb-form-status {
-      margin-top: 0;
-      margin-bottom: 0; }
+    .dnb-radio-group__shell {
+      line-height: var(--line-height-x-small--em); }
+      .dnb-radio-group__shell > .dnb-form-status {
+        margin-top: 0;
+        margin-bottom: 0; }
     .dnb-radio-group--column .dnb-radio-group__shell {
       flex-direction: column; }
     .dnb-radio-group .dnb-form-row {
       margin-bottom: calc(1px - 1px - var(--radio-margin-bottom)); }
     .dnb-form-row--vertical .dnb-radio-group {
       display: flex; }
+    .dnb-radio-group__helper {
+      clip: rect(0, 0, 0, 0);
+      width: 1px;
+      margin-left: -1px;
+      overflow: hidden; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-radio {
       vertical-align: text-bottom; }
@@ -1649,6 +1655,12 @@ button.dnb-button::-moz-focus-inner {
       margin-bottom: calc(1px - 1px - var(--toggle-button-margin-bottom)); }
     .dnb-form-row--vertical .dnb-toggle-button-group {
       display: flex; }
+    .dnb-toggle-button-group__helper {
+      clip: rect(0, 0, 0, 0);
+      width: 1px;
+      margin-left: -1px;
+      overflow: hidden;
+      line-height: 2.5rem; }
   @media (min-width: 40em) {
     .dnb-form-label + .dnb-toggle-button {
       transform: translateY(-0.5rem); } }

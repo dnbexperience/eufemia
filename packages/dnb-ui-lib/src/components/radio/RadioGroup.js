@@ -182,10 +182,10 @@ export default class RadioGroup extends PureComponent {
     const showStatus = status && status !== 'error'
 
     const classes = classnames(
-      'dnb-form-component',
       'dnb-radio-group',
       status && `dnb-radio-group__status--${status_state}`,
       `dnb-radio-group--${layout_direction}`,
+      'dnb-form-component',
       createSpacingClasses(props),
       className,
       _className
@@ -229,6 +229,11 @@ export default class RadioGroup extends PureComponent {
     return (
       <RadioGroupContext.Provider value={context}>
         <div className={classes}>
+          {!label && (
+            <span className="dnb-radio-group__helper" aria-hidden>
+              &zwnj;
+            </span>
+          )}
           <FormRow {...formRowParams}>
             <span
               id={id}

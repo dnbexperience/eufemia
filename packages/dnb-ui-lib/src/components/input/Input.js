@@ -326,7 +326,6 @@ export default class Input extends PureComponent {
 
     const mainParams = {
       className: classnames(
-        'dnb-form-component',
         'dnb-input',
         `dnb-input--${type}`, //type_modifier
         size && !sizeIsNumber && `dnb-input--${size}`,
@@ -336,6 +335,7 @@ export default class Input extends PureComponent {
         label_direction && `dnb-input--${label_direction}`,
         isTrue(stretch) && `dnb-input--stretch`,
         isTrue(keep_placeholder) && `dnb-input--keep-placeholder`,
+        'dnb-form-component',
         createSpacingClasses(props),
         _className,
         className

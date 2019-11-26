@@ -88,7 +88,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
   value={2}
 >
   <span
-    className="dnb-form-component dnb-dropdown dnb-dropdown--direction-bottom dnb-dropdown class className dnb-dropdown--hidden dnb-dropdown--horizontal dnb-dropdown--icon-position-icon_position dnb-dropdown--scroll dnb-dropdown__status--error dnb-dropdown__form-status"
+    className="dnb-dropdown dnb-dropdown--direction-bottom dnb-dropdown dnb-form-component class className dnb-dropdown--hidden dnb-dropdown--horizontal dnb-dropdown--icon-position-icon_position dnb-dropdown--scroll dnb-dropdown__status--error dnb-dropdown__form-status"
   >
     <span
       aria-hidden={true}
@@ -1286,6 +1286,7 @@ legend.dnb-form-label {
     order: 2;
     margin-top: 0.5rem; }
   .dnb-dropdown--vertical {
+    display: flex;
     flex-direction: column;
     align-items: flex-start; }
   .dnb-dropdown[class*='__status'] {

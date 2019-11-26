@@ -291,7 +291,6 @@ export default class Textarea extends PureComponent {
 
     const mainParams = {
       className: classnames(
-        'dnb-form-component',
         'dnb-textarea',
         `dnb-textarea--${textareaState}`,
         hasValue && 'dnb-textarea--has-content',
@@ -299,6 +298,7 @@ export default class Textarea extends PureComponent {
         status && `dnb-textarea__status--${status_state}`,
         label_direction && `dnb-textarea--${label_direction}`,
         isTrue(stretch) && `dnb-textarea--stretch`,
+        'dnb-form-component',
         createSpacingClasses(props),
         _className,
         className
