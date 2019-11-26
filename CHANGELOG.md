@@ -12,8 +12,10 @@ General information: All existing and new components uses the new (and slightly 
 - **h3 / Lead** `DNB Sans Medium` 20px / 28px line height
 - **Body text** `DNB Sans Regular` 18px / 24px line height
 - **Body text medium** `DNB Sans Medium` 18px / 24px line height
-- **Small text** `DNB Sans Regular` 16px / 20px
-- **Small text medium** `DNB Sans Medium` 16px / 20px
+- **Small text** `DNB Sans Regular` 16px / 20px line height
+- **Small text medium** `DNB Sans Medium` 16px / 20px line height
+
+**Number features** are removed as we do not need them anymore.
 
 ### Colors
 

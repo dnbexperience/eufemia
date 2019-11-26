@@ -2,9 +2,15 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import AnchorLink from 'react-anchor-link-smooth-scroll'
 import GHSlugger from 'github-slugger'
+import classnames from 'classnames'
 const slugger = new GHSlugger()
 
-const AutoLinkHeader = ({ is: Component, children, ...props }) => {
+const AutoLinkHeader = ({
+  is: Component,
+  children,
+  className,
+  ...props
+}) => {
   slugger.reset()
   let id = null
   // custom id (https://www.markdownguide.org/extended-syntax/#heading-ids)
@@ -37,36 +43,46 @@ const AutoLinkHeader = ({ is: Component, children, ...props }) => {
     children = children.replace(/\{#(.*)\}/g, '').trim()
   }
 
-  const clickHandler = () => {
-    if (typeof window !== 'undefined' && id) {
-      try {
-        window.history.replaceState(undefined, undefined, `#${id}`)
-      } catch (e) {
-        console.log('Could not call replaceState:', e)
-      }
-    }
-  }
+  const clickHandler =
+    className && /skip-anchor/g.test(String(className))
+      ? null
+      : () => {
+          if (typeof window !== 'undefined' && id) {
+            try {
+              window.history.replaceState(undefined, undefined, `#${id}`)
+            } catch (e) {
+              console.log('Could not call replaceState:', e)
+            }
+          }
+        }
+
   return (
-    <Component className={`dnb-${Component}`} {...props}>
-      <AnchorLink
-        offset="100"
-        className="dnb-anchor anchor"
-        title="Click to set a Anchor URL"
-        id={id}
-        href={id ? `#${id}` : ''}
-        onClick={clickHandler}
-        aria-hidden
-      >
-        #
-      </AnchorLink>
+    <Component
+      className={classnames(`dnb-${Component}`, className)}
+      {...props}
+    >
+      {clickHandler && (
+        <AnchorLink
+          offset="100"
+          className="dnb-anchor anchor"
+          title="Click to set a Anchor URL"
+          id={id}
+          href={id ? `#${id}` : ''}
+          onClick={clickHandler}
+          aria-hidden
+        >
+          #
+        </AnchorLink>
+      )}
       {children}
     </Component>
   )
 }
 AutoLinkHeader.propTypes = {
   is: PropTypes.string,
+  className: PropTypes.string,
   children: PropTypes.node.isRequired
 }
-AutoLinkHeader.defaultProps = { is: 'h2' }
+AutoLinkHeader.defaultProps = { is: 'h2', className: null }
 
 export default AutoLinkHeader
