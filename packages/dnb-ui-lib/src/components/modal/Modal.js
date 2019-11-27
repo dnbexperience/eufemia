@@ -492,9 +492,6 @@ class ModalContent extends PureComponent {
     this._id = props.content_id || makeUniqueId()
   }
   componentDidMount() {
-    // since touch devices works diffrent, and we also use preventScreenReaderPossibility
-    // we dont set the tabindex by using removeFocusPossibility
-    this.isTouchDevice = isTouchDevice()
     this.removeScrollPossibility()
     this.preventScreenReaderPossibility()
     this.removeFocusPossibility()
@@ -555,7 +552,9 @@ class ModalContent extends PureComponent {
   }
 
   removeFocusPossibility() {
-    if (typeof document === 'undefined' || this.isTouchDevice) {
+    // since touch devices works diffrent, and we also use preventScreenReaderPossibility
+    // we dont set the tabindex by using removeFocusPossibility
+    if (typeof document === 'undefined' || isTouchDevice()) {
       return
     }
     const modalNodes = Array.from(
@@ -588,7 +587,9 @@ class ModalContent extends PureComponent {
   }
 
   revertFocusPossibility() {
-    if (!this.nonModalNodes || this.isTouchDevice) {
+    // since touch devices works diffrent, and we also use preventScreenReaderPossibility
+    // we dont set the tabindex by using removeFocusPossibility
+    if (!this.nonModalNodes || isTouchDevice()) {
       return
     }
     // restore or remove tabindex from nodes
