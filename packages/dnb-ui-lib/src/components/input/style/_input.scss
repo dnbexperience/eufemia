@@ -108,7 +108,7 @@
   }
 
   // centering type="file" - here we can actually keep it as pixels
-  &__input[type='file'] {
+  input#{&}__input[type='file'] {
     line-height: calc(var(--input-height) - 2px);
   }
 
@@ -287,8 +287,6 @@
       & > .dnb-form-label {
         margin-bottom: 0.5rem;
       }
-
-      line-height: var(--line-height-basis);
     }
   }
 
