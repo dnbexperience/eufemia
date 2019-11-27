@@ -21,8 +21,8 @@ You would normally just decorate your anchor class withe this CSS class: `.dnb-a
     </a>
   </li>
   <li>
-    <a href="/" target="_blank" data-dnb-test="anchor-blank" className="dnb-anchor">
-      Blank target
+    <a href="https://eufemia.dnb.no/uilib/elements/anchor" target="_blank" data-dnb-test="anchor-blank" className="dnb-anchor">
+      Blank target with https
     </a>
   </li>
   <li>
