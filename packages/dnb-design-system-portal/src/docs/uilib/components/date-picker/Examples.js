@@ -62,6 +62,7 @@ class Example extends PureComponent {
   date={new Date()}
   show_input={true}
   show_cancel_button={true}
+  show_reset_button={true}
   on_change={({ date }) => {
     console.log('on_change', date)
   }}

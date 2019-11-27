@@ -131,7 +131,7 @@ $anchorBorderRadius: 0.25em;
     @include anchorActiveStyle();
   }
 
-  &[target='_blank']:not(:empty):not(.dnb-anchor--no-icon) {
+  &[target='_blank'][href^='http']:not(:empty):not(.dnb-anchor--no-icon) {
     position: relative;
 
     // gfx icon

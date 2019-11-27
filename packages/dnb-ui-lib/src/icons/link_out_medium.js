@@ -10,6 +10,7 @@ const link_out_medium = props => (
         fill="#000"
       />
     </g>
+    <defs />
   </svg>
 )
 
