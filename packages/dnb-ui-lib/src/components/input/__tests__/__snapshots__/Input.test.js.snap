@@ -1137,7 +1137,7 @@ legend.dnb-form-label {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis; }
-  .dnb-input__input[type='file'] {
+  .dnb-input input.dnb-input__input[type='file'] {
     line-height: calc(var(--input-height) - 2px); }
   .dnb-input__input::-webkit-search-cancel-button {
     display: none; }
@@ -1240,8 +1240,7 @@ legend.dnb-form-label {
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      margin-bottom: 0.5rem;
-      line-height: var(--line-height-basis); }
+      margin-bottom: 0.5rem; }
       .dnb-responsive-component .dnb-input__row {
         align-items: flex-start; }
       .dnb-responsive-component .dnb-input > .dnb-form-label {
