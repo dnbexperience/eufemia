@@ -176,7 +176,6 @@ export default class Slider extends PureComponent {
     super(props)
     this._id = props.id || makeUniqueId() // cause we need an id anyway
     this._trackRef = React.createRef()
-    this.isTouch = isTouchDevice()
     this.state = {
       _listenForPropChanges: true,
       value: Slider.getValue(props) // so on_state_update not gets called
@@ -403,7 +402,7 @@ export default class Slider extends PureComponent {
 
   componentDidMount() {
     if (
-      (this.isTouch || isTrue(this.props.use_scrollwheel)) &&
+      (isTouchDevice() || isTrue(this.props.use_scrollwheel)) &&
       this._trackRef.current
     ) {
       this._trackRef.current.addEventListener(
@@ -551,18 +550,18 @@ export default class Slider extends PureComponent {
 
     if (label) {
       rangeParams['aria-labelledby'] = id + '-label'
-      if (this.isTouch) {
+      if (isTouchDevice()) {
         trackParams['aria-labelledby'] = id + '-label'
       }
     }
     if (showStatus) {
       rangeParams['aria-describedby'] = id + '-status'
-      if (this.isTouch) {
+      if (isTouchDevice()) {
         trackParams['aria-describedby'] = id + '-status'
       }
     }
 
-    if (this.isTouch) {
+    if (isTouchDevice()) {
       trackParams.role = 'slider'
       trackParams['aria-valuenow'] = this.roundValue(value)
       trackParams['aria-valuemin'] = min
@@ -640,7 +639,7 @@ export default class Slider extends PureComponent {
                 style={inlineThumbStyles}
               >
                 {/* Keep the possibility open to use a native slider inside */}
-                {!this.isTouch && (
+                {!isTouchDevice() && (
                   <input
                     type="range"
                     className="dnb-slider__button-helper"
@@ -657,7 +656,7 @@ export default class Slider extends PureComponent {
                   variant="secondary"
                   tabIndex="-1"
                   onMouseDown={this.onMouseDownHandler}
-                  {...(this.isTouch
+                  {...(isTouchDevice()
                     ? rangeParams
                     : { 'aria-hidden': true })}
                 />
