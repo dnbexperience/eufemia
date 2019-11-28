@@ -59,11 +59,12 @@ export function defineIsTouch({ interactive = true } = {}) {
     // to give it a change to have isTouch from the very beginning
     if (unsafeIsTouchDeviceCheck()) {
       document.documentElement.setAttribute('data-is-touch', true)
+      IS_TOUCH_DEVICE = true
     }
 
     window.addEventListener(
       'touchstart',
-      function onFirstTouch() {
+      function onTouch() {
         try {
           if (IS_TOUCH_DEVICE !== true) {
             document.documentElement.setAttribute('data-is-touch', true)
@@ -73,7 +74,7 @@ export function defineIsTouch({ interactive = true } = {}) {
           console.warn('Could not apply "touch attribute"', e)
         }
         if (!interactive) {
-          window.removeEventListener('touchstart', onFirstTouch, false)
+          window.removeEventListener('touchstart', onTouch, false)
         }
       },
       false
@@ -81,7 +82,7 @@ export function defineIsTouch({ interactive = true } = {}) {
 
     window.addEventListener(
       'mouseover',
-      function onFirstHover() {
+      function onHover() {
         try {
           if (IS_TOUCH_DEVICE === true) {
             document.documentElement.removeAttribute('data-is-touch')
@@ -91,7 +92,7 @@ export function defineIsTouch({ interactive = true } = {}) {
           console.warn('Could not apply "touch attribute"', e)
         }
         if (!interactive) {
-          window.removeEventListener('mouseover', onFirstHover, false)
+          window.removeEventListener('mouseover', onHover, false)
         }
       },
       false
