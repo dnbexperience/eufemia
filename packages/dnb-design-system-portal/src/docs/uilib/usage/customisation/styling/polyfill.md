@@ -77,7 +77,7 @@ import { StyleSheetManager } from 'styled-components'
 
 render(
   <StyleSheetManager stylisPlugins={[stylisPlugin]}>
-    <YourApp />
+    <MyApp />
   </StyleSheetManager>
 )
 ```
@@ -94,7 +94,7 @@ const stylisPlugin = withProperties({
 
 render(
   <StyleSheetManager stylisPlugins={[stylisPlugin]}>
-    <YourApp />
+    <MyApp />
   </StyleSheetManager>
 )
 ```
@@ -112,7 +112,7 @@ const emotionCache = createEmotionCache({
 
 render(
   <CacheProvider value={emotionCache}>
-    <YourApp />
+    <MyApp />
   </CacheProvider>
 )
 ```

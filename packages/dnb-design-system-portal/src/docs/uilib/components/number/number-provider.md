@@ -4,7 +4,7 @@ draft: true
 
 ## Changing locale or currency
 
-You can either set the locale as a properly e.g. `<Provider locale="en" ...` and handle the change from the app root, or change it inside the app, respective Context:
+You can either set the locale as a properly e.g. `<Provider locale="en-US" ...` and handle the change from the app root, or change it inside the app, respective Context:
 
 ```jsx
 import Provider from 'dnb-ui-lib/shared/Provider'
@@ -14,7 +14,7 @@ const ChangeLocale = () => {
   const { update, locale } = React.useContext(Context)
 
   // Change the locale
-  update({ locale: 'en' })
+  update({ locale: 'en-US' })
 
   // Change the default currency
   update({ currency: 'USD' })
@@ -24,10 +24,10 @@ const ChangeLocale = () => {
 
 render(
   <Provider>
-    <YourApp>
+    <MyApp>
       <ChangeLocale />
       text <Number>123</Number> table etc.
-    </YourApp>
+    </MyApp>
   </Provider>
 )
 ```
