@@ -37,30 +37,7 @@ export default [
   'DatePicker',
   () => (
     <Wrapper>
-      {/* <Box>
-        <DatePicker
-          show_input
-          on_change={props => {
-            console.log('on_change', props)
-          }}
-        />
-      </Box> */}
       <Box>
-        {/* <Input
-          value="custom value"
-          submit_element={
-            <DatePicker
-              opened
-              range
-              shortcuts={[
-                { title: 'Set this date', date: '1981-01-15' },
-                { title: 'Relative', date: '+3 days' }
-              ]}
-              addon_element={<>Bla</>}
-            />
-          }
-          right
-        /> */}
         <DatePicker
           // opened
           show_input

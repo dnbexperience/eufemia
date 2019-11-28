@@ -13,6 +13,7 @@ import {
   enableBodyScroll,
   clearAllBodyScrollLocks
 } from '../../shared/libs/bodyScrollLock'
+import Context from '../../shared/Context'
 import {
   isTrue,
   makeUniqueId,
@@ -130,6 +131,7 @@ export default class Modal extends PureComponent {
   static tagName = 'dnb-modal'
   static propTypes = propTypes
   static defaultProps = defaultProps
+  static contextType = Context
   static modalRoot = null // gets later '.dnb-modal-root'
 
   static enableWebComponent() {
@@ -301,11 +303,13 @@ export default class Modal extends PureComponent {
     }
   }
   render() {
-    // consume the formRow context
-    const props = this.context.formRow
-      ? // use only the props from context, who are available here anyway
-        extendPropsWithContext(this.props, this.context.formRow)
-      : this.props
+    // use only the props from context, who are available here anyway
+    const props = extendPropsWithContext(
+      this.props,
+      defaultProps,
+      this.context.formRow,
+      this.context.translation.Modal
+    )
 
     const {
       id, // eslint-disable-line
@@ -470,8 +474,8 @@ class ModalContent extends PureComponent {
   static defaultProps = {
     labelled_by: null,
     content_id: null,
-    title: null,
-    close_title: null,
+    title: 'Lukk',
+    close_title: 'Lukk',
     hide_close_button: false,
     prevent_close: null,
     prevent_core_style: null,

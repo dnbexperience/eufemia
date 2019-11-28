@@ -100,7 +100,11 @@ export default class Space extends PureComponent {
     // consume the space context
     const props = this.context.space
       ? // use only the props from context, who are available here anyway
-        extendPropsWithContext(this.props, this.context.space)
+        extendPropsWithContext(
+          this.props,
+          defaultProps,
+          this.context.space
+        )
       : this.props
 
     let {

@@ -280,7 +280,7 @@ export const processChildren = props => {
   return res
 }
 
-// extends given objects recursively and removing entries with null values
+// extends given objects recursively and removes entries with null values
 export const extend = (...objects) => {
   const list = Array.from(objects)
   const recursive = list[0] !== false
@@ -311,22 +311,32 @@ export const extend = (...objects) => {
 // but give the context second priority only
 export const extendPropsWithContext = (
   props,
-  context
-  // ,{ acceptTrue = false } = {}
-) =>
-  extend(
-    false, // prevent recursion
-    Object.entries(context).reduce((acc, [key, value]) => {
-      if (typeof props[key] !== 'undefined' && value !== null) {
+  defaults = {},
+  ...contexts
+) => {
+  const context = contexts.reduce((acc, cur) => {
+    if (cur) {
+      acc = { ...acc, ...cur }
+    }
+    return acc
+  }, {})
+
+  return {
+    ...props,
+    ...Object.entries(context).reduce((acc, [key, value]) => {
+      if (
+        // check if a prop of the same name exists
+        typeof props[key] !== 'undefined' &&
+        // and if it was NOT defined as a component prop, because its still the same as the defualts
+        props[key] === defaults[key]
+      ) {
+        // then we use the context value
         acc[key] = value
       }
-      // if (acceptTrue && value !== true) {
-      //   acc[key] = value
-      // }
       return acc
-    }, {}),
-    props
-  )
+    }, {})
+  }
+}
 
 // check if value is "truthy"
 export const isTrue = value => {
