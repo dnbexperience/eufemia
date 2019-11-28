@@ -174,11 +174,12 @@ export default class Checkbox extends Component {
   }
 
   render() {
-    // consume the formRow context
-    const props = this.context.formRow
-      ? // use only the props from context, who are available here anyway
-        extendPropsWithContext(this.props, this.context.formRow)
-      : this.props
+    // use only the props from context, who are available here anyway
+    const props = extendPropsWithContext(
+      this.props,
+      defaultProps,
+      this.context.formRow
+    )
 
     const {
       value,
@@ -258,10 +259,6 @@ export default class Checkbox extends Component {
     return (
       <span {...mainParams}>
         <span className="dnb-checkbox__order">
-          <span className="dnb-checkbox__helper" aria-hidden>
-            &zwnj;
-          </span>
-
           {label && (
             <FormLabel
               id={id + '-label'}
@@ -271,6 +268,10 @@ export default class Checkbox extends Component {
               sr_only={label_sr_only}
             />
           )}
+
+          <span className="dnb-checkbox__helper" aria-hidden>
+            &zwnj;
+          </span>
 
           <span className="dnb-checkbox__inner">
             {label_position === 'left' && statusComp}

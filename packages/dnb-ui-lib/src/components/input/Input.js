@@ -268,11 +268,13 @@ export default class Input extends PureComponent {
     }
   }
   render() {
-    // consume the formRow context
-    const props = this.context.formRow
-      ? // use only the props from context, who are available here anyway
-        extendPropsWithContext(this.props, this.context.formRow)
-      : this.props
+    // use only the props from context, who are available here anyway
+    const props = extendPropsWithContext(
+      this.props,
+      defaultProps,
+      this.context.formRow
+      // this.context.translation.Input
+    )
 
     const {
       type,
@@ -415,10 +417,6 @@ export default class Input extends PureComponent {
 
     return (
       <span {...mainParams}>
-        <span className="dnb-input__helper" aria-hidden>
-          &zwnj;
-        </span>
-
         {label && (
           <FormLabel
             id={id + '-label'}
@@ -429,6 +427,10 @@ export default class Input extends PureComponent {
             disabled={disabled}
           />
         )}
+
+        <span className="dnb-input__helper" aria-hidden>
+          &zwnj;
+        </span>
 
         <span {...innerParams}>
           {showStatus && (

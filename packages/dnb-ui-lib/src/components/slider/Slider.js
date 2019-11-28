@@ -460,11 +460,13 @@ export default class Slider extends PureComponent {
   render() {
     const { currentState, value } = this.state
 
-    // consume the formRow context
-    const props = this.context.formRow
-      ? // use only the props from context, who are available here anyway
-        extendPropsWithContext(this.props, this.context.formRow)
-      : this.props
+    // use only the props from context, who are available here anyway
+    const props = extendPropsWithContext(
+      this.props,
+      defaultProps,
+      this.context.formRow,
+      this.context.translation.Slider
+    )
 
     const {
       label,
@@ -604,10 +606,6 @@ export default class Slider extends PureComponent {
 
     return (
       <span {...mainParams}>
-        <span className="dnb-slider__helper" aria-hidden>
-          &zwnj;
-        </span>
-
         {label && (
           // do not use "for_id" as the ID element is not a fo
           <FormLabel
@@ -618,6 +616,10 @@ export default class Slider extends PureComponent {
             sr_only={label_sr_only}
           />
         )}
+
+        <span className="dnb-slider__helper" aria-hidden>
+          &zwnj;
+        </span>
 
         <span className="dnb-slider__wrapper">
           {showStatus && (

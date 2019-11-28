@@ -33,12 +33,6 @@ exports[`Slider component have to match snapshot 1`] = `
   <span
     className="dnb-slider dnb-form-component className class dnb-slider__label--horizontal"
   >
-    <span
-      aria-hidden={true}
-      className="dnb-slider__helper"
-    >
-      ‌
-    </span>
     <FormLabel
       class={null}
       className={null}
@@ -67,6 +61,12 @@ exports[`Slider component have to match snapshot 1`] = `
         </label>
       </Element>
     </FormLabel>
+    <span
+      aria-hidden={true}
+      className="dnb-slider__helper"
+    >
+      ‌
+    </span>
     <span
       className="dnb-slider__wrapper"
     >
@@ -126,6 +126,13 @@ exports[`Slider component have to match snapshot 1`] = `
               type="button"
               variant="secondary"
             >
+              <span
+                aria-hidden={true}
+                className="dnb-button__helper"
+                key="button-helper"
+              >
+                ‌
+              </span>
               <IconPrimary
                 alt={null}
                 aria-hidden={false}
@@ -149,7 +156,9 @@ exports[`Slider component have to match snapshot 1`] = `
                   className="dnb-icon dnb-button__icon"
                   role="img"
                 >
-                  <span>
+                  <span
+                    className="dnb-icon--wrapper"
+                  >
                     <subtract>
                       <svg
                         fill="none"
@@ -261,7 +270,15 @@ exports[`Slider component have to match snapshot 1`] = `
                   title={null}
                   type="button"
                   variant="secondary"
-                />
+                >
+                  <span
+                    aria-hidden={true}
+                    className="dnb-button__helper"
+                    key="button-helper"
+                  >
+                    ‌
+                  </span>
+                </Content>
               </button>
             </Button>
           </span>
@@ -330,6 +347,13 @@ exports[`Slider component have to match snapshot 1`] = `
               type="button"
               variant="secondary"
             >
+              <span
+                aria-hidden={true}
+                className="dnb-button__helper"
+                key="button-helper"
+              >
+                ‌
+              </span>
               <IconPrimary
                 alt={null}
                 aria-hidden={false}
@@ -353,7 +377,9 @@ exports[`Slider component have to match snapshot 1`] = `
                   className="dnb-icon dnb-button__icon"
                   role="img"
                 >
-                  <span>
+                  <span
+                    className="dnb-icon--wrapper"
+                  >
                     <add>
                       <svg
                         fill="none"
@@ -425,7 +451,7 @@ exports[`Slider scss have to match snapshot 1`] = `
     width: inherit;
     height: inherit;
     shape-rendering: geometricPrecision; }
-  .dnb-icon > span {
+  .dnb-icon > .dnb-icon--wrapper {
     width: inherit;
     height: inherit; }
   .dnb-icon svg[width='100%'] {
@@ -438,23 +464,23 @@ exports[`Slider scss have to match snapshot 1`] = `
   .dnb-icon svg [stroke] {
     stroke: currentColor; }
   .dnb-icon--small {
-    width: 0.75em;
-    height: 0.75em; }
+    width: 0.75rem;
+    height: 0.75rem; }
   .dnb-icon--default {
-    width: 1em;
-    height: 1em; }
+    width: 1rem;
+    height: 1rem; }
   .dnb-icon--medium {
-    width: 1.5em;
-    height: 1.5em; }
+    width: 1.5rem;
+    height: 1.5rem; }
   .dnb-icon--large {
-    width: 2em;
-    height: 2em; }
+    width: 2rem;
+    height: 2rem; }
   .dnb-icon--x-large {
-    width: 2.5em;
-    height: 2.5em; }
+    width: 2.5rem;
+    height: 2.5rem; }
   .dnb-icon--xx-large {
-    width: 3em;
-    height: 3em; }
+    width: 3rem;
+    height: 3rem; }
   .dnb-icon--custom-size {
     width: auto;
     height: auto; }
@@ -472,8 +498,6 @@ exports[`Slider scss have to match snapshot 1`] = `
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  font-variant-numeric: lining-nums;
-  font-feature-settings: \\"lnum\\";
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -534,15 +558,21 @@ exports[`Slider scss have to match snapshot 1`] = `
   padding: 0;
   border: var(--button-border-width) solid transparent;
   border-radius: var(--button-border-radius);
-  text-decoration: none; }
-  .dnb-button__icon {
-    font-size: var(--font-size-small); }
-    .dnb-button__icon svg:not([width]):not([height]) {
-      width: var(--button-icon-size);
-      height: var(--button-icon-size); }
-    .dnb-button__icon.dnb-icon > span {
-      display: inline-flex;
-      vertical-align: top; }
+  text-decoration: none;
+  font-size: var(--font-size-small);
+  line-height: var(--button-height--small); }
+  .dnb-button__helper {
+    display: inline-block;
+    clip: rect(0, 0, 0, 0);
+    width: 1px;
+    margin-left: -1px;
+    overflow: hidden; }
+  .dnb-button__icon svg:not([width]):not([height]) {
+    width: var(--button-icon-size);
+    height: var(--button-icon-size); }
+  .dnb-button .dnb-icon--wrapper {
+    display: inline-flex;
+    vertical-align: top; }
   .dnb-button__text {
     font-size: var(--button-font-size);
     line-height: var(--line-height-x-small--em);
@@ -673,8 +703,6 @@ button.dnb-button::-moz-focus-inner {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  font-variant-numeric: lining-nums;
-  font-feature-settings: \\"lnum\\";
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -743,8 +771,6 @@ legend.dnb-form-label {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  font-variant-numeric: lining-nums;
-  font-feature-settings: \\"lnum\\";
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -824,8 +850,6 @@ legend.dnb-form-label {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  font-variant-numeric: lining-nums;
-  font-feature-settings: \\"lnum\\";
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -865,8 +889,9 @@ legend.dnb-form-label {
   -webkit-user-select: none;
   display: flex;
   font-size: var(--font-size-small);
-  line-height: var(--slider-thumb-size); }
+  line-height: var(--line-height-basis); }
   .dnb-slider__helper {
+    display: inline-block;
     clip: rect(0, 0, 0, 0);
     width: 1px;
     margin-left: -1px;
@@ -978,9 +1003,10 @@ legend.dnb-form-label {
   .dnb-slider--vertical .dnb-slider__thumb {
     transform: translate3d(0, -50%, 0); }
   .dnb-slider__button {
-    transform: translateY(0.25rem);
     height: var(--slider-button-size);
-    width: var(--slider-button-size); }
+    width: var(--slider-button-size);
+    line-height: var(--slider-button-size);
+    transform: translateY(0.25rem); }
   .dnb-slider--vertical .dnb-slider__button {
     transform: translateX(0.25rem); }
   .dnb-slider__state--jumped .dnb-slider__thumb,
@@ -1001,7 +1027,8 @@ legend.dnb-form-label {
       /* IE11 fix */
       border-color: transparent; }
   .dnb-slider > .dnb-form-label {
-    margin-right: 1rem; }
+    margin-right: 1rem;
+    line-height: var(--slider-thumb-size); }
   .dnb-slider__label--vertical {
     flex-direction: column; }
   .dnb-slider__label--vertical.dnb-slider--vertical {

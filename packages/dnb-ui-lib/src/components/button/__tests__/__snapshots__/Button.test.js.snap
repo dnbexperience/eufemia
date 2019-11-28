@@ -85,7 +85,9 @@ exports[`Button component have to match default button snapshot 1`] = `
           className="dnb-icon dnb-button__icon"
           role="img"
         >
-          <span>
+          <span
+            className="dnb-icon--wrapper"
+          >
             <question>
               <svg
                 fill="none"
@@ -195,7 +197,9 @@ exports[`Button component have to match href="..." snapshot 1`] = `
           className="dnb-icon dnb-button__icon"
           role="img"
         >
-          <span>
+          <span
+            className="dnb-icon--wrapper"
+          >
             <question>
               <svg
                 fill="none"
@@ -423,67 +427,61 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     html[data-whatinput='keyboard']
 .dnb-button--tertiary:hover:focus .dnb-button__text::after {
       visibility: hidden; }
-    .dnb-button--tertiary.dnb-button--has-icon {
+    .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text .dnb-button__icon {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      margin: auto 0; }
+    .dnb-button--tertiary.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__text {
+      padding-left: 1.5rem; }
+    .dnb-button--tertiary.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__icon {
+      left: 0.5rem;
+      right: auto; }
+    .dnb-button--tertiary.dnb-button--has-icon.dnb-button--icon-position-left.dnb-button--icon-size-medium .dnb-button__text {
+      padding-left: 0;
+      margin-left: 2rem; }
+    .dnb-button--tertiary.dnb-button--has-icon.dnb-button--icon-position-right {
       /* stylelint-disable */
       /* stylelint-enable */ }
-      .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text .dnb-button__icon {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        margin: auto 0; }
-      .dnb-button--tertiary.dnb-button--has-icon.dnb-button--icon-size-medium .dnb-button__icon {
-        bottom: -0.125rem;
-        /* 2/16 */ }
-      .dnb-button--tertiary.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__text {
-        padding-left: 1.5rem; }
-      .dnb-button--tertiary.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__icon {
-        left: 0.5rem;
-        right: auto; }
-      .dnb-button--tertiary.dnb-button--has-icon.dnb-button--icon-position-left.dnb-button--icon-size-medium .dnb-button__text {
-        padding-left: 0;
-        margin-left: 2rem; }
-      .dnb-button--tertiary.dnb-button--has-icon.dnb-button--icon-position-right {
-        /* stylelint-disable */
-        /* stylelint-enable */ }
-        .dnb-button--tertiary.dnb-button--has-icon.dnb-button--icon-position-right .dnb-button__text {
-          padding-right: 1.5rem; }
-        .dnb-button--tertiary.dnb-button--has-icon.dnb-button--icon-position-right .dnb-button__icon {
-          right: 0.5rem;
-          left: auto; }
-        .dnb-button--tertiary.dnb-button--has-icon.dnb-button--icon-position-right.dnb-button--icon-size-medium .dnb-button__text {
-          padding-right: 0;
-          margin-right: 2rem; }
-      .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):focus::before {
-        left: 0;
-        right: 0; }
-      .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):active[disabled],
-      html:not([data-is-touch]) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):active[disabled] {
-        cursor: not-allowed; }
-      .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):active:not([disabled])::before,
-      html:not([data-is-touch]) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):active:not([disabled])::before {
-        left: 0;
-        right: 0; }
-      html:not([data-is-touch]) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):not(:active):not(:focus):hover[disabled] {
-        cursor: not-allowed; }
-      html:not([data-is-touch]) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):not(:active):not(:focus):hover:not([disabled]) .dnb-button__icon::after {
-        content: '';
-        position: absolute;
-        z-index: 1;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        width: auto;
-        height: 0.095rem;
-        border-radius: calc(0.095rem / 2);
-        color: var(--color-sea-green);
-        background-color: currentColor;
-        left: 0.5rem;
+      .dnb-button--tertiary.dnb-button--has-icon.dnb-button--icon-position-right .dnb-button__text {
+        padding-right: 1.5rem; }
+      .dnb-button--tertiary.dnb-button--has-icon.dnb-button--icon-position-right .dnb-button__icon {
         right: 0.5rem;
-        bottom: 0.25rem; }
-        @media screen and (-ms-high-contrast: none) {
-          html:not([data-is-touch]) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):not(:active):not(:focus):hover:not([disabled]) .dnb-button__icon::after {
-            height: 1px;
-            border-radius: 0.5px; } }
+        left: auto; }
+      .dnb-button--tertiary.dnb-button--has-icon.dnb-button--icon-position-right.dnb-button--icon-size-medium .dnb-button__text {
+        padding-right: 0;
+        margin-right: 2rem; }
+    .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):focus::before {
+      left: 0;
+      right: 0; }
+    .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):active[disabled],
+    html:not([data-is-touch]) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):active[disabled] {
+      cursor: not-allowed; }
+    .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):active:not([disabled])::before,
+    html:not([data-is-touch]) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):active:not([disabled])::before {
+      left: 0;
+      right: 0; }
+    html:not([data-is-touch]) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):not(:active):not(:focus):hover[disabled] {
+      cursor: not-allowed; }
+    html:not([data-is-touch]) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):not(:active):not(:focus):hover:not([disabled]) .dnb-button__icon::after {
+      content: '';
+      position: absolute;
+      z-index: 1;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: auto;
+      height: 0.095rem;
+      border-radius: calc(0.095rem / 2);
+      color: var(--color-sea-green);
+      background-color: currentColor;
+      left: 0.5rem;
+      right: 0.5rem;
+      bottom: 0.25rem; }
+      @media screen and (-ms-high-contrast: none) {
+        html:not([data-is-touch]) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):not(:active):not(:focus):hover:not([disabled]) .dnb-button__icon::after {
+          height: 1px;
+          border-radius: 0.5px; } }
     .dnb-button--tertiary[disabled] {
       color: var(--color-sea-green-alt-30); }
   .dnb-button--signal {
@@ -581,7 +579,7 @@ exports[`Button scss have to match snapshot 1`] = `
     width: inherit;
     height: inherit;
     shape-rendering: geometricPrecision; }
-  .dnb-icon > span {
+  .dnb-icon > .dnb-icon--wrapper {
     width: inherit;
     height: inherit; }
   .dnb-icon svg[width='100%'] {
@@ -594,23 +592,23 @@ exports[`Button scss have to match snapshot 1`] = `
   .dnb-icon svg [stroke] {
     stroke: currentColor; }
   .dnb-icon--small {
-    width: 0.75em;
-    height: 0.75em; }
+    width: 0.75rem;
+    height: 0.75rem; }
   .dnb-icon--default {
-    width: 1em;
-    height: 1em; }
+    width: 1rem;
+    height: 1rem; }
   .dnb-icon--medium {
-    width: 1.5em;
-    height: 1.5em; }
+    width: 1.5rem;
+    height: 1.5rem; }
   .dnb-icon--large {
-    width: 2em;
-    height: 2em; }
+    width: 2rem;
+    height: 2rem; }
   .dnb-icon--x-large {
-    width: 2.5em;
-    height: 2.5em; }
+    width: 2.5rem;
+    height: 2.5rem; }
   .dnb-icon--xx-large {
-    width: 3em;
-    height: 3em; }
+    width: 3rem;
+    height: 3rem; }
   .dnb-icon--custom-size {
     width: auto;
     height: auto; }
@@ -628,8 +626,6 @@ exports[`Button scss have to match snapshot 1`] = `
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  font-variant-numeric: lining-nums;
-  font-feature-settings: \\"lnum\\";
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -690,15 +686,21 @@ exports[`Button scss have to match snapshot 1`] = `
   padding: 0;
   border: var(--button-border-width) solid transparent;
   border-radius: var(--button-border-radius);
-  text-decoration: none; }
-  .dnb-button__icon {
-    font-size: var(--font-size-small); }
-    .dnb-button__icon svg:not([width]):not([height]) {
-      width: var(--button-icon-size);
-      height: var(--button-icon-size); }
-    .dnb-button__icon.dnb-icon > span {
-      display: inline-flex;
-      vertical-align: top; }
+  text-decoration: none;
+  font-size: var(--font-size-small);
+  line-height: var(--button-height--small); }
+  .dnb-button__helper {
+    display: inline-block;
+    clip: rect(0, 0, 0, 0);
+    width: 1px;
+    margin-left: -1px;
+    overflow: hidden; }
+  .dnb-button__icon svg:not([width]):not([height]) {
+    width: var(--button-icon-size);
+    height: var(--button-icon-size); }
+  .dnb-button .dnb-icon--wrapper {
+    display: inline-flex;
+    vertical-align: top; }
   .dnb-button__text {
     font-size: var(--button-font-size);
     line-height: var(--line-height-x-small--em);

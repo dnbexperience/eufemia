@@ -143,7 +143,9 @@ exports[`DatePicker component have to match snapshot 1`] = `
                 className="dnb-icon dnb-icon--large"
                 role="img"
               >
-                <span>
+                <span
+                  className="dnb-icon--wrapper"
+                >
                   <ErrorIcon>
                     <svg
                       fill="none"
@@ -826,6 +828,13 @@ exports[`DatePicker component have to match snapshot 1`] = `
                               type="button"
                               variant="secondary"
                             >
+                              <span
+                                aria-hidden={true}
+                                className="dnb-button__helper"
+                                key="button-helper"
+                              >
+                                ‌
+                              </span>
                               <IconPrimary
                                 alt={null}
                                 aria-hidden={false}
@@ -849,7 +858,9 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                   className="dnb-icon dnb-button__icon"
                                   role="img"
                                 >
-                                  <span>
+                                  <span
+                                    className="dnb-icon--wrapper"
+                                  >
                                     <calendar>
                                       <svg
                                         fill="none"
@@ -949,9 +960,6 @@ exports[`DatePicker scss have to match default theme snapshot 1`] = `
     color: var(--date-picker-labels-day-color); }
   .dnb-date-picker__day, .dnb-date-picker__labels__day {
     text-align: center; }
-  .dnb-date-picker__day .dnb-button {
-    font-variant-numeric: tabular-nums;
-    font-feature-settings: \\"lnum\\"; }
   .dnb-date-picker__day--preview .dnb-button,
   .dnb-date-picker__day--inactive .dnb-button,
   .dnb-date-picker__day--within-selection:not(.dnb-date-picker__day--start-date):not(.dnb-date-picker__day--end-date) .dnb-button:not(:hover) {
@@ -1036,7 +1044,7 @@ exports[`DatePicker scss have to match snapshot 1`] = `
     width: inherit;
     height: inherit;
     shape-rendering: geometricPrecision; }
-  .dnb-icon > span {
+  .dnb-icon > .dnb-icon--wrapper {
     width: inherit;
     height: inherit; }
   .dnb-icon svg[width='100%'] {
@@ -1049,23 +1057,23 @@ exports[`DatePicker scss have to match snapshot 1`] = `
   .dnb-icon svg [stroke] {
     stroke: currentColor; }
   .dnb-icon--small {
-    width: 0.75em;
-    height: 0.75em; }
+    width: 0.75rem;
+    height: 0.75rem; }
   .dnb-icon--default {
-    width: 1em;
-    height: 1em; }
+    width: 1rem;
+    height: 1rem; }
   .dnb-icon--medium {
-    width: 1.5em;
-    height: 1.5em; }
+    width: 1.5rem;
+    height: 1.5rem; }
   .dnb-icon--large {
-    width: 2em;
-    height: 2em; }
+    width: 2rem;
+    height: 2rem; }
   .dnb-icon--x-large {
-    width: 2.5em;
-    height: 2.5em; }
+    width: 2.5rem;
+    height: 2.5rem; }
   .dnb-icon--xx-large {
-    width: 3em;
-    height: 3em; }
+    width: 3rem;
+    height: 3rem; }
   .dnb-icon--custom-size {
     width: auto;
     height: auto; }
@@ -1083,8 +1091,6 @@ exports[`DatePicker scss have to match snapshot 1`] = `
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  font-variant-numeric: lining-nums;
-  font-feature-settings: \\"lnum\\";
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -1145,15 +1151,21 @@ exports[`DatePicker scss have to match snapshot 1`] = `
   padding: 0;
   border: var(--button-border-width) solid transparent;
   border-radius: var(--button-border-radius);
-  text-decoration: none; }
-  .dnb-button__icon {
-    font-size: var(--font-size-small); }
-    .dnb-button__icon svg:not([width]):not([height]) {
-      width: var(--button-icon-size);
-      height: var(--button-icon-size); }
-    .dnb-button__icon.dnb-icon > span {
-      display: inline-flex;
-      vertical-align: top; }
+  text-decoration: none;
+  font-size: var(--font-size-small);
+  line-height: var(--button-height--small); }
+  .dnb-button__helper {
+    display: inline-block;
+    clip: rect(0, 0, 0, 0);
+    width: 1px;
+    margin-left: -1px;
+    overflow: hidden; }
+  .dnb-button__icon svg:not([width]):not([height]) {
+    width: var(--button-icon-size);
+    height: var(--button-icon-size); }
+  .dnb-button .dnb-icon--wrapper {
+    display: inline-flex;
+    vertical-align: top; }
   .dnb-button__text {
     font-size: var(--button-font-size);
     line-height: var(--line-height-x-small--em);
@@ -1284,8 +1296,6 @@ button.dnb-button::-moz-focus-inner {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  font-variant-numeric: lining-nums;
-  font-feature-settings: \\"lnum\\";
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -1354,8 +1364,6 @@ legend.dnb-form-label {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  font-variant-numeric: lining-nums;
-  font-feature-settings: \\"lnum\\";
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -1435,8 +1443,6 @@ legend.dnb-form-label {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  font-variant-numeric: lining-nums;
-  font-feature-settings: \\"lnum\\";
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -1483,9 +1489,10 @@ legend.dnb-form-label {
 .dnb-input {
   display: inline-flex;
   align-items: center;
-  font-size: var(--input-font-size);
+  font-size: var(--input-font-small);
   line-height: var(--input-height); }
   .dnb-input__helper {
+    display: inline-block;
     clip: rect(0, 0, 0, 0);
     width: 1px;
     margin-left: -1px;
@@ -1496,8 +1503,7 @@ legend.dnb-form-label {
   .dnb-input__inner {
     display: inline-flex;
     flex-direction: column;
-    width: auto;
-    line-height: var(--input-height); }
+    width: auto; }
   .dnb-input__shell {
     position: relative;
     display: flex;
@@ -1509,12 +1515,13 @@ legend.dnb-form-label {
     word-break: normal;
     position: relative;
     z-index: 2; }
+  .dnb-input input.dnb-input__input {
+    font-size: var(--input-font-size);
+    line-height: var(--font-size-basis); }
   .dnb-input__input[disabled] {
     user-select: none;
     -webkit-user-select: none;
     opacity: 1; }
-  .dnb-input__input[type='file'] {
-    line-height: calc(var(--input-height) - 2px); }
   .dnb-input__shell, .dnb-input__input {
     height: var(--input-height);
     border-radius: var(--input-border-radius); }
@@ -1524,10 +1531,8 @@ legend.dnb-form-label {
     padding-right: var(--input-padding);
     text-align: left;
     color: inherit;
-    font-size: inherit;
     background-color: transparent;
-    font-variant-numeric: lining-nums;
-    font-feature-settings: \\"lnum\\"; }
+    font-size: var(--input-font-size); }
   .dnb-input__placeholder {
     pointer-events: none;
     position: absolute;
@@ -1536,8 +1541,9 @@ legend.dnb-form-label {
     left: 0;
     overflow: hidden;
     white-space: nowrap;
-    text-overflow: ellipsis;
-    line-height: inherit; }
+    text-overflow: ellipsis; }
+  .dnb-input input.dnb-input__input[type='file'] {
+    line-height: calc(var(--input-height) - 2px); }
   .dnb-input__input::-webkit-search-cancel-button {
     display: none; }
   .dnb-input__input::-ms-clear {
@@ -1567,45 +1573,43 @@ legend.dnb-form-label {
     /* IE needs this to stay centered */ }
     .dnb-input__submit-button__button {
       border-radius: 50%; }
-  .dnb-input--medium,
-  .dnb-input--medium .dnb-input__shell {
+  .dnb-input--medium {
     line-height: var(--input-height--medium); }
-  .dnb-input--medium .dnb-input__shell,
-  .dnb-input--medium .dnb-input__input {
-    height: var(--input-height--medium);
-    border-radius: var(--input-border-radius--medium); }
-  .dnb-input--medium .dnb-input__placeholder,
-  .dnb-input--medium .dnb-input__input {
-    padding-left: var(--input-padding--medium);
-    padding-right: var(--input-padding--medium);
-    font-size: var(--input-font-size--medium); }
-  .dnb-input--medium .dnb-input__submit-element {
-    margin-left: calc(1px - 1px - var(--input-height--medium)); }
-    .dnb-input--medium .dnb-input__submit-element .dnb-button {
-      width: var(--input-height--medium);
-      height: var(--input-height--medium); }
+    .dnb-input--medium .dnb-input__shell,
+    .dnb-input--medium .dnb-input__input {
+      height: var(--input-height--medium);
+      border-radius: var(--input-border-radius--medium); }
+    .dnb-input--medium .dnb-input__placeholder,
+    .dnb-input--medium .dnb-input__input {
+      padding-left: var(--input-padding--medium);
+      padding-right: var(--input-padding--medium);
+      font-size: var(--input-font-size--medium); }
+    .dnb-input--medium .dnb-input__submit-element {
+      margin-left: calc(1px - 1px - var(--input-height--medium)); }
+      .dnb-input--medium .dnb-input__submit-element .dnb-button {
+        width: var(--input-height--medium);
+        height: var(--input-height--medium); }
   .dnb-input--medium.dnb-input--has-submit-element .dnb-input__placeholder,
   .dnb-input--medium.dnb-input--has-submit-element .dnb-input__input {
     padding-right: calc(var(--input-padding--medium) * 2.5); }
-  .dnb-input--large,
-  .dnb-input--large .dnb-input__shell {
+  .dnb-input--large {
     line-height: var(--input-height--large); }
-  .dnb-input--large .dnb-input__shell,
-  .dnb-input--large .dnb-input__input {
-    height: var(--input-height--large);
-    border-radius: var(--input-border-radius--large); }
-  .dnb-input--large .dnb-input__placeholder,
-  .dnb-input--large .dnb-input__input {
-    padding-left: var(--input-padding--large);
-    padding-right: var(--input-padding--large);
-    font-size: var(--input-font-size--large); }
-  .dnb-input--large .dnb-input__submit-element {
-    margin-left: calc(1px - 1px - var(--input-height--large)); }
-    .dnb-input--large .dnb-input__submit-element .dnb-button {
-      width: var(--input-height--large);
-      height: var(--input-height--large); }
-      .dnb-input--large .dnb-input__submit-element .dnb-button .dnb-button__icon {
-        transform: scale(1.33333); }
+    .dnb-input--large .dnb-input__shell,
+    .dnb-input--large .dnb-input__input {
+      height: var(--input-height--large);
+      border-radius: var(--input-border-radius--large); }
+    .dnb-input--large .dnb-input__placeholder,
+    .dnb-input--large .dnb-input__input {
+      padding-left: var(--input-padding--large);
+      padding-right: var(--input-padding--large);
+      font-size: var(--input-font-size--large); }
+    .dnb-input--large .dnb-input__submit-element {
+      margin-left: calc(1px - 1px - var(--input-height--large)); }
+      .dnb-input--large .dnb-input__submit-element .dnb-button {
+        width: var(--input-height--large);
+        height: var(--input-height--large); }
+        .dnb-input--large .dnb-input__submit-element .dnb-button .dnb-button__icon {
+          transform: scale(1.33333); }
   .dnb-input--large.dnb-input--has-submit-element .dnb-input__placeholder,
   .dnb-input--large.dnb-input--has-submit-element .dnb-input__input {
     padding-right: calc(var(--input-padding--large) * 2.5); }
@@ -1615,8 +1619,6 @@ legend.dnb-form-label {
   .dnb-input__align--right .dnb-input__placeholder,
   .dnb-input__align--right .dnb-input__input {
     text-align: right; }
-  .dnb-core-style .dnb-input__input:not([type='file']) {
-    line-height: var(--line-height-x-small--em); }
   .dnb-input__inner > .dnb-form-status {
     order: 2;
     margin-top: 0.5rem; }
@@ -1633,10 +1635,9 @@ legend.dnb-form-label {
   .dnb-input--vertical.dnb-input--stretch .dnb-input__inner {
     width: 100%; }
   .dnb-input > .dnb-form-label {
-    line-height: var(--font-size-basis); }
-  .dnb-input[class*='__status'] {
-    align-items: flex-start;
     line-height: var(--line-height-basis); }
+  .dnb-input[class*='__status'] {
+    align-items: flex-start; }
     .dnb-input[class*='__status'] > .dnb-form-label {
       margin-top: 0.25rem; }
   @media (max-width: 40em) {
@@ -1644,8 +1645,7 @@ legend.dnb-form-label {
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      margin-bottom: 0.5rem;
-      line-height: var(--line-height-basis); }
+      margin-bottom: 0.5rem; }
       .dnb-responsive-component .dnb-input__row {
         align-items: flex-start; }
       .dnb-responsive-component .dnb-input > .dnb-form-label {
@@ -1678,8 +1678,6 @@ legend.dnb-form-label {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  font-variant-numeric: lining-nums;
-  font-feature-settings: \\"lnum\\";
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -1715,11 +1713,15 @@ legend.dnb-form-label {
 
 .dnb-checkbox {
   display: inline-flex;
-  flex-direction: column; }
+  flex-direction: column;
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-basis); }
   .dnb-checkbox__inner {
     display: inline-flex;
-    flex-direction: column; }
+    flex-direction: column;
+    align-self: center; }
   .dnb-checkbox__helper {
+    display: inline-block;
     clip: rect(0, 0, 0, 0);
     width: 1px;
     margin-left: -1px;
@@ -1776,8 +1778,7 @@ legend.dnb-form-label {
     margin-bottom: 0; }
   .dnb-checkbox__order {
     display: inline-flex;
-    font-size: var(--font-size-basis);
-    line-height: var(--line-height-basis); }
+    align-items: baseline; }
   .dnb-checkbox--label-position-left .dnb-checkbox__order .dnb-checkbox__inner {
     order: 2; }
   .dnb-checkbox--label-position-left .dnb-checkbox__order .dnb-form-label {
@@ -1825,8 +1826,6 @@ legend.dnb-form-label {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  font-variant-numeric: lining-nums;
-  font-feature-settings: \\"lnum\\";
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -1864,11 +1863,15 @@ legend.dnb-form-label {
 
 .dnb-radio {
   display: inline-flex;
-  flex-direction: column; }
+  flex-direction: column;
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-basis); }
   .dnb-radio__inner {
     display: inline-flex;
-    flex-direction: column; }
+    flex-direction: column;
+    align-self: center; }
   .dnb-radio__helper {
+    display: inline-block;
     clip: rect(0, 0, 0, 0);
     width: 1px;
     margin-left: -1px;
@@ -1921,8 +1924,7 @@ legend.dnb-form-label {
     margin-bottom: 0; }
   .dnb-radio__order {
     display: inline-flex;
-    font-size: var(--font-size-basis);
-    line-height: var(--line-height-basis); }
+    align-items: baseline; }
     .dnb-radio-group--column .dnb-radio__order {
       display: flex; }
   .dnb-radio--label-position-left .dnb-radio__order .dnb-radio__inner {
@@ -1967,10 +1969,12 @@ legend.dnb-form-label {
     .dnb-radio-group--column .dnb-radio-group__shell {
       flex-direction: column; }
     .dnb-radio-group .dnb-form-row {
+      align-items: flex-start;
       margin-bottom: calc(1px - 1px - var(--radio-margin-bottom)); }
     .dnb-form-row--vertical .dnb-radio-group {
       display: flex; }
     .dnb-radio-group__helper {
+      display: inline-block;
       clip: rect(0, 0, 0, 0);
       width: 1px;
       margin-left: -1px;
@@ -2001,8 +2005,6 @@ legend.dnb-form-label {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  font-variant-numeric: lining-nums;
-  font-feature-settings: \\"lnum\\";
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -2048,6 +2050,7 @@ legend.dnb-form-label {
     user-select: none;
     -webkit-user-select: none; }
   .dnb-toggle-button__helper {
+    display: inline-block;
     clip: rect(0, 0, 0, 0);
     width: 1px;
     margin-left: -1px;
@@ -2133,10 +2136,12 @@ legend.dnb-form-label {
         margin-top: 0;
         margin-bottom: 0; }
     .dnb-toggle-button-group .dnb-form-row {
+      align-items: baseline;
       margin-bottom: calc(1px - 1px - var(--toggle-button-margin-bottom)); }
     .dnb-form-row--vertical .dnb-toggle-button-group {
       display: flex; }
     .dnb-toggle-button-group__helper {
+      display: inline-block;
       clip: rect(0, 0, 0, 0);
       width: 1px;
       margin-left: -1px;
@@ -2173,8 +2178,6 @@ legend.dnb-form-label {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  font-variant-numeric: lining-nums;
-  font-feature-settings: \\"lnum\\";
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -2211,16 +2214,18 @@ legend.dnb-form-label {
 .dnb-date-picker {
   display: inline-flex;
   align-items: center;
-  font-size: var(--font-size-basis);
-  line-height: var(--date-picker-input-height); }
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-basis); }
   .dnb-date-picker__inner {
     display: inline-flex;
     flex-direction: column; }
   .dnb-date-picker__helper {
+    display: inline-block;
     clip: rect(0, 0, 0, 0);
     width: 1px;
     margin-left: -1px;
-    overflow: hidden; }
+    overflow: hidden;
+    line-height: var(--date-picker-input-height); }
   .dnb-date-picker--vertical .dnb-date-picker__helper {
     height: 1px;
     margin-top: -1px; }
@@ -2450,6 +2455,8 @@ legend.dnb-form-label {
     display: flex;
     align-items: flex-start;
     flex-direction: column; }
+  .dnb-date-picker > .dnb-form-label {
+    line-height: var(--line-height-basis); }
   .dnb-date-picker[class*='__status'] {
     align-items: flex-start; }
     .dnb-date-picker[class*='__status'] > .dnb-form-label {

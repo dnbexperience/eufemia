@@ -482,7 +482,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                               href={null}
                               icon={null}
                               icon_position={null}
-                              icon_size="default"
+                              icon_size={null}
                               id="toggle-button-1"
                               innerRef={null}
                               isIconOnly={false}
@@ -597,7 +597,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                               href={null}
                               icon={null}
                               icon_position={null}
-                              icon_size="default"
+                              icon_size={null}
                               id="toggle-button-2"
                               innerRef={null}
                               isIconOnly={false}
@@ -785,8 +785,6 @@ exports[`ToggleButton scss have to match snapshot 1`] = `
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  font-variant-numeric: lining-nums;
-  font-feature-settings: \\"lnum\\";
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -864,7 +862,7 @@ legend.dnb-form-label {
     width: inherit;
     height: inherit;
     shape-rendering: geometricPrecision; }
-  .dnb-icon > span {
+  .dnb-icon > .dnb-icon--wrapper {
     width: inherit;
     height: inherit; }
   .dnb-icon svg[width='100%'] {
@@ -877,23 +875,23 @@ legend.dnb-form-label {
   .dnb-icon svg [stroke] {
     stroke: currentColor; }
   .dnb-icon--small {
-    width: 0.75em;
-    height: 0.75em; }
+    width: 0.75rem;
+    height: 0.75rem; }
   .dnb-icon--default {
-    width: 1em;
-    height: 1em; }
+    width: 1rem;
+    height: 1rem; }
   .dnb-icon--medium {
-    width: 1.5em;
-    height: 1.5em; }
+    width: 1.5rem;
+    height: 1.5rem; }
   .dnb-icon--large {
-    width: 2em;
-    height: 2em; }
+    width: 2rem;
+    height: 2rem; }
   .dnb-icon--x-large {
-    width: 2.5em;
-    height: 2.5em; }
+    width: 2.5rem;
+    height: 2.5rem; }
   .dnb-icon--xx-large {
-    width: 3em;
-    height: 3em; }
+    width: 3rem;
+    height: 3rem; }
   .dnb-icon--custom-size {
     width: auto;
     height: auto; }
@@ -911,8 +909,6 @@ legend.dnb-form-label {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  font-variant-numeric: lining-nums;
-  font-feature-settings: \\"lnum\\";
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -973,15 +969,21 @@ legend.dnb-form-label {
   padding: 0;
   border: var(--button-border-width) solid transparent;
   border-radius: var(--button-border-radius);
-  text-decoration: none; }
-  .dnb-button__icon {
-    font-size: var(--font-size-small); }
-    .dnb-button__icon svg:not([width]):not([height]) {
-      width: var(--button-icon-size);
-      height: var(--button-icon-size); }
-    .dnb-button__icon.dnb-icon > span {
-      display: inline-flex;
-      vertical-align: top; }
+  text-decoration: none;
+  font-size: var(--font-size-small);
+  line-height: var(--button-height--small); }
+  .dnb-button__helper {
+    display: inline-block;
+    clip: rect(0, 0, 0, 0);
+    width: 1px;
+    margin-left: -1px;
+    overflow: hidden; }
+  .dnb-button__icon svg:not([width]):not([height]) {
+    width: var(--button-icon-size);
+    height: var(--button-icon-size); }
+  .dnb-button .dnb-icon--wrapper {
+    display: inline-flex;
+    vertical-align: top; }
   .dnb-button__text {
     font-size: var(--button-font-size);
     line-height: var(--line-height-x-small--em);
@@ -1116,8 +1118,6 @@ button.dnb-button::-moz-focus-inner {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  font-variant-numeric: lining-nums;
-  font-feature-settings: \\"lnum\\";
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -1197,8 +1197,6 @@ button.dnb-button::-moz-focus-inner {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  font-variant-numeric: lining-nums;
-  font-feature-settings: \\"lnum\\";
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -1234,11 +1232,15 @@ button.dnb-button::-moz-focus-inner {
 
 .dnb-checkbox {
   display: inline-flex;
-  flex-direction: column; }
+  flex-direction: column;
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-basis); }
   .dnb-checkbox__inner {
     display: inline-flex;
-    flex-direction: column; }
+    flex-direction: column;
+    align-self: center; }
   .dnb-checkbox__helper {
+    display: inline-block;
     clip: rect(0, 0, 0, 0);
     width: 1px;
     margin-left: -1px;
@@ -1295,8 +1297,7 @@ button.dnb-button::-moz-focus-inner {
     margin-bottom: 0; }
   .dnb-checkbox__order {
     display: inline-flex;
-    font-size: var(--font-size-basis);
-    line-height: var(--line-height-basis); }
+    align-items: baseline; }
   .dnb-checkbox--label-position-left .dnb-checkbox__order .dnb-checkbox__inner {
     order: 2; }
   .dnb-checkbox--label-position-left .dnb-checkbox__order .dnb-form-label {
@@ -1344,8 +1345,6 @@ button.dnb-button::-moz-focus-inner {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  font-variant-numeric: lining-nums;
-  font-feature-settings: \\"lnum\\";
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -1383,11 +1382,15 @@ button.dnb-button::-moz-focus-inner {
 
 .dnb-radio {
   display: inline-flex;
-  flex-direction: column; }
+  flex-direction: column;
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-basis); }
   .dnb-radio__inner {
     display: inline-flex;
-    flex-direction: column; }
+    flex-direction: column;
+    align-self: center; }
   .dnb-radio__helper {
+    display: inline-block;
     clip: rect(0, 0, 0, 0);
     width: 1px;
     margin-left: -1px;
@@ -1440,8 +1443,7 @@ button.dnb-button::-moz-focus-inner {
     margin-bottom: 0; }
   .dnb-radio__order {
     display: inline-flex;
-    font-size: var(--font-size-basis);
-    line-height: var(--line-height-basis); }
+    align-items: baseline; }
     .dnb-radio-group--column .dnb-radio__order {
       display: flex; }
   .dnb-radio--label-position-left .dnb-radio__order .dnb-radio__inner {
@@ -1486,10 +1488,12 @@ button.dnb-button::-moz-focus-inner {
     .dnb-radio-group--column .dnb-radio-group__shell {
       flex-direction: column; }
     .dnb-radio-group .dnb-form-row {
+      align-items: flex-start;
       margin-bottom: calc(1px - 1px - var(--radio-margin-bottom)); }
     .dnb-form-row--vertical .dnb-radio-group {
       display: flex; }
     .dnb-radio-group__helper {
+      display: inline-block;
       clip: rect(0, 0, 0, 0);
       width: 1px;
       margin-left: -1px;
@@ -1520,8 +1524,6 @@ button.dnb-button::-moz-focus-inner {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  font-variant-numeric: lining-nums;
-  font-feature-settings: \\"lnum\\";
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -1567,6 +1569,7 @@ button.dnb-button::-moz-focus-inner {
     user-select: none;
     -webkit-user-select: none; }
   .dnb-toggle-button__helper {
+    display: inline-block;
     clip: rect(0, 0, 0, 0);
     width: 1px;
     margin-left: -1px;
@@ -1652,10 +1655,12 @@ button.dnb-button::-moz-focus-inner {
         margin-top: 0;
         margin-bottom: 0; }
     .dnb-toggle-button-group .dnb-form-row {
+      align-items: baseline;
       margin-bottom: calc(1px - 1px - var(--toggle-button-margin-bottom)); }
     .dnb-form-row--vertical .dnb-toggle-button-group {
       display: flex; }
     .dnb-toggle-button-group__helper {
+      display: inline-block;
       clip: rect(0, 0, 0, 0);
       width: 1px;
       margin-left: -1px;

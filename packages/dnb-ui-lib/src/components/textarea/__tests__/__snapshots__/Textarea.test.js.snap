@@ -299,8 +299,6 @@ exports[`Textarea scss have to match snapshot 1`] = `
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  font-variant-numeric: lining-nums;
-  font-feature-settings: \\"lnum\\";
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -369,8 +367,6 @@ legend.dnb-form-label {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  font-variant-numeric: lining-nums;
-  font-feature-settings: \\"lnum\\";
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -450,8 +446,6 @@ legend.dnb-form-label {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  font-variant-numeric: lining-nums;
-  font-feature-settings: \\"lnum\\";
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -653,6 +647,7 @@ textarea.dnb-textarea {
     flex-direction: column;
     margin: var(--textarea-padding-width); }
   .dnb-textarea__helper {
+    display: inline-block;
     clip: rect(0, 0, 0, 0);
     width: 1px;
     margin-left: -1px;
@@ -690,9 +685,7 @@ textarea.dnb-textarea {
     margin: 0;
     padding: 0 var(--textarea-padding-width);
     /* IE11 fix */
-    line-height: var(--line-height-basis);
-    font-variant-numeric: lining-nums;
-    font-feature-settings: \\"lnum\\"; }
+    line-height: var(--line-height-basis); }
     @media screen and (-ms-high-contrast: none) {
       .dnb-textarea__textarea {
         padding: var(--textarea-padding-width); } }
@@ -750,8 +743,6 @@ textarea.dnb-textarea {
   padding: 0 var(--textarea-padding-width);
   /* IE11 fix */
   line-height: var(--line-height-basis);
-  font-variant-numeric: lining-nums;
-  font-feature-settings: \\"lnum\\";
   border-radius: 0.5rem;
   /* IE11 fix */ }
   @media screen and (-ms-high-contrast: none) {

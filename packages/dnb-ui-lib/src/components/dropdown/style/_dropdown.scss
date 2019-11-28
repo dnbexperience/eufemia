@@ -44,7 +44,7 @@
   display: inline-flex;
   align-items: center;
 
-  font-size: var(--font-size-basis);
+  font-size: var(--font-size-small);
   line-height: var(--dropdown-height);
 
   &__inner {
@@ -100,6 +100,7 @@
     margin: 0;
     padding: 0;
 
+    font-size: var(--font-size-basis);
     background-color: transparent;
 
     transform: translateY(0);
@@ -385,8 +386,7 @@
     color: inherit;
     text-align: left;
     text-overflow: ellipsis;
-
-    @include numberFeature(lining-nums, lnum);
+    font-size: var(--font-size-basis);
 
     &__inner {
       display: inline-block;
@@ -436,7 +436,7 @@
 
   & > .dnb-form-label {
     margin-right: 1rem;
-    line-height: var(--font-size-basis);
+    line-height: var(--line-height-basis);
   }
 
   label + &[class*='__form-status'] {

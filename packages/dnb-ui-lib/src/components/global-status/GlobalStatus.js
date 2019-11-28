@@ -12,7 +12,8 @@ import {
   registerElement,
   validateDOMAttributes,
   dispatchCustomElementEvent,
-  processChildren
+  processChildren,
+  extendPropsWithContext
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import GlobalStatusController from './GlobalStatusController'
@@ -99,7 +100,7 @@ const defaultProps = {
   autoscroll: true,
   autoclose: true,
   no_animation: false,
-  close_text: 'Lukk', // Close Modal Window
+  close_text: 'Lukk',
   hide_close_button: false,
   delay: 10,
   duration: 1e3,
@@ -523,12 +524,18 @@ export default class GlobalStatus extends React.PureComponent {
 
     const { isActive, makeMeVisible, makeMeHidden, isVisible } = this.state
 
+    const stateProps = extendPropsWithContext(
+      this.state.globalStatus,
+      defaultProps,
+      this.context.translation.GlobalStatus
+    )
+
     const props = this.context.globalStatus
       ? GlobalStatusProvider.combineMessages([
           this.context.globalStatus,
-          this.state.globalStatus
+          stateProps
         ])
-      : this.state.globalStatus
+      : stateProps
 
     const {
       title,
@@ -709,6 +716,7 @@ export default class GlobalStatus extends React.PureComponent {
               {!isTrue(hide_close_button) && (
                 <CloseButton
                   on_click={this.closeHandler}
+                  text={close_text}
                   title={close_text}
                 />
               )}

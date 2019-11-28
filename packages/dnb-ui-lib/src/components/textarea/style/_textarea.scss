@@ -45,7 +45,6 @@
       var(--color-sea-green-alt);
 
   @include textareaStyleCommon();
-  @include numberFeature(lining-nums, lnum);
 }
 
 .dnb-textarea {

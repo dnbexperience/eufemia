@@ -39,7 +39,7 @@ export default [
               </FormRow>
             </Box>
             <Box>
-              <FormRow label="Button:">
+              <FormRow label="Paragraph:">
                 <p className="dnb-p">Paragraph</p>
               </FormRow>
             </Box>

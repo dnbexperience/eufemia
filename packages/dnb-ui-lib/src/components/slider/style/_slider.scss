@@ -18,7 +18,7 @@
   display: flex;
 
   font-size: var(--font-size-small);
-  line-height: var(--slider-thumb-size);
+  line-height: var(--line-height-basis);
 
   &__helper {
     // NB: this is not the same kind of helper than we have for the button!
@@ -192,9 +192,11 @@
   }
 
   &__button {
-    transform: translateY(0.25rem);
     height: var(--slider-button-size);
     width: var(--slider-button-size);
+
+    line-height: var(--slider-button-size);
+    transform: translateY(0.25rem);
   }
   &--vertical &__button {
     transform: translateX(0.25rem);
@@ -225,6 +227,7 @@
 
   > .dnb-form-label {
     margin-right: 1rem;
+    line-height: var(--slider-thumb-size);
   }
   &__label--vertical {
     flex-direction: column;

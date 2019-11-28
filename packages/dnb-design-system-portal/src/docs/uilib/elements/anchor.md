@@ -21,8 +21,8 @@ You would normally just decorate your anchor class withe this CSS class: `.dnb-a
     </a>
   </li>
   <li>
-    <a href="/" target="_blank" data-dnb-test="anchor-blank" className="dnb-anchor">
-      Blank target
+    <a href="https://eufemia.dnb.no/uilib/elements/anchor" target="_blank" data-dnb-test="anchor-blank" className="dnb-anchor">
+      Blank target with https
     </a>
   </li>
   <li>
@@ -127,13 +127,13 @@ To force a specific state of style, use the following classes to do so:
     ipsum <a href="/" className="dnb-anchor">Inside a Paragraph <IconPrimary icon="bell" /></a> auctor cursus mauris porta consectetur natoque vehicula vestibulum feugiat ultrices vitae fermentum eros euismod imperdiet eleifend justo vivamus posuere
   </p>
 
-- <h2 className="dnb-h2">
+- <h2 className="dnb-h2 skip-anchor">
     <a href="/" className="dnb-anchor">
       Inside Headings <IconPrimary icon="bell" />
     </a> H2
   </h2>
 
-- <h2 className="dnb-h2">
+- <h2 className="dnb-h2 skip-anchor">
     <a href="/" target="_blank" className="dnb-anchor">
       Blank target in headings
     </a> H2

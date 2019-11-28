@@ -90,12 +90,6 @@ exports[`Dropdown component have to match snapshot 1`] = `
   <span
     className="dnb-dropdown dnb-dropdown--direction-bottom dnb-dropdown dnb-form-component class className dnb-dropdown--hidden dnb-dropdown--horizontal dnb-dropdown--icon-position-icon_position dnb-dropdown--scroll dnb-dropdown__status--error dnb-dropdown__form-status"
   >
-    <span
-      aria-hidden={true}
-      className="dnb-dropdown__helper"
-    >
-      ‌
-    </span>
     <FormLabel
       class={null}
       className={null}
@@ -129,6 +123,12 @@ exports[`Dropdown component have to match snapshot 1`] = `
         </label>
       </Element>
     </FormLabel>
+    <span
+      aria-hidden={true}
+      className="dnb-dropdown__helper"
+    >
+      ‌
+    </span>
     <span
       className="dnb-dropdown__inner"
     >
@@ -178,7 +178,9 @@ exports[`Dropdown component have to match snapshot 1`] = `
                 className="dnb-icon dnb-icon--large"
                 role="img"
               >
-                <span>
+                <span
+                  className="dnb-icon--wrapper"
+                >
                   <ErrorIcon>
                     <svg
                       fill="none"
@@ -359,6 +361,13 @@ exports[`Dropdown component have to match snapshot 1`] = `
                   title={null}
                   width={null}
                 />
+              </span>
+              <span
+                aria-hidden={true}
+                className="dnb-button__helper"
+                key="button-helper"
+              >
+                ‌
               </span>
             </Content>
           </button>
@@ -583,7 +592,7 @@ exports[`Dropdown scss have to match snapshot 1`] = `
     width: inherit;
     height: inherit;
     shape-rendering: geometricPrecision; }
-  .dnb-icon > span {
+  .dnb-icon > .dnb-icon--wrapper {
     width: inherit;
     height: inherit; }
   .dnb-icon svg[width='100%'] {
@@ -596,23 +605,23 @@ exports[`Dropdown scss have to match snapshot 1`] = `
   .dnb-icon svg [stroke] {
     stroke: currentColor; }
   .dnb-icon--small {
-    width: 0.75em;
-    height: 0.75em; }
+    width: 0.75rem;
+    height: 0.75rem; }
   .dnb-icon--default {
-    width: 1em;
-    height: 1em; }
+    width: 1rem;
+    height: 1rem; }
   .dnb-icon--medium {
-    width: 1.5em;
-    height: 1.5em; }
+    width: 1.5rem;
+    height: 1.5rem; }
   .dnb-icon--large {
-    width: 2em;
-    height: 2em; }
+    width: 2rem;
+    height: 2rem; }
   .dnb-icon--x-large {
-    width: 2.5em;
-    height: 2.5em; }
+    width: 2.5rem;
+    height: 2.5rem; }
   .dnb-icon--xx-large {
-    width: 3em;
-    height: 3em; }
+    width: 3rem;
+    height: 3rem; }
   .dnb-icon--custom-size {
     width: auto;
     height: auto; }
@@ -634,8 +643,6 @@ exports[`Dropdown scss have to match snapshot 1`] = `
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  font-variant-numeric: lining-nums;
-  font-feature-settings: \\"lnum\\";
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -696,15 +703,21 @@ exports[`Dropdown scss have to match snapshot 1`] = `
   padding: 0;
   border: var(--button-border-width) solid transparent;
   border-radius: var(--button-border-radius);
-  text-decoration: none; }
-  .dnb-button__icon {
-    font-size: var(--font-size-small); }
-    .dnb-button__icon svg:not([width]):not([height]) {
-      width: var(--button-icon-size);
-      height: var(--button-icon-size); }
-    .dnb-button__icon.dnb-icon > span {
-      display: inline-flex;
-      vertical-align: top; }
+  text-decoration: none;
+  font-size: var(--font-size-small);
+  line-height: var(--button-height--small); }
+  .dnb-button__helper {
+    display: inline-block;
+    clip: rect(0, 0, 0, 0);
+    width: 1px;
+    margin-left: -1px;
+    overflow: hidden; }
+  .dnb-button__icon svg:not([width]):not([height]) {
+    width: var(--button-icon-size);
+    height: var(--button-icon-size); }
+  .dnb-button .dnb-icon--wrapper {
+    display: inline-flex;
+    vertical-align: top; }
   .dnb-button__text {
     font-size: var(--button-font-size);
     line-height: var(--line-height-x-small--em);
@@ -835,8 +848,6 @@ button.dnb-button::-moz-focus-inner {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  font-variant-numeric: lining-nums;
-  font-feature-settings: \\"lnum\\";
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -905,8 +916,6 @@ legend.dnb-form-label {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  font-variant-numeric: lining-nums;
-  font-feature-settings: \\"lnum\\";
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -986,8 +995,6 @@ legend.dnb-form-label {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  font-variant-numeric: lining-nums;
-  font-feature-settings: \\"lnum\\";
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -1029,7 +1036,7 @@ legend.dnb-form-label {
 .dnb-dropdown {
   display: inline-flex;
   align-items: center;
-  font-size: var(--font-size-basis);
+  font-size: var(--font-size-small);
   line-height: var(--dropdown-height); }
   .dnb-dropdown__inner {
     display: inline-flex;
@@ -1040,6 +1047,7 @@ legend.dnb-form-label {
     width: auto;
     color: inherit; }
   .dnb-dropdown__helper {
+    display: inline-block;
     clip: rect(0, 0, 0, 0);
     width: 1px;
     margin-left: -1px;
@@ -1067,6 +1075,7 @@ legend.dnb-form-label {
     min-width: var(--dropdown-width);
     margin: 0;
     padding: 0;
+    font-size: var(--font-size-basis);
     background-color: transparent;
     transform: translateY(0);
     transition: transform 200ms, opacity 160ms ease-out; }
@@ -1240,8 +1249,7 @@ legend.dnb-form-label {
     color: inherit;
     text-align: left;
     text-overflow: ellipsis;
-    font-variant-numeric: lining-nums;
-    font-feature-settings: \\"lnum\\"; }
+    font-size: var(--font-size-basis); }
     .dnb-dropdown__text__inner {
       display: inline-block;
       width: 100%;
@@ -1277,7 +1285,7 @@ legend.dnb-form-label {
     padding: 0.5rem 0 1rem var(--dropdown-padding-horizontal); }
   .dnb-dropdown > .dnb-form-label {
     margin-right: 1rem;
-    line-height: var(--font-size-basis); }
+    line-height: var(--line-height-basis); }
   label + .dnb-dropdown[class*='__form-status'] {
     vertical-align: top; }
     label + .dnb-dropdown[class*='__form-status'] .dnb-dropdown__shell {

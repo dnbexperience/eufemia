@@ -44,19 +44,24 @@
 
   text-decoration: none;
 
-  &__icon {
-    font-size: var(--font-size-small); // has to be 16px
+  font-size: var(--font-size-small); // has to be 16px
+  line-height: var(--button-height--small);
 
+  &__helper {
+    @include helper();
+  }
+
+  &__icon {
     svg:not([width]):not([height]) {
       width: var(--button-icon-size);
       height: var(--button-icon-size);
     }
-
-    &.dnb-icon > span {
-      display: inline-flex;
-      vertical-align: top;
-    }
   }
+  .dnb-icon--wrapper {
+    display: inline-flex;
+    vertical-align: top;
+  }
+
   &__text {
     font-size: var(--button-font-size);
     line-height: var(

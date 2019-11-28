@@ -13,8 +13,8 @@ import {
   extendPropsWithContext
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
-// import './style/dnb-logo.scss' // no good solution to import the style here
 
+// Web Component props
 const renderProps = {}
 
 const propTypes = {
@@ -22,11 +22,12 @@ const propTypes = {
   ratio: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  alt: PropTypes.string,
   color: PropTypes.string,
   class: PropTypes.string,
-  /** React props */
+
+  // React props
   className: PropTypes.string
-  // Web Component props
 }
 
 const defaultProps = {
@@ -34,10 +35,13 @@ const defaultProps = {
   ratio: 1.453690625,
   width: null,
   height: null,
+  alt: 'DNB Logo',
   color: null,
   class: null,
-  /** React props */
+
+  // React props
   className: null,
+
   // Web Component props
   ...renderProps
 }
@@ -53,11 +57,13 @@ export default class Logo extends PureComponent {
   }
 
   render() {
-    // consume the formRow context
-    const props = this.context.formRow
-      ? // use only the props from context, who are available here anyway
-        extendPropsWithContext(this.props, this.context.formRow)
-      : this.props
+    // use only the props from context, who are available here anyway
+    const props = extendPropsWithContext(
+      this.props,
+      defaultProps,
+      this.context.formRow,
+      this.context.translation.Logo
+    )
 
     let {
       ratio,
@@ -65,6 +71,7 @@ export default class Logo extends PureComponent {
       width,
       height,
       color,
+      alt,
       className,
       class: _className,
       ...rest
@@ -89,7 +96,7 @@ export default class Logo extends PureComponent {
         size === 'inherit' && `dnb-logo--inherit-size`
       ),
       role: 'img',
-      alt: 'DNB Logo',
+      alt,
       ['data-ratio']: ratio,
       ['aria-hidden']: true,
       ...rest

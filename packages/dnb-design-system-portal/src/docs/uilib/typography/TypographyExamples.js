@@ -38,20 +38,17 @@ export default () => (
   <Wrapper>
     {/* Regular */}
     <FontUsageExample
-      font_family="(Fedra Sans Book) Sans Regular"
+      font_family="DNB Regular"
       typo_class="dnb-typo-regular"
     />
 
     {/* Medium */}
     <FontUsageExample
-      font_family="(Fedra Sans Demi) Sans Medium"
+      font_family="DNB Medium"
       typo_class="dnb-typo-medium"
     />
 
     {/* Bold */}
-    <FontUsageExample
-      font_family="(Fedra Sans Medium) Sans Bold"
-      typo_class="dnb-typo-bold"
-    />
+    <FontUsageExample font_family="DNB Bold" typo_class="dnb-typo-bold" />
   </Wrapper>
 )
