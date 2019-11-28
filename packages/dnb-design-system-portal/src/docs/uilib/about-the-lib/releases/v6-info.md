@@ -3,7 +3,9 @@
 - [Migration](#migration)
 - [New DNB font](#new-dnb-font) **(major change)**
 - [Color changes](#color-changes) **(feature and major change)**
-- [Icon changes](#icon-changes) **(feature)**
+- [New Icons](#new-icons) **(feature)**
+- [Localization](#localization) **(feature)**
+- [Other features](#other-features) **(features)**
 - [Resources package](#resources-package) **(feature)**
 - [How to Install](#install)
 
@@ -82,6 +84,10 @@ import {
   view_off
 } from 'dnb-ui-lib/icons/secondary'
 ```
+
+## Localization
+
+With v6 the `dnb-ui-lib` has it's own localization to be used both for component translation and your app strings. Read [more about how to use localization](/uilib/usage/customisation/localization).
 
 ## Other features
 
