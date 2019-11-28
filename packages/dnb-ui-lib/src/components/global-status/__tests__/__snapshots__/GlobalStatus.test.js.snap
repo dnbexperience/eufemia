@@ -120,23 +120,23 @@ exports[`GlobalStatus scss have to match snapshot 1`] = `
   .dnb-icon svg [stroke] {
     stroke: currentColor; }
   .dnb-icon--small {
-    width: 0.75em;
-    height: 0.75em; }
+    width: 0.75rem;
+    height: 0.75rem; }
   .dnb-icon--default {
-    width: 1em;
-    height: 1em; }
+    width: 1rem;
+    height: 1rem; }
   .dnb-icon--medium {
-    width: 1.5em;
-    height: 1.5em; }
+    width: 1.5rem;
+    height: 1.5rem; }
   .dnb-icon--large {
-    width: 2em;
-    height: 2em; }
+    width: 2rem;
+    height: 2rem; }
   .dnb-icon--x-large {
-    width: 2.5em;
-    height: 2.5em; }
+    width: 2.5rem;
+    height: 2.5rem; }
   .dnb-icon--xx-large {
-    width: 3em;
-    height: 3em; }
+    width: 3rem;
+    height: 3rem; }
   .dnb-icon--custom-size {
     width: auto;
     height: auto; }
@@ -218,6 +218,7 @@ exports[`GlobalStatus scss have to match snapshot 1`] = `
   font-size: var(--font-size-small);
   line-height: var(--button-height--small); }
   .dnb-button__helper {
+    display: inline-block;
     clip: rect(0, 0, 0, 0);
     width: 1px;
     margin-left: -1px;
@@ -763,11 +764,11 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
                 <CloseButton
                   className={null}
                   on_click={[Function]}
-                  text="Lukk"
+                  text="close_text"
                   title="close_text"
                 >
                   <Button
-                    aria-label="Lukk"
+                    aria-label="close_text"
                     bounding={false}
                     class={null}
                     className="dnb-global-status__close-button"
@@ -783,24 +784,24 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
                     onClick={null}
                     on_click={[Function]}
                     size="medium"
-                    text="Lukk"
+                    text="close_text"
                     title={null}
                     type="button"
                     variant="tertiary"
                   >
                     <button
-                      aria-label="Lukk"
+                      aria-label="close_text"
                       className="dnb-button dnb-button--tertiary dnb-global-status__close-button dnb-button--icon-position-left dnb-button--has-icon dnb-button--icon-size-medium dnb-button--size-medium dnb-button--has-text"
                       onClick={[Function]}
                       onMouseOut={[Function]}
                       type="button"
                     >
                       <Content
-                        aria-label="Lukk"
+                        aria-label="close_text"
                         bounding={false}
                         class={null}
                         className="dnb-global-status__close-button"
-                        content="Lukk"
+                        content="close_text"
                         custom_element={null}
                         custom_method={null}
                         disabled={null}
@@ -814,7 +815,7 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
                         onClick={null}
                         on_click={[Function]}
                         size="medium"
-                        text="Lukk"
+                        text="close_text"
                         title={null}
                         type="button"
                         variant="tertiary"
@@ -823,7 +824,7 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
                           className="dnb-button__text"
                           key="button-text"
                         >
-                          Lukk
+                          close_text
                         </span>
                         <IconPrimary
                           alt={null}

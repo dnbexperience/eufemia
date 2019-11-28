@@ -789,6 +789,7 @@ legend.dnb-form-label {
     flex-direction: column;
     align-self: center; }
   .dnb-radio__helper {
+    display: inline-block;
     clip: rect(0, 0, 0, 0);
     width: 1px;
     margin-left: -1px;
@@ -891,6 +892,7 @@ legend.dnb-form-label {
     .dnb-form-row--vertical .dnb-radio-group {
       display: flex; }
     .dnb-radio-group__helper {
+      display: inline-block;
       clip: rect(0, 0, 0, 0);
       width: 1px;
       margin-left: -1px;

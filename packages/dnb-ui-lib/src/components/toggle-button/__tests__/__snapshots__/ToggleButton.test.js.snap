@@ -482,7 +482,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                               href={null}
                               icon={null}
                               icon_position={null}
-                              icon_size="default"
+                              icon_size={null}
                               id="toggle-button-1"
                               innerRef={null}
                               isIconOnly={false}
@@ -597,7 +597,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                               href={null}
                               icon={null}
                               icon_position={null}
-                              icon_size="default"
+                              icon_size={null}
                               id="toggle-button-2"
                               innerRef={null}
                               isIconOnly={false}
@@ -875,23 +875,23 @@ legend.dnb-form-label {
   .dnb-icon svg [stroke] {
     stroke: currentColor; }
   .dnb-icon--small {
-    width: 0.75em;
-    height: 0.75em; }
+    width: 0.75rem;
+    height: 0.75rem; }
   .dnb-icon--default {
-    width: 1em;
-    height: 1em; }
+    width: 1rem;
+    height: 1rem; }
   .dnb-icon--medium {
-    width: 1.5em;
-    height: 1.5em; }
+    width: 1.5rem;
+    height: 1.5rem; }
   .dnb-icon--large {
-    width: 2em;
-    height: 2em; }
+    width: 2rem;
+    height: 2rem; }
   .dnb-icon--x-large {
-    width: 2.5em;
-    height: 2.5em; }
+    width: 2.5rem;
+    height: 2.5rem; }
   .dnb-icon--xx-large {
-    width: 3em;
-    height: 3em; }
+    width: 3rem;
+    height: 3rem; }
   .dnb-icon--custom-size {
     width: auto;
     height: auto; }
@@ -973,6 +973,7 @@ legend.dnb-form-label {
   font-size: var(--font-size-small);
   line-height: var(--button-height--small); }
   .dnb-button__helper {
+    display: inline-block;
     clip: rect(0, 0, 0, 0);
     width: 1px;
     margin-left: -1px;
@@ -1239,6 +1240,7 @@ button.dnb-button::-moz-focus-inner {
     flex-direction: column;
     align-self: center; }
   .dnb-checkbox__helper {
+    display: inline-block;
     clip: rect(0, 0, 0, 0);
     width: 1px;
     margin-left: -1px;
@@ -1388,6 +1390,7 @@ button.dnb-button::-moz-focus-inner {
     flex-direction: column;
     align-self: center; }
   .dnb-radio__helper {
+    display: inline-block;
     clip: rect(0, 0, 0, 0);
     width: 1px;
     margin-left: -1px;
@@ -1490,6 +1493,7 @@ button.dnb-button::-moz-focus-inner {
     .dnb-form-row--vertical .dnb-radio-group {
       display: flex; }
     .dnb-radio-group__helper {
+      display: inline-block;
       clip: rect(0, 0, 0, 0);
       width: 1px;
       margin-left: -1px;
@@ -1565,6 +1569,7 @@ button.dnb-button::-moz-focus-inner {
     user-select: none;
     -webkit-user-select: none; }
   .dnb-toggle-button__helper {
+    display: inline-block;
     clip: rect(0, 0, 0, 0);
     width: 1px;
     margin-left: -1px;
@@ -1655,6 +1660,7 @@ button.dnb-button::-moz-focus-inner {
     .dnb-form-row--vertical .dnb-toggle-button-group {
       display: flex; }
     .dnb-toggle-button-group__helper {
+      display: inline-block;
       clip: rect(0, 0, 0, 0);
       width: 1px;
       margin-left: -1px;
