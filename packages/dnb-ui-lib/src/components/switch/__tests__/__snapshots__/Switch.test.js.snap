@@ -493,6 +493,7 @@ legend.dnb-form-label {
     flex-direction: column;
     justify-content: center; }
   .dnb-switch__helper {
+    display: inline-block;
     clip: rect(0, 0, 0, 0);
     width: 1px;
     margin-left: -1px;
