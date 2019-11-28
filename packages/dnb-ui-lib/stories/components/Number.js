@@ -24,7 +24,7 @@ const ChangeLocale = () => {
 
   React.useEffect(() => {
     setTimeout(() => {
-      // update({ locale: 'en' })
+      // update({ locale: 'en-US' })
       update({ currency: 'USD' })
     }, 3e3)
   }, [])

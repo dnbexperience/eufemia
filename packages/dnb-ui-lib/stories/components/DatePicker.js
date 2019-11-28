@@ -11,6 +11,9 @@ import enLocale from 'date-fns/locale/en-US'
 import startOfMonth from 'date-fns/startOfMonth'
 import lastDayOfMonth from 'date-fns/lastDayOfMonth'
 import addDays from 'date-fns/addDays'
+import Provider from '../../src/shared/Provider'
+import Context from '../../src/shared/Context'
+import nbNO from '../../src/shared/locales/nb-NO'
 
 import {
   DatePicker,
@@ -32,6 +35,20 @@ const ScrollbarInner = styled.div`
   width: 110%;
   height: 100%;
 `
+
+const ChangeLocale = () => {
+  const { setLocale, translation } = React.useContext(Context)
+
+  // console.log('translation 1', translation)
+
+  React.useEffect(() => {
+    setTimeout(() => {
+      setLocale('en-US')
+    }, 2e3)
+  }, [])
+
+  return translation.myString || 'empty'
+}
 
 export default [
   'DatePicker',
@@ -74,7 +91,12 @@ export default [
         />
       </Box>
       <Box>
-        <CustomDate />
+        <Provider
+          locales={{ ...nbNO, 'nb-NO': { myString: 'Custom string' } }}
+        >
+          <CustomDate />
+          <ChangeLocale />
+        </Provider>
       </Box>
       <Box>
         <Scrollbar>
