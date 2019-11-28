@@ -135,19 +135,12 @@
     }
 
     &.dnb-button--has-icon {
-      /* stylelint-disable */
       &.dnb-button--has-text .dnb-button__icon {
         position: absolute;
         top: 0;
         bottom: 0;
         margin: auto 0;
       }
-      &.dnb-button--icon-size-medium {
-        .dnb-button__icon {
-          bottom: -0.125rem; /* 2/16 */
-        }
-      }
-      /* stylelint-enable */
 
       &.dnb-button--icon-position-left {
         .dnb-button__text {
