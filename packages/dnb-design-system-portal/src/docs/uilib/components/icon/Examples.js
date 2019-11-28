@@ -58,11 +58,9 @@ class Example extends PureComponent {
         >
           {/* @jsx */ `
 <h1 className="dnb-h1">
-  h1 with
-  <Icon icon={BellMedium} aria-hidden />{' '}
-  Icon and auto sized
+  h1 with auto sized{' '}
   <Icon icon={BellMedium} size="auto" aria-hidden />{' '}
-  Icon
+  icon
 </h1>
           `}
         </ComponentBox>
