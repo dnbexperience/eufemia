@@ -6,13 +6,18 @@
 import { createContext } from 'react'
 import { LOCALE, CURRENCY, CURRENCY_DISPLAY } from './defaults'
 import defaultLocales from './locales'
+import { extend } from './component-helper'
 
 export const defaultContext = (props = {}) => {
-  const locales = props.locales || defaultLocales
+  const locales = props.locales
+    ? extend(defaultLocales, props.locales)
+    : defaultLocales
+
   return {
     locale: LOCALE,
     locales,
-    translation: locales[props.locale || LOCALE] || locales[LOCALE] || {},
+    translation:
+      locales[props.locale || LOCALE] || defaultLocales[LOCALE] || {},
     currency: CURRENCY,
     currency_display: CURRENCY_DISPLAY,
     formRow: null,
