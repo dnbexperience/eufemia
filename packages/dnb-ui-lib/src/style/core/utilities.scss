@@ -167,6 +167,7 @@ $breakpoints: (
 
 // Vertical alignment helper
 @mixin helper() {
+  display: inline-block;
   clip: rect(0, 0, 0, 0);
   width: 1px;
   margin-left: -1px;
