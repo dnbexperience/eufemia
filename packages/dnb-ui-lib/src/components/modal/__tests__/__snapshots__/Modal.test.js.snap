@@ -928,15 +928,15 @@ button.dnb-button::-moz-focus-inner {
       -webkit-user-select: text;
       border: none;
       background: var(--color-white); }
-      @media screen and (max-width: 50em) {
+      @media screen and (max-width: 40em) {
         .dnb-modal__content__inner {
           padding: calc(var(--modal-spacing) / 2) var(--modal-spacing) 0; } }
-      @media screen and (min-width: 50em) {
+      @media screen and (min-width: 40em) {
         .dnb-modal__content__inner {
           padding: var(--modal-spacing) var(--modal-spacing) calc(var(--modal-spacing) / 2);
           box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16);
           border-radius: 0.5rem; } }
-      @media screen and (max-width: 50em) {
+      @media screen and (max-width: 40em) {
         .dnb-modal__content__inner {
           width: 100vw;
           height: 100vh;
@@ -960,7 +960,7 @@ button.dnb-button::-moz-focus-inner {
     z-index: 1;
     margin-top: calc(var(--modal-spacing) - 0.5rem);
     margin-bottom: var(--modal-spacing); }
-    @media screen and (max-width: 50em) {
+    @media screen and (max-width: 40em) {
       .dnb-modal__wrapper {
         margin-top: calc(var(--modal-spacing) / 2);
         margin-bottom: calc(var(--modal-spacing) / 2); } }
@@ -971,7 +971,7 @@ button.dnb-button::-moz-focus-inner {
     top: var(--modal-spacing);
     right: var(--modal-spacing);
     z-index: 1; }
-    @media screen and (max-width: 50em) {
+    @media screen and (max-width: 40em) {
       .dnb-modal__close-button {
         top: calc(var(--modal-spacing) / 2);
         right: calc(var(--modal-spacing) / 2); } }
