@@ -138,8 +138,10 @@ export default class Number extends PureComponent {
     // use only the props from context, who are available here anyway
     if (this.context) {
       const useContext = extend(
+        true,
         { locale: null, currency: null },
-        this.context
+        this.context,
+        this.context.translation.Number
       )
 
       if (useContext) {

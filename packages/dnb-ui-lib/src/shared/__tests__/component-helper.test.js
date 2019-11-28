@@ -233,7 +233,8 @@ describe('"extendPropsWithContext" should', () => {
   it('extend prop from other context object', () => {
     expect(
       extendPropsWithContext(
-        { key: { x: 'y' }, foo: null },
+        { key: { x: 'y' }, foo: null }, // given props
+        { key: { x: 'y' }, foo: null }, // defualt props
         { key: 'I cant replace You', foo: 'bar' }
       )
     ).toMatchObject({

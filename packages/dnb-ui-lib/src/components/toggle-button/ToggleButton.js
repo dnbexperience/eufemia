@@ -260,18 +260,14 @@ export default class ToggleButton extends Component {
   render() {
     return (
       <Context.Consumer>
-        {({ formRow }) => {
-          // consume the formRow context
-          let props = formRow
-            ? // use only the props from context, who are available here anyway
-              extendPropsWithContext(this.props, formRow)
-            : this.props
-
-          // consume the toggleButton context
-          props = this.context.name
-            ? // use only the props from context, who are available here anyway
-              extendPropsWithContext(this.props, this.context)
-            : props
+        {context => {
+          // use only the props from context, who are available here anyway
+          const props = extendPropsWithContext(
+            this.props,
+            defaultProps,
+            this.context, // internal context
+            context.formRow
+          )
 
           const {
             status,

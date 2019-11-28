@@ -209,11 +209,13 @@ export default class Textarea extends PureComponent {
     dispatchCustomElementEvent(this, 'on_change', { value, event })
   }
   render() {
-    // consume the formRow context
-    const props = this.context.formRow
-      ? // use only the props from context, who are available here anyway
-        extendPropsWithContext(this.props, this.context.formRow)
-      : this.props
+    // use only the props from context, who are available here anyway
+    const props = extendPropsWithContext(
+      this.props,
+      defaultProps,
+      this.context.formRow,
+      this.context.translation.DatePicker
+    )
 
     const {
       label,
