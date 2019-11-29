@@ -98,6 +98,7 @@ exports[`GlobalStatus scss have to match snapshot 1`] = `
 */
 .dnb-icon {
   display: inline-block;
+  font-size: 1rem;
   line-height: 1;
   color: inherit;
   width: 1em;
@@ -140,6 +141,23 @@ exports[`GlobalStatus scss have to match snapshot 1`] = `
   .dnb-icon--custom-size {
     width: auto;
     height: auto; }
+  .dnb-icon--auto {
+    font-size: 1em;
+    width: 1em;
+    height: 1em; }
+  .dnb-icon--auto > .dnb-icon--wrapper {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center; }
+  p .dnb-icon,
+  blockquote .dnb-icon,
+  h1 .dnb-icon,
+  h2 .dnb-icon,
+  h3 .dnb-icon,
+  h4 .dnb-icon,
+  h5 .dnb-icon,
+  h6 .dnb-icon {
+    vertical-align: middle; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-icon {
       flex: none; } }
@@ -719,7 +737,7 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
                     <span
                       alt="ErrorIcon"
                       aria-hidden={true}
-                      className="dnb-icon"
+                      className="dnb-icon dnb-icon--default"
                       role="img"
                     >
                       <span
@@ -845,7 +863,7 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
                           <span
                             alt="close"
                             aria-hidden={true}
-                            className="dnb-icon dnb-button__icon dnb-icon--medium"
+                            className="dnb-icon dnb-icon--medium dnb-button__icon"
                             role="img"
                           >
                             <span
