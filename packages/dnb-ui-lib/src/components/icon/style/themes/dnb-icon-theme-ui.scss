@@ -6,37 +6,36 @@
 .dnb-icon {
   &--border {
     display: inline-flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+  }
+  &--border > &--wrapper {
+    position: relative;
 
-    vertical-align: middle;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 
-    color: inherit;
+    width: inherit;
+    height: inherit;
 
-    border-radius: 50%;
-    border: 0.0875em solid; // use 1.4px instead of 1.5 so webkit is rounding down
-    border-color: currentColor;
+    &::after {
+      content: '';
+      position: absolute;
 
-    // default size
-    width: 1.5em;
-    height: 1.5em;
-    svg {
-      width: 1em;
-      height: 1em;
-    }
+      width: 150%;
+      height: 150%;
 
-    & > span {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
+      border-radius: 50%;
+      border: 0.0875em solid; // use 1.4px instead of 1.5 so webkit is rounding down
+      border-color: currentColor;
     }
   }
-  &--border#{&}--medium {
-    width: 2em;
-    height: 2em;
-    svg {
-      width: 1.5em;
-      height: 1.5em;
-    }
-  }
+
+  // &--border#{&}--default > &--wrapper {
+  //   margin: 0 0.25rem;
+  // }
+  // &--border#{&}--medium > &--wrapper {
+  //   margin: 0 0.5rem;
+  // }
 }
