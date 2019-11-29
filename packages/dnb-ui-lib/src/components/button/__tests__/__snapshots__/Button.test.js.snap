@@ -421,7 +421,13 @@ exports[`Button scss have to match default theme snapshot 1`] = `
       html[data-whatinput='keyboard'] .dnb-button--tertiary:active:not([disabled]), html[data-whatinput='keyboard']
       html:not([data-is-touch]) .dnb-button--tertiary:active:not([disabled]) {
         box-shadow: none; }
-      .dnb-button--tertiary:active:not([disabled]) .dnb-button__text::after,
+      html[data-is-touch] .dnb-button--tertiary:active:not([disabled]) .dnb-button__text::after, html[data-is-touch]
+      html:not([data-is-touch]) .dnb-button--tertiary:active:not([disabled]) .dnb-button__text::after {
+        transition: none;
+        visibility: visible;
+        opacity: 1;
+        color: var(--color-emerald-green); }
+      html:not([data-is-touch]) .dnb-button--tertiary:active:not([disabled]) .dnb-button__text::after, html:not([data-is-touch])
       html:not([data-is-touch]) .dnb-button--tertiary:active:not([disabled]) .dnb-button__text::after {
         visibility: hidden; }
     html[data-whatinput='keyboard']
