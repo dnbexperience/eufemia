@@ -9,43 +9,59 @@ import { Wrapper, Box } from '../helpers'
 
 import { Button, Icon, IconPrimary } from '../../src/components'
 import { add as Svg } from '../../src/icons'
+import { P, H1, H4 } from '../../src/elements'
 
 export default [
   'Icons',
   () => (
     <Wrapper>
       <Box>
+        text
         <Svg />
         <Icon icon={Svg} />
       </Box>
       <Box>
-        <h1>
-          My H1 with an Icon <Icon icon={Svg} size="auto" />
-        </h1>
-        <h4>
-          My H4 with the same Icon <Icon icon={Svg} size="auto" />
-        </h4>
+        <H1>
+          My H1 with an auto <Icon icon={Svg} size="auto" />
+        </H1>
+        <H4>
+          My H4 with the same auto <Icon icon={Svg} size="auto" />
+        </H4>
       </Box>
       <Box>
         <IconPrimary icon="add" size="medium" />
       </Box>
       <Box>
-        text <IconPrimary icon="add" right="x-small" />
-        <IconPrimary icon="add" size="medium" /> text
-        <h1 className="dnb-h1">
-          text <IconPrimary icon="add" right="x-small" />
-          <IconPrimary icon="add" size="medium" /> text{' '}
-          <IconPrimary icon="add" size="auto" /> text
-        </h1>
+        <P>
+          text <IconPrimary icon="add" />
+          text <IconPrimary icon="add" size="medium" />
+          text
+        </P>
+        <H1>
+          text <IconPrimary icon="add" right />
+          text <IconPrimary icon="add" size="medium" right />
+          auto <IconPrimary icon="add" size="auto" right />
+          text
+        </H1>
       </Box>
       <Box>
-        text <IconPrimary icon="add" border right="x-small" />
-        <IconPrimary icon="add" size="medium" border /> text
-        <h1 className="dnb-h1">
-          text <IconPrimary icon="add" border right="x-small" />
-          <IconPrimary icon="add" size="medium" border /> text{' '}
-          <IconPrimary icon="add" size="auto" border /> text
-        </h1>
+        <P>
+          text <IconPrimary icon="add" border right />
+          text <IconPrimary icon="add" size="medium" border right />
+          text
+          <Button icon="add" text="Button" right />
+          <Button
+            icon={<IconPrimary icon="add" border />}
+            text="Button"
+            right
+          />
+        </P>
+        <H1 top>
+          text <IconPrimary icon="add" border right />
+          text <IconPrimary icon="add" size="medium" border right />
+          auto <IconPrimary icon="add" size="auto" border right />
+          text
+        </H1>
       </Box>
       <Box>
         <Button icon="add" right />
