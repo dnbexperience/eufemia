@@ -82,7 +82,7 @@ exports[`Button component have to match default button snapshot 1`] = `
         <span
           alt="question"
           aria-hidden={true}
-          className="dnb-icon dnb-button__icon"
+          className="dnb-icon dnb-icon--default dnb-button__icon"
           role="img"
         >
           <span
@@ -194,7 +194,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
         <span
           alt="question"
           aria-hidden={true}
-          className="dnb-icon dnb-button__icon"
+          className="dnb-icon dnb-icon--default dnb-button__icon"
           role="img"
         >
           <span
@@ -576,6 +576,7 @@ exports[`Button scss have to match snapshot 1`] = `
 */
 .dnb-icon {
   display: inline-block;
+  font-size: 1rem;
   line-height: 1;
   color: inherit;
   width: 1em;
@@ -618,6 +619,23 @@ exports[`Button scss have to match snapshot 1`] = `
   .dnb-icon--custom-size {
     width: auto;
     height: auto; }
+  .dnb-icon--auto {
+    font-size: 1em;
+    width: 1em;
+    height: 1em; }
+  .dnb-icon--auto > .dnb-icon--wrapper {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center; }
+  p .dnb-icon,
+  blockquote .dnb-icon,
+  h1 .dnb-icon,
+  h2 .dnb-icon,
+  h3 .dnb-icon,
+  h4 .dnb-icon,
+  h5 .dnb-icon,
+  h6 .dnb-icon {
+    vertical-align: middle; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-icon {
       flex: none; } }
