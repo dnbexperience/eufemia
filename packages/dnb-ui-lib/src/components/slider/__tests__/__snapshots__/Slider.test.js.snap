@@ -185,7 +185,6 @@ exports[`Slider component have to match snapshot 1`] = `
           id="id"
           onMouseDown={[Function]}
           onMouseDownCapture={[Function]}
-          onTouchMove={[Function]}
           onTouchStart={[Function]}
           onTouchStartCapture={[Function]}
         >
@@ -918,6 +917,7 @@ legend.dnb-form-label {
     display: inline-flex;
     height: var(--slider-thumb-size); }
   .dnb-slider__track {
+    touch-action: none;
     position: relative;
     flex: 1;
     margin: 0 calc(var(--slider-space) * 1.5);

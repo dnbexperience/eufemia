@@ -59,6 +59,9 @@
   }
 
   &__track {
+    // make sure we do not alow page scroll on touch devices
+    touch-action: none;
+
     position: relative;
     flex: 1;
 
