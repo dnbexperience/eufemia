@@ -59,43 +59,69 @@ export function defineIsTouch({ interactive = true } = {}) {
     // to give it a change to have isTouch from the very beginning
     if (unsafeIsTouchDeviceCheck()) {
       document.documentElement.setAttribute('data-is-touch', true)
+      IS_TOUCH_DEVICE = true
     }
 
     window.addEventListener(
-      'touchstart',
-      function onFirstTouch() {
-        try {
-          if (IS_TOUCH_DEVICE !== true) {
-            document.documentElement.setAttribute('data-is-touch', true)
-          }
-          IS_TOUCH_DEVICE = true
-        } catch (e) {
-          console.warn('Could not apply "touch attribute"', e)
-        }
-        if (!interactive) {
-          window.removeEventListener('touchstart', onFirstTouch, false)
-        }
-      },
-      false
-    )
-
-    window.addEventListener(
       'mouseover',
-      function onFirstHover() {
+      function onMouseOver() {
         try {
           if (IS_TOUCH_DEVICE === true) {
             document.documentElement.removeAttribute('data-is-touch')
           }
           IS_TOUCH_DEVICE = false
         } catch (e) {
-          console.warn('Could not apply "touch attribute"', e)
+          console.warn(e)
         }
         if (!interactive) {
-          window.removeEventListener('mouseover', onFirstHover, false)
+          window.removeEventListener('mouseover', onMouseOver, false)
         }
       },
       false
     )
+
+    window.addEventListener(
+      'touchstart',
+      function onTouchStart() {
+        try {
+          if (IS_TOUCH_DEVICE !== true) {
+            document.documentElement.setAttribute('data-is-touch', true)
+          }
+          IS_TOUCH_DEVICE = true
+        } catch (e) {
+          console.warn(e)
+        }
+
+        if (!interactive) {
+          window.removeEventListener('touchstart', onTouchStart, false)
+        }
+      },
+      false
+    )
+
+    // since iOS fires "mousemove" on the first click,
+    // we to make sure to add the "data-is-touch" back again
+    if (interactive) {
+      window.addEventListener(
+        'touchend',
+        function onTouchEnd() {
+          setTimeout(() => {
+            try {
+              if (IS_TOUCH_DEVICE !== true) {
+                document.documentElement.setAttribute(
+                  'data-is-touch',
+                  true
+                )
+                IS_TOUCH_DEVICE = true
+              }
+            } catch (e) {
+              console.warn(e)
+            }
+          }, 50)
+        },
+        false
+      )
+    }
 
     document.removeEventListener('DOMContentLoaded', handleDefineTouch)
   }
@@ -165,7 +191,7 @@ export function defineNavigator() {
         document.documentElement.setAttribute('data-os', 'other')
       }
     } catch (e) {
-      console.warn('Could not apply "os attribute"', e)
+      console.warn(e)
     }
 
     document.removeEventListener('DOMContentLoaded', handleNavigator)
