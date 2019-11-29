@@ -247,8 +247,8 @@ export default class Slider extends PureComponent {
       vertical,
       reverse
     )
-    const value = percentToValue(percent, min, max)
 
+    const value = percentToValue(percent, min, max)
     this.emitChange(event, value, () => this.setToResetState())
   }
 
@@ -263,33 +263,28 @@ export default class Slider extends PureComponent {
     this.emitChange(event, clamp(value + (step || 1), min, max))
   }
 
-  onTouchStartHandler = event => {
-    this.setState({
-      _listenForPropChanges: false,
-      currentState: 'activated'
-    })
-
-    if (typeof document !== 'undefined') {
-      document.body.addEventListener('touchend', this.onMouseUpHandler)
-    }
-
-    if (typeof this.props.on_drag_start === 'function') {
-      dispatchCustomElementEvent(this, 'on_drag_start', {
-        event
-      })
-    }
-  }
-
   onMouseDownHandler = event => {
+    if (typeof document !== 'undefined') {
+      try {
+        document.body.addEventListener(
+          'touchmove',
+          this.onTouchMoveHandler
+        )
+        document.body.addEventListener('touchend', this.onTouchEndHandler)
+        document.body.addEventListener(
+          'mousemove',
+          this.onMouseMoveHandler
+        )
+        document.body.addEventListener('mouseup', this.onMouseUpHandler)
+      } catch (e) {
+        console.warn(e)
+      }
+    }
+
     this.setState({
       _listenForPropChanges: false,
       currentState: 'activated'
     })
-
-    if (typeof document !== 'undefined') {
-      document.body.addEventListener('mousemove', this.onMouseMoveHandler)
-      document.body.addEventListener('mouseup', this.onMouseUpHandler)
-    }
 
     if (typeof this.props.on_drag_start === 'function') {
       dispatchCustomElementEvent(this, 'on_drag_start', {
@@ -298,16 +293,29 @@ export default class Slider extends PureComponent {
     }
   }
 
+  onTouchEndHandler = event => this.onMouseUpHandler(event)
   onMouseUpHandler = event => {
-    this.setState({ _listenForPropChanges: false, currentState: 'normal' })
-
     if (typeof document !== 'undefined') {
-      document.body.removeEventListener(
-        'mousemove',
-        this.onMouseMoveHandler
-      )
-      document.body.removeEventListener('mouseup', this.onMouseUpHandler)
+      try {
+        document.body.removeEventListener(
+          'touchmove',
+          this.onTouchMoveHandler
+        )
+        document.body.removeEventListener(
+          'touchend',
+          this.onTouchEndHandler
+        )
+        document.body.removeEventListener(
+          'mousemove',
+          this.onMouseMoveHandler
+        )
+        document.body.removeEventListener('mouseup', this.onMouseUpHandler)
+      } catch (e) {
+        console.warn(e)
+      }
     }
+
+    this.setState({ _listenForPropChanges: false, currentState: 'normal' })
 
     if (typeof this.props.on_drag_end === 'function') {
       dispatchCustomElementEvent(this, 'on_drag_end', {
@@ -324,6 +332,7 @@ export default class Slider extends PureComponent {
     })
   }
 
+  onTouchMoveHandler = event => this.onMouseMoveHandler(event)
   onMouseMoveHandler = event => {
     let elem = this._trackRef.current
 
@@ -394,39 +403,32 @@ export default class Slider extends PureComponent {
               _listenForPropChanges: false,
               currentState: 'normal'
             }),
-          10
+          100
         )
       }
     )
   }
 
   componentDidMount() {
-    if (
-      (isTouchDevice() || isTrue(this.props.use_scrollwheel)) &&
-      this._trackRef.current
-    ) {
-      this._trackRef.current.addEventListener(
-        'touchstart',
-        this.preventPageScrolling,
-        { passive: false }
-      )
-
-      const { min, max, reverse, vertical } = this.state
-      this._trackRef.current.addEventListener('wheel', event => {
-        event.preventDefault()
-        // Could be handy to use: Math.sign(event.deltaY)
-        this.emitChange(
-          event,
-          clamp(
-            this.state.value +
-              ((!vertical && reverse) || (vertical && !reverse)
-                ? -event.deltaY / 10
-                : event.deltaY / 10),
-            min,
-            max
+    if (this._trackRef.current) {
+      if (isTrue(this.props.use_scrollwheel)) {
+        const { min, max, reverse, vertical } = this.state
+        this._trackRef.current.addEventListener('wheel', event => {
+          event.preventDefault()
+          // Could be handy to use: Math.sign(event.deltaY)
+          this.emitChange(
+            event,
+            clamp(
+              this.state.value +
+                ((!vertical && reverse) || (vertical && !reverse)
+                  ? -event.deltaY / 10
+                  : event.deltaY / 10),
+              min,
+              max
+            )
           )
-        )
-      })
+        })
+      }
     }
 
     if (typeof this.props.on_init === 'function') {
@@ -438,24 +440,27 @@ export default class Slider extends PureComponent {
   }
 
   componentWillUnmount() {
-    if (this._trackRef.current) {
-      this._trackRef.current.removeEventListener(
-        'touchstart',
-        this.preventPageScrolling,
-        { passive: false }
-      )
-    }
     if (typeof document !== 'undefined') {
-      document.body.removeEventListener(
-        'mousemove',
-        this.onMouseMoveHandler
-      )
-      document.body.removeEventListener('mouseup', this.onMouseUpHandler)
+      try {
+        document.body.removeEventListener(
+          'touchmove',
+          this.onTouchMoveHandler
+        )
+        document.body.removeEventListener(
+          'touchend',
+          this.onTouchEndHandler
+        )
+        document.body.removeEventListener(
+          'mousemove',
+          this.onMouseMoveHandler
+        )
+        document.body.removeEventListener('mouseup', this.onMouseUpHandler)
+      } catch (e) {
+        console.warn(e)
+      }
     }
     clearTimeout(this.resetStateTimeoutId)
   }
-
-  preventPageScrolling = event => event.preventDefault()
 
   render() {
     const { currentState, value } = this.state
@@ -534,11 +539,10 @@ export default class Slider extends PureComponent {
         'dnb-slider__track',
         currentState && `dnb-slider__state--${currentState}`
       ),
-      onMouseDown: this.onClickHandler,
-      onMouseDownCapture: this.onMouseDownHandler,
       onTouchStart: this.onClickHandler,
-      onTouchStartCapture: this.onTouchStartHandler,
-      onTouchMove: this.onMouseMoveHandler
+      onTouchStartCapture: this.onMouseDownHandler,
+      onMouseDown: this.onClickHandler,
+      onMouseDownCapture: this.onMouseDownHandler
     }
 
     const rangeParams = {
