@@ -1,4 +1,4 @@
-## November, 26. 2019
+## December, 4. 2019
 
 ### New DNB font
 
@@ -32,23 +32,6 @@ New [Colors](/uilib/usage/customisation/colors):
 - Profile color `pistachio`
 - UX color `success-green`
 
-### Icons
-
-New [Icons](/icons):
-
-- primary `reset`
-- primary `reset`
-- primary `arrow_top`
-- primary `arrow_right`
-- primary `arrow_bottom`
-- primary `arrow_left`
-- secondary `settings`
-- secondary `home`
-- secondary `refresh`
-- secondary `add_file`
-- secondary `view_on`
-- secondary `view_off`
-
 ### Components and Elements
 
 [Components](/uilib/components) and [Elements](/uilib/elements) features and changes:
@@ -65,6 +48,25 @@ New [Icons](/icons):
 - **Table** header icon change: from `chevron` to `arrow`
 
 Get more details about the `dnb-ui-lib` [v6 release](/uilib/about-the-lib/releases/v6-info)
+
+## November, 30. 2019
+
+New [Icons](/icons):
+
+- primary `reset`
+- primary `reset`
+- primary `arrow_top`
+- primary `arrow_right`
+- primary `arrow_bottom`
+- primary `arrow_left`
+- secondary `settings`
+- secondary `home`
+- secondary `refresh`
+- secondary `add_file`
+- secondary `view_on`
+- secondary `view_off`
+
+Get more details about the `dnb-ui-lib` [v5.8 release](/uilib/about-the-lib/releases/v5.8-info)
 
 ## November, 16. 2019
 
