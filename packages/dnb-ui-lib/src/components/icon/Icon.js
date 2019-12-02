@@ -25,7 +25,10 @@ export const DefaultIconSizes = {
   // large: 32 // currently not in use
 }
 // instead of using Object.entries(DefaultIconSizes)
-export const ListDefaultIconSizes = [['default', 16], ['medium', 24]]
+export const ListDefaultIconSizes = [
+  ['default', 16],
+  ['medium', 24]
+]
 export const ValidIconSizes = [
   'small', // 12px 0.75rem
   'default', // 16px 1rem
@@ -258,7 +261,7 @@ export const calcSize = props => {
   if (size === 'auto') {
     iconParams.width = '100%'
     iconParams.height = '100%'
-    sizeAsString = null
+    sizeAsString = 'auto'
   }
 
   return {
@@ -340,7 +343,7 @@ export const prepareIcon = props => {
     'dnb-icon',
     modifier ? `dnb-icon--${modifier}` : null,
     isTrue(border) ? 'dnb-icon--border' : null,
-    sizeAsString ? `dnb-icon--${sizeAsString}` : null,
+    sizeAsString ? `dnb-icon--${sizeAsString}` : `dnb-icon--default`,
     createSpacingClasses(props),
     _className,
     className

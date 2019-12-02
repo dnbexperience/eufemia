@@ -3,7 +3,8 @@
 - [Migration](#migration)
 - [New DNB font](#new-dnb-font) **(major change)**
 - [Color changes](#color-changes) **(feature and major change)**
-- [Icon changes](#icon-changes) **(feature)**
+- [Localization](#localization) **(feature)**
+- [Other features](#other-features) **(features)**
 - [Resources package](#resources-package) **(feature)**
 - [How to Install](#install)
 
@@ -83,17 +84,16 @@ import {
 } from 'dnb-ui-lib/icons/secondary'
 ```
 
+## Localization
+
+With v6 the `dnb-ui-lib` has it's own localization to be used both for component translation and your app strings. Read [more about how to use localization](/uilib/usage/customisation/localization).
+
 ## Other features
 
 - [FormLabel](/uilib/components/form-label) got a new prop `sr_only`. This way you still can provide a **label**, but available only for screen readers.
-- [DatePicker](/uilib/components/date-picker) got a new prop `show_reset_button` to show a _Reset_ button inside the date picker.
 - [Blockquote](/uilib/elements/blockquote) is now up to date `dnb-blockquote--no-background` to display a quote without the contrast background, but rather a transparent.
 - New helper class: `dnb-responsive-component` Makes some component form components, like [Input](/uilib/components/input) react to mobile sized screens. But as this can have some negative effects to have this enabled by default, you can enable this optionally by using this helper class.
-- Added `keep_placeholder` property to [Input](/uilib/components/input) component.
-- Added `currency_display` property to [Number](/uilib/components/number) including Provider support.
-- Added `border` property to [Icon](/uilib/components/icon) to show a rounded border on icons.
 - New [Table](/uilib/elements/tables#working-demo) style / icons on sorting buttons. Icon change: from `chevron` to `arrow`.
-- Enhanced support on nested [Lists](/uilib/elements/lists), especially on ordered lists (with numbers).
 
 ## Resources package
 
@@ -109,4 +109,4 @@ To upgrade to v6 with NPM, use:
 $ npm i dnb-ui-lib@6
 ```
 
-_November, 26. 2019_
+_December, 4. 2019_

@@ -38,16 +38,19 @@ class Example extends PureComponent {
         <ComponentBox
           data-dnb-test="icon-border"
           scope={{ Bell, BellMedium }}
-          caption="Icons with border"
+          caption="Icons with border. **NB:** Use it with caution. It should not be used where the usage can confuse users to be a clickable button."
         >
           {/* @jsx */ `
-<Icon border="true" icon={Bell} right="x-small" />
-<Icon border="true" icon={BellMedium} size="medium" right="x-small" />
-<IconPrimary border="true" icon={"information"} right="x-small" />
-<IconPrimary border="true" icon={"information"} size="medium" />
-<h1 className="dnb-h1">
-  h1 with  <Icon icon={Bell} border /> Icon
-</h1>
+<P>
+  <Icon border="true" icon={Bell} right />
+  <Icon border="true" icon={BellMedium} size="medium" right />
+  <IconPrimary border="true" icon={"information"} right />
+  <IconPrimary border="true" icon={"information"} size="medium" right />
+  <Button
+    icon={<IconPrimary icon="add" border />}
+    text="Button"
+  />
+</P>
           `}
         </ComponentBox>
 

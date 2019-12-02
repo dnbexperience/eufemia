@@ -31,12 +31,14 @@ exports[`Switch component have to match snapshot 1`] = `
     <span
       className="dnb-switch__order"
     >
-      <span
-        aria-hidden={true}
-        className="dnb-switch__helper2"
+      <AlignmentHelper
+        className="dnb-switch__helper"
       >
-        ‌
-      </span>
+        <span
+          aria-hidden={true}
+          className="dnb-alignment-helper dnb-switch__helper"
+        />
+      </AlignmentHelper>
       <FormLabel
         class={null}
         className={null}
@@ -493,19 +495,14 @@ legend.dnb-form-label {
     flex-direction: column;
     justify-content: center; }
   .dnb-switch__helper {
-    display: inline-block;
-    clip: rect(0, 0, 0, 0);
-    width: 1px;
-    margin-left: -1px;
-    overflow: hidden;
-    height: 1px;
-    margin-top: -1px; }
+    font-size: var(--font-size-basis); }
   .dnb-switch__shell {
     user-select: none;
     -webkit-user-select: none;
     position: relative;
     display: flex;
-    align-items: center; }
+    align-items: center;
+    height: var(--switch-height); }
   .dnb-switch__focus, .dnb-switch__button {
     position: absolute;
     z-index: 4;
@@ -571,10 +568,9 @@ legend.dnb-form-label {
   .dnb-switch--label-position-right .dnb-switch__order .dnb-form-label {
     order: 2;
     margin-left: 1rem; }
-  .dnb-switch--label-position-right .dnb-switch__order + .dnb-form-status {
+  .dnb-switch--label-position-right .dnb-switch__order .dnb-form-status {
     order: 3;
-    margin-top: 0.5rem;
-    vertical-align: bottom; }
+    margin-top: 0.5rem; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-switch {
       vertical-align: text-bottom; }

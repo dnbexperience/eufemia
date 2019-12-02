@@ -12,7 +12,8 @@
   display: inline-flex;
   align-items: center; // because, with this we v align it to the label
 
-  font-size: var(--font-size-basis);
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-basis);
 
   &__inner {
     display: inline-flex;
@@ -27,12 +28,6 @@
     -webkit-user-select: none; // Safari / Touch fix
   }
 
-  &__helper {
-    @include helper();
-  }
-  &--vertical &__helper {
-    @include helperVertical();
-  }
   &--vertical {
     flex-direction: column;
     align-items: flex-start;
@@ -142,8 +137,6 @@
   &-group {
     display: inline-flex;
 
-    font-size: var(--font-size-basis);
-
     // default spacing
     .dnb-toggle-button {
       margin-right: var(--toggle-button-margin-right);
@@ -168,18 +161,18 @@
     }
 
     .dnb-form-row {
-      align-items: baseline;
-
       margin-bottom: calc(1px - 1px - var(--toggle-button-margin-bottom));
     }
-    .dnb-form-row--vertical & {
-      display: flex;
+
+    // vertical alignment
+    .dnb-form-row__helper {
+      font-size: 1.375rem; /* 22/16 */
     }
 
     // if no label is given
     &__helper {
-      @include helper();
-      line-height: 2.5rem;
+      font-size: var(--font-size-basis);
+      line-height: var(--button-height);
     }
   }
 

@@ -67,12 +67,14 @@ exports[`ToggleButton component have to match snapshot 1`] = `
       <span
         className="dnb-toggle-button__shell"
       >
-        <span
-          aria-hidden={true}
+        <AlignmentHelper
           className="dnb-toggle-button__helper"
         >
-          ‌
-        </span>
+          <span
+            aria-hidden={true}
+            className="dnb-alignment-helper dnb-toggle-button__helper"
+          />
+        </AlignmentHelper>
         <Button
           aria-disabled={true}
           aria-pressed="false"
@@ -199,12 +201,14 @@ exports[`ToggleButton component have to match snapshot 1`] = `
                     <span
                       className="dnb-checkbox__order"
                     >
-                      <span
-                        aria-hidden={true}
+                      <AlignmentHelper
                         className="dnb-checkbox__helper"
                       >
-                        ‌
-                      </span>
+                        <span
+                          aria-hidden={true}
+                          className="dnb-alignment-helper dnb-checkbox__helper"
+                        />
+                      </AlignmentHelper>
                       <span
                         className="dnb-checkbox__inner"
                       >
@@ -351,12 +355,14 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
           <div
             className="dnb-form-row"
           >
-            <span
-              aria-hidden={true}
+            <AlignmentHelper
               className="dnb-form-row__helper"
             >
-              ‌
-            </span>
+              <span
+                aria-hidden={true}
+                className="dnb-alignment-helper dnb-form-row__helper"
+              />
+            </AlignmentHelper>
             <FormLabel
               class={null}
               className="dnb-form-row__label"
@@ -430,12 +436,14 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                       <span
                         className="dnb-toggle-button__shell"
                       >
-                        <span
-                          aria-hidden={true}
+                        <AlignmentHelper
                           className="dnb-toggle-button__helper"
                         >
-                          ‌
-                        </span>
+                          <span
+                            aria-hidden={true}
+                            className="dnb-alignment-helper dnb-toggle-button__helper"
+                          />
+                        </AlignmentHelper>
                         <Button
                           aria-pressed="true"
                           bounding={false}
@@ -545,12 +553,14 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                       <span
                         className="dnb-toggle-button__shell"
                       >
-                        <span
-                          aria-hidden={true}
+                        <AlignmentHelper
                           className="dnb-toggle-button__helper"
                         >
-                          ‌
-                        </span>
+                          <span
+                            aria-hidden={true}
+                            className="dnb-alignment-helper dnb-toggle-button__helper"
+                          />
+                        </AlignmentHelper>
                         <Button
                           aria-pressed="true"
                           bounding={false}
@@ -853,6 +863,7 @@ legend.dnb-form-label {
 */
 .dnb-icon {
   display: inline-block;
+  font-size: 1rem;
   line-height: 1;
   color: inherit;
   width: 1em;
@@ -895,6 +906,21 @@ legend.dnb-form-label {
   .dnb-icon--custom-size {
     width: auto;
     height: auto; }
+  .dnb-icon--auto {
+    font-size: 1em;
+    width: 1em;
+    height: 1em; }
+  .dnb-icon--auto > .dnb-icon--wrapper {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center; }
+  h1 .dnb-icon,
+  h2 .dnb-icon,
+  h3 .dnb-icon,
+  h4 .dnb-icon,
+  h5 .dnb-icon,
+  h6 .dnb-icon {
+    vertical-align: middle; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-icon {
       flex: none; } }
@@ -972,12 +998,6 @@ legend.dnb-form-label {
   text-decoration: none;
   font-size: var(--font-size-small);
   line-height: var(--button-height--small); }
-  .dnb-button__helper {
-    display: inline-block;
-    clip: rect(0, 0, 0, 0);
-    width: 1px;
-    margin-left: -1px;
-    overflow: hidden; }
   .dnb-button__icon svg:not([width]):not([height]) {
     width: var(--button-icon-size);
     height: var(--button-icon-size); }
@@ -1239,14 +1259,6 @@ button.dnb-button::-moz-focus-inner {
     display: inline-flex;
     flex-direction: column;
     align-self: center; }
-  .dnb-checkbox__helper {
-    display: inline-block;
-    clip: rect(0, 0, 0, 0);
-    width: 1px;
-    margin-left: -1px;
-    overflow: hidden;
-    height: 1px;
-    margin-top: -1px; }
   .dnb-checkbox__shell {
     user-select: none;
     -webkit-user-select: none;
@@ -1389,14 +1401,6 @@ button.dnb-button::-moz-focus-inner {
     display: inline-flex;
     flex-direction: column;
     align-self: center; }
-  .dnb-radio__helper {
-    display: inline-block;
-    clip: rect(0, 0, 0, 0);
-    width: 1px;
-    margin-left: -1px;
-    overflow: hidden;
-    height: 1px;
-    margin-top: -1px; }
   .dnb-radio__shell {
     position: relative;
     user-select: none;
@@ -1490,14 +1494,9 @@ button.dnb-button::-moz-focus-inner {
     .dnb-radio-group .dnb-form-row {
       align-items: flex-start;
       margin-bottom: calc(1px - 1px - var(--radio-margin-bottom)); }
-    .dnb-form-row--vertical .dnb-radio-group {
-      display: flex; }
     .dnb-radio-group__helper {
-      display: inline-block;
-      clip: rect(0, 0, 0, 0);
-      width: 1px;
-      margin-left: -1px;
-      overflow: hidden; }
+      font-size: var(--font-size-basis);
+      line-height: var(--radio-height); }
   @media screen and (-ms-high-contrast: none) {
     .dnb-radio {
       vertical-align: text-bottom; }
@@ -1559,7 +1558,8 @@ button.dnb-button::-moz-focus-inner {
 .dnb-toggle-button {
   display: inline-flex;
   align-items: center;
-  font-size: var(--font-size-basis); }
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-basis); }
   .dnb-toggle-button__inner {
     display: inline-flex;
     flex-direction: column; }
@@ -1568,15 +1568,6 @@ button.dnb-button::-moz-focus-inner {
     left: 0;
     user-select: none;
     -webkit-user-select: none; }
-  .dnb-toggle-button__helper {
-    display: inline-block;
-    clip: rect(0, 0, 0, 0);
-    width: 1px;
-    margin-left: -1px;
-    overflow: hidden; }
-  .dnb-toggle-button--vertical .dnb-toggle-button__helper {
-    height: 1px;
-    margin-top: -1px; }
   .dnb-toggle-button--vertical {
     flex-direction: column;
     align-items: flex-start; }
@@ -1638,8 +1629,7 @@ button.dnb-button::-moz-focus-inner {
   .dnb-toggle-button .dnb-form-label {
     margin-right: 1rem; }
   .dnb-toggle-button-group {
-    display: inline-flex;
-    font-size: var(--font-size-basis); }
+    display: inline-flex; }
     .dnb-toggle-button-group .dnb-toggle-button {
       margin-right: var(--toggle-button-margin-right);
       margin-bottom: var(--toggle-button-margin-bottom); }
@@ -1655,17 +1645,13 @@ button.dnb-button::-moz-focus-inner {
         margin-top: 0;
         margin-bottom: 0; }
     .dnb-toggle-button-group .dnb-form-row {
-      align-items: baseline;
       margin-bottom: calc(1px - 1px - var(--toggle-button-margin-bottom)); }
-    .dnb-form-row--vertical .dnb-toggle-button-group {
-      display: flex; }
+    .dnb-toggle-button-group .dnb-form-row__helper {
+      font-size: 1.375rem;
+      /* 22/16 */ }
     .dnb-toggle-button-group__helper {
-      display: inline-block;
-      clip: rect(0, 0, 0, 0);
-      width: 1px;
-      margin-left: -1px;
-      overflow: hidden;
-      line-height: 2.5rem; }
+      font-size: var(--font-size-basis);
+      line-height: var(--button-height); }
   @media (min-width: 40em) {
     .dnb-form-label + .dnb-toggle-button {
       transform: translateY(-0.5rem); } }

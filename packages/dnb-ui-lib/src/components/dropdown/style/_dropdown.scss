@@ -60,14 +60,6 @@
     color: inherit;
   }
 
-  // if no label is provided, then make sure we have some text to align the button
-  &__helper {
-    @include helper();
-  }
-  &--vertical &__helper {
-    @include helperVertical();
-  }
-
   &__shell {
     position: relative;
 

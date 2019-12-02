@@ -21,12 +21,6 @@
     flex-direction: column;
     align-self: center;
   }
-  &__helper {
-    @include helper();
-
-    // since we don't have a vertical state, we set it to vertical by default
-    @include helperVertical();
-  }
 
   &__shell {
     user-select: none;

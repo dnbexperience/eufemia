@@ -6,6 +6,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
+import AlignmentHelper from '../../shared/AlignmentHelper'
 import {
   extendPropsWithContext,
   makeUniqueId,
@@ -230,11 +231,7 @@ export default class RadioGroup extends PureComponent {
     return (
       <RadioGroupContext.Provider value={context}>
         <div className={classes}>
-          {!label && (
-            <span className="dnb-radio-group__helper" aria-hidden>
-              &zwnj;
-            </span>
-          )}
+          <AlignmentHelper className="dnb-radio-group__helper" />
           <FormRow {...formRowParams}>
             <span
               id={id}

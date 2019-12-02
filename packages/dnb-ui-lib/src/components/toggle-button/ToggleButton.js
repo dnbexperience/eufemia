@@ -7,6 +7,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import keycode from 'keycode'
+import AlignmentHelper from '../../shared/AlignmentHelper'
 import {
   isTrue,
   makeUniqueId,
@@ -413,9 +414,7 @@ export default class ToggleButton extends Component {
                 )}
 
                 <span className="dnb-toggle-button__shell">
-                  <span className="dnb-toggle-button__helper" aria-hidden>
-                    &zwnj;
-                  </span>
+                  <AlignmentHelper className="dnb-toggle-button__helper" />
 
                   <Button
                     variant="secondary"

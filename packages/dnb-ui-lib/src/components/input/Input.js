@@ -6,6 +6,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
+import AlignmentHelper from '../../shared/AlignmentHelper'
 import Button from '../button/Button'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
@@ -382,7 +383,7 @@ export default class Input extends PureComponent {
     }
 
     // we may considder using: aria-details
-    if (showStatus || (suffix || description)) {
+    if (showStatus || suffix || description) {
       inputParams['aria-describedby'] = `${
         showStatus ? id + '-status' : ''
       } ${suffix || description ? id + '-description' : ''}`
@@ -428,9 +429,7 @@ export default class Input extends PureComponent {
           />
         )}
 
-        <span className="dnb-input__helper" aria-hidden>
-          &zwnj;
-        </span>
+        <AlignmentHelper className="dnb-input__helper" />
 
         <span {...innerParams}>
           {showStatus && (
