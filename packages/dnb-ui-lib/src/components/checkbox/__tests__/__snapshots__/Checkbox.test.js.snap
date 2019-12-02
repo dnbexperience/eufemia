@@ -93,12 +93,14 @@ exports[`Checkbox component have to match snapshot 1`] = `
           </label>
         </Element>
       </FormLabel>
-      <span
-        aria-hidden={true}
+      <AlignmentHelper
         className="dnb-checkbox__helper"
       >
-        ‌
-      </span>
+        <span
+          aria-hidden={true}
+          className="dnb-alignment-helper dnb-checkbox__helper"
+        />
+      </AlignmentHelper>
       <span
         className="dnb-checkbox__inner"
       >
@@ -489,14 +491,6 @@ legend.dnb-form-label {
     display: inline-flex;
     flex-direction: column;
     align-self: center; }
-  .dnb-checkbox__helper {
-    display: inline-block;
-    clip: rect(0, 0, 0, 0);
-    width: 1px;
-    margin-left: -1px;
-    overflow: hidden;
-    height: 1px;
-    margin-top: -1px; }
   .dnb-checkbox__shell {
     user-select: none;
     -webkit-user-select: none;

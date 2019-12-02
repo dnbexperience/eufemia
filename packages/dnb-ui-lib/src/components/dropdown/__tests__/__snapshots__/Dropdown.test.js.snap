@@ -123,12 +123,14 @@ exports[`Dropdown component have to match snapshot 1`] = `
         </label>
       </Element>
     </FormLabel>
-    <span
-      aria-hidden={true}
+    <AlignmentHelper
       className="dnb-dropdown__helper"
     >
-      ‌
-    </span>
+      <span
+        aria-hidden={true}
+        className="dnb-alignment-helper dnb-dropdown__helper"
+      />
+    </AlignmentHelper>
     <span
       className="dnb-dropdown__inner"
     >
@@ -361,13 +363,6 @@ exports[`Dropdown component have to match snapshot 1`] = `
                   title={null}
                   width={null}
                 />
-              </span>
-              <span
-                aria-hidden={true}
-                className="dnb-button__helper"
-                key="button-helper"
-              >
-                ‌
               </span>
             </Content>
           </button>
@@ -634,8 +629,6 @@ exports[`Dropdown scss have to match snapshot 1`] = `
     display: inline-flex;
     align-items: center;
     justify-content: center; }
-  p .dnb-icon,
-  blockquote .dnb-icon,
   h1 .dnb-icon,
   h2 .dnb-icon,
   h3 .dnb-icon,
@@ -724,12 +717,6 @@ exports[`Dropdown scss have to match snapshot 1`] = `
   text-decoration: none;
   font-size: var(--font-size-small);
   line-height: var(--button-height--small); }
-  .dnb-button__helper {
-    display: inline-block;
-    clip: rect(0, 0, 0, 0);
-    width: 1px;
-    margin-left: -1px;
-    overflow: hidden; }
   .dnb-button__icon svg:not([width]):not([height]) {
     width: var(--button-icon-size);
     height: var(--button-icon-size); }
@@ -1064,15 +1051,6 @@ legend.dnb-form-label {
     padding: 0;
     width: auto;
     color: inherit; }
-  .dnb-dropdown__helper {
-    display: inline-block;
-    clip: rect(0, 0, 0, 0);
-    width: 1px;
-    margin-left: -1px;
-    overflow: hidden; }
-  .dnb-dropdown--vertical .dnb-dropdown__helper {
-    height: 1px;
-    margin-top: -1px; }
   .dnb-dropdown__shell {
     position: relative;
     width: var(--dropdown-width);

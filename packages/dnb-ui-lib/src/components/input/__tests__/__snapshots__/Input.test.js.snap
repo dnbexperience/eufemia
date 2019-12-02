@@ -112,12 +112,14 @@ exports[`Input component have to match type="search" snapshot 1`] = `
   <span
     className="dnb-input dnb-input--search dnb-form-component dnb-input--has-submit-element"
   >
-    <span
-      aria-hidden={true}
+    <AlignmentHelper
       className="dnb-input__helper"
     >
-      ‌
-    </span>
+      <span
+        aria-hidden={true}
+        className="dnb-alignment-helper dnb-input__helper"
+      />
+    </AlignmentHelper>
     <span
       className="dnb-input__inner"
     >
@@ -295,13 +297,6 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                     value="test"
                     variant="secondary"
                   >
-                    <span
-                      aria-hidden={true}
-                      className="dnb-button__helper"
-                      key="button-helper"
-                    >
-                      ‌
-                    </span>
                     <IconPrimary
                       alt={null}
                       aria-hidden={false}
@@ -476,12 +471,14 @@ exports[`Input component have to match type="text" snapshot 1`] = `
   <span
     className="dnb-input dnb-input--text dnb-form-component"
   >
-    <span
-      aria-hidden={true}
+    <AlignmentHelper
       className="dnb-input__helper"
     >
-      ‌
-    </span>
+      <span
+        aria-hidden={true}
+        className="dnb-alignment-helper dnb-input__helper"
+      />
+    </AlignmentHelper>
     <span
       className="dnb-input__inner"
     >
@@ -683,8 +680,6 @@ exports[`Input scss have to match snapshot 1`] = `
     display: inline-flex;
     align-items: center;
     justify-content: center; }
-  p .dnb-icon,
-  blockquote .dnb-icon,
   h1 .dnb-icon,
   h2 .dnb-icon,
   h3 .dnb-icon,
@@ -769,12 +764,6 @@ exports[`Input scss have to match snapshot 1`] = `
   text-decoration: none;
   font-size: var(--font-size-small);
   line-height: var(--button-height--small); }
-  .dnb-button__helper {
-    display: inline-block;
-    clip: rect(0, 0, 0, 0);
-    width: 1px;
-    margin-left: -1px;
-    overflow: hidden; }
   .dnb-button__icon svg:not([width]):not([height]) {
     width: var(--button-icon-size);
     height: var(--button-icon-size); }
@@ -1106,15 +1095,6 @@ legend.dnb-form-label {
   align-items: center;
   font-size: var(--input-font-small);
   line-height: var(--input-height); }
-  .dnb-input__helper {
-    display: inline-block;
-    clip: rect(0, 0, 0, 0);
-    width: 1px;
-    margin-left: -1px;
-    overflow: hidden; }
-  .dnb-input--vertical .dnb-input__helper {
-    height: 1px;
-    margin-top: -1px; }
   .dnb-input__inner {
     display: inline-flex;
     flex-direction: column;

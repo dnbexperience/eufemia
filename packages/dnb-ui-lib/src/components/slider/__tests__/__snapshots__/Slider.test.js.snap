@@ -61,12 +61,14 @@ exports[`Slider component have to match snapshot 1`] = `
         </label>
       </Element>
     </FormLabel>
-    <span
-      aria-hidden={true}
+    <AlignmentHelper
       className="dnb-slider__helper"
     >
-      ‌
-    </span>
+      <span
+        aria-hidden={true}
+        className="dnb-alignment-helper dnb-slider__helper"
+      />
+    </AlignmentHelper>
     <span
       className="dnb-slider__wrapper"
     >
@@ -126,13 +128,6 @@ exports[`Slider component have to match snapshot 1`] = `
               type="button"
               variant="secondary"
             >
-              <span
-                aria-hidden={true}
-                className="dnb-button__helper"
-                key="button-helper"
-              >
-                ‌
-              </span>
               <IconPrimary
                 alt={null}
                 aria-hidden={false}
@@ -269,15 +264,7 @@ exports[`Slider component have to match snapshot 1`] = `
                   title={null}
                   type="button"
                   variant="secondary"
-                >
-                  <span
-                    aria-hidden={true}
-                    className="dnb-button__helper"
-                    key="button-helper"
-                  >
-                    ‌
-                  </span>
-                </Content>
+                />
               </button>
             </Button>
           </span>
@@ -346,13 +333,6 @@ exports[`Slider component have to match snapshot 1`] = `
               type="button"
               variant="secondary"
             >
-              <span
-                aria-hidden={true}
-                className="dnb-button__helper"
-                key="button-helper"
-              >
-                ‌
-              </span>
               <IconPrimary
                 alt={null}
                 aria-hidden={false}
@@ -492,8 +472,6 @@ exports[`Slider scss have to match snapshot 1`] = `
     display: inline-flex;
     align-items: center;
     justify-content: center; }
-  p .dnb-icon,
-  blockquote .dnb-icon,
   h1 .dnb-icon,
   h2 .dnb-icon,
   h3 .dnb-icon,
@@ -578,12 +556,6 @@ exports[`Slider scss have to match snapshot 1`] = `
   text-decoration: none;
   font-size: var(--font-size-small);
   line-height: var(--button-height--small); }
-  .dnb-button__helper {
-    display: inline-block;
-    clip: rect(0, 0, 0, 0);
-    width: 1px;
-    margin-left: -1px;
-    overflow: hidden; }
   .dnb-button__icon svg:not([width]):not([height]) {
     width: var(--button-icon-size);
     height: var(--button-icon-size); }
@@ -907,15 +879,6 @@ legend.dnb-form-label {
   display: flex;
   font-size: var(--font-size-small);
   line-height: var(--line-height-basis); }
-  .dnb-slider__helper {
-    display: inline-block;
-    clip: rect(0, 0, 0, 0);
-    width: 1px;
-    margin-left: -1px;
-    overflow: hidden; }
-  .dnb-slider__label--vertical .dnb-slider__helper {
-    height: 1px;
-    margin-top: -1px; }
   .dnb-slider--vertical {
     display: flex;
     width: auto;

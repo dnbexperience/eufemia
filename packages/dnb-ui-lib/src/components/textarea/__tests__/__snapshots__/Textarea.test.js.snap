@@ -70,12 +70,14 @@ exports[`Textarea component have to match snapshot 1`] = `
   <span
     className="dnb-textarea dnb-textarea--virgin dnb-form-component dnb-textarea--has-content"
   >
-    <span
-      aria-hidden={true}
+    <AlignmentHelper
       className="dnb-textarea__helper"
     >
-      ‌
-    </span>
+      <span
+        aria-hidden={true}
+        className="dnb-alignment-helper dnb-textarea__helper"
+      />
+    </AlignmentHelper>
     <span
       className="dnb-textarea__inner"
     >
@@ -641,23 +643,16 @@ textarea.dnb-textarea {
 
 .dnb-textarea {
   display: inline-flex;
-  align-items: baseline; }
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-basis); }
   .dnb-textarea__inner {
     display: inline-flex;
     flex-direction: column;
     margin: var(--textarea-padding-width); }
-  .dnb-textarea__helper {
-    display: inline-block;
-    clip: rect(0, 0, 0, 0);
-    width: 1px;
-    margin-left: -1px;
-    overflow: hidden; }
-  .dnb-textarea--vertical .dnb-textarea__helper {
-    height: 1px;
-    margin-top: -1px; }
   .dnb-textarea__shell {
     display: inline-flex;
-    position: relative; }
+    position: relative;
+    font-size: var(--font-size-basis); }
   .dnb-textarea__placeholder {
     pointer-events: none;
     position: absolute;
@@ -669,8 +664,9 @@ textarea.dnb-textarea {
     height: 100%;
     margin: 0;
     padding: 0 var(--textarea-padding-width);
-    /* IE11 fix */
-    line-height: var(--line-height-basis); }
+    font-size: var(--font-size-basis);
+    line-height: var(--line-height-basis);
+    /* IE11 fix */ }
     @media screen and (-ms-high-contrast: none) {
       .dnb-textarea__placeholder {
         padding: var(--textarea-padding-width); } }
@@ -678,14 +674,14 @@ textarea.dnb-textarea {
       .dnb-textarea__placeholder {
         padding: var(--textarea-padding-width); } }
   .dnb-textarea__textarea {
-    font-size: var(--font-size-basis);
     border: none;
     border-radius: 1px;
     box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.0625rem) var(--color-sea-green-alt);
     margin: 0;
     padding: 0 var(--textarea-padding-width);
-    /* IE11 fix */
-    line-height: var(--line-height-basis); }
+    font-size: var(--font-size-basis);
+    line-height: var(--line-height-basis);
+    /* IE11 fix */ }
     @media screen and (-ms-high-contrast: none) {
       .dnb-textarea__textarea {
         padding: var(--textarea-padding-width); } }
@@ -703,14 +699,16 @@ textarea.dnb-textarea {
   .dnb-textarea__inner > .dnb-form-status {
     order: 2;
     margin: 1rem 0 0 calc(1px - 1px - var(--textarea-padding-width)); }
-  .dnb-textarea[class*='__status'] {
-    align-items: flex-start; }
-    .dnb-textarea[class*='__status'] > .dnb-form-label {
-      margin-top: 0.25rem; }
+  .dnb-textarea:not(.dnb-textarea--vertical) .dnb-form-label {
+    margin-top: 0.5rem; }
   .dnb-textarea--vertical {
     display: flex;
     flex-direction: column;
     align-items: flex-start; }
+  .dnb-textarea[class*='__status'] {
+    align-items: flex-start; }
+    .dnb-textarea[class*='__status'] > .dnb-form-label {
+      margin-top: 0.25rem; }
   .dnb-textarea--stretch {
     display: flex; }
   .dnb-textarea--stretch .dnb-textarea__inner {
@@ -735,14 +733,14 @@ textarea.dnb-textarea {
 textarea.dnb-textarea {
   display: inline-block;
   margin: var(--textarea-padding-width);
-  font-size: var(--font-size-basis);
   border: none;
   border-radius: 1px;
   box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.0625rem) var(--color-sea-green-alt);
   margin: 0;
   padding: 0 var(--textarea-padding-width);
-  /* IE11 fix */
+  font-size: var(--font-size-basis);
   line-height: var(--line-height-basis);
+  /* IE11 fix */
   border-radius: 0.5rem;
   /* IE11 fix */ }
   @media screen and (-ms-high-contrast: none) {
