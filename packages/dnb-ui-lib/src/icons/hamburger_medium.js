@@ -12,7 +12,6 @@ const hamburger_medium = props => (
         fill="#000"
       />
     </g>
-    <defs />
   </svg>
 )
 
