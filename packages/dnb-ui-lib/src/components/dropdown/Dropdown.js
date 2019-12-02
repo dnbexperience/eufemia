@@ -7,6 +7,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import keycode from 'keycode'
+import AlignmentHelper from '../../shared/AlignmentHelper'
 import {
   isTrue,
   makeUniqueId,
@@ -799,7 +800,10 @@ export default class Dropdown extends PureComponent {
       }, {})
       const counts = Object.keys(itemSpots)
       const findClosest = (arr, val) =>
-        Math.max.apply(null, arr.filter(v => v <= val))
+        Math.max.apply(
+          null,
+          arr.filter(v => v <= val)
+        )
       let closestToTop = null,
         closestToBottom = null,
         tmpToTop,
@@ -1066,9 +1070,7 @@ export default class Dropdown extends PureComponent {
           />
         )}
 
-        <span className="dnb-dropdown__helper" aria-hidden>
-          &zwnj;
-        </span>
+        <AlignmentHelper className="dnb-dropdown__helper" />
 
         <span className="dnb-dropdown__inner" ref={this._ref}>
           {showStatus && (

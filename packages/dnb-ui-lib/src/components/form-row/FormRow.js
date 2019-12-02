@@ -6,6 +6,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
+import AlignmentHelper from '../../shared/AlignmentHelper'
 import {
   extend,
   extendPropsWithContext,
@@ -241,9 +242,7 @@ export default class FormRow extends PureComponent {
       <Context.Provider value={context}>
         <Fieldset useFieldset={useFieldset}>
           <div {...params}>
-            <span className="dnb-form-row__helper" aria-hidden>
-              &zwnj;
-            </span>
+            <AlignmentHelper className="dnb-form-row__helper" />
 
             {label && (
               <FormLabel

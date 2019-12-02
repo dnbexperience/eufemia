@@ -16,6 +16,9 @@
   margin: 0;
   padding: 0 var(--textarea-padding-width);
 
+  font-size: var(--font-size-basis);
+  line-height: var(--line-height-basis);
+
   // Before v4.15 we had
   // padding-top: calc(
   //   var(--textarea-padding-width) - var(--textarea-vertical-correction)
@@ -31,12 +34,8 @@
   @supports (-ms-ime-align: auto) {
     padding: var(--textarea-padding-width);
   }
-
-  line-height: var(--line-height-basis);
 }
 @mixin textareaStyle() {
-  font-size: var(--font-size-basis);
-
   border: none;
   border-radius: 1px;
 
@@ -49,7 +48,9 @@
 
 .dnb-textarea {
   display: inline-flex;
-  align-items: baseline;
+
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-basis);
 
   &__inner {
     display: inline-flex;
@@ -58,16 +59,12 @@
     margin: var(--textarea-padding-width);
   }
 
-  &__helper {
-    @include helper();
-  }
-  &--vertical &__helper {
-    @include helperVertical();
-  }
-
   &__shell {
     display: inline-flex;
     position: relative;
+
+    // because of inheritance, we set the font-size and line-height here as well
+    font-size: var(--font-size-basis);
   }
 
   &__placeholder {
@@ -110,18 +107,22 @@
     margin: 1rem 0 0 calc(1px - 1px - var(--textarea-padding-width));
   }
 
-  &[class*='__status'] {
-    align-items: flex-start;
-    > .dnb-form-label {
-      // vertical align the current font
-      margin-top: 0.25rem;
-    }
+  &:not(#{&}--vertical) .dnb-form-label {
+    margin-top: 0.5rem;
   }
 
   &--vertical {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  &[class*='__status'] {
+    align-items: flex-start;
+    > .dnb-form-label {
+      // vertical align the current font
+      margin-top: 0.25rem;
+    }
   }
 
   // make the input full width

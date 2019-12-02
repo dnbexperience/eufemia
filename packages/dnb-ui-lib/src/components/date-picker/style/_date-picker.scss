@@ -48,11 +48,7 @@
 
   // if no label is provided, then make sure we have some text to align the button
   &__helper {
-    @include helper();
     line-height: var(--date-picker-input-height);
-  }
-  &--vertical &__helper {
-    @include helperVertical();
   }
 
   &__shell {

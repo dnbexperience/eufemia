@@ -6,6 +6,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
+import AlignmentHelper from '../../shared/AlignmentHelper'
 import {
   isTrue,
   makeUniqueId,
@@ -290,9 +291,7 @@ export default class ToggleButtonGroup extends PureComponent {
       <ToggleButtonGroupContext.Provider value={context}>
         <div className={classes}>
           {!label && (
-            <span className="dnb-toggle-button-group__helper" aria-hidden>
-              &zwnj;
-            </span>
+            <AlignmentHelper className="dnb-toggle-button-group__helper" />
           )}
           <FormRow {...formRowParams}>
             <span

@@ -6,6 +6,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
+import AlignmentHelper from '../../shared/AlignmentHelper'
 import {
   extendPropsWithContext,
   isTrue,
@@ -142,7 +143,7 @@ export default class FormLabel extends PureComponent {
     if (isTrue(sr_only)) {
       return (
         <Element is={element} aria-label={content} {...params}>
-          <span aria-hidden>&zwnj;</span>
+          <AlignmentHelper className="dnb-form-label__helper" />
         </Element>
       )
     }

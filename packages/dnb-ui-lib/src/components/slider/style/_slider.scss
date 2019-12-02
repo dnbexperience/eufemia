@@ -20,14 +20,6 @@
   font-size: var(--font-size-small);
   line-height: var(--line-height-basis);
 
-  &__helper {
-    // NB: this is not the same kind of helper than we have for the button!
-    @include helper();
-  }
-  &__label--vertical &__helper {
-    @include helperVertical();
-  }
-
   &--vertical {
     display: flex;
     width: auto;
