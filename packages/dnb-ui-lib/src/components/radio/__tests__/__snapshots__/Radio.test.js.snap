@@ -66,12 +66,14 @@ exports[`Radio component have to match snapshot 1`] = `
           </label>
         </Element>
       </FormLabel>
-      <span
-        aria-hidden={true}
+      <AlignmentHelper
         className="dnb-radio__helper"
       >
-        ‌
-      </span>
+        <span
+          aria-hidden={true}
+          className="dnb-alignment-helper dnb-radio__helper"
+        />
+      </AlignmentHelper>
       <span
         className="dnb-radio__inner"
       >
@@ -141,6 +143,14 @@ exports[`Radio group component have to match group snapshot 1`] = `
   <div
     className="dnb-radio-group dnb-radio-group--row dnb-form-component"
   >
+    <AlignmentHelper
+      className="dnb-radio-group__helper"
+    >
+      <span
+        aria-hidden={true}
+        className="dnb-alignment-helper dnb-radio-group__helper"
+      />
+    </AlignmentHelper>
     <FormRow
       class={null}
       className={null}
@@ -176,12 +186,14 @@ exports[`Radio group component have to match group snapshot 1`] = `
           <div
             className="dnb-form-row"
           >
-            <span
-              aria-hidden={true}
+            <AlignmentHelper
               className="dnb-form-row__helper"
             >
-              ‌
-            </span>
+              <span
+                aria-hidden={true}
+                className="dnb-alignment-helper dnb-form-row__helper"
+              />
+            </AlignmentHelper>
             <FormLabel
               class={null}
               className="dnb-form-row__label"
@@ -285,12 +297,14 @@ exports[`Radio group component have to match group snapshot 1`] = `
                           </label>
                         </Element>
                       </FormLabel>
-                      <span
-                        aria-hidden={true}
+                      <AlignmentHelper
                         className="dnb-radio__helper"
                       >
-                        ‌
-                      </span>
+                        <span
+                          aria-hidden={true}
+                          className="dnb-alignment-helper dnb-radio__helper"
+                        />
+                      </AlignmentHelper>
                       <span
                         className="dnb-radio__inner"
                       >
@@ -394,12 +408,14 @@ exports[`Radio group component have to match group snapshot 1`] = `
                           </label>
                         </Element>
                       </FormLabel>
-                      <span
-                        aria-hidden={true}
+                      <AlignmentHelper
                         className="dnb-radio__helper"
                       >
-                        ‌
-                      </span>
+                        <span
+                          aria-hidden={true}
+                          className="dnb-alignment-helper dnb-radio__helper"
+                        />
+                      </AlignmentHelper>
                       <span
                         className="dnb-radio__inner"
                       >
@@ -788,14 +804,6 @@ legend.dnb-form-label {
     display: inline-flex;
     flex-direction: column;
     align-self: center; }
-  .dnb-radio__helper {
-    display: inline-block;
-    clip: rect(0, 0, 0, 0);
-    width: 1px;
-    margin-left: -1px;
-    overflow: hidden;
-    height: 1px;
-    margin-top: -1px; }
   .dnb-radio__shell {
     position: relative;
     user-select: none;
@@ -889,14 +897,9 @@ legend.dnb-form-label {
     .dnb-radio-group .dnb-form-row {
       align-items: flex-start;
       margin-bottom: calc(1px - 1px - var(--radio-margin-bottom)); }
-    .dnb-form-row--vertical .dnb-radio-group {
-      display: flex; }
     .dnb-radio-group__helper {
-      display: inline-block;
-      clip: rect(0, 0, 0, 0);
-      width: 1px;
-      margin-left: -1px;
-      overflow: hidden; }
+      font-size: var(--font-size-basis);
+      line-height: var(--radio-height); }
   @media screen and (-ms-high-contrast: none) {
     .dnb-radio {
       vertical-align: text-bottom; }

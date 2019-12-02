@@ -88,12 +88,14 @@ exports[`DatePicker component have to match snapshot 1`] = `
   <span
     className="dnb-date-picker dnb-form-component dnb-date-picker--show-footer dnb-date-picker__status--error dnb-date-picker--hidden dnb-date-picker--show-input"
   >
-    <span
-      aria-hidden={true}
+    <AlignmentHelper
       className="dnb-date-picker__helper"
     >
-      ‌
-    </span>
+      <span
+        aria-hidden={true}
+        className="dnb-alignment-helper dnb-date-picker__helper"
+      />
+    </AlignmentHelper>
     <span
       className="dnb-date-picker__inner"
     >
@@ -281,12 +283,14 @@ exports[`DatePicker component have to match snapshot 1`] = `
             <span
               className="dnb-input dnb-input--text dnb-form-component dnb-input--has-submit-element dnb-input__status--error"
             >
-              <span
-                aria-hidden={true}
+              <AlignmentHelper
                 className="dnb-input__helper"
               >
-                ‌
-              </span>
+                <span
+                  aria-hidden={true}
+                  className="dnb-alignment-helper dnb-input__helper"
+                />
+              </AlignmentHelper>
               <span
                 className="dnb-input__inner"
               >
@@ -828,13 +832,6 @@ exports[`DatePicker component have to match snapshot 1`] = `
                               type="button"
                               variant="secondary"
                             >
-                              <span
-                                aria-hidden={true}
-                                className="dnb-button__helper"
-                                key="button-helper"
-                              >
-                                ‌
-                              </span>
                               <IconPrimary
                                 alt={null}
                                 aria-hidden={false}
@@ -1086,8 +1083,6 @@ exports[`DatePicker scss have to match snapshot 1`] = `
     display: inline-flex;
     align-items: center;
     justify-content: center; }
-  p .dnb-icon,
-  blockquote .dnb-icon,
   h1 .dnb-icon,
   h2 .dnb-icon,
   h3 .dnb-icon,
@@ -1172,12 +1167,6 @@ exports[`DatePicker scss have to match snapshot 1`] = `
   text-decoration: none;
   font-size: var(--font-size-small);
   line-height: var(--button-height--small); }
-  .dnb-button__helper {
-    display: inline-block;
-    clip: rect(0, 0, 0, 0);
-    width: 1px;
-    margin-left: -1px;
-    overflow: hidden; }
   .dnb-button__icon svg:not([width]):not([height]) {
     width: var(--button-icon-size);
     height: var(--button-icon-size); }
@@ -1509,15 +1498,6 @@ legend.dnb-form-label {
   align-items: center;
   font-size: var(--input-font-small);
   line-height: var(--input-height); }
-  .dnb-input__helper {
-    display: inline-block;
-    clip: rect(0, 0, 0, 0);
-    width: 1px;
-    margin-left: -1px;
-    overflow: hidden; }
-  .dnb-input--vertical .dnb-input__helper {
-    height: 1px;
-    margin-top: -1px; }
   .dnb-input__inner {
     display: inline-flex;
     flex-direction: column;
@@ -1738,14 +1718,6 @@ legend.dnb-form-label {
     display: inline-flex;
     flex-direction: column;
     align-self: center; }
-  .dnb-checkbox__helper {
-    display: inline-block;
-    clip: rect(0, 0, 0, 0);
-    width: 1px;
-    margin-left: -1px;
-    overflow: hidden;
-    height: 1px;
-    margin-top: -1px; }
   .dnb-checkbox__shell {
     user-select: none;
     -webkit-user-select: none;
@@ -1888,14 +1860,6 @@ legend.dnb-form-label {
     display: inline-flex;
     flex-direction: column;
     align-self: center; }
-  .dnb-radio__helper {
-    display: inline-block;
-    clip: rect(0, 0, 0, 0);
-    width: 1px;
-    margin-left: -1px;
-    overflow: hidden;
-    height: 1px;
-    margin-top: -1px; }
   .dnb-radio__shell {
     position: relative;
     user-select: none;
@@ -1989,14 +1953,9 @@ legend.dnb-form-label {
     .dnb-radio-group .dnb-form-row {
       align-items: flex-start;
       margin-bottom: calc(1px - 1px - var(--radio-margin-bottom)); }
-    .dnb-form-row--vertical .dnb-radio-group {
-      display: flex; }
     .dnb-radio-group__helper {
-      display: inline-block;
-      clip: rect(0, 0, 0, 0);
-      width: 1px;
-      margin-left: -1px;
-      overflow: hidden; }
+      font-size: var(--font-size-basis);
+      line-height: var(--radio-height); }
   @media screen and (-ms-high-contrast: none) {
     .dnb-radio {
       vertical-align: text-bottom; }
@@ -2058,7 +2017,8 @@ legend.dnb-form-label {
 .dnb-toggle-button {
   display: inline-flex;
   align-items: center;
-  font-size: var(--font-size-basis); }
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-basis); }
   .dnb-toggle-button__inner {
     display: inline-flex;
     flex-direction: column; }
@@ -2067,15 +2027,6 @@ legend.dnb-form-label {
     left: 0;
     user-select: none;
     -webkit-user-select: none; }
-  .dnb-toggle-button__helper {
-    display: inline-block;
-    clip: rect(0, 0, 0, 0);
-    width: 1px;
-    margin-left: -1px;
-    overflow: hidden; }
-  .dnb-toggle-button--vertical .dnb-toggle-button__helper {
-    height: 1px;
-    margin-top: -1px; }
   .dnb-toggle-button--vertical {
     flex-direction: column;
     align-items: flex-start; }
@@ -2137,8 +2088,7 @@ legend.dnb-form-label {
   .dnb-toggle-button .dnb-form-label {
     margin-right: 1rem; }
   .dnb-toggle-button-group {
-    display: inline-flex;
-    font-size: var(--font-size-basis); }
+    display: inline-flex; }
     .dnb-toggle-button-group .dnb-toggle-button {
       margin-right: var(--toggle-button-margin-right);
       margin-bottom: var(--toggle-button-margin-bottom); }
@@ -2154,17 +2104,13 @@ legend.dnb-form-label {
         margin-top: 0;
         margin-bottom: 0; }
     .dnb-toggle-button-group .dnb-form-row {
-      align-items: baseline;
       margin-bottom: calc(1px - 1px - var(--toggle-button-margin-bottom)); }
-    .dnb-form-row--vertical .dnb-toggle-button-group {
-      display: flex; }
+    .dnb-toggle-button-group .dnb-form-row__helper {
+      font-size: 1.375rem;
+      /* 22/16 */ }
     .dnb-toggle-button-group__helper {
-      display: inline-block;
-      clip: rect(0, 0, 0, 0);
-      width: 1px;
-      margin-left: -1px;
-      overflow: hidden;
-      line-height: 2.5rem; }
+      font-size: var(--font-size-basis);
+      line-height: var(--button-height); }
   @media (min-width: 40em) {
     .dnb-form-label + .dnb-toggle-button {
       transform: translateY(-0.5rem); } }
@@ -2238,15 +2184,7 @@ legend.dnb-form-label {
     display: inline-flex;
     flex-direction: column; }
   .dnb-date-picker__helper {
-    display: inline-block;
-    clip: rect(0, 0, 0, 0);
-    width: 1px;
-    margin-left: -1px;
-    overflow: hidden;
     line-height: var(--date-picker-input-height); }
-  .dnb-date-picker--vertical .dnb-date-picker__helper {
-    height: 1px;
-    margin-top: -1px; }
   .dnb-date-picker__shell {
     position: relative;
     top: 0;

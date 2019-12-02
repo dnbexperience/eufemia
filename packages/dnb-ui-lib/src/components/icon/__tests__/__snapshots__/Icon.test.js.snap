@@ -138,8 +138,6 @@ exports[`Icon scss have to match snapshot 1`] = `
     display: inline-flex;
     align-items: center;
     justify-content: center; }
-  p .dnb-icon,
-  blockquote .dnb-icon,
   h1 .dnb-icon,
   h2 .dnb-icon,
   h3 .dnb-icon,
