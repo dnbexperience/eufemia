@@ -73,6 +73,9 @@
     }
   }
 }
+.dnb-alignment-helper {
+  @include helper();
+}
 .dnb-sr-only {
   @include srOnly();
 }

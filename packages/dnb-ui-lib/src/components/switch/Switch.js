@@ -8,6 +8,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import keycode from 'keycode'
 import Context from '../../shared/Context'
+import AlignmentHelper from '../../shared/AlignmentHelper'
 import {
   isTrue,
   makeUniqueId,
@@ -277,28 +278,30 @@ export default class Switch extends Component {
         animation={status_animation}
       />
     )
+    const labelComp = label && (
+      <FormLabel
+        id={id + '-label'}
+        for_id={id}
+        text={label}
+        disabled={disabled}
+        sr_only={label_sr_only}
+      />
+    )
 
     return (
       <span {...mainParams}>
         <span className="dnb-switch__order">
-          <span className="dnb-switch__helper2" aria-hidden>
-            &zwnj;
-          </span>
+          <AlignmentHelper className="dnb-switch__helper" />
 
-          {label && (
-            <FormLabel
-              id={id + '-label'}
-              for_id={id}
-              text={label}
-              disabled={disabled}
-              sr_only={label_sr_only}
-            />
-          )}
+          {label_position === 'left' && labelComp}
 
           <span className="dnb-switch__inner">
-            {label_position === 'left' && statusComp}
+            {statusComp}
 
             <span className="dnb-switch__shell">
+              {(label_position === 'right' || !label_position) &&
+                labelComp}
+
               <input
                 id={id}
                 name={id}
@@ -328,7 +331,6 @@ export default class Switch extends Component {
             </span>
           </span>
         </span>
-        {(label_position === 'right' || !label_position) && statusComp}
       </span>
     )
   }

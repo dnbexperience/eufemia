@@ -6,7 +6,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-
+import AlignmentHelper from '../../shared/AlignmentHelper'
 import {
   isTrue,
   makeUniqueId,
@@ -425,8 +425,8 @@ export default class DatePicker extends PureComponent {
     )
     if (
       hidePicker &&
-      (!isTrue(this.props.show_submit_button) &&
-        !isTrue(this.props.show_cancel_button))
+      !isTrue(this.props.show_submit_button) &&
+      !isTrue(this.props.show_cancel_button)
     ) {
       this.hidePicker(args)
     }
@@ -719,9 +719,7 @@ export default class DatePicker extends PureComponent {
           />
         )}
 
-        <span className="dnb-date-picker__helper" aria-hidden>
-          &zwnj;
-        </span>
+        <AlignmentHelper className="dnb-date-picker__helper" />
 
         <span
           className="dnb-date-picker__inner"

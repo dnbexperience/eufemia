@@ -23,12 +23,6 @@
     flex-direction: column;
     align-self: center;
   }
-  &__helper {
-    @include helper();
-
-    // since we don't have a vertical state, we set it to vertical by default
-    @include helperVertical();
-  }
 
   &__shell {
     position: relative;
@@ -181,13 +175,11 @@
       // because of our bottom margins we have on the componens
       margin-bottom: calc(1px - 1px - var(--radio-margin-bottom));
     }
-    .dnb-form-row--vertical & {
-      display: flex;
-    }
 
     // if no label is given
     &__helper {
-      @include helper();
+      font-size: var(--font-size-basis);
+      line-height: var(--radio-height);
     }
   }
 

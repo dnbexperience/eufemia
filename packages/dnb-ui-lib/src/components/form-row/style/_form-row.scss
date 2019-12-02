@@ -21,13 +21,6 @@
     width: 100%; // to help #input stretch
   }
 
-  &__helper {
-    @include helper();
-  }
-  &--vertical &__helper {
-    @include helperVertical();
-  }
-
   // for hoizontal direction
   &:not(#{&}--vertical) {
     & > .dnb-form-row__content {

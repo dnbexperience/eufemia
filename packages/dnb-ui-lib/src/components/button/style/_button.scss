@@ -47,10 +47,6 @@
   font-size: var(--font-size-small); // has to be 16px
   line-height: var(--button-height--small);
 
-  &__helper {
-    @include helper();
-  }
-
   &__icon {
     svg:not([width]):not([height]) {
       width: var(--button-icon-size);

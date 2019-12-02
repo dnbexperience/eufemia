@@ -48,10 +48,26 @@ export default [
           <FormRow
             // indent
             // indent_offset="large"
-            label="Horizontal Legend Aptent maecenas non pharetra libero massa auctor pretium vulputate vivamus:"
+            label="Horizontal Legend Aptent:"
             direction="horizontal"
           >
             <AllComponents showText horizontal />
+          </FormRow>
+        </Box>
+
+        <Box>
+          <H3 bottom="large">Horizontal with vertical label direction</H3>
+          <FormRow label="Vertical Legend:" label_direction="vertical">
+            <AllComponents showText horizontal />
+          </FormRow>
+        </Box>
+
+        <Box>
+          <H3 bottom="large">
+            Horizontal with vertical label direction, but no label
+          </H3>
+          <FormRow label="Vertical Legend:" label_direction="vertical">
+            <AllComponents showText horizontal hideLabel />
           </FormRow>
         </Box>
 
@@ -66,20 +82,6 @@ export default [
           <H3 bottom="large">Vertical everything</H3>
           <FormRow label="Vertical everything:" vertical="true">
             <AllComponents showText />
-          </FormRow>
-        </Box>
-
-        <Box>
-          <H3 bottom="large">Vertical label direction</H3>
-          <FormRow label="Vertical Legend:" label_direction="vertical">
-            <AllComponents showText horizontal />
-          </FormRow>
-        </Box>
-
-        <Box>
-          <H3 bottom="large">Vertical label direction, but no label</H3>
-          <FormRow label="Vertical Legend:" label_direction="vertical">
-            <AllComponents showText horizontal hideLabel />
           </FormRow>
         </Box>
 
