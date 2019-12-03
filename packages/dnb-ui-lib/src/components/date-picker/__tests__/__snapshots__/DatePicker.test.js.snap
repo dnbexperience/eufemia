@@ -261,6 +261,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
             submit_element={
               <SubmitButton
                 aria-expanded={false}
+                aria-label="åpne datovelger"
                 className={null}
                 disabled={false}
                 icon="calendar"
@@ -307,11 +308,11 @@ exports[`DatePicker component have to match snapshot 1`] = `
                       id="date-picker-id-input"
                     >
                       <ForwardRef
-                        aria-labelledby="date-picker-id"
+                        aria-labelledby="date-picker-id-start-day-label"
                         autoComplete="off"
                         className="dnb-date-picker__input dnb-date-picker__input--day dnb-input__input"
                         id="date-picker-id-start-day"
-                        key="d0"
+                        key="di0"
                         mask={
                           Array [
                             /\\[0-3\\]/,
@@ -330,7 +331,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                         value="01"
                       >
                         <t
-                          aria-labelledby="date-picker-id"
+                          aria-labelledby="date-picker-id-start-day-label"
                           autoComplete="off"
                           className="dnb-date-picker__input dnb-date-picker__input--day dnb-input__input"
                           guide={true}
@@ -356,7 +357,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                           value="01"
                         >
                           <input
-                            aria-labelledby="date-picker-id"
+                            aria-labelledby="date-picker-id-start-day-label"
                             autoComplete="off"
                             className="dnb-date-picker__input dnb-date-picker__input--day dnb-input__input"
                             defaultValue="01"
@@ -372,6 +373,13 @@ exports[`DatePicker component have to match snapshot 1`] = `
                           />
                         </t>
                       </ForwardRef>
+                      <label
+                        hidden={true}
+                        id="date-picker-id-start-day-label"
+                        key="dl0"
+                      >
+                        fra dag
+                      </label>
                       <span
                         aria-hidden={true}
                         className="dnb-date-picker--separator"
@@ -380,11 +388,11 @@ exports[`DatePicker component have to match snapshot 1`] = `
                         /
                       </span>
                       <ForwardRef
-                        aria-labelledby="date-picker-id"
+                        aria-labelledby="date-picker-id-start-month-label"
                         autoComplete="off"
                         className="dnb-date-picker__input dnb-date-picker__input--month dnb-input__input"
                         id="date-picker-id-start-month"
-                        key="m2"
+                        key="mi2"
                         mask={
                           Array [
                             /\\[0-1\\]/,
@@ -403,7 +411,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                         value="01"
                       >
                         <t
-                          aria-labelledby="date-picker-id"
+                          aria-labelledby="date-picker-id-start-month-label"
                           autoComplete="off"
                           className="dnb-date-picker__input dnb-date-picker__input--month dnb-input__input"
                           guide={true}
@@ -429,7 +437,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                           value="01"
                         >
                           <input
-                            aria-labelledby="date-picker-id"
+                            aria-labelledby="date-picker-id-start-month-label"
                             autoComplete="off"
                             className="dnb-date-picker__input dnb-date-picker__input--month dnb-input__input"
                             defaultValue="01"
@@ -445,6 +453,13 @@ exports[`DatePicker component have to match snapshot 1`] = `
                           />
                         </t>
                       </ForwardRef>
+                      <label
+                        hidden={true}
+                        id="date-picker-id-start-month-label"
+                        key="ml2"
+                      >
+                        fra måned
+                      </label>
                       <span
                         aria-hidden={true}
                         className="dnb-date-picker--separator"
@@ -453,11 +468,11 @@ exports[`DatePicker component have to match snapshot 1`] = `
                         /
                       </span>
                       <ForwardRef
-                        aria-labelledby="date-picker-id"
+                        aria-labelledby="date-picker-id-start-year-label"
                         autoComplete="off"
                         className="dnb-date-picker__input dnb-date-picker__input--year dnb-input__input"
                         id="date-picker-id-start-year"
-                        key="y4"
+                        key="yi4"
                         mask={
                           Array [
                             /\\[1-2\\]/,
@@ -478,7 +493,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                         value="2019"
                       >
                         <t
-                          aria-labelledby="date-picker-id"
+                          aria-labelledby="date-picker-id-start-year-label"
                           autoComplete="off"
                           className="dnb-date-picker__input dnb-date-picker__input--year dnb-input__input"
                           guide={true}
@@ -506,7 +521,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                           value="2019"
                         >
                           <input
-                            aria-labelledby="date-picker-id"
+                            aria-labelledby="date-picker-id-start-year-label"
                             autoComplete="off"
                             className="dnb-date-picker__input dnb-date-picker__input--year dnb-input__input"
                             defaultValue="2019"
@@ -522,6 +537,13 @@ exports[`DatePicker component have to match snapshot 1`] = `
                           />
                         </t>
                       </ForwardRef>
+                      <label
+                        hidden={true}
+                        id="date-picker-id-start-year-label"
+                        key="yl4"
+                      >
+                        fra år
+                      </label>
                       <span
                         aria-hidden={true}
                         className="dnb-date-picker--separator"
@@ -529,11 +551,11 @@ exports[`DatePicker component have to match snapshot 1`] = `
                          – 
                       </span>
                       <ForwardRef
-                        aria-labelledby="date-picker-id"
+                        aria-labelledby="date-picker-id-end-day-label"
                         autoComplete="off"
                         className="dnb-date-picker__input dnb-date-picker__input--day dnb-input__input"
                         id="date-picker-id-end-day"
-                        key="d0"
+                        key="di0"
                         mask={
                           Array [
                             /\\[0-3\\]/,
@@ -552,7 +574,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                         value="15"
                       >
                         <t
-                          aria-labelledby="date-picker-id"
+                          aria-labelledby="date-picker-id-end-day-label"
                           autoComplete="off"
                           className="dnb-date-picker__input dnb-date-picker__input--day dnb-input__input"
                           guide={true}
@@ -578,7 +600,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                           value="15"
                         >
                           <input
-                            aria-labelledby="date-picker-id"
+                            aria-labelledby="date-picker-id-end-day-label"
                             autoComplete="off"
                             className="dnb-date-picker__input dnb-date-picker__input--day dnb-input__input"
                             defaultValue="15"
@@ -594,6 +616,13 @@ exports[`DatePicker component have to match snapshot 1`] = `
                           />
                         </t>
                       </ForwardRef>
+                      <label
+                        hidden={true}
+                        id="date-picker-id-end-day-label"
+                        key="dl0"
+                      >
+                        til dag
+                      </label>
                       <span
                         aria-hidden={true}
                         className="dnb-date-picker--separator"
@@ -602,11 +631,11 @@ exports[`DatePicker component have to match snapshot 1`] = `
                         /
                       </span>
                       <ForwardRef
-                        aria-labelledby="date-picker-id"
+                        aria-labelledby="date-picker-id-end-month-label"
                         autoComplete="off"
                         className="dnb-date-picker__input dnb-date-picker__input--month dnb-input__input"
                         id="date-picker-id-end-month"
-                        key="m2"
+                        key="mi2"
                         mask={
                           Array [
                             /\\[0-1\\]/,
@@ -625,7 +654,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                         value="02"
                       >
                         <t
-                          aria-labelledby="date-picker-id"
+                          aria-labelledby="date-picker-id-end-month-label"
                           autoComplete="off"
                           className="dnb-date-picker__input dnb-date-picker__input--month dnb-input__input"
                           guide={true}
@@ -651,7 +680,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                           value="02"
                         >
                           <input
-                            aria-labelledby="date-picker-id"
+                            aria-labelledby="date-picker-id-end-month-label"
                             autoComplete="off"
                             className="dnb-date-picker__input dnb-date-picker__input--month dnb-input__input"
                             defaultValue="02"
@@ -667,6 +696,13 @@ exports[`DatePicker component have to match snapshot 1`] = `
                           />
                         </t>
                       </ForwardRef>
+                      <label
+                        hidden={true}
+                        id="date-picker-id-end-month-label"
+                        key="ml2"
+                      >
+                        til måned
+                      </label>
                       <span
                         aria-hidden={true}
                         className="dnb-date-picker--separator"
@@ -675,11 +711,11 @@ exports[`DatePicker component have to match snapshot 1`] = `
                         /
                       </span>
                       <ForwardRef
-                        aria-labelledby="date-picker-id"
+                        aria-labelledby="date-picker-id-end-year-label"
                         autoComplete="off"
                         className="dnb-date-picker__input dnb-date-picker__input--year dnb-input__input"
                         id="date-picker-id-end-year"
-                        key="y4"
+                        key="yi4"
                         mask={
                           Array [
                             /\\[1-2\\]/,
@@ -700,7 +736,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                         value="2019"
                       >
                         <t
-                          aria-labelledby="date-picker-id"
+                          aria-labelledby="date-picker-id-end-year-label"
                           autoComplete="off"
                           className="dnb-date-picker__input dnb-date-picker__input--year dnb-input__input"
                           guide={true}
@@ -728,7 +764,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                           value="2019"
                         >
                           <input
-                            aria-labelledby="date-picker-id"
+                            aria-labelledby="date-picker-id-end-year-label"
                             autoComplete="off"
                             className="dnb-date-picker__input dnb-date-picker__input--year dnb-input__input"
                             defaultValue="2019"
@@ -744,6 +780,13 @@ exports[`DatePicker component have to match snapshot 1`] = `
                           />
                         </t>
                       </ForwardRef>
+                      <label
+                        hidden={true}
+                        id="date-picker-id-end-year-label"
+                        key="yl4"
+                      >
+                        til år
+                      </label>
                     </span>
                   </span>
                   <span
@@ -751,6 +794,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                   >
                     <SubmitButton
                       aria-expanded={false}
+                      aria-label="åpne datovelger"
                       className={null}
                       disabled={false}
                       icon="calendar"
@@ -771,6 +815,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                       >
                         <Button
                           aria-expanded={false}
+                          aria-label="åpne datovelger"
                           bounding={false}
                           class={null}
                           className="dnb-input__submit-button__button"
@@ -796,6 +841,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                         >
                           <button
                             aria-expanded={false}
+                            aria-label="åpne datovelger"
                             className="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium"
                             id="date-picker-id"
                             onBlur={[Function]}
@@ -807,6 +853,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                           >
                             <Content
                               aria-expanded={false}
+                              aria-label="åpne datovelger"
                               bounding={false}
                               class={null}
                               className="dnb-input__submit-button__button"

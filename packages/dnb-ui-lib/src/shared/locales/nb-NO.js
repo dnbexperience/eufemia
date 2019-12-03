@@ -1,6 +1,12 @@
 export default {
   'nb-NO': {
     DatePicker: {
+      day: 'dag',
+      month: 'måned',
+      year: 'år',
+      start: 'fra',
+      end: 'til',
+      open_picker_text: 'åpne datovelger',
       mask_order: 'dd/mm/yyyy',
       mask_placeholder: 'dd/mm/åååå', // have to be same setup as "mask" - but can be like: dd/mm/åååå
       date_format: 'yyyy-MM-dd', // in v1 of date-fns we where more flexible in terms of the format
