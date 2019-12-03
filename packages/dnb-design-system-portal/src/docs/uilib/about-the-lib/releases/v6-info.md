@@ -76,6 +76,7 @@ import {
 // new secondary icons
 import {
   home,
+  log_in,
   settings,
   refresh,
   add_file,
