@@ -22,6 +22,7 @@ import { createSpacingClasses } from '../space/SpacingHelper'
 import format from 'date-fns/format'
 import differenceInCalendarDays from 'date-fns/differenceInCalendarDays'
 import nbLocale from 'date-fns/locale/nb'
+import enLocale from 'date-fns/locale/en-US'
 
 import Context from '../../shared/Context'
 import FormLabel from '../form-label/FormLabel'
@@ -111,6 +112,7 @@ const propTypes = {
   ]),
   submit_button_text: PropTypes.string,
   cancel_button_text: PropTypes.string,
+  reset_button_text: PropTypes.string,
   reset_date: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   first_day: PropTypes.string,
   locale: PropTypes.object,
@@ -599,6 +601,10 @@ export default class DatePicker extends PureComponent {
       this.context.formRow,
       this.context.translation.DatePicker
     )
+
+    if (props.locale !== enLocale && /en-/.test(this.context.locale)) {
+      props.locale = enLocale
+    }
 
     const {
       label,
