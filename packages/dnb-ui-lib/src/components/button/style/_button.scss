@@ -52,6 +52,7 @@
       width: var(--button-icon-size);
       height: var(--button-icon-size);
     }
+    // @include alignmentHelper();
   }
 
   &__text {

@@ -20,11 +20,14 @@
     display: inline-flex;
     flex-direction: column;
     justify-content: center;
+
+    font-size: var(--font-size-basis);
+
+    @include alignmentHelper();
   }
 
-  &__helper {
-    font-size: var(--font-size-basis);
-  }
+  // &__helper {
+  // }
 
   &__shell {
     user-select: none;

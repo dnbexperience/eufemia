@@ -18,6 +18,13 @@
     margin-right: 0;
     margin-bottom: 0.5rem;
   }
+  &--sr-only {
+    // could posssibly be 0, but has to be tested if sr still reads the text then
+    width: 1px;
+    margin-left: -1px; // because of 1px width
+    overflow: hidden;
+  }
+
   // Is not in use
   // &--vertical-label {
   // }

@@ -31,6 +31,8 @@
     flex-direction: column;
 
     width: auto;
+
+    @include alignmentHelper();
   }
 
   &__shell {
