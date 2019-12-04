@@ -126,9 +126,7 @@ export default class Icon extends PureComponent {
 
     return (
       <span {...wrapperParams}>
-        <span className="dnb-icon--wrapper">
-          <IconContainer {...iconParams} />
-        </span>
+        <IconContainer {...iconParams} />
       </span>
     )
   }

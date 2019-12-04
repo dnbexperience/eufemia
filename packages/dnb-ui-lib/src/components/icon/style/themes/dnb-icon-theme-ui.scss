@@ -5,37 +5,25 @@
 
 .dnb-icon {
   &--border {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-  }
-  &--border > &--wrapper {
     position: relative;
-
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-
-    width: inherit;
-    height: inherit;
 
     &::after {
       content: '';
       position: absolute;
+      left: -25%;
+      right: -25%;
+      top: -25%;
+      bottom: -25%;
 
-      width: 150%;
-      height: 150%;
+      // Not needed, but maybe IE needs it?
+      // width: 150%;
+      // height: 150%;
+
+      margin: auto; // for IE centering
 
       border-radius: 50%;
-      border: 0.0875em solid; // use 1.4px instead of 1.5 so webkit is rounding down
+      border: 0.0875rem solid; // use 1.4px instead of 1.5 so webkit is rounding down
       border-color: currentColor;
     }
   }
-
-  // &--border#{&}--default > &--wrapper {
-  //   margin: 0 0.25rem;
-  // }
-  // &--border#{&}--medium > &--wrapper {
-  //   margin: 0 0.5rem;
-  // }
 }

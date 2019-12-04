@@ -182,12 +182,9 @@ $breakpoints: (
 
   // Add a char to align the component
   &::after {
-    content: '\00A0'; // No-Break Space
+    content: '\200C'; // zero-width non-joiner
     width: 0;
   }
-  // &:focus::after {
-  //   content: none;
-  // }
 }
 
 // Screen reader only helper
