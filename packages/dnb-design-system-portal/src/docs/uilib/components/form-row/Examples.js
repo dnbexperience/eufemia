@@ -72,6 +72,8 @@ class Example extends PureComponent {
           data-dnb-test="form-row-combined"
         >
           {/* @jsx */ `
+// 1. In the nested FormRow we reset the layout to not be vertical
+// 2. So we can use a different diretion ("label_direction")
 <FormRow
   label={
     <H2 top={false} bottom="large">
@@ -83,9 +85,7 @@ class Example extends PureComponent {
   <Input label="Vertical input A" />
   <Input label="Vertical input B" top="medium" />
   <FormRow
-    /** reset the layout to not be vertical */
     vertical="false"
-    /** additionally we use a horizontal label_diretion */
     label_direction="horizontal"
     top="medium"
   >
