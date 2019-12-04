@@ -61,6 +61,29 @@ color: var(--color-signal-yellow);
 color: var(--color-signal-yellow-30);
 ```
 
+### New colors
+
+```css
+/* New */
+color: var(--color-lavender);
+color: var(--color-sand-yellow);
+color: var(--color-pistachio);
+color: var(--color-success-green);
+```
+
+### Section
+
+The [Section](/uilib/components/section) has reflected the color changes:
+
+- `style_type="signal-yellow"` is now deprecated.
+- `style_type="cherry-red"` got removed completely (v5 deprecation).
+
+**New types**
+
+- `style_type="lavender"`
+- `style_type="sand-yellow"`
+- `style_type="pistachio"`
+
 ## New Icons
 
 ```js
