@@ -78,12 +78,32 @@ class Example extends PureComponent {
         `}
         </ComponentBox>
         <ComponentBox
-          caption="Signal-Orange Section"
-          data-dnb-test="section-signal-orange"
+          caption="Lavender Section"
+          data-dnb-test="section-lavender"
         >
           {/* @html */ `
-<Section spacing="true" style_type="signal-orange">
-  Visual DNB Section: <code className="dnb-code">signal-orange</code>
+<Section spacing="true" style_type="lavender">
+  Visual DNB Section: <code className="dnb-code">lavender</code>
+</Section>
+        `}
+        </ComponentBox>
+        <ComponentBox
+          caption="Sand-Yellow Section"
+          data-dnb-test="section-sand-yellow"
+        >
+          {/* @html */ `
+<Section spacing="true" style_type="sand-yellow">
+  Visual DNB Section: <code className="dnb-code">sand-yellow</code>
+</Section>
+        `}
+        </ComponentBox>
+        <ComponentBox
+          caption="Pistachio Section"
+          data-dnb-test="section-pistachio"
+        >
+          {/* @html */ `
+<Section spacing="true" style_type="pistachio">
+  Visual DNB Section: <code className="dnb-code">pistachio</code>
 </Section>
         `}
         </ComponentBox>
