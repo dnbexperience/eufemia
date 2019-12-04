@@ -70,14 +70,6 @@ exports[`Textarea component have to match snapshot 1`] = `
   <span
     className="dnb-textarea dnb-textarea--virgin dnb-form-component dnb-textarea--has-content"
   >
-    <AlignmentHelper
-      className="dnb-textarea__helper"
-    >
-      <span
-        aria-hidden={true}
-        className="dnb-alignment-helper dnb-textarea__helper"
-      />
-    </AlignmentHelper>
     <span
       className="dnb-textarea__inner"
     >
@@ -342,6 +334,10 @@ exports[`Textarea scss have to match snapshot 1`] = `
     display: block;
     margin-right: 0;
     margin-bottom: 0.5rem; }
+  .dnb-form-label--sr-only {
+    width: 1px;
+    margin-left: -1px;
+    overflow: hidden; }
   .dnb-form-label[for]:not([disabled]) {
     user-select: none;
     -webkit-user-select: none;
@@ -649,6 +645,12 @@ textarea.dnb-textarea {
     display: inline-flex;
     flex-direction: column;
     margin: var(--textarea-padding-width); }
+    .dnb-textarea__inner::before {
+      content: '\\\\200C';
+      display: inline-block;
+      width: 0;
+      height: 0;
+      font-size: var(--font-size-small); }
   .dnb-textarea__shell {
     display: inline-flex;
     position: relative;
