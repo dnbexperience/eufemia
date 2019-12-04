@@ -145,41 +145,37 @@ exports[`DatePicker component have to match snapshot 1`] = `
                 className="dnb-icon dnb-icon--large"
                 role="img"
               >
-                <span
-                  className="dnb-icon--wrapper"
-                >
-                  <ErrorIcon>
-                    <svg
-                      fill="none"
-                      height="32"
-                      viewBox="0 0 32 32"
-                      width="32"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M16 25a.5.5 0 100 1 .5.5 0 000-1v0"
-                        stroke="#000"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="1.5"
-                      />
-                      <path
-                        d="M16 21V11"
-                        stroke="#000"
-                        strokeLinecap="round"
-                        strokeWidth="1.5"
-                      />
-                      <path
-                        clipRule="evenodd"
-                        d="M18.161 2.347a2.408 2.408 0 00-4.322 0L1.208 28.077A2.028 2.028 0 003.029 31h25.942a2.028 2.028 0 001.821-2.923l-12.63-25.73z"
-                        stroke="#000"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="1.5"
-                      />
-                    </svg>
-                  </ErrorIcon>
-                </span>
+                <ErrorIcon>
+                  <svg
+                    fill="none"
+                    height="32"
+                    viewBox="0 0 32 32"
+                    width="32"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M16 25a.5.5 0 100 1 .5.5 0 000-1v0"
+                      stroke="#000"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="1.5"
+                    />
+                    <path
+                      d="M16 21V11"
+                      stroke="#000"
+                      strokeLinecap="round"
+                      strokeWidth="1.5"
+                    />
+                    <path
+                      clipRule="evenodd"
+                      d="M18.161 2.347a2.408 2.408 0 00-4.322 0L1.208 28.077A2.028 2.028 0 003.029 31h25.942a2.028 2.028 0 001.821-2.923l-12.63-25.73z"
+                      stroke="#000"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="1.5"
+                    />
+                  </svg>
+                </ErrorIcon>
               </span>
             </Icon>
             <span
@@ -879,6 +875,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                               type="button"
                               variant="secondary"
                             >
+                              ‌
                               <IconPrimary
                                 alt={null}
                                 aria-hidden={false}
@@ -902,25 +899,21 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                   className="dnb-icon dnb-icon--default dnb-button__icon"
                                   role="img"
                                 >
-                                  <span
-                                    className="dnb-icon--wrapper"
-                                  >
-                                    <calendar>
-                                      <svg
-                                        fill="none"
-                                        height={16}
-                                        viewBox="0 0 17 17"
-                                        width={16}
-                                      >
-                                        <path
-                                          clipRule="evenodd"
-                                          d="M4.905 0c.44 0 .797.357.797.797v1.257h5.596V.797a.797.797 0 111.594 0v1.257h1.718A2.39 2.39 0 0117 4.444V14.61A2.39 2.39 0 0114.61 17H2.39A2.39 2.39 0 010 14.61V4.444a2.39 2.39 0 012.39-2.39h1.719V.797c0-.44.356-.797.796-.797zm6.393 3.648v.744a.797.797 0 101.594 0v-.744h1.718c.44 0 .797.356.797.796v1.719H1.593V4.444c0-.44.357-.796.797-.796h1.719v.744a.797.797 0 001.593 0v-.744h5.596zM1.593 7.756h13.814v6.854c0 .44-.357.797-.797.797H2.39a.797.797 0 01-.797-.797V7.756z"
-                                          fill="#000"
-                                          fillRule="evenodd"
-                                        />
-                                      </svg>
-                                    </calendar>
-                                  </span>
+                                  <calendar>
+                                    <svg
+                                      fill="none"
+                                      height={16}
+                                      viewBox="0 0 17 17"
+                                      width={16}
+                                    >
+                                      <path
+                                        clipRule="evenodd"
+                                        d="M4.905 0c.44 0 .797.357.797.797v1.257h5.596V.797a.797.797 0 111.594 0v1.257h1.718A2.39 2.39 0 0117 4.444V14.61A2.39 2.39 0 0114.61 17H2.39A2.39 2.39 0 010 14.61V4.444a2.39 2.39 0 012.39-2.39h1.719V.797c0-.44.356-.797.796-.797zm6.393 3.648v.744a.797.797 0 101.594 0v-.744h1.718c.44 0 .797.356.797.796v1.719H1.593V4.444c0-.44.357-.796.797-.796h1.719v.744a.797.797 0 001.593 0v-.744h5.596zM1.593 7.756h13.814v6.854c0 .44-.357.797-.797.797H2.39a.797.797 0 01-.797-.797V7.756z"
+                                        fill="#000"
+                                        fillRule="evenodd"
+                                      />
+                                    </svg>
+                                  </calendar>
                                 </span>
                               </IconPrimary>
                             </Content>
@@ -1080,7 +1073,7 @@ exports[`DatePicker scss have to match snapshot 1`] = `
 .dnb-icon {
   display: inline-block;
   font-size: 1rem;
-  line-height: 1;
+  line-height: 1rem;
   color: inherit;
   width: 1em;
   height: 1em; }
@@ -1088,10 +1081,8 @@ exports[`DatePicker scss have to match snapshot 1`] = `
   .dnb-icon svg {
     width: inherit;
     height: inherit;
-    shape-rendering: geometricPrecision; }
-  .dnb-icon > .dnb-icon--wrapper {
-    width: inherit;
-    height: inherit; }
+    shape-rendering: geometricPrecision;
+    vertical-align: top; }
   .dnb-icon svg[width='100%'] {
     width: inherit; }
   .dnb-icon svg[height='100%'] {
@@ -1102,30 +1093,22 @@ exports[`DatePicker scss have to match snapshot 1`] = `
   .dnb-icon svg [stroke] {
     stroke: currentColor; }
   .dnb-icon--small {
-    width: 0.75rem;
-    height: 0.75rem; }
+    font-size: 0.75rem; }
   .dnb-icon--default {
-    width: 1rem;
-    height: 1rem; }
+    font-size: 1rem; }
   .dnb-icon--medium {
-    width: 1.5rem;
-    height: 1.5rem; }
+    font-size: 1.5rem; }
   .dnb-icon--large {
-    width: 2rem;
-    height: 2rem; }
+    font-size: 2rem; }
   .dnb-icon--x-large {
-    width: 2.5rem;
-    height: 2.5rem; }
+    font-size: 2.5rem; }
   .dnb-icon--xx-large {
-    width: 3rem;
-    height: 3rem; }
+    font-size: 3rem; }
   .dnb-icon--custom-size {
     width: auto;
     height: auto; }
   .dnb-icon--auto {
-    font-size: 1em;
-    width: 1em;
-    height: 1em; }
+    font-size: 1em; }
   .dnb-icon--auto > .dnb-icon--wrapper {
     display: inline-flex;
     align-items: center;
@@ -1214,12 +1197,9 @@ exports[`DatePicker scss have to match snapshot 1`] = `
   text-decoration: none;
   font-size: var(--font-size-small);
   line-height: var(--button-height--small); }
-  .dnb-button__icon svg:not([width]):not([height]) {
+  .dnb-button__icon.dnb-icon svg:not([width]):not([height]) {
     width: var(--button-icon-size);
     height: var(--button-icon-size); }
-  .dnb-button .dnb-icon--wrapper {
-    display: inline-flex;
-    vertical-align: top; }
   .dnb-button__text {
     font-size: var(--button-font-size);
     line-height: var(--line-height-x-small--em);

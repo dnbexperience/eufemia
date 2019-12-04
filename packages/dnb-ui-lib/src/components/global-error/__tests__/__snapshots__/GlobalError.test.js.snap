@@ -58,7 +58,7 @@ exports[`GlobalError scss have to match snapshot 1`] = `
 .dnb-icon {
   display: inline-block;
   font-size: 1rem;
-  line-height: 1;
+  line-height: 1rem;
   color: inherit;
   width: 1em;
   height: 1em; }
@@ -66,10 +66,8 @@ exports[`GlobalError scss have to match snapshot 1`] = `
   .dnb-icon svg {
     width: inherit;
     height: inherit;
-    shape-rendering: geometricPrecision; }
-  .dnb-icon > .dnb-icon--wrapper {
-    width: inherit;
-    height: inherit; }
+    shape-rendering: geometricPrecision;
+    vertical-align: top; }
   .dnb-icon svg[width='100%'] {
     width: inherit; }
   .dnb-icon svg[height='100%'] {
@@ -80,30 +78,22 @@ exports[`GlobalError scss have to match snapshot 1`] = `
   .dnb-icon svg [stroke] {
     stroke: currentColor; }
   .dnb-icon--small {
-    width: 0.75rem;
-    height: 0.75rem; }
+    font-size: 0.75rem; }
   .dnb-icon--default {
-    width: 1rem;
-    height: 1rem; }
+    font-size: 1rem; }
   .dnb-icon--medium {
-    width: 1.5rem;
-    height: 1.5rem; }
+    font-size: 1.5rem; }
   .dnb-icon--large {
-    width: 2rem;
-    height: 2rem; }
+    font-size: 2rem; }
   .dnb-icon--x-large {
-    width: 2.5rem;
-    height: 2.5rem; }
+    font-size: 2.5rem; }
   .dnb-icon--xx-large {
-    width: 3rem;
-    height: 3rem; }
+    font-size: 3rem; }
   .dnb-icon--custom-size {
     width: auto;
     height: auto; }
   .dnb-icon--auto {
-    font-size: 1em;
-    width: 1em;
-    height: 1em; }
+    font-size: 1em; }
   .dnb-icon--auto > .dnb-icon--wrapper {
     display: inline-flex;
     align-items: center;
@@ -192,12 +182,9 @@ exports[`GlobalError scss have to match snapshot 1`] = `
   text-decoration: none;
   font-size: var(--font-size-small);
   line-height: var(--button-height--small); }
-  .dnb-button__icon svg:not([width]):not([height]) {
+  .dnb-button__icon.dnb-icon svg:not([width]):not([height]) {
     width: var(--button-icon-size);
     height: var(--button-icon-size); }
-  .dnb-button .dnb-icon--wrapper {
-    display: inline-flex;
-    vertical-align: top; }
   .dnb-button__text {
     font-size: var(--button-font-size);
     line-height: var(--line-height-x-small--em);
@@ -495,25 +482,21 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
                 className="dnb-icon dnb-icon--default dnb-button__icon"
                 role="img"
               >
-                <span
-                  className="dnb-icon--wrapper"
-                >
-                  <chevron_left>
-                    <svg
-                      fill="none"
-                      height={16}
-                      viewBox="0 0 16 16"
-                      width={16}
-                    >
-                      <path
-                        clipRule="evenodd"
-                        d="M10.78 4.03a.75.75 0 10-1.06-1.06l-4.5 4.5a.75.75 0 000 1.06l4.5 4.5a.75.75 0 101.06-1.06L6.81 8l3.97-3.97z"
-                        fill="#000"
-                        fillRule="evenodd"
-                      />
-                    </svg>
-                  </chevron_left>
-                </span>
+                <chevron_left>
+                  <svg
+                    fill="none"
+                    height={16}
+                    viewBox="0 0 16 16"
+                    width={16}
+                  >
+                    <path
+                      clipRule="evenodd"
+                      d="M10.78 4.03a.75.75 0 10-1.06-1.06l-4.5 4.5a.75.75 0 000 1.06l4.5 4.5a.75.75 0 101.06-1.06L6.81 8l3.97-3.97z"
+                      fill="#000"
+                      fillRule="evenodd"
+                    />
+                  </svg>
+                </chevron_left>
               </span>
             </IconPrimary>
           </Content>
