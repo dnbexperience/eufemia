@@ -12,6 +12,7 @@ import {
   loadScss
 } from '../../../core/jest/jestSetup'
 import Component from '../FormRow'
+import Input from '../../input/Input'
 
 // just to make sure we re-run the test in watch mode due to changes in theese files
 import _form_row from '../style/_form-row.scss' // eslint-disable-line
@@ -43,6 +44,33 @@ describe('FormRow component', () => {
     const Comp = mount(<Component {...props} indent="large" />)
     expect(
       Comp.find('.dnb-form-row').hasClass('dnb-form-row__indent--large')
+    ).toBe(true)
+  })
+
+  it('should have an isolated state on nested FormRows', () => {
+    const Comp = mount(
+      <Component vertical>
+        <Input label="Vertical" />
+        <Component vertical="false" label_direction="horizontal">
+          <Input label="Horizontal" />
+        </Component>
+        <Input label="Vertical" />
+      </Component>
+    )
+    expect(
+      Comp.find('span.dnb-input')
+        .at(0)
+        .hasClass('dnb-input--vertical')
+    ).toBe(true)
+    expect(
+      Comp.find('span.dnb-input')
+        .at(1)
+        .hasClass('dnb-input--horizontal')
+    ).toBe(true)
+    expect(
+      Comp.find('span.dnb-input')
+        .at(2)
+        .hasClass('dnb-input--vertical')
     ).toBe(true)
   })
 

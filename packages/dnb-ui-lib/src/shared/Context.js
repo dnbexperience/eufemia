@@ -20,8 +20,6 @@ export const defaultContext = (props = {}) => {
       locales[props.locale || LOCALE] || defaultLocales[LOCALE] || {},
     currency: CURRENCY,
     currency_display: CURRENCY_DISPLAY,
-    formRow: null,
-    globalStatus: null,
     ...props
   }
 }

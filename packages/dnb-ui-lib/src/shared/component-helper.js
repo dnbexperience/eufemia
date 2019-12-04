@@ -307,16 +307,29 @@ export const processChildren = props => {
 }
 
 // extends given objects recursively and removes entries with null values
+// makes sure that we by defualt return a totally new object every time
 export const extend = (...objects) => {
-  const list = Array.from(objects)
-  const recursive = list[0] !== false
-  return list.reduce((acc1, object) => {
+  let first = {}
+  const keepRef = objects[0]
+
+  if (keepRef === true || keepRef === false) {
+    // remove settings value
+    objects.shift()
+
+    if (keepRef) {
+      // by extracting the first, we keep the same main object refferance
+      first = objects.shift()
+    }
+  }
+
+  return objects.reduce((acc1, object) => {
     if (object) {
       acc1 = Object.assign(
         acc1,
         Object.entries(object).reduce((acc2, [key, value]) => {
           if (value !== null) {
-            if (recursive && typeof value === 'object') {
+            // go recursively
+            if (typeof value === 'object') {
               value = extend(acc1[key] || {}, value)
               if (Object.keys(value).length > 0) {
                 acc2[key] = value
@@ -330,7 +343,7 @@ export const extend = (...objects) => {
       )
     }
     return acc1
-  }, {})
+  }, first)
 }
 
 // extends props from a given context

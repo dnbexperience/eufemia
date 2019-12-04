@@ -189,8 +189,12 @@ describe('"processChildren" should', () => {
 })
 
 describe('"extend" should', () => {
-  it('extend an object and remove all object values with null', () => {
-    expect(extend({ key: null })).not.toHaveProperty('key')
+  it('keep the object refferance', () => {
+    const object1 = { key: null }
+    const object2 = { key: 'value' }
+    expect(extend(true, object1, object2)).toBe(object1)
+    expect(extend(true, object2, object1)).toBe(object2)
+    expect(extend(false, object2, object1)).not.toBe(object2)
   })
   it('extend an object and have correct object shape', () => {
     expect(extend({ key: null }, { key: 'value' })).toMatchObject({
@@ -218,13 +222,6 @@ describe('"extend" should', () => {
       )
     ).toMatchObject({
       key1: { key2: 'value', foo: 'bar' }
-    })
-  })
-  it('extend an object, not recursively, so it gets overwritten', () => {
-    expect(
-      extend(false, { key1: { key2: 'value' } }, { key1: { key2: null } })
-    ).toMatchObject({
-      key1: { key2: null }
     })
   })
 })

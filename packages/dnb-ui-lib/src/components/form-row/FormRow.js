@@ -17,6 +17,7 @@ import {
   // processChildren
 } from '../../shared/component-helper'
 import Context from '../../shared/Context'
+import hashSum from '../../shared/libs/HashSum'
 import FormLabel from '../form-label/FormLabel'
 import { createSpacingClasses } from '../space/SpacingHelper'
 
@@ -116,7 +117,7 @@ export default class FormRow extends PureComponent {
 
     if (Array.isArray(props.children)) {
       children = children.reduce((pV, cV) => {
-        if (cV.type.name === 'FormLabel') {
+        if (cV.type && cV.type.name === 'FormLabel') {
           label = cV.props.children
         } else {
           pV.push(cV)
@@ -128,11 +129,13 @@ export default class FormRow extends PureComponent {
     return { label, children }
   }
 
-  constructor(props, context) {
+  constructor(props) {
     super(props)
-    this.isInsideFormSet =
-      context.formRow && context.formRow.isInsideFormSet
     this._id = props.id || makeUniqueId() // cause we need an id anyway
+
+    // Not used yet
+    // this.isInsideFormSet =
+    //   context.formRow && context.formRow.isInsideFormSet
   }
 
   render() {
@@ -215,8 +218,11 @@ export default class FormRow extends PureComponent {
     // also used for code markup simulation
     validateDOMAttributes(this.props, params)
 
-    const context = extend(this.context, {
-      formRow: {
+    // check if context has changed, if yes, then update the cache
+    if (hashSum(this._cachedContext) !== hashSum(this.context)) {
+      this._cachedContext = this.context
+
+      const formRow = {
         useId: () => {
           if (this.isIsUsed) {
             // make a new ID, as we used one
@@ -234,12 +240,15 @@ export default class FormRow extends PureComponent {
         label_direction: isTrue(vertical) ? 'vertical' : label_direction,
         disabled
       }
-    })
+      this._contextWeUse = extend(this.context, {
+        formRow
+      })
+    }
 
     const useFieldset = !isTrue(no_fieldset) && hasLabel
 
     return (
-      <Context.Provider value={context}>
+      <Context.Provider value={this._contextWeUse}>
         <Fieldset useFieldset={useFieldset}>
           <div {...params}>
             <AlignmentHelper className="dnb-form-row__helper" />
