@@ -123,14 +123,6 @@ exports[`Dropdown component have to match snapshot 1`] = `
         </label>
       </Element>
     </FormLabel>
-    <AlignmentHelper
-      className="dnb-dropdown__helper"
-    >
-      <span
-        aria-hidden={true}
-        className="dnb-alignment-helper dnb-dropdown__helper"
-      />
-    </AlignmentHelper>
     <span
       className="dnb-dropdown__inner"
     >
@@ -877,6 +869,10 @@ button.dnb-button::-moz-focus-inner {
     display: block;
     margin-right: 0;
     margin-bottom: 0.5rem; }
+  .dnb-form-label--sr-only {
+    width: 1px;
+    margin-left: -1px;
+    overflow: hidden; }
   .dnb-form-label[for]:not([disabled]) {
     user-select: none;
     -webkit-user-select: none;
@@ -1034,6 +1030,12 @@ legend.dnb-form-label {
     padding: 0;
     width: auto;
     color: inherit; }
+    .dnb-dropdown__inner::before {
+      content: '\\\\200C';
+      display: inline-block;
+      width: 0;
+      height: 0;
+      font-size: var(--font-size-small); }
   .dnb-dropdown__shell {
     position: relative;
     width: var(--dropdown-width);

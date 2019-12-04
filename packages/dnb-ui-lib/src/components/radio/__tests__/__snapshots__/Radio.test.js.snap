@@ -66,14 +66,6 @@ exports[`Radio component have to match snapshot 1`] = `
           </label>
         </Element>
       </FormLabel>
-      <AlignmentHelper
-        className="dnb-radio__helper"
-      >
-        <span
-          aria-hidden={true}
-          className="dnb-alignment-helper dnb-radio__helper"
-        />
-      </AlignmentHelper>
       <span
         className="dnb-radio__inner"
       >
@@ -143,14 +135,6 @@ exports[`Radio group component have to match group snapshot 1`] = `
   <div
     className="dnb-radio-group dnb-radio-group--row dnb-form-component"
   >
-    <AlignmentHelper
-      className="dnb-radio-group__helper"
-    >
-      <span
-        aria-hidden={true}
-        className="dnb-alignment-helper dnb-radio-group__helper"
-      />
-    </AlignmentHelper>
     <FormRow
       class={null}
       className={null}
@@ -186,14 +170,6 @@ exports[`Radio group component have to match group snapshot 1`] = `
           <div
             className="dnb-form-row"
           >
-            <AlignmentHelper
-              className="dnb-form-row__helper"
-            >
-              <span
-                aria-hidden={true}
-                className="dnb-alignment-helper dnb-form-row__helper"
-              />
-            </AlignmentHelper>
             <FormLabel
               class={null}
               className="dnb-form-row__label"
@@ -297,14 +273,6 @@ exports[`Radio group component have to match group snapshot 1`] = `
                           </label>
                         </Element>
                       </FormLabel>
-                      <AlignmentHelper
-                        className="dnb-radio__helper"
-                      >
-                        <span
-                          aria-hidden={true}
-                          className="dnb-alignment-helper dnb-radio__helper"
-                        />
-                      </AlignmentHelper>
                       <span
                         className="dnb-radio__inner"
                       >
@@ -408,14 +376,6 @@ exports[`Radio group component have to match group snapshot 1`] = `
                           </label>
                         </Element>
                       </FormLabel>
-                      <AlignmentHelper
-                        className="dnb-radio__helper"
-                      >
-                        <span
-                          aria-hidden={true}
-                          className="dnb-alignment-helper dnb-radio__helper"
-                        />
-                      </AlignmentHelper>
                       <span
                         className="dnb-radio__inner"
                       >
@@ -654,6 +614,10 @@ exports[`Radio scss have to match snapshot 1`] = `
     display: block;
     margin-right: 0;
     margin-bottom: 0.5rem; }
+  .dnb-form-label--sr-only {
+    width: 1px;
+    margin-left: -1px;
+    overflow: hidden; }
   .dnb-form-label[for]:not([disabled]) {
     user-select: none;
     -webkit-user-select: none;
@@ -804,6 +768,12 @@ legend.dnb-form-label {
     display: inline-flex;
     flex-direction: column;
     align-self: center; }
+    .dnb-radio__inner::before {
+      content: '\\\\200C';
+      display: inline-block;
+      width: 0;
+      height: 0;
+      font-size: var(--font-size-small); }
   .dnb-radio__shell {
     position: relative;
     user-select: none;
@@ -897,9 +867,8 @@ legend.dnb-form-label {
     .dnb-radio-group .dnb-form-row {
       align-items: flex-start;
       margin-bottom: calc(1px - 1px - var(--radio-margin-bottom)); }
-    .dnb-radio-group__helper {
-      font-size: var(--font-size-basis);
-      line-height: var(--radio-height); }
+      .dnb-radio-group .dnb-form-row::before {
+        font-size: var(--font-size-basis); }
   @media screen and (-ms-high-contrast: none) {
     .dnb-radio {
       vertical-align: text-bottom; }
