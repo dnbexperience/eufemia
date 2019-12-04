@@ -58,6 +58,8 @@
     width: auto;
 
     color: inherit;
+
+    @include alignmentHelper();
   }
 
   &__shell {

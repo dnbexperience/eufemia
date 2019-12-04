@@ -6,7 +6,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import AlignmentHelper from '../../shared/AlignmentHelper'
 import {
   isTrue,
   makeUniqueId,
@@ -228,6 +227,7 @@ export default class ToggleButtonGroup extends PureComponent {
     const classes = classnames(
       'dnb-toggle-button-group',
       status && `dnb-toggle-button-group__status--${status_state}`,
+      !label && 'dnb-toggle-button-group--no-label',
       `dnb-toggle-button-group--${layout_direction}`,
       'dnb-form-component',
       createSpacingClasses(props),
@@ -290,9 +290,6 @@ export default class ToggleButtonGroup extends PureComponent {
     return (
       <ToggleButtonGroupContext.Provider value={context}>
         <div className={classes}>
-          {!label && (
-            <AlignmentHelper className="dnb-toggle-button-group__helper" />
-          )}
           <FormRow {...formRowParams}>
             <span
               id={id}

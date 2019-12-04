@@ -8,7 +8,6 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
-import AlignmentHelper from '../../shared/AlignmentHelper'
 import {
   isTrue,
   makeUniqueId,
@@ -343,8 +342,6 @@ export default class Textarea extends PureComponent {
             disabled={disabled}
           />
         )}
-
-        <AlignmentHelper className="dnb-textarea__helper" />
 
         <span {...innerParams}>
           {showStatus && (

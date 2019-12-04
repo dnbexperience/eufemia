@@ -8,7 +8,6 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import keycode from 'keycode'
 import Context from '../../shared/Context'
-import AlignmentHelper from '../../shared/AlignmentHelper'
 import {
   isTrue,
   makeUniqueId,
@@ -291,8 +290,6 @@ export default class Switch extends Component {
     return (
       <span {...mainParams}>
         <span className="dnb-switch__order">
-          <AlignmentHelper className="dnb-switch__helper" />
-
           {label_position === 'left' && labelComp}
 
           <span className="dnb-switch__inner">

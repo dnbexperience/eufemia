@@ -6,7 +6,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import AlignmentHelper from '../../shared/AlignmentHelper'
 import {
   extendPropsWithContext,
   isTrue,
@@ -125,7 +124,7 @@ export default class FormLabel extends PureComponent {
         // direction && `dnb-form-label--${direction}`,
         // we set and use "label_direction" above
         // label_direction && `dnb-form-label--${label_direction}-label`,
-        isTrue(sr_only) && 'dnb-sr-only dnb-not-sr-only', // use also "dnb-not-sr-only" to use it as a layout helper
+        isTrue(sr_only) && 'dnb-form-label--sr-only',
         createSpacingClasses(props),
         className,
         _className
@@ -142,8 +141,8 @@ export default class FormLabel extends PureComponent {
 
     if (isTrue(sr_only)) {
       return (
-        <Element is={element} aria-label={content} {...params}>
-          <AlignmentHelper className="dnb-form-label__helper" />
+        <Element is={element} {...params}>
+          {content}
         </Element>
       )
     }

@@ -35,6 +35,8 @@
 
     flex: 1;
     width: 100%;
+
+    @include alignmentHelper();
   }
   &--vertical &__wrapper {
     align-items: center;

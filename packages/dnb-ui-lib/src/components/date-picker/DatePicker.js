@@ -6,7 +6,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import AlignmentHelper from '../../shared/AlignmentHelper'
 import {
   isTrue,
   makeUniqueId,
@@ -724,8 +723,6 @@ export default class DatePicker extends PureComponent {
             disabled={isTrue(disabled)}
           />
         )}
-
-        <AlignmentHelper className="dnb-date-picker__helper" />
 
         <span
           className="dnb-date-picker__inner"

@@ -8,7 +8,6 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import keycode from 'keycode'
 import Context from '../../shared/Context'
-import AlignmentHelper from '../../shared/AlignmentHelper'
 import {
   isTrue,
   makeUniqueId,
@@ -621,8 +620,6 @@ export default class Slider extends PureComponent {
             sr_only={label_sr_only}
           />
         )}
-
-        <AlignmentHelper className="dnb-slider__helper" />
 
         <span className="dnb-slider__wrapper">
           {showStatus && (

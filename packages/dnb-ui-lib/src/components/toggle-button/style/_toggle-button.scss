@@ -26,6 +26,8 @@
 
     user-select: none;
     -webkit-user-select: none; // Safari / Touch fix
+
+    @include alignmentHelper();
   }
 
   &--vertical {
@@ -161,17 +163,19 @@
     }
 
     .dnb-form-row {
+      // to make sure we vertical align centered to the text
+      align-items: baseline;
+
       margin-bottom: calc(1px - 1px - var(--toggle-button-margin-bottom));
+
+      &::before {
+        // move the gorup 2px up if label exists
+        font-size: var(--font-size-basis);
+      }
     }
 
-    // vertical alignment
-    .dnb-form-row__helper {
-      font-size: 1.375rem; /* 22/16 */
-    }
-
-    // if no label is given
-    &__helper {
-      font-size: var(--font-size-basis);
+    // vertical alignment - if no label is given
+    &--no-label .dnb-form-row::before {
       line-height: var(--button-height);
     }
   }

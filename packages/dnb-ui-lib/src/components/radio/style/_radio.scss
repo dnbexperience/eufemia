@@ -22,6 +22,8 @@
     display: inline-flex;
     flex-direction: column;
     align-self: center;
+
+    @include alignmentHelper();
   }
 
   &__shell {
@@ -174,12 +176,11 @@
 
       // because of our bottom margins we have on the componens
       margin-bottom: calc(1px - 1px - var(--radio-margin-bottom));
-    }
 
-    // if no label is given
-    &__helper {
-      font-size: var(--font-size-basis);
-      line-height: var(--radio-height);
+      &::before {
+        // move the gorup 2px up if label exists
+        font-size: var(--font-size-basis);
+      }
     }
   }
 

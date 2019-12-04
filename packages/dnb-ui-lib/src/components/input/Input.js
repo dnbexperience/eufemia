@@ -6,7 +6,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import AlignmentHelper from '../../shared/AlignmentHelper'
 import Button from '../button/Button'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
@@ -428,8 +427,6 @@ export default class Input extends PureComponent {
             disabled={disabled}
           />
         )}
-
-        <AlignmentHelper className="dnb-input__helper" />
 
         <span {...innerParams}>
           {showStatus && (

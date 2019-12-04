@@ -74,7 +74,8 @@
   }
 }
 .dnb-alignment-helper {
-  @include helper();
+  @include alignmentHelperClass();
+  @include alignmentHelper();
 }
 .dnb-sr-only {
   @include srOnly();
