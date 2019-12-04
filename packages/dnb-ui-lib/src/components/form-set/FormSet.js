@@ -17,6 +17,7 @@ import {
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import Context from '../../shared/Context'
+import hashSum from '../../shared/libs/HashSum'
 import { propTypes as availableFormRowProps } from '../form-row/FormRow'
 
 const renderProps = {
@@ -143,16 +144,22 @@ export default class FormSet extends PureComponent {
 
     const content = FormSet.getContent(this.props)
 
-    const context = extend(this.context, {
-      formRow: {
+    // check if context has changed, if yes, then update the cache
+    if (hashSum(this._cachedContext) !== hashSum(this.context)) {
+      this._cachedContext = this.context
+
+      const formRow = {
         ...formRowProps,
-        disabled,
-        isInsideFormSet: true
+        disabled
+        // isInsideFormSet: true // Not used yet
       }
-    })
+      this._contextWeUse = extend(this.context, {
+        formRow
+      })
+    }
 
     return (
-      <Context.Provider value={context}>
+      <Context.Provider value={this._contextWeUse}>
         <Element is={isTrue(no_form) ? 'div' : element} {...params}>
           {content}
         </Element>
