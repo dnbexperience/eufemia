@@ -122,6 +122,14 @@
       @media (max-width: 40em) {
         display: block;
       }
+
+      // correction to get the total height of the form-row to be in our grid
+      .dnb-form-label {
+        margin-top: 0.25rem; /* 4/16 */
+      }
+      .dnb-form-row__label-dummy {
+        margin-top: 0;
+      }
     }
 
     @media (max-width: 40em) {
