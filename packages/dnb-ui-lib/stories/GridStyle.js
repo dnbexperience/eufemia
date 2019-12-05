@@ -3,7 +3,7 @@
  *
  */
 
-import { isIE11 } from 'dnb-ui-lib/src/shared/helpers'
+import { isIE11 } from '../src/shared/helpers'
 import { css } from '@emotion/core'
 
 export const gridStyle = ({
