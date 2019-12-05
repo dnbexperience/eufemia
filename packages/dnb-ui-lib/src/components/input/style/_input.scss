@@ -5,18 +5,18 @@
 
 :root {
   --input-font-size: var(--font-size-basis);
-  --input-font-size--medium: var(--font-size-large);
-  --input-font-size--large: var(--font-size-x-large);
+  --input-font-size--large: var(--font-size-basis);
+  --input-font-size--x-large: var(--font-size-large);
   --input-padding: 1rem;
-  --input-padding--medium: 1.5rem;
-  --input-padding--large: 2rem;
+  --input-padding--large: 1rem;
+  --input-padding--x-large: 1rem;
   --input-height: 2rem;
-  --input-height--medium: 3rem;
-  --input-height--large: 4rem;
+  --input-height--large: 2.5rem;
+  --input-height--x-large: 3rem;
   --input-border-width: 0.0625rem;
   --input-border-radius: calc(var(--input-height) / 2);
-  --input-border-radius--medium: calc(var(--input-height--medium) / 2);
   --input-border-radius--large: calc(var(--input-height--large) / 2);
+  --input-border-radius--x-large: calc(var(--input-height--x-large) / 2);
 }
 
 .dnb-input {
@@ -157,32 +157,6 @@
     }
   }
 
-  &--medium {
-    line-height: var(--input-height--medium);
-    .dnb-input__shell,
-    .dnb-input__input {
-      height: var(--input-height--medium);
-      border-radius: var(--input-border-radius--medium);
-    }
-    .dnb-input__placeholder,
-    .dnb-input__input {
-      padding-left: var(--input-padding--medium);
-      padding-right: var(--input-padding--medium);
-      font-size: var(--input-font-size--medium);
-    }
-    .dnb-input__submit-element {
-      margin-left: calc(1px - 1px - var(--input-height--medium));
-      .dnb-button {
-        width: var(--input-height--medium);
-        height: var(--input-height--medium);
-      }
-    }
-  }
-  &--medium#{&}--has-submit-element &__placeholder,
-  &--medium#{&}--has-submit-element &__input {
-    padding-right: calc(var(--input-padding--medium) * 2.5);
-  }
-
   &--large {
     line-height: var(--input-height--large);
     .dnb-input__shell,
@@ -201,15 +175,44 @@
       .dnb-button {
         width: var(--input-height--large);
         height: var(--input-height--large);
-        .dnb-button__icon {
-          transform: scale(1.33333);
-        }
+        line-height: var(--input-height--large);
       }
     }
   }
   &--large#{&}--has-submit-element &__placeholder,
   &--large#{&}--has-submit-element &__input {
-    padding-right: calc(var(--input-padding--large) * 2.5);
+    padding-right: calc(var(--input-padding--large) * 3);
+  }
+
+  &--x-large {
+    line-height: var(--input-height--x-large);
+    .dnb-input__shell,
+    .dnb-input__input {
+      height: var(--input-height--x-large);
+      border-radius: var(--input-border-radius--x-large);
+    }
+    .dnb-input__placeholder,
+    .dnb-input__input {
+      padding-left: var(--input-padding--x-large);
+      padding-right: var(--input-padding--x-large);
+      font-size: var(--input-font-size--x-large);
+    }
+    .dnb-input__submit-element {
+      margin-left: calc(1px - 1px - var(--input-height--x-large));
+      .dnb-button {
+        width: var(--input-height--x-large);
+        height: var(--input-height--x-large);
+
+        // NB: before we used to scale the icon additioanlly
+        // .dnb-button__icon {
+        //   transform: scale(1.33333);
+        // }
+      }
+    }
+  }
+  &--x-large#{&}--has-submit-element &__placeholder,
+  &--x-large#{&}--has-submit-element &__input {
+    padding-right: calc(var(--input-padding--x-large) * 3.5);
   }
 
   &__align--center &__placeholder,
