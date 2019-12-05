@@ -45,7 +45,12 @@
   text-decoration: none;
 
   font-size: var(--font-size-small); // has to be 16px
-  line-height: var(--button-height--small);
+
+  // Safari needs a correct CSS specificity
+  &,
+  .dnb-core-style & {
+    line-height: var(--button-height);
+  }
 
   &__icon.dnb-icon {
     svg:not([width]):not([height]) {
@@ -78,8 +83,13 @@
     width: var(--button-width--small);
     height: var(--button-height--small);
     font-size: var(--button-font-size-small);
-    line-height: var(--button-height--small);
     border-radius: var(--button-border-radius--small);
+
+    // Safari needs a correct CSS specificity
+    &,
+    .dnb-core-style & {
+      line-height: var(--button-height--small);
+    }
   }
   &--has-text#{&}--size-small {
     padding-left: 1rem;
@@ -96,8 +106,13 @@
   &--size-medium {
     width: var(--button-width--medium);
     height: var(--button-height--medium);
-    line-height: var(--button-height--medium);
     border-radius: var(--button-border-radius--medium);
+
+    // Safari needs a correct CSS specificity
+    &,
+    .dnb-core-style & {
+      line-height: var(--button-height--medium);
+    }
   }
   &--has-text#{&}--size-medium {
     padding-left: 1rem;
@@ -114,8 +129,13 @@
   &--size-large {
     width: var(--button-width--large);
     height: var(--button-height--large);
-    line-height: var(--button-height--large);
     border-radius: var(--button-border-radius--large);
+
+    // Safari needs a correct CSS specificity
+    &,
+    .dnb-core-style & {
+      line-height: var(--button-height--large);
+    }
   }
   &--has-text#{&}--size-large {
     padding-left: 2rem;
