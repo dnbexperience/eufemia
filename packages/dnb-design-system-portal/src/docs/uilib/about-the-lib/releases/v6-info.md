@@ -4,6 +4,7 @@
 - [New DNB font](#new-dnb-font) **(major change)**
 - [Color changes](#color-changes) **(feature and major change)**
 - [Localization](#localization) **(feature)**
+- [Other changes](#other-changes) **(major)**
 - [Other features](#other-features) **(features)**
 - [Resources package](#resources-package) **(feature)**
 - [How to Install](#install)
@@ -111,6 +112,10 @@ import {
 ## Localization
 
 With v6 the `dnb-ui-lib` has it's own localization to be used both for component translation and your app strings. Read [more about how to use localization](/uilib/usage/customisation/localization).
+
+## Other changes
+
+- **major change** [Input](/uilib/components/input) new sizes: `default`, `large` and `x-large` (`medium` got removed)
 
 ## Other features
 
