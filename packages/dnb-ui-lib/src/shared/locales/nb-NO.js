@@ -6,6 +6,13 @@ export default {
       year: 'år',
       start: 'fra',
       end: 'til',
+      selected_date: 'Valgt dato: %s',
+      selected_month: 'Valgt måned %s',
+      selected_year: 'Valgt år %s',
+      next_month: 'Neste måned %s',
+      prev_month: 'Forrige måned %s',
+      next_year: 'Neste år %s',
+      prev_year: 'Forrige år %s',
       open_picker_text: 'åpne datovelger',
       mask_order: 'dd/mm/yyyy',
       mask_placeholder: 'dd/mm/åååå', // have to be same setup as "mask" - but can be like: dd/mm/åååå

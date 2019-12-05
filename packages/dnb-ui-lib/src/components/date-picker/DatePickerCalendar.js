@@ -6,6 +6,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
+import Context from '../../shared/Context'
 
 // date-fns
 import format from 'date-fns/format'
@@ -41,6 +42,7 @@ const propTypes = {
   onlyMonth: PropTypes.bool,
   hideNextMonthWeek: PropTypes.bool,
   noAutofocus: PropTypes.bool,
+  enableKeyboardNav: PropTypes.bool,
 
   onHover: PropTypes.func,
   onSelect: PropTypes.func,
@@ -74,6 +76,7 @@ const defaultProps = {
   onlyMonth: false,
   hideNextMonthWeek: false,
   noAutofocus: false,
+  enableKeyboardNav: false,
 
   // locale
   locale: nbLocale,
@@ -101,19 +104,23 @@ const defaultProps = {
 export default class DatePickerCalendar extends PureComponent {
   static propTypes = propTypes
   static defaultProps = defaultProps
+  static contextType = Context
 
   constructor(props) {
     super(props)
     this._listRef = React.createRef()
+    this._labelRef = React.createRef()
   }
 
   componentDidMount() {
-    if (
-      this.props.nr === 0 &&
-      this._listRef.current &&
-      !this.props.noAutofocus
-    ) {
-      this._listRef.current.focus()
+    if (!this.props.noAutofocus && this.props.nr === 0) {
+      // because we block screen reader nav by providing the arrow key feature
+      // we set the focus on the label instead
+      if (this.props.enableKeyboardNav && this._listRef.current) {
+        this._listRef.current.focus()
+      } else if (this._labelRef.current) {
+        this._labelRef.current.focus()
+      }
     }
   }
 
@@ -164,10 +171,16 @@ export default class DatePickerCalendar extends PureComponent {
       nextBtn,
       maxDate,
       minDate,
-      hoverDate
+      hoverDate,
+      startDate,
+      endDate
     } = this.props
 
-    const { startDate, endDate } = this.props
+    const {
+      translation: {
+        DatePicker: { selected_month }
+      }
+    } = this.context
 
     this.days = getCalendar(
       month || new Date(),
@@ -195,16 +208,24 @@ export default class DatePickerCalendar extends PureComponent {
                 nr={nr}
                 minDate={minDate}
                 month={month}
+                locale={locale}
+                context={this.context}
                 prevBtn={prevBtn}
                 onPrev={onPrev}
-                locale={locale}
                 onKeyDown={this.onKeyDownHandler}
               />
             </div>
             <label
               id={`${id}--title`}
-              className="dnb-date-picker__header__title"
-              aria-hidden
+              className="dnb-date-picker__header__title dnb-no-focus"
+              title={selected_month.replace(
+                /%s/,
+                format(month, titleFormat, {
+                  locale
+                })
+              )}
+              tabIndex="0"
+              ref={this._labelRef}
             >
               {format(month, titleFormat, {
                 locale
@@ -215,9 +236,10 @@ export default class DatePickerCalendar extends PureComponent {
                 nr={nr}
                 maxDate={maxDate}
                 month={month}
+                locale={locale}
+                context={this.context}
                 nextBtn={nextBtn}
                 onNext={onNext}
-                locale={locale}
                 onKeyDown={this.onKeyDownHandler}
               />
             </div>
@@ -335,9 +357,10 @@ const PrevButton = ({
   nr,
   minDate,
   month,
+  locale,
+  context,
   prevBtn,
   onPrev,
-  locale,
   onKeyDown
 }) => {
   if (!prevBtn) {
@@ -345,9 +368,19 @@ const PrevButton = ({
   }
   const disabled = minDate && isSameMonth(month, minDate)
   const onClick = () => onPrev && !disabled && onPrev({ nr })
-  const title = format(subMonths(month, 1), 'MMMM yyyy', {
-    locale
-  })
+
+  const {
+    translation: {
+      DatePicker: { prev_month }
+    }
+  } = context
+  const title = prev_month.replace(
+    /%s/,
+    format(subMonths(month, 1), 'MMMM yyyy', {
+      locale
+    })
+  )
+
   return (
     <Button
       className={classnames('dnb-date-picker__prev', { disabled })}
@@ -364,6 +397,7 @@ PrevButton.propTypes = {
   minDate: PropTypes.instanceOf(Date),
   month: PropTypes.object.isRequired,
   locale: PropTypes.object.isRequired,
+  context: PropTypes.object.isRequired,
   prevBtn: PropTypes.bool.isRequired,
   onPrev: PropTypes.func.isRequired,
   onKeyDown: PropTypes.func
@@ -377,9 +411,10 @@ const NextButton = ({
   nr,
   maxDate,
   month,
+  locale,
+  context,
   nextBtn,
   onNext,
-  locale,
   onKeyDown
 }) => {
   if (!nextBtn) {
@@ -387,9 +422,19 @@ const NextButton = ({
   }
   const disabled = maxDate && isSameMonth(month, maxDate)
   const onClick = () => onNext && !disabled && onNext({ nr })
-  const title = format(addMonths(month, 1), 'MMMM yyyy', {
-    locale
-  })
+
+  const {
+    translation: {
+      DatePicker: { next_month }
+    }
+  } = context
+  const title = next_month.replace(
+    /%s/,
+    format(addMonths(month, 1), 'MMMM yyyy', {
+      locale
+    })
+  )
+
   return (
     nextBtn && (
       <Button
@@ -408,6 +453,7 @@ NextButton.propTypes = {
   maxDate: PropTypes.instanceOf(Date),
   month: PropTypes.object.isRequired,
   locale: PropTypes.object.isRequired,
+  context: PropTypes.object.isRequired,
   nextBtn: PropTypes.bool.isRequired,
   onNext: PropTypes.func.isRequired,
   onKeyDown: PropTypes.func
@@ -436,7 +482,7 @@ const onSelectRange = ({
       })
 
       // for setting date new on every selection, do this here
-    } else if (!startDate || (resetDate && (startDate && endDate))) {
+    } else if (!startDate || (resetDate && startDate && endDate)) {
       // set startDate
       // user is selecting startDate
       onSelect({
