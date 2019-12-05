@@ -290,6 +290,11 @@ legend.dnb-form-label {
   @media (max-width: 40em) {
     .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] {
       display: block; } }
+  .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] .dnb-form-label {
+    margin-top: 0.25rem;
+    /* 4/16 */ }
+  .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] .dnb-form-row__label-dummy {
+    margin-top: 0; }
   @media (max-width: 40em) {
     .dnb-form-row:not(.dnb-form-row--vertical) {
       flex-direction: column;
