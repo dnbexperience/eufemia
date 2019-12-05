@@ -7,7 +7,7 @@ import React from 'react'
 import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
 import { Anchor } from '../../src/elements'
-import { IconPrimary } from 'dnb-ui-lib/src'
+import { IconPrimary } from '../../src'
 
 const CustomStyles = styled.div`
   a {

@@ -6,7 +6,7 @@
 import React from 'react'
 import { Wrapper, Box } from './helpers'
 import styled from '@emotion/styled'
-import { Button, Section } from 'dnb-ui-lib/src'
+import { Button, Section } from '../src'
 
 const stories = []
 export default stories
