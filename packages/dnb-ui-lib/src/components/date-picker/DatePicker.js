@@ -96,6 +96,10 @@ const propTypes = {
     PropTypes.string,
     PropTypes.bool
   ]),
+  enable_keyboard_nav: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool
+  ]),
   show_input: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   show_submit_button: PropTypes.oneOfType([
     PropTypes.string,
@@ -176,6 +180,7 @@ const defaultProps = {
   only_month: false,
   hide_last_week: false,
   disable_autofocus: false,
+  enable_keyboard_nav: false,
   show_input: false,
   show_submit_button: null,
   show_cancel_button: null,
@@ -295,6 +300,7 @@ export default class DatePicker extends PureComponent {
 
     const opened = DatePicker.parseOpened(props.opened)
     this.state = {
+      userUsesKeyboard: false,
       startDate: null,
       endDate: null,
       _startDate: props.start_date,
@@ -323,6 +329,7 @@ export default class DatePicker extends PureComponent {
 
     this._innerRef = React.createRef()
     this._triangleRef = React.createRef()
+    this._submitButtonRef = React.createRef()
   }
 
   setTrianglePosition = () => {
@@ -498,6 +505,7 @@ export default class DatePicker extends PureComponent {
       clearTimeout(this._hideTimeout)
     }
     this.setState({
+      userUsesKeyboard: true,
       opened: true,
       hidden: false,
       _listenForPropChanges: false
@@ -523,6 +531,13 @@ export default class DatePicker extends PureComponent {
       },
       this.props.no_animation ? 1 : DatePicker.blurDelay
     ) // wait until animation is over
+
+    try {
+      this._submitButtonRef.current.focus()
+    } catch (e) {
+      console.warn(e)
+    }
+
     dispatchCustomElementEvent(this, 'on_hide', this.getReturnObject(args))
     this.removeOutsideClickHandler()
   }
@@ -592,6 +607,27 @@ export default class DatePicker extends PureComponent {
     return ret
   }
 
+  formatSelectedDateTitle() {
+    const { range } = this.props
+    const { startDate, endDate } = this.state
+    const {
+      selected_date,
+      start,
+      end
+    } = this.context.translation.DatePicker
+
+    let currentDate = startDate ? format(startDate, 'PPPP') : null
+
+    if (isTrue(range) && startDate && endDate) {
+      currentDate = `${start} ${currentDate} - ${end} ${format(
+        endDate,
+        'PPPP'
+      )}`
+    }
+
+    return currentDate ? selected_date.replace(/%s/, currentDate) : ''
+  }
+
   render() {
     // use only the props from context, who are available here anyway
     const props = extendPropsWithContext(
@@ -613,6 +649,7 @@ export default class DatePicker extends PureComponent {
       only_month,
       hide_last_week,
       disable_autofocus,
+      enable_keyboard_nav,
       hide_navigation_buttons,
       show_input, // eslint-disable-line
       range,
@@ -671,6 +708,7 @@ export default class DatePicker extends PureComponent {
       maxDate,
       opened,
       hidden,
+      // userUsesKeyboard,// not in use
       showInput
     } = this.state
 
@@ -683,7 +721,11 @@ export default class DatePicker extends PureComponent {
     }
 
     const inputParams = { ...attributes }
-    const submitParams = { ['aria-expanded']: opened }
+    const submitParams = {
+      ['aria-expanded']: opened,
+      ref: this._submitButtonRef
+    }
+    const selectedDateTitle = this.formatSelectedDateTitle()
 
     const mainParams = {
       className: classnames(
@@ -753,8 +795,10 @@ export default class DatePicker extends PureComponent {
               minDate={minDate}
               maxDate={maxDate}
               showInput={showInput}
+              selectedDateTitle={selectedDateTitle}
               inputElement={input_element}
               opened={opened}
+              hidden={hidden}
               status={status ? 'error' : null}
               status_state={status_state}
               // status_animation={status_animation}
@@ -798,6 +842,10 @@ export default class DatePicker extends PureComponent {
                     endMonth={endMonth}
                     startDate={startDate}
                     endDate={endDate}
+                    enableKeyboardNav={
+                      isTrue(enable_keyboard_nav)
+                      // || userUsesKeyboard // NB: We could extend this in future to be more smart
+                    }
                   />
                   {(addon_element || shortcuts) && (
                     <DatePickerAddon
@@ -812,6 +860,7 @@ export default class DatePicker extends PureComponent {
                   <DatePickerFooter
                     {...props}
                     range={isTrue(range)}
+                    selectedDateTitle={selectedDateTitle}
                     onSubmit={
                       (isTrue(range) || isTrue(show_submit_button)) &&
                       this.onSubmitHandler

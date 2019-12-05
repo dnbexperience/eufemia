@@ -492,7 +492,7 @@ export default class Input extends PureComponent {
   }
 }
 
-class SubmitButton extends PureComponent {
+class InputSubmitButton extends PureComponent {
   static propTypes = {
     id: PropTypes.string,
     value: PropTypes.string,
@@ -594,5 +594,9 @@ class SubmitButton extends PureComponent {
     )
   }
 }
+
+const SubmitButton = React.forwardRef((props, ref) => (
+  <InputSubmitButton innerRef={ref} {...props} />
+))
 
 export { SubmitButton }

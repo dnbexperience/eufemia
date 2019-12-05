@@ -27,6 +27,7 @@ import Context from '../../shared/Context'
 const propTypes = {
   id: PropTypes.string,
   title: PropTypes.string,
+  selectedDateTitle: PropTypes.string,
   maskOrder: PropTypes.string,
   maskPlaceholder: PropTypes.string,
   separatorRexExp: PropTypes.instanceOf(RegExp),
@@ -57,6 +58,7 @@ const propTypes = {
 const defaultProps = {
   id: null,
   title: null,
+  selectedDateTitle: null,
   maskOrder: 'dd/mm/yyyy',
   maskPlaceholder: 'dd/mm/åååå',
   separatorRexExp: /[-/ ]/g,
@@ -577,6 +579,16 @@ export default class DatePickerInput extends PureComponent {
     })
   }
 
+  formatDate() {
+    const { open_picker_text } = this.context.translation.DatePicker
+
+    const { selectedDateTitle } = this.props
+
+    return selectedDateTitle
+      ? `${selectedDateTitle}, ${open_picker_text}`
+      : open_picker_text
+  }
+
   render() {
     const {
       id,
@@ -596,6 +608,7 @@ export default class DatePickerInput extends PureComponent {
       onFocus, // eslint-disable-line
       onSubmit, // eslint-disable-line
       onSubmitButtonFocus, // eslint-disable-line
+      selectedDateTitle, // eslint-disable-line
       showInput, // eslint-disable-line
       inputElement,
       disabled,
@@ -607,7 +620,6 @@ export default class DatePickerInput extends PureComponent {
     } = this.props
 
     const { focusState } = this.state
-    const { open_picker_text } = this.context.translation.DatePicker
 
     validateDOMAttributes(this.props, attributes)
     validateDOMAttributes(null, submitAttributes)
@@ -631,7 +643,7 @@ export default class DatePickerInput extends PureComponent {
             id={id}
             disabled={disabled}
             className={opened ? 'dnb-button--active' : null}
-            aria-label={open_picker_text}
+            aria-label={this.formatDate()}
             title={title}
             type="button"
             icon="calendar"

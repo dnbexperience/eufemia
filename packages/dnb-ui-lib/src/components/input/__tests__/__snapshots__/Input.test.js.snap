@@ -52,7 +52,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
   }
   1={
     Object {
-      "displayName": "SubmitButton",
+      "displayName": "InputSubmitButton",
       "props": Object {
         "className": "className",
         "disabled": "disabled",
@@ -139,7 +139,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
         <span
           className="dnb-input__submit-element"
         >
-          <SubmitButton
+          <ForwardRef
             0={
               Object {
                 "displayName": "Input",
@@ -190,7 +190,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
             }
             1={
               Object {
-                "displayName": "SubmitButton",
+                "displayName": "InputSubmitButton",
                 "props": Object {
                   "className": "className",
                   "disabled": "disabled",
@@ -206,13 +206,11 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                 },
               }
             }
-            className={null}
             custom_element={null}
             custom_method={null}
             disabled={false}
             icon="search"
             icon_size={null}
-            id={null}
             input_state={null}
             on_blur={null}
             on_change={null}
@@ -226,120 +224,209 @@ exports[`Input component have to match type="search" snapshot 1`] = `
             value="test"
             variant="secondary"
           >
-            <span
-              className="dnb-input__submit-button"
-              data-input-state="virgin"
+            <InputSubmitButton
+              0={
+                Object {
+                  "displayName": "Input",
+                  "props": Object {
+                    "align": "align",
+                    "autocomplete": "'on'",
+                    "children": "children",
+                    "class": "class",
+                    "className": "className",
+                    "custom_element": Object {},
+                    "custom_method": [Function],
+                    "description": "description",
+                    "disabled": "disabled",
+                    "global_status_id": "global_status_id",
+                    "id": "id",
+                    "inputElement": [Function],
+                    "input_attributes": "input_attributes",
+                    "input_class": "input_class",
+                    "input_state": "input_state",
+                    "keep_placeholder": "keep_placeholder",
+                    "label": "label",
+                    "label_direction": "'horizontal'",
+                    "label_sr_only": "label_sr_only",
+                    "on_blur": [Function],
+                    "on_change": [Function],
+                    "on_focus": [Function],
+                    "on_state_update": [Function],
+                    "on_submit": [Function],
+                    "on_submit_blur": [Function],
+                    "on_submit_focus": [Function],
+                    "placeholder": "placeholder",
+                    "readOnly": "readOnly",
+                    "selectall": "selectall",
+                    "size": "size",
+                    "status": "status",
+                    "status_animation": "status_animation",
+                    "status_state": "status_state",
+                    "stretch": "stretch",
+                    "submit_button_icon": "submit_button_icon",
+                    "submit_button_title": "submit_button_title",
+                    "submit_button_variant": "custom type not supported, please set the correct value for submit_button_variant prop",
+                    "submit_element": [Function],
+                    "suffix": "suffix",
+                    "type": "type",
+                    "value": "value",
+                  },
+                }
+              }
+              1={
+                Object {
+                  "displayName": "InputSubmitButton",
+                  "props": Object {
+                    "className": "className",
+                    "disabled": "disabled",
+                    "icon": "icon",
+                    "icon_size": "icon_size",
+                    "id": "id",
+                    "on_submit": [Function],
+                    "on_submit_blur": [Function],
+                    "on_submit_focus": [Function],
+                    "title": "title",
+                    "value": "value",
+                    "variant": "custom type not supported, please set the correct value for variant prop",
+                  },
+                }
+              }
+              className={null}
+              custom_element={null}
+              custom_method={null}
+              disabled={false}
+              icon="search"
+              icon_size={null}
+              id={null}
+              innerRef={null}
+              input_state={null}
+              on_blur={null}
+              on_change={null}
+              on_focus={null}
+              on_state_update={null}
+              on_submit={null}
+              on_submit_blur={null}
+              on_submit_focus={null}
+              size={null}
+              title={null}
+              value="test"
+              variant="secondary"
             >
-              <Button
-                bounding={false}
-                class={null}
-                className="dnb-input__submit-button__button"
-                custom_element={null}
-                custom_method={null}
-                disabled={null}
-                href={null}
-                icon="search"
-                icon_position={null}
-                icon_size={null}
-                id={null}
-                innerRef={null}
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
-                on_click={null}
-                size={null}
-                text={null}
-                title={null}
-                type="submit"
-                value="test"
-                variant="secondary"
+              <span
+                className="dnb-input__submit-button"
+                data-input-state="virgin"
               >
-                <button
-                  className="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium"
+                <Button
+                  bounding={false}
+                  class={null}
+                  className="dnb-input__submit-button__button"
+                  custom_element={null}
+                  custom_method={null}
+                  disabled={null}
+                  href={null}
+                  icon="search"
+                  icon_position={null}
+                  icon_size={null}
+                  id={null}
+                  innerRef={null}
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
-                  onMouseOut={[Function]}
+                  on_click={null}
+                  size={null}
+                  text={null}
+                  title={null}
                   type="submit"
                   value="test"
+                  variant="secondary"
                 >
-                  <Content
-                    bounding={false}
-                    class={null}
-                    className="dnb-input__submit-button__button"
-                    content={null}
-                    custom_element={null}
-                    custom_method={null}
-                    disabled={null}
-                    href={null}
-                    icon="search"
-                    icon_position={null}
-                    icon_size={null}
-                    id={null}
-                    innerRef={null}
-                    isIconOnly={true}
+                  <button
+                    className="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium"
                     onBlur={[Function]}
                     onClick={[Function]}
                     onFocus={[Function]}
-                    on_click={null}
-                    size={null}
-                    text={null}
-                    title={null}
+                    onMouseOut={[Function]}
                     type="submit"
                     value="test"
-                    variant="secondary"
                   >
-                    ‌
-                    <IconPrimary
-                      alt={null}
-                      aria-hidden={false}
-                      attributes={null}
-                      border={null}
+                    <Content
+                      bounding={false}
                       class={null}
-                      className="dnb-button__icon"
-                      color={null}
-                      height={null}
+                      className="dnb-input__submit-button__button"
+                      content={null}
+                      custom_element={null}
+                      custom_method={null}
+                      disabled={null}
+                      href={null}
                       icon="search"
-                      key="button-icon"
-                      modifier={null}
+                      icon_position={null}
+                      icon_size={null}
+                      id={null}
+                      innerRef={null}
+                      isIconOnly={true}
+                      onBlur={[Function]}
+                      onClick={[Function]}
+                      onFocus={[Function]}
+                      on_click={null}
                       size={null}
+                      text={null}
                       title={null}
-                      width={null}
+                      type="submit"
+                      value="test"
+                      variant="secondary"
                     >
-                      <span
-                        alt="search"
+                      ‌
+                      <IconPrimary
+                        alt={null}
                         aria-hidden={false}
-                        aria-label="search"
-                        className="dnb-icon dnb-icon--default dnb-button__icon"
-                        role="img"
+                        attributes={null}
+                        border={null}
+                        class={null}
+                        className="dnb-button__icon"
+                        color={null}
+                        height={null}
+                        icon="search"
+                        key="button-icon"
+                        modifier={null}
+                        size={null}
+                        title={null}
+                        width={null}
                       >
-                        <search>
-                          <svg
-                            fill="none"
-                            height={16}
-                            viewBox="0 0 17 17"
-                            width={16}
-                          >
-                            <g
-                              clipPath="url(#clip-06a943)"
-                              stroke="#000"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={1.5}
+                        <span
+                          alt="search"
+                          aria-hidden={false}
+                          aria-label="search"
+                          className="dnb-icon dnb-icon--default dnb-button__icon"
+                          role="img"
+                        >
+                          <search>
+                            <svg
+                              fill="none"
+                              height={16}
+                              viewBox="0 0 17 17"
+                              width={16}
                             >
-                              <path
-                                d="M9.055 11.937a5.445 5.445 0 10-4.26-10.023 5.445 5.445 0 004.26 10.023zm1.72-1.162L15 14.999"
-                              />
-                            </g>
-                          </svg>
-                        </search>
-                      </span>
-                    </IconPrimary>
-                  </Content>
-                </button>
-              </Button>
-            </span>
-          </SubmitButton>
+                              <g
+                                clipPath="url(#clip-06a943)"
+                                stroke="#000"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={1.5}
+                              >
+                                <path
+                                  d="M9.055 11.937a5.445 5.445 0 10-4.26-10.023 5.445 5.445 0 004.26 10.023zm1.72-1.162L15 14.999"
+                                />
+                              </g>
+                            </svg>
+                          </search>
+                        </span>
+                      </IconPrimary>
+                    </Content>
+                  </button>
+                </Button>
+              </span>
+            </InputSubmitButton>
+          </ForwardRef>
         </span>
       </span>
     </span>
@@ -399,7 +486,7 @@ exports[`Input component have to match type="text" snapshot 1`] = `
   }
   1={
     Object {
-      "displayName": "SubmitButton",
+      "displayName": "InputSubmitButton",
       "props": Object {
         "className": "className",
         "disabled": "disabled",
