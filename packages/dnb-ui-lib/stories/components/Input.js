@@ -132,11 +132,11 @@ export default [
           />
           <Input
             label="Search:"
-            size="medium"
+            size="x-large"
             type="search"
             align="right"
             stretch
-            placeholder="Large input with right aligned text"
+            placeholder="X-Large input with right aligned text"
           />
         </Box>
         <Box>

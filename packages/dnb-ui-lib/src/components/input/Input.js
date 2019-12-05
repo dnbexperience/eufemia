@@ -467,7 +467,11 @@ export default class Input extends PureComponent {
                     {...attributes}
                     value={inputParams.value}
                     icon={submit_button_icon}
-                    icon_size={size === 'large' ? 'medium' : size}
+                    icon_size={
+                      size === 'large' || size === 'x-large'
+                        ? 'medium'
+                        : 'default'
+                    }
                     title={submit_button_title}
                     variant={submit_button_variant}
                     disabled={disabled}
