@@ -224,7 +224,7 @@ export default class DatePickerCalendar extends PureComponent {
                   locale
                 })
               )}
-              tabIndex="0"
+              tabIndex="-1"
               ref={this._labelRef}
             >
               {format(month, titleFormat, {
@@ -248,7 +248,7 @@ export default class DatePickerCalendar extends PureComponent {
         <table
           role="grid"
           className="dnb-no-focus"
-          tabIndex="0"
+          tabIndex="-1"
           aria-labelledby={`${id}--title`}
           onKeyDown={this.onKeyDownHandler}
           ref={this._listRef}
