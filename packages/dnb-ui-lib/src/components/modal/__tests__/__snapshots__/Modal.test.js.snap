@@ -22,6 +22,7 @@ exports[`Modal component have to match snapshot 1`] = `
         "on_close": [Function],
         "on_close_prevent": [Function],
         "on_open": [Function],
+        "open_delay": "open_delay",
         "open_modal": [Function],
         "open_state": "'opened'",
         "preventSetTriggerRef": true,
@@ -95,6 +96,7 @@ exports[`Modal component have to match snapshot 1`] = `
   on_close={null}
   on_close_prevent={null}
   on_open={null}
+  open_delay={null}
   open_modal={null}
   open_state={null}
   preventSetTriggerRef={true}
@@ -229,6 +231,7 @@ exports[`Modal component have to match snapshot 1`] = `
             "on_close": [Function],
             "on_close_prevent": [Function],
             "on_open": [Function],
+            "open_delay": "open_delay",
             "open_modal": [Function],
             "open_state": "'opened'",
             "preventSetTriggerRef": true,
@@ -328,6 +331,7 @@ exports[`Modal component have to match snapshot 1`] = `
               "on_close": [Function],
               "on_close_prevent": [Function],
               "on_open": [Function],
+              "open_delay": "open_delay",
               "open_modal": [Function],
               "open_state": "'opened'",
               "preventSetTriggerRef": true,
