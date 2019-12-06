@@ -61,6 +61,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
   global_status_id="global_status_id"
   icon="icon"
   icon_position="icon_position"
+  icon_size="icon_size"
   id="dropdown-id"
   label="label"
   label_direction="horizontal"
@@ -295,7 +296,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
                       height={null}
                       icon="icon"
                       modifier={null}
-                      size="default"
+                      size="icon_size"
                       title={null}
                       width={null}
                     />
@@ -347,7 +348,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
                   height={null}
                   icon="icon"
                   modifier={null}
-                  size="default"
+                  size="icon_size"
                   title={null}
                   width={null}
                 />
