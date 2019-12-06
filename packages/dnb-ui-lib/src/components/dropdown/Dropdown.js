@@ -38,7 +38,12 @@ const renderProps = {
 const propTypes = {
   id: PropTypes.string,
   title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-  icon: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  icon: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.node,
+    PropTypes.func
+  ]),
+  icon_size: PropTypes.string,
   icon_position: PropTypes.string,
   label: PropTypes.oneOfType([
     PropTypes.string,
@@ -121,6 +126,7 @@ const defaultProps = {
   id: null,
   title: 'Option Menu',
   icon: null,
+  icon_size: null,
   icon_position: null,
   label: null,
   label_direction: null,
@@ -915,6 +921,7 @@ export default class Dropdown extends PureComponent {
       label_sr_only,
       icon: _icon, // eslint-disable-line
       icon_position: _icon_position, // eslint-disable-line
+      icon_size,
       size,
       align_dropdown,
       status,
@@ -1109,7 +1116,10 @@ export default class Dropdown extends PureComponent {
                   {icon !== false && (
                     <Icon
                       icon={icon || 'chevron-down'}
-                      size={size === 'large' ? 'medium' : 'default'}
+                      size={
+                        icon_size ||
+                        (size === 'large' ? 'medium' : 'default')
+                      }
                     />
                   )}
                 </span>
