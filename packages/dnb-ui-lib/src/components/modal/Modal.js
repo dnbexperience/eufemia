@@ -52,6 +52,7 @@ const propTypes = {
   trigger_icon: PropTypes.string,
   trigger_icon_position: PropTypes.string,
   trigger_class: PropTypes.string,
+  open_delay: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   content_id: PropTypes.string,
   close_title: PropTypes.string,
   hide_close_button: PropTypes.oneOfType([
@@ -108,6 +109,7 @@ const defaultProps = {
   trigger_icon: 'question',
   trigger_icon_position: 'left',
   trigger_class: null,
+  open_delay: null,
   content_id: null,
   close_title: 'Lukk', // Close Modal Window
   hide_close_button: false,
@@ -217,12 +219,20 @@ export default class Modal extends PureComponent {
       event.preventDefault()
     }
 
-    const modalActive =
-      showModal !== null ? showModal : !this.state.modalActive
-    this.setState({
-      modalActive,
-      _listenForPropChanges: false
-    })
+    const openModal = () => {
+      const modalActive =
+        showModal !== null ? showModal : !this.state.modalActive
+      this.setState({
+        modalActive,
+        _listenForPropChanges: false
+      })
+    }
+    const delay = parseFloat(this.props.open_delay)
+    if (delay > 0) {
+      setTimeout(openModal, delay)
+    } else {
+      openModal()
+    }
   }
   handleSideEffects = () => {
     if (!isTrue(this.props.direct_dom_return)) {
@@ -314,6 +324,7 @@ export default class Modal extends PureComponent {
     const {
       id, // eslint-disable-line
       open_state, // eslint-disable-line
+      open_delay, // eslint-disable-line
       preventSetTriggerRef, // eslint-disable-line
       disabled,
       labelled_by,
@@ -637,6 +648,7 @@ class ModalContent extends PureComponent {
       close_title,
       hide_close_button,
       prevent_close, // eslint-disable-line
+      open_delay, // eslint-disable-line
       prevent_core_style,
       min_width: minWidth,
       max_width: maxWidth,
