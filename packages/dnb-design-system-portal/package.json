@@ -45,19 +45,19 @@
   },
   "dependencies": {
     "css-vars-ponyfill": "^2.1.2",
-    "react": "^16.9.0",
-    "react-dom": "^16.9.0",
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0",
     "react-router-dom": "^5.1.2",
     "smoothscroll-polyfill": "^0.4.4"
   },
   "devDependencies": {
-    "@babel/core": "^7.7.4",
+    "@babel/core": "^7.7.5",
     "@babel/node": "^7.7.4",
     "@babel/plugin-proposal-class-properties": "^7.7.4",
     "@babel/plugin-proposal-export-default-from": "^7.7.4",
     "@babel/plugin-proposal-object-rest-spread": "^7.7.4",
     "@babel/plugin-syntax-dynamic-import": "^7.7.4",
-    "@babel/preset-env": "^7.7.4",
+    "@babel/preset-env": "^7.7.5",
     "@babel/preset-react": "^7.7.4",
     "@emotion/core": "^10.0.22",
     "@emotion/styled": "^10.0.23",
@@ -77,7 +77,7 @@
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.15.1",
     "enzyme-to-json": "^3.4.3",
-    "eslint": "^5.16.0",
+    "eslint": "^6.7.2",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.17.0",
@@ -124,8 +124,6 @@
     "stylelint-config-styled-components": "^0.1.1",
     "stylelint-processor-styled-components": "^1.9.0"
   },
-  "resolutions": {
-    "eslint": "^5"
-  },
+  "resolutions": {},
   "buildVersion": "[LOCAL BUILD]"
 }
