@@ -115,7 +115,7 @@ With v6 the `dnb-ui-lib` has it's own localization to be used both for component
 
 ## Other changes
 
-- **major change** [Input](/uilib/components/input) new sizes: `default`, `large` and `x-large` (`medium` got removed)
+- **major change** [Input](/uilib/components/input) got sizes. The height `medium` is now _2.5rem_ and `large` is now _2.5rem_
 
 ## Other features
 
