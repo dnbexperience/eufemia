@@ -50,7 +50,7 @@ describe('Input screenshot', () => {
     const screenshot = await testPageScreenshot({
       // make sure our input gets an explicit width, because of mac/linux rendering differences
       ...{ ...extend('input-large'), style: { width: '300px' } },
-      selector: '[data-dnb-test="input-large"]'
+      selector: '[data-dnb-test="input-medium"]'
       // simulate: 'hover'
     })
     expect(screenshot).toMatchImageSnapshot()

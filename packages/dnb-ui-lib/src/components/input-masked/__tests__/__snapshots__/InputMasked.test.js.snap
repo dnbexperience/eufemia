@@ -606,18 +606,18 @@ legend.dnb-form-label {
 */
 :root {
   --input-font-size: var(--font-size-basis);
-  --input-font-size--large: var(--font-size-basis);
-  --input-font-size--x-large: var(--font-size-large);
+  --input-font-size--medium: var(--font-size-basis);
+  --input-font-size--large: var(--font-size-medium);
   --input-padding: 1rem;
+  --input-padding--medium: 1rem;
   --input-padding--large: 1rem;
-  --input-padding--x-large: 1rem;
   --input-height: 2rem;
-  --input-height--large: 2.5rem;
-  --input-height--x-large: 3rem;
+  --input-height--medium: 2.5rem;
+  --input-height--large: 3rem;
   --input-border-width: 0.0625rem;
   --input-border-radius: calc(var(--input-height) / 2);
-  --input-border-radius--large: calc(var(--input-height--large) / 2);
-  --input-border-radius--x-large: calc(var(--input-height--x-large) / 2); }
+  --input-border-radius--medium: calc(var(--input-height--medium) / 2);
+  --input-border-radius--large: calc(var(--input-height--large) / 2); }
 
 .dnb-input {
   display: inline-flex;
@@ -703,6 +703,26 @@ legend.dnb-form-label {
     /* IE needs this to stay centered */ }
     .dnb-input__submit-button__button {
       border-radius: 50%; }
+  .dnb-input--medium {
+    line-height: var(--input-height--medium); }
+    .dnb-input--medium .dnb-input__shell,
+    .dnb-input--medium .dnb-input__input {
+      height: var(--input-height--medium);
+      border-radius: var(--input-border-radius--medium); }
+    .dnb-input--medium .dnb-input__placeholder,
+    .dnb-input--medium .dnb-input__input {
+      padding-left: var(--input-padding--medium);
+      padding-right: var(--input-padding--medium);
+      font-size: var(--input-font-size--medium); }
+    .dnb-input--medium .dnb-input__submit-element {
+      margin-left: calc(1px - 1px - var(--input-height--medium)); }
+      .dnb-input--medium .dnb-input__submit-element .dnb-button {
+        width: var(--input-height--medium);
+        height: var(--input-height--medium);
+        line-height: var(--input-height--medium); }
+  .dnb-input--medium.dnb-input--has-submit-element .dnb-input__placeholder,
+  .dnb-input--medium.dnb-input--has-submit-element .dnb-input__input {
+    padding-right: calc(var(--input-padding--medium) * 3); }
   .dnb-input--large {
     line-height: var(--input-height--large); }
     .dnb-input--large .dnb-input__shell,
@@ -718,30 +738,10 @@ legend.dnb-form-label {
       margin-left: calc(1px - 1px - var(--input-height--large)); }
       .dnb-input--large .dnb-input__submit-element .dnb-button {
         width: var(--input-height--large);
-        height: var(--input-height--large);
-        line-height: var(--input-height--large); }
+        height: var(--input-height--large); }
   .dnb-input--large.dnb-input--has-submit-element .dnb-input__placeholder,
   .dnb-input--large.dnb-input--has-submit-element .dnb-input__input {
-    padding-right: calc(var(--input-padding--large) * 3); }
-  .dnb-input--x-large {
-    line-height: var(--input-height--x-large); }
-    .dnb-input--x-large .dnb-input__shell,
-    .dnb-input--x-large .dnb-input__input {
-      height: var(--input-height--x-large);
-      border-radius: var(--input-border-radius--x-large); }
-    .dnb-input--x-large .dnb-input__placeholder,
-    .dnb-input--x-large .dnb-input__input {
-      padding-left: var(--input-padding--x-large);
-      padding-right: var(--input-padding--x-large);
-      font-size: var(--input-font-size--x-large); }
-    .dnb-input--x-large .dnb-input__submit-element {
-      margin-left: calc(1px - 1px - var(--input-height--x-large)); }
-      .dnb-input--x-large .dnb-input__submit-element .dnb-button {
-        width: var(--input-height--x-large);
-        height: var(--input-height--x-large); }
-  .dnb-input--x-large.dnb-input--has-submit-element .dnb-input__placeholder,
-  .dnb-input--x-large.dnb-input--has-submit-element .dnb-input__input {
-    padding-right: calc(var(--input-padding--x-large) * 3.5); }
+    padding-right: calc(var(--input-padding--large) * 3.5); }
   .dnb-input__align--center .dnb-input__placeholder,
   .dnb-input__align--center .dnb-input__input {
     text-align: center; }
