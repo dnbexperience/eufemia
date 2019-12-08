@@ -22,45 +22,41 @@ import {
   saveLockFile as saveSvgLockFile
 } from '../../figma/tasks/iconsConverter'
 
-export default ({
+export default async ({
   srcPath = ['./assets/icons/*.svg'],
   destPath = './src/icons',
   preventDelete = false
-} = {}) =>
-  new Promise(async (resolve, reject) => {
-    log.start('> PrePublish: converting svg to jsx')
+} = {}) => {
+  log.start('> PrePublish: converting svg to jsx')
 
-    try {
-      if (!preventDelete) {
-        await del([`${destPath}/**/*.js`, `!${destPath}`], {
-          force: true
-        })
-      }
-
-      // make sure transformSvgToReact runs first, so icons gets filled before we run makeIconsEntryFiles
-      await transformSvgToReact({ srcPath, destPath })
-
-      const icons = await makeIconsEntryFiles({
-        // do exclude large images from beeting in the entry files
-        // srcPath: srcPath.concat(['!**/**_large.svg']),
-        srcPath,
-        destPath
+  try {
+    if (!preventDelete) {
+      await del([`${destPath}/**/*.js`, `!${destPath}`], {
+        force: true
       })
-
-      log.succeed(
-        `> PrePublish: Converting "svg to jsx" is done (${
-          icons.length
-        } icons)`
-      )
-    } catch (e) {
-      log.fail('Failed to run the convertSvgToJsx process')
-      reject(e)
     }
-    resolve()
-  })
 
-const transformSvgToReact = ({ srcPath, destPath }) => {
-  return new Promise((resolve, reject) => {
+    // make sure transformSvgToReact runs first, so icons gets filled before we run makeIconsEntryFiles
+    await transformSvgToReact({ srcPath, destPath })
+
+    const icons = await makeIconsEntryFiles({
+      // do exclude large images from beeting in the entry files
+      // srcPath: srcPath.concat(['!**/**_large.svg']),
+      srcPath,
+      destPath
+    })
+
+    log.succeed(
+      `> PrePublish: Converting "svg to jsx" is done (${icons.length} icons)`
+    )
+  } catch (e) {
+    log.fail('Failed to run the convertSvgToJsx process')
+    throw new Error(e)
+  }
+}
+
+const transformSvgToReact = ({ srcPath, destPath }) =>
+  new Promise((resolve, reject) => {
     try {
       gulp
         .src(srcPath, { cwd: process.env.ROOT_DIR })
@@ -77,7 +73,6 @@ const transformSvgToReact = ({ srcPath, destPath }) => {
       reject(e)
     }
   })
-}
 
 const transformToJsx = (content, file) => {
   if (String(content).trim().length === 0) {
@@ -121,194 +116,191 @@ const transformToJsx = (content, file) => {
   }
 }
 
-const makeIconsEntryFiles = ({
+const makeIconsEntryFiles = async ({
   srcPath,
   destPath,
   delteOldFiles = false
-}) =>
-  new Promise(async (resolve, reject) => {
-    // get all the svg icons we find
-    const icons = (await globby(srcPath))
-      .map(file => {
-        const basename = path.basename(file)
-        const filename = basename.replace(path.extname(file), '')
-        const name = iconCase(filename)
-        return {
-          name,
+}) => {
+  // get all the svg icons we find
+  const icons = (await globby(srcPath))
+    .map(file => {
+      const basename = path.basename(file)
+      const filename = basename.replace(path.extname(file), '')
+      const name = iconCase(filename)
+      return {
+        name,
+        filename,
+        basename
+      }
+    })
+    .sort(({ name: a }, { name: b }) => (a > b ? 1 : -1))
+
+  // get the svg lock file
+  const lockFileContent = await readSvgLockFile()
+
+  // from the svg lock file we can generate groups out of the "frame"
+  const groups = Object.entries(lockFileContent).reduce(
+    (acc, [file, { frame }]) => {
+      acc[frame] = acc[frame] || []
+      const basename = path.basename(file)
+      const filename = basename.replace(path.extname(file), '')
+
+      // make sure the file actually exists
+      if (
+        fs.existsSync(
+          path.resolve(process.env.ROOT_DIR, destPath, `${filename}.js`)
+        )
+      ) {
+        acc[frame].push({
           filename,
-          basename
-        }
-      })
-      .sort(({ name: a }, { name: b }) => (a > b ? 1 : -1))
+          basename,
+          name: iconCase(filename)
+        })
+      }
 
-    // get the svg lock file
-    const lockFileContent = await readSvgLockFile()
+      return acc
+    },
+    {}
+  )
 
-    // from the svg lock file we can generate groups out of the "frame"
-    const groups = Object.entries(lockFileContent).reduce(
-      (acc, [file, { frame }]) => {
-        acc[frame] = acc[frame] || []
-        const basename = path.basename(file)
-        const filename = basename.replace(path.extname(file), '')
+  // found on disk as svg files, but was not in the lock file
+  const notFoundInLockFile = icons.reduce((acc, cur) => {
+    if (!lockFileContent[cur.basename]) {
+      acc.push(cur)
+    }
+    return acc
+  }, [])
 
-        // make sure the file actually exists
-        if (
-          fs.existsSync(
-            path.resolve(process.env.ROOT_DIR, destPath, `${filename}.js`)
-          )
-        ) {
-          acc[frame].push({
-            filename,
-            basename,
-            name: iconCase(filename)
-          })
-        }
+  if (notFoundInLockFile && notFoundInLockFile.length > 0) {
+    const listNotFoundInLockFile = notFoundInLockFile
+      .map(({ basename }) => basename)
+      .join(', ')
 
-        return acc
-      },
-      {}
+    log.info(
+      `> PrePublish: Files where not found in the icons.lock file: ${listNotFoundInLockFile}`
     )
 
-    // found on disk as svg files, but was not in the lock file
-    const notFoundInLockFile = icons.reduce((acc, cur) => {
-      if (!lockFileContent[cur.basename]) {
-        acc.push(cur)
-      }
-      return acc
-    }, [])
-
-    if (notFoundInLockFile && notFoundInLockFile.length > 0) {
-      const listNotFoundInLockFile = notFoundInLockFile
-        .map(({ basename }) => basename)
-        .join(', ')
-
-      log.info(
-        `> PrePublish: Files where not found in the icons.lock file: ${listNotFoundInLockFile}`
-      )
-
-      if (delteOldFiles) {
-        await asyncForEach(
-          notFoundInLockFile,
-          async ({ basename, filename }) => {
-            // delete svg file
-            const cleanSrcPath = Array.isArray(srcPath)
-              ? srcPath[0]
-              : srcPath
-            const svgFile = path.resolve(
-              path.resolve(
-                process.env.ROOT_DIR,
-                /\*/.test(cleanSrcPath)
-                  ? path.dirname(cleanSrcPath)
-                  : cleanSrcPath
-              ),
-              basename
-            )
-            if (fs.existsSync(svgFile)) {
-              // remove the svg entry in the lock file
-              // we will save the new state afterwards
-              delete lockFileContent[basename]
-              await del(svgFile)
-              log.info(`> PrePublish: Deleted ${basename}`)
-            }
-
-            // delete jsx file
-            const cleanDestPath = Array.isArray(destPath)
-              ? destPath[0]
-              : destPath
-            const jsxFile = path.resolve(
-              path.resolve(
-                process.env.ROOT_DIR,
-                /\*/.test(cleanDestPath)
-                  ? path.dirname(cleanDestPath)
-                  : cleanDestPath
-              ),
-              `${filename}.js`
-            )
-            if (fs.existsSync(jsxFile)) {
-              await del(jsxFile)
-              log.info(`> PrePublish: Deleted ${filename}.js`)
-            }
+    if (delteOldFiles) {
+      await asyncForEach(
+        notFoundInLockFile,
+        async ({ basename, filename }) => {
+          // delete svg file
+          const cleanSrcPath = Array.isArray(srcPath)
+            ? srcPath[0]
+            : srcPath
+          const svgFile = path.resolve(
+            path.resolve(
+              process.env.ROOT_DIR,
+              /\*/.test(cleanSrcPath)
+                ? path.dirname(cleanSrcPath)
+                : cleanSrcPath
+            ),
+            basename
+          )
+          if (fs.existsSync(svgFile)) {
+            // remove the svg entry in the lock file
+            // we will save the new state afterwards
+            delete lockFileContent[basename]
+            await del(svgFile)
+            log.info(`> PrePublish: Deleted ${basename}`)
           }
-        )
 
-        // since we change the lock file content, we update it with the newest lock content
-        await saveSvgLockFile(lockFileContent)
-      }
-    }
-
-    // the index.js file will contain "all icons"
-    // even the ones witch dont exists in the lock file
-    // this is in contrast to the "groups", they will only contain the icons, deticated to the current figma document
-    const _imports = icons
-      .map(
-        ({ name, filename }) => `import ${name} from './${filename}.js'`
+          // delete jsx file
+          const cleanDestPath = Array.isArray(destPath)
+            ? destPath[0]
+            : destPath
+          const jsxFile = path.resolve(
+            path.resolve(
+              process.env.ROOT_DIR,
+              /\*/.test(cleanDestPath)
+                ? path.dirname(cleanDestPath)
+                : cleanDestPath
+            ),
+            `${filename}.js`
+          )
+          if (fs.existsSync(jsxFile)) {
+            await del(jsxFile)
+            log.info(`> PrePublish: Deleted ${filename}.js`)
+          }
+        }
       )
-      .join('\n')
-    const _keys = icons.map(({ name }) => name).join(', ')
 
-    const indexContent = prettier.format(
-      `/** This file is auto generated by convertSvgToJsx.js */
+      // since we change the lock file content, we update it with the newest lock content
+      await saveSvgLockFile(lockFileContent)
+    }
+  }
+
+  // the index.js file will contain "all icons"
+  // even the ones witch dont exists in the lock file
+  // this is in contrast to the "groups", they will only contain the icons, deticated to the current figma document
+  const _imports = icons
+    .map(({ name, filename }) => `import ${name} from './${filename}.js'`)
+    .join('\n')
+  const _keys = icons.map(({ name }) => name).join(', ')
+
+  const indexContent = prettier.format(
+    `/** This file is auto generated by convertSvgToJsx.js */
 
       ${_imports}
 
       export { ${_keys} }
   `,
-      {
-        ...prettierrc,
-        parser: 'babel'
-      }
+    {
+      ...prettierrc,
+      parser: 'babel'
+    }
+  )
+
+  try {
+    const indexFile = path.resolve(
+      process.env.ROOT_DIR,
+      destPath,
+      `index.js`
     )
+    await fs.writeFile(indexFile, indexContent)
 
-    try {
-      const indexFile = path.resolve(
-        process.env.ROOT_DIR,
-        destPath,
-        `index.js`
-      )
-      await fs.writeFile(indexFile, indexContent)
+    await asyncForEach(
+      Object.entries(groups),
+      async ([groupName, entries]) => {
+        entries = entries.sort(({ name: a }, { name: b }) =>
+          a > b ? 1 : -1
+        )
+        const groupFile = path.resolve(
+          process.env.ROOT_DIR,
+          destPath,
+          `${groupName}.js`
+        )
 
-      await asyncForEach(
-        Object.entries(groups),
-        async ([groupName, entries]) => {
-          entries = entries.sort(({ name: a }, { name: b }) =>
-            a > b ? 1 : -1
+        const _imports = entries
+          .map(
+            ({ name, filename }) =>
+              `import ${name} from './${filename}.js'`
           )
-          const groupFile = path.resolve(
-            process.env.ROOT_DIR,
-            destPath,
-            `${groupName}.js`
-          )
+          .join('\n')
+        const _keys = entries.map(({ name }) => name).join(', ')
 
-          const _imports = entries
-            .map(
-              ({ name, filename }) =>
-                `import ${name} from './${filename}.js'`
-            )
-            .join('\n')
-          const _keys = entries.map(({ name }) => name).join(', ')
-
-          const groupFileContent = prettier.format(
-            `/** This file is auto generated by convertSvgToJsx.js */
+        const groupFileContent = prettier.format(
+          `/** This file is auto generated by convertSvgToJsx.js */
 
             ${_imports}
 
             export { ${_keys} }
           `,
-            {
-              ...prettierrc,
-              parser: 'babel'
-            }
-          )
+          {
+            ...prettierrc,
+            parser: 'babel'
+          }
+        )
 
-          await fs.writeFile(groupFile, groupFileContent)
-        }
-      )
-    } catch (e) {
-      reject(e)
-    }
+        await fs.writeFile(groupFile, groupFileContent)
+      }
+    )
+  } catch (e) {
+    throw new Error(e)
+  }
 
-    resolve(icons)
-  })
+  return icons
+}
 
 const prettierrc = JSON.parse(
   fs.readFileSync(path.resolve(__dirname, '../../../.prettierrc'), 'utf-8')

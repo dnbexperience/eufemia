@@ -15,21 +15,19 @@ import { log } from '../../lib'
 // import the post css config
 import postcssConfig from '../config/postcssConfig'
 
-export default () =>
-  new Promise(async (resolve, reject) => {
-    log.text = '> PrePublish: converting sass to css'
+export default async () => {
+  log.text = '> PrePublish: converting sass to css'
 
-    try {
-      await runFactory('./src/components/**/style/**/dnb-*.scss')
-      await runFactory('./src/patterns/**/style/**/dnb-*.scss')
-      log.succeed(
-        `> PrePublish: "makeLibStyles" converting sass to css done`
-      )
-      resolve()
-    } catch (e) {
-      reject(e)
-    }
-  })
+  try {
+    await runFactory('./src/components/**/style/**/dnb-*.scss')
+    await runFactory('./src/patterns/**/style/**/dnb-*.scss')
+    log.succeed(
+      `> PrePublish: "makeLibStyles" converting sass to css done`
+    )
+  } catch (e) {
+    throw new Error(e)
+  }
+}
 
 export const runFactory = (src, { returnResult = false } = {}) =>
   new Promise((resolve, reject) => {
