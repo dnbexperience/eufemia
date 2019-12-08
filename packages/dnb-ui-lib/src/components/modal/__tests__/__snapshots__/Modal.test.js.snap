@@ -167,7 +167,12 @@ exports[`Modal component have to match snapshot 1`] = `
           type="button"
           variant="secondary"
         >
-          ‌
+          <span
+            className="dnb-button__text"
+            key="button-text-empty"
+          >
+            ‌
+          </span>
           <IconPrimary
             alt={null}
             aria-hidden={true}
@@ -490,7 +495,12 @@ exports[`Modal component have to match snapshot 1`] = `
                     type="button"
                     variant="secondary"
                   >
-                    ‌
+                    <span
+                      className="dnb-button__text"
+                      key="button-text-empty"
+                    >
+                      ‌
+                    </span>
                     <IconPrimary
                       alt={null}
                       aria-hidden={false}
@@ -717,6 +727,8 @@ exports[`Modal scss have to match snapshot 1`] = `
   .dnb-button__icon.dnb-icon svg:not([width]):not([height]) {
     width: var(--button-icon-size);
     height: var(--button-icon-size); }
+  [href] > .dnb-button__icon.dnb-icon {
+    line-height: var(--button-font-size); }
   .dnb-button__text {
     font-size: var(--button-font-size);
     line-height: var(--line-height-x-small--em);

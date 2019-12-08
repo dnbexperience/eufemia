@@ -216,7 +216,11 @@ exports[`DatePicker component have to match snapshot 1`] = `
                   id="date-picker-id"
                   type="button"
                 >
-                  ‌
+                  <span
+                    class="dnb-button__text"
+                  >
+                    ‌
+                  </span>
                   <span
                     alt="calendar"
                     aria-hidden="false"
@@ -852,7 +856,11 @@ exports[`DatePicker component have to match snapshot 1`] = `
                               id="date-picker-id"
                               type="button"
                             >
-                              ‌
+                              <span
+                                class="dnb-button__text"
+                              >
+                                ‌
+                              </span>
                               <span
                                 alt="calendar"
                                 aria-hidden="false"
@@ -913,7 +921,11 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                   id="date-picker-id"
                                   type="button"
                                 >
-                                  ‌
+                                  <span
+                                    class="dnb-button__text"
+                                  >
+                                    ‌
+                                  </span>
                                   <span
                                     alt="calendar"
                                     aria-hidden="false"
@@ -985,7 +997,11 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                       id="date-picker-id"
                                       type="button"
                                     >
-                                      ‌
+                                      <span
+                                        class="dnb-button__text"
+                                      >
+                                        ‌
+                                      </span>
                                       <span
                                         alt="calendar"
                                         aria-hidden="false"
@@ -1022,7 +1038,12 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                 type="button"
                                 variant="secondary"
                               >
-                                ‌
+                                <span
+                                  className="dnb-button__text"
+                                  key="button-text-empty"
+                                >
+                                  ‌
+                                </span>
                                 <IconPrimary
                                   alt={null}
                                   aria-hidden={false}
@@ -1350,6 +1371,8 @@ exports[`DatePicker scss have to match snapshot 1`] = `
   .dnb-button__icon.dnb-icon svg:not([width]):not([height]) {
     width: var(--button-icon-size);
     height: var(--button-icon-size); }
+  [href] > .dnb-button__icon.dnb-icon {
+    line-height: var(--button-font-size); }
   .dnb-button__text {
     font-size: var(--button-font-size);
     line-height: var(--line-height-x-small--em);
@@ -2507,6 +2530,9 @@ legend.dnb-form-label {
       height: 1px; }
   .dnb-date-picker:not(.dnb-date-picker--show-footer) .dnb-date-picker__calendar::after {
     content: none; }
+  .dnb-date-picker__header {
+    height: 2.5rem;
+    line-height: var(--line-height-basis); }
   .dnb-date-picker__addon, .dnb-date-picker__header {
     position: relative;
     display: flex;
