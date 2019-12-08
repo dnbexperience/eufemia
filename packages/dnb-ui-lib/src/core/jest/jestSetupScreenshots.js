@@ -276,7 +276,7 @@ module.exports.testPageScreenshot = async ({
   }
 }
 
-const setupPageScreenshot = async ({
+const setupPageScreenshot = ({
   url,
   fullscreen = true,
   pageSettings = null,
@@ -289,18 +289,15 @@ const setupPageScreenshot = async ({
 
   beforeAll(
     async () =>
-      await setupBeforeAll({
+      (global.__PAGE__ = await setupBeforeAll({
         url,
         fullscreen,
         pageSettings
-      }),
+      })),
     timeout
   )
 
-  afterAll(async () => {
-    await global.__PAGE__.close()
-    global.__PAGE__ = null
-  })
+  afterAll(async () => await global.__PAGE__.close())
 }
 module.exports.setupPageScreenshot = setupPageScreenshot
 
@@ -361,7 +358,7 @@ const setupBeforeAll = async ({
   // })
   // }
 
-  global.__PAGE__ = page
+  return page
 }
 
 module.exports.setupJestScreenshot = setupJestScreenshot

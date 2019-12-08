@@ -106,7 +106,7 @@ const runFactory = async (src, { preventDelete = false } = {}) => {
 }
 
 const transformContent = (content, file) => {
-  log.text = `> PrePublish: transforming js | ${file.path}`
+  log.info(`> PrePublish: transforming js | ${file.path}`)
   if (/\/style/.test(file.path)) {
     content = content.replace(
       new RegExp('./(.*).scss', 'g'),

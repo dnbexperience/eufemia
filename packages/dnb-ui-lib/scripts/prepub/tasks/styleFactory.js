@@ -66,7 +66,7 @@ const runStyleFactory = async () => {
     ]
   }).then(() => {
     if (require.main === module) {
-      log.text = '> Created the style file with all the patterns'
+      log.info('> Created the style file with all the patterns')
     }
   })
 }
@@ -88,9 +88,9 @@ const runFactory = async ({
     })
     processToNamesList.sort()
     if (processOnlyList) {
-      processOnlyList = await globby(processOnlyList)
+      const processdList = await globby(processOnlyList)
       processToNamesList = processToNamesList.filter(source =>
-        processOnlyList.some(file => file.indexOf(source) !== -1)
+        processdList.some(file => file.indexOf(source) !== -1)
       )
     }
   } catch (e) {

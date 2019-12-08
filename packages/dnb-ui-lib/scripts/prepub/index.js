@@ -84,7 +84,7 @@ export const runPrepublishTasks = async ({
 export const cleanupLib = async ({ preventDelete = false } = {}) => {
   // only delete things if there is a --clean flag or we force to
   if (process.argv.indexOf('--clean') !== -1 || !preventDelete) {
-    log.text = '> PrePublish: deliting existing style'
+    log.info('> PrePublish: deliting existing style')
     await del(
       [
         './es/**',

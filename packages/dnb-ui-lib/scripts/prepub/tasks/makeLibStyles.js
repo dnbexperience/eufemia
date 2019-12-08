@@ -16,7 +16,7 @@ import { log } from '../../lib'
 import postcssConfig from '../config/postcssConfig'
 
 export default async () => {
-  log.text = '> PrePublish: converting sass to css'
+  log.info('> PrePublish: converting sass to css')
 
   try {
     await runFactory('./src/components/**/style/**/dnb-*.scss')
@@ -111,6 +111,6 @@ export const runFactory = (src, { returnResult = false } = {}) =>
   })
 
 const transformPaths = (from, to) => (content, file) => {
-  log.text = `> PrePublish: converting sass to css | ${file.path}`
+  log.info(`> PrePublish: converting sass to css | ${file.path}`)
   return content.replace(new RegExp(from, 'g'), to)
 }

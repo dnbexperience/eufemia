@@ -72,6 +72,6 @@ const runFactory = async ({ preventDelete = false } = {}) => {
 }
 
 const transformContent = (content, file) => {
-  log.text = `> PrePublish: transforming icons | ${file.path}`
+  log.info(`> PrePublish: transforming icons | ${file.path}`)
   return content
 }
