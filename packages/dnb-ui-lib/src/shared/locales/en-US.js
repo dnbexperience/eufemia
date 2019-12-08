@@ -1,6 +1,19 @@
 export default {
   'en-US': {
     DatePicker: {
+      day: 'Day',
+      month: 'Month',
+      year: 'Year',
+      start: 'from',
+      end: 'to',
+      selected_date: 'Selected date: %s',
+      selected_month: 'Selected month %s',
+      selected_year: 'Selected year %s',
+      next_month: 'Next month %s',
+      prev_month: 'Previous month %s',
+      next_year: 'Next year %s',
+      prev_year: 'Previous year %s',
+      open_picker_text: 'Open date picker',
       mask_order: 'dd/mm/yyyy',
       mask_placeholder: 'dd/mm/yyyy', // have to be same setup as "mask" - but can be like: dd/mm/åååå
       date_format: 'yyyy-MM-dd', // in v1 of date-fns we where more flexible in terms of the format

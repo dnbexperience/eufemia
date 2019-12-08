@@ -12,23 +12,8 @@ $anchorBorderRadius: 0.25em;
   // make sure we have always `display: inline;` as inline-block is breaking the border-bottom
   display: inline;
 
-  // top has 1px less, cause we now has 2px on border bottom hover
-  // the calculations are based on 24px line-height
+  padding: 0.05575em 0.125em 0.05575em; // the total body height will then be 24px if font-size is 18px
 
-  // 1px = 0,0625
-  // 2px = 0,125
-  // 4px = 0,25
-
-  // on padding-top we have 4px
-  // on padding-bottom we have 2px, cause run a border-bottom with 2px
-  // this makes a total of 8px
-  // 24px line-height - 8px = 16px (font-size)
-  padding: 0 0.125em 0.056em; // the total body height will then be 24px
-
-  // margins are not needed as long as we go for "inline"
-  // margin: -0.25rem 0 -0.125rem;
-
-  color: inherit;
   color: var(--color-sea-green);
 
   text-decoration: none;
@@ -142,8 +127,8 @@ $anchorBorderRadius: 0.25em;
 
       display: inline-block;
 
-      width: 1em;
-      height: 1em;
+      width: 1rem;
+      height: 1rem;
 
       margin-left: 0.3em;
       margin-right: 0.125em;

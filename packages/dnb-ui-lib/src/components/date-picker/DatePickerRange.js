@@ -36,6 +36,7 @@ const propTypes = {
   sync: PropTypes.bool,
   onlyMonth: PropTypes.bool,
   hideNav: PropTypes.bool,
+  enableKeyboardNav: PropTypes.bool,
   views: PropTypes.oneOfType([
     PropTypes.number,
     PropTypes.arrayOf(PropTypes.object)
@@ -64,6 +65,7 @@ const defaultProps = {
   sync: null,
   onlyMonth: null,
   hideNav: null,
+  enableKeyboardNav: false,
   views: null,
   // views: [{ nextBtn: false }, { prevBtn: false }],
 
@@ -242,15 +244,23 @@ export default class DatePickerRange extends PureComponent {
   }
 
   onKeyDownHandler = (event, ref, nr) => {
-    event.persist() // since we use the event after setState
+    // also, only continue if user uses keyboard
+    if (!this.props.enableKeyboardNav) {
+      return
+    }
+
     const keyCode = keycode(event)
 
+    // only continue of key is one of these
     switch (keyCode) {
       case 'left':
       case 'right':
       case 'up':
       case 'down':
+      case 'enter':
+      case 'space':
         event.preventDefault()
+        event.persist() // since we use the event after setState
         break
       default:
         return
@@ -287,7 +297,17 @@ export default class DatePickerRange extends PureComponent {
           : new Date())
     }
 
-    if (newDate !== this.state[`${type}Date`]) {
+    if (newDate === this.state[`${type}Date`]) {
+      switch (keyCode) {
+        case 'enter':
+        case 'space':
+          this.callOnChange({
+            event,
+            hidePicker: true
+          })
+          break
+      }
+    } else {
       const state = { _listenForPropChanges: false }
 
       const currentMonth = this.state[`${type}Month`]
@@ -363,7 +383,10 @@ export default class DatePickerRange extends PureComponent {
 
       this.setState(state, () => {
         // call after state update, so the input get's the latest state as well
-        this.callOnChange({ event })
+        this.callOnChange({
+          event,
+          hidePicker: false
+        })
 
         // and set the focus back again
         if (ref && ref.current) {

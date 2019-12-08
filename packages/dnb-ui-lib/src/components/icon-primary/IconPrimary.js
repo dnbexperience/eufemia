@@ -58,9 +58,7 @@ export default class IconPrimary extends PureComponent {
 
     return (
       <span {...wrapperParams}>
-        <span className="dnb-icon--wrapper">
-          <IconContainer {...iconParams} />
-        </span>
+        <IconContainer {...iconParams} />
       </span>
     )
   }

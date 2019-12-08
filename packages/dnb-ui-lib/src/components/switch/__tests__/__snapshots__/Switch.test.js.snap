@@ -31,14 +31,6 @@ exports[`Switch component have to match snapshot 1`] = `
     <span
       className="dnb-switch__order"
     >
-      <AlignmentHelper
-        className="dnb-switch__helper"
-      >
-        <span
-          aria-hidden={true}
-          className="dnb-alignment-helper dnb-switch__helper"
-        />
-      </AlignmentHelper>
       <FormLabel
         class={null}
         className={null}
@@ -338,6 +330,10 @@ exports[`Switch scss have to match snapshot 1`] = `
     display: block;
     margin-right: 0;
     margin-bottom: 0.5rem; }
+  .dnb-form-label--sr-only {
+    width: 1px;
+    margin-left: -1px;
+    overflow: hidden; }
   .dnb-form-label[for]:not([disabled]) {
     user-select: none;
     -webkit-user-select: none;
@@ -493,9 +489,14 @@ legend.dnb-form-label {
   .dnb-switch__inner {
     display: inline-flex;
     flex-direction: column;
-    justify-content: center; }
-  .dnb-switch__helper {
+    justify-content: center;
     font-size: var(--font-size-basis); }
+    .dnb-switch__inner::before {
+      content: '\\\\200C';
+      display: inline-block;
+      width: 0;
+      height: 0;
+      font-size: var(--font-size-small); }
   .dnb-switch__shell {
     user-select: none;
     -webkit-user-select: none;

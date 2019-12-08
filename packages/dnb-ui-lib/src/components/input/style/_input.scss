@@ -5,14 +5,14 @@
 
 :root {
   --input-font-size: var(--font-size-basis);
-  --input-font-size--medium: var(--font-size-large);
-  --input-font-size--large: var(--font-size-x-large);
+  --input-font-size--medium: var(--font-size-basis);
+  --input-font-size--large: var(--font-size-medium);
   --input-padding: 1rem;
-  --input-padding--medium: 1.5rem;
-  --input-padding--large: 2rem;
+  --input-padding--medium: 1rem;
+  --input-padding--large: 1rem;
   --input-height: 2rem;
-  --input-height--medium: 3rem;
-  --input-height--large: 4rem;
+  --input-height--medium: 2.5rem;
+  --input-height--large: 3rem;
   --input-border-width: 0.0625rem;
   --input-border-radius: calc(var(--input-height) / 2);
   --input-border-radius--medium: calc(var(--input-height--medium) / 2);
@@ -31,6 +31,8 @@
     flex-direction: column;
 
     width: auto;
+
+    @include alignmentHelper();
   }
 
   &__shell {
@@ -173,12 +175,13 @@
       .dnb-button {
         width: var(--input-height--medium);
         height: var(--input-height--medium);
+        line-height: var(--input-height--medium);
       }
     }
   }
   &--medium#{&}--has-submit-element &__placeholder,
   &--medium#{&}--has-submit-element &__input {
-    padding-right: calc(var(--input-padding--medium) * 2.5);
+    padding-right: calc(var(--input-padding--medium) * 3);
   }
 
   &--large {
@@ -199,15 +202,17 @@
       .dnb-button {
         width: var(--input-height--large);
         height: var(--input-height--large);
-        .dnb-button__icon {
-          transform: scale(1.33333);
-        }
+
+        // NB: before we used to scale the icon additioanlly
+        // .dnb-button__icon {
+        //   transform: scale(1.33333);
+        // }
       }
     }
   }
   &--large#{&}--has-submit-element &__placeholder,
   &--large#{&}--has-submit-element &__input {
-    padding-right: calc(var(--input-padding--large) * 2.5);
+    padding-right: calc(var(--input-padding--large) * 3.5);
   }
 
   &__align--center &__placeholder,

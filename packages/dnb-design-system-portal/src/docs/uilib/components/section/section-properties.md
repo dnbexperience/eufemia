@@ -11,6 +11,8 @@ draft: true
 
 ## Styles
 
+You can easily [customize the color](/uilib/components/section#customize-color).
+
 | Style           | Description                                                                         |
 | --------------- | ----------------------------------------------------------------------------------- |
 | `mint-green-12` | _(default)_ uses `--color-mint-green-12`.                                           |

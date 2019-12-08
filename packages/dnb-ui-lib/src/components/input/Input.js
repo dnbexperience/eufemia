@@ -6,7 +6,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import AlignmentHelper from '../../shared/AlignmentHelper'
 import Button from '../button/Button'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
@@ -429,8 +428,6 @@ export default class Input extends PureComponent {
           />
         )}
 
-        <AlignmentHelper className="dnb-input__helper" />
-
         <span {...innerParams}>
           {showStatus && (
             <FormStatus
@@ -470,7 +467,11 @@ export default class Input extends PureComponent {
                     {...attributes}
                     value={inputParams.value}
                     icon={submit_button_icon}
-                    icon_size={size === 'large' ? 'medium' : size}
+                    icon_size={
+                      size === 'medium' || size === 'large'
+                        ? 'medium'
+                        : 'default'
+                    }
                     title={submit_button_title}
                     variant={submit_button_variant}
                     disabled={disabled}
@@ -495,7 +496,7 @@ export default class Input extends PureComponent {
   }
 }
 
-class SubmitButton extends PureComponent {
+class InputSubmitButton extends PureComponent {
   static propTypes = {
     id: PropTypes.string,
     value: PropTypes.string,
@@ -597,5 +598,9 @@ class SubmitButton extends PureComponent {
     )
   }
 }
+
+const SubmitButton = React.forwardRef((props, ref) => (
+  <InputSubmitButton innerRef={ref} {...props} />
+))
 
 export { SubmitButton }

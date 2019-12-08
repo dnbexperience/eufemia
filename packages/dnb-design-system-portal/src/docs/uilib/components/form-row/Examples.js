@@ -70,30 +70,33 @@ class Example extends PureComponent {
         <ComponentBox
           caption="Combine both vertical and horizontal FormRow's"
           data-dnb-test="form-row-combined"
+          useRender
         >
           {/* @jsx */ `
-<FormRow
-  label={
-    <H2 top={false} bottom="large">
-      Custom vertical legend:
-    </H2>
-  }
-  vertical
->
-  <Input label="Vertical input A" />
-  <Input label="Vertical input B" top="medium" />
+// 1. In the nested FormRow we reset the layout to not be vertical
+// 2. So we can use a different diretion ("label_direction")
+render(
   <FormRow
-    /** reset the layout to not be vertical */
-    vertical="false"
-    /** additionally we use a horizontal label_diretion */
-    label_direction="horizontal"
-    top="medium"
+    label={
+      <H2 top={false} bottom="large">
+        Custom vertical legend:
+      </H2>
+    }
+    vertical
   >
-    <Input label="Horizontal input A" right="small" />
-    <Input label="Horizontal input B" />
+    <Input label="Vertical input A" />
+    <Input label="Vertical input B" top="medium" />
+    <FormRow
+      vertical="false"
+      label_direction="horizontal"
+      top="medium"
+    >
+      <Input label="Horizontal input A" right="small" />
+      <Input label="Horizontal input B" />
+    </FormRow>
+    <Input label="Vertical input C" top="medium" />
   </FormRow>
-  <Input label="Vertical input C" top="medium" />
-</FormRow>
+)
           `}
         </ComponentBox>
         <ComponentBox

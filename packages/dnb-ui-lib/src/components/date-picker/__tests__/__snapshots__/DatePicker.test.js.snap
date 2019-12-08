@@ -12,6 +12,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
   direction="auto"
   disable_autofocus={false}
   disabled={null}
+  enable_keyboard_nav={false}
   end_date="2019-02-15T00:00:00.000Z"
   first_day="monday"
   global_status_id={null}
@@ -88,14 +89,6 @@ exports[`DatePicker component have to match snapshot 1`] = `
   <span
     className="dnb-date-picker dnb-form-component dnb-date-picker--show-footer dnb-date-picker__status--error dnb-date-picker--hidden dnb-date-picker--show-input"
   >
-    <AlignmentHelper
-      className="dnb-date-picker__helper"
-    >
-      <span
-        aria-hidden={true}
-        className="dnb-alignment-helper dnb-date-picker__helper"
-      />
-    </AlignmentHelper>
     <span
       className="dnb-date-picker__inner"
     >
@@ -145,41 +138,37 @@ exports[`DatePicker component have to match snapshot 1`] = `
                 className="dnb-icon dnb-icon--large"
                 role="img"
               >
-                <span
-                  className="dnb-icon--wrapper"
-                >
-                  <ErrorIcon>
-                    <svg
-                      fill="none"
-                      height="32"
-                      viewBox="0 0 32 32"
-                      width="32"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M16 25a.5.5 0 100 1 .5.5 0 000-1v0"
-                        stroke="#000"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="1.5"
-                      />
-                      <path
-                        d="M16 21V11"
-                        stroke="#000"
-                        strokeLinecap="round"
-                        strokeWidth="1.5"
-                      />
-                      <path
-                        clipRule="evenodd"
-                        d="M18.161 2.347a2.408 2.408 0 00-4.322 0L1.208 28.077A2.028 2.028 0 003.029 31h25.942a2.028 2.028 0 001.821-2.923l-12.63-25.73z"
-                        stroke="#000"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="1.5"
-                      />
-                    </svg>
-                  </ErrorIcon>
-                </span>
+                <ErrorIcon>
+                  <svg
+                    fill="none"
+                    height="32"
+                    viewBox="0 0 32 32"
+                    width="32"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M16 25a.5.5 0 100 1 .5.5 0 000-1v0"
+                      stroke="#000"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="1.5"
+                    />
+                    <path
+                      d="M16 21V11"
+                      stroke="#000"
+                      strokeLinecap="round"
+                      strokeWidth="1.5"
+                    />
+                    <path
+                      clipRule="evenodd"
+                      d="M18.161 2.347a2.408 2.408 0 00-4.322 0L1.208 28.077A2.028 2.028 0 003.029 31h25.942a2.028 2.028 0 001.821-2.923l-12.63-25.73z"
+                      stroke="#000"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="1.5"
+                    />
+                  </svg>
+                </ErrorIcon>
               </span>
             </Icon>
             <span
@@ -197,6 +186,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
         <DatePickerInput
           disabled={false}
           endDate={2019-02-15T00:00:00.000Z}
+          hidden={true}
           id="date-picker-id"
           inputElement={null}
           maskOrder="dd/mm/yyyy"
@@ -209,6 +199,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
           onSubmitButtonFocus={[Function]}
           opened={false}
           range={true}
+          selectedDateTitle="Valgt dato: fra Tuesday, January 1st, 2019 - til Friday, February 15th, 2019"
           separatorRexExp={/\\[-\\\\/ \\]/g}
           showInput={true}
           startDate={2019-01-01T00:00:00.000Z}
@@ -217,6 +208,42 @@ exports[`DatePicker component have to match snapshot 1`] = `
           submitAttributes={
             Object {
               "aria-expanded": false,
+              "ref": Object {
+                "current": <button
+                  aria-expanded="false"
+                  aria-label="Valgt dato: fra Tuesday, January 1st, 2019 - til Friday, February 15th, 2019, åpne datovelger"
+                  class="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium"
+                  id="date-picker-id"
+                  type="button"
+                >
+                  <span
+                    class="dnb-button__text"
+                  >
+                    ‌
+                  </span>
+                  <span
+                    alt="calendar"
+                    aria-hidden="false"
+                    aria-label="calendar"
+                    class="dnb-icon dnb-icon--default dnb-button__icon"
+                    role="img"
+                  >
+                    <svg
+                      fill="none"
+                      height="16"
+                      viewBox="0 0 17 17"
+                      width="16"
+                    >
+                      <path
+                        clip-rule="evenodd"
+                        d="M4.905 0c.44 0 .797.357.797.797v1.257h5.596V.797a.797.797 0 111.594 0v1.257h1.718A2.39 2.39 0 0117 4.444V14.61A2.39 2.39 0 0114.61 17H2.39A2.39 2.39 0 010 14.61V4.444a2.39 2.39 0 012.39-2.39h1.719V.797c0-.44.356-.797.796-.797zm6.393 3.648v.744a.797.797 0 101.594 0v-.744h1.718c.44 0 .797.356.797.796v1.719H1.593V4.444c0-.44.357-.796.797-.796h1.719v.744a.797.797 0 001.593 0v-.744h5.596zM1.593 7.756h13.814v6.854c0 .44-.357.797-.797.797H2.39a.797.797 0 01-.797-.797V7.756z"
+                        fill="#000"
+                        fill-rule="evenodd"
+                      />
+                    </svg>
+                  </span>
+                </button>,
+              },
             }
           }
           title={null}
@@ -231,6 +258,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
             description={null}
             disabled={false}
             global_status_id={null}
+            hidden={true}
             id="date-picker-id__input"
             inputElement={[Function]}
             input_attributes={null}
@@ -259,20 +287,17 @@ exports[`DatePicker component have to match snapshot 1`] = `
             submit_button_title={null}
             submit_button_variant="secondary"
             submit_element={
-              <SubmitButton
+              <ForwardRef
                 aria-expanded={false}
+                aria-label="Valgt dato: fra Tuesday, January 1st, 2019 - til Friday, February 15th, 2019, åpne datovelger"
                 className={null}
                 disabled={false}
                 icon="calendar"
-                icon_size={null}
                 id="date-picker-id"
                 onKeyUp={[Function]}
                 on_submit={[Function]}
-                on_submit_blur={null}
-                on_submit_focus={null}
                 title={null}
                 type="button"
-                value={null}
                 variant="secondary"
               />
             }
@@ -283,14 +308,6 @@ exports[`DatePicker component have to match snapshot 1`] = `
             <span
               className="dnb-input dnb-input--text dnb-form-component dnb-input--has-submit-element dnb-input__status--error"
             >
-              <AlignmentHelper
-                className="dnb-input__helper"
-              >
-                <span
-                  aria-hidden={true}
-                  className="dnb-alignment-helper dnb-input__helper"
-                />
-              </AlignmentHelper>
               <span
                 className="dnb-input__inner"
               >
@@ -307,11 +324,12 @@ exports[`DatePicker component have to match snapshot 1`] = `
                       id="date-picker-id-input"
                     >
                       <ForwardRef
-                        aria-labelledby="date-picker-id"
+                        aria-labelledby="date-picker-id-start-day-label"
                         autoComplete="off"
                         className="dnb-date-picker__input dnb-date-picker__input--day dnb-input__input"
+                        hidden={true}
                         id="date-picker-id-start-day"
-                        key="d0"
+                        key="di0"
                         mask={
                           Array [
                             /\\[0-3\\]/,
@@ -330,10 +348,11 @@ exports[`DatePicker component have to match snapshot 1`] = `
                         value="01"
                       >
                         <t
-                          aria-labelledby="date-picker-id"
+                          aria-labelledby="date-picker-id-start-day-label"
                           autoComplete="off"
                           className="dnb-date-picker__input dnb-date-picker__input--day dnb-input__input"
                           guide={true}
+                          hidden={true}
                           id="date-picker-id-start-day"
                           keepCharPositions={false}
                           mask={
@@ -356,10 +375,11 @@ exports[`DatePicker component have to match snapshot 1`] = `
                           value="01"
                         >
                           <input
-                            aria-labelledby="date-picker-id"
+                            aria-labelledby="date-picker-id-start-day-label"
                             autoComplete="off"
                             className="dnb-date-picker__input dnb-date-picker__input--day dnb-input__input"
                             defaultValue="01"
+                            hidden={true}
                             id="date-picker-id-start-day"
                             name="date-picker-id__input"
                             onBlur={[Function]}
@@ -372,6 +392,13 @@ exports[`DatePicker component have to match snapshot 1`] = `
                           />
                         </t>
                       </ForwardRef>
+                      <label
+                        hidden={true}
+                        id="date-picker-id-start-day-label"
+                        key="dl0"
+                      >
+                        fra dag
+                      </label>
                       <span
                         aria-hidden={true}
                         className="dnb-date-picker--separator"
@@ -380,11 +407,12 @@ exports[`DatePicker component have to match snapshot 1`] = `
                         /
                       </span>
                       <ForwardRef
-                        aria-labelledby="date-picker-id"
+                        aria-labelledby="date-picker-id-start-month-label"
                         autoComplete="off"
                         className="dnb-date-picker__input dnb-date-picker__input--month dnb-input__input"
+                        hidden={true}
                         id="date-picker-id-start-month"
-                        key="m2"
+                        key="mi2"
                         mask={
                           Array [
                             /\\[0-1\\]/,
@@ -403,10 +431,11 @@ exports[`DatePicker component have to match snapshot 1`] = `
                         value="01"
                       >
                         <t
-                          aria-labelledby="date-picker-id"
+                          aria-labelledby="date-picker-id-start-month-label"
                           autoComplete="off"
                           className="dnb-date-picker__input dnb-date-picker__input--month dnb-input__input"
                           guide={true}
+                          hidden={true}
                           id="date-picker-id-start-month"
                           keepCharPositions={false}
                           mask={
@@ -429,10 +458,11 @@ exports[`DatePicker component have to match snapshot 1`] = `
                           value="01"
                         >
                           <input
-                            aria-labelledby="date-picker-id"
+                            aria-labelledby="date-picker-id-start-month-label"
                             autoComplete="off"
                             className="dnb-date-picker__input dnb-date-picker__input--month dnb-input__input"
                             defaultValue="01"
+                            hidden={true}
                             id="date-picker-id-start-month"
                             name="date-picker-id__input"
                             onBlur={[Function]}
@@ -445,6 +475,13 @@ exports[`DatePicker component have to match snapshot 1`] = `
                           />
                         </t>
                       </ForwardRef>
+                      <label
+                        hidden={true}
+                        id="date-picker-id-start-month-label"
+                        key="ml2"
+                      >
+                        fra måned
+                      </label>
                       <span
                         aria-hidden={true}
                         className="dnb-date-picker--separator"
@@ -453,11 +490,12 @@ exports[`DatePicker component have to match snapshot 1`] = `
                         /
                       </span>
                       <ForwardRef
-                        aria-labelledby="date-picker-id"
+                        aria-labelledby="date-picker-id-start-year-label"
                         autoComplete="off"
                         className="dnb-date-picker__input dnb-date-picker__input--year dnb-input__input"
+                        hidden={true}
                         id="date-picker-id-start-year"
-                        key="y4"
+                        key="yi4"
                         mask={
                           Array [
                             /\\[1-2\\]/,
@@ -478,10 +516,11 @@ exports[`DatePicker component have to match snapshot 1`] = `
                         value="2019"
                       >
                         <t
-                          aria-labelledby="date-picker-id"
+                          aria-labelledby="date-picker-id-start-year-label"
                           autoComplete="off"
                           className="dnb-date-picker__input dnb-date-picker__input--year dnb-input__input"
                           guide={true}
+                          hidden={true}
                           id="date-picker-id-start-year"
                           keepCharPositions={false}
                           mask={
@@ -506,10 +545,11 @@ exports[`DatePicker component have to match snapshot 1`] = `
                           value="2019"
                         >
                           <input
-                            aria-labelledby="date-picker-id"
+                            aria-labelledby="date-picker-id-start-year-label"
                             autoComplete="off"
                             className="dnb-date-picker__input dnb-date-picker__input--year dnb-input__input"
                             defaultValue="2019"
+                            hidden={true}
                             id="date-picker-id-start-year"
                             name="date-picker-id__input"
                             onBlur={[Function]}
@@ -522,6 +562,13 @@ exports[`DatePicker component have to match snapshot 1`] = `
                           />
                         </t>
                       </ForwardRef>
+                      <label
+                        hidden={true}
+                        id="date-picker-id-start-year-label"
+                        key="yl4"
+                      >
+                        fra år
+                      </label>
                       <span
                         aria-hidden={true}
                         className="dnb-date-picker--separator"
@@ -529,11 +576,12 @@ exports[`DatePicker component have to match snapshot 1`] = `
                          – 
                       </span>
                       <ForwardRef
-                        aria-labelledby="date-picker-id"
+                        aria-labelledby="date-picker-id-end-day-label"
                         autoComplete="off"
                         className="dnb-date-picker__input dnb-date-picker__input--day dnb-input__input"
+                        hidden={true}
                         id="date-picker-id-end-day"
-                        key="d0"
+                        key="di0"
                         mask={
                           Array [
                             /\\[0-3\\]/,
@@ -552,10 +600,11 @@ exports[`DatePicker component have to match snapshot 1`] = `
                         value="15"
                       >
                         <t
-                          aria-labelledby="date-picker-id"
+                          aria-labelledby="date-picker-id-end-day-label"
                           autoComplete="off"
                           className="dnb-date-picker__input dnb-date-picker__input--day dnb-input__input"
                           guide={true}
+                          hidden={true}
                           id="date-picker-id-end-day"
                           keepCharPositions={false}
                           mask={
@@ -578,10 +627,11 @@ exports[`DatePicker component have to match snapshot 1`] = `
                           value="15"
                         >
                           <input
-                            aria-labelledby="date-picker-id"
+                            aria-labelledby="date-picker-id-end-day-label"
                             autoComplete="off"
                             className="dnb-date-picker__input dnb-date-picker__input--day dnb-input__input"
                             defaultValue="15"
+                            hidden={true}
                             id="date-picker-id-end-day"
                             name="date-picker-id__input"
                             onBlur={[Function]}
@@ -594,6 +644,13 @@ exports[`DatePicker component have to match snapshot 1`] = `
                           />
                         </t>
                       </ForwardRef>
+                      <label
+                        hidden={true}
+                        id="date-picker-id-end-day-label"
+                        key="dl0"
+                      >
+                        til dag
+                      </label>
                       <span
                         aria-hidden={true}
                         className="dnb-date-picker--separator"
@@ -602,11 +659,12 @@ exports[`DatePicker component have to match snapshot 1`] = `
                         /
                       </span>
                       <ForwardRef
-                        aria-labelledby="date-picker-id"
+                        aria-labelledby="date-picker-id-end-month-label"
                         autoComplete="off"
                         className="dnb-date-picker__input dnb-date-picker__input--month dnb-input__input"
+                        hidden={true}
                         id="date-picker-id-end-month"
-                        key="m2"
+                        key="mi2"
                         mask={
                           Array [
                             /\\[0-1\\]/,
@@ -625,10 +683,11 @@ exports[`DatePicker component have to match snapshot 1`] = `
                         value="02"
                       >
                         <t
-                          aria-labelledby="date-picker-id"
+                          aria-labelledby="date-picker-id-end-month-label"
                           autoComplete="off"
                           className="dnb-date-picker__input dnb-date-picker__input--month dnb-input__input"
                           guide={true}
+                          hidden={true}
                           id="date-picker-id-end-month"
                           keepCharPositions={false}
                           mask={
@@ -651,10 +710,11 @@ exports[`DatePicker component have to match snapshot 1`] = `
                           value="02"
                         >
                           <input
-                            aria-labelledby="date-picker-id"
+                            aria-labelledby="date-picker-id-end-month-label"
                             autoComplete="off"
                             className="dnb-date-picker__input dnb-date-picker__input--month dnb-input__input"
                             defaultValue="02"
+                            hidden={true}
                             id="date-picker-id-end-month"
                             name="date-picker-id__input"
                             onBlur={[Function]}
@@ -667,6 +727,13 @@ exports[`DatePicker component have to match snapshot 1`] = `
                           />
                         </t>
                       </ForwardRef>
+                      <label
+                        hidden={true}
+                        id="date-picker-id-end-month-label"
+                        key="ml2"
+                      >
+                        til måned
+                      </label>
                       <span
                         aria-hidden={true}
                         className="dnb-date-picker--separator"
@@ -675,11 +742,12 @@ exports[`DatePicker component have to match snapshot 1`] = `
                         /
                       </span>
                       <ForwardRef
-                        aria-labelledby="date-picker-id"
+                        aria-labelledby="date-picker-id-end-year-label"
                         autoComplete="off"
                         className="dnb-date-picker__input dnb-date-picker__input--year dnb-input__input"
+                        hidden={true}
                         id="date-picker-id-end-year"
-                        key="y4"
+                        key="yi4"
                         mask={
                           Array [
                             /\\[1-2\\]/,
@@ -700,10 +768,11 @@ exports[`DatePicker component have to match snapshot 1`] = `
                         value="2019"
                       >
                         <t
-                          aria-labelledby="date-picker-id"
+                          aria-labelledby="date-picker-id-end-year-label"
                           autoComplete="off"
                           className="dnb-date-picker__input dnb-date-picker__input--year dnb-input__input"
                           guide={true}
+                          hidden={true}
                           id="date-picker-id-end-year"
                           keepCharPositions={false}
                           mask={
@@ -728,10 +797,11 @@ exports[`DatePicker component have to match snapshot 1`] = `
                           value="2019"
                         >
                           <input
-                            aria-labelledby="date-picker-id"
+                            aria-labelledby="date-picker-id-end-year-label"
                             autoComplete="off"
                             className="dnb-date-picker__input dnb-date-picker__input--year dnb-input__input"
                             defaultValue="2019"
+                            hidden={true}
                             id="date-picker-id-end-year"
                             name="date-picker-id__input"
                             onBlur={[Function]}
@@ -744,119 +814,258 @@ exports[`DatePicker component have to match snapshot 1`] = `
                           />
                         </t>
                       </ForwardRef>
+                      <label
+                        hidden={true}
+                        id="date-picker-id-end-year-label"
+                        key="yl4"
+                      >
+                        til år
+                      </label>
                     </span>
                   </span>
                   <span
                     className="dnb-input__submit-element"
                   >
-                    <SubmitButton
+                    <ForwardRef
                       aria-expanded={false}
+                      aria-label="Valgt dato: fra Tuesday, January 1st, 2019 - til Friday, February 15th, 2019, åpne datovelger"
                       className={null}
                       disabled={false}
                       icon="calendar"
-                      icon_size={null}
                       id="date-picker-id"
                       onKeyUp={[Function]}
                       on_submit={[Function]}
-                      on_submit_blur={null}
-                      on_submit_focus={null}
                       title={null}
                       type="button"
-                      value={null}
                       variant="secondary"
                     >
-                      <span
-                        className="dnb-input__submit-button"
-                        data-input-state="virgin"
+                      <InputSubmitButton
+                        aria-expanded={false}
+                        aria-label="Valgt dato: fra Tuesday, January 1st, 2019 - til Friday, February 15th, 2019, åpne datovelger"
+                        className={null}
+                        disabled={false}
+                        icon="calendar"
+                        icon_size={null}
+                        id="date-picker-id"
+                        innerRef={
+                          Object {
+                            "current": <button
+                              aria-expanded="false"
+                              aria-label="Valgt dato: fra Tuesday, January 1st, 2019 - til Friday, February 15th, 2019, åpne datovelger"
+                              class="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium"
+                              id="date-picker-id"
+                              type="button"
+                            >
+                              <span
+                                class="dnb-button__text"
+                              >
+                                ‌
+                              </span>
+                              <span
+                                alt="calendar"
+                                aria-hidden="false"
+                                aria-label="calendar"
+                                class="dnb-icon dnb-icon--default dnb-button__icon"
+                                role="img"
+                              >
+                                <svg
+                                  fill="none"
+                                  height="16"
+                                  viewBox="0 0 17 17"
+                                  width="16"
+                                >
+                                  <path
+                                    clip-rule="evenodd"
+                                    d="M4.905 0c.44 0 .797.357.797.797v1.257h5.596V.797a.797.797 0 111.594 0v1.257h1.718A2.39 2.39 0 0117 4.444V14.61A2.39 2.39 0 0114.61 17H2.39A2.39 2.39 0 010 14.61V4.444a2.39 2.39 0 012.39-2.39h1.719V.797c0-.44.356-.797.796-.797zm6.393 3.648v.744a.797.797 0 101.594 0v-.744h1.718c.44 0 .797.356.797.796v1.719H1.593V4.444c0-.44.357-.796.797-.796h1.719v.744a.797.797 0 001.593 0v-.744h5.596zM1.593 7.756h13.814v6.854c0 .44-.357.797-.797.797H2.39a.797.797 0 01-.797-.797V7.756z"
+                                    fill="#000"
+                                    fill-rule="evenodd"
+                                  />
+                                </svg>
+                              </span>
+                            </button>,
+                          }
+                        }
+                        onKeyUp={[Function]}
+                        on_submit={[Function]}
+                        on_submit_blur={null}
+                        on_submit_focus={null}
+                        title={null}
+                        type="button"
+                        value={null}
+                        variant="secondary"
                       >
-                        <Button
-                          aria-expanded={false}
-                          bounding={false}
-                          class={null}
-                          className="dnb-input__submit-button__button"
-                          custom_element={null}
-                          custom_method={null}
-                          disabled={null}
-                          href={null}
-                          icon="calendar"
-                          icon_position={null}
-                          icon_size={null}
-                          id="date-picker-id"
-                          innerRef={null}
-                          onBlur={[Function]}
-                          onClick={[Function]}
-                          onFocus={[Function]}
-                          onKeyUp={[Function]}
-                          on_click={null}
-                          size={null}
-                          text={null}
-                          title={null}
-                          type="button"
-                          variant="secondary"
+                        <span
+                          className="dnb-input__submit-button"
+                          data-input-state="virgin"
                         >
-                          <button
+                          <Button
                             aria-expanded={false}
-                            className="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium"
+                            aria-label="Valgt dato: fra Tuesday, January 1st, 2019 - til Friday, February 15th, 2019, åpne datovelger"
+                            bounding={false}
+                            class={null}
+                            className="dnb-input__submit-button__button"
+                            custom_element={null}
+                            custom_method={null}
+                            disabled={null}
+                            href={null}
+                            icon="calendar"
+                            icon_position={null}
+                            icon_size={null}
                             id="date-picker-id"
+                            innerRef={
+                              Object {
+                                "current": <button
+                                  aria-expanded="false"
+                                  aria-label="Valgt dato: fra Tuesday, January 1st, 2019 - til Friday, February 15th, 2019, åpne datovelger"
+                                  class="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium"
+                                  id="date-picker-id"
+                                  type="button"
+                                >
+                                  <span
+                                    class="dnb-button__text"
+                                  >
+                                    ‌
+                                  </span>
+                                  <span
+                                    alt="calendar"
+                                    aria-hidden="false"
+                                    aria-label="calendar"
+                                    class="dnb-icon dnb-icon--default dnb-button__icon"
+                                    role="img"
+                                  >
+                                    <svg
+                                      fill="none"
+                                      height="16"
+                                      viewBox="0 0 17 17"
+                                      width="16"
+                                    >
+                                      <path
+                                        clip-rule="evenodd"
+                                        d="M4.905 0c.44 0 .797.357.797.797v1.257h5.596V.797a.797.797 0 111.594 0v1.257h1.718A2.39 2.39 0 0117 4.444V14.61A2.39 2.39 0 0114.61 17H2.39A2.39 2.39 0 010 14.61V4.444a2.39 2.39 0 012.39-2.39h1.719V.797c0-.44.356-.797.796-.797zm6.393 3.648v.744a.797.797 0 101.594 0v-.744h1.718c.44 0 .797.356.797.796v1.719H1.593V4.444c0-.44.357-.796.797-.796h1.719v.744a.797.797 0 001.593 0v-.744h5.596zM1.593 7.756h13.814v6.854c0 .44-.357.797-.797.797H2.39a.797.797 0 01-.797-.797V7.756z"
+                                        fill="#000"
+                                        fill-rule="evenodd"
+                                      />
+                                    </svg>
+                                  </span>
+                                </button>,
+                              }
+                            }
                             onBlur={[Function]}
                             onClick={[Function]}
                             onFocus={[Function]}
                             onKeyUp={[Function]}
-                            onMouseOut={[Function]}
+                            on_click={null}
+                            size={null}
+                            text={null}
+                            title={null}
                             type="button"
+                            variant="secondary"
                           >
-                            <Content
+                            <button
                               aria-expanded={false}
-                              bounding={false}
-                              class={null}
-                              className="dnb-input__submit-button__button"
-                              content={null}
-                              custom_element={null}
-                              custom_method={null}
-                              disabled={null}
-                              href={null}
-                              icon="calendar"
-                              icon_position={null}
-                              icon_size={null}
+                              aria-label="Valgt dato: fra Tuesday, January 1st, 2019 - til Friday, February 15th, 2019, åpne datovelger"
+                              className="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium"
                               id="date-picker-id"
-                              innerRef={null}
-                              isIconOnly={true}
                               onBlur={[Function]}
                               onClick={[Function]}
                               onFocus={[Function]}
                               onKeyUp={[Function]}
-                              on_click={null}
-                              size={null}
-                              text={null}
-                              title={null}
+                              onMouseOut={[Function]}
                               type="button"
-                              variant="secondary"
                             >
-                              <IconPrimary
-                                alt={null}
-                                aria-hidden={false}
-                                attributes={null}
-                                border={null}
+                              <Content
+                                aria-expanded={false}
+                                aria-label="Valgt dato: fra Tuesday, January 1st, 2019 - til Friday, February 15th, 2019, åpne datovelger"
+                                bounding={false}
                                 class={null}
-                                className="dnb-button__icon"
-                                color={null}
-                                height={null}
+                                className="dnb-input__submit-button__button"
+                                content={null}
+                                custom_element={null}
+                                custom_method={null}
+                                disabled={null}
+                                href={null}
                                 icon="calendar"
-                                key="button-icon"
-                                modifier={null}
+                                icon_position={null}
+                                icon_size={null}
+                                id="date-picker-id"
+                                innerRef={
+                                  Object {
+                                    "current": <button
+                                      aria-expanded="false"
+                                      aria-label="Valgt dato: fra Tuesday, January 1st, 2019 - til Friday, February 15th, 2019, åpne datovelger"
+                                      class="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium"
+                                      id="date-picker-id"
+                                      type="button"
+                                    >
+                                      <span
+                                        class="dnb-button__text"
+                                      >
+                                        ‌
+                                      </span>
+                                      <span
+                                        alt="calendar"
+                                        aria-hidden="false"
+                                        aria-label="calendar"
+                                        class="dnb-icon dnb-icon--default dnb-button__icon"
+                                        role="img"
+                                      >
+                                        <svg
+                                          fill="none"
+                                          height="16"
+                                          viewBox="0 0 17 17"
+                                          width="16"
+                                        >
+                                          <path
+                                            clip-rule="evenodd"
+                                            d="M4.905 0c.44 0 .797.357.797.797v1.257h5.596V.797a.797.797 0 111.594 0v1.257h1.718A2.39 2.39 0 0117 4.444V14.61A2.39 2.39 0 0114.61 17H2.39A2.39 2.39 0 010 14.61V4.444a2.39 2.39 0 012.39-2.39h1.719V.797c0-.44.356-.797.796-.797zm6.393 3.648v.744a.797.797 0 101.594 0v-.744h1.718c.44 0 .797.356.797.796v1.719H1.593V4.444c0-.44.357-.796.797-.796h1.719v.744a.797.797 0 001.593 0v-.744h5.596zM1.593 7.756h13.814v6.854c0 .44-.357.797-.797.797H2.39a.797.797 0 01-.797-.797V7.756z"
+                                            fill="#000"
+                                            fill-rule="evenodd"
+                                          />
+                                        </svg>
+                                      </span>
+                                    </button>,
+                                  }
+                                }
+                                isIconOnly={true}
+                                onBlur={[Function]}
+                                onClick={[Function]}
+                                onFocus={[Function]}
+                                onKeyUp={[Function]}
+                                on_click={null}
                                 size={null}
+                                text={null}
                                 title={null}
-                                width={null}
+                                type="button"
+                                variant="secondary"
                               >
                                 <span
-                                  alt="calendar"
+                                  className="dnb-button__text"
+                                  key="button-text-empty"
+                                >
+                                  ‌
+                                </span>
+                                <IconPrimary
+                                  alt={null}
                                   aria-hidden={false}
-                                  aria-label="calendar"
-                                  className="dnb-icon dnb-icon--default dnb-button__icon"
-                                  role="img"
+                                  attributes={null}
+                                  border={null}
+                                  class={null}
+                                  className="dnb-button__icon"
+                                  color={null}
+                                  height={null}
+                                  icon="calendar"
+                                  key="button-icon"
+                                  modifier={null}
+                                  size={null}
+                                  title={null}
+                                  width={null}
                                 >
                                   <span
-                                    className="dnb-icon--wrapper"
+                                    alt="calendar"
+                                    aria-hidden={false}
+                                    aria-label="calendar"
+                                    className="dnb-icon dnb-icon--default dnb-button__icon"
+                                    role="img"
                                   >
                                     <calendar>
                                       <svg
@@ -874,13 +1083,13 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                       </svg>
                                     </calendar>
                                   </span>
-                                </span>
-                              </IconPrimary>
-                            </Content>
-                          </button>
-                        </Button>
-                      </span>
-                    </SubmitButton>
+                                </IconPrimary>
+                              </Content>
+                            </button>
+                          </Button>
+                        </span>
+                      </InputSubmitButton>
+                    </ForwardRef>
                   </span>
                 </span>
               </span>
@@ -1033,7 +1242,7 @@ exports[`DatePicker scss have to match snapshot 1`] = `
 .dnb-icon {
   display: inline-block;
   font-size: 1rem;
-  line-height: 1;
+  line-height: 1rem;
   color: inherit;
   width: 1em;
   height: 1em; }
@@ -1041,10 +1250,8 @@ exports[`DatePicker scss have to match snapshot 1`] = `
   .dnb-icon svg {
     width: inherit;
     height: inherit;
-    shape-rendering: geometricPrecision; }
-  .dnb-icon > .dnb-icon--wrapper {
-    width: inherit;
-    height: inherit; }
+    shape-rendering: geometricPrecision;
+    vertical-align: top; }
   .dnb-icon svg[width='100%'] {
     width: inherit; }
   .dnb-icon svg[height='100%'] {
@@ -1055,30 +1262,22 @@ exports[`DatePicker scss have to match snapshot 1`] = `
   .dnb-icon svg [stroke] {
     stroke: currentColor; }
   .dnb-icon--small {
-    width: 0.75rem;
-    height: 0.75rem; }
+    font-size: 0.75rem; }
   .dnb-icon--default {
-    width: 1rem;
-    height: 1rem; }
+    font-size: 1rem; }
   .dnb-icon--medium {
-    width: 1.5rem;
-    height: 1.5rem; }
+    font-size: 1.5rem; }
   .dnb-icon--large {
-    width: 2rem;
-    height: 2rem; }
+    font-size: 2rem; }
   .dnb-icon--x-large {
-    width: 2.5rem;
-    height: 2.5rem; }
+    font-size: 2.5rem; }
   .dnb-icon--xx-large {
-    width: 3rem;
-    height: 3rem; }
+    font-size: 3rem; }
   .dnb-icon--custom-size {
     width: auto;
     height: auto; }
   .dnb-icon--auto {
-    font-size: 1em;
-    width: 1em;
-    height: 1em; }
+    font-size: 1em; }
   .dnb-icon--auto > .dnb-icon--wrapper {
     display: inline-flex;
     align-items: center;
@@ -1165,14 +1364,15 @@ exports[`DatePicker scss have to match snapshot 1`] = `
   border: var(--button-border-width) solid transparent;
   border-radius: var(--button-border-radius);
   text-decoration: none;
-  font-size: var(--font-size-small);
-  line-height: var(--button-height--small); }
-  .dnb-button__icon svg:not([width]):not([height]) {
+  font-size: var(--font-size-small); }
+  .dnb-button,
+  .dnb-core-style .dnb-button {
+    line-height: var(--button-height); }
+  .dnb-button__icon.dnb-icon svg:not([width]):not([height]) {
     width: var(--button-icon-size);
     height: var(--button-icon-size); }
-  .dnb-button .dnb-icon--wrapper {
-    display: inline-flex;
-    vertical-align: top; }
+  [href] > .dnb-button__icon.dnb-icon {
+    line-height: var(--button-font-size); }
   .dnb-button__text {
     font-size: var(--button-font-size);
     line-height: var(--line-height-x-small--em);
@@ -1189,8 +1389,10 @@ exports[`DatePicker scss have to match snapshot 1`] = `
     width: var(--button-width--small);
     height: var(--button-height--small);
     font-size: var(--button-font-size-small);
-    line-height: var(--button-height--small);
     border-radius: var(--button-border-radius--small); }
+    .dnb-button--size-small,
+    .dnb-core-style .dnb-button--size-small {
+      line-height: var(--button-height--small); }
   .dnb-button--has-text.dnb-button--size-small {
     padding-left: 1rem;
     padding-right: 1rem; }
@@ -1201,8 +1403,10 @@ exports[`DatePicker scss have to match snapshot 1`] = `
   .dnb-button--size-medium {
     width: var(--button-width--medium);
     height: var(--button-height--medium);
-    line-height: var(--button-height--medium);
     border-radius: var(--button-border-radius--medium); }
+    .dnb-button--size-medium,
+    .dnb-core-style .dnb-button--size-medium {
+      line-height: var(--button-height--medium); }
   .dnb-button--has-text.dnb-button--size-medium {
     padding-left: 1rem;
     padding-right: 1rem; }
@@ -1213,8 +1417,10 @@ exports[`DatePicker scss have to match snapshot 1`] = `
   .dnb-button--size-large {
     width: var(--button-width--large);
     height: var(--button-height--large);
-    line-height: var(--button-height--large);
     border-radius: var(--button-border-radius--large); }
+    .dnb-button--size-large,
+    .dnb-core-style .dnb-button--size-large {
+      line-height: var(--button-height--large); }
   .dnb-button--has-text.dnb-button--size-large {
     padding-left: 2rem;
     padding-right: 2rem; }
@@ -1344,6 +1550,10 @@ button.dnb-button::-moz-focus-inner {
     display: block;
     margin-right: 0;
     margin-bottom: 0.5rem; }
+  .dnb-form-label--sr-only {
+    width: 1px;
+    margin-left: -1px;
+    overflow: hidden; }
   .dnb-form-label[for]:not([disabled]) {
     user-select: none;
     -webkit-user-select: none;
@@ -1480,14 +1690,14 @@ legend.dnb-form-label {
 */
 :root {
   --input-font-size: var(--font-size-basis);
-  --input-font-size--medium: var(--font-size-large);
-  --input-font-size--large: var(--font-size-x-large);
+  --input-font-size--medium: var(--font-size-basis);
+  --input-font-size--large: var(--font-size-medium);
   --input-padding: 1rem;
-  --input-padding--medium: 1.5rem;
-  --input-padding--large: 2rem;
+  --input-padding--medium: 1rem;
+  --input-padding--large: 1rem;
   --input-height: 2rem;
-  --input-height--medium: 3rem;
-  --input-height--large: 4rem;
+  --input-height--medium: 2.5rem;
+  --input-height--large: 3rem;
   --input-border-width: 0.0625rem;
   --input-border-radius: calc(var(--input-height) / 2);
   --input-border-radius--medium: calc(var(--input-height--medium) / 2);
@@ -1502,6 +1712,12 @@ legend.dnb-form-label {
     display: inline-flex;
     flex-direction: column;
     width: auto; }
+    .dnb-input__inner::before {
+      content: '\\\\200C';
+      display: inline-block;
+      width: 0;
+      height: 0;
+      font-size: var(--font-size-small); }
   .dnb-input__shell {
     position: relative;
     display: flex;
@@ -1586,10 +1802,11 @@ legend.dnb-form-label {
       margin-left: calc(1px - 1px - var(--input-height--medium)); }
       .dnb-input--medium .dnb-input__submit-element .dnb-button {
         width: var(--input-height--medium);
-        height: var(--input-height--medium); }
+        height: var(--input-height--medium);
+        line-height: var(--input-height--medium); }
   .dnb-input--medium.dnb-input--has-submit-element .dnb-input__placeholder,
   .dnb-input--medium.dnb-input--has-submit-element .dnb-input__input {
-    padding-right: calc(var(--input-padding--medium) * 2.5); }
+    padding-right: calc(var(--input-padding--medium) * 3); }
   .dnb-input--large {
     line-height: var(--input-height--large); }
     .dnb-input--large .dnb-input__shell,
@@ -1606,11 +1823,9 @@ legend.dnb-form-label {
       .dnb-input--large .dnb-input__submit-element .dnb-button {
         width: var(--input-height--large);
         height: var(--input-height--large); }
-        .dnb-input--large .dnb-input__submit-element .dnb-button .dnb-button__icon {
-          transform: scale(1.33333); }
   .dnb-input--large.dnb-input--has-submit-element .dnb-input__placeholder,
   .dnb-input--large.dnb-input--has-submit-element .dnb-input__input {
-    padding-right: calc(var(--input-padding--large) * 2.5); }
+    padding-right: calc(var(--input-padding--large) * 3.5); }
   .dnb-input__align--center .dnb-input__placeholder,
   .dnb-input__align--center .dnb-input__input {
     text-align: center; }
@@ -1718,6 +1933,12 @@ legend.dnb-form-label {
     display: inline-flex;
     flex-direction: column;
     align-self: center; }
+    .dnb-checkbox__inner::before {
+      content: '\\\\200C';
+      display: inline-block;
+      width: 0;
+      height: 0;
+      font-size: var(--font-size-small); }
   .dnb-checkbox__shell {
     user-select: none;
     -webkit-user-select: none;
@@ -1860,6 +2081,12 @@ legend.dnb-form-label {
     display: inline-flex;
     flex-direction: column;
     align-self: center; }
+    .dnb-radio__inner::before {
+      content: '\\\\200C';
+      display: inline-block;
+      width: 0;
+      height: 0;
+      font-size: var(--font-size-small); }
   .dnb-radio__shell {
     position: relative;
     user-select: none;
@@ -1953,9 +2180,8 @@ legend.dnb-form-label {
     .dnb-radio-group .dnb-form-row {
       align-items: flex-start;
       margin-bottom: calc(1px - 1px - var(--radio-margin-bottom)); }
-    .dnb-radio-group__helper {
-      font-size: var(--font-size-basis);
-      line-height: var(--radio-height); }
+      .dnb-radio-group .dnb-form-row::before {
+        font-size: var(--font-size-basis); }
   @media screen and (-ms-high-contrast: none) {
     .dnb-radio {
       vertical-align: text-bottom; }
@@ -2027,6 +2253,12 @@ legend.dnb-form-label {
     left: 0;
     user-select: none;
     -webkit-user-select: none; }
+    .dnb-toggle-button__shell::before {
+      content: '\\\\200C';
+      display: inline-block;
+      width: 0;
+      height: 0;
+      font-size: var(--font-size-small); }
   .dnb-toggle-button--vertical {
     flex-direction: column;
     align-items: flex-start; }
@@ -2104,12 +2336,11 @@ legend.dnb-form-label {
         margin-top: 0;
         margin-bottom: 0; }
     .dnb-toggle-button-group .dnb-form-row {
+      align-items: baseline;
       margin-bottom: calc(1px - 1px - var(--toggle-button-margin-bottom)); }
-    .dnb-toggle-button-group .dnb-form-row__helper {
-      font-size: 1.375rem;
-      /* 22/16 */ }
-    .dnb-toggle-button-group__helper {
-      font-size: var(--font-size-basis);
+      .dnb-toggle-button-group .dnb-form-row::before {
+        font-size: var(--font-size-basis); }
+    .dnb-toggle-button-group--no-label .dnb-form-row::before {
       line-height: var(--button-height); }
   @media (min-width: 40em) {
     .dnb-form-label + .dnb-toggle-button {
@@ -2182,9 +2413,14 @@ legend.dnb-form-label {
   line-height: var(--line-height-basis); }
   .dnb-date-picker__inner {
     display: inline-flex;
-    flex-direction: column; }
-  .dnb-date-picker__helper {
+    flex-direction: column;
     line-height: var(--date-picker-input-height); }
+    .dnb-date-picker__inner::before {
+      content: '\\\\200C';
+      display: inline-block;
+      width: 0;
+      height: 0;
+      font-size: var(--font-size-small); }
   .dnb-date-picker__shell {
     position: relative;
     top: 0;
@@ -2294,6 +2530,9 @@ legend.dnb-form-label {
       height: 1px; }
   .dnb-date-picker:not(.dnb-date-picker--show-footer) .dnb-date-picker__calendar::after {
     content: none; }
+  .dnb-date-picker__header {
+    height: 2.5rem;
+    line-height: var(--line-height-basis); }
   .dnb-date-picker__addon, .dnb-date-picker__header {
     position: relative;
     display: flex;
@@ -2328,6 +2567,8 @@ legend.dnb-form-label {
     padding: 0;
     list-style: none; }
   .dnb-date-picker table {
+    position: relative;
+    z-index: 1;
     margin: 0; }
     .dnb-date-picker table.dnb-no-focus:focus {
       outline: none; }

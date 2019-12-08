@@ -4,6 +4,7 @@
 - [New DNB font](#new-dnb-font) **(major change)**
 - [Color changes](#color-changes) **(feature and major change)**
 - [Localization](#localization) **(feature)**
+- [Other changes](#other-changes) **(major)**
 - [Other features](#other-features) **(features)**
 - [Resources package](#resources-package) **(feature)**
 - [How to Install](#install)
@@ -61,6 +62,29 @@ color: var(--color-signal-yellow);
 color: var(--color-signal-yellow-30);
 ```
 
+### New colors
+
+```css
+/* New */
+color: var(--color-lavender);
+color: var(--color-sand-yellow);
+color: var(--color-pistachio);
+color: var(--color-success-green);
+```
+
+### Section
+
+The [Section](/uilib/components/section) has reflected the color changes:
+
+- `style_type="signal-yellow"` is now deprecated.
+- `style_type="cherry-red"` got removed completely (v5 deprecation).
+
+**New types**
+
+- `style_type="lavender"`
+- `style_type="sand-yellow"`
+- `style_type="pistachio"`
+
 ## New Icons
 
 ```js
@@ -76,6 +100,7 @@ import {
 // new secondary icons
 import {
   home,
+  log_in,
   settings,
   refresh,
   add_file,
@@ -87,6 +112,10 @@ import {
 ## Localization
 
 With v6 the `dnb-ui-lib` has it's own localization to be used both for component translation and your app strings. Read [more about how to use localization](/uilib/usage/customisation/localization).
+
+## Other changes
+
+- **major change** [Input](/uilib/components/input) got sizes. The height `medium` is now _2.5rem_ and `large` is now _2.5rem_
 
 ## Other features
 

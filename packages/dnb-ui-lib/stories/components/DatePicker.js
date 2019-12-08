@@ -60,6 +60,7 @@ export default [
           show_input
           show_submit_button
           show_cancel_button
+          enable_keyboard_nav
           input_element={<Input value="custom value" />}
           shortcuts={[
             { title: 'Set date', date: '2019-11-15' },

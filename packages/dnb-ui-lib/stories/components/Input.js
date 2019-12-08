@@ -124,15 +124,15 @@ export default [
           />
           <Input
             label="Search:"
-            size="large"
+            size="medium"
             type="search"
             align="right"
             stretch
-            placeholder="Large input with right aligned text"
+            placeholder="Medium input with right aligned text"
           />
           <Input
             label="Search:"
-            size="medium"
+            size="large"
             type="search"
             align="right"
             stretch

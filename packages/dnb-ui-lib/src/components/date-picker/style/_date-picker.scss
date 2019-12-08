@@ -44,12 +44,15 @@
   &__inner {
     display: inline-flex;
     flex-direction: column;
-  }
 
-  // if no label is provided, then make sure we have some text to align the button
-  &__helper {
+    @include alignmentHelper();
+
+    // if no label is provided, then make sure we have some text to align the button
     line-height: var(--date-picker-input-height);
   }
+
+  // &__helper {
+  // }
 
   &__shell {
     position: relative;
@@ -205,6 +208,11 @@
     content: none;
   }
 
+  &__header {
+    height: 2.5rem;
+    line-height: var(--line-height-basis);
+  }
+
   &__addon,
   &__header {
     position: relative;
@@ -261,6 +269,9 @@
   }
 
   table {
+    position: relative;
+    z-index: 1; // to make sure we show the focus ring over the header line on top
+
     margin: 0;
 
     &.dnb-no-focus:focus {

@@ -61,14 +61,6 @@ exports[`Slider component have to match snapshot 1`] = `
         </label>
       </Element>
     </FormLabel>
-    <AlignmentHelper
-      className="dnb-slider__helper"
-    >
-      <span
-        aria-hidden={true}
-        className="dnb-alignment-helper dnb-slider__helper"
-      />
-    </AlignmentHelper>
     <span
       className="dnb-slider__wrapper"
     >
@@ -128,6 +120,12 @@ exports[`Slider component have to match snapshot 1`] = `
               type="button"
               variant="secondary"
             >
+              <span
+                className="dnb-button__text"
+                key="button-text-empty"
+              >
+                ‌
+              </span>
               <IconPrimary
                 alt={null}
                 aria-hidden={false}
@@ -151,25 +149,21 @@ exports[`Slider component have to match snapshot 1`] = `
                   className="dnb-icon dnb-icon--default dnb-button__icon"
                   role="img"
                 >
-                  <span
-                    className="dnb-icon--wrapper"
-                  >
-                    <subtract>
-                      <svg
-                        fill="none"
-                        height={16}
-                        viewBox="0 0 16 16"
-                        width={16}
-                      >
-                        <path
-                          d="M1.75 8h12.5"
-                          stroke="#000"
-                          strokeLinecap="round"
-                          strokeWidth={1.5}
-                        />
-                      </svg>
-                    </subtract>
-                  </span>
+                  <subtract>
+                    <svg
+                      fill="none"
+                      height={16}
+                      viewBox="0 0 16 16"
+                      width={16}
+                    >
+                      <path
+                        d="M1.75 8h12.5"
+                        stroke="#000"
+                        strokeLinecap="round"
+                        strokeWidth={1.5}
+                      />
+                    </svg>
+                  </subtract>
                 </span>
               </IconPrimary>
             </Content>
@@ -333,6 +327,12 @@ exports[`Slider component have to match snapshot 1`] = `
               type="button"
               variant="secondary"
             >
+              <span
+                className="dnb-button__text"
+                key="button-text-empty"
+              >
+                ‌
+              </span>
               <IconPrimary
                 alt={null}
                 aria-hidden={false}
@@ -356,25 +356,21 @@ exports[`Slider component have to match snapshot 1`] = `
                   className="dnb-icon dnb-icon--default dnb-button__icon"
                   role="img"
                 >
-                  <span
-                    className="dnb-icon--wrapper"
-                  >
-                    <add>
-                      <svg
-                        fill="none"
-                        height={16}
-                        viewBox="0 0 16 16"
-                        width={16}
-                      >
-                        <path
-                          clipRule="evenodd"
-                          d="M8.75 1.75a.75.75 0 00-1.5 0v5.5h-5.5a.75.75 0 000 1.5h5.5v5.5a.75.75 0 001.5 0v-5.5h5.5a.75.75 0 000-1.5h-5.5v-5.5z"
-                          fill="#000"
-                          fillRule="evenodd"
-                        />
-                      </svg>
-                    </add>
-                  </span>
+                  <add>
+                    <svg
+                      fill="none"
+                      height={16}
+                      viewBox="0 0 16 16"
+                      width={16}
+                    >
+                      <path
+                        clipRule="evenodd"
+                        d="M8.75 1.75a.75.75 0 00-1.5 0v5.5h-5.5a.75.75 0 000 1.5h5.5v5.5a.75.75 0 001.5 0v-5.5h5.5a.75.75 0 000-1.5h-5.5v-5.5z"
+                        fill="#000"
+                        fillRule="evenodd"
+                      />
+                    </svg>
+                  </add>
                 </span>
               </IconPrimary>
             </Content>
@@ -422,7 +418,7 @@ exports[`Slider scss have to match snapshot 1`] = `
 .dnb-icon {
   display: inline-block;
   font-size: 1rem;
-  line-height: 1;
+  line-height: 1rem;
   color: inherit;
   width: 1em;
   height: 1em; }
@@ -430,10 +426,8 @@ exports[`Slider scss have to match snapshot 1`] = `
   .dnb-icon svg {
     width: inherit;
     height: inherit;
-    shape-rendering: geometricPrecision; }
-  .dnb-icon > .dnb-icon--wrapper {
-    width: inherit;
-    height: inherit; }
+    shape-rendering: geometricPrecision;
+    vertical-align: top; }
   .dnb-icon svg[width='100%'] {
     width: inherit; }
   .dnb-icon svg[height='100%'] {
@@ -444,30 +438,22 @@ exports[`Slider scss have to match snapshot 1`] = `
   .dnb-icon svg [stroke] {
     stroke: currentColor; }
   .dnb-icon--small {
-    width: 0.75rem;
-    height: 0.75rem; }
+    font-size: 0.75rem; }
   .dnb-icon--default {
-    width: 1rem;
-    height: 1rem; }
+    font-size: 1rem; }
   .dnb-icon--medium {
-    width: 1.5rem;
-    height: 1.5rem; }
+    font-size: 1.5rem; }
   .dnb-icon--large {
-    width: 2rem;
-    height: 2rem; }
+    font-size: 2rem; }
   .dnb-icon--x-large {
-    width: 2.5rem;
-    height: 2.5rem; }
+    font-size: 2.5rem; }
   .dnb-icon--xx-large {
-    width: 3rem;
-    height: 3rem; }
+    font-size: 3rem; }
   .dnb-icon--custom-size {
     width: auto;
     height: auto; }
   .dnb-icon--auto {
-    font-size: 1em;
-    width: 1em;
-    height: 1em; }
+    font-size: 1em; }
   .dnb-icon--auto > .dnb-icon--wrapper {
     display: inline-flex;
     align-items: center;
@@ -554,14 +540,15 @@ exports[`Slider scss have to match snapshot 1`] = `
   border: var(--button-border-width) solid transparent;
   border-radius: var(--button-border-radius);
   text-decoration: none;
-  font-size: var(--font-size-small);
-  line-height: var(--button-height--small); }
-  .dnb-button__icon svg:not([width]):not([height]) {
+  font-size: var(--font-size-small); }
+  .dnb-button,
+  .dnb-core-style .dnb-button {
+    line-height: var(--button-height); }
+  .dnb-button__icon.dnb-icon svg:not([width]):not([height]) {
     width: var(--button-icon-size);
     height: var(--button-icon-size); }
-  .dnb-button .dnb-icon--wrapper {
-    display: inline-flex;
-    vertical-align: top; }
+  [href] > .dnb-button__icon.dnb-icon {
+    line-height: var(--button-font-size); }
   .dnb-button__text {
     font-size: var(--button-font-size);
     line-height: var(--line-height-x-small--em);
@@ -578,8 +565,10 @@ exports[`Slider scss have to match snapshot 1`] = `
     width: var(--button-width--small);
     height: var(--button-height--small);
     font-size: var(--button-font-size-small);
-    line-height: var(--button-height--small);
     border-radius: var(--button-border-radius--small); }
+    .dnb-button--size-small,
+    .dnb-core-style .dnb-button--size-small {
+      line-height: var(--button-height--small); }
   .dnb-button--has-text.dnb-button--size-small {
     padding-left: 1rem;
     padding-right: 1rem; }
@@ -590,8 +579,10 @@ exports[`Slider scss have to match snapshot 1`] = `
   .dnb-button--size-medium {
     width: var(--button-width--medium);
     height: var(--button-height--medium);
-    line-height: var(--button-height--medium);
     border-radius: var(--button-border-radius--medium); }
+    .dnb-button--size-medium,
+    .dnb-core-style .dnb-button--size-medium {
+      line-height: var(--button-height--medium); }
   .dnb-button--has-text.dnb-button--size-medium {
     padding-left: 1rem;
     padding-right: 1rem; }
@@ -602,8 +593,10 @@ exports[`Slider scss have to match snapshot 1`] = `
   .dnb-button--size-large {
     width: var(--button-width--large);
     height: var(--button-height--large);
-    line-height: var(--button-height--large);
     border-radius: var(--button-border-radius--large); }
+    .dnb-button--size-large,
+    .dnb-core-style .dnb-button--size-large {
+      line-height: var(--button-height--large); }
   .dnb-button--has-text.dnb-button--size-large {
     padding-left: 2rem;
     padding-right: 2rem; }
@@ -733,6 +726,10 @@ button.dnb-button::-moz-focus-inner {
     display: block;
     margin-right: 0;
     margin-bottom: 0.5rem; }
+  .dnb-form-label--sr-only {
+    width: 1px;
+    margin-left: -1px;
+    overflow: hidden; }
   .dnb-form-label[for]:not([disabled]) {
     user-select: none;
     -webkit-user-select: none;
@@ -890,6 +887,12 @@ legend.dnb-form-label {
     flex-direction: column;
     flex: 1;
     width: 100%; }
+    .dnb-slider__wrapper::before {
+      content: '\\\\200C';
+      display: inline-block;
+      width: 0;
+      height: 0;
+      font-size: var(--font-size-small); }
   .dnb-slider--vertical .dnb-slider__wrapper {
     align-items: center;
     width: auto;

@@ -32,6 +32,10 @@ New [Colors](/uilib/usage/customisation/colors):
 - Profile color `pistachio`
 - UX color `success-green`
 
+### Icons
+
+- secondary `log_in`
+
 ### Components and Elements
 
 [Components](/uilib/components) and [Elements](/uilib/elements) features and changes:

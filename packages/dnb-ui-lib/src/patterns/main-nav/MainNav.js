@@ -233,17 +233,18 @@ const MainNavTrigger = props => {
     </button>
   )
 }
-
-// const Logo = props => {
-//   const { icon, className } = props
-//
-//   const params = {
-//     icon: icon || 'dnb-logo',
-//     className
-//   }
-//
-//   return <Icon width="100" height="50" color="#007272" {...params} />
-// }
+MainNavTrigger.propTypes = {
+  text: PropTypes.string,
+  className: PropTypes.string,
+  modifier: PropTypes.string,
+  onTrigger: PropTypes.func
+}
+MainNavTrigger.defaultProps = {
+  text: null,
+  className: null,
+  modifier: null,
+  onTrigger: null
+}
 
 const Search = props => {
   return (

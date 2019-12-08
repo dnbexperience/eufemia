@@ -74,7 +74,11 @@
   }
 }
 .dnb-alignment-helper {
-  @include helper();
+  @include alignmentHelperClass();
+  @include alignmentHelper();
+}
+.dnb-drop-shadow {
+  @include defaultDropShadow();
 }
 .dnb-sr-only {
   @include srOnly();

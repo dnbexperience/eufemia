@@ -232,12 +232,12 @@ describe('Input component', () => {
       </Component>
     )
 
-    const Button = Comp.find('SubmitButton').find('button')
+    const Button = Comp.find('InputSubmitButton').find('button')
     expect(Button.exists()).toBe(true)
 
     Button.simulate('focus')
     expect(
-      Comp.find('SubmitButton')
+      Comp.find('InputSubmitButton')
         .find('.dnb-input__submit-button')
         .prop('data-input-state')
     ).toBe('focus')

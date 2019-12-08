@@ -38,6 +38,7 @@ README.md
 .prettierignore
 .browserslistrc
 babel.config.js
+babel.config.cjs
 audit-ci.json
 
 # conf

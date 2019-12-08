@@ -16,6 +16,7 @@ const renderProps = {}
 
 const propTypes = {
   class: PropTypes.string,
+  range_val: PropTypes.string,
   /** React props */
   className: PropTypes.string,
   children: PropTypes.oneOfType([
@@ -28,6 +29,7 @@ const propTypes = {
 
 const defaultProps = {
   class: null,
+  range_val: null,
   /** React props */
   className: null,
   children: null,

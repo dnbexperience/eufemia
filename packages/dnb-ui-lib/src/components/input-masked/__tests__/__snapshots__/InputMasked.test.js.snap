@@ -69,14 +69,6 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
     <span
       className="dnb-input dnb-input--text dnb-form-component dnb-input-masked"
     >
-      <AlignmentHelper
-        className="dnb-input__helper"
-      >
-        <span
-          aria-hidden={true}
-          className="dnb-alignment-helper dnb-input__helper"
-        />
-      </AlignmentHelper>
       <span
         className="dnb-input__inner"
       >
@@ -168,7 +160,7 @@ exports[`InputMasked scss have to match snapshot 1`] = `
 .dnb-icon {
   display: inline-block;
   font-size: 1rem;
-  line-height: 1;
+  line-height: 1rem;
   color: inherit;
   width: 1em;
   height: 1em; }
@@ -176,10 +168,8 @@ exports[`InputMasked scss have to match snapshot 1`] = `
   .dnb-icon svg {
     width: inherit;
     height: inherit;
-    shape-rendering: geometricPrecision; }
-  .dnb-icon > .dnb-icon--wrapper {
-    width: inherit;
-    height: inherit; }
+    shape-rendering: geometricPrecision;
+    vertical-align: top; }
   .dnb-icon svg[width='100%'] {
     width: inherit; }
   .dnb-icon svg[height='100%'] {
@@ -190,30 +180,22 @@ exports[`InputMasked scss have to match snapshot 1`] = `
   .dnb-icon svg [stroke] {
     stroke: currentColor; }
   .dnb-icon--small {
-    width: 0.75rem;
-    height: 0.75rem; }
+    font-size: 0.75rem; }
   .dnb-icon--default {
-    width: 1rem;
-    height: 1rem; }
+    font-size: 1rem; }
   .dnb-icon--medium {
-    width: 1.5rem;
-    height: 1.5rem; }
+    font-size: 1.5rem; }
   .dnb-icon--large {
-    width: 2rem;
-    height: 2rem; }
+    font-size: 2rem; }
   .dnb-icon--x-large {
-    width: 2.5rem;
-    height: 2.5rem; }
+    font-size: 2.5rem; }
   .dnb-icon--xx-large {
-    width: 3rem;
-    height: 3rem; }
+    font-size: 3rem; }
   .dnb-icon--custom-size {
     width: auto;
     height: auto; }
   .dnb-icon--auto {
-    font-size: 1em;
-    width: 1em;
-    height: 1em; }
+    font-size: 1em; }
   .dnb-icon--auto > .dnb-icon--wrapper {
     display: inline-flex;
     align-items: center;
@@ -300,14 +282,15 @@ exports[`InputMasked scss have to match snapshot 1`] = `
   border: var(--button-border-width) solid transparent;
   border-radius: var(--button-border-radius);
   text-decoration: none;
-  font-size: var(--font-size-small);
-  line-height: var(--button-height--small); }
-  .dnb-button__icon svg:not([width]):not([height]) {
+  font-size: var(--font-size-small); }
+  .dnb-button,
+  .dnb-core-style .dnb-button {
+    line-height: var(--button-height); }
+  .dnb-button__icon.dnb-icon svg:not([width]):not([height]) {
     width: var(--button-icon-size);
     height: var(--button-icon-size); }
-  .dnb-button .dnb-icon--wrapper {
-    display: inline-flex;
-    vertical-align: top; }
+  [href] > .dnb-button__icon.dnb-icon {
+    line-height: var(--button-font-size); }
   .dnb-button__text {
     font-size: var(--button-font-size);
     line-height: var(--line-height-x-small--em);
@@ -324,8 +307,10 @@ exports[`InputMasked scss have to match snapshot 1`] = `
     width: var(--button-width--small);
     height: var(--button-height--small);
     font-size: var(--button-font-size-small);
-    line-height: var(--button-height--small);
     border-radius: var(--button-border-radius--small); }
+    .dnb-button--size-small,
+    .dnb-core-style .dnb-button--size-small {
+      line-height: var(--button-height--small); }
   .dnb-button--has-text.dnb-button--size-small {
     padding-left: 1rem;
     padding-right: 1rem; }
@@ -336,8 +321,10 @@ exports[`InputMasked scss have to match snapshot 1`] = `
   .dnb-button--size-medium {
     width: var(--button-width--medium);
     height: var(--button-height--medium);
-    line-height: var(--button-height--medium);
     border-radius: var(--button-border-radius--medium); }
+    .dnb-button--size-medium,
+    .dnb-core-style .dnb-button--size-medium {
+      line-height: var(--button-height--medium); }
   .dnb-button--has-text.dnb-button--size-medium {
     padding-left: 1rem;
     padding-right: 1rem; }
@@ -348,8 +335,10 @@ exports[`InputMasked scss have to match snapshot 1`] = `
   .dnb-button--size-large {
     width: var(--button-width--large);
     height: var(--button-height--large);
-    line-height: var(--button-height--large);
     border-radius: var(--button-border-radius--large); }
+    .dnb-button--size-large,
+    .dnb-core-style .dnb-button--size-large {
+      line-height: var(--button-height--large); }
   .dnb-button--has-text.dnb-button--size-large {
     padding-left: 2rem;
     padding-right: 2rem; }
@@ -479,6 +468,10 @@ button.dnb-button::-moz-focus-inner {
     display: block;
     margin-right: 0;
     margin-bottom: 0.5rem; }
+  .dnb-form-label--sr-only {
+    width: 1px;
+    margin-left: -1px;
+    overflow: hidden; }
   .dnb-form-label[for]:not([disabled]) {
     user-select: none;
     -webkit-user-select: none;
@@ -615,14 +608,14 @@ legend.dnb-form-label {
 */
 :root {
   --input-font-size: var(--font-size-basis);
-  --input-font-size--medium: var(--font-size-large);
-  --input-font-size--large: var(--font-size-x-large);
+  --input-font-size--medium: var(--font-size-basis);
+  --input-font-size--large: var(--font-size-medium);
   --input-padding: 1rem;
-  --input-padding--medium: 1.5rem;
-  --input-padding--large: 2rem;
+  --input-padding--medium: 1rem;
+  --input-padding--large: 1rem;
   --input-height: 2rem;
-  --input-height--medium: 3rem;
-  --input-height--large: 4rem;
+  --input-height--medium: 2.5rem;
+  --input-height--large: 3rem;
   --input-border-width: 0.0625rem;
   --input-border-radius: calc(var(--input-height) / 2);
   --input-border-radius--medium: calc(var(--input-height--medium) / 2);
@@ -637,6 +630,12 @@ legend.dnb-form-label {
     display: inline-flex;
     flex-direction: column;
     width: auto; }
+    .dnb-input__inner::before {
+      content: '\\\\200C';
+      display: inline-block;
+      width: 0;
+      height: 0;
+      font-size: var(--font-size-small); }
   .dnb-input__shell {
     position: relative;
     display: flex;
@@ -721,10 +720,11 @@ legend.dnb-form-label {
       margin-left: calc(1px - 1px - var(--input-height--medium)); }
       .dnb-input--medium .dnb-input__submit-element .dnb-button {
         width: var(--input-height--medium);
-        height: var(--input-height--medium); }
+        height: var(--input-height--medium);
+        line-height: var(--input-height--medium); }
   .dnb-input--medium.dnb-input--has-submit-element .dnb-input__placeholder,
   .dnb-input--medium.dnb-input--has-submit-element .dnb-input__input {
-    padding-right: calc(var(--input-padding--medium) * 2.5); }
+    padding-right: calc(var(--input-padding--medium) * 3); }
   .dnb-input--large {
     line-height: var(--input-height--large); }
     .dnb-input--large .dnb-input__shell,
@@ -741,11 +741,9 @@ legend.dnb-form-label {
       .dnb-input--large .dnb-input__submit-element .dnb-button {
         width: var(--input-height--large);
         height: var(--input-height--large); }
-        .dnb-input--large .dnb-input__submit-element .dnb-button .dnb-button__icon {
-          transform: scale(1.33333); }
   .dnb-input--large.dnb-input--has-submit-element .dnb-input__placeholder,
   .dnb-input--large.dnb-input--has-submit-element .dnb-input__input {
-    padding-right: calc(var(--input-padding--large) * 2.5); }
+    padding-right: calc(var(--input-padding--large) * 3.5); }
   .dnb-input__align--center .dnb-input__placeholder,
   .dnb-input__align--center .dnb-input__input {
     text-align: center; }

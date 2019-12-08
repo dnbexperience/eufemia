@@ -307,6 +307,15 @@ class Content extends PureComponent {
           {text}
         </span>
       )
+    } else if (icon) {
+      // on empty text, use a zero-width non-joiner
+      // so the icon button gets vertical aligned
+      // we need the dnb-button__text for alignment
+      ret.push(
+        <span key="button-text-empty" className="dnb-button__text">
+          &zwnj;
+        </span>
+      )
     }
 
     if (icon) {

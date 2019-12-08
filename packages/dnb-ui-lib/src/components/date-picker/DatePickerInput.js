@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 
 // date-fns
@@ -22,10 +22,12 @@ import Input, { SubmitButton } from '../input/Input'
 import keycode from 'keycode'
 import { validateDOMAttributes } from '../../shared/component-helper'
 import { isDisabled } from './DatePickerCalc'
+import Context from '../../shared/Context'
 
 const propTypes = {
   id: PropTypes.string,
   title: PropTypes.string,
+  selectedDateTitle: PropTypes.string,
   maskOrder: PropTypes.string,
   maskPlaceholder: PropTypes.string,
   separatorRexExp: PropTypes.instanceOf(RegExp),
@@ -56,6 +58,7 @@ const propTypes = {
 const defaultProps = {
   id: null,
   title: null,
+  selectedDateTitle: null,
   maskOrder: 'dd/mm/yyyy',
   maskPlaceholder: 'dd/mm/åååå',
   separatorRexExp: /[-/ ]/g,
@@ -78,6 +81,7 @@ const defaultProps = {
 export default class DatePickerInput extends PureComponent {
   static propTypes = propTypes
   static defaultProps = defaultProps
+  static contextType = Context
 
   state = {
     _listenForPropChanges: true,
@@ -438,13 +442,16 @@ export default class DatePickerInput extends PureComponent {
       const state = value.slice(0, 1)
       const index = this.props.maskOrder.indexOf(value)
       const placeholderChar = this.props.maskPlaceholder[index]
-      const { inputElement, separatorRexExp } = this.props
+      const { inputElement, separatorRexExp, range } = this.props
+      const { day, month, year } = this.context.translation.DatePicker
+      const rangeLabe = range
+        ? `${this.context.translation.DatePicker[mode]} `
+        : ''
 
       if (!separatorRexExp.test(value)) {
         if (!inputElement) {
           params = {
             ...params,
-            'aria-labelledby': this.props.id,
             onKeyDown: this.onKeyDownHandler,
             onMouseUp: selectInput,
             onFocus: () => {
@@ -461,11 +468,6 @@ export default class DatePickerInput extends PureComponent {
             },
             placeholderChar: placeholderChar
           }
-        } else {
-          params = {
-            ...params,
-            'aria-labelledby': this.props.id
-          }
         }
 
         // this makes it possible to use a vanilla <input /> like: inputElement="input"
@@ -477,61 +479,91 @@ export default class DatePickerInput extends PureComponent {
             this.refList.push(this[`_${mode}DayRef`])
 
             return (
-              <Input
-                {...params}
-                id={`${this.props.id}-${mode}-day`}
-                key={'d' + i}
-                className={classnames(
-                  params.className,
-                  'dnb-date-picker__input',
-                  'dnb-date-picker__input--day'
-                )}
-                size="2"
-                mask={[/[0-3]/, /[0-9]/]}
-                ref={this[`_${mode}DayRef`]}
-                onChange={this[`set_${mode}Day`]}
-                value={this.state[`_${mode}Day`]}
-              />
+              <Fragment key={'dd' + i}>
+                <Input
+                  {...params}
+                  id={`${this.props.id}-${mode}-day`}
+                  key={'di' + i}
+                  className={classnames(
+                    params.className,
+                    'dnb-date-picker__input',
+                    'dnb-date-picker__input--day'
+                  )}
+                  size="2"
+                  mask={[/[0-3]/, /[0-9]/]}
+                  ref={this[`_${mode}DayRef`]}
+                  onChange={this[`set_${mode}Day`]}
+                  value={this.state[`_${mode}Day`]}
+                  aria-labelledby={`${this.props.id}-${mode}-day-label`}
+                />
+                <label
+                  key={'dl' + i}
+                  hidden
+                  id={`${this.props.id}-${mode}-day-label`}
+                >
+                  {rangeLabe + day}
+                </label>
+              </Fragment>
             )
           case 'm':
             this.refList.push(this[`_${mode}MonthRef`])
 
             return (
-              <Input
-                {...params}
-                id={`${this.props.id}-${mode}-month`}
-                key={'m' + i}
-                className={classnames(
-                  params.className,
-                  'dnb-date-picker__input',
-                  'dnb-date-picker__input--month'
-                )}
-                size="2"
-                mask={[/[0-1]/, /[0-9]/]}
-                ref={this[`_${mode}MonthRef`]}
-                onChange={this[`set_${mode}Month`]}
-                value={this.state[`_${mode}Month`]}
-              />
+              <Fragment key={'mm' + i}>
+                <Input
+                  {...params}
+                  id={`${this.props.id}-${mode}-month`}
+                  key={'mi' + i}
+                  className={classnames(
+                    params.className,
+                    'dnb-date-picker__input',
+                    'dnb-date-picker__input--month'
+                  )}
+                  size="2"
+                  mask={[/[0-1]/, /[0-9]/]}
+                  ref={this[`_${mode}MonthRef`]}
+                  onChange={this[`set_${mode}Month`]}
+                  value={this.state[`_${mode}Month`]}
+                  aria-labelledby={`${this.props.id}-${mode}-month-label`}
+                />
+                <label
+                  key={'ml' + i}
+                  hidden
+                  id={`${this.props.id}-${mode}-month-label`}
+                >
+                  {rangeLabe + month}
+                </label>
+              </Fragment>
             )
           case 'y':
             this.refList.push(this[`_${mode}YearRef`])
 
             return (
-              <Input
-                {...params}
-                id={`${this.props.id}-${mode}-year`}
-                key={'y' + i}
-                className={classnames(
-                  params.className,
-                  'dnb-date-picker__input',
-                  'dnb-date-picker__input--year'
-                )}
-                size="4"
-                mask={[/[1-2]/, /[0-9]/, /[0-9]/, /[0-9]/]}
-                ref={this[`_${mode}YearRef`]}
-                onChange={this[`set_${mode}Year`]}
-                value={this.state[`_${mode}Year`]}
-              />
+              <Fragment key={'yy' + i}>
+                <Input
+                  {...params}
+                  id={`${this.props.id}-${mode}-year`}
+                  key={'yi' + i}
+                  className={classnames(
+                    params.className,
+                    'dnb-date-picker__input',
+                    'dnb-date-picker__input--year'
+                  )}
+                  size="4"
+                  mask={[/[1-2]/, /[0-9]/, /[0-9]/, /[0-9]/]}
+                  ref={this[`_${mode}YearRef`]}
+                  onChange={this[`set_${mode}Year`]}
+                  value={this.state[`_${mode}Year`]}
+                  aria-labelledby={`${this.props.id}-${mode}-year-label`}
+                />
+                <label
+                  key={'yl' + i}
+                  hidden
+                  id={`${this.props.id}-${mode}-year-label`}
+                >
+                  {rangeLabe + year}
+                </label>
+              </Fragment>
             )
         }
       }
@@ -545,6 +577,16 @@ export default class DatePickerInput extends PureComponent {
         </span>
       )
     })
+  }
+
+  formatDate() {
+    const { open_picker_text } = this.context.translation.DatePicker
+
+    const { selectedDateTitle } = this.props
+
+    return selectedDateTitle
+      ? `${selectedDateTitle}, ${open_picker_text}`
+      : open_picker_text
   }
 
   render() {
@@ -566,6 +608,7 @@ export default class DatePickerInput extends PureComponent {
       onFocus, // eslint-disable-line
       onSubmit, // eslint-disable-line
       onSubmitButtonFocus, // eslint-disable-line
+      selectedDateTitle, // eslint-disable-line
       showInput, // eslint-disable-line
       inputElement,
       disabled,
@@ -600,6 +643,7 @@ export default class DatePickerInput extends PureComponent {
             id={id}
             disabled={disabled}
             className={opened ? 'dnb-button--active' : null}
+            aria-label={this.formatDate()}
             title={title}
             type="button"
             icon="calendar"

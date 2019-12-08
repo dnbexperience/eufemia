@@ -93,14 +93,6 @@ exports[`Checkbox component have to match snapshot 1`] = `
           </label>
         </Element>
       </FormLabel>
-      <AlignmentHelper
-        className="dnb-checkbox__helper"
-      >
-        <span
-          aria-hidden={true}
-          className="dnb-alignment-helper dnb-checkbox__helper"
-        />
-      </AlignmentHelper>
       <span
         className="dnb-checkbox__inner"
       >
@@ -343,6 +335,10 @@ exports[`Checkbox scss have to match snapshot 1`] = `
     display: block;
     margin-right: 0;
     margin-bottom: 0.5rem; }
+  .dnb-form-label--sr-only {
+    width: 1px;
+    margin-left: -1px;
+    overflow: hidden; }
   .dnb-form-label[for]:not([disabled]) {
     user-select: none;
     -webkit-user-select: none;
@@ -491,6 +487,12 @@ legend.dnb-form-label {
     display: inline-flex;
     flex-direction: column;
     align-self: center; }
+    .dnb-checkbox__inner::before {
+      content: '\\\\200C';
+      display: inline-block;
+      width: 0;
+      height: 0;
+      font-size: var(--font-size-small); }
   .dnb-checkbox__shell {
     user-select: none;
     -webkit-user-select: none;

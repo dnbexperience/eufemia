@@ -20,6 +20,8 @@
     display: inline-flex;
     flex-direction: column;
     align-self: center;
+
+    @include alignmentHelper();
   }
 
   &__shell {
