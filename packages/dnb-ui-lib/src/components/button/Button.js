@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent, Fragment } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Context from '../../shared/Context'
@@ -310,7 +310,12 @@ class Content extends PureComponent {
     } else if (icon) {
       // on empty text, use a zero-width non-joiner
       // so the icon button gets vertical aligned
-      ret.push(<Fragment key="button-empty">&zwnj;</Fragment>)
+      // we need the dnb-button__text for alignment
+      ret.push(
+        <span key="button-text-empty" className="dnb-button__text">
+          &zwnj;
+        </span>
+      )
     }
 
     if (icon) {

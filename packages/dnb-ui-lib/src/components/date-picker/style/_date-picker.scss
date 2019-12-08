@@ -208,6 +208,11 @@
     content: none;
   }
 
+  &__header {
+    height: 2.5rem;
+    line-height: var(--line-height-basis);
+  }
+
   &__addon,
   &__header {
     position: relative;

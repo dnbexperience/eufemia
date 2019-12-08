@@ -52,12 +52,14 @@
     line-height: var(--button-height);
   }
 
-  &__icon.dnb-icon {
-    svg:not([width]):not([height]) {
-      width: var(--button-icon-size);
-      height: var(--button-icon-size);
-    }
-    // @include alignmentHelper();
+  &__icon.dnb-icon svg:not([width]):not([height]) {
+    width: var(--button-icon-size);
+    height: var(--button-icon-size);
+  }
+  [href] > &__icon.dnb-icon {
+    // has same as &__text
+    // only on a.dnb-button it have to be the same, else the icon will push down the button 1px
+    line-height: var(--button-font-size);
   }
 
   &__text {
