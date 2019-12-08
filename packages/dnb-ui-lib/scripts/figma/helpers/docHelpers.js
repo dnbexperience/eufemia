@@ -331,55 +331,50 @@ export const getFigmaUrlByImageIds = async ({
   }
 }
 
-export const safeFileToDisk = (
+export const safeFileToDisk = async (
   { file = '.tmp/file.json', url },
   { errorExceptionType = ERROR_FATAL }
-) =>
-  new Promise(async resolve => {
-    const localFile = /\//.test(file)
-      ? file
-      : path.resolve(__dirname, `../.cache/${file}`)
-    const resetContent = fs.existsSync(localFile)
-      ? await fs.readFile(localFile, 'utf-8')
-      : null
-    const writeStream = fs.createWriteStream(localFile)
-    writeStream
-      .on('error', err => {
-        writeStream.end()
-        new ErrorHandler(
-          'Failed on createWriteStream',
-          err,
-          errorExceptionType
-        )
-      })
-      .on('finish', async () => {
-        writeStream.close()
+) => {
+  const localFile = /\//.test(file)
+    ? file
+    : path.resolve(__dirname, `../.cache/${file}`)
+  const resetContent = fs.existsSync(localFile)
+    ? await fs.readFile(localFile, 'utf-8')
+    : null
+  const writeStream = fs.createWriteStream(localFile)
+  writeStream
+    .on('error', err => {
+      writeStream.end()
+      new ErrorHandler(
+        'Failed on createWriteStream',
+        err,
+        errorExceptionType
+      )
+    })
+    .on('finish', async () => {
+      writeStream.close()
 
-        // reset the file, if its empty
-        if (resetContent) {
-          const newContent = await fs.readFile(localFile, 'utf-8')
-          if (String(newContent).trim().length === 0) {
-            await fs.writeFile(localFile, resetContent)
-          }
+      // reset the file, if its empty
+      if (resetContent) {
+        const newContent = await fs.readFile(localFile, 'utf-8')
+        if (String(newContent).trim().length === 0) {
+          await fs.writeFile(localFile, resetContent)
         }
+      }
 
-        resolve({ localFile })
-      })
-    https
-      .get(url, response => response.pipe(writeStream))
-      .on('error', async err => {
-        try {
-          await fs.unlink(localFile)
-        } catch (err) {
-          new ErrorHandler('Failed on unlink', err, errorExceptionType)
-        }
-        new ErrorHandler(
-          'Failed on safeFileToDisk',
-          err,
-          errorExceptionType
-        )
-      })
-  })
+      return { localFile }
+    })
+  https
+    .get(url, response => response.pipe(writeStream))
+    .on('error', async err => {
+      try {
+        await fs.unlink(localFile)
+      } catch (err) {
+        new ErrorHandler('Failed on unlink', err, errorExceptionType)
+      }
+      new ErrorHandler('Failed on safeFileToDisk', err, errorExceptionType)
+    })
+}
 
 export const saveToFile = async (file, data) => {
   const localFile = /\//.test(file)

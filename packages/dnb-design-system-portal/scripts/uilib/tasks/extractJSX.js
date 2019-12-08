@@ -10,64 +10,62 @@ import prettier from 'prettier'
 import packpath from 'packpath'
 // import * as reactDocs from 'react-docgen'
 
-const extractJSX = (type = 'components', files) =>
-  new Promise(async (resolve, reject) => {
-    const root = path.resolve(
-      packpath.self(),
-      `./src/uilib/${type}/examples`
-    )
-    try {
-      await del([`${root}/**/*`, `!${root}`, `!${root}/README.txt`])
-    } catch (e) {
-      reject(e)
-    }
+const extractJSX = async (type = 'components', files) => {
+  const root = path.resolve(
+    packpath.self(),
+    `./src/uilib/${type}/examples`
+  )
+  try {
+    await del([`${root}/**/*`, `!${root}`, `!${root}/README.txt`])
+  } catch (e) {
+    throw new Error(e)
+  }
 
-    const erros = []
+  const erros = []
 
-    // also, extract jsx content from example files
-    files
-      .filter(({ source }) => !/not_in_use|__tests__/g.test(source))
-      // prepare the JSX
-      .map(({ source, file }) => {
-        let content
-        const exampleFile = path.resolve(`${source}/Example.js`)
-        if (!fs.existsSync(exampleFile)) {
-          return { file, jsxCode: null } // return empty JSX example
-        }
-        try {
-          content = fs.readFileSync(exampleFile, 'utf-8')
-        } catch (e) {
-          console.log(`There was an error on creating ${content}!`, e)
-          erros.push(e)
-        }
+  // also, extract jsx content from example files
+  files
+    .filter(({ source }) => !/not_in_use|__tests__/g.test(source))
+    // prepare the JSX
+    .map(({ source, file }) => {
+      let content
+      const exampleFile = path.resolve(`${source}/Example.js`)
+      if (!fs.existsSync(exampleFile)) {
+        return { file, jsxCode: null } // return empty JSX example
+      }
+      try {
+        content = fs.readFileSync(exampleFile, 'utf-8')
+      } catch (e) {
+        console.log(`There was an error on creating ${content}!`, e)
+        erros.push(e)
+      }
 
-        let jsxCode
-        try {
-          jsxCode = extractJSXFromRender({ content })
-        } catch (e) {
-          console.log(`There was an error on creating ${content}!`, e)
-          erros.push(e)
-        }
+      let jsxCode
+      try {
+        jsxCode = extractJSXFromRender({ content })
+      } catch (e) {
+        console.log(`There was an error on creating ${content}!`, e)
+        erros.push(e)
+      }
 
-        return { file, jsxCode }
-      })
-      // save the example code
-      .forEach(({ file, jsxCode }) => {
-        const filePath = `${root}/${file.replace(/\.js/, '')}.txt`
-        try {
-          fs.writeFile(filePath, jsxCode || '')
-        } catch (e) {
-          console.log(`There was an error on creating ${filePath}!`, e)
-        }
-      })
+      return { file, jsxCode }
+    })
+    // save the example code
+    .forEach(({ file, jsxCode }) => {
+      const filePath = `${root}/${file.replace(/\.js/, '')}.txt`
+      try {
+        fs.writeFile(filePath, jsxCode || '')
+      } catch (e) {
+        console.log(`There was an error on creating ${filePath}!`, e)
+      }
+    })
 
-    if (erros.length > 0) {
-      reject(erros)
-    }
+  if (erros.length > 0) {
+    throw new Error(erros)
+  }
 
-    resolve(files)
-    return files
-  })
+  return files
+}
 export default extractJSX
 
 const extractJSXFromRender = ({

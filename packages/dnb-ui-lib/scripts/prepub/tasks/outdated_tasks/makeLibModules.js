@@ -13,102 +13,97 @@ import transform from 'gulp-transform'
 import filesExist from 'files-exist'
 import { log } from '../../lib'
 
-export default opts =>
-  new Promise(async (resolve, reject) => {
-    try {
-      // process the following directories and files
-      await runFactory('./src/components/**/*.js', opts)
-      await runFactory('./src/patterns/**/*.js', opts)
-      await runFactory('./src/elements/**/*.js', opts)
-      await runFactory('./src/shared/**/*.js', opts)
-      await runFactory('./src/web-components.js', opts)
-      await runFactory('./src/index.js', opts)
-      await runFactory('./src/vue.js', opts)
-      log.succeed(`> PrePublish: "makeLibModules" done`)
-      resolve()
-    } catch (e) {
-      reject(e)
+export default async opts => {
+  try {
+    // process the following directories and files
+    await runFactory('./src/components/**/*.js', opts)
+    await runFactory('./src/patterns/**/*.js', opts)
+    await runFactory('./src/elements/**/*.js', opts)
+    await runFactory('./src/shared/**/*.js', opts)
+    await runFactory('./src/web-components.js', opts)
+    await runFactory('./src/index.js', opts)
+    await runFactory('./src/vue.js', opts)
+    log.succeed(`> PrePublish: "makeLibModules" done`)
+  } catch (e) {
+    throw new Error(e)
+  }
+}
+
+const runFactory = async (src, { preventDelete = false } = {}) => {
+  log.start(`> PrePublish: transforming js | ${src}`)
+  try {
+    const files = filesExist([
+      src,
+      '!**/example/**',
+      '!**/__tests__/**',
+      '!**/*_not_in_use*/**/*',
+      '!**/*_not_in_use*'
+    ])
+
+    const isFile = /[a-z]\.js$/.test(src)
+    const dest = isFile
+      ? ''
+      : src.replace('./src/', '').replace('/**/*.js', '')
+
+    if (!preventDelete) {
+      await del(
+        isFile
+          ? src.replace('./src/', '')
+          : [
+              `./${dest}/**/*.js`,
+              `./es/${dest}/**/*.js`,
+              `!./${dest}/**/style`
+            ]
+      )
     }
-  })
 
-const runFactory = (src, { preventDelete = false } = {}) =>
-  new Promise(async (resolve, reject) => {
-    log.start(`> PrePublish: transforming js | ${src}`)
-    try {
-      const files = filesExist([
-        src,
-        '!**/example/**',
-        '!**/__tests__/**',
-        '!**/*_not_in_use*/**/*',
-        '!**/*_not_in_use*'
-      ])
-
-      const isFile = /[a-z]\.js$/.test(src)
-      const dest = isFile
-        ? ''
-        : src.replace('./src/', '').replace('/**/*.js', '')
-
-      if (!preventDelete) {
-        await del(
-          isFile
-            ? src.replace('./src/', '')
-            : [
-                `./${dest}/**/*.js`,
-                `./es/${dest}/**/*.js`,
-                `!./${dest}/**/style`
-              ]
-        )
-      }
-
-      await Promise.all([
-        new Promise((resolve, reject) => {
-          gulp
-            .src(files, {
-              cwd: process.env.ROOT_DIR
-            })
-            .pipe(sourcemaps.init())
-            .pipe(transform('utf8', transformContent))
-            .pipe(babel())
-            .pipe(uglify())
-            .pipe(sourcemaps.write('./'))
-            .pipe(gulp.dest(`./${dest}`, { cwd: process.env.ROOT_DIR }))
-            .on('end', resolve)
-            .on('error', reject)
-        }),
-        new Promise((resolve, reject) => {
-          gulp
-            .src(files, {
-              cwd: process.env.ROOT_DIR
-            })
-            .pipe(transform('utf8', transformContent))
-            .pipe(
-              babel({
-                presets: [
-                  [
-                    '@babel/preset-env',
-                    {
-                      targets: {
-                        esmodules: true
-                      },
-                      modules: false,
-                      useBuiltIns: false // no polyfill
-                    }
-                  ]
+    await Promise.all([
+      new Promise((resolve, reject) => {
+        gulp
+          .src(files, {
+            cwd: process.env.ROOT_DIR
+          })
+          .pipe(sourcemaps.init())
+          .pipe(transform('utf8', transformContent))
+          .pipe(babel())
+          .pipe(uglify())
+          .pipe(sourcemaps.write('./'))
+          .pipe(gulp.dest(`./${dest}`, { cwd: process.env.ROOT_DIR }))
+          .on('end', resolve)
+          .on('error', reject)
+      }),
+      new Promise((resolve, reject) => {
+        gulp
+          .src(files, {
+            cwd: process.env.ROOT_DIR
+          })
+          .pipe(transform('utf8', transformContent))
+          .pipe(
+            babel({
+              presets: [
+                [
+                  '@babel/preset-env',
+                  {
+                    targets: {
+                      esmodules: true
+                    },
+                    modules: false,
+                    useBuiltIns: false // no polyfill
+                  }
                 ]
-              })
-            )
-            .pipe(transform('utf8', transformContentRevertForES))
-            .pipe(gulp.dest(`./es/${dest}`, { cwd: process.env.ROOT_DIR }))
-            .on('end', resolve)
-            .on('error', reject)
-        })
-      ])
-
-      resolve()
-    } catch (e) {
-      reject(e)
-    }
-  })
+              ]
+            })
+          )
+          .pipe(transform('utf8', transformContentRevertForES))
+          .pipe(gulp.dest(`./es/${dest}`, { cwd: process.env.ROOT_DIR }))
+          .on('end', resolve)
+          .on('error', reject)
+      })
+    ])
+  } catch (e) {
+    throw new Error(e)
+  }
+}
 
 const transformContent = (content, file) => {
   log.text = `> PrePublish: transforming js | ${file.path}`
