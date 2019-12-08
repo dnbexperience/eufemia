@@ -207,9 +207,9 @@ const runFrameIconsFactory = async ({
             lockFileFrameContent.slug === md5(figmaFile + frameId)) &&
           fs.existsSync(file)
         ) {
-          log.text = `> Figma: File already exists: ${iconName}`
+          log.info(`> Figma: File already exists: ${iconName}`)
         } else {
-          log.text = `> Figma: Saving file to disk: ${iconName}`
+          log.info(`> Figma: Saving file to disk: ${iconName}`)
 
           // console.log('\n\n has url?', file, url)
           await safeFileToDisk(
@@ -232,7 +232,7 @@ const runFrameIconsFactory = async ({
 
         await optimizeSVG({ file })
 
-        log.text = `> Figma: Icon was prepared: ${iconName}`
+        log.info(`> Figma: Icon was prepared: ${iconName}`)
 
         return ret
       } catch (e) {

@@ -120,7 +120,7 @@ export const findAll = (
       }
       objToReturn.push(tree)
     }
-    if (tree.hasOwnProperty(childrenKey)) {
+    if (Object.prototype.hasOwnProperty.call(tree, childrenKey)) {
       for (let n of tree[childrenKey]) {
         innerFunc(n, childrenKey, objToFindBy, objToIgnoreBy)
       }
@@ -245,7 +245,9 @@ export const getFigmaDoc = async ({
     if (liveVersion) {
       const localVersion = await getLocalVersionFromLockFile({ figmaFile })
 
-      log.text = `> Figma: Comparing old vs new version. (local version is ${localVersion})`
+      log.info(
+        `> Figma: Comparing old vs new version. (local version is ${localVersion})`
+      )
 
       if (localVersion === liveVersion) {
         log.succeed(
@@ -269,7 +271,7 @@ export const getFigmaDoc = async ({
 
   // update if requested
   if (forceRefetch || !fs.existsSync(localFile)) {
-    log.text = `> Figma: Fetching new doc from Figma ...`
+    log.info(`> Figma: Fetching new doc from Figma ...`)
     try {
       const { data } = await Figma.file(figmaFile)
       const doRefetch = fs.existsSync(localFile)
