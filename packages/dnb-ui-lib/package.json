@@ -1,6 +1,6 @@
 {
   "name": "dnb-ui-lib",
-  "description": "DNB UI Library",
+  "description": "DNB Eufemia Design System UI Library",
   "license": "SEE LICENSE IN LICENSE FILE",
   "author": "DNB Team & Tobias Høegh",
   "homepage": "https://eufemia.dnb.no/uilib",
@@ -57,7 +57,7 @@
     "lint:lockfile": "yarn lockfile-lint --path ../../yarn.lock --type yarn --validate-https --allowed-hosts yarn",
     "lint:styles": "stylelint './src/**/*.{js,scss}'",
     "lint:styles:staged": "stylelint './{src,scripts}/**/*.{js,scss}'",
-    "publish-ci": "babel-node ./scripts/release/prepareForRelease && dotenv semantic-release",
+    "publish-ci": "babel-node ./scripts/release/prepareForRelease.js && dotenv semantic-release",
     "publish:dry": "yarn publish-ci --no-ci --dry-run --debug",
     "publish:postpack": "yarn pack && nodemon --exec 'babel-node ./scripts/release/postpack.js' ",
     "reset": "rm -rf ./node_modules ./components ./elements ./es ./icons ./patterns ./shared ./style ./umd",

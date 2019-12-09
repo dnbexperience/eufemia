@@ -1,5 +1,5 @@
 /**
- * In case we want to remove some info from the package.json before we publish
+ * Remove some info from the package.json before publish
  *
  */
 
@@ -9,11 +9,31 @@ import fs from 'fs-extra'
 import packpath from 'packpath'
 import prettier from 'prettier'
 
-export const cleanupPackage = async ({ packageJsonString, filepath }) => {
+// run this script if it is called from bash / command line
+if (require.main === module) {
+  prepareForRelease()
+}
+
+export default async function prepareForRelease() {
+  const filepath = path.resolve(packpath.self(), './package.json')
+  const packageJsonString = await fs.readFile(filepath, 'utf-8')
+  const formattedPackageJson = await cleanupPackage({
+    packageJsonString,
+    filepath
+  })
+  if (isCI) {
+    await fs.writeFile(filepath, formattedPackageJson)
+  }
+}
+
+// export for testing
+export async function cleanupPackage({ packageJsonString, filepath }) {
   const packageJson = JSON.parse(packageJsonString)
   delete packageJson.release
   delete packageJson.scripts
   delete packageJson.devDependencies
+  delete packageJson.resolutions
+  delete packageJson.publishConfig
 
   const prettierrc = JSON.parse(
     await fs.readFile(
@@ -27,17 +47,3 @@ export const cleanupPackage = async ({ packageJsonString, filepath }) => {
     filepath
   })
 }
-
-const prepareForRelease = async () => {
-  const filepath = path.resolve(packpath.self(), './package.json')
-  const packageJsonString = await fs.readFile(filepath, 'utf-8')
-  const formattedPackageJson = await cleanupPackage({
-    packageJsonString,
-    filepath
-  })
-  if (isCI) {
-    await fs.writeFile(filepath, formattedPackageJson)
-  }
-}
-
-export default prepareForRelease

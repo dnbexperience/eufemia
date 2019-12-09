@@ -23,6 +23,7 @@
     "start": "yarn workspace dnb-design-system-portal start",
     "lint-ci": "yarn workspace dnb-ui-lib lint-ci && yarn workspace dnb-design-system-portal lint-ci",
     "publish-ci": "yarn workspace dnb-ui-lib publish-ci",
+    "publish:dry": "yarn workspace dnb-ui-lib publish:dry",
     "reset": "rm -rf ./node_modules && yarn workspace dnb-ui-lib reset && yarn workspace dnb-design-system-portal reset && yarn install",
     "build": "yarn workspace dnb-ui-lib build && yarn workspace dnb-design-system-portal build",
     "test": "yarn workspace dnb-ui-lib test",
@@ -35,7 +36,45 @@
     "husky": "^3.0.9"
   },
   "release": {
-    "analyzeCommits": "simple-commit-message"
+    "analyzeCommits": "simple-commit-message",
+    "branches": [
+      "+([1-9])?(.{+([1-9]),x}).x",
+      "release",
+      "next",
+      {
+        "name": "beta",
+        "prerelease": true
+      },
+      {
+        "name": "alpha",
+        "prerelease": true
+      }
+    ],
+    "ci": true,
+    "debug": false,
+    "dryRun": false,
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      [
+        "@semantic-release/changelog",
+        {
+          "changelogTitle": "# Changelog\n\nAll notable changes to this project will be documented in this file. See\n[Conventional Commits](https://conventionalcommits.org) for commit guidelines."
+        }
+      ],
+      [
+        "@semantic-release/npm",
+        {
+          "tarballDir": "dist"
+        }
+      ],
+      [
+        "@semantic-release/github",
+        {
+          "assets": "dist/*.tgz"
+        }
+      ]
+    ]
   },
   "engines": {
     "node": ">=10.16.3",
