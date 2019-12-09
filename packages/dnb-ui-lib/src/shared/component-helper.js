@@ -62,28 +62,29 @@ export function defineIsTouch({ interactive = true } = {}) {
       IS_TOUCH_DEVICE = true
     }
 
-    window.addEventListener(
-      'mouseover',
-      function onMouseOver() {
-        try {
-          if (IS_TOUCH_DEVICE === true) {
-            document.documentElement.removeAttribute('data-is-touch')
-          }
-          IS_TOUCH_DEVICE = false
-        } catch (e) {
-          console.warn(e)
+    function onMouseOver() {
+      try {
+        if (IS_TOUCH_DEVICE === true) {
+          document.documentElement.removeAttribute('data-is-touch')
         }
-        if (!interactive) {
-          window.removeEventListener('mouseover', onMouseOver, false)
-        }
-      },
-      false
-    )
+        IS_TOUCH_DEVICE = false
+      } catch (e) {
+        console.warn(e)
+      }
+      if (!interactive) {
+        window.removeEventListener('mouseover', onMouseOver, false)
+      }
+    }
+    window.addEventListener('mouseover', onMouseOver, false)
 
+    // both the "touchstart" and "touchend" is there to support devices supporting both a mouse and a touchpad
+    let touchendTimeout
     window.addEventListener(
       'touchstart',
       function onTouchStart() {
         try {
+          clearTimeout(touchendTimeout)
+          window.removeEventListener('mouseover', onMouseOver, false)
           if (IS_TOUCH_DEVICE !== true) {
             document.documentElement.setAttribute('data-is-touch', true)
           }
@@ -105,8 +106,9 @@ export function defineIsTouch({ interactive = true } = {}) {
       window.addEventListener(
         'touchend',
         function onTouchEnd() {
-          setTimeout(() => {
+          touchendTimeout = setTimeout(() => {
             try {
+              window.addEventListener('mouseover', onMouseOver, false)
               if (IS_TOUCH_DEVICE !== true) {
                 document.documentElement.setAttribute(
                   'data-is-touch',
@@ -117,7 +119,7 @@ export function defineIsTouch({ interactive = true } = {}) {
             } catch (e) {
               console.warn(e)
             }
-          }, 50)
+          }, 50) // so we actually call this after blur
         },
         false
       )

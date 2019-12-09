@@ -4,7 +4,7 @@
 
 import React from 'react'
 import CodeBlock from './CodeBlock'
-import { Checkbox, Input } from 'dnb-ui-lib/components'
+import { Checkbox, Input } from 'dnb-ui-lib/src/components'
 import Table from './Table'
 // import Img from './Img'
 import Tag from './Tag'
