@@ -2561,6 +2561,19 @@
     fs-extra "^8.0.0"
     lodash "^4.17.4"
 
+"@semantic-release/commit-analyzer@7.0.0-beta.1":
+  version "7.0.0-beta.1"
+  resolved "https://registry.yarnpkg.com/@semantic-release/commit-analyzer/-/commit-analyzer-7.0.0-beta.1.tgz#b5df2dfa46a5382139abb6a9bfeb05b282fb45d1"
+  integrity sha512-ig55creapTgz0gOFe6lsU765BiTH2HVjyaZatKPd4aeRwCH5zQrPvlot8ZweEhBhjgXsYN3HlUqeTbNlomcUbQ==
+  dependencies:
+    conventional-changelog-angular "^5.0.0"
+    conventional-commits-filter "^2.0.0"
+    conventional-commits-parser "^3.0.0"
+    debug "^4.0.0"
+    import-from "^2.1.0"
+    lodash "^4.17.4"
+    micromatch "^3.1.10"
+
 "@semantic-release/commit-analyzer@7.0.0-beta.4":
   version "7.0.0-beta.4"
   resolved "https://registry.yarnpkg.com/@semantic-release/commit-analyzer/-/commit-analyzer-7.0.0-beta.4.tgz#8eb9e4c76453ae2de871384cd9a0eb5834193420"
@@ -2571,19 +2584,6 @@
     conventional-commits-parser "^3.0.0"
     debug "^4.0.0"
     import-from "^3.0.0"
-    lodash "^4.17.4"
-    micromatch "^3.1.10"
-
-"@semantic-release/commit-analyzer@^7.0.0-beta.1":
-  version "7.0.0-beta-.2"
-  resolved "https://registry.yarnpkg.com/@semantic-release/commit-analyzer/-/commit-analyzer-7.0.0-beta-.2.tgz#5f30919eabee8f876c5f80d270274dca34933f76"
-  integrity sha512-tburFNeooqb8WrqTfkXroUpvb1jbRP15xugOcWdvnNOlDLHL5D//8BK2Q6TOY+G3RhrL1qaZIuoQ7paqia3x1A==
-  dependencies:
-    conventional-changelog-angular "^5.0.0"
-    conventional-commits-filter "^2.0.0"
-    conventional-commits-parser "^3.0.0"
-    debug "^4.0.0"
-    import-from "^2.1.0"
     lodash "^4.17.4"
     micromatch "^3.1.10"
 
@@ -20636,7 +20636,7 @@ selfsigned@^1.10.7:
   dependencies:
     node-forge "0.9.0"
 
-semantic-release@^16.0.0-beta.29:
+semantic-release@16.0.0-beta.29:
   version "16.0.0-beta.29"
   resolved "https://registry.yarnpkg.com/semantic-release/-/semantic-release-16.0.0-beta.29.tgz#4aba7c4b12c6070c5bf3f27a6191f520d704a032"
   integrity sha512-xjLU9cSUSsMcaGQcEeArqaoFRXsL508LpBgiyMUS6fooggHUDi51bs/DKjDqYyk5621nJUqFczPss9oZwUypKA==
