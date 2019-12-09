@@ -62,41 +62,68 @@ export function defineIsTouch({ interactive = true } = {}) {
       IS_TOUCH_DEVICE = true
     }
 
+    function onMouseOver() {
+      try {
+        if (IS_TOUCH_DEVICE === true) {
+          document.documentElement.removeAttribute('data-is-touch')
+        }
+        IS_TOUCH_DEVICE = false
+      } catch (e) {
+        console.warn(e)
+      }
+      if (!interactive) {
+        window.removeEventListener('mouseover', onMouseOver, false)
+      }
+    }
+    window.addEventListener('mouseover', onMouseOver, false)
+
+    // both the "touchstart" and "touchend" is there to support devices supporting both a mouse and a touchpad
+    let touchendTimeout
     window.addEventListener(
       'touchstart',
-      function onTouch() {
+      function onTouchStart() {
         try {
+          clearTimeout(touchendTimeout)
+          window.removeEventListener('mouseover', onMouseOver, false)
           if (IS_TOUCH_DEVICE !== true) {
             document.documentElement.setAttribute('data-is-touch', true)
           }
           IS_TOUCH_DEVICE = true
         } catch (e) {
-          console.warn('Could not apply "touch attribute"', e)
+          console.warn(e)
         }
+
         if (!interactive) {
-          window.removeEventListener('touchstart', onTouch, false)
+          window.removeEventListener('touchstart', onTouchStart, false)
         }
       },
       false
     )
 
-    window.addEventListener(
-      'mouseover',
-      function onHover() {
-        try {
-          if (IS_TOUCH_DEVICE === true) {
-            document.documentElement.removeAttribute('data-is-touch')
-          }
-          IS_TOUCH_DEVICE = false
-        } catch (e) {
-          console.warn('Could not apply "touch attribute"', e)
-        }
-        if (!interactive) {
-          window.removeEventListener('mouseover', onHover, false)
-        }
-      },
-      false
-    )
+    // since iOS fires "mousemove" on the first click,
+    // we to make sure to add the "data-is-touch" back again
+    if (interactive) {
+      window.addEventListener(
+        'touchend',
+        function onTouchEnd() {
+          touchendTimeout = setTimeout(() => {
+            try {
+              window.addEventListener('mouseover', onMouseOver, false)
+              if (IS_TOUCH_DEVICE !== true) {
+                document.documentElement.setAttribute(
+                  'data-is-touch',
+                  true
+                )
+                IS_TOUCH_DEVICE = true
+              }
+            } catch (e) {
+              console.warn(e)
+            }
+          }, 50) // so we actually call this after blur
+        },
+        false
+      )
+    }
 
     document.removeEventListener('DOMContentLoaded', handleDefineTouch)
   }
