@@ -12,6 +12,7 @@ export default {
   '--font-weight-default': 'normal',
   '--font-weight-book': 'normal',
   '--font-weight-demi': '500',
+  '--font-size-x-small': '0.875rem',
   '--font-size-small': '1rem',
   '--font-size-basis': '1.125rem',
   '--font-size-basis--em': '1em',

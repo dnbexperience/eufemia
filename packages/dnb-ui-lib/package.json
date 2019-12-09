@@ -57,6 +57,7 @@
     "lint:lockfile": "yarn lockfile-lint --path ../../yarn.lock --type yarn --validate-https --allowed-hosts yarn",
     "lint:styles": "stylelint './src/**/*.{js,scss}'",
     "lint:styles:staged": "stylelint './{src,scripts}/**/*.{js,scss}'",
+    "make-properties": "babel-node ./scripts/prepub/makeProperties",
     "publish-ci": "babel-node ./scripts/release/prepareForRelease.js && dotenv semantic-release",
     "publish:dry": "yarn publish-ci --no-ci --dry-run --debug",
     "publish:postpack": "yarn pack && nodemon --exec 'babel-node ./scripts/release/postpack.js' ",
