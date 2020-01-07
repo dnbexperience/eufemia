@@ -221,11 +221,10 @@ render(
         >
           {/* @jsx */ `
 const PhoneRow = styled(FormRow)\`
-.dnb-dropdown__shell {
-  width: 6rem; /* custom width */
-}
+.dnb-dropdown__shell,
 .dnb-dropdown__list {
-  min-width: 6rem; /* custom width */
+  width: auto;
+  min-width: 6rem;
 }
 \`
 render(
