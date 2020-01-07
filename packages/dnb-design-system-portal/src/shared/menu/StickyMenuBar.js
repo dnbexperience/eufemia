@@ -16,7 +16,6 @@ import { Icon, Button } from 'dnb-ui-lib/src'
 import { MainMenuToggleButton } from './ToggleMainMenu'
 import { SidebarMenuContext } from './SidebarMenuContext'
 import ToggleGrid from './ToggleGrid'
-import { isIE11 } from 'dnb-ui-lib/src/shared/helpers'
 
 const Header = styled.header`
   position: fixed;
@@ -84,9 +83,11 @@ const Slogan = styled.span`
   }
 `
 const CenterWrapper = styled.span`
+  display: flex;
+  align-items: center;
+  font-size: var(--font-size-basis);
   .dnb-icon:nth-of-type(1) {
     color: var(--color-sea-green);
-    margin-right: 0.5rem;
   }
 `
 
@@ -141,25 +142,18 @@ export default class StickyMenuBar extends PureComponent {
                     css={[
                       hideSiebarToggleButton && hideSiebarToggleButtonStyle
                     ]}
-                    className={classnames(
-                      // 'dnb-core-style',
-                      'sticky-menu',
-                      'dev-grid'
-                    )}
+                    className={classnames('sticky-menu', 'dev-grid')}
                   >
                     <HeaderInner>
                       <MainMenuToggleButton />
                       <CenterWrapper aria-hidden>
-                        {!isIE11 && (
-                          <>
-                            <Icon
-                              icon={PortalLogo}
-                              size={48}
-                              alt={`${slogan} logo`}
-                            />
-                            <Slogan>{slogan}</Slogan>
-                          </>
-                        )}
+                        <Icon
+                          icon={PortalLogo}
+                          size={48}
+                          alt={`${slogan} logo`}
+                          right="x-small"
+                        />
+                        <Slogan>{slogan}</Slogan>
                       </CenterWrapper>
                       <span>
                         <Button
