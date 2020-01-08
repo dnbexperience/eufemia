@@ -125,7 +125,6 @@ export default [
             align_picker="right"
             mask_placeholder="dd/mm/yyyy"
             locale={enLocale}
-            // inputElement="input"
             first_day="sunday"
             return_format="dd/MM/yyyy"
             date="1981-01-15"

@@ -78,9 +78,12 @@ const propTypes = {
     PropTypes.string,
     PropTypes.object
   ]),
+  input_element: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
+  inner_ref: PropTypes.func,
   readOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 
   // Submit button
+  submit_element: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
   submit_button_variant: Button.propTypes.variant,
   submit_button_icon: PropTypes.oneOfType([
     PropTypes.string,
@@ -90,13 +93,11 @@ const propTypes = {
 
   // React props
   className: PropTypes.string,
-  inputElement: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
   children: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.node,
     PropTypes.func
   ]),
-  submit_element: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
 
   // Web Component props
   custom_element: PropTypes.object,
@@ -135,18 +136,19 @@ const defaultProps = {
   input_class: null,
   class: null,
   input_attributes: null,
+  input_element: null,
+  inner_ref: null,
   readOnly: false,
 
   // Submit button
+  submit_element: null,
   submit_button_title: null,
   submit_button_variant: 'secondary',
   submit_button_icon: 'search',
 
   // React props
   className: null,
-  inputElement: null,
   children: null,
-  submit_element: null,
 
   // Web Component props
   custom_element: null,
@@ -157,6 +159,7 @@ const defaultProps = {
 /**
  * The input component is an umbrella component for all inputs which share the same style as the classic `text` input field. Radio buttons and other form elements are not included here.
  */
+
 export default class Input extends PureComponent {
   static tagName = 'dnb-input'
   static propTypes = propTypes
@@ -212,7 +215,8 @@ export default class Input extends PureComponent {
   constructor(props, context) {
     super(props)
 
-    this._ref = React.createRef()
+    this._ref = this.props.inner_ref || React.createRef()
+
     this._id =
       props.id ||
       (context.formRow &&
@@ -309,7 +313,7 @@ export default class Input extends PureComponent {
       value: _value, //eslint-disable-line
       selectall, //eslint-disable-line
       on_submit, //eslint-disable-line
-      inputElement: _inputElement, //eslint-disable-line
+      input_element: _input_element, //eslint-disable-line
 
       ...attributes
     } = props
@@ -349,7 +353,7 @@ export default class Input extends PureComponent {
     }
 
     // pass along all props we wish to have as params
-    let { inputElement: InputElement, ...renderProps } = pickRenderProps(
+    let { input_element: InputElement, ...renderProps } = pickRenderProps(
       this.props,
       Input.renderProps
     )
@@ -411,8 +415,8 @@ export default class Input extends PureComponent {
 
     if (InputElement && typeof InputElement === 'function') {
       InputElement = InputElement(inputParams, this._ref)
-    } else if (!InputElement && _inputElement) {
-      InputElement = _inputElement
+    } else if (!InputElement && _input_element) {
+      InputElement = _input_element
     }
 
     return (

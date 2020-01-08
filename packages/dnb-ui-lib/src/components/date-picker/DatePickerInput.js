@@ -41,7 +41,7 @@ const propTypes = {
     PropTypes.node
   ]),
   status_state: PropTypes.string,
-  inputElement: PropTypes.oneOfType([
+  input_element: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.func,
     PropTypes.node
@@ -68,7 +68,7 @@ const defaultProps = {
   status_state: 'error',
   minDate: null,
   maxDate: null,
-  inputElement: null,
+  input_element: null,
   disabled: null,
   opened: false,
   showInput: null,
@@ -183,7 +183,7 @@ export default class DatePickerInput extends PureComponent {
     if (this._startDayRef.current) {
       setTimeout(() => {
         try {
-          const elem = this._startDayRef.current.inputElement
+          const elem = this._startDayRef.current.input_element
           elem.focus()
           elem.select()
         } catch (e) {
@@ -306,7 +306,7 @@ export default class DatePickerInput extends PureComponent {
     const secondSelectionStart = target.selectionStart
     const isValid = /[0-9]/.test(keyCode)
     const index = this.refList.findIndex(
-      ({ current: { inputElement } }) => inputElement === target
+      ({ current: { input_element } }) => input_element === target
     )
 
     if (
@@ -322,7 +322,7 @@ export default class DatePickerInput extends PureComponent {
         if (!this.refList[index + 1].current) {
           return
         }
-        const nextSibling = this.refList[index + 1].current.inputElement
+        const nextSibling = this.refList[index + 1].current.input_element
         if (nextSibling) {
           nextSibling.focus()
           nextSibling.setSelectionRange(0, 0)
@@ -336,7 +336,7 @@ export default class DatePickerInput extends PureComponent {
         case 'backspace':
           try {
             const prevSibling = this.refList[index - 1].current
-              .inputElement
+              .input_element
             if (prevSibling) {
               const endPos = prevSibling.value.length
               prevSibling.focus()
@@ -442,14 +442,14 @@ export default class DatePickerInput extends PureComponent {
       const state = value.slice(0, 1)
       const index = this.props.maskOrder.indexOf(value)
       const placeholderChar = this.props.maskPlaceholder[index]
-      const { inputElement, separatorRexExp, range } = this.props
+      const { input_element, separatorRexExp, range } = this.props
       const { day, month, year } = this.context.translation.DatePicker
       const rangeLabe = range
         ? `${this.context.translation.DatePicker[mode]} `
         : ''
 
       if (!separatorRexExp.test(value)) {
-        if (!inputElement) {
+        if (!input_element) {
           params = {
             ...params,
             onKeyDown: this.onKeyDownHandler,
@@ -470,9 +470,9 @@ export default class DatePickerInput extends PureComponent {
           }
         }
 
-        // this makes it possible to use a vanilla <input /> like: inputElement="input"
+        // this makes it possible to use a vanilla <input /> like: input_element="input"
         const Input =
-          typeof inputElement === 'string' ? inputElement : InputElement
+          typeof input_element === 'string' ? input_element : InputElement
 
         switch (state) {
           case 'd':
@@ -610,7 +610,7 @@ export default class DatePickerInput extends PureComponent {
       onSubmitButtonFocus, // eslint-disable-line
       selectedDateTitle, // eslint-disable-line
       showInput, // eslint-disable-line
-      inputElement,
+      input_element,
       disabled,
       opened,
       status,
@@ -628,11 +628,11 @@ export default class DatePickerInput extends PureComponent {
       <Input
         id={`${id}__input`}
         input_state={disabled ? 'disabled' : focusState}
-        inputElement={
-          inputElement && typeof inputElement !== 'string'
-            ? typeof inputElement === 'function'
-              ? inputElement(this.props)
-              : inputElement
+        input_element={
+          input_element && typeof input_element !== 'string'
+            ? typeof input_element === 'function'
+              ? input_element(this.props)
+              : input_element
             : this.renderInputElement
         }
         disabled={disabled}
