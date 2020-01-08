@@ -2,15 +2,17 @@
 
 import React from 'react'
 
-const more = props => (
-  <svg width={16} height={16} viewBox="0 0 17 17" fill="none" {...props}>
-    <path
-      fillRule="evenodd"
-      clipRule="evenodd"
-      d="M4.782 8.498a1.593 1.593 0 11-3.186 0 1.593 1.593 0 013.186 0zm5.311 0a1.593 1.593 0 11-3.186 0 1.593 1.593 0 013.186 0zm3.718 1.593a1.593 1.593 0 100-3.187 1.593 1.593 0 000 3.187z"
-      fill="#000"
-    />
-  </svg>
-)
+function more(props) {
+  return (
+    <svg width={16} height={16} viewBox="0 0 17 17" fill="none" {...props}>
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M4.782 8.498a1.593 1.593 0 11-3.186 0 1.593 1.593 0 013.186 0zm5.311 0a1.593 1.593 0 11-3.186 0 1.593 1.593 0 013.186 0zm3.718 1.593a1.593 1.593 0 100-3.187 1.593 1.593 0 000 3.187z"
+        fill="#000"
+      />
+    </svg>
+  )
+}
 
 export default more

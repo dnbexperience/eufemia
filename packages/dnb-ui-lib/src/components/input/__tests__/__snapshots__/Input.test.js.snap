@@ -17,9 +17,10 @@ exports[`Input component have to match type="search" snapshot 1`] = `
         "disabled": "disabled",
         "global_status_id": "global_status_id",
         "id": "id",
-        "inputElement": [Function],
+        "inner_ref": [Function],
         "input_attributes": "input_attributes",
         "input_class": "input_class",
+        "input_element": [Function],
         "input_state": "input_state",
         "keep_placeholder": "keep_placeholder",
         "label": "label",
@@ -78,9 +79,11 @@ exports[`Input component have to match type="search" snapshot 1`] = `
   disabled={false}
   global_status_id={null}
   id="input"
+  inner_ref={null}
   inputElement={null}
   input_attributes={null}
   input_class={null}
+  input_element={null}
   input_state={null}
   keep_placeholder={null}
   label={null}
@@ -155,9 +158,10 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                   "disabled": "disabled",
                   "global_status_id": "global_status_id",
                   "id": "id",
-                  "inputElement": [Function],
+                  "inner_ref": [Function],
                   "input_attributes": "input_attributes",
                   "input_class": "input_class",
+                  "input_element": [Function],
                   "input_state": "input_state",
                   "keep_placeholder": "keep_placeholder",
                   "label": "label",
@@ -211,6 +215,8 @@ exports[`Input component have to match type="search" snapshot 1`] = `
             disabled={false}
             icon="search"
             icon_size="default"
+            inner_ref={null}
+            inputElement={null}
             input_state={null}
             on_blur={null}
             on_change={null}
@@ -240,9 +246,10 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                     "disabled": "disabled",
                     "global_status_id": "global_status_id",
                     "id": "id",
-                    "inputElement": [Function],
+                    "inner_ref": [Function],
                     "input_attributes": "input_attributes",
                     "input_class": "input_class",
+                    "input_element": [Function],
                     "input_state": "input_state",
                     "keep_placeholder": "keep_placeholder",
                     "label": "label",
@@ -299,6 +306,8 @@ exports[`Input component have to match type="search" snapshot 1`] = `
               icon_size="default"
               id={null}
               innerRef={null}
+              inner_ref={null}
+              inputElement={null}
               input_state={null}
               on_blur={null}
               on_change={null}
@@ -456,9 +465,10 @@ exports[`Input component have to match type="text" snapshot 1`] = `
         "disabled": "disabled",
         "global_status_id": "global_status_id",
         "id": "id",
-        "inputElement": [Function],
+        "inner_ref": [Function],
         "input_attributes": "input_attributes",
         "input_class": "input_class",
+        "input_element": [Function],
         "input_state": "input_state",
         "keep_placeholder": "keep_placeholder",
         "label": "label",
@@ -517,9 +527,11 @@ exports[`Input component have to match type="text" snapshot 1`] = `
   disabled={false}
   global_status_id={null}
   id="input"
+  inner_ref={null}
   inputElement={null}
   input_attributes={null}
   input_class={null}
+  input_element={null}
   input_state={null}
   keep_placeholder={null}
   label={null}

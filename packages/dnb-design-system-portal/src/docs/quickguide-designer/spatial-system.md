@@ -20,9 +20,7 @@ import SpaceWithinSvg from 'Pages/quickguide-designer/assets/space-within.svg'
 import TypeOnGridSvg from 'Pages/quickguide-designer/assets/type-on-grid.svg'
 import SpaceBlocksSvg from 'Pages/quickguide-designer/assets/space-blocks.svg'
 import DiscrepenciesSvg from 'Pages/quickguide-designer/assets/discrepencies.svg'
-import ExampleAarsoppgaveSvg from 'Pages/quickguide-designer/assets/example-aarsoppgave.svg'
-import ExampleAarsoppgaveGuidesSvg from 'Pages/quickguide-designer/assets/example-aarsoppgave-guides.svg'
-import StandardSpacingBlocks from 'Pages/quickguide-designer/spatial-system/assets/standard-spacing-blocks.svg'
+import StandardSpacingBlocks from 'Pages/quickguide-designer/assets/standard-spacing-blocks.svg'
 
 # Spatial system
 
@@ -241,8 +239,11 @@ Layout design is not limited to these selected sizing blocks. If you need more s
 
 ### Examples
 
-The example below shows the 8px system in practice.
+The [example demo apps](/uilib/getting-started/demos) shows the 8px system in practice.
+
+<!-- import ExampleAarsoppgaveGuidesSvg from 'Pages/quickguide-designer/assets/example-aarsoppgave-guides.svg'
+import ExampleAarsoppgaveSvg from 'Pages/quickguide-designer/assets/example-aarsoppgave.svg'
 
 <Img src={ExampleAarsoppgaveSvg} caption="A simple example of the 8px system in use" alt="Aarsoppgave example" />
 
-<Img src={ExampleAarsoppgaveGuidesSvg} caption="The 8px system highlighted" alt="Aarsoppgave example" />
+<Img src={ExampleAarsoppgaveGuidesSvg} caption="The 8px system highlighted" alt="Aarsoppgave example" /> -->

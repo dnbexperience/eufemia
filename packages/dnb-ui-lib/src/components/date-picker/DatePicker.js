@@ -796,7 +796,7 @@ export default class DatePicker extends PureComponent {
               maxDate={maxDate}
               showInput={showInput}
               selectedDateTitle={selectedDateTitle}
-              inputElement={input_element}
+              input_element={input_element}
               opened={opened}
               hidden={hidden}
               status={status ? 'error' : null}

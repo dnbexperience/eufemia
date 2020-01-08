@@ -2,15 +2,17 @@
 
 import React from 'react'
 
-const add = props => (
-  <svg width={16} height={16} viewBox="0 0 16 16" fill="none" {...props}>
-    <path
-      fillRule="evenodd"
-      clipRule="evenodd"
-      d="M8.75 1.75a.75.75 0 00-1.5 0v5.5h-5.5a.75.75 0 000 1.5h5.5v5.5a.75.75 0 001.5 0v-5.5h5.5a.75.75 0 000-1.5h-5.5v-5.5z"
-      fill="#000"
-    />
-  </svg>
-)
+function add(props) {
+  return (
+    <svg width={16} height={16} viewBox="0 0 16 16" fill="none" {...props}>
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M8.75 1.75a.75.75 0 00-1.5 0v5.5h-5.5a.75.75 0 000 1.5h5.5v5.5a.75.75 0 001.5 0v-5.5h5.5a.75.75 0 000-1.5h-5.5v-5.5z"
+        fill="#000"
+      />
+    </svg>
+  )
+}
 
 export default add
