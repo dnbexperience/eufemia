@@ -2,15 +2,17 @@
 
 import React from 'react'
 
-const upload = props => (
-  <svg width={16} height={16} viewBox="0 0 16 16" fill="none" {...props}>
-    <path
-      fillRule="evenodd"
-      clipRule="evenodd"
-      d="M8.53.47a.75.75 0 00-1.06 0l-5 5a.75.75 0 001.06 1.06l3.72-3.72V12a.75.75 0 001.5 0V2.81l3.72 3.72a.75.75 0 101.06-1.06l-5-5zM1.75 15.25a.75.75 0 01.75-.75h11a.75.75 0 010 1.5h-11a.75.75 0 01-.75-.75z"
-      fill="#000"
-    />
-  </svg>
-)
+function upload(props) {
+  return (
+    <svg width={16} height={16} viewBox="0 0 16 16" fill="none" {...props}>
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M8.53.47a.75.75 0 00-1.06 0l-5 5a.75.75 0 001.06 1.06l3.72-3.72V12a.75.75 0 001.5 0V2.81l3.72 3.72a.75.75 0 101.06-1.06l-5-5zM1.75 15.25a.75.75 0 01.75-.75h11a.75.75 0 010 1.5h-11a.75.75 0 01-.75-.75z"
+        fill="#000"
+      />
+    </svg>
+  )
+}
 
 export default upload
