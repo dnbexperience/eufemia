@@ -12,8 +12,8 @@
       100vw 0.0625rem 0 0 var(--color-black-80);
   }
 
+  // line based soluton, is not used for now, as we show the color underneet as a line on the bottom
   // &__content {
-  // red line
   // &::after {
   //   content: '';
   //   position: absolute;
@@ -29,16 +29,20 @@
   // }
   // }
 
+  // because "--mint-green-12" is the defualt
+  // and we dont set a spesific state --> const style = state === 'info' ? null : 'fire-red'
+  &--info#{&}.dnb-section--mint-green-12::after {
+    color: var(--color-sea-green);
+  }
+
   &__title {
+    color: var(--color-white);
     &.dnb-p {
       font-weight: var(--font-weight-medium);
     }
   }
   &__icon {
     font-size: 1rem;
-  }
-  &--error &__title {
-    color: var(--color-white);
   }
   &__message {
     color: var(--color-black-80);
@@ -53,8 +57,8 @@
   }
 
   // TODO: This has to be implemented as a contrast version
-  &--error &__close-button,
-  &--error &__close-button.dnb-button--tertiary {
+  &__close-button,
+  &__close-button.dnb-button--tertiary {
     color: var(--color-white);
 
     @include hover() {
